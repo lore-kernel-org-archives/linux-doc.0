@@ -2,98 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 983EAC001DC
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9534AC001E0
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 20:17:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjGZT53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 15:57:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45790 "EHLO
+        id S229706AbjGZURG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 16:17:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjGZT53 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:57:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EDD71BFF
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jul 2023 12:56:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690401406;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mEpXvvU90l0RthnJ6+S/VSU0zkOQwcnlRrI1p7pRhb8=;
-        b=PoQZp3ubW9oebWcrellZyjQOx4+B1IeWse+5h6xObJuUWXxw8ztNPLZJ1K6Ic2jxGoycr+
-        qo5ydurgfoVGbErKKNvr9fube7Xt73MV9BtBUSzRW8+5GFbYweMEYUTiNx+kmA/Pc1YxYs
-        tlKbLBza12Gd7NL3gj3+gqPKtTr80A8=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-115-sAGTV80hP06kYxAGLDLjHg-1; Wed, 26 Jul 2023 15:56:42 -0400
-X-MC-Unique: sAGTV80hP06kYxAGLDLjHg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCA8D1C0904A;
-        Wed, 26 Jul 2023 19:56:41 +0000 (UTC)
-Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 26A082166B25;
-        Wed, 26 Jul 2023 19:56:40 +0000 (UTC)
-From:   Jeff Moyer <jmoyer@redhat.com>
-To:     Andres Freund <andres@anarazel.de>
-Cc:     Matteo Rizzo <matteorizzo@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
-        axboe@kernel.dk, asml.silence@gmail.com, corbet@lwn.net,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        ribalda@chromium.org, rostedt@goodmis.org, jannh@google.com,
-        chenhuacai@kernel.org, gpiccoli@igalia.com, ldufour@linux.ibm.com,
-        evn@google.com, poprdi@google.com, jordyzomer@google.com,
-        krisman@suse.de
-Subject: Re: [PATCH v3 1/1] io_uring: add a sysctl to disable io_uring system-wide
-References: <20230630151003.3622786-1-matteorizzo@google.com>
-        <20230630151003.3622786-2-matteorizzo@google.com>
-        <20230726174549.cg4jgx2d33fom4rb@awork3.anarazel.de>
-X-PGP-KeyID: 1F78E1B4
-X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
-Date:   Wed, 26 Jul 2023 16:02:26 -0400
-In-Reply-To: <20230726174549.cg4jgx2d33fom4rb@awork3.anarazel.de> (Andres
-        Freund's message of "Wed, 26 Jul 2023 10:45:49 -0700")
-Message-ID: <x49fs5awiel.fsf@segfault.boston.devel.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        with ESMTP id S229595AbjGZURE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 16:17:04 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089D3BF;
+        Wed, 26 Jul 2023 13:17:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=yuiiWkOyokMmy3oNcsrkE13yvDt/eiHy47siwX5h/e0=; b=T7EqR7rCntzT+liauuhq3uFE2O
+        LOCiRppR1NF9LZysSbvjZ68NsyLgO83t8nRdu34zEnOoncng+BTRA5TpxaLWeIzFSLdSfjfBPZXMC
+        4f+OmJ18QaZ2KwSaEeOYkOVsIAl8GY22JUnk3qgnDPOzQ8f6gARk77jIeaX9kpGh1nmZuIqtUMv3J
+        bUxsazqKuuDFGxBxuw4QpHbSbaxUWTK4dXY0lXggA0dwevcdZYRlYWpY897zo/7+Vn0q7IqAq+J0D
+        KKneTZGLjQK1HonaBABw4ka6AlF0r0kwD9u4lU7K9BfRAPOITHfohHalBhVIXbrCs/KypSzN4VZVE
+        AZ/TwVTA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qOkwD-00BT2f-0C;
+        Wed, 26 Jul 2023 20:16:49 +0000
+Message-ID: <96275adc-c047-2e0c-5748-366c3e867b27@infradead.org>
+Date:   Wed, 26 Jul 2023 13:16:47 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Content-Language: en-US
+To:     =?UTF-8?Q?Carsten_Spie=c3=9f?= <mail@carsten-spiess.de>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20230726152235.249569-1-mail@carsten-spiess.de>
+ <20230726152235.249569-2-mail@carsten-spiess.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230726152235.249569-2-mail@carsten-spiess.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Andres,
 
-Andres Freund <andres@anarazel.de> writes:
 
-> Hi,
->
-> On 2023-06-30 15:10:03 +0000, Matteo Rizzo wrote:
->> Introduce a new sysctl (io_uring_disabled) which can be either 0, 1,
->> or 2. When 0 (the default), all processes are allowed to create io_uring
->> instances, which is the current behavior. When 1, all calls to
->> io_uring_setup fail with -EPERM unless the calling process has
->> CAP_SYS_ADMIN. When 2, calls to io_uring_setup fail with -EPERM
->> regardless of privilege.
->
-> Hm, is there a chance that instead of requiring CAP_SYS_ADMIN, a certain group
-> could be required (similar to hugetlb_shm_group)? Requiring CAP_SYS_ADMIN
-> could have the unintended consequence of io_uring requiring tasks being run
-> with more privileges than needed... Or some other more granular way of
-> granting the right to use io_uring?
+On 7/26/23 08:22, Carsten Spieß wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7abb5710e1bb..c61aa688cd11 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11072,6 +11072,13 @@ S:	Maintained
+>  F:	Documentation/filesystems/isofs.rst
+>  F:	fs/isofs/
+>  
 
-That's fine with me, so long as there is still an option to completely
-disable io_uring.
+New entry is not quite in the correct place for alphabetical order.
+It should be just before the ISOFS entry, not just after it.
 
-> ISTM that it'd be nice if e.g. a systemd service specification could allow
-> some services to use io_uring, without allowing it for everyone, or requiring
-> to run services effectively as root.
+> +ISL28022 HARDWARE MONITORING DRIVER
+> +M:	Carsten Spieß <mail@carsten-spiess.de>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/isl28022.rst
+> +F:	drivers/hwmon/isl28022.c
+> +
+>  IT87 HARDWARE MONITORING DRIVER
+>  M:	Jean Delvare <jdelvare@suse.com>
+>  L:	linux-hwmon@vger.kernel.org
 
-Do you have a proposal for how that would work?  Why is this preferable
-to using a group?
-
-Cheers,
-Jeff
-
+-- 
+~Randy
