@@ -2,59 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13377C0015E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 16:15:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D03C001DF
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 16:19:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232480AbjGZQPI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 12:15:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39420 "EHLO
+        id S233191AbjGZQTZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 12:19:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbjGZQPH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 12:15:07 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFA631FD5;
-        Wed, 26 Jul 2023 09:15:02 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-7869bcee569so265914139f.0;
-        Wed, 26 Jul 2023 09:15:02 -0700 (PDT)
+        with ESMTP id S232514AbjGZQTY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 12:19:24 -0400
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFAC26AE;
+        Wed, 26 Jul 2023 09:19:22 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-3476c902f2aso31655155ab.3;
+        Wed, 26 Jul 2023 09:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690388102; x=1690992902;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xJoZ3kwspv4Z+4iPq5jqV1d7kX5JfGJ05dYuXIU5Le8=;
-        b=QI7bthnh334L4iNvSHgWhrNMe3GaqCZWm/j9MO3jzz2EFCQBrIXOphT4R8IjJES7sH
-         Ux7DpNQCCXL9fsfYxENb02PYpvoFzAeQ/Q1rrhiORe4tGSlcwKve0XbhUpwcBXOaOWtN
-         O9nhacEkApXgvnsBCshrHrxg+tJ97NLPXIL+1xeZzrs7iE1hcpV7kYfEwpPzZ97alcGE
-         MYXD1JecngyTgjbSG2YTcdpR4JJ1fhsNFKNpwz82ji5bf4kyFc94sk8THMV0hVqbsrqQ
-         cEkAppAic4TduDwqZ9UJ7QIpUBWXgfMzkWt7f7BkiTbCFQQPwrbBBhTkHh6EEG9oRfun
-         dkEA==
+        d=gmail.com; s=20221208; t=1690388361; x=1690993161;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=jM2xtn0fAlfgkKdu7dlS+5oMEYvqbhGaP2iP04On7Sg=;
+        b=NCgT5PMyJNChWYxjK1q0sQDhJFEWo3vWvu8BZRRmWPwRYQS+YbNAxbN4FxKlURSGi2
+         P4e9SrgAenvIG0I6m3Q33wbInskatDAHJ/N6e/45eJnlVHYfdTT/qMAFXlW1x84i6x3Q
+         IkH8ecTPsxvdOsQNNCUVA+KTEnQ2/SMK5Yp87nwoAP9bp34bZYV/mWXisZd1TLE1jFz/
+         XQBowDGsU0TumEHkHvXmN3vpHY1xtcKk5B1YDWIbC/d4jdown+eXIoKaMoyAgFVZgmHJ
+         9wHzpt9z9bbax28gouJZmtIWtd1UKGbO9eXoFHH0fDVuUf0zm3SdZboUr3rjtpHQDek8
+         m8yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690388102; x=1690992902;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJoZ3kwspv4Z+4iPq5jqV1d7kX5JfGJ05dYuXIU5Le8=;
-        b=PLBLirNxmdeGuQby8PrzS0ZSo/aRCNV+ckH7BiZyG5xgukGJzGAN3xEw0BedrRJdvJ
-         yneBSrfsg/QILeyepaCK6dA+TnwOTCjItV5+z3q+8BMcso/T9ZbI0lix5G449hJXS6KI
-         e7JG3fmbDdcWfIcB89OYwMy4E7TsoF6KYGmIsgPkVaSxJMoqmTmwKcSdoeO6UIFdkhvP
-         9bccGmxAnnLU5X9PsRNv+mDslPXA0VJZ3BGToRUBwge5rky4gM6LSjwDchFkqfPw1+a7
-         8yPkFxrPTjsS0tHWdpDE5FvVkbOzXNCxvB2xGjBVuesxtVFlt7lui49M3cQYedx5iusr
-         whYQ==
-X-Gm-Message-State: ABy/qLZX0j5GMO8nyVpy1Tw3y36AGMbkIumhc7eDoPyu/5oKgk5CMzIn
-        9o0T8oCXTqdiP+Dhf+GYRfA=
-X-Google-Smtp-Source: APBJJlFlQFB8NwvPL6zuwqnbl9WLpzofv8yKdFIn5kbYB2E/O4E9tbsLELKOIBUXGFtcW1fU+VTACQ==
-X-Received: by 2002:a05:6e02:1cad:b0:348:7396:184b with SMTP id x13-20020a056e021cad00b003487396184bmr2791507ill.24.1690388101797;
-        Wed, 26 Jul 2023 09:15:01 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690388361; x=1690993161;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jM2xtn0fAlfgkKdu7dlS+5oMEYvqbhGaP2iP04On7Sg=;
+        b=Ub3Sx8w+UxV26IluUVYUDOWeOvuFCdt+1+sdWzeRf0MBFloR2Bgh/Pxr1OCHwoesfI
+         9YNJqTbf4/QuI3rEnEYgFsZ7Jn0dUrFUu6wLWMrtctME/WbvhLVND4Sj86Y0MLxC9b2Y
+         c1MXi5TK+IAwFbVd0UFuH4nj629fFPEWb/ZvGyBcUw7LRVa552V9s6HLSw36oIunXq8O
+         Gd8RvtZDqZUkHQLclK2NPZDUsggWe8gvN38fh0VuU7kCJCKqkGri4o0R49d32jNoW3Au
+         pL+M9DM092PTTCVFx1Fd41hlkmFInDmc+uRrVjzPpHjEWaGgfLn7BICtkw57KPSYU1lP
+         XlpA==
+X-Gm-Message-State: ABy/qLb7bUJbVLJ59nNXJyQ8IBPGnPotH4++bxfHGkcRWJX4kim278TD
+        ERXsrjgz1G7CTRO8pBILMEw=
+X-Google-Smtp-Source: APBJJlGSYZ+P3aCwSvU3fEr6+CO4DdYqLSBpyGkvfQnmLPh6T0wddPbJm3+fixY4ymIx7PU7FD8GDA==
+X-Received: by 2002:a05:6e02:1ca5:b0:348:1a1d:79a5 with SMTP id x5-20020a056e021ca500b003481a1d79a5mr3106795ill.15.1690388361373;
+        Wed, 26 Jul 2023 09:19:21 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 8-20020a92c648000000b00346097ca74dsm4472853ill.71.2023.07.26.09.15.00
+        by smtp.gmail.com with ESMTPSA id y1-20020a92c741000000b00345ca94df01sm4477137ilp.35.2023.07.26.09.19.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 09:15:01 -0700 (PDT)
+        Wed, 26 Jul 2023 09:19:20 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <206ad774-bf6f-aed3-81a7-3d9c8f80a69e@roeck-us.net>
-Date:   Wed, 26 Jul 2023 09:14:59 -0700
+Message-ID: <bbf1aba4-48ce-289d-aaa9-bc861effaffd@roeck-us.net>
+Date:   Wed, 26 Jul 2023 09:19:19 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
+Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
 Content-Language: en-US
 To:     =?UTF-8?Q?Carsten_Spie=c3=9f?= <mail@carsten-spiess.de>,
         Jean Delvare <jdelvare@suse.com>,
@@ -66,8 +69,6 @@ Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
 References: <20230726152235.249569-1-mail@carsten-spiess.de>
  <20230726152235.249569-2-mail@carsten-spiess.de>
 From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
 In-Reply-To: <20230726152235.249569-2-mail@carsten-spiess.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
@@ -81,6 +82,13 @@ On 7/26/23 08:22, Carsten Spieß wrote:
 > and calculated power.
 > 
 > Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
+
+Please provide a register dump (using i2cdump) for this chip. I strongly suspect
+that the conversions will result in overflows and that they are not always correct.
+I'll want to write unit test code before accepting the driver.
+
+Guenter
+
 > ---
 >   Documentation/hwmon/index.rst    |   1 +
 >   Documentation/hwmon/isl28022.rst |  56 +++++
@@ -145,9 +153,6 @@ On 7/26/23 08:22, Carsten Spieß wrote:
 > +
 > +The shunt value in micro-ohms, shunt gain and averaging can be set
 > +via device tree at compile-time.
-
-At _compile-time_ ?
-
 > +Please refer to the Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
 > +for bindings if the device tree is used.
 > +
@@ -158,9 +163,6 @@ At _compile-time_ ?
 > +
 > +======================= =======================================================
 > +in0_input		shunt voltage (micro Volt)
-
-No. You must not change the ABI like that.
-
 > +in1_input		bus voltage (milli Volt)
 > +
 > +curr1_input		current (milli Ampere)
@@ -168,17 +170,9 @@ No. You must not change the ABI like that.
 > +
 > +note			current and power attributes are supported only when
 > +			shunt value is configured via device tree
-
-No. Use a reasonable default if there are no devicetree properties.
 > +
 > +			shunt voltage is in micro Volt, not milli Volt,
 > +			to get useful values
-
-I'd argue that shunt voltage is all but useless, but if you want to have it supported
-it _has_ to be in mV.
-
-Why not support limit attributes ?
-
 > +======================= =======================================================
 > diff --git a/MAINTAINERS b/MAINTAINERS
 > index 7abb5710e1bb..c61aa688cd11 100644
@@ -348,18 +342,11 @@ Why not support limit attributes ?
 > +		case hwmon_in_input:
 > +			err = regmap_read(data->regmap,
 > +					  ISL28022_REG_SHUNT + channel, &regval);
-
-That never reads REG_BUS.
-
 > +			if (err < 0)
 > +				return err;
 > +			*val = (channel == 0) ?
 > +					(long)((s16)((u16)regval)) * 10 :
 > +					(long)(((u16)regval) & 0xFFFC);
-
-I don't think the sign extensions are correct based on the datasheet.
-This will have to use sign_extend.
-
 > +			break;
 > +		default:
 > +			return -EINVAL;
@@ -374,10 +361,6 @@ This will have to use sign_extend.
 > +				return err;
 > +			if (!data->shunt)
 > +				return -EINVAL;
-
-Getting an error message each time the "sensors" command is executed ?
-Unacceptable.
-
 > +			*val = ((long)regval * 10000L * (long)data->gain) /
 > +				(long)(8 * data->shunt);
 > +			break;
@@ -394,14 +377,8 @@ Unacceptable.
 > +				return err;
 > +			if (!data->shunt)
 > +				return -EINVAL;
-
-Unacceptable.
-
 > +			*val = ((long)regval * 409600000L * (long)data->gain) /
 > +				(long)(8 * data->shunt);
-
-I don't think this was checked for overflows.
-
 > +			break;
 > +		default:
 > +			return -EINVAL;
@@ -529,9 +506,6 @@ I don't think this was checked for overflows.
 > +
 > +	if (!dev || !data)
 > +		return -EINVAL;
-
-How would this ever happen ?
-
 > +				;
 > +	data->config = (ISL28022_MODE_CONT_SB << ISL28022_MODE_SHIFT) |
 > +			(ISL28022_BRNG_60 << ISL28022_BRNG_SHIFT);
@@ -596,9 +570,6 @@ How would this ever happen ?
 > +
 > +	regmap_write(data->regmap, ISL28022_REG_CONFIG, data->config);
 > +	regmap_write(data->regmap, ISL28022_REG_CALIB, data->calib);
-
-Error checking needed.
-
 > +
 > +	return 0;
 > +}
@@ -614,9 +585,6 @@ Error checking needed.
 > +				     I2C_FUNC_SMBUS_BYTE_DATA |
 > +				     I2C_FUNC_SMBUS_WORD_DATA))
 > +		return -EIO;
-
-This is not an IO error. Return -ENODEV as most other drivers do.
-
 > +
 > +	data = devm_kzalloc(dev, sizeof(struct isl28022_data), GFP_KERNEL);
 > +	if (!data)
@@ -627,11 +595,6 @@ This is not an IO error. Return -ENODEV as most other drivers do.
 > +	of_property_read_u32(dev->of_node, "shunt-resistor-micro-ohms", &data->shunt);
 > +	of_property_read_u32(dev->of_node, "shunt-gain", &data->gain);
 > +	of_property_read_u32(dev->of_node, "average", &data->average);
-
-Check for errors and provide defaults if properties are not set.
-Also please use device_property_read_u32() to enable use from non-devicetree
-systems.
-
 > +
 > +	data->regmap = devm_regmap_init_i2c(client, &isl28022_regmap_config);
 > +	if (IS_ERR(data->regmap))
@@ -647,10 +610,6 @@ systems.
 > +	status = isl28022_config(hwmon_dev);
 > +	if (status)
 > +		return status;
-
-That has to happen before the call to devm_hwmon_device_register_with_info()
-to avoid race conditions.
-
 > +
 > +	dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->name);
 > +
@@ -668,9 +627,6 @@ to avoid race conditions.
 > +	.driver = {
 > +		.name	= "isl28022",
 > +		.of_match_table = of_match_ptr(isl28022_of_match),
-
-Drop of_match_ptr()
-
 > +	},
 > +	.probe_new	= isl28022_probe,
 > +	.id_table	= isl28022_ids,
