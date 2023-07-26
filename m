@@ -2,99 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FC3C00528
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 06:40:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F98C001E0
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 06:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231741AbjGZGkT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 02:40:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56074 "EHLO
+        id S231986AbjGZGqL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 02:46:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231299AbjGZGkS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 02:40:18 -0400
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9657119A1;
-        Tue, 25 Jul 2023 23:40:16 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0VoFo2qO_1690353609;
-Received: from 30.221.150.4(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VoFo2qO_1690353609)
-          by smtp.aliyun-inc.com;
-          Wed, 26 Jul 2023 14:40:11 +0800
-Message-ID: <4bb466a6-f64f-954c-0d4b-a140a555bffe@linux.alibaba.com>
-Date:   Wed, 26 Jul 2023 14:40:07 +0800
+        with ESMTP id S230313AbjGZGp5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 02:45:57 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C1122705;
+        Tue, 25 Jul 2023 23:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1690353953; x=1721889953;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gDNCsCsO1KbGhAHJNmEBa1gkvZGzH8c3upBGSOQlNOA=;
+  b=F62RQVXUzDmoaoFbYR32xfCLGv/rmnK/AVb2eXGLxODDGkPKOLuigRzz
+   EXyNSGQWvtQfpLymX7GHE0WUDyvj3cZYaBY79fgXY7zCJ6boZtMVHWe1V
+   KARVT4ZyAJmD27dXOEUMFcHCFy4IFK2q5VVfNEDqC90IfUfHsXWp3FR46
+   mxsdYCysbIY93uFMbEI4bk5+JUWtd1lFZq5FW9yDUCdmcvNdjTY591JBl
+   BJwQQXLM/3q1d7cVW83UGVQAlv06reRGGOgQPAUzDwuhHtNSTofFfeLTn
+   em/cIzJtcfeOaGNV7IVLedwSVDpUDpFWxZAMZIfdc/+JtEEcnsSfKK2rn
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="asc'?scan'208";a="163253302"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Jul 2023 23:45:52 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 25 Jul 2023 23:45:45 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Tue, 25 Jul 2023 23:45:43 -0700
+Date:   Wed, 26 Jul 2023 07:45:08 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     "chenjiahao (C)" <chenjiahao16@huawei.com>
+CC:     Conor Dooley <conor@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <guoren@kernel.org>, <heiko@sntech.de>,
+        <bjorn@rivosinc.com>, <alex@ghiti.fr>, <akpm@linux-foundation.org>,
+        <atishp@rivosinc.com>, <bhe@redhat.com>,
+        <thunder.leizhen@huawei.com>, <horms@kernel.org>
+Subject: Re: [PATCH -next v8 0/2] support allocating crashkernel above 4G
+ explicitly on riscv
+Message-ID: <20230726-affix-employed-319aada685e7@wendy>
+References: <20230725214413.2488159-1-chenjiahao16@huawei.com>
+ <20230725-judiciary-auction-ef50be622175@spud>
+ <96245a6f-cff1-9f2a-1217-4109d9a19291@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.11.2
-Subject: Re: [PATCH v4 2/4] perf jevents: Support more event fields
-To:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        James Clark <james.clark@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1690100513-61165-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1690100513-61165-3-git-send-email-renyu.zj@linux.alibaba.com>
- <13cdb7cb-e6c0-5b85-3ccf-adb3b0ed36e0@oracle.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <13cdb7cb-e6c0-5b85-3ccf-adb3b0ed36e0@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="IJOap9vmU2OvA6x9"
+Content-Disposition: inline
+In-Reply-To: <96245a6f-cff1-9f2a-1217-4109d9a19291@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--IJOap9vmU2OvA6x9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jul 26, 2023 at 10:20:00AM +0800, chenjiahao (C) wrote:
+>=20
+> On 2023/7/26 5:48, Conor Dooley wrote:
+> > Hey,
+> >=20
+> > Your $subject says -next, but the patch failed to apply to
+> > riscv/for-next. What was the base for this patchset?
+> >=20
+> > Thanks,
+> > Conor.
+>=20
+> Hi,
+>=20
+> My patchset was tested on current linux-next HEAD
+> (commit ID: 1e25dd777248, tag: next-20230725) and
+> it seems all ok.
 
-在 2023/7/25 下午5:41, John Garry 写道:
-> On 23/07/2023 09:21, Jing Zhang wrote:
->> The usual event descriptions are "event=xxx" or "config=xxx", while the
->> event descriptions of CMN are "type=xxx, eventid=xxx" or more complex.
->>
->> $cat /sys/bus/event_source/devices/arm_cmn_0/events/hnf_cache_fill
->> type=0x5,eventid=0x3
->>
->> When adding aliases for events described as "event=xxx" or "config=xxx",
->> EventCode or ConfigCode can be used in the JSON files to describe the
->> events. But "eventid=xxx, type=xxx" cannot be supported at present.
->>
->> If EventCode and ConfigCode is not added in the alias JSON file, the
->> event description will add "event=0" by default. So, even if the event
->> field is added to supplement "eventid=xxx" and "type=xxx", the final
->> parsing result will be "event=0, eventid=xxx, type=xxx".
->>
->> Therefore, when EventCode and ConfigCode are missing in JSON, "event=0" is
->> no longer added by default. EventidCode and Type are added to the event
->> field, and ConfigCode is moved into the event field.
-> 
-> What does "ConfigCode is moved into the event field" mean?
-> 
+> Could you try applying with the base above, or
+> is there any problem with that base?
 
-What I want to express is to move "ConfigCode" into the event_filed array which can also guarantee its original function. like this:
-event_fields = [
-	  ...
-          ('AnyThread', 'any='),
-          ('PortMask', 'ch_mask='),
-          ('ConfigCode', 'config='),
-	  ...
-]
+There's some difference between linux-next and riscv/for-next that
+prevents the patchwork automation from applying the patches.
 
-Haha, my English language proficiency still needs improvement, please forgive me.
+--IJOap9vmU2OvA6x9
+Content-Type: application/pgp-signature; name="signature.asc"
 
->>
-> 
-> There should be perf tool self-tests cases for this, see tests/pmu-events.c and tests/parse-events.c, like "umask" is tested
-> 
+-----BEGIN PGP SIGNATURE-----
 
-Ok, will do.
+iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMDA5QAKCRB4tDGHoIJi
+0tKwAP9sgmoHHSgRVm0XXcQYF7qM3+usgvdzT0xxSm4kXVozZgD3WZsTiicAAJla
+IpwJI7hV57KDX7zRXzg2yr8IZCNjDg==
+=VfGq
+-----END PGP SIGNATURE-----
 
-
-Thanks,
-Jing
+--IJOap9vmU2OvA6x9--
