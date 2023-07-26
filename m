@@ -2,125 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F4A3C0015E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 10:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1516FC001DF
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 13:52:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234006AbjGZKpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 06:45:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36212 "EHLO
+        id S233311AbjGZNwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 09:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbjGZKpF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 06:45:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDED212C
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jul 2023 03:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690368262;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YfPtcfCQozYTXWKac7jHLSgcmv2DVRuwJJ0/d8VMgrg=;
-        b=VLkc4sRMRtaJEFZG6GIFW85CfswSxwTUKF5u87N3sSD85bS3bLCcjAmg6jPUhz310q/In2
-        anZrka2Tkbaae4sYCdUiGIEQwLhpa5bqgrW0fZQ+EGd/GvL/L1HsJuWOcKZiwnE2UjaUTy
-        7HMM/PUbHsJoVgr5kb2CIKtSncdQjd0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-352-IpbBvjHuNyqcaz20bz0Q7Q-1; Wed, 26 Jul 2023 06:44:20 -0400
-X-MC-Unique: IpbBvjHuNyqcaz20bz0Q7Q-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-3f42bcef2acso33342975e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jul 2023 03:44:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690368259; x=1690973059;
-        h=in-reply-to:references:cc:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+        with ESMTP id S232351AbjGZNwY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 09:52:24 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B4C26A6
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jul 2023 06:52:20 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-666ecb21f86so6298719b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jul 2023 06:52:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690379540; x=1690984340;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=YfPtcfCQozYTXWKac7jHLSgcmv2DVRuwJJ0/d8VMgrg=;
-        b=QqSIO2yYx66N1tp7Eb/UAd+KJLH4oLkuuhb/yd9BmA8NKgDgYrBwyf8PUZpiQ80M9x
-         Rn8BtyYEB+v7DRhWBDpphzHf5J4Bc9oqMtGxB/S9UV6OpANiReoQDRzcE1o3YQfc/HyC
-         xigo9mfRKhg+VDi8Dj6KVIusR4kM3HflC1CO3IxrXn03QRoYq7MxiVIj8xdH4vVgmqdo
-         yO9uqXadI+n/VluixbHh6bjB7U1SbdB4a6JKBTNDZ90ph4l3vLLuRQkKRTiJ2O5g8caN
-         ckG1o5Ax6r/UZ/+sIVJwyV31nymTLvkFwXyd6APyf7Q0tZhoWSLBerC7QnT1bNqdEg6D
-         hHZw==
-X-Gm-Message-State: ABy/qLa02ZDyFkXvqIx6hHWFzquNjj3+mn6Mo83wJJHtI5hcTuuvPFnX
-        g3F9kHBDLlaso0+MJaHboeYnSfZiLhxIqedpAgA0v/6PSVkJ8LTXbXUMUXUUM/+bwz/IxrAWl9h
-        fDvc0hsyur2PnJZlvyGrZ
-X-Received: by 2002:a05:6000:10c5:b0:311:142d:5d97 with SMTP id b5-20020a05600010c500b00311142d5d97mr1052817wrx.31.1690368259641;
-        Wed, 26 Jul 2023 03:44:19 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGPE19oxP27KE+bldxvZsZEsBDu6isImTZngYehdy08igFHWbefk4Hcu0B763Q3Vg22jtIh8Q==
-X-Received: by 2002:a05:6000:10c5:b0:311:142d:5d97 with SMTP id b5-20020a05600010c500b00311142d5d97mr1052796wrx.31.1690368259327;
-        Wed, 26 Jul 2023 03:44:19 -0700 (PDT)
-Received: from localhost (2a01cb000f8b9700598da2e1679e8383.ipv6.abo.wanadoo.fr. [2a01:cb00:f8b:9700:598d:a2e1:679e:8383])
-        by smtp.gmail.com with ESMTPSA id l13-20020a5d410d000000b0031766e99429sm6702219wrp.115.2023.07.26.03.44.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 03:44:19 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 26 Jul 2023 12:44:18 +0200
-Message-Id: <CUC1JDJIR32Y.10JMBOYZA2ZLQ@ringo>
-From:   "Robin Jarry" <rjarry@redhat.com>
-To:     "Waiman Long" <longman@redhat.com>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Josh Poimboeuf" <jpoimboe@kernel.org>,
-        "Pawan Gupta" <pawan.kumar.gupta@linux.intel.com>,
-        "Jacob Pan" <jacob.jun.pan@linux.intel.com>,
-        "Len Brown" <lenb@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH v5 4/4] intel_idle: Add ibrs_off module parameter to
- force disable IBRS
-Cc:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <x86@kernel.org>, <linux-pm@vger.kernel.org>,
-        "Joe Mario" <jmario@redhat.com>,
-        "Randy Dunlap" <rdunlap@infradead.org>
-X-Mailer: aerc/0.15.2-111-gf7a4c37c303c-dirty
-References: <20230710194857.2898284-1-longman@redhat.com>
- <20230710194857.2898284-5-longman@redhat.com>
-In-Reply-To: <20230710194857.2898284-5-longman@redhat.com>
+        bh=Ey/D5M5CPmKQzId6+XsuiPGSyzaXamRUEWGT1BcC7g8=;
+        b=oljGFhSavZjxkXX9CucTy5gLK6qGX0I821ndm/pPrymKSKvJ3P/6/lBeLNfqGQ4Prz
+         yG8vGsi8TbRKYjWbNGsB7yiDHaa22xpMOxU5nHjrXLOpOpFIaRgQgmi30rvNMGGaQlnA
+         aPogyoGDwEByaH6x2bu+i8DUJ8aQuv5RYESZZc2lxWmys95qEqie9+VLr28t9jXKQoGb
+         ACUOHsx+Kh0P0USxXLLtGjTtYmJCoHLrvO3TngfJVNsHF6lP/Mjr03UuslceDWRR7aFU
+         P220Nkr1pYqcfa9oPNp6sOExUOn8A0YJcEA5TAhibvstRj/Q8VU7/V3AREKD6GV4ila3
+         mM1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690379540; x=1690984340;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ey/D5M5CPmKQzId6+XsuiPGSyzaXamRUEWGT1BcC7g8=;
+        b=P/3pZ6DZSZ9e805ng+C5wuOouity7tpgj4cZOtstYZ3ThPwhoC673IsP6TOy8dNIRK
+         YZtMbzTK0Pt+yevQd65Mdp7e45QzVQVFtyFQ31U84VXky3MLpXofPeFuyU/g4UgRCCcM
+         Pi1V3G5q9A4w5Ow5JXzFA6dxDRDWipD3B/GKr34zt7JhyZHQgdAtQY9sWPJ+mysYZBfH
+         fhyKNQ+bIh5JB3NlWpgVrvzECZc2LOS4qpF5KbUiXdjZj2bt3N9kzU95ZeezLO4hRztR
+         wy+8+p0YrlEwAKelZSyiIaY/K8DnOX9R0HNcUftgb8HY+gjmlr0duhaYEFV0XHEYw0S5
+         lmQA==
+X-Gm-Message-State: ABy/qLaGZhT2+Ga7jgwncZ0Mjz1Jogy3ASV0YRpY/soytwFh/GraUMld
+        YTROhPTPIB0xJ0GyCK7yTIgBDQ==
+X-Google-Smtp-Source: APBJJlGGggspPA6ImxibgpDOjxq8NwN3+9CEYkMOcJSUt5QiwCOV4FVffsYERBKNj9SOSpMuSGApCw==
+X-Received: by 2002:a05:6a00:234c:b0:686:c7be:5259 with SMTP id j12-20020a056a00234c00b00686c7be5259mr2598630pfj.32.1690379540161;
+        Wed, 26 Jul 2023 06:52:20 -0700 (PDT)
+Received: from ghost ([2601:c0:ca7f:e7c0:14ff:979a:dd27:29d7])
+        by smtp.gmail.com with ESMTPSA id d134-20020a63368c000000b0055be951145csm12722952pga.36.2023.07.26.06.52.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 06:52:19 -0700 (PDT)
+Date:   Wed, 26 Jul 2023 09:52:15 -0400
+From:   Charlie Jenkins <charlie@rivosinc.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org
+Subject: Re: [PATCH v6 4/4] RISC-V: mm: Document mmap changes
+Message-ID: <ZMElD/V0G715rf/S@ghost>
+References: <20230714165508.94561-1-charlie@rivosinc.com>
+ <20230714165508.94561-5-charlie@rivosinc.com>
+ <CAHVXubgSLhsMdS3aFbSuPNf2d_FXhztnFtRnbjsMstH5coCHWA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHVXubgSLhsMdS3aFbSuPNf2d_FXhztnFtRnbjsMstH5coCHWA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Waiman Long, Jul 10, 2023 at 21:48:
-> Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
-> disables IBRS when the cstate is 6 or lower. However, there are
-> some use cases where a customer may want to use max_cstate=3D1 to
-> lower latency. Such use cases will suffer from the performance
-> degradation caused by the enabling of IBRS in the sibling idle thread.
-> Add a "ibrs_off" module parameter to force disable IBRS and the
-> CPUIDLE_FLAG_IRQ_ENABLE flag if set.
->
-> In the case of a Skylake server with max_cstate=3D1, this new ibrs_off
-> option will likely increase the IRQ response latency as IRQ will now
-> be disabled.
->
-> When running SPECjbb2015 with cstates set to C1 on a Skylake system.
->
-> First test when the kernel is booted with: "intel_idle.ibrs_off"
->   max-jOPS =3D 117828, critical-jOPS =3D 66047
->
-> Then retest when the kernel is booted without the "intel_idle.ibrs_off"
-> added.
->   max-jOPS =3D 116408, critical-jOPS =3D 58958
->
-> That means booting with "intel_idle.ibrs_off" improves performance by:
->   max-jOPS:   1.2%, which could be considered noise range.
->   critical-jOPS: 12%, which is definitely a solid improvement.
->
-> The admin-guide/pm/intel_idle.rst file is updated to add a description
-> about the new "ibrs_off" module parameter.
->
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-Hi Longman,
-
-Adding back my tag that I had set in v1. Thanks!
-
-Tested-by: Robin Jarry <rjarry@redhat.com>
-
+On Thu, Jul 20, 2023 at 08:59:12AM +0200, Alexandre Ghiti wrote:
+> On Fri, Jul 14, 2023 at 6:56 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> >
+> > The behavior of mmap is modified with this patch series, so explain the
+> > changes to the mmap hint address behavior.
+> >
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > ---
+> >  Documentation/riscv/vm-layout.rst | 22 ++++++++++++++++++++++
+> >  1 file changed, 22 insertions(+)
+> >
+> > diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+> > index 5462c84f4723..892412b91300 100644
+> > --- a/Documentation/riscv/vm-layout.rst
+> > +++ b/Documentation/riscv/vm-layout.rst
+> > @@ -133,3 +133,25 @@ RISC-V Linux Kernel SV57
+> >     ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
+> >     ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
+> >    __________________|____________|__________________|_________|____________________________________________________________
+> > +
+> > +
+> > +Userspace VAs
+> > +--------------------
+> > +To maintain compatibility with software that relies on the VA space with a
+> > +maximum of 48 bits the kernel will, by default, return virtual addresses to
+> > +userspace from a 48-bit range (sv48). This default behavior is achieved by
+> > +passing 0 into the hint address parameter of mmap. On CPUs with an address space
+> > +smaller than sv48, the CPU maximum supported address space will be the default.
+> > +
+> > +Software can "opt-in" to receiving VAs from another VA space by providing
+> > +a hint address to mmap. A call to mmap is guaranteed to return an address
+> > +that will not override the unset left-aligned bits in the hint address,
+> > +unless there is no space left in the address space. If there is no space
+> > +available in the requested address space, an address in the next smallest
+> > +available address space will be returned.
+> > +
+> > +For example, in order to obtain 48-bit VA space, a hint address greater than
+> > +:code:`1 << 38` must be provided.
+> 
+> Is this correct? Shouldn't the hint be strictly greater than the
+> address space it targets? In patch 1, you state that "A hint address
+> passed to mmap will cause the largest address space that fits entirely
+> into the hint to be used", it seems contradictory to me.
+> 
+That is a mistake, it should have a hint address greater than 1 << 47. I
+will fix up the wording here.
+> > Note that this is 38 due to sv39 userspace
+> > +ending at :code:`1 << 38` and the addresses beyond this are reserved for the
+> > +kernel. Similarly, to obtain 57-bit VA space addresses, a hint address greater
+> > +than or equal to :code:`1 << 47` must be provided.
+> > --
+> > 2.41.0
+> >
