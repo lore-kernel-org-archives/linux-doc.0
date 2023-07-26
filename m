@@ -2,108 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBADC41513
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 17:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE70C41513
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 18:51:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbjGZRp7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 13:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41046 "EHLO
+        id S229720AbjGZSv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 14:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbjGZRp6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 13:45:58 -0400
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F712697;
-        Wed, 26 Jul 2023 10:45:55 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 6C7493200958;
-        Wed, 26 Jul 2023 13:45:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 26 Jul 2023 13:45:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anarazel.de; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1690393552; x=1690479952; bh=6+
-        BtwAiVSxh1iYhM2LPLsKH6+zDmGG6P7lMP2V1Zi70=; b=Qmd4H+Br8tMw1XghlU
-        Nlz7bHPXrAx6O7RV5E6WKRL6rQQP51jw9IPDGgQwag+n2TQEAtFZeu+B4DkVRixu
-        knbljF++UyO50c9qQcu39POEQdRSvN7SSKrqiRYeb9C7kJAjmG2fFMYqkuhu4GiD
-        6VCz+CUcl2MUy+kMtmsZhZ5ifKaav7aJaGHf56Yn82fgUkEAzFjgak/wYvduI1sG
-        6IF0ct+HP96ffssE6OE1JGDPOr25oJtN13dEqt4NBL53rvwAC2j2aDKigCuLANHh
-        qmagOEN2ZyXd09Lq5nVCQbFaExvslxhr1v8z9FdOAR9NaHTjync2HAoe4yGmNKnB
-        AZ2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1690393552; x=1690479952; bh=6+BtwAiVSxh1i
-        YhM2LPLsKH6+zDmGG6P7lMP2V1Zi70=; b=rDnqFY0bc6eP7jdogZERouKz7ECYX
-        6nCbYyW334nUrGDCwxfK7/t5D6yySDQAmtx4tZu5+0F8dqDdh4YgaVnuHhHHpvRv
-        73SZ0NmZRL0fQmLeuEcMaZisoC4N+/Yx+OyTqT625Le6AZqzIGUCEAxAiO37HmA+
-        V007MCKdZ+uMeFf+HS0YTyOZY41MFohQV/7Si/H9ITky/9F9WHX9RVz7AB3ntGJJ
-        h5JOpBGdJ2K4jjiqu5HQTyPL93LnAUhe7xSV1O6h0l9s5KN5hCknYIVymL4wERnT
-        72mJzFjvbKnSkDnHeN900WH0UYs/v5mviuONbcPLyBhBxLlMbXtle5yjQ==
-X-ME-Sender: <xms:0FvBZC0Tryiu1D6O4NZbVVbVzDLWI1bD1Z4-AqT3CmXiTH9DQQ7JIA>
-    <xme:0FvBZFG0N5nR_MVs_OL-pvmicF_iP3pEiteKryyMhJDDowCACQwNcD37H3bphf0mu
-    RVjmdYPY8RmP8t7WA>
-X-ME-Received: <xmr:0FvBZK7kxLgOSa_vrT3uuwJqKJ_M38nXYdrha9UV3p4mGcDCfRHElIP6L6i9CzU_z2JUe7MZ5Hl2pqfpg6dBEHVJJfyT84iCFAGbbFvHPOEF0Gb6TkOiMqgXoHW1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedriedvgdduudegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehnughr
-    vghsucfhrhgvuhhnugcuoegrnhgurhgvshesrghnrghrrgiivghlrdguvgeqnecuggftrf
-    grthhtvghrnhepvdfffeevhfetveffgeeiteefhfdtvdffjeevhfeuteegleduheetvedu
-    ieettddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghnughrvghssegrnhgrrhgriigvlhdruggv
-X-ME-Proxy: <xmx:0FvBZD0elYr1hQwUGBen7BvOVriKMtEmoAFtRr5poakX9SUE7dz-pQ>
-    <xmx:0FvBZFFyKP3XOu7msWLMIV8gYPAE-RIJoXY3I5o9WlioId0J5vQRlw>
-    <xmx:0FvBZM8OgEJ2xjxfOjgaF7kcJSMl_vJ2gXKsLuCdPG7miNwX7vKO7g>
-    <xmx:0FvBZD8JXMKwcfwFm9JcCrLET6MyEpTBP1XchL84iDs0O9I04wlMIQ>
-Feedback-ID: id4a34324:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 26 Jul 2023 13:45:51 -0400 (EDT)
-Date:   Wed, 26 Jul 2023 10:45:49 -0700
-From:   Andres Freund <andres@anarazel.de>
-To:     Matteo Rizzo <matteorizzo@google.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        io-uring@vger.kernel.org, axboe@kernel.dk, asml.silence@gmail.com,
-        corbet@lwn.net, akpm@linux-foundation.org, keescook@chromium.org,
-        ribalda@chromium.org, rostedt@goodmis.org, jannh@google.com,
-        chenhuacai@kernel.org, gpiccoli@igalia.com, ldufour@linux.ibm.com,
-        evn@google.com, poprdi@google.com, jordyzomer@google.com,
-        jmoyer@redhat.com, krisman@suse.de
-Subject: Re: [PATCH v3 1/1] io_uring: add a sysctl to disable io_uring
- system-wide
-Message-ID: <20230726174549.cg4jgx2d33fom4rb@awork3.anarazel.de>
-References: <20230630151003.3622786-1-matteorizzo@google.com>
- <20230630151003.3622786-2-matteorizzo@google.com>
+        with ESMTP id S229572AbjGZSv0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 14:51:26 -0400
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BBC1FEC;
+        Wed, 26 Jul 2023 11:51:25 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7672073e7b9so11358485a.0;
+        Wed, 26 Jul 2023 11:51:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690397484; x=1691002284;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZHyX3wq0ojFXPUI8SahCi1FQW7IJesz87c8DpSzeOCw=;
+        b=kkUQgqr8T6q3+LtXE/B8F6jrpfBEFq856rQ0WmbhThXP00OupGuaodeYaegjscoJap
+         whz2SE9rnmKYuX7eq/ABaH+Fl3XQZX29+4RjCKmFygh/dWXbeyrn8THH1hZn8d4OMpsa
+         S6xPdiDP/j7DVZ6VbvLq+u0l245iOkEN3mmtf9nuINfdA/S51QzQe6H/qkmgU9bZD5fc
+         PM25HJnBOaqhV5gd9+KuAW+fKLtkz1FwSyLeq2v1XCdaq1afihmcsyHNGItpeW5zyMyR
+         lIuEhPaX3B9k8Ra+L+OkfEM5PeWXAZ99kG/5ehj/zOtrjvLpSTSOsr7498QJFr9Zt8Kb
+         5byA==
+X-Gm-Message-State: ABy/qLaKfRxj8QuO4kCCx5fmWcf+n9iHB5TL4AzREuDPPIqX1LpRTb3v
+        F8rUQUqEbbsiaDdReabo2T4blv02G+iBTg==
+X-Google-Smtp-Source: APBJJlEiIiMrCuHBh5EMrE6WULrKvE/VQouJQAx/LwvKSQ27NngFdA8c3ZBXCKmZCev8BLTyEDFsfg==
+X-Received: by 2002:ac8:5bd5:0:b0:403:a4d3:a633 with SMTP id b21-20020ac85bd5000000b00403a4d3a633mr3560424qtb.66.1690397484502;
+        Wed, 26 Jul 2023 11:51:24 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:199:8930:2c90:cb9e:b154:73dc])
+        by smtp.gmail.com with ESMTPSA id b3-20020ac86783000000b0040324785e4csm4939197qtp.13.2023.07.26.11.51.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 11:51:24 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>
+Subject: [RFC PATCH v2] docs: rework "Working with the development community"
+Date:   Wed, 26 Jul 2023 21:49:37 +0300
+Message-ID: <20230726184939.3118350-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <87ila9atuk.fsf@meer.lwn.net>
+References: <87ila9atuk.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230630151003.3622786-2-matteorizzo@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Mission: Make the documentation more readable, organized and maintainable.
 
-On 2023-06-30 15:10:03 +0000, Matteo Rizzo wrote:
-> Introduce a new sysctl (io_uring_disabled) which can be either 0, 1,
-> or 2. When 0 (the default), all processes are allowed to create io_uring
-> instances, which is the current behavior. When 1, all calls to
-> io_uring_setup fail with -EPERM unless the calling process has
-> CAP_SYS_ADMIN. When 2, calls to io_uring_setup fail with -EPERM
-> regardless of privilege.
+NB: no information content is lost of changed on the rendered top page.
 
-Hm, is there a chance that instead of requiring CAP_SYS_ADMIN, a certain group
-could be required (similar to hugetlb_shm_group)? Requiring CAP_SYS_ADMIN
-could have the unintended consequence of io_uring requiring tasks being run
-with more privileges than needed... Or some other more granular way of
-granting the right to use io_uring?
+This patch demonstrates rework of the only the first section
+of the top page for review. The proposal is to rework all sections.
 
-ISTM that it'd be nice if e.g. a systemd service specification could allow
-some services to use io_uring, without allowing it for everyone, or requiring
-to run services effectively as root.
+Summary of changes:
+- Heading "Working with the development community" is converted into
+  branch of toctree and visually moved after the text
+  "The essential guides for interacting ..."
+- toctree list is split into separated file. Please don't worry, the
+  content of the list is incorporated to the top page because of
+  `:maxdepth: 2`
+- vertical bar '|' add empty line for better visual distribution
 
-Greetings,
+Technical explanations:
+Template {{ toctree(maxdepth=3) }} in
+Documentation/sphinx/templates/kernel-toc.html
+uses directives toctree and doesn't use sections on the top page
+Documentation/index.rst
+to generate expandable toc on the sidebar.
 
-Andres Freund
+BTW, other template {{ toc }} uses only sections, and doesn't
+use directives toctree.
+
+Benefit:
+- toc on side bar is expandable and collapsible
+
+---
+
+References:
+- https://www.sphinx-doc.org/en/master/development/templating.html#toctree
+- https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-toctree
+- https://www.sphinx-doc.org/en/master/development/templating.html#toc
+- https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
+- https://sphinx-rtd-theme.readthedocs.io/
+
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/index.rst        | 12 +++---------
+ Documentation/process/main.rst | 13 +++++++++++++
+ 2 files changed, 16 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/process/main.rst
+
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 9dfdc826618c..560eb0bc78dd 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -13,21 +13,15 @@ documents into a coherent whole.  Please note that improvements to the
+ documentation are welcome; join the linux-doc list at vger.kernel.org if
+ you want to help out.
+ 
+-Working with the development community
+-======================================
++|
+ 
+ The essential guides for interacting with the kernel's development
+ community and getting your work upstream.
+ 
+ .. toctree::
+-   :maxdepth: 1
+-
+-   process/development-process
+-   process/submitting-patches
+-   Code of conduct <process/code-of-conduct>
+-   maintainer/index
+-   All development-process docs <process/index>
++   :maxdepth: 2
+ 
++   process/main
+ 
+ Internal API manuals
+ ====================
+diff --git a/Documentation/process/main.rst b/Documentation/process/main.rst
+new file mode 100644
+index 000000000000..40bab4ff8198
+--- /dev/null
++++ b/Documentation/process/main.rst
+@@ -0,0 +1,13 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Working with the development community
++======================================
++
++.. toctree::
++   :maxdepth: 1
++
++   development-process
++   submitting-patches
++   Code of conduct <code-of-conduct>
++   ../maintainer/index
++   All development-process docs <../process/index>
+-- 
+2.41.0
+
