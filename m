@@ -2,139 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3DCBC001DC
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:42:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 058CAC001DC
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbjGZTmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 15:42:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
+        id S232347AbjGZTze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 15:55:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbjGZTmE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:42:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F1B1BE3;
-        Wed, 26 Jul 2023 12:42:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S232421AbjGZTzX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:55:23 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F502691;
+        Wed, 26 Jul 2023 12:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=XyTW0Ej/ctvX5mhAYSsUtLai+EJ8srqN7zialJMkLmE=; b=hM1wJiCXTM2z10qaH70Y3td19Q
+        RcNkzv2osxtg8g5vj9sDJvWhn20I2tyHdnfNRVCieOfO++Y9Q3cl6+xO7wjUeov18fOZuZlG+hbPi
+        HUDwSYX/Nlfs1QoXzUQehGHWijgiU7cp3U79zFxvgoVlpDsyGPAVt9iOYENQ8E8R5m7zRPHoMFiF4
+        2ZCQVJm86wwBgM+/ZGkpklArFaA1/clBOci/PfKeaZ+ldYZjK2AbJ+Nk0Xdxb+TDkrL1/+XoWsVXa
+        ujTRXxt/hpfEFtfai3OXujo2NVSNvmdOm/34N4u2U50WMJAYFE8mlQjPbUeqxEX36eEWrTdxEevL9
+        xAj7AhOg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qOkan-005ynS-0H;
+        Wed, 26 Jul 2023 19:54:41 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6014861CBB;
-        Wed, 26 Jul 2023 19:42:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0408AC433C7;
-        Wed, 26 Jul 2023 19:41:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690400522;
-        bh=6e6cReriYF7em75Hf0iAxdRhfTIt48diinTa2LCaE+U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sLyIAGyV6TUHuowqKx/5JfDcmeo0WhbUg1yCQ8GAUu2bA1CHQXElka+Q1GRT7V1yv
-         R0EddtJuV1su72lOKWDmqPZkTqr3rjqushe4n3Y0JyPwiujSaR6lzMnBE/bXB37uce
-         8O1V4aPEPJ7CtaWT6N1qd3sf2g3qg1GZ/ysRkHn0W2duBIi4pMtC3lDu6nsoC6Pt3/
-         swHIlZLsRsV+7qlwiW9MPLzwOhahR6eIG7+fvoyQ2iGsIvPP2A61lMuC8l5VN12v0v
-         2zw+8Jdxg6lE+m401O76ze1xAH8enmcSNQ3pjVXumpOLBXI9Yvybgks7Mc9qIvNX4N
-         FrlfiSoNf+zHg==
-Date:   Wed, 26 Jul 2023 12:41:48 -0700
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Valentin Schneider <vschneid@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 465A730056F;
+        Wed, 26 Jul 2023 21:54:39 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0952E201BD673; Wed, 26 Jul 2023 12:25:12 +0200 (CEST)
+Date:   Wed, 26 Jul 2023 12:25:12 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 02/20] tracing/filters: Enable filtering a cpumask
- field by another cpumask
-Message-ID: <20230726194148.4jhyqqbtn3qqqqsq@treble>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-3-vschneid@redhat.com>
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-pm@vger.kernel.org,
+        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5 4/4] intel_idle: Add ibrs_off module parameter to
+ force disable IBRS
+Message-ID: <20230726102512.GD3802077@hirez.programming.kicks-ass.net>
+References: <20230710194857.2898284-1-longman@redhat.com>
+ <20230710194857.2898284-5-longman@redhat.com>
+ <f5f25279-bbb5-e040-aeaa-dd3d8686c670@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720163056.2564824-3-vschneid@redhat.com>
+In-Reply-To: <f5f25279-bbb5-e040-aeaa-dd3d8686c670@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 05:30:38PM +0100, Valentin Schneider wrote:
->  int filter_assign_type(const char *type)
->  {
-> -	if (strstr(type, "__data_loc") && strstr(type, "char"))
-> -		return FILTER_DYN_STRING;
-> +	if (strstr(type, "__data_loc")) {
-> +		if (strstr(type, "char"))
-> +			return FILTER_DYN_STRING;
-> +		if (strstr(type, "cpumask_t"))
-> +			return FILTER_CPUMASK;
-> +		}
+On Tue, Jul 25, 2023 at 04:45:49PM -0400, Waiman Long wrote:
+> On 7/10/23 15:48, Waiman Long wrote:
+> > Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
+> > disables IBRS when the cstate is 6 or lower. However, there are
+> > some use cases where a customer may want to use max_cstate=1 to
+> > lower latency. Such use cases will suffer from the performance
+> > degradation caused by the enabling of IBRS in the sibling idle thread.
+> > Add a "ibrs_off" module parameter to force disable IBRS and the
+> > CPUIDLE_FLAG_IRQ_ENABLE flag if set.
+> > 
+> > In the case of a Skylake server with max_cstate=1, this new ibrs_off
+> > option will likely increase the IRQ response latency as IRQ will now
+> > be disabled.
+> > 
+> > When running SPECjbb2015 with cstates set to C1 on a Skylake system.
+> > 
+> > First test when the kernel is booted with: "intel_idle.ibrs_off"
+> >    max-jOPS = 117828, critical-jOPS = 66047
+> > 
+> > Then retest when the kernel is booted without the "intel_idle.ibrs_off"
+> > added.
+> >    max-jOPS = 116408, critical-jOPS = 58958
+> > 
+> > That means booting with "intel_idle.ibrs_off" improves performance by:
+> >    max-jOPS:   1.2%, which could be considered noise range.
+> >    critical-jOPS: 12%, which is definitely a solid improvement.
+> > 
+> > The admin-guide/pm/intel_idle.rst file is updated to add a description
+> > about the new "ibrs_off" module parameter.
+> > 
+> > Signed-off-by: Waiman Long <longman@redhat.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >   Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++++++-
+> >   drivers/idle/intel_idle.c                   | 11 ++++++++++-
+> >   2 files changed, 26 insertions(+), 2 deletions(-)
+> 
+> Ping! Is there further suggested changes for this patch series or is it good
+> enough to be merged?
 
-The closing bracket has the wrong indentation.
-
-> +		/* Copy the cpulist between { and } */
-> +		tmp = kmalloc((i - maskstart) + 1, GFP_KERNEL);
-> +		strscpy(tmp, str + maskstart, (i - maskstart) + 1);
-
-Need to check kmalloc() failure?  And also free tmp?
-
-> +
-> +		pred->mask = kzalloc(cpumask_size(), GFP_KERNEL);
-> +		if (!pred->mask)
-> +			goto err_mem;
-> +
-> +		/* Now parse it */
-> +		if (cpulist_parse(tmp, pred->mask)) {
-> +			parse_error(pe, FILT_ERR_INVALID_CPULIST, pos + i);
-> +			goto err_free;
-> +		}
-> +
-> +		/* Move along */
-> +		i++;
-> +		if (field->filter_type == FILTER_CPUMASK)
-> +			pred->fn_num = FILTER_PRED_FN_CPUMASK;
-> +
-
--- 
-Josh
+I suppose I'll go stick it in x86/core unless someone objects.
