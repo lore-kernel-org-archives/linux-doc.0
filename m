@@ -2,49 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C62AC41513
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 06:03:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 784D0C001DC
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 06:16:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231134AbjGZGDH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 02:03:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42950 "EHLO
+        id S232046AbjGZGQd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 02:16:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbjGZGDG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 02:03:06 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FFB8170D;
-        Tue, 25 Jul 2023 23:03:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=cwe5zzwRb5EKV9jO3R5+pCg8hvrOiH5a2qZVK2S0qoU=; b=2+UrVu/c0K9uK/BvWp0qpmyyM3
-        dQAVabbWkPOxh7MWftSZCkn2uDt2haDboO1NImshw1m9hRlpdI35uOCyQV0B8YBGWBUjVhkGUSw6H
-        uiy1uVKMJevXzX+QNL61MKkGgJA3CIgFi1G12vInGU02ezIw3GPGbzC98Myf4ugGiNr163/6Vjdcj
-        ld1Msus2nAhuorS1ijCMFILSATGOYaDSiPbM7O3/INhelCJYwOi8U/gj/mBnnDXqSuQKfQxXDkHIu
-        n0Oi63j7TzNVgBYuLv1lmMBSEIqzJWK7/GUf6g4oRbkHRWtUOREUQbIWxhcTy7tRuRCQrKxGQJ2gV
-        /FlnMpeA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOXbx-009FO2-1x;
-        Wed, 26 Jul 2023 06:03:01 +0000
-Message-ID: <26d59f6e-cc29-bcf4-d113-34c93804dea8@infradead.org>
-Date:   Tue, 25 Jul 2023 23:03:00 -0700
+        with ESMTP id S231946AbjGZGQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 02:16:10 -0400
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8861719BD;
+        Tue, 25 Jul 2023 23:15:46 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R941e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0VoFhAhR_1690352140;
+Received: from 30.221.150.4(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VoFhAhR_1690352140)
+          by smtp.aliyun-inc.com;
+          Wed, 26 Jul 2023 14:15:41 +0800
+Message-ID: <a16f4eb7-24c2-fc42-964d-0b84effae9a5@linux.alibaba.com>
+Date:   Wed, 26 Jul 2023 14:15:37 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC PATCH] rework top page and organize toc on the sidebar
-Content-Language: en-US
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>
-References: <20230724193118.2204673-1-costa.shul@redhat.com>
- <87ila9atuk.fsf@meer.lwn.net>
- <CADDUTFzKCrrBT=46F-08_EGrwMxVniDOgdkVr-DhGFTzS3DxOg@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CADDUTFzKCrrBT=46F-08_EGrwMxVniDOgdkVr-DhGFTzS3DxOg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.11.2
+Subject: Re: [PATCH v4 1/4] perf metric: Event "Compat" value supports
+ matching multiple identifiers
+To:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Clark <james.clark@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1690100513-61165-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1690100513-61165-2-git-send-email-renyu.zj@linux.alibaba.com>
+ <4c20d8fd-b478-5b0a-0558-3b59dead0751@oracle.com>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <4c20d8fd-b478-5b0a-0558-3b59dead0751@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -53,23 +54,34 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 7/25/23 22:55, Costa Shulyupin wrote:
->> This patch is somewhat difficult to apply, as a result of:
->>> Content-Type: text/plain; charset=true
+在 2023/7/25 下午4:20, John Garry 写道:
+> On 23/07/2023 09:21, Jing Zhang wrote:
+>> The jevent "Compat" is used for uncore PMU alias or metric definitions.
+>>
+>> The same PMU driver has different PMU identifiers due to different hardware
+>> versions and types, but they may have some common PMU event/metric. Since a
+>> Compat value can only match one identifier, when adding the same event
+>> alias and metric to PMUs with different identifiers, each identifier needs
+>> to be defined once, which is not streamlined enough.
+>>
+>> So let "Compat" value supports matching multiple identifiers. For example,
+>> the Compat value {abcde;123*} can match the PMU identifier "abcde" and the
+>> the PMU identifier with the prefix "123", where "*" is a wildcard.
+>> Tokens in Unit field are delimited by ';' with no spaces.
+>>
+>> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+>> ---
+>>   tools/perf/util/metricgroup.c | 27 ++++++++++++++++++++++++++-
 > 
-> This is caused by em dash in the context line:
-> The following manuals are written for *users* of the kernel — those who are
+> Why only support for metrics? Why not support for regular events aliases? I would have expected pmu_add_sys_aliases_iter_fn() to have been updated for this.
 > 
-> I haven't found how to fix it. Are there any tips?
 
-Fix the email header or fix the em dash?
+Oh, you are right. I forgot to modify pmu_add_sys_aliases_iter_fn().
 
-Did you use 'git send-email' for the patch? It seems to handle
-UTF/UCS charsets AFAIK.
+> On the basis that we will support regular events aliases, we need perf tool self-test cases for this in tools/perf/test/pmu-events.c (I think that pmu-events.c would be the most appropriate file)
+> 
 
-OTOH, any decent text editor can change the em dash to one or
-two hyphens. (which I prefer)
+Ok, I will support it for regular events aliases and add self-test cases in the next version.
 
-cheers.
--- 
-~Randy
+Thanks,
+Jing
