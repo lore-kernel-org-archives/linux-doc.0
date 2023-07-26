@@ -2,108 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 058CAC001DC
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 983EAC001DC
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:57:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232347AbjGZTze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 15:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44498 "EHLO
+        id S229509AbjGZT53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 15:57:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232421AbjGZTzX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:55:23 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F502691;
-        Wed, 26 Jul 2023 12:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=XyTW0Ej/ctvX5mhAYSsUtLai+EJ8srqN7zialJMkLmE=; b=hM1wJiCXTM2z10qaH70Y3td19Q
-        RcNkzv2osxtg8g5vj9sDJvWhn20I2tyHdnfNRVCieOfO++Y9Q3cl6+xO7wjUeov18fOZuZlG+hbPi
-        HUDwSYX/Nlfs1QoXzUQehGHWijgiU7cp3U79zFxvgoVlpDsyGPAVt9iOYENQ8E8R5m7zRPHoMFiF4
-        2ZCQVJm86wwBgM+/ZGkpklArFaA1/clBOci/PfKeaZ+ldYZjK2AbJ+Nk0Xdxb+TDkrL1/+XoWsVXa
-        ujTRXxt/hpfEFtfai3OXujo2NVSNvmdOm/34N4u2U50WMJAYFE8mlQjPbUeqxEX36eEWrTdxEevL9
-        xAj7AhOg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOkan-005ynS-0H;
-        Wed, 26 Jul 2023 19:54:41 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 465A730056F;
-        Wed, 26 Jul 2023 21:54:39 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0952E201BD673; Wed, 26 Jul 2023 12:25:12 +0200 (CEST)
-Date:   Wed, 26 Jul 2023 12:25:12 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v5 4/4] intel_idle: Add ibrs_off module parameter to
- force disable IBRS
-Message-ID: <20230726102512.GD3802077@hirez.programming.kicks-ass.net>
-References: <20230710194857.2898284-1-longman@redhat.com>
- <20230710194857.2898284-5-longman@redhat.com>
- <f5f25279-bbb5-e040-aeaa-dd3d8686c670@redhat.com>
+        with ESMTP id S229483AbjGZT53 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:57:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EDD71BFF
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jul 2023 12:56:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1690401406;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mEpXvvU90l0RthnJ6+S/VSU0zkOQwcnlRrI1p7pRhb8=;
+        b=PoQZp3ubW9oebWcrellZyjQOx4+B1IeWse+5h6xObJuUWXxw8ztNPLZJ1K6Ic2jxGoycr+
+        qo5ydurgfoVGbErKKNvr9fube7Xt73MV9BtBUSzRW8+5GFbYweMEYUTiNx+kmA/Pc1YxYs
+        tlKbLBza12Gd7NL3gj3+gqPKtTr80A8=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-115-sAGTV80hP06kYxAGLDLjHg-1; Wed, 26 Jul 2023 15:56:42 -0400
+X-MC-Unique: sAGTV80hP06kYxAGLDLjHg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCA8D1C0904A;
+        Wed, 26 Jul 2023 19:56:41 +0000 (UTC)
+Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 26A082166B25;
+        Wed, 26 Jul 2023 19:56:40 +0000 (UTC)
+From:   Jeff Moyer <jmoyer@redhat.com>
+To:     Andres Freund <andres@anarazel.de>
+Cc:     Matteo Rizzo <matteorizzo@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+        axboe@kernel.dk, asml.silence@gmail.com, corbet@lwn.net,
+        akpm@linux-foundation.org, keescook@chromium.org,
+        ribalda@chromium.org, rostedt@goodmis.org, jannh@google.com,
+        chenhuacai@kernel.org, gpiccoli@igalia.com, ldufour@linux.ibm.com,
+        evn@google.com, poprdi@google.com, jordyzomer@google.com,
+        krisman@suse.de
+Subject: Re: [PATCH v3 1/1] io_uring: add a sysctl to disable io_uring system-wide
+References: <20230630151003.3622786-1-matteorizzo@google.com>
+        <20230630151003.3622786-2-matteorizzo@google.com>
+        <20230726174549.cg4jgx2d33fom4rb@awork3.anarazel.de>
+X-PGP-KeyID: 1F78E1B4
+X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
+Date:   Wed, 26 Jul 2023 16:02:26 -0400
+In-Reply-To: <20230726174549.cg4jgx2d33fom4rb@awork3.anarazel.de> (Andres
+        Freund's message of "Wed, 26 Jul 2023 10:45:49 -0700")
+Message-ID: <x49fs5awiel.fsf@segfault.boston.devel.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5f25279-bbb5-e040-aeaa-dd3d8686c670@redhat.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 04:45:49PM -0400, Waiman Long wrote:
-> On 7/10/23 15:48, Waiman Long wrote:
-> > Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
-> > disables IBRS when the cstate is 6 or lower. However, there are
-> > some use cases where a customer may want to use max_cstate=1 to
-> > lower latency. Such use cases will suffer from the performance
-> > degradation caused by the enabling of IBRS in the sibling idle thread.
-> > Add a "ibrs_off" module parameter to force disable IBRS and the
-> > CPUIDLE_FLAG_IRQ_ENABLE flag if set.
-> > 
-> > In the case of a Skylake server with max_cstate=1, this new ibrs_off
-> > option will likely increase the IRQ response latency as IRQ will now
-> > be disabled.
-> > 
-> > When running SPECjbb2015 with cstates set to C1 on a Skylake system.
-> > 
-> > First test when the kernel is booted with: "intel_idle.ibrs_off"
-> >    max-jOPS = 117828, critical-jOPS = 66047
-> > 
-> > Then retest when the kernel is booted without the "intel_idle.ibrs_off"
-> > added.
-> >    max-jOPS = 116408, critical-jOPS = 58958
-> > 
-> > That means booting with "intel_idle.ibrs_off" improves performance by:
-> >    max-jOPS:   1.2%, which could be considered noise range.
-> >    critical-jOPS: 12%, which is definitely a solid improvement.
-> > 
-> > The admin-guide/pm/intel_idle.rst file is updated to add a description
-> > about the new "ibrs_off" module parameter.
-> > 
-> > Signed-off-by: Waiman Long <longman@redhat.com>
-> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > ---
-> >   Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++++++-
-> >   drivers/idle/intel_idle.c                   | 11 ++++++++++-
-> >   2 files changed, 26 insertions(+), 2 deletions(-)
-> 
-> Ping! Is there further suggested changes for this patch series or is it good
-> enough to be merged?
+Hi, Andres,
 
-I suppose I'll go stick it in x86/core unless someone objects.
+Andres Freund <andres@anarazel.de> writes:
+
+> Hi,
+>
+> On 2023-06-30 15:10:03 +0000, Matteo Rizzo wrote:
+>> Introduce a new sysctl (io_uring_disabled) which can be either 0, 1,
+>> or 2. When 0 (the default), all processes are allowed to create io_uring
+>> instances, which is the current behavior. When 1, all calls to
+>> io_uring_setup fail with -EPERM unless the calling process has
+>> CAP_SYS_ADMIN. When 2, calls to io_uring_setup fail with -EPERM
+>> regardless of privilege.
+>
+> Hm, is there a chance that instead of requiring CAP_SYS_ADMIN, a certain group
+> could be required (similar to hugetlb_shm_group)? Requiring CAP_SYS_ADMIN
+> could have the unintended consequence of io_uring requiring tasks being run
+> with more privileges than needed... Or some other more granular way of
+> granting the right to use io_uring?
+
+That's fine with me, so long as there is still an option to completely
+disable io_uring.
+
+> ISTM that it'd be nice if e.g. a systemd service specification could allow
+> some services to use io_uring, without allowing it for everyone, or requiring
+> to run services effectively as root.
+
+Do you have a proposal for how that would work?  Why is this preferable
+to using a group?
+
+Cheers,
+Jeff
+
