@@ -2,29 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 784D0C001DC
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 06:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FC3C00528
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 06:40:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232046AbjGZGQd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 02:16:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46576 "EHLO
+        id S231741AbjGZGkT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 02:40:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231946AbjGZGQK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 02:16:10 -0400
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8861719BD;
-        Tue, 25 Jul 2023 23:15:46 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R941e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0VoFhAhR_1690352140;
-Received: from 30.221.150.4(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VoFhAhR_1690352140)
+        with ESMTP id S231299AbjGZGkS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 02:40:18 -0400
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9657119A1;
+        Tue, 25 Jul 2023 23:40:16 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0VoFo2qO_1690353609;
+Received: from 30.221.150.4(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VoFo2qO_1690353609)
           by smtp.aliyun-inc.com;
-          Wed, 26 Jul 2023 14:15:41 +0800
-Message-ID: <a16f4eb7-24c2-fc42-964d-0b84effae9a5@linux.alibaba.com>
-Date:   Wed, 26 Jul 2023 14:15:37 +0800
+          Wed, 26 Jul 2023 14:40:11 +0800
+Message-ID: <4bb466a6-f64f-954c-0d4b-a140a555bffe@linux.alibaba.com>
+Date:   Wed, 26 Jul 2023 14:40:07 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.11.2
-Subject: Re: [PATCH v4 1/4] perf metric: Event "Compat" value supports
- matching multiple identifiers
+Subject: Re: [PATCH v4 2/4] perf jevents: Support more event fields
 To:     John Garry <john.g.garry@oracle.com>,
         Ian Rogers <irogers@google.com>
 Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
@@ -42,10 +41,10 @@ Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
         Zhuo Song <zhuo.song@linux.alibaba.com>,
         Shuai Xue <xueshuai@linux.alibaba.com>
 References: <1690100513-61165-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1690100513-61165-2-git-send-email-renyu.zj@linux.alibaba.com>
- <4c20d8fd-b478-5b0a-0558-3b59dead0751@oracle.com>
+ <1690100513-61165-3-git-send-email-renyu.zj@linux.alibaba.com>
+ <13cdb7cb-e6c0-5b85-3ccf-adb3b0ed36e0@oracle.com>
 From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <4c20d8fd-b478-5b0a-0558-3b59dead0751@oracle.com>
+In-Reply-To: <13cdb7cb-e6c0-5b85-3ccf-adb3b0ed36e0@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -54,34 +53,48 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-在 2023/7/25 下午4:20, John Garry 写道:
+在 2023/7/25 下午5:41, John Garry 写道:
 > On 23/07/2023 09:21, Jing Zhang wrote:
->> The jevent "Compat" is used for uncore PMU alias or metric definitions.
+>> The usual event descriptions are "event=xxx" or "config=xxx", while the
+>> event descriptions of CMN are "type=xxx, eventid=xxx" or more complex.
 >>
->> The same PMU driver has different PMU identifiers due to different hardware
->> versions and types, but they may have some common PMU event/metric. Since a
->> Compat value can only match one identifier, when adding the same event
->> alias and metric to PMUs with different identifiers, each identifier needs
->> to be defined once, which is not streamlined enough.
+>> $cat /sys/bus/event_source/devices/arm_cmn_0/events/hnf_cache_fill
+>> type=0x5,eventid=0x3
 >>
->> So let "Compat" value supports matching multiple identifiers. For example,
->> the Compat value {abcde;123*} can match the PMU identifier "abcde" and the
->> the PMU identifier with the prefix "123", where "*" is a wildcard.
->> Tokens in Unit field are delimited by ';' with no spaces.
+>> When adding aliases for events described as "event=xxx" or "config=xxx",
+>> EventCode or ConfigCode can be used in the JSON files to describe the
+>> events. But "eventid=xxx, type=xxx" cannot be supported at present.
 >>
->> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
->> ---
->>   tools/perf/util/metricgroup.c | 27 ++++++++++++++++++++++++++-
+>> If EventCode and ConfigCode is not added in the alias JSON file, the
+>> event description will add "event=0" by default. So, even if the event
+>> field is added to supplement "eventid=xxx" and "type=xxx", the final
+>> parsing result will be "event=0, eventid=xxx, type=xxx".
+>>
+>> Therefore, when EventCode and ConfigCode are missing in JSON, "event=0" is
+>> no longer added by default. EventidCode and Type are added to the event
+>> field, and ConfigCode is moved into the event field.
 > 
-> Why only support for metrics? Why not support for regular events aliases? I would have expected pmu_add_sys_aliases_iter_fn() to have been updated for this.
-> 
-
-Oh, you are right. I forgot to modify pmu_add_sys_aliases_iter_fn().
-
-> On the basis that we will support regular events aliases, we need perf tool self-test cases for this in tools/perf/test/pmu-events.c (I think that pmu-events.c would be the most appropriate file)
+> What does "ConfigCode is moved into the event field" mean?
 > 
 
-Ok, I will support it for regular events aliases and add self-test cases in the next version.
+What I want to express is to move "ConfigCode" into the event_filed array which can also guarantee its original function. like this:
+event_fields = [
+	  ...
+          ('AnyThread', 'any='),
+          ('PortMask', 'ch_mask='),
+          ('ConfigCode', 'config='),
+	  ...
+]
+
+Haha, my English language proficiency still needs improvement, please forgive me.
+
+>>
+> 
+> There should be perf tool self-tests cases for this, see tests/pmu-events.c and tests/parse-events.c, like "umask" is tested
+> 
+
+Ok, will do.
+
 
 Thanks,
 Jing
