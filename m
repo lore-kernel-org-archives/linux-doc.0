@@ -2,86 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E62C001DE
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 09:32:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE52C001DE
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 09:51:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbjGZJcZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 05:32:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50808 "EHLO
+        id S233767AbjGZJvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 05:51:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232913AbjGZJcF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 05:32:05 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5715A1BE8;
-        Wed, 26 Jul 2023 02:31:02 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4R9pXH4mt8z1GDFR;
-        Wed, 26 Jul 2023 17:30:07 +0800 (CST)
-Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+        with ESMTP id S232910AbjGZJvU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 05:51:20 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55AFC2D59;
+        Wed, 26 Jul 2023 02:51:00 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4R9pxM1prFzLntX;
+        Wed, 26 Jul 2023 17:48:23 +0800 (CST)
+Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
  (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 26 Jul
- 2023 17:31:00 +0800
-Message-ID: <43731b35-c076-6d01-ad83-764fb2e9a8f0@huawei.com>
-Date:   Wed, 26 Jul 2023 17:30:49 +0800
+ 2023 17:50:58 +0800
+From:   Chen Jiahao <chenjiahao16@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
+CC:     <chenjiahao16@huawei.com>
+Subject: [PATCH -next v9 0/2] support allocating crashkernel above 4G explicitly on riscv
+Date:   Wed, 26 Jul 2023 17:49:58 +0000
+Message-ID: <20230726175000.2536220-1-chenjiahao16@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH -next v8 0/2] support allocating crashkernel above 4G
- explicitly on riscv
-Content-Language: en-US
-To:     Conor Dooley <conor.dooley@microchip.com>
-CC:     Conor Dooley <conor@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <paul.walmsley@sifive.com>,
-        <palmer@dabbelt.com>, <guoren@kernel.org>, <heiko@sntech.de>,
-        <bjorn@rivosinc.com>, <alex@ghiti.fr>, <akpm@linux-foundation.org>,
-        <atishp@rivosinc.com>, <bhe@redhat.com>,
-        <thunder.leizhen@huawei.com>, <horms@kernel.org>
-References: <20230725214413.2488159-1-chenjiahao16@huawei.com>
- <20230725-judiciary-auction-ef50be622175@spud>
- <96245a6f-cff1-9f2a-1217-4109d9a19291@huawei.com>
- <20230726-affix-employed-319aada685e7@wendy>
-From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
-In-Reply-To: <20230726-affix-employed-319aada685e7@wendy>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.108.26]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.67.174.205]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500016.china.huawei.com (7.185.36.25)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On riscv, the current crash kernel allocation logic is trying to
+allocate within 32bit addressible memory region by default, if
+failed, try to allocate without 4G restriction.
 
-On 2023/7/26 14:45, Conor Dooley wrote:
-> On Wed, Jul 26, 2023 at 10:20:00AM +0800, chenjiahao (C) wrote:
->> On 2023/7/26 5:48, Conor Dooley wrote:
->>> Hey,
->>>
->>> Your $subject says -next, but the patch failed to apply to
->>> riscv/for-next. What was the base for this patchset?
->>>
->>> Thanks,
->>> Conor.
->> Hi,
->>
->> My patchset was tested on current linux-next HEAD
->> (commit ID: 1e25dd777248, tag: next-20230725) and
->> it seems all ok.
->> Could you try applying with the base above, or
->> is there any problem with that base?
-> There's some difference between linux-next and riscv/for-next that
-> prevents the patchwork automation from applying the patches.
+In need of saving DMA zone memory while allocating a relatively large
+crash kernel region, allocating the reserved memory top down in
+high memory, without overlapping the DMA zone, is a mature solution.
+Hence this patchset introduces the parameter option crashkernel=X,[high,low].
 
-Oh, I see. There is definitely a difference, since linux-next applied
-a bugfix patch b690e266dae2 ("riscv: mm: fix truncation warning on RV32")
-recently, whereas riscv/for-next didn't. I have worked on a wrong base
-and thanks for reminding :)
+One can reserve the crash kernel from high memory above DMA zone range
+by explicitly passing "crashkernel=X,high"; or reserve a memory range
+below 4G with "crashkernel=X,low". Besides, there are few rules need
+to take notice:
+1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
+   is specified.
+2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
+   and there is enough memory to be allocated under 4G.
+3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
+   specified, a 128M low memory will be allocated automatically for
+   swiotlb bounce buffer.
+See Documentation/admin-guide/kernel-parameters.txt for more information.
 
-I will rebase onto riscv/for-next and post my v9 pathset soon, please
-check over there.
+To verify loading the crashkernel, adapted kexec-tools is attached below:
+https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
 
-Thanks,
-Jiahao
+Following test cases have been performed as expected:
+1) crashkernel=256M                          //low=256M
+2) crashkernel=1G                            //low=1G
+3) crashkernel=4G                            //high=4G, low=128M(default)
+4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
+5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
+6) crashkernel=4G,high                       //high=4G, low=128M(default)
+7) crashkernel=256M,low                      //low=0M, invalid
+8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
+9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
+10) crashkernel=512M@0xd0000000              //low=512M
+11) crashkernel=1G,high crashkernel=0M,low   //high=1G, low=0M
+
+Changes since [v9]:
+1. As per Conor's comment, rebase to correct base on riscv/for-next
+   branch. No code logic changed.
+
+Changes since [v8]:
+1. Rebase to newest mainline head, not modifying any code logic.
+
+Changes since [v7]:
+1. Minor refactor: move crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE
+   into the !high branch when the first allocation fails. Not changing
+   the result but further align with Arm64 logic, refer to Baoquan's
+   comment.
+2. Add test case "crashkernel=1G,high crashkernel=0M,low", the result
+   also matches our expectation.
+
+Changes since [v6]:
+1. Introduce the "high" flag to mark whether "crashkernel=X,high"
+   is passed. Fix the retrying logic between "crashkernel=X,high"
+   case and others when the first allocation attempt fails.
+
+Changes since [v5]:
+1. Update the crashkernel allocation logic when crashkernel=X,high
+   is specified. In this case, region above 4G will directly get
+   reserved as crashkernel, rather than trying lower 32bit allocation
+   first.
+
+Changes since [v4]:
+1. Update some imprecise code comments for cmdline parsing.
+
+Changes since [v3]:
+1. Update to print warning and return explicitly on failure when
+   crashkernel=size@offset is specified. Not changing the result
+   in this case but making the logic more straightforward.
+2. Some minor cleanup.
+
+Changes since [v2]:
+1. Update the allocation logic to ensure the high crashkernel
+   region is reserved strictly above dma32_phys_limit.
+2. Clean up some minor format problems.
+
+Chen Jiahao (2):
+  riscv: kdump: Implement crashkernel=X,[high,low]
+  docs: kdump: Update the crashkernel description for riscv
+
+ .../admin-guide/kernel-parameters.txt         | 15 +--
+ arch/riscv/kernel/setup.c                     |  5 +
+ arch/riscv/mm/init.c                          | 93 +++++++++++++++++--
+ 3 files changed, 99 insertions(+), 14 deletions(-)
+
+-- 
+2.34.1
 
