@@ -2,111 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C6CC001E0
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 20:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A667C00528
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 23:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231434AbjGZUjq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 16:39:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60384 "EHLO
+        id S229824AbjGZXxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 19:53:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbjGZUjm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 16:39:42 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 790BA2738;
-        Wed, 26 Jul 2023 13:39:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690403975; x=1721939975;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+cKLNA4uUiuEQu3I0iTXUMTurCFF5eAeJR+RIRkfok=;
-  b=jwyFvLXAZNtLcNR7RbHvep54Bk8JMdS8aMYBVpiOTeA+RnIHBDILMONO
-   Ytfd9yAFJbkJBiW2X579hMcct8YmeBhQl+qI7YgGNUtdy/nsvLS3I7A1X
-   1WC5PS4UjzUVfdwM5qXXncYbO6oJjnfCx0/WhnOzX4oZKfk12pu/5xlFa
-   Zx6rEq9R2HarcXPe2OaqrCGmnhEIonTZE55Ol86gPzAxl1aIhR7qgu4Km
-   zTkYpreFhh7uMBvm7jmV5EA6NxtN5NEgrhhfW5833e0nkRhQRQAAIIEL+
-   lCH5ShY4rFu/WnphKu5a3nlW6JXJ4DACJPoEXonr2k5VioM1eS6ykLKrr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="431925461"
-X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="431925461"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 13:39:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="796710805"
-X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="796710805"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 26 Jul 2023 13:39:33 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qOlIC-0001Jx-1s;
-        Wed, 26 Jul 2023 20:39:32 +0000
-Date:   Thu, 27 Jul 2023 04:39:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andre Werner <andre.werner@systec-electronic.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org
-Subject: [groeck-staging:hwmon-next 35/36] htmldocs:
- Documentation/hwmon/hs3001.rst:4: WARNING: Title underline too short.
-Message-ID: <202307270449.YQ4vCUwO-lkp@intel.com>
+        with ESMTP id S229622AbjGZXxi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 19:53:38 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8EF8AA;
+        Wed, 26 Jul 2023 16:53:37 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-2683add3662so281893a91.1;
+        Wed, 26 Jul 2023 16:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690415617; x=1691020417;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=NRyGMlHg9fFAepKXgOzg271kQtVxYUgZIbTQ9lTP6NY=;
+        b=kcU/e5pFPS9y31sgQTgN08WUZfesShj2GqSEle0SCoWqdkhc7YUOJtOKdLhRlJdguK
+         Kg51Q1W0ynLcNxX8sjoXQwEq09CgOYc3roQbSzDEJDOD87TLyDaS7dmarlV3JnRtaSnc
+         iqJEvUHvgyYq9mQd0L/m62HTZkFmtby/dPmuYX2i1BVjZyZxrPBV/8EzKdyYscLJ/ehW
+         clrlrF41NDR11L30O8IJomqwl068TuGk32n21SLibFj3JN/Dmz8j12H71ZScudMmPbnf
+         rQDgdwZ6BWppAGA49tUceBhP84L2RcQqMBpR5Uzr7sZHQyahKcYiNx286ylU/lxMZko7
+         2uxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690415617; x=1691020417;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NRyGMlHg9fFAepKXgOzg271kQtVxYUgZIbTQ9lTP6NY=;
+        b=j+aL6minmB4LAzWe/LT6eq1kpcQes3vBdpZ+/Qk1O/GmI78WaWzbuozpDea7XdVrWZ
+         TC5KOSheGPW/2Q4uCuVgt5RlP4xPWfaLTcmCphwbTMmtgd3d5X/y2aCl/vlSrxpcYYUi
+         OwAQDbDVNfxZgJJ5EkRS7/zeAEI14G+DLcAN+/xKfyGBXvzkcX26rqWhLLrG+alFMpOa
+         ti2Qoucvop3/F4gPVaOuMoOluodfDZNtpjsGpCUP3lVKs1xVjknB0y7uVMwqC6qbrltH
+         Wn+tgme7sTKFph0qNL9PfbygaFZm5eMNlkB1qwVFaGzkxXu5FhMQeLFzNWY0hDT1lRAr
+         Q1Ig==
+X-Gm-Message-State: ABy/qLYu2dAFlIySqFHGLbxfzMZQAaVuKXQtVYZu4uodSKKiQNrjHHMy
+        GKELM2OXdqZi4M/dnlSJg8cbKv+K0hk=
+X-Google-Smtp-Source: APBJJlGO7XI1TFSDP3DUo347+WApNWEmMsvb6JH5QETEM2KOi/mude959dCNNT9+edQ0H6fNew6wBw==
+X-Received: by 2002:a17:90b:4b8f:b0:261:2a59:dc38 with SMTP id lr15-20020a17090b4b8f00b002612a59dc38mr3614225pjb.25.1690415617026;
+        Wed, 26 Jul 2023 16:53:37 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id ep11-20020a17090ae64b00b00262eccfa29fsm1711028pjb.33.2023.07.26.16.53.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jul 2023 16:53:36 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f67f7165-bad6-3e77-2ec1-f9c37eb3ac0d@roeck-us.net>
+Date:   Wed, 26 Jul 2023 16:53:35 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [groeck-staging:hwmon-next 35/36] htmldocs:
+ Documentation/hwmon/hs3001.rst:4: WARNING: Title underline too short.
+Content-Language: en-US
+To:     kernel test robot <lkp@intel.com>,
+        Andre Werner <andre.werner@systec-electronic.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <202307270449.YQ4vCUwO-lkp@intel.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <202307270449.YQ4vCUwO-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   c944c8c532f7bd6d9e52ee3e2e97dcdd9c6014c0
-commit: 33faa6fcc93f78e6b0e9b5aaf986446ac3c34047 [35/36] hwmon: Add driver for Renesas HS3001
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270449.YQ4vCUwO-lkp@intel.com/reproduce)
+On 7/26/23 13:39, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+> head:   c944c8c532f7bd6d9e52ee3e2e97dcdd9c6014c0
+> commit: 33faa6fcc93f78e6b0e9b5aaf986446ac3c34047 [35/36] hwmon: Add driver for Renesas HS3001
+> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270449.YQ4vCUwO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307270449.YQ4vCUwO-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> Documentation/hwmon/hs3001.rst:4: WARNING: Title underline too short.
+>>> Documentation/hwmon/hs3001.rst:34: WARNING: Missing matching underline for section title overline.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307270449.YQ4vCUwO-lkp@intel.com/
+Andre - no need to send a fix. I fixed it up.
 
-All warnings (new ones prefixed by >>):
+Guenter
 
->> Documentation/hwmon/hs3001.rst:4: WARNING: Title underline too short.
->> Documentation/hwmon/hs3001.rst:34: WARNING: Missing matching underline for section title overline.
+> vim +4 Documentation/hwmon/hs3001.rst
+> 
+>       2	
+>       3	Kernel driver HS3001
+>     > 4	===================
+>       5	
+>       6	Supported chips:
+>       7	
+>       8	  * Renesas HS3001, HS3002, HS3003, HS3004
+>       9	
+>      10	    Prefix: 'hs3001'
+>      11	
+>      12	    Addresses scanned: -
+>      13	
+>      14	    Datasheet: https://www.renesas.com/us/en/document/dst/hs300x-datasheet?r=417401
+>      15	
+>      16	Author:
+>      17	
+>      18	  - Andre Werner <andre.werner@systec-electronic.com>
+>      19	
+>      20	Description
+>      21	-----------
+>      22	
+>      23	This driver implements support for the Renesas HS3001 chips, a humidity
+>      24	and temperature family. Temperature is measured in degrees celsius, relative
+>      25	humidity is expressed as a percentage. In the sysfs interface, all values are
+>      26	scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
+>      27	
+>      28	The device communicates with the I2C protocol. Sensors have the I2C
+>      29	address 0x44 by default.
+>      30	
+>      31	sysfs-Interface
+>      32	---------------
+>      33	
+>    > 34	===============================================================================
+> 
 
-vim +4 Documentation/hwmon/hs3001.rst
-
-     2	
-     3	Kernel driver HS3001
-   > 4	===================
-     5	
-     6	Supported chips:
-     7	
-     8	  * Renesas HS3001, HS3002, HS3003, HS3004
-     9	
-    10	    Prefix: 'hs3001'
-    11	
-    12	    Addresses scanned: -
-    13	
-    14	    Datasheet: https://www.renesas.com/us/en/document/dst/hs300x-datasheet?r=417401
-    15	
-    16	Author:
-    17	
-    18	  - Andre Werner <andre.werner@systec-electronic.com>
-    19	
-    20	Description
-    21	-----------
-    22	
-    23	This driver implements support for the Renesas HS3001 chips, a humidity
-    24	and temperature family. Temperature is measured in degrees celsius, relative
-    25	humidity is expressed as a percentage. In the sysfs interface, all values are
-    26	scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
-    27	
-    28	The device communicates with the I2C protocol. Sensors have the I2C
-    29	address 0x44 by default.
-    30	
-    31	sysfs-Interface
-    32	---------------
-    33	
-  > 34	===============================================================================
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
