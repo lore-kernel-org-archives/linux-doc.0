@@ -2,150 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE70C41513
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 18:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F4EC0015E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbjGZSv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 14:51:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
+        id S231785AbjGZT3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 15:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjGZSv0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 14:51:26 -0400
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BBC1FEC;
-        Wed, 26 Jul 2023 11:51:25 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7672073e7b9so11358485a.0;
-        Wed, 26 Jul 2023 11:51:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690397484; x=1691002284;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZHyX3wq0ojFXPUI8SahCi1FQW7IJesz87c8DpSzeOCw=;
-        b=kkUQgqr8T6q3+LtXE/B8F6jrpfBEFq856rQ0WmbhThXP00OupGuaodeYaegjscoJap
-         whz2SE9rnmKYuX7eq/ABaH+Fl3XQZX29+4RjCKmFygh/dWXbeyrn8THH1hZn8d4OMpsa
-         S6xPdiDP/j7DVZ6VbvLq+u0l245iOkEN3mmtf9nuINfdA/S51QzQe6H/qkmgU9bZD5fc
-         PM25HJnBOaqhV5gd9+KuAW+fKLtkz1FwSyLeq2v1XCdaq1afihmcsyHNGItpeW5zyMyR
-         lIuEhPaX3B9k8Ra+L+OkfEM5PeWXAZ99kG/5ehj/zOtrjvLpSTSOsr7498QJFr9Zt8Kb
-         5byA==
-X-Gm-Message-State: ABy/qLaKfRxj8QuO4kCCx5fmWcf+n9iHB5TL4AzREuDPPIqX1LpRTb3v
-        F8rUQUqEbbsiaDdReabo2T4blv02G+iBTg==
-X-Google-Smtp-Source: APBJJlEiIiMrCuHBh5EMrE6WULrKvE/VQouJQAx/LwvKSQ27NngFdA8c3ZBXCKmZCev8BLTyEDFsfg==
-X-Received: by 2002:ac8:5bd5:0:b0:403:a4d3:a633 with SMTP id b21-20020ac85bd5000000b00403a4d3a633mr3560424qtb.66.1690397484502;
-        Wed, 26 Jul 2023 11:51:24 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a040:199:8930:2c90:cb9e:b154:73dc])
-        by smtp.gmail.com with ESMTPSA id b3-20020ac86783000000b0040324785e4csm4939197qtp.13.2023.07.26.11.51.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 11:51:24 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Cc:     Costa Shulyupin <costa.shul@redhat.com>
-Subject: [RFC PATCH v2] docs: rework "Working with the development community"
-Date:   Wed, 26 Jul 2023 21:49:37 +0300
-Message-ID: <20230726184939.3118350-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <87ila9atuk.fsf@meer.lwn.net>
-References: <87ila9atuk.fsf@meer.lwn.net>
+        with ESMTP id S229907AbjGZT3w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:29:52 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC6630F4;
+        Wed, 26 Jul 2023 12:29:34 -0700 (PDT)
+Received: from [192.168.1.103] (178.176.74.8) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 26 Jul
+ 2023 22:29:30 +0300
+Subject: Re: [PATCH v3 9/9] ata: remove deprecated EH callbacks
+To:     Niklas Cassel <nks@flawful.org>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Hannes Reinecke <hare@suse.com>,
+        John Garry <john.g.garry@oracle.com>,
+        <linux-ide@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        Niklas Cassel <niklas.cassel@wdc.com>,
+        <linux-doc@vger.kernel.org>
+References: <20230721163229.399676-1-nks@flawful.org>
+ <20230721163229.399676-10-nks@flawful.org>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <05906461-0805-54dd-bb60-722616eb8848@omp.ru>
+Date:   Wed, 26 Jul 2023 22:29:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230721163229.399676-10-nks@flawful.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.74.8]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 07/26/2023 19:13:04
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 178891 [Jul 26 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 526 526 7a6a9b19f6b9b3921b5701490f189af0e0cd5310
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.8 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.74.8:7.7.3,7.1.2;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: {rdns complete}
+X-KSE-AntiSpam-Info: {fromrtbl complete}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.8
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 07/26/2023 19:16:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 7/26/2023 5:23:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mission: Make the documentation more readable, organized and maintainable.
+On 7/21/23 7:32 PM, Niklas Cassel wrote:
 
-NB: no information content is lost of changed on the rendered top page.
+> From: Niklas Cassel <niklas.cassel@wdc.com>
+> 
+> Now when all libata drivers have migrated to use the error_handler
+> callback, remove the deprecated phy_reset and eng_timeout callbacks.
+> 
+> Also remove references to non-existent functions sata_phy_reset and
+> ata_qc_timeout from Documentation/driver-api/libata.rst.
+> 
+> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+[...]
+> diff --git a/drivers/ata/pata_sl82c105.c b/drivers/ata/pata_sl82c105.c
+> index 3b62ea482f1a..93882e976ede 100644
+> --- a/drivers/ata/pata_sl82c105.c
+> +++ b/drivers/ata/pata_sl82c105.c
+> @@ -180,8 +180,7 @@ static void sl82c105_bmdma_start(struct ata_queued_cmd *qc)
+>   *	document.
+>   *
+>   *	This function is also called to turn off DMA when a timeout occurs
+> - *	during DMA operation. In both cases we need to reset the engine,
+> - *	so no actual eng_timeout handler is required.
+> + *	during DMA operation. In both cases we need to reset the engine.
+>   *
+>   *	We assume bmdma_stop is always called if bmdma_start as called. If
+>   *	not then we may need to wrap qc_issue.
 
-This patch demonstrates rework of the only the first section
-of the top page for review. The proposal is to rework all sections.
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-Summary of changes:
-- Heading "Working with the development community" is converted into
-  branch of toctree and visually moved after the text
-  "The essential guides for interacting ..."
-- toctree list is split into separated file. Please don't worry, the
-  content of the list is incorporated to the top page because of
-  `:maxdepth: 2`
-- vertical bar '|' add empty line for better visual distribution
+[...]
 
-Technical explanations:
-Template {{ toctree(maxdepth=3) }} in
-Documentation/sphinx/templates/kernel-toc.html
-uses directives toctree and doesn't use sections on the top page
-Documentation/index.rst
-to generate expandable toc on the sidebar.
-
-BTW, other template {{ toc }} uses only sections, and doesn't
-use directives toctree.
-
-Benefit:
-- toc on side bar is expandable and collapsible
-
----
-
-References:
-- https://www.sphinx-doc.org/en/master/development/templating.html#toctree
-- https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-toctree
-- https://www.sphinx-doc.org/en/master/development/templating.html#toc
-- https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
-- https://sphinx-rtd-theme.readthedocs.io/
-
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/index.rst        | 12 +++---------
- Documentation/process/main.rst | 13 +++++++++++++
- 2 files changed, 16 insertions(+), 9 deletions(-)
- create mode 100644 Documentation/process/main.rst
-
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 9dfdc826618c..560eb0bc78dd 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -13,21 +13,15 @@ documents into a coherent whole.  Please note that improvements to the
- documentation are welcome; join the linux-doc list at vger.kernel.org if
- you want to help out.
- 
--Working with the development community
--======================================
-+|
- 
- The essential guides for interacting with the kernel's development
- community and getting your work upstream.
- 
- .. toctree::
--   :maxdepth: 1
--
--   process/development-process
--   process/submitting-patches
--   Code of conduct <process/code-of-conduct>
--   maintainer/index
--   All development-process docs <process/index>
-+   :maxdepth: 2
- 
-+   process/main
- 
- Internal API manuals
- ====================
-diff --git a/Documentation/process/main.rst b/Documentation/process/main.rst
-new file mode 100644
-index 000000000000..40bab4ff8198
---- /dev/null
-+++ b/Documentation/process/main.rst
-@@ -0,0 +1,13 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Working with the development community
-+======================================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   development-process
-+   submitting-patches
-+   Code of conduct <code-of-conduct>
-+   ../maintainer/index
-+   All development-process docs <../process/index>
--- 
-2.41.0
-
+MBR, Sergey
