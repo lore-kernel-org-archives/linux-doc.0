@@ -2,120 +2,280 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88822C001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 14:30:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77395C001DC
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 14:31:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231215AbjG0OaZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 10:30:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60384 "EHLO
+        id S232064AbjG0ObA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 10:31:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233025AbjG0OaY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 10:30:24 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF712D56
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 07:30:22 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fbab0d0b88so15684015e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 07:30:22 -0700 (PDT)
+        with ESMTP id S230289AbjG0Oa7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 10:30:59 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E34E2D42;
+        Thu, 27 Jul 2023 07:30:58 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1bbdc05a93bso5364435ad.0;
+        Thu, 27 Jul 2023 07:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690468221; x=1691073021;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tUMayOneQ9ikYzzZBl/jcEnYT2gsm9hVqQEHFi1LQzE=;
-        b=j2+29OnuTalZpnUEEI7QghInin+VyTSgd3U/3esMN0czsLEJt+ZuFpJ6Bib2ay3vAo
-         534lwlygEEh6CiPhlG5t57U9tfZcRtsdMErIcrzQbkcQNe9XfC/5Az3c7pEmwas+++Ay
-         Ayoo+z561d8R12szH3sy/0m935SuCVVAl+bvyiQO4sxYJnRHU2BXGlZ5UIoTF7Hu2N5z
-         xNsqBZn4ZvCRlUc6Q5mfe7LzXpr++aSf8VpcTNiLu641sXTu1vu3EaWXk2+i7KfSm8f+
-         uY4DXBO1KTcNDRfFNOUGEC4sFMo/U6p05YmISwy6Vk7IDK4aogg8I04Fbfi2dVFTm3Be
-         /tYA==
+        d=gmail.com; s=20221208; t=1690468258; x=1691073058;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Yjq9/74+fd3FNAG1SVAL1aAvZ3EGzRY6BxDlYY3Aykw=;
+        b=U615EZINP7qeK40Qv7KXvEypIC4lDuZ76QXYZDla/y3FXHB5ooFeJvKvPDLGhTyrpM
+         corOEA6p0wnbFxiRt6P8Z8vUoLimKpRVfM6+TO7KxjkqGZgnudFCUZf0ylR0XZLQNm0I
+         Ng3RepEI8VMNfzPElrEueTbcdBMZbCrM1QisLj8gX9qL32AQxgHOm1N7Fo4boUT4R0EK
+         EB1pea9bsy/2x0iXA+l5ntC9WOR/JazNfznbFJvKu4n14xaFbA45I6gja7cal7kaZvNP
+         ZJ8ZMomcW5mY02JoXtCDxSD9/uL+9FAEhgt8tDCBrvChh1Scns4g0EGVkwTNkFrnjBa5
+         Xrdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690468221; x=1691073021;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tUMayOneQ9ikYzzZBl/jcEnYT2gsm9hVqQEHFi1LQzE=;
-        b=Bi47Dx4qD3NU9fXjCzqGiIqrxnHjWHNmYCUoNhFtzy1oRDfzf3SyUR4fVtT5GMHAE+
-         sdFD5XaVHst6oDqZAbcFanyO05j1V3DrmzaodcoS3d6Gv5yEo90gHd5qOjT47aup0faX
-         UxSXJkbWyJJdI+/9b543+d5080qo88fBbXnc6EIonv5lWLtCaIAHAX9YsmbOyeBLuR8b
-         6Z0baYpT096Vk+GSaoVskhDLX2h/X5wAmlBRhXGOSXHWltNLpxUQSJs3wESbHWfLpJ1m
-         pJ3jfGM8XssMKtX9kL5jzGIvNvdrvqyuag61b07w3HjBXIQGiwIfWbltZwJsKJJ3XolS
-         jmnQ==
-X-Gm-Message-State: ABy/qLbfnhwDIKcAzq4ptRAtYzpLgWGwudoRfu1G3vIh9xsiXQNYrpFf
-        JWMomYx0p1zsyCvJd8hSlbV+dg==
-X-Google-Smtp-Source: APBJJlFlAaMbRzdmArSgZ+AV8w3c/5LHqShEcivfEyw65QdH0Aqu7aOQV+4CCgwg82+wdZ4YMYCOsA==
-X-Received: by 2002:a1c:790c:0:b0:3fc:180:6463 with SMTP id l12-20020a1c790c000000b003fc01806463mr1879971wme.7.1690468220870;
-        Thu, 27 Jul 2023 07:30:20 -0700 (PDT)
-Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id s23-20020a7bc397000000b003fba6a0c881sm4726178wmj.43.2023.07.27.07.29.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 07:30:20 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        =?UTF-8?q?R=C3=A9mi=20Denis-Courmont?= <remi@remlab.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: [PATCH v4 10/10] perf: tests: Adapt mmap-basic.c for riscv
-Date:   Thu, 27 Jul 2023 16:14:28 +0200
-Message-Id: <20230727141428.962286-11-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230727141428.962286-1-alexghiti@rivosinc.com>
-References: <20230727141428.962286-1-alexghiti@rivosinc.com>
+        d=1e100.net; s=20221208; t=1690468258; x=1691073058;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yjq9/74+fd3FNAG1SVAL1aAvZ3EGzRY6BxDlYY3Aykw=;
+        b=R9SCqBLR+pUA7lf2Qo2QyYoC4QcfsZ+N4IGXdCcww1E0uI418R2BtpmT6A/CMVvFSB
+         forHTlJTf6clQWlc6VWQ5Xfy5n+eMF6wYCt6yrmjUlShjVKuJ70/mpa/BOGDMR7pd1LL
+         tXsPmkBIjWyOtdypoKUMzu6KZX/HuvV+GwGHfUfptxmbUsh0RRrntXFJPn/gmK3XzMGP
+         yaRtyifvn8kFcXOHyCafaA/nQyBQYJFZHM+KUqWOgm0/kZTNQOcoAoOB1w7Tpw0erVHK
+         wcnuMB1qnDWy4As3X+x6lDMpTCH8O1+vZxIpIS+25NsWAbyf3HJTSD5X+rMspB9Q3LXq
+         NSSA==
+X-Gm-Message-State: ABy/qLb8lGdt6gFWkkeqHqSZEn11sFTdpso8GGhou1Xyu/7y78wrZCqA
+        DyILxeEQtv/vz8n12CWoJX9EUsydhQg=
+X-Google-Smtp-Source: APBJJlHWXbGSaSuQ6uzcnTrwIvVyWiNvuPXadSXul7PKZfnOeuOGcQF0MCWZY3MxfhZWvkvfRrcxeA==
+X-Received: by 2002:a17:902:da8a:b0:1b3:fb76:215b with SMTP id j10-20020a170902da8a00b001b3fb76215bmr5966191plx.48.1690468257821;
+        Thu, 27 Jul 2023 07:30:57 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id b21-20020a170902d31500b001bb9f104328sm1711209plc.146.2023.07.27.07.30.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 07:30:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <71c9d96f-d815-7cf4-927b-76af44fdd3e0@roeck-us.net>
+Date:   Thu, 27 Jul 2023 07:30:55 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
+To:     =?UTF-8?Q?Carsten_Spie=c3=9f?= <mail@carsten-spiess.de>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20230726152235.249569-1-mail@carsten-spiess.de>
+ <20230726152235.249569-2-mail@carsten-spiess.de>
+ <206ad774-bf6f-aed3-81a7-3d9c8f80a69e@roeck-us.net>
+ <20230727093536.4cd2f84f.mail@carsten-spiess.de>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+In-Reply-To: <20230727093536.4cd2f84f.mail@carsten-spiess.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-riscv now supports mmaping hardware counters to userspace so adapt the test
-to run on this architecture.
+On 7/27/23 00:35, Carsten Spieß wrote:
+> 
+> On 7/26/23 18:14, Gueter Roeck wrote:
+>> On 7/26/23 08:22, Carsten Spieß wrote:
+>>> +The shunt value in micro-ohms, shunt gain and averaging can be set
+>>> +via device tree at compile-time.
+>>
+>> At _compile-time_ ?
+> How to explain better that it isn't set at runtime?
+> Other drivers use the same term.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
----
- tools/perf/tests/mmap-basic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+You mean it is ok to exceed the speed limit because others do it
+as well ?
 
-diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
-index e68ca6229756..f5075ca774f8 100644
---- a/tools/perf/tests/mmap-basic.c
-+++ b/tools/perf/tests/mmap-basic.c
-@@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] = {
- 			 "permissions"),
- 	TEST_CASE_REASON("User space counter reading of instructions",
- 			 mmap_user_read_instr,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
-@@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] = {
- 		),
- 	TEST_CASE_REASON("User space counter reading of cycles",
- 			 mmap_user_read_cycles,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
--- 
-2.39.2
+[ Sorry, I have heard the "Other drivers do it" pseudo-argument too many times.
+   That doesn't mean it is the right thing to do. ]
+
+Why not just leave it off ? What value does it add ? Besides,
+even "via devicetree" isn't really correct because it can also
+be set via ACPI or by a platform driver when using device_ properties.
+I would suggest "can be set with device properties".
+
+> 
+>> I'd argue that shunt voltage is all but useless, but if you want to have it supported
+>> it _has_ to be in mV.
+> That's a problem.
+> 
+> In my case the ER-6P has a 8 milli Ohm (or 8000 micro Ohm) shunt and a powersupply with
+> max. 2.5 A. This gives a max shunt voltage of 20 mV at 2.5 A.
+> The device normaly consumes between 200 and 500 mA. (typ ~250 mA).
+> This results in shunt voltage of 1.6 to 4.0 mV (typ ~2mV).
+> Having no fractions will make it useless.
+> 
+> Unfortunately there is no possibility to give a scaling factor.
+> Or returning float values (i know, this can't and shouldn't be changed)
+> 
+
+Just like the ABI must not be changed. The sensors command would display your
+4mV shunt voltage as 4V, which is just as useless.
+
+In practice, the shunt voltage _is_ useless for hardware monitoring purpose
+because it can be calculated from current and shunt resistor value.
+I'd say if you really want it, provide it as debugfs attribute. As hwmon
+attribute it has to be in mV.
+
+>> Why not support limit attributes ?
+> Due to limited time, left for later enhancement.
+> 
+> 
+>>> +#define ISL28022_REG_SHUNT	0x01
+>>> +#define ISL28022_REG_BUS	0x02
+> 
+> 
+>>> +	switch (type) {
+>>> +	case hwmon_in:
+>>> +		switch (attr) {
+>>> +		case hwmon_in_input:
+>>> +			err = regmap_read(data->regmap,
+>>> +					  ISL28022_REG_SHUNT + channel, &regval);
+>>
+>> That never reads REG_BUS.
+> Hmm,
+> channel 0: ISL28022_REG_SHUNT + 0 == 0x01
+> channel 1: ISL28022_REG_SHUNT + 1 == 0x02 == ISL28022_REG_BUS
+> or do i miss something?
+> 
+
+No, I missed the "+ channel".
+
+>>> +			if (err < 0)
+>>> +				return err;
+>>> +			*val = (channel == 0) ?
+>>> +					(long)((s16)((u16)regval)) * 10 :
+>>> +					(long)(((u16)regval) & 0xFFFC);
+>>
+>> I don't think the sign extensions are correct based on the datasheet.
+>> This will have to use sign_extend.
+>  From my understading (see table 11 on page 16 of the ISL28022 datasheet)
+> shunt value is already sign extended, (D15-D12 is sign)
+> bus value (table 12 on page 16) is unsigned.
+> 
+
+Not really. For the shunt voltage, 0xf000 has different meanings depending on scale
+and range settings. LSB for bus voltage is 4 mV and starts at bit 2 or 3 depending
+on BRNG. The above just happens to be correct if BRNG = 10 OR 11 per datasheet.
+If that is intentional, it needs to get a comment.
+
+>>> +			err = regmap_read(data->regmap,
+>>> +					  ISL28022_REG_CURRENT, &regval);
+>>> +			if (err < 0)
+>>> +				return err;
+>>> +			if (!data->shunt)
+>>> +				return -EINVAL;
+>>
+>> Getting an error message each time the "sensors" command is executed ?
+>> Unacceptable.
+> o.k., will change to set *val = 0;
+> 
+Still unacceptable.
+
+>>> +			err = regmap_read(data->regmap,
+>>> +					  ISL28022_REG_POWER, &regval);
+>>> +			if (err < 0)
+>>> +				return err;
+>>> +			if (!data->shunt)
+>>> +				return -EINVAL;
+>>
+>> Unacceptable.
+> o.k., as above
+> 
+>>> +			*val = ((long)regval * 409600000L * (long)data->gain) /
+>>> +				(long)(8 * data->shunt);
+>>
+>> I don't think this was checked for overflows.
+> Yes, i must first divide then multiply.
+> I have to think about how to keep accuracy on high shunt resistor values.
+> 
+>>> +static int isl28022_config(struct device *dev)
+>>> +{
+>>> +	struct isl28022_data *data = dev_get_drvdata(dev);
+>>> +
+>>> +	if (!dev || !data)
+>>> +		return -EINVAL;
+>>
+>> How would this ever happen ?
+> Shouldn't, but i'm carefully (i had it once during development due to an error
+> (using dev instead of hwmon_dev) on calling this function
+>   
+
+Parameter checks are only acceptable on API functions. This is not an API function.
+Local functions are expected to be consistent. If this function is called with
+a bad argument, that needs to be fixed during development.
+
+>>> +	regmap_write(data->regmap, ISL28022_REG_CONFIG, data->config);
+>>> +	regmap_write(data->regmap, ISL28022_REG_CALIB, data->calib);
+>>
+>> Error checking needed.
+> o.k. will add.
+> 
+>>> +static int isl28022_probe(struct i2c_client *client)
+>>> +{
+> 
+>>> +	if (!i2c_check_functionality(client->adapter,
+>>> +				     I2C_FUNC_SMBUS_BYTE_DATA |
+>>> +				     I2C_FUNC_SMBUS_WORD_DATA))
+>>> +		return -EIO;
+>>
+>> This is not an IO error. Return -ENODEV as most other drivers do.
+> o.k.
+> 
+>>> +	of_property_read_u32(dev->of_node, "shunt-gain", &data->gain);
+>>> +	of_property_read_u32(dev->of_node, "average", &data->average);
+>>
+>> Check for errors and provide defaults if properties are not set.
+> o.k.
+> 
+>> Also please use device_property_read_u32() to enable use from non-devicetree
+>> systems.
+> o.k. Never used this, have to look for an example on using it.
+> Many (old) drivers are using the of_property_* functions, is it intended to replace it.
+
+This is not an old driver. It is more generic than of_ functions and
+should be used in new drivers.
+
+> What about backporting this driver to e.g. 5.15, will it affect it?
+> 
+
+Device property callback functions existed for a long time. The function
+exists in v4.14.y, which is the oldest supported kernel. Either case,
+lack of support in an older kernel version is not an argument for avoiding
+a new API. Anyone who backports a driver to an older kernel is responsible
+for handling the backport, which may include new API functions.
+
+Specific example: Your driver will have to use the .probe callback.
+That has one argument in the latest kernel. In v5.15.y, it has two arguments.
+You'll have to use the .probe_new callback there. Yes, technically you could
+try sneaking in the use of .probe_new in your driver, but that callback will
+be removed in v6.6. So you'll _have_ to do some backport, if you want it or not.
+
+>>> +	status = isl28022_config(hwmon_dev);
+>>> +	if (status)
+>>> +		return status;
+>>
+>> That has to happen before the call to devm_hwmon_device_register_with_info()
+>> to avoid race conditions.
+> o.k.
+> 
+>>> +static struct i2c_driver isl28022_driver = {
+>>> +	.class		= I2C_CLASS_HWMON,
+>>> +	.driver = {
+>>> +		.name	= "isl28022",
+>>> +		.of_match_table = of_match_ptr(isl28022_of_match),
+>>
+>> Drop of_match_ptr()
+> Most drivers have this, why drop?
+> 
+
+It is needed for device_property_read_u32() to work. And, again, "other drivers
+do it" is not a valid argument.
+
+Guenter
 
