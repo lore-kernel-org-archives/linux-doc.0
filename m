@@ -2,165 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2DDC0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:13:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28289C0015E
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:23:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234457AbjG0PNu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 11:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58482 "EHLO
+        id S230455AbjG0PXH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 11:23:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233398AbjG0PNu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:13:50 -0400
-Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 826D41BC1;
-        Thu, 27 Jul 2023 08:13:47 -0700 (PDT)
-Received: from [2001:a61:6209:7f40:c80a:ff:fe00:4098] (helo=cs-office3.lan.local); authenticated
-        by wp534.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1qP2gQ-0004bK-Mm; Thu, 27 Jul 2023 17:13:42 +0200
-Date:   Thu, 27 Jul 2023 17:13:35 +0200
-From:   Carsten =?UTF-8?B?U3BpZcOf?= <mail@carsten-spiess.de>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <20230727171142.1bc6d405.mail@carsten-spiess.de>
-In-Reply-To: <71c9d96f-d815-7cf4-927b-76af44fdd3e0@roeck-us.net>
-References: <20230726152235.249569-1-mail@carsten-spiess.de>
-        <20230726152235.249569-2-mail@carsten-spiess.de>
-        <206ad774-bf6f-aed3-81a7-3d9c8f80a69e@roeck-us.net>
-        <20230727093536.4cd2f84f.mail@carsten-spiess.de>
-        <71c9d96f-d815-7cf4-927b-76af44fdd3e0@roeck-us.net>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S234640AbjG0PXE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:23:04 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C101BC1;
+        Thu, 27 Jul 2023 08:23:03 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 9C3A55C020C;
+        Thu, 27 Jul 2023 11:23:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 27 Jul 2023 11:23:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
+         h=cc:cc:content-transfer-encoding:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1690471382; x=1690557782; bh=Eo
+        M4IIhDJ+nima2YIRQB3D+oQTQUjMH7C/WgWPLN1hU=; b=h1DQnKtcQ3OCGoqvmU
+        /OILwe4t1OgM3Um4SRPpjuP2P7NuE0lPg8nIhZwQOSZEyYH8/K0BNWygkVdYKzmo
+        0a/7m6JL+UKklm8WZBsuGkKQpXWdCh3l+gH9CzRdvUf0FFOHV1CpDFuls64CyNlF
+        Mv8rGL/Um5t0zsDOvqlMPyuCg4F5zbpOtj7Ym2gVvehRC8Latx7nj2O9p9j0g9d9
+        9zFOgZIys9fqxSOJvZnCnAC6kRAG6fc67UCYVNGueUb6oP3op1HE3b62WAqeDELJ
+        i3AUXh/4btRW35231KpKxBA+L7fCMo5RePak/muG/a1pTGBL09+DJLyur4aT9GuM
+        crUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1690471382; x=1690557782; bh=EoM4IIhDJ+nim
+        a2YIRQB3D+oQTQUjMH7C/WgWPLN1hU=; b=FKLkZAbK37Av510F9o8VWviFqTlN3
+        DrYX9p97hkyv8TIScAk4+hpt5wamLncfo6xJUaS+gx8w3manJkp/5W3sRHOMRVKp
+        4zj4OGuZqgqQxZeg7gEoATYPT1YNkHPu7CUEeMNIFvKZfISwnxIZbd0pqf/vSckr
+        E9rDKBtLmSDPXyv+K6G0b7O+xoYeU8+yIdA0zvQxroI7TXFebB3AmnCxzRotOBxi
+        qSNVJ5U20Nk8S/yjKJJ8baBOjBgBfQZxkqZHAAPKh8YfC7Bd/kf7G775HeXLWY/E
+        I7ErcYK2BW79i2YGdKReiz8glVLY12vQJcSZQEtp7D1cLvpKW0jtqTYWQ==
+X-ME-Sender: <xms:1ovCZLSAc1zEjeKtpsJ4LzVHbwglioL_pX6kLVZlMlBWDshmvE4PIg>
+    <xme:1ovCZMygtSitOU5z-3X96q0auUn1RKJwP5t1F7aePYs44uGj5Abx2nBWYPq4zRKu_
+    etihgZpbtKTycw4l18>
+X-ME-Received: <xmr:1ovCZA0XPZ-jDIv3KBQ6TCCb7yS4OJGet1ioyLbWEUSg5hmrXrHPOWQcG1t4toMcOmGzr6nn0jzpwSv_DU_RlgsnQSI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrieeggdeivdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghvihguucft
+    vggrvhgvrhcuoehmvgesuggrvhhiughrvggrvhgvrhdrtghomheqnecuggftrfgrthhtvg
+    hrnhepheetveetgfdvffehfeffieeugeejhfevieejveeivdeuiefgvdduueffhfefveeh
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesuggrvhhiughrvggrvhgvrhdrtghomh
+X-ME-Proxy: <xmx:1ovCZLDql3qzJFBsgOxgVETRmXnYDYTRZnPI3JjSVYIGDHCVbbc2IA>
+    <xmx:1ovCZEjRDOaJau88vWKBSsNSc4myOEKCRGKSp2BuzQSwtHgZTHwNxA>
+    <xmx:1ovCZPpnwlZbZDByvhNk14sfkCRv1xbIJ-N-Eqz-VHRLUG6EYSlNbw>
+    <xmx:1ovCZOZc2rVbWBnFTxZws2Qz0PQ0WGnbfxc55b8-EWiNW9TNRr-Yew>
+Feedback-ID: i67e946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Jul 2023 11:23:01 -0400 (EDT)
+From:   David Reaver <me@davidreaver.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Dave Jiang <dave.jiang@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Reaver <me@davidreaver.com>
+Subject: [PATCH] docs: ABI: sysfs-bus-nvdimm: fix unexpected indentation error
+Date:   Thu, 27 Jul 2023 08:22:34 -0700
+Message-ID: <20230727152234.86923-1-me@davidreaver.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/I=Dv+p=GE8C9tqfWtQjORl_";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690470827;0a1c032e;
-X-HE-SMSGID: 1qP2gQ-0004bK-Mm
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/I=Dv+p=GE8C9tqfWtQjORl_
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Fix the following error when running make htmldocs:
 
+Documentation/ABI/testing/sysfs-bus-nvdimm:10: ERROR: Unexpected indentation.
 
-On 7/27/23 16:30, Gueter Roeck wrote: =20
-> >> On 7/26/23 08:22, Carsten Spie=C3=9F wrote: =20
-> >> At _compile-time_ ? =20
-> > How to explain better that it isn't set at runtime?
-> I would suggest "can be set with device properties".
-Yeah, i like that.
+This is caused by missing newlines before the code examples. In particular,
+before this patch, the second example for ctl_res_cnt doesn't render properly.
 
-> >> I'd argue that shunt voltage is all but useless, but if you want to ha=
-ve it supported
-> >> it _has_ to be in mV. =20
-> > That's a problem.
-> >=20
-> > In my case the ER-6P has a 8 milli Ohm (or 8000 micro Ohm) shunt and a =
-powersupply with
-> > max. 2.5 A. This gives a max shunt voltage of 20 mV at 2.5 A.
-> > The device normaly consumes between 200 and 500 mA. (typ ~250 mA).
-> > This results in shunt voltage of 1.6 to 4.0 mV (typ ~2mV).
-> > Having no fractions will make it useless.
-> >=20
-> > Unfortunately there is no possibility to give a scaling factor.
-> > Or returning float values (i know, this can't and shouldn't be changed)
-> >  =20
->=20
-> Just like the ABI must not be changed. The sensors command would display =
-your
-> 4mV shunt voltage as 4V, which is just as useless.
->=20
-> In practice, the shunt voltage _is_ useless for hardware monitoring purpo=
-se
-> because it can be calculated from current and shunt resistor value.
-> I'd say if you really want it, provide it as debugfs attribute. As hwmon
-> attribute it has to be in mV.
-O.k. will move to debugfs.
+Link: https://docs.kernel.org/admin-guide/abi-testing.html#abi-sys-bus-event-source-devices-nmemx-format
 
-> >> I don't think the sign extensions are correct based on the datasheet.
-> >> This will have to use sign_extend. =20
-> >  From my understading (see table 11 on page 16 of the ISL28022 datashee=
-t)
-> > shunt value is already sign extended, (D15-D12 is sign)
-> > bus value (table 12 on page 16) is unsigned.
-> >  =20
->=20
-> Not really. For the shunt voltage, 0xf000 has different meanings dependin=
-g on scale
-> and range settings.=20
-Sorry, i don't agree, 0xf000 is -40.96 mV on all scale settings.
+Signed-off-by: David Reaver <me@davidreaver.com>
+---
+ Documentation/ABI/testing/sysfs-bus-nvdimm | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> LSB for bus voltage is 4 mV and starts at bit 2 or 3 depending
-> on BRNG. The above just happens to be correct if BRNG =3D 10 OR 11 per da=
-tasheet.
-> If that is intentional, it needs to get a comment.
-Yes, will add comment.
+diff --git a/Documentation/ABI/testing/sysfs-bus-nvdimm b/Documentation/ABI/testing/sysfs-bus-nvdimm
+index de8c5a59c77f..8564a0ff0d3e 100644
+--- a/Documentation/ABI/testing/sysfs-bus-nvdimm
++++ b/Documentation/ABI/testing/sysfs-bus-nvdimm
+@@ -18,7 +18,9 @@ Description:	(RO) Attribute group to describe the magic bits
+ 		Each attribute under this group defines a bit range of the
+ 		perf_event_attr.config. Supported attribute is listed
+ 		below::
++
+ 		  event  = "config:0-4"  - event ID
 
-> >> Getting an error message each time the "sensors" command is executed ?
-> >> Unacceptable. =20
-> > o.k., will change to set *val =3D 0;
-> >  =20
-> Still unacceptable.
-O.k. i will limit shunt-resistor-milli-ohms to a minimal value > 0 and drop=
- check here.
+ 		For example::
++
+ 			ctl_res_cnt = "event=0x1"
 
-> >>> +	if (!dev || !data)
-> >>> +		return -EINVAL; =20
-> >>
-> >> How would this ever happen ? =20
-> > Shouldn't, but i'm carefully (i had it once during development due to a=
-n error
-> > (using dev instead of hwmon_dev) on calling this function
-> >    =20
->=20
-> Parameter checks are only acceptable on API functions. This is not an API=
- function.
-> Local functions are expected to be consistent. If this function is called=
- with
-> a bad argument, that needs to be fixed during development.
-O.k., removed.
-
-> >>> +static struct i2c_driver isl28022_driver =3D {
-> >>> +	.class		=3D I2C_CLASS_HWMON,
-> >>> +	.driver =3D {
-> >>> +		.name	=3D "isl28022",
-> >>> +		.of_match_table =3D of_match_ptr(isl28022_of_match), =20
-> >>
-> >> Drop of_match_ptr() =20
-> > Most drivers have this, why drop?
-> >  =20
->=20
-> It is needed for device_property_read_u32() to work.=20
-O.k. dropped, i wasn't familiar with device_property_read functions.
-
-Regards Carsten
-
-
---Sig_/I=Dv+p=GE8C9tqfWtQjORl_
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEWM+MlUpz/bWsZllTM1JQzV9LKSwFAmTCiZ8ACgkQM1JQzV9L
-KSyuqA//R41dVcZLcRdU8mRrw4Eu5pCtHfFMQg699xnkDMDXCnce6lRQdmNl1PiA
-aauLeSiocC290CoTFKuHbFscAnmgKNI0lFqWp10gMp4bodpgwvLvpQ7g0JNXvUzb
-1voZ1vdHz+9+vqo90BbFyWEGMOA+VKli9zajvbP7/1BtdaKu+rujMXUEXVIAQ798
-Qx29bEhfUc8bS+D6XA7XY5gocm0Z0rgzTH6TWqBEmv+ioKWjAc7AXsnuymTGr7ka
-yV8//MGBuZut8STTLfkekGMDO2RKaSkIa/H8ifzjqnnuO2ZPIVP9SPzze6TwotEK
-vO7jN3Krl8yQetLoGHivZ4SHOFk91lLgqDHZuSsIic1c2o+CeXT0SpEc9fQweTdc
-iVNb8ukuYLhPEE4JcQ3bUwphHseymMllmPuofwWFk2ZQZcs0Xz1rcNFmlNMeY2Xg
-jTA+0lrE4f7FcjdSJJYG6AwtrYcG+WJcEONrqQrFizLj3r5Amrba6rMphqVmY4bX
-7WmcWk436EZfzN3NyGwePYvPcU2W/hwI662Ries+jAvXu1qXNtsn3KonyohnDjFW
-f3qzuLdexqXhLOD9E8HHJ2SVF9I48B+bkT5dNRAxFrgcGuRtU+VEUTwt2u3lk9Aq
-0kpZXxXxXhPRy+cKpt3BR1cwf7Oa2FOND1oC/pl7usVeIdqIBQc=
-=7d8W
------END PGP SIGNATURE-----
-
---Sig_/I=Dv+p=GE8C9tqfWtQjORl_--
+ What:           /sys/bus/event_source/devices/nmemX/events
