@@ -2,112 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 147A7C001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 10:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31088C001E0
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 10:50:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbjG0Kam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 06:30:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59296 "EHLO
+        id S231744AbjG0Kt7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 06:49:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233998AbjG0KaQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 06:30:16 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D501984;
-        Thu, 27 Jul 2023 03:30:01 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-d167393b95aso2880069276.0;
-        Thu, 27 Jul 2023 03:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690453800; x=1691058600;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=omUaDYixzWjtTMpLHRqhT6EXYqbxVHZ/m0JLSVt+zRU=;
-        b=kR/E8OXTGyuAcMVnK2KQrLklJTZJIbjeBJSeT2sIhGPM65Oruur9kofklO6ietHDy9
-         iN+Yk3uFFi0DCH5b+KIEtuBcPluVBtavpypaR5WD07CSqNhopnv+R23ky6tSh9IjXGJk
-         GzdeqRWRPgntqPs3w/iwM7pGLzDbKoIc/aZkfpT2kgbAlhsGaHHBFI9ifZTJ75RImlBN
-         m18KEttAN2mbFemlm21ARI+oQPZWhQ5ZKjtL1LwA/zUs5OtenG40a77AVnpCBMgIji09
-         cexZ5ek/pfpL8k5LTc7yy93lENk2O4UsiIb8Ws8buCdDhR4wb5xCwrRekry+fPBuluvl
-         CgJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690453800; x=1691058600;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=omUaDYixzWjtTMpLHRqhT6EXYqbxVHZ/m0JLSVt+zRU=;
-        b=Nu8Cnj1AU3YMdobcxa6j38XTBGUDdHZm7Ky9rG3bDO6Bpsc5YvUwy4Ls4JKoI0vE6p
-         fDRcYuQBDmF1ol3FOqfI90Sogn5jarlnblz6QRZXQpjzDD5W+OmymYPd8yXvWZko/99u
-         VrwsIC/nMpSmNo8Xab1qUjBS+oIaGidWw90Vj1kfg+DGTRLindzQd33933aP8lyqXJG0
-         DpXdeYo0nCkTUSEE2HuiuyW6dltaAnJ/VnE27ZuIhN6K3byMWznT2jBaN3wmlZOjYJsA
-         Z00EgGMUVC75B0bGE45zLiKc9SWm4nE7tnnh7h1Gl6at2Uw1xhkFlYYIXIQEkNLmTdKD
-         8p0g==
-X-Gm-Message-State: ABy/qLbE5I+ILduGkww569LqrERsogemz2UFR91B88us+mQ8g+lkSqf3
-        g7cn8Tog7LvzodQZUyykbJGa4M+vux4fv1nTERE=
-X-Google-Smtp-Source: APBJJlHBlYlPNCAOaUQmX7sCh/RdKgzYXiRFfLFaMRkHkke9meK1yv0x0Ok78z4gqgOSPSppdBIT7tY7YrKsz3aQ6Jo=
-X-Received: by 2002:a25:3617:0:b0:d1f:8809:ffa1 with SMTP id
- d23-20020a253617000000b00d1f8809ffa1mr2701868yba.27.1690453800151; Thu, 27
- Jul 2023 03:30:00 -0700 (PDT)
+        with ESMTP id S232141AbjG0Kt6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 06:49:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 609961B0;
+        Thu, 27 Jul 2023 03:49:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E794061E2D;
+        Thu, 27 Jul 2023 10:49:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54CBFC433C8;
+        Thu, 27 Jul 2023 10:49:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690454996;
+        bh=9W2ljgkyM4tLPmmGQe1w7tQZutLGGSdtT7DBysYE1gM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ujDlYZ1htpoVL0FDx0sd0QeI5j1BmBtMpui+5/gA8V45dat8OAdStu6qcfdxh2LcK
+         7Lj+pwFXHuYP8kxrhtmfTzXm0gUA+nqF6EbwV5B4DmjEGkDPZbVFx6fcz5UYhapJm9
+         QGwzEjmtpT3Lvqwmy3hnkaTEdSE0vC9dcJRl+S0wv/LlGqKOx506px/rVfcnc48f7f
+         2aEP3dZScCyOR+FjxcwnKphVpW99wEy3uYIkI7nqJg20bxMpHd5Nh0UyCL5w+qxUVB
+         pMadIs4imOl5s7rv47EGLX2hZf/8fCTN8J4pLC/0GHz677PQ4wbWM8mhgtnS1NMJ8c
+         AKimb8tnAvIiw==
+Date:   Thu, 27 Jul 2023 12:49:51 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Loic Poulain <loic.poulain@linaro.org>, viro@zeniv.linux.org.uk,
+        corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        hch@infradead.org
+Subject: Re: [PATCH v2] init: Add support for rootwait timeout parameter
+Message-ID: <20230727-speerwerfen-tiefpunkt-c4cde40994af@brauner>
+References: <20230726152232.932288-1-loic.poulain@linaro.org>
+ <1d363177-2629-1ab3-7a4b-bc67d94bb87a@infradead.org>
 MIME-Version: 1.0
-References: <20230627183629.26571-1-nj.shetty@samsung.com> <CGME20230627184010epcas5p4bb6581408d9b67bbbcad633fb26689c9@epcas5p4.samsung.com>
- <20230627183629.26571-3-nj.shetty@samsung.com> <20230720074256.GA5042@lst.de>
-In-Reply-To: <20230720074256.GA5042@lst.de>
-From:   Nitesh Shetty <nitheshshetty@gmail.com>
-Date:   Thu, 27 Jul 2023 15:59:49 +0530
-Message-ID: <CAOSviJ3oDSHk2HXyRZa=A43vCxh-n2YkyuW-qXNq-q=i6bNacQ@mail.gmail.com>
-Subject: Re: [PATCH v13 2/9] block: Add copy offload support infrastructure
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Nitesh Shetty <nj.shetty@samsung.com>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-        Keith Busch <kbusch@kernel.org>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-        willy@infradead.org, hare@suse.de, djwong@kernel.org,
-        bvanassche@acm.org, ming.lei@redhat.com, dlemoal@kernel.org,
-        gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1d363177-2629-1ab3-7a4b-bc67d94bb87a@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 1:12=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
-e:
-> > Suggested-by: Christoph Hellwig <hch@lst.de>
->
-> Hmm, I'm not sure I suggested adding copy offload..
->
-We meant for request based design, we will remove it.
-
-> >  static inline unsigned int blk_rq_get_max_segments(struct request *rq)
+On Wed, Jul 26, 2023 at 11:08:35PM -0700, Randy Dunlap wrote:
+> Hi--
+> 
+> On 7/26/23 08:22, Loic Poulain wrote:
+> > Add an optional timeout arg to 'rootwait' as the maximum time in
+> > seconds to wait for the root device to show up before attempting
+> > forced mount of the root filesystem.
+> > 
+> > Use case:
+> > In case of device mapper usage for the rootfs (e.g. root=/dev/dm-0),
+> > if the mapper is not able to create the virtual block for any reason
+> > (wrong arguments, bad dm-verity signature, etc), the `rootwait` param
+> > causes the kernel to wait forever. It may however be desirable to only
+> > wait for a given time and then panic (force mount) to cause device reset.
+> > This gives the bootloader a chance to detect the problem and to take some
+> > measures, such as marking the booted partition as bad (for A/B case) or
+> > entering a recovery mode.
+> > 
+> > In success case, mounting happens as soon as the root device is ready,
+> > unlike the existing 'rootdelay' parameter which performs an unconditional
+> > pause.
+> > 
+> > Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+> > ---
+> >  v2: rebase + reword: add use case example
+> > 
+> >  .../admin-guide/kernel-parameters.txt         |  4 ++++
+> >  init/do_mounts.c                              | 19 +++++++++++++++++--
+> >  2 files changed, 21 insertions(+), 2 deletions(-)
+> > 
+> 
+> > diff --git a/init/do_mounts.c b/init/do_mounts.c
+> > index 1aa015883519..118f2bbe7b38 100644
+> > --- a/init/do_mounts.c
+> > +++ b/init/do_mounts.c
+> > @@ -18,6 +18,7 @@
+> >  #include <linux/slab.h>
+> >  #include <linux/ramfs.h>
+> >  #include <linux/shmem_fs.h>
+> > +#include <linux/ktime.h>
+> >  
+> >  #include <linux/nfs_fs.h>
+> >  #include <linux/nfs_fs_sb.h>
+> > @@ -71,12 +72,20 @@ static int __init rootwait_setup(char *str)
 > >  {
-> >       if (req_op(rq) =3D=3D REQ_OP_DISCARD)
-> > @@ -303,6 +310,8 @@ static inline bool bio_may_exceed_limits(struct bio=
- *bio,
-> >               break;
-> >       }
-> >
-> > +     if (unlikely(op_is_copy(bio->bi_opf)))
-> > +             return false;
->
-> This looks wrong to me.  I think the copy ops need to be added to the
-> switch statement above as they have non-trivial splitting decisions.
-> Or at least should have those as we're missing the code to split
-> copy commands right now.
->
+> >  	if (*str)
+> >  		return 0;
+> > -	root_wait = 1;
+> > +	root_wait = -1;
+> >  	return 1;
+> >  }
+> >  
+> >  __setup("rootwait", rootwait_setup);
+> >  
+> > +static int __init rootwait_timeout_setup(char *str)
+> > +{
+> > +	root_wait = simple_strtoul(str, NULL, 0);
+> 
+> Better to use kstrtoul().  simple_strtoul() says:
+> 
+>  * This function has caveats. Please use kstrtoul instead.
+> 
+> and kstrtoul() says:
+> 
+>  * Returns 0 on success, -ERANGE on overflow and -EINVAL on parsing error.
+>  * Preferred over simple_strtoul(). Return code must be checked.
 
-Agreed, copy will have non-trivial splitting decisions. But, I
-couldn't think of scenarios where this could happen, as we check for
-queue limits before issuing a copy. Do you see scenarios where split
-could happen for copy here.
-
-Acked for all other review comments.
-
-Thank you,
-Nitesh Shetty
+Yes, this should check and at least log an error that rootwait is
+ignored and fall back to either indefinite waiting or no waiting.
