@@ -2,154 +2,362 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2505BC00528
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 21:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E1EC00528
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 21:47:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbjG0V35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 17:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52954 "EHLO
+        id S231415AbjG0VrV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 17:47:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231963AbjG0V3s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 17:29:48 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53DF358B
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:29:20 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-686b9920362so1140094b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:29:20 -0700 (PDT)
+        with ESMTP id S229817AbjG0VrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 17:47:21 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 626722135;
+        Thu, 27 Jul 2023 14:47:18 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-5221b90f763so1831029a12.0;
+        Thu, 27 Jul 2023 14:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690493360; x=1691098160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ypAMONzQ9lM309vcGdh+Fb16cWv7RYOttEkuLSf+C9Q=;
-        b=Bwo2x8zf58r3/17nU/dEA+lgi98417VBN10q9GpXZ2yX5bWgvClfFlRZrYgWh6vxOe
-         r0mqw4aODhaJ2EjfLMEWChHMJo67QiYL7UuI76V0B5V0sBJqx633/8IdKvZ62MQ2+DUl
-         J6GIo9C/bwVjsIs63nkDd9w15op+eE3bPam4/TK3NShywE+8Xx/75LaHkeodFIhEIwPp
-         is5HGGIxHwP3BUX1Gg8ys2pqCCyqagzNp8TAZ2n3ah5xe/s8AuEUZyERBtbzxBBvh8e7
-         XW1EoV/f/B6VtHMfKKSgdzL/ZzdtxWPLIZShgMFFsPR1z034QbJg23p3Jo+apDeFjXi3
-         3MAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690493360; x=1691098160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1690494437; x=1691099237;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ypAMONzQ9lM309vcGdh+Fb16cWv7RYOttEkuLSf+C9Q=;
-        b=iCAOpmqQQ2eOOUf8cWlPo57jlJlmi0dE94UZmWZS+rBN8yGipswTx7EjWr+OQ5Kr5J
-         o2YQOmU4jL/WNP4cEEkrd8i0jX7Nl3Z6pksRRcLH4V45eRRGDYJgL8w++XsJrDYa7Ueo
-         QuPlJus6E36oxGOLM5xNEDAZ1j8+rddSGd5j5GnoPGaNOIglAviyBWZiobJXEwT8wszK
-         DIVAYeZ8bJSKPzR7DkKslwmUYQEKE+iA2OodVNWarczr4IgVqAbobLP0SNQtyqctFbIB
-         tCU0h3k1hDzh1tnGX0Vzh5ofDiezZPmY7zmer+bjd8ObZJLhEvtBnU1H5qyN4zbbzqPr
-         J63Q==
-X-Gm-Message-State: ABy/qLYgFT82jWi71Mhq3rs4JZu90zxMXG6Gr3G22KyAmLdsz62d2PXH
-        TZKv7x1N0pQxReWu7QigUyCg+w==
-X-Google-Smtp-Source: APBJJlGB3S/nfKRJRrxAvCsM8dZOvIKZplWkk6B2QF6oZQ+44PkE/bkn/usw/Q968tVlGDZwNJliog==
-X-Received: by 2002:a05:6a20:7351:b0:133:656e:fe1e with SMTP id v17-20020a056a20735100b00133656efe1emr268970pzc.47.1690493360245;
-        Thu, 27 Jul 2023 14:29:20 -0700 (PDT)
-Received: from ghost ([2601:c0:ca7f:e7c0:e300:c3dd:e089:386])
-        by smtp.gmail.com with ESMTPSA id b14-20020aa7870e000000b00686c77a2905sm1906083pfo.20.2023.07.27.14.29.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 14:29:20 -0700 (PDT)
-Date:   Thu, 27 Jul 2023 17:29:16 -0400
-From:   Charlie Jenkins <charlie@rivosinc.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        paul.walmsley@sifive.com, palmer@rivosinc.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org,
-        alexghiti@rivosinc.com
-Subject: Re: [PATCH v7 1/4] RISC-V: mm: Restrict address space for
- sv39,sv48,sv57
-Message-ID: <ZMLhrFfoerPIxRL7@ghost>
-References: <20230726164620.717288-1-charlie@rivosinc.com>
- <20230726164620.717288-2-charlie@rivosinc.com>
- <20230727-unruffled-joyride-410fc348ce7b@spud>
+        bh=ZQT20ya3umarGlkx91bSiJhfieCi0SQZjcxxXhKKL6k=;
+        b=OavclEzq9N93PryalxWE0J5P0zkddtwF3xlKnn1r58/hfOFi4Om3L1N/lcn18ch1Es
+         oMaJL4WhW7NDTu6a8lSj7UIjsBCRtt/c8fd4FK4Bl0C8eZtVBO+jMT9LoLWj/eJhIJok
+         n0jjQ/SkEJ2raSVbkz6oo1FeK2Xlp6DIxlknyQTUMBNrtoudAQ3Ht9+tyISqZRUXQyBX
+         /sRPmhQrtclz6I2N10XNwAlMOp69FWlOXjgAlTpp3xaz9MOWQN3w3qG5oKJ3FJjyzaXy
+         Ttw5FcUIRveJ3W1z3C+jlqpXLtk87lWhu9OaWU30eZHyb957Q+4hIYRPt94cb7mI5E5F
+         lwkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690494437; x=1691099237;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZQT20ya3umarGlkx91bSiJhfieCi0SQZjcxxXhKKL6k=;
+        b=C1FO9zNr4jQFVcgxqsvRdKQgPWOczahhMf/7xK5vJSQcnKU80npDftJeeMtZiuTvqR
+         LdOmZDvx+YrW8whw2PB+dFPlCpZ/Lbmh2IQtMfhr9Z29UfabCX356lLQsONBIlMnCr8e
+         Lf/pdIgm59cw/0NTLYPLXSLde2p7acXyeMpxkDJ7KxM+I69akzOyqEFZa+Yy2MQLgMhQ
+         rpXS5+8LxBiirYn18dbWShPnCCiseKcvocoHnBjxsrSHECghzbWDWZG711ocowpPVwmF
+         ReNLjUbHxM5DWixRlXMapOTs/I4g8sFugpF/TJHPNTF9BdCcCEbhA33NBmIbloD3WWeb
+         WlFg==
+X-Gm-Message-State: ABy/qLbIG+6gdiWqiv9btfTpkwSZnSeRqdh5U6Qqlkf2YTYfL3x/+RR9
+        CA1qgAf1B5HJZzGJMS2T+VrRd/wsvGJTQWMvo3E=
+X-Google-Smtp-Source: APBJJlHwUhzpMXw3xvJvmt0bTHyfdXzXlAJZs5Ji0VeEkdAhd2AvfOlhiMR5mSOZI1bWVvVLmOsIfUZEcH5zHhDEq9U=
+X-Received: by 2002:a05:6402:613:b0:522:3fc6:91e6 with SMTP id
+ n19-20020a056402061300b005223fc691e6mr188712edv.9.1690494436484; Thu, 27 Jul
+ 2023 14:47:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230727-unruffled-joyride-410fc348ce7b@spud>
+References: <20230720152737.102382-1-helen.koike@collabora.com> <CAF6AEGtXL5vjp3Uup6Mk19MiY8E26-tpyXVmxXYhMd3fiadykQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGtXL5vjp3Uup6Mk19MiY8E26-tpyXVmxXYhMd3fiadykQ@mail.gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Thu, 27 Jul 2023 14:47:04 -0700
+Message-ID: <CAF6AEGsxLg4og1EkCdno6P8x31KK=rJfmerJa8uMeNR-n7RVRg@mail.gmail.com>
+Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     dri-devel@lists.freedesktop.org, guilherme.gallo@collabora.com,
+        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+        daniels@collabora.com, emma@anholt.net, robclark@freedesktop.org,
+        gustavo.padovan@collabora.com, robdclark@google.com,
+        anholt@google.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+        daniel@ffwll.ch, corbet@lwn.net, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        khilman@baylibre.com, jbrunet@baylibre.com,
+        martin.blumenstingl@googlemail.com, heiko@sntech.de,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 27, 2023 at 01:33:41PM +0100, Conor Dooley wrote:
-> Hey Charlie,
-> 
-> On Wed, Jul 26, 2023 at 09:45:55AM -0700, Charlie Jenkins wrote:
-> > Make sv48 the default address space for mmap as some applications
-> > currently depend on this assumption. A hint address passed to mmap will
-> > cause the largest address space that fits entirely into the hint to be
-> > used. If the hint is less than or equal to 1<<38, an sv39 address will
-> > be used. An exception is that if the hint address is 0, then a sv48
-> > address will be used. After an address space is completely full, the next
-> > smallest address space will be used.
-> > 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+On Thu, Jul 27, 2023 at 12:49=E2=80=AFPM Rob Clark <robdclark@gmail.com> wr=
+ote:
+>
+> On Thu, Jul 20, 2023 at 8:27=E2=80=AFAM Helen Koike <helen.koike@collabor=
+a.com> wrote:
+> >
+> > From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> >
+> > Developers can easily execute several tests on different devices
+> > by just pushing their branch to their fork in a repository hosted
+> > on gitlab.freedesktop.org which has an infrastructure to run jobs
+> > in several runners and farms with different devices.
+> >
+> > There are also other automated tools that uprev dependencies,
+> > monitor the infra, and so on that are already used by the Mesa
+> > project, and we can reuse them too.
+> >
+> > Also, store expectations about what the DRM drivers are supposed
+> > to pass in the IGT test suite. By storing the test expectations
+> > along with the code, we can make sure both stay in sync with each
+> > other so we can know when a code change breaks those expectations.
+> >
+> > Also, include a configuration file that points to the out-of-tree
+> > CI scripts.
+> >
+> > This will allow all contributors to drm to reuse the infrastructure
+> > already in gitlab.freedesktop.org to test the driver on several
+> > generations of the hardware.
+> >
+> > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> >
 > > ---
-> >  arch/riscv/include/asm/elf.h       |  2 +-
-> >  arch/riscv/include/asm/pgtable.h   | 13 ++++++++-
-> >  arch/riscv/include/asm/processor.h | 47 +++++++++++++++++++++++++-----
-> >  3 files changed, 53 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/arch/riscv/include/asm/elf.h b/arch/riscv/include/asm/elf.h
-> > index c24280774caf..5d3368d5585c 100644
-> > --- a/arch/riscv/include/asm/elf.h
-> > +++ b/arch/riscv/include/asm/elf.h
-> > @@ -49,7 +49,7 @@ extern bool compat_elf_check_arch(Elf32_Ehdr *hdr);
-> >   * the loader.  We need to make sure that it is out of the way of the program
-> >   * that it will "exec", and that there is sufficient room for the brk.
-> >   */
-> > -#define ELF_ET_DYN_BASE		((TASK_SIZE / 3) * 2)
-> > +#define ELF_ET_DYN_BASE		((DEFAULT_MAP_WINDOW / 3) * 2)
-> >  
-> >  #ifdef CONFIG_64BIT
-> >  #ifdef CONFIG_COMPAT
-> > diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> > index 75970ee2bda2..530f6a171a2b 100644
-> > --- a/arch/riscv/include/asm/pgtable.h
-> > +++ b/arch/riscv/include/asm/pgtable.h
-> > @@ -63,12 +63,23 @@
-> >   * position vmemmap directly below the VMALLOC region.
-> >   */
-> >  #ifdef CONFIG_64BIT
-> > +#define VA_BITS_SV39 39
-> > +#define VA_BITS_SV48 48
-> > +#define VA_BITS_SV57 57
-> > +
-> > +#define VA_USER_SV39 (UL(1) << (VA_BITS_SV39 - 1))
-> > +#define VA_USER_SV48 (UL(1) << (VA_BITS_SV48 - 1))
-> > +#define VA_USER_SV57 (UL(1) << (VA_BITS_SV57 - 1))
-> > +
-> >  #define VA_BITS		(pgtable_l5_enabled ? \
-> > -				57 : (pgtable_l4_enabled ? 48 : 39))
-> > +				VA_BITS_SV57 : (pgtable_l4_enabled ? VA_BITS_SV48 : VA_BITS_SV39))
-> >  #else
-> >  #define VA_BITS		32
-> >  #endif
-> 
-> Please, at the very least, build test things for rv32 if you are going
-> to change things in mm:
-> io_uring/io_uring.c:3457:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> io_uring/io_uring.c:3457:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> io_uring/io_uring.c:3457:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> io_uring/io_uring.c:3457:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> io_uring/io_uring.c:3457:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> io_uring/io_uring.c:3457:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/util.c:441:19: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/util.c:441:19: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/util.c:441:19: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/util.c:441:19: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/util.c:441:19: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/util.c:441:19: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/mmap.c:1770:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/mmap.c:1770:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/mmap.c:1770:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/mmap.c:1770:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/mmap.c:1770:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> mm/mmap.c:1770:20: error: use of undeclared identifier 'VA_BITS_SV39'
-> 
-> Thanks,
-> Conor.
-Thanks for that catch, I sent out a new patch to fix that up. There were
-also some problems with 32-bit compat support that I resolved.
+> >
+> > Hello,
+> >
+> > I'm re-spining this patch sent originally by Tomeu.
+> >
+> > This is meant to be an auxiliary tool where developers and
+> > maintainers can just submit their code to fdo and see if
+> > tests passes, than they can decide if it is worthy merging
+> > it or not.
+> >
+> > This tool has proven its value on the Mesa community
+> > and it can bring a lot of value here too.
+> >
+> > Please review and let me know your thoughts.
+> >
+> > You can also see this patch on
+> > https://gitlab.freedesktop.org/helen.fornazier/linux/-/tree/drm-ci-test=
+s
+> >
+> > Thanks!
+> >
+> > v2:
+> >   - Fix names of result expectation files to match SoC
+> >   - Don't execute tests that are going to skip on all boards
+> >
+> > v3:
+> >   - Remove tracking of dmesg output during test execution
+> >
+> > v4:
+> >   - Move up to drivers/gpu/drm
+> >   - Add support for a bunch of other drivers
+> >   - Explain how to incorporate fixes for CI from a
+> >     ${TARGET_BRANCH}-external-fixes branch
+> >   - Remove tests that pass from expected results file, to reduce the
+> >     size of in-tree files
+> >   - Add docs about how to deal with outages in automated testing labs
+> >   - Specify the exact SHA of the CI scripts to be used
+> >
+> > v5:
+> >   - Remove unneeded skips from Meson expectations file
+> >   - Use a more advanced runner that detects flakes automatically
+> >   - Use a more succint format for the expectations
+> >   - Run many more tests (and use sharding to finish in time)
+> >   - Use skip lists to avoid hanging machines
+> >   - Add some build testing
+> >   - Build IGT in each pipeline for faster uprevs
+> >   - List failures in the GitLab UI
+> >
+> > v6:
+> >   - Rebase on top of latest drm-next
+> >   - Lower priority of LAVA jobs to not impact Mesa CI as much
+> >   - Update docs
+> >
+> > v7:
+> >   - Rebase on top of latest drm-next
+> >
+> > v8:
+> >   - Move all files specific to testing the kernel into the kernel tree
+> >     (thus I have dropped the r-bs I had collected so far)
+> >   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
+> >   - Add MAINTAINERS entry
+> >   - Fix boot on MT8173 by adding some Kconfigs that are now needed
+> >   - Link to the docs from index.rst and hard-wrap the file
+> >
+> > v9:
+> >   - Only automatically run the pipelines for merge requests
+> >   - Switch to zstd for the build artifacts to align with Mesa
+> >   - Add Qcom USB PHYs to config as they are now =3Dm in the defconfig
+> >
+> > v10:
+> >   - Include ci yml files from mesa/mesa (where the development is
+> >     current active) instead of a spin off project.
+> >   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
+> >   - Update MAINTAINERS entry
+> >   - Uprev igt tool
+> >   - add LAVA_JOB_PRIORITY: 30
+> >   - pipeline example:
+> >   https://gitlab.freedesktop.org/helen.fornazier/linux/-/pipelines/9405=
+06
+> > ---
+> >  Documentation/gpu/automated_testing.rst       |  144 +
+> >  Documentation/gpu/index.rst                   |    1 +
+> >  MAINTAINERS                                   |    8 +
+> >  drivers/gpu/drm/ci/arm.config                 |   69 +
+> >  drivers/gpu/drm/ci/arm64.config               |  199 ++
+> >  drivers/gpu/drm/ci/build-igt.sh               |   35 +
+> >  drivers/gpu/drm/ci/build.sh                   |  157 +
+> >  drivers/gpu/drm/ci/build.yml                  |  110 +
+> >  drivers/gpu/drm/ci/check-patch.py             |   57 +
+> >  drivers/gpu/drm/ci/container.yml              |   61 +
+> >  drivers/gpu/drm/ci/gitlab-ci.yml              |  252 ++
+> >  drivers/gpu/drm/ci/igt_runner.sh              |   77 +
+> >  drivers/gpu/drm/ci/image-tags.yml             |   15 +
+> >  drivers/gpu/drm/ci/lava-submit.sh             |   57 +
+> >  drivers/gpu/drm/ci/static-checks.yml          |   12 +
+> >  drivers/gpu/drm/ci/test.yml                   |  335 ++
+> >  drivers/gpu/drm/ci/testlist.txt               | 2912 +++++++++++++++++
+> >  drivers/gpu/drm/ci/x86_64.config              |  111 +
+> >  .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   22 +
+> >  .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   19 +
+> >  .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |    2 +
+> >  drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   17 +
+> >  .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |   32 +
+> >  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |    4 +
+> >  drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   57 +
+> >  drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |    1 +
+> >  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |    4 +
+> >  drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |   18 +
+> >  drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   37 +
+> >  drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |    2 +
+> >  drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |   18 +
+> >  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   41 +
+> >  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |    5 +
+> >  drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   26 +
+> >  drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   25 +
+> >  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |    5 +
+> >  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   37 +
+> >  drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |    5 +
+> >  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   11 +
+> >  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   47 +
+> >  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |    1 +
+> >  drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |    2 +
+> >  .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   29 +
+> >  .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |    0
+> >  .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   10 +
+> >  .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |   14 +
+> >  .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   12 +
+> >  .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |    4 +
+> >  .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   15 +
+> >  .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |    4 +
+> >  .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |    2 +
+> >  .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |    4 +
+> >  .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |    2 +
+> >  .../gpu/drm/ci/xfails/msm-sc7180-fails.txt    |   25 +
+> >  .../gpu/drm/ci/xfails/msm-sc7180-flakes.txt   |    7 +
+> >  .../gpu/drm/ci/xfails/msm-sc7180-skips.txt    |   23 +
+> >  .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   68 +
+> >  .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |   11 +
+> >  .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |    2 +
+> >  .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   49 +
+> >  .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |    8 +
+> >  .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   52 +
+> >  .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   39 +
+> >  .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   23 +
+> >  .../drm/ci/xfails/rockchip-rk3399-skips.txt   |    5 +
+> >  .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   38 +
+> >  .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |    0
+> >  .../drm/ci/xfails/virtio_gpu-none-skips.txt   |    6 +
+> >  test                                          |    0
+> >  69 files changed, 5502 insertions(+)
+> >  create mode 100644 Documentation/gpu/automated_testing.rst
+> >  create mode 100644 drivers/gpu/drm/ci/arm.config
+> >  create mode 100644 drivers/gpu/drm/ci/arm64.config
+> >  create mode 100644 drivers/gpu/drm/ci/build-igt.sh
+> >  create mode 100644 drivers/gpu/drm/ci/build.sh
+> >  create mode 100644 drivers/gpu/drm/ci/build.yml
+> >  create mode 100755 drivers/gpu/drm/ci/check-patch.py
+> >  create mode 100644 drivers/gpu/drm/ci/container.yml
+> >  create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
+> >  create mode 100755 drivers/gpu/drm/ci/igt_runner.sh
+> >  create mode 100644 drivers/gpu/drm/ci/image-tags.yml
+> >  create mode 100755 drivers/gpu/drm/ci/lava-submit.sh
+> >  create mode 100644 drivers/gpu/drm/ci/static-checks.yml
+> >  create mode 100644 drivers/gpu/drm/ci/test.yml
+> >  create mode 100644 drivers/gpu/drm/ci/testlist.txt
+> >  create mode 100644 drivers/gpu/drm/ci/x86_64.config
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.tx=
+t
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.tx=
+t
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.tx=
+t
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.tx=
+t
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.tx=
+t
+> >  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
+> >  create mode 100644 test
+> >
+>
+> [snip]
+>
+> > diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitl=
+ab-ci.yml
+> > new file mode 100644
+> > index 000000000000..32d8e2258eb6
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> > @@ -0,0 +1,252 @@
+> > +variables:
+> > +  # Change this to use your fork of drm-ci
+>
+> nit, I think this comment mostly doesn't make sense since everyone
+> would be using the same version of this gitlab-ci.yml, Ie. we can't
+> have msm and nouveau and intel and so on with there own conflicting
+> patches on gitlab-ci.yml
+>
+> I did run into a bit of a chicken vs. egg problem with testing the "in
+> tree" version (compared to earlier versions which kept most of the yml
+> and scripts in a separate tree), is that it actually requires this
+> commit to exist in the branch you want to run CI on.  My earlier
+> workaround of pulling the drm/ci commit in via
+> ${branchname}-external-fixes no longer works.
 
+After unwinding some more gitlab repo settings that were for the
+previous out-of-tree yml setup, I have this working.
+
+Tested-by: Rob Clark <robdclark@gmail.com>
+Acked-by: Rob Clark <robdclark@gmail.com>
