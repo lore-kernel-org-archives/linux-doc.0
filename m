@@ -2,92 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B60C001DE
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 01:44:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00CA4C001DF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 02:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbjG0Bn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 21:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59524 "EHLO
+        id S229655AbjG0Czs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 22:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbjG0Bn6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 21:43:58 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F23BE61;
-        Wed, 26 Jul 2023 18:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=hp6cp7A51G4iktXiOcxoO4u7miw3X4y4lxN8UCoOFWg=; b=pm49HYnGqpGvPGwRRyIdGfVUc2
-        TFYKuzsKW2So1LPZo3brH+GTA99n8QIX5QZYOJLgYu/V24erEs15gpmatnxht7iZItH9owzL7eo93
-        h2hKM/IvPr5qdke5XTWavQebJhczW5N/TWUItH7co+Iy3lHHgLJXTQlUnrsVcbPlwkUpHL4h3aIl9
-        HWRd8YHH8vvLj/OBR9gNlHF+P/VR69zsB7c7ZV0qhhPj/D9mwq4HUxYDF9HkBeABgR/s+EdzotJZ/
-        RgsCAPEw0uKdqMJEnevaxO3y+xhvUzL4hNgzSiJLfp22HiAJZjXxARy+gM9SiabRDj/8K3Cq4Zks2
-        rnjpX+3w==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOq2j-00BszC-25;
-        Thu, 27 Jul 2023 01:43:53 +0000
-Message-ID: <d811b6c7-fe01-4f9c-be14-31defce4d864@infradead.org>
-Date:   Wed, 26 Jul 2023 18:43:52 -0700
+        with ESMTP id S229737AbjG0Czq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 22:55:46 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95401269E;
+        Wed, 26 Jul 2023 19:55:44 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 514CF5C014E;
+        Wed, 26 Jul 2023 22:55:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 26 Jul 2023 22:55:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
+         h=cc:cc:content-transfer-encoding:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1690426541; x=1690512941; bh=zx
+        o1R13hZud6WyDtBUOyEV6yDE5nCsrCzF/BEThNRQ0=; b=uj91V9VmExkytqGQYV
+        AZQnfS9fFzM8T3gLhrZm7k1UQt53qlJ+CcZiddess5B7DJj6IiDchezM1HxcUspl
+        ahOuniTVqqvlanamXpUlnlQIKHp6Nne+Y2VwOY50+VDP3DXZFNvOs/IT+ydtRkRV
+        rG2R8Wx+j1VacSj0Gqg3M0SUXsiNWeizwfuzvg3eNNIp6VacLgFsfkplixenkcCc
+        6xTA3+VR/5gBEvtg32hsuCTqZBh7oIq8+A7PQ/qYoCC6DX+pBKLq/F0p+U4UO0vA
+        zeaUELCZL7dutlerJ0sgAXhPYItW3VU0e863IPXvP3m9VbLH9E37P8R6cOgdLhGG
+        zL1w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1690426541; x=1690512941; bh=zxo1R13hZud6W
+        yDtBUOyEV6yDE5nCsrCzF/BEThNRQ0=; b=MWPSUQY1KN+1N+NQOy+G/FznZNHit
+        Q7CpFBRwh+HwXdIKQPLWgf2TygnLC6R6WxUD1nr9Hvtez15Th/wloaED8ImiBeyI
+        +jWb6uP1ZtuTwEWW1kx8m3nIy7f3kN2gka4eHAF4QnlS20yCtcjMUr7pX6kaHauu
+        NeOF1FnEJrka5zzqnzmR/XwGskl59D/+eFCooZRxcMmzaZ+L2knR6qNw6QkwwoCN
+        6qKB5Foeur24f4pv7ylS1qtQv+O8i8hkjdldJoMlxh67fSMwEXDljkX2rSgKwENJ
+        dmNvAU0FXR6dqR+ZHIV6W+fzneJIQP9Zx7ot3CRDdeZEToEzITnpMZhTg==
+X-ME-Sender: <xms:rdzBZHs_EhrGpV9W7echt94Fkx7jCiMhDCjYuYTFqiN6JrXYA1HSEw>
+    <xme:rdzBZIelJ_ZoC4XiO0CD67WyCaW1_Zy09XoB9B-Pk-x4Xz3bdRhKGZBoib8-79Dy2
+    aedxmctAr3nGl30LTE>
+X-ME-Received: <xmr:rdzBZKwcbQ9FqsT8k9Q3rPon87r7RIX1cJKZ8JIY0WDqXWnE2M4-h3oynF2LJ2QV36FRCBo7ZNz6cSUdv1w2k2sVzRM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrieefgdeifecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghvihguucft
+    vggrvhgvrhcuoehmvgesuggrvhhiughrvggrvhgvrhdrtghomheqnecuggftrfgrthhtvg
+    hrnhepheetveetgfdvffehfeffieeugeejhfevieejveeivdeuiefgvdduueffhfefveeh
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesuggrvhhiughrvggrvhgvrhdrtghomh
+X-ME-Proxy: <xmx:rdzBZGMpq3R22NUo5a_aA4H_L6biOGbLsIjT25btfeMbYGYXbbCd0g>
+    <xmx:rdzBZH9Vl7FyzqsXycNKjdRWcLvpDb9TW3TGzVNBXoZJVgQszhIEog>
+    <xmx:rdzBZGUdOggLbApT_ChbgbdAg_Y7uvpSDJWvGwEbBCdC1Ma7CQe6hg>
+    <xmx:rdzBZOZoufMZBSE7r-indcukFOgI17rNUHMskBUn8kNqYEfC0U1-Gg>
+Feedback-ID: i67e946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 26 Jul 2023 22:55:39 -0400 (EDT)
+From:   David Reaver <me@davidreaver.com>
+To:     Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+        David Reaver <me@davidreaver.com>,
+        John Harrison <John.C.Harrison@Intel.com>,
+        Alan Previn <alan.previn.teres.alexis@intel.com>,
+        linux-doc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915/huc: fix intel_huc.c doc bulleted list format error
+Date:   Wed, 26 Jul 2023 19:54:00 -0700
+Message-ID: <20230727025400.372965-1-me@davidreaver.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] dma-buf/sync_file: Fix missing colon in kernel-doc for
- num_fences
-Content-Language: en-US
-To:     David Reaver <me@davidreaver.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Clark <robdclark@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-References: <20230727011944.327807-1-me@davidreaver.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230727011944.327807-1-me@davidreaver.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+Fix the following make htmldocs errors/warnings:
 
-On 7/26/23 18:19, David Reaver wrote:
-> The struct sync_fence_info member num_fences was missing a colon in the
-> kernel-doc, causing this warning when running make htmldocs:
-> 
-> ./include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
-> 
-> num_fences was also clearly missing from
-> https://docs.kernel.org/driver-api/dma-buf.html#c.sync_file_info before
-> this patch.
-> 
-> Signed-off-by: David Reaver <me@davidreaver.com>
-> ---
->  include/uapi/linux/sync_file.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> index 7e42a5b7558b..b389a5495181 100644
-> --- a/include/uapi/linux/sync_file.h
-> +++ b/include/uapi/linux/sync_file.h
-> @@ -56,7 +56,7 @@ struct sync_fence_info {
->   * @name:	name of fence
->   * @status:	status of fence. 1: signaled 0:active <0:error
->   * @flags:	sync_file_info flags
-> - * @num_fences	number of fences in the sync_file
-> + * @num_fences: number of fences in the sync_file
->   * @pad:	padding for 64-bit alignment, should always be zero
->   * @sync_fence_info: pointer to array of struct &sync_fence_info with all
->   *		 fences in the sync_file
+./drivers/gpu/drm/i915/gt/uc/intel_huc.c:29: ERROR: Unexpected indentation.
+./drivers/gpu/drm/i915/gt/uc/intel_huc.c:30: WARNING: Block quote ends without a blank line; unexpected unindent.
+./drivers/gpu/drm/i915/gt/uc/intel_huc.c:35: WARNING: Bullet list ends without a blank line; unexpected unindent.
 
+This output is a bit misleading. The real issue here is we need a blank
+line before and after the bulleted list.
 
-Same as https://lore.kernel.org/all/20230330142720.882045-1-robdclark@gmail.com/
+Link: https://www.kernel.org/doc/html/latest/gpu/i915.html#huc
+Link: https://lore.kernel.org/dri-devel/20230530152958.1384061-1-daniele.ceraolospurio@intel.com/
 
-Hopefully someone will merge/apply that one. Rob, can you make that happen?
+Signed-off-by: David Reaver <me@davidreaver.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-thanks.
--- 
-~Randy
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index ddd146265beb..fa70defcb5b2 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -26,6 +26,7 @@
+  * The kernel driver is only responsible for loading the HuC firmware and
+  * triggering its security authentication. This is done differently depending
+  * on the platform:
++ *
+  * - older platforms (from Gen9 to most Gen12s): the load is performed via DMA
+  *   and the authentication via GuC
+  * - DG2: load and authentication are both performed via GSC.
+@@ -33,6 +34,7 @@
+  *   not-DG2 older platforms), while the authentication is done in 2-steps,
+  *   a first auth for clear-media workloads via GuC and a second one for all
+  *   workloads via GSC.
++ *
+  * On platforms where the GuC does the authentication, to correctly do so the
+  * HuC binary must be loaded before the GuC one.
+  * Loading the HuC is optional; however, not using the HuC might negatively
