@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B7FC001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 21:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96FCEEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 21:27:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230497AbjG0V1A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 17:27:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50874 "EHLO
+        id S231293AbjG0V1C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 17:27:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231919AbjG0V0z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 17:26:55 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1119D19BF
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:26:53 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-686fc0d3c92so711447b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:26:53 -0700 (PDT)
+        with ESMTP id S231459AbjG0V04 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 17:26:56 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA0C01BE4
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:26:55 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-687087d8ddaso480398b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:26:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690493212; x=1691098012;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690493215; x=1691098015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L3MSUXAZDlHxvJw5XBpFpvl/fyG6WFk9gov0cKUKQOU=;
-        b=WUyJwKJPX1jLH0ROd0fzWsfMZAkoQJ/zQofoMYk2lYdpobktAenlvABnk4JZwHpjY5
-         WvDq42U+gPL5MSTDxgvDRE6dXZTLh2FU/It8UyINzwEmymclonR4Y0AOvW5Z9Q/HA+hP
-         UlAqHQbkeq1NLlVumQpfaDTbUcBjZ9pc/asdJ/p2EJm3zv0/rShcn1MU94GGVB8bsh+p
-         rAkAcX9PQ06tbc6DdqNHbIa9qN4MoDe9IOgqU293iqT+rn1hHXDprtEdFDmsD5goGQnb
-         KHFXw3D3dfM3/81YOre3JxqvqQjO5sIPW33VQ3yHsa9UPrEKTcSMpZBUp1PjeVpohIQh
-         IUuQ==
+        bh=nxIryN+/nGnN7q5/mJrC1dQ+rinWckKL0IS2jYwlkeI=;
+        b=HH7TEI0FKqELKzYIXsjAzNMOv7EmEk19k49xsmg5JJ2iJpQjJBUsJBektepS7kbqjA
+         Vt/YOabaV+5seRyrTS+nQFfXRu/Rmc0qF/Cmuzi6vbvzfQQ7hYiZSyJOGxFRzI1tA3px
+         fkP0ufFuAla153rOmkqGNp0bHyeGAvpUM3evTA9mfbdGVkW+96ufuS/f54M74SC3GCRo
+         WqzWIVc8ARWe8/mWjw/9xYezMnJhgSJlmpSTw5U4/6ICvlMwjc3VVGpkITduwPQnE0vT
+         zFsh4Tq4pcASeCN6YVhHilpdFEEvWGuxwZ4SH0AQAfZfQIb9FQNxijHErK3RcGa3TLoV
+         6PHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690493212; x=1691098012;
+        d=1e100.net; s=20221208; t=1690493215; x=1691098015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=L3MSUXAZDlHxvJw5XBpFpvl/fyG6WFk9gov0cKUKQOU=;
-        b=S09CLUvAGGy+XBX5eC+4mXtwYu/Fxcv7f3jCDOiesGx58yhXN9BFprqM5OsAwjSlZw
-         QYSRo50fevD4Llp9sMy6f3mVhedd+WFRM0rqLERizHjlum1S90J5KUHjfI0us3xAgap4
-         /rMrjBLfORcA7v8EMqjeql+u2+fX+KEdHrwgCpYUNbzL5jm8flHBrteoSTKmeobkkmBx
-         U4uZ2RXatS1CUhSnEtSnkJLL0XOHEnlX97h0PKcio52OeYtwvgfVOBibuwpWtYlGuJCx
-         FwTLDUqPnnXuHGP3rMtDb++N5f2nyz7r35h9duN+tLBww3tD/4lPtWEs+9C0siNGam8R
-         KKlw==
-X-Gm-Message-State: ABy/qLY35l5wwoYgS5UrKbTHPfsMRVdHmzRW6IsRVxeaz4xBeZC2U+tH
-        fxOHaZIzpGiLJ2dvgzV0tE239w==
-X-Google-Smtp-Source: APBJJlGaUoECRIux0BUm3diAsqoj6PNZLuLLwkdpIzX5n1LpY2mGSBcBTtHRABOlgGcWfWQnA6vSiQ==
-X-Received: by 2002:a05:6a21:6d87:b0:137:68c3:c86f with SMTP id wl7-20020a056a216d8700b0013768c3c86fmr324290pzb.55.1690493212471;
-        Thu, 27 Jul 2023 14:26:52 -0700 (PDT)
+        bh=nxIryN+/nGnN7q5/mJrC1dQ+rinWckKL0IS2jYwlkeI=;
+        b=DM5v43L3gg7ZYPRudPWeNxJfmCN1nGrrFNCcRvQwREY7IJE1WjU0Cng1C5E1G+9LHG
+         PHZffbsrgxEklMT/9vtLSY4YmgP8mHV4iIntVIpOTYZpH4h1kLHom0eEEOWr6Nn4Cr/G
+         U3INOJ+gx/uHcHhUVwPuArRlxEcrfLyjlZallnH9/QY18njvi/lMEWdaEX3wmhtLGOil
+         /Ek3Yp6hwueVg8KBIiUMYj/sSXX19VcEOLnpnpOsTQ90Kk74txMHjGfN+eUqVCTD40mG
+         z+dqiVvntmKPU6XBNvlkKLQQXYUQXo++VKEvdFeCjmXH81Qzz1D0miu9R5PhqNWv7On3
+         6wgQ==
+X-Gm-Message-State: ABy/qLbPtAYbtcFdo0WCpYcJw/65xwQH/eLM0UkSvwRHe+YqOWIPBGZs
+        YKraDraB/mQzB+sAr6eKvLy3tQ==
+X-Google-Smtp-Source: APBJJlH69UlfwIWPYbCOxQtQ76ua+pdw1/ixsjQRFRBQgUh0yQ7pLCSXX0UzINbZgQLjLL4GlXZWZw==
+X-Received: by 2002:a05:6a00:2316:b0:668:82fe:16f1 with SMTP id h22-20020a056a00231600b0066882fe16f1mr369674pfh.1.1690493215262;
+        Thu, 27 Jul 2023 14:26:55 -0700 (PDT)
 Received: from charlie.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id c5-20020aa78c05000000b00682562b1549sm1912312pfd.24.2023.07.27.14.26.51
+        by smtp.gmail.com with ESMTPSA id c5-20020aa78c05000000b00682562b1549sm1912312pfd.24.2023.07.27.14.26.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 14:26:52 -0700 (PDT)
+        Thu, 27 Jul 2023 14:26:54 -0700 (PDT)
 From:   Charlie Jenkins <charlie@rivosinc.com>
 To:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
 Cc:     charlie@rivosinc.com, conor@kernel.org, paul.walmsley@sifive.com,
@@ -57,148 +57,51 @@ Cc:     charlie@rivosinc.com, conor@kernel.org, paul.walmsley@sifive.com,
         linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
         mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org,
         alexghiti@rivosinc.com
-Subject: [PATCH v8 1/4] RISC-V: mm: Restrict address space for sv39,sv48,sv57
-Date:   Thu, 27 Jul 2023 14:26:26 -0700
-Message-ID: <20230727212647.4182407-2-charlie@rivosinc.com>
+Subject: [PATCH v8 3/4] RISC-V: mm: Update pgtable comment documentation
+Date:   Thu, 27 Jul 2023 14:26:28 -0700
+Message-ID: <20230727212647.4182407-4-charlie@rivosinc.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230727212647.4182407-1-charlie@rivosinc.com>
 References: <20230727212647.4182407-1-charlie@rivosinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make sv48 the default address space for mmap as some applications
-currently depend on this assumption. A hint address passed to mmap will
-cause the largest address space that fits entirely into the hint to be
-used. If the hint is less than or equal to 1<<38, an sv39 address will
-be used. An exception is that if the hint address is 0, then a sv48
-address will be used. After an address space is completely full, the next
-smallest address space will be used.
+sv57 is supported in the kernel so pgtable.h should reflect that.
 
 Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- arch/riscv/include/asm/elf.h       |  2 +-
- arch/riscv/include/asm/pgtable.h   | 20 +++++++++++-
- arch/riscv/include/asm/processor.h | 52 ++++++++++++++++++++++++++----
- 3 files changed, 66 insertions(+), 8 deletions(-)
+ arch/riscv/include/asm/pgtable.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/riscv/include/asm/elf.h b/arch/riscv/include/asm/elf.h
-index c24280774caf..5d3368d5585c 100644
---- a/arch/riscv/include/asm/elf.h
-+++ b/arch/riscv/include/asm/elf.h
-@@ -49,7 +49,7 @@ extern bool compat_elf_check_arch(Elf32_Ehdr *hdr);
-  * the loader.  We need to make sure that it is out of the way of the program
-  * that it will "exec", and that there is sufficient room for the brk.
-  */
--#define ELF_ET_DYN_BASE		((TASK_SIZE / 3) * 2)
-+#define ELF_ET_DYN_BASE		((DEFAULT_MAP_WINDOW / 3) * 2)
- 
- #ifdef CONFIG_64BIT
- #ifdef CONFIG_COMPAT
 diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index 75970ee2bda2..c76a1ef094a4 100644
+index c76a1ef094a4..b551467a1dd8 100644
 --- a/arch/riscv/include/asm/pgtable.h
 +++ b/arch/riscv/include/asm/pgtable.h
-@@ -63,8 +63,26 @@
-  * position vmemmap directly below the VMALLOC region.
+@@ -848,14 +848,16 @@ static inline pte_t pte_swp_clear_exclusive(pte_t pte)
+  * Task size is 0x4000000000 for RV64 or 0x9fc00000 for RV32.
+  * Note that PGDIR_SIZE must evenly divide TASK_SIZE.
+  * Task size is:
+- * -     0x9fc00000 (~2.5GB) for RV32.
+- * -   0x4000000000 ( 256GB) for RV64 using SV39 mmu
+- * - 0x800000000000 ( 128TB) for RV64 using SV48 mmu
++ * -        0x9fc00000	(~2.5GB) for RV32.
++ * -      0x4000000000	( 256GB) for RV64 using SV39 mmu
++ * -    0x800000000000	( 128TB) for RV64 using SV48 mmu
++ * - 0x100000000000000	(  64PB) for RV64 using SV57 mmu
+  *
+  * Note that PGDIR_SIZE must evenly divide TASK_SIZE since "RISC-V
+  * Instruction Set Manual Volume II: Privileged Architecture" states that
+  * "load and store effective addresses, which are 64bits, must have bits
+  * 63–48 all equal to bit 47, or else a page-fault exception will occur."
++ * Similarly for SV57, bits 63–57 must be equal to bit 56.
   */
  #ifdef CONFIG_64BIT
-+#define VA_BITS_SV39 39
-+#define VA_BITS_SV48 48
-+#define VA_BITS_SV57 57
-+
-+#define VA_USER_SV39 (UL(1) << (VA_BITS_SV39 - 1))
-+#define VA_USER_SV48 (UL(1) << (VA_BITS_SV48 - 1))
-+#define VA_USER_SV57 (UL(1) << (VA_BITS_SV57 - 1))
-+
- #define VA_BITS		(pgtable_l5_enabled ? \
--				57 : (pgtable_l4_enabled ? 48 : 39))
-+				VA_BITS_SV57 : (pgtable_l4_enabled ? VA_BITS_SV48 : VA_BITS_SV39))
-+
-+#ifdef CONFIG_COMPAT
-+#define MMAP_VA_BITS_64 ((VA_BITS >= VA_BITS_SV48) ? VA_BITS_SV48 : VA_BITS)
-+#define MMAP_MIN_VA_BITS_64 ((VA_BITS >= VA_BITS_SV39) ? VA_BITS_SV39 : VA_BITS)
-+#define MMAP_VA_BITS (test_thread_flag(TIF_32BIT) ? 32 : MMAP_VA_BITS_64)
-+#define MMAP_MIN_VA_BITS (test_thread_flag(TIF_32BIT) ? 32 : MMAP_MIN_VA_BITS_64)
-+#else
-+#define MMAP_VA_BITS ((VA_BITS >= VA_BITS_SV48) ? VA_BITS_SV48 : VA_BITS)
-+#define MMAP_MIN_VA_BITS ((VA_BITS >= VA_BITS_SV39) ? VA_BITS_SV39 : VA_BITS)
-+#endif
- #else
- #define VA_BITS		32
- #endif
-diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-index c950a8d9edef..e810244ea951 100644
---- a/arch/riscv/include/asm/processor.h
-+++ b/arch/riscv/include/asm/processor.h
-@@ -13,19 +13,59 @@
- 
- #include <asm/ptrace.h>
- 
-+#ifdef CONFIG_64BIT
-+#define DEFAULT_MAP_WINDOW	(UL(1) << (MMAP_VA_BITS - 1))
-+#define STACK_TOP_MAX		TASK_SIZE_64
-+
-+#define arch_get_mmap_end(addr, len, flags)	\
-+({	\
-+	unsigned long mmap_end;	\
-+	typeof(addr) _addr = (addr); \
-+	if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) && test_thread_flag(TIF_32BIT))) \
-+		mmap_end = DEFAULT_MAP_WINDOW;	\
-+	else if ((_addr) >= VA_USER_SV57)	\
-+		mmap_end = STACK_TOP_MAX;	\
-+	else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48))	\
-+		mmap_end = VA_USER_SV48;	\
-+	else	\
-+		mmap_end = VA_USER_SV39;	\
-+	mmap_end;	\
-+})
-+
-+#define arch_get_mmap_base(addr, base) \
-+({ \
-+	unsigned long mmap_base; \
-+	typeof(addr) _addr = (addr); \
-+	typeof(base) _base = (base); \
-+	unsigned long rnd_gap = (_base) - DEFAULT_MAP_WINDOW; \
-+	if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) && test_thread_flag(TIF_32BIT))) \
-+		mmap_base = (_base); \
-+	else if (((_addr) >= VA_USER_SV57) && (VA_BITS >= VA_BITS_SV57)) \
-+		mmap_base = VA_USER_SV57 + rnd_gap; \
-+	else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) \
-+		mmap_base = VA_USER_SV48 + rnd_gap; \
-+	else \
-+		mmap_base = VA_USER_SV39 + rnd_gap; \
-+	mmap_base; \
-+})
-+
-+#else
-+#define DEFAULT_MAP_WINDOW	TASK_SIZE
-+#define STACK_TOP_MAX		TASK_SIZE
-+#endif
-+#define STACK_ALIGN		16
-+
-+#define STACK_TOP		DEFAULT_MAP_WINDOW
-+
- /*
-  * This decides where the kernel will search for a free chunk of vm
-  * space during mmap's.
-  */
--#define TASK_UNMAPPED_BASE	PAGE_ALIGN(TASK_SIZE / 3)
--
--#define STACK_TOP		TASK_SIZE
- #ifdef CONFIG_64BIT
--#define STACK_TOP_MAX		TASK_SIZE_64
-+#define TASK_UNMAPPED_BASE	PAGE_ALIGN((UL(1) << MMAP_MIN_VA_BITS) / 3)
- #else
--#define STACK_TOP_MAX		TASK_SIZE
-+#define TASK_UNMAPPED_BASE	PAGE_ALIGN(TASK_SIZE / 3)
- #endif
--#define STACK_ALIGN		16
- 
- #ifndef __ASSEMBLY__
- 
+ #define TASK_SIZE_64	(PGDIR_SIZE * PTRS_PER_PGD / 2)
 -- 
 2.41.0
 
