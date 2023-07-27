@@ -2,106 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05A1EC0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 01:20:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B60C001DE
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 01:44:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjG0BUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 21:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53490 "EHLO
+        id S230058AbjG0Bn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 21:43:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjG0BUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 21:20:23 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 896319C;
-        Wed, 26 Jul 2023 18:20:22 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id EADD35C013C;
-        Wed, 26 Jul 2023 21:20:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 26 Jul 2023 21:20:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
-         h=cc:cc:content-transfer-encoding:content-type:date:date:from
-        :from:in-reply-to:message-id:mime-version:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1690420821; x=1690507221; bh=jf
-        AHQLCIWpfDdvyeExTMEs7mz5YeHIAIHoJEn9iQiyI=; b=kaPvXonHsvEXHeualV
-        aXbyE1LTE2tU3iF6Op7CArDD66B535AhaI/y+0JHrupjoip8EuB7kDjDNewsTG+u
-        LpuyfEYsIGP9+AdTzbfhtpXlfiA9aJZbVsyGec9e2gAZiu5JXnxZXoelugxQmfm3
-        MBxDimOr+bRBjxTGmGwT4LEKdttfbnlgDF99McN4pLiUqgSa1EmSwnQhEuz1oWqw
-        cjxMPXTIcZ+ddhMVZas8iGrZ53M3O2dYzsUPwtE8bVcjIVfhrKjYcbSZPOwmQiAj
-        zB9IUIwutJwmd86hEi7GBdz0ZXqkKjsKhKCGHX2ANkk+vCH04po+YY90PlY1d04H
-        xu1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1690420821; x=1690507221; bh=jfAHQLCIWpfDd
-        vyeExTMEs7mz5YeHIAIHoJEn9iQiyI=; b=uhLnwcJTrBx8a2qQNOBfgUtwIv+xT
-        5cvWYadrh+YR+M3cR95qzoI5tU27aAKHDXnVC6ANDC6hFdeT1SQrkSC7ewNz8VF3
-        pN1ICI3l9OjsqlOUMCOYQ+NfhoIW5uOJkoDIcVjX/DLc31byFSjv8aSHikmnAIxd
-        tPSTO+rGezm4T5Tg7VhAC715U9kdDmnlm3ya6mCtp7XBuUrJBP/Hx1P+4+twSan2
-        K7zt1cez8MSYhnhntNGlq9Osd5m0UHdn6pmPuzyZHvS3SxkcQUxfnX/Vk4pFhctt
-        x7Pr9jWxNTnxPuamV4d+vI8MurCQ37bBafjcsUIzafpP0cuWr7UgWPDyw==
-X-ME-Sender: <xms:VcbBZPg6QFSNVHCIgghD_-pzChq5zHMXbT6XXJlLim8WqDqefmUR_Q>
-    <xme:VcbBZMAH6kgTBby6lJ4TjDEu-XdbcYy7fC4TPoB73kw4kyBgZ0hwlzkVO4rAOc5Rl
-    2fN9qjfY93k4z1Icfk>
-X-ME-Received: <xmr:VcbBZPEk_OpoVVPcB4xdRsuPmfAk3rU8zXVVyfEgqHyzAZyMpqRQ2_1Fr5g2i3EAy8gtlvNcLN-YoNGlOYpL4cZPCo8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrieefgdeggecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghvihguucft
-    vggrvhgvrhcuoehmvgesuggrvhhiughrvggrvhgvrhdrtghomheqnecuggftrfgrthhtvg
-    hrnhepheetveetgfdvffehfeffieeugeejhfevieejveeivdeuiefgvdduueffhfefveeh
-    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesuggrvhhiughrvggrvhgvrhdrtghomh
-X-ME-Proxy: <xmx:VcbBZMSsm-ctkM59SO09pKqnS8PpoYL18Mo8LDmQAdf75YRRKvM_Bw>
-    <xmx:VcbBZMxrdPMFePFZB_yqIGKKhgfIDOaVQksdoXmBKvw0P4LPxz9vqw>
-    <xmx:VcbBZC7KYQrP9H2Btu2gNLUUjM47prVbXyya3H6S3ikcMlYzbi-EmQ>
-    <xmx:VcbBZDlOkkgoYhH-_mkoPh9YqQB3nN92ZONBwCNokjJAnX4VWO2hgg>
-Feedback-ID: i67e946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 26 Jul 2023 21:20:20 -0400 (EDT)
-From:   David Reaver <me@davidreaver.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     David Reaver <me@davidreaver.com>, linux-doc@vger.kernel.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
+        with ESMTP id S229957AbjG0Bn6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 21:43:58 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F23BE61;
+        Wed, 26 Jul 2023 18:43:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=hp6cp7A51G4iktXiOcxoO4u7miw3X4y4lxN8UCoOFWg=; b=pm49HYnGqpGvPGwRRyIdGfVUc2
+        TFYKuzsKW2So1LPZo3brH+GTA99n8QIX5QZYOJLgYu/V24erEs15gpmatnxht7iZItH9owzL7eo93
+        h2hKM/IvPr5qdke5XTWavQebJhczW5N/TWUItH7co+Iy3lHHgLJXTQlUnrsVcbPlwkUpHL4h3aIl9
+        HWRd8YHH8vvLj/OBR9gNlHF+P/VR69zsB7c7ZV0qhhPj/D9mwq4HUxYDF9HkBeABgR/s+EdzotJZ/
+        RgsCAPEw0uKdqMJEnevaxO3y+xhvUzL4hNgzSiJLfp22HiAJZjXxARy+gM9SiabRDj/8K3Cq4Zks2
+        rnjpX+3w==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qOq2j-00BszC-25;
+        Thu, 27 Jul 2023 01:43:53 +0000
+Message-ID: <d811b6c7-fe01-4f9c-be14-31defce4d864@infradead.org>
+Date:   Wed, 26 Jul 2023 18:43:52 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] dma-buf/sync_file: Fix missing colon in kernel-doc for
+ num_fences
+Content-Language: en-US
+To:     David Reaver <me@davidreaver.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Clark <robdclark@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
         Gustavo Padovan <gustavo@padovan.org>,
         linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] dma-buf/sync_file: Fix missing colon in kernel-doc for num_fences
-Date:   Wed, 26 Jul 2023 18:19:44 -0700
-Message-ID: <20230727011944.327807-1-me@davidreaver.com>
-X-Mailer: git-send-email 2.41.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230727011944.327807-1-me@davidreaver.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230727011944.327807-1-me@davidreaver.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The struct sync_fence_info member num_fences was missing a colon in the
-kernel-doc, causing this warning when running make htmldocs:
+Hi--
 
-./include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+On 7/26/23 18:19, David Reaver wrote:
+> The struct sync_fence_info member num_fences was missing a colon in the
+> kernel-doc, causing this warning when running make htmldocs:
+> 
+> ./include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+> 
+> num_fences was also clearly missing from
+> https://docs.kernel.org/driver-api/dma-buf.html#c.sync_file_info before
+> this patch.
+> 
+> Signed-off-by: David Reaver <me@davidreaver.com>
+> ---
+>  include/uapi/linux/sync_file.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+> index 7e42a5b7558b..b389a5495181 100644
+> --- a/include/uapi/linux/sync_file.h
+> +++ b/include/uapi/linux/sync_file.h
+> @@ -56,7 +56,7 @@ struct sync_fence_info {
+>   * @name:	name of fence
+>   * @status:	status of fence. 1: signaled 0:active <0:error
+>   * @flags:	sync_file_info flags
+> - * @num_fences	number of fences in the sync_file
+> + * @num_fences: number of fences in the sync_file
+>   * @pad:	padding for 64-bit alignment, should always be zero
+>   * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+>   *		 fences in the sync_file
 
-num_fences was also clearly missing from
-https://docs.kernel.org/driver-api/dma-buf.html#c.sync_file_info before
-this patch.
 
-Signed-off-by: David Reaver <me@davidreaver.com>
----
- include/uapi/linux/sync_file.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Same as https://lore.kernel.org/all/20230330142720.882045-1-robdclark@gmail.com/
 
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index 7e42a5b7558b..b389a5495181 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -56,7 +56,7 @@ struct sync_fence_info {
-  * @name:	name of fence
-  * @status:	status of fence. 1: signaled 0:active <0:error
-  * @flags:	sync_file_info flags
-- * @num_fences	number of fences in the sync_file
-+ * @num_fences: number of fences in the sync_file
-  * @pad:	padding for 64-bit alignment, should always be zero
-  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
-  *		 fences in the sync_file
+Hopefully someone will merge/apply that one. Rob, can you make that happen?
+
+thanks.
+-- 
+~Randy
