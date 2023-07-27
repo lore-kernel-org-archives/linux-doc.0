@@ -2,109 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28289C0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D892C04A94
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:28:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230455AbjG0PXH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 11:23:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36822 "EHLO
+        id S231630AbjG0P25 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 11:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234640AbjG0PXE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:23:04 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C101BC1;
-        Thu, 27 Jul 2023 08:23:03 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 9C3A55C020C;
-        Thu, 27 Jul 2023 11:23:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 27 Jul 2023 11:23:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
-         h=cc:cc:content-transfer-encoding:content-type:date:date:from
-        :from:in-reply-to:message-id:mime-version:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1690471382; x=1690557782; bh=Eo
-        M4IIhDJ+nima2YIRQB3D+oQTQUjMH7C/WgWPLN1hU=; b=h1DQnKtcQ3OCGoqvmU
-        /OILwe4t1OgM3Um4SRPpjuP2P7NuE0lPg8nIhZwQOSZEyYH8/K0BNWygkVdYKzmo
-        0a/7m6JL+UKklm8WZBsuGkKQpXWdCh3l+gH9CzRdvUf0FFOHV1CpDFuls64CyNlF
-        Mv8rGL/Um5t0zsDOvqlMPyuCg4F5zbpOtj7Ym2gVvehRC8Latx7nj2O9p9j0g9d9
-        9zFOgZIys9fqxSOJvZnCnAC6kRAG6fc67UCYVNGueUb6oP3op1HE3b62WAqeDELJ
-        i3AUXh/4btRW35231KpKxBA+L7fCMo5RePak/muG/a1pTGBL09+DJLyur4aT9GuM
-        crUQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1690471382; x=1690557782; bh=EoM4IIhDJ+nim
-        a2YIRQB3D+oQTQUjMH7C/WgWPLN1hU=; b=FKLkZAbK37Av510F9o8VWviFqTlN3
-        DrYX9p97hkyv8TIScAk4+hpt5wamLncfo6xJUaS+gx8w3manJkp/5W3sRHOMRVKp
-        4zj4OGuZqgqQxZeg7gEoATYPT1YNkHPu7CUEeMNIFvKZfISwnxIZbd0pqf/vSckr
-        E9rDKBtLmSDPXyv+K6G0b7O+xoYeU8+yIdA0zvQxroI7TXFebB3AmnCxzRotOBxi
-        qSNVJ5U20Nk8S/yjKJJ8baBOjBgBfQZxkqZHAAPKh8YfC7Bd/kf7G775HeXLWY/E
-        I7ErcYK2BW79i2YGdKReiz8glVLY12vQJcSZQEtp7D1cLvpKW0jtqTYWQ==
-X-ME-Sender: <xms:1ovCZLSAc1zEjeKtpsJ4LzVHbwglioL_pX6kLVZlMlBWDshmvE4PIg>
-    <xme:1ovCZMygtSitOU5z-3X96q0auUn1RKJwP5t1F7aePYs44uGj5Abx2nBWYPq4zRKu_
-    etihgZpbtKTycw4l18>
-X-ME-Received: <xmr:1ovCZA0XPZ-jDIv3KBQ6TCCb7yS4OJGet1ioyLbWEUSg5hmrXrHPOWQcG1t4toMcOmGzr6nn0jzpwSv_DU_RlgsnQSI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrieeggdeivdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghvihguucft
-    vggrvhgvrhcuoehmvgesuggrvhhiughrvggrvhgvrhdrtghomheqnecuggftrfgrthhtvg
-    hrnhepheetveetgfdvffehfeffieeugeejhfevieejveeivdeuiefgvdduueffhfefveeh
-    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesuggrvhhiughrvggrvhgvrhdrtghomh
-X-ME-Proxy: <xmx:1ovCZLDql3qzJFBsgOxgVETRmXnYDYTRZnPI3JjSVYIGDHCVbbc2IA>
-    <xmx:1ovCZEjRDOaJau88vWKBSsNSc4myOEKCRGKSp2BuzQSwtHgZTHwNxA>
-    <xmx:1ovCZPpnwlZbZDByvhNk14sfkCRv1xbIJ-N-Eqz-VHRLUG6EYSlNbw>
-    <xmx:1ovCZOZc2rVbWBnFTxZws2Qz0PQ0WGnbfxc55b8-EWiNW9TNRr-Yew>
-Feedback-ID: i67e946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Jul 2023 11:23:01 -0400 (EDT)
-From:   David Reaver <me@davidreaver.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Dave Jiang <dave.jiang@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Reaver <me@davidreaver.com>
-Subject: [PATCH] docs: ABI: sysfs-bus-nvdimm: fix unexpected indentation error
-Date:   Thu, 27 Jul 2023 08:22:34 -0700
-Message-ID: <20230727152234.86923-1-me@davidreaver.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S229555AbjG0P25 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:28:57 -0400
+Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C77991BE4;
+        Thu, 27 Jul 2023 08:28:55 -0700 (PDT)
+Received: from [2001:a61:6209:7f40:c80a:ff:fe00:4098] (helo=cs-office3.lan.local); authenticated
+        by wp534.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1qP2v5-0008UE-9I; Thu, 27 Jul 2023 17:28:51 +0200
+Date:   Thu, 27 Jul 2023 17:28:42 +0200
+From:   Carsten =?UTF-8?B?U3BpZcOf?= <mail@carsten-spiess.de>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <20230727172842.3fe20026.mail@carsten-spiess.de>
+In-Reply-To: <bbf1aba4-48ce-289d-aaa9-bc861effaffd@roeck-us.net>
+References: <20230726152235.249569-1-mail@carsten-spiess.de>
+ <20230726152235.249569-2-mail@carsten-spiess.de>
+ <bbf1aba4-48ce-289d-aaa9-bc861effaffd@roeck-us.net>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/VKN5LQy7FMPezGOzlhGiZtM";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690471736;7dc0dfdb;
+X-HE-SMSGID: 1qP2v5-0008UE-9I
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the following error when running make htmldocs:
+--Sig_/VKN5LQy7FMPezGOzlhGiZtM
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Documentation/ABI/testing/sysfs-bus-nvdimm:10: ERROR: Unexpected indentation.
 
-This is caused by missing newlines before the code examples. In particular,
-before this patch, the second example for ctl_res_cnt doesn't render properly.
+> On 7/26/23 18:19, Guenter Roeck wrote:
+> I strongly suspect that the conversions will result in overflows and that=
+ they are not always correct.
+> I'll want to write unit test code before accepting the driver.
+I changed the conversion for current to=20
+				*val =3D ((long)regval * 1250L * (long)data->gain) /
+					(long)data->shunt;
 
-Link: https://docs.kernel.org/admin-guide/abi-testing.html#abi-sys-bus-event-source-devices-nmemx-format
+The term (1250 * gain) will be 10000 max, fits to 14 bit.
+So no risk for 32bit overflow when multiply with 16bit value.
 
-Signed-off-by: David Reaver <me@davidreaver.com>
----
- Documentation/ABI/testing/sysfs-bus-nvdimm | 2 ++
- 1 file changed, 2 insertions(+)
+And changed the conversion for power to=20
+				*val =3D ((51200000L * ((long)data->gain)) /
+					(long)data->shunt) * (long)regval;
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-nvdimm b/Documentation/ABI/testing/sysfs-bus-nvdimm
-index de8c5a59c77f..8564a0ff0d3e 100644
---- a/Documentation/ABI/testing/sysfs-bus-nvdimm
-+++ b/Documentation/ABI/testing/sysfs-bus-nvdimm
-@@ -18,7 +18,9 @@ Description:	(RO) Attribute group to describe the magic bits
- 		Each attribute under this group defines a bit range of the
- 		perf_event_attr.config. Supported attribute is listed
- 		below::
-+
- 		  event  = "config:0-4"  - event ID
+The first term (51200000 * gain / shunt) will be larger than 16bit when=20
+(shunt/gain) is less than ~800. So min values for shunt are=20
+- 6400 =C2=B5Ohm for 320 mV range
+- 3200 =C2=B5Ohm for 160 mV range
+- 1600 =C2=B5Ohm for 80 mV range
+- 800 =C2=B5Ohm for 40 mV range
+Can i set this conditionally in the .yaml file?
 
- 		For example::
-+
- 			ctl_res_cnt = "event=0x1"
+Regards Carsten
 
- What:           /sys/bus/event_source/devices/nmemX/events
+--Sig_/VKN5LQy7FMPezGOzlhGiZtM
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEWM+MlUpz/bWsZllTM1JQzV9LKSwFAmTCjSoACgkQM1JQzV9L
+KSxNEQ//Zl3WGNjRRHcZX/AnLzHLLmhKq3QZw9OreJLcnES+G85wGIqyXVg6gFYx
+1dSzoUgMJWN/DL8PyjR8AnJayQ0cLbQPqQF0xG/Ki7y2/CmvaQxc1Yy/vc9fDj0N
+sFnuqjBTATNIiKpbGNG8WBBmWRZMD1v9AezG4YqHXxRyiAV+394BrAj4K5ectyxI
+ZpQgYzGwXntGpf9LU3MyEvNaVyWK7SchOOXvBf8b60D2bUnLZft304UTKBoe6isw
+7bI7nY5ENeZJK41l1mYK6LDyqJiuCL7QuMaRuQkTBr4EbXrsvUA+xxXDnQ+CfGID
+yb3jAjfHyWUy9gajeBJGpsQqEjCGHlOnzb8n/6EdfXmrtLD+XShX3pj/Hm1Udkzr
+PUl++5gnu23nLppwB8XaNh/ssyx1tFxs7Fs1oOdBVe59PRSJvf4YKBaFb6J5ZH6r
+eQQj2owJy/vKPl1ASigwUVIVYg6bm/TlVZWdbMn2LXDZCWIOZjqZw2dS0SO7/sbm
+8J2BewTiX9M4vqBM716CIj/7Z++iA9bTHPlhG1LI0Q+nbPEgez68mz2kgMGNxIFB
+LVE7OzFac95rI7REi7rJadDi8DufWama2M1UycM1uUii1feDPYoJ5eCTPBq1AeuQ
+EShQ0pHmiph0Pn2Po3ALEMSJbay4jgGEQDNhZclWC/gjRhDPVnE=
+=QSkV
+-----END PGP SIGNATURE-----
+
+--Sig_/VKN5LQy7FMPezGOzlhGiZtM--
