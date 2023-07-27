@@ -2,68 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF77C001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:36:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 650C3C001E0
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:38:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbjG0PgX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 11:36:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44348 "EHLO
+        id S231799AbjG0PiI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 11:38:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231799AbjG0PgS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:36:18 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF35F211C
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 08:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=MVJk0dYjbABiyZXzBLHcIMtJCZnsqFtdqsh7IgSJFJM=; b=YR2Z43JVws5DbzUkZaiRh0/cvX
-        Wkw+oV2VFjFZCCueDFUpDTQH24O9ylc/HpivDoa1S61cFkCbZn6LnrEu7uk5l1VT1HZJlhdXbHfcT
-        Tcw++LI86EZZeHu2f/V+jfTIOXCbvETsD9ckCGfTVSgW8IkZB96Z7rtCykkMnHr84BaJRjoHLYNna
-        DJX5wBTOnbnqUU+c9FZj16J9Ww5nu4tVOhO+CoF6J28F71wEfTHeDLjPbvL2powz7QtgfXNu9xUsp
-        EXPE0sT0wP612fgmXlwPtGTPTlyfm8Nio67Nn04r1OTpIpzAvDP+6V7Dc+ckTdPfU642YXLQMCtnc
-        RATBN+5g==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qP329-00Fyfs-1p;
-        Thu, 27 Jul 2023 15:36:09 +0000
-Message-ID: <d975e31c-32da-804b-1828-2fc982624d16@infradead.org>
-Date:   Thu, 27 Jul 2023 08:36:09 -0700
+        with ESMTP id S233368AbjG0PiE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:38:04 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0BC61FFC;
+        Thu, 27 Jul 2023 08:38:03 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 19C5B5C0167;
+        Thu, 27 Jul 2023 11:38:03 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 27 Jul 2023 11:38:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
+         h=cc:cc:content-type:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1690472283; x=
+        1690558683; bh=gSa2UE+tG+6ppJSX7+/fH6rMPkCm1rn2JSAsjLzC194=; b=e
+        wEh34iZWiAQ2T7UejitYODzQ5DWGyK+gPKwM6HTiqIJrTLWUtxT0jc0GqJ++6fTE
+        117LEiBg5HA+GUebwrfjkhEiSEf49KWLF2y1a/PvUApW8y8fFV5vesb2jpqTXXGA
+        y6e84vNkq5E7pojrfdI+1igrbc0yZa1NcTRU888wK3Bc8qArxeXAEBkWXtU8BvoD
+        gfg0iHXCcWBzVFg03w9TVmuSxaS5JBTLiMTkVbPLqw+5KF7oDIYb/HkhXcIBBisO
+        2nWX8lfIGuORPyUh9lY7PDozRScNjZZOLWVMN3YA7bcfZVzYZt+u73/Kq73oVoxU
+        rF9wyy0MkRHoEVrTECmlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1690472283; x=1690558683; bh=gSa2UE+tG+6pp
+        JSX7+/fH6rMPkCm1rn2JSAsjLzC194=; b=YcPsXyNfVHw4nWK00SBx/jXr5Syt9
+        5TrA+JDktsPKJSCuCHzHpr0uMNUQIdXfLyWnNjF/v/1t4GRXtlfLidmSa+SiuSBU
+        12TE4NH3+lxiDrLnsDJFfbMn5sDJbFC22GzXgoKNk8NU3b7UemokiUFZRDcLaBhO
+        jdMNwom+RrkQXmC1XpuVasC8h7jriKhMprjj+BcrmQrr3c6w+bVAS/A5p7N0JJg/
+        iD63K0a2TAkATR2nYjl0qRGf+LNk8cF1kBh+TSsxwoOzws6QOIllE3VnGPs/3EJA
+        2tRVYJXQNXtHrGaSjvtYWY1I8+xzLAKEVi049InIbmXKksDTtTs6kLQmA==
+X-ME-Sender: <xms:Wo_CZBdIYgyEQ2KzyGQhtkh0VG4aBUagzW2NowXOGY7y73Mu_N6reA>
+    <xme:Wo_CZPN3x0EZ1Dc2jtb4MX0Q1JQSeMtclQDq_fZ96C9CIzx9hwupai0-PAsEWy3uf
+    7J5ynCqjT09RDyS1ow>
+X-ME-Received: <xmr:Wo_CZKi8Fn1iCD476yRFLdjIyT2I1vp2eh9fsjPF7EQCyQVycWo1uXRzw7Ydh8faDa6fzQV_SrsUvwkJNo-msQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrieeggdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpeffrghvihgu
+    ucftvggrvhgvrhcuoehmvgesuggrvhhiughrvggrvhgvrhdrtghomheqnecuggftrfgrth
+    htvghrnhepvefhleffvedtfeduuddviefhheetvedugeeludfhgfevveetgeffkeetvedu
+    uedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesuggrvhhiughrvggrvhgvrhdrtgho
+    mh
+X-ME-Proxy: <xmx:Wo_CZK-v8I8UBdL20bSVclL8S8AXVIb8J2Mxm3xSLNb-stFIRWyMog>
+    <xmx:Wo_CZNvL6XpQL9Xawl-BpZI5oC0tGskBIuxMMeQWERL64ROj3TqW8Q>
+    <xmx:Wo_CZJEqfbveEI_mo1SB6R1MIys5ffykPuuetq9l3DBRamedAwrgEw>
+    <xmx:W4_CZHILZUeDs9Nk4GlpGc8HPZrwJM0Sm5cy953T8SA3XASlAS_Jgg>
+Feedback-ID: i67e946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Jul 2023 11:38:01 -0400 (EDT)
+References: <20230727152234.86923-1-me@davidreaver.com>
+ <87o7jx5q4d.fsf@meer.lwn.net>
+User-agent: mu4e 1.10.4; emacs 28.2
+From:   David Reaver <me@davidreaver.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Dave Jiang <dave.jiang@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: ABI: sysfs-bus-nvdimm: fix unexpected indentation
+ error
+Date:   Thu, 27 Jul 2023 08:36:46 -0700
+In-reply-to: <87o7jx5q4d.fsf@meer.lwn.net>
+Message-ID: <86mszhjrfr.fsf@davidreaver.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 16/16] arm64: text replication: add Kconfig
-Content-Language: en-US
-To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-References: <ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk>
- <E1qP2xR-001CYS-Ti@rmk-PC.armlinux.org.uk>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <E1qP2xR-001CYS-Ti@rmk-PC.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Russell,
 
-On 7/27/23 08:31, Russell King (Oracle) wrote:
-> +config REPLICATE_KTEXT
-> +	bool "Replicate kernel text across numa nodes"
+Jonathan Corbet <corbet@lwn.net> writes:
 
-Please use                                 NUMA
-for consistency
+>
+> Thanks for the patch.  This problem is already fixed in docs-next,
+> though, and thus in linux-next as well.
+>
+> jon
 
-> +	depends on NUMA
-> +	help
-> +	  Say Y here to enable replicating the kernel text across multiple
-> +	  nodes in a NUMA cluster.  This trades memory for speed.
+Ah, sorry Jonathan. I was using Linus' tree, and I must have messed up
+the search query I used against https://lore.kernel.org. I'll try to
+remember to use docs-next for future docs patches.
 
-with	             ^^^^.
-
--- 
-~Randy
+Thanks,
+David
