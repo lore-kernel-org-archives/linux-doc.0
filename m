@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AC1C001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 18:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7542DC00528
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 18:48:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231535AbjG0SrT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 14:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36090 "EHLO
+        id S231254AbjG0SsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 14:48:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230504AbjG0SrL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 14:47:11 -0400
+        with ESMTP id S231312AbjG0Sr4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 14:47:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0FB30E0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 11:46:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6333530DF
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 11:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690483582;
+        s=mimecast20190719; t=1690483583;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=p0Bv8RV/6VKQUXDLbsWN97ne3VW3ZcB7lEFXae7aK9U=;
-        b=eLZt9X2NsG4bodWipo9HB5pdQxYTRZngVG4l+EjDKLiJYKZiay7yN/9erIx/2/osFDLTyk
-        OpYQ8v9HmuKx2PR/rrv9j+GNjC8fxQ3H7uZ62t2sIpN05jnUzMFiigQol4PJd9ODNplfG/
-        9d3QAlYdTzsYy1gKEM0JZ7le/vUUdsY=
+        bh=a86H4y4z8KX0kr9JT7xslzvC5qr9VS6pS7JR1Mg/VpQ=;
+        b=XSWv4PwruExlvuBPrkLTnHcKj94w7xSOUTfStWFFZ0W5IiOXynwGMKzq1bbAAFUxnm0BAZ
+        a+S49kpfIo2j2jgYnr+b6UdLtiBBjE3lxwZlo4/M6zonn0dezaNDRM5UEtO+yPTSUaq/jT
+        Ypv/1Uoyll6al8lgLjvNlQ928k0Ius0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-8ItcYOwWMwCWW9Ry2Q2B5g-1; Thu, 27 Jul 2023 14:46:18 -0400
-X-MC-Unique: 8ItcYOwWMwCWW9Ry2Q2B5g-1
+ us-mta-553-mjyQeE1zOLGs7AetcTKNHA-1; Thu, 27 Jul 2023 14:46:17 -0400
+X-MC-Unique: mjyQeE1zOLGs7AetcTKNHA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCEDA88D4E2;
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04B9888D518;
         Thu, 27 Jul 2023 18:46:17 +0000 (UTC)
 Received: from llong.com (unknown [10.22.17.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 15228C57964;
-        Thu, 27 Jul 2023 18:46:17 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 371AFC57964;
+        Thu, 27 Jul 2023 18:46:16 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -53,9 +53,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v6 2/4] x86/idle: Disable IBRS when cpu is offline
-Date:   Thu, 27 Jul 2023 14:45:58 -0400
-Message-Id: <20230727184600.26768-3-longman@redhat.com>
+Subject: [PATCH v6 1/4] x86/speculation: Add __update_spec_ctrl() helper
+Date:   Thu, 27 Jul 2023 14:45:57 -0400
+Message-Id: <20230727184600.26768-2-longman@redhat.com>
 In-Reply-To: <20230727184600.26768-1-longman@redhat.com>
 References: <20230727184600.26768-1-longman@redhat.com>
 MIME-Version: 1.0
@@ -65,52 +65,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
-disables IBRS when the CPU enters long idle. However, when a CPU
-becomes offline, the IBRS bit is still set when X86_FEATURE_KERNEL_IBRS
-is enabled. That will impact the performance of a sibling CPU. Mitigate
-this performance impact by clearing all the mitigation bits in SPEC_CTRL
-MSR when offline. When the CPU is online again, it will be re-initialized
-and so restoring the SPEC_CTRL value isn't needed.
+Add a new __update_spec_ctrl() helper which is a variant of
+update_spec_ctrl() that can be used in a noinstr function.
 
-Add a comment to say that native_play_dead() is a __noreturn function,
-but it can't be marked as such to avoid confusion about the missing
-MSR restoration code.
-
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
 Signed-off-by: Waiman Long <longman@redhat.com>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- arch/x86/kernel/smpboot.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/x86/include/asm/spec-ctrl.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
-index e1aa2cd7734b..16f420d49a13 100644
---- a/arch/x86/kernel/smpboot.c
-+++ b/arch/x86/kernel/smpboot.c
-@@ -87,6 +87,7 @@
- #include <asm/hw_irq.h>
- #include <asm/stackprotector.h>
- #include <asm/sev.h>
-+#include <asm/spec-ctrl.h>
+diff --git a/arch/x86/include/asm/spec-ctrl.h b/arch/x86/include/asm/spec-ctrl.h
+index cb0386fc4dc3..d03408e0468a 100644
+--- a/arch/x86/include/asm/spec-ctrl.h
++++ b/arch/x86/include/asm/spec-ctrl.h
+@@ -4,6 +4,7 @@
  
- /* representing HT siblings of each logical CPU */
- DEFINE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_sibling_map);
-@@ -1743,8 +1744,15 @@ void __noreturn hlt_play_dead(void)
- 		native_halt();
+ #include <linux/thread_info.h>
+ #include <asm/nospec-branch.h>
++#include <asm/msr.h>
+ 
+ /*
+  * On VMENTER we must preserve whatever view of the SPEC_CTRL MSR
+@@ -76,6 +77,16 @@ static inline u64 ssbd_tif_to_amd_ls_cfg(u64 tifn)
+ 	return (tifn & _TIF_SSBD) ? x86_amd_ls_cfg_ssbd_mask : 0ULL;
  }
  
 +/*
-+ * native_play_dead() is essentially a __noreturn function, but it can't
-+ * be marked as such as the compiler may complain about it.
++ * This can be used in noinstr function & should only be called in bare
++ * metal context.
 + */
- void native_play_dead(void)
- {
-+	if (cpu_feature_enabled(X86_FEATURE_KERNEL_IBRS))
-+		__update_spec_ctrl(0);
++static __always_inline void __update_spec_ctrl(u64 val)
++{
++	__this_cpu_write(x86_spec_ctrl_current, val);
++	native_wrmsrl(MSR_IA32_SPEC_CTRL, val);
++}
 +
- 	play_dead_common();
- 	tboot_shutdown(TB_SHUTDOWN_WFS);
- 
+ #ifdef CONFIG_SMP
+ extern void speculative_store_bypass_ht_init(void);
+ #else
 -- 
 2.31.1
 
