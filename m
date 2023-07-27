@@ -2,349 +2,697 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 562B4EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 19:50:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6BE5C0015E
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 20:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbjG0Tuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 15:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33032 "EHLO
+        id S231483AbjG0UBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 16:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231866AbjG0Tup (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 15:50:45 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C822F3AA5;
-        Thu, 27 Jul 2023 12:50:14 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-51bece5d935so1712205a12.1;
-        Thu, 27 Jul 2023 12:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690487392; x=1691092192;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ojkcqNP3uNOpjlJhJHIBQRfHAVcUXxAGMw8NVAHP+Aw=;
-        b=I7XbOwk9ivyvO02VJOEgZz8t6BFEFy+fODHwc2cu5KkKlIVGnd/zMdTBD0S1ssLnWX
-         byXU2HxeC38ySEEvcOfdacZKANB/U+rFesxnDxrouuEcqneXSYUu0HEcNNmf/oCIIQBl
-         /Nj1IiX0c2HXOCT3UPUbV1jsrgss1xp7gu6tRVR3juTLQ9jCug15ExCKMv9RapobxkKR
-         bZNntp5mlPkkOvpjMjQaXRB2GvMYkvRqFtDFm/ZqslSI9AL304KAnR/sorjwrHJHG6ui
-         5ev1hADND1vGVccUiVbhstBkd0kK6cgv/FUP0jCJyvX7IgX5RfAjfsn8q59fFkDr+Ur0
-         Wh8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690487392; x=1691092192;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ojkcqNP3uNOpjlJhJHIBQRfHAVcUXxAGMw8NVAHP+Aw=;
-        b=kUyziFERK1b2kpHxe8ByGKInKLoVh22hluPrZYMpxakvh6ILACHS0Gf4TTY4fxG0pX
-         CQauuTyAbxDh2tKc6gxaLQ3vvak9gLhYmIaba2s87Ha4NBcQWo4MGCc6Ed1qzhzu01lr
-         gmbRm3tYQ1xMrCdJO3v3+DEGyItTXil0/lhYkKVYzj2w41Ko9U9KfRg3pd9D3yOd3GOk
-         uiN6hUiKPKRtClYtBLUMbwLFJwjqiOpEtfxx6Bx1JcTdFDqlEZQE+dUXbB6GRGHLkQqc
-         Pd7/9CbQLCNsqLq9W85/CCkVWeTbOaF0j63dNRO+r4UiKZVjlkjMYRZIlprNYnnCOuzt
-         qC4A==
-X-Gm-Message-State: ABy/qLZ2kbjZhrK3tgT3BfpGm27cDl8OS/qmwBP9oHZVe9BnxBKMbcX5
-        Pym5Vox0wxA2KVtX9E9V2l4qgYZukzkp9x6ffzQ=
-X-Google-Smtp-Source: APBJJlFeqJRN1XqDEqH2Iu9+gzDYkOMaNfSFN4sliyp+zjGW1ZWr8bfuziJzJ6mQ5c0KNfcSeEbK68Ks+WIdLDMHaSg=
-X-Received: by 2002:a05:6402:1003:b0:51d:9905:6f60 with SMTP id
- c3-20020a056402100300b0051d99056f60mr4563edu.41.1690487392315; Thu, 27 Jul
- 2023 12:49:52 -0700 (PDT)
+        with ESMTP id S232220AbjG0UBO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 16:01:14 -0400
+X-Greylist: delayed 100051 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 27 Jul 2023 13:01:12 PDT
+Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8238::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7FE2D73;
+        Thu, 27 Jul 2023 13:01:12 -0700 (PDT)
+Received: from [2001:a61:6209:7f01:c80a:ff:fe00:19d] (helo=cs-wrt.lan.local); authenticated
+        by wp534.webpack.hosteurope.de running ExIM with esmtpa
+        id 1qP75c-0002zl-5v; Thu, 27 Jul 2023 21:56:00 +0200
+From:   =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 1/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+Date:   Thu, 27 Jul 2023 21:55:40 +0200
+Message-Id: <20230727195541.2245289-2-mail@carsten-spiess.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230727195541.2245289-1-mail@carsten-spiess.de>
+References: <20230727195541.2245289-1-mail@carsten-spiess.de>
 MIME-Version: 1.0
-References: <20230720152737.102382-1-helen.koike@collabora.com>
-In-Reply-To: <20230720152737.102382-1-helen.koike@collabora.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Thu, 27 Jul 2023 12:49:39 -0700
-Message-ID: <CAF6AEGtXL5vjp3Uup6Mk19MiY8E26-tpyXVmxXYhMd3fiadykQ@mail.gmail.com>
-Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     dri-devel@lists.freedesktop.org, guilherme.gallo@collabora.com,
-        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
-        daniels@collabora.com, emma@anholt.net, robclark@freedesktop.org,
-        gustavo.padovan@collabora.com, robdclark@google.com,
-        anholt@google.com, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-        daniel@ffwll.ch, corbet@lwn.net, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        khilman@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com, heiko@sntech.de,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690488072;095217e7;
+X-HE-SMSGID: 1qP75c-0002zl-5v
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 8:27=E2=80=AFAM Helen Koike <helen.koike@collabora.=
-com> wrote:
->
-> From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->
-> Developers can easily execute several tests on different devices
-> by just pushing their branch to their fork in a repository hosted
-> on gitlab.freedesktop.org which has an infrastructure to run jobs
-> in several runners and farms with different devices.
->
-> There are also other automated tools that uprev dependencies,
-> monitor the infra, and so on that are already used by the Mesa
-> project, and we can reuse them too.
->
-> Also, store expectations about what the DRM drivers are supposed
-> to pass in the IGT test suite. By storing the test expectations
-> along with the code, we can make sure both stay in sync with each
-> other so we can know when a code change breaks those expectations.
->
-> Also, include a configuration file that points to the out-of-tree
-> CI scripts.
->
-> This will allow all contributors to drm to reuse the infrastructure
-> already in gitlab.freedesktop.org to test the driver on several
-> generations of the hardware.
->
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->
-> ---
->
-> Hello,
->
-> I'm re-spining this patch sent originally by Tomeu.
->
-> This is meant to be an auxiliary tool where developers and
-> maintainers can just submit their code to fdo and see if
-> tests passes, than they can decide if it is worthy merging
-> it or not.
->
-> This tool has proven its value on the Mesa community
-> and it can bring a lot of value here too.
->
-> Please review and let me know your thoughts.
->
-> You can also see this patch on
-> https://gitlab.freedesktop.org/helen.fornazier/linux/-/tree/drm-ci-tests
->
-> Thanks!
->
-> v2:
->   - Fix names of result expectation files to match SoC
->   - Don't execute tests that are going to skip on all boards
->
-> v3:
->   - Remove tracking of dmesg output during test execution
->
-> v4:
->   - Move up to drivers/gpu/drm
->   - Add support for a bunch of other drivers
->   - Explain how to incorporate fixes for CI from a
->     ${TARGET_BRANCH}-external-fixes branch
->   - Remove tests that pass from expected results file, to reduce the
->     size of in-tree files
->   - Add docs about how to deal with outages in automated testing labs
->   - Specify the exact SHA of the CI scripts to be used
->
-> v5:
->   - Remove unneeded skips from Meson expectations file
->   - Use a more advanced runner that detects flakes automatically
->   - Use a more succint format for the expectations
->   - Run many more tests (and use sharding to finish in time)
->   - Use skip lists to avoid hanging machines
->   - Add some build testing
->   - Build IGT in each pipeline for faster uprevs
->   - List failures in the GitLab UI
->
-> v6:
->   - Rebase on top of latest drm-next
->   - Lower priority of LAVA jobs to not impact Mesa CI as much
->   - Update docs
->
-> v7:
->   - Rebase on top of latest drm-next
->
-> v8:
->   - Move all files specific to testing the kernel into the kernel tree
->     (thus I have dropped the r-bs I had collected so far)
->   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
->   - Add MAINTAINERS entry
->   - Fix boot on MT8173 by adding some Kconfigs that are now needed
->   - Link to the docs from index.rst and hard-wrap the file
->
-> v9:
->   - Only automatically run the pipelines for merge requests
->   - Switch to zstd for the build artifacts to align with Mesa
->   - Add Qcom USB PHYs to config as they are now =3Dm in the defconfig
->
-> v10:
->   - Include ci yml files from mesa/mesa (where the development is
->     current active) instead of a spin off project.
->   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
->   - Update MAINTAINERS entry
->   - Uprev igt tool
->   - add LAVA_JOB_PRIORITY: 30
->   - pipeline example:
->   https://gitlab.freedesktop.org/helen.fornazier/linux/-/pipelines/940506
-> ---
->  Documentation/gpu/automated_testing.rst       |  144 +
->  Documentation/gpu/index.rst                   |    1 +
->  MAINTAINERS                                   |    8 +
->  drivers/gpu/drm/ci/arm.config                 |   69 +
->  drivers/gpu/drm/ci/arm64.config               |  199 ++
->  drivers/gpu/drm/ci/build-igt.sh               |   35 +
->  drivers/gpu/drm/ci/build.sh                   |  157 +
->  drivers/gpu/drm/ci/build.yml                  |  110 +
->  drivers/gpu/drm/ci/check-patch.py             |   57 +
->  drivers/gpu/drm/ci/container.yml              |   61 +
->  drivers/gpu/drm/ci/gitlab-ci.yml              |  252 ++
->  drivers/gpu/drm/ci/igt_runner.sh              |   77 +
->  drivers/gpu/drm/ci/image-tags.yml             |   15 +
->  drivers/gpu/drm/ci/lava-submit.sh             |   57 +
->  drivers/gpu/drm/ci/static-checks.yml          |   12 +
->  drivers/gpu/drm/ci/test.yml                   |  335 ++
->  drivers/gpu/drm/ci/testlist.txt               | 2912 +++++++++++++++++
->  drivers/gpu/drm/ci/x86_64.config              |  111 +
->  .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   22 +
->  .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   19 +
->  .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |    2 +
->  drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   17 +
->  .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |   32 +
->  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |    4 +
->  drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   57 +
->  drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |    1 +
->  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |    4 +
->  drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |   18 +
->  drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   37 +
->  drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |    2 +
->  drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |   18 +
->  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   41 +
->  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |    5 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   26 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   25 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |    5 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   37 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |    5 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   11 +
->  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   47 +
->  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |    1 +
->  drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |    2 +
->  .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   29 +
->  .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |    0
->  .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   10 +
->  .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |   14 +
->  .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   12 +
->  .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |    4 +
->  .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   15 +
->  .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |    4 +
->  .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |    2 +
->  .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |    4 +
->  .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |    2 +
->  .../gpu/drm/ci/xfails/msm-sc7180-fails.txt    |   25 +
->  .../gpu/drm/ci/xfails/msm-sc7180-flakes.txt   |    7 +
->  .../gpu/drm/ci/xfails/msm-sc7180-skips.txt    |   23 +
->  .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   68 +
->  .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |   11 +
->  .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |    2 +
->  .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   49 +
->  .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |    8 +
->  .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   52 +
->  .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   39 +
->  .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   23 +
->  .../drm/ci/xfails/rockchip-rk3399-skips.txt   |    5 +
->  .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   38 +
->  .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |    0
->  .../drm/ci/xfails/virtio_gpu-none-skips.txt   |    6 +
->  test                                          |    0
->  69 files changed, 5502 insertions(+)
->  create mode 100644 Documentation/gpu/automated_testing.rst
->  create mode 100644 drivers/gpu/drm/ci/arm.config
->  create mode 100644 drivers/gpu/drm/ci/arm64.config
->  create mode 100644 drivers/gpu/drm/ci/build-igt.sh
->  create mode 100644 drivers/gpu/drm/ci/build.sh
->  create mode 100644 drivers/gpu/drm/ci/build.yml
->  create mode 100755 drivers/gpu/drm/ci/check-patch.py
->  create mode 100644 drivers/gpu/drm/ci/container.yml
->  create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
->  create mode 100755 drivers/gpu/drm/ci/igt_runner.sh
->  create mode 100644 drivers/gpu/drm/ci/image-tags.yml
->  create mode 100755 drivers/gpu/drm/ci/lava-submit.sh
->  create mode 100644 drivers/gpu/drm/ci/static-checks.yml
->  create mode 100644 drivers/gpu/drm/ci/test.yml
->  create mode 100644 drivers/gpu/drm/ci/testlist.txt
->  create mode 100644 drivers/gpu/drm/ci/x86_64.config
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
->  create mode 100644 test
->
+Driver for Renesas ISL28022 power monitor with I2C interface.
+The device monitors voltage, current via shunt resistor
+and calculated power.
 
-[snip]
+Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
+---
+ Documentation/hwmon/index.rst    |   1 +
+ Documentation/hwmon/isl28022.rst |  63 ++++
+ MAINTAINERS                      |   7 +
+ drivers/hwmon/Kconfig            |  11 +
+ drivers/hwmon/Makefile           |   1 +
+ drivers/hwmon/isl28022.c         | 496 +++++++++++++++++++++++++++++++
+ 6 files changed, 579 insertions(+)
+ create mode 100644 Documentation/hwmon/isl28022.rst
+ create mode 100644 drivers/hwmon/isl28022.c
 
-> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab=
--ci.yml
-> new file mode 100644
-> index 000000000000..32d8e2258eb6
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-> @@ -0,0 +1,252 @@
-> +variables:
-> +  # Change this to use your fork of drm-ci
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index d11924667f76..c9548fc5c40e 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -90,6 +90,7 @@ Hardware Monitoring Kernel Drivers
+    ir35221
+    ir38064
+    ir36021
++   isl28022
+    isl68137
+    it87
+    jc42
+diff --git a/Documentation/hwmon/isl28022.rst b/Documentation/hwmon/isl28022.rst
+new file mode 100644
+index 000000000000..8d4422a2dacd
+--- /dev/null
++++ b/Documentation/hwmon/isl28022.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++
++Kernel driver isl28022
++======================
++
++Supported chips:
++
++  * Renesas ISL28022
++
++    Prefix: 'isl28022'
++
++    Addresses scanned: none
++
++    Datasheet: Publicly available at the Renesas website
++
++	       https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
++
++Author:
++    Carsten Spieß <mail@carsten-spiess.de>
++
++Description
++-----------
++
++The ISL28022 is a power monitor with I2C interface. The device monitors
++voltage, current via shunt resistor and calculated power.
++
++Usage Notes
++-----------
++
++This driver does not auto-detect devices. You will have to instantiate the
++device explicitly. Please see Documentation/i2c/instantiating-devices.rst for
++details.
++
++The shunt value in micro-ohms, shunt voltage range and averaging can be set
++with device properties.
++Please refer to the Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
++for bindings if the device tree is used.
++
++The driver supports only shunt and bus continuous ADC mode at 15bit resolution.
++Averaging can be set from 1 to 128 samples (power of 2) on both channels.
++Shunt voltage range of 40, 80, 160 or 320mV is allowed
++The bus voltage range is 60V fixed.
++
++Sysfs entries
++-------------
++
++The following attributes are supported. All attributes are read-only.
++
++======================= =======================================================
++in0_input		bus voltage (milli Volt)
++
++curr1_input		current (milli Ampere)
++power1_input		power (micro Watt)
++======================= =======================================================
++
++Debugfs entries
++---------------
++
++The following attributes are supported. All attributes are read-only.
++
++======================= =======================================================
++shunt_voltage		shunt voltage (micro Volt)
++======================= =======================================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7abb5710e1bb..b02e3b991676 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11065,6 +11065,13 @@ F:	drivers/isdn/Makefile
+ F:	drivers/isdn/hardware/
+ F:	drivers/isdn/mISDN/
+ 
++ISL28022 HARDWARE MONITORING DRIVER
++M:	Carsten Spieß <mail@carsten-spiess.de>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/hwmon/isl28022.rst
++F:	drivers/hwmon/isl28022.c
++
+ ISOFS FILESYSTEM
+ M:	Jan Kara <jack@suse.cz>
+ L:	linux-fsdevel@vger.kernel.org
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 2913299c2c9e..3049c519e6ac 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -800,6 +800,17 @@ config SENSORS_CORETEMP
+ 	  sensor inside your CPU. Most of the family 6 CPUs
+ 	  are supported. Check Documentation/hwmon/coretemp.rst for details.
+ 
++config SENSORS_ISL28022
++	tristate "Renesas ISL28022"
++	depends on I2C
++	select REGMAP_I2C
++	help
++	  If you say yes here you get support for ISL28022 power monitor.
++	  Check Documentation/hwmon/isl28022.rst for details.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called isl28022.
++
+ config SENSORS_IT87
+ 	tristate "ITE IT87xx and compatibles"
+ 	depends on !PPC
+diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+index ff6bfd109c72..4046fed7f48d 100644
+--- a/drivers/hwmon/Makefile
++++ b/drivers/hwmon/Makefile
+@@ -98,6 +98,7 @@ obj-$(CONFIG_SENSORS_INA2XX)	+= ina2xx.o
+ obj-$(CONFIG_SENSORS_INA238)	+= ina238.o
+ obj-$(CONFIG_SENSORS_INA3221)	+= ina3221.o
+ obj-$(CONFIG_SENSORS_INTEL_M10_BMC_HWMON) += intel-m10-bmc-hwmon.o
++obj-$(CONFIG_SENSORS_ISL28022)	+= isl28022.o
+ obj-$(CONFIG_SENSORS_IT87)	+= it87.o
+ obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
+ obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
+diff --git a/drivers/hwmon/isl28022.c b/drivers/hwmon/isl28022.c
+new file mode 100644
+index 000000000000..18b4481d5ff6
+--- /dev/null
++++ b/drivers/hwmon/isl28022.c
+@@ -0,0 +1,496 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * isl28022.c - driver for Renesas ISL28022 power monitor chip monitoring
++ *
++ * Copyright (c) 2023 Carsten Spieß <mail@carsten-spiess.de>
++ */
++
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/slab.h>
++#include <linux/i2c.h>
++#include <linux/hwmon.h>
++#include <linux/hwmon-sysfs.h>
++#include <linux/debugfs.h>
++#include <linux/err.h>
++#include <linux/of_device.h>
++#include <linux/regmap.h>
++#include <linux/util_macros.h>
++#include <linux/regulator/consumer.h>
++
++/* ISL28022 registers */
++#define ISL28022_REG_CONFIG	0x00
++#define ISL28022_REG_SHUNT	0x01
++#define ISL28022_REG_BUS	0x02
++#define ISL28022_REG_POWER	0x03
++#define ISL28022_REG_CURRENT	0x04
++#define ISL28022_REG_CALIB	0x05
++#define ISL28022_REG_SHUNT_THR	0x06
++#define ISL28022_REG_BUS_THR	0x07
++#define ISL28022_REG_INT	0x08
++#define ISL28022_REG_AUX	0x09
++#define ISL28022_REG_MAX	ISL28022_REG_AUX
++
++/* ISL28022 config flags */
++/* mode flags */
++#define ISL28022_MODE_SHIFT	0
++#define ISL28022_MODE_MASK	0x0007
++
++#define ISL28022_MODE_PWR_DOWN	0x0
++#define ISL28022_MODE_TRG_S	0x1
++#define ISL28022_MODE_TRG_B	0x2
++#define ISL28022_MODE_TRG_SB	0x3
++#define ISL28022_MODE_ADC_OFF	0x4
++#define ISL28022_MODE_CONT_S	0x5
++#define ISL28022_MODE_CONT_B	0x6
++#define ISL28022_MODE_CONT_SB	0x7
++
++/* shunt ADC settings */
++#define ISL28022_SADC_SHIFT	3
++#define ISL28022_SADC_MASK	0x0078
++
++#define ISL28022_BADC_SHIFT	7
++#define ISL28022_BADC_MASK	0x0780
++
++#define ISL28022_ADC_12		0x0	/* 12 bit ADC */
++#define ISL28022_ADC_13		0x1	/* 13 bit ADC */
++#define ISL28022_ADC_14		0x2	/* 14 bit ADC */
++#define ISL28022_ADC_15		0x3	/* 15 bit ADC */
++#define ISL28022_ADC_15_1	0x8	/* 15 bit ADC, 1 sample */
++#define ISL28022_ADC_15_2	0x9	/* 15 bit ADC, 2 samples */
++#define ISL28022_ADC_15_4	0xA	/* 15 bit ADC, 4 samples */
++#define ISL28022_ADC_15_8	0xB	/* 15 bit ADC, 8 samples */
++#define ISL28022_ADC_15_16	0xC	/* 15 bit ADC, 16 samples */
++#define ISL28022_ADC_15_32	0xD	/* 15 bit ADC, 32 samples */
++#define ISL28022_ADC_15_64	0xE	/* 15 bit ADC, 64 samples */
++#define ISL28022_ADC_15_128	0xF	/* 15 bit ADC, 128 samples */
++
++/* shunt voltage range */
++#define ISL28022_PG_SHIFT	11
++#define ISL28022_PG_MASK	0x1800
++
++#define ISL28022_PG_40		0x0	/* +/-40 mV */
++#define ISL28022_PG_80		0x1	/* +/-80 mV */
++#define ISL28022_PG_160		0x2	/* +/-160 mV */
++#define ISL28022_PG_320		0x3	/* +/-3200 mV */
++
++/* bus voltage range */
++#define ISL28022_BRNG_SHIFT	13
++#define ISL28022_BRNG_MASK	0x6000
++
++#define ISL28022_BRNG_16	0x0	/* 16 V */
++#define ISL28022_BRNG_32	0x1	/* 32 V */
++#define ISL28022_BRNG_60	0x3	/* 60 V */
++
++/* reset */
++#define ISL28022_RESET		0x8000
++
++struct isl28022_data {
++	struct i2c_client	*client;
++	struct regmap		*regmap;
++#ifdef CONFIG_DEBUG_FS
++	struct dentry		*debugfs;
++#endif
++	u32			shunt;
++	u32			gain;
++	u32			average;
++	u16			config;
++	u16			calib;
++};
++
++static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
++			 u32 attr, int channel, long *val)
++{
++	struct isl28022_data *data = dev_get_drvdata(dev);
++	unsigned int regval;
++	int err;
++
++	switch (type) {
++	case hwmon_in:
++		switch (attr) {
++		case hwmon_in_input:
++			err = regmap_read(data->regmap,
++					  ISL28022_REG_BUS, &regval);
++			if (err < 0)
++				return err;
++			/* driver supports only 60V mode (BRNG 11) */
++			*val = (long)(((u16)regval) & 0xFFFC);
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	case hwmon_curr:
++		switch (attr) {
++		case hwmon_curr_input:
++			err = regmap_read(data->regmap,
++					  ISL28022_REG_CURRENT, &regval);
++			if (err < 0)
++				return err;
++			*val = ((long)regval * 1250L * (long)data->gain) /
++				(long)data->shunt;
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	case hwmon_power:
++		switch (attr) {
++		case hwmon_power_input:
++			err = regmap_read(data->regmap,
++					  ISL28022_REG_POWER, &regval);
++			if (err < 0)
++				return err;
++			*val = ((51200000L * ((long)data->gain)) /
++				(long)data->shunt) * (long)regval;
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static umode_t isl28022_is_visible(const void *data, enum hwmon_sensor_types type,
++				   u32 attr, int channel)
++{
++	switch (type) {
++	case hwmon_in:
++		switch (attr) {
++		case hwmon_in_input:
++			return 0444;
++		}
++		break;
++	case hwmon_curr:
++		switch (attr) {
++		case hwmon_curr_input:
++			return 0444;
++		}
++		break;
++	case hwmon_power:
++		switch (attr) {
++		case hwmon_power_input:
++			return 0444;
++		}
++		break;
++	default:
++		break;
++	}
++	return 0;
++}
++
++static const struct hwmon_channel_info *isl28022_info[] = {
++	HWMON_CHANNEL_INFO(in,
++			   HWMON_I_INPUT),	/* channel 0: bus voltage (mV) */
++	HWMON_CHANNEL_INFO(curr,
++			   HWMON_C_INPUT),	/* channel 1: current (mA) */
++	HWMON_CHANNEL_INFO(power,
++			   HWMON_P_INPUT),	/* channel 1: power (µW) */
++	NULL
++};
++
++static const struct hwmon_ops isl28022_hwmon_ops = {
++	.is_visible = isl28022_is_visible,
++	.read = isl28022_read,
++};
++
++static const struct hwmon_chip_info isl28022_chip_info = {
++	.ops = &isl28022_hwmon_ops,
++	.info = isl28022_info,
++};
++
++static bool isl28022_is_writeable_reg(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case ISL28022_REG_CONFIG:
++	case ISL28022_REG_CALIB:
++	case ISL28022_REG_SHUNT_THR:
++	case ISL28022_REG_BUS_THR:
++	case ISL28022_REG_INT:
++	case ISL28022_REG_AUX:
++		return true;
++	}
++
++	return false;
++}
++
++static bool isl28022_is_volatile_reg(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case ISL28022_REG_CONFIG:
++	case ISL28022_REG_SHUNT:
++	case ISL28022_REG_BUS:
++	case ISL28022_REG_POWER:
++	case ISL28022_REG_CURRENT:
++	case ISL28022_REG_INT:
++	case ISL28022_REG_AUX:
++		return true;
++	}
++	return true;
++}
++
++static const struct regmap_config isl28022_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 16,
++	.max_register = ISL28022_REG_MAX,
++	.writeable_reg = isl28022_is_writeable_reg,
++	.volatile_reg = isl28022_is_volatile_reg,
++	.val_format_endian = REGMAP_ENDIAN_BIG,
++	.cache_type = REGCACHE_RBTREE,
++	.use_single_read = true,
++	.use_single_write = true,
++};
++
++static const struct i2c_device_id isl28022_ids[] = {
++	{ "isl28022", 0},
++	{ /* LIST END */ }
++};
++MODULE_DEVICE_TABLE(i2c, isl28022_ids);
++
++#ifdef CONFIG_DEBUG_FS
++static int shunt_voltage_show(struct seq_file *seqf, void *unused)
++{
++	struct isl28022_data *data = seqf->private;
++	unsigned int regval;
++	int err;
++
++	err = regmap_read(data->regmap,
++			  ISL28022_REG_SHUNT, &regval);
++	if (err)
++		return err;
++
++	/* print shunt voltage in micro volt  */
++	seq_printf(seqf, "%d\n", regval * 10);
++
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(shunt_voltage);
++
++static struct dentry *isl28022_debugfs_root;
++
++static void isl28022_debugfs_remove(void *res)
++{
++	debugfs_remove_recursive(res);
++}
++
++static int isl28022_debugfs_init(struct isl28022_data *data)
++{
++	char name[16];
++	int err;
++	struct dentry *entry;
++
++	scnprintf(name, sizeof(name), "%d-%04hx", data->client->adapter->nr, data->client->addr);
++
++	data->debugfs = debugfs_create_dir(name, isl28022_debugfs_root);
++	if (IS_ERR(data->debugfs))
++		return PTR_ERR(data->debugfs);
++
++	err = devm_add_action_or_reset(&data->client->dev, isl28022_debugfs_remove, data->debugfs);
++	if (err)
++		return err;
++
++	entry = debugfs_create_file("shunt_voltage", 0444, data->debugfs, data,
++			    &shunt_voltage_fops);
++	if (IS_ERR(entry))
++		return PTR_ERR(entry);
++
++	return 0;
++}
++#endif /* CONFIG_DEBUG_FS*/
++
++/*
++ * read property values and make consistency checks.
++ *
++ * following values for shunt range and resistor are allowed:
++ *   40 mV -> gain 1, shunt min.  800 micro ohms
++ *   80 mV -> gain 2, shunt min. 1600 micro ohms
++ *  160 mV -> gain 4, shunt min. 3200 micro ohms
++ *  320 mV -> gain 8, shunt min. 6400 micro ohms
++ */
++static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
++{
++	u32 val;
++	int err;
++
++	err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
++	if (err == -ENODATA)
++		val = 10000;
++	else if (err < 0)
++		return err;
++	data->shunt = val;
++
++	err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
++	if (err == -ENODATA)
++		val = 320000;
++	else if (err < 0)
++		return err;
++	switch (val) {
++	case 40000:
++		data->gain = 1;
++		if (data->shunt < 800)
++			goto shunt_invalid;
++		break;
++	case 80000:
++		data->gain = 2;
++		if (data->shunt < 1600)
++			goto shunt_invalid;
++		break;
++	case 160000:
++		data->gain = 4;
++		if (data->shunt < 3200)
++			goto shunt_invalid;
++		break;
++	case 320000:
++		data->gain = 8;
++		if (data->shunt < 6400)
++			goto shunt_invalid;
++		break;
++	default:
++		dev_err(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
++		return -EINVAL;
++	}
++
++	err = device_property_read_u32(dev, "renesas,average-samples", &val);
++	if (err == -ENODATA)
++		val = 1;
++	else if (err < 0)
++		return err;
++	if ((val > 128) || (BIT(__ffs(val)) != val)) {
++		dev_err(dev, "renesas,average-samples invalid value %d\n", val);
++		return -EINVAL;
++	}
++	data->average = val;
++
++	return 0;
++
++shunt_invalid:
++	dev_err(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
++	return -EINVAL;
++}
++
++/*
++ * write configuration and calibration registers
++ *
++ * The driver supports only shunt and bus continuous ADC mode at 15bit resolution
++ * with averaging from 1 to 128 samples (pow of 2) on both channels.
++ * Shunt voltage gain 1,2,4 or 8 is allowed.
++ * The bus voltage range is 60V fixed.
++ */
++static int isl28022_config(struct isl28022_data *data)
++{
++	int err;
++
++	data->config = (ISL28022_MODE_CONT_SB << ISL28022_MODE_SHIFT) |
++			(ISL28022_BRNG_60 << ISL28022_BRNG_SHIFT) |
++			(__ffs(data->gain) << ISL28022_PG_SHIFT) |
++			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_SADC_SHIFT) |
++			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_BADC_SHIFT);
++
++	data->calib = data->shunt ? 0x8000 / data->gain : 0;
++
++	err = regmap_write(data->regmap, ISL28022_REG_CONFIG, data->config);
++	if (err < 0)
++		return err;
++
++	err = regmap_write(data->regmap, ISL28022_REG_CALIB, data->calib);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++
++static int isl28022_probe(struct i2c_client *client)
++{
++	struct device *dev = &client->dev;
++	struct device *hwmon_dev;
++	struct isl28022_data *data;
++	int err;
++
++	if (!i2c_check_functionality(client->adapter,
++				     I2C_FUNC_SMBUS_BYTE_DATA |
++				     I2C_FUNC_SMBUS_WORD_DATA))
++		return -ENODEV;
++
++	data = devm_kzalloc(dev, sizeof(struct isl28022_data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	data->client = client;
++
++	err = isl28022_read_properties(dev, data);
++	if (err)
++		return err;
++
++	data->regmap = devm_regmap_init_i2c(client, &isl28022_regmap_config);
++	if (IS_ERR(data->regmap))
++		return PTR_ERR(data->regmap);
++
++	err = isl28022_config(data);
++	if (err)
++		return err;
++
++#ifdef CONFIG_DEBUG_FS
++	err = isl28022_debugfs_init(data);
++	if (err)
++		return err;
++#endif
++
++	hwmon_dev = devm_hwmon_device_register_with_info(dev, "isl28022_hwmon",
++							 data, &isl28022_chip_info, NULL);
++	if (IS_ERR(hwmon_dev))
++		return PTR_ERR(hwmon_dev);
++
++	dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->name);
++	return 0;
++}
++
++static const struct of_device_id __maybe_unused isl28022_of_match[] = {
++	{ .compatible = "renesas,isl28022"},
++	{ /* LIST END */ }
++};
++MODULE_DEVICE_TABLE(of, isl28022_of_match);
++
++static struct i2c_driver isl28022_driver = {
++	.class		= I2C_CLASS_HWMON,
++	.driver = {
++		.name	= "isl28022",
++	},
++	.probe_new	= isl28022_probe,
++	.id_table	= isl28022_ids,
++};
++
++#ifdef CONFIG_DEBUG_FS
++static int __init
++isl28022_init(void)
++{
++	int err;
++
++	isl28022_debugfs_root = debugfs_create_dir("isl28022", NULL);
++	err = i2c_add_driver(&isl28022_driver);
++	if (!err)
++		return 0;
++
++	debugfs_remove_recursive(isl28022_debugfs_root);
++	return err;
++}
++
++static void __exit
++isl28022_exit(void)
++{
++	i2c_del_driver(&isl28022_driver);
++	debugfs_remove_recursive(isl28022_debugfs_root);
++}
++
++module_init(isl28022_init);
++module_exit(isl28022_exit);
++#else /* CONFIG_DEBUG_FS */
++module_i2c_driver(isl28022_driver);
++#endif /* CONFIG_DEBUG_FS */
++
++MODULE_AUTHOR("Carsten Spieß <mail@carsten-spiess.de>");
++MODULE_DESCRIPTION("ISL28022 driver");
++MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
-nit, I think this comment mostly doesn't make sense since everyone
-would be using the same version of this gitlab-ci.yml, Ie. we can't
-have msm and nouveau and intel and so on with there own conflicting
-patches on gitlab-ci.yml
-
-I did run into a bit of a chicken vs. egg problem with testing the "in
-tree" version (compared to earlier versions which kept most of the yml
-and scripts in a separate tree), is that it actually requires this
-commit to exist in the branch you want to run CI on.  My earlier
-workaround of pulling the drm/ci commit in via
-${branchname}-external-fixes no longer works.
-
-BR,
--R
