@@ -2,112 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A468C001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:30:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC394C001DC
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 15:30:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231689AbjG0Pae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 11:30:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41870 "EHLO
+        id S231903AbjG0Pah (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 11:30:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231893AbjG0Pac (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:30:32 -0400
+        with ESMTP id S231893AbjG0Pag (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 11:30:36 -0400
 Received: from pandora.armlinux.org.uk (unknown [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ADB91FF2
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 08:30:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB991BC1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 08:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
         Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
         In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=kS6q0fvuI7d1aTJBBBQTVQRRjCIadUHAhNRNeZ4W2zs=; b=WRD0SkBZpN+XFnicJDX3+ZDD6L
-        PFrIl2UBjYeskUrLB7Elnt51CIuMs0qtyzpmdXQ7ZnhTYBYZFlZk0gz01Nj2YkjLWOyJTDwuBf5+I
-        CfjjIBllw0f5LV+O0h/VvFlClEc4wCy7HKEh0mginR7S6cZtjxMr612xCxSbQE7Ni6804AzgrJedP
-        i2YgYobQwk1m9lu/xgn3GjE2I/oJ6yYGpG7P0W2vOsV9XXmrkzvLJI28OtQ/MC6SywIh3Dm/qhDYG
-        b4X/gma9LThFGQwJ9nnXQwpra+X21kEqUt/fA+sRi9b/qC5xC+eDpNkYh8gA6pdl3Sl/mc9rmd5Ya
-        MIYvQ+Aw==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:45314 helo=rmk-PC.armlinux.org.uk)
+        bh=H67bVYoLhWNzChiULPPa2CQcWOVHZM/oIAaPLDi7i9o=; b=zD9bi4qUtGRJwQel6yFqA04Ryc
+        07ybJhD87QsbkPjjVvVlZkwyt+bDa34pxDlWNjyucitEMCHiVceCeqNUdaAQ6a5AAD25/zq/Gp6qn
+        EE8LzKFEgBoVJCCrbn2J3bVml0sGl5TAcgLnA450dfdSZU+sNkt9qc3Fv7OcuOSn+Ini57joQ4HyQ
+        x+vYU8BKOt0291qFiH9XWRaiFQ6An9K40OD0rx0raJIbb7dAiyIcHUM5MVIuC6d8fRZLQaeRHgebq
+        VxGRtBSxgzLu0+VxyNjGhU9N3Rd/2Eco0LqBCULG8ZxoXS/PbQ/WnFqgjXE0JeT81JzZ19Pof1BXk
+        Cg7/swEQ==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:45326 helo=rmk-PC.armlinux.org.uk)
         by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.96)
         (envelope-from <rmk@armlinux.org.uk>)
-        id 1qP2wb-000639-37;
-        Thu, 27 Jul 2023 16:30:26 +0100
+        id 1qP2wh-00063K-0V;
+        Thu, 27 Jul 2023 16:30:31 +0100
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
         (envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-        id 1qP2wc-001CXQ-4h; Thu, 27 Jul 2023 16:30:26 +0100
+        id 1qP2wh-001CXX-9L; Thu, 27 Jul 2023 16:30:31 +0100
 In-Reply-To: <ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk>
 References: <ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk>
 From:   "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>
 Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2 06/16] arm64: text replication: copy initial kernel text
+Subject: [PATCH v2 07/16] arm64: text replication: add node text patching
 MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1qP2wc-001CXQ-4h@rmk-PC.armlinux.org.uk>
+Message-Id: <E1qP2wh-001CXX-9L@rmk-PC.armlinux.org.uk>
 Sender: Russell King <rmk@armlinux.org.uk>
-Date:   Thu, 27 Jul 2023 16:30:26 +0100
+Date:   Thu, 27 Jul 2023 16:30:31 +0100
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Allocate memory on the appropriate node for the per-node copies of the
-kernel text, and copy the kernel text to that memory. Clean and
-invalidate the caches to the point of unification so that the copied
-text is correctly visible to the target node.
+Add support for text patching on our replicated texts.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- arch/arm64/mm/ktext.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ arch/arm64/include/asm/ktext.h  | 12 +++++++
+ arch/arm64/kernel/alternative.c |  2 ++
+ arch/arm64/kernel/patching.c    |  7 +++-
+ arch/arm64/mm/ktext.c           | 58 +++++++++++++++++++++++++++++++++
+ 4 files changed, 78 insertions(+), 1 deletion(-)
 
+diff --git a/arch/arm64/include/asm/ktext.h b/arch/arm64/include/asm/ktext.h
+index 1a5f7452a3bf..289e11289c06 100644
+--- a/arch/arm64/include/asm/ktext.h
++++ b/arch/arm64/include/asm/ktext.h
+@@ -5,9 +5,13 @@
+ #ifndef ASM_KTEXT_H
+ #define ASM_KTEXT_H
+ 
++#include <linux/kprobes.h>
++
+ #ifdef CONFIG_REPLICATE_KTEXT
+ 
+ void ktext_replication_init(void);
++void __kprobes ktext_replication_patch(u32 *tp,  __le32 insn);
++void ktext_replication_patch_alternative(__le32 *src, int nr_inst);
+ 
+ #else
+ 
+@@ -15,6 +19,14 @@ static inline void ktext_replication_init(void)
+ {
+ }
+ 
++static inline void __kprobes ktext_replication_patch(u32 *tp,  __le32 insn)
++{
++}
++
++static inline void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
++{
++}
++
+ #endif
+ 
+ #endif
+diff --git a/arch/arm64/kernel/alternative.c b/arch/arm64/kernel/alternative.c
+index ea3f4104771d..6f17e2b4e1c3 100644
+--- a/arch/arm64/kernel/alternative.c
++++ b/arch/arm64/kernel/alternative.c
+@@ -15,6 +15,7 @@
+ #include <asm/alternative.h>
+ #include <asm/cpufeature.h>
+ #include <asm/insn.h>
++#include <asm/ktext.h>
+ #include <asm/module.h>
+ #include <asm/sections.h>
+ #include <asm/vdso.h>
+@@ -174,6 +175,7 @@ static void __apply_alternatives(const struct alt_region *region,
+ 		alt_cb(alt, origptr, updptr, nr_inst);
+ 
+ 		if (!is_module) {
++			ktext_replication_patch_alternative(updptr, nr_inst);
+ 			clean_dcache_range_nopatch((u64)origptr,
+ 						   (u64)(origptr + nr_inst));
+ 		}
+diff --git a/arch/arm64/kernel/patching.c b/arch/arm64/kernel/patching.c
+index b4835f6d594b..627fff6ddda2 100644
+--- a/arch/arm64/kernel/patching.c
++++ b/arch/arm64/kernel/patching.c
+@@ -10,6 +10,7 @@
+ #include <asm/fixmap.h>
+ #include <asm/insn.h>
+ #include <asm/kprobes.h>
++#include <asm/ktext.h>
+ #include <asm/patching.h>
+ #include <asm/sections.h>
+ 
+@@ -115,9 +116,13 @@ int __kprobes aarch64_insn_patch_text_nosync(void *addr, u32 insn)
+ 		return -EINVAL;
+ 
+ 	ret = aarch64_insn_write(tp, insn);
+-	if (ret == 0)
++	if (ret == 0) {
++		/* Also patch the other nodes */
++		ktext_replication_patch(tp, cpu_to_le32(insn));
++
+ 		caches_clean_inval_pou((uintptr_t)tp,
+ 				     (uintptr_t)tp + AARCH64_INSN_SIZE);
++	}
+ 
+ 	return ret;
+ }
 diff --git a/arch/arm64/mm/ktext.c b/arch/arm64/mm/ktext.c
-index 901f159c65e6..4c803b89fcfe 100644
+index 4c803b89fcfe..04b5ceddae4e 100644
 --- a/arch/arm64/mm/ktext.c
 +++ b/arch/arm64/mm/ktext.c
-@@ -4,14 +4,23 @@
+@@ -3,8 +3,10 @@
+  * Copyright (C) 2022, Oracle and/or its affiliates.
   */
  
++#include <linux/kallsyms.h>
  #include <linux/kernel.h>
-+#include <linux/memblock.h>
-+#include <linux/numa.h>
+ #include <linux/memblock.h>
++#include <linux/mm.h>
+ #include <linux/numa.h>
  #include <linux/pgtable.h>
-+#include <linux/string.h>
+ #include <linux/string.h>
+@@ -15,6 +17,62 @@
  
-+#include <asm/cacheflush.h>
- #include <asm/ktext.h>
- #include <asm/memory.h>
+ static void *kernel_texts[MAX_NUMNODES];
  
-+static void *kernel_texts[MAX_NUMNODES];
++void __kprobes ktext_replication_patch(u32 *tp, __le32 insn)
++{
++	unsigned long offset;
++	int nid, this_nid;
++	__le32 *p;
 +
-+/* Allocate memory for the replicated kernel texts. */
- void __init ktext_replication_init(void)
- {
-+	size_t size = _etext - _stext;
- 	int kidx = pgd_index((phys_addr_t)KERNEL_START);
-+	int nid;
- 
- 	/*
- 	 * If we've messed up and the kernel shares a L0 entry with the
-@@ -26,4 +35,16 @@ void __init ktext_replication_init(void)
- 		pr_warn("Kernel is located in the same L0 index as vmalloc - text replication disabled\n");
- 		return;
- 	}
++	if (!is_kernel_text((unsigned long)tp))
++		return;
++
++	offset = (unsigned long)tp - (unsigned long)_stext;
++
++	this_nid = numa_node_id();
++	if (this_nid) {
++		/* The cache maintenance by aarch64_insn_patch_text_nosync()
++		 * will occur on this node. We need it to occur on node 0.
++		 */
++		p = (void *)lm_alias(_stext) + offset;
++		caches_clean_inval_pou((u64)p, (u64)p + AARCH64_INSN_SIZE);
++	}
 +
 +	for_each_node(nid) {
-+		/* Nothing to do for node 0 */
-+		if (!nid)
++		if (!kernel_texts[nid])
 +			continue;
 +
-+		/* Allocate and copy initial kernel text for this node */
-+		kernel_texts[nid] = memblock_alloc_node(size, PAGE_SIZE, nid);
-+		memcpy(kernel_texts[nid], _stext, size);
-+		caches_clean_inval_pou((u64)kernel_texts[nid],
-+				       (u64)kernel_texts[nid] + size);
++		p = kernel_texts[nid] + offset;
++		WRITE_ONCE(*p, insn);
++		caches_clean_inval_pou((u64)p, (u64)p + AARCH64_INSN_SIZE);
 +	}
- }
++}
++
++/* Copy the patched alternative from the node0 image to the other
++ * modes. src is the node 0 linear-mapping address.
++ */
++void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
++{
++	unsigned long offset;
++	size_t size;
++	int nid;
++	__le32 *p;
++
++	offset = (unsigned long)src - (unsigned long)lm_alias(_stext);
++	if (offset >= _etext - _stext)
++		return;
++
++	size = AARCH64_INSN_SIZE * nr_inst;
++
++	for_each_node(nid) {
++		if (!kernel_texts[nid])
++			continue;
++
++		p = kernel_texts[nid] + offset;
++		memcpy(p, src, size);
++		clean_dcache_range_nopatch((u64)p, (u64)p + size);
++	}
++}
++
+ /* Allocate memory for the replicated kernel texts. */
+ void __init ktext_replication_init(void)
+ {
 -- 
 2.30.2
 
