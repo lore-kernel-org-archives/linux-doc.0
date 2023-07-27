@@ -2,123 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 111C0C001E0
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 06:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D48C04FDF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 07:44:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232558AbjG0GIm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 02:08:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50660 "EHLO
+        id S231916AbjG0HoG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 03:44:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232502AbjG0GIm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 02:08:42 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF3F10F9;
-        Wed, 26 Jul 2023 23:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=HOjfkUq3p22xP8kOD+j8BQJBJjD59Omrm1gEuBPwYmU=; b=fcUXEHtdA78JEdJygveP8HpZ86
-        DPR3f1yho5ZGvB12gAv398M2mPsJnNVUBiSUUuaQNWgxGXMRPM68iLVvYS2qxKlHQLn24NktVe9Ah
-        gYCTQu+Lx44qclc3WdsVPgF1tf9SbNnyUMMIOxciSf8J0tkdmMOQ49W8/lmixj0K869cWKh4G8/AP
-        n1hQveKidiM43PkRIciVA4QJ1a/yepbUWv1LpUDKYdDo6r2xj95gX7qmrQcmmTLUU6SdgKZXxhD/C
-        +5e8YdXr5dzsyNN4dcQE7dZPdIr699KoYaGb0Z3cW+hH/YCQTH9MfScSw3nN6l8aiMKxmOa/miSP/
-        JIXPgGAw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOuAv-00CHuh-1F;
-        Thu, 27 Jul 2023 06:08:37 +0000
-Message-ID: <1d363177-2629-1ab3-7a4b-bc67d94bb87a@infradead.org>
-Date:   Wed, 26 Jul 2023 23:08:35 -0700
+        with ESMTP id S233627AbjG0HnS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 03:43:18 -0400
+Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2576F6A40;
+        Thu, 27 Jul 2023 00:37:22 -0700 (PDT)
+Received: from [2001:a61:6209:7f40:c80a:ff:fe00:4098] (helo=cs-office3.lan.local); authenticated
+        by wp534.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1qOvXT-0001KS-Ho; Thu, 27 Jul 2023 09:35:59 +0200
+Date:   Thu, 27 Jul 2023 09:35:48 +0200
+From:   Carsten =?UTF-8?B?U3BpZcOf?= <mail@carsten-spiess.de>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-hwmon@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <20230727093548.0cb0d6e8.mail@carsten-spiess.de>
+In-Reply-To: <bbf1aba4-48ce-289d-aaa9-bc861effaffd@roeck-us.net>
+References: <20230726152235.249569-1-mail@carsten-spiess.de>
+ <20230726152235.249569-2-mail@carsten-spiess.de>
+ <bbf1aba4-48ce-289d-aaa9-bc861effaffd@roeck-us.net>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] init: Add support for rootwait timeout parameter
-Content-Language: en-US
-To:     Loic Poulain <loic.poulain@linaro.org>, brauner@kernel.org,
-        viro@zeniv.linux.org.uk, corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, hch@infradead.org
-References: <20230726152232.932288-1-loic.poulain@linaro.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230726152232.932288-1-loic.poulain@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/Lp+eURiMW8MUrBzpr8v_GGg";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690443444;f83c0e10;
+X-HE-SMSGID: 1qOvXT-0001KS-Ho
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+--Sig_/Lp+eURiMW8MUrBzpr8v_GGg
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 7/26/23 08:22, Loic Poulain wrote:
-> Add an optional timeout arg to 'rootwait' as the maximum time in
-> seconds to wait for the root device to show up before attempting
-> forced mount of the root filesystem.
-> 
-> Use case:
-> In case of device mapper usage for the rootfs (e.g. root=/dev/dm-0),
-> if the mapper is not able to create the virtual block for any reason
-> (wrong arguments, bad dm-verity signature, etc), the `rootwait` param
-> causes the kernel to wait forever. It may however be desirable to only
-> wait for a given time and then panic (force mount) to cause device reset.
-> This gives the bootloader a chance to detect the problem and to take some
-> measures, such as marking the booted partition as bad (for A/B case) or
-> entering a recovery mode.
-> 
-> In success case, mounting happens as soon as the root device is ready,
-> unlike the existing 'rootdelay' parameter which performs an unconditional
-> pause.
-> 
-> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> ---
->  v2: rebase + reword: add use case example
-> 
->  .../admin-guide/kernel-parameters.txt         |  4 ++++
->  init/do_mounts.c                              | 19 +++++++++++++++++--
->  2 files changed, 21 insertions(+), 2 deletions(-)
-> 
+ On 7/26/23 18:19, Guenter Roeck wrote:
+> Please provide a register dump (using i2cdump) for this chip.=20
 
-> diff --git a/init/do_mounts.c b/init/do_mounts.c
-> index 1aa015883519..118f2bbe7b38 100644
-> --- a/init/do_mounts.c
-> +++ b/init/do_mounts.c
-> @@ -18,6 +18,7 @@
->  #include <linux/slab.h>
->  #include <linux/ramfs.h>
->  #include <linux/shmem_fs.h>
-> +#include <linux/ktime.h>
->  
->  #include <linux/nfs_fs.h>
->  #include <linux/nfs_fs_sb.h>
-> @@ -71,12 +72,20 @@ static int __init rootwait_setup(char *str)
->  {
->  	if (*str)
->  		return 0;
-> -	root_wait = 1;
-> +	root_wait = -1;
->  	return 1;
->  }
->  
->  __setup("rootwait", rootwait_setup);
->  
-> +static int __init rootwait_timeout_setup(char *str)
-> +{
-> +	root_wait = simple_strtoul(str, NULL, 0);
+# i2cdump -y -r 0-9 1 0x40 w
+     0,8  1,9  2,a  3,b  4,c  5,d  6,e  7,f
+00: ff67 ca00 a25d c803 5006 0080 817f 00ff=20
+08: 0000 0000 =20
 
-Better to use kstrtoul().  simple_strtoul() says:
+Please note that due to big vs.- little endian bytes are swapped,
+should be read as:
+00: 67ff 00ca 5da2 03c8 0650 8000 7f81 ff00
+08: 0000 0000 =20
 
- * This function has caveats. Please use kstrtoul instead.
+corresponding sensor values are about (not read at same time):
+in0:           1.99 V =20
+in1:          23.97 V =20
+power1:        6.10 W =20
+curr1:       248.00 mA=20
 
-and kstrtoul() says:
+in0 should be read as mV
 
- * Returns 0 on success, -ERANGE on overflow and -EINVAL on parsing error.
- * Preferred over simple_strtoul(). Return code must be checked.
+Regards, Carsten
 
-> +	return 1;
-> +}
-> +
-> +__setup("rootwait=", rootwait_timeout_setup);
+--Sig_/Lp+eURiMW8MUrBzpr8v_GGg
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-~Randy
+iQIzBAEBCgAdFiEEWM+MlUpz/bWsZllTM1JQzV9LKSwFAmTCHlQACgkQM1JQzV9L
+KSzWMg/+Mp/CNQhmKivVvjjhWPjXYqNHF0t2T6dOh8hVJA6JaMfiGML0OmIFeLtj
+SmXBWHTi8ZE8OotBAx4yMIJPxnGa9pxCkvZ33WJsq9w4aUmVqymu1TbMcXkWuKPJ
+U+jGl7ZhSycI8r+wOjgm59hybz9KU+aDi8uibvFxXUo0PflIufO2ZbqTEPkmaYjc
+mUUOtkgcN/WbZ0CkG0Fdzj6lsCNzLRITHqOE7aTfa0ju8JJQgqSdxVSSFgN8/8gF
+Lsf3WgU7EOtBRarz0H/AW1Cp0nNYRQT+mnbqU544aUC+FC7BNh706ROIKiji6vE2
+Vsrn32o3cyYOK6xG2z/kJy3T3UAWHdMBgmpmB48spAdMjM3J2dRxP/cUNVAOUd24
+dEw40bPZ5qrvDTyGzdqCTqacZtBlnhLEjB8rq7zaLNMvJ0Ytb49B4npsLHQDi7c0
+e70FKnY6t5jMyEtPCQqCKM+WtJu2ac4E6S+T3LQSt9CVs4nY/qpz2g6hrXiqD55+
+tuYltPTVyimPlSOzw9Uxd3JGwPUdFSlFDJmb2D6pskCwHzSx1KRf8LmhrzA/AhNr
+trRFVGz9CIQjDfDu1+TMmnt/kTXuOqRZ8pLPlLlMH/S2G/V+6kF58LrmjovVguwy
+LcxnkEd+a9Eg5OLLc/csEBDNTLF5n8QXSkjEpJbBIyZUTLEYsrg=
+=RTpb
+-----END PGP SIGNATURE-----
+
+--Sig_/Lp+eURiMW8MUrBzpr8v_GGg--
