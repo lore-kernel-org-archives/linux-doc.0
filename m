@@ -2,105 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CD8C41513
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 21:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C4DBC41513
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jul 2023 21:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230204AbjG0VRC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 17:17:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44716 "EHLO
+        id S230183AbjG0V07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 17:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjG0VRB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 17:17:01 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D9230E3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:16:56 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-d09ba80fbcaso1380528276.2
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:16:56 -0700 (PDT)
+        with ESMTP id S230497AbjG0V0z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 17:26:55 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73A23A95
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:26:51 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-686f8614ce5so946732b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 14:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690492616; x=1691097416;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/uGRhmfCXLxN6YU1cWESg55BRtPox1xD8u6NHDhwMzU=;
-        b=wswgZlkJ4NBe7/FtnWso7C3R/rqxZSJUmuWg9QHSi9JMGr8w9D2uQzTwgYsequJulq
-         is/1hwyg+1vqmZ9shtq1fLohk50d+i8QBH94zB9Ej1yzYbUEOx8Q8l3bt0oVwirfr+xh
-         AcGAad0J9UQ+W6bzboUyHjcJsZi+WSrDF+7OkvzGWimEu22FXf1MLJ5EWwQk8FgWWRli
-         5nuxAenh9aEGSFI3R+2Wy25KS6nV9YXFHtJMJgUjRnHRAdpCMvCEBYpGfAgwwEMdv3tk
-         6JayWaqklc5v3KEH7PSXfzGTJ/CMqnzNShHlNUjbz1y94StJOZzcLCOnavQ4iCJKf8+F
-         iyZA==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690493211; x=1691098011;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u1j+kMh0iOsH0JqfJ3WA4QtOF313IMeXkg3gc/f9dpg=;
+        b=UW/Zl61NXORbuErLMYKrPm9BFy7QuUh39/eAy5ZU0tDpiY0EdHKcfvtC+GjtpmoDS8
+         UmDlC5OLbd58dgYVEmXHluzRe1t2fY8rL1HiaDUFiSJTNyiVKx7Yj/LsR1iXdWF2JcNt
+         tnIjNEFLAtyVNtQnc5o/YyMDw8iqDLdEFxqRSU0Vz15wWVg7u5g7H6whC3n/cJHzTAky
+         FzfPpDUZfB16CXzC3uQVY4b74zmqkbLxl/LvpVr/5df/t64hI95eiPpq/tX3SGZn8pXV
+         wROKldHqphBhUMtg69MS22I/iovR/Qy3rcvDDNxH4lNhhgWxzukwhDjXh3ehAlzbnPa8
+         7Cyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690492616; x=1691097416;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/uGRhmfCXLxN6YU1cWESg55BRtPox1xD8u6NHDhwMzU=;
-        b=iHbnitScDDN+tTDW8fFBUHmwLIU2qWOZn2NEfeHnFmiMfp/nfRBk9LT5Ky0TVLD5xb
-         rbOap0HX8LdLzbnlNtGfS2y6k2D4PZ4Wucl+8By2SD3uTGBkEBPoItvsuuJz5LbcvaDJ
-         sBv+21yLN4KbLeV78k1jedc1DxvYc1GeD49yI+IlnMSYB4FLbfpF7BLsP8TwsT5JAuiW
-         xRZKRZqzZQYlIN5WYsUt9NaIkLAjeYWjcw1CT+VRzmF9yb7bZkh3MMo2Jq4Lirc7KAsK
-         NStxGygSz8qN6L19/xqrAnf1n3jR4VUmJH9+q6et0tYr0mIE6Qkxvg0bRLuIKiWMwhwL
-         PveA==
-X-Gm-Message-State: ABy/qLa1Zfi0i7N9TX5aPJv0s97pmwmwvVnRyi0ijoEWGb80MOzoIDiI
-        3NzdVG4HxjuSbtZLJrD65rbNOjejzUD7ekm+SMox6A==
-X-Google-Smtp-Source: APBJJlF/WP9UF5vhbN5Eh27rtP31+QJ0KngVSCOWM/D/823cWc4t3dHqdkGuZ+k5czJWqkSh0GU74FyljZsGrCSOQus=
-X-Received: by 2002:a25:fe0f:0:b0:cfa:f7cb:be16 with SMTP id
- k15-20020a25fe0f000000b00cfaf7cbbe16mr513279ybe.49.1690492615774; Thu, 27 Jul
- 2023 14:16:55 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690493211; x=1691098011;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u1j+kMh0iOsH0JqfJ3WA4QtOF313IMeXkg3gc/f9dpg=;
+        b=FeSW5Xqtm6YvOfIf7uLhTP3tUDP1J2I1RD4tuGB9gzzGI/Vm1oHTSij1BLPiIPiZjp
+         cmN/Q9ttpwGeF6ZDLYYNc9WvcP4CsIwwF/16xzGy01HrG6NVdKmqRBzt4SyM9bQU8Jyp
+         rXTMysOlYIRL2/ZCbY2uhsv+E0ojAoQEQNXrVbhRVQAVGYeYfQXPRkvyVPXycWA8Ouqz
+         vpbl6xINg8NIej8x6QF5CUxCtvKEfRra0iROfTN+REkt68pYvBCPxCmI7F0FavJfqdrL
+         lcopKti0I0lKCs93OWWL3C3/91CpcECHx0v1BvDJOcppMpu1ni4S2HBxV8Ykk42018wJ
+         jBkw==
+X-Gm-Message-State: ABy/qLYZ4YnRb7QHfcSu6SxYUL8AfU4EEfeA95nC4i5K3f5DLxf7PURF
+        LGdRM3a4/Z15AKkRMQNev35HED9pHrtEk4vMHWA=
+X-Google-Smtp-Source: APBJJlHqQrVV0xCK9fwk96H8JBXhaJwlU8jA71nZ4nPqPKjFylYfA9+6fmKC0mo2E6CfNC7prqLhUw==
+X-Received: by 2002:a05:6a20:2c98:b0:13b:ceea:6b50 with SMTP id g24-20020a056a202c9800b0013bceea6b50mr262249pzj.47.1690493211124;
+        Thu, 27 Jul 2023 14:26:51 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id c5-20020aa78c05000000b00682562b1549sm1912312pfd.24.2023.07.27.14.26.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jul 2023 14:26:50 -0700 (PDT)
+From:   Charlie Jenkins <charlie@rivosinc.com>
+To:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     charlie@rivosinc.com, conor@kernel.org, paul.walmsley@sifive.com,
+        palmer@rivosinc.com, aou@eecs.berkeley.edu, anup@brainfault.org,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org,
+        alexghiti@rivosinc.com
+Subject: [PATCH v8 0/4] RISC-V: mm: Make SV48 the default address space
+Date:   Thu, 27 Jul 2023 14:26:25 -0700
+Message-ID: <20230727212647.4182407-1-charlie@rivosinc.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com> <20230623123820.42850-8-arkadiusz.kubalewski@intel.com>
-In-Reply-To: <20230623123820.42850-8-arkadiusz.kubalewski@intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 27 Jul 2023 23:16:42 +0200
-Message-ID: <CACRpkdar39x8nd5cWEDiFDHwLqHghUQZqkR0rEcv2-sZOZZ0KQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 07/10] ice: add admin commands to access cgu configuration
-To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     kuba@kernel.org, jiri@resnulli.us, vadfed@meta.com,
-        jonathan.lemon@gmail.com, pabeni@redhat.com, corbet@lwn.net,
-        davem@davemloft.net, edumazet@google.com, vadfed@fb.com,
-        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
-        saeedm@nvidia.com, leon@kernel.org, richardcochran@gmail.com,
-        sj@kernel.org, javierm@redhat.com, ricardo.canuelo@collabora.com,
-        mst@redhat.com, tzimmermann@suse.de, michal.michalik@intel.com,
-        gregkh@linuxfoundation.org, jacek.lawrynowicz@linux.intel.com,
-        airlied@redhat.com, ogabbay@kernel.org, arnd@arndb.de,
-        nipun.gupta@amd.com, axboe@kernel.dk, linux@zary.sk,
-        masahiroy@kernel.org, benjamin.tissoires@redhat.com,
-        geert+renesas@glider.be, milena.olech@intel.com, kuniyu@amazon.com,
-        liuhangbin@gmail.com, hkallweit1@gmail.com, andy.ren@getcruise.com,
-        razor@blackwall.org, idosch@nvidia.com, lucien.xin@gmail.com,
-        nicolas.dichtel@6wind.com, phil@nwl.cc, claudiajkang@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-rdma@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        poros@redhat.com, mschmidt@redhat.com, linux-clk@vger.kernel.org,
-        vadim.fedorenko@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arkadiusz,
+Make sv48 the default address space for mmap as some applications
+currently depend on this assumption. Users can now select a
+desired address space using a non-zero hint address to mmap. Previously,
+requesting the default address space from mmap by passing zero as the hint
+address would result in using the largest address space possible. Some
+applications depend on empty bits in the virtual address space, like Go and
+Java, so this patch provides more flexibility for application developers.
 
-On Fri, Jun 23, 2023 at 2:45=E2=80=AFPM Arkadiusz Kubalewski
-<arkadiusz.kubalewski@intel.com> wrote:
+-Charlie
 
-> +/**
-> + * convert_s48_to_s64 - convert 48 bit value to 64 bit value
-> + * @signed_48: signed 64 bit variable storing signed 48 bit value
-> + *
-> + * Convert signed 48 bit value to its 64 bit representation.
-> + *
-> + * Return: signed 64 bit representation of signed 48 bit value.
-> + */
-> +static s64 convert_s48_to_s64(s64 signed_48)
-> +{
-> +       return signed_48 & BIT_ULL(47) ?
-> +               GENMASK_ULL(63, 48) | signed_48 : signed_48;
-> +}
+---
+v8:
+- Fix RV32 and the RV32 compat mode of RV64
+- Extract out addr and base from the mmap macros
+v7:
+- Changing RLIMIT_STACK inside of an executing program does not trigger
+  arch_pick_mmap_layout(), so rewrite tests to change RLIMIT_STACK from a
+  script before executing tests. RLIMIT_STACK of infinity forces bottomup
+  mmap allocation.
+- Make arch_get_mmap_base macro more readible by extracting out the rnd
+  calculation.
+- Use MMAP_MIN_VA_BITS in TASK_UNMAPPED_BASE to support case when mmap
+  attempts to allocate address smaller than DEFAULT_MAP_WINDOW.
+- Fix incorrect wording in documentation.
 
-Can't you just use sign_extend64() from <linux/bitops.h>
-passing bit 48 as sign bit istead of inventing this?
+v6:
+- Rebase onto the correct base
 
-Yours,
-Linus Walleij
+v5:
+- Minor wording change in documentation
+- Change some parenthesis in arch_get_mmap_ macros
+- Added case for addr==0 in arch_get_mmap_ because without this, programs would
+  crash if RLIMIT_STACK was modified before executing the program. This was
+  tested using the libhugetlbfs tests. 
+
+v4:
+- Split testcases/document patch into test cases, in-code documentation, and
+  formal documentation patches
+- Modified the mmap_base macro to be more legible and better represent memory
+  layout
+- Fixed documentation to better reflect the implmentation
+- Renamed DEFAULT_VA_BITS to MMAP_VA_BITS
+- Added additional test case for rlimit changes
+---
+
+Charlie Jenkins (4):
+  RISC-V: mm: Restrict address space for sv39,sv48,sv57
+  RISC-V: mm: Add tests for RISC-V mm
+  RISC-V: mm: Update pgtable comment documentation
+  RISC-V: mm: Document mmap changes
+
+ Documentation/riscv/vm-layout.rst             | 22 +++++++
+ arch/riscv/include/asm/elf.h                  |  2 +-
+ arch/riscv/include/asm/pgtable.h              | 28 ++++++--
+ arch/riscv/include/asm/processor.h            | 52 +++++++++++++--
+ tools/testing/selftests/riscv/Makefile        |  2 +-
+ tools/testing/selftests/riscv/mm/.gitignore   |  2 +
+ tools/testing/selftests/riscv/mm/Makefile     | 15 +++++
+ .../riscv/mm/testcases/mmap_bottomup.c        | 35 ++++++++++
+ .../riscv/mm/testcases/mmap_default.c         | 35 ++++++++++
+ .../selftests/riscv/mm/testcases/mmap_test.h  | 64 +++++++++++++++++++
+ .../selftests/riscv/mm/testcases/run_mmap.sh  | 12 ++++
+ 11 files changed, 257 insertions(+), 12 deletions(-)
+ create mode 100644 tools/testing/selftests/riscv/mm/.gitignore
+ create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+ create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap_bottomup.c
+ create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap_default.c
+ create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap_test.h
+ create mode 100755 tools/testing/selftests/riscv/mm/testcases/run_mmap.sh
+
+-- 
+2.41.0
+
