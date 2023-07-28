@@ -2,101 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD2D5C001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 05:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13616C001DF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 06:17:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232768AbjG1F0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 01:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60162 "EHLO
+        id S233406AbjG1GRg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 02:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232323AbjG1F0w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 01:26:52 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B658730FF
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 22:26:50 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-63cf6b21035so11406876d6.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 22:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar-org.20221208.gappssmtp.com; s=20221208; t=1690522010; x=1691126810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cE7yzj/ShJctTo/cH8TMuQ/2VH0iD1G1+5KA9qirh/Y=;
-        b=trpErXEJEPDZtUwJrLhT56jOvw/TASEnxJqiim24u87Ey219zXjICSpgcrZjP+hIvC
-         YOisNcRp1EFcZBuqaw0v47KkdLVd0rFI+qxA+sXUlebSorcP7hGjMv3NkVKwxd1A+1fM
-         +cPBg+wk6aUxXSizYt9OOW8K2HwaRZylnOeA2baYNkYAkyTSt3uSNK4bqSBTUKRlrYKH
-         veSyepWn/C4JI0VyBkgwNf9ieJKzWg0hb3tCI/tmQqhFz8s1wdV5XOJi6PQyomubgQDL
-         AUwaUxnOfbqg6WW2SXOJHHuKT2fULl3OjCF9EdNHMtPrrV+gZMyo2wDTP0lf87ec5+Bk
-         zCEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690522010; x=1691126810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cE7yzj/ShJctTo/cH8TMuQ/2VH0iD1G1+5KA9qirh/Y=;
-        b=YlPHM6pF1IhUdRz6CFouGrrM42VJ08VYfCkqCHtijAvG/4qSgp9jMiclqcCtb2d+9o
-         EBVk6/nZc5M4Cf6WmO8PrmB0zCggONL+kkaxacmJELkzrF82BgE8cZ/Gk57Jc0byX2vW
-         P44s6gyzAvvZXwZQpHsaX2P3saYoI8govSnXwDf/KAmGycFgV9K0Zydcmj1BY3sNvAt5
-         NMSUEFgUDstj28jICanRsQVJ64weKmS6E6d0BQKwiTXb2gt2Qm0Zz+7Qc7Un3scxdBSi
-         3X7Erhq3tPTGW5YR8jSPT6PuXanKS0fXC0NhBiL4QmH7UMqZXmjdAd1304hiheMPI3d+
-         7tRg==
-X-Gm-Message-State: ABy/qLZQvVKLKo/e3U6ygjDgfe8wvrJg9HhDWOaxVjG+qWm2tw6qFJmM
-        3LMSzYOvfuK082rz1DOuBiwNQt1gUbULylo59CrpxQ==
-X-Google-Smtp-Source: APBJJlGaHKu68l916QbJnESfurRQ8GLdxdUM6h1VlhU7qK1FfkFxQTpsfGqhPqGZxqp+5PbL922CfRISxETZ4hSkBS0=
-X-Received: by 2002:ad4:45a9:0:b0:63c:fc39:3c0d with SMTP id
- y9-20020ad445a9000000b0063cfc393c0dmr1353378qvu.62.1690522009771; Thu, 27 Jul
- 2023 22:26:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230720152737.102382-1-helen.koike@collabora.com>
- <CAF6AEGtXL5vjp3Uup6Mk19MiY8E26-tpyXVmxXYhMd3fiadykQ@mail.gmail.com> <CAF6AEGsxLg4og1EkCdno6P8x31KK=rJfmerJa8uMeNR-n7RVRg@mail.gmail.com>
-In-Reply-To: <CAF6AEGsxLg4og1EkCdno6P8x31KK=rJfmerJa8uMeNR-n7RVRg@mail.gmail.com>
-From:   Daniel Stone <daniel@fooishbar.org>
-Date:   Fri, 28 Jul 2023 06:26:39 +0100
-Message-ID: <CAPj87rPNyJ=mX1Um6yaN_jTV2gH5MhMxr3mnSb7=nB7NEOf2Ag@mail.gmail.com>
-Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Helen Koike <helen.koike@collabora.com>, emma@anholt.net,
-        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
-        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
-        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
-        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
-        daniels@collabora.com, martin.blumenstingl@googlemail.com,
-        mripard@kernel.org, anholt@google.com,
-        linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
-        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S232575AbjG1GRg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 02:17:36 -0400
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714491FF5;
+        Thu, 27 Jul 2023 23:17:33 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R801e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0VoOxEFh_1690525042;
+Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VoOxEFh_1690525042)
+          by smtp.aliyun-inc.com;
+          Fri, 28 Jul 2023 14:17:29 +0800
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+To:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Jing Zhang <renyu.zj@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+Subject: [PATCH v5 0/5] Add aliases and metrics for Arm CMN
+Date:   Fri, 28 Jul 2023 14:17:15 +0800
+Message-Id: <1690525040-77423-1-git-send-email-renyu.zj@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Jul 2023 at 22:47, Rob Clark <robdclark@gmail.com> wrote:
-> > I did run into a bit of a chicken vs. egg problem with testing the "in
-> > tree" version (compared to earlier versions which kept most of the yml
-> > and scripts in a separate tree), is that it actually requires this
-> > commit to exist in the branch you want to run CI on.  My earlier
-> > workaround of pulling the drm/ci commit in via
-> > ${branchname}-external-fixes no longer works.
->
-> After unwinding some more gitlab repo settings that were for the
-> previous out-of-tree yml setup, I have this working.
->
-> Tested-by: Rob Clark <robdclark@gmail.com>
-> Acked-by: Rob Clark <robdclark@gmail.com>
+Changes since v4:
+- Support "Compat" to match multiple identifiers for regular events
+  aliases as suggested by John.
+- Add self-test cases for "Compat" new feature and new event_filed
+  as suggested by John.
+- Link: https://lore.kernel.org/all/1690100513-61165-1-git-send-email-renyu.zj@linux.alibaba.com/
 
-And it's also:
-Acked-by: Daniel Stone <daniels@collabora.com>
+Jing Zhang (5):
+  perf metric: Event "Compat" value supports matching multiple
+    identifiers
+  perf jevents: Support more event fields
+  perf test: Add pmu-event test for "Compat" and new event_field.
+  perf jevents: Add support for Arm CMN PMU aliasing
+  perf vendor events: Add JSON metrics for Arm CMN
 
-It's been back and forth a few times by now and reviewed pretty
-heavily by all the people who are across the CI details. I think the
-next step is to answer all the workflow questions by actually getting
-it into trees and using it in anger. There was some discussion about
-whether this should come in from drm-misc, or the core DRM tree, or a
-completely separate pull, but I'm not sure what the conclusion was ...
-maintainers, thoughts?
+ .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
+ .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
+ .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
+ tools/perf/pmu-events/jevents.py                   |  22 +-
+ tools/perf/tests/pmu-events.c                      |  55 +++++
+ tools/perf/util/metricgroup.c                      |   2 +-
+ tools/perf/util/pmu.c                              |  27 ++-
+ tools/perf/util/pmu.h                              |   1 +
+ 8 files changed, 445 insertions(+), 10 deletions(-)
+ create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
+ create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
 
-Cheers,
-Daniel
+-- 
+1.8.3.1
+
