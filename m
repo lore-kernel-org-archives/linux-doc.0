@@ -2,115 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 777C7C0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 16:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AE9C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 17:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234047AbjG1QDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 12:03:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49156 "EHLO
+        id S231896AbjG1RxQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 13:53:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236783AbjG1QC5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 12:02:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF32F2109;
-        Fri, 28 Jul 2023 09:02:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4BC6162199;
-        Fri, 28 Jul 2023 16:02:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE414C433C7;
-        Fri, 28 Jul 2023 16:02:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690560175;
-        bh=5+J+83TIFs9lZ6wTmxsZgXtKL3q38n2yCo3y8qTZ7N8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jvO9hazSNAGUk8tEio79eCKsYssfSy0geDTTQuH3rVlrLBw9BRzr2W8FKEp1g6GE7
-         xyyV6wG+/gEhhnojSaYN0xZGYJ7TNz41xrH/5namT+MasnVI6q+netdOigN1p2F8Xs
-         UiajqzXuIHzaW/VQWNXZVjdeHLaWRINZKoWv20D+yd69SZLrcXxn7/VhnVnC6azcV0
-         uakFy04j7DDn+wgdzr/6qhCxnzBm56Z8AETjHGHt12OebNyGVCIjmiqGlIPoZKq+mE
-         Ysaqt3HMjsRuQ585YU8rA70URXv7n98gIUhFEAPZW6v4toNlPHr90hL3YQ7Jn0OGn5
-         bbUw1+uTfxHCg==
-Date:   Fri, 28 Jul 2023 11:02:47 -0500
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Valentin Schneider <vschneid@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 12/20] objtool: Warn about non __ro_after_init
- static key usage in .noinstr
-Message-ID: <20230728160247.multb2csnpa22fgx@treble>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-13-vschneid@redhat.com>
+        with ESMTP id S233256AbjG1RxN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 13:53:13 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C0103585
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jul 2023 10:53:12 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-346258cf060so8405ab.0
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jul 2023 10:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690566791; x=1691171591;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zsIHLPb5okBWXJf2DtS76Y92BZwwFSzgLVO6RcujWsQ=;
+        b=dtdPiasbgn7CaqvxkgS3cosIxhKaD7PdNI4nHup/Mt+FArUPs4kuQQNpIZHJItnBiy
+         yOqBDtVdIN0uZpwAh+C6NKhqrAH7nxnm+Bl22M2vUM/p1ubXV4AiSDC9dnIr5AxdTou0
+         kzxM5iVxPfYWqxeR1ivufNCcn/nkNGQ0s11RRlmZiqVs53VN9Xrqn1iqGw1eWvrnWycS
+         sJgAwtpJ/yhA+254E2CbjGcn4IXCSCg/D72dF4TwHsgnMJxz7kpPK1zeOsFr/vkqkXJo
+         ga4i1v6ZpMGL4ECLEcii9uTg2DGiR7/QEA5eLmKR10HGjXkndlW04IAEC8cZyEB0oTbc
+         0THw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690566791; x=1691171591;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zsIHLPb5okBWXJf2DtS76Y92BZwwFSzgLVO6RcujWsQ=;
+        b=OH8+2M1pX9r/FfFQNownC3zmNVKeewbfhFbCnQmmogSt+V3s9vhjmbN3f1ixEUw4mF
+         AYAyxyY5HOB1VvxCEHKFIHwhKVCD6DNrLel6yn6bUqSFH4HAGryRdTPS2AWE/Mk1GWAC
+         V4NhWADmwF2JCJqmuqAl08mX3RZxTcYF5osNAzjGer28fhv7ZcyydQ5xPDm04SPFvsBv
+         +n5G5WzxCu82nErLmYza6TjHVTGLpewdxOvCidbqy3regKrTlcTzwA7y9fACQHV8w8mp
+         jzbvqqlX/KgvsaO0yGDoW37GAGwn/3Cw/Rixl74A744KlzW8hfw1TyYm5L9ApPsZEEH9
+         4LFA==
+X-Gm-Message-State: ABy/qLYpcKHHF4d5aa5uX0IHdLfOR6hLVFbiEWeugASUxQBznaY1Xr6A
+        fSfynqai7PC2O0oAIF9WtPuPoqSHm3Y0/YAFgobSOA==
+X-Google-Smtp-Source: APBJJlEDh03sKgpDB0dKs6Z85qIKrMbTr+Ye9aruBFA5yuWJzcNZnvHEOZQeaHI6jnTYkiNFcm6HvFJcJmmT2PwfIAQ=
+X-Received: by 2002:a05:6e02:b48:b0:33d:8e80:4c2f with SMTP id
+ f8-20020a056e020b4800b0033d8e804c2fmr16633ilu.20.1690566791205; Fri, 28 Jul
+ 2023 10:53:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230720163056.2564824-13-vschneid@redhat.com>
+References: <20230727141428.962286-1-alexghiti@rivosinc.com> <20230727141428.962286-10-alexghiti@rivosinc.com>
+In-Reply-To: <20230727141428.962286-10-alexghiti@rivosinc.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Fri, 28 Jul 2023 10:52:59 -0700
+Message-ID: <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
+Subject: Re: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 05:30:48PM +0100, Valentin Schneider wrote:
-> Later commits will depend on having no runtime-mutable text in early entry
-> code. (ab)use the .noinstr section as a marker of early entry code and warn
-> about static keys used in it that can be flipped at runtime.
+On Thu, Jul 27, 2023 at 7:28=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
+>
+> riscv now supports mmaping hardware counters so add what's needed to
+> take advantage of that in libperf.
+>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>  tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
+>
+> diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+> index 0d1634cedf44..378a163f0554 100644
+> --- a/tools/lib/perf/mmap.c
+> +++ b/tools/lib/perf/mmap.c
+> @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int counter)
+>
+>  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
+>
+> +#elif __riscv_xlen =3D=3D 64
 
-Similar to my comment on patch 13, this could also use a short
-justification for adding the feature, i.e. why runtime-mutable text
-isn't going to be allowed in .noinstr.
+This is something of an odd guard, perhaps:
+#elif defined(__riscv) && __riscv_xlen =3D=3D 64
 
-Also, please add a short description of the warning (and why it exists)
-to tools/objtool/Documentation/objtool.txt.
+That way it is more intention revealing that this is riscv code. Could
+you add a comment relating to the __riscv_xlen ?
 
--- 
-Josh
+> +
+> +/* TODO: implement rv32 support */
+> +
+> +#define CSR_CYCLE      0xc00
+> +#define CSR_TIME       0xc01
+> +
+> +#define csr_read(csr)                                          \
+> +({                                                             \
+> +       register unsigned long __v;                             \
+> +               __asm__ __volatile__ ("csrr %0, " #csr          \
+> +                : "=3Dr" (__v) :                                 \
+> +                : "memory");                                   \
+
+To avoid the macro pasting that could potentially go weird, could this be:
+
+__asm__ __volatile__ ("csrr %0, %1",
+  : "=3Dr"(__v) /* outputs */
+  : "i"(csr) /* inputs */
+  : "memory" /* clobbers */)
+
+Also, why is this clobbering memory? Worth adding a comment.
+
+Thanks,
+Ian
+
+> +                __v;                                           \
+> +})
+> +
+> +static unsigned long csr_read_num(int csr_num)
+> +{
+> +#define switchcase_csr_read(__csr_num, __val)           {\
+> +       case __csr_num:                                 \
+> +               __val =3D csr_read(__csr_num);            \
+> +               break; }
+> +#define switchcase_csr_read_2(__csr_num, __val)         {\
+> +       switchcase_csr_read(__csr_num + 0, __val)        \
+> +       switchcase_csr_read(__csr_num + 1, __val)}
+> +#define switchcase_csr_read_4(__csr_num, __val)         {\
+> +       switchcase_csr_read_2(__csr_num + 0, __val)      \
+> +       switchcase_csr_read_2(__csr_num + 2, __val)}
+> +#define switchcase_csr_read_8(__csr_num, __val)         {\
+> +       switchcase_csr_read_4(__csr_num + 0, __val)      \
+> +       switchcase_csr_read_4(__csr_num + 4, __val)}
+> +#define switchcase_csr_read_16(__csr_num, __val)        {\
+> +       switchcase_csr_read_8(__csr_num + 0, __val)      \
+> +       switchcase_csr_read_8(__csr_num + 8, __val)}
+> +#define switchcase_csr_read_32(__csr_num, __val)        {\
+> +       switchcase_csr_read_16(__csr_num + 0, __val)     \
+> +       switchcase_csr_read_16(__csr_num + 16, __val)}
+> +
+> +       unsigned long ret =3D 0;
+> +
+> +       switch (csr_num) {
+> +       switchcase_csr_read_32(CSR_CYCLE, ret)
+> +       default:
+> +               break;
+> +       }
+> +
+> +       return ret;
+> +#undef switchcase_csr_read_32
+> +#undef switchcase_csr_read_16
+> +#undef switchcase_csr_read_8
+> +#undef switchcase_csr_read_4
+> +#undef switchcase_csr_read_2
+> +#undef switchcase_csr_read
+> +}
+> +
+> +static u64 read_perf_counter(unsigned int counter)
+> +{
+> +       return csr_read_num(CSR_CYCLE + counter);
+> +}
+> +
+> +static u64 read_timestamp(void)
+> +{
+> +       return csr_read_num(CSR_TIME);
+> +}
+> +
+>  #else
+>  static u64 read_perf_counter(unsigned int counter __maybe_unused) { retu=
+rn 0; }
+>  static u64 read_timestamp(void) { return 0; }
+> --
+> 2.39.2
+>
