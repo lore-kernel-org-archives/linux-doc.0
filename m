@@ -2,22 +2,22 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE44C41513
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 06:17:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 797FBC001DF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 06:17:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233424AbjG1GRh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 02:17:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42864 "EHLO
+        id S233446AbjG1GRj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 02:17:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233395AbjG1GRg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 02:17:36 -0400
+        with ESMTP id S232575AbjG1GRi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 02:17:38 -0400
 Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BE8272D;
-        Thu, 27 Jul 2023 23:17:34 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R281e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0VoOxEIG_1690525050;
-Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VoOxEIG_1690525050)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF323273D;
+        Thu, 27 Jul 2023 23:17:36 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0VoOxEJY_1690525052;
+Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VoOxEJY_1690525052)
           by smtp.aliyun-inc.com;
-          Fri, 28 Jul 2023 14:17:30 +0800
+          Fri, 28 Jul 2023 14:17:33 +0800
 From:   Jing Zhang <renyu.zj@linux.alibaba.com>
 To:     John Garry <john.g.garry@oracle.com>,
         Ian Rogers <irogers@google.com>
@@ -31,9 +31,9 @@ Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
         Zhuo Song <zhuo.song@linux.alibaba.com>,
         Jing Zhang <renyu.zj@linux.alibaba.com>,
         Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: [PATCH v5 2/5] perf jevents: Support more event fields
-Date:   Fri, 28 Jul 2023 14:17:17 +0800
-Message-Id: <1690525040-77423-3-git-send-email-renyu.zj@linux.alibaba.com>
+Subject: [PATCH v5 5/5] perf vendor events: Add JSON metrics for Arm CMN
+Date:   Fri, 28 Jul 2023 14:17:20 +0800
+Message-Id: <1690525040-77423-6-git-send-email-renyu.zj@linux.alibaba.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1690525040-77423-1-git-send-email-renyu.zj@linux.alibaba.com>
 References: <1690525040-77423-1-git-send-email-renyu.zj@linux.alibaba.com>
@@ -41,80 +41,95 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The usual event descriptions are "event=xxx" or "config=xxx", while the
-event descriptions of CMN are "type=xxx, eventid=xxx" or more complex.
-
-$cat /sys/bus/event_source/devices/arm_cmn_0/events/hnf_cache_fill
-type=0x5,eventid=0x3
-
-When adding aliases for events described as "event=xxx" or "config=xxx",
-EventCode or ConfigCode can be used in the JSON files to describe the
-events. But "eventid=xxx, type=xxx" cannot be supported at present.
-
-If EventCode and ConfigCode is not added in the alias JSON file, the
-event description will add "event=0" by default. So, even if the event
-field is added to supplement "eventid=xxx" and "type=xxx", the final
-parsing result will be "event=0, eventid=xxx, type=xxx".
-
-Therefore, when EventCode and ConfigCode are missing in JSON, "event=0" is
-no longer added by default. EventIdCode and Type are added to the event
-field, and ConfigCode is moved into the event_field array which can also
-guarantee its original function.
+Add JSON metrics for Arm CMN. Currently just add part of CMN PMU
+metrics which are general and compatible for any SoC with CMN-ANY.
 
 Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
 ---
- tools/perf/pmu-events/jevents.py | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  | 74 ++++++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
 
-diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
-index f57a8f2..9c0f63a 100755
---- a/tools/perf/pmu-events/jevents.py
-+++ b/tools/perf/pmu-events/jevents.py
-@@ -275,12 +275,6 @@ class JsonEvent:
-       }
-       return table[unit] if unit in table else f'uncore_{unit.lower()}'
- 
--    eventcode = 0
--    if 'EventCode' in jd:
--      eventcode = int(jd['EventCode'].split(',', 1)[0], 0)
--    if 'ExtSel' in jd:
--      eventcode |= int(jd['ExtSel']) << 8
--    configcode = int(jd['ConfigCode'], 0) if 'ConfigCode' in jd else None
-     self.name = jd['EventName'].lower() if 'EventName' in jd else None
-     self.topic = ''
-     self.compat = jd.get('Compat')
-@@ -317,7 +311,15 @@ class JsonEvent:
-     if precise and self.desc and '(Precise Event)' not in self.desc:
-       extra_desc += ' (Must be precise)' if precise == '2' else (' (Precise '
-                                                                  'event)')
--    event = f'config={llx(configcode)}' if configcode is not None else f'event={llx(eventcode)}'
-+    eventcode = None
-+    if 'EventCode' in jd:
-+      eventcode = int(jd['EventCode'].split(',', 1)[0], 0)
-+    if 'ExtSel' in jd:
-+      if eventcode is None:
-+        eventcode = int(jd['ExtSel']) << 8
-+      else:
-+        eventcode |= int(jd['ExtSel']) << 8
-+    event = f'event={llx(eventcode)}' if eventcode is not None else None
-     event_fields = [
-         ('AnyThread', 'any='),
-         ('PortMask', 'ch_mask='),
-@@ -327,10 +329,13 @@ class JsonEvent:
-         ('Invert', 'inv='),
-         ('SampleAfterValue', 'period='),
-         ('UMask', 'umask='),
-+        ('ConfigCode', 'config='),
-+        ('Type', 'type='),
-+        ('EventIdCode', 'eventid='),
-     ]
-     for key, value in event_fields:
-       if key in jd and jd[key] != '0':
--        event += ',' + value + jd[key]
-+        event = event + ',' + value + jd[key] if event is not None else value + jd[key]
-     if filter:
-       event += f',{filter}'
-     if msr:
+diff --git a/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+new file mode 100644
+index 0000000..64db534
+--- /dev/null
++++ b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+@@ -0,0 +1,74 @@
++[
++	{
++		"MetricName": "slc_miss_rate",
++		"BriefDescription": "The system level cache miss rate.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "hnf_cache_miss / hnf_slc_sf_cache_access",
++		"ScaleUnit": "100%",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	},
++	{
++		"MetricName": "hnf_message_retry_rate",
++		"BriefDescription": "HN-F message retry rate indicates whether a lack of credits is causing the bottlenecks.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "hnf_pocq_retry / hnf_pocq_reqs_recvd",
++		"ScaleUnit": "100%",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	},
++	{
++		"MetricName": "sf_hit_rate",
++		"BriefDescription": "Snoop filter hit rate can be used to measure the snoop filter efficiency.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "hnf_sf_hit / hnf_slc_sf_cache_access",
++		"ScaleUnit": "100%",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	},
++	{
++		"MetricName": "mc_message_retry_rate",
++		"BriefDescription": "The memory controller request retries rate indicates whether the memory controller is the bottleneck.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "hnf_mc_retries / hnf_mc_reqs",
++		"ScaleUnit": "100%",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	},
++	{
++		"MetricName": "rni_actual_read_bandwidth.all",
++		"BriefDescription": "This event measure the actual bandwidth that RN-I bridge sends to the interconnect.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "rnid_rxdat_flits * 32 / 1e6 / duration_time",
++		"ScaleUnit": "1MB/s",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	},
++	{
++		"MetricName": "rni_actual_write_bandwidth.all",
++		"BriefDescription": "This event measures the actual write bandwidth at RN-I bridges.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "rnid_txdat_flits * 32 / 1e6 / duration_time",
++		"ScaleUnit": "1MB/s",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	},
++	{
++		"MetricName": "rni_retry_rate",
++		"BriefDescription": "RN-I bridge retry rate indicates whether the memory controller is the bottleneck.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "rnid_txreq_flits_retried / rnid_txreq_flits_total",
++		"ScaleUnit": "100%",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	},
++	{
++		"MetricName": "sbsx_actual_write_bandwidth.all",
++		"BriefDescription": "sbsx actual write bandwidth.",
++		"MetricGroup": "cmn",
++		"MetricExpr": "sbsx_txdat_flitv * 32 / 1e6 / duration_time",
++		"ScaleUnit": "1MB/s",
++		"Unit": "arm_cmn",
++		"Compat": "434*;436*;43c*;43a*"
++	}
++]
 -- 
 1.8.3.1
 
