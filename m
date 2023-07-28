@@ -2,126 +2,73 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E83FC001E0
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 22:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24606C001DF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 23:23:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231146AbjG1WEc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 18:04:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42140 "EHLO
+        id S231279AbjG1XXC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 19:23:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbjG1WEb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 18:04:31 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EDC72D5F;
-        Fri, 28 Jul 2023 15:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=hdyXHCNmm6/5wN+6xDZf0F3DJhdGMtE6XIr7LH2nzps=; b=az3KeLxLnSrbQBwqv9/MzZharB
-        XC/CzNA7Lp/jBX3ELKZoMfPLCFD8prlAFh1YU6kTTR2u17rl3JCqKw+pZowYM57qF6CPwb00aYwbX
-        eBlOmmPr3eFJZvJ3MNy7wcBD1eLVBS3i3DtUJ6AGEt73k06W+rlctva3nopCF/GRvmg/r8r5tbF7O
-        C32CVvNlLVubSVgvWVqJMelwfY8fE7Qt5yAo/bwDQe3SH7hyQ8VuLBLRIOfhU9Y5qwznNbklKqYBC
-        W2pdV/Qoi7PugEUAq/+LeaTyGX125ueR/+JE2wvqq6Ku1Y6Jh+zFpOm1GQ5vj30Dzwphepn9MNOWV
-        SueCznBA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qPVZS-008Veg-2p;
-        Fri, 28 Jul 2023 22:04:27 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6A18030039F;
-        Sat, 29 Jul 2023 00:04:26 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 5144C2C973624; Sat, 29 Jul 2023 00:04:26 +0200 (CEST)
-Date:   Sat, 29 Jul 2023 00:04:26 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Valentin Schneider <vschneid@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 10/20] jump_label,module: Don't alloc
- static_key_mod for __ro_after_init keys
-Message-ID: <20230728220426.GB3934165@hirez.programming.kicks-ass.net>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-11-vschneid@redhat.com>
+        with ESMTP id S229723AbjG1XWz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 19:22:55 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 735D13AB4
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jul 2023 16:22:54 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-686b879f605so1858609b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jul 2023 16:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690586574; x=1691191374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3J02gGPlZbZHgOQ6syHZQDMbL88svEYL3WquPy69jjU=;
+        b=OyOMvsiUoVcZVoxz3S3mVRqlkP5ItPBXfoVU508M21VmJ77cghHo71kcfTxpCTQr9B
+         +KOdpAXL278mjK4gvNLkJMvHfGwSCGkxz2J2FM+sOO/PUx5qle6t7qqrHwT7HnwRvPri
+         h9Eb9Y0/mCIbT3eADa8OM2kGwHE+NsJRA1EnQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690586574; x=1691191374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3J02gGPlZbZHgOQ6syHZQDMbL88svEYL3WquPy69jjU=;
+        b=F2LI2R0syfwJgyTAPiEulcvVZscALSKx5fK9VwJg+AtRmt3e+pRWor3Vbq/zN37ApG
+         Uutnl9dEZ1LrIQsmZHoMEUpOhRCJWjCcXtlmnsct75AyKa81f7kKz2a36F2/joy4bSo6
+         fSNEbVpl8RsRhEbiJ/zfD8fobGST+iChqsKY0TuF6smndXX5Y5gByE1hheNvSa9sVXy7
+         +dWLmKgLcG3rXBUWJPHQP03ah8h4JUCFlrwzIv2gO1GUThawwC01NL/pcdOmnAnjQVK2
+         Qm7vnvMwJHsm3O0t2i0FPwjaA7qIZ8+ihaVqYUlJwJidlWgGo02d9uYD3gkD8IuDrFog
+         eaug==
+X-Gm-Message-State: ABy/qLYo3WROn5ywyotcnYy5HMYr9QHRQipXQer6wjzpwFSMbhvVRR7D
+        823l3i0uCIP380oJpk89oDduxg==
+X-Google-Smtp-Source: APBJJlGQfZLVQNgsEv0pXXb81+pMSf6XgrCMsILXZO2g0C5yTNhAizbBghrn9UMk6Jj4XjQAIKBtQw==
+X-Received: by 2002:a05:6a00:138f:b0:686:9385:4644 with SMTP id t15-20020a056a00138f00b0068693854644mr3518683pfg.2.1690586573930;
+        Fri, 28 Jul 2023 16:22:53 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id a10-20020a62bd0a000000b005d22639b577sm3615689pff.165.2023.07.28.16.22.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 16:22:53 -0700 (PDT)
+Date:   Fri, 28 Jul 2023 16:22:52 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Docs/process/changes: Consolidate NFS-utils update
+ links
+Message-ID: <202307281622.CF15DDB@keescook>
+References: <20230728211616.59550-1-sj@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720163056.2564824-11-vschneid@redhat.com>
+In-Reply-To: <20230728211616.59550-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 05:30:46PM +0100, Valentin Schneider wrote:
-> From: Peter Zijlstra <peterz@infradead.org>
+On Fri, Jul 28, 2023 at 09:16:15PM +0000, SeongJae Park wrote:
+> Two update links for NFS-utils are in two duplicate sessions.
+> Consolidate.
 > 
-> When a static_key is marked ro_after_init, its state will never change
-> (after init), therefore jump_label_update() will never need to iterate
-> the entries, and thus module load won't actually need to track this --
-> avoiding the static_key::next write.
-> 
-> Therefore, mark these keys such that jump_label_add_module() might
-> recognise them and avoid the modification.
-> 
-> Use the special state: 'static_key_linked(key) && !static_key_mod(key)'
-> to denote such keys.
-> 
-> Link: http://lore.kernel.org/r/20230705204142.GB2813335@hirez.programming.kicks-ass.net
-> NOT-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
-> ---
-> @Peter: I've barely touched this patch, it's just been writing a comment
-> and fixing benign compilation issues, so credit's all yours really!
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 
-Ah, it works? Excellent! You can remove the NOT from the SoB then ;-)
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
