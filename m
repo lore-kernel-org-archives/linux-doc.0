@@ -2,84 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8826DC41513
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 20:18:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E05B4C001DF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 20:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231211AbjG1US2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 16:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35986 "EHLO
+        id S230236AbjG1USa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 16:18:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjG1US2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 16:18:28 -0400
+        with ESMTP id S233674AbjG1USa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 16:18:30 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94CC92D75;
-        Fri, 28 Jul 2023 13:18:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B20423B;
+        Fri, 28 Jul 2023 13:18:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3220F621F3;
-        Fri, 28 Jul 2023 20:18:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF109C433C7;
-        Fri, 28 Jul 2023 20:18:24 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E462E621FB;
+        Fri, 28 Jul 2023 20:18:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5926C433C7;
+        Fri, 28 Jul 2023 20:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690575505;
-        bh=UVBU1bmCqbHYSrEwhTG13CafVyks5FJvwzFQOQt5stM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=KnJ8rmUNVoGFKcCNUKRwK89H2KXXAVLsepsFVQRa8iq4OoKzKnituu+rU0m/e7wJx
-         uAVd0NxyObI7bWeGNqmuwUCWqQFn0yUKUXbZR0gT9GqzYGwzjp6ETymgfGp/0bvNCX
-         nlqZUBhTP+tOhmS1RLPv11wBvEuvRUwwxbTtt74EoFFwojxtEu0HH614lcs2N1Lo67
-         eQBhLQdYv/PDCfocQBxT2XJfJ4o4fRRjONXROUjT0VkNfgFZ+UrEh57tkK4bwQFjxp
-         NNkpvhVBApP7A7T6MVluboFkz5FCrfcQBYYnIdKNcZCC/S809axL3QyaJ6pjL+oXJq
-         6pqz5f6ogfIlQ==
+        s=k20201202; t=1690575508;
+        bh=hZi4JMj8VgF69C/0cI6pgbuOwe9TusEzinxMwIrTwRU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=QyGP4+cb8vPs1cOqldkfI60vHEt6GW58BND6QKRpWnpRyPcnJjNzbMiHvKbL9sr2f
+         Gd89fZUVgnWzXVJE8Ov8HLUGJen9Lw5jd0RX+XIcilGNjDfRSNkWXm209E2KRuCtPa
+         F8UY4Eqc6arjvEGTVzBSN1mw2IhBvPs0jAE5IqeK9kzyWeAGdTwB3M2ErhdHYFsl4G
+         WV9PSZKsagHHQaKljpGc9LWz6H+qSthGrI3dMvNDLEQyaQblO9+IIv3nDwE6+65d83
+         cboN3H1SPsHUB2yduqbBqlYlsgiU5j7gNat2nzF1OVPsWcoAlJN+yhrt+M1hPRY6Y1
+         cPpjkWwWV1JSQ==
 From:   SeongJae Park <sj@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, damon@lists.linux.dev,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 0/5] mm/damon/sysfs: add a file for efficiently get total size of DAMOS tried regions
-Date:   Fri, 28 Jul 2023 20:18:12 +0000
-Message-Id: <20230728201817.70602-1-sj@kernel.org>
+        damon@lists.linux.dev, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 4/5] Docs/ABI/damon: update for tried_regions/total_bytes
+Date:   Fri, 28 Jul 2023 20:18:16 +0000
+Message-Id: <20230728201817.70602-5-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230728201817.70602-1-sj@kernel.org>
+References: <20230728201817.70602-1-sj@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The tried_regions directory of DAMON sysfs interface is useful for
-retrieving monitoring results snapshot or DAMOS debugging.  However, for
-common use case that need to monitor only the total size of the scheme
-tried regions (e.g., monitoring working set size), the kernel overhead
-for directory construction and user overhead for reading the content
-could be high if the number of monitoring region is not small.  This
-patchset implements DAMON sysfs files for efficient support of the use
-case.
+Update the DAMON ABI document for newly added
+schemes/.../tried_regions/total_bytes file and the
+update_schemes_tried_bytes command.
 
-The first patch implements the sysfs file to reduce the user space
-overhead, and the second patch implements a command for reducing the
-kernel space overhead.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/ABI/testing/sysfs-kernel-mm-damon | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-The third patch adds a selftest for the new file, and following two
-patches update documents.
-
-SeongJae Park (5):
-  mm/damon/sysfs-schemes: implement DAMOS tried total bytes file
-  mm/damon/sysfs: implement a command for updating only schemes tried
-    total bytes
-  selftests/damon/sysfs: test tried_regions/total_bytes file
-  Docs/ABI/damon: update for tried_regions/total_bytes
-  Docs/admin-guide/mm/damon/usage: update for tried_regions/total_bytes
-
- .../ABI/testing/sysfs-kernel-mm-damon         | 13 +++++-
- Documentation/admin-guide/mm/damon/usage.rst  | 42 ++++++++++++-------
- mm/damon/sysfs-common.h                       |  2 +-
- mm/damon/sysfs-schemes.c                      | 24 ++++++++++-
- mm/damon/sysfs.c                              | 26 +++++++++---
- tools/testing/selftests/damon/sysfs.sh        |  1 +
- 6 files changed, 83 insertions(+), 25 deletions(-)
-
+diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
+index 2744f21b5a6b..3d9aaa1cafa9 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-mm-damon
++++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
+@@ -29,8 +29,10 @@ Description:	Writing 'on' or 'off' to this file makes the kdamond starts or
+ 		file updates contents of schemes stats files of the kdamond.
+ 		Writing 'update_schemes_tried_regions' to the file updates
+ 		contents of 'tried_regions' directory of every scheme directory
+-		of this kdamond.  Writing 'clear_schemes_tried_regions' to the
+-		file removes contents of the 'tried_regions' directory.
++		of this kdamond.  Writing 'update_schemes_tried_bytes' to the
++		file updates only '.../tried_regions/total_bytes' files of this
++		kdamond.  Writing 'clear_schemes_tried_regions' to the file
++		removes contents of the 'tried_regions' directory.
+ 
+ What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/pid
+ Date:		Mar 2022
+@@ -317,6 +319,13 @@ Contact:	SeongJae Park <sj@kernel.org>
+ Description:	Reading this file returns the number of the exceed events of
+ 		the scheme's quotas.
+ 
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/tried_regions/total_bytes
++Date:		Jul 2023
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Reading this file returns the total amount of memory that
++		corresponding DAMON-based Operation Scheme's action has tried
++		to be applied.
++
+ What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/tried_regions/<R>/start
+ Date:		Oct 2022
+ Contact:	SeongJae Park <sj@kernel.org>
 -- 
 2.25.1
 
