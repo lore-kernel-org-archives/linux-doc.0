@@ -2,108 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2799FC001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 11:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34513C00528
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 11:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236087AbjG1LAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 07:00:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
+        id S233597AbjG1Lbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 07:31:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236069AbjG1LAc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 07:00:32 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52EE82701;
-        Fri, 28 Jul 2023 04:00:31 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-5227e5d9d96so2549482a12.2;
-        Fri, 28 Jul 2023 04:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690542030; x=1691146830;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2PDIAfFUsFD3vbVEGsI9j/0thKIcvauqk+miCMI9pQM=;
-        b=EyPBQM6RQ+S/JnVzhATw135UHbUhW8+sWivasIl3uNELayYfb/H4HnRU39ec857gzw
-         8A7rjGpjYCWQKiIx2Vg+q9vtj+kz9jskd2QF+yToV+zGB3t8+kJuPq4pSmChm3PGYPXl
-         V8HL1aB1yXPxOOLgnA1akWOvRDGg5VYNnTHL+e0he1bhaIfkvWG4mbhnxmJrvccjQchU
-         SEfgXTN6AwH3fH3Z2JtEAbJXfrEneognCK3lvrNMcy65uQXsyij04M5hs/d18x6EnT7I
-         x2oKDDypouEfGRjiNPevP2O4xDEaIypQDU/3yRECJMsejHoem4HiHGu27dtX9a54Nqah
-         N+dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690542030; x=1691146830;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2PDIAfFUsFD3vbVEGsI9j/0thKIcvauqk+miCMI9pQM=;
-        b=B+QxWzeeUX0sBnjF++ZuLP2nlyZUFt5QiRVBpJjaK51yiI6s4Obd9jYTz59CEy3iaF
-         60aWvNlwbcz9v8/HyLhrueswgXXC/Yar3T+nSvPbRGQifQZNPm20dJnX/2tHsV9cXSw9
-         qaXFChEiAsAmM+bz2/bCGmYA0VQc5XcU9W+qfi8OUOXF6GcsSf4B2VVuZCu221y4ZBNs
-         XL/7Dw7XXonI6XzPbIVPXTXAtH1beGg7NxSMXfoUS5W39toB01ydcRrhLoBjNT+7NBzG
-         gEFbyMgorn5ZXqTH9z1JzMOJnxz97smsYru9DnbiJdCC9wZde9S/2foBDhbgl44LWw0X
-         QVFg==
-X-Gm-Message-State: ABy/qLYOuHp9vm4tbY5awHhzcE99SNbspzbMIHyMb/dMZJAc+9qRE86q
-        dcNqT4abprHivzr9yqu2YBqLkC4+MDrjyxVqLag=
-X-Google-Smtp-Source: APBJJlEghzB5bMgXT3leW5ZT0+gEjuoBiA4sez83WtaUcSOtr4hVGqaTHDCNdeMru3uWWlbEwaEeMFrzkTvqeODaISA=
-X-Received: by 2002:a17:906:2cd:b0:99b:c845:791d with SMTP id
- 13-20020a17090602cd00b0099bc845791dmr1812151ejk.76.1690542029590; Fri, 28 Jul
- 2023 04:00:29 -0700 (PDT)
+        with ESMTP id S229601AbjG1Lbl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 07:31:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D45F2D5B;
+        Fri, 28 Jul 2023 04:31:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9CE5B62101;
+        Fri, 28 Jul 2023 11:31:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C216C433C8;
+        Fri, 28 Jul 2023 11:31:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690543899;
+        bh=mQamHmOgyjxhff4tf13gl/WJXm01xBH8XpNyYc9u4CU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oEq86SlctDT6n2xRRfUW6BXg07k0GOYkhjEmq11FHtLbCgAdef74cw05oPdwlJMxM
+         nMFKaz3L5nKPQEiU/c9j4ostFrLN6rWdsaFn+Tg3bcNhTzdRyFcDzEzmeXulEYunm8
+         GZxgykpDgWSNe+PLNwW8xOiTCxWwSoyBE9/aq9OSJj9/cN5dI5yKh35KUDbqp9nCSp
+         FzD7ww99o97k5yFbC619m7SskfC2XbDCZTgPthSqUSdVLHsGGeU5z3WFzvqKDea9iO
+         tYBWjY4vjuS0WJO0oninAReyBrrpmped45vPoIZgt+kFoOBDqZ+vIQcKAb6xbCaxE0
+         tPf0W4jFPJCmA==
+Date:   Fri, 28 Jul 2023 13:31:36 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net, donald.robson@imgtec.com,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas =?utf-8?Q?Hellstr=C3=B6m?= 
+        <thomas.hellstrom@linux.intel.com>,
+        Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-misc-next v8 01/12] drm: manager to keep track of
+ GPUs VA mappings
+Message-ID: <hi5magp4icayy5dxmylfyxws52cu63jvlhu4yj5xem3acoaylk@msf7zthcr3lg>
+References: <20230720001443.2380-1-dakr@redhat.com>
+ <20230720001443.2380-2-dakr@redhat.com>
 MIME-Version: 1.0
-References: <20230728105723.251892-1-krzpaw@gmail.com>
-In-Reply-To: <20230728105723.251892-1-krzpaw@gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Fri, 28 Jul 2023 13:00:18 +0200
-Message-ID: <CAKXUXMzYyX9rz-=K=1YRRbpOAechRG4U+i5BbX8qagH2epTgXw@mail.gmail.com>
-Subject: Re: [PATCH] docs: cgroup-v1: replace dead CONFIG_MEM_RES_CTRL_SWAP symbol
-To:     Krzysztof Pawlaczyk <krzpaw@gmail.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="3n5o5ss2bit7ecey"
+Content-Disposition: inline
+In-Reply-To: <20230720001443.2380-2-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 28, 2023 at 12:59=E2=80=AFPM Krzysztof Pawlaczyk <krzpaw@gmail.=
-com> wrote:
->
-> Commit e55b9f96860f ("mm: memcontrol: drop dead CONFIG_MEMCG_SWAP
-> config symbol") removed MEMCG_SWAP as it was just a shorthand for
-> CONFIG_MEMCG && CONFIG_SWAP.
->
-> The commit also adjusted the documentation but missed reference to
-> CONFIG_MEM_RES_CTRL_SWAP, which was the previous name of
-> CONFIG_MEMCG_SWAP before renaming in commit c255a458055e ("memcg: rename
-> config variables").
->
-> Update the reference to the current state.
->
 
-Thanks for the cleanup.
+--3n5o5ss2bit7ecey
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Hi Danilo,
 
-Lukas
+On Thu, Jul 20, 2023 at 02:14:22AM +0200, Danilo Krummrich wrote:
+> Add infrastructure to keep track of GPU virtual address (VA) mappings
+> with a decicated VA space manager implementation.
+>=20
+> New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+> start implementing, allow userspace applications to request multiple and
+> arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+> intended to serve the following purposes in this context.
+>=20
+> 1) Provide infrastructure to track GPU VA allocations and mappings,
+>    making using an interval tree (RB-tree).
+>=20
+> 2) Generically connect GPU VA mappings to their backing buffers, in
+>    particular DRM GEM objects.
+>=20
+> 3) Provide a common implementation to perform more complex mapping
+>    operations on the GPU VA space. In particular splitting and merging
+>    of GPU VA mappings, e.g. for intersecting mapping requests or partial
+>    unmap requests.
+>=20
+> Acked-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> Acked-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Tested-by: Matthew Brost <matthew.brost@intel.com>
+> Tested-by: Donald Robson <donald.robson@imgtec.com>
+> Suggested-by: Dave Airlie <airlied@redhat.com>
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
-> Signed-off-by: Krzysztof Pawlaczyk <krzpaw@gmail.com>
-> ---
->  Documentation/admin-guide/cgroup-v1/memcg_test.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v1/memcg_test.rst b/Documen=
-tation/admin-guide/cgroup-v1/memcg_test.rst
-> index a402359abb99..1f128458ddea 100644
-> --- a/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-> @@ -62,7 +62,7 @@ Please note that implementation details can be changed.
->
->         At cancel(), simply usage -=3D PAGE_SIZE.
->
-> -Under below explanation, we assume CONFIG_MEM_RES_CTRL_SWAP=3Dy.
-> +Under below explanation, we assume CONFIG_SWAP=3Dy.
->
->  4. Anonymous
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --
-> 2.25.1
->
+For some reason this breaks the drm_exec kunit patches:
+
+
+$ ./tools/testing/kunit/kunit.py run --kunitconfig=3Ddrivers/gpu/drm/tests =
+  --cross_compile aarch64-linux-gnu- --arch arm64 --raw_output drm_exec.tes=
+t_lock
+[13:31:14] Configuring KUnit Kernel ...
+[13:31:14] Building KUnit Kernel ...
+Populating config with:
+$ make ARCH=3Darm64 O=3D.kunit olddefconfig CROSS_COMPILE=3Daarch64-linux-g=
+nu-
+Building with:
+$ make ARCH=3Darm64 O=3D.kunit --jobs=3D32 CROSS_COMPILE=3Daarch64-linux-gn=
+u-
+[13:31:16] Starting KUnit Kernel (1/1)...
+Running tests with:
+$ qemu-system-aarch64 -nodefaults -m 1024 -kernel .kunit/arch/arm64/boot/Im=
+age.gz -append 'kunit.filter_glob=3Ddrm_exec.test_lock kunit.enable=3D1 con=
+sole=3DttyAMA0 kunit_shutdown=3Dreboot' -no-reboot -nographic -serial stdio=
+ -machine virt -cpu cortex-a57
+KTAP version 1
+1..1
+    KTAP version 1
+    # Subtest: drm_exec
+    1..1
+Unable to handle kernel NULL pointer dereference at virtual address 0000000=
+0000000b0
+Mem abort info:
+  ESR =3D 0x0000000096000005
+  EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+  SET =3D 0, FnV =3D 0
+  EA =3D 0, S1PTW =3D 0
+  FSC =3D 0x05: level 1 translation fault
+Data abort info:
+  ISV =3D 0, ISS =3D 0x00000005
+  CM =3D 0, WnR =3D 0
+[00000000000000b0] user address but active_mm is swapper
+Internal error: Oops: 0000000096000005 [#1] SMP
+CPU: 0 PID: 21 Comm: kunit_try_catch Tainted: G                 N 6.4.0-rc7=
+-02032-ge6303f323b1a #17
+Hardware name: linux,dummy-virt (DT)
+pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+pc : drm_gem_private_object_init+0x54/0xa8
+lr : drm_gem_private_object_init+0x44/0xa8
+sp : ffffffc008763c10
+x29: ffffffc008763c10 x28: 0000000000000000 x27: 0000000000000000
+x26: 0000000000000000 x25: 0000000000000000 x24: ffffffc00800bb90
+x23: ffffffc00820d3e4 x22: ffffff8000fb8880 x21: ffffffc008763db8
+x20: ffffffc0086171d8 x19: ffffffc008763cb8 x18: ffffffffffffffff
+x17: ffffffc0085b0da8 x16: 000000005a832b7d x15: 0000000000000000
+x14: 0000000000000001 x13: 0000000000000000 x12: ffffff8000cbe380
+x11: ffffff8000ca0000 x10: 00000000000007b0 x9 : 0000000000000000
+x8 : ffffffc008763cb8 x7 : 0000000000000000 x6 : 000000000000003f
+x5 : 0000000000000040 x4 : 0000000000000008 x3 : 0000000000000030
+x2 : ffffffc0085b9118 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ drm_gem_private_object_init+0x54/0xa8
+ test_lock+0x58/0xf4
+ kunit_try_run_case+0x48/0xa8
+ kunit_generic_run_threadfn_adapter+0x20/0x2c
+ kthread+0xd4/0xd8
+ ret_from_fork+0x10/0x20
+Code: f9407e60 b40002a0 f9401a80 b9406a81 (b940b000)
+---[ end trace 0000000000000000 ]---
+^CERROR:root:Build interruption occurred. Cleaning console.
+qemu-system-aarch64: terminating on signal 2
+[13:31:17] Elapsed time: 3.396s total, 0.001s configuring, 1.978s building,=
+ 1.417s running
+
+Maxime
+
+--3n5o5ss2bit7ecey
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMOnGAAKCRDj7w1vZxhR
+xSR2AP9tE8/f72q5jHIMHjhhir0PsVypUMPCWXU4fR+59oPfOgD/ZE9aH6tsf2Vd
+FouLH8frZRDzfA2nPV3qd89JLuV60wM=
+=Gn76
+-----END PGP SIGNATURE-----
+
+--3n5o5ss2bit7ecey--
