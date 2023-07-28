@@ -2,98 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9AC5C001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 13:40:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB11C0015E
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 14:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235369AbjG1Nk3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 09:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54422 "EHLO
+        id S235325AbjG1Ohr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 10:37:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235774AbjG1Nk2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 09:40:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D6B419BF;
-        Fri, 28 Jul 2023 06:40:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 27724620FD;
-        Fri, 28 Jul 2023 13:40:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6410BC433C7;
-        Fri, 28 Jul 2023 13:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690551626;
-        bh=tlsE0+7xNYDWBajQc3lmfmA80SXhLg/A7CaGn11d9K4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XA0YMVO5hYSzb8+pjL5xabzJ+9mlCLygcwa9jXFvHHSWeMe1fZiU4OZvFMFxrKAlF
-         0KSWiCG/BvrXtTrhS+RsntbAqlN5bua7POD+bunD9eoeINxDuQNI+01ktbDtI7xoy4
-         75HAJZFjEH+1kkaDQzKM+dDpm3oLTEClOW6Y9DP1nyO7dpB8pRNlrYofQ5IMqUV7kA
-         0wNmtIC/QBNBwyO5knoD7md0/9JY9pCVLT2EOvrB2tBiKArpjWB8sowLwRahEoAP6R
-         qHvkoLEEeYUH43idKDmCufY2FLSTl4hmuP02jjX1nGhyE2OeGNui/lsxOV9wwpayQ6
-         yJ5iS8N8gU5Dw==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id CAA8340096; Fri, 28 Jul 2023 10:40:23 -0300 (-03)
-Date:   Fri, 28 Jul 2023 10:40:23 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Jing Zhang <renyu.zj@linux.alibaba.com>
-Cc:     Namhyung Kim <namhyung@kernel.org>, Will Deacon <will@kernel.org>,
-        John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: Re: [PATCH v5 0/3] Add aliases and JSON metrics for Yitian710 DDR
-Message-ID: <ZMPFR7YQJt2dEY35@kernel.org>
-References: <1690528175-2499-1-git-send-email-renyu.zj@linux.alibaba.com>
+        with ESMTP id S235151AbjG1Ohq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 10:37:46 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83EEE3C24;
+        Fri, 28 Jul 2023 07:37:45 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4fe07f0636bso3848262e87.1;
+        Fri, 28 Jul 2023 07:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690555064; x=1691159864;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OoBzPwja36fkGB2m2EIbRi55n5XYr4VNaYPCpY7zeKs=;
+        b=mH17P6vfTfQdoT14pC3A4FfDJ2VBrkghAG4nBuM7YP9r7FzJpwrAFXB5UMTvtqhF40
+         XHnTn9QeyjMKGzDXjQG0c4Tthbnl8t35Fbo4n0fUp5eVbJ8S11AC+mfrG/aPvVGubjpv
+         jcunb7H8In7x+NbtE3ATP0FXQh2giufFWcsNZQpuzRCASB4ZZzp/+9+VsRFyxq7TerlQ
+         B+DbL/+fE4gdv7uvDxokIcRTP7edsXWY1QHw87YUGF1qk1FfE0wcZmB6VBIGvlKbqDz5
+         HQ1cwr6QXDanyk/pTVPTws4QTPAuqgF5F7qbF5rszCMz9nMXITHPXWMZeujKdSciAojn
+         hIUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690555064; x=1691159864;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OoBzPwja36fkGB2m2EIbRi55n5XYr4VNaYPCpY7zeKs=;
+        b=l9e5FwHvTOMXcKdiekO7vWTS3MvKOAJXB+CSd15W0VQ3DFIigq/4TSaUFLXmfrJdKz
+         LBNnHhXnolxI0JSfowCkvSFo/K3GvlTS7y3479V3Y884eHeuPgw0BtawIrfl/FD5xfYt
+         DAst7MJy+B9CfjNN8LQDiwbOmFcriMYUpUwdBMXiKCN6AXjulzCcHJ49dJUQmTygQVpK
+         1xN19LGiztr1aVKnK2ENvLnuT590EOdK4TonePvag3cI1CXLanimKv6oj9Hqo/URQ/cS
+         PfRhtoB5fSJ4mhCiO6Bf0qcmiSLInW7oOBIpezTJ8xvSi9UbrgYN0157+yGPwvyw7vg3
+         /GYw==
+X-Gm-Message-State: ABy/qLZ8F4r0/jQy5FD6qy0wphnZQMjtq92Yx64J0NmGt7Ca48ZAofQN
+        HAgNkD0XAh7XK7sNJExwgZ+iFUbUv75Y4+2gZrE=
+X-Google-Smtp-Source: APBJJlGUbR0qC9paIuIRHruH4iJ3Oi11S/UE+z1ge7FEfFZqlKQmVxkAQlUoMKoxelzsZCTu0j9nGxem/4l8cRw0JdU=
+X-Received: by 2002:a05:6512:2083:b0:4fd:f590:1ff7 with SMTP id
+ t3-20020a056512208300b004fdf5901ff7mr1806954lfr.40.1690555063602; Fri, 28 Jul
+ 2023 07:37:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1690528175-2499-1-git-send-email-renyu.zj@linux.alibaba.com>
-X-Url:  http://acmel.wordpress.com
+References: <20230720152737.102382-1-helen.koike@collabora.com>
+ <CAF6AEGtXL5vjp3Uup6Mk19MiY8E26-tpyXVmxXYhMd3fiadykQ@mail.gmail.com>
+ <CAF6AEGsxLg4og1EkCdno6P8x31KK=rJfmerJa8uMeNR-n7RVRg@mail.gmail.com> <CAPj87rPNyJ=mX1Um6yaN_jTV2gH5MhMxr3mnSb7=nB7NEOf2Ag@mail.gmail.com>
+In-Reply-To: <CAPj87rPNyJ=mX1Um6yaN_jTV2gH5MhMxr3mnSb7=nB7NEOf2Ag@mail.gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Fri, 28 Jul 2023 07:37:31 -0700
+Message-ID: <CAF6AEGtan-bQ7syKAwOKDY=044aKu26SLPQ0j1ieLqXNyQQS3g@mail.gmail.com>
+Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
+To:     Daniel Stone <daniel@fooishbar.org>
+Cc:     Helen Koike <helen.koike@collabora.com>, emma@anholt.net,
+        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
+        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
+        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
+        daniels@collabora.com, martin.blumenstingl@googlemail.com,
+        mripard@kernel.org, anholt@google.com,
+        linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
+        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, Jul 28, 2023 at 03:09:32PM +0800, Jing Zhang escreveu:
-> Hi,
-> 
-> I add aliases and JSON metrics for Yitian710 DDR. The kernel part that
-> this series depends on has been applied to for-next/perf. And this series
-> have all been reviewed. Can you help to apply them? Thank you.
-> 
-> Thanks,
-> Jing
+On Thu, Jul 27, 2023 at 10:26=E2=80=AFPM Daniel Stone <daniel@fooishbar.org=
+> wrote:
+>
+> On Thu, 27 Jul 2023 at 22:47, Rob Clark <robdclark@gmail.com> wrote:
+> > > I did run into a bit of a chicken vs. egg problem with testing the "i=
+n
+> > > tree" version (compared to earlier versions which kept most of the ym=
+l
+> > > and scripts in a separate tree), is that it actually requires this
+> > > commit to exist in the branch you want to run CI on.  My earlier
+> > > workaround of pulling the drm/ci commit in via
+> > > ${branchname}-external-fixes no longer works.
+> >
+> > After unwinding some more gitlab repo settings that were for the
+> > previous out-of-tree yml setup, I have this working.
+> >
+> > Tested-by: Rob Clark <robdclark@gmail.com>
+> > Acked-by: Rob Clark <robdclark@gmail.com>
+>
+> And it's also:
+> Acked-by: Daniel Stone <daniels@collabora.com>
+>
+> It's been back and forth a few times by now and reviewed pretty
+> heavily by all the people who are across the CI details. I think the
+> next step is to answer all the workflow questions by actually getting
+> it into trees and using it in anger. There was some discussion about
+> whether this should come in from drm-misc, or the core DRM tree, or a
+> completely separate pull, but I'm not sure what the conclusion was ...
+> maintainers, thoughts?
 
-Thanks, applied.
+I'd prefer a separate pull, so that I could merge it into msm-next as
+well without having to pull in all of drm-misc
 
-- Arnaldo
+Possibly some other driver trees would like to do similar?
 
- 
-> Change since v4:
-> - Kernel patch has applied to for-next/perf, so this patchset only has
->   tools part and docs.
-> - Fixed patch conflicts.
-> - Link: https://lore.kernel.org/all/1687245156-61215-1-git-send-email-renyu.zj@linux.alibaba.com/
-> 
-> Jing Zhang (3):
->   perf jevents: Add support for Yitian 710 DDR PMU aliasing
->   perf vendor events: Add JSON metrics for Yitian 710 DDR
->   docs: perf: Update metric usage for Alibaba's T-Head PMU driver
-> 
->  Documentation/admin-guide/perf/alibaba_pmu.rst     |   5 +
->  .../arm64/freescale/yitian710/sys/ali_drw.json     | 373 +++++++++++++++++++++
->  .../arm64/freescale/yitian710/sys/metrics.json     |  20 ++
->  tools/perf/pmu-events/jevents.py                   |   1 +
->  4 files changed, 399 insertions(+)
->  create mode 100644 tools/perf/pmu-events/arch/arm64/freescale/yitian710/sys/ali_drw.json
->  create mode 100644 tools/perf/pmu-events/arch/arm64/freescale/yitian710/sys/metrics.json
-> 
-> -- 
-> 1.8.3.1
-> 
-
--- 
-
-- Arnaldo
+BR,
+-R
