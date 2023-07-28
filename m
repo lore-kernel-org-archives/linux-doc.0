@@ -2,76 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87CEFC0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 02:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D600C0015E
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 03:02:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbjG1CQi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jul 2023 22:16:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59124 "EHLO
+        id S232943AbjG1DC0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jul 2023 23:02:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjG1CQi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 22:16:38 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 534892D6A
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 19:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690510597; x=1722046597;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J6zQpySJ121iiQhygfONYNvr7Z865W96HFXLPbkplnY=;
-  b=L9uawTcAQXdyT/DCfgaAWm5robpKwYbVnKWiGra2KCFZZCxBrkteU2SW
-   GJLGnstsC2wsxTuEqtR5WkphtRehUQCgTbHq/w48S3f08CJ9i8Gkc4GfY
-   ek6xpz4T9a8Jo1EwI5jpSSvsNDP6mIit4enoowCvwvQPdtC5DIGAXSP8r
-   gMsGFlF1Tlku///8j3gCiWu8uH9O0zYSTMKBMDykEImx7OYajATkS0yrS
-   ej8FfcK54K8V8o9sKxGQpMStJThuZg98WlmNzy/EIn6QpWD2XA9zoyVTB
-   shz5xsbypuhASsWnVHfbKzVcdae91/IRxCriBfU35BAbMKK+FH9AdiEVL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="358506459"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="358506459"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 19:16:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="1057947531"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="1057947531"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Jul 2023 19:16:35 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qPD1q-0002ml-1G;
-        Fri, 28 Jul 2023 02:16:32 +0000
-Date:   Fri, 28 Jul 2023 10:15:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Heiko Carstens <hca@linux.ibm.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: [linux-next:master 4903/5027] htmldocs: Warning:
- kernel/Kconfig.kexec references a file that doesn't exist:
- file:Documentation/s390/zfcpdump.rst
-Message-ID: <202307281049.40t8s0uv-lkp@intel.com>
+        with ESMTP id S232851AbjG1DCO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jul 2023 23:02:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA83426A8;
+        Thu, 27 Jul 2023 20:02:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 486A061FB7;
+        Fri, 28 Jul 2023 03:02:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36F35C433C7;
+        Fri, 28 Jul 2023 03:02:00 +0000 (UTC)
+Date:   Fri, 28 Jul 2023 08:31:55 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc:     helgaas@kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
+        quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
+        krzysztof.kozlowski@linaro.org,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 1/9] PCI: endpoint: Add D-state change notifier support
+Message-ID: <20230728030155.GD4433@thinkpad>
+References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
+ <1689232218-28265-2-git-send-email-quic_krichai@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1689232218-28265-2-git-send-email-quic_krichai@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
-commit: a6c36063805330633ef9a6846896a76c2ab7a351 [4903/5027] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281049.40t8s0uv-lkp@intel.com/reproduce)
+On Thu, Jul 13, 2023 at 12:40:10PM +0530, Krishna chaitanya chundru wrote:
+> Add support to notify the EPF device about the D-state change event
+> from the EPC device.
+> 
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> ---
+>  Documentation/PCI/endpoint/pci-endpoint.rst |  5 +++++
+>  drivers/pci/endpoint/pci-epc-core.c         | 27 +++++++++++++++++++++++++++
+>  include/linux/pci-epc.h                     |  1 +
+>  include/linux/pci-epf.h                     |  1 +
+>  4 files changed, 34 insertions(+)
+> 
+> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
+> index 4f5622a..3a54713 100644
+> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
+> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
+> @@ -78,6 +78,11 @@ by the PCI controller driver.
+>     Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
+>  
+>  
+> +* pci_epc_dstate_notity()
+> +
+> +   In order to notify all the function devices that the EPC device has
+> +   changed its D-state.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307281049.40t8s0uv-lkp@intel.com/
+Notify all the function drivers that the EPC device has changed its D-state.
 
-All warnings (new ones prefixed by >>):
+> +
+>  EPC APIs for the PCI Endpoint Function Driver
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+> index 6c54fa5..ea76baf 100644
+> --- a/drivers/pci/endpoint/pci-epc-core.c
+> +++ b/drivers/pci/endpoint/pci-epc-core.c
+> @@ -785,6 +785,33 @@ void pci_epc_bme_notify(struct pci_epc *epc)
+>  EXPORT_SYMBOL_GPL(pci_epc_bme_notify);
+>  
+>  /**
+> + * pci_epc_dstate_notity() - Notify the EPF device that EPC device D-state
 
->> Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
+EPF driver
+
+- Mani
+
+> + *			has changed
+> + * @epc: the EPC device which has change in D-state
+> + * @state: the changed D-state
+> + *
+> + * Invoke to Notify the EPF device that the EPC device has D-state has
+> + * changed.
+> + */
+> +void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
+> +{
+> +	struct pci_epf *epf;
+> +
+> +	if (!epc || IS_ERR(epc))
+> +		return;
+> +
+> +	mutex_lock(&epc->list_lock);
+> +	list_for_each_entry(epf, &epc->pci_epf, list) {
+> +		mutex_lock(&epf->lock);
+> +		if (epf->event_ops && epf->event_ops->dstate_notify)
+> +			epf->event_ops->dstate_notify(epf, state);
+> +		mutex_unlock(&epf->lock);
+> +	}
+> +	mutex_unlock(&epc->list_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
+> +
+> +/**
+>   * pci_epc_destroy() - destroy the EPC device
+>   * @epc: the EPC device that has to be destroyed
+>   *
+> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+> index 5cb6940..26a1108 100644
+> --- a/include/linux/pci-epc.h
+> +++ b/include/linux/pci-epc.h
+> @@ -251,4 +251,5 @@ void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
+>  				     phys_addr_t *phys_addr, size_t size);
+>  void pci_epc_mem_free_addr(struct pci_epc *epc, phys_addr_t phys_addr,
+>  			   void __iomem *virt_addr, size_t size);
+> +void pci_epc_dstate_change(struct pci_epc *epc, pci_power_t state);
+>  #endif /* __LINUX_PCI_EPC_H */
+> diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+> index 3f44b6a..529075b 100644
+> --- a/include/linux/pci-epf.h
+> +++ b/include/linux/pci-epf.h
+> @@ -79,6 +79,7 @@ struct pci_epc_event_ops {
+>  	int (*link_up)(struct pci_epf *epf);
+>  	int (*link_down)(struct pci_epf *epf);
+>  	int (*bme)(struct pci_epf *epf);
+> +	int (*dstate_notify)(struct pci_epf *epf, pci_power_t state);
+>  };
+>  
+>  /**
+> -- 
+> 2.7.4
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
