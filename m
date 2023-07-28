@@ -2,201 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98385C0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 04:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD2D5C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 05:26:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232135AbjG1EVn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 00:21:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41000 "EHLO
+        id S232768AbjG1F0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 01:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbjG1EVm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 00:21:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 030E635A3;
-        Thu, 27 Jul 2023 21:21:41 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 88FB261FCD;
-        Fri, 28 Jul 2023 04:21:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56257C433C7;
-        Fri, 28 Jul 2023 04:21:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690518099;
-        bh=npFFPyaQEwifiFYx76sBK90ncmNWu0Npk+xLXEgPOFM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=poONmNBGtWzL4WLzQeFUMI1MU/sWcd2mhhLf6n/Sdh9yEHZnQo8VQ7N34a9MgLGAd
-         Prdg7+WXlUvgsfF8D74J9LCEB4q7rz1OOid38+jNBPrBZXIxZ3qt8/9Q5VxrnIrRa9
-         WsJILO8++a1g3goYgbxnkECSrxTXsOb62Rp5bekx30JzhVNGsb+1GK7jyAEd0ewmB4
-         JtsJiT56WhQPYQbA9jEGZdOAG+ARDPssjk3IcDM6NtA60VD/0D076KS4ktIPpnlrf0
-         2i5A5T0q1JG3LEunOY6RU3AdT9uq5uNx4r5mBBh7wvURZH9F2YcfFFkA+z+q2swW7s
-         oKyTpHmlIIhRQ==
-Date:   Fri, 28 Jul 2023 09:51:29 +0530
-From:   Manivannan Sadhasivam <mani@kernel.org>
-To:     Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc:     manivannan.sadhasivam@linaro.org, helgaas@kernel.org,
-        linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
-        quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
-        quic_ramkri@quicinc.com, krzysztof.kozlowski@linaro.org,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4 5/9] PCI: endpoint: Add wakeup host API to EPC core
-Message-ID: <20230728042129.GH4433@thinkpad>
-References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
- <1689232218-28265-6-git-send-email-quic_krichai@quicinc.com>
+        with ESMTP id S232323AbjG1F0w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 01:26:52 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B658730FF
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 22:26:50 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-63cf6b21035so11406876d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jul 2023 22:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar-org.20221208.gappssmtp.com; s=20221208; t=1690522010; x=1691126810;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cE7yzj/ShJctTo/cH8TMuQ/2VH0iD1G1+5KA9qirh/Y=;
+        b=trpErXEJEPDZtUwJrLhT56jOvw/TASEnxJqiim24u87Ey219zXjICSpgcrZjP+hIvC
+         YOisNcRp1EFcZBuqaw0v47KkdLVd0rFI+qxA+sXUlebSorcP7hGjMv3NkVKwxd1A+1fM
+         +cPBg+wk6aUxXSizYt9OOW8K2HwaRZylnOeA2baYNkYAkyTSt3uSNK4bqSBTUKRlrYKH
+         veSyepWn/C4JI0VyBkgwNf9ieJKzWg0hb3tCI/tmQqhFz8s1wdV5XOJi6PQyomubgQDL
+         AUwaUxnOfbqg6WW2SXOJHHuKT2fULl3OjCF9EdNHMtPrrV+gZMyo2wDTP0lf87ec5+Bk
+         zCEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690522010; x=1691126810;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cE7yzj/ShJctTo/cH8TMuQ/2VH0iD1G1+5KA9qirh/Y=;
+        b=YlPHM6pF1IhUdRz6CFouGrrM42VJ08VYfCkqCHtijAvG/4qSgp9jMiclqcCtb2d+9o
+         EBVk6/nZc5M4Cf6WmO8PrmB0zCggONL+kkaxacmJELkzrF82BgE8cZ/Gk57Jc0byX2vW
+         P44s6gyzAvvZXwZQpHsaX2P3saYoI8govSnXwDf/KAmGycFgV9K0Zydcmj1BY3sNvAt5
+         NMSUEFgUDstj28jICanRsQVJ64weKmS6E6d0BQKwiTXb2gt2Qm0Zz+7Qc7Un3scxdBSi
+         3X7Erhq3tPTGW5YR8jSPT6PuXanKS0fXC0NhBiL4QmH7UMqZXmjdAd1304hiheMPI3d+
+         7tRg==
+X-Gm-Message-State: ABy/qLZQvVKLKo/e3U6ygjDgfe8wvrJg9HhDWOaxVjG+qWm2tw6qFJmM
+        3LMSzYOvfuK082rz1DOuBiwNQt1gUbULylo59CrpxQ==
+X-Google-Smtp-Source: APBJJlGaHKu68l916QbJnESfurRQ8GLdxdUM6h1VlhU7qK1FfkFxQTpsfGqhPqGZxqp+5PbL922CfRISxETZ4hSkBS0=
+X-Received: by 2002:ad4:45a9:0:b0:63c:fc39:3c0d with SMTP id
+ y9-20020ad445a9000000b0063cfc393c0dmr1353378qvu.62.1690522009771; Thu, 27 Jul
+ 2023 22:26:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1689232218-28265-6-git-send-email-quic_krichai@quicinc.com>
+References: <20230720152737.102382-1-helen.koike@collabora.com>
+ <CAF6AEGtXL5vjp3Uup6Mk19MiY8E26-tpyXVmxXYhMd3fiadykQ@mail.gmail.com> <CAF6AEGsxLg4og1EkCdno6P8x31KK=rJfmerJa8uMeNR-n7RVRg@mail.gmail.com>
+In-Reply-To: <CAF6AEGsxLg4og1EkCdno6P8x31KK=rJfmerJa8uMeNR-n7RVRg@mail.gmail.com>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Fri, 28 Jul 2023 06:26:39 +0100
+Message-ID: <CAPj87rPNyJ=mX1Um6yaN_jTV2gH5MhMxr3mnSb7=nB7NEOf2Ag@mail.gmail.com>
+Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Helen Koike <helen.koike@collabora.com>, emma@anholt.net,
+        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
+        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
+        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
+        daniels@collabora.com, martin.blumenstingl@googlemail.com,
+        mripard@kernel.org, anholt@google.com,
+        linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
+        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 12:40:14PM +0530, Krishna chaitanya chundru wrote:
-> Endpoint cannot send any data/MSI when the D-state is in
-> D3cold or D3hot. Endpoint needs to wake up the host to
-> bring the D-state to D0.
-> 
-> Endpoint can toggle wake signal when the D-state is in D3cold and vaux is
-> not supplied or can send inband PME.
-> 
-> To support this add wakeup_host() callback to the EPC core.
-> 
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> ---
->  Documentation/PCI/endpoint/pci-endpoint.rst |  6 ++++++
->  drivers/pci/endpoint/pci-epc-core.c         | 31 +++++++++++++++++++++++++++++
->  include/linux/pci-epc.h                     | 11 ++++++++++
->  3 files changed, 48 insertions(+)
-> 
-> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-> index 3a54713..eb79b77 100644
-> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
-> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-> @@ -53,6 +53,7 @@ by the PCI controller driver.
->  	 * raise_irq: ops to raise a legacy, MSI or MSI-X interrupt
->  	 * start: ops to start the PCI link
->  	 * stop: ops to stop the PCI link
-> +	 * wakeup_host: ops to wakeup host
->  
->     The PCI controller driver can then create a new EPC device by invoking
->     devm_pci_epc_create()/pci_epc_create().
-> @@ -122,6 +123,11 @@ by the PCI endpoint function driver.
->     The PCI endpoint function driver should use pci_epc_mem_free_addr() to
->     free the memory space allocated using pci_epc_mem_alloc_addr().
->  
-> +* pci_epc_wakeup_host()
-> +
-> +   The PCI endpoint function driver should use pci_epc_wakeup_host() to wakeup
-> +   host.
-> +
->  Other EPC APIs
->  ~~~~~~~~~~~~~~
->  
-> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-> index ea76baf..b419eff 100644
-> --- a/drivers/pci/endpoint/pci-epc-core.c
-> +++ b/drivers/pci/endpoint/pci-epc-core.c
-> @@ -167,6 +167,37 @@ const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
->  EXPORT_SYMBOL_GPL(pci_epc_get_features);
->  
->  /**
-> + * pci_epc_wakeup_host() - Wakeup the host
-> + * @epc: the EPC device which has to wakeup the host
-> + * @func_no: the physical endpoint function number in the EPC device
-> + * @vfunc_no: the virtual endpoint function number in the physical function
-> + * @type: specify the type of wakeup: WAKEUP_FROM_D3COLD, WAKEUP_FROM_D3HOT
-> + *
-> + * Invoke to wakeup host
-> + */
-> +bool pci_epc_wakeup_host(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
-> +			enum pci_epc_wakeup_host_type type)
-> +{
-> +	int ret;
-> +
-> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
-> +		return false;
-> +
-> +	if (vfunc_no > 0 && (!epc->max_vfs || vfunc_no > epc->max_vfs[func_no]))
-> +		return false;
-> +
-> +	if (!epc->ops->wakeup_host)
-> +		return true;
-> +
-> +	mutex_lock(&epc->lock);
-> +	ret = epc->ops->wakeup_host(epc, func_no, vfunc_no, type);
-> +	mutex_unlock(&epc->lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(pci_epc_wakeup_host);
-> +
-> +/**
->   * pci_epc_stop() - stop the PCI link
->   * @epc: the link of the EPC device that has to be stopped
->   *
-> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-> index 26a1108..d262179 100644
-> --- a/include/linux/pci-epc.h
-> +++ b/include/linux/pci-epc.h
-> @@ -26,6 +26,12 @@ enum pci_epc_irq_type {
->  	PCI_EPC_IRQ_MSIX,
->  };
->  
-> +enum pci_epc_wakeup_host_type {
-> +	PCI_WAKEUP_UNKNOWN,
-> +	PCI_WAKEUP_SEND_PME,
-> +	PCI_WAKEUP_TOGGLE_WAKE,
+On Thu, 27 Jul 2023 at 22:47, Rob Clark <robdclark@gmail.com> wrote:
+> > I did run into a bit of a chicken vs. egg problem with testing the "in
+> > tree" version (compared to earlier versions which kept most of the yml
+> > and scripts in a separate tree), is that it actually requires this
+> > commit to exist in the branch you want to run CI on.  My earlier
+> > workaround of pulling the drm/ci commit in via
+> > ${branchname}-external-fixes no longer works.
+>
+> After unwinding some more gitlab repo settings that were for the
+> previous out-of-tree yml setup, I have this working.
+>
+> Tested-by: Rob Clark <robdclark@gmail.com>
+> Acked-by: Rob Clark <robdclark@gmail.com>
 
-I think I asked you to get rid of these enums and use a bool. I don't see any
-new wakeup mechanism going to be added to the spec. So using enums for just 2
-options looks overkill to me.
+And it's also:
+Acked-by: Daniel Stone <daniels@collabora.com>
 
-If you defer, please discuss it here.
+It's been back and forth a few times by now and reviewed pretty
+heavily by all the people who are across the CI details. I think the
+next step is to answer all the workflow questions by actually getting
+it into trees and using it in anger. There was some discussion about
+whether this should come in from drm-misc, or the core DRM tree, or a
+completely separate pull, but I'm not sure what the conclusion was ...
+maintainers, thoughts?
 
-- Mani
-
-> +};
-> +
->  static inline const char *
->  pci_epc_interface_string(enum pci_epc_interface_type type)
->  {
-> @@ -59,6 +65,7 @@ pci_epc_interface_string(enum pci_epc_interface_type type)
->   * @start: ops to start the PCI link
->   * @stop: ops to stop the PCI link
->   * @get_features: ops to get the features supported by the EPC
-> + * @wakeup_host: ops to wakeup the host
->   * @owner: the module owner containing the ops
->   */
->  struct pci_epc_ops {
-> @@ -88,6 +95,8 @@ struct pci_epc_ops {
->  	void	(*stop)(struct pci_epc *epc);
->  	const struct pci_epc_features* (*get_features)(struct pci_epc *epc,
->  						       u8 func_no, u8 vfunc_no);
-> +	bool	(*wakeup_host)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
-> +				enum pci_epc_wakeup_host_type type);
->  	struct module *owner;
->  };
->  
-> @@ -234,6 +243,8 @@ int pci_epc_start(struct pci_epc *epc);
->  void pci_epc_stop(struct pci_epc *epc);
->  const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
->  						    u8 func_no, u8 vfunc_no);
-> +bool pci_epc_wakeup_host(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
-> +					enum pci_epc_wakeup_host_type type);
->  enum pci_barno
->  pci_epc_get_first_free_bar(const struct pci_epc_features *epc_features);
->  enum pci_barno pci_epc_get_next_free_bar(const struct pci_epc_features
-> -- 
-> 2.7.4
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+Cheers,
+Daniel
