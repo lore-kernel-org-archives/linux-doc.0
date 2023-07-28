@@ -2,102 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F9DC0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 12:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F2F1C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jul 2023 13:30:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236663AbjG1M1P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 08:27:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
+        id S234323AbjG1Nac (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jul 2023 09:30:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236539AbjG1M0k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 08:26:40 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF0435A8;
-        Fri, 28 Jul 2023 05:26:18 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        with ESMTP id S235146AbjG1Na3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 09:30:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B50594223;
+        Fri, 28 Jul 2023 06:29:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 12AE3660716E;
-        Fri, 28 Jul 2023 13:26:16 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690547176;
-        bh=Zuw3jk8mejPhGkU4q+qt5KLfIfe2BfW1w5UKG2oKYJg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CXGHqz2KdwadkHCSRUxB388XGBuPyDuOkH/TrBhRLZROG/LJGdIUiKsxWjDGrpq4p
-         qo62jLxKl2bRNl0su1D73yldGjEM8xmC7S6jweG06y1u/2tdWXnRJ1Ih3nTbb6NqqO
-         wr4FNBwH9u9F3NcqB+YHRkHgfxNn2B5BNlWKL5lTmxLCijitlJKZvpmHFwbbqWBJLy
-         /GJr77MVKq5v7GXuNvAsYQyljhdYDnkgmKqRKhFp2vHptb0+cgMZO+bysK4IXV+iTv
-         GQr5a7eoXjcskeHopo9TIa31E4yMY/mhd/BctWaqitn2DLsO7b6Dnpz4dzx4WtVtpo
-         nmLCKxDNuKVKQ==
-Date:   Fri, 28 Jul 2023 14:26:12 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, corbet@lwn.net,
-        christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net,
-        donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= 
-        <thomas.hellstrom@linux.intel.com>,
-        Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-misc-next v8 01/12] drm: manager to keep track of
- GPUs VA mappings
-Message-ID: <20230728142612.2ecf99ef@collabora.com>
-In-Reply-To: <hi5magp4icayy5dxmylfyxws52cu63jvlhu4yj5xem3acoaylk@msf7zthcr3lg>
-References: <20230720001443.2380-1-dakr@redhat.com>
-        <20230720001443.2380-2-dakr@redhat.com>
-        <hi5magp4icayy5dxmylfyxws52cu63jvlhu4yj5xem3acoaylk@msf7zthcr3lg>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6809C6214B;
+        Fri, 28 Jul 2023 13:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0487BC433C7;
+        Fri, 28 Jul 2023 13:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690550974;
+        bh=H1KxPv9liKslrEFQ6KOnxzIeg0r307dT4AOwFkXnF8M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SA16qhdeX2+kBzdZo4/NeNaah/dDkwYEtpl+vjFq+t4ajHikW0CB3z2XKw66z5mFK
+         BOHICBsU6F/gz6aIFCZvQtGqgqrvVkwmJqXHPz3++NMxmhQrkFfsp7DAC7BCXlqRPR
+         MJOiKVtwOkcRpJ9OgNB6EDV5TYgFiwkhuxlRk08P/DVpzfbkDj34aktIytdbGtt/p4
+         W+KZanyy0wIJI+aQ32vkXAf9ySHDqN4IoQtnZmguF2Xg4gv7WtKMh3sDIeVnS5BMvH
+         PjHryNiN/Ezn2ediJj2uF/+3L28Q0D8J0KPrtIFNJ1aU1U4CtPb/l1YK0m+0aGnCxq
+         XCKPIlEbtKMtA==
+Date:   Fri, 28 Jul 2023 14:29:29 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 0/4] perf: ampere: Add support for Ampere SoC PMUs
+Message-ID: <20230728132928.GB21394@willie-the-truck>
+References: <20230714010141.824226-1-ilkka@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230714010141.824226-1-ilkka@os.amperecomputing.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 28 Jul 2023 13:31:36 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+On Thu, Jul 13, 2023 at 06:01:37PM -0700, Ilkka Koskinen wrote:
+> Changes since v4:
+>     * "Support implementation specific filters" patch:
+>         - Added comment about filter and impdef registers and reference
+>           to the Coresight PMU specification to the commit message
+> 
+>     * "Add support for Ampere SoC PMU" patch:
+> 	- Fixed the documentation and added more comments
+>         - Changed the incrementing PMU index number to idr_alloc()
+> 	  (Needs a impdef release hook patch to release unused index)
+> 	- Fixed style in init_ops() to more reasonable
+> 	- Moved bank parameter to config1
 
-> Hi Danilo,
->=20
-> On Thu, Jul 20, 2023 at 02:14:22AM +0200, Danilo Krummrich wrote:
-> > Add infrastructure to keep track of GPU virtual address (VA) mappings
-> > with a decicated VA space manager implementation.
-> >=20
-> > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
-> > start implementing, allow userspace applications to request multiple and
-> > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
-> > intended to serve the following purposes in this context.
-> >=20
-> > 1) Provide infrastructure to track GPU VA allocations and mappings,
-> >    making using an interval tree (RB-tree).
-> >=20
-> > 2) Generically connect GPU VA mappings to their backing buffers, in
-> >    particular DRM GEM objects.
-> >=20
-> > 3) Provide a common implementation to perform more complex mapping
-> >    operations on the GPU VA space. In particular splitting and merging
-> >    of GPU VA mappings, e.g. for intersecting mapping requests or partial
-> >    unmap requests.
-> >=20
-> > Acked-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Acked-by: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Tested-by: Matthew Brost <matthew.brost@intel.com>
-> > Tested-by: Donald Robson <donald.robson@imgtec.com>
-> > Suggested-by: Dave Airlie <airlied@redhat.com>
-> > Signed-off-by: Danilo Krummrich <dakr@redhat.com> =20
->=20
-> For some reason this breaks the drm_exec kunit patches:
+This looks pretty good to me, but I think we should merge the series
+reworking the backend registration first:
 
-Fix available here [1].
+  https://lore.kernel.org/all/20230705104745.52255-1-bwicaksono@nvidia.com/
 
-[1]https://lore.kernel.org/dri-devel/cbf4ccf9-8131-27a0-332c-6942866340d1@i=
-galia.com/T/#t
+and then this should slot in quite nicely. I've left a minor comment over
+there and I'd like Suzuki's review, but then we're good to go.
+
+Cheers,
+
+Will
