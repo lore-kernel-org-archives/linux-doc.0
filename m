@@ -2,78 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A759C0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Jul 2023 16:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C621C04FDF
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Jul 2023 19:09:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbjG2QOv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Jul 2023 12:14:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49696 "EHLO
+        id S229697AbjG2TJK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Jul 2023 15:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjG2QOu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jul 2023 12:14:50 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 147743A9B
-        for <linux-doc@vger.kernel.org>; Sat, 29 Jul 2023 09:14:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690647290; x=1722183290;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0QQWZDndvU4c08Vtpol4fX/EygzRrbaH6YEIFRTmqOo=;
-  b=GUN8SuW2tdzFTUP9qLupO1A91TXMcONnKNFMori+YvR4kJz4h6H4sp9e
-   WBksPxGppC9ZhnKA4UGr/bpXSd16JaysNrizSko46PFTif1QMApEDSRra
-   PRdyM0kXKEDcX0P9nAC/flkHmk3gnVprPCJ3edkuPFwzA/RW38g4KViHT
-   UF7Os1Wb1YZmOTYLQ9gBW7jaJnqhg1AbPvkcUGU3AEyld8VHvBt8eOUe8
-   VL9eRGIZiTuboDkGKp1pydkho17eLov1IP48STtDeZv9tPwEeDPGRdKoi
-   TP2prYffgTGOH2JdTjVemnm1TEd0GrCX4rLWT4ketR5rDM9ptwQBigXCn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="349073210"
-X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="349073210"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 09:14:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="677830964"
-X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="677830964"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 29 Jul 2023 09:14:48 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qPmad-00049r-0K;
-        Sat, 29 Jul 2023 16:14:47 +0000
-Date:   Sun, 30 Jul 2023 00:14:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 8/127] htmldocs: Warning:
- Documentation/devicetree/bindings/power/wakeup-source.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-Message-ID: <202307300057.Nu3Bktoo-lkp@intel.com>
+        with ESMTP id S229541AbjG2TJJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jul 2023 15:09:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C2210C0;
+        Sat, 29 Jul 2023 12:09:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 05B8A60288;
+        Sat, 29 Jul 2023 19:09:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E1ADC433C7;
+        Sat, 29 Jul 2023 19:09:03 +0000 (UTC)
+Date:   Sat, 29 Jul 2023 15:09:01 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Josh Poimboeuf <jpoimboe@kernel.org>
+Cc:     Valentin Schneider <vschneid@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 02/20] tracing/filters: Enable filtering a
+ cpumask field by another cpumask
+Message-ID: <20230729150901.25b9ae0c@rorschach.local.home>
+In-Reply-To: <20230726194148.4jhyqqbtn3qqqqsq@treble>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+        <20230720163056.2564824-3-vschneid@redhat.com>
+        <20230726194148.4jhyqqbtn3qqqqsq@treble>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   7179a80b8df2e202b85c6ee6956876b61464bdc9
-commit: 921b2eea1a2b457c6ba01c33ee273a8f86693293 [8/127] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
-reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300057.Nu3Bktoo-lkp@intel.com/reproduce)
+On Wed, 26 Jul 2023 12:41:48 -0700
+Josh Poimboeuf <jpoimboe@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307300057.Nu3Bktoo-lkp@intel.com/
+> On Thu, Jul 20, 2023 at 05:30:38PM +0100, Valentin Schneider wrote:
+> >  int filter_assign_type(const char *type)
+> >  {
+> > -	if (strstr(type, "__data_loc") && strstr(type, "char"))
+> > -		return FILTER_DYN_STRING;
+> > +	if (strstr(type, "__data_loc")) {
+> > +		if (strstr(type, "char"))
+> > +			return FILTER_DYN_STRING;
+> > +		if (strstr(type, "cpumask_t"))
+> > +			return FILTER_CPUMASK;
+> > +		}  
+> 
+> The closing bracket has the wrong indentation.
+> 
+> > +		/* Copy the cpulist between { and } */
+> > +		tmp = kmalloc((i - maskstart) + 1, GFP_KERNEL);
+> > +		strscpy(tmp, str + maskstart, (i - maskstart) + 1);  
+> 
+> Need to check kmalloc() failure?  And also free tmp?
 
-All warnings (new ones prefixed by >>):
+I came to state the same thing.
 
->> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+Also, when you do an empty for loop:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	for (; str[i] && str[i] != '}'; i++);
+
+Always put the semicolon on the next line, otherwise it is really easy
+to think that the next line is part of the for loop. That is, instead
+of the above, do:
+
+	for (; str[i] && str[i] != '}'; i++)
+		;
+
+
+-- Steve
+
+
+> 
+> > +
+> > +		pred->mask = kzalloc(cpumask_size(), GFP_KERNEL);
+> > +		if (!pred->mask)
+> > +			goto err_mem;
+> > +
+> > +		/* Now parse it */
+> > +		if (cpulist_parse(tmp, pred->mask)) {
+> > +			parse_error(pe, FILT_ERR_INVALID_CPULIST, pos + i);
+> > +			goto err_free;
+> > +		}
+> > +
+> > +		/* Move along */
+> > +		i++;
+> > +		if (field->filter_type == FILTER_CPUMASK)
+> > +			pred->fn_num = FILTER_PRED_FN_CPUMASK;
+> > +  
+> 
+
