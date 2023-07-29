@@ -2,124 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 115BCEB64DD
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Jul 2023 03:13:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F1C2C001DC
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Jul 2023 07:38:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232592AbjG2DNv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jul 2023 23:13:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47776 "EHLO
+        id S230061AbjG2Hib (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Jul 2023 03:38:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjG2DNu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jul 2023 23:13:50 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF524483
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jul 2023 20:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690600429; x=1722136429;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VQq3PmLtJWjf5e72114AfS1++3BaFWBC9F+47/dGIig=;
-  b=PBekznP2GqmKJXVQBHYtRqiNxZLl4SpCaYheyJ/q8xjhIYYS1WdnrchI
-   xeP4DcQU605ld1qmLJWz99VpNkVqDW2kxSHYXsELCVERd5iSf81HszVQ1
-   5iE8yifn+Zoacsyb67gtMnmvvupovRelFtPnD46L+UHZkYEpR6KXHWrt/
-   osmNTgTZkWG21PXxqsB/r0ygaj92qxGT0Wg6L12KVXhGv1R9VLPo5RR7y
-   TuIFaypXsVjuV++na4p6Zy34Ebs3DUx2XcjiBAxJ6Di3T1RoqUw62IK32
-   /t0d/JsB7Re1c//ylgFbmRsCe2o8xr9bqyWQbqWtBLYEAhTvPLDIjlTzg
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="455082747"
-X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="455082747"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 20:13:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="757379237"
-X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="757379237"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 28 Jul 2023 20:13:46 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qPaOn-0003n5-2k;
-        Sat, 29 Jul 2023 03:13:45 +0000
-Date:   Sat, 29 Jul 2023 11:13:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Huisong Li <lihuisong@huawei.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
+        with ESMTP id S230009AbjG2HiY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jul 2023 03:38:24 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68F54492
+        for <linux-doc@vger.kernel.org>; Sat, 29 Jul 2023 00:38:22 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-99bd1d0cf2fso401736466b.3
+        for <linux-doc@vger.kernel.org>; Sat, 29 Jul 2023 00:38:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1690616301; x=1691221101;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IYmWtjCeCkbkXYXMidyXsHWo/uzc6Q0z95DnXsdb6Jk=;
+        b=Ut1CWQVuoMLWFKzhCEeRWNrfILigN3hwnJXELqS2Tsfgnn3fFk2TtGyJAzjAj5wGEA
+         sNipHCgNMxUMrgl7nescH6w++92Hb6aQiDANbCUKSWm8nzmINfUaAvlXNQcLqjtL2I3+
+         enz93UK0DlVK8+cta6KaXLupiTePyrO5Hriwxh8lFtelzsB2raxvmYI1/RkfKtyzsB6x
+         xWlmXhc0SpGkcPfWHr9tectW+YjxDC3M3yxfNMFziU7BBL7nHRpDeLc1luZT8v2fPWgQ
+         yrYMEYjOMuO3tiMBJmnqpRaJ4UxvaR5S6If5xytfRSueIvZvYxd/kgMfYtBaZ429//Dn
+         LkKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690616301; x=1691221101;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IYmWtjCeCkbkXYXMidyXsHWo/uzc6Q0z95DnXsdb6Jk=;
+        b=P6dG3Cm9/mraaWwxD9JcYbIXRYFTNpR1EpPJK8CsGXq9TjJoKxMwspPLiq5Wqy88YL
+         PKnylVd2z/HFPvlMlJqkj6fujDMPUoMGS3uHu2/gjiAYQTaWkkb6JyU9ceGv1ouMqNai
+         SPg3/oJ4fi30L37uPop+lgP66iArReAfArtcWk8ZCVJVW9tg91DpplfthD52EXk4Bzi1
+         DjqtvS4Im5jPdZ9StdbqXKZ0teM7eRnhBaE0WtCJH4VMIAAnTO87UauTq1fXDUBDInUw
+         EoYaJ5gedj3docEsDUhSofo/yIHOpLqRfybJqgPBaK8eC8R5xQf8Me2VD+m9GgM9vXHS
+         SxRw==
+X-Gm-Message-State: ABy/qLZ4GsL1O5cXcLqHetYJlDIKlr27YJCMYMVb9ID+rPtj4lt9O5Ap
+        RVfXRusOyN8ezrtiAQ+WcyL6kg==
+X-Google-Smtp-Source: APBJJlE05iU3+hYWOPGNmt1tk5T+oJvM8YCFPE9dtxhtPAlwF0v+PGLvzacP+3sj+ZuHwVpYnCzI/w==
+X-Received: by 2002:a17:906:74d6:b0:99b:e03b:3968 with SMTP id z22-20020a17090674d600b0099be03b3968mr1356267ejl.64.1690616301218;
+        Sat, 29 Jul 2023 00:38:21 -0700 (PDT)
+Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+        by smtp.gmail.com with ESMTPSA id kk9-20020a170907766900b00982cfe1fe5dsm3000715ejc.65.2023.07.29.00.38.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Jul 2023 00:38:20 -0700 (PDT)
+Date:   Sat, 29 Jul 2023 09:38:19 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Ian Rogers <irogers@google.com>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        =?utf-8?B?UsOpbWk=?= Denis-Courmont <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org,
-        Wei Xu <xuwei5@hisilicon.com>, linux-doc@vger.kernel.org
-Subject: [hisilicon-hisi:next/drivers 2/2] htmldocs:
- Documentation/ABI/testing/sysfs-devices-platform-kunpeng_hccs:4: WARNING:
- Unexpected indentation.
-Message-ID: <202307291107.uXFY2Hfv-lkp@intel.com>
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v4 10/10] perf: tests: Adapt mmap-basic.c for riscv
+Message-ID: <20230729-b5ec43a48d67caf13025fafe@orel>
+References: <20230727141428.962286-1-alexghiti@rivosinc.com>
+ <20230727141428.962286-11-alexghiti@rivosinc.com>
+ <CAP-5=fXvqJk9hA51pDSXodEWSP4DzN+RJ1scpyzJOrxk2w5kjg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP-5=fXvqJk9hA51pDSXodEWSP4DzN+RJ1scpyzJOrxk2w5kjg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/hisilicon/linux-hisi next/drivers
-head:   d8f6674884c47d8093cf7534a3ed8d882ba8e702
-commit: d8f6674884c47d8093cf7534a3ed8d882ba8e702 [2/2] doc: soc: hisilicon: Add Kunpeng HCCS driver documentation
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291107.uXFY2Hfv-lkp@intel.com/reproduce)
+On Fri, Jul 28, 2023 at 10:54:02AM -0700, Ian Rogers wrote:
+> On Thu, Jul 27, 2023 at 7:30 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+> >
+> > riscv now supports mmaping hardware counters to userspace so adapt the test
+> > to run on this architecture.
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  tools/perf/tests/mmap-basic.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
+> > index e68ca6229756..f5075ca774f8 100644
+> > --- a/tools/perf/tests/mmap-basic.c
+> > +++ b/tools/perf/tests/mmap-basic.c
+> > @@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] = {
+> >                          "permissions"),
+> >         TEST_CASE_REASON("User space counter reading of instructions",
+> >                          mmap_user_read_instr,
+> > -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
+> > +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
+> 
+> Same comment relating to the guard, why not defined(__riscv) ?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291107.uXFY2Hfv-lkp@intel.com/
+__riscv_xlen will always be defined for all riscv targets, so also
+checking __riscv isn't necessary when a specific bit width also needs
+to be checked. __riscv is useful for checks that don't need to be
+concerned with the bit width. Grepping, I see instances of both
+"defined(__riscv) && __riscv_xlen ==" and just "__riscv_xlen ==".
+IMHO, the former should be reduced to the latter, rather than creating
+more instances of them.
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/ABI/testing/sysfs-devices-platform-kunpeng_hccs:4: WARNING: Unexpected indentation.
->> Documentation/ABI/testing/sysfs-devices-platform-kunpeng_hccs:4: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/ABI/testing/sysfs-devices-platform-kunpeng_hccs:4: WARNING: Definition list ends without a blank line; unexpected unindent.
->> Documentation/ABI/testing/sysfs-devices-platform-kunpeng_hccs:26: WARNING: Malformed table.
-
-vim +4 Documentation/ABI/testing/sysfs-devices-platform-kunpeng_hccs
-
-   > 4	Date:		November 2023
-     5	KernelVersion:	6.6
-     6	Contact:	Huisong Li <lihuisong@huawei.org>
-     7	Description:
-     8			The /sys/devices/platform/HISI04Bx:00/chipX/ directory
-     9			contains read-only attributes exposing some summarization
-    10			information of all HCCS ports under a specified chip.
-    11			The X in 'chipX' indicates the Xth chip on platform.
-    12	
-    13			There are following attributes in this directory:
-    14			================= ==== =========================================
-    15			all_linked:       (RO) if all enabled ports on this chip are
-    16					       linked (bool).
-    17			linked_full_lane: (RO) if all linked ports on this chip are full
-    18					       lane (bool).
-    19			crc_err_cnt:      (RO) total CRC err count for all ports on this
-    20					       chip.
-    21			============= ==== =============================================
-    22	
-    23	What:		/sys/devices/platform/HISI04Bx:00/chipX/dieY/all_linked
-    24			/sys/devices/platform/HISI04Bx:00/chipX/dieY/linked_full_lane
-    25			/sys/devices/platform/HISI04Bx:00/chipX/dieY/crc_err_cnt
-  > 26	Date:		November 2023
-    27	KernelVersion:	6.6
-    28	Contact:	Huisong Li <lihuisong@huawei.org>
-    29	Description:
-    30			The /sys/devices/platform/HISI04Bx:00/chipX/dieY/ directory
-    31			contains read-only attributes exposing some summarization
-    32			information of all HCCS ports under a specified die.
-    33			The Y in 'dieY' indicates the hardware id of the die on chip who
-    34			has chip id X.
-    35	
-    36			There are following attributes in this directory:
-    37			================= ==== =========================================
-    38			all_linked:       (RO) if all enabled ports on this die are
-    39					       linked (bool).
-    40			linked_full_lane: (RO) if all linked ports on this die are full
-    41					       lane (bool).
-    42			crc_err_cnt:      (RO) total CRC err count for all ports on this
-    43					       die.
-    44			============= ==== =============================================
-    45	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+drew
