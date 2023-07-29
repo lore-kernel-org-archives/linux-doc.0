@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79AFC41513
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Jul 2023 19:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2774C001E0
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Jul 2023 19:28:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbjG2TT0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Jul 2023 15:19:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53220 "EHLO
+        id S229573AbjG2T2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Jul 2023 15:28:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjG2TTZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jul 2023 15:19:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67488133
-        for <linux-doc@vger.kernel.org>; Sat, 29 Jul 2023 12:18:39 -0700 (PDT)
+        with ESMTP id S229519AbjG2T17 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jul 2023 15:27:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9829A1FC9
+        for <linux-doc@vger.kernel.org>; Sat, 29 Jul 2023 12:27:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690658318;
+        s=mimecast20190719; t=1690658831;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=ojrCzz5wYGS/I4ma6JQZlj8trsaVvDQ8Es+pMaAigF0=;
-        b=VqB1P1opOLOpa2WgfheM83iVQ6HyB8F11AndKN+t8iGX06b9NOjPlgTCC54Ory9xjqu2K6
-        CJookr7fS0H/AsG4FL45QHjpI3EYAGy6IW5p/V+/yIRYqS9FXJfaxjVw/nnQ+rraNjdOVo
-        0hUUin7N9ghyo1namjBX+O9DttCkD4E=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=FF7YMNnJw4aG4W8Tlud2PZiGmCkxcL5PSVDcb1rl9Nw=;
+        b=a6dApWpD4liipd4oLgQQc3bhGRQCYaTpdTbyd9H0YQA2dlvXWgVnLt6KVKe39v6x0w07sg
+        gODu/1rx7hPnTSQB7K9fXJ3wU6QgVIONRxpGhgJLTR+nLfafW0aGcMGm/DwIx6JgpbuLae
+        IDKH6J+8YLh2v1Mq5mY5tW6azBKAXcA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-OOzeX5B2OZ69PYut_RryNA-1; Sat, 29 Jul 2023 15:18:35 -0400
-X-MC-Unique: OOzeX5B2OZ69PYut_RryNA-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-314275b653eso1574633f8f.1
-        for <linux-doc@vger.kernel.org>; Sat, 29 Jul 2023 12:18:34 -0700 (PDT)
+ us-mta-272-DKP7Sdw2Ov-I-1j8hEA6AA-1; Sat, 29 Jul 2023 15:27:10 -0400
+X-MC-Unique: DKP7Sdw2Ov-I-1j8hEA6AA-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-30e4943ca7fso1641398f8f.3
+        for <linux-doc@vger.kernel.org>; Sat, 29 Jul 2023 12:27:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690658314; x=1691263114;
+        d=1e100.net; s=20221208; t=1690658829; x=1691263629;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ojrCzz5wYGS/I4ma6JQZlj8trsaVvDQ8Es+pMaAigF0=;
-        b=M1ZS+nr1falaMTkQMfCToSY0kGzyWlW0IalBtzO82w2UWc2+apng2hmK6r8lvL3b0H
-         81OI86lbmpVPJ9GYDq9uGeESCCiFEM3Ifo8wz5c7xBK80jHeSxYfSmsZ0KCIQuIKRSuT
-         YDTzxFhgp21jBsfdUw3YBhSvmG+3+F/9APhLtRgxDmiy+JSR3zwySWnLL8Cne9cDbxSM
-         7xCI4QLcvQ9TxKnF6TpYg19aoz353fe5SoRIbITNx6aVqgegeAAp8ZaXNr6GRGgCez8P
-         nf/3Dl02ZFIttHs+PxWIPsdTfQqODWmFu6wRk2vDpgo896dfoX2OmEjOE4pUfP4EFHlj
-         1GWQ==
-X-Gm-Message-State: ABy/qLYZbiqQfI1/vg9Ro5cyQwZezah1m+sZOOb+9R4/F36af/gXaHVR
-        kHED3WctDC/KDCVpTrO88pQvBEMHgDr/psstorPsrZqJ+PhzxWviCfr3hnka6yiD/Z+c5vYSype
-        Sp9t/BHHDRhK+nldqMCVv
-X-Received: by 2002:adf:e743:0:b0:317:6cc7:6b21 with SMTP id c3-20020adfe743000000b003176cc76b21mr3846705wrn.69.1690658314141;
-        Sat, 29 Jul 2023 12:18:34 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGMLsHO2EpY96ESRcSjZaJGCQAF4FMTewpjygCkWri2whqJzjkk8u4900Qu5vniN18Ue1k5Gg==
-X-Received: by 2002:adf:e743:0:b0:317:6cc7:6b21 with SMTP id c3-20020adfe743000000b003176cc76b21mr3846696wrn.69.1690658313885;
-        Sat, 29 Jul 2023 12:18:33 -0700 (PDT)
+        bh=FF7YMNnJw4aG4W8Tlud2PZiGmCkxcL5PSVDcb1rl9Nw=;
+        b=GTeIhw6G3wMqK2Qlkn5Fs/4I52CGWDRDA8oeId9Np5UUmUamVKwYAiBYRhyrggsMI1
+         6pi9ag6qC853TkdaMjCIg0zlW4dv61wZAZypK/YcmLZ5w9VjpktXPmZK8MxsSYeYoF7b
+         FLnr+jXTK4v3PVUGnNi0vqD7WhDfLpQvotr6080NvnieikVvI0ubWSvJGgt/CQCYGwwH
+         ZT8MjvZnqE4Q0+xU3Gt5POE9EQPQQNgu7ZXEgn94sf++4xkEqGlUhLlBSoB5pMntiPpQ
+         9PuOoRIeRZO30jox5LVxR9AnPJ9VcSG6KanTkIROhG3lp3f0oayhNKFZCdd9dDjJfzb2
+         IQUQ==
+X-Gm-Message-State: ABy/qLYoO21JBs++eenGn7VAzsuur21yOMCiVZkP0Pdu3fIFsXtsP9lf
+        RzlxYM0zONo6Im1+dIJF4YgXXq8T+wHpOVMSbslviLuOUAe7Vd2UTGfi2B7P8RDFHbea71Mv7Bf
+        MLISX77jfKmfFFa4ipA2a
+X-Received: by 2002:adf:ec06:0:b0:317:5948:1fe0 with SMTP id x6-20020adfec06000000b0031759481fe0mr4433305wrn.45.1690658829301;
+        Sat, 29 Jul 2023 12:27:09 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE4P4YiFhuI4ynzieVdKtm1Z/PFipBTRtmnhicR2Fu7fVK2AwNkVjGHHEaf2sFTV/ye9YNVSA==
+X-Received: by 2002:adf:ec06:0:b0:317:5948:1fe0 with SMTP id x6-20020adfec06000000b0031759481fe0mr4433290wrn.45.1690658828986;
+        Sat, 29 Jul 2023 12:27:08 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id y18-20020adff152000000b0031779a6b451sm8128412wro.83.2023.07.29.12.18.32
+        by smtp.gmail.com with ESMTPSA id x1-20020a5d54c1000000b003176f2d9ce5sm8194584wrv.71.2023.07.29.12.27.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Jul 2023 12:18:33 -0700 (PDT)
+        Sat, 29 Jul 2023 12:27:08 -0700 (PDT)
 From:   Javier Martinez Canillas <javierm@redhat.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         David Airlie <airlied@gmail.com>,
@@ -71,12 +71,12 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] drm/todo: Convert list of fbconv links to footnotes
-In-Reply-To: <0761f98d3b6f8df9eea977eae063e35b450fda9e.1689779916.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v3 0/4] drm: Atomic modesetting doc and comment
+ improvements
+In-Reply-To: <cover.1689779916.git.geert+renesas@glider.be>
 References: <cover.1689779916.git.geert+renesas@glider.be>
- <0761f98d3b6f8df9eea977eae063e35b450fda9e.1689779916.git.geert+renesas@glider.be>
-Date:   Sat, 29 Jul 2023 21:18:32 +0200
-Message-ID: <87y1iywmpj.fsf@minerva.mail-host-address-is-not-set>
+Date:   Sat, 29 Jul 2023 21:27:08 +0200
+Message-ID: <87sf96wmb7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -87,19 +87,38 @@ Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
 Hello Geert,
 
-> Convert the references to fbconv links to footnotes, so they can be
-> navigated.
+>         Hi all,
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3:
+> This patch series contains various improvements to the documentation and
+> comments related to atomic modesetting.  Hopefully, it will ease the job
+> of DRM novice who want to tackle the daunting task of converting a
+> legacy DRM driver to atomic modesetting.
+>
+> Changes compared to v2[1]:
 >   - Make main text read correctly when ignoring the footnotes,
+>   - Add Reviewed-by.
 >
-> v2:
->   - New.
-> ---
+> Changes compared to v1[2]:
+>   - Add Reviewed-by,
+>   - Drop double space after full stop,
+>   - Use footnotes for references,
+>   - Remore reference to unconverted virtual HW drivers,
+>   - New patch [2/4],
+>   - Drop "first part" in drivers/gpu/drm/drm_plane_helper.c.
+>
+> Thanks for applying!
+>
+> [1] https://lore.kernel.org/r/cover.1686318012.git.geert+renesas@glider.be
+> [2] https://lore.kernel.org/r/cover.1685696114.git.geert+renesas@glider.be
+>
+> Geert Uytterhoeven (4):
+>   drm/todo: Add atomic modesetting references
+>   drm/todo: Convert list of fbconv links to footnotes
+>   drm: Remove references to removed transitional helpers
+>   drm: Fix references to drm_plane_helper_check_state()
+>
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Pushed to drm-misc (drm-misc-next). Thanks!
 
 -- 
 Best regards,
