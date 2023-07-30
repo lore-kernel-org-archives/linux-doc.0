@@ -2,101 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 268F1EB64DD
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Jul 2023 07:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBDEC001DF
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Jul 2023 11:01:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbjG3H45 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Jul 2023 03:56:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58718 "EHLO
+        id S229921AbjG3LBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Jul 2023 07:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjG3H44 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jul 2023 03:56:56 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17DF81710;
-        Sun, 30 Jul 2023 00:56:55 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3116942f8f.0;
-        Sun, 30 Jul 2023 00:56:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690703813; x=1691308613;
-        h=content-transfer-encoding:mime-version:user-agent:message-id
-         :in-reply-to:date:references:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ljAWSPp6JJ09C5xCBdCnvI6g5oU9J+7I9JqocYaYKqA=;
-        b=Ymj/7uyGVQibhRQBLidaLFD+e7fjfaZr6exwNzLg2Irynk6KI26u9GsjADX/ScEdQc
-         6I8ApCWoDBd7urof4krmXzsS5CxaHgSu7GABVQ4u7W/YxGwEQO3EhqGyEZ57wuqTe6Y1
-         INVcL1Jm1i3aYxMxLS2wLAZD7lP4GAohauDD6hSgCIJxEl9N99Z74IFRxVSNs9McB1PK
-         1qkfYtoO4coYO/oJqYoV7+HbxE48wUxo2EhJnWoBKk1PbXy70Y1pGeJal5qTZvaYJ2TU
-         x+VTLN0GiQqp1/Jm6fgu5rbf4VL3Xz3O2dcbmmPf1+tALvpbfz62i2nvQlL+KwXTB+k0
-         EYQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690703813; x=1691308613;
-        h=content-transfer-encoding:mime-version:user-agent:message-id
-         :in-reply-to:date:references:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ljAWSPp6JJ09C5xCBdCnvI6g5oU9J+7I9JqocYaYKqA=;
-        b=JHg6s4V+chDKCO69SSd345tcBVTVvuHziiEN0Dd7ijSNLtHP/Y9Uhmr2C8gbiv+Hac
-         PQTwmaeYJpJujELhlvlt8dYUjI3yZdw0QkGLAPqbkez0ud8qSt1quD0Mt178IawvEmOe
-         J9OEKcOW0OwfmA7JX//tQ5nfURjwxDu4FivMKXxFejAECv55BI+4FyJWMFNkNLVD462q
-         FxIHJvlclNnPNPuz+3wm6LEgW1Z9MzrMUfeFAtPqOeAJmP4uDSro6NkwfEiJOhINNYYP
-         9hGGFmD9aowU2YQO3Inqi0WfIm3WsRuD9/2lnjG+KK2cdurlioBteh5hq57qn2AurZph
-         7pXg==
-X-Gm-Message-State: ABy/qLaE0Y1wVPdCUFPyemd9CGuUOLkZayM2VkSIdVjYkgNedqUbCku0
-        tV+G5tmHmE8UPZURD/vDOC4=
-X-Google-Smtp-Source: APBJJlGv0f6nuOou/FpZ5rQzl4uCcO+8Rgy/FaK67a0h0/nWVMmFqwBkHaupjAuBKvck+byxHIwGjg==
-X-Received: by 2002:adf:fd47:0:b0:317:2574:c2b1 with SMTP id h7-20020adffd47000000b003172574c2b1mr2432840wrs.30.1690703813369;
-        Sun, 30 Jul 2023 00:56:53 -0700 (PDT)
-Received: from torreasustufgamingpro (209.pool90-77-130.dynamic.orange.es. [90.77.130.209])
-        by smtp.gmail.com with ESMTPSA id l17-20020a5d6691000000b0031779e82414sm9342368wru.79.2023.07.30.00.56.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 00:56:52 -0700 (PDT)
-From:   =?utf-8?Q?Oscar_Megia_L=C3=B3pez?= <megia.oscar@gmail.com>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: Contributing subsequent patch versions
-References: <877cqlmdpg.fsf@gmail.com>
-        <8ef54195-4102-0c6c-e14d-efc9bc45cddc@web.de> <877cqk5zdt.fsf@gmail.com>
-        <61a79836-3981-b6e0-cbbf-fe03507dbea4@web.de> <87tttnhohp.fsf@gmail.com>
-        <27a41740-9cdd-2adf-f3cc-1f9a2d9f2ed1@web.de>
-Date:   Sun, 30 Jul 2023 09:56:51 +0200
-In-Reply-To: <27a41740-9cdd-2adf-f3cc-1f9a2d9f2ed1@web.de> (Markus Elfring's
-        message of "Sat, 29 Jul 2023 07:34:47 +0200")
-Message-ID: <87leexn870.fsf@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        with ESMTP id S229483AbjG3LBu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jul 2023 07:01:50 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98F3C10E0
+        for <linux-doc@vger.kernel.org>; Sun, 30 Jul 2023 04:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690714907; x=1722250907;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wiso5oU3Kpypc9NJKoMcvrn2onnjR3SCO1jZiPFr3ww=;
+  b=h2s48ZpgpntX38FNRSyuoN2luxkfLygoIXV7SQpHfEZVQxuklSfCKFUu
+   nv8hQjS+KdO9j+Q9TlY2jALjKLNxIXXqh2yz7CYWoW1w/OMvEyJP8zppB
+   3R3pTufm6y+1E2qdmnnUqmGIYtFjj1BIAgts8BkzRuz/JV1suXhr6RUfc
+   MixsB99TynXkFpZo7lTVl7vSqqwMLYrYusz783RyBfw4MX7P6O99DyU5/
+   alVKvfOANWQUCdC5BBJjRjVnIR7D6qgy7cWxIkmcNOaH9UkjOSKXXCnYf
+   he/yBk73LcGoT96q7oSk9NmUxR1ZCvWa6Wy1UcIMcyf9ZHJMa0jy0xOD4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="348439590"
+X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
+   d="scan'208";a="348439590"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 04:01:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="841865085"
+X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
+   d="scan'208";a="841865085"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2023 04:01:45 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qQ4BE-0004YZ-2V;
+        Sun, 30 Jul 2023 11:01:44 +0000
+Date:   Sun, 30 Jul 2023 19:00:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [linux-next:master 379/5284] htmldocs:
+ Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING: Unknown directive
+ type "c:namespace-push".
+Message-ID: <202307301850.i9xFNWT6-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Markus Elfring <Markus.Elfring@web.de> writes:
+Hi Jani,
 
->> Sorry, but my experience says that is very easy make mistakes
->> when I am newbie.
->
-> Which kind of errors would you like to produce if you would become
-> an =E2=80=9Cexpert=E2=80=9D (like a system tester) in additional areas?
->
-> Regards,
-> Markus
+FYI, the error/warning still remains.
 
-I don't know, but what I've observed during my years working in IT is
-that I come up with tests that no one else does. This way I find bugs
-that no one else finds.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d7b3af5a77e8d8da28f435f313e069aea5bcf172
+commit: f6757dfcfde722fdeaee371b66f63d7eb61dd7e4 [379/5284] drm/doc: fix duplicate declaration warning
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307301850.i9xFNWT6-lkp@intel.com/reproduce)
 
-For example, I forked the project https://github.com/pixel/hexedit and
-tried to find errors. I found many, such as what happens if you try to
-load a very long filename, what happens if you try to load a very large
-file, etc. I fixed them all, but because maintaner didn't accept my
-first patch, I didn't carry on.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307301850.i9xFNWT6-lkp@intel.com/
 
-If anyone is interested in me testing their patch, I would love to do
-it. Now I'm reading LINUX KERNEL DEBUGGING book (written by Kaiwan N
-Billimoria) and I'm on chapter about strace and some tools like lttng,
-so I can use these tools mentioned on book to test patches.
+All warnings (new ones prefixed by >>):
 
---=20
-Un saludo/Regards
-Oscar Megia L=C3=B3pez
+>> Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING: Unknown directive type "c:namespace-push".
+>> Documentation/gpu/rfc/i915_scheduler.rst:143: WARNING: Unknown directive type "c:namespace-pop".
+
+vim +138 Documentation/gpu/rfc/i915_scheduler.rst
+
+   137	
+ > 138	.. c:namespace-push:: rfc
+   139	
+   140	.. kernel-doc:: include/uapi/drm/i915_drm.h
+   141	        :functions: i915_context_engines_parallel_submit
+   142	
+ > 143	.. c:namespace-pop::
+   144	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
