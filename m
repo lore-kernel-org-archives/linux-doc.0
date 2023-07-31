@@ -2,128 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E51C001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 17:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 485FEC001E0
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 18:09:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjGaRyf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 13:54:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35272 "EHLO
+        id S231755AbjGaSJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 14:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230254AbjGaRyb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 13:54:31 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 864EEFB
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 10:54:29 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-68706b39c4cso2640597b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 10:54:29 -0700 (PDT)
+        with ESMTP id S231650AbjGaSJs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 14:09:48 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 990461724
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 11:09:46 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-686efb9ee3cso4575924b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 11:09:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690826069; x=1691430869;
+        d=google.com; s=20221208; t=1690826986; x=1691431786;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ye1hBUjkNRk39gbDG705nkaSiiZ5DkFSScU/cjrv98U=;
-        b=yD59vn9kqIM2hU9m6M6C5eYC4+NgiocCNfCOTTv2AfStv9/CAubB/d7o5PgACopPv8
-         8uWIzKfh1TGzdd/7w4E1rL5mrr6gAN9Dl40sy7HmU5fW2avaWsp9viSmnLI2TZ1cAGXW
-         wADO2+xJ10Sic7OVzGWoB0L9ACqz3C8cbNVTl0Xl9LfFDCXkF/QzlSXhskTo5QMuHEXY
-         I0p4bB03w3aKxnzVvRx74a3sX6VtB5HXT4eL/v3LWM49QN23Y2+YmY4OSyqS9Z+X8OBp
-         5xxacTaZB9U2+LoCB9PE06OBW/AhKDIg8fuxZjsKhmTj88yw237yz2K2+Um/mroMWROR
-         MRqA==
+        bh=jsZuyWI7KZo8u5qJzHB8Iz3lEzRGHNZVcfdqiF9Lvpw=;
+        b=jHT/3E4k+ZMsjPoI7EWJeUciVPKM2GbnIsWVlXcBuTMjkDWc2zpXFeJfw/SGFQKWEO
+         76fzzV8a71neETZ9OPJgOy0OZURYoY2nKsyo2PT7OsqzcBeVjUgHKvGhTZ7Du2hVTlKv
+         tqeMl+1mGIh/MBiSRunWoI3kDwCh77ZYoCovhezGwJ0ywBBbqQyKYRxacx+o0euAF5Kf
+         qmHMSdFYsXd4wZr56Gr+LpkQQXFFWZUnpM813tkRYrOYzQa6vDCHvCEYCI5ppdBRoHYI
+         bWy6hCReDgVCKIuDGvi334qQHbZ9mePoi3by2d0d98NxLk1sLnVgBa4zpNH9o151K9dw
+         DCvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690826069; x=1691430869;
+        d=1e100.net; s=20221208; t=1690826986; x=1691431786;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ye1hBUjkNRk39gbDG705nkaSiiZ5DkFSScU/cjrv98U=;
-        b=J9Tvkv1kuRU6sNSoTx9iRYr9BKAMoRY8ckRC1sloRZ02Mu3Wxf9La7VPBipB61LoRU
-         ddBr+F5Xl1rmb61LKJkwRZAtNeR1D2Use8HqkCS9U9qtVL+SF9UgYakNUa/c04bxQbeH
-         xSj/cq9aeRceX5rLSzUx1aVBhtqXcl4Fdf2+UeQf5IkOp0Kuo4C1wxSNbwbsv0odGz0T
-         rsYzI/Rt0ll5hW6ckBUrDizRftCrXp825Zbz6xdMZOXJTyfZ/XFGP7ZHPopePi7wPpCa
-         gPLcfg2sVdx21kHEW7d1/McGG0GX2S01B+O5OfhW/ZlTSuypQZGFr4332Oz7jab40ISe
-         7jxA==
-X-Gm-Message-State: ABy/qLZSjDN5skJx+T7I2zBrPClyXKps2mb8i6J/QQKYk/MOBh9nQek3
-        rQSqSxHt7ra9gnnzHWzDjty+yQ==
-X-Google-Smtp-Source: APBJJlEbEnRkq29IMUQ+Kip8yG6iM7uCvIqvaT6P3hXS9+YRDB58ekn1I7Jthg7ZpOUWG0IsWJ7r7w==
-X-Received: by 2002:a05:6a21:7182:b0:133:b3a9:90d with SMTP id wq2-20020a056a21718200b00133b3a9090dmr10372183pzb.36.1690826068797;
-        Mon, 31 Jul 2023 10:54:28 -0700 (PDT)
-Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
-        by smtp.gmail.com with ESMTPSA id q23-20020a637517000000b0055b4307963dsm2001743pgc.23.2023.07.31.10.54.26
+        bh=jsZuyWI7KZo8u5qJzHB8Iz3lEzRGHNZVcfdqiF9Lvpw=;
+        b=dW44KJPSwt8NVVAvmA9oKvLu2d3dNRtdg/cPp9rXIMA79OflUzKcGMxiDOgMbWzwvk
+         gmJ4Pd0GBYn7vjinx22gGRCIQGEnSmRdNQ7Y9oUZIFlLtykB8sV+Ex021pBIQz3vzgWL
+         NcDwni1R3C+B6y7XqylBTP6aNe65aP44fh/vsihFqTG8IhemWCTDVHahTUzMA8DRf5dk
+         fn4Aqhb8B5nRkEAWll+8pLHWeQ+87j7l/EJzrZIIkhkp5OH5kGheGHEnYELDXtIIGlGz
+         jLtgpc1V3bIPkSJCH+VQ1RjKs0QOQh7UYosS/ul+e5hIRMGFu1BKwjCMN5FjPMkyKkOi
+         s1ew==
+X-Gm-Message-State: ABy/qLYjdVG8hVZVBv3CTfX9eqqI09F52M5NVzjtGsrtK/K46m0cubL0
+        9vBFLMqK7cT/6o5roHl8VMLLbKgQluKq39vyP5D81w==
+X-Google-Smtp-Source: APBJJlETe73WrPLwmV4zXtqNT0+WhORRDNEW3QAd4H8MUg505KZPUmBNy2WrHTO+JRYA8+zWLAFd9A==
+X-Received: by 2002:a05:6a21:2724:b0:137:74f8:62ee with SMTP id rm36-20020a056a21272400b0013774f862eemr10080254pzb.18.1690826985931;
+        Mon, 31 Jul 2023 11:09:45 -0700 (PDT)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id k10-20020aa7820a000000b006862e7f4648sm8107079pfi.99.2023.07.31.11.09.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 10:54:27 -0700 (PDT)
-Date:   Mon, 31 Jul 2023 17:54:22 +0000
+        Mon, 31 Jul 2023 11:09:44 -0700 (PDT)
+Date:   Mon, 31 Jul 2023 18:09:40 +0000
 From:   Mingwei Zhang <mizhang@google.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Kai Huang <kai.huang@intel.com>,
         Jim Mattson <jmattson@google.com>,
         David Matlack <dmatlack@google.com>,
         Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
         Zhi Wang <zhi.wang.linux@gmail.com>
-Subject: Re: [PATCH v2 2/6] KVM: Documentation: Update the field name gfns
- and its description in kvm_mmu_page
-Message-ID: <ZMf1TkrUjP6+/VSC@google.com>
+Subject: Re: [PATCH v2 3/6] KVM: Documentation: Add the missing description
+ for ptep in kvm_mmu_page
+Message-ID: <ZMf45A9QU54GXEKd@google.com>
 References: <20230626182016.4127366-1-mizhang@google.com>
- <20230626182016.4127366-3-mizhang@google.com>
- <ec65c77a-3499-6278-f352-9bbe25a44b96@infradead.org>
+ <20230626182016.4127366-4-mizhang@google.com>
+ <ZJr/yoWzV7gHMuaG@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ec65c77a-3499-6278-f352-9bbe25a44b96@infradead.org>
+In-Reply-To: <ZJr/yoWzV7gHMuaG@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 26, 2023, Randy Dunlap wrote:
-> Hi--
-> 
-> On 6/26/23 11:20, Mingwei Zhang wrote:
-> > Update the field 'gfns' in kvm_mmu_page to 'shadowed_translation' to be
-> > consistent with the code. Also update the corresponding 'gfns' in the
-> > comments. The more detailed description of 'shadowed_translation' is
-> > already inlined in the data structure definition, so no need to duplicate
-> > the text but simply just update the names.
+On Tue, Jun 27, 2023, Sean Christopherson wrote:
+> On Mon, Jun 26, 2023, Mingwei Zhang wrote:
+> > Add the missing description for ptep in kvm_mmu_page description. ptep is
+> > used when TDP MMU is enabled and it shares the storage with parent_ptes.
+> > Update the doc to help readers to get up-to-date info.
 > > 
 > > Signed-off-by: Mingwei Zhang <mizhang@google.com>
-> > Reviewed-by: Kai Huang <kai.huang@intel.com>
 > > ---
-> >  Documentation/virt/kvm/x86/mmu.rst | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
+> >  Documentation/virt/kvm/x86/mmu.rst | 5 +++++
+> >  1 file changed, 5 insertions(+)
 > > 
 > > diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-> > index 561efa8ec7d7..4c9044b4dc6c 100644
+> > index 4c9044b4dc6c..5cd6cd5e8926 100644
 > > --- a/Documentation/virt/kvm/x86/mmu.rst
 > > +++ b/Documentation/virt/kvm/x86/mmu.rst
-> > @@ -221,11 +221,12 @@ Shadow pages contain the following information:
-> >      at __pa(sp2->spt).  sp2 will point back at sp1 through parent_pte.
-> >      The spt array forms a DAG structure with the shadow page as a node, and
-> >      guest pages as leaves.
-> > -  gfns:
-> > -    An array of 512 guest frame numbers, one for each present pte.  Used to
-> > -    perform a reverse map from a pte to a gfn. When role.direct is set, any
-> > +  shadowed_translation:
-> > +    An array of 512 shadow translation entries, one for each present pte. Used
-> > +    to perform a reverse map from a pte to a gfn. When role.direct is set, any
-> >      element of this array can be calculated from the gfn field when used, in
-> > -    this case, the array of gfns is not allocated. See role.direct and gfn.
-> > +    this case, the array of shadowed_translation is not allocated. See
+> > @@ -237,6 +237,11 @@ Shadow pages contain the following information:
+> >      parent_ptes points at this single spte, otherwise, there exists multiple
+> >      sptes pointing at this page and (parent_ptes & ~0x1) points at a data
+> >      structure with a list of parent sptes.
+> > +  ptep:
+> > +    The reverse mapping for the pte pointing at this page's spt. This field is
 > 
-> I cannot parse the before version nor the after version of this sentence (new version):
+> I don't think describing "reverse mapping" is necessary, and it's arguably even
+> misleading.  A "reverse mapping" typically provides a way to find mappings given
+> a (guest) physical address.  The TDP MMU doesn't bother with reverse mappings
+> because there is exactly one possible mapping for any given gfn.  The "ptep" exists
+> specifically to expedite zapping a single TDP MMU shadow page, i.e. allows zapping
+> without having to traverse the paging tree.
 > 
->                                                   When role.direct is set, any
->     element of this array can be calculated from the gfn field when used, in
->     this case, the array of shadowed_translation is not allocated.
+> The ptep field is just a pointer at the SPTE, no more no less.  Something like
+> this?
 > 
+>   ptep:
+>     The kernel virtual address of the SPTE that points at this shadow page.
+>     Used exclusively by the TDP MMU, this field is a union with parent_ptes.
 > 
 
-Sorry for the late reply.  Why is it not parsed? It just means that when
-role.direct is set, do not use gfns. The gfn can be calculated from the
-base address + offset. The base address here is the 'gfn' field in
-kvm_mmu_page.
+Sure, I can this version instead. Technically, it is still a reverse
+mapping, but yeah, I agree that introducing this one is confusing.
 
-> > +    role.direct and gfn.
-> >    root_count:
-> >      A counter keeping track of how many hardware registers (guest cr3 or
-> >      pdptrs) are now pointing at the page.  While this counter is nonzero, the
-> 
-> -- 
-> ~Randy
+> > +    used in replace of parent_ptes when TDP MMU is used. In TDP MMU, each
+> > +    non-root shadow page will have one parent, while each root shadow page has
+> > +    no parent. Note that this field is a union with parent_ptes.
+> >    unsync:
+> >      If true, then the translations in this page may not match the guest's
+> >      translation.  This is equivalent to the state of the tlb when a pte is
+> > -- 
+> > 2.41.0.162.gfafddb0af9-goog
+> > 
