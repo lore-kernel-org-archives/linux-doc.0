@@ -2,178 +2,217 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C278C001DF
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 23:19:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B8BC001DF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 23:21:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231238AbjGaXTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 19:19:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40184 "EHLO
+        id S229841AbjGaXVF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 19:21:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232273AbjGaXSS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 19:18:18 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680391FDF
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 16:17:51 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d05883d850fso5955816276.3
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 16:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690845456; x=1691450256;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A2YbEGxqz9SscBGtet0Gs0ciHUjPL61/tRobVSn5JSc=;
-        b=Aspi3sVz1s4NKlFaJjQOa2DQlODn/JsCKt4eqnvhQolwNg6rVTEqjLQs26sN5J6ZNe
-         3e/etHAaEqvAoxl+oSQQP1bHfmA59RbK7Nu0azx4K+EVcSxVntDfjH8buFsuy2V7KlEw
-         5RZ7h2m65ZZHDqRcD6/spD/JjZaCVH323kw1HLp8C4YPZbjDkNb49TqTz+Z2vaOWATUw
-         n/OnsLadTVEbeeCCi9f1Xp8cRMaUuSd29J6gHrEWBjtkXdfJ7q9euJ/ihFEIWOoOKssN
-         /B9i1WTYQfm0A5NhSpMZHAiVkGnI47YF/h8cE5B0h4DZfCGtUwSF1W1GjS47WDQ5r/1d
-         NbPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690845456; x=1691450256;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A2YbEGxqz9SscBGtet0Gs0ciHUjPL61/tRobVSn5JSc=;
-        b=KjG0BG7G6Di4zJWHF1z8eZoE3DnPjP1mkL4R+kQyoQAza3WaiSd3jOk5TPvLgHLNG8
-         i+OPVPEK865jBivObGEgNSV/1248OZJL1FKRSfaUKcCDs/RsL21VkXrb4CY277nlRNWA
-         1LaO9hwFCxZix/QzqSfhg4V6H0C5SeqooVtzK2FJFvJTbh3okYDdn1wZVF+CvQAcf7WS
-         fDqoZt0LJFPnV6gZICf5/wg49zsT0U5R+wNgL+gvY8bpK9fAqXKWve7InPWN6YAnzKYg
-         Xi8DqVLm2yozRctSmAfj26HYVKlMsxq9R4GrqcSYLWry3Njol8OxpBxhi4wB2foJIWBS
-         cC1w==
-X-Gm-Message-State: ABy/qLYG2Oj60DuJ8wDJ7HvcfkG2Z3K/KEK0dk5EnEo00zPo1nZmALFc
-        sfDyNT0xbOJnNsm2Kt3CAlfBZQJ7628=
-X-Google-Smtp-Source: APBJJlETEe4EZ6/j95cQ4sv3ryYhK33RfUu+RWsNUCsL/BaRynxJ5PFVR6kJ5MkvzQvyz83entZG77hN4jM=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:69c7:0:b0:d07:f1ed:521a with SMTP id
- e190-20020a2569c7000000b00d07f1ed521amr63258ybc.4.1690845456129; Mon, 31 Jul
- 2023 16:17:36 -0700 (PDT)
-Date:   Mon, 31 Jul 2023 16:17:34 -0700
-In-Reply-To: <SA1PR11MB6734A02EEFD83969F1965A8FA805A@SA1PR11MB6734.namprd11.prod.outlook.com>
-Mime-Version: 1.0
-References: <20230731063317.3720-1-xin3.li@intel.com> <ZMg1sD7IamB0INVs@google.com>
- <SA1PR11MB6734A02EEFD83969F1965A8FA805A@SA1PR11MB6734.namprd11.prod.outlook.com>
-Message-ID: <ZMhBDoTxqghvF7G7@google.com>
-Subject: Re: [PATCH v9 00/36] x86: enable FRED for x86-64
-From:   Sean Christopherson <seanjc@google.com>
-To:     Xin3 Li <xin3.li@intel.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        with ESMTP id S229685AbjGaXVD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 19:21:03 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7702326B8;
+        Mon, 31 Jul 2023 16:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690845639; x=1722381639;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=ne7CuyJySmKGCp9qZxoKSlIvPYLk9+y0lcKXu7eA6Ic=;
+  b=Kl9xq45pkvgiXnKu9q1JkGmLOwcr+GbV9z8g1OuMWESH590cEdQgi3F9
+   2wvbGr2bWDPnJ2iS0uleMPZV4UCNU6OfOE5BKlLClhJWCML9aoIJd5u7y
+   za6E3T0J8jTxgpQAsvLGgUsDkS6yiLbFhiMDz2ICrbuHhkBDOvFyU1lJi
+   cchUqkPx01ycz+HShFsW5hNuklXsf0780GAu9HdYMW+0XL/RL3gQCa2RT
+   u8mggnl0xn2Qu4XUvUQ67yyDIl2M97seByR60b+jw3QHnHCc9rhWThKo3
+   b5dwAXHqW3ykaRPfAdcTDohziDo+zEfEgXELlOqWgDXwmMS26EkAXORm1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="369148599"
+X-IronPort-AV: E=Sophos;i="6.01,245,1684825200"; 
+   d="scan'208";a="369148599"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 16:19:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="731741501"
+X-IronPort-AV: E=Sophos;i="6.01,245,1684825200"; 
+   d="scan'208";a="731741501"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga007.fm.intel.com with ESMTP; 31 Jul 2023 16:19:37 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 16:19:37 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 16:19:36 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 31 Jul 2023 16:19:36 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 31 Jul 2023 16:19:36 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OkFbqSnpRAxfsQKWX3eFSczGeA8A8iucwraWgJuztVKRBmLwh5a2pY6TgG4pa/E1rVXDJ325fwwQv4+uC+p7suluWUKzSIjsrZeOjQmfZia0Nb0MVEnpkrQiMmPaKweoFWFY8xF+eNJVN5gAXWHQtM2ijGIgBstUCynBPTe81g00k/axohTyh8a0Ia4i2BauRn+o9OSaZmRMTed26OPMTQszVr5wjVh48SqSyAXBiDlpTQGwqrJxkgdJVD22QGjvDKCyDiC222TiKHRSBjaLYjCNrzXpDIf6zjp/yZOxxqfNTV41w8QVOavNRGMUQ23XJ4c0qmNgj0Px44UT5Zzxsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ne7CuyJySmKGCp9qZxoKSlIvPYLk9+y0lcKXu7eA6Ic=;
+ b=fWCgEuG7GbkLtLnkOrvHgIXIVSzDId1hfwzjsjs3Mfz0G8Ovo2HzePltpKFEaAN1xuakovPXZMG8Cr6nfEEfGkn/QmjWUJpJiKhbAz3hppSbL3R8AywTo/i1PHjWS1mkotkvRuf1OU3agHEh2x246iKtzCuopKAEljig0f0X0LToK1GSp/JhgDXdVRWTj/IqOwemBvT+VdCufmpbz0KtH6SzX4MyB83rVMWCPZMK1wO9KQzrRX/Uz3UqKfvzGSuhERco0EJ/JCp/pImPg2mmQw9aHLYtHhgnTKxlvZgBKe/0AQEZoMna0hU4UMygUCSJdBTW6g2u/WlWVCskF3TelQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by MN6PR11MB8195.namprd11.prod.outlook.com (2603:10b6:208:47f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Mon, 31 Jul
+ 2023 23:19:35 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::abd2:f781:1433:259]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::abd2:f781:1433:259%3]) with mapi id 15.20.6631.042; Mon, 31 Jul 2023
+ 23:19:34 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "broonie@kernel.org" <broonie@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "ardb@kernel.org" <ardb@kernel.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jurgen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Kim Phillips <kim.phillips@amd.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jiaxi Chen <jiaxi.chen@linux.intel.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Jim Mattson <jmattson@google.com>,
-        Sandipan Das <sandipan.das@amd.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        Breno Leitao <leitao@debian.org>,
-        Nikunj A Dadhania <nikunj@amd.com>,
-        Brian Gerst <brgerst@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Ze Gao <zegao2021@gmail.com>, Fei1 Li <fei1.li@intel.com>,
-        Conghui <conghui.chen@intel.com>,
-        Ashok Raj <ashok.raj@intel.com>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        Jane Malalane <jane.malalane@citrix.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Yantengsi <siyanteng@loongson.cn>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Sathvika Vasireddy <sv@linux.ibm.com>
-Content-Type: text/plain; charset="us-ascii"
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "palmer@dabbelt.com" <palmer@dabbelt.com>
+Subject: Re: [PATCH v3 21/36] arm64/mm: Implement map_shadow_stack()
+Thread-Topic: [PATCH v3 21/36] arm64/mm: Implement map_shadow_stack()
+Thread-Index: AQHZw7ZZVWMs6JZuI06/zv64SypFG6/UB86AgAATdQCAAGg9gA==
+Date:   Mon, 31 Jul 2023 23:19:34 +0000
+Message-ID: <e827138f9d8800e3db158831bca88d1ea8b559af.camel@intel.com>
+References: <20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org>
+         <20230731-arm64-gcs-v3-21-cddf9f980d98@kernel.org>
+         <5461c56cf4896f18bddaa66c3beec7b909fc8fb9.camel@intel.com>
+         <0a6c90d6-f790-4036-a364-d4761fdd0e95@sirena.org.uk>
+In-Reply-To: <0a6c90d6-f790-4036-a364-d4761fdd0e95@sirena.org.uk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|MN6PR11MB8195:EE_
+x-ms-office365-filtering-correlation-id: ca6754ad-b3ca-4c4c-64fb-08db921c9a3e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: m3aJKOpRh+QWXfb1+MsPPEfl2LaQ0RSEFukU5YgUgctAz8t/X2RqYtuXxB6rELsr53O5JPKACRx8JsEqcum8mBX1sye/U0PAlXzmVVgQ0ohijDbeJha8VV5fW6+ChZ30BHejmenxegvF1sjZAOB2OKjLRrMpqTQIxNb+HPe2kVpE7TG5e3oA6MwiuyjEaUgheYTL4IWHr/40+DbWBgvvBS/yPWT0l1a1YB4Nuv6SQyukaPVSpn3b7JcwI9W3dnjdHOuLBzCItkNpKsmjPcFNlYASCuOgBuiwWUASfZ++1ND8+QhH/yKUSySEZ3Wh7SdxrnLfYu1HP28iISmHDiyobjUFkYxB9c1mZXTGHlk1NO6HVnRAjaaKdQv0Z9RdJqs9ZglQMsJpR9A3qDe3ol5N29KjycCTg2pxDRw6dlANmnRZmORwce6q1XCFdmmSzPZmKAUqeBOp/+XAe6Hg7xSrZVyj8sE044L2z0rCLO7uYrlxJ/PBs0O1WM5wsSWFpxcT1OXWsrbNKTPChBbre3Ngg3rcRc2v3SYhPcSg5u8zg20HJZ4I8z5hSCAG5iYlknG+ly74FOo4A6dxLfMIYGQf/Dsur/LZx27EoFTeMGK43tbcxryvZff+UMrVVQ7eOiwF
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(366004)(396003)(136003)(376002)(346002)(451199021)(5660300002)(66476007)(2906002)(66946007)(6916009)(66556008)(91956017)(4326008)(66446008)(76116006)(64756008)(7406005)(7416002)(316002)(41300700001)(54906003)(6486002)(2616005)(71200400001)(8676002)(6506007)(8936002)(186003)(26005)(83380400001)(478600001)(82960400001)(122000001)(36756003)(38100700002)(38070700005)(6512007)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SE85Qjdwa2N1dlpWOEpKeVFhWG1MREM1eGttcjN2bnRBRk5DODU3VVphWjBE?=
+ =?utf-8?B?ZWc5UXVRZmh6eDdmbSs2ajRDZzFkSlQ3MkhveTdqbldmb043c0hxQlpIU2ZW?=
+ =?utf-8?B?TC9lTS83NEhGaFJ3VGdlWDdBdFlPWitBSHBEL05XMC8zcm12ZXhzdjVxUVVr?=
+ =?utf-8?B?RExuSjkyS0NzOXc5SWVsSG41eTlHMFBmQ3Q2UXM5dmFmd0Nwemk5endOakNs?=
+ =?utf-8?B?OERrS1RMOHNpSzVld0FCYTN2a21Ua0hURGRsY2VON1RqUnJyNHRwMTN3SW5L?=
+ =?utf-8?B?ZVBqaGM2bFFRdDQyUGVyRmg1dEc5WVBkNzdHVkpWSTdOOXlBaVUyYzE1T2Rt?=
+ =?utf-8?B?RjZDUDJORHk4Z2NNSk5WeGdZZWNwRlJNeXJ5VE1wdXlqSjdCRmVta2lxbEps?=
+ =?utf-8?B?WjIyWWt5cEpTNkZVYlZXWXJTa0N4ZFA1WDdrY2lVREg3TzdaaEdGRGo2MDF3?=
+ =?utf-8?B?YzdUMk1ZdUtDc3NPMGdyZkQwR0swdjd5aUJmWlU5M3RQQmZ3SGpwZi9INVBx?=
+ =?utf-8?B?dVNmUjZRSVhOUWE3MTVSL1NRRDQxS0VYTUxGUXVhYUgvRWRmUWdaa2E4NkRT?=
+ =?utf-8?B?TjJucWhqRWhlVkxtUXcxaG94dStIRTFzVVRGVXQzRHNlaHR5ZjZEWEZ3T1Nk?=
+ =?utf-8?B?a0FkYmFLRlB0a1c1WDZIaFhUUHBsNDN2cXRrbFVDWENqeCtoeksyZVBPL0Jw?=
+ =?utf-8?B?QTFnRnZSQzAyTmVPSEJoR2U0VTFUVlU0WlNNdXd5TXB5elJGdmhIYjRiTXF3?=
+ =?utf-8?B?K2RqVDE0SVBsNGZRLzA5Y1QxUkg5OVRUMExlSHBZUnVrNGhvV0ppVVVIdnVX?=
+ =?utf-8?B?ejBEY0dDbUJ0Zlc2YUIwdE5Ic2dITXZHWFBWbGdxeG1ZTkczNDFPMFZETjlj?=
+ =?utf-8?B?cGtyR2V4TzQzL3FOTVVIYW56cHBTQjl0Zm5Mdm1mWjZCQXFMMjBQalRiczc0?=
+ =?utf-8?B?QWpYcnZJa3UxSGFDaVZsTUpKWERmWkc1Nnk1QW5BYWdHOStOV0Q3UDdubTdO?=
+ =?utf-8?B?Y3VsVXRreTl0cS9ZWFo2Qmlwalh6S3B0bHRIRnZOQmRQd21GUXFNbDZKWlJy?=
+ =?utf-8?B?VWlEOVRHWUNNVUpiQU0vK1dIRXhFSDFFM2kwUmYyYlU1akVlTjdTVVJwc1cx?=
+ =?utf-8?B?TGNYbGl5S3hQck5HSnhWL0Z5a09sYTMxbkptT2FxYmVoRi9RR1RmelRsOFZC?=
+ =?utf-8?B?Y3N0UExMREJRNkZ3WG5LNXlYRlBCbDNROVhxLzF2ZzFXTjdOM2s2UVBGR0FW?=
+ =?utf-8?B?ODc1VjZjeGxOMWVMZGRrQjVCdDI5ayt6TGM5ZmMwVEhVa2NZMk1meE1XQ1VU?=
+ =?utf-8?B?a3B0RnpFVjBuTXk4eXhZcDZBYkFuL2VNayt0Vkh0Z2pHRTdZTlkrNjdnRGpU?=
+ =?utf-8?B?TGJDYUF2UWtVOEdqMjJWZjNWZ0t0RWF0eGdSeHgvQlFQZXlESXVKenFScHc5?=
+ =?utf-8?B?VUFONk1aVEJZQ2Y0TGpXbnI0N3RKSGw4RUdLYlVUUm16Yks0cWxObEJneFRQ?=
+ =?utf-8?B?K0UrT0I1cWhYSVlBUHVWWFRMOHM0TTZ4RllTU2xFOWhoZk9wODNkdVh1ckR3?=
+ =?utf-8?B?c0ZRVjZNWWtuK1FRdVZtUVFydDZmdVV6Tnl3Y2JHaXRURmtNWXJGaVFHV1dB?=
+ =?utf-8?B?VVBRU0xQMzQ3ajcydDl0cE0zTG1OYnROblRLUTd2NmgvNG1YcW9XUGhIYXJY?=
+ =?utf-8?B?NmUzMnhOQmR3eXV2QzB6K1U4cDJ3UVN1bHZOL0hodEpYb3NBQTFuSUt1YXVh?=
+ =?utf-8?B?QW4yaGZTdXJ1eFVMNm1ESkN6Q3N4c1ZnR08vQ2RuWHQxeE1FZ3FuaitEckdm?=
+ =?utf-8?B?RjlYaW0wNTU1T3hNYThRT0NPUG9VVER1cThDc2MrK0hOSmxxTGlsR0tRVkN2?=
+ =?utf-8?B?b2hiWm9WMEdZbkoxL2wwbDlhb2RZUkR1VVRlc2RROHFocG9ZTTZ1ZjBaaWF1?=
+ =?utf-8?B?aWRob0dIRVdlcXF4NTRtakZPVnk2QTBQdkZ3dUxrdXorK0RENlNZVVNObWRw?=
+ =?utf-8?B?OGZhQkh1WnRwa09CdWZ6V0lzcnIzb0paVHZTd0VrSXdLcVdidks3WUZwbnNa?=
+ =?utf-8?B?cmNoSkVMOFJzTDhCWUNXNVNaWXg5ajNFbUpXZHJtZzc1UE9CaDZCQWJ5ejNJ?=
+ =?utf-8?B?ckJJYVN0L1ZtQ1UwdG5za2tLLzNzb1pYdVVyWnp1VDR2NGZscmVkOFlwNUtR?=
+ =?utf-8?B?Rmc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E2248B610F82CE4181AD6A16DE6C04BA@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca6754ad-b3ca-4c4c-64fb-08db921c9a3e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2023 23:19:34.7474
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yqZg5y6ZegP52+EPjegT3P40DQDv769nOtzpkFuQ09TP+cNj9Sd2943HcGep4fMMiazmHVUnrET3QegqkhJ+zGNdZD8b3uEJ47TVMDbBgbA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8195
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 31, 2023, Xin3 Li wrote:
-> > > This patch set enables the Intel flexible return and event delivery
-> > > (FRED) architecture for x86-64.
-> > 
-> > ...
-> > 
-> > > --
-> > > 2.34.1
-> > 
-> > What is this based on?
-> 
-> The tip tree master branch.
-> 
-> > FYI, you're using a version of git that will (mostly)
-> > automatically generate the based, e.g. I do
-> > 
-> >   git format-patch --base=HEAD~$nr ...
-> > 
-> > in my scripts, where $nr is the number of patches I am sending.  My specific
-> > approaches requires HEAD-$nr to be a publicly visible object/commit, but that
-> > should be the case the vast majority of the time anyways.
-> 
-> Are you talking about that you only got a subset of this patch set?
-
-No, I'm saying I don't want to waste a bunch of time tracking down exactly which
-commit a 36 patch series is based on.  E.g. I just refreshed tip/master and still
-get:
-
-Applying: x86/idtentry: Incorporate definitions/declarations of the FRED external interrupt handler type
-error: sha1 information is lacking or useless (arch/x86/include/asm/idtentry.h).
-error: could not build fake ancestor
-Patch failed at 0024 x86/idtentry: Incorporate definitions/declarations of the FRED external interrupt handler type
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-
-> HPA told me he only got patches 0-25/36.
-> 
-> And I got several undeliverable email notifications, saying
-> "
-> The following message to <tglx@linutronix.de> was undeliverable.
-> The reason for the problem:
-> 5.x.1 - Maximum number of delivery attempts exceeded. [Default] 450-'4.7.25 Client host rejected: cannot find your hostname, [134.134.136.31]'
-> "
-> 
-> I guess there were some problems with the Intel mail system last night,
-> probably I should resend this patch set later.
-
-Yes, lore also appears to be missing patches.  I grabbed the mbox off of KVM's
-patchwork instance.
+T24gTW9uLCAyMDIzLTA3LTMxIGF0IDE4OjA2ICswMTAwLCBNYXJrIEJyb3duIHdyb3RlOg0KPiA+
+IFNvbWVkYXkgd2hlbiB0aGUgeDg2IHNpZGUgaXMgZmluYWxseSB1cHN0cmVhbSBJIGhhdmUgYSBt
+YW5wYWdlIGZvcg0KPiA+IG1hcF9zaGFkb3dfc3RhY2suIEFueSBkaWZmZXJlbmNlcyBvbiB0aGUg
+YXJtIHNpZGUgd291bGQgbmVlZCB0byBiZQ0KPiA+IGRvY3VtZW50ZWQsIGJ1dCBJJ20gbm90IHN1
+cmUgd2h5IHRoZXJlIHNob3VsZCBiZSBhbnkgZGlmZmVyZW5jZXMuDQo+ID4gTGlrZSwNCj4gPiB3
+aHkgbm90IHVzZSB0aGUgc2FtZSBmbGFncz8gT3IgaGF2ZSBhIG5ldyBmbGFnIGZvciB0b2tlbitl
+bmQgbWFya2VyDQo+ID4gdGhhdCB4ODYgY2FuIHVzZSBhcyB3ZWxsPw0KPiANCj4gQWgsIGl0IHdh
+c24ndCBjbGVhciB0byBtZSB0aGF0IHRoaXMgd2FzIGEgcXVlc3Rpb24gcmF0aGVyIHRoYW4ganVz
+dA0KPiBvcGVuIGRlY2lzaW9ucyBhYm91dCB0aGUgZXZlbnR1YWwgbWFucGFnZS7CoCBMb29raW5n
+IGFnYWluIEkgdGhpbmsNCj4gd2hhdA0KPiB5b3UncmUgYXNraW5nIGFib3V0IGlzIHRoYXQgSSBz
+ZWUgdGhhdCBhdCBzb21lIHBvaW50IGluIGRldmVsb3BtZW50IEkNCj4gbG9zdCB0aGUgU0hBRE9X
+X1NUQUNLX1NFVF9UT0tFTiBmbGFnIHdoaWNoIHg4NiBoYXMuwqAgSSBzdXNwZWN0IHRoYXQNCj4g
+d2FzDQo+IGEgcmViYXNpbmcgaXNzdWUgYXMgaXQgd2Fzbid0IGEgZGVsaWJlcmF0ZSBkZWNpc2lv
+biwgdGhlcmUncyBubw0KPiByZWFzb24NCj4gd2UgY291bGRuJ3QgaGF2ZSB0aGF0LsKgIE90aGVy
+IHRoYW4gdGhhdCBhbmQgdGhlIGZhY3QgdGhhdCB3ZSBhZGQgYm90aA0KPiBhDQo+IHN0YWNrIHN3
+YXAgdG9rZW4gYW5kIGEgdG9wIG9mIHN0YWNrIG1hcmtlciBJJ20gbm90IGF3YXJlIG9mIGFueQ0K
+PiBkaWZmZXJlbmNlcy4NCg0KVGhlIHRoaW5nIEkgd2FzIHRyeWluZyB0byBnZXQgYXQgd2FzLCB3
+ZSBoYXZlIHRoaXMgc2hhcmVkIHN5c2NhbGwgdGhhdA0KbWVhbnMgY3JlYXRlIHNoYWRvdyBzdGFj
+ayBtZW1vcnkgYW5kIHByZXBvcHVsYXRlIGl0IGxpa2UgdGhpcyBmbGFnDQpzYXlzLiBPbiB4ODYg
+d2Ugb3B0aW9uYWxseSBzdXBwb3J0IFNIQURPV19TVEFDS19TRVRfVE9LRU4gd2hpY2ggbWVhbnMN
+CnB1dCBhIHRva2VuIHJpZ2h0IGF0IHRoZSBlbmQgb2Ygc2l6ZS4gU28gbWF5YmUgYXJtIHNob3Vs
+ZCBoYXZlIGENCmRpZmZlcmVudCBmbGFnIHZhbHVlIHRoYXQgaW5jbHVkZXMgcHV0dGluZyB0aGUg
+bWFya2VyIGFuZCB0aGVuIHRoZQ0KdG9rZW4sIGFuZCB4ODYgY291bGQgbWF0Y2ggaXQgc29tZWRh
+eSBpZiB3ZSBnZXQgbWFya2VycyB0b28uDQoNCkl0IGNvdWxkIGJlIGEgZGlmZmVyZW50IGZsYWcs
+IGxpa2UgU0hBRE9XX1NUQUNLX1NFVF9UT0tFTl9NQVJLRVIsIG9yIGl0DQpjb3VsZCBiZSBTSEFE
+T1dfU1RBQ0tfU0VUX01BUktFUiwgYW5kIGNhbGxlcnMgY291bGQgcGFzcw0KKFNIQURPV19TVEFD
+S19TRVRfVE9LRU4gfCBTSEFET1dfU1RBQ0tfU0VUX01BUktFUikgdG8gZ2V0IHdoYXQgeW91IGhh
+dmUNCmltcGxlbWVudGVkIGhlcmUuIFdoYXQgZG8geW91IHRoaW5rPw0KDQo=
