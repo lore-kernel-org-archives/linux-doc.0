@@ -2,264 +2,208 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8F8C001DF
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDAF3C001DC
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 13:13:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbjGaM7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 08:59:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43244 "EHLO
+        id S230242AbjGaNNN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 09:13:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230206AbjGaM7n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:59:43 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0400C10E9
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:59:42 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1b9c5e07c1bso38008515ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:59:41 -0700 (PDT)
+        with ESMTP id S232999AbjGaNNH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 09:13:07 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA16126;
+        Mon, 31 Jul 2023 06:13:03 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36VBtb9R019856;
+        Mon, 31 Jul 2023 13:12:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=kAERs/bCahQY20Wiw++AK74p0rcQdAuthiXc9uROEyE=;
+ b=bTK+aCsOnxZ14S6XTJIAh5hg0t40kdVv2Gbz4BZ/4CwQpCFRIcQsgjOgSj9Huk8+4rDT
+ rqi2Dle76H1fAth3Pd7dPgVG17VCZWqOmGwZoNhndlfDegQr2wIoCahkr+BBqn4/3LOm
+ JR61Nq7zLypqDzd1kTS9p5pQ66y1Y482TQH4Hu47FSjARvPUu/1mGXEykg1xQFEVRGzD
+ ZzldYQnTIP2eJnPxF41P+bFWrtoTQYvSFN7BGFFpyV4QLLhqXHHDA5Wlvh+10MSoTTK7
+ nmTcG4PSq1Yr+PQR2Dd+EHlg/97uWp+c64vJjKAklLQYcBu4l7F901Pa4MCWTjIvt3v5 iw== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3s4sc2ahwh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 31 Jul 2023 13:12:36 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36VBZ0DG013884;
+        Mon, 31 Jul 2023 13:12:35 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3s4s74swju-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 31 Jul 2023 13:12:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ILJmg/PPueAMWd/F5pRUOqY6Zqd48YwtC7EUpTNXd4+bEu4W0npkUCv2x0x1YFt1XUEYkPoi7DS8j3l6Y/DpkOexWcfOFf3znwsR3QkD+9kC4rkUdBqkX7vRPN99UXJXQbif1EQjs+Q1Ep09Hq1+jEmOIpHKItGMIXDwms9oRK2MRBPnBO94sSftrpOHDR2QNvqHtd+la/Xi4K4rrlGjEhjCBRgxyn91E+PlfXB2M9d7jr/f4+O5sQs6P2lHAo+3dl4p69OsElRA3rQjlr0R4GCu+uPfGa6PN8VE7CiXM9j2EPG4TmQnPSTXmO97nofnFLHW90AwxMBbe2TG5NJsDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kAERs/bCahQY20Wiw++AK74p0rcQdAuthiXc9uROEyE=;
+ b=FlxYtQEYoEXS76/WYAO+QTdoMPhLwcYYb0JlZgJEeqLfiEP/83fRCd8ogAKginjMfa4IncgZ5Q5GrjcbKwb1M8O9REhUnZ508x8/8eMUmf14iGRxV1ekQDAB/jwMJ9554uEmOZ3FG81WZE/zOoVrtfV5UnsOxciQPEcm/hOxe10IvU9UpKw7KYLEDO48eM1/Fl5Z4xt8m+iIWcRism4mjGpyK6ltzXCr50mbINFN6qTvNXs6gs5T4lMsLrs2/sf7P2y/JtyMtl2yqG5mCIg/xBI/8Po0w0J4Hh+PhWky28SNVys7nt+H93UhmrrWu3siCiEdNZy41lB2+H9QCjC0AA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1690808381; x=1691413181;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QF4UfSzVoHFhH6+qe8bLS1UKeUs4p2gL1IF9YsMfWkA=;
-        b=dHrCRfHwIUHF4BS2n82py2omFFDqIXCVBCUH8PtJ4HyoxSIodUTkV1K0tLQS7I9xyQ
-         mjBvUi9W4SMymURvNAiMLRkp1v0B1HlBFPP+64/I0aTcnVrjVcZv0GDeHHGOk9UGKeR8
-         UjsdVJ3Y/jqNIZDFIoEv9kk4k76LcK6c9JuA1jjhAWj8eo/Iw65TJqNkkPLPyto0U0EI
-         XgXb+p9eqrXlyJ2ZsFVMxC1TX0Rx58rbVuOnvU110LavqBCbCFchaWjOaAFHnk8an54O
-         wz8FRShHslT3ylpNtLJC3U5Nvi3XcvfIZq/btNmCmiSokU5bWGqH4EQ7apmPVeB73iLu
-         OIfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690808381; x=1691413181;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QF4UfSzVoHFhH6+qe8bLS1UKeUs4p2gL1IF9YsMfWkA=;
-        b=JqA2h5kK6GVU5tSaAqB96X4V140bwdKfa00xPcN18J0kmcFixRa3AxxvhPh58oZWzk
-         u2e+LxtSZjlRMsAbu173ohrjczeGHigswpA3uEpKbA3EYhlQFzXGssaDF3c1CAtBs4Ki
-         IgvYDv198cFrV5pPJ7UYlXdN6ykDPLEsXEx+GNRRcZQBqe6lNIWpMOBFuPstH3HXFyBs
-         nP0tdTJLNO9zNpIo3q/70RycYe0gukTawBCbwOp+15uO6ZQV+KZxJo9MQdJTAOZxISNV
-         DfvaXLh0lbmlt1wWBIoTDjnVKcVJ6Z6eMx9IBLN9W3ogIm9sySej5hDFgnF8UdWS7HH/
-         JZGA==
-X-Gm-Message-State: ABy/qLYCdKQPPKl8vOjPfYl0eTfoqZi66XUiz/w4qymVCyqIazsBnX2z
-        N6sOP1a7i6hxArGsF9wj0geB/Q==
-X-Google-Smtp-Source: APBJJlHHG4qXD9pZodOOo0V7rqHfL8gnI1pSgRBecx9tQxQM+G3qqHTm+p53UtVvSWNfoK0EIyRaZA==
-X-Received: by 2002:a17:902:c952:b0:1b8:8223:8bdd with SMTP id i18-20020a170902c95200b001b882238bddmr11629798pla.59.1690808381254;
-        Mon, 31 Jul 2023 05:59:41 -0700 (PDT)
-Received: from [10.90.34.137] ([203.208.167.147])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170902da8600b001bb24cb9a40sm8531225plx.39.2023.07.31.05.59.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 05:59:40 -0700 (PDT)
-Message-ID: <ed519424-af7c-5a19-f94d-b7ad76cc879a@bytedance.com>
-Date:   Mon, 31 Jul 2023 20:59:33 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.1
-Subject: Re: [PATCH 11/11] fork: Use __mt_dup() to duplicate maple tree in
- dup_mmap()
-To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
- <20230726080916.17454-12-zhangpeng.00@bytedance.com>
- <20230726170645.2m2rbk325dy727eo@revolver>
-Cc:     linux-mm@kvack.org, avagin@gmail.com, npiggin@gmail.com,
-        mathieu.desnoyers@efficios.com, peterz@infradead.org,
-        michael.christie@oracle.com, surenb@google.com, brauner@kernel.org,
-        willy@infradead.org, akpm@linux-foundation.org,
-        linux-fsdevel@vger.kernel.org,
-        Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <20230726170645.2m2rbk325dy727eo@revolver>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kAERs/bCahQY20Wiw++AK74p0rcQdAuthiXc9uROEyE=;
+ b=Z+QQF/6tyDo/5NoEaIPKcQ08Vvr0AtwOe9h4UZ7Q+d65zJjMq7DyIDb/KRZ+xoFIZTry82R+IR/WRuNBJAAPEUWNMR/aH3rZZlWuVLKwhHwRkNmbVcmGUwcEO8Vfwts8RP4we/fRtP3w2pAJUfggZHoT+gX2i66cQulaA9dq8ic=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by DS7PR10MB5999.namprd10.prod.outlook.com (2603:10b6:8:9d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.42; Mon, 31 Jul
+ 2023 13:12:33 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::8072:6801:b0b7:8108]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::8072:6801:b0b7:8108%7]) with mapi id 15.20.6631.042; Mon, 31 Jul 2023
+ 13:12:32 +0000
+Message-ID: <bbf54737-ed49-5be8-722d-85906c803410@oracle.com>
+Date:   Mon, 31 Jul 2023 14:12:26 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 3/5] perf test: Add pmu-event test for "Compat" and new
+ event_field.
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1690525040-77423-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1690525040-77423-4-git-send-email-renyu.zj@linux.alibaba.com>
+ <abeaafbe-2290-d272-ddd1-f358f7271edc@oracle.com>
+ <2dc21269-2fa0-ea39-454d-5f12a414bc13@linux.alibaba.com>
+Content-Language: en-US
+From:   John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <2dc21269-2fa0-ea39-454d-5f12a414bc13@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO2P265CA0192.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a::36) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|DS7PR10MB5999:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9df1b40e-16fa-41cb-fff9-08db91c7cce8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PYCGtI9GwsfjvywWhohLNX3c/ZR0vnvzhNKqNsHXigeZjzhNutO2Tt9hU58XQnonoRBcmmk1BQpYNNOv4Dv+OT/9k25YqyHrjMjuwzVUNzx++ljsrxqqYM/BsHHK4nGeVEQXfRuv5CBOFg26/bVLh3lhjg83diDrZwrBsu5tzghGIl3bOxh8zFW8EhirfIToiEiZqPoc1ZBirDvxyitPImGULsQRlz2W1tq2TUjX8ZfSspA+v+BQJkPOsShH9KRJMUfIDh8hy2scojF4UT8B77VVP3K/VLDKWfrzbe6u65y3TOtzWTi/5vTS/cOdc8dYtwRWrY5mMOTqHViYDvw21vGbbdCZ6lf8VLoBqTZuxbsTU3Cv6sTzOrRs7ONlXNxIwJlSauvfas09o1CoK904cRAwG7hsjT1ayCSCRmwV70Nz+GlM88J+p2ZV94/3xYsD0tYT8bPnexhxiEc9ZdvHadcjOG6esF5e6UQMc3dDhgVkVZnoAfwOH+nVOjGMgCJLqjOLtpihzaWvlt0XSJJsEG1O2ogPYE1j1z4NtNpR4cOCuIchi/0x1JRgE77Bt6LHXlusoQD4TNWwRXm8OTrhuXRQvV2qx5oo9kF57PsH06nZ/Zq0pMgru+pTApyYeFaP1PaKr5RplQ5fsd4t2sMegw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(136003)(366004)(376002)(396003)(346002)(451199021)(6512007)(6486002)(36916002)(36756003)(53546011)(2616005)(26005)(6506007)(186003)(66946007)(66556008)(7416002)(41300700001)(54906003)(110136005)(31696002)(86362001)(66476007)(316002)(4326008)(5660300002)(8676002)(8936002)(31686004)(38100700002)(2906002)(6666004)(478600001)(4744005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VXFTVGpQZWtQSjVkQTNjQThJTUthTk1xcGdza3VxK1RnRUZtVDdOQkk1ZDEw?=
+ =?utf-8?B?OVdWSzJWMS9zenJnc1QwNkxHcXNnR3FXbU5tU05oWWxzbjhzWVRvTGF1V3lT?=
+ =?utf-8?B?S0xLc09iUU16VVJHOTduM3lRYlBhZ2s1WU5VRVluanNFS29wQmhib0YybWYy?=
+ =?utf-8?B?UGx5aWU4NnZzMWhtOFpvUHVoZzRTcDZ5ek9JZ2E3VDRhbU53V20xZHJvVCtj?=
+ =?utf-8?B?Sy83ZkVXSVNsZ21QZ1RsZTF3VWNrYVA5Z256dWxVWnVWMERDdnMvdkN6QVRx?=
+ =?utf-8?B?QXU3NW1hRVk2bHdLdGZWWmR1SjFEK3Y0STI0TmI0Y1FENnRhU2xwSHdlbFpo?=
+ =?utf-8?B?SC9LQXRic2dNbG9IdnhYU0xiaDEzNldIR1FWMm8xRXRrYml0V2gxa3B4czBQ?=
+ =?utf-8?B?Z1VzbStpRHpLS1Y4SjBWYS9LVGY5KzR2WWxqWm9JZzFVVHpUdmVRYkxjYjgv?=
+ =?utf-8?B?UG43MldtMmUySjlkdk53bEJFWTV3UUhPRkZhLzA5YlV4eW9TZ0xyUVdibGFq?=
+ =?utf-8?B?TEdQUVdhOHEyVjRQdTBqdm5aT2MxVU93ZzBVMFlyVkZHNlRNdHkxd1FVZUk3?=
+ =?utf-8?B?NEN0dEN5cVYwYjc0eGY2eGJMTTZIbWtXbko4Zm0vWFN3di9ObWxjbURJbjR4?=
+ =?utf-8?B?NnF5WkZOd1hSZ3B6UFZUV3BYc092T3BCYW1mclZlSTAyb2hFMEk1bWZsUk5R?=
+ =?utf-8?B?alc3VmVCNHFLQmxNdURZaDlZdWc1c1BGSGpjNldUaDZXTkdXYTZ1SisvMUND?=
+ =?utf-8?B?SS9jclVsS3JwdHBqUk9QTk4wT0hvR3orc1JZaURMTitRVlVXZlQyRDJNaTVE?=
+ =?utf-8?B?WnNMbE15SWlrWnI0ckV2V2JXNWNHV0VIRjFWd1N6eW5LVGRqbGE0TlFGcW1V?=
+ =?utf-8?B?SmRDM0VHTmwyMjdDT29uN01kS3l4VEgwUTU2cnc4Q1JSUUppRkxtcndsWFpk?=
+ =?utf-8?B?VTc3UitWMU5kczRXUnhyUk5WRlE5QWk5bWNLOTVJT05Sb3JlbEdXdlBXLzRl?=
+ =?utf-8?B?OCtYKzMzM2sreWN3b1FtajNQaGM4T3p1YklPTXpVY3hlVkpPaEEvcWxRd0xM?=
+ =?utf-8?B?Tk03TXhDNS9qek40eFdRb2dvZStLOG4yelNvd25vTkJqUVlrVVNxT1hWS0Ja?=
+ =?utf-8?B?WWFpeUtncENzYkdLRUluM1hWTEJFZElsT2Z5b3VZelkxcTExTUhMSys3eDhO?=
+ =?utf-8?B?R0szMTk4OGRuMnR3QXVFZHBvUDRrR3h4UEF3YnBYYnZFVmxKR3N5dE5ZL0pS?=
+ =?utf-8?B?U0dNUTJ1a3JjOUtlaE9OejBsWHNmMzJENDlHOXV1UjV0UWE2a0hxdEpiMFJY?=
+ =?utf-8?B?Q0xCb2tWOE4zNGpyV0JtTHZzNCtCdEFwQ3grYnVYbHZLcE5qMjh2UW5zWWc1?=
+ =?utf-8?B?citJUHpPYmM5RUF1cE8zays1dFRicEVYb0M4U1AxSnVDYmV4L2FkaElycTRp?=
+ =?utf-8?B?R3ZCOHJDNURNTFRDNXlqYlA3QmVsYU5YS0duOFFGZDl1ZjI0VUJSQnFNN1Z6?=
+ =?utf-8?B?Y0lFV1VEaDkrdzIrR1B6K2xucVB3RDVyU2ZkNXdOejh0a0t1MGtMR2pWZUw3?=
+ =?utf-8?B?N0tzY3FsNnd6V0tLekhYaEtjbTVkMTkzQjJQdjUzQUJMNmFWMlJ6YzAzUmk2?=
+ =?utf-8?B?MWFzeDlnL09PTGY1MlBFTmJENE1YUDlTM0ZlZjRaNm1FbjlSS1pER0htVVZT?=
+ =?utf-8?B?bkJyM0dRcU5vdmd0T1ROQ0VRN2poK2tDdDcrVzhxUlBobVlVMWRUVHFQNUhu?=
+ =?utf-8?B?dmE5MlZNSXcrRjN5RkN4dDQyYTM3SC9jVWNZOFJmbjQ0UjJLODhGWkEvTitR?=
+ =?utf-8?B?QWo0QVpZVnJ0dzA4SWE0bk9nby9RNThOaXZ6UGJQNDJtN2hIbnZ2MC83OWI4?=
+ =?utf-8?B?RW5wblE4ZTBlMHNYOFA4SHdwUWRLNTNGcXBnT1JsdXhYTGtvd3Ewc0xwMGF5?=
+ =?utf-8?B?clpVSGlNU3RpVDg3bjFNSXZsTnV4bmVQYWtCWHBmMHVXVGduK1UzUXVpL2lx?=
+ =?utf-8?B?ZWdFejhXOFRNYzRsUklpbWR1TkxDZ1Jia2drMHc1RzgxVlJteXVvNlRQYUgy?=
+ =?utf-8?B?YnM3c1QzZTR2elFDSU93dUUwVjZQRGZORUEzRW5RS0Q3ZEZyUkJyT002Zm9x?=
+ =?utf-8?Q?Id2MAEyKOpzd/erwvTyvyrQFB?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?b0JZQW1mcm5aNVF6WjNUTzFqTXV4a1MwRGtVRUNjVmpSQVAvdnppQWxJQmZG?=
+ =?utf-8?B?RVN4NGI0OC9VUWVEM2ZIWDRVSWgwWHFjcGhEV3ExUzNKT1JVM0FxdUkyc3Vp?=
+ =?utf-8?B?Vk4xM3FJYTZLV2o3Z2F3Ulp6bHZlaGZhZFcxeEVMTVBHUzhieTlNMUhLOWYx?=
+ =?utf-8?B?engyOWIyMDJvcFRFWmNiN3h3V3FtV1JSdEV3MURma3l6WnB6T0VCeFNRZ0JB?=
+ =?utf-8?B?VWtld25YOG1PNlgzTzRrZ3hyNE1LRUc0RVFXM09XWUppWHJqL0QrMjY4T1JQ?=
+ =?utf-8?B?NHFBbnJTTHg1MWFUdHlyVTI5UjNpYzVZWHdEby9lMnE3Z2JlTnVuWXVpRjhm?=
+ =?utf-8?B?YWdyNm5IenhNb2QwWGMvdlN4NTA4ZEVNVTBYLy9MRUo4UzEybWxwOWIweWl3?=
+ =?utf-8?B?WEhvUDB4WDl0RXV4bGoyanZkV2cvTXZYV2hMaTgydFJ6ajgwUEFDU09nM1lJ?=
+ =?utf-8?B?endvRUhHYTBxVkZGVmFsME83akpYbU1EblpBZGNDZVBQN0piYXNjSVhDTEt3?=
+ =?utf-8?B?K2tpVkxlbHFTblhmOFc4NzRFQzNUdjIxUnd0K1M5a0hRUFFRQXVaTHZLYWlJ?=
+ =?utf-8?B?b3VHdWt4bzEva0ZUUW0yam1idGRMMG9ibkdiZU9Uamh1RDQxL1MzMFZ1NWMx?=
+ =?utf-8?B?Q0VCMkN6a2NWSFJxbW0rWGJEd0FQa1JrSnZDelRGRlMzVk5QT3hlNlAxT3FN?=
+ =?utf-8?B?TU1ma2Yxd1FkRFF3MGYwcnJFREs5d1YrODZiTU5YazVkcWtNVEx2c0tNTUYw?=
+ =?utf-8?B?N1o3bFEyeEdNcnRtVDFoV1JSV2RGRklubG5rcDRvVnkxdzJnNG51QUNCK1VP?=
+ =?utf-8?B?ejhlQ0xwb05XUktJaGJLbjIxa3plUU9IVGVaVDV1emFONlZDSVhzMFFYU3Jj?=
+ =?utf-8?B?ZGMyYzI4QWZpUFJJN21vbEtOQlRZc2tqcTlQWEZDMk15MWsxNExmQXZDZGFQ?=
+ =?utf-8?B?S2hrUStORHkrUm56Vk9oQm8zSHhFMyt5TW8valRLUHpBRGVHTWhIQVhnZWdn?=
+ =?utf-8?B?RmlmSXo4VlVRU2tLSnZ6Mi9TOXJUQlhUU2FlZy95YTlsanQ0WkhwM1Q3Uy9u?=
+ =?utf-8?B?WmY4Y2hJY0F0dmxVNlF3bTUyQm1nRGNoWkNicWhpMUdVOUlpemxJZWV6QmFy?=
+ =?utf-8?B?WTV3V3VaMk1jbDFRQllMT0VZSjB3TmdNS0cwdk5qZE92enNFdU4vZy9JYnhV?=
+ =?utf-8?B?Y0g3aXVYakZQalJENWN5S2FOUEdrZzlqelQ4VGVUSXdOcldUQ3VpaFplck9s?=
+ =?utf-8?B?VnA5RStDMjBIeVkvOFhRK2gzdW1YY1Zuaks4eWdyQ0llZVY3TzBEY2NFWnhw?=
+ =?utf-8?Q?cOOGhDQ+iTH1mmWvtGMMNyZuUrDHsfcoVJ?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9df1b40e-16fa-41cb-fff9-08db91c7cce8
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 13:12:32.7943
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LTDOgf540+8qEp5U/Q4dB8hD9e0Cm4w6dt18KbrIpEUZQl9QbCIawyFhvKBluIX4PtACV4YljXghb5UtudKv8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5999
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-31_06,2023-07-31_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307310118
+X-Proofpoint-ORIG-GUID: iy59QjJgJUSyt4REa2mE4Wh-xENf5_CH
+X-Proofpoint-GUID: iy59QjJgJUSyt4REa2mE4Wh-xENf5_CH
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 31/07/2023 13:30, Jing Zhang wrote:
+>>> +        .pmu = {
+>>> +            .name = (char *)"uncore_arm_cmn_0",
+>>> +            .is_uncore = 1,
+>>> +            .id = (char *)"43602",
+>>> +        },
+>>> +        .aliases = {
+>>> +            &sys_cmn_pmu_hnf_cache_miss,
+>>> +        },
+>>> +    },
+>>> +    {
+>>> +        .pmu = {
+>>> +            .name = (char *)"uncore_arm_cmn_1",
+>> Shouldn't this match some perf_pmu_test_event entry with same matching_pmu member? But is perf_pmu_test_event.matching_pmu member ever used for any checking???
+>>
+> I need to double check because I was testing against 6.3-rc2.
 
+That 6.3-rc2, was for the the kernel? Or baseline for this series? See 
+see maintainers for git/branch to base perf tool dev on.
 
-在 2023/7/27 01:06, Liam R. Howlett 写道:
-> * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
->> Use __mt_dup() to duplicate the old maple tree in dup_mmap(), and then
->> directly modify the entries of VMAs in the new maple tree, which can
->> get better performance. dup_mmap() is used by fork(), so this patch
->> optimizes fork(). The optimization effect is proportional to the number
->> of VMAs.
->>
->> Due to the introduction of this method, the optimization in
->> (maple_tree: add a fast path case in mas_wr_slot_store())[1] no longer
->> has an effect here, but it is also an optimization of the maple tree.
->>
->> There is a unixbench test suite[2] where 'spawn' is used to test fork().
->> 'spawn' only has 23 VMAs by default, so I tweaked the benchmark code a
->> bit to use mmap() to control the number of VMAs. Therefore, the
->> performance under different numbers of VMAs can be measured.
->>
->> Insert code like below into 'spawn':
->> for (int i = 0; i < 200; ++i) {
->> 	size_t size = 10 * getpagesize();
->> 	void *addr;
->>
->> 	if (i & 1) {
->> 		addr = mmap(NULL, size, PROT_READ,
->> 			MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
->> 	} else {
->> 		addr = mmap(NULL, size, PROT_WRITE,
->> 			MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
->> 	}
->> 	if (addr == MAP_FAILED)
->> 		...
->> }
->>
->> Based on next-20230721, use 'spawn' under 23, 203, and 4023 VMAs, test
->> 4 times in 30 seconds each time, and get the following numbers. These
->> numbers are the number of fork() successes in 30s (average of the best
->> 3 out of 4). By the way, based on next-20230725, I reverted [1], and
->> tested it together as a comparison. In order to ensure the reliability
->> of the test results, these tests were run on a physical machine.
->>
->> 		23VMAs		223VMAs		4023VMAs
->> revert [1]:	159104.00	73316.33	6787.00
-> 
-> You can probably remove the revert benchmark from this since there is no
-> reason to revert the previous change. The change is worth while on its
-> own, so it's better to have the numbers more clear by having with and
-> without this series.
-I will remove it.
-> 
->>
->> 		+0.77%		+0.42%		+0.28%
->> next-20230721:	160321.67	73624.67	6806.33
->>
->> 		+2.77%		+15.42%		+29.86%
->> apply this:	164751.67	84980.33	8838.67
-> 
-> What is the difference between using this patch with mas_replace_entry()
-> and mas_store_entry()?
-I haven't tested and compared them yet, I will compare them when I have
-time. It may be compared by simulating fork() in user space.
-> 
->>
->> It can be seen that the performance improvement is proportional to
->> the number of VMAs. With 23 VMAs, performance improves by about 3%,
->> with 223 VMAs, performance improves by about 15%, and with 4023 VMAs,
->> performance improves by about 30%.
->>
->> [1] https://lore.kernel.org/lkml/20230628073657.75314-4-zhangpeng.00@bytedance.com/
->> [2] https://github.com/kdlucas/byte-unixbench/tree/master
->>
->> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
->> ---
->>   kernel/fork.c | 35 +++++++++++++++++++++++++++--------
->>   mm/mmap.c     | 14 ++++++++++++--
->>   2 files changed, 39 insertions(+), 10 deletions(-)
->>
->> diff --git a/kernel/fork.c b/kernel/fork.c
->> index f81149739eb9..ef80025b62d6 100644
->> --- a/kernel/fork.c
->> +++ b/kernel/fork.c
->> @@ -650,7 +650,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   	int retval;
->>   	unsigned long charge = 0;
->>   	LIST_HEAD(uf);
->> -	VMA_ITERATOR(old_vmi, oldmm, 0);
->>   	VMA_ITERATOR(vmi, mm, 0);
->>   
->>   	uprobe_start_dup_mmap();
->> @@ -678,17 +677,40 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   		goto out;
->>   	khugepaged_fork(mm, oldmm);
->>   
->> -	retval = vma_iter_bulk_alloc(&vmi, oldmm->map_count);
->> -	if (retval)
->> +	/* Use __mt_dup() to efficiently build an identical maple tree. */
->> +	retval = __mt_dup(&oldmm->mm_mt, &mm->mm_mt, GFP_NOWAIT | __GFP_NOWARN);
->> +	if (unlikely(retval))
->>   		goto out;
->>   
->>   	mt_clear_in_rcu(vmi.mas.tree);
->> -	for_each_vma(old_vmi, mpnt) {
->> +	for_each_vma(vmi, mpnt) {
->>   		struct file *file;
->>   
->>   		vma_start_write(mpnt);
->>   		if (mpnt->vm_flags & VM_DONTCOPY) {
->>   			vm_stat_account(mm, mpnt->vm_flags, -vma_pages(mpnt));
->> +
->> +			/*
->> +			 * Since the new tree is exactly the same as the old one,
->> +			 * we need to remove the unneeded VMAs.
->> +			 */
->> +			mas_store(&vmi.mas, NULL);
->> +
->> +			/*
->> +			 * Even removing an entry may require memory allocation,
->> +			 * and if removal fails, we use XA_ZERO_ENTRY to mark
->> +			 * from which VMA it failed. The case of encountering
->> +			 * XA_ZERO_ENTRY will be handled in exit_mmap().
->> +			 */
->> +			if (unlikely(mas_is_err(&vmi.mas))) {
->> +				retval = xa_err(vmi.mas.node);
->> +				mas_reset(&vmi.mas);
->> +				if (mas_find(&vmi.mas, ULONG_MAX))
->> +					mas_replace_entry(&vmi.mas,
->> +							  XA_ZERO_ENTRY);
->> +				goto loop_out;
->> +			}
->> +
->>   			continue;
->>   		}
->>   		charge = 0;
->> @@ -750,8 +772,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   			hugetlb_dup_vma_private(tmp);
->>   
->>   		/* Link the vma into the MT */
->> -		if (vma_iter_bulk_store(&vmi, tmp))
->> -			goto fail_nomem_vmi_store;
->> +		mas_replace_entry(&vmi.mas, tmp);
->>   
->>   		mm->map_count++;
->>   		if (!(tmp->vm_flags & VM_WIPEONFORK))
->> @@ -778,8 +799,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   	uprobe_end_dup_mmap();
->>   	return retval;
->>   
->> -fail_nomem_vmi_store:
->> -	unlink_anon_vmas(tmp);
->>   fail_nomem_anon_vma_fork:
->>   	mpol_put(vma_policy(tmp));
->>   fail_nomem_policy:
->> diff --git a/mm/mmap.c b/mm/mmap.c
->> index bc91d91261ab..5bfba2fb0e39 100644
->> --- a/mm/mmap.c
->> +++ b/mm/mmap.c
->> @@ -3184,7 +3184,11 @@ void exit_mmap(struct mm_struct *mm)
->>   	arch_exit_mmap(mm);
->>   
->>   	vma = mas_find(&mas, ULONG_MAX);
->> -	if (!vma) {
->> +	/*
->> +	 * If dup_mmap() fails to remove a VMA marked VM_DONTCOPY,
->> +	 * xa_is_zero(vma) may be true.
->> +	 */
->> +	if (!vma || xa_is_zero(vma)) {
->>   		/* Can happen if dup_mmap() received an OOM */
->>   		mmap_read_unlock(mm);
->>   		return;
->> @@ -3222,7 +3226,13 @@ void exit_mmap(struct mm_struct *mm)
->>   		remove_vma(vma, true);
->>   		count++;
->>   		cond_resched();
->> -	} while ((vma = mas_find(&mas, ULONG_MAX)) != NULL);
->> +		vma = mas_find(&mas, ULONG_MAX);
->> +		/*
->> +		 * If xa_is_zero(vma) is true, it means that subsequent VMAs
->> +		 * donot need to be removed. Can happen if dup_mmap() fails to
->> +		 * remove a VMA marked VM_DONTCOPY.
->> +		 */
->> +	} while (vma != NULL && !xa_is_zero(vma));
->>   
->>   	BUG_ON(count != mm->map_count);
->>   
->> -- 
->> 2.20.1
->>
+Thanks,
+John
