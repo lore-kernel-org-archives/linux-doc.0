@@ -2,45 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74AECC001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D36DAC001DF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:33:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232634AbjGaMbo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 08:31:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53284 "EHLO
+        id S232634AbjGaMdP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 08:33:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232642AbjGaMbl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:31:41 -0400
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81639E66;
-        Mon, 31 Jul 2023 05:31:39 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R611e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0Vogfr9A_1690806695;
-Received: from 30.221.150.94(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vogfr9A_1690806695)
-          by smtp.aliyun-inc.com;
-          Mon, 31 Jul 2023 20:31:36 +0800
-Message-ID: <6581496b-57e8-d5bf-ae3e-fb466ed5dff9@linux.alibaba.com>
-Date:   Mon, 31 Jul 2023 20:31:33 +0800
+        with ESMTP id S229811AbjGaMdO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:33:14 -0400
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8FE71AD
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:32:48 -0700 (PDT)
+Received: by mail-il1-x12e.google.com with SMTP id e9e14a558f8ab-3490cf176feso10713115ab.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1690806768; x=1691411568;
+        h=content-transfer-encoding:in-reply-to:cc:from:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M82ZdWiowDuFGINOioxht4VyUsVaoAlVTe7iYwfL+EY=;
+        b=jzUbqYItuP9YFcB/tb2GFTKwveIsFjgvgxT2X14M7kdofmVGaSkN/Kgech4ITWRdYm
+         hvCkCAVFZwvUUSNlbIjm2QyFxXJES2guD/oDfWsZGqOxcxuYs5/wC0Vx6ZgRdFQ+pIT4
+         YAimzTigd7Ic9pmG28jLiKXfDVVdduoEZ8PkrTL77rcIjOP+80lW+jNBmF9FtBymy8Pf
+         VdpQUO3iOvXgUzM4CcKgh43qQ2S613H5cT2gwYAoHza3Tt9f21SzoZr6glkM9m/LDqZl
+         d51Y7Skn8D34TSlc4TbvfSPhEoYXyKly6H7CfFBd9v/OqwsJUwsJFX2xjNF+ANuLLjG/
+         YUSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690806768; x=1691411568;
+        h=content-transfer-encoding:in-reply-to:cc:from:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=M82ZdWiowDuFGINOioxht4VyUsVaoAlVTe7iYwfL+EY=;
+        b=cYhKylpac+Gxeb3eHyY9L/awb7a+JEW9LFHVcCVODvXHzybvPa575HweN4Nab8T5Xh
+         LoSM5jXh0WIqHwr/IJFOXlJOeTQPB7o/micu7mNLEvinRf0DM71lryelNZFaYFNx8dK1
+         m9dEjpp+eOX4rbvlB/2SjZCV+hhdc5mhUFa0DGH92v7ufj6U2fAAVTRCcFxtVvVZM+F/
+         Q5rrJPfihoT6ixvFBWlBPq6QcKQSYm1cGndxUXyo9cIiQ/v2q7uUip6mbaf1tB7kTbIg
+         vTPIuMOviYVI69Mv6xm8LYBx8mJlY93e3GCZcHCdw3WUfy8IfyZ+/HhxC3MrS5+AO76M
+         rnvA==
+X-Gm-Message-State: ABy/qLZE2j9kyfwrzYUrLbvfKAYxEq8oWB+8JGT53Ez07gKKAeW2Wbt3
+        xwvYn9KeVqTalOZzo6G200BGFQ==
+X-Google-Smtp-Source: APBJJlGwNo86te08ep7jpQMQqoMESzoPDWpWBxvTZh6sPoZa7hVi8pEFmx+2RZS4UZzgQFprT3Mfhg==
+X-Received: by 2002:a05:6e02:12ad:b0:348:cfad:1608 with SMTP id f13-20020a056e0212ad00b00348cfad1608mr7556440ilr.5.1690806767771;
+        Mon, 31 Jul 2023 05:32:47 -0700 (PDT)
+Received: from [10.90.34.137] ([203.208.167.147])
+        by smtp.gmail.com with ESMTPSA id gj2-20020a17090b108200b00267fff8e024sm7773341pjb.30.2023.07.31.05.32.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Jul 2023 05:32:47 -0700 (PDT)
+Message-ID: <248b946a-f42f-6b59-147c-c7dbbe03ef0d@bytedance.com>
+Date:   Mon, 31 Jul 2023 20:32:40 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.11.2
-Subject: Re: [PATCH v5 4/5] perf jevents: Add support for Arm CMN PMU aliasing
-To:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1690525040-77423-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1690525040-77423-5-git-send-email-renyu.zj@linux.alibaba.com>
- <01f793eb-6373-e6c0-a712-9e08ee3c91c8@oracle.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <01f793eb-6373-e6c0-a712-9e08ee3c91c8@oracle.com>
-Content-Type: text/plain; charset=UTF-8
+ Gecko/20100101 Thunderbird/102.13.1
+Subject: Re: [PATCH 05/11] maple_tree: Add test for mt_dup()
+To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
+ <20230726080916.17454-6-zhangpeng.00@bytedance.com>
+ <20230726160607.eoobd4dyvryfb25a@revolver>
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+Cc:     Peng Zhang <zhangpeng.00@bytedance.com>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, avagin@gmail.com, npiggin@gmail.com,
+        mathieu.desnoyers@efficios.com, peterz@infradead.org,
+        michael.christie@oracle.com, surenb@google.com, brauner@kernel.org,
+        willy@infradead.org, corbet@lwn.net, linux-fsdevel@vger.kernel.org,
+        akpm@linux-foundation.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20230726160607.eoobd4dyvryfb25a@revolver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -48,28 +75,251 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-在 2023/7/28 下午4:17, John Garry 写道:
-> On 28/07/2023 07:17, Jing Zhang wrote:
->> Currently just add aliases for part of Arm CMN PMU events which are
->> general and compatible for any SoC and CMN-ANY.
+在 2023/7/27 00:06, Liam R. Howlett 写道:
+> * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
+>> Add test for mt_dup().
 >>
->> "Compat" value "434*;436*;43c*;43a*" means it is compatible with all
-> 
-> As mentioned in patch 1/5, a comma-separated list seems a better delimiter to me
-> 
->> CMN600/CMN650/CMN700/Ci700.
-> 
-> It would be good if you could provide a link to where you got these events. I think that it is the publicly available CMN TRM document.
-> 
-
-Ok, will do.
-
-Thanks,
-Jing
-
+>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+>> ---
+>>   tools/testing/radix-tree/maple.c | 202 +++++++++++++++++++++++++++++++
+>>   1 file changed, 202 insertions(+)
 >>
->> Signed-off-by: Jing Zhang<renyu.zj@linux.alibaba.com>
+>> diff --git a/tools/testing/radix-tree/maple.c b/tools/testing/radix-tree/maple.c
+>> index e5da1cad70ba..3052e899e5df 100644
+>> --- a/tools/testing/radix-tree/maple.c
+>> +++ b/tools/testing/radix-tree/maple.c
+>> @@ -35857,6 +35857,204 @@ static noinline void __init check_locky(struct maple_tree *mt)
+>>   	mt_clear_in_rcu(mt);
+>>   }
+>>   
+>> +/*
+>> + * Compare two nodes and return 0 if they are the same, non-zero otherwise.
+>> + */
+>> +static int __init compare_node(struct maple_enode *enode_a,
+>> +			       struct maple_enode *enode_b)
+>> +{
+>> +	struct maple_node *node_a, *node_b;
+>> +	struct maple_node a, b;
+>> +	void **slots_a, **slots_b; /* Do not use the rcu tag. */
+>> +	enum maple_type type;
+>> +	int i;
+>> +
+>> +	if (((unsigned long)enode_a & MAPLE_NODE_MASK) !=
+>> +	    ((unsigned long)enode_b & MAPLE_NODE_MASK)) {
+>> +		pr_err("The lower 8 bits of enode are different.\n");
+>> +		return -1;
+>> +	}
+>> +
+>> +	type = mte_node_type(enode_a);
+>> +	node_a = mte_to_node(enode_a);
+>> +	node_b = mte_to_node(enode_b);
+>> +	a = *node_a;
+>> +	b = *node_b;
+>> +
+>> +	/* Do not compare addresses. */
+>> +	if (ma_is_root(node_a) || ma_is_root(node_b)) {
+>> +		a.parent = (struct maple_pnode *)((unsigned long)a.parent &
+>> +						  MA_ROOT_PARENT);
+>> +		b.parent = (struct maple_pnode *)((unsigned long)b.parent &
+>> +						  MA_ROOT_PARENT);
+>> +	} else {
+>> +		a.parent = (struct maple_pnode *)((unsigned long)a.parent &
+>> +						  MAPLE_NODE_MASK);
+>> +		b.parent = (struct maple_pnode *)((unsigned long)b.parent &
+>> +						  MAPLE_NODE_MASK);
+>> +	}
+>> +
+>> +	if (a.parent != b.parent) {
+>> +		pr_err("The lower 8 bits of parents are different. %p %p\n",
+>> +			a.parent, b.parent);
+>> +		return -1;
+>> +	}
+>> +
+>> +	/*
+>> +	 * If it is a leaf node, the slots do not contain the node address, and
+>> +	 * no special processing of slots is required.
+>> +	 */
+>> +	if (ma_is_leaf(type))
+>> +		goto cmp;
+>> +
+>> +	slots_a = ma_slots(&a, type);
+>> +	slots_b = ma_slots(&b, type);
+>> +
+>> +	for (i = 0; i < mt_slots[type]; i++) {
+>> +		if (!slots_a[i] && !slots_b[i])
+>> +			break;
+>> +
+>> +		if (!slots_a[i] || !slots_b[i]) {
+>> +			pr_err("The number of slots is different.\n");
+>> +			return -1;
+>> +		}
+>> +
+>> +		/* Do not compare addresses in slots. */
+>> +		((unsigned long *)slots_a)[i] &= MAPLE_NODE_MASK;
+>> +		((unsigned long *)slots_b)[i] &= MAPLE_NODE_MASK;
+>> +	}
+>> +
+>> +cmp:
+>> +	/*
+>> +	 * Compare all contents of two nodes, including parent (except address),
+>> +	 * slots (except address), pivots, gaps and metadata.
+>> +	 */
+>> +	return memcmp(&a, &b, sizeof(struct maple_node));
+>> +}
+>> +
+>> +/*
+>> + * Compare two trees and return 0 if they are the same, non-zero otherwise.
+>> + */
+>> +static int __init compare_tree(struct maple_tree *mt_a, struct maple_tree *mt_b)
+>> +{
+>> +	MA_STATE(mas_a, mt_a, 0, 0);
+>> +	MA_STATE(mas_b, mt_b, 0, 0);
+>> +
+>> +	if (mt_a->ma_flags != mt_b->ma_flags) {
+>> +		pr_err("The flags of the two trees are different.\n");
+>> +		return -1;
+>> +	}
+>> +
+>> +	mas_dfs_preorder(&mas_a);
+>> +	mas_dfs_preorder(&mas_b);
+>> +
+>> +	if (mas_is_ptr(&mas_a) || mas_is_ptr(&mas_b)) {
+>> +		if (!(mas_is_ptr(&mas_a) && mas_is_ptr(&mas_b))) {
+>> +			pr_err("One is MAS_ROOT and the other is not.\n");
+>> +			return -1;
+>> +		}
+>> +		return 0;
+>> +	}
+>> +
+>> +	while (!mas_is_none(&mas_a) || !mas_is_none(&mas_b)) {
+>> +
+>> +		if (mas_is_none(&mas_a) || mas_is_none(&mas_b)) {
+>> +			pr_err("One is MAS_NONE and the other is not.\n");
+>> +			return -1;
+>> +		}
+>> +
+>> +		if (mas_a.min != mas_b.min ||
+>> +		    mas_a.max != mas_b.max) {
+>> +			pr_err("mas->min, mas->max do not match.\n");
+>> +			return -1;
+>> +		}
+>> +
+>> +		if (compare_node(mas_a.node, mas_b.node)) {
+>> +			pr_err("The contents of nodes %p and %p are different.\n",
+>> +			       mas_a.node, mas_b.node);
+>> +			mt_dump(mt_a, mt_dump_dec);
+>> +			mt_dump(mt_b, mt_dump_dec);
+>> +			return -1;
+>> +		}
+>> +
+>> +		mas_dfs_preorder(&mas_a);
+>> +		mas_dfs_preorder(&mas_b);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static noinline void __init check_mt_dup(struct maple_tree *mt)
+>> +{
+>> +	DEFINE_MTREE(new);
+>> +	int i, j, ret, count = 0;
+>> +
+>> +	/* stored in the root pointer*/
+>> +	mt_init_flags(&tree, 0);
+>> +	mtree_store_range(&tree, 0, 0, xa_mk_value(0), GFP_KERNEL);
+>> +	mt_dup(&tree, &new, GFP_KERNEL);
+>> +	mt_validate(&new);
+>> +	if (compare_tree(&tree, &new))
+>> +		MT_BUG_ON(&new, 1);
+>> +
+>> +	mtree_destroy(&tree);
+>> +	mtree_destroy(&new);
+>> +
+>> +	for (i = 0; i < 1000; i += 3) {
+>> +		if (i & 1)
+>> +			mt_init_flags(&tree, 0);
+>> +		else
+>> +			mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
+>> +
+>> +		for (j = 0; j < i; j++) {
+>> +			mtree_store_range(&tree, j * 10, j * 10 + 5,
+>> +					  xa_mk_value(j), GFP_KERNEL);
+>> +		}
 > 
-> Apart from comments, above:
+> Storing in this way is probably not checking a full tree.  I think it's
+> important to check the full tree/full nodes since you have changes to
+> detect the metadata.
+I probably won't change the way I check metadata. But is there a way to
+construct a full tree? All I can think of is to write new code to
+construct a full tree.
 > 
-> Reviewed-by: John Garry <john.g.garry@oracle.com>
+>> +
+>> +		ret = mt_dup(&tree, &new, GFP_KERNEL);
+>> +		MT_BUG_ON(&new, ret != 0);
+>> +		mt_validate(&new);
+>> +		if (compare_tree(&tree, &new))
+>> +			MT_BUG_ON(&new, 1);
+>> +
+>> +		mtree_destroy(&tree);
+>> +		mtree_destroy(&new);
+>> +	}
+>> +
+>> +	/* Test memory allocation failed. */
+>> +	for (i = 0; i < 1000; i += 3) {
+>> +		if (i & 1)
+>> +			mt_init_flags(&tree, 0);
+>> +		else
+>> +			mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
+>> +
+>> +		for (j = 0; j < i; j++) {
+>> +			mtree_store_range(&tree, j * 10, j * 10 + 5,
+>> +					  xa_mk_value(j), GFP_KERNEL);
+>> +		}
+>> +
+>> +		mt_set_non_kernel(50);
+> 
+> It may be worth while allowing more/less than 50 allocations.
+Actually I have used other values before. I haven't thought of a good
+value yet, probably a random number in a suitable range would be nice
+too.
+
+> 
+>> +		ret = mt_dup(&tree, &new, GFP_NOWAIT);
+>> +		mt_set_non_kernel(0);
+>> +		if (ret != 0) {
+>> +			MT_BUG_ON(&new, ret != -ENOMEM);
+>> +			count++;
+>> +			mtree_destroy(&tree);
+>> +			continue;
+>> +		}
+>> +
+>> +		mt_validate(&new);
+>> +		if (compare_tree(&tree, &new))
+>> +			MT_BUG_ON(&new, 1);
+>> +
+>> +		mtree_destroy(&tree);
+>> +		mtree_destroy(&new);
+>> +	}
+>> +
+>> +	/* pr_info("mt_dup() fail %d times\n", count); */
+>> +	BUG_ON(!count);
+>> +}
+>> +
+>>   extern void test_kmem_cache_bulk(void);
+>>   
+>>   void farmer_tests(void)
+>> @@ -35904,6 +36102,10 @@ void farmer_tests(void)
+>>   	check_null_expand(&tree);
+>>   	mtree_destroy(&tree);
+>>   
+>> +	mt_init_flags(&tree, 0);
+>> +	check_mt_dup(&tree);
+>> +	mtree_destroy(&tree);
+>> +
+>>   	/* RCU testing */
+>>   	mt_init_flags(&tree, 0);
+>>   	check_erase_testset(&tree);
+>> -- 
+>> 2.20.1
+>>
+>>
