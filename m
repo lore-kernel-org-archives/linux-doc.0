@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B5DC41513
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 07:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 652B7C04A94
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 07:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230384AbjGaHCF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 03:02:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42610 "EHLO
+        id S230407AbjGaHCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 03:02:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230339AbjGaHCA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 03:02:00 -0400
+        with ESMTP id S230377AbjGaHCF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 03:02:05 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B3B139;
-        Mon, 31 Jul 2023 00:01:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8D52139;
+        Mon, 31 Jul 2023 00:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690786919; x=1722322919;
+  t=1690786924; x=1722322924;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=6FF6EgUyznIqvHXwn5+F1gytlgvayKLTt5Pzm0+v43k=;
-  b=VXdDp7uBNRnY6vdVoib8N9PN4nsVBAoVqJdXDpMjE5LNLjvQuEuH0CHI
-   GIFf+l8sBXRDuPZkgtr1pKmfWsIoSCwjKS545D8Czj9I8xn/Um0A15Jnd
-   6p2XWNWR/MAI/ksnh+7D75+dtFgd1BJI85dvxM3HHN4J+GMAH0Rr3LnUc
-   qkUUJH7ea1gnmgfKgxau1o/pYAsJAu15FCs+Dm4KrtSi3pQecJ2C63cM3
-   JbeBf6JgynJshGKJaXiBjC6sU4GY8h2RIJs1aanj8qmXEviwAb+mnPvdN
-   UlPtObjx49bctD66nFRedcJsODBaU8HBxnNkQdPj+u/tDX2J+3CPnSAgM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371648599"
+  bh=F/SemwGNBG6weEZopYj3iIwsf6sy0XGLv5PanieJeUc=;
+  b=Vw2WEwXXcICQqdNT2ae4LolsYzfchslshNDfrPHKeIwSBeIM0fghfq4G
+   sz2FutcpKHx2VUJIEkKWyHQgQ8yGI4vrNPHlVpjPQxECJqKTFL7F03coX
+   hZ9fQeKzySNZD6hrTb6WbYLpkcw8b1FwPvq/2NnyLwjd4eN4X+xOe+HLD
+   Ep4p6hZ+R2A/XGkhFndH+Ipk/I5NDo+iMtKnuPEt1wVK/UzKX/kDfvJ+h
+   cOyOgLfA3QC/IGE9YntxaH8p6yIGRINi4R/gYkvOS5BeIMXjWwZJzTarG
+   LTMa7sZflz/xd/VHes9y97uXLpXLSUurLOMpWVxhKj0cmp4RN3OU3neok
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371648744"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="371648599"
+   d="scan'208";a="371648744"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:01:50 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:01:54 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871543335"
+   d="scan'208";a="871543358"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:01:51 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:01:55 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -106,146 +106,58 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH v9 01/36] Documentation/x86/64: Add documentation for FRED
-Date:   Sun, 30 Jul 2023 23:32:42 -0700
-Message-Id: <20230731063317.3720-2-xin3.li@intel.com>
+Subject: [PATCH v9 05/36] x86/opcode: Add ERETU, ERETS instructions to x86-opcode-map
+Date:   Sun, 30 Jul 2023 23:32:46 -0700
+Message-Id: <20230731063317.3720-6-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230731063317.3720-1-xin3.li@intel.com>
 References: <20230731063317.3720-1-xin3.li@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Briefly introduce FRED, its advantages compared to IDT, and its
-Linux enabling.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
+Add instruction opcodes used by FRED ERETU/ERETS to x86-opcode-map.
+
+Opcode numbers are per FRED spec v5.0.
+
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- Documentation/arch/x86/x86_64/fred.rst  | 102 ++++++++++++++++++++++++
- Documentation/arch/x86/x86_64/index.rst |   1 +
- 2 files changed, 103 insertions(+)
- create mode 100644 Documentation/arch/x86/x86_64/fred.rst
+ arch/x86/lib/x86-opcode-map.txt       | 2 +-
+ tools/arch/x86/lib/x86-opcode-map.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/x86/x86_64/fred.rst b/Documentation/arch/x86/x86_64/fred.rst
-new file mode 100644
-index 000000000000..27c980e882ba
---- /dev/null
-+++ b/Documentation/arch/x86/x86_64/fred.rst
-@@ -0,0 +1,102 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+Flexible Return and Event Delivery (FRED)
-+=========================================
-+
-+Overview
-+========
-+
-+The FRED architecture defines simple new transitions that change
-+privilege level (ring transitions). The FRED architecture was
-+designed with the following goals:
-+
-+1) Improve overall performance and response time by replacing event
-+   delivery through the interrupt descriptor table (IDT event
-+   delivery) and event return by the IRET instruction with lower
-+   latency transitions.
-+
-+2) Improve software robustness by ensuring that event delivery
-+   establishes the full supervisor context and that event return
-+   establishes the full user context.
-+
-+The new transitions defined by the FRED architecture are FRED event
-+delivery and, for returning from events, two FRED return instructions.
-+FRED event delivery can effect a transition from ring 3 to ring 0, but
-+it is used also to deliver events incident to ring 0. One FRED
-+instruction (ERETU) effects a return from ring 0 to ring 3, while the
-+other (ERETS) returns while remaining in ring 0. Collectively, FRED
-+event delivery and the FRED return instructions are FRED transitions.
-+
-+In addition to these transitions, the FRED architecture defines a new
-+instruction (LKGS) for managing the state of the GS segment register.
-+The LKGS instruction can be used by 64-bit operating systems that do
-+not use the new FRED transitions.
-+
-+Software based event dispatching
-+================================
-+
-+FRED operates differently from IDT in terms of event handling. Instead
-+of directly dispatching an event to its handler based on the event
-+vector, FRED requires the software to dispatch an event to its handler
-+based on both the event's type and vector. Therefore, an event
-+dispatch framework must be implemented to facilitate the
-+event-to-handler dispatch process. The FRED event dispatch framework
-+assumes control once an event is delivered, starting from two FRED
-+entry points, after which several event dispatch tables are introduced
-+to facilitate the dispatching.
-+
-+The first level dispatching is event type based, and two tables need
-+to be defined, one for ring 3 event dispatching, and the other
-+for ring 0.
-+
-+The second level dispatching is event vector based, and
-+several tables need to be defined, e.g., an exception handler table
-+for exception dispatching.
-+
-+Full supervisor/user context
-+============================
-+
-+FRED event delivery atomically save and restore full supervisor/user
-+context upon event delivery and return. Thus it avoids the problem of
-+transient states due to %cr2 and/or %dr6, thus it is no longer needed
-+to handle all the ugly corner cases caused by half baked CPU states.
-+
-+FRED allows explicit unblock of NMI with new event return instructions
-+ERETS/ERETU, avoiding the mess caused by IRET which unconditionally
-+unblocks NMI, when an exception happens during NMI handling.
-+
-+FRED always restores the full value of %rsp, thus ESPFIX is no longer
-+needed when FRED is enabled.
-+
-+LKGS
-+====
-+
-+LKGS behaves like the MOV to GS instruction except that it loads the
-+base address into the IA32_KERNEL_GS_BASE MSR instead of the GS
-+segment’s descriptor cache, which is exactly what Linux kernel does
-+to load user level GS base. With LKGS, it ends up with avoiding
-+mucking with kernel GS.
-+
-+Because FRED event delivery from ring 3 swaps the value of the GS base
-+address and that of the IA32_KERNEL_GS_BASE MSR, and ERETU swaps the
-+value of the GS base address and that of the IA32_KERNEL_GS_BASE MSR,
-+plus the introduction of LKGS instruction, the SWAPGS instruction is
-+no longer needed when FRED is enabled, thus is disallowed (#UD).
-+
-+Stack levels
-+============
-+
-+4 stack levels 0~3 are introduced to replace the un-reentrant IST for
-+handling events. Each stack level could be configured to use a
-+dedicated stack.
-+
-+The current stack level could be unchanged or go higher upon FRED
-+event delivery. If unchanged, the CPU keeps using the current event
-+stack. If higher, the CPU switches to a new stack specified by the
-+stack MSR of the new stack level.
-+
-+Only execution of a FRED return instruction ERETU or ERETS could lower
-+the current stack level, causing the CPU to switch back to the stack
-+it was on before a previous event delivery.
-+satck.
-diff --git a/Documentation/arch/x86/x86_64/index.rst b/Documentation/arch/x86/x86_64/index.rst
-index a56070fc8e77..ad15e9bd623f 100644
---- a/Documentation/arch/x86/x86_64/index.rst
-+++ b/Documentation/arch/x86/x86_64/index.rst
-@@ -15,3 +15,4 @@ x86_64 Support
-    cpu-hotplug-spec
-    machinecheck
-    fsgs
-+   fred
+diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+index 5168ee0360b2..7a269e269dc0 100644
+--- a/arch/x86/lib/x86-opcode-map.txt
++++ b/arch/x86/lib/x86-opcode-map.txt
+@@ -1052,7 +1052,7 @@ EndTable
+ 
+ GrpTable: Grp7
+ 0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
+-1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
++1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
+diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
+index 5168ee0360b2..7a269e269dc0 100644
+--- a/tools/arch/x86/lib/x86-opcode-map.txt
++++ b/tools/arch/x86/lib/x86-opcode-map.txt
+@@ -1052,7 +1052,7 @@ EndTable
+ 
+ GrpTable: Grp7
+ 0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
+-1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
++1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
 -- 
 2.34.1
 
