@@ -2,227 +2,147 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9829EC001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 05:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 784E3C001DC
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 06:56:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbjGaFgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 01:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54458 "EHLO
+        id S230077AbjGaG4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 02:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229932AbjGaFgv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 01:36:51 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF259E6A;
-        Sun, 30 Jul 2023 22:36:49 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36V4t8NX014280;
-        Mon, 31 Jul 2023 05:36:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Gl/yGtnp9U/poPTLy6857zeJ66HJ2b8zOy28r1cxRvQ=;
- b=lrDDegLbyPQZILQNOf3+HqDBVEs6G13QV8+47lKb3IVm2IMJ0OSQMaUO6rbtXNg2DVzW
- Qb65OcrD+j3ICA18ih4LlcCNHF089+ulq4oyrXJJ2PD67/HYz5xgWLxVco/cQ5+6DzR3
- MMDHhyTd9apJbuSNSUbeJuas86xuA8U+d7uf9ufv5lUZL5wqjwYNu0VvreRhIyUnQ6ph
- 6KZw24sfyC0Bt/euAbYtIW0NPB7Lja0HHibzR6JMyz66p/V5oM3iKEYOZl0/AOUems1K
- eHbEKDwevMErkcOJqWiYf4k5JEB1JGVcbyVE/fswcxkJRZzqrfX5dwxd1KzEpw9oevD6 cQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4ug22pr2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 31 Jul 2023 05:36:41 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36V5aeev018138
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 31 Jul 2023 05:36:40 GMT
-Received: from [10.217.219.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 30 Jul
- 2023 22:36:35 -0700
-Message-ID: <d82cc044-f3fb-f1a0-2ed2-e0d93c3a6667@quicinc.com>
-Date:   Mon, 31 Jul 2023 11:06:32 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v4 5/9] PCI: endpoint: Add wakeup host API to EPC core
-Content-Language: en-US
-To:     Manivannan Sadhasivam <mani@kernel.org>
-CC:     <manivannan.sadhasivam@linaro.org>, <helgaas@kernel.org>,
-        <linux-pci@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_vbadigan@quicinc.com>,
-        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
-        <quic_ramkri@quicinc.com>, <krzysztof.kozlowski@linaro.org>,
-        "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        with ESMTP id S230040AbjGaG4p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 02:56:45 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2125.outbound.protection.outlook.com [40.107.223.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B1CCF;
+        Sun, 30 Jul 2023 23:56:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BRMvLXo34UhUu9EFZr9FzR3u7sndL46eLhm8Kcv2nvd4PpP0zUahXIy1ztcsaKfrgEqWvH8KTjM0JGLl3zVKiY9Y91urwUg7XhMfnXM0ZtCfeGn1nBnXITman9x3v+QubxHN+b1RudURQYDh3K/fVbJ6zgu9M0zJll1M8BeHlgbjqBni3gn0r8WmO2ojhtiDTXgtAMhh3KsmOieAVLmBGA7d1HtLAVbKVXXB9xiWqtbTaEds+BffesxI/dPk6gKyyEdGwqhwqVY9QZNnUz+UkgKswZhPy5TGNnd6KR7AM8WB9fVEa56xPxg/epelyRj6i+mk3+eao2Vlba4g/svaWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SYTDNjOuBzoqTp5mXAT4zQqVxunRjtBXeCxBFcLOpEY=;
+ b=NFwvl94eVxAMwWi36ktgu+yongK7GUAigaJXKedyXRg8HPCwQuIIvYOUa5xAWkapgi3gnMdl7/gP6j8AgKd4LdlV1nP/nNEu0a/rMnyJkCzMgb0cpwvpnilCdqBm/1KgZLeGzw0zy55Dt6XtVg/p8tvETwm6xcwhwc96bMbi0N22mTFESSGvlBfzVdwpf38ot0rtiobs6jKACR2VhYJgRam+uS24503YyV1vCPPjSo3+jlgfiILt3ZJUBxIql+lOtA+ZGzMTceChNUBUwfC69+HzQrRYUWJS74ez9PmnTo+9T5S5/YxiH12GGBDJEpPtjStTXtsa4vXalxL2Qcz3TQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SYTDNjOuBzoqTp5mXAT4zQqVxunRjtBXeCxBFcLOpEY=;
+ b=k6p1fhJjacGw5ES3xfrIIpew0uoKcmfK7QkQRS+jyS4ZR7vVFqgZERDL1GOZzEMY+P02ocj3XWF8zZU4G8pvfi8zi+XtkVYFJsTdkW6kY4g3t3+pmDGYmStNLGFggataru+UWgy0h4B4q1UqIsrB1HivoV0qke3K2hy76G4fixo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from DM5PR0102MB3590.prod.exchangelabs.com (2603:10b6:4:a4::25) by
+ BN0PR01MB6957.prod.exchangelabs.com (2603:10b6:408:16c::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6631.43; Mon, 31 Jul 2023 06:56:32 +0000
+Received: from DM5PR0102MB3590.prod.exchangelabs.com
+ ([fe80::4e0f:49b:ee39:f08e]) by DM5PR0102MB3590.prod.exchangelabs.com
+ ([fe80::4e0f:49b:ee39:f08e%6]) with mapi id 15.20.6631.043; Mon, 31 Jul 2023
+ 06:56:32 +0000
+Date:   Sun, 30 Jul 2023 23:56:16 -0700 (PDT)
+From:   Ilkka Koskinen <ilkka@os.amperecomputing.com>
+To:     Will Deacon <will@kernel.org>
+cc:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
- <1689232218-28265-6-git-send-email-quic_krichai@quicinc.com>
- <20230728042129.GH4433@thinkpad>
-From:   Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20230728042129.GH4433@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 1xR4Rfj__F3A0HithiIRzpUy4q9lXK0w
-X-Proofpoint-ORIG-GUID: 1xR4Rfj__F3A0HithiIRzpUy4q9lXK0w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 impostorscore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 clxscore=1015 mlxscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307310050
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 0/4] perf: ampere: Add support for Ampere SoC PMUs
+In-Reply-To: <20230728132928.GB21394@willie-the-truck>
+Message-ID: <758d060-39c7-317d-9a73-6ca4f4809fbd@os.amperecomputing.com>
+References: <20230714010141.824226-1-ilkka@os.amperecomputing.com> <20230728132928.GB21394@willie-the-truck>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-ClientProxiedBy: CH0PR04CA0111.namprd04.prod.outlook.com
+ (2603:10b6:610:75::26) To DM5PR0102MB3590.prod.exchangelabs.com
+ (2603:10b6:4:a4::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR0102MB3590:EE_|BN0PR01MB6957:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5baacda8-9d10-43d6-2fa2-08db91934577
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lqiSnLkbRn4cja/krZmWCY4eMbiZa9KCET0PauA9KxulBGz9DXvzmuFQPpJ56KToM9bLr3c/cWfM2hu6M64I6HP5Y6yXlNeEL4OUNJ8pRcWLw5Qle0Dh4Zx7xpOgVGIzK8FPKKwKCfwPvOpG8ZYqg1ji2xy2awgxOafizEFWvwCqaFviZmpNJvPNLqJ33RQaIEykICBwxMLuwfkniZ+55Oahk8nIy7PmRf037P5yMX1LRHOiTmjNqJtPppaoOMUKfyOu+QaZB+fZtJqLMG3IKeyBh3dCk7uLDsjNyc8dO0tYl9CfRdkTnvHpJdhWAqMlHOfJtBp8HriFQCyowYRil3iNUwtNMvpvKB1YSIK7vPCiH4cV6qS8viWyxyWorzBljfwiHdCf1jACsTSD7RV0uS3hlEx7PMc9fgAJKVpYdTNA4cp24cYP2xPsPgY3KQ2YBRjsEzLyU9kD3+QZJy3kPQEy+EpI8+Wv+pKTM450NzaPIaSf9zG3hXqrAP3KBQvMU65i6PKioWjBZjcf5QJf3bObRmzLBMOvyu/ZH9s8pvo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0102MB3590.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(346002)(376002)(396003)(136003)(39850400004)(451199021)(6512007)(966005)(6486002)(2616005)(6506007)(26005)(83380400001)(186003)(66946007)(66556008)(7416002)(54906003)(41300700001)(86362001)(66476007)(316002)(4326008)(5660300002)(6916009)(8936002)(8676002)(38100700002)(2906002)(6666004)(478600001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AJ25ezjGMTez4TGLW93DEHXT6cmQxeCYH6Cz5qRgjOtjpqVLGm+tZ7Ukgc5z?=
+ =?us-ascii?Q?EHZHgXKldyu+N/J0KWuTPPZKWyoCIy+fs0mPrAtuLgLxRgbw3G/3q5eIaaH1?=
+ =?us-ascii?Q?GXB7D54LJI+7vq938rng/iLB10LD8EZpzUyoUEZJvbm2OITbVJA35VURSDUu?=
+ =?us-ascii?Q?shIg8735OpHxmnbGgP1sdjUHlQm+dQfbfW0MzykzMEWGcF37Y8Oh0AghUTVx?=
+ =?us-ascii?Q?gGGaaiqkv+NH53N5Bva2nVd3KTGJgsHBvNOTUrNe9Yxlnr+Dj+u1CU/fvXIw?=
+ =?us-ascii?Q?hdYCnRdqLmXzZxx7WeNAR7BR+N2IsYQRY1jWrp066nc5SGFEiPSv2RtZqOKW?=
+ =?us-ascii?Q?TYHpDlq0el5daYM0JobpGXWLV34R+auioXiuD0sUAuIOmS+SDKpFuDPmUFeZ?=
+ =?us-ascii?Q?IcmH+8VymlXw7HCFqYcAmkNEXQmlPdVPbL58kKhVYgCjFNBV03vr0hbtdCD9?=
+ =?us-ascii?Q?ylYt2vBumEzQfujR10YLW0X7+RlslmztuWOL1ZXGjMmNjc1war/wq9OAsK/3?=
+ =?us-ascii?Q?RxpLieNQfwfzmHOfcr4iJgeNCwpWh0bYiz+PcBE99qLp7MI9uQbUMswsHSeC?=
+ =?us-ascii?Q?v2R+6XOr11qGoTPQfL+r9nZlooUnARMLYNH7BKZYfdVZPc8xDLeL7Ho7b/po?=
+ =?us-ascii?Q?5cnc+BKR4yKL+lEDTTbefcKxoUhZXG7jwM/6KNfF9aEJ54yZzET+9EtTW7jC?=
+ =?us-ascii?Q?z0982HG4sxv0xol+LAdKqmhFBFiZe267Hcg1LtrRVFy5uDV8lYTLhQ0zVJMh?=
+ =?us-ascii?Q?uoaKssqoOfkODES+K6EfoXGHQJHAhNVStsZ0DGrc4ntN+0lQqyBMIB1RDsLe?=
+ =?us-ascii?Q?rp7nAsJ8Y2jdnpyGFi+wbYgbZEXQ1yPPjU8VAdR+CnhNEjSGPX4YZLAftWf3?=
+ =?us-ascii?Q?LRAL+P+ptKkx0FBUuGZaLF0uHzriJ2zaPfB9ubu0r4tfiTiC12SwBtMV9xd9?=
+ =?us-ascii?Q?qj1UhFtnUt+BH4Nq60do/8Oui6yLn/cgV/eMNJ5tY5027JRev4Qaf/22mP0T?=
+ =?us-ascii?Q?LhJsocPPkoLZYuOllPkTohcavA0Afid9iIGJu8n59/cvvntoI1K1CRTG5bFC?=
+ =?us-ascii?Q?WwMggRu3A7nTlHbFhbMgB6/fA7AX9SEq6qLZRpX1X636pyJbDQDbafRsggUG?=
+ =?us-ascii?Q?wZRGmoJ8EGa+w+rZJfZNfEVlz8LpcVCUqHSkh88yZiyhp0SgLNxXYNHKAUey?=
+ =?us-ascii?Q?WF+Fx4LFvv7rWjbbEg3488INJiyt+BnawDBCAXjvWSueTUzkDey7Ds00CZQr?=
+ =?us-ascii?Q?8rIyKEv+g0c4Yg8vhCe+U7qCAnZTG8mafmG/ipZKnUOwzVOF6/T2u2P350Gd?=
+ =?us-ascii?Q?ZeCQZ94lXDckdqqu/5g8/l6DS9r0zK6EVErhN+yAIKPHy2K1wQ0t7y7NJVwq?=
+ =?us-ascii?Q?9sAF4qnjzxIkv2iirZGXG4KvSVtFCPfngrre50eSOHzMOmWx1n9HdjAquCOa?=
+ =?us-ascii?Q?0acGGDejrmga6Gyxkz5+AA2uM1y9s4ExhfForSgEmSmP8oQpf2DKRerQ0kCv?=
+ =?us-ascii?Q?NfO5PTyP0lyPECwPMhmV+r6jAMypREZauoYBJDdHY7rd5nKF2G9oRjhKE8oy?=
+ =?us-ascii?Q?4ho5T82SNEbWNpqiMVz7CHkHGjBSTJelvmztiQ7imADOv5Dyfw9KWgfhgq2E?=
+ =?us-ascii?Q?LgO2vm3cKgV8zmQUJKfVe14=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5baacda8-9d10-43d6-2fa2-08db91934577
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR0102MB3590.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 06:56:31.7412
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: agh+r6kAvahH2RVw3qwpWrXRsdCMh0VTYYd/RuDdMZW1BXGYWEHub3RwMG7mhWuWiTyw8UM8Tw9y+dNloJNaenXCLCkPoXxFAhoDfvCjsggXzGEeZS681ZGFgVN+4QqI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR01MB6957
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 7/28/2023 9:51 AM, Manivannan Sadhasivam wrote:
-> On Thu, Jul 13, 2023 at 12:40:14PM +0530, Krishna chaitanya chundru wrote:
->> Endpoint cannot send any data/MSI when the D-state is in
->> D3cold or D3hot. Endpoint needs to wake up the host to
->> bring the D-state to D0.
+Hi Will,
+
+On Fri, 28 Jul 2023, Will Deacon wrote:
+> On Thu, Jul 13, 2023 at 06:01:37PM -0700, Ilkka Koskinen wrote:
+>> Changes since v4:
+>>     * "Support implementation specific filters" patch:
+>>         - Added comment about filter and impdef registers and reference
+>>           to the Coresight PMU specification to the commit message
 >>
->> Endpoint can toggle wake signal when the D-state is in D3cold and vaux is
->> not supplied or can send inband PME.
->>
->> To support this add wakeup_host() callback to the EPC core.
->>
->> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
->> ---
->>   Documentation/PCI/endpoint/pci-endpoint.rst |  6 ++++++
->>   drivers/pci/endpoint/pci-epc-core.c         | 31 +++++++++++++++++++++++++++++
->>   include/linux/pci-epc.h                     | 11 ++++++++++
->>   3 files changed, 48 insertions(+)
->>
->> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
->> index 3a54713..eb79b77 100644
->> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
->> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
->> @@ -53,6 +53,7 @@ by the PCI controller driver.
->>   	 * raise_irq: ops to raise a legacy, MSI or MSI-X interrupt
->>   	 * start: ops to start the PCI link
->>   	 * stop: ops to stop the PCI link
->> +	 * wakeup_host: ops to wakeup host
->>   
->>      The PCI controller driver can then create a new EPC device by invoking
->>      devm_pci_epc_create()/pci_epc_create().
->> @@ -122,6 +123,11 @@ by the PCI endpoint function driver.
->>      The PCI endpoint function driver should use pci_epc_mem_free_addr() to
->>      free the memory space allocated using pci_epc_mem_alloc_addr().
->>   
->> +* pci_epc_wakeup_host()
->> +
->> +   The PCI endpoint function driver should use pci_epc_wakeup_host() to wakeup
->> +   host.
->> +
->>   Other EPC APIs
->>   ~~~~~~~~~~~~~~
->>   
->> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
->> index ea76baf..b419eff 100644
->> --- a/drivers/pci/endpoint/pci-epc-core.c
->> +++ b/drivers/pci/endpoint/pci-epc-core.c
->> @@ -167,6 +167,37 @@ const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
->>   EXPORT_SYMBOL_GPL(pci_epc_get_features);
->>   
->>   /**
->> + * pci_epc_wakeup_host() - Wakeup the host
->> + * @epc: the EPC device which has to wakeup the host
->> + * @func_no: the physical endpoint function number in the EPC device
->> + * @vfunc_no: the virtual endpoint function number in the physical function
->> + * @type: specify the type of wakeup: WAKEUP_FROM_D3COLD, WAKEUP_FROM_D3HOT
->> + *
->> + * Invoke to wakeup host
->> + */
->> +bool pci_epc_wakeup_host(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
->> +			enum pci_epc_wakeup_host_type type)
->> +{
->> +	int ret;
->> +
->> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
->> +		return false;
->> +
->> +	if (vfunc_no > 0 && (!epc->max_vfs || vfunc_no > epc->max_vfs[func_no]))
->> +		return false;
->> +
->> +	if (!epc->ops->wakeup_host)
->> +		return true;
->> +
->> +	mutex_lock(&epc->lock);
->> +	ret = epc->ops->wakeup_host(epc, func_no, vfunc_no, type);
->> +	mutex_unlock(&epc->lock);
->> +
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(pci_epc_wakeup_host);
->> +
->> +/**
->>    * pci_epc_stop() - stop the PCI link
->>    * @epc: the link of the EPC device that has to be stopped
->>    *
->> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
->> index 26a1108..d262179 100644
->> --- a/include/linux/pci-epc.h
->> +++ b/include/linux/pci-epc.h
->> @@ -26,6 +26,12 @@ enum pci_epc_irq_type {
->>   	PCI_EPC_IRQ_MSIX,
->>   };
->>   
->> +enum pci_epc_wakeup_host_type {
->> +	PCI_WAKEUP_UNKNOWN,
->> +	PCI_WAKEUP_SEND_PME,
->> +	PCI_WAKEUP_TOGGLE_WAKE,
-> I think I asked you to get rid of these enums and use a bool. I don't see any
-> new wakeup mechanism going to be added to the spec. So using enums for just 2
-> options looks overkill to me.
+>>     * "Add support for Ampere SoC PMU" patch:
+>> 	- Fixed the documentation and added more comments
+>>         - Changed the incrementing PMU index number to idr_alloc()
+>> 	  (Needs a impdef release hook patch to release unused index)
+>> 	- Fixed style in init_ops() to more reasonable
+>> 	- Moved bank parameter to config1
 >
-> If you defer, please discuss it here.
+> This looks pretty good to me, but I think we should merge the series
+> reworking the backend registration first:
 >
-> - Mani
+>  https://lore.kernel.org/all/20230705104745.52255-1-bwicaksono@nvidia.com/
+>
+> and then this should slot in quite nicely. I've left a minor comment over
+> there and I'd like Suzuki's review, but then we're good to go.
+>
+> Cheers,
+>
+> Will
 
-I will remove the enum move in to bool in next series.
+Sounds good to me. I'll try to find some time to do the needed changes to
+my patches and rebase them on top of Besar's patchset.
 
-- KC
-
->> +};
->> +
->>   static inline const char *
->>   pci_epc_interface_string(enum pci_epc_interface_type type)
->>   {
->> @@ -59,6 +65,7 @@ pci_epc_interface_string(enum pci_epc_interface_type type)
->>    * @start: ops to start the PCI link
->>    * @stop: ops to stop the PCI link
->>    * @get_features: ops to get the features supported by the EPC
->> + * @wakeup_host: ops to wakeup the host
->>    * @owner: the module owner containing the ops
->>    */
->>   struct pci_epc_ops {
->> @@ -88,6 +95,8 @@ struct pci_epc_ops {
->>   	void	(*stop)(struct pci_epc *epc);
->>   	const struct pci_epc_features* (*get_features)(struct pci_epc *epc,
->>   						       u8 func_no, u8 vfunc_no);
->> +	bool	(*wakeup_host)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
->> +				enum pci_epc_wakeup_host_type type);
->>   	struct module *owner;
->>   };
->>   
->> @@ -234,6 +243,8 @@ int pci_epc_start(struct pci_epc *epc);
->>   void pci_epc_stop(struct pci_epc *epc);
->>   const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
->>   						    u8 func_no, u8 vfunc_no);
->> +bool pci_epc_wakeup_host(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
->> +					enum pci_epc_wakeup_host_type type);
->>   enum pci_barno
->>   pci_epc_get_first_free_bar(const struct pci_epc_features *epc_features);
->>   enum pci_barno pci_epc_get_next_free_bar(const struct pci_epc_features
->> -- 
->> 2.7.4
->>
+Cheers, Ilkka
