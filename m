@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1392C05052
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 13:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7116DC04FE0
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 13:53:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231731AbjGaNxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 09:53:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43612 "EHLO
+        id S232692AbjGaNxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 09:53:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231320AbjGaNw0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 09:52:26 -0400
+        with ESMTP id S233055AbjGaNxI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 09:53:08 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68D87210A;
-        Mon, 31 Jul 2023 06:51:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F181026AD;
+        Mon, 31 Jul 2023 06:52:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D6EC861158;
-        Mon, 31 Jul 2023 13:51:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91AA8C433C8;
-        Mon, 31 Jul 2023 13:51:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B1956116E;
+        Mon, 31 Jul 2023 13:52:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2BDAC433C8;
+        Mon, 31 Jul 2023 13:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690811518;
-        bh=viG5anxcCcnETy6WTEqLj0O+gpdZleg7ylSYSUDSWcI=;
+        s=k20201202; t=1690811536;
+        bh=AFWazg68H0m9wjDZ4noTEGRptXvqnY78FqkUfPNC3A0=;
         h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=mSSSKzu/+QPBBakkr45wlX9iKeJxSV3cpcmQLgAc4ESbF/iG02+RnaTU3bQ5T4R1R
-         Kw6LX+osxC9ep54R3iYjYNgQ+6DT6w7VDzmxi98o2AEGXQOppTzll2hpPv3eBxu/B2
-         rwMAkkj7K0zr+kT0apzE2k+Tue7Fgxe5UejX54nFqsn7yoFZPLCZJCkxh1wT6qRBxg
-         wdoK63KoGSo5kBnLWsJAnOBxxKxS7UmF+wY79mBh/GPrFVaCENDT4L5MC8AbRw+wNf
-         MQMBzeYPtbwAUNwOXLFT1KOQnCTxZve755M5cURARwYJUkYgPsMg/IE/rbeDS9hkit
-         7twM1r/XoxEag==
+        b=qc9Cd3nsgAyvcnwoo8kjfvODViUMK/JrpplYrZmumxrpWFJkJgxfoQAAtQmXEy0Lk
+         +BPICxB2b5iJoYLZwa0Jy5i1GxG9YIrojweNPdWyJVzG1jxxxRPdKVcGGNfBZEQN3d
+         wsyQTHgkf2Uli6I54jqcE+RO9BXn+IUy/XBzVw71H52zCnwD+UnFVmUMjzhkXeisKT
+         ndonCSJ6lvOmOBKfDsHnCf8OPCWOfK3Ab38QA5IevbVuoJI+Nd3ztF9g/4q46sXqwz
+         4ifG4jd0dqb7O5FLA4kXSOlehpBDXmsKLitwge5sUvbAwDZ3wl385xQYSuc/oRzuY9
+         NQbLtaaDejXyA==
 From:   Mark Brown <broonie@kernel.org>
-Date:   Mon, 31 Jul 2023 14:43:20 +0100
-Subject: [PATCH v3 11/36] arm64/mm: Map pages for guarded control stack
+Date:   Mon, 31 Jul 2023 14:43:23 +0100
+Subject: [PATCH v3 14/36] arm64/idreg: Add overrride for GCS
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230731-arm64-gcs-v3-11-cddf9f980d98@kernel.org>
+Message-Id: <20230731-arm64-gcs-v3-14-cddf9f980d98@kernel.org>
 References: <20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org>
 In-Reply-To: <20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
@@ -67,61 +67,64 @@ Cc:     "H.J. Lu" <hjl.tools@gmail.com>,
         linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-riscv@lists.infradead.org, Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.13-dev-099c9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1225; i=broonie@kernel.org;
- h=from:subject:message-id; bh=viG5anxcCcnETy6WTEqLj0O+gpdZleg7ylSYSUDSWcI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBkx7wcNNzB4eHbwePmvMbzyb2eKoUsPKpySJhqxMYO
- VO/4ZKaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZMe8HAAKCRAk1otyXVSH0E3bB/
- 9kkSCSHClFMS8SVmSHhi/kdEidEpwq32cAUbFcwXkdeJjv/CrJsT5T8aku4YfmN1sY57bMYWiOFJCR
- rFY9qUYZhNPKyVK111nZII+nZtmV4F3UkxDrfeEkNH6xkOECetiv67QQOmgxwuMd6Mql/p94935ORh
- jgjiwaG54dImasHCJz8MxPQKdfrNGJHycnUS11u+lW7Vy0+tdh6Q90ATBtt0mrn8zi11TrpPzLB6lQ
- zhmwTiknW/gyPJFn9WIj1tzw3E3areua+5W8q1LF2N58SVUiovl4RgsSDgWKBCRuV7TMOgnVg8piHU
- Q4ZHM9VIPmML5AZAJsLnLlvAfvCar1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1796; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=AFWazg68H0m9wjDZ4noTEGRptXvqnY78FqkUfPNC3A0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBkx7wfsdqpq88pf21TmYD/kSPpHacilejyJipE9rew
+ 1epzW+eJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZMe8HwAKCRAk1otyXVSH0HDLB/
+ 4yUwsgP3uSC4+rw/h+6GLVLLbWnwEshdB3p5ype/gL221KLRVejx6eisgNL+pRT0FoOZasEebBFy7V
+ l3F4UOacmzLSyAjRqciWaUncXUx9KC1IpVzU1S28E79KFcLF2vy+7j7EImZ8BKfvXMTxZGsE/GD1Um
+ 9vmoI+8hK1BDY37dFDU4ybU203laJL21E1mO+eha2WzkwBUpZPwvvOADhgRsAhRugj9ZH2/+OVOO9i
+ nKw/U0a4c7zTjo4m/ynqmyH4Q5Kve+hBrUTt7EX1y92BhSlWCUq7CE12LfbYdf5AFCm0sa+xlUQNy9
+ KrHgEE14UYJyMKjTyCJ53jOgHgF8Xz
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Map pages flagged as being part of a GCS as such rather than using the
-full set of generic VM flags.
-
-This is done using a conditional rather than extending the size of
-protection_map since that would make for a very sparse array.
+Hook up an override for GCS, allowing it to be disabled from the command
+line by specifying arm64.nogcs in case there are problems.
 
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- arch/arm64/mm/mmap.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ arch/arm64/kernel/idreg-override.c              | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/arch/arm64/mm/mmap.c b/arch/arm64/mm/mmap.c
-index 8f5b7ce857ed..e2ca770920ed 100644
---- a/arch/arm64/mm/mmap.c
-+++ b/arch/arm64/mm/mmap.c
-@@ -79,8 +79,23 @@ arch_initcall(adjust_protection_map);
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a1457995fd41..86662eed3003 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -418,6 +418,9 @@
+ 	arm64.nobti	[ARM64] Unconditionally disable Branch Target
+ 			Identification support
  
- pgprot_t vm_get_page_prot(unsigned long vm_flags)
- {
--	pteval_t prot = pgprot_val(protection_map[vm_flags &
-+	pteval_t prot;
++	arm64.nogcs	[ARM64] Unconditionally disable Guarded Control Stack
++			support
 +
-+	/*
-+	 * If this is a GCS then only interpret VM_WRITE.
-+	 *
-+	 * TODO: Just make protection_map[] bigger?  Nothing seems
-+	 * ideal here.
-+	 */
-+	if (system_supports_gcs() && (vm_flags & VM_SHADOW_STACK)) {
-+		if (vm_flags & VM_WRITE)
-+			prot = _PAGE_GCS;
-+		else
-+			prot = _PAGE_GCS_RO;
-+	} else {
-+		prot = pgprot_val(protection_map[vm_flags &
- 				   (VM_READ|VM_WRITE|VM_EXEC|VM_SHARED)]);
-+	}
+ 	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
+ 			support
  
- 	if (vm_flags & VM_ARM64_BTI)
- 		prot |= PTE_GP;
+diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
+index 2fe2491b692c..49269a5cff10 100644
+--- a/arch/arm64/kernel/idreg-override.c
++++ b/arch/arm64/kernel/idreg-override.c
+@@ -99,6 +99,7 @@ static const struct ftr_set_desc pfr1 __initconst = {
+ 	.override	= &id_aa64pfr1_override,
+ 	.fields		= {
+ 		FIELD("bt", ID_AA64PFR1_EL1_BT_SHIFT, NULL ),
++		FIELD("gcs", ID_AA64PFR1_EL1_GCS_SHIFT, NULL),
+ 		FIELD("mte", ID_AA64PFR1_EL1_MTE_SHIFT, NULL),
+ 		FIELD("sme", ID_AA64PFR1_EL1_SME_SHIFT, pfr1_sme_filter),
+ 		{}
+@@ -178,6 +179,7 @@ static const struct {
+ 	{ "arm64.nosve",		"id_aa64pfr0.sve=0" },
+ 	{ "arm64.nosme",		"id_aa64pfr1.sme=0" },
+ 	{ "arm64.nobti",		"id_aa64pfr1.bt=0" },
++	{ "arm64.nogcs",		"id_aa64pfr1.gcs=0" },
+ 	{ "arm64.nopauth",
+ 	  "id_aa64isar1.gpi=0 id_aa64isar1.gpa=0 "
+ 	  "id_aa64isar1.api=0 id_aa64isar1.apa=0 "
 
 -- 
 2.30.2
