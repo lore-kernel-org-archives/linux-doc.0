@@ -2,274 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60DD6C001DC
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 15:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF7DC00528
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 15:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232589AbjGaPLN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 11:11:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34232 "EHLO
+        id S232507AbjGaPsQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 11:48:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233247AbjGaPKw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 11:10:52 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E331FE9
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 08:10:26 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-40c72caec5cso413551cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 08:10:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690816225; x=1691421025;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iMmlT4xiGpOtC9VGm+XQXDU04xNWVwR28wOF8+RMY3s=;
-        b=Y++IoCt4DRCFsvq0LcA2oo34SeicYFBVj7wGzcX/2KR+FrOmMIXEoAA0UUrnTXuM5l
-         kG0d//PFEOd4YhsdzpGS3We2jvMrcURWB0Nl4WgdK+0/egyXYEIhbczttmN9c6j0yEls
-         VyB5KKxCA0oAZ1zRHYqcVKQVo75Zdrw5iG12PAwDkb/Q0L94PoYf8idDKGtzFzKG8Hdg
-         z4fYwAFuBHfWoAdfnh1i4qnMkgFdZAUxbJx+bUpGncVKjfC47HFf+bhts8PnoXJz5ehl
-         8EqxeyW2oiWnWSY9alCF/zWuNY9qcZKhg3kAEcfUHfVSGCeUa2tyXQK5eOYJGEn7jpqt
-         umIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690816225; x=1691421025;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iMmlT4xiGpOtC9VGm+XQXDU04xNWVwR28wOF8+RMY3s=;
-        b=kNHx/k1IzBC7XzE0vR/89yYaXu75mwrQjkgv+60fBVDJYWCaorGQlGoCd1dDEf+jhv
-         SYLoQWXt5Rpl0Ge8tBX8WpDDqR2bVkt5cQ8noyZ5E65QoJ/aTl16i3SlAk3Xg1xZp/oJ
-         eE+6ifLOHBVlK7+GZI2FbpIDSCmIYSV/hRyhPOjT+FTkVRTGmHrmhUbaUoduQN0R1Wdz
-         dBwrtq+zqww13B1Apzui23Mxjrv+/vRRVjOXvU0rLWdAfsMSLIVj19UYku5FC+iA5Y+/
-         c0eiXZ2VEmHbGCpBKwLDSLLQCyQWPVUN3wtb9NBLEQ6tdlDRh3HDxsyi1/vKVkdC7MAD
-         epqw==
-X-Gm-Message-State: ABy/qLasiQ88umvKQ0FSSEqSBVpQt/AG0Oz0Ck0R63SdaceZ7IyldFwz
-        hmSGIPa3xBvpMtUsXiJvleWQRuLmgaR5ZLWzD76GtA==
-X-Google-Smtp-Source: APBJJlF80g4PGoUsmWgES6Mx7Q1A6B085YSp8JisqMkb362UzUiQDX1a393xdAlG961DXd2bHAapUHeUGEeS7d31Wfk=
-X-Received: by 2002:a05:622a:188b:b0:403:a43d:bd7d with SMTP id
- v11-20020a05622a188b00b00403a43dbd7dmr426388qtc.4.1690816224935; Mon, 31 Jul
- 2023 08:10:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230727141428.962286-1-alexghiti@rivosinc.com>
- <20230727141428.962286-10-alexghiti@rivosinc.com> <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
- <CAHVXubgVAe1WsiZx5Ay+3KPK4u24k_vsnTwFFmBeVsHrGXwhfw@mail.gmail.com> <CAHVXubj80rQRShuDS09BeTrfR6nux0A68EMWLbeat8fd_Y3YdA@mail.gmail.com>
-In-Reply-To: <CAHVXubj80rQRShuDS09BeTrfR6nux0A68EMWLbeat8fd_Y3YdA@mail.gmail.com>
-From:   Ian Rogers <irogers@google.com>
-Date:   Mon, 31 Jul 2023 08:10:12 -0700
-Message-ID: <CAP-5=fWwzuGZ6a6Z38ndsb7gw7_uwS0a2VGXx08hMeiK8eZ91w@mail.gmail.com>
-Subject: Re: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        with ESMTP id S232487AbjGaPsO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 11:48:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B3710D;
+        Mon, 31 Jul 2023 08:48:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 210FF611BD;
+        Mon, 31 Jul 2023 15:48:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAAFBC433C8;
+        Mon, 31 Jul 2023 15:48:05 +0000 (UTC)
+Date:   Mon, 31 Jul 2023 11:48:03 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Valentin Schneider <vschneid@redhat.com>
+Cc:     Josh Poimboeuf <jpoimboe@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
+        x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi@remlab.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 02/20] tracing/filters: Enable filtering a
+ cpumask field by another cpumask
+Message-ID: <20230731114803.019158b9@gandalf.local.home>
+In-Reply-To: <xhsmh4jlks4yw.mognet@vschneid.remote.csb>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+        <20230720163056.2564824-3-vschneid@redhat.com>
+        <20230726194148.4jhyqqbtn3qqqqsq@treble>
+        <20230729150901.25b9ae0c@rorschach.local.home>
+        <xhsmh4jlks4yw.mognet@vschneid.remote.csb>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 31, 2023 at 3:27=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
-.com> wrote:
->
-> On Mon, Jul 31, 2023 at 12:15=E2=80=AFPM Alexandre Ghiti <alexghiti@rivos=
-inc.com> wrote:
+On Mon, 31 Jul 2023 12:19:51 +0100
+Valentin Schneider <vschneid@redhat.com> wrote:
 > >
-> > Hi Ian,
+> > Also, when you do an empty for loop:
 > >
-> > On Fri, Jul 28, 2023 at 7:53=E2=80=AFPM Ian Rogers <irogers@google.com>=
- wrote:
-> > >
-> > > On Thu, Jul 27, 2023 at 7:28=E2=80=AFAM Alexandre Ghiti <alexghiti@ri=
-vosinc.com> wrote:
-> > > >
-> > > > riscv now supports mmaping hardware counters so add what's needed t=
-o
-> > > > take advantage of that in libperf.
-> > > >
-> > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > > > Reviewed-by: Atish Patra <atishp@rivosinc.com>
-> > > > ---
-> > > >  tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++=
-++++
-> > > >  1 file changed, 65 insertions(+)
-> > > >
-> > > > diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
-> > > > index 0d1634cedf44..378a163f0554 100644
-> > > > --- a/tools/lib/perf/mmap.c
-> > > > +++ b/tools/lib/perf/mmap.c
-> > > > @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int coun=
-ter)
-> > > >
-> > > >  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); =
-}
-> > > >
-> > > > +#elif __riscv_xlen =3D=3D 64
-> > >
-> > > This is something of an odd guard, perhaps:
-> > > #elif defined(__riscv) && __riscv_xlen =3D=3D 64
-> > >
-> > > That way it is more intention revealing that this is riscv code. Coul=
-d
-> > > you add a comment relating to the __riscv_xlen ?
+> >       for (; str[i] && str[i] != '}'; i++);
 > >
-> > I guess Andrew answered that already.
+> > Always put the semicolon on the next line, otherwise it is really easy
+> > to think that the next line is part of the for loop. That is, instead
+> > of the above, do:
 > >
+> >       for (; str[i] && str[i] != '}'; i++)
+> >               ;
+> >  
+> 
+> Interestingly I don't think I've ever encountered that variant, usually
+> having an empty line (which this lacks) and the indentation level is enough
+> to identify these - regardless, I'll change it.
 
-Not sure. I still think it looks weird:
-...
-#if defined(__i386__) || defined(__x86_64__)
-...
-#elif defined(__aarch64__)
-...
-#elif __riscv_xlen =3D=3D 64
-...
-#else
-static u64 read_perf_counter(unsigned int counter __maybe_unused) { return =
-0; }
-static u64 read_timestamp(void) { return 0; }
-#endif
 
-The first two are clearly #ifdef-ing architecture specific assembly
-code, under what conditions I get RISC-V code  =C2=AF\(=E3=83=84)/=C2=AF At=
- least worth
-a comment like "csrr is only available when you have xlens of 64
-because ..."
+Do a "git grep -B1 -e '^\s*;\s*$'"
 
-> > >
-> > > > +
-> > > > +/* TODO: implement rv32 support */
-> > > > +
-> > > > +#define CSR_CYCLE      0xc00
-> > > > +#define CSR_TIME       0xc01
-> > > > +
-> > > > +#define csr_read(csr)                                          \
-> > > > +({                                                             \
-> > > > +       register unsigned long __v;                             \
-> > > > +               __asm__ __volatile__ ("csrr %0, " #csr          \
-> > > > +                : "=3Dr" (__v) :                                 \
-> > > > +                : "memory");                                   \
-> > >
-> > > To avoid the macro pasting that could potentially go weird, could thi=
-s be:
-> > >
-> > > __asm__ __volatile__ ("csrr %0, %1",
-> > >   : "=3Dr"(__v) /* outputs */
-> > >   : "i"(csr) /* inputs */
-> > >   : "memory" /* clobbers */)
->
-> Forgot to answer this one: it compiles, but I have to admit that I
-> don't understand the difference and if that's correct (all macros in
-> arch/riscv/include/asm/csr.h use # to do this) and what benefits it
-> brings. Can you elaborate more on things that could "go weird"?
-
-So rather than use an input constraint for the asm block you are using
-the C preprocessor to paste in the csr argument. If csr is something
-like "1" then it looks good and you'll get "csrr %0,1". If you pass
-something like "1 << 31" then that will be pasted as "csrr %0, 1 <<
-31" and that starts to get weird in the context of being in the
-assembler where it is unlikely the C operators work. Using the input
-constraint avoids this, causes the C compiler to check the type of the
-argument and you'll probably get more intelligible error messages as a
-consequence.
-
->
-> Thanks again,
->
-> Alex
->
-> > >
-> > > Also, why is this clobbering memory? Worth adding a comment.
-> >
-> > No idea, I see that it is also done this way in
-> > arch/riscv/include/asm/csr.h. @Atish Kumar Patra , @Palmer Dabbelt ?
-
-It would seem to make sense then not to have a memory constraint until
-we know why we're doing it?
+You'll find that it is quite common.
 
 Thanks,
-Ian
 
-> >
-> > Thanks for your comments!
-> >
-> > Alex
-> >
-> > >
-> > > Thanks,
-> > > Ian
-> > >
-> > > > +                __v;                                           \
-> > > > +})
-> > > > +
-> > > > +static unsigned long csr_read_num(int csr_num)
-> > > > +{
-> > > > +#define switchcase_csr_read(__csr_num, __val)           {\
-> > > > +       case __csr_num:                                 \
-> > > > +               __val =3D csr_read(__csr_num);            \
-> > > > +               break; }
-> > > > +#define switchcase_csr_read_2(__csr_num, __val)         {\
-> > > > +       switchcase_csr_read(__csr_num + 0, __val)        \
-> > > > +       switchcase_csr_read(__csr_num + 1, __val)}
-> > > > +#define switchcase_csr_read_4(__csr_num, __val)         {\
-> > > > +       switchcase_csr_read_2(__csr_num + 0, __val)      \
-> > > > +       switchcase_csr_read_2(__csr_num + 2, __val)}
-> > > > +#define switchcase_csr_read_8(__csr_num, __val)         {\
-> > > > +       switchcase_csr_read_4(__csr_num + 0, __val)      \
-> > > > +       switchcase_csr_read_4(__csr_num + 4, __val)}
-> > > > +#define switchcase_csr_read_16(__csr_num, __val)        {\
-> > > > +       switchcase_csr_read_8(__csr_num + 0, __val)      \
-> > > > +       switchcase_csr_read_8(__csr_num + 8, __val)}
-> > > > +#define switchcase_csr_read_32(__csr_num, __val)        {\
-> > > > +       switchcase_csr_read_16(__csr_num + 0, __val)     \
-> > > > +       switchcase_csr_read_16(__csr_num + 16, __val)}
-> > > > +
-> > > > +       unsigned long ret =3D 0;
-> > > > +
-> > > > +       switch (csr_num) {
-> > > > +       switchcase_csr_read_32(CSR_CYCLE, ret)
-> > > > +       default:
-> > > > +               break;
-> > > > +       }
-> > > > +
-> > > > +       return ret;
-> > > > +#undef switchcase_csr_read_32
-> > > > +#undef switchcase_csr_read_16
-> > > > +#undef switchcase_csr_read_8
-> > > > +#undef switchcase_csr_read_4
-> > > > +#undef switchcase_csr_read_2
-> > > > +#undef switchcase_csr_read
-> > > > +}
-> > > > +
-> > > > +static u64 read_perf_counter(unsigned int counter)
-> > > > +{
-> > > > +       return csr_read_num(CSR_CYCLE + counter);
-> > > > +}
-> > > > +
-> > > > +static u64 read_timestamp(void)
-> > > > +{
-> > > > +       return csr_read_num(CSR_TIME);
-> > > > +}
-> > > > +
-> > > >  #else
-> > > >  static u64 read_perf_counter(unsigned int counter __maybe_unused) =
-{ return 0; }
-> > > >  static u64 read_timestamp(void) { return 0; }
-> > > > --
-> > > > 2.39.2
-> > > >
+-- Steve
+
