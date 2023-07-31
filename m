@@ -2,139 +2,383 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3906CC001DF
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:08:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C5BC001E0
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:25:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232282AbjGaMID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 08:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
+        id S232682AbjGaMZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 08:25:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231467AbjGaMIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:08:01 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EE110E9
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:07:57 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-31759e6a4a1so3980393f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:07:57 -0700 (PDT)
+        with ESMTP id S232693AbjGaMZQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:25:16 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6851998
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:24:36 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-687087d8ddaso3345106b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690805276; x=1691410076;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RtmERFMlZOzYX/xBspxMX5ThTF00TCl7wQ49mzpQ0/E=;
-        b=ckvKa3Zx6KLTC/M6VWdrDZz/SSn75QqFRlMc0INiSsSBx74N0XLvwMHXr/+1kT27eP
-         2VJgFZt4x2XA8zK/QCSOllF4qlJL0zdlWeiSenxoo5XA6bg0BWmo4iAsdwWj5iJRGauk
-         wDEn65j7MAM1S5M1tIugT7l19Cfb4tdy6ef+XqorZf5v2By4dSwzVTenowDcofckzNyO
-         K3OktzO+ncq6RAs2ijzNHWsQJJW4olboxJSVETmXZPSjGFq7VH+zra5n0r2r2pTXta7N
-         Q1Jy7aFI41e+av0nqqcbhUAS0OF7+1gTr+jZqBOc0NfGDi0XeErtkvl+rKkCg5HXkczs
-         4qsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690805276; x=1691410076;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=bytedance.com; s=google; t=1690806275; x=1691411075;
+        h=content-transfer-encoding:in-reply-to:cc:from:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RtmERFMlZOzYX/xBspxMX5ThTF00TCl7wQ49mzpQ0/E=;
-        b=WLECZx22ciNxlCX45/tbrEsCq++XMjeFxjD7lTbG65IcdrJbV2kVll2tWeoJvSD5q+
-         sgJm3e4+gTs3aHO8jdj6ZUvKxAG/ksOAzX5Swy2NgFpZjEHAY3VR6Pj2KxdrXc/ToEqV
-         uaPoNhgETOrM3v23HGef769ACy88/dTWbpqdiMX5maJsDDlM4tEW9sua4DC+uqb9CgCP
-         jLalxFsLb1OZ+bUaKuPpzeCO7O73gd3kDgHM4i/R4RT2Fufp0NtF2yJvzwp3POfaEVHF
-         VnQlReUKWP90q6AYc1SS5iYJo+7WAOltdhbCPcpra5v+SjiM3jeutEABEbcG8esxymhB
-         zkIw==
-X-Gm-Message-State: ABy/qLbnRRUHYfKzV0ht5iBawF/dqdKW+7N/SnKU6qMWEdHynbZbKWyf
-        GegJuZFyQbKLlb7Pps99Xz4cDLiZZVyPkLNFPGI=
-X-Google-Smtp-Source: APBJJlFr6e04BsmGj0Si0aJ/H+RJXUxKxJY/Gls37u74uRa2g6gDjuh0SZ+KHpB0+aEfGznvQoXMRw==
-X-Received: by 2002:a5d:6889:0:b0:313:f548:25b9 with SMTP id h9-20020a5d6889000000b00313f54825b9mr6424281wru.40.1690805275895;
-        Mon, 31 Jul 2023 05:07:55 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q15-20020a7bce8f000000b003fe20533a1esm3193045wmj.44.2023.07.31.05.07.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 05:07:55 -0700 (PDT)
-Date:   Mon, 31 Jul 2023 15:07:52 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Valentin Schneider <vschneid@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 06/20] tracing/filters: Optimise scalar vs cpumask
- filtering when the user mask is a single CPU
-Message-ID: <04f20e58-6b24-4f44-94e2-0d12324a30e4@kadam.mountain>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-7-vschneid@redhat.com>
- <20230729155547.35719a1f@rorschach.local.home>
+        bh=n33i2l+o13R2vXkTMdoXjMS5PBDW3Nc5tow2fit7wXw=;
+        b=K6GPcQAxCt1vZzjj5YetA6l5koeAHwxlWkzP07rifIlXI502MaLVpwE/AyfjICJ6mS
+         LvLbBpX160QFnZ0voELDsIi71o5vomh39WjAEwINwscs7Und+M4Gl/vm5CFpbXG7U52b
+         wm+PC/JqkBZzyjLc/B4BuCb5EpPihhAFtIIEu3laGBI4PmV2NOtXojtIXiWPPiMFNUR2
+         p3yL08t3+JrqnXJIsDMxvavpQeplUZjhPacMtSme5Fuvo1jkjJiDeCqGBiDOLIZRrX4P
+         Syt2whJ0qVwEz8cEUZLVEqETAFZp25dRSmf1JHROH3XZztTAnvZ0CEkhqB0m6YLJz6YD
+         GVCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690806275; x=1691411075;
+        h=content-transfer-encoding:in-reply-to:cc:from:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=n33i2l+o13R2vXkTMdoXjMS5PBDW3Nc5tow2fit7wXw=;
+        b=LJhn5Ly3UA7Nl4Fs2a0WG+vZte9MhUYaWjnzjo9e8TPyhGlNomLJLzHA5QcNtx6CoD
+         847g1kqM+WWgxmGhg4EmBo1TWXN8RjMZ5jces+DPkhemi4X5rDEmj3YD//jg7hs5QrN9
+         XS43c8uPZ7UY/G8HL88XNUYs5b/sb8QzYvII8FocKGRjPSmtZo0y4059+tW0Xfqnu5gc
+         FVSiZnTfEfXhghz4faY47V2SanWgI0bTL+/ULTZaUY3O9i8jEWDFeL7Gr7Sz3x+s6E0y
+         KzrM5B7TKhzqnceWa9Jrvu5ltuQUCKyies0fUPAqyeAdc9DIWNwElyZlL0HezUckGkfq
+         UulA==
+X-Gm-Message-State: ABy/qLbeH2bJT3K2tb30N1lSmOhIHwMUuNq595A6m6cr2/eI6gDUmBSc
+        X8SUah0a//hmLN8vsDaMFxex1w==
+X-Google-Smtp-Source: APBJJlHIW1GlcpJxqQYz6lvbRT5uLUG/tKcYmNusnJKwbG9AYQELc26f4iscaquGrENqZMvdri//EA==
+X-Received: by 2002:a05:6a00:9a2:b0:676:76ea:e992 with SMTP id u34-20020a056a0009a200b0067676eae992mr10589145pfg.5.1690806274821;
+        Mon, 31 Jul 2023 05:24:34 -0700 (PDT)
+Received: from [10.90.34.137] ([203.208.167.147])
+        by smtp.gmail.com with ESMTPSA id bn9-20020a056a00324900b0064398fe3451sm7465987pfb.217.2023.07.31.05.24.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Jul 2023 05:24:34 -0700 (PDT)
+Message-ID: <beaab8b4-180c-017d-bd8d-8766196f302a@bytedance.com>
+Date:   Mon, 31 Jul 2023 20:24:26 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230729155547.35719a1f@rorschach.local.home>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.1
+Subject: Re: [PATCH 04/11] maple_tree: Introduce interfaces __mt_dup() and
+ mt_dup()
+To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
+ <20230726080916.17454-5-zhangpeng.00@bytedance.com>
+ <20230726160354.konsgq6hidj7gr5u@revolver>
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+Cc:     Peng Zhang <zhangpeng.00@bytedance.com>, willy@infradead.org,
+        michael.christie@oracle.com, surenb@google.com, npiggin@gmail.com,
+        corbet@lwn.net, mathieu.desnoyers@efficios.com, avagin@gmail.com,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        akpm@linux-foundation.org, brauner@kernel.org, peterz@infradead.org
+In-Reply-To: <20230726160354.konsgq6hidj7gr5u@revolver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 29, 2023 at 03:55:47PM -0400, Steven Rostedt wrote:
-> > @@ -1761,6 +1761,11 @@ static int parse_pred(const char *str, void *data,
-> >  				FILTER_PRED_FN_CPUMASK;
-> >  		} else if (field->filter_type == FILTER_CPU) {
-> >  			pred->fn_num = FILTER_PRED_FN_CPU_CPUMASK;
-> > +		} else if (single) {
-> > +			pred->op = pred->op == OP_BAND ? OP_EQ : pred->op;
+
+
+在 2023/7/27 00:03, Liam R. Howlett 写道:
+> * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
+>> Introduce interfaces __mt_dup() and mt_dup(), which are used to
+>> duplicate a maple tree. Compared with traversing the source tree and
+>> reinserting entry by entry in the new tree, it has better performance.
+>> The difference between __mt_dup() and mt_dup() is that mt_dup() holds
+>> an internal lock.
+>>
+>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+>> ---
+>>   include/linux/maple_tree.h |   3 +
+>>   lib/maple_tree.c           | 211 +++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 214 insertions(+)
+>>
+>> diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+>> index c962af188681..229fe78e4c89 100644
+>> --- a/include/linux/maple_tree.h
+>> +++ b/include/linux/maple_tree.h
+>> @@ -327,6 +327,9 @@ int mtree_store(struct maple_tree *mt, unsigned long index,
+>>   		void *entry, gfp_t gfp);
+>>   void *mtree_erase(struct maple_tree *mt, unsigned long index);
+>>   
+>> +int mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
+>> +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
+>> +
+>>   void mtree_destroy(struct maple_tree *mt);
+>>   void __mt_destroy(struct maple_tree *mt);
+>>   
+>> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
+>> index da3a2fb405c0..efac6761ae37 100644
+>> --- a/lib/maple_tree.c
+>> +++ b/lib/maple_tree.c
+>> @@ -6595,6 +6595,217 @@ void *mtree_erase(struct maple_tree *mt, unsigned long index)
+>>   }
+>>   EXPORT_SYMBOL(mtree_erase);
+>>   
+>> +/*
+>> + * mt_dup_free() - Free the nodes of a incomplete maple tree.
+>> + * @mt: The incomplete maple tree
+>> + * @node: Free nodes from @node
+>> + *
+>> + * This function frees all nodes starting from @node in the reverse order of
+>> + * mt_dup_build(). At this point we don't need to hold the source tree lock.
+>> + */
+>> +static void mt_dup_free(struct maple_tree *mt, struct maple_node *node)
+>> +{
+>> +	void **slots;
+>> +	unsigned char offset;
+>> +	struct maple_enode *enode;
+>> +	enum maple_type type;
+>> +	unsigned char count = 0, i;
+>> +
 > 
-> Nit, the above can be written as:
+> Can we make these labels inline functions and try to make this a loop?
+I did this just to make things easier. Refer to the implementation of
+walk_tg_tree_from() in sched/core.c. Using some loops and inline
+functions probably doesn't simplify things. I'll try to do that and give
+up if it complicates things.
 > 
-> 			pred->op = pret->op != OP_BAND ? : OP_EQ;
+>> +try_ascend:
+>> +	if (ma_is_root(node)) {
+>> +		mt_free_one(node);
+>> +		return;
+>> +	}
+>> +
+>> +	offset = ma_parent_slot(node);
+>> +	type = ma_parent_type(mt, node);
+>> +	node = ma_parent(node);
+>> +	if (!offset)
+>> +		goto free;
+>> +
+>> +	offset--;
+>> +
+>> +descend:
+>> +	slots = (void **)ma_slots(node, type);
+>> +	enode = slots[offset];
+>> +	if (mte_is_leaf(enode))
+>> +		goto free;
+>> +
+>> +	type = mte_node_type(enode);
+>> +	node = mte_to_node(enode);
+>> +	offset = ma_nonleaf_data_end_nocheck(node, type);
+>> +	goto descend;
+>> +
+>> +free:
+>> +	slots = (void **)ma_slots(node, type);
+>> +	count = ma_nonleaf_data_end_nocheck(node, type) + 1;
+>> +	for (i = 0; i < count; i++)
+>> +		((unsigned long *)slots)[i] &= ~MAPLE_NODE_MASK;
+>> +
+>> +	/* Cast to __rcu to avoid sparse checker complaining. */
+>> +	mt_free_bulk(count, (void __rcu **)slots);
+>> +	goto try_ascend;
+>> +}
+>> +
+>> +/*
+>> + * mt_dup_build() - Build a new maple tree from a source tree
+>> + * @mt: The source maple tree to copy from
+>> + * @new: The new maple tree
+>> + * @gfp: The GFP_FLAGS to use for allocations
+>> + * @to_free: Free nodes starting from @to_free if the build fails
+>> + *
+>> + * This function builds a new tree in DFS preorder. If it fails due to memory
+>> + * allocation, @to_free will store the last failed node to free the incomplete
+>> + * tree. Use mt_dup_free() to free nodes.
+>> + *
+>> + * Return: 0 on success, -ENOMEM if memory could not be allocated.
+>> + */
+>> +static inline int mt_dup_build(struct maple_tree *mt, struct maple_tree *new,
+>> +			       gfp_t gfp, struct maple_node **to_free)
 > 
-
-Heh.  Those are not equivalent.  The right way to write this is:
-
-	if (pred->op == OP_BAND)
-		pred->op = OP_EQ;
-
-regards,
-dan carpenter
-
+> I am trying to change the functions to be two tabs of indent for
+> arguments from now on.  It allows for more to fit on a single line and
+> still maintains a clear separation between code and argument lists.
+I'm not too concerned about code formatting. . . At least in this
+patchset.
+> 
+>> +{
+>> +	struct maple_enode *enode;
+>> +	struct maple_node *new_node, *new_parent = NULL, *node;
+>> +	enum maple_type type;
+>> +	void __rcu **slots;
+>> +	void **new_slots;
+>> +	unsigned char count, request, i, offset;
+>> +	unsigned long *set_parent;
+>> +	unsigned long new_root;
+>> +
+>> +	mt_init_flags(new, mt->ma_flags);
+>> +	enode = mt_root_locked(mt);
+>> +	if (unlikely(!xa_is_node(enode))) {
+>> +		rcu_assign_pointer(new->ma_root, enode);
+>> +		return 0;
+>> +	}
+>> +
+>> +	new_node = mt_alloc_one(gfp);
+>> +	if (!new_node)
+>> +		return -ENOMEM;
+>> +
+>> +	new_root = (unsigned long)new_node;
+>> +	new_root |= (unsigned long)enode & MAPLE_NODE_MASK;
+>> +
+>> +copy_node:
+> 
+> Can you make copy_node, descend, ascend inline functions instead of the
+> goto jumping please?  It's better to have loops over jumping around a
+> lot.  Gotos are good for undoing things and retry, but constructing
+> loops with them makes it difficult to follow.
+Same as above.
+> 
+>> +	node = mte_to_node(enode);
+>> +	type = mte_node_type(enode);
+>> +	memcpy(new_node, node, sizeof(struct maple_node));
+>> +
+>> +	set_parent = (unsigned long *)&(new_node->parent);
+>> +	*set_parent &= MAPLE_NODE_MASK;
+>> +	*set_parent |= (unsigned long)new_parent;
+> 
+> Maybe make a small inline to set the parent instead of this?
+> 
+> There are some defined helpers for setting the types like
+> ma_parent_ptr() and ma_enode_ptr() to make casting more type-safe.
+Ok, I'll try to do that.
+> 
+>> +	if (ma_is_leaf(type))
+>> +		goto ascend;
+>> +
+>> +	new_slots = (void **)ma_slots(new_node, type);
+>> +	slots = ma_slots(node, type);
+>> +	request = ma_nonleaf_data_end(mt, node, type) + 1;
+>> +	count = mt_alloc_bulk(gfp, request, new_slots);
+>> +	if (!count) {
+>> +		*to_free = new_node;
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	for (i = 0; i < count; i++)
+>> +		((unsigned long *)new_slots)[i] |=
+>> +				((unsigned long)mt_slot_locked(mt, slots, i) &
+>> +				 MAPLE_NODE_MASK);
+>> +	offset = 0;
+>> +
+>> +descend:
+>> +	new_parent = new_node;
+>> +	enode = mt_slot_locked(mt, slots, offset);
+>> +	new_node = mte_to_node(new_slots[offset]);
+>> +	goto copy_node;
+>> +
+>> +ascend:
+>> +	if (ma_is_root(node)) {
+>> +		new_node = mte_to_node((void *)new_root);
+>> +		new_node->parent = ma_parent_ptr((unsigned long)new |
+>> +						 MA_ROOT_PARENT);
+>> +		rcu_assign_pointer(new->ma_root, (void *)new_root);
+>> +		return 0;
+>> +	}
+>> +
+>> +	offset = ma_parent_slot(node);
+>> +	type = ma_parent_type(mt, node);
+>> +	node = ma_parent(node);
+>> +	new_node = ma_parent(new_node);
+>> +	if (offset < ma_nonleaf_data_end(mt, node, type)) {
+>> +		offset++;
+>> +		new_slots = (void **)ma_slots(new_node, type);
+>> +		slots = ma_slots(node, type);
+>> +		goto descend;
+>> +	}
+>> +
+>> +	goto ascend;
+>> +}
+>> +
+>> +/**
+>> + * __mt_dup(): Duplicate a maple tree
+>> + * @mt: The source maple tree
+>> + * @new: The new maple tree
+>> + * @gfp: The GFP_FLAGS to use for allocations
+>> + *
+>> + * This function duplicates a maple tree using a faster method than traversing
+>> + * the source tree and inserting entries into the new tree one by one. The user
+>> + * needs to lock the source tree manually. Before calling this function, @new
+>> + * must be an empty tree or an uninitialized tree. If @mt uses an external lock,
+>> + * we may also need to manually set @new's external lock using
+>> + * mt_set_external_lock().
+>> + *
+>> + * Return: 0 on success, -ENOMEM if memory could not be allocated.
+>> + */
+>> +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
+> 
+> We use mas_ for things that won't handle the locking and pass in a maple
+> state.  Considering the leaves need to be altered once this is returned,
+> I would expect passing in a maple state should be feasible?
+But we don't really need mas here. What do you think the state of mas
+should be when this function returns? Make it point to the first entry,
+or the last entry?
+> 
+>> +{
+>> +	int ret;
+>> +	struct maple_node *to_free = NULL;
+>> +
+>> +	ret = mt_dup_build(mt, new, gfp, &to_free);
+>> +
+>> +	if (unlikely(ret == -ENOMEM)) {
+> 
+> On other errors, will the half constructed tree be returned?  Is this
+> safe?
+Of course, mt_dup_free() is carefully designed to handle this.
+> 
+>> +		if (to_free)
+>> +			mt_dup_free(new, to_free);
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(__mt_dup);
+>> +
+>> +/**
+>> + * mt_dup(): Duplicate a maple tree
+>> + * @mt: The source maple tree
+>> + * @new: The new maple tree
+>> + * @gfp: The GFP_FLAGS to use for allocations
+>> + *
+>> + * This function duplicates a maple tree using a faster method than traversing
+>> + * the source tree and inserting entries into the new tree one by one. The
+>> + * function will lock the source tree with an internal lock, and the user does
+>> + * not need to manually handle the lock. Before calling this function, @new must
+>> + * be an empty tree or an uninitialized tree. If @mt uses an external lock, we
+>> + * may also need to manually set @new's external lock using
+>> + * mt_set_external_lock().
+>> + *
+>> + * Return: 0 on success, -ENOMEM if memory could not be allocated.
+>> + */
+>> +int mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
+> 
+> mtree_ ususually used to indicate locking is handled.
+Before unifying mtree_* and mt_*, I don't think I can see any difference
+between them. At least mt_set_in_rcu() and mt_clear_in_rcu() will hold
+the lock.
+> 
+>> +{
+>> +	int ret;
+>> +	struct maple_node *to_free = NULL;
+>> +
+>> +	mtree_lock(mt);
+>> +	ret = mt_dup_build(mt, new, gfp, &to_free);
+>> +	mtree_unlock(mt);
+>> +
+>> +	if (unlikely(ret == -ENOMEM)) {
+>> +		if (to_free)
+>> +			mt_dup_free(new, to_free);
+> 
+> Again, is a half constructed tree safe to return?  Since each caller
+> checks to_free is NULL, could that be in mt_dup_free() instead?
+Yes, this check can be put in mt_dup_free().
+> 
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(mt_dup);
+>> +
+>>   /**
+>>    * __mt_destroy() - Walk and free all nodes of a locked maple tree.
+>>    * @mt: The maple tree
+>> -- 
+>> 2.20.1
+>>
+>>
