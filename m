@@ -2,73 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E062AC001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC85DC001DF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231774AbjGaMjl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 08:39:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
+        id S232054AbjGaMzf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 08:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231771AbjGaMjl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:39:41 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F4810F0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:39:17 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1bc1c1c68e2so2246645ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:39:17 -0700 (PDT)
+        with ESMTP id S231167AbjGaMze (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:55:34 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491B3E5A
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:55:09 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-686b9920362so3069496b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1690807156; x=1691411956;
+        d=bytedance.com; s=google; t=1690808109; x=1691412909;
         h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G5NgvZ9A29jKveNvgwtvgi3sdFeOXOueGUD09TUlxVA=;
-        b=fnctZrGhAzwe97DicT5XCVwUO4Xd6tq/dYHAm6TPZLTxdk+/8dy9q4eiR0ZfUARhtk
-         z+JyDdBRU5LhRcPyOBUJSgoFncv15bcX6jTkw+XK48unXj16idPYEVnFPl8YyVv0X1bM
-         FEtZW7AnaL9+05V8HDGBJF8au+/vPqQYvAuOXIpxZBbxCI+3csMLoptZh4paFzXEABNZ
-         L4SzBBgbDey9NPN+xSxlBHae745fXUEHJ1jnBrSKI2yGSrB9SA5/pGW1xJN5Nociy/ww
-         2+TzvKqEmjKQw685vftI/MDh5CYzJ3TQFAxLbGuwPmq45N8Tdcvp4aww+dOooCGnkhvK
-         /STA==
+        bh=ygLOL6I5xrfNmKzP4Fot99+KrkBVpcn2MT2F/EVhYwo=;
+        b=drtlXK+U4pKZC3tnZRn8nvmwGNTQMJZnIghAHY3cX3MJr9FjRTijWYSl7UadGOd0xp
+         Csf2/x+gp25aqJRbt1ct0AIKgJ3Sc+hx4H/7OTa5HT0pLI+UfEu3Rq//XR/AvoEU5M/t
+         RVdAZ2AhIhNGM/zQEARGArjmIegrvNxiiCOe42kySBULao2cCvRRhv6QPRc1n3RTncj+
+         5Jj/UVEScl3JJ2PfDp5agjSxzS+11m9pOhsGIiTCB9ewHLzigDiSD6V3g7r1ov33Lzb2
+         s08cvODvKLMNpzpoRQBoqb1BkF4FNMA9R3wuhVmFHJJhpMJHXbrnIxAMJQNMZgBvERLN
+         UY5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690807156; x=1691411956;
+        d=1e100.net; s=20221208; t=1690808109; x=1691412909;
         h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
          :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=G5NgvZ9A29jKveNvgwtvgi3sdFeOXOueGUD09TUlxVA=;
-        b=PxP0oTTjPBpskoS2NHLK5lAS+5amoWN2NtDRU312Mxg/g/AQdWCX7geGFypn2nT77+
-         i1jVZmyjMch4Py+G+QSkuMUNmNDjCqUVPzIG/8IxhGfnEBliCWvyAJTb/7Tb8ldP0fos
-         346SvnxGPffr4MyL5He88zZ7iVq/RO+K5L//rkIxANyW4EAJ6MKvOfAyPDS3nTdspLJV
-         iZzmf3LGPZ9cBQvbcOszyQKWqyJtpAby29TiHKhLjrzRCOwMBXO200Gn8X2YbLidRp5z
-         KFDun15YEcVg/Y9+XHDdZwJpfWyicmTNa7QFteP1z/bI9R+2Ms55p/bSRKPDQ42OM/Nm
-         Oq7Q==
-X-Gm-Message-State: ABy/qLY96DDtkqGrJtn72YZIgC/Dhhfl9bsVyVWxPVYkD5YJd4rKFCQl
-        V+l8Cqkx7DOVZnbOGLjt7/Bs/A==
-X-Google-Smtp-Source: APBJJlFVfGFHwn+cuilEGPeVmX2wQ3sz8gt7+UDhpECer+ohY8c5OWE/UOCFJ2jjsiLxm6zBbXQYVg==
-X-Received: by 2002:a17:902:ea05:b0:1b9:f9a1:85f1 with SMTP id s5-20020a170902ea0500b001b9f9a185f1mr10946935plg.19.1690807156084;
-        Mon, 31 Jul 2023 05:39:16 -0700 (PDT)
+        bh=ygLOL6I5xrfNmKzP4Fot99+KrkBVpcn2MT2F/EVhYwo=;
+        b=YfEeO6u32bsAGRN7+shAwovISuNdMJJgt3j+NLu7Af5hV94/TLNv+OOr8iz2UaW0OJ
+         l9EqTU07QnpNJjNSQIaDNnPOKmasjXFiiIkhQ1UubK0gs5hmnYbURWG+UoSPSIJRDx7q
+         EhEqLRyptFpQb/z3BAhACKjbFKo+6uFN+fb5zrEXgkja4vAAA8rfd5aH7HrDTycUcy21
+         MD9rbA+Lcn9nITJHCLqg+8QuNywDZMD5WIzhRBRn31acskBJitCN92TgruPLiyxKj6Jj
+         StOHq6c3aa38fk9bOH4kLFaktfeeZ9cJmi1YoQ5ywB5yfSy/zP664hGWzoRiBXiEp80u
+         i4rg==
+X-Gm-Message-State: ABy/qLY91KnWBz7n8I5kpFIdq+bqD5EZH80aLg1xZziXGcML7tQj51da
+        DD8wH/6kgku5mxBdx/3DxQldAA==
+X-Google-Smtp-Source: APBJJlHXBmWra7k9TETazqpngIX2G2bpFY8wuRQhwH/AU5jAmgkvG9aVECpJrACS4F6FeVffXdxcag==
+X-Received: by 2002:a05:6a20:a104:b0:118:e70:6f7d with SMTP id q4-20020a056a20a10400b001180e706f7dmr10214985pzk.10.1690808108779;
+        Mon, 31 Jul 2023 05:55:08 -0700 (PDT)
 Received: from [10.90.34.137] ([203.208.167.147])
-        by smtp.gmail.com with ESMTPSA id q16-20020a170902dad000b001b89c313185sm8505332plx.205.2023.07.31.05.39.11
+        by smtp.gmail.com with ESMTPSA id q20-20020a62ae14000000b00672ea40b8a9sm7739030pff.170.2023.07.31.05.55.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 05:39:15 -0700 (PDT)
-Message-ID: <20aab1af-c183-db94-90d7-5e5425e3fd80@bytedance.com>
-Date:   Mon, 31 Jul 2023 20:39:08 +0800
+        Mon, 31 Jul 2023 05:55:08 -0700 (PDT)
+Message-ID: <763e286d-8621-0dcc-bb9b-99eb053bc148@bytedance.com>
+Date:   Mon, 31 Jul 2023 20:55:00 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.13.1
-Subject: Re: [PATCH 06/11] maple_tree: Introduce mas_replace_entry() to
- directly replace an entry
+Subject: Re: [PATCH 10/11] MAINTAINERS: Add co-maintainer for maple tree
 To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>
 References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
- <20230726080916.17454-7-zhangpeng.00@bytedance.com>
- <20230726160843.hpl4razxiikqbuxy@revolver>
-Cc:     Peng Zhang <zhangpeng.00@bytedance.com>, avagin@gmail.com,
+ <20230726080916.17454-11-zhangpeng.00@bytedance.com>
+ <20230726163955.r47vbkgjrcbg6iwv@revolver>
+Cc:     linux-fsdevel@vger.kernel.org, brauner@kernel.org,
         npiggin@gmail.com, mathieu.desnoyers@efficios.com,
         peterz@infradead.org, michael.christie@oracle.com,
-        surenb@google.com, brauner@kernel.org, willy@infradead.org,
-        akpm@linux-foundation.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org
+        surenb@google.com, willy@infradead.org, akpm@linux-foundation.org,
+        Peng Zhang <zhangpeng.00@bytedance.com>,
+        linux-doc@vger.kernel.org, corbet@lwn.net, avagin@gmail.com,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
 From:   Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <20230726160843.hpl4razxiikqbuxy@revolver>
+In-Reply-To: <20230726163955.r47vbkgjrcbg6iwv@revolver>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -77,80 +76,42 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-在 2023/7/27 00:08, Liam R. Howlett 写道:
+在 2023/7/27 00:39, Liam R. Howlett 写道:
 > * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
->> If mas has located a specific entry, it may be need to replace this
->> entry, so introduce mas_replace_entry() to do this. mas_replace_entry()
->> will be more efficient than mas_store*() because it doesn't do many
->> unnecessary checks.
->>
->> This function should be inline, but more functions need to be moved to
->> the header file, so I didn't do it for the time being.
+>> Add myself as co-maintainer for maple tree. I would like to assist
+>> Liam R. Howlett in maintaining maple tree. I will continue to contribute
+>> to the development of maple tree in the future.
 > 
-> I am really nervous having no checks here.  I get that this could be
-> used for duplicating the tree more efficiently, but having a function
-> that just swaps a value in is very dangerous - especially since it is
-> decoupled from the tree duplication code.
-I've thought about this, and I feel like this is something the user
-should be guaranteed. If the user is not sure whether to use it,
-mas_store() can be used instead. And we should provide this interface
-because it has better performance.
+> Sorry, but no.
+> 
+> I appreciate the patches, bug fixes, and code review but there is no
+> need for another maintainer for the tree at this time.
+So can I add a reviewer here? This is convenient for me to review the
+code and know the problems reported from the community. Usually I can't
+receive maple tree issues reported by the community. It has no effect on
+your maintenance of it.
+> 
+> Thank you,
+> Liam
 > 
 >>
 >> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
 >> ---
->>   include/linux/maple_tree.h |  1 +
->>   lib/maple_tree.c           | 25 +++++++++++++++++++++++++
->>   2 files changed, 26 insertions(+)
+>>   MAINTAINERS | 1 +
+>>   1 file changed, 1 insertion(+)
 >>
->> diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
->> index 229fe78e4c89..a05e9827d761 100644
->> --- a/include/linux/maple_tree.h
->> +++ b/include/linux/maple_tree.h
->> @@ -462,6 +462,7 @@ struct ma_wr_state {
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index ddc71b815791..8cfedd492509 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -12526,6 +12526,7 @@ F:	net/mctp/
 >>   
->>   void *mas_walk(struct ma_state *mas);
->>   void *mas_store(struct ma_state *mas, void *entry);
->> +void mas_replace_entry(struct ma_state *mas, void *entry);
->>   void *mas_erase(struct ma_state *mas);
->>   int mas_store_gfp(struct ma_state *mas, void *entry, gfp_t gfp);
->>   void mas_store_prealloc(struct ma_state *mas, void *entry);
->> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
->> index efac6761ae37..d58572666a00 100644
->> --- a/lib/maple_tree.c
->> +++ b/lib/maple_tree.c
->> @@ -5600,6 +5600,31 @@ void *mas_store(struct ma_state *mas, void *entry)
->>   }
->>   EXPORT_SYMBOL_GPL(mas_store);
->>   
->> +/**
->> + * mas_replace_entry() - Replace an entry that already exists in the maple tree
->> + * @mas: The maple state
->> + * @entry: The entry to store
->> + *
->> + * Please note that mas must already locate an existing entry, and the new entry
->> + * must not be NULL. If these two points cannot be guaranteed, please use
->> + * mas_store*() instead, otherwise it will cause an internal error in the maple
->> + * tree. This function does not need to allocate memory, so it must succeed.
->> + */
->> +void mas_replace_entry(struct ma_state *mas, void *entry)
->> +{
->> +	void __rcu **slots;
->> +
->> +#ifdef CONFIG_DEBUG_MAPLE_TREE
->> +	MAS_WARN_ON(mas, !mte_is_leaf(mas->node));
->> +	MAS_WARN_ON(mas, !entry);
->> +	MAS_WARN_ON(mas, mas->offset >= mt_slots[mte_node_type(mas->node)]);
->> +#endif
->> +
->> +	slots = ma_slots(mte_to_node(mas->node), mte_node_type(mas->node));
->> +	rcu_assign_pointer(slots[mas->offset], entry);
->> +}
->> +EXPORT_SYMBOL_GPL(mas_replace_entry);
->> +
->>   /**
->>    * mas_store_gfp() - Store a value into the tree.
->>    * @mas: The maple state
+>>   MAPLE TREE
+>>   M:	Liam R. Howlett <Liam.Howlett@oracle.com>
+>> +M:	Peng Zhang <zhangpeng.00@bytedance.com>
+>>   L:	linux-mm@kvack.org
+>>   S:	Supported
+>>   F:	Documentation/core-api/maple_tree.rst
 >> -- 
 >> 2.20.1
 >>
