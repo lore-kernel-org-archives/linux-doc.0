@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8EA5C04FE0
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 07:03:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47370C04E69
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 07:04:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231218AbjGaHDr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 03:03:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44042 "EHLO
+        id S231246AbjGaHET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 03:04:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231174AbjGaHDY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 03:03:24 -0400
+        with ESMTP id S231223AbjGaHDv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 03:03:51 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10C4810CC;
-        Mon, 31 Jul 2023 00:02:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A27B10D3;
+        Mon, 31 Jul 2023 00:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690786937; x=1722322937;
+  t=1690786949; x=1722322949;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YTgEgmA3f1uzY8PacyZ6XmpZcGIgDW5/dB0vDrivilc=;
-  b=lAVTQf24ixp5T1w9ciVKyDsB92RZPT15jaNOCW4k825EFYeIZmxtPpwh
-   GsXDKyGUj3YeNW7L4oaXlqCpvfgY8pgfU2PMLxy8BJiXS5OXYuLFF6Jt7
-   FC7VnxL8Y4gKw9QqLv5vbg8aEKosOPRYYkWCLHUeTxIXtSOhwll0MHYvD
-   Kyssu0T9v0NN+mgoutjpYdUfOsPT/NBiml87e7/aQ+B6j88oFu8m1jHuT
-   kj5lWZDS+bqh3T8/sN+EbYiPX7Hu2AUWBT93d1w/j03ABzUsGqs9ph7v5
-   Hbt1PXYiaA7qHsOeo33C1/qkxjZjkXBKc/9rK71b15jSkiCJkWrdGJEQ3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371649104"
+  bh=61pP2ZrTnfM4AWC4LzTY02SWj0Yo4OSnGRh0vm8RTJ0=;
+  b=AKeecPh6ZKhoTu3YEFeY8q3jmeeMrJmrdBNVSQwmX4s3mN6arBBJkQaQ
+   NEGDbtl5xFNAVnm9z+sd0NcsYS9Sir4GGDk7c0xyzBWseZW6N3THs7Uck
+   8VhpCRaSkFwtKzUzOaJJ76fkEUl2Mpsycze5fzKiAcukpEwe7sKSjkq/h
+   NLXhF6I6Qj5xD1Vm8MNtRfec1F+MSLonn1XmT00oq+X+5WWTnlqCfD1AA
+   JsmnStzsx8iKrzEgz0+PzhXXtfTcu4c0rOeC+f+hzxjEw2b55mmSPQ2OH
+   qKwaSfnyRlrjbjWjiTg30U6SEFTUhsVRFUni2z23wIkVfOx01wFjrdZpR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371649212"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="371649104"
+   d="scan'208";a="371649212"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:02:04 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:02:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871543430"
+   d="scan'208";a="871543449"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:02:05 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:02:09 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -106,9 +106,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH v9 15/36] x86/fred: No ESPFIX needed when FRED is enabled
-Date:   Sun, 30 Jul 2023 23:32:56 -0700
-Message-Id: <20230731063317.3720-16-xin3.li@intel.com>
+Subject: [PATCH v9 18/36] x86/fred: Add a page fault entry stub for FRED
+Date:   Sun, 30 Jul 2023 23:32:59 -0700
+Message-Id: <20230731063317.3720-19-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230731063317.3720-1-xin3.li@intel.com>
 References: <20230731063317.3720-1-xin3.li@intel.com>
@@ -120,42 +120,74 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Because FRED always restores the full value of %rsp, ESPFIX is
-no longer needed when it's enabled.
+Add a page fault entry stub for FRED.
+
+On a FRED system, the faulting address (CR2) is passed on the stack,
+to avoid the problem of transient state. Thus we get the page fault
+address from the stack instead of CR2.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/kernel/espfix_64.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/x86/include/asm/fred.h |  2 ++
+ arch/x86/mm/fault.c         | 18 ++++++++++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kernel/espfix_64.c b/arch/x86/kernel/espfix_64.c
-index 16f9814c9be0..48d133a54f45 100644
---- a/arch/x86/kernel/espfix_64.c
-+++ b/arch/x86/kernel/espfix_64.c
-@@ -106,6 +106,10 @@ void __init init_espfix_bsp(void)
- 	pgd_t *pgd;
- 	p4d_t *p4d;
+diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
+index b45c1bea5b7f..fb8e7b4f2d38 100644
+--- a/arch/x86/include/asm/fred.h
++++ b/arch/x86/include/asm/fred.h
+@@ -112,6 +112,8 @@ static __always_inline unsigned long fred_event_data(struct pt_regs *regs)
  
-+	/* FRED systems don't need ESPFIX */
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		return;
-+
- 	/* Install the espfix pud into the kernel page directory */
- 	pgd = &init_top_pgt[pgd_index(ESPFIX_BASE_ADDR)];
- 	p4d = p4d_alloc(&init_mm, pgd, ESPFIX_BASE_ADDR);
-@@ -129,6 +133,10 @@ void init_espfix_ap(int cpu)
- 	void *stack_page;
- 	pteval_t ptemask;
+ typedef DECLARE_FRED_HANDLER((*fred_handler));
  
-+	/* FRED systems don't need ESPFIX */
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		return;
++DECLARE_FRED_HANDLER(fred_exc_page_fault);
 +
- 	/* We only have to do this once... */
- 	if (likely(per_cpu(espfix_stack, cpu)))
- 		return;		/* Already initialized */
+ #endif /* __ASSEMBLY__ */
+ 
+ #endif /* CONFIG_X86_FRED */
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index e8711b2cafaf..dd3df092d0f2 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -34,6 +34,7 @@
+ #include <asm/kvm_para.h>		/* kvm_handle_async_pf		*/
+ #include <asm/vdso.h>			/* fixup_vdso_exception()	*/
+ #include <asm/irq_stack.h>
++#include <asm/fred.h>
+ 
+ #define CREATE_TRACE_POINTS
+ #include <asm/trace/exceptions.h>
+@@ -1495,9 +1496,10 @@ handle_page_fault(struct pt_regs *regs, unsigned long error_code,
+ 	}
+ }
+ 
+-DEFINE_IDTENTRY_RAW_ERRORCODE(exc_page_fault)
++static __always_inline void page_fault_common(struct pt_regs *regs,
++					      unsigned int error_code,
++					      unsigned long address)
+ {
+-	unsigned long address = read_cr2();
+ 	irqentry_state_t state;
+ 
+ 	prefetchw(&current->mm->mmap_lock);
+@@ -1544,3 +1546,15 @@ DEFINE_IDTENTRY_RAW_ERRORCODE(exc_page_fault)
+ 
+ 	irqentry_exit(regs, state);
+ }
++
++DEFINE_IDTENTRY_RAW_ERRORCODE(exc_page_fault)
++{
++	page_fault_common(regs, error_code, read_cr2());
++}
++
++#ifdef CONFIG_X86_FRED
++DEFINE_FRED_HANDLER(fred_exc_page_fault)
++{
++	page_fault_common(regs, regs->orig_ax, fred_event_data(regs));
++}
++#endif
 -- 
 2.34.1
 
