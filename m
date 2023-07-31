@@ -2,131 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1854CC001DC
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:05:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3906CC001DF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:08:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231824AbjGaMFZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 08:05:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59630 "EHLO
+        id S232282AbjGaMID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 08:08:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231434AbjGaMFW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:05:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B786C171C;
-        Mon, 31 Jul 2023 05:05:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B3576108B;
-        Mon, 31 Jul 2023 12:04:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FA01C433C8;
-        Mon, 31 Jul 2023 12:04:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690805098;
-        bh=CxFnYp7q+XxZ7znzGHFxRtOTFd57UjGuXrJBT9Z6jfw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dNP7+QrCm8e46TuickOROLjjoLk92XRMECcE6QClmuWcLojczZGukm8KMESE1qWL8
-         CYxrXkdWiffoaLzos/RLuhWfIAdUqM/Q1pylPvMfbNH8spCCndcH/XDhXCxRQLggiF
-         vgBrGQHEXumy5TAx6WhEAHo1gT1LXoPY6m/epkfeeFQumPrdgl5SdK3jQGgrHF5mq7
-         pvD/f2EG7lAQIaTUn5JiXPWse/LTC4ro5PhsIEbt/I/IqH0PTMZa/o3xLuLyeDE+Ts
-         JhrfTd66S/ROXLq2LHi4ag2u/bghGxZltrDXN2c6wo0BCVdmbyzvetd4DsqUafCH0A
-         cW61RjU8PEI9Q==
-Date:   Mon, 31 Jul 2023 14:04:55 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, corbet@lwn.net,
-        christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net,
-        donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas =?utf-8?Q?Hellstr=C3=B6m?= 
-        <thomas.hellstrom@linux.intel.com>,
-        Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-misc-next v8 01/12] drm: manager to keep track of
- GPUs VA mappings
-Message-ID: <r7gbbrkn4hjyjyjgapf7jnyswbuvks4ng7uuy7gibsra2xpvzf@iot4rgafaqjn>
-References: <20230720001443.2380-1-dakr@redhat.com>
- <20230720001443.2380-2-dakr@redhat.com>
- <hi5magp4icayy5dxmylfyxws52cu63jvlhu4yj5xem3acoaylk@msf7zthcr3lg>
- <20230728142612.2ecf99ef@collabora.com>
+        with ESMTP id S231467AbjGaMIB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:08:01 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EE110E9
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:07:57 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-31759e6a4a1so3980393f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 05:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690805276; x=1691410076;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RtmERFMlZOzYX/xBspxMX5ThTF00TCl7wQ49mzpQ0/E=;
+        b=ckvKa3Zx6KLTC/M6VWdrDZz/SSn75QqFRlMc0INiSsSBx74N0XLvwMHXr/+1kT27eP
+         2VJgFZt4x2XA8zK/QCSOllF4qlJL0zdlWeiSenxoo5XA6bg0BWmo4iAsdwWj5iJRGauk
+         wDEn65j7MAM1S5M1tIugT7l19Cfb4tdy6ef+XqorZf5v2By4dSwzVTenowDcofckzNyO
+         K3OktzO+ncq6RAs2ijzNHWsQJJW4olboxJSVETmXZPSjGFq7VH+zra5n0r2r2pTXta7N
+         Q1Jy7aFI41e+av0nqqcbhUAS0OF7+1gTr+jZqBOc0NfGDi0XeErtkvl+rKkCg5HXkczs
+         4qsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690805276; x=1691410076;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RtmERFMlZOzYX/xBspxMX5ThTF00TCl7wQ49mzpQ0/E=;
+        b=WLECZx22ciNxlCX45/tbrEsCq++XMjeFxjD7lTbG65IcdrJbV2kVll2tWeoJvSD5q+
+         sgJm3e4+gTs3aHO8jdj6ZUvKxAG/ksOAzX5Swy2NgFpZjEHAY3VR6Pj2KxdrXc/ToEqV
+         uaPoNhgETOrM3v23HGef769ACy88/dTWbpqdiMX5maJsDDlM4tEW9sua4DC+uqb9CgCP
+         jLalxFsLb1OZ+bUaKuPpzeCO7O73gd3kDgHM4i/R4RT2Fufp0NtF2yJvzwp3POfaEVHF
+         VnQlReUKWP90q6AYc1SS5iYJo+7WAOltdhbCPcpra5v+SjiM3jeutEABEbcG8esxymhB
+         zkIw==
+X-Gm-Message-State: ABy/qLbnRRUHYfKzV0ht5iBawF/dqdKW+7N/SnKU6qMWEdHynbZbKWyf
+        GegJuZFyQbKLlb7Pps99Xz4cDLiZZVyPkLNFPGI=
+X-Google-Smtp-Source: APBJJlFr6e04BsmGj0Si0aJ/H+RJXUxKxJY/Gls37u74uRa2g6gDjuh0SZ+KHpB0+aEfGznvQoXMRw==
+X-Received: by 2002:a5d:6889:0:b0:313:f548:25b9 with SMTP id h9-20020a5d6889000000b00313f54825b9mr6424281wru.40.1690805275895;
+        Mon, 31 Jul 2023 05:07:55 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q15-20020a7bce8f000000b003fe20533a1esm3193045wmj.44.2023.07.31.05.07.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 05:07:55 -0700 (PDT)
+Date:   Mon, 31 Jul 2023 15:07:52 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Valentin Schneider <vschneid@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 06/20] tracing/filters: Optimise scalar vs cpumask
+ filtering when the user mask is a single CPU
+Message-ID: <04f20e58-6b24-4f44-94e2-0d12324a30e4@kadam.mountain>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+ <20230720163056.2564824-7-vschneid@redhat.com>
+ <20230729155547.35719a1f@rorschach.local.home>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wm7cpxvm7mxqxcv7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230728142612.2ecf99ef@collabora.com>
+In-Reply-To: <20230729155547.35719a1f@rorschach.local.home>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Jul 29, 2023 at 03:55:47PM -0400, Steven Rostedt wrote:
+> > @@ -1761,6 +1761,11 @@ static int parse_pred(const char *str, void *data,
+> >  				FILTER_PRED_FN_CPUMASK;
+> >  		} else if (field->filter_type == FILTER_CPU) {
+> >  			pred->fn_num = FILTER_PRED_FN_CPU_CPUMASK;
+> > +		} else if (single) {
+> > +			pred->op = pred->op == OP_BAND ? OP_EQ : pred->op;
+> 
+> Nit, the above can be written as:
+> 
+> 			pred->op = pret->op != OP_BAND ? : OP_EQ;
+> 
 
---wm7cpxvm7mxqxcv7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Heh.  Those are not equivalent.  The right way to write this is:
 
-Hi Boris,
+	if (pred->op == OP_BAND)
+		pred->op = OP_EQ;
 
-On Fri, Jul 28, 2023 at 02:26:12PM +0200, Boris Brezillon wrote:
-> On Fri, 28 Jul 2023 13:31:36 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > Hi Danilo,
-> >=20
-> > On Thu, Jul 20, 2023 at 02:14:22AM +0200, Danilo Krummrich wrote:
-> > > Add infrastructure to keep track of GPU virtual address (VA) mappings
-> > > with a decicated VA space manager implementation.
-> > >=20
-> > > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
-> > > start implementing, allow userspace applications to request multiple =
-and
-> > > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
-> > > intended to serve the following purposes in this context.
-> > >=20
-> > > 1) Provide infrastructure to track GPU VA allocations and mappings,
-> > >    making using an interval tree (RB-tree).
-> > >=20
-> > > 2) Generically connect GPU VA mappings to their backing buffers, in
-> > >    particular DRM GEM objects.
-> > >=20
-> > > 3) Provide a common implementation to perform more complex mapping
-> > >    operations on the GPU VA space. In particular splitting and merging
-> > >    of GPU VA mappings, e.g. for intersecting mapping requests or part=
-ial
-> > >    unmap requests.
-> > >=20
-> > > Acked-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
-> > > Acked-by: Matthew Brost <matthew.brost@intel.com>
-> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Tested-by: Matthew Brost <matthew.brost@intel.com>
-> > > Tested-by: Donald Robson <donald.robson@imgtec.com>
-> > > Suggested-by: Dave Airlie <airlied@redhat.com>
-> > > Signed-off-by: Danilo Krummrich <dakr@redhat.com> =20
-> >=20
-> > For some reason this breaks the drm_exec kunit patches:
->=20
-> Fix available here [1].
->=20
-> [1]https://lore.kernel.org/dri-devel/cbf4ccf9-8131-27a0-332c-6942866340d1=
-@igalia.com/T/#t
+regards,
+dan carpenter
 
-Thanks for pointing it out :)
-
-Maxime
-
---wm7cpxvm7mxqxcv7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMejZwAKCRDj7w1vZxhR
-xaW5AQCv028JEAAnIb/aFhQc1sYoXrIKQLstpLgP6KnY2r99tAD7BvwHotLO3uHq
-7wsMukvisTg7tcpMtdYRdRiWIaoh+gs=
-=nrso
------END PGP SIGNATURE-----
-
---wm7cpxvm7mxqxcv7--
