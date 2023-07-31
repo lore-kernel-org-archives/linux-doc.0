@@ -2,125 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6110C04A94
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 18:17:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D887C001E0
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 18:24:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbjGaSRp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 14:17:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47816 "EHLO
+        id S231426AbjGaSY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 14:24:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbjGaSRo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 14:17:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C6EC93;
-        Mon, 31 Jul 2023 11:17:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6695B6127C;
-        Mon, 31 Jul 2023 18:17:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51B5FC433C7;
-        Mon, 31 Jul 2023 18:16:55 +0000 (UTC)
-Date:   Mon, 31 Jul 2023 14:16:26 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Valentin Schneider <vschneid@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 06/20] tracing/filters: Optimise scalar vs
- cpumask filtering when the user mask is a single CPU
-Message-ID: <20230731141626.1b180ab1@gandalf.local.home>
-In-Reply-To: <b7cf996a-f443-402c-8e13-c5f25a964184@kadam.mountain>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
-        <20230720163056.2564824-7-vschneid@redhat.com>
-        <20230729155547.35719a1f@rorschach.local.home>
-        <04f20e58-6b24-4f44-94e2-0d12324a30e4@kadam.mountain>
-        <20230731115453.395d20c6@gandalf.local.home>
-        <b7cf996a-f443-402c-8e13-c5f25a964184@kadam.mountain>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229535AbjGaSYZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 14:24:25 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2670519AA
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 11:24:18 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-583f048985bso64132367b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 11:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690827857; x=1691432657;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1/EEbSVk8mYUaE0SN2Bc3r0yvzs2EUpAITVg+S9v2GQ=;
+        b=7KjY1kSiElTJJuWBtAviRpp0weoOhE9oS4UCQPAuEZZZEIwV/BvF4nUtoWY0vI52sc
+         xoW23xcaYg72EmDFuPZnPGybPBO9COaGwV2/7T0gpn39T86VkIxqalsDeeo2bzfjEWTj
+         ECm7AYM4CNa0RriXcN/bgaFRDqe6S1IzGkjjQCyXMttNvTMKx8aehMEQ08onWOMQLakS
+         bl7pV2sGnTHeC36WawODw2/ZoURh+EAnUGUV/oqTPIrDmJ1j9l+4hndcrrr+hDaQrElA
+         pE0uAhThPdNIF+bYSgtfG34z3QcqblFsh1qxblqtIgwVvqZaudQDJoE8nrdZgCLf1YbR
+         yz0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690827857; x=1691432657;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1/EEbSVk8mYUaE0SN2Bc3r0yvzs2EUpAITVg+S9v2GQ=;
+        b=PE8trSNEJkCiWIFNk5uIhuJ4IqL1CK1fX6lnfmXHRg7k7SvRiLjESdTka15VYLSJ4D
+         VkLD1NoztPs9t58q/A0rEPNL3IiyxqBLew/kyRmiGZZbYy40uohDmj7WINl6qA0MdpOm
+         +NIawu6rc96CKiAxqfLCrUadYs60+zKiZAQB+hhag2tqQgOMFUTUo208fT/u/W3zIn9t
+         9hBMW0fJKesQTWcqFGgdbTPnOsK384YdSXpf9FkFfBkVirtLeM7CBheadPVvChmj4Rw9
+         z3Nehw6QSHi5lQ+vDimj68hCwAZ0b6/bH6Q9Z+yOoJRqmlKJcnfO6sNV3GP2ckSw1yyL
+         m2pg==
+X-Gm-Message-State: ABy/qLb7iystzjnGMiwDVQS10HOPQgPxAHNo94C37hu4S6Vr8FHD/JCN
+        ZZSDTAynrlJzbeeisg2MrC5kWQ0BZHA=
+X-Google-Smtp-Source: APBJJlHfP3UCtqpjLxnNoRj1P91ZUliT249SqC2lLpi/z81MpLIjgiv9NNNd9grIXWF0TSe6XS87mDvlqn0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:a784:0:b0:577:d5b:7ce3 with SMTP id
+ e126-20020a81a784000000b005770d5b7ce3mr84601ywh.9.1690827857409; Mon, 31 Jul
+ 2023 11:24:17 -0700 (PDT)
+Date:   Mon, 31 Jul 2023 11:24:15 -0700
+In-Reply-To: <ZMf1TkrUjP6+/VSC@google.com>
+Mime-Version: 1.0
+References: <20230626182016.4127366-1-mizhang@google.com> <20230626182016.4127366-3-mizhang@google.com>
+ <ec65c77a-3499-6278-f352-9bbe25a44b96@infradead.org> <ZMf1TkrUjP6+/VSC@google.com>
+Message-ID: <ZMf8T8kdiDJlqtmS@google.com>
+Subject: Re: [PATCH v2 2/6] KVM: Documentation: Update the field name gfns and
+ its description in kvm_mmu_page
+From:   Sean Christopherson <seanjc@google.com>
+To:     Mingwei Zhang <mizhang@google.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kai Huang <kai.huang@intel.com>,
+        Jim Mattson <jmattson@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
+        Zhi Wang <zhi.wang.linux@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 31 Jul 2023 19:03:04 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
-
-> > > > Nit, the above can be written as:
-> > > > 
-> > > > 			pred->op = pret->op != OP_BAND ? : OP_EQ;
-> > > >     
-> > > 
-> > > Heh.  Those are not equivalent.  The right way to write this is:  
+On Mon, Jul 31, 2023, Mingwei Zhang wrote:
+> On Mon, Jun 26, 2023, Randy Dunlap wrote:
+> > Hi--
 > > 
-> > You mean because of my typo?  
+> > On 6/26/23 11:20, Mingwei Zhang wrote:
+> > > Update the field 'gfns' in kvm_mmu_page to 'shadowed_translation' to be
+> > > consistent with the code. Also update the corresponding 'gfns' in the
+> > > comments. The more detailed description of 'shadowed_translation' is
+> > > already inlined in the data structure definition, so no need to duplicate
+> > > the text but simply just update the names.
+> > > 
+> > > Signed-off-by: Mingwei Zhang <mizhang@google.com>
+> > > Reviewed-by: Kai Huang <kai.huang@intel.com>
+> > > ---
+> > >  Documentation/virt/kvm/x86/mmu.rst | 9 +++++----
+> > >  1 file changed, 5 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
+> > > index 561efa8ec7d7..4c9044b4dc6c 100644
+> > > --- a/Documentation/virt/kvm/x86/mmu.rst
+> > > +++ b/Documentation/virt/kvm/x86/mmu.rst
+> > > @@ -221,11 +221,12 @@ Shadow pages contain the following information:
+> > >      at __pa(sp2->spt).  sp2 will point back at sp1 through parent_pte.
+> > >      The spt array forms a DAG structure with the shadow page as a node, and
+> > >      guest pages as leaves.
+> > > -  gfns:
+> > > -    An array of 512 guest frame numbers, one for each present pte.  Used to
+> > > -    perform a reverse map from a pte to a gfn. When role.direct is set, any
+> > > +  shadowed_translation:
+> > > +    An array of 512 shadow translation entries, one for each present pte. Used
+> > > +    to perform a reverse map from a pte to a gfn. When role.direct is set, any
+> > >      element of this array can be calculated from the gfn field when used, in
+> > > -    this case, the array of gfns is not allocated. See role.direct and gfn.
+> > > +    this case, the array of shadowed_translation is not allocated. See
+> > 
+> > I cannot parse the before version nor the after version of this sentence (new version):
+> > 
+> >                                                   When role.direct is set, any
+> >     element of this array can be calculated from the gfn field when used, in
+> >     this case, the array of shadowed_translation is not allocated.
+> > 
+> > 
 > 
-> No, I hadn't seen the s/pred/pret/ typo.  Your code does:
-> 
-> 	if (pred->op != OP_BAND)
-> 		pred->op = true;
-> 	else
-> 		pred->op OP_EQ;
+> Sorry for the late reply.  Why is it not parsed? It just means that when
+> role.direct is set, do not use gfns. The gfn can be calculated from the
+> base address + offset. The base address here is the 'gfn' field in
+> kvm_mmu_page.
 
-Ah, for some reason I was thinking the ? : just was just a nop, but I guess
-it is to assign the cond value :-/
+It's a bit of a run-on sentence with confusing pronoun usage.  How about this?
 
-But of course every place I've done that, it was the condition value I
-wanted, which was the same as the value being assigned.
-
-Thanks,
-
--- Steve
-
+  When role.direct is set, the shadow_translation array is not allocated as the
+  per-SPTE gfn is simply an offset from the base gfn, and KVM doesn't track
+  access permissions for direct shadow pages.
