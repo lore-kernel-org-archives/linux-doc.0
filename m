@@ -2,98 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8CBBC41513
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 11:45:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1854CC001DC
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:05:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230350AbjGaLpv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 07:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48362 "EHLO
+        id S231824AbjGaMFZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 08:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231169AbjGaLpt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 07:45:49 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C2DE65
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 04:45:47 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-68706b39c4cso2316251b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 04:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1690803946; x=1691408746;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eixVz+lC2CT7QVfWGuIxIWOZy5K4rUiP49mRPzTth6c=;
-        b=VT13zwPYUAOAfBEH3rgUxFldZISumpumgvx/iD+w+BPKXFCSw3sb4v14W/QgLOOhbW
-         Y4qIeqO4CObDAuwhvipQAF/Nxwdfy7bhGuyOdCPdgvA74GZiUNA7YMGM2eJh0mgKpjun
-         mbuYrgNQg2POZNYGwztFta3wBsE1ysU2dL3o/0F2XgHLPdsBU4kATSfglaZu9LdweHrO
-         bc9/9LGBiT2538a98gFqSDRWXk4QjqRgfxoau2+N8CLFE5sgcBFdagXToM/WS7YhLx40
-         aAfi3jZsaDNavimHFkfpKR1AsIE9HlF8UzHi7DX9PX+WONweh99kzIdKxsN7CAlxRgQ/
-         uYwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690803946; x=1691408746;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eixVz+lC2CT7QVfWGuIxIWOZy5K4rUiP49mRPzTth6c=;
-        b=R8uTI68lMuefICOsPPgI83NxytTUSrfS9epRGWK5jr+QxFyyjgki2q5QBR31aZ+AAt
-         /nLVWKa9oNWnB+0ZmKuBtQ5U8+9/sXBBnyhp5p9jH+/xXc48kkeojIpmEd8oZjvpcVJV
-         ByGNHDencqfuJZlwGq1qIP9T8IpBHNyumZQx0pUT9V/meC4WjaR8Tx/SO5/SNCyvMZlG
-         QnvpKcVUiVW75cg/xUBtPn9Vtc0izw1uEdv6h5agHU4Gtq17qMYvgdAMoPavrPc8j8/g
-         cSjh8d2mtFRFQR+JvdaSaGZ3PAmNqY5bjgHoUKxuSaTfcLSjtW64d4IPkBu8iFQwLnBC
-         gMfA==
-X-Gm-Message-State: ABy/qLb7gtV5VEk233UlXd9tdstHgwDWOuVojJtEhfEMQS+jYW7tNX9A
-        UXfoVQl9hqaFGOnGhv4L3RT6wg==
-X-Google-Smtp-Source: APBJJlGydmwkyBJiOoqdphaZJq4iW3Nm7CDrOuaHl7TUuebUj9EajXLsR+UqO8/g3DIuDKwJOE5j+Q==
-X-Received: by 2002:a05:6a00:194b:b0:677:c5bf:dccc with SMTP id s11-20020a056a00194b00b00677c5bfdcccmr10108630pfk.19.1690803946336;
-        Mon, 31 Jul 2023 04:45:46 -0700 (PDT)
-Received: from [10.90.34.137] ([203.208.167.147])
-        by smtp.gmail.com with ESMTPSA id n9-20020aa78a49000000b00668652b020bsm7440809pfa.105.2023.07.31.04.45.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 04:45:46 -0700 (PDT)
-Message-ID: <ab4422ae-f923-1424-bb10-c345de059f3f@bytedance.com>
-Date:   Mon, 31 Jul 2023 19:45:38 +0800
+        with ESMTP id S231434AbjGaMFW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:05:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B786C171C;
+        Mon, 31 Jul 2023 05:05:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B3576108B;
+        Mon, 31 Jul 2023 12:04:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FA01C433C8;
+        Mon, 31 Jul 2023 12:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690805098;
+        bh=CxFnYp7q+XxZ7znzGHFxRtOTFd57UjGuXrJBT9Z6jfw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dNP7+QrCm8e46TuickOROLjjoLk92XRMECcE6QClmuWcLojczZGukm8KMESE1qWL8
+         CYxrXkdWiffoaLzos/RLuhWfIAdUqM/Q1pylPvMfbNH8spCCndcH/XDhXCxRQLggiF
+         vgBrGQHEXumy5TAx6WhEAHo1gT1LXoPY6m/epkfeeFQumPrdgl5SdK3jQGgrHF5mq7
+         pvD/f2EG7lAQIaTUn5JiXPWse/LTC4ro5PhsIEbt/I/IqH0PTMZa/o3xLuLyeDE+Ts
+         JhrfTd66S/ROXLq2LHi4ag2u/bghGxZltrDXN2c6wo0BCVdmbyzvetd4DsqUafCH0A
+         cW61RjU8PEI9Q==
+Date:   Mon, 31 Jul 2023 14:04:55 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
+        daniel@ffwll.ch, tzimmermann@suse.de, corbet@lwn.net,
+        christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
+        willy@infradead.org, jason@jlekstrand.net,
+        donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thomas =?utf-8?Q?Hellstr=C3=B6m?= 
+        <thomas.hellstrom@linux.intel.com>,
+        Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-misc-next v8 01/12] drm: manager to keep track of
+ GPUs VA mappings
+Message-ID: <r7gbbrkn4hjyjyjgapf7jnyswbuvks4ng7uuy7gibsra2xpvzf@iot4rgafaqjn>
+References: <20230720001443.2380-1-dakr@redhat.com>
+ <20230720001443.2380-2-dakr@redhat.com>
+ <hi5magp4icayy5dxmylfyxws52cu63jvlhu4yj5xem3acoaylk@msf7zthcr3lg>
+ <20230728142612.2ecf99ef@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.1
-Subject: Re: [PATCH 03/11] maple_tree: Add some helper functions
-To:     Matthew Wilcox <willy@infradead.org>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>
-References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
- <20230726080916.17454-4-zhangpeng.00@bytedance.com>
- <20230726150252.x56owgz3ikujzicu@revolver>
- <ZME23DS/Elz2XPey@casper.infradead.org>
-Cc:     mathieu.desnoyers@efficios.com, npiggin@gmail.com,
-        Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, michael.christie@oracle.com,
-        peterz@infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, avagin@gmail.com, surenb@google.com,
-        brauner@kernel.org
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <ZME23DS/Elz2XPey@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wm7cpxvm7mxqxcv7"
+Content-Disposition: inline
+In-Reply-To: <20230728142612.2ecf99ef@collabora.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--wm7cpxvm7mxqxcv7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-在 2023/7/26 23:08, Matthew Wilcox 写道:
-> On Wed, Jul 26, 2023 at 11:02:52AM -0400, Liam R. Howlett wrote:
->> * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
->>>   static inline
->>> -enum maple_type mas_parent_type(struct ma_state *mas, struct maple_enode *enode)
->>> +enum maple_type ma_parent_type(struct maple_tree *mt, struct maple_node *node)
->>
->> I was trying to keep ma_* prefix to mean the first argument is
->> maple_node and mt_* to mean maple_tree.  I wasn't entirely successful
->> with this and I do see why you want to use ma_, but maybe reverse the
->> arguments here?
-> 
-> I think your first idea is better.  Usually we prefer to order the
-> arguments by "containing thing" to "contained thing".  So always use
-> (struct address_space *, struct folio *), for example.  Or (struct
-> mm_struct *, struct vm_area_struct *).
-There are disagreements here, so how to decide? But I don't know if the
-new version still has this helper.
-> 
+Hi Boris,
+
+On Fri, Jul 28, 2023 at 02:26:12PM +0200, Boris Brezillon wrote:
+> On Fri, 28 Jul 2023 13:31:36 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > Hi Danilo,
+> >=20
+> > On Thu, Jul 20, 2023 at 02:14:22AM +0200, Danilo Krummrich wrote:
+> > > Add infrastructure to keep track of GPU virtual address (VA) mappings
+> > > with a decicated VA space manager implementation.
+> > >=20
+> > > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+> > > start implementing, allow userspace applications to request multiple =
+and
+> > > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+> > > intended to serve the following purposes in this context.
+> > >=20
+> > > 1) Provide infrastructure to track GPU VA allocations and mappings,
+> > >    making using an interval tree (RB-tree).
+> > >=20
+> > > 2) Generically connect GPU VA mappings to their backing buffers, in
+> > >    particular DRM GEM objects.
+> > >=20
+> > > 3) Provide a common implementation to perform more complex mapping
+> > >    operations on the GPU VA space. In particular splitting and merging
+> > >    of GPU VA mappings, e.g. for intersecting mapping requests or part=
+ial
+> > >    unmap requests.
+> > >=20
+> > > Acked-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> > > Acked-by: Matthew Brost <matthew.brost@intel.com>
+> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Tested-by: Matthew Brost <matthew.brost@intel.com>
+> > > Tested-by: Donald Robson <donald.robson@imgtec.com>
+> > > Suggested-by: Dave Airlie <airlied@redhat.com>
+> > > Signed-off-by: Danilo Krummrich <dakr@redhat.com> =20
+> >=20
+> > For some reason this breaks the drm_exec kunit patches:
+>=20
+> Fix available here [1].
+>=20
+> [1]https://lore.kernel.org/dri-devel/cbf4ccf9-8131-27a0-332c-6942866340d1=
+@igalia.com/T/#t
+
+Thanks for pointing it out :)
+
+Maxime
+
+--wm7cpxvm7mxqxcv7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMejZwAKCRDj7w1vZxhR
+xaW5AQCv028JEAAnIb/aFhQc1sYoXrIKQLstpLgP6KnY2r99tAD7BvwHotLO3uHq
+7wsMukvisTg7tcpMtdYRdRiWIaoh+gs=
+=nrso
+-----END PGP SIGNATURE-----
+
+--wm7cpxvm7mxqxcv7--
