@@ -2,144 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EF83C001E0
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 18:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3E3C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 19:37:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbjGaS7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 14:59:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40842 "EHLO
+        id S231163AbjGaThn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 15:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjGaS7r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 14:59:47 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F0310B
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 11:59:46 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1b8b2886364so29643255ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 11:59:46 -0700 (PDT)
+        with ESMTP id S229999AbjGaThj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 15:37:39 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF4331997
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 12:37:37 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3175d5ca8dbso4339097f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 12:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690829986; x=1691434786;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QaCjkfq4GN48OOcuB8c05SWee45tE8EdW2QBnU8SY4I=;
-        b=EiK2WSAmGmaqQEvSbbJ3JZEviDOaWmDe8ynJ3FXfHSP/Gkq3ewW9MqltZrXpWvrzDW
-         U9bv1T03LHepVLA5BbKnCuHkuwClGkn+0sOPSTPpIVR6mEyzHPzUKXpNIq5HzthZxA4E
-         iqDLe092brH/rfizjd+pi0E28u3OHdojmPk2G81QdE+OJGKiT/d/d+vqrEMd+YM1IJk8
-         P62xw1aoItrCOmWCT0FXXNNx9O7alPW+tVaGUUUH0qTNz8h6RCeMPjejlw6PtVbGQX2f
-         MitOMblbL4w/dKmnsYOIU1Hx3YNIxeQH+bT6ERIlpeopNXt6IGkJIh71PRnfSSXUOGQ7
-         mF1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690829986; x=1691434786;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=jrtc27.com; s=gmail.jrtc27.user; t=1690832256; x=1691437056;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QaCjkfq4GN48OOcuB8c05SWee45tE8EdW2QBnU8SY4I=;
-        b=TSZhqQkgienfGTM+tShyTdAlIpQdDoduS/SGPF6f9rWt4NVi8L8C6yrJIA64bWWzo8
-         hKYaKTVEzuBEwO3r3eBznHxtDQH0Dh92TVbKaSx8KEAyimaKYSASaEpa9IZM8BYSBaQj
-         VG4pF8PF/thvaBUbGEyXuRX4Smph+PXgo4D9lJmlukHJaBTiFimhnqsLp80+uSYQZdHi
-         iJxGES5j5tG6m2w9c48G+G+pNOy4r2aZocPRK123+FG+u58t8zCJCNPgImit6B6P1HIh
-         iLxN1q2hCgc1IeGvCzwYMZOUuHvWTpm5LS49qMkUkndvFZ5CqnMCro7VL9kbve2CtKnM
-         4MAA==
-X-Gm-Message-State: ABy/qLZ2mdXBOSAKHEniRonhUeqUsJHPHTDY5KRD7HCRwWitAzMCPSVI
-        +lFPsvVsPLBWXrV+RFKFG1h/2w==
-X-Google-Smtp-Source: APBJJlFiuOPF4Y0ss6mOyzZftVPO6k6O/8jXu5ibwwUQfSMvrDykbWBbfTI1DEL3Vh4aQjrofJsK7w==
-X-Received: by 2002:a17:902:9a87:b0:1b9:dea2:800f with SMTP id w7-20020a1709029a8700b001b9dea2800fmr9370914plp.8.1690829985516;
-        Mon, 31 Jul 2023 11:59:45 -0700 (PDT)
-Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
-        by smtp.gmail.com with ESMTPSA id jk17-20020a170903331100b001bbce3d4774sm8949893plb.79.2023.07.31.11.59.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 11:59:44 -0700 (PDT)
-Date:   Mon, 31 Jul 2023 18:59:40 +0000
-From:   Mingwei Zhang <mizhang@google.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kai Huang <kai.huang@intel.com>,
-        Jim Mattson <jmattson@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>
-Subject: Re: [PATCH v2 2/6] KVM: Documentation: Update the field name gfns
- and its description in kvm_mmu_page
-Message-ID: <ZMgEnJFj72ZARUOP@google.com>
-References: <20230626182016.4127366-1-mizhang@google.com>
- <20230626182016.4127366-3-mizhang@google.com>
- <ec65c77a-3499-6278-f352-9bbe25a44b96@infradead.org>
- <ZMf1TkrUjP6+/VSC@google.com>
- <ZMf8T8kdiDJlqtmS@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZMf8T8kdiDJlqtmS@google.com>
+        bh=a7uwEzlRP4+mthnZWfhTuzziq4CFxBm7M91f+ZmwKXs=;
+        b=SwPzih8iRWN4rPibGLwjv1Ii3dnjPqG8CSPKQ06PccPtss6AwN2JkMvpuwV9zl4UtV
+         W9q5KknSXsecflaQvizPn9qnzmFW6z/TIamLkyc/x9TwMLyKp7XMUKITxBdcMhmpD2hF
+         sA84/3kiR8K5oqHf5Fsw0hjWKTUiuq/CWjDKquiu7n6oDbpaGdN3E+YEIq/FhzsfkSRQ
+         k4wn1/E/EpCK2Dg6lKKb91aRqmafaeqpiv2u8ulpdTZFFbD5cU1N+tIXHPcl8F45pdyx
+         O2O+ev4vpdwp4p8E3kQJ1WA2T8jDgt0YXInCu5mAYnkL9eEkKgTn4gfTi33Bftg5SsWu
+         6pyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690832256; x=1691437056;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a7uwEzlRP4+mthnZWfhTuzziq4CFxBm7M91f+ZmwKXs=;
+        b=jqLn+cghbaNaihLFYehAk99qRTfxfxfPXs1A/mcQF07um3emHrUG0cGMExeYdyDHiq
+         WrkPyXDPc3WdDldQnJYyPLdglVgGKs4W6iqMJk3IhcrdmaQjwPVHcI/RtO4j5d/RZECv
+         UUY+oCjxl7wGeFGCziVBQbzDdmMaac8fO68Xhp0idZsj57DifYjbVG3iY4VHolVMPABN
+         xNf+JOOa/G02OsbLujTPArVtlVTp1Rkrd1ZVPLSVrEQ1VX4jDGU60jIouHxnSh9/Ice5
+         DSCZ2dFAE9DRPtCwfo1lG18kB2DC3grvfxMOrXPm5LqAULfxWMEi43qcJO/SeWNHRGC1
+         kKIg==
+X-Gm-Message-State: ABy/qLZMgREWYZv9XLzMvVini4GDtp/UxS8FenmQTVzNPxd3zZSImZIq
+        SSwlg3bv0GK+4eAnr90Vj6K2bg==
+X-Google-Smtp-Source: APBJJlF2ToddA8wgn58G3MLiexQHKqLAt4xSzrHHHVz3bukGSKzr1533OUsywQMPb0lND6ZYc3cf1Q==
+X-Received: by 2002:adf:e7ce:0:b0:317:5bde:e6de with SMTP id e14-20020adfe7ce000000b003175bdee6demr615220wrn.8.1690832256236;
+        Mon, 31 Jul 2023 12:37:36 -0700 (PDT)
+Received: from smtpclient.apple ([131.111.5.246])
+        by smtp.gmail.com with ESMTPSA id k13-20020a056000004d00b003176bd661fasm13829076wrx.116.2023.07.31.12.37.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 31 Jul 2023 12:37:35 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.600.7\))
+Subject: Re: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
+From:   Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <CAHVXubjhM9C1fw_Us=8+RuSJbW0pacFAk9gp7j2=BtMUPy_Byw@mail.gmail.com>
+Date:   Mon, 31 Jul 2023 20:37:24 +0100
+Cc:     Ian Rogers <irogers@google.com>,
+        Brendan Sweeney <brs@rivosinc.com>,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?utf-8?Q?R=C3=A9mi_Denis-Courmont?= <remi@remlab.net>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-perf-users@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Atish Patra <atishp@rivosinc.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3736D0AC-C87B-45D8-AB20-3A5A55D4FA64@jrtc27.com>
+References: <20230727141428.962286-1-alexghiti@rivosinc.com>
+ <20230727141428.962286-10-alexghiti@rivosinc.com>
+ <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
+ <CAHVXubgVAe1WsiZx5Ay+3KPK4u24k_vsnTwFFmBeVsHrGXwhfw@mail.gmail.com>
+ <CAHVXubj80rQRShuDS09BeTrfR6nux0A68EMWLbeat8fd_Y3YdA@mail.gmail.com>
+ <CAP-5=fWwzuGZ6a6Z38ndsb7gw7_uwS0a2VGXx08hMeiK8eZ91w@mail.gmail.com>
+ <CAHVXubjhM9C1fw_Us=8+RuSJbW0pacFAk9gp7j2=BtMUPy_Byw@mail.gmail.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+X-Mailer: Apple Mail (2.3731.600.7)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 31, 2023, Sean Christopherson wrote:
-> On Mon, Jul 31, 2023, Mingwei Zhang wrote:
-> > On Mon, Jun 26, 2023, Randy Dunlap wrote:
-> > > Hi--
-> > > 
-> > > On 6/26/23 11:20, Mingwei Zhang wrote:
-> > > > Update the field 'gfns' in kvm_mmu_page to 'shadowed_translation' to be
-> > > > consistent with the code. Also update the corresponding 'gfns' in the
-> > > > comments. The more detailed description of 'shadowed_translation' is
-> > > > already inlined in the data structure definition, so no need to duplicate
-> > > > the text but simply just update the names.
-> > > > 
-> > > > Signed-off-by: Mingwei Zhang <mizhang@google.com>
-> > > > Reviewed-by: Kai Huang <kai.huang@intel.com>
-> > > > ---
-> > > >  Documentation/virt/kvm/x86/mmu.rst | 9 +++++----
-> > > >  1 file changed, 5 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-> > > > index 561efa8ec7d7..4c9044b4dc6c 100644
-> > > > --- a/Documentation/virt/kvm/x86/mmu.rst
-> > > > +++ b/Documentation/virt/kvm/x86/mmu.rst
-> > > > @@ -221,11 +221,12 @@ Shadow pages contain the following information:
-> > > >      at __pa(sp2->spt).  sp2 will point back at sp1 through parent_pte.
-> > > >      The spt array forms a DAG structure with the shadow page as a node, and
-> > > >      guest pages as leaves.
-> > > > -  gfns:
-> > > > -    An array of 512 guest frame numbers, one for each present pte.  Used to
-> > > > -    perform a reverse map from a pte to a gfn. When role.direct is set, any
-> > > > +  shadowed_translation:
-> > > > +    An array of 512 shadow translation entries, one for each present pte. Used
-> > > > +    to perform a reverse map from a pte to a gfn. When role.direct is set, any
-> > > >      element of this array can be calculated from the gfn field when used, in
-> > > > -    this case, the array of gfns is not allocated. See role.direct and gfn.
-> > > > +    this case, the array of shadowed_translation is not allocated. See
-> > > 
-> > > I cannot parse the before version nor the after version of this sentence (new version):
-> > > 
-> > >                                                   When role.direct is set, any
-> > >     element of this array can be calculated from the gfn field when used, in
-> > >     this case, the array of shadowed_translation is not allocated.
-> > > 
-> > > 
-> > 
-> > Sorry for the late reply.  Why is it not parsed? It just means that when
-> > role.direct is set, do not use gfns. The gfn can be calculated from the
-> > base address + offset. The base address here is the 'gfn' field in
-> > kvm_mmu_page.
-> 
-> It's a bit of a run-on sentence with confusing pronoun usage.  How about this?
-> 
->   When role.direct is set, the shadow_translation array is not allocated as the
->   per-SPTE gfn is simply an offset from the base gfn, and KVM doesn't track
->   access permissions for direct shadow pages.
+On 31 Jul 2023, at 17:06, Alexandre Ghiti <alexghiti@rivosinc.com> =
+wrote:
+>=20
+> On Mon, Jul 31, 2023 at 5:10=E2=80=AFPM Ian Rogers =
+<irogers@google.com> wrote:
+>>=20
+>> On Mon, Jul 31, 2023 at 3:27=E2=80=AFAM Alexandre Ghiti =
+<alexghiti@rivosinc.com> wrote:
+>>>=20
+>>> On Mon, Jul 31, 2023 at 12:15=E2=80=AFPM Alexandre Ghiti =
+<alexghiti@rivosinc.com> wrote:
+>>>>=20
+>>>> Hi Ian,
+>>>>=20
+>>>> On Fri, Jul 28, 2023 at 7:53=E2=80=AFPM Ian Rogers =
+<irogers@google.com> wrote:
+>>>>>=20
+>>>>> On Thu, Jul 27, 2023 at 7:28=E2=80=AFAM Alexandre Ghiti =
+<alexghiti@rivosinc.com> wrote:
+>>>>>>=20
+>>>>>> riscv now supports mmaping hardware counters so add what's needed =
+to
+>>>>>> take advantage of that in libperf.
+>>>>>>=20
+>>>>>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+>>>>>> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+>>>>>> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+>>>>>> ---
+>>>>>> tools/lib/perf/mmap.c | 65 =
++++++++++++++++++++++++++++++++++++++++++++
+>>>>>> 1 file changed, 65 insertions(+)
+>>>>>>=20
+>>>>>> diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+>>>>>> index 0d1634cedf44..378a163f0554 100644
+>>>>>> --- a/tools/lib/perf/mmap.c
+>>>>>> +++ b/tools/lib/perf/mmap.c
+>>>>>> @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int =
+counter)
+>>>>>>=20
+>>>>>> static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); =
+}
+>>>>>>=20
+>>>>>> +#elif __riscv_xlen =3D=3D 64
+>>>>>=20
+>>>>> This is something of an odd guard, perhaps:
+>>>>> #elif defined(__riscv) && __riscv_xlen =3D=3D 64
+>>>>>=20
+>>>>> That way it is more intention revealing that this is riscv code. =
+Could
+>>>>> you add a comment relating to the __riscv_xlen ?
+>>>>=20
+>>>> I guess Andrew answered that already.
+>>>>=20
+>>=20
+>> Not sure. I still think it looks weird:
+>> ...
+>> #if defined(__i386__) || defined(__x86_64__)
+>> ...
+>> #elif defined(__aarch64__)
+>> ...
+>> #elif __riscv_xlen =3D=3D 64
+>> ...
+>> #else
+>> static u64 read_perf_counter(unsigned int counter __maybe_unused) { =
+return 0; }
+>> static u64 read_timestamp(void) { return 0; }
+>> #endif
+>>=20
+>> The first two are clearly #ifdef-ing architecture specific assembly
+>> code, under what conditions I get RISC-V code  =C2=AF\(=E3=83=84)/=C2=AF=
+ At least worth
+>> a comment like "csrr is only available when you have xlens of 64
+>> because ..."
+>=20
+> __riscv_xlen indicates riscv64, which is the only target of this
+> patchset. But if you prefer, I don't mind adding back the
+> defined(__riscv) if I re-spin a new version.
 
-I think the problem might be that the sentence is slightly long. To be
-accurate, we have to mention access permission which the original text
-did not. Also, I split the sentences and try only using short ones. The
-overall description will be longer. How about this?
+I mean, -Wundef is a thing that will scream at you if you evaluate a
+macro that=E2=80=99s undefined and get an implicit 0, and parts of the =
+linux
+build seem to enable it. So I would strongly recommend against
+(ab)using that feature of the preprocessor, especially when it aligns
+with greater clarity.
 
-  shadowed_translation:
-    An array of 512 shadow translation entries, one for each present pte. Used
-    to perform a reverse map from a pte to a gfn as well as its access
-    permission. When role.direct is set, the shadow_translation array is not
-    allocated. This is because the gfn contained in any element of this array
-    can be calculated from the gfn field when used.  In addition, when
-    role.direct is set, KVM does not track access permission for each of the
-    gfn. See role.direct and gfn.
+Jess
+
