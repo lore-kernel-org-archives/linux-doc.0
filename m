@@ -2,310 +2,248 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F582C41513
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 20:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9008C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 20:55:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230173AbjGaUGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 16:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
+        id S229749AbjGaUzu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 16:55:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbjGaUGq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 16:06:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE460EC;
-        Mon, 31 Jul 2023 13:06:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 77419612C9;
-        Mon, 31 Jul 2023 20:06:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE53C433C7;
-        Mon, 31 Jul 2023 20:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690834003;
-        bh=Wm3ko5tzumFdqpCmodHQ1frqih3ce3ddMJOss5yc8Fc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=gQQpK8hxhccXtPRXKwcEI/AUIRkQWBCTkNqK6TJ4/neQn9M0qWFpPckX0YYRgTwEU
-         TL852GcAybVjKUpUHqzjXk9sPb3fngGLfAmXvJHNVamX9oJ5ryO2I8e8bW36GwqFTR
-         ANmle+RC9gX3BeuGv1UzuM/bk4a/liVvxXvqF3ShowEQ1J3uZJpvbDzSxUZi8wJY0o
-         UYH7fj8oLnf+niF+yvPOBX/ef4unx8CbFDRX0H97id7mNG+NRX8YOqYT9kVcuRhqQH
-         rwLP3Joz7+743EOy1zFkDijDlN6dPdKvJbetlbBUUKUTzNT4OdYRGPVaIoWYVRHkYb
-         k9up9RSu7ns3Q==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 6773FCE1066; Mon, 31 Jul 2023 13:06:43 -0700 (PDT)
-Date:   Mon, 31 Jul 2023 13:06:43 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Huang <mmpgouride@gmail.com>
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/RCU: Bring back smp_wmb()
-Message-ID: <901e9495-74f3-4837-94ad-396f5b6899fc@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <eabec10a-9283-42eb-85c7-e447e2368c91@paulmck-laptop>
- <6E813D30-2791-4DE8-A70C-E1F91011631D@gmail.com>
- <02a84e4b-a322-4c43-ad9d-1832ce277c2f@paulmck-laptop>
- <636D1ED4-C90D-47CA-A46A-28E40E777966@gmail.com>
- <9b1967c5-6b8d-4d66-879c-42818d6e3170@paulmck-laptop>
- <30E3504D-4E64-4C61-9503-690C1657C6F3@gmail.com>
- <8d54c0a5-11ab-48e2-b187-25b229406b2a@paulmck-laptop>
- <99F1D0AB-5085-42CA-BFF0-6D5AC488F960@gmail.com>
- <2c7ebfde-40e7-442c-9483-4a3ca3b72f2d@paulmck-laptop>
- <BB359D4F-67B1-459F-A3E5-18BCD39D022B@gmail.com>
-MIME-Version: 1.0
+        with ESMTP id S229604AbjGaUzt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 16:55:49 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE2D10C0;
+        Mon, 31 Jul 2023 13:55:48 -0700 (PDT)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36VKgKUj009101;
+        Mon, 31 Jul 2023 20:55:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type :
+ content-transfer-encoding : in-reply-to : mime-version; s=corp-2023-03-30;
+ bh=2QmyfbIBTBwlEVwpSBBt9e6sQ1OaDHqcy/OvutzIpUc=;
+ b=0qrc3Ar9ZHO3yXYi5Rq/zh0kFYMpZTyk24yNHQcnUe6D4e6+StldrxPjGAZuMqkMO7cH
+ rO0WopYOdieqxkLtzD4GT2RaPCaOClI/pzp119JW6QO3uKPSkJ7eXuE9nx7YGN143c3/
+ HsMRiMkR1LwOdAdPsTWPYHjBFDLnK7cOaVLkOiNKXRbOx7ydm30Na9OrXhx1jazNj7cy
+ CuwAUPpqxiOaS7zF8O4mtgKZiAgjgZw+eEFLoYadw/x4WNpBQjAvzkum0l0PpnhL6Y+7
+ hGxEbn2LXWn3Z6ezS0UDJocJEG04KfO8bmP31vDTg5XEnpWaIdIhQjtlzaCNBnJgSmT5 MA== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3s4tctuhyh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 31 Jul 2023 20:55:18 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36VKrpCS013577;
+        Mon, 31 Jul 2023 20:55:17 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3s4s75fjtu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 31 Jul 2023 20:55:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SCzJA5kOTLrmKAh9eDjWR5PGF2WFdKKbXGK2ZqXxLJ/l3rFhBjBXhBYuzZMeTzGppNNilTef25dvDJ+7LGMQ1HOv16Aoj0Vp1i0wToCy/NGO9SbHEE4sSOWKM1IwXttUAS9FancNALEXs+cfGmaDr3dtdbRJB203SuuGyZArLbfNqdoUrwC/uKH7nMbzCp/CDMRbFHm4324/C6jHH7al8BWMyvZq4nWh8ZNJEMe1VAFQgp9uWWRDWC1Oba4aOIX88Q1t51EvPsxmDUJ+Ztx+T5INgj+3QFwVtIrMxm9tgIoZCvr70MfjXpEdZCYtamO0wLv/b4g0TFPs6lfO0dZK1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2QmyfbIBTBwlEVwpSBBt9e6sQ1OaDHqcy/OvutzIpUc=;
+ b=J3cs9oYn2+X9ax9EB4+9nCMFP93KKs76Vad58k13hf9J1RWDdf3oDnJA8SfYf7k40daMDEyxemPywyjfEptvGndi38pzBQiEprztATsb5OAxA+DYfQhjTnAtfFHId5pUg/saBIY93fhul78tBuB6kYB2L+qqKpNFxXzTFtso+1Co0uzZVxMS3/5Csr8PgLHtWBSoQ8RE2RUARf9JUscrMyXEttpClpGPPvNAGcwJte8OUm26fudGI/78GkXL1Rk/tFnAGSwpM3FmfFtPmojms3dCCCsIjdg6VEiSXXFS5NDlv3Emb6qe20SXQK9/PTz/sBV8LuJONFU/WZv3+wOC8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2QmyfbIBTBwlEVwpSBBt9e6sQ1OaDHqcy/OvutzIpUc=;
+ b=KacdfipPCsMu3mVkSTXcpjmlolkgSk+nZigMmlCFxr25mBDCmL24JW2cR0quaVMky85EEK1DovYf6ywkJPvxluX97YunKwgP4Vh6pmldausHhG9JcWtgg4gdyQ8kLPt0JermkCy3GjSSYnNRf7+Jcj5rOVWBYvJbyMVg8RGqP/E=
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
+ by SA1PR10MB6293.namprd10.prod.outlook.com (2603:10b6:806:250::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Mon, 31 Jul
+ 2023 20:55:14 +0000
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::26d3:6f41:6415:8c35]) by SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::26d3:6f41:6415:8c35%3]) with mapi id 15.20.6631.026; Mon, 31 Jul 2023
+ 20:55:14 +0000
+Date:   Mon, 31 Jul 2023 16:55:10 -0400
+From:   "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+To:     Peng Zhang <zhangpeng.00@bytedance.com>
+Cc:     linux-fsdevel@vger.kernel.org, brauner@kernel.org,
+        npiggin@gmail.com, mathieu.desnoyers@efficios.com,
+        peterz@infradead.org, michael.christie@oracle.com,
+        surenb@google.com, willy@infradead.org, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, avagin@gmail.com,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/11] MAINTAINERS: Add co-maintainer for maple tree
+Message-ID: <20230731205510.eildrxnrrsucuisl@revolver>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+        Peng Zhang <zhangpeng.00@bytedance.com>,
+        linux-fsdevel@vger.kernel.org, brauner@kernel.org,
+        npiggin@gmail.com, mathieu.desnoyers@efficios.com,
+        peterz@infradead.org, michael.christie@oracle.com,
+        surenb@google.com, willy@infradead.org, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, avagin@gmail.com,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
+ <20230726080916.17454-11-zhangpeng.00@bytedance.com>
+ <20230726163955.r47vbkgjrcbg6iwv@revolver>
+ <763e286d-8621-0dcc-bb9b-99eb053bc148@bytedance.com>
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <BB359D4F-67B1-459F-A3E5-18BCD39D022B@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <763e286d-8621-0dcc-bb9b-99eb053bc148@bytedance.com>
+User-Agent: NeoMutt/20220429
+X-ClientProxiedBy: YT4PR01CA0298.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10e::17) To SN6PR10MB3022.namprd10.prod.outlook.com
+ (2603:10b6:805:d8::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR10MB3022:EE_|SA1PR10MB6293:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5670f299-c06d-4ac4-1c79-08db92087019
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mLtBsX3vvwXSMSCsiQ0SY8yoEaMJ/oR7oUGRex3sOU6it7ITXtMHrCTarvPT3hwvHNs0k51r7F1E02zzIUFIptSiL6/0X/wdGW77uKjn66vceX75Q4vieM3Dobqontv8YaCy7cTYXo40vDVeeR7Lwy/f/NuX88w04jqvi9CbQgRJoj1gm1j433EWsCi/401QM0yW/JUiAisgHC8dz2jRf+PFqFX+AyoaoJEdn978h+oDyZG7UsnWCwM91LkR8zJqe+iaAhVv5kTMu5aZo9V+28txABVn1cDuI8zViSY7d+eHPdeUFDpgaJowi+xA5QeTRiqlUpyVJpNg/wfAyraMRV+U3weCM2BAXWftuoqazPncS1eqJdPR3KVyz8pgaxc0MjBt4fqzenahyOTw7TM7cBRgBigJ4pdfUaVN40dgJWdxnmj7wxNTGJ21cVuuBc1Wxd79dgWHZ24+PLKJiI803bJwekpdn+qg80QJD5caJpvhcuNwdy02Dmu0V0D5bcZBBeUPk1ee2oYvuM5g63uM63mZouG7urmMXGHZVkuaquEP7sakOaN6CAJzPvTkt8J1
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(396003)(39860400002)(346002)(366004)(136003)(376002)(451199021)(33716001)(478600001)(38100700002)(86362001)(6512007)(9686003)(6486002)(6666004)(7416002)(186003)(8676002)(1076003)(26005)(8936002)(6506007)(5660300002)(4326008)(3716004)(2906002)(66946007)(6916009)(66476007)(66556008)(41300700001)(316002)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWdNT25qMW9sQktIOTlFNitLRnk0N05YMHZkK3BoaFNwa1FVRkowb0J0N0Jk?=
+ =?utf-8?B?dGVTSG52S1RLRUxHYlVGRkFKcXkvTzZUS2tpai9XMHc4R2ZBWU1RR1VPNlV1?=
+ =?utf-8?B?V0xOeGc4dlBRWklVVldITm05WTczKzRMei9PR2FaTTNCMTJScjUvQlpmWU5L?=
+ =?utf-8?B?YmovWXYreVZpdHl2dFBtalNVb3ZvVFovRXNJSmZvdm8veVRkMEU4OWMwR1Q5?=
+ =?utf-8?B?UzUyV1dTNjNwL0pWV0N1aEx0UkdLYmUzeUdBTUNmNHhjWGNNRXJhUS82eEdL?=
+ =?utf-8?B?Um83WE9KSzNKVVU0TnRlZUMxWGtIRktOcVE4YUIyQlpIakI5K2JSRFZhN3Z0?=
+ =?utf-8?B?NmcwVnkrVTcwdlEwRFRnYVlOL1preVRaNWhMRi94RlNnWWM3SmZ6NjMzbWcw?=
+ =?utf-8?B?U05RNHVsN2UxMnZQeVRieENMRFBoTzdvMlk4WFVkbnJuZS9SSkd0N3U0S3hC?=
+ =?utf-8?B?RU9ZL211cGtrL2dxSTRxQ1BUZEdUb0tlQmRiTWxWemxEeVpIb0trTTVNQnpp?=
+ =?utf-8?B?RWVlNTVCTzA2VUdCS1hGdE9yOXZuWHJCc2hYd3JzTmlsbnFYVXFFTTdCSHNz?=
+ =?utf-8?B?TGYyaUlzM2dpYmtuR1ZEamljWWNiQ2I2c2dTR0liUzhTRStHajRuclJnZHF0?=
+ =?utf-8?B?VFZXS3FabGt1azd1TytEZ0lzNXEyQWFBTXRINW9MOXBRS3hPV0J4SnNNVUJH?=
+ =?utf-8?B?WER4a3dGM3F5d0luWUVQVFN5RUJNdnUwMnErWnpMMXI3eGFnYVpTckMwUk9L?=
+ =?utf-8?B?eUxJR3dKS0RHdWtDa2VJMTB2cjJkclUxZldkTEtrZ0FkSHBaYTNYckszZHVh?=
+ =?utf-8?B?UXNEWDNTWkZrVlhkdlJ4SFNodnJGVlJYYU5HWW9EOFNLczNjRUxSSjJRd2hh?=
+ =?utf-8?B?K05rakt2SUNmeUVzN2g2QStJU3FJKzJtblRhV0o5cUs5OGNZZnlHL1NBeDJE?=
+ =?utf-8?B?OVFYK3lsajUwb200ak42YTA5czZkQk5rYVR6ZWhEQTFqYmtacUhnZGp2Qlkz?=
+ =?utf-8?B?T1hScEY5QmgrcjhRaFk2T3hlVlQzM0loYVBrL3RETXU3MExrT3M2UTRucWVp?=
+ =?utf-8?B?NjhyZXFQVlp2Z0ZSdlB5d2FJN3BMeWF5OGdTd0I5U2VmdnJlMjV0MjZZVHNW?=
+ =?utf-8?B?akNqTDJSeStva3RGT2Y1WHp1TFUyT0w3QjBBQUo0ZFV3ZDg4dEt1NzhpcDls?=
+ =?utf-8?B?S3cvejExaTZuSGZYN25vRjZZcm1pTDBORXFjRWdESjVHM2JEUEFrckRrTGZK?=
+ =?utf-8?B?ZHdlWjRkZzdZWXNIRGVpNW9GMnhoMWU0ODl0cXBCNjhCdXNDc3FlMVA3OWJ3?=
+ =?utf-8?B?SjVSMHZ0TnJPcUY0eHNQZS95d0h2aFJUM0ZSWlkzdkNlb1FCR1cvSW5EeWRR?=
+ =?utf-8?B?NndxUkIvQXBCcUt4aWxnR1Zpbm5kZTN3QnZWZ0FUSU51aEIxM0U1di95V2dy?=
+ =?utf-8?B?cjFlcHBreWlkL3dHckNscklnV09yem1YbDJCMzl3dTlGTndGN05ibFJaZGQw?=
+ =?utf-8?B?Ynk1MnlkQ3JtSUQ0WENWSjNUbThCcTdsRytoZE4rRjFVcEw0UENpOVd6YjF6?=
+ =?utf-8?B?QVQyZFhqZ2V1MGU1Q2JrR2RIK21adnFyTEU2MjRMY3VvUGtRanEyUndVd3lY?=
+ =?utf-8?B?SVBHcjk3Z3FseXc3dUM1NlhLYmUrdTFTUk1nSlQ3aTllZ3pNN2liYTB6ZURV?=
+ =?utf-8?B?UGQ1NHFieGhlSnNHYnB1cTBIVG9VSWRjT0NKMElsQXRTcHh1RmMxTlNQbEhi?=
+ =?utf-8?B?SzFyamgxaFExY0tXa2prTUVlS1piVndFV0hFbzFEOWNuRVhheGd1TUdxUDB2?=
+ =?utf-8?B?NElWbFJ6d1V6N2IyTU10RTUrTXhjeTJTRUdMWmxzYzQ1ck1heXJEZ1ZLRFFq?=
+ =?utf-8?B?RmpFcUY4ZmVEVHJELy8vTmluRWpuaklyYmxmK1JudTM0cVBUNjFKY2VvYUda?=
+ =?utf-8?B?SERzbUt0bS9GS0pkbGl4RTM0REdGd2h6emFsMVNJbnNMOU4xbUI3d0lBU3RC?=
+ =?utf-8?B?VlRBS2VwNDBOSFhJUjVEdFVUcS8vWWhOT2xKUFpiRVdwcnZPd3FSTG1ZemRy?=
+ =?utf-8?B?QVRBUWRZbTg4MUtXeTZ2WEVGcGQxa2twVHhDYXZKUnBNNGozdUlQVU91RjJy?=
+ =?utf-8?B?TkRNNWtNRmErRmJZdmhCUHB0UWd4QUpDekZNbFllS0M0WFdBSVhoUStxNXV2?=
+ =?utf-8?B?a3c9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?K3o3bDZMaWI0ZnZhSmNENUhpL1V2Tlk1MnpMajhNeUwzc3JORnA4Z1hIVTda?=
+ =?utf-8?B?N3laRE1HNFUxVWtadU53T1J2aDB2TWY0bUpnSFBYZkZneWVsR3UxeHZuNjRB?=
+ =?utf-8?B?YVlaZFdTK09WdlFBbnp6MzdWQXNWNlVXRmhCcTF2SjNkaTNQbHFtNWVMUjNV?=
+ =?utf-8?B?ZnNodVRuTU5aaFBkczlXdjBNaFRtaTZuZEg1OGgwSkVUQXIyYWloazNSbFoz?=
+ =?utf-8?B?WGZBdHBKLzVaOGptL2xUL0FTY3MrSzk1dDF1N3lLY1lzT09zbHVmSW9zaUtp?=
+ =?utf-8?B?dW1FdEthSHp3OEsxTUlibVhCMCs3VFNTU0NkTUJPcjhuYTdRMFJqT2dRcVF2?=
+ =?utf-8?B?VDdMQStnRERtdmhIMlc5d2dXSHYyd1pmdHdrcmZydElyR1VlaGNVMGIyK3Jl?=
+ =?utf-8?B?eFF2bS9BTndldkdGQktONkJERnh1MFE4aUpHT2xUQ2hUS0pQQnFNcm5JS3NJ?=
+ =?utf-8?B?UzVjdGZ2Mk03eVliS09NSm5sZE1mVlF5M2lYNVpkdkpGZ0dFRGJscU9VL2M5?=
+ =?utf-8?B?dFRPYW1EWitTOFEzZjRCOVNqZkVmMFQwYk5tOTZqWm1vZ0RnaW9aSXlFTFVi?=
+ =?utf-8?B?Y0lLMzdidXkvNmw1aW9SK2RFY2hBTHlXODF3TkpHcHMyejl5M3E4VjlBNm5s?=
+ =?utf-8?B?Y0EzNGZoTGxQQ3UyQWo1NHh6NmwyRSsrZkFGbmJUa1NaNHNuTGluUEh6UkZi?=
+ =?utf-8?B?akZSQlppclhUeFNhR3ZkU3RXQUVnYzAyK2F5T2NHNTREVndaV3YvUnB2M3Fs?=
+ =?utf-8?B?amZTUEZZdTN1U2ZhbFJ1SmRkZW50TW1DUTdUd2xDUEpNNkpESW5nTTM0M25V?=
+ =?utf-8?B?WVF4akl1VjFBdXZOQjR6d3FUK2xoNW1JTTVEbEtpLzNWUFFhTXZCZUswcXcr?=
+ =?utf-8?B?UXJsMkFEK0VlWEdQdUdiMUtQa2FkUlFuOXNtV1ZFRmszRTIwdnRuZXRPNWxB?=
+ =?utf-8?B?THdOaDVVdUszU3NGbXlMVjFkWVVUNjZ5NUQzVGEvK09FbXB5UGlnYVlid3VL?=
+ =?utf-8?B?RzBtTGtSNW53VktObVorbUpHY296Uy9kOEI2TjRiODc4U0JjaGlEWDE4Z3Qy?=
+ =?utf-8?B?bWNtOCtzZmgrZDd1Nk1PaHBXUjZ6ZDZhZE9nYVBJbnpRYXZDc1F5TWJwL2Ns?=
+ =?utf-8?B?SVE4TDlzU2l4azRGTEFtSWxBQmpGVFphdDVnSkJISzVHaTNaUjN3YzI0eGt2?=
+ =?utf-8?B?ZmwrNVhndXQxaWtlNTVTWHpGSHlrdWo2bDhRM3RwR0hNSmtLM1VWcC9aSTd6?=
+ =?utf-8?B?ZkJIQndWSmdmc3NjY21JUVFLeHZ3REI4THN0Zm1NaGRON3QvNEpWZGdmZEho?=
+ =?utf-8?B?eE9ZOFYxckdQOE1MM2taZE5WYU9KYXNCYXFxL3FST2ZpaWwraXNnTDZNeTM2?=
+ =?utf-8?B?L3BrWWJraUxlakNCeXdkSkN6bmVwNXZabnZaaitQL3F1U1MzUTd5SEJTR0Qw?=
+ =?utf-8?Q?SgZ+4XKi?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5670f299-c06d-4ac4-1c79-08db92087019
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 20:55:14.3967
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8C2kirFe1fZp7KdLTRv4tB8yDiBkli5u+nfjqN5N6myu/cJnFMi2LsmlLfhi3a5tERRjOmfZOIwUyNRWBMigbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6293
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-31_15,2023-07-31_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307310190
+X-Proofpoint-GUID: I4TP29KGHgjeOm5tNKcHDtDLOu94daKo
+X-Proofpoint-ORIG-GUID: I4TP29KGHgjeOm5tNKcHDtDLOu94daKo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 29, 2023 at 11:17:31PM +0800, Alan Huang wrote:
-> 
-> > 2023年7月25日 00:09，Paul E. McKenney <paulmck@kernel.org> 写道：
-> > 
-> > On Sat, Jul 22, 2023 at 09:02:46AM +0800, Alan Huang wrote:
-> >> 
-> >>> 2023年7月22日 上午6:49，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>> 
-> >>> On Wed, Jul 19, 2023 at 12:08:33AM +0800, Alan Huang wrote:
-> >>>> 
-> >>>>> 2023年7月18日 03:06，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>>>> 
-> >>>>> On Tue, Jul 18, 2023 at 01:53:10AM +0800, Alan Huang wrote:
-> >>>>>>> 2023年7月18日 00:02，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>>>>>> On Sun, Jul 16, 2023 at 07:21:28PM +0800, Alan Huang wrote:
-> >>>>>>>>> 2023年7月16日 01:19，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>>>>>>>> On Sat, Jul 15, 2023 at 08:50:23AM +0800, Alan Huang wrote:
-> >>>>>>>>>>> 2023年7月15日 07:23，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>>>>>>>>>> On Tue, Jul 11, 2023 at 03:09:06PM +0000, Alan Huang wrote:
-> >>>>>>>>>>>> The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is
-> >>>>>>>>>>>> n->next = first within hlist_add_head_rcu() before rcu_assign_pointer(),
-> >>>>>>>>>>>> which modifies obj->obj_node.next. There may be readers holding the
-> >>>>>>>>>>>> reference of obj in lockless_lookup, and when updater modifies ->next,
-> >>>>>>>>>>>> readers can see the change immediately because ofSLAB_TYPESAFE_BY_RCU.
-> >>>>>>>>>>>> 
-> >>>>>>>>>>>> There are two memory ordering required in the insertion algorithm,
-> >>>>>>>>>>>> we need to make sure obj->key is updated before obj->obj_node.next
-> >>>>>>>>>>>> and obj->refcnt, atomic_set_release is not enough to provide the
-> >>>>>>>>>>>> required memory barrier.
-> >>>>>>>>>>>> 
-> >>>>>>>>>>>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> >>>>>>>>>>> 
-> >>>>>>>>>>> This is an interesting one!!!
-> >>>>>>>>>>> 
-> >>>>>>>>>>> Now I am having a hard time believing that the smp_rmb() suffices.
-> >>>>>>>>>>> 
-> >>>>>>>>>>>> ---
-> >>>>>>>>>>>> Changelog:
-> >>>>>>>>>>>> v1 -> v2: Use _ONCE to protect obj->key.
-> >>>>>>>>>>>> 
-> >>>>>>>>>>>> Documentation/RCU/rculist_nulls.rst | 21 +++++++++++++--------
-> >>>>>>>>>>>> 1 file changed, 13 insertions(+), 8 deletions(-)
-> >>>>>>>>>>>> 
-> >>>>>>>>>>>> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> >>>>>>>>>>>> index 21e40fcc08de..2a9f5a63d334 100644
-> >>>>>>>>>>>> --- a/Documentation/RCU/rculist_nulls.rst
-> >>>>>>>>>>>> +++ b/Documentation/RCU/rculist_nulls.rst
-> >>>>>>>>>>>> @@ -47,7 +47,7 @@ objects, which is having below type.
-> >>>>>>>>>>>> * reuse these object before the RCU grace period, we
-> >>>>>>>>>>>> * must check key after getting the reference on object
-> >>>>>>>>>>>> */
-> >>>>>>>>>>>> -    if (obj->key != key) { // not the object we expected
-> >>>>>>>>>>>> +    if (READ_ONCE(obj->key) != key) { // not the object we expected
-> >>>>>>>>>>>>  put_ref(obj);
-> >>>>>>>>>>>>  rcu_read_unlock();
-> >>>>>>>>>>>>  goto begin;
-> >>>>>>>>>>>> @@ -64,10 +64,10 @@ but a version with an additional memory barrier (smp_rmb())
-> >>>>>>>>>>>> {
-> >>>>>>>>>>>> struct hlist_node *node, *next;
-> >>>>>>>>>>>> for (pos = rcu_dereference((head)->first);
-> >>>>>>>>>>>> -         pos && ({ next = pos->next; smp_rmb(); prefetch(next); 1; }) &&
-> >>>>>>>>>>>> +         pos && ({ next = READ_ONCE(pos->next); smp_rmb(); prefetch(next); 1; }) &&
-> >>>>>>>>>>> 
-> >>>>>>>>>>> Suppose that lockless_lookup() is delayed just before fetching pos->next,
-> >>>>>>>>>>> and that there were 17 more node to search in the list.
-> >>>>>>>>>>> 
-> >>>>>>>>>>> Then consider the following sequence of events:
-> >>>>>>>>>>> 
-> >>>>>>>>>>> o The updater deletes this same node and kmem_cache_free()s it.
-> >>>>>>>>>>> 
-> >>>>>>>>>>> o Another updater kmem_cache_alloc()s that same memory and
-> >>>>>>>>>>> inserts it into an empty hash chain with a different key.
-> >>>>>>>>>>> 
-> >>>>>>>>>>> o Then lockless_lookup() fetches pos->next and sees a NULL pointer,
-> >>>>>>>>>>> thus failing to search the remaining 17 nodes in the list,
-> >>>>>>>>>>> one of which had the desired key value.
-> >>>>>>>>>>> 
-> >>>>>>>>>>> o The lookup algorithm resumes and sees the NULL return from
-> >>>>>>>>>>> lockless_lookup(), and ends up with a NULL obj.
-> >>>>>>>>>>> 
-> >>>>>>>>>>> And this happens even with the strongest possible ordering
-> >>>>>>>>>>> everywhere.
-> >>>>>>>>>>> 
-> >>>>>>>>>>> OK, yes, it is late on Friday.  So what am I missing here?
-> >>>>>>>>>> 
-> >>>>>>>>>> You missed nothing!
-> >>>>>>>>>> 
-> >>>>>>>>>> The lockless_lockup should not be a function, but a macro like hlist_for_each_entry_rcu.
-> >>>>>>>>> 
-> >>>>>>>>> How would you fix this using a macro?
-> >>>>>>>> 
-> >>>>>>>> With additional detection code. A moved object (in another chain) will have a different slot.
-> >>>>>>>> (I have sent patch v3. )
-> >>>>>>>> 
-> >>>>>>>>> 
-> >>>>>>>>>>> Independent of that, does hlist_add_head_rcu() need to replace its
-> >>>>>>>>>>> "n->next = first" with "WRITE_ONCE(n->next, first)"?
-> >>>>>>>>>> 
-> >>>>>>>>>> I think users who want to use hlist with SLAB_TYPESAFE_BY_RCU should use rculist_nulls?
-> >>>>>>>>> 
-> >>>>>>>>> I believe that you are correct.  Would you like to propose a patch, or
-> >>>>>>>>> would you rather I put something together?  My current thought is to
-> >>>>>>>> 
-> >>>>>>>> Feel free to add. 
-> >>>>>>>> 
-> >>>>>>>> One thing I think would be useful is to tell readers where the ‘next' is. 
-> >>>>>>>> The document mentions ’next’ many times, but it’s hard for me, as a reader, to realize that
-> >>>>>>>> the ‘next' is within hlist_add_head_rcu(). (I have no idea where to put the hint.)
-> >>>>>>>> 
-> >>>>>>>> 
-> >>>>>>>>> keep the examples, but to show why the one with smp_rmb() is broken.
-> >>>>>>>> 
-> >>>>>>>> I think the example needs to be fixed. :)
-> >>>>>>> 
-> >>>>>>> Even better!  I will take a look, but in the meantime, would you be
-> >>>>>>> interested in updating the wording to explain how the back-pointer works?
-> >>>>>> 
-> >>>>>> Which document needs to be updated? 
-> >>>>>> And is there anything that I can refer to? It’s the first time I have ever heard about it.
-> >>>>> 
-> >>>>> Documentation/RCU/rculist_nulls.rst, the one that you are updating.
-> >>>>> 
-> >>>>> There admittedly isn't a whole lot of commentary.
-> >>>>> 
-> >>>>>>> (Looks similar to the is_a_nulls() pointer, but in each element instead of
-> >>>>>>> just at the end.  One advantage is the ability to detect a move mid-list,
-> >>>>>>> though that is not a big deal in well-tuned hash tables, which tend to
-> >>>>>>> have short hash chains.  The need to move elements to the front of the
-> >>>>>>> destination list remains, though in both cases only if it has been less
-> >>>>>>> than a grace period since the last move.)
-> >>>>>> 
-> >>>>>> Looks like that I need to learn it first. :)
-> >>>>> 
-> >>>>> Well, you wrote the code, so...  ;-)
-> >>>> 
-> >>>> If I understand correctly, it works only for 64-bit machines?
-> >>>> 
-> >>>> And the number of slots of the hash table will be limited?
-> >>> 
-> >>> You are asking about the is_a_nulls() value?  If so, it works on both
-> >>> 32-bit and 64-bit machines.  They each have enough bits for the nulls
-> >>> value to cover all possible two-byte objects in the full address space.
-> >>> 
-> >>> If that wasn't what you were asking, please help me with your question.
-> >> 
-> >> I’m asking the ‘back-pointer’, which
-> >> 
-> >> "Looks similar to the is_a_nulls() pointer, but in each element instead of
-> >>  just at the end”
-> >> 
-> >> If I understand correctly, we need to store the nulls in the upper unused bits.
-> >> 
-> >> And we only have several bits unused. One advantage I can think of is that it 
-> >> will improve the performance once we have something like the Intel Upper Address Ignore (UAI),
-> >> which also works only for 64-bit machine.
-> > 
-> > Ah, I was using the word "similar" very loosely.  Not "implemented in
-> > a manner similar to is_a_nulls(), but rather "serves roughly the same
-> > function as is_a_nulls()".
-> 
-> I got it.
-> 
-> > 
-> > You should be able to just have the pointer to the bucket in each
-> > element, and just compare for each element.  No need for extra bits,
-> 
-> It might have the same functionality if we put the nulls value in each element.
+* Peng Zhang <zhangpeng.00@bytedance.com> [230731 08:55]:
+>=20
+>=20
+> =E5=9C=A8 2023/7/27 00:39, Liam R. Howlett =E5=86=99=E9=81=93:
+> > * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
+> > > Add myself as co-maintainer for maple tree. I would like to assist
+> > > Liam R. Howlett in maintaining maple tree. I will continue to contrib=
+ute
+> > > to the development of maple tree in the future.
+> >=20
+> > Sorry, but no.
+> >=20
+> > I appreciate the patches, bug fixes, and code review but there is no
+> > need for another maintainer for the tree at this time.
 
-There are some strange things that are easier to do with a nulls value
-than with an explicit pointer, but yes.
+> So can I add a reviewer here? This is convenient for me to review the
+> code and know the problems reported from the community. Usually I can't
+> receive maple tree issues reported by the community. It has no effect on
+> your maintenance of it.
 
-(For example, if for some odd reason you wanted to group the hash buckets
-into classes within which moving a reader to another bucket was OK.
-Why would you want to do this?  I have no idea!)
+Although you are on the path to becoming a reviewer in the MAINTAINERS
+file, that file is not a mailing list and shouldn't be treated as such.
 
-							Thanx, Paul
+You should receive all maple tree issues reported by the community by
+using the mailing lists.
 
-> > though UAI, like its pre-existing ARM counterpart, might also help catch
-> > use-after-free bugs when resizing the hash table.
-> > 
-> > Thanx, Paul
-> > 
-> >>>>>>>>>> I didn’t find a case using hlist with SLAB_TYPESAFE_BY_RCU, but I did find a case using list
-> >>>>>>>>>> with SLAB_TYPESAFE_BY_RCU in drivers/gpu/drm/i915, the driver also doesn’t use _ONCE
-> >>>>>>>>>> on the fields of the objects allocated with SLAB_TYPESAFE_BY_RCU.
-> >>>>>>>>> 
-> >>>>>>>>> Feel free to send them a patch, though I cannot speak for their
-> >>>>>>>>> reception of it.
-> >>>>>>>>> 
-> >>>>>>>>> Thanx, Paul
-> >>>>>>>>> 
-> >>>>>>>>>>> Thanx, Paul
-> >>>>>>>>>>> 
-> >>>>>>>>>>>>     ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
-> >>>>>>>>>>>>     pos = rcu_dereference(next))
-> >>>>>>>>>>>> -      if (obj->key == key)
-> >>>>>>>>>>>> +      if (READ_ONCE(obj->key) == key)
-> >>>>>>>>>>>>    return obj;
-> >>>>>>>>>>>> return NULL;
-> >>>>>>>>>>>> }
-> >>>>>>>>>>>> @@ -111,8 +111,13 @@ detect the fact that it missed following items in original chain.
-> >>>>>>>>>>>> */
-> >>>>>>>>>>>> obj = kmem_cache_alloc(...);
-> >>>>>>>>>>>> lock_chain(); // typically a spin_lock()
-> >>>>>>>>>>>> -  obj->key = key;
-> >>>>>>>>>>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> >>>>>>>>>>>> +  WRITE_ONCE(obj->key, key);
-> >>>>>>>>>>>> +  /*
-> >>>>>>>>>>>> +   * We need to make sure obj->key is updated before obj->obj_node.next
-> >>>>>>>>>>>> +   * and obj->refcnt.
-> >>>>>>>>>>>> +   */
-> >>>>>>>>>>>> +  smp_wmb();
-> >>>>>>>>>>>> +  atomic_set(&obj->refcnt, 1);
-> >>>>>>>>>>>> hlist_add_head_rcu(&obj->obj_node, list);
-> >>>>>>>>>>>> unlock_chain(); // typically a spin_unlock()
-> >>>>>>>>>>>> 
-> >>>>>>>>>>>> @@ -165,12 +170,12 @@ Note that using hlist_nulls means the type of 'obj_node' field of
-> >>>>>>>>>>>> begin:
-> >>>>>>>>>>>> rcu_read_lock();
-> >>>>>>>>>>>> hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
-> >>>>>>>>>>>> -    if (obj->key == key) {
-> >>>>>>>>>>>> +    if (READ_ONCE(obj->key) == key) {
-> >>>>>>>>>>>>  if (!try_get_ref(obj)) { // might fail for free objects
-> >>>>>>>>>>>> rcu_read_unlock();
-> >>>>>>>>>>>>    goto begin;
-> >>>>>>>>>>>>  }
-> >>>>>>>>>>>> -      if (obj->key != key) { // not the object we expected
-> >>>>>>>>>>>> +      if (READ_ONCE(obj->key) != key) { // not the object we expected
-> >>>>>>>>>>>>    put_ref(obj);
-> >>>>>>>>>>>> rcu_read_unlock();
-> >>>>>>>>>>>>    goto begin;
-> >>>>>>>>>>>> @@ -206,7 +211,7 @@ hlist_add_head_rcu().
-> >>>>>>>>>>>> */
-> >>>>>>>>>>>> obj = kmem_cache_alloc(cachep);
-> >>>>>>>>>>>> lock_chain(); // typically a spin_lock()
-> >>>>>>>>>>>> -  obj->key = key;
-> >>>>>>>>>>>> +  WRITE_ONCE(obj->key, key);
-> >>>>>>>>>>>> atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> >>>>>>>>>>>> /*
-> >>>>>>>>>>>> * insert obj in RCU way (readers might be traversing chain)
-> >>>>>>>>>>>> -- 
-> >>>>>>>>>>>> 2.34.1
-> 
-> 
+You do not need to have an entry in that file to review patches and to
+be added as a reviewer of a particular patch; just keep doing what you
+have done and send out R-b responses.
+
+I am happy to get reviews by you and will be sure to pick up any R-b
+from you for the commits between revisions.  Please also review other
+peoples patches on the mailing lists.
+
+Thanks,
+Liam
+
+> >=20
+> > >=20
+> > > Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+> > > ---
+> > >   MAINTAINERS | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > >=20
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index ddc71b815791..8cfedd492509 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -12526,6 +12526,7 @@ F:	net/mctp/
+> > >   MAPLE TREE
+> > >   M:	Liam R. Howlett <Liam.Howlett@oracle.com>
+> > > +M:	Peng Zhang <zhangpeng.00@bytedance.com>
+> > >   L:	linux-mm@kvack.org
+> > >   S:	Supported
+> > >   F:	Documentation/core-api/maple_tree.rst
+> > > --=20
+> > > 2.20.1
+> > >=20
