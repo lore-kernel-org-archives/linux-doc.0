@@ -2,101 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30EA9C001E0
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:25:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A649C001DF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 12:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232702AbjGaMZ5 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 08:25:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46790 "EHLO
+        id S232424AbjGaMaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 08:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232724AbjGaMZm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:25:42 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28ED1173F;
-        Mon, 31 Jul 2023 05:25:16 -0700 (PDT)
-Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1c:f269::1])
-        by madras.collabora.co.uk (Postfix) with ESMTP id 17F5166020AE;
-        Mon, 31 Jul 2023 13:25:06 +0100 (BST)
-From:   "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
-In-Reply-To: <CAF6AEGtan-bQ7syKAwOKDY=044aKu26SLPQ0j1ieLqXNyQQS3g@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-Date:   Mon, 31 Jul 2023 13:25:05 +0100
-Cc:     "Daniel Stone" <daniel@fooishbar.org>, emma@anholt.net,
-        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
-        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
-        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
-        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
-        daniels@collabora.com, martin.blumenstingl@googlemail.com,
-        mripard@kernel.org, anholt@google.com,
-        linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
-        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de, "Dave Airlie" <airlied@gmail.com>,
-        "Daniel Vetter" <daniel@ffwll.ch>
-To:     "Rob Clark" <robdclark@gmail.com>
+        with ESMTP id S232615AbjGaMaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 08:30:52 -0400
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8898C10DF;
+        Mon, 31 Jul 2023 05:30:49 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0VofLXKW_1690806644;
+Received: from 30.221.150.94(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VofLXKW_1690806644)
+          by smtp.aliyun-inc.com;
+          Mon, 31 Jul 2023 20:30:45 +0800
+Message-ID: <2dc21269-2fa0-ea39-454d-5f12a414bc13@linux.alibaba.com>
+Date:   Mon, 31 Jul 2023 20:30:43 +0800
 MIME-Version: 1.0
-Message-ID: <282e-64c7a800-77-46253680@38053863>
-Subject: =?utf-8?q?Re=3A?= [PATCH v10] =?utf-8?q?drm=3A?= Add initial ci/ 
- subdirectory
-User-Agent: SOGoMail 5.8.4
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.11.2
+Subject: Re: [PATCH v5 3/5] perf test: Add pmu-event test for "Compat" and new
+ event_field.
+To:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1690525040-77423-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1690525040-77423-4-git-send-email-renyu.zj@linux.alibaba.com>
+ <abeaafbe-2290-d272-ddd1-f358f7271edc@oracle.com>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <abeaafbe-2290-d272-ddd1-f358f7271edc@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello all,
 
-Thanks for your comments.
 
-On Friday, July 28, 2023 11:37 -03, Rob Clark <robdclark@gmail.com> wrote:
-
-> On Thu, Jul 27, 2023 at 10:26 PM Daniel Stone <daniel@fooishbar.org> wrote:
-> >
-> > On Thu, 27 Jul 2023 at 22:47, Rob Clark <robdclark@gmail.com> wrote:
-> > > > I did run into a bit of a chicken vs. egg problem with testing the "in
-> > > > tree" version (compared to earlier versions which kept most of the yml
-> > > > and scripts in a separate tree), is that it actually requires this
-> > > > commit to exist in the branch you want to run CI on.  My earlier
-> > > > workaround of pulling the drm/ci commit in via
-> > > > ${branchname}-external-fixes no longer works.
-> > >
-> > > After unwinding some more gitlab repo settings that were for the
-> > > previous out-of-tree yml setup, I have this working.
-> > >
-> > > Tested-by: Rob Clark <robdclark@gmail.com>
-> > > Acked-by: Rob Clark <robdclark@gmail.com>
-> >
-> > And it's also:
-> > Acked-by: Daniel Stone <daniels@collabora.com>
-> >
-> > It's been back and forth a few times by now and reviewed pretty
-> > heavily by all the people who are across the CI details. I think the
-> > next step is to answer all the workflow questions by actually getting
-> > it into trees and using it in anger. There was some discussion about
-> > whether this should come in from drm-misc, or the core DRM tree, or a
-> > completely separate pull, but I'm not sure what the conclusion was ...
-> > maintainers, thoughts?
+在 2023/7/28 下午4:30, John Garry 写道:
+> On 28/07/2023 07:17, Jing Zhang wrote:
+>> Add new event test for uncore system event which is used to verify the
+>> functionality of "Compat" matching multiple identifiers and the new event
+>> fields "EventIdCode" and "Type".
+>>
 > 
-> I'd prefer a separate pull, so that I could merge it into msm-next as
-> well without having to pull in all of drm-misc
-
-Should we create a drm-ci ?
-
+> Thanks for doing this. It looks ok. I just have a comment, below.
 > 
-> Possibly some other driver trees would like to do similar?
-> 
-> BR,
-> -R
 
-Also, please wait for v11, I have a few adjustments to make as pointer by
-some comments, and also regarding xfails list and how the configs should
-be organized (unless if you are fine merging this version and I can submit
-the adjustments later).
+Thanks.
+
+>> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+>> ---
+>>   .../pmu-events/arch/test/test_soc/sys/uncore.json  |  8 ++++
+>>   tools/perf/tests/pmu-events.c                      | 55 ++++++++++++++++++++++
+>>   2 files changed, 63 insertions(+)
+>>
+>> diff --git a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json b/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+>> index c7e7528..879a0ae 100644
+>> --- a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+>> +++ b/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+>> @@ -12,5 +12,13 @@
+>>              "EventName": "sys_ccn_pmu.read_cycles",
+>>              "Unit": "sys_ccn_pmu",
+>>              "Compat": "0x01"
+>> +   },
+>> +   {
+>> +           "BriefDescription": "Counts total cache misses in first lookup result (high priority).",
+>> +           "Type": "0x05",
+>> +           "EventIdCode": "0x01",
+>> +           "EventName": "sys_cmn_pmu.hnf_cache_miss",
+>> +           "Unit": "arm_cmn",
+>> +           "Compat": "434*;436*;43c*;43a01"
+>>      }
+>>   ]
+>> diff --git a/tools/perf/tests/pmu-events.c b/tools/perf/tests/pmu-events.c
+>> index 1dff863b..e227dcd 100644
+>> --- a/tools/perf/tests/pmu-events.c
+>> +++ b/tools/perf/tests/pmu-events.c
+>> @@ -255,9 +255,24 @@ struct perf_pmu_test_pmu {
+>>       .matching_pmu = "uncore_sys_ccn_pmu",
+>>   };
+>>   +static const struct perf_pmu_test_event sys_cmn_pmu_hnf_cache_miss = {
+>> +    .event = {
+>> +        .name = "sys_cmn_pmu.hnf_cache_miss",
+>> +        .event = "type=0x05,eventid=0x01",
+>> +        .desc = "Counts total cache misses in first lookup result (high priority). Unit: uncore_arm_cmn ",
+>> +        .topic = "uncore",
+>> +        .pmu = "uncore_arm_cmn",
+>> +        .compat = "434*;436*;43c*;43a01",
+>> +    },
+>> +    .alias_str = "type=0x5,eventid=0x1",
+>> +    .alias_long_desc = "Counts total cache misses in first lookup result (high priority). Unit: uncore_arm_cmn ",
+>> +    .matching_pmu = "uncore_arm_cmn_0",
+>> +};
+>> +
+>>   static const struct perf_pmu_test_event *sys_events[] = {
+>>       &sys_ddr_pmu_write_cycles,
+>>       &sys_ccn_pmu_read_cycles,
+>> +    &sys_cmn_pmu_hnf_cache_miss,
+>>       NULL
+>>   };
+>>   @@ -699,6 +714,46 @@ static int __test_uncore_pmu_event_aliases(struct perf_pmu_test_pmu *test_pmu)
+>>               &sys_ccn_pmu_read_cycles,
+>>           },
+>>       },
+>> +    {
+>> +        .pmu = {
+>> +            .name = (char *)"uncore_arm_cmn_0",
+>> +            .is_uncore = 1,
+>> +            .id = (char *)"43401",
+>> +        },
+>> +        .aliases = {
+>> +            &sys_cmn_pmu_hnf_cache_miss,
+>> +        },
+>> +    },
+>> +    {
+>> +        .pmu = {
+>> +            .name = (char *)"uncore_arm_cmn_0",
+>> +            .is_uncore = 1,
+>> +            .id = (char *)"43602",
+>> +        },
+>> +        .aliases = {
+>> +            &sys_cmn_pmu_hnf_cache_miss,
+>> +        },
+>> +    },
+>> +    {
+>> +        .pmu = {
+>> +            .name = (char *)"uncore_arm_cmn_1",
+> 
+> Shouldn't this match some perf_pmu_test_event entry with same matching_pmu member? But is perf_pmu_test_event.matching_pmu member ever used for any checking???
+> 
+
+I need to double check because I was testing against 6.3-rc2.
 
 Thanks,
-Helen
+Jing
 
+> Thanks,
+> John
+> 
+>> +            .is_uncore = 1,
+>> +            .id = (char *)"43c03",
+>> +        },
+>> +        .aliases = {
+>> +            &sys_cmn_pmu_hnf_cache_miss,
+>> +        },
+>> +    },
+>> +    {
+>> +        .pmu = {
+>> +            .name = (char *)"uncore_arm_cmn_1",
+>> +            .is_uncore = 1,
+>> +            .id = (char *)"43a01",
+>> +        },
+>> +        .aliases = {
+>> +            &sys_cmn_pmu_hnf_cache_miss,
+>> +        },
+>> +    }
+>>   };
+>>     /* Test that aliases generated are as expected */
