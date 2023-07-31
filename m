@@ -2,364 +2,254 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2319AC001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 22:43:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A1CAC001DF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 23:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbjGaWnS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 18:43:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52014 "EHLO
+        id S231826AbjGaXLO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 19:11:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230526AbjGaWnQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 18:43:16 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01AC619AF;
-        Mon, 31 Jul 2023 15:43:14 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36VMgiwl011895;
-        Mon, 31 Jul 2023 22:43:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=YQaob9C8fOQbAR+CFXkRhipAxk2RWvQMSKS6UDVx/vs=;
- b=LEoZl2JnmX/0+zpkAX+cdfnmbLsDORnZguvjBoXicpoChCDv32ns6agM3da5suTbhKuc
- EPpevqOuFAgm3yGIJnpWbhlv20V7eojP4GTkrGnC8Snqu6nqQUBa0Ofsnk8cT6Ek9YfC
- /RBilNRYTPurXbeHBPL11gLrvQ8lXpu6AvVeNyPCxLqMlvs2iegnAoYDK5NzpWV3L7UR
- Dz8qfpQGgsgkt6EaLPtaPR+dCtSLbM5xmvG4CVBHSVjaAGhAyY+tXd2AcRiMoM4fnTlc
- BnEyTiBNOfcYiGxf8V0ynoUWpJnLs2EulqVp5ib1vE1psFn0tMm/+S6Sx7MZEry9RIuD Fw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6gs7gk5r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 31 Jul 2023 22:43:03 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36VMh1kT020176
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 31 Jul 2023 22:43:01 GMT
-Received: from hu-mdtipton-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+        with ESMTP id S231773AbjGaXLM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 19:11:12 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B483DFB;
+        Mon, 31 Jul 2023 16:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690845070; x=1722381070;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ZD/+ZpxHfodW+ZLWEjcr6u2s3ce4eeJ3Z1p5oYJp9/4=;
+  b=FdAwCwtr9t3FBcDJmhRKdddBlgTEiQmS+mN123ZIVmrW6K0tqMByC6sZ
+   0vm4yNYbRdO/7cR5FIyibSl6GD3gy4TVea0BzjHnw8r2Mra8rljvn/xHH
+   kwVC70c88/62MyO+p8K8aWYMPZnVCLi1+x+pSMxraiZ8GP7yYGDzEDytX
+   Q2fDQZ2ttkbCanRXkNe6DH0sTDM2cCgW2n70DAmhHc6nEERUdZfu5SFn9
+   hMy/c+yh0/JY0LmUpdytSrSXkICs31YzJupphuK//Je/ouupA+ObvtRcp
+   /fJmu7W58ip4rVTONbx4L9H+eR/a9UmY7S0aH3ouw3xYJ4fw9umSXr9LJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="400097831"
+X-IronPort-AV: E=Sophos;i="6.01,245,1684825200"; 
+   d="scan'208";a="400097831"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 16:11:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975064042"
+X-IronPort-AV: E=Sophos;i="6.01,245,1684825200"; 
+   d="scan'208";a="975064042"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmsmga006.fm.intel.com with ESMTP; 31 Jul 2023 16:11:08 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 16:11:08 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 16:11:07 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 31 Jul 2023 16:11:07 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Mon, 31 Jul 2023 15:43:01 -0700
-From:   Mike Tipton <quic_mdtipton@quicinc.com>
-To:     <djakov@kernel.org>, <gregkh@linuxfoundation.org>,
-        <rafael@kernel.org>, <corbet@lwn.net>
-CC:     <linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_okukatla@quicinc.com>,
-        <quic_viveka@quicinc.com>, <peterz@infradead.org>,
-        Mike Tipton <quic_mdtipton@quicinc.com>
-Subject: [PATCH v2 3/3] interconnect: Add debugfs test client
-Date:   Mon, 31 Jul 2023 15:42:47 -0700
-Message-ID: <20230731224247.10846-4-quic_mdtipton@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230731224247.10846-1-quic_mdtipton@quicinc.com>
-References: <20230731224247.10846-1-quic_mdtipton@quicinc.com>
+ 15.1.2507.27; Mon, 31 Jul 2023 16:11:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g0+ouxh+TaCRX3F9I8a5aSp3Y8TKCjTiGPrlPYkgU6Mz1+NPPX83lyY77XNwQu5gNI+X115I2WJ2Vd/rH7lzzYRkmi2BkB+IdioqW40+UIakrLPbJ6oih4yh9gihwbXZGKBbxe4JVJGgO2LLBtOeMWPmPLUKwNAQw09O2JC7R69cZd8EMCflBkaVN7GWcsEhFnQJQDBX2SAiUIpzVPwGGJG6sRX9Ix9UgN0Dz+b6/41037sybWndXU09XlWTkBYsMJi3rhmqyguVrHKFSg7kS4vM9kKEi7FaWICm+fGQSgX4AL3vLvktUq7gaLgMZADtV74Uj3YwMBoQ+S4ReNgjrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x4/+v80E+BngUl9SBpMgtl8flbme6Gw0FAkBelGbhAo=;
+ b=S3N1K6gYnbp6X9059kaK739RfS1UPQK2gxubiB5u7upu5bEKyxD/WgetcaDlDiYtpwoX9Du2J+UhPIinwDZkfExV2axpXPVEhf+RXYJa7+YbyzG59Wa13dv554U3NcO7RM4fuMTgdAa2Nml7K3/2bJVP3bvVRonrjzPU/lNTm3C8gTkuDrgV1AAsXpYrEG7wudzZFjxB6WioPp9z0I0vFx/fH8Zf6GP5Fy0x9mucxja/i9kVfO5sn8O52gG+24dfV4ZPe3aw/K0ynZi2Ksk/kB6sBhB22mLq82nH2A/1F5buA5dftq5XRsdyl0JK9ALCURQNrm+7cMVPGv7Ot1XA8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22)
+ by BN9PR11MB5306.namprd11.prod.outlook.com (2603:10b6:408:137::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Mon, 31 Jul
+ 2023 23:10:57 +0000
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::50e4:2cb8:4529:af04]) by SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::50e4:2cb8:4529:af04%7]) with mapi id 15.20.6631.043; Mon, 31 Jul 2023
+ 23:10:56 +0000
+From:   "Li, Xin3" <xin3.li@intel.com>
+To:     "Christopherson,, Sean" <seanjc@google.com>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        "Cui, Dexuan" <decui@microsoft.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        "Wanpeng Li" <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Gross, Jurgen" <jgross@suse.com>,
+        "Stefano Stabellini" <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Steven Rostedt" <rostedt@goodmis.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Jiaxi Chen <jiaxi.chen@linux.intel.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Jim Mattson <jmattson@google.com>,
+        Sandipan Das <sandipan.das@amd.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Breno Leitao <leitao@debian.org>,
+        "Nikunj A Dadhania" <nikunj@amd.com>,
+        Brian Gerst <brgerst@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Masami Hiramatsu" <mhiramat@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Ze Gao" <zegao2021@gmail.com>, "Li, Fei1" <fei1.li@intel.com>,
+        Conghui <conghui.chen@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Jane Malalane <jane.malalane@citrix.com>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "Ostrovsky, Boris" <boris.ostrovsky@oracle.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Yantengsi <siyanteng@loongson.cn>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Sathvika Vasireddy <sv@linux.ibm.com>
+Subject: RE: [PATCH v9 00/36] x86: enable FRED for x86-64
+Thread-Topic: [PATCH v9 00/36] x86: enable FRED for x86-64
+Thread-Index: AQHZw3zlhMSIUq8NQ0C4pAXZBOhbuq/UddgAgAAIhXA=
+Date:   Mon, 31 Jul 2023 23:10:56 +0000
+Message-ID: <SA1PR11MB6734A02EEFD83969F1965A8FA805A@SA1PR11MB6734.namprd11.prod.outlook.com>
+References: <20230731063317.3720-1-xin3.li@intel.com>
+ <ZMg1sD7IamB0INVs@google.com>
+In-Reply-To: <ZMg1sD7IamB0INVs@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6734:EE_|BN9PR11MB5306:EE_
+x-ms-office365-filtering-correlation-id: 6ca7deae-ff98-4b92-cd6f-08db921b6525
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jWedD0ovvdzTRGlP0Hqaceh32J+cvlb1Hywq8xtjzB1D/OmXZ5BrQ0G8xe5fJcWMj7bx7DbvzbyPZRAaejZcyKMXYkAGdL2gOFmChywnY4t5Xiuqib/D+3obpN5baVe5fkr/i9HOCnuVXPIprJAYe7Kj2HmQehEXKgRm4qzB00JTuLN2Ac9GZApld+Jt63UAl2TE2vbW9yk1cg/JJQdnGFYMuPVmrhSrryeqGgspwawTh9OSAuP7yLWMpvjXaPbPayCinbBjG1CutfM+j1vMQAh7tuPhWzAQ0b+79pK6QoFWl5Ub/VUJ4fGO4AxYlaoDpp4q6b+osqmC3kgjfzVxsQBe6b1XymIjb+SEN9/E8Jm2zNGLzH43LDW/kbpV3MWG/zMpJhZqocxLOYthGsfXdg+0VHMGgrBu7JSiz19ttiCEowEgxCmC+lD8utMlddleWn2Bo3zG+q83bnEmBQa8mziSLYuWUlmRCdldzOSFHYfeI9UaAp825ddNKCyEkqAS61n8ogcLzF+edOd1RK3wssrsr7K/kN+akva/+34c77nbest3wp/qsR/fm0VtTcw/r7yBZrOxxVaaqCQrfxU0LrgcRnEG4VODAM5rFMBo5s8M5LmmsrwiyU9qqYdDKwV6
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6734.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(136003)(376002)(39860400002)(366004)(346002)(451199021)(38100700002)(86362001)(66476007)(8676002)(8936002)(64756008)(5660300002)(316002)(4326008)(66446008)(6916009)(7406005)(54906003)(7366002)(7416002)(122000001)(33656002)(76116006)(52536014)(66556008)(66946007)(82960400001)(38070700005)(41300700001)(478600001)(2906002)(71200400001)(9686003)(7696005)(6506007)(26005)(83380400001)(186003)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?O7GfaB6zW2tbF5rOwxySLTd3lQk0aE5LrrF3TO3yhcM7keeR8Udm5Y5IxXw3?=
+ =?us-ascii?Q?me5cbjkFPMqzvipO2NaP6AoYxcYdVVy+h1ReWcoL9CnfAFuAzW8cKcLPZR4r?=
+ =?us-ascii?Q?+2aXU+lxPJsL5z13p0f11bdA+CdXFxyc4Gd24+A9WPruf1WFYxuNkSi5cl+E?=
+ =?us-ascii?Q?G2SYAWs7iNApVjXFGqgChWEOuxDavV+z9G08A44ycz/JmegE2V5bx4dYjTo6?=
+ =?us-ascii?Q?xLilM90JyCrfxkM5oHitqe4kesvcHc49+rQk5dVgu6TQ6AnLBkuALTOyl4jy?=
+ =?us-ascii?Q?FTN5zwzEfeE2X4PRosyid/P2VNXhxZcO7ZAggm4efeZ7TU9JE/xsiPOMjrr/?=
+ =?us-ascii?Q?kI/WN1CcwPuhlqldt3pY4y0LdzY9qNzfg5n/BrnQruuTckEYcM6yyC2Ny1Pv?=
+ =?us-ascii?Q?oL/3VxLuL+KHPpOwaNYcnVvZDSpzq80aQIeWN7W/zs2m0mkNQ81qXziJLDMN?=
+ =?us-ascii?Q?3iRReIbEqU6IOyEy2ifLSovUPYx8vvKk0NV6ij9a2Ipu4nc+GLIzNWOY8zOu?=
+ =?us-ascii?Q?IRlgJxgT6/wtR0bL0FqJO9aePB6Zb6wgXh8S1LpZ8vsuz1689cnXADe15VPY?=
+ =?us-ascii?Q?6jEVjP+mHc9XDpDC2+f9ySI3DwZVAjpN8L+f67yrS8Q7GFwy0vTYIimCT7Ut?=
+ =?us-ascii?Q?RhbVpRa1B4eYr4gO/yJ7noOaRJ0edG6RSSjJr/LFDQ5R2X/5UFReo1NNH4UJ?=
+ =?us-ascii?Q?R+HcpqF3jQ2BdI/ypLNoFITHsImMlPebEBRi8prML4yQDS1T6bPLSA78wOlK?=
+ =?us-ascii?Q?uBje2IokN0NUTgB3v8H0EDLn/6bV2Bh7aazgsWjEpX2ucpWbXEAZ27n6Cq+c?=
+ =?us-ascii?Q?VmuEjdL0DFXr8z6RPlzgi6227rRC9INYOaX+DkHR89JZnRtLcN1SARyaXBEa?=
+ =?us-ascii?Q?3lWoqMyddZOCcwiLWFPVQNqbBlzkTrGkhycRaIbU2zBdtz3+7LhYEY9MzD6F?=
+ =?us-ascii?Q?rq5iNydeOE6e0Mil+dxftF3SMiGju4dl/mPnIV6ONfAEj03rnTNvzBrx83Oj?=
+ =?us-ascii?Q?v7y1J8FbKiKurfMY/czxvd6UYM6w55lMKyjyXQUu3ibfaS1ZKVu71DwBi4E8?=
+ =?us-ascii?Q?+75SsEx13B8TQBA/DQzzEvhB/7/TpsVLlkh0mfRx5wknSX0cm6GzpYsAnVy9?=
+ =?us-ascii?Q?ggKVddVjKMzG8bxpwBBnbHn3zAdHFkKasx9vSVrgjcSAKb5IABZHw3RmjvbH?=
+ =?us-ascii?Q?/+D6YARyB4N0rIAIoE4u4x9PA9ivjO6tjmSINkQwSJWHMhBIxC6MjNf2zFcv?=
+ =?us-ascii?Q?rA6sYngfQAglqM2T5tHSUp87aXztn/yoaGa0UDhZBNxWWVVcRXFG12uPZPl+?=
+ =?us-ascii?Q?W0IEVttRu6pDPO9JbqMJ7K7LJnqB7esIohRBlyaT2KK6mnzR48GZMuVMxnQ8?=
+ =?us-ascii?Q?jYyJlogJJNlMuR77L2lzWwBPeTvvM3h8duRUQkau1Y83QPFkCLGdoONqxndo?=
+ =?us-ascii?Q?Tws1YL3fnAIaNXy7Y0Ay8WUoqBdJoifGm/8OjyQ8ic8d19J25C1FVPUgglna?=
+ =?us-ascii?Q?upeR2N7DOnRCCRcBVVef1NlbmdvKFiyIdTEc5xxz9hnONiN0OggfI0LcLD88?=
+ =?us-ascii?Q?43CQKOdLnjQNC303csI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 5bZh8_gippCLykqPuFm3fcFthvgHwXXm
-X-Proofpoint-ORIG-GUID: 5bZh8_gippCLykqPuFm3fcFthvgHwXXm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-31_15,2023-07-31_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- adultscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
- mlxlogscore=999 spamscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307310206
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6734.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ca7deae-ff98-4b92-cd6f-08db921b6525
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2023 23:10:56.1366
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oyKmPWTD20Zsn+PCspph++rs7dNDf8h6M1zc7Qd27AcYGGmyYr+9Il1qixVJcqPMNoyE79Jic2KJub2uMXAulQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5306
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's often useful during test, debug, and development to issue path
-votes from shell. Add a debugfs client for this purpose.
+> > This patch set enables the Intel flexible return and event delivery
+> > (FRED) architecture for x86-64.
+>=20
+> ...
+>=20
+> > --
+> > 2.34.1
+>=20
+> What is this based on?
 
-Example usage:
-	cd /sys/kernel/debug/interconnect/test-client/
+The tip tree master branch.
 
-	# Configure node endpoints for the path from CPU to DDR on
-	# qcom/sm8550.
-	echo chm_apps > src_node
-	echo ebi > dst_node
+> FYI, you're using a version of git that will (mostly)
+> automatically generate the based, e.g. I do
+>=20
+>   git format-patch --base=3DHEAD~$nr ...
+>=20
+> in my scripts, where $nr is the number of patches I am sending.  My speci=
+fic
+> approaches requires HEAD-$nr to be a publicly visible object/commit, but =
+that
+> should be the case the vast majority of the time anyways.
 
-	# Get path between src_node and dst_node. This is only
-	# necessary after updating the node endpoints.
-	echo 1 > get
+Are you talking about that you only got a subset of this patch set?
 
-	# Set desired BW to 1GBps avg and 2GBps peak.
-	echo 1000000 > avg_bw
-	echo 2000000 > peak_bw
+HPA told me he only got patches 0-25/36.
 
-	# Vote for avg_bw and peak_bw on the latest path from "get".
-	# Voting for multiple paths is possible by repeating this
-	# process for different nodes endpoints.
-	echo 1 > commit
+And I got several undeliverable email notifications, saying
+"
+The following message to <tglx@linutronix.de> was undeliverable.
+The reason for the problem:
+5.x.1 - Maximum number of delivery attempts exceeded. [Default] 450-'4.7.25=
+ Client host rejected: cannot find your hostname, [134.134.136.31]'
+"
 
-Allowing userspace to directly enable and set bus rates can be dangerous
-So, following in the footsteps of the regmap [0] and clk [1] frameworks,
-keep these userspace controls compile-time disabled without Kconfig
-options to enable them. Enabling this will require code changes to
-define INTERCONNECT_ALLOW_WRITE_DEBUGFS.
-
-[0] commit 09c6ecd39410 ("regmap: Add support for writing to regmap registers via debugfs")
-[1] commit 37215da5553e ("clk: Add support for setting clk_rate via debugfs")
-
-Signed-off-by: Mike Tipton <quic_mdtipton@quicinc.com>
----
- Documentation/driver-api/interconnect.rst |  25 ++++
- drivers/interconnect/Makefile             |   2 +-
- drivers/interconnect/core.c               |   3 +
- drivers/interconnect/debugfs-client.c     | 168 ++++++++++++++++++++++
- drivers/interconnect/internal.h           |   1 +
- 5 files changed, 198 insertions(+), 1 deletion(-)
- create mode 100644 drivers/interconnect/debugfs-client.c
-
-diff --git a/Documentation/driver-api/interconnect.rst b/Documentation/driver-api/interconnect.rst
-index 5ed4f57a6bac..a92d0f277a1f 100644
---- a/Documentation/driver-api/interconnect.rst
-+++ b/Documentation/driver-api/interconnect.rst
-@@ -113,3 +113,28 @@ through dot to generate diagrams in many graphical formats::
- 
-         $ cat /sys/kernel/debug/interconnect/interconnect_graph | \
-                 dot -Tsvg > interconnect_graph.svg
-+
-+The ``test-client`` directory provides interfaces for issuing BW requests to
-+any arbitrary path. Note that for safety reasons, this feature is disabled by
-+default without a Kconfig to enable it. Enabling it requires code changes to
-+``#define INTERCONNECT_ALLOW_WRITE_DEBUGFS``. Example usage::
-+
-+        cd /sys/kernel/debug/interconnect/test-client/
-+
-+        # Configure node endpoints for the path from CPU to DDR on
-+        # qcom/sm8550.
-+        echo chm_apps > src_node
-+        echo ebi > dst_node
-+
-+        # Get path between src_node and dst_node. This is only
-+        # necessary after updating the node endpoints.
-+        echo 1 > get
-+
-+        # Set desired BW to 1GBps avg and 2GBps peak.
-+        echo 1000000 > avg_bw
-+        echo 2000000 > peak_bw
-+
-+        # Vote for avg_bw and peak_bw on the latest path from "get".
-+        # Voting for multiple paths is possible by repeating this
-+        # process for different nodes endpoints.
-+        echo 1 > commit
-diff --git a/drivers/interconnect/Makefile b/drivers/interconnect/Makefile
-index 5604ce351a9f..d0888babb9a1 100644
---- a/drivers/interconnect/Makefile
-+++ b/drivers/interconnect/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- CFLAGS_core.o				:= -I$(src)
--icc-core-objs				:= core.o bulk.o
-+icc-core-objs				:= core.o bulk.o debugfs-client.o
- 
- obj-$(CONFIG_INTERCONNECT)		+= icc-core.o
- obj-$(CONFIG_INTERCONNECT_IMX)		+= imx/
-diff --git a/drivers/interconnect/core.c b/drivers/interconnect/core.c
-index fc1461dfc61b..9e12bb5e523d 100644
---- a/drivers/interconnect/core.c
-+++ b/drivers/interconnect/core.c
-@@ -1116,6 +1116,9 @@ static int __init icc_init(void)
- 			    icc_debugfs_dir, NULL, &icc_summary_fops);
- 	debugfs_create_file("interconnect_graph", 0444,
- 			    icc_debugfs_dir, NULL, &icc_graph_fops);
-+
-+	icc_debugfs_client_init(icc_debugfs_dir);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/interconnect/debugfs-client.c b/drivers/interconnect/debugfs-client.c
-new file mode 100644
-index 000000000000..c41255cc44ca
---- /dev/null
-+++ b/drivers/interconnect/debugfs-client.c
-@@ -0,0 +1,168 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2023, Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+#include <linux/debugfs.h>
-+#include <linux/interconnect.h>
-+#include <linux/platform_device.h>
-+
-+#include "internal.h"
-+
-+/*
-+ * This can be dangerous, therefore don't provide any real compile time
-+ * configuration option for this feature.
-+ * People who want to use this will need to modify the source code directly.
-+ */
-+#undef INTERCONNECT_ALLOW_WRITE_DEBUGFS
-+
-+#if defined(INTERCONNECT_ALLOW_WRITE_DEBUGFS) && defined(CONFIG_DEBUG_FS)
-+
-+static LIST_HEAD(debugfs_paths);
-+static DEFINE_MUTEX(debugfs_lock);
-+
-+static struct platform_device *pdev;
-+static struct icc_path *cur_path;
-+
-+static char *src_node;
-+static char *dst_node;
-+static u32 avg_bw;
-+static u32 peak_bw;
-+static u32 tag;
-+
-+struct debugfs_path {
-+	const char *src;
-+	const char *dst;
-+	struct icc_path *path;
-+	struct list_head list;
-+};
-+
-+static struct icc_path *get_path(const char *src, const char *dst)
-+{
-+	struct debugfs_path *path;
-+
-+	list_for_each_entry(path, &debugfs_paths, list) {
-+		if (!strcmp(path->src, src) && !strcmp(path->dst, dst))
-+			return path->path;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int icc_get_set(void *data, u64 val)
-+{
-+	struct debugfs_path *debugfs_path;
-+	char *src, *dst;
-+	int ret = 0;
-+
-+	mutex_lock(&debugfs_lock);
-+
-+	rcu_read_lock();
-+	src = rcu_dereference(src_node);
-+	dst = rcu_dereference(dst_node);
-+
-+	/*
-+	 * If we've already looked up a path, then use the existing one instead
-+	 * of calling icc_get() again. This allows for updating previous BW
-+	 * votes when "get" is written to multiple times for multiple paths.
-+	 */
-+	cur_path = get_path(src, dst);
-+	if (cur_path) {
-+		rcu_read_unlock();
-+		goto out;
-+	}
-+
-+	src = kstrdup(src, GFP_KERNEL);
-+	dst = kstrdup(dst, GFP_KERNEL);
-+	rcu_read_unlock();
-+
-+	if (!src || !dst) {
-+		ret = -ENOMEM;
-+		goto err_free;
-+	}
-+
-+	cur_path = icc_get(&pdev->dev, src, dst);
-+	if (IS_ERR(cur_path)) {
-+		ret = PTR_ERR(cur_path);
-+		goto err_free;
-+	}
-+
-+	debugfs_path = kzalloc(sizeof(*debugfs_path), GFP_KERNEL);
-+	if (!debugfs_path) {
-+		ret = -ENOMEM;
-+		goto err_put;
-+	}
-+
-+	debugfs_path->path = cur_path;
-+	debugfs_path->src = src;
-+	debugfs_path->dst = dst;
-+	list_add_tail(&debugfs_path->list, &debugfs_paths);
-+
-+	goto out;
-+
-+err_put:
-+	icc_put(cur_path);
-+err_free:
-+	kfree(src);
-+	kfree(dst);
-+out:
-+	mutex_unlock(&debugfs_lock);
-+	return ret;
-+}
-+
-+DEFINE_DEBUGFS_ATTRIBUTE(icc_get_fops, NULL, icc_get_set, "%llu\n");
-+
-+static int icc_commit_set(void *data, u64 val)
-+{
-+	int ret;
-+
-+	mutex_lock(&debugfs_lock);
-+
-+	if (IS_ERR_OR_NULL(cur_path)) {
-+		ret = PTR_ERR(cur_path);
-+		goto out;
-+	}
-+
-+	icc_set_tag(cur_path, tag);
-+	ret = icc_set_bw(cur_path, avg_bw, peak_bw);
-+out:
-+	mutex_unlock(&debugfs_lock);
-+	return ret;
-+}
-+
-+DEFINE_DEBUGFS_ATTRIBUTE(icc_commit_fops, NULL, icc_commit_set, "%llu\n");
-+
-+int icc_debugfs_client_init(struct dentry *icc_dir)
-+{
-+	struct dentry *client_dir;
-+	int ret;
-+
-+	pdev = platform_device_alloc("icc-debugfs-client", PLATFORM_DEVID_NONE);
-+
-+	ret = platform_device_add(pdev);
-+	if (ret) {
-+		pr_err("%s: failed to add platform device: %d\n", __func__, ret);
-+		platform_device_put(pdev);
-+		return ret;
-+	}
-+
-+	client_dir = debugfs_create_dir("test_client", icc_dir);
-+
-+	debugfs_create_str("src_node", 0600, client_dir, &src_node);
-+	debugfs_create_str("dst_node", 0600, client_dir, &dst_node);
-+	debugfs_create_file("get", 0200, client_dir, NULL, &icc_get_fops);
-+	debugfs_create_u32("avg_bw", 0600, client_dir, &avg_bw);
-+	debugfs_create_u32("peak_bw", 0600, client_dir, &peak_bw);
-+	debugfs_create_u32("tag", 0600, client_dir, &tag);
-+	debugfs_create_file("commit", 0200, client_dir, NULL, &icc_commit_fops);
-+
-+	return 0;
-+}
-+
-+#else
-+
-+int icc_debugfs_client_init(struct dentry *icc_dir)
-+{
-+	return 0;
-+}
-+
-+#endif
-diff --git a/drivers/interconnect/internal.h b/drivers/interconnect/internal.h
-index 95d6ba27bf78..3b2cfd32e449 100644
---- a/drivers/interconnect/internal.h
-+++ b/drivers/interconnect/internal.h
-@@ -42,5 +42,6 @@ struct icc_path {
- };
- 
- struct icc_path *icc_get(struct device *dev, const char *src, const char *dst);
-+int icc_debugfs_client_init(struct dentry *icc_dir);
- 
- #endif
--- 
-2.17.1
-
+I guess there were some problems with the Intel mail system last night,
+probably I should resend this patch set later.
