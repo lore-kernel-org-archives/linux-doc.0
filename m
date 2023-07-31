@@ -2,156 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC724C001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 14:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D7BC41513
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 14:35:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbjGaOPw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 10:15:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33768 "EHLO
+        id S232454AbjGaOfa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 10:35:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231266AbjGaOPv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 10:15:51 -0400
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD30AF;
-        Mon, 31 Jul 2023 07:15:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aldz4V3Pf4PztOikIKlvsMVv64fHDWVnTALqCASB140vb6KL51L8Je1UnKleP0Uh35c4gMABCGuZGtbMDi5TfyfSelDkG5oelCCgY/k6pIEhTwEQwUcy9KKAKZIrYlkHDyZmth4k1yc10UCUKcsw1XzTAEC4CtOkgN5tMkxnTxzDyHB9xG8vlyjUodU/bVjsp3aoW3OljkFJJU2rYKJoanBTVfVoKg0oKBVTdox/JujQbNWZENeNg7OWoSSsrKketdoLwOP9GAfYk8cRMzUyGiltH5T8L4Ocw8BY9OuTOkPF9MP5ifQhMAd7XojBZgN0ZWq1qNpb7a/fGIf3CeyftQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eVR9sE2uTVS+RojtnOnFij+ped3SJvsDEE9JfFS9AC0=;
- b=bw2UsFJcQ6Al9LybgwPlZ7nBtZeSxPGVYcG8riCVSsVXr0unKuUQ/IbCR5rd0kEntmJGDI4FzboJdcavhHmTvyQ9gcA6upRanFGmitqdaCStPuPTRN/qaL8wkX3LvEP/PtlHasdQucHKye5JICg+oedjME0Eez+W793i7TUV+w7an7NZOgkcZzZFGJyu0+XuHSnzhvly5b7CXt41muCiq9veOE0EC1koE7D9X630fYxMji/Z9s9vazK22W6O11NaXqtzRxQ9Vd9MHMhjNoX/mLbEenVXohOTDs4/Vdcq/sw6vuucyZ5gLoikvE5gkkRkuuNkUdIX/4ZHgGjZgIja0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVR9sE2uTVS+RojtnOnFij+ped3SJvsDEE9JfFS9AC0=;
- b=QNqZZ2p3O/GokTKGUiBj6NExMzcq6een6965B+QBCBWi2J7nOkp23Gg1y09QyhwinihW0OFXZchCOgI9O9L/nkzTEGSC1CQZM5AsP2SYU2O4NzCl850nqCLBUjm6Exo6H4Dt3X7PwGfge9jWxDM3pBxXywsuX+fw20dV742HFPE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by DS7PR12MB6238.namprd12.prod.outlook.com (2603:10b6:8:96::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Mon, 31 Jul
- 2023 14:15:47 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::1352:c7fd:4b4b:cc18]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::1352:c7fd:4b4b:cc18%7]) with mapi id 15.20.6631.042; Mon, 31 Jul 2023
- 14:15:47 +0000
-Message-ID: <51b43b27-42f6-9b23-4175-6f9b17870524@amd.com>
-Date:   Mon, 31 Jul 2023 09:15:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v8 0/2] docs: Integrate rustdoc into Rust documentation
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, ojeda@kernel.org
-Cc:     jani.nikula@linux.intel.com, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        konstantin@linuxfoundation.org, rust-for-linux@vger.kernel.org
-References: <20230718151534.4067460-1-carlos.bilbao@amd.com>
- <87mszqfbfg.fsf@meer.lwn.net>
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <87mszqfbfg.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR06CA0094.namprd06.prod.outlook.com
- (2603:10b6:5:336::27) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+        with ESMTP id S232405AbjGaOf3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 10:35:29 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC5C186;
+        Mon, 31 Jul 2023 07:35:26 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b9bf52cd08so69166451fa.2;
+        Mon, 31 Jul 2023 07:35:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690814124; x=1691418924;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature:dkim-signature:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8OVn8+FHJGJqVncFTAuXJotMlgzD7kqP1U5E88OZLZs=;
+        b=he9hILsSVjrd6WIkQMqbB6jgD1Lw8RiJt3RvBXtBb8t48ECkH1w7wXoOnOYFSeSF5q
+         ov58rWqCShAozsmj1I+4D74Img65O94n1hOapaFWwSJsO1Pc1EenIyMET64unctRrJIU
+         +HNYM93Oktlm0qMogT/zAYpxk5ncwwOOrzEO8wTQJVvGTTi1aE07rmiN/F0n6hbM9KuO
+         I/GjsXhllizg69t6/EMv+DDdMTdK1pOjyMgkgeO9DYvrfCsV5LDoeZt7yhfVhl3JP6O3
+         eXDgEH5ClZ4KFC9KF1Ja4NdXKv9DhpRPSi5nW9A+P27BLAMOj3BUTRgJvC0sSB9GFQf7
+         E4/w==
+X-Gm-Message-State: ABy/qLYCeNV98TAFCrPS235kAyGz1s5UENaTIeb8ts/5uotTH2qW+wF8
+        eb0lyfB3SJgIL1GOS6HXDmvP0Tiw41LXnQ==
+X-Google-Smtp-Source: APBJJlF0XzC8HKZFNm6zVA/HN9hOJ6+yc4rnnHyk8WUA7Kdcg1NJj+5ktukuWzcqrOU9ou2LkUlGUw==
+X-Received: by 2002:a05:651c:14b:b0:2b6:cf6f:159e with SMTP id c11-20020a05651c014b00b002b6cf6f159emr85972ljd.44.1690814124412;
+        Mon, 31 Jul 2023 07:35:24 -0700 (PDT)
+Received: from flawful.org (c-f5f0e255.011-101-6d6c6d3.bbcust.telenor.se. [85.226.240.245])
+        by smtp.gmail.com with ESMTPSA id y16-20020a2e7d10000000b002b9899d0f0bsm2110782ljc.83.2023.07.31.07.35.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 07:35:24 -0700 (PDT)
+Received: by flawful.org (Postfix, from userid 112)
+        id 17AAD828A; Mon, 31 Jul 2023 16:35:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
+        t=1690814123; bh=My65lAvbOOstq/34fWpOt5ymBYHHu9SQH88HxqSfLCQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KRlxs1bbQIF/kdrbCFa4W8j7gFR0oaOkx5c+iFxvrD4xOhVfQbJPWsuDn/UsK4N12
+         0X+fmtu3+w27E1g2LfJPa0YjtZdRcGhSJUIahb4t1YJx0eyS5T45fyPwPpT7UORYdP
+         8yQfk02ARZTSqnwyt9Q9yMvzj55Z8AExYdJHRGIQ=
+Received: from x1-carbon.lan (OpenWrt.lan [192.168.1.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by flawful.org (Postfix) with ESMTPSA id E34E63F6D;
+        Mon, 31 Jul 2023 16:34:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
+        t=1690814085; bh=My65lAvbOOstq/34fWpOt5ymBYHHu9SQH88HxqSfLCQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jRP5Hky6pV0JJpVTXXWyjrHXVIzJzLEbJfmwMuvo4vF5xO/58QDqabkaPGvBz+Qic
+         GnY6mo+SRa0SWhLRvespnOAk2vBSLMXXcUT+E02NrKZpyVO9tCo/mg617Zim9uYjjP
+         DgWypKGZiZyJzCAPuJIguDYGBZKnh2QkUPIY3amY=
+From:   Niklas Cassel <nks@flawful.org>
+To:     Damien Le Moal <dlemoal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Xiang Chen <chenxiang66@hisilicon.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        John Garry <john.g.garry@oracle.com>,
+        Jason Yan <yanaijie@huawei.com>
+Cc:     Hannes Reinecke <hare@suse.com>, linux-ide@vger.kernel.org,
+        linux-scsi@vger.kernel.org, Niklas Cassel <niklas.cassel@wdc.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v4 00/10] libata: remove references to 'old' error handler
+Date:   Mon, 31 Jul 2023 16:34:11 +0200
+Message-ID: <20230731143432.58886-1-nks@flawful.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|DS7PR12MB6238:EE_
-X-MS-Office365-Filtering-Correlation-Id: 359a6950-741c-4768-3bc0-08db91d0a287
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GjMwc+HeEyy8Y/OZdhBjJLLR935JcgQNqlW2Ym6h+wGNYxDo5g3drYXmTNHI1286bKZ/9h7Qno47E8eD7eoSRfaHczHI1g+PwjkiSowtFI4UIqE5Xm6FP10iIG7kCjCBAyxEc4p0AMS7jmXLcUKZR6retvzmo5LCh0wt47jABYswZ1dlBQsj7ewH6/nbRhnc4B9IvAcdZ5OA5RAJ0Ofev4ulVz+FAdQVDDdfR/tpzbbHcGIBc3Gv4E7Pq5oEiulP/MXoAfBkJdzhxA54FWOetBMSeBjKZ+O9rdN9uAYGvGzqIyMcuEnAspXCWAGP2LoCFDtV4g9gNlbRvoWR6TOoS3Di6j7QMpQZtZCJnQTfX1Bbgg/aB6wx/ilBO8vwaRiayEdjy36KhfHPzJ3cTcbJNzlbUDjLTkG1HI219IZJw4vNdE6S+wGQtAD0UpQQCzENFzke2/BMERMU7Z0P8c74eEmOzLuba4KYXnXXXbWZGsRLdLBEPxnHqm6dcfE0hjYcJO5bZ1rroDLLdw0RCVylVearYhAQnAarojo2I4sbabyO1FqypLYFls1g14QC4AZnLWkc2bvtp+v1VMgq2Q98zMvw+mUmzYuYqSNv97m4hU2745jd2Yvs2wGCseHqcvHhEwPUJp8bsE5TkNPvZ/ax3A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(366004)(136003)(39860400002)(451199021)(86362001)(66476007)(31696002)(41300700001)(8936002)(31686004)(8676002)(316002)(5660300002)(4326008)(66946007)(66556008)(478600001)(2906002)(38100700002)(6666004)(36756003)(44832011)(6512007)(6486002)(186003)(26005)(6506007)(53546011)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TU13dHBxeGRNVXMvNkpjQWdaVVN5b1lHbzJVZzFWNFQxWkZKT1R2OGdOckVM?=
- =?utf-8?B?VWdRMm1SZVFEdTRJT3lMekxWTk5menM3cEJISkNndlFqaUxKVFpjeTdNR2ZP?=
- =?utf-8?B?ZFJXUThqcHhQSkJ2NTFuY3VCRzEvczljZ3hhRGVrdWlqakJ2M2M3aW5RTHhr?=
- =?utf-8?B?YWoxbDgySUp1SFc5WUtic2E4UjZOamwxdDJHU1JaYno4bkxscnVFUWMwWEJL?=
- =?utf-8?B?SWFEQmI5dkx1dzRGSU9JR3VyUzJ0eFlCWTdRVmU4WEg5RnVYc2trVnhpK2Nh?=
- =?utf-8?B?SFVqdFQxYm9MZjlSckxMQ0FsRHFNUlZUOXBvVDNhSWJyS2wxZHFQZytjNjho?=
- =?utf-8?B?RHBWV25WbGpETVVzR2tLcGtkVjZqOWU1ZldRUTBIb21oTXhucDU4eXlIYldV?=
- =?utf-8?B?TjVyZEdpNDJnZjROV0ZqR2RTMmVXblZKaU1CSWdteWpiTktwWGtzcy8wUnl5?=
- =?utf-8?B?L2JlQ1k4NEpRajFld3hsT3lCK3Vxb0d2SmdPVGhMSVk3R213V3dLUURrVkRE?=
- =?utf-8?B?My8xZmNCeW0xS0ZIS1d0WVVnbndDMWo2RHJ4NHloK01ORmlwaVdBYmFzTVVh?=
- =?utf-8?B?NHNxQ096Q1lTYXVkaWdsaGNVV0RnNDJidTNFOWQ3cXJndE1qQ1FKTzMyT3dx?=
- =?utf-8?B?djdQSDQ4QjNFa2J4ZTMxc3JDSmJVSy9rUUcvcUtWK3dTZFUvMzBqeTRWbkc2?=
- =?utf-8?B?NmFrbEZnbWZrMXBMbDBYWVB4cWlpUlQ4SlprclZEbmg3M2pMY2JXOHJmQjkz?=
- =?utf-8?B?NEs1MXY4aXNqbUtaTGJqRm1BRXc0M2FZR0pXd3ErQXBrWnpQUzdUSjU3MXVM?=
- =?utf-8?B?aWxKVDVhSEZpL09jby9vemM2cVhGMkVxczVyUzZ0aE5RM3k3eUJtQkZwSVNU?=
- =?utf-8?B?NnRSd1JqejNFUm9EOE1XdjRVYXdJOW9XaEEvaWptUXpIbVA5QmFuMDhZUlhF?=
- =?utf-8?B?TDBrSjFaUDdhSk8vS3YwYW9DWkxvU1BUSURzWGpZSnh1dVI3cTRrTG4yNzNp?=
- =?utf-8?B?Sm5Ba1BZRk8wbnB0MjFqSk8yVXlyblc3Ujg2cXpYTm9sR01SQnN5cTRkMWMw?=
- =?utf-8?B?ekpLbHRpVDVwUjJhK0kyb2RRc2hEc3pURW00RCsrdnlHdkhlSmVpNmhLenFY?=
- =?utf-8?B?emdDSVhLU0xtTmpyWXlkRkV2VEhyanlPWis2ZlUreEc2d1ArbG1md3NrMW9S?=
- =?utf-8?B?MVVIdk0zd0pUK3dydTVtOVdVNHZCbW9tcTI3RGJqYUZqSGtqUStsZWpRallv?=
- =?utf-8?B?UTQyYi8vR1VYYmdPalNUZGdMM3RHOFVPYTRRblh0SUQ3NThIeExzZVNDK3hh?=
- =?utf-8?B?T1Nva1BIcDRmRFlLZkNkQ29pYzhkcVNGMUtoTnRqSnlFTWNKZXVNWk8vWm5I?=
- =?utf-8?B?KzBkUlNGZFpSb1YxSDV5aVBVQmJJWW84TllMTVplVGhnV0dzQWgrbTJtRDZ4?=
- =?utf-8?B?bUszd0EzdVJRM2VFL0VuTUx0cVc5NTNJWTRTbCtoUytxTjJJM2JweWdrVGl2?=
- =?utf-8?B?MnBUcC90S3laQllPWWlHdktPcDcvalZYcmhaaGdURFVHSnV6L0NMcmVyS0dp?=
- =?utf-8?B?SG9YN0xPWG5MekxLUTdHdHRoZkt1Y2FtUVJ1OThtN0taQUNsc2I1VzF2ZVJH?=
- =?utf-8?B?bDhTWnZxcFhQdFp6Y0lISmJrK0QrNCtNaEtoc0VrR2RidEpCNHpsREZmZEEw?=
- =?utf-8?B?NnlZRkRadGViT2cvVkhlK2Z5eXlwa0k4VFFxajB4SG82c0tHMmdKVC9CRFZq?=
- =?utf-8?B?bUV4WjhaL1JPNk10bmF6SHVWZmpJOWFtN3dIc0dhSW0xekJrM2IvRXF0V2ZD?=
- =?utf-8?B?WHkwRTdaWjRyN1dtYkdsQ0pBN0d3TWRqYzZIdmlnZUJaZWQ5TCtwdExJR0Nm?=
- =?utf-8?B?MUt4bjJjVXR5QVNUMGpJVXBEOUVseGZjdE5pTGU2cTRyZ1FuWVczQjhWbXBU?=
- =?utf-8?B?c2xkZVF3THR4Z3VkdzZiRzhHUVRBclhUYXhOeGFDZUJkZmlGM0E2aDVzb1pB?=
- =?utf-8?B?UkhkM0poZStPcFMycFFlaW0rZThBc0Y3WWtCNlRqM2hhd3JmbU1yVTJrUFV1?=
- =?utf-8?B?K2xpejBmRkV4Slk2NXRwTGc2RkdXY05tWHFaTmpKbkg3Y0R2MWJJcjlyWFM3?=
- =?utf-8?Q?PSozvrvy2RYE7n16jay4FgqI+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 359a6950-741c-4768-3bc0-08db91d0a287
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 14:15:47.4466
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zap+6G/utATprA9FfH/9cu6yCZeCB3+PYd7u+mjVfKNLkLFdPsb7/JUSeMbz0ttdZXquBM9gM43rd6vQfWEF+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6238
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/20/23 17:46, Jonathan Corbet wrote:
-> Carlos Bilbao <carlos.bilbao@amd.com> writes:
-> 
->> Include HTML output generated with rustdoc into the Linux kernel
->> documentation on Rust.
->>
->> Carlos Bilbao:
->>   docs: Move rustdoc output, cross-reference it
->>   docs: Integrate rustdoc generation into htmldocs
-> 
-> So I've been messing with this a bit, trying the various combinations.
-> 
-> - With no .config file, it behaves as it always did - thanks.
-> 
-> - With CONFIG_RUST=y I get the rustdocs, as expected.  There is a time
->    penalty of about 5%, which is unfortunate, but that's the cost of
->    progress, I guess.
-> 
-> - Setting CONFIG_RUST=n led to a crash with make complaining:
->    "No rule to make target 'rustdoc'".  That isn't something I have been
->    able to reproduce, though, so I have no idea what happened there; have
->    you ever seen this?
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-I have not been able to reproduce this error either. If anyone comes across
-this error in the future, please reach out to the list.
+Hi all,
 
-> 
-> Other than that one bit of strangeness, I think this is about ready to
-> be applied.
-> 
-> Thanks,
-> 
-> jon
+now that the ipr driver has been modified to not hook into libata
+all drivers now use the 'new' error handler, so we can remove any
+references to it. And do a general cleanup to remove callbacks
+which are no longer needed.
 
-Thanks,
-Carlos
+Damien:
+This patch series is based on v6.5-rc4, however it also applies to your
+libata/for-next branch, if you cherry-pick commit 3ac873c76d79 ("ata:
+libata-core: fix when to fetch sense data for successful commands"),
+before applying the series (this patch is already in Torvald's tree).
+
+
+
+Changes since v3:
+-Rebased patch series so that it applies without conflicts.
+-Picked up tags (John, Jason, Sergey, thank you!).
+-Updated comment referring to a renamed function in hisi_sas_main.c.
+-Added new patch 7/10 which removes ata_sas_port_init() (thanks John!).
+
+
+Hannes Reinecke (6):
+  ata: remove reference to non-existing error_handler()
+  ata,scsi: remove ata_sas_port_{start,stop} callbacks
+  ata,scsi: remove ata_sas_port_destroy()
+  ata: remove ata_sas_sync_probe()
+  ata: inline ata_port_probe()
+  ata,scsi: cleanup __ata_port_probe()
+
+Niklas Cassel (4):
+  ata,scsi: remove ata_sas_port_init()
+  ata: sata_sx4: drop already completed TODO
+  ata: remove ata_bus_probe()
+  ata: remove deprecated EH callbacks
+
+ Documentation/driver-api/libata.rst   |  38 +--
+ drivers/ata/libata-core.c             | 355 ++++++--------------------
+ drivers/ata/libata-eh.c               | 152 +++++------
+ drivers/ata/libata-sata.c             |  96 +------
+ drivers/ata/libata-scsi.c             | 161 +-----------
+ drivers/ata/libata-sff.c              |  30 +--
+ drivers/ata/libata.h                  |   3 -
+ drivers/ata/pata_sl82c105.c           |   3 +-
+ drivers/ata/sata_sx4.c                |   1 -
+ drivers/scsi/hisi_sas/hisi_sas_main.c |   2 +-
+ drivers/scsi/libsas/sas_ata.c         |   9 +-
+ drivers/scsi/libsas/sas_discover.c    |   2 +-
+ include/linux/libata.h                |  16 +-
+ 13 files changed, 183 insertions(+), 685 deletions(-)
+
+-- 
+2.41.0
+
