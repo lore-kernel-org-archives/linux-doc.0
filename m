@@ -2,142 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F72C04A94
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 22:29:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 083A6C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 22:43:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231216AbjGaW3J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 18:29:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48184 "EHLO
+        id S230481AbjGaWnQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 18:43:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjGaW3I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 18:29:08 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55A2173F
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 15:29:06 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-58473c4f629so52403217b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 15:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690842546; x=1691447346;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Q8GvYD+4dtlsTwSTiHUPQzTJlHbTbzrpGF3h1vVBww=;
-        b=wjwMM2KWT8HU0SHDHdNRxn0t00ajJ3rnXd0KHF3IvjHCM9C9HEucQqbNqO3DdnlESa
-         nz4NidPHfLZdlM97AQO2l5R9cvi5qOsP8Ijvq8FdyQ975MNIp/vKfJQp4Fn/KRaq6Jwk
-         4kloVUH4EDmpWV0M/Jbjnxx6ZpxxBUBTWBZfCkK7wrUfN/3hE3YtfIlsy05XGvIcQMBR
-         YwOaTVtyj5jc9ti6xzcRvjvMofBrcZ2GDu27qgywzvVHzJ4o32YZtNXzHqvcANqA6/YW
-         sTLo8o8faSsSn6oqDWZE2/b1jMu9Jj3r8qqQ2mBwBCqkSpgBEgjiP8UrfNG7IjOkrlZB
-         RMgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690842546; x=1691447346;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Q8GvYD+4dtlsTwSTiHUPQzTJlHbTbzrpGF3h1vVBww=;
-        b=VB5bN04rRO+s1PHkfBI8rnh0tBJN+pZlo2lIUimriWmov9ngLm2FvvEyeonyff0eAp
-         AlLocctizXQbZY5iiFSDFUpFEluBiHSqAxWqJM7nUBWOdFAccC1oSxT7gcNyKKYiseLg
-         A3pYZblp1zaKrlXuh20CPgRxViiX99XgXIuEuxzzanYI0OtcFdN4xkk3LvVeG20+Sm8A
-         duImdlM3Qmzr1J+Q/wxnwtObgvKSvB8KwW12RE3pItmX/Q+1gW2PUiAbvO3We7PlVlfd
-         kqyLFHcsYr69NUyWPgU+Xa+rsey4iIbaz5LWdTn8X3NYno8OGx75AIv53F6meNW/eXRh
-         ZpnA==
-X-Gm-Message-State: ABy/qLaUtl923IPr018KUeOu9QEkiWA5BEz1A/+F6PMRYkZ0pychBZJ7
-        ZpQQgZSf5LZRGC4DOBgOJ55wcWNPjYk=
-X-Google-Smtp-Source: APBJJlGgIomNHDqU6KhEMJb1Ck8ilBU2ctVZYZehyK88j/kbenJFHvBGJ75gfwK64a/yrr50dO0Jiu4+k6c=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:b109:0:b0:56d:502:9eb0 with SMTP id
- p9-20020a81b109000000b0056d05029eb0mr90305ywh.6.1690842545957; Mon, 31 Jul
- 2023 15:29:05 -0700 (PDT)
-Date:   Mon, 31 Jul 2023 15:29:04 -0700
-In-Reply-To: <20230731063317.3720-1-xin3.li@intel.com>
-Mime-Version: 1.0
-References: <20230731063317.3720-1-xin3.li@intel.com>
-Message-ID: <ZMg1sD7IamB0INVs@google.com>
-Subject: Re: [PATCH v9 00/36] x86: enable FRED for x86-64
-From:   Sean Christopherson <seanjc@google.com>
-To:     Xin Li <xin3.li@intel.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Kim Phillips <kim.phillips@amd.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jiaxi Chen <jiaxi.chen@linux.intel.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Jim Mattson <jmattson@google.com>,
-        Sandipan Das <sandipan.das@amd.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        Breno Leitao <leitao@debian.org>,
-        Nikunj A Dadhania <nikunj@amd.com>,
-        Brian Gerst <brgerst@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Ze Gao <zegao2021@gmail.com>, Fei Li <fei1.li@intel.com>,
-        Conghui <conghui.chen@intel.com>,
-        Ashok Raj <ashok.raj@intel.com>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        Jane Malalane <jane.malalane@citrix.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Yantengsi <siyanteng@loongson.cn>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Sathvika Vasireddy <sv@linux.ibm.com>
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S230219AbjGaWnP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 18:43:15 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA4D719A8;
+        Mon, 31 Jul 2023 15:43:13 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36VMDULj011514;
+        Mon, 31 Jul 2023 22:43:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=mX0l+/kfcc46QeRLAxUTpA05imjKAVhsdjPgFznUjeU=;
+ b=SHyeTmeKcuyoGo3lD2Kq3nAzn1YVsaA87Nlul8DT4XFNZuHH5rHPfc6TCLhoC2Pn+bAi
+ lb2lt4IgEmdWKako+LDQujupU33D153dJMdB8n09OP0Ux/4dJjjYY6vYzq1E4qR0zk54
+ 0EwUTAXvxvUdxF8PxcjV9g3h0gyhBKl1NS1kzfQnwTku9loBOnBSXK6lQl/Q55rvJHY1
+ IUj2Ank7yk5P02xFpm/J+1aMm0J3/WQi1I8hQYId2YqFGyuk4rFADV/n6jYNG/ScpeJX
+ ED424f2Q+JUKiujjXG1Oy7UmPkOd4j43bUHNWmeaCygOT4hP3EEj31nS8+nb6YjsRUgQ pw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6a2va4w3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jul 2023 22:43:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36VMh0Be025416
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jul 2023 22:43:01 GMT
+Received: from hu-mdtipton-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Mon, 31 Jul 2023 15:43:00 -0700
+From:   Mike Tipton <quic_mdtipton@quicinc.com>
+To:     <djakov@kernel.org>, <gregkh@linuxfoundation.org>,
+        <rafael@kernel.org>, <corbet@lwn.net>
+CC:     <linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_okukatla@quicinc.com>,
+        <quic_viveka@quicinc.com>, <peterz@infradead.org>,
+        Mike Tipton <quic_mdtipton@quicinc.com>
+Subject: [PATCH v2 0/3] Add interconnect debugfs client
+Date:   Mon, 31 Jul 2023 15:42:44 -0700
+Message-ID: <20230731224247.10846-1-quic_mdtipton@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: xugIdbzTsZjm7jagzTPU86rJ_ubENZsJ
+X-Proofpoint-GUID: xugIdbzTsZjm7jagzTPU86rJ_ubENZsJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-31_15,2023-07-31_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 adultscore=0 bulkscore=0
+ spamscore=0 phishscore=0 mlxscore=0 mlxlogscore=769 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307310206
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 30, 2023, Xin Li wrote:
-> This patch set enables the Intel flexible return and event delivery
-> (FRED) architecture for x86-64.
+This series introduces interconnect debugfs files that support voting
+for any path the framework supports.
 
-...
+We've historically relied on an out-of-tree module for this, which used
+the old icc_get() that was recently removed in [0]. The old icc_get()
+took integer endpoint IDs, which made identifying paths in our old
+implementation non-intuitive. The logical node names typically don't
+change much chip-to-chip, but the raw integer IDs do. Take this
+opportunity to introduce an icc_get() that uses string names instead,
+which allows for a more intuitive and generic debugfs interface.
 
-> -- 
-> 2.34.1
+We rely on this support for debug, test, and verification. Hopefully
+it'll be useful for other vendors as well.
 
-What is this based on?	FYI, you're using a version of git that will (mostly)
-automatically generate the based, e.g. I do 
+[0] commit 7dcdad6f32c9 ("interconnect: drop unused icc_get() interface")
 
-  git format-patch --base=HEAD~$nr ...
+Changes in v2:
+- Make icc_get() an internal interface.
+- RCU-protect src_node and dst_node.
+- Replace PLATFORM_DEVID_AUTO with PLATFORM_DEVID_NONE.
+- Remove unnecessary #include.
+- Add debugfs client documentation.
 
-in my scripts, where $nr is the number of patches I am sending.  My specific
-approaches requires HEAD-$nr to be a publicly visible object/commit, but that
-should be the case the vast majority of the time anyways.
+Mike Tipton (3):
+  debugfs: Add write support to debugfs_create_str()
+  interconnect: Reintroduce icc_get()
+  interconnect: Add debugfs test client
+
+ Documentation/driver-api/interconnect.rst |  25 ++++
+ drivers/interconnect/Makefile             |   2 +-
+ drivers/interconnect/core.c               |  66 +++++++++
+ drivers/interconnect/debugfs-client.c     | 168 ++++++++++++++++++++++
+ drivers/interconnect/internal.h           |   3 +
+ fs/debugfs/file.c                         |  48 ++++++-
+ 6 files changed, 309 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/interconnect/debugfs-client.c
+
+-- 
+2.17.1
+
