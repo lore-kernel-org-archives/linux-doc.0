@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC5CC41513
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 07:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F296C05051
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 07:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231200AbjGaHES (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 03:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44176 "EHLO
+        id S231255AbjGaHEU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 03:04:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231221AbjGaHDv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 03:03:51 -0400
+        with ESMTP id S231230AbjGaHDw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 03:03:52 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6699B1BDF;
-        Mon, 31 Jul 2023 00:02:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A8F1BF0;
+        Mon, 31 Jul 2023 00:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690786948; x=1722322948;
+  t=1690786952; x=1722322952;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=1h9fTPNcW28O8bu/nclSFH4GxPR5CW0Rl9/PbASKNuY=;
-  b=QxWDADlZ9vCgE4aVAKNS/AeTeBChHMPRiv2UfhInUOBOBiZRn9VcrOxU
-   NHOLWKuWC0OTEMbis8lTw1C/lC80oHjsZEWMp8e7mJsyzpezjU8G9isfG
-   OORGn5H11MMLUE9v8uxtzjOXWmwFV3mr2fuoDG6db6cD6ErgasS1Ts56/
-   qD9BebHbfTWG1/dANuykxcrK/9ujx5szNraRUeYuKB6lOplGjwItjInP7
-   btstGsDPnCwGSS+wdMbCkn1cVeP6Lf/De6ZVyyA/GGrXSE282riN/ndDr
-   L1J54GrEjgTaQqvl2lRLkMmlDOWv0bCxGOg+fGxTunwjzjCFANWCIYWEY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371649178"
+  bh=j/3qauZAla4FAGFWojUuQZ7eYbLWgN4OkDYWsZA4A8I=;
+  b=QoESSR6yjKqehqmFxb2gBIKWoJGQSpGC2P5vNOZln6dfoEuJwzn/pBWF
+   sn2hTaeLCBthJ6+hFTFo81ufQq/m62r/yUaqTtZu9rWlpOAQd3SMZgdTl
+   r3KTQH7xh7j5hK6Emmn4BMmrFZlzsyVoBHQBZb+aBCa2P2gg40S/DJtT2
+   0zcfjPFHGtwT85u8Qzm+h99ks1z7we1Fk6WOw4YuFDB4FUVuX3rVRM3nO
+   NBgMNHDHXDrR9cuqIvYfcQy1QbvOliQYhG2VCGbgn5/osyke/B6ZIiDaF
+   F9EABHH/1G7xSlJkK6beVRbQgStSQtm1nN3vZhnjk8t9pdUR4DQgHqm8d
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371649244"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="371649178"
+   d="scan'208";a="371649244"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:02:07 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:02:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871543443"
+   d="scan'208";a="871543456"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:02:07 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:02:10 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -106,9 +106,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH v9 17/36] x86/fred: Define a common function type fred_handler
-Date:   Sun, 30 Jul 2023 23:32:58 -0700
-Message-Id: <20230731063317.3720-18-xin3.li@intel.com>
+Subject: [PATCH v9 19/36] x86/fred: Add a debug fault entry stub for FRED
+Date:   Sun, 30 Jul 2023 23:33:00 -0700
+Message-Id: <20230731063317.3720-20-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230731063317.3720-1-xin3.li@intel.com>
 References: <20230731063317.3720-1-xin3.li@intel.com>
@@ -118,57 +118,141 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-FRED event delivery establishes a full supervisor context by saving
-the essential information about an event to a FRED stack frame, e.g.,
-the faulting linear address of a #PF is saved as event data of a FRED
-stack frame. Thus a struct pt_regs has all the needed data to handle
-an event and it's the only input argument of a FRED event handler.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Define fred_handler, a common function type used in the FRED event
-dispatch framework, which makes it easier to find the entry points
-(via grep), allows the prototype to change if necessary without
-requiring changing changes everywhere, and makes sure that all the
-entry points have the proper decorations (currently noinstr, but
-could change in the future.)
+Add a debug fault entry stub for FRED.
 
+On a FRED system, the debug trap status information (DR6) is passed
+on the stack, to avoid the problem of transient state. Furthermore,
+FRED transitions avoid a lot of ugly corner cases the handling of which
+can, and should be, skipped.
+
+The FRED debug trap status information saved on the stack differs from DR6
+in both stickiness and polarity; it is exactly what debug_read_clear_dr6()
+returns, and exc_debug_user()/exc_debug_kernel() expect.
+
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/include/asm/fred.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+
+Changes since v1:
+* call irqentry_nmi_{enter,exit}() in both IDT and FRED debug fault kernel
+  handler (Peter Zijlstra).
+---
+ arch/x86/include/asm/fred.h |  1 +
+ arch/x86/kernel/traps.c     | 56 +++++++++++++++++++++++++++----------
+ 2 files changed, 42 insertions(+), 15 deletions(-)
 
 diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
-index d76e681a806f..b45c1bea5b7f 100644
+index fb8e7b4f2d38..ad7b79130b1e 100644
 --- a/arch/x86/include/asm/fred.h
 +++ b/arch/x86/include/asm/fred.h
-@@ -68,6 +68,19 @@
- #define FRED_SSX_64_BIT_MODE_BIT	57
- #define FRED_SSX_64_BIT_MODE		_BITUL(FRED_SSX_64_BIT_MODE_BIT)
+@@ -112,6 +112,7 @@ static __always_inline unsigned long fred_event_data(struct pt_regs *regs)
  
-+/*
-+ * FRED event delivery establishes a full supervisor context by
-+ * saving the essential information about an event to a FRED
-+ * stack frame, e.g., the faulting linear address of a #PF is
-+ * saved as event data of a FRED #PF stack frame. Thus a struct
-+ * pt_regs has all the needed data to handle an event and it's
-+ * the only input argument of a FRED event handler.
-+ *
-+ * FRED handlers need to be placed in the noinstr text section.
-+ */
-+#define DECLARE_FRED_HANDLER(f) void f (struct pt_regs *regs)
-+#define DEFINE_FRED_HANDLER(f) noinstr DECLARE_FRED_HANDLER(f)
-+
- #ifdef CONFIG_X86_FRED
+ typedef DECLARE_FRED_HANDLER((*fred_handler));
  
- #ifndef __ASSEMBLY__
-@@ -97,6 +110,8 @@ static __always_inline unsigned long fred_event_data(struct pt_regs *regs)
- 	return fred_info(regs)->edata;
++DECLARE_FRED_HANDLER(fred_exc_debug);
+ DECLARE_FRED_HANDLER(fred_exc_page_fault);
+ 
+ #endif /* __ASSEMBLY__ */
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 4a817d20ce3b..b10464966a81 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -47,6 +47,7 @@
+ #include <asm/debugreg.h>
+ #include <asm/realmode.h>
+ #include <asm/text-patching.h>
++#include <asm/fred.h>
+ #include <asm/ftrace.h>
+ #include <asm/traps.h>
+ #include <asm/desc.h>
+@@ -1021,21 +1022,9 @@ static bool notify_debug(struct pt_regs *regs, unsigned long *dr6)
+ 	return false;
  }
  
-+typedef DECLARE_FRED_HANDLER((*fred_handler));
-+
- #endif /* __ASSEMBLY__ */
+-static __always_inline void exc_debug_kernel(struct pt_regs *regs,
+-					     unsigned long dr6)
++static __always_inline void debug_kernel_common(struct pt_regs *regs,
++						unsigned long dr6)
+ {
+-	/*
+-	 * Disable breakpoints during exception handling; recursive exceptions
+-	 * are exceedingly 'fun'.
+-	 *
+-	 * Since this function is NOKPROBE, and that also applies to
+-	 * HW_BREAKPOINT_X, we can't hit a breakpoint before this (XXX except a
+-	 * HW_BREAKPOINT_W on our stack)
+-	 *
+-	 * Entry text is excluded for HW_BP_X and cpu_entry_area, which
+-	 * includes the entry stack is excluded for everything.
+-	 */
+-	unsigned long dr7 = local_db_save();
+ 	irqentry_state_t irq_state = irqentry_nmi_enter(regs);
+ 	instrumentation_begin();
  
- #endif /* CONFIG_X86_FRED */
+@@ -1063,7 +1052,8 @@ static __always_inline void exc_debug_kernel(struct pt_regs *regs,
+ 	 * Catch SYSENTER with TF set and clear DR_STEP. If this hit a
+ 	 * watchpoint at the same time then that will still be handled.
+ 	 */
+-	if ((dr6 & DR_STEP) && is_sysenter_singlestep(regs))
++	if (!cpu_feature_enabled(X86_FEATURE_FRED) &&
++	    (dr6 & DR_STEP) && is_sysenter_singlestep(regs))
+ 		dr6 &= ~DR_STEP;
+ 
+ 	/*
+@@ -1091,7 +1081,25 @@ static __always_inline void exc_debug_kernel(struct pt_regs *regs,
+ out:
+ 	instrumentation_end();
+ 	irqentry_nmi_exit(regs, irq_state);
++}
+ 
++static __always_inline void exc_debug_kernel(struct pt_regs *regs,
++					     unsigned long dr6)
++{
++	/*
++	 * Disable breakpoints during exception handling; recursive exceptions
++	 * are exceedingly 'fun'.
++	 *
++	 * Since this function is NOKPROBE, and that also applies to
++	 * HW_BREAKPOINT_X, we can't hit a breakpoint before this (XXX except a
++	 * HW_BREAKPOINT_W on our stack)
++	 *
++	 * Entry text is excluded for HW_BP_X and cpu_entry_area, which
++	 * includes the entry stack is excluded for everything.
++	 */
++	unsigned long dr7 = local_db_save();
++
++	debug_kernel_common(regs, dr6);
+ 	local_db_restore(dr7);
+ }
+ 
+@@ -1180,6 +1188,24 @@ DEFINE_IDTENTRY_DEBUG_USER(exc_debug)
+ {
+ 	exc_debug_user(regs, debug_read_clear_dr6());
+ }
++
++# ifdef CONFIG_X86_FRED
++DEFINE_FRED_HANDLER(fred_exc_debug)
++{
++	/*
++	 * The FRED debug information saved onto stack differs from
++	 * DR6 in both stickiness and polarity; it is exactly what
++	 * debug_read_clear_dr6() returns.
++	 */
++	unsigned long dr6 = fred_event_data(regs);
++
++	if (user_mode(regs))
++		exc_debug_user(regs, dr6);
++	else
++		debug_kernel_common(regs, dr6);
++}
++# endif /* CONFIG_X86_FRED */
++
+ #else
+ /* 32 bit does not have separate entry points. */
+ DEFINE_IDTENTRY_RAW(exc_debug)
 -- 
 2.34.1
 
