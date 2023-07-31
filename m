@@ -2,175 +2,241 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E13C001DC
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 11:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E65C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 11:40:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjGaLWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 07:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34672 "EHLO
+        id S229924AbjGaLk1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 07:40:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232585AbjGaLVu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 07:21:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EB0171B
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 04:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690802454;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=47HAhqvJlrFOjF3d3mT+sXNh9SqjQbM0s/wrTjkOtJg=;
-        b=i884zA/q0qcP8cVnklnRkqGFucfkUGfvK7wvaYeRfGvH0v5btCjeJko+jL59jUXEjgv2qJ
-        MPRE9bRchFfjhtldOnlZjW/z4MQfoKk9X3i254FEmWGuMp6bis0uH3kD2TJVA9OVvafBdu
-        cvHkLTqJEERxMkTOxNDOZBYeEqHfCf8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-365-wNdN1wBOPmOH3nWtNjDU3g-1; Mon, 31 Jul 2023 07:20:52 -0400
-X-MC-Unique: wNdN1wBOPmOH3nWtNjDU3g-1
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-63d09e8bc06so33398516d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 04:20:52 -0700 (PDT)
+        with ESMTP id S229724AbjGaLk0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 07:40:26 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEEB2A6;
+        Mon, 31 Jul 2023 04:40:25 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id d2e1a72fcca58-686b643df5dso2989121b3a.1;
+        Mon, 31 Jul 2023 04:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690803625; x=1691408425;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NbHaBnPJTBufVAwcPj+/e51E470qMaDLfU8RAgBBrSo=;
+        b=Oqhj9+7q02O+W9LRy4/w9ygddowj5YGZdAuQcQiAKx8xsYNHClcRtsbok6QS0FT7o5
+         EnqTLOZQ2khabaT7z9Y7sb4fRTsSVX1bDX522xRb1/pB6hkHuKktWo6tgpdO5UrJ+mVa
+         yamBHZxv6GhHgFm+mFHhNbceYYuLchQPstzfFsuHCcE4ahCOp+1jICpS8uWPKscCPIK2
+         lf51aYlmtmTfGIhtv1APtO6vSJrqsEq029SRG5gJ1Ak717eq5rbbpcAyxJaiRocDTPzT
+         +PTy+sMzbnntJxzHX6SLblNYGLcritk1DuTMBjbjSc7spgbtTQ4U357QI6CCDHdnBlZt
+         V/zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690802452; x=1691407252;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=47HAhqvJlrFOjF3d3mT+sXNh9SqjQbM0s/wrTjkOtJg=;
-        b=SQqs2L3VHGDGmnP+cPqK1QFTNnmkHt4tNENnOgzh7UfKq1Emlfi5kIaUpD5zJ8MLk8
-         CKLcM/au99ITEjzu68uUMWTteFQOhkTRW0sFO/YdRyv9tkAjzJtuknSPdUalZkCwbzC5
-         Hg2l+QmhQFejXsoWAJHAILPB0QmrFsetb2U+9oGr+mEBweBN2umtbdPgjMkIZBvJVAOJ
-         BTH31Kz1GmMrYuNkROMmJj8sHloivQDhzg1EoyhJ/HZ8L+XwwBukRSpTLDJQ69xl4+hB
-         BDQtN7qMGeAr7NJVBultv9WfAktn7XB/FZXkOAsEAgH/D0mWsl7fQ6uDogxswh3PCgm9
-         QAhw==
-X-Gm-Message-State: ABy/qLY4DJ3c+GvjiC8+YzLFsWRNREg84lpkKnZpaaFqgW56/2rbIN6H
-        lRd5cAJjP4Nq64rKUgQJwEOuUZSmiglDoTpV4bdSz6A0KQQSi3/8GEWzoitjpaSHX5bBH9Wldfb
-        W/avmU1AoWZhK9HYl1Baa
-X-Received: by 2002:a0c:e14d:0:b0:634:20f:471c with SMTP id c13-20020a0ce14d000000b00634020f471cmr6609359qvl.14.1690802451988;
-        Mon, 31 Jul 2023 04:20:51 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGQmknuNkpt4OdqMMs+lcZsPQfXQHCOzlkWOeCIE2fDz4iRThyIeyibV6Yi3WqcRw7uGfKfaw==
-X-Received: by 2002:a0c:e14d:0:b0:634:20f:471c with SMTP id c13-20020a0ce14d000000b00634020f471cmr6609334qvl.14.1690802451661;
-        Mon, 31 Jul 2023 04:20:51 -0700 (PDT)
-Received: from vschneid.remote.csb ([149.12.7.81])
-        by smtp.gmail.com with ESMTPSA id n2-20020a0ce542000000b0061b5dbf1994sm3583834qvm.146.2023.07.31.04.20.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 04:20:51 -0700 (PDT)
-From:   Valentin Schneider <vschneid@redhat.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 06/20] tracing/filters: Optimise scalar vs
- cpumask filtering when the user mask is a single CPU
-In-Reply-To: <20230729155547.35719a1f@rorschach.local.home>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-7-vschneid@redhat.com>
- <20230729155547.35719a1f@rorschach.local.home>
-Date:   Mon, 31 Jul 2023 12:20:41 +0100
-Message-ID: <xhsmh1qgos4xi.mognet@vschneid.remote.csb>
+        d=1e100.net; s=20221208; t=1690803625; x=1691408425;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NbHaBnPJTBufVAwcPj+/e51E470qMaDLfU8RAgBBrSo=;
+        b=IvNVIG+IiCG58ug5YHoZoqa5d1wKnMPhu+3GSzywyni9sku/DLloZ8S2jeeZ4aIk9z
+         08J7hdh/jB13i+fLVhKOry5OcRkZ/fGkEBm0MZgo5Ot4o9+VrJiTq4gfRkSsbHPxthPU
+         94+kMDkWxg8FU1PzDdop/fNNZ5TKLWtbcNpQx3blgqOmrb9ak5Cp9mkoqk5SaT09EaFq
+         qjhFWIp46WpmWarE1dsotfZElmho+lsAcmc6/PeBWii7XTbxRcl67sDO8TuqPCilxMv0
+         xC+HmUbtz4gzNPQs67FMN4ARivdK7ZOlunCFEQPAqxzvc7Wbzknqz5iD0NNlTR7n3Y9o
+         DvJA==
+X-Gm-Message-State: ABy/qLadRyCLiiGPa3NW043+GEZdszw1v2fZXNYNuZ3hkjxpx1lnORe0
+        IUC/5KZf2QiEBOwgjerVg1E=
+X-Google-Smtp-Source: APBJJlExlIfJlZY/sSBlcw6EfNRGkZZTwEkZ+JAJ9sqSSJViGVx+t05/p99K9MXZ7/FpPZdW7zHT8w==
+X-Received: by 2002:a05:6a20:9151:b0:13b:79dc:4538 with SMTP id x17-20020a056a20915100b0013b79dc4538mr9899227pzc.62.1690803625084;
+        Mon, 31 Jul 2023 04:40:25 -0700 (PDT)
+Received: from [10.90.34.137] ([203.208.167.147])
+        by smtp.gmail.com with ESMTPSA id e11-20020a63ae4b000000b00563962dbc70sm792422pgp.58.2023.07.31.04.40.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Jul 2023 04:40:24 -0700 (PDT)
+Message-ID: <e106ee62-8b4b-59bc-d7ec-510c0c75c30a@gmail.com>
+Date:   Mon, 31 Jul 2023 19:40:16 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.1
+Subject: Re: [PATCH 03/11] maple_tree: Add some helper functions
+To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
+ <20230726080916.17454-4-zhangpeng.00@bytedance.com>
+ <20230726150252.x56owgz3ikujzicu@revolver>
+Cc:     peterz@infradead.org, mathieu.desnoyers@efficios.com,
+        brauner@kernel.org, Peng Zhang <zhangpeng.00@bytedance.com>,
+        surenb@google.com, linux-kernel@vger.kernel.org, npiggin@gmail.com,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, corbet@lwn.net, willy@infradead.org,
+        linux-mm@kvack.org, avagin@gmail.com, michael.christie@oracle.com
+From:   Peng Zhang <perlyzhang@gmail.com>
+In-Reply-To: <20230726150252.x56owgz3ikujzicu@revolver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/07/23 15:55, Steven Rostedt wrote:
-> On Thu, 20 Jul 2023 17:30:42 +0100
-> Valentin Schneider <vschneid@redhat.com> wrote:
->
->> Steven noted that when the user-provided cpumask contains a single CPU,
->> then the filtering function can use a scalar as input instead of a
->> full-fledged cpumask.
+
+
+在 2023/7/26 23:02, Liam R. Howlett 写道:
+> * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
+>> Add some helper functions so that their parameters are maple node
+>> instead of maple enode, these functions will be used later.
 >>
->> When the mask contains a single CPU, directly re-use the unsigned field
->> predicate functions. Transform '&' into '==' beforehand.
->>
->> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
->> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
+>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
 >> ---
->>  kernel/trace/trace_events_filter.c | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>   lib/maple_tree.c | 71 +++++++++++++++++++++++++++++++++++++-----------
+>>   1 file changed, 55 insertions(+), 16 deletions(-)
 >>
->> diff --git a/kernel/trace/trace_events_filter.c b/kernel/trace/trace_events_filter.c
->> index 2fe65ddeb34ef..54d642fabb7f1 100644
->> --- a/kernel/trace/trace_events_filter.c
->> +++ b/kernel/trace/trace_events_filter.c
->> @@ -1750,7 +1750,7 @@ static int parse_pred(const char *str, void *data,
->>               * then we can treat it as a scalar input.
->>               */
->>              single = cpumask_weight(pred->mask) == 1;
->> -		if (single && field->filter_type == FILTER_CPUMASK) {
->> +		if (single && field->filter_type != FILTER_CPU) {
->>                      pred->val = cpumask_first(pred->mask);
->>                      kfree(pred->mask);
->>              }
->> @@ -1761,6 +1761,11 @@ static int parse_pred(const char *str, void *data,
->>                              FILTER_PRED_FN_CPUMASK;
->>              } else if (field->filter_type == FILTER_CPU) {
->>                      pred->fn_num = FILTER_PRED_FN_CPU_CPUMASK;
->> +		} else if (single) {
->> +			pred->op = pred->op == OP_BAND ? OP_EQ : pred->op;
->
-> Nit, the above can be written as:
->
->                       pred->op = pret->op != OP_BAND ? : OP_EQ;
->
+>> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
+>> index e0e9a87bdb43..da3a2fb405c0 100644
+>> --- a/lib/maple_tree.c
+>> +++ b/lib/maple_tree.c
+>> @@ -164,6 +164,11 @@ static inline int mt_alloc_bulk(gfp_t gfp, size_t size, void **nodes)
+>>   	return kmem_cache_alloc_bulk(maple_node_cache, gfp, size, nodes);
+>>   }
+>>   
+>> +static inline void mt_free_one(struct maple_node *node)
+>> +{
+>> +	kmem_cache_free(maple_node_cache, node);
+>> +}
+>> +
+> 
+> There is a place in mas_destroy() that could use this if it is added.
+I will make changes accordingly. It's not done here because it doesn't
+seem to be relevant to the theme of this patchset.
+> 
+>>   static inline void mt_free_bulk(size_t size, void __rcu **nodes)
+>>   {
+>>   	kmem_cache_free_bulk(maple_node_cache, size, (void **)nodes);
+>> @@ -432,18 +437,18 @@ static inline unsigned long mte_parent_slot_mask(unsigned long parent)
+>>   }
+>>   
+>>   /*
+>> - * mas_parent_type() - Return the maple_type of the parent from the stored
+>> - * parent type.
+>> - * @mas: The maple state
+>> - * @enode: The maple_enode to extract the parent's enum
+>> + * ma_parent_type() - Return the maple_type of the parent from the stored parent
+>> + * type.
+>> + * @mt: The maple tree
+>> + * @node: The maple_node to extract the parent's enum
+>>    * Return: The node->parent maple_type
+>>    */
+>>   static inline
+>> -enum maple_type mas_parent_type(struct ma_state *mas, struct maple_enode *enode)
+>> +enum maple_type ma_parent_type(struct maple_tree *mt, struct maple_node *node)
+> 
+> I was trying to keep ma_* prefix to mean the first argument is
+> maple_node and mt_* to mean maple_tree.  I wasn't entirely successful
+> with this and I do see why you want to use ma_, but maybe reverse the
+> arguments here?
+I just think it is redundant to construct maple enode through
+node->parent in order to adapt the parameters of mte_*. So ma_* are
+introduced to avoid meaningless construction.
 
-That's neater, thanks!
-
-> -- Steve
->
->
->> +			pred->fn_num = select_comparison_fn(pred->op, field->size, false);
->> +			if (pred->op == OP_NE)
->> +				pred->not = 1;
->>              } else {
->>                      switch (field->size) {
->>                      case 8:
-
+> 
+>>   {
+>>   	unsigned long p_type;
+>>   
+>> -	p_type = (unsigned long)mte_to_node(enode)->parent;
+>> +	p_type = (unsigned long)node->parent;
+>>   	if (WARN_ON(p_type & MAPLE_PARENT_ROOT))
+>>   		return 0;
+>>   
+>> @@ -451,7 +456,7 @@ enum maple_type mas_parent_type(struct ma_state *mas, struct maple_enode *enode)
+>>   	p_type &= ~mte_parent_slot_mask(p_type);
+>>   	switch (p_type) {
+>>   	case MAPLE_PARENT_RANGE64: /* or MAPLE_PARENT_ARANGE64 */
+>> -		if (mt_is_alloc(mas->tree))
+>> +		if (mt_is_alloc(mt))
+>>   			return maple_arange_64;
+>>   		return maple_range_64;
+>>   	}
+>> @@ -459,6 +464,19 @@ enum maple_type mas_parent_type(struct ma_state *mas, struct maple_enode *enode)
+>>   	return 0;
+>>   }
+>>   
+>> +/*
+>> + * mas_parent_type() - Return the maple_type of the parent from the stored
+>> + * parent type.
+>> + * @mas: The maple state
+>> + * @enode: The maple_enode to extract the parent's enum
+>> + * Return: The node->parent maple_type
+>> + */
+>> +static inline
+>> +enum maple_type mas_parent_type(struct ma_state *mas, struct maple_enode *enode)
+>> +{
+>> +	return ma_parent_type(mas->tree, mte_to_node(enode));
+>> +}
+>> +
+>>   /*
+>>    * mas_set_parent() - Set the parent node and encode the slot
+>>    * @enode: The encoded maple node.
+>> @@ -499,14 +517,14 @@ void mas_set_parent(struct ma_state *mas, struct maple_enode *enode,
+>>   }
+>>   
+>>   /*
+>> - * mte_parent_slot() - get the parent slot of @enode.
+>> - * @enode: The encoded maple node.
+>> + * ma_parent_slot() - get the parent slot of @node.
+>> + * @node: The maple node.
+>>    *
+>> - * Return: The slot in the parent node where @enode resides.
+>> + * Return: The slot in the parent node where @node resides.
+>>    */
+>> -static inline unsigned int mte_parent_slot(const struct maple_enode *enode)
+>> +static inline unsigned int ma_parent_slot(const struct maple_node *node)
+>>   {
+>> -	unsigned long val = (unsigned long)mte_to_node(enode)->parent;
+>> +	unsigned long val = (unsigned long)node->parent;
+>>   
+>>   	if (val & MA_ROOT_PARENT)
+>>   		return 0;
+>> @@ -519,15 +537,36 @@ static inline unsigned int mte_parent_slot(const struct maple_enode *enode)
+>>   }
+>>   
+>>   /*
+>> - * mte_parent() - Get the parent of @node.
+>> - * @node: The encoded maple node.
+>> + * mte_parent_slot() - get the parent slot of @enode.
+>> + * @enode: The encoded maple node.
+>> + *
+>> + * Return: The slot in the parent node where @enode resides.
+>> + */
+>> +static inline unsigned int mte_parent_slot(const struct maple_enode *enode)
+>> +{
+>> +	return ma_parent_slot(mte_to_node(enode));
+>> +}
+>> +
+>> +/*
+>> + * ma_parent() - Get the parent of @node.
+>> + * @node: The maple node.
+>> + *
+>> + * Return: The parent maple node.
+>> + */
+>> +static inline struct maple_node *ma_parent(const struct maple_node *node)
+> 
+> I had a lot of these helpers before, but they eventually became used so
+> little that I dropped them.
+Just for not wanting to construct maple enode. It's not really a
+problem.
+> 
+>> +{
+>> +	return (void *)((unsigned long)(node->parent) & ~MAPLE_NODE_MASK);
+>> +}
+>> +
+>> +/*
+>> + * mte_parent() - Get the parent of @enode.
+>> + * @enode: The encoded maple node.
+>>    *
+>>    * Return: The parent maple node.
+>>    */
+>>   static inline struct maple_node *mte_parent(const struct maple_enode *enode)
+>>   {
+>> -	return (void *)((unsigned long)
+>> -			(mte_to_node(enode)->parent) & ~MAPLE_NODE_MASK);
+>> +	return ma_parent(mte_to_node(enode));
+>>   }
+>>   
+>>   /*
+>> -- 
+>> 2.20.1
+>>
