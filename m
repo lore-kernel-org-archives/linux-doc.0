@@ -2,150 +2,274 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F25C001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 14:51:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60DD6C001DC
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 15:11:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230320AbjGaOvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 10:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
+        id S232589AbjGaPLN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 11:11:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233131AbjGaOvZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 10:51:25 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA4CE78;
-        Mon, 31 Jul 2023 07:51:21 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-314417861b9so3867611f8f.0;
-        Mon, 31 Jul 2023 07:51:21 -0700 (PDT)
+        with ESMTP id S233247AbjGaPKw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 11:10:52 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E331FE9
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 08:10:26 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-40c72caec5cso413551cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 08:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690815079; x=1691419879;
+        d=google.com; s=20221208; t=1690816225; x=1691421025;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fAPrkbK19s/j5Zx9BvuYAYuY534VPCFu5UMSEPN+FAE=;
-        b=ONefshDkN1jXMyg0wZ8QEmmAPXYcp3mA7Y4rLHbZ0B/sSm8FGewPffgqtdxTL/X1iT
-         AtnNYgJ+osFjNol3DgEwCoRMsRzED9sEjdYo+XNB6jA/vpUD06z0WPGVpFwk6veFO9OU
-         ibatrDvsrl3GB3m2uFuEY1sklgbBbV+M1ieeB/BLXlqQriOZZEEhJRnlTc6k3zry1pGI
-         8gT4pqVcCYAqeSjkliWxyT6pMGXOg8y1USl58BKNqUR4FGu0Ju4rskBjkX0SaL4zQ9IR
-         mABJjkmvgdQUqRb0sebjRifxOKcjyv4RmV6FD7aKFsKCahByl3oE/ln33nEvLUOnN/IR
-         cPxQ==
+        bh=iMmlT4xiGpOtC9VGm+XQXDU04xNWVwR28wOF8+RMY3s=;
+        b=Y++IoCt4DRCFsvq0LcA2oo34SeicYFBVj7wGzcX/2KR+FrOmMIXEoAA0UUrnTXuM5l
+         kG0d//PFEOd4YhsdzpGS3We2jvMrcURWB0Nl4WgdK+0/egyXYEIhbczttmN9c6j0yEls
+         VyB5KKxCA0oAZ1zRHYqcVKQVo75Zdrw5iG12PAwDkb/Q0L94PoYf8idDKGtzFzKG8Hdg
+         z4fYwAFuBHfWoAdfnh1i4qnMkgFdZAUxbJx+bUpGncVKjfC47HFf+bhts8PnoXJz5ehl
+         8EqxeyW2oiWnWSY9alCF/zWuNY9qcZKhg3kAEcfUHfVSGCeUa2tyXQK5eOYJGEn7jpqt
+         umIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690815079; x=1691419879;
+        d=1e100.net; s=20221208; t=1690816225; x=1691421025;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fAPrkbK19s/j5Zx9BvuYAYuY534VPCFu5UMSEPN+FAE=;
-        b=EdkSzJe4WXKljAkSuv6Tp5vkScZYwp2APQQ6e98Cr/gZ/TGLmYiADEgYwRNXnImXeB
-         1NBkZyx35/Es/EOuUmYt3U9hLimN4+Yc5BKYTmGNjyM4z4VPX33ICVxfTBZdjBPSExK5
-         aI25fSquP9JRudKjSGgt/ZSN/fJ4BHCNzws0v3t/n5cOUGB/mIOZcPRYp3VSBLpOHCwn
-         FEnaYxwWPKh6ITwnpYuLVa1jrlqV/neqqikLm71217Q50+6c1xoOjnUOH6/q9plt/wun
-         hxl+dPglZ9qA55tjUARp8AjL/MDVC33jOnxb+KmLZzauRqdlwabNhGt3eEcY5vwGCmGU
-         NinQ==
-X-Gm-Message-State: ABy/qLZOx1f+WHqxdRaTwqlLiHDkGzooLPXnmuoe4RNYPNuS2RaAjfIv
-        4bl9IWyr9i/gJYvhcm83hoqFzTKxXCFEdjSi8D4=
-X-Google-Smtp-Source: APBJJlHp9CxGwet2vmvPctm3AruUc8MW3kWbH5+YX2xIIUpW5tevxLfL1O+U73H0pP1U9NLaYEZRubIxIr3M2m/csAQ=
-X-Received: by 2002:adf:e752:0:b0:314:3f98:a788 with SMTP id
- c18-20020adfe752000000b003143f98a788mr58676wrn.7.1690815079341; Mon, 31 Jul
- 2023 07:51:19 -0700 (PDT)
+        bh=iMmlT4xiGpOtC9VGm+XQXDU04xNWVwR28wOF8+RMY3s=;
+        b=kNHx/k1IzBC7XzE0vR/89yYaXu75mwrQjkgv+60fBVDJYWCaorGQlGoCd1dDEf+jhv
+         SYLoQWXt5Rpl0Ge8tBX8WpDDqR2bVkt5cQ8noyZ5E65QoJ/aTl16i3SlAk3Xg1xZp/oJ
+         eE+6ifLOHBVlK7+GZI2FbpIDSCmIYSV/hRyhPOjT+FTkVRTGmHrmhUbaUoduQN0R1Wdz
+         dBwrtq+zqww13B1Apzui23Mxjrv+/vRRVjOXvU0rLWdAfsMSLIVj19UYku5FC+iA5Y+/
+         c0eiXZ2VEmHbGCpBKwLDSLLQCyQWPVUN3wtb9NBLEQ6tdlDRh3HDxsyi1/vKVkdC7MAD
+         epqw==
+X-Gm-Message-State: ABy/qLasiQ88umvKQ0FSSEqSBVpQt/AG0Oz0Ck0R63SdaceZ7IyldFwz
+        hmSGIPa3xBvpMtUsXiJvleWQRuLmgaR5ZLWzD76GtA==
+X-Google-Smtp-Source: APBJJlF80g4PGoUsmWgES6Mx7Q1A6B085YSp8JisqMkb362UzUiQDX1a393xdAlG961DXd2bHAapUHeUGEeS7d31Wfk=
+X-Received: by 2002:a05:622a:188b:b0:403:a43d:bd7d with SMTP id
+ v11-20020a05622a188b00b00403a43dbd7dmr426388qtc.4.1690816224935; Mon, 31 Jul
+ 2023 08:10:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAF6AEGtan-bQ7syKAwOKDY=044aKu26SLPQ0j1ieLqXNyQQS3g@mail.gmail.com>
- <282e-64c7a800-77-46253680@38053863>
-In-Reply-To: <282e-64c7a800-77-46253680@38053863>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 31 Jul 2023 07:51:07 -0700
-Message-ID: <CAF6AEGufEzyOygPt6-tCbSC75GSD7sOB=FHE4nNGwPre6kHuOA@mail.gmail.com>
-Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
-To:     Helen Mae Koike Fornazier <helen.koike@collabora.com>
-Cc:     Daniel Stone <daniel@fooishbar.org>, emma@anholt.net,
-        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
-        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
-        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
-        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
-        daniels@collabora.com, martin.blumenstingl@googlemail.com,
-        mripard@kernel.org, anholt@google.com,
-        linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
-        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
+References: <20230727141428.962286-1-alexghiti@rivosinc.com>
+ <20230727141428.962286-10-alexghiti@rivosinc.com> <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
+ <CAHVXubgVAe1WsiZx5Ay+3KPK4u24k_vsnTwFFmBeVsHrGXwhfw@mail.gmail.com> <CAHVXubj80rQRShuDS09BeTrfR6nux0A68EMWLbeat8fd_Y3YdA@mail.gmail.com>
+In-Reply-To: <CAHVXubj80rQRShuDS09BeTrfR6nux0A68EMWLbeat8fd_Y3YdA@mail.gmail.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Mon, 31 Jul 2023 08:10:12 -0700
+Message-ID: <CAP-5=fWwzuGZ6a6Z38ndsb7gw7_uwS0a2VGXx08hMeiK8eZ91w@mail.gmail.com>
+Subject: Re: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Atish Patra <atishp@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 31, 2023 at 5:25=E2=80=AFAM Helen Mae Koike Fornazier
-<helen.koike@collabora.com> wrote:
+On Mon, Jul 31, 2023 at 3:27=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
 >
-> Hello all,
->
-> Thanks for your comments.
->
-> On Friday, July 28, 2023 11:37 -03, Rob Clark <robdclark@gmail.com> wrote=
-:
->
-> > On Thu, Jul 27, 2023 at 10:26=E2=80=AFPM Daniel Stone <daniel@fooishbar=
-.org> wrote:
+> On Mon, Jul 31, 2023 at 12:15=E2=80=AFPM Alexandre Ghiti <alexghiti@rivos=
+inc.com> wrote:
+> >
+> > Hi Ian,
+> >
+> > On Fri, Jul 28, 2023 at 7:53=E2=80=AFPM Ian Rogers <irogers@google.com>=
+ wrote:
 > > >
-> > > On Thu, 27 Jul 2023 at 22:47, Rob Clark <robdclark@gmail.com> wrote:
-> > > > > I did run into a bit of a chicken vs. egg problem with testing th=
-e "in
-> > > > > tree" version (compared to earlier versions which kept most of th=
-e yml
-> > > > > and scripts in a separate tree), is that it actually requires thi=
-s
-> > > > > commit to exist in the branch you want to run CI on.  My earlier
-> > > > > workaround of pulling the drm/ci commit in via
-> > > > > ${branchname}-external-fixes no longer works.
+> > > On Thu, Jul 27, 2023 at 7:28=E2=80=AFAM Alexandre Ghiti <alexghiti@ri=
+vosinc.com> wrote:
 > > > >
-> > > > After unwinding some more gitlab repo settings that were for the
-> > > > previous out-of-tree yml setup, I have this working.
+> > > > riscv now supports mmaping hardware counters so add what's needed t=
+o
+> > > > take advantage of that in libperf.
 > > > >
-> > > > Tested-by: Rob Clark <robdclark@gmail.com>
-> > > > Acked-by: Rob Clark <robdclark@gmail.com>
+> > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > > > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> > > > ---
+> > > >  tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++=
+++++
+> > > >  1 file changed, 65 insertions(+)
+> > > >
+> > > > diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+> > > > index 0d1634cedf44..378a163f0554 100644
+> > > > --- a/tools/lib/perf/mmap.c
+> > > > +++ b/tools/lib/perf/mmap.c
+> > > > @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int coun=
+ter)
+> > > >
+> > > >  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); =
+}
+> > > >
+> > > > +#elif __riscv_xlen =3D=3D 64
 > > >
-> > > And it's also:
-> > > Acked-by: Daniel Stone <daniels@collabora.com>
+> > > This is something of an odd guard, perhaps:
+> > > #elif defined(__riscv) && __riscv_xlen =3D=3D 64
 > > >
-> > > It's been back and forth a few times by now and reviewed pretty
-> > > heavily by all the people who are across the CI details. I think the
-> > > next step is to answer all the workflow questions by actually getting
-> > > it into trees and using it in anger. There was some discussion about
-> > > whether this should come in from drm-misc, or the core DRM tree, or a
-> > > completely separate pull, but I'm not sure what the conclusion was ..=
-.
-> > > maintainers, thoughts?
+> > > That way it is more intention revealing that this is riscv code. Coul=
+d
+> > > you add a comment relating to the __riscv_xlen ?
 > >
-> > I'd prefer a separate pull, so that I could merge it into msm-next as
-> > well without having to pull in all of drm-misc
->
-> Should we create a drm-ci ?
+> > I guess Andrew answered that already.
+> >
 
-I guess we can just wait and see how often it is that drm/ci updates
-need to be merged into multiple driver trees.  Hopefully most of the
-drm/ci changes are just expectation file updates which should go via
-driver tree.  Maybe i-g-t uprevs, if they have a lot of expectation
-changes would be something drivers would want to merge into their own
-tree?  But I guess we can see how it goes.
+Not sure. I still think it looks weird:
+...
+#if defined(__i386__) || defined(__x86_64__)
+...
+#elif defined(__aarch64__)
+...
+#elif __riscv_xlen =3D=3D 64
+...
+#else
+static u64 read_perf_counter(unsigned int counter __maybe_unused) { return =
+0; }
+static u64 read_timestamp(void) { return 0; }
+#endif
+
+The first two are clearly #ifdef-ing architecture specific assembly
+code, under what conditions I get RISC-V code  =C2=AF\(=E3=83=84)/=C2=AF At=
+ least worth
+a comment like "csrr is only available when you have xlens of 64
+because ..."
+
+> > >
+> > > > +
+> > > > +/* TODO: implement rv32 support */
+> > > > +
+> > > > +#define CSR_CYCLE      0xc00
+> > > > +#define CSR_TIME       0xc01
+> > > > +
+> > > > +#define csr_read(csr)                                          \
+> > > > +({                                                             \
+> > > > +       register unsigned long __v;                             \
+> > > > +               __asm__ __volatile__ ("csrr %0, " #csr          \
+> > > > +                : "=3Dr" (__v) :                                 \
+> > > > +                : "memory");                                   \
+> > >
+> > > To avoid the macro pasting that could potentially go weird, could thi=
+s be:
+> > >
+> > > __asm__ __volatile__ ("csrr %0, %1",
+> > >   : "=3Dr"(__v) /* outputs */
+> > >   : "i"(csr) /* inputs */
+> > >   : "memory" /* clobbers */)
+>
+> Forgot to answer this one: it compiles, but I have to admit that I
+> don't understand the difference and if that's correct (all macros in
+> arch/riscv/include/asm/csr.h use # to do this) and what benefits it
+> brings. Can you elaborate more on things that could "go weird"?
+
+So rather than use an input constraint for the asm block you are using
+the C preprocessor to paste in the csr argument. If csr is something
+like "1" then it looks good and you'll get "csrr %0,1". If you pass
+something like "1 << 31" then that will be pasted as "csrr %0, 1 <<
+31" and that starts to get weird in the context of being in the
+assembler where it is unlikely the C operators work. Using the input
+constraint avoids this, causes the C compiler to check the type of the
+argument and you'll probably get more intelligible error messages as a
+consequence.
+
+>
+> Thanks again,
+>
+> Alex
+>
+> > >
+> > > Also, why is this clobbering memory? Worth adding a comment.
+> >
+> > No idea, I see that it is also done this way in
+> > arch/riscv/include/asm/csr.h. @Atish Kumar Patra , @Palmer Dabbelt ?
+
+It would seem to make sense then not to have a memory constraint until
+we know why we're doing it?
+
+Thanks,
+Ian
 
 > >
-> > Possibly some other driver trees would like to do similar?
+> > Thanks for your comments!
 > >
-> > BR,
-> > -R
->
-> Also, please wait for v11, I have a few adjustments to make as pointer by
-> some comments, and also regarding xfails list and how the configs should
-> be organized (unless if you are fine merging this version and I can submi=
-t
-> the adjustments later).
-
-Ok
-
-BR,
--R
-
-> Thanks,
-> Helen
->
+> > Alex
+> >
+> > >
+> > > Thanks,
+> > > Ian
+> > >
+> > > > +                __v;                                           \
+> > > > +})
+> > > > +
+> > > > +static unsigned long csr_read_num(int csr_num)
+> > > > +{
+> > > > +#define switchcase_csr_read(__csr_num, __val)           {\
+> > > > +       case __csr_num:                                 \
+> > > > +               __val =3D csr_read(__csr_num);            \
+> > > > +               break; }
+> > > > +#define switchcase_csr_read_2(__csr_num, __val)         {\
+> > > > +       switchcase_csr_read(__csr_num + 0, __val)        \
+> > > > +       switchcase_csr_read(__csr_num + 1, __val)}
+> > > > +#define switchcase_csr_read_4(__csr_num, __val)         {\
+> > > > +       switchcase_csr_read_2(__csr_num + 0, __val)      \
+> > > > +       switchcase_csr_read_2(__csr_num + 2, __val)}
+> > > > +#define switchcase_csr_read_8(__csr_num, __val)         {\
+> > > > +       switchcase_csr_read_4(__csr_num + 0, __val)      \
+> > > > +       switchcase_csr_read_4(__csr_num + 4, __val)}
+> > > > +#define switchcase_csr_read_16(__csr_num, __val)        {\
+> > > > +       switchcase_csr_read_8(__csr_num + 0, __val)      \
+> > > > +       switchcase_csr_read_8(__csr_num + 8, __val)}
+> > > > +#define switchcase_csr_read_32(__csr_num, __val)        {\
+> > > > +       switchcase_csr_read_16(__csr_num + 0, __val)     \
+> > > > +       switchcase_csr_read_16(__csr_num + 16, __val)}
+> > > > +
+> > > > +       unsigned long ret =3D 0;
+> > > > +
+> > > > +       switch (csr_num) {
+> > > > +       switchcase_csr_read_32(CSR_CYCLE, ret)
+> > > > +       default:
+> > > > +               break;
+> > > > +       }
+> > > > +
+> > > > +       return ret;
+> > > > +#undef switchcase_csr_read_32
+> > > > +#undef switchcase_csr_read_16
+> > > > +#undef switchcase_csr_read_8
+> > > > +#undef switchcase_csr_read_4
+> > > > +#undef switchcase_csr_read_2
+> > > > +#undef switchcase_csr_read
+> > > > +}
+> > > > +
+> > > > +static u64 read_perf_counter(unsigned int counter)
+> > > > +{
+> > > > +       return csr_read_num(CSR_CYCLE + counter);
+> > > > +}
+> > > > +
+> > > > +static u64 read_timestamp(void)
+> > > > +{
+> > > > +       return csr_read_num(CSR_TIME);
+> > > > +}
+> > > > +
+> > > >  #else
+> > > >  static u64 read_perf_counter(unsigned int counter __maybe_unused) =
+{ return 0; }
+> > > >  static u64 read_timestamp(void) { return 0; }
+> > > > --
+> > > > 2.39.2
+> > > >
