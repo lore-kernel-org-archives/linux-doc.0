@@ -2,45 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 087BCC001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 16:02:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 114B2C001DC
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 16:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbjGaQCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 12:02:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39226 "EHLO
+        id S233036AbjGaQDV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 12:03:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjGaQCn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 12:02:43 -0400
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61E79B2;
-        Mon, 31 Jul 2023 09:02:42 -0700 (PDT)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 4A06A67373; Mon, 31 Jul 2023 18:02:37 +0200 (CEST)
-Date:   Mon, 31 Jul 2023 18:02:37 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Yajun Deng <yajun.deng@linux.dev>
-Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        paulmck@kernel.org, bp@suse.de, akpm@linux-foundation.org,
-        peterz@infradead.org, rdunlap@infradead.org, kim.phillips@amd.com,
-        rostedt@goodmis.org, thunder.leizhen@huawei.com, ardb@kernel.org,
-        bhe@redhat.com, anshuman.khandual@arm.com,
-        song.bao.hua@hisilicon.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux.dev
-Subject: Re: [PATCH] dma-contiguous: support per-numa CMA for all
- architectures
-Message-ID: <20230731160237.GA8904@lst.de>
-References: <20230512094210.141540-1-yajun.deng@linux.dev>
+        with ESMTP id S233346AbjGaQDL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 12:03:11 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 080AAE45;
+        Mon, 31 Jul 2023 09:03:11 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 8BF2E2B0;
+        Mon, 31 Jul 2023 16:03:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8BF2E2B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1690819390; bh=6DZuq3K0IVlWprkW7UxAsqG3o6fDHDawj8kLGq2UaX4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=JM5UkfFEyC3fj9Qk4pNUCg8AnEHpsETABUjjbve3Y3yn2B/72TmhTPlL3OhE5Mr/e
+         PyZdw9rp20TgtbJvtuXC7GdCAxzb+0abIDaHc4ZNvblp5mcZG1iRfFmsgyQyB/7o73
+         QwLelHb+VQwYjJlp3+CMjUJdGCyohcSuYfkVbUsrpZMMfacb9TWLobaQVnnGvm+gF+
+         06kblk4KGnkqiJZUcUZd4bYxBPpGfGfVdLA8FaKM0AoP++n+A5dEE802zEfevc4E2e
+         swL7pa1EJKOLdoEdKHJZJQmVsM5RxLtfuLoSkwSY/mVBDHhY5d62Ai4odK1UqV1Ir/
+         O/JT/ukJ48CZg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v6 1/3] Documentation: arm: Add bootargs to the table of
+ added DT parameters
+In-Reply-To: <20230725141926.823153-1-alexghiti@rivosinc.com>
+References: <20230725141926.823153-1-alexghiti@rivosinc.com>
+Date:   Mon, 31 Jul 2023 10:03:09 -0600
+Message-ID: <87fs54dq6a.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230512094210.141540-1-yajun.deng@linux.dev>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks,
+Alexandre Ghiti <alexghiti@rivosinc.com> writes:
 
-applied to the dma-mapping tree for 6.6.
+> The bootargs node is also added by the EFI stub in the function
+> update_fdt(), so add it to the table.
+>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> Reviewed-by: Song Shuai <songshuaishuai@tinylab.org>
+> ---
+>
+> - Changes in v5:
+>   * Rebase on top of docs-next
+>
+>  Documentation/arch/arm/uefi.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+
+Series applied, thanks.
+
+jon
