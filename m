@@ -2,298 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45771C04FDF
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 14:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F25C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 14:51:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbjGaOkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 10:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47942 "EHLO
+        id S230320AbjGaOvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 10:51:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232554AbjGaOkO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 10:40:14 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0487011C;
-        Mon, 31 Jul 2023 07:40:13 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so7215722e87.2;
-        Mon, 31 Jul 2023 07:40:12 -0700 (PDT)
+        with ESMTP id S233131AbjGaOvZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 10:51:25 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA4CE78;
+        Mon, 31 Jul 2023 07:51:21 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-314417861b9so3867611f8f.0;
+        Mon, 31 Jul 2023 07:51:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690815079; x=1691419879;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fAPrkbK19s/j5Zx9BvuYAYuY534VPCFu5UMSEPN+FAE=;
+        b=ONefshDkN1jXMyg0wZ8QEmmAPXYcp3mA7Y4rLHbZ0B/sSm8FGewPffgqtdxTL/X1iT
+         AtnNYgJ+osFjNol3DgEwCoRMsRzED9sEjdYo+XNB6jA/vpUD06z0WPGVpFwk6veFO9OU
+         ibatrDvsrl3GB3m2uFuEY1sklgbBbV+M1ieeB/BLXlqQriOZZEEhJRnlTc6k3zry1pGI
+         8gT4pqVcCYAqeSjkliWxyT6pMGXOg8y1USl58BKNqUR4FGu0Ju4rskBjkX0SaL4zQ9IR
+         mABJjkmvgdQUqRb0sebjRifxOKcjyv4RmV6FD7aKFsKCahByl3oE/ln33nEvLUOnN/IR
+         cPxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690814411; x=1691419211;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:dkim-signature
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VJOGtTDREfbV8OYpGif0IKD7eMnTiyh+wZE8SJ1ImCI=;
-        b=cNSjNj4TnYlhcTi3xouSskMSZkWwG28ZipgcJ4tRxSGOIl+IUG9TVszOuTjD1vFpeh
-         O9gF6DUH756LGCfHH/kny62IyFsCdwDsp2IAbXWNmSaEYUlPgDlNGdojjpslFjSG3JXG
-         6/w5HakhnDtot5Us3vjGBVhn9z600IhDizoO2APwMBPj5/qFTfOZzRiCpSEI6Vn8iMrz
-         bN3HfRymqY9Qpmo5QQocrr915rZWW2SPxq0XSG3L6fgDphdgu2MAl6RutGhUPsPUFqV6
-         tKbevv0lutWZFlR6QZcgQ4QMbkdQ6TwTpkTI7QSReV9ao52UGWSJcdYMbtp3Fp4h+eGR
-         340w==
-X-Gm-Message-State: ABy/qLafQ1QhgD7AtxclpprEh/lmS+V74agO0XpuiffIlEwDtSDnSHaH
-        iiarSDIlZLAkLwSqiPiVw8fhK3c9KlXHtg==
-X-Google-Smtp-Source: APBJJlFZQpXB0q9uKF/n7yxQlHVnmrQO5djcx6klaX9eq3nTGkfY0Vt1eBwKybR5SAy+QAtTX0T87g==
-X-Received: by 2002:a05:6512:3254:b0:4fe:1a99:45e3 with SMTP id c20-20020a056512325400b004fe1a9945e3mr10901lfr.30.1690814411006;
-        Mon, 31 Jul 2023 07:40:11 -0700 (PDT)
-Received: from flawful.org (c-f5f0e255.011-101-6d6c6d3.bbcust.telenor.se. [85.226.240.245])
-        by smtp.gmail.com with ESMTPSA id q17-20020ac25fd1000000b004fb7cd9651bsm2094755lfg.98.2023.07.31.07.40.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 07:40:10 -0700 (PDT)
-Received: by flawful.org (Postfix, from userid 112)
-        id B54A13F16; Mon, 31 Jul 2023 16:40:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
-        t=1690814409; bh=Rbfs5epaggzjkrl275wlRpsTZE3RxtYbUO+5BZIP0PM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j1ca/4R2PLjU5eeI0AaZZu0xFEGHEUduOLqzHwYWL/wpDyFrDVH7gtZRPPKM3Q5aK
-         zs+1VM2iFQELyDGw7BtPyFpoOJPlEyRed5uG0BnmGFe4ufC63qykKtZpBy4SC6xteH
-         gMZ+P1s/AKM0BP9Ea6PFDByqnt8Pq+trz0vdt5w0=
-Received: from x1-carbon.lan (OpenWrt.lan [192.168.1.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by flawful.org (Postfix) with ESMTPSA id C264241D1;
-        Mon, 31 Jul 2023 16:35:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
-        t=1690814103; bh=Rbfs5epaggzjkrl275wlRpsTZE3RxtYbUO+5BZIP0PM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=djTkIUhCcYKh3DLkvJ1A+mR4Q0KRHUptDeuRaNvJ1+bVnrcWQ5/jPB2c6os6s68Ap
-         vUX5V4PPspfNQDBWs4wOyHdtan5wd5/HuhyHJCl/qS8f2jUvYS5GXj8Tfb3BxzkAi9
-         IJ0M9bO3PF/lQPvIvQJLNUwhwjFA3BR8Hx0OgEx4=
-From:   Niklas Cassel <nks@flawful.org>
-To:     Damien Le Moal <dlemoal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Hannes Reinecke <hare@suse.com>,
-        John Garry <john.g.garry@oracle.com>,
-        linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        Jason Yan <yanaijie@huawei.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v4 09/10] ata: remove ata_bus_probe()
-Date:   Mon, 31 Jul 2023 16:34:20 +0200
-Message-ID: <20230731143432.58886-10-nks@flawful.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230731143432.58886-1-nks@flawful.org>
-References: <20230731143432.58886-1-nks@flawful.org>
+        d=1e100.net; s=20221208; t=1690815079; x=1691419879;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fAPrkbK19s/j5Zx9BvuYAYuY534VPCFu5UMSEPN+FAE=;
+        b=EdkSzJe4WXKljAkSuv6Tp5vkScZYwp2APQQ6e98Cr/gZ/TGLmYiADEgYwRNXnImXeB
+         1NBkZyx35/Es/EOuUmYt3U9hLimN4+Yc5BKYTmGNjyM4z4VPX33ICVxfTBZdjBPSExK5
+         aI25fSquP9JRudKjSGgt/ZSN/fJ4BHCNzws0v3t/n5cOUGB/mIOZcPRYp3VSBLpOHCwn
+         FEnaYxwWPKh6ITwnpYuLVa1jrlqV/neqqikLm71217Q50+6c1xoOjnUOH6/q9plt/wun
+         hxl+dPglZ9qA55tjUARp8AjL/MDVC33jOnxb+KmLZzauRqdlwabNhGt3eEcY5vwGCmGU
+         NinQ==
+X-Gm-Message-State: ABy/qLZOx1f+WHqxdRaTwqlLiHDkGzooLPXnmuoe4RNYPNuS2RaAjfIv
+        4bl9IWyr9i/gJYvhcm83hoqFzTKxXCFEdjSi8D4=
+X-Google-Smtp-Source: APBJJlHp9CxGwet2vmvPctm3AruUc8MW3kWbH5+YX2xIIUpW5tevxLfL1O+U73H0pP1U9NLaYEZRubIxIr3M2m/csAQ=
+X-Received: by 2002:adf:e752:0:b0:314:3f98:a788 with SMTP id
+ c18-20020adfe752000000b003143f98a788mr58676wrn.7.1690815079341; Mon, 31 Jul
+ 2023 07:51:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAF6AEGtan-bQ7syKAwOKDY=044aKu26SLPQ0j1ieLqXNyQQS3g@mail.gmail.com>
+ <282e-64c7a800-77-46253680@38053863>
+In-Reply-To: <282e-64c7a800-77-46253680@38053863>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Mon, 31 Jul 2023 07:51:07 -0700
+Message-ID: <CAF6AEGufEzyOygPt6-tCbSC75GSD7sOB=FHE4nNGwPre6kHuOA@mail.gmail.com>
+Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
+To:     Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Cc:     Daniel Stone <daniel@fooishbar.org>, emma@anholt.net,
+        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
+        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
+        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
+        daniels@collabora.com, martin.blumenstingl@googlemail.com,
+        mripard@kernel.org, anholt@google.com,
+        linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
+        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Niklas Cassel <niklas.cassel@wdc.com>
+On Mon, Jul 31, 2023 at 5:25=E2=80=AFAM Helen Mae Koike Fornazier
+<helen.koike@collabora.com> wrote:
+>
+> Hello all,
+>
+> Thanks for your comments.
+>
+> On Friday, July 28, 2023 11:37 -03, Rob Clark <robdclark@gmail.com> wrote=
+:
+>
+> > On Thu, Jul 27, 2023 at 10:26=E2=80=AFPM Daniel Stone <daniel@fooishbar=
+.org> wrote:
+> > >
+> > > On Thu, 27 Jul 2023 at 22:47, Rob Clark <robdclark@gmail.com> wrote:
+> > > > > I did run into a bit of a chicken vs. egg problem with testing th=
+e "in
+> > > > > tree" version (compared to earlier versions which kept most of th=
+e yml
+> > > > > and scripts in a separate tree), is that it actually requires thi=
+s
+> > > > > commit to exist in the branch you want to run CI on.  My earlier
+> > > > > workaround of pulling the drm/ci commit in via
+> > > > > ${branchname}-external-fixes no longer works.
+> > > >
+> > > > After unwinding some more gitlab repo settings that were for the
+> > > > previous out-of-tree yml setup, I have this working.
+> > > >
+> > > > Tested-by: Rob Clark <robdclark@gmail.com>
+> > > > Acked-by: Rob Clark <robdclark@gmail.com>
+> > >
+> > > And it's also:
+> > > Acked-by: Daniel Stone <daniels@collabora.com>
+> > >
+> > > It's been back and forth a few times by now and reviewed pretty
+> > > heavily by all the people who are across the CI details. I think the
+> > > next step is to answer all the workflow questions by actually getting
+> > > it into trees and using it in anger. There was some discussion about
+> > > whether this should come in from drm-misc, or the core DRM tree, or a
+> > > completely separate pull, but I'm not sure what the conclusion was ..=
+.
+> > > maintainers, thoughts?
+> >
+> > I'd prefer a separate pull, so that I could merge it into msm-next as
+> > well without having to pull in all of drm-misc
+>
+> Should we create a drm-ci ?
 
-Remove ata_bus_probe() as it is unused.
+I guess we can just wait and see how often it is that drm/ci updates
+need to be merged into multiple driver trees.  Hopefully most of the
+drm/ci changes are just expectation file updates which should go via
+driver tree.  Maybe i-g-t uprevs, if they have a lot of expectation
+changes would be something drivers would want to merge into their own
+tree?  But I guess we can see how it goes.
 
-Also, remove references to ata_bus_probe and port_disable in
-Documentation/driver-api/libata.rst, as neither exist anymore.
+> >
+> > Possibly some other driver trees would like to do similar?
+> >
+> > BR,
+> > -R
+>
+> Also, please wait for v11, I have a few adjustments to make as pointer by
+> some comments, and also regarding xfails list and how the configs should
+> be organized (unless if you are fine merging this version and I can submi=
+t
+> the adjustments later).
 
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
-Reviewed-by: Jason Yan <yanaijie@huawei.com>
----
- Documentation/driver-api/libata.rst |  16 ----
- drivers/ata/libata-core.c           | 138 ----------------------------
- drivers/ata/libata.h                |   1 -
- include/linux/libata.h              |   1 -
- 4 files changed, 156 deletions(-)
+Ok
 
-diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api/libata.rst
-index 311af516a3fd..eecb8b81e185 100644
---- a/Documentation/driver-api/libata.rst
-+++ b/Documentation/driver-api/libata.rst
-@@ -32,22 +32,6 @@ register blocks.
- :c:type:`struct ata_port_operations <ata_port_operations>`
- ----------------------------------------------------------
- 
--Disable ATA port
--~~~~~~~~~~~~~~~~
--
--::
--
--    void (*port_disable) (struct ata_port *);
--
--
--Called from :c:func:`ata_bus_probe` error path, as well as when unregistering
--from the SCSI module (rmmod, hot unplug). This function should do
--whatever needs to be done to take the port out of use. In most cases,
--:c:func:`ata_port_disable` can be used as this hook.
--
--Called from :c:func:`ata_bus_probe` on a failed probe. Called from
--:c:func:`ata_scsi_release`.
--
- Post-IDENTIFY device configuration
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index 25a228350c75..53335f513cdf 100644
---- a/drivers/ata/libata-core.c
-+++ b/drivers/ata/libata-core.c
-@@ -3057,144 +3057,6 @@ int ata_cable_sata(struct ata_port *ap)
- }
- EXPORT_SYMBOL_GPL(ata_cable_sata);
- 
--/**
-- *	ata_bus_probe - Reset and probe ATA bus
-- *	@ap: Bus to probe
-- *
-- *	Master ATA bus probing function.  Initiates a hardware-dependent
-- *	bus reset, then attempts to identify any devices found on
-- *	the bus.
-- *
-- *	LOCKING:
-- *	PCI/etc. bus probe sem.
-- *
-- *	RETURNS:
-- *	Zero on success, negative errno otherwise.
-- */
--
--int ata_bus_probe(struct ata_port *ap)
--{
--	unsigned int classes[ATA_MAX_DEVICES];
--	int tries[ATA_MAX_DEVICES];
--	int rc;
--	struct ata_device *dev;
--
--	ata_for_each_dev(dev, &ap->link, ALL)
--		tries[dev->devno] = ATA_PROBE_MAX_TRIES;
--
-- retry:
--	ata_for_each_dev(dev, &ap->link, ALL) {
--		/* If we issue an SRST then an ATA drive (not ATAPI)
--		 * may change configuration and be in PIO0 timing. If
--		 * we do a hard reset (or are coming from power on)
--		 * this is true for ATA or ATAPI. Until we've set a
--		 * suitable controller mode we should not touch the
--		 * bus as we may be talking too fast.
--		 */
--		dev->pio_mode = XFER_PIO_0;
--		dev->dma_mode = 0xff;
--
--		/* If the controller has a pio mode setup function
--		 * then use it to set the chipset to rights. Don't
--		 * touch the DMA setup as that will be dealt with when
--		 * configuring devices.
--		 */
--		if (ap->ops->set_piomode)
--			ap->ops->set_piomode(ap, dev);
--	}
--
--	/* reset and determine device classes */
--	ap->ops->phy_reset(ap);
--
--	ata_for_each_dev(dev, &ap->link, ALL) {
--		if (dev->class != ATA_DEV_UNKNOWN)
--			classes[dev->devno] = dev->class;
--		else
--			classes[dev->devno] = ATA_DEV_NONE;
--
--		dev->class = ATA_DEV_UNKNOWN;
--	}
--
--	/* read IDENTIFY page and configure devices. We have to do the identify
--	   specific sequence bass-ackwards so that PDIAG- is released by
--	   the slave device */
--
--	ata_for_each_dev(dev, &ap->link, ALL_REVERSE) {
--		if (tries[dev->devno])
--			dev->class = classes[dev->devno];
--
--		if (!ata_dev_enabled(dev))
--			continue;
--
--		rc = ata_dev_read_id(dev, &dev->class, ATA_READID_POSTRESET,
--				     dev->id);
--		if (rc)
--			goto fail;
--	}
--
--	/* Now ask for the cable type as PDIAG- should have been released */
--	if (ap->ops->cable_detect)
--		ap->cbl = ap->ops->cable_detect(ap);
--
--	/* We may have SATA bridge glue hiding here irrespective of
--	 * the reported cable types and sensed types.  When SATA
--	 * drives indicate we have a bridge, we don't know which end
--	 * of the link the bridge is which is a problem.
--	 */
--	ata_for_each_dev(dev, &ap->link, ENABLED)
--		if (ata_id_is_sata(dev->id))
--			ap->cbl = ATA_CBL_SATA;
--
--	/* After the identify sequence we can now set up the devices. We do
--	   this in the normal order so that the user doesn't get confused */
--
--	ata_for_each_dev(dev, &ap->link, ENABLED) {
--		ap->link.eh_context.i.flags |= ATA_EHI_PRINTINFO;
--		rc = ata_dev_configure(dev);
--		ap->link.eh_context.i.flags &= ~ATA_EHI_PRINTINFO;
--		if (rc)
--			goto fail;
--	}
--
--	/* configure transfer mode */
--	rc = ata_set_mode(&ap->link, &dev);
--	if (rc)
--		goto fail;
--
--	ata_for_each_dev(dev, &ap->link, ENABLED)
--		return 0;
--
--	return -ENODEV;
--
-- fail:
--	tries[dev->devno]--;
--
--	switch (rc) {
--	case -EINVAL:
--		/* eeek, something went very wrong, give up */
--		tries[dev->devno] = 0;
--		break;
--
--	case -ENODEV:
--		/* give it just one more chance */
--		tries[dev->devno] = min(tries[dev->devno], 1);
--		fallthrough;
--	case -EIO:
--		if (tries[dev->devno] == 1) {
--			/* This is the last chance, better to slow
--			 * down than lose it.
--			 */
--			sata_down_spd_limit(&ap->link, 0);
--			ata_down_xfermask_limit(dev, ATA_DNXFER_PIO);
--		}
--	}
--
--	if (!tries[dev->devno])
--		ata_dev_disable(dev);
--
--	goto retry;
--}
--
- /**
-  *	sata_print_link_status - Print SATA link status
-  *	@link: SATA link to printk link status about
-diff --git a/drivers/ata/libata.h b/drivers/ata/libata.h
-index 1ec9b4427b84..6e7d352803bd 100644
---- a/drivers/ata/libata.h
-+++ b/drivers/ata/libata.h
-@@ -122,7 +122,6 @@ extern void ata_scsi_media_change_notify(struct ata_device *dev);
- extern void ata_scsi_hotplug(struct work_struct *work);
- extern void ata_schedule_scsi_eh(struct Scsi_Host *shost);
- extern void ata_scsi_dev_rescan(struct work_struct *work);
--extern int ata_bus_probe(struct ata_port *ap);
- extern int ata_scsi_user_scan(struct Scsi_Host *shost, unsigned int channel,
- 			      unsigned int id, u64 lun);
- void ata_scsi_sdev_config(struct scsi_device *sdev);
-diff --git a/include/linux/libata.h b/include/linux/libata.h
-index 05d2fc0df553..049159905a28 100644
---- a/include/linux/libata.h
-+++ b/include/linux/libata.h
-@@ -344,7 +344,6 @@ enum {
- 	ATA_LINK_RESUME_TRIES	= 5,
- 
- 	/* how hard are we gonna try to probe/recover devices */
--	ATA_PROBE_MAX_TRIES	= 3,
- 	ATA_EH_DEV_TRIES	= 3,
- 	ATA_EH_PMP_TRIES	= 5,
- 	ATA_EH_PMP_LINK_TRIES	= 3,
--- 
-2.41.0
+BR,
+-R
 
+> Thanks,
+> Helen
+>
