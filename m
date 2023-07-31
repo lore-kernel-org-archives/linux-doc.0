@@ -2,57 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA9DC001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 10:15:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D7A8C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 10:28:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbjGaKP2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 06:15:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
+        id S230480AbjGaK2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 06:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231659AbjGaKP1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 06:15:27 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DEDE3
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 03:15:25 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso3998576f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 03:15:24 -0700 (PDT)
+        with ESMTP id S232429AbjGaK2A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 06:28:00 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63F5B8
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 03:27:58 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-3177163aa97so4600268f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 03:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690798523; x=1691403323;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690799277; x=1691404077;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EG3iuoYl2Yyk7UzsEc9LvQqrnR5PB3HBwoWOS4ckXVc=;
-        b=JwLZ45qZwpOVPkXVdWIjIpyNCmwYH3dD8Ou7rl1pivlSHmOAShFMtPSrushNT6kmaq
-         0dvPQPJk9qUs4AvASoH4gYvejhe/vSpJ4yXyYZyySjdQGekmCa/rEJCpbcQYWU/E8P3S
-         AlJhoAOq/XPyByQrKiIkNk/OrNEA5ye2AzKSbO1oFASt+UzRwFIPWKYe3WuZmxeQvDGd
-         /Fldg0QEg6p7DZ7btLj4ScOMseJMGHIDA9pso+oYxo3L4B91PFlYyvSd5DbmYHBcFOoi
-         vHMqeQ0nYL/ARSHDJmf9aL3oEsBkBmeXhnms5OSIg/VaUgDVI2kRDsctBYp8rqkmYenw
-         IuqQ==
+        bh=ML7AinUDVA2CqBB8483zq1nBkxRS460v6WFiKGGmbXw=;
+        b=HDjhzaPlqiuA0S3baU9N7AYN1C6DUjgtDALoeJq5aufWUnbgGfC7ri/9FPQIqGzKbr
+         a4Svo1r7W9I/U45tg6vynpKwViqCyi560TPOCUdBIv3WicpMwGVfcjERyOxlBw+mNugr
+         D3TNX+y/ZS8TAIXOc5N7gD6//JnB8rEIaEJ6+MldyvnVb3drV/zksbkcg/thXeyRtqn0
+         E6NIZzlCLOeAaX7g0CxdtVFcKfhts6SI//feucztq+DAw0weSyfty0scu1tLedenORu6
+         ASq+u0mArosRDhMuUYuo1tU82hiiEaKFG2lb9u0XQJ4fsvOEsGH3dBJsFjAQjAjI/3nM
+         4CEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690798523; x=1691403323;
+        d=1e100.net; s=20221208; t=1690799277; x=1691404077;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EG3iuoYl2Yyk7UzsEc9LvQqrnR5PB3HBwoWOS4ckXVc=;
-        b=GGZ1wZk8yq2dsQMsD1mm036jXu4NhDV7NO/mB3ySWalOOOjNMJXRihr2OVpU3zQ8Vx
-         xXGG6sN9CnFwNGgA2yHs3QYqzyRrR85jp+0h+pnRQUAQ065S4/U/movH6D1fX6NJJf93
-         jfbqibDsvtQrcG2067x3K8ylMZqvugZamG7mjE9RBKYqjJsevpRsN59DrYiOr2oKoYJq
-         qIN+El7z+L99u6KxpY+5wkURb/219QVyAuR0uKNrLUTolJBRl0czCY2LPnqnWm7HCy3+
-         xmj7t38Gj5zpnYxEoB4u6auwpLhEYaRcknB2DQygU2EEnEwCrC/JuEYsckcsa6zsl6XM
-         dUMA==
-X-Gm-Message-State: ABy/qLaQCzTuHwX9/2GDr4CcAm4meGYxUcoOR2uh5VVAb2jkn2wcbPpf
-        0+SJ5JaLle4QInepj5spgP4hTUJeZQoOadg5tWbS2A==
-X-Google-Smtp-Source: APBJJlFxSlRHvyoI0m2LL342krCpCaswj8cTM0vLfwdYwEDfTBUig6/z+ede7/AhGalI5Gom70ZQdsAskFXQlQqiPT4=
-X-Received: by 2002:a5d:43c3:0:b0:30f:af19:81f3 with SMTP id
- v3-20020a5d43c3000000b0030faf1981f3mr5506063wrr.41.1690798523303; Mon, 31 Jul
- 2023 03:15:23 -0700 (PDT)
+        bh=ML7AinUDVA2CqBB8483zq1nBkxRS460v6WFiKGGmbXw=;
+        b=B6H/ceIZ7YvZirD4OcdgCsSCZ6uSJ3pekap2Esza2Iq8FPQcFzYEkVl2I7dei9iq1k
+         nxKDotWZ2iBi2rA1m358ShN/FFTSeEfGDGVefDk64OB22GVMEivbRfJD+Lc5+Bne+hYG
+         YdCUxJbx0c8Nt1LzL/NRfvHYvmXrZ52W9iQ5O2enoYCUA48H/dyW1xLcTj9ksVO5TBtZ
+         ysRd6uhl1sCmN+3cZtG6XGG/npU2I/0wtnl3CilV+ajo6L0OciIF2JY84cX5ldHs3sJB
+         nMK1kw5nsM4RrnbzYya9j+FvmLEmd0PtwP+66f0m70Ycu8hLRjhAtY/YhCUYNaZ+ahJs
+         wQyQ==
+X-Gm-Message-State: ABy/qLZVc/dtyOFp6cfU4JZePNDTyDMHHJuU4PEYtNWkIFXbcMqTYUjz
+        P6QrrJ10gypAW39XfCvT/FGyrSMvse2EZN8V3jKfiw==
+X-Google-Smtp-Source: APBJJlEhaO5lz0dS3gmvYAUrPoGWqkGephnAst4AFjzfN8FgSJ7PtOXovOzb/eZPxNwPZcjK76ztR3OHJOwHd8MDE7g=
+X-Received: by 2002:a5d:554b:0:b0:317:6816:578c with SMTP id
+ g11-20020a5d554b000000b003176816578cmr8613111wrw.5.1690799277292; Mon, 31 Jul
+ 2023 03:27:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230727141428.962286-1-alexghiti@rivosinc.com>
  <20230727141428.962286-10-alexghiti@rivosinc.com> <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
-In-Reply-To: <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
+ <CAHVXubgVAe1WsiZx5Ay+3KPK4u24k_vsnTwFFmBeVsHrGXwhfw@mail.gmail.com>
+In-Reply-To: <CAHVXubgVAe1WsiZx5Ay+3KPK4u24k_vsnTwFFmBeVsHrGXwhfw@mail.gmail.com>
 From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-Date:   Mon, 31 Jul 2023 12:15:12 +0200
-Message-ID: <CAHVXubgVAe1WsiZx5Ay+3KPK4u24k_vsnTwFFmBeVsHrGXwhfw@mail.gmail.com>
+Date:   Mon, 31 Jul 2023 12:27:46 +0200
+Message-ID: <CAHVXubj80rQRShuDS09BeTrfR6nux0A68EMWLbeat8fd_Y3YdA@mail.gmail.com>
 Subject: Re: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
 To:     Ian Rogers <irogers@google.com>,
         Palmer Dabbelt <palmer@rivosinc.com>
@@ -82,133 +83,148 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ian,
-
-On Fri, Jul 28, 2023 at 7:53=E2=80=AFPM Ian Rogers <irogers@google.com> wro=
-te:
+On Mon, Jul 31, 2023 at 12:15=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosin=
+c.com> wrote:
 >
-> On Thu, Jul 27, 2023 at 7:28=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosi=
-nc.com> wrote:
+> Hi Ian,
+>
+> On Fri, Jul 28, 2023 at 7:53=E2=80=AFPM Ian Rogers <irogers@google.com> w=
+rote:
 > >
-> > riscv now supports mmaping hardware counters so add what's needed to
-> > take advantage of that in libperf.
+> > On Thu, Jul 27, 2023 at 7:28=E2=80=AFAM Alexandre Ghiti <alexghiti@rivo=
+sinc.com> wrote:
+> > >
+> > > riscv now supports mmaping hardware counters so add what's needed to
+> > > take advantage of that in libperf.
+> > >
+> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> > > ---
+> > >  tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++++=
+++
+> > >  1 file changed, 65 insertions(+)
+> > >
+> > > diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+> > > index 0d1634cedf44..378a163f0554 100644
+> > > --- a/tools/lib/perf/mmap.c
+> > > +++ b/tools/lib/perf/mmap.c
+> > > @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int counte=
+r)
+> > >
+> > >  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
+> > >
+> > > +#elif __riscv_xlen =3D=3D 64
 > >
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 65 insertions(+)
+> > This is something of an odd guard, perhaps:
+> > #elif defined(__riscv) && __riscv_xlen =3D=3D 64
 > >
-> > diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
-> > index 0d1634cedf44..378a163f0554 100644
-> > --- a/tools/lib/perf/mmap.c
-> > +++ b/tools/lib/perf/mmap.c
-> > @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int counter)
+> > That way it is more intention revealing that this is riscv code. Could
+> > you add a comment relating to the __riscv_xlen ?
+>
+> I guess Andrew answered that already.
+>
 > >
-> >  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
+> > > +
+> > > +/* TODO: implement rv32 support */
+> > > +
+> > > +#define CSR_CYCLE      0xc00
+> > > +#define CSR_TIME       0xc01
+> > > +
+> > > +#define csr_read(csr)                                          \
+> > > +({                                                             \
+> > > +       register unsigned long __v;                             \
+> > > +               __asm__ __volatile__ ("csrr %0, " #csr          \
+> > > +                : "=3Dr" (__v) :                                 \
+> > > +                : "memory");                                   \
 > >
-> > +#elif __riscv_xlen =3D=3D 64
->
-> This is something of an odd guard, perhaps:
-> #elif defined(__riscv) && __riscv_xlen =3D=3D 64
->
-> That way it is more intention revealing that this is riscv code. Could
-> you add a comment relating to the __riscv_xlen ?
+> > To avoid the macro pasting that could potentially go weird, could this =
+be:
+> >
+> > __asm__ __volatile__ ("csrr %0, %1",
+> >   : "=3Dr"(__v) /* outputs */
+> >   : "i"(csr) /* inputs */
+> >   : "memory" /* clobbers */)
 
-I guess Andrew answered that already.
+Forgot to answer this one: it compiles, but I have to admit that I
+don't understand the difference and if that's correct (all macros in
+arch/riscv/include/asm/csr.h use # to do this) and what benefits it
+brings. Can you elaborate more on things that could "go weird"?
 
->
-> > +
-> > +/* TODO: implement rv32 support */
-> > +
-> > +#define CSR_CYCLE      0xc00
-> > +#define CSR_TIME       0xc01
-> > +
-> > +#define csr_read(csr)                                          \
-> > +({                                                             \
-> > +       register unsigned long __v;                             \
-> > +               __asm__ __volatile__ ("csrr %0, " #csr          \
-> > +                : "=3Dr" (__v) :                                 \
-> > +                : "memory");                                   \
->
-> To avoid the macro pasting that could potentially go weird, could this be=
-:
->
-> __asm__ __volatile__ ("csrr %0, %1",
->   : "=3Dr"(__v) /* outputs */
->   : "i"(csr) /* inputs */
->   : "memory" /* clobbers */)
->
-> Also, why is this clobbering memory? Worth adding a comment.
-
-No idea, I see that it is also done this way in
-arch/riscv/include/asm/csr.h. @Atish Kumar Patra , @Palmer Dabbelt ?
-
-Thanks for your comments!
+Thanks again,
 
 Alex
 
->
-> Thanks,
-> Ian
->
-> > +                __v;                                           \
-> > +})
-> > +
-> > +static unsigned long csr_read_num(int csr_num)
-> > +{
-> > +#define switchcase_csr_read(__csr_num, __val)           {\
-> > +       case __csr_num:                                 \
-> > +               __val =3D csr_read(__csr_num);            \
-> > +               break; }
-> > +#define switchcase_csr_read_2(__csr_num, __val)         {\
-> > +       switchcase_csr_read(__csr_num + 0, __val)        \
-> > +       switchcase_csr_read(__csr_num + 1, __val)}
-> > +#define switchcase_csr_read_4(__csr_num, __val)         {\
-> > +       switchcase_csr_read_2(__csr_num + 0, __val)      \
-> > +       switchcase_csr_read_2(__csr_num + 2, __val)}
-> > +#define switchcase_csr_read_8(__csr_num, __val)         {\
-> > +       switchcase_csr_read_4(__csr_num + 0, __val)      \
-> > +       switchcase_csr_read_4(__csr_num + 4, __val)}
-> > +#define switchcase_csr_read_16(__csr_num, __val)        {\
-> > +       switchcase_csr_read_8(__csr_num + 0, __val)      \
-> > +       switchcase_csr_read_8(__csr_num + 8, __val)}
-> > +#define switchcase_csr_read_32(__csr_num, __val)        {\
-> > +       switchcase_csr_read_16(__csr_num + 0, __val)     \
-> > +       switchcase_csr_read_16(__csr_num + 16, __val)}
-> > +
-> > +       unsigned long ret =3D 0;
-> > +
-> > +       switch (csr_num) {
-> > +       switchcase_csr_read_32(CSR_CYCLE, ret)
-> > +       default:
-> > +               break;
-> > +       }
-> > +
-> > +       return ret;
-> > +#undef switchcase_csr_read_32
-> > +#undef switchcase_csr_read_16
-> > +#undef switchcase_csr_read_8
-> > +#undef switchcase_csr_read_4
-> > +#undef switchcase_csr_read_2
-> > +#undef switchcase_csr_read
-> > +}
-> > +
-> > +static u64 read_perf_counter(unsigned int counter)
-> > +{
-> > +       return csr_read_num(CSR_CYCLE + counter);
-> > +}
-> > +
-> > +static u64 read_timestamp(void)
-> > +{
-> > +       return csr_read_num(CSR_TIME);
-> > +}
-> > +
-> >  #else
-> >  static u64 read_perf_counter(unsigned int counter __maybe_unused) { re=
-turn 0; }
-> >  static u64 read_timestamp(void) { return 0; }
-> > --
-> > 2.39.2
 > >
+> > Also, why is this clobbering memory? Worth adding a comment.
+>
+> No idea, I see that it is also done this way in
+> arch/riscv/include/asm/csr.h. @Atish Kumar Patra , @Palmer Dabbelt ?
+>
+> Thanks for your comments!
+>
+> Alex
+>
+> >
+> > Thanks,
+> > Ian
+> >
+> > > +                __v;                                           \
+> > > +})
+> > > +
+> > > +static unsigned long csr_read_num(int csr_num)
+> > > +{
+> > > +#define switchcase_csr_read(__csr_num, __val)           {\
+> > > +       case __csr_num:                                 \
+> > > +               __val =3D csr_read(__csr_num);            \
+> > > +               break; }
+> > > +#define switchcase_csr_read_2(__csr_num, __val)         {\
+> > > +       switchcase_csr_read(__csr_num + 0, __val)        \
+> > > +       switchcase_csr_read(__csr_num + 1, __val)}
+> > > +#define switchcase_csr_read_4(__csr_num, __val)         {\
+> > > +       switchcase_csr_read_2(__csr_num + 0, __val)      \
+> > > +       switchcase_csr_read_2(__csr_num + 2, __val)}
+> > > +#define switchcase_csr_read_8(__csr_num, __val)         {\
+> > > +       switchcase_csr_read_4(__csr_num + 0, __val)      \
+> > > +       switchcase_csr_read_4(__csr_num + 4, __val)}
+> > > +#define switchcase_csr_read_16(__csr_num, __val)        {\
+> > > +       switchcase_csr_read_8(__csr_num + 0, __val)      \
+> > > +       switchcase_csr_read_8(__csr_num + 8, __val)}
+> > > +#define switchcase_csr_read_32(__csr_num, __val)        {\
+> > > +       switchcase_csr_read_16(__csr_num + 0, __val)     \
+> > > +       switchcase_csr_read_16(__csr_num + 16, __val)}
+> > > +
+> > > +       unsigned long ret =3D 0;
+> > > +
+> > > +       switch (csr_num) {
+> > > +       switchcase_csr_read_32(CSR_CYCLE, ret)
+> > > +       default:
+> > > +               break;
+> > > +       }
+> > > +
+> > > +       return ret;
+> > > +#undef switchcase_csr_read_32
+> > > +#undef switchcase_csr_read_16
+> > > +#undef switchcase_csr_read_8
+> > > +#undef switchcase_csr_read_4
+> > > +#undef switchcase_csr_read_2
+> > > +#undef switchcase_csr_read
+> > > +}
+> > > +
+> > > +static u64 read_perf_counter(unsigned int counter)
+> > > +{
+> > > +       return csr_read_num(CSR_CYCLE + counter);
+> > > +}
+> > > +
+> > > +static u64 read_timestamp(void)
+> > > +{
+> > > +       return csr_read_num(CSR_TIME);
+> > > +}
+> > > +
+> > >  #else
+> > >  static u64 read_perf_counter(unsigned int counter __maybe_unused) { =
+return 0; }
+> > >  static u64 read_timestamp(void) { return 0; }
+> > > --
+> > > 2.39.2
+> > >
