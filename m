@@ -2,222 +2,213 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DC2C001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 09:55:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA9DC001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jul 2023 10:15:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231950AbjGaJy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 05:54:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40142 "EHLO
+        id S229622AbjGaKP2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jul 2023 06:15:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbjGaJyb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 05:54:31 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2190010DC
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 02:53:06 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-563e21a6011so3233068a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 02:53:06 -0700 (PDT)
+        with ESMTP id S231659AbjGaKP1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 06:15:27 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DEDE3
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 03:15:25 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso3998576f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 03:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1690797185; x=1691401985;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690798523; x=1691403323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T+JtLVpE1c+T8lTzPshdsq+FsKMITmkXRw9+xohDxso=;
-        b=NmnMeTCpG45ADvgRQUxLTcuLKqzReilHwsUkdyHXbO5BjaQY9fLOW0be7wwGBPt3Fd
-         GtY/CoLQ5ulVLRqMsuir9CEI9RtZz58XDfHbyqVYPt/JSyD/PDgQwC+TE4n49JEu/3si
-         GmRdVnhQQ5F0iLdVKapxuAKSQqvT2jS4qIS4h1lP92DqyFxGRX1xvvdaJ+PEOsZ7I9xI
-         b7m60FRxUpqEmjmgFNS6l6MvWDoeEO/XpNBBCtoVuZuJAX+BZU8AgpQL0u+gXPXMOtsh
-         sDFGkL7zoHzSDOhvSXsxLhkLURuBtZlD6Z5vLcQSjK98oJEFTuJz36IF5tC26NhHAqec
-         LUwA==
+        bh=EG3iuoYl2Yyk7UzsEc9LvQqrnR5PB3HBwoWOS4ckXVc=;
+        b=JwLZ45qZwpOVPkXVdWIjIpyNCmwYH3dD8Ou7rl1pivlSHmOAShFMtPSrushNT6kmaq
+         0dvPQPJk9qUs4AvASoH4gYvejhe/vSpJ4yXyYZyySjdQGekmCa/rEJCpbcQYWU/E8P3S
+         AlJhoAOq/XPyByQrKiIkNk/OrNEA5ye2AzKSbO1oFASt+UzRwFIPWKYe3WuZmxeQvDGd
+         /Fldg0QEg6p7DZ7btLj4ScOMseJMGHIDA9pso+oYxo3L4B91PFlYyvSd5DbmYHBcFOoi
+         vHMqeQ0nYL/ARSHDJmf9aL3oEsBkBmeXhnms5OSIg/VaUgDVI2kRDsctBYp8rqkmYenw
+         IuqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690797185; x=1691401985;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=T+JtLVpE1c+T8lTzPshdsq+FsKMITmkXRw9+xohDxso=;
-        b=blKTpxoM3hpU9tMBsEA47BOD7Y674c4AOAGthTp0aHPsg4na4kNY+kfdaT2CB2duRZ
-         9dYHFmviPKs8db3Qmzyqo10Q+9bXF9dnSMA5gT0DpAxJzIDYSC7YlytjXVwIzo5Dz26v
-         7Y+dF9PfpCm/r7sbmpqpBZcAwbQon5mufokUn4iG6ZL3q4G5SqwuQJZRJgI9za3SfJTI
-         MS0gnBfnQ+ZyP+Ndc+lcU/wvmg3xb1CQ6oBsxIBu4gE71zBPVsKG2zki73+iAJAC0J8B
-         ThipSBjZEf3dLPx1iPhooHWPp5hdxAGsxex4lrJZM2MGDBLQg6wjpyQzMil1YK+fxltG
-         /gYg==
-X-Gm-Message-State: ABy/qLYtK8tPG1FcFm26+Q6h2h/rTBvrrH1jUnO1tmBjUdu02I10pZTM
-        egD3a7Fvfbb7Cr2xkW2l9znqBw==
-X-Google-Smtp-Source: APBJJlFSLuhbiNV50ZKuLiiTHQLOYesPds3YhLzlcaKUyv6zvLWtkd1WU763/LuyNYaf6VVfyIALvQ==
-X-Received: by 2002:a05:6a20:32aa:b0:137:3b34:93e5 with SMTP id g42-20020a056a2032aa00b001373b3493e5mr7988841pzd.59.1690797184901;
-        Mon, 31 Jul 2023 02:53:04 -0700 (PDT)
-Received: from ?IPV6:fdbd:ff1:ce00:1c2a:1cd4:8b91:108f:bf15? ([2408:8000:b001:1:1f:58ff:f102:103])
-        by smtp.gmail.com with ESMTPSA id c13-20020aa7880d000000b00640f51801e6sm5823982pfo.159.2023.07.31.02.53.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 02:53:04 -0700 (PDT)
-Message-ID: <36f2d5d1-00ff-d8a7-ed40-15eb5d929224@bytedance.com>
-Date:   Mon, 31 Jul 2023 17:52:59 +0800
+        d=1e100.net; s=20221208; t=1690798523; x=1691403323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EG3iuoYl2Yyk7UzsEc9LvQqrnR5PB3HBwoWOS4ckXVc=;
+        b=GGZ1wZk8yq2dsQMsD1mm036jXu4NhDV7NO/mB3ySWalOOOjNMJXRihr2OVpU3zQ8Vx
+         xXGG6sN9CnFwNGgA2yHs3QYqzyRrR85jp+0h+pnRQUAQ065S4/U/movH6D1fX6NJJf93
+         jfbqibDsvtQrcG2067x3K8ylMZqvugZamG7mjE9RBKYqjJsevpRsN59DrYiOr2oKoYJq
+         qIN+El7z+L99u6KxpY+5wkURb/219QVyAuR0uKNrLUTolJBRl0czCY2LPnqnWm7HCy3+
+         xmj7t38Gj5zpnYxEoB4u6auwpLhEYaRcknB2DQygU2EEnEwCrC/JuEYsckcsa6zsl6XM
+         dUMA==
+X-Gm-Message-State: ABy/qLaQCzTuHwX9/2GDr4CcAm4meGYxUcoOR2uh5VVAb2jkn2wcbPpf
+        0+SJ5JaLle4QInepj5spgP4hTUJeZQoOadg5tWbS2A==
+X-Google-Smtp-Source: APBJJlFxSlRHvyoI0m2LL342krCpCaswj8cTM0vLfwdYwEDfTBUig6/z+ede7/AhGalI5Gom70ZQdsAskFXQlQqiPT4=
+X-Received: by 2002:a5d:43c3:0:b0:30f:af19:81f3 with SMTP id
+ v3-20020a5d43c3000000b0030faf1981f3mr5506063wrr.41.1690798523303; Mon, 31 Jul
+ 2023 03:15:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.1
-Subject: Re: [PATCH 01/11] maple_tree: Introduce
- ma_nonleaf_data_end{_nocheck}()
-To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
- <20230726080916.17454-2-zhangpeng.00@bytedance.com>
- <20230726145825.2fufoujgc5faiszq@revolver>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, willy@infradead.org,
-        brauner@kernel.org, surenb@google.com, michael.christie@oracle.com,
-        mathieu.desnoyers@efficios.com, peterz@infradead.org,
-        npiggin@gmail.com, avagin@gmail.com, linux-mm@kvack.org,
+References: <20230727141428.962286-1-alexghiti@rivosinc.com>
+ <20230727141428.962286-10-alexghiti@rivosinc.com> <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
+In-Reply-To: <CAP-5=fU5XYXrVnRUidpwjV2LiTsdebfidL43_Qo4Z7TBxMsVGA@mail.gmail.com>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Mon, 31 Jul 2023 12:15:12 +0200
+Message-ID: <CAHVXubgVAe1WsiZx5Ay+3KPK4u24k_vsnTwFFmBeVsHrGXwhfw@mail.gmail.com>
+Subject: Re: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
+To:     Ian Rogers <irogers@google.com>,
+        Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi@remlab.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <20230726145825.2fufoujgc5faiszq@revolver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Ian,
 
+On Fri, Jul 28, 2023 at 7:53=E2=80=AFPM Ian Rogers <irogers@google.com> wro=
+te:
+>
+> On Thu, Jul 27, 2023 at 7:28=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosi=
+nc.com> wrote:
+> >
+> > riscv now supports mmaping hardware counters so add what's needed to
+> > take advantage of that in libperf.
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 65 insertions(+)
+> >
+> > diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+> > index 0d1634cedf44..378a163f0554 100644
+> > --- a/tools/lib/perf/mmap.c
+> > +++ b/tools/lib/perf/mmap.c
+> > @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int counter)
+> >
+> >  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
+> >
+> > +#elif __riscv_xlen =3D=3D 64
+>
+> This is something of an odd guard, perhaps:
+> #elif defined(__riscv) && __riscv_xlen =3D=3D 64
+>
+> That way it is more intention revealing that this is riscv code. Could
+> you add a comment relating to the __riscv_xlen ?
 
-在 2023/7/26 22:58, Liam R. Howlett 写道:
-> * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
->> Introduce ma_nonleaf_data_end{_nocheck}() to get the data end of
->> non-leaf nodes without knowing the maximum value of nodes, so that any
->> ascending can be avoided even if the maximum value of nodes is not known.
->>
->> The principle is that we introduce MAPLE_ENODE to mark an ENODE, which
->> cannot be used by metadata, so we can distinguish whether it is ENODE or
->> metadata.
->>
->> The nocheck version is to avoid lockdep complaining in some scenarios
->> where no locks are held.
->>
->> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
->> ---
->>   lib/maple_tree.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++--
->>   1 file changed, 68 insertions(+), 2 deletions(-)
->>
->> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
->> index a3d602cfd030..98e4fdf6f4b9 100644
->> --- a/lib/maple_tree.c
->> +++ b/lib/maple_tree.c
->> @@ -310,12 +310,19 @@ static inline void mte_set_node_dead(struct maple_enode *mn)
->>   #define MAPLE_ENODE_TYPE_SHIFT		0x03
->>   /* Bit 2 means a NULL somewhere below */
->>   #define MAPLE_ENODE_NULL		0x04
->> +/* Bit 7 means this is an ENODE, instead of metadata */
->> +#define MAPLE_ENODE			0x80
-> 
-> We were saving this bit for more node types.  I don't want to use this
-> bit for this reason since you could have done BFS to duplicate the tree
-> using the existing way to find the node end.
-We have reserved 4 bits for the node type. I don't think there will be
-more than 16 node types going forward.
+I guess Andrew answered that already.
 
-Even the DFS that has been implemented can use the existing way to get
-the data end. I didn't use it because when walking up the tree, we don't
-know the maximum value of the node, and the continuous upward walk will
-introduce more overhead, which is what mas_ascend() does. Doing BFS
-cannot avoid this problem also.
+>
+> > +
+> > +/* TODO: implement rv32 support */
+> > +
+> > +#define CSR_CYCLE      0xc00
+> > +#define CSR_TIME       0xc01
+> > +
+> > +#define csr_read(csr)                                          \
+> > +({                                                             \
+> > +       register unsigned long __v;                             \
+> > +               __asm__ __volatile__ ("csrr %0, " #csr          \
+> > +                : "=3Dr" (__v) :                                 \
+> > +                : "memory");                                   \
+>
+> To avoid the macro pasting that could potentially go weird, could this be=
+:
+>
+> __asm__ __volatile__ ("csrr %0, %1",
+>   : "=3Dr"(__v) /* outputs */
+>   : "i"(csr) /* inputs */
+>   : "memory" /* clobbers */)
+>
+> Also, why is this clobbering memory? Worth adding a comment.
 
-The reason I don't do BFS is that it has more overhead than DFS. If you
-think of a tree as a graph, doing DFS will only walk each edge twice.
-What if it is BFS? Since we can't use queues, we can only emulate BFS,
-which additionally does something like mas_next_node() does, which
-introduces more overhead than DFS. Considering only the layer of leaf
-nodes, it needs to walk each edge twice. So the overhead of doing BFS is
-more than DFS.
-> 
-> Bits are highly valuable and this is the only remaining bit.  I had
-> thought about using this in Feb 2021 to see if there was metadata or
-> not, but figured a way around it (using the max trick) and thus saved
-> this bit for potential expansion of node types.
-I thought of another way to get the maximum value of a node without
-doing any extra upward walk. When doing DFS, we can use a stack to save
-the maximum value of ancestor nodes. The stack size can be set to
-MAPLE_HEIGHT_MAX. In this way, this bit can be reserved, and there is no
-need to do a loop like mas_ascend() in order to get the maximum value.
-> 
->> +
->> +static inline bool slot_is_mte(unsigned long slot)
->> +{
->> +	return slot & MAPLE_ENODE;
->> +}
->>   
->>   static inline struct maple_enode *mt_mk_node(const struct maple_node *node,
->>   					     enum maple_type type)
->>   {
->> -	return (void *)((unsigned long)node |
->> -			(type << MAPLE_ENODE_TYPE_SHIFT) | MAPLE_ENODE_NULL);
->> +	return (void *)((unsigned long)node | (type << MAPLE_ENODE_TYPE_SHIFT) |
->> +			MAPLE_ENODE_NULL | MAPLE_ENODE);
->>   }
->>   
->>   static inline void *mte_mk_root(const struct maple_enode *node)
->> @@ -1411,6 +1418,65 @@ static inline struct maple_enode *mas_start(struct ma_state *mas)
->>   	return NULL;
->>   }
->>   
->> +/*
->> + * ma_nonleaf_data_end() - Find the end of the data in a non-leaf node.
->> + * @mt: The maple tree
->> + * @node: The maple node
->> + * @type: The maple node type
->> + *
->> + * Uses metadata to find the end of the data when possible without knowing the
->> + * node maximum.
->> + *
->> + * Return: The zero indexed last slot with child.
->> + */
->> +static inline unsigned char ma_nonleaf_data_end(struct maple_tree *mt,
->> +						struct maple_node *node,
->> +						enum maple_type type)
->> +{
->> +	void __rcu **slots;
->> +	unsigned long slot;
->> +
->> +	slots = ma_slots(node, type);
->> +	slot = (unsigned long)mt_slot(mt, slots, mt_pivots[type]);
->> +	if (unlikely(slot_is_mte(slot)))
->> +		return mt_pivots[type];
->> +
->> +	return ma_meta_end(node, type);
->> +}
->> +
->> +/*
->> + * ma_nonleaf_data_end_nocheck() - Find the end of the data in a non-leaf node.
->> + * @node: The maple node
->> + * @type: The maple node type
->> + *
->> + * Uses metadata to find the end of the data when possible without knowing the
->> + * node maximum. This is the version of ma_nonleaf_data_end() that does not
->> + * check for lock held. This particular version is designed to avoid lockdep
->> + * complaining in some scenarios.
->> + *
->> + * Return: The zero indexed last slot with child.
->> + */
->> +static inline unsigned char ma_nonleaf_data_end_nocheck(struct maple_node *node,
->> +							enum maple_type type)
->> +{
->> +	void __rcu **slots;
->> +	unsigned long slot;
->> +
->> +	slots = ma_slots(node, type);
->> +	slot = (unsigned long)rcu_dereference_raw(slots[mt_pivots[type]]);
->> +	if (unlikely(slot_is_mte(slot)))
->> +		return mt_pivots[type];
->> +
->> +	return ma_meta_end(node, type);
->> +}
->> +
->> +/* See ma_nonleaf_data_end() */
->> +static inline unsigned char mte_nonleaf_data_end(struct maple_tree *mt,
->> +						 struct maple_enode *enode)
->> +{
->> +	return ma_nonleaf_data_end(mt, mte_to_node(enode), mte_node_type(enode));
->> +}
->> +
->>   /*
->>    * ma_data_end() - Find the end of the data in a node.
->>    * @node: The maple node
->> -- 
->> 2.20.1
->>
->>
+No idea, I see that it is also done this way in
+arch/riscv/include/asm/csr.h. @Atish Kumar Patra , @Palmer Dabbelt ?
+
+Thanks for your comments!
+
+Alex
+
+>
+> Thanks,
+> Ian
+>
+> > +                __v;                                           \
+> > +})
+> > +
+> > +static unsigned long csr_read_num(int csr_num)
+> > +{
+> > +#define switchcase_csr_read(__csr_num, __val)           {\
+> > +       case __csr_num:                                 \
+> > +               __val =3D csr_read(__csr_num);            \
+> > +               break; }
+> > +#define switchcase_csr_read_2(__csr_num, __val)         {\
+> > +       switchcase_csr_read(__csr_num + 0, __val)        \
+> > +       switchcase_csr_read(__csr_num + 1, __val)}
+> > +#define switchcase_csr_read_4(__csr_num, __val)         {\
+> > +       switchcase_csr_read_2(__csr_num + 0, __val)      \
+> > +       switchcase_csr_read_2(__csr_num + 2, __val)}
+> > +#define switchcase_csr_read_8(__csr_num, __val)         {\
+> > +       switchcase_csr_read_4(__csr_num + 0, __val)      \
+> > +       switchcase_csr_read_4(__csr_num + 4, __val)}
+> > +#define switchcase_csr_read_16(__csr_num, __val)        {\
+> > +       switchcase_csr_read_8(__csr_num + 0, __val)      \
+> > +       switchcase_csr_read_8(__csr_num + 8, __val)}
+> > +#define switchcase_csr_read_32(__csr_num, __val)        {\
+> > +       switchcase_csr_read_16(__csr_num + 0, __val)     \
+> > +       switchcase_csr_read_16(__csr_num + 16, __val)}
+> > +
+> > +       unsigned long ret =3D 0;
+> > +
+> > +       switch (csr_num) {
+> > +       switchcase_csr_read_32(CSR_CYCLE, ret)
+> > +       default:
+> > +               break;
+> > +       }
+> > +
+> > +       return ret;
+> > +#undef switchcase_csr_read_32
+> > +#undef switchcase_csr_read_16
+> > +#undef switchcase_csr_read_8
+> > +#undef switchcase_csr_read_4
+> > +#undef switchcase_csr_read_2
+> > +#undef switchcase_csr_read
+> > +}
+> > +
+> > +static u64 read_perf_counter(unsigned int counter)
+> > +{
+> > +       return csr_read_num(CSR_CYCLE + counter);
+> > +}
+> > +
+> > +static u64 read_timestamp(void)
+> > +{
+> > +       return csr_read_num(CSR_TIME);
+> > +}
+> > +
+> >  #else
+> >  static u64 read_perf_counter(unsigned int counter __maybe_unused) { re=
+turn 0; }
+> >  static u64 read_timestamp(void) { return 0; }
+> > --
+> > 2.39.2
+> >
