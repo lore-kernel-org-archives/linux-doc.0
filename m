@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 693BCC001E0
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 11:00:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 108CBC00528
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 13:03:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234261AbjHALAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Aug 2023 07:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40240 "EHLO
+        id S232511AbjHANDO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Aug 2023 09:03:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234266AbjHAK7w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 06:59:52 -0400
+        with ESMTP id S232364AbjHANDO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 09:03:14 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EED41212A;
-        Tue,  1 Aug 2023 03:54:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D6D31AA;
+        Tue,  1 Aug 2023 06:03:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=YE2qKJj0nGqnS749mvZ5YUYTvinBv+jyNwtgFmZ3+Q8=; b=B4FnZuoFBN+F7R8DhAptG4cq8z
-        pPAaq6jCEOFFR82ZVOVboWY8+HWwV3rlE2vVb4LcpJDDaCI4WVTuxm8u6FVkIebNJt/3gcIQm6EhL
-        uXQ9+1AOGEwGNY69X2a3xZYhi/Agcfkhl1LN/EwnbZXdP/CmzjrmglNYVirBrsSPtCbRQsVzvlhp5
-        SDHPPm61BKP47UPCPAMttegoehcM9Ft77iB3YVbCYJpLGtKta4ZnlPIAqWwoHHV5XeZ7nOyk/P+mp
-        XoyolXg40nLd0D8FykoUZP4HDTHUG8dWEBpVmrSeli8/hyAPgtOsPcp1Ip1gsGBrgvP3hSx85WCwW
-        0Lt8kRjw==;
+        bh=GWiMsfat+BRyslkDKxTk4DrpasSmhXX1x9NIMnqNp+U=; b=pVVMMv9mJ3P7n2Pg071xoYksdK
+        xBLJ8ZTlpFbic/85m30ybcx9Idc+Jq8yP8Rrr5fiUSzzOlYK+JWYhZkQQn/67jGoQyJfVqoJEIeim
+        tTExlHg9EFtChpQPkIoIfdO6XudfnwrXEdT/45vavnCOS9WmZuQk385z1RAFWS9q72iO3bWQUsykW
+        hEYr/hRkJYyUFJrhG2kYooD+k+gIFteiWqD4tE6yK488HbCx6aBNrlYnxDo8sgb5vXbQfpoRtpKXi
+        +fB+tQKIxRtv7Pf5nmMnFbtkbydeM7Gl6c3hNolw6Xjcz8abx2iV5jltmcuV+GRTNu8yvZx5Uu7Ei
+        qUJppYZA==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qQmzW-008Bn5-MT; Tue, 01 Aug 2023 10:52:38 +0000
+        id 1qQp1O-008w3Q-3u; Tue, 01 Aug 2023 13:02:42 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 35E773002D3;
-        Tue,  1 Aug 2023 12:52:36 +0200 (CEST)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B8B633002D3;
+        Tue,  1 Aug 2023 15:02:40 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D59162119E820; Tue,  1 Aug 2023 12:52:36 +0200 (CEST)
-Date:   Tue, 1 Aug 2023 12:52:36 +0200
+        id 96CCC20A9524A; Tue,  1 Aug 2023 15:02:40 +0200 (CEST)
+Date:   Tue, 1 Aug 2023 15:02:40 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Xin Li <xin3.li@intel.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -104,33 +104,21 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
 Subject: Re: [PATCH RESEND v9 00/36] x86: enable FRED for x86-64
-Message-ID: <20230801105236.GB79828@hirez.programming.kicks-ass.net>
+Message-ID: <20230801130240.GA80967@hirez.programming.kicks-ass.net>
 References: <20230801083318.8363-1-xin3.li@intel.com>
+ <20230801105236.GB79828@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230801083318.8363-1-xin3.li@intel.com>
+In-Reply-To: <20230801105236.GB79828@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 01, 2023 at 01:32:42AM -0700, Xin Li wrote:
-> Resend because the mail system failed to deliver some messages yesterday.
+On Tue, Aug 01, 2023 at 12:52:36PM +0200, Peter Zijlstra wrote:
 
-Well, you need to figure out how to send patches, because both yesterday
-and today are screwy.
+> I also believe there is a kernel.org service for sending patch series,
+> but i'm not sure I remember the details.
 
-The one from yesterday came in 6 thread groups: 0-25, 26, 27, 28, 29, 30-36,
-while the one from today comes in 2 thread groups: 0-26, 27-36. Which I
-suppose one can count as an improvement :/
+https://b4.docs.kernel.org/en/latest/contributor/send.html
 
-Seriously, it should not be hard to send 36 patches in a single thread.
-
-I see you're trying to send through the regular corporate email
-trainwreck; do you have a linux.intel.com account? Or really anything
-else besides intel.com? You can try sending the series to yourself to
-see if it arrives correctly as a whole before sending it out to the list
-again.
-
-I also believe there is a kernel.org service for sending patch series,
-but i'm not sure I remember the details.
