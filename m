@@ -2,100 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AA86C001DF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 00:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BC3C41513
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 04:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230345AbjHAAV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jul 2023 20:21:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36726 "EHLO
+        id S230085AbjHAEaI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Aug 2023 00:30:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231537AbjHAAVn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jul 2023 20:21:43 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E10C1BE6
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 17:21:41 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d063bd0bae8so6018515276.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jul 2023 17:21:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690849300; x=1691454100;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=IZ3RpcngQEoYF628RWUm7FlAucMXyfC7tt8DVxrqfpY=;
-        b=57IFX5W4Q+tAl7op44Oy2FM4bWgLYmdYlV0ogtgE5VG/ceIH+YmCPWbyTsDo7fM9HN
-         Lnws4wIpSYfJP0UKGkymy0Y9qXgPTHZMA1sxCxyWUSD9ih6zw8bvFEzlCftl0K6cQTss
-         +cPMLOtCZiICXqKSWGuNnDiPpNVODe1ajPspNsrTYIclyEnCffPmoeUMnORWiwoduSCr
-         zQS61STgZlvgz8Yu1+FnDARWgqHun0qtMl3aGJbVHKvXfCsV3YJQ7Ij8D9Nt6LV81ioT
-         7+p+yXyQJEPBAvWCncTEjzJ/A8lxjPAogZ7LriiCKW6wLSbz0zZujQ/ZJU30KoiZfXYq
-         lz+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690849300; x=1691454100;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IZ3RpcngQEoYF628RWUm7FlAucMXyfC7tt8DVxrqfpY=;
-        b=h60V7FolCpWyzkN/iRKp2wFv1JjaZXNMcM+gVO14INwzcp47jYcKc0M4c3RlQRyHin
-         JVgcmTHaDOY5Eu2nBvJM/8Ur7p7CGPpuUqmQtxgAjPL8ZWaUGohIDCEgvt4Es6/v2KP3
-         KEeG3xjEvmggatSCeu+zOSrAIK0MP/8u+Bi6DUZangVQWaLKTLPs6qhKPBqNsyVL4zDP
-         1fN+ldlSEaRlOOAlzIYr7jMIK3G0iS5kq6y4hOPucBGd8Kv9OyWuBoqgE966bnBichtt
-         Jt9dHPbnnBBkrhx0x+mfPH1A9La2R1mJIh60ysfUXLlWQkBXtCBOKh4n6dUTNAYFrYFX
-         lblA==
-X-Gm-Message-State: ABy/qLbjc8vIh9J2tYiB8BYM2J457vNjqpgsYKSCzfLoa0Uq+11n8zGf
-        Mw9R7xm1ItRs0F+raeLqkfxobXimm3Vt
-X-Google-Smtp-Source: APBJJlGJZOcCOYVE+Z3Mr3gxRHTtU7mDeCgTwRv8AU1gHlMS/GALs031HQ+FAdpW5/GEBF/82uyGtU1Fbz42
-X-Received: from mizhang-super.c.googlers.com ([35.247.89.60]) (user=mizhang
- job=sendgmr) by 2002:a25:dbcc:0:b0:c4d:9831:9712 with SMTP id
- g195-20020a25dbcc000000b00c4d98319712mr65659ybf.0.1690849300437; Mon, 31 Jul
- 2023 17:21:40 -0700 (PDT)
-Reply-To: Mingwei Zhang <mizhang@google.com>
-Date:   Tue,  1 Aug 2023 00:21:26 +0000
-In-Reply-To: <20230801002127.534020-1-mizhang@google.com>
-Mime-Version: 1.0
-References: <20230801002127.534020-1-mizhang@google.com>
-X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
-Message-ID: <20230801002127.534020-7-mizhang@google.com>
-Subject: [PATCH v3 6/6] KVM: Documentation: Add the missing description for
- tdp_mmu_page into kvm_mmu_page
-From:   Mingwei Zhang <mizhang@google.com>
-To:     Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mingwei Zhang <mizhang@google.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Jim Mattson <jmattson@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229455AbjHAEaG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 00:30:06 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11DA119AA;
+        Mon, 31 Jul 2023 21:30:05 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3713mbCI002985;
+        Tue, 1 Aug 2023 04:29:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=IOap6wsD2WqQR4ellZ9IGBrMpZkVB10AXGo2BYxY2nw=;
+ b=hx2LgtyURDFAf0+dZrf7fmBz7Q7iGSSsxSYn3LJ5wlevROokUSC+gt4HHa8yjs330Mc7
+ 7SWxmiKGYrXDiBeS9H8zRMIBoD0v4doy2KvYS9UyGZzXGE8V2V77ubvtGkC3lG8nRO/c
+ +flKcyFDAx5DSmHLwrrPtXE+0+YgnXKPE0rmgQ5dfhfgfh+T6qDZXz0Fz4likrAbHthZ
+ LkmT4CNCSbtqli7KBJdPxP7MIUY3dmyrLjYoU/5suY/B9/Pj8+J43m0bH/S74iNWQn5M
+ yONPlQyJUp5wOORCugLdtRGAjuZYdJassAlgItJlhkdzLhdCBC3YMhIWehPKUhQuVrga mg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6d61j5us-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 01 Aug 2023 04:29:47 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3714TkPt031214
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 1 Aug 2023 04:29:46 GMT
+Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Mon, 31 Jul 2023 21:29:42 -0700
+Date:   Tue, 1 Aug 2023 09:59:39 +0530
+From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
+To:     Mike Tipton <quic_mdtipton@quicinc.com>
+CC:     <djakov@kernel.org>, <gregkh@linuxfoundation.org>,
+        <rafael@kernel.org>, <corbet@lwn.net>, <linux-pm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_okukatla@quicinc.com>, <quic_viveka@quicinc.com>,
+        <peterz@infradead.org>
+Subject: Re: [PATCH v2 3/3] interconnect: Add debugfs test client
+Message-ID: <84f3eae9-fe48-4098-9479-9f4cce216ff0@quicinc.com>
+References: <20230731224247.10846-1-quic_mdtipton@quicinc.com>
+ <20230731224247.10846-4-quic_mdtipton@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230731224247.10846-4-quic_mdtipton@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: DFKK3bRc2GuZaDUIgMPFmx6E_UQ_gXUW
+X-Proofpoint-ORIG-GUID: DFKK3bRc2GuZaDUIgMPFmx6E_UQ_gXUW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-01_01,2023-07-31_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 adultscore=0 suspectscore=0 bulkscore=0 mlxscore=0
+ phishscore=0 mlxlogscore=634 clxscore=1011 malwarescore=0
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2306200000 definitions=main-2308010041
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the description for tdp_mmu_page into kvm_mmu_page description.
-tdp_mmu_page is a field to differentiate shadow pages from TDP MMU and
-non-TDP MMU.
+On Mon, Jul 31, 2023 at 03:42:47PM -0700, Mike Tipton wrote:
+> +static int icc_get_set(void *data, u64 val)
+> +{
+> +	struct debugfs_path *debugfs_path;
+> +	char *src, *dst;
+> +	int ret = 0;
+> +
+> +	mutex_lock(&debugfs_lock);
+> +
+> +	rcu_read_lock();
+> +	src = rcu_dereference(src_node);
+> +	dst = rcu_dereference(dst_node);
+> +
+> +	/*
+> +	 * If we've already looked up a path, then use the existing one instead
+> +	 * of calling icc_get() again. This allows for updating previous BW
+> +	 * votes when "get" is written to multiple times for multiple paths.
+> +	 */
+> +	cur_path = get_path(src, dst);
+> +	if (cur_path) {
+> +		rcu_read_unlock();
+> +		goto out;
+> +	}
+> +
+> +	src = kstrdup(src, GFP_KERNEL);
+> +	dst = kstrdup(dst, GFP_KERNEL);
+> +	rcu_read_unlock();
+> +
 
-Signed-off-by: Mingwei Zhang <mizhang@google.com>
-Reviewed-by: Kai Huang <kai.huang@intel.com>
----
- Documentation/virt/kvm/x86/mmu.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+Blocking calls are not allowed from RCU critical section. So we would
+need to replace GFP_KERNEL with GFP_ATOMIC.
 
-diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-index 581e53fa00a2..3be646a6daf5 100644
---- a/Documentation/virt/kvm/x86/mmu.rst
-+++ b/Documentation/virt/kvm/x86/mmu.rst
-@@ -283,6 +283,10 @@ Shadow pages contain the following information:
-     since the last time the page table was actually used; if emulation
-     is triggered too frequently on this page, KVM will unmap the page
-     to avoid emulation in the future.
-+  tdp_mmu_page:
-+    Is 1 if the shadow page is a TDP MMU page. This variable is used to
-+    bifurcate the control flows for KVM when walking any data structure that may
-+    contain pages from both TDP MMU and shadow MMU.
- 
- Reverse map
- ===========
--- 
-2.41.0.585.gd2178a4bd4-goog
-
+> +	if (!src || !dst) {
+> +		ret = -ENOMEM;
+> +		goto err_free;
+> +	}
+> +
+> +	cur_path = icc_get(&pdev->dev, src, dst);
+> +	if (IS_ERR(cur_path)) {
+> +		ret = PTR_ERR(cur_path);
+> +		goto err_free;
+> +	}
+> +
+> +	debugfs_path = kzalloc(sizeof(*debugfs_path), GFP_KERNEL);
+> +	if (!debugfs_path) {
+> +		ret = -ENOMEM;
+> +		goto err_put;
+> +	}
+> +
+> +	debugfs_path->path = cur_path;
+> +	debugfs_path->src = src;
+> +	debugfs_path->dst = dst;
+> +	list_add_tail(&debugfs_path->list, &debugfs_paths);
+> +
+> +	goto out;
+> +
+> +err_put:
+> +	icc_put(cur_path);
+> +err_free:
+> +	kfree(src);
+> +	kfree(dst);
+> +out:
+> +	mutex_unlock(&debugfs_lock);
+> +	return ret;
+> +}
