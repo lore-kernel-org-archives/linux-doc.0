@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E294C07E8E
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 09:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A205C04FE2
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 09:03:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232378AbjHAJDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Aug 2023 05:03:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
+        id S232417AbjHAJDg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Aug 2023 05:03:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232343AbjHAJCS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 05:02:18 -0400
+        with ESMTP id S232676AbjHAJDN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 05:03:13 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DAFA2133;
-        Tue,  1 Aug 2023 02:02:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7163E48;
+        Tue,  1 Aug 2023 02:02:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690880522; x=1722416522;
+  t=1690880563; x=1722416563;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tXI/C++YYSo9nyQMGnRVNwF3YsuprVE9KCho8shF7bg=;
-  b=jPHzGkVNmkxGysETGlvT76GokNjDWLuUXoZ4aaAiCXXiGiN8TSigDVrM
-   uf4uevTfUMBBISzDFLEZeWDQyKtpWK/bxdwf0WTIFjE9Iizi7vNqIY4GH
-   Tp+KGxskE9YVlowT0FZtFM08q/JHua2iVjJdnbDdOOrRCkwlu3zxQi2D3
-   h7VxlHojTCZHHbNd6/aWMJM5HDwu/KR9Jr7aqWvSDMEXr9EtyGwkHHuzM
-   oU6sjMqAkIrduI9Idd0318nY8PuP5+jdA2y8QaATSykCMBTwtnhcRUJms
-   OJMNQSJaqht8G3yMdXTESBTbmigIohXOiEzLM+XPnt/h+AwDe4FP7RD6p
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082168"
+  bh=+L7aUhS6u+4qwVp6754zs3SWJDqRpOJYTCoF5qb+V6E=;
+  b=cTbAgwBNdKeR0LPXxEH2LlNycD+d4IuUrIFTyGirgTO5x/38wUt898UT
+   5lhE3MVBzM0sY9ZDlrV6135xc8SzWa3nJiRDsC3mfmS1KElnMW3wyhp+j
+   As8THKn05f/BmZ2HO3epKT/Qf6v1O84qJnev5WNJl0/V8juZwy4X2Tq/J
+   Su9aIv/1Qa4cS0v/VqhbLCvyH+rkbo59tQq6GGsGire3HDnUcIxTBLWVl
+   C8rBCYNcDEvqmomx2HqUy0aEgBkynXyE/BVaKBJ9jBSeHDVwMt5hIlFU8
+   +vbuhaFHwBYLNEmyFjZeUbzdCxYlwJzbcxW48/sAcFKSGMOIvgOtydBD8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082398"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="433082168"
+   d="scan'208";a="433082398"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:01:54 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:02:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975216959"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975217010"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="975216959"
+   d="scan'208";a="975217010"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:01:53 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:02:00 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -106,9 +106,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH RESEND v9 04/36] x86/cpufeatures: Add the cpu feature bit for FRED
-Date:   Tue,  1 Aug 2023 01:32:46 -0700
-Message-Id: <20230801083318.8363-5-xin3.li@intel.com>
+Subject: [PATCH RESEND v9 11/36] x86/fred: Reserve space for the FRED stack frame
+Date:   Tue,  1 Aug 2023 01:32:53 -0700
+Message-Id: <20230801083318.8363-12-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230801083318.8363-1-xin3.li@intel.com>
 References: <20230801083318.8363-1-xin3.li@intel.com>
@@ -120,40 +120,46 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Add the CPU feature bit for FRED.
+When using FRED, reserve space at the top of the stack frame, just
+like i386 does.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/include/asm/cpufeatures.h       | 1 +
- tools/arch/x86/include/asm/cpufeatures.h | 1 +
- 2 files changed, 2 insertions(+)
+ arch/x86/include/asm/thread_info.h | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index cb8ca46213be..fd3ddd5c0283 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -317,6 +317,7 @@
- #define X86_FEATURE_FZRM		(12*32+10) /* "" Fast zero-length REP MOVSB */
- #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
- #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
-+#define X86_FEATURE_FRED		(12*32+17) /* Flexible Return and Event Delivery */
- #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
- #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
- #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
-diff --git a/tools/arch/x86/include/asm/cpufeatures.h b/tools/arch/x86/include/asm/cpufeatures.h
-index cb8ca46213be..fd3ddd5c0283 100644
---- a/tools/arch/x86/include/asm/cpufeatures.h
-+++ b/tools/arch/x86/include/asm/cpufeatures.h
-@@ -317,6 +317,7 @@
- #define X86_FEATURE_FZRM		(12*32+10) /* "" Fast zero-length REP MOVSB */
- #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
- #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
-+#define X86_FEATURE_FRED		(12*32+17) /* Flexible Return and Event Delivery */
- #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
- #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
- #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
+diff --git a/arch/x86/include/asm/thread_info.h b/arch/x86/include/asm/thread_info.h
+index d63b02940747..089cab875cba 100644
+--- a/arch/x86/include/asm/thread_info.h
++++ b/arch/x86/include/asm/thread_info.h
+@@ -31,7 +31,9 @@
+  * In vm86 mode, the hardware frame is much longer still, so add 16
+  * bytes to make room for the real-mode segments.
+  *
+- * x86_64 has a fixed-length stack frame.
++ * x86-64 has a fixed-length stack frame, but it depends on whether
++ * or not FRED is enabled. Future versions of FRED might make this
++ * dynamic, but for now it is always 2 words longer.
+  */
+ #ifdef CONFIG_X86_32
+ # ifdef CONFIG_VM86
+@@ -39,8 +41,12 @@
+ # else
+ #  define TOP_OF_KERNEL_STACK_PADDING 8
+ # endif
+-#else
+-# define TOP_OF_KERNEL_STACK_PADDING 0
++#else /* x86-64 */
++# ifdef CONFIG_X86_FRED
++#  define TOP_OF_KERNEL_STACK_PADDING (2*8)
++# else
++#  define TOP_OF_KERNEL_STACK_PADDING 0
++# endif
+ #endif
+ 
+ /*
 -- 
 2.34.1
 
