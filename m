@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A205C04FE2
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 09:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9586FC07E8B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 09:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbjHAJDg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Aug 2023 05:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60534 "EHLO
+        id S232331AbjHAJDb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Aug 2023 05:03:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232676AbjHAJDN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 05:03:13 -0400
+        with ESMTP id S232294AbjHAJCS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 05:02:18 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7163E48;
-        Tue,  1 Aug 2023 02:02:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C281FE8;
+        Tue,  1 Aug 2023 02:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690880563; x=1722416563;
+  t=1690880522; x=1722416522;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+L7aUhS6u+4qwVp6754zs3SWJDqRpOJYTCoF5qb+V6E=;
-  b=cTbAgwBNdKeR0LPXxEH2LlNycD+d4IuUrIFTyGirgTO5x/38wUt898UT
-   5lhE3MVBzM0sY9ZDlrV6135xc8SzWa3nJiRDsC3mfmS1KElnMW3wyhp+j
-   As8THKn05f/BmZ2HO3epKT/Qf6v1O84qJnev5WNJl0/V8juZwy4X2Tq/J
-   Su9aIv/1Qa4cS0v/VqhbLCvyH+rkbo59tQq6GGsGire3HDnUcIxTBLWVl
-   C8rBCYNcDEvqmomx2HqUy0aEgBkynXyE/BVaKBJ9jBSeHDVwMt5hIlFU8
-   +vbuhaFHwBYLNEmyFjZeUbzdCxYlwJzbcxW48/sAcFKSGMOIvgOtydBD8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082398"
+  bh=ok7xj4KwdkLOXDJ1J3mT1oirCcERqdhXdoxphTKdFWY=;
+  b=Z/GA7e9S9mVyHvZJD6r8jxliUKjvIYwNrbD4hfrzfCuzPmt5R0+2Kd8e
+   6t64PFtmftmRQBnHLaDFIIjbsaWCAJBMIoiL8QQwGROQT2LOsWihvAp3X
+   XkP2vAROVQz/SeIZy5pVu/+BraXQXy1bhdyWc+ap1rB3Bh+M5wtiOo9lJ
+   ktfo31+bXy/orI/gMDtljDh0BvfC23+FF80IxY0UId7uwGMyI52Z7gZ3h
+   TlX30dU97CXasbD0bbWrdy1jMp+dCmcDiOynsVwGfbBxZvgH0w+2ToXq+
+   hDGNfBM7oYjv9sX9IChD1Qk7ljULGK6Nm61XZnqjHZNDDqdafjDXYKmZx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082134"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="433082398"
+   d="scan'208";a="433082134"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:02:01 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:01:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975217010"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975216956"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="975217010"
+   d="scan'208";a="975216956"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:02:00 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:01:53 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -106,9 +106,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH RESEND v9 11/36] x86/fred: Reserve space for the FRED stack frame
-Date:   Tue,  1 Aug 2023 01:32:53 -0700
-Message-Id: <20230801083318.8363-12-xin3.li@intel.com>
+Subject: [PATCH RESEND v9 03/36] x86/fred: Disable FRED support if CONFIG_X86_FRED is disabled
+Date:   Tue,  1 Aug 2023 01:32:45 -0700
+Message-Id: <20230801083318.8363-4-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230801083318.8363-1-xin3.li@intel.com>
 References: <20230801083318.8363-1-xin3.li@intel.com>
@@ -120,46 +120,70 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-When using FRED, reserve space at the top of the stack frame, just
-like i386 does.
+Add CONFIG_X86_FRED to <asm/disabled-features.h> to make
+cpu_feature_enabled() work correctly with FRED.
 
+Originally-by: Megha Dey <megha.dey@intel.com>
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/include/asm/thread_info.h | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/disabled-features.h       | 8 +++++++-
+ tools/arch/x86/include/asm/disabled-features.h | 8 +++++++-
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/thread_info.h b/arch/x86/include/asm/thread_info.h
-index d63b02940747..089cab875cba 100644
---- a/arch/x86/include/asm/thread_info.h
-+++ b/arch/x86/include/asm/thread_info.h
-@@ -31,7 +31,9 @@
-  * In vm86 mode, the hardware frame is much longer still, so add 16
-  * bytes to make room for the real-mode segments.
-  *
-- * x86_64 has a fixed-length stack frame.
-+ * x86-64 has a fixed-length stack frame, but it depends on whether
-+ * or not FRED is enabled. Future versions of FRED might make this
-+ * dynamic, but for now it is always 2 words longer.
-  */
- #ifdef CONFIG_X86_32
- # ifdef CONFIG_VM86
-@@ -39,8 +41,12 @@
- # else
- #  define TOP_OF_KERNEL_STACK_PADDING 8
- # endif
--#else
--# define TOP_OF_KERNEL_STACK_PADDING 0
-+#else /* x86-64 */
-+# ifdef CONFIG_X86_FRED
-+#  define TOP_OF_KERNEL_STACK_PADDING (2*8)
-+# else
-+#  define TOP_OF_KERNEL_STACK_PADDING 0
-+# endif
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index fafe9be7a6f4..85fd67c67ce1 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -105,6 +105,12 @@
+ # define DISABLE_TDX_GUEST	(1 << (X86_FEATURE_TDX_GUEST & 31))
  #endif
  
++#ifdef CONFIG_X86_FRED
++# define DISABLE_FRED 0
++#else
++# define DISABLE_FRED (1 << (X86_FEATURE_FRED & 31))
++#endif
++
  /*
+  * Make sure to add features to the correct mask
+  */
+@@ -122,7 +128,7 @@
+ #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
+ 			 DISABLE_CALL_DEPTH_TRACKING)
+ #define DISABLED_MASK12	(DISABLE_LAM)
+-#define DISABLED_MASK13	0
++#define DISABLED_MASK13	(DISABLE_FRED)
+ #define DISABLED_MASK14	0
+ #define DISABLED_MASK15	0
+ #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
+diff --git a/tools/arch/x86/include/asm/disabled-features.h b/tools/arch/x86/include/asm/disabled-features.h
+index fafe9be7a6f4..85fd67c67ce1 100644
+--- a/tools/arch/x86/include/asm/disabled-features.h
++++ b/tools/arch/x86/include/asm/disabled-features.h
+@@ -105,6 +105,12 @@
+ # define DISABLE_TDX_GUEST	(1 << (X86_FEATURE_TDX_GUEST & 31))
+ #endif
+ 
++#ifdef CONFIG_X86_FRED
++# define DISABLE_FRED 0
++#else
++# define DISABLE_FRED (1 << (X86_FEATURE_FRED & 31))
++#endif
++
+ /*
+  * Make sure to add features to the correct mask
+  */
+@@ -122,7 +128,7 @@
+ #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
+ 			 DISABLE_CALL_DEPTH_TRACKING)
+ #define DISABLED_MASK12	(DISABLE_LAM)
+-#define DISABLED_MASK13	0
++#define DISABLED_MASK13	(DISABLE_FRED)
+ #define DISABLED_MASK14	0
+ #define DISABLED_MASK15	0
+ #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
 -- 
 2.34.1
 
