@@ -2,194 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 210F8C04A6A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 19:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC4CC0015E
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 19:38:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232461AbjHAT34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Aug 2023 15:29:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56394 "EHLO
+        id S232536AbjHATin (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Aug 2023 15:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232440AbjHAT3z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 15:29:55 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C842D19A4
-        for <linux-doc@vger.kernel.org>; Tue,  1 Aug 2023 12:29:52 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6bcaa6d5e2cso1667849a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 01 Aug 2023 12:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1690918192; x=1691522992;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9VoATP9NhH/kSJB8+YTj7ST63aExW0zMTg/FlvDeldU=;
-        b=SdoGE7ZGizDXbJRqNSzPFByd7neKDRG8vgDHG8wWrDk7Z7/KTjH2TS4QYzOvia6RNR
-         jSo187iZ1Y0P8fLXtxglQLJKCFUv7Kxsuv/9iavDmMLeprd+m+/YvCjNymHL8zq+iQ0j
-         DnKq58d2TsOX4iAzqQBRe8Hp1rZN6nyb9fpsoraZUicbFh9DHb/uzlKqyndedlb/nJRy
-         Bo0lKCsI77WBEpBlgXAEOJOmejm2HoJwSS2B7jJejSgrYS+hiVbwBYzWxiMGmUorhK4r
-         TSgxWS9DbAIJ9OnnXTRHeSKzq+qvZhxOUrB+K+5yVY2hS2EksqdgvxGeHATBviCI8YKY
-         xNlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690918192; x=1691522992;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9VoATP9NhH/kSJB8+YTj7ST63aExW0zMTg/FlvDeldU=;
-        b=lv2tPetqjDv+MKC2BFI9qAswddX2JK2GbQcIt7Vo7CFoNfllp+u1n6wcwGi7APf+dl
-         jKWUguyknuHNqIJZauHFUxm9GrGUdLkDK+oTp5MK0yjFdPePgY8GXqTedljwzaJHYtN9
-         ZwDmGG3/B6n/JPXdBtdU6vSsyTZsdjF+wv6Avc7fgOM0JDYUDOevgQGGWlkZqkRxvdgj
-         6xEiTe150R2wLSaj45K/CLgRyibIGqx3/2oPCxgWqO/a08QtGPnGiBHkaOVqjaMN2kLQ
-         6RLJEVNUnH5Aw3WMArCqiYIYrQJYDPpitAEz6D0OKQy++NB4ZzuQRB31uM0V8Na+h/Oo
-         NA2Q==
-X-Gm-Message-State: ABy/qLbnpiKqNGnK0Z3RZcfbVi8AzEM3V0DzzA9ffQn0tspSurj233G7
-        p4yL6ybkvynDGSuVPZd3pYUhKfNozQJC2MAcHtqy
-X-Google-Smtp-Source: APBJJlFeosTdRRNCzhw56R7pSQbCNwevBbiNXiMElbuinfE7oB7aWtWCFN6s8eGVLK4C+bFbpQT0m3cUoqudXbEH1L0=
-X-Received: by 2002:a05:6830:10e:b0:6b9:1af3:3307 with SMTP id
- i14-20020a056830010e00b006b91af33307mr13348963otp.17.1690918192119; Tue, 01
- Aug 2023 12:29:52 -0700 (PDT)
+        with ESMTP id S230200AbjHATim (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 15:38:42 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF0A1BD2;
+        Tue,  1 Aug 2023 12:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=XUuRgq2k+Zj7Cps3kG/jmE/mhHsCYkzavBA/LPVkFBs=; b=Wz9WQRmaRg/E+Ch1uLomywiHG9
+        Kctv8SAbWFkSD80DO0V85EHiSrP184T3HkcHveFUbE/hX7nSLfTXDNYyRyhponOVPU1isCpY9mFva
+        iRdqC0gGuYKtFBoNmtODHcFboqDDS8xZv2WJMwpm0pDqTcoku+Kjiq3cyuxxzstnMLd/O0qXMW4KQ
+        ap+/QwD7ELm1eY77mkO0113XZ+jEX62ePbeCXzB85T+I57Tn9vkKbNNNdbeD6BJ6BbGCr6iuoF6Y3
+        7FvWtffJxNd09NM6KgUsS1YCWz7YNUM4ao/o2+m+6193b3GAcjPnaQpuWYOpNg0UyYizdoWAjoH6B
+        tocYya/g==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qQvBo-00AdLA-Kn; Tue, 01 Aug 2023 19:37:52 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3C3FC3002D3;
+        Tue,  1 Aug 2023 21:37:51 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id DAE66201BD3C3; Tue,  1 Aug 2023 21:37:50 +0200 (CEST)
+Date:   Tue, 1 Aug 2023 21:37:50 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tony Luck <tony.luck@intel.com>,
+        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Jim Mattson <jmattson@google.com>,
+        Sandipan Das <sandipan.das@amd.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Breno Leitao <leitao@debian.org>,
+        Nikunj A Dadhania <nikunj@amd.com>,
+        Brian Gerst <brgerst@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Ze Gao <zegao2021@gmail.com>, Fei Li <fei1.li@intel.com>,
+        Conghui <conghui.chen@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Jane Malalane <jane.malalane@citrix.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Yantengsi <siyanteng@loongson.cn>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Sathvika Vasireddy <sv@linux.ibm.com>
+Subject: Re: [PATCH RESEND v9 33/36] KVM: VMX: Add VMX_DO_FRED_EVENT_IRQOFF
+ for IRQ/NMI handling
+Message-ID: <20230801193750.GA119080@hirez.programming.kicks-ass.net>
+References: <20230801083553.8468-1-xin3.li@intel.com>
+ <20230801083553.8468-7-xin3.li@intel.com>
+ <ZMlWe5TgS6HM98Mg@google.com>
 MIME-Version: 1.0
-References: <1687986571-16823-8-git-send-email-wufan@linux.microsoft.com>
- <fcc5de3f153eb60b5acf799c159e6ec8.paul@paul-moore.com> <20230715032644.GF15267@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-In-Reply-To: <20230715032644.GF15267@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 1 Aug 2023 15:29:40 -0400
-Message-ID: <CAHC9VhQryLtJZ1W1ogyVuojnq0-ZAU-hfZLwpzUb=bobko9LsA@mail.gmail.com>
-Subject: Re: [PATCH RFC v10 7/17] ipe: add userspace interface
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZMlWe5TgS6HM98Mg@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 11:26=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com>=
- wrote:
-> On Sat, Jul 08, 2023 at 12:23:04AM -0400, Paul Moore wrote:
-> > On Jun 28, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
-> > >
-> > > As is typical with LSMs, IPE uses securityfs as its interface with
-> > > userspace. for a complete list of the interfaces and the respective
-> > > inputs/outputs, please see the documentation under
-> > > admin-guide/LSM/ipe.rst
-> > >
-> > > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > > ---
-> > >  security/ipe/Makefile    |   2 +
-> > >  security/ipe/fs.c        | 101 ++++++++
-> > >  security/ipe/fs.h        |  16 ++
-> > >  security/ipe/ipe.c       |   3 +
-> > >  security/ipe/ipe.h       |   2 +
-> > >  security/ipe/policy.c    | 111 +++++++++
-> > >  security/ipe/policy.h    |   9 +
-> > >  security/ipe/policy_fs.c | 481 +++++++++++++++++++++++++++++++++++++=
-++
-> > >  8 files changed, 725 insertions(+)
-> > >  create mode 100644 security/ipe/fs.c
-> > >  create mode 100644 security/ipe/fs.h
-> > >  create mode 100644 security/ipe/policy_fs.c
+On Tue, Aug 01, 2023 at 07:01:15PM +0000, Sean Christopherson wrote:
+> The spec I have from May 2022 says the NMI bit colocated with CS, not SS.  And
+> the cover letter's suggestion to use a search engine to find the spec ain't
+> exactly helpful, that just gives me the same "May 2022 Revision 3.0" spec.  So
+> either y'all have a spec that I can't find, or this is wrong.
 
-...
+https://intel.com/sdm
 
-> > > @@ -39,6 +67,65 @@ static int set_pkcs7_data(void *ctx, const void *d=
-ata, size_t len,
-> > >     return 0;
-> > >  }
-> > >
-> > > +/**
-> > > + * ipe_update_policy - parse a new policy and replace @old with it.
-> >
-> > What does "@old" refer to?  I'm guessing you want to drop the "@".
-> >
-> Yes it shouldn't be here, sorry confusion.
->
-> > > + * @root: Supplies a pointer to the securityfs inode saved the polic=
-y.
-> > > + * @text: Supplies a pointer to the plain text policy.
-> > > + * @textlen: Supplies the length of @text.
-> > > + * @pkcs7: Supplies a pointer to a buffer containing a pkcs7 message=
-.
-> > > + * @pkcs7len: Supplies the length of @pkcs7len.
-> > > + *
-> > > + * @text/@textlen is mutually exclusive with @pkcs7/@pkcs7len - see
-> > > + * ipe_new_policy.
-> > > + *
-> > > + * Return:
-> > > + * * !IS_ERR       - The old policy
-> >
-> > "The old policy" is what?
-> >
-> Let me try to pharse it in another way, how about the existing policy
-> saved in the inode before update?
-
-That sounds better, thanks.
-
-> > > diff --git a/security/ipe/policy_fs.c b/security/ipe/policy_fs.c
-> > > new file mode 100644
-> > > index 000000000000..52a120118cda
-> > > --- /dev/null
-> > > +++ b/security/ipe/policy_fs.c
-> > > @@ -0,0 +1,481 @@
-> >
-> > ...
-> >
-> > > +/**
-> > > + * getactive - Read handler for "ipe/policies/$name/active".
-> > > + * @f: Supplies a file structure representing the securityfs node.
-> > > + * @data: Suppleis a buffer passed to the write syscall.
-> > > + * @len: Supplies the length of @data.
-> > > + * @offset: unused.
-> > > + *
-> > > + * @data will be populated with the 1 or 0 depending on if the
-> > > + * corresponding policy is active.
-> > > + *
-> > > + * Return:
-> > > + * * >0    - Success, Length of buffer written
-> > > + * * <0    - Error
-> > > + */
-> > > +static ssize_t getactive(struct file *f, char __user *data,
-> > > +                    size_t len, loff_t *offset)
-> > > +{
-> > > +   int rc =3D 0;
-> > > +   const char *str;
-> > > +   struct inode *root =3D NULL;
-> > > +   const struct ipe_policy *p =3D NULL;
-> > > +
-> > > +   root =3D d_inode(f->f_path.dentry->d_parent);
-> > > +
-> > > +   inode_lock_shared(root);
-> > > +   p =3D (struct ipe_policy *)root->i_private;
-> > > +   if (!p) {
-> > > +           inode_unlock_shared(root);
-> > > +           return -ENOENT;
-> > > +   }
-> > > +   inode_unlock_shared(root);
-> > > +
-> > > +   str =3D (p =3D=3D rcu_access_pointer(ipe_active_policy)) ? "1" : =
-"0";
-> >
-> > The line above should be wrapped with a RCU lock.
->
-> This call only checks the value inside the pointer but doesn't dereferenc=
-e it.
-> Also from https://lwn.net/Articles/652156/ I found it says "The call to
-> rcu_access_pointer() need not be protected. In contrast, rcu_dereference(=
-) must
-> either be within an RCU read-side critical section", so I didn't add the =
-lock
-> here, is this article outdated?
-
-No, I believe you are correct.  There is always something new to learn
-with RCU, thanks ;)
-
---=20
-paul-moore.com
+is a useful shorthand I've recently been told about. On that page is
+also "Flexible Return and Event Delivery Specification", when clicked it
+will gift you a FRED v5.0 PDF.
