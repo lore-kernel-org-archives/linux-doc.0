@@ -2,451 +2,644 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C825C04A6A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 22:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ACCBC00528
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Aug 2023 23:19:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232804AbjHAWMG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Aug 2023 18:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38242 "EHLO
+        id S230182AbjHAXTJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Aug 2023 19:19:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232533AbjHAWL4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 18:11:56 -0400
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4F91BCF
-        for <linux-doc@vger.kernel.org>; Tue,  1 Aug 2023 15:11:51 -0700 (PDT)
-Received: by mail-ot1-x32b.google.com with SMTP id 46e09a7af769-6b9e478e122so5423763a34.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Aug 2023 15:11:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690927911; x=1691532711;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=41IhdWp1JStppkD+zxN1+wC7PyEiRf08fKL8lO5Blf0=;
-        b=Zdk2kdrt7opdnXrluy6wCN+FQvdX8WnZX8K+GvRmH5CVYyr8st8dYHmneZGN/Pfpfc
-         eHce4mCC1wlGX0yYG39/dO+qzV5zEO7DiHEk5Oh5L6i9YHEJlgcpYGq3khgHxFi4OMbZ
-         Zi9Vfb0Cti0GSHMZVlifcdpDkQzbWZ633Gepf+HQpo+Tr6CLNygukPDGWnRJCxqLe/UZ
-         O6BfhPevYnq+MWvz9vet4I38kkG+cbmsb6zLYRwrtnTgkyTTLhZI8PXI+DuJ5x/SXEQV
-         RJg/F7gxfgXSPr023kzS5V7CkTnWYSrMPCcOZie/R66NDIFhpndqPdfXVThSL/srhZL4
-         HiDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690927911; x=1691532711;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=41IhdWp1JStppkD+zxN1+wC7PyEiRf08fKL8lO5Blf0=;
-        b=bz6Fm7jvdmd0bH8LXKt0wrD3PvReTcP2gRczbDt4gHYvxvmKbzkQyS5GC6ddcJSSlL
-         +4m0QrnCj3mIdLLTXDz1qr6JT9Rc8SgM6TlZ+st5jtGe91W7O/wWof/KHoS1/CjlIF7n
-         xBiJZMhTKnrTa1k4zlYBTK0C0qKv4bbNAdaKXGog1L+LknG/1/fgoRhS2Jhzo5ccjF80
-         MK/Qkoplmq+8inBlXaiLob1Xa2yi0+uvmLbcmUxRS/w4eo3QR0+r11DvJdiqJ84hE3PE
-         IzHSYVkdMPYRB7FKd3d/BiHslz23Ya6OidsCuwGzzi6cpvpgGpRue3Z76yW/18/Xen53
-         g8kw==
-X-Gm-Message-State: ABy/qLZklhHW7H3aiVltprH3oU5DeMYjm+/rrrwao00H1CHvT1b9nrlv
-        8naY28FEsGwgvUUA3WufX4GACw==
-X-Google-Smtp-Source: APBJJlH4ipVkZzepFx4Voy/wZfzMVY1a35kMch7WuYS6fuzCkiZUnL96M62MB29mI+wMb9LtMQqnYQ==
-X-Received: by 2002:a05:6870:a548:b0:1be:e066:acc with SMTP id p8-20020a056870a54800b001bee0660accmr7910272oal.50.1690927910894;
-        Tue, 01 Aug 2023 15:11:50 -0700 (PDT)
-Received: from evan.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id u9-20020a17090a410900b00268dac826d4sm19586pjf.0.2023.08.01.15.11.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 15:11:50 -0700 (PDT)
-From:   Evan Green <evan@rivosinc.com>
-To:     Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     David Laight <David.Laight@aculab.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Evan Green <evan@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Jisheng Zhang <jszhang@kernel.org>,
+        with ESMTP id S230145AbjHAXTH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Aug 2023 19:19:07 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F309219B6;
+        Tue,  1 Aug 2023 16:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690931946; x=1722467946;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Bj5w8ug5nXkPeA631Z/FPHszoX+SVqqkPZbhd/00H+M=;
+  b=gkkUj0mYHi03IR2EMaCScNPuN7k5mb05cI0lio702ZD1H21wyxjjQkC9
+   YfriAyt3HVnksxVx0y66MgTz+BRO57YBQDst3SIrMZ0aqtuW/6/CS0WWy
+   NIJWojNPnV73v4f8XEEXxFuQFI+yPFdS/j9NSjzu/URc4mv3uJxPQtLBv
+   iEp91PH1AOU3asyxuGOQDYiREjOrkzTUAOvu8U/rHyqEB45qpB7b+DGqA
+   JTvCHzS8BSzk8Z+Ev6fAyG81cY5y7i6LVGwM3AR1625gomHsXZL6raUik
+   7o+GK62F/ryA5yTpcN/aUX5ASd13VGvN3UhwalyGwh3c9Gn6low8WjiZY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="372164214"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
+   d="scan'208";a="372164214"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 16:19:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="975463188"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
+   d="scan'208";a="975463188"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 16:19:03 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 1 Aug 2023 16:19:02 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 1 Aug 2023 16:19:02 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 1 Aug 2023 16:19:02 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 1 Aug 2023 16:19:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H6OnvTlFB0Z4Az04FF2JP/OQPJXQARjUEk6tuZWuEzxwzNx1am73RzC4tRurLIPmOE0nAN5+MNDPh/hNYLcuBW+dampqcxvRaf4i+1vrmAdrZ6I4JSGdc0gYtOkKVVnAAsNrsAigNHYN+FECMc3qOuwOXTHFoRIkqspvkvpJ/aiLrD7ra5AfUR6YEyl+G1UQBKJWgLMQ1ifjQAttI4FinsaIYCHwzYcqMLuEiNQald+8WlgpqZEkKctJFJOOUxEPTLnjDaKu0KgItzPXmF6IbLYHelpeBt4Hy0ZkmfyYDeDW+SX+SWh9QxoB5k0pV2/lnoBI2ht/ekn3lBawsPTZOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S8XlHjVcyfKORPqwqUUtCNjTJnsqwsptu6fUDZ6EwMc=;
+ b=h8Gx5TfTzNt1IIu4IBBZ1PsLgHJHdv5h06581B9Ptv37El2/n5d1c69T36NonHbCHd9u4utT71NF44OeLZtZakNvFOEM6OV1ro5AVqgH+sMnyZx3qtg/kxo1JhNIh6y3Leo+VF9RrQmwWDWteX1SYYyPNQrcvDCp00TCmWIUT2Dvd/dIKZqBbeePbgrGUFnt76ex1m+9GlCjwqTwCPcYXt6XtsgwActzeORHTm+wfJ8W3zwtJpYW/FnbUAcE2qT+RVzOORGY7fEdg/t6gugHbk/XN7HRodpZRICYsxa9DOH+Wjs+5S8w6SgUmym4iNGtQOn1pbowpYFRPGss64oqrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22)
+ by BN9PR11MB5531.namprd11.prod.outlook.com (2603:10b6:408:104::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.45; Tue, 1 Aug
+ 2023 23:18:58 +0000
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::50e4:2cb8:4529:af04]) by SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::50e4:2cb8:4529:af04%7]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
+ 23:18:58 +0000
+From:   "Li, Xin3" <xin3.li@intel.com>
+To:     "Christopherson,, Sean" <seanjc@google.com>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH v3 1/2] RISC-V: Probe for unaligned access speed
-Date:   Tue,  1 Aug 2023 15:11:36 -0700
-Message-Id: <20230801221138.2086734-2-evan@rivosinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230801221138.2086734-1-evan@rivosinc.com>
-References: <20230801221138.2086734-1-evan@rivosinc.com>
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        "Cui, Dexuan" <decui@microsoft.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        "Wanpeng Li" <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Gross, Jurgen" <jgross@suse.com>,
+        "Stefano Stabellini" <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Steven Rostedt" <rostedt@goodmis.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Jim Mattson <jmattson@google.com>,
+        Sandipan Das <sandipan.das@amd.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "Daniel Sneddon" <daniel.sneddon@linux.intel.com>,
+        Breno Leitao <leitao@debian.org>,
+        Nikunj A Dadhania <nikunj@amd.com>,
+        Brian Gerst <brgerst@gmail.com>,
+        "Sami Tolvanen" <samitolvanen@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        Ze Gao <zegao2021@gmail.com>, "Li, Fei1" <fei1.li@intel.com>,
+        Conghui <conghui.chen@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "Jiapeng Chong" <jiapeng.chong@linux.alibaba.com>,
+        Jane Malalane <jane.malalane@citrix.com>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "Ostrovsky, Boris" <boris.ostrovsky@oracle.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Yantengsi <siyanteng@loongson.cn>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Sathvika Vasireddy <sv@linux.ibm.com>
+Subject: RE: [PATCH RESEND v9 33/36] KVM: VMX: Add VMX_DO_FRED_EVENT_IRQOFF
+ for IRQ/NMI handling
+Thread-Topic: [PATCH RESEND v9 33/36] KVM: VMX: Add VMX_DO_FRED_EVENT_IRQOFF
+ for IRQ/NMI handling
+Thread-Index: AQHZxFc6Fm9A65hsiUKYksIzWWSQ5K/VzGiAgABBoTA=
+Date:   Tue, 1 Aug 2023 23:18:58 +0000
+Message-ID: <SA1PR11MB673440DE4294DDE87D93AE54A80AA@SA1PR11MB6734.namprd11.prod.outlook.com>
+References: <20230801083553.8468-1-xin3.li@intel.com>
+ <20230801083553.8468-7-xin3.li@intel.com> <ZMlWe5TgS6HM98Mg@google.com>
+In-Reply-To: <ZMlWe5TgS6HM98Mg@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6734:EE_|BN9PR11MB5531:EE_
+x-ms-office365-filtering-correlation-id: dcaf6d6e-4187-4417-1291-08db92e5aef5
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: r+cxM3pPta8sYitUgROn2PDucNcvUltiyujBLIB2Z3wc/WA1AbpGfiDgnG9ZYXNPCazHzJRSrD7yg9SlHm0RpgIU92mD//G2FOnZbMXYqkS9rAXw8oGg29t03wb9+L8oj34ta6j/zwjU159ZxdM4/KUGyubBdtUbQwPvR2Fcu82GfE6XgEgEcZPoFpG18sWnfD8mwsKSZ/IPzxtmQULTfv0bfMlSUrigqSh/dityjnqxcvC1NlobvtkVFxDX/EtrPJDHDBI33wmCK4NWV/Jfm/PXW6Ojbs3wqBWGKVYnB+mg2ReWtV0Rr7HmOhZ9r0V6/M9Deske9dBdlz/eYLTWAckiJLc6RNaaxIKUrcQc+l8ZHNcuu8pibRB2E/uGeoBe8Z+HejgkJfxE18Xyz1P1r7PwUEPz554vq8wLD/3HflT+OF4VkbiEeEpEadkuRjFktwPyolvk7fmbSq24tNm0qQV+6NuJMDzha/lLGYG6v+KZcAyUfOHWDLWQBrbhrBKYbB+vdNv8paD2fKP2UkojnMLGw5Gfri8nYlkqhwOlRfQgqWfdPfxcVDNZEYmL1Bci+KJ3nYJ/TQkJrRWXZ4ZmOUiM+pw1wFV/3ZLR/xfij2Y=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6734.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(39860400002)(376002)(346002)(396003)(136003)(451199021)(55016003)(186003)(9686003)(316002)(86362001)(478600001)(122000001)(54906003)(38100700002)(76116006)(71200400001)(66946007)(66556008)(66476007)(66446008)(33656002)(64756008)(7696005)(4326008)(6916009)(82960400001)(6506007)(41300700001)(26005)(52536014)(8676002)(5660300002)(8936002)(30864003)(2906002)(38070700005)(7416002)(7406005)(7366002)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?a/2pvAgarmi6UxxjEwF9/15YLf2D0Eyn4fdBB8TeZPD1X1viRO//B83LSg+W?=
+ =?us-ascii?Q?Kb1IdO9MiI6onQllU79snUl5ERrgGYi0IcI196Hl3kip2suAMqWODPMTM2LP?=
+ =?us-ascii?Q?eNrdGtYbxu7IVB71bzz8NR4HhEADC8Iz/0UpQWzmDOg5jYVpP9bheXJFvSu0?=
+ =?us-ascii?Q?Pe8yWpoq72YuJCN1vn/WZbfmimwy1GnFcNimvVFQmWCVn5sW06QeSYH2BUNQ?=
+ =?us-ascii?Q?rWMxGTwHW6TUTD3cJ9N7wIjTotFv7mx6lzbIbfmNaa5Kq8vPbBJbrFC2pkz6?=
+ =?us-ascii?Q?o0XywMr2OPye+wB1KthXoxT9FlPr5knw9mevANI78AgCQqBTo/HdQwxLsa9q?=
+ =?us-ascii?Q?mh4OmuzyKkQYl1rW2Y/Qj606hKl8yXua+muHOsNGOGoQkzKXsUh4wBdP3IVp?=
+ =?us-ascii?Q?9w2RARPvzINL29PxfzwHggsig+iwYOv/hQbxbUE0EOnbLeR34bSucGOl50L1?=
+ =?us-ascii?Q?RzjSNl1Mmj872iKuR7IdZKVnx3P125fcFI6Wms7Fwrf7xUstqDQeZJ/831Qg?=
+ =?us-ascii?Q?AHrT5Hhoea963KRxmwvc+xTs7h3jDDmwy6cuoEAPzbCze2I/jD1J0JdE00nh?=
+ =?us-ascii?Q?8JUkhP1iq2/nkMAv5HP3WBMstojrhSwGAHUmAyVTe9ejwgGWOogZN7/1oKHq?=
+ =?us-ascii?Q?gXWYUgLlg1D3JQv8ytHKjTWuXcYkFH9UcUusaGJ6xYpoqhQVfhtyRM5UtaBo?=
+ =?us-ascii?Q?E+CLgpxhhHMPkFaYhCub2XqviDWFDoFIUOif5Mp/6mwhYGvozE1/88Kug/f6?=
+ =?us-ascii?Q?i8Ip+TfcXnB8OyuoNL/tfdZ7auSwDB9TUvdaQJmjIKxnVPkVu/X75wezWphi?=
+ =?us-ascii?Q?YwcyUPwBXPXXiGWXCJfkYBSCGXjDFs7sNpdm8eOoBNeZcRgMQ+kBDC0CHw3M?=
+ =?us-ascii?Q?0giAooLfQrIrOvOMgmG8n/rsthYIg+qCw3n8hsjNr3FtZBMLZLh4+JhIjF2o?=
+ =?us-ascii?Q?M9b9a+CPz4Fx+VNCkhsSXlnECKrQ2Mx0IYM7PjgyM/WufkvWwbRagO4F8Bcs?=
+ =?us-ascii?Q?88T8Rui1/HKgQq2tkgICF13dQehrvtfhw857nucMvWVWxu4il690S0aoVUdu?=
+ =?us-ascii?Q?J6L9aje42joksBmHiVoAdRjr8TNotpKWCu+0R33wHKEQhEPuCldsiNkr5mnD?=
+ =?us-ascii?Q?gNoxHrhUA19rkcAf+3NcKQkhRqVlDjWjPBPMHFOQ/9IC1MuGWmxe3VwrKM5+?=
+ =?us-ascii?Q?6NLq3/MvzcwkJg7MeruyNC7FSHYrnJRJjtTfyFzBV68ahPqny6nmjHhaXXQg?=
+ =?us-ascii?Q?mS7kWPhezOmDMXB4j/afudj8xvnEBFaRJg38Clj6x+lohzd9A75OGSQj/wnO?=
+ =?us-ascii?Q?0IZVVPSPZCpZF0GRQ2QBUOzS3WFZ/CUcZ1URSH6YA+mhFG7xeXctwtMps1FE?=
+ =?us-ascii?Q?QC6Fj1+UhReDZAV4AQUd8m+vvsKtPa2Z+vkSow4Wd0rZmLQBBXGRJHvtAnqm?=
+ =?us-ascii?Q?csHgiAtZu+rrRMLsJ62P/DbeDtSc2BkZ8sxdMrOc0sMfRikfW50dzH/O/tdl?=
+ =?us-ascii?Q?Ep2bVYks3d+ffPtxBwQm3xVJ2lalH6UQdOZuQW0i1dbQum+zAwaiL3YtjpSq?=
+ =?us-ascii?Q?ybJJ8ADOJcos5uSX+uE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6734.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dcaf6d6e-4187-4417-1291-08db92e5aef5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2023 23:18:58.3382
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zLD37UF9Af+/IutB05oxvOXT646Uz9bT1I+muC63nEsLa2MpWAeg8hpAy4QXyWL2PwYzM6wcEojbDrn0Es+yLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5531
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rather than deferring unaligned access speed determinations to a vendor
-function, let's probe them and find out how fast they are. If we
-determine that an unaligned word access is faster than N byte accesses,
-mark the hardware's unaligned access as "fast". Otherwise, we mark
-accesses as slow.
 
-The algorithm itself runs for a fixed amount of jiffies. Within each
-iteration it attempts to time a single loop, and then keeps only the best
-(fastest) loop it saw. This algorithm was found to have lower variance from
-run to run than my first attempt, which counted the total number of
-iterations that could be done in that fixed amount of jiffies. By taking
-only the best iteration in the loop, assuming at least one loop wasn't
-perturbed by an interrupt, we eliminate the effects of interrupts and
-other "warm up" factors like branch prediction. The only downside is it
-depends on having an rdtime granular and accurate enough to measure a
-single copy. If we ever manage to complete a loop in 0 rdtime ticks, we
-leave the unaligned setting at UNKNOWN.
+> > +#include "../../entry/calling.h"
+>=20
+> Rather than do the low level PUSH_REGS and POP_REGS, I vote to have core =
+code
+> expose a FRED-specific wrapper for invoking external_interrupt().  More b=
+elow.
 
-There is a slight change in user-visible behavior here. Previously, all
-boards except the THead C906 reported misaligned access speed of
-UNKNOWN. C906 reported FAST. With this change, since we're now measuring
-misaligned access speed on each hart, all RISC-V systems will have this
-key set as either FAST or SLOW.
+Nice idea!
 
-Currently, we don't have a way to confidently measure the difference between
-SLOW and EMULATED, so we label anything not fast as SLOW. This will
-mislabel some systems that are actually EMULATED as SLOW. When we get
-support for delegating misaligned access traps to the kernel (as opposed
-to the firmware quietly handling it), we can explicitly test in Linux to
-see if unaligned accesses trap. Those systems will start to report
-EMULATED, though older (today's) systems without that new SBI mechanism
-will continue to report SLOW.
+> > +	/*
+> > +	 * A FRED stack frame has extra 16 bytes of information pushed at the
+> > +	 * regular stack top compared to an IDT stack frame.
+>=20
+> There is pretty much no chance that anyone remembers the layout of an IDT=
+ stack
+> frame off the top of their head.  I.e. saying "FRED has 16 bytes more" is=
+n't all
+> that useful.  It also fails to capture the fact that FRED stuff a hell of=
+ a lot
+> more information in those "common" 48 bytes.
+>=20
+> It'll be hard/impossible to capture all of the overload info in a comment=
+, but
+> showing the actual layout of the frame would be super helpful, e.g. somet=
+hing
+> like
+> this
+>=20
+> 	/*
+> 	 * FRED stack frames are always 64 bytes:
+> 	 *
+> 	 * ------------------------------
+> 	 * | Bytes  | Usage             |
+> 	 * -----------------------------|
+> 	 * | 63:56  | Reserved          |
+> 	 * | 55:48  | Event Data        |
+>          * | 47:40  | SS + Event Info   |
+>          * | 39:32  | RSP               |
+> 	 * | 31:24  | RFLAGS            |
+>          * | 23:16  | CS + Aux Info     |
+>          * |  15:8  | RIP               |
+>          * |   7:0  | Error Code        |
+>          * ------------------------------
+> 	 */
+> 	 *
+> 	 * Use LEA to get the return RIP and push it, then push an error code.
+> 	 * Note, only NMI handling does an ERETS to the target!  IRQ handling
+> 	 * doesn't need to unmask NMIs and so simply uses CALL+RET, i.e. the
+> 	 * RIP pushed here is only truly consumed for NMIs!
 
-I've updated the documentation for those hwprobe values to reflect
-this, specifically: SLOW may or may not be emulated by software, and FAST
-represents means being faster than equivalent byte accesses. The change
-in documentation is accurate with respect to both the former and current
-behavior.
+I take these as ASM code does need more love, i.e., nice comments :/
 
-Signed-off-by: Evan Green <evan@rivosinc.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Otherwise only more confusion.
 
----
+=20
+>=20
+> Jumping way back to providing a wrapper for FRED, if we do that, then the=
+re's no
+> need to include calling.h, and the weird wrinkle about the ERET target ki=
+nda goes
+> away too.  E.g. provide this in arch/x86/entry/entry_64_fred.S
+>=20
+> 	.section .text, "ax"
+>=20
+> /* Note, this is instrumentation safe, and returns via RET, not ERETS! */
+> #if IS_ENABLED(CONFIG_KVM_INTEL)
+> SYM_CODE_START(fred_irq_entry_from_kvm)
+> 	FRED_ENTER
+> 	call external_interrupt
+> 	FRED_EXIT
+> 	RET
+> SYM_CODE_END(fred_irq_entry_from_kvm)
+> EXPORT_SYMBOL_GPL(fred_irq_entry_from_kvm);
+> #endif
+>=20
+> and then the KVM side for this particular chunk is more simply:
+>=20
+> 	lea 1f(%rip), %rax
+> 	push %rax
+> 	push $0		/* FRED error code, 0 for NMI and external
+> interrupts */
+>=20
+> 	\branch_insn \branch_target
+> 1:
+> 	VMX_DO_EVENT_FRAME_END
+> 	RET
+>=20
+>=20
+> Alternatively, the whole thing could be shoved into
+> arch/x86/entry/entry_64_fred.S,
+> but at a glance I don't think that would be a net positive due to the nee=
+d to
+> handle
+> IRQs vs. NMIs.
+>=20
+> > +	\branch_insn \branch_target
+> > +
+> > +	.if \nmi =3D=3D 0
+> > +	POP_REGS
+> > +	.endif
+> > +
+> > +1:
+> > +	/*
+> > +	 * "Restore" RSP from RBP, even though IRET has already unwound RSP t=
+o
+>=20
+> As mentioned above, this is incorrect on two fronts.
+>=20
+> > diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> > index 0ecf4be2c6af..4e90c69a92bf 100644
+> > --- a/arch/x86/kvm/vmx/vmx.c
+> > +++ b/arch/x86/kvm/vmx/vmx.c
+> > @@ -6890,6 +6890,14 @@ static void vmx_apicv_post_state_restore(struct
+> kvm_vcpu *vcpu)
+> >  	memset(vmx->pi_desc.pir, 0, sizeof(vmx->pi_desc.pir));
+> >  }
+> >
+> > +#ifdef CONFIG_X86_FRED
+> > +void vmx_do_fred_interrupt_irqoff(unsigned int vector);
+> > +void vmx_do_fred_nmi_irqoff(unsigned int vector);
+> > +#else
+> > +#define vmx_do_fred_interrupt_irqoff(x) BUG()
+> > +#define vmx_do_fred_nmi_irqoff(x) BUG()
+> > +#endif
+>=20
+> My slight preference is to open code the BUG() as a ud2 in assembly, pure=
+ly to
+> avoid more #ifdefs.
+>=20
+> > +
+> >  void vmx_do_interrupt_irqoff(unsigned long entry);
+> >  void vmx_do_nmi_irqoff(void);
+> >
+> > @@ -6932,14 +6940,16 @@ static void handle_external_interrupt_irqoff(st=
+ruct
+> kvm_vcpu *vcpu)
+> >  {
+> >  	u32 intr_info =3D vmx_get_intr_info(vcpu);
+> >  	unsigned int vector =3D intr_info & INTR_INFO_VECTOR_MASK;
+> > -	gate_desc *desc =3D (gate_desc *)host_idt_base + vector;
+> >
+> >  	if (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,
+> >  	    "unexpected VM-Exit interrupt info: 0x%x", intr_info))
+> >  		return;
+> >
+> >  	kvm_before_interrupt(vcpu, KVM_HANDLING_IRQ);
+> > -	vmx_do_interrupt_irqoff(gate_offset(desc));
+> > +	if (cpu_feature_enabled(X86_FEATURE_FRED))
+> > +		vmx_do_fred_interrupt_irqoff(vector);	/* Event type is 0 */
+>=20
+> I strongly prefer to use code to document what's going on.  E.g. the tail=
+ comment
+> just left me wondering, what event type is 0?  Whereas this makes it quit=
+e clear
+> that KVM is signaling a hardware interrupt.  The fact that it's a nop as =
+far as
+> code generation goes is irrelevant.
+>=20
+> 	vmx_do_fred_interrupt_irqoff((EVENT_TYPE_HWINT << 16) | vector);
 
-Changes in v3:
- - Fix documentation indentation (Conor)
- - Rename __copy_..._unaligned() to __riscv_copy_..._unaligned() (Conor)
- - Renamed c0,c1 to start_cycles, end_cycles (Conor)
- - Renamed j0,j1 to start_jiffies, now
- - Renamed check_unaligned_access0() to
-   check_unaligned_access_boot_cpu() (Conor)
+Better readability.
 
-Changes in v2:
- - Explain more in the commit message (Conor)
- - Use a new algorithm that looks for the fastest run (David)
- - Clarify documentatin further (David and Conor)
- - Unify around a single word, "unaligned" (Conor)
- - Align asm operands, and other misc whitespace changes (Conor)
+>=20
+> > +	else
+> > +		vmx_do_interrupt_irqoff(gate_offset((gate_desc *)host_idt_base
+> + vector));
+> >  	kvm_after_interrupt(vcpu);
+> >
+> >  	vcpu->arch.at_instruction_boundary =3D true;
+>=20
+> Here's a diff for (hopefully) everything I've suggested above.
 
- Documentation/riscv/hwprobe.rst     |  11 ++-
- arch/riscv/include/asm/cpufeature.h |   2 +
- arch/riscv/kernel/Makefile          |   1 +
- arch/riscv/kernel/copy-unaligned.S  |  71 +++++++++++++++++++
- arch/riscv/kernel/copy-unaligned.h  |  13 ++++
- arch/riscv/kernel/cpufeature.c      | 104 ++++++++++++++++++++++++++++
- arch/riscv/kernel/smpboot.c         |   2 +
- 7 files changed, 198 insertions(+), 6 deletions(-)
- create mode 100644 arch/riscv/kernel/copy-unaligned.S
- create mode 100644 arch/riscv/kernel/copy-unaligned.h
+Thanks a lot!  I will test it and update the patch in this mail thread.
 
-diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
-index 19165ebd82ba..f63fd05f1a73 100644
---- a/Documentation/riscv/hwprobe.rst
-+++ b/Documentation/riscv/hwprobe.rst
-@@ -87,13 +87,12 @@ The following keys are defined:
-     emulated via software, either in or below the kernel.  These accesses are
-     always extremely slow.
- 
--  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are supported
--    in hardware, but are slower than the cooresponding aligned accesses
--    sequences.
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are slower
-+    than equivalent byte accesses.  Misaligned accesses may be supported
-+    directly in hardware, or trapped and emulated by software.
- 
--  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are supported
--    in hardware and are faster than the cooresponding aligned accesses
--    sequences.
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are faster
-+    than equivalent byte accesses.
- 
-   * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned accesses are
-     not supported at all and will generate a misaligned address fault.
-diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-index 23fed53b8815..d0345bd659c9 100644
---- a/arch/riscv/include/asm/cpufeature.h
-+++ b/arch/riscv/include/asm/cpufeature.h
-@@ -30,4 +30,6 @@ DECLARE_PER_CPU(long, misaligned_access_speed);
- /* Per-cpu ISA extensions. */
- extern struct riscv_isainfo hart_isa[NR_CPUS];
- 
-+void check_unaligned_access(int cpu);
-+
- #endif
-diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-index 506cc4a9a45a..7e6c464cdfe9 100644
---- a/arch/riscv/kernel/Makefile
-+++ b/arch/riscv/kernel/Makefile
-@@ -38,6 +38,7 @@ extra-y += vmlinux.lds
- obj-y	+= head.o
- obj-y	+= soc.o
- obj-$(CONFIG_RISCV_ALTERNATIVE) += alternative.o
-+obj-y	+= copy-unaligned.o
- obj-y	+= cpu.o
- obj-y	+= cpufeature.o
- obj-y	+= entry.o
-diff --git a/arch/riscv/kernel/copy-unaligned.S b/arch/riscv/kernel/copy-unaligned.S
-new file mode 100644
-index 000000000000..cfdecfbaad62
---- /dev/null
-+++ b/arch/riscv/kernel/copy-unaligned.S
-@@ -0,0 +1,71 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (C) 2023 Rivos Inc. */
-+
-+#include <linux/linkage.h>
-+#include <asm/asm.h>
-+
-+	.text
-+
-+/* void __riscv_copy_words_unaligned(void *, const void *, size_t) */
-+/* Performs a memcpy without aligning buffers, using word loads and stores. */
-+/* Note: The size is truncated to a multiple of 8 * SZREG */
-+ENTRY(__riscv_copy_words_unaligned)
-+	andi  a4, a2, ~((8*SZREG)-1)
-+	beqz  a4, 2f
-+	add   a3, a1, a4
-+1:
-+	REG_L a4,       0(a1)
-+	REG_L a5,   SZREG(a1)
-+	REG_L a6, 2*SZREG(a1)
-+	REG_L a7, 3*SZREG(a1)
-+	REG_L t0, 4*SZREG(a1)
-+	REG_L t1, 5*SZREG(a1)
-+	REG_L t2, 6*SZREG(a1)
-+	REG_L t3, 7*SZREG(a1)
-+	REG_S a4,       0(a0)
-+	REG_S a5,   SZREG(a0)
-+	REG_S a6, 2*SZREG(a0)
-+	REG_S a7, 3*SZREG(a0)
-+	REG_S t0, 4*SZREG(a0)
-+	REG_S t1, 5*SZREG(a0)
-+	REG_S t2, 6*SZREG(a0)
-+	REG_S t3, 7*SZREG(a0)
-+	addi  a0, a0, 8*SZREG
-+	addi  a1, a1, 8*SZREG
-+	bltu  a1, a3, 1b
-+
-+2:
-+	ret
-+END(__riscv_copy_words_unaligned)
-+
-+/* void __riscv_copy_bytes_unaligned(void *, const void *, size_t) */
-+/* Performs a memcpy without aligning buffers, using only byte accesses. */
-+/* Note: The size is truncated to a multiple of 8 */
-+ENTRY(__riscv_copy_bytes_unaligned)
-+	andi a4, a2, ~(8-1)
-+	beqz a4, 2f
-+	add  a3, a1, a4
-+1:
-+	lb   a4, 0(a1)
-+	lb   a5, 1(a1)
-+	lb   a6, 2(a1)
-+	lb   a7, 3(a1)
-+	lb   t0, 4(a1)
-+	lb   t1, 5(a1)
-+	lb   t2, 6(a1)
-+	lb   t3, 7(a1)
-+	sb   a4, 0(a0)
-+	sb   a5, 1(a0)
-+	sb   a6, 2(a0)
-+	sb   a7, 3(a0)
-+	sb   t0, 4(a0)
-+	sb   t1, 5(a0)
-+	sb   t2, 6(a0)
-+	sb   t3, 7(a0)
-+	addi a0, a0, 8
-+	addi a1, a1, 8
-+	bltu a1, a3, 1b
-+
-+2:
-+	ret
-+END(__riscv_copy_bytes_unaligned)
-diff --git a/arch/riscv/kernel/copy-unaligned.h b/arch/riscv/kernel/copy-unaligned.h
-new file mode 100644
-index 000000000000..e3d70d35b708
---- /dev/null
-+++ b/arch/riscv/kernel/copy-unaligned.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2023 Rivos, Inc.
-+ */
-+#ifndef __RISCV_KERNEL_COPY_UNALIGNED_H
-+#define __RISCV_KERNEL_COPY_UNALIGNED_H
-+
-+#include <linux/types.h>
-+
-+void __riscv_copy_words_unaligned(void *dst, const void *src, size_t size);
-+void __riscv_copy_bytes_unaligned(void *dst, const void *src, size_t size);
-+
-+#endif /* __RISCV_KERNEL_COPY_UNALIGNED_H */
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 71fb840ee246..b96073db9de7 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -19,12 +19,19 @@
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
- #include <asm/hwcap.h>
-+#include <asm/hwprobe.h>
- #include <asm/patch.h>
- #include <asm/processor.h>
- #include <asm/vector.h>
- 
-+#include "copy-unaligned.h"
-+
- #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
- 
-+#define MISALIGNED_ACCESS_JIFFIES_LG2 1
-+#define MISALIGNED_BUFFER_SIZE 0x4000
-+#define MISALIGNED_COPY_SIZE ((MISALIGNED_BUFFER_SIZE / 2) - 0x80)
-+
- unsigned long elf_hwcap __read_mostly;
- 
- /* Host ISA bitmap */
-@@ -555,6 +562,103 @@ unsigned long riscv_get_elf_hwcap(void)
- 	return hwcap;
- }
- 
-+void check_unaligned_access(int cpu)
-+{
-+	u64 start_cycles, end_cycles;
-+	u64 word_cycles;
-+	u64 byte_cycles;
-+	int ratio;
-+	unsigned long start_jiffies, now;
-+	struct page *page;
-+	void *dst;
-+	void *src;
-+	long speed = RISCV_HWPROBE_MISALIGNED_SLOW;
-+
-+	page = alloc_pages(GFP_NOWAIT, get_order(MISALIGNED_BUFFER_SIZE));
-+	if (!page) {
-+		pr_warn("Can't alloc pages to measure memcpy performance");
-+		return;
-+	}
-+
-+	/* Make an unaligned destination buffer. */
-+	dst = (void *)((unsigned long)page_address(page) | 0x1);
-+	/* Unalign src as well, but differently (off by 1 + 2 = 3). */
-+	src = dst + (MISALIGNED_BUFFER_SIZE / 2);
-+	src += 2;
-+	word_cycles = -1ULL;
-+	/* Do a warmup. */
-+	__riscv_copy_words_unaligned(dst, src, MISALIGNED_COPY_SIZE);
-+	preempt_disable();
-+	start_jiffies = jiffies;
-+	while ((now = jiffies) == start_jiffies)
-+		cpu_relax();
-+
-+	/*
-+	 * For a fixed amount of time, repeatedly try the function, and take
-+	 * the best time in cycles as the measurement.
-+	 */
-+	while (time_before(jiffies, now + (1 << MISALIGNED_ACCESS_JIFFIES_LG2))) {
-+		start_cycles = get_cycles64();
-+		/* Ensure the CSR read can't reorder WRT to the copy. */
-+		mb();
-+		__riscv_copy_words_unaligned(dst, src, MISALIGNED_COPY_SIZE);
-+		/* Ensure the copy ends before the end time is snapped. */
-+		mb();
-+		end_cycles = get_cycles64();
-+		if ((end_cycles - start_cycles) < word_cycles)
-+			word_cycles = end_cycles - start_cycles;
-+	}
-+
-+	byte_cycles = -1ULL;
-+	__riscv_copy_bytes_unaligned(dst, src, MISALIGNED_COPY_SIZE);
-+	start_jiffies = jiffies;
-+	while ((now = jiffies) == start_jiffies)
-+		cpu_relax();
-+
-+	while (time_before(jiffies, now + (1 << MISALIGNED_ACCESS_JIFFIES_LG2))) {
-+		start_cycles = get_cycles64();
-+		mb();
-+		__riscv_copy_bytes_unaligned(dst, src, MISALIGNED_COPY_SIZE);
-+		mb();
-+		end_cycles = get_cycles64();
-+		if ((end_cycles - start_cycles) < byte_cycles)
-+			byte_cycles = end_cycles - start_cycles;
-+	}
-+
-+	preempt_enable();
-+
-+	/* Don't divide by zero. */
-+	if (!word_cycles || !byte_cycles) {
-+		pr_warn("cpu%d: rdtime lacks granularity needed to measure unaligned access speed\n",
-+			cpu);
-+
-+		goto out;
-+	}
-+
-+	if (word_cycles < byte_cycles)
-+		speed = RISCV_HWPROBE_MISALIGNED_FAST;
-+
-+	ratio = (byte_cycles * 100) / word_cycles;
-+	pr_info("cpu%d: Ratio of byte access time to unaligned word access is %d.%02d, unaligned accesses are %s\n",
-+		cpu,
-+		ratio / 100,
-+		ratio % 100,
-+		(speed == RISCV_HWPROBE_MISALIGNED_FAST) ? "fast" : "slow");
-+
-+	per_cpu(misaligned_access_speed, cpu) = speed;
-+
-+out:
-+	__free_pages(page, get_order(MISALIGNED_BUFFER_SIZE));
-+}
-+
-+static int check_unaligned_access_boot_cpu(void)
-+{
-+	check_unaligned_access(0);
-+	return 0;
-+}
-+
-+arch_initcall(check_unaligned_access_boot_cpu);
-+
- #ifdef CONFIG_RISCV_ALTERNATIVE
- /*
-  * Alternative patch sites consider 48 bits when determining when to patch
-diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-index f4d6acb38dd0..00ddbd2364dc 100644
---- a/arch/riscv/kernel/smpboot.c
-+++ b/arch/riscv/kernel/smpboot.c
-@@ -26,6 +26,7 @@
- #include <linux/sched/task_stack.h>
- #include <linux/sched/mm.h>
- #include <asm/cpu_ops.h>
-+#include <asm/cpufeature.h>
- #include <asm/irq.h>
- #include <asm/mmu_context.h>
- #include <asm/numa.h>
-@@ -245,6 +246,7 @@ asmlinkage __visible void smp_callin(void)
- 
- 	numa_add_cpu(curr_cpuid);
- 	set_cpu_online(curr_cpuid, 1);
-+	check_unaligned_access(curr_cpuid);
- 	probe_vendor_features(curr_cpuid);
- 
- 	if (has_vector()) {
--- 
-2.34.1
+>=20
+> ---
+>  arch/x86/entry/entry_64_fred.S | 17 ++++++-
+>  arch/x86/kernel/traps.c        |  5 --
+>  arch/x86/kvm/vmx/vmenter.S     | 84 +++++++++++++++-------------------
+>  arch/x86/kvm/vmx/vmx.c         |  7 +--
+>  4 files changed, 55 insertions(+), 58 deletions(-)
+>=20
+> diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fre=
+d.S
+> index 12063267d2ac..a973c0bd29f6 100644
+> --- a/arch/x86/entry/entry_64_fred.S
+> +++ b/arch/x86/entry/entry_64_fred.S
+> @@ -10,7 +10,6 @@
+>  #include "calling.h"
+>=20
+>  	.code64
+> -	.section ".noinstr.text", "ax"
+>=20
+>  .macro FRED_ENTER
+>  	UNWIND_HINT_END_OF_STACK
+> @@ -24,6 +23,22 @@
+>  	POP_REGS
+>  .endm
+>=20
+> +	.section .text, "ax"
+> +
+> +/* Note, this is instrumentation safe, and returns via RET, not ERETS! *=
+/
+> +#if IS_ENABLED(CONFIG_KVM_INTEL)
+> +SYM_CODE_START(fred_irq_entry_from_kvm)
+> +	FRED_ENTER
+> +	call external_interrupt
+> +	FRED_EXIT
+> +	RET
+> +SYM_CODE_END(fred_irq_entry_from_kvm)
+> +EXPORT_SYMBOL_GPL(fred_irq_entry_from_kvm);
+> +#endif
+> +
+> +	.section ".noinstr.text", "ax"
+> +
+> +
+>  /*
+>   * The new RIP value that FRED event delivery establishes is
+>   * IA32_FRED_CONFIG & ~FFFH for events that occur in ring 3.
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index 21eeba7b188f..cbcb83c71dab 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+> @@ -1566,11 +1566,6 @@ int external_interrupt(struct pt_regs *regs)
+>  	return 0;
+>  }
+>=20
+> -#if IS_ENABLED(CONFIG_KVM_INTEL)
+> -/* For KVM VMX to handle IRQs in IRQ induced VM exits. */
+> -EXPORT_SYMBOL_GPL(external_interrupt);
+> -#endif
+> -
+>  #endif /* CONFIG_X86_64 */
+>=20
+>  void __init trap_init(void)
+> diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
+> index 79a4c91d9434..e25df565c3f8 100644
+> --- a/arch/x86/kvm/vmx/vmenter.S
+> +++ b/arch/x86/kvm/vmx/vmenter.S
+> @@ -9,7 +9,6 @@
+>  #include <asm/segment.h>
+>  #include "kvm-asm-offsets.h"
+>  #include "run_flags.h"
+> -#include "../../entry/calling.h"
+>=20
+>  #define WORD_SIZE (BITS_PER_LONG / 8)
+>=20
+> @@ -33,15 +32,31 @@
+>  #define VCPU_R15	__VCPU_REGS_R15 * WORD_SIZE
+>  #endif
+>=20
+> +.macro VMX_DO_EVENT_FRAME_BEGIN
+> +	/*
+> +	 * Unconditionally create a stack frame, getting the correct RSP on the
+> +	 * stack (for x86-64) would take two instructions anyways, and RBP can
+> +	 * be used to restore RSP to make objtool happy (see below).
+> +	 */
+> +	push %_ASM_BP
+> +	mov %_ASM_SP, %_ASM_BP
+> +.endm
+> +
+> +.macro VMX_DO_EVENT_FRAME_END
+> +	/*
+> +	 * "Restore" RSP from RBP, even though {E,I}RET has already unwound RSP
+> +	 * to the correct value *in most cases*.  KVM's IRQ handling with FRED
+> +	 * doesn't do ERETS, and objtool doesn't know the callee will IRET/ERET
+> +	 * and, without the explicit restore, thinks the stack is getting wallo=
+ped.
+> +	 * Using an unwind hint is problematic due to x86-64's dynamic alignmen=
+t.
+> +	 */
+> +	mov %_ASM_BP, %_ASM_SP
+> +	pop %_ASM_BP
+> +.endm
+> +
+>  #ifdef CONFIG_X86_FRED
+>  .macro VMX_DO_FRED_EVENT_IRQOFF branch_insn branch_target nmi=3D0
+> -	/*
+> -	 * Unconditionally create a stack frame, getting the correct RSP on the
+> -	 * stack (for x86-64) would take two instructions anyways, and RBP can
+> -	 * be used to restore RSP to make objtool happy (see below).
+> -	 */
+> -	push %_ASM_BP
+> -	mov %_ASM_SP, %_ASM_BP
+> +	VMX_DO_EVENT_FRAME_BEGIN
+>=20
+>  	/*
+>  	 * Don't check the FRED stack level, the call stack leading to this
+> @@ -78,43 +93,23 @@
+>  	 * push an error code before invoking the IRQ/NMI handler.
+>  	 *
+>  	 * Use LEA to get the return RIP and push it, then push an error code.
+> +	 * Note, only NMI handling does an ERETS to the target!  IRQ handling
+> +	 * doesn't need to unmask NMIs and so simply uses CALL+RET, i.e. the
+> +	 * RIP pushed here is only truly consumed for NMIs!
+>  	 */
+>  	lea 1f(%rip), %rax
+>  	push %rax
+>  	push $0		/* FRED error code, 0 for NMI and external
+> interrupts */
+>=20
+> -	.if \nmi =3D=3D 0
+> -	PUSH_REGS
+> -	mov %rsp, %rdi
+> -	.endif
+> -
+>  	\branch_insn \branch_target
+> -
+> -	.if \nmi =3D=3D 0
+> -	POP_REGS
+> -	.endif
+> -
+>  1:
+> -	/*
+> -	 * "Restore" RSP from RBP, even though IRET has already unwound RSP to
+> -	 * the correct value.  objtool doesn't know the callee will IRET and,
+> -	 * without the explicit restore, thinks the stack is getting walloped.
+> -	 * Using an unwind hint is problematic due to x86-64's dynamic alignmen=
+t.
+> -	 */
+> -	mov %_ASM_BP, %_ASM_SP
+> -	pop %_ASM_BP
+> +	VMX_DO_EVENT_FRAME_END
+>  	RET
+>  .endm
+>  #endif
+>=20
+>  .macro VMX_DO_EVENT_IRQOFF call_insn call_target
+> -	/*
+> -	 * Unconditionally create a stack frame, getting the correct RSP on the
+> -	 * stack (for x86-64) would take two instructions anyways, and RBP can
+> -	 * be used to restore RSP to make objtool happy (see below).
+> -	 */
+> -	push %_ASM_BP
+> -	mov %_ASM_SP, %_ASM_BP
+> +	VMX_DO_EVENT_FRAME_BEGIN
+>=20
+>  #ifdef CONFIG_X86_64
+>  	/*
+> @@ -129,14 +124,7 @@
+>  	push $__KERNEL_CS
+>  	\call_insn \call_target
+>=20
+> -	/*
+> -	 * "Restore" RSP from RBP, even though IRET has already unwound RSP to
+> -	 * the correct value.  objtool doesn't know the callee will IRET and,
+> -	 * without the explicit restore, thinks the stack is getting walloped.
+> -	 * Using an unwind hint is problematic due to x86-64's dynamic alignmen=
+t.
+> -	 */
+> -	mov %_ASM_BP, %_ASM_SP
+> -	pop %_ASM_BP
+> +	VMX_DO_EVENT_FRAME_END
+>  	RET
+>  .endm
+>=20
+> @@ -375,11 +363,13 @@ SYM_INNER_LABEL_ALIGN(vmx_vmexit,
+> SYM_L_GLOBAL)
+>=20
+>  SYM_FUNC_END(__vmx_vcpu_run)
+>=20
+> -#ifdef CONFIG_X86_FRED
+>  SYM_FUNC_START(vmx_do_fred_nmi_irqoff)
+> +#ifdef CONFIG_X86_FRED
+>  	VMX_DO_FRED_EVENT_IRQOFF jmp fred_entrypoint_kernel nmi=3D1
+> +#else
+> +	ud2
+> +#endif
+>  SYM_FUNC_END(vmx_do_fred_nmi_irqoff)
+> -#endif
+>=20
+>  SYM_FUNC_START(vmx_do_nmi_irqoff)
+>  	VMX_DO_EVENT_IRQOFF call asm_exc_nmi_kvm_vmx
+> @@ -438,11 +428,13 @@ SYM_FUNC_END(vmread_error_trampoline)
+>  #endif
+>=20
+>  .section .text, "ax"
+> -#ifdef CONFIG_X86_FRED
+>  SYM_FUNC_START(vmx_do_fred_interrupt_irqoff)
+> -	VMX_DO_FRED_EVENT_IRQOFF call external_interrupt
+> +#ifdef CONFIG_X86_FRED
+> +	VMX_DO_FRED_EVENT_IRQOFF call fred_irq_entry_from_kvm
+> +#else
+> +	ud2
+> +#endif
+>  SYM_FUNC_END(vmx_do_fred_interrupt_irqoff)
+> -#endif
+>=20
+>  SYM_FUNC_START(vmx_do_interrupt_irqoff)
+>  	VMX_DO_EVENT_IRQOFF CALL_NOSPEC _ASM_ARG1
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index bf757f5071e4..cb4675dd87df 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -6919,13 +6919,8 @@ static void vmx_apicv_post_state_restore(struct
+> kvm_vcpu *vcpu)
+>  	memset(vmx->pi_desc.pir, 0, sizeof(vmx->pi_desc.pir));
+>  }
+>=20
+> -#ifdef CONFIG_X86_FRED
+>  void vmx_do_fred_interrupt_irqoff(unsigned int vector);
+>  void vmx_do_fred_nmi_irqoff(unsigned int vector);
+> -#else
+> -#define vmx_do_fred_interrupt_irqoff(x) BUG()
+> -#define vmx_do_fred_nmi_irqoff(x) BUG()
+> -#endif
+>=20
+>  void vmx_do_interrupt_irqoff(unsigned long entry);
+>  void vmx_do_nmi_irqoff(void);
+> @@ -6976,7 +6971,7 @@ static void handle_external_interrupt_irqoff(struct
+> kvm_vcpu *vcpu)
+>=20
+>  	kvm_before_interrupt(vcpu, KVM_HANDLING_IRQ);
+>  	if (cpu_feature_enabled(X86_FEATURE_FRED))
+> -		vmx_do_fred_interrupt_irqoff(vector);	/* Event type is 0 */
+> +		vmx_do_fred_interrupt_irqoff((EVENT_TYPE_HWINT << 16) |
+> vector);
+>  	else
+>  		vmx_do_interrupt_irqoff(gate_offset((gate_desc *)host_idt_base
+> + vector));
+>  	kvm_after_interrupt(vcpu);
+>=20
+> base-commit: 8961078ffe509a97ec7803b17912e57c47b93fa2
+> --
 
