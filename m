@@ -2,111 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BBD7C00528
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 08:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE654C04A94
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 08:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjHBIA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 04:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55888 "EHLO
+        id S232482AbjHBIEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 04:04:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230392AbjHBIA6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 04:00:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 083D1CC
-        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 00:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690963169;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wZUNkMP1qMALUPnTMpjHr05U2sKlpWGQ7HUYoQvVCOc=;
-        b=U9HskgkVSZ/WO0pYpaJV6m9ehDA3QnbS8WdUt8JIQsLNcrkegqzb3RRzPlYcIcGEureRt8
-        4wH/Nfco/HL1SGPlIAWaeoMf7OV7uIdYuZgSBeIx+sKtzQZAhnlOjWz4zEFuHjffC0qUVU
-        2VUEL+nmUzGj/EMjjR38doGammlEyxQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-271-RZjMNiapO-KjIioWKuSodA-1; Wed, 02 Aug 2023 03:59:27 -0400
-X-MC-Unique: RZjMNiapO-KjIioWKuSodA-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-31797adfe97so2130386f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 02 Aug 2023 00:59:27 -0700 (PDT)
+        with ESMTP id S231320AbjHBIEF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 04:04:05 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A5C61702
+        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 01:04:03 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fb4146e8fcso3854465e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Aug 2023 01:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690963442; x=1691568242;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xQ/J00kEJAH5Xut374nMK9bufEJjwUvOp4VXeqDa+Tk=;
+        b=TR4+KtOpPWWB7zMxB9PgPgMQ/dmKpI2IOf32w75D9jzFT4t3NfzAhSGg405n8kCuhn
+         kyYUR4xFpYscU7oxOcPiJc2yOOlfvs9R4fNuiNBCQmV9beI/91TN+kKBuM5CI0EE8VBO
+         vMHyHKRvn3MFWlA61V26A+Rzez+kE2tM2iMadEmGEeYqCOIHazGf32wjXpL/NVOu7Dps
+         iJ2qq5Nn5iSwo9aR9TjLTcE+F1O+/en60hHyXmTZuO7Bt3BDY1tGvRzQETlyKtaTCMnY
+         oZhJX722C9T9OKR3dBJH9VHSZYG/uY3H9NJNAbfFSAZBZ5dJrFpk3B4IiHaTcFimTrUV
+         qTWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690963166; x=1691567966;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wZUNkMP1qMALUPnTMpjHr05U2sKlpWGQ7HUYoQvVCOc=;
-        b=fHI5Mdl6CZtr4oM4WHuDHkLoktu79p6QIyVw0NDgNMDNET+uLB0K5qmH62B3JQqdLd
-         b7CDcSaauSRITAfbbZ97KGMNLNygjXDn3GEGD13Kk4hpohKtt99msra4Zkq/prC1tTQu
-         cZWYhp7O9PZ0j8TAFf9rRxTx2QNWsHs08zCL3Jpquz2PwDCZqYvTNwbzNp2q7bK/I5QI
-         p6pxYcPSbpnfyQDzgdmj/78+9Gfht1ffq7K3A/UuSLxUH6c5Uu9u6bVV33UVnxEeTHJ2
-         rq8txHbVa3AhfG9tCA4kC3AXbg+Jd8OJHhE0WmZIIMzQQtCdVawfy4Jkf70caHZR3RvY
-         oE3w==
-X-Gm-Message-State: ABy/qLZiBe4lNawNTy+vL8bXMx6zTt0JFF/uLzDllK7Sow3b3zi3CXdj
-        UB4cl8jCbQMiQJXUEcDDofPBHgc25u0JXYgmmjfBNwtLimDg1cGymIt3F9ahTn4wE6Yg/5oodnK
-        LIxDC0X3+HIXErR7+Ful4
-X-Received: by 2002:adf:e484:0:b0:317:4e25:eaf0 with SMTP id i4-20020adfe484000000b003174e25eaf0mr3464111wrm.63.1690963166489;
-        Wed, 02 Aug 2023 00:59:26 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEeZ4lCKsSdrPpN7GeReHVH6V71A8h8zbu+gFT0GD1iLHflH1tK4sX4xeVW2tbCE54RTetw2g==
-X-Received: by 2002:adf:e484:0:b0:317:4e25:eaf0 with SMTP id i4-20020adfe484000000b003174e25eaf0mr3464103wrm.63.1690963166076;
-        Wed, 02 Aug 2023 00:59:26 -0700 (PDT)
-Received: from [192.168.3.108] (p4ff23509.dip0.t-ipconnect.de. [79.242.53.9])
-        by smtp.gmail.com with ESMTPSA id t8-20020adff048000000b00317878d83c6sm16100887wro.72.2023.08.02.00.59.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Aug 2023 00:59:25 -0700 (PDT)
-Message-ID: <89efb68c-b6e7-f652-8dc7-310c5f48a0a9@redhat.com>
-Date:   Wed, 2 Aug 2023 09:59:24 +0200
+        d=1e100.net; s=20221208; t=1690963442; x=1691568242;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xQ/J00kEJAH5Xut374nMK9bufEJjwUvOp4VXeqDa+Tk=;
+        b=JKufJPuGZqqZf1BoGxBU9EHduSS608d3ILOC+0a/g1JQH0EcHmqu6XUYLkw9HGkB9k
+         puAZ6PO+Mp2YJZE45JVwvmCZ0S5SICOl5c5IsZ9cqXOJWOycwegm6e4ScF0h4YIiepnb
+         lYADnpzqtkAiCafraayB90G9xfshNJEOJuf5drnM4GgMsl+AZKfOmfsilaA7FMMlEj1r
+         Uj5/K2+J+xHf3HMUPzVV3IErsIvKMc7Ub8csMu4E5Y7b3QHhQ9gdOgjnK5FaOOajyCuW
+         Y+3+Zwwr5QNQahhUFZXemuaW6WqF08E+nlvG/bY05swcgtY8t7DYJBTuMvyccdFNnsL+
+         8G4g==
+X-Gm-Message-State: ABy/qLZKtmBidBW/UapRvK9G3istpjpD9ZQRbvGnH7G29TM2Ktb7o2Jx
+        zFQhTS2Rg1nCdTWmghch5wraVQ==
+X-Google-Smtp-Source: APBJJlGkfK1cMubjw5jAx7xv31P0b4h+hmVBpPD+Xx9CKLBF6Ee3UXefcdhFfKa5u+4OBBC3XEAG3Q==
+X-Received: by 2002:a7b:c394:0:b0:3fe:1b5e:82 with SMTP id s20-20020a7bc394000000b003fe1b5e0082mr3691989wmj.20.1690963441714;
+        Wed, 02 Aug 2023 01:04:01 -0700 (PDT)
+Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id x1-20020a5d54c1000000b003176f2d9ce5sm18338098wrv.71.2023.08.02.01.04.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 01:04:01 -0700 (PDT)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?UTF-8?q?R=C3=A9mi=20Denis-Courmont?= <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v6 00/10] riscv: Allow userspace to directly access perf counters
+Date:   Wed,  2 Aug 2023 10:03:18 +0200
+Message-Id: <20230802080328.1213905-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] doc: update params of memhp_default_state=
-To:     Wupeng Ma <mawupeng1@huawei.com>, akpm@linux-foundation.org,
-        corbet@lwn.net
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org
-References: <20230802074312.2111074-1-mawupeng1@huawei.com>
-Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230802074312.2111074-1-mawupeng1@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02.08.23 09:43, Wupeng Ma wrote:
-> From: Ma Wupeng <mawupeng1@huawei.com>
-> 
-> Commit 5f47adf762b7 ("mm/memory_hotplug: allow to specify a default
-> online_type") allows to specify a default online_type which make
-> online memory to kernel or movable zone possible but fail to update
-> to doc. Update doc to fit this change.
-> 
-> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-> ---
->   Documentation/admin-guide/kernel-parameters.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a1457995fd41..09bad9c62f41 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3105,7 +3105,7 @@
->   			[KNL,SH] Allow user to override the default size for
->   			per-device physically contiguous DMA buffers.
->   
-> -	memhp_default_state=online/offline
-> +	memhp_default_state=online/offline/online_kernel/online_movable
->   			[KNL] Set the initial state for the memory hotplug
->   			onlining policy. If not specified, the default value is
->   			set according to the
+riscv used to allow direct access to cycle/time/instret counters,
+bypassing the perf framework, this patchset intends to allow the user to
+mmap any counter when accessed through perf.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+**Important**: The default mode is now user access through perf only, not
+the legacy so some applications will break. However, we introduce a sysctl
+perf_user_access like arm64 does, which will allow to switch to the legacy
+mode described above.
+
+This version needs openSBI v1.3 *and* a kernel fix that went upstream lately
+(https://lore.kernel.org/lkml/20230616114831.3186980-1-maz@kernel.org/T/).
+
+base-commit-tag: v6.5-rc1
+
+Changes in v6:
+- Replaced csr_read() preprocessor parsing of csr number with the
+  input constraint, as suggested by Ian
+- Added a defined(__riscv) and a comment to make things clearer, as
+  suggested by Ian
+
+Changes in v5:
+- Fix typo from Atish
+- Add RB from Atish and Andrew
+- Improve cover letter and patch 7 commit log to explain why we made the
+  choice to break userspace for security reasons, thanks Atish and Rémi
+- Rebase on top of v6.5-rc1
+
+Changes in v4:
+- Fixed some nits in riscv_pmu_sbi.c thanks to Andrew
+- Fixed the documentation thanks to Andrew
+- Added RB from Andrew \o/
+
+Changes in v3:
+- patch 1 now contains the ref to the faulty commit (no Fixes tag as it is only a comment), as Andrew suggested
+- Removed RISCV_PMU_LEGACY_TIME from patch 3, as Andrew suggested
+- Rename RISCV_PMU_PDEV_NAME to "riscv-pmu-sbi", patch4 is just cosmetic now, as Andrew suggested
+- Removed a few useless (and wrong) comments, as Andrew suggested
+- Simplify arch_perf_update_userpage code, as Andrew suggested
+- Documentation now mentions that time CSR is *always* accessible, whatever the mode, as suggested by Andrew
+- Removed CYCLEH reference and add TODO for rv32 support, as suggested by Atish
+- Do not rename the pmu instance as Atish suggested
+- Set pmc_width only if rdpmc is enabled and CONFIG_RISCV_PMU is set and the event is a hw event
+- Move arch_perf_update_userpage https://lore.kernel.org/lkml/20230616114831.3186980-1-maz@kernel.org/T/
+- **Switch to user mode access by default**
+
+Changes in v2:
+- Split into smaller patches, way better!
+- Add RB from Conor
+- Simplify the way we checked riscv architecture
+- Fix race mmap and other thread running on other cpus
+- Use hwc when available
+- Set all userspace access flags in event_init, too cumbersome to handle sysctl changes
+- Fix arch_perf_update_userpage for pmu other than riscv-pmu by renaming pmu driver
+- Fixed kernel test robot build error
+- Fixed documentation (Andrew and Bagas)
+- perf testsuite passes mmap tests in all 3 modes
+
+Alexandre Ghiti (10):
+  perf: Fix wrong comment about default event_idx
+  include: riscv: Fix wrong include guard in riscv_pmu.h
+  riscv: Make legacy counter enum match the HW numbering
+  drivers: perf: Rename riscv pmu sbi driver
+  riscv: Prepare for user-space perf event mmap support
+  drivers: perf: Implement perf event mmap support in the legacy backend
+  drivers: perf: Implement perf event mmap support in the SBI backend
+  Documentation: admin-guide: Add riscv sysctl_perf_user_access
+  tools: lib: perf: Implement riscv mmap support
+  perf: tests: Adapt mmap-basic.c for riscv
+
+ Documentation/admin-guide/sysctl/kernel.rst |  27 ++-
+ drivers/perf/riscv_pmu.c                    | 113 +++++++++++
+ drivers/perf/riscv_pmu_legacy.c             |  28 ++-
+ drivers/perf/riscv_pmu_sbi.c                | 196 +++++++++++++++++++-
+ include/linux/perf/riscv_pmu.h              |  12 +-
+ include/linux/perf_event.h                  |   3 +-
+ tools/lib/perf/mmap.c                       |  66 +++++++
+ tools/perf/tests/mmap-basic.c               |   6 +-
+ 8 files changed, 431 insertions(+), 20 deletions(-)
 
 -- 
-Cheers,
-
-David / dhildenb
+2.39.2
 
