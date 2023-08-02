@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80062C04FE1
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 21:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 134E8C04A94
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 21:43:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232085AbjHBVnZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 17:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43310 "EHLO
+        id S233350AbjHBVn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 17:43:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233166AbjHBVnX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 17:43:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB5E211F;
-        Wed,  2 Aug 2023 14:43:21 -0700 (PDT)
+        with ESMTP id S233274AbjHBVnY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 17:43:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90AA3269A;
+        Wed,  2 Aug 2023 14:43:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5821261B3B;
-        Wed,  2 Aug 2023 21:43:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46091C433C8;
-        Wed,  2 Aug 2023 21:43:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6EBF361B38;
+        Wed,  2 Aug 2023 21:43:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19FDC433C7;
+        Wed,  2 Aug 2023 21:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691012600;
-        bh=mWNsxedk/0WTpVC5xcDAG+vRRRu0kRA2F/h2AlUSJkY=;
+        s=k20201202; t=1691012603;
+        bh=/3fkCyEgrxb/AUOocTnJxHaLWQx7r2oBGZrkuNBIGj8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VguX3rgruXsHFHwRc94yQOIa+8CYImY184CQKh8Axbc20nSL0haxJ1BelLK/Kl+lI
-         kx6SxHyD4tWBMYM783i5u1pCUHe8HhYxsL2rlAMIDalMA/pSzobIQ0kVeRHt927q43
-         GY99HKHbl5lQyYKaFi3aRreMREW3OX9bCuEV484vLCMGbeKJ4VP8Lm7SQ79For4EkF
-         SjBOeZ5HDzCAWDDmCcfQFXZT0w4jFLg/Z9z3Gm5AKvvbTgI7BD2W96ssE1UHndwOAr
-         aXvpzW8AJ1doO6vO8cwLIrvsu32nTnqlSx2DXFNUYFcDtH52KVI+1vYP/0A+ZQEjWC
-         kT0MuCjPoXQLA==
+        b=X95R9KkVDRr3ki6dAqNlbFqXrxEEVHX/lRSSI/qgwcWgfiI3zUd3Q0zIpTOOV3Y63
+         CDVO7N6DcY+b2efTSCZMfcUIqZaxXdSLdXxtoRCtwVWub6Y1PQXdzwzNvTpesl1v3q
+         gNKU9OORW1ki6GBIb2+Em6y/0kUEy32D5bhIATAPvd4mFg4NB0zWPZuFJH/9w2/LBP
+         QhaBucUBUfqEmbqHMF2QbYb5iAaM1Bo88hLb5yxRHpmgTZCIMtw5koCerfYDy8tQm2
+         AhADeaeCFqIJCgjvwj2dD9IhR7Gyv3ZMEpHB/ZnKFjoXVfmcYHPWRuZpvhORippGWG
+         YF1l2ciI4grCQ==
 From:   SeongJae Park <sj@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         damon@lists.linux.dev, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/13] Docs/admin-guide/mm/damon/usage: update for address range type DAMOS filter
-Date:   Wed,  2 Aug 2023 21:43:06 +0000
-Message-Id: <20230802214312.110532-8-sj@kernel.org>
+Subject: [PATCH 11/13] Docs/mm/damon/design: update for DAMON monitoring target type DAMOS filter
+Date:   Wed,  2 Aug 2023 21:43:10 +0000
+Message-Id: <20230802214312.110532-12-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230802214312.110532-1-sj@kernel.org>
 References: <20230802214312.110532-1-sj@kernel.org>
@@ -49,63 +49,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update DAMON usage document for the newly added address range type DAMOS
-filter.
+Update DAMON design document for the newly added DAMON monitoring target
+type DAMOS filter.
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/usage.rst | 31 +++++++++++++-------
- 1 file changed, 20 insertions(+), 11 deletions(-)
+ Documentation/mm/damon/design.rst | 33 +++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 1859dd6c3834..a9cb9949b796 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -363,15 +363,18 @@ number (``N``) to the file creates the number of child directories named ``0``
- to ``N-1``.  Each directory represents each filter.  The filters are evaluated
- in the numeric order.
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 134912166f5a..a20383d01a95 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -380,21 +380,24 @@ number of filters for each scheme.  Each filter specifies the type of target
+ memory, and whether it should exclude the memory of the type (filter-out), or
+ all except the memory of the type (filter-in).
  
--Each filter directory contains three files, namely ``type``, ``matcing``, and
--``memcg_path``.  You can write one of two special keywords, ``anon`` for
--anonymous pages, or ``memcg`` for specific memory cgroup filtering.  In case of
--the memory cgroup filtering, you can specify the memory cgroup of the interest
--by writing the path of the memory cgroup from the cgroups mount point to
--``memcg_path`` file.  You can write ``Y`` or ``N`` to ``matching`` file to
--filter out pages that does or does not match to the type, respectively.  Then,
--the scheme's action will not be applied to the pages that specified to be
--filtered out.
-+Each filter directory contains five files, namely ``type``, ``matcing``,
-+``memcg_path``, ``addr_start``, and ``addr_end``.  To ``type`` file, you can
-+write one of three special keywords: ``anon`` for anonymous pages, ``memcg``
-+for specific memory cgroup, or ``addr`` for specific address range (an
-+open-ended interval) filtering.  In case of the memory cgroup filtering, you
-+can specify the memory cgroup of the interest by writing the path of the memory
-+cgroup from the cgroups mount point to ``memcg_path`` file.  In case of the
-+address range filtering, you can specify the start and end address of the range
-+to ``addr_start`` and ``addr_end`` files, respectively.  You can write ``Y`` or
-+``N`` to ``matching`` file to filter out pages that does or does not match to
-+the type, respectively.  Then, the scheme's action will not be applied to the
-+pages that specified to be filtered out.
- 
- For example, below restricts a DAMOS action to be applied to only non-anonymous
- pages of all memory cgroups except ``/having_care_already``.::
-@@ -385,8 +388,14 @@ pages of all memory cgroups except ``/having_care_already``.::
-     echo /having_care_already > 1/memcg_path
-     echo N > 1/matching
- 
--Note that filters are currently supported only when ``paddr``
--`implementation <sysfs_contexts>` is being used.
-+Note that ``anon`` and ``memcg`` filters are currently supported only when
-+``paddr`` `implementation <sysfs_contexts>` is being used.
+-Currently, anonymous page, memory cgroup, and address range type filters are
+-supported by the feature.  Some filter target types can require additional
+-arguments.  For example, the memory cgroup filter type asks users to specify
+-the file path of the memory cgroup for the filter, while the address range type
+-asks the start and end addresses of the range.  Hence, users can apply specific
+-schemes to only anonymous pages, non-anonymous pages, pages of specific
+-cgroups, all pages excluding those of specific cgroups, pages in specific
+-address range, and any combination of those.
+-
+-To handle filters efficiently, the address range type filter is handled by the
+-core layer, while others are handled by operations set.  If a memory region is
+-filtered by the core layer-handled filter, it is not counted as the scheme has
+-tried to the region.  In contrast, if a memory regions is filtered by an
+-operations set layer-handled filter, it is counted as the scheme has tried.
+-The difference in accounting leads to changes in the statistics.
++Currently, anonymous page, memory cgroup, address range, and DAMON monitoring
++target type filters are supported by the feature.  Some filter target types
++require additional arguments.  The memory cgroup filter type asks users to
++specify the file path of the memory cgroup for the filter.  The address range
++type asks the start and end addresses of the range.  The DAMON monitoring
++target type asks the index of the target from the context's monitoring targets
++list.  Hence, users can apply specific schemes to only anonymous pages,
++non-anonymous pages, pages of specific cgroups, all pages excluding those of
++specific cgroups, pages in specific address range, pages in specific DAMON
++monitoring targets, and any combination of those.
 +
-+Also, memory regions that are filtered out by ``addr`` filters are not counted
-+as the scheme has tried to those, while regions that filtered out by other type
-+filters are counted as the scheme has tried to.  The difference is applied to
-+:ref:`stats <damos_stats>` and :ref:`tried regions
-+<sysfs_schemes_tried_regions>`.
++To handle filters efficiently, the address range and DAMON monitoring target
++type filters are handled by the core layer, while others are handled by
++operations set.  If a memory region is filtered by a core layer-handled filter,
++it is not counted as the scheme has tried to the region.  In contrast, if a
++memory regions is filtered by an operations set layer-handled filter, it is
++counted as the scheme has tried.  The difference in accounting leads to changes
++in the statistics.
  
- .. _sysfs_schemes_stats:
  
+ Application Programming Interface
 -- 
 2.25.1
 
