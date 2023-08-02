@@ -2,95 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 084BCC001DF
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 06:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E271AC41513
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 07:12:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232249AbjHBGll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 02:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36080 "EHLO
+        id S230445AbjHBHM4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 03:12:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232095AbjHBGlj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 02:41:39 -0400
-X-Greylist: delayed 596 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Aug 2023 23:41:35 PDT
-Received: from out-102.mta0.migadu.com (out-102.mta0.migadu.com [91.218.175.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA09210A
-        for <linux-doc@vger.kernel.org>; Tue,  1 Aug 2023 23:41:35 -0700 (PDT)
-Date:   Wed, 2 Aug 2023 02:31:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1690957893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IK3aEBELlq1x3phTcf/ZsaDVc7hT1k6rf0vBkIgEPXc=;
-        b=Pr473z+oXbzMZnI8H/I7LVvXQV9wG8U4dZbKBe3GO0clA6n4ufvTxLMl7tbSVxVExQcRo8
-        E2SQPidb8c3SQ9nSKJk5xAX3p5AwQD8J2yu+jrf6U177qpC8Zvi0ZKsaUnioprO3HsnSoR
-        XqACV00ARwzJ1G94/gTOP41ZZ9rVOVI=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Nitesh Shetty <nj.shetty@samsung.com>
-Cc:     Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-        Keith Busch <kbusch@kernel.org>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-        willy@infradead.org, hare@suse.de, djwong@kernel.org,
-        bvanassche@acm.org, ming.lei@redhat.com, dlemoal@kernel.org,
-        nitheshshetty@gmail.com, gost.dev@samsung.com,
-        Vincent Fu <vincent.fu@samsung.com>,
-        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v13 3/9] block: add emulation for copy
-Message-ID: <20230802063124.4652m3gfbhdmghlt@moria.home.lan>
-References: <20230627183629.26571-1-nj.shetty@samsung.com>
- <CGME20230627184020epcas5p13fdcea52edead5ffa3fae444f923439e@epcas5p1.samsung.com>
- <20230627183629.26571-4-nj.shetty@samsung.com>
- <20230720075050.GB5042@lst.de>
- <20230801130702.2taecrgn4v66ehtx@green245>
+        with ESMTP id S230253AbjHBHMu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 03:12:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F0F18D;
+        Wed,  2 Aug 2023 00:12:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3086D6181B;
+        Wed,  2 Aug 2023 07:12:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15656C433C7;
+        Wed,  2 Aug 2023 07:12:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690960368;
+        bh=vvVsV9NiWis9C3pGrpjACtwIsJq8v0LCCmHawlI6+mE=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=kPZb+vv7wqR3f3UGrR57UIs8CmaRLyz2MTCYxu9YSEMfqXkKLiqU7yddh4LJhqVYM
+         LmQex4Q+/Z2CKDFY1bRY4N0y4/X6Kmq3lvmxNRsKin9jkR8JveNJlOARFZnH1zzCVp
+         ohFV9W7GK4cfiItg98ABD0mXUMIqpu6Vk40vJlhyWANbj6d28n1waVk1ugXRdTuYDc
+         8K+buNV/63ERZhIBfFb8mCeV3D8umhYi3FReiXQqCiHxan+9dkoZBDbhdVb3tWrl/i
+         E63AZVAPhhHSIHOEIMtuXyWptCgfOaw2J43QT1rIbGPhCZXE9MNCur1JVvnV4Ulb6i
+         ZnT03Vu9papew==
+Message-ID: <845391b2-12f6-86b6-9ce6-19e16edbfce1@kernel.org>
+Date:   Wed, 2 Aug 2023 09:12:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230801130702.2taecrgn4v66ehtx@green245>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] docs: rtla: replace dashes with spaces in titles
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230802035037.404230-1-costa.shul@redhat.com>
+Content-Language: en-US, pt-BR, it-IT
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <20230802035037.404230-1-costa.shul@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 01, 2023 at 06:37:02PM +0530, Nitesh Shetty wrote:
-> On 23/07/20 09:50AM, Christoph Hellwig wrote:
-> > > +static void *blkdev_copy_alloc_buf(sector_t req_size, sector_t *alloc_size,
-> > > +		gfp_t gfp_mask)
-> > > +{
-> > > +	int min_size = PAGE_SIZE;
-> > > +	void *buf;
-> > > +
-> > > +	while (req_size >= min_size) {
-> > > +		buf = kvmalloc(req_size, gfp_mask);
-> > > +		if (buf) {
-> > > +			*alloc_size = req_size;
-> > > +			return buf;
-> > > +		}
-> > > +		/* retry half the requested size */
-> > > +		req_size >>= 1;
-> > > +	}
-> > > +
-> > > +	return NULL;
-> > 
-> > Is there any good reason for using vmalloc instead of a bunch
-> > of distcontiguous pages?
-> > 
-> 
-> kvmalloc seemed convenient for the purpose. We will need to call alloc_page
-> in a loop to guarantee discontigous pages. Do you prefer that over kvmalloc?
+On 8/2/23 05:50, Costa Shulyupin wrote:
+> because
+> - Titles containing spaces offer better readability compared
+>   to those with dashes
+> - Commands and their described subcommands are separated by spaces
+> - Ensure that the titles are identical to the commands with subcommands
 
-No, kvmalloc should be the preferred approach here now: with large
-folios, we're now getting better about doing more large memory
-allocations and avoiding fragmentation, so in practice this won't be a
-vmalloc allocation except in exceptional circumstances, and performance
-will be better and the code will be simpler doing a single large
-allocation.
+I added the - because that is how we call the man-pages:
+
+man rtla-osnoise-top
+--------------- %< ----------------------
+RTLA-OSNOISE-TOP(1)                                                                                                                                                    RTLA-OSNOISE-TOP(1)
+
+NAME
+       rtla-osnoise-top - Display a summary of the operating system noise
+
+SYNOPSIS
+       rtla osnoise top [OPTIONS]
+--------------- %< ----------------------
+
+
+and it is also inline with other kernel tools, like perf:
+
+man perf-record
+--------------- %< ----------------------
+PERF-RECORD(1)                                                                          perf Manual                                                                         PERF-RECORD(1)
+
+NAME
+       perf-record - Run a command and record its profile into perf.data
+
+SYNOPSIS
+       perf record [-e <EVENT> | --event=EVENT] [-a] <command>
+       perf record [-e <EVENT> | --event=EVENT] [-a] -- <command> [<options>]
+--------------- %< ----------------------
+
+also...
+
+[bristot@x1 rtla]$ make
+rst2man --verbose rtla-hwnoise.rst > rtla-hwnoise.1
+rst2man --verbose rtla-osnoise-hist.rst > rtla-osnoise-hist.1
+rtla-osnoise-hist.rst:1: (ERROR/3) Invalid section title or transition marker.
+
+===================
+===================
+rst2man --verbose rtla-osnoise.rst > rtla-osnoise.1
+rtla-osnoise.rst:1: (ERROR/3) Invalid section title or transition marker.
+
+===============
+===============
+rtla-osnoise.rst:3: (SEVERE/4) Missing matching underline for section title overline.
+
+------------------------------------------------------------------
+rtla osnoise
+Measure the operating system noise
+Exiting due to level-4 (SEVERE) system message.
+make: *** [Makefile:36: rtla-osnoise.1] Error 1
+[bristot@x1 rtla]$
+
+
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+
