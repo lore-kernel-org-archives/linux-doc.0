@@ -2,122 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2277C001DF
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 08:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8248BC001DE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 08:48:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233845AbjHBIOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 04:14:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
+        id S231362AbjHBIsZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 04:48:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233838AbjHBIOR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 04:14:17 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD66B19F
-        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 01:14:15 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fe167d4a18so42324725e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 Aug 2023 01:14:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690964054; x=1691568854;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vjQVCQzw/foc3dsQkAiySfY58yT/va7beD4yh0w30/c=;
-        b=LVFQ2dZGP21fC/kUACk7CYGiwQnTmTdEMNpsVOwilpWSU+otD0Tl3tdGDllj7tXr1W
-         jhKu7YfUMIsWFCxb+4ETnF5P6/3sgg3A8MZYT7Q9MQPJDOZDjk8/0XpWOjlQJpGFGSxn
-         rcYkG6fylsTc+/K5y38AtKdbl/emEf0U9Jzni7oIVRNeq4OSYQnuEaK3bZU/4qMEESW0
-         PwrTdMeseO38VBX2C4ycjFvlxVegWLgWpMQkROEpwdsUzl2Yrhzufa8Oc76mYFKCFdwo
-         +7al1faTYq/Z4RNiHU+SgKQQJVzCV2A97XGxIZam5EIhhXwTzkvb71s8vWM97pDy60+Y
-         t09Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690964054; x=1691568854;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vjQVCQzw/foc3dsQkAiySfY58yT/va7beD4yh0w30/c=;
-        b=iN7kKQJKPr0OQf99c4gQ0/kVsV18vNGsO/7ociVChZQN06FSMSRNNNGysviZVBhp1W
-         +ft2pKLS0e4QBZygteuthl3m0f41uwz7XNB6eQ+kS00s1cwLP1LXUG3YySR9RwEmGoH5
-         /16kXItfcoOZzrqITMZXqkWV5OAgaeTmipkdrVB4K/KEyN81D2qsmv8dv+MtHe9nHq6G
-         t/4hVkAS2yU+fGb/Kk2ANVhxztTOgVlK9sb1im0nvGQbsGA6IUp0QVNrUqHefMpLprV0
-         s7YagXRXEav1JS8uVWxM8tgrDHYUZLfjOhFkt3ZkofdbY6ztRnLHp09D6NYFEKNp/DmW
-         CkNg==
-X-Gm-Message-State: ABy/qLbvBqmlpzXNgEep7OjBDp9NdeUJABnMEATLnfrP5SeyD6vrZlOM
-        kpFabbkJAdotSdhl5Y2l7Ier1w==
-X-Google-Smtp-Source: APBJJlErLwgoDP8iDix/tr5UDLAhtyf8g2R724EpAdETX/89BVYhEkQwSGG2X1rV+vouEBYxHEJVHg==
-X-Received: by 2002:a05:600c:214d:b0:3fe:20b6:41b2 with SMTP id v13-20020a05600c214d00b003fe20b641b2mr4228012wml.4.1690964054306;
-        Wed, 02 Aug 2023 01:14:14 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id o10-20020a1c750a000000b003fe2f3a89d4sm1040419wmc.7.2023.08.02.01.14.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 01:14:14 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        =?UTF-8?q?R=C3=A9mi=20Denis-Courmont?= <remi@remlab.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: [PATCH v6 10/10] perf: tests: Adapt mmap-basic.c for riscv
-Date:   Wed,  2 Aug 2023 10:03:28 +0200
-Message-Id: <20230802080328.1213905-11-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230802080328.1213905-1-alexghiti@rivosinc.com>
-References: <20230802080328.1213905-1-alexghiti@rivosinc.com>
+        with ESMTP id S230429AbjHBIsX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 04:48:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29339D9;
+        Wed,  2 Aug 2023 01:48:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B26286189A;
+        Wed,  2 Aug 2023 08:48:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F6CC433C7;
+        Wed,  2 Aug 2023 08:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690966102;
+        bh=NDDryVv8WBs0MrakH/XEpeVn2udcnM0LHCwQ2rX07B8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=uMyku//1pacFt9LpwUB0r8zxXKdB5I6hOagla3nvty672sZx4D781sIGkzvsCfjkb
+         omvqNn1i95aRWrwiBPMAeFNNarI0WUfzuvIVaIBquVLMkPKgQKZXspjXefn+pNcRkW
+         I9b9KJhU5+0nbviC/ufnETVn0O5Ss98YJ9wtDYtiMoryVpK/I1S0y2p0oF8Ck6Famd
+         D9Tamj1OUMhLwkfi42vPQyG9Z7WC7nNo4YFqQ5HDBf0UDiysl9LALiwqQMLFnQOp1K
+         Atp1Re/aVOzywGkviOYqw6wElCjzEFbvvaDjbem6hAClX05VNOPU3hqggoQSFRj9Fa
+         pRjveql2JIzCw==
+Message-ID: <789fb6b3-e871-3c4e-d3d5-b8c3ece1624a@kernel.org>
+Date:   Wed, 2 Aug 2023 17:48:04 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 00/10] libata: remove references to 'old' error handler
+Content-Language: en-US
+To:     Niklas Cassel <nks@flawful.org>, Jonathan Corbet <corbet@lwn.net>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Xiang Chen <chenxiang66@hisilicon.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        John Garry <john.g.garry@oracle.com>,
+        Jason Yan <yanaijie@huawei.com>
+Cc:     Hannes Reinecke <hare@suse.com>, linux-ide@vger.kernel.org,
+        linux-scsi@vger.kernel.org, Niklas Cassel <niklas.cassel@wdc.com>,
+        linux-doc@vger.kernel.org
+References: <20230731143432.58886-1-nks@flawful.org>
+From:   Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20230731143432.58886-1-nks@flawful.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-riscv now supports mmaping hardware counters to userspace so adapt the test
-to run on this architecture.
+On 7/31/23 23:34, Niklas Cassel wrote:
+> From: Niklas Cassel <niklas.cassel@wdc.com>
+> 
+> Hi all,
+> 
+> now that the ipr driver has been modified to not hook into libata
+> all drivers now use the 'new' error handler, so we can remove any
+> references to it. And do a general cleanup to remove callbacks
+> which are no longer needed.
+> 
+> Damien:
+> This patch series is based on v6.5-rc4, however it also applies to your
+> libata/for-next branch, if you cherry-pick commit 3ac873c76d79 ("ata:
+> libata-core: fix when to fetch sense data for successful commands"),
+> before applying the series (this patch is already in Torvald's tree).
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
----
- tools/perf/tests/mmap-basic.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Applied to for-6.6 with some tweaks to the commit titles.
+Thanks !
 
-diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
-index e68ca6229756..886a13a77a16 100644
---- a/tools/perf/tests/mmap-basic.c
-+++ b/tools/perf/tests/mmap-basic.c
-@@ -284,7 +284,8 @@ static struct test_case tests__basic_mmap[] = {
- 			 "permissions"),
- 	TEST_CASE_REASON("User space counter reading of instructions",
- 			 mmap_user_read_instr,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || \
-+			 (defined(__riscv) && __riscv_xlen == 64)
- 			 "permissions"
- #else
- 			 "unsupported"
-@@ -292,7 +293,8 @@ static struct test_case tests__basic_mmap[] = {
- 		),
- 	TEST_CASE_REASON("User space counter reading of cycles",
- 			 mmap_user_read_cycles,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || \
-+			 (defined(__riscv) && __riscv_xlen == 64)
- 			 "permissions"
- #else
- 			 "unsupported"
 -- 
-2.39.2
+Damien Le Moal
+Western Digital Research
 
