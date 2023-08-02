@@ -2,78 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 818F9C001E0
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 20:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F395AC41513
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 21:32:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232014AbjHBUo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 16:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
+        id S231238AbjHBVcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 17:32:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231868AbjHBUo2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 16:44:28 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D7D2703
-        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 13:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691009067; x=1722545067;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qfUs7dIIMXqaIRKzaSQAAWRUV4nJmz+R8F3dtqbdyqQ=;
-  b=n3HKhZVNVDYlKkZqXQYRvZLgGR7GrUB1M/ftKn9/kS9fpkLdIQmnuiTP
-   AqzsiXjRYpemByU4QozXCyHHXK9aYE1LYYnAl4rHIJZddnBGyGqjbLahj
-   hEwzEPTkUSSWwNxn8GXJ0wUA5VEe/VxJPIPuVxoggbHDPbLsXqgwXWAam
-   JIoE81E4uaZ0+vnroLveEMYREIuNpFeYc8qy49NIWhzJgZtOjCZvC8m/y
-   4gze4ro6+LGKhMdHEcCLGCDwNVSlUlaEDrWzY/EUpOBZYkEqYkR1t1ARU
-   zqIs1aV2QUjirTDEZfjeS/KxkHM/yTGlTj/8nW47nigYU4FBAstjtQWMq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="369698552"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="369698552"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 13:44:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="794731759"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="794731759"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Aug 2023 13:44:25 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qRIhl-0001TD-0P;
-        Wed, 02 Aug 2023 20:44:25 +0000
-Date:   Thu, 3 Aug 2023 04:43:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Christian Brauner <christianvanbrauner@gmail.com>,
-        Josef Bacik <josef@toxicpanda.com>, linux-doc@vger.kernel.org
-Subject: [brauner-vfs:b4/vfs-super-exclusive.v2 6/6] htmldocs:
- Documentation/filesystems/api-summary:38: ./fs/super.c:558: WARNING:
- Unexpected indentation.
-Message-ID: <202308030438.UYcxIMES-lkp@intel.com>
+        with ESMTP id S232714AbjHBVca (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 17:32:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733A819B0;
+        Wed,  2 Aug 2023 14:32:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F3D361B38;
+        Wed,  2 Aug 2023 21:32:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B19D4C433C8;
+        Wed,  2 Aug 2023 21:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691011947;
+        bh=/ftIGNZIuawFka3qmkPFpRU27GdmRegiQSCJekF9zMg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SMs6Q6ZLjcKQ70/cbYrqn+cDVQOadSajdkI3plnyvICz2+rhNp9AToICIqXEdaQqK
+         78gtgnaAfsbCdredfTwNdYSWzOrOLcVIxF2mZkwysEyL9WwatL6omtiFREvOjpz1Wm
+         MT+M+JbOT2ScvuHnKGualv/DlISwYU1ziCMxwGHoY91NAvrHMUITc2GnKzIePTGc7b
+         p9Rrh6GXcDrHtJu4EEDtxRPz38MtvltU9qlsBsQSglAIFVgBYOhp1WM+d4XJk64DTs
+         qepBo+1WuZ2C5aXpPXL00t0CeR6r/C6meqWHbggyS81NMgMHq2G7g+AeyB0Vv7TIPq
+         wgXAXWG6hPWkw==
+From:   SeongJae Park <sj@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, damon@lists.linux.dev,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH 0/5] mm/damon/sysfs-schemes: implement DAMOS tried total bytes file
+Date:   Wed,  2 Aug 2023 21:32:16 +0000
+Message-Id: <20230802213222.109841-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git b4/vfs-super-exclusive.v2
-head:   cdcc91fd53b39d6b68bfdca0b21a7883cc6ec4ba
-commit: cdcc91fd53b39d6b68bfdca0b21a7883cc6ec4ba [6/6] fs: add FSCONFIG_CMD_CREATE_EXCL
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030438.UYcxIMES-lkp@intel.com/reproduce)
+Changes from RFC[1]
+- Rebase on latest mm-unstable
+- Add base-commit
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308030438.UYcxIMES-lkp@intel.com/
+----
 
-All warnings (new ones prefixed by >>):
+The tried_regions directory of DAMON sysfs interface is useful for
+retrieving monitoring results snapshot or DAMOS debugging.  However, for
+common use case that need to monitor only the total size of the scheme
+tried regions (e.g., monitoring working set size), the kernel overhead
+for directory construction and user overhead for reading the content
+could be high if the number of monitoring region is not small.  This
+patchset implements DAMON sysfs files for efficient support of the use
+case.
 
->> Documentation/filesystems/api-summary:38: ./fs/super.c:558: WARNING: Unexpected indentation.
->> Documentation/filesystems/api-summary:38: ./fs/super.c:559: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/filesystems/api-summary:38: ./fs/super.c:561: WARNING: Enumerated list ends without a blank line; unexpected unindent.
+The first patch implements the sysfs file to reduce the user space
+overhead, and the second patch implements a command for reducing the
+kernel space overhead.
 
+The third patch adds a selftest for the new file, and following two
+patches update documents.
+
+[1] https://lore.kernel.org/damon/20230728201817.70602-1-sj@kernel.org/
+
+SeongJae Park (5):
+  mm/damon/sysfs-schemes: implement DAMOS tried total bytes file
+  mm/damon/sysfs: implement a command for updating only schemes tried
+    total bytes
+  selftests/damon/sysfs: test tried_regions/total_bytes file
+  Docs/ABI/damon: update for tried_regions/total_bytes
+  Docs/admin-guide/mm/damon/usage: update for tried_regions/total_bytes
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 13 +++++-
+ Documentation/admin-guide/mm/damon/usage.rst  | 42 ++++++++++++-------
+ mm/damon/sysfs-common.h                       |  2 +-
+ mm/damon/sysfs-schemes.c                      | 24 ++++++++++-
+ mm/damon/sysfs.c                              | 26 +++++++++---
+ tools/testing/selftests/damon/sysfs.sh        |  1 +
+ 6 files changed, 83 insertions(+), 25 deletions(-)
+
+
+base-commit: a57d8094e1946e9dbdba0dddf0e10f9f4dceae0d
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
