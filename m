@@ -2,114 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F73C04A6A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 14:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2D0C001DF
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 16:18:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbjHBOvu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 10:51:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48132 "EHLO
+        id S229725AbjHBQS3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 12:18:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234315AbjHBOvt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 10:51:49 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76721171B
-        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 07:51:46 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4fe0fe622c3so11021283e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Aug 2023 07:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1690987904; x=1691592704;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yRsiMyy83ll7ZxD3exDSOM0mCfjRFxM0+ANJLzPtR8E=;
-        b=aMaI3QcvZGfm3AQNtxQUwoGw8eJbgKYhC7PZPJMmLoUL2jEr42i+/cj2xJfWDi0vgx
-         sHDLmfPQpJrFUwKWAlOsknukj2MF48HEpvG0caNShjXyOLYcYDFJ1DuDubRauWhqNvVA
-         d8vwkVeBZhwe+KR3N4lcDlWAeHn0duImmaZFY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690987904; x=1691592704;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yRsiMyy83ll7ZxD3exDSOM0mCfjRFxM0+ANJLzPtR8E=;
-        b=YgMgaS/7rdHKpi7hwI/QVAOednflSCCFNv//Mg9vLY7MfSCo67OYKNgzdKgCxvFWiY
-         LwGhPv2odRgJMJYA/pugjS1gquAoR9tsxXl0cjQa2j0r3kGgyzNThUuRKrc2Lixa6H+j
-         DOqWcaHikbnvMysMhvbwEeps6w8eL+CBxCX5k71iMUFGOXfICMZiUz7FFihMJ9DH9iRd
-         11/h92uWzNLI7xSbS3TCBxqyg9/pwyDty1z9nUrTI8E1Be83PILvbo5CM2JL0+ezJepZ
-         NG9zSnyz6VGYYUn33YjtfaAe1fhD2S+pCqNj++jMyk/Ff5EG6zi7CNPuoNbzXhCcuIGj
-         o8RA==
-X-Gm-Message-State: ABy/qLavFkSxdP4OpXDFUmvTF/9aEQZkYsIbKsYzvOXdnZ4rVDNatoQ9
-        WwekfNPPHIHVreeaJ9Vz2w7t/p9QxrDLoM4333rgytlT
-X-Google-Smtp-Source: APBJJlHaG94G9/yHYVn/KMqTISbioqhks8TWH2bEO0dlwOgYTCoPjjXFPyyChCIIN4rtCtojr8/3AA==
-X-Received: by 2002:a19:4f1a:0:b0:4fb:751a:98db with SMTP id d26-20020a194f1a000000b004fb751a98dbmr5223843lfb.63.1690987904095;
-        Wed, 02 Aug 2023 07:51:44 -0700 (PDT)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
-        by smtp.gmail.com with ESMTPSA id n10-20020aa7c44a000000b0052238bc70ccsm8725215edr.89.2023.08.02.07.51.43
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Aug 2023 07:51:43 -0700 (PDT)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fe2a116565so76695e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 02 Aug 2023 07:51:43 -0700 (PDT)
-X-Received: by 2002:a05:600c:1c90:b0:3f7:e4d8:2569 with SMTP id
- k16-20020a05600c1c9000b003f7e4d82569mr347125wms.5.1690987903338; Wed, 02 Aug
- 2023 07:51:43 -0700 (PDT)
+        with ESMTP id S229475AbjHBQS2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 12:18:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A757B2
+        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 09:18:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C888061A3D
+        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 16:18:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF36C433CA;
+        Wed,  2 Aug 2023 16:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690993106;
+        bh=/waJYIjs/TyicoJn0gOMo+WVBz8zuS2Hff9MhcapkBI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FRrFOZ3JvhXQqxQNmkMd8QPUaI/ng1n2LIXZAF2P+mvrsU4oBgyjjWq+SDWm8aExK
+         zl+2/+6dJNzenHxAEk4dkTl3/gj4wrHAgLz7QOJvWskRkEfW7kcOSfrJLCGgEcmdsh
+         ZOhQBft0UbmhyaT7Z/u/qleyPF4vwylgbn5agqQKKBv2iqiLEcD9UsndSQQidGhhl9
+         5ZG/yYq95D5zu0/hHWJh7Gad1qayh/V9+jftv2WBeRyP6b+rKQBsP0PcEjxpt+5lpw
+         z87PoZsevP1DXbCy/lCJTxrvhdvCjCwKlCXM0+sKQpvgPIrTHlSMfL5NCy5PJIU26s
+         7QdXQgQRwwhgQ==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        aleksander.lobakin@intel.com, Jakub Kicinski <kuba@kernel.org>,
+        hawk@kernel.org, ilias.apalodimas@linaro.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org,
+        Michael Chan <michael.chan@broadcom.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH net-next v2 1/2] docs: net: page_pool: document PP_FLAG_DMA_SYNC_DEV parameters
+Date:   Wed,  2 Aug 2023 09:18:20 -0700
+Message-ID: <20230802161821.3621985-2-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230802161821.3621985-1-kuba@kernel.org>
+References: <20230802161821.3621985-1-kuba@kernel.org>
 MIME-Version: 1.0
-References: <202308022221.APCRi7vk-lkp@intel.com>
-In-Reply-To: <202308022221.APCRi7vk-lkp@intel.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 2 Aug 2023 07:51:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vj5t2tPUX31rn1EjZcH10UGHN+AUov7N9xy6R7_VZWMQ@mail.gmail.com>
-Message-ID: <CAD=FV=Vj5t2tPUX31rn1EjZcH10UGHN+AUov7N9xy6R7_VZWMQ@mail.gmail.com>
-Subject: Re: [linux-next:master 5684/6443] htmldocs: Documentation/gpu/todo.rst:469:
- WARNING: Unexpected indentation.
-To:     kernel test robot <lkp@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Using PP_FLAG_DMA_SYNC_DEV is a bit confusing. It was perhaps
+more obvious when it was introduced but the page pool use
+has grown beyond XDP and beyond packet-per-page so now
+making the heads and tails out of this feature is not
+trivial.
 
-On Wed, Aug 2, 2023 at 7:43=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   626c67169f9972fffcdf3bc3864de421f162ebf5
-> commit: d2aacaf07395bd798373cbec6af05fff4147aff3 [5684/6443] drm/panel: C=
-heck for already prepared/enabled in drm_panel
-> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308022221=
-.APCRi7vk-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308022221.APCRi7vk-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> Documentation/gpu/todo.rst:469: WARNING: Unexpected indentation.
->
-> vim +469 Documentation/gpu/todo.rst
->
->    465
->    466  In a whole pile of panel drivers, we have code to make the
->    467  prepare/unprepare/enable/disable callbacks behave as no-ops if th=
-ey've already
->    468  been called. To get some idea of the duplicated code, try:
->  > 469    git grep 'if.*>prepared' -- drivers/gpu/drm/panel
->    470    git grep 'if.*>enabled' -- drivers/gpu/drm/panel
->    471
+Obviously making the API more user friendly would be
+a better fix, but until someone steps up to do that
+let's at least document what the parameters are.
 
-Thanks for the report. This was reported by Stephen Rothwell a few
-hours ago. I just posted a patch to fix it.
+Relevant discussion in the first Link.
 
-https://lore.kernel.org/all/20230802074727.2.Iaeb7b0f7951aee6b8c090364bbc87=
-b1ae198a857@changeid/
+Link: https://lore.kernel.org/all/20230731114427.0da1f73b@kernel.org/
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+v2:
+ - s/sync'/sync/ and other fixes from Randy
+v1: https://lore.kernel.org/all/20230801203124.980703-1-kuba@kernel.org/
 
--Doug
+CC: hawk@kernel.org
+CC: ilias.apalodimas@linaro.org
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+CC: Michael Chan <michael.chan@broadcom.com>
+CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Randy Dunlap <rdunlap@infradead.org>
+---
+ Documentation/networking/page_pool.rst | 34 ++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 0aa850cf4447..eb96a592ec6b 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -109,6 +109,40 @@ a page will cause no race conditions is enough.
+   caller can then report those stats to the user (perhaps via ethtool,
+   debugfs, etc.). See below for an example usage of this API.
+ 
++DMA sync
++--------
++Driver is always responsible for syncing the pages for the CPU.
++Drivers may choose to take care of syncing for the device as well
++or set the ``PP_FLAG_DMA_SYNC_DEV`` flag to request that pages
++allocated from the page pool are already synced for the device.
++
++If ``PP_FLAG_DMA_SYNC_DEV`` is set, the driver must inform the core what portion
++of the buffer has to be synced. This allows the core to avoid syncing the entire
++page when the drivers knows that the device only accessed a portion of the page.
++
++Most drivers will reserve headroom in front of the frame. This part
++of the buffer is not touched by the device, so to avoid syncing
++it drivers can set the ``offset`` field in struct page_pool_params
++appropriately.
++
++For pages recycled on the XDP xmit and skb paths the page pool will
++use the ``max_len`` member of struct page_pool_params to decide how
++much of the page needs to be synced (starting at ``offset``).
++When directly freeing pages in the driver (page_pool_put_page())
++the ``dma_sync_size`` argument specifies how much of the buffer needs
++to be synced.
++
++If in doubt set ``offset`` to 0, ``max_len`` to ``PAGE_SIZE`` and
++pass -1 as ``dma_sync_size``. That combination of arguments is always
++correct.
++
++Note that the syncing parameters are for the entire page.
++This is important to remember when using fragments (``PP_FLAG_PAGE_FRAG``),
++where allocated buffers may be smaller than a full page.
++Unless the driver author really understands page pool internals
++it's recommended to always use ``offset = 0``, ``max_len = PAGE_SIZE``
++with fragmented page pools.
++
+ Stats API and structures
+ ------------------------
+ If the kernel is configured with ``CONFIG_PAGE_POOL_STATS=y``, the API
+-- 
+2.41.0
+
