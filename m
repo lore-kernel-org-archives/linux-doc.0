@@ -2,116 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 302E7C04A6A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 17:09:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 950CEC001DF
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 17:21:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231916AbjHBRJ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 13:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34574 "EHLO
+        id S232311AbjHBRVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 13:21:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231743AbjHBRJZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 13:09:25 -0400
+        with ESMTP id S232170AbjHBRVK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 13:21:10 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 71CD51727;
-        Wed,  2 Aug 2023 10:09:24 -0700 (PDT)
-Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.147.181])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 12B5B238C432;
-        Wed,  2 Aug 2023 10:09:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 12B5B238C432
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 609AC1981;
+        Wed,  2 Aug 2023 10:21:08 -0700 (PDT)
+Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.1.149])
+        by linux.microsoft.com (Postfix) with ESMTPSA id A75EC238C426;
+        Wed,  2 Aug 2023 10:21:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A75EC238C426
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1690996164;
-        bh=NIfkdItr0RVlDTO9mqpTIL61A+YsZheMdyarxG4O/nU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hTfikkjz0rWW0uTEPWjqVN7uSYV1OhIu6RsZBw0x6DsxoY6G2KpiKbunqftmUXgqK
-         gND87iC+O5opWuZ7k1LWJlETVl6S8AT7ANnAlNsR7gl9lky91Lv5/sSMK5S6XoWf1Q
-         leHJW6fKfEU0k2gl4m1aHFsIpyBPDIPG2GtKFHXk=
+        s=default; t=1690996867;
+        bh=4jDcbklJrsKBYdf2y2dqW6EAK/gtkk33I6wCWWdrm+Y=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CWwqu1pmYTHHfU/HTFMtKAcyeCy7de8aD2crMMcccJSgSuIqtqQ/KhMFBsDyQJIag
+         rW52gxG4VFPCswfGCkIMLunZUWKKIw7bmVvPVt23w+LT+U6uatp1NLqBDNEi6rTjKk
+         g6IhvpurL+j4i3aQWhVAVoXGYltHz4dxeuH8T+gs=
 From:   Easwar Hariharan <eahariha@linux.microsoft.com>
 To:     stable@vger.kernel.org
 Cc:     easwar.hariharan@microsoft.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Will Deacon <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        Robin Murphy <robin.murphy@arm.com>,
         Joerg Roedel <joro@8bytes.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Tomas Krcka <krckatom@amazon.de>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT
-        (AARCH64 ARCHITECTURE)),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
-        iommu@lists.linux.dev (open list:IOMMU DRIVERS)
-Subject: [PATCH v2 6.1 4/4] iommu/arm-smmu-v3: Document nesting-related errata
-Date:   Wed,  2 Aug 2023 17:09:11 +0000
-Message-Id: <20230802170911.1593275-5-eahariha@linux.microsoft.com>
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev
+Subject: [PATCH v3 6.1 0/4] ARM SMMUv3 errata for 6.1
+Date:   Wed,  2 Aug 2023 17:20:56 +0000
+Message-Id: <20230802172100.1599164-1-eahariha@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230802170911.1593275-1-eahariha@linux.microsoft.com>
-References: <20230802170911.1593275-1-eahariha@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Robin Murphy <robin.murphy@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: iommu@lists.linux.dev
 
-commit 0bfbfc526c70606bf0fad302e4821087cbecfaf4 upstream
+Changelog:
+==========
+v2 -> v3:
+ - v2 was generated from the wrong branch, resulting in slightly incorrect context for a hunk
+ - v2 link: https://lore.kernel.org/stable/20230802170911.1593275-1-eahariha@linux.microsoft.com/T/#t
 
-Both MMU-600 and MMU-700 have similar errata around TLB invalidation
-while both stages of translation are active, which will need some
-consideration once nesting support is implemented. For now, though,
-it's very easy to make our implicit lack of nesting support explicit
-for those cases, so they're less likely to be missed in future.
+v1 -> v2:
+ - Backport other relevant errata patches from the same series as MMU-700 erratum 2812531
+ - v1 link: https://lore.kernel.org/stable/20230724185107.1675882-1-eahariha@linux.microsoft.com/T/#u
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-Link: https://lore.kernel.org/r/696da78d32bb4491f898f11b0bb4d850a8aa7c6a.1683731256.git.robin.murphy@arm.com
-Signed-off-by: Will Deacon <will@kernel.org>
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
----
- Documentation/arm64/silicon-errata.rst      | 4 ++--
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 5 +++++
- 2 files changed, 7 insertions(+), 2 deletions(-)
+Robin Murphy (4):
+  iommu/arm-smmu-v3: Work around MMU-600 erratum 1076982
+  iommu/arm-smmu-v3: Document MMU-700 erratum 2812531
+  iommu/arm-smmu-v3: Add explicit feature for nesting
+  iommu/arm-smmu-v3: Document nesting-related errata
 
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 322df8abbc0e..83a75e16e54d 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -122,9 +122,9 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | MMU-500         | #841119,826419  | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
--| ARM            | MMU-600         | #1076982        | N/A                         |
-+| ARM            | MMU-600         | #1076982,1209401| N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
--| ARM            | MMU-700         | #2812531        | N/A                         |
-+| ARM            | MMU-700         | #2268618,2812531| N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_845719        |
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 7cec4a457d91..340ef116d574 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -3487,11 +3487,16 @@ static void arm_smmu_device_iidr_probe(struct arm_smmu_device *smmu)
- 			/* Arm erratum 1076982 */
- 			if (variant == 0 && revision <= 2)
- 				smmu->features &= ~ARM_SMMU_FEAT_SEV;
-+			/* Arm erratum 1209401 */
-+			if (variant < 2)
-+				smmu->features &= ~ARM_SMMU_FEAT_NESTING;
- 			break;
- 		case IIDR_PRODUCTID_ARM_MMU_700:
- 			/* Arm erratum 2812531 */
- 			smmu->features &= ~ARM_SMMU_FEAT_BTM;
- 			smmu->options |= ARM_SMMU_OPT_CMDQ_FORCE_SYNC;
-+			/* Arm errata 2268618, 2812531 */
-+			smmu->features &= ~ARM_SMMU_FEAT_NESTING;
- 			break;
- 		}
- 		break;
+ Documentation/arm64/silicon-errata.rst      |  4 ++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 50 +++++++++++++++++++++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  8 ++++
+ 3 files changed, 62 insertions(+)
+
 -- 
 2.25.1
 
