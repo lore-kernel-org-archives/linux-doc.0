@@ -2,175 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B31E7C04A94
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 19:37:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 818F9C001E0
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 20:44:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231542AbjHBThc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 15:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44112 "EHLO
+        id S232014AbjHBUo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 16:44:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjHBThb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 15:37:31 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02B26198B
-        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 12:37:29 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fe12820bffso2203585e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 02 Aug 2023 12:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1691005047; x=1691609847;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ahAlRKVh2qqPAslZ51dpS/DWGGLvZdWXysgAY2PBxWs=;
-        b=kHXi2luD3prdey21xgxqSBbpnT13tSSTLJFJSZ8XwEY3EghTbdtyggJtm5Qb7Mqz07
-         nyyHNsQJikHRK1TTvv5wb/M6qvjg+8v2LFK0XfmDRF0jz81Gbq8IyTnOWfdhe5aijSlj
-         loriS7FaGm9r4Gt+kEnYa0sFCg4J5DVBOfhjvH0hgo8y8XSrGSUXYe0e0nMr7dhKoELr
-         qsRhSj0h3E/e60BI8YR3UmMjYRIGf3NHJv9igceVPxJ43bnY3pxD6NwduO2Kk/O1IiDM
-         tE5ACLuD3WcDva1LNDgR4d2pB6L/FnoAvztH+lvGKKU4/iowTk3s/IZWjDt0xbQbehEO
-         LWDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691005047; x=1691609847;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ahAlRKVh2qqPAslZ51dpS/DWGGLvZdWXysgAY2PBxWs=;
-        b=HkkmHYkf+1E/eNugOHrraFq/5AO39hWlKmIfGsxO2ehL3JAEFcPRSbe9xaZW4hT9PV
-         MU5yQPrfaqVPTSUFasoy3a1luOAbQlOyuqRFKeBHqGx+JC6PJIplu2VjQhI5J57jMHiw
-         PALRqOyUJN6GAlNOuQERFN7gr4E+reRwn7PD5tnocUjWH1c83V1aeIewFxHT5e2EAauS
-         BvLRMlFWqfIvZE5iYGti6Ul+awTsb4BwnGYTD3pRiovv8zhpU+mOpL1UnHLu3Cuqti2V
-         f4oJzPY/iq8aEOJFyXRf74Wb3AJbN+0bWy7XC7O88/ucDOwGkKO+U7D0qt80qdTARJsw
-         pHaA==
-X-Gm-Message-State: ABy/qLbVu7c8BUONX1FIIjUQ5T143W+SJ5QDGXv6paDS1e0hvLh3MmWR
-        yLOHBNr52d+/6BYYSBgBJNs9Wg==
-X-Google-Smtp-Source: APBJJlHDi/3DhZH0eCqhL4+vU3nmScgw5Jce45AovH3P/oAJ2wOXJe7CrrVn8XcSPOeCamhp4RmTgw==
-X-Received: by 2002:a7b:c3d6:0:b0:3fb:ef86:e30 with SMTP id t22-20020a7bc3d6000000b003fbef860e30mr5341767wmj.10.1691005047437;
-        Wed, 02 Aug 2023 12:37:27 -0700 (PDT)
-Received: from [10.83.37.178] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id y8-20020a7bcd88000000b003fc015ae1e1sm2465321wmj.3.2023.08.02.12.37.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Aug 2023 12:37:26 -0700 (PDT)
-Message-ID: <0c201b3e-fc3a-4cee-b056-8338da7261b9@arista.com>
-Date:   Wed, 2 Aug 2023 20:37:19 +0100
+        with ESMTP id S231868AbjHBUo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 16:44:28 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D7D2703
+        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 13:44:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691009067; x=1722545067;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qfUs7dIIMXqaIRKzaSQAAWRUV4nJmz+R8F3dtqbdyqQ=;
+  b=n3HKhZVNVDYlKkZqXQYRvZLgGR7GrUB1M/ftKn9/kS9fpkLdIQmnuiTP
+   AqzsiXjRYpemByU4QozXCyHHXK9aYE1LYYnAl4rHIJZddnBGyGqjbLahj
+   hEwzEPTkUSSWwNxn8GXJ0wUA5VEe/VxJPIPuVxoggbHDPbLsXqgwXWAam
+   JIoE81E4uaZ0+vnroLveEMYREIuNpFeYc8qy49NIWhzJgZtOjCZvC8m/y
+   4gze4ro6+LGKhMdHEcCLGCDwNVSlUlaEDrWzY/EUpOBZYkEqYkR1t1ARU
+   zqIs1aV2QUjirTDEZfjeS/KxkHM/yTGlTj/8nW47nigYU4FBAstjtQWMq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="369698552"
+X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
+   d="scan'208";a="369698552"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 13:44:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="794731759"
+X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
+   d="scan'208";a="794731759"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 02 Aug 2023 13:44:25 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qRIhl-0001TD-0P;
+        Wed, 02 Aug 2023 20:44:25 +0000
+Date:   Thu, 3 Aug 2023 04:43:32 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Christian Brauner <christianvanbrauner@gmail.com>,
+        Josef Bacik <josef@toxicpanda.com>, linux-doc@vger.kernel.org
+Subject: [brauner-vfs:b4/vfs-super-exclusive.v2 6/6] htmldocs:
+ Documentation/filesystems/api-summary:38: ./fs/super.c:558: WARNING:
+ Unexpected indentation.
+Message-ID: <202308030438.UYcxIMES-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v9 net-next 00/23] net/tcp: Add TCP-AO support
-Content-Language: en-US
-To:     David Ahern <dsahern@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Simon Horman <simon.horman@corigine.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Bob Gilligan <gilligan@arista.com>,
-        Dan Carpenter <error27@gmail.com>,
-        David Laight <David.Laight@aculab.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Donald Cassidy <dcassidy@redhat.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Francesco Ruggeri <fruggeri05@gmail.com>,
-        "Gaillardetz, Dominik" <dgaillar@ciena.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Ivan Delalande <colona@arista.com>,
-        Leonard Crestez <cdleonard@gmail.com>,
-        Salam Noureddine <noureddine@arista.com>,
-        "Tetreault, Francois" <ftetreau@ciena.com>, netdev@vger.kernel.org,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20230802172654.1467777-1-dima@arista.com>
-From:   Dmitry Safonov <dima@arista.com>
-In-Reply-To: <20230802172654.1467777-1-dima@arista.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+Cc: Simon
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git b4/vfs-super-exclusive.v2
+head:   cdcc91fd53b39d6b68bfdca0b21a7883cc6ec4ba
+commit: cdcc91fd53b39d6b68bfdca0b21a7883cc6ec4ba [6/6] fs: add FSCONFIG_CMD_CREATE_EXCL
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030438.UYcxIMES-lkp@intel.com/reproduce)
 
-I've realized that he wasn't in Cc list, albeit provided valuable
-feedback in v8. Sorry about it, definitely going to Cc on next versions.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308030438.UYcxIMES-lkp@intel.com/
 
-On 8/2/23 18:26, Dmitry Safonov wrote:
-> Hi,
-> 
-> This is version 9 of TCP-AO support. It's based on net-next as
-> there's a trivial conflict with the commit dfa2f0483360 ("tcp: get rid
-> of sysctl_tcp_adv_win_scale").
-> 
-> Most of the changes in this version address Simon's reviews and polish
-> of patch set to please netdev/patchwork. I ran static analyzers over it,
-> there's currently only one warning introduced, which is Sparse's context
-> imbalance in tcp_sigpool_start(). I've spent some time trying to silence
-> it, here are my findings:
-> - __cond_acquires() is broken: refcount_dec_and_lock() produces Sparse warning
-> - tried __acquires() + __releases(), as in bpf_sk_storage_map_seq_find_next(),
->   yet it doesn't silence Sparse
-> - I thought about moving rcu_read_unlock_bh() out of tcp_sigpool_start(),
->   forcing the callers to call tcp_sigpool_end() even on error-paths, but:
->   it feels wrong semantically and I'd have to initialize @c on error-case
->   and check it in tcp_sigpool_end(). That feels even more wrong.
-> I've placed __cond_acquires() to tcp_sigpool_start() definition,
-> expecting that Sparse may be fixed in future to do proper thing.
-> Worth mentioning that it also complains about many other functions
-> including: sk_clone_lock(), sk_free_unlock_clone(), tcp_conn_request()
-> and etc.
-> 
-> Also, more checkpatch.pl warnings addressed, but yet I've left the ones
-> that are more personal preferences (i.e. 80 columns limit). Please, ping
-> me if you have a strong feeling about one of them.
-> 
-> Worth mentioning removing in-kernel wiring for TCP-AO key port matching:
-> it was restricted in uAPI and still it is. Removing from initial TCP-AO
-> implementation port matching as it can be added post-merge.
-> 
-> The following changes since commit 34093c9fa05df24558d1e2c5d32f7f93b2c97ee9:
-> 
->   net: Remove duplicated include in mac.c (2023-08-02 11:42:47 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git@github.com:0x7f454c46/linux.git tcp-ao-v9
-> 
-> for you to fetch changes up to c1cf20fddf71a9ae9f07cb04a5a1efcce156c5ab:
-> 
->   Documentation/tcp: Add TCP-AO documentation (2023-08-02 17:28:15 +0100)
-> 
-> ----------------------------------------------------------------
-> 
-> And another branch with selftests, that will be sent later separately:
-> 
->   git@github.com:0x7f454c46/linux.git tcp-ao-v9-with-selftests
-> 
-> Thanks for your time and reviews,
->          Dmitry
-> 
-> --- Changelog ---
-> 
-> Changes from v8:
-> - Based on net-next
-> - Now doing git request-pull, rather than GitHub URLs
-> - Fix tmp_key buffer leak, introduced in v7 (Simon)
-> - More checkpatch.pl warning fixes (even to the code that existed but
->   was touched)
-> - More reverse Xmas tree declarations (Simon)
-> - static code analysis fixes
-> - Removed TCP-AO key port matching code
-> - Removed `inline' for for static functions in .c files to make
->   netdev/source_inline happy (I didn't know it's a thing)
-> - Moved tcp_ao_do_lookup() to a commit that uses it (Simon)
-> - __tcp_ao_key_cmp(): prefixlen is bits, but memcmp() uses bytes
-> - Added TCP port matching limitation to Documentation/networking/tcp_ao.rst
-> 
-> Version 8: https://lore.kernel.org/all/20230719202631.472019-1-dima@arista.com/T/#u
+All warnings (new ones prefixed by >>):
 
-[..]
+>> Documentation/filesystems/api-summary:38: ./fs/super.c:558: WARNING: Unexpected indentation.
+>> Documentation/filesystems/api-summary:38: ./fs/super.c:559: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/filesystems/api-summary:38: ./fs/super.c:561: WARNING: Enumerated list ends without a blank line; unexpected unindent.
 
-Thanks,
-          Dmitry
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
