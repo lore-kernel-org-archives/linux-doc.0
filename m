@@ -2,83 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8248BC001DE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 08:48:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F09C04A94
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 09:29:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231362AbjHBIsZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 04:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51752 "EHLO
+        id S232851AbjHBJ3P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 05:29:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbjHBIsX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 04:48:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29339D9;
-        Wed,  2 Aug 2023 01:48:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B26286189A;
-        Wed,  2 Aug 2023 08:48:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F6CC433C7;
-        Wed,  2 Aug 2023 08:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690966102;
-        bh=NDDryVv8WBs0MrakH/XEpeVn2udcnM0LHCwQ2rX07B8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=uMyku//1pacFt9LpwUB0r8zxXKdB5I6hOagla3nvty672sZx4D781sIGkzvsCfjkb
-         omvqNn1i95aRWrwiBPMAeFNNarI0WUfzuvIVaIBquVLMkPKgQKZXspjXefn+pNcRkW
-         I9b9KJhU5+0nbviC/ufnETVn0O5Ss98YJ9wtDYtiMoryVpK/I1S0y2p0oF8Ck6Famd
-         D9Tamj1OUMhLwkfi42vPQyG9Z7WC7nNo4YFqQ5HDBf0UDiysl9LALiwqQMLFnQOp1K
-         Atp1Re/aVOzywGkviOYqw6wElCjzEFbvvaDjbem6hAClX05VNOPU3hqggoQSFRj9Fa
-         pRjveql2JIzCw==
-Message-ID: <789fb6b3-e871-3c4e-d3d5-b8c3ece1624a@kernel.org>
-Date:   Wed, 2 Aug 2023 17:48:04 +0900
+        with ESMTP id S232662AbjHBJ3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 05:29:13 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BCC12B
+        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 02:29:11 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-99c1f6f3884so374731766b.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Aug 2023 02:29:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1690968550; x=1691573350;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CEvdWKJwrirYDhttDd02rTV33tBJG9g5L+9AxNoea3M=;
+        b=WgRojBwticTI7tlGP4WhwryjFIOTSb45MoUr2Xomsnj5dZNimXNpbmwdtt7+Je4qpn
+         TomUFaMgXy0jF9o3axmIL0HPy8hlV/4x5aXy3r2c9bn6YJ4Hg7Y3TQJOh9mvhHpCkZF8
+         7ecMIM/3KehtF2nSe519/VXcRJJFE9OgiygnF2jZAItbssoFLRktIhrcyO3vZ6DDgpdV
+         dZ6Egnhrxr0Ai+PK8gXu4AFGUD8fO+2tjft3pOngaYXwvwcqHQnUS0k7z43PXF3UlNDS
+         DnjnF9Id5ixdw5KIBQOPhR5RtIGtjK2hpEWreQ9AW+PUrojmjfUTyccBFY2LjXFzMA12
+         1DPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690968550; x=1691573350;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CEvdWKJwrirYDhttDd02rTV33tBJG9g5L+9AxNoea3M=;
+        b=fy6vJUci4GM5u+4GbslCtlFon/jExRIXbK24Qs8B/ySzFqnn/LA0ZBAnBPx/s0Ah1K
+         UPgh1aHsQR8t9DWLarMG26rTFDXzap0hL/4A2ptofr/XTxsVTkncfXoVR356MjZa+eB2
+         /1Dg9uw2Vxt7uhYK7hxVY1PIk7jukOQ7RRKDpxsOB5GS3OCXOP+CIbDICEZFyk0GcSKq
+         ZR+qAPNptkSHJxoGVtrZ6fXWq/ovj/t3t7ZH88WQTFMchwuPCIxckzX0/SBZnhPKxlg5
+         yARsg7PAb28LGQYZHQFUS12pYWc2xhTa2XdtpWpD1efspHI3ZiFf9GlYWVDUYuJKBmel
+         6TaQ==
+X-Gm-Message-State: ABy/qLauOkpA33vTNGGcfD2OR1V5HA6p0dfcx7+ksbIkqWXDPh9WW2sL
+        ePXnTasn0BdiETyS6FAy7H5RT3KQT4/TrGeXSH8l4A==
+X-Google-Smtp-Source: APBJJlFoWQnCKbhEbTUrZCJqYYVW6s4vDSWfgPkrwNS0ATxL1doB6I6qe6yB2sD40AZ6C/w2onWycw==
+X-Received: by 2002:a17:906:305b:b0:99b:cb78:8537 with SMTP id d27-20020a170906305b00b0099bcb788537mr4084494ejd.11.1690968549860;
+        Wed, 02 Aug 2023 02:29:09 -0700 (PDT)
+Received: from localhost (212-5-140-29.ip.btc-net.bg. [212.5.140.29])
+        by smtp.gmail.com with ESMTPSA id um6-20020a170906cf8600b009930c61dc0esm8823130ejb.92.2023.08.02.02.29.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 02:29:09 -0700 (PDT)
+Date:   Wed, 2 Aug 2023 12:29:05 +0300
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        =?utf-8?B?UsOpbWk=?= Denis-Courmont <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v6 09/10] tools: lib: perf: Implement riscv mmap support
+Message-ID: <20230802-11f1b3d1ff4cc987bb58bfa4@orel>
+References: <20230802080328.1213905-1-alexghiti@rivosinc.com>
+ <20230802080328.1213905-10-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 00/10] libata: remove references to 'old' error handler
-Content-Language: en-US
-To:     Niklas Cassel <nks@flawful.org>, Jonathan Corbet <corbet@lwn.net>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Xiang Chen <chenxiang66@hisilicon.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        John Garry <john.g.garry@oracle.com>,
-        Jason Yan <yanaijie@huawei.com>
-Cc:     Hannes Reinecke <hare@suse.com>, linux-ide@vger.kernel.org,
-        linux-scsi@vger.kernel.org, Niklas Cassel <niklas.cassel@wdc.com>,
-        linux-doc@vger.kernel.org
-References: <20230731143432.58886-1-nks@flawful.org>
-From:   Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20230731143432.58886-1-nks@flawful.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230802080328.1213905-10-alexghiti@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/31/23 23:34, Niklas Cassel wrote:
-> From: Niklas Cassel <niklas.cassel@wdc.com>
+On Wed, Aug 02, 2023 at 10:03:27AM +0200, Alexandre Ghiti wrote:
+> riscv now supports mmaping hardware counters so add what's needed to
+> take advantage of that in libperf.
 > 
-> Hi all,
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>  tools/lib/perf/mmap.c | 66 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 66 insertions(+)
 > 
-> now that the ipr driver has been modified to not hook into libata
-> all drivers now use the 'new' error handler, so we can remove any
-> references to it. And do a general cleanup to remove callbacks
-> which are no longer needed.
-> 
-> Damien:
-> This patch series is based on v6.5-rc4, however it also applies to your
-> libata/for-next branch, if you cherry-pick commit 3ac873c76d79 ("ata:
-> libata-core: fix when to fetch sense data for successful commands"),
-> before applying the series (this patch is already in Torvald's tree).
+> diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+> index 0d1634cedf44..2184814b37dd 100644
+> --- a/tools/lib/perf/mmap.c
+> +++ b/tools/lib/perf/mmap.c
+> @@ -392,6 +392,72 @@ static u64 read_perf_counter(unsigned int counter)
+>  
+>  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
+>  
+> +/* __riscv_xlen contains the witdh of the native base integer, here 64-bit */
+> +#elif defined(__riscv) && __riscv_xlen == 64
+> +
+> +/* TODO: implement rv32 support */
 
-Applied to for-6.6 with some tweaks to the commit titles.
-Thanks !
+It'd be easy to implement the rv32 support now (even if it's premature for
+use), in order to avoid the TODO (which will likely be forgotten). I think
+we just need to drop the __riscv_xlen == 64 above and then extend the
+csr_read() macro something like the untested code below. (I'm not sure if
+a TODO or premature, likely untested, code is worse though.)
 
--- 
-Damien Le Moal
-Western Digital Research
+> +
+> +#define CSR_CYCLE	0xc00
+> +#define CSR_TIME	0xc01
+> +
+> +#define csr_read(csr)						\
+> +({								\
 
+u64 __value;
+
+> +	register unsigned long __v;				\
+> +		__asm__ __volatile__ ("csrr %0, %1"		\
+> +		 : "=r" (__v)					\
+> +		 : "i" (csr) : );				\
+
+__value = __v;
+
+#if __riscv_xlen == 32
+{
+  int csrh = (csr) - CSR_CYCLE + CSR_CYCLEH;
+
+  __asm__ __volatile__ ("csrr %0, %1" : "=r" (__v) : "i" (csrh));
+  __value |= (u64)__v << 32;
+}
+#endif
+
+__value;
+
+> +})
+> +
+> +static unsigned long csr_read_num(int csr_num)
+
+static u64 csr_read_num(int csr_num)
+
+> +{
+> +#define switchcase_csr_read(__csr_num, __val)           {\
+> +	case __csr_num:                                 \
+> +		__val = csr_read(__csr_num);            \
+> +		break; }
+> +#define switchcase_csr_read_2(__csr_num, __val)         {\
+> +	switchcase_csr_read(__csr_num + 0, __val)        \
+> +	switchcase_csr_read(__csr_num + 1, __val)}
+> +#define switchcase_csr_read_4(__csr_num, __val)         {\
+> +	switchcase_csr_read_2(__csr_num + 0, __val)      \
+> +	switchcase_csr_read_2(__csr_num + 2, __val)}
+> +#define switchcase_csr_read_8(__csr_num, __val)         {\
+> +	switchcase_csr_read_4(__csr_num + 0, __val)      \
+> +	switchcase_csr_read_4(__csr_num + 4, __val)}
+> +#define switchcase_csr_read_16(__csr_num, __val)        {\
+> +	switchcase_csr_read_8(__csr_num + 0, __val)      \
+> +	switchcase_csr_read_8(__csr_num + 8, __val)}
+> +#define switchcase_csr_read_32(__csr_num, __val)        {\
+> +	switchcase_csr_read_16(__csr_num + 0, __val)     \
+> +	switchcase_csr_read_16(__csr_num + 16, __val)}
+> +
+> +	unsigned long ret = 0;
+> +
+> +	switch (csr_num) {
+> +	switchcase_csr_read_32(CSR_CYCLE, ret)
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +#undef switchcase_csr_read_32
+> +#undef switchcase_csr_read_16
+> +#undef switchcase_csr_read_8
+> +#undef switchcase_csr_read_4
+> +#undef switchcase_csr_read_2
+> +#undef switchcase_csr_read
+> +}
+> +
+> +static u64 read_perf_counter(unsigned int counter)
+> +{
+> +	return csr_read_num(CSR_CYCLE + counter);
+> +}
+> +
+> +static u64 read_timestamp(void)
+> +{
+> +	return csr_read_num(CSR_TIME);
+> +}
+> +
+>  #else
+>  static u64 read_perf_counter(unsigned int counter __maybe_unused) { return 0; }
+>  static u64 read_timestamp(void) { return 0; }
+> -- 
+> 2.39.2
+>
+
+Thanks,
+drew
