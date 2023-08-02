@@ -2,189 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86741C04E69
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 11:32:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27CE8C001E0
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Aug 2023 14:43:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232319AbjHBLcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Aug 2023 07:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55486 "EHLO
+        id S232755AbjHBOnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Aug 2023 10:43:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231894AbjHBLcT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 07:32:19 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2658E211E;
-        Wed,  2 Aug 2023 04:32:18 -0700 (PDT)
-Received: from [192.168.0.116] (unknown [109.229.201.16])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: david.heidelberg)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6725366003B0;
-        Wed,  2 Aug 2023 12:32:15 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690975936;
-        bh=7I9L6yyTsIG8sjyONcyZaSV0J5UVP4PnaTFoHvVwaw8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=EGNPzrq4j26eIRJbvmeGBhm31XfGovIIgPJw2xvmM6zrw8y1Qt6xfgbPajhlQSjef
-         f2qN4LTLkSrUgBC4tz3H5jPCtznpZiIYggK/TuueJC0lVvZ8lm/Wx+75YZpjNCVW9h
-         1DBjoatZcBS2GHcPmOxZL5V3pzIQ9rqPWMw6oG0eyZaKZg8DIUye7pouNeUac157Go
-         02QayArhkBzXe/FD5hW/uLAsby9t/uAfs+vuaz65nTaPxuZz7JCQDZcklkGxn0m5rb
-         xqF21nW6WqgfV7Ct6MGllwH64Zxk9RYUhp2foSa4uVw4zQd+MqoiyaJkXfXYGrmYaB
-         DVCnzIevz40VA==
-Message-ID: <338ed966-0337-16e0-3758-55ede0e2ea0d@collabora.com>
-Date:   Wed, 2 Aug 2023 14:32:12 +0300
+        with ESMTP id S232680AbjHBOnJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Aug 2023 10:43:09 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F569E0
+        for <linux-doc@vger.kernel.org>; Wed,  2 Aug 2023 07:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690987388; x=1722523388;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ddVebp4H7ig2sstknUL4S/0AAaxx4X29jF7NCCAUnG8=;
+  b=BH3V1ZWYK6nfsKNOkcTHNIAuLhM+n46uV2CsnDlwjkhIUMrvIzCAazgz
+   B+VnCxzaFtb9sLdGSA0tXZ7Hil/l8UE7k0UduHXZ2k15/mjpwYggzT6DW
+   1ONYQHwE29TBGBxpeo9ZPAlXALm4VPBwtDY/S4iQVqTk4HccynPl7hyvX
+   SzxINi6BGWcucS5x/MGLPUpxnXDtYz83USNEoTOiso3kq8aIG0Z6ibaLU
+   YNcuU+ujdMbg11rpD3JpYJIudsHDjldn9QWfE0GVl8xDyEFRA1JtdCrah
+   5TlSEN/YmGeCyHOQacdu2QjXyDFm38C9clRHVCAEaHwX0X42gyQDWiBAr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="400550065"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
+   d="scan'208";a="400550065"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 07:43:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="852885359"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
+   d="scan'208";a="852885359"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 02 Aug 2023 07:43:06 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qRD45-0001Gl-2E;
+        Wed, 02 Aug 2023 14:43:05 +0000
+Date:   Wed, 2 Aug 2023 22:42:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Douglas Anderson <dianders@chromium.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 5684/6443] htmldocs:
+ Documentation/gpu/todo.rst:469: WARNING: Unexpected indentation.
+Message-ID: <202308022221.APCRi7vk-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
-To:     =?UTF-8?B?SnVhbiBBLiBTdcOhcmV6?= <jasuarez@igalia.com>,
-        Maira Canal <mcanal@igalia.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        dri-devel@lists.freedesktop.org, eric@igalia.com
-Cc:     emma@anholt.net, linux-doc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, jbrunet@baylibre.com,
-        robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
-        sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
-        linux-rockchip@lists.infradead.org, daniels@collabora.com,
-        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
-        anholt@google.com, linux-mediatek@lists.infradead.org,
-        mripard@kernel.org, matthias.bgg@gmail.com,
-        linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de
-References: <20230720152737.102382-1-helen.koike@collabora.com>
- <52d1d9e5-00c8-2260-57fc-310cc2f712fd@igalia.com>
- <ad029e1c-8f00-9f5e-e25a-957b3f70c385@collabora.com>
- <ef84ccedbf880c8605688f26ebedc04046c1dd78.camel@igalia.com>
-Content-Language: en-US
-From:   David Heidelberg <david.heidelberg@collabora.com>
-Autocrypt: addr=david.heidelberg@collabora.com; keydata=
- xjMEYlvLOxYJKwYBBAHaRw8BAQdA5CoWEzz4igpwK4h6lK6ZformRk84+ymcfkGNPwqEeILN
- MURhdmlkIEhlaWRlbGJlcmcgPGRhdmlkLmhlaWRlbGJlcmdAY29sbGFib3JhLmNvbT7ClgQT
- FggAPhYhBEo7kSl22BK0F1Np/mn1Z4YcHsAUBQJiW8s7AhsDBQkFo5qABQsJCAcCBhUKCQgL
- AgQWAgMBAh4BAheAAAoJEGn1Z4YcHsAU84kBAK5YqSWAOuIumAqgWvke6BEsaIGWGQzXSuKj
- er/TXuFuAQCwc9ITSVXWWTSpdFt2+4z7Wch8tIGlbIFcS9dCFddwCc44BGJbyzsSCisGAQQB
- l1UBBQEBB0AEk7jXEwDApGOwMH/X0UAPBH8Y3isjxhNMjpyRcnl2CwMBCAfCfgQYFggAJhYh
- BEo7kSl22BK0F1Np/mn1Z4YcHsAUBQJiW8s7AhsMBQkFo5qAAAoJEGn1Z4YcHsAU0PEA/j0Y
- uAOKJCnnwrkf3ozPP0sutA5bojoARwcIaZKO/zvIAP9PwTC9DGLg+8LJm7m2Lyf0LxLA8FXD
- wueLHBdwHg6zAQ==
-In-Reply-To: <ef84ccedbf880c8605688f26ebedc04046c1dd78.camel@igalia.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------gZ4q2nvi1ImwMXIXleAIN9mH"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------gZ4q2nvi1ImwMXIXleAIN9mH
-Content-Type: multipart/mixed; boundary="------------FfDTAhzj7y6MRLROQfvQYWPK";
- protected-headers="v1"
-From: David Heidelberg <david.heidelberg@collabora.com>
-To: =?UTF-8?B?SnVhbiBBLiBTdcOhcmV6?= <jasuarez@igalia.com>,
- Maira Canal <mcanal@igalia.com>, Helen Koike <helen.koike@collabora.com>,
- dri-devel@lists.freedesktop.org, eric@igalia.com
-Cc: emma@anholt.net, linux-doc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, jbrunet@baylibre.com,
- robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
- sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
- linux-rockchip@lists.infradead.org, daniels@collabora.com,
- martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
- anholt@google.com, linux-mediatek@lists.infradead.org, mripard@kernel.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
- guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
- tzimmermann@suse.de
-Message-ID: <338ed966-0337-16e0-3758-55ede0e2ea0d@collabora.com>
-Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
-References: <20230720152737.102382-1-helen.koike@collabora.com>
- <52d1d9e5-00c8-2260-57fc-310cc2f712fd@igalia.com>
- <ad029e1c-8f00-9f5e-e25a-957b3f70c385@collabora.com>
- <ef84ccedbf880c8605688f26ebedc04046c1dd78.camel@igalia.com>
-In-Reply-To: <ef84ccedbf880c8605688f26ebedc04046c1dd78.camel@igalia.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   626c67169f9972fffcdf3bc3864de421f162ebf5
+commit: d2aacaf07395bd798373cbec6af05fff4147aff3 [5684/6443] drm/panel: Check for already prepared/enabled in drm_panel
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308022221.APCRi7vk-lkp@intel.com/reproduce)
 
---------------FfDTAhzj7y6MRLROQfvQYWPK
-Content-Type: multipart/mixed; boundary="------------Ehh4rGbkOREHlVohl5eVMsUV"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308022221.APCRi7vk-lkp@intel.com/
 
---------------Ehh4rGbkOREHlVohl5eVMsUV
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+All warnings (new ones prefixed by >>):
 
-T24gMzEvMDcvMjAyMyAxMDozOCwgSnVhbiBBLiBTdcOhcmV6IHdyb3RlOg0KPiBPbiBTYXQs
-IDIwMjMtMDctMjkgYXQgMTI6MDggKzAzMDAsIERhdmlkIEhlaWRlbGJlcmcgd3JvdGU6DQo+
-PiBIZWxsbyBNYWlyYSwNCj4+DQo+PiBSZWdhcmRpbmcgdGhlIHNlY29uZCBxdWVzdGlvbiBh
-Ym91dCBWM0QgYW5kIFYzRFY6IGluIHRoZSBNZXNhM0QgQ0ksIHdlDQo+PiBjdXJyZW50bHkg
-dXNlIGRvd25zdHJlYW0ga2VybmVscywgc28gd2UgZG9uJ3QgYnVpbGQgdGhlIGtlcm5lbCBm
-b3INCj4+IFJhc3BiZXJyeSBQaS4NCj4+DQo+Pg0KPj4NCj4NCj4gQk1fQk9PVEZTIG9wdGlv
-biBjYW4gcG9pbnQgdG8gYSBsaW5rIHRhcmJhbGwgY29udGFpbmluZyBhbiBhbHRlcm5hdGl2
-ZSANCj4ga2VybmVsIHRvIHVzZSBpbnN0ZWFkIG9mIGRvd25zdHJlYW0gb25lLg0KPg0KPiBU
-aGUgb25seSBkcmF3YmFjayBpcyB0aGF0IHRoaXMgdGFyYmFsbCBtdXN0IGJlIGFuIGFscmVh
-ZHkgY29tcGlsZWQgDQo+IGtlcm5lbDsgaXQgd29uJ3QgY29tcGlsZSBpdC4NCkl0IHdvdWxk
-IGJlIGdyZWF0IGlmIHlvdSBjb3VsZCBmaWxsIGluIG1pc3Npbmcga2VybmVsIGNvbmZpZyBv
-cHRpb25zIGZvciANCm1hY2hpbmVzIHlvdSB1c2UgZm9yIFYzRChWKSBpbg0KdGhlIGBrZXJu
-ZWwvY29uZmlncy9tZXNhKi5jb25maWdgIHdpdGhpbiB0aGUgYGdmeC1jaS9MaW51eCByZXBv
-c2l0b3J5IA0KKHRoZSBjb25maWcgZmlsZXMgaGVyZSBvcmlnaW4gZnJvbSB0aGVyZSkuDQoN
-CklmIHRoZSBjb21waWxlZCBrZXJuZWwgd2lsbCB3b3JrIG9uIFJQaXMsIHRoZW4gdGhlIG5l
-eHQgc3RlcCB3b3VsZCBiZSANCmFkZGluZyBrZXJuZWwgZm9ybWF0DQphbmQgRFRCIG5hbWVz
-IHRvIHRoZSBgc3JjL2Jyb2FkY29tL2NpL2dpdGxhYi1jaS55bWxgIGluIHRoZSBNZXNhIA0K
-cmVwb3NpdG9yeSBzbyB0aGF0IHlvdSBjYW4gdXNlIG15IE1lc2EgZHJhZnQgTVIgWzFdDQp0
-byBxdWlja2x5IHRlc3QgaWYgeW91ciBqb2JzIHdvdWxkIHdvcmsgd2l0aCB0aGUgbWFpbmxp
-bmUga2VybmVsIGFuZCBhbnkgDQpvdGhlciBib2FyZCB0aGF0IHdvbid0IGJyZWFrIGR1ZSB0
-byB5b3VyIGNoYW5nZXMuDQoNCldoZW4gdGhpcyBpbnRlZ3JhdGlvbiBpcyBkb25lIOKAkiBp
-dCdzIGVhc3kgdG8gcnVuIGRybS1jaSB0ZXN0aW5nIG9uIHRoZXNlIA0KbWFjaGluZXMuDQoN
-CkRhdmlkDQoNClsxXSBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9tZXNh
-Ly0vbWVyZ2VfcmVxdWVzdHMvMjM1NjMNCg0KDQo+DQo+PiBIb3dldmVyLCBJJ3ZlIGJlZW4g
-dGhpbmtpbmcgYWJvdXQgdGhlIHBvc3NpYmlsaXR5IG9mIGFkZGluZyBhbiBvdmVycmlkZQ0K
-Pj4gZm9yIHRoZSBrZXJuZWwgZnJvbSBhbiBleHRlcm5hbCBzb3VyY2UgdG8gb3VyIENJLiBU
-aGlzIHdheSwgd2UgY2FuIGFsc28NCj4+IHRlc3Qgd2l0aCBhIHByb3ZpZGVkIGtlcm5lbCBh
-bmQgb3ZlcnJpZGUgdGhlIGRlZmF1bHQgb3B0aW9uIG9mIHVzaW5nIHRoZQ0KPj4gZG93bnN0
-cmVhbSBrZXJuZWwgb24gUmFzcGJlcnJ5IFBpLg0KPj4NCj4+IElmIHdlIHByb2NlZWQgd2l0
-aCB0aGlzLCBpdCB3b3VsZCBiZSBzZW5zaWJsZSB0byBpbmNsdWRlIFYzRCogb3B0aW9ucyBp
-bg0KPj4gb3VyIGtlcm5lbCBidWlsZHMuDQo+Pg0KPj4gSSdtIGluY2x1ZGluZyBKdWFuIGFu
-ZCBFcmljIGZvciB0aGVpciBpbnB1dCBvbiB0aGlzIHRvcGljLg0KPj4NCj4+DQo+DQo+IFRo
-ZSBpZGVhIHNvdW5kcyBncmVhdC4gQXJlbid0IHdlIGFscmVhZHkgY29tcGlsaW5nIGtlcm5l
-bHMgZm9yIG90aGVyIA0KPiBoYXJkd2FyZT8gTWF5YmUgd2UgY2FuIGluY2x1ZGUgc3BlY2lm
-aWMgdmVyc2lvbnMgZm9yIFJwaS4NCj4NCj4gSi5BLg0KPg0KLS0gDQpEYXZpZCBIZWlkZWxi
-ZXJnDQpDb25zdWx0YW50IFNvZnR3YXJlIEVuZ2luZWVyDQoNCkNvbGxhYm9yYSBMdGQuDQpQ
-bGF0aW51bSBCdWlsZGluZywgU3QgSm9obidzIElubm92YXRpb24gUGFyaywgQ2FtYnJpZGdl
-IENCNCAwRFMsIFVLDQpSZWdpc3RlcmVkIGluIEVuZ2xhbmQgJiBXYWxlcywgbm8uIDU1MTM3
-MTgNCg0K
---------------Ehh4rGbkOREHlVohl5eVMsUV
-Content-Type: application/pgp-keys; name="OpenPGP_0x69F567861C1EC014.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x69F567861C1EC014.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+>> Documentation/gpu/todo.rst:469: WARNING: Unexpected indentation.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+vim +469 Documentation/gpu/todo.rst
 
-xjMEYlvLOxYJKwYBBAHaRw8BAQdA5CoWEzz4igpwK4h6lK6ZformRk84+ymcfkGN
-PwqEeILNMURhdmlkIEhlaWRlbGJlcmcgPGRhdmlkLmhlaWRlbGJlcmdAY29sbGFi
-b3JhLmNvbT7ClgQTFggAPhYhBEo7kSl22BK0F1Np/mn1Z4YcHsAUBQJiW8s7AhsD
-BQkFo5qABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEGn1Z4YcHsAU84kBAK5Y
-qSWAOuIumAqgWvke6BEsaIGWGQzXSuKjer/TXuFuAQCwc9ITSVXWWTSpdFt2+4z7
-Wch8tIGlbIFcS9dCFddwCc44BGJbyzsSCisGAQQBl1UBBQEBB0AEk7jXEwDApGOw
-MH/X0UAPBH8Y3isjxhNMjpyRcnl2CwMBCAfCfgQYFggAJhYhBEo7kSl22BK0F1Np
-/mn1Z4YcHsAUBQJiW8s7AhsMBQkFo5qAAAoJEGn1Z4YcHsAU0PEA/j0YuAOKJCnn
-wrkf3ozPP0sutA5bojoARwcIaZKO/zvIAP9PwTC9DGLg+8LJm7m2Lyf0LxLA8FXD
-wueLHBdwHg6zAQ=3D=3D
-=3DOQS+
------END PGP PUBLIC KEY BLOCK-----
+   465	
+   466	In a whole pile of panel drivers, we have code to make the
+   467	prepare/unprepare/enable/disable callbacks behave as no-ops if they've already
+   468	been called. To get some idea of the duplicated code, try:
+ > 469	  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+   470	  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+   471	
 
---------------Ehh4rGbkOREHlVohl5eVMsUV--
-
---------------FfDTAhzj7y6MRLROQfvQYWPK--
-
---------------gZ4q2nvi1ImwMXIXleAIN9mH
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYIAB0WIQRKO5EpdtgStBdTaf5p9WeGHB7AFAUCZMo+vAAKCRBp9WeGHB7A
-FNQcAP4oF5UtDxrYf/MIQwqiHByXB05UlH51Of8QA584U++zsAEA/jWhcpOj2YXI
-9hirWMneCsvShLQ3XdS9DufpQRQifgg=
-=Vn8P
------END PGP SIGNATURE-----
-
---------------gZ4q2nvi1ImwMXIXleAIN9mH--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
