@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEB4C001DF
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 18:03:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F99C001DB
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 18:03:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbjHCSDQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 14:03:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60802 "EHLO
+        id S232476AbjHCSDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 14:03:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235299AbjHCSCV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 14:02:21 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA684693
-        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 11:01:30 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-686b9964ae2so889254b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 11:01:30 -0700 (PDT)
+        with ESMTP id S231493AbjHCSCf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 14:02:35 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CA84C06
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 11:01:38 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-686daaa5f1fso893867b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 11:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1691085686; x=1691690486;
+        d=ventanamicro.com; s=google; t=1691085694; x=1691690494;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9aQz/o5NvlReZUl/stpeRs4o5FY0c8qnUYDCfHqNmJI=;
-        b=Yv3oRH7T1TZNQw/AeEOc/wdAwvfBHh5qCQDTqqhRRIWLN2RT7duj6j3Mlz5B+tyUjx
-         DwzXxTjoAWH+iw6CkKfwMxF9xCniQjo3B09L5BaQ+m3yDEsvvlfRGxAUpVXc7dZmfqkz
-         PN5+8DYtk9mthHfXcWzvd40WNmLxpaQLT+X3GYJHhIU0xy+P4PfNU1GlwdTTN0c2vXWS
-         N5M/tFDrDNAY9aGtxjAy1r+U43wKUASBkf3zWtuZ0PK/OlWurnWRvhkcieTUH/K57kZ9
-         QHExlMok+1N1kt3iHzoySeHMoWERDl2+R1ayM9E29ohmdQ7YVT4UT939xn3e7d7QWGc0
-         3iwQ==
+        bh=95yH1ZRY1l5+vMULtm7DKGPnoBqPk/7PEb2F1bhVxfo=;
+        b=V2wPisBDGbePHms2A4risrsDPrMUWBaceOkrdFeRUdqmk8sYzA5KDWJo5ROYiF0CjX
+         Z74IQMZ1avQxf45hCxGVP3uqUF/sUXX9QWVu+q4wSB19tXd6YUul2EoHn+erVyy3sXpW
+         Jwz/h2pkxAshzi43we+dfVrIdTOcl++Q/N4ri/20PthUznYPeIaLZpuiw1cnyJwnvSDM
+         pcI9H5/RIULmGhhKhSoYJUA3vVFvfyjZhhZxhPigphk2shP6Errk5T1R3GEjLQvcK1W+
+         BuCSuJIxsNVj9LrjOIwPOA0PDc0afRT+ExMZ+FldLPxVOWhYHGBeKMhWgQmR5Pe/ln4m
+         1JKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691085686; x=1691690486;
+        d=1e100.net; s=20221208; t=1691085694; x=1691690494;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9aQz/o5NvlReZUl/stpeRs4o5FY0c8qnUYDCfHqNmJI=;
-        b=FvHhI7LvrwCLtTS94vGeU+a8CQaD7LdpviOtNxz4qC3vKba81xbAt8AaS5Tlj87jJ0
-         jqOLO6FwHhHyA8BasTSLm4XgnHpCikOuCDbYbuFPUpyEM4ZwcEgcbLpBKCm+JnQPpNih
-         kjTjCJi43ggC6Ii5/0DmpQeUdiplJvvRHJp6d5CGhVN/mTewT5GQr9/aE+Mng4561tU7
-         l8/MjGOaOnsYbVFAYGmdyP4B03fRlqpCXQ9/3+62gDhEXHno3oMl9QKhtP6eBKXN/PVq
-         JeihuVC+QnSg1W/+6/zUK475jPafflwJoFV7VraExsszBLUKQPLNV+1rEA99Coqw/Y2F
-         KZZg==
-X-Gm-Message-State: ABy/qLZr9OTlYjQGXOWNK3+1+H4e3S0AQrxMogm6bRGRx83RzXhGMAOR
-        rcTwCpr1c9UrsECEJMbAf7/jCDNHKIarX/9Ul0k=
-X-Google-Smtp-Source: APBJJlGAchtJBdt5IHqdaCzjHt1kkOK9wPe4WveHGvpGtfcTQHQdjS3NSncu/qTOIgVracHNUgSdbg==
-X-Received: by 2002:a05:6a20:3d91:b0:132:c07c:f042 with SMTP id s17-20020a056a203d9100b00132c07cf042mr22166693pzi.15.1691085686344;
-        Thu, 03 Aug 2023 11:01:26 -0700 (PDT)
+        bh=95yH1ZRY1l5+vMULtm7DKGPnoBqPk/7PEb2F1bhVxfo=;
+        b=BS2c/Nn/GjgY+zwZB2y/yQ064QGnA7zbT+B13E3R9s/A1K1LciZaGFQkXvvlwagZ66
+         ufyM6oi/+FvzuX5oWAiGQNswigx6RLS75L4KHniq1dt47Wf+VhSNzdpuvvy1+4iHIzmi
+         BUlVuTDD1PVtJIyxgEAkSeeb5P+BhW+6km5PDtBwnoz1DFIWpI3+Fq+r8g1kAfXvwqCT
+         KOLgoWpZbs0Q69b48t+FbYDmKCo0ePL+I5dVmNP6Y+fNWhWCqQSnY5m5SkQ+uWDxusC2
+         iexP8MabHr17ELcPDo0Eu1jCnkwmxIAv2gZ8u2lAhGSOHna50I9+i6uGnkvhNEyX2YHu
+         lxOg==
+X-Gm-Message-State: ABy/qLZ2VAKuw9HvP65V03JxwilW9FuID2VEhzHNGU7h/9iR6oK2ZIbr
+        dvySbhuzwk5uSxr6nVQDGT3DGfZxprLSOF7btQY=
+X-Google-Smtp-Source: APBJJlGnVuM193+CpDLoy7mFWMwR938XQnrV4s+XW2zz4aJ0EBbZLOLGESYCRhXm5hyH4ZPKVToj3A==
+X-Received: by 2002:a05:6a00:843:b0:67a:9208:87a with SMTP id q3-20020a056a00084300b0067a9208087amr21529015pfk.23.1691085693539;
+        Thu, 03 Aug 2023 11:01:33 -0700 (PDT)
 Received: from sunil-pc.Dlink ([106.51.190.143])
-        by smtp.gmail.com with ESMTPSA id s8-20020aa78d48000000b0065a1b05193asm134952pfe.185.2023.08.03.11.01.19
+        by smtp.gmail.com with ESMTPSA id s8-20020aa78d48000000b0065a1b05193asm134952pfe.185.2023.08.03.11.01.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 11:01:26 -0700 (PDT)
+        Thu, 03 Aug 2023 11:01:33 -0700 (PDT)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -77,9 +77,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Conor Dooley <conor.dooley@microchip.com>,
         Atish Kumar Patra <atishp@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>
-Subject: [RFC PATCH v1 15/21] ACPI: RISC-V: Create IMSIC platform device
-Date:   Thu,  3 Aug 2023 23:29:10 +0530
-Message-Id: <20230803175916.3174453-16-sunilvl@ventanamicro.com>
+Subject: [RFC PATCH v1 16/21] ACPI: Add APLIC IRQ model for RISC-V
+Date:   Thu,  3 Aug 2023 23:29:11 +0530
+Message-Id: <20230803175916.3174453-17-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
 References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
@@ -89,82 +89,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The MSI controller functionality of the RISC-V IMSIC is
-probed as a platform device by the driver. So, create the
-IMSIC platform device if the IMSIC was discovered in MADT
-during early IMSIC driver probe.
+Add the IRQ model for RISC-V APLIC so that acpi_set_irq_model
+can use this for RISC-V.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- drivers/acpi/riscv/init.c    |  2 ++
- drivers/acpi/riscv/init.h    |  4 ++++
- drivers/acpi/riscv/irqchip.c | 23 +++++++++++++++++++++++
- 3 files changed, 29 insertions(+)
- create mode 100644 drivers/acpi/riscv/init.h
+ drivers/acpi/bus.c   | 3 +++
+ include/linux/acpi.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/acpi/riscv/init.c b/drivers/acpi/riscv/init.c
-index b5807bbdb171..be61c08ea385 100644
---- a/drivers/acpi/riscv/init.c
-+++ b/drivers/acpi/riscv/init.c
-@@ -6,7 +6,9 @@
-  */
+diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+index 9a8c16170a4b..dd9d80630bf6 100644
+--- a/drivers/acpi/bus.c
++++ b/drivers/acpi/bus.c
+@@ -1132,6 +1132,9 @@ static int __init acpi_bus_init_irq(void)
+ 	case ACPI_IRQ_MODEL_LPIC:
+ 		message = "LPIC";
+ 		break;
++	case ACPI_IRQ_MODEL_APLIC:
++		message = "APLIC";
++		break;
+ 	default:
+ 		pr_info("Unknown interrupt routing model\n");
+ 		return -ENODEV;
+diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+index d16739928888..698d120a1bd2 100644
+--- a/include/linux/acpi.h
++++ b/include/linux/acpi.h
+@@ -95,6 +95,7 @@ enum acpi_irq_model_id {
+ 	ACPI_IRQ_MODEL_PLATFORM,
+ 	ACPI_IRQ_MODEL_GIC,
+ 	ACPI_IRQ_MODEL_LPIC,
++	ACPI_IRQ_MODEL_APLIC,
+ 	ACPI_IRQ_MODEL_COUNT
+ };
  
- #include <linux/acpi.h>
-+#include "init.h"
- 
- void __init acpi_riscv_init(void)
- {
-+	riscv_acpi_imsic_platform_init();
- }
-diff --git a/drivers/acpi/riscv/init.h b/drivers/acpi/riscv/init.h
-new file mode 100644
-index 000000000000..a2f72bb294d3
---- /dev/null
-+++ b/drivers/acpi/riscv/init.h
-@@ -0,0 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#include <linux/init.h>
-+
-+void __init riscv_acpi_imsic_platform_init(void);
-diff --git a/drivers/acpi/riscv/irqchip.c b/drivers/acpi/riscv/irqchip.c
-index 6e15d45cb229..ca96bf109cf7 100644
---- a/drivers/acpi/riscv/irqchip.c
-+++ b/drivers/acpi/riscv/irqchip.c
-@@ -9,7 +9,10 @@
- #include <linux/fwnode.h>
- #include <linux/irqdomain.h>
- #include <linux/list.h>
-+#include <linux/msi.h>
-+#include <linux/platform_device.h>
- #include <linux/property.h>
-+#include "../../../drivers/pci/pci.h"
- 
- struct riscv_irqchip_list {
- 	struct fwnode_handle *fwnode;
-@@ -101,3 +104,23 @@ struct fwnode_handle *acpi_riscv_get_msi_fwnode(struct device *dev)
- {
- 	return imsic_acpi_fwnode;
- }
-+
-+void __init riscv_acpi_imsic_platform_init(void)
-+{
-+	struct platform_device *pdev;
-+	int ret;
-+
-+	if (!acpi_riscv_get_msi_fwnode(NULL)) {
-+		pci_no_msi();
-+		return;
-+	}
-+
-+	pdev = platform_device_alloc("riscv-imsic", 0);
-+	if (!pdev)
-+		return;
-+
-+	pdev->dev.fwnode = acpi_riscv_get_msi_fwnode(NULL);
-+	ret = platform_device_add(pdev);
-+	if (ret)
-+		platform_device_put(pdev);
-+}
 -- 
 2.39.2
 
