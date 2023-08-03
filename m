@@ -2,64 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D501EC001DF
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 20:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 287ADC00528
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 21:36:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbjHCUzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 16:55:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58790 "EHLO
+        id S230130AbjHCVgh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 17:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjHCUzs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 16:55:48 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B37A2
-        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 13:55:47 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-579de633419so15915697b3.3
-        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 13:55:47 -0700 (PDT)
+        with ESMTP id S229631AbjHCVgg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 17:36:36 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C3C72D4C
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 14:36:35 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3a3b7f992e7so1063470b6e.2
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 14:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1691096146; x=1691700946;
+        d=paul-moore.com; s=google; t=1691098594; x=1691703394;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xxczLQkiLaZuHq0hioSngdMG27Z3CrO0BwzJE14vAuc=;
-        b=TRpwMRLJ9HugaeZXVf6uPZswfjMJ2m8vM2cFL4fYQL8eJ1fWIt066rEFfKn/VbgiFU
-         m7CrsMecG+82n+xGb4PlbPTod1RiSZMfWPUgvap9l0mPKd46SIH6jsJYscV8NhTbO7Jk
-         nmgSc35UWjffaUh58vKqABzRpgkpPMKZlKmEzS8pI88RYmXOIdWpsXHUsbd731+gvlOs
-         rHyyswSrJFxHgU0V2SPaXEOcVaN6AKI2/r+i6N8iCHz0WJmo4V9rWnq1t+qX8xsXM9SH
-         wPN9w7tQiFF5ffzgEBsfIh2zesXv6nmiwO6zVANH7aQ4UWH2Lv3VGXwQqjrEkT52iUhp
-         ZNWA==
+        bh=H65YV0mXsBrDwaLhfjAIVPFHC4txE29o4v52O46fpYE=;
+        b=JGQXuiFPLwMGt3r+9wI79MIcQcAuVaR0Zi+sM8EXzPXO8IxBuAk3wnY+KTKw4erASI
+         yyxN2se2O1ojtjXoroa8ZSwQEpYjJ233bwqQY793JIE9iJ7vVKPUHEa0NsCuOGxeKk4J
+         H9gV3fxFwP/2tpBdF6pzzEml+oSLLWgW5Bkpr3nSilADN4ckupwPZQIxmy7iXY7lo+vv
+         qRB/ZHjCKAjevOT6nsE8jaZwYChEI/uSQ2pLO0iSQnkKsKIxJplbU68k8UxHb0clYA4X
+         4NnCjhCWZ9sdo/s2aECVGanJ9EULZGXPJRNBVUehSnH3fvrgB5LSj0RREdFKCpxFxeIJ
+         9gbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691096146; x=1691700946;
+        d=1e100.net; s=20221208; t=1691098594; x=1691703394;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xxczLQkiLaZuHq0hioSngdMG27Z3CrO0BwzJE14vAuc=;
-        b=A0YrA4bU608ExY9VJYASkD8QzSJW84FqTvASfVNnrwp71H6kS9TM8ClicdgAhzign1
-         Z9PjuN5olckpJ+5AIbcAmvDKlSg4c7pCYogwhFYw9fpiadBpAKIdp9lSvhp/fWADyzMV
-         dl9sU5OEIIKitf+Ld0MPLXnRnFwuvbrw0ByKx2zeXrVU9/NgNSe7Hm8ggpPkyx3y9hzX
-         lzBUiDXFKuTzbYDOc+tme+GVVlsehAfKFoy6nADBTqnOxrl2zqT6zl2m62l0tiiSmfeE
-         ebEEqmJS7W5WaC8JXRm7Cd00VMJp1XGtUr2c+Ztq2U3u01GDT3amOCVCgWKWgAcn1X7B
-         Irxw==
-X-Gm-Message-State: AOJu0YyPRzLmHHY9SjlqwjAbiJeh13iukqqgihH3cy+Z30j5wKG7t/b2
-        /JnysIi1H5ltOeoveaXKoCaVN9Ibe9oR/OQyuPgp
-X-Google-Smtp-Source: AGHT+IHriyC/W8GO5iHiqfCmT5yUjt5chifwCCM90JuMHhlYWAbUbuJ6EXLwRpb/U2GID+a+3tAyRuuPQ/mkevxpw0I=
-X-Received: by 2002:a81:69c2:0:b0:586:9e6e:e2e6 with SMTP id
- e185-20020a8169c2000000b005869e6ee2e6mr1575963ywc.48.1691096146735; Thu, 03
- Aug 2023 13:55:46 -0700 (PDT)
+        bh=H65YV0mXsBrDwaLhfjAIVPFHC4txE29o4v52O46fpYE=;
+        b=L1BG2RkATnVrw+E680jlmj8irlvM8m8R5WbnQw8Qc0Fdmuhn8vr07oaHJThX9tsQV7
+         jAsCerpG6WqY2Pzoq8F8iii70fnjZF9UMAGn/bMoJKZeg2pctMibS8CYvcvd1x9d+W5H
+         EBZ6hvrRF75sDO7utpIk8Sx7Dd/ZLyBROUP5gf9bm/kWpR2H62/OCvPjoSGA+VPkvVR4
+         q4evvMAsV2/l3aK4Dp4me4qPPGXMXNbguiSPwRLtBwvoJ0TmNG7vc1DBI9sWueJX5FDt
+         YLkiZOhm+w2wcXTwpH49NJl/zW3+Bfis2Wp5UJbxdVOeEDuxGHInUjc4RA+g4OCJhR2O
+         bP/Q==
+X-Gm-Message-State: ABy/qLaDhmDoJoO7jHY9qe+OGxf9lUFFchob44Lk7nYuCR9yfXMz8BKb
+        /rqQUr+vvb88vuoBAEJkPjnJ/b163Af57i5aVPKH
+X-Google-Smtp-Source: APBJJlHI6Vnodk0t5RxWsdDsJDmgJUvqD5T9v4GV8qFm0Kj2mSxwy1/T2ArUNHswC47JY+o8XXXDzooAAfddc2j8zLM=
+X-Received: by 2002:aca:2117:0:b0:3a7:146d:85b5 with SMTP id
+ 23-20020aca2117000000b003a7146d85b5mr16968781oiz.52.1691098594544; Thu, 03
+ Aug 2023 14:36:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHC9VhRsxARUsFcJC-5zp9pX8LWbKQLE4vW+S6n-PMG5XJZtDA@mail.gmail.com>
  <4708afda-8867-735a-2f55-ca974e76cc9c@schaufler-ca.com> <CAHC9VhTepATGki_8_nyUcmCCvJ2hpLO4bWFhF-gJ3CQceEBMfA@mail.gmail.com>
  <CAHC9VhQ9EfH5sb85+uwyB726iDNR47k=sfr0zBCENz=-PerR9A@mail.gmail.com>
  <20230802.doki9xoTh0ai@digikod.net> <CAHC9VhSb+=JF7GJ-98DX_3NO2eSLeurXO+w4xcgHuXFh6HqWVw@mail.gmail.com>
- <c1f1b7b7-fb2f-cd03-d962-70979082c1b4@infradead.org>
-In-Reply-To: <c1f1b7b7-fb2f-cd03-d962-70979082c1b4@infradead.org>
+ <20230803.Ahk8eith7xei@digikod.net>
+In-Reply-To: <20230803.Ahk8eith7xei@digikod.net>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 3 Aug 2023 16:55:35 -0400
-Message-ID: <CAHC9VhT2oM2ancRuxXRd2-nmgmyu2fdvaedv2K-nF9s11WxqZg@mail.gmail.com>
+Date:   Thu, 3 Aug 2023 17:36:23 -0400
+Message-ID: <CAHC9VhQ3ViRdnbVgP7FXFaGi1hSLYX2RJcFNrvJp-Y1Mt1fc8Q@mail.gmail.com>
 Subject: Re: ANN: new LSM guidelines
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
-        Casey Schaufler <casey@schaufler-ca.com>,
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     Casey Schaufler <casey@schaufler-ca.com>,
         linux-security-module@vger.kernel.org,
         Alejandro Colomar <alx.manpages@gmail.com>,
         linux-doc@vger.kernel.org
@@ -69,19 +68,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 2, 2023 at 6:36=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
-> On 8/2/23 14:56, Paul Moore wrote:
-> > I was looking for the original comments from Arjan but couldn't find
-> > them in an archive anywhere, if anyone has a pointer it would be great
-> > to share that.
+On Thu, Aug 3, 2023 at 5:44=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digiko=
+d.net> wrote:
+> On Wed, Aug 02, 2023 at 05:56:42PM -0400, Paul Moore wrote:
+> > On Wed, Aug 2, 2023 at 2:38=E2=80=AFPM Micka=C3=ABl Sala=C3=BCn <mic@di=
+gikod.net> wrote:
 >
-> Are you referring to either of these?
+> [...]
 >
-> https://lore.kernel.org/all/20071026141358.38342c0f@laptopd505.fenrus.org=
-/
+> > > > * There must be at least one LSM implementation of the hook include=
+d in the
+> > > > submission to act as a reference for additional LSM implementations=
+.  The
+> > > > reference implementation must be for one of the upstream, in-kernel=
+ LSMs; while
+> > > > the BPF LSM is an upstream LSM, it's nature precludes it from being=
+ eligible as
+> > > > one of the in-kernel LSMs.
+> > >
+> > > To avoid misunderstanding, I think it would be better and more generi=
+c
+> > > to focus on the out-of-tree nature of hook implementations.  We might
+> > > also want to give some pointers for the reason(s) why out-of-tree LSM=
+s
+> > > use cases are not supported.
+> >
+> > I'm open to new language here if you have some particular wording in mi=
+nd?
+>
+> What about this?
+>
+> * Every hook must demonstrate its usefulness and be actually used by
+>   in-kernel code.  This is required to understand the purpose of the LSM
+>   hooks, their expected semantic, and to be able to guarantee security
+>   properties throughout kernel code changes (e.g., thanks to regression
+>   testing).  This means that out-of-tree kernel code and pass-through
+>   implementations (e.g., BPF LSM) are not eligible for such reference
+>   implementations.
 
-Perfect, that is what I was looking for - thank you!
+Nice.  I made some slight changes while adding it to the doc, take a
+look and let me know what you think.
+
+> > > > * The new LSM's author(s) must commit to maintain and support the n=
+ew LSM for
+> > > > an extended period of time.  While the authors may be currently emp=
+loyed to
+> > > > develop and support the LSM, there is an expectation upstream that =
+support will
+> > > > continue beyond the author's employment with the original company, =
+or the
+> > > > company's backing of the LSM.
+> > > >
+> > > > * New LSMs must include documentation providing a clear explanation=
+ of the
+> > > > LSM's requirements, goals, and expected uses.  The documentation do=
+es not need
+> > > > to rise to the level of a formal security model, but it must be con=
+sidered
+> > > > "reasonable" by the LSM community as a whole.
+> > >
+> > > I guess defining the threat model would be a good first step (and we
+> > > should probably add this kind of description for current LSMs as well=
+).
+> >
+> > I believe that should be captured in the "requirements, goals, and
+> > expected uses" portion of the requirement above, but if you believe it
+> > should be more explicit let me know.
+>
+> I think explicitly using "threat model" in this paragraph would be a
+> good idea.
+
+Okay, I reworked that requirement slightly, please give it a look
 
 --=20
 paul-moore.com
