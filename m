@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5DD0C04FDF
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 17:59:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0583C001DB
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 18:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235298AbjHCR7w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 13:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60026 "EHLO
+        id S235239AbjHCSAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 14:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235257AbjHCR7u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 13:59:50 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3F13A99
-        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 10:59:42 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-686efb9ee0cso1089786b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 10:59:42 -0700 (PDT)
+        with ESMTP id S235270AbjHCSAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 14:00:01 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E2A4237
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 10:59:50 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-686b9964ae2so888116b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 10:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1691085582; x=1691690382;
+        d=ventanamicro.com; s=google; t=1691085589; x=1691690389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UFiDx4yUD9M5LLDSVyQwmi0hMurmb+i35a+0GaoSwmM=;
-        b=gzSCFSr/G3waueuE9A6zvWLt6I+my76zCgzC+Cixi6x1rcZmEeUXOSYMURhNyw6A6r
-         J49EhGgoE3rXRkx6/8YpidVkV0MDlLQRzHN5khGbW0Z6Le7dX36yRwInwPOpY3NUol9K
-         VFZda8kXmQd0g/+Bcy87pAQkGHttASe2PqLvfoe/rAFLFu56gnJi/ypQPQH0DfBUZLvh
-         rumXtVJlEMOPyX69tNEq170gumWAvTBB487kSAKUPQbVWxjTEwxI1l6eSwdWgp1IXmU2
-         EXNHu9wR+N4ak1DbuoMVvmyGwft7HubO+CSmircw3jRVDj5DBYF+Ylw9aBGU2GW71/6K
-         aTug==
+        bh=uZnV0ewqSpbZRhAC/LQ4a5BRuhAMm0ngpEEdA3S7vUc=;
+        b=bnUHrvcB3yN6JHMYj1LgPtgbaxVQ2/kWyipu/UeXRJ2tHBpusAvGqpA2JpZ8jeIH3g
+         SyS215bD2yhR3UKyi9XvIbGviVfviNKGBhGo/Mk/B9uovNyjuY/6JKLvXsCys19DKBzy
+         PK3XjqkewPWtoHp1j2jTNsCLUY34QkGN+CYnMoiiMFGecT18d+z52RAzbiSaOEmldABl
+         hBbRGcvCyS2IdMb43pHQK5fXbIjZesRZXZl+zaNJ8ai+DEh2SCarIlkd0XwjKBowE4e7
+         pIqmYk0rHQaaJOnTsyBYVT8t+V9YHSEPUdcUxTvVigAA3BrS9RhiMJna4uMbinUca3Rm
+         +79g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691085582; x=1691690382;
+        d=1e100.net; s=20221208; t=1691085589; x=1691690389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UFiDx4yUD9M5LLDSVyQwmi0hMurmb+i35a+0GaoSwmM=;
-        b=NTtMrPrTqBJiljdFV1i0tMT+D15j1wBt9wmSsZ1o2r6yMGmPCfKQrLrR7swIagcJi0
-         O8mvjKt86MdpX9DnLmJoPeK/Kal4LD6qu96eHbtEHlqbJo9lltrzlio4Ba+vFvniz9Xl
-         qSAd5wjGLBlTEJ/qT/X4Jdio7MAy/oZwdOADPRtdY/KvHZm2XYJlUbPod0uIexn0Fxp5
-         hKMSNGE6AOp48wk9+kWWvC2sLOuSMEbnKvXH7YKr7znGi6TmVrtYo/T7gv5DMbgyWE3M
-         wEDOL8ErOkkmKYEipfWgoDthCgorV1b8jY7DzplrpLxnXL64Q0G0SXzt+WuP4Q2cAzAS
-         cmaA==
-X-Gm-Message-State: ABy/qLbjCz9uqVmrhBafhUhO2rV9fwDuf5UZe6i2Qch8SG7pVSFfObIH
-        IhDPmFGE9FUBkFTtkoh3V280G8/FTUWvNTLbDmA=
-X-Google-Smtp-Source: APBJJlEYFTsZLTq9I40pUpD7LIXiH3Cg29Qi6vfE5k5jpjtfQAYsVuB8uUL66kNJTqe85l1gopgFEA==
-X-Received: by 2002:a05:6a20:7d9c:b0:13e:82ae:483 with SMTP id v28-20020a056a207d9c00b0013e82ae0483mr11419977pzj.31.1691085581732;
-        Thu, 03 Aug 2023 10:59:41 -0700 (PDT)
+        bh=uZnV0ewqSpbZRhAC/LQ4a5BRuhAMm0ngpEEdA3S7vUc=;
+        b=MadDWZgwTqQ1Zt58LsxdekAwBRtTd5OQv+k+aLgU6fMIYU0Z1mOdAy9RPGQxXI2Wr7
+         2Bd2vSUUDjcmoLUarAbpHaEW/Eo8gRose9rEZijub2f2JmnRGoCbOj7NlHuceKY09m4i
+         mtV4Vhlz/pug/u+gTF6TMFW7LiYxbUsg3vVoS8OlzlZ60Z5wXZElBtJErUrIyVeKGnPC
+         8dWHOlQLg/VxBT7oLyrK/XN7QL8FVmgYy6+s3jJj6+ETm9Q5a3VakZhTOUHgMJUplbGQ
+         lk2Q7g3ST8GD0WgcAFSgj8py3N85wxGjCcwHMtf2Vu2pTJa7TilcEB46NjZn7tt7dUO9
+         jfBQ==
+X-Gm-Message-State: ABy/qLaGFY8J3cZX7ZS/lfG0Mj8Y6umQJQXcP5otunoP/YnnbfKtQJg4
+        7bEMiWa/6Lo0wImlG4N4Jvx5OHgw83Q4+wbwGPg=
+X-Google-Smtp-Source: APBJJlE1b+j2IWH4TbwV8C6fjO+Svt90/nwRmWf6oRPC//NYJR0B8gyqBDu4bXvcfIVaY5ldDXWYCg==
+X-Received: by 2002:aa7:88c3:0:b0:687:20d6:faea with SMTP id k3-20020aa788c3000000b0068720d6faeamr17580448pff.15.1691085589326;
+        Thu, 03 Aug 2023 10:59:49 -0700 (PDT)
 Received: from sunil-pc.Dlink ([106.51.190.143])
-        by smtp.gmail.com with ESMTPSA id s8-20020aa78d48000000b0065a1b05193asm134952pfe.185.2023.08.03.10.59.34
+        by smtp.gmail.com with ESMTPSA id s8-20020aa78d48000000b0065a1b05193asm134952pfe.185.2023.08.03.10.59.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 10:59:41 -0700 (PDT)
+        Thu, 03 Aug 2023 10:59:49 -0700 (PDT)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -78,9 +78,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Atish Kumar Patra <atishp@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [RFC PATCH v1 01/21] ACPICA: MADT: Add RISC-V external interrupt controllers
-Date:   Thu,  3 Aug 2023 23:28:56 +0530
-Message-Id: <20230803175916.3174453-2-sunilvl@ventanamicro.com>
+Subject: [RFC PATCH v1 02/21] ACPICA: RHCT: Add flags, CMO and MMU nodes
+Date:   Thu,  3 Aug 2023 23:28:57 +0530
+Message-Id: <20230803175916.3174453-3-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
 References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
@@ -90,114 +90,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ACPICA commit 8c048cee4ea7b9ded8db3e1b3b9c14e21e084a2c
+ACPICA commit 2eded5a6a13d892b7dc3be6096e7b1e8d4407600
 
-This adds 3 different external interrupt controller
-definitions in MADT for RISC-V.
+Update RHCT table with below details.
 
- 1) RISC-V PLIC is a platform interrupt controller for
-    handling wired interrupt in a RISC-V systems.
+ 1) Add additional structure to describe the Cache Management
+    Operation (CMO) related information.
 
- 2) RISC-V IMSIC is MSI interrupt controller to
-    support MSI interrupts.
+ 2) Add structure to describe MMU type.
 
- 3) RISC-V APLIC has dual functionality. First it can
-    act like PLIC and direct all wired interrupts to
-    the CPU which doesn't have MSI controller. Second,
-    when the CPU has MSI controller (IMSIC), it will
-    act as a converter from wired interrupts to MSI.
-
-Update the existing RINTC structure also to support
-these external interrupt controllers.
+ 3) Convert the current reserved field to flags and define
+    a flag to indicate timer capability.
 
 This codefirst ECR is approved by UEFI forum and will
 be part of next ACPI spec version.
 
-Link: https://github.com/acpica/acpica/commit/8c048cee
-Co-developed-by: Haibo Xu <haibo1.xu@intel.com>
-Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+Link: https://github.com/acpica/acpica/commit/2eded5a6
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 Signed-off-by: Bob Moore <robert.moore@intel.com>
 Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- include/acpi/actbl2.h | 50 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 49 insertions(+), 1 deletion(-)
+ include/acpi/actbl2.h | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/include/acpi/actbl2.h b/include/acpi/actbl2.h
-index 0029336775a9..280ab4c7f77a 100644
+index 280ab4c7f77a..3751ae69432f 100644
 --- a/include/acpi/actbl2.h
 +++ b/include/acpi/actbl2.h
-@@ -893,7 +893,10 @@ enum acpi_madt_type {
- 	ACPI_MADT_TYPE_BIO_PIC = 22,
- 	ACPI_MADT_TYPE_LPC_PIC = 23,
- 	ACPI_MADT_TYPE_RINTC = 24,
--	ACPI_MADT_TYPE_RESERVED = 25,	/* 25 to 0x7F are reserved */
-+	ACPI_MADT_TYPE_IMSIC = 25,
-+	ACPI_MADT_TYPE_APLIC = 26,
-+	ACPI_MADT_TYPE_PLIC = 27,
-+	ACPI_MADT_TYPE_RESERVED = 28,	/* 28 to 0x7F are reserved */
- 	ACPI_MADT_TYPE_OEM_RESERVED = 0x80	/* 0x80 to 0xFF are reserved for OEM use */
+@@ -2778,12 +2778,15 @@ enum acpi_rgrt_image_type {
+ 
+ struct acpi_table_rhct {
+ 	struct acpi_table_header header;	/* Common ACPI table header */
+-	u32 reserved;
++	u32 flags;		/* RHCT flags */
+ 	u64 time_base_freq;
+ 	u32 node_count;
+ 	u32 node_offset;
  };
  
-@@ -1261,6 +1264,9 @@ struct acpi_madt_rintc {
- 	u32 flags;
- 	u64 hart_id;
- 	u32 uid;		/* ACPI processor UID */
-+	u32 ext_intc_id;	/* External INTC Id */
-+	u64 imsic_addr;		/* IMSIC base address */
-+	u32 imsic_size;		/* IMSIC size */
++/* RHCT Flags */
++
++#define ACPI_RHCT_TIMER_CANNOT_WAKEUP_CPU       (1)
+ /*
+  * RHCT subtables
+  */
+@@ -2797,6 +2800,9 @@ struct acpi_rhct_node_header {
+ 
+ enum acpi_rhct_node_type {
+ 	ACPI_RHCT_NODE_TYPE_ISA_STRING = 0x0000,
++	ACPI_RHCT_NODE_TYPE_CMO = 0x0001,
++	ACPI_RHCT_NODE_TYPE_MMU = 0x0002,
++	ACPI_RHCT_NODE_TYPE_RESERVED = 0x0003,
+ 	ACPI_RHCT_NODE_TYPE_HART_INFO = 0xFFFF,
  };
  
- /* Values for RISC-V INTC Version field above */
-@@ -1271,6 +1277,48 @@ enum acpi_madt_rintc_version {
- 	ACPI_MADT_RINTC_VERSION_RESERVED = 2	/* 2 and greater are reserved */
+@@ -2810,6 +2816,24 @@ struct acpi_rhct_isa_string {
+ 	char isa[];
  };
  
-+/* 25: RISC-V IMSIC */
-+struct acpi_madt_imsic {
-+	struct acpi_subtable_header header;
-+	u8 version;
-+	u8 reserved;
-+	u32 flags;
-+	u16 num_ids;
-+	u16 num_guest_ids;
-+	u8 guest_index_bits;
-+	u8 hart_index_bits;
-+	u8 group_index_bits;
-+	u8 group_index_shift;
++struct acpi_rhct_cmo_node {
++	u8 reserved;		/* Must be zero */
++	u8 cbom_size;		/* CBOM size in powerof 2 */
++	u8 cbop_size;		/* CBOP size in powerof 2 */
++	u8 cboz_size;		/* CBOZ size in powerof 2 */
 +};
 +
-+/* 26: RISC-V APLIC */
-+struct acpi_madt_aplic {
-+	struct acpi_subtable_header header;
-+	u8 version;
-+	u8 id;
-+	u32 flags;
-+	u8 hw_id[8];
-+	u16 num_idcs;
-+	u16 num_sources;
-+	u32 gsi_base;
-+	u64 base_addr;
-+	u32 size;
++struct acpi_rhct_mmu_node {
++	u8 reserved;		/* Must be zero */
++	u8 mmu_type;		/* Virtual Address Scheme */
 +};
 +
-+/* 27: RISC-V PLIC */
-+struct acpi_madt_plic {
-+	struct acpi_subtable_header header;
-+	u8 version;
-+	u8 id;
-+	u8 hw_id[8];
-+	u16 num_irqs;
-+	u16 max_prio;
-+	u32 flags;
-+	u32 size;
-+	u64 base_addr;
-+	u32 gsi_base;
++enum acpi_rhct_mmu_type {
++	ACPI_RHCT_MMU_TYPE_SV39 = 0,
++	ACPI_RHCT_MMU_TYPE_SV48 = 1,
++	ACPI_RHCT_MMU_TYPE_SV57 = 2
 +};
 +
- /* 80: OEM data */
- 
- struct acpi_madt_oem_data {
+ /* Hart Info node structure */
+ struct acpi_rhct_hart_info {
+ 	u16 num_offsets;
 -- 
 2.39.2
 
