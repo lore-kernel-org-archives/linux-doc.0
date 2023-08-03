@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0583C001DB
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 18:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F328EC001DB
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 18:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235239AbjHCSAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 14:00:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
+        id S235281AbjHCSAZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 14:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235270AbjHCSAB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 14:00:01 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E2A4237
-        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 10:59:50 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-686b9964ae2so888116b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 10:59:50 -0700 (PDT)
+        with ESMTP id S235271AbjHCSAK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 14:00:10 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0E7944B4
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 10:59:57 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-686efb9ee3cso1078144b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 10:59:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1691085589; x=1691690389;
+        d=ventanamicro.com; s=google; t=1691085597; x=1691690397;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uZnV0ewqSpbZRhAC/LQ4a5BRuhAMm0ngpEEdA3S7vUc=;
-        b=bnUHrvcB3yN6JHMYj1LgPtgbaxVQ2/kWyipu/UeXRJ2tHBpusAvGqpA2JpZ8jeIH3g
-         SyS215bD2yhR3UKyi9XvIbGviVfviNKGBhGo/Mk/B9uovNyjuY/6JKLvXsCys19DKBzy
-         PK3XjqkewPWtoHp1j2jTNsCLUY34QkGN+CYnMoiiMFGecT18d+z52RAzbiSaOEmldABl
-         hBbRGcvCyS2IdMb43pHQK5fXbIjZesRZXZl+zaNJ8ai+DEh2SCarIlkd0XwjKBowE4e7
-         pIqmYk0rHQaaJOnTsyBYVT8t+V9YHSEPUdcUxTvVigAA3BrS9RhiMJna4uMbinUca3Rm
-         +79g==
+        bh=dlgMxBU+gnbxavLK2CnXHLqjxrOHpsQhLJivrmp7gq8=;
+        b=Mn/vo0MoTkPiEepTolmO07DSHUYqv7rFmArT6LTUsVmzAqnBvKBjkRZBvhSJTyiZAM
+         1h1+n6DkofxPjLLD7asRa2i/oE66f7GWtWQqA9+nDJYue6PrwjDM067chowzEAr4ODxH
+         vSRhcalLZi64uzfoqGFqhxbjGjGGDhdaLNb94wU3+LcfSd6SGzYCkrAI2qx43QP8mXm+
+         DJ0Il1lN5U+uqlCxzJ+JnPkr+AJ87TQm7Mbi6Aqs2pV30Apw6vIAlJMrvnORHqksud91
+         revKW71DM8rTMoqvZp3Ftaus2TBe8ju/o/MzItnmUE5tDKZn5+PQ0RhtNd0uQFIakZk6
+         1UZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691085589; x=1691690389;
+        d=1e100.net; s=20221208; t=1691085597; x=1691690397;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uZnV0ewqSpbZRhAC/LQ4a5BRuhAMm0ngpEEdA3S7vUc=;
-        b=MadDWZgwTqQ1Zt58LsxdekAwBRtTd5OQv+k+aLgU6fMIYU0Z1mOdAy9RPGQxXI2Wr7
-         2Bd2vSUUDjcmoLUarAbpHaEW/Eo8gRose9rEZijub2f2JmnRGoCbOj7NlHuceKY09m4i
-         mtV4Vhlz/pug/u+gTF6TMFW7LiYxbUsg3vVoS8OlzlZ60Z5wXZElBtJErUrIyVeKGnPC
-         8dWHOlQLg/VxBT7oLyrK/XN7QL8FVmgYy6+s3jJj6+ETm9Q5a3VakZhTOUHgMJUplbGQ
-         lk2Q7g3ST8GD0WgcAFSgj8py3N85wxGjCcwHMtf2Vu2pTJa7TilcEB46NjZn7tt7dUO9
-         jfBQ==
-X-Gm-Message-State: ABy/qLaGFY8J3cZX7ZS/lfG0Mj8Y6umQJQXcP5otunoP/YnnbfKtQJg4
-        7bEMiWa/6Lo0wImlG4N4Jvx5OHgw83Q4+wbwGPg=
-X-Google-Smtp-Source: APBJJlE1b+j2IWH4TbwV8C6fjO+Svt90/nwRmWf6oRPC//NYJR0B8gyqBDu4bXvcfIVaY5ldDXWYCg==
-X-Received: by 2002:aa7:88c3:0:b0:687:20d6:faea with SMTP id k3-20020aa788c3000000b0068720d6faeamr17580448pff.15.1691085589326;
-        Thu, 03 Aug 2023 10:59:49 -0700 (PDT)
+        bh=dlgMxBU+gnbxavLK2CnXHLqjxrOHpsQhLJivrmp7gq8=;
+        b=NwHmx+D5RWbpUMQdfiGmudVIwA9u8yhfXnGx/CafBGK8JJCoriYe9TnEc7xh4/6S9t
+         jBHd3cE93wDbzkZkiLL5gJAZsZqnA4m5iK3fNrL3sQV629hvF5FQcXIPHWyU9gPykkzC
+         ZDmF2SNZNGbLEXoKgnoUdvT+NUWFwxZxg68a7eoMJm9aULYgUA62hXCOEcgAjLJqkr8L
+         esPur6D0UrizR7EHAcVlUveqp18Ise1L0HAyN7pr301Rld+aaJgxjpdQvTVGBhdWQMPr
+         TTiSHxjgWbRPz63MTgTW8iJqr15KVxiuXQXOY+3iQQ69XGhxMyzsNraDfwMRWswUDrtA
+         2EhA==
+X-Gm-Message-State: ABy/qLbivyww7YlnDs89QQdRZsBOaqQ3+kxEXH+8vahaU9glbASUCBTE
+        spGa6o3RSc7Qivd5RpekBriVbTcEJ1V3oLRiwpc=
+X-Google-Smtp-Source: APBJJlHeLQhx5wJXxieN87kQ/FrrGdUXv58YAFTjJ6UeQQPmtQGf8bvG5vbiImqAXiXcjHGvc1bNlw==
+X-Received: by 2002:a05:6a00:c86:b0:682:4c9f:aa0 with SMTP id a6-20020a056a000c8600b006824c9f0aa0mr23559310pfv.29.1691085596954;
+        Thu, 03 Aug 2023 10:59:56 -0700 (PDT)
 Received: from sunil-pc.Dlink ([106.51.190.143])
-        by smtp.gmail.com with ESMTPSA id s8-20020aa78d48000000b0065a1b05193asm134952pfe.185.2023.08.03.10.59.42
+        by smtp.gmail.com with ESMTPSA id s8-20020aa78d48000000b0065a1b05193asm134952pfe.185.2023.08.03.10.59.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 10:59:49 -0700 (PDT)
+        Thu, 03 Aug 2023 10:59:56 -0700 (PDT)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -77,10 +77,10 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Conor Dooley <conor.dooley@microchip.com>,
         Atish Kumar Patra <atishp@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [RFC PATCH v1 02/21] ACPICA: RHCT: Add flags, CMO and MMU nodes
-Date:   Thu,  3 Aug 2023 23:28:57 +0530
-Message-Id: <20230803175916.3174453-3-sunilvl@ventanamicro.com>
+        kernel test robot <lkp@intel.com>
+Subject: [RFC PATCH v1 03/21] RISC-V: ACPI: Fix acpi_os_ioremap to return iomem address
+Date:   Thu,  3 Aug 2023 23:28:58 +0530
+Message-Id: <20230803175916.3174453-4-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
 References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
@@ -90,85 +90,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ACPICA commit 2eded5a6a13d892b7dc3be6096e7b1e8d4407600
+acpi_os_ioremap() currently is a wrapper to memremap() on
+RISC-V. But the callers of acpi_os_ioremap() expect it to
+return __iomem address and hence sparse tool reports a new
+warning. Fix this issue by type casting to  __iomem type.
 
-Update RHCT table with below details.
-
- 1) Add additional structure to describe the Cache Management
-    Operation (CMO) related information.
-
- 2) Add structure to describe MMU type.
-
- 3) Convert the current reserved field to flags and define
-    a flag to indicate timer capability.
-
-This codefirst ECR is approved by UEFI forum and will
-be part of next ACPI spec version.
-
-Link: https://github.com/acpica/acpica/commit/2eded5a6
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202307230357.egcTAefj-lkp@intel.com/
+Fixes: a91a9ffbd3a5 ("RISC-V: Add support to build the ACPI core")
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-Signed-off-by: Bob Moore <robert.moore@intel.com>
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- include/acpi/actbl2.h | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ arch/riscv/include/asm/acpi.h | 2 +-
+ arch/riscv/kernel/acpi.c      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/acpi/actbl2.h b/include/acpi/actbl2.h
-index 280ab4c7f77a..3751ae69432f 100644
---- a/include/acpi/actbl2.h
-+++ b/include/acpi/actbl2.h
-@@ -2778,12 +2778,15 @@ enum acpi_rgrt_image_type {
+diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+index f71ce21ff684..d5604d2073bc 100644
+--- a/arch/riscv/include/asm/acpi.h
++++ b/arch/riscv/include/asm/acpi.h
+@@ -19,7 +19,7 @@ typedef u64 phys_cpuid_t;
+ #define PHYS_CPUID_INVALID INVALID_HARTID
  
- struct acpi_table_rhct {
- 	struct acpi_table_header header;	/* Common ACPI table header */
--	u32 reserved;
-+	u32 flags;		/* RHCT flags */
- 	u64 time_base_freq;
- 	u32 node_count;
- 	u32 node_offset;
- };
+ /* ACPI table mapping after acpi_permanent_mmap is set */
+-void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size);
++void __iomem *acpi_os_ioremap(acpi_physical_address phys, acpi_size size);
+ #define acpi_os_ioremap acpi_os_ioremap
  
-+/* RHCT Flags */
-+
-+#define ACPI_RHCT_TIMER_CANNOT_WAKEUP_CPU       (1)
- /*
-  * RHCT subtables
-  */
-@@ -2797,6 +2800,9 @@ struct acpi_rhct_node_header {
+ #define acpi_strict 1	/* No out-of-spec workarounds on RISC-V */
+diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+index 5ee03ebab80e..56cb2c986c48 100644
+--- a/arch/riscv/kernel/acpi.c
++++ b/arch/riscv/kernel/acpi.c
+@@ -215,9 +215,9 @@ void __init __acpi_unmap_table(void __iomem *map, unsigned long size)
+ 	early_iounmap(map, size);
+ }
  
- enum acpi_rhct_node_type {
- 	ACPI_RHCT_NODE_TYPE_ISA_STRING = 0x0000,
-+	ACPI_RHCT_NODE_TYPE_CMO = 0x0001,
-+	ACPI_RHCT_NODE_TYPE_MMU = 0x0002,
-+	ACPI_RHCT_NODE_TYPE_RESERVED = 0x0003,
- 	ACPI_RHCT_NODE_TYPE_HART_INFO = 0xFFFF,
- };
+-void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
++void __iomem *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
+ {
+-	return memremap(phys, size, MEMREMAP_WB);
++	return (void __iomem *)memremap(phys, size, MEMREMAP_WB);
+ }
  
-@@ -2810,6 +2816,24 @@ struct acpi_rhct_isa_string {
- 	char isa[];
- };
- 
-+struct acpi_rhct_cmo_node {
-+	u8 reserved;		/* Must be zero */
-+	u8 cbom_size;		/* CBOM size in powerof 2 */
-+	u8 cbop_size;		/* CBOP size in powerof 2 */
-+	u8 cboz_size;		/* CBOZ size in powerof 2 */
-+};
-+
-+struct acpi_rhct_mmu_node {
-+	u8 reserved;		/* Must be zero */
-+	u8 mmu_type;		/* Virtual Address Scheme */
-+};
-+
-+enum acpi_rhct_mmu_type {
-+	ACPI_RHCT_MMU_TYPE_SV39 = 0,
-+	ACPI_RHCT_MMU_TYPE_SV48 = 1,
-+	ACPI_RHCT_MMU_TYPE_SV57 = 2
-+};
-+
- /* Hart Info node structure */
- struct acpi_rhct_hart_info {
- 	u16 num_offsets;
+ #ifdef CONFIG_PCI
 -- 
 2.39.2
 
