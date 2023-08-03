@@ -2,127 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEA3C04E69
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 14:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A74EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 14:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235333AbjHCOJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 10:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53184 "EHLO
+        id S233772AbjHCOYt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 10:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237035AbjHCOIw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 10:08:52 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E696F1FF0;
-        Thu,  3 Aug 2023 07:08:02 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-bcb6dbc477eso991813276.1;
-        Thu, 03 Aug 2023 07:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691071681; x=1691676481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jb1aZWQnbifz16U2517ArsPdHyVT8qzE12vInUcoAt4=;
-        b=ebrpSM4TGU27+eZrt6b46SfKawasjkJFKbmFSZK0BT7hOZ1tKOjkMoC0vR5vTBCjSu
-         Z48JOOq1FGgVBtJhlzjzODuTpmRqPddr8H8ETzZYNXfvzcmXBC701acfC+9fqxZxsDKX
-         YF2APnmkmaaZy1wPZJjjzVnzTgu5j/4z+FfTZmmEu/GxJ+0dYUF+b2PSl7I7csWgATvy
-         8W/FGuPfvDLJidU98qIviLCud51nDEpZ+4YKPBzkySqHwG86DBRi47UAa5utMuas8guY
-         5HzUSN4aWVz/Y2nQ6RmuJo/GYIuEblRJG7IxfZeYjNICgLOkF/3X9nc++hwxO04L4x3A
-         8Wig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691071681; x=1691676481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jb1aZWQnbifz16U2517ArsPdHyVT8qzE12vInUcoAt4=;
-        b=hWnZ/x4TAX+M0HgHQ7xqEVUU6VbdIKPMnzAffQDFWZCYZjuuLy8BgikF4t7W7O89wi
-         sp6tNpVHN8CIzhV5oGFmgmOaRM/cPkwlS5Q2L69FhCp3ILsA6ujpnmgJ05ZJ+pSJKek+
-         B+L4lC3nqehftiYWjh1hbZbr6ETn26yUfkS94yaClbqnstccID8ckI5OPcH33FtiMlYp
-         umetiEO+6GVUu/PQ3E87wxUWHm6rrGyK2OfsZ8H0z+uGNciN5kkALrA+vFkYdvmtCCgL
-         5CPzFTlKitv4BmmUCR0CQ8Bfq9VKLZtAznULRNF02Mh5GcCr74xfnKaSRAg2bbLwS6en
-         e8Gg==
-X-Gm-Message-State: ABy/qLa+jxRS2p7d6goQ3UrOplAt3rKbralQFGm6lVs3vwF6BremFtsk
-        krk5ZgpK+5KdIBkLNP2lotI7P3comEmVrG7FWTI=
-X-Google-Smtp-Source: APBJJlFXP4Sa4yNhuW2mCuFdlEBTS9oAsUrp0FEp+qHxyfLa85hSCjyn/scAvmXIqvXDvZyBlOyHUWNeE8G42dmTcn8=
-X-Received: by 2002:a25:3757:0:b0:bcc:c347:81de with SMTP id
- e84-20020a253757000000b00bccc34781demr15061592yba.36.1691071678851; Thu, 03
- Aug 2023 07:07:58 -0700 (PDT)
+        with ESMTP id S236753AbjHCOY3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 10:24:29 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4171723;
+        Thu,  3 Aug 2023 07:24:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Go/pe3A2eOSw89Vyr9rznUjTVqnND0bA1br9eYyzQnVj9Nu6SASsx0rw5ZYrVf2mCTgOd0eMUeLBxNEvNTlcO+d1fclBMp3pm1nj5688+IK2S2GDVSrMNFnY+F0kqjPFytQlWqVmLzddPuRggVA3OVmzchKM8+EGbV8DsgXUjVVA3ODW/1PQt6DfptPCeWMr37G4YjVdn6jcEW3Ru1Wh0HtkID8LO7ZRkzrPtRF4dDoFfUWw/UoPIi4Sk7AV5x8jZ4ThVszrDR5FjDkXDvrWB8yEeZnxuOarWBVI5s+ifTZdAqmh7eOefUW3YLCcBKU1G9bSHpMTkERGrmbcdiydew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oYUKjycrOZA1oK6RGVKNIWtENv6fhHV/hwmmpJ+ojUI=;
+ b=gV8mIUE+raNhndl24VjJ+CdSuryIq4uvYIv59dFwH3yMV/YYM65nCHYlClgIrJaOwRZGUIegRvKyTXjbbKcRfZs2LxNDdYiYR3y4hvczSt8nYYpGCbl4EMGlhMVjgIufzwSt2FB85dl7YbASNXyNucLCNjqBaLgHOuZN+S7XqzOSq/fcH7KvzY7ludNldP0d06IFH0dnCzm7rGcrFqyHdkkA5rnrCs3wHeSnN6llOjmfUxWi1K4mQ6ybk538HHzvn7WGfPGiXE7nrxbQatanK04RPgGs5SPqJGnAKxkwdjeHE6OGs7KkdSq2vRjXDNhP9YHdC3B2ExBzZ87Rc4nTnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oYUKjycrOZA1oK6RGVKNIWtENv6fhHV/hwmmpJ+ojUI=;
+ b=zQWDluwYHPhhI7XWNqWxYGaE5SGK5wSUpcNKGJcBn/7FsaFR9JRhF74jh+uGtJZGGtwQkPoeD1c2plPU3PFNEqbYNe1VFGdO9xkd81NEOFw1/jM7QbWZTa1YHBWKmjobXvzV625MIs8/i5uA9+hrSmNCfptp9b8TcekefzXhLBo=
+Received: from CY5PR22CA0017.namprd22.prod.outlook.com (2603:10b6:930:16::18)
+ by SA1PR12MB6920.namprd12.prod.outlook.com (2603:10b6:806:258::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Thu, 3 Aug
+ 2023 14:24:24 +0000
+Received: from CY4PEPF0000EE38.namprd03.prod.outlook.com
+ (2603:10b6:930:16:cafe::53) by CY5PR22CA0017.outlook.office365.com
+ (2603:10b6:930:16::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.20 via Frontend
+ Transport; Thu, 3 Aug 2023 14:24:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CY4PEPF0000EE38.mail.protection.outlook.com (10.167.242.12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6652.19 via Frontend Transport; Thu, 3 Aug 2023 14:24:24 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 3 Aug
+ 2023 09:24:23 -0500
+Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
+ Transport; Thu, 3 Aug 2023 09:24:23 -0500
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+To:     <corbet@lwn.net>
+CC:     <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: [PATCH] docs: Add book to process/kernel-docs.rst
+Date:   Thu, 3 Aug 2023 09:24:17 -0500
+Message-ID: <20230803142417.965313-1-carlos.bilbao@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230803093418.51872-1-tmgross@umich.edu>
-In-Reply-To: <20230803093418.51872-1-tmgross@umich.edu>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 3 Aug 2023 16:07:47 +0200
-Message-ID: <CANiq72nhsqWsxHKmyNWLtV8AwdA1hAq5ooyJ0WNVrnzRnpjAFA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/2] Generate API documentation for 'bindings' crate
-To:     Trevor Gross <tmgross@umich.edu>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE38:EE_|SA1PR12MB6920:EE_
+X-MS-Office365-Filtering-Correlation-Id: 247518a2-e826-459a-5303-08db942d5613
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0uWEX5JxR0ZVQAqtUDgEECl+KYsiOnpkDbQbtGrNZZ91Bcta7PnmSuVFEFt+CRqfYmLcoOtfSOrloPjV7w4WSqRjF/VeYSiDk8DIpS9pFBJHJhKGEWlTDuxqJZ8y6NgvCWX1xxuw6aHQC92Uz7uVIvyJcUCSTVSo5/HUXUgusbCTYQSNVkm8GMq+GC0x2wExsc61M4OXsnDy6utd+xL09z/7blE0rEWSH8LJk6ha0J0as1CHR9iipWT0LYzSuSZupmiTs7pGGEueBBJj4t9hVPc82dW+ED6t7JDQ8Z1DvvmY0NeoeWOjsb46CNhG/0nYogEH31rw3NPx82iUr+qCcU1kYISOiEQuu0bXpdbvl3CVHIrnnkzsLN1MU8f4Cv4GTE6hK94ZxHv3KgaExREaNkikcBxTtQo3HXg7Wh294BBLdAwiKAd9juiOXTImXqHGs8Xw4WIz8UPpiwC2S1I5MgLyOdtrF7+gGAplo7qDD5zrgUCqtV1UDGc6VMW76XHuYJjqGL5i5NzARoBo+mq6orm2X53ONlXXfLOZ4lkdcCFsyLGqSaL48jPC9+wA0ENkH30SfBO/zmBxYwBGQuDiWS7bRxwF1ov+gxI3AHlm665kfCFqDpJmdNLSjewVz3FhX6FW+5YLkdbIGujQYKlQ5A8fygvcxTgImt4W/tI84BCPMLR4Vx/6o2wVIXSvZhyHRtu1pG7z0KnDGaf+rhN0yQmi4peItkP2NV0NAUD3ZyP4+8DEUh607UornoCfq+mTJ6DM92fhVgfq9YGZtdTxFg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199021)(82310400008)(36840700001)(46966006)(40470700004)(2906002)(4744005)(70586007)(70206006)(44832011)(5660300002)(8676002)(47076005)(36860700001)(83380400001)(41300700001)(40460700003)(8936002)(316002)(6916009)(4326008)(36756003)(54906003)(478600001)(40480700001)(6666004)(7696005)(86362001)(2616005)(426003)(356005)(81166007)(336012)(186003)(26005)(1076003)(82740400003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2023 14:24:24.0665
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 247518a2-e826-459a-5303-08db942d5613
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE38.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6920
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 3, 2023 at 11:36=E2=80=AFAM Trevor Gross <tmgross@umich.edu> wr=
-ote:
->
-> The 'bindings' crate currently doesn't have API documentation available.
-> With this change, it will be generated as part of the output of 'make
-> rustdoc' (similar to the 'kernel' crate's docs,
-> https://rust-for-linux.github.io/docs/kernel/).
->
-> This patch is a RFC because there are a few questions:
+Include to process/kernel-docs.rst a book on Linux system administration
+published in May, 2023 (with ISBN 978-1098109035).
 
-I think the first question to answer would be whether we want to
-expose `bindings`, i.e. what are the advantages/disadvantages?
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+ Documentation/process/kernel-docs.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-If `kernel` were a "normal library", then I would say we shouldn't,
-because users should not need to care; and, in addition, the goal is
-that leaf modules do not need to access them directly.
+diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+index 46f927aae6eb..26ead9d31c01 100644
+--- a/Documentation/process/kernel-docs.rst
++++ b/Documentation/process/kernel-docs.rst
+@@ -118,6 +118,15 @@ Published books
+       :ISBN: 978-0672329463
+       :Notes: Foundational book
+ 
++    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
++
++      :Author: Kenneth Hess
++      :Publisher: O'Reilly Media
++      :Date: May, 2023
++      :Pages: 246
++      :ISBN: 978-1098109035
++      :Notes: System administration
++
+ .. _ldd3_published:
+ 
+     * Title: **Linux Device Drivers, 3rd Edition**
+-- 
+2.34.1
 
-But, as sometimes happen, it may still be quite useful for some
-developers nevertheless (the same way documenting the internal/private
-details could be).
-
-So, it would be nice to have an overview from your point of view on
-why it should be done (or not).
-
-> 1. Do we want to make this the default, or a separate target/
->    configuration? I don't think there is much downside to always
->    generating.
-
-One downside of doing it by default would be going against the "avoid
-`bindings`" guideline (ideally rule).
-
-Another one is render time (the C side is trying to reduce it), I
-guess, especially if we keep adding headers over time.
-
-> 2. The entire '.config' file could be included in the doc output, to
->    make it easy to tell what settings the documentation was generated
->    with. Would this be desired? Maybe with a '--cfg
->    include-dotcfg=3D".config"' flag so published docs would have the
->    option (unsure whether it may ever have sensitive information).
-
-This may be useful orthogonally to rendering `bindings` or not.
-
-> Bindgen is currently invoked with '--no-doc-comments', I think this may
-> be because some blocks were mistakenly interpreted as doctests. Once we
-> upgrade our bindgen version we might be able to remove this.
-
-Yes, that is https://github.com/Rust-for-Linux/linux/issues/323 and
-https://github.com/rust-lang/rust-bindgen/issues/2057, which led to
-the addition of `process_comments` to `bindgen` in v0.63.0.
-
-> Side note, 'rust/Makefile' seems to have a mix of tabs and spaces - is
-> this intentional?
-
-Yes, it is intentional. For instance, the command definitions use
-spaces like the vast majority of the kernel `Makefile`s.
-
-Cheers,
-Miguel
