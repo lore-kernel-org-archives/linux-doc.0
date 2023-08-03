@@ -2,119 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C118EC001DF
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 20:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D501EC001DF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 20:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232286AbjHCUxO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 16:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56640 "EHLO
+        id S229673AbjHCUzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 16:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232408AbjHCUxG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 16:53:06 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F753272E;
-        Thu,  3 Aug 2023 13:52:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691095979; x=1722631979;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zED3kdg3ZRxf/2pJOvBBe7+N26q1v5zZu+U8ltvXaeI=;
-  b=Uro7/8DxWtxJdVOf6pQyOHCveYzdlCwGYp6ltyuhXyIqGnDloAtOFAlL
-   8fMNfi9B+OzuEfuVRhzVtodds+lwtV6/pnOLby78bGZ10CcrRQLTErrSl
-   rgxSIO77MM0o1q05Ukp8x2PuKzblnGpLkj7b4wkz+JYwmfsuEKodQPB8+
-   A/eb7enT9ZktpvbvDy8xG72oLRUynK5OhagrrQ+QyC7Es0kkSz6874n48
-   Ug1yP3n+x5FIyTohGXiKaJ0R9Zyw/tOtN2R1fR90DyZleRaN5knFU3E9l
-   3DwuJIJamTDrEa+SZ6IP7hPvP+nvrsS/qo7MP2oP82yNId8znPZB+uppS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="400953041"
-X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
-   d="scan'208";a="400953041"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 13:52:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="1060446752"
-X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
-   d="scan'208";a="1060446752"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Aug 2023 13:52:49 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qRfJQ-0002Lb-1Z;
-        Thu, 03 Aug 2023 20:52:48 +0000
-Date:   Fri, 4 Aug 2023 04:52:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nayna Jain <nayna@linux.ibm.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-doc@vger.kernel.org
-Subject: arch/powerpc/platforms/pseries/plpks.c:186: warning: This comment
- starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202308040430.GxmPAnwZ-lkp@intel.com>
+        with ESMTP id S229632AbjHCUzs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 16:55:48 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B37A2
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 13:55:47 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-579de633419so15915697b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 13:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1691096146; x=1691700946;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xxczLQkiLaZuHq0hioSngdMG27Z3CrO0BwzJE14vAuc=;
+        b=TRpwMRLJ9HugaeZXVf6uPZswfjMJ2m8vM2cFL4fYQL8eJ1fWIt066rEFfKn/VbgiFU
+         m7CrsMecG+82n+xGb4PlbPTod1RiSZMfWPUgvap9l0mPKd46SIH6jsJYscV8NhTbO7Jk
+         nmgSc35UWjffaUh58vKqABzRpgkpPMKZlKmEzS8pI88RYmXOIdWpsXHUsbd731+gvlOs
+         rHyyswSrJFxHgU0V2SPaXEOcVaN6AKI2/r+i6N8iCHz0WJmo4V9rWnq1t+qX8xsXM9SH
+         wPN9w7tQiFF5ffzgEBsfIh2zesXv6nmiwO6zVANH7aQ4UWH2Lv3VGXwQqjrEkT52iUhp
+         ZNWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691096146; x=1691700946;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xxczLQkiLaZuHq0hioSngdMG27Z3CrO0BwzJE14vAuc=;
+        b=A0YrA4bU608ExY9VJYASkD8QzSJW84FqTvASfVNnrwp71H6kS9TM8ClicdgAhzign1
+         Z9PjuN5olckpJ+5AIbcAmvDKlSg4c7pCYogwhFYw9fpiadBpAKIdp9lSvhp/fWADyzMV
+         dl9sU5OEIIKitf+Ld0MPLXnRnFwuvbrw0ByKx2zeXrVU9/NgNSe7Hm8ggpPkyx3y9hzX
+         lzBUiDXFKuTzbYDOc+tme+GVVlsehAfKFoy6nADBTqnOxrl2zqT6zl2m62l0tiiSmfeE
+         ebEEqmJS7W5WaC8JXRm7Cd00VMJp1XGtUr2c+Ztq2U3u01GDT3amOCVCgWKWgAcn1X7B
+         Irxw==
+X-Gm-Message-State: AOJu0YyPRzLmHHY9SjlqwjAbiJeh13iukqqgihH3cy+Z30j5wKG7t/b2
+        /JnysIi1H5ltOeoveaXKoCaVN9Ibe9oR/OQyuPgp
+X-Google-Smtp-Source: AGHT+IHriyC/W8GO5iHiqfCmT5yUjt5chifwCCM90JuMHhlYWAbUbuJ6EXLwRpb/U2GID+a+3tAyRuuPQ/mkevxpw0I=
+X-Received: by 2002:a81:69c2:0:b0:586:9e6e:e2e6 with SMTP id
+ e185-20020a8169c2000000b005869e6ee2e6mr1575963ywc.48.1691096146735; Thu, 03
+ Aug 2023 13:55:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CAHC9VhRsxARUsFcJC-5zp9pX8LWbKQLE4vW+S6n-PMG5XJZtDA@mail.gmail.com>
+ <4708afda-8867-735a-2f55-ca974e76cc9c@schaufler-ca.com> <CAHC9VhTepATGki_8_nyUcmCCvJ2hpLO4bWFhF-gJ3CQceEBMfA@mail.gmail.com>
+ <CAHC9VhQ9EfH5sb85+uwyB726iDNR47k=sfr0zBCENz=-PerR9A@mail.gmail.com>
+ <20230802.doki9xoTh0ai@digikod.net> <CAHC9VhSb+=JF7GJ-98DX_3NO2eSLeurXO+w4xcgHuXFh6HqWVw@mail.gmail.com>
+ <c1f1b7b7-fb2f-cd03-d962-70979082c1b4@infradead.org>
+In-Reply-To: <c1f1b7b7-fb2f-cd03-d962-70979082c1b4@infradead.org>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 3 Aug 2023 16:55:35 -0400
+Message-ID: <CAHC9VhT2oM2ancRuxXRd2-nmgmyu2fdvaedv2K-nF9s11WxqZg@mail.gmail.com>
+Subject: Re: ANN: new LSM guidelines
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        linux-security-module@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7bafbd4027ae86572f308c4ddf93120c90126332
-commit: 2454a7af0f2a42918aa972147a0bec38e6656cd8 powerpc/pseries: define driver for Platform KeyStore
-date:   1 year ago
-config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20230804/202308040430.GxmPAnwZ-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040430.GxmPAnwZ-lkp@intel.com/reproduce)
+On Wed, Aug 2, 2023 at 6:36=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+> On 8/2/23 14:56, Paul Moore wrote:
+> > I was looking for the original comments from Arjan but couldn't find
+> > them in an archive anywhere, if anyone has a pointer it would be great
+> > to share that.
+>
+> Are you referring to either of these?
+>
+> https://lore.kernel.org/all/20071026141358.38342c0f@laptopd505.fenrus.org=
+/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308040430.GxmPAnwZ-lkp@intel.com/
+Perfect, that is what I was looking for - thank you!
 
-All warnings (new ones prefixed by >>):
-
->> arch/powerpc/platforms/pseries/plpks.c:186: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Label is combination of label attributes + name.
-
-
-vim +186 arch/powerpc/platforms/pseries/plpks.c
-
-   184	
-   185	/**
- > 186	 * Label is combination of label attributes + name.
-   187	 * Label attributes are used internally by kernel and not exposed to the user.
-   188	 */
-   189	static struct label *construct_label(char *component, u8 varos, u8 *name,
-   190					     u16 namelen)
-   191	{
-   192		struct label *label;
-   193		size_t slen;
-   194	
-   195		if (!name || namelen > MAX_NAME_SIZE)
-   196			return ERR_PTR(-EINVAL);
-   197	
-   198		slen = strlen(component);
-   199		if (component && slen > sizeof(label->attr.prefix))
-   200			return ERR_PTR(-EINVAL);
-   201	
-   202		label = kzalloc(sizeof(*label), GFP_KERNEL);
-   203		if (!label)
-   204			return ERR_PTR(-ENOMEM);
-   205	
-   206		if (component)
-   207			memcpy(&label->attr.prefix, component, slen);
-   208	
-   209		label->attr.version = LABEL_VERSION;
-   210		label->attr.os = varos;
-   211		label->attr.length = MAX_LABEL_ATTR_SIZE;
-   212		memcpy(&label->name, name, namelen);
-   213	
-   214		label->size = sizeof(struct label_attr) + namelen;
-   215	
-   216		return label;
-   217	}
-   218	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+paul-moore.com
