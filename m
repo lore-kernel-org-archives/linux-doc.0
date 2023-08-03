@@ -2,154 +2,199 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D512CC001DF
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 17:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 840F9C001DB
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 17:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234493AbjHCRwY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 13:52:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55298 "EHLO
+        id S235230AbjHCR7i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 13:59:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234430AbjHCRwU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 13:52:20 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2192698;
-        Thu,  3 Aug 2023 10:52:18 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-ca4a6e11f55so1340500276.1;
-        Thu, 03 Aug 2023 10:52:18 -0700 (PDT)
+        with ESMTP id S235220AbjHCR7h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 13:59:37 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 995AB30D5
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 10:59:35 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-686bea20652so1128049b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 10:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691085138; x=1691689938;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLFGIWhoW+xqNc8aXak0hFn7ZAy46FaCIx1Frul5CHQ=;
-        b=aJ5vjOH1vsWackal3PomRTSl603CbwlR8jfvI7eidOLrZ4xz3SBj0mUTQsgqgUAsZI
-         6JDasQelj8c48xA/v7QrA2Qsf84wA+xOfOW58pNGClFVHdZeMPDkQ8E0u6zq6WigiT/p
-         s0RDBw7e4E6iMDQyfcAsu25N7kCQaT8UxTiCi1Wp7GWzJ0A9kUg7lKzyqPA26UseH0HQ
-         Ouq/xrEvw7oHdk3eidnzWk2j7M5gOgslHTds9x9A12XG4QLt42g06Zf3Ad51CwMJLEjZ
-         iGbEDl6UBXnmzwgYJOH5Ngao6nFsWTFoHgFFBJeSHO9/mEwLnC2aiiu0j69ynA9Zh2CM
-         6INA==
+        d=ventanamicro.com; s=google; t=1691085574; x=1691690374;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Wq1z7BeI+UFrw1hZHq1hsdT3ctozS/71fNVXggUyOc=;
+        b=TKbVzXiidYr6S5VYtdtf1RzdOXZlF7YlZGAMz5JBa3hQCChWKfcMl06Tm33RUMM2AT
+         HJc+DhFBmwL3k/o/kj3hAK2jwOBpEOGlbr63abNLrTyaHg/Tx613qEQ2sIGIokBFEKy7
+         Q7pSXU90KcKI0UZou6S7o898dbu4yYtAjvjesZlKV+tw21+58qB8DHwqlFlZZwF3J4tW
+         +fhM21Zek4vYUxDqvDmwUsMhSfI0z5X0OZZSxk6N6kacC+/t6jBe0dUAiJ0ITdhIawrA
+         IYvPPOVt5EitUe3UmJGfXaVeDMYYV9aeRa3RBCj3uM8jO94WL6Z9GAZ/GkCsvh5d1yrf
+         xZWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691085138; x=1691689938;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iLFGIWhoW+xqNc8aXak0hFn7ZAy46FaCIx1Frul5CHQ=;
-        b=YE/5HYkdD6pvF+Z59Ls1uB4iBVPL856vxg7XcIKNC8jChm+WQPS/pnBpH0zmLss/zn
-         QC2EkrmtBfjSSZdLGRnEECf9X9lqe5IaCSBBdfidwlmiWsu7JQuAl4IQ1CvDChKjxl5p
-         YAVC42XOD2zReca/0Te32376k2B0SX3u1catlfJhZqVWeUNxLM9gS3OIRvWyc61HOBfV
-         f1qv5vAXZj3N2ui6cAPpCpkjVM5KnfhMvzzJ+Y2MgrwXRm9fyGG71R+IVJrKpsOz3D/x
-         Y1z2+nr1rUETC0MjbJNED7+WZiqeZT7FpaMuRGWDDf3pVn5Am+nYC4T8icAJWKHRULNX
-         qeDQ==
-X-Gm-Message-State: ABy/qLZVUczgcW1wNDcs1/OBfPC7cMaIN8ITYC59DVChAdFMyhlQv6qw
-        0+RuzFj1t7XPr+Vmk/A9Zrr53CxmoHCHv8Uwiks=
-X-Google-Smtp-Source: APBJJlGDthqPUKGG3foZRnQwGHFg84mLW5KP2xC06rKN85ahgMbgg1191vngKUDORqns9IJdSEugQTx1fEIcIhTrKTs=
-X-Received: by 2002:a25:145:0:b0:bfe:e383:6297 with SMTP id
- 66-20020a250145000000b00bfee3836297mr16151459ybb.19.1691085137731; Thu, 03
- Aug 2023 10:52:17 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691085574; x=1691690374;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2Wq1z7BeI+UFrw1hZHq1hsdT3ctozS/71fNVXggUyOc=;
+        b=ENvEdyewtT0N1hO24+L5WaOKHHUDfbG44ZCxzy2b7bYxM1g4QJ6El1EYOVI7fxzrBm
+         rd63ctTJUzZHFy7T9kW3zguy604YP/dpXD0jaCPcziYSebseSxg6o2d9KGAkmSmPVrv/
+         oaamMUVGgPj2hZNfUtiKxEnR50/duisD58VY/yK1vxq+K1DqoGjOMocjAjlwj476TWIq
+         rhQXtGEW1N1v4ghIy0HumSjNPndzliogCxW2rHyl4mJUBmBav0KWXx+cj6evSmOh5DmH
+         rT0limo4FEHxYtirxAjlm3vKV0CDAHuHrQ74qsHJoyyvS+GWsOyqCnDM57UaIx2NKK8+
+         7x8Q==
+X-Gm-Message-State: ABy/qLbvwJsyeg69S7SwqsjrvhZxupkgI19HY8UCjP12yLWrW20yrh/M
+        IPnTntl7L/gaIIx7Fo8//b20UYU9lhMt+hl78XM=
+X-Google-Smtp-Source: APBJJlEa2k0rKCkuiAJ14ufMYRdoRsdE+VQDeZqRmHp7niCeuF87Hv6jsPcdECJx49MZ98jIdtCMHA==
+X-Received: by 2002:a05:6a20:3953:b0:134:1ef9:8c17 with SMTP id r19-20020a056a20395300b001341ef98c17mr24642870pzg.20.1691085574172;
+        Thu, 03 Aug 2023 10:59:34 -0700 (PDT)
+Received: from sunil-pc.Dlink ([106.51.190.143])
+        by smtp.gmail.com with ESMTPSA id s8-20020aa78d48000000b0065a1b05193asm134952pfe.185.2023.08.03.10.59.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 10:59:33 -0700 (PDT)
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Anup Patel <anup@brainfault.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Haibo Xu <haibo1.xu@intel.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Atish Kumar Patra <atishp@rivosinc.com>,
+        Sunil V L <sunilvl@ventanamicro.com>
+Subject: [RFC PATCH v1 00/21] RISC-V: ACPI: Add external interrupt controller support 
+Date:   Thu,  3 Aug 2023 23:28:55 +0530
+Message-Id: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230803093418.51872-1-tmgross@umich.edu> <CANiq72nhsqWsxHKmyNWLtV8AwdA1hAq5ooyJ0WNVrnzRnpjAFA@mail.gmail.com>
- <CALNs47tYsLq8wo3aiqU5Kmi8OFJgf6cugiRLJNiXZGUYdaVojQ@mail.gmail.com>
-In-Reply-To: <CALNs47tYsLq8wo3aiqU5Kmi8OFJgf6cugiRLJNiXZGUYdaVojQ@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 3 Aug 2023 19:52:06 +0200
-Message-ID: <CANiq72kRjdKMuvYEGnATBN_mNSREfCJk0i8q79amhiA_ZaMXBw@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/2] Generate API documentation for 'bindings' crate
-To:     Trevor Gross <tmgross@umich.edu>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 3, 2023 at 5:35=E2=80=AFPM Trevor Gross <tmgross@umich.edu> wro=
-te:
->
-> 1. For anyone reading/writing abstractions, it's useful to quickly see
-> how exactly bindgen did the C -> Rust mapping
+This series adds support for the below ECRs approved by ASWG recently.
+1) MADT - https://drive.google.com/file/d/1oMGPyOD58JaPgMl1pKasT-VKsIKia7zR/view?usp=sharing
+2) RHCT - https://drive.google.com/file/d/1sKbOa8m1UZw1JkquZYe3F1zQBN1xXsaf/view?usp=sharing
 
-Do you mean using the integrated search in the generated docs and that
-that is faster than e.g. grepping the generated file?
+The series primarily adds below features.
 
-> 2. Abstractions may want to link to the C side somehow, linking the
-> bindings is an easier first step than linking to sphinx (in the future
-> we may be able to do a bindings -> sphinx link)
+1) ACPI support for external interrupt controller drivers (IMSIC, APLIC and PLIC).
+2) Get CBO block sizes from RHCT.
+3) Set timer_can_not_wakeup in timer driver based on the flag in RHCT.
 
-We definitely/already want to link to the C side in some places (e.g.
-all header links, and some docs that refer to the C side, etc.), so
-this is definitely valuable. But the ideal solution would be linking
-to the actual C docs, indeed. I think we should avoid duplicating the
-C docs infrastructure, if that is the use case here.
+PCI ACPI related functions are migrated from arm64 to common file
+so that we don't need to duplicate them for RISC-V.
 
-For that, I proposed to the `rustdoc` maintainers taking a map of
-references (strings) to external resources (URLs), e.g. via a JSON
-file or similar. This would be useful for a bunch of projects / use
-cases, and I think the maintainers saw value in the feature. In the
-kernel, for instance, we would generate a list of links in the C side
-(e.g. mapping the `foo()` string to a URL, so that then a reference
-like [`foo()`] in the Rust docs would be mapped to that URL).
+It uses software node framework to create the fwnode for the interrupt
+controllers. This helps in keeping the actual drivers code mostly common
+for DT and ACPI.
 
-Writing the `rustdoc` RFC has been in my backlog for a long time, but
-if you would like to get involved, please let me know. It is a nice
-time to come back to that, because the Rust docs are going to be in
-kernel.org soon.
+This series is based on Anup's AIA v7 series. The first 2 ACPICA
+patches in this series will be merged via ACPICA release process. PATCH3 is a
+fix patch. These patches are included in this series only to enable build.
 
-> Maybe a stronger "prefer abstractions over bindings" message would
-> suffice to discourage use outside of reference?
+To test the series,
 
-Not sure if you mean in the module documentation or elsewhere (if the
-latter, we have that in the kernel docs already as a "should").
+1) Qemu should be built using the riscv_acpi_b2_v1_plic branch at
+https://github.com/vlsunil/qemu.git
 
-> In any case, I will put this behind a flag so it is not enabled by
-> default. While I'm at it - is there value in adding a config option to
-> pass `--document-private-items` to the kernel crate, or supporting
-> `RUSTDOCFLAGS` like Cargo does?
+2) EDK2 should be built using the instructions at:
+https://github.com/tianocore/edk2/blob/master/OvmfPkg/RiscVVirt/README.md
 
-Personally, what I would love to see is that the documentation allows
-you to see the private items but keeps them hidden by default (and
-this could be applied to the `bindings` discussion too).
+3) Build Linux using this series on top of Anup's AIA v7 series.
 
-That way, users of subsystems do not need to see docs for private
-items, or implementation details, or `bindings`. But, when needed, one
-can simply flip a switch and see those immediately.
+Run Qemu:
+qemu-system-riscv64 \
+ -M virt,pflash0=pflash0,pflash1=pflash1,aia=aplic-imsic \
+ -m 2G -smp 8 \
+ -serial mon:stdio \
+ -device virtio-gpu-pci -full-screen \
+ -device qemu-xhci \
+ -device usb-kbd \
+ -blockdev node-name=pflash0,driver=file,read-only=on,filename=RISCV_VIRT_CODE.fd \
+ -blockdev node-name=pflash1,driver=file,filename=RISCV_VIRT_VARS.fd \
+ -netdev user,id=net0 -device virtio-net-pci,netdev=net0 \
+ -kernel arch/riscv/boot/Image \
+ -initrd rootfs.cpio \
+ -append "root=/dev/ram ro console=ttyS0 rootwait earlycon=uart8250,mmio,0x10000000"
 
-This would provide most of the benefits, while keeping the amount of
-knobs/variables to maintain (and to learn, for users that want those
-docs) as low as possible. A potential downside is, of course, build
-time.
+To boot with APLIC only, use aia=aplic.
+To boot with PLIC, remove aia= option.
 
-However, as far as I understand, that is not possible right now with
-`rustdoc`, but would be ideal for us (and I imagine other projects).
+This series is also available in riscv_acpi_b2_v1 brach at
+https://github.com/vlsunil/linux.git
 
-An alternative that does not require `rustdoc` changes is providing a
-second render of the docs in a subpage, e.g. `private` or
-`implementation` or similar. If we go this way, a "top bar" (similar
-to the one in docs.rs or Elixir) in order to select the kernel version
-could be interesting, and could also be useful for other things such
-as the "private" switch or arch/config selection if we end up with
-that.
+Based-on: 20230802150018.327079-1-apatel@ventanamicro.com
+(https://lore.kernel.org/lkml/20230802150018.327079-1-apatel@ventanamicro.com/)
 
-> How would switching to the library work? Since that seems like a more
-> involved discussion, would postprocesing `generated_bindings.rs` be
-> acceptable instead? I have been playing around with a python script
-> that extracts the `#[doc ...]` blocks and (1) fixes the escaping and
-> (2) formats parameters and fixes their spacing, I could extract this
-> to a separate patch if it may be a while before we can use the
-> library.
 
-I think it would be best to go for the switch directly, i.e. to try to
-use the "official" feature first (it was added on our request... :)
+Anup Patel (1):
+  swnode: Add support to create early during boot
 
-> Ah thanks, it just looks a bit weird in the diff.
+Sunil V L (20):
+  ACPICA: MADT: Add RISC-V external interrupt controllers
+  ACPICA: RHCT: Add flags, CMO and MMU nodes
+  RISC-V: ACPI: Fix acpi_os_ioremap to return iomem address
+  RISC-V: ACPI: Enhance acpi_os_ioremap with MMIO remapping
+  arm64: PCI: Migrate ACPI related functions to pci-acpi.c
+  RISC-V: ACPI: Implement PCI related functionality
+  RISC-V: Kconfig: Select ECAM and MCFG
+  RISC-V: ACPI: RHCT: Add function to get CBO block sizes
+  RISC-V: cacheflush: Initialize CBO variables on ACPI systems
+  clocksource/timer-riscv: ACPI: Add timer_cannot_wakeup_cpu
+  irqchip/riscv-intc: Use swnode framework to create fwnode
+  irqchip/riscv-imsic-early: Add ACPI support
+  ACPI: bus: Add acpi_riscv_init function
+  ACPI: RISC-V: Create IMSIC platform device
+  ACPI: Add APLIC IRQ model for RISC-V
+  ACPI: RISC-V: Create APLIC platform device
+  irqchip/irq-riscv-aplic-msi: Add ACPI support
+  ACPI: bus: Add PLIC IRQ model
+  RISC-V: ACPI: Create PLIC platform device
+  irqchip/sifive-plic: Add GSI conversion support
 
-My pleasure!
+ Documentation/riscv/acpi.rst            |  33 ++
+ arch/arm64/kernel/pci.c                 | 193 ---------
+ arch/riscv/Kconfig                      |   3 +
+ arch/riscv/include/asm/acpi.h           |  21 +-
+ arch/riscv/kernel/acpi.c                | 120 +++++-
+ arch/riscv/mm/cacheflush.c              |  37 +-
+ drivers/acpi/bus.c                      |   7 +
+ drivers/acpi/riscv/Makefile             |   2 +-
+ drivers/acpi/riscv/init.c               |  16 +
+ drivers/acpi/riscv/init.h               |   6 +
+ drivers/acpi/riscv/irqchip.c            | 507 ++++++++++++++++++++++++
+ drivers/acpi/riscv/rhct.c               |  61 +++
+ drivers/base/swnode.c                   | 117 +++++-
+ drivers/clocksource/timer-riscv.c       |   4 +
+ drivers/irqchip/irq-riscv-aplic-msi.c   |  14 +-
+ drivers/irqchip/irq-riscv-imsic-early.c |  28 ++
+ drivers/irqchip/irq-riscv-imsic-state.c |  33 +-
+ drivers/irqchip/irq-riscv-intc.c        |  12 +-
+ drivers/irqchip/irq-sifive-plic.c       |  16 +
+ drivers/pci/pci-acpi.c                  | 182 +++++++++
+ include/acpi/actbl2.h                   |  76 +++-
+ include/linux/acpi.h                    |   8 +
+ include/linux/property.h                |   3 +
+ 23 files changed, 1248 insertions(+), 251 deletions(-)
+ create mode 100644 drivers/acpi/riscv/init.c
+ create mode 100644 drivers/acpi/riscv/init.h
+ create mode 100644 drivers/acpi/riscv/irqchip.c
 
-Cheers,
-Miguel
+-- 
+2.39.2
+
