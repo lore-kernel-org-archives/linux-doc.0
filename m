@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB26BEB64DD
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 16:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1564CEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 16:54:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235260AbjHCQyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 12:54:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51156 "EHLO
+        id S235019AbjHCQym (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 12:54:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234982AbjHCQye (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 12:54:34 -0400
+        with ESMTP id S234997AbjHCQyf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 12:54:35 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E72A3C31
-        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 09:53:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 894072137
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 09:53:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691081606;
+        s=mimecast20190719; t=1691081619;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=3/Zpw+2MU6XUCAHE50I7yBNOwDhyXO7cbbEk9lEH2AQ=;
-        b=R88WvvnH6evsVnJKMLz2Hgaipv8eXbrqk7xYfAhgqGU9FepvSo50ErvBwjYh65zal3eGt2
-        Xy00UtIPUzGnlRy5oRoJEfeDwJURjMZwmg6x0roOOAOE2yttOy5vSQiSdS8DC1+tMPyIml
-        tSnTnUXT/jmMnQGK+WyVXwMD6h5ODGw=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=VFFV/4pnGfS5xOgVl1lU4W1qf1MMs0lzrapLnGgOEpU=;
+        b=LdGPXLSdTiOGBtGJKmegOqhGiBq4G2DWD61s2sKcAm8e33mznL8NckfBSgE6YqHdBiAzL0
+        66bwUmJD/BEJ35UGIoVmm3aY3aiPSbDGlLZ6bqlVPlj5Mj6h08dcssT1UZ/7EGgpPGlgJI
+        hZ0B8QpEk7lP8SWOVyt5szx5PS68/HA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-169--3ZDb2CjMmGKYkS0XU4VQg-1; Thu, 03 Aug 2023 12:53:25 -0400
-X-MC-Unique: -3ZDb2CjMmGKYkS0XU4VQg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-99c03869a67so76670166b.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 09:53:24 -0700 (PDT)
+ us-mta-265-QbH_1qKAOoKGjggYQubp7g-1; Thu, 03 Aug 2023 12:53:38 -0400
+X-MC-Unique: QbH_1qKAOoKGjggYQubp7g-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-99bcb13d8ddso78467166b.0
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 09:53:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691081604; x=1691686404;
+        d=1e100.net; s=20221208; t=1691081617; x=1691686417;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3/Zpw+2MU6XUCAHE50I7yBNOwDhyXO7cbbEk9lEH2AQ=;
-        b=MIMXVi15jRvB60pd8FgobcMGIu25zmYHwHz2ed9ufNO5IJMDrWoOQJtJ4ymmbzhFSm
-         BlJw3etrgQVp/gT4kdAzSY/XGdNtyLuDmcpHiVECxblj5Q+cmELWfBe8sy66D2JXCYU1
-         Wg1mS+Ms0Uz8neBAtUE/ni83O7Jiw09qPh3ZX9av322hXxXZ0Z7BBljiBBXCApdi/JEf
-         xNpYapScbYEvTN2jB8aDySjG+fq43y7yOEB1GZ0c8lPspL5NrWNDhVRMmO36ERax0t9B
-         SgTKAh+ecrwHWQeF7hB5loOVcs1aJPkQCL8mUVwczNQbZvJ6uCFg0mxeim248qsULtUS
-         Rw5w==
-X-Gm-Message-State: ABy/qLYh5lUK2R5wfQTQ/Yy3Xmm34JfV+Hu5cggykshOyrzDXuGzAfJZ
-        dca92NHwsrhvBS5Gh/PqX7hhthZYKeaWqpUgUu0+Z4GUNNcqmSKcBM1G9X/oVdVspfpAH6l3XVu
-        DSyvMh9caeS+YI7emABHe
-X-Received: by 2002:a17:906:845c:b0:99b:cb7a:c16e with SMTP id e28-20020a170906845c00b0099bcb7ac16emr7448809ejy.33.1691081604097;
-        Thu, 03 Aug 2023 09:53:24 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFZrPM/Z+NwyCEwlAbDew09S3+m62aBBypP+UWOWz3PIZn/Ob9wE8kk/J55Vhq3fgGvTHyc3w==
-X-Received: by 2002:a17:906:845c:b0:99b:cb7a:c16e with SMTP id e28-20020a170906845c00b0099bcb7ac16emr7448793ejy.33.1691081603958;
-        Thu, 03 Aug 2023 09:53:23 -0700 (PDT)
+        bh=VFFV/4pnGfS5xOgVl1lU4W1qf1MMs0lzrapLnGgOEpU=;
+        b=HMJBj8f6cOwkKpbQ9QSK+fsv8zc3i/ttba/pkHLf9SzaPGSYUXf3d77yUu8o3zv+nI
+         ZxqtIHflXRBM5sVY9e8cTWq0ZVW4Vf2kjyByFje4nnoM/DEECWVNmT1iqYDV9wQlr/JZ
+         ZfflHnNj6g4XmUsGEFWCjJEErmqTvSq5DtJiHppnpeUTevdaGwWogwiImwJFYj4xuSXy
+         Ps+Oe8t2sNQD1E9SmDgh0izi+VmBNfVxgLVXw+QtNhNSDS5YaowuNWhIO3Sk5/hEJHZX
+         3seyoNKATgoHE2E5vFw5AbZu/GMy+7lK1NwADa5xfzJOr8oq2dRAUtRZmI3UpTGEkVAz
+         juoA==
+X-Gm-Message-State: ABy/qLa1pUFj5Z8YTK5hxzCSu53mvn5NytBK3WqrUFQBkzwAC3CAQbcM
+        4C84vXTIox04JKuiYPQZ2WoykmBCgWihBkbq6fQ6cieOA3QIZIkpXBeDBwGRQLUAoF1/tRfLSNM
+        n3VMdSnqfK7AcSX9d66C6
+X-Received: by 2002:a17:906:31d4:b0:96a:63d4:24c5 with SMTP id f20-20020a17090631d400b0096a63d424c5mr7038414ejf.77.1691081617375;
+        Thu, 03 Aug 2023 09:53:37 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHRH5ZgjJkQUxJJ+58qKoKTsSHT7S3XigxFOpDntBBMZ19xjhCROTsTFx3KOVVIwi5BUR2bOg==
+X-Received: by 2002:a17:906:31d4:b0:96a:63d4:24c5 with SMTP id f20-20020a17090631d400b0096a63d424c5mr7038393ejf.77.1691081617197;
+        Thu, 03 Aug 2023 09:53:37 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
-        by smtp.gmail.com with ESMTPSA id ka21-20020a170907991500b009882e53a42csm70527ejc.81.2023.08.03.09.53.22
+        by smtp.gmail.com with ESMTPSA id f18-20020a1709064dd200b00991bba473e1sm73096ejw.3.2023.08.03.09.53.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 09:53:23 -0700 (PDT)
+        Thu, 03 Aug 2023 09:53:36 -0700 (PDT)
 From:   Danilo Krummrich <dakr@redhat.com>
 To:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
         mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
@@ -65,9 +65,9 @@ To:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
 Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH drm-misc-next v9 08/11] drm/nouveau: chan: provide nouveau_channel_kill()
-Date:   Thu,  3 Aug 2023 18:52:27 +0200
-Message-ID: <20230803165238.8798-9-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v9 11/11] drm/nouveau: debugfs: implement DRM GPU VA debugfs
+Date:   Thu,  3 Aug 2023 18:52:30 +0200
+Message-ID: <20230803165238.8798-12-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230803165238.8798-1-dakr@redhat.com>
 References: <20230803165238.8798-1-dakr@redhat.com>
@@ -77,62 +77,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The new VM_BIND UAPI implementation introduced in subsequent commits
-will allow asynchronous jobs processing push buffers and emitting fences.
-
-If a job times out, we need a way to recover from this situation. For
-now, simply kill the channel to unblock all hung up jobs and signal
-userspace that the device is dead on the next EXEC or VM_BIND ioctl.
+Provide the driver indirection iterating over all DRM GPU VA spaces to
+enable the common 'gpuvas' debugfs file for dumping DRM GPU VA spaces.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_chan.c | 14 +++++++++++---
- drivers/gpu/drm/nouveau/nouveau_chan.h |  1 +
- 2 files changed, 12 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c | 39 +++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
-index f69be4c8f9f2..1fd5ccf41128 100644
---- a/drivers/gpu/drm/nouveau/nouveau_chan.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
-@@ -40,6 +40,14 @@ MODULE_PARM_DESC(vram_pushbuf, "Create DMA push buffers in VRAM");
- int nouveau_vram_pushbuf;
- module_param_named(vram_pushbuf, nouveau_vram_pushbuf, int, 0400);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+index 99d022a91afc..053f703f2f68 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
++++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+@@ -203,6 +203,44 @@ nouveau_debugfs_pstate_open(struct inode *inode, struct file *file)
+ 	return single_open(file, nouveau_debugfs_pstate_get, inode->i_private);
+ }
  
-+void
-+nouveau_channel_kill(struct nouveau_channel *chan)
++static void
++nouveau_debugfs_gpuva_regions(struct seq_file *m, struct nouveau_uvmm *uvmm)
 +{
-+	atomic_set(&chan->killed, 1);
-+	if (chan->fence)
-+		nouveau_fence_context_kill(chan->fence, -ENODEV);
++	MA_STATE(mas, &uvmm->region_mt, 0, 0);
++	struct nouveau_uvma_region *reg;
++
++	seq_puts  (m, " VA regions  | start              | range              | end                \n");
++	seq_puts  (m, "----------------------------------------------------------------------------\n");
++	mas_for_each(&mas, reg, ULONG_MAX)
++		seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx\n",
++			   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range);
 +}
 +
- static int
- nouveau_channel_killed(struct nvif_event *event, void *repv, u32 repc)
- {
-@@ -47,9 +55,9 @@ nouveau_channel_killed(struct nvif_event *event, void *repv, u32 repc)
- 	struct nouveau_cli *cli = (void *)chan->user.client;
- 
- 	NV_PRINTK(warn, cli, "channel %d killed!\n", chan->chid);
--	atomic_set(&chan->killed, 1);
--	if (chan->fence)
--		nouveau_fence_context_kill(chan->fence, -ENODEV);
++static int
++nouveau_debugfs_gpuva(struct seq_file *m, void *data)
++{
++	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct nouveau_drm *drm = nouveau_drm(node->minor->dev);
++	struct nouveau_cli *cli;
 +
-+	if (unlikely(!atomic_read(&chan->killed)))
-+		nouveau_channel_kill(chan);
- 
- 	return NVIF_EVENT_DROP;
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.h b/drivers/gpu/drm/nouveau/nouveau_chan.h
-index bad7466bd0d5..5de2ef4e98c2 100644
---- a/drivers/gpu/drm/nouveau/nouveau_chan.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_chan.h
-@@ -66,6 +66,7 @@ int  nouveau_channel_new(struct nouveau_drm *, struct nvif_device *, bool priv,
- 			 u32 vram, u32 gart, struct nouveau_channel **);
- void nouveau_channel_del(struct nouveau_channel **);
- int  nouveau_channel_idle(struct nouveau_channel *);
-+void nouveau_channel_kill(struct nouveau_channel *);
- 
- extern int nouveau_vram_pushbuf;
++	mutex_lock(&drm->clients_lock);
++	list_for_each_entry(cli, &drm->clients, head) {
++		struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
++
++		if (!uvmm)
++			continue;
++
++		nouveau_uvmm_lock(uvmm);
++		drm_debugfs_gpuva_info(m, &uvmm->umgr);
++		seq_puts(m, "\n");
++		nouveau_debugfs_gpuva_regions(m, uvmm);
++		nouveau_uvmm_unlock(uvmm);
++	}
++	mutex_unlock(&drm->clients_lock);
++
++	return 0;
++}
++
+ static const struct file_operations nouveau_pstate_fops = {
+ 	.owner = THIS_MODULE,
+ 	.open = nouveau_debugfs_pstate_open,
+@@ -214,6 +252,7 @@ static const struct file_operations nouveau_pstate_fops = {
+ static struct drm_info_list nouveau_debugfs_list[] = {
+ 	{ "vbios.rom",  nouveau_debugfs_vbios_image, 0, NULL },
+ 	{ "strap_peek", nouveau_debugfs_strap_peek, 0, NULL },
++	DRM_DEBUGFS_GPUVA_INFO(nouveau_debugfs_gpuva, NULL),
+ };
+ #define NOUVEAU_DEBUGFS_ENTRIES ARRAY_SIZE(nouveau_debugfs_list)
  
 -- 
 2.41.0
