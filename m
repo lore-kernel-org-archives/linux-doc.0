@@ -2,123 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A74EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 14:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E9F0EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 15:10:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233772AbjHCOYt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 10:24:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36702 "EHLO
+        id S236802AbjHCPK1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 11:10:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236753AbjHCOY3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 10:24:29 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4171723;
-        Thu,  3 Aug 2023 07:24:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Go/pe3A2eOSw89Vyr9rznUjTVqnND0bA1br9eYyzQnVj9Nu6SASsx0rw5ZYrVf2mCTgOd0eMUeLBxNEvNTlcO+d1fclBMp3pm1nj5688+IK2S2GDVSrMNFnY+F0kqjPFytQlWqVmLzddPuRggVA3OVmzchKM8+EGbV8DsgXUjVVA3ODW/1PQt6DfptPCeWMr37G4YjVdn6jcEW3Ru1Wh0HtkID8LO7ZRkzrPtRF4dDoFfUWw/UoPIi4Sk7AV5x8jZ4ThVszrDR5FjDkXDvrWB8yEeZnxuOarWBVI5s+ifTZdAqmh7eOefUW3YLCcBKU1G9bSHpMTkERGrmbcdiydew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oYUKjycrOZA1oK6RGVKNIWtENv6fhHV/hwmmpJ+ojUI=;
- b=gV8mIUE+raNhndl24VjJ+CdSuryIq4uvYIv59dFwH3yMV/YYM65nCHYlClgIrJaOwRZGUIegRvKyTXjbbKcRfZs2LxNDdYiYR3y4hvczSt8nYYpGCbl4EMGlhMVjgIufzwSt2FB85dl7YbASNXyNucLCNjqBaLgHOuZN+S7XqzOSq/fcH7KvzY7ludNldP0d06IFH0dnCzm7rGcrFqyHdkkA5rnrCs3wHeSnN6llOjmfUxWi1K4mQ6ybk538HHzvn7WGfPGiXE7nrxbQatanK04RPgGs5SPqJGnAKxkwdjeHE6OGs7KkdSq2vRjXDNhP9YHdC3B2ExBzZ87Rc4nTnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oYUKjycrOZA1oK6RGVKNIWtENv6fhHV/hwmmpJ+ojUI=;
- b=zQWDluwYHPhhI7XWNqWxYGaE5SGK5wSUpcNKGJcBn/7FsaFR9JRhF74jh+uGtJZGGtwQkPoeD1c2plPU3PFNEqbYNe1VFGdO9xkd81NEOFw1/jM7QbWZTa1YHBWKmjobXvzV625MIs8/i5uA9+hrSmNCfptp9b8TcekefzXhLBo=
-Received: from CY5PR22CA0017.namprd22.prod.outlook.com (2603:10b6:930:16::18)
- by SA1PR12MB6920.namprd12.prod.outlook.com (2603:10b6:806:258::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Thu, 3 Aug
- 2023 14:24:24 +0000
-Received: from CY4PEPF0000EE38.namprd03.prod.outlook.com
- (2603:10b6:930:16:cafe::53) by CY5PR22CA0017.outlook.office365.com
- (2603:10b6:930:16::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.20 via Frontend
- Transport; Thu, 3 Aug 2023 14:24:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CY4PEPF0000EE38.mail.protection.outlook.com (10.167.242.12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6652.19 via Frontend Transport; Thu, 3 Aug 2023 14:24:24 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 3 Aug
- 2023 09:24:23 -0500
-Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
- Transport; Thu, 3 Aug 2023 09:24:23 -0500
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-To:     <corbet@lwn.net>
-CC:     <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: [PATCH] docs: Add book to process/kernel-docs.rst
-Date:   Thu, 3 Aug 2023 09:24:17 -0500
-Message-ID: <20230803142417.965313-1-carlos.bilbao@amd.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S236060AbjHCPK0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 11:10:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6D910D2;
+        Thu,  3 Aug 2023 08:10:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BE35A61DF4;
+        Thu,  3 Aug 2023 15:10:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 226B5C433CA;
+        Thu,  3 Aug 2023 15:10:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691075423;
+        bh=tZJ7tXVDkdspZw9aq8GHx3NudtBiKp17JwhiNPFjWqY=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=vE+IQSLw+4DWc8DAqB9eWzLVYCnRl49lI14R1eMMNF3ZE/PFk05i+2io8QpOkdVY3
+         Sd7UkDfcVeLZ6v3ym2r86oqnUC+htOED3yhAZbFnqy1FQdFy+w7/+Yp1SgpkdDN9N0
+         il9Eh2yPQgJKxWqdDwRHf7bY/rTI7CDRdco+bs4PNpCsfGB2rh6z0m9LV6Q1+v6vZt
+         gSMK1uaWurqRh7TmcRplXhEQ20RLbch25mwLX7k/rIQKAQinRbZO5VNc1NNjyUedyI
+         gsEWgl9YuZbrKJalAlXvO3qyKc7cCC4JrUPhye+URlYBsV4+TAagOiojQ8mCoWXyo6
+         Gr5GbX7dvGo3A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0A960C595D1;
+        Thu,  3 Aug 2023 15:10:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE38:EE_|SA1PR12MB6920:EE_
-X-MS-Office365-Filtering-Correlation-Id: 247518a2-e826-459a-5303-08db942d5613
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0uWEX5JxR0ZVQAqtUDgEECl+KYsiOnpkDbQbtGrNZZ91Bcta7PnmSuVFEFt+CRqfYmLcoOtfSOrloPjV7w4WSqRjF/VeYSiDk8DIpS9pFBJHJhKGEWlTDuxqJZ8y6NgvCWX1xxuw6aHQC92Uz7uVIvyJcUCSTVSo5/HUXUgusbCTYQSNVkm8GMq+GC0x2wExsc61M4OXsnDy6utd+xL09z/7blE0rEWSH8LJk6ha0J0as1CHR9iipWT0LYzSuSZupmiTs7pGGEueBBJj4t9hVPc82dW+ED6t7JDQ8Z1DvvmY0NeoeWOjsb46CNhG/0nYogEH31rw3NPx82iUr+qCcU1kYISOiEQuu0bXpdbvl3CVHIrnnkzsLN1MU8f4Cv4GTE6hK94ZxHv3KgaExREaNkikcBxTtQo3HXg7Wh294BBLdAwiKAd9juiOXTImXqHGs8Xw4WIz8UPpiwC2S1I5MgLyOdtrF7+gGAplo7qDD5zrgUCqtV1UDGc6VMW76XHuYJjqGL5i5NzARoBo+mq6orm2X53ONlXXfLOZ4lkdcCFsyLGqSaL48jPC9+wA0ENkH30SfBO/zmBxYwBGQuDiWS7bRxwF1ov+gxI3AHlm665kfCFqDpJmdNLSjewVz3FhX6FW+5YLkdbIGujQYKlQ5A8fygvcxTgImt4W/tI84BCPMLR4Vx/6o2wVIXSvZhyHRtu1pG7z0KnDGaf+rhN0yQmi4peItkP2NV0NAUD3ZyP4+8DEUh607UornoCfq+mTJ6DM92fhVgfq9YGZtdTxFg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199021)(82310400008)(36840700001)(46966006)(40470700004)(2906002)(4744005)(70586007)(70206006)(44832011)(5660300002)(8676002)(47076005)(36860700001)(83380400001)(41300700001)(40460700003)(8936002)(316002)(6916009)(4326008)(36756003)(54906003)(478600001)(40480700001)(6666004)(7696005)(86362001)(2616005)(426003)(356005)(81166007)(336012)(186003)(26005)(1076003)(82740400003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2023 14:24:24.0665
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 247518a2-e826-459a-5303-08db942d5613
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE38.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6920
+Subject: Re: [RESEND PATCH -fixes 1/2] riscv: Export va_kernel_pa_offset in
+ vmcoreinfo
+From:   patchwork-bot+linux-riscv@kernel.org
+Message-Id: <169107542303.19238.12982353248491606719.git-patchwork-notify@kernel.org>
+Date:   Thu, 03 Aug 2023 15:10:23 +0000
+References: <20230724100917.309061-1-suagrfillet@gmail.com>
+In-Reply-To: <20230724100917.309061-1-suagrfillet@gmail.com>
+To:     Song Shuai <suagrfillet@gmail.com>
+Cc:     linux-riscv@lists.infradead.org, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, paul.walmsley@sifive.com,
+        palmer@dabbelt.com, aou@eecs.berkeley.edu,
+        xianting.tian@linux.alibaba.com, anup@brainfault.org,
+        robh@kernel.org, ajones@ventanamicro.com, alexghiti@rivosinc.com,
+        conor.dooley@microchip.com, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Include to process/kernel-docs.rst a book on Linux system administration
-published in May, 2023 (with ISBN 978-1098109035).
+Hello:
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
- Documentation/process/kernel-docs.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+This series was applied to riscv/linux.git (fixes)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-index 46f927aae6eb..26ead9d31c01 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -118,6 +118,15 @@ Published books
-       :ISBN: 978-0672329463
-       :Notes: Foundational book
- 
-+    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
-+
-+      :Author: Kenneth Hess
-+      :Publisher: O'Reilly Media
-+      :Date: May, 2023
-+      :Pages: 246
-+      :ISBN: 978-1098109035
-+      :Notes: System administration
-+
- .. _ldd3_published:
- 
-     * Title: **Linux Device Drivers, 3rd Edition**
+On Mon, 24 Jul 2023 18:09:16 +0800 you wrote:
+> Since RISC-V Linux v6.4, the commit 3335068f8721 ("riscv: Use
+> PUD/P4D/PGD pages for the linear mapping") changes phys_ram_base
+> from the physical start of the kernel to the actual start of the DRAM.
+> 
+> The Crash-utility's VTOP() still uses phys_ram_base and kernel_map.virt_addr
+> to translate kernel virtual address, that failed the Crash with Linux v6.4 [1].
+> 
+> [...]
+
+Here is the summary with links:
+  - [RESEND,-fixes,1/2] riscv: Export va_kernel_pa_offset in vmcoreinfo
+    https://git.kernel.org/riscv/c/fbe7d19d2b7f
+  - [RESEND,-fixes,2/2] Documentation: kdump: Add va_kernel_pa_offset for RISCV64
+    https://git.kernel.org/riscv/c/640c503d7dbd
+
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
