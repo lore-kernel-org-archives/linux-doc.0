@@ -2,95 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50887C001DB
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 20:23:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C118EC001DF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 20:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231636AbjHCUXF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 16:23:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48226 "EHLO
+        id S232286AbjHCUxO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 16:53:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbjHCUXE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 16:23:04 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25EFE10CA;
-        Thu,  3 Aug 2023 13:23:03 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C071F31A;
-        Thu,  3 Aug 2023 20:23:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C071F31A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1691094182; bh=Z6H7ra75b1GD73w6Q6OpzWHRmyhXKkKOs8nQ5RLXIVQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hjFHyuy6wYcVB18RivK5h6DV5/Y7YbgjJMZcXEPNRJRS+4ayf3uIKYX9d833oI401
-         jBtZUXp7witT83riwS7a0wgq1eaxfPMObzH/nYeq7RRj6gzTVMRj1W5Qa76XLr3zg/
-         TeW26vvx/HofPouEtLJY/8QBRLSyM2gGEOQK1x42jsFyvH/PhwzHR0IqBEqQS6KVaS
-         cYFYN77NWHUvtBP6x/v9SZZiZMXboW+2b8bfTmMb8aaocFV4tGdO77/Neid2Zn1es3
-         gSJ4CCjnYGCFVEFwX/lu5GO32flW8u5V9R38z6rHfNIhizQ5WQmhjBC3i/lw3RJPD/
-         OHPS/qk607c1w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
-        tech-board@lists.linuxfoundation.org
-Subject: [PATCH] docs: Add a section on surveys to the researcher guidelines
-Date:   Thu, 03 Aug 2023 14:23:02 -0600
-Message-ID: <87il9v7u55.fsf@meer.lwn.net>
+        with ESMTP id S232408AbjHCUxG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 16:53:06 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F753272E;
+        Thu,  3 Aug 2023 13:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691095979; x=1722631979;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zED3kdg3ZRxf/2pJOvBBe7+N26q1v5zZu+U8ltvXaeI=;
+  b=Uro7/8DxWtxJdVOf6pQyOHCveYzdlCwGYp6ltyuhXyIqGnDloAtOFAlL
+   8fMNfi9B+OzuEfuVRhzVtodds+lwtV6/pnOLby78bGZ10CcrRQLTErrSl
+   rgxSIO77MM0o1q05Ukp8x2PuKzblnGpLkj7b4wkz+JYwmfsuEKodQPB8+
+   A/eb7enT9ZktpvbvDy8xG72oLRUynK5OhagrrQ+QyC7Es0kkSz6874n48
+   Ug1yP3n+x5FIyTohGXiKaJ0R9Zyw/tOtN2R1fR90DyZleRaN5knFU3E9l
+   3DwuJIJamTDrEa+SZ6IP7hPvP+nvrsS/qo7MP2oP82yNId8znPZB+uppS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="400953041"
+X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
+   d="scan'208";a="400953041"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 13:52:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="1060446752"
+X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
+   d="scan'208";a="1060446752"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 03 Aug 2023 13:52:49 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qRfJQ-0002Lb-1Z;
+        Thu, 03 Aug 2023 20:52:48 +0000
+Date:   Fri, 4 Aug 2023 04:52:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nayna Jain <nayna@linux.ibm.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-doc@vger.kernel.org
+Subject: arch/powerpc/platforms/pseries/plpks.c:186: warning: This comment
+ starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202308040430.GxmPAnwZ-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It is common for university researchers to want to poll the community with
-online surveys, but that approach distracts developers while yielding
-little in the way of useful data.  Encourage alternatives instead.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7bafbd4027ae86572f308c4ddf93120c90126332
+commit: 2454a7af0f2a42918aa972147a0bec38e6656cd8 powerpc/pseries: define driver for Platform KeyStore
+date:   1 year ago
+config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20230804/202308040430.GxmPAnwZ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040430.GxmPAnwZ-lkp@intel.com/reproduce)
 
-Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- .../process/researcher-guidelines.rst         | 27 +++++++++++++++++++
- 1 file changed, 27 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308040430.GxmPAnwZ-lkp@intel.com/
 
-diff --git a/Documentation/process/researcher-guidelines.rst b/Documentation/process/researcher-guidelines.rst
-index 9fcfed3c350b..d159cd4f5e5b 100644
---- a/Documentation/process/researcher-guidelines.rst
-+++ b/Documentation/process/researcher-guidelines.rst
-@@ -44,6 +44,33 @@ explicit agreement of, and full disclosure to, the individual developers
- involved. Developers cannot be interacted with/experimented on without
- consent; this, too, is standard research ethics.
- 
-+Surveys
-+=======
-+
-+Research often takes the form of surveys sent to maintainers or
-+contributors.  As a general rule, though, the kernel community derives
-+little value from these surveys.  The kernel development process works
-+because every developer benefits from their participation, even working
-+with others who have different goals.  Responding to a survey, though, is a
-+one-way demand placed on busy developers with no corresponding benefit to
-+themselves or to the kernel community as a whole.  For this reason, this
-+method of research is discouraged.
-+
-+Kernel community members already receive far too much email and are likely
-+to perceive survey requests as just another demand on their time.  Sending
-+such requests deprives the community of valuable contributor time and is
-+unlikely to yield a statistically useful response.
-+
-+As an alternative, researchers should consider attending developer events,
-+hosting sessions where the research project and its benefits to the
-+participants can be explained, and interacting directly with the community
-+there.  The information received will be far richer than that obtained from
-+an email survey, and the community will gain from the ability to learn from
-+your insights as well.
-+
-+Patches
-+=======
-+
- To help clarify: sending patches to developers *is* interacting
- with them, but they have already consented to receiving *good faith
- contributions*. Sending intentionally flawed/vulnerable patches or
+All warnings (new ones prefixed by >>):
+
+>> arch/powerpc/platforms/pseries/plpks.c:186: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Label is combination of label attributes + name.
+
+
+vim +186 arch/powerpc/platforms/pseries/plpks.c
+
+   184	
+   185	/**
+ > 186	 * Label is combination of label attributes + name.
+   187	 * Label attributes are used internally by kernel and not exposed to the user.
+   188	 */
+   189	static struct label *construct_label(char *component, u8 varos, u8 *name,
+   190					     u16 namelen)
+   191	{
+   192		struct label *label;
+   193		size_t slen;
+   194	
+   195		if (!name || namelen > MAX_NAME_SIZE)
+   196			return ERR_PTR(-EINVAL);
+   197	
+   198		slen = strlen(component);
+   199		if (component && slen > sizeof(label->attr.prefix))
+   200			return ERR_PTR(-EINVAL);
+   201	
+   202		label = kzalloc(sizeof(*label), GFP_KERNEL);
+   203		if (!label)
+   204			return ERR_PTR(-ENOMEM);
+   205	
+   206		if (component)
+   207			memcpy(&label->attr.prefix, component, slen);
+   208	
+   209		label->attr.version = LABEL_VERSION;
+   210		label->attr.os = varos;
+   211		label->attr.length = MAX_LABEL_ATTR_SIZE;
+   212		memcpy(&label->name, name, namelen);
+   213	
+   214		label->size = sizeof(struct label_attr) + namelen;
+   215	
+   216		return label;
+   217	}
+   218	
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
