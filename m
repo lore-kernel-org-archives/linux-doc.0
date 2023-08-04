@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC668C04A6A
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 18:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C6EC001DB
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 18:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbjHDS0w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 14:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53416 "EHLO
+        id S231216AbjHDS0x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 14:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231455AbjHDSZl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 14:25:41 -0400
+        with ESMTP id S230304AbjHDSZu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 14:25:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 024DB49FF
-        for <linux-doc@vger.kernel.org>; Fri,  4 Aug 2023 11:24:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680BB4EEE
+        for <linux-doc@vger.kernel.org>; Fri,  4 Aug 2023 11:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691173491;
+        s=mimecast20190719; t=1691173495;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=GC244PIhZZVEaEMVp/i0uN0Dlx9b0oRSDCpI7qyebQM=;
-        b=EcVwQd8WN6nqPKthWSzIEXz2c5LVl56stBmW3VZT1J3dyToaTbQy7cmHPhgUBoVs19D9NJ
-        jf4GDNAS277bW07LQQ0G8OfUesvguIWFjSLqIxBanvFbZW8rAskoEFXFDro2SPEdSk3fKs
-        PC6lQWh0wFln6q/b2ct1P8m28qMyEiU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=FPFh5xK9R3PMhoxLIZOGRTrlUVBMred7+qWqFlBzAlw=;
+        b=KpGYlEXFhSZKgnYdtpe6TTAO4W/MlUzSuRxvfsxk4z2YOKsSYoS4NbVWi/jKQ/q23grP3S
+        TztglH9ZxFwDwHvujtWpL8gqV4TodXmCR98u7iCUhQHp+h7dtSUbsxWjQ4OU9Lq1IGIart
+        tGgW6fnKOcm6bKV+2+i9MLFZQYZ8BjA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-idjC9Z9QOCikxwwn7IEy3Q-1; Fri, 04 Aug 2023 14:24:49 -0400
-X-MC-Unique: idjC9Z9QOCikxwwn7IEy3Q-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-99bebfada8cso151245266b.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Aug 2023 11:24:49 -0700 (PDT)
+ us-mta-650-kOrR2AeaP_OKFFoL0WhNdw-1; Fri, 04 Aug 2023 14:24:53 -0400
+X-MC-Unique: kOrR2AeaP_OKFFoL0WhNdw-1
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-521a38098faso1575038a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 04 Aug 2023 11:24:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691173488; x=1691778288;
+        d=1e100.net; s=20221208; t=1691173493; x=1691778293;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GC244PIhZZVEaEMVp/i0uN0Dlx9b0oRSDCpI7qyebQM=;
-        b=LkT2b/95r67g5DIBixnNrc9AgSce/WcdS4z6UwOVb8dIwKghbCT5q6T5u6dqI4lb9L
-         H6eINQasiPJ5cfs9JEyUF/U4YpfyNjNQIp/+6XlAhRaLh4D4PiYcjtZGm01HkEfvt/VJ
-         nCfcIZGXTVg1/p7GAwoTWhHgZkmYEmTwzXog7x3yCEOwahSMItke8Cj83XOpHkjP6jn5
-         UUxVYCt/OBZiw8wtQrqsPu4tJXcP1D0gsJu/EInGPmtDrwU5ipUyCZbSUHGZFy3sff+7
-         L/kL6y4HMRKeqaEa/FKjaZgX0paEwdXpIswp+idNJNCnWeSluPEqrzPj1R5771mhuC9d
-         pxhg==
-X-Gm-Message-State: AOJu0YzImh3OK1vQN51vM2lsEv0wTUD5KoMotR58AOPuOXReH3FOyKDO
-        sxni6HVgIHFYdTbfzVT56lgERXrIwYxJcS/RQEKcANowRVWWq0QD67DCGVGnzEbZ/WeWo8F7YiM
-        HJ0XR9g00j+DdM8F25a1E
-X-Received: by 2002:a17:906:31cd:b0:994:2fa9:7446 with SMTP id f13-20020a17090631cd00b009942fa97446mr1890102ejf.46.1691173488304;
-        Fri, 04 Aug 2023 11:24:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFNm88b5/GKa7FD6Aqs6b0cTELulEnpK8lpJSfesvb7pgDI0RFk7OgObhebiBKeVpSn286rFg==
-X-Received: by 2002:a17:906:31cd:b0:994:2fa9:7446 with SMTP id f13-20020a17090631cd00b009942fa97446mr1890079ejf.46.1691173487983;
-        Fri, 04 Aug 2023 11:24:47 -0700 (PDT)
+        bh=FPFh5xK9R3PMhoxLIZOGRTrlUVBMred7+qWqFlBzAlw=;
+        b=adwtd3yiIAHSB1i/9v5AUCIAYYhnjzQbUo39kibxG8FLU+YOnqFFlF3Rjx592lC1NY
+         DF8NOHd1eN0zjZ0YmjDjRC9sZWlqux02p0ubPR5kTm7XYAq/YtmzsMfMMYa8kVfyIut7
+         4rHvjaw+RbnIKCn2UuSP0sbxi2BiwNA9bEEqOzBFG/KjuHe4Wa7G9fxShUP3RC9jOIq3
+         4imYs4/b16oz17NeGflm/sg9Mjksf/axnmW/aT3850cJIw2g+cGUQrbMSfYkbPXMFqPE
+         jEMVLLmUy1FgRdPG9pte8WYG0GSQXqojPReO3foLQBXHy6Qlwykzi9jcCSvkSG0XkbJU
+         6AWQ==
+X-Gm-Message-State: AOJu0Ywij+6ZiNDd645Aotw2EGhKQgTUcKdHOxfp8FMt0wuiilJq6rmB
+        2cvg+PGmIwOlfpVb1QzyumyTLT7gowizLUlErr23sY3I8FSnhsKmuLauUfXTDxPiCelEJTax5EW
+        nAihfjulRodhhPUzw4mD7
+X-Received: by 2002:a05:6402:d7:b0:523:1e18:3a78 with SMTP id i23-20020a05640200d700b005231e183a78mr1852247edu.12.1691173492887;
+        Fri, 04 Aug 2023 11:24:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFzs0P8hIFqjJHKUIx+lEdMykWuVEGGHkoa55iEIBVzpkjp0zK+xW2gAjVxHvq75jYW01UMnQ==
+X-Received: by 2002:a05:6402:d7:b0:523:1e18:3a78 with SMTP id i23-20020a05640200d700b005231e183a78mr1852238edu.12.1691173492693;
+        Fri, 04 Aug 2023 11:24:52 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
-        by smtp.gmail.com with ESMTPSA id bw4-20020a170906c1c400b009829d2e892csm1674052ejb.15.2023.08.04.11.24.46
+        by smtp.gmail.com with ESMTPSA id w16-20020a50fa90000000b00522295516c4sm1551054edr.90.2023.08.04.11.24.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 11:24:47 -0700 (PDT)
+        Fri, 04 Aug 2023 11:24:52 -0700 (PDT)
 From:   Danilo Krummrich <dakr@redhat.com>
 To:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
         mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
@@ -66,9 +66,9 @@ Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Danilo Krummrich <dakr@redhat.com>,
         Dave Airlie <airlied@redhat.com>
-Subject: [PATCH drm-misc-next v10 08/12] drm/nouveau: fence: fail to emit when fence context is killed
-Date:   Fri,  4 Aug 2023 20:23:48 +0200
-Message-ID: <20230804182406.5222-9-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v10 09/12] drm/nouveau: chan: provide nouveau_channel_kill()
+Date:   Fri,  4 Aug 2023 20:23:49 +0200
+Message-ID: <20230804182406.5222-10-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230804182406.5222-1-dakr@redhat.com>
 References: <20230804182406.5222-1-dakr@redhat.com>
@@ -79,61 +79,63 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 The new VM_BIND UAPI implementation introduced in subsequent commits
-will allow asynchronous jobs processing push buffers and emitting
-fences.
+will allow asynchronous jobs processing push buffers and emitting fences.
 
-If a fence context is killed, e.g. due to a channel fault, jobs which
-are already queued for execution might still emit new fences. In such a
-case a job would hang forever.
-
-To fix that, fail to emit a new fence on a killed fence context with
--ENODEV to unblock the job.
+If a job times out, we need a way to recover from this situation. For
+now, simply kill the channel to unblock all hung up jobs and signal
+userspace that the device is dead on the next EXEC or VM_BIND ioctl.
 
 Reviewed-by: Dave Airlie <airlied@redhat.com>
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 7 +++++++
- drivers/gpu/drm/nouveau/nouveau_fence.h | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_chan.c | 14 +++++++++++---
+ drivers/gpu/drm/nouveau/nouveau_chan.h |  1 +
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index e946408f945b..77c739a55b19 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -96,6 +96,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
- 		if (nouveau_fence_signal(fence))
- 			nvif_event_block(&fctx->event);
- 	}
-+	fctx->killed = 1;
- 	spin_unlock_irqrestore(&fctx->lock, flags);
- }
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
+index f69be4c8f9f2..1fd5ccf41128 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.c
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
+@@ -40,6 +40,14 @@ MODULE_PARM_DESC(vram_pushbuf, "Create DMA push buffers in VRAM");
+ int nouveau_vram_pushbuf;
+ module_param_named(vram_pushbuf, nouveau_vram_pushbuf, int, 0400);
  
-@@ -229,6 +230,12 @@ nouveau_fence_emit(struct nouveau_fence *fence, struct nouveau_channel *chan)
- 		dma_fence_get(&fence->base);
- 		spin_lock_irq(&fctx->lock);
- 
-+		if (unlikely(fctx->killed)) {
-+			spin_unlock_irq(&fctx->lock);
-+			dma_fence_put(&fence->base);
-+			return -ENODEV;
-+		}
++void
++nouveau_channel_kill(struct nouveau_channel *chan)
++{
++	atomic_set(&chan->killed, 1);
++	if (chan->fence)
++		nouveau_fence_context_kill(chan->fence, -ENODEV);
++}
 +
- 		if (nouveau_fence_update(chan, fctx))
- 			nvif_event_block(&fctx->event);
+ static int
+ nouveau_channel_killed(struct nvif_event *event, void *repv, u32 repc)
+ {
+@@ -47,9 +55,9 @@ nouveau_channel_killed(struct nvif_event *event, void *repv, u32 repc)
+ 	struct nouveau_cli *cli = (void *)chan->user.client;
  
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
-index 7c73c7c9834a..2c72d96ef17d 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
-@@ -44,7 +44,7 @@ struct nouveau_fence_chan {
- 	char name[32];
+ 	NV_PRINTK(warn, cli, "channel %d killed!\n", chan->chid);
+-	atomic_set(&chan->killed, 1);
+-	if (chan->fence)
+-		nouveau_fence_context_kill(chan->fence, -ENODEV);
++
++	if (unlikely(!atomic_read(&chan->killed)))
++		nouveau_channel_kill(chan);
  
- 	struct nvif_event event;
--	int notify_ref, dead;
-+	int notify_ref, dead, killed;
- };
+ 	return NVIF_EVENT_DROP;
+ }
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.h b/drivers/gpu/drm/nouveau/nouveau_chan.h
+index bad7466bd0d5..5de2ef4e98c2 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.h
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.h
+@@ -66,6 +66,7 @@ int  nouveau_channel_new(struct nouveau_drm *, struct nvif_device *, bool priv,
+ 			 u32 vram, u32 gart, struct nouveau_channel **);
+ void nouveau_channel_del(struct nouveau_channel **);
+ int  nouveau_channel_idle(struct nouveau_channel *);
++void nouveau_channel_kill(struct nouveau_channel *);
  
- struct nouveau_fence_priv {
+ extern int nouveau_vram_pushbuf;
+ 
 -- 
 2.41.0
 
