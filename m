@@ -2,280 +2,209 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D269AC001DF
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 08:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67BA8C001DE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 08:11:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234286AbjHDIFN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 04:05:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49158 "EHLO
+        id S233792AbjHDILV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 04:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234351AbjHDIFK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 04:05:10 -0400
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2048.outbound.protection.outlook.com [40.107.14.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49324697;
-        Fri,  4 Aug 2023 01:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=spS4MoxUW93NIpABhPuKV0mlNfojgGW4xfhmX3MIctA=;
- b=rQc6RXoq+XZW5F72BcKJa8eXSPIVn5e7AaF7NTdCipivX2mB+yiG4a78lk/Ii9s4QxkmytM6bVXqefO1sObqXpNpfVRroTkGC38hldLV8dxjK41G5Kj7qpfi6gGEdmths3sq8XzTR8J2Iyj+/HTmaQ3lIXFHxN1mHzOtGvhe2QA=
-Received: from DBBPR09CA0027.eurprd09.prod.outlook.com (2603:10a6:10:d4::15)
- by AS8PR08MB8924.eurprd08.prod.outlook.com (2603:10a6:20b:5b2::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Fri, 4 Aug
- 2023 08:04:58 +0000
-Received: from DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:d4:cafe::7d) by DBBPR09CA0027.outlook.office365.com
- (2603:10a6:10:d4::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21 via Frontend
- Transport; Fri, 4 Aug 2023 08:04:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT049.mail.protection.outlook.com (100.127.142.192) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6631.48 via Frontend Transport; Fri, 4 Aug 2023 08:04:58 +0000
-Received: ("Tessian outbound ba2f3d95109c:v145"); Fri, 04 Aug 2023 08:04:58 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 1861e5a8b6ca73e2
-X-CR-MTA-TID: 64aa7808
-Received: from 918d12e3b4d1.3
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 96F790E4-67C8-4D42-BA0E-C7AFB4B273C0.1;
-        Fri, 04 Aug 2023 08:04:51 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 918d12e3b4d1.3
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 04 Aug 2023 08:04:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QRCLCO+on4Yl2XgngKzzqgONYVQ4iuLQ/CBLw2NMJLkTv3um6IesrqbBS8BKIuyuilCRHNxENfHIfuirq+ZBXOQxBwVd1bHHzo4YifegfxVDeXfzdDGTu6vEjWKA4YNOYRQyn1KTSJaAuSCiYy7vRM7Gn4svm+XXYIUJGcxJ82CEl0DLrX5CNl31yuilfTL0SmPbXr4vX3C0QNvgRRzt3svN0ACbAz6T7sJfertVFhRCtWKDkNGhY0AloglMJM1p66JYCnoWmOMlnvRygZwE+HGknsi0ftfjEUH1cYwGEni6feRkcmvhJiLFJfwdKkhlqK6VCvhuZboHBAG+hZhTPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=spS4MoxUW93NIpABhPuKV0mlNfojgGW4xfhmX3MIctA=;
- b=f0sI1PZ4qiSulNnkJvPjv32VObGGoWgI1hXWmOOPQ0gHHU/UbStwxiZz790MYdLDn/4QbcNjPbv5gvj0D0gylNWio/9yGdRcrYS10VmLV8Q1pEP0+kul9nxP2r3dISrzppA3JxPK1Mq5AhQ1J3D2D+q8s01rVtXOveCU2zKVpszPSIZlKZ73TOZtHVYV2ZK/b8v8zAhudMPJ/1IqshjDgaMl7I2FG4zFJUK01qmpAMaxvc+gi3yGKCwxVc3xsAle8MstaTiurwB3Lc5GUOLZW04HRWjlsBa0Ex70iZbautnXswDk96v83GbwsDgVDjA4f+349q1HQ4k/dC48clBdVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=spS4MoxUW93NIpABhPuKV0mlNfojgGW4xfhmX3MIctA=;
- b=rQc6RXoq+XZW5F72BcKJa8eXSPIVn5e7AaF7NTdCipivX2mB+yiG4a78lk/Ii9s4QxkmytM6bVXqefO1sObqXpNpfVRroTkGC38hldLV8dxjK41G5Kj7qpfi6gGEdmths3sq8XzTR8J2Iyj+/HTmaQ3lIXFHxN1mHzOtGvhe2QA=
-Received: from DB9PR08MB7512.eurprd08.prod.outlook.com (2603:10a6:10:303::14)
- by DB5PR08MB10161.eurprd08.prod.outlook.com (2603:10a6:10:4a5::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Fri, 4 Aug
- 2023 08:04:48 +0000
-Received: from DB9PR08MB7512.eurprd08.prod.outlook.com
- ([fe80::9ea7:8451:f005:704d]) by DB9PR08MB7512.eurprd08.prod.outlook.com
- ([fe80::9ea7:8451:f005:704d%4]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
- 08:04:48 +0000
-From:   Al Grant <Al.Grant@arm.com>
-To:     Anshuman Khandual <Anshuman.Khandual@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-CC:     Anshuman Khandual <Anshuman.Khandual@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        "coresight@lists.linaro.org" <coresight@lists.linaro.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] coresight: etm: Make cycle count threshold user
- configurable
-Thread-Topic: [PATCH] coresight: etm: Make cycle count threshold user
- configurable
-Thread-Index: AQHZxo7SJwk5KsJnwEOgjuWw4bjf06/ZxJDA
-Date:   Fri, 4 Aug 2023 08:04:48 +0000
-Message-ID: <DB9PR08MB7512B9A03A86B8983884B1C98609A@DB9PR08MB7512.eurprd08.prod.outlook.com>
-References: <20230804044720.1478900-1-anshuman.khandual@arm.com>
-In-Reply-To: <20230804044720.1478900-1-anshuman.khandual@arm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ts-tracking-id: 6ED84E0D25F0D94FB5A8457DB2080837.0
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: DB9PR08MB7512:EE_|DB5PR08MB10161:EE_|DBAEUR03FT049:EE_|AS8PR08MB8924:EE_
-X-MS-Office365-Filtering-Correlation-Id: e34780ff-3500-499e-342a-08db94c17f2c
-x-ld-processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: Ey/Wy5o8cDVJZGu5v+SDKD8TXYfC/3tP2g6byOgBriL013EpNy6aKkvn0PPR0ISQESYzwbXVuJUfSZIqKlGQCeNfnebBAza9DLUMKiENFU6hxbouKcd8S/jfyhTct9sFCm2E9x/eS/a0QWsGSqWoxouMweWiLOsxCPuKM8SxOpMamcQuX7KLA+yKLoXEDMBwQPzgyPWEccG2rJVP8lNY9XniwXC0b3ff6WND/qXQ9EPdqi0TOaxpT5wpSCZghjaZMEIOSA24BDjPin9ylACNhUhpU6GqleD+cw1eu5uA4ckagrtxl3gM52/Il9kOdnyECqbkBfAdTrao6Ht2Kb1sRRj/HGfgv5Lwm2rHpgq2Ki881a1htCoeKFg1jz6WkgIHamdS8W3lCvioHO726SudEvDavaTYQULskU3gE/ecjF6kwp7ce2/N8oDuwMzYLy3tD/i+C3WgRxeUilIFON2PgpuEgeP2jPkIcmRZh25tpdZuEbBaNjkkpmkq2gDnsah8AKjMtFSjuYb2LUipgVoucoJfLczHYaFSJPXtSgBKvofsvLNDtT2bgXGyaw3tRlv8yPNhGSWkkOFS7pc1FLzhXc65fklKfNTDVN6OgNl1EnuM4thmX/k6R5bwLsFQ0AY5
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7512.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(136003)(39860400002)(396003)(346002)(451199021)(1800799003)(186006)(38070700005)(33656002)(86362001)(66899021)(110136005)(54906003)(478600001)(55016003)(38100700002)(122000001)(83380400001)(6506007)(26005)(53546011)(41300700001)(8936002)(8676002)(9686003)(7696005)(52536014)(4326008)(71200400001)(66476007)(66556008)(66446008)(316002)(64756008)(5660300002)(66946007)(2906002)(76116006);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S233873AbjHDILU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 04:11:20 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85A6B4687
+        for <linux-doc@vger.kernel.org>; Fri,  4 Aug 2023 01:11:18 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-686e29b058cso1357482b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Aug 2023 01:11:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1691136678; x=1691741478;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1E1XKpqY2cyPNIrSdD2Uj7Nc4s99E7VJhmNzctJ9yC0=;
+        b=c0O39fOZTU05YfaE+/NuL/0+WcEvgeF+SRbGWw691gy7cFmVocxF2etSH7t09iQ51u
+         3UEbdkuaKyJUzhPPqN45Zqo0unNWsOT42D144N/2zpSlHvlalss+jzFtFLVtt9xhwsV0
+         2jUbfUF2kfYTbw9RIEVXY4rz7V6sB+WFFCVxDzOw2KsBpsUwDTH79BMkjXsvsUVb3P5X
+         LzpSCirLqW7Wk0TiB1u1kZIxH9nUi1kBoWjxGKHCdEfn5NeYClqikNfwpL6oioZmAswK
+         XT2zIoJpYPoswZJ6ZZCRE7L/qGA2OZ0LAW0uXnY2oGgsZ5rGl9ZxxHpvIpkMo6GeQdj+
+         gRaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691136678; x=1691741478;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1E1XKpqY2cyPNIrSdD2Uj7Nc4s99E7VJhmNzctJ9yC0=;
+        b=M9VU9+pIiqJjksjV8gEWh8dRTT8g7yzdtaq1aBr9IXNwbVHpks9lc+vcoBoch2T8Pv
+         O3XYxUhvCiZs/azHhmersQhx+go8bfpbSLjluFUbhDh7SYixeP5bzKYSK1s9+grq3f9a
+         AWLAzLS5yyfDrLy6l4koiI8ZDuUAaxNVaVEG0h/SPRWuC6fNyMOq5Ays7iVHVmdl86n0
+         4v9M3XgPzBLGAkNNMkfiOuMNsat9DZCe9BffZgFVTeemsWIJyxq/jZDlPMRaxc0x51iR
+         ocD2ETyG2hoEBFfIa5kzCoydKG+746v/KInB06yH/eMLhm7NQQThPi/9n9pRoVjq4TUN
+         /rrA==
+X-Gm-Message-State: AOJu0YyygOHPUdugK6er32deDMEZdte0iN3WsuunnZ6OGzpIf/orIqIz
+        61CgJARhgAYS2dT0y2iS/wAfyg==
+X-Google-Smtp-Source: AGHT+IHnx2zb6m6wrA5NnPdzIk8blklkqhpKJsWmU8/Y9MzhjmQ6IK1Rw1+MeaiexbKDwa3wkDs7Mw==
+X-Received: by 2002:a05:6a00:3984:b0:682:f529:6d69 with SMTP id fi4-20020a056a00398400b00682f5296d69mr1255507pfb.7.1691136677933;
+        Fri, 04 Aug 2023 01:11:17 -0700 (PDT)
+Received: from sunil-laptop ([106.51.190.143])
+        by smtp.gmail.com with ESMTPSA id c21-20020a62e815000000b005d22639b577sm1032647pfi.165.2023.08.04.01.11.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 01:11:17 -0700 (PDT)
+Date:   Fri, 4 Aug 2023 13:41:05 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Anup Patel <anup@brainfault.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Haibo Xu <haibo1.xu@intel.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Atish Kumar Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>
+Subject: Re: [RFC PATCH v1 11/21] swnode: Add support to create early during
+ boot
+Message-ID: <ZMyymUdV63g4eGaT@sunil-laptop>
+References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
+ <20230803175916.3174453-12-sunilvl@ventanamicro.com>
+ <ZMyWDDD6Lw8REd1r@smile.fi.intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10161
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 3adc4a3d-41c4-44ed-09ec-08db94c178e9
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cjrMbiDFTNjyKnU/+wvt7rDOeoLs5UeQPM+6WdZfOpeQ2o7feh2RfqCU0gcdsBrT6mu5qkfs5VgMQtAFA2sIuEEQlgXWp+qLwABZPHs4iicP5Wlg2Non12BnnTgwZLw4c8q+eepcc3GUMCRmLTa6spt8usuWI3uwVQ4BzyxBiQltjuHN/V5iRjAODtmNVPKBubeWjrFINAMxTWGbZ8L+F44oVCFe47LWvJONfyHFVuIyqWBQVz4fh36Py5hEpnRWXJK49uYliPqtG1lRxHisgHXpBcEA6DfxCvzMckI+mfCX4hbI9qJyDTwHX3KdvS8wjRK5cSh5CKbTwoXX8zG1Jx5SlFEdr3VBfGVqKCTyuCzdQEi7nGdNDjW0cdUEwMEo7Y0t948h0noOFNI2XzAfLc6m7nd+pcqu4LH+pNX25h8qY8r2+Vb6tUJpzay+TxTgiZL6RvzVCzaNEJlMHSQJAeaxwURl0nsaGWBAsXt7Ft8nERwdigw5J1l1T4DJ+W5CItdH1YErYJjgUpZC029Al2TE/EBwP1OXjPrcfHkM7h5fikZIlduGEJG/9e1PGBrbVQIv/146rOUiIOu6gut1gtMOniB/km0mEsTtxms8fVNbAXN36/xBLFiUqGoXhyxparHQSRBI4ysvDCNuDbpDcxlzb/9ATVSm2f4F3fow/6u4OydoR66CKd7J4ZRHfS5Io9sTrxumFQh9VpzSGzHLbMvwZTvY5D7I5fAjwSqUcPcezCe0yTsoA4tW1f+Xg4YQ
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(396003)(376002)(346002)(451199021)(186006)(1800799003)(82310400008)(40470700004)(36840700001)(46966006)(7696005)(9686003)(40460700003)(86362001)(40480700001)(55016003)(6506007)(36860700001)(26005)(336012)(53546011)(83380400001)(47076005)(81166007)(33656002)(82740400003)(356005)(450100002)(5660300002)(41300700001)(8676002)(8936002)(4326008)(2906002)(70586007)(70206006)(316002)(66899021)(478600001)(52536014)(110136005)(54906003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 08:04:58.6259
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e34780ff-3500-499e-342a-08db94c17f2c
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8924
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZMyWDDD6Lw8REd1r@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Andy,
 
+On Fri, Aug 04, 2023 at 09:09:16AM +0300, Andy Shevchenko wrote:
+> On Thu, Aug 03, 2023 at 11:29:06PM +0530, Sunil V L wrote:
+> > From: Anup Patel <apatel@ventanamicro.com>
+> > 
+> > swnode framework can be used to create fwnode for interrupt
+> > controllers.
+> 
+> Why? What is this for?
+> Can you elaborate? This commit message is poorly written...
+> 
+> And why firmware node is not enough for ACPI case?
+> I assume the fwnode in DT case is already provided by OF.
+> 
+Thanks a lot for the review!.
 
-> -----Original Message-----
-> From: Anshuman Khandual <anshuman.khandual@arm.com>
-> Sent: Friday, August 4, 2023 5:47 AM
-> To: linux-arm-kernel@lists.infradead.org
-> Cc: Anshuman Khandual <Anshuman.Khandual@arm.com>; Mike Leach
-> <mike.leach@linaro.org>; coresight@lists.linaro.org; linux-doc@vger.kerne=
-l.org;
-> linux-kernel@vger.kernel.org
-> Subject: [PATCH] coresight: etm: Make cycle count threshold user configur=
-able
->=20
-> Cycle counting is enabled, when requested and supported but with a defaul=
-t
-> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into
-> TRCCCCTLR, representing the minimum interval between cycle count trace
-> packets.
->=20
-> This makes cycle threshold user configurable, from the user space via per=
-f event
-> attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT, in ca=
-se
-> no explicit request. As expected it creates a sysfs file as well.
->=20
-> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
->=20
-> New 'cc_threshold' uses 'event->attr.config3' as no more space is availab=
-le in
-> 'event->attr.config1' or 'event->attr.config2'.
->=20
-> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Cc: Mike Leach <mike.leach@linaro.org>
-> Cc: James Clark <james.clark@arm.com>
-> Cc: Leo Yan <leo.yan@linaro.org>
-> Cc: coresight@lists.linaro.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  Documentation/trace/coresight/coresight.rst        |  2 ++
->  drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
->  drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
->  3 files changed, 14 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/trace/coresight/coresight.rst
-> b/Documentation/trace/coresight/coresight.rst
-> index 4a71ea6cb390..b88d83b59531 100644
-> --- a/Documentation/trace/coresight/coresight.rst
-> +++ b/Documentation/trace/coresight/coresight.rst
-> @@ -624,6 +624,8 @@ They are also listed in the folder
-> /sys/bus/event_source/devices/cs_etm/format/
->     * - timestamp
->       - Session local version of the system wide setting:
-> :ref:`ETMv4_MODE_TIMESTAMP
->         <coresight-timestamp>`
-> +   * - cc_treshold
+You are right, OF provides the fwnode for irqchip drivers. However, for
+ACPI case, it is typically created using irq_domain_alloc_named_fwnode
+or irq_domain_alloc_fwnode since these are not ACPI devices in the
+namespace but from MADT. The fwnode created using
+irq_domain_alloc_fwnode() is a simple one which doesn't support properties
+similar to the one created by OF framework or software node framework.
+Hence, lot of data from the MADT structures need to be cached as
+separate structures in the drivers and also would need several ifdefs to
+check for ACPI and some amount of code duplication is also required due
+to the way DT driver gets the information vs ACPI.
 
-Spelling: cc_threshold
+The beauty of software node framework is, it supports adding properties
+and also is a supported fwnode type in __irq_domain_create(). So, if we
+can create the fwnode for these irqchip using software node, we can
+attach the same properties and the actual irqchip driver which uses the
+fwnode doesn't need to have any ACPI vs DT checks. Same driver will work
+seamlessly on both DT and ACPI platforms.  But the challenge is,
+currently swnode expects to be created with sysfs which won't be
+available during early boot when irqchip drivers need to be probed. So,
+adding support to create without dependency on sysfs help us to reuse
+the same framework for irqchip use case also.
 
-> +     - Cycle count treshhold value
->=20
->  How to use the STM module
->  -------------------------
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> index 5ca6278baff4..09f75dffae60 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,		"config:0-3");
->  PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
->  /* config ID - set if a system configuration is selected */
->  PMU_FORMAT_ATTR(configid,	"config2:32-63");
-> +PMU_FORMAT_ATTR(cc_threshold,	"config3:0-11");
->=20
->=20
->  /*
-> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] =
-=3D {
->  	&format_attr_preset.attr,
->  	&format_attr_configid.attr,
->  	&format_attr_branch_broadcast.attr,
-> +	&format_attr_cc_threshold.attr,
->  	NULL,
->  };
->=20
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 9d186af81ea0..9a2766f68416 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct
-> coresight_device *csdev,
->  	struct etmv4_config *config =3D &drvdata->config;
->  	struct perf_event_attr *attr =3D &event->attr;
->  	unsigned long cfg_hash;
-> -	int preset;
-> +	int preset, cc_threshold;
->=20
->  	/* Clear configuration from previous run */
->  	memset(config, 0, sizeof(struct etmv4_config)); @@ -667,7 +667,15 @@
-> static int etm4_parse_event_config(struct coresight_device *csdev,
->  	if (attr->config & BIT(ETM_OPT_CYCACC)) {
->  		config->cfg |=3D TRCCONFIGR_CCI;
->  		/* TRM: Must program this for cycacc to work */
-> -		config->ccctlr =3D ETM_CYC_THRESHOLD_DEFAULT;
-> +		cc_treshold =3D attr->config3 & ETM_CYC_THRESHOLD_MASK;
+Apologies for not descriptive in the commit message. Please let us know
+your feedback on this approach.
 
-Spelling again
+> > This helps in keeping the drivers same for both
+> > DT and ACPI. To enable this, enhance the swnode framework so
+> > that it can be created early during boot without dependency
+> > on sysfs.
+> 
+> ...
+> 
+> > -	swnode->kobj.kset = swnode_kset;
+> > +	swnode->kobj.kset = (!early) ? swnode_kset : NULL;
+> 
+> Too many unneeded characters. Why parentheses? Why negative check?
+> 
+Sure, will update in next version.
 
-> +		if (cc_treshold) {
-> +			if (cc_treshold < drvdata->ccitmin)
-> +				config->ccctlr =3D drvdata->ccitmin;
-> +			else
-> +				config->ccctlr =3D cc_threshold;
-> +		} else {
-> +			config->ccctlr =3D ETM_CYC_THRESHOLD_DEFAULT;
-> +		}
+> ...
+> 
+> > +	if (early) {
+> > +		ret = 0;
+> > +		kobject_init(&swnode->kobj, &software_node_type_early);
+> > +		swnode->kobj.parent = parent ? &parent->kobj : NULL;
+> > +		if (node->name)
+> > +			ret = kobject_set_name(&swnode->kobj,
+> > +					       "%s", node->name);
+> > +		else
+> > +			ret = kobject_set_name(&swnode->kobj,
+> > +					       "node%d", swnode->id);
+> > +		if (!ret) {
+> > +			spin_lock(&swnode_early_lock);
+> > +			list_add_tail(&swnode->early, &swnode_early_list);
+> > +			spin_unlock(&swnode_early_lock);
+> > +		}
+> > +	} else {
+> > +		if (node->name)
+> > +			ret = kobject_init_and_add(&swnode->kobj, &software_node_type,
+> > +						   parent ? &parent->kobj : NULL,
+> 
+> This looks like have a duplication.
+> 
+> > +						   "%s", node->name);
+> > +		else
+> > +			ret = kobject_init_and_add(&swnode->kobj, &software_node_type,
+> > +						   parent ? &parent->kobj : NULL,
+> > +						   "node%d", swnode->id);
+> > +	}
+> 
+> Maybe it's possible to refactor this piece to be more compact?
+> 
+The issue is, kobject_init_and_add() expects sysfs. Let me try to
+compact this in next version. Thanks!
+> ...
+> 
+> > -	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0));
+> > +	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0, 0));
+> 
+> In one case you use boolean, here is unsigned int for early flag, why is the
+> inconsistency added?
+> 
+Yeah, it should be bool. Let me fix it in next version.
 
-Consider dropping the check against CCITMIN. There are CPUs where
-CCITMIN is incorrect, e.g. see published errata 1490853 where the
-value 0x100 should be 0b100 i.e. 4. On these ETMs it is possible to
-set the timing threshold to four cycles instead of 256 cycles, providing
-much better timing resolution. The kernel currently does not work
-around this errata and uses the incorrect value of ccitmin. If you drop
-the check, and trust the value provided by userspace, you allow
-userspace to work around it.
+> ...
+> 
+> > -struct fwnode_handle *
+> > -fwnode_create_software_node(const struct property_entry *properties,
+> > -			    const struct fwnode_handle *parent)
+> > +static struct fwnode_handle *
+> > +fwnode_create_software_node_common(const struct property_entry *properties,
+> > +				   const struct fwnode_handle *parent,
+> > +				   bool early)
+> 
+> Why would you need this API in early stages?
+> 
+Hope I answered the question above. 
 
-Al
-
-
->  	}
->  	if (attr->config & BIT(ETM_OPT_TS)) {
->  		/*
-> --
-> 2.25.1
->=20
-> _______________________________________________
-> CoreSight mailing list -- coresight@lists.linaro.org To unsubscribe send =
-an email to
-> coresight-leave@lists.linaro.org
+Thanks!
+Sunil
