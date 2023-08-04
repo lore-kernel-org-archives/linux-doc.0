@@ -2,182 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BECB5C001DF
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 08:45:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE7DC001DF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 09:09:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbjHDIpr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 04:45:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41008 "EHLO
+        id S230146AbjHDJJF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 05:09:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjHDIpp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 04:45:45 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2C79430EA;
-        Fri,  4 Aug 2023 01:45:44 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA3F32F4;
-        Fri,  4 Aug 2023 01:46:26 -0700 (PDT)
-Received: from [10.163.54.21] (unknown [10.163.54.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4C263F6C4;
-        Fri,  4 Aug 2023 01:45:41 -0700 (PDT)
-Message-ID: <92a176f4-c8ff-2ce0-c667-b134436452ee@arm.com>
-Date:   Fri, 4 Aug 2023 14:15:38 +0530
+        with ESMTP id S229634AbjHDJIm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 05:08:42 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2314C10;
+        Fri,  4 Aug 2023 02:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1691139970; x=1722675970;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HRKkBCsgZa2tr3CPFdaWMT/tn1Xo0mpaNu//7DKF8jQ=;
+  b=rvxVGSbsFUxsVILqw32k908RCiy4CoZPKuUupl9K71kB8BfEO9vzfXqq
+   gks9IsZql3vkagVHAn/v3TNiUEqWZOzZRcBC/6DkRiBF1qpM2oYTbEUG3
+   NJ+A8Rv8RnU0Kn44Lm/JKFFeHhAh4T/TxjIZsBWWWj5rT6Ofkt8yW8xq3
+   YXKZlz9/J30YtHK9er9oASJiNIEwqCGNV7LIaJjUpKk7YJHQYZAvv0fHa
+   I6aqo7WbhNkTNncAM9/EUoOcop+pdHAc/L/mfQsyosNXpzYyKURiScsUR
+   FdkD7HF0B+ZtYlUriVKqL9SCYkV2qsXZBFRQ/IqV1TOO/xJw/oFnVVHRQ
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
+   d="asc'?scan'208";a="239780302"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Aug 2023 02:06:08 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 4 Aug 2023 02:06:06 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Fri, 4 Aug 2023 02:06:01 -0700
+Date:   Fri, 4 Aug 2023 10:05:25 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <guoren@kernel.org>
+CC:     <paul.walmsley@sifive.com>, <anup@brainfault.org>,
+        <peterz@infradead.org>, <mingo@redhat.com>, <will@kernel.org>,
+        <palmer@rivosinc.com>, <longman@redhat.com>,
+        <boqun.feng@gmail.com>, <tglx@linutronix.de>, <paulmck@kernel.org>,
+        <rostedt@goodmis.org>, <rdunlap@infradead.org>,
+        <catalin.marinas@arm.com>, <xiaoguang.xing@sophgo.com>,
+        <bjorn@rivosinc.com>, <alexghiti@rivosinc.com>,
+        <keescook@chromium.org>, <greentime.hu@sifive.com>,
+        <ajones@ventanamicro.com>, <jszhang@kernel.org>, <wefu@redhat.com>,
+        <wuwei2016@iscas.ac.cn>, <linux-arch@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <virtualization@lists.linux-foundation.org>,
+        <linux-csky@vger.kernel.org>, Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V10 07/19] riscv: qspinlock: errata: Introduce
+ ERRATA_THEAD_QSPINLOCK
+Message-ID: <20230804-refract-avalanche-9adb6b4b74e9@wendy>
+References: <20230802164701.192791-1-guoren@kernel.org>
+ <20230802164701.192791-8-guoren@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] coresight: etm: Make cycle count threshold user
- configurable
-Content-Language: en-US
-To:     Al Grant <Al.Grant@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Cc:     Mike Leach <mike.leach@linaro.org>,
-        "coresight@lists.linaro.org" <coresight@lists.linaro.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230804044720.1478900-1-anshuman.khandual@arm.com>
- <DB9PR08MB7512B9A03A86B8983884B1C98609A@DB9PR08MB7512.eurprd08.prod.outlook.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <DB9PR08MB7512B9A03A86B8983884B1C98609A@DB9PR08MB7512.eurprd08.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ElWjm7UHbiNPE9YP"
+Content-Disposition: inline
+In-Reply-To: <20230802164701.192791-8-guoren@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--ElWjm7UHbiNPE9YP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hey Guo Ren,
 
-On 8/4/23 13:34, Al Grant wrote:
-> 
-> 
->> -----Original Message-----
->> From: Anshuman Khandual <anshuman.khandual@arm.com>
->> Sent: Friday, August 4, 2023 5:47 AM
->> To: linux-arm-kernel@lists.infradead.org
->> Cc: Anshuman Khandual <Anshuman.Khandual@arm.com>; Mike Leach
->> <mike.leach@linaro.org>; coresight@lists.linaro.org; linux-doc@vger.kernel.org;
->> linux-kernel@vger.kernel.org
->> Subject: [PATCH] coresight: etm: Make cycle count threshold user configurable
->>
->> Cycle counting is enabled, when requested and supported but with a default
->> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into
->> TRCCCCTLR, representing the minimum interval between cycle count trace
->> packets.
->>
->> This makes cycle threshold user configurable, from the user space via perf event
->> attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT, in case
->> no explicit request. As expected it creates a sysfs file as well.
->>
->> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
->>
->> New 'cc_threshold' uses 'event->attr.config3' as no more space is available in
->> 'event->attr.config1' or 'event->attr.config2'.
->>
->> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
->> Cc: Mike Leach <mike.leach@linaro.org>
->> Cc: James Clark <james.clark@arm.com>
->> Cc: Leo Yan <leo.yan@linaro.org>
->> Cc: coresight@lists.linaro.org
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-doc@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
->> ---
->>  Documentation/trace/coresight/coresight.rst        |  2 ++
->>  drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
->>  drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
->>  3 files changed, 14 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/trace/coresight/coresight.rst
->> b/Documentation/trace/coresight/coresight.rst
->> index 4a71ea6cb390..b88d83b59531 100644
->> --- a/Documentation/trace/coresight/coresight.rst
->> +++ b/Documentation/trace/coresight/coresight.rst
->> @@ -624,6 +624,8 @@ They are also listed in the folder
->> /sys/bus/event_source/devices/cs_etm/format/
->>     * - timestamp
->>       - Session local version of the system wide setting:
->> :ref:`ETMv4_MODE_TIMESTAMP
->>         <coresight-timestamp>`
->> +   * - cc_treshold
-> 
-> Spelling: cc_threshold
+On Wed, Aug 02, 2023 at 12:46:49PM -0400, guoren@kernel.org wrote:
+> From: Guo Ren <guoren@linux.alibaba.com>
+>=20
+> According to qspinlock requirements, RISC-V gives out a weak LR/SC
+> forward progress guarantee which does not satisfy qspinlock. But
+> many vendors could produce stronger forward guarantee LR/SC to
+> ensure the xchg_tail could be finished in time on any kind of
+> hart. T-HEAD is the vendor which implements strong forward
+> guarantee LR/SC instruction pairs, so enable qspinlock for T-HEAD
+> with errata help.
+>=20
+> T-HEAD early version of processors has the merge buffer delay
+> problem, so we need ERRATA_WRITEONCE to support qspinlock.
+>=20
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Signed-off-by: Guo Ren <guoren@kernel.org>
+> ---
+>  arch/riscv/Kconfig.errata              | 13 +++++++++++++
+>  arch/riscv/errata/thead/errata.c       | 24 ++++++++++++++++++++++++
+>  arch/riscv/include/asm/errata_list.h   | 20 ++++++++++++++++++++
+>  arch/riscv/include/asm/vendorid_list.h |  3 ++-
+>  arch/riscv/kernel/cpufeature.c         |  3 ++-
+>  5 files changed, 61 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
+> index 4745a5c57e7c..eb43677b13cc 100644
+> --- a/arch/riscv/Kconfig.errata
+> +++ b/arch/riscv/Kconfig.errata
+> @@ -96,4 +96,17 @@ config ERRATA_THEAD_WRITE_ONCE
+> =20
+>  	  If you don't know what to do here, say "Y".
+> =20
+> +config ERRATA_THEAD_QSPINLOCK
+> +	bool "Apply T-Head queued spinlock errata"
+> +	depends on ERRATA_THEAD
+> +	default y
+> +	help
+> +	  The T-HEAD C9xx processors implement strong fwd guarantee LR/SC to
+> +	  match the xchg_tail requirement of qspinlock.
+> +
+> +	  This will apply the QSPINLOCK errata to handle the non-standard
+> +	  behavior via using qspinlock instead of ticket_lock.
 
-Will fix this, besides does it require some more description for
-this new config option i.e cc_threshold ?
+Whatever about the acceptability of anything else in this series,
+having _stronger_ guarantees is not an erratum, is it? We should not
+abuse the errata stuff for this IMO.
 
-> 
->> +     - Cycle count treshhold value
->>
->>  How to use the STM module
->>  -------------------------
->> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c
->> b/drivers/hwtracing/coresight/coresight-etm-perf.c
->> index 5ca6278baff4..09f75dffae60 100644
->> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
->> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
->> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,		"config:0-3");
->>  PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
->>  /* config ID - set if a system configuration is selected */
->>  PMU_FORMAT_ATTR(configid,	"config2:32-63");
->> +PMU_FORMAT_ATTR(cc_threshold,	"config3:0-11");
->>
->>
->>  /*
->> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
->>  	&format_attr_preset.attr,
->>  	&format_attr_configid.attr,
->>  	&format_attr_branch_broadcast.attr,
->> +	&format_attr_cc_threshold.attr,
->>  	NULL,
->>  };
->>
->> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> index 9d186af81ea0..9a2766f68416 100644
->> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> @@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct
->> coresight_device *csdev,
->>  	struct etmv4_config *config = &drvdata->config;
->>  	struct perf_event_attr *attr = &event->attr;
->>  	unsigned long cfg_hash;
->> -	int preset;
->> +	int preset, cc_threshold;
->>
->>  	/* Clear configuration from previous run */
->>  	memset(config, 0, sizeof(struct etmv4_config)); @@ -667,7 +667,15 @@
->> static int etm4_parse_event_config(struct coresight_device *csdev,
->>  	if (attr->config & BIT(ETM_OPT_CYCACC)) {
->>  		config->cfg |= TRCCONFIGR_CCI;
->>  		/* TRM: Must program this for cycacc to work */
->> -		config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
->> +		cc_treshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
-> 
-> Spelling again
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index f8dbbe1bbd34..d9694fe40a9a 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -342,7 +342,8 @@ void __init riscv_fill_hwcap(void)
+>  		 * spinlock value, the only way is to change from queued_spinlock to
+>  		 * ticket_spinlock, but can not be vice.
+>  		 */
+> -		if (!force_qspinlock) {
+> +		if (!force_qspinlock &&
+> +		    !riscv_has_errata_thead_qspinlock()) {
+>  			set_bit(RISCV_ISA_EXT_XTICKETLOCK, isainfo->isa);
 
-Yikes, this does not even build. Seems like I had missed the applicable
-config i.e CONFIG_CORESIGHT_SOURCE_ETM4X this time around. Apologies.
+Is this a generic vendor extension (lol @ that misnomer) or is it an
+erratum? Make your mind up please. As has been said on other series, NAK
+to using march/vendor/imp IDs for feature probing.
 
-> 
->> +		if (cc_treshold) {
->> +			if (cc_treshold < drvdata->ccitmin)
->> +				config->ccctlr = drvdata->ccitmin;
->> +			else
->> +				config->ccctlr = cc_threshold;
->> +		} else {
->> +			config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
->> +		}
-> 
-> Consider dropping the check against CCITMIN. There are CPUs where
-> CCITMIN is incorrect, e.g. see published errata 1490853 where the
-> value 0x100 should be 0b100 i.e. 4. On these ETMs it is possible to
-> set the timing threshold to four cycles instead of 256 cycles, providing
-> much better timing resolution. The kernel currently does not work
-> around this errata and uses the incorrect value of ccitmin. If you drop
-> the check, and trust the value provided by userspace, you allow
-> userspace to work around it.
-Why ? We could just work around the errata #1490853 while initializing
-the drvdata->ccitmin if that is where the problem exists. I dont think
-user space should be required to know about the erratas, and provide a
-right value instead.
+I've got some thoughts on other parts of this series too, but I'm not
+going to spend time on it unless the locking people and Palmer ascent
+to this series.
+
+Cheers,
+Conor.
+
+--ElWjm7UHbiNPE9YP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMy/VQAKCRB4tDGHoIJi
+0i4WAQCzkmqln57/kLaRZPtx560Zn+aRbe3oPrmbNsnASM/znAEAsOJHnqt7ygoV
+utG4AXklmHWnwsLM0Qs5463EGKimzwY=
+=9hTn
+-----END PGP SIGNATURE-----
+
+--ElWjm7UHbiNPE9YP--
