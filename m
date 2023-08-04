@@ -2,74 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC23C001DF
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Aug 2023 21:54:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9B2C0015E
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 00:12:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbjHCVx7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 17:53:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48756 "EHLO
+        id S229820AbjHDAMp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 20:12:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbjHCVx6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 17:53:58 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78E5A3ABB
-        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 14:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691099632; x=1722635632;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F0EnU0XHNIoo4Lv8X9OzvOsM5FmLWlsmXOwCphhKAEk=;
-  b=kzis2ZZOP/UQeweVsaB6ZTU57WkKR6VpgaIf6WNX8eaeUylE4vBD9Ze7
-   rWLK4KKlNXssV+jN5V/GYNeJKBqHbhH5gR9mlLCRIxhxcLFzrn6zzVCi9
-   c17cO/qOFzu5EZwU276fdAv/lcvqZjis32d5BJI1/JUzRl15G0BA0wqQh
-   H5Rr2h2g/wiNe2/NBuUHtEIaOA/ehEl+LIoPt9HJK+D5Rkz8QtuaKusEx
-   CwP+6ZOhjId4Q6pxJ2NdB4fBkMSg50ZZtDa9rDOJfR43chKiDv8dKrcvn
-   F9DX9jpsltiVpLlNX2LkgJvSHenSRN97Vun7iVJVNh3I5vm95/Xzk30JD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="367469743"
-X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
-   d="scan'208";a="367469743"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 14:53:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="843781848"
-X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
-   d="scan'208";a="843781848"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Aug 2023 14:53:51 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qRgGU-0002NN-1H;
-        Thu, 03 Aug 2023 21:53:50 +0000
-Date:   Fri, 4 Aug 2023 05:53:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Isaku Yamahata <isaku.yamahata@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream-workaround 176/346] htmldocs: Warning:
- Documentation/virt/kvm/api.rst references a file that doesn't exist:
- Documentation/virt/kvm/intel-tdx.rst
-Message-ID: <202308040545.Ds02CCWB-lkp@intel.com>
+        with ESMTP id S230356AbjHDAMo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 20:12:44 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2F14213;
+        Thu,  3 Aug 2023 17:12:41 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-686f19b6dd2so1144419b3a.2;
+        Thu, 03 Aug 2023 17:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691107961; x=1691712761;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mK/SUGZd/Inm2gGsrCEsgPACkbFKLFUt6mW7c1W89dY=;
+        b=DtSGG/oRMwGU3wuk4qrV+2+UcwBZ77mVPn2F8Ts7bZHxnr3d+2Ip7akJrrmqJ92uoJ
+         W5f7xrDRhSIlCMdVoEPDSJLWESCedoCAR3GQAMLTyLPgYlRFs+yuJpd+RPgT9yTr6hKz
+         fqZF/D/AfJU1Zf5KwLPUe2HS6WtArMSPi5NTlAHAZAEpMQP5d7Q6aDfxqLibxpeP7S8e
+         6mQttf6nQbMBJtJSHVaQX9uhseiyr3V7mcepWY9wCIU4S4+/41B9gvDZbGg7lUW8nAnM
+         ZpLLRPLTNMWzeJpHnXs3N/Qo8Cqu04PEFsjRNA7skCwtcwNJHpGWKSpB6xkPkCnRM0TK
+         KzAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691107961; x=1691712761;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mK/SUGZd/Inm2gGsrCEsgPACkbFKLFUt6mW7c1W89dY=;
+        b=MZ4IPjYSp0WX/dsKS7+QU4FdgJkXj2sp8BBU92ZCex3kPWlTVhVDnaqeC0SqhRa49/
+         83+rsePm+YerOEekmBil1Pi/CSvMbL/xj9nQxce78IR7Aq1qDwuKajOPOoenM5ECDO8u
+         SfI4R1nDtH4Nofj4B+su/0BYZAMJnTIvIUwgZ0ObzksSC3ZuuMmjD3vvVsdRzW2ht8Xv
+         Ikj4J/TPB3J1QJTXJpX4CrxRPA7GPa4hiHpPKPGgU8JzkJt7HyDw/ZRyRBHUPSMU/nLN
+         pM1tSPQkToXz4jj/czrkv4jNuNuXb0kz6dW/n5Yb5omWarpkm43UyXrptpHsveCwNXnL
+         4sTg==
+X-Gm-Message-State: AOJu0YwCadC5yy6oAAUEvWMMTO9bgqYfSYwhugxA5/D7Yh6YKH7vieyJ
+        x4ML0vBdYtXjw8/ijNCMqeDdAs75FjE=
+X-Google-Smtp-Source: AGHT+IGwiePXAOhxb57+gIXtX2vbKG04TZpfa6VTSd3jnvrC59z/rM4o3R4N88JxLuFKrr15w0K/GA==
+X-Received: by 2002:a05:6a00:2301:b0:681:d247:8987 with SMTP id h1-20020a056a00230100b00681d2478987mr213223pfh.17.1691107960569;
+        Thu, 03 Aug 2023 17:12:40 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:9d5d])
+        by smtp.gmail.com with ESMTPSA id x21-20020aa793b5000000b00682af93093dsm393915pff.45.2023.08.03.17.12.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 17:12:40 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 3 Aug 2023 14:12:38 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Han Dapeng <han-dapeng@qq.com>
+Cc:     lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Han Dapeng <han-dapeng@foxmail.com>
+Subject: Re: [PATCH] Documentation: cgroup-v2.rst: Correct number of stats
+ entries
+Message-ID: <ZMxCdojf1-SFQWaN@slm.duckdns.org>
+References: <tencent_D28A72FC6B13C2955D8CD3200E939DA78D08@qq.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <tencent_D28A72FC6B13C2955D8CD3200E939DA78D08@qq.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   c06084048271278d3508f534479b356f49f619ce
-commit: 8afe6d84c0b5a93750cf48feb4b843896f291650 [176/346] Documentation/virt/kvm: Document on Trust Domain Extensions(TDX)
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040545.Ds02CCWB-lkp@intel.com/reproduce)
+On Thu, Aug 03, 2023 at 11:55:27PM +0800, Han Dapeng wrote:
+> From: Han Dapeng <han-dapeng@foxmail.com>
+> 
+> Signed-off-by: Han Dapeng <han-dapeng@foxmail.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308040545.Ds02CCWB-lkp@intel.com/
+Applied to cgroup/for-6.6.
 
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/virt/kvm/api.rst references a file that doesn't exist: Documentation/virt/kvm/intel-tdx.rst
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+tejun
