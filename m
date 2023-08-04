@@ -2,87 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2225BC001DB
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 11:20:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC094C001DB
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 11:23:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbjHDLUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 07:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37360 "EHLO
+        id S230206AbjHDLX3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 07:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbjHDLUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 07:20:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D344EE7;
-        Fri,  4 Aug 2023 04:20:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 65AA861F98;
-        Fri,  4 Aug 2023 11:20:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D47DC433CC;
-        Fri,  4 Aug 2023 11:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1691148021;
-        bh=PD0WZl9g+p7buh6X5We6vYyuenWLuZ43sDfUiVyrgh8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PCURGU8du84F8nuxxbHBGPvyvE6YwYxp3BgLvMmp7Z76Ys7dcQ+VqmYVi/TgIvRZ2
-         wHPZYBzgtqc6LN1Iaqx8RNNHATXs4ddIN8ecC9TtHJZHMWJ67QMlm78fstJ0SmlzhS
-         kN1yNWVDvueFpiWgcPXiUz3p1Vg51qR90KUVhZSQ=
-Date:   Fri, 4 Aug 2023 13:19:59 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc:     stable@vger.kernel.org, easwar.hariharan@microsoft.com,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev
-Subject: Re: [PATCH v2 6.4 0/4] ARM SMMUv3 errata for 6.4
-Message-ID: <2023080452-rewire-ashy-3a7f@gregkh>
-References: <20230802172620.1628017-1-eahariha@linux.microsoft.com>
+        with ESMTP id S230158AbjHDLX0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 07:23:26 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3864611B;
+        Fri,  4 Aug 2023 04:23:26 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-686f38692b3so1863006b3a.2;
+        Fri, 04 Aug 2023 04:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691148205; x=1691753005;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U8v1fzLuIHSkSWidT/pjD4MCOb3hYEoCKe89MymR54k=;
+        b=EKLgrG5ORf5aghlNw/yZjA+YXB/01lu40hRGKKwmY3xByuVcOgIAHBjeowE+M9iDQj
+         c0paVsgZA+tZ+cR8oEzoeT/6xXFA/yFIJrTsbJyCZZVYys0aOgRk/7TnynSQRRSYv3HA
+         f3CwO8S70ebKKbOe/EGn9TIwvw64I2W3nlAQW1tEfyrMqrtpsuhqA/O+TWpTSBK3McYc
+         HuGQYH1AHGSuRt5GvJCkOfYGm+UUi1tNok7ZujDvjHwmB31xJ0U/FOxvMBjfZztM8Pvx
+         QsVNp0DzUl0JygnFrKIhzqpkO59kh1lpY32OT8l65LMn4UMxlwT8o8uX59dJuGosyWVW
+         u0BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691148205; x=1691753005;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U8v1fzLuIHSkSWidT/pjD4MCOb3hYEoCKe89MymR54k=;
+        b=NAK6FkUnQcHcsYvF+xiHUqmLfoRbKKUwYTbtQhJTXvPBq/jK+sIu/vJ3FrFPS+i412
+         Uagcbg5pi93t0w+xmdzEDzN7FxXK78F/RFWg8MBpUgJTPKNhkRY3RMvzI4IlYLnn7ji1
+         rBg++dZsbF8CemUV3O0CitEbT1A6TfTorP/d5Kjk2WsjX6sg1UBLVk/cEJKPRoKQJJO0
+         L/e9y0/M9d6RB6PifbP/zLKwKl9i7cKnmUn8nxD27ykKUPRlApYI4iMNFH4fQCx/v55K
+         VDXMVx4Q1DubjlIbPDTxc4S1BKlxu5oJFkO6sVsbTGSUSuahJq11nra2XcsNLgUrvkZx
+         F6AQ==
+X-Gm-Message-State: AOJu0YwXhIkzg0KbOKZm2HdRNs5pUTM9ta2G7Pz6fuvn704TUOCbozJ5
+        4synE0V4PLCc3dNHTENIHe7cROibuwE=
+X-Google-Smtp-Source: AGHT+IGv/8f7lL56IGOF+b2qMIMq4UqHSYAXxVDH+amKA6L/tzNx2OpzCmn5wKbRokq53BV+pI7K1g==
+X-Received: by 2002:a05:6a00:1409:b0:67a:a906:9edb with SMTP id l9-20020a056a00140900b0067aa9069edbmr1575297pfu.30.1691148205499;
+        Fri, 04 Aug 2023 04:23:25 -0700 (PDT)
+Received: from ubuntu777.domain.name (36-228-73-13.dynamic-ip.hinet.net. [36.228.73.13])
+        by smtp.gmail.com with ESMTPSA id j16-20020a62e910000000b006687b4f2044sm1394890pfh.164.2023.08.04.04.23.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 04:23:25 -0700 (PDT)
+From:   Min-Hua Chen <minhuadotchen@gmail.com>
+To:     Hu Haowen <src.res@email.cn>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Min-Hua Chen <minhuadotchen@gmail.com>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: sparse: fix invalid link addresses
+Date:   Fri,  4 Aug 2023 19:23:18 +0800
+Message-Id: <20230804112320.35592-1-minhuadotchen@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230802172620.1628017-1-eahariha@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 02, 2023 at 05:26:16PM +0000, Easwar Hariharan wrote:
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: iommu@lists.linux.dev
-> 
-> Changelog:
-> ==========
-> v1 -> v2:
->  - Backport other relevant errata patches from the same series as MMU-700 erratum 2812531
->  - v1 link: https://lore.kernel.org/stable/20230724185130.1676140-1-eahariha@linux.microsoft.com/T/#u
-> 
-> Robin Murphy (4):
->   iommu/arm-smmu-v3: Work around MMU-600 erratum 1076982
->   iommu/arm-smmu-v3: Document MMU-700 erratum 2812531
->   iommu/arm-smmu-v3: Add explicit feature for nesting
->   iommu/arm-smmu-v3: Document nesting-related errata
-> 
->  Documentation/arm64/silicon-errata.rst      |  4 ++
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 50 +++++++++++++++++++++
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  8 ++++
->  3 files changed, 62 insertions(+)
-> 
-> -- 
-> 2.25.1
-> 
+The http and git links are invalid, replace them with valid links.
 
-All now queued up, thanks.
+Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+---
+ Documentation/translations/zh_TW/sparse.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-greg k-h
+diff --git a/Documentation/translations/zh_TW/sparse.txt b/Documentation/translations/zh_TW/sparse.txt
+index c9acb2c926cb..6d2d088b1060 100644
+--- a/Documentation/translations/zh_TW/sparse.txt
++++ b/Documentation/translations/zh_TW/sparse.txt
+@@ -66,11 +66,11 @@ __bitwise"類型。
+ 
+ 你可以從 Sparse 的主頁獲取最新的發布版本：
+ 
+-	http://www.kernel.org/pub/linux/kernel/people/josh/sparse/
++	https://www.kernel.org/pub/software/devel/sparse/dist/
+ 
+ 或者，你也可以使用 git 克隆最新的 sparse 開發版本：
+ 
+-	git://git.kernel.org/pub/scm/linux/kernel/git/josh/sparse.git
++        git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+ 
+ 一旦你下載了源碼，只要以普通用戶身份運行：
+ 
+-- 
+2.34.1
+
