@@ -2,62 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED3B3C00528
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 09:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2442C41513
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 09:33:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbjHDJ3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 05:29:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40382 "EHLO
+        id S230403AbjHDJds (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 05:33:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbjHDJ3B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 05:29:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C26E49FD;
-        Fri,  4 Aug 2023 02:28:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9580C61F63;
-        Fri,  4 Aug 2023 09:28:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3C5AC433C8;
-        Fri,  4 Aug 2023 09:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691141334;
-        bh=lIsy3QbSaa0jvj/nU593HT1Vg+F9Mc8c+rYfDR9OfwA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KcfLmQMYA67hqnXgMwiIufhP8gUMFyY1Elq9QeeJpROD48aIIeME42syiz9q3AQwP
-         imEmm2z/KdLD5g7fOLuDNqCphH5bbw8gRWA5rOtW54DkNwOhvNgcX6FHN2crMGX73N
-         nJdTaoneu2/rivvns+mzqZsGJddRoM4iBp8JwihDXpAyKWW/qP4I+nAdZPmmcZJXlB
-         Cb9x5dYpDD8LG7L/uVNpeHPPl8+Ygb7MFDoM5qzS9ycqtG+KOpSv04pTBldd1b6bPs
-         0DdEW+LkIt+HRqoH52kze7bCoEcwzuTCI+G665Fuw2VFylyWajGWbkSwOAGPp8SDFB
-         Rgn7Z1xKbXCQg==
-Date:   Fri, 4 Aug 2023 11:28:49 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, tech-board@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [Tech-board] [PATCH] docs: Add a section on surveys to the
- researcher guidelines
-Message-ID: <20230804-benehmen-mitmachen-bb004621cbce@brauner>
-References: <87il9v7u55.fsf@meer.lwn.net>
+        with ESMTP id S230111AbjHDJdo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 05:33:44 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4873F49D4
+        for <linux-doc@vger.kernel.org>; Fri,  4 Aug 2023 02:33:41 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-686f38692b3so1773366b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 04 Aug 2023 02:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1691141621; x=1691746421;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=E6pJFE+LbN3t9KX562ET/U8O9x6jKkVFfcHxU4OoKLU=;
+        b=GaIVrBlWNau1bDYf593GlJiU6Af7nAeBxxB4u4JryuWCHG8sEeuZrKeXi0Jkc5ydvg
+         f5XIIJXgZ6tFqSs1y6JJluCYxHah8cYi2iM/peqn9wrByAlUjT+T5EwQdGIKOSObiBdh
+         vXZrFjRXul+2bYCK0XU0x719gMWrepNiI/ld1MZjlcvoWzgIWyqD4vQWEGTYvdAlr4vl
+         yOuYWt4cBHch29OVlaSlUWs+NHFRivXWHfPcmPSAIcRaXJrYop/kZMlqspmCLYJAq1TM
+         RzOhjzIV+E8WdLg0Scjri0wwQ7hnaraeQULqXHImH4YHHGDqMS4OttacG9d3If/bcmxc
+         an/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691141621; x=1691746421;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E6pJFE+LbN3t9KX562ET/U8O9x6jKkVFfcHxU4OoKLU=;
+        b=aROlfSG2ciycAkNpljf/xqe1KZNtTFtVNM2wEEu4KidSGZaRqldmp8/CB37n4kuR0M
+         zf5d2Kl4UlQeuGAD1y6u7ne8ARmrRv2XZxzt76Nz48XvIaZeKosQL2hO9XPM0BaWbPiv
+         bMZ54Mm2gxh5erN/FY3qtlJkDPlteb36TZB9OEfdsCz2biqCewPGVBH8GDJ2/a57lBTe
+         5E8OnVXwadNSvAx5XcBzMQ1kWuQMgozfea+rg5TrUNaDCu9VDfQUmHSFfaG4CcqflU8q
+         2iA3MUxxXNQFgwn9F8HjJxAv9HWP0H3yqJXx5FC2lnb+RYkytj0GrgDSomtPmvXCBSFt
+         Q7Kw==
+X-Gm-Message-State: AOJu0Yyi/EzLKfymnh2JZsWD0o0seSCbfXE0PtQWIZPhDyODFY9bLGo8
+        Z2ngFtH2dDWimfBiarBZw2saUw==
+X-Google-Smtp-Source: AGHT+IE9uAGKFQAVKKVyBKP+6lj+Wv4xxWX0reh7x6nnrpB1UJCiBCXbpcTB9CxHE+g7R/t5zY0Rzw==
+X-Received: by 2002:a05:6a00:21d5:b0:687:7d09:c0f with SMTP id t21-20020a056a0021d500b006877d090c0fmr1517925pfj.12.1691141620733;
+        Fri, 04 Aug 2023 02:33:40 -0700 (PDT)
+Received: from sunil-laptop ([106.51.190.143])
+        by smtp.gmail.com with ESMTPSA id v13-20020a62a50d000000b00686ee7ba3easm1180143pfm.216.2023.08.04.02.33.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 02:33:40 -0700 (PDT)
+Date:   Fri, 4 Aug 2023 15:03:29 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Anup Patel <anup@brainfault.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Haibo Xu <haibo1.xu@intel.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Atish Kumar Patra <atishp@rivosinc.com>
+Subject: Re: [RFC PATCH v1 08/21] RISC-V: ACPI: RHCT: Add function to get CBO
+ block sizes
+Message-ID: <ZMzF6e8jjGY2YNjm@sunil-laptop>
+References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
+ <20230803175916.3174453-9-sunilvl@ventanamicro.com>
+ <ZMyUDZE0SxoOC696@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87il9v7u55.fsf@meer.lwn.net>
+In-Reply-To: <ZMyUDZE0SxoOC696@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 03, 2023 at 02:23:02PM -0600, Jonathan Corbet wrote:
-> It is common for university researchers to want to poll the community with
-> online surveys, but that approach distracts developers while yielding
-> little in the way of useful data.  Encourage alternatives instead.
+On Fri, Aug 04, 2023 at 09:00:45AM +0300, Andy Shevchenko wrote:
+> On Thu, Aug 03, 2023 at 11:29:03PM +0530, Sunil V L wrote:
+> > CBO related block size in ACPI is provided by RHCT. Add
+> > support to read the CMO node in RHCT to get this information.
 > 
-> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
+> ...
+> 
+> > +	if (!table) {
+> 
+> Why not positive conditional?
+> 
+Sure.
 
-Looks good to me,
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+> > +		rhct = (struct acpi_table_rhct *)acpi_get_rhct();
+> > +		if (!rhct)
+> > +			return -ENOENT;
+> > +	} else {
+> > +		rhct = (struct acpi_table_rhct *)table;
+> > +	}
+> 
+> ...
+> 
+> > +	end = ACPI_ADD_PTR(struct acpi_rhct_node_header, rhct, rhct->header.length);
+> 
+> > +
+> 
+> Blank line here is not needed.
+> 
+Okay.
+
+> > +	for (node = ACPI_ADD_PTR(struct acpi_rhct_node_header, rhct, rhct->node_offset);
+> > +	     node < end;
+> > +	     node = ACPI_ADD_PTR(struct acpi_rhct_node_header, node, node->length)) {
+> 
+> > +			for (int i = 0; i < hart_info->num_offsets; i++) {
+> > +				ref_node = ACPI_ADD_PTR(struct acpi_rhct_node_header,
+> > +							rhct, hart_info_node_offset[i]);
+> > +				if (ref_node->type == ACPI_RHCT_NODE_TYPE_CMO) {
+> > +					cmo_node = ACPI_ADD_PTR(struct acpi_rhct_cmo_node,
+> > +								ref_node, size_hdr);
+> > +					if (cbom_size)
+> > +						*cbom_size = 1 << cmo_node->cbom_size;
+> > +
+> > +					if (cboz_size)
+> > +						*cboz_size = 1 << cmo_node->cboz_size;
+> > +
+> > +					if (cbop_size)
+> > +						*cbop_size = 1 << cmo_node->cbop_size;
+> 
+> BIT() in all three cases?
+>
+Sure.
+ 
+> But how you guarantee it will not overflow? I mean who prevents cboX_size to be
+> bigger than 30 (note also that 31 in your case is Undefined Behaviour in
+> accordance with the C standard).
+> 
+Good catch!. Let me add a check that the value is not more than 30.
+
+Thanks!
+Sunil
