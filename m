@@ -2,132 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABE3C41513
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 10:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B57C41513
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 10:22:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbjHDKRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 06:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60398 "EHLO
+        id S229989AbjHDKWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 06:22:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231436AbjHDKRb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 06:17:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F0649E6;
-        Fri,  4 Aug 2023 03:17:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3787F61F8B;
-        Fri,  4 Aug 2023 10:17:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E4FC433C7;
-        Fri,  4 Aug 2023 10:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1691144233;
-        bh=zNBDN7gMxcdP3rzmzlXceNr1RBqj0mH0rrNSb8z1r4Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hGjPvl06N5vqehlQBtNtTo1rEv1/w06C3pAbv/j7SfpWsoygQHEDMp1XYkebaQ52V
-         Y76yp0awGlqFUowiW4xa8hzxAX+3mxlJrgp4GwlJ0P/a4SCrziog7TJ4Z7UaXy4472
-         8hxWpFLEKdJLKerZ32ZrOKBPg50pJkFm8uQ2B/rg=
-Date:   Fri, 4 Aug 2023 12:17:10 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: changes.rst: add entry for git
-Message-ID: <2023080447-ahead-tannery-c77a@gregkh>
-References: <20230803090711.2261876-1-linux@rasmusvillemoes.dk>
- <2023080302-theology-custody-670b@gregkh>
- <CAK7LNARPTwmnTO-saaGo4nnc7HXK44qQihRK+EqovK=qFT8zPg@mail.gmail.com>
+        with ESMTP id S229925AbjHDKWX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 06:22:23 -0400
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 530F530F4;
+        Fri,  4 Aug 2023 03:22:22 -0700 (PDT)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id A1F7D68AA6; Fri,  4 Aug 2023 12:22:18 +0200 (CEST)
+Date:   Fri, 4 Aug 2023 12:22:18 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     kernel test robot <lkp@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ fb4327106e5250ee360d0d8b056c1eef7eeb9a98
+Message-ID: <20230804102218.GD23274@lst.de>
+References: <202308040141.gUjtZ32J-lkp@intel.com> <ZMwH1WuEb1JEtZ4o@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNARPTwmnTO-saaGo4nnc7HXK44qQihRK+EqovK=qFT8zPg@mail.gmail.com>
+In-Reply-To: <ZMwH1WuEb1JEtZ4o@casper.infradead.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 04, 2023 at 06:41:54PM +0900, Masahiro Yamada wrote:
-> On Thu, Aug 3, 2023 at 7:19 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Thu, Aug 03, 2023 at 11:07:10AM +0200, Rasmus Villemoes wrote:
-> > > git is obviously used for development, directly and also
-> > > indirectly (via checkpatch, get_maintainer and other helper
-> > > scripts). But it is also invoked during the build to produce the
-> > > `uname -r` string.
-> > >
-> > > It's useful to have some minimal git version one can expect people to
-> > > use. For now, set a somewhat conservative minimum of 1.8.0, which is
-> > > already more then ten years old.
-> > >
-> > > Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> > > ---
-> > >  Documentation/process/changes.rst | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > >
-> > > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> > > index 5561dae94f85..a82c619f4bb2 100644
-> > > --- a/Documentation/process/changes.rst
-> > > +++ b/Documentation/process/changes.rst
-> > > @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-build --version
-> > >  cpio                   any              cpio --version
-> > >  GNU tar                1.28             tar --version
-> > >  gtags (optional)       6.6.5            gtags --version
-> > > +git                    1.8.0            git --version
-> > >  ====================== ===============  ========================================
-> > >
-> > >  .. [#f1] Sphinx is needed only to build the Kernel documentation
-> > > @@ -189,6 +190,13 @@ The kernel build requires GNU GLOBAL version 6.6.5 or later to generate
-> > >  tag files through ``make gtags``.  This is due to its use of the gtags
-> > >  ``-C (--directory)`` flag.
-> > >
-> > > +git
-> > > +---
-> > > +
-> > > +When building with CONFIG_LOCALVERSION_AUTO=y, the build system uses
-> > > +git to produce a version string of the form
-> > > +6.4.6-00128-gd78b7f406397, which will be shown e.g. by running `uname -r`.
-> >
-> > Isn't this optional?  If git is not installed it just will not use git
-> > to determine the local version.
+On Thu, Aug 03, 2023 at 09:02:29PM +0100, Matthew Wilcox wrote:
+> I think something like this would fix it.  Jens?  Christoph?
 > 
-> Right.
-> Without git, the suffix "-00128-gd78b7f406397" is not
-> appended, but you can build the kernel.
+> +++ b/fs/romfs/Kconfig
+> @@ -2,6 +2,7 @@
+>  config ROMFS_FS
+>         tristate "ROM file system support"
+>         depends on BLOCK || MTD
+> +       select BUFFER_HEAD
+>         help
+>           This is a very small read-only file system mainly intended for
+>           initial ram disks of installation disks, but it could be used for
 > 
-> 
-> >
-> > So you should put "(optional)" above on the list of tools.
-> >
-> > And also, don't pick a specific version like this unless it is that way
-> > for a reason.  Why not pick a newer one?  Or the last one that the local
-> > version script can handle properly?
-> 
-> 
-> 
-> CentOS 7 (plans to retire in 2024) unfortunately
-> uses a ten-year-old git version.
-> 
-> In CentOS 7,
-> 
-> $ git --version
-> git version 1.8.3.1
+> romfs has a few options and I spent no time looking at this closely;
+> maybe not every version of romfs needs buffer heads.
 
-I doubt CentOS 7 can build a modern-day kernel anyway, so why is this a
-requirement?  We shouldn't be beholden to the necro-distros just because
-they have not moved into this decade :)
-
-> If we are allowed to abandon conservative distros,
-> I prefer git >= 2.14.0
-> 
-> That supports 'git status --no-optional-locks'
-
-That makes sense, and is a valid reason to require this.
-
-thanks,
-
-greg k-h
+It only needs buffer_heads for the block based path.  I'll send a patch
+for it.
