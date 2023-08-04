@@ -2,711 +2,280 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8FDC04FE0
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 07:10:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D269AC001DF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 08:05:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234075AbjHDHKK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 03:10:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55714 "EHLO
+        id S234286AbjHDIFN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 04:05:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234091AbjHDHKH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 03:10:07 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D52F30C4;
-        Fri,  4 Aug 2023 00:10:00 -0700 (PDT)
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 28C88207F5BE;
-        Fri,  4 Aug 2023 00:10:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 28C88207F5BE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1691133000;
-        bh=eXrRvT0/8si3mNUBNc/nZ2OsNSNamh0jMMAVHtD6iWY=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=LJwvTBlLq6A4PbXjtmGTk0qppNQjq1Gv5oZdCWzYcrWWNq72Ql81zGRWEUwUcmRPW
-         ICb4pAbHtnjO5g8LRxA7FAUs7r3xQ/rVyPYJ9kuy3h6jIX846S2Zj9g060pKlvS8fr
-         UaRRIg18rbSu0ei8wBKMY0PrgE2Xij62mPP7tkaM=
-From:   Saurabh Sengar <ssengar@linux.microsoft.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, mikelley@microsoft.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v4 3/3] tools: hv: Add new fcopy application based on uio driver
-Date:   Fri,  4 Aug 2023 00:09:56 -0700
-Message-Id: <1691132996-11706-4-git-send-email-ssengar@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
-References: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
+        with ESMTP id S234351AbjHDIFK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 04:05:10 -0400
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2048.outbound.protection.outlook.com [40.107.14.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49324697;
+        Fri,  4 Aug 2023 01:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=spS4MoxUW93NIpABhPuKV0mlNfojgGW4xfhmX3MIctA=;
+ b=rQc6RXoq+XZW5F72BcKJa8eXSPIVn5e7AaF7NTdCipivX2mB+yiG4a78lk/Ii9s4QxkmytM6bVXqefO1sObqXpNpfVRroTkGC38hldLV8dxjK41G5Kj7qpfi6gGEdmths3sq8XzTR8J2Iyj+/HTmaQ3lIXFHxN1mHzOtGvhe2QA=
+Received: from DBBPR09CA0027.eurprd09.prod.outlook.com (2603:10a6:10:d4::15)
+ by AS8PR08MB8924.eurprd08.prod.outlook.com (2603:10a6:20b:5b2::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Fri, 4 Aug
+ 2023 08:04:58 +0000
+Received: from DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:d4:cafe::7d) by DBBPR09CA0027.outlook.office365.com
+ (2603:10a6:10:d4::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21 via Frontend
+ Transport; Fri, 4 Aug 2023 08:04:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT049.mail.protection.outlook.com (100.127.142.192) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6631.48 via Frontend Transport; Fri, 4 Aug 2023 08:04:58 +0000
+Received: ("Tessian outbound ba2f3d95109c:v145"); Fri, 04 Aug 2023 08:04:58 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 1861e5a8b6ca73e2
+X-CR-MTA-TID: 64aa7808
+Received: from 918d12e3b4d1.3
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 96F790E4-67C8-4D42-BA0E-C7AFB4B273C0.1;
+        Fri, 04 Aug 2023 08:04:51 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 918d12e3b4d1.3
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 04 Aug 2023 08:04:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QRCLCO+on4Yl2XgngKzzqgONYVQ4iuLQ/CBLw2NMJLkTv3um6IesrqbBS8BKIuyuilCRHNxENfHIfuirq+ZBXOQxBwVd1bHHzo4YifegfxVDeXfzdDGTu6vEjWKA4YNOYRQyn1KTSJaAuSCiYy7vRM7Gn4svm+XXYIUJGcxJ82CEl0DLrX5CNl31yuilfTL0SmPbXr4vX3C0QNvgRRzt3svN0ACbAz6T7sJfertVFhRCtWKDkNGhY0AloglMJM1p66JYCnoWmOMlnvRygZwE+HGknsi0ftfjEUH1cYwGEni6feRkcmvhJiLFJfwdKkhlqK6VCvhuZboHBAG+hZhTPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=spS4MoxUW93NIpABhPuKV0mlNfojgGW4xfhmX3MIctA=;
+ b=f0sI1PZ4qiSulNnkJvPjv32VObGGoWgI1hXWmOOPQ0gHHU/UbStwxiZz790MYdLDn/4QbcNjPbv5gvj0D0gylNWio/9yGdRcrYS10VmLV8Q1pEP0+kul9nxP2r3dISrzppA3JxPK1Mq5AhQ1J3D2D+q8s01rVtXOveCU2zKVpszPSIZlKZ73TOZtHVYV2ZK/b8v8zAhudMPJ/1IqshjDgaMl7I2FG4zFJUK01qmpAMaxvc+gi3yGKCwxVc3xsAle8MstaTiurwB3Lc5GUOLZW04HRWjlsBa0Ex70iZbautnXswDk96v83GbwsDgVDjA4f+349q1HQ4k/dC48clBdVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=spS4MoxUW93NIpABhPuKV0mlNfojgGW4xfhmX3MIctA=;
+ b=rQc6RXoq+XZW5F72BcKJa8eXSPIVn5e7AaF7NTdCipivX2mB+yiG4a78lk/Ii9s4QxkmytM6bVXqefO1sObqXpNpfVRroTkGC38hldLV8dxjK41G5Kj7qpfi6gGEdmths3sq8XzTR8J2Iyj+/HTmaQ3lIXFHxN1mHzOtGvhe2QA=
+Received: from DB9PR08MB7512.eurprd08.prod.outlook.com (2603:10a6:10:303::14)
+ by DB5PR08MB10161.eurprd08.prod.outlook.com (2603:10a6:10:4a5::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Fri, 4 Aug
+ 2023 08:04:48 +0000
+Received: from DB9PR08MB7512.eurprd08.prod.outlook.com
+ ([fe80::9ea7:8451:f005:704d]) by DB9PR08MB7512.eurprd08.prod.outlook.com
+ ([fe80::9ea7:8451:f005:704d%4]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
+ 08:04:48 +0000
+From:   Al Grant <Al.Grant@arm.com>
+To:     Anshuman Khandual <Anshuman.Khandual@arm.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     Anshuman Khandual <Anshuman.Khandual@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        "coresight@lists.linaro.org" <coresight@lists.linaro.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] coresight: etm: Make cycle count threshold user
+ configurable
+Thread-Topic: [PATCH] coresight: etm: Make cycle count threshold user
+ configurable
+Thread-Index: AQHZxo7SJwk5KsJnwEOgjuWw4bjf06/ZxJDA
+Date:   Fri, 4 Aug 2023 08:04:48 +0000
+Message-ID: <DB9PR08MB7512B9A03A86B8983884B1C98609A@DB9PR08MB7512.eurprd08.prod.outlook.com>
+References: <20230804044720.1478900-1-anshuman.khandual@arm.com>
+In-Reply-To: <20230804044720.1478900-1-anshuman.khandual@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ts-tracking-id: 6ED84E0D25F0D94FB5A8457DB2080837.0
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: DB9PR08MB7512:EE_|DB5PR08MB10161:EE_|DBAEUR03FT049:EE_|AS8PR08MB8924:EE_
+X-MS-Office365-Filtering-Correlation-Id: e34780ff-3500-499e-342a-08db94c17f2c
+x-ld-processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: Ey/Wy5o8cDVJZGu5v+SDKD8TXYfC/3tP2g6byOgBriL013EpNy6aKkvn0PPR0ISQESYzwbXVuJUfSZIqKlGQCeNfnebBAza9DLUMKiENFU6hxbouKcd8S/jfyhTct9sFCm2E9x/eS/a0QWsGSqWoxouMweWiLOsxCPuKM8SxOpMamcQuX7KLA+yKLoXEDMBwQPzgyPWEccG2rJVP8lNY9XniwXC0b3ff6WND/qXQ9EPdqi0TOaxpT5wpSCZghjaZMEIOSA24BDjPin9ylACNhUhpU6GqleD+cw1eu5uA4ckagrtxl3gM52/Il9kOdnyECqbkBfAdTrao6Ht2Kb1sRRj/HGfgv5Lwm2rHpgq2Ki881a1htCoeKFg1jz6WkgIHamdS8W3lCvioHO726SudEvDavaTYQULskU3gE/ecjF6kwp7ce2/N8oDuwMzYLy3tD/i+C3WgRxeUilIFON2PgpuEgeP2jPkIcmRZh25tpdZuEbBaNjkkpmkq2gDnsah8AKjMtFSjuYb2LUipgVoucoJfLczHYaFSJPXtSgBKvofsvLNDtT2bgXGyaw3tRlv8yPNhGSWkkOFS7pc1FLzhXc65fklKfNTDVN6OgNl1EnuM4thmX/k6R5bwLsFQ0AY5
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7512.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(136003)(39860400002)(396003)(346002)(451199021)(1800799003)(186006)(38070700005)(33656002)(86362001)(66899021)(110136005)(54906003)(478600001)(55016003)(38100700002)(122000001)(83380400001)(6506007)(26005)(53546011)(41300700001)(8936002)(8676002)(9686003)(7696005)(52536014)(4326008)(71200400001)(66476007)(66556008)(66446008)(316002)(64756008)(5660300002)(66946007)(2906002)(76116006);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10161
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 3adc4a3d-41c4-44ed-09ec-08db94c178e9
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cjrMbiDFTNjyKnU/+wvt7rDOeoLs5UeQPM+6WdZfOpeQ2o7feh2RfqCU0gcdsBrT6mu5qkfs5VgMQtAFA2sIuEEQlgXWp+qLwABZPHs4iicP5Wlg2Non12BnnTgwZLw4c8q+eepcc3GUMCRmLTa6spt8usuWI3uwVQ4BzyxBiQltjuHN/V5iRjAODtmNVPKBubeWjrFINAMxTWGbZ8L+F44oVCFe47LWvJONfyHFVuIyqWBQVz4fh36Py5hEpnRWXJK49uYliPqtG1lRxHisgHXpBcEA6DfxCvzMckI+mfCX4hbI9qJyDTwHX3KdvS8wjRK5cSh5CKbTwoXX8zG1Jx5SlFEdr3VBfGVqKCTyuCzdQEi7nGdNDjW0cdUEwMEo7Y0t948h0noOFNI2XzAfLc6m7nd+pcqu4LH+pNX25h8qY8r2+Vb6tUJpzay+TxTgiZL6RvzVCzaNEJlMHSQJAeaxwURl0nsaGWBAsXt7Ft8nERwdigw5J1l1T4DJ+W5CItdH1YErYJjgUpZC029Al2TE/EBwP1OXjPrcfHkM7h5fikZIlduGEJG/9e1PGBrbVQIv/146rOUiIOu6gut1gtMOniB/km0mEsTtxms8fVNbAXN36/xBLFiUqGoXhyxparHQSRBI4ysvDCNuDbpDcxlzb/9ATVSm2f4F3fow/6u4OydoR66CKd7J4ZRHfS5Io9sTrxumFQh9VpzSGzHLbMvwZTvY5D7I5fAjwSqUcPcezCe0yTsoA4tW1f+Xg4YQ
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(396003)(376002)(346002)(451199021)(186006)(1800799003)(82310400008)(40470700004)(36840700001)(46966006)(7696005)(9686003)(40460700003)(86362001)(40480700001)(55016003)(6506007)(36860700001)(26005)(336012)(53546011)(83380400001)(47076005)(81166007)(33656002)(82740400003)(356005)(450100002)(5660300002)(41300700001)(8676002)(8936002)(4326008)(2906002)(70586007)(70206006)(316002)(66899021)(478600001)(52536014)(110136005)(54906003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 08:04:58.6259
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e34780ff-3500-499e-342a-08db94c17f2c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8924
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement the file copy service for Linux guests on Hyper-V. This
-permits the host to copy a file (over VMBus) into the guest. This
-facility is part of "guest integration services" supported on the
-Hyper-V platform.
 
-Here is a link that provides additional details on this functionality:
 
-http://technet.microsoft.com/en-us/library/dn464282.aspx
+> -----Original Message-----
+> From: Anshuman Khandual <anshuman.khandual@arm.com>
+> Sent: Friday, August 4, 2023 5:47 AM
+> To: linux-arm-kernel@lists.infradead.org
+> Cc: Anshuman Khandual <Anshuman.Khandual@arm.com>; Mike Leach
+> <mike.leach@linaro.org>; coresight@lists.linaro.org; linux-doc@vger.kerne=
+l.org;
+> linux-kernel@vger.kernel.org
+> Subject: [PATCH] coresight: etm: Make cycle count threshold user configur=
+able
+>=20
+> Cycle counting is enabled, when requested and supported but with a defaul=
+t
+> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into
+> TRCCCCTLR, representing the minimum interval between cycle count trace
+> packets.
+>=20
+> This makes cycle threshold user configurable, from the user space via per=
+f event
+> attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT, in ca=
+se
+> no explicit request. As expected it creates a sysfs file as well.
+>=20
+> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
+>=20
+> New 'cc_threshold' uses 'event->attr.config3' as no more space is availab=
+le in
+> 'event->attr.config1' or 'event->attr.config2'.
+>=20
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: Mike Leach <mike.leach@linaro.org>
+> Cc: James Clark <james.clark@arm.com>
+> Cc: Leo Yan <leo.yan@linaro.org>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ---
+>  Documentation/trace/coresight/coresight.rst        |  2 ++
+>  drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
+>  drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
+>  3 files changed, 14 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/trace/coresight/coresight.rst
+> b/Documentation/trace/coresight/coresight.rst
+> index 4a71ea6cb390..b88d83b59531 100644
+> --- a/Documentation/trace/coresight/coresight.rst
+> +++ b/Documentation/trace/coresight/coresight.rst
+> @@ -624,6 +624,8 @@ They are also listed in the folder
+> /sys/bus/event_source/devices/cs_etm/format/
+>     * - timestamp
+>       - Session local version of the system wide setting:
+> :ref:`ETMv4_MODE_TIMESTAMP
+>         <coresight-timestamp>`
+> +   * - cc_treshold
 
-This new fcopy application uses uio_hv_vmbus_client driver which
-makes the earlier hv_util based driver and application obsolete.
+Spelling: cc_threshold
 
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
----
-[V4]
-- Add error check for setting ring_size value in sysfs entry
-- Add error handling in fcopy_get_instance_id for instance id not found case
+> +     - Cycle count treshhold value
+>=20
+>  How to use the STM module
+>  -------------------------
+> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c
+> b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> index 5ca6278baff4..09f75dffae60 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,		"config:0-3");
+>  PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
+>  /* config ID - set if a system configuration is selected */
+>  PMU_FORMAT_ATTR(configid,	"config2:32-63");
+> +PMU_FORMAT_ATTR(cc_threshold,	"config3:0-11");
+>=20
+>=20
+>  /*
+> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] =
+=3D {
+>  	&format_attr_preset.attr,
+>  	&format_attr_configid.attr,
+>  	&format_attr_branch_broadcast.attr,
+> +	&format_attr_cc_threshold.attr,
+>  	NULL,
+>  };
+>=20
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 9d186af81ea0..9a2766f68416 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct
+> coresight_device *csdev,
+>  	struct etmv4_config *config =3D &drvdata->config;
+>  	struct perf_event_attr *attr =3D &event->attr;
+>  	unsigned long cfg_hash;
+> -	int preset;
+> +	int preset, cc_threshold;
+>=20
+>  	/* Clear configuration from previous run */
+>  	memset(config, 0, sizeof(struct etmv4_config)); @@ -667,7 +667,15 @@
+> static int etm4_parse_event_config(struct coresight_device *csdev,
+>  	if (attr->config & BIT(ETM_OPT_CYCACC)) {
+>  		config->cfg |=3D TRCCONFIGR_CCI;
+>  		/* TRM: Must program this for cycacc to work */
+> -		config->ccctlr =3D ETM_CYC_THRESHOLD_DEFAULT;
+> +		cc_treshold =3D attr->config3 & ETM_CYC_THRESHOLD_MASK;
 
-[V3]
-- Improve cover commit messages
-- Improve debug prints
-- Instead of hardcoded instance id, query from class id sysfs
-- Set the ring_size value from application
-- Update the application to mmap /dev/uio instead of sysfs
-- new application compilation dependent on x86
+Spelling again
 
-[V2]
-- simpler sysfs path
+> +		if (cc_treshold) {
+> +			if (cc_treshold < drvdata->ccitmin)
+> +				config->ccctlr =3D drvdata->ccitmin;
+> +			else
+> +				config->ccctlr =3D cc_threshold;
+> +		} else {
+> +			config->ccctlr =3D ETM_CYC_THRESHOLD_DEFAULT;
+> +		}
 
- tools/hv/Build                 |   1 +
- tools/hv/Makefile              |  10 +-
- tools/hv/hv_fcopy_uio_daemon.c | 587 +++++++++++++++++++++++++++++++++
- 3 files changed, 597 insertions(+), 1 deletion(-)
- create mode 100644 tools/hv/hv_fcopy_uio_daemon.c
+Consider dropping the check against CCITMIN. There are CPUs where
+CCITMIN is incorrect, e.g. see published errata 1490853 where the
+value 0x100 should be 0b100 i.e. 4. On these ETMs it is possible to
+set the timing threshold to four cycles instead of 256 cycles, providing
+much better timing resolution. The kernel currently does not work
+around this errata and uses the incorrect value of ccitmin. If you drop
+the check, and trust the value provided by userspace, you allow
+userspace to work around it.
 
-diff --git a/tools/hv/Build b/tools/hv/Build
-index 2a667d3d94cb..efcbb74a0d23 100644
---- a/tools/hv/Build
-+++ b/tools/hv/Build
-@@ -2,3 +2,4 @@ hv_kvp_daemon-y += hv_kvp_daemon.o
- hv_vss_daemon-y += hv_vss_daemon.o
- hv_fcopy_daemon-y += hv_fcopy_daemon.o
- vmbus_bufring-y += vmbus_bufring.o
-+hv_fcopy_uio_daemon-y += hv_fcopy_uio_daemon.o
-diff --git a/tools/hv/Makefile b/tools/hv/Makefile
-index 33cf488fd20f..678c6c450a53 100644
---- a/tools/hv/Makefile
-+++ b/tools/hv/Makefile
-@@ -21,8 +21,10 @@ override CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
- 
- ifeq ($(SRCARCH),x86)
- ALL_LIBS := libvmbus_bufring.a
--endif
-+ALL_TARGETS := hv_kvp_daemon hv_vss_daemon hv_fcopy_daemon hv_fcopy_uio_daemon
-+else
- ALL_TARGETS := hv_kvp_daemon hv_vss_daemon hv_fcopy_daemon
-+endif
- ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS)) $(patsubst %,$(OUTPUT)%,$(ALL_LIBS))
- 
- ALL_SCRIPTS := hv_get_dhcp_info.sh hv_get_dns_info.sh hv_set_ifconfig.sh
-@@ -56,6 +58,12 @@ $(HV_FCOPY_DAEMON_IN): FORCE
- $(OUTPUT)hv_fcopy_daemon: $(HV_FCOPY_DAEMON_IN)
- 	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
- 
-+HV_FCOPY_UIO_DAEMON_IN := $(OUTPUT)hv_fcopy_uio_daemon-in.o
-+$(HV_FCOPY_UIO_DAEMON_IN): FORCE
-+	$(Q)$(MAKE) $(build)=hv_fcopy_uio_daemon
-+$(OUTPUT)hv_fcopy_uio_daemon: $(HV_FCOPY_UIO_DAEMON_IN) libvmbus_bufring.a
-+	$(QUIET_LINK)$(CC) -lm $< -L. -lvmbus_bufring -o $@
-+
- clean:
- 	rm -f $(ALL_PROGRAMS)
- 	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
-diff --git a/tools/hv/hv_fcopy_uio_daemon.c b/tools/hv/hv_fcopy_uio_daemon.c
-new file mode 100644
-index 000000000000..b35737082c91
---- /dev/null
-+++ b/tools/hv/hv_fcopy_uio_daemon.c
-@@ -0,0 +1,587 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * An implementation of host to guest copy functionality for Linux.
-+ *
-+ * Copyright (C) 2023, Microsoft, Inc.
-+ *
-+ * Author : K. Y. Srinivasan <kys@microsoft.com>
-+ * Author : Saurabh Sengar <ssengar@microsoft.com>
-+ *
-+ */
-+
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <getopt.h>
-+#include <locale.h>
-+#include <stdbool.h>
-+#include <stddef.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syslog.h>
-+#include <unistd.h>
-+#include <sys/mman.h>
-+#include <sys/stat.h>
-+#include <linux/hyperv.h>
-+#include "vmbus_bufring.h"
-+
-+#define ICMSGTYPE_NEGOTIATE	0
-+#define ICMSGTYPE_FCOPY		7
-+
-+#define WIN8_SRV_MAJOR		1
-+#define WIN8_SRV_MINOR		1
-+#define WIN8_SRV_VERSION	(WIN8_SRV_MAJOR << 16 | WIN8_SRV_MINOR)
-+
-+#define MAX_PATH_LEN		300
-+#define MAX_LINE_LEN		40
-+#define DEVICES_SYSFS		"/sys/bus/vmbus/devices"
-+#define FCOPY_CLASS_ID		"34d14be3-dee4-41c8-9ae7-6b174977c192"
-+
-+#define FCOPY_VER_COUNT		1
-+static const int fcopy_versions[] = {
-+	WIN8_SRV_VERSION
-+};
-+
-+#define FW_VER_COUNT		1
-+static const int fw_versions[] = {
-+	UTIL_FW_VERSION
-+};
-+
-+#define HV_RING_SIZE		(4 * 4096)
-+
-+unsigned char desc[HV_RING_SIZE];
-+
-+static int target_fd;
-+static char target_fname[PATH_MAX];
-+static unsigned long long filesize;
-+
-+static int hv_fcopy_create_file(char *file_name, char *path_name, __u32 flags)
-+{
-+	int error = HV_E_FAIL;
-+	char *q, *p;
-+
-+	filesize = 0;
-+	p = (char *)path_name;
-+	snprintf(target_fname, sizeof(target_fname), "%s/%s",
-+		 (char *)path_name, (char *)file_name);
-+
-+	/*
-+	 * Check to see if the path is already in place; if not,
-+	 * create if required.
-+	 */
-+	while ((q = strchr(p, '/')) != NULL) {
-+		if (q == p) {
-+			p++;
-+			continue;
-+		}
-+		*q = '\0';
-+		if (access(path_name, F_OK)) {
-+			if (flags & CREATE_PATH) {
-+				if (mkdir(path_name, 0755)) {
-+					syslog(LOG_ERR, "Failed to create %s",
-+					       path_name);
-+					goto done;
-+				}
-+			} else {
-+				syslog(LOG_ERR, "Invalid path: %s", path_name);
-+				goto done;
-+			}
-+		}
-+		p = q + 1;
-+		*q = '/';
-+	}
-+
-+	if (!access(target_fname, F_OK)) {
-+		syslog(LOG_INFO, "File: %s exists", target_fname);
-+		if (!(flags & OVER_WRITE)) {
-+			error = HV_ERROR_ALREADY_EXISTS;
-+			goto done;
-+		}
-+	}
-+
-+	target_fd = open(target_fname,
-+			 O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0744);
-+	if (target_fd == -1) {
-+		syslog(LOG_INFO, "Open Failed: %s", strerror(errno));
-+		goto done;
-+	}
-+
-+	error = 0;
-+done:
-+	if (error)
-+		target_fname[0] = '\0';
-+	return error;
-+}
-+
-+static int hv_copy_data(struct hv_do_fcopy *cpmsg)
-+{
-+	ssize_t bytes_written;
-+	int ret = 0;
-+
-+	bytes_written = pwrite(target_fd, cpmsg->data, cpmsg->size,
-+			       cpmsg->offset);
-+
-+	filesize += cpmsg->size;
-+	if (bytes_written != cpmsg->size) {
-+		switch (errno) {
-+		case ENOSPC:
-+			ret = HV_ERROR_DISK_FULL;
-+			break;
-+		default:
-+			ret = HV_E_FAIL;
-+			break;
-+		}
-+		syslog(LOG_ERR, "pwrite failed to write %llu bytes: %ld (%s)",
-+		       filesize, (long)bytes_written, strerror(errno));
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * Reset target_fname to "" in the two below functions for hibernation: if
-+ * the fcopy operation is aborted by hibernation, the daemon should remove the
-+ * partially-copied file; to achieve this, the hv_utils driver always fakes a
-+ * CANCEL_FCOPY message upon suspend, and later when the VM resumes back,
-+ * the daemon calls hv_copy_cancel() to remove the file; if a file is copied
-+ * successfully before suspend, hv_copy_finished() must reset target_fname to
-+ * avoid that the file can be incorrectly removed upon resume, since the faked
-+ * CANCEL_FCOPY message is spurious in this case.
-+ */
-+static int hv_copy_finished(void)
-+{
-+	close(target_fd);
-+	target_fname[0] = '\0';
-+	return 0;
-+}
-+
-+static void print_usage(char *argv[])
-+{
-+	fprintf(stderr, "Usage: %s [options]\n"
-+		"Options are:\n"
-+		"  -n, --no-daemon        stay in foreground, don't daemonize\n"
-+		"  -h, --help             print this help\n", argv[0]);
-+}
-+
-+static bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, unsigned char *buf,
-+				      unsigned int buflen, const int *fw_version, int fw_vercnt,
-+				const int *srv_version, int srv_vercnt,
-+				int *nego_fw_version, int *nego_srv_version)
-+{
-+	int icframe_major, icframe_minor;
-+	int icmsg_major, icmsg_minor;
-+	int fw_major, fw_minor;
-+	int srv_major, srv_minor;
-+	int i, j;
-+	bool found_match = false;
-+	struct icmsg_negotiate *negop;
-+
-+	/* Check that there's enough space for icframe_vercnt, icmsg_vercnt */
-+	if (buflen < ICMSG_HDR + offsetof(struct icmsg_negotiate, reserved)) {
-+		syslog(LOG_ERR, "Invalid icmsg negotiate");
-+		return false;
-+	}
-+
-+	icmsghdrp->icmsgsize = 0x10;
-+	negop = (struct icmsg_negotiate *)&buf[ICMSG_HDR];
-+
-+	icframe_major = negop->icframe_vercnt;
-+	icframe_minor = 0;
-+
-+	icmsg_major = negop->icmsg_vercnt;
-+	icmsg_minor = 0;
-+
-+	/* Validate negop packet */
-+	if (icframe_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
-+	    icmsg_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
-+	    ICMSG_NEGOTIATE_PKT_SIZE(icframe_major, icmsg_major) > buflen) {
-+		syslog(LOG_ERR, "Invalid icmsg negotiate - icframe_major: %u, icmsg_major: %u\n",
-+		       icframe_major, icmsg_major);
-+		goto fw_error;
-+	}
-+
-+	/*
-+	 * Select the framework version number we will
-+	 * support.
-+	 */
-+
-+	for (i = 0; i < fw_vercnt; i++) {
-+		fw_major = (fw_version[i] >> 16);
-+		fw_minor = (fw_version[i] & 0xFFFF);
-+
-+		for (j = 0; j < negop->icframe_vercnt; j++) {
-+			if (negop->icversion_data[j].major == fw_major &&
-+			    negop->icversion_data[j].minor == fw_minor) {
-+				icframe_major = negop->icversion_data[j].major;
-+				icframe_minor = negop->icversion_data[j].minor;
-+				found_match = true;
-+				break;
-+			}
-+		}
-+
-+		if (found_match)
-+			break;
-+	}
-+
-+	if (!found_match)
-+		goto fw_error;
-+
-+	found_match = false;
-+
-+	for (i = 0; i < srv_vercnt; i++) {
-+		srv_major = (srv_version[i] >> 16);
-+		srv_minor = (srv_version[i] & 0xFFFF);
-+
-+		for (j = negop->icframe_vercnt;
-+			(j < negop->icframe_vercnt + negop->icmsg_vercnt);
-+			j++) {
-+			if (negop->icversion_data[j].major == srv_major &&
-+			    negop->icversion_data[j].minor == srv_minor) {
-+				icmsg_major = negop->icversion_data[j].major;
-+				icmsg_minor = negop->icversion_data[j].minor;
-+				found_match = true;
-+				break;
-+			}
-+		}
-+
-+		if (found_match)
-+			break;
-+	}
-+
-+	/*
-+	 * Respond with the framework and service
-+	 * version numbers we can support.
-+	 */
-+fw_error:
-+	if (!found_match) {
-+		negop->icframe_vercnt = 0;
-+		negop->icmsg_vercnt = 0;
-+	} else {
-+		negop->icframe_vercnt = 1;
-+		negop->icmsg_vercnt = 1;
-+	}
-+
-+	if (nego_fw_version)
-+		*nego_fw_version = (icframe_major << 16) | icframe_minor;
-+
-+	if (nego_srv_version)
-+		*nego_srv_version = (icmsg_major << 16) | icmsg_minor;
-+
-+	negop->icversion_data[0].major = icframe_major;
-+	negop->icversion_data[0].minor = icframe_minor;
-+	negop->icversion_data[1].major = icmsg_major;
-+	negop->icversion_data[1].minor = icmsg_minor;
-+
-+	return found_match;
-+}
-+
-+static void wcstoutf8(char *dest, const __u16 *src, size_t dest_size)
-+{
-+	size_t len = 0;
-+
-+	while (len < dest_size) {
-+		if (src[len] < 0x80)
-+			dest[len++] = (char)(*src++);
-+		else
-+			dest[len++] = 'X';
-+	}
-+
-+	dest[len] = '\0';
-+}
-+
-+static int hv_fcopy_start(struct hv_start_fcopy *smsg_in)
-+{
-+	setlocale(LC_ALL, "en_US.utf8");
-+	size_t file_size, path_size;
-+	char *file_name, *path_name;
-+	char *in_file_name = (char *)smsg_in->file_name;
-+	char *in_path_name = (char *)smsg_in->path_name;
-+
-+	file_size = wcstombs(NULL, (const wchar_t *restrict)in_file_name, 0) + 1;
-+	path_size = wcstombs(NULL, (const wchar_t *restrict)in_path_name, 0) + 1;
-+
-+	file_name = (char *)malloc(file_size * sizeof(char));
-+	path_name = (char *)malloc(path_size * sizeof(char));
-+
-+	wcstoutf8(file_name, (__u16 *)in_file_name, file_size);
-+	wcstoutf8(path_name, (__u16 *)in_path_name, path_size);
-+
-+	return hv_fcopy_create_file(file_name, path_name, smsg_in->copy_flags);
-+}
-+
-+static int hv_fcopy_send_data(struct hv_fcopy_hdr *fcopy_msg, int recvlen)
-+{
-+	int operation = fcopy_msg->operation;
-+
-+	/*
-+	 * The  strings sent from the host are encoded in
-+	 * utf16; convert it to utf8 strings.
-+	 * The host assures us that the utf16 strings will not exceed
-+	 * the max lengths specified. We will however, reserve room
-+	 * for the string terminating character - in the utf16s_utf8s()
-+	 * function we limit the size of the buffer where the converted
-+	 * string is placed to W_MAX_PATH -1 to guarantee
-+	 * that the strings can be properly terminated!
-+	 */
-+
-+	switch (operation) {
-+	case START_FILE_COPY:
-+		return hv_fcopy_start((struct hv_start_fcopy *)fcopy_msg);
-+	case WRITE_TO_FILE:
-+		return hv_copy_data((struct hv_do_fcopy *)fcopy_msg);
-+	case COMPLETE_FCOPY:
-+		return hv_copy_finished();
-+	}
-+
-+	return HV_E_FAIL;
-+}
-+
-+/* process the packet recv from host */
-+static int fcopy_pkt_process(struct vmbus_br *txbr)
-+{
-+	int ret, offset, pktlen;
-+	int fcopy_srv_version;
-+	const struct vmbus_chanpkt_hdr *pkt;
-+	struct hv_fcopy_hdr *fcopy_msg;
-+	struct icmsg_hdr *icmsghdr;
-+
-+	pkt = (const struct vmbus_chanpkt_hdr *)desc;
-+	offset = pkt->hlen << 3;
-+	pktlen = (pkt->tlen << 3) - offset;
-+	icmsghdr = (struct icmsg_hdr *)&desc[offset + sizeof(struct vmbuspipe_hdr)];
-+	icmsghdr->status = HV_E_FAIL;
-+
-+	if (icmsghdr->icmsgtype == ICMSGTYPE_NEGOTIATE) {
-+		if (vmbus_prep_negotiate_resp(icmsghdr, desc + offset, pktlen, fw_versions,
-+					      FW_VER_COUNT, fcopy_versions, FCOPY_VER_COUNT,
-+					      NULL, &fcopy_srv_version)) {
-+			syslog(LOG_INFO, "FCopy IC version %d.%d",
-+			       fcopy_srv_version >> 16, fcopy_srv_version & 0xFFFF);
-+			icmsghdr->status = 0;
-+		}
-+	} else if (icmsghdr->icmsgtype == ICMSGTYPE_FCOPY) {
-+		/* Ensure recvlen is big enough to contain hv_fcopy_hdr */
-+		if (pktlen < ICMSG_HDR + sizeof(struct hv_fcopy_hdr)) {
-+			syslog(LOG_ERR, "Invalid Fcopy hdr. Packet length too small: %u",
-+			       pktlen);
-+			return -ENOBUFS;
-+		}
-+
-+		fcopy_msg = (struct hv_fcopy_hdr *)&desc[offset + ICMSG_HDR];
-+		icmsghdr->status = hv_fcopy_send_data(fcopy_msg, pktlen);
-+	}
-+
-+	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
-+	ret = rte_vmbus_chan_send(txbr, 0x6, desc + offset, pktlen, 0);
-+	if (ret) {
-+		syslog(LOG_ERR, "Write to ringbuffer failed err: %d", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void fcopy_get_first_folder(char *path, char *chan_no)
-+{
-+	DIR *dir = opendir(path);
-+	struct dirent *entry;
-+
-+	if (!dir) {
-+		syslog(LOG_ERR, "Failed to open directory (errno=%s).\n", strerror(errno));
-+		return;
-+	}
-+
-+	while ((entry = readdir(dir)) != NULL) {
-+		if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0 &&
-+		    strcmp(entry->d_name, "..") != 0) {
-+			strcpy(chan_no, entry->d_name);
-+			break;
-+		}
-+	}
-+
-+	closedir(dir);
-+}
-+
-+static void fcopy_set_ring_size(char *path, char *inst, int size)
-+{
-+	char ring_size_path[MAX_PATH_LEN] = {0};
-+	FILE *fd;
-+
-+	snprintf(ring_size_path, sizeof(ring_size_path), "%s/%s/%s", path, inst, "ring_size");
-+	fd = fopen(ring_size_path, "w");
-+	if (!fd) {
-+		syslog(LOG_WARNING, "Failed to open ring_size file (errno=%s).\n", strerror(errno));
-+		return;
-+	}
-+
-+	setvbuf(fd, NULL, _IONBF, 0); /* don't allow buffering to catch sysfs store error */
-+	if (fprintf(fd, "%d", size) < 0)
-+		syslog(LOG_WARNING, "Failed to set %d as ring size (errno=%s).\n",
-+		       size, strerror(errno));
-+
-+	fclose(fd);
-+}
-+
-+static char *fcopy_read_sysfs(char *path, char *buf, int len)
-+{
-+	FILE *fd;
-+	char *ret;
-+
-+	fd = fopen(path, "r");
-+	if (!fd)
-+		return NULL;
-+
-+	ret = fgets(buf, len, fd);
-+	fclose(fd);
-+
-+	return ret;
-+}
-+
-+static int fcopy_get_instance_id(char *path, char *class_id, char *inst)
-+{
-+	DIR *dir = opendir(path);
-+	struct dirent *entry;
-+	char tmp_path[MAX_PATH_LEN] = {0};
-+	char line[MAX_LINE_LEN];
-+	int ret = -EINVAL;
-+
-+	if (!dir) {
-+		syslog(LOG_ERR, "Failed to open directory (errno=%s).", strerror(errno));
-+		return ret;
-+	}
-+
-+	while ((entry = readdir(dir)) != NULL) {
-+		if (entry->d_type == DT_LNK && strcmp(entry->d_name, ".") != 0 &&
-+		    strcmp(entry->d_name, "..") != 0) {
-+			/* search for the sysfs path with matching class_id */
-+			snprintf(tmp_path, sizeof(tmp_path), "%s/%s/%s",
-+				 path, entry->d_name, "class_id");
-+			if (!fcopy_read_sysfs(tmp_path, line, MAX_LINE_LEN))
-+				continue;
-+
-+			/* class id matches, now fetch the instance id from device_id */
-+			if (strstr(line, class_id)) {
-+				snprintf(tmp_path, sizeof(tmp_path), "%s/%s/%s",
-+					 path, entry->d_name, "device_id");
-+				if (!fcopy_read_sysfs(tmp_path, line, MAX_LINE_LEN))
-+					continue;
-+				/* remove braces */
-+				strncpy(inst, line + 1, strlen(line) - 3);
-+				ret = 0;
-+				goto closedir;
-+			}
-+		}
-+	}
-+
-+	syslog(LOG_ERR, "Failed to fetch instance id");
-+closedir:
-+	closedir(dir);
-+	return ret;
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int fcopy_fd = -1, tmp = 1;
-+	int daemonize = 1, long_index = 0, opt, ret = -EINVAL;
-+	struct vmbus_br txbr, rxbr;
-+	void *ring;
-+	uint32_t len = HV_RING_SIZE;
-+	char uio_name[10] = {0};
-+	char uio_dev_path[15] = {0};
-+	char uio_path[MAX_PATH_LEN] = {0};
-+	char inst[MAX_LINE_LEN] = {0};
-+
-+	static struct option long_options[] = {
-+		{"help",	no_argument,	   0,  'h' },
-+		{"no-daemon",	no_argument,	   0,  'n' },
-+		{0,		0,		   0,  0   }
-+	};
-+
-+	while ((opt = getopt_long(argc, argv, "hn", long_options,
-+				  &long_index)) != -1) {
-+		switch (opt) {
-+		case 'n':
-+			daemonize = 0;
-+			break;
-+		case 'h':
-+		default:
-+			print_usage(argv);
-+			exit(EXIT_FAILURE);
-+		}
-+	}
-+
-+	if (daemonize && daemon(1, 0)) {
-+		syslog(LOG_ERR, "daemon() failed; error: %s", strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	openlog("HV_UIO_FCOPY", 0, LOG_USER);
-+	syslog(LOG_INFO, "starting; pid is:%d", getpid());
-+
-+	/* get instance id */
-+	if (fcopy_get_instance_id(DEVICES_SYSFS, FCOPY_CLASS_ID, inst))
-+		exit(EXIT_FAILURE);
-+
-+	/* set ring_size value */
-+	fcopy_set_ring_size(DEVICES_SYSFS, inst, HV_RING_SIZE);
-+
-+	/* get /dev/uioX dev path and open it */
-+	snprintf(uio_path, sizeof(uio_path), "%s/%s/%s", DEVICES_SYSFS, inst, "uio");
-+	fcopy_get_first_folder(uio_path, uio_name);
-+	snprintf(uio_dev_path, sizeof(uio_dev_path), "/dev/%s", uio_name);
-+	fcopy_fd = open(uio_dev_path, O_RDWR);
-+
-+	if (fcopy_fd < 0) {
-+		syslog(LOG_ERR, "open %s failed; error: %d %s",
-+		       uio_dev_path, errno, strerror(errno));
-+		syslog(LOG_ERR, "Please make sure module uio_hv_vmbus_client is loaded and" \
-+		       " device is not used by any other application\n");
-+		ret = fcopy_fd;
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	ring = mmap(NULL, 2 * HV_RING_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fcopy_fd, 0);
-+	if (ring == MAP_FAILED) {
-+		ret = errno;
-+		syslog(LOG_ERR, "mmap ringbuffer failed; error: %d %s", ret, strerror(ret));
-+		goto close;
-+	}
-+	vmbus_br_setup(&txbr, ring, HV_RING_SIZE);
-+	vmbus_br_setup(&rxbr, (char *)ring + HV_RING_SIZE, HV_RING_SIZE);
-+
-+	while (1) {
-+		/*
-+		 * In this loop we process fcopy messages after the
-+		 * handshake is complete.
-+		 */
-+		ret = pread(fcopy_fd, &tmp, sizeof(int), 0);
-+		if (ret < 0) {
-+			syslog(LOG_ERR, "pread failed: %s", strerror(errno));
-+			continue;
-+		}
-+
-+		len = HV_RING_SIZE;
-+		ret = rte_vmbus_chan_recv_raw(&rxbr, desc, &len);
-+		if (unlikely(ret <= 0)) {
-+			/* This indicates a failure to communicate (or worse) */
-+			syslog(LOG_ERR, "VMBus channel recv error: %d", ret);
-+		} else {
-+			ret = fcopy_pkt_process(&txbr);
-+			if (ret < 0)
-+				goto close;
-+
-+			/* Signal host */
-+			tmp = 1;
-+			if ((write(fcopy_fd, &tmp, sizeof(int))) != sizeof(int)) {
-+				ret = errno;
-+				syslog(LOG_ERR, "Registration failed: %s\n", strerror(ret));
-+				goto close;
-+			}
-+		}
-+	}
-+close:
-+	close(fcopy_fd);
-+	return ret;
-+}
--- 
-2.34.1
+Al
 
+
+>  	}
+>  	if (attr->config & BIT(ETM_OPT_TS)) {
+>  		/*
+> --
+> 2.25.1
+>=20
+> _______________________________________________
+> CoreSight mailing list -- coresight@lists.linaro.org To unsubscribe send =
+an email to
+> coresight-leave@lists.linaro.org
