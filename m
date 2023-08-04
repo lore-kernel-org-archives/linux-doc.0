@@ -2,167 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93657C001DE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 06:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45849C04A94
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 07:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232543AbjHDGK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 02:10:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56540 "EHLO
+        id S232406AbjHDHKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 03:10:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232486AbjHDGK6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 02:10:58 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06CFB2708;
-        Thu,  3 Aug 2023 23:10:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691129457; x=1722665457;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+G9GSNfDAvX+Kh/QKq5xmMGn8Ir1PIpjRkZ3yB2HDaQ=;
-  b=DDTsdovFGfE13fCAxXybncmShsYRZerR0OhkDOCDFdN9L7EY1pEQpp7F
-   KEoPyQSjJY7D+bljCOBQmOo/93TzTdQC1qU0vDvGvriefssRDwv5Haw7g
-   GeqDI/M0NTRiUxVh8qu8EDlT6eqi5dtGvJhwKs8mnCBGaySsDc9KHmVv0
-   cR+VRj4sCKoxQEgp7qWPM3ES9SKgXvJh1e+xIFEdLkjA9GIAY3IKDFPg1
-   puwi2lNOEAQLnOOp2wSv4F/GMzrH9fWlfnlIMXF5zc4IkhrTaTzbDPahf
-   h8vEI0noMdnCtPOsGKHh88+yACwj0Y6vG+HX9yKLx3nqFAmPoMQ8576A4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="433927389"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="433927389"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 23:09:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="873237868"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2023 23:09:22 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qRnzw-00Cx13-2f;
-        Fri, 04 Aug 2023 09:09:16 +0300
-Date:   Fri, 4 Aug 2023 09:09:16 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Anup Patel <anup@brainfault.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Robert Moore <robert.moore@intel.com>,
-        Haibo Xu <haibo1.xu@intel.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Atish Kumar Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>
-Subject: Re: [RFC PATCH v1 11/21] swnode: Add support to create early during
- boot
-Message-ID: <ZMyWDDD6Lw8REd1r@smile.fi.intel.com>
-References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
- <20230803175916.3174453-12-sunilvl@ventanamicro.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230803175916.3174453-12-sunilvl@ventanamicro.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        with ESMTP id S234038AbjHDHKD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 03:10:03 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8BE9E30DD;
+        Fri,  4 Aug 2023 00:10:00 -0700 (PDT)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id D2531207F5BB;
+        Fri,  4 Aug 2023 00:09:59 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D2531207F5BB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1691132999;
+        bh=H3kqU/firIHr0S+sRVsFVo5ha4Q/UyDjIzEmNKSv7DA=;
+        h=From:To:Subject:Date:From;
+        b=QpGMobgtGYz5xyM1/7pPxicy9Nt9W3V+4PG2f1YX6hoH0HT1FOTHWWJ0MZZc9G6i4
+         xneqmhYByZKs4LQ0tM83mI0OkCpB7OuohCSmyZXqVjijizcbpEXwSvwRJEhqLXf7Ad
+         O5WQptarMMLP0lCz0H3cNYcbmJlvt/6UrhyivrAs=
+From:   Saurabh Sengar <ssengar@linux.microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, mikelley@microsoft.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v4 0/3] UIO driver for low speed Hyper-V devices
+Date:   Fri,  4 Aug 2023 00:09:53 -0700
+Message-Id: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 03, 2023 at 11:29:06PM +0530, Sunil V L wrote:
-> From: Anup Patel <apatel@ventanamicro.com>
-> 
-> swnode framework can be used to create fwnode for interrupt
-> controllers.
+Hyper-V is adding multiple low speed "speciality" synthetic devices.
+Instead of writing a new kernel-level VMBus driver for each device,
+make the devices accessible to user space through a UIO-based
+hv_vmbus_client driver. Each device can then be supported by a user
+space driver. This approach optimizes the development process and
+provides flexibility to user space applications to control the key
+interactions with the VMBus ring buffer.
 
-Why? What is this for?
-Can you elaborate? This commit message is poorly written...
+The new synthetic devices are low speed devices that don't support
+VMBus monitor bits, and so they must use vmbus_setevent() to notify
+the host of ring buffer updates. The new driver provides this
+functionality along with a configurable ring buffer size.
 
-And why firmware node is not enough for ACPI case?
-I assume the fwnode in DT case is already provided by OF.
+Moreover, this series of patches incorporates an update to the fcopy
+application, enabling it to seamlessly utilize the new interface. The
+older fcopy driver and application will be phased out gradually.
+Development of other similar userspace drivers is still underway.
 
-> This helps in keeping the drivers same for both
-> DT and ACPI. To enable this, enhance the swnode framework so
-> that it can be created early during boot without dependency
-> on sysfs.
+Moreover, this patch series adds a new implementation of the fcopy
+application that uses the new UIO driver. The older fcopy driver and
+application will be phased out gradually. Development of other similar
+userspace drivers is still underway.
 
-...
+[V4]
+- Modify comment to remove RingDataStartOffset mention
+- Change downward ALIGN macro to upward ALIGN
+- Add error check for setting ring_size value in sysfs entry
+- Add error handling in fcopy_get_instance_id for instance id not found case
 
-> -	swnode->kobj.kset = swnode_kset;
-> +	swnode->kobj.kset = (!early) ? swnode_kset : NULL;
+[V3]
+- Removed ringbuffer sysfs entry and used uio framework for mmap
+- Remove ".id_table = NULL"
+- kasprintf -> devm_kasprintf
+- Change global variable ring_size to per device
+- More checks on value which can be set for ring_size
+- Remove driverctl, and used echo command instead for driver documentation
+- Remove unnecessary one time use macros
+- Change kernel version and date for sysfs documentation
+- Update documentation.
+- Made ring buffer data offset depend on page size
+- remove rte_smp_rwmb macro and reused rte_compiler_barrier instead
+- Added legal counsel sign-off
+- simplify mmap
+- Removed "Link:" tag 
+- Improve cover letter and commit messages
+- Improve debug prints
+- Instead of hardcoded instance id, query from class id sysfs
+- Set the ring_size value from application
+- new application compilation dependent on x86
+- Not removing the old driver and application for backward compatibility
 
-Too many unneeded characters. Why parentheses? Why negative check?
+[V2]
+- Update driver info in Documentation/driver-api/uio-howto.rst
+- Update ring_size sysfs info in Documentation/ABI/stable/sysfs-bus-vmbus
+- Remove DRIVER_VERSION
+- Remove refcnt
+- scnprintf -> sysfs_emit
+- sysfs_create_file -> ATTRIBUTE_GROUPS + ".driver.groups";
+- sysfs_create_bin_file -> device_create_bin_file
+- dev_notice -> dev_err
+- remove MODULE_VERSION
+- simpler sysfs path, less parsing
 
-...
+Saurabh Sengar (3):
+  uio: Add hv_vmbus_client driver
+  tools: hv: Add vmbus_bufring
+  tools: hv: Add new fcopy application based on uio driver
 
-> +	if (early) {
-> +		ret = 0;
-> +		kobject_init(&swnode->kobj, &software_node_type_early);
-> +		swnode->kobj.parent = parent ? &parent->kobj : NULL;
-> +		if (node->name)
-> +			ret = kobject_set_name(&swnode->kobj,
-> +					       "%s", node->name);
-> +		else
-> +			ret = kobject_set_name(&swnode->kobj,
-> +					       "node%d", swnode->id);
-> +		if (!ret) {
-> +			spin_lock(&swnode_early_lock);
-> +			list_add_tail(&swnode->early, &swnode_early_list);
-> +			spin_unlock(&swnode_early_lock);
-> +		}
-> +	} else {
-> +		if (node->name)
-> +			ret = kobject_init_and_add(&swnode->kobj, &software_node_type,
-> +						   parent ? &parent->kobj : NULL,
-
-This looks like have a duplication.
-
-> +						   "%s", node->name);
-> +		else
-> +			ret = kobject_init_and_add(&swnode->kobj, &software_node_type,
-> +						   parent ? &parent->kobj : NULL,
-> +						   "node%d", swnode->id);
-> +	}
-
-Maybe it's possible to refactor this piece to be more compact?
-
-...
-
-> -	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0));
-> +	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0, 0));
-
-In one case you use boolean, here is unsigned int for early flag, why is the
-inconsistency added?
-
-...
-
-> -struct fwnode_handle *
-> -fwnode_create_software_node(const struct property_entry *properties,
-> -			    const struct fwnode_handle *parent)
-> +static struct fwnode_handle *
-> +fwnode_create_software_node_common(const struct property_entry *properties,
-> +				   const struct fwnode_handle *parent,
-> +				   bool early)
-
-Why would you need this API in early stages?
+ Documentation/ABI/stable/sysfs-bus-vmbus |  10 +
+ Documentation/driver-api/uio-howto.rst   |  54 +++
+ drivers/uio/Kconfig                      |  12 +
+ drivers/uio/Makefile                     |   1 +
+ drivers/uio/uio_hv_vmbus_client.c        | 218 +++++++++
+ tools/hv/Build                           |   2 +
+ tools/hv/Makefile                        |  21 +-
+ tools/hv/hv_fcopy_uio_daemon.c           | 587 +++++++++++++++++++++++
+ tools/hv/vmbus_bufring.c                 | 297 ++++++++++++
+ tools/hv/vmbus_bufring.h                 | 154 ++++++
+ 10 files changed, 1355 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/uio/uio_hv_vmbus_client.c
+ create mode 100644 tools/hv/hv_fcopy_uio_daemon.c
+ create mode 100644 tools/hv/vmbus_bufring.c
+ create mode 100644 tools/hv/vmbus_bufring.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
