@@ -2,90 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39BE8C00528
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 02:02:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CABABC001DB
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 04:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232749AbjHDCCZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 22:02:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33322 "EHLO
+        id S230163AbjHDErh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 00:47:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232163AbjHDCCX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 22:02:23 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A321F4488
-        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 19:02:22 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-68781a69befso272670b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 19:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1691114542; x=1691719342;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lLAyHP6q7d4xyqH5BrZ0J2y9ZHEmKn11Ag5iLKGIobk=;
-        b=wP2ZuHLlNuDfTT71uzyzf0CV4FW0+5rHmVIqE6GOMVjwL3ZpUnT2g2DTt/WDPPdjrF
-         2U2HC6n0rUbzNslkkp6Hn7rJWDpqfSmq9b66hXnpWCUj8YqrgFcHUJhG77/tAs47G266
-         ElZhOuyclpDWX2rOoNKzHHzbVTAE54S07RIJ8OKTFKzcSexf0Gz621jhyP7rRN33bbXa
-         tkJbJPIcYWZ4ZpCxxkdHqHPkTvp2YIFjPQGCcymM3t8fqWtXNJ1CJG5w9R5HSfJH6nCk
-         KdkWaHmwZ/oMmmFXNOSYXCV4ARohZ/th4bdIj0Kq+d27AG7CIKhmk7x2SgAnQa4lZa+v
-         ZR3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691114542; x=1691719342;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lLAyHP6q7d4xyqH5BrZ0J2y9ZHEmKn11Ag5iLKGIobk=;
-        b=J3Yp73n65VYtjtTXBvxOg3vMhumyNi5F74xVQevjPnvmrZMcQrSBcZflDZ4CUgQRMy
-         RENckONSvsOkb1Pnj8GbiRMfP4+QH0TVekHCwK8fesh389nkvzMogCJ8C+iBdv62+oXV
-         /Xwz9DtAOuF3GC2uPDvNrfedmc0R6/HUgnUVvgwVgs9RSJ0BmgPIOqFFZTlI+ByJ1qn6
-         rjQK1VflFdfpz/x+QnerxOGUqMEj58wIsLy6BHatTe/2NoUEWF5aSWLCxUX5sE0EgFCL
-         K41gV/qS/C8uOUGgpGaYTa9v+IRYFkuT8g063V8I7aw36NUOsPKz1ZNEKPB7ytel1KSD
-         tZcA==
-X-Gm-Message-State: ABy/qLag0tGSH1DpVnmjq2odxhiJhpONePYkIaCvsfZPutQ/dcc2G04E
-        2agGtsWNf0Za5JBWGbzE7jRV6beXX/t7dHlu9FE=
-X-Google-Smtp-Source: APBJJlHGxvq+YAD+sdIdRb+NwnMfx8vt2DdNH34XqanHP+MVvvdnK8URPIL1n0IT/Nu8x7TU0I+uaA==
-X-Received: by 2002:a05:6a00:8016:b0:675:8627:a291 with SMTP id eg22-20020a056a00801600b006758627a291mr20382970pfb.3.1691114542072;
-        Thu, 03 Aug 2023 19:02:22 -0700 (PDT)
-Received: from [172.20.1.218] (071-095-160-189.biz.spectrum.com. [71.95.160.189])
-        by smtp.gmail.com with ESMTPSA id p18-20020aa78612000000b006871dad3e74sm471163pfn.65.2023.08.03.19.02.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Aug 2023 19:02:21 -0700 (PDT)
-Message-ID: <5dbc41bb-f843-dcd9-37d6-cf1f37cb80d4@kernel.dk>
-Date:   Thu, 3 Aug 2023 20:02:20 -0600
+        with ESMTP id S230018AbjHDEre (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 00:47:34 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B3389110;
+        Thu,  3 Aug 2023 21:47:32 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACFDB1007;
+        Thu,  3 Aug 2023 21:48:14 -0700 (PDT)
+Received: from a077893.arm.com (unknown [10.163.53.56])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A9D7D3F59C;
+        Thu,  3 Aug 2023 21:47:28 -0700 (PDT)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] coresight: etm: Make cycle count threshold user configurable
+Date:   Fri,  4 Aug 2023 10:17:20 +0530
+Message-Id: <20230804044720.1478900-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [linux-next:master] BUILD REGRESSION
- fb4327106e5250ee360d0d8b056c1eef7eeb9a98
-Content-Language: en-US
-To:     Matthew Wilcox <willy@infradead.org>,
-        kernel test robot <lkp@intel.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>
-References: <202308040141.gUjtZ32J-lkp@intel.com>
- <ZMwH1WuEb1JEtZ4o@casper.infradead.org>
-From:   Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZMwH1WuEb1JEtZ4o@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/3/23 2:02?PM, Matthew Wilcox wrote:
-> On Fri, Aug 04, 2023 at 01:34:01AM +0800, kernel test robot wrote:
->> arm-linux-gnueabi-ld: storage.c:(.text+0x27c): undefined reference to `__brelse'
->> arm-linux-gnueabi-ld: storage.c:(.text+0x9c): undefined reference to `__bread_gfp'
->> storage.c:(.text+0x22c): undefined reference to `__bread_gfp'
->> storage.c:(.text+0x64): undefined reference to `__brelse'
-> 
-> I think something like this would fix it.  Jens?  Christoph?
+Cycle counting is enabled, when requested and supported but with a default
+threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
+representing the minimum interval between cycle count trace packets.
 
-Yep, someone else sent one earlier today, but looks like they didn't CC
-the list. In any case, I replied with it CC'ed and got it applied.
+This makes cycle threshold user configurable, from the user space via perf
+event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
+in case no explicit request. As expected it creates a sysfs file as well.
 
+/sys/bus/event_source/devices/cs_etm/format/cc_threshold
+
+New 'cc_threshold' uses 'event->attr.config3' as no more space is available
+in 'event->attr.config1' or 'event->attr.config2'.
+
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: Mike Leach <mike.leach@linaro.org>
+Cc: James Clark <james.clark@arm.com>
+Cc: Leo Yan <leo.yan@linaro.org>
+Cc: coresight@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ Documentation/trace/coresight/coresight.rst        |  2 ++
+ drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
+ drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index 4a71ea6cb390..b88d83b59531 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -624,6 +624,8 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
+    * - timestamp
+      - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
+        <coresight-timestamp>`
++   * - cc_treshold
++     - Cycle count treshhold value
+ 
+ How to use the STM module
+ -------------------------
+diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+index 5ca6278baff4..09f75dffae60 100644
+--- a/drivers/hwtracing/coresight/coresight-etm-perf.c
++++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+@@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,		"config:0-3");
+ PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
+ /* config ID - set if a system configuration is selected */
+ PMU_FORMAT_ATTR(configid,	"config2:32-63");
++PMU_FORMAT_ATTR(cc_threshold,	"config3:0-11");
+ 
+ 
+ /*
+@@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
+ 	&format_attr_preset.attr,
+ 	&format_attr_configid.attr,
+ 	&format_attr_branch_broadcast.attr,
++	&format_attr_cc_threshold.attr,
+ 	NULL,
+ };
+ 
+diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+index 9d186af81ea0..9a2766f68416 100644
+--- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+@@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+ 	struct etmv4_config *config = &drvdata->config;
+ 	struct perf_event_attr *attr = &event->attr;
+ 	unsigned long cfg_hash;
+-	int preset;
++	int preset, cc_threshold;
+ 
+ 	/* Clear configuration from previous run */
+ 	memset(config, 0, sizeof(struct etmv4_config));
+@@ -667,7 +667,15 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+ 	if (attr->config & BIT(ETM_OPT_CYCACC)) {
+ 		config->cfg |= TRCCONFIGR_CCI;
+ 		/* TRM: Must program this for cycacc to work */
+-		config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
++		cc_treshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
++		if (cc_treshold) {
++			if (cc_treshold < drvdata->ccitmin)
++				config->ccctlr = drvdata->ccitmin;
++			else
++				config->ccctlr = cc_threshold;
++		} else {
++			config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
++		}
+ 	}
+ 	if (attr->config & BIT(ETM_OPT_TS)) {
+ 		/*
 -- 
-Jens Axboe
+2.25.1
 
