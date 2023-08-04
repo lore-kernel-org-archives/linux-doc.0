@@ -2,93 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC094C001DB
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 11:23:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF47C04A94
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 13:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230206AbjHDLX3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 07:23:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38538 "EHLO
+        id S229847AbjHDNiq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 09:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbjHDLX0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 07:23:26 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3864611B;
-        Fri,  4 Aug 2023 04:23:26 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-686f38692b3so1863006b3a.2;
-        Fri, 04 Aug 2023 04:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691148205; x=1691753005;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8v1fzLuIHSkSWidT/pjD4MCOb3hYEoCKe89MymR54k=;
-        b=EKLgrG5ORf5aghlNw/yZjA+YXB/01lu40hRGKKwmY3xByuVcOgIAHBjeowE+M9iDQj
-         c0paVsgZA+tZ+cR8oEzoeT/6xXFA/yFIJrTsbJyCZZVYys0aOgRk/7TnynSQRRSYv3HA
-         f3CwO8S70ebKKbOe/EGn9TIwvw64I2W3nlAQW1tEfyrMqrtpsuhqA/O+TWpTSBK3McYc
-         HuGQYH1AHGSuRt5GvJCkOfYGm+UUi1tNok7ZujDvjHwmB31xJ0U/FOxvMBjfZztM8Pvx
-         QsVNp0DzUl0JygnFrKIhzqpkO59kh1lpY32OT8l65LMn4UMxlwT8o8uX59dJuGosyWVW
-         u0BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691148205; x=1691753005;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U8v1fzLuIHSkSWidT/pjD4MCOb3hYEoCKe89MymR54k=;
-        b=NAK6FkUnQcHcsYvF+xiHUqmLfoRbKKUwYTbtQhJTXvPBq/jK+sIu/vJ3FrFPS+i412
-         Uagcbg5pi93t0w+xmdzEDzN7FxXK78F/RFWg8MBpUgJTPKNhkRY3RMvzI4IlYLnn7ji1
-         rBg++dZsbF8CemUV3O0CitEbT1A6TfTorP/d5Kjk2WsjX6sg1UBLVk/cEJKPRoKQJJO0
-         L/e9y0/M9d6RB6PifbP/zLKwKl9i7cKnmUn8nxD27ykKUPRlApYI4iMNFH4fQCx/v55K
-         VDXMVx4Q1DubjlIbPDTxc4S1BKlxu5oJFkO6sVsbTGSUSuahJq11nra2XcsNLgUrvkZx
-         F6AQ==
-X-Gm-Message-State: AOJu0YwXhIkzg0KbOKZm2HdRNs5pUTM9ta2G7Pz6fuvn704TUOCbozJ5
-        4synE0V4PLCc3dNHTENIHe7cROibuwE=
-X-Google-Smtp-Source: AGHT+IGv/8f7lL56IGOF+b2qMIMq4UqHSYAXxVDH+amKA6L/tzNx2OpzCmn5wKbRokq53BV+pI7K1g==
-X-Received: by 2002:a05:6a00:1409:b0:67a:a906:9edb with SMTP id l9-20020a056a00140900b0067aa9069edbmr1575297pfu.30.1691148205499;
-        Fri, 04 Aug 2023 04:23:25 -0700 (PDT)
-Received: from ubuntu777.domain.name (36-228-73-13.dynamic-ip.hinet.net. [36.228.73.13])
-        by smtp.gmail.com with ESMTPSA id j16-20020a62e910000000b006687b4f2044sm1394890pfh.164.2023.08.04.04.23.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 04:23:25 -0700 (PDT)
-From:   Min-Hua Chen <minhuadotchen@gmail.com>
-To:     Hu Haowen <src.res@email.cn>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Min-Hua Chen <minhuadotchen@gmail.com>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: sparse: fix invalid link addresses
-Date:   Fri,  4 Aug 2023 19:23:18 +0800
-Message-Id: <20230804112320.35592-1-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229981AbjHDNin (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 09:38:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC96049F0;
+        Fri,  4 Aug 2023 06:38:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1D6C962023;
+        Fri,  4 Aug 2023 13:38:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6D02C433C7;
+        Fri,  4 Aug 2023 13:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691156299;
+        bh=wz8HX6muu9LEz/2ek8kzkra/H24iTN93xTauZhv3QGs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pKWFc+S5JQzJIvia/Cee11Wc7lC17Yfs17ShI7jFKpqMYVJ6USFNAEIyrZROgkamJ
+         9eDQFB0x2XjaK/28bV2LKBLOuQ6vuy7TbjLAZtQCwqw4iCfihs9wTmszLFoO9oRbnr
+         JJmj8c3cIfcozr6pDH2j5JPmEh0V8jJXlPF9UmlVO3nrB+QoiVGpF1TO/hnkJDzpwq
+         QibstZcUH8jSdOliLu6T2qRWJjx6M450vEyW8nWXsWYJ+a/XKVP1CPX/ytlFMIvE0x
+         Zp4Xa0yF3k1t51L4SPW6Xv0UIn1kEs5u6H0y43HR4NK7dDMCNb+qVj6fL3E6RMthax
+         XYN/sfX3+6sCg==
+Date:   Fri, 4 Aug 2023 14:38:10 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "ardb@kernel.org" <ardb@kernel.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "palmer@dabbelt.com" <palmer@dabbelt.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH v3 21/36] arm64/mm: Implement map_shadow_stack()
+Message-ID: <9902dd7e-1427-4c7e-b602-c1fbf6512f10@sirena.org.uk>
+References: <20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org>
+ <20230731-arm64-gcs-v3-21-cddf9f980d98@kernel.org>
+ <5461c56cf4896f18bddaa66c3beec7b909fc8fb9.camel@intel.com>
+ <0a6c90d6-f790-4036-a364-d4761fdd0e95@sirena.org.uk>
+ <e827138f9d8800e3db158831bca88d1ea8b559af.camel@intel.com>
+ <21d7e814-8608-40ce-b5d3-401f2110ad91@sirena.org.uk>
+ <a9ea33d31aad0c45eab41b0dcbd4913d863cc930.camel@intel.com>
+ <55c629cc-0545-460b-91cb-2ebdb8ae9051@sirena.org.uk>
+ <7d03be1277a5f4be23df35ca96f4d6cd77735e2b.camel@intel.com>
+ <475f31e1-0f6f-44a9-b93a-540c1d43e1bb@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="EaObfDz4CndjI5sX"
+Content-Disposition: inline
+In-Reply-To: <475f31e1-0f6f-44a9-b93a-540c1d43e1bb@sirena.org.uk>
+X-Cookie: I'm hungry, time to eat lunch.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The http and git links are invalid, replace them with valid links.
 
-Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
----
- Documentation/translations/zh_TW/sparse.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--EaObfDz4CndjI5sX
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/translations/zh_TW/sparse.txt b/Documentation/translations/zh_TW/sparse.txt
-index c9acb2c926cb..6d2d088b1060 100644
---- a/Documentation/translations/zh_TW/sparse.txt
-+++ b/Documentation/translations/zh_TW/sparse.txt
-@@ -66,11 +66,11 @@ __bitwise"類型。
- 
- 你可以從 Sparse 的主頁獲取最新的發布版本：
- 
--	http://www.kernel.org/pub/linux/kernel/people/josh/sparse/
-+	https://www.kernel.org/pub/software/devel/sparse/dist/
- 
- 或者，你也可以使用 git 克隆最新的 sparse 開發版本：
- 
--	git://git.kernel.org/pub/scm/linux/kernel/git/josh/sparse.git
-+        git://git.kernel.org/pub/scm/devel/sparse/sparse.git
- 
- 一旦你下載了源碼，只要以普通用戶身份運行：
- 
--- 
-2.34.1
+On Wed, Aug 02, 2023 at 05:27:54PM +0100, Mark Brown wrote:
+> On Tue, Aug 01, 2023 at 08:57:59PM +0000, Edgecombe, Rick P wrote:
 
+> > To make sure we are on the same page: What I'm saying is say we do
+> > something like add another flag SHADOW_STACK_SET_MARKER that means add
+> > a marker at the end (making the token off by one frame). Then you can
+> > just reject any flags !=3D (SHADOW_STACK_SET_MARKER |
+> > SHADOW_STACK_SET_TOKEN) value, and leave the rest of the code as is. So
+> > not really implementing anything new.=A0
+
+> > Then x86 could use the same flag meanings if/when it implements end
+> > markers. If it doesn't seem worth it, it's not a big deal on my end.
+> > Just seemed that they were needlessly diverging.
+
+> Yes, my understanding of the flags is the same.  I'll definitely
+> implement omitting the cap since there's an actual use case for that
+> (extending an existing stack, it's marginally safer to not have any
+> opportunity to pivot into the newly allocated region).
+
+BTW are you planning to repost the series for this release?  We're
+almost at -rc5 which is pretty late and I didn't see anything yet.  It
+looks like there's a branch in tip that's getting some updates but it's
+not getting merged for -next.
+
+--EaObfDz4CndjI5sX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTM/0EACgkQJNaLcl1U
+h9Dhngf9HaBpp4WdjxabvyUIkHFeitGGLlR98c80xyh19bY1UWx4BOojqe0fcQqc
+K1kS+mCmTH9c1RZEdUe+O5upQl099AzBqsJUu8aXBh/Pf6wDXwxinNVPL/WSO00B
+9jlg3iozKyd5PQJjJIbbJwHoCTkHLe+Wun/qG9P75FL4w+7REzD+pOpSZBwoPqYR
+2h00HfuO1pAX54ubVTARphHAZEIBJHYusx2fJQ8pP4JjLdYU7ot48CfVZa35VPuM
+JJFU92h6YEdnqQPfc79hwp/UqvGWAowJ5QMM/3E8s6CDE7n4dTP8wXihArd0rlrk
+OzsV73Hx8i3GvjV1DR1vc4vAC7DxRA==
+=G9bO
+-----END PGP SIGNATURE-----
+
+--EaObfDz4CndjI5sX--
