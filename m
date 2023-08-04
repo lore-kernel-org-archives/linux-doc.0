@@ -2,80 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9B2C0015E
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 00:12:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39BE8C00528
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 02:02:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbjHDAMp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Aug 2023 20:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33550 "EHLO
+        id S232749AbjHDCCZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Aug 2023 22:02:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230356AbjHDAMo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 20:12:44 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2F14213;
-        Thu,  3 Aug 2023 17:12:41 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-686f19b6dd2so1144419b3a.2;
-        Thu, 03 Aug 2023 17:12:41 -0700 (PDT)
+        with ESMTP id S232163AbjHDCCX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Aug 2023 22:02:23 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A321F4488
+        for <linux-doc@vger.kernel.org>; Thu,  3 Aug 2023 19:02:22 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-68781a69befso272670b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 03 Aug 2023 19:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691107961; x=1691712761;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mK/SUGZd/Inm2gGsrCEsgPACkbFKLFUt6mW7c1W89dY=;
-        b=DtSGG/oRMwGU3wuk4qrV+2+UcwBZ77mVPn2F8Ts7bZHxnr3d+2Ip7akJrrmqJ92uoJ
-         W5f7xrDRhSIlCMdVoEPDSJLWESCedoCAR3GQAMLTyLPgYlRFs+yuJpd+RPgT9yTr6hKz
-         fqZF/D/AfJU1Zf5KwLPUe2HS6WtArMSPi5NTlAHAZAEpMQP5d7Q6aDfxqLibxpeP7S8e
-         6mQttf6nQbMBJtJSHVaQX9uhseiyr3V7mcepWY9wCIU4S4+/41B9gvDZbGg7lUW8nAnM
-         ZpLLRPLTNMWzeJpHnXs3N/Qo8Cqu04PEFsjRNA7skCwtcwNJHpGWKSpB6xkPkCnRM0TK
-         KzAQ==
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1691114542; x=1691719342;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lLAyHP6q7d4xyqH5BrZ0J2y9ZHEmKn11Ag5iLKGIobk=;
+        b=wP2ZuHLlNuDfTT71uzyzf0CV4FW0+5rHmVIqE6GOMVjwL3ZpUnT2g2DTt/WDPPdjrF
+         2U2HC6n0rUbzNslkkp6Hn7rJWDpqfSmq9b66hXnpWCUj8YqrgFcHUJhG77/tAs47G266
+         ElZhOuyclpDWX2rOoNKzHHzbVTAE54S07RIJ8OKTFKzcSexf0Gz621jhyP7rRN33bbXa
+         tkJbJPIcYWZ4ZpCxxkdHqHPkTvp2YIFjPQGCcymM3t8fqWtXNJ1CJG5w9R5HSfJH6nCk
+         KdkWaHmwZ/oMmmFXNOSYXCV4ARohZ/th4bdIj0Kq+d27AG7CIKhmk7x2SgAnQa4lZa+v
+         ZR3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691107961; x=1691712761;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mK/SUGZd/Inm2gGsrCEsgPACkbFKLFUt6mW7c1W89dY=;
-        b=MZ4IPjYSp0WX/dsKS7+QU4FdgJkXj2sp8BBU92ZCex3kPWlTVhVDnaqeC0SqhRa49/
-         83+rsePm+YerOEekmBil1Pi/CSvMbL/xj9nQxce78IR7Aq1qDwuKajOPOoenM5ECDO8u
-         SfI4R1nDtH4Nofj4B+su/0BYZAMJnTIvIUwgZ0ObzksSC3ZuuMmjD3vvVsdRzW2ht8Xv
-         Ikj4J/TPB3J1QJTXJpX4CrxRPA7GPa4hiHpPKPGgU8JzkJt7HyDw/ZRyRBHUPSMU/nLN
-         pM1tSPQkToXz4jj/czrkv4jNuNuXb0kz6dW/n5Yb5omWarpkm43UyXrptpHsveCwNXnL
-         4sTg==
-X-Gm-Message-State: AOJu0YwCadC5yy6oAAUEvWMMTO9bgqYfSYwhugxA5/D7Yh6YKH7vieyJ
-        x4ML0vBdYtXjw8/ijNCMqeDdAs75FjE=
-X-Google-Smtp-Source: AGHT+IGwiePXAOhxb57+gIXtX2vbKG04TZpfa6VTSd3jnvrC59z/rM4o3R4N88JxLuFKrr15w0K/GA==
-X-Received: by 2002:a05:6a00:2301:b0:681:d247:8987 with SMTP id h1-20020a056a00230100b00681d2478987mr213223pfh.17.1691107960569;
-        Thu, 03 Aug 2023 17:12:40 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:9d5d])
-        by smtp.gmail.com with ESMTPSA id x21-20020aa793b5000000b00682af93093dsm393915pff.45.2023.08.03.17.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 17:12:40 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Thu, 3 Aug 2023 14:12:38 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Han Dapeng <han-dapeng@qq.com>
-Cc:     lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Han Dapeng <han-dapeng@foxmail.com>
-Subject: Re: [PATCH] Documentation: cgroup-v2.rst: Correct number of stats
- entries
-Message-ID: <ZMxCdojf1-SFQWaN@slm.duckdns.org>
-References: <tencent_D28A72FC6B13C2955D8CD3200E939DA78D08@qq.com>
+        d=1e100.net; s=20221208; t=1691114542; x=1691719342;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lLAyHP6q7d4xyqH5BrZ0J2y9ZHEmKn11Ag5iLKGIobk=;
+        b=J3Yp73n65VYtjtTXBvxOg3vMhumyNi5F74xVQevjPnvmrZMcQrSBcZflDZ4CUgQRMy
+         RENckONSvsOkb1Pnj8GbiRMfP4+QH0TVekHCwK8fesh389nkvzMogCJ8C+iBdv62+oXV
+         /Xwz9DtAOuF3GC2uPDvNrfedmc0R6/HUgnUVvgwVgs9RSJ0BmgPIOqFFZTlI+ByJ1qn6
+         rjQK1VflFdfpz/x+QnerxOGUqMEj58wIsLy6BHatTe/2NoUEWF5aSWLCxUX5sE0EgFCL
+         K41gV/qS/C8uOUGgpGaYTa9v+IRYFkuT8g063V8I7aw36NUOsPKz1ZNEKPB7ytel1KSD
+         tZcA==
+X-Gm-Message-State: ABy/qLag0tGSH1DpVnmjq2odxhiJhpONePYkIaCvsfZPutQ/dcc2G04E
+        2agGtsWNf0Za5JBWGbzE7jRV6beXX/t7dHlu9FE=
+X-Google-Smtp-Source: APBJJlHGxvq+YAD+sdIdRb+NwnMfx8vt2DdNH34XqanHP+MVvvdnK8URPIL1n0IT/Nu8x7TU0I+uaA==
+X-Received: by 2002:a05:6a00:8016:b0:675:8627:a291 with SMTP id eg22-20020a056a00801600b006758627a291mr20382970pfb.3.1691114542072;
+        Thu, 03 Aug 2023 19:02:22 -0700 (PDT)
+Received: from [172.20.1.218] (071-095-160-189.biz.spectrum.com. [71.95.160.189])
+        by smtp.gmail.com with ESMTPSA id p18-20020aa78612000000b006871dad3e74sm471163pfn.65.2023.08.03.19.02.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Aug 2023 19:02:21 -0700 (PDT)
+Message-ID: <5dbc41bb-f843-dcd9-37d6-cf1f37cb80d4@kernel.dk>
+Date:   Thu, 3 Aug 2023 20:02:20 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_D28A72FC6B13C2955D8CD3200E939DA78D08@qq.com>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ fb4327106e5250ee360d0d8b056c1eef7eeb9a98
+Content-Language: en-US
+To:     Matthew Wilcox <willy@infradead.org>,
+        kernel test robot <lkp@intel.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>
+References: <202308040141.gUjtZ32J-lkp@intel.com>
+ <ZMwH1WuEb1JEtZ4o@casper.infradead.org>
+From:   Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ZMwH1WuEb1JEtZ4o@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 03, 2023 at 11:55:27PM +0800, Han Dapeng wrote:
-> From: Han Dapeng <han-dapeng@foxmail.com>
+On 8/3/23 2:02?PM, Matthew Wilcox wrote:
+> On Fri, Aug 04, 2023 at 01:34:01AM +0800, kernel test robot wrote:
+>> arm-linux-gnueabi-ld: storage.c:(.text+0x27c): undefined reference to `__brelse'
+>> arm-linux-gnueabi-ld: storage.c:(.text+0x9c): undefined reference to `__bread_gfp'
+>> storage.c:(.text+0x22c): undefined reference to `__bread_gfp'
+>> storage.c:(.text+0x64): undefined reference to `__brelse'
 > 
-> Signed-off-by: Han Dapeng <han-dapeng@foxmail.com>
+> I think something like this would fix it.  Jens?  Christoph?
 
-Applied to cgroup/for-6.6.
-
-Thanks.
+Yep, someone else sent one earlier today, but looks like they didn't CC
+the list. In any case, I replied with it CC'ed and got it applied.
 
 -- 
-tejun
+Jens Axboe
+
