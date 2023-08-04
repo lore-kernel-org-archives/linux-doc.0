@@ -2,47 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6EDEC001DE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 06:02:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93657C001DE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Aug 2023 06:11:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232180AbjHDGCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 02:02:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54844 "EHLO
+        id S232543AbjHDGK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 02:10:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbjHDGA6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 02:00:58 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D1A02708;
-        Thu,  3 Aug 2023 23:00:57 -0700 (PDT)
+        with ESMTP id S232486AbjHDGK6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 02:10:58 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06CFB2708;
+        Thu,  3 Aug 2023 23:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691128857; x=1722664857;
+  t=1691129457; x=1722665457;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SAvcwaw2V/Hs8D65jgLxC2s97VzPceMveowD167hosQ=;
-  b=KANJQQQ4k0fSDtxjUANjqRnr57v5DXAhKwav/zIDgkCGNJ304xoGNi90
-   /Mc9zkJWuTlWnLlE+JXJ9h24jRTYhDh+jFq14hfd8t/MJ40RL3omMEA5e
-   hM71oOgtVSMwswZTYQvelYJ7g7VPaM5UUHsYPb3o0I6/ktsrZovUUJW//
-   f2f2lGx/H7V78q2z1PPHA9AEaoQTVL0Z7Hk1MWqizntbRPcREzjwFX12d
-   qKJSYevfxxYkq7tNM14qVo8nMNf4a9m4LGl0aHnLqS1DRaY5g3ywo1mKa
-   Oj9O5ex4xPkUFTBR/9RLYbHUzuhNJH1+O6iqtPag5+hSFgMWai4Ql55Nc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="367536838"
+  bh=+G9GSNfDAvX+Kh/QKq5xmMGn8Ir1PIpjRkZ3yB2HDaQ=;
+  b=DDTsdovFGfE13fCAxXybncmShsYRZerR0OhkDOCDFdN9L7EY1pEQpp7F
+   KEoPyQSjJY7D+bljCOBQmOo/93TzTdQC1qU0vDvGvriefssRDwv5Haw7g
+   GeqDI/M0NTRiUxVh8qu8EDlT6eqi5dtGvJhwKs8mnCBGaySsDc9KHmVv0
+   cR+VRj4sCKoxQEgp7qWPM3ES9SKgXvJh1e+xIFEdLkjA9GIAY3IKDFPg1
+   puwi2lNOEAQLnOOp2wSv4F/GMzrH9fWlfnlIMXF5zc4IkhrTaTzbDPahf
+   h8vEI0noMdnCtPOsGKHh88+yACwj0Y6vG+HX9yKLx3nqFAmPoMQ8576A4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="433927389"
 X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="367536838"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 23:00:55 -0700
+   d="scan'208";a="433927389"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 23:09:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="853584925"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="853584925"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="873237868"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 03 Aug 2023 23:00:49 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2023 23:09:22 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qRnrh-00CegX-2B;
-        Fri, 04 Aug 2023 09:00:45 +0300
-Date:   Fri, 4 Aug 2023 09:00:45 +0300
+        id 1qRnzw-00Cx13-2f;
+        Fri, 04 Aug 2023 09:09:16 +0300
+Date:   Fri, 4 Aug 2023 09:09:16 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Sunil V L <sunilvl@ventanamicro.com>
 Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
@@ -69,76 +68,98 @@ Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         Haibo Xu <haibo1.xu@intel.com>,
         Andrew Jones <ajones@ventanamicro.com>,
         Conor Dooley <conor.dooley@microchip.com>,
-        Atish Kumar Patra <atishp@rivosinc.com>
-Subject: Re: [RFC PATCH v1 08/21] RISC-V: ACPI: RHCT: Add function to get CBO
- block sizes
-Message-ID: <ZMyUDZE0SxoOC696@smile.fi.intel.com>
+        Atish Kumar Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>
+Subject: Re: [RFC PATCH v1 11/21] swnode: Add support to create early during
+ boot
+Message-ID: <ZMyWDDD6Lw8REd1r@smile.fi.intel.com>
 References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
- <20230803175916.3174453-9-sunilvl@ventanamicro.com>
+ <20230803175916.3174453-12-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230803175916.3174453-9-sunilvl@ventanamicro.com>
+In-Reply-To: <20230803175916.3174453-12-sunilvl@ventanamicro.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 03, 2023 at 11:29:03PM +0530, Sunil V L wrote:
-> CBO related block size in ACPI is provided by RHCT. Add
-> support to read the CMO node in RHCT to get this information.
+On Thu, Aug 03, 2023 at 11:29:06PM +0530, Sunil V L wrote:
+> From: Anup Patel <apatel@ventanamicro.com>
+> 
+> swnode framework can be used to create fwnode for interrupt
+> controllers.
+
+Why? What is this for?
+Can you elaborate? This commit message is poorly written...
+
+And why firmware node is not enough for ACPI case?
+I assume the fwnode in DT case is already provided by OF.
+
+> This helps in keeping the drivers same for both
+> DT and ACPI. To enable this, enhance the swnode framework so
+> that it can be created early during boot without dependency
+> on sysfs.
 
 ...
 
-> +	if (!table) {
+> -	swnode->kobj.kset = swnode_kset;
+> +	swnode->kobj.kset = (!early) ? swnode_kset : NULL;
 
-Why not positive conditional?
+Too many unneeded characters. Why parentheses? Why negative check?
 
-> +		rhct = (struct acpi_table_rhct *)acpi_get_rhct();
-> +		if (!rhct)
-> +			return -ENOENT;
+...
+
+> +	if (early) {
+> +		ret = 0;
+> +		kobject_init(&swnode->kobj, &software_node_type_early);
+> +		swnode->kobj.parent = parent ? &parent->kobj : NULL;
+> +		if (node->name)
+> +			ret = kobject_set_name(&swnode->kobj,
+> +					       "%s", node->name);
+> +		else
+> +			ret = kobject_set_name(&swnode->kobj,
+> +					       "node%d", swnode->id);
+> +		if (!ret) {
+> +			spin_lock(&swnode_early_lock);
+> +			list_add_tail(&swnode->early, &swnode_early_list);
+> +			spin_unlock(&swnode_early_lock);
+> +		}
 > +	} else {
-> +		rhct = (struct acpi_table_rhct *)table;
+> +		if (node->name)
+> +			ret = kobject_init_and_add(&swnode->kobj, &software_node_type,
+> +						   parent ? &parent->kobj : NULL,
+
+This looks like have a duplication.
+
+> +						   "%s", node->name);
+> +		else
+> +			ret = kobject_init_and_add(&swnode->kobj, &software_node_type,
+> +						   parent ? &parent->kobj : NULL,
+> +						   "node%d", swnode->id);
 > +	}
+
+Maybe it's possible to refactor this piece to be more compact?
 
 ...
 
-> +	end = ACPI_ADD_PTR(struct acpi_rhct_node_header, rhct, rhct->header.length);
+> -	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0));
+> +	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0, 0));
 
-> +
+In one case you use boolean, here is unsigned int for early flag, why is the
+inconsistency added?
 
-Blank line here is not needed.
+...
 
-> +	for (node = ACPI_ADD_PTR(struct acpi_rhct_node_header, rhct, rhct->node_offset);
-> +	     node < end;
-> +	     node = ACPI_ADD_PTR(struct acpi_rhct_node_header, node, node->length)) {
+> -struct fwnode_handle *
+> -fwnode_create_software_node(const struct property_entry *properties,
+> -			    const struct fwnode_handle *parent)
+> +static struct fwnode_handle *
+> +fwnode_create_software_node_common(const struct property_entry *properties,
+> +				   const struct fwnode_handle *parent,
+> +				   bool early)
 
-> +			for (int i = 0; i < hart_info->num_offsets; i++) {
-> +				ref_node = ACPI_ADD_PTR(struct acpi_rhct_node_header,
-> +							rhct, hart_info_node_offset[i]);
-> +				if (ref_node->type == ACPI_RHCT_NODE_TYPE_CMO) {
-> +					cmo_node = ACPI_ADD_PTR(struct acpi_rhct_cmo_node,
-> +								ref_node, size_hdr);
-> +					if (cbom_size)
-> +						*cbom_size = 1 << cmo_node->cbom_size;
-> +
-> +					if (cboz_size)
-> +						*cboz_size = 1 << cmo_node->cboz_size;
-> +
-> +					if (cbop_size)
-> +						*cbop_size = 1 << cmo_node->cbop_size;
-
-BIT() in all three cases?
-
-But how you guarantee it will not overflow? I mean who prevents cboX_size to be
-bigger than 30 (note also that 31 in your case is Undefined Behaviour in
-accordance with the C standard).
-
-> +					return 0;
-> +				}
-> +			}
-
-> +	}
+Why would you need this API in early stages?
 
 -- 
 With Best Regards,
