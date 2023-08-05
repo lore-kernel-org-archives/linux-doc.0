@@ -2,141 +2,224 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8596CC04A94
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Aug 2023 01:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F5A9C001DB
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Aug 2023 03:19:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjHEB3M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 21:29:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51230 "EHLO
+        id S229449AbjHEDTQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 23:19:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjHEB3L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 21:29:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5BB01BE;
-        Fri,  4 Aug 2023 18:29:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7149262192;
-        Sat,  5 Aug 2023 01:29:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD037C433B8;
-        Sat,  5 Aug 2023 01:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691198949;
-        bh=Mi9BT5TmTOYp8D5/MKk0K3shTEe8rrQtwxXzKpBvInE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jVmDVz058rynQRv460/5xFeOfHC4aWI/h8txqFcizdgYszSwCvnnyDiqUgw0yzcli
-         2dmeTeKaW6hiHOf/ywoD/iJW9Y+CbTuAJNpkX0xlNydkzz7s/mTCiYP6ndon8iLLdk
-         tcXRsidnwXgF93D1rElRoDwizOBmeII46BN/3Y0DDkDAropObo8eZwSW7C0mQe8gDm
-         CV+elHGx6yl2lL8UB3/mmGqLBYZxf92dCp+2AoTItHbtrwUUDY2wpcW83HXMvn14eT
-         DKFtKErPMc6TyH6uz2Q61GPoRshL8WBcCNe6xJJE8zeMvV4ZNjIi1c1nuOppiaMhwn
-         fKmCmzZqfZ/NA==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fe28f92d8eso4494137e87.1;
-        Fri, 04 Aug 2023 18:29:09 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwC34cECCaqzMUSR0pHWUsgTBgjutIM/YNjSBgV0wgib6Bvomcp
-        hkXEoVFjpK7yMVFd3K5SeFjvrTlgGs3fKNRGmxM=
-X-Google-Smtp-Source: AGHT+IE6p4g5OFR65noZcoL88XhtNiTB2Nk7TEaCjoT1P6yXSQxlui/aV3s41RxzO/5Ljhzc5/XXIOsdZMU8RdvdCAY=
-X-Received: by 2002:a05:6512:398a:b0:4fe:db6:cb41 with SMTP id
- j10-20020a056512398a00b004fe0db6cb41mr3321948lfu.39.1691198947513; Fri, 04
- Aug 2023 18:29:07 -0700 (PDT)
+        with ESMTP id S229437AbjHEDTP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 23:19:15 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238984ED6;
+        Fri,  4 Aug 2023 20:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691205553; x=1722741553;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6BUZMrgcIdifnOs6mbPytqxS1JGu/yhvfT9qNZo3fPA=;
+  b=fIHnkg1GvT4R1H1lkdXfrNYPxk5GX8aKjec2DkB7Ug27iYeKuDM5dcsM
+   nwgfHzPOhIcY3roB3qio12yfx87zmUOMl0hBQai3GiIR60aGymTKNU8C8
+   tXuMOfVbVt88DxTXmzmKGc8a1MDbTydRDs17eSDcRFxYm1+MAKKqU3a68
+   3MvmlkVKZG1vakp4EXoK5TqwjUBniusqfJjGjA0IY3uhO3T/fnrpSSO/e
+   OQgL3jb7xlmqNdKu76LYW19qRpDMjDJWNyd/PiuLxQ+eAOqW6QrrmjY3P
+   /5j6bGVMlZheRnkvFntJ8vNH2P+ejaOR7quSV+bmgXrty1HABQ8FKzsRX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="456666384"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="456666384"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 20:19:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="733492416"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="733492416"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 04 Aug 2023 20:19:09 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qS7oq-0003HP-1u;
+        Sat, 05 Aug 2023 03:19:08 +0000
+Date:   Sat, 5 Aug 2023 11:18:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] coresight: etm: Make cycle count threshold user
+ configurable
+Message-ID: <202308051014.Uzl7XY32-lkp@intel.com>
+References: <20230804044720.1478900-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
-References: <20230802164701.192791-1-guoren@kernel.org> <20230802164701.192791-8-guoren@kernel.org>
- <20230804-refract-avalanche-9adb6b4b74e9@wendy> <CAJF2gTTfLmCe7eDhfPU1qFTBoVZN8oFACEd4NmTyZaAVtdMK-w@mail.gmail.com>
- <20230804-throwaway-requisite-c73ebe3fee8c@wendy>
-In-Reply-To: <20230804-throwaway-requisite-c73ebe3fee8c@wendy>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Sat, 5 Aug 2023 09:28:56 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTSvjbDF9D0wepAHo65zEkMfg2b+KhsVRpSEK+Qg-q=1gw@mail.gmail.com>
-Message-ID: <CAJF2gTSvjbDF9D0wepAHo65zEkMfg2b+KhsVRpSEK+Qg-q=1gw@mail.gmail.com>
-Subject: Re: [PATCH V10 07/19] riscv: qspinlock: errata: Introduce ERRATA_THEAD_QSPINLOCK
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230804044720.1478900-1-anshuman.khandual@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 4, 2023 at 6:07=E2=80=AFPM Conor Dooley <conor.dooley@microchip=
-.com> wrote:
->
-> On Fri, Aug 04, 2023 at 05:53:35PM +0800, Guo Ren wrote:
-> > On Fri, Aug 4, 2023 at 5:06=E2=80=AFPM Conor Dooley <conor.dooley@micro=
-chip.com> wrote:
-> > > On Wed, Aug 02, 2023 at 12:46:49PM -0400, guoren@kernel.org wrote:
-> > > > From: Guo Ren <guoren@linux.alibaba.com>
->
-> > > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpu=
-feature.c
-> > > > index f8dbbe1bbd34..d9694fe40a9a 100644
-> > > > --- a/arch/riscv/kernel/cpufeature.c
-> > > > +++ b/arch/riscv/kernel/cpufeature.c
-> > > > @@ -342,7 +342,8 @@ void __init riscv_fill_hwcap(void)
-> > > >                * spinlock value, the only way is to change from que=
-ued_spinlock to
-> > > >                * ticket_spinlock, but can not be vice.
-> > > >                */
-> > > > -             if (!force_qspinlock) {
-> > > > +             if (!force_qspinlock &&
-> > > > +                 !riscv_has_errata_thead_qspinlock()) {
-> > > >                       set_bit(RISCV_ISA_EXT_XTICKETLOCK, isainfo->i=
-sa);
-> > >
-> > > Is this a generic vendor extension (lol @ that misnomer) or is it an
-> > > erratum? Make your mind up please. As has been said on other series, =
-NAK
-> > > to using march/vendor/imp IDs for feature probing.
-> >
-> > The RISCV_ISA_EXT_XTICKETLOCK is a feature extension number,
->
-> No, that is not what "ISA_EXT" means, nor what the X in "XTICKETLOCK"
-> would imply.
->
-> The comment above these reads:
->   These macros represent the logical IDs of each multi-letter RISC-V ISA
->   extension and are used in the ISA bitmap.
->
-> > and it's
-> > set by default for forward-compatible. We also define a vendor
-> > extension (riscv_has_errata_thead_qspinlock) to force all our
-> > processors to use qspinlock; others still stay on ticket_lock.
->
-> No, "riscv_has_errata_thead_qspinlock()" would be an _erratum_, not a
-> vendor extension. We need to have a discussion about how to support
-> non-standard extensions etc, not abuse errata. That discussion has been
-> started on the v0.7.1 vector patches, but has not made progress yet.
-You convinced me, yes, I abuse errata here. I would change to Linux
-standard static_key mechanism next.
+Hi Anshuman,
 
->
-> > The only possible changing direction is from qspinlock to ticket_lock
-> > because ticket_lock would dirty the lock value, which prevents
-> > changing to qspinlock next. So startup with qspinlock and change to
-> > ticket_lock before smp up. You also could use cmdline to try qspinlock
-> > (force_qspinlock).
->
-> I don't see what the relevance of this is, sorry. I am only commenting
-> on how you are deciding that the hardware is capable of using qspinlocks,
-> I don't intend getting into the detail unless the powers that be deem
-> this series worthwhile, as I mentioned:
-> > > I've got some thoughts on other parts of this series too, but I'm not
-> > > going to spend time on it unless the locking people and Palmer ascent
-> > > to this series.
->
+kernel test robot noticed the following build errors:
 
---
-Best Regards
- Guo Ren
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.5-rc4 next-20230804]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/coresight-etm-Make-cycle-count-threshold-user-configurable/20230804-124850
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230804044720.1478900-1-anshuman.khandual%40arm.com
+patch subject: [PATCH] coresight: etm: Make cycle count threshold user configurable
+config: arm64-randconfig-r004-20230731 (https://download.01.org/0day-ci/archive/20230805/202308051014.Uzl7XY32-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051014.Uzl7XY32-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308051014.Uzl7XY32-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/hwtracing/coresight/coresight-etm4x-core.c: In function 'etm4_parse_event_config':
+>> drivers/hwtracing/coresight/coresight-etm4x-core.c:661:17: error: 'cc_treshold' undeclared (first use in this function); did you mean 'cc_threshold'?
+     661 |                 cc_treshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
+         |                 ^~~~~~~~~~~
+         |                 cc_threshold
+   drivers/hwtracing/coresight/coresight-etm4x-core.c:661:17: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +661 drivers/hwtracing/coresight/coresight-etm4x-core.c
+
+   629	
+   630	static int etm4_parse_event_config(struct coresight_device *csdev,
+   631					   struct perf_event *event)
+   632	{
+   633		int ret = 0;
+   634		struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+   635		struct etmv4_config *config = &drvdata->config;
+   636		struct perf_event_attr *attr = &event->attr;
+   637		unsigned long cfg_hash;
+   638		int preset, cc_threshold;
+   639	
+   640		/* Clear configuration from previous run */
+   641		memset(config, 0, sizeof(struct etmv4_config));
+   642	
+   643		if (attr->exclude_kernel)
+   644			config->mode = ETM_MODE_EXCL_KERN;
+   645	
+   646		if (attr->exclude_user)
+   647			config->mode = ETM_MODE_EXCL_USER;
+   648	
+   649		/* Always start from the default config */
+   650		etm4_set_default_config(config);
+   651	
+   652		/* Configure filters specified on the perf cmd line, if any. */
+   653		ret = etm4_set_event_filters(drvdata, event);
+   654		if (ret)
+   655			goto out;
+   656	
+   657		/* Go from generic option to ETMv4 specifics */
+   658		if (attr->config & BIT(ETM_OPT_CYCACC)) {
+   659			config->cfg |= TRCCONFIGR_CCI;
+   660			/* TRM: Must program this for cycacc to work */
+ > 661			cc_treshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
+   662			if (cc_treshold) {
+   663				if (cc_treshold < drvdata->ccitmin)
+   664					config->ccctlr = drvdata->ccitmin;
+   665				else
+   666					config->ccctlr = cc_threshold;
+   667			} else {
+   668				config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
+   669			}
+   670		}
+   671		if (attr->config & BIT(ETM_OPT_TS)) {
+   672			/*
+   673			 * Configure timestamps to be emitted at regular intervals in
+   674			 * order to correlate instructions executed on different CPUs
+   675			 * (CPU-wide trace scenarios).
+   676			 */
+   677			ret = etm4_config_timestamp_event(drvdata);
+   678	
+   679			/*
+   680			 * No need to go further if timestamp intervals can't
+   681			 * be configured.
+   682			 */
+   683			if (ret)
+   684				goto out;
+   685	
+   686			/* bit[11], Global timestamp tracing bit */
+   687			config->cfg |= TRCCONFIGR_TS;
+   688		}
+   689	
+   690		/* Only trace contextID when runs in root PID namespace */
+   691		if ((attr->config & BIT(ETM_OPT_CTXTID)) &&
+   692		    task_is_in_init_pid_ns(current))
+   693			/* bit[6], Context ID tracing bit */
+   694			config->cfg |= TRCCONFIGR_CID;
+   695	
+   696		/*
+   697		 * If set bit ETM_OPT_CTXTID2 in perf config, this asks to trace VMID
+   698		 * for recording CONTEXTIDR_EL2.  Do not enable VMID tracing if the
+   699		 * kernel is not running in EL2.
+   700		 */
+   701		if (attr->config & BIT(ETM_OPT_CTXTID2)) {
+   702			if (!is_kernel_in_hyp_mode()) {
+   703				ret = -EINVAL;
+   704				goto out;
+   705			}
+   706			/* Only trace virtual contextID when runs in root PID namespace */
+   707			if (task_is_in_init_pid_ns(current))
+   708				config->cfg |= TRCCONFIGR_VMID | TRCCONFIGR_VMIDOPT;
+   709		}
+   710	
+   711		/* return stack - enable if selected and supported */
+   712		if ((attr->config & BIT(ETM_OPT_RETSTK)) && drvdata->retstack)
+   713			/* bit[12], Return stack enable bit */
+   714			config->cfg |= TRCCONFIGR_RS;
+   715	
+   716		/*
+   717		 * Set any selected configuration and preset.
+   718		 *
+   719		 * This extracts the values of PMU_FORMAT_ATTR(configid) and PMU_FORMAT_ATTR(preset)
+   720		 * in the perf attributes defined in coresight-etm-perf.c.
+   721		 * configid uses bits 63:32 of attr->config2, preset uses bits 3:0 of attr->config.
+   722		 * A zero configid means no configuration active, preset = 0 means no preset selected.
+   723		 */
+   724		if (attr->config2 & GENMASK_ULL(63, 32)) {
+   725			cfg_hash = (u32)(attr->config2 >> 32);
+   726			preset = attr->config & 0xF;
+   727			ret = cscfg_csdev_enable_active_config(csdev, cfg_hash, preset);
+   728		}
+   729	
+   730		/* branch broadcast - enable if selected and supported */
+   731		if (attr->config & BIT(ETM_OPT_BRANCH_BROADCAST)) {
+   732			if (!drvdata->trcbb) {
+   733				/*
+   734				 * Missing BB support could cause silent decode errors
+   735				 * so fail to open if it's not supported.
+   736				 */
+   737				ret = -EINVAL;
+   738				goto out;
+   739			} else {
+   740				config->cfg |= BIT(ETM4_CFG_BIT_BB);
+   741			}
+   742		}
+   743	
+   744	out:
+   745		return ret;
+   746	}
+   747	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
