@@ -2,89 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA8DDC41513
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Aug 2023 03:36:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 606D6C001DF
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Aug 2023 03:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbjHEDg6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 23:36:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43166 "EHLO
+        id S229527AbjHEDou (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 23:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjHEDg5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 23:36:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 191414ED7;
-        Fri,  4 Aug 2023 20:36:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A7EC662181;
-        Sat,  5 Aug 2023 03:36:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F714C433C8;
-        Sat,  5 Aug 2023 03:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691206615;
-        bh=Qy59dwEG2sEBKJ3uVrLEgSsdsjiZwNwzGCh/053dPdE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WNGWCUeixkpzWHdK9GIGvteKTCydmouSQP1Eb72m8cJgbMVe5WgQGc9DIziQsI+C1
-         PrtfH7DteoT0+nH/rzznc6aaigo776+iN+M7sBzMU+hKJV6GLkItmTkP5UJd2VKTcH
-         Cukd/yuOLLluICossH7smU54svWy/5anSGCPXwWThtlKBaI8QSZeCBuQdUNEvIzl1b
-         dxMspzfDw5A1lY26Ok9+ydjv9iU+0pS7z7RYGjcV2B64Y98xb1YjnUh5ZNU8M08s/E
-         wfZDvXiLgtFojSxoXiOiPG2e3fogdAs9k7/SI7SSTw2y4pUA6/nP2MOqVRHyY08+q2
-         090W11bgrpMwA==
-Date:   Fri, 4 Aug 2023 20:39:53 -0700
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v14 03/25] gunyah: Common types and error codes for
- Gunyah hypercalls
-Message-ID: <r3rwlnkfh5r6n3ijtkdtufwgthclbka3yasvb7inovnn3vt4m2@qnxfrhiublf7>
-References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
- <20230613172054.3959700-4-quic_eberman@quicinc.com>
+        with ESMTP id S229479AbjHEDot (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 23:44:49 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226BA4ED9;
+        Fri,  4 Aug 2023 20:44:48 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-76ca8921c6cso132580985a.1;
+        Fri, 04 Aug 2023 20:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691207087; x=1691811887;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QpHHyKgMCAEgEusoeicTAqPG0cXTb8asI9xABZxDWHo=;
+        b=qACxiPtonrqUWRm2eFHLdHRg0tXll5Y3Dy1wSYZsz/o4AmiJNWP06R7NUzJo6SLPph
+         ztaWMGjI2ut+4B0ScqPcUiYnricFCvmNwuTWQxSVD8fxjquWv4eYdocaW1Vdr50I9Xwc
+         4hYo6Ia74P4FvAqoN3HwE/i62DYHeCHVGrhLvbARWDGjb/5X6fN+ipBUxajAcEps8jbt
+         eOIOKhkBz9F/pPHG6zHBni1BgxkZWI2f0QtBCzjfMj5G00MXchQDKYL9EGyGXrGJGbG0
+         aSMBrwt81dnlKZI2+v2joAaCYSDSKddrDRZvbzJEy4X26nYAgqcYhR5klzJVMxJ/k2g+
+         VlJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691207087; x=1691811887;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QpHHyKgMCAEgEusoeicTAqPG0cXTb8asI9xABZxDWHo=;
+        b=k5dNiI6RdoQ+C5LrjaT+QMm/AuwZxp2opJI6Zq3NIGEAP87EzfrpuZzn8GO1gR1Vjm
+         lkOI3DSPlXRxNhBru4dkzOI92K20UWfcLFjQ9gtg6pspvGaVcDItcfH9ndZQ+uCflEU6
+         F8EIQ6T6it+4XododmvP2pc4mCqORQaNKTP5R6oiPD9Oh/j70mu/eeUliTqneaOEK9XF
+         yLXsRaU6vZ39RJD2tOPaHU4Kw596EnwJTU+8AGQQemothMCM2GWDQdAbqw7tVRU5Ijyw
+         raNwL9tcGPpO8Xxmlt++aN5bXNImsK+JPqefqWluBViNI3IGAgh9H48RMcowYqebysNc
+         u3kQ==
+X-Gm-Message-State: AOJu0Yxx06gVaBypMWoAay6eGAjki22xytrRGJ2bt/3T8uItOakihTAH
+        1h5Vpf2fHQL4PfK+SOj+uSiI3MauhQNezg==
+X-Google-Smtp-Source: AGHT+IGPkHbx3nmG3dd9vPBM+EilSDI68f1EFftX6p6thmL2pTWLOPo9c+ythEznFMcYkAQinsmFMw==
+X-Received: by 2002:a05:620a:2a16:b0:768:3dd2:b6f2 with SMTP id o22-20020a05620a2a1600b007683dd2b6f2mr2188871qkp.8.1691207086955;
+        Fri, 04 Aug 2023 20:44:46 -0700 (PDT)
+Received: from jesse-desktop.jtp-bos.lab ([2600:4040:57a3:100:7ccd:e816:6b54:140a])
+        by smtp.gmail.com with ESMTPSA id j23-20020ac84f97000000b004033c3948f9sm1099686qtw.42.2023.08.04.20.44.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 20:44:46 -0700 (PDT)
+From:   Jesse Taube <mr.bossman075@gmail.com>
+X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jesse Taube <Mr.Bossman075@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v1] docs: kbuild: Document search jump feature
+Date:   Fri,  4 Aug 2023 23:44:45 -0400
+Message-Id: <20230805034445.2508362-1-Mr.Bossman075@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230613172054.3959700-4-quic_eberman@quicinc.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 10:20:31AM -0700, Elliot Berman wrote:
-> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-[..]
-> +/******************************************************************************/
-> +/* Common arch-independent definitions for Gunyah hypercalls                  */
-> +#define GH_CAPID_INVAL	U64_MAX
-> +#define GH_VMID_ROOT_VM	0xff
-> +
-> +enum gh_error {
+Menuconfig has a feature where you can "press the key in the (#) prefix
+to jump directly to that location. You will be returned to the current
+search results after exiting this new menu."
 
-"gh_" happens to be an unused prefix in the Linux kernel, but I find it
-to be an unnatural abbreviation of "gunyah".
+This feature is poorly documented,
+so add it to the kconfig.rst documentation.
 
-I would therefor prefer to have it expanded to "gunyah" for all
-functions, macros and data types throughout the implementation.
+Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+---
+ Documentation/kbuild/kconfig.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Regards,
-Bjorn
+diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
+index 5967c79c3baa..463914a7fdec 100644
+--- a/Documentation/kbuild/kconfig.rst
++++ b/Documentation/kbuild/kconfig.rst
+@@ -210,6 +210,10 @@ Searching in menuconfig:
+ 	first (and in alphabetical order), then come all other symbols,
+ 	sorted in alphabetical order.
+ 
++	In this menu, pressing the key in the (#) prefix will jump
++	directly to that location. You will be returned to the current
++	search results after exiting this new menu.
++
+ ----------------------------------------------------------------------
+ 
+ User interface options for 'menuconfig'
+@@ -262,6 +266,10 @@ Searching in nconfig:
+ 	F8 (SymSearch) searches the configuration symbols for the
+ 	given string or regular expression (regex).
+ 
++	In the SymSearch, pressing the key in the (#) prefix will
++	jump directly to that location. You will be returned to the
++	current search results after exiting this new menu.
++
+ NCONFIG_MODE
+ ------------
+ This mode shows all sub-menus in one large tree.
+-- 
+2.40.0
+
