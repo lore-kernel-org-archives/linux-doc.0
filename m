@@ -2,87 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3707C04E69
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1743C00528
 	for <linux-doc@archiver.kernel.org>; Sat,  5 Aug 2023 07:21:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbjHEHVm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Aug 2023 03:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43768 "EHLO
+        id S229826AbjHEHVl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Aug 2023 03:21:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbjHEHVk (ORCPT
+        with ESMTP id S229810AbjHEHVk (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Aug 2023 03:21:40 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DB64ECB;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 377BC4EC9;
         Sat,  5 Aug 2023 00:21:38 -0700 (PDT)
 Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1qSBbU-0002p2-0R; Sat, 05 Aug 2023 09:21:36 +0200
+        id 1qSBbS-0002p2-N6; Sat, 05 Aug 2023 09:21:34 +0200
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Greg KH <gregkh@linuxfoundation.org>, stable@vger.kernel.org
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sasha Levin <sashal@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1 5/5] docs: stable-kernel-rules: mention that regressions must be prevented
-Date:   Sat,  5 Aug 2023 09:21:33 +0200
-Message-Id: <ddb5cb0d6b7aa4ef31642cd9657a0fb53d79cddb.1691219455.git.linux@leemhuis.info>
+Subject: [PATCH v1 1/5] docs: stable-kernel-rules: improve structure by changing headlines
+Date:   Sat,  5 Aug 2023 09:21:29 +0200
+Message-Id: <0737676f951050b2ec39e1662ffea37d77ef0bec.1691219455.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <cover.1691219455.git.linux@leemhuis.info>
 References: <cover.1691219455.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1691220098;d8ef99a8;
-X-HE-SMSGID: 1qSBbU-0002p2-0R
+X-HE-SMSGID: 1qSBbS-0002p2-N6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document that changes intended for a specific stable series have to be
-in all newer series still maintained, as otherwise users would run into
-regressions.
+* replace a needless sub-heading with a short intro sentence
+* make "Following the submission" a proper sub-section with a headline
+  without changing the text of the section
 
 CC: Greg KH <gregkh@linuxfoundation.org>
 CC: Sasha Levin <sashal@kernel.org>
 CC: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- Documentation/process/stable-kernel-rules.rst | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ Documentation/process/stable-kernel-rules.rst | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index 2b7f04211d9d..41f1e07abfdf 100644
+index d3f040c2738e..e68a76abe44b 100644
 --- a/Documentation/process/stable-kernel-rules.rst
 +++ b/Documentation/process/stable-kernel-rules.rst
-@@ -56,6 +56,12 @@ at the time of submission. :ref:`option_3` is an alternative to the two earlier
- options for cases where a mainlined patch needs adjustments to apply in older
- series (for example due to API changes).
+@@ -39,8 +39,7 @@ Procedure for submitting patches to the -stable tree
+    process but should follow the procedures in
+    :ref:`Documentation/process/security-bugs.rst <securitybugs>`.
  
-+When using option 2 or 3 you can ask for your change to be included in specific
-+stable series. When doing so, ensure the fix or an equivalent is applicable,
-+submitted, or already present in all newer stable trees still supported. This is
-+meant to prevent regressions that users might later encounter on updating, if
-+e.g. a fix merged for 5.19-rc1 would be backported to 5.10.y, but not to 5.15.y.
-+
+-For all other submissions, choose one of the following procedures
+------------------------------------------------------------------
++There are three options to submit a change to -stable trees:
+ 
  .. _option_1:
  
- Option 1
-@@ -133,7 +139,7 @@ Option 2
+@@ -153,13 +152,15 @@ problems:
  
- If the patch already has been merged to mainline, send an email to
- stable@vger.kernel.org containing the subject of the patch, the commit ID,
--why you think it should be applied, and what kernel version you wish it to
-+why you think it should be applied, and what kernel versions you wish it to
- be applied to.
+      Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for >= 6.3
  
- .. _option_3:
-@@ -142,7 +148,7 @@ Option 3
- ********
+-Following the submission:
++Following the submission
++------------------------
  
- Send the patch, after verifying that it follows the above rules, to
--stable@vger.kernel.org and mention the kernel version you wish it to be applied
-+stable@vger.kernel.org and mention the kernel versions you wish it to be applied
- to. When doing so, you must note the upstream commit ID in the changelog of your
- submission with a separate line above the commit text, like this:
+- - The sender will receive an ACK when the patch has been accepted into the
+-   queue, or a NAK if the patch is rejected.  This response might take a few
+-   days, according to the developer's schedules.
+- - If accepted, the patch will be added to the -stable queue, for review by
+-   other developers and by the relevant subsystem maintainer.
++The sender will receive an ACK when the patch has been accepted into the
++queue, or a NAK if the patch is rejected.  This response might take a few
++days, according to the developer's schedules.
++
++If accepted, the patch will be added to the -stable queue, for review by other
++developers and by the relevant subsystem maintainer.
  
+ 
+ Review cycle
 -- 
 2.40.1
 
