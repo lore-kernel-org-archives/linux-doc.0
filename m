@@ -2,112 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 606D6C001DF
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Aug 2023 03:44:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CA3EB64DD
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Aug 2023 03:48:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjHEDou (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Aug 2023 23:44:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44644 "EHLO
+        id S229545AbjHEDsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Aug 2023 23:48:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjHEDot (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 23:44:49 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226BA4ED9;
-        Fri,  4 Aug 2023 20:44:48 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-76ca8921c6cso132580985a.1;
-        Fri, 04 Aug 2023 20:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691207087; x=1691811887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QpHHyKgMCAEgEusoeicTAqPG0cXTb8asI9xABZxDWHo=;
-        b=qACxiPtonrqUWRm2eFHLdHRg0tXll5Y3Dy1wSYZsz/o4AmiJNWP06R7NUzJo6SLPph
-         ztaWMGjI2ut+4B0ScqPcUiYnricFCvmNwuTWQxSVD8fxjquWv4eYdocaW1Vdr50I9Xwc
-         4hYo6Ia74P4FvAqoN3HwE/i62DYHeCHVGrhLvbARWDGjb/5X6fN+ipBUxajAcEps8jbt
-         eOIOKhkBz9F/pPHG6zHBni1BgxkZWI2f0QtBCzjfMj5G00MXchQDKYL9EGyGXrGJGbG0
-         aSMBrwt81dnlKZI2+v2joAaCYSDSKddrDRZvbzJEy4X26nYAgqcYhR5klzJVMxJ/k2g+
-         VlJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691207087; x=1691811887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QpHHyKgMCAEgEusoeicTAqPG0cXTb8asI9xABZxDWHo=;
-        b=k5dNiI6RdoQ+C5LrjaT+QMm/AuwZxp2opJI6Zq3NIGEAP87EzfrpuZzn8GO1gR1Vjm
-         lkOI3DSPlXRxNhBru4dkzOI92K20UWfcLFjQ9gtg6pspvGaVcDItcfH9ndZQ+uCflEU6
-         F8EIQ6T6it+4XododmvP2pc4mCqORQaNKTP5R6oiPD9Oh/j70mu/eeUliTqneaOEK9XF
-         yLXsRaU6vZ39RJD2tOPaHU4Kw596EnwJTU+8AGQQemothMCM2GWDQdAbqw7tVRU5Ijyw
-         raNwL9tcGPpO8Xxmlt++aN5bXNImsK+JPqefqWluBViNI3IGAgh9H48RMcowYqebysNc
-         u3kQ==
-X-Gm-Message-State: AOJu0Yxx06gVaBypMWoAay6eGAjki22xytrRGJ2bt/3T8uItOakihTAH
-        1h5Vpf2fHQL4PfK+SOj+uSiI3MauhQNezg==
-X-Google-Smtp-Source: AGHT+IGPkHbx3nmG3dd9vPBM+EilSDI68f1EFftX6p6thmL2pTWLOPo9c+ythEznFMcYkAQinsmFMw==
-X-Received: by 2002:a05:620a:2a16:b0:768:3dd2:b6f2 with SMTP id o22-20020a05620a2a1600b007683dd2b6f2mr2188871qkp.8.1691207086955;
-        Fri, 04 Aug 2023 20:44:46 -0700 (PDT)
-Received: from jesse-desktop.jtp-bos.lab ([2600:4040:57a3:100:7ccd:e816:6b54:140a])
-        by smtp.gmail.com with ESMTPSA id j23-20020ac84f97000000b004033c3948f9sm1099686qtw.42.2023.08.04.20.44.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 20:44:46 -0700 (PDT)
-From:   Jesse Taube <mr.bossman075@gmail.com>
-X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jesse Taube <Mr.Bossman075@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1] docs: kbuild: Document search jump feature
-Date:   Fri,  4 Aug 2023 23:44:45 -0400
-Message-Id: <20230805034445.2508362-1-Mr.Bossman075@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S229479AbjHEDsV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Aug 2023 23:48:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43FD113E;
+        Fri,  4 Aug 2023 20:48:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CAD3662177;
+        Sat,  5 Aug 2023 03:48:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71E5EC433C7;
+        Sat,  5 Aug 2023 03:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691207299;
+        bh=QU/GmoLUQzSAZRjZezpkLQ4/uCOJLRiuDhLRFYj0Ibo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=I0pTknPQGzFlcF5NAMREDDzZnMjikzhGiKA1r7T3iRacWhwiKrqi3PKLKU6l4DTv1
+         9BFVB/vcGEPVvYAUqUj9Zjie4EZo97sfvH8++fNTSBaztr+giTnDVPxHm50eNtPsjt
+         3pwAO5IJm8exEd92XAPJqG5IB9nxB/QQn4yqU3GN5jMO84eHBNQdOIS+UQfD+AYqZI
+         U1sr3kBm+BEEaklYbd3RArse+JlyrxT8xAIG0Mewid63g2aOhw2JJvM4J8cebPGcVH
+         dKNBRWaysMbOdu7GO8PPGlTep4phaqvnjM3olEpT6j3UGwFzXkA8buyxWzdx9abZs1
+         jnq21g7LuZy+w==
+Date:   Fri, 4 Aug 2023 20:51:17 -0700
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v14 05/25] virt: gunyah: msgq: Add hypercalls to send and
+ receive messages
+Message-ID: <6uyzkx2cvfcz2vrosbj7crrzwo4emi2qitudnmzwh6t7fwqpez@lpg2yqkqgah5>
+References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
+ <20230613172054.3959700-6-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230613172054.3959700-6-quic_eberman@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Menuconfig has a feature where you can "press the key in the (#) prefix
-to jump directly to that location. You will be returned to the current
-search results after exiting this new menu."
+On Tue, Jun 13, 2023 at 10:20:33AM -0700, Elliot Berman wrote:
+> Add hypercalls to send and receive messages on a Gunyah message queue.
+> 
+> Reviewed-by: Alex Elder <elder@linaro.org>
+> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>  arch/arm64/gunyah/gunyah_hypercall.c | 31 ++++++++++++++++++++++++++++
+>  include/linux/gunyah.h               |  6 ++++++
+>  2 files changed, 37 insertions(+)
+> 
+> diff --git a/arch/arm64/gunyah/gunyah_hypercall.c b/arch/arm64/gunyah/gunyah_hypercall.c
+> index ef48e0b8b5448..c5bf0dd468ec9 100644
+> --- a/arch/arm64/gunyah/gunyah_hypercall.c
+> +++ b/arch/arm64/gunyah/gunyah_hypercall.c
+> @@ -35,6 +35,8 @@ EXPORT_SYMBOL_GPL(arch_is_gh_guest);
+>  						   fn)
+>  
+>  #define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x8000)
+> +#define GH_HYPERCALL_MSGQ_SEND			GH_HYPERCALL(0x801B)
+> +#define GH_HYPERCALL_MSGQ_RECV			GH_HYPERCALL(0x801C)
+>  
+>  /**
+>   * gh_hypercall_hyp_identify() - Returns build information and feature flags
+> @@ -54,5 +56,34 @@ void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identi
+>  }
+>  EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
+>  
+> +enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, void *buff, u64 tx_flags, bool *ready)
 
-This feature is poorly documented,
-so add it to the kconfig.rst documentation.
+I find the name "ready" unclear, I believe it will be true to indicate
+that the message queue is not full (i.e. Gunyah is ready to receive
+another message?)
 
-Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
----
- Documentation/kbuild/kconfig.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Naming it "full" and reversing the values would make this immediately
+obvious.
 
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index 5967c79c3baa..463914a7fdec 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -210,6 +210,10 @@ Searching in menuconfig:
- 	first (and in alphabetical order), then come all other symbols,
- 	sorted in alphabetical order.
- 
-+	In this menu, pressing the key in the (#) prefix will jump
-+	directly to that location. You will be returned to the current
-+	search results after exiting this new menu.
-+
- ----------------------------------------------------------------------
- 
- User interface options for 'menuconfig'
-@@ -262,6 +266,10 @@ Searching in nconfig:
- 	F8 (SymSearch) searches the configuration symbols for the
- 	given string or regular expression (regex).
- 
-+	In the SymSearch, pressing the key in the (#) prefix will
-+	jump directly to that location. You will be returned to the
-+	current search results after exiting this new menu.
-+
- NCONFIG_MODE
- ------------
- This mode shows all sub-menus in one large tree.
--- 
-2.40.0
+> +{
+> +	struct arm_smccc_res res;
+> +
+> +	arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_SEND, capid, size, (uintptr_t)buff, tx_flags, 0, &res);
+> +
+> +	if (res.a0 == GH_ERROR_OK)
+> +		*ready = !!res.a1;
+> +
+> +	return res.a0;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_hypercall_msgq_send);
+> +
+> +enum gh_error gh_hypercall_msgq_recv(u64 capid, void *buff, size_t size, size_t *recv_size,
+> +					bool *ready)
 
+And this "ready" seems to be "more data available". Naming it "empty",
+and reversing the values, would make this obvious.
+
+
+Perhaps when working with the hypercalls on a regular basis it makes
+sense to not invert the value space...renaming the two "ready" would be
+beneficial regardless.
+
+> +{
+> +	struct arm_smccc_res res;
+> +
+> +	arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_RECV, capid, (uintptr_t)buff, size, 0, &res);
+> +
+> +	if (res.a0 == GH_ERROR_OK) {
+> +		*recv_size = res.a1;
+> +		*ready = !!res.a2;
+> +	}
+> +
+> +	return res.a0;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_hypercall_msgq_recv);
+> +
+>  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
+> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+> index 6b36cf4787efb..01a6f202d037e 100644
+> --- a/include/linux/gunyah.h
+> +++ b/include/linux/gunyah.h
+> @@ -111,4 +111,10 @@ static inline u16 gh_api_version(const struct gh_hypercall_hyp_identify_resp *gh
+>  
+>  void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
+>  
+> +#define GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH		BIT(0)
+
+Unless the flags are growing, passing this as a bool push instead of a
+flag field seems reasonable.
+
+> +
+> +enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, void *buff, u64 tx_flags, bool *ready);
+> +enum gh_error gh_hypercall_msgq_recv(u64 capid, void *buff, size_t size, size_t *recv_size,
+> +					bool *ready);
+
+Please wrap things to 80 characters, unless going a little bit over
+makes things more readable.
+
+Regards,
+Bjorn
