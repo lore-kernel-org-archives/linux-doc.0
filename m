@@ -2,173 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B96C001DE
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Aug 2023 12:45:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A4C5C41513
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Aug 2023 13:49:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229595AbjHFMpv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Aug 2023 08:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34010 "EHLO
+        id S229458AbjHFNtI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Aug 2023 09:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbjHFMpu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Aug 2023 08:45:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 183E7E47;
-        Sun,  6 Aug 2023 05:45:49 -0700 (PDT)
+        with ESMTP id S229498AbjHFNtH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Aug 2023 09:49:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9CA3F4;
+        Sun,  6 Aug 2023 06:49:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A0FEA610AA;
-        Sun,  6 Aug 2023 12:45:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 302AFC433C7;
-        Sun,  6 Aug 2023 12:45:46 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6668661153;
+        Sun,  6 Aug 2023 13:49:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4A0CC433C8;
+        Sun,  6 Aug 2023 13:49:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691325948;
-        bh=wXYWg26OzEPN2k/ZF3JgHRFogg3a61pPPpi9inOVm0Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tx0smzmfap8JWuh2SZ9JmhyGP1aSjTUCbKer+myYAxc9LGi8YZptXIxr9qyE965RE
-         ubARg98QO+oI84FfP2kWZwNqMooABOZ9r+nlA6U+wkeLYmfD6wgM0t0zi+nC74b5GR
-         vZZmMI7+IKKxCQ1sdGzSbEQzQVxtrhPC3SRgaVj+R6o8MFN36bf5kB2MGXt0A9KcGd
-         AJ4xpkm39pPw3QuGja99kp0sNJAUUGk+eQFCg6015bn1uW1+hKmtELU60Fb1e58Suw
-         lNrdwirRHXYFe6lVToMHh44PHxq4yMFnKxipckUoYNsipvbaGepjxKwWbE4gSibC7d
-         SROX5an+Cm3gQ==
-Date:   Sun, 6 Aug 2023 14:45:43 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Loic Poulain <loic.poulain@linaro.org>
-Cc:     viro@zeniv.linux.org.uk, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, hch@infradead.org,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v3] init: Add support for rootwait timeout parameter
-Message-ID: <20230806-leibhaftig-deutung-dd4a6b01d038@brauner>
-References: <20230806101217.164068-1-loic.poulain@linaro.org>
+        s=k20201202; t=1691329744;
+        bh=2MiTIyRYpvZ0qKbA5ZLbhbcYcbSW27jN3rhzL/cNYUM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SeC+gKMleNswHd5DWRuVdEG7A2C9RZ74EtCFglqeckD91dQvMATCs9889hJc4XGC0
+         oHRBE+8K8pkJSOEFusdxWdFPZ2jaXo1GD7uk8W0LcCbB8SnFjrNs0d9ilbY0jfnBzy
+         V0FA2wmY/Etyr50YxGgdMI8D88rjXfy7e024Z6Hfc0uSpecbyOq+XflOiLzOo9thd8
+         8H+NkEhyAEjt1BknxH86aAieOHvG50Scst5ret3cWW5ODWXpRqJc0celMbNCVqT9e4
+         TiP9XNIQjnyUy0YT65eYxE5Rc6jT2p6Hcv00gGxxfpLnqL35i2mlUKM1EYHoPYsISk
+         INS1w+3ffAC2w==
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-56ce1bd7fc4so2572465eaf.2;
+        Sun, 06 Aug 2023 06:49:04 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwiLmDz8FRWSAX0/KY0nfle7/BKLisReYGC8g3aaLufR67XPHeu
+        xNbBbgHYJsxU85xVUtq3KEM7SkCuA+8WPimfBg8=
+X-Google-Smtp-Source: AGHT+IFWAuVOQzvsC9iij/iNYZqPid4o62oHAwo9RoTsh7/6PvGQIKbdama6HA3dAufLsxKyDQ+itPYx718wfEyuF5Y=
+X-Received: by 2002:a4a:2a05:0:b0:56c:ea3f:42fd with SMTP id
+ k5-20020a4a2a05000000b0056cea3f42fdmr5943343oof.6.1691329744084; Sun, 06 Aug
+ 2023 06:49:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230806101217.164068-1-loic.poulain@linaro.org>
+References: <20230805034445.2508362-1-Mr.Bossman075@gmail.com>
+In-Reply-To: <20230805034445.2508362-1-Mr.Bossman075@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 6 Aug 2023 22:48:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQnMOhzX27c4kPe7_3rQRRWO1CXp+Q5xDn3=qpVcv3t1Q@mail.gmail.com>
+Message-ID: <CAK7LNAQnMOhzX27c4kPe7_3rQRRWO1CXp+Q5xDn3=qpVcv3t1Q@mail.gmail.com>
+Subject: Re: [PATCH v1] docs: kbuild: Document search jump feature
+To:     Jesse Taube <mr.bossman075@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 06, 2023 at 12:12:17PM +0200, Loic Poulain wrote:
-> Add an optional timeout arg to 'rootwait' as the maximum time in
-> seconds to wait for the root device to show up before attempting
-> forced mount of the root filesystem.
-> 
-> Use case:
-> In case of device mapper usage for the rootfs (e.g. root=/dev/dm-0),
-> if the mapper is not able to create the virtual block for any reason
-> (wrong arguments, bad dm-verity signature, etc), the `rootwait` param
-> causes the kernel to wait forever. It may however be desirable to only
-> wait for a given time and then panic (force mount) to cause device reset.
-> This gives the bootloader a chance to detect the problem and to take some
-> measures, such as marking the booted partition as bad (for A/B case) or
-> entering a recovery mode.
-> 
-> In success case, mounting happens as soon as the root device is ready,
-> unlike the existing 'rootdelay' parameter which performs an unconditional
-> pause.
-> 
-> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+On Sat, Aug 5, 2023 at 12:44=E2=80=AFPM Jesse Taube <mr.bossman075@gmail.co=
+m> wrote:
+>
+> Menuconfig has a feature where you can "press the key in the (#) prefix
+> to jump directly to that location. You will be returned to the current
+> search results after exiting this new menu."
+>
+> This feature is poorly documented,
+> so add it to the kconfig.rst documentation.
+>
+> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
 > ---
->  v2: rebase + reword: add use case example
->  v3: Use kstrtoint instead of deprecated simple_strtoul
-> 
->  .../admin-guide/kernel-parameters.txt         |  4 ++++
->  init/do_mounts.c                              | 24 +++++++++++++++++--
->  2 files changed, 26 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a1457995fd41..387cf9c2a2c5 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5501,6 +5501,10 @@
->  			Useful for devices that are detected asynchronously
->  			(e.g. USB and MMC devices).
->  
-> +	rootwait=	[KNL] Maximum time (in seconds) to wait for root device
-> +			to show up before attempting to mount the root
-> +			filesystem.
+>  Documentation/kbuild/kconfig.rst | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kcon=
+fig.rst
+> index 5967c79c3baa..463914a7fdec 100644
+> --- a/Documentation/kbuild/kconfig.rst
+> +++ b/Documentation/kbuild/kconfig.rst
+> @@ -210,6 +210,10 @@ Searching in menuconfig:
+>         first (and in alphabetical order), then come all other symbols,
+>         sorted in alphabetical order.
+>
+> +       In this menu, pressing the key in the (#) prefix will jump
+> +       directly to that location. You will be returned to the current
+> +       search results after exiting this new menu.
 > +
->  	rproc_mem=nn[KMG][@address]
->  			[KNL,ARM,CMA] Remoteproc physical memory block.
->  			Memory area to be used by remote processor image,
-> diff --git a/init/do_mounts.c b/init/do_mounts.c
-> index 1aa015883519..98190bf34a9f 100644
-> --- a/init/do_mounts.c
-> +++ b/init/do_mounts.c
-> @@ -18,6 +18,7 @@
->  #include <linux/slab.h>
->  #include <linux/ramfs.h>
->  #include <linux/shmem_fs.h>
-> +#include <linux/ktime.h>
->  
->  #include <linux/nfs_fs.h>
->  #include <linux/nfs_fs_sb.h>
-> @@ -71,12 +72,25 @@ static int __init rootwait_setup(char *str)
->  {
->  	if (*str)
->  		return 0;
-> -	root_wait = 1;
-> +	root_wait = -1;
->  	return 1;
->  }
->  
->  __setup("rootwait", rootwait_setup);
->  
-> +static int __init rootwait_timeout_setup(char *str)
-> +{
-> +	if (kstrtoint(str, 0, &root_wait) || root_wait < 0) {
-> +		pr_warn("ignoring invalid rootwait value\n");
-> +		/* fallback to indefinite wait */
-> +		root_wait = -1;
-> +	}
+>  ----------------------------------------------------------------------
+>
+>  User interface options for 'menuconfig'
+> @@ -262,6 +266,10 @@ Searching in nconfig:
+>         F8 (SymSearch) searches the configuration symbols for the
+>         given string or regular expression (regex).
+>
+> +       In the SymSearch, pressing the key in the (#) prefix will
+> +       jump directly to that location. You will be returned to the
+> +       current search results after exiting this new menu.
 > +
-> +	return 1;
-> +}
-> +
-> +__setup("rootwait=", rootwait_timeout_setup);
-> +
->  static char * __initdata root_mount_data;
->  static int __init root_data_setup(char *str)
->  {
-> @@ -384,14 +398,20 @@ void __init mount_root(char *root_device_name)
->  /* wait for any asynchronous scanning to complete */
->  static void __init wait_for_root(char *root_device_name)
->  {
-> +	const ktime_t end = ktime_add_ms(ktime_get_raw(), root_wait * MSEC_PER_SEC);
+>  NCONFIG_MODE
+>  ------------
+>  This mode shows all sub-menus in one large tree.
+> --
+> 2.40.0
+>
 
-I'd only initialize @end after the ROOT_DEV check.
 
-Also, afaict, this currently allows userspace to overflow, i.e.,
+Applied to linux-kbuild.
+Thanks.
 
-root_wait=2147483647
-
-ktime_add_ms(..., root_wait(2147483647) * MSEC_PER_SEC(1000))
-
-So idk, you probably want to convert root_wait to ms right away and do
-sm like (completely untested):
-
-static int __init rootwait_timeout_setup(char *str)
-{
-	int ret, tmp;
-
-	THIS LINE WILL BREAK COMPILATION
-
-	if (*str)
-		return 0;
-
-	/* always fallback to indefinite wait */
-	root_wait = -1;
-
-	ret = kstrtoint(str, 0, &tmp));
-	if (ret || tmp < 0) {
-		pr_warn("ignoring invalid rootwait value\n");
-		return 1;
-	}
-
-	if (check_mul_overflow(tmp, MSEC_PER_SEC, &root_wait))
-		pr_warn("ignoring excessive rootwait value\n");
-
-	return 1;
-}
+--=20
+Best Regards
+Masahiro Yamada
