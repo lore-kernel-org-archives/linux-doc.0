@@ -2,168 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C106C001B0
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 20:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82282C001B0
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 21:01:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbjHGUOi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Aug 2023 16:14:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55230 "EHLO
+        id S229509AbjHGVBD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Aug 2023 17:01:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjHGUOh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 16:14:37 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 68D1510CF;
-        Mon,  7 Aug 2023 13:14:35 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE9021FB;
-        Mon,  7 Aug 2023 13:15:17 -0700 (PDT)
-Received: from [192.168.1.102] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 702233F6C4;
-        Mon,  7 Aug 2023 13:14:32 -0700 (PDT)
-Message-ID: <919ab857-30cf-00a5-1a40-fb180678792e@arm.com>
-Date:   Mon, 7 Aug 2023 21:14:24 +0100
+        with ESMTP id S230180AbjHGVA7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 17:00:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3C4170B
+        for <linux-doc@vger.kernel.org>; Mon,  7 Aug 2023 14:00:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B8A6A62206
+        for <linux-doc@vger.kernel.org>; Mon,  7 Aug 2023 21:00:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A638EC433C8;
+        Mon,  7 Aug 2023 21:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691442054;
+        bh=xyhc7uYOwR1uHTjuKhwupluWcp1R6kmDB0U4P1Hz5i4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JsjlTf/qesJUj7RmbTB1W8LwqN2klTMsbTWXQw0UIfa2gEYxl+3Ti/nAQNNOFhnJb
+         Z4RbmywV4o1J4MqPrZlUy5PBs66K9lDrqqSIyEy663O6I81AQvFcs2OfzZIoBIPzfB
+         uwG7UUgz22JAGZRMHv0wbIdZaky5sYsjqTVWWJdC65wzXNr5qN39ufsRB+Ksdp7Vcy
+         8+Xj+I+8+ROdP6WidnNCXf7fCGSGl/04E8F1OOD2L1nZmgcczIeq8j+14V0iAf4vV+
+         ZJ1aJzUmAT9lLcWkvofzG53uaE4ecbbJ6l4/ue2ABN9Tv8FLwnO32UrBseKLVzDdqs
+         XLyGkyUfDSlVA==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>, hawk@kernel.org,
+        ilias.apalodimas@linaro.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: net: page_pool: de-duplicate the intro comment
+Date:   Mon,  7 Aug 2023 14:00:51 -0700
+Message-ID: <20230807210051.1014580-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 5.15 4/6] iommu/arm-smmu-v3: Document MMU-700 erratum
- 2812531
-Content-Language: en-GB
-To:     Easwar Hariharan <eahariha@linux.microsoft.com>,
-        stable@vger.kernel.org
-Cc:     easwar.hariharan@microsoft.com, Nicolin Chen <nicolinc@nvidia.com>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joerg Roedel <joro@8bytes.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        Tomas Krcka <krckatom@amazon.de>,
-        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux.dev>
-References: <20230802170227.1590187-1-eahariha@linux.microsoft.com>
- <20230802170227.1590187-5-eahariha@linux.microsoft.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230802170227.1590187-5-eahariha@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-08-02 18:02, Easwar Hariharan wrote:
-> From: Robin Murphy <robin.murphy@arm.com>
-> 
-> commit 309a15cb16bb075da1c99d46fb457db6a1a2669e upstream
-> 
-> To work around MMU-700 erratum 2812531 we need to ensure that certain
-> sequences of commands cannot be issued without an intervening sync. In
-> practice this falls out of our current command-batching machinery
-> anyway - each batch only contains a single type of invalidation command,
-> and ends with a sync. The only exception is when a batch is sufficiently
-> large to need issuing across multiple command queue slots, wherein the
-> earlier slots will not contain a sync and thus may in theory interleave
-> with another batch being issued in parallel to create an affected
-> sequence across the slot boundary.
-> 
-> Since MMU-700 supports range invalidate commands and thus we will prefer
-> to use them (which also happens to avoid conditions for other errata),
-> I'm not entirely sure it's even possible for a single high-level
-> invalidate call to generate a batch of more than 63 commands,
+In commit 82e896d992fa ("docs: net: page_pool: use kdoc to avoid
+duplicating the information") I shied away from using the DOC:
+comments when moving to kdoc for documenting page_pool API,
+because I wasn't sure how familiar people are with it.
 
-Out of interest, have you observed a case where this actually happens?
+Turns out there is already a DOC: comment for the intro, which
+is the same in both places, modulo what looks like minor rewording.
+Use the version from Documentation/ but keep the contents with
+the code.
 
-> but for
-> the sake of robustness and documentation, wire up an option to enforce
-> that a sync is always inserted for every slot issued.
-> 
-> The other aspect is that the relative order of DVM commands cannot be
-> controlled, so DVM cannot be used. Again that is already the status quo,
-> but since we have at least defined ARM_SMMU_FEAT_BTM, we can explicitly
-> disable it for documentation purposes even if it's not wired up anywhere
-> yet.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: hawk@kernel.org
+CC: ilias.apalodimas@linaro.org
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/page_pool.rst | 18 ++----------------
+ include/net/page_pool/helpers.h        | 24 ++++++++++++------------
+ 2 files changed, 14 insertions(+), 28 deletions(-)
 
-Note that there seems to be a slight issue with this patch that I 
-missed, under discussion here:
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 68b82cea13e4..215ebc92752c 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -4,22 +4,8 @@
+ Page Pool API
+ =============
+ 
+-The page_pool allocator is optimized for the XDP mode that uses one frame
+-per-page, but it can fallback on the regular page allocator APIs.
+-
+-Basic use involves replacing alloc_pages() calls with the
+-page_pool_alloc_pages() call.  Drivers should use page_pool_dev_alloc_pages()
+-replacing dev_alloc_pages().
+-
+-API keeps track of in-flight pages, in order to let API user know
+-when it is safe to free a page_pool object.  Thus, API users
+-must call page_pool_put_page() to free the page, or attach
+-the page to a page_pool-aware objects like skbs marked with
+-skb_mark_for_recycle().
+-
+-API user must call page_pool_put_page() once on a page, as it
+-will either recycle the page, or in case of refcnt > 1, it will
+-release the DMA mapping and in-flight state accounting.
++.. kernel-doc:: include/net/page_pool/helpers.h
++   :doc: page_pool allocator
+ 
+ Architecture overview
+ =====================
+diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+index 78df91804c87..94231533a369 100644
+--- a/include/net/page_pool/helpers.h
++++ b/include/net/page_pool/helpers.h
+@@ -8,23 +8,23 @@
+ /**
+  * DOC: page_pool allocator
+  *
+- * This page_pool allocator is optimized for the XDP mode that
+- * uses one-frame-per-page, but have fallbacks that act like the
++ * The page_pool allocator is optimized for the XDP mode that
++ * uses one frame per-page, but it can fallback on the
+  * regular page allocator APIs.
+  *
+- * Basic use involve replacing alloc_pages() calls with the
+- * page_pool_alloc_pages() call.  Drivers should likely use
++ * Basic use involves replacing alloc_pages() calls with the
++ * page_pool_alloc_pages() call.  Drivers should use
+  * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
+  *
+- * API keeps track of in-flight pages, in-order to let API user know
+- * when it is safe to dealloactor page_pool object.  Thus, API users
+- * must call page_pool_put_page() where appropriate and only attach
+- * the page to a page_pool-aware objects, like skbs marked for recycling.
++ * API keeps track of in-flight pages, in order to let API user know
++ * when it is safe to free a page_pool object.  Thus, API users
++ * must call page_pool_put_page() to free the page, or attach
++ * the page to a page_pool-aware objects like skbs marked with
++ * skb_mark_for_recycle().
+  *
+- * API user must only call page_pool_put_page() once on a page, as it
+- * will either recycle the page, or in case of elevated refcnt, it
+- * will release the DMA mapping and in-flight state accounting.  We
+- * hope to lift this requirement in the future.
++ * API user must call page_pool_put_page() once on a page, as it
++ * will either recycle the page, or in case of refcnt > 1, it will
++ * release the DMA mapping and in-flight state accounting.
+  */
+ #ifndef _NET_PAGE_POOL_HELPERS_H
+ #define _NET_PAGE_POOL_HELPERS_H
+-- 
+2.41.0
 
-https://lore.kernel.org/linux-iommu/27c895b8-1fb0-be88-8bc3-878d754684c8@huawei.com/T/#t
-
-Thanks,
-Robin.
-
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-> Link: https://lore.kernel.org/r/330221cdfd0003cd51b6c04e7ff3566741ad8374.1683731256.git.robin.murphy@arm.com
-> Signed-off-by: Will Deacon <will@kernel.org>
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> ---
->   Documentation/arm64/silicon-errata.rst      |  2 ++
->   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 12 ++++++++++++
->   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  1 +
->   3 files changed, 15 insertions(+)
-> 
-> diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-> index 55e1e074dec1..322df8abbc0e 100644
-> --- a/Documentation/arm64/silicon-errata.rst
-> +++ b/Documentation/arm64/silicon-errata.rst
-> @@ -124,6 +124,8 @@ stable kernels.
->   +----------------+-----------------+-----------------+-----------------------------+
->   | ARM            | MMU-600         | #1076982        | N/A                         |
->   +----------------+-----------------+-----------------+-----------------------------+
-> +| ARM            | MMU-700         | #2812531        | N/A                         |
-> ++----------------+-----------------+-----------------+-----------------------------+
->   +----------------+-----------------+-----------------+-----------------------------+
->   | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_845719        |
->   +----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index 782d040a829c..6a551a48d271 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -897,6 +897,12 @@ static void arm_smmu_cmdq_batch_add(struct arm_smmu_device *smmu,
->   				    struct arm_smmu_cmdq_batch *cmds,
->   				    struct arm_smmu_cmdq_ent *cmd)
->   {
-> +	if (cmds->num == CMDQ_BATCH_ENTRIES - 1 &&
-> +	    (smmu->options & ARM_SMMU_OPT_CMDQ_FORCE_SYNC)) {
-> +		arm_smmu_cmdq_issue_cmdlist(smmu, cmds->cmds, cmds->num, true);
-> +		cmds->num = 0;
-> +	}
-> +
->   	if (cmds->num == CMDQ_BATCH_ENTRIES) {
->   		arm_smmu_cmdq_issue_cmdlist(smmu, cmds->cmds, cmds->num, false);
->   		cmds->num = 0;
-> @@ -3461,6 +3467,7 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
->   
->   #define IIDR_IMPLEMENTER_ARM		0x43b
->   #define IIDR_PRODUCTID_ARM_MMU_600	0x483
-> +#define IIDR_PRODUCTID_ARM_MMU_700	0x487
->   
->   static void arm_smmu_device_iidr_probe(struct arm_smmu_device *smmu)
->   {
-> @@ -3481,6 +3488,11 @@ static void arm_smmu_device_iidr_probe(struct arm_smmu_device *smmu)
->   			if (variant == 0 && revision <= 2)
->   				smmu->features &= ~ARM_SMMU_FEAT_SEV;
->   			break;
-> +		case IIDR_PRODUCTID_ARM_MMU_700:
-> +			/* Arm erratum 2812531 */
-> +			smmu->features &= ~ARM_SMMU_FEAT_BTM;
-> +			smmu->options |= ARM_SMMU_OPT_CMDQ_FORCE_SYNC;
-> +			break;
->   		}
->   		break;
->   	}
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> index 5964e02c4e57..abaecdf8d5d2 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> @@ -651,6 +651,7 @@ struct arm_smmu_device {
->   #define ARM_SMMU_OPT_SKIP_PREFETCH	(1 << 0)
->   #define ARM_SMMU_OPT_PAGE0_REGS_ONLY	(1 << 1)
->   #define ARM_SMMU_OPT_MSIPOLL		(1 << 2)
-> +#define ARM_SMMU_OPT_CMDQ_FORCE_SYNC	(1 << 3)
->   	u32				options;
->   
->   	struct arm_smmu_cmdq		cmdq;
