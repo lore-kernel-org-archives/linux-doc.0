@@ -2,22 +2,22 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99A7DC001DB
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 07:51:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EF53EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 07:52:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230247AbjHGHvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Aug 2023 03:51:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45514 "EHLO
+        id S231156AbjHGHvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Aug 2023 03:51:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbjHGHvl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 03:51:41 -0400
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CF210F4;
-        Mon,  7 Aug 2023 00:51:38 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0VpC-01._1691394688;
-Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VpC-01._1691394688)
+        with ESMTP id S231140AbjHGHvo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 03:51:44 -0400
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8497510F4;
+        Mon,  7 Aug 2023 00:51:42 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0VpC-045_1691394696;
+Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VpC-045_1691394696)
           by smtp.aliyun-inc.com;
-          Mon, 07 Aug 2023 15:51:34 +0800
+          Mon, 07 Aug 2023 15:51:37 +0800
 From:   Jing Zhang <renyu.zj@linux.alibaba.com>
 To:     John Garry <john.g.garry@oracle.com>,
         Ian Rogers <irogers@google.com>
@@ -37,42 +37,90 @@ Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
         Zhuo Song <zhuo.song@linux.alibaba.com>,
         Jing Zhang <renyu.zj@linux.alibaba.com>,
         Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: [PATCH v6 0/7] Add aliases and metrics for Arm CMN
-Date:   Mon,  7 Aug 2023 15:51:18 +0800
-Message-Id: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
+Subject: [PATCH v6 3/7] perf jevents: Support more event fields
+Date:   Mon,  7 Aug 2023 15:51:21 +0800
+Message-Id: <1691394685-61240-4-git-send-email-renyu.zj@linux.alibaba.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
+References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changes since v5:
-- Split the first patch out into 1st pmu.c change and 2nd metricgroup.c
-  change.
-- Change order to check alias and then identifier.
-- Fix matching_pmu.
-- Add event documentation links.
+The usual event descriptions are "event=xxx" or "config=xxx", while the
+event descriptions of CMN are "type=xxx, eventid=xxx" or more complex.
 
-Jing Zhang (7):
-  perf pmu: "Compat" supports matching multiple identifiers
-  perf metric: "Compat" supports matching multiple identifiers
-  perf jevents: Support more event fields
-  perf test: Fix matching_pmu
-  perf test: Add pmu-event test for "Compat" and new event_field.
-  perf jevents: Add support for Arm CMN PMU aliasing
-  perf vendor events: Add JSON metrics for Arm CMN
+$cat /sys/bus/event_source/devices/arm_cmn_0/events/hnf_cache_fill
+type=0x5,eventid=0x3
 
- .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
- .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
- .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
- tools/perf/pmu-events/jevents.py                   |  22 +-
- tools/perf/tests/pmu-events.c                      |  64 ++++-
- tools/perf/util/metricgroup.c                      |   2 +-
- tools/perf/util/pmu.c                              |  33 ++-
- tools/perf/util/pmu.h                              |   1 +
- 8 files changed, 457 insertions(+), 13 deletions(-)
- create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
- create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+When adding aliases for events described as "event=xxx" or "config=xxx",
+EventCode or ConfigCode can be used in the JSON files to describe the
+events. But "eventid=xxx, type=xxx" cannot be supported at present.
 
+If EventCode and ConfigCode is not added in the alias JSON file, the
+event description will add "event=0" by default. So, even if the event
+field is added to supplement "eventid=xxx" and "type=xxx", the final
+parsing result will be "event=0, eventid=xxx, type=xxx".
+
+Therefore, when EventCode and ConfigCode are missing in JSON, "event=0" is
+no longer added by default. EventIdCode and Type are added to the event
+field, and ConfigCode is moved into the event_field array which can also
+guarantee its original function.
+
+Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+---
+ tools/perf/pmu-events/jevents.py | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
+index f57a8f2..9c0f63a 100755
+--- a/tools/perf/pmu-events/jevents.py
++++ b/tools/perf/pmu-events/jevents.py
+@@ -275,12 +275,6 @@ class JsonEvent:
+       }
+       return table[unit] if unit in table else f'uncore_{unit.lower()}'
+ 
+-    eventcode = 0
+-    if 'EventCode' in jd:
+-      eventcode = int(jd['EventCode'].split(',', 1)[0], 0)
+-    if 'ExtSel' in jd:
+-      eventcode |= int(jd['ExtSel']) << 8
+-    configcode = int(jd['ConfigCode'], 0) if 'ConfigCode' in jd else None
+     self.name = jd['EventName'].lower() if 'EventName' in jd else None
+     self.topic = ''
+     self.compat = jd.get('Compat')
+@@ -317,7 +311,15 @@ class JsonEvent:
+     if precise and self.desc and '(Precise Event)' not in self.desc:
+       extra_desc += ' (Must be precise)' if precise == '2' else (' (Precise '
+                                                                  'event)')
+-    event = f'config={llx(configcode)}' if configcode is not None else f'event={llx(eventcode)}'
++    eventcode = None
++    if 'EventCode' in jd:
++      eventcode = int(jd['EventCode'].split(',', 1)[0], 0)
++    if 'ExtSel' in jd:
++      if eventcode is None:
++        eventcode = int(jd['ExtSel']) << 8
++      else:
++        eventcode |= int(jd['ExtSel']) << 8
++    event = f'event={llx(eventcode)}' if eventcode is not None else None
+     event_fields = [
+         ('AnyThread', 'any='),
+         ('PortMask', 'ch_mask='),
+@@ -327,10 +329,13 @@ class JsonEvent:
+         ('Invert', 'inv='),
+         ('SampleAfterValue', 'period='),
+         ('UMask', 'umask='),
++        ('ConfigCode', 'config='),
++        ('Type', 'type='),
++        ('EventIdCode', 'eventid='),
+     ]
+     for key, value in event_fields:
+       if key in jd and jd[key] != '0':
+-        event += ',' + value + jd[key]
++        event = event + ',' + value + jd[key] if event is not None else value + jd[key]
+     if filter:
+       event += f',{filter}'
+     if msr:
 -- 
 1.8.3.1
 
