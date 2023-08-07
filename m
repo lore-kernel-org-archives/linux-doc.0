@@ -2,141 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56458C04FDF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 07:52:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6231DEB64DD
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 08:20:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231166AbjHGHwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Aug 2023 03:52:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45614 "EHLO
+        id S230403AbjHGIU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Aug 2023 04:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231345AbjHGHvt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 03:51:49 -0400
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F7A172C;
-        Mon,  7 Aug 2023 00:51:46 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0VpC-05s_1691394701;
-Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VpC-05s_1691394701)
-          by smtp.aliyun-inc.com;
-          Mon, 07 Aug 2023 15:51:41 +0800
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-To:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
+        with ESMTP id S229487AbjHGIU2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 04:20:28 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C838171A
+        for <linux-doc@vger.kernel.org>; Mon,  7 Aug 2023 01:20:26 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-51e2a6a3768so5804550a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Aug 2023 01:20:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1691396425; x=1692001225;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=X/3aPcv01OzN39IUD/aX9hP4XVkcpINkY5fZPomzhTU=;
+        b=PVv4YJO4RBn7OA3++k0468r7BbExuUQyBP+0fuCyf8NiGwU9ulLb0NuvXxuUQDex5u
+         0Ko3JrFQFM2kHrnHIjA1iCVnbvwOdAdiJaMQ5GT2SoZpqReMRSTlQWML9Pv1V3QdFt7x
+         Go93snSTsJEnD3CEU5BvZ69yag3oJPHpoEc0BmgXh2pzeQNKdJEVmuhwBFyUxGi0rv87
+         vi+XnRTq3DmeNAe4YeJkvuJvhQ8hFYlvhRxF/0KVQDYOTES/x9jbBnSSJWv3My5YhGew
+         kKYg9qqVAo3QlGLYApMbN6PaJyWWeZJO5wxoACI+N+x/Ucem551AzjiZT6HP+Awc4yzH
+         eMXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691396425; x=1692001225;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X/3aPcv01OzN39IUD/aX9hP4XVkcpINkY5fZPomzhTU=;
+        b=UhrrlL08zwlbvL18iADIJqRdbHfOg5YmRnB4EuHxHOCE3yLv4QGcfUVkmEVxE5bPNc
+         yMRwSK186Iz8w7bQAOQiQb5owbCMjgDLRxFNuUKXw+yioKoNgCil24zRrWgM5f3rWTdD
+         95vDkbHYKIkubb9R7016OVe//IaYwctTWsx/tiv7Iv0wxs9LkVHL6K+IkvzzK19WLN6o
+         Dp2KBg4wYnxC0qAJ6Unn8KsiJ4M3YpkiJP4CFZpqdygXY1GIGjymvGdl9Uyphlr1qGEC
+         Na6IZJfx5vscbFg4vL/kdDm2G4qocb+Bnb24cgu9nDpnKirmjW+yAP3JheHXDfO/5eFg
+         x7Sw==
+X-Gm-Message-State: AOJu0Yw4nr0QFtGy3GsZzJdHrbga/lxLvns2zXAWN4bPyfHIK7IXJtYP
+        2WEOfaS5Z03+duGlXqCfrrf9Kw==
+X-Google-Smtp-Source: AGHT+IG6bTLsou3LPOGQGdFM9cCRg9PxjTO2zzfPl5N+ZCSlyhpUhGftqSn9l1/Ee8JS/rtN2WArPg==
+X-Received: by 2002:a17:907:1dc3:b0:99b:f44e:6daa with SMTP id og3-20020a1709071dc300b0099bf44e6daamr6734142ejc.62.1691396424949;
+        Mon, 07 Aug 2023 01:20:24 -0700 (PDT)
+Received: from localhost (212-5-140-29.ip.btc-net.bg. [212.5.140.29])
+        by smtp.gmail.com with ESMTPSA id k19-20020a17090666d300b00991dfb5dfbbsm4837363ejp.67.2023.08.07.01.20.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Aug 2023 01:20:24 -0700 (PDT)
+Date:   Mon, 7 Aug 2023 11:20:20 +0300
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Jing Zhang <renyu.zj@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: [PATCH v6 7/7] perf vendor events: Add JSON metrics for Arm CMN
-Date:   Mon,  7 Aug 2023 15:51:25 +0800
-Message-Id: <1691394685-61240-8-git-send-email-renyu.zj@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
-References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Anup Patel <anup@brainfault.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Haibo Xu <haibo1.xu@intel.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Atish Kumar Patra <atishp@rivosinc.com>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [RFC PATCH v1 03/21] RISC-V: ACPI: Fix acpi_os_ioremap to return
+ iomem address
+Message-ID: <20230807-4fa96c8f505a601dd758ec2e@orel>
+References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
+ <20230803175916.3174453-4-sunilvl@ventanamicro.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803175916.3174453-4-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add JSON metrics for Arm CMN. Currently just add part of CMN PMU
-metrics which are general and compatible for any SoC with CMN-ANY.
+On Thu, Aug 03, 2023 at 11:28:58PM +0530, Sunil V L wrote:
+> acpi_os_ioremap() currently is a wrapper to memremap() on
+> RISC-V. But the callers of acpi_os_ioremap() expect it to
+> return __iomem address and hence sparse tool reports a new
+> warning. Fix this issue by type casting to  __iomem type.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202307230357.egcTAefj-lkp@intel.com/
+> Fixes: a91a9ffbd3a5 ("RISC-V: Add support to build the ACPI core")
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  arch/riscv/include/asm/acpi.h | 2 +-
+>  arch/riscv/kernel/acpi.c      | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> index f71ce21ff684..d5604d2073bc 100644
+> --- a/arch/riscv/include/asm/acpi.h
+> +++ b/arch/riscv/include/asm/acpi.h
+> @@ -19,7 +19,7 @@ typedef u64 phys_cpuid_t;
+>  #define PHYS_CPUID_INVALID INVALID_HARTID
+>  
+>  /* ACPI table mapping after acpi_permanent_mmap is set */
+> -void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size);
+> +void __iomem *acpi_os_ioremap(acpi_physical_address phys, acpi_size size);
+>  #define acpi_os_ioremap acpi_os_ioremap
+>  
+>  #define acpi_strict 1	/* No out-of-spec workarounds on RISC-V */
+> diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> index 5ee03ebab80e..56cb2c986c48 100644
+> --- a/arch/riscv/kernel/acpi.c
+> +++ b/arch/riscv/kernel/acpi.c
+> @@ -215,9 +215,9 @@ void __init __acpi_unmap_table(void __iomem *map, unsigned long size)
+>  	early_iounmap(map, size);
+>  }
+>  
+> -void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
+> +void __iomem *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
+>  {
+> -	return memremap(phys, size, MEMREMAP_WB);
+> +	return (void __iomem *)memremap(phys, size, MEMREMAP_WB);
+>  }
+>  
+>  #ifdef CONFIG_PCI
+> -- 
+> 2.39.2
+>
 
-Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
----
- .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  | 74 ++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
-
-diff --git a/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
-new file mode 100644
-index 0000000..64db534
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
-@@ -0,0 +1,74 @@
-+[
-+	{
-+		"MetricName": "slc_miss_rate",
-+		"BriefDescription": "The system level cache miss rate.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_cache_miss / hnf_slc_sf_cache_access",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "hnf_message_retry_rate",
-+		"BriefDescription": "HN-F message retry rate indicates whether a lack of credits is causing the bottlenecks.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_pocq_retry / hnf_pocq_reqs_recvd",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "sf_hit_rate",
-+		"BriefDescription": "Snoop filter hit rate can be used to measure the snoop filter efficiency.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_sf_hit / hnf_slc_sf_cache_access",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "mc_message_retry_rate",
-+		"BriefDescription": "The memory controller request retries rate indicates whether the memory controller is the bottleneck.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_mc_retries / hnf_mc_reqs",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_actual_read_bandwidth.all",
-+		"BriefDescription": "This event measure the actual bandwidth that RN-I bridge sends to the interconnect.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_rxdat_flits * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_actual_write_bandwidth.all",
-+		"BriefDescription": "This event measures the actual write bandwidth at RN-I bridges.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_txdat_flits * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_retry_rate",
-+		"BriefDescription": "RN-I bridge retry rate indicates whether the memory controller is the bottleneck.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_txreq_flits_retried / rnid_txreq_flits_total",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "sbsx_actual_write_bandwidth.all",
-+		"BriefDescription": "sbsx actual write bandwidth.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "sbsx_txdat_flitv * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	}
-+]
--- 
-1.8.3.1
-
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
