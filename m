@@ -2,234 +2,212 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FAD6EB64DD
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 08:41:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0136AEB64DD
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 09:20:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbjHGIlX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Aug 2023 04:41:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34536 "EHLO
+        id S229824AbjHGJUV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Aug 2023 05:20:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbjHGIlU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 04:41:20 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 863341721
-        for <linux-doc@vger.kernel.org>; Mon,  7 Aug 2023 01:41:18 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5233deb7cb9so457428a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Aug 2023 01:41:18 -0700 (PDT)
+        with ESMTP id S229588AbjHGJUT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 05:20:19 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6379EE68;
+        Mon,  7 Aug 2023 02:20:18 -0700 (PDT)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 376MvSbT013599;
+        Mon, 7 Aug 2023 09:19:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=IoX9Fvww4jlZ7oPqmNo5WsZZJu0sF2XIMPJR9tUMh8o=;
+ b=z4OCfc25/8gj+gKZMI+AbmhNPBOtfCP4tZ9G7RXuKiWTSu+/qfMbfBXxQd23gtdzIWxt
+ wmytxcS+pB1kSsaf7u/VqG0IPZMC3TWZCTelLMwERnR7TDX7YYiypPHoJJZpo52Gi0lB
+ O7BJguIkjNLOenIz6O4/kCz8UbIleMX7sSY7uSZI6gMMzqAGenhH6NxpQB7ioFCZDGYz
+ 33ybbM2hx/cn2n43NAkKgPTemVHjiVL8Xh9aKHrHLxQHqRjzGhbhoEwwv04ZPvEvpC6/
+ mCbf3AQlGG+cZOi+pT5Kp8h+5yGAWnAFmANuA/cd5S1KA/DTjBi9f8zuP1l9AVuDlygO pw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3s9d73ac06-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Aug 2023 09:19:51 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3777ebvp023046;
+        Mon, 7 Aug 2023 09:19:51 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3s9cv48sf1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Aug 2023 09:19:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D0ENX3T5m6GiAzqQ1y2kUE3fnNHCbfPcPd2gVXx+WlqduA54A7kCWUoYGBgVNPmmqA7LSPF98C4e6a7bq+ja3SzB55pf2LXwr7wxHwOG25y54FRpQi6dcvdwSU2v5hAp5vCMA/EgKH0dVPMXPNSNAscpeL2aoZYC+Ka0+ihUM/3TBgdpropGoVDfJmAfuNI/mvVe3RGB6UehD7Jy6sKr5hnIOG/EMIP7SsR1t8z3xhY2ay/xmJtQNEwrDnKFcjDavEP2Wz8hDgkwZSJLExsvVi7y4d8g67aqpAm2j4aEhbkrt10X6rS/hUhsjBFPEGPC96EuSkF4TguPa1VAN/nyTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IoX9Fvww4jlZ7oPqmNo5WsZZJu0sF2XIMPJR9tUMh8o=;
+ b=h5MsC9UkqbviJiENii7q3n4A9z40gfgeq/cNGtDOGfBcFipyRoZFzp4zewQzbfQaAunbj8VxFB23CUOa3bU6yIm1MGqSTXvG9AsV0TczC1AoRHR7OXiJfEd/RKuSwJDyJzWOfsrfb23Kei0BmV7XI47e7T1D556GueR2CEPKjnAjOEcjXT4H66yqDKnYDN3dcS20hB+f0VlLYF1yJY05mPA+0M4ppV+0YD44Vtcv+KgzzXRbeTEMmf0kXRtpmkg/jHG/HtqjgOMibBcD1R0yijs/ETuXjvxFWqr5yKaYf8sBSXtPVp+JUOQfjrNfhRwFs9gcN1hYKLJWJ9pBL/p/Mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1691397677; x=1692002477;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0eZZxF7uLAsYX/m67q6Fvc/Im25NatC6UCV3VKiuk20=;
-        b=SOtKNq3tep9e4rbOEALFWIYYuWuTYwXx9gYJwZykSKNXY7xG5QmRvc7w9rvFbKnLC/
-         R51Q64qs1ZO2UuY7kop5KJfapfNRxmjYA/Xm8u7dkaqYYh0pVL6z+yUzv++OnFUWs9O8
-         kEXwXJASlHhfNVRiNypwaUAxqZeN9tiAmltG4fm734KSgXPCmyOSjniZzrAdqFjRuOce
-         uH61wEY4n02TtZC3DKv5GXoXAVRRbTCVNprBkkazK3gdeYqTZ3XBJAp+BmyM9F7+qoQ8
-         6HiRrmt+auMZQNH1/21rgV6b46Z7KIDPAeHmmnBQ3kd3hOTkPuXO3izLsesVyKuX/TJf
-         pQhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691397677; x=1692002477;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0eZZxF7uLAsYX/m67q6Fvc/Im25NatC6UCV3VKiuk20=;
-        b=g5EHTeBnCUMnmKFJ2QOJFU1nvbJ5fI1LGyelBJ5sKFbHliF7wlaYSpVCwJ128lVjJS
-         CYY6gVtoiAy8zLNIIDf5Nfy02tC8rE5Lp7MU1aCigQeMuvX+rs8UZPY8NU7lDuBwJeM+
-         221rqzWST9f+Qkz915LF74VJpz0/cx2rHk9A3EWOaJyOX+5kyMrN035rlheyw5VDKl/G
-         4AadDgdb4K8hsy7cwcV6QEsEMH7TyCmUVqR68wdhHZEe+cxOgbqxJOVsNlc66f35FR9l
-         b3beQfluMLxO/iqxOgxtgT3vcPYXwKH9NcO+8VPBiRn0RXxEUwPH930MRrfVgt9CI/cw
-         fjFg==
-X-Gm-Message-State: AOJu0Yyy4RZZbS2mkywXKa7pOZ8N20jKljNFzNC/6QHUa/A9EbW3AnWP
-        IYlPtj+Zcd3+ldKWS5PYfcH+7w==
-X-Google-Smtp-Source: AGHT+IFTUmMoVlFQ7J3hG7NjaV1KI5qAp1himGDYASyuQT814a4MvLXG3IwoM9SHGhAcRUnXpKqVow==
-X-Received: by 2002:aa7:d284:0:b0:51e:53eb:88a3 with SMTP id w4-20020aa7d284000000b0051e53eb88a3mr6239145edq.25.1691397677007;
-        Mon, 07 Aug 2023 01:41:17 -0700 (PDT)
-Received: from localhost (212-5-140-29.ip.btc-net.bg. [212.5.140.29])
-        by smtp.gmail.com with ESMTPSA id b20-20020a056402139400b00522d53bff56sm4769693edv.65.2023.08.07.01.41.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Aug 2023 01:41:16 -0700 (PDT)
-Date:   Mon, 7 Aug 2023 11:41:15 +0300
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IoX9Fvww4jlZ7oPqmNo5WsZZJu0sF2XIMPJR9tUMh8o=;
+ b=FyfFCsy/B54aBB68kqJDE/XERZGgXzEM87ok8P8XgseQDjtV+A/ahzsiW+AaQmKDDiJEr2+PHD0nHPggB84gHitpxS7wKB5tQw3ivj6UaOOM5lhPqC4wd2Gp2xhPzYs9Q9Z7ECZxDaPCX/9loW//s4YjgXqtbMAsSIwP2mC/yNE=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by IA0PR10MB6916.namprd10.prod.outlook.com (2603:10b6:208:430::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.26; Mon, 7 Aug
+ 2023 09:19:49 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ebfd:c49c:6b8:6fce]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ebfd:c49c:6b8:6fce%6]) with mapi id 15.20.6652.026; Mon, 7 Aug 2023
+ 09:19:48 +0000
+Message-ID: <1a2c7977-2337-40d5-449b-18a3e3711686@oracle.com>
+Date:   Mon, 7 Aug 2023 10:19:41 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v6 1/7] perf pmu: "Compat" supports matching multiple
+ identifiers
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Anup Patel <anup@brainfault.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Robert Moore <robert.moore@intel.com>,
-        Haibo Xu <haibo1.xu@intel.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Atish Kumar Patra <atishp@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [RFC PATCH v1 04/21] RISC-V: ACPI: Enhance acpi_os_ioremap with
- MMIO remapping
-Message-ID: <20230807-767cb417c44ed5f1437f7b0d@orel>
-References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
- <20230803175916.3174453-5-sunilvl@ventanamicro.com>
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1691394685-61240-2-git-send-email-renyu.zj@linux.alibaba.com>
+Content-Language: en-US
+From:   John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <1691394685-61240-2-git-send-email-renyu.zj@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P265CA0265.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a1::13) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230803175916.3174453-5-sunilvl@ventanamicro.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|IA0PR10MB6916:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1421d8f-fdf5-46fb-790f-08db972772a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OR31rDsLa3TNE9t6/zjTy1qyV4cOld1SW/u44/MXK82XDDRWmj851+sfzhkaVxs3c+hE5byNkzABg9Xf+FZsbrmYU8tTst507o2FsQiYt1uXkj3W3/n0LUvbw7B/dk6y2cCJ4hJ1iPvi/UVJMY7hBKP9eXPDNUQQ4eEa03mqmxWJAJJw4UHRzPew7ZVzFBe9MlRyuQaNTNvL6Hb4tkT28Gjj4t4//PGscCHmvJAdwPUQ1f9Ml+zdaRwVDpsnwMdYzFBrDfwq45tak6bJIzmu+hNyKTdshRBOZcPlrCn0ErUi83p24qHXNURTpziFhhW4Uikb4tL+XWCvJiNsL6sHbkQgYGEq1/Fb7MDYD0seNzohsj/vl6t/e/k0knZKmhETeM4ShYni6yBSxAOi+7OpzeDPFXADva7XwrUiCsBCwBRziVHTKh7J1a0JJsjrAervlxiXv6zVvDk64oQoVr+8FH0a4V3YVnrk41d8+VrMHZ8NqO3yWCln/sYBdUa0qvtuDhVRC2KUleHjyvv7XDuScED4XtgNGz0HVC7CsuYQmdIBzXkpYQzWFghkwX+viNs2YbhOfs3d78YgT4vWHEO+taAfwX9HuHXdG1U8/PXxO71zC6gOwMSBxKITQrzAk8RyxItM2kwqEoLpzqXR68KGdQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(396003)(136003)(346002)(376002)(366004)(451199021)(186006)(1800799003)(2616005)(36756003)(6512007)(4326008)(316002)(86362001)(478600001)(54906003)(110136005)(38100700002)(6666004)(66946007)(36916002)(6486002)(66556008)(66476007)(31696002)(53546011)(6506007)(41300700001)(26005)(8676002)(8936002)(4744005)(2906002)(83380400001)(7416002)(5660300002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXQ1b0Yzb3dPaFRvdi91WksweTdoSkZEMnVGSGhSTDdjMVpTL0hrRWtXZVRB?=
+ =?utf-8?B?MlZhakNESkxNUlhJOGtMVkNBeVdiNjVrMWdHWGZ5N1BvV0FCTjFxdS81eVNB?=
+ =?utf-8?B?MGs4cHBaL05EY1BLSHlHZ2xEdG5xZWxBVy9wR3o4YW1YaGJFNzRNY29HZFIw?=
+ =?utf-8?B?RWtxV3l0NkdLYS9DNFJMa2tuMVVRSy8wTG0zT0VNTUpsUDcvZzFxOHBVZkt0?=
+ =?utf-8?B?MU94cTBPWkdJTkJFNDUvQTl3WklVVmNKQjBnOEYyMHFFSjN6QStYQkZ5cGRL?=
+ =?utf-8?B?aHVIM0I5dW11WGVaVkRBMEtQeEp2Z1BPaGc2OGNNY1llOHBzMjdtTWZjVmgw?=
+ =?utf-8?B?RzhlSVd5OTF6aEFrQXJ5SGxnM2NuQnRMNEh0b1ZHRFoyTzBsSnJiaG8zeWR1?=
+ =?utf-8?B?L1I2L1FHbTBWWEVGU010ZEo2ZFpqdVNMZjhVcTA4ZnRHVUFVbnZGaWpqd2Zl?=
+ =?utf-8?B?NTdwWjNUTTl2dWFnWDBxNUNIMi8xL1FDVEJTdVh1R2h5SEdWNEF5T3VzbWVv?=
+ =?utf-8?B?L0xjMXdoNVV3ZFpCeDkydEpmRFVhRmp5dTZBU1IrWWVWdlNkMlRiQ2t3dmFm?=
+ =?utf-8?B?cDBHK2M1RENCZnpmTFNLb2x3Y29CdU1WL09uOGNQMUJRMWFmSVBwbkhlUGth?=
+ =?utf-8?B?OEVDSGIvMzg1V0ttbjJrM3BySEpEUWN1OVk0UnYzZTZQd2JJVGNhYURjbmwx?=
+ =?utf-8?B?eTlJSFB4Zjh4ZnlOdm84VUlsZ1pQN2VhK1RFWm1memxleDdnRWQ3V08ybUl3?=
+ =?utf-8?B?ZFJMWm5XZzJuOFo4TnNMalFRL3JVcGdYRlFsRE1ONm90OG9lL2g1czNxVUF2?=
+ =?utf-8?B?eWpOSnVmR0hVMXVZYUtqOVMvSlJCdDQxS1RJeG5mVWx5eWx1MWtnVFlUb3pq?=
+ =?utf-8?B?bEV1c2tQaXBrZkJFSjVRZkZSWmVGZXQ1WXRvYjZ6bXFRV0FGMkJvYVowU3lL?=
+ =?utf-8?B?SStsMmhETGxVdGRBdVdHSFlTd1cvbE95NUZaSVpHMXFZRG5yalhxUDBveENm?=
+ =?utf-8?B?cElGeWQxOHpmNi92ZUw4SGdXaDY5eEUxbnc4TGFJS2J5QzFQNFBKOG9hamoz?=
+ =?utf-8?B?Q1lCOFNDNHEvR0orck9lYTBtVkFLU1pLbjVYbHJaTnIxWmRDSmhxMjl2bkMv?=
+ =?utf-8?B?SWQ2RXRsM1dZYUd3WFloRzJDcHJ3VmxUcTBSTWNkeXE4WWZBN3JnVFJaajRj?=
+ =?utf-8?B?d2M3aW9TRmprTGJtUHZzZ3F4Vm1WVmxCNk9sSTIycEh4OVcyK0VTeTltRlpL?=
+ =?utf-8?B?TTh1WDlhVTRwS3BYV3JjZzVsYVJXMGM4eFFBNm1sa0kvckYycWpQblE3Mzdr?=
+ =?utf-8?B?Y1dyQ0VIZldSK2VtQmV2V2swTGdhMzg4cnRVVitMK0dkTlBpWGRXRWNyU0Fs?=
+ =?utf-8?B?dzZ1VmcwdndYU3RQTVRPbU9QMEMxYldlVkhmQXR3ZldMQWUxdzErY2tyMFBD?=
+ =?utf-8?B?cStRT2ZhT0MwamowaU9ScGhjYldSc0o4d0FtelMxT0dFYXMvNWVHVmZjVXpo?=
+ =?utf-8?B?MFRPZHErR0p0aTJ0V09DNW1kcjB6bHI2WWhMd1NnSTNXNmtLUUwrUG1iUWpl?=
+ =?utf-8?B?eVdaYThuMm5IOU1WNjhSUHErVVYyOS92YWxMVC9lMjlWQ3lFQ1VVdThpbGlZ?=
+ =?utf-8?B?WXVMMWRtcC9vY1Y2OVNmb1hsQTZNYXBXYWFOSFI1SU54Ty9seTNQWkVLU1Fh?=
+ =?utf-8?B?M3hEQjB3elFJaTNRKzUwdklyVFJDbmwzczBQSjl5WDAzVG84dEs0SlJIT0J3?=
+ =?utf-8?B?T2Y4SVc3S0htQld0c0pHc0RLRmxIWXVjMVZJS0cwczdzTW5tdTUydE1PYWpS?=
+ =?utf-8?B?MlRtTm00a0FoRlU0cWp0NDc3dy83WExuK3dybS9BZ1JaaWZ3VXNaMUI3ckhm?=
+ =?utf-8?B?THd6SDRHblNKeUlVTW9vNHZ4UUtuWEY2aG0rWWZ6aDIyYkJ4bytCQTZtek9t?=
+ =?utf-8?B?OHU5MTRCWDlxU2o1bzkyWUU4d2ZFT3NRWmNmbDdRTHVTb3lhNVlBZGFVbTMw?=
+ =?utf-8?B?bjFndENoRGZoK25CVlBMVkl2dnlOa2RKWDFGc2JJVkl1ZERVZHNpRFBUdHN6?=
+ =?utf-8?B?RTRPNGlEYXV0T1RLUjBLTWRQS0M4N0ZWdFZqUDdLLzNjOHY1b0JTQzR3NElT?=
+ =?utf-8?Q?d3igXlaML35OomL2HVeW7QBsg?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?VWV5ajRqQmg0dWtOa1JCcXFQZWxEb21nZUVxdjAzQ2lJVWV4RmRhUHpKbTNp?=
+ =?utf-8?B?YTRjdGhBK0RUM3phZ0VnL00vaSthZ3duZ0hub3R4N3gyTWtPczFabHJWNnlV?=
+ =?utf-8?B?dDVldVJiQWNxL1d4MlM0UGJjZ0orRkVZR0J3MnpuaWhOR3NvRFY3ejg4cGNt?=
+ =?utf-8?B?Q2tIUjAvZnBUdFE1YWxuaVo2aW9reVdQV1VGakJNQkF3amY1NUo0dFBsN1l5?=
+ =?utf-8?B?bytIM1FBTjVCQ0RTeWZUTy9JTDZ5SXVxQS9IOFpaZXd0NkRvMUc5U09LYTJV?=
+ =?utf-8?B?SjNDcmFja0JpR3lWVy9aMjFDejY2RFhyRDBpbnZPcVNXTnRpaWhaNG5UTExP?=
+ =?utf-8?B?ZERScUhVaVVuek9qM1ZuclREa2xYaDNaeDlCVCtMbVdXd29WRnZsYlUwditt?=
+ =?utf-8?B?WGVGZ0tiMzN2RzdTbStuRVlVUEZ1blE0WVgxaUZRa3pzaWIxK3ZzeVdzT3h1?=
+ =?utf-8?B?WHpJemxveXFBalZJaUJTWFg3aWVaK0xlVUZXRHU2NXJVM3FZTm11ZGdJclJz?=
+ =?utf-8?B?NFhqMUMrZWVSN0V2WE9Ka2E4UzRCSW1FM0hVNklnWW9McE16aHhjaUVEQWhn?=
+ =?utf-8?B?TnJpeExlTElkUE1Ib0p4Wis5bFI4bHk0YkRXTlpJZi9KNmxYTlRSRUI0OGdP?=
+ =?utf-8?B?QjlQSi9QZzN6UWVLOVNDeWJueHllUnlKWVlUMldpOFpLaTFOME8wT3pLR0NJ?=
+ =?utf-8?B?ZXpYUU12YVBlYTNiTHFOem5rOXF2bjRmV0xsZ3FxU2Q1SFEydERBTzQrN0xp?=
+ =?utf-8?B?Q0VqMjd1SmpIOGFsVjFNRUtzclhOVG1OOHYreWRYS05lMFNUNkx4d1RDVTd1?=
+ =?utf-8?B?eGJxb080bmtSNVpvUHJ1YkRUbXQvcFhic21zOHpHY3FidnRWZnQzclRjNzBC?=
+ =?utf-8?B?bjltdTB4OWxSRnFRS011akhIdHk1cHQ3aW9PbktOMkhsVG5aV1pibitjZUh5?=
+ =?utf-8?B?ejB4V0g4Wk0zTGxpWjBIa1NRQWFwRU9vbXZzRU1WZDY1QUw1Qm5hRnd4SHI3?=
+ =?utf-8?B?Qi9FOWFBZUtNc3B2Y3FUTTduVzNqcStacm5MQmFUM1NyMVVsUUJ1Mk16UjQz?=
+ =?utf-8?B?MmNVY2hwOVVXRVFLYklRcjdWUGt3YWg5OWVScEkwSXBDazgraUdKSmU1OVJC?=
+ =?utf-8?B?V1gzWHhnUzIzaVFpTUdEOEZMTW1tRE1qcWx3eWdHejMzRThvcnBoM3JvaTRh?=
+ =?utf-8?B?djRxR2cwOGFEQmRoTEMyWExZWlM5QTJpSG1MczBOQjMzK1RQUkV2N1VCV2Mv?=
+ =?utf-8?B?YkQ0ZE5iTWsyUVp3VGZrT1J3ZURIMUs0MTNLTERtaFVYeUQvcno2TVJTWDdP?=
+ =?utf-8?B?QTNSWEd3MDZCTXNYbkVyUFZjd095OGUyL0pNaUhHMDJHNFo2NWJGQjhSLzlH?=
+ =?utf-8?B?aGFPWTJrSCtJMVM1TjZlM1JwNXdLT1ZuNHErVWhUWUZmVmtpYlRCN1hvMXN1?=
+ =?utf-8?B?bHc4WHhyVlU5STRsSkZ1Z2JaYnQ1cXJETDRmTmU1eHRFQXFBOTFDaVNVT2tC?=
+ =?utf-8?Q?a/YZ/0=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1421d8f-fdf5-46fb-790f-08db972772a7
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 09:19:48.8993
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5zpggnDz1Da4uJLQCEA/YR88xctPG92G1+XEMRDU9BnCv11uxFXbjBhp+576kLzVRnUDvH5vQA4mOYEKREObdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6916
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-07_08,2023-08-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308070086
+X-Proofpoint-GUID: zbQtpHV74QPDK1jucMV64DsSU0CfWTDC
+X-Proofpoint-ORIG-GUID: zbQtpHV74QPDK1jucMV64DsSU0CfWTDC
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 03, 2023 at 11:28:59PM +0530, Sunil V L wrote:
-> Enhance the acpi_os_ioremap() to support opregions in MMIO
-> space. Also, have strict checks using EFI memory map
-> to allow remapping the RAM similar to arm64.
+On 07/08/2023 08:51, Jing Zhang wrote:
+> The jevent "Compat" is used for uncore PMU alias or metric definitions.
 > 
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+> The same PMU driver has different PMU identifiers due to different
+> hardware versions and types, but they may have some common PMU event.
+> Since a Compat value can only match one identifier, when adding the
+> same event alias to PMUs with different identifiers, each identifier
+> needs to be defined once, which is not streamlined enough.
 > 
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> So let "Compat" supports matching multiple identifiers for uncore PMU
+> alias. For example, the Compat value {43401;436*} can match the PMU
+> identifier "43401", that is, CMN600_r0p0, and the PMU identifier with
+> the prefix "436", that is, all CMN650, where "*" is a wildcard.
+> Tokens in Unit field are delimited by ';' with no spaces.
+> 
+> Signed-off-by: Jing Zhang<renyu.zj@linux.alibaba.com>
 > ---
->  arch/riscv/Kconfig       |  1 +
->  arch/riscv/kernel/acpi.c | 86 +++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 86 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index 318f62a0a187..e19f32c12a68 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -38,6 +38,7 @@ config RISCV
->  	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
->  	select ARCH_HAS_UBSAN_SANITIZE_ALL
->  	select ARCH_HAS_VDSO_DATA
-> +	select ARCH_KEEP_MEMBLOCK
->  	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
->  	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
->  	select ARCH_STACKWALK
-> diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
-> index 56cb2c986c48..aa4433bca6d9 100644
-> --- a/arch/riscv/kernel/acpi.c
-> +++ b/arch/riscv/kernel/acpi.c
-> @@ -17,6 +17,7 @@
->  #include <linux/io.h>
->  #include <linux/pci.h>
->  #include <linux/efi.h>
-> +#include <linux/memblock.h>
->  
->  int acpi_noirq = 1;		/* skip ACPI IRQ initialization */
->  int acpi_disabled = 1;
-> @@ -217,7 +218,90 @@ void __init __acpi_unmap_table(void __iomem *map, unsigned long size)
->  
->  void __iomem *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
->  {
-> -	return (void __iomem *)memremap(phys, size, MEMREMAP_WB);
-> +	efi_memory_desc_t *md, *region = NULL;
-> +	pgprot_t prot;
-> +
-> +	if (WARN_ON_ONCE(!efi_enabled(EFI_MEMMAP)))
-> +		return NULL;
-> +
-> +	for_each_efi_memory_desc(md) {
-> +		u64 end = md->phys_addr + (md->num_pages << EFI_PAGE_SHIFT);
-> +
-> +		if (phys < md->phys_addr || phys >= end)
-> +			continue;
-> +
-> +		if (phys + size > end) {
-> +			pr_warn(FW_BUG "requested region covers multiple EFI memory regions\n");
-> +			return NULL;
-> +		}
-> +		region = md;
-> +		break;
-> +	}
-> +
-> +	/*
-> +	 * It is fine for AML to remap regions that are not represented in the
-> +	 * EFI memory map at all, as it only describes normal memory, and MMIO
-> +	 * regions that require a virtual mapping to make them accessible to
-> +	 * the EFI runtime services.
-> +	 */
-> +	prot = PAGE_KERNEL_IO;
-> +	if (region) {
-> +		switch (region->type) {
-> +		case EFI_LOADER_CODE:
-> +		case EFI_LOADER_DATA:
-> +		case EFI_BOOT_SERVICES_CODE:
-> +		case EFI_BOOT_SERVICES_DATA:
-> +		case EFI_CONVENTIONAL_MEMORY:
-> +		case EFI_PERSISTENT_MEMORY:
-> +			if (memblock_is_map_memory(phys) ||
-> +			    !memblock_is_region_memory(phys, size)) {
-> +				pr_warn(FW_BUG "requested region covers kernel memory @ %p\n",
-> +					&phys);
-> +				return NULL;
-> +			}
-> +
-> +			/*
-> +			 * Mapping kernel memory is permitted if the region in
-> +			 * question is covered by a single memblock with the
-> +			 * NOMAP attribute set: this enables the use of ACPI
-> +			 * table overrides passed via initramfs.
-> +			 * This particular use case only requires read access.
-> +			 */
-> +			fallthrough;
-> +
-> +		case EFI_RUNTIME_SERVICES_CODE:
-> +			/*
-> +			 * This would be unusual, but not problematic per se,
-> +			 * as long as we take care not to create a writable
-> +			 * mapping for executable code.
-> +			 */
-> +			prot = PAGE_KERNEL_RO;
-> +			break;
-> +
-> +		case EFI_ACPI_RECLAIM_MEMORY:
-> +			/*
-> +			 * ACPI reclaim memory is used to pass firmware tables
-> +			 * and other data that is intended for consumption by
-> +			 * the OS only, which may decide it wants to reclaim
-> +			 * that memory and use it for something else. We never
-> +			 * do that, but we usually add it to the linear map
-> +			 * anyway, in which case we should use the existing
-> +			 * mapping.
-> +			 */
-> +			if (memblock_is_map_memory(phys))
-> +				return (void __iomem *)__va(phys);
-> +			fallthrough;
-> +
-> +		default:
-> +			if (region->attribute & EFI_MEMORY_WB)
-> +				prot = PAGE_KERNEL;
-> +			else if ((region->attribute & EFI_MEMORY_WC) ||
-> +				 (region->attribute & EFI_MEMORY_WT))
-> +				prot = pgprot_writecombine(PAGE_KERNEL);
-> +		}
-> +	}
-> +
-> +	return ioremap_prot(phys, size, pgprot_val(prot));
->  }
->  
->  #ifdef CONFIG_PCI
-> -- 
-> 2.39.2
->
 
-Such a faithful port of arm64's function that it begs the question as to
-whether or not we should refactor and share. Anyway, other than Andy's
-comments, LGTM
-
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-
-Thanks,
-drew
+Reviewed-by: John Garry <john.g.garry@oracle.com>
