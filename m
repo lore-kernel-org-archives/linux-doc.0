@@ -2,218 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A3FEB64DD
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 09:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04651C41513
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Aug 2023 09:40:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231533AbjHGJYx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Aug 2023 05:24:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
+        id S231602AbjHGJko (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Aug 2023 05:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231539AbjHGJYm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 05:24:42 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34901703;
-        Mon,  7 Aug 2023 02:24:40 -0700 (PDT)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 376NsPH6003828;
-        Mon, 7 Aug 2023 09:24:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-03-30;
- bh=kk3TqHwKwwjEmPTefbV+rU4csHtt/LWvpcXL2FiFQEw=;
- b=muX7e/PIhoTR9SxpT/kbLvoxK16aLKwHcxWUOFSd2dwcJ/Nr4tmb9YsnygfhVG637j5z
- JbTem9mjMR478D3Xj0Z3yTX8errsGpxc/VaFembhqDGYxHDevXXmwP9F3oQ5eGjiSrO2
- iKxxpsRs8Ly6JFAAQiRywRYVPBaadBf6wWZT5kmX2DZ48qChR5IbrGCYoJWjbv06Qn9d
- xS+PEnkSizyB6tOAzv4n7os1l5QxlIcruwAompLlv9QhGVAY64ADd2rgYMMoAaS4DVHj
- Bad5ZxkVG45H7peGomeXKsq9VI8llH7hUcuRx4Udh6DEPFgjn9M75Wnz29bgXPoPUZxD ZA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3s9cuejc2d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Aug 2023 09:24:23 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3777ebxR023046;
-        Mon, 7 Aug 2023 09:24:11 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3s9cv48x3d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Aug 2023 09:24:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K2QL6lY8iVNUpMhbMvcUHwqVBbo1FvdjoWcylDAQlLe9Nr6rN9hSPWFUcqwWiJD5G/xzGg+8dc4bGA1ycRAdpvthzhcIDZidjsltAO39HDmwXxRy5KYiHccgmvgz+vUj6KWZ3qTpkAYU84ZlzHBM52NxPsNxxC9xMeqO5x+EOj/E1J3BG/nOQXEgVmnx+VCAsJ97qCxqyqwN3fpbn58WXfNEdc7KL3A6xHSoAylLfwmxzHuaeFLlIfP1awOBwjDSFbC9rfgApcALig+8jFhQXBe9FHJiYEa585k4nCPa4LjMX/viYde8UoMwbiVgxrv+OLZphuS/UXui8YbsyrSDkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kk3TqHwKwwjEmPTefbV+rU4csHtt/LWvpcXL2FiFQEw=;
- b=J3yNbbN9MU0F++oUJIhn45/nLgW/OC68dECU3sX9oj7blcmo6c8yC/eQnp/4vhObznuJ8QHJFSTVNHFcgged0KPqZ9R459QTRjcTSGBujHXMlblg5ma6dyP6bftiSnUkqMLuxb0VudX2O2vL9SpZ564t3pPfFO9FLXl5tLXMRjPC1gCa/3qwFfNEbD2WP4DZdBOT5FRoFqITHnL+IEMIl9yXYkat/6WGyWugRpJ2rtdBiLFvjmh56heie8oi/z4rn/xq0GFnrdtpvoPjIApJdfWIiLF0R8fMcEC2RlSNeuDZbhYjFNFsXuxp1D2dKDXWVwgR2cnM5nUBvkVFhvzBUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S229491AbjHGJko (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 05:40:44 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDD410F8
+        for <linux-doc@vger.kernel.org>; Mon,  7 Aug 2023 02:40:42 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-d4f022c6c91so1439755276.2
+        for <linux-doc@vger.kernel.org>; Mon, 07 Aug 2023 02:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kk3TqHwKwwjEmPTefbV+rU4csHtt/LWvpcXL2FiFQEw=;
- b=fvQrAb8yVnJa6kf2me9nCkgAskiJgkLlDcqJbHSPMu6fmwANkWZZI13d6s//ERQ0vWpPmpWPjPEBah0M6vMtskVTi6i52QaD9Vd6OY03gZZ1Hef8IVolzgznPO/AqNwnjZyOGFdlNLbKqbLt/2CePauhNjOR0SC+9ZSdmVxnbnI=
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
- by IA0PR10MB6916.namprd10.prod.outlook.com (2603:10b6:208:430::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.26; Mon, 7 Aug
- 2023 09:24:09 +0000
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::ebfd:c49c:6b8:6fce]) by DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::ebfd:c49c:6b8:6fce%6]) with mapi id 15.20.6652.026; Mon, 7 Aug 2023
- 09:24:08 +0000
-Message-ID: <50a8778a-ebe4-5b3b-9367-c8547d6d991d@oracle.com>
-Date:   Mon, 7 Aug 2023 10:24:02 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v6 3/7] perf jevents: Support more event fields
-Content-Language: en-US
-To:     Jing Zhang <renyu.zj@linux.alibaba.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1691394685-61240-4-git-send-email-renyu.zj@linux.alibaba.com>
-From:   John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <1691394685-61240-4-git-send-email-renyu.zj@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P123CA0047.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600::35)
- To DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+        d=linaro.org; s=google; t=1691401242; x=1692006042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z0BIx/DwsSPZgVGJC3d5waXyUmpwnTVitNmKM5gOvHE=;
+        b=USDb3373iehLTf75iQhizKmSVDbZFFGRKRsJOyNXaLSF7qJFSVRrZ7OOGUAbr8hewW
+         wAbhAITm0J3tScId7uL4BZ+5p/IPwRWHXebJqdOEpWdcnLaMpZbcOwxTreHwfT7f9vT5
+         Yu5z+OkPYsAHTX68z35rbi7RtTBWvhtKqjtjyeuAmWAJDrqoejtwplYKDWm1GaGfJFE3
+         re2hsNN6NXtOHVQKX6eTSQBQiXTmVnxbt7F1ZqOlU0/RVc/Whmc2zu5JIWD9ij8aMiBD
+         ZikynjeXX7Mg2N08ouqti00b9pHhwmGSUnm/+052JO4lgeiuYzIRbZrmfZ3fUCxhZqPY
+         68cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691401242; x=1692006042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z0BIx/DwsSPZgVGJC3d5waXyUmpwnTVitNmKM5gOvHE=;
+        b=av7qLMIIz3Sss/A2pEWZIe6KL2KDP+TiAbRUmeBH7tL9ikMSm2P9g9uc3Geyrag2Ts
+         DGoH3DbSCXdPsyzcmxkZJUYSuvRFKNUCNst7ZuPrZn2jXf4xEDQ4h+MjYi0X6uXP03kY
+         6aTSKqoM5u8U0ZOABUuKfSeRq8Tt6uFincqauNQhKBL2XWRt+xCfPfKU9J8zCTVkJWEY
+         T3eDHBzxjbWRftV6U9elEWy4QjcDbaDCCrCA9Cyp9PkwXDmEkGRlU1rrlEVvqo+ih004
+         KK5BlMm6lwm0Jw+A78vG5azaLdyDumXD0CKY3WINL8Iiqz10UZ9yX/pPRfs8fqsf63Mj
+         qMmA==
+X-Gm-Message-State: AOJu0Ywem5lp6pC95LaSsawC/qhwg7/LAF6rxrhRdaBnTVzaJ4qIMnqF
+        6p8jfB0RCF306NAWWjle5rHs+yaLtoPGQjM7TnragA==
+X-Google-Smtp-Source: AGHT+IFjgVVEbs75Yy6UHOvcZs/Zmb8sTBl4Zg/Gk6G3S+nGQ6xP3TrMvuSZUsuCKJDebDvYO7m7I7MdetFFTSLjqmY=
+X-Received: by 2002:a25:d757:0:b0:d07:23bf:2824 with SMTP id
+ o84-20020a25d757000000b00d0723bf2824mr9006539ybg.50.1691401242129; Mon, 07
+ Aug 2023 02:40:42 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|IA0PR10MB6916:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad2ea3aa-90f2-4539-f8a0-08db97280db0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YEB7Pv5C1vE5qv62dUu/H6LsvyWMW55MNFk/qe8TRZ6UmluWvVrw7pe/yZMPfvSErdwelkxYEsgujq5yiBA0YFCEFkheIqjY3NYYJhMN2RkcN3vH0nh+RzkynSa9DUX1jxBrwOydh8YaycPaY4MnkVnI8pkzD/RQTvCuGz+4D1OfAhVuV4H9R1qXUTzLOU/ymwUITs3NAbfCeLpcAwyTprXIdjNFcQqha6W6GAvrD/pSQ1bt1JXFFch6ns9L0FkWuX10iSKdoeT16DmJagw+CWqpLQMIJ9WXJQmdSWqzwh/dyb22cWGFWpA9kJOZklD6wuEUJXuH7E3FsFA9hROEctGDjW1wxbHQLLaiG2ljwB+4TO0klmMXSPawQVgHQ1vUY9dXBjmstHbq4bu7ZivTG7LcJmbNpHsH2jac5nY4xgHTCJqTJa12+rzRaSnLmqTWIsbFieAiIqBneEhxaR3Bpkggkvk7Uc4Z27zmnpV0/HegdgwM8f0f+SHC2d5wdJe+DtrKCpqytN+JYla5jNyd6W392qQyWDvtAOkYLTA2Kx9whm1tB9m4vkiJx7eE80ahCj/MFZ0PGC7cU1NF/KGKwqHsPQJZQ1Kkf7QxpfaB0F1/Kl+mYCp5FTYbWAF36Ik1ixzSG51Up5ei0uLXCpt8e9MLGd+xcqPCYBoA7CP/now=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(396003)(136003)(346002)(376002)(366004)(451199021)(186006)(1800799003)(2616005)(36756003)(6512007)(4326008)(316002)(86362001)(478600001)(54906003)(110136005)(38100700002)(6666004)(66946007)(36916002)(6486002)(66556008)(66476007)(31696002)(53546011)(6506007)(41300700001)(26005)(8676002)(8936002)(2906002)(7416002)(5660300002)(31686004)(21314003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1NTMEVReEFnbWhGN3VOSEUxUER6b3EwNDNGczNid0VzQVYxaC8rMXR3dVNE?=
- =?utf-8?B?Qzk0UzQzcE0zVFUyb3pMWFJiZkdFUzAwV0R0NjhWMVNJQ2Y3a3lxK3pjVjBQ?=
- =?utf-8?B?QnRjWlpzSU9ndTVJZDVpM2JYUGdqRWRRbnhYc2xuVnBBMTUxYnR2UzBWc2Ny?=
- =?utf-8?B?RkFCRXV1OU9mZ2lGV1lEdVRGc2tKY29kL2tLUWF1YzN2bG9DamlWczBYQmhr?=
- =?utf-8?B?WkxNOVJxWUx3b1JVVnhHZmd1WlY5WE50T2MydE53OEZqVCtQRlVta3Q1bzA5?=
- =?utf-8?B?NzkrejhRb1dSbTVPVW1RbjNMQUpzSzdGZDhudnMyOXp0bTBLSThZWXhpUVpU?=
- =?utf-8?B?STlWMXpueHVmMXVlWjRqWVdjNEFyWWhGclZQQkRJWEFRVm1KOEVPSHhwUVBG?=
- =?utf-8?B?RlkzZDRoM3hHdjl0QmtRMk1tYlJHaWR4eHYwV0wzdkpqYWZjMWFCUXhqbEdL?=
- =?utf-8?B?ckgzazdpY3haMk00dXBKVHZEV0VHQjNFc3BpR2xJODNENnJ0VFVEMktlb0lw?=
- =?utf-8?B?MU55T2N6QVhKUE9aNDh2VHVnSE9DcThRT05NUXgxc1czZUdkM2lqTmdCZ1lx?=
- =?utf-8?B?eFE0WEduTURObnFUdFM2cTZzc3Q0NGFKa3pwN0JQVFVaZE1EUjdpUDZuWHBz?=
- =?utf-8?B?NzFPSFNYVktpZmYzS3grcTJUZFBTVHZ0ei9qRW9HUmtTdkU4dys2dnJoVENL?=
- =?utf-8?B?K01rRzNVTmdqNlRtSnJwTFAvU3RtSFBLVmh6eDhsTHQzNHlCSHNjYVU4Mzdx?=
- =?utf-8?B?djhFdjhGTkFoSGpYVVpzV2dzcjUwaXFFNVMxU0JCV1NoUUV2b2hXbWtEWE9i?=
- =?utf-8?B?amtHMWlUOG5DL0xSQyt4V3NqUER0RGhLS09OT0hvRE03bnBybCs5L2V4TEZy?=
- =?utf-8?B?ZFUrNG82bmxseUZRMXU4cFRDUU9tWHg2MDhCTHVta0ozQ203UWMrVFNyYmZx?=
- =?utf-8?B?MndJaUFpbXhrbkJMcnNuK2NzbGhEYVZuQnJ5L2lNSXdZK3BwOXBYRFpHOVo5?=
- =?utf-8?B?QlZHb3NlZmpHOGlPSlVjUVFjOG9DT09TRG1RQ3AyNTNId1BLWG5TNE1LTm1C?=
- =?utf-8?B?SWp3RjhsMjg0R3d4UjhOWDdRUWJKOTRxaHpnZEx3dnJ5UW1yZStJU01tZVZL?=
- =?utf-8?B?ei9UWDBmRzhOVnZHV3VVbk5nWXJiTXFpbjZLNEpuWXJIOHI1b0gxUjBXdnFR?=
- =?utf-8?B?WVNXaWtCdDNDaEMyS09tR0hweTZoNTRqZmlGeWl3SjhORzNhbTRHTnhTazZP?=
- =?utf-8?B?ZmhIdDdUNzd4cUVybXZWTzVXVWFOYVlLakFMcmIwbGtPMnJOVkt3YmpoTWlK?=
- =?utf-8?B?bGZ5eE1ONTViRHkvUXRoY0ZCRHk5VzZnQWhZKzV0S05TTmdFdGtLT3VFQjZZ?=
- =?utf-8?B?QWo2TXFYNFFJaGZvSW1hMElkMEd2bzgwelFuajlFb3dYZHFnTXBYemE3OWxF?=
- =?utf-8?B?bGVKYW52RmpPSnFCY1hCZjNkbmNyWjdPYmZ6M3pRZEpVZkJKTjFYRkJ6OFo2?=
- =?utf-8?B?U2FGU21vS3RYNjJrOWFjSm9VMXJzNkxNUTBEa0pnVnA1Q1k2bE13UVFzMnlK?=
- =?utf-8?B?SFJJNlI1UjFZN3JOU2ZQQ1JxNEw1aVlvMUw2M1NUckk5ZTRSeE9oU3llb0Ur?=
- =?utf-8?B?UWticy9HcDRKK2oyYUJKUzJQRjZZVkJtR3AyczRQa1RFV1ZJOGhndTJkcmcv?=
- =?utf-8?B?UHNzYk9ybU9YZ1U5MzQvUzlESmM0aEkvZlJlZCtvN0hQNmxNbEkrMmx1bzda?=
- =?utf-8?B?NlRiRVV0WHZuQW9FOG1veGZzT0kxbXNLZmhpb3NBMFVjNTJvNXhzbmJxQmgx?=
- =?utf-8?B?cEx6cDJmVDhmYk1oQWN5czlRVHZZZmlhUlExODFqaytvSnN1dG9QRzBVWng2?=
- =?utf-8?B?bXJMZDkwSUJEVE1MeTY5ODJXRGczVnoxRmxackJDUHJ2SlZjQzJKUDRvV09U?=
- =?utf-8?B?U1hkbXpTNzRTcTZIelRqc2tSdW1MUjRBclduK1h1cytvaENRZTBqTTdCVXAz?=
- =?utf-8?B?ZlBZa2FhbnAzdkhDWGZUTUx5ZUxsaWFLSlRlenZ0Q2ovc1pGWUhieUd0N0FQ?=
- =?utf-8?B?bVJlRVMrYzIzL0Vpa01keW5hQUNRQmRuMDYvNE82TURERFBBbjFmbjlEdTdR?=
- =?utf-8?Q?Mcf83SxAL0Xr34IqNeC5Jk2ZH?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?cDgyNWllcnBpeVRQWFpXT2V0S2V4TE9XQStTbktYWnJFN0JNY3cySU1VUzBw?=
- =?utf-8?B?Yjd3UVc4WEx6SHFMemdlaU1uWXBhVmFGREdBaWFZTGNqRTZpR0FFQUtpYVJE?=
- =?utf-8?B?bGNzdzc2MnlUU1FmTFdEY0JPemNqT3ArMGFVRzlDeUlPY0xjTDlOd0RMTlAv?=
- =?utf-8?B?VERXY2EzcFpUdGNrUkxackxWVit1VXFDUXFITTFSWmlEUkd6WGtVdFd5c0VM?=
- =?utf-8?B?ZFh0ZXJWQk9PTHROazBVUi9VMjl1RUE5d1pSa3BWN2d3ODlvQ01JY0V4N1g4?=
- =?utf-8?B?dXd1ZGZwcVgwaDFkeHZyUDkwMVFxRitUeTZoMjFjOHB6L0JzOW9NazFJK21j?=
- =?utf-8?B?ODNNNTF4dzlnZWVlQjVBV1JORVRQRHFKZzVjR2RGdkZsK0FhdTU1bWJLWWVr?=
- =?utf-8?B?bCs2OVp2QmRTb041dlNONEZVVW0za3RZYmRQQjRuVzIvOHR3RzdxbVMvcXM5?=
- =?utf-8?B?SWlPMnRUMjg0MENHQWxEWUlXSjJXNzVZM1A2bGZyQy9iRG1JUXFlbWQxdkha?=
- =?utf-8?B?RHZORjk3NVJidnNtRVBFRHhTTGpZYTRORjFZN3hBYVg5RDgzSHJ0UHg1aHpu?=
- =?utf-8?B?czdOZVpIc1prT0xHY0s5TjJJVy85UlpiNk5KdDIrdFp4L2ZWOHVlTlpSdkxw?=
- =?utf-8?B?cklZV3lVWEdqcElWYzViZG1sWHVWSWtpWGFyU2RDWmtUSXFQaU9WL3R2aEM4?=
- =?utf-8?B?OTdxMEtkQWVkZVhrUDJrcEpGdTNZT05yM2VpK2tBZkV0d0p4dTBaVmxrSjNh?=
- =?utf-8?B?dkIvaWJ1WlRQamdBZkx3aE84My8va3MxYWRWdHgrVG92Z2dOZ3hDRzIvUFNK?=
- =?utf-8?B?MlUyVUlUTjd1L0cyd2Rtd29IV1YyNUh3Z2pYVjY2UUVsd3V2NUp5WUN6bjZO?=
- =?utf-8?B?MSt1VFhLUVNRMmU0WUVNNXRBSjZ4b1E1bUxicmVrNS9yWXhBcmw1RWJwZG1Z?=
- =?utf-8?B?dTc2OFJNVFVXVVhqZ3JRVU4xZnY1ZmRRbVBiYklxa2dxZHJuQSsvVXV6dkFj?=
- =?utf-8?B?eTQ1UEtKY3Z6d0NZc1M1eGV0SXY4cUUxcys0b0s1N01TaHVDNVh5K1A1VUt6?=
- =?utf-8?B?MjBmSDNORGU4MTFmK29GQU0yOSszeW1SemtRS2lqWk5UUys5eGtSWEdDdDlm?=
- =?utf-8?B?VXc4R1pYN0swRkVvZ0VlZktUNDkwTmNjMEhpUXdMRDlnUGwwRzljUUI0U0ox?=
- =?utf-8?B?TFFlWlgyVnpIQU5RZllDczg2MTQ5WDRRalMwQjBvWGhFOERzaCtjUlltbFFL?=
- =?utf-8?B?aEkxbk1ibk9URFB3dlZ5RDlmNFBxaWpWd1JKT2hPaCt0YlQxakdmVlZHVEtM?=
- =?utf-8?B?aWNBR3V0YWtkNk85ZTVJQnIxTWFFSWpzdWdXRFpaWTJOMWd0cEJrNWVWMkdt?=
- =?utf-8?B?ZU4reE1qZnRQUEM1Q3c0T2xrYTBSWHc3cGF6QmdmajVqWVNyck90NXAvR0VM?=
- =?utf-8?B?VVNTQjhqOVFkWXhJWWY1Yjl5UmJpZndBT0svOXBRN082Z1N6SWFVK1VxT0ZI?=
- =?utf-8?Q?FLkqPE=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad2ea3aa-90f2-4539-f8a0-08db97280db0
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 09:24:08.9059
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JXta7oCnMrBLtsMDO85RdEJHdWDuX0EtIeKRDJgCX2XN8rh2TtxpWN95rnrsBNhLbL41zQ/ddUyJy1xExl3TPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6916
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-07_08,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 bulkscore=0
- malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2308070087
-X-Proofpoint-ORIG-GUID: R7KU4l7y9wztynwhiMY9vbc9ep9k8ug2
-X-Proofpoint-GUID: R7KU4l7y9wztynwhiMY9vbc9ep9k8ug2
+References: <20230728120054.12306-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20230728120054.12306-1-fmdefrancesco@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 7 Aug 2023 11:40:30 +0200
+Message-ID: <CACRpkdYcAWDZV0GkdP6gEJv971wjYQ-8WweHkreTJ-w7sfKKQg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/page_tables: Add info about MMU/TLB and
+ Page Faults
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/08/2023 08:51, Jing Zhang wrote:
-> The usual event descriptions are "event=xxx" or "config=xxx", while the
-> event descriptions of CMN are "type=xxx, eventid=xxx" or more complex.
-> 
-> $cat /sys/bus/event_source/devices/arm_cmn_0/events/hnf_cache_fill
-> type=0x5,eventid=0x3
-> 
-> When adding aliases for events described as "event=xxx" or "config=xxx",
-> EventCode or ConfigCode can be used in the JSON files to describe the
-> events. But "eventid=xxx, type=xxx" cannot be supported at present.
-> 
-> If EventCode and ConfigCode is not added in the alias JSON file, the
-> event description will add "event=0" by default. So, even if the event
-> field is added to supplement "eventid=xxx" and "type=xxx", the final
-> parsing result will be "event=0, eventid=xxx, type=xxx".
-> 
-> Therefore, when EventCode and ConfigCode are missing in JSON, "event=0" is
-> no longer added by default. EventIdCode and Type are added to the event
-> field, and ConfigCode is moved into the event_field array which can also
-> guarantee its original function.
-> 
-> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+Hi Fabio,
 
-I'll let Ian check this change as he is more familiar with this code.
+I'm back from vacation! Overall this documentation looks good and
+in line with the reset in this section.
 
-Thanks
+On Fri, Jul 28, 2023 at 2:01=E2=80=AFPM Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
 
+> +One cause of page faults is due to bugs (or maliciously crafted addresse=
+s) and
+> +happens when a process tries to access a range of memory that it doesn't=
+ have
+> +permission to. This could be because the memory is reserved for the kern=
+el or
+> +for another process, or because the process is trying to write to a read=
+-only
+> +section of memory. When this happens, the kernel sends a Segmentation Fa=
+ult
+> +(SIGSEGV) signal to the process, which usually causes the process to ter=
+minate.
+
+This "segmentation fault" (SIGSEGV reads "signal segmentation violation)
+is actually a bit hard to understand for people not familiar
+with the 1970ies hardware. The Wikipedia tries to explain it but gets a bit
+long and confusing.
+https://en.wikipedia.org/wiki/Segmentation_fault
+
+The computers where the first Unix was developed (PDP machines) simply
+named its MMU the "memory segmentation unit" so "segmentation fault"
+is just a 1970ies way of saying "MMU access violation", which stuck inside
+Unix and thus inside Linux. Here is the explanation:
+https://wfjm.github.io/blogs/w11/2022-08-18-on-segments-and-pages.html
+
+The binary loader would generously use the plentyful virtual memory
+"segments" to split each executable into three segments when loading the bi=
+nary,
+still reflected in ELF binaries to this day:
+https://en.wikipedia.org/wiki/Code_segment
+https://en.wikipedia.org/wiki/Data_segment
+https://en.wikipedia.org/wiki/.bss
+
+Then the page table got special permissions set to each segment for read/wr=
+ite
+etc. Other programs and the kernel memory are also in inaccessible segments=
+,
+so accessing any of the own segments in the wrong way, or another programs
+segment, or an unmapped segment (virtual memory) would all result in the
+SIGSEGV opaque message "segmentation fault"
+
+I don't know how to reflect this in a good way in the documentation
+though, maybe
+copy/paste/edit some of my text or I can try to write something as an addit=
+ional
+patch if you prefer.
+
+Yours,
+Linus Walleij
