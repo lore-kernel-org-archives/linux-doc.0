@@ -2,154 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD3CCC001B0
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 19:14:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F481C04FE1
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 19:22:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbjHHTOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 15:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56338 "EHLO
+        id S235658AbjHHTWf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Aug 2023 15:22:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjHHTOI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 15:14:08 -0400
+        with ESMTP id S236181AbjHHTWA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 15:22:00 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCFAF3A0C
-        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 09:37:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3FC10E9C7;
+        Tue,  8 Aug 2023 09:45:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A970262480
-        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 09:27:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2B5C433C7;
-        Tue,  8 Aug 2023 09:27:28 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 526CE6254B;
+        Tue,  8 Aug 2023 13:06:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2DFC433C7;
+        Tue,  8 Aug 2023 13:06:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691486850;
-        bh=ROEl+LHtlnf4o7FwwJZ50MuUwyacYxGtvdXbIPcbHh0=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=bT2aoH93m7ySeW86mKRbKxL6B/GzJKlbdIfBsYOChaiesFJNlSUlBWWdJxQZhma9C
-         xbPKi0XmWa/J0VRGKRshNb4ldrnU3u9VpdCm3V2qbUgbYUls5uVSe5DPUKPh0ihCf2
-         gKKqBSb2R3CUZO0fEgqnFXo6UKd/Jc2VG6Gb3hJhRnpJww4XKKe013YyivyjCYnvHy
-         Hx9qB06jsNB3CXIFY+IvgQKzgq+UfFKr6GuimCTJnRhOCKfitZt8b3PuqdFXPtOWHv
-         il7dNBMrpxWabOBszpQ9lAYMe7W3+Lae0Tmn7xIxBCeFLSjGXHvFlRBWhM2Uzc0yx4
-         ssfLxnCASH47Q==
-Message-ID: <47355d72-837d-213a-b6b1-f202c753de80@kernel.org>
-Date:   Tue, 8 Aug 2023 11:27:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        hawk@kernel.org, ilias.apalodimas@linaro.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: net: page_pool: de-duplicate the intro
- comment
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-References: <20230807210051.1014580-1-kuba@kernel.org>
-From:   Jesper Dangaard Brouer <hawk@kernel.org>
-In-Reply-To: <20230807210051.1014580-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        s=k20201202; t=1691499979;
+        bh=cRvpYcI51ENCIOzxv8f5XlXNoDaFznNKaW3wW2zr0ow=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=A6E7wuFXbhqek+azVh3Uj/E3WW6xluz7q3sP84yJsB2qv+iGQaPjVs4wBy+e+S/To
+         XkSdlquUSfO1uKp9oWK2o7UV6fJWQONPEnU1kHpDusthZ0jZdV+YrHV5nYBRJTi/F/
+         lmuRk1voPrSp7JLOh6a8/T2ZJYRo7Ib5bHjpBLjj1aCytZFqHGX4gSO3HR/eDY5uCe
+         30LLEt8CJPSLp/IiPCwKGk3dShL+BqfxQ7d0r3qRhpchAU+sRSViMoHOfC4fN6Knee
+         G0zi+oEi8htuuM5y1qG9meKOZEYv8UboJYiBSNyrFxiWSMXW+mb9BnfTCIPOpCBxxZ
+         Ap7e0/uyynO3w==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1qTMPh-0038M0-9S;
+        Tue, 08 Aug 2023 14:06:17 +0100
+Date:   Tue, 08 Aug 2023 14:06:08 +0100
+Message-ID: <867cq5hef3.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Anup Patel <anup@brainfault.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Haibo Xu <haibo1.xu@intel.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Atish Kumar Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>
+Subject: Re: [RFC PATCH v1 11/21] swnode: Add support to create early during boot
+In-Reply-To: <20230803175916.3174453-12-sunilvl@ventanamicro.com>
+References: <20230803175916.3174453-1-sunilvl@ventanamicro.com> <20230803175916.3174453-12-sunilvl@ventanamicro.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: sunilvl@ventanamicro.com, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org, corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, catalin.marinas@arm.com, will@kernel.org, rafael@kernel.org, lenb@kernel.org, andriy.shevchenko@linux.intel.com, djrscally@gmail.com, heikki.krogerus@linux.intel.com, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, daniel.lezcano@linaro.org, tglx@linutronix.de, anup@brainfault.org, bhelgaas@google.com, robert.moore@intel.com, haibo1.xu@intel.com, ajones@ventanamicro.com, conor.dooley@microchip.com, atishp@rivosinc.com, apatel@ventanamicro.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 07/08/2023 23.00, Jakub Kicinski wrote:
-> In commit 82e896d992fa ("docs: net: page_pool: use kdoc to avoid
-> duplicating the information") I shied away from using the DOC:
-> comments when moving to kdoc for documenting page_pool API,
-> because I wasn't sure how familiar people are with it.
+On Thu, 03 Aug 2023 18:59:06 +0100,
+Sunil V L <sunilvl@ventanamicro.com> wrote:
 > 
-> Turns out there is already a DOC: comment for the intro, which
-> is the same in both places, modulo what looks like minor rewording.
-> Use the version from Documentation/ but keep the contents with
-> the code.
+> From: Anup Patel <apatel@ventanamicro.com>
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: hawk@kernel.org
+> swnode framework can be used to create fwnode for interrupt
+> controllers. This helps in keeping the drivers same for both
+> DT and ACPI. To enable this, enhance the swnode framework so
+> that it can be created early during boot without dependency
+> on sysfs.
 
-Acked-by: Jesper Dangaard Brouer <hawk@kernel.org>
+Where is this coming from? We have had common abstractions for
+irqchips for a very long time. We can create fwnodes any odd way we
+want, but why oh why should we invent another method for that?
 
+We already have multiple architectures such as arm64 and loongarch
+already having both DT and ACPI. Do they need another level of
+"abstraction"? No. Why is risc-v so special?
 
-> CC: ilias.apalodimas@linaro.org
-> CC: corbet@lwn.net
-> CC: linux-doc@vger.kernel.org > ---
->   Documentation/networking/page_pool.rst | 18 ++----------------
->   include/net/page_pool/helpers.h        | 24 ++++++++++++------------
->   2 files changed, 14 insertions(+), 28 deletions(-)
-> 
-> diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
-> index 68b82cea13e4..215ebc92752c 100644
-> --- a/Documentation/networking/page_pool.rst
-> +++ b/Documentation/networking/page_pool.rst
-> @@ -4,22 +4,8 @@
->   Page Pool API
->   =============
->   
-> -The page_pool allocator is optimized for the XDP mode that uses one frame
-> -per-page, but it can fallback on the regular page allocator APIs.
-> -
-> -Basic use involves replacing alloc_pages() calls with the
-> -page_pool_alloc_pages() call.  Drivers should use page_pool_dev_alloc_pages()
-> -replacing dev_alloc_pages().
-> -
-> -API keeps track of in-flight pages, in order to let API user know
-> -when it is safe to free a page_pool object.  Thus, API users
-> -must call page_pool_put_page() to free the page, or attach
-> -the page to a page_pool-aware objects like skbs marked with
-> -skb_mark_for_recycle().
-> -
-> -API user must call page_pool_put_page() once on a page, as it
-> -will either recycle the page, or in case of refcnt > 1, it will
-> -release the DMA mapping and in-flight state accounting.
-> +.. kernel-doc:: include/net/page_pool/helpers.h
-> +   :doc: page_pool allocator
->   
->   Architecture overview
->   =====================
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-> index 78df91804c87..94231533a369 100644
-> --- a/include/net/page_pool/helpers.h
-> +++ b/include/net/page_pool/helpers.h
-> @@ -8,23 +8,23 @@
->   /**
->    * DOC: page_pool allocator
->    *
-> - * This page_pool allocator is optimized for the XDP mode that
-> - * uses one-frame-per-page, but have fallbacks that act like the
-> + * The page_pool allocator is optimized for the XDP mode that
-> + * uses one frame per-page, but it can fallback on the
->    * regular page allocator APIs.
->    *
-> - * Basic use involve replacing alloc_pages() calls with the
-> - * page_pool_alloc_pages() call.  Drivers should likely use
-> + * Basic use involves replacing alloc_pages() calls with the
-> + * page_pool_alloc_pages() call.  Drivers should use
->    * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
->    *
-> - * API keeps track of in-flight pages, in-order to let API user know
-> - * when it is safe to dealloactor page_pool object.  Thus, API users
-> - * must call page_pool_put_page() where appropriate and only attach
-> - * the page to a page_pool-aware objects, like skbs marked for recycling.
-> + * API keeps track of in-flight pages, in order to let API user know
-> + * when it is safe to free a page_pool object.  Thus, API users
-> + * must call page_pool_put_page() to free the page, or attach
-> + * the page to a page_pool-aware objects like skbs marked with
-> + * skb_mark_for_recycle().
->    *
-> - * API user must only call page_pool_put_page() once on a page, as it
-> - * will either recycle the page, or in case of elevated refcnt, it
-> - * will release the DMA mapping and in-flight state accounting.  We
-> - * hope to lift this requirement in the future.
-> + * API user must call page_pool_put_page() once on a page, as it
-> + * will either recycle the page, or in case of refcnt > 1, it will
-> + * release the DMA mapping and in-flight state accounting.
->    */
->   #ifndef _NET_PAGE_POOL_HELPERS_H
->   #define _NET_PAGE_POOL_HELPERS_H
+	M.
 
-Adjustments looks good to me :-)
-
---Jesoer
+-- 
+Without deviation from the norm, progress is not possible.
