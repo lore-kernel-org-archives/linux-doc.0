@@ -2,212 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2A6C001E0
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 21:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AC1C001DB
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 21:59:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236398AbjHHVOi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 17:14:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36522 "EHLO
+        id S230117AbjHHV7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Aug 2023 17:59:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236381AbjHHVO1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 17:14:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B66EF08;
-        Tue,  8 Aug 2023 13:25:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E447662972;
-        Tue,  8 Aug 2023 20:25:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642B0C433C7;
-        Tue,  8 Aug 2023 20:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691526321;
-        bh=smwaBn/3bhNSBudLMySHNd7VdPh0ay51eRzjOUAiv8k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z7qPau380MtqBH1YfBjf3ydSe5ZPYOXHkvrPUe9NueiqGF06irfTF61HfBlWIgEFM
-         Xene2NE0cZsbfc2/THaiH2McN+fJdiUtfouEeeC+uTCqNKj3ibgNrxGiBbpzXM2Rfr
-         SLP2dNBoB4rAy2dAR+EjA+W5kuwIc3bsOHQmGjDMAjdbaal6lB4m2K1kA6RktTFbmO
-         02t7XsWWSbtTXvIUWrk8iMcnEOIvFO7Y/cWPTnAO+6lk64SAs11bpXJ/uRCtzNh6CR
-         cFThQj0MCTV2OyT9PlJbicNhDswQ0VbfX2XhKiU6rRGAMW/+MAkZniDHdnmuLuo+LK
-         255m/CZ2eUo6w==
-Date:   Tue, 8 Aug 2023 21:25:11 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 00/36] arm64/gcs: Provide support for GCS in userspace
-Message-ID: <f279ec25-e1c7-48e6-bd9d-5c753e829aad@sirena.org.uk>
-References: <20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org>
- <20230801141319.GC26253@willie-the-truck>
- <09b7a94d-cc88-4372-85de-52db26bc2daf@sirena.org.uk>
- <20230808133857.GC2369@willie-the-truck>
+        with ESMTP id S229737AbjHHV7k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 17:59:40 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFCFAE72
+        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 14:59:39 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-99cce6f7de2so445904266b.3
+        for <linux-doc@vger.kernel.org>; Tue, 08 Aug 2023 14:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1691531978; x=1692136778;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9vjVFfWFImhbbV+PvD1bDCoF45rIONe5KGNnouWDJ7A=;
+        b=VPeoi0aK0FbUNYIS4YhPmyNq1Ylc3RUKJ/XvDTbL16kpHv2dYA5Xba3ITMXv+tObCt
+         29+LnjVzEKb+A7Ldz1LI0DHOuDV89LEQIZETqkPtqTA1RMhcyTT1F/ZfHtSd2XCPmV3s
+         pqJ4txZx3XcR9e6yuaw16KEpNXJcz1kZFvipo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691531978; x=1692136778;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9vjVFfWFImhbbV+PvD1bDCoF45rIONe5KGNnouWDJ7A=;
+        b=ON4SLXxCSmoHhHDuvJMd+aTWOL+SG61d6j5brQxZC1O9DX0et/7oZzf39eXZnBKqhe
+         oUhKJwnELdQrwY3ZUumxwiPo4SxvWfqzVrpISdg76pw9x3j6QfwbJV3IjQcCj4fyiTFk
+         hOzae236w8QdzdxJQKJZ3tOPQeC0qI5OJAysrkl0BtSyfJcJoSI7O+6RwUO6rL7J24IB
+         CVPB7V/SG12nhwklZFfnat5dO4ALbQWVk+OrO8X/x5nupMZ2GcRX/vVwuYEX4LXR65eO
+         wJRyGLnWJXy10hiR8gVKMwde1eVPDakExzw2cFiNYdT3kj+XuUlsgx11vg1sJJSE4Ad1
+         Do8A==
+X-Gm-Message-State: AOJu0Yx/t/a5tswyQfnIfJUtxVbp6Z3TNTgsOeSdyppyG4LIwO/nSvVu
+        Rpu6RWcZyO9Lf5TqPqNrJs85HIzzkTvU2cQc+nDgvmoK
+X-Google-Smtp-Source: AGHT+IGlAiJnf9CS98iTCrGq4zlkVJ3I9XGrP6gwaBW7YCksCFW1rZrKMhRl+5b3OQZlRtMyVEiMHw==
+X-Received: by 2002:a17:906:3091:b0:99c:56d1:1266 with SMTP id 17-20020a170906309100b0099c56d11266mr741270ejv.72.1691531978327;
+        Tue, 08 Aug 2023 14:59:38 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
+        by smtp.gmail.com with ESMTPSA id kd5-20020a17090798c500b0099d0a8ccb5fsm144159ejc.152.2023.08.08.14.59.37
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Aug 2023 14:59:37 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99c47ef365cso910563466b.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Aug 2023 14:59:37 -0700 (PDT)
+X-Received: by 2002:a17:907:7629:b0:99c:75f7:19c1 with SMTP id
+ jy9-20020a170907762900b0099c75f719c1mr684831ejc.39.1691531976818; Tue, 08 Aug
+ 2023 14:59:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2iuCE+Z3sT2tGztq"
-Content-Disposition: inline
-In-Reply-To: <20230808133857.GC2369@willie-the-truck>
-X-Cookie: You need not be present to win.
+References: <874jl945bv.fsf@meer.lwn.net>
+In-Reply-To: <874jl945bv.fsf@meer.lwn.net>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 8 Aug 2023 14:59:20 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wipcJKtWRtBHDDjRx7UXyZAD2eswjCiD19tuz+XwjUxhQ@mail.gmail.com>
+Message-ID: <CAHk-=wipcJKtWRtBHDDjRx7UXyZAD2eswjCiD19tuz+XwjUxhQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: vfs: clean up after the iterate() removal
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 8 Aug 2023 at 14:00, Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> If nobody objects (or beats me to it) I'll drop this into docs-next
+> shortly.
 
---2iuCE+Z3sT2tGztq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+LGTM.
 
-On Tue, Aug 08, 2023 at 02:38:58PM +0100, Will Deacon wrote:
+I did grep for old uses of iterate - including in docs - but I clearly
+only grepped for the "->iterate()" and ".iterate =" forms.
 
-> But seriously, I think the question is more about what this brings us
-> *on top of* SCS, since for the forseeable future folks that care about
-> this stuff (like Android) will be using SCS. GCS on its own doesn't make
-> sense to me, given the recompilation effort to remove SCS and the lack
-> of hardware, so then you have to look at what it brings in addition to
-> GCS and balance that against the performance cost.
-
-> Given that, is anybody planning to ship a distribution with this enabled?
-
-I'm not sure that your assumption that the only people would would
-consider deploying this are those who have deployed SCS is a valid one,
-SCS users are definitely part of the mix but GCS is expected to be much
-more broadly applicable.  As you say SCS is very invasive, requires a
-rebuild of everything with different code generated and as Szabolcs
-outlined has ABI challenges for general distros.  Any code built (or
-JITed) with anything other than clang is going to require some explicit
-support to do SCS (eg, the kernel's SCS support does nothing for
-assembly code) and there's a bunch of runtime support.  It's very much a
-specialist feature, mainly practical in well controlled somewhat
-vertical systems - I've not seen any suggestion that general purpose
-distros are considering using it.
-
-In contrast in the case of GCS one of the nice features is that for most
-code it's very much non-invasive, much less so than things like PAC/BTI
-and SCS, which means that the audience is much wider than it is for SCS
-- it's a *much* easier sell for general purpose distros to enable GCS
-than to enable SCS.  For the majority of programs all the support that
-is needed is in the kernel and libgcc/libc, there's no impact on the
-code generation.  There are no extra instructions in the normal flow
-which will impact systems without the feature, and there are no extra
-registers in use, so even if the binaries are run on a system without
-GCS or for some reason someone decides that it's best to turn the
-feature off on a system that is capable of using it the fact that it's
-just using the existing bl/ret pairs means that there is minimal
-overhead.  This all means that it's much more practical to deploy in
-general purpose distros.  On the other hand when active it affects all
-code, this improves coverage but the improved coverage can be a worry.
-
-I can see that systems that have gone through all the effort of enabling
-SCS might not rush to implement GCS, though there should be no harm in
-having the two features running side by side beyond the doubled memory
-requirements so you can at least have a transition plan (GCS does have
-some allowances which enable hardware to mitigate some of the memory
-bandwidth requirements at least).  You do still get the benefit of the
-additional hardware protections GCS offers, and the coverage of all
-branch and ret instructions will be of interest both for security and
-for unwinders.  It's definitely offers less of an incremental
-improvement on top of SCS than it is without SCS though.
-
-GCS and SCS are comparable features in terms of the protection they aim
-to add but their system integration impacts are different.
-
-> If not, why are we bothering? If so, how much of that distribution has
-> been brought up and how does the "dynamic linker or other startup code"
-> decide what to do?
-
-There is active interest in the x86 shadow stack support from distros,
-GCS is a lot earlier on in the process but isn't fundamentally different
-so it is expected that this will translate.  There is also a chicken and
-egg thing where upstream support gates a lot of people's interest, what
-people will consider carrying out of tree is different to what they'll
-enable.  Architecture specific feedback on the implementation can also
-be fed back into the still ongoing review of the ABI that is being
-established for x86, there will doubtless be pushback about variations
-between architectures from userspace people.
-
-The userspace decision about enablement will primarily be driven by an
-ELF marking which the dynamic linker looks at to determine if the
-binaries it is loading can support GCS, a later dlopen() can either
-refuse to load an additional library if the process currently has GCS
-enabled, ignore the issue and hope things work out (there's a good
-chance they will but obviously that's not safe) or (more complicatedly)
-go round all the threads and disable GCS before proceeding.  The main
-reason any sort of rebuild is required for most code is to add the ELF
-marking, there will be a compiler option to select it.  Static binaries
-should know if everything linked into them is GCS compatible and enable
-GCS if appropriate in their startup code.
-
-The majority of the full distro work at this point is on the x86 side
-given the hardware availability, we are looking at that within Arm of
-course.  I'm not aware of any huge blockers we have encountered thus
-far.
-
-It is fair to say that there's less active interest on the arm64 side
-since as you say the feature is quite a way off making it's way into
-hardware, though there are also long lead times on getting the full
-software stack to end users and kernel support becomes a blocker for
-the userspace stack.
-
-> After the mess we had with BTI and mprotect(), I'm hesitant to merge
-> features like this without knowing that the ABI can stand real code.
-
-The equivalent x86 feature is in current hardware[1], there has been
-some distro work (I believe one of the issues x86 has had is coping with
-a distro which shipped an early out of tree ABI, that experience has
-informed the current ABI which as the cover letter says we are following
-closely).  AIUI the biggest blocker on userspace work for x86 right now
-is landing the kernel side of things so that everyone else has a stable
-ABI to work from and don't need to carry out of tree patches, I've heard
-frustration expressed at the deployment being held up.  IIRC Fedora were
-on the leading edge in terms of active interest, they tend to be given
-that they're one of the most quickly iterating distros. =20
-
-This definitely does rely fairly heavily on the x86 experience for
-confidence in the ABI, and to be honest one of the big unknowns at this
-point is if you or Catalin will have opinions on how things are being
-done.
-
-[1] https://edc.intel.com/content/www/us/en/design/ipla/software-developmen=
-t-platforms/client/platforms/alder-lake-desktop/12th-generation-intel-core-=
-processors-datasheet-volume-1-of-2/009/shadow-stack/
-
---2iuCE+Z3sT2tGztq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTSpKYACgkQJNaLcl1U
-h9Bm7wf/TWEY6FZexKo9ZslcLVc8FfZTGr2JbqBTjc0hIyi6JIvIUPaBtV8B4GKh
-aJOvjQlkWGfIrVsezaRToCVgoxhsnRmsKCDr1gABiWQuJDCL5mLR1BRMF6XfJC+g
-FANZz3+vabPD5HlypgtGUsdgtm1d3vPwRnOcI1XK5ARt53I+3Wbd1Gc/Kzsv8qz2
-KmEbIIR0tk/KpUJwAokBaHnsH6pnZKxUDy0Ei3i9zFBtcRjqWOJSgjJ0fKKscJQa
-uIKhZ7no7GVtdNnfO1XBllyefendmwyKNc9QdFsNgE3WgXy2iiaMbWmp4JJU6GHr
-BamhHq9n+PvDZVvrISCsTZxmnjcGVg==
-=YAxR
------END PGP SIGNATURE-----
-
---2iuCE+Z3sT2tGztq--
+            Linus
