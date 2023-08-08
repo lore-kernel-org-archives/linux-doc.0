@@ -2,145 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FBDC04A94
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 19:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD3CCC001B0
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 19:14:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232221AbjHHTJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 15:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
+        id S229592AbjHHTOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Aug 2023 15:14:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233427AbjHHTIr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 15:08:47 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 099A6320A7
-        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 09:30:53 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-40f0b412b78so45305001cf.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Aug 2023 09:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1691512228; x=1692117028;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V9zS30PvoHblPo8YN82wx1JKihZIxwLEMzYHF89G6sU=;
-        b=JxkiD+KImTdpxowKTxCMVuHGj5xbzTknclhg2q/PeurKijqyDnr5dqnIOuqfPssoHW
-         meOnV+wMCNz+zV0rdFaY4SJuzELS7O3RX5vaYkPloJ5J/AzGmU4CqptKFw7TA+5L2bxe
-         tYE6kwcOldBT10jMVvsFi78DBuUiDQxhi1xclwHQn/lGIH2pRjXRCFZ7F2EsaRRemfRE
-         DiMmERvJ/pAraelh6huRcWsYVfaeqt7cxYrABG3cRnFzsp6cF4Fn45yMaGugEynpPSZ6
-         FCF2NhbSQ2TvGP/ZkiufCs7JpMkTt3fxZ52CuiKZtEdz1IcZ9fPudSUx2OYnLE70Bp+q
-         z+vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691512228; x=1692117028;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V9zS30PvoHblPo8YN82wx1JKihZIxwLEMzYHF89G6sU=;
-        b=PPdP0os4AsoEo1KuahZcdano2R2K/IIUvYlcUy0FTwRLE2GxNf297X1KsFr0vkawFB
-         qwbmzG5Op8KI3qVAnMUAdvQARPHRlqt/xUgRi6hMTG033h9QweES3yBDaUDHrMRXDH8m
-         jcCTY0/infN6ICx1TjFv9gbR7kLSbEVGSJEict7GcHvC7yL/QJYDoeq9TMJj+FuITIEH
-         GaBWSZj+8F2EGbj+09HajtL2b/IpvSu+2+F2zMFZs6ycNGDDB/ej8nM7284r6T3Q6DVV
-         NbUeCEFnyqvo7mGt923MiVLkmuK2AQpuXjEMbJbkxWgfwkt5NIojWA9dd0OPtX4RZL9U
-         N7hw==
-X-Gm-Message-State: AOJu0YxDDTBfoRqCRJlO8G734kvW/uxiCAufEsUYzM5O/bp4VGwZYQzw
-        /0JqpzJIzGSOwm5EuG0RSZTGa6a2+ZAXzNl34E4ckE2+FJzLnbQ1s8A=
-X-Google-Smtp-Source: AGHT+IHwj3koprvncE8FX41F8VhQ9ofHcuhvfeQaw4c/xsViq681+NAYgINd4xXSKcG2d8KRUWa6MORkInxl0+tlgIk=
-X-Received: by 2002:a17:90a:c583:b0:263:5c6a:1956 with SMTP id
- l3-20020a17090ac58300b002635c6a1956mr9160440pjt.25.1691492249057; Tue, 08 Aug
- 2023 03:57:29 -0700 (PDT)
+        with ESMTP id S229570AbjHHTOI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 15:14:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCFAF3A0C
+        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 09:37:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A970262480
+        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 09:27:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2B5C433C7;
+        Tue,  8 Aug 2023 09:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691486850;
+        bh=ROEl+LHtlnf4o7FwwJZ50MuUwyacYxGtvdXbIPcbHh0=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=bT2aoH93m7ySeW86mKRbKxL6B/GzJKlbdIfBsYOChaiesFJNlSUlBWWdJxQZhma9C
+         xbPKi0XmWa/J0VRGKRshNb4ldrnU3u9VpdCm3V2qbUgbYUls5uVSe5DPUKPh0ihCf2
+         gKKqBSb2R3CUZO0fEgqnFXo6UKd/Jc2VG6Gb3hJhRnpJww4XKKe013YyivyjCYnvHy
+         Hx9qB06jsNB3CXIFY+IvgQKzgq+UfFKr6GuimCTJnRhOCKfitZt8b3PuqdFXPtOWHv
+         il7dNBMrpxWabOBszpQ9lAYMe7W3+Lae0Tmn7xIxBCeFLSjGXHvFlRBWhM2Uzc0yx4
+         ssfLxnCASH47Q==
+Message-ID: <47355d72-837d-213a-b6b1-f202c753de80@kernel.org>
+Date:   Tue, 8 Aug 2023 11:27:26 +0200
 MIME-Version: 1.0
-References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
- <20230803175916.3174453-21-sunilvl@ventanamicro.com> <20230808-chalice-easing-1369c7386082@spud>
-In-Reply-To: <20230808-chalice-easing-1369c7386082@spud>
-From:   Anup Patel <apatel@ventanamicro.com>
-Date:   Tue, 8 Aug 2023 16:27:16 +0530
-Message-ID: <CAK9=C2XZ7_tfSK6HNN1Em5fAHrknWBqGaD9gPL8yGs8AzE3vQg@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 20/21] RISC-V: ACPI: Create PLIC platform device
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Sunil V L <sunilvl@ventanamicro.com>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Atish Kumar Patra <atishp@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Will Deacon <will@kernel.org>, Haibo Xu <haibo1.xu@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Anup Patel <anup@brainfault.org>, Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        hawk@kernel.org, ilias.apalodimas@linaro.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: net: page_pool: de-duplicate the intro
+ comment
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+References: <20230807210051.1014580-1-kuba@kernel.org>
+From:   Jesper Dangaard Brouer <hawk@kernel.org>
+In-Reply-To: <20230807210051.1014580-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 8, 2023 at 2:12=E2=80=AFPM Conor Dooley <conor@kernel.org> wrot=
-e:
->
-> On Thu, Aug 03, 2023 at 11:29:15PM +0530, Sunil V L wrote:
-> > Since PLIC needs to be a platform device
->
-> For the unwashed, why does the PLCI need to be a platform device?
-> (And while you're at that, please try to make use of the extra ~20
-> characters per line that you can use here.)
 
-As suggested by Marc Z, only timers and IPIs need to be probed early.
-Everything else needs to be a platform device. The devlink feature of
-Linux DD framework ensures that platform devices are probed in the
-right order based on the interdependency.
 
-The PATCH5 of the v7 AIA series converts the PLIC driver into a
-platform driver. This works perfectly fine.
+On 07/08/2023 23.00, Jakub Kicinski wrote:
+> In commit 82e896d992fa ("docs: net: page_pool: use kdoc to avoid
+> duplicating the information") I shied away from using the DOC:
+> comments when moving to kdoc for documenting page_pool API,
+> because I wasn't sure how familiar people are with it.
+> 
+> Turns out there is already a DOC: comment for the intro, which
+> is the same in both places, modulo what looks like minor rewording.
+> Use the version from Documentation/ but keep the contents with
+> the code.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: hawk@kernel.org
 
->
-> > probe the
-> > MADT and create platform devices for each PLIC in the
-> > system. Use software node framework for the fwnode
-> > which allows to create properties and hence the
-> > actual irqchip driver doesn't need to do anything
-> > different for ACPI vs DT.
-> >
-> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > Co-developed-by: Haibo Xu <haibo1.xu@intel.com>
-> > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
->
-> > +static struct fwnode_handle *acpi_plic_create_fwnode(struct acpi_madt_=
-plic *plic)
-> > +{
-> > +     struct fwnode_handle *fwnode, *parent_fwnode;
-> > +     struct riscv_irqchip_list *plic_element;
-> > +     struct software_node_ref_args *refs;
-> > +     struct property_entry props[8] =3D {};
-> > +     int nr_contexts;
-> > +
-> > +     props[0] =3D PROPERTY_ENTRY_U32("riscv,gsi-base", plic->gsi_base)=
-;
-> > +     props[1] =3D PROPERTY_ENTRY_U32("riscv,ndev", plic->num_irqs);
-> > +     props[2] =3D PROPERTY_ENTRY_U32("riscv,max_prio", plic->max_prio)=
-;
->
-> My OCD wants to know why this gets an _ but the others have a -.
->
-> > +     props[3] =3D PROPERTY_ENTRY_U8("riscv,plic-id", plic->id);
-> > +     props[4] =3D PROPERTY_ENTRY_U64("riscv,plic-base", plic->base_add=
-r);
-> > +     props[5] =3D PROPERTY_ENTRY_U32("riscv,plic-size", plic->size);
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Acked-by: Jesper Dangaard Brouer <hawk@kernel.org>
 
-Regards,
-Anup
+
+> CC: ilias.apalodimas@linaro.org
+> CC: corbet@lwn.net
+> CC: linux-doc@vger.kernel.org > ---
+>   Documentation/networking/page_pool.rst | 18 ++----------------
+>   include/net/page_pool/helpers.h        | 24 ++++++++++++------------
+>   2 files changed, 14 insertions(+), 28 deletions(-)
+> 
+> diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+> index 68b82cea13e4..215ebc92752c 100644
+> --- a/Documentation/networking/page_pool.rst
+> +++ b/Documentation/networking/page_pool.rst
+> @@ -4,22 +4,8 @@
+>   Page Pool API
+>   =============
+>   
+> -The page_pool allocator is optimized for the XDP mode that uses one frame
+> -per-page, but it can fallback on the regular page allocator APIs.
+> -
+> -Basic use involves replacing alloc_pages() calls with the
+> -page_pool_alloc_pages() call.  Drivers should use page_pool_dev_alloc_pages()
+> -replacing dev_alloc_pages().
+> -
+> -API keeps track of in-flight pages, in order to let API user know
+> -when it is safe to free a page_pool object.  Thus, API users
+> -must call page_pool_put_page() to free the page, or attach
+> -the page to a page_pool-aware objects like skbs marked with
+> -skb_mark_for_recycle().
+> -
+> -API user must call page_pool_put_page() once on a page, as it
+> -will either recycle the page, or in case of refcnt > 1, it will
+> -release the DMA mapping and in-flight state accounting.
+> +.. kernel-doc:: include/net/page_pool/helpers.h
+> +   :doc: page_pool allocator
+>   
+>   Architecture overview
+>   =====================
+> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+> index 78df91804c87..94231533a369 100644
+> --- a/include/net/page_pool/helpers.h
+> +++ b/include/net/page_pool/helpers.h
+> @@ -8,23 +8,23 @@
+>   /**
+>    * DOC: page_pool allocator
+>    *
+> - * This page_pool allocator is optimized for the XDP mode that
+> - * uses one-frame-per-page, but have fallbacks that act like the
+> + * The page_pool allocator is optimized for the XDP mode that
+> + * uses one frame per-page, but it can fallback on the
+>    * regular page allocator APIs.
+>    *
+> - * Basic use involve replacing alloc_pages() calls with the
+> - * page_pool_alloc_pages() call.  Drivers should likely use
+> + * Basic use involves replacing alloc_pages() calls with the
+> + * page_pool_alloc_pages() call.  Drivers should use
+>    * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
+>    *
+> - * API keeps track of in-flight pages, in-order to let API user know
+> - * when it is safe to dealloactor page_pool object.  Thus, API users
+> - * must call page_pool_put_page() where appropriate and only attach
+> - * the page to a page_pool-aware objects, like skbs marked for recycling.
+> + * API keeps track of in-flight pages, in order to let API user know
+> + * when it is safe to free a page_pool object.  Thus, API users
+> + * must call page_pool_put_page() to free the page, or attach
+> + * the page to a page_pool-aware objects like skbs marked with
+> + * skb_mark_for_recycle().
+>    *
+> - * API user must only call page_pool_put_page() once on a page, as it
+> - * will either recycle the page, or in case of elevated refcnt, it
+> - * will release the DMA mapping and in-flight state accounting.  We
+> - * hope to lift this requirement in the future.
+> + * API user must call page_pool_put_page() once on a page, as it
+> + * will either recycle the page, or in case of refcnt > 1, it will
+> + * release the DMA mapping and in-flight state accounting.
+>    */
+>   #ifndef _NET_PAGE_POOL_HELPERS_H
+>   #define _NET_PAGE_POOL_HELPERS_H
+
+Adjustments looks good to me :-)
+
+--Jesoer
