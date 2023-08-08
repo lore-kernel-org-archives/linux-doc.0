@@ -2,132 +2,278 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49947C001DB
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 20:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA40C001DB
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 20:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230249AbjHHUiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 16:38:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42710 "EHLO
+        id S230361AbjHHUi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Aug 2023 16:38:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236190AbjHHUic (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 16:38:32 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DEF31D3FB
-        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 10:17:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691515025; x=1723051025;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yQa/nLCvvfPoY2VVE8FRA+Ob2DoyjYkrNPJQ7XMHWrA=;
-  b=hGJT3aVn0hyPlyw4E5C/HcS30/h+BuTKuvil/kWSH4OfPVOJ72bZrG5t
-   vi5lVZPL8hJsdH/bUFF55cnJ7dN/bXBvZb0fh6/2KJPBISxsbSTh4Y6yd
-   5A0QwCzcUed8T063zX37++M+vh2cvRNlONqUCE3T7spaQaKANJD2L6DVS
-   q76mhzmAoS2Rvx69ennEve1aSHGsUdY3K7H5QR2MRSF/SjkJAFiW0M/bM
-   jarfm9d+yc8AOHhTjs0fXd880HeMxHtMDSXbL7iVKGPpSw6AnqxARuza/
-   qLGPjBndViOAhE1gwpIU647BiLtKtkvjF2UOuxrYi9qgwHtf4sB7IoNFx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="360828582"
-X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="360828582"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 00:00:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="708137514"
-X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="708137514"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 08 Aug 2023 00:00:49 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qTGi1-0005Aq-09;
-        Tue, 08 Aug 2023 07:00:49 +0000
-Date:   Tue, 8 Aug 2023 15:00:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        linux-doc@vger.kernel.org
-Subject: [linux-next:master 7602/7933]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:37: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202308081459.US5rLYAY-lkp@intel.com>
+        with ESMTP id S232698AbjHHUbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 16:31:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376034AA90;
+        Tue,  8 Aug 2023 09:50:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60970623F2;
+        Tue,  8 Aug 2023 08:31:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A31BC433C8;
+        Tue,  8 Aug 2023 08:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691483517;
+        bh=MpyvTQzwBjHbZI8sMSOd7J9/piSikcHHm+TWFR/stac=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pka7NzrVjEQNbyWGI/WnWkrr+a5FjLtxCmsQcCOXphsY9L5W46RUvd6aapwlo9jCS
+         NolUJckCfoY7fX/X9OHUnpMLYiuwRY70OYahppcxYoMgc9SHLse5Xn7id/DhVU/r/7
+         nnGGJeO6e3yUm2+hcyf2EF+9bqOSVK4poXjiqNSyxgEPFVLlt4kExzhNuWuz9Xm7fH
+         b1yO+pqKpbEjzdwsS/cserCryKALKg+zlphWhxpBehWtx4z+lnaAb+TJGL2UPyW0E/
+         ETh8bu5SwkRbm9SP9U2vRi75kNMH8ZwGOZ53Zv9IaZc7clxnmeiTFjwGGpWVI3Plsk
+         /lL4HFoVfbKgQ==
+Date:   Tue, 8 Aug 2023 09:31:49 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Atish Kumar Patra <atishp@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Will Deacon <will@kernel.org>, Haibo Xu <haibo1.xu@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Anup Patel <anup@brainfault.org>, Len Brown <lenb@kernel.org>
+Subject: Re: [RFC PATCH v1 12/21] irqchip/riscv-intc: Use swnode framework to
+ create fwnode
+Message-ID: <20230808-chuck-jailhouse-0cb08b55d1bd@spud>
+References: <20230803175916.3174453-1-sunilvl@ventanamicro.com>
+ <20230803175916.3174453-13-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="KGbrO9FdUrNn/kR9"
 Content-Disposition: inline
+In-Reply-To: <20230803175916.3174453-13-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   71cd4fc492ec41e4acd85e98bbf7a13753fc1e03
-commit: c7ddc0a800bc9f681a18c3bdd9f06b61adfabc11 [7602/7933] drm/amd/display: Add Functions to enable Freesync Panel Replay
-config: xtensa-randconfig-r022-20230808 (https://download.01.org/0day-ci/archive/20230808/202308081459.US5rLYAY-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081459.US5rLYAY-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308081459.US5rLYAY-lkp@intel.com/
+--KGbrO9FdUrNn/kR9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-All warnings (new ones prefixed by >>):
+Hey Sunil,
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:37: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Get Replay state from firmware.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:66: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Enable/Disable Replay.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:116: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Set REPLAY power optimization flags.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:134: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Setup Replay by programming phy registers and sending replay hw context values to firmware.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:219: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Set coasting vtotal.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:238: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Get Replay residency from firmware.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:271: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Construct Replay object.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:280: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Allocate and initialize Replay object.
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:297: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Deallocate Replay object.
+On Thu, Aug 03, 2023 at 11:29:07PM +0530, Sunil V L wrote:
+> By using swnode framework, all data from ACPI tables can
+> be populated as properties of the swnode. This simplifies
+> the driver code and removes the need for ACPI vs DT checks.
+> Use this framework for RISC-V INTC driver.
 
+btw, you are permitted to use more than 60 characters in a commit
+message...
 
-vim +37 drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c
+>=20
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  Documentation/riscv/acpi.rst     | 21 +++++++++++++++
+>  arch/riscv/include/asm/acpi.h    |  1 +
+>  drivers/acpi/riscv/Makefile      |  2 +-
+>  drivers/acpi/riscv/irqchip.c     | 46 ++++++++++++++++++++++++++++++++
+>  drivers/irqchip/irq-riscv-intc.c | 12 ++++-----
+>  5 files changed, 75 insertions(+), 7 deletions(-)
+>  create mode 100644 drivers/acpi/riscv/irqchip.c
+>=20
+> diff --git a/Documentation/riscv/acpi.rst b/Documentation/riscv/acpi.rst
+> index 9870a282815b..e2406546bc16 100644
+> --- a/Documentation/riscv/acpi.rst
+> +++ b/Documentation/riscv/acpi.rst
+> @@ -8,3 +8,24 @@ The ISA string parsing rules for ACPI are defined by `Ve=
+rsion ASCIIDOC
+>  Conversion, 12/2022 of the RISC-V specifications, as defined by tag
+>  "riscv-isa-release-1239329-2023-05-23" (commit 1239329
+>  ) <https://github.com/riscv/riscv-isa-manual/releases/tag/riscv-isa-rele=
+ase-1239329-2023-05-23>`_
+> +
+> +Interrupt Controller Drivers
+> +=3D=3D=3D=3D=3D=3D=3D
+> +
+> +ACPI drivers for RISC-V interrupt controllers use software node framewor=
+k to
+> +create the fwnode for the interrupt controllers. Below properties are
+> +additionally required for some firmware nodes apart from the properties
+> +defined by the device tree bindings for these interrupt controllers. The
+> +properties are created using the data in MADT table.
 
-    35	
-    36	/**
-  > 37	 * Get Replay state from firmware.
-    38	 */
-    39	static void dmub_replay_get_state(struct dmub_replay *dmub, enum replay_state *state, uint8_t panel_inst)
-    40	{
-    41		struct dmub_srv *srv = dmub->ctx->dmub_srv->dmub;
-    42		/* uint32_t raw_state = 0; */
-    43		uint32_t retry_count = 0;
-    44		enum dmub_status status;
-    45	
-    46		do {
-    47			// Send gpint command and wait for ack
-    48			status = dmub_srv_send_gpint_command(srv, DMUB_GPINT__GET_REPLAY_STATE, panel_inst, 30);
-    49	
-    50			if (status == DMUB_STATUS_OK) {
-    51				// GPINT was executed, get response
-    52				dmub_srv_get_gpint_response(srv, (uint32_t *)state);
-    53			} else
-    54				// Return invalid state when GPINT times out
-    55				*state = REPLAY_STATE_INVALID;
-    56		} while (++retry_count <= 1000 && *state == REPLAY_STATE_INVALID);
-    57	
-    58		// Assert if max retry hit
-    59		if (retry_count >= 1000 && *state == REPLAY_STATE_INVALID) {
-    60			ASSERT(0);
-    61			/* To-do: Add retry fail log */
-    62		}
-    63	}
-    64	
+I don't really understand this text, specifically what you are getting
+at w/ the dependency on devicetree properties. What exactly does "apart
+=66rom the properties defined by the devicetree bindings" mean?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Is there prior art for this kind of "ACPI needs swnodes that look
+vaguely similar to devicetree" for other interrupt controllers?
+
+Thanks,
+Conor.
+
+> +1) RISC-V Interrupt Controller (INTC)
+> +-----------
+> +``hartid`` - Hart ID of the hart this interrupt controller belongs to.
+> +
+> +``riscv,imsic-addr`` - Physical base address of the Incoming MSI Control=
+ler
+> +(IMSIC) MMIO region of this hart.
+> +
+> +``riscv,imsic-size`` - Size in bytes of the IMSIC MMIO region of this ha=
+rt.
+> +
+> +``riscv,ext-intc-id`` - The unique ID of the external interrupts connect=
+ed
+> +to this hart.
+> diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> index 0c4e8b35103e..0ac2df2dd194 100644
+> --- a/arch/riscv/include/asm/acpi.h
+> +++ b/arch/riscv/include/asm/acpi.h
+> @@ -68,6 +68,7 @@ int acpi_get_riscv_isa(struct acpi_table_header *table,
+>  static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_N=
+ODE; }
+>  int acpi_get_cbo_block_size(struct acpi_table_header *table, unsigned in=
+t cpu, u32 *cbom_size,
+>  			    u32 *cboz_size, u32 *cbop_size);
+> +struct fwnode_handle *acpi_rintc_create_irqchip_fwnode(struct acpi_madt_=
+rintc *rintc);
+>  #else
+>  static inline void acpi_init_rintc_map(void) { }
+>  static inline struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> diff --git a/drivers/acpi/riscv/Makefile b/drivers/acpi/riscv/Makefile
+> index 8b3b126e0b94..8b664190d172 100644
+> --- a/drivers/acpi/riscv/Makefile
+> +++ b/drivers/acpi/riscv/Makefile
+> @@ -1,2 +1,2 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -obj-y 	+=3D rhct.o
+> +obj-y 	+=3D rhct.o irqchip.o
+> diff --git a/drivers/acpi/riscv/irqchip.c b/drivers/acpi/riscv/irqchip.c
+> new file mode 100644
+> index 000000000000..36f066a2cad5
+> --- /dev/null
+> +++ b/drivers/acpi/riscv/irqchip.c
+> @@ -0,0 +1,46 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2023, Ventana Micro Systems Inc
+> + *	Author: Sunil V L <sunilvl@ventanamicro.com>
+> + *
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/fwnode.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/list.h>
+> +#include <linux/property.h>
+> +
+> +struct riscv_irqchip_list {
+> +	struct fwnode_handle *fwnode;
+> +	struct list_head list;
+> +};
+> +
+> +LIST_HEAD(rintc_list);
+> +
+> +struct fwnode_handle *acpi_rintc_create_irqchip_fwnode(struct acpi_madt_=
+rintc *rintc)
+> +{
+> +	struct property_entry props[6] =3D {};
+> +	struct fwnode_handle *fwnode;
+> +	struct riscv_irqchip_list *rintc_element;
+> +
+> +	props[0] =3D PROPERTY_ENTRY_U64("hartid", rintc->hart_id);
+> +	props[1] =3D PROPERTY_ENTRY_U32("riscv,ext-intc-id", rintc->ext_intc_id=
+);
+> +	props[2] =3D PROPERTY_ENTRY_U64("riscv,imsic-addr", rintc->imsic_addr);
+> +	props[3] =3D PROPERTY_ENTRY_U32("riscv,imsic-size", rintc->imsic_size);
+> +	props[4] =3D PROPERTY_ENTRY_U32("#interrupt-cells", 1);
+> +
+> +	fwnode =3D fwnode_create_software_node_early(props, NULL);
+> +	if (fwnode) {
+> +		rintc_element =3D kzalloc(sizeof(*rintc_element), GFP_KERNEL);
+> +		if (!rintc_element) {
+> +			fwnode_remove_software_node(fwnode);
+> +			return NULL;
+> +		}
+> +
+> +		rintc_element->fwnode =3D fwnode;
+> +		list_add_tail(&rintc_element->list, &rintc_list);
+> +	}
+> +
+> +	return fwnode;
+> +}
+> diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv=
+-intc.c
+> index 1a0fc87152c5..1ef9cada1ed3 100644
+> --- a/drivers/irqchip/irq-riscv-intc.c
+> +++ b/drivers/irqchip/irq-riscv-intc.c
+> @@ -203,6 +203,12 @@ static int __init riscv_intc_acpi_init(union acpi_su=
+btable_headers *header,
+> =20
+>  	rintc =3D (struct acpi_madt_rintc *)header;
+> =20
+> +	fn =3D acpi_rintc_create_irqchip_fwnode(rintc);
+> +	if (!fn) {
+> +		pr_err("unable to create INTC FW node\n");
+> +		return -ENOMEM;
+> +	}
+> +
+>  	/*
+>  	 * The ACPI MADT will have one INTC for each CPU (or HART)
+>  	 * so riscv_intc_acpi_init() function will be called once
+> @@ -212,12 +218,6 @@ static int __init riscv_intc_acpi_init(union acpi_su=
+btable_headers *header,
+>  	if (riscv_hartid_to_cpuid(rintc->hart_id) !=3D smp_processor_id())
+>  		return 0;
+> =20
+> -	fn =3D irq_domain_alloc_named_fwnode("RISCV-INTC");
+> -	if (!fn) {
+> -		pr_err("unable to allocate INTC FW node\n");
+> -		return -ENOMEM;
+> -	}
+> -
+>  	return riscv_intc_init_common(fn);
+>  }
+> =20
+> --=20
+> 2.39.2
+>=20
+>=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+--KGbrO9FdUrNn/kR9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZNH9dQAKCRB4tDGHoIJi
+0irpAQCn4tpo+ZUuKBiS5LlN2kTNA7QFVujwPoaS1jfnlSeJTAEAkLdDYwU7W+ML
+Vydp6LtqVqBQYdbOuMRHnZvBwVgH6A0=
+=cP5x
+-----END PGP SIGNATURE-----
+
+--KGbrO9FdUrNn/kR9--
