@@ -2,88 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E954C001DB
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 16:53:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C76BDC04A6A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 16:54:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233130AbjHHQx1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 12:53:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53856 "EHLO
+        id S233653AbjHHQyS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Aug 2023 12:54:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233157AbjHHQwc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 12:52:32 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130871885E;
-        Tue,  8 Aug 2023 08:58:22 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-26825239890so4128439a91.0;
-        Tue, 08 Aug 2023 08:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691510296; x=1692115096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pZIpxuSKG9EQkolkGeP/rvx1DBX6Mw4KQhG+pRiomJA=;
-        b=FF9HIA1PnJSoFjb8FNWQz5QzfErNThTLrSL1IWY23CJkIEul77UOAsY5hrv2K3n3h0
-         94SMufHF/jQlzHenn7TCZmKHY4kQ3LYnMcgw/viCmBXV0A7FOXsbnNUOMkACHorJIZGE
-         ofcU34cdXdvPqx76U6Im9kBaSjH2UlSOwdRhj0tAPQuXGM4HJ36eR9CEHzFGEr4zVs0r
-         JVJM2NDQYiqOmCd/LPz6EQwBN+VnDI1iweQ1IluuQRDrMcCHI94Eyiq+ERIF7agMfQLK
-         jYj2PjezLe+Qbj4BLq4RZd47Ecnf3UFE0mpc5DRF2lDYHcmkDUxJRvwN4RH7UFGAgCAE
-         ocgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691510296; x=1692115096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pZIpxuSKG9EQkolkGeP/rvx1DBX6Mw4KQhG+pRiomJA=;
-        b=FmoqYUfustIO+nVb0OLCXTVfIgWhs0pwxmTsq5+mokMxGiCQWYksKU7KI+vpeu5MdW
-         Kul6X4bpB4RNZkRxvI+E6zG0EINSlcSViMh9oH4Xo7EJ7FCgf03HtVZQfQQDHw6JH5DW
-         trA0/59QSG+GoFpNQxQf47fB+N1noAGRAdQZMUOvlx0uv8PZd2GMWmzgf6AqMN3Qv0uY
-         J4h1qk9utz3i8FM2ie4S5OO7Ru9If3Gtj+vuzzS5ivQjjflk2COEcEpdWK1naJeqUeq7
-         +nEtHJDsXUqDn78pZZId9P2nyxQZygYiGGSV+vtO3TmwORrzg2i2Un70Dgufu61GQaO1
-         fnyQ==
-X-Gm-Message-State: AOJu0YwWAmWyzvwoHV42bXnwJCR5FPb5cfNf4Y8C3rJjJ5sPhSWc+deA
-        T7cAgNE8KGKH5ICHOheuF9w=
-X-Google-Smtp-Source: AGHT+IE+ekEamcrQdo8s1rENYDlsoOEFNWmwxyOsFCAaTqyR8sJUFQ9ziTAQiZ2/16nOZS35z2BcfA==
-X-Received: by 2002:a17:90b:360a:b0:269:439d:8c3f with SMTP id ml10-20020a17090b360a00b00269439d8c3fmr7829559pjb.22.1691510295827;
-        Tue, 08 Aug 2023 08:58:15 -0700 (PDT)
-Received: from linux.lan ([2409:8a1e:21bd:e0e0:d532:b5f:45fb:48d5])
-        by smtp.gmail.com with ESMTPSA id k4-20020a17090a910400b00262d9b4b527sm8053542pjo.52.2023.08.08.08.58.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 08:58:15 -0700 (PDT)
-From:   Wei Zhang <zhangweilst@gmail.com>
-To:     corbet@lwn.net, paulmck@kernel.org, rostedt@goodmis.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Wei Zhang <zhangweilst@gmail.com>
-Subject: [PATCH] Documentation: RCU: fix section numbers after adding Section 7 in whatisRCU.rst
-Date:   Tue,  8 Aug 2023 23:58:11 +0800
-Message-Id: <20230808155811.550575-1-zhangweilst@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S233654AbjHHQxq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 12:53:46 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DBAB4FB0E;
+        Tue,  8 Aug 2023 08:58:48 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id ADBD066071E9;
+        Tue,  8 Aug 2023 08:21:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1691479281;
+        bh=UXRcgMncZj39YeKfwT0rE7PfhMSJQ8L3/sbxhBni15s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NK7ESBq/vynUZ0Aazs9Dv3B48dz4zwMylbAeXJWVjgbX0SRVb4XVKHmOK689nJcsI
+         940GrX/OyXYwglHIez6BsuJ5SnoypyDdhvMlC2dh48xqc5re0LuN0wGfHbaZu7yjPw
+         ihmKR3w23weg0AxJVQWy/DWUzflpbA+9m4O40mHmqts6OB7F45jYaok7FmOlO6nfGK
+         Tvd8zy79/WYRbfuW2OXi7nNEf15+GwtJLaA96nzjdh7VWWlo1DZgC2A17iqiEiWYMP
+         9Xwp9XM2n/jZgg/P/NiZ4YaVImnQoV7VHCDvuGCqKp5cnDSEr2bq3xsXFSnIGHnAx8
+         kMbkoFMYZdQ7g==
+Date:   Tue, 8 Aug 2023 09:21:17 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH drm-misc-next v9 01/11] drm/gem: fix lockdep check for
+ dma-resv lock
+Message-ID: <20230808092117.7f7fdef9@collabora.com>
+In-Reply-To: <20230803165238.8798-2-dakr@redhat.com>
+References: <20230803165238.8798-1-dakr@redhat.com>
+        <20230803165238.8798-2-dakr@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Wei Zhang <zhangweilst@gmail.com>
----
- Documentation/RCU/whatisRCU.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu,  3 Aug 2023 18:52:20 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-index e488c8e557a9..60ce02475142 100644
---- a/Documentation/RCU/whatisRCU.rst
-+++ b/Documentation/RCU/whatisRCU.rst
-@@ -59,8 +59,8 @@ experiment with should focus on Section 2.  People who prefer to start
- with example uses should focus on Sections 3 and 4.  People who need to
- understand the RCU implementation should focus on Section 5, then dive
- into the kernel source code.  People who reason best by analogy should
--focus on Section 6.  Section 7 serves as an index to the docbook API
--documentation, and Section 8 is the traditional answer key.
-+focus on Section 6 and 7.  Section 8 serves as an index to the docbook
-+API documentation, and Section 9 is the traditional answer key.
- 
- So, start with the section that makes the most sense to you and your
- preferred method of learning.  If you need to know everything about
+> When no custom lock is set to protect a GEMs GPUVA list, lockdep checks
+> should fall back to the GEM objects dma-resv lock. With the current
+> implementation we're setting the lock_dep_map of the GEM objects 'resv'
+> pointer (in case no custom lock_dep_map is set yet) on
+> drm_gem_private_object_init().
+> 
+> However, the GEM objects 'resv' pointer might still change after
+> drm_gem_private_object_init() is called, e.g. through
+> ttm_bo_init_reserved(). This can result in the wrong lock being tracked.
+> 
+> To fix this, call dma_resv_held() directly from
+> drm_gem_gpuva_assert_lock_held() and fall back to the GEMs lock_dep_map
+> pointer only if an actual custom lock is set.
+> 
+> Fixes: e6303f323b1a ("drm: manager to keep track of GPUs VA mappings")
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
-base-commit: 14f9643dc90adea074a0ffb7a17d337eafc6a5cc
--- 
-2.34.1
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+but I'm wondering if it wouldn't be a good thing to add a
+drm_gem_set_resv() helper, so the core can control drm_gem_object::resv
+re-assignments (block them if it's happening after the GEM has been
+exposed to the outside world or update auxiliary data if it's happening
+before that).
+
+> ---
+>  include/drm/drm_gem.h | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index c0b13c43b459..bc9f6aa2f3fe 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -551,15 +551,17 @@ int drm_gem_evict(struct drm_gem_object *obj);
+>   * @lock: the lock used to protect the gpuva list. The locking primitive
+>   * must contain a dep_map field.
+>   *
+> - * Call this if you're not proctecting access to the gpuva list
+> - * with the dma-resv lock, otherwise, drm_gem_gpuva_init() takes care
+> - * of initializing lock_dep_map for you.
+> + * Call this if you're not proctecting access to the gpuva list with the
+> + * dma-resv lock, but with a custom lock.
+>   */
+>  #define drm_gem_gpuva_set_lock(obj, lock) \
+> -	if (!(obj)->gpuva.lock_dep_map) \
+> +	if (!WARN((obj)->gpuva.lock_dep_map, \
+> +		  "GEM GPUVA lock should be set only once.")) \
+>  		(obj)->gpuva.lock_dep_map = &(lock)->dep_map
+>  #define drm_gem_gpuva_assert_lock_held(obj) \
+> -	lockdep_assert(lock_is_held((obj)->gpuva.lock_dep_map))
+> +	lockdep_assert((obj)->gpuva.lock_dep_map ? \
+> +		       lock_is_held((obj)->gpuva.lock_dep_map) : \
+> +		       dma_resv_held((obj)->resv))
+>  #else
+>  #define drm_gem_gpuva_set_lock(obj, lock) do {} while (0)
+>  #define drm_gem_gpuva_assert_lock_held(obj) do {} while (0)
+> @@ -573,11 +575,12 @@ int drm_gem_evict(struct drm_gem_object *obj);
+>   *
+>   * Calling this function is only necessary for drivers intending to support the
+>   * &drm_driver_feature DRIVER_GEM_GPUVA.
+> + *
+> + * See also drm_gem_gpuva_set_lock().
+>   */
+>  static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
+>  {
+>  	INIT_LIST_HEAD(&obj->gpuva.list);
+> -	drm_gem_gpuva_set_lock(obj, &obj->resv->lock.base);
+>  }
+>  
+>  /**
 
