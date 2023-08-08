@@ -2,104 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E14AEC001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 19:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D76FC001DB
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 02:43:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233609AbjHKTfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 15:35:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37094 "EHLO
+        id S229780AbjHHCnk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Aug 2023 22:43:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjHKTfW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 15:35:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E188330EC
-        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 12:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691782475;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=U4ViBLckjSjhNPhrCupJ24JN3joY3lkNEYQ4wLCKCu0=;
-        b=Zq3NimUceEEtDBKz+FAD6OfFy7Jm3vGJebq3uJY8Q3E5k5oNW1MK4D6P0+YJEzuW6LaHBl
-        7kNi1BYMDR5lQf/9Xi8iLp0IhP3GdjIL0/jYZAT7T/+kMMES/OM0IZt2rVGtEugt0BWgHA
-        OAoQQzPEyonh+DNCvYcpY8ElN2HqRuQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-Rl9t6dKwP9qAeaYIUQeYSA-1; Fri, 11 Aug 2023 15:34:28 -0400
-X-MC-Unique: Rl9t6dKwP9qAeaYIUQeYSA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E3FF685C6F4;
-        Fri, 11 Aug 2023 19:34:23 +0000 (UTC)
-Received: from [10.22.17.82] (unknown [10.22.17.82])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4ACD11121314;
-        Fri, 11 Aug 2023 19:34:20 +0000 (UTC)
-Message-ID: <ec070d3b-80fb-b625-cde1-80ead49c6227@redhat.com>
-Date:   Fri, 11 Aug 2023 15:34:19 -0400
+        with ESMTP id S229533AbjHHCnj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 22:43:39 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ABB819F
+        for <linux-doc@vger.kernel.org>; Mon,  7 Aug 2023 19:43:39 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-686be3cbea0so4105521b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Aug 2023 19:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1691462618; x=1692067418;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=INNxwX5OXvLNLDOBW649YAXFL5xD3rewmot3fGeUu+U=;
+        b=A2/H7xZD3CqmMHtFxsVqnriGlaXy35N8gBbwRol4vGFZvKVXNjRJ4I2Ej91W89NYJM
+         wSNrqUuSu0NHolUuyrAQOlT9CF2bWUVb0RRUmRd1vsjGH8JXqQUMDtKUCngxFdnfJqFN
+         O4M6br26j+O/QUpWu/rrKJIXEuTHwWBeF8GT0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691462618; x=1692067418;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=INNxwX5OXvLNLDOBW649YAXFL5xD3rewmot3fGeUu+U=;
+        b=QSp1bdDKs0W1fc/3TbneB7xd0puMe9lb0YIC6bOTUNr6FuM/AC3c+RAcU0ld6pnYap
+         f5DREL4/gdylbc0lQIzUkb8+CVVMk+eP/BakqxBBwOxWHcKyCJT7osl54hxNT4GB+z9j
+         ndjZAx1UEtZQQ+Y+q/Lna6pWHoAD4foW0zUXYPZ5MMulUSBcMkL9ufZeBYrDYZpjKKdA
+         ZH+XS1bepg0lLfXkgoeBzYzNYEf31AxcRBB3SO/Vma4M9B2zmn9pArmlgmPr57y/uR8s
+         2OjcweTqEehjXDDwAh8Gk/RmBKR+A4pcIxuKh+5cU+eSyD76Hh+1lk9ecuxKjjgakpN0
+         4tmA==
+X-Gm-Message-State: AOJu0Yz71ztGATBdzSlZ+4GZk3IfZ9tDdqtPcWOSQqlTkGT8R+bK+rTG
+        3kBUvM1vCqRGMb/f32CMoD1FhJG2NczDXIUHt/8=
+X-Google-Smtp-Source: AGHT+IEEHi3T6ZsjgaGRPluPDjQtcIdZ3It0oJBuq7pr5+R6rIUvnxra471DvdmsO6KuBdWwjldy+w==
+X-Received: by 2002:a05:6a20:440a:b0:133:38cb:2b93 with SMTP id ce10-20020a056a20440a00b0013338cb2b93mr11291967pzb.9.1691462618594;
+        Mon, 07 Aug 2023 19:43:38 -0700 (PDT)
+Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
+        by smtp.gmail.com with ESMTPSA id p23-20020aa78617000000b00662610cf7a8sm7063479pfn.172.2023.08.07.19.43.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Aug 2023 19:43:38 -0700 (PDT)
+From:   Brandon Pollack <brpol@chromium.org>
+To:     jshargo@chromium.org
+Cc:     airlied@gmail.com, corbet@lwn.net, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+        melissa.srw@gmail.com, mripard@kernel.org,
+        rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
+Subject: 
+Date:   Tue,  8 Aug 2023 02:42:33 +0000
+Message-ID: <20230808024313.2220391-2-brpol@chromium.org>
+X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
+In-Reply-To: <20230623222353.97283-1-jshargo@chromium.org>
+References: <20230623222353.97283-1-jshargo@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH V10 04/19] riscv: qspinlock: Add basic queued_spinlock
- support
-Content-Language: en-US
-To:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
-        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
-        catalin.marinas@arm.com, conor.dooley@microchip.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn
-Cc:     linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-References: <20230802164701.192791-1-guoren@kernel.org>
- <20230802164701.192791-5-guoren@kernel.org>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20230802164701.192791-5-guoren@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Any progress on this?  Is it ok if yixie@chromium.org and I do the
+followups on this patch so that we can also submit the Hotplug patch I
+wrote (that's now archived?).
 
-On 8/2/23 12:46, guoren@kernel.org wrote:
-> 	\
-> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
-> new file mode 100644
-> index 000000000000..c644a92d4548
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/spinlock.h
-> @@ -0,0 +1,17 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef __ASM_RISCV_SPINLOCK_H
-> +#define __ASM_RISCV_SPINLOCK_H
-> +
-> +#ifdef CONFIG_QUEUED_SPINLOCKS
-> +#define _Q_PENDING_LOOPS	(1 << 9)
-> +#endif
-> +
-> +#ifdef CONFIG_QUEUED_SPINLOCKS
-
-You can merge the two "#ifdef CONFIG_QUEUED_SPINLOCKS" into single one 
-to avoid the duplication.
-
-Cheers,
-Longman
-
-> +#include <asm/qspinlock.h>
-> +#include <asm/qrwlock.h>
-> +#else
-> +#include <asm-generic/spinlock.h>
-> +#endif
-> +
-> +#endif /* __ASM_RISCV_SPINLOCK_H */
 
