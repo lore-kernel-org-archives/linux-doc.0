@@ -2,200 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68668C41513
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 10:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21728C001B0
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 12:22:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbjHIKJN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 06:09:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41750 "EHLO
+        id S232229AbjHIMV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 08:21:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjHIKJM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 06:09:12 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 326671BFB;
-        Wed,  9 Aug 2023 03:09:10 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RLQjS0X2JzmXh1;
-        Wed,  9 Aug 2023 18:07:56 +0800 (CST)
-Received: from localhost.localdomain (10.50.163.32) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 9 Aug 2023 18:09:07 +0800
-From:   Yicong Yang <yangyicong@huawei.com>
-To:     <will@kernel.org>, <catalin.marinas@arm.com>,
-        <lpieralisi@kernel.org>, <mark.rutland@arm.com>,
-        <robin.murphy@arm.com>, <guohanjun@huawei.com>, <corbet@lwn.net>,
-        <rafael@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-acpi@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <jonathan.cameron@huawei.com>,
-        <shameerali.kolothum.thodi@huawei.com>, <hejunhao3@huawei.com>,
-        <linuxarm@huawei.com>, <prime.zeng@hisilicon.com>,
-        <yangyicong@hisilicon.com>, <zhurui3@huawei.com>
-Subject: [PATCH] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
-Date:   Wed, 9 Aug 2023 18:06:54 +0800
-Message-ID: <20230809100654.32036-1-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
+        with ESMTP id S232231AbjHIMV4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 08:21:56 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B48D1BF7
+        for <linux-doc@vger.kernel.org>; Wed,  9 Aug 2023 05:21:55 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-5230df1ce4fso8991092a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Aug 2023 05:21:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20221208.gappssmtp.com; s=20221208; t=1691583714; x=1692188514;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gse4lQ89R/swNYJYWFRKmfEvRYWCgDAQeQk+i+FC3Qc=;
+        b=z4Z49MED7B2iO1P22Sflcd12HqFoBF5yfCPEmSnPuw92T8YnUDH2KmdmqK/zmm3Hsv
+         Y1A4Myz/vjPMCMyAiAMJtrC215szsuavogK4ztLxqkGSQO7aPAZzUkD1Ozkyv7H3dSaL
+         qsE22vwvMjFkqhjUQQdHhf2t+Y2yF2VZL5Bid1o6X2mZ0zwKa1F0dMm02EOtwX7YI8oZ
+         kQr4IP0wXNHwqQREssTv7kAUZWMAwp8PYn9E03Y7mqOyy+xa2JAZIQ2g56zk0jeEXZhW
+         kRD0s2bF7FjY+mFqcKXFd8fyuF9dqKo3ka5wJ+o55aO6bmVU6NblI+YE2iiYmI3rXl30
+         +XNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691583714; x=1692188514;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gse4lQ89R/swNYJYWFRKmfEvRYWCgDAQeQk+i+FC3Qc=;
+        b=WEzoT2xoKLr7l6BsumwWkpGx8UXupLBNrpMBwe9K1hK+UYmqLCGsky9f8HeH32v6C5
+         7qr1PiEXYmIEOYk8svgmWKhL86KNZHTwUorp73QLpbcRddALZ0unwTpNjo+KJxxFURLb
+         B3NX27aTb7AtvmpxDTuIpj3Xmdm2yhodPP9vkka/FvMc5o7hROSK49KFCfHFL82ebOtb
+         Sp1jNt/ouvqlX3exIErzXSF+c6gepf+MH5wTOCZogOO17zHYBycwdoKO3cqeS4KU3/5X
+         vcRzqQ5EBhmI5NUS0LpSzZVhfRvwU7oI+wE3B7v/HzMrPTz18i3Tsh8CC5hqj2IBIzUv
+         KVLw==
+X-Gm-Message-State: AOJu0YwOGzSSOIY/a3I5RyvlCOo8K1ny1V3q748qgdhje/8kr1xkqAYI
+        UJ6pwKHuzrj7Stkg2icbrcUrxv4oZbRs1/qKMRsQrQ==
+X-Google-Smtp-Source: AGHT+IEllS//Vo5DIeilEm06so+oXBAZVZjqk1bluFXrO7jOq/QKmFdOTXQUqzX5tkMzooCga5rA10uXjLIWp+wEMZQ=
+X-Received: by 2002:aa7:d912:0:b0:522:1e2f:99db with SMTP id
+ a18-20020aa7d912000000b005221e2f99dbmr2557441edr.5.1691583713714; Wed, 09 Aug
+ 2023 05:21:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.50.163.32]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+References: <cover.1690273969.git.haibo1.xu@intel.com> <CAAhSdy0yug=J0nxnnPoLYL=0MiT0w6qgPYOcv0QwMRe+fsQn8Q@mail.gmail.com>
+ <87y1ilpz3m.wl-maz@kernel.org>
+In-Reply-To: <87y1ilpz3m.wl-maz@kernel.org>
+From:   Anup Patel <anup@brainfault.org>
+Date:   Wed, 9 Aug 2023 17:51:41 +0530
+Message-ID: <CAAhSdy3f9cyh_b9Z9ah9QOdqWUMzhMV39hxUqVCStOc2FWRYDQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/13] RISCV: Add KVM_GET_REG_LIST API
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     oliver.upton@linux.dev, xiaobo55x@gmail.com,
+        ajones@ventanamicro.com, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Ricardo Koller <ricarkol@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Like Xu <likexu@tencent.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        Haibo Xu <haibo1.xu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm-riscv@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yicong Yang <yangyicong@hisilicon.com>
+Hi Marc,
 
-Some HiSilicon SMMU PMCG suffers the erratum 162001900 that the PMU
-disable control sometimes fail to disable the counters. This will lead
-to error or inaccurate data since before we enable the counters the
-counter's still counting for the event used in last perf session.
+On Tue, Aug 8, 2023 at 4:42=E2=80=AFPM Marc Zyngier <maz@kernel.org> wrote:
+>
+> On Mon, 07 Aug 2023 04:48:33 +0100,
+> Anup Patel <anup@brainfault.org> wrote:
+> >
+> > Hi Marc, Hi Oliver,
+> >
+> > On Tue, Jul 25, 2023 at 2:05=E2=80=AFPM Haibo Xu <haibo1.xu@intel.com> =
+wrote:
+> > >
+> > > KVM_GET_REG_LIST will dump all register IDs that are available to
+> > > KVM_GET/SET_ONE_REG and It's very useful to identify some platform
+> > > regression issue during VM migration.
+> > >
+> > > Patch 1-7 re-structured the get-reg-list test in aarch64 to make some
+> > > of the code as common test framework that can be shared by riscv.
+> > >
+> > > Patch 8 move reject_set check logic to a function so as to check for
+> > > different errno for different registers.
+> > > Patch 9 move finalize_vcpu back to run_test so that riscv can impleme=
+nt
+> > > its specific operation.
+> > > Patch 10 change to do the get/set operation only on present-blessed l=
+ist.
+> > > Patch 11 add the skip_set facilities so that riscv can skip set opera=
+tion
+> > > on some registers.
+> > > Patch 12 enabled the KVM_GET_REG_LIST API in riscv.
+> > > patch 13 added the corresponding kselftest for checking possible
+> > > register regressions.
+> > >
+> > > The get-reg-list kvm selftest was ported from aarch64 and tested with
+> > > Linux v6.5-rc3 on a Qemu riscv64 virt machine.
+> > >
+> > > ---
+> > > Changed since v5:
+> > >   * Rebase to v6.5-rc3
+> > >   * Minor fix for Andrew's comments
+> > >
+> > > Andrew Jones (7):
+> > >   KVM: arm64: selftests: Replace str_with_index with strdup_printf
+> > >   KVM: arm64: selftests: Drop SVE cap check in print_reg
+> > >   KVM: arm64: selftests: Remove print_reg's dependency on vcpu_config
+> > >   KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
+> > >   KVM: arm64: selftests: Delete core_reg_fixup
+> > >   KVM: arm64: selftests: Split get-reg-list test code
+> > >   KVM: arm64: selftests: Finish generalizing get-reg-list
+> > >
+> > > Haibo Xu (6):
+> > >   KVM: arm64: selftests: Move reject_set check logic to a function
+> > >   KVM: arm64: selftests: Move finalize_vcpu back to run_test
+> > >   KVM: selftests: Only do get/set tests on present blessed list
+> > >   KVM: selftests: Add skip_set facility to get_reg_list test
+> > >   KVM: riscv: Add KVM_GET_REG_LIST API support
+> > >   KVM: riscv: selftests: Add get-reg-list test
+> >
+> > Are you okay for this series to go through the KVM RISC-V tree ?
+>
+> Sure, seems fine from my point of view. But please put it on an
+> immutable topic branch so that we can also merge it in the arm64 tree,
+> should we need to resolve any conflicts.
 
-This patch tries to fix this by hardening the global disable process.
-Before disable the PMU, writing an invalid event type (0xffff) to
-focibly stop the counters. Correspondingly restore each events on
-pmu::pmu_enable().
+I have created topic branch riscv_kvm_get_reg_list in the KVM RISC-V
+repo https://github.com/kvm-riscv/linux.git.
 
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
----
- Documentation/arch/arm64/silicon-errata.rst |  3 ++
- drivers/acpi/arm64/iort.c                   |  5 ++-
- drivers/perf/arm_smmuv3_pmu.c               | 49 ++++++++++++++++++++-
- include/linux/acpi_iort.h                   |  1 +
- 4 files changed, 56 insertions(+), 2 deletions(-)
+This branch is based upon Linux-6.5-rc5 and also merged into the
+riscv_kvm_next branch for the upcoming merge window.
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 496cdca5cb99..d54626cfcbda 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -195,6 +195,9 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Hisilicon      | Hip08 SMMU PMCG | #162001800      | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Hisilicon      | Hip08 SMMU PMCG | #162001900      | N/A                         |
-+|                | Hip09 SMMU PMCG |                 |                             |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index 56d887323ae5..6496ff5a6ba2 100644
---- a/drivers/acpi/arm64/iort.c
-+++ b/drivers/acpi/arm64/iort.c
-@@ -1708,7 +1708,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
- static struct acpi_platform_list pmcg_plat_info[] __initdata = {
- 	/* HiSilicon Hip08 Platform */
- 	{"HISI  ", "HIP08   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
--	 "Erratum #162001800", IORT_SMMU_V3_PMCG_HISI_HIP08},
-+	 "Erratum #162001800, Erratum #162001900", IORT_SMMU_V3_PMCG_HISI_HIP08},
-+	/* HiSilicon Hip09 Platform */
-+	{"HISI  ", "HIP09   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
-+	 "Erratum #162001900", IORT_SMMU_V3_PMCG_HISI_HIP09},
- 	{ }
- };
- 
-diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
-index 25a269d431e4..b854b67b81fc 100644
---- a/drivers/perf/arm_smmuv3_pmu.c
-+++ b/drivers/perf/arm_smmuv3_pmu.c
-@@ -115,6 +115,7 @@
- #define SMMU_PMCG_PA_SHIFT              12
- 
- #define SMMU_PMCG_EVCNTR_RDONLY         BIT(0)
-+#define SMMU_PMCG_HARDEN_DISABLE        BIT(1)
- 
- static int cpuhp_state_num;
- 
-@@ -150,6 +151,22 @@ SMMU_PMU_EVENT_ATTR_EXTRACTOR(filter_stream_id, config1, 0, 31);
- SMMU_PMU_EVENT_ATTR_EXTRACTOR(filter_span, config1, 32, 32);
- SMMU_PMU_EVENT_ATTR_EXTRACTOR(filter_enable, config1, 33, 33);
- 
-+static int smmu_pmu_apply_event_filter(struct smmu_pmu *smmu_pmu,
-+				       struct perf_event *event, int idx);
-+
-+static inline void smmu_pmu_enable_quirk_hip08_09(struct pmu *pmu)
-+{
-+	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
-+	unsigned int idx;
-+
-+	for_each_set_bit(idx, smmu_pmu->used_counters, smmu_pmu->num_counters)
-+		smmu_pmu_apply_event_filter(smmu_pmu, smmu_pmu->events[idx], idx);
-+
-+	writel(SMMU_PMCG_IRQ_CTRL_IRQEN,
-+	       smmu_pmu->reg_base + SMMU_PMCG_IRQ_CTRL);
-+	writel(SMMU_PMCG_CR_ENABLE, smmu_pmu->reg_base + SMMU_PMCG_CR);
-+}
-+
- static inline void smmu_pmu_enable(struct pmu *pmu)
- {
- 	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
-@@ -159,6 +176,23 @@ static inline void smmu_pmu_enable(struct pmu *pmu)
- 	writel(SMMU_PMCG_CR_ENABLE, smmu_pmu->reg_base + SMMU_PMCG_CR);
- }
- 
-+static inline void smmu_pmu_disable_quirk_hip08_09(struct pmu *pmu)
-+{
-+	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
-+	unsigned int idx;
-+
-+	/*
-+	 * The global disable of PMU sometimes fail to stop the counting.
-+	 * Harden this by writing an invalid event type to each used counter
-+	 * to forcibly stop counting.
-+	 */
-+	for_each_set_bit(idx, smmu_pmu->used_counters, smmu_pmu->num_counters)
-+		writel(0xffff, smmu_pmu->reg_base + SMMU_PMCG_EVTYPER(idx));
-+
-+	writel(0, smmu_pmu->reg_base + SMMU_PMCG_CR);
-+	writel(0, smmu_pmu->reg_base + SMMU_PMCG_IRQ_CTRL);
-+}
-+
- static inline void smmu_pmu_disable(struct pmu *pmu)
- {
- 	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
-@@ -765,7 +799,10 @@ static void smmu_pmu_get_acpi_options(struct smmu_pmu *smmu_pmu)
- 	switch (model) {
- 	case IORT_SMMU_V3_PMCG_HISI_HIP08:
- 		/* HiSilicon Erratum 162001800 */
--		smmu_pmu->options |= SMMU_PMCG_EVCNTR_RDONLY;
-+		smmu_pmu->options |= SMMU_PMCG_EVCNTR_RDONLY | SMMU_PMCG_HARDEN_DISABLE;
-+		break;
-+	case IORT_SMMU_V3_PMCG_HISI_HIP09:
-+		smmu_pmu->options |= SMMU_PMCG_HARDEN_DISABLE;
- 		break;
- 	}
- 
-@@ -890,6 +927,16 @@ static int smmu_pmu_probe(struct platform_device *pdev)
- 	if (!dev->of_node)
- 		smmu_pmu_get_acpi_options(smmu_pmu);
- 
-+	/*
-+	 * For platforms suffer this quirk, the PMU disable sometimes fails to
-+	 * stop the counters. This will leads to inaccurate or error counting.
-+	 * Forcibly disable the counters with these quirk handler.
-+	 */
-+	if (smmu_pmu->options & SMMU_PMCG_HARDEN_DISABLE) {
-+		smmu_pmu->pmu.pmu_enable = smmu_pmu_enable_quirk_hip08_09;
-+		smmu_pmu->pmu.pmu_disable = smmu_pmu_disable_quirk_hip08_09;
-+	}
-+
- 	/* Pick one CPU to be the preferred one to use */
- 	smmu_pmu->on_cpu = raw_smp_processor_id();
- 	WARN_ON(irq_set_affinity(smmu_pmu->irq, cpumask_of(smmu_pmu->on_cpu)));
-diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
-index ee7cb6aaff71..1cb65592c95d 100644
---- a/include/linux/acpi_iort.h
-+++ b/include/linux/acpi_iort.h
-@@ -21,6 +21,7 @@
-  */
- #define IORT_SMMU_V3_PMCG_GENERIC        0x00000000 /* Generic SMMUv3 PMCG */
- #define IORT_SMMU_V3_PMCG_HISI_HIP08     0x00000001 /* HiSilicon HIP08 PMCG */
-+#define IORT_SMMU_V3_PMCG_HISI_HIP09     0x00000002 /* HiSilicon HIP09 PMCG */
- 
- int iort_register_domain_token(int trans_id, phys_addr_t base,
- 			       struct fwnode_handle *fw_node);
--- 
-2.24.0
-
+Regards,
+Anup
