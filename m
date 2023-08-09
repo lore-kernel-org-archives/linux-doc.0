@@ -2,81 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF3EC04E69
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 18:02:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C01EC41513
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 18:38:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbjHISCz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 14:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58388 "EHLO
+        id S229969AbjHISiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 14:38:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232245AbjHISCp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 14:02:45 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8FE2E19A1;
-        Wed,  9 Aug 2023 11:02:43 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id F276320FC4C4; Wed,  9 Aug 2023 11:02:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F276320FC4C4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1691604163;
-        bh=2BAEPHZjC1csVSUp5YiA21kHWYMQI2muR+jIz+ByF+4=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=V0JoJpg23L/peNkCEvzn4viDNmOHVq322EXzMIkHlzswJAG/7x2U+HK9aVOM+hySz
-         mbJuWfMNHkSfC5A/dOjdMfskmaecJosfCzIgyyFlwjv23+hsdZtd9zVTW2hG2gpZGJ
-         y6qnuS91reyXsJjl52Mc922yNssoBNVK4a9tvzQs=
-Date:   Wed, 9 Aug 2023 11:02:42 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>,
-        Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
-        agk@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [RFC PATCH v10 11/17] dm-verity: consume root hash digest and
- signature data via LSM hook
-Message-ID: <20230809180242.GA23396@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
- <1687986571-16823-12-git-send-email-wufan@linux.microsoft.com>
- <ZKgm+ffQbdDTxrg9@redhat.com>
- <20230712034319.GA17642@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhQFxqcfgR0acgdiXKP9LT1KLgGjZd-QHs6O1dEex31HEQ@mail.gmail.com>
- <20230808224503.GA20095@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <20230808234023.GC120054@agk-cloud1.hosts.prod.upshift.rdu2.redhat.com>
+        with ESMTP id S232463AbjHISiU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 14:38:20 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412F9210B;
+        Wed,  9 Aug 2023 11:38:18 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 92F1C2185E;
+        Wed,  9 Aug 2023 18:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1691606296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jDo8u77rjiHYnBIYiW83NmXTq29Tjl9jGKLk7kPbjZQ=;
+        b=xf9tgMF8nXpimEkm8g/Lf9VRRPvcI1zZvOFRN/a5+emvvQ4hzU+/F32J1g2GBGmhaYsD+X
+        Vh9m9mWtXdQ2+CHO4xPxvTYf7Gk4V1NHJ/9Pmkhd+iI9IqVtMaoKclPeeGNl0kVRTH6Zja
+        GNGkAa09uvtrVPT0YKK15T8tY8QiL1k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1691606296;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jDo8u77rjiHYnBIYiW83NmXTq29Tjl9jGKLk7kPbjZQ=;
+        b=mxsYXXzNLRBzqc7rhbkLSlR/ygKG94FWAQw7kSub1YtD4rCw+FQaNKJbp+DNzzm+eUrNn9
+        inYaGbDt+J7egUDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55AC0133B5;
+        Wed,  9 Aug 2023 18:38:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id eCYpDxjd02RWHQAAMHmgww
+        (envelope-from <krisman@suse.de>); Wed, 09 Aug 2023 18:38:16 +0000
+From:   Gabriel Krisman Bertazi <krisman@suse.de>
+To:     Andres Freund <andres@anarazel.de>
+Cc:     Jeff Moyer <jmoyer@redhat.com>,
+        Matteo Rizzo <matteorizzo@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        io-uring@vger.kernel.org, axboe@kernel.dk, asml.silence@gmail.com,
+        corbet@lwn.net, akpm@linux-foundation.org, keescook@chromium.org,
+        ribalda@chromium.org, rostedt@goodmis.org, jannh@google.com,
+        chenhuacai@kernel.org, gpiccoli@igalia.com, ldufour@linux.ibm.com,
+        evn@google.com, poprdi@google.com, jordyzomer@google.com
+Subject: Re: [PATCH v3 1/1] io_uring: add a sysctl to disable io_uring
+ system-wide
+In-Reply-To: <20230809150945.abp755qafjhxbmx6@awork3.anarazel.de> (Andres
+        Freund's message of "Wed, 9 Aug 2023 08:09:45 -0700")
+References: <20230630151003.3622786-1-matteorizzo@google.com>
+        <20230630151003.3622786-2-matteorizzo@google.com>
+        <20230726174549.cg4jgx2d33fom4rb@awork3.anarazel.de>
+        <x49fs5awiel.fsf@segfault.boston.devel.redhat.com>
+        <20230809150945.abp755qafjhxbmx6@awork3.anarazel.de>
+Date:   Wed, 09 Aug 2023 14:38:14 -0400
+Message-ID: <87o7jg6oyx.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230808234023.GC120054@agk-cloud1.hosts.prod.upshift.rdu2.redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 09, 2023 at 12:40:23AM +0100, Alasdair G Kergon wrote:
-> On Tue, Aug 08, 2023 at 03:45:03PM -0700, Fan Wu wrote:
-> > On Tue, Jul 25, 2023 at 04:43:48PM -0400, Paul Moore wrote:
-> > > Where would the finalize() hook be called?
-> > 
-> > It is in the __bind function in drivers/md/dm.c, calling just before 
-> > rcu_assign_pointer(md->map, (void *)t) which activates the inactive table.
->  
-> That would be after the existing commit point, meaning the table swap
-> cannot be cancelled there, so is the finalize() you are proposing void()
-> i.e. designed so it always succeeds?
-> 
-> Alasdair
+Andres Freund <andres@anarazel.de> writes:
 
-Thanks for the input.
+> Hi,
+>
+> Sorry for the delayed response, EINBOXOVERFLOW.
+>
+> On 2023-07-26 16:02:26 -0400, Jeff Moyer wrote:
+>> Andres Freund <andres@anarazel.de> writes:
+>> 
+>> > Hi,
+>> >
+>> > On 2023-06-30 15:10:03 +0000, Matteo Rizzo wrote:
+>> >> Introduce a new sysctl (io_uring_disabled) which can be either 0, 1,
+>> >> or 2. When 0 (the default), all processes are allowed to create io_uring
+>> >> instances, which is the current behavior. When 1, all calls to
+>> >> io_uring_setup fail with -EPERM unless the calling process has
+>> >> CAP_SYS_ADMIN. When 2, calls to io_uring_setup fail with -EPERM
+>> >> regardless of privilege.
+>> >
+>> > Hm, is there a chance that instead of requiring CAP_SYS_ADMIN, a certain group
+>> > could be required (similar to hugetlb_shm_group)? Requiring CAP_SYS_ADMIN
+>> > could have the unintended consequence of io_uring requiring tasks being run
+>> > with more privileges than needed... Or some other more granular way of
+>> > granting the right to use io_uring?
+>> 
+>> That's fine with me, so long as there is still an option to completely
+>> disable io_uring.
+>
+> Makes sense.
+>
+>
+>> > ISTM that it'd be nice if e.g. a systemd service specification could allow
+>> > some services to use io_uring, without allowing it for everyone, or requiring
+>> > to run services effectively as root.
+>> 
+>> Do you have a proposal for how that would work?
+>
+> I think group based permissions would allow for it, even if perhaps not in the
+> most beautiful manner. Systemd can configure additional groups for a service
+> with SupplementaryGroups, so adding a "io_uring" group or such should
+> work.
 
-Actually, no, the hook can be failed. I noticed the existing call before rcu_assign_pointer(md->map, (void *)t);
-(https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm.c#n2255)
-can also be failed so I was following the same pattern.
+This is more complex/requires more configuration than just blocking
+root/non-root. Also, might not be practical for non-systemd systems, I
+suspect. Can we keep the other options in the sysctl io_uring_disabled
+as well:
 
-Could you explain a bit more about the "commit point"? It sounds like it might be better to move
-the hook call just before the commit point instead.
+0 -> all allowed (default)
+1 -> group based permission
+2 -> root only
+3 -> all blocked
 
--Fan
+-- 
+Gabriel Krisman Bertazi
