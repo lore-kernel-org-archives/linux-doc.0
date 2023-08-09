@@ -2,125 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DB2EB64DD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 13:00:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DDBEB64DD
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 13:28:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231392AbjHINAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 09:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45050 "EHLO
+        id S231527AbjHIN2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 09:28:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbjHINAh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 09:00:37 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ADD11FF5;
-        Wed,  9 Aug 2023 06:00:36 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3176a439606so5207615f8f.3;
-        Wed, 09 Aug 2023 06:00:36 -0700 (PDT)
+        with ESMTP id S232885AbjHIN2A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 09:28:00 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 204DD1728;
+        Wed,  9 Aug 2023 06:27:58 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3fe4ad22eb0so48009435e9.3;
+        Wed, 09 Aug 2023 06:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691586035; x=1692190835;
+        d=gmail.com; s=20221208; t=1691587676; x=1692192476;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zloZVxNaHrnYHPz3REtAzM9yYHyeZJvdcxZLzgQr6lQ=;
-        b=csJ/pk4GqVFJrM4T0wSW1bliXiqXohqbgBFPHMzJpDgvzAxzSTa+/ifV6yfQNpXArq
-         R42ryRFhkIAhNdktL2V3V6l2pXhS9PvukqeYBou3lvyPRJ5MJROBD2J5Vp7SV7cPwChe
-         rMFSYw1gHyW75hwO8ylWPxbxPhOvkC6ldMc8EdAOIYkPxMrnz+XCd3TAo1VHZB6Ut3S/
-         0rgb+IEGU/N1mvpRuthOoDsCAYJyQZzyWDdqOzNP7ddJd2j06j4QmcjIzoZMHhLFLQBB
-         6LOrR6ZjnA9mW81ciJm1qX5LqbOAsNxx/Z+ilTz7NviplBpQWkr8J9TMPiknQIkOlhHo
-         DsjA==
+        bh=d8Y1G49lBNQm8I61OnbJNB7Y67Rqrzuj0UzklKCPsaE=;
+        b=LRLOMkzq5roM5+UL4g24JUK02KJZ1tOyaeAU+G/++qDurykvmZs+k5ToiSnichUqEk
+         cUdyvurpRYxwlIy2uQA34E9ug3E4QUF5feALGH3VTp0TBgx+yGcXUIMUIDnlgLBUX48C
+         ruOh9y/mgCf1ARxdu2q+MDxvEw0s9HyN68BRdrfPYZ7YZeohcB0sbvG5C+r4iqXdPyai
+         ptyD7QmhbiuAe82unuLMetKaRt8X7pznMl7qCmLi0jO2fPjFr6zSghRsE3Cx8Zvx+xVc
+         9HnxpplXvU9U5D1IUPk62u0CCiGGNdr5PWo/gqjA8Jlm7PdMWn+wlfXCDRaoe4feejP8
+         lcUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691586035; x=1692190835;
+        d=1e100.net; s=20221208; t=1691587676; x=1692192476;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zloZVxNaHrnYHPz3REtAzM9yYHyeZJvdcxZLzgQr6lQ=;
-        b=idoPZB1DKbTU5gldmUGo+UBL53XFm0dlcBEcqsYth26kePefebF39tP5SMG2gBb6RK
-         RUeRN+x/atYfyLYkgOh0AVEeEzkxhNy9UqsYiX9gJL32wSoGR6aQuBiP84/iO+P34w+g
-         8i8KhLH02zE60ia3dOKx2HyD2cc36SKf3J/b6BucFnEEaNUmP85+cJADrAvygTuDM/4B
-         y29aWwUvegS/585tDosOg+xU8PweF2t86/bI28fYG9V78OuEF6mH1kAvdM/yc1B+9WZ2
-         qEgyJS7/sW0bJushmJ7TB/YTlI9jWlgT8f2UYD9N9E80BrEMJDxu0loIw88SvCui4Kgn
-         /Bnw==
-X-Gm-Message-State: AOJu0YwubfW79etbDaaHawwRbvU6P2YBziDXaSGWoLddAuyE4FUjQ2bF
-        VKKhs3LJG6ObcaS+8jndnaQ=
-X-Google-Smtp-Source: AGHT+IHujO9QbdFycDXQ+aeoydvaWfWjdr8SFFtfvRbYeyGnkceJLASmfJlRbG7tFeMkvkLnzXz9LA==
-X-Received: by 2002:adf:f608:0:b0:317:7441:1a4 with SMTP id t8-20020adff608000000b00317744101a4mr1964638wrp.29.1691586034572;
-        Wed, 09 Aug 2023 06:00:34 -0700 (PDT)
+        bh=d8Y1G49lBNQm8I61OnbJNB7Y67Rqrzuj0UzklKCPsaE=;
+        b=aATVRoDGkrQNhhvedIhCx4cIsZgKr3EZZW3GFVwaUIS7IKMCHAAt6Vp4t9LaBP3KoJ
+         m5ctqLnW7Qy8wncsZOGskNUybEh7UUYHbXIWFCrFtYMxFpVMWb4Y4h1Y+4Ilc7yvRFen
+         lXgd8c/+tbpqNZnasOdO1mx/uhqjhPM0qy/2Mgnfq4lYPi0giKEAZw429b0yRYNL5K4Q
+         HCvHG6o4hkOhjrgRic8vZQVTAVq9lPjBS5pJrA0u3/KxdCuOkUqFGnjk6OFIdlkHS2n/
+         NXvbk/1MWOMd++wIK9ttGiaLveDT3KZA7eWDQ6kbEk+vo3WVWXeFG7y7Lm7Km2t6Zdi/
+         XfiQ==
+X-Gm-Message-State: AOJu0Yz9wiG4GFrgpkNaFWIUXZS4Kg9Rs5o8kIBKCHS76Ny/CbVnBoGY
+        AM8cHm2U2YyejIG9w11nSmE=
+X-Google-Smtp-Source: AGHT+IHDxGd450rRdsFhBnDQgcJyvMYyTZ+kwjhYbRwkfXfZOLa5tVOHOjbRM12m2W0onKTwRwDXew==
+X-Received: by 2002:a1c:4b1a:0:b0:3fb:e573:4172 with SMTP id y26-20020a1c4b1a000000b003fbe5734172mr2307215wma.31.1691587676297;
+        Wed, 09 Aug 2023 06:27:56 -0700 (PDT)
 Received: from suse.localnet (host-95-233-25-82.retail.telecomitalia.it. [95.233.25.82])
-        by smtp.gmail.com with ESMTPSA id x10-20020a5d490a000000b00317ab75748bsm16694129wrq.49.2023.08.09.06.00.32
+        by smtp.gmail.com with ESMTPSA id 20-20020a05600c021400b003fe1e3937aesm1990130wmi.20.2023.08.09.06.27.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 06:00:33 -0700 (PDT)
+        Wed, 09 Aug 2023 06:27:55 -0700 (PDT)
 From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Mike Rapoport <rppt@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
         Ira Weiny <ira.weiny@intel.com>,
         Matthew Wilcox <willy@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH] Documentation/page_tables: Add info about MMU/TLB and Page Faults
-Date:   Wed, 09 Aug 2023 15:00:31 +0200
-Message-ID: <3770829.kQq0lBPeGt@suse>
-In-Reply-To: <20230807105010.GK2607694@kernel.org>
+Date:   Wed, 09 Aug 2023 15:27:53 +0200
+Message-ID: <2443562.jE0xQCEvom@suse>
+In-Reply-To: <CACRpkdYcAWDZV0GkdP6gEJv971wjYQ-8WweHkreTJ-w7sfKKQg@mail.gmail.com>
 References: <20230728120054.12306-1-fmdefrancesco@gmail.com>
- <20230807105010.GK2607694@kernel.org>
+ <CACRpkdYcAWDZV0GkdP6gEJv971wjYQ-8WweHkreTJ-w7sfKKQg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On luned=EC 7 agosto 2023 12:50:10 CEST Mike Rapoport wrote:
+On luned=C3=AC 7 agosto 2023 11:40:30 CEST Linus Walleij wrote:
 > Hi Fabio,
 >=20
-> On Fri, Jul 28, 2023 at 01:53:01PM +0200, Fabio M. De Francesco wrote:
-> > Extend page_tables.rst by adding a section about the role of MMU and TLB
-> > in translating between virtual addresses and physical page frames.
-> > Furthermore explain the concept behind Page Faults and how the Linux
-> > kernel handles TLB misses. Finally briefly explain how and why to disab=
-le
-> > the page faults handler.
-> >=20
-> > [snip]
-> >
-> > +MMU, TLB, and Page Faults
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> > +
-> > +The `Memory Management Unit (MMU)` is a hardware component that handles
-> > virtual +to physical address translations. It may use relatively small
-> > caches in hardware +called `Translation Lookaside Buffers (TLBs)` and=20
-`Page
-> > Walk Caches` to speed up +these translations.
-> > +
-> > +When a process wants to access a memory location, the CPU provides a
-> > virtual
-> > +address to the MMU, which then uses the MMU to check access permission=
-s=20
-and
-> > +dirty bits, and if possible it resolves the physical address and conse=
-nts
-> > the +requested type of access to the corresponding physical address.
+> I'm back from vacation! Overall this documentation looks good and
+> in line with the reset in this section.
 >=20
-> Essentially any access to a memory location involves the translation from
-> virtual to physical, not only when processes access memory.
+> On Fri, Jul 28, 2023 at 2:01=E2=80=AFPM Fabio M. De Francesco
+>=20
+> <fmdefrancesco@gmail.com> wrote:
+> > +One cause of page faults is due to bugs (or maliciously crafted=20
+addresses)
+> > and +happens when a process tries to access a range of memory that it
+> > doesn't have +permission to. This could be because the memory is reserv=
+ed
+> > for the kernel or +for another process, or because the process is tryin=
+g=20
+to
+> > write to a read-only +section of memory. When this happens, the kernel
+> > sends a Segmentation Fault +(SIGSEGV) signal to the process, which usua=
+lly
+> > causes the process to terminate.
+> This "segmentation fault" (SIGSEGV reads "signal segmentation violation)
+> is actually a bit hard to understand for people not familiar
+> with the 1970ies hardware.=20
 
-Mike,
+Linus,
 
-I'm cutting everything from here on because I agree with your comments, so =
-I=20
-could just write a long list of 'I agree', 'I understand' and the like. I w=
-ant=20
-to avoid readers from the aforementioned list :-)
+Actually, I see a lot of "Segmentation fault (core dumped)" because I still=
+=20
+develop in user space.
 
-I think (actually, I hope) that I have understood everything correctly. I w=
-ill=20
-send a new version with the necessary corrections by the end of this week.
+Stupid distractions are enough to get that message printed...
 
-Thanks again for your comments and suggestions.
+#include <stdio.h>
+#include <malloc.h>
+
+int main() {
+        int *p1, *p2;
+        p2 =3D malloc(sizeof(int));
+        *p2 =3D 9;
+        printf("*p2 is %d\n", *p1);
+        return 0;
+}
+
+fabio@suse:/tmp> gcc -o test test.c=20
+fabio@suse:/tmp> ./test
+Segmentation fault (core dumped)
+
+=46urthermore, everybody can still type "man signal.h" (document written in=
+=20
+2017) and lookup the table of the POSIX signals and see that SIGSEGV is for=
+=20
+"Invalid memory reference.".=20
+>
+> [Snip]
+>
+> Other programs and the kernel memory are also in inaccessible segments,
+> so accessing any of the own segments in the wrong way, or another programs
+> segment, or an unmapped segment (virtual memory) would all result in the
+> SIGSEGV opaque message "segmentation fault"
+>=20
+> I don't know how to reflect this in a good way in the documentation
+> though, maybe
+> copy/paste/edit some of my text or I can try to write something as an
+> additional patch if you prefer.
+
+I suspect that people is much more used to get more "Segmentation fault" th=
+ese=20
+days than in the 1970's (when developers probably were a little more carefu=
+l=20
+with pointers - at least this is what I have heard about this subject :-)).
+
+BTW, please feel free to change / extend this paragraph with a follow up=20
+patch.
+
+Thanks for your comments,
 
 =46abio
+> Yours,
+> Linus Walleij
+
+
 
 
