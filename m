@@ -2,178 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A62F5EB64DD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 03:48:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55823C0015E
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 04:42:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbjHIDs1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 23:48:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36686 "EHLO
+        id S229570AbjHIEmf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 00:42:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjHIDs0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 23:48:26 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B7A819A1
-        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 20:48:24 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-51cff235226so1019725a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Aug 2023 20:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20221208.gappssmtp.com; s=20221208; t=1691552903; x=1692157703;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wcsclxtm27Oz1sDHzPRuy+Izl0iwle6aRoNm7chV/mE=;
-        b=EAu5utSgSArNbjdpW2PWgXWxU171HGHts/s7dBkm0zVj5aCYmQgRY1eVDfdx5vr8cA
-         uGKn7OVjBlH4x+6LdBhrQT6Lg9LhLj1yy1RH2qqx1h5mvCbwLwDTmi/MZ0ikszErkW7A
-         c2wgoyYGmr5Xx1SM2v4R30bMVFeofVKHtC6o0RiWqEd1AY94fkLRImRdySpiVfKzCHyP
-         2nptFLeLbD+hH2/FAjLldDdYM1xVC0YQevFNuibuhkBMw35KddsaCG7bR1RVsurPGN57
-         4zXG/WD6m3xLx9dq37bTRRVaAPx+TLrhm8T5caUwPW3f4koGnwh0i2q7yp3JZqW5SBBb
-         uphQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691552903; x=1692157703;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wcsclxtm27Oz1sDHzPRuy+Izl0iwle6aRoNm7chV/mE=;
-        b=cN0jZt6WKasf7ylo0zbtA2W2RYPncHZOK5xk8sHc9LB0SMwBaNGP5k9hoTy0RnTJ8n
-         bDSTMaZE7G+reSXs9mGYrTgWXVlP40Sp+wqNg7fulVdYfOioTg3qhj1x4wHEgxTfbIau
-         /FQPeg7GLjl+0I4GIvR2WorG2/ZsbP8TRf6KT9TWAeUtlJ10ioCILezS9jq3J1zCYpNQ
-         5BgK8U4I5WdvHI0FHoB3/ZjlLlc2x0w4ch92ocZz/M2i7GLDrZyDlRGqz0K2rv+tphXR
-         5xS2ksRrtTpBmqoMxNr4QLj8pBLgkvzDrtH+tlPr675qnMd8HQOyJFBiZHSRnhp28S+r
-         jrRQ==
-X-Gm-Message-State: AOJu0Yw8JemsrC7s4SJDo/hRhvGea+CrGMMVjlRgdiED/wBI/1Pr7EqR
-        skO75MTreH7pobk6Qz3wpj6OokgyFI8VwmgIg1d78Q==
-X-Google-Smtp-Source: AGHT+IFauvweysXXn8GP5MBQlVkSnEFT74it4SwljMy29zvw5obroURdfY0qKL+rjI6eMwJTbfFGGEzPUIYTUHgx/6I=
-X-Received: by 2002:a05:6402:3587:b0:51f:ef58:da87 with SMTP id
- y7-20020a056402358700b0051fef58da87mr14581549edc.2.1691552902500; Tue, 08 Aug
- 2023 20:48:22 -0700 (PDT)
+        with ESMTP id S229450AbjHIEmf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 00:42:35 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B58811BCE;
+        Tue,  8 Aug 2023 21:42:32 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 930B111FB;
+        Tue,  8 Aug 2023 21:43:14 -0700 (PDT)
+Received: from [10.163.54.83] (unknown [10.163.54.83])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A03D3F6C4;
+        Tue,  8 Aug 2023 21:42:28 -0700 (PDT)
+Message-ID: <86fb0ae5-d840-5ff5-a2a7-fc635a53184a@arm.com>
+Date:   Wed, 9 Aug 2023 10:12:25 +0530
 MIME-Version: 1.0
-References: <cover.1690273969.git.haibo1.xu@intel.com> <CAAhSdy0yug=J0nxnnPoLYL=0MiT0w6qgPYOcv0QwMRe+fsQn8Q@mail.gmail.com>
- <87y1ilpz3m.wl-maz@kernel.org> <CAJve8onZuOHkAUVY3=QeBPMx5n2F1fGgn57rPp7MB1Q5=vXasA@mail.gmail.com>
-In-Reply-To: <CAJve8onZuOHkAUVY3=QeBPMx5n2F1fGgn57rPp7MB1Q5=vXasA@mail.gmail.com>
-From:   Anup Patel <anup@brainfault.org>
-Date:   Wed, 9 Aug 2023 09:18:09 +0530
-Message-ID: <CAAhSdy277PEBZ4wyUHxQPyN2TugGfhBmC5jUoFTAqMU8vwbt5w@mail.gmail.com>
-Subject: Re: [PATCH v6 00/13] RISCV: Add KVM_GET_REG_LIST API
-To:     Haibo Xu <xiaobo55x@gmail.com>
-Cc:     Marc Zyngier <maz@kernel.org>, oliver.upton@linux.dev,
-        ajones@ventanamicro.com, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] coresight: etm: Make cycle count threshold user
+ configurable
+Content-Language: en-US
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org, Al.Grant@arm.com,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Ricardo Koller <ricarkol@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Like Xu <likexu@tencent.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        Haibo Xu <haibo1.xu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm-riscv@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230808074533.380537-1-anshuman.khandual@arm.com>
+ <CAJ9a7Vgs6nP+KEPhjuj4BtWRZrRt-byz1xsa-JRzk3cFGJ+d8w@mail.gmail.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <CAJ9a7Vgs6nP+KEPhjuj4BtWRZrRt-byz1xsa-JRzk3cFGJ+d8w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 9, 2023 at 8:56=E2=80=AFAM Haibo Xu <xiaobo55x@gmail.com> wrote=
-:
->
-> On Tue, Aug 8, 2023 at 7:12=E2=80=AFPM Marc Zyngier <maz@kernel.org> wrot=
-e:
-> >
-> > On Mon, 07 Aug 2023 04:48:33 +0100,
-> > Anup Patel <anup@brainfault.org> wrote:
-> > >
-> > > Hi Marc, Hi Oliver,
-> > >
-> > > On Tue, Jul 25, 2023 at 2:05=E2=80=AFPM Haibo Xu <haibo1.xu@intel.com=
-> wrote:
-> > > >
-> > > > KVM_GET_REG_LIST will dump all register IDs that are available to
-> > > > KVM_GET/SET_ONE_REG and It's very useful to identify some platform
-> > > > regression issue during VM migration.
-> > > >
-> > > > Patch 1-7 re-structured the get-reg-list test in aarch64 to make so=
-me
-> > > > of the code as common test framework that can be shared by riscv.
-> > > >
-> > > > Patch 8 move reject_set check logic to a function so as to check fo=
-r
-> > > > different errno for different registers.
-> > > > Patch 9 move finalize_vcpu back to run_test so that riscv can imple=
-ment
-> > > > its specific operation.
-> > > > Patch 10 change to do the get/set operation only on present-blessed=
- list.
-> > > > Patch 11 add the skip_set facilities so that riscv can skip set ope=
-ration
-> > > > on some registers.
-> > > > Patch 12 enabled the KVM_GET_REG_LIST API in riscv.
-> > > > patch 13 added the corresponding kselftest for checking possible
-> > > > register regressions.
-> > > >
-> > > > The get-reg-list kvm selftest was ported from aarch64 and tested wi=
-th
-> > > > Linux v6.5-rc3 on a Qemu riscv64 virt machine.
-> > > >
-> > > > ---
-> > > > Changed since v5:
-> > > >   * Rebase to v6.5-rc3
-> > > >   * Minor fix for Andrew's comments
-> > > >
-> > > > Andrew Jones (7):
-> > > >   KVM: arm64: selftests: Replace str_with_index with strdup_printf
-> > > >   KVM: arm64: selftests: Drop SVE cap check in print_reg
-> > > >   KVM: arm64: selftests: Remove print_reg's dependency on vcpu_conf=
-ig
-> > > >   KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
-> > > >   KVM: arm64: selftests: Delete core_reg_fixup
-> > > >   KVM: arm64: selftests: Split get-reg-list test code
-> > > >   KVM: arm64: selftests: Finish generalizing get-reg-list
-> > > >
-> > > > Haibo Xu (6):
-> > > >   KVM: arm64: selftests: Move reject_set check logic to a function
-> > > >   KVM: arm64: selftests: Move finalize_vcpu back to run_test
-> > > >   KVM: selftests: Only do get/set tests on present blessed list
-> > > >   KVM: selftests: Add skip_set facility to get_reg_list test
-> > > >   KVM: riscv: Add KVM_GET_REG_LIST API support
-> > > >   KVM: riscv: selftests: Add get-reg-list test
-> > >
-> > > Are you okay for this series to go through the KVM RISC-V tree ?
-> >
-> > Sure, seems fine from my point of view. But please put it on an
-> > immutable topic branch so that we can also merge it in the arm64 tree,
-> > should we need to resolve any conflicts.
-> >
->
-> Hi Marc,
->
-> Thanks for your review!
->
-> Which topic branch do you prefer or suggest to use?
-> I can do a rebase on it and fix any potential conflicts.
 
-I will share a branch with a stable commit history.
-I have already resolved conflicts at my end.
 
-Regards,
-Anup
+On 8/8/23 15:49, Mike Leach wrote:
+> Hi Anshuman
+> 
+> On Tue, 8 Aug 2023 at 08:45, Anshuman Khandual
+> <anshuman.khandual@arm.com> wrote:
+>>
+>> Cycle counting is enabled, when requested and supported but with a default
+>> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
+>> representing the minimum interval between cycle count trace packets.
+>>
+>> This makes cycle threshold user configurable, from the user space via perf
+>> event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
+>> in case no explicit request. As expected it creates a sysfs file as well.
+>>
+>> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
+>>
+>> New 'cc_threshold' uses 'event->attr.config3' as no more space is available
+>> in 'event->attr.config1' or 'event->attr.config2'.
+>>
+>> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+>> Cc: Mike Leach <mike.leach@linaro.org>
+>> Cc: James Clark <james.clark@arm.com>
+>> Cc: Leo Yan <leo.yan@linaro.org>
+>> Cc: coresight@lists.linaro.org
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ---
+>> Changes in V2:
+>>
+> 
+> Please ensure that the e-mail title reflects the "v2" nature of this.
+> e.g. [PATCH v2] ....
 
->
-> Regards,
-> Haibo
->
-> > Thanks,
-> >
-> >         M.
-> >
-> > --
-> > Without deviation from the norm, progress is not possible.
+Right, missed that.
+
+> 
+> 
+>> - s/treshhold/threshhold
+>>
+>> Changes in V1:
+>>
+>> https://lore.kernel.org/all/20230804044720.1478900-1-anshuman.khandual@arm.com/
+>>
+>>  Documentation/trace/coresight/coresight.rst        |  2 ++
+>>  drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
+>>  drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
+>>  3 files changed, 14 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+>> index 4a71ea6cb390..a698b07206b5 100644
+>> --- a/Documentation/trace/coresight/coresight.rst
+>> +++ b/Documentation/trace/coresight/coresight.rst
+>> @@ -624,6 +624,8 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
+>>     * - timestamp
+>>       - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
+>>         <coresight-timestamp>`
+>> +   * - cc_threshold
+>> +     - Cycle count threshold value
+>>
+>>  How to use the STM module
+>>  -------------------------
+> 
+> The doc elements here need to be in a separate patch in the set and
+> additionally sent to doc list and maintainer
+> (linux-doc@vger.kernel.org and corbet@lwn.net) to be picked up.
+
+Sure, will do that.
+
+> 
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> index 5ca6278baff4..09f75dffae60 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,               "config:0-3");
+>>  PMU_FORMAT_ATTR(sinkid,                "config2:0-31");
+>>  /* config ID - set if a system configuration is selected */
+>>  PMU_FORMAT_ATTR(configid,      "config2:32-63");
+>> +PMU_FORMAT_ATTR(cc_threshold,  "config3:0-11");
+>>
+>>
+>>  /*
+>> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
+>>         &format_attr_preset.attr,
+>>         &format_attr_configid.attr,
+>>         &format_attr_branch_broadcast.attr,
+>> +       &format_attr_cc_threshold.attr,
+>>         NULL,
+>>  };
+>>
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> index 9d186af81ea0..a353c0784bab 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> @@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>>         struct etmv4_config *config = &drvdata->config;
+>>         struct perf_event_attr *attr = &event->attr;
+>>         unsigned long cfg_hash;
+>> -       int preset;
+>> +       int preset, cc_threshold;
+>>
+>>         /* Clear configuration from previous run */
+>>         memset(config, 0, sizeof(struct etmv4_config));
+>> @@ -667,7 +667,15 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>>         if (attr->config & BIT(ETM_OPT_CYCACC)) {
+>>                 config->cfg |= TRCCONFIGR_CCI;
+>>                 /* TRM: Must program this for cycacc to work */
+>> -               config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
+>> +               cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
+>> +               if (cc_threshold) {
+>> +                       if (cc_threshold < drvdata->ccitmin)
+>> +                               config->ccctlr = drvdata->ccitmin;
+>> +                       else
+>> +                               config->ccctlr = cc_threshold;
+>> +               } else {
+>> +                       config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
+>> +               }
+>>         }
+>>         if (attr->config & BIT(ETM_OPT_TS)) {
+>>                 /*
+>> --
+>> 2.25.1
+>>
+> 
+> As we are using ccitmin - which I think we must - then we need an
+> additional patch in the set that implements the errata workaround
+> mentioned by Al, when setting ccitmin in etm4_init_arch_data().
+Agreed, I am working on that.
+
+> Perhaps a helper function called from there to read the ID reg unless
+> one of the errata cores in which case set to 0x4.
+Even on the errata cores, first will read the ID register TRCIDR3 to
+ascertain CCITMIN field to be 0x100 (256) before overriding with 0x4.
