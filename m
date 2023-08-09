@@ -2,81 +2,189 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B77EB64DD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 04:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E25DBC41513
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 05:03:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbjHIEyy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 00:54:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37636 "EHLO
+        id S229568AbjHIFDN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 01:03:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjHIEyx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 00:54:53 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607A6172A;
-        Tue,  8 Aug 2023 21:54:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=hB8XQbYFdb0Z9/ylbFbqW6q07ipxUwcAY2KZjsOchlU=; b=uRGY4KTxrPxI7ASoL8Fo2YvHIS
-        CDgeMBt54w4wPVl99ab7UP3U9SlJbuxxh1FAstcJf6ApVf2RdSEfBig/vMN+qRKAAhKRW1wxP5a4H
-        WVVBMB8vGN8tKRK8iVqejZe+74Qr4tvTTmc7blHtTrmyjsDUrmp0QkMWlgqkhjPdqT5asqyIIqyUj
-        eJo4sDZisIdxqx8jEQbHB8xL6ffZN+h+8eAspCVypHV98asKH8oNbpVOmH+GA3Mx+8MJ3KUi6Iqcv
-        0Nm1fuiYpOtCsZc907FNWMo82O6/1B3YnKhT0cbCBH2D9EqA/l6q9FeL7O1BxwdhLl3TNnHH4uqKR
-        nvZxTlWA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qTbDd-0042b2-0z;
-        Wed, 09 Aug 2023 04:54:49 +0000
-Message-ID: <aac7b4bf-e961-6d3f-a4d3-01d56a19613d@infradead.org>
-Date:   Tue, 8 Aug 2023 21:54:48 -0700
+        with ESMTP id S229492AbjHIFDM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 01:03:12 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 580E51736;
+        Tue,  8 Aug 2023 22:03:11 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b9c66e2e36so6250201fa.1;
+        Tue, 08 Aug 2023 22:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691557389; x=1692162189;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j6b8QaOxHHxr0nsnmybM/OZmFkMm6krciNhVPEUkLHM=;
+        b=fhVs64I4ddYpd00JLct4M5DXmmqZVvjx/PM5IA0btlXqhs7iDUEO3VxkEF91BxP6Dz
+         WJgiF9XR5y4uvxG6IWoY7NHCRglOoZAYWJVo6VGrKhNNaTIDWbKOUU3WRiGAXIqGsDSE
+         DK44YS7nhYYxRjSy2NhsWwdbvYRxD6x/XguExxEaFacDNw496QL+DfrN0JlS0HPz1ZLI
+         UOLAUlPdagmdXrFv1r2hojgA2g+RVPCvAV8BiMueulCJhnlfNSHOo6YBR6FliCSnwNe5
+         XJuhSf8r3sDdpjILN7XbNSBRB+K08tZWxAyUsK9+h6eNtxkVWvNujrFcPD6CM4BfmhGi
+         8/Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691557389; x=1692162189;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j6b8QaOxHHxr0nsnmybM/OZmFkMm6krciNhVPEUkLHM=;
+        b=bS2wViS578mmLY3f71K19zH8nTcmwHHbJ0NyRUb94twiV+/V2VO6X+ykpIXC/4X75D
+         xic65tsSAloeZCf5ZD9+91XRUzKXBwMUmjLWYFhQeJgJiRPFkuRa6DWNd/ZenjE4tp1+
+         sbds8j1+DI6dsyuTQHfzG7eakWi+ByWLw6a531VVPvhD07mQg2JGBprU12c99e8u/vzI
+         AXBZZC+mw4GYhJZHIhHxzhbmLkjJ58mjj10NANa7L6KnYsrTrIdwkCbxACuMsnIEdtSI
+         4k+4WxJ7rxCx9XoiroSGoJTY9dcWQWZGSulTBWayP6RbkpeVqDIKBUKgOjyq53FgNxUT
+         Tk9A==
+X-Gm-Message-State: AOJu0YzuqlC/O0TKqdepo+OSas+RmlQtgmK0f7rEYl87pIJ86SeB12uA
+        ufF4cwIkkUBjdlaDrghfygl/AzIgCED7TeQL+bs=
+X-Google-Smtp-Source: AGHT+IHPj+fZ7S49PElSE5yx8scu586CwNUbYIc0xj64aUe7m/JpkHYOW0tpcJm9OPelp5Q2V/0HR3Dr50Nj19k+svo=
+X-Received: by 2002:a05:651c:1713:b0:2b9:d0bf:a3c5 with SMTP id
+ be19-20020a05651c171300b002b9d0bfa3c5mr3997983ljb.14.1691557389258; Tue, 08
+ Aug 2023 22:03:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] Documentation: RCU: fix section numbers after adding
- Section 7 in whatisRCU.rst
-Content-Language: en-US
-To:     Wei Zhang <zhangweilst@gmail.com>, corbet@lwn.net,
-        paulmck@kernel.org, rostedt@goodmis.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230808155811.550575-1-zhangweilst@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230808155811.550575-1-zhangweilst@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1690273969.git.haibo1.xu@intel.com> <CAAhSdy0yug=J0nxnnPoLYL=0MiT0w6qgPYOcv0QwMRe+fsQn8Q@mail.gmail.com>
+ <87y1ilpz3m.wl-maz@kernel.org> <CAJve8onZuOHkAUVY3=QeBPMx5n2F1fGgn57rPp7MB1Q5=vXasA@mail.gmail.com>
+ <CAAhSdy277PEBZ4wyUHxQPyN2TugGfhBmC5jUoFTAqMU8vwbt5w@mail.gmail.com>
+In-Reply-To: <CAAhSdy277PEBZ4wyUHxQPyN2TugGfhBmC5jUoFTAqMU8vwbt5w@mail.gmail.com>
+From:   Haibo Xu <xiaobo55x@gmail.com>
+Date:   Wed, 9 Aug 2023 13:02:57 +0800
+Message-ID: <CAJve8o=6ukbqc_8RvgRxpss2c=q8Ltzf=cNdJ2B85fhNSvNgMQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/13] RISCV: Add KVM_GET_REG_LIST API
+To:     Anup Patel <anup@brainfault.org>
+Cc:     Marc Zyngier <maz@kernel.org>, oliver.upton@linux.dev,
+        ajones@ventanamicro.com, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Ricardo Koller <ricarkol@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Like Xu <likexu@tencent.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        Haibo Xu <haibo1.xu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm-riscv@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Aug 9, 2023 at 11:48=E2=80=AFAM Anup Patel <anup@brainfault.org> wr=
+ote:
+>
+> On Wed, Aug 9, 2023 at 8:56=E2=80=AFAM Haibo Xu <xiaobo55x@gmail.com> wro=
+te:
+> >
+> > On Tue, Aug 8, 2023 at 7:12=E2=80=AFPM Marc Zyngier <maz@kernel.org> wr=
+ote:
+> > >
+> > > On Mon, 07 Aug 2023 04:48:33 +0100,
+> > > Anup Patel <anup@brainfault.org> wrote:
+> > > >
+> > > > Hi Marc, Hi Oliver,
+> > > >
+> > > > On Tue, Jul 25, 2023 at 2:05=E2=80=AFPM Haibo Xu <haibo1.xu@intel.c=
+om> wrote:
+> > > > >
+> > > > > KVM_GET_REG_LIST will dump all register IDs that are available to
+> > > > > KVM_GET/SET_ONE_REG and It's very useful to identify some platfor=
+m
+> > > > > regression issue during VM migration.
+> > > > >
+> > > > > Patch 1-7 re-structured the get-reg-list test in aarch64 to make =
+some
+> > > > > of the code as common test framework that can be shared by riscv.
+> > > > >
+> > > > > Patch 8 move reject_set check logic to a function so as to check =
+for
+> > > > > different errno for different registers.
+> > > > > Patch 9 move finalize_vcpu back to run_test so that riscv can imp=
+lement
+> > > > > its specific operation.
+> > > > > Patch 10 change to do the get/set operation only on present-bless=
+ed list.
+> > > > > Patch 11 add the skip_set facilities so that riscv can skip set o=
+peration
+> > > > > on some registers.
+> > > > > Patch 12 enabled the KVM_GET_REG_LIST API in riscv.
+> > > > > patch 13 added the corresponding kselftest for checking possible
+> > > > > register regressions.
+> > > > >
+> > > > > The get-reg-list kvm selftest was ported from aarch64 and tested =
+with
+> > > > > Linux v6.5-rc3 on a Qemu riscv64 virt machine.
+> > > > >
+> > > > > ---
+> > > > > Changed since v5:
+> > > > >   * Rebase to v6.5-rc3
+> > > > >   * Minor fix for Andrew's comments
+> > > > >
+> > > > > Andrew Jones (7):
+> > > > >   KVM: arm64: selftests: Replace str_with_index with strdup_print=
+f
+> > > > >   KVM: arm64: selftests: Drop SVE cap check in print_reg
+> > > > >   KVM: arm64: selftests: Remove print_reg's dependency on vcpu_co=
+nfig
+> > > > >   KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
+> > > > >   KVM: arm64: selftests: Delete core_reg_fixup
+> > > > >   KVM: arm64: selftests: Split get-reg-list test code
+> > > > >   KVM: arm64: selftests: Finish generalizing get-reg-list
+> > > > >
+> > > > > Haibo Xu (6):
+> > > > >   KVM: arm64: selftests: Move reject_set check logic to a functio=
+n
+> > > > >   KVM: arm64: selftests: Move finalize_vcpu back to run_test
+> > > > >   KVM: selftests: Only do get/set tests on present blessed list
+> > > > >   KVM: selftests: Add skip_set facility to get_reg_list test
+> > > > >   KVM: riscv: Add KVM_GET_REG_LIST API support
+> > > > >   KVM: riscv: selftests: Add get-reg-list test
+> > > >
+> > > > Are you okay for this series to go through the KVM RISC-V tree ?
+> > >
+> > > Sure, seems fine from my point of view. But please put it on an
+> > > immutable topic branch so that we can also merge it in the arm64 tree=
+,
+> > > should we need to resolve any conflicts.
+> > >
+> >
+> > Hi Marc,
+> >
+> > Thanks for your review!
+> >
+> > Which topic branch do you prefer or suggest to use?
+> > I can do a rebase on it and fix any potential conflicts.
+>
+> I will share a branch with a stable commit history.
+> I have already resolved conflicts at my end.
+>
 
+Cool! Thanks for your help!
 
-On 8/8/23 08:58, Wei Zhang wrote:
-> Signed-off-by: Wei Zhang <zhangweilst@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-> ---
->  Documentation/RCU/whatisRCU.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-> index e488c8e557a9..60ce02475142 100644
-> --- a/Documentation/RCU/whatisRCU.rst
-> +++ b/Documentation/RCU/whatisRCU.rst
-> @@ -59,8 +59,8 @@ experiment with should focus on Section 2.  People who prefer to start
->  with example uses should focus on Sections 3 and 4.  People who need to
->  understand the RCU implementation should focus on Section 5, then dive
->  into the kernel source code.  People who reason best by analogy should
-> -focus on Section 6.  Section 7 serves as an index to the docbook API
-> -documentation, and Section 8 is the traditional answer key.
-> +focus on Section 6 and 7.  Section 8 serves as an index to the docbook
-> +API documentation, and Section 9 is the traditional answer key.
->  
->  So, start with the section that makes the most sense to you and your
->  preferred method of learning.  If you need to know everything about
-> 
-> base-commit: 14f9643dc90adea074a0ffb7a17d337eafc6a5cc
-
--- 
-~Randy
+> Regards,
+> Anup
+>
+> >
+> > Regards,
+> > Haibo
+> >
+> > > Thanks,
+> > >
+> > >         M.
+> > >
+> > > --
+> > > Without deviation from the norm, progress is not possible.
