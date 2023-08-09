@@ -2,96 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34DD0C04FDF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 23:45:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E05AEC001DB
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 01:25:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbjHHXpP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 19:45:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42526 "EHLO
+        id S229533AbjHIBZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Aug 2023 21:25:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjHHXpO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 19:45:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 445C11BF4
-        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 16:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691538267;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Uit/uI9wNXL5YCKyEI8jLmeigfyPLrbiOuFoHmEFQCw=;
-        b=IqYME+S9VuL64uaYYKHAxZmvCG1vfU/01eXENbbyGIjlctRX49J0eQV4AXiUvsrwmVwxUM
-        oZUA5H7hBlJ5YHGWjYnO9nWiZfOVt3vkChxLKAX9wG99amrW7IQ9Es7ghkvF8wKqsnmdW4
-        oecuawhsfel5eh78adOvf1vs9jte4KI=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-Miq98z2KM-2M0qdOh4MIgQ-1; Tue, 08 Aug 2023 19:44:24 -0400
-X-MC-Unique: Miq98z2KM-2M0qdOh4MIgQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DB263C14AA4;
-        Tue,  8 Aug 2023 23:44:23 +0000 (UTC)
-Received: from agk-cloud1.hosts.prod.upshift.rdu2.redhat.com (agk-cloud1.hosts.prod.upshift.rdu2.redhat.com [10.0.13.154])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A3551492C13;
-        Tue,  8 Aug 2023 23:44:22 +0000 (UTC)
-Received: by agk-cloud1.hosts.prod.upshift.rdu2.redhat.com (Postfix, from userid 3883)
-        id 7C2AE403A55F; Wed,  9 Aug 2023 00:40:23 +0100 (BST)
-Date:   Wed, 9 Aug 2023 00:40:23 +0100
-From:   Alasdair G Kergon <agk@redhat.com>
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     Paul Moore <paul@paul-moore.com>,
-        Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
-        agk@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [RFC PATCH v10 11/17] dm-verity: consume root hash digest and
- signature data via LSM hook
-Message-ID: <20230808234023.GC120054@agk-cloud1.hosts.prod.upshift.rdu2.redhat.com>
-Mail-Followup-To: Fan Wu <wufan@linux.microsoft.com>,
-        Paul Moore <paul@paul-moore.com>, Mike Snitzer <snitzer@kernel.org>,
-        corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, eparis@redhat.com,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
- <1687986571-16823-12-git-send-email-wufan@linux.microsoft.com>
- <ZKgm+ffQbdDTxrg9@redhat.com>
- <20230712034319.GA17642@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhQFxqcfgR0acgdiXKP9LT1KLgGjZd-QHs6O1dEex31HEQ@mail.gmail.com>
- <20230808224503.GA20095@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+        with ESMTP id S229527AbjHIBZf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 21:25:35 -0400
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 29188173F;
+        Tue,  8 Aug 2023 18:25:29 -0700 (PDT)
+Received: from linma$zju.edu.cn ( [42.120.103.58] ) by
+ ajax-webmail-mail-app4 (Coremail) ; Wed, 9 Aug 2023 09:25:06 +0800
+ (GMT+08:00)
+X-Originating-IP: [42.120.103.58]
+Date:   Wed, 9 Aug 2023 09:25:06 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   "Lin Ma" <linma@zju.edu.cn>
+To:     "Jakub Kicinski" <kuba@kernel.org>
+Cc:     corbet@lwn.net, void@manifault.com, jani.nikula@intel.com,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] docs: staging: add netlink attrs best practices
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220622(41e5976f)
+ Copyright (c) 2002-2023 www.mailtech.cn
+ mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
+In-Reply-To: <20230808123755.43610137@kernel.org>
+References: <20230808035636.148552-1-linma@zju.edu.cn>
+ <20230808123755.43610137@kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230808224503.GA20095@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Message-ID: <7cf8fc98.1012f6.189d7e5c45a.Coremail.linma@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgBHjAnz6tJkKEbBCg--.61594W
+X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwICEmTRnHsXDgAAsa
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 08, 2023 at 03:45:03PM -0700, Fan Wu wrote:
-> On Tue, Jul 25, 2023 at 04:43:48PM -0400, Paul Moore wrote:
-> > Where would the finalize() hook be called?
-> 
-> It is in the __bind function in drivers/md/dm.c, calling just before 
-> rcu_assign_pointer(md->map, (void *)t) which activates the inactive table.
- 
-That would be after the existing commit point, meaning the table swap
-cannot be cancelled there, so is the finalize() you are proposing void()
-i.e. designed so it always succeeds?
-
-Alasdair
-
+SGVsbG8gSmFrdWIsCgo+IE9oLCB5b3UgcHV0IHF1aXRlIHNvbWUgZWZmb3J0IGludG8gdGhpcyEK
+PiAKPiBJIGhhdmUgYSBoYXJkIHRpbWUgY29taW5nIHVwIHdpdGggcmVhc29uYWJsZSByZXZpZXcg
+Y29tbWVudHMsIGJlY2F1c2UKPiB3aGlsZSB0aGUgZG9jIGlzIGluZm9ybWF0aXZlIGFuZCBwcmV0
+dHkgY29ycmVjdCwgaXQgZm9jdXNlcyBvbiB3aGF0J3MKPiBsZWdhY3kgdXNlIG9mIG5ldGxpbmsg
+YXQgdGhpcyBwb2ludC4gUGVvcGxlIHdyaXRpbmcgbmV3IGNvZGUgd2lsbCBvbmx5Cj4gZ2V0IGNv
+bmZ1c2Ugd2l0aCB0aGlzIGluZm9ybWF0aW9uIDooCgpPb3BzLCBteSBiYWQsIEkgd2lsbCBzb21l
+d2hhdCBhZGp1c3QgdGhlIGNvbnRlbnQgc3RydWN0dXJlLCBvciBqdXN0IGNsYWltCnRvIGp1c3Qg
+Y29uY2VybiBsZWdhY3kgdXNlIGZvciBzaW1wbGljaXR5IGFuZCBhdm9pZCBjb25mdXNpb24uCgo+
+IAo+IE1vZGVybiBmYW1pbGllcyBhcmUgYWxsIGdlbmVyaWMgbmV0bGluaywgYW5kIHZhbGlkYXRp
+b24gaXMgdGFrZW4gY2FyZQo+IG9mIGluIHRoZSBjb3JlIDooCj4gCgpPSywgeW91IGFyZSByaWdo
+dC4KCj4gSWYgeW91IHBvc3QgYSB2MiBwbGVhc2UgbWFrZSBzdXJlIHRvIENDIG5ldGRldkAKCkkg
+c2VlLiBJdCBhcHBlYXJzIHRoYXQgdGhlIGlzc3VlIGlzIGR1ZSB0byBhbiBTTVRQIGVycm9yLiwg
+d2lsbCB3YXRjaApvdXQgdGhpcy4KClJlZ2FyZHMKTGlu
