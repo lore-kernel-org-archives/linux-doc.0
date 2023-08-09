@@ -2,109 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA6BC04A6A
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 14:20:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C94C9C04E69
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 14:24:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233234AbjHIOU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 10:20:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40590 "EHLO
+        id S232988AbjHIOYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 10:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231752AbjHIOU2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 10:20:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8892B1FCC;
-        Wed,  9 Aug 2023 07:20:24 -0700 (PDT)
+        with ESMTP id S232110AbjHIOYX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 10:24:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDC01FD8;
+        Wed,  9 Aug 2023 07:24:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2295B6176B;
-        Wed,  9 Aug 2023 14:20:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 71D47C433C8;
-        Wed,  9 Aug 2023 14:20:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691590823;
-        bh=GYLw4R5ZP8Asgcy8c4U/E68U/BEFVITI0t4kAXKKJyg=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=iKoG6qTXz/QDY3IA7SBUrPMHv1yumYmq9dr1nWznwbiiUREaEEODsonj0tKjJtG26
-         oUeDXJMsUhldhBBOu0tA7hyL014NQKCVk7Xa/bnz9nNKndCybta98L7ERaut4PuRqB
-         A01zbT8H/DzlpnfsRiHWvRI5x+4PAsRy2KpPtHmnRTm9GoRsNIz5DiaaibAgeNcGjO
-         FoFFVnZW7gSHV0XVOcKP93ubOR0+zb3zucOlktFTKqoKa3BpWRHauTWK72xuJU+0T7
-         rxlv8S+oX1TkqUQjk48Iw7aL2bB8UZ989sSs3DRpKiP9EKgwaCzXkZAMuX35Lf3Z3y
-         lG/5t5F0mqEJw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 576A0E3308F;
-        Wed,  9 Aug 2023 14:20:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2042063A1D;
+        Wed,  9 Aug 2023 14:24:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEDFEC433CA;
+        Wed,  9 Aug 2023 14:24:16 +0000 (UTC)
+Date:   Wed, 9 Aug 2023 15:24:14 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 03/36] arm64/gcs: Document the ABI for Guarded Control
+ Stacks
+Message-ID: <ZNOhjrYleGBR6Pbs@arm.com>
+References: <20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org>
+ <20230807-arm64-gcs-v4-3-68cfa37f9069@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v5 00/11] RISC-V: Probe DT extension support using
- riscv,isa-extensions & riscv,isa-base
-From:   patchwork-bot+linux-riscv@kernel.org
-Message-Id: <169159082335.5601.13810785902879648545.git-patchwork-notify@kernel.org>
-Date:   Wed, 09 Aug 2023 14:20:23 +0000
-References: <20230713-target-much-8ac624e90df8@wendy>
-In-Reply-To: <20230713-target-much-8ac624e90df8@wendy>
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     linux-riscv@lists.infradead.org, palmer@dabbelt.com,
-        devicetree@vger.kernel.org, aou@eecs.berkeley.edu, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        conor@kernel.org, robh+dt@kernel.org, evan@rivosinc.com,
-        krzysztof.kozlowski+dt@linaro.org, paul.walmsley@sifive.com,
-        heiko.stuebner@vrull.eu, ajones@ventanamicro.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230807-arm64-gcs-v4-3-68cfa37f9069@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Mon, Aug 07, 2023 at 11:00:08PM +0100, Mark Brown wrote:
+> +2.  Enabling and disabling Guarded Control Stacks
+> +-------------------------------------------------
+> +
+> +* GCS is enabled and disabled for a thread via the PR_SET_SHADOW_STACK_STATUS
+> +  prctl(), this takes a single flags argument specifying which GCS features
+> +  should be used.
+> +
+> +* When set PR_SHADOW_STACK_ENABLE flag allocates a Guarded Control Stack for
 
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+The 'for' at the end of the line above is not needed.
 
-On Thu, 13 Jul 2023 13:10:58 +0100 you wrote:
-> Hey,
-> 
-> Based on my latest iteration of deprecating riscv,isa [1], here's an
-> implementation of the new properties for Linux. The first few patches,
-> up to "RISC-V: split riscv_fill_hwcap() in 3", are all prep work that
-> further tames some of the extension related code, on top of my already
-> applied series that cleans up the ISA string parser.
-> Perhaps "RISC-V: shunt isa_ext_arr to cpufeature.c" is a bit gratuitous,
-> but I figured a bit of coalescing of extension related data structures
-> would be a good idea. Note that riscv,isa will still be used in the
-> absence of the new properties. Palmer suggested adding a Kconfig option
-> to turn off the fallback for DT, which I have gone and done. It's locked
-> behind the NONPORTABLE option for good reason.
-> 
-> [...]
+> +  and enables GCS for the thread, enabling the functionality controlled by
+> +  GCSPRE0_EL1.{nTR, RVCHKEN, PCRSEL}.
 
-Here is the summary with links:
-  - [v5,01/11] RISC-V: Provide a more helpful error message on invalid ISA strings
-    https://git.kernel.org/riscv/c/230598939678
-  - [v5,02/11] RISC-V: don't parse dt/acpi isa string to get rv32/rv64
-    https://git.kernel.org/riscv/c/67270fb388fe
-  - [v5,03/11] RISC-V: drop a needless check in print_isa_ext()
-    https://git.kernel.org/riscv/c/131033689da2
-  - [v5,04/11] RISC-V: shunt isa_ext_arr to cpufeature.c
-    https://git.kernel.org/riscv/c/8135ade32c0d
-  - [v5,05/11] RISC-V: repurpose riscv_isa_ext array in riscv_fill_hwcap()
-    https://git.kernel.org/riscv/c/37f988dcec05
-  - [v5,06/11] RISC-V: add missing single letter extension definitions
-    https://git.kernel.org/riscv/c/c30556e318cc
-  - [v5,07/11] RISC-V: add single letter extensions to riscv_isa_ext
-    https://git.kernel.org/riscv/c/effc122ad176
-  - [v5,08/11] RISC-V: split riscv_fill_hwcap() in 3
-    https://git.kernel.org/riscv/c/4265b0ec5ee7
-  - [v5,09/11] RISC-V: enable extension detection from dedicated properties
-    https://git.kernel.org/riscv/c/90700a4fbfaf
-  - [v5,10/11] RISC-V: try new extension properties in of_early_processor_hartid()
-    https://git.kernel.org/riscv/c/c98f136aedbd
-  - [v5,11/11] RISC-V: provide Kconfig & commandline options to control parsing "riscv,isa"
-    https://git.kernel.org/riscv/c/496ea826d1e1
+This should be GCSCRE0_EL1.
 
-You are awesome, thank you!
+> +* When set the PR_SHADOW_STACK_PUSH flag enables the functionality controlled
+> +  by GCSCRE0_EL1.PUSHMEn, allowing explicit GCS pushes.
+> +
+> +* When set the PR_SHADOW_STACK_WRITE flag enables the functionality controlled
+> +  by GCSCRE0_EL1.STREn, allowing explicit stores to the Guarded Control Stack.
+> +
+> +* Any unknown flags will cause PR_SET_SHADOW_STACK_STATUS to return -EINVAL.
+> +
+> +* PR_LOCK_SHADOW_STACK_STATUS is passed a bitmask of features with the same
+> +  values as used for PR_SET_SHADOW_STACK_STATUS.  Any future changes to the
+> +  status of the specified GCS mode bits will be rejected.
+> +
+> +* PR_LOCK_SHADOW_STACK_STATUS allows any bit to be locked, this allows
+> +  userspace to prevent changes to any future features.
+
+I presume a new lock prctl() won't allow unlocking but can only extend
+the lock. I haven't looked at the patches yet but it may be worth
+spelling this out.
+
+> +* PR_SET_SHADOW_STACK_STATUS and PR_LOCK_SHADOW_STACK_STATUS affect only the
+> +  thread the called them, any other running threads will be unaffected.
+
+s/the called/that called/
+
+> +* New threads inherit the GCS configuration of the thread that created them.
+> +
+> +* GCS is disabled on exec().
+> +
+> +* The current GCS configuration for a thread may be read with the
+> +  PR_GET_SHADOW_STACK_STATUS prctl(), this returns the same flags that
+> +  are passed to PR_SET_SHADOW_STACK_STATUS.
+> +
+> +* If GCS is disabled for a thread after having previously been enabled then
+> +  the stack will remain allocated for the lifetime of the thread.
+
+Sorry if this has been discussed in other threads. What is the issue
+with unmapping/freeing of the shadow stack?
+
+> At present
+> +  any attempt to reenable GCS for the thread will be rejected, this may be
+> +  revisited in future.
+
+What's the rationale here? Is it that function returns won't work?
+
+> +3.  Allocation of Guarded Control Stacks
+> +----------------------------------------
+> +
+> +* When GCS is enabled for a thread a new Guarded Control Stack will be
+> +  allocated for it of size RLIMIT_STACK / 2 or 2 gigabytes, whichever is
+> +  smaller.
+
+Is this number based on the fact that a function call would only push
+the LR to GCS while standard function prologue pushes at least two
+registers?
+
+> +* When GCS is disabled for a thread the Guarded Control Stack initially
+> +  allocated for that thread will be freed.  Note carefully that if the
+> +  stack has been switched this may not be the stack currently in use by
+> +  the thread.
+
+Does this not contradict an earlier statement that the GCS is not freed
+for a thread when disabled?
+
+> +4.  Signal handling
+> +--------------------
+> +
+> +* A new signal frame record gcs_context encodes the current GCS mode and
+> +  pointer for the interrupted context on signal delivery.  This will always
+> +  be present on systems that support GCS.
+> +
+> +* The record contains a flag field which reports the current GCS configuration
+> +  for the interrupted context as PR_GET_SHADOW_STACK_STATUS would.
+> +
+> +* The signal handler is run with the same GCS configuration as the interrupted
+> +  context.
+> +
+> +* When GCS is enabled for the interrupted thread a signal handling specific
+> +  GCS cap token will be written to the GCS, this is an architectural GCS cap
+> +  token with bit 63 set.  The GCSPR_EL0 reported in the signal frame will
+> +  point to this cap token.
+
+I lost track of the GCS spec versions. Has the valid cap token format
+been updated? What I have in my spec (though most likely old) is:
+
+  An entry in the Guarded control stack is defined as a Valid cap entry,
+  if bits [63:12] of the value are same as bits [63:12] of the address
+  where the entry is stored and bits [11:0] contain a Valid cap token.
+
+
+The other bits in the code look fine to me so far but I haven't looked
+at the code yet.
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Catalin
