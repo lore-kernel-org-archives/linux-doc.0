@@ -2,108 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94BB8C04A6A
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 06:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9787C0015E
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 07:43:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbjHIGON (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 02:14:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56814 "EHLO
+        id S229918AbjHIHnm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 03:43:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbjHIGOM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 02:14:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774631FCA;
-        Tue,  8 Aug 2023 23:14:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B774262678;
-        Wed,  9 Aug 2023 06:14:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C63CC433C8;
-        Wed,  9 Aug 2023 06:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691561650;
-        bh=0zMrZj0u6BSryzx0If7FWJOOBvNEMBrRU8O0nHWkQa0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hSPsTShNQ9GHvAEVs8hKcpm6fmM6ejKuGcT8cPhVoOFdg/gp05NZlaGum91T/UDvG
-         u4E77GJsxVig2VeHJkWYoJ3xOW/nYhpzs66uAFPlw9xd1SbNjUKCFJh85k3T7yg6a/
-         VTC7Jyh6sb9gHham9O3HsxFgeFucy2Ro/KANwREWNAHIYWQNyDJ/WmEPlBeW6Msodw
-         IoCcefDkd0hWjsvUrCWah9eIz/3VtIFdHqDZZVxMDTzYQTcJv49pKswkaWn8x+6SKB
-         NpYXUUuZOXa9HYVvmsOxiwNZ0s9mzC/5aAN1GreteOoT1CAl/hEanfW1DDfQwHEPBB
-         yXEiDDXmzsJLg==
-Date:   Wed, 9 Aug 2023 08:14:06 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: vfs: clean up after the iterate() removal
-Message-ID: <20230809-apparat-eiszeit-a1d57a1a4155@brauner>
-References: <874jl945bv.fsf@meer.lwn.net>
+        with ESMTP id S229512AbjHIHnl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 03:43:41 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8CF1736;
+        Wed,  9 Aug 2023 00:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1691567020; x=1723103020;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HuXummq6uv9hFMS3gI/cgU0Nts7uJ2PXzQVBGPzY1O4=;
+  b=GP/YOwAnnT7zf6dkHJX3XN5VvbDYudW2cXoNL2n0KZ2K6rPg/TP/RsHT
+   iQN196fLlaDfnHwPUC9Vfb3Jc85H0C12z8ydKsyVLtGDD2smRUPi4S/Jm
+   m/XQG4WSNGAe27yHXWQFB5gKsOO3wLqc4U4m55le+dRKc82jmj6qaA30U
+   BZD7Q1q1rWBXa3+htMMnmfzPRHtU0kwhGwkwwnmOx1Eovix+53hp4d1Fi
+   lArEujDx6psKMSncid0nGHPn9xxL3uNoc+eieG2kc8JHJEqzfHd78mJSa
+   vvkzSd5o+ygLZ3a4HlyPaOIieGnxAz0knpOAUZ/TIUG3RUZ7DyPlQCGQe
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
+   d="asc'?scan'208";a="228926534"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 09 Aug 2023 00:43:39 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 9 Aug 2023 00:43:39 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Wed, 9 Aug 2023 00:43:36 -0700
+Date:   Wed, 9 Aug 2023 08:42:58 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Charlie Jenkins <charlie@rivosinc.com>
+CC:     <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <conor@kernel.org>, <paul.walmsley@sifive.com>,
+        <palmer@rivosinc.com>, <aou@eecs.berkeley.edu>,
+        <anup@brainfault.org>, <konstantin@linuxfoundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-mm@kvack.org>, <mick@ics.forth.gr>, <jrtc27@jrtc27.com>,
+        <rdunlap@infradead.org>, <alexghiti@rivosinc.com>
+Subject: Re: [PATCH v9 0/4] RISC-V: mm: Make SV48 the default address space
+Message-ID: <20230809-bobbing-unleaded-c3d5e1c57d96@wendy>
+References: <20230809015110.3290774-1-charlie@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ZhUejAXXtaoh38r5"
 Content-Disposition: inline
-In-Reply-To: <874jl945bv.fsf@meer.lwn.net>
+In-Reply-To: <20230809015110.3290774-1-charlie@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 08, 2023 at 03:00:52PM -0600, Jonathan Corbet wrote:
-> Commit 3e3271549670 ("vfs: get rid of old '->iterate' directory operation")
-> removed the iterate() file_operations member, but neglected to clean up the
-> associated documentation.  Get rid of the leftovers.
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-> If nobody objects (or beats me to it) I'll drop this into docs-next
-> shortly.
+--ZhUejAXXtaoh38r5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Looks good to me and yes, feel free to take this through docs ofc,
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+On Tue, Aug 08, 2023 at 06:51:06PM -0700, Charlie Jenkins wrote:
+> Make sv48 the default address space for mmap as some applications
+> currently depend on this assumption. Users can now select a
+> desired address space using a non-zero hint address to mmap. Previously,
+> requesting the default address space from mmap by passing zero as the hint
+> address would result in using the largest address space possible. Some
+> applications depend on empty bits in the virtual address space, like Go and
+> Java, so this patch provides more flexibility for application developers.
 
-> 
->  Documentation/filesystems/locking.rst | 1 -
->  Documentation/filesystems/vfs.rst     | 7 +------
->  2 files changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
-> index 0ca479dbb1cd..aeed0a5a80eb 100644
-> --- a/Documentation/filesystems/locking.rst
-> +++ b/Documentation/filesystems/locking.rst
-> @@ -509,7 +509,6 @@ prototypes::
->  	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
->  	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
->  	int (*iopoll) (struct kiocb *kiocb, bool spin);
-> -	int (*iterate) (struct file *, struct dir_context *);
->  	int (*iterate_shared) (struct file *, struct dir_context *);
->  	__poll_t (*poll) (struct file *, struct poll_table_struct *);
->  	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
-> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> index cb2a97e49872..a751f6d01eb2 100644
-> --- a/Documentation/filesystems/vfs.rst
-> +++ b/Documentation/filesystems/vfs.rst
-> @@ -1074,7 +1074,6 @@ This describes how the VFS can manipulate an open file.  As of kernel
->  		ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
->  		ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
->  		int (*iopoll)(struct kiocb *kiocb, bool spin);
-> -		int (*iterate) (struct file *, struct dir_context *);
->  		int (*iterate_shared) (struct file *, struct dir_context *);
->  		__poll_t (*poll) (struct file *, struct poll_table_struct *);
->  		long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
-> @@ -1126,12 +1125,8 @@ otherwise noted.
->  ``iopoll``
->  	called when aio wants to poll for completions on HIPRI iocbs
->  
-> -``iterate``
-> -	called when the VFS needs to read the directory contents
-> -
->  ``iterate_shared``
-> -	called when the VFS needs to read the directory contents when
-> -	filesystem supports concurrent dir iterators
-> +	called when the VFS needs to read the directory contents
->  
->  ``poll``
->  	called by the VFS when a process wants to check if there is
-> -- 
-> 2.41.0
-> 
+This still does not build:
+../fs/binfmt_flat.c:900:30: error: call to undeclared function 'is_compat_task'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+
+Reproduceable with allmodconfig.
+
+
+--ZhUejAXXtaoh38r5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZNNDdQAKCRB4tDGHoIJi
+0pKlAP9dAJGh/wx49urMOMdOw7ZHVw3eaZHfEZbF/KpUB2e7swD/bAaM+fW/Bo4h
+OlseGLmV9tXQdUh6lMq7DZtA8p/WUQQ=
+=xVAA
+-----END PGP SIGNATURE-----
+
+--ZhUejAXXtaoh38r5--
