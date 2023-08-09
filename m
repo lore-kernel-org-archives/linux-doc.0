@@ -2,112 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7F71C04FE1
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 01:53:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3363CC41513
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 03:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231235AbjHIBxQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Aug 2023 21:53:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40498 "EHLO
+        id S230395AbjHID0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Aug 2023 23:26:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231254AbjHIBxP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 21:53:15 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEEB1BEA
-        for <linux-doc@vger.kernel.org>; Tue,  8 Aug 2023 18:53:13 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1bb7b8390e8so40655495ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Aug 2023 18:53:13 -0700 (PDT)
+        with ESMTP id S230247AbjHID0v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Aug 2023 23:26:51 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D2C1BF7;
+        Tue,  8 Aug 2023 20:26:50 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4fe1489ced6so10518207e87.0;
+        Tue, 08 Aug 2023 20:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1691545992; x=1692150792;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1691551609; x=1692156409;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2tar+fwRF9EwexnZBlGXBQ+bino7OPSUOa9FVKEDgW8=;
-        b=FPpY5cIUXnip2ZGbpSphNOYtcmoz+9UqNCzoKTIuGrXSltzFcKRrlt8IZVpkHLRqCx
-         OnkTugPfEWDKKQRJ75G2J1aJXt6PH8fts5QVkJJs8njOPLx6pNBBDKHzo/kPhqxS0sx3
-         1HU8/tEpAVmLFR+F4zwPNJwDwa/GS5jdzeVtMhkd3NlduxYlQA9dfzjF/ys4sjj6OEtk
-         sjDMhjLy6jjBKzFs07exQfX4lKo012NsKC4Zu68gj0Uv/D7Nb/c/EwcN8oQMkTg6va+w
-         mYmQCyjU8OGyh+PyGz8lSNWVUIf8yU596h/YkYk7J+SNhMSNxobFIMZoGtxQE5T5cv3X
-         /BDA==
+        bh=bDtqmE5WaBwuWbcG5niee6vR0Dh8gvhaHzvoiNOQiws=;
+        b=owAHMA78RpdKw7tQgsXJuS/elEyAp7vSGAzfHHJ5z4MmckA+NQrtCeJ+W8B7PUvc2D
+         I/WpHW66G3aWUjJpuletY1j0z6aKy1xgec4upQFXMpwU9ycs+tCk/ePKYCi6Nbx+Tq5H
+         Qy6MPyf/gtpxrwP1m2i9XoznQjE+jLj5ZwBSTijY/98bVmFXY24MFJCymc8ScA3Nxj2n
+         fSOujTjvaaQVXxt/vcJYEAVtUVvyYiN2uWpHFHiII9KFwlpZWIDhDRw8t4Y/QmWWdq4T
+         tB+UNi3v3GnHUI0r44M6p5HgP9APdJozCrZvNY2C87aDLO+gxiwTpgoEZWh+gs2IkgG7
+         f6hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691545992; x=1692150792;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1691551609; x=1692156409;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2tar+fwRF9EwexnZBlGXBQ+bino7OPSUOa9FVKEDgW8=;
-        b=j4s9CU68Q1ZVdQTjbVdTnj6YbYST1eJoPvEP23tG1sdGr4jmz1LqC2mAIQ6Qmct/WA
-         MjUgLE9gp2cMX84n6smz10GZ5X5g1tK1oAw/PPds2EArVm/sLrjA7P43BGSortdreDIq
-         PYIXSb9S9X57gWKcIFt3NsLWSgqBzow9N57zgmPWUPuNZZG9oTZXbqjPIAC54+zY4BFo
-         OR2WyEilnVytnpF4Kqce4QKYQjhXf0DBTGf0J/5vfAIU6iofSDIjs+2NQIZBJIj1zz0V
-         bA5e71k9cidS/5ojS+sJdA2APJ5jnCZGK+Dtdmb+kdwI4IAIR2peSMFIrhbvN9Tge1L5
-         zkvw==
-X-Gm-Message-State: AOJu0Yx9rNOuvx0GKluTkJ015Npx4L2/rEZWPYXRa/pDpvD+E1m9AIXf
-        FN2jidqRmAW1SoJ3r5OgqZ4GApXJnMDPhgKhAEM=
-X-Google-Smtp-Source: AGHT+IGZcbmVCa5ZDQZDqMBC5RXy8ZlAEnBSQVfL2GCWuQwF+OUfXTklfpU8ydkeXzNNensTQj2vcA==
-X-Received: by 2002:a17:903:1207:b0:1b8:6850:c3c4 with SMTP id l7-20020a170903120700b001b86850c3c4mr1594061plh.22.1691545992539;
-        Tue, 08 Aug 2023 18:53:12 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id bj7-20020a170902850700b001b87bedcc6fsm9657591plb.93.2023.08.08.18.53.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 18:53:12 -0700 (PDT)
-From:   Charlie Jenkins <charlie@rivosinc.com>
-To:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     charlie@rivosinc.com, conor@kernel.org, paul.walmsley@sifive.com,
-        palmer@rivosinc.com, aou@eecs.berkeley.edu, anup@brainfault.org,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org,
-        alexghiti@rivosinc.com
-Subject: [PATCH v9 4/4] RISC-V: mm: Document mmap changes
-Date:   Tue,  8 Aug 2023 18:51:10 -0700
-Message-Id: <20230809015110.3290774-5-charlie@rivosinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230809015110.3290774-1-charlie@rivosinc.com>
-References: <20230809015110.3290774-1-charlie@rivosinc.com>
+        bh=bDtqmE5WaBwuWbcG5niee6vR0Dh8gvhaHzvoiNOQiws=;
+        b=YAPzH0E9wW5eOLhFONLzj3NjuA1GbLh8coHraIWzzmI8MN6XdCVgDphPv7esgF2cuX
+         xeIHHiOf5HRX84sEUpmrw9PoZwm6AKyJxiyCKrRsCNPriz8iY/yIB1l8vHjTK5jCbCbU
+         eXmY6qoh5vvyeW8yAVigzPZBbw41yJx3jFhho/PSnbS439fBPmHPYU+uOy/esBNDDUMc
+         bseUIhDKWgw7i1NRg42zp60EM2poC723KCSr2yRB2sDA1tMpViboL7rx2MpDrtbJnqEK
+         bLYxy9y2GNoksKI5WSYb072TZLyeMAMjnM9dXAtk5EMdurmyf4BDFgvjzira/HrWOteu
+         OhJQ==
+X-Gm-Message-State: AOJu0Yz36D/G9SLz91zSBk7JIu7GUwTJ/QZugUz5+3R/CaJvtQFtA2Bb
+        FXLaeEO+goUqBDpIy5yI0aL/7Qx+F6cLe2+P51g=
+X-Google-Smtp-Source: AGHT+IH2bKTSsX7/6xPrKfrQgho5P8O/hWC3nUT0gNKKQQAzMu/0fuX80th8S70Ytqj3VHXYwT6+ychP6EtQ0Fkfu08=
+X-Received: by 2002:a2e:a16e:0:b0:2b5:9d78:213e with SMTP id
+ u14-20020a2ea16e000000b002b59d78213emr935818ljl.22.1691551608635; Tue, 08 Aug
+ 2023 20:26:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1690273969.git.haibo1.xu@intel.com> <CAAhSdy0yug=J0nxnnPoLYL=0MiT0w6qgPYOcv0QwMRe+fsQn8Q@mail.gmail.com>
+ <87y1ilpz3m.wl-maz@kernel.org>
+In-Reply-To: <87y1ilpz3m.wl-maz@kernel.org>
+From:   Haibo Xu <xiaobo55x@gmail.com>
+Date:   Wed, 9 Aug 2023 11:26:36 +0800
+Message-ID: <CAJve8onZuOHkAUVY3=QeBPMx5n2F1fGgn57rPp7MB1Q5=vXasA@mail.gmail.com>
+Subject: Re: [PATCH v6 00/13] RISCV: Add KVM_GET_REG_LIST API
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Anup Patel <anup@brainfault.org>, oliver.upton@linux.dev,
+        ajones@ventanamicro.com, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Ricardo Koller <ricarkol@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Like Xu <likexu@tencent.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        Haibo Xu <haibo1.xu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm-riscv@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The behavior of mmap is modified with this patch series, so explain the
-changes to the mmap hint address behavior.
+On Tue, Aug 8, 2023 at 7:12=E2=80=AFPM Marc Zyngier <maz@kernel.org> wrote:
+>
+> On Mon, 07 Aug 2023 04:48:33 +0100,
+> Anup Patel <anup@brainfault.org> wrote:
+> >
+> > Hi Marc, Hi Oliver,
+> >
+> > On Tue, Jul 25, 2023 at 2:05=E2=80=AFPM Haibo Xu <haibo1.xu@intel.com> =
+wrote:
+> > >
+> > > KVM_GET_REG_LIST will dump all register IDs that are available to
+> > > KVM_GET/SET_ONE_REG and It's very useful to identify some platform
+> > > regression issue during VM migration.
+> > >
+> > > Patch 1-7 re-structured the get-reg-list test in aarch64 to make some
+> > > of the code as common test framework that can be shared by riscv.
+> > >
+> > > Patch 8 move reject_set check logic to a function so as to check for
+> > > different errno for different registers.
+> > > Patch 9 move finalize_vcpu back to run_test so that riscv can impleme=
+nt
+> > > its specific operation.
+> > > Patch 10 change to do the get/set operation only on present-blessed l=
+ist.
+> > > Patch 11 add the skip_set facilities so that riscv can skip set opera=
+tion
+> > > on some registers.
+> > > Patch 12 enabled the KVM_GET_REG_LIST API in riscv.
+> > > patch 13 added the corresponding kselftest for checking possible
+> > > register regressions.
+> > >
+> > > The get-reg-list kvm selftest was ported from aarch64 and tested with
+> > > Linux v6.5-rc3 on a Qemu riscv64 virt machine.
+> > >
+> > > ---
+> > > Changed since v5:
+> > >   * Rebase to v6.5-rc3
+> > >   * Minor fix for Andrew's comments
+> > >
+> > > Andrew Jones (7):
+> > >   KVM: arm64: selftests: Replace str_with_index with strdup_printf
+> > >   KVM: arm64: selftests: Drop SVE cap check in print_reg
+> > >   KVM: arm64: selftests: Remove print_reg's dependency on vcpu_config
+> > >   KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
+> > >   KVM: arm64: selftests: Delete core_reg_fixup
+> > >   KVM: arm64: selftests: Split get-reg-list test code
+> > >   KVM: arm64: selftests: Finish generalizing get-reg-list
+> > >
+> > > Haibo Xu (6):
+> > >   KVM: arm64: selftests: Move reject_set check logic to a function
+> > >   KVM: arm64: selftests: Move finalize_vcpu back to run_test
+> > >   KVM: selftests: Only do get/set tests on present blessed list
+> > >   KVM: selftests: Add skip_set facility to get_reg_list test
+> > >   KVM: riscv: Add KVM_GET_REG_LIST API support
+> > >   KVM: riscv: selftests: Add get-reg-list test
+> >
+> > Are you okay for this series to go through the KVM RISC-V tree ?
+>
+> Sure, seems fine from my point of view. But please put it on an
+> immutable topic branch so that we can also merge it in the arm64 tree,
+> should we need to resolve any conflicts.
+>
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- Documentation/riscv/vm-layout.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Hi Marc,
 
-diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-index 5462c84f4723..69ff6da1dbf8 100644
---- a/Documentation/riscv/vm-layout.rst
-+++ b/Documentation/riscv/vm-layout.rst
-@@ -133,3 +133,25 @@ RISC-V Linux Kernel SV57
-    ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
-    ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
-   __________________|____________|__________________|_________|____________________________________________________________
-+
-+
-+Userspace VAs
-+--------------------
-+To maintain compatibility with software that relies on the VA space with a
-+maximum of 48 bits the kernel will, by default, return virtual addresses to
-+userspace from a 48-bit range (sv48). This default behavior is achieved by
-+passing 0 into the hint address parameter of mmap. On CPUs with an address space
-+smaller than sv48, the CPU maximum supported address space will be the default.
-+
-+Software can "opt-in" to receiving VAs from another VA space by providing
-+a hint address to mmap. A hint address passed to mmap will cause the largest
-+address space that fits entirely into the hint to be used, unless there is no
-+space left in the address space. If there is no space available in the requested
-+address space, an address in the next smallest available address space will be
-+returned.
-+
-+For example, in order to obtain 48-bit VA space, a hint address greater than
-+:code:`1 << 47` must be provided. Note that this is 47 due to sv48 userspace
-+ending at :code:`1 << 47` and the addresses beyond this are reserved for the
-+kernel. Similarly, to obtain 57-bit VA space addresses, a hint address greater
-+than or equal to :code:`1 << 56` must be provided.
--- 
-2.34.1
+Thanks for your review!
 
+Which topic branch do you prefer or suggest to use?
+I can do a rebase on it and fix any potential conflicts.
+
+Regards,
+Haibo
+
+> Thanks,
+>
+>         M.
+>
+> --
+> Without deviation from the norm, progress is not possible.
