@@ -2,157 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DDBEB64DD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 13:28:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA6BC04A6A
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 14:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231527AbjHIN2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 09:28:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39424 "EHLO
+        id S233234AbjHIOU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 10:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232885AbjHIN2A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 09:28:00 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 204DD1728;
-        Wed,  9 Aug 2023 06:27:58 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3fe4ad22eb0so48009435e9.3;
-        Wed, 09 Aug 2023 06:27:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691587676; x=1692192476;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d8Y1G49lBNQm8I61OnbJNB7Y67Rqrzuj0UzklKCPsaE=;
-        b=LRLOMkzq5roM5+UL4g24JUK02KJZ1tOyaeAU+G/++qDurykvmZs+k5ToiSnichUqEk
-         cUdyvurpRYxwlIy2uQA34E9ug3E4QUF5feALGH3VTp0TBgx+yGcXUIMUIDnlgLBUX48C
-         ruOh9y/mgCf1ARxdu2q+MDxvEw0s9HyN68BRdrfPYZ7YZeohcB0sbvG5C+r4iqXdPyai
-         ptyD7QmhbiuAe82unuLMetKaRt8X7pznMl7qCmLi0jO2fPjFr6zSghRsE3Cx8Zvx+xVc
-         9HnxpplXvU9U5D1IUPk62u0CCiGGNdr5PWo/gqjA8Jlm7PdMWn+wlfXCDRaoe4feejP8
-         lcUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691587676; x=1692192476;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d8Y1G49lBNQm8I61OnbJNB7Y67Rqrzuj0UzklKCPsaE=;
-        b=aATVRoDGkrQNhhvedIhCx4cIsZgKr3EZZW3GFVwaUIS7IKMCHAAt6Vp4t9LaBP3KoJ
-         m5ctqLnW7Qy8wncsZOGskNUybEh7UUYHbXIWFCrFtYMxFpVMWb4Y4h1Y+4Ilc7yvRFen
-         lXgd8c/+tbpqNZnasOdO1mx/uhqjhPM0qy/2Mgnfq4lYPi0giKEAZw429b0yRYNL5K4Q
-         HCvHG6o4hkOhjrgRic8vZQVTAVq9lPjBS5pJrA0u3/KxdCuOkUqFGnjk6OFIdlkHS2n/
-         NXvbk/1MWOMd++wIK9ttGiaLveDT3KZA7eWDQ6kbEk+vo3WVWXeFG7y7Lm7Km2t6Zdi/
-         XfiQ==
-X-Gm-Message-State: AOJu0Yz9wiG4GFrgpkNaFWIUXZS4Kg9Rs5o8kIBKCHS76Ny/CbVnBoGY
-        AM8cHm2U2YyejIG9w11nSmE=
-X-Google-Smtp-Source: AGHT+IHDxGd450rRdsFhBnDQgcJyvMYyTZ+kwjhYbRwkfXfZOLa5tVOHOjbRM12m2W0onKTwRwDXew==
-X-Received: by 2002:a1c:4b1a:0:b0:3fb:e573:4172 with SMTP id y26-20020a1c4b1a000000b003fbe5734172mr2307215wma.31.1691587676297;
-        Wed, 09 Aug 2023 06:27:56 -0700 (PDT)
-Received: from suse.localnet (host-95-233-25-82.retail.telecomitalia.it. [95.233.25.82])
-        by smtp.gmail.com with ESMTPSA id 20-20020a05600c021400b003fe1e3937aesm1990130wmi.20.2023.08.09.06.27.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 06:27:55 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation/page_tables: Add info about MMU/TLB and Page Faults
-Date:   Wed, 09 Aug 2023 15:27:53 +0200
-Message-ID: <2443562.jE0xQCEvom@suse>
-In-Reply-To: <CACRpkdYcAWDZV0GkdP6gEJv971wjYQ-8WweHkreTJ-w7sfKKQg@mail.gmail.com>
-References: <20230728120054.12306-1-fmdefrancesco@gmail.com>
- <CACRpkdYcAWDZV0GkdP6gEJv971wjYQ-8WweHkreTJ-w7sfKKQg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S231752AbjHIOU2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 10:20:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8892B1FCC;
+        Wed,  9 Aug 2023 07:20:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2295B6176B;
+        Wed,  9 Aug 2023 14:20:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 71D47C433C8;
+        Wed,  9 Aug 2023 14:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691590823;
+        bh=GYLw4R5ZP8Asgcy8c4U/E68U/BEFVITI0t4kAXKKJyg=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=iKoG6qTXz/QDY3IA7SBUrPMHv1yumYmq9dr1nWznwbiiUREaEEODsonj0tKjJtG26
+         oUeDXJMsUhldhBBOu0tA7hyL014NQKCVk7Xa/bnz9nNKndCybta98L7ERaut4PuRqB
+         A01zbT8H/DzlpnfsRiHWvRI5x+4PAsRy2KpPtHmnRTm9GoRsNIz5DiaaibAgeNcGjO
+         FoFFVnZW7gSHV0XVOcKP93ubOR0+zb3zucOlktFTKqoKa3BpWRHauTWK72xuJU+0T7
+         rxlv8S+oX1TkqUQjk48Iw7aL2bB8UZ989sSs3DRpKiP9EKgwaCzXkZAMuX35Lf3Z3y
+         lG/5t5F0mqEJw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 576A0E3308F;
+        Wed,  9 Aug 2023 14:20:23 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 00/11] RISC-V: Probe DT extension support using
+ riscv,isa-extensions & riscv,isa-base
+From:   patchwork-bot+linux-riscv@kernel.org
+Message-Id: <169159082335.5601.13810785902879648545.git-patchwork-notify@kernel.org>
+Date:   Wed, 09 Aug 2023 14:20:23 +0000
+References: <20230713-target-much-8ac624e90df8@wendy>
+In-Reply-To: <20230713-target-much-8ac624e90df8@wendy>
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     linux-riscv@lists.infradead.org, palmer@dabbelt.com,
+        devicetree@vger.kernel.org, aou@eecs.berkeley.edu, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        conor@kernel.org, robh+dt@kernel.org, evan@rivosinc.com,
+        krzysztof.kozlowski+dt@linaro.org, paul.walmsley@sifive.com,
+        heiko.stuebner@vrull.eu, ajones@ventanamicro.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On luned=C3=AC 7 agosto 2023 11:40:30 CEST Linus Walleij wrote:
-> Hi Fabio,
->=20
-> I'm back from vacation! Overall this documentation looks good and
-> in line with the reset in this section.
->=20
-> On Fri, Jul 28, 2023 at 2:01=E2=80=AFPM Fabio M. De Francesco
->=20
-> <fmdefrancesco@gmail.com> wrote:
-> > +One cause of page faults is due to bugs (or maliciously crafted=20
-addresses)
-> > and +happens when a process tries to access a range of memory that it
-> > doesn't have +permission to. This could be because the memory is reserv=
-ed
-> > for the kernel or +for another process, or because the process is tryin=
-g=20
-to
-> > write to a read-only +section of memory. When this happens, the kernel
-> > sends a Segmentation Fault +(SIGSEGV) signal to the process, which usua=
-lly
-> > causes the process to terminate.
-> This "segmentation fault" (SIGSEGV reads "signal segmentation violation)
-> is actually a bit hard to understand for people not familiar
-> with the 1970ies hardware.=20
+Hello:
 
-Linus,
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-Actually, I see a lot of "Segmentation fault (core dumped)" because I still=
-=20
-develop in user space.
+On Thu, 13 Jul 2023 13:10:58 +0100 you wrote:
+> Hey,
+> 
+> Based on my latest iteration of deprecating riscv,isa [1], here's an
+> implementation of the new properties for Linux. The first few patches,
+> up to "RISC-V: split riscv_fill_hwcap() in 3", are all prep work that
+> further tames some of the extension related code, on top of my already
+> applied series that cleans up the ISA string parser.
+> Perhaps "RISC-V: shunt isa_ext_arr to cpufeature.c" is a bit gratuitous,
+> but I figured a bit of coalescing of extension related data structures
+> would be a good idea. Note that riscv,isa will still be used in the
+> absence of the new properties. Palmer suggested adding a Kconfig option
+> to turn off the fallback for DT, which I have gone and done. It's locked
+> behind the NONPORTABLE option for good reason.
+> 
+> [...]
 
-Stupid distractions are enough to get that message printed...
+Here is the summary with links:
+  - [v5,01/11] RISC-V: Provide a more helpful error message on invalid ISA strings
+    https://git.kernel.org/riscv/c/230598939678
+  - [v5,02/11] RISC-V: don't parse dt/acpi isa string to get rv32/rv64
+    https://git.kernel.org/riscv/c/67270fb388fe
+  - [v5,03/11] RISC-V: drop a needless check in print_isa_ext()
+    https://git.kernel.org/riscv/c/131033689da2
+  - [v5,04/11] RISC-V: shunt isa_ext_arr to cpufeature.c
+    https://git.kernel.org/riscv/c/8135ade32c0d
+  - [v5,05/11] RISC-V: repurpose riscv_isa_ext array in riscv_fill_hwcap()
+    https://git.kernel.org/riscv/c/37f988dcec05
+  - [v5,06/11] RISC-V: add missing single letter extension definitions
+    https://git.kernel.org/riscv/c/c30556e318cc
+  - [v5,07/11] RISC-V: add single letter extensions to riscv_isa_ext
+    https://git.kernel.org/riscv/c/effc122ad176
+  - [v5,08/11] RISC-V: split riscv_fill_hwcap() in 3
+    https://git.kernel.org/riscv/c/4265b0ec5ee7
+  - [v5,09/11] RISC-V: enable extension detection from dedicated properties
+    https://git.kernel.org/riscv/c/90700a4fbfaf
+  - [v5,10/11] RISC-V: try new extension properties in of_early_processor_hartid()
+    https://git.kernel.org/riscv/c/c98f136aedbd
+  - [v5,11/11] RISC-V: provide Kconfig & commandline options to control parsing "riscv,isa"
+    https://git.kernel.org/riscv/c/496ea826d1e1
 
-#include <stdio.h>
-#include <malloc.h>
-
-int main() {
-        int *p1, *p2;
-        p2 =3D malloc(sizeof(int));
-        *p2 =3D 9;
-        printf("*p2 is %d\n", *p1);
-        return 0;
-}
-
-fabio@suse:/tmp> gcc -o test test.c=20
-fabio@suse:/tmp> ./test
-Segmentation fault (core dumped)
-
-=46urthermore, everybody can still type "man signal.h" (document written in=
-=20
-2017) and lookup the table of the POSIX signals and see that SIGSEGV is for=
-=20
-"Invalid memory reference.".=20
->
-> [Snip]
->
-> Other programs and the kernel memory are also in inaccessible segments,
-> so accessing any of the own segments in the wrong way, or another programs
-> segment, or an unmapped segment (virtual memory) would all result in the
-> SIGSEGV opaque message "segmentation fault"
->=20
-> I don't know how to reflect this in a good way in the documentation
-> though, maybe
-> copy/paste/edit some of my text or I can try to write something as an
-> additional patch if you prefer.
-
-I suspect that people is much more used to get more "Segmentation fault" th=
-ese=20
-days than in the 1970's (when developers probably were a little more carefu=
-l=20
-with pointers - at least this is what I have heard about this subject :-)).
-
-BTW, please feel free to change / extend this paragraph with a follow up=20
-patch.
-
-Thanks for your comments,
-
-=46abio
-> Yours,
-> Linus Walleij
-
-
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
