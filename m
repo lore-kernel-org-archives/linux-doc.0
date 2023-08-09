@@ -2,42 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55823C0015E
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 04:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B77EB64DD
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Aug 2023 04:54:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjHIEmf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Aug 2023 00:42:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58530 "EHLO
+        id S230004AbjHIEyy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Aug 2023 00:54:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjHIEmf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 00:42:35 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B58811BCE;
-        Tue,  8 Aug 2023 21:42:32 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 930B111FB;
-        Tue,  8 Aug 2023 21:43:14 -0700 (PDT)
-Received: from [10.163.54.83] (unknown [10.163.54.83])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A03D3F6C4;
-        Tue,  8 Aug 2023 21:42:28 -0700 (PDT)
-Message-ID: <86fb0ae5-d840-5ff5-a2a7-fc635a53184a@arm.com>
-Date:   Wed, 9 Aug 2023 10:12:25 +0530
+        with ESMTP id S229450AbjHIEyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Aug 2023 00:54:53 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607A6172A;
+        Tue,  8 Aug 2023 21:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=hB8XQbYFdb0Z9/ylbFbqW6q07ipxUwcAY2KZjsOchlU=; b=uRGY4KTxrPxI7ASoL8Fo2YvHIS
+        CDgeMBt54w4wPVl99ab7UP3U9SlJbuxxh1FAstcJf6ApVf2RdSEfBig/vMN+qRKAAhKRW1wxP5a4H
+        WVVBMB8vGN8tKRK8iVqejZe+74Qr4tvTTmc7blHtTrmyjsDUrmp0QkMWlgqkhjPdqT5asqyIIqyUj
+        eJo4sDZisIdxqx8jEQbHB8xL6ffZN+h+8eAspCVypHV98asKH8oNbpVOmH+GA3Mx+8MJ3KUi6Iqcv
+        0Nm1fuiYpOtCsZc907FNWMo82O6/1B3YnKhT0cbCBH2D9EqA/l6q9FeL7O1BxwdhLl3TNnHH4uqKR
+        nvZxTlWA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qTbDd-0042b2-0z;
+        Wed, 09 Aug 2023 04:54:49 +0000
+Message-ID: <aac7b4bf-e961-6d3f-a4d3-01d56a19613d@infradead.org>
+Date:   Tue, 8 Aug 2023 21:54:48 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] coresight: etm: Make cycle count threshold user
- configurable
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] Documentation: RCU: fix section numbers after adding
+ Section 7 in whatisRCU.rst
 Content-Language: en-US
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     linux-arm-kernel@lists.infradead.org, Al.Grant@arm.com,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>, coresight@lists.linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230808074533.380537-1-anshuman.khandual@arm.com>
- <CAJ9a7Vgs6nP+KEPhjuj4BtWRZrRt-byz1xsa-JRzk3cFGJ+d8w@mail.gmail.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <CAJ9a7Vgs6nP+KEPhjuj4BtWRZrRt-byz1xsa-JRzk3cFGJ+d8w@mail.gmail.com>
+To:     Wei Zhang <zhangweilst@gmail.com>, corbet@lwn.net,
+        paulmck@kernel.org, rostedt@goodmis.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230808155811.550575-1-zhangweilst@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230808155811.550575-1-zhangweilst@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -46,137 +50,33 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 8/8/23 15:49, Mike Leach wrote:
-> Hi Anshuman
-> 
-> On Tue, 8 Aug 2023 at 08:45, Anshuman Khandual
-> <anshuman.khandual@arm.com> wrote:
->>
->> Cycle counting is enabled, when requested and supported but with a default
->> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
->> representing the minimum interval between cycle count trace packets.
->>
->> This makes cycle threshold user configurable, from the user space via perf
->> event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
->> in case no explicit request. As expected it creates a sysfs file as well.
->>
->> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
->>
->> New 'cc_threshold' uses 'event->attr.config3' as no more space is available
->> in 'event->attr.config1' or 'event->attr.config2'.
->>
->> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
->> Cc: Mike Leach <mike.leach@linaro.org>
->> Cc: James Clark <james.clark@arm.com>
->> Cc: Leo Yan <leo.yan@linaro.org>
->> Cc: coresight@lists.linaro.org
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-doc@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
->> ---
->> Changes in V2:
->>
-> 
-> Please ensure that the e-mail title reflects the "v2" nature of this.
-> e.g. [PATCH v2] ....
+On 8/8/23 08:58, Wei Zhang wrote:
+> Signed-off-by: Wei Zhang <zhangweilst@gmail.com>
 
-Right, missed that.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
+> ---
+>  Documentation/RCU/whatisRCU.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+> index e488c8e557a9..60ce02475142 100644
+> --- a/Documentation/RCU/whatisRCU.rst
+> +++ b/Documentation/RCU/whatisRCU.rst
+> @@ -59,8 +59,8 @@ experiment with should focus on Section 2.  People who prefer to start
+>  with example uses should focus on Sections 3 and 4.  People who need to
+>  understand the RCU implementation should focus on Section 5, then dive
+>  into the kernel source code.  People who reason best by analogy should
+> -focus on Section 6.  Section 7 serves as an index to the docbook API
+> -documentation, and Section 8 is the traditional answer key.
+> +focus on Section 6 and 7.  Section 8 serves as an index to the docbook
+> +API documentation, and Section 9 is the traditional answer key.
+>  
+>  So, start with the section that makes the most sense to you and your
+>  preferred method of learning.  If you need to know everything about
 > 
->> - s/treshhold/threshhold
->>
->> Changes in V1:
->>
->> https://lore.kernel.org/all/20230804044720.1478900-1-anshuman.khandual@arm.com/
->>
->>  Documentation/trace/coresight/coresight.rst        |  2 ++
->>  drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
->>  drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
->>  3 files changed, 14 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
->> index 4a71ea6cb390..a698b07206b5 100644
->> --- a/Documentation/trace/coresight/coresight.rst
->> +++ b/Documentation/trace/coresight/coresight.rst
->> @@ -624,6 +624,8 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
->>     * - timestamp
->>       - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
->>         <coresight-timestamp>`
->> +   * - cc_threshold
->> +     - Cycle count threshold value
->>
->>  How to use the STM module
->>  -------------------------
-> 
-> The doc elements here need to be in a separate patch in the set and
-> additionally sent to doc list and maintainer
-> (linux-doc@vger.kernel.org and corbet@lwn.net) to be picked up.
+> base-commit: 14f9643dc90adea074a0ffb7a17d337eafc6a5cc
 
-Sure, will do that.
-
-> 
->> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
->> index 5ca6278baff4..09f75dffae60 100644
->> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
->> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
->> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,               "config:0-3");
->>  PMU_FORMAT_ATTR(sinkid,                "config2:0-31");
->>  /* config ID - set if a system configuration is selected */
->>  PMU_FORMAT_ATTR(configid,      "config2:32-63");
->> +PMU_FORMAT_ATTR(cc_threshold,  "config3:0-11");
->>
->>
->>  /*
->> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
->>         &format_attr_preset.attr,
->>         &format_attr_configid.attr,
->>         &format_attr_branch_broadcast.attr,
->> +       &format_attr_cc_threshold.attr,
->>         NULL,
->>  };
->>
->> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> index 9d186af81ea0..a353c0784bab 100644
->> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> @@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->>         struct etmv4_config *config = &drvdata->config;
->>         struct perf_event_attr *attr = &event->attr;
->>         unsigned long cfg_hash;
->> -       int preset;
->> +       int preset, cc_threshold;
->>
->>         /* Clear configuration from previous run */
->>         memset(config, 0, sizeof(struct etmv4_config));
->> @@ -667,7 +667,15 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->>         if (attr->config & BIT(ETM_OPT_CYCACC)) {
->>                 config->cfg |= TRCCONFIGR_CCI;
->>                 /* TRM: Must program this for cycacc to work */
->> -               config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
->> +               cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
->> +               if (cc_threshold) {
->> +                       if (cc_threshold < drvdata->ccitmin)
->> +                               config->ccctlr = drvdata->ccitmin;
->> +                       else
->> +                               config->ccctlr = cc_threshold;
->> +               } else {
->> +                       config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
->> +               }
->>         }
->>         if (attr->config & BIT(ETM_OPT_TS)) {
->>                 /*
->> --
->> 2.25.1
->>
-> 
-> As we are using ccitmin - which I think we must - then we need an
-> additional patch in the set that implements the errata workaround
-> mentioned by Al, when setting ccitmin in etm4_init_arch_data().
-Agreed, I am working on that.
-
-> Perhaps a helper function called from there to read the ID reg unless
-> one of the errata cores in which case set to 0x4.
-Even on the errata cores, first will read the ID register TRCIDR3 to
-ascertain CCITMIN field to be 0x100 (256) before overriding with 0x4.
+-- 
+~Randy
