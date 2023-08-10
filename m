@@ -2,199 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22354C001B0
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 17:07:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE64DC41513
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 17:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232679AbjHJRHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Aug 2023 13:07:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41958 "EHLO
+        id S234846AbjHJRQY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Aug 2023 13:16:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231617AbjHJRHy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 13:07:54 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733B92703;
-        Thu, 10 Aug 2023 10:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691687274; x=1723223274;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dotDLlo/a9YsWNlJpXd8Bf3iFLwvIMCiIU+o/OVT2tA=;
-  b=k+G4ymWBjiKLCv9B5n7GdJAgqVB1RWxQkpNHTpr5S+B5WAmAMu/qNvCY
-   K2euYCOUxznEcl+fRnjSVEXx54PFdrsB5o8FJfPDKzL7Alo4pSpg3PyLK
-   5Y31Lkmjn/uRBh5wFCGCxlnp6IoIcQ4Nwx3i9bUf+df2W5+Dot1FXj1cc
-   1fz/P6gQXPmNTpn4mgBlFqTrBDp7c2PZiKWJ+Je5cuhBlaiOJzm9brGcg
-   UKsnmMvGDYgtH/1I1BL3PS30tIecZtjnzrgsUJSGSf49dvquDCG5KBMfv
-   Y82ql7PrXQaXtWJylm31E/lMU9YBwRRQNq333r4sHclW5h35ivI5N0Lzm
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="371476134"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="371476134"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 10:07:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="709234186"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="709234186"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orsmga006.jf.intel.com with ESMTP; 10 Aug 2023 10:07:50 -0700
-From:   Tony Nguyen <anthony.l.nguyen@intel.com>
-To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, netdev@vger.kernel.org
-Cc:     Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-        anthony.l.nguyen@intel.com, jacob.e.keller@intel.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2 5/5] ice: add documentation for FW logging
-Date:   Thu, 10 Aug 2023 10:01:09 -0700
-Message-Id: <20230810170109.1963832-6-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230810170109.1963832-1-anthony.l.nguyen@intel.com>
-References: <20230810170109.1963832-1-anthony.l.nguyen@intel.com>
+        with ESMTP id S234840AbjHJRQX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 13:16:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F3A26BC
+        for <linux-doc@vger.kernel.org>; Thu, 10 Aug 2023 10:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691687737;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uwwHD8VGaiWAT/OeGl9cbv1dKygcTMDJVAfWo13hyco=;
+        b=ZEqxYz2v0rxvo3nbjhwcXLzkisjFtdfwSpX+asIx8BXCC8x5fnAJ5ut8Cz/Dl7SSZuY2uy
+        e3YXUoQDzT8hh738KQ5slGBmiSNxtOGue7WJfG2raBXWOdbtF22XG7mx2Z2pv/rOlCtaoS
+        JOx/a4NZcdEK0NZSgy3xsiQRV415pRA=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-26-U6DIsWSNPfauWKmjT6xiEA-1; Thu, 10 Aug 2023 13:15:36 -0400
+X-MC-Unique: U6DIsWSNPfauWKmjT6xiEA-1
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-40fd6d83c21so2821611cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Aug 2023 10:15:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691687736; x=1692292536;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uwwHD8VGaiWAT/OeGl9cbv1dKygcTMDJVAfWo13hyco=;
+        b=T1fvnBXTbxrDEn0cy0patRIMI0/euFxaGcNV8e5ldiUuplX/4WCCqHmwqbHVUSowbm
+         T/gTCsmFCW69I0Pzfqt27525XVKYAZUSoS+LFrhG0RnoKhB/cxkK2U0gEGrIfCDZ39xD
+         lmA2bp+rFU0YWwnQTbpImb3R1VnbyV1ut26twhzoYuo9TJQPBvLGLNCfSbMrvmJpH7ev
+         z3OnBoEG9DVXvA0ViBsafaY3qeaPj8bCVwDFHSaWexJLVtwKDkent9q2CwTgm/H1BCA2
+         Fv5g3Ypo+qiUtHENlKV3urmWR5tff09AAuYZO4c8RPY4yxR4Czvls6TnYKQa58Imlu1d
+         K5VQ==
+X-Gm-Message-State: AOJu0YzWqMr70oOeoq9qvrCYabzhajbzLfBA7nRgZlUtCNyeeUTddm7U
+        +5zHt5eOakem6oXoPEmSAvM6PdNOqoHpuf9KHRQUNe/YrgEwL6WpUi7y4k3C1YbyQJYN0yQHkWd
+        NwXSK/OQGlmBMTZNhk+0frYEf7sgP
+X-Received: by 2002:a05:622a:1988:b0:40f:da40:88a with SMTP id u8-20020a05622a198800b0040fda40088amr3472012qtc.4.1691687735818;
+        Thu, 10 Aug 2023 10:15:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFOvLflZLhzqs/o1dFdKrDK86gwB1luRyxfHHC4XYJOKYPj1zHGYvpz0bPlj5yUP7dvujle3w==
+X-Received: by 2002:a05:622a:1988:b0:40f:da40:88a with SMTP id u8-20020a05622a198800b0040fda40088amr3471988qtc.4.1691687735565;
+        Thu, 10 Aug 2023 10:15:35 -0700 (PDT)
+Received: from x1n ([2605:8d80:6a3:cb2:d8d8:cd75:7bfe:b6d7])
+        by smtp.gmail.com with ESMTPSA id d18-20020ac81192000000b00403ff38d855sm623720qtj.4.2023.08.10.10.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 10:15:35 -0700 (PDT)
+Date:   Thu, 10 Aug 2023 13:15:32 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Ryan Roberts <ryan.roberts@arm.com>
+Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Hugh Dickins <hughd@google.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Yin Fengwei <fengwei.yin@intel.com>,
+        Yang Shi <shy828301@gmail.com>, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH mm-unstable v1] mm: add a total mapcount for large folios
+Message-ID: <ZNUbNDiciFefJngZ@x1n>
+References: <20230809083256.699513-1-david@redhat.com>
+ <ZNQD4pxo8svpGmvX@x1n>
+ <e5e29217-11d3-a84b-9e29-44acc72222f3@redhat.com>
+ <155bd03e-b75c-4d2d-a89d-a12271ada71b@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <155bd03e-b75c-4d2d-a89d-a12271ada71b@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+On Thu, Aug 10, 2023 at 11:48:27AM +0100, Ryan Roberts wrote:
+> > For PTE-mapped THP, it might be a bit bigger noise, although I doubt it is
+> > really significant (judging from my experience on managing PageAnonExclusive
+> > using set_bit/test_bit/clear_bit when (un)mapping anon pages).
+> > 
+> > As folio_add_file_rmap_range() indicates, for PTE-mapped THPs we should be
+> > batching where possible (and Ryan is working on some more rmap batching). 
+> 
+> Yes, I've just posted [1] which batches the rmap removal. That would allow you
+> to convert the per-page atomic_dec() into a (usually) single per-large-folio
+> atomic_sub().
+> 
+> [1] https://lore.kernel.org/linux-mm/20230810103332.3062143-1-ryan.roberts@arm.com/
 
-Add documentation for FW logging in
-Documentation/networking/device-drivers/ethernet/intel/ice.rst
+Right, that'll definitely make more sense, thanks for the link; I'd be very
+happy to read more later (finally I got some free time recently..).  But
+then does it mean David's patch can be attached at the end instead of
+proposed separately and early?
 
-Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- .../device_drivers/ethernet/intel/ice.rst     | 117 ++++++++++++++++++
- 1 file changed, 117 insertions(+)
+I was asking mostly because I read it as a standalone patch first, and
+honestly I don't know the effect.  It's based on not only the added atomic
+ops itself, but also the field changes.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index e4d065c55ea8..3ddef911faaa 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -895,6 +895,123 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
- refer to the hardware GNSS module documentation for configuration details.
- 
- 
-+Firmware (FW) logging
-+---------------------
-+The driver supports FW logging via the debugfs interface on PF 0 only. In order
-+for FW logging to work, the NVM must support it. The 'fwlog' file will only get
-+created in the ice debugfs directory if the NVM supports FW logging.
-+
-+Module configuration
-+~~~~~~~~~~~~~~~~~~~~
-+To see the status of FW logging then read the 'fwlog/modules' file like this::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+To configure FW logging then write to the 'fwlog/modules' file like this::
-+
-+  # echo <fwlog_event> <fwlog_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+where
-+
-+* fwlog_level is a name as described below. Each level includes the
-+  messages from the previous/lower level
-+
-+      * NONE
-+      *	ERROR
-+      *	WARNING
-+      *	NORMAL
-+      *	VERBOSE
-+
-+* fwlog_event is a name that represents the module to receive events for. The
-+  module names are
-+
-+      *	GENERAL
-+      *	CTRL
-+      *	LINK
-+      *	LINK_TOPO
-+      *	DNL
-+      *	I2C
-+      *	SDP
-+      *	MDIO
-+      *	ADMINQ
-+      *	HDMA
-+      *	LLDP
-+      *	DCBX
-+      *	DCB
-+      *	XLR
-+      *	NVM
-+      *	AUTH
-+      *	VPD
-+      *	IOSF
-+      *	PARSER
-+      *	SW
-+      *	SCHEDULER
-+      *	TXQ
-+      *	RSVD
-+      *	POST
-+      *	WATCHDOG
-+      *	TASK_DISPATCH
-+      *	MNG
-+      *	SYNCE
-+      *	HEALTH
-+      *	TSDRV
-+      *	PFREG
-+      *	MDLVER
-+      *	ALL
-+
-+The name ALL is special and specifies setting all of the modules to the
-+specified fwlog_level.
-+
-+Example usage to configure the modules::
-+
-+  # echo LINK VERBOSE > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+Enabling FW log
-+~~~~~~~~~~~~~~~
-+Once the desired modules are configured the user will enable the logging. To do
-+this the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An
-+example is::
-+
-+  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
-+
-+Retrieving FW log data
-+~~~~~~~~~~~~~~~~~~~~~~
-+The FW log data can be retrieved by reading from 'fwlog/data'. The user can
-+write to 'fwlog/data' to clear the data. The data can only be cleared when FW
-+logging is disabled. The FW log data is a binary file that is sent to Intel and
-+used to help debug user issues.
-+
-+An example to read the data is::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
-+
-+An example to clear the data is::
-+
-+  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
-+
-+Changing how often the log events are sent to the driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver receives FW log data from the Admin Receive Queue (ARQ). The
-+frequency that the FW sends the ARQ events can be configured by writing to
-+'fwlog/resolution'. The range is 1-128 (1 means push every log message, 128
-+means push only when the max AQ command buffer is full). The suggested value is
-+10. The user can see what the value is configured to by reading
-+'fwlog/resolution'. An example to set the value is::
-+
-+  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/resolution
-+
-+Configuring the number of buffers used to store FW log data
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver stores FW log data in a ring within the driver. The default size of
-+the ring is 256 4K buffers. Some use cases may require more or less data so
-+the user can change the number of buffers that are allocated for FW log data.
-+To change the number of buffers write to 'fwlog/nr_buffs'. The value must be a
-+power of two and between the values 64-512. FW logging must be disabled to
-+change the value. An example of changing the value is::
-+
-+  # echo 128 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_buffs
-+
-+
- Performance Optimization
- ========================
- Driver defaults are meant to fit a wide variety of workloads, but if further
+For example, this patch moves Hugh's _nr_pages_mapped into the 2nd tail
+page, I think it means for any rmap change of any small page of a huge one
+we'll need to start touching one more 64B cacheline on x86.  I really have
+no idea what does it mean for especially a large SMP: see 292648ac5cf1 on
+why I had an impression of that.  But I've no enough experience or clue to
+prove it a problem either, maybe would be interesting to measure the time
+needed for some pte-mapped loops?  E.g., something like faulting in a thp,
+then measure the split (by e.g. mprotect() at offset 1M on a 4K?) time it
+takes before/after this patch.
+
+When looking at this, I actually found one thing that is slightly
+confusing, not directly relevant to your patch, but regarding the reuse of
+tail page 1 on offset 24 bytes.  Current it's Hugh's _nr_pages_mapped,
+and you're proposing to replace it with the total mapcount:
+
+        atomic_t   _nr_pages_mapped;     /*    88     4 */
+
+Now my question is.. isn't byte 24 of tail page 1 used for keeping a
+poisoned mapping?  See prep_compound_tail() where it has:
+
+	p->mapping = TAIL_MAPPING;
+
+While here mapping is, afaict, also using offset 24 of the tail page 1:
+
+        struct address_space * mapping;  /*    24     8 */
+
+I hope I did a wrong math somewhere, though.
+
 -- 
-2.38.1
+Peter Xu
 
