@@ -2,203 +2,224 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF28C41513
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 16:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF736C04A6A
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 16:08:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236683AbjHJQHr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Aug 2023 12:07:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48800 "EHLO
+        id S236492AbjHJQIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Aug 2023 12:08:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236695AbjHJQHd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 12:07:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2217C49FE;
-        Thu, 10 Aug 2023 09:06:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CF223661D0;
-        Thu, 10 Aug 2023 16:05:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDCAC433CA;
-        Thu, 10 Aug 2023 16:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691683516;
-        bh=3dqXqxLfF0EBUTIcyGpG0Y9ki6xtjmzbbUkts8u5Ikg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M3iKU92fRFQ5ebgkTvsvwFRj8QHGGGfCT7avNetLStA0oCGGNiMdq5s1BU8wM99Wq
-         cpLnFaNt5Y/WyIo/3u3hcU8KPqIxozR1VglUeMDq2sISkdEnj+wwOSJf5AiYhtT/2t
-         SlMvoi2pAG8JQpJHfXVLKoIXBMd/GoSC3dKXIxNGFzZv2lBL0ArZI8WA6y2eAtJcRX
-         2yzhhaPLgupPXHj9POOF9o54cYVHYP/0Hy8nP/kWQ2V3qULt/iXLK2gYREqJTs0WZH
-         k57P/Xu/0fJfpnylthHNhnuqqHv1d5rI1cRLVMcxAkA8mAVUExfN6T2BKpjM/k5CMd
-         yEHBV303fFSGA==
-Date:   Thu, 10 Aug 2023 17:05:07 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 00/36] arm64/gcs: Provide support for GCS in userspace
-Message-ID: <137de09e-6341-4c97-96ca-116e40c9cb8b@sirena.org.uk>
-References: <20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org>
- <20230801141319.GC26253@willie-the-truck>
- <09b7a94d-cc88-4372-85de-52db26bc2daf@sirena.org.uk>
- <20230808133857.GC2369@willie-the-truck>
- <f279ec25-e1c7-48e6-bd9d-5c753e829aad@sirena.org.uk>
- <20230810094016.GA5365@willie-the-truck>
+        with ESMTP id S236465AbjHJQIR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 12:08:17 -0400
+X-Greylist: delayed 242 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Aug 2023 09:07:01 PDT
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A74514236;
+        Thu, 10 Aug 2023 09:07:00 -0700 (PDT)
+Received: from linma$zju.edu.cn ( [10.181.231.207] ) by
+ ajax-webmail-mail-app4 (Coremail) ; Fri, 11 Aug 2023 00:06:05 +0800
+ (GMT+08:00)
+X-Originating-IP: [10.181.231.207]
+Date:   Fri, 11 Aug 2023 00:06:05 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   "Lin Ma" <linma@zju.edu.cn>
+To:     "Randy Dunlap" <rdunlap@infradead.org>
+Cc:     "Simon Horman" <horms@kernel.org>, corbet@lwn.net,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, void@manifault.com, jani.nikula@intel.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH v2] docs: staging: add netlink attrs best practices
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220622(41e5976f)
+ Copyright (c) 2002-2023 www.mailtech.cn
+ mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
+In-Reply-To: <0d0ed95c-1ad4-25b1-fa6a-c432b7b0c9f4@infradead.org>
+References: <20230809032552.765663-1-linma@zju.edu.cn>
+ <ZNTw+ApPS9U4VhZI@vergenet.net>
+ <0d0ed95c-1ad4-25b1-fa6a-c432b7b0c9f4@infradead.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5H6oHgjZfBXx+cAU"
-Content-Disposition: inline
-In-Reply-To: <20230810094016.GA5365@willie-the-truck>
-X-Cookie: Reunite Gondwondaland!
+Message-ID: <3577c959.1049c7.189e032afdc.Coremail.linma@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgB3fxftCtVkEIbVCg--.62778W
+X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwIDEmTUP3sScwACsH
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---5H6oHgjZfBXx+cAU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Aug 10, 2023 at 10:40:16AM +0100, Will Deacon wrote:
-> On Tue, Aug 08, 2023 at 09:25:11PM +0100, Mark Brown wrote:
-
-> > I'm not sure that your assumption that the only people would would
-> > consider deploying this are those who have deployed SCS is a valid one,
-> > SCS users are definitely part of the mix but GCS is expected to be much
-> > more broadly applicable.  As you say SCS is very invasive, requires a
-> > rebuild of everything with different code generated and as Szabolcs
-> > outlined has ABI challenges for general distros.  Any code built (or
-> > JITed) with anything other than clang is going to require some explicit
-> > support to do SCS (eg, the kernel's SCS support does nothing for
-> > assembly code) and there's a bunch of runtime support.  It's very much a
-> > specialist feature, mainly practical in well controlled somewhat
-> > vertical systems - I've not seen any suggestion that general purpose
-> > distros are considering using it.
-
-> I've also seen no suggestion that general purpose distros are considering
-> GCS -- that's what I'm asking about here, and also saying that we shouldn=
-'t
-> rush in an ABI without confidence that it actually works beyond unit tests
-> (although it's great that you wrote selftests!).
-
-It defintely works substantially beyond selftests.  For the actual
-distros there's definitely interest out there, gated on upstreaming.
-
-> > In contrast in the case of GCS one of the nice features is that for most
-> > code it's very much non-invasive, much less so than things like PAC/BTI
-> > and SCS, which means that the audience is much wider than it is for SCS
-> > - it's a *much* easier sell for general purpose distros to enable GCS
-> > than to enable SCS.
-
-> This sounds compelling, but has anybody tried running significant parts o=
-f a
-> distribution (e.g. running Debian source package tests, booting Android,
-> using a browser, running QEMU) with GCS enabled? I can well imagine
-> non-trivial applications violating both assumptions of the architecture a=
-nd
-> the ABI.
-
-Android is the main full userspace that people have been working with,
-we've not run into anything ABI related yet that I'm aware of - there is
-one thing that's being chased down but we're fairly confident that is a
-bug somewhere rather than the ABI being unsuitable.
-
-> > > If not, why are we bothering? If so, how much of that distribution has
-> > > been brought up and how does the "dynamic linker or other startup cod=
-e"
-> > > decide what to do?
-
-> > There is active interest in the x86 shadow stack support from distros,
-> > GCS is a lot earlier on in the process but isn't fundamentally different
-> > so it is expected that this will translate.  There is also a chicken and
-> > egg thing where upstream support gates a lot of people's interest, what
-> > people will consider carrying out of tree is different to what they'll
-> > enable.=20
-
-> I'm not saying we should wait until distros are committed, but Arm should
-> be able to do that work on a fork, exactly like we did for the arm64
-> bringup. We have the fastmodel, so running interesting stuff with GCS
-> enabled should be dead easy, no?
-
-Right, this is happening but your pushback seemed to be "why would
-anyone even consider deploying this?" rather than "could anyone deploy
-this?", tests on forks can help a bit with the first question but your
-concern seemed more at the level of even getting people to look at the
-work rather than just rejecting it out of hand.
-
-> > The majority of the full distro work at this point is on the x86 side
-> > given the hardware availability, we are looking at that within Arm of
-> > course.  I'm not aware of any huge blockers we have encountered thus
-> > far.
-
-> Ok, so it sounds like you've started something then? How far have you got?
-
-I'd say thus far text mode embedded/server type stuff is looking pretty
-good, especially for C stuff - setjmp/longjmp and an unwinder cover a
-*lot*.  We do need to do more here, especially GUI stuff, but it's
-progressing well thus far.
-
-> While we'd be daft not to look at what the x86 folks are doing, I don't
-> think we should rely solely on them to inform the design for arm64 when
-> it should be relatively straightforward to prototype the distro work on
-> the model. There's also no rush to land the kernel changes given that
-> GCS hardware doesn't exist.
-
-Sure, but we're also in the position where there's only been the very
-beginnings of kernel review and obviously that's very important too and
-there's often really substantial lead times on that, plus the potential
-for need for redoing all the testing if there's issues identified.  I'd
-hope to at least be able to get to a point where the major concern
-people have is testing.  Another goal here is to feed any concerns we do
-have into what's happening with x86 and RISC-V so that we have as much
-alignment as possible in how this is supposed to work on Linux, that'll
-make everyone's life easier.
-
-In terms of timescales given that users with generic distros are a big
-part of the expected audience while we're well in advance of where it's
-actually going to be used we do need to be mindful of lead times in
-getting support into the software users are likely to want to run so
-they've got something they can use when they do get hardware.  We don't
-need to rush into anything, but we should probably use that time for
-careful consideration.
-
---5H6oHgjZfBXx+cAU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTVCrIACgkQJNaLcl1U
-h9BHVwgAgSbEUGUic59Pll+iHR6rMHH93h8r1BQCHM7w3dxRlH4WQAvF84q/FUw2
-BvNcZc0s34e1gGq9GO3VlDPB0v1oMiJOjyjZ4V147fI5yH9YpEN93CoddrH+4Q9Z
-hN/7EJ0PHxL/eaJM5EKzuAYo3iWQGg1IQRQ4XQugjYa4ID2KHo9OWVXpMTq+swnQ
-pgGXC+k61Wjov3YeJwwBcZc8b9Ev2QE0T09jigsR6IRmYS+nD+LQWi2s9Utb7b+v
-CE8pnWa10JCf8Or6Pft32TX975ZpuvLHvEoHdRlUHZqpl96Nj5yj9ZFX2q3Efvg1
-veMSeRwi5FXGa41z5bay9s/8jeTTMg==
-=NmPw
------END PGP SIGNATURE-----
-
---5H6oHgjZfBXx+cAU--
+SGVsbG8gUmFuZHksCgo+ID4gUGVyaGFwcyB0aGlzIHdhcyBkaXNjdXNzZWQgZWFybGllci4KPiA+
+IEJ1dCBJJ20gY3VyaW91cyB0byBrbm93IGlmIHRoZXJlIGlzIGEgcHJlZmVyZW5jZSBmb3IgcHV0
+dGluZwo+ID4gdGhpcyBpbnRvIHN0YWdpbmcgcmF0aGVyIHRoYW4gbmV0d29ya2luZyBvciBlbHNl
+d2hlcmUuCj4gCj4gSSBkb24ndCBrbm93IG9mIGFueSByZWFzb24gZm9yIGl0IHRvIGJlIGluIHN0
+YWdpbmcuIElmIHRoZXJlIGlzIG9uZSwKPiBJIHdvdWxkIGxpa2UgdG8gaGVhciBhYm91dCBpdC4K
+PiAKClNvcnJ5LCBubyBzcGVjaWFsIHJlYXNvbiBmb3IgdGhhdC4gOkQKSSBjdXJyZW50bHkgdGhp
+bmsgbWF5YmUgdGhlIGJldHRlciBjaG9pY2UgaXMgRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nLwpU
+aGFua3MgZm9yIHBvaW50aW5nIHRoaXMgb3V0LgoKPiA+PiAgMyBmaWxlcyBjaGFuZ2VkLCA1NDYg
+aW5zZXJ0aW9ucygrKQo+ID4+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9zdGFn
+aW5nL25ldGxpbmstYXR0cnMtYmVzdC1wcmFjdGljZXMucnN0Cj4gPj4KPiAKPiA+PiBkaWZmIC0t
+Z2l0IGEvRG9jdW1lbnRhdGlvbi9zdGFnaW5nL25ldGxpbmstYXR0cnMtYmVzdC1wcmFjdGljZXMu
+cnN0IGIvRG9jdW1lbnRhdGlvbi9zdGFnaW5nL25ldGxpbmstYXR0cnMtYmVzdC1wcmFjdGljZXMu
+cnN0Cj4gPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjdk
+YWM1NjJiZWU0Nwo+ID4+IC0tLSAvZGV2L251bGwKPiA+PiArKysgYi9Eb2N1bWVudGF0aW9uL3N0
+YWdpbmcvbmV0bGluay1hdHRycy1iZXN0LXByYWN0aWNlcy5yc3QKPiA+PiBAQCAtMCwwICsxLDU0
+NCBAQAo+ID4+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQlNELTMtQ2xhdXNlCj4gPj4g
+Kwo+ID4+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiA+PiArTmV0bGluayBB
+dHRyaWJ1dGVzIEJlc3QgUHJhY3RpY2VzCj4gPj4gKz09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PQo+ID4+ICsKPiA+PiArSW50cm9kdWN0aW9uCj4gPj4gKz09PT09PT09PT09PQo+ID4+
+ICsKPiA+PiArVGhpcyBkb2N1bWVudCBzZXJ2ZXMgYXMgYSBndWlkZSB0byB0aGUgYmVzdCBwcmFj
+dGljZXMsIG9yIGNhdXRpb25zLCBmb3IgcGFyc2luZyB1c2VyLXNwYWNlLXByb3ZpZGVkIE5ldGxp
+bmsgYXR0cmlidXRlcyBpbiBrZXJuZWwgc3BhY2UuIFRoZSBpbnRlbmRlZCBhdWRpZW5jZSBpcyB0
+aG9zZSB3aG8gd2FudCB0byBsZXZlcmFnZSB0aGUgcG93ZXJmdWwgTmV0bGluayBpbnRlcmZhY2Ug
+KG1haW5seSBmb3IgY2xhc3NpYyBvciBsZWdhY3kgTmV0bGluayBhbmQgdGhlIGdlbmVyYWwgTmV0
+bGluayB1c2VycyBiYXNpY2FsbHkgZG9uJ3Qgd29ycnkgYWJvdXQgdGhlc2UsIHNlZSBwZW51bHRp
+bWF0ZSBzZWN0aW9uKSBpbiB0aGVpciBjb2RlLiBBZGRpdGlvbmFsbHksIGZvciB0aG9zZSB3aG8g
+YXJlIGN1cmlvdXMgYWJvdXQgdGhlIHBhcnNpbmcgb2YgTmV0bGluayBhdHRyaWJ1dGVzIGJ1dCBt
+YXkgZmVlbCBhcHByZWhlbnNpdmUgYWJvdXQgZGVsdmluZyBpbnRvIHRoZSBjb2RlIGl0c2VsZiwg
+dGhpcyBkb2N1bWVudCBjYW4gc2VydmUgYXMgYW4gZXhjZWxsZW50IHN0YXJ0aW5nIHBvaW50Lgo+
+ID4gCj4gPiBJIHRoaW5rIGl0IGlzIG5vcm1hbCB0byBsaW5ld3JhcCByc3QgZG9jdW1lbnRhdGlv
+bi4KPiA+IEF0IDw4MCBjb2x1bW5zIHdvdWxkIGJlIGJlc3QgSU1ITy4KPiAKPiBhYnNvbHV0ZWx5
+Lgo+IAo+ID4gCj4gPj4gKwo+ID4+ICtIb3dldmVyLCBpZiB5b3UgYXJlIGNvbmNlcm5lZCBhYm91
+dCBob3cgdG8gcHJlcGFyZSBOZXRsaW5rIG1lc3NhZ2VzIGZyb20gYSB1c2VyIHNwYWNlIHNvY2tl
+dCBpbnN0ZWFkIG9mIHdyaXRpbmcga2VybmVsIGNvZGUsIGl0IGlzIHJlY29tbWVuZGVkIHRvIHJl
+YWQgdGhlIGBOZXRsaW5rIEhhbmRib29rIDxodHRwczovL2RvY3Mua2VybmVsLm9yZy91c2Vyc3Bh
+Y2UtYXBpL25ldGxpbmsvaW50cm8uaHRtbD5gXyBmaXJzdC4KPiA+PiArCj4gPj4gK0JhY2tncm91
+bmQKPiA+PiArPT09PT09PT09PQo+ID4+ICsKPiA+PiArRGF0YSBTdHJ1Y3R1cmVzCj4gPj4gKy0t
+LS0tLS0tLS0tLS0tLQo+ID4+ICsKPiA+PiArU28gd2hhdCBpcyBhIE5ldGxpbmsgYXR0cmlidXRl
+PyBJbiBzaW1wbGUgdGVybXMsICoqdGhlIE5ldGxpbmsgYXR0cmlidXRlIGlzIHRoZSBzdHJ1Y3R1
+cmFsIHBheWxvYWQgY2FycmllZCBieSB0aGUgTmV0bGluayBtZXNzYWdlIGluIFRMViAoVHlwZS1M
+ZW5ndGgtVmFsdWUpIGZvcm1hdCoqIChBdCBsZWFzdCBpdCBpcyBzdWdnZXN0ZWQgdG8gZG8gc28p
+LiBPbmUgY2FuIHN0cmFpZ2h0bHkgcmVhZCB0aGUgY29tbWVudCBhbmQgdGhlIGNvZGUgaW4gYGBp
+bmNsdWRlL25ldC9uZXRsaW5rLmhgYCAobW9zdCBvZiB0aGUgYmVsb3cgY29udGVudCBpcyBkZXJp
+dmVkIGZyb20gdGhlcmUpLiBUaGUgZm9sbG93aW5nIGdyYXBoIGRlbW9uc3RyYXRlcyB0aGUgc3Ry
+dWN0dXJlIGZvciB0aGUgbWFqb3JpdHkgb2YgbWVzc2FnZXMuCj4gPiAKPiA+IFN1Z2dlc3Rpb246
+Cj4gPiAKPiA+ICogc3RyYWlnaHRseSAtPiBkaXJlY3RseTsgb3IsIHBlcmhhcHMgYmV0dGVyCj4g
+PiAgIG9uZSBjYW4gc3RyYWlnaHRseSAtPiBvbmUgY2FuCj4gPiAKPiA+PiArCj4gPj4gKy4uIGNv
+ZGUtYmxvY2s6Ogo+ID4+ICsKPiA+PiArICAgKy0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0t
+LSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4+ICsgICB8IE5ldGxpbmsgTXNnIEhkciB8
+IEZhbWlseSBIZHIgfCAgTmV0bGluayBBdHRyaWJ1dGVzICAuLi4KPiA+PiArICAgKy0tLS0tLS0t
+LS0tLS0tLS0tKy0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4+ICsg
+ICAgICAgICAgICAgICAgICAgICBeICAgICAgICAgICAgXgo+ID4+ICsKPiA+PiArVGhlIGBgXmBg
+IHBhcnQgd2lsbCBiZSBwYWRkZWQgdG8gYWxpZ24gdG8gYGBOTE1TR19BTElHTlRPYGAgKDQgYnl0
+ZXMgZm9yIHRoZSBMaW51eCBrZXJuZWwpLgo+ID4+ICsKPiA+PiArVGhlIHRlcm0gKiptYWpvcml0
+eSoqIGlzIHVzZWQgaGVyZSBiZWNhdXNlIHRoZSBzdHJ1Y3R1cmUgaXMgZGVwZW5kZW50IG9uIHRo
+ZSBzcGVjaWZpYyBOZXRsaW5rIGZhbWlseSB5b3UgYXJlIGRlYWxpbmcgd2l0aC4gRm9yIGV4YW1w
+bGUsIHRoZSBnZW5lcmFsIE5ldGxpbmsgZmFtaWx5IChORVRMSU5LX0dFTkVSSUMpIHB1dHMgYGBz
+dHJ1Y3QgZ2VubG1zZ2hkcmBgIGluIHRoZSBGYW1pbHkgSGRyIGxvY2F0aW9uIGFuZCBpcyBzdHJp
+Y3RseSBmb2xsb3dlZCBieSBzcGVjaWZpZWQgTmV0bGluayBhdHRyaWJ1dGVzIFRMVi4gRGlmZmVy
+ZW50bHksIHRoZSBjb25uZWN0b3IgTmV0bGluayBmYW1pbHkgKE5FVExJTktfQ09OTkVDVE9SKSBk
+b2VzIG5vdCB1c2UgTmV0bGluayBhdHRyaWJ1dGVzIGZvciB0cmFuc2l0aW5nIHRoZSBwYXlsb2Fk
+LCBidXQgc3RyYWlnaHQgcGxhY2VzIG5ha2VkIGRhdGEgc3RydWN0dXJlIGFmdGVyIGl0cyBmYW1p
+bHkgaGVhZGVyIGBgc3RydWN0IGNuX21zZ2BgLiBJbiBnZW5lcmFsLCB3aGVuIHdvcmtpbmcgd2l0
+aCBOZXRsaW5rLXBvd2VyZWQgY29kZSwgbW9zdCBkZXZlbG9wZXJzIG9wdCBmb3IgTmV0bGluayBh
+dHRyaWJ1dGVzIGR1ZSB0byB0aGVpciBjb252ZW5pZW5jZSBhbmQgZWFzZSBvZiBtYWludGVuYW5j
+ZS4gVGhpcyBtZWFucyBpcyBkZWZpbml0ZWx5IG9rYXkgdG8gb3Zlcmxvb2sgdGhlIGNvcm5lciBj
+YXNlcyB3aGljaCBtYXkgZXZlbnR1YWxseSBiZSBpbmNvcnBvcmF0ZWQgaW50byBOZXRsaW5rIGF0
+dHJpYnV0ZXMgaW4gdGhlIGZ1dHVyZS4KPiA+IAo+ID4gU3VnZ2VzdGlvbnM6Cj4gPiAKPiA+ICog
+IkRpZmZlcmVudGx5LCB0aGUgY29ubmVjdG9yIgo+ID4gICAtPiBBcyBhIGNvdW50ZXIgZXhhbXBs
+ZSwgdGhlIGNvbm5lY3RvciIKPiAKPiBzL2NvdW50ZXIgZXhhbXBsZS9jb3VudGVyZXhhbXBsZS8K
+PiAKPiA+IAo+ID4gKiAiYnV0IHN0cmFpZ2h0IHBsYWNlcyBuYWtlZCBkYXRhIHN0cnVjdHVyZSBh
+ZnRlciBpdHMgZmFtaWx5IGhlYWRlciIKPiA+ICAgLT4gImJ1dCwgcmF0aGVyLCBwbGFjZXMgYSBu
+YWtlZCBkYXRhIHN0cnVjdHVyZSBpbW1lZGlhdGVseSBhZnRlciBpdHMKPiA+ICAgICAgIGZhbWls
+eSBoZWFkZXIiCj4gPiAKPiA+IAo+ID4+ICsKPiA+PiArVGhlIE5ldGxpbmsgYXR0cmlidXRlIGlu
+IHRoZSBMaW51eCBrZXJuZWwgY29uZm9ybXMgdG8gdGhlIGZvbGxvd2luZyBzdHJ1Y3R1cmUuCj4g
+Pj4gKwo+ID4+ICsuLiBjb2RlLWJsb2NrOjogYwo+ID4+ICsKPiA+PiArICAgLy8gPi0tLS0tLS0g
+bmxhIGhlYWRlciAtLS0tLS0tLTwKPiA+PiArICAgLy8gKy0tLS0tLS0tLS0tLS0rLS0tLS0tLS0t
+LS0tLSstLS0tLS0tLS0tLSAtIC0gLSAtLS0tLS0tLS0tKwo+ID4+ICsgICAvLyB8ICBBdHRyIExl
+biAgIHwgIEF0dHIgVHlwZSAgfCAgICAgICAgICBBdHRyIERhdGEgICAgICAgICB8Cj4gPj4gKyAg
+IC8vICstLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0gLSAtIC0gLS0tLS0t
+LS0tLSsKPiA+PiArICAgLy8gPi0tIDIgYnl0ZXMgLS18LS0gMiBieXRlcyAtLXwtLS0tLS0gQXR0
+ciBMZW4gYnl0ZXMgLS0tLS0tPAo+ID4+ICsKPiA+PiArICAgc3RydWN0IG5sYXR0ciB7Cj4gPj4g
+KyAgICAgICBfX3UxNiAgICAgICAgICAgbmxhX2xlbjsKPiA+PiArICAgICAgIF9fdTE2ICAgICAg
+ICAgICBubGFfdHlwZTsKPiA+PiArICAgfTsKPiA+PiArCj4gPj4gK1RoZSAyIGJ5dGVzIGF0dHIg
+bGVuIChcIGBgbmxhX2xlbmBgXCApIGluZGljYXRlcyB0aGUgZW50aXJlIGF0dHJpYnV0ZSBsZW5n
+dGggKGluY2x1ZGVzIHRoZSBubGEgaGVhZGVyKSBhbmQgdGhlIG90aGVyIDIgYnl0ZXMgYXR0ciB0
+eXBlIChcIGBgbmxhX3R5cGVgYFwgKSBpcyB1c2VkIGJ5IHRoZSBrZXJuZWwgY29kZSB0byBpZGVu
+dGlmeSB0aGUgZXhwZWN0ZWQgYXR0cmlidXRlLiBUbyBwcm9jZXNzIHRoZXNlIGF0dHJpYnV0ZXMs
+IHRoZSBrZXJuZWwgY29kZSBuZWVkcyB0byBsb2NhdGUgdGhlIHNwZWNpZmljIGF0dHJpYnV0ZSBh
+bmQgZXh0cmFjdCB0aGUgcGF5bG9hZCBmcm9tIGl0LCBhIHByb2Nlc3Mga25vd24gYXMgYXR0cmli
+dXRlIHBhcnNpbmcuIFRoaXMgcHJvY2VkdXJlIGNhbiBiZSB0ZWRpb3VzIGFuZCBlcnJvci1wcm9u
+ZSB3aGVuIGRvbmUgbWFudWFsbHksIHNvIHRoZSBpbnRlcmZhY2UgcHJvdmlkZXMgcGFyc2VycyB0
+byBzaW1wbGlmeSB0aGUgcHJvY2Vzcy4KPiA+PiArCj4gPj4gKypJdCBpcyB3b3J0aCBtZW50aW9u
+aW5nIHRoYXQgaWYgeW91IGNob29zZSB0byB1c2UgZ2VuZXJhbCBOZXRsaW5rIHdpdGhvdXQgYSBu
+ZXN0ZWQgZGF0YSBzdHJ1Y3R1cmUsIHlvdSBkb24ndCBldmVuIG5lZWQgdG8gY2FsbCBhbnkgcGFy
+c2VycyBhcyB0aGUgaW50ZXJmYWNlIGFscmVhZHkgZG9lcyB0aGlzIGFuZCB5b3VyIHRhc2sgd2ls
+bCBiZSBzaW1wbGlmaWVkIHRvIGhhbmRsaW5nIHRoZSBwYXJzZWQgcmVzdWx0LioKPiA+PiArCj4g
+Pj4gK1BhcnNlcnMKPiA+PiArLS0tLS0tLQo+ID4+ICsKPiA+PiArVGhlcmUgYXJlIHNldmVyYWwg
+cGFyc2VycyBhdmFpbGFibGUsIGVhY2ggZGVzaWduZWQgdG8gaGFuZGxlIGEgc3BlY2lmaWMgdHlw
+ZSBvZiBvYmplY3QgYmVpbmcgcGFyc2VkLiBJZiB5b3UgaGF2ZSBhIHBvaW50ZXIgdG8gYSBOZXRs
+aW5rIG1lc3NhZ2UsIHNwZWNpZmljYWxseSBhIChcIGBgc3RydWN0IG5sbXNnaGRyICpgYFwgKSwg
+aXQncyBsaWtlbHkgdGhhdCB5b3UnbGwgd2FudCB0byBjYWxsIHRoZSBgYG5sbXNnX3BhcnNlYGAg
+ZnVuY3Rpb24uIFRoZSBwcm90b3R5cGUgZm9yIHRoaXMgZnVuY3Rpb24gaXMgYXMgZm9sbG93czoK
+PiA+PiArCj4gPj4gKy4uIGNvZGUtYmxvY2s6OiBjCj4gPj4gKwo+ID4+ICsgICAvKioKPiA+PiAr
+ICAgICogbmxtc2dfcGFyc2UgLSBwYXJzZSBhdHRyaWJ1dGVzIG9mIGEgbmV0bGluayBtZXNzYWdl
+Cj4gPj4gKyAgICAqIEBubGg6IG5ldGxpbmsgbWVzc2FnZSBoZWFkZXIKPiA+PiArICAgICogQGhk
+cmxlbjogbGVuZ3RoIG9mIGZhbWlseSBzcGVjaWZpYyBoZWFkZXIKPiA+PiArICAgICogQHRiOiBk
+ZXN0aW5hdGlvbiBhcnJheSB3aXRoIG1heHR5cGUrMSBlbGVtZW50cwo+ID4+ICsgICAgKiBAbWF4
+dHlwZTogbWF4aW11bSBhdHRyaWJ1dGUgdHlwZSB0byBiZSBleHBlY3RlZAo+ID4+ICsgICAgKiBA
+cG9saWN5OiB2YWxpZGF0aW9uIHBvbGljeQo+ID4+ICsgICAgKiBAZXh0YWNrOiBleHRlbmRlZCBB
+Q0sgcmVwb3J0IHN0cnVjdAo+ID4+ICsgICAgKgo+ID4+ICsgICAgKiBTZWUgbmxhX3BhcnNlKCkK
+PiA+PiArICAgICovCj4gPj4gKyAgIHN0YXRpYyBpbmxpbmUgaW50IG5sbXNnX3BhcnNlKGNvbnN0
+IHN0cnVjdCBubG1zZ2hkciAqbmxoLCBpbnQgaGRybGVuLAo+ID4+ICsgICAgICAgICAgICAgICAg
+ICAgICBzdHJ1Y3QgbmxhdHRyICp0YltdLCBpbnQgbWF4dHlwZSwKPiA+PiArICAgICAgICAgICAg
+ICAgICAgICAgY29uc3Qgc3RydWN0IG5sYV9wb2xpY3kgKnBvbGljeSwKPiA+PiArICAgICAgICAg
+ICAgICAgICAgICAgc3RydWN0IG5ldGxpbmtfZXh0X2FjayAqZXh0YWNrKTsKPiA+PiArCj4gCj4g
+SW5zdGVhZCBvZiBkdXBsaWNhdGluZyBrZXJuZWwtZG9jIGZ1bmN0aW9uIGNvbW1lbnRzIGhlcmUs
+IGl0IGlzIHByZWZlcmFibGUgdG8gZG8KPiB3aGF0IEpha3ViIGhhcyBzdGFydGVkIHRvIGRvIGxh
+dGVseToKPiAKPiAuLiBrZXJuZWwtZG9jOjogaW5jbHVkZS9saW51eC9uZXRsaW5rLmgKPiAgICA6
+aWRlbnRpZmllcnM6IG5sbXNnX3BhcnNlCj4gCj4gU2FtZSBmb3IgdGhlIGZ1bmN0aW9ucyBiZWxv
+dy4KPiAKPiA+PiArRWxzZSBpZiB5b3UgaGF2ZSBhIHBvaW50ZXIgdG8gTmV0bGluayBhdHRyaWJ1
+dGUgKFwgYGBzdHJ1Y3QgbmxhdHRyICpgYFwgKSBhbHJlYWR5LCB0aGUgYGBubGFfcGFyc2VgYFwg
+LCBvciAgYGBubGFfcGFyc2VfbmVzdGVkYGAgY291bGQgYmUgeW91ciBjaG9pY2VzLgo+ID4gCj4g
+PiBTdWdnZXN0aW9uczoKPiA+IAo+ID4gICAqIEVsc2UgLT4gT3RoZXJ3aXNlLAo+ID4gICAqICJj
+b3VsZCBiZSB5b3VyIGNob2ljZXMiIC0+ICJtYXkgIGJlIHVzZWQiCj4gPiAKPiA+PiArCj4gPj4g
+Ky4uIGNvZGUtYmxvY2s6OiBjCj4gPj4gKwo+ID4+ICsgICAvKioKPiA+PiArICAgICogbmxhX3Bh
+cnNlIC0gUGFyc2UgYSBzdHJlYW0gb2YgYXR0cmlidXRlcyBpbnRvIGEgdGIgYnVmZmVyCj4gPj4g
+KyAgICAqIEB0YjogZGVzdGluYXRpb24gYXJyYXkgd2l0aCBtYXh0eXBlKzEgZWxlbWVudHMKPiA+
+PiArICAgICogQG1heHR5cGU6IG1heGltdW0gYXR0cmlidXRlIHR5cGUgdG8gYmUgZXhwZWN0ZWQK
+PiA+PiArICAgICogQGhlYWQ6IGhlYWQgb2YgYXR0cmlidXRlIHN0cmVhbQo+ID4+ICsgICAgKiBA
+bGVuOiBsZW5ndGggb2YgYXR0cmlidXRlIHN0cmVhbQo+ID4+ICsgICAgKiBAcG9saWN5OiB2YWxp
+ZGF0aW9uIHBvbGljeQo+ID4+ICsgICAgKiBAZXh0YWNrOiBleHRlbmRlZCBBQ0sgcG9pbnRlcgo+
+ID4+ICsgICAgKgo+ID4+ICsgICAgKiBQYXJzZXMgYSBzdHJlYW0gb2YgYXR0cmlidXRlcyBhbmQg
+c3RvcmVzIGEgcG9pbnRlciB0byBlYWNoIGF0dHJpYnV0ZSBpbgo+ID4+ICsgICAgKiB0aGUgdGIg
+YXJyYXkgYWNjZXNzaWJsZSB2aWEgdGhlIGF0dHJpYnV0ZSB0eXBlLiBBdHRyaWJ1dGVzIHdpdGgg
+YSB0eXBlCj4gPj4gKyAgICAqIGV4Y2VlZGluZyBtYXh0eXBlIHdpbGwgYmUgcmVqZWN0ZWQsIHBv
+bGljeSBtdXN0IGJlIHNwZWNpZmllZCwgYXR0cmlidXRlcwo+ID4+ICsgICAgKiB3aWxsIGJlIHZh
+bGlkYXRlZCBpbiB0aGUgc3RyaWN0ZXN0IHdheSBwb3NzaWJsZS4KPiA+PiArICAgICoKPiA+PiAr
+ICAgICogUmV0dXJucyAwIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBlcnJvciBjb2RlLgo+ID4+
+ICsgICAgKi8KPiA+PiArICAgc3RhdGljIGlubGluZSBpbnQgbmxhX3BhcnNlKHN0cnVjdCBubGF0
+dHIgKip0YiwgaW50IG1heHR5cGUsCj4gPj4gKyAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1
+Y3QgbmxhdHRyICpoZWFkLCBpbnQgbGVuLAo+ID4+ICsgICAgICAgICAgICAgICAgICAgY29uc3Qg
+c3RydWN0IG5sYV9wb2xpY3kgKnBvbGljeSwKPiA+PiArICAgICAgICAgICAgICAgICAgIHN0cnVj
+dCBuZXRsaW5rX2V4dF9hY2sgKmV4dGFjayk7Cj4gPj4gKyAgIC8qKgo+ID4+ICsgICAgKiBubGFf
+cGFyc2VfbmVzdGVkIC0gcGFyc2UgbmVzdGVkIGF0dHJpYnV0ZXMKPiA+PiArICAgICogQHRiOiBk
+ZXN0aW5hdGlvbiBhcnJheSB3aXRoIG1heHR5cGUrMSBlbGVtZW50cwo+ID4+ICsgICAgKiBAbWF4
+dHlwZTogbWF4aW11bSBhdHRyaWJ1dGUgdHlwZSB0byBiZSBleHBlY3RlZAo+ID4+ICsgICAgKiBA
+bmxhOiBhdHRyaWJ1dGUgY29udGFpbmluZyB0aGUgbmVzdGVkIGF0dHJpYnV0ZXMKPiA+PiArICAg
+ICogQHBvbGljeTogdmFsaWRhdGlvbiBwb2xpY3kKPiA+PiArICAgICogQGV4dGFjazogZXh0ZW5k
+ZWQgQUNLIHJlcG9ydCBzdHJ1Y3QKPiA+PiArICAgICoKPiA+PiArICAgICogU2VlIG5sYV9wYXJz
+ZSgpCj4gPj4gKyAgICAqLwo+ID4+ICsgICBzdGF0aWMgaW5saW5lIGludCBubGFfcGFyc2VfbmVz
+dGVkKHN0cnVjdCBubGF0dHIgKnRiW10sIGludCBtYXh0eXBlLAo+ID4+ICsgICAgICAgICAgICAg
+ICAgICAgICAgY29uc3Qgc3RydWN0IG5sYXR0ciAqbmxhLAo+ID4+ICsgICAgICAgICAgICAgICAg
+ICAgICAgY29uc3Qgc3RydWN0IG5sYV9wb2xpY3kgKnBvbGljeSwKPiA+PiArICAgICAgICAgICAg
+ICAgICAgICAgIHN0cnVjdCBuZXRsaW5rX2V4dF9hY2sgKmV4dGFjayk7Cj4gPj4gKwo+ID4+ICtV
+cG9uIGNsb3NlciBpbnNwZWN0aW9uLCBvbmUgd2lsbCBub3RpY2UgdGhhdCB0aGUgcGFyYW1ldGVy
+cyBmb3IgdGhlIHZhcmlvdXMgcGFyc2VycyBiZWFyIGEgc3RyaWtpbmcgcmVzZW1ibGFuY2UgdG8g
+b25lIGFub3RoZXIuIEluIGZhY3QsIHRoZXkgc2hhcmUgYSBjb21tb25hbGl0eSB0aGF0IGdvZXMg
+YmV5b25kIG1lcmUgY29pbmNpZGVuY2UsIGFzIHRoZXkgYWxsIHVsdGltYXRlbHkgY2FsbCB1cG9u
+IHRoZSBzYW1lIGludGVybmFsIHBhcnNpbmcgaGVscGVyIGZ1bmN0aW9uLCBuYW1lbHkgYGBfX25s
+YV9wYXJzZWBgLgo+ID4+ICsKPiA+PiArLi4gY29kZS1ibG9jazo6IGMKPiA+PiArCj4gPj4gKyAg
+IGludCBfX25sYV9wYXJzZShzdHJ1Y3QgbmxhdHRyICoqdGIsIGludCBtYXh0eXBlLCBjb25zdCBz
+dHJ1Y3QgbmxhdHRyICpoZWFkLAo+ID4+ICsgICAgICAgICAgIGludCBsZW4sIGNvbnN0IHN0cnVj
+dCBubGFfcG9saWN5ICpwb2xpY3ksIHVuc2lnbmVkIGludCB2YWxpZGF0ZSwKPiA+PiArICAgICAg
+ICAgICBzdHJ1Y3QgbmV0bGlua19leHRfYWNrICpleHRhY2spOwo+ID4+ICsKPiA+PiArVGhlIGlk
+ZWEgaXMgc3RyYWlnaHRmb3J3YXJkIHNpbmNlIHdlIGtub3cgdGhhdCBhZGRpbmcgYW4gb2Zmc2V0
+IHRvIGVpdGhlciB0aGUgTmV0bGluayBtZXNzYWdlIGhlYWRlciBvciB0aGUgbmVzdGVkIGF0dHJp
+YnV0ZSB3aWxsIHlpZWxkIHRoZSBUTFYgZm9ybWF0IG9mIHRoZSBhdHRyaWJ1dGVzLiBPbiB0aGlz
+IGJhc2lzLCB3ZSB3aWxsIGxlYXJuIGhvdyB0byB1dGlsaXplIHRob3NlIHBhcnNlcnMuCj4gCj4g
+W3NuaXBdCj4gCj4gLS0gCj4gflJhbmR5CgpDb29sLCB0aGFua3MgZm9yIHRoZXNlIGF3ZXNvbWUg
+c3VnZ2VzdGlvbnMuIEkgd2lsbCBpbmNvcnBvcmF0ZSB0aGVtIGFuZCAKcHJlcGFyZSB0aGUgbmV4
+dCB2ZXJzaW9uIHRvbW9ycm93LCBUaGFua3MhCgpSZWdhcmRzCkxpbgoK
