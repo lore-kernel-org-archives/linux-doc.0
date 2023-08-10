@@ -2,267 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FF1C04E69
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 15:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA2FC04A6A
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 15:53:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233512AbjHJPfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Aug 2023 11:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51626 "EHLO
+        id S230434AbjHJPxo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Aug 2023 11:53:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236161AbjHJPeu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 11:34:50 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BF626B9;
-        Thu, 10 Aug 2023 08:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=uiaKz3kmyqwtAsQ+m4lUcc+XfUWQizMTAyHXudFCUts=; b=0sTFD2dobCfvkVdaYNYksGeWwS
-        HC6JZ9QkLai4kzPXbkiRtm16EzeWVs+tVyLDP4kBh8SlecZusjhk+OpisNGLRQaBiFDCMYnSm28Se
-        DVDwp3WQaX0Cu5locixK+8lkY67YkcRWyHyKtUqCGTAOziOJL6kTCeajFx+5VTR7gglenD7BOISSt
-        3NVl+rouExtOxMABAc2hcs2sJz/ot1mexFFNYf7fGQFz4IsGbtVZJNfvfuiRndwB7ctCsRxm5mlm5
-        DM3OuabbfMN6WB1QTYIiDH8w+2TZYaprnPDcvv0syy+HjWND+QJOixAbUo9VWVj4M6CKjhUSZOHzi
-        w6uEfmbA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qU7gH-0083T7-2V;
-        Thu, 10 Aug 2023 15:34:33 +0000
-Message-ID: <0d0ed95c-1ad4-25b1-fa6a-c432b7b0c9f4@infradead.org>
-Date:   Thu, 10 Aug 2023 08:34:32 -0700
+        with ESMTP id S236262AbjHJPxl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 11:53:41 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5573A1994;
+        Thu, 10 Aug 2023 08:53:40 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59F86D75;
+        Thu, 10 Aug 2023 08:54:22 -0700 (PDT)
+Received: from [10.1.27.169] (XHFQ2J9959.cambridge.arm.com [10.1.27.169])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A0653F6C4;
+        Thu, 10 Aug 2023 08:53:35 -0700 (PDT)
+Message-ID: <8fbb5965-28f7-4e9a-ac04-1406ed8fc2d4@arm.com>
+Date:   Thu, 10 Aug 2023 16:53:33 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v2] docs: staging: add netlink attrs best practices
-Content-Language: en-US
-To:     Simon Horman <horms@kernel.org>, Lin Ma <linma@zju.edu.cn>
-Cc:     corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, void@manifault.com,
-        jani.nikula@intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-References: <20230809032552.765663-1-linma@zju.edu.cn>
- <ZNTw+ApPS9U4VhZI@vergenet.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZNTw+ApPS9U4VhZI@vergenet.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-unstable fix] mm: userfaultfd: check for start + len
+ overflow in validate_range: fix
+Content-Language: en-GB
+To:     Axel Rasmussen <axelrasmussen@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "T.J. Alumbaugh" <talumbau@google.com>,
+        Yu Zhao <yuzhao@google.com>,
+        ZhangPeng <zhangpeng362@huawei.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        syzbot+42309678e0bc7b32f8e9@syzkaller.appspotmail.com
+References: <20230714182932.2608735-1-axelrasmussen@google.com>
+From:   Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <20230714182932.2608735-1-axelrasmussen@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 14/07/2023 19:29, Axel Rasmussen wrote:
+> This commit removed an extra check for zero-length ranges, and folded it
+> into the common validate_range() helper used by all UFFD ioctls.
+> 
+> It failed to notice though that UFFDIO_COPY *only* called validate_range
+> on the dst range, not the src range. So removing this check actually let
+> us proceed with zero-length source ranges, eventually hitting a BUG
+> further down in the call stack.
+> 
+> The correct fix seems clear: call validate_range() on the src range too.
+> 
+> Other ioctls are not affected by this, as they only have one range, not
+> two (src + dst).
+> 
+> Reported-by: syzbot+42309678e0bc7b32f8e9@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=42309678e0bc7b32f8e9
+> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> ---
+>  fs/userfaultfd.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> index 53a7220c4679..36d233759233 100644
+> --- a/fs/userfaultfd.c
+> +++ b/fs/userfaultfd.c
+> @@ -1759,6 +1759,9 @@ static int userfaultfd_copy(struct userfaultfd_ctx *ctx,
+>  			   sizeof(uffdio_copy)-sizeof(__s64)))
+>  		goto out;
+>  
+> +	ret = validate_range(ctx->mm, uffdio_copy.src, uffdio_copy.len);
+> +	if (ret)
+> +		goto out;
+>  	ret = validate_range(ctx->mm, uffdio_copy.dst, uffdio_copy.len);
+>  	if (ret)
+>  		goto out;
 
 
-On 8/10/23 07:15, Simon Horman wrote:
-> On Wed, Aug 09, 2023 at 11:25:52AM +0800, Lin Ma wrote:
->> Provide some suggestions that who deal with Netlink code could follow
->> (of course using the word "best-practices" may sound somewhat
->> exaggerate).
->>
->> According to my recent practices, the parsing of the Netlink attributes
->> lacks documents for kernel developers. Since recently the relevant docs
->> for Netlink user space get replenished, I guess is a good chance for
->> kernel space part to catch with.
->>
->> First time to write a document and any reviews are appreciated.
->>
->> Signed-off-by: Lin Ma <linma@zju.edu.cn>
-> 
-> Thanks for writing this up, from my perspective this is very useful.
-> 
-> Some trivial feedback follows.
-> 
->> ---
->> v1 -> v2: fix some typos in FOO example,
->>           add extra section "About General Netlink Case" to avoid any
->>           confusion for new code users.
->>
->>  Documentation/staging/index.rst               |   1 +
->>  .../staging/netlink-attrs-best-practices.rst  | 544 ++++++++++++++++++
->>  MAINTAINERS                                   |   1 +
-> 
-> Perhaps this was discussed earlier.
-> But I'm curious to know if there is a preference for putting
-> this into staging rather than networking or elsewhere.
+Hi Axel,
 
-I don't know of any reason for it to be in staging. If there is one,
-I would like to hear about it.
+I've just noticed that this patch, now in mm-unstable, regresses the mkdirty mm
+selftest:
 
->>  3 files changed, 546 insertions(+)
->>  create mode 100644 Documentation/staging/netlink-attrs-best-practices.rst
->>
+# [INFO] detected THP size: 2048 KiB
+TAP version 13
+1..6
+# [INFO] PTRACE write access
+ok 1 SIGSEGV generated, page not modified
+# [INFO] PTRACE write access to THP
+ok 2 SIGSEGV generated, page not modified
+# [INFO] Page migration
+ok 3 SIGSEGV generated, page not modified
+# [INFO] Page migration of THP
+ok 4 SIGSEGV generated, page not modified
+# [INFO] PTE-mapping a THP
+ok 5 SIGSEGV generated, page not modified
+# [INFO] UFFDIO_COPY
+not ok 6 UFFDIO_COPY failed
+Bail out! 1 out of 6 tests failed
+# Totals: pass:5 fail:1 xfail:0 xpass:0 skip:0 error:0
 
->> diff --git a/Documentation/staging/netlink-attrs-best-practices.rst b/Documentation/staging/netlink-attrs-best-practices.rst
->> new file mode 100644
->> index 000000000000..7dac562bee47
->> --- /dev/null
->> +++ b/Documentation/staging/netlink-attrs-best-practices.rst
->> @@ -0,0 +1,544 @@
->> +.. SPDX-License-Identifier: BSD-3-Clause
->> +
->> +=================================
->> +Netlink Attributes Best Practices
->> +=================================
->> +
->> +Introduction
->> +============
->> +
->> +This document serves as a guide to the best practices, or cautions, for parsing user-space-provided Netlink attributes in kernel space. The intended audience is those who want to leverage the powerful Netlink interface (mainly for classic or legacy Netlink and the general Netlink users basically don't worry about these, see penultimate section) in their code. Additionally, for those who are curious about the parsing of Netlink attributes but may feel apprehensive about delving into the code itself, this document can serve as an excellent starting point.
-> 
-> I think it is normal to linewrap rst documentation.
-> At <80 columns would be best IMHO.
+Whereas all 6 tests pass against v6.5-rc4.
 
-absolutely.
+I'm afraid I don't know the test well and haven't looked at what the issue might
+be, but noticed and thought I should point it out.
 
-> 
->> +
->> +However, if you are concerned about how to prepare Netlink messages from a user space socket instead of writing kernel code, it is recommended to read the `Netlink Handbook <https://docs.kernel.org/userspace-api/netlink/intro.html>`_ first.
->> +
->> +Background
->> +==========
->> +
->> +Data Structures
->> +---------------
->> +
->> +So what is a Netlink attribute? In simple terms, **the Netlink attribute is the structural payload carried by the Netlink message in TLV (Type-Length-Value) format** (At least it is suggested to do so). One can straightly read the comment and the code in ``include/net/netlink.h`` (most of the below content is derived from there). The following graph demonstrates the structure for the majority of messages.
-> 
-> Suggestion:
-> 
-> * straightly -> directly; or, perhaps better
->   one can straightly -> one can
-> 
->> +
->> +.. code-block::
->> +
->> +   +-----------------+------------+--------------------------
->> +   | Netlink Msg Hdr | Family Hdr |  Netlink Attributes  ...
->> +   +-----------------+------------+--------------------------
->> +                     ^            ^
->> +
->> +The ``^`` part will be padded to align to ``NLMSG_ALIGNTO`` (4 bytes for the Linux kernel).
->> +
->> +The term **majority** is used here because the structure is dependent on the specific Netlink family you are dealing with. For example, the general Netlink family (NETLINK_GENERIC) puts ``struct genlmsghdr`` in the Family Hdr location and is strictly followed by specified Netlink attributes TLV. Differently, the connector Netlink family (NETLINK_CONNECTOR) does not use Netlink attributes for transiting the payload, but straight places naked data structure after its family header ``struct cn_msg``. In general, when working with Netlink-powered code, most developers opt for Netlink attributes due to their convenience and ease of maintenance. This means is definitely okay to overlook the corner cases which may eventually be incorporated into Netlink attributes in the future.
-> 
-> Suggestions:
-> 
-> * "Differently, the connector"
->   -> As a counter example, the connector"
+bisect log:
 
-s/counter example/counterexample/
+git bisect start
+# bad: [ad3232df3e410acc2229c9195479c5596c1d1f96] mm/memory_hotplug: embed
+vmem_altmap details in memory block
+git bisect bad ad3232df3e410acc2229c9195479c5596c1d1f96
+# good: [5d0c230f1de8c7515b6567d9afba1f196fb4e2f4] Linux 6.5-rc4
+git bisect good 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
+# bad: [aa5712770e3f0edb31ae879cd6452d5c2111d4fb] mm: fix obsolete function name
+above debug_pagealloc_enabled_static()
+git bisect bad aa5712770e3f0edb31ae879cd6452d5c2111d4fb
+# bad: [bef1ff8723df303a06cdaffe64d95db2f7e7d4f6] mm: userfaultfd: support
+UFFDIO_POISON for hugetlbfs
+git bisect bad bef1ff8723df303a06cdaffe64d95db2f7e7d4f6
+# good: [4f4469463e8571012d2602b39f14ed3e3dbd972a] selftests/mm: add gup test
+matrix in run_vmtests.sh
+git bisect good 4f4469463e8571012d2602b39f14ed3e3dbd972a
+# good: [5c0d69839ef4f560679919f3483a592741df74f8] memcg: drop kmem.limit_in_bytes
+git bisect good 5c0d69839ef4f560679919f3483a592741df74f8
+# good: [b75f155a299729dc62de0ce6a9400d076298aa4c] mm: compaction: skip the
+memory hole rapidly when isolating free pages
+git bisect good b75f155a299729dc62de0ce6a9400d076298aa4c
+# good: [12b13121d9f4487301dd9fb765265b642b2f6d5d] mm/memcg: minor cleanup for
+MEM_CGROUP_ID_MAX
+git bisect good 12b13121d9f4487301dd9fb765265b642b2f6d5d
+# bad: [c9c368e75919c105aae072896e58d0ad4639e505] mm: userfaultfd: check for
+start + len overflow in validate_range: fix
+git bisect bad c9c368e75919c105aae072896e58d0ad4639e505
+# good: [9e707995021bbdfc67ad83a985f7796bba580bed]
+mm-make-pte_marker_swapin_error-more-general-fix
+git bisect good 9e707995021bbdfc67ad83a985f7796bba580bed
+# good: [46b66377b696c43c89ed4b1cb3f56b64e8fd475b] mm: userfaultfd: check for
+start + len overflow in validate_range
+git bisect good 46b66377b696c43c89ed4b1cb3f56b64e8fd475b
+# first bad commit: [c9c368e75919c105aae072896e58d0ad4639e505] mm: userfaultfd:
+check for start + len overflow in validate_range: fix
 
-> 
-> * "but straight places naked data structure after its family header"
->   -> "but, rather, places a naked data structure immediately after its
->       family header"
-> 
-> 
->> +
->> +The Netlink attribute in the Linux kernel conforms to the following structure.
->> +
->> +.. code-block:: c
->> +
->> +   // >------- nla header --------<
->> +   // +-------------+-------------+----------- - - - ----------+
->> +   // |  Attr Len   |  Attr Type  |          Attr Data         |
->> +   // +-------------+-------------+----------- - - - ----------+
->> +   // >-- 2 bytes --|-- 2 bytes --|------ Attr Len bytes ------<
->> +
->> +   struct nlattr {
->> +       __u16           nla_len;
->> +       __u16           nla_type;
->> +   };
->> +
->> +The 2 bytes attr len (\ ``nla_len``\ ) indicates the entire attribute length (includes the nla header) and the other 2 bytes attr type (\ ``nla_type``\ ) is used by the kernel code to identify the expected attribute. To process these attributes, the kernel code needs to locate the specific attribute and extract the payload from it, a process known as attribute parsing. This procedure can be tedious and error-prone when done manually, so the interface provides parsers to simplify the process.
->> +
->> +*It is worth mentioning that if you choose to use general Netlink without a nested data structure, you don't even need to call any parsers as the interface already does this and your task will be simplified to handling the parsed result.*
->> +
->> +Parsers
->> +-------
->> +
->> +There are several parsers available, each designed to handle a specific type of object being parsed. If you have a pointer to a Netlink message, specifically a (\ ``struct nlmsghdr *``\ ), it's likely that you'll want to call the ``nlmsg_parse`` function. The prototype for this function is as follows:
->> +
->> +.. code-block:: c
->> +
->> +   /**
->> +    * nlmsg_parse - parse attributes of a netlink message
->> +    * @nlh: netlink message header
->> +    * @hdrlen: length of family specific header
->> +    * @tb: destination array with maxtype+1 elements
->> +    * @maxtype: maximum attribute type to be expected
->> +    * @policy: validation policy
->> +    * @extack: extended ACK report struct
->> +    *
->> +    * See nla_parse()
->> +    */
->> +   static inline int nlmsg_parse(const struct nlmsghdr *nlh, int hdrlen,
->> +                     struct nlattr *tb[], int maxtype,
->> +                     const struct nla_policy *policy,
->> +                     struct netlink_ext_ack *extack);
->> +
+Thanks,
+Ryan
 
-Instead of duplicating kernel-doc function comments here, it is preferable to do
-what Jakub has started to do lately:
-
-.. kernel-doc:: include/linux/netlink.h
-   :identifiers: nlmsg_parse
-
-Same for the functions below.
-
->> +Else if you have a pointer to Netlink attribute (\ ``struct nlattr *``\ ) already, the ``nla_parse``\ , or  ``nla_parse_nested`` could be your choices.
-> 
-> Suggestions:
-> 
->   * Else -> Otherwise,
->   * "could be your choices" -> "may  be used"
-> 
->> +
->> +.. code-block:: c
->> +
->> +   /**
->> +    * nla_parse - Parse a stream of attributes into a tb buffer
->> +    * @tb: destination array with maxtype+1 elements
->> +    * @maxtype: maximum attribute type to be expected
->> +    * @head: head of attribute stream
->> +    * @len: length of attribute stream
->> +    * @policy: validation policy
->> +    * @extack: extended ACK pointer
->> +    *
->> +    * Parses a stream of attributes and stores a pointer to each attribute in
->> +    * the tb array accessible via the attribute type. Attributes with a type
->> +    * exceeding maxtype will be rejected, policy must be specified, attributes
->> +    * will be validated in the strictest way possible.
->> +    *
->> +    * Returns 0 on success or a negative error code.
->> +    */
->> +   static inline int nla_parse(struct nlattr **tb, int maxtype,
->> +                   const struct nlattr *head, int len,
->> +                   const struct nla_policy *policy,
->> +                   struct netlink_ext_ack *extack);
->> +   /**
->> +    * nla_parse_nested - parse nested attributes
->> +    * @tb: destination array with maxtype+1 elements
->> +    * @maxtype: maximum attribute type to be expected
->> +    * @nla: attribute containing the nested attributes
->> +    * @policy: validation policy
->> +    * @extack: extended ACK report struct
->> +    *
->> +    * See nla_parse()
->> +    */
->> +   static inline int nla_parse_nested(struct nlattr *tb[], int maxtype,
->> +                      const struct nlattr *nla,
->> +                      const struct nla_policy *policy,
->> +                      struct netlink_ext_ack *extack);
->> +
->> +Upon closer inspection, one will notice that the parameters for the various parsers bear a striking resemblance to one another. In fact, they share a commonality that goes beyond mere coincidence, as they all ultimately call upon the same internal parsing helper function, namely ``__nla_parse``.
->> +
->> +.. code-block:: c
->> +
->> +   int __nla_parse(struct nlattr **tb, int maxtype, const struct nlattr *head,
->> +           int len, const struct nla_policy *policy, unsigned int validate,
->> +           struct netlink_ext_ack *extack);
->> +
->> +The idea is straightforward since we know that adding an offset to either the Netlink message header or the nested attribute will yield the TLV format of the attributes. On this basis, we will learn how to utilize those parsers.
-
-[snip]
-
--- 
-~Randy
