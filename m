@@ -2,173 +2,203 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA2FC04A6A
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 15:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF28C41513
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 16:07:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbjHJPxo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Aug 2023 11:53:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50012 "EHLO
+        id S236683AbjHJQHr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Aug 2023 12:07:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236262AbjHJPxl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 11:53:41 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5573A1994;
-        Thu, 10 Aug 2023 08:53:40 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59F86D75;
-        Thu, 10 Aug 2023 08:54:22 -0700 (PDT)
-Received: from [10.1.27.169] (XHFQ2J9959.cambridge.arm.com [10.1.27.169])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A0653F6C4;
-        Thu, 10 Aug 2023 08:53:35 -0700 (PDT)
-Message-ID: <8fbb5965-28f7-4e9a-ac04-1406ed8fc2d4@arm.com>
-Date:   Thu, 10 Aug 2023 16:53:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable fix] mm: userfaultfd: check for start + len
- overflow in validate_range: fix
-Content-Language: en-GB
-To:     Axel Rasmussen <axelrasmussen@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        Jiaqi Yan <jiaqiyan@google.com>,
+        with ESMTP id S236695AbjHJQHd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 12:07:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2217C49FE;
+        Thu, 10 Aug 2023 09:06:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CF223661D0;
+        Thu, 10 Aug 2023 16:05:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDCAC433CA;
+        Thu, 10 Aug 2023 16:05:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691683516;
+        bh=3dqXqxLfF0EBUTIcyGpG0Y9ki6xtjmzbbUkts8u5Ikg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=M3iKU92fRFQ5ebgkTvsvwFRj8QHGGGfCT7avNetLStA0oCGGNiMdq5s1BU8wM99Wq
+         cpLnFaNt5Y/WyIo/3u3hcU8KPqIxozR1VglUeMDq2sISkdEnj+wwOSJf5AiYhtT/2t
+         SlMvoi2pAG8JQpJHfXVLKoIXBMd/GoSC3dKXIxNGFzZv2lBL0ArZI8WA6y2eAtJcRX
+         2yzhhaPLgupPXHj9POOF9o54cYVHYP/0Hy8nP/kWQ2V3qULt/iXLK2gYREqJTs0WZH
+         k57P/Xu/0fJfpnylthHNhnuqqHv1d5rI1cRLVMcxAkA8mAVUExfN6T2BKpjM/k5CMd
+         yEHBV303fFSGA==
+Date:   Thu, 10 Aug 2023 17:05:07 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Will Deacon <will@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "T.J. Alumbaugh" <talumbau@google.com>,
-        Yu Zhao <yuzhao@google.com>,
-        ZhangPeng <zhangpeng362@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        syzbot+42309678e0bc7b32f8e9@syzkaller.appspotmail.com
-References: <20230714182932.2608735-1-axelrasmussen@google.com>
-From:   Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <20230714182932.2608735-1-axelrasmussen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 00/36] arm64/gcs: Provide support for GCS in userspace
+Message-ID: <137de09e-6341-4c97-96ca-116e40c9cb8b@sirena.org.uk>
+References: <20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org>
+ <20230801141319.GC26253@willie-the-truck>
+ <09b7a94d-cc88-4372-85de-52db26bc2daf@sirena.org.uk>
+ <20230808133857.GC2369@willie-the-truck>
+ <f279ec25-e1c7-48e6-bd9d-5c753e829aad@sirena.org.uk>
+ <20230810094016.GA5365@willie-the-truck>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5H6oHgjZfBXx+cAU"
+Content-Disposition: inline
+In-Reply-To: <20230810094016.GA5365@willie-the-truck>
+X-Cookie: Reunite Gondwondaland!
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14/07/2023 19:29, Axel Rasmussen wrote:
-> This commit removed an extra check for zero-length ranges, and folded it
-> into the common validate_range() helper used by all UFFD ioctls.
-> 
-> It failed to notice though that UFFDIO_COPY *only* called validate_range
-> on the dst range, not the src range. So removing this check actually let
-> us proceed with zero-length source ranges, eventually hitting a BUG
-> further down in the call stack.
-> 
-> The correct fix seems clear: call validate_range() on the src range too.
-> 
-> Other ioctls are not affected by this, as they only have one range, not
-> two (src + dst).
-> 
-> Reported-by: syzbot+42309678e0bc7b32f8e9@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=42309678e0bc7b32f8e9
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> ---
->  fs/userfaultfd.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> index 53a7220c4679..36d233759233 100644
-> --- a/fs/userfaultfd.c
-> +++ b/fs/userfaultfd.c
-> @@ -1759,6 +1759,9 @@ static int userfaultfd_copy(struct userfaultfd_ctx *ctx,
->  			   sizeof(uffdio_copy)-sizeof(__s64)))
->  		goto out;
->  
-> +	ret = validate_range(ctx->mm, uffdio_copy.src, uffdio_copy.len);
-> +	if (ret)
-> +		goto out;
->  	ret = validate_range(ctx->mm, uffdio_copy.dst, uffdio_copy.len);
->  	if (ret)
->  		goto out;
 
+--5H6oHgjZfBXx+cAU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Axel,
+On Thu, Aug 10, 2023 at 10:40:16AM +0100, Will Deacon wrote:
+> On Tue, Aug 08, 2023 at 09:25:11PM +0100, Mark Brown wrote:
 
-I've just noticed that this patch, now in mm-unstable, regresses the mkdirty mm
-selftest:
+> > I'm not sure that your assumption that the only people would would
+> > consider deploying this are those who have deployed SCS is a valid one,
+> > SCS users are definitely part of the mix but GCS is expected to be much
+> > more broadly applicable.  As you say SCS is very invasive, requires a
+> > rebuild of everything with different code generated and as Szabolcs
+> > outlined has ABI challenges for general distros.  Any code built (or
+> > JITed) with anything other than clang is going to require some explicit
+> > support to do SCS (eg, the kernel's SCS support does nothing for
+> > assembly code) and there's a bunch of runtime support.  It's very much a
+> > specialist feature, mainly practical in well controlled somewhat
+> > vertical systems - I've not seen any suggestion that general purpose
+> > distros are considering using it.
 
-# [INFO] detected THP size: 2048 KiB
-TAP version 13
-1..6
-# [INFO] PTRACE write access
-ok 1 SIGSEGV generated, page not modified
-# [INFO] PTRACE write access to THP
-ok 2 SIGSEGV generated, page not modified
-# [INFO] Page migration
-ok 3 SIGSEGV generated, page not modified
-# [INFO] Page migration of THP
-ok 4 SIGSEGV generated, page not modified
-# [INFO] PTE-mapping a THP
-ok 5 SIGSEGV generated, page not modified
-# [INFO] UFFDIO_COPY
-not ok 6 UFFDIO_COPY failed
-Bail out! 1 out of 6 tests failed
-# Totals: pass:5 fail:1 xfail:0 xpass:0 skip:0 error:0
+> I've also seen no suggestion that general purpose distros are considering
+> GCS -- that's what I'm asking about here, and also saying that we shouldn=
+'t
+> rush in an ABI without confidence that it actually works beyond unit tests
+> (although it's great that you wrote selftests!).
 
-Whereas all 6 tests pass against v6.5-rc4.
+It defintely works substantially beyond selftests.  For the actual
+distros there's definitely interest out there, gated on upstreaming.
 
-I'm afraid I don't know the test well and haven't looked at what the issue might
-be, but noticed and thought I should point it out.
+> > In contrast in the case of GCS one of the nice features is that for most
+> > code it's very much non-invasive, much less so than things like PAC/BTI
+> > and SCS, which means that the audience is much wider than it is for SCS
+> > - it's a *much* easier sell for general purpose distros to enable GCS
+> > than to enable SCS.
 
-bisect log:
+> This sounds compelling, but has anybody tried running significant parts o=
+f a
+> distribution (e.g. running Debian source package tests, booting Android,
+> using a browser, running QEMU) with GCS enabled? I can well imagine
+> non-trivial applications violating both assumptions of the architecture a=
+nd
+> the ABI.
 
-git bisect start
-# bad: [ad3232df3e410acc2229c9195479c5596c1d1f96] mm/memory_hotplug: embed
-vmem_altmap details in memory block
-git bisect bad ad3232df3e410acc2229c9195479c5596c1d1f96
-# good: [5d0c230f1de8c7515b6567d9afba1f196fb4e2f4] Linux 6.5-rc4
-git bisect good 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
-# bad: [aa5712770e3f0edb31ae879cd6452d5c2111d4fb] mm: fix obsolete function name
-above debug_pagealloc_enabled_static()
-git bisect bad aa5712770e3f0edb31ae879cd6452d5c2111d4fb
-# bad: [bef1ff8723df303a06cdaffe64d95db2f7e7d4f6] mm: userfaultfd: support
-UFFDIO_POISON for hugetlbfs
-git bisect bad bef1ff8723df303a06cdaffe64d95db2f7e7d4f6
-# good: [4f4469463e8571012d2602b39f14ed3e3dbd972a] selftests/mm: add gup test
-matrix in run_vmtests.sh
-git bisect good 4f4469463e8571012d2602b39f14ed3e3dbd972a
-# good: [5c0d69839ef4f560679919f3483a592741df74f8] memcg: drop kmem.limit_in_bytes
-git bisect good 5c0d69839ef4f560679919f3483a592741df74f8
-# good: [b75f155a299729dc62de0ce6a9400d076298aa4c] mm: compaction: skip the
-memory hole rapidly when isolating free pages
-git bisect good b75f155a299729dc62de0ce6a9400d076298aa4c
-# good: [12b13121d9f4487301dd9fb765265b642b2f6d5d] mm/memcg: minor cleanup for
-MEM_CGROUP_ID_MAX
-git bisect good 12b13121d9f4487301dd9fb765265b642b2f6d5d
-# bad: [c9c368e75919c105aae072896e58d0ad4639e505] mm: userfaultfd: check for
-start + len overflow in validate_range: fix
-git bisect bad c9c368e75919c105aae072896e58d0ad4639e505
-# good: [9e707995021bbdfc67ad83a985f7796bba580bed]
-mm-make-pte_marker_swapin_error-more-general-fix
-git bisect good 9e707995021bbdfc67ad83a985f7796bba580bed
-# good: [46b66377b696c43c89ed4b1cb3f56b64e8fd475b] mm: userfaultfd: check for
-start + len overflow in validate_range
-git bisect good 46b66377b696c43c89ed4b1cb3f56b64e8fd475b
-# first bad commit: [c9c368e75919c105aae072896e58d0ad4639e505] mm: userfaultfd:
-check for start + len overflow in validate_range: fix
+Android is the main full userspace that people have been working with,
+we've not run into anything ABI related yet that I'm aware of - there is
+one thing that's being chased down but we're fairly confident that is a
+bug somewhere rather than the ABI being unsuitable.
 
-Thanks,
-Ryan
+> > > If not, why are we bothering? If so, how much of that distribution has
+> > > been brought up and how does the "dynamic linker or other startup cod=
+e"
+> > > decide what to do?
 
+> > There is active interest in the x86 shadow stack support from distros,
+> > GCS is a lot earlier on in the process but isn't fundamentally different
+> > so it is expected that this will translate.  There is also a chicken and
+> > egg thing where upstream support gates a lot of people's interest, what
+> > people will consider carrying out of tree is different to what they'll
+> > enable.=20
+
+> I'm not saying we should wait until distros are committed, but Arm should
+> be able to do that work on a fork, exactly like we did for the arm64
+> bringup. We have the fastmodel, so running interesting stuff with GCS
+> enabled should be dead easy, no?
+
+Right, this is happening but your pushback seemed to be "why would
+anyone even consider deploying this?" rather than "could anyone deploy
+this?", tests on forks can help a bit with the first question but your
+concern seemed more at the level of even getting people to look at the
+work rather than just rejecting it out of hand.
+
+> > The majority of the full distro work at this point is on the x86 side
+> > given the hardware availability, we are looking at that within Arm of
+> > course.  I'm not aware of any huge blockers we have encountered thus
+> > far.
+
+> Ok, so it sounds like you've started something then? How far have you got?
+
+I'd say thus far text mode embedded/server type stuff is looking pretty
+good, especially for C stuff - setjmp/longjmp and an unwinder cover a
+*lot*.  We do need to do more here, especially GUI stuff, but it's
+progressing well thus far.
+
+> While we'd be daft not to look at what the x86 folks are doing, I don't
+> think we should rely solely on them to inform the design for arm64 when
+> it should be relatively straightforward to prototype the distro work on
+> the model. There's also no rush to land the kernel changes given that
+> GCS hardware doesn't exist.
+
+Sure, but we're also in the position where there's only been the very
+beginnings of kernel review and obviously that's very important too and
+there's often really substantial lead times on that, plus the potential
+for need for redoing all the testing if there's issues identified.  I'd
+hope to at least be able to get to a point where the major concern
+people have is testing.  Another goal here is to feed any concerns we do
+have into what's happening with x86 and RISC-V so that we have as much
+alignment as possible in how this is supposed to work on Linux, that'll
+make everyone's life easier.
+
+In terms of timescales given that users with generic distros are a big
+part of the expected audience while we're well in advance of where it's
+actually going to be used we do need to be mindful of lead times in
+getting support into the software users are likely to want to run so
+they've got something they can use when they do get hardware.  We don't
+need to rush into anything, but we should probably use that time for
+careful consideration.
+
+--5H6oHgjZfBXx+cAU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTVCrIACgkQJNaLcl1U
+h9BHVwgAgSbEUGUic59Pll+iHR6rMHH93h8r1BQCHM7w3dxRlH4WQAvF84q/FUw2
+BvNcZc0s34e1gGq9GO3VlDPB0v1oMiJOjyjZ4V147fI5yH9YpEN93CoddrH+4Q9Z
+hN/7EJ0PHxL/eaJM5EKzuAYo3iWQGg1IQRQ4XQugjYa4ID2KHo9OWVXpMTq+swnQ
+pgGXC+k61Wjov3YeJwwBcZc8b9Ev2QE0T09jigsR6IRmYS+nD+LQWi2s9Utb7b+v
+CE8pnWa10JCf8Or6Pft32TX975ZpuvLHvEoHdRlUHZqpl96Nj5yj9ZFX2q3Efvg1
+veMSeRwi5FXGa41z5bay9s/8jeTTMg==
+=NmPw
+-----END PGP SIGNATURE-----
+
+--5H6oHgjZfBXx+cAU--
