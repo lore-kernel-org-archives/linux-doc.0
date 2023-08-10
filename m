@@ -2,80 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A97B7C001B0
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 19:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5081BC41513
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Aug 2023 19:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236237AbjHJTDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Aug 2023 15:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46608 "EHLO
+        id S233757AbjHJTVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Aug 2023 15:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234097AbjHJTDC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 15:03:02 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F133E26A0;
-        Thu, 10 Aug 2023 12:03:01 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A228D75;
-        Thu, 10 Aug 2023 12:03:44 -0700 (PDT)
-Received: from [192.168.0.23] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1517F3F6C4;
-        Thu, 10 Aug 2023 12:02:59 -0700 (PDT)
-Message-ID: <1b68f3fd-54d8-4bcd-a986-c84ec2219b9c@arm.com>
-Date:   Thu, 10 Aug 2023 20:02:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v1] mm: add a total mapcount for large folios
-Content-Language: en-GB
-To:     David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org,
+        with ESMTP id S231548AbjHJTVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Aug 2023 15:21:48 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E22A8
+        for <linux-doc@vger.kernel.org>; Thu, 10 Aug 2023 12:21:47 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5896bdb0b18so23654497b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Aug 2023 12:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1691695306; x=1692300106;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JVwAsL8GyIj4mx5rACaLqR7121szF8L7kVa/VdSYhKk=;
+        b=W/I0jMUUR76P+6pY9PNw6/9lrs82do/vNTSTR7MQbf0T5sxD5ee07o/AopBu6jRp2E
+         WZnCIRWERMlxTbBmgviUTWUKyaRGjZ2Xtt1BFf1MsbHT42k3S+u6IuCKQHRfDmTvVkCE
+         Cgwa+5SM2CMJrzCWkOBVh5eYlaF0Vb0S9olgCPGKYX3KqTvn3i8MswXT95LHLMmNMoew
+         bn/cMAlDdhvhTpkNRRFfiCYCF4vOpk6ZCG73MqBGRK/Sb7T78Wp3u8WtYw8fSZ2yrpmE
+         q8mlC5QOTvl4xRYwIKw3SSeZQe5wrTD/reHyzKv2bJRFQMN2wpSoIKnnaNwfM+A/yBCh
+         BIMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691695306; x=1692300106;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JVwAsL8GyIj4mx5rACaLqR7121szF8L7kVa/VdSYhKk=;
+        b=BgaDoO8F9RkE9L30Ue+KlmYAXmcdQJzXVz5cRtQP3DdDV/FPvR5UTh6DMxij+zjyQ4
+         qXgAGEUj6QK8dsB9btpScY5V0dO0/9RexpBu099bfaedS/H1DjOibSqvsv/xxZ6vdO4/
+         frcMhHhpphBF6dtU16NG2xhS/F9JDq0UhlJgyGW0P54yefrOG9U4Yh0E8J/lSJAYR3I5
+         inp5mcEUM4O1AF781chXOF/w1qJuA32Qt8h96hCIR2GMwJ956klj9z2Opr1GG1BPUV3A
+         8umZK2MYkJQrm60fyhQaYIrc7q6BXWwWkwh8eAN4HFqVBY0GEuiIckRYZwAMT6BSayI6
+         T1NA==
+X-Gm-Message-State: AOJu0Yx7P+09Q7YtrTR6MnQ3MmESecapVIcNZA6DgLPJJvUTIk7epHZP
+        +iG4lh6NtLnuLWYpGjx25TZghyLeGgojR6CtoOF9
+X-Google-Smtp-Source: AGHT+IGL5UhB5HhvTOWpZuR6v95NxwJe4g+zXUVXUS554aEFsc/GlWZiIV916LpXuIgo0/V184I8wNlnKoIYhiZEQhlq
+X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:cc07:13ef:656b:e8de])
+ (user=axelrasmussen job=sendgmr) by 2002:a81:a94a:0:b0:56c:ed45:442c with
+ SMTP id g71-20020a81a94a000000b0056ced45442cmr65776ywh.5.1691695306687; Thu,
+ 10 Aug 2023 12:21:46 -0700 (PDT)
+Date:   Thu, 10 Aug 2023 12:21:28 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
+Message-ID: <20230810192128.1855570-1-axelrasmussen@google.com>
+Subject: [PATCH mm-unstable fix] mm: userfaultfd: check for start + len
+ overflow in validate_range: fix
+From:   Axel Rasmussen <axelrasmussen@google.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Huang Ying <ying.huang@intel.com>,
         Hugh Dickins <hughd@google.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        Yang Shi <shy828301@gmail.com>, Zi Yan <ziy@nvidia.com>
-References: <20230809083256.699513-1-david@redhat.com> <ZNQD4pxo8svpGmvX@x1n>
- <e5e29217-11d3-a84b-9e29-44acc72222f3@redhat.com>
- <155bd03e-b75c-4d2d-a89d-a12271ada71b@arm.com> <ZNUbNDiciFefJngZ@x1n>
- <db3c4d94-a0a9-6703-6fe0-e1b8851e531f@redhat.com>
-From:   Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <db3c4d94-a0a9-6703-6fe0-e1b8851e531f@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        James Houghton <jthoughton@google.com>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Peter Xu <peterx@redhat.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "T.J. Alumbaugh" <talumbau@google.com>,
+        Yu Zhao <yuzhao@google.com>,
+        ZhangPeng <zhangpeng362@huawei.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/08/2023 18:47, David Hildenbrand wrote:
-> On 10.08.23 19:15, Peter Xu wrote:
->> On Thu, Aug 10, 2023 at 11:48:27AM +0100, Ryan Roberts wrote:
->>>> For PTE-mapped THP, it might be a bit bigger noise, although I doubt it is
->>>> really significant (judging from my experience on managing PageAnonExclusive
->>>> using set_bit/test_bit/clear_bit when (un)mapping anon pages).
->>>>
->>>> As folio_add_file_rmap_range() indicates, for PTE-mapped THPs we should be
->>>> batching where possible (and Ryan is working on some more rmap batching).
->>>
->>> Yes, I've just posted [1] which batches the rmap removal. That would allow you
->>> to convert the per-page atomic_dec() into a (usually) single per-large-folio
->>> atomic_sub().
->>>
->>> [1]
->>> https://lore.kernel.org/linux-mm/20230810103332.3062143-1-ryan.roberts@arm.com/
->>
->> Right, that'll definitely make more sense, thanks for the link; I'd be very
->> happy to read more later (finally I got some free time recently..).  But
->> then does it mean David's patch can be attached at the end instead of
->> proposed separately and early?
-> 
-> Not in my opinion. Batching rmap makes sense even without this change, and this
-> change makes sense even without batching.
+A previous fixup to this commit fixed one issue, but introduced another:
+we're now overly strict when validating the src address for UFFDIO_COPY.
 
-FWIW, I agree that my series and David's series should be treated independently.
-There is independent value in both.
+Most of the validation in validate_range is useful to apply to src as
+well as dst, but page alignment is only a requirement for dst, not src.
+So, split the function up so src can use an "unaligned" variant, while
+still allowing us to share the majority of the code between the
+different cases.
 
-It's also worth pointing out that with my series, the amount of batching you see
-in practice still depends on large folios being mapped, which isn't quite the
-common case yet.
+Reported-by: Ryan Roberts <ryan.roberts@arm.com>
+Closes: https://lore.kernel.org/linux-mm/8fbb5965-28f7-4e9a-ac04-1406ed8fc2d4@arm.com/T/#t
+Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+---
+ fs/userfaultfd.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+index bb5c474a0a77..1091cb461747 100644
+--- a/fs/userfaultfd.c
++++ b/fs/userfaultfd.c
+@@ -1287,13 +1287,11 @@ static __always_inline void wake_userfault(struct userfaultfd_ctx *ctx,
+ 		__wake_userfault(ctx, range);
+ }
+
+-static __always_inline int validate_range(struct mm_struct *mm,
+-					  __u64 start, __u64 len)
++static __always_inline int validate_unaligned_range(
++	struct mm_struct *mm, __u64 start, __u64 len)
+ {
+ 	__u64 task_size = mm->task_size;
+
+-	if (start & ~PAGE_MASK)
+-		return -EINVAL;
+ 	if (len & ~PAGE_MASK)
+ 		return -EINVAL;
+ 	if (!len)
+@@ -1309,6 +1307,15 @@ static __always_inline int validate_range(struct mm_struct *mm,
+ 	return 0;
+ }
+
++static __always_inline int validate_range(struct mm_struct *mm,
++					  __u64 start, __u64 len)
++{
++	if (start & ~PAGE_MASK)
++		return -EINVAL;
++
++	return validate_unaligned_range(mm, start, len);
++}
++
+ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+ 				unsigned long arg)
+ {
+@@ -1759,7 +1766,8 @@ static int userfaultfd_copy(struct userfaultfd_ctx *ctx,
+ 			   sizeof(uffdio_copy)-sizeof(__s64)))
+ 		goto out;
+
+-	ret = validate_range(ctx->mm, uffdio_copy.src, uffdio_copy.len);
++	ret = validate_unaligned_range(ctx->mm, uffdio_copy.src,
++				       uffdio_copy.len);
+ 	if (ret)
+ 		goto out;
+ 	ret = validate_range(ctx->mm, uffdio_copy.dst, uffdio_copy.len);
+--
+2.41.0.640.ga95def55d0-goog
+
