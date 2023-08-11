@@ -2,114 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 547A0C41513
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 14:23:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C68EB64DD
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 15:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235457AbjHKOXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 10:23:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41856 "EHLO
+        id S234901AbjHKPER (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 11:04:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232453AbjHKOXW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 10:23:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C85E53;
-        Fri, 11 Aug 2023 07:23:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9695665A33;
-        Fri, 11 Aug 2023 14:23:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85887C433C8;
-        Fri, 11 Aug 2023 14:23:14 +0000 (UTC)
-Date:   Fri, 11 Aug 2023 15:23:12 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S235376AbjHKPEP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 11:04:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B66318F
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691766206;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cUfn2yRxDKKinH9zdb9JbhnFsj88xeOeJ1clvcuNk24=;
+        b=hAruQau9O6rFtv6nMF2YagcNzB72Jc5NIQ42G4E/A67F58csy5ILK9be7KkqDh1wmUSHPx
+        duXvoizVh6V1roQ8HPzeyxuoBr0+4hHgEWlWN1FpCBwVoyloLdFehIn01ZOBOIXMbVHKYS
+        +RTa1dvFyVFzhmwDJUZ1tH1KR2E1Tds=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-lxbHCp-rOrCziQ2PyYFxmw-1; Fri, 11 Aug 2023 11:03:25 -0400
+X-MC-Unique: lxbHCp-rOrCziQ2PyYFxmw-1
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-76d06c4257bso49796085a.0
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:03:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691766204; x=1692371004;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cUfn2yRxDKKinH9zdb9JbhnFsj88xeOeJ1clvcuNk24=;
+        b=QqR3fx98G6zyXw/YwZYNOFE64fnjsTvuZqiBcQt5lyv+egxA+4RhuGahTSNFyKPAG+
+         VFI2tCmdCwAHqhGUkhk0/rM7lesZk3hIzMjZafvDlI73AFJ37jCT6IuBoVISF//Dwdzj
+         6hmS5a8zEMhw9l05kt8tpfpEu5XoCGEQ4kU0dNXIlyd0kQTWw1pPRfqIK0mcc9zXmMNX
+         dbd3sDBio5LC0if/sk5fFpit4RtkU4O/mJhhOG2asznwbHI3DQPPwVsi5obaYWhv/n7S
+         iH4AzaTMjbazvT/pJ89B+YduzEfGQ4g244BfLufklkjHcy9YRfYE7/LKHSW2AsxRanFT
+         awwA==
+X-Gm-Message-State: AOJu0YzjA2+trXRwf1K2oIia9VBpThBq0Z7ra9OY4JaAJtlYvdmPg0bC
+        Tdj+0BH4BIMFLBdYEeYQU3awh8e9pu1RGs3dHYwXg0k2th/WAmSxNd7bBBX0ENoVHokYP+pAW8j
+        gSAkuOEjMoJ9d3ie15EiG
+X-Received: by 2002:a05:620a:1914:b0:76c:e76b:4192 with SMTP id bj20-20020a05620a191400b0076ce76b4192mr2509968qkb.0.1691766204691;
+        Fri, 11 Aug 2023 08:03:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IElkIDda5pJfgdjDlpX1qemYlXQScA3leBwo8YPETDmV4jI/g/VWmSele5L1o3V/7C8717Izw==
+X-Received: by 2002:a05:620a:1914:b0:76c:e76b:4192 with SMTP id bj20-20020a05620a191400b0076ce76b4192mr2509905qkb.0.1691766204124;
+        Fri, 11 Aug 2023 08:03:24 -0700 (PDT)
+Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
+        by smtp.gmail.com with ESMTPSA id q29-20020a05620a039d00b0076c96e571f3sm1241719qkm.26.2023.08.11.08.03.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 08:03:23 -0700 (PDT)
+Date:   Fri, 11 Aug 2023 11:03:22 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 09/36] arm64/mm: Allocate PIE slots for EL0 guarded
- control stack
-Message-ID: <ZNZEUEqJuHrdEa/c@arm.com>
-References: <20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org>
- <20230807-arm64-gcs-v4-9-68cfa37f9069@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Hugh Dickins <hughd@google.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Yin Fengwei <fengwei.yin@intel.com>,
+        Yang Shi <shy828301@gmail.com>, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH mm-unstable v1] mm: add a total mapcount for large folios
+Message-ID: <ZNZNuooaFH9P4raS@x1n>
+References: <20230809083256.699513-1-david@redhat.com>
+ <ZNQD4pxo8svpGmvX@x1n>
+ <ZNRYx8GhYftE4Xeb@casper.infradead.org>
+ <7e31254d-8889-7e79-50e1-2630bd493d59@redhat.com>
+ <ZNVbIyHcqeKUDuSg@x1n>
+ <ZNVcfdH8+N5Q83J/@casper.infradead.org>
+ <73d6d29f-9947-9b50-3b94-77f1ee547387@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230807-arm64-gcs-v4-9-68cfa37f9069@kernel.org>
+In-Reply-To: <73d6d29f-9947-9b50-3b94-77f1ee547387@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 07, 2023 at 11:00:14PM +0100, Mark Brown wrote:
-> diff --git a/arch/arm64/include/asm/pgtable-prot.h b/arch/arm64/include/asm/pgtable-prot.h
-> index eed814b00a38..b157ae0420ed 100644
-> --- a/arch/arm64/include/asm/pgtable-prot.h
-> +++ b/arch/arm64/include/asm/pgtable-prot.h
-> @@ -131,15 +131,23 @@ extern bool arm64_use_ng_mappings;
->  /* 6:                                PTE_PXN | PTE_WRITE            */
->  /* 7: PAGE_SHARED_EXEC               PTE_PXN | PTE_WRITE | PTE_USER */
->  /* 8: PAGE_KERNEL_ROX      PTE_UXN                                  */
-> -/* 9:                      PTE_UXN |                       PTE_USER */
-> +/* 9: PAGE_GCS_RO          PTE_UXN |                       PTE_USER */
->  /* a: PAGE_KERNEL_EXEC     PTE_UXN |           PTE_WRITE            */
-> -/* b:                      PTE_UXN |           PTE_WRITE | PTE_USER */
-> +/* b: PAGE_GCS             PTE_UXN |           PTE_WRITE | PTE_USER */
->  /* c: PAGE_KERNEL_RO       PTE_UXN | PTE_PXN                        */
->  /* d: PAGE_READONLY        PTE_UXN | PTE_PXN |             PTE_USER */
->  /* e: PAGE_KERNEL          PTE_UXN | PTE_PXN | PTE_WRITE            */
->  /* f: PAGE_SHARED          PTE_UXN | PTE_PXN | PTE_WRITE | PTE_USER */
->  
-> +#define _PAGE_GCS	(_PAGE_DEFAULT | PTE_UXN | PTE_WRITE | PTE_USER)
-> +#define _PAGE_GCS_RO	(_PAGE_DEFAULT | PTE_UXN | PTE_USER)
-> +
-> +#define PAGE_GCS	__pgprot(_PAGE_GCS)
-> +#define PAGE_GCS_RO	__pgprot(_PAGE_GCS_RO)
-> +
->  #define PIE_E0	( \
-> +	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS),           PIE_GCS)  | \
-> +	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS_RO),        PIE_R)   | \
->  	PIRx_ELx_PERM(pte_pi_index(_PAGE_EXECONLY),      PIE_X_O) | \
->  	PIRx_ELx_PERM(pte_pi_index(_PAGE_READONLY_EXEC), PIE_RX)  | \
->  	PIRx_ELx_PERM(pte_pi_index(_PAGE_SHARED_EXEC),   PIE_RWX) | \
-> @@ -147,6 +155,8 @@ extern bool arm64_use_ng_mappings;
->  	PIRx_ELx_PERM(pte_pi_index(_PAGE_SHARED),        PIE_RW))
->  
->  #define PIE_E1	( \
-> +	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS),           PIE_RW)      | \
-> +	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS_RO),        PIE_R)      | \
+On Thu, Aug 10, 2023 at 11:59:25PM +0200, David Hildenbrand wrote:
+> On 10.08.23 23:54, Matthew Wilcox wrote:
+> > On Thu, Aug 10, 2023 at 05:48:19PM -0400, Peter Xu wrote:
+> > > > Yes, that comment from Hugh primarily discusses how we could possibly
+> > > > optimize the loop, and if relying on folio_nr_pages_mapped() to reduce the
+> > > > iterations would be racy. As far as I can see, there are cases where "it
+> > > > would be certainly a bad idea" :)
+> > > 
+> > > Is the race described about mapcount being changed right after it's read?
+> > > Are you aware of anything specific that will be broken, and will be fixed
+> > > with this patch?
+> > 
+> > The problem is that people check the mapcount while holding no locks;
+> > not the PTL, not the page lock.  So it's an unfixable race.
+> > 
+> > > Having a total mapcount does sound helpful if partial folio is common
+> > > indeed.
+> > > 
+> > > I'm curious whether that'll be so common after the large anon folio work -
+> > > isn't it be sad if partial folio will be a norm?  It sounds to me that's
+> > > the case when small page sizes should be used.. and it's prone to waste?
+> > 
+> > The problem is that entire_mapcount isn't really entire_mapcount.
+> > It's pmd_mapcount.  I have had thoughts about using it as entire_mapcount,
+> > but it gets gnarly when people do partial unmaps.  So the _usual_ case
+> > ends up touching every struct page.  Which sucks.  Also it's one of the
+> > things which stands in the way of shrinking struct page.
+> 
+> Right, so one current idea is to have a single total_mapcount and look into
+> removing the subpage mapcounts (which will require first removing
+> _nr_pages_mapped, because that's still one of the important users).
+> 
+> Until we get there, also rmap code has to do eventually "more tracking" and
+> might, unfortunately, end up slower.
+> 
+> > 
+> > But it's kind of annoying to explain all of this to you individually.
+> > There have been hundreds of emails about it over the last months on
+> > this mailing list.  It would be nice if you could catch up instead of
+> > jumping in.
+> 
+> To be fair, a lot of the details are not readily available and in the heads
+> of selected people :)
+> 
+> Peter, if you're interested, we can discuss the current plans, issues and
+> ideas offline!
 
-Had some thoughts on this. Why do we need the EL1 GCS attributes to map
-to RW? The instructions we'd use to write the shadow stack are the GCS
-'T' variants that run as user already.
+Thanks for offering help, David.
 
-The only instructions we have in the kernel that would run as EL1 on a
-user address are the exclusives (futex code or the old deprecated
-emulation but we don't care about them in this context). So I wonder
-whether the kernel PIE entry could simply be PIE_NONE_O. Would this be
-too restrictive for future uses? Given the coherency between a GCS
-access and a standard data access, we may want to restrict it now until
-we have a use-case.
+Personally I still am unclear yet on why entire_mapcount cannot be used as
+full-folio mapcounts, and why "partial unmap" can happen a lot (I don't
+expect), but yeah I can try to catch up to educate myself first.
+
+The only issue regarding an offline sync-up is that even if David will help
+Peter on catching up the bits, it'll not scale when another Peter2 had the
+same question..  So David, rather than I waste your time on helping one
+person, let me try to catch up with the public threads - I'm not sure how
+far I can go myself; otoh thread links will definitely be helpful to be
+replied here, so anyone else can reference too.  I collected a list (which
+can be enriched) of few threads that might be related, just in case helpful
+to anyone besides myself:
+
+[PATCH 0/2] don't use mapcount() to check large folio sharing
+https://lore.kernel.org/r/20230728161356.1784568-1-fengwei.yin@intel.com
+
+[PATCH v1-v2 0/3] support large folio for mlock
+https://lore.kernel.org/r/20230728070929.2487065-1-fengwei.yin@intel.com
+https://lore.kernel.org/r/20230809061105.3369958-1-fengwei.yin@intel.com
+
+[PATCH v1 0/4] Optimize mmap_exit for large folios
+https://lore.kernel.org/r/20230810103332.3062143-1-ryan.roberts@arm.com
+
+[PATCH v4-v5 0/5] variable-order, large folios for anonymous memory
+https://lore.kernel.org/linux-mm/20230726095146.2826796-1-ryan.roberts@arm.com/
+https://lore.kernel.org/r/20230810142942.3169679-1-ryan.roberts@arm.com
+
+[PATCH v3-v4 0/3] Optimize large folio interaction with deferred split
+(I assumed Ryan's this one goes into the previous set v5 finally, so just
+ the discussions as reference)
+https://lore.kernel.org/r/20230720112955.643283-1-ryan.roberts@arm.com
+https://lore.kernel.org/r/20230727141837.3386072-1-ryan.roberts@arm.com
+
+[RFC PATCH v2 0/4] fix large folio for madvise_cold_or_pageout()
+https://lore.kernel.org/r/20230721094043.2506691-1-fengwei.yin@intel.com
+
+I'm not sure how far I'll go; maybe I'll start working on something else
+before I finish all of them.  I'll see..
+
+Not allowing people to jump in will definitely cause less interactions and
+less involvement/open-ness for the mm community, as sometimes people can't
+easily judge when it's proper to jump in.
+
+IMHO the ideal solution is always keep all discussions public (either
+meetings with recordings, or shared online documents, always use on-list
+discussions, etc.), then share the links.
 
 -- 
-Catalin
+Peter Xu
+
