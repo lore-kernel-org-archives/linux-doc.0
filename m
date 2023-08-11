@@ -2,80 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 198F6C001B0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 20:29:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D07C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 20:30:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236119AbjHKU3s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 16:29:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54262 "EHLO
+        id S236258AbjHKUaf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 16:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjHKU3r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 16:29:47 -0400
+        with ESMTP id S233506AbjHKUae (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 16:30:34 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA211AE;
-        Fri, 11 Aug 2023 13:29:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C19110DF;
+        Fri, 11 Aug 2023 13:30:34 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 206164A2;
-        Fri, 11 Aug 2023 20:29:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 206164A2
+        by ms.lwn.net (Postfix) with ESMTPSA id D3253735;
+        Fri, 11 Aug 2023 20:30:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D3253735
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1691785787; bh=mEUiyNT+Ns8Fvn0A6avXQeEEnfY1/ZuoD/njqfIEB4o=;
+        t=1691785834; bh=akFqlDnAZSEDeOkT/rGEax3CNW9VVCMY0SZLWMdAuRE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=EhFhf4zrtvW9dkB+/rsikF8gUp9/lIkLbxej+ZboAzozutgmsfvsRUItU8eTg+22p
-         fx3NAXNeGk6GYN3HRYBwQYHBM+7pvAncuY1n6KPffTH5qIe6Vgr5dxQxRT+5gDZS1V
-         vWMau+1JaZ865pOECR2KdIDTWCW1F2ij9V6cOjenZFvV06TogL0E7pjPLYxLg4mDDe
-         k2aEfsOPHAwTApxrMdQl4chIB7xZ9h+WM/XVOPvP9L2uUWXodrlGz1+p7kV8J3BaYE
-         ma12vd77vX50+5i7+FSc2lRwMcAwJwxEkdi+ZtPN125m3iVjqXmzJtkQWMppvi57Or
-         TZEOvkrWzE5Qw==
+        b=Dl7ekD+Swty4fpvtIQVdXQmSfETlRA1HiBbX2ZHpBkK7Jo8FH8/RDscIaFYsRtl6J
+         O2b6ij21gt1Mm0jip7+1ZtAH9LHmfqPNTPAt5YcTdDH330lYFBz1r12dYFWI1pbZtS
+         8TPT1pJdOwXZgwCXT4D/njCz2ugMcSR8BNs44mlKD99wGak5HQ+qKoyKtb4s3EqWJh
+         rI1fjg0UEffhXOwMR/d2ibBogEOXUkv5EKmejFC4Hof9lPygbjeZ0v12Pqos7QCqN0
+         AEFB60INFnr4s5mOh11mHL+6/cEzWxoIXYTJZi5bPikDX7yMsb52Uc0JjYGqcpZR2m
+         pr3DjMVI2Q7Sg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Min-Hua Chen <minhuadotchen@gmail.com>,
-        Hu Haowen <src.res@email.cn>
-Cc:     Min-Hua Chen <minhuadotchen@gmail.com>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: sparse: fix invalid link addresses
-In-Reply-To: <20230804112320.35592-1-minhuadotchen@gmail.com>
-References: <20230804112320.35592-1-minhuadotchen@gmail.com>
-Date:   Fri, 11 Aug 2023 14:29:46 -0600
-Message-ID: <87pm3txqyt.fsf@meer.lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs: Add book to process/kernel-docs.rst
+In-Reply-To: <20230803142417.965313-1-carlos.bilbao@amd.com>
+References: <20230803142417.965313-1-carlos.bilbao@amd.com>
+Date:   Fri, 11 Aug 2023 14:30:33 -0600
+Message-ID: <87leehxqxi.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Min-Hua Chen <minhuadotchen@gmail.com> writes:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> The http and git links are invalid, replace them with valid links.
+> Include to process/kernel-docs.rst a book on Linux system administration
+> published in May, 2023 (with ISBN 978-1098109035).
 >
-> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 > ---
->  Documentation/translations/zh_TW/sparse.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/process/kernel-docs.rst | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> diff --git a/Documentation/translations/zh_TW/sparse.txt b/Documentation/=
-translations/zh_TW/sparse.txt
-> index c9acb2c926cb..6d2d088b1060 100644
-> --- a/Documentation/translations/zh_TW/sparse.txt
-> +++ b/Documentation/translations/zh_TW/sparse.txt
-> @@ -66,11 +66,11 @@ __bitwise"=E9=A1=9E=E5=9E=8B=E3=80=82
->=20=20
->  =E4=BD=A0=E5=8F=AF=E4=BB=A5=E5=BE=9E Sparse =E7=9A=84=E4=B8=BB=E9=A0=81=
-=E7=8D=B2=E5=8F=96=E6=9C=80=E6=96=B0=E7=9A=84=E7=99=BC=E5=B8=83=E7=89=88=E6=
-=9C=AC=EF=BC=9A
->=20=20
-> -	http://www.kernel.org/pub/linux/kernel/people/josh/sparse/
-> +	https://www.kernel.org/pub/software/devel/sparse/dist/
->=20=20
->  =E6=88=96=E8=80=85=EF=BC=8C=E4=BD=A0=E4=B9=9F=E5=8F=AF=E4=BB=A5=E4=BD=BF=
-=E7=94=A8 git =E5=85=8B=E9=9A=86=E6=9C=80=E6=96=B0=E7=9A=84 sparse =E9=96=
-=8B=E7=99=BC=E7=89=88=E6=9C=AC=EF=BC=9A
->=20=20
-> -	git://git.kernel.org/pub/scm/linux/kernel/git/josh/sparse.git
-> +        git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+> index 46f927aae6eb..26ead9d31c01 100644
+> --- a/Documentation/process/kernel-docs.rst
+> +++ b/Documentation/process/kernel-docs.rst
+> @@ -118,6 +118,15 @@ Published books
+>        :ISBN: 978-0672329463
+>        :Notes: Foundational book
+>  
+> +    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
+> +
+> +      :Author: Kenneth Hess
+> +      :Publisher: O'Reilly Media
+> +      :Date: May, 2023
+> +      :Pages: 246
+> +      :ISBN: 978-1098109035
+> +      :Notes: System administration
+> +
+>  .. _ldd3_published:
 
 Applied, thanks.
 
