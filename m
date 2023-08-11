@@ -2,237 +2,245 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D855EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 16:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1887C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 16:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234522AbjHKQMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 12:12:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57470 "EHLO
+        id S234988AbjHKQND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 12:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbjHKQMC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 12:12:02 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2076.outbound.protection.outlook.com [40.107.93.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDF910DE;
-        Fri, 11 Aug 2023 09:12:01 -0700 (PDT)
+        with ESMTP id S233860AbjHKQNC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 12:13:02 -0400
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2054.outbound.protection.outlook.com [40.107.15.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FA8A3;
+        Fri, 11 Aug 2023 09:13:01 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gO+0akZoVpfuXNVjwPASpkfZxH7aSzrw8Nof2u74YA0bSzuGWw9o+LMcgwaQKOpYuwJHH5dGWBnvk4SWDnLBg35619Fwv+h36EP5Wi/GnCadU8lRKuop4PCaV3gROYhYktKRaHzdBNXOnnnJS0Rit9xRQci/Y7qfQhd5DNpqxSeYgh/ZnCMrzBnBXmovlUd1TdX5KcRLlkr/Pk5tYE0dm37IOOjSUi4ChC8BJhJvWO6pDc27r+182u61qbz9U5CzLqOAoATNyiE9qQof1V6n998286PBzyTmyY82Fed+i+r2w3dhBbJU6/0AsM7x/bbZCzE8BMm04xXwgA5EC3UozA==
+ b=Zni3qrFZFWkDVyW4zV8hJkAEcT4Fu9lYgSY/D7KGb3F9jVg7/5vw4M/eupywVcW7Z/7iCScfaNnOqoe6VsbUmeYVKZ6bhsZvTuL85bZ0W4chxlIiTBQ8scB7utn2LK2OK7gND9e2nktV5qNjSqZPWB0mDieYJP4CsT9TqzIg/HtmzWJHVdflky/NgR5E4JwW4BjGGnCT1MfXnzGk517oVWyQ6xZTiQ6oy3uA2omYQEGpY5zPK1fzSJ5VSO8fjlPm+1ud1KfwvuGX6WgCG+VB+OCVxSO3z7mxcX3d5xNygly1duFk3dD65l2CF3w9OVwMuKUgkXLdzH7c5oothpcziA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jf/elbfRvxq3oabQE8Q8VERGtGZTjnZODKdMpJc5wwI=;
- b=Pky8Ntdd5h9NBTxy3AJUZ77eSGzfcVKkbGWCVHHfYAkIt0yC/4aGIWrJCGNQnx6cM9HTAbTASuf5nQkeLK9r/hMR/FSLHMIAglxXjp8pdFgdkHrbANASxdgDHQjeYfOOazYtE2s9BN2PknFO18UFsPAc8LcdLJycQs5uEY6EMK+OozofIAlbHv5BFuyg9/aOUXPbA7n6Yt3PsKieDZiPfwCufk6LsyfpFFfD1BgXvEZcgDM/O+YCaF8ASEEvBdQKB52KWq/gH07W3wbSxZncotPMZzIRjLMGzmAm6ywc1SSUB3NPP3V8pY4y4TGMnI9eAyGeXjgzbu/VQokXd4pBiw==
+ bh=/zyraIzlVVjUxIwXTpq11nPlcUyxnYxp7v5L8xh5zMI=;
+ b=QKcpiEJ+7Xk7t2oLFOeKvwK1CSjoQ2zQft7A/VLOMX6gk8ZQdVQ8IMr3U6Hy4sxYPy8wJsiKU9Y7+Kr+wrdp6vF6hknCeGvycquDQn5IzqfZhHnKHraYpvm7uX3ORH1pWxZoUmQtf6F9odffnANN2chWQ8xw+zZamExSjuyME4hTnZogz3wPPeQxh7m0K5c7jQrin7f3RoNkz5Q7v5aTMmoGsAkunK9JxNVARGvliPj+nN2hXNOxU66jMQth3n38bHOtYoP3fYe0oIZJbqp+2rJlX2VSrANO0LIN1VUQqfAcQSkBZ+Jupo6aoCiCXEYWyuy1JiTuYrcrZjdByHPb4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jf/elbfRvxq3oabQE8Q8VERGtGZTjnZODKdMpJc5wwI=;
- b=GhYX3IRh2X1UcJGnJ/nHHKnj+4ejJFxHT1oqsNfKSkUt11ZxfLFAkjJScOc85J1ShnPdobdeTNIB6M9EKZwVsh273MpAIMqGm0TppwR2xMroveieR5vHto1SUxouR1TAIMlG3VeFRpmt2UfYJIVWxCYSWHOXnGoopRpMkvs0DVEizYwWKWOJUnCNerj+yzSttXI2RQWoshKqx3ctYGjoQjl3zWVwcwbRjcfvW5HFdroEE+O+TiO2/Aw8gUu9sWR4lkpg7f3XBds0F/pAa1vL/079xaNcgUt6eIMZZC0K8/KYPbRyxnYpwzr0qN/LpCjcHG+h8Umy0dCnAvfcvMf7Ng==
+ bh=/zyraIzlVVjUxIwXTpq11nPlcUyxnYxp7v5L8xh5zMI=;
+ b=RdjQe4iFHUIhRlz+RDlBuiCtGR2WdY5CnnHs4y6d7MdUIhYG//p5X47bXf23HxqqBtG0HqTi34I9lf0vxOxvZ5DsE6aBmaK5a4/eoJ1nH4LMw1u+JdNluxSs8QEqtVCQ43R0GLepriSEliruxeEq7TeXKatax8V4zbyaq8Z7FZ0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com (2603:10b6:8:73::18) by
- BL1PR12MB5993.namprd12.prod.outlook.com (2603:10b6:208:399::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6678.20; Fri, 11 Aug 2023 16:11:58 +0000
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::c166:b535:d93:641e]) by DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::c166:b535:d93:641e%4]) with mapi id 15.20.6652.029; Fri, 11 Aug 2023
- 16:11:58 +0000
-From:   Zi Yan <ziy@nvidia.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Peter Xu <peterx@redhat.com>, Matthew Wilcox <willy@infradead.org>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Hugh Dickins <hughd@google.com>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        Yang Shi <shy828301@gmail.com>
-Subject: Re: [PATCH mm-unstable v1] mm: add a total mapcount for large folios
-Date:   Fri, 11 Aug 2023 12:11:55 -0400
-X-Mailer: MailMate (1.14r5964)
-Message-ID: <14C73423-C643-4B72-B3DD-573F5636B5E0@nvidia.com>
-In-Reply-To: <8aac858e-0f12-4b32-e9df-63c76bdf2377@redhat.com>
-References: <ZNQD4pxo8svpGmvX@x1n>
- <e5e29217-11d3-a84b-9e29-44acc72222f3@redhat.com>
- <155bd03e-b75c-4d2d-a89d-a12271ada71b@arm.com> <ZNUbNDiciFefJngZ@x1n>
- <db3c4d94-a0a9-6703-6fe0-e1b8851e531f@redhat.com> <ZNVPJ9xxd2oarR3I@x1n>
- <ZNVbObUGbos73ZJ5@casper.infradead.org>
- <8222bf8f-6b99-58f4-92cc-44113b151d14@redhat.com> <ZNZRTmvkAlm4yeAd@x1n>
- <b001adf2-238d-1708-673d-6f512a53e1e9@redhat.com> <ZNZarsR7cVn/QH+H@x1n>
- <8aac858e-0f12-4b32-e9df-63c76bdf2377@redhat.com>
-Content-Type: multipart/signed;
- boundary="=_MailMate_5CCC8A46-CD6E-4F55-BF51-A34C06D51A6A_=";
- micalg=pgp-sha512; protocol="application/pgp-signature"
-X-ClientProxiedBy: MN2PR02CA0009.namprd02.prod.outlook.com
- (2603:10b6:208:fc::22) To DS7PR12MB5744.namprd12.prod.outlook.com
- (2603:10b6:8:73::18)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
+ by DB9PR04MB8137.eurprd04.prod.outlook.com (2603:10a6:10:244::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Fri, 11 Aug
+ 2023 16:12:57 +0000
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::d4ed:20a0:8c0a:d9cf]) by AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::d4ed:20a0:8c0a:d9cf%7]) with mapi id 15.20.6678.019; Fri, 11 Aug 2023
+ 16:12:57 +0000
+Date:   Fri, 11 Aug 2023 19:12:52 +0300
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?utf-8?B?RmVybuKUnMOtbmRleg==?= Rojas <noltari@gmail.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
+Message-ID: <20230811161252.qjicg2l6sbndtgy2@skbuf>
+References: <c2f928d2-25f6-0e31-9ab3-9d585968df1b@seco.com>
+ <20230522150010.q5zndfwcuvrb6pg2@skbuf>
+ <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
+ <20230610222123.mzmfjx7zfw4nh2lo@skbuf>
+ <c702e2b6-cb0f-4ac9-86fe-a220284d45aa@seco.com>
+ <20230612163353.dwouatvqbuo6h4ea@skbuf>
+ <1dd01fe2-08a8-ec2f-1184-a58b2f55ba85@seco.com>
+ <20230613142754.wr5njtjo4tbloqwu@skbuf>
+ <20230810102631.bvozjer3t67r67iy@skbuf>
+ <b1df425f-1ea4-0465-674c-25f3ed9b73d4@seco.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b1df425f-1ea4-0465-674c-25f3ed9b73d4@seco.com>
+X-ClientProxiedBy: AS4P190CA0005.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5de::17) To AM0PR04MB6452.eurprd04.prod.outlook.com
+ (2603:10a6:208:16d::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB5744:EE_|BL1PR12MB5993:EE_
-X-MS-Office365-Filtering-Correlation-Id: 755f1075-9aa4-49b2-e6e7-08db9a85b025
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|DB9PR04MB8137:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8af7bfce-601d-4346-9cb1-08db9a85d356
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WKx20tl3KXe5WTmo8Cjc7JNgLqizk37P9QN9w8Wuz7IPKo1ncwce/Xxad0SQLphqQruK+9AjlYiG4CKWNNohD9C4CUjzf4hSyDefiVULraUnfD7hqPXdgW/iaQ5ikO0Z7SF8trgB/NDZx0WKjj2mt60mVnMLlxn1g5V2iBv0ht0yDKpZkt1Pk+WBnPrnUTy5lW9PWX1Flr601pQZjk95jcVj/XCFNI5Ii6eXt6GssMkL1VLYDV0YLT303DoZGbHDag+LRETnO8cKtZuChO6hg80RWyZWr60bIa+T0ndQ9mq+mXkLWGAL8ef3Bjnlu8Qa/KwtZYImg4c260CrUo8kCDbNMbIVJMUhhfljSTIIY5H5My9kSMQD/DsKeGDGtzyLjGXrQEp8TYnwpxTbs9QgqZN7xrTNBE3dYxxkb506vaHK4cYS2XQHth6Sx+Zf1ztvb5FsJkfyhc+rd159YbCnOyKTE4Uxkc3swZUEcn5D6FVXzcnyaTILVtk+sASWV0aZl5+B9LD52Q3Gp2dONbvvDGrwcRuLAcaMglr7iynszbu4U0Ez9up7WpPq/Xro7xlAVa6RhOYHc/DChDiYntIOFbspJUInBwWrukiu4yjFqhNf0G6BewSGwp+nD6cSDT16Ry9MmrL5bvR1eP8ZkgTGIA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB5744.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(136003)(366004)(346002)(396003)(451199021)(186006)(1800799006)(6512007)(478600001)(6486002)(6666004)(54906003)(83380400001)(53546011)(26005)(2616005)(7416002)(2906002)(235185007)(66946007)(66556008)(66476007)(5660300002)(4326008)(6916009)(6506007)(316002)(8936002)(8676002)(41300700001)(86362001)(33656002)(36756003)(38100700002)(72826004)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 0ZdRbOGNYWL8KEWvF0VQg3k//X9tDirUzZj+jb5LZs0fkQFFZvIbucUr1PQmJP/MOtr+/52w9JCuRTemoDtzT/NhmIsNMWz3b27FkdnKzhP19A8zO0PbTgZz5fLqMm+yItXNJcaLVy/6wnK9D7PKpx1GuElSIgBMCugobcQVHNpuACntCh8eqhVgNCcn86Zb52T+gRxVyj96wQjQqOtOcOOLdXFAnKsLcLyY50K9SJd9YVDOO8EsNB0Zab9AwvD+AnkpWn+T16QTcFqlwuxe3YAHrw/aiR9ix+kFNQyAK3a5rJ4VTM0Z4lF4ynl6CsLe+TYBCHaSDGsTKPsfvm+5P088B57jzGqZZXndPdHv6UuNedEtoy+U1A7VCRgA04wov0YXjQhDXo5N4OLlmCqcPU6mQcZ9VEtIuhUUxlxSHbzmRyvSlDQBVS5QETTshHgPLkOGPAgTSbs3vjsXKdfD3S8UolXUm2a9YODSjw0pkoOC53P9jAdafEvxCQA4wmk8sWlHS6+Muw8Ll68UE3FE3X87owJkeEMXHd1KNB79iG8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(396003)(366004)(376002)(346002)(39860400002)(136003)(451199021)(1800799006)(186006)(83380400001)(2906002)(54906003)(38100700002)(478600001)(86362001)(316002)(6506007)(41300700001)(26005)(1076003)(33716001)(6666004)(5660300002)(8936002)(6486002)(8676002)(44832011)(7416002)(6512007)(966005)(9686003)(66476007)(6916009)(66556008)(66946007)(4326008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?65BAXiKXbKJaLyEYvtlOiuQAQuECabOiGV2ARUnRxvi7BfHMCPWDxLy0ItCT?=
- =?us-ascii?Q?3rpYo0I+N6F+Z0COe9QrWDCJXS8hQBUzowEcrHokNfeMoJy3V/QG5wWd6N/G?=
- =?us-ascii?Q?6I6jIlibsJd/kW2NGTuycCo0dXwDv/KG1IOJKd/5/b78JQCmFSmCiBwXH3M8?=
- =?us-ascii?Q?Gza5HPgXs2mNyGghXnGorAfJFjHV34I+4AfCT0T3TlfKBE0dF12793CzK9YE?=
- =?us-ascii?Q?Znt03kSypBplAT7qFusOgfoJStMdYa+TKuYBYeTWKjz5t0zbzKcUlU1ebfXb?=
- =?us-ascii?Q?FmETmLwrjSmaVVmqbhJ1vqq+lpz6nrPGzhQON/eBZ6pSpzxYo2ZYB2/r4GLL?=
- =?us-ascii?Q?7ewm8AwY3kqUhNf+5QKhOCFauiDKe4N/sVn8Y5KPcGbsvn7vv9x5w4+dRBz4?=
- =?us-ascii?Q?9zkniRbnWIEwJYKKbMuLsTeWLUDKz0WvLctXcfDlBRusJM6PFRj/GrkbliXE?=
- =?us-ascii?Q?eDFeHM8nj2E+BycIa+5CWzgMpbnkmHxVMjEMxff373GtqsOR0Ey5AOQLgErh?=
- =?us-ascii?Q?yjcRXG4ctCPKo9szFPC16M1HFSiZvjhVFpuRh6SNaDutKIRZBJ47H4HhNdwu?=
- =?us-ascii?Q?LPXoXxvvlXcc2pSAtCD7LQGVM7JRZpDG6MiJDrOcI+TyWWLrYyOMRuvyZMQj?=
- =?us-ascii?Q?nb5i1r3VLm6CtjlwvefVJyQmNwZ+651p79EwhHchVZOJ29GI3xBRv9dzwG4W?=
- =?us-ascii?Q?GK2sLa2HjC5lzdKDN7TmyG/Zp5SOKZONgVK7OUaHo9N03AHI6N/fkHYEJaam?=
- =?us-ascii?Q?Bfjrii3rQ61EZKtzn4iWsnKkfeloo6fwlDMcCBP+yV48iycVgHQ4JS+aE31B?=
- =?us-ascii?Q?d50L4HjxWGWq3wRc3nxDZmWmtKSRBQX+5gnzGKKIu7AN609XjKqYlAE1CyD+?=
- =?us-ascii?Q?TT2TKHbKHQKXShdQARz6PLUzqThloHP4cQup20gGXAW/u7ImoRG8ACtdOjO3?=
- =?us-ascii?Q?gtsS6J50/A11jlgDeXYgnHt51JDG/P2hyziMoW4c8fJlYzQGb42UOjZg9cgq?=
- =?us-ascii?Q?ThKUT6YQpcpvXrZ8SGdwdxjlEo6C41PF3DmqYziHexq7CzU2EpdcjSTY7/0t?=
- =?us-ascii?Q?fvivqwBtzhho9UWBQaeMWToG+mft/R4ceiTWywLqEP5l0azeYMXDL8xJlLe3?=
- =?us-ascii?Q?MOkWe3LUr72O3IxhrgF1f7O3ZN+uXGNDfFMRZrQc7pbJIu2gPuKw0sJ0Fwvk?=
- =?us-ascii?Q?cQBdX01BBY+u5e0Kxt3uNmOBYrP/f9FC32iDjgbIY9hp3VEllG7VK8QAkH+v?=
- =?us-ascii?Q?Qgw5gVofy0PXQ9ARexHwOLRd1ajIxo1MtdlrsDCWBQJ8mUM7+OnIA7hgcxZl?=
- =?us-ascii?Q?PY4w8fXGHCOaK3FaKnAU0RjdHsuGD20oqbFxt+dju6LxxTZXFIME3dhHvQ3a?=
- =?us-ascii?Q?bjlgufOKbeX4xTdGAc0m5iyumRZgiWA7eAMV4AlbFrYUbe3xW8OXNQeYOiDy?=
- =?us-ascii?Q?pC03bDHSJTfbb2StBjj2UAB/h5AYQP5Dmysg/bhKvRJbZE+AAbpxom/BncOK?=
- =?us-ascii?Q?PyFv8sbG5iJMZVMDP+KJncwijsxGPYOpgq0f9JKdJ9PC+t/7/aqIjMOkxOaD?=
- =?us-ascii?Q?F8MRTASLrtkNrBv8tPN6Tq6kNpOr0BVPgx2MtG5x?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 755f1075-9aa4-49b2-e6e7-08db9a85b025
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5744.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R8aQJPlThnSHIzFMyDhoJneWx4Kz9BsMaeNFa1mGsqS5QPJj9ND1iUaOOYt+?=
+ =?us-ascii?Q?2Z4guXzVHbR3P9xBaBDaItDvv8okOc+3bYkfzTEWSYQrFr0RUSljBZBX+W+K?=
+ =?us-ascii?Q?nx8D1u0EXrQGvgdhJYL/quce6Qw5fkUECrEdt1/3i+KQW+Rd+hBYZXdzKD2z?=
+ =?us-ascii?Q?CmUeugCNPBuE3VBV1MxVhLeterAUk07DswPmAiNcAQSNejcgQ4qTGoGi8GrT?=
+ =?us-ascii?Q?KjtcBvbHo6dFMAefEoIzOS4xQpmuE7bGH/knHoUULQsEHksdF+l0glO9l4ka?=
+ =?us-ascii?Q?m+9HFby/5jA8oCvbwlWhDwOTmGsAwU9W6/35+KXepqeMYY3w196gdCLYY9mO?=
+ =?us-ascii?Q?4hviel4F3e5l/Xwo5Qj98NYUVvWYNp+IWXZ/rkma5vOVwIRtQQqylpZo1w8i?=
+ =?us-ascii?Q?lMnIIaScCmWRZhWFPQVZVwNeoD2aojawOlyv3didgS1VW6TOB1LMsIzhFrhT?=
+ =?us-ascii?Q?hKyOeKwI+e9iDr0namo36U58SWfKWkwmzlyMVNg+lxCh36MUDaW9Xj6CI0mV?=
+ =?us-ascii?Q?f9J1H68EskW5Mg2R7AlbYCbpJZ/TrcFaovxWyO8YWn9YUSXRae3YzO8yLxCi?=
+ =?us-ascii?Q?RNyJ3WzUGj8x16GWARBL6xYDQ8T/kt1CEEwErNfw5mhMKWSy4VIQ2N0tlH26?=
+ =?us-ascii?Q?MZCV7octteUJ5KopF51OkaWxQQ2y+Lo8nktIBueOd3+MxqH4tAzExquy0TKS?=
+ =?us-ascii?Q?zSfYmaapLadPvs/ddWRQtC5Ek0Sfh5vxstutYwHZF1082ivL4k2XeM+f+sS7?=
+ =?us-ascii?Q?RclJTRcYI/+GQbQA8RKVkmcalXT/W+gtBimzJRleRNxQ4RwwQIgJJb8e5hCw?=
+ =?us-ascii?Q?tjq2H6jzhm9OpME6wNcFSfbdU40gk6tBoANpRYmwIfIA6QpsBELWWgHU85uh?=
+ =?us-ascii?Q?bEavCJk2u9WLN0nv9+gC/Cc/5fNpgSXRxviy1vz6vmmcPuJRYPZnDOAAdMj/?=
+ =?us-ascii?Q?GKKCOiYYZDtd21XRmmxAbGlHSPpVO5nhRSFRti0cQtZGo9tvkoRbBLxBSyf1?=
+ =?us-ascii?Q?9AqlJJF2FxZF/pCAzm0dE/IWrXlmGVELI4hqWSMpJ6OOyKoxboyJY3yw0AqF?=
+ =?us-ascii?Q?zCquscYmeoTgwfxmOpDrZbyQPbJtc/5td4ZMNqr8NFxiPRtIKypBRf3tfmDE?=
+ =?us-ascii?Q?xi4qwAQhhIB8bFPIvOOy8rPnMIBYsX6fn+jiWHp0CXsg3x4HitMskyjvSV/C?=
+ =?us-ascii?Q?5/fM2lK01DAQYBrXZ27jPI4057s+qdyYVgiOGyEgnDAeeSbn1bu9ATJoYsAE?=
+ =?us-ascii?Q?dJfEo59VW8fLoMszHn/pUmwMyglocTYQnDMKsHzcHnbKx9M4Y9FfzB3G+hHx?=
+ =?us-ascii?Q?VYfzbGj2V+DjrHTOGgsDRmXHhlNo00w22b9jNjmap1nbRcXE25pgK0Wjs7Tw?=
+ =?us-ascii?Q?J/Y8C8paIQYwIAGLsd+nwXMSEehJN8rKWTl/JyTEt+mF1Dg6kQEJMLJUP9Kk?=
+ =?us-ascii?Q?j+NtkXvccfKjrM00WC/nNyYLIuYdBOLv5TD4Qj93uBG64rJ2YW5ZumZLF/9J?=
+ =?us-ascii?Q?Xf7Fwl6y50780mrqZ+qvoj4IlJvTLfVOlUnd/zHcJh81y+JGbZQnvN3YOA4m?=
+ =?us-ascii?Q?yiNTTcfvc3mJe/WcqsmI3AZ3Fr03wm3NBwK7vK3bl0ZqgDOvFKViCCdXo1uQ?=
+ =?us-ascii?Q?iw=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8af7bfce-601d-4346-9cb1-08db9a85d356
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2023 16:11:58.6389
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2023 16:12:57.1822
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G58GKL5osBy7/NPV2PLqWGUviT++tq/A8tFxAbRgbpd5KwpgTa/8nV4tZj9/YuTE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5993
+X-MS-Exchange-CrossTenant-UserPrincipalName: WEy4p3h1J1b1O+F05dRfl9kHxuAkqf7XRskNeXzOfhZhJDcxDjMdAn9rX3k0iL4+z6Gzhi5C8KWa2cIpop+s6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8137
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=_MailMate_5CCC8A46-CD6E-4F55-BF51-A34C06D51A6A_=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hi Sean,
 
-On 11 Aug 2023, at 12:08, David Hildenbrand wrote:
+On Thu, Aug 10, 2023 at 03:58:36PM -0400, Sean Anderson wrote:
+> As explained previously (and noted by yourself below) 1G and 10G RCWs
+> have mutally-incompatible clocking requirements. Now that you have
+> documented an alternate solution, it is possible to boot up with one RCW
+> and switch to another. But without that it was not possible to have one
+> board support both RCWs (without e.g. a microcontroller or FPGA to
+> configure the clock generator before releasing the processor reset). I
+> do not think that the silicon should assert the reset request line if
+> the serdes doesn't lock, but it does and it can't really be disabled.
+> 
+> As it happens, our board is set up so that the reference clocks are
+> configured for 10G by default. During this boot, reset request is never
+> requested. If we did not have to support software configuration of the
+> serdes speed (to support 1G SFPs) we would not have to disconnect reset
+> request.
+> 
+> That said, I have evaluated the various reasons that reset request can
+> be asserted, and I have determined that for our product they are not
+> necessary. The only major limitation is the lack of a watchdog, but that
+> was not a requirement for us. Because of this, using a GPIO for reset is
+> sufficient and neatly avoids the issue.
 
-> On 11.08.23 17:58, Peter Xu wrote:
->> On Fri, Aug 11, 2023 at 05:32:37PM +0200, David Hildenbrand wrote:
->>> On 11.08.23 17:18, Peter Xu wrote:
->>>> On Fri, Aug 11, 2023 at 12:27:13AM +0200, David Hildenbrand wrote:
->>>>> On 10.08.23 23:48, Matthew Wilcox wrote:
->>>>>> On Thu, Aug 10, 2023 at 04:57:11PM -0400, Peter Xu wrote:
->>>>>>> AFAICS if that patch was all correct (while I'm not yet sure..), =
-you can
->>>>>>> actually fit your new total mapcount field into page 1 so even av=
-oid the
->>>>>>> extra cacheline access.  You can have a look: the trick is refcou=
-nt for
->>>>>>> tail page 1 is still seems to be free on 32 bits (if that was you=
-r worry
->>>>>>> before).  Then it'll be very nice if to keep Hugh's counter all i=
-n tail 1.
->>>>>>
->>>>>> No, refcount must be 0 on all tail pages.  We rely on this in many=
- places
->>>>>> in the MM.
->>>>>
->>>>> Very right.
->>>>
->>>> Obviously I could have missed this in the past.. can I ask for an ex=
-ample
->>>> explaining why refcount will be referenced before knowing it's a hea=
-d?
->>>
->>> I think the issue is, when coming from a PFN walker (or GUP-fast), yo=
-u might
->>> see "oh, this is a folio, let's lookup the head page". And you do tha=
-t.
->>>
->>> Then, you try taking a reference on that head page. (see try_get_foli=
-o()).
->>>
->>> But as you didn't hold a reference on the folio yet, it can happily g=
-et
->>> freed + repurposed in the meantime, so maybe it's not a head page any=
-more.
->>>
->>> So if the field would get reused for something else, grabbing a refer=
-ence
->>> would corrupt whatever is now stored in there.
->>
->> Not an issue before large folios, am I right?  Because having a head p=
-age
->> reused as tail cannot happen iiuc with current thps if only pmd-sized,=
+I would like to pause here and highlight the existence of the so-called
+XY problem: https://en.wikipedia.org/wiki/XY_problem
 
->> because the head page is guaranteed to be pmd aligned physically.
->
-> There are other users of compound pages, no? THP and hugetlb are just t=
-wo examples I think. For example, I can spot __GFP_COMP in slab code.
->
-> Must such compound pages would not be applicable to GUP, though, but to=
- PFN walkers could end up trying to grab them.
->
-For FS supporting large folios, their page cache pages can be any order <=
-=3D PMD_ORDER.
-See page_cache_ra_order() in mm/readahead.c
+| The XY problem is a communication problem encountered in help desk,
+| technical support, software engineering, or customer service situations
+| where the question is about an end user's attempted solution (Y) rather
+| than the root problem itself (X).
 
->>
->> I don't really know, where a hugetlb 2M head can be reused by a 1G hug=
-e
->> later right during the window of fast-gup walking. But obviously that'=
-s not
->> common either if that could ever happen.
->>
->> Maybe Matthew was referring to something else (per "in many places")?
->
-> There are some other cases where PFN walkers want to identify tail page=
-s to skip over them. See the comment in has_unmovable_pages().
->
-> -- =
+You admitted that you needed to solve problem X (software reconfiguration
+of the SerDes speed between 1G and 10G), and that has led you to problem
+Y (giving the PLLs some refclk frequencies which aren't supported at
+power-on reset, and thus, are also not validated by NXP). You've presented
+to the Linux mailing lists a driver which solves problem Y, but not X.
 
-> Cheers,
->
-> David / dhildenb
+I gave you a solution to problem X which doesn't even trigger problem Y.
 
+Furthermore, I gave you a solution to problem Y which is much simpler
+than yours. On the 12th of June, in Message-ID: 20230612163353.dwouatvqbuo6h4ea@skbuf,
+I explained that if you absolutely insist to use the unsupported PLL
+refclks, you can use PBL commands to change the PLL settings (so that
+they lock) at power-on reset time. The advantage is that both U-Boot and
+Linux will work without having to make any modification to the PLLs,
+just treat them as read-only.
 
---
-Best Regards,
-Yan, Zi
+As it happens, at NXP we also want to solve problem X in a generic way
+(aka we need a procedure that works for all customers, and not just for
+your board), and we want to do so in a way that the hardware validation
+team agrees with. Thus, the SoC needs to accept the PLL refclks at
+power-on reset time. The solution we came up with is the one presented
+to you yesterday. It makes your PLL clk driver unnecessary. No one will
+come after you if you keep it in your Linux tree and use it, but it is
+unnecessary.
 
---=_MailMate_5CCC8A46-CD6E-4F55-BF51-A34C06D51A6A_=
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename=signature.asc
-Content-Type: application/pgp-signature; name=signature.asc
+> > Nonetheless, below is a functional example of how NXP would recommend
+> > you to achieve the desired PLL mapping for any RCW-based SerDes protocol.
+> > My testing platform was the LS1046A-QDS with PLL1 at 100 MHz and PLL2 at
+> > 156.25 MHz. I believe that this should eliminate the need for a clk
+> > driver for the PLLs, and should make your Ethernet lanes usable much
+> > earlier than Linux. That being said, our position at NXP is that you
+> > don't need a clk driver for the PLLs, and I would like to see the clk
+> > portion removed from future patch revisions.
+> 
+> I have not had any issues with clocking. This is actually one of the
+> areas where the reference manual is sufficient to create a working
+> driver. Adding flexibility here is very useful, because we can solve
+> hardware problems in software. This can reduce e.g. board respins, and
+> allow for more interesting clocking solutions (such as allowing clock
+> generators which must be configured before use).
 
------BEGIN PGP SIGNATURE-----
+I am waiting for someone to come up with a real life use case that
+justifies those "more interesting clocking solutions".
 
-iQJDBAEBCgAtFiEE6rR4j8RuQ2XmaZol4n+egRQHKFQFAmTWXcsPHHppeUBudmlk
-aWEuY29tAAoJEOJ/noEUByhUszQP/ifkV5X26yq76tNdVlHwFW9dNDFwf5gV8p4C
-j61jWVteaRQ7lvIrztbtVbBr+ZMfDgo3WAtNl2xHmnxYl8ip4JVvFKfFxsnU7i0y
-OIxTw+G+SAry/PzjmWglc4IrKVupGzWcJJcmcW4yDTg0yFmL1N01AY30eJLGwfZT
-KCa1hJcKavDkc2Fs3dhHeee8SGqKefgkWcfLH4et5OlsdKz4eq//aJQCGiNqnNgC
-qsemzmDZlCc0fa2YpBfodbz0CKb3nAoCmhHUe5wcr8QrWBG6LyMxC3s37Cl9+bDX
-Nl3zpSy3HQtqDv+DtvFULw4x0tXbeGARczRgfg+Un3xomch9z63GrFz3o6ijSaRf
-1/yAAsQD9YjFqF7ZPERzMcg8absPjsjbkqGnkwBJMN+OsT7xmDRhZGkF7KjRaIMg
-nKj09rNUtZNRPduOWqFZ9pOw7be9qEaxtUBWy/Usq4gXFgq42pl4nyqQWBboPwjs
-m85qpuQDPz7CCrE4BCf4gJISRQiuZYp+LZ8DoIdzEF3ZNdERVhb34RCEbHXqn1D2
-vOjw7Mz2UymXAY2j9aA2ZB1Lp1kk1xpxGgcW6a0umrwoNZl6SJe6M9Cy9h1SPvRj
-0NIlU2fD/NJeC3ODMJ00NGHg6Ke+NLnW+HKTOtYTupYJb4BPKwPIH/pVz97o27ou
-wHj5I1ZA
-=6S9U
------END PGP SIGNATURE-----
+Please correct me if you think I am wrong, but as things stand, the
+SerDes PLL clk driver is now a solution waiting for a problem. It can
+wait for that problem out of tree.
 
---=_MailMate_5CCC8A46-CD6E-4F55-BF51-A34C06D51A6A_=--
+> > There is also the previous observation from Ioana that you should not
+> > delete PHY interrupts without finding out why they don't work.
+> 
+> Well, if you have a better solution, please let me know. The interrupt
+> does not work in real hardware.
+> 
+> I was hampered in my efforts to determine the cause because the interrupt
+> passes through an FPGA to which I lack the HDL. So far, I have not seen
+> any argument against polling except that we do not understand the
+> problem yet. However, I have not seen any other analysis of the problem
+> either.
+
+Out of respect for the topic at hand, ask for help in a separate thread,
+open an NXP support ticket - do something to split it from the SerDes
+work which it is unrelated with. You were told that part of the reason
+for the NACK is the fact that you are grouping unrelated things together,
+and you did nothing about it.
+
+> > +SRDS_PRTCL_S1=4403
+> > +SRDS_PRTCL_S2=21849
+> 
+> I know it is not typical for NXP RCWs, but your rcw tool supports using
+> hex/binary prefixes. Thus, you could rewrite the above lines as
+> 
+> SRDS_PRTCL_S1=0x1133
+> SRDS_PRTCL_S2=0x5559
+> 
+> IMO this is much easier to read, since it matches the documentation.
+
+Ok, thanks.
