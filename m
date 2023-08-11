@@ -2,79 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C902FC0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 20:25:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 198F6C001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 20:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231285AbjHKUZC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 16:25:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40638 "EHLO
+        id S236119AbjHKU3s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 16:29:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjHKUZB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 16:25:01 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B9B122;
-        Fri, 11 Aug 2023 13:24:58 -0700 (PDT)
+        with ESMTP id S229610AbjHKU3r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 16:29:47 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA211AE;
+        Fri, 11 Aug 2023 13:29:47 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 714404A2;
-        Fri, 11 Aug 2023 20:24:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 714404A2
+        by ms.lwn.net (Postfix) with ESMTPSA id 206164A2;
+        Fri, 11 Aug 2023 20:29:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 206164A2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1691785498; bh=FwF0uljvkKJCBCLoEkCrG6pzxVdADa9QKxGpNMSjuio=;
+        t=1691785787; bh=mEUiyNT+Ns8Fvn0A6avXQeEEnfY1/ZuoD/njqfIEB4o=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=IjMdtKQM/ptQU/ou7hJK5USvA5OxVOZkczpIZYf6IQCLFvrYjBUAybnb7wQ1Tm+Jp
-         cgFkPEbOxqNhIynwOKbzVL/SK4x+xlpNqdecMyE4Unye6G4Ym6RjJwvfpwNlosfLJe
-         JLbsQ8u4+iMY+EOAb1pwGbZUt0RuGlk3pTr3y76OmTcJoxkvbT8WZCOWC7ElqmWFZS
-         zZOaAoHjbBvTtegJWqbfBoSe1P/TX3bRVlBEV7/h33IGDJBxeRuwg7KRmOYIFxA2I6
-         mp4I5DoVePm9QruXzjrFutS3kcTm9fF/rcGjdmfByCL2zx9XUn+wNDn+Re7nqwEIuv
-         WIr0ck2Fw/BwQ==
+        b=EhFhf4zrtvW9dkB+/rsikF8gUp9/lIkLbxej+ZboAzozutgmsfvsRUItU8eTg+22p
+         fx3NAXNeGk6GYN3HRYBwQYHBM+7pvAncuY1n6KPffTH5qIe6Vgr5dxQxRT+5gDZS1V
+         vWMau+1JaZ865pOECR2KdIDTWCW1F2ij9V6cOjenZFvV06TogL0E7pjPLYxLg4mDDe
+         k2aEfsOPHAwTApxrMdQl4chIB7xZ9h+WM/XVOPvP9L2uUWXodrlGz1+p7kV8J3BaYE
+         ma12vd77vX50+5i7+FSc2lRwMcAwJwxEkdi+ZtPN125m3iVjqXmzJtkQWMppvi57Or
+         TZEOvkrWzE5Qw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Hu Haowen <src.res.211@gmail.com>
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] docs/zh_TW: update zh_TW's documentation from an
- ascensive aspect
-In-Reply-To: <20230807120006.6361-1-src.res.211@gmail.com>
-References: <20230807120006.6361-1-src.res.211@gmail.com>
-Date:   Fri, 11 Aug 2023 14:24:57 -0600
-Message-ID: <87ttt5xr6u.fsf@meer.lwn.net>
+To:     Min-Hua Chen <minhuadotchen@gmail.com>,
+        Hu Haowen <src.res@email.cn>
+Cc:     Min-Hua Chen <minhuadotchen@gmail.com>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: sparse: fix invalid link addresses
+In-Reply-To: <20230804112320.35592-1-minhuadotchen@gmail.com>
+References: <20230804112320.35592-1-minhuadotchen@gmail.com>
+Date:   Fri, 11 Aug 2023 14:29:46 -0600
+Message-ID: <87pm3txqyt.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hu Haowen <src.res.211@gmail.com> writes:
+Min-Hua Chen <minhuadotchen@gmail.com> writes:
 
-> Update zh_TW's documentation concentrating on the following aspects:
+> The http and git links are invalid, replace them with valid links.
 >
->     * The file tree structure changes of the main documentation;
->     * Some changes and ideas from zh_CN translation;
->     * Removal for several obsoleted contents within the zh_TW translation
->       or those which are not exising anymore in the main documentation.
->     * Replacements for some incorrect words and phrases in traditional
->       Chinese or those which are odd within their context being hard for
->       readers to comprehend.
+> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+> ---
+>  Documentation/translations/zh_TW/sparse.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> v3:
->     * Remove the fancy character thoroughly asked by Corbet.
->
-> v2:
->     * Remove the fancy character U+feff (ZERO WIDTH NO-BREAK SPACE) reported by Corbet
->       in https://lore.kernel.org/lkml/87bkg5dp6x.fsf@meer.lwn.net/.
->
-> v1:
->     https://lore.kernel.org/lkml/20230720132729.1821-1-src.res.211@gmail.com/
->
+> diff --git a/Documentation/translations/zh_TW/sparse.txt b/Documentation/=
+translations/zh_TW/sparse.txt
+> index c9acb2c926cb..6d2d088b1060 100644
+> --- a/Documentation/translations/zh_TW/sparse.txt
+> +++ b/Documentation/translations/zh_TW/sparse.txt
+> @@ -66,11 +66,11 @@ __bitwise"=E9=A1=9E=E5=9E=8B=E3=80=82
+>=20=20
+>  =E4=BD=A0=E5=8F=AF=E4=BB=A5=E5=BE=9E Sparse =E7=9A=84=E4=B8=BB=E9=A0=81=
+=E7=8D=B2=E5=8F=96=E6=9C=80=E6=96=B0=E7=9A=84=E7=99=BC=E5=B8=83=E7=89=88=E6=
+=9C=AC=EF=BC=9A
+>=20=20
+> -	http://www.kernel.org/pub/linux/kernel/people/josh/sparse/
+> +	https://www.kernel.org/pub/software/devel/sparse/dist/
+>=20=20
+>  =E6=88=96=E8=80=85=EF=BC=8C=E4=BD=A0=E4=B9=9F=E5=8F=AF=E4=BB=A5=E4=BD=BF=
+=E7=94=A8 git =E5=85=8B=E9=9A=86=E6=9C=80=E6=96=B0=E7=9A=84 sparse =E9=96=
+=8B=E7=99=BC=E7=89=88=E6=9C=AC=EF=BC=9A
+>=20=20
+> -	git://git.kernel.org/pub/scm/linux/kernel/git/josh/sparse.git
+> +        git://git.kernel.org/pub/scm/devel/sparse/sparse.git
 
-So this series does not even come close to applying to docs-next; it
-includes things like the email-address change that you sent me a month
-ago.  What are you generating it against?
-
-Please.  We have been through a few too many rounds of this at this
-point.  If you can send me something I can apply against my tree, I'll
-look at it, but *make sure* it's a reasonable patch series before you
-send it again.
+Applied, thanks.
 
 jon
