@@ -2,92 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35BE0EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 16:55:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F06A3C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 17:01:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231126AbjHKQzL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 12:55:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33438 "EHLO
+        id S236052AbjHKRA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 13:00:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbjHKQzK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 12:55:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FCF52D7D;
-        Fri, 11 Aug 2023 09:55:10 -0700 (PDT)
+        with ESMTP id S235977AbjHKRA6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 13:00:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7484B30C1;
+        Fri, 11 Aug 2023 10:00:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2FBB567765;
-        Fri, 11 Aug 2023 16:55:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D6AEC433C8;
-        Fri, 11 Aug 2023 16:55:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 09EC160B79;
+        Fri, 11 Aug 2023 17:00:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 691AFC433C9;
+        Fri, 11 Aug 2023 17:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691772909;
-        bh=A/Y0gXKWfd4FvHyH1R3kRbDfa2sVb+Y8DGDKbEQm4yo=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=I1hRup5h29C6s2CxhN8PvrLCzgLhLQF/ZiR7/r+MdQIre2EpuVK6O5CoJgNRlcH6V
-         zj1ZROplgEbdR8XdG+611YXosP8GI8POKoqOfmqRxi7BAwsSDO4UPRoHZqJCo6ZMNy
-         H7iAJH6Tnv8MdqcCcuEKbR5moSf2S/a7nzsonSGUgyvPIsd5xxVfk5bZznH/0fgO1D
-         BLNyNv5qTVcu3FaE7dpWSX78kvrjV6GpuBitT2KnClIvrA3/h8g5CWDH7SN4Hx/gin
-         s6xjaSgpVyU/xOhQnprf8Zt4jMqgMwvmwjNvu60adJdOnzzkPQJx13MsPTsKd7P/RE
-         RyaghYa7eI3Zw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 1C5B3CE0593; Fri, 11 Aug 2023 09:55:09 -0700 (PDT)
-Date:   Fri, 11 Aug 2023 09:55:09 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Wei Zhang <zhangweilst@gmail.com>, corbet@lwn.net,
-        rostedt@goodmis.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: RCU: fix section numbers after adding
- Section 7 in whatisRCU.rst
-Message-ID: <275d00fb-8302-4a32-9d5a-754440f94463@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230808155811.550575-1-zhangweilst@gmail.com>
- <aac7b4bf-e961-6d3f-a4d3-01d56a19613d@infradead.org>
+        s=k20201202; t=1691773257;
+        bh=l1aOISgHLyF1tS0E6wyiBR8uld1+gi5jofN8WS08bZI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bIZh4+l26+bumdjG+bZVToiZ3djsVl+GVTghFsSnjne6ExjsxrYrltO5Q9rsFIMfd
+         YeEVvJjZ7VWTWcFvjz5ZWsXfWmyZwO9/S2Cos7G1qdSmXXfUXr4ezYXmclymHemksB
+         5RFlZYC17AaJ2AokgHCtO+4iWICrLv85UxAsiDY+VMnBlMn7JdtD8KyceES26UHWtB
+         3rycLa8T0et++fte67RueG4SLZA1Sy7pwfaRsRPopgKwSgl9vdhlKBP+mh+LoGmPNR
+         0Ng37vhFG53uXvjrDeO0XHuxojFC+5AOpF4IWCoOJU6YnkDHvmVCN7s8T4TeaCiaFz
+         UEc566dSW2TyQ==
+Received: (nullmailer pid 3606791 invoked by uid 1000);
+        Fri, 11 Aug 2023 17:00:54 -0000
+Date:   Fri, 11 Aug 2023 11:00:54 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yi-De Wu <yi-de.wu@mediatek.com>
+Cc:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        David Bradil <dbrazdil@google.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>,
+        Willix Yeh <chi-shen.yeh@mediatek.com>
+Subject: Re: [PATCH v5 04/12] virt: geniezone: Add vcpu support
+Message-ID: <20230811170054.GB3593414-robh@kernel.org>
+References: <20230727080005.14474-1-yi-de.wu@mediatek.com>
+ <20230727080005.14474-5-yi-de.wu@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aac7b4bf-e961-6d3f-a4d3-01d56a19613d@infradead.org>
+In-Reply-To: <20230727080005.14474-5-yi-de.wu@mediatek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 08, 2023 at 09:54:48PM -0700, Randy Dunlap wrote:
+On Thu, Jul 27, 2023 at 03:59:57PM +0800, Yi-De Wu wrote:
+> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
 > 
+> VMM use this interface to create vcpu instance which is a fd, and this
+> fd will be for any vcpu operations, such as setting vcpu registers and
+> accepts the most important ioctl GZVM_VCPU_RUN which requests GenieZone
+> hypervisor to do context switch to execute VM's vcpu context.
 > 
-> On 8/8/23 08:58, Wei Zhang wrote:
-> > Signed-off-by: Wei Zhang <zhangweilst@gmail.com>
-> 
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Thanks.
+> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+> Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
+> Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
+> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+> ---
+>  arch/arm64/geniezone/Makefile           |   2 +-
+>  arch/arm64/geniezone/gzvm_arch_common.h |  20 ++
+>  arch/arm64/geniezone/vcpu.c             |  88 +++++++++
+>  arch/arm64/geniezone/vm.c               |  11 ++
+>  arch/arm64/include/uapi/asm/gzvm_arch.h |  30 +++
 
-Queued and pushed, thank you both!
+I'm almost certain that the arm64 maintainers will reject putting this 
+here. What is the purpose of the split with drivers/virt/? Do you plan 
+to support another arch in the near future?
 
-							Thanx, Paul
+Yes, there's KVM stuff in arch/arm64, but that is multi-arch.
 
-> > ---
-> >  Documentation/RCU/whatisRCU.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-> > index e488c8e557a9..60ce02475142 100644
-> > --- a/Documentation/RCU/whatisRCU.rst
-> > +++ b/Documentation/RCU/whatisRCU.rst
-> > @@ -59,8 +59,8 @@ experiment with should focus on Section 2.  People who prefer to start
-> >  with example uses should focus on Sections 3 and 4.  People who need to
-> >  understand the RCU implementation should focus on Section 5, then dive
-> >  into the kernel source code.  People who reason best by analogy should
-> > -focus on Section 6.  Section 7 serves as an index to the docbook API
-> > -documentation, and Section 8 is the traditional answer key.
-> > +focus on Section 6 and 7.  Section 8 serves as an index to the docbook
-> > +API documentation, and Section 9 is the traditional answer key.
-> >  
-> >  So, start with the section that makes the most sense to you and your
-> >  preferred method of learning.  If you need to know everything about
-> > 
-> > base-commit: 14f9643dc90adea074a0ffb7a17d337eafc6a5cc
-> 
-> -- 
-> ~Randy
+>  drivers/virt/geniezone/Makefile         |   3 +-
+>  drivers/virt/geniezone/gzvm_vcpu.c      | 250 ++++++++++++++++++++++++
+>  drivers/virt/geniezone/gzvm_vm.c        |   5 +
+>  include/linux/gzvm_drv.h                |  21 ++
+>  include/uapi/linux/gzvm.h               | 136 +++++++++++++
+>  10 files changed, 564 insertions(+), 2 deletions(-)
+>  create mode 100644 arch/arm64/geniezone/vcpu.c
+>  create mode 100644 drivers/virt/geniezone/gzvm_vcpu.c
