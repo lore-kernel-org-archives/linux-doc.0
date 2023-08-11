@@ -2,72 +2,282 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D76FC001DB
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Aug 2023 02:43:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5655C001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 19:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229780AbjHHCnk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Aug 2023 22:43:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59294 "EHLO
+        id S235310AbjHKTwa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 15:52:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjHHCnj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Aug 2023 22:43:39 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ABB819F
-        for <linux-doc@vger.kernel.org>; Mon,  7 Aug 2023 19:43:39 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-686be3cbea0so4105521b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 Aug 2023 19:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1691462618; x=1692067418;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=INNxwX5OXvLNLDOBW649YAXFL5xD3rewmot3fGeUu+U=;
-        b=A2/H7xZD3CqmMHtFxsVqnriGlaXy35N8gBbwRol4vGFZvKVXNjRJ4I2Ej91W89NYJM
-         wSNrqUuSu0NHolUuyrAQOlT9CF2bWUVb0RRUmRd1vsjGH8JXqQUMDtKUCngxFdnfJqFN
-         O4M6br26j+O/QUpWu/rrKJIXEuTHwWBeF8GT0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691462618; x=1692067418;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=INNxwX5OXvLNLDOBW649YAXFL5xD3rewmot3fGeUu+U=;
-        b=QSp1bdDKs0W1fc/3TbneB7xd0puMe9lb0YIC6bOTUNr6FuM/AC3c+RAcU0ld6pnYap
-         f5DREL4/gdylbc0lQIzUkb8+CVVMk+eP/BakqxBBwOxWHcKyCJT7osl54hxNT4GB+z9j
-         ndjZAx1UEtZQQ+Y+q/Lna6pWHoAD4foW0zUXYPZ5MMulUSBcMkL9ufZeBYrDYZpjKKdA
-         ZH+XS1bepg0lLfXkgoeBzYzNYEf31AxcRBB3SO/Vma4M9B2zmn9pArmlgmPr57y/uR8s
-         2OjcweTqEehjXDDwAh8Gk/RmBKR+A4pcIxuKh+5cU+eSyD76Hh+1lk9ecuxKjjgakpN0
-         4tmA==
-X-Gm-Message-State: AOJu0Yz71ztGATBdzSlZ+4GZk3IfZ9tDdqtPcWOSQqlTkGT8R+bK+rTG
-        3kBUvM1vCqRGMb/f32CMoD1FhJG2NczDXIUHt/8=
-X-Google-Smtp-Source: AGHT+IEEHi3T6ZsjgaGRPluPDjQtcIdZ3It0oJBuq7pr5+R6rIUvnxra471DvdmsO6KuBdWwjldy+w==
-X-Received: by 2002:a05:6a20:440a:b0:133:38cb:2b93 with SMTP id ce10-20020a056a20440a00b0013338cb2b93mr11291967pzb.9.1691462618594;
-        Mon, 07 Aug 2023 19:43:38 -0700 (PDT)
-Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
-        by smtp.gmail.com with ESMTPSA id p23-20020aa78617000000b00662610cf7a8sm7063479pfn.172.2023.08.07.19.43.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Aug 2023 19:43:38 -0700 (PDT)
-From:   Brandon Pollack <brpol@chromium.org>
-To:     jshargo@chromium.org
-Cc:     airlied@gmail.com, corbet@lwn.net, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
-        melissa.srw@gmail.com, mripard@kernel.org,
-        rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
-Subject: 
-Date:   Tue,  8 Aug 2023 02:42:33 +0000
-Message-ID: <20230808024313.2220391-2-brpol@chromium.org>
-X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
-In-Reply-To: <20230623222353.97283-1-jshargo@chromium.org>
-References: <20230623222353.97283-1-jshargo@chromium.org>
+        with ESMTP id S236736AbjHKTwS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 15:52:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A19422694
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 12:51:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691783491;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xXxOGzkfxn/aWsd8gPttRmlIA5cRwswhSr29IEOi3U4=;
+        b=AtvkqVADF5GL0kihmF40EzoQVZicXKwn2u2cew46NZp6rWHSLw5ADy6KKwWWpETQRNslgp
+        NZbY1A2EBM/PibPpT5TQpUPGmw4WgwD+uQgWJb1TB/8ZHGCCIlI55ADF5bjrknzq34z83u
+        kuVt+Xy6uWPKdnlds1GKEJ/H3+wZv2s=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-6-GKeywzkZPMCI_IeqWCbtpw-1; Fri, 11 Aug 2023 15:51:28 -0400
+X-MC-Unique: GKeywzkZPMCI_IeqWCbtpw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC0591C0514C;
+        Fri, 11 Aug 2023 19:51:26 +0000 (UTC)
+Received: from [10.22.17.82] (unknown [10.22.17.82])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EEE2B40C6F4E;
+        Fri, 11 Aug 2023 19:51:24 +0000 (UTC)
+Message-ID: <4cc7113a-0e4e-763a-cba2-7963bcd26c7a@redhat.com>
+Date:   Fri, 11 Aug 2023 15:51:24 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH V10 05/19] riscv: qspinlock: Introduce combo spinlock
+Content-Language: en-US
+To:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
+        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
+        catalin.marinas@arm.com, conor.dooley@microchip.com,
+        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
+        alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn
+Cc:     linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+References: <20230802164701.192791-1-guoren@kernel.org>
+ <20230802164701.192791-6-guoren@kernel.org>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20230802164701.192791-6-guoren@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Any progress on this?  Is it ok if yixie@chromium.org and I do the
-followups on this patch so that we can also submit the Hotplug patch I
-wrote (that's now archived?).
+On 8/2/23 12:46, guoren@kernel.org wrote:
+> From: Guo Ren <guoren@linux.alibaba.com>
+>
+> Combo spinlock could support queued and ticket in one Linux Image and
+> select them during boot time via errata mechanism. Here is the func
+> size (Bytes) comparison table below:
+>
+> TYPE			: COMBO | TICKET | QUEUED
+> arch_spin_lock		: 106	| 60     | 50
+> arch_spin_unlock	: 54    | 36     | 26
+> arch_spin_trylock	: 110   | 72     | 54
+> arch_spin_is_locked	: 48    | 34     | 20
+> arch_spin_is_contended	: 56    | 40     | 24
+> rch_spin_value_unlocked	: 48    | 34     | 24
+>
+> One example of disassemble combo arch_spin_unlock:
+>     0xffffffff8000409c <+14>:    nop                # detour slot
+>     0xffffffff800040a0 <+18>:    fence   rw,w       # queued spinlock start
+>     0xffffffff800040a4 <+22>:    sb      zero,0(a4) # queued spinlock end
+>     0xffffffff800040a8 <+26>:    ld      s0,8(sp)
+>     0xffffffff800040aa <+28>:    addi    sp,sp,16
+>     0xffffffff800040ac <+30>:    ret
+>     0xffffffff800040ae <+32>:    lw      a5,0(a4)   # ticket spinlock start
+>     0xffffffff800040b0 <+34>:    sext.w  a5,a5
+>     0xffffffff800040b2 <+36>:    fence   rw,w
+>     0xffffffff800040b6 <+40>:    addiw   a5,a5,1
+>     0xffffffff800040b8 <+42>:    slli    a5,a5,0x30
+>     0xffffffff800040ba <+44>:    srli    a5,a5,0x30
+>     0xffffffff800040bc <+46>:    sh      a5,0(a4)   # ticket spinlock end
+>     0xffffffff800040c0 <+50>:    ld      s0,8(sp)
+>     0xffffffff800040c2 <+52>:    addi    sp,sp,16
+>     0xffffffff800040c4 <+54>:    ret
+>
+> The qspinlock is smaller and faster than ticket-lock when all are in
+> fast-path, and combo spinlock could provide a compatible Linux Image
+> for different micro-arch design (weak/strict fwd guarantee) processors.
+>
+> Signed-off-by: Guo Ren <guoren@kernel.org>
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> ---
+>   arch/riscv/Kconfig                |  9 +++-
+>   arch/riscv/include/asm/hwcap.h    |  1 +
+>   arch/riscv/include/asm/spinlock.h | 87 ++++++++++++++++++++++++++++++-
+>   arch/riscv/kernel/cpufeature.c    | 10 ++++
+>   4 files changed, 104 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index e89a3bea3dc1..119e774a3dcf 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -440,7 +440,7 @@ config NODES_SHIFT
+>   
+>   choice
+>   	prompt "RISC-V spinlock type"
+> -	default RISCV_TICKET_SPINLOCKS
+> +	default RISCV_COMBO_SPINLOCKS
+>   
+>   config RISCV_TICKET_SPINLOCKS
+>   	bool "Using ticket spinlock"
+> @@ -452,6 +452,13 @@ config RISCV_QUEUED_SPINLOCKS
+>   	help
+>   	  Make sure your micro arch LL/SC has a strong forward progress guarantee.
+>   	  Otherwise, stay at ticket-lock.
+> +
+> +config RISCV_COMBO_SPINLOCKS
+> +	bool "Using combo spinlock"
+> +	depends on SMP && MMU
+> +	select ARCH_USE_QUEUED_SPINLOCKS
+> +	help
+> +	  Select queued spinlock or ticket-lock via errata.
+>   endchoice
+>   
+>   config RISCV_ALTERNATIVE
+> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+> index f041bfa7f6a0..08ae75a694c2 100644
+> --- a/arch/riscv/include/asm/hwcap.h
+> +++ b/arch/riscv/include/asm/hwcap.h
+> @@ -54,6 +54,7 @@
+>   #define RISCV_ISA_EXT_ZIFENCEI		41
+>   #define RISCV_ISA_EXT_ZIHPM		42
+>   
+> +#define RISCV_ISA_EXT_XTICKETLOCK	63
+>   #define RISCV_ISA_EXT_MAX		64
+>   #define RISCV_ISA_EXT_NAME_LEN_MAX	32
+>   
+> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
+> index c644a92d4548..9eb3ad31e564 100644
+> --- a/arch/riscv/include/asm/spinlock.h
+> +++ b/arch/riscv/include/asm/spinlock.h
+> @@ -7,11 +7,94 @@
+>   #define _Q_PENDING_LOOPS	(1 << 9)
+>   #endif
+>   
 
+I see why you separated the _Q_PENDING_LOOPS out.
+
+
+> +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> +#include <asm-generic/ticket_spinlock.h>
+> +
+> +#undef arch_spin_is_locked
+> +#undef arch_spin_is_contended
+> +#undef arch_spin_value_unlocked
+> +#undef arch_spin_lock
+> +#undef arch_spin_trylock
+> +#undef arch_spin_unlock
+> +
+> +#include <asm-generic/qspinlock.h>
+> +#include <asm/hwcap.h>
+> +
+> +#undef arch_spin_is_locked
+> +#undef arch_spin_is_contended
+> +#undef arch_spin_value_unlocked
+> +#undef arch_spin_lock
+> +#undef arch_spin_trylock
+> +#undef arch_spin_unlock
+Perhaps you can add a macro like __no_arch_spinlock_redefine to disable 
+the various arch_spin_* definition in qspinlock.h and ticket_spinlock.h.
+> +
+> +#define COMBO_DETOUR				\
+> +	asm_volatile_goto(ALTERNATIVE(		\
+> +		"nop",				\
+> +		"j %l[ticket_spin_lock]",	\
+> +		0,				\
+> +		RISCV_ISA_EXT_XTICKETLOCK,	\
+> +		CONFIG_RISCV_COMBO_SPINLOCKS)	\
+> +		: : : : ticket_spin_lock);
+> +
+> +static __always_inline void arch_spin_lock(arch_spinlock_t *lock)
+> +{
+> +	COMBO_DETOUR
+> +	queued_spin_lock(lock);
+> +	return;
+> +ticket_spin_lock:
+> +	ticket_spin_lock(lock);
+> +}
+> +
+> +static __always_inline bool arch_spin_trylock(arch_spinlock_t *lock)
+> +{
+> +	COMBO_DETOUR
+> +	return queued_spin_trylock(lock);
+> +ticket_spin_lock:
+> +	return ticket_spin_trylock(lock);
+> +}
+> +
+> +static __always_inline void arch_spin_unlock(arch_spinlock_t *lock)
+> +{
+> +	COMBO_DETOUR
+> +	queued_spin_unlock(lock);
+> +	return;
+> +ticket_spin_lock:
+> +	ticket_spin_unlock(lock);
+> +}
+> +
+> +static __always_inline int arch_spin_value_unlocked(arch_spinlock_t lock)
+> +{
+> +	COMBO_DETOUR
+> +	return queued_spin_value_unlocked(lock);
+> +ticket_spin_lock:
+> +	return ticket_spin_value_unlocked(lock);
+> +}
+> +
+> +static __always_inline int arch_spin_is_locked(arch_spinlock_t *lock)
+> +{
+> +	COMBO_DETOUR
+> +	return queued_spin_is_locked(lock);
+> +ticket_spin_lock:
+> +	return ticket_spin_is_locked(lock);
+> +}
+> +
+> +static __always_inline int arch_spin_is_contended(arch_spinlock_t *lock)
+> +{
+> +	COMBO_DETOUR
+> +	return queued_spin_is_contended(lock);
+> +ticket_spin_lock:
+> +	return ticket_spin_is_contended(lock);
+> +}
+> +#else /* CONFIG_RISCV_COMBO_SPINLOCKS */
+> +
+>   #ifdef CONFIG_QUEUED_SPINLOCKS
+>   #include <asm/qspinlock.h>
+> -#include <asm/qrwlock.h>
+>   #else
+> -#include <asm-generic/spinlock.h>
+> +#include <asm-generic/ticket_spinlock.h>
+>   #endif
+>   
+> +#endif /* CONFIG_RISCV_COMBO_SPINLOCKS */
+> +
+> +#include <asm/qrwlock.h>
+> +
+>   #endif /* __ASM_RISCV_SPINLOCK_H */
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> index bdcf460ea53d..e65b0e54152d 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -324,6 +324,16 @@ void __init riscv_fill_hwcap(void)
+>   		set_bit(RISCV_ISA_EXT_ZICSR, isainfo->isa);
+>   		set_bit(RISCV_ISA_EXT_ZIFENCEI, isainfo->isa);
+>   
+> +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> +		/*
+> +		 * The RISC-V Linux used queued spinlock at first; then, we used ticket_lock
+> +		 * as default or queued spinlock by choice. Because ticket_lock would dirty
+> +		 * spinlock value, the only way is to change from queued_spinlock to
+> +		 * ticket_spinlock, but can not be vice.
+
+The phrase "but can not be vice" is confusing. I think you mean "but not 
+vice versa". Right?
+
+Cheers,
+Longman
 
