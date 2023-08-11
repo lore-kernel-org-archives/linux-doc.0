@@ -2,137 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 198B2C001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 15:36:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B26C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 15:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235333AbjHKPgJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 11:36:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48792 "EHLO
+        id S234398AbjHKPnS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 11:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230419AbjHKPgH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 11:36:07 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D166127;
-        Fri, 11 Aug 2023 08:36:05 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6873a30d02eso1586758b3a.3;
-        Fri, 11 Aug 2023 08:36:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691768165; x=1692372965;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JrSPKnMPxUyxdZ56A/Ymf1Wam2Yx6ql1R/ZidYXYTho=;
-        b=jva4C7cpDg8zRAMDDZAAUrdwUtQLPFDSXloW+ftgp+L3aCe32CrqEXRQKgf2G7n9A6
-         1PUbLC0t6OBnX6m97EpeRXKv9EEjp/d/Qy2US5bVuc5Q/DEo5eKQJLUPP0B3s4nXd+qU
-         quCtsw8qVdSvB6PBsA+B1Kn+UoMljYxecAv+wdGx1ZQ7QxNEVnyLNVKd38gbBIkPbij3
-         cVtZiX+eaz81nwOC7Jqu0ek6lXkiS2KikgLZ0tm5G12nq/YkEhvugpr6ngVnbdZiVNAn
-         nlHD9dobvEEiQ5/oafOkF7xZ7UoceVddeaf2h70UEiyIj5gJKXYWzF9qPREMJOwTSBq9
-         pS2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691768165; x=1692372965;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JrSPKnMPxUyxdZ56A/Ymf1Wam2Yx6ql1R/ZidYXYTho=;
-        b=IZLjSUKfLSWnjsK+xUbLv+8g3DzhdTIrWSAInJ/gxfRwhuiKDUlwjIVqnnJacsRTTH
-         2tLrmILIfBBOG1NOSggC8hs7Gl+OKNDhTNmgYUCKoprmaYET4vH86eCl9Jm1STxswoSY
-         FBr+BzUiQVKdkLVRgjEOR3h4j4eI7q7qkr1gtzgAj2m0Dp7sKJN0w/FA5BywoGWl2jaD
-         VMN8lRdcRwI6CEAt1L9A11EnCJe9Fi30RQGv+ZCKWnUOPM+ny5R+XqPuBYDfqBsTFRLA
-         6TspcsOE9RyZ2xYFOA6moXAcPKouDd3dZHjLNZfiLsNgx+xCu39XBjCjDnrO0SA7ltBx
-         EFzA==
-X-Gm-Message-State: AOJu0YwmpxBd0Mc2jfuofl4lugHiRse7+yv7IiLURx1iWfQS+6UL15ZQ
-        Y/pADvc0RtO1ul6Uj2tNLBg=
-X-Google-Smtp-Source: AGHT+IGp0UrcmUhKYMgZpTaA902zqyyJ4NP8WEf9QX1vWOwJXbN06e0AboUaUqgLmSlLBlpUtAjacQ==
-X-Received: by 2002:a05:6a00:21d6:b0:687:5bd6:b6d1 with SMTP id t22-20020a056a0021d600b006875bd6b6d1mr2262941pfj.3.1691768164884;
-        Fri, 11 Aug 2023 08:36:04 -0700 (PDT)
-Received: from ubuntu777.domain.name (36-228-78-6.dynamic-ip.hinet.net. [36.228.78.6])
-        by smtp.gmail.com with ESMTPSA id c15-20020aa78c0f000000b006826c9e4397sm3467602pfd.48.2023.08.11.08.36.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Aug 2023 08:36:04 -0700 (PDT)
-From:   Min-Hua Chen <minhuadotchen@gmail.com>
-To:     Hu Haowen <src.res@email.cn>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Min-Hua Chen <minhuadotchen@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs: sparse: convert TW sparse.txt into sparse.rst
-Date:   Fri, 11 Aug 2023 23:35:54 +0800
-Message-Id: <20230811153554.84571-3-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230811153554.84571-1-minhuadotchen@gmail.com>
-References: <20230811153554.84571-1-minhuadotchen@gmail.com>
-MIME-Version: 1.0
+        with ESMTP id S233265AbjHKPnR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 11:43:17 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04hn2224.outbound.protection.outlook.com [52.100.17.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD8918E;
+        Fri, 11 Aug 2023 08:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TxwwTIN3XUd+cebiGAu6zsxXxD+mfcUOmp2YX+RjkuQ=;
+ b=VvJTJ++t/s0ZPjSvZjw5An8hFC555Zjd2irjCRAO+haHXFcmK9LA/dvCiFTKY9MIt93UA1kWjdKP1iFf873LCrqAzuIGdPYNf1xo5UQplmQuRSDnkPY0L+wSxWNcUw5TZYRB0ur3BoHRffSvAvbmnqHkUfeAtz9hid2I6ROedWnpDfhMPfXCCvjZF1BtQLGw7/DZmjKAvWpyBFtehohYIsRCvKnGHRV85+p5QaTSuXdVInEUSPqfLlABBzd8xXU9J6c111+9m6ornT3E0KXODPVZQL5R4Ox2Sd1bJ/icefPW2xcPS6nypPNhHtBww+mrWXKdmwm/O0UO79ECX9Cd1A==
+Received: from DU2P250CA0002.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:231::7) by
+ DU0PR03MB9255.eurprd03.prod.outlook.com (2603:10a6:10:470::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6652.30; Fri, 11 Aug 2023 15:43:12 +0000
+Received: from DB8EUR05FT043.eop-eur05.prod.protection.outlook.com
+ (2603:10a6:10:231:cafe::76) by DU2P250CA0002.outlook.office365.com
+ (2603:10a6:10:231::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.31 via Frontend
+ Transport; Fri, 11 Aug 2023 15:43:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.160.56.87)
+ smtp.mailfrom=seco.com; dkim=pass (signature was verified)
+ header.d=seco.com;dmarc=pass action=none header.from=seco.com;
+Received-SPF: Pass (protection.outlook.com: domain of seco.com designates
+ 20.160.56.87 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.160.56.87; helo=inpost-eu.tmcas.trendmicro.com; pr=C
+Received: from inpost-eu.tmcas.trendmicro.com (20.160.56.87) by
+ DB8EUR05FT043.mail.protection.outlook.com (10.233.239.63) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6699.9 via Frontend Transport; Fri, 11 Aug 2023 15:43:12 +0000
+Received: from outmta (unknown [192.168.82.132])
+        by inpost-eu.tmcas.trendmicro.com (Trend Micro CAS) with ESMTP id C81D4200813A4;
+        Fri, 11 Aug 2023 15:43:11 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (unknown [104.47.14.50])
+        by repre.tmcas.trendmicro.com (Trend Micro CAS) with ESMTPS id A95C42008006E;
+        Fri, 11 Aug 2023 15:43:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ja5y6HzEagaRyCoSYSjTdjzEfILZSEmq/ZCpmeE3MIh/HlJ2Wm5jflO+zFIH/LGyuZkUi7H2CcAw4AtJ8dLSxNgVz0lF00OXHqMVrPpGDfcCqxesUpmGX8n7ApwirE/mq5f8tyf0eLGM23dyGi+BiXlpecnPEiWu8ISrr4fUCMx/9T0UjTUds/a77HiY/9ORUxCG8FAvFnkGCbZ6T1IXU03XwWgXQSqJm0AzzDLsPnLPQqq7i4L9paidScYRxVCQctDVReaHFu7CZClWKw4gVgG8cSgWFbbbEAbvhh+S8NBSdTZhK9pnvK4h9xy4L14mLi15uvVhe7ArylGBzg4lMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TxwwTIN3XUd+cebiGAu6zsxXxD+mfcUOmp2YX+RjkuQ=;
+ b=em1cWTaWmPqfREITtkSRockcrb0xVztJFUhTDXd4ZLuHf9kkZxjOlp/49j5CkSwbjTGJ9681h0mJiwPW4i1GI8MSh4p0VL9QCbcnu4aKYwpuMKIO6bRJTbIjwGN9YnWeIa3Ua6pTTek6W69Q5oRKOwXFFfnTf/y3qKrhc04qDfDP5aLQlQTEwu3Q/f8PngaGFvekHxFb2gyl6RtLhmlXaV8LtV5cguRuY21okaQfHfBQfk54zZVL6oznJVOr4vhfUeNkhdb0KJP/evGNS4kmgDT78vs/Yn/KIjMq8Ci4Rk4JcWnSvGYEUF4d9/2lp656JfUxrZ31RQvh2EHWH8kRVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TxwwTIN3XUd+cebiGAu6zsxXxD+mfcUOmp2YX+RjkuQ=;
+ b=VvJTJ++t/s0ZPjSvZjw5An8hFC555Zjd2irjCRAO+haHXFcmK9LA/dvCiFTKY9MIt93UA1kWjdKP1iFf873LCrqAzuIGdPYNf1xo5UQplmQuRSDnkPY0L+wSxWNcUw5TZYRB0ur3BoHRffSvAvbmnqHkUfeAtz9hid2I6ROedWnpDfhMPfXCCvjZF1BtQLGw7/DZmjKAvWpyBFtehohYIsRCvKnGHRV85+p5QaTSuXdVInEUSPqfLlABBzd8xXU9J6c111+9m6ornT3E0KXODPVZQL5R4Ox2Sd1bJ/icefPW2xcPS6nypPNhHtBww+mrWXKdmwm/O0UO79ECX9Cd1A==
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by PR3PR03MB6396.eurprd03.prod.outlook.com (2603:10a6:102:75::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.20; Fri, 11 Aug
+ 2023 15:43:07 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::21bd:6579:b3d1:e5f7]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::21bd:6579:b3d1:e5f7%4]) with mapi id 15.20.6652.029; Fri, 11 Aug 2023
+ 15:43:07 +0000
+Message-ID: <26623d0c-8a5a-614b-7df7-69214aaec524@seco.com>
+Date:   Fri, 11 Aug 2023 11:43:01 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
+Content-Language: en-US
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?UTF-8?B?RmVybuKUnMOtbmRleiBSb2phcw==?= <noltari@gmail.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <20230429172422.vc35tnwkekfieoru@skbuf>
+ <c81d23b6-ed22-0b37-d71b-ddce9d5d58eb@seco.com>
+ <c2f928d2-25f6-0e31-9ab3-9d585968df1b@seco.com>
+ <20230522150010.q5zndfwcuvrb6pg2@skbuf>
+ <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
+ <20230610222123.mzmfjx7zfw4nh2lo@skbuf>
+ <c702e2b6-cb0f-4ac9-86fe-a220284d45aa@seco.com>
+ <20230612163353.dwouatvqbuo6h4ea@skbuf>
+ <1dd01fe2-08a8-ec2f-1184-a58b2f55ba85@seco.com>
+ <20230613142754.wr5njtjo4tbloqwu@skbuf>
+ <20230811150826.urp2hzl3tahesrjx@skbuf>
+From:   Sean Anderson <sean.anderson@seco.com>
+In-Reply-To: <20230811150826.urp2hzl3tahesrjx@skbuf>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BLAPR05CA0047.namprd05.prod.outlook.com
+ (2603:10b6:208:335::28) To DB9PR03MB8847.eurprd03.prod.outlook.com
+ (2603:10a6:10:3dd::13)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|PR3PR03MB6396:EE_|DB8EUR05FT043:EE_|DU0PR03MB9255:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f8d5f6a-55c5-4150-067b-08db9a81ab82
+X-TrendMicro-CAS-OUT-LOOP-IDENTIFIER: 656f966764b7fb185830381c646b41a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: HRl4wAm3rbY3bQzux+49YFZafPjYD54zZKdIaiT3Z9fa0l0N8xMQJz4IeH1uWMvrjk+uYKmpoBYhJUdImt0ISFEMeH54DU9Bx+TICt2housmJ5ORI2zVJCy7SE12IEPbFMivnbyFGEmxQBxekaNzyQkAAHRkY7+KPwgtfGXs9SnMTbQIbcCj9Q0Uat38hWBqLcFCYlSm737nzZufl9B/Q3WrWONjWFWQzLtWFbyIkj+K1OodPG990WhbWrZ0UMnUBVfaD60m1IBLD2VtSRmLyZSlKOKR7MzHMO2qOGNn/q2KmHM/FPiFP+aemVp1r5Nozslj4HTlYG9SEPhZSW60PWjamxQEMe/P9R85Esa0WR3seC3Ud2mIK4GBsNWkXNXpW9gtpmIiHj043daCIsvbqG666FreHpdgxs/DEvMB01ZOcaVJ/mSSJj8nE0vxVKh2ICV4koIgzr6C9cYGFBM9dlv/EnRuAnnevGAP3mbMMoCpgSw6b8e3fXWB7A7kz/lPqFbhmA1viRwnaYyFQhVP1O2YMkePsO+J1Dw9wfg99sWiy5wVtL63Dy4rIux+/re3BrZeljDZFCSaIg1/AW+VGbSBD3+2azDYQCGihDswMkvtWyCQTIHBnaHnCU4Mvn6BNmGrP6PHJAGBK+ogxj7+YRGKHQe6x10BtDlH4beJ0tRTxtcXG9d6/35iL0rRsk+z
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(366004)(136003)(396003)(39850400004)(376002)(186006)(1800799006)(451199021)(31686004)(6512007)(52116002)(36756003)(31696002)(86362001)(38100700002)(38350700002)(53546011)(26005)(83380400001)(6506007)(2616005)(478600001)(6486002)(54906003)(6666004)(4326008)(6916009)(316002)(41300700001)(8936002)(8676002)(66476007)(44832011)(7416002)(2906002)(5660300002)(66946007)(66556008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR03MB6396
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB8EUR05FT043.eop-eur05.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: e9122305-3195-4875-930e-08db9a81a893
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hQX0fMC1pqlF90SIP3440DtFtCGbvJYOxZflOTGqJH3hknMfnKFCGeBFLS7mmH0Nt0arnfjLi23u03RVa9U1hwjsxD691bpAX8zf8doaBmhMb0Zek/db7KhuoAVjkRLegGkEh8eo3T36kgk7Lhvk7Fl1h1g+Ih77IkmqqvZVNQOhOjG/x5YRVgT1PPOZGu2g0VeV4nAWMGRrYwOVAR9wk2d3i1jXwiPuc9hoLowrbpX+HLsPNN94dHhT9O22wIN7qo7YeyF6MGwCBlux7QoACuP9KwXYt67p95sTV0U0M0leS6pZqh56SZPPKEyXZSwpG+PoYGn9A8I4wBE8fjUYwSA7yvJNSZeTYspQu8w4q/GAEIQSmK0ZEuy9V3EioDWqkkKX4MLUiqaJXbJZpYL9/BN7pUkFnuO/7zdR4USj3IyVrUEuxBeMwagjc1pQCoDTsTGClr5kc6BirpjapLKuFzcqXw85dk+lP3rflndymPgVuzUKO3EejxNi+oYHC0cFcxrwJ6TAjWSwVcwolMKKIbNe3k5pVKzj9yMJeGxl2j0lsnemNrPx59DigCUw9AnJHmbyyCD8wKAJhoIZbs4WrA3HQP8YHVfxTW5auGgtrg4KW7mUbG8TnIFqNNQQB9zZMkJ6RbTF8Rrl7pJ2hmA1mlAmlX9sMpVPgEo/5A8bz8AHgk2782S7nSBQnKimOaGi23QguJ8t7CGJaq/sXywNyqWAFLTr1zYRNhJDolABCEVAsHje1cCSmLrs6A1lUC1U8Cv3KNmd/IcZ7oXiT18c1ampE+Kk74vuQIxMo2CLU5FBPv5FA5ii+FWW5cglyoYrBFTS9St4+Rl5phteoYo3Jw==
+X-Forefront-Antispam-Report: CIP:20.160.56.87;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:inpost-eu.tmcas.trendmicro.com;PTR:inpost-eu.tmcas.trendmicro.com;CAT:NONE;SFS:(13230028)(39850400004)(346002)(136003)(396003)(376002)(451199021)(1800799006)(5400799015)(82310400008)(186006)(36840700001)(40470700004)(46966006)(316002)(478600001)(6512007)(36860700001)(7416002)(31696002)(2616005)(6666004)(5660300002)(44832011)(6486002)(47076005)(70206006)(70586007)(86362001)(31686004)(41300700001)(8676002)(8936002)(6916009)(4326008)(83380400001)(36756003)(2906002)(34020700004)(53546011)(6506007)(40460700003)(82740400003)(26005)(54906003)(40480700001)(7596003)(336012)(356005)(7636003)(43740500002)(12100799036);DIR:OUT;SFP:1501;
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2023 15:43:12.1003
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f8d5f6a-55c5-4150-067b-08db9a81ab82
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bebe97c3-6438-442e-ade3-ff17aa50e733;Ip=[20.160.56.87];Helo=[inpost-eu.tmcas.trendmicro.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB8EUR05FT043.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR03MB9255
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Follow Randy's advice [1] to move
-Documentation/translations/zh_TW/dev-tools/sparse.txt
-to
-Documentation/translations/zh_TW/dev-tools/sparse.rst
+On 8/11/23 11:08, Vladimir Oltean wrote:
+> Hi Sean,
+> 
+> On Tue, Jun 13, 2023 at 05:27:54PM +0300, Vladimir Oltean wrote:
+>> > > At first sight you might appear to have a point related to the fact that
+>> > > PLL register writes are necessary, and thus this whole shebang is necessary.
+>> > > But this can all be done using PBI commands, with the added benefit that
+>> > > U-Boot can also use those SERDES networking ports, and not just Linux.
+>> > > You can use the RCW+PBL specific to your board to inform the SoC that
+>> > > your platform's refclk 1 is 156 MHz (something which the reset state
+>> > > machine seems unable to learn, with protocol 0x3333). You don't have to
+>> > > put that in the device tree. You don't have to push code to any open
+>> > > source project to expose your platform specific details. Then, just like
+>> > > in the case of the Lynx 28G driver on LX2160, the SERDES driver could
+>> > > just treat the PLL configuration as read-only, which would greatly
+>> > > simplify things and eliminate the need for a clk driver.
+>> > > 
+>> > > Here is an illustrative example (sorry, I don't have a board with the
+>> > > right refclk on that PLL, to verify all the way):
+>> > > 
+>> > > ... snip ...
+>> > 
+>> > (which of course complicates the process of building the PBIs...)
+>> 
+>> Maybe this is the language barrier, but what are you trying to say here?
+> 
+> I said that I don't understand. Can you please clarify what you were
+> trying to transmit with this comment?
 
-[1] https://lore.kernel.org/lkml/bfab7c5b-e4d3-d8d9-afab-f43c0cdf26cf@infradead.org/
+Well, right now I produce my RCWs by generating a second RCW with e.g.
+1133 replaced by 3333. But doing this is a more involved change. Just a
+minor issue, really. That said, I don't think this is the best approach
+moving forward. Much like many other platforms, users should be able to
+plug in an SFP module and Linux should configure things appropriately.
+An RCW approach requires some kind of configuration tool to swap out the
+bootloaders, which isn't as good of a user experience.
 
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
----
- .../dev-tools/{sparse.txt => sparse.rst}      | 31 ++++++-------------
- 1 file changed, 10 insertions(+), 21 deletions(-)
- rename Documentation/translations/zh_TW/dev-tools/{sparse.txt => sparse.rst} (71%)
-
-diff --git a/Documentation/translations/zh_TW/dev-tools/sparse.txt b/Documentation/translations/zh_TW/dev-tools/sparse.rst
-similarity index 71%
-rename from Documentation/translations/zh_TW/dev-tools/sparse.txt
-rename to Documentation/translations/zh_TW/dev-tools/sparse.rst
-index 6d2d088b1060..2f632f6ce8e8 100644
---- a/Documentation/translations/zh_TW/dev-tools/sparse.txt
-+++ b/Documentation/translations/zh_TW/dev-tools/sparse.rst
-@@ -1,33 +1,22 @@
--﻿Chinese translated version of Documentation/dev-tools/sparse.rst
--
--If you have any comment or update to the content, please contact the
--original document maintainer directly.  However, if you have a problem
--communicating in English you can also ask the Chinese maintainer for
--help.  Contact the Chinese maintainer if this translation is outdated
--or if there is a problem with the translation.
-+﻿Copyright 2004 Linus Torvalds
-+Copyright 2004 Pavel Machek <pavel@ucw.cz>
-+Copyright 2006 Bob Copeland <me@bobcopeland.com>
- 
--Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
-----------------------------------------------------------------------
--Documentation/dev-tools/sparse.rst 的繁體中文翻譯
-+.. include:: ../disclaimer-zh_TW.rst
- 
--如果想評論或更新本文的內容，請直接聯繫原文檔的維護者。如果你使用英文
--交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
--者翻譯存在問題，請聯繫繁體中文版維護者。
-+:Original: Documentation/dev-tools/sparse.rst
- 
--繁體中文版維護者： 胡皓文 Hu Haowen <src.res@email.cn>
--繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res@email.cn>
-+:翻譯:
- 
--以下爲正文
-----------------------------------------------------------------------
-+Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
- 
--Copyright 2004 Linus Torvalds
--Copyright 2004 Pavel Machek <pavel@ucw.cz>
--Copyright 2006 Bob Copeland <me@bobcopeland.com>
-+Sparse
-+======
- 
- 使用 sparse 工具做類型檢查
- ~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--"__bitwise" 是一種類型屬性，所以你應該這樣使用它：
-+"__bitwise" 是一種類型屬性，所以你應該這樣使用它::
- 
-         typedef int __bitwise pm_request_t;
- 
--- 
-2.34.1
-
+--Sean
