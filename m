@@ -2,164 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EF5CEB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 15:17:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8ED5C04A94
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 15:19:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236122AbjHKPRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 11:17:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45946 "EHLO
+        id S236403AbjHKPTd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 11:19:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236157AbjHKPRy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 11:17:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93CED30C8
-        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691767026;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PjgG9L91w6qmgYTaep8DhZMo3htJ0LqTmmQ9RNCiHlc=;
-        b=VLXGnaAriwKbQTjUfvQpR9xwZjvhSSQlsAoyJatTgBjP+fpy+gOhoj1htup+r26dSEEEgU
-        5OQHqz7+n/t9DjyKjHvECh0CgC+ZBIxNq9frV+GgCpoEdKbwRmE8SVB2crffCGb5mAAsvV
-        FZtbqfzqzHovT+uI8jHHyf9ApRxJmO0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-543-7PqhG70RPZiivp-Gwe8P6g-1; Fri, 11 Aug 2023 11:17:05 -0400
-X-MC-Unique: 7PqhG70RPZiivp-Gwe8P6g-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-315af0252c2so1262684f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:17:05 -0700 (PDT)
+        with ESMTP id S236420AbjHKPTX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 11:19:23 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E2F3594
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:19:16 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3090d3e9c92so1868559f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1691767155; x=1692371955;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zADELGUWpGyqS4NPi0hC5rU83b70YaTQQPW65NChPlI=;
+        b=PpOJJvvoZpHsn8jNHPEvN1nxCGms1gOAeA/MFe/y/MFBJC1k+8GHowKIfl2C661sWV
+         Oj4csFcuW/OF0LpQ7tVVRV5X3PfQnx11ALct0kqhzNIVb+qQ1PDy8brCBGTvCCt/6BSy
+         R1BPlxoc090EhGp8CeBhDwLVfUDSzemXaw3/9w2TLLI2xTeaqY8yri4zCXDjI3se0J98
+         VwRIEMn3C01rkdVmAfQsmnbW0Aib/IWD9iWEsVQPElZuyH059lYcjrJcJilPApbcz+Y9
+         n/xJGgmLgJ19EuCoRfmld0AUlanWpuf01WR1vAViEsa1d0ZNXOhVrBqAScsj6ZGAd7Nr
+         JRLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691767024; x=1692371824;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PjgG9L91w6qmgYTaep8DhZMo3htJ0LqTmmQ9RNCiHlc=;
-        b=JY/Bdmk+f0tUVDvccbRR7GzRDp4jlUXZpTHbo/smkewas8YkfeeXJBLErw0EKUTL/F
-         NBudLbSkbSTNWqY2AIaST1ZjK4veTwzZOm2m61WrJM43vIbv3K3Fd/3+UsfoGPXlJoag
-         u1D00sd/zuYJaqROHoxgn73mhHLq6mG0F4tfO19PJarF0EE93XkMtR7wt1fn7a4sYf5e
-         Z3xC5D8NVuTnIjxakj8lL3Y41ujQjxUwPYmGWG20sNbNwTcgWMsfUECjtV61/RsVcA8I
-         WDGo44M6jcbtuGVSUB0DBNEY4HI7L+d1eS9Qp9Uvuh2EU3iFmk/8qe0aEOLNF2WyaxmF
-         VgKA==
-X-Gm-Message-State: AOJu0YxwbqotOMzo2vDWQxpTtEmh65eEty11nOW/jpg4wpLE1X1Frg5O
-        cPwL0cHGGSD7ELQTRSyH+6bp5Siv0zIXGCdijL7FpALWg9r4yH8ysbyejRY1kjfRnZO7LS9ddrZ
-        kZK7ylyg0a7xkreqf02kD
-X-Received: by 2002:a5d:4531:0:b0:317:6704:72c with SMTP id j17-20020a5d4531000000b003176704072cmr1630643wra.52.1691767024290;
-        Fri, 11 Aug 2023 08:17:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEN1l577HlgGm3un1BlQaTqy0RuKhYqAZhoovVJzfygHufzHFUri/fMA0KPEcJFIcvnnaU5TQ==
-X-Received: by 2002:a5d:4531:0:b0:317:6704:72c with SMTP id j17-20020a5d4531000000b003176704072cmr1630623wra.52.1691767023758;
-        Fri, 11 Aug 2023 08:17:03 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c71a:3000:973c:c367:3012:8b20? (p200300cbc71a3000973cc36730128b20.dip0.t-ipconnect.de. [2003:cb:c71a:3000:973c:c367:3012:8b20])
-        by smtp.gmail.com with ESMTPSA id e1-20020adfe381000000b003140f47224csm5739246wrm.15.2023.08.11.08.17.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Aug 2023 08:17:03 -0700 (PDT)
-Message-ID: <50ba595b-d992-cadf-9064-6b99347fa348@redhat.com>
-Date:   Fri, 11 Aug 2023 17:17:02 +0200
+        d=1e100.net; s=20221208; t=1691767155; x=1692371955;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zADELGUWpGyqS4NPi0hC5rU83b70YaTQQPW65NChPlI=;
+        b=doGV/pNw2Z3fwhpaf4CWS2EqHD5ZTjelbrU7PoTgMdcriX8W9qoELuvDaNTuEPkLxG
+         IXm6/B0MQnv9zQowxkhn4iEZMEBom/MkLlQEbx/RF5uluxMOpYAdauA+orCeHe1kytvJ
+         EH9Mfqkm6YyXHlx3FUpjZVyhzZF0afaOa9jl6Xmxs9sC4+M+fOnPy0nXCNjbtGj6nyar
+         iquVvxKEVmmlTVZneNoUCRSdobBthvOuU2At22VPrZEzvsx61qdzTwYRywULSSy8GmYT
+         qU/fRBawMhMk2MA1l2yC1nCaR+ddEQPHNFBIkZlP/fYY0in5wGH7Q0XjCLDiLCRj3HCi
+         sn2A==
+X-Gm-Message-State: AOJu0YxbUN42ysYDF/cTvUKXOY18E/Y6AA+hcWodnpD/ciLnr7UawDNx
+        YQTw1URMiKhXHM7F9kYYQ/ejf4HlZZ6Ua1RwVkvWjw==
+X-Google-Smtp-Source: AGHT+IGFjoN11JGyqXQoLlR2unjvMbQFFXcuLgu03BXMw9TDy8mziYl5bcg3wpOPRTH/LMwE2VWfpYnTL/43MNjFeOQ=
+X-Received: by 2002:a05:6000:507:b0:317:de6f:22cb with SMTP id
+ a7-20020a056000050700b00317de6f22cbmr1834346wrf.2.1691767154667; Fri, 11 Aug
+ 2023 08:19:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To:     Peter Xu <peterx@redhat.com>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Hugh Dickins <hughd@google.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        Yang Shi <shy828301@gmail.com>, Zi Yan <ziy@nvidia.com>
-References: <20230809083256.699513-1-david@redhat.com> <ZNQD4pxo8svpGmvX@x1n>
- <ZNRYx8GhYftE4Xeb@casper.infradead.org>
- <7e31254d-8889-7e79-50e1-2630bd493d59@redhat.com> <ZNVbIyHcqeKUDuSg@x1n>
- <ZNVcfdH8+N5Q83J/@casper.infradead.org>
- <73d6d29f-9947-9b50-3b94-77f1ee547387@redhat.com> <ZNZNuooaFH9P4raS@x1n>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH mm-unstable v1] mm: add a total mapcount for large folios
-In-Reply-To: <ZNZNuooaFH9P4raS@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230802080328.1213905-1-alexghiti@rivosinc.com>
+ <20230802080328.1213905-10-alexghiti@rivosinc.com> <20230802-7c19a712ae071f68030ab5f2@orel>
+In-Reply-To: <20230802-7c19a712ae071f68030ab5f2@orel>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Fri, 11 Aug 2023 17:19:03 +0200
+Message-ID: <CAHVXubhfbZsWx9mEFG-XMKgMY3-r=ROY=7gPK7H71WpyqXFwJQ@mail.gmail.com>
+Subject: Re: [PATCH v6 09/10] tools: lib: perf: Implement riscv mmap support
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11.08.23 17:03, Peter Xu wrote:
-> On Thu, Aug 10, 2023 at 11:59:25PM +0200, David Hildenbrand wrote:
->> On 10.08.23 23:54, Matthew Wilcox wrote:
->>> On Thu, Aug 10, 2023 at 05:48:19PM -0400, Peter Xu wrote:
->>>>> Yes, that comment from Hugh primarily discusses how we could possibly
->>>>> optimize the loop, and if relying on folio_nr_pages_mapped() to reduce the
->>>>> iterations would be racy. As far as I can see, there are cases where "it
->>>>> would be certainly a bad idea" :)
->>>>
->>>> Is the race described about mapcount being changed right after it's read?
->>>> Are you aware of anything specific that will be broken, and will be fixed
->>>> with this patch?
->>>
->>> The problem is that people check the mapcount while holding no locks;
->>> not the PTL, not the page lock.  So it's an unfixable race.
->>>
->>>> Having a total mapcount does sound helpful if partial folio is common
->>>> indeed.
->>>>
->>>> I'm curious whether that'll be so common after the large anon folio work -
->>>> isn't it be sad if partial folio will be a norm?  It sounds to me that's
->>>> the case when small page sizes should be used.. and it's prone to waste?
->>>
->>> The problem is that entire_mapcount isn't really entire_mapcount.
->>> It's pmd_mapcount.  I have had thoughts about using it as entire_mapcount,
->>> but it gets gnarly when people do partial unmaps.  So the _usual_ case
->>> ends up touching every struct page.  Which sucks.  Also it's one of the
->>> things which stands in the way of shrinking struct page.
->>
->> Right, so one current idea is to have a single total_mapcount and look into
->> removing the subpage mapcounts (which will require first removing
->> _nr_pages_mapped, because that's still one of the important users).
->>
->> Until we get there, also rmap code has to do eventually "more tracking" and
->> might, unfortunately, end up slower.
->>
->>>
->>> But it's kind of annoying to explain all of this to you individually.
->>> There have been hundreds of emails about it over the last months on
->>> this mailing list.  It would be nice if you could catch up instead of
->>> jumping in.
->>
->> To be fair, a lot of the details are not readily available and in the heads
->> of selected people :)
->>
->> Peter, if you're interested, we can discuss the current plans, issues and
->> ideas offline!
-> 
-> Thanks for offering help, David.
-> 
-> Personally I still am unclear yet on why entire_mapcount cannot be used as
-> full-folio mapcounts, and why "partial unmap" can happen a lot (I don't
-> expect), but yeah I can try to catch up to educate myself first.
+Hi Andrew,
 
-Using fork() is the easiest way. mremap(), MADV_DONTNEED, munmap, ...
+On Wed, Aug 2, 2023 at 11:32=E2=80=AFAM Andrew Jones <ajones@ventanamicro.c=
+om> wrote:
+>
+> On Wed, Aug 02, 2023 at 10:03:27AM +0200, Alexandre Ghiti wrote:
+> > riscv now supports mmaping hardware counters so add what's needed to
+> > take advantage of that in libperf.
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  tools/lib/perf/mmap.c | 66 +++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 66 insertions(+)
+> >
+> > diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+> > index 0d1634cedf44..2184814b37dd 100644
+> > --- a/tools/lib/perf/mmap.c
+> > +++ b/tools/lib/perf/mmap.c
+> > @@ -392,6 +392,72 @@ static u64 read_perf_counter(unsigned int counter)
+> >
+> >  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
+> >
+> > +/* __riscv_xlen contains the witdh of the native base integer, here 64=
+-bit */
+> > +#elif defined(__riscv) && __riscv_xlen =3D=3D 64
+> > +
+> > +/* TODO: implement rv32 support */
+> > +
+> > +#define CSR_CYCLE    0xc00
+> > +#define CSR_TIME     0xc01
+> > +
+> > +#define csr_read(csr)                                                \
+> > +({                                                           \
+> > +     register unsigned long __v;                             \
+> > +             __asm__ __volatile__ ("csrr %0, %1"             \
+> > +              : "=3Dr" (__v)                                   \
+> > +              : "i" (csr) : );                               \
+> > +              __v;                                           \
+>
+> nit: no need for the indentation or line wrap,
+>
+> ({
+>         register unsigned long __v;
+>         __asm__ __volatile__ ("csrr %0, %1" : "=3Dr" (__v) : "i" (csr));
+>         __v;
+> })
+>
+> Thanks,
+> drew
 
-You might end up having to scan page tables and/or the rmap to figure 
-out which mapcount to adjust, which we should absolutely avoid.
+Sorry I didn't answer sooner, I was busy finishing everything before
+my holidays :) I won't have time to implement what you proposed, and
+more importantly I don't have a setup for rv32 to test quickly. I'll
+let Palmer decide if we can keep the TODO so that someone can do that
+later on top of this series.
 
+Thanks anyway for your reviews!
 
-> The only issue regarding an offline sync-up is that even if David will help
-> Peter on catching up the bits, it'll not scale when another Peter2 had the
-> same question..  So David, rather than I waste your time on helping one
-> person, let me try to catch up with the public threads - I'm not sure how
-> far I can go myself;
-
-Sure. But note that it's a moving target, and some discussions have been 
-going on for a long time. I recall there were various discussions, 
-including LSF/MM, mm biweekly meeting, and more. So even if you scan 
-through all that, you might either get outdated or incomplete information.
-
--- 
-Cheers,
-
-David / dhildenb
-
+Alex
