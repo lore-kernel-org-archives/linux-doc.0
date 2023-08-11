@@ -2,85 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E08FC001B0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 20:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D81CBC001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 20:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236518AbjHKUnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 16:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
+        id S233938AbjHKUwU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 16:52:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233953AbjHKUnJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 16:43:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20EB310DF
-        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 13:42:22 -0700 (PDT)
+        with ESMTP id S230266AbjHKUwT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 16:52:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 375602D55
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 13:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691786541;
+        s=mimecast20190719; t=1691787097;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QYsuYB/f15MU2xfH+EM7bqeXLDjg5PV6c8YrC96T5p8=;
-        b=PRWBo29MaXVGpU8wvivduacBWq8wYWKhuZTyKAxL2VXJpgA+OHxy/sD6WnS+jYV34iycIh
-        MnSGdmUglERbXTGsYELG/QRAHGaR2NbCqnrrfhRkZbinwuYGZzXPC70SU92atvD8YupoEz
-        s2PNtBsAc7ewIODitXlWMuET3hBO6BQ=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-RkKW7mn5MiCC7qNnb5xmEg-1; Fri, 11 Aug 2023 16:42:16 -0400
-X-MC-Unique: RkKW7mn5MiCC7qNnb5xmEg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6B4838008C0;
-        Fri, 11 Aug 2023 20:42:14 +0000 (UTC)
-Received: from [10.22.17.82] (unknown [10.22.17.82])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E581D2026D4B;
-        Fri, 11 Aug 2023 20:42:12 +0000 (UTC)
-Message-ID: <5cf1117c-d537-703c-cdcf-f43c5bd9ed1b@redhat.com>
-Date:   Fri, 11 Aug 2023 16:42:12 -0400
+        bh=T8aVoixM0xxO+gfsUyyhZDp4bChNMHCVGjLRMPROvP8=;
+        b=ND/zo0nfbyrtRPuOhDKVA89mjhP7jQ/8rPPwXm/ydLLvYZAGMrS1jlCMXrP6qVqp/yMhdc
+        YpXEJa/3fXPMNheY6Ng7/wjbHVTjv8AH7/bHk0VZjOb9V18azI9IKNFOCPdyjhoMCfb3Hi
+        MdUgI563ajbPd2qA89pZLO7KZULDgdI=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-21-fGIGEgg-PVaTDbL_WXAuIw-1; Fri, 11 Aug 2023 16:51:35 -0400
+X-MC-Unique: fGIGEgg-PVaTDbL_WXAuIw-1
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-637948b24bdso6297816d6.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 13:51:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691787095; x=1692391895;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T8aVoixM0xxO+gfsUyyhZDp4bChNMHCVGjLRMPROvP8=;
+        b=elR+7DacN4Bcux+VO+IgHxsyd1iTQbQ/8WSEwOLjxSdivu0tdYuy9GgpuK6tb9IZLe
+         Bjb0Pc+Dwpl1iGFQZnXpYy52fpUmCT4+jbcSOmfIMd4gQTRgGVOkXvP+Hu5l8sWhbW8V
+         YYGtkpnVwGqprz9ca+SMbittlb1/Nh0lcBNDHk+H0E+dTDutElpa+ZBdF3/zHR3zkdwE
+         Xom8Ulg5Dwtn5pmigL4gdCHNzD4fh4T3U8Lgw4xblPjhjapdiTCWY+/N0gzMOjtR8Wff
+         jO0E3bsmwbkuHNkzEi/VwsIsw/7g68sMl8RigXGaVMWlLQWG6dDSsbsJ9xY/w6Ql35+c
+         r7jA==
+X-Gm-Message-State: AOJu0YxzRJg9K4TF5wTWX8XDe/MHtFcZN8u98RJkKwjSKJgdf5BQ6CN9
+        cqV2d2d+9jC79fpLDjybLGVHSxDh5f+k9e84c5gbwm7Eul5+6a5rgH+WCorjUbxLJHgPW/RY7pk
+        W9IOs2QbAJqTHylICC3Vf
+X-Received: by 2002:a05:6214:3002:b0:63f:7d29:1697 with SMTP id ke2-20020a056214300200b0063f7d291697mr3549009qvb.2.1691787094966;
+        Fri, 11 Aug 2023 13:51:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEsPsGGsWG+AWvL3NdKiHHIMNHgjAVmUCW2ANACa31+gfznIUk9YVZFCFV5mZXxugGUYOyp/w==
+X-Received: by 2002:a05:6214:3002:b0:63f:7d29:1697 with SMTP id ke2-20020a056214300200b0063f7d291697mr3548975qvb.2.1691787094629;
+        Fri, 11 Aug 2023 13:51:34 -0700 (PDT)
+Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
+        by smtp.gmail.com with ESMTPSA id f8-20020a0caa88000000b00637873ff0f3sm1479316qvb.15.2023.08.11.13.51.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 13:51:32 -0700 (PDT)
+Date:   Fri, 11 Aug 2023 16:51:30 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "T.J. Alumbaugh" <talumbau@google.com>,
+        Yu Zhao <yuzhao@google.com>,
+        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH mm-unstable fix] mm: userfaultfd: check for start + len
+ overflow in validate_range: fix
+Message-ID: <ZNafUoITDCuQOTMO@x1n>
+References: <20230810192128.1855570-1-axelrasmussen@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH V10 18/19] locking/qspinlock: Move pv_ops into x86
- directory
-Content-Language: en-US
-To:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
-        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
-        catalin.marinas@arm.com, conor.dooley@microchip.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn
-Cc:     linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-References: <20230802164701.192791-1-guoren@kernel.org>
- <20230802164701.192791-19-guoren@kernel.org>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20230802164701.192791-19-guoren@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230810192128.1855570-1-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/2/23 12:47, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
->
-> The pv_ops belongs to x86 custom infrastructure and cleans up the
-> cna_configure_spin_lock_slowpath() with standard code. This is
-> preparation for riscv support CNA qspoinlock.
+On Thu, Aug 10, 2023 at 12:21:28PM -0700, Axel Rasmussen wrote:
+> A previous fixup to this commit fixed one issue, but introduced another:
+> we're now overly strict when validating the src address for UFFDIO_COPY.
+> 
+> Most of the validation in validate_range is useful to apply to src as
+> well as dst, but page alignment is only a requirement for dst, not src.
+> So, split the function up so src can use an "unaligned" variant, while
+> still allowing us to share the majority of the code between the
+> different cases.
+> 
+> Reported-by: Ryan Roberts <ryan.roberts@arm.com>
+> Closes: https://lore.kernel.org/linux-mm/8fbb5965-28f7-4e9a-ac04-1406ed8fc2d4@arm.com/T/#t
+> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 
-CNA qspinlock has not been merged into mainline yet. I will suggest you 
-drop the last 2 patches for now. Of course, you can provide benchmark 
-data to boost the case for the inclusion of the CNA qspinlock patch into 
-the mainline.
+Acked-by: Peter Xu <peterx@redhat.com>
 
-Cheers,
-Longman
+-- 
+Peter Xu
 
