@@ -2,83 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A6AC001B0
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 09:53:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F51C0015E
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 11:10:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232046AbjHKJxP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 05:53:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56444 "EHLO
+        id S234385AbjHKLKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 07:10:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231476AbjHKJxO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 05:53:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 514DD19E;
-        Fri, 11 Aug 2023 02:53:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DBDEB66D2E;
-        Fri, 11 Aug 2023 09:53:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF87DC433C9;
-        Fri, 11 Aug 2023 09:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691747593;
-        bh=u8bULopGztMMXDUlY34aexEHjdKcFlVqp4+mps7Hlto=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BEOfoWwsm4u+avTAMjCNM0I+BhgmX40uO3SjypS0LkfWEUPy8/g1TP4OsY8FKKA9m
-         6AxfVr6mhqMLui/q9ltAbQ18+1lKb6rsrlNRdzneE30y/7R+XBzFsUOIwIM/dKWg2W
-         oWRPkGIAoWLz/tdjJ3DA//54n1G+cxlcCnL8ddkgH+PKoDNfwi/t0ysoL7u1bT+IMh
-         ii/0+V68aIgH237ARY7hfSt9bBkELa2gPwkfOOd9j96NrbrEmXBRddqGs+rBR+pfvH
-         JFSE9vw0gOsPI+87/XqNMFVEUnjzBGLmdItaiEsIpwyJcujJGyr2xXNpJeKIq4MJpi
-         RQGENS8CgQYGA==
-Date:   Fri, 11 Aug 2023 11:53:07 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Lin Ma <linma@zju.edu.cn>
-Cc:     Simon Horman <horms@kernel.org>, corbet@lwn.net,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, rdunlap@infradead.org, void@manifault.com,
-        jani.nikula@intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2] docs: staging: add netlink attrs best practices
-Message-ID: <ZNYFA6CbHHQdAAsd@vergenet.net>
-References: <20230809032552.765663-1-linma@zju.edu.cn>
- <ZNTw+ApPS9U4VhZI@vergenet.net>
- <41722e43.1049b3.189e02f50f6.Coremail.linma@zju.edu.cn>
+        with ESMTP id S229940AbjHKLKh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 07:10:37 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91EA112B
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 04:10:36 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-99c1d03e124so247198566b.2
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 04:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura; t=1691752235; x=1692357035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2yEmCh/4b+BWU9qDJvKWWcz5lhDGo7JYaO71Xt3Zntc=;
+        b=rg3CpeIsizpP9cBrlygwF2tUMFYSdrRv01Bg7USlIfM5InOzVVsRFV/3k/6fh0w0Ux
+         Z2V2LSMPKfKnoWARS8WDruUN8/YbaU0/hf0oKTnskaVhRb32QBflqXo+inHhCuG6GTcd
+         y34/f/DdkuRSSJkUdYGRD2XaWBBOCIEQb1WR0r7qaC+3BLbZju9THJ/H3rccNBvLEVDA
+         sRUhjUrex8Jfh3Pw6DfSgjSdHe7FooS16yIl5iVUv6TbpVJZejZIlFJ1GS25grrER9Qc
+         h9Di7j2MovGQz/oaBCqUI8TI5Y0kLxUmmJSpnGBWaI0Lq5dH9QjdK72/qu0cTvKnkZ1n
+         Pyvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691752235; x=1692357035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2yEmCh/4b+BWU9qDJvKWWcz5lhDGo7JYaO71Xt3Zntc=;
+        b=XsUdltUkKjl7bjjsi13DfMCzOWebvSKFjnRtG+9uc9Z0jbutYq66eizdmmU0Ss3U3b
+         rAzpHnmcrOL93gvAgyhW11BtvjJ+BIfjz4A+iY12uLvAi2M429J7Rdb4ZxZkMSOnoFTh
+         JUVK+btYf5At+/tExOqXYPcQZOWNXmexZhr31iCShVA847vB9snb3Ercj5X6KpL+lR8i
+         1kxZDgefljBohRXaGwDYveHX2yv9Xaub++gmbnjWq4eDQ6GNwvgILA1lga5J8S4lEh9M
+         HIgvi+izgCaW3SUtjEObbqZFjB96bDxRr3/8sMYRlZ0UYZ69I1eImaaUPGGWjGknAiEO
+         BuvA==
+X-Gm-Message-State: AOJu0Yys82wK4/oy4eZDZ6r4sIy+3AScSnUHHSNQnwjCGQz+P246znw1
+        9KNva+mgFsc+niY/0rbPbMV9Umb3hwpcr5goi9A=
+X-Google-Smtp-Source: AGHT+IGOQB3GS+GbS6NxtqEmWT4mAjfyb2PiaIhDxlWAEMe0UmEc4sr4429o9g1VTydUfdkgXRm3GA==
+X-Received: by 2002:a17:906:cc4f:b0:99b:cb7a:c164 with SMTP id mm15-20020a170906cc4f00b0099bcb7ac164mr1321450ejb.62.1691752234917;
+        Fri, 11 Aug 2023 04:10:34 -0700 (PDT)
+Received: from fedora.. ([188.252.220.253])
+        by smtp.googlemail.com with ESMTPSA id gg15-20020a170906e28f00b00982b204678fsm2103206ejb.207.2023.08.11.04.10.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 04:10:34 -0700 (PDT)
+From:   Robert Marko <robert.marko@sartura.hr>
+To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        corbet@lwn.net, netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     luka.perkov@sartura.hr, Robert Marko <robert.marko@sartura.hr>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH net-next v2 1/2] dt-bindings: net: ethernet-controller: add PSGMII mode
+Date:   Fri, 11 Aug 2023 13:10:06 +0200
+Message-ID: <20230811111032.231308-1-robert.marko@sartura.hr>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <41722e43.1049b3.189e02f50f6.Coremail.linma@zju.edu.cn>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 11, 2023 at 12:02:24AM +0800, Lin Ma wrote:
-> Hello Simon,
-> 
-> > > Provide some suggestions that who deal with Netlink code could follow
-> > > (of course using the word "best-practices" may sound somewhat
-> > > exaggerate).
-> > > 
-> > > According to my recent practices, the parsing of the Netlink attributes
-> > > lacks documents for kernel developers. Since recently the relevant docs
-> > > for Netlink user space get replenished, I guess is a good chance for
-> > > kernel space part to catch with.
-> > > 
-> > > First time to write a document and any reviews are appreciated.
-> > > 
-> > > Signed-off-by: Lin Ma <linma@zju.edu.cn>
-> > 
-> > Thanks for writing this up, from my perspective this is very useful.
-> > 
-> > Some trivial feedback follows.
-> 
-> Thanks sooooooo much. And feel really sorry that the v2 still has so many
-> typos, grammar issues, and word misuse. I will prepare the v3 carefully
-> with all those suggestions. Really appreciate that.
+Add a new PSGMII mode which is similar to QSGMII with the difference being
+that it combines 5 SGMII lines into a single link compared to 4 on QSGMII.
 
-No problem. Much of my feedback was subjective.
-And Randy managed to spot an error in my feedback too.
-It's hard to get things right :)
+It is commonly used by Qualcomm on their QCA807x PHY series.
 
-...
+Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/net/ethernet-controller.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+index 6b0d359367da..9f6a5ccbcefe 100644
+--- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
++++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+@@ -66,6 +66,7 @@ properties:
+       - mii
+       - gmii
+       - sgmii
++      - psgmii
+       - qsgmii
+       - qusgmii
+       - tbi
+-- 
+2.41.0
+
