@@ -2,183 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C68EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 15:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A59D5EB64DD
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Aug 2023 15:08:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234901AbjHKPER (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 11:04:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39942 "EHLO
+        id S234835AbjHKPIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 11:08:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235376AbjHKPEP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 11:04:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B66318F
-        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691766206;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cUfn2yRxDKKinH9zdb9JbhnFsj88xeOeJ1clvcuNk24=;
-        b=hAruQau9O6rFtv6nMF2YagcNzB72Jc5NIQ42G4E/A67F58csy5ILK9be7KkqDh1wmUSHPx
-        duXvoizVh6V1roQ8HPzeyxuoBr0+4hHgEWlWN1FpCBwVoyloLdFehIn01ZOBOIXMbVHKYS
-        +RTa1dvFyVFzhmwDJUZ1tH1KR2E1Tds=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-lxbHCp-rOrCziQ2PyYFxmw-1; Fri, 11 Aug 2023 11:03:25 -0400
-X-MC-Unique: lxbHCp-rOrCziQ2PyYFxmw-1
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-76d06c4257bso49796085a.0
-        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 08:03:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691766204; x=1692371004;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cUfn2yRxDKKinH9zdb9JbhnFsj88xeOeJ1clvcuNk24=;
-        b=QqR3fx98G6zyXw/YwZYNOFE64fnjsTvuZqiBcQt5lyv+egxA+4RhuGahTSNFyKPAG+
-         VFI2tCmdCwAHqhGUkhk0/rM7lesZk3hIzMjZafvDlI73AFJ37jCT6IuBoVISF//Dwdzj
-         6hmS5a8zEMhw9l05kt8tpfpEu5XoCGEQ4kU0dNXIlyd0kQTWw1pPRfqIK0mcc9zXmMNX
-         dbd3sDBio5LC0if/sk5fFpit4RtkU4O/mJhhOG2asznwbHI3DQPPwVsi5obaYWhv/n7S
-         iH4AzaTMjbazvT/pJ89B+YduzEfGQ4g244BfLufklkjHcy9YRfYE7/LKHSW2AsxRanFT
-         awwA==
-X-Gm-Message-State: AOJu0YzjA2+trXRwf1K2oIia9VBpThBq0Z7ra9OY4JaAJtlYvdmPg0bC
-        Tdj+0BH4BIMFLBdYEeYQU3awh8e9pu1RGs3dHYwXg0k2th/WAmSxNd7bBBX0ENoVHokYP+pAW8j
-        gSAkuOEjMoJ9d3ie15EiG
-X-Received: by 2002:a05:620a:1914:b0:76c:e76b:4192 with SMTP id bj20-20020a05620a191400b0076ce76b4192mr2509968qkb.0.1691766204691;
-        Fri, 11 Aug 2023 08:03:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElkIDda5pJfgdjDlpX1qemYlXQScA3leBwo8YPETDmV4jI/g/VWmSele5L1o3V/7C8717Izw==
-X-Received: by 2002:a05:620a:1914:b0:76c:e76b:4192 with SMTP id bj20-20020a05620a191400b0076ce76b4192mr2509905qkb.0.1691766204124;
-        Fri, 11 Aug 2023 08:03:24 -0700 (PDT)
-Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
-        by smtp.gmail.com with ESMTPSA id q29-20020a05620a039d00b0076c96e571f3sm1241719qkm.26.2023.08.11.08.03.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Aug 2023 08:03:23 -0700 (PDT)
-Date:   Fri, 11 Aug 2023 11:03:22 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Hugh Dickins <hughd@google.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        Yang Shi <shy828301@gmail.com>, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH mm-unstable v1] mm: add a total mapcount for large folios
-Message-ID: <ZNZNuooaFH9P4raS@x1n>
-References: <20230809083256.699513-1-david@redhat.com>
- <ZNQD4pxo8svpGmvX@x1n>
- <ZNRYx8GhYftE4Xeb@casper.infradead.org>
- <7e31254d-8889-7e79-50e1-2630bd493d59@redhat.com>
- <ZNVbIyHcqeKUDuSg@x1n>
- <ZNVcfdH8+N5Q83J/@casper.infradead.org>
- <73d6d29f-9947-9b50-3b94-77f1ee547387@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        with ESMTP id S229610AbjHKPIe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 11:08:34 -0400
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2085.outbound.protection.outlook.com [40.107.249.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2B1171F;
+        Fri, 11 Aug 2023 08:08:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j1GlsYQe+BQNlR5hjFovYtIvkpnhgDZH2g5zUYE1BEpLTu3qKUgKsNHNJH28yMYPI0GmN6drl9wfnXVqVMCPCjgrXi50LOlc6IbrcHjM79c7oq7SCfexL2UtYHbqxAnO+pBgLDrt/lyZZldoNOb3dtq0gTj3RSTdefy8tNQYVl6jbYtcr3fiqKQydwZgd9Bp7mzfmGROvcGtGfGkjT6JEaSWB6Y4PxYa559pm2DcJMeq4ERsfP/HCu9EoZ9VnAZBkF9+H2GwsjEPSR2E2Ap+RZPXsdQ7+vpFV9EShAgZHgVWmfilYYet6ZtO/HbcWSaBM2H9YZ9KH68D2SGiHNtI9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wdw11V7+ukn5xb0vqDPbVlMWFT2k6U4Os7pG0f4KL6Y=;
+ b=VOMOaGp86NsCjvHaV8ig9dpputv2KuCcdQMBOT15wKcJ97ZsCznz9kpcVnID+4F4fm6PjaKLwNq8qYPbA/w57JTGM5HilaxXqZheiUhZ5vpgJWCHKax+Ud0ieQHz6LKi+1FLu9jgruUiza3mSTqI4fFdn0zkkEM6oGuNaXhta0mIbGSapVRYzx+o0Tu1qqGchpEYimejCpFSiOITuI3QBUf4W0uriGajYwMiSF0Z6vI6K288/ZouXvhF93/xWJqkxR/o7GYLIwN0JrmJamqQ7f8hQUxMZNRI14BjDwWq4BS1hu5/XmcOMSNHsuIjE9OQsLcEP07Q1QE93OgL2MHbDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wdw11V7+ukn5xb0vqDPbVlMWFT2k6U4Os7pG0f4KL6Y=;
+ b=exgV0vdsvoTQmqGO8yA4tyYAhrEgGk6yVS6jipwgsEEGUm/wh8v0d/yEX935nJVwsERpSg0CC8R/GrtYNYN3VnWV3pSfVKFd7ShKLnSTJBjCmjPj/xG1crQU/LT2J9dqrDtQNmm+pr52PP+hk5iMtXAbI5rFTEJw2jXDdFkjKig=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
+ by PR3PR04MB7307.eurprd04.prod.outlook.com (2603:10a6:102:84::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.20; Fri, 11 Aug
+ 2023 15:08:31 +0000
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::d4ed:20a0:8c0a:d9cf]) by AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::d4ed:20a0:8c0a:d9cf%7]) with mapi id 15.20.6678.019; Fri, 11 Aug 2023
+ 15:08:31 +0000
+Date:   Fri, 11 Aug 2023 18:08:26 +0300
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?utf-8?B?RmVybuKUnMOtbmRleg==?= Rojas <noltari@gmail.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
+Message-ID: <20230811150826.urp2hzl3tahesrjx@skbuf>
+References: <20230429172422.vc35tnwkekfieoru@skbuf>
+ <c81d23b6-ed22-0b37-d71b-ddce9d5d58eb@seco.com>
+ <c2f928d2-25f6-0e31-9ab3-9d585968df1b@seco.com>
+ <20230522150010.q5zndfwcuvrb6pg2@skbuf>
+ <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
+ <20230610222123.mzmfjx7zfw4nh2lo@skbuf>
+ <c702e2b6-cb0f-4ac9-86fe-a220284d45aa@seco.com>
+ <20230612163353.dwouatvqbuo6h4ea@skbuf>
+ <1dd01fe2-08a8-ec2f-1184-a58b2f55ba85@seco.com>
+ <20230613142754.wr5njtjo4tbloqwu@skbuf>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <73d6d29f-9947-9b50-3b94-77f1ee547387@redhat.com>
+In-Reply-To: <20230613142754.wr5njtjo4tbloqwu@skbuf>
+X-ClientProxiedBy: AM9P250CA0026.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21c::31) To AM0PR04MB6452.eurprd04.prod.outlook.com
+ (2603:10a6:208:16d::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|PR3PR04MB7307:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a5e9824-54b7-4660-efd7-08db9a7cd2dd
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kWCYsvn7NyIMh9t154Af8sWdP+IOj/20zYtbX6C+xQ5r5ddwlClJIgDk+SydZZJB+WwuIM4dXId6nFG/Pf8Ww/rbO3P9a2EFwrck7NocjGsAzToW26cMj2eh/SosAXcRMdL6XPHTkvajGEmN+oa1P/MRbBDh5P8Yi8N2wnSOgQDeITMYRb9k2ZsIFh85Zts1aHVARfa8QC2AgTFKTrMoflscn4anRkBjppgwEkWTQtO5mi3HkSXA3KpBpM9sXuOjMArlfCPQA2e8LhSnAz+xAZIGEW4BjGrPkPdMmrNw6Gs++N+b+XNR1DiMEVHhaDcKcwXS6tslB5RkztP+XlPxBkohny0up6ucw0EzkvPdLw2Sp5oAhyG6EOjHvL9EmeHaonchqipHNzpeSqZyGI5yz3z74s2x/9nN97bh7/W0RR1oVFBt5UOVApawo6O6+HBTwpLLHy9O9tqtVFiyw1oQ+EZL0j1XvqozmSZ2Tn6zGH44FkZNPI3AS50KlYAQ4oTTu9mqxJ5J6GU/GhdhxCogi3uRVU94uwZfFyTcn9+UWvB3auGwefK5NSUhd5mWKAnU
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(376002)(396003)(136003)(39860400002)(366004)(346002)(451199021)(1800799006)(186006)(9686003)(6512007)(478600001)(6666004)(6486002)(54906003)(1076003)(6506007)(26005)(83380400001)(7416002)(33716001)(44832011)(66476007)(5660300002)(66946007)(66556008)(4326008)(6916009)(2906002)(8936002)(8676002)(316002)(41300700001)(86362001)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JJefCEk82fH8JUL1Dhs43S6X20whSNqRrqMfBvKItcSkmUzIs/G4T5igEjok?=
+ =?us-ascii?Q?tU7AiKmMY2jmyEGMdU3Gv6r1JeACs2WXlSQG9e9MiUL3xlpWNrAs8glT5AKL?=
+ =?us-ascii?Q?L/u6ZtSJxMkN3yfHGGFWN53nVx28ef5S+n2CdntV15xSC6Nb8XBDjD9bIh/k?=
+ =?us-ascii?Q?JhdjCYmDLibD4Inri2pXaL8MBQMkObRcdcZm/tvQnAH64fxe87eiH5WEGgm6?=
+ =?us-ascii?Q?cTZRBOCWhJ3NftKhgvXMh2TUuQDhyDtnQNzk8Bpfcta24KoD7Jd0aLIqNwod?=
+ =?us-ascii?Q?FNFFNMfLAEU5Ig4Edo7q4GcVflNjuKT6WKJzFcYX7GCxUbJc7MgU3kpJwbf5?=
+ =?us-ascii?Q?UlIPjoKM3AOOB6zVA3EdCCEa67IP75I9TWEvI8tKpAfL3AHzEHP2eWBzNWt1?=
+ =?us-ascii?Q?EqDpjUNfWYZQ4NTZm1Qj/JYnuT0dkYrBwSZQNHTiSgepmfCvh8ZY7MfH5AVz?=
+ =?us-ascii?Q?ESWdCHMiDlxgrGFn70sHrtSTvVi4egEogIYPd5eFWwMFPpqcF8AqHf0SU+Li?=
+ =?us-ascii?Q?5CLyknNT+Px5lygHVWhJ1lUWnZh5lMQWlrEH4ZuwGNq9doE0X63SzuClKseZ?=
+ =?us-ascii?Q?cfbpB2AkcgEDBZAuWvyhc+t/I0VlO9l1kNdFdJGWcuVFG7uyxvG8zGv1CHPo?=
+ =?us-ascii?Q?adKb2af73mQJKq1Vpa7MYicsMMgBmyZ6a/t5QgvIFHz7XygZKSOrzb6/gLKw?=
+ =?us-ascii?Q?iykUsgdSgnS7bcBkV0ZGpOb7eetlWSLsMcvUPSr6pfP6CPs9VqNWpXyhmf3U?=
+ =?us-ascii?Q?D+kKxAd16JYp1al5kZW1zq0er4GSR+d5lgCdVEfevkHVBwroq1UGwpDrvj3X?=
+ =?us-ascii?Q?HpudwknC1GUb8IcT1uQTEIrQp/OJL0PnRIUp14uK89PVHyjkdjXpqK4Dc9AM?=
+ =?us-ascii?Q?XEmwpWoljzLeSqzZ/SqvNuiK/S9KH8Jy2w2xLGWpiF0mhjAIbxNTIQXj1h2i?=
+ =?us-ascii?Q?iYd38AqlAnrpLfwqlDS2cAuGUrmapNQ1MBzVTvxfDriA2kreAIlb3Y4kJsII?=
+ =?us-ascii?Q?9kNnVUX9QmIijWAueBCct+hTqDyloev+b4iUy+bJukWeUgaRkmRTw3M4Lf56?=
+ =?us-ascii?Q?hHWzVx2eWxsVr375hPfWfmhUxm3o10h1TConZeyzW2J21io0dAN1Vmf223N9?=
+ =?us-ascii?Q?dijKvt5doYmK5haUDv+FvxPdQ3jf6+XhFeS/vwEpbAPxfzG1cUmCrTw15j5f?=
+ =?us-ascii?Q?uGkJf7fy7hhNUqQ2Vx1TMpydXVLKjnF7SRGjgrp5kRCdErU63/bKX0td/stA?=
+ =?us-ascii?Q?p06d4IbPWpfT79M9xcuRzAVc1Mq3aNYqj0c5CtFDSXXEAxeN1/ZrY3a7KB9C?=
+ =?us-ascii?Q?8AbeH0tPeTFDp11LjHTgoEhPqsxyERrYuIwz6xsD/8XQLmDPvw5brTpIMy0s?=
+ =?us-ascii?Q?gqfRlgZ/2sT03Hwi0mXsUoprJbDZqXXNDS0bn/b6mmR7FMQTsu93l5bRUaiP?=
+ =?us-ascii?Q?K9l3A3aI186KdGo7CxTimN9tefHHrVYlw91pp+ATEfD3Uj5HpeK/RqL81YrA?=
+ =?us-ascii?Q?LZF7xnkAL9SY1L9GcvJoCASMcu6NdvMNfjVlolLbMu0gxaBOyzEfGPZWc/Qq?=
+ =?us-ascii?Q?bfrSU8mCo0/1wgLzyYHbtX3vZ72QtWMX0jNp5MiyczaPd5sXu2nMb8itaLER?=
+ =?us-ascii?Q?wg=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a5e9824-54b7-4660-efd7-08db9a7cd2dd
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2023 15:08:31.0822
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: esgMkMeOCbPWyQk8yuCyCRhqwJK4I/wKiPcpiqF9nbXIaBF5zWi9h2Xr57+unDoHbCInjKUoq/V413rz0JNKnw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7307
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 10, 2023 at 11:59:25PM +0200, David Hildenbrand wrote:
-> On 10.08.23 23:54, Matthew Wilcox wrote:
-> > On Thu, Aug 10, 2023 at 05:48:19PM -0400, Peter Xu wrote:
-> > > > Yes, that comment from Hugh primarily discusses how we could possibly
-> > > > optimize the loop, and if relying on folio_nr_pages_mapped() to reduce the
-> > > > iterations would be racy. As far as I can see, there are cases where "it
-> > > > would be certainly a bad idea" :)
+Hi Sean,
+
+On Tue, Jun 13, 2023 at 05:27:54PM +0300, Vladimir Oltean wrote:
+> > > At first sight you might appear to have a point related to the fact that
+> > > PLL register writes are necessary, and thus this whole shebang is necessary.
+> > > But this can all be done using PBI commands, with the added benefit that
+> > > U-Boot can also use those SERDES networking ports, and not just Linux.
+> > > You can use the RCW+PBL specific to your board to inform the SoC that
+> > > your platform's refclk 1 is 156 MHz (something which the reset state
+> > > machine seems unable to learn, with protocol 0x3333). You don't have to
+> > > put that in the device tree. You don't have to push code to any open
+> > > source project to expose your platform specific details. Then, just like
+> > > in the case of the Lynx 28G driver on LX2160, the SERDES driver could
+> > > just treat the PLL configuration as read-only, which would greatly
+> > > simplify things and eliminate the need for a clk driver.
 > > > 
-> > > Is the race described about mapcount being changed right after it's read?
-> > > Are you aware of anything specific that will be broken, and will be fixed
-> > > with this patch?
-> > 
-> > The problem is that people check the mapcount while holding no locks;
-> > not the PTL, not the page lock.  So it's an unfixable race.
-> > 
-> > > Having a total mapcount does sound helpful if partial folio is common
-> > > indeed.
+> > > Here is an illustrative example (sorry, I don't have a board with the
+> > > right refclk on that PLL, to verify all the way):
 > > > 
-> > > I'm curious whether that'll be so common after the large anon folio work -
-> > > isn't it be sad if partial folio will be a norm?  It sounds to me that's
-> > > the case when small page sizes should be used.. and it's prone to waste?
+> > > ... snip ...
 > > 
-> > The problem is that entire_mapcount isn't really entire_mapcount.
-> > It's pmd_mapcount.  I have had thoughts about using it as entire_mapcount,
-> > but it gets gnarly when people do partial unmaps.  So the _usual_ case
-> > ends up touching every struct page.  Which sucks.  Also it's one of the
-> > things which stands in the way of shrinking struct page.
+> > (which of course complicates the process of building the PBIs...)
 > 
-> Right, so one current idea is to have a single total_mapcount and look into
-> removing the subpage mapcounts (which will require first removing
-> _nr_pages_mapped, because that's still one of the important users).
-> 
-> Until we get there, also rmap code has to do eventually "more tracking" and
-> might, unfortunately, end up slower.
-> 
-> > 
-> > But it's kind of annoying to explain all of this to you individually.
-> > There have been hundreds of emails about it over the last months on
-> > this mailing list.  It would be nice if you could catch up instead of
-> > jumping in.
-> 
-> To be fair, a lot of the details are not readily available and in the heads
-> of selected people :)
-> 
-> Peter, if you're interested, we can discuss the current plans, issues and
-> ideas offline!
+> Maybe this is the language barrier, but what are you trying to say here?
 
-Thanks for offering help, David.
-
-Personally I still am unclear yet on why entire_mapcount cannot be used as
-full-folio mapcounts, and why "partial unmap" can happen a lot (I don't
-expect), but yeah I can try to catch up to educate myself first.
-
-The only issue regarding an offline sync-up is that even if David will help
-Peter on catching up the bits, it'll not scale when another Peter2 had the
-same question..  So David, rather than I waste your time on helping one
-person, let me try to catch up with the public threads - I'm not sure how
-far I can go myself; otoh thread links will definitely be helpful to be
-replied here, so anyone else can reference too.  I collected a list (which
-can be enriched) of few threads that might be related, just in case helpful
-to anyone besides myself:
-
-[PATCH 0/2] don't use mapcount() to check large folio sharing
-https://lore.kernel.org/r/20230728161356.1784568-1-fengwei.yin@intel.com
-
-[PATCH v1-v2 0/3] support large folio for mlock
-https://lore.kernel.org/r/20230728070929.2487065-1-fengwei.yin@intel.com
-https://lore.kernel.org/r/20230809061105.3369958-1-fengwei.yin@intel.com
-
-[PATCH v1 0/4] Optimize mmap_exit for large folios
-https://lore.kernel.org/r/20230810103332.3062143-1-ryan.roberts@arm.com
-
-[PATCH v4-v5 0/5] variable-order, large folios for anonymous memory
-https://lore.kernel.org/linux-mm/20230726095146.2826796-1-ryan.roberts@arm.com/
-https://lore.kernel.org/r/20230810142942.3169679-1-ryan.roberts@arm.com
-
-[PATCH v3-v4 0/3] Optimize large folio interaction with deferred split
-(I assumed Ryan's this one goes into the previous set v5 finally, so just
- the discussions as reference)
-https://lore.kernel.org/r/20230720112955.643283-1-ryan.roberts@arm.com
-https://lore.kernel.org/r/20230727141837.3386072-1-ryan.roberts@arm.com
-
-[RFC PATCH v2 0/4] fix large folio for madvise_cold_or_pageout()
-https://lore.kernel.org/r/20230721094043.2506691-1-fengwei.yin@intel.com
-
-I'm not sure how far I'll go; maybe I'll start working on something else
-before I finish all of them.  I'll see..
-
-Not allowing people to jump in will definitely cause less interactions and
-less involvement/open-ness for the mm community, as sometimes people can't
-easily judge when it's proper to jump in.
-
-IMHO the ideal solution is always keep all discussions public (either
-meetings with recordings, or shared online documents, always use on-list
-discussions, etc.), then share the links.
-
--- 
-Peter Xu
-
+I said that I don't understand. Can you please clarify what you were
+trying to transmit with this comment?
