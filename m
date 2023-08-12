@@ -2,136 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1013DC0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 00:37:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDA3C0015E
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 00:49:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235022AbjHLAhU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 20:37:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45326 "EHLO
+        id S235495AbjHLAtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 20:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229734AbjHLAhU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 20:37:20 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B61830DB;
-        Fri, 11 Aug 2023 17:37:20 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1bc7e65ea44so18026215ad.1;
-        Fri, 11 Aug 2023 17:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691800639; x=1692405439;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4hnrRd/R02fQYg+94kLBuqcTRTMHc/nyXMwR+7vVJzE=;
-        b=bXGME/VnAhZ8KAFRJqURgr58wU1UFxudSdq5RSyB5iFuLGY2RCW5j8LG70u/plcHDc
-         HhM1Lg91jSSVx7BWyFfgj+I6FKkqbLrLcFoE40Wwmarh5kt0NDqaIzJ68hVnsp91RNqK
-         zgHXuiRllWUpFCt5hlcNGCTYtv8Px96RyqPwCNmloPfwJ5FyBefdUDZB0WSxAYsWsBVl
-         yaUI0wnL1iI2lFZH9afLc0PPZyx5yUFNBG30L74M6Wc2CI22UrNRPUEYdkCSdr3I0vSI
-         BiaNZ11VTs1B7majBqq9zmjoTsQf8i/evvGP7eDkknKVTCDfJmgCHjptrd7Xyd4alAew
-         uCkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691800639; x=1692405439;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4hnrRd/R02fQYg+94kLBuqcTRTMHc/nyXMwR+7vVJzE=;
-        b=YvbdGqhB9Ll+a6MYfug6oc03IrJUypM1PASzYOrS22yb0ZWSO7ucPHBu2hE2QEBpdw
-         iRxw+Om+1BzdMZy3HyDsAtBqAOdvNleyGmUbQDlWCX/IaasN/WFOmRER/uJ60WGx6cjq
-         KxzPtvucmtt2GebbmAqtZOYXIU1W9pI6z92NOxObz2vibMzx9d4v5/K5HyOoB3Cs+hoz
-         Sp+SbIAdHvfCb2xbTgdoCe0fopUXeABwAmq+fiwnM6tNTjSz8N08NnzEu2JqGEwzytNI
-         gUT6Sou74eqId2UxWnTLa4A18A3KdJ62uo6vUt1wvDedDbAFg7Dg/o+LnKFIa6DvO6gs
-         viIA==
-X-Gm-Message-State: AOJu0YxWJM/gJXAyFWDkb+PBGIYnJ+nc+NwbAY3c1Ok+/hCrPLNz72cX
-        YE6HzGrIe7T4kmFKzCCms9g=
-X-Google-Smtp-Source: AGHT+IF1l458p3X2DhORC8kVWhvjB7DIfvMMCpgVBoGyYkzNM8HIxzCMaa8FlTRqAwGGIEg4rv3duA==
-X-Received: by 2002:a17:902:db10:b0:1bc:3908:14d with SMTP id m16-20020a170902db1000b001bc3908014dmr8638530plx.2.1691800639416;
-        Fri, 11 Aug 2023 17:37:19 -0700 (PDT)
-Received: from ubuntu777.domain.name (36-228-78-6.dynamic-ip.hinet.net. [36.228.78.6])
-        by smtp.gmail.com with ESMTPSA id q3-20020a170902788300b001bbd8cf6b57sm4537164pll.230.2023.08.11.17.37.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Aug 2023 17:37:19 -0700 (PDT)
-From:   Min-Hua Chen <minhuadotchen@gmail.com>
-To:     corbet@lwn.net
-Cc:     linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        minhuadotchen@gmail.com, rdunlap@infradead.org, src.res@email.cn
-Subject: Re: [PATCH 2/2] docs: sparse: convert TW sparse.txt into sparse.rst
-Date:   Sat, 12 Aug 2023 08:37:15 +0800
-Message-Id: <20230812003715.7551-1-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <87a5uxxqf3.fsf@meer.lwn.net>
-References: <87a5uxxqf3.fsf@meer.lwn.net>
+        with ESMTP id S236914AbjHLAtG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 20:49:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3713E358B
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 17:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691801283;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rLC/yOAR2d4wIWdWwjFchmmeIa+RdcqwrFVJ1+GuKDw=;
+        b=hgmxEQGarnOQZuMKSheRJhCTU6jYcgoLQs5/O3JXDeV6RNmiFaqU+guQsV70vYHiNlmWtJ
+        TyqM+nRG4ccf49i6CACNS/sYdE4fMEXMcLgEt6a7LsaGxwSqWmVT5dmUCIvbLvn0Cg4JcM
+        nNg2RLdmu0Of173TzDYV2IKqTL4Ux68=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-339-lUtXwiZgPMmXVj5sVgtwdQ-1; Fri, 11 Aug 2023 20:47:54 -0400
+X-MC-Unique: lUtXwiZgPMmXVj5sVgtwdQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 918563C0ED49;
+        Sat, 12 Aug 2023 00:47:53 +0000 (UTC)
+Received: from [10.22.17.82] (unknown [10.22.17.82])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8E04A2166B25;
+        Sat, 12 Aug 2023 00:47:51 +0000 (UTC)
+Message-ID: <2f84b806-193a-6d7c-71fe-cc718e9455f9@redhat.com>
+Date:   Fri, 11 Aug 2023 20:47:51 -0400
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH V10 18/19] locking/qspinlock: Move pv_ops into x86
+ directory
+Content-Language: en-US
+To:     Guo Ren <guoren@kernel.org>
+Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
+        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
+        catalin.marinas@arm.com, conor.dooley@microchip.com,
+        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
+        alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+References: <20230802164701.192791-1-guoren@kernel.org>
+ <20230802164701.192791-19-guoren@kernel.org>
+ <5cf1117c-d537-703c-cdcf-f43c5bd9ed1b@redhat.com>
+ <CAJF2gTQ6zJrcyOVCqF+xDXTEzFYUVQuTP0rKy=K6R99TQ05CrA@mail.gmail.com>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <CAJF2gTQ6zJrcyOVCqF+xDXTEzFYUVQuTP0rKy=K6R99TQ05CrA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
 
->> Follow Randy's advice [1] to move
->> Documentation/translations/zh_TW/dev-tools/sparse.txt
->> to
->> Documentation/translations/zh_TW/dev-tools/sparse.rst
+On 8/11/23 20:24, Guo Ren wrote:
+> On Sat, Aug 12, 2023 at 4:42 AM Waiman Long <longman@redhat.com> wrote:
+>> On 8/2/23 12:47, guoren@kernel.org wrote:
+>>> From: Guo Ren <guoren@linux.alibaba.com>
+>>>
+>>> The pv_ops belongs to x86 custom infrastructure and cleans up the
+>>> cna_configure_spin_lock_slowpath() with standard code. This is
+>>> preparation for riscv support CNA qspoinlock.
+>> CNA qspinlock has not been merged into mainline yet. I will suggest you
+>> drop the last 2 patches for now. Of course, you can provide benchmark
+>> data to boost the case for the inclusion of the CNA qspinlock patch into
+>> the mainline.
+> Yes, my lazy, I would separate paravirt and CNA from this series.
+
+paravirt is OK, it is just that CNA hasn't been merged yet.
+
+Cheers,
+Longman
+
+>
+>> Cheers,
+>> Longman
 >>
->> [1] https://lore.kernel.org/lkml/bfab7c5b-e4d3-d8d9-afab-f43c0cdf26cf@inf=
->radead.org/
 >
->So the right way to do this would be to simply say something like
->"Convert sparse.txt to RST", then add a Suggested-by: tag to credit
->Randy.=20
 
-Got it, I will submit v2 with this subject and add Suggested-by: tag
-to credit Randy.
-
->
->> Cc: Randy Dunlap <rdunlap@infradead.org>
->> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
->> ---
->>  .../dev-tools/{sparse.txt =3D> sparse.rst}      | 31 ++++++-------------
->>  1 file changed, 10 insertions(+), 21 deletions(-)
->>  rename Documentation/translations/zh_TW/dev-tools/{sparse.txt =3D> spars=
->e.rst} (71%)
->
->You're not adding this new document to a toctree anywhere; that will add
->a warning and this file won't be a part of the docs build.
-
-I will fix this in v2.
-
->> diff --git a/Documentation/translations/zh_TW/dev-tools/sparse.txt b/Docu=
->mentation/translations/zh_TW/dev-tools/sparse.rst
->> similarity index 71%
->> rename from Documentation/translations/zh_TW/dev-tools/sparse.txt
->> rename to Documentation/translations/zh_TW/dev-tools/sparse.rst
->> index 6d2d088b1060..2f632f6ce8e8 100644
->> --- a/Documentation/translations/zh_TW/dev-tools/sparse.txt
->> +++ b/Documentation/translations/zh_TW/dev-tools/sparse.rst
->> @@ -1,33 +1,22 @@
->> -=EF=BB=BFChinese translated version of Documentation/dev-tools/sparse.rst
->> -
->> -If you have any comment or update to the content, please contact the
->> -original document maintainer directly.  However, if you have a problem
->> -communicating in English you can also ask the Chinese maintainer for
->> -help.  Contact the Chinese maintainer if this translation is outdated
->> -or if there is a problem with the translation.
->> +=EF=BB=BFCopyright 2004 Linus Torvalds
->> +Copyright 2004 Pavel Machek <pavel@ucw.cz>
->> +Copyright 2006 Bob Copeland <me@bobcopeland.com>
->>=20=20
->> -Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
->
->So you are removing a fair amount of text here, much of which I cannot
->read.  Why are you doing that?  In any case, that would appear to be a
->change that is independent of the format conversion, and should thus be
->in its own patch.
-
-The text I removed is replaced by '.. include:: ../disclaimer-zh_TW.rst'.
-I will keep the original text and change it in another change.
-
-thanks,
-Min-Hua
-
->
->Thanks,
->
->jon
->
