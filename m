@@ -2,112 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7480C0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 05:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA0BAC04A94
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 10:36:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232008AbjHLFFL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Aug 2023 01:05:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45776 "EHLO
+        id S233486AbjHLKgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Aug 2023 06:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231685AbjHLFFL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Aug 2023 01:05:11 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D352722;
-        Fri, 11 Aug 2023 22:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=QVO+YD/A9B88x8NiWdr2MCn5pXPPZlopwlUOKBD1+Hs=; b=x9fOkwf6k49NlChnY1xxM6PETP
-        P4j8i5BsNPySDLS3g3HkFJdbJ28w4pH9V5oxszkcYAZ9eRr5JvAC9aSykeZtjJ4pJjgOnXlToRQsP
-        uV5NM1XRiUZtEduKEJifSEbdJC/dCp67mh3HJi0BQ18h35g7IAm4biCCqneXsi+oDQnVeDoMcMbMI
-        Lj9XTwsG3f6IbJ52G1HWORVyQ687kQzXVA1vpSVDJmDyPBKifbL28cMa5+udxNimqA1HD0+Kb4T25
-        w/L0qMUWxh72qF/lwB78909lAqq8rWhAj9RcasDICSiwUwszWzAqW2VLAJB2DrduGBFuIG7nLzxlO
-        L1f4kaKQ==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qUgWl-00CdzG-1Z;
-        Sat, 12 Aug 2023 04:47:03 +0000
-Message-ID: <9efeeb6a-a2d4-9b56-c127-119c1ac378b6@infradead.org>
-Date:   Fri, 11 Aug 2023 21:47:01 -0700
+        with ESMTP id S229497AbjHLKgN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Aug 2023 06:36:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EBC819A3;
+        Sat, 12 Aug 2023 03:36:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AFE806339E;
+        Sat, 12 Aug 2023 10:36:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97B26C433C8;
+        Sat, 12 Aug 2023 10:36:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1691836575;
+        bh=LxpNbGRxgvMb0WU3z01+dc2gxsruBj7n+I1al66HDeQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PPyNN1E/07nmj3XLXiJ9kmfw6IQFcUhTSidbNZ6fVHVbBXPAHzt0pF/fC4GdiLCp/
+         MyIgrYaSeR0RK3EniJIpFE1/7GlaL1GQozgZhGH31WunTyZeR/g23cKZ+TFPpA1bEw
+         gt8QAIx3rPswWdxLuOBz4cLWnjUHsfoQ6qjfm1bo=
+Date:   Sat, 12 Aug 2023 12:36:12 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Georgi Djakov <djakov@kernel.org>
+Cc:     Mike Tipton <quic_mdtipton@quicinc.com>, rafael@kernel.org,
+        corbet@lwn.net, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, quic_okukatla@quicinc.com,
+        quic_viveka@quicinc.com, peterz@infradead.org,
+        quic_pkondeti@quicinc.com
+Subject: Re: [PATCH v3 1/3] debugfs: Add write support to debugfs_create_str()
+Message-ID: <2023081256-fastness-marine-609f@gregkh>
+References: <20230807142914.12480-1-quic_mdtipton@quicinc.com>
+ <20230807142914.12480-2-quic_mdtipton@quicinc.com>
+ <58ea6863-53cd-228b-1474-f67b0bb134f0@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH net-next 1/2] scripts: kernel-doc: parse
- DEFINE_DMA_UNMAP_[ADDR|LEN]
-Content-Language: en-US
-To:     Pavan Kumar Linga <pavan.kumar.linga@intel.com>,
-        netdev@vger.kernel.org, kuba@kernel.org
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
-        emil.s.tantilov@intel.com, joshua.a.hay@intel.com,
-        sridhar.samudrala@intel.com, alan.brady@intel.com,
-        madhu.chittim@intel.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, willemb@google.com, decot@google.com
-References: <20230812002549.36286-1-pavan.kumar.linga@intel.com>
- <20230812002549.36286-2-pavan.kumar.linga@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230812002549.36286-2-pavan.kumar.linga@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <58ea6863-53cd-228b-1474-f67b0bb134f0@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 8/11/23 17:25, Pavan Kumar Linga wrote:
-> At present, if the marcos DEFINE_DMA_UNMAP_ADDR() and
-
-                     macros
-
-> DEFINE_DMA_UNMAP_LEN() are used in the structures as shown
-> below, instead of parsing the parameter in the parenthesis,
-
-                                                 parentheses
-
-> kernel-doc parses 'DEFINE_DMA_UNMAP_ADDR(' and
-> 'DEFINE_DMA_UNMAP_LEN(' which results in the following
-> warnings:
+On Fri, Aug 11, 2023 at 10:46:34AM +0300, Georgi Djakov wrote:
+> On 7.08.23 17:29, Mike Tipton wrote:
+> > Currently, debugfs_create_str() only supports reading strings from
+> > debugfs. Add support for writing them as well.
+> > 
+> > Based on original implementation by Peter Zijlstra [0]. Write support
+> > was present in the initial patch version, but dropped in v2 due to lack
+> > of users. We have a user now, so reintroduce it.
+> > 
+> > [0] https://lore.kernel.org/all/YF3Hv5zXb%2F6lauzs@hirez.programming.kicks-ass.net/
+> > 
 > 
-> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
-> parameter or member 'DEFINE_DMA_UNMAP_ADDR(dma' not described in
-> 'idpf_tx_buf'
-> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
-> parameter or member 'DEFINE_DMA_UNMAP_LEN(len' not described in
-> 'idpf_tx_buf'
+> Hi Greg,
 > 
-> struct idpf_tx_buf {
-> 	DEFINE_DMA_UNMAP_ADDR(dma);
-> 	DEFINE_DMA_UNMAP_LEN(len);
-> };
+> Looks like the original code was reviewed two years ago (not sure if it
+> counts). But in any case, i need an ack from you to apply this.
 > 
-> Fix the warnings by parsing DEFINE_DMA_UNMAP_ADDR() and
-> DEFINE_DMA_UNMAP_LEN().
-> 
-> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> There is no build dependency with the rest of the patches (but there is a
+> functional one). It should be also fine if you apply it directly, if you
+> prefer so?
 
-Looks good. Thanks.
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Feel free for this to go with the code that uses it:
 
-> ---
->  scripts/kernel-doc | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index d0116c6939dc..cfb1cb223508 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -1168,6 +1168,10 @@ sub dump_struct($$) {
->  	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
->  	# replace DECLARE_FLEX_ARRAY
->  	$members =~ s/(?:__)?DECLARE_FLEX_ARRAY\s*\($args,\s*$args\)/$1 $2\[\]/gos;
-> +	#replace DEFINE_DMA_UNMAP_ADDR
-> +	$members =~ s/DEFINE_DMA_UNMAP_ADDR\s*\($args\)/dma_addr_t $1/gos;
-> +	#replace DEFINE_DMA_UNMAP_LEN
-> +	$members =~ s/DEFINE_DMA_UNMAP_LEN\s*\($args\)/__u32 $1/gos;
->  	my $declaration = $members;
->  
->  	# Split nested struct/union elements as newer ones
-
--- 
-~Randy
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
