@@ -2,117 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C7C2C41513
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 00:26:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1013DC0015E
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 00:37:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236934AbjHLA0E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 20:26:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53662 "EHLO
+        id S235022AbjHLAhU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 20:37:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236949AbjHLA0D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 20:26:03 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E67630FF;
-        Fri, 11 Aug 2023 17:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691799963; x=1723335963;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=BmEiv3YKG+Lm04BvU0pkDSbhl/gQLbLwts7jJ8bsyCA=;
-  b=SKr5yJ78cLpo9pA7h6n/Uuh9WXUc4cvuLqUXcGEW+1IRtwV4KAbU4fF9
-   MEp9SBIZpwG3emZiqlPiY7F1Oqv7l5qF7ZNkBeJQHW50JCPprRCoeGT/Y
-   fdMa60goix+I+PnyCrgGm7xfd1K6OsuDMF9lu6DCDTEtBWdsEKFkM3nX/
-   67R6YMzmmqLlHXze1cJRs9nyc2BHT5GlsrHEzn1OZjL9r49hnlm6LKcZM
-   cAu5FQ77HK2PDhKXxMyHIYRn+3i9s8mshaZIsnwjh5L4upT5m4+FQjg5s
-   WnHHk9l1kNa8yxF21+7bnQ10Ikxslh+LlUXS2JYjbtmxDnv52GPcYNjG0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="375500081"
-X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="375500081"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 17:26:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="979370612"
-X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="979370612"
-Received: from unknown (HELO fedora.jf.intel.com) ([10.166.80.24])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Aug 2023 17:26:02 -0700
-From:   Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-To:     netdev@vger.kernel.org, kuba@kernel.org
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
-        emil.s.tantilov@intel.com, joshua.a.hay@intel.com,
-        sridhar.samudrala@intel.com, alan.brady@intel.com,
-        madhu.chittim@intel.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, willemb@google.com, decot@google.com,
-        Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-Subject: [PATCH net-next 2/2] scripts: kernel-doc: fix macro handling in enums
-Date:   Fri, 11 Aug 2023 17:25:49 -0700
-Message-Id: <20230812002549.36286-3-pavan.kumar.linga@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230812002549.36286-1-pavan.kumar.linga@intel.com>
-References: <20230812002549.36286-1-pavan.kumar.linga@intel.com>
+        with ESMTP id S229734AbjHLAhU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 20:37:20 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B61830DB;
+        Fri, 11 Aug 2023 17:37:20 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1bc7e65ea44so18026215ad.1;
+        Fri, 11 Aug 2023 17:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691800639; x=1692405439;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4hnrRd/R02fQYg+94kLBuqcTRTMHc/nyXMwR+7vVJzE=;
+        b=bXGME/VnAhZ8KAFRJqURgr58wU1UFxudSdq5RSyB5iFuLGY2RCW5j8LG70u/plcHDc
+         HhM1Lg91jSSVx7BWyFfgj+I6FKkqbLrLcFoE40Wwmarh5kt0NDqaIzJ68hVnsp91RNqK
+         zgHXuiRllWUpFCt5hlcNGCTYtv8Px96RyqPwCNmloPfwJ5FyBefdUDZB0WSxAYsWsBVl
+         yaUI0wnL1iI2lFZH9afLc0PPZyx5yUFNBG30L74M6Wc2CI22UrNRPUEYdkCSdr3I0vSI
+         BiaNZ11VTs1B7majBqq9zmjoTsQf8i/evvGP7eDkknKVTCDfJmgCHjptrd7Xyd4alAew
+         uCkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691800639; x=1692405439;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4hnrRd/R02fQYg+94kLBuqcTRTMHc/nyXMwR+7vVJzE=;
+        b=YvbdGqhB9Ll+a6MYfug6oc03IrJUypM1PASzYOrS22yb0ZWSO7ucPHBu2hE2QEBpdw
+         iRxw+Om+1BzdMZy3HyDsAtBqAOdvNleyGmUbQDlWCX/IaasN/WFOmRER/uJ60WGx6cjq
+         KxzPtvucmtt2GebbmAqtZOYXIU1W9pI6z92NOxObz2vibMzx9d4v5/K5HyOoB3Cs+hoz
+         Sp+SbIAdHvfCb2xbTgdoCe0fopUXeABwAmq+fiwnM6tNTjSz8N08NnzEu2JqGEwzytNI
+         gUT6Sou74eqId2UxWnTLa4A18A3KdJ62uo6vUt1wvDedDbAFg7Dg/o+LnKFIa6DvO6gs
+         viIA==
+X-Gm-Message-State: AOJu0YxWJM/gJXAyFWDkb+PBGIYnJ+nc+NwbAY3c1Ok+/hCrPLNz72cX
+        YE6HzGrIe7T4kmFKzCCms9g=
+X-Google-Smtp-Source: AGHT+IF1l458p3X2DhORC8kVWhvjB7DIfvMMCpgVBoGyYkzNM8HIxzCMaa8FlTRqAwGGIEg4rv3duA==
+X-Received: by 2002:a17:902:db10:b0:1bc:3908:14d with SMTP id m16-20020a170902db1000b001bc3908014dmr8638530plx.2.1691800639416;
+        Fri, 11 Aug 2023 17:37:19 -0700 (PDT)
+Received: from ubuntu777.domain.name (36-228-78-6.dynamic-ip.hinet.net. [36.228.78.6])
+        by smtp.gmail.com with ESMTPSA id q3-20020a170902788300b001bbd8cf6b57sm4537164pll.230.2023.08.11.17.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 17:37:19 -0700 (PDT)
+From:   Min-Hua Chen <minhuadotchen@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        minhuadotchen@gmail.com, rdunlap@infradead.org, src.res@email.cn
+Subject: Re: [PATCH 2/2] docs: sparse: convert TW sparse.txt into sparse.rst
+Date:   Sat, 12 Aug 2023 08:37:15 +0800
+Message-Id: <20230812003715.7551-1-minhuadotchen@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <87a5uxxqf3.fsf@meer.lwn.net>
+References: <87a5uxxqf3.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-drivers/net/ethernet/intel/idpf/idpf.h uses offsetof to
-initialize the enum enumerators:
+Hi Jonathan,
 
-enum {
-	IDPF_BASE_CAPS = -1,
-	IDPF_CSUM_CAPS = offsetof(struct virtchnl2_get_capabilities,
-				  csum_caps),
-	IDPF_SEG_CAPS = offsetof(struct virtchnl2_get_capabilities,
-				 seg_caps),
-	IDPF_RSS_CAPS = offsetof(struct virtchnl2_get_capabilities,
-				 rss_caps),
-	IDPF_HSPLIT_CAPS = offsetof(struct virtchnl2_get_capabilities,
-				    hsplit_caps),
-	IDPF_RSC_CAPS = offsetof(struct virtchnl2_get_capabilities,
-				 rsc_caps),
-	IDPF_OTHER_CAPS = offsetof(struct virtchnl2_get_capabilities,
-				   other_caps),
-};
+>> Follow Randy's advice [1] to move
+>> Documentation/translations/zh_TW/dev-tools/sparse.txt
+>> to
+>> Documentation/translations/zh_TW/dev-tools/sparse.rst
+>>
+>> [1] https://lore.kernel.org/lkml/bfab7c5b-e4d3-d8d9-afab-f43c0cdf26cf@inf=
+>radead.org/
+>
+>So the right way to do this would be to simply say something like
+>"Convert sparse.txt to RST", then add a Suggested-by: tag to credit
+>Randy.=20
 
-kernel-doc parses the above enumerator with a ',' inside the
-macro and treats 'csum_caps', 'seg_caps' etc. also as enumerators
-resulting in the warnings:
+Got it, I will submit v2 with this subject and add Suggested-by: tag
+to credit Randy.
 
-drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
-'csum_caps' not described in enum 'idpf_cap_field'
-drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
-'seg_caps' not described in enum 'idpf_cap_field'
-drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
-'rss_caps' not described in enum 'idpf_cap_field'
-drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
-'hsplit_caps' not described in enum 'idpf_cap_field'
-drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
-'rsc_caps' not described in enum 'idpf_cap_field'
-drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
-'other_caps' not described in enum 'idpf_cap_field'
+>
+>> Cc: Randy Dunlap <rdunlap@infradead.org>
+>> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+>> ---
+>>  .../dev-tools/{sparse.txt =3D> sparse.rst}      | 31 ++++++-------------
+>>  1 file changed, 10 insertions(+), 21 deletions(-)
+>>  rename Documentation/translations/zh_TW/dev-tools/{sparse.txt =3D> spars=
+>e.rst} (71%)
+>
+>You're not adding this new document to a toctree anywhere; that will add
+>a warning and this file won't be a part of the docs build.
 
-Fix it by removing the macro arguments within the parenthesis.
+I will fix this in v2.
 
-Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
----
- scripts/kernel-doc | 1 +
- 1 file changed, 1 insertion(+)
+>> diff --git a/Documentation/translations/zh_TW/dev-tools/sparse.txt b/Docu=
+>mentation/translations/zh_TW/dev-tools/sparse.rst
+>> similarity index 71%
+>> rename from Documentation/translations/zh_TW/dev-tools/sparse.txt
+>> rename to Documentation/translations/zh_TW/dev-tools/sparse.rst
+>> index 6d2d088b1060..2f632f6ce8e8 100644
+>> --- a/Documentation/translations/zh_TW/dev-tools/sparse.txt
+>> +++ b/Documentation/translations/zh_TW/dev-tools/sparse.rst
+>> @@ -1,33 +1,22 @@
+>> -=EF=BB=BFChinese translated version of Documentation/dev-tools/sparse.rst
+>> -
+>> -If you have any comment or update to the content, please contact the
+>> -original document maintainer directly.  However, if you have a problem
+>> -communicating in English you can also ask the Chinese maintainer for
+>> -help.  Contact the Chinese maintainer if this translation is outdated
+>> -or if there is a problem with the translation.
+>> +=EF=BB=BFCopyright 2004 Linus Torvalds
+>> +Copyright 2004 Pavel Machek <pavel@ucw.cz>
+>> +Copyright 2006 Bob Copeland <me@bobcopeland.com>
+>>=20=20
+>> -Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
+>
+>So you are removing a fair amount of text here, much of which I cannot
+>read.  Why are you doing that?  In any case, that would appear to be a
+>change that is independent of the format conversion, and should thus be
+>in its own patch.
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index cfb1cb223508..bc008f30f3c9 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1353,6 +1353,7 @@ sub dump_enum($$) {
- 	my %_members;
- 
- 	$members =~ s/\s+$//;
-+	$members =~ s/\(.*?[\)]//g;
- 
- 	foreach my $arg (split ',', $members) {
- 	    $arg =~ s/^\s*(\w+).*/$1/;
--- 
-2.38.1
+The text I removed is replaced by '.. include:: ../disclaimer-zh_TW.rst'.
+I will keep the original text and change it in another change.
 
+thanks,
+Min-Hua
+
+>
+>Thanks,
+>
+>jon
+>
