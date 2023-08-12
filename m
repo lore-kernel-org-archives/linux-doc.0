@@ -2,99 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDA3C0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 00:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1459EB64DD
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Aug 2023 01:07:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235495AbjHLAtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Aug 2023 20:49:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
+        id S234637AbjHLBH6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Aug 2023 21:07:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236914AbjHLAtG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 20:49:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3713E358B
-        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 17:48:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691801283;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rLC/yOAR2d4wIWdWwjFchmmeIa+RdcqwrFVJ1+GuKDw=;
-        b=hgmxEQGarnOQZuMKSheRJhCTU6jYcgoLQs5/O3JXDeV6RNmiFaqU+guQsV70vYHiNlmWtJ
-        TyqM+nRG4ccf49i6CACNS/sYdE4fMEXMcLgEt6a7LsaGxwSqWmVT5dmUCIvbLvn0Cg4JcM
-        nNg2RLdmu0Of173TzDYV2IKqTL4Ux68=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-lUtXwiZgPMmXVj5sVgtwdQ-1; Fri, 11 Aug 2023 20:47:54 -0400
-X-MC-Unique: lUtXwiZgPMmXVj5sVgtwdQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S229475AbjHLBH6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Aug 2023 21:07:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05D22E3
+        for <linux-doc@vger.kernel.org>; Fri, 11 Aug 2023 18:07:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 918563C0ED49;
-        Sat, 12 Aug 2023 00:47:53 +0000 (UTC)
-Received: from [10.22.17.82] (unknown [10.22.17.82])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8E04A2166B25;
-        Sat, 12 Aug 2023 00:47:51 +0000 (UTC)
-Message-ID: <2f84b806-193a-6d7c-71fe-cc718e9455f9@redhat.com>
-Date:   Fri, 11 Aug 2023 20:47:51 -0400
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9691164CCE
+        for <linux-doc@vger.kernel.org>; Sat, 12 Aug 2023 01:07:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71796C433C7;
+        Sat, 12 Aug 2023 01:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691802477;
+        bh=kKoMGqkaZrFbOmdnbjaZigHjWuY+wtaLeAvAQcSut8g=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=s+ecJZcm4Oz+U3bYwpLmbRS+QGsII+kG+5Ys0Day30a0lTlmbEW/48JDwfh5b1zhi
+         XbM0VghvEgEJi9hEztjT19jxl9svUYb9VHZImvmIa3TFOnzP5unzQMpaKKYe1K1yCz
+         WlwA9/ohm0vsDLnLR0JjYMsi/HtxdJQ+O6UpUM+QFGBO/OP4bBO7wuejAQDbH2MeGy
+         OmxvfgYoEBcDZdRAV6DmTJeq88waEj9YwPqpyAsYLM4ChP8pBKskt50lseHBpbVRUY
+         rcSNfsQMkbLesVajkALme9GXf98DDjvWeGD5Zv9jVRtr5yq9oKf7+6kzQfGw1mhYuV
+         rU6cCDFBWjipA==
+Date:   Fri, 11 Aug 2023 18:07:55 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+        emil.s.tantilov@intel.com, joshua.a.hay@intel.com,
+        sridhar.samudrala@intel.com, alan.brady@intel.com,
+        madhu.chittim@intel.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, willemb@google.com, decot@google.com
+Subject: Re: [PATCH net-next 0/2] Fix invalid kernel-doc warnings
+Message-ID: <20230811180755.14efaf73@kernel.org>
+In-Reply-To: <20230812002549.36286-1-pavan.kumar.linga@intel.com>
+References: <20230812002549.36286-1-pavan.kumar.linga@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH V10 18/19] locking/qspinlock: Move pv_ops into x86
- directory
-Content-Language: en-US
-To:     Guo Ren <guoren@kernel.org>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
-        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
-        catalin.marinas@arm.com, conor.dooley@microchip.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-References: <20230802164701.192791-1-guoren@kernel.org>
- <20230802164701.192791-19-guoren@kernel.org>
- <5cf1117c-d537-703c-cdcf-f43c5bd9ed1b@redhat.com>
- <CAJF2gTQ6zJrcyOVCqF+xDXTEzFYUVQuTP0rKy=K6R99TQ05CrA@mail.gmail.com>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <CAJF2gTQ6zJrcyOVCqF+xDXTEzFYUVQuTP0rKy=K6R99TQ05CrA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 11 Aug 2023 17:25:47 -0700 Pavan Kumar Linga wrote:
+> kernel-doc reports invalid warnings on IDPF driver patch series [1]
+> that is submitted for review. This patch series fixes those warnings.
+> 
+> [1]: https://lore.kernel.org/netdev/20230808003416.3805142-1-anthony.l.nguyen@intel.com/
+> ---
+> These fixes are needed for the IDPF driver patch series to have
+> a clean CI. So targeting the series to net-next instead of
+> linux-docs.
 
-On 8/11/23 20:24, Guo Ren wrote:
-> On Sat, Aug 12, 2023 at 4:42 AM Waiman Long <longman@redhat.com> wrote:
->> On 8/2/23 12:47, guoren@kernel.org wrote:
->>> From: Guo Ren <guoren@linux.alibaba.com>
->>>
->>> The pv_ops belongs to x86 custom infrastructure and cleans up the
->>> cna_configure_spin_lock_slowpath() with standard code. This is
->>> preparation for riscv support CNA qspoinlock.
->> CNA qspinlock has not been merged into mainline yet. I will suggest you
->> drop the last 2 patches for now. Of course, you can provide benchmark
->> data to boost the case for the inclusion of the CNA qspinlock patch into
->> the mainline.
-> Yes, my lazy, I would separate paravirt and CNA from this series.
+Neat, thanks for these.
 
-paravirt is OK, it is just that CNA hasn't been merged yet.
-
-Cheers,
-Longman
-
->
->> Cheers,
->> Longman
->>
->
-
+Jon, no strong preference on the tree here. I'll confirm these resolve
+the issues in Pavan's driver when applying it, there's no hard
+requirement for the kdoc patches to be in net-next at that point.
