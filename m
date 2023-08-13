@@ -2,87 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 100FBC04A6A
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Aug 2023 06:55:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 798EEC04A6A
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Aug 2023 08:24:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbjHMGz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Aug 2023 02:55:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56760 "EHLO
+        id S229522AbjHMIXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Aug 2023 04:23:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230288AbjHMGzE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Aug 2023 02:55:04 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A3A1718;
-        Sat, 12 Aug 2023 23:55:06 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-765a7768f1dso276552585a.0;
-        Sat, 12 Aug 2023 23:55:05 -0700 (PDT)
+        with ESMTP id S230327AbjHMIXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Aug 2023 04:23:55 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89752170C
+        for <linux-doc@vger.kernel.org>; Sun, 13 Aug 2023 01:23:56 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3fe4a89e8c4so30455735e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 13 Aug 2023 01:23:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691909705; x=1692514505;
+        d=linaro.org; s=google; t=1691915035; x=1692519835;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vyCMq5FUDTJRoKGW2lae+5hYvGfSWE+CbEv4MkpI7Mw=;
-        b=jUdJ4pmnncYALPtSUEGz40BvlBMFKc07ToBWRtNQGifGrwoPTC9RpYRr57KE2Ezuvf
-         n5tnqdgLK/3MmS2+MZxdSPhnIoTUXD4uu4KQPlP/hcikicePXWzBOFLiMf+VV6IcYViM
-         O2tl6DtINzI2bKpnP5YM+prJzG0G0X10ugjY00+EhYexGupHlGYEWcwY01Q0edoWHNAe
-         GBq+23wN039ovM6I7lcwRBfPjJiSJ2llwn8K240q+N3ZhgUi3gKhuP2v0XhGnHEUXjua
-         JaGghk0cAJ4/lI6o9vwVzCEiW2Xzu0//gcWJcsz4l3OEu/vVSfZ9pQJDZpKGlV8EoifU
-         GTWw==
+        bh=VZM/b5Pej16mPyKc+Kl8IzPyaWchqEJykmJSB7R8QxY=;
+        b=Ewmkr7AF7MNqSpuZkHq/Y4c5NCdWW9p+Fc1hm2GYmFQmYDt7K8M3kFQ62C12zb0tvl
+         AbAerJCN4HYZd4DOFtyWh3Q7jNkGqk9aX6idham7z1TeYyEmOpIrYudXMnh42Obiq9wa
+         YTha5qrZx+r933REfvtYvkwVdE3mcPtmjhs2GgpfLSeuG8d8Vfu9dOt9CGK6FLS1iUSm
+         6hrIbrXrRl+KO0XPqAOsLpnID9uUyuv5oyMF2nn/7Vu03RTzc91SZaLWRYNkDaHHPLIt
+         BXEb91rEsywUr7G7ihLXN7R12umwmy6Pemp1pZ6SxMLzORjpY6Rg9+9CnSpdRupP3LMU
+         E6rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691909705; x=1692514505;
+        d=1e100.net; s=20221208; t=1691915035; x=1692519835;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vyCMq5FUDTJRoKGW2lae+5hYvGfSWE+CbEv4MkpI7Mw=;
-        b=S3b4v3AVY9VDPvh1FVMLAT+fTyaoJD6SQGEyY400pPbkMxgh3ZBNLg7WUFEJPEIayz
-         axs4ncwIqpJ5Rfsh8HR2OgYqB3SCIo1HjtbqcfNvPlCIeIwF+2foO8nZUhbsTNQu4Iho
-         MWTRP1r0thYcMe9P/H6GBDUcyMEMoYyNTfn5W8shdbOdvNbcc98ctU3wXPWshZoNTDJW
-         5xIHymTjr2ajiFUeU2UVzg9YublEW2EXCkk7tj1RxCl3oQy296y+9LxXO6qSzADpP12A
-         xLLtkKchKQ4dUhGU2zkmigraDJnZKifvY30ISveQrqORrTwYCzwPtNkHOnBeh39SLzF2
-         n2VA==
-X-Gm-Message-State: AOJu0Yxz6JuXbYPu1AA3/tfkVUOohyI7q76AWj2W0I1KOvsCnJIRYbQI
-        NbdGJfvkfrlf4hjTHNhwoKhFVvJdRXY=
-X-Google-Smtp-Source: AGHT+IGNus32NsuXrDd8xGesly1P3yn5X979cCk5Erwfg/qUdVTMNYZRn0buuLvMEoZn7KIcfEU2Zw==
-X-Received: by 2002:a05:620a:1992:b0:767:e04c:8d6e with SMTP id bm18-20020a05620a199200b00767e04c8d6emr8718940qkb.51.1691909705151;
-        Sat, 12 Aug 2023 23:55:05 -0700 (PDT)
-Received: from localhost.localdomain ([154.16.192.102])
-        by smtp.gmail.com with ESMTPSA id t16-20020a0cde10000000b006263a9e7c63sm2373231qvk.104.2023.08.12.23.55.00
+        bh=VZM/b5Pej16mPyKc+Kl8IzPyaWchqEJykmJSB7R8QxY=;
+        b=Hi+QEsbQ8+Y9sR7o0OSMKuFnyDZ0KNmVUNmeaZtgVGLWChXvnSz7c8Xuu9NKy99V1O
+         z6ovQ9g/gMNBa4b2gyyCZPcMAYZH7kJQya1bUUroCtL6kEPIPMIaVapRnSiu59wNE9N7
+         6PMayHCYgEi6iYBmjer5F40fYPOzK3OF3e6F+FblAK3Of6bzGZjSEJSwMzJNoVnWBoW6
+         rliK8zqWBJ/dKpiqIHrwszF2tgtZ7ipT81bhACgKUObTOYqsNgg+R3G9V59do6MadlKi
+         J6+u8m4vm2e6tpeQMYuJ24pb6UJJ9TxQ8TZ1Ak2K9Mnje6pJrVWkUiD3ccj+h6lwXMX8
+         B3gw==
+X-Gm-Message-State: AOJu0Yw2GhToaQhIsEdEx3rgTGBXQqZmkWhe4Obt57U2YuFyAvTw/XFG
+        j/owDksEXCSCitbCjIKyf2FevQ==
+X-Google-Smtp-Source: AGHT+IFiA82j+MfSX+Hf64zA4EhTshaU/pw+Unt6Tw0sb319FHM6l8VmOd+SSIZQR3/67HpTaa5teQ==
+X-Received: by 2002:a05:600c:2487:b0:3fe:1d13:4663 with SMTP id 7-20020a05600c248700b003fe1d134663mr5044165wms.1.1691915034606;
+        Sun, 13 Aug 2023 01:23:54 -0700 (PDT)
+Received: from loic-ThinkPad-T470p.. ([2a01:e0a:82c:5f0:92a5:d57e:294f:f41a])
+        by smtp.gmail.com with ESMTPSA id n5-20020a05600c294500b003fbaade0735sm13495057wmd.19.2023.08.13.01.23.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Aug 2023 23:55:04 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, corbet@lwn.net,
-        linux-btrfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] Doc: fs: Take away the stale url
-Date:   Sun, 13 Aug 2023 12:22:48 +0530
-Message-Id: <20230813065247.655287-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        Sun, 13 Aug 2023 01:23:53 -0700 (PDT)
+From:   Loic Poulain <loic.poulain@linaro.org>
+To:     brauner@kernel.org, viro@zeniv.linux.org.uk, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, hch@infradead.org,
+        rdunlap@infradead.org, Loic Poulain <loic.poulain@linaro.org>
+Subject: [PATCH v4] init: Add support for rootwait timeout parameter
+Date:   Sun, 13 Aug 2023 10:23:49 +0200
+Message-Id: <20230813082349.513386-1-loic.poulain@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-That url pointed to non-maintained place. So, take it out.
+Add an optional timeout arg to 'rootwait' as the maximum time in
+seconds to wait for the root device to show up before attempting
+forced mount of the root filesystem.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Use case:
+In case of device mapper usage for the rootfs (e.g. root=/dev/dm-0),
+if the mapper is not able to create the virtual block for any reason
+(wrong arguments, bad dm-verity signature, etc), the `rootwait` param
+causes the kernel to wait forever. It may however be desirable to only
+wait for a given time and then panic (force mount) to cause device reset.
+This gives the bootloader a chance to detect the problem and to take some
+measures, such as marking the booted partition as bad (for A/B case) or
+entering a recovery mode.
+
+In success case, mounting happens as soon as the root device is ready,
+unlike the existing 'rootdelay' parameter which performs an unconditional
+pause.
+
+Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
 ---
- Documentation/filesystems/btrfs.rst | 2 --
- 1 file changed, 2 deletions(-)
+ v2: rebase + reword: add use case example
+ v3: Use kstrtoint instead of deprecated simple_strtoul
+ v4: Handle mult overflow when converting sec to ms
+     Initialize end ktime after ROOT_DEV check
 
-diff --git a/Documentation/filesystems/btrfs.rst b/Documentation/filesystems/btrfs.rst
-index 992eddb0e11b..58f1c1a38af0 100644
---- a/Documentation/filesystems/btrfs.rst
-+++ b/Documentation/filesystems/btrfs.rst
-@@ -37,8 +37,6 @@ For more information please refer to the documentation site or wiki
+ .../admin-guide/kernel-parameters.txt         |  4 ++
+ init/do_mounts.c                              | 38 ++++++++++++++++++-
+ 2 files changed, 40 insertions(+), 2 deletions(-)
 
-   https://btrfs.readthedocs.io
-
--  https://btrfs.wiki.kernel.org
--
- that maintains information about administration tasks, frequently asked
- questions, use cases, mount options, comprehensible changelogs, features,
- manual pages, source code repositories, contacts etc.
---
-2.30.0
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a1457995fd41..387cf9c2a2c5 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5501,6 +5501,10 @@
+ 			Useful for devices that are detected asynchronously
+ 			(e.g. USB and MMC devices).
+ 
++	rootwait=	[KNL] Maximum time (in seconds) to wait for root device
++			to show up before attempting to mount the root
++			filesystem.
++
+ 	rproc_mem=nn[KMG][@address]
+ 			[KNL,ARM,CMA] Remoteproc physical memory block.
+ 			Memory area to be used by remote processor image,
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 1aa015883519..5dfd30b13f48 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -18,6 +18,7 @@
+ #include <linux/slab.h>
+ #include <linux/ramfs.h>
+ #include <linux/shmem_fs.h>
++#include <linux/ktime.h>
+ 
+ #include <linux/nfs_fs.h>
+ #include <linux/nfs_fs_sb.h>
+@@ -71,12 +72,37 @@ static int __init rootwait_setup(char *str)
+ {
+ 	if (*str)
+ 		return 0;
+-	root_wait = 1;
++	root_wait = -1;
+ 	return 1;
+ }
+ 
+ __setup("rootwait", rootwait_setup);
+ 
++static int __init rootwait_timeout_setup(char *str)
++{
++	int sec;
++
++	if (kstrtoint(str, 0, &sec) || sec < 0) {
++		pr_warn("ignoring invalid rootwait value\n");
++		goto ignore;
++	}
++
++	if (check_mul_overflow(sec, MSEC_PER_SEC, &root_wait)) {
++		pr_warn("ignoring excessive rootwait value\n");
++		goto ignore;
++	}
++
++	return 1;
++
++ignore:
++	/* Fallback to indefinite wait */
++	root_wait = -1;
++
++	return 1;
++}
++
++__setup("rootwait=", rootwait_timeout_setup);
++
+ static char * __initdata root_mount_data;
+ static int __init root_data_setup(char *str)
+ {
+@@ -384,14 +410,22 @@ void __init mount_root(char *root_device_name)
+ /* wait for any asynchronous scanning to complete */
+ static void __init wait_for_root(char *root_device_name)
+ {
++	ktime_t end;
++
+ 	if (ROOT_DEV != 0)
+ 		return;
+ 
+ 	pr_info("Waiting for root device %s...\n", root_device_name);
+ 
++	end = ktime_add_ms(ktime_get_raw(), root_wait);
++
+ 	while (!driver_probe_done() ||
+-	       early_lookup_bdev(root_device_name, &ROOT_DEV) < 0)
++	       early_lookup_bdev(root_device_name, &ROOT_DEV) < 0) {
+ 		msleep(5);
++		if (root_wait > 0 && ktime_after(ktime_get_raw(), end))
++			break;
++	}
++
+ 	async_synchronize_full();
+ 
+ }
+-- 
+2.34.1
 
