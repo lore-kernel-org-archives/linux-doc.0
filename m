@@ -2,623 +2,243 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D41C001DE
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Aug 2023 16:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59031C001DB
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Aug 2023 18:26:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjHMQnc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Aug 2023 12:43:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56268 "EHLO
+        id S231366AbjHMSZ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Aug 2023 14:25:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbjHMQnb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Aug 2023 12:43:31 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3FE93
-        for <linux-doc@vger.kernel.org>; Sun, 13 Aug 2023 09:43:32 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-564af1b3a9fso2344178a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 13 Aug 2023 09:43:32 -0700 (PDT)
+        with ESMTP id S229451AbjHMSZ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Aug 2023 14:25:58 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB33310CE;
+        Sun, 13 Aug 2023 11:25:59 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-3175f17a7baso3052703f8f.0;
+        Sun, 13 Aug 2023 11:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691945012; x=1692549812;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+vssJJv5bbHKaNNNI58xTLf0nD9mUr+gBqvzgJTi6GU=;
-        b=eMDNj1LzYqyfli4Jrdr2fDhB3s7wuW2K0343K2zu1sPMcb+a0Xi1lxX/9tpwIrIxTC
-         +X2Nxt5Y3DBcku2Fc85bZM/CSvwl5tZLlXinSmshxRSTBIanY98c8NdY4lvwfEOTvS9q
-         NmyvF8TThuHl5jnm5HRrYI/RRwauV0zwwIjTUxf7OHzG60WbtTkRy54aF1BKiN97lpyt
-         I63n59+eM5bclQYPRH6XzCrBierIWT2a7jofCRDuz2/D/xWm+UlF74e3jInURthWiGCy
-         3XHAdGcFC+s5/OG1akn5bK3E21DUUt5sj4KK6M04w64jmrGTyndg/1xuJMwej7oA1hQS
-         wf8Q==
+        d=gmail.com; s=20221208; t=1691951158; x=1692555958;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CIq8sIl/X2b7MlKyknohqi2WsE1jvwSaGlbdtI8w73Q=;
+        b=JdIB/3t8M3PQ2ABKIlUA3PvTiusA3oDqo27jm1ZUL3ssYJYP1+CvD1yRDJb1qky4Xe
+         JKL+W4OFc7YP7LtGvMMdVSYm2yvKQ/LGKEHWTjXT2LpDBCrWgNNwso+aQ82xAM7Dis9z
+         9pyQ6BFVrIbB6LMT2rXXFPaj96SBdri8pKzW73R8W8d6tCQQPa+laBJd8WktGS2Y4hm0
+         sjLsmPNlFBvph37k7KzINI8tn+QIuFZi5FJI3hpoSVrdT8iYHfBVtGRbmfAfkHDfu24B
+         po3rgk2XdZSytn8mke9aXjrlauDuKMuHgmTEWZtlFMYBntjmsMRayleaYfMW1z+6FjAT
+         eOMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691945012; x=1692549812;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+vssJJv5bbHKaNNNI58xTLf0nD9mUr+gBqvzgJTi6GU=;
-        b=jIRlyGEE9uft2PQ2qtCurIRhNwiTPsRYR9/zpUtPEoZXjP+P95L2j1mMHNGibJU3pj
-         xkAKY3hyPyYjVeF+YgWQCyf/tIkgCwyhbH6i5nsdYeKg/3S64ZSolDenrHZoB+fXHDGK
-         UnGq7kbcQ3/fsec8oI/XW8RfyDQTPLCCtQs+RObxe8Tks8sITQ0Ty5Pjssn7LRWiFvZ2
-         smhGmQrtLuRHLOvMBk9yvgjCwcJDHPtTXiSRo5kfhJE0Tu+5lfeSmxl3OljVHIZSMHHW
-         4A3GI9piE6zM1isCoGanD8tpHaqRU0aggbF107Xp9IWs6jVKMmXfRi+HP9oQka1v7wAS
-         OqjQ==
-X-Gm-Message-State: AOJu0Ywks9ZYnj4UoatQtpumVPhMMMh9W/U8ruWmue/OFL4GD4MO2wC0
-        SKc9XN0WEbyeXFAVPiV/dxKasw==
-X-Google-Smtp-Source: AGHT+IFCE18lplunalTH8D1Uq/3UqpKkTA1BTPXxCVc2b/8eXo2Pu8fbSEht3tuYCwNhj9fAppQI6g==
-X-Received: by 2002:a17:90a:de0d:b0:268:5aaf:fbe with SMTP id m13-20020a17090ade0d00b002685aaf0fbemr14096248pjv.10.1691945011645;
-        Sun, 13 Aug 2023 09:43:31 -0700 (PDT)
-Received: from leoy-huanghe ([150.230.248.162])
-        by smtp.gmail.com with ESMTPSA id bo24-20020a17090b091800b00262d6ac0140sm6446518pjb.9.2023.08.13.09.43.27
+        d=1e100.net; s=20221208; t=1691951158; x=1692555958;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CIq8sIl/X2b7MlKyknohqi2WsE1jvwSaGlbdtI8w73Q=;
+        b=PFCCJJl9n/KKyGKsR3WrEtPFNi/8xjXa8E0EfaFtoubo02qNveNm105/hlhCkmsUgz
+         qPdRNUZuPI8yDnF3fs/090HnBbBW3O3L75BW+AXzz22c6xnSwyx50annoNYdZo/4+ki6
+         BuJQtDRom00Mv0VQs8VW9XtHsUma/oA7jGGRiuq1lBL7amYp+qoLuKylCSE5iRjXhQwg
+         ET+Eic1m8yuidnybSQbrynJY9u9Dw/NdtwnZBiTubwMY3QVkrNVej1AVbXlNIQaetAzx
+         F6/xzOp4t73G865S45V3BW20Lq81+wxkpYKX6N2Iu+ceZcfcM+HKB/uWQ19kbcOZ13qf
+         NTIw==
+X-Gm-Message-State: AOJu0YwLFlZX0Of9HgqkRIAk+cba+7c1oWvKql5naMvVWQSf8p276luG
+        fzMHI9/pF5raHO95d35IxF4=
+X-Google-Smtp-Source: AGHT+IH3cPNtVJW4kh/iHxFuCrnQ/1tjSjbQPw4xSIR+5xlKJ57JVXqoqILLkUFlM1N8cQwVEF1cKQ==
+X-Received: by 2002:a05:6000:42:b0:317:5b32:b2c3 with SMTP id k2-20020a056000004200b003175b32b2c3mr4907641wrx.6.1691951157713;
+        Sun, 13 Aug 2023 11:25:57 -0700 (PDT)
+Received: from localhost.localdomain (host-95-239-194-68.retail.telecomitalia.it. [95.239.194.68])
+        by smtp.gmail.com with ESMTPSA id s6-20020a5d5106000000b003141a3c4353sm12058239wrt.30.2023.08.13.11.25.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 09:43:31 -0700 (PDT)
-Date:   Mon, 14 Aug 2023 00:43:23 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Namhyung Kim <namhyung@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Thomas Richter <tmricht@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-doc@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v4] Documentation: userspace-api: Document perf ring
- buffer mechanism
-Message-ID: <20230813164323.GA2678719@leoy-huanghe>
-References: <20230805142905.1852977-1-leo.yan@linaro.org>
- <CAM9d7chruP6-dvP2Xvtr+KDC+Cvzwe36jEenWon9vbt6BinugA@mail.gmail.com>
+        Sun, 13 Aug 2023 11:25:56 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2] Documentation/page_tables: Add info about MMU/TLB and Page Faults
+Date:   Sun, 13 Aug 2023 20:25:42 +0200
+Message-ID: <20230813182552.31792-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM9d7chruP6-dvP2Xvtr+KDC+Cvzwe36jEenWon9vbt6BinugA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Namhyung,
+Extend page_tables.rst by adding a section about the role of MMU and TLB
+in translating between virtual addresses and physical page frames.
+Furthermore explain the concept behind Page Faults and how the Linux
+kernel handles TLB misses. Finally briefly explain how and why to disable
+the page faults handler.
 
-On Mon, Aug 07, 2023 at 11:01:03PM +0900, Namhyung Kim wrote:
-> Hi Leo,
-> 
-> Thanks a lot for writing this up!
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-Thanks a lot for review.
+v1 -> v2: This version takes into account the comments provided by Mike
+(thanks!). I hope I haven't overlooked anything he suggested :-)
+https://lore.kernel.org/all/20230807105010.GK2607694@kernel.org/
 
-> I think this is for kernel API not the perf (tool) implementation
-> so it should focus on the stable interface in the uapi header.
+Furthermore, v2 adds few more information about swapping which was not present
+in v1.
 
-This doc does addresses the header include/uapi/linux/perf_event.h,
-e.g. perf_event_mmap_page structure is defined in this header.
+before the "real" patch, this has been an RFC PATCH in its 2nd version for a week
+or so until I received comments and suggestions from Jonathan Cameron (thanks!),
+and then it morphed to a real patch.
 
-After reading your below comments, I think I understand what you mean.
-Let's see what we can improve for this :)
+The link to the thread with the RFC PATCH v2 and the messages between Jonathan
+and me start at https://lore.kernel.org/all/20230723120721.7139-1-fmdefrancesco@gmail.com/#r
 
-[...]
+ Documentation/mm/page_tables.rst | 128 +++++++++++++++++++++++++++++++
+ 1 file changed, 128 insertions(+)
 
-> > +Perf uses the same way to manage its ring buffer.  In the implementation
-> > +there are two key data structures held together in a set of consecutive
-> > +pages, the control structure and then the ring buffer itself.  The page
-> > +with the control structure in is known as the "user page".  Being held
-> > +in continuous virtual addresses simplifies locating the ring buffer
-> > +address, it is in the pages after the page with the user page.
-> > +
-> > +The control structure is named as ``perf_event_mmap_page``, it contains a
-> > +head pointer ``data_head`` and a tail pointer ``data_tail``.  When the
-> > +kernel starts to fill records into the ring buffer, it updates the head
-> > +pointer to reserve the memory so later it can safely store events into
-> > +the buffer; on the other side, the perf tool updates the tail pointer
-> > +after consuming data from the ring buffer.
-> 
-> This assumes a writable mapping with PROT_WRITE.
-> It cannot update the data_tail on read-only mappings.
+diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
+index 7840c1891751..ad9e52f2d7f1 100644
+--- a/Documentation/mm/page_tables.rst
++++ b/Documentation/mm/page_tables.rst
+@@ -152,3 +152,131 @@ Page table handling code that wishes to be architecture-neutral, such as the
+ virtual memory manager, will need to be written so that it traverses all of the
+ currently five levels. This style should also be preferred for
+ architecture-specific code, so as to be robust to future changes.
++
++
++MMU, TLB, and Page Faults
++=========================
++
++The `Memory Management Unit (MMU)` is a hardware component that handles virtual
++to physical address translations. It may use relatively small caches in hardware
++called `Translation Lookaside Buffers (TLBs)` and `Page Walk Caches` to speed up
++these translations.
++
++When CPU accesses a memory location, it provides a virtual address to the MMU,
++which checks if there is the existing translation in the TLB or in the Page
++Walk Caches (on architectures that support them). If no translation is found,
++MMU uses the page walks to determine the physical address and create the map.
++
++The dirty bit for a page is set (i.e., turned on) when the page is written to.
++Each page of memory has associated permission and dirty bits. The latter
++indicate that the page has been modified since it was loaded into memory.
++
++If nothing prevents it, eventually the physical memory can be accessed and the
++requested operation on the physical frame is performed.
++
++There are several reasons why the MMU can't find certain translations. It could
++happen because the CPU is trying to access memory that the current task is not
++permitted to, or because the data is not present into physical memory.
++
++When these conditions happen, the MMU triggers page faults, which are types of
++exceptions that signal the CPU to pause the current execution and run a special
++function to handle the mentioned exceptions.
++
++Page faults may be caused by code bugs or by maliciously crafted addresses that
++the CPU is instructed to dereference and access. A thread of a process could
++use an instruction to address (non-shared) memory which does not belong to its
++own address space, or could try to execute an instruction that want to write to
++a read-only location.
++
++If the above-mentioned conditions happen in user-space, the kernel sends a
++`Segmentation Fault` (SIGSEGV) signal to the current thread. That signal usually
++causes the termination of the thread and of the process it belongs to.
++
++Instead, there are also common and expected other causes of page faults. These
++are triggered by process management optimization techniques called "Lazy
++Allocation" and "Copy-on-Write". Page faults may also happen when frames have
++been swapped out to persistent storage (swap partition or file) and evicted from
++their physical locations.
++
++These techniques improve memory efficiency, reduce latency, and minimize space
++occupation. This document won't go deeper into the details of "Lazy Allocation"
++and "Copy-on-Write" because these subjects are out of scope for they belong to
++Process Address Management.
++
++Swapping differentiate itself from the other mentioned techniques because it's
++not so desirable since it's performed as a means to reduce memory under heavy
++pressure.
++
++Swapping can't work for memory mapped by kernel logical addresses. These are a
++subset of the kernel virtual space that directly maps a contiguous range of
++physical memory. Given any logical address, its physical address is determined
++with simple arithmetic on an offset. Accesses to logical addresses are fast
++because they avoid the need for complex page table lookups at the expenses of
++frames not being evictable and pageable out.
++
++If everything fails to make room for the data that must reside be present in
++physical frames, the kernel invokes the out-of-memory (OOM) killer to make room
++by terminating lower priority processes until pressure reduces under a safe
++threshold.
++
++This document is going to simplify and show an high altitude view of how the
++Linux kernel handles these page faults, creates tables and tables' entries,
++check if memory is present and, if not, requests to load data from persistent
++storage or from other devices, and updates the MMU and its caches...
++
++The first steps are architectures dependent. Most architectures jump to
++`do_page_fault()`, whereas the x86 interrupt handler is defined by the
++`DEFINE_IDTENTRY_RAW_ERRORCODE()` macro which calls `handle_page_fault()`.
++
++Whatever the routes, all architectures end up to the invocation of
++`handle_mm_fault()` which, in turn, (likely) ends up calling
++`__handle_mm_fault()` to carry out the actual work of allocation of the page
++tables.
++
++The unfortunate case of not being able to call `__handle_mm_fault()` means
++that the virtual address is pointing to areas of physical memory which are not
++permitted to be accessed (at least from the current context). This
++condition resolves to the kernel sending the above-mentioned SIGSEGV signal
++to the process and leads to the consequences already explained.
++
++`__handle_mm_fault()` carries out its work by calling several functions to
++find the entry's offsets of the upper layers of the page tables and allocate
++the tables that it may need to.
++
++The functions that look for the offset have names like `*_offset()`, where the
++"*" is for pgd, p4d, pud, pmd, pte; instead the functions to allocate the
++corresponding tables, layer by layer, are called `*_alloc`, using the
++above-mentioned convention to name them after the corresponding types of tables
++in the hierarchy.
++
++The page table walk may end at one of the middle or upper layers (PMD, PUD).
++
++Linux supports larger page sizes than the usual 4KB (i.e., the so called
++`huge pages`). When using these kinds of larger pages, higher level pages can
++directly map them, with no need to use lower level page entries (PTE). Huge
++pages contain large contiguos physical regions that usually span from 2MB to
++1GB. They are respectively mapped by the PMD and PUD page entries.
++
++The huge pages bring with them several benefits like reduced TLB pressure,
++reduced page table overhead, memory allocation efficiency, and performance
++improvement for certain workloads. However, these benefits come with
++trade-offs, like wasted memory and allocation challenges. Huge pages are out
++of scope of the present document, therefore, it won't go into further details.
++
++At the very end of the walk with allocations, if it didn't return errors,
++`__handle_mm_fault()` finally calls `handle_pte_fault()`, which via `do_fault()`
++performs one of `do_read_fault()`, `do_cow_fault()`, `do_shared_fault()`.
++"read", "cow", "shared" give hints about the reasons and the kind of fault it's
++handling.
++
++The actual implementation of the workflow is very complex. Its design allows
++Linux to handle page faults in a way that is tailored to the specific
++characteristics of each architecture, while still sharing a common overall
++structure.
++
++To conclude this brief overview from very high altitude of how Linux handles
++page faults, let's add that page faults handler can be disabled and enabled
++respectively with `pagefault_disable()` and `pagefault_enable()`.
++
++Several code path make use of the latter two functions because they need to
++disable traps into the page faults handler, mostly to prevent deadlocks.
+-- 
+2.41.0
 
-Will rephrase as:
-
-... on the other side, when the user page is a writable mapping, the perf tool
-has the permission to update the tail pointer after consuming data from the
-ring buffer.  There has a special case for the the user page's read-only
-mapping, which will be addressed in detail in the section 2.3.2 "Writing
-samples into buffer".
-
-> > +
-> > +::
-> > +
-> > +          user page                          ring buffer
-> > +    +---------+---------+   +---------------------------------------+
-> > +    |data_head|data_tail|...|   |   |***|***|***|***|***|   |   |   |
-> > +    +---------+---------+   +---------------------------------------+
-> > +        `          `----------------^                   ^
-> > +         `----------------------------------------------|
-> > +
-> > +              * : the data is filled by the writer.
-> > +
-> > +                Figure 2. Perf ring buffer
-> > +
-> > +When using the ``perf record`` tool, we can specify the ring buffer size
-> > +with option ``-m`` or ``--mmap-pages=``, the given size will be rounded up
-> > +to a power of two that is a multiple of a page size.  Though the kernel
-> > +allocates at once for all memory pages, it's deferred to map the pages
-> > +to VMA area until the perf tool accesses the buffer from the user space.
-> > +In other words, at the first time accesses the buffer's page from user
-> > +space in the perf tool, a data abort exception for page fault is taken
-> > +and the kernel uses this occasion to map the page into process VMA, thus
-> > +the perf tool can continue to access the page after returning from the
-> > +exception.
-> > +
-> > +The function ``perf_mmap_fault()`` is for handling the page fault, which
-> > +invokes ``perf_mmap_to_page()`` to figure out which page should be mapped.
-> > +The structure ``vm_fault`` has a field ``pgoff`` to indicate which page
-> > +should be mapped, if ``pgoff`` is zero it maps the ring buffer's user
-> > +page, otherwise, the ring buffer's page is mapped with index ``pgoff-1``
-> > +(since the first page in VMA is for user page, so we need to decrease 1
-> > +to get the ring buffer's page index).
-> 
-> Looks like too much information of kernel implementation.
-> It's not a user API so functiona/data can change later.
-
-I will drop above paragraph, but I'd like to meantion perf_mmap_fault() as it's
-the main function to handle the page fault.  This can allow readers to easily
-connect doc with the source code.  So I will update the last sentence of the
-previous paragraph:
-
-... and the kernel uses this occasion to map the page into process VMA
-(see ``perf_mmap_fault()``), thus the perf tool ...
-
-
-> > +
-> > +2.2 Ring buffer for different tracing modes
-> > +-------------------------------------------
-> > +
-> > +The perf profiles programs with different modes: default mode, per thread
-> > +mode, per cpu mode, and system wide mode.  This section describes these
-> > +modes and how the ring buffer meets requirements for them.  At last we
-> > +will review the race conditions caused by these modes.
-> 
-> I think it's better to focus how it opens the perf event
-> with CPU and PID params.
-
-Agreed.
-
-> > +
-> > +2.2.1 Default mode
-> > +^^^^^^^^^^^^^^^^^^
-> > +
-> > +Usually we execute ``perf record`` command followed by a profiling program
-> > +name, like below command::
-> > +
-> > +        perf record test_program
-> > +
-> > +This command doesn't specify any options related with ring buffer mode,
-> > +it's called default mode.
-> 
-> It'd be CPU >= 0 and PID >= 0 and attr.inherit = 1 case.
-
-Will supplement:
-
-This command doesn't specify any options for CPU and thread modes, the perf
-tool will apply the default mode on the perf event.  It maps all the CPUs in the
-system and the profiled program's PID on the perf event, and it enables
-inheritance mode on the event so that child tasks inherits the events.  As a
-result, the perf event is attributed as::
-
-  evsel::cpus::map[]    = { 0 .. _SC_NPROCESSORS_ONLN-1 }
-  evsel::threads::map[] = { pid }
-  evsel::attr::inherit  = 1
-
-These attributions finally reflect on how to deploy the ring buffers.  As shown
-below ....
-
-> > +
-> > +As shown below, the perf tool allocates individual ring buffers for each
-> > +CPU, but it only enables events for the profiled program rather than for
-> > +all threads in the system.  The *T1* thread represents the thread context
-> > +of the 'test_program', whereas *T2* and *T3* are irrelevant threads in the
-> > +system.   The perf samples are exclusively collected for the *T1* thread
-> > +and stored in the ring buffer associated with the CPU on which the *T1*
-> > +thread is running.
-> > +
-> > +::
-> > +
-> > +              T1                      T2                 T1
-> > +            +----+              +-----------+          +----+
-> > +    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-> > +            +----+--------------+-----------+----------+----+-------->
-> > +              |                                          |
-> > +              v                                          v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 0                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                   T1
-> > +                 +-----+
-> > +    CPU1         |xxxxx|
-> > +            -----+-----+--------------------------------------------->
-> > +                    |
-> > +                    v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 1                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                                        T1              T3
-> > +                                      +----+        +-------+
-> > +    CPU2                              |xxxx|        |xxxxxxx|
-> > +            --------------------------+----+--------+-------+-------->
-> > +                                        |
-> > +                                        v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 2                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                              T1
-> > +                       +--------------+
-> > +    CPU3               |xxxxxxxxxxxxxx|
-> > +            -----------+--------------+------------------------------>
-> > +                              |
-> > +                              v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 3                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +           T1: Thread 1; T2: Thread 2; T3: Thread 3
-> > +           x: Thread is in running state
-> > +
-> > +                Figure 3. Ring buffer for default mode
-> > +
-> > +2.2.2 Per-thread mode
-> > +^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +By specifying option ``--per-thread`` in perf command, the ring buffer is
-> > +allocated for every profiled thread.  An example command is:
-> > +
-> > +::
-> > +
-> > +        perf record --per-thread test_program
-> 
-> It'd be CPU == -1 and PID >= 0 and attr.inherit = 0 case.
-
-Will supplement:
-
-By specifying option ``--per-thread`` in perf command, e.g.
-
-::
-
-        perf record --per-thread test_program
-
-The perf event doesn't map to any CPUs and is only bound to the
-profiled process, thus, the perf event's attributions are::
-
-        evsel::cpus::map[0]   = { -1 }
-        evsel::threads::map[] = { pid }
-        evsel::attr::inherit  = 0
-
-In this mode, a ring buffer is allocated for the profiled thread; when
-a profiled thread is scheduled on a CPU ...
-
-> > +
-> > +In this mode, a profiled thread is scheduled on a CPU, the events on
-> > +that CPU will be enabled; and if the thread is scheduled out from the
-> > +CPU, the events on the CPU will be disabled.  When the thread is
-> > +migrated from one CPU to another, the events will be disabled on the
-> > +previous CPU and enabled on the next CPU correspondingly.
-> > +
-> > +::
-> > +
-> > +              T1                      T2                 T1
-> > +            +----+              +-----------+          +----+
-> > +    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-> > +            +----+--------------+-----------+----------+----+-------->
-> > +              |                                           |
-> > +              |    T1                                     |
-> > +              |  +-----+                                  |
-> > +    CPU1      |  |xxxxx|                                  |
-> > +            --|--+-----+----------------------------------|---------->
-> > +              |     |                                     |
-> > +              |     |                   T1            T3  |
-> > +              |     |                 +----+        +---+ |
-> > +    CPU2      |     |                 |xxxx|        |xxx| |
-> > +            --|-----|-----------------+----+--------+---+-|---------->
-> > +              |     |                   |                 |
-> > +              |     |         T1        |                 |
-> > +              |     |  +--------------+ |                 |
-> > +    CPU3      |     |  |xxxxxxxxxxxxxx| |                 |
-> > +            --|-----|--+--------------+-|-----------------|---------->
-> > +              |     |         |         |                 |
-> > +              v     v         v         v                 v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer                        |
-> > +            +-----------------------------------------------------+
-> > +
-> > +           T1: Thread 1
-> > +           x: Thread is in running state
-> > +
-> > +                Figure 4. Ring buffer for per-thread mode
-> > +
-> > +When perf runs in per-thread mode, a ring buffer is allocated for the
-> > +profiled thread *T1*.  The ring buffer is dedicated for thread *T1*, if the
-> > +thread *T1* is running, the perf events will be recorded into the ring
-> > +buffer; when the thread is sleeping, all associated events will be
-> > +disabled, thus no trace data will be recorded into the ring buffer.
-> > +
-> > +2.2.3 Per-CPU mode
-> > +^^^^^^^^^^^^^^^^^^
-> > +
-> > +The option ``-C`` is used to collect samples on the list of CPUs, the ring
-> > +buffers are allocated for the specified CPUs.  For the example in below
-> > +command, the perf command receives option ``-C 0,2``, as the result, two
-> > +ring buffers serve CPU0 and CPU2 separately::
-> > +
-> > +       perf record -C 0,2 test_program
-> 
-> It'd be CPU >=0 and PID == -1 case.  I don't think the test_program is
-> the target of perf event and it just controls the period of perf record.
-
-Will amend as:
-
-The option ``-C`` is used to collect samples on the list of CPUs, for example
-in below command, the perf command receives option ``-C 0,2``::
-
-       perf record -C 0,2 test_program
-
-It maps the perf event to CPUs 0 and 2, and the event is not associated to any
-PID.  The perf event attributions are set as::
-
-        evsel::cpus::map[0]   = { 0, 2 }
-        evsel::threads::map[] = { -1 }
-        evsel::attr::inherit  = 0
-
-This results in the session of ``perf record`` will sample all threads on CPU0
-and CPU2, and be terminated until test_program exits.  In this example, even
-there have tasks running on CPU1 and CPU3 ...
-
-> > +
-> > +In this example, even there have tasks running on CPU1 and CPU3, since
-> > +the ring buffer is absent for them, any activities on these two CPUs
-> > +will be ignored.  A usage case is to combine the options for per-thread
-> > +mode and per-CPU mode, e.g. the options ``–C 0,2`` and ``––per–thread`` are
-> > +specified together, the samples are recorded only when the profiled
-> > +thread is scheduled on any of the listed CPUs.
-> > +
-> > +::
-> > +
-> > +              T1                      T2                 T1
-> > +            +----+              +-----------+          +----+
-> > +    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-> > +            +----+--------------+-----------+----------+----+-------->
-> > +              |                       |                  |
-> > +              v                       v                  v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 0                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                   T1
-> > +                 +-----+
-> > +    CPU1         |xxxxx|
-> > +            -----+-----+--------------------------------------------->
-> > +
-> > +                                        T1              T3
-> > +                                      +----+        +-------+
-> > +    CPU2                              |xxxx|        |xxxxxxx|
-> > +            --------------------------+----+--------+-------+-------->
-> > +                                        |               |
-> > +                                        v               v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 1                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                              T1
-> > +                       +--------------+
-> > +    CPU3               |xxxxxxxxxxxxxx|
-> > +            -----------+--------------+------------------------------>
-> > +
-> > +           T1: Thread 1; T2: Thread 2; T3: Thread 3
-> > +           x: Thread is in running state
-> > +
-> > +                Figure 5. Ring buffer for per-CPU mode
-> > +
-> > +2.2.4 System wide mode
-> > +^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +By using option ``–a`` or ``––all–cpus``, perf collects samples on all CPUs
-> > +for all tasks, we call it as the system wide mode, the command is::
-> > +
-> > +        perf record -a test_program
-> 
-> Should be same as per-CPU mode.
-
-Will change to:
-
-Similar to the per-CPU mode, the perf event doesn't bind to any PID, but it maps
-all CPUs in the system rather than selected CPUs::
-
-        evsel::cpus::map[]    = { 0 .. _SC_NPROCESSORS_ONLN-1 }
-        evsel::threads::map[] = { -1 }
-        evsel::attr::inherit  = 0
-
-> > +
-> > +In the system wide mode, every CPU has its own ring buffer, all threads
-> > +are monitored during the running state and the samples are recorded into
-> > +the ring buffer belonging to the CPU which the events occurred on.
-> > +
-> > +::
-> > +
-> > +              T1                      T2                 T1
-> > +            +----+              +-----------+          +----+
-> > +    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-> > +            +----+--------------+-----------+----------+----+-------->
-> > +              |                       |                  |
-> > +              v                       v                  v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 0                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                   T1
-> > +                 +-----+
-> > +    CPU1         |xxxxx|
-> > +            -----+-----+--------------------------------------------->
-> > +                    |
-> > +                    v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 1                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                                        T1              T3
-> > +                                      +----+        +-------+
-> > +    CPU2                              |xxxx|        |xxxxxxx|
-> > +            --------------------------+----+--------+-------+-------->
-> > +                                        |               |
-> > +                                        v               v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 2                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +                              T1
-> > +                       +--------------+
-> > +    CPU3               |xxxxxxxxxxxxxx|
-> > +            -----------+--------------+------------------------------>
-> > +                              |
-> > +                              v
-> > +            +-----------------------------------------------------+
-> > +            |                  Ring buffer 3                      |
-> > +            +-----------------------------------------------------+
-> > +
-> > +           T1: Thread 1; T2: Thread 2; T3: Thread 3
-> > +           x: Thread is in running state
-> > +
-> > +                Figure 6. Ring buffer for system wide mode
-> > +
-> > +2.3 Accessing buffer
-> > +--------------------
-> > +
-> > +Based on the understanding of how the ring buffer is allocated in
-> > +various modes, this section explains access the ring buffer.
-> > +
-> > +2.3.1 Producer-consumer model
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +In the Linux kernel, the PMU events can produce samples which are stored
-> > +into the ring buffer; the perf command in user space consumes the
-> > +samples by reading out data from the ring buffer and finally saves the
-> > +data into the file for post analysis.  It’s a typical producer-consumer
-> > +model for using the ring buffer.
-> > +
-> > +The perf process polls on the PMU events and sleeps when no events are
-> > +incoming.  To prevent frequent exchanges between the kernel and user
-> > +space, the kernel event core layer introduces a watermark, which is
-> > +stored in the ``perf_buffer::watermark``.  When a sample is recorded into
-> > +the ring buffer, and if the used buffer exceeds the watermark, the
-> > +kernel wakes up the perf process to read samples from the ring buffer.
-> > +
-> > +::
-> > +
-> > +                       Perf
-> > +                       / | Read samples
-> > +             Polling  /  `--------------|               Ring buffer
-> > +                     v                  v    ;---------------------v
-> > +    +----------------+     +---------+---------+   +-------------------+
-> > +    |Event wait queue|     |data_head|data_tail|   |***|***|   |   |***|
-> > +    +----------------+     +---------+---------+   +-------------------+
-> > +             ^                  ^ `------------------------^
-> > +             | Wake up tasks    | Store samples
-> > +          +-----------------------------+
-> > +       |  Kernel event core layer    |
-> > +          +-----------------------------+
-> > +
-> > +              * : the data is filled by the writer.
-> > +
-> > +                Figure 7. Writing and reading the ring buffer
-> > +
-> > +When the kernel event core layer notifies the user space, because
-> > +multiple events might share the same ring buffer for recording samples,
-> > +the core layer iterates every event associated with the ring buffer and
-> > +wakes up tasks waiting on the event.  This is fulfilled by the kernel
-> > +function ``ring_buffer_wakeup()``.
-> > +
-> > +After the perf process is woken up, it starts to check the ring buffers
-> > +one by one, if it finds any ring buffer containing samples it will read
-> > +out the samples for statistics or saving into the data file.  Given the
-> > +perf process is able to run on any CPU, this leads to the ring buffer
-> > +potentially being accessed from multiple CPUs simultaneously, which
-> > +causes race conditions.  The race condition handling is described in the
-> > +section :ref:`memory_synchronization`.
-> > +
-> > +2.3.2 Writing samples into buffer
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +When a hardware event counter overflows, a sample will be taken and
-> > +saved into the ring buffer; the function ``__perf_event_output()`` is used
-> > +to fill samples into the ring buffer, it calls the below sub functions:
-> > +
-> > +- The sub function ``perf_prepare_sample()`` prepares sample fields based on
-> > +  the sample type;
-> > +- ``output_begin()`` is a function pointer, it’s passed dynamically via the
-> > +  argument for different writing directions, its purpose is to prepare
-> > +  the info for writing ring buffer, when the function returns back the
-> > +  ring buffer info is stored in structure ``perf_output_handle``;
-> > +- ``perf_output_sample()`` outputs the sample into the ring buffer;
-> > +- ``perf_output_end()`` updates the head pointer for user page so perf tool
-> > +  can see the latest value.
-> > +
-> > +Let’s examine ``output_begin()`` in detail.  As the ring buffer allows
-> > +writing in two directions: backward or forward, the function pointer for
-> > +``output_begin()`` is assigned according to the writing type of the buffer,
-> > +it can be ``perf_output_begin_forward()`` or ``perf_output_begin_backward()``.
-> > +
-> > +In the case of the backward ring buffer, where the user page is mapped
-> > +without ``PROT_WRITE``, the tool in user space is unable to update the
-> > +tail pointer.  As a result, only the head pointer is accessed in this
-> > +scenario, and the tail pointer is not used in perf tool.  The head
-> > +pointer indicates the beginning of a sample, perf tool can read out the
-> > +samples one by one based on sample’s event size.
-> 
-> Fundamentally, I think mmap has two mode - RDWR and RDONLY.
-> The RDWR mode requires user space to update the data_tail while
-> RDONLY doesn't.  The RDONLY mode is also called as overwrite mode.
-> 
-> When consumer doesn't keep up with the producer, it'd lose some data.
-> And there's a difference how they handle it.  In RDWR mode, kernel
-> keeps how many records it lost and generates PERF_RECORD_LOST
-> next time it finds a space in the ring buffer (i.e. after user space updates
-> data_tail).
-> 
-> In RDONLY (overwrite) mode, it'd overwrite existing data with new one
-> and won't generate the PERF_RECORD_LOST records.
-> 
-> Here the write direction matters, forward writing saves the data from
-> the beginning of the ring buffer and the data_head keeps the position
-> to write the next data.  Which means it only knows position of the end
-> of the current data.  And it'd be hard to find where the previous data
-> starts.
-> 
-> OTOH, backward writing saves the data from the end of the ring buffer
-> and the data_head keeps the position of current data.  So it always
-> knows where it starts to read.  IIUC that's why perf tool uses the
-> backward writing for overwrite mode.
-
-I rework it as:
-
-"Ring buffers are mapped as read-write mode or read-only mode, which is
-used for a normal ring buffer and an overwritable ring buffer respectively.
-
-The ring buffer in the read-write mode is mapped with the property
-``PROT_READ | PROT_WRITE``.  With the write permission, the perf tool updates
-the ``data_tail`` to indicate the data start position.  Combining with the
-head pointer ``data_head``, which works as the end position of the current
-data, the perf tool can easily know where read out the data from.  Alternatively,
-in the read-only mode, only the kernel keeps to update the ``data_head`` while
-the user space cannot access the ``data_tail`` due to the mapping property
-``PROT_READ``.
-
-Furthermore, the write direction matters.  The forward writing starts to save data
-from the beginning of the ring buffer and wrap around when overflow, which is used
-in the normal ring buffer with the read-write mode.  On the other hand, backward
-writing saves the data from the end of the ring buffer and the ``data_head`` keeps
-the position of current data, perf always knows where it starts to read and until
-the end of the ring buffer, thus it don't need the ``data_tail``.  This is why the
-perf uses the backward writing with the read-only mode for the overwritable ring
-buffer."
-
-
-Will refine a bit and send new patch out as ready.
-
-Thanks a lot for suggestions!
-
-Leo
