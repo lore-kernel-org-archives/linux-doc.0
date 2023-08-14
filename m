@@ -2,74 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96E46C04A94
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 19:13:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E11DEB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 20:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231908AbjHNTM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 15:12:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
+        id S231488AbjHNUBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 16:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232088AbjHNTMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 15:12:50 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76C0710F2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 12:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692040369; x=1723576369;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KV4ijDd60O8GOvHsldkXLcTkS9rJnFy3Z+QzX2vRclA=;
-  b=asWA2/7+M9COyzyO2h11n+5DTksYeVKq2PqiwLkVzrKY+DEb8dRXcp8c
-   kYarGipv5vX8K2zhKgdNGHWj7bXjVHHuxulXAfZDWJNIsJ9j9z4WzH4ty
-   efYIhRHnGnc09wsj9IaPiE5owOQjIKx2sGOJm85wql/iFqf+7Ih4yH1KQ
-   5Fepk6zxsWh+HJwzL9/SI6AbqjxKYQJ3+f77UrKFoJ4OZVx34NHih/dRW
-   hHBGWSLuurjcalH34JgiJphjhUDb34nXUrUG6z46rzlZjp6mlea3KlrQk
-   oc0Me8+p6z5Gep+7cNdkQ/KF+TEItudW533d7W5ZcWWoPcDgeOM6/vpJt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="372112803"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="372112803"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 12:12:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="803555389"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="803555389"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Aug 2023 12:12:48 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qVczb-0000Mp-0t;
-        Mon, 14 Aug 2023 19:12:44 +0000
-Date:   Tue, 15 Aug 2023 03:12:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [hverkuil-media-tree:for-v6.6l 18/18] htmldocs: Warning:
- Documentation/translations/zh_CN/video4linux/v4l2-framework.txt references a
- file that doesn't exist: Documentation/driver-api/media/v4l2-videobuf.rst
-Message-ID: <202308150317.Z8jOOWgM-lkp@intel.com>
+        with ESMTP id S231537AbjHNUBA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 16:01:00 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F7210C8;
+        Mon, 14 Aug 2023 13:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=kdJnqWVzzrscwN4ereKbPQx9d2p7ritar4asPO6GM3Y=; b=Iq6vxRjUZj/TrUv1wAFWiCfQM+
+        DbMTbBiOT92+Duh5wcIUZDDlstKiI8w3Gs/WRo0dxSo32Bam2B8MQDDy0AffD/NYihRq9mvC3bA9X
+        xbH6Hc7nGRvZddZODkQBYk07YuEpowGas8jyytfdHjbApQN9tRLMWVm1GaOuDaWeLhS7qQTOLuZdK
+        9Dpk0/NioDsAJMBYbW3nP4RSrA5mQA87fAQB2DWP7ixapK5eyO8tthvL1yt1PjJBBrZ6zudXRhgb+
+        W72GsS7Qf0xOA3JV2A0Yu3kuC+uqtCyDnOtflGc+2LHqubE82B4F+1WM/VBc+AaKjCI9iBB3mkcMM
+        XYUaOt2Q==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qVdkI-000G69-1M;
+        Mon, 14 Aug 2023 20:00:58 +0000
+Message-ID: <155add9d-241c-0e15-cc3b-a2ea22e8cdd0@infradead.org>
+Date:   Mon, 14 Aug 2023 13:00:57 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] tpm_tis: Revert "tpm_tis: Disable interrupts on ThinkPad
+ T490s"
+Content-Language: en-US
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        linux-integrity@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Richard Cochran <richardcochran@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+References: <20230814164054.64280-1-jarkko@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230814164054.64280-1-jarkko@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git for-v6.6l
-head:   7408f9f1c272ca820c9f4c7c677ca8fde26779bf
-commit: 7408f9f1c272ca820c9f4c7c677ca8fde26779bf [18/18] media: remove the old videobuf framework
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150317.Z8jOOWgM-lkp@intel.com/reproduce)
+Hi Jarkko,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308150317.Z8jOOWgM-lkp@intel.com/
+On 8/14/23 09:40, Jarkko Sakkinen wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 722b6eca2e93..6354aa779178 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6340,6 +6340,13 @@
+>  			This will guarantee that all the other pcrs
+>  			are saved.
+>  
+> +	tpm_tis.interrupts= [HW,TPM]
+> +			Enable interrupts for the MMIO based physical layer
+> +			for the FIFO interface. By default it is set to false
+> +			(0). For more information about TPM hardware interfaces
+> +			defined by Trusted Computing Group (TCG) look up to
 
-All warnings (new ones prefixed by >>):
+s/look up to/see/ would be much better IMO.
 
->> Warning: Documentation/translations/zh_CN/video4linux/v4l2-framework.txt references a file that doesn't exist: Documentation/driver-api/media/v4l2-videobuf.rst
+> +			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
+> +
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
