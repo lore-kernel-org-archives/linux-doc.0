@@ -2,228 +2,401 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82177C001B0
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 21:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A49BC001DB
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 21:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232786AbjHNVOG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 17:14:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55680 "EHLO
+        id S232896AbjHNV2k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 17:28:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232797AbjHNVNe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 17:13:34 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15AB8172B;
-        Mon, 14 Aug 2023 14:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692047612; x=1723583612;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=XgAVD1YROR8RcPXDpADrGtU4vt5ruk8Dh33L3bzD7To=;
-  b=Fddqa8cWM+GF7GHiJduTpF5zQ7myBau8MMIVQUwCFNwoxr0bXWKszGgA
-   UnyuYF4TBOoe7T/m953wepWKtmj5FOf0wx/OhabsigzsQVJaZUsPgzLsM
-   UM6lvCBcZF16nEr6j41CYWFNcxDsBRUpFZzvrkX+8FfoMQSRDPRoqWhHc
-   EJ+Ohi2BtKoqWVCFPZc3EYQVG7IQSDziz3gZG94F4hyH3dvmeiXU4VZHO
-   4Z8u4/7kvcGs+HDUxvKKuIPkeVKhYr96d61+vof6tsWTnK5z+RPrYG20a
-   wbme77x9cK9CYzudWhR6aiiHyaQFLxFOe+9Sy218TN+d/QD3bVvtez0un
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="374910149"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="374910149"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 14:13:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="798956460"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="798956460"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Aug 2023 14:13:30 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 14 Aug 2023 14:13:30 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 14 Aug 2023 14:13:30 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 14 Aug 2023 14:13:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J/anygerxkcsVykhmJH/b5yEdjGkDVTtXQNXnYjnCt/v3We3JAyJyMVM2/BEFpsjmirkaOYpaEqDrmkfB/GLzDpWF4Vor08WufCn3fJO9kc6OL72dMhoGd+UR4zbBjBG5tiyl80cLgX9KkoGVtnKM35oZueIQ/rY/1ME3y4Kelm2i4A2jL7Si5eePfNUK2idlQAFAVW+kLuNant+l8Ze3qz5sC9rGqoPwGSSRRsvjHxHv4Xtv0nz+5k/Q+xTNRzlIg0eF9q906OgGDNVnpKxOgZFYdRR/8h0Js4jQ/9oxqq6iYup8Wj2bLppy5FG7PD3RLqTY4O9x1C3EqaV3AFVaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pVXUNMunAumPDSkN/EaB4lp/78xO6YAfXg9379/oRv0=;
- b=j/FHi6uS2U+vv6QzKHXnkZPa4z5qzoSqMfYCdkxupwfl10uDRAAr4Z7XuoAs46JZaV8fEOPYk9RthH8hSVAcXAgtUuo3a1DXF4gv9iyIU8+Dkzpw0OlCvnD65E35H+oDm3MPq6NQ4nER8LfCuld/ElnkaTHmrOeZPkQIRcwv+Si9boPslQs4A01tMNoKJ7HMSX4QMBuD/jP1ZlPhVEuHk4LJ3bBtjwCzTyilzE5hAA5rmJhdS/mdK9Sg8uNRUyawBJ5JkyjwF02UyOLgeu+bf96j+KxcrhrItL3ArwnpGV99UjnXLgmMYr/SplKwsTlc4FoKjr2H4SFgS8OZPzdRpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN7PR11MB2593.namprd11.prod.outlook.com (2603:10b6:406:ab::27)
- by DS0PR11MB7215.namprd11.prod.outlook.com (2603:10b6:8:13a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.24; Mon, 14 Aug
- 2023 21:13:28 +0000
-Received: from BN7PR11MB2593.namprd11.prod.outlook.com
- ([fe80::f195:972c:b2bd:e542]) by BN7PR11MB2593.namprd11.prod.outlook.com
- ([fe80::f195:972c:b2bd:e542%5]) with mapi id 15.20.6652.026; Mon, 14 Aug 2023
- 21:13:28 +0000
-Message-ID: <5b6d4e1c-aaa1-b73e-0360-3cf6893bbaf8@intel.com>
-Date:   Mon, 14 Aug 2023 14:13:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.14.0
-Subject: Re: [PATCH net-next v2 1/2] scripts: kernel-doc: parse
- DEFINE_DMA_UNMAP_[ADDR|LEN]
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, <netdev@vger.kernel.org>,
-        <kuba@kernel.org>
-CC:     <linux-doc@vger.kernel.org>, <emil.s.tantilov@intel.com>,
-        <joshua.a.hay@intel.com>, <sridhar.samudrala@intel.com>,
-        <alan.brady@intel.com>, <madhu.chittim@intel.com>,
-        <jesse.brandeburg@intel.com>, <anthony.l.nguyen@intel.com>,
-        <willemb@google.com>, <decot@google.com>, <rdunlap@infradead.org>
-References: <20230814170720.46229-1-pavan.kumar.linga@intel.com>
- <20230814170720.46229-2-pavan.kumar.linga@intel.com>
- <87y1idv4du.fsf@meer.lwn.net>
-From:   "Linga, Pavan Kumar" <pavan.kumar.linga@intel.com>
-In-Reply-To: <87y1idv4du.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0377.namprd04.prod.outlook.com
- (2603:10b6:303:81::22) To BN7PR11MB2593.namprd11.prod.outlook.com
- (2603:10b6:406:ab::27)
+        with ESMTP id S232950AbjHNV2c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 17:28:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 689F9113;
+        Mon, 14 Aug 2023 14:28:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E144F6217F;
+        Mon, 14 Aug 2023 21:28:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E63CDC433C8;
+        Mon, 14 Aug 2023 21:28:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692048509;
+        bh=dcmmW1miXKK0IWwCJ7FiASGc4CRNp+6V8pV2USusIOw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iZ6ikgJmWY1HbULFJA4LTLVwj4yq+Qk95ObOO7DpfVNlrV5VC0BdGHZoT1WWAfT5u
+         Z6ID6eCuMxngzAZuXd4wKpXLxKttoLpz3AfnktG85FGr2OrpWgourY6N87p+liimYb
+         1Z2KFc3JkSXJ40ctfXWJA3fwBtorn1mGE+zgiUVw/q25p2I4jFPY9gmYPgjrJTPOY7
+         THqy2KNhBwHtCSxVFDLY1u8ULmI3dSpoZg7yH8+QyccxcooUdMtHqpKDacl/cTjLBE
+         /gAn2vD5k1MNDYVTfg9p9FPk500VbwbCbkX6b4vXFF2ZGIQr0bluyNpwmV5E4woWZZ
+         7RoOFpQYtg+jw==
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH 0/3] Documentation: Fix typos
+Date:   Mon, 14 Aug 2023 16:28:19 -0500
+Message-Id: <20230814212822.193684-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN7PR11MB2593:EE_|DS0PR11MB7215:EE_
-X-MS-Office365-Filtering-Correlation-Id: 663aba9d-f1a2-4bb8-3a73-08db9d0b4dda
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7eRFAGmJVRoilFfWa/C/63hwMG0524rcJKLO/+HKu9oIrPLrwnON317MwKUpUa/eIHIWMsXzdqfUyuiTfy1LLlOsfn0onxQnF1o5hSvtkXGhRMtZI039m0pfvxTiG9M0cdy+HNOhnoBi9S0ms2To58cr3mVef9581vNnrmwSeSbRenF7nQzItfNtUU+P++X/aRW8XeTVHp8E8ZsJIvPvzwdCIxcddvuFo0Mrn31fLAwFMsRFkkgvZRNAQgTwhOk9WwlbRv4rdLkFBiQU0gvKyTW8CBIZZhfa5A+9E5Gi+pdsXgdvzeirCYUlfw5d6qAMfbCEhGfq8IWyosCIWFi8n4vg0Z9/JUmjOt2579e8e0ImfJVWfLagTXdxxLj2gg3vb57UlMeZ9doDJgdSJDPxujU9uxoxuPR9W1xVOjv/WpL2JK/FgdhS5tevaeRCYNGlYM2vcXBvbLh3LHulUYoXKVEedU+yd1FAKGdG9+Ixl0HOsL69dCEPKiRJqzSYfXQ1bf5liCps2J7/Vxmtf9XfGzr2DV0oURhyfvUexU1TehS6+I3yUFtuIKqYZhY6zS7tD2IgLqQx2svFl8m3jcrhAu68dkP3DVAuv+QgsJMPXg2MndRvOl/uQa1YTWrfPIfeZkckuRxKGBuLbm0hlq79Tc7W+MXmEZSiRh3xVuk5yPo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR11MB2593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(346002)(376002)(136003)(39860400002)(396003)(1800799006)(186006)(451199021)(83380400001)(36756003)(53546011)(26005)(6506007)(478600001)(6486002)(6666004)(2616005)(6512007)(86362001)(38100700002)(31696002)(31686004)(82960400001)(5660300002)(41300700001)(66476007)(66556008)(316002)(4326008)(66946007)(2906002)(8936002)(8676002)(83133001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVYvU3FrL3R5ckhEN2NpZXhQYzY4dkkxR2EzS0l4YTU1dXNrQURQT2dyZHdV?=
- =?utf-8?B?ZlhFUXFhWWdjSE43OGpCeTFFMlRUTVRSL0xSckhVZWkwVmZWWkN4Y2dpWW9a?=
- =?utf-8?B?OTlTT0svejdzV2JGL0ZQeEFUd2o0ekkyWTFoUlFFZWZ2ZG9yQUUvc2VSTUlK?=
- =?utf-8?B?Q0Q5N0ROOFFWNS82SjJBSkhqMFE4Y1lxTERpUTgxMlFPRUtINm5XSVlHMXl2?=
- =?utf-8?B?RnNkaGRBOHRLNVIyMllhb29LaVFTSDA0bUdtVTM1emM3azllWTBXdWs2a3Fo?=
- =?utf-8?B?N01rZm9wZmdWRWIxZHF1TWpPVUh1REVxODFFNkxtNlBrRWVha0dqVE1BVjhE?=
- =?utf-8?B?REk1Z0dDYkVnRWJJQ0pLZzBDZGVQZCtIcFdoWHplOGJTb1pSRjlzRXljcStp?=
- =?utf-8?B?TXUveDM3UnVzWTcxd1BhL24rS2Y2YWRQaVB1TnpRN2hZQXREK3A3aHExclh0?=
- =?utf-8?B?cWF1ZW9pTE5oaGFmZU1BbnhNdm5SUzBSemVkR1UrMjV6VU03NXRQejd3ZmFQ?=
- =?utf-8?B?WnY0dnd2d3REZ0JrRnNMdUw2TG1pZFhWK21nM0lpWXUyNmVrUUZyVFdia1R1?=
- =?utf-8?B?VkhWay85cytUdEZqdDJ6L3cwdHhFWk12OFptbitxZDR4b2c4aHBVZFF0ZWhs?=
- =?utf-8?B?R3VNbHMxckR6TkRYT2xweEJ3a2U1TzJEWmxkSkpCZ2ZRclFDWVJSQXhIVHh4?=
- =?utf-8?B?cXd6c25HSWhVakhOdkNqQ0VULzc0bzh6NnhvU1J3Rkk0UjVMVUpkUGUwQ0VV?=
- =?utf-8?B?S1BEeGhRVUR0SmRlN1EzK04wazdyTHpmeFEzdWNXanpQOWsyZDN1Mzc4WUtW?=
- =?utf-8?B?NGcvamNTcGs0OTFXTDl2NUxxemd6MXpjdy9FbGhNSTc3bTN2SWl5RnRqZGU1?=
- =?utf-8?B?b0c0c2pCZjJTdjlPMHdzS0VXQXVKZzNvRm8xTkF3NGt3Wm9lTzBoSDlXZDg3?=
- =?utf-8?B?Yk03UnhSU0RmMGwzaW5VNTJHNXZ4M1dLdm1UajdhOG5McXJDZzdZbGRLOEhH?=
- =?utf-8?B?WXhJOVU5TERKNlNtY2c1Nm5sRmpIUHU5WDB4eEFrQ055MDJ0dGJsN0dwMnhy?=
- =?utf-8?B?c1piRi8xMHg2dzZPTEI2TG5qbExSZXNId3RnbW5XKzBJbXE5MHBJNy9ZNTZ3?=
- =?utf-8?B?OHF1d2hkcG91MG8zdi84Wlh1dlZ2MkJsd3Q0WWJ5ZXh4MkpHRTNud1hqeVRl?=
- =?utf-8?B?dE9qN0V4clV3Y2JsUjZDWXFES0lac3hoMXJ3S1NkS29neG1jRklyeGZidkJS?=
- =?utf-8?B?b3Qyc25oR00xSGFoMzlWc3lHWTZZb0JQaGRqekVBL2RldHlqSTJ6VUJFeWJT?=
- =?utf-8?B?SUdxSHVBS2xkWGYxaWFITzZ1aldkakF6eUlGYnJJRCtiWDRvcTFkQUhmMWdS?=
- =?utf-8?B?czNFdkRZVXl2Y2VXOTNNVEtKa2l0Ym15dlhHZVpOWU5qYmlSWS9sTHVxa2Mw?=
- =?utf-8?B?dmVFY0dpV1oyc08xNm1yNzFHYnJ5dC9SQkkwUm90K21WempUWStuZVNlZ3RJ?=
- =?utf-8?B?U0VRNFQ2L1NUbVF3NkFQQ01QZG10c1hiY0srNTcvWFNSRWJNbThwU0FOcjlj?=
- =?utf-8?B?eGdqa20yQ3lDNWEvUjJVcWVIUlVCWUpiQ3RPaFJkMGNiTVNiRThvVVNSMGQ3?=
- =?utf-8?B?NjZ4KzRHMkJKRUJnZnA0UkxjUGJNOGJPVTJvM1pGcTYwRndCaEZvRkVyMFMz?=
- =?utf-8?B?NFdWd05LbVVuSWoxaVArMnJ0ZDdjWUoxV3FCS1hrNlBIWkliOXVRR1ZhWjdE?=
- =?utf-8?B?NWRraFNPVllRdm9uVW9rWk5CMHFIVFpUQjg0YjZnNEJHUW1QdlBjR2thejVM?=
- =?utf-8?B?dThFeHA4c1JCMDB3cmVCRDg5dlM5aTN4OXFYTGNpTk1qSFJSaDJ1a2Vha0JD?=
- =?utf-8?B?Nm4xS3NCTWc4QTVnQWRySWZacjlmMG9JbGdPcWlRejFzVW9sODdRMTVUSjVq?=
- =?utf-8?B?a09ONDg0OWsrREE2QlNpYXF4ejJpTGk3Mi9sTUxJbFRlY2tEOEQ5dnk0ZjRY?=
- =?utf-8?B?L3l2YTV1WGUvYm1RcEo2NituSC92RkNLMTUzZ0pVMi9Fd3lkam1jUzgxaHVL?=
- =?utf-8?B?Nm5SdFhOai9PRjRYK0N6TDBwbmt2WllsdTdRc05RWjNvQXg2WGsvVUwxV2xu?=
- =?utf-8?B?QjAxY3o1b09kalRqTlZ3QWkwRjJTZWtXdWNMZ0ZXYTN0SkZpTldpYUZlU2FV?=
- =?utf-8?B?L2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 663aba9d-f1a2-4bb8-3a73-08db9d0b4dda
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2593.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2023 21:13:28.1839
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BfELapf9DIyXhm0ptpZqJHaFKlV7CrS2YE9Gc6mw9w3/q65ec7qdd8baGH24FMJT7k3oPVK41AV0jbNb2mVCgjj8VDqNrivLq0XEXFatvig=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7215
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Bjorn Helgaas <bhelgaas@google.com>
+
+Fix typos in Documentation.  I split these into:
+
+  Documentation/ABI/
+  Documentation/devicetree/bindings/
+  <everything else>
+
+If it would be better split more or differently, I'm happy to do that.
+These are strictly typo fixes, no clarification or rewording.
 
 
-On 8/14/2023 11:57 AM, Jonathan Corbet wrote:
-> Pavan Kumar Linga <pavan.kumar.linga@intel.com> writes:
-> 
->> At present, if the macros DEFINE_DMA_UNMAP_ADDR() and
->> DEFINE_DMA_UNMAP_LEN() are used in the structures as shown
->> below, instead of parsing the parameter in the parentheses,
->> kernel-doc parses 'DEFINE_DMA_UNMAP_ADDR(' and
->> 'DEFINE_DMA_UNMAP_LEN(' which results in the following
->> warnings:
->>
->> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
->> parameter or member 'DEFINE_DMA_UNMAP_ADDR(dma' not described in
->> 'idpf_tx_buf'
->> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
->> parameter or member 'DEFINE_DMA_UNMAP_LEN(len' not described in
->> 'idpf_tx_buf'
->>
->> struct idpf_tx_buf {
->> 	DEFINE_DMA_UNMAP_ADDR(dma);
->> 	DEFINE_DMA_UNMAP_LEN(len);
->> };
->>
->> Fix the warnings by parsing DEFINE_DMA_UNMAP_ADDR() and
->> DEFINE_DMA_UNMAP_LEN().
->>
->> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
->> Acked-by: Randy Dunlap <rdunlap@infradead.org>
->> ---
->>   scripts/kernel-doc | 4 ++++
->>   1 file changed, 4 insertions(+)
-> 
-> Is there a reason why you didn't CC me on these?
-> 
+Bjorn Helgaas (3):
+  Documentation/ABI: Fix typos
+  dt-bindings: Fix typos
+  Documentation: Fix typos
 
-It was unintentional and my apologies, as I thought CC'ing you while 
-sending the patches should be good. If the ask is to add the 'Cc:' tag 
-to the patch, will do that in the next revision.
+ Documentation/ABI/stable/sysfs-block          |  2 +-
+ .../ABI/stable/sysfs-class-infiniband         |  2 +-
+ .../ABI/stable/sysfs-platform-wmi-bmof        |  2 +-
+ .../ABI/testing/debugfs-driver-habanalabs     |  2 +-
+ Documentation/ABI/testing/procfs-diskstats    |  2 +-
+ Documentation/ABI/testing/sysfs-bus-coreboot  |  2 +-
+ .../testing/sysfs-bus-coresight-devices-etm3x |  8 +++---
+ .../testing/sysfs-bus-coresight-devices-etm4x |  2 +-
+ .../sysfs-bus-event_source-devices-events     |  4 +--
+ .../ABI/testing/sysfs-bus-fsi-devices-sbefifo |  4 +--
+ .../ABI/testing/sysfs-bus-i2c-devices-fsa9480 |  2 +-
+ Documentation/ABI/testing/sysfs-bus-nfit      |  2 +-
+ Documentation/ABI/testing/sysfs-bus-papr-pmem |  2 +-
+ Documentation/ABI/testing/sysfs-bus-umc       |  2 +-
+ Documentation/ABI/testing/sysfs-class         |  2 +-
+ Documentation/ABI/testing/sysfs-class-cxl     |  4 +--
+ Documentation/ABI/testing/sysfs-class-mtd     |  2 +-
+ Documentation/ABI/testing/sysfs-class-net     |  2 +-
+ .../ABI/testing/sysfs-class-net-queues        |  2 +-
+ .../ABI/testing/sysfs-class-power-wilco       |  2 +-
+ .../ABI/testing/sysfs-class-remoteproc        |  2 +-
+ Documentation/ABI/testing/sysfs-class-thermal |  2 +-
+ .../ABI/testing/sysfs-class-uwb_rc-wusbhc     |  2 +-
+ .../ABI/testing/sysfs-devices-online          |  2 +-
+ .../ABI/testing/sysfs-driver-ge-achc          |  2 +-
+ .../ABI/testing/sysfs-driver-tegra-fuse       |  2 +-
+ Documentation/ABI/testing/sysfs-firmware-acpi |  2 +-
+ .../ABI/testing/sysfs-firmware-sgi_uv         |  4 +--
+ Documentation/ABI/testing/sysfs-fs-f2fs       |  8 +++---
+ .../ABI/testing/sysfs-kernel-mm-damon         |  2 +-
+ .../ABI/testing/sysfs-memory-page-offline     |  4 +--
+ .../ABI/testing/sysfs-platform-dell-laptop    |  2 +-
+ .../ABI/testing/sysfs-platform-dfl-fme        |  2 +-
+ Documentation/ABI/testing/sysfs-platform-kim  |  2 +-
+ .../ABI/testing/sysfs-platform-sst-atom       |  2 +-
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ Documentation/admin-guide/mm/damon/usage.rst  |  4 +--
+ .../admin-guide/mm/numa_memory_policy.rst     |  2 +-
+ Documentation/admin-guide/module-signing.rst  |  2 +-
+ Documentation/admin-guide/xfs.rst             |  2 +-
+ Documentation/arch/arm/arm.rst                |  2 +-
+ Documentation/arch/arm/ixp4xx.rst             |  4 +--
+ Documentation/arch/arm/sunxi/clocks.rst       |  2 +-
+ Documentation/arch/arm/swp_emulation.rst      |  2 +-
+ Documentation/arch/arm/tcm.rst                |  2 +-
+ Documentation/arch/arm/vlocks.rst             |  2 +-
+ .../arch/arm64/acpi_object_usage.rst          |  2 +-
+ Documentation/arch/arm64/arm-acpi.rst         |  2 +-
+ Documentation/arch/openrisc/openrisc_port.rst |  4 +--
+ Documentation/arch/x86/boot.rst               |  2 +-
+ Documentation/arch/x86/buslock.rst            |  2 +-
+ Documentation/arch/x86/mds.rst                |  2 +-
+ Documentation/arch/x86/sgx.rst                |  2 +-
+ Documentation/arch/xtensa/atomctl.rst         |  2 +-
+ Documentation/block/data-integrity.rst        |  2 +-
+ Documentation/block/ublk.rst                  |  2 +-
+ Documentation/bpf/cpumasks.rst                |  2 +-
+ Documentation/bpf/graph_ds_impl.rst           |  2 +-
+ .../devicetree/bindings/arm/fsl.yaml          |  4 +--
+ .../arm/marvell/cp110-system-controller.txt   |  8 +++---
+ .../bindings/arm/mediatek/mediatek,mipi0a.txt |  2 +-
+ .../arm/mediatek/mediatek,vcodecsys.txt       |  2 +-
+ .../devicetree/bindings/arm/sunxi.yaml        |  4 +--
+ .../devicetree/bindings/ata/pata-common.yaml  |  2 +-
+ .../bindings/bus/brcm,gisb-arb.yaml           |  2 +-
+ .../bus/nvidia,tegra210-aconnect.yaml         |  4 +--
+ .../clock/allwinner,sun4i-a10-osc-clk.yaml    |  2 +-
+ .../bindings/clock/alphascale,acc.txt         |  4 +--
+ .../bindings/clock/keystone-pll.txt           |  2 +-
+ .../devicetree/bindings/clock/lpc1850-ccu.txt |  2 +-
+ .../bindings/clock/lpc1850-creg-clk.txt       |  4 +--
+ .../bindings/clock/maxim,max9485.txt          |  2 +-
+ .../bindings/clock/qcom,gcc-sm8450.yaml       |  2 +-
+ .../bindings/clock/qcom,kpss-acc-v1.yaml      |  2 +-
+ .../bindings/clock/sprd,sc9863a-clk.yaml      |  2 +-
+ .../devicetree/bindings/clock/ti/mux.txt      |  2 +-
+ .../devicetree/bindings/clock/vf610-clock.txt |  2 +-
+ .../bindings/clock/xlnx,zynqmp-clk.txt        |  2 +-
+ .../bindings/connector/usb-connector.yaml     |  2 +-
+ .../devfreq/event/samsung,exynos-ppmu.yaml    |  2 +-
+ .../bindings/display/atmel/hlcdc-dc.txt       |  2 +-
+ .../display/bridge/snps,dw-mipi-dsi.yaml      |  2 +-
+ .../bindings/display/cirrus,clps711x-fb.txt   |  2 +-
+ .../bindings/display/msm/qcom,mdss.yaml       |  2 +-
+ .../display/panel/olimex,lcd-olinuxino.yaml   |  2 +-
+ .../bindings/display/panel/panel-common.yaml  |  2 +-
+ .../display/tegra/nvidia,tegra124-sor.yaml    |  2 +-
+ .../devicetree/bindings/dma/ingenic,dma.yaml  |  2 +-
+ .../bindings/dma/nvidia,tegra20-apbdma.txt    |  2 +-
+ .../devicetree/bindings/dma/qcom,bam-dma.yaml |  2 +-
+ .../bindings/dma/stericsson,dma40.yaml        |  2 +-
+ .../devicetree/bindings/fpga/fpga-region.txt  |  4 +--
+ .../bindings/gpio/gpio-xgene-sb.txt           |  2 +-
+ .../bindings/gpio/snps,dw-apb-gpio.yaml       |  2 +-
+ .../bindings/gpio/ti,omap-gpio.yaml           |  4 +--
+ .../bindings/hwmon/adi,adm1177.yaml           |  2 +-
+ .../bindings/hwmon/adi,axi-fan-control.yaml   |  2 +-
+ .../bindings/hwmon/adi,ltc2992.yaml           |  2 +-
+ .../bindings/hwmon/aspeed-pwm-tacho.txt       |  2 +-
+ .../devicetree/bindings/hwmon/lm87.txt        |  2 +-
+ .../devicetree/bindings/hwmon/ltq-cputemp.txt |  2 +-
+ .../bindings/hwmon/moortec,mr75203.yaml       |  2 +-
+ .../bindings/hwmon/npcm750-pwm-fan.txt        |  2 +-
+ .../bindings/hwmon/sensirion,shtc1.yaml       |  2 +-
+ .../devicetree/bindings/hwmon/ti,tmp513.yaml  |  2 +-
+ .../bindings/hwmon/ti,tps23861.yaml           |  2 +-
+ .../devicetree/bindings/i2c/i2c-sprd.txt      |  2 +-
+ .../bindings/iio/adc/xlnx,zynqmp-ams.yaml     |  2 +-
+ .../bindings/iio/cdc/adi,ad7150.yaml          |  2 +-
+ .../devicetree/bindings/iio/common.yaml       |  2 +-
+ .../bindings/iio/frequency/adi,admv1014.yaml  |  2 +-
+ .../bindings/iio/humidity/ti,hdc2010.yaml     |  2 +-
+ .../iio/pressure/honeywell,mprls0025pa.yaml   |  2 +-
+ .../bindings/iio/proximity/ams,as3935.yaml    |  2 +-
+ .../bindings/iio/st,st-sensors.yaml           |  2 +-
+ .../bindings/input/rmi4/rmi_2d_sensor.txt     |  4 +--
+ .../bindings/input/touchscreen/stmpe.txt      |  2 +-
+ .../bindings/input/touchscreen/tsc2007.txt    |  2 +-
+ .../interrupt-controller/arm,gic-v3.yaml      |  2 +-
+ .../brcm,bcm2835-armctrl-ic.txt               |  2 +-
+ .../brcm,bcm7120-l2-intc.yaml                 |  2 +-
+ .../backlight/mediatek,mt6370-backlight.yaml  |  2 +-
+ .../devicetree/bindings/leds/leds-lp55xx.yaml |  4 +--
+ .../bindings/leds/leds-qcom-lpg.yaml          |  2 +-
+ .../mailbox/brcm,iproc-flexrm-mbox.txt        |  2 +-
+ .../bindings/mailbox/ti,omap-mailbox.yaml     |  2 +-
+ .../bindings/media/i2c/toshiba,tc358746.yaml  |  2 +-
+ .../devicetree/bindings/media/i2c/tvp5150.txt |  2 +-
+ .../media/mediatek,vcodec-subdev-decoder.yaml |  2 +-
+ .../memory-controllers/mediatek,smi-larb.yaml |  2 +-
+ .../rockchip,rk3399-dmc.yaml                  |  4 +--
+ .../xlnx,zynq-ddrc-a05.yaml                   |  2 +-
+ .../devicetree/bindings/mfd/aspeed-lpc.yaml   |  2 +-
+ .../bindings/mfd/rohm,bd9576-pmic.yaml        |  4 +--
+ .../bindings/mfd/stericsson,ab8500.yaml       | 16 ++++++------
+ .../bindings/mfd/stericsson,db8500-prcmu.yaml |  2 +-
+ .../devicetree/bindings/mmc/pxa-mmc.txt       |  2 +-
+ .../devicetree/bindings/mmc/ti-omap-hsmmc.txt |  2 +-
+ .../bindings/net/brcm,bcm7445-switch-v4.0.txt |  2 +-
+ .../devicetree/bindings/net/can/cc770.txt     |  2 +-
+ .../devicetree/bindings/net/dsa/brcm,sf2.yaml |  2 +-
+ .../devicetree/bindings/net/ethernet-phy.yaml |  2 +-
+ .../bindings/net/mediatek-dwmac.yaml          |  2 +-
+ .../bindings/net/microchip,lan95xx.yaml       |  2 +-
+ .../bindings/net/nfc/marvell,nci.yaml         |  4 +--
+ .../devicetree/bindings/net/samsung-sxgbe.txt |  4 +--
+ .../bindings/net/snps,dwc-qos-ethernet.txt    |  2 +-
+ .../devicetree/bindings/net/sti-dwmac.txt     |  2 +-
+ .../bindings/net/xilinx_gmii2rgmii.txt        |  2 +-
+ .../devicetree/bindings/nios2/nios2.txt       |  2 +-
+ .../nvmem/layouts/onie,tlv-layout.yaml        |  2 +-
+ .../bindings/phy/phy-hisi-inno-usb2.txt       |  2 +-
+ .../bindings/phy/pistachio-usb-phy.txt        |  2 +-
+ .../bindings/phy/pxa1928-usb-phy.txt          |  2 +-
+ .../bindings/phy/rockchip-inno-csi-dphy.yaml  |  2 +-
+ .../bindings/phy/ti,phy-j721e-wiz.yaml        |  2 +-
+ .../devicetree/bindings/phy/ti-phy.txt        |  2 +-
+ .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |  2 +-
+ .../bindings/pinctrl/canaan,k210-fpioa.yaml   |  2 +-
+ .../pinctrl/mediatek,mt6779-pinctrl.yaml      |  2 +-
+ .../pinctrl/mediatek,mt6795-pinctrl.yaml      |  2 +-
+ .../pinctrl/mediatek,mt7981-pinctrl.yaml      |  4 +--
+ .../pinctrl/mediatek,mt7986-pinctrl.yaml      |  4 +--
+ .../pinctrl/mediatek,mt8183-pinctrl.yaml      |  2 +-
+ .../pinctrl/mediatek,mt8365-pinctrl.yaml      |  2 +-
+ .../bindings/pinctrl/pinctrl-max77620.txt     |  2 +-
+ .../bindings/pinctrl/pinctrl-rk805.txt        |  2 +-
+ .../bindings/pinctrl/sprd,pinctrl.txt         |  2 +-
+ .../devicetree/bindings/pmem/pmem-region.txt  |  4 +--
+ .../bindings/power/renesas,sysc-rmobile.yaml  |  2 +-
+ .../power/supply/sbs,sbs-manager.yaml         |  2 +-
+ .../devicetree/bindings/powerpc/fsl/cpus.txt  |  2 +-
+ .../devicetree/bindings/powerpc/fsl/dcsr.txt  |  4 +--
+ .../bindings/powerpc/fsl/raideng.txt          |  2 +-
+ .../bindings/powerpc/nintendo/gamecube.txt    |  2 +-
+ .../bindings/powerpc/nintendo/wii.txt         |  2 +-
+ .../bindings/pwm/snps,dw-apb-timers-pwm2.yaml |  2 +-
+ .../bindings/regulator/regulator-max77620.txt |  2 +-
+ .../bindings/regulator/regulator.yaml         |  8 +++---
+ .../regulator/richtek,rt5190a-regulator.yaml  |  2 +-
+ .../devicetree/bindings/regulator/vctrl.txt   |  2 +-
+ .../bindings/remoteproc/ti,k3-r5f-rproc.yaml  |  2 +-
+ .../bindings/reset/ti-syscon-reset.txt        |  2 +-
+ .../devicetree/bindings/rng/omap_rng.yaml     |  4 +--
+ .../devicetree/bindings/rtc/rtc-cmos.txt      |  2 +-
+ .../bindings/serial/nvidia,tegra20-hsuart.txt |  2 +-
+ .../devicetree/bindings/serial/st-asc.txt     |  2 +-
+ .../soc/mediatek/mediatek,mt7986-wo-ccif.yaml |  2 +-
+ .../microchip,mpfs-sys-controller.yaml        |  2 +-
+ .../bindings/soc/qcom/qcom,aoss-qmp.yaml      |  2 +-
+ .../bindings/sound/axentia,tse850-pcm5142.txt |  2 +-
+ .../devicetree/bindings/sound/cs35l35.txt     |  2 +-
+ .../devicetree/bindings/sound/cs35l36.txt     |  2 +-
+ .../devicetree/bindings/sound/cs53l30.txt     |  2 +-
+ .../devicetree/bindings/sound/fsl,esai.txt    |  2 +-
+ .../bindings/sound/mediatek,mt8188-afe.yaml   |  2 +-
+ .../bindings/sound/mt2701-afe-pcm.txt         |  2 +-
+ .../bindings/sound/mt8195-afe-pcm.yaml        |  4 +--
+ .../sound/qcom,msm8916-wcd-analog.txt         |  2 +-
+ .../bindings/sound/renesas,rsnd.txt           |  2 +-
+ .../sound/rockchip,rk3288-hdmi-analog.txt     |  2 +-
+ .../devicetree/bindings/sound/rt5663.txt      |  2 +-
+ .../bindings/sound/serial-midi.yaml           |  2 +-
+ .../devicetree/bindings/sound/sprd-pcm.txt    |  2 +-
+ .../bindings/sound/st,stm32-sai.yaml          |  2 +-
+ .../sound/ti,j721e-cpb-ivi-audio.yaml         |  2 +-
+ .../devicetree/bindings/sound/ti,tas2781.yaml |  2 +-
+ .../bindings/sound/tlv320adcx140.yaml         |  2 +-
+ .../bindings/soundwire/qcom,soundwire.yaml    |  4 +--
+ .../bindings/spi/brcm,bcm2835-aux-spi.txt     |  4 +--
+ .../bindings/spi/brcm,spi-bcm-qspi.yaml       |  4 +--
+ .../devicetree/bindings/spi/omap-spi.yaml     |  2 +-
+ .../thermal/nvidia,tegra124-soctherm.txt      |  2 +-
+ .../bindings/timer/snps,arc-timer.txt         |  2 +-
+ .../devicetree/bindings/trivial-devices.yaml  |  8 +++---
+ .../devicetree/bindings/usb/ci-hdrc-usb2.yaml |  2 +-
+ .../bindings/usb/fsl,imx8mp-dwc3.yaml         |  2 +-
+ .../devicetree/bindings/usb/msm-hsusb.txt     |  2 +-
+ .../bindings/usb/richtek,rt1719.yaml          |  2 +-
+ .../fault-injection/fault-injection.rst       |  2 +-
+ Documentation/fb/deferred_io.rst              |  2 +-
+ Documentation/fb/sm712fb.rst                  |  2 +-
+ Documentation/fb/sstfb.rst                    |  2 +-
+ .../core/thread-info-in-task/arch-support.txt |  2 +-
+ Documentation/filesystems/9p.rst              |  2 +-
+ Documentation/filesystems/befs.rst            |  4 +--
+ .../filesystems/caching/cachefiles.rst        |  2 +-
+ .../filesystems/caching/netfs-api.rst         |  6 ++---
+ Documentation/filesystems/configfs.rst        |  2 +-
+ Documentation/filesystems/dax.rst             |  2 +-
+ Documentation/filesystems/devpts.rst          |  4 +--
+ Documentation/filesystems/ext4/super.rst      |  2 +-
+ Documentation/filesystems/f2fs.rst            |  6 ++---
+ Documentation/filesystems/gfs2-glocks.rst     |  2 +-
+ Documentation/filesystems/idmappings.rst      | 14 +++++-----
+ Documentation/filesystems/netfs_library.rst   |  2 +-
+ .../filesystems/nfs/client-identifier.rst     |  2 +-
+ Documentation/filesystems/nfs/rpc-cache.rst   |  2 +-
+ .../filesystems/nfs/rpc-server-gss.rst        |  2 +-
+ Documentation/filesystems/nilfs2.rst          |  2 +-
+ Documentation/filesystems/ntfs3.rst           |  2 +-
+ Documentation/filesystems/orangefs.rst        |  2 +-
+ Documentation/filesystems/overlayfs.rst       |  4 +--
+ Documentation/filesystems/porting.rst         |  6 ++---
+ Documentation/filesystems/proc.rst            | 12 ++++-----
+ Documentation/filesystems/qnx6.rst            |  2 +-
+ Documentation/filesystems/seq_file.rst        |  4 +--
+ .../filesystems/ubifs-authentication.rst      |  2 +-
+ Documentation/filesystems/vfat.rst            |  2 +-
+ Documentation/filesystems/vfs.rst             |  2 +-
+ .../filesystems/xfs-online-fsck-design.rst    | 20 +++++++-------
+ Documentation/filesystems/zonefs.rst          |  2 +-
+ Documentation/firmware-guide/acpi/osi.rst     |  2 +-
+ .../gpu/amdgpu/display/mpo-overview.rst       |  2 +-
+ Documentation/gpu/drm-kms-helpers.rst         |  2 +-
+ Documentation/gpu/drm-kms.rst                 |  6 ++---
+ Documentation/gpu/drm-usage-stats.rst         |  4 +--
+ Documentation/gpu/i915.rst                    |  4 +--
+ Documentation/gpu/kms-properties.csv          |  2 +-
+ Documentation/gpu/komeda-kms.rst              |  4 +--
+ Documentation/gpu/msm-crash-dump.rst          |  2 +-
+ Documentation/gpu/rfc/i915_scheduler.rst      |  2 +-
+ Documentation/gpu/rfc/i915_vm_bind.rst        |  2 +-
+ Documentation/gpu/todo.rst                    |  8 +++---
+ Documentation/hwmon/pmbus-core.rst            |  2 +-
+ .../input/devices/iforce-protocol.rst         |  2 +-
+ Documentation/input/multi-touch-protocol.rst  |  2 +-
+ .../livepatch/reliable-stacktrace.rst         |  2 +-
+ Documentation/locking/lockdep-design.rst      |  4 +--
+ Documentation/locking/locktorture.rst         |  2 +-
+ Documentation/locking/locktypes.rst           |  2 +-
+ Documentation/mm/hmm.rst                      |  2 +-
+ Documentation/mm/hwpoison.rst                 |  2 +-
+ Documentation/mm/page_migration.rst           |  2 +-
+ Documentation/mm/unevictable-lru.rst          |  2 +-
+ Documentation/mm/vmemmap_dedup.rst            |  2 +-
+ Documentation/netlink/genetlink-c.yaml        |  2 +-
+ Documentation/netlink/genetlink-legacy.yaml   |  2 +-
+ Documentation/networking/bonding.rst          |  2 +-
+ .../networking/devlink/devlink-port.rst       |  6 ++---
+ Documentation/networking/packet_mmap.rst      |  2 +-
+ Documentation/power/energy-model.rst          |  4 +--
+ Documentation/powerpc/dscr.rst                |  2 +-
+ Documentation/powerpc/kasan.txt               |  2 +-
+ Documentation/powerpc/papr_hcalls.rst         |  2 +-
+ Documentation/powerpc/qe_firmware.rst         |  4 +--
+ Documentation/powerpc/vas-api.rst             |  4 +--
+ Documentation/process/botching-up-ioctls.rst  |  2 +-
+ Documentation/process/kernel-docs.rst         |  2 +-
+ Documentation/riscv/hwprobe.rst               |  4 +--
+ Documentation/riscv/vector.rst                |  2 +-
+ Documentation/s390/vfio-ap.rst                |  2 +-
+ Documentation/scheduler/sched-bwc.rst         |  2 +-
+ Documentation/scheduler/sched-energy.rst      |  4 +--
+ Documentation/scsi/ChangeLog.lpfc             |  2 +-
+ Documentation/security/digsig.rst             |  2 +-
+ Documentation/security/keys/core.rst          |  2 +-
+ Documentation/security/secrets/coco.rst       |  2 +-
+ Documentation/sphinx/cdomain.py               |  2 +-
+ Documentation/spi/spi-lm70llp.rst             |  2 +-
+ .../tools/rtla/rtla-timerlat-top.rst          |  2 +-
+ .../coresight/coresight-etm4x-reference.rst   |  2 +-
+ Documentation/trace/events.rst                |  6 ++---
+ Documentation/trace/fprobe.rst                |  2 +-
+ Documentation/trace/ftrace.rst                |  2 +-
+ Documentation/trace/hwlat_detector.rst        |  2 +-
+ .../trace/rv/da_monitor_synthesis.rst         |  2 +-
+ Documentation/trace/rv/monitor_wwnr.rst       |  2 +-
+ .../trace/rv/runtime-verification.rst         |  2 +-
+ Documentation/trace/uprobetracer.rst          |  2 +-
+ Documentation/trace/user_events.rst           |  2 +-
+ Documentation/usb/gadget_uvc.rst              |  2 +-
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |  2 +-
+ .../userspace-api/media/v4l/metafmt-d4xx.rst  |  2 +-
+ Documentation/userspace-api/netlink/intro.rst |  2 +-
+ Documentation/virt/hyperv/clocks.rst          |  2 +-
+ Documentation/virt/kvm/api.rst                | 26 +++++++++----------
+ Documentation/virt/kvm/devices/vm.rst         |  2 +-
+ Documentation/virt/kvm/devices/xive.rst       |  2 +-
+ Documentation/virt/kvm/halt-polling.rst       |  2 +-
+ Documentation/virt/kvm/x86/mmu.rst            |  2 +-
+ .../virt/kvm/x86/running-nested-guests.rst    |  2 +-
+ .../virt/uml/user_mode_linux_howto_v2.rst     |  2 +-
+ Documentation/w1/slaves/w1_therm.rst          |  2 +-
+ Documentation/w1/w1-generic.rst               |  2 +-
+ Documentation/w1/w1-netlink.rst               |  2 +-
+ .../watchdog/watchdog-kernel-api.rst          |  2 +-
+ Documentation/wmi/devices/dell-wmi-ddv.rst    |  4 +--
+ 328 files changed, 441 insertions(+), 441 deletions(-)
 
->> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->> index d0116c6939dc..cfb1cb223508 100755
->> --- a/scripts/kernel-doc
->> +++ b/scripts/kernel-doc
->> @@ -1168,6 +1168,10 @@ sub dump_struct($$) {
->>   	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
->>   	# replace DECLARE_FLEX_ARRAY
->>   	$members =~ s/(?:__)?DECLARE_FLEX_ARRAY\s*\($args,\s*$args\)/$1 $2\[\]/gos;
->> +	#replace DEFINE_DMA_UNMAP_ADDR
->> +	$members =~ s/DEFINE_DMA_UNMAP_ADDR\s*\($args\)/dma_addr_t $1/gos;
->> +	#replace DEFINE_DMA_UNMAP_LEN
->> +	$members =~ s/DEFINE_DMA_UNMAP_LEN\s*\($args\)/__u32 $1/gos;
->>   	my $declaration = $members;
-> 
-> I'm not happy with this ... we are continuing to reimplement parts of
-> the C preprocessor here, badly, creating an ugly mess in the process.
-> 
-> That said, you are just the latest arrival at the party, can't blame you
-> for this.  Until we come up with a better way here, I guess this will
-> do.
-> 
+-- 
+2.34.1
 
-Thanks for providing your feedback.
-
-> Thanks,
-> 
-> jon
-
-Regards,
-Pavan
