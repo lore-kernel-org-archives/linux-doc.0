@@ -2,255 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4561AC001B0
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 23:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1ABEC001DB
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 23:27:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233412AbjHNXPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 19:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
+        id S233480AbjHNX1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 19:27:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233421AbjHNXOn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 19:14:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF375170B
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 16:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1692054838;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=THE30SasYOk7GRpj1crEM/R/YR6biFAHq9J7CisS99U=;
-        b=Hg0bpwcP0/CSyM4ZEb+ykTfKM5JBiVK8EcnaeRdP+CVqi+iOuMAMVAwAov6hMLvk0Rb1Ub
-        VRwOPlIC5seqJGSuTK1jGr6D4Xd1yJJkkk0NeKTrsufefE6QaKKqVYCP4E24E3PADiOTzB
-        ZStEGfyd5KzxsiO1vbk0uiUmg70sBfE=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-220-ZDP7LD3kOQ6IFwls5axfGQ-1; Mon, 14 Aug 2023 19:13:56 -0400
-X-MC-Unique: ZDP7LD3kOQ6IFwls5axfGQ-1
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-5646868b9e7so5102917a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 16:13:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692054835; x=1692659635;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=THE30SasYOk7GRpj1crEM/R/YR6biFAHq9J7CisS99U=;
-        b=AUFizAzkvg1f2THoBWn/oBZHuU86+Q24luHZTg4xocc48AuVdH2N0eylKmSvDO8bW/
-         /fZho7nLaz5A3SFBjZ6tuY7YlK+ke1dZ+zLhrQze6GB9i8mI9uvNBoEMAR6EXdqKTU6t
-         D/LuvnwiQKu+uJBL9artmiw4XmoLQ2cVYsn41z0L6g2ss3ZMGHlP+k5x5znbSEJXcQSp
-         yb7e/KycJ7BMX+dReFloS/bgaBwN751+EGWTgSfhQ9Cz+G1rSaGHA/UpLK3knZkml7QY
-         hpOJAi8YvvEJ2clMttb0ZYUcxhWAbmPR5Bw7JWHg5lYs6sE0ZizPHbxSj0rajO13PCyM
-         fvgQ==
-X-Gm-Message-State: AOJu0Yxe17h9gFsEESZQhQx0US2EHmyNiLhb0KPoJor1eOtYf6w5P0EP
-        tvqgUcc55vJptSjqSNumJjj7kYLHNLWBP/4brpNbx6neTgOius8bjhVNijj7bOluczEWe+DW8Re
-        Fpv2manDsv8Krcbl21w0+
-X-Received: by 2002:a05:6a20:9383:b0:130:7803:57bd with SMTP id x3-20020a056a20938300b00130780357bdmr11277863pzh.3.1692054835352;
-        Mon, 14 Aug 2023 16:13:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFjENeL6XsZJ9mZ+BkCpOaC1eLAfNa4JPtq/hdBfyLaDaRLVp/nCTPdfNINr4xIrA91xOQIeA==
-X-Received: by 2002:a05:6a20:9383:b0:130:7803:57bd with SMTP id x3-20020a056a20938300b00130780357bdmr11277831pzh.3.1692054835020;
-        Mon, 14 Aug 2023 16:13:55 -0700 (PDT)
-Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id j7-20020a170902758700b001b9e9edbf43sm10033090pll.171.2023.08.14.16.13.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 16:13:54 -0700 (PDT)
-Date:   Mon, 14 Aug 2023 16:13:53 -0700
-From:   Jerry Snitselaar <jsnitsel@redhat.com>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Richard Cochran <richardcochran@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH] tpm_tis: Revert "tpm_tis: Disable interrupts on ThinkPad
- T490s"
-Message-ID: <enaeow6numvzp74rrwpdqhjqs635ofqttj7o7gdoqfrsgbhihi@eb7ueum3r5w5>
-References: <20230814164054.64280-1-jarkko@kernel.org>
+        with ESMTP id S233479AbjHNX0u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 19:26:50 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A81BE;
+        Mon, 14 Aug 2023 16:26:49 -0700 (PDT)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37EN3FYO029924;
+        Mon, 14 Aug 2023 23:26:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=LbOGZMmhNlVa4ttclSQNtMPwN4Io1A6KXK/1M1+rEYc=;
+ b=UR2z69B7Lvy9Vs3FWl2PX62cWJxF93RykR98OH9jfrahT+junQisll8dKd7o3VraRuo7
+ ewqCdTw2YfqgwTMk3g0o9J6uGSVE9DFfByQYGuT/p+H/nqAez6gkOYzjP87/j3q0UAmE
+ 89EvYiXG1YIQ3mb7G/FRfLY0lLogE8t8VfkkydAzCSoLIi5FU/usLvwj6dUvNMa0fNNE
+ EGu43O0X1sGG2oi8kdfs8FCIt9eKlCGTGdJ/6OKS/w+QtiiNR7pdQdjP4UjcVAO3hsLS
+ JenqCniFfxgtedyi7a8/Dsj53oyhrVEtyGej2hCfVC4MKvdZ5M/l/HqqTdNdGCxngXiV Eg== 
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sfwkj0ech-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 23:26:39 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37EMpf77003495;
+        Mon, 14 Aug 2023 23:26:38 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+        by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3semds8wr2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 23:26:37 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37ENQaXd46924218
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 14 Aug 2023 23:26:36 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 404272004B;
+        Mon, 14 Aug 2023 23:26:36 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 42C4820040;
+        Mon, 14 Aug 2023 23:26:35 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 14 Aug 2023 23:26:35 +0000 (GMT)
+Received: from [10.61.2.107] (haven.au.ibm.com [9.192.254.114])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id BBBF3602FC;
+        Tue, 15 Aug 2023 09:26:30 +1000 (AEST)
+Message-ID: <ab85e604-b7ba-dbbe-53c2-2454e145d829@linux.ibm.com>
+Date:   Tue, 15 Aug 2023 09:26:10 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/8] Documentation/sphinx: fix Python string escapes
+To:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
+        bpf@vger.kernel.org, linux-pm@vger.kernel.org
+Cc:     abbotti@mev.co.uk, hsweeten@visionengravers.com,
+        jan.kiszka@siemens.com, kbingham@kernel.org, mykolal@fb.com
+References: <20230814060704.79655-1-bgray@linux.ibm.com>
+ <20230814060704.79655-3-bgray@linux.ibm.com> <87jztxwxtu.fsf@meer.lwn.net>
+Content-Language: en-US, en-AU
+From:   Benjamin Gray <bgray@linux.ibm.com>
+In-Reply-To: <87jztxwxtu.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: fMeSr82h78OcmSFLpK5YKZdGHM_Cfxs6
+X-Proofpoint-ORIG-GUID: fMeSr82h78OcmSFLpK5YKZdGHM_Cfxs6
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230814164054.64280-1-jarkko@kernel.org>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-14_18,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ adultscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0 mlxscore=0
+ impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308140211
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 14, 2023 at 07:40:53PM +0300, Jarkko Sakkinen wrote:
-> Since for MMIO driver using FIFO registers, also known as tpm_tis, the
-> default (and tbh recommended) behaviour is now the polling mode, the
-> "tristate" workaround is no longer for benefit.
+On 14/8/23 11:35 pm, Jonathan Corbet wrote:
+> Benjamin Gray <bgray@linux.ibm.com> writes:
 > 
-> If someone wants to explicitly enable IRQs for a TPM chip that should be
-> without question allowed. It could very well be a piece hardware in the
-> existing deny list because of e.g. firmware update or something similar.
+>> Python 3.6 introduced a DeprecationWarning for invalid escape sequences.
+>> This is upgraded to a SyntaxWarning in Python 3.12, and will eventually
+>> be a syntax error.
+>>
+>> Fix these now to get ahead of it before it's an error.
+>>
+>> Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
+>> ---
+>>   Documentation/sphinx/cdomain.py             | 2 +-
+>>   Documentation/sphinx/kernel_abi.py          | 2 +-
+>>   Documentation/sphinx/kernel_feat.py         | 2 +-
+>>   Documentation/sphinx/kerneldoc.py           | 2 +-
+>>   Documentation/sphinx/maintainers_include.py | 8 ++++----
+>>   5 files changed, 8 insertions(+), 8 deletions(-)
 > 
-> While at it, document the module parameter, as this was not done in 2006
-> when it first appeared in the mainline.
-> 
-> Link: https://lore.kernel.org/linux-integrity/20201015214430.17937-1-jsnitsel@redhat.com/
-> Link: https://lore.kernel.org/all/1145393776.4829.19.camel@localhost.localdomain/
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> So I am the maintainer for this stuff...is there a reason you didn't
+> copy me on this work?
 
-I was just typing an email to say that it looks like 6aaf663ee04a ("tpm_tis: Opt-in interrupts") will require
-updating tpm_tis_disable_irq(), but you are already dealing with it. :)
+Sorry, I thought the list linux-doc@vger.kernel.org itself was enough. I 
+haven't done a cross tree series before, I was a bit adverse to CC'ing 
+everyone that appears as a maintainer for every patch.
 
-Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> 
+>> diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+>> index ca8ac9e59ded..dbdc74bd0772 100644
+>> --- a/Documentation/sphinx/cdomain.py
+>> +++ b/Documentation/sphinx/cdomain.py
+>> @@ -93,7 +93,7 @@ def markup_ctype_refs(match):
+>>   #
+>>   RE_expr = re.compile(r':c:(expr|texpr):`([^\`]+)`')
+>>   def markup_c_expr(match):
+>> -    return '\ ``' + match.group(2) + '``\ '
+>> +    return '\\ ``' + match.group(2) + '``\\ '
+> 
+> I have to wonder about this one; I doubt the intent was to insert a
+> literal backslash.  I have to fire up my ancient build environment to
+> even try this, but even if it's right...
 
-> ---
->  .../admin-guide/kernel-parameters.txt         |  7 ++
->  drivers/char/tpm/tpm_tis.c                    | 93 +------------------
->  2 files changed, 9 insertions(+), 91 deletions(-)
+Yeah, there is even a file that just has a syntax error. I don't have a 
+way to verify the original script was correct, but I have verified this 
+series doesn't change the parsed AST.
+
+In this case though, it's generating reST, so it might just be 
+conservatively guarding against generating bad markup[1]
+
+[1]: 
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#inline-markup 
+
+
+>>   #
+>>   # Parse Sphinx 3.x C markups, replacing them by backward-compatible ones
+>> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+>> index b5feb5b1d905..b9f026f016fd 100644
+>> --- a/Documentation/sphinx/kernel_abi.py
+>> +++ b/Documentation/sphinx/kernel_abi.py
+>> @@ -138,7 +138,7 @@ class KernelCmd(Directive):
+>>                   code_block += "\n    " + l
+>>               lines = code_block + "\n\n"
+>>   
+>> -        line_regex = re.compile("^\.\. LINENO (\S+)\#([0-9]+)$")
+>> +        line_regex = re.compile("^\\.\\. LINENO (\\S+)\\#([0-9]+)$")
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 722b6eca2e93..6354aa779178 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6340,6 +6340,13 @@
->  			This will guarantee that all the other pcrs
->  			are saved.
->  
-> +	tpm_tis.interrupts= [HW,TPM]
-> +			Enable interrupts for the MMIO based physical layer
-> +			for the FIFO interface. By default it is set to false
-> +			(0). For more information about TPM hardware interfaces
-> +			defined by Trusted Computing Group (TCG) look up to
-> +			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
-> +
->  	tp_printk	[FTRACE]
->  			Have the tracepoints sent to printk as well as the
->  			tracing ring buffer. This is useful for early boot up
-> diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
-> index 7fa3d91042b2..077fdb73740c 100644
-> --- a/drivers/char/tpm/tpm_tis.c
-> +++ b/drivers/char/tpm/tpm_tis.c
-> @@ -27,7 +27,6 @@
->  #include <linux/of.h>
->  #include <linux/of_device.h>
->  #include <linux/kernel.h>
-> -#include <linux/dmi.h>
->  #include "tpm.h"
->  #include "tpm_tis_core.h"
->  
-> @@ -89,8 +88,8 @@ static inline void tpm_tis_iowrite32(u32 b, void __iomem *iobase, u32 addr)
->  	tpm_tis_flush(iobase);
->  }
->  
-> -static int interrupts;
-> -module_param(interrupts, int, 0444);
-> +static bool interrupts;
-> +module_param(interrupts, bool, 0444);
->  MODULE_PARM_DESC(interrupts, "Enable interrupts");
->  
->  static bool itpm;
-> @@ -103,92 +102,6 @@ module_param(force, bool, 0444);
->  MODULE_PARM_DESC(force, "Force device probe rather than using ACPI entry");
->  #endif
->  
-> -static int tpm_tis_disable_irq(const struct dmi_system_id *d)
-> -{
-> -	if (interrupts == -1) {
-> -		pr_notice("tpm_tis: %s detected: disabling interrupts.\n", d->ident);
-> -		interrupts = 0;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static const struct dmi_system_id tpm_tis_dmi_table[] = {
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "Framework Laptop (12th Gen Intel Core)",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "Framework"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "Laptop (12th Gen Intel Core)"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "Framework Laptop (13th Gen Intel Core)",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "Framework"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "Laptop (13th Gen Intel Core)"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "ThinkPad T490s",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad T490s"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "ThinkStation P360 Tiny",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkStation P360 Tiny"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "ThinkPad L490",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad L490"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "ThinkPad L590",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad L590"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "ThinkStation P620",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkStation P620"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "TUXEDO InfinityBook S 15/17 Gen7",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "TUXEDO InfinityBook S 15/17 Gen7"),
-> -		},
-> -	},
-> -	{
-> -		.callback = tpm_tis_disable_irq,
-> -		.ident = "UPX-TGL",
-> -		.matches = {
-> -			DMI_MATCH(DMI_SYS_VENDOR, "AAEON"),
-> -			DMI_MATCH(DMI_PRODUCT_NAME, "UPX-TGL01"),
-> -		},
-> -	},
-> -	{}
-> -};
-> -
->  #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
->  static int has_hid(struct acpi_device *dev, const char *hid)
->  {
-> @@ -312,8 +225,6 @@ static int tpm_tis_init(struct device *dev, struct tpm_info *tpm_info)
->  	int irq = -1;
->  	int rc;
->  
-> -	dmi_check_system(tpm_tis_dmi_table);
-> -
->  	rc = check_acpi_tpm2(dev);
->  	if (rc)
->  		return rc;
-> -- 
-> 2.39.2
+> All of these really just want to be raw strings - a much more minimal
+> fix that makes the result quite a bit more readable:
 > 
+>       line_regex = re.compile(r"^\.\. LINENO (\S+)\#([0-9]+)$")
+>                               ^
+>                               |
+>    ---------------------------+
+> 
+> That, I think, is how these should be fixed.
+
+Yup, I mentioned that at the end of the cover letter. I can automate and 
+verify the conversion, but automating what _should_ be treated as a 
+'regex' string is fuzzier. Checking if there's a `re.*(` prefix on the 
+string should work for most though. I'll give it a shot.
+
+> Thanks,
+> 
+> jon
 
