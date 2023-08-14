@@ -2,66 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE99C04A94
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 22:31:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03932C001DB
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 22:33:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232781AbjHNWbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 18:31:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36606 "EHLO
+        id S233320AbjHNWcl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 18:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233342AbjHNWao (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 18:30:44 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E15199B;
-        Mon, 14 Aug 2023 15:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=f6Od+nROclrydhFNKKC4y7J24uEmtyay1uyUpf7kRbQ=; b=OLSvh5zvCZLXX1bheJwx2AWxCN
-        JGz51FNSsU67yQO2YbWkDpjKczxA8Zq+LffmAAZAtCRTqYRTAA4X6rcGSNbyl18YMeDMthEwOAMXj
-        8xzDNRfRwuBQs2ibphvaLXSql0LtQ/JkO9qKaxZ2MA+UjQIRBU/dR4LQfE+aOSqwGK64TgES4XEGw
-        esUygLyJm6TfeCz1q3xAsVRkBj/qMER2PfGski5UPFIqNQfAlCO3UFIAkzSMjhzotCbu7mBrKfQHi
-        q1ulFJuMcYWyGn9EXnp781f2YeneYZz2bGHP8zEnwpfDuxs9554NOvuMu8PxpOF+B4R6gfQ1W29B2
-        W2XVcVMg==;
-Received: from [2601:1c2:980:9ec0::577]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qVg4c-004ZSc-Kc; Mon, 14 Aug 2023 22:30:07 +0000
-Message-ID: <046757e4-7b61-6035-5672-0c654df5339a@infradead.org>
-Date:   Mon, 14 Aug 2023 15:30:01 -0700
+        with ESMTP id S233373AbjHNWcJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 18:32:09 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E7B171B
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 15:32:08 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-40c72caec5cso59331cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 15:32:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692052327; x=1692657127;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h0v4FnmqJUNHFxpcdGxWVG1RSHYWgI5Vlaomsgih4R4=;
+        b=vKKN7+oMq72bqWVomalazt5YNByN/nNk2Dn7lmw11mJVlFXhkK9asfziYOw830m02L
+         2yfuwv88wcDeISRa9AEMzKyVhg3mwV1VTm+JEyghkJV3wdXdlprPw4D67PbSzWSnAG/9
+         XMdrXJCoI2UDWEMojTDEomri+NmoePXQ5wZ3Nz+v8pa829xl4lC5KElnB0oaSdyEFUzO
+         Tsd6JR3yfsf93URH4IA2U8MbavWtq9YHtA6dgMxgVDPuyDRyPihL1UHgwbqsuH6VnY22
+         46TzxTAL+uQ9pGHI/34aLGEjqp8PeVSjxdSDoFmbvL6P6+a/DXnFEC3oPPfPadQWrhtG
+         Eeow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692052327; x=1692657127;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h0v4FnmqJUNHFxpcdGxWVG1RSHYWgI5Vlaomsgih4R4=;
+        b=jlmt7vpx9Ra6zCAyfxNsYRVNDbh1Kar6Bx+j/EGmyYQoMTdTq8nP6DfzS2yZLItRU1
+         FmIsy7G82aIY8tGsUgkH9y5s/7dAUlHxgXkLKv3oVvwXg0JTVgGWiQrRHnYVz9xZK/Tu
+         52UtWB1ECxUIanncwVrrs33rtWL+fVkefztl2Mo7EtuqKtevRj8qr32jKx4mIGyxs4jn
+         +ddYf1gOyL1ll+rSCgHgmbH+gpLce9nn+QKXVh/7gI4BgCxZO5efas1yrYH/msie1BkH
+         JL6wuCPhwnKVy/l0V/jyuhJAks1AbZ35uHZP6hcHuqGSuetzsLBUd32ut80vku9kopWn
+         Prug==
+X-Gm-Message-State: AOJu0Ywldt4Git6U7ieib1GFOLIolUKO8+AdkS+p+9Dadprefhw5g/9f
+        5fZrk6R0qaHANKGm33mMjhAsITz0Eyu7ymCyDZIcRg==
+X-Google-Smtp-Source: AGHT+IFCpOH67poqOkqhXuiGRzJSIHcyEgDSVGrJ9l31Y+IwX24BR/s2XSse/ekN9tMDP2fZKzGzXF3ueh37FSr1uME=
+X-Received: by 2002:a05:622a:10d:b0:3f4:f0fd:fe7e with SMTP id
+ u13-20020a05622a010d00b003f4f0fdfe7emr691907qtw.3.1692052327482; Mon, 14 Aug
+ 2023 15:32:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH 1/3] Documentation/ABI: Fix typos
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-References: <20230814212822.193684-1-helgaas@kernel.org>
- <20230814212822.193684-2-helgaas@kernel.org>
-Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230814212822.193684-2-helgaas@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com> <1691394685-61240-4-git-send-email-renyu.zj@linux.alibaba.com>
+In-Reply-To: <1691394685-61240-4-git-send-email-renyu.zj@linux.alibaba.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Mon, 14 Aug 2023 15:31:55 -0700
+Message-ID: <CAP-5=fXFZffdRMFH+aFzFech2pjbfYyQ+fx+E-YnfMBHifD4gw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] perf jevents: Support more event fields
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Aug 7, 2023 at 12:51=E2=80=AFAM Jing Zhang <renyu.zj@linux.alibaba.=
+com> wrote:
+>
+> The usual event descriptions are "event=3Dxxx" or "config=3Dxxx", while t=
+he
+> event descriptions of CMN are "type=3Dxxx, eventid=3Dxxx" or more complex=
+.
 
+I found this difficult to read in relation to the code. Perhaps:
 
-On 8/14/23 14:28, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas<bhelgaas@google.com>
-> 
-> Fix typos in Documentation/ABI.  The changes are in descriptions or
-> comments where they shouldn't affect use of the ABIs.
-> 
-> Signed-off-by: Bjorn Helgaas<bhelgaas@google.com>
+The previous code assumes an event has either an "event=3D" or "config"
+field at the beginning. For CMN neither of these may be present, as an
+event is typically "type=3Dxx,eventid=3Dxxx".
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+I think the use of the name "type" here is unfortunate. It conflicts
+with the PMU's type as defined in perf_event_attr.
 
-Thanks.
+In general I think the jevents.py code needs improving, the
+event_fields dictionary is convoluted, we shouldn't be afraid to
+change the event json for example to get rid of things like ExtSel, we
+should really ensure the formats in the events are valid for the PMU
+they are for.
+
+> $cat /sys/bus/event_source/devices/arm_cmn_0/events/hnf_cache_fill
+> type=3D0x5,eventid=3D0x3
+>
+> When adding aliases for events described as "event=3Dxxx" or "config=3Dxx=
+x",
+> EventCode or ConfigCode can be used in the JSON files to describe the
+> events. But "eventid=3Dxxx, type=3Dxxx" cannot be supported at present.
+>
+> If EventCode and ConfigCode is not added in the alias JSON file, the
+> event description will add "event=3D0" by default. So, even if the event
+> field is added to supplement "eventid=3Dxxx" and "type=3Dxxx", the final
+> parsing result will be "event=3D0, eventid=3Dxxx, type=3Dxxx".
+>
+> Therefore, when EventCode and ConfigCode are missing in JSON, "event=3D0"=
+ is
+> no longer added by default. EventIdCode and Type are added to the event
+> field, and ConfigCode is moved into the event_field array which can also
+> guarantee its original function.
+
+A useful test can be to build with JEVENTS_ARCH=3Dall and confirm the
+before and after change generated pmu-events.c is the same.
+
+> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+> ---
+>  tools/perf/pmu-events/jevents.py | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+>
+> diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jev=
+ents.py
+> index f57a8f2..9c0f63a 100755
+> --- a/tools/perf/pmu-events/jevents.py
+> +++ b/tools/perf/pmu-events/jevents.py
+> @@ -275,12 +275,6 @@ class JsonEvent:
+>        }
+>        return table[unit] if unit in table else f'uncore_{unit.lower()}'
+>
+> -    eventcode =3D 0
+> -    if 'EventCode' in jd:
+> -      eventcode =3D int(jd['EventCode'].split(',', 1)[0], 0)
+> -    if 'ExtSel' in jd:
+> -      eventcode |=3D int(jd['ExtSel']) << 8
+> -    configcode =3D int(jd['ConfigCode'], 0) if 'ConfigCode' in jd else N=
+one
+>      self.name =3D jd['EventName'].lower() if 'EventName' in jd else None
+>      self.topic =3D ''
+>      self.compat =3D jd.get('Compat')
+> @@ -317,7 +311,15 @@ class JsonEvent:
+>      if precise and self.desc and '(Precise Event)' not in self.desc:
+>        extra_desc +=3D ' (Must be precise)' if precise =3D=3D '2' else ('=
+ (Precise '
+>                                                                   'event)=
+')
+> -    event =3D f'config=3D{llx(configcode)}' if configcode is not None el=
+se f'event=3D{llx(eventcode)}'
+> +    eventcode =3D None
+> +    if 'EventCode' in jd:
+> +      eventcode =3D int(jd['EventCode'].split(',', 1)[0], 0)
+> +    if 'ExtSel' in jd:
+> +      if eventcode is None:
+> +        eventcode =3D int(jd['ExtSel']) << 8
+> +      else:
+> +        eventcode |=3D int(jd['ExtSel']) << 8
+> +    event =3D f'event=3D{llx(eventcode)}' if eventcode is not None else =
+None
+>      event_fields =3D [
+>          ('AnyThread', 'any=3D'),
+>          ('PortMask', 'ch_mask=3D'),
+> @@ -327,10 +329,13 @@ class JsonEvent:
+>          ('Invert', 'inv=3D'),
+>          ('SampleAfterValue', 'period=3D'),
+>          ('UMask', 'umask=3D'),
+> +        ('ConfigCode', 'config=3D'),
+
+This loses the int and potential base conversion of ConfigCode.
+Clearly the code was taking care to maintain this behavior so I
+suspect this change has broken something. JEVENTS_ARCH=3Dall should
+reveal the answer.
+
+> +        ('Type', 'type=3D'),
+> +        ('EventIdCode', 'eventid=3D'),
+>      ]
+>      for key, value in event_fields:
+>        if key in jd and jd[key] !=3D '0':
+> -        event +=3D ',' + value + jd[key]
+> +        event =3D event + ',' + value + jd[key] if event is not None els=
+e value + jd[key]
+
+Perhaps initialize event above to the empty string then:
+
+if key in jd and jd[key] !=3D '0':
+  if event:
+     event +=3D ','
+  event +=3D value + jd[key]
+
+Thanks,
+Ian
+
+>      if filter:
+>        event +=3D f',{filter}'
+>      if msr:
+> --
+> 1.8.3.1
+>
