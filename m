@@ -2,76 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80BF9C001E0
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 15:41:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BBFC41513
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 15:54:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbjHNPku (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 11:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58998 "EHLO
+        id S229889AbjHNPxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 11:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232710AbjHNPkg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 11:40:36 -0400
+        with ESMTP id S229854AbjHNPxW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 11:53:22 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F4010CE;
-        Mon, 14 Aug 2023 08:40:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680C8E9;
+        Mon, 14 Aug 2023 08:53:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AA069632AB;
-        Mon, 14 Aug 2023 15:40:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58968C433C7;
-        Mon, 14 Aug 2023 15:40:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F0D2862123;
+        Mon, 14 Aug 2023 15:53:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1742C433C8;
+        Mon, 14 Aug 2023 15:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692027635;
-        bh=WgPLziGT93g69DcX3Nr2VzINzq9kF/xajqL2y7Km8QU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JEJUkV5Qh72uzzWukxjdX7X+2afsyiGqIb3+/ZEmMkQY+Cl/DZvPDRK0nUoUn9y9Q
-         YbADTmxb1egPpIcwuP4RDavf8wBgTK/gyky+YwtZWw3+gGOqOGNVMGwQ1KPT5TEkV5
-         EBepxDzN5zg+yBsZYCiuSEwXNNGCaQuqcs7SlwZ/7S12fOFZhMs9HSFbglUTj1R4V5
-         jkz42Uc/nfgeXun4qtg35G67xZxzwFP00/N1BCFnDewRxQMpQk+p7QtVVO/wR9TDxG
-         VVxTCBgC4Qq8pgzAK8mOfAZ76fNFTqvsgUOiowHLPdMQpJymcqVuKgNEfBkJydGxjh
-         wPyk0D4qEWZJw==
-Date:   Mon, 14 Aug 2023 17:40:30 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Loic Poulain <loic.poulain@linaro.org>
-Cc:     viro@zeniv.linux.org.uk, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, hch@infradead.org,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v4] init: Add support for rootwait timeout parameter
-Message-ID: <20230814-flaute-achsen-05169559ea75@brauner>
-References: <20230813082349.513386-1-loic.poulain@linaro.org>
+        s=k20201202; t=1692028400;
+        bh=VYn89773/Fan3jTs9Lj+W9soq0OKz68en037iNXyJcI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=G8+fGV9msZ6gV+netW5s77h+LqsYFQEk2OgkyIUTXENvsBz+e8KWcYAu81iLHbyb1
+         X0T7bIRS51XBtfLwJJqOiO9yuHC7jubMafxk+Z7K7Xc5EXRhM4W0hLBJK0cp5/dmBg
+         teaibNl1QNdC0Yi+Zbwov9A7CdgcBHgpGkCn5zrGadp0RohumKn9qUG1OWSyA4lS84
+         gaJHRsS4r7W3Donl8USTDrsaEvTtecp/ZykFR/cgY114B36+7b+ps+7VJTTEZnV2Lh
+         DZhyCgmxFyklVfKxRdPUaSjaV9N/ZFQCtyZO15vecZkOuNjrTl6nOhzZE1Dk89kXxu
+         /rPWuQBb0XuFA==
+Date:   Mon, 14 Aug 2023 08:53:18 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     "Lin Ma" <linma@zju.edu.cn>
+Cc:     corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, rdunlap@infradead.org, void@manifault.com,
+        jani.nikula@intel.com, horms@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3] docs: net: add netlink attrs best practices
+Message-ID: <20230814085318.090c832d@kernel.org>
+In-Reply-To: <54e9d6f6.106b1a.189e798f8ae.Coremail.linma@zju.edu.cn>
+References: <20230811031549.2011622-1-linma@zju.edu.cn>
+        <20230811152634.271608c5@kernel.org>
+        <54e9d6f6.106b1a.189e798f8ae.Coremail.linma@zju.edu.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230813082349.513386-1-loic.poulain@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 13, 2023 at 10:23:49AM +0200, Loic Poulain wrote:
-> Add an optional timeout arg to 'rootwait' as the maximum time in
-> seconds to wait for the root device to show up before attempting
-> forced mount of the root filesystem.
+On Sat, 12 Aug 2023 10:35:09 +0800 (GMT+08:00) Lin Ma wrote:
+> Moving forward, I suggest we consider the following options:
 > 
-> Use case:
-> In case of device mapper usage for the rootfs (e.g. root=/dev/dm-0),
-> if the mapper is not able to create the virtual block for any reason
-> (wrong arguments, bad dm-verity signature, etc), the `rootwait` param
-> causes the kernel to wait forever. It may however be desirable to only
-> wait for a given time and then panic (force mount) to cause device reset.
-> This gives the bootloader a chance to detect the problem and to take some
-> measures, such as marking the booted partition as bad (for A/B case) or
-> entering a recovery mode.
-> 
-> In success case, mounting happens as soon as the root device is ready,
-> unlike the existing 'rootdelay' parameter which performs an unconditional
-> pause.
-> 
-> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> ---
+> 1. Update the document to address the confusion and make it more relevant
+>    to the current state of Netlink development. Maybe the newly added
+>    section seems not enough for that. I would greatly appreciate any
+>    specific guidance.
 
-Looks mostly fine to me now but that's v6.7 fodder as it's rather late
-in the cycle. I'll earmark this but feel free to resend post merge
-window closure.
+Unless we have docs for kernel side of modern genetlink any sort of
+indication that this doc is only a guide for looking at old code will
+fall on deaf ears.
+
+So you'd need to write a sample family and docs for modern stuff.
+
+> 2. If the document is deemed too outdated for being kernel documentation,
+>    maybe I should publish it somewhere else. Do you have any
+>    recommendations on where it could be better suited?
+
+GitHub comes to mind for publishing ReST docs, in the meantime?
