@@ -2,223 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C97EBC001DB
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 16:42:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7E76C04A94
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 16:45:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231201AbjHNQla (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 12:41:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43740 "EHLO
+        id S229730AbjHNQpR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 12:45:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230341AbjHNQlD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 12:41:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45C6110;
-        Mon, 14 Aug 2023 09:41:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 72A7363180;
-        Mon, 14 Aug 2023 16:41:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F34C433C8;
-        Mon, 14 Aug 2023 16:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692031260;
-        bh=sGWBLCcKeaeGw2QE6nrh9AHpg6JP2tE+q6ulpJ2Ul2A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GhN5dR7uNn+jKw3+7bsjBMVuUixNzw6uTJc2rrReQq/HwfJ0tlVOSo0zxN48+17zs
-         0z72diCYB0eHtnYp7yviLPNqVAKkmiNzSgwXJxniezf7/fsMvLVMHbcHT29E1Se8EE
-         gEXoElibfpkbPOArNxGX8nNrIm2XF6Er22tcUfWJgvFKVnKRCjMsTJ4lEkY3cpuvQG
-         klnBRrz+3hxQvhXqF1Lg5OigDffqx9SP7/ZHqUA1YoOa/ZTEOUtgR7M3zBYpOTgVxu
-         cwaFbcYv8qkXK9zS8jHQ5SIlMM31wCBdSRj6Tc25RHfvkgvFFrtiiGlOBXklH9fUf+
-         t0Duu4aRQ7NjA==
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     linux-integrity@vger.kernel.org
-Cc:     Jarkko Sakkinen <jarkko@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Richard Cochran <richardcochran@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH] tpm_tis: Revert "tpm_tis: Disable interrupts on ThinkPad T490s"
-Date:   Mon, 14 Aug 2023 19:40:53 +0300
-Message-Id: <20230814164054.64280-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S231444AbjHNQpL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 12:45:11 -0400
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C01EC11D
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 09:45:10 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-3492e05be7cso2525ab.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 09:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692031510; x=1692636310;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LUOrFLsIZYMXOqsY5xgWwBV0ImqoZShpWf5IuSUgWgI=;
+        b=jI6Gr0FRrjvGeJMEI2J8ZnZVkqk3LIcr8NpGV+Y+d48pChX47ng6l8lIZluFd5qijf
+         Vy4Pc+avZR6i4rP9hCWvkX1U0Vn+evBgb/sam6zB/uLlpDMD8+c3BrrKzjB0JRBdI9H9
+         7LUSfD27s0IiFR2tak8vcZ1D8yQu4Z7UzYsjGDv3sDMH/nB6iDvgaT81tC4SkjjjKM9q
+         uuAHoeR4LGvJ3UXkY+9WMJuQbtdbtNM3VW93Wrwk+G/XZih4HW6Z3xtepuFT9Sxv9vYh
+         8QiKW1e+b3Y7vhVL9vVWPkbMEKrzIbCWOjDTSlDW5MGe7DcgscNk/PPPu6yIi9obT4lZ
+         SbgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692031510; x=1692636310;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LUOrFLsIZYMXOqsY5xgWwBV0ImqoZShpWf5IuSUgWgI=;
+        b=gqCio8e4BPvhZ5hUk/nWuXJGXoWGJk1y/Nbg5EbALKOUycdC4ghChOKtGBRxTWRmvS
+         liWIa6DhSG+y/7Uw+sMB0iOBKwG98l6ExfMNplzjaoHu2roWmXBzqDpfRiik8B/PBBq0
+         tb65vgJDK71aZlIttbiqjDlQ3sbMoGMsKA+VZFSk2mPWk5C88WzJYceYGPzEwDLjVXeK
+         EGfCXSguvYRgcfi2s/Kt6sCD8Hwa2DVV1/FwvBvwpZRmn4Pk3wknJUS1eFAXDZJ8mq0Z
+         FtQJi5hCXHY0z38yNq0qbQeV8/URlQQLsCd3cEG4fU9s/Dp/GofU4zo0L39fv0ybvTHH
+         +Qyw==
+X-Gm-Message-State: AOJu0YyZ89CY5uPG5XK2vbuqWsnY617UknAsRvqzGDpv4p5PVth0CQxR
+        M5pArawRzYtPPOJk4SI6c2vExEd+3tunOXbqcnPQSw==
+X-Google-Smtp-Source: AGHT+IHaVdS2tL6lFC4JIfMaRKMI72Pka+6x9A1yAAwchBWIR4AFgLTDvCZa48IjUvUxK8db50EWHKlDZ5LeoG7M3q8=
+X-Received: by 2002:a05:6e02:1d0d:b0:346:676f:3517 with SMTP id
+ i13-20020a056e021d0d00b00346676f3517mr579011ila.11.1692031510069; Mon, 14 Aug
+ 2023 09:45:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230802080328.1213905-1-alexghiti@rivosinc.com> <20230802080328.1213905-11-alexghiti@rivosinc.com>
+In-Reply-To: <20230802080328.1213905-11-alexghiti@rivosinc.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Mon, 14 Aug 2023 09:44:58 -0700
+Message-ID: <CAP-5=fVcMg7TL6W_jH61PW6dYMobuTs13d4JDuTAx=mxJ+PNtQ@mail.gmail.com>
+Subject: Re: [PATCH v6 10/10] perf: tests: Adapt mmap-basic.c for riscv
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since for MMIO driver using FIFO registers, also known as tpm_tis, the
-default (and tbh recommended) behaviour is now the polling mode, the
-"tristate" workaround is no longer for benefit.
+On Wed, Aug 2, 2023 at 1:14=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
+com> wrote:
+>
+> riscv now supports mmaping hardware counters to userspace so adapt the te=
+st
+> to run on this architecture.
+>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
-If someone wants to explicitly enable IRQs for a TPM chip that should be
-without question allowed. It could very well be a piece hardware in the
-existing deny list because of e.g. firmware update or something similar.
+Reviewed-by: Ian Rogers <irogers@google.com>
 
-While at it, document the module parameter, as this was not done in 2006
-when it first appeared in the mainline.
+Thanks,
+Ian
 
-Link: https://lore.kernel.org/linux-integrity/20201015214430.17937-1-jsnitsel@redhat.com/
-Link: https://lore.kernel.org/all/1145393776.4829.19.camel@localhost.localdomain/
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         |  7 ++
- drivers/char/tpm/tpm_tis.c                    | 93 +------------------
- 2 files changed, 9 insertions(+), 91 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 722b6eca2e93..6354aa779178 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6340,6 +6340,13 @@
- 			This will guarantee that all the other pcrs
- 			are saved.
- 
-+	tpm_tis.interrupts= [HW,TPM]
-+			Enable interrupts for the MMIO based physical layer
-+			for the FIFO interface. By default it is set to false
-+			(0). For more information about TPM hardware interfaces
-+			defined by Trusted Computing Group (TCG) look up to
-+			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
-+
- 	tp_printk	[FTRACE]
- 			Have the tracepoints sent to printk as well as the
- 			tracing ring buffer. This is useful for early boot up
-diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
-index 7fa3d91042b2..077fdb73740c 100644
---- a/drivers/char/tpm/tpm_tis.c
-+++ b/drivers/char/tpm/tpm_tis.c
-@@ -27,7 +27,6 @@
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/kernel.h>
--#include <linux/dmi.h>
- #include "tpm.h"
- #include "tpm_tis_core.h"
- 
-@@ -89,8 +88,8 @@ static inline void tpm_tis_iowrite32(u32 b, void __iomem *iobase, u32 addr)
- 	tpm_tis_flush(iobase);
- }
- 
--static int interrupts;
--module_param(interrupts, int, 0444);
-+static bool interrupts;
-+module_param(interrupts, bool, 0444);
- MODULE_PARM_DESC(interrupts, "Enable interrupts");
- 
- static bool itpm;
-@@ -103,92 +102,6 @@ module_param(force, bool, 0444);
- MODULE_PARM_DESC(force, "Force device probe rather than using ACPI entry");
- #endif
- 
--static int tpm_tis_disable_irq(const struct dmi_system_id *d)
--{
--	if (interrupts == -1) {
--		pr_notice("tpm_tis: %s detected: disabling interrupts.\n", d->ident);
--		interrupts = 0;
--	}
--
--	return 0;
--}
--
--static const struct dmi_system_id tpm_tis_dmi_table[] = {
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "Framework Laptop (12th Gen Intel Core)",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "Framework"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "Laptop (12th Gen Intel Core)"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "Framework Laptop (13th Gen Intel Core)",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "Framework"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "Laptop (13th Gen Intel Core)"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "ThinkPad T490s",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad T490s"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "ThinkStation P360 Tiny",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkStation P360 Tiny"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "ThinkPad L490",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad L490"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "ThinkPad L590",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad L590"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "ThinkStation P620",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkStation P620"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "TUXEDO InfinityBook S 15/17 Gen7",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "TUXEDO InfinityBook S 15/17 Gen7"),
--		},
--	},
--	{
--		.callback = tpm_tis_disable_irq,
--		.ident = "UPX-TGL",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "AAEON"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "UPX-TGL01"),
--		},
--	},
--	{}
--};
--
- #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
- static int has_hid(struct acpi_device *dev, const char *hid)
- {
-@@ -312,8 +225,6 @@ static int tpm_tis_init(struct device *dev, struct tpm_info *tpm_info)
- 	int irq = -1;
- 	int rc;
- 
--	dmi_check_system(tpm_tis_dmi_table);
--
- 	rc = check_acpi_tpm2(dev);
- 	if (rc)
- 		return rc;
--- 
-2.39.2
-
+> ---
+>  tools/perf/tests/mmap-basic.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.=
+c
+> index e68ca6229756..886a13a77a16 100644
+> --- a/tools/perf/tests/mmap-basic.c
+> +++ b/tools/perf/tests/mmap-basic.c
+> @@ -284,7 +284,8 @@ static struct test_case tests__basic_mmap[] =3D {
+>                          "permissions"),
+>         TEST_CASE_REASON("User space counter reading of instructions",
+>                          mmap_user_read_instr,
+> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
+> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || =
+\
+> +                        (defined(__riscv) && __riscv_xlen =3D=3D 64)
+>                          "permissions"
+>  #else
+>                          "unsupported"
+> @@ -292,7 +293,8 @@ static struct test_case tests__basic_mmap[] =3D {
+>                 ),
+>         TEST_CASE_REASON("User space counter reading of cycles",
+>                          mmap_user_read_cycles,
+> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
+> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || =
+\
+> +                        (defined(__riscv) && __riscv_xlen =3D=3D 64)
+>                          "permissions"
+>  #else
+>                          "unsupported"
+> --
+> 2.39.2
+>
