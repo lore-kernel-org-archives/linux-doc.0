@@ -2,627 +2,431 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09FDFC001DB
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 21:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D94C04A6A
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 21:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232902AbjHNV3M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 17:29:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44204 "EHLO
+        id S232929AbjHNVqL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 17:46:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232888AbjHNV2k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 17:28:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA822B3;
-        Mon, 14 Aug 2023 14:28:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 60C3563565;
-        Mon, 14 Aug 2023 21:28:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B092C433C8;
-        Mon, 14 Aug 2023 21:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692048516;
-        bh=k4gwMI6dbncTSyxgifEVc0j04/2cHKMc+MpMt+zJAVM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HCffCKGdTDSJtbPmy0kC7+RWpVgwqcw1jtI6SCd1M+21SG5iKDpJ4D05Nv480fwch
-         pSjvKQrXPpb3quOdzDcq/c9W6jAzf6Bzh2Nk+ESq/axNLaKudjE4UDM+I8zewzkL3a
-         Y7JZ7OYylbtFx/1/VgEIzt818Lc9F20fjYw91SOs6+q8HvnR8cp1MGHtABZTeT55o1
-         //FI+SohxsQrYzm5Z4NOw9lA8M9vS0M4UJi1Ywo/yX7mudqeIBdJlS/hzKPgL6ilKK
-         yrtQH4XRkY7ofrGGzm/BjIWn/dFN0AY1Gcahovyt8vRzQcD5A3teeqBlqZuWgmJYrg
-         4icl5osSHN4UA==
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH 1/3] Documentation/ABI: Fix typos
-Date:   Mon, 14 Aug 2023 16:28:20 -0500
-Message-Id: <20230814212822.193684-2-helgaas@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230814212822.193684-1-helgaas@kernel.org>
-References: <20230814212822.193684-1-helgaas@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S232172AbjHNVqI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 17:46:08 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F7A10D4;
+        Mon, 14 Aug 2023 14:46:05 -0700 (PDT)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37EJOsFk023657;
+        Mon, 14 Aug 2023 21:45:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version;
+ s=corp-2023-03-30; bh=/7ROwlVhlu2Jna5QcnLwasLV3/8Weul2J8Px21TzAjE=;
+ b=U/EJEqaZGE3k5RfB3JoR8moK/CDd1NR1hw2URcwbGgWf9BcWgUVVr8qcLAgpSf8QxHnH
+ /xZg1DSv5aVWF2OF9xWxwI6xuea2QxqnLY826UHc8zB4Q+RDfsqXtMWXnHrnXnfQYDLP
+ xqsurT4EkrHf9LbZtSef1f8JZ0H+8Jx7H61R8QSi+KtsXEvgUVX5vEG8y4jF14hU9brY
+ MobbUD9ThSdeIpn3E7hRIa80RVVj2iCN1VLkUeimm3SI/k97Gjar5lRR8TB2hQMQiwxl
+ asfRJAfszvjML6c2ineGzZtAqLBF1vMYvytvoicxoQVfwcEh7C4yQwSjO1FAUhdK7z+U UQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3se2w5umkn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 14 Aug 2023 21:45:07 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 37EKObtx027346;
+        Mon, 14 Aug 2023 21:45:07 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3sey1rdx2p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 14 Aug 2023 21:45:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nWpz9UFU9qw5dIhSySfj6OyFY9yVms8fA8arR7ImLyaZzpxNk11kxQpPMndVD6Vc+eaE5/NYGU3yK4cQ8RgUfq/+VMaUyEI8cnQMp4J11ZpxVEj+5uEw3K4J15kQF95mEwydauh77dHkR6NLKPXSGplctk19TirJx/nw91UxLayCepiVcbOXwQdOS//Xls9VZriGWJmJQThdkvSSYpYB5DZZ27w1DShY3FXJLiVyUD5JhrcAWI+NBHsjy/P5eO85QmImVCa6S1LZSin0i6fN5yMeYW8ftVvQ8C9gOmuwQ5wHpF7FkBfGWe910gDz/JcLMqvgprU01xKWo16PJPdkvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/7ROwlVhlu2Jna5QcnLwasLV3/8Weul2J8Px21TzAjE=;
+ b=F4sadD40svK0K43bzMK5zVwrjfnHQlLaqkaeSj2Slf3Ed6zIUU6PXqoIainlyJBotCclRNyTTazLuU5quXvAyrWw//+1j2Itd+TX2s1fTSRxyo23snvMlKaQ5cA2KqXl4EJMMMdP3GsQCA0zwhZ6+s9IDGqXBORBfILOQeaSA2w1KBu35pKfVVORH28HJT64s4esDeqM8Lon9xVx0CoAnmnCSxq+69u2JoIECgCeI5Zy450jBbceDv2RAu35MSzrs3sB0VtUbdthph1l3bjIRyiKXTgpRNFa00A+/mO+muFj1MYPfrplYvcqjZGyD7sI//WYti+X2uAA/tObhT0rpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/7ROwlVhlu2Jna5QcnLwasLV3/8Weul2J8Px21TzAjE=;
+ b=V+sSfnF7vKeGfw14UvurBED4fjCR6KXY50emeITwd1XEu5+JhGqyIQgzp+YwuQEcj6RThECMexEquV/g7bAJnsB6uFd5Y0ENuDnS9Z9UY5oP1VEP/MD52vW5O+rS1/a8unCXHsidfVDg866p47C78wLOpa+QRBeg2jMMEjBHZjw=
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
+ by DS0PR10MB6222.namprd10.prod.outlook.com (2603:10b6:8:c0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.24; Mon, 14 Aug
+ 2023 21:45:03 +0000
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::be4f:55e6:89c5:4f57]) by CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::be4f:55e6:89c5:4f57%4]) with mapi id 15.20.6678.025; Mon, 14 Aug 2023
+ 21:45:03 +0000
+From:   Eric DeVolder <eric.devolder@oracle.com>
+To:     linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, bhe@redhat.com,
+        ebiederm@xmission.com, kexec@lists.infradead.org
+Cc:     hpa@zytor.com, gregkh@linuxfoundation.org, rafael@kernel.org,
+        vgoyal@redhat.com, dyoung@redhat.com, lf32.dev@gmail.com,
+        akpm@linux-foundation.org, naveen.n.rao@linux.vnet.ibm.com,
+        zohar@linux.ibm.com, bhelgaas@google.com, vbabka@suse.cz,
+        tiwai@suse.de, seanjc@google.com, linux@weissschuh.net,
+        vschneid@redhat.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        sourabhjain@linux.ibm.com, konrad.wilk@oracle.com,
+        boris.ostrovsky@oracle.com, eric.devolder@oracle.com
+Subject: [PATCH v28 4/8] crash: memory and CPU hotplug sysfs attributes
+Date:   Mon, 14 Aug 2023 17:44:42 -0400
+Message-Id: <20230814214446.6659-5-eric.devolder@oracle.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20230814214446.6659-1-eric.devolder@oracle.com>
+References: <20230814214446.6659-1-eric.devolder@oracle.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SA0PR11CA0092.namprd11.prod.outlook.com
+ (2603:10b6:806:d1::7) To CO1PR10MB4531.namprd10.prod.outlook.com
+ (2603:10b6:303:6c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4531:EE_|DS0PR10MB6222:EE_
+X-MS-Office365-Filtering-Correlation-Id: 669e711c-0b7a-485a-541e-08db9d0fb762
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UwOAwyrKlDqvGn74pbgcWjLWFttjQBJOf1f0t6pWaHWTOuuMWep+lfAobHqHhYAWzIcaAdOah264EXkRStgdVyzV6iPY868hqUGgB1pMq5htkmKMBdrqnBtgCpDy8GNWFT1/SfoNOHnL16Xhq5UxJdo35XF8lW7yXOlZ12VvRDEiT2yWOV49/GlMJK1iXcKPG+LcD5SyfiDZilkVmBxY8HJHg87CcSiuo9iY7e7TXPzeY/iIIeY+9TMc0WSGT7lZ7t1k6uZEaz024r3wPXNCMYvGwEXcc0Ki7BOL75f+ryFrg4Lvu2cFdngbZ8Hj4NExVFC1Osm9kkNaz/4/vHxc3KaEnOYxOncw5tOjXk3ZPQcEmB58L0Xg3lYXB4q16h4YUpCty3L7zzc56LWEUGyWucZf7Qr/bCsFKYZYAHTLATApdkdcj2HxOtcbd6uN9/DD+FYE+ko0sa2Eco4wh/I/KrmYEa5Su7GiXCjHm9ba9DkDZMqa0Jf6HnWh1VzMMt6kql2rhIjDlHCne5z7X4YGfQTGc595piX271M6Whz4Kiwhn8DaBAwIIiSA8ObjNDaQR0s0uaWXFBHYGbrpEZtdmJkrMABtvx/dyZ00peGMAcA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4531.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(376002)(346002)(366004)(136003)(396003)(186006)(1800799006)(451199021)(83380400001)(36756003)(86362001)(41300700001)(478600001)(921005)(66946007)(66476007)(6512007)(66556008)(316002)(8676002)(5660300002)(4326008)(8936002)(38100700002)(2616005)(1076003)(107886003)(26005)(6486002)(2906002)(6666004)(7416002)(6506007)(7406005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+klxjqehBIUc7IsIj205xl+NuASUcpA4seDt8j7srqRWULTPTT1bnVcy6j7X?=
+ =?us-ascii?Q?XPbkcyXjqK/s7YhfbmKtZuCGStoAjsLkjVTm4e83trGYHpa7s42aOTHQFqjK?=
+ =?us-ascii?Q?uNgveBmDcxjrbpzTWMyJivVi4xCAOCyRec7GbZ8OWvDxnfFRJc6fhSsZFZTU?=
+ =?us-ascii?Q?CzXFSt290e5M/bVh1USnHTFKugUWFxL78RVGLjGDwqy04HNFK9RdKlbVcrUN?=
+ =?us-ascii?Q?RnrrgTqJuqBCpp/UEKDwTvRoHwgTVBkdWgNajVqVKjdcg627rKc/1uoglc7s?=
+ =?us-ascii?Q?2LgPy1Xkt/uE94lrtzSUxAaV+33golH32d2AiDCgFv0RUnHNvrr5nS/9+13T?=
+ =?us-ascii?Q?0SKp7gQ1B34j1kQbrtSwmCl0YA/pltQuuAGRJiYj+pop4w8x8PhuTxQOl9vS?=
+ =?us-ascii?Q?gyqJkS1OEbWY8VNsq+9C6Ka9GB67jhmmlVd00RHSh8MPgUTyroob4SOnUz2z?=
+ =?us-ascii?Q?kclq0KGsAXRi4apbS+qrhxBY30+O3Om4AZN3Vu0HAqWSWbWk98O6VQKqkw39?=
+ =?us-ascii?Q?e2sRR/oNJLjYONKRGJESOWlj6+9eAGrpvI0XxVL0eUlWWNEczpGPY421V9aN?=
+ =?us-ascii?Q?OkSntdNfPbxCk5KB8UkYzjZ6nSQmYTiATg1/KRUrb3SSU9zva3Kd5uBNDLyq?=
+ =?us-ascii?Q?yUO6Tu7YGLGP8VOu7ATT3qV2RjnPaTKzrWQZh4u2uObezHfXs1e7+z5eVYrc?=
+ =?us-ascii?Q?k9toT2XLOcFjjyDlV/CHUGM3Giq6pIbFXBBApUM8Kj4Xyf0Q9Yq8afn/oR2f?=
+ =?us-ascii?Q?7emteomiCjLqJ8M+NAHUdr9GaGHACEiI+ruZPsn3FNpSl35Io2/mgE5YoGyh?=
+ =?us-ascii?Q?b2KHCWmljhOC1VsMr403bMfrzOGN9vTCRkXWerp3b2fjzseJPZbGnhj+ljhL?=
+ =?us-ascii?Q?BPXW8whnLhAvatbxY9UHpkn/IFUa2gH2lFXbFtaJ5tHwkGxpgnSOJQiCJzgr?=
+ =?us-ascii?Q?FNWYQOJa6X5QyNNRsz+Uakg2W4P+MPGTjK8VOEEldq7w/1hOhcT/mmm0GCgu?=
+ =?us-ascii?Q?MMFS9B/hCAwGKEBqTL7GZ1FIuNAb9MjnTMld5HeBybTUtVZ8RwthLz8w4T2u?=
+ =?us-ascii?Q?LE6Gj80/Lec+GqhEKWsta5in8iFN6/kGsN+mnAJrEKQ2K3PlqjKBWWMA9Gsd?=
+ =?us-ascii?Q?e7ZBymjvoXDZpJMbkVUlOdFD0p4LE8/vDsSU7Gr9TjC/+h0hkubxVNdx3wZk?=
+ =?us-ascii?Q?wB3QLd/mf85z/7TOWViCvCx+L6Z46gxbF+aULL3UtlNrzGAjPwX1o6DryYeX?=
+ =?us-ascii?Q?FYmxqMaNZtyxRxY8cV8HDLfyGG/v12n1x5HmV6l36v0aBHvDDAxBrWp1L9qm?=
+ =?us-ascii?Q?mwLDYwfCmZ9hR1OqzgG4u6pkT48vzx9giIaQojfVlPPLthNhq5A0C4MsREl1?=
+ =?us-ascii?Q?0Bml5DdMQgWUfG5gNQJbR5mpYJxCwUfYHrLw42rHiIn9MU9gqbuNcAzKcGEm?=
+ =?us-ascii?Q?3N7M1J9ohHZXiEmIa3/RPF8qBBRmsmQQKylxFnO3EnCSNtbWXFmfwRFhsHLW?=
+ =?us-ascii?Q?mdKjIygfotPkbnho9VYQ9dw69AbZQ6+JcskX5XG2QjULo+7su7GM4WwKvGeC?=
+ =?us-ascii?Q?W+NUiPNRiu8RmtVIgKAPTedMybi74WfBmPH2+4eM8+Eh0zC8pid08EvRTjEz?=
+ =?us-ascii?Q?+Q=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?feN2Xbup+LDhlGwXJtLhyQKOtabIIRVKbK6MJq466UDDpB7SrNvuWG+dLE92?=
+ =?us-ascii?Q?9NdQ5F7mKaB01HAwnFFfLvrrArDJFReGuS85TYT+iMOFHdNOA3uV5qgjflaT?=
+ =?us-ascii?Q?lYxWxNueMTvygDrTkx8hhlNpCGtWPhEPKKAVyRH13WuUb61E7mJgMHpEKtkf?=
+ =?us-ascii?Q?DhwjPSb6VgNKoqG5h9k3a0xRckRuReM6coMqAHQaL+75RVGo0ooHZL/EoaSV?=
+ =?us-ascii?Q?qTbPVS7p9NxygVFX71npejPn8gfQ0DnpvhOLQfdUIWJDa48bRcCY+qWXwLs3?=
+ =?us-ascii?Q?upPpOl59veltwR4GbaSeOAE9QCNAmx7OjHUy6HDIRMlViJ0Nt23xBna0zHcA?=
+ =?us-ascii?Q?J+g1ftCQmyfQ3byuSIpWi7OMzudphdQEICcC/Ck+Dy5yY9DljfbA2jnDAcSr?=
+ =?us-ascii?Q?OxCpR2MsCwe2DeEGjzh/ogat1gfAxX9r8pznINpNUY4xtXdXpGiwRA4iBC6g?=
+ =?us-ascii?Q?fInd/griKeQTt4AEwOUorcPGYzmsxQ6sTDgiBFN6Yi+RHi0rBFmvobOPk1Hj?=
+ =?us-ascii?Q?oKaJv7f++FO9+7R8meeRn2/rR4M1kh7sDGmcGc08Pd6sd1EzXioRQxYfyftM?=
+ =?us-ascii?Q?eDAsnm4YdOkQ+vPB6RnYRTh86Xf9GmF2sTb5O82+u45odZ2ZoyMvyGl2cn/J?=
+ =?us-ascii?Q?GguduQ2O3IEWTc8pn8VkhBw9yp9OUozzvQp+P2QyVEMVOImVf4UtpbixriFx?=
+ =?us-ascii?Q?qtyv4DGHSr4MpUL5RA0NTllmdfe96VPDBD8GZ933PasjyzscnF78r+uOAlF1?=
+ =?us-ascii?Q?7A/xkOMAL6HKDtJ5Wydn7tidTFif5iBRwvyJHRfSkq8x8tZXj7A0NuKOFSzm?=
+ =?us-ascii?Q?3ZeNI/J8qGmRif53AstG49PuPmm9RyoLXdqcwnieHZhFzarXZItN8q6NiBQG?=
+ =?us-ascii?Q?Nng9XiPK6OeddDeCh6rhdbFFyLN+R8zc+xdZmk14xOkDzrYC0ku6vnsfBRDL?=
+ =?us-ascii?Q?KaSw4uLoFg/89uDwDIbfbufU3biqttPKKMuRid8e+RuZQefC4dkI3d1U7Crp?=
+ =?us-ascii?Q?1DfHH/HDVfYjUUMe6TCc4YvhVvwDSAk8FysTvEfhfyfdoSdyGZby3B7vMSmt?=
+ =?us-ascii?Q?qVkN3UKd7Q383GVgISMaLGbNNKLF4KyzIlrVBk3bDnkAVb4mdjmkoW8eLxt6?=
+ =?us-ascii?Q?XeC5KcDDx4W+xmdxaSObZkPP8Jbz3wyk/FaMES6rMwE5+G26z2axDxxA8Tla?=
+ =?us-ascii?Q?EqlwoYbKxfNaCXJemNh09BM40JNssL7FSsrNhK42CVwvcn6V6Apz13rxdikS?=
+ =?us-ascii?Q?lEWqkx4b3J6BjwUjOTGxIcCmAeKzzmnuTOEWDp54UmDcFftmqckNAJXf+Y3g?=
+ =?us-ascii?Q?vxQpNx05chs0jEzy7Y1OLXXqf/3gMpyo/kKXJie2V1evZe8pgqbe3zZ912Ta?=
+ =?us-ascii?Q?buoewstakVauAa5V3NwAWC4upYBZNQuzUmSVaHw+PNN48T2k06Iz59uiPahV?=
+ =?us-ascii?Q?KHIFK5FUauA=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 669e711c-0b7a-485a-541e-08db9d0fb762
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2023 21:45:03.2524
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mUCerdzko1e6AlZS/h/luOhXSU4MEfWZk1hZ+hn6hMYkTZoAzCAdwZ+cWXWe2Fh5iHiKfWKGMpEoezu0CBjT/U0+Z9sX8my/B7t7jp/ujcw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6222
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-14_18,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 mlxscore=0
+ bulkscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308140200
+X-Proofpoint-ORIG-GUID: yxvZOn2G205rjsrP-s2P-6yBTJR6cN4b
+X-Proofpoint-GUID: yxvZOn2G205rjsrP-s2P-6yBTJR6cN4b
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+Introduce the crash_hotplug attribute for memory and CPUs for
+use by userspace.  These attributes directly facilitate the udev
+rule for managing userspace re-loading of the crash kernel upon
+hot un/plug changes.
 
-Fix typos in Documentation/ABI.  The changes are in descriptions or
-comments where they shouldn't affect use of the ABIs.
+For memory, expose the crash_hotplug attribute to the
+/sys/devices/system/memory directory. For example:
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+ # udevadm info --attribute-walk /sys/devices/system/memory/memory81
+  looking at device '/devices/system/memory/memory81':
+    KERNEL=="memory81"
+    SUBSYSTEM=="memory"
+    DRIVER==""
+    ATTR{online}=="1"
+    ATTR{phys_device}=="0"
+    ATTR{phys_index}=="00000051"
+    ATTR{removable}=="1"
+    ATTR{state}=="online"
+    ATTR{valid_zones}=="Movable"
+
+  looking at parent device '/devices/system/memory':
+    KERNELS=="memory"
+    SUBSYSTEMS==""
+    DRIVERS==""
+    ATTRS{auto_online_blocks}=="offline"
+    ATTRS{block_size_bytes}=="8000000"
+    ATTRS{crash_hotplug}=="1"
+
+For CPUs, expose the crash_hotplug attribute to the
+/sys/devices/system/cpu directory. For example:
+
+ # udevadm info --attribute-walk /sys/devices/system/cpu/cpu0
+  looking at device '/devices/system/cpu/cpu0':
+    KERNEL=="cpu0"
+    SUBSYSTEM=="cpu"
+    DRIVER=="processor"
+    ATTR{crash_notes}=="277c38600"
+    ATTR{crash_notes_size}=="368"
+    ATTR{online}=="1"
+
+  looking at parent device '/devices/system/cpu':
+    KERNELS=="cpu"
+    SUBSYSTEMS==""
+    DRIVERS==""
+    ATTRS{crash_hotplug}=="1"
+    ATTRS{isolated}==""
+    ATTRS{kernel_max}=="8191"
+    ATTRS{nohz_full}=="  (null)"
+    ATTRS{offline}=="4-7"
+    ATTRS{online}=="0-3"
+    ATTRS{possible}=="0-7"
+    ATTRS{present}=="0-3"
+
+With these sysfs attributes in place, it is possible to efficiently
+instruct the udev rule to skip crash kernel reloading for kernels
+configured with crash hotplug support.
+
+For example, the following is the proposed udev rule change for RHEL
+system 98-kexec.rules (as the first lines of the rule file):
+
+ # The kernel updates the crash elfcorehdr for CPU and memory changes
+ SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
+ SUBSYSTEM=="memory", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
+
+When examined in the context of 98-kexec.rules, the above rules
+test if crash_hotplug is set, and if so, the userspace initiated
+unload-then-reload of the crash kernel is skipped.
+
+CPU and memory checks are separated in accordance with
+CONFIG_HOTPLUG_CPU and CONFIG_MEMORY_HOTPLUG kernel config options.
+If an architecture supports, for example, memory hotplug but not
+CPU hotplug, then the /sys/devices/system/memory/crash_hotplug
+attribute file is present, but the /sys/devices/system/cpu/crash_hotplug
+attribute file will NOT be present. Thus the udev rule skips
+userspace processing of memory hot un/plug events, but the udev
+rule will evaluate false for CPU events, thus allowing userspace to
+process CPU hot un/plug events (ie the unload-then-reload of the kdump
+capture kernel).
+
+Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+Acked-by: Hari Bathini <hbathini@linux.ibm.com>
+Acked-by: Baoquan He <bhe@redhat.com>
 ---
- Documentation/ABI/stable/sysfs-block                      | 2 +-
- Documentation/ABI/stable/sysfs-class-infiniband           | 2 +-
- Documentation/ABI/stable/sysfs-platform-wmi-bmof          | 2 +-
- Documentation/ABI/testing/debugfs-driver-habanalabs       | 2 +-
- Documentation/ABI/testing/procfs-diskstats                | 2 +-
- Documentation/ABI/testing/sysfs-bus-coreboot              | 2 +-
- .../ABI/testing/sysfs-bus-coresight-devices-etm3x         | 8 ++++----
- .../ABI/testing/sysfs-bus-coresight-devices-etm4x         | 2 +-
- .../ABI/testing/sysfs-bus-event_source-devices-events     | 4 ++--
- Documentation/ABI/testing/sysfs-bus-fsi-devices-sbefifo   | 4 ++--
- Documentation/ABI/testing/sysfs-bus-i2c-devices-fsa9480   | 2 +-
- Documentation/ABI/testing/sysfs-bus-nfit                  | 2 +-
- Documentation/ABI/testing/sysfs-bus-papr-pmem             | 2 +-
- Documentation/ABI/testing/sysfs-bus-umc                   | 2 +-
- Documentation/ABI/testing/sysfs-class                     | 2 +-
- Documentation/ABI/testing/sysfs-class-cxl                 | 4 ++--
- Documentation/ABI/testing/sysfs-class-mtd                 | 2 +-
- Documentation/ABI/testing/sysfs-class-net                 | 2 +-
- Documentation/ABI/testing/sysfs-class-net-queues          | 2 +-
- Documentation/ABI/testing/sysfs-class-power-wilco         | 2 +-
- Documentation/ABI/testing/sysfs-class-remoteproc          | 2 +-
- Documentation/ABI/testing/sysfs-class-thermal             | 2 +-
- Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc       | 2 +-
- Documentation/ABI/testing/sysfs-devices-online            | 2 +-
- Documentation/ABI/testing/sysfs-driver-ge-achc            | 2 +-
- Documentation/ABI/testing/sysfs-driver-tegra-fuse         | 2 +-
- Documentation/ABI/testing/sysfs-firmware-acpi             | 2 +-
- Documentation/ABI/testing/sysfs-firmware-sgi_uv           | 4 ++--
- Documentation/ABI/testing/sysfs-fs-f2fs                   | 8 ++++----
- Documentation/ABI/testing/sysfs-kernel-mm-damon           | 2 +-
- Documentation/ABI/testing/sysfs-memory-page-offline       | 4 ++--
- Documentation/ABI/testing/sysfs-platform-dell-laptop      | 2 +-
- Documentation/ABI/testing/sysfs-platform-dfl-fme          | 2 +-
- Documentation/ABI/testing/sysfs-platform-kim              | 2 +-
- Documentation/ABI/testing/sysfs-platform-sst-atom         | 2 +-
- 35 files changed, 46 insertions(+), 46 deletions(-)
+ Documentation/ABI/testing/sysfs-devices-memory |  8 ++++++++
+ .../ABI/testing/sysfs-devices-system-cpu       |  8 ++++++++
+ .../admin-guide/mm/memory-hotplug.rst          |  8 ++++++++
+ Documentation/core-api/cpu_hotplug.rst         | 18 ++++++++++++++++++
+ drivers/base/cpu.c                             | 13 +++++++++++++
+ drivers/base/memory.c                          | 13 +++++++++++++
+ include/linux/kexec.h                          |  8 ++++++++
+ 7 files changed, 76 insertions(+)
 
-diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-index c57e5b7cb532..1fe9a553c37b 100644
---- a/Documentation/ABI/stable/sysfs-block
-+++ b/Documentation/ABI/stable/sysfs-block
-@@ -295,7 +295,7 @@ Description:
- 		capable of executing requests targeting different sector ranges
- 		in parallel. For instance, single LUN multi-actuator hard-disks
- 		will have an independent_access_ranges directory if the device
--		correctly advertizes the sector ranges of its actuators.
-+		correctly advertises the sector ranges of its actuators.
+diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
+index d8b0f80b9e33..a95e0f17c35a 100644
+--- a/Documentation/ABI/testing/sysfs-devices-memory
++++ b/Documentation/ABI/testing/sysfs-devices-memory
+@@ -110,3 +110,11 @@ Description:
+ 		link is created for memory section 9 on node0.
  
- 		The independent_access_ranges directory contains one directory
- 		per access range, with each range described using the sector
-diff --git a/Documentation/ABI/stable/sysfs-class-infiniband b/Documentation/ABI/stable/sysfs-class-infiniband
-index ebf08c604336..694f23a03a28 100644
---- a/Documentation/ABI/stable/sysfs-class-infiniband
-+++ b/Documentation/ABI/stable/sysfs-class-infiniband
-@@ -356,7 +356,7 @@ Description:
- 		pkeys/<n>:		(RO) Displays the contents of the physical
- 					key table n = 0..126
+ 		/sys/devices/system/node/node0/memory9 -> ../../memory/memory9
++
++What:		/sys/devices/system/memory/crash_hotplug
++Date:		Aug 2023
++Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
++Description:
++		(RO) indicates whether or not the kernel directly supports
++		modifying the crash elfcorehdr for memory hot un/plug and/or
++		on/offline changes.
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index 77942eedf4f6..b52564de2b18 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -687,3 +687,11 @@ Description:
+ 		(RO) the list of CPUs that are isolated and don't
+ 		participate in load balancing. These CPUs are set by
+ 		boot parameter "isolcpus=".
++
++What:		/sys/devices/system/cpu/crash_hotplug
++Date:		Aug 2023
++Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
++Description:
++		(RO) indicates whether or not the kernel directly supports
++		modifying the crash elfcorehdr for CPU hot un/plug and/or
++		on/offline changes.
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 1b02fe5807cc..eb99d79223a3 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -291,6 +291,14 @@ The following files are currently defined:
+ 		       Availability depends on the CONFIG_ARCH_MEMORY_PROBE
+ 		       kernel configuration option.
+ ``uevent``	       read-write: generic udev file for device subsystems.
++``crash_hotplug``      read-only: when changes to the system memory map
++		       occur due to hot un/plug of memory, this file contains
++		       '1' if the kernel updates the kdump capture kernel memory
++		       map itself (via elfcorehdr), or '0' if userspace must update
++		       the kdump capture kernel memory map.
++
++		       Availability depends on the CONFIG_MEMORY_HOTPLUG kernel
++		       configuration option.
+ ====================== =========================================================
  
--		mcgs/:			(RO) Muticast group table
-+		mcgs/:			(RO) Multicast group table
+ .. note::
+diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
+index e6f5bc39cf5c..d6d470d7dda0 100644
+--- a/Documentation/core-api/cpu_hotplug.rst
++++ b/Documentation/core-api/cpu_hotplug.rst
+@@ -741,6 +741,24 @@ will receive all events. A script like::
  
- 		<m>/gid_idx/0:		(RO) Display the GID mapping m = 1..2
+ can process the event further.
  
-diff --git a/Documentation/ABI/stable/sysfs-platform-wmi-bmof b/Documentation/ABI/stable/sysfs-platform-wmi-bmof
-index a786504b6027..2881244e3f09 100644
---- a/Documentation/ABI/stable/sysfs-platform-wmi-bmof
-+++ b/Documentation/ABI/stable/sysfs-platform-wmi-bmof
-@@ -2,6 +2,6 @@ What:		/sys/bus/wmi/devices/05901221-D566-11D1-B2F0-00A0C9062910[-X]/bmof
- Date:		Jun 2017
- KernelVersion:	4.13
- Description:
--		Binary MOF metadata used to decribe the details of available ACPI WMI interfaces.
-+		Binary MOF metadata used to describe the details of available ACPI WMI interfaces.
++When changes to the CPUs in the system occur, the sysfs file
++/sys/devices/system/cpu/crash_hotplug contains '1' if the kernel
++updates the kdump capture kernel list of CPUs itself (via elfcorehdr),
++or '0' if userspace must update the kdump capture kernel list of CPUs.
++
++The availability depends on the CONFIG_HOTPLUG_CPU kernel configuration
++option.
++
++To skip userspace processing of CPU hot un/plug events for kdump
++(i.e. the unload-then-reload to obtain a current list of CPUs), this sysfs
++file can be used in a udev rule as follows:
++
++ SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
++
++For a CPU hot un/plug event, if the architecture supports kernel updates
++of the elfcorehdr (which contains the list of CPUs), then the rule skips
++the unload-then-reload of the kdump capture kernel.
++
+ Kernel Inline Documentations Reference
+ ======================================
  
- 		See Documentation/wmi/devices/wmi-bmof.rst for details.
-diff --git a/Documentation/ABI/testing/debugfs-driver-habanalabs b/Documentation/ABI/testing/debugfs-driver-habanalabs
-index 85f6d04f528b..df535780058b 100644
---- a/Documentation/ABI/testing/debugfs-driver-habanalabs
-+++ b/Documentation/ABI/testing/debugfs-driver-habanalabs
-@@ -95,7 +95,7 @@ What:           /sys/kernel/debug/habanalabs/hl<n>/device_release_watchdog_timeo
- Date:           Oct 2022
- KernelVersion:  6.2
- Contact:        ttayar@habana.ai
--Description:    The watchdog timeout value in seconds for a device relese upon
-+Description:    The watchdog timeout value in seconds for a device release upon
-                 certain error cases, after which the device is reset.
+diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+index fe6690ecf563..43dab03958f1 100644
+--- a/drivers/base/cpu.c
++++ b/drivers/base/cpu.c
+@@ -282,6 +282,16 @@ static ssize_t print_cpus_nohz_full(struct device *dev,
+ static DEVICE_ATTR(nohz_full, 0444, print_cpus_nohz_full, NULL);
+ #endif
  
- What:           /sys/kernel/debug/habanalabs/hl<n>/dma_size
-diff --git a/Documentation/ABI/testing/procfs-diskstats b/Documentation/ABI/testing/procfs-diskstats
-index e58d641443d3..6a719cf2075c 100644
---- a/Documentation/ABI/testing/procfs-diskstats
-+++ b/Documentation/ABI/testing/procfs-diskstats
-@@ -8,7 +8,7 @@ Description:
++#ifdef CONFIG_CRASH_HOTPLUG
++static ssize_t crash_hotplug_show(struct device *dev,
++				     struct device_attribute *attr,
++				     char *buf)
++{
++	return sysfs_emit(buf, "%d\n", crash_hotplug_cpu_support());
++}
++static DEVICE_ATTR_ADMIN_RO(crash_hotplug);
++#endif
++
+ static void cpu_device_release(struct device *dev)
+ {
+ 	/*
+@@ -469,6 +479,9 @@ static struct attribute *cpu_root_attrs[] = {
+ #ifdef CONFIG_NO_HZ_FULL
+ 	&dev_attr_nohz_full.attr,
+ #endif
++#ifdef CONFIG_CRASH_HOTPLUG
++	&dev_attr_crash_hotplug.attr,
++#endif
+ #ifdef CONFIG_GENERIC_CPU_AUTOPROBE
+ 	&dev_attr_modalias.attr,
+ #endif
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index b456ac213610..15bb416e58ce 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -490,6 +490,16 @@ static ssize_t auto_online_blocks_store(struct device *dev,
  
- 		==  ===================================
- 		 1  major number
--		 2  minor mumber
-+		 2  minor number
- 		 3  device name
- 		 4  reads completed successfully
- 		 5  reads merged
-diff --git a/Documentation/ABI/testing/sysfs-bus-coreboot b/Documentation/ABI/testing/sysfs-bus-coreboot
-index 9c5accecc470..8e8d6af24a4c 100644
---- a/Documentation/ABI/testing/sysfs-bus-coreboot
-+++ b/Documentation/ABI/testing/sysfs-bus-coreboot
-@@ -21,7 +21,7 @@ What:		/sys/bus/coreboot/devices/cbmem-<id>/address
- Date:		August 2022
- Contact:	Jack Rosenthal <jrosenth@chromium.org>
- Description:
--		This is the pyhsical memory address that the CBMEM entry's data
-+		This is the physical memory address that the CBMEM entry's data
- 		begins at, in hexadecimal (e.g., ``0x76ffe000``).
+ static DEVICE_ATTR_RW(auto_online_blocks);
  
- What:		/sys/bus/coreboot/devices/cbmem-<id>/size
-diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm3x b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm3x
-index 234c33fbdb55..3acf7fc31659 100644
---- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm3x
-+++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm3x
-@@ -31,7 +31,7 @@ Date:		November 2014
- KernelVersion:	3.19
- Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
- Description:	(RW) Used in conjunction with @addr_idx.  Specifies the range of
--		addresses to trigger on.  Inclusion or exclusion is specificed
-+		addresses to trigger on.  Inclusion or exclusion is specified
- 		in the corresponding access type register.
++#ifdef CONFIG_CRASH_HOTPLUG
++#include <linux/kexec.h>
++static ssize_t crash_hotplug_show(struct device *dev,
++				       struct device_attribute *attr, char *buf)
++{
++	return sysfs_emit(buf, "%d\n", crash_hotplug_memory_support());
++}
++static DEVICE_ATTR_RO(crash_hotplug);
++#endif
++
+ /*
+  * Some architectures will have custom drivers to do this, and
+  * will not need to do it from userspace.  The fake hot-add code
+@@ -889,6 +899,9 @@ static struct attribute *memory_root_attrs[] = {
  
- What:		/sys/bus/coresight/devices/<memory_map>.[etm|ptm]/addr_single
-@@ -304,19 +304,19 @@ What:		/sys/bus/coresight/devices/<memory_map>.[etm|ptm]/mgmt/etmtsscr
- Date:		September 2015
- KernelVersion:	4.4
- Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
--Description: 	(RO) Print the content of the ETM Trace Start/Stop Conrol
-+Description: 	(RO) Print the content of the ETM Trace Start/Stop Control
- 		register (0x018). The value is read directly from the HW.
+ 	&dev_attr_block_size_bytes.attr,
+ 	&dev_attr_auto_online_blocks.attr,
++#ifdef CONFIG_CRASH_HOTPLUG
++	&dev_attr_crash_hotplug.attr,
++#endif
+ 	NULL
+ };
  
- What:		/sys/bus/coresight/devices/<memory_map>.[etm|ptm]/mgmt/etmtecr1
- Date:		September 2015
- KernelVersion:	4.4
- Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
--Description: 	(RO) Print the content of the ETM Enable Conrol #1
-+Description: 	(RO) Print the content of the ETM Enable Control #1
- 		register (0x024). The value is read directly from the HW.
+diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+index df395f888915..172e9a544928 100644
+--- a/include/linux/kexec.h
++++ b/include/linux/kexec.h
+@@ -486,6 +486,14 @@ static inline void arch_kexec_pre_free_pages(void *vaddr, unsigned int pages) {
+ static inline void arch_crash_handle_hotplug_event(struct kimage *image) { }
+ #endif
  
- What:		/sys/bus/coresight/devices/<memory_map>.[etm|ptm]/mgmt/etmtecr2
- Date:		September 2015
- KernelVersion:	4.4
- Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
--Description: 	(RO) Print the content of the ETM Enable Conrol #2
-+Description: 	(RO) Print the content of the ETM Enable Control #2
- 		register (0x01c). The value is read directly from the HW.
-diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
-index 08b1964f27d3..a0425d70d009 100644
---- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
-+++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
-@@ -446,7 +446,7 @@ Date:		April 2015
- KernelVersion:	4.01
- Contact:	Mathieu Poirier <mathieu.poirier@linaro.org>
- Description:	(Read) Returns the maximum size of the data value, data address,
--		VMID, context ID and instuction address in the trace unit
-+		VMID, context ID and instruction address in the trace unit
- 		(0x1E8).  The value is taken directly from the HW.
- 
- What:		/sys/bus/coresight/devices/etm<N>/trcidr/trcidr3
-diff --git a/Documentation/ABI/testing/sysfs-bus-event_source-devices-events b/Documentation/ABI/testing/sysfs-bus-event_source-devices-events
-index 505f080d20a1..77de58d03822 100644
---- a/Documentation/ABI/testing/sysfs-bus-event_source-devices-events
-+++ b/Documentation/ABI/testing/sysfs-bus-event_source-devices-events
-@@ -47,7 +47,7 @@ Description:	Per-pmu performance monitoring events specific to the running syste
- 		If a <term> is specified alone (without an assigned value), it
- 		is implied that 0x1 is assigned to that <term>.
- 
--		Examples (each of these lines would be in a seperate file):
-+		Examples (each of these lines would be in a separate file):
- 
- 			event=0x2abc
- 			event=0x423,inv,cmask=0x3
-@@ -83,7 +83,7 @@ Description:	Perf event scaling factors
- 
- 		A string representing a floating point value expressed in
- 		scientific notation to be multiplied by the event count
--		recieved from the kernel to match the unit specified in the
-+		received from the kernel to match the unit specified in the
- 		<event>.unit file.
- 
- 		Example:
-diff --git a/Documentation/ABI/testing/sysfs-bus-fsi-devices-sbefifo b/Documentation/ABI/testing/sysfs-bus-fsi-devices-sbefifo
-index 531fe9d6b40a..1329b0bb2882 100644
---- a/Documentation/ABI/testing/sysfs-bus-fsi-devices-sbefifo
-+++ b/Documentation/ABI/testing/sysfs-bus-fsi-devices-sbefifo
-@@ -5,6 +5,6 @@ Description:
- 		Indicates whether or not this SBE device has experienced a
- 		timeout; i.e. the SBE did not respond within the time allotted
- 		by the driver. A value of 1 indicates that a timeout has
--		ocurred and no transfers have completed since the timeout. A
--		value of 0 indicates that no timeout has ocurred, or if one
-+		occurred and no transfers have completed since the timeout. A
-+		value of 0 indicates that no timeout has occurred, or if one
- 		has, more recent transfers have completed successful.
-diff --git a/Documentation/ABI/testing/sysfs-bus-i2c-devices-fsa9480 b/Documentation/ABI/testing/sysfs-bus-i2c-devices-fsa9480
-index 42dfc9399d2d..288bc2fa9547 100644
---- a/Documentation/ABI/testing/sysfs-bus-i2c-devices-fsa9480
-+++ b/Documentation/ABI/testing/sysfs-bus-i2c-devices-fsa9480
-@@ -8,7 +8,7 @@ Description:
- 		NONE     no device
- 		USB      USB device is attached
- 		UART     UART is attached
--		CHARGER  Charger is attaced
-+		CHARGER  Charger is attached
- 		JIG      JIG is attached
- 		=======  ======================
- 
-diff --git a/Documentation/ABI/testing/sysfs-bus-nfit b/Documentation/ABI/testing/sysfs-bus-nfit
-index e7282d184a74..ed483a11c58c 100644
---- a/Documentation/ABI/testing/sysfs-bus-nfit
-+++ b/Documentation/ABI/testing/sysfs-bus-nfit
-@@ -121,7 +121,7 @@ KernelVersion:	v4.7
- Contact:	nvdimm@lists.linux.dev
- Description:
- 		(RO) ACPI specification 6.2 section 5.2.25.9, defines an
--		identifier for an NVDIMM, which refelects the id attribute.
-+		identifier for an NVDIMM, which reflects the id attribute.
- 
- 
- What:		/sys/bus/nd/devices/nmemX/nfit/subsystem_vendor
-diff --git a/Documentation/ABI/testing/sysfs-bus-papr-pmem b/Documentation/ABI/testing/sysfs-bus-papr-pmem
-index 4ac0673901e7..46cfe02058fd 100644
---- a/Documentation/ABI/testing/sysfs-bus-papr-pmem
-+++ b/Documentation/ABI/testing/sysfs-bus-papr-pmem
-@@ -30,7 +30,7 @@ Description:
- 				  Indicating that contents of the
- 				  NVDIMM have been scrubbed.
- 		* "locked"
--				  Indicating that NVDIMM contents cant
-+				  Indicating that NVDIMM contents can't
- 				  be modified until next power cycle.
- 
- What:		/sys/bus/nd/devices/nmemX/papr/perf_stats
-diff --git a/Documentation/ABI/testing/sysfs-bus-umc b/Documentation/ABI/testing/sysfs-bus-umc
-index 948fec412446..80ef88bc5097 100644
---- a/Documentation/ABI/testing/sysfs-bus-umc
-+++ b/Documentation/ABI/testing/sysfs-bus-umc
-@@ -9,7 +9,7 @@ Description:
-                 Controller (UMC).
- 
-                 The umc bus presents each of the individual
--                capabilties as a device.
-+                capabilities as a device.
- 
- What:           /sys/bus/umc/devices/.../capability_id
- Date:           July 2008
-diff --git a/Documentation/ABI/testing/sysfs-class b/Documentation/ABI/testing/sysfs-class
-index 676530fcf747..906735faa1b8 100644
---- a/Documentation/ABI/testing/sysfs-class
-+++ b/Documentation/ABI/testing/sysfs-class
-@@ -1,5 +1,5 @@
- What:		/sys/class/
--Date:		Febuary 2006
-+Date:		February 2006
- Contact:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
- Description:
- 		The /sys/class directory will consist of a group of
-diff --git a/Documentation/ABI/testing/sysfs-class-cxl b/Documentation/ABI/testing/sysfs-class-cxl
-index 594fda254130..cfc48a87706b 100644
---- a/Documentation/ABI/testing/sysfs-class-cxl
-+++ b/Documentation/ABI/testing/sysfs-class-cxl
-@@ -42,7 +42,7 @@ What:           /sys/class/cxl/<afu>/mmio_size
- Date:           September 2014
- Contact:        linuxppc-dev@lists.ozlabs.org
- Description:    read only
--                Decimal value of the size of the MMIO space that may be mmaped
-+                Decimal value of the size of the MMIO space that may be mmapped
-                 by userspace.
- Users:		https://github.com/ibm-capi/libcxl
- 
-@@ -155,7 +155,7 @@ What:           /sys/class/cxl/<afu>m/mmio_size
- Date:           September 2014
- Contact:        linuxppc-dev@lists.ozlabs.org
- Description:    read only
--                Decimal value of the size of the MMIO space that may be mmaped
-+                Decimal value of the size of the MMIO space that may be mmapped
-                 by userspace. This includes all slave contexts space also.
- Users:		https://github.com/ibm-capi/libcxl
- 
-diff --git a/Documentation/ABI/testing/sysfs-class-mtd b/Documentation/ABI/testing/sysfs-class-mtd
-index 3bc7c0a95c92..f77fa4f6d465 100644
---- a/Documentation/ABI/testing/sysfs-class-mtd
-+++ b/Documentation/ABI/testing/sysfs-class-mtd
-@@ -39,7 +39,7 @@ KernelVersion:	2.6.29
- Contact:	linux-mtd@lists.infradead.org
- Description:
- 		Major and minor numbers of the character device corresponding
--		to the read-only variant of thie MTD device (in
-+		to the read-only variant of the MTD device (in
- 		<major>:<minor> format).  In this case <minor> will be odd.
- 
- What:		/sys/class/mtd/mtdX/erasesize
-diff --git a/Documentation/ABI/testing/sysfs-class-net b/Documentation/ABI/testing/sysfs-class-net
-index 1419103d11f9..ebf21beba846 100644
---- a/Documentation/ABI/testing/sysfs-class-net
-+++ b/Documentation/ABI/testing/sysfs-class-net
-@@ -82,7 +82,7 @@ KernelVersion:	2.6.12
- Contact:	netdev@vger.kernel.org
- Description:
- 		Indicates the current physical link state of the interface.
--		Posssible values are:
-+		Possible values are:
- 
- 		== =====================
- 		0  physical link is down
-diff --git a/Documentation/ABI/testing/sysfs-class-net-queues b/Documentation/ABI/testing/sysfs-class-net-queues
-index 978b76358661..906ff3ca928a 100644
---- a/Documentation/ABI/testing/sysfs-class-net-queues
-+++ b/Documentation/ABI/testing/sysfs-class-net-queues
-@@ -39,7 +39,7 @@ Contact:	netdev@vger.kernel.org
- Description:
- 		Mask of the CPU(s) currently enabled to participate into the
- 		Transmit Packet Steering packet processing flow for this
--		network device transmit queue. Possible vaules depend on the
-+		network device transmit queue. Possible values depend on the
- 		number of available CPU(s) in the system.
- 
- What:		/sys/class/<iface>/queues/tx-<queue>/xps_rxqs
-diff --git a/Documentation/ABI/testing/sysfs-class-power-wilco b/Documentation/ABI/testing/sysfs-class-power-wilco
-index 82af180fcaab..083c4641b4c4 100644
---- a/Documentation/ABI/testing/sysfs-class-power-wilco
-+++ b/Documentation/ABI/testing/sysfs-class-power-wilco
-@@ -22,7 +22,7 @@ Description:
- 		Long Life:
- 			Customized charge rate for last longer battery life.
- 			On Wilco device this mode is pre-configured in the factory
--			through EC's private PID. Swiching to a different mode will
-+			through EC's private PID. Switching to a different mode will
- 			be denied by Wilco EC when Long Life mode is enabled.
- 
- What:		/sys/class/power_supply/wilco-charger/charge_control_start_threshold
-diff --git a/Documentation/ABI/testing/sysfs-class-remoteproc b/Documentation/ABI/testing/sysfs-class-remoteproc
-index 0c9ee55098b8..b2b8e2db2503 100644
---- a/Documentation/ABI/testing/sysfs-class-remoteproc
-+++ b/Documentation/ABI/testing/sysfs-class-remoteproc
-@@ -81,7 +81,7 @@ Description:	Remote processor coredump configuration
- 		collected userspace will directly read from the remote
- 		processor's device memory. Extra buffer will not be used to
- 		copy the dump. Also recovery process will not proceed until
--		all data is read by usersapce.
-+		all data is read by userspace.
- 
- What:		/sys/class/remoteproc/.../recovery
- Date:		July 2020
-diff --git a/Documentation/ABI/testing/sysfs-class-thermal b/Documentation/ABI/testing/sysfs-class-thermal
-index 8eee37982b2a..968d89e15e8e 100644
---- a/Documentation/ABI/testing/sysfs-class-thermal
-+++ b/Documentation/ABI/testing/sysfs-class-thermal
-@@ -4,7 +4,7 @@ Description:
- 		This is given by thermal zone driver as part of registration.
- 		E.g: "acpitz" indicates it's an ACPI thermal device.
- 		In order to keep it consistent with hwmon sys attribute; this
--		shouldbe a short, lowercase string, not containing spaces nor
-+		should be a short, lowercase string, not containing spaces nor
- 		dashes.
- 
- 		RO, Required
-diff --git a/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc b/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
-index 55eb55cac92e..130ea5189b02 100644
---- a/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
-+++ b/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
-@@ -42,7 +42,7 @@ Date:           June 2013
- KernelVersion:  3.11
- Contact:        Thomas Pugliese <thomas.pugliese@gmail.com>
- Description:
--                The device notification time slot (DNTS) count and inverval in
-+                The device notification time slot (DNTS) count and interval in
-                 milliseconds that the WUSB host should use.  This controls how
-                 often the devices will have the opportunity to send
-                 notifications to the host.
-diff --git a/Documentation/ABI/testing/sysfs-devices-online b/Documentation/ABI/testing/sysfs-devices-online
-index f990026c0740..c3359fec2980 100644
---- a/Documentation/ABI/testing/sysfs-devices-online
-+++ b/Documentation/ABI/testing/sysfs-devices-online
-@@ -17,4 +17,4 @@ Description:
- 		After a successful execution of the bus type's .offline()
- 		callback the device cannot be used for any purpose until either
- 		it is removed (i.e. device_del() is called for it), or its bus
--		type's .online() is exeucted successfully.
-+		type's .online() is executed successfully.
-diff --git a/Documentation/ABI/testing/sysfs-driver-ge-achc b/Documentation/ABI/testing/sysfs-driver-ge-achc
-index a9e7a079190c..c3e77def4b20 100644
---- a/Documentation/ABI/testing/sysfs-driver-ge-achc
-+++ b/Documentation/ABI/testing/sysfs-driver-ge-achc
-@@ -5,7 +5,7 @@ Description:	Write 1 to this file to update the ACHC microcontroller
- 		firmware via the EzPort interface. For this the kernel
- 		will load "achc.bin" via the firmware API (so usually
- 		from /lib/firmware). The write will block until the FW
--		has either been flashed successfully or an error occured.
-+		has either been flashed successfully or an error occurred.
- 
- What:		/sys/bus/spi/<dev>/reset
- Date:		Jul 2021
-diff --git a/Documentation/ABI/testing/sysfs-driver-tegra-fuse b/Documentation/ABI/testing/sysfs-driver-tegra-fuse
-index 69f5af632657..b8936fad2ccf 100644
---- a/Documentation/ABI/testing/sysfs-driver-tegra-fuse
-+++ b/Documentation/ABI/testing/sysfs-driver-tegra-fuse
-@@ -3,7 +3,7 @@ Date:		February 2014
- Contact:	Peter De Schrijver <pdeschrijver@nvidia.com>
- Description:	read-only access to the efuses on Tegra20, Tegra30, Tegra114
- 		and Tegra124 SoC's from NVIDIA. The efuses contain write once
--		data programmed at the factory. The data is layed out in 32bit
-+		data programmed at the factory. The data is laid out in 32bit
- 		words in LSB first format. Each bit represents a single value
- 		as decoded from the fuse registers. Bits order/assignment
- 		exactly matches the HW registers, including any unused bits.
-diff --git a/Documentation/ABI/testing/sysfs-firmware-acpi b/Documentation/ABI/testing/sysfs-firmware-acpi
-index 819939d858c9..5249ad5a96d9 100644
---- a/Documentation/ABI/testing/sysfs-firmware-acpi
-+++ b/Documentation/ABI/testing/sysfs-firmware-acpi
-@@ -84,7 +84,7 @@ Description:
- 			 hotplug events associated with the given class of
- 			 devices and will allow those devices to be ejected with
- 			 the help of the _EJ0 control method.  Unsetting it
--			 effectively disables hotplug for the correspoinding
-+			 effectively disables hotplug for the corresponding
- 			 class of devices.
- 		======== =======================================================
- 
-diff --git a/Documentation/ABI/testing/sysfs-firmware-sgi_uv b/Documentation/ABI/testing/sysfs-firmware-sgi_uv
-index 12ed843e1d3e..7fe9244b87bb 100644
---- a/Documentation/ABI/testing/sysfs-firmware-sgi_uv
-+++ b/Documentation/ABI/testing/sysfs-firmware-sgi_uv
-@@ -102,12 +102,12 @@ Description:
- 			conn_port
- 
- 		The conn_hub entry contains a value representing the unique
--		oridinal value of the hub on the other end of the fabric
-+		ordinal value of the hub on the other end of the fabric
- 		cable plugged into the port. If the port is disconnected,
- 		the value returned will be -1.
- 
- 		The conn_port entry contains a value representing the unique
--		oridinal value of the port on the other end of the fabric cable
-+		ordinal value of the port on the other end of the fabric cable
- 		plugged into the port. If the port is disconnected, the value
- 		returned will be -1.
- 
-diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
-index 8140fc98f5ae..ad3d76d37c8b 100644
---- a/Documentation/ABI/testing/sysfs-fs-f2fs
-+++ b/Documentation/ABI/testing/sysfs-fs-f2fs
-@@ -54,9 +54,9 @@ Description:	Controls the in-place-update policy.
- 		0x00  DISABLE         disable IPU(=default option in LFS mode)
- 		0x01  FORCE           all the time
- 		0x02  SSR             if SSR mode is activated
--		0x04  UTIL            if FS utilization is over threashold
-+		0x04  UTIL            if FS utilization is over threshold
- 		0x08  SSR_UTIL        if SSR mode is activated and FS utilization is over
--		                      threashold
-+		                      threshold
- 		0x10  FSYNC           activated in fsync path only for high performance
- 		                      flash storages. IPU will be triggered only if the
- 		                      # of dirty pages over min_fsync_blocks.
-@@ -117,7 +117,7 @@ Date:		December 2021
- Contact:	"Konstantin Vyshetsky" <vkon@google.com>
- Description:	Controls the number of discards a thread will issue at a time.
- 		Higher number will allow the discard thread to finish its work
--		faster, at the cost of higher latency for incomming I/O.
-+		faster, at the cost of higher latency for incoming I/O.
- 
- What:		/sys/fs/f2fs/<disk>/min_discard_issue_time
- Date:		December 2021
-@@ -334,7 +334,7 @@ Description:	This indicates how many GC can be failed for the pinned
- 		state. 2048 trials is set by default.
- 
- What:		/sys/fs/f2fs/<disk>/extension_list
--Date:		Feburary 2018
-+Date:		February 2018
- Contact:	"Chao Yu" <yuchao0@huawei.com>
- Description:	Used to control configure extension list:
- 		- Query: cat /sys/fs/f2fs/<disk>/extension_list
-diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-index 2744f21b5a6b..464ac5c41d7a 100644
---- a/Documentation/ABI/testing/sysfs-kernel-mm-damon
-+++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-@@ -152,7 +152,7 @@ Description:	Writing to and reading from this file sets and gets the action
- What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/sz/min
- Date:		Mar 2022
- Contact:	SeongJae Park <sj@kernel.org>
--Description:	Writing to and reading from this file sets and gets the mimimum
-+Description:	Writing to and reading from this file sets and gets the minimum
- 		size of the scheme's target regions in bytes.
- 
- What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/sz/max
-diff --git a/Documentation/ABI/testing/sysfs-memory-page-offline b/Documentation/ABI/testing/sysfs-memory-page-offline
-index e14703f12fdf..00f4e35f916f 100644
---- a/Documentation/ABI/testing/sysfs-memory-page-offline
-+++ b/Documentation/ABI/testing/sysfs-memory-page-offline
-@@ -10,7 +10,7 @@ Description:
- 		dropping it if possible. The kernel will then be placed
- 		on the bad page list and never be reused.
- 
--		The offlining is done in kernel specific granuality.
-+		The offlining is done in kernel specific granularity.
- 		Normally it's the base page size of the kernel, but
- 		this might change.
- 
-@@ -35,7 +35,7 @@ Description:
- 		to access this page assuming it's poisoned by the
- 		hardware.
- 
--		The offlining is done in kernel specific granuality.
-+		The offlining is done in kernel specific granularity.
- 		Normally it's the base page size of the kernel, but
- 		this might change.
- 
-diff --git a/Documentation/ABI/testing/sysfs-platform-dell-laptop b/Documentation/ABI/testing/sysfs-platform-dell-laptop
-index 82bcfe9df66e..701529653283 100644
---- a/Documentation/ABI/testing/sysfs-platform-dell-laptop
-+++ b/Documentation/ABI/testing/sysfs-platform-dell-laptop
-@@ -15,7 +15,7 @@ KernelVersion:	3.19
- Contact:	Gabriele Mazzotta <gabriele.mzt@gmail.com>,
- 		Pali Rohár <pali@kernel.org>
- Description:
--		This file allows to specifiy the on/off threshold value,
-+		This file allows to specify the on/off threshold value,
- 		as reported by the ambient light sensor.
- 
- What:		/sys/class/leds/dell::kbd_backlight/start_triggers
-diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-fme b/Documentation/ABI/testing/sysfs-platform-dfl-fme
-index d6ab34e81b9b..2d5b78d2cf51 100644
---- a/Documentation/ABI/testing/sysfs-platform-dfl-fme
-+++ b/Documentation/ABI/testing/sysfs-platform-dfl-fme
-@@ -90,7 +90,7 @@ KernelVersion:  5.4
- Contact:	Wu Hao <hao.wu@intel.com>
- Description:	Read-Write. Read this file to get errors detected on FME.
- 		Write this file to clear errors logged in fme_errors. Write
--		fials with -EINVAL if input parsing fails or input error code
-+		fails with -EINVAL if input parsing fails or input error code
- 		doesn't match.
- 
- What:		/sys/bus/platform/devices/dfl-fme.0/errors/first_error
-diff --git a/Documentation/ABI/testing/sysfs-platform-kim b/Documentation/ABI/testing/sysfs-platform-kim
-index 6a52d6d2b601..0a38caa62a32 100644
---- a/Documentation/ABI/testing/sysfs-platform-kim
-+++ b/Documentation/ABI/testing/sysfs-platform-kim
-@@ -9,7 +9,7 @@ Description:
- 		The device name flows down to architecture specific board
- 		initialization file from the ATAGS bootloader
- 		firmware. The name exposed is read from the user-space
--		dameon and opens the device when install is requested.
-+		daemon and opens the device when install is requested.
- 
- What:		/sys/devices/platform/kim/baud_rate
- Date:		January 2010
-diff --git a/Documentation/ABI/testing/sysfs-platform-sst-atom b/Documentation/ABI/testing/sysfs-platform-sst-atom
-index 0154b0fba759..4bb2e6135c2e 100644
---- a/Documentation/ABI/testing/sysfs-platform-sst-atom
-+++ b/Documentation/ABI/testing/sysfs-platform-sst-atom
-@@ -4,7 +4,7 @@ KernelVersion:	4.10
- Contact:	"Sebastien Guiriec" <sebastien.guiriec@intel.com>
- Description:
- 		LPE Firmware version for SST driver on all atom
--		plaforms (BYT/CHT/Merrifield/BSW).
-+		platforms (BYT/CHT/Merrifield/BSW).
- 		If the FW has never been loaded it will display::
- 
- 			"FW not yet loaded"
++#ifndef crash_hotplug_cpu_support
++static inline int crash_hotplug_cpu_support(void) { return 0; }
++#endif
++
++#ifndef crash_hotplug_memory_support
++static inline int crash_hotplug_memory_support(void) { return 0; }
++#endif
++
+ #else /* !CONFIG_KEXEC_CORE */
+ struct pt_regs;
+ struct task_struct;
 -- 
-2.34.1
+2.31.1
 
