@@ -2,112 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C15C001B0
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 08:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58EFFC41513
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 10:58:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234986AbjHNIyL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 04:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58250 "EHLO
+        id S232327AbjHNK5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 06:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233577AbjHNIxk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 04:53:40 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03F491;
-        Mon, 14 Aug 2023 01:53:38 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RPSlK4xqpzNnVf;
-        Mon, 14 Aug 2023 16:50:05 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Mon, 14 Aug 2023 16:53:36 +0800
-CC:     <yangyicong@hisilicon.com>, <catalin.marinas@arm.com>,
-        <lpieralisi@kernel.org>, <mark.rutland@arm.com>,
-        <robin.murphy@arm.com>, <guohanjun@huawei.com>, <corbet@lwn.net>,
-        <rafael@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <jonathan.cameron@huawei.com>,
-        <shameerali.kolothum.thodi@huawei.com>, <hejunhao3@huawei.com>,
-        <linuxarm@huawei.com>, <prime.zeng@hisilicon.com>,
-        <zhurui3@huawei.com>
-Subject: Re: [PATCH] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for
- HIP08/09
-To:     Will Deacon <will@kernel.org>
-References: <20230809100654.32036-1-yangyicong@huawei.com>
- <20230811111739.GD6993@willie-the-truck>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <56309be3-cf3b-821d-b6d8-7f407b160fbb@huawei.com>
-Date:   Mon, 14 Aug 2023 16:53:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S232391AbjHNK5c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 06:57:32 -0400
+Received: from out-81.mta1.migadu.com (out-81.mta1.migadu.com [IPv6:2001:41d0:203:375::51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC49D195
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 03:57:30 -0700 (PDT)
+Message-ID: <a308e43a-2561-3d2b-28c7-eb3fe73cd43a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1692010649;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Avsj2c62N6j7AdW8celUMPzFdEhLy56lJnr2NPL70EI=;
+        b=ksxZLgCXV2qViy3Zo12U1dTUkquFjlWdlbU1XTg0QIezs7qX5QgY9L4IPszPbte9dtmEdO
+        OwDp7DHhUm0/EPw34jVZwFNL0vkSuJxT5kQUupaY+AKzSCJ/s+dSj9VUiSUoV2iwPM7pfN
+        xwAU8GBfJdKepMa7W8nr4UhoZSemyuk=
+Date:   Mon, 14 Aug 2023 18:57:18 +0800
 MIME-Version: 1.0
-In-Reply-To: <20230811111739.GD6993@willie-the-truck>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Subject: Re: [PATCH RESEND v1] docs/zh_CN: add zh_CN translation for
+ memory-barriers.txt
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20230811080851.84497-1-gang.li@linux.dev>
+ <2f519a69-8f12-4c07-bf20-6776a5ada256@loongson.cn>
+ <f8de40bf-1743-793f-7723-232adbfab623@linux.dev>
+ <479156cf-1bdb-421a-8dab-0db8ff73012b@loongson.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Gang Li <gang.li@linux.dev>
+In-Reply-To: <479156cf-1bdb-421a-8dab-0db8ff73012b@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/8/11 19:17, Will Deacon wrote:
-> On Wed, Aug 09, 2023 at 06:06:54PM +0800, Yicong Yang wrote:
->> diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
->> index 25a269d431e4..b854b67b81fc 100644
->> --- a/drivers/perf/arm_smmuv3_pmu.c
->> +++ b/drivers/perf/arm_smmuv3_pmu.c
->> @@ -115,6 +115,7 @@
->>  #define SMMU_PMCG_PA_SHIFT              12
->>  
->>  #define SMMU_PMCG_EVCNTR_RDONLY         BIT(0)
->> +#define SMMU_PMCG_HARDEN_DISABLE        BIT(1)
->>  
->>  static int cpuhp_state_num;
->>  
->> @@ -150,6 +151,22 @@ SMMU_PMU_EVENT_ATTR_EXTRACTOR(filter_stream_id, config1, 0, 31);
->>  SMMU_PMU_EVENT_ATTR_EXTRACTOR(filter_span, config1, 32, 32);
->>  SMMU_PMU_EVENT_ATTR_EXTRACTOR(filter_enable, config1, 33, 33);
->>  
->> +static int smmu_pmu_apply_event_filter(struct smmu_pmu *smmu_pmu,
->> +				       struct perf_event *event, int idx);
->> +
->> +static inline void smmu_pmu_enable_quirk_hip08_09(struct pmu *pmu)
->> +{
->> +	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
->> +	unsigned int idx;
->> +
->> +	for_each_set_bit(idx, smmu_pmu->used_counters, smmu_pmu->num_counters)
->> +		smmu_pmu_apply_event_filter(smmu_pmu, smmu_pmu->events[idx], idx);
->> +
->> +	writel(SMMU_PMCG_IRQ_CTRL_IRQEN,
->> +	       smmu_pmu->reg_base + SMMU_PMCG_IRQ_CTRL);
->> +	writel(SMMU_PMCG_CR_ENABLE, smmu_pmu->reg_base + SMMU_PMCG_CR);
-> 
-> Can you tail-call smmu_pmu_enable() instead of duplicating it here?
-> 
->> +static inline void smmu_pmu_disable_quirk_hip08_09(struct pmu *pmu)
->> +{
->> +	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
->> +	unsigned int idx;
->> +
->> +	/*
->> +	 * The global disable of PMU sometimes fail to stop the counting.
->> +	 * Harden this by writing an invalid event type to each used counter
->> +	 * to forcibly stop counting.
->> +	 */
->> +	for_each_set_bit(idx, smmu_pmu->used_counters, smmu_pmu->num_counters)
->> +		writel(0xffff, smmu_pmu->reg_base + SMMU_PMCG_EVTYPER(idx));
->> +
->> +	writel(0, smmu_pmu->reg_base + SMMU_PMCG_CR);
->> +	writel(0, smmu_pmu->reg_base + SMMU_PMCG_IRQ_CTRL);
-> 
-> Same things here, but with smmu_pmu_disable()
+Hi,
+
+On 2023/8/14 15:58, Yanteng Si wrote:
+> [PATCH  v2 1/2] docs: convert memory-barriers.txt to RST
 > 
 
-Sure. Will tail call smmu_pmu_{enable, disable} in both case to avoid duplication.
-Thanks for the comments.
 
-Thanks.
+We already have a wrapper loading memory-barriers.txt into html:
 
+https://www.kernel.org/doc/html/latest/core-api/wrappers/memory-barriers.html
+
+Thanks,
+Gang Li
