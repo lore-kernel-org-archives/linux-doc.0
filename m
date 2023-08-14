@@ -2,110 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD01C04A94
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 13:36:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2C72C04FE0
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 14:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbjHNNgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 09:36:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53716 "EHLO
+        id S231773AbjHNO1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 10:27:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231666AbjHNNgM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 09:36:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7D9010C6;
-        Mon, 14 Aug 2023 06:35:58 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 383902DC;
-        Mon, 14 Aug 2023 13:35:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 383902DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1692020158; bh=TTfv8kyCp+lhTXNlRfFTNBLGGFbAUEW/7RUG2jpU/lA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=jzVnUWEeH0OBts9ZGWMVY16Ee4OZCCdCOllpzYuGjxL2jP5/bu/ssntiDH3y3nvBD
-         O3PU2D2PG03RjZqrNKvt0hHAsxKlebT0FKBtNE/5Einys6RC8fL2/mhuV+4ZsRS4Fi
-         a1tBF3Z1jeSC7fr59WzGvWbWK1SuGttXXinXdOHWPlQWz4sI56/PIeLxA0Y4CjzO+2
-         ipWPJPL3ZqW9/aCH+MxhAoy+aOiUadLGpDgZCdmtKaZdyBmbaivIebZ0tAxxcYZFZ3
-         E0jRRBCVYi/gt/OkTIVEJjmnRO4NkzwPhEVjRXQMcDpQP8jdRna6CNq6uqF2JPhGW6
-         uiKiS9d0+HSXg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Benjamin Gray <bgray@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
-        bpf@vger.kernel.org, linux-pm@vger.kernel.org
-Cc:     abbotti@mev.co.uk, hsweeten@visionengravers.com,
-        jan.kiszka@siemens.com, kbingham@kernel.org, mykolal@fb.com,
-        Benjamin Gray <bgray@linux.ibm.com>
-Subject: Re: [PATCH 2/8] Documentation/sphinx: fix Python string escapes
-In-Reply-To: <20230814060704.79655-3-bgray@linux.ibm.com>
-References: <20230814060704.79655-1-bgray@linux.ibm.com>
- <20230814060704.79655-3-bgray@linux.ibm.com>
-Date:   Mon, 14 Aug 2023 07:35:57 -0600
-Message-ID: <87jztxwxtu.fsf@meer.lwn.net>
+        with ESMTP id S232035AbjHNO0s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 10:26:48 -0400
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A560BB2;
+        Mon, 14 Aug 2023 07:26:47 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-686ea67195dso2875719b3a.2;
+        Mon, 14 Aug 2023 07:26:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692023207; x=1692628007;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lqPfjKBh4fEn5Wj87LjUhKggel2I0g0zW4XnW9s14SU=;
+        b=UD7R0cYlv9ZdLynzmrk0ifiklrDAV7u2pQIzyT/HzttSYarybBYqdYMUgQd/fRwRyK
+         6vaJWTWacCOsGn8F/g+X0Snh7slof1OMbNuXb6LHIBBMWf388sH5rxAYV+muvNOv9YxN
+         gREyhAN/HR/Mwjq9Dn6VMHMRAldxC50xo9mzyuh5QEl/RiDQ2ABD6gT2KlTnelYGBoqS
+         eEGDyW8tUtWqcyLv/QigzBOYYtVXPFeyg5v29v/9PwO5OW7eyreNl4OdDzNrAzzU0mHZ
+         lxzwkjr7Iqd7bMzbTQhgwriguOXuH+GBEx6Y2cYuKEGBz7GzAd+e+BQ8bO9BDOkQfsqj
+         6CNA==
+X-Gm-Message-State: AOJu0YzUIxHU84Y+YM0JAPDbff0O/eNcKbcOvACGh2UQktsnSv2qziB1
+        RcSlR707ZkOfEhWzB9RqwP0=
+X-Google-Smtp-Source: AGHT+IHOmH/CPfbHjiPSRAabws5WhG05U7tv659QbNd/xn288gX5HmehFp2dEtU52oDRt4xSfXpfVg==
+X-Received: by 2002:a05:6a21:7985:b0:135:2f12:7662 with SMTP id bh5-20020a056a21798500b001352f127662mr8501008pzc.33.1692023206792;
+        Mon, 14 Aug 2023 07:26:46 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:e105:59a6:229c:65de? ([2620:15c:211:201:e105:59a6:229c:65de])
+        by smtp.gmail.com with ESMTPSA id x17-20020aa79191000000b006874c47e918sm7977606pfa.124.2023.08.14.07.26.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Aug 2023 07:26:46 -0700 (PDT)
+Message-ID: <abad92af-d8b2-0488-cc75-01a3f4e8e270@acm.org>
+Date:   Mon, 14 Aug 2023 07:26:44 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [dm-devel] [PATCH v14 02/11] Add infrastructure for copy offload
+ in block and request layer.
+Content-Language: en-US
+To:     Nitesh Shetty <nj.shetty@samsung.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        martin.petersen@oracle.com, linux-doc@vger.kernel.org,
+        gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org, mcgrof@kernel.org, dlemoal@kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20230811105300.15889-1-nj.shetty@samsung.com>
+ <CGME20230811105648epcas5p3ae8b8f6ed341e2aa253e8b4de8920a4d@epcas5p3.samsung.com>
+ <20230811105300.15889-3-nj.shetty@samsung.com>
+ <3b1da341-1c7f-e28f-d6aa-cecb83188f34@acm.org>
+ <20230814121853.ms4acxwr56etf3ph@green245>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230814121853.ms4acxwr56etf3ph@green245>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Benjamin Gray <bgray@linux.ibm.com> writes:
+On 8/14/23 05:18, Nitesh Shetty wrote:
+> On 23/08/11 02:25PM, Bart Van Assche wrote:
+>> On 8/11/23 03:52, Nitesh Shetty wrote:
+>>> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+>>> index 0bad62cca3d0..de0ad7a0d571 100644
+>>> +static inline bool op_is_copy(blk_opf_t op)
+>>> +{
+>>> +    return ((op & REQ_OP_MASK) == REQ_OP_COPY_SRC ||
+>>> +        (op & REQ_OP_MASK) == REQ_OP_COPY_DST);
+>>> +}
+>>> +
+>>
+>> The above function should be moved into include/linux/blk-mq.h below the
+>> definition of req_op() such that it can use req_op() instead of 
+>> open-coding it.
+>>
+> We use this later for dm patches(patch 9) as well, and we don't have 
+> request at
+> that time.
 
-> Python 3.6 introduced a DeprecationWarning for invalid escape sequences.
-> This is upgraded to a SyntaxWarning in Python 3.12, and will eventually
-> be a syntax error.
->
-> Fix these now to get ahead of it before it's an error.
->
-> Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
-> ---
->  Documentation/sphinx/cdomain.py             | 2 +-
->  Documentation/sphinx/kernel_abi.py          | 2 +-
->  Documentation/sphinx/kernel_feat.py         | 2 +-
->  Documentation/sphinx/kerneldoc.py           | 2 +-
->  Documentation/sphinx/maintainers_include.py | 8 ++++----
->  5 files changed, 8 insertions(+), 8 deletions(-)
+My understanding is that include/linux/blk_types.h should only contain
+data types and constants and hence that inline functions like
+op_is_copy() should be moved elsewhere.
 
-So I am the maintainer for this stuff...is there a reason you didn't
-copy me on this work?
+Bart.
 
-> diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-> index ca8ac9e59ded..dbdc74bd0772 100644
-> --- a/Documentation/sphinx/cdomain.py
-> +++ b/Documentation/sphinx/cdomain.py
-> @@ -93,7 +93,7 @@ def markup_ctype_refs(match):
->  #
->  RE_expr = re.compile(r':c:(expr|texpr):`([^\`]+)`')
->  def markup_c_expr(match):
-> -    return '\ ``' + match.group(2) + '``\ '
-> +    return '\\ ``' + match.group(2) + '``\\ '
-
-I have to wonder about this one; I doubt the intent was to insert a
-literal backslash.  I have to fire up my ancient build environment to
-even try this, but even if it's right...
-
->  #
->  # Parse Sphinx 3.x C markups, replacing them by backward-compatible ones
-> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-> index b5feb5b1d905..b9f026f016fd 100644
-> --- a/Documentation/sphinx/kernel_abi.py
-> +++ b/Documentation/sphinx/kernel_abi.py
-> @@ -138,7 +138,7 @@ class KernelCmd(Directive):
->                  code_block += "\n    " + l
->              lines = code_block + "\n\n"
->  
-> -        line_regex = re.compile("^\.\. LINENO (\S+)\#([0-9]+)$")
-> +        line_regex = re.compile("^\\.\\. LINENO (\\S+)\\#([0-9]+)$")
-
-All of these really just want to be raw strings - a much more minimal
-fix that makes the result quite a bit more readable:
-
-     line_regex = re.compile(r"^\.\. LINENO (\S+)\#([0-9]+)$")
-                             ^
-                             |
-  ---------------------------+
-
-That, I think, is how these should be fixed.
-
-Thanks,
-
-jon
