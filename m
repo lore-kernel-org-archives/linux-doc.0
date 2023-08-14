@@ -2,435 +2,215 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B967AC41513
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 22:37:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED820C04A6A
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 22:43:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232455AbjHNWg2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 18:36:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60732 "EHLO
+        id S232869AbjHNWn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 18:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233341AbjHNWgQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 18:36:16 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AC9D7
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 15:36:14 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-407db3e9669so59001cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 15:36:14 -0700 (PDT)
+        with ESMTP id S233348AbjHNWnP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 18:43:15 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E21FB3;
+        Mon, 14 Aug 2023 15:43:14 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d3d729a08e4so4753419276.3;
+        Mon, 14 Aug 2023 15:43:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692052573; x=1692657373;
+        d=gmail.com; s=20221208; t=1692052994; x=1692657794;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1C4m61aAlyTvnZ9ddi6Qehi7I8S64IaXUtfMsyvoqcA=;
-        b=7lhpUtdqt/Xs7OI04RuTGLkbIWh7/yAb6a0IuFX9hkWkZuDOARGZQP2Gpm2Lfv/oJR
-         zBm+zmtOpuDyrw9DA+3B0x9ZGIdoE9Z95a6o3eXZwUx5r1vCOcIJwNwg/tMgb0N7IdNh
-         4ThIvIUkXO3WTdXk1vudwjS3C3fhbJJZsNbFhwlES+WmJ2cdP+3qZ3oFICjmgpMNZDjp
-         Il7bT9yl6JG4sThxj6Rs2ZsPl2WWS5+ql4BozfEjGcpHgwedeJGn5jPeAV3m6+j1Zfmr
-         9iTj3jjj7PnNpbFGlZijcNrmilYiT+l+fukiwrN4V1FwYaLhFb4eotjYsXfc/cLXr7IW
-         N/Wg==
+        bh=mhP5hF7gsV/m6mRR8ob32YvEhTw2xPeRNUv47TvhXGs=;
+        b=jFQc46cJTRErw+hng9tAokPjEOHl5jJIUhAjcuox1Slixjuhcu1DIUGSAs1PWoZrLE
+         hiiIqXMEagsfhNWwOLggpXHYZ6rveONq5vpWW53M1urIa+/Iyg0RE3ROaMpkg5MuiRhE
+         KhYQEI2TL4wc+ahPZbS0kzDzDC2ICyI9xIvs+1lOJUdVbNLk/LZiiLk+DJso6fdYtvUn
+         Iy3FY70rsN2Ed9FCS6u6Ne33Nmz1jCwOk8RhdG6ofReL11UtsNlJAg4QWNxCbl2SG48u
+         UIM2vEwhMgRn/KtNrFVtSQeBziX2jH+NF6pQ29w1yBZN55rFi7uneB1kg8fRB83uHJzR
+         RNLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692052573; x=1692657373;
+        d=1e100.net; s=20221208; t=1692052994; x=1692657794;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1C4m61aAlyTvnZ9ddi6Qehi7I8S64IaXUtfMsyvoqcA=;
-        b=OORF//j3U8v9/5zC1XA163q4LD9UENZgJm60hPxeNWgGgTDDwDm/jBWo4ogMclAPhp
-         Mmgh5XwfxUaG43TdNgeZUZrA0To7RZPW4lTgSdsD5qI7iL3FIYHJweF4p7+KTpx9GMF+
-         g9P2+zTKM5kLuP1R7vjKurLwCAroGQrhi8APJIr0jRolzCdNTjMeWyzgx7EamK7evp3N
-         /mIxpSQ/msu23LW/icVj7d6Ur0/1kVk6DxOiCiFjVnbj23ELINf/HGFZNgSY718Oz01+
-         LHH3dKRj+JLvdTDq95asZ1NZFhZm8ohYwkny0txoL6MKO5v4mRGB6MjIVSuZGfO++ePL
-         eZTw==
-X-Gm-Message-State: AOJu0YwmaEhqNFe3Bmd1reAhtjZ9kWiIZiSKSGblQhxTCosPw8SWB6jt
-        bnVcU4rWmjHNN9ZYW52vIFohMHuwu2OYlea9kMfz6A==
-X-Google-Smtp-Source: AGHT+IFgvtOxDbhWw1QDSy67l3m6qzzvvgJ8g0QuFwDdn4jcXkZuSbNV5gomHHV5ysls30V6ggWNWM56UbY48qVTW8A=
-X-Received: by 2002:a05:622a:18a1:b0:403:b242:3e30 with SMTP id
- v33-20020a05622a18a100b00403b2423e30mr717216qtc.1.1692052573398; Mon, 14 Aug
- 2023 15:36:13 -0700 (PDT)
+        bh=mhP5hF7gsV/m6mRR8ob32YvEhTw2xPeRNUv47TvhXGs=;
+        b=ACikICOp7GlzR1cGskpXlylShxcz/o0EBG4eckPqk4M9Q7kxR04lluEe5DIbvDu+o6
+         yiMNNi6nPDghs7QIIjZwnQVwEeZEoEkHxfzDE7vsf9n6Bwm6RrCwjF75R3tQX9M2ag/0
+         QfIjlE3Sju70hnMlmJUhqjL9RX+sK5sa0Hol0GjkORg48jSs0hn/smNK9xiuMfEpfgZ1
+         7T+GLzVBKmLq7o9a32W5Er7IEIKjXhEp8esiGoVEWIUyYJKuOcB7Sgew0vxThxY81Y9h
+         4uDES/FHg/BmgTOhnM8gmO6n27KIYGMps7NAUbrlrc/DhYIcO2dRbwlCYPR77V9G5ft6
+         arZg==
+X-Gm-Message-State: AOJu0YwrPN2jstgQDwTk7AlS/YHqChloNvyNcJ4AoRfBAM9FC2YMZxLN
+        JLhYi0+L2JOZpKytkr84CLU/7FSOpQkuKO7DS18=
+X-Google-Smtp-Source: AGHT+IFpuYEJ/0nuvpgDua6ryUMqdgSSiGqdAodGAyLQ574FbDaMTr2TGX40TqotWWwvWMfuPrxQaWSx7DG1U9ivXLM=
+X-Received: by 2002:a05:6902:4cf:b0:d43:e64f:bdcf with SMTP id
+ v15-20020a05690204cf00b00d43e64fbdcfmr10448281ybs.0.1692052993673; Mon, 14
+ Aug 2023 15:43:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com> <1691394685-61240-7-git-send-email-renyu.zj@linux.alibaba.com>
-In-Reply-To: <1691394685-61240-7-git-send-email-renyu.zj@linux.alibaba.com>
-From:   Ian Rogers <irogers@google.com>
-Date:   Mon, 14 Aug 2023 15:36:02 -0700
-Message-ID: <CAP-5=fWyLQrYt=LVS9SoxsuZuR5fmRaNOn+v8qxdYa6WH7WmMA@mail.gmail.com>
-Subject: Re: [PATCH v6 6/7] perf jevents: Add support for Arm CMN PMU aliasing
-To:     Jing Zhang <renyu.zj@linux.alibaba.com>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <20230612194311.24826-1-aakashsensharma@gmail.com>
+In-Reply-To: <20230612194311.24826-1-aakashsensharma@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 15 Aug 2023 00:43:02 +0200
+Message-ID: <CANiq72mq34Locyu4EZ7WRmGdTHkSP77sNZt3Xfo0ZWx_bMLMcA@mail.gmail.com>
+Subject: Re: [PATCH] rust: bindgen: upgrade to 0.65.1
+To:     Aakash Sen Sharma <aakashsensharma@gmail.com>
+Cc:     corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com,
+        wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+        bjorn3_gh@protonmail.com, nathan@kernel.org,
+        ndesaulniers@google.com, trix@redhat.com, masahiroy@kernel.org,
+        me@kloenk.de, aliceryhl@google.com, benno.lossin@proton.me,
+        dev@niklasmohrin.de, lina@asahilina.net, hca@linux.ibm.com,
+        rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 7, 2023 at 12:51=E2=80=AFAM Jing Zhang <renyu.zj@linux.alibaba.=
-com> wrote:
+On Mon, Jun 12, 2023 at 9:45=E2=80=AFPM Aakash Sen Sharma
+<aakashsensharma@gmail.com> wrote:
 >
-> Currently just add aliases for part of Arm CMN PMU events which
-> are general and compatible for any SoC and CMN-ANY.
+> * Rationale:
 >
-> "Compat" value "434*;436*;43c*;43a*" means it is compatible with
-> all CMN600/CMN650/CMN700/Ci700, which can be obtained from
-> commit 7819e05a0dce ("perf/arm-cmn: Revamp model detection").
+> Upgrades bindgen to code-generation for anonymous unions, structs, and en=
+ums [7]
+> for LLVM-16 based toolchains.
 >
-> The arm-cmn PMU events got from:
+> The following upgrade also incorporates `noreturn` support from bindgen
+> allowing us to remove useless `loop` calls which was placed as a
+> workaround.
+>
+> * Truncated build logs on using bindgen `v0.56.0` prior to LLVM-16 toolch=
+ain:
+>
+> ```
+> $ make rustdoc LLVM=3D1 CLIPPY=3D1 -j$(nproc)
+>   RUSTC L rust/core.o
+>   BINDGEN rust/bindings/bindings_generated.rs
+>   BINDGEN rust/bindings/bindings_helpers_generated.rs
+>   BINDGEN rust/uapi/uapi_generated.rs
+> thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at__/_/in=
+clude/linux/compiler_types_h_146_2)" is not a valid Ident', .../proc-macro2=
+-1.0.24/src/fallback.rs:693:9
+> ...
+> thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at__/_/in=
+clude/linux/compiler_types_h_146_2)" is not a valid Ident', .../proc-macro2=
+-1.0.24/src/fallback.rs:693:9
+> ...
+> ```
+>
+> * LLVM-16 Changes:
+>
+> API changes [1] were introduced such that libclang would emit names like
+> "(unnamed union at compiler_types.h:146:2)" for unnamed unions, structs, =
+and
+> enums whereas it previously returned an empty string.
+>
+> * Bindgen Changes:
+>
+> Bindgen `v0.56.0` on LLVM-16 based toolchains hence was unable to process=
+ the
+> anonymous union in `include/linux/compiler_types` `struct ftrace_branch_d=
+ata`
+> and caused subsequent panics as the new `libclang` API emitted name was n=
+ot
+> being handled. The following issue was fixed in Bindgen `v0.62.0` [2].
+>
+> Bindgen `v0.58.0` changed the flags `--whitelist-*` and `--blacklist-*`
+> to `--allowlist-*` and `--blocklist-*` respectively [3].
+>
+> Bindgen `v0.61.0` added support for `_Noreturn`, `[[noreturn]]`, `__attri=
+bute__((noreturn))` [4],
+> hence the empty `loop`s used to circumvent bindgen returning `!` in place=
+ of `()`
+> for noreturn attributes have been removed completely.
+>
+> Bindgen `v0.61.0` also changed default functionality to bind `size_t` to =
+`usize` [5] and
+> added the `--no-size_t-is-usize` [5] flag to not bind `size_t` as `usize`=
+.
+>
+> Bindgen `v0.65.0` removed `--size_t-is-usize` flag [6].
+>
+> Link: https://github.com/llvm/llvm-project/commit/19e984ef8f49bc3ccced156=
+21989fa9703b2cd5b [1]
+> Link: https://github.com/rust-lang/rust-bindgen/pull/2319 [2]
+> Link: https://github.com/rust-lang/rust-bindgen/pull/1990 [3]
+> Link: https://github.com/rust-lang/rust-bindgen/issues/2094 [4]
+> Link: https://github.com/rust-lang/rust-bindgen/commit/cc78b6fdb6e829e5fb=
+8fa1639f2182cb49333569 [5]
+> Link: https://github.com/rust-lang/rust-bindgen/pull/2408 [6]
+> Closes: https://github.com/Rust-for-Linux/linux/issues/1013 [7]
+> Signed-off-by: Aakash Sen Sharma <aakashsensharma@gmail.com>
 
-nit: The use of the words "events" and "aliases" can be confusing -
-aliases isn't specific as there may be a notion of other aliases like
-for PMU names. I think in the code base we should avoid to use
-"aliases" and just use "events".
+Applied to `rust-next`, thanks everyone!
 
-Thanks,
-Ian
+I also did these extra changes:
 
-> [0] https://developer.arm.com/documentation/100180/0302/?lang=3Den
-> [1] https://developer.arm.com/documentation/101408/0100/?lang=3Den
-> [2] https://developer.arm.com/documentation/102308/0302/?lang=3Den
-> [3] https://developer.arm.com/documentation/101569/0300/?lang=3Den
->
-> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
-> Reviewed-by: John Garry <john.g.garry@oracle.com>
-> ---
->  .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++=
-++++++
->  tools/perf/pmu-events/jevents.py                   |   1 +
->  2 files changed, 267 insertions(+)
->  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
->
-> diff --git a/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json b/tool=
-s/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
-> new file mode 100644
-> index 0000000..e54036c
-> --- /dev/null
-> +++ b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
-> @@ -0,0 +1,266 @@
-> +[
-> +       {
-> +               "EventName": "hnf_cache_miss",
-> +               "EventIdCode": "0x1",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts total cache misses in first l=
-ookup result (high priority).",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_slc_sf_cache_access",
-> +               "EventIdCode": "0x2",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of cache accesses in f=
-irst access (high priority).",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_cache_fill",
-> +               "EventIdCode": "0x3",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts total allocations in HN SLC (=
-all cache line allocations to SLC).",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_pocq_retry",
-> +               "EventIdCode": "0x4",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of retried requests.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_pocq_reqs_recvd",
-> +               "EventIdCode": "0x5",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of requests that HN re=
-ceives.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_sf_hit",
-> +               "EventIdCode": "0x6",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of SF hits.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_sf_evictions",
-> +               "EventIdCode": "0x7",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of SF eviction cache i=
-nvalidations initiated.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_dir_snoops_sent",
-> +               "EventIdCode": "0x8",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of directed snoops sen=
-t (not including SF back invalidation).",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_brd_snoops_sent",
-> +               "EventIdCode": "0x9",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of multicast snoops se=
-nt (not including SF back invalidation).",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_slc_eviction",
-> +               "EventIdCode": "0xa",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of SLC evictions (dirt=
-y only).",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_slc_fill_invalid_way",
-> +               "EventIdCode": "0xb",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of SLC fills to an inv=
-alid way.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_mc_retries",
-> +               "EventIdCode": "0xc",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of retried transaction=
-s by the MC.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_mc_reqs",
-> +               "EventIdCode": "0xd",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of requests that are s=
-ent to MC.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hnf_qos_hh_retry",
-> +               "EventIdCode": "0xe",
-> +               "Type": "0x5",
-> +               "BriefDescription": "Counts number of times a HighHigh pr=
-iority request is protocolretried at the HN=E2=80=91F.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "rnid_s0_rdata_beats",
-> +               "EventIdCode": "0x1",
-> +               "Type": "0xa",
-> +               "BriefDescription": "Number of RData beats (RVALID and RR=
-EADY) dispatched on port 0. This event measures the read bandwidth, includi=
-ng CMO responses.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "rnid_s1_rdata_beats",
-> +               "EventIdCode": "0x2",
-> +               "Type": "0xa",
-> +               "BriefDescription": "Number of RData beats (RVALID and RR=
-EADY) dispatched on port 1. This event measures the read bandwidth, includi=
-ng CMO responses.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "rnid_s2_rdata_beats",
-> +               "EventIdCode": "0x3",
-> +               "Type": "0xa",
-> +               "BriefDescription": "Number of RData beats (RVALID and RR=
-EADY) dispatched on port 2. This event measures the read bandwidth, includi=
-ng CMO responses.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "rnid_rxdat_flits",
-> +               "EventIdCode": "0x4",
-> +               "Type": "0xa",
-> +               "BriefDescription": "Number of RXDAT flits received. This=
- event measures the true read data bandwidth, excluding CMOs.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "rnid_txdat_flits",
-> +               "EventIdCode": "0x5",
-> +               "Type": "0xa",
-> +               "BriefDescription": "Number of TXDAT flits dispatched. Th=
-is event measures the write bandwidth.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "rnid_txreq_flits_total",
-> +               "EventIdCode": "0x6",
-> +               "Type": "0xa",
-> +               "BriefDescription": "Number of TXREQ flits dispatched. Th=
-is event measures the total request bandwidth.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "rnid_txreq_flits_retried",
-> +               "EventIdCode": "0x7",
-> +               "Type": "0xa",
-> +               "BriefDescription": "Number of retried TXREQ flits dispat=
-ched. This event measures the retry rate.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "sbsx_txrsp_retryack",
-> +               "EventIdCode": "0x4",
-> +               "Type": "0x7",
-> +               "BriefDescription": "Number of RXREQ flits dispatched. Th=
-is event is a measure of the retry rate.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "sbsx_txdat_flitv",
-> +               "EventIdCode": "0x5",
-> +               "Type": "0x7",
-> +               "BriefDescription": "Number of TXDAT flits dispatched fro=
-m XP to SBSX. This event is a measure of the write bandwidth.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "sbsx_arvalid_no_arready",
-> +               "EventIdCode": "0x21",
-> +               "Type": "0x7",
-> +               "BriefDescription": "Number of cycles the SBSX bridge is =
-stalled because of backpressure on AR channel.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "sbsx_awvalid_no_awready",
-> +               "EventIdCode": "0x22",
-> +               "Type": "0x7",
-> +               "BriefDescription": "Number of cycles the SBSX bridge is =
-stalled because of backpressure on AW channel.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "sbsx_wvalid_no_wready",
-> +               "EventIdCode": "0x23",
-> +               "Type": "0x7",
-> +               "BriefDescription": "Number of cycles the SBSX bridge is =
-stalled because of backpressure on W channel.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hni_txrsp_retryack",
-> +               "EventIdCode": "0x2a",
-> +               "Type": "0x4",
-> +               "BriefDescription": "Number of RXREQ flits dispatched. Th=
-is event is a measure of the retry rate.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hni_arvalid_no_arready",
-> +               "EventIdCode": "0x2b",
-> +               "Type": "0x4",
-> +               "BriefDescription": "Number of cycles the HN-I bridge is =
-stalled because of backpressure on AR channel.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hni_arready_no_arvalid",
-> +               "EventIdCode": "0x2c",
-> +               "Type": "0x4",
-> +               "BriefDescription": "Number of cycles the AR channel is w=
-aiting for new requests from HN-I bridge.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hni_awvalid_no_awready",
-> +               "EventIdCode": "0x2d",
-> +               "Type": "0x4",
-> +               "BriefDescription": "Number of cycles the HN-I bridge is =
-stalled because of backpressure on AW channel.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hni_awready_no_awvalid",
-> +               "EventIdCode": "0x2e",
-> +               "Type": "0x4",
-> +               "BriefDescription": "Number of cycles the AW channel is w=
-aiting for new requests from HN-I bridge.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hni_wvalid_no_wready",
-> +               "EventIdCode": "0x2f",
-> +               "Type": "0x4",
-> +               "BriefDescription": "Number of cycles the HN-I bridge is =
-stalled because of backpressure on W channel.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       },
-> +       {
-> +               "EventName": "hni_txdat_stall",
-> +               "EventIdCode": "0x30",
-> +               "Type": "0x4",
-> +               "BriefDescription": "TXDAT valid but no link credit avail=
-able.",
-> +               "Unit": "arm_cmn",
-> +               "Compat": "434*;436*;43c*;43a*"
-> +       }
-> +]
-> diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jev=
-ents.py
-> index 9c0f63a..bfdfb67 100755
-> --- a/tools/perf/pmu-events/jevents.py
-> +++ b/tools/perf/pmu-events/jevents.py
-> @@ -272,6 +272,7 @@ class JsonEvent:
->            'DFPMC': 'amd_df',
->            'cpu_core': 'cpu_core',
->            'cpu_atom': 'cpu_atom',
-> +          'arm_cmn': 'arm_cmn',
->        }
->        return table[unit] if unit in table else f'uncore_{unit.lower()}'
->
-> --
-> 1.8.3.1
->
+    [ Reworded commit message. Mentioned the `bindgen-cli` binary crate
+      change, linked to it and updated the Quick Start guide. Re-added a
+      deleted "as" word in a code comment and reflowed comment to respect
+      the maximum length. ]
+
+In particular, I have reworded the commit message a fair bit:
+
+    In LLVM 16, anonymous items may return names like `(unnamed union at ..=
+)`
+    rather than empty names [1], which breaks Rust-enabled builds because
+    bindgen assumed an empty name instead of detecting them via
+    `clang_Cursor_isAnonymous` [2]:
+
+        $ make rustdoc LLVM=3D1 CLIPPY=3D1 -j$(nproc)
+          RUSTC L rust/core.o
+          BINDGEN rust/bindings/bindings_generated.rs
+          BINDGEN rust/bindings/bindings_helpers_generated.rs
+          BINDGEN rust/uapi/uapi_generated.rs
+        thread 'main' panicked at
+'"ftrace_branch_data_union_(anonymous_at__/_/include/linux/compiler_types_h=
+_146_2)"
+is not a valid Ident', .../proc-macro2-1.0.24/src/fallback.rs:693:9
+        ...
+        thread 'main' panicked at
+'"ftrace_branch_data_union_(anonymous_at__/_/include/linux/compiler_types_h=
+_146_2)"
+is not a valid Ident', .../proc-macro2-1.0.24/src/fallback.rs:693:9
+        ...
+
+    This was fixed in bindgen 0.62.0. Therefore, upgrade bindgen to
+    a more recent version, 0.65.1, to support LLVM 16.
+
+    Since bindgen 0.58.0 changed the `--{white,black}list-*` flags to
+    `--{allow,block}list-*` [3], update them on our side too.
+
+    In addition, bindgen 0.61.0 moved its CLI utility into a binary crate
+    called `bindgen-cli` [4]. Thus update the installation command in the
+    Quick Start guide.
+
+    Moreover, bindgen 0.61.0 changed the default functionality to bind
+    `size_t` to `usize` [5] and added the `--no-size_t-is-usize` flag
+    to not bind `size_t` as `usize`. Then bindgen 0.65.0 removed
+    the `--size_t-is-usize` flag [6]. Thus stop passing the flag to bindgen=
+.
+
+    Finally, bindgen 0.61.0 added support for the `noreturn` attribute (in
+    its different forms) [7]. Thus remove the infinite loop in our Rust
+    panic handler after calling `BUG()`, since bindgen now correctly
+    generates a `BUG()` binding that returns `!` instead of `()`.
+
+    Link: https://github.com/llvm/llvm-project/commit/19e984ef8f49bc3ccced1=
+5621989fa9703b2cd5b
+[1]
+    Link: https://github.com/rust-lang/rust-bindgen/pull/2319 [2]
+    Link: https://github.com/rust-lang/rust-bindgen/pull/1990 [3]
+    Link: https://github.com/rust-lang/rust-bindgen/pull/2284 [4]
+    Link: https://github.com/rust-lang/rust-bindgen/commit/cc78b6fdb6e829e5=
+fb8fa1639f2182cb49333569
+[5]
+    Link: https://github.com/rust-lang/rust-bindgen/pull/2408 [6]
+    Link: https://github.com/rust-lang/rust-bindgen/issues/2094 [7]
+
+Aakash: please let me know if that is not OK!
+
+Cheers,
+Miguel
