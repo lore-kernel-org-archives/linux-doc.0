@@ -2,276 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57736C001E0
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 17:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EF2C001B0
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 17:19:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbjHNRNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 13:13:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33338 "EHLO
+        id S229494AbjHNRSl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 13:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbjHNRNW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 13:13:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE0DE73;
-        Mon, 14 Aug 2023 10:13:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9ED33625DB;
-        Mon, 14 Aug 2023 17:13:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F495C433C8;
-        Mon, 14 Aug 2023 17:13:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692033200;
-        bh=6sB0MXEZJTc5MyRjUr5ZjTDTIyVe78Iq4SedpR4xA6c=;
-        h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
-        b=iHXE+B79VQw2Xu+svDx/uv1d0+6A1cL00Fi9RE726fiaEboN83Aw7MqXC2ysghAWk
-         oRa6XKlaO+gITatZWz2ntX83ohQBteACnJ+ELPHxsiBLjuVltdnKIkooJZcf6mrn+P
-         WuH354SsNnfg9xd9du8JSKV3Wnsdxv4lTB8LjdWfRjNhaV/T8mfovSA78MVxfbZqe7
-         Wcm1d71t0hXuyBqtEAo1mB4eOTW6/ju8MFVRw7J32va0aW1hin/ZctA+qJSAvTP05y
-         BrZnKgeN7IKpNPT9nZ2N9GahgUFIAGX8BerHZjMogu2+R0TLY/GPwzEGEjJ9Yi+a/0
-         Fgpl9ez1OvULA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 14 Aug 2023 20:13:14 +0300
-Message-Id: <CUSFPINBGDSS.DQ0I19Z9FNR4@suppilovahvero>
-To:     "Roberto Sassu" <roberto.sassu@huaweicloud.com>, <corbet@lwn.net>,
-        <zohar@linux.ibm.com>, <dmitry.kasatkin@gmail.com>,
-        <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>
-Cc:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-integrity@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <pbrobinson@gmail.com>, <zbyszek@in.waw.pl>, <hch@lst.de>,
-        <mjg59@srcf.ucam.org>, <pmatilai@redhat.com>, <jannh@google.com>,
-        "Roberto Sassu" <roberto.sassu@huawei.com>
-Subject: Re: [RFC][PATCH v2 03/13] integrity/digest_cache: Add functions to
- populate and search
-From:   "Jarkko Sakkinen" <jarkko@kernel.org>
-X-Mailer: aerc 0.14.0
-References: <20230812104616.2190095-1-roberto.sassu@huaweicloud.com>
- <20230812104616.2190095-4-roberto.sassu@huaweicloud.com>
-In-Reply-To: <20230812104616.2190095-4-roberto.sassu@huaweicloud.com>
+        with ESMTP id S229582AbjHNRSa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 13:18:30 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807BEE6E;
+        Mon, 14 Aug 2023 10:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692033509; x=1723569509;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=CJXicBQZH8JDl6fB1L4zrhCXERuM4bbOoFQwORRLr/Q=;
+  b=l4uOttndB01JwurQ3muebbIYJE6Elg769Be6IFKWqSdI42qV5V9hF5kh
+   qVNgHhkg5QTYFYD2gFun3z2bsAd7Obt+12BxFTh7pyvsXR5DYcFOAL4H2
+   lGfzvJf7NCTzRHcWgkQlwXGzztc1xa3i3SiLD7NJIkbBVybDDfNI3YW4q
+   VfdE68kmGOMRbj7wcKEFDTPzy5fco3Qh9ZDfY13xdGR8MPbTa2mPCX7SD
+   e9XtxJhMoNKqnlLdRkmilSbxiSYsaBh1hTfE9y3d2XlGbIH6BUlsgCbDX
+   v2pVN23ZljFE1WoamrGsSPGTgzJKOBl/ZPM7W0DRKkTQCQt2w87rxvi59
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="370994973"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="370994973"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 10:18:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="803521083"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="803521083"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Aug 2023 10:18:25 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 14 Aug 2023 10:18:25 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 14 Aug 2023 10:18:24 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 14 Aug 2023 10:18:24 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 14 Aug 2023 10:18:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XXcCsA1qDzX5X8hjc6H2irfie5LZzO8GunXWHX3bv+A5+YsZ1MnOoM+Kkgq6FLGOuo77Ul0DYxmg//EnKcqlitle4wAWM6qZQ8DkBteZcvW+gW+wRYU5ny7HBlKfo08LwEtgXpOJGVd6dGiw6fmNxSO1nc6FRcInL4hElfFJXfahhmmCW/0O6RldpELdCBfg2Agw/fCYY6DkEeM3jA9fRcducFa0EddiLvppS3Mz6MkZwqC9S0x7veRwu3/5sTtZTCnTmaw0hxTqWZhQvjFilRGO5mIoQT+35oKmSajIohDnebtyvQG4ssu084mU2qc+TzqGkQb2gK5ilh7C1pJAow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BFUJ8DSOzyh2Q+lCNTdr1IqL0yYvynpTMP+B6EJvbrs=;
+ b=cd1nZ/rSox5BS/mSY8MUBJJcDz+ZKqRurziwcKTHdxaT+qCVZzaXOH85w12eCtsKPosuXzrnqrPVHHGykKjnmbx8dnc1DQa1aDnTBJMUoxZguEO/AOc3TByPMvdidbgOjaNAY00pbACRBZGc8zNnRlrKMS+PeTc+1W5tMPEFyiojSxS+mZXYCt8FbdrxsoQjD6VTK+5yMSyUkzeGkRfVP5+No8keCs21lgtq6Suv++bRsQb3o3XLTYDPhAW+nQEogMOFr9BNWS0tz30Mv2QWRoKEeLbE3RAZOjEFS209BGOyvl/nZh/3rGIWEIC8tApQw/fWfLDRKar+RMfxpzFsHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN7PR11MB2593.namprd11.prod.outlook.com (2603:10b6:406:ab::27)
+ by DM8PR11MB5623.namprd11.prod.outlook.com (2603:10b6:8:25::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.24; Mon, 14 Aug
+ 2023 17:18:19 +0000
+Received: from BN7PR11MB2593.namprd11.prod.outlook.com
+ ([fe80::f195:972c:b2bd:e542]) by BN7PR11MB2593.namprd11.prod.outlook.com
+ ([fe80::f195:972c:b2bd:e542%5]) with mapi id 15.20.6652.026; Mon, 14 Aug 2023
+ 17:18:19 +0000
+Message-ID: <093c2cf1-812e-94f7-165b-c075752dc732@intel.com>
+Date:   Mon, 14 Aug 2023 10:18:15 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.14.0
+Subject: Re: [PATCH net-next 1/2] scripts: kernel-doc: parse
+ DEFINE_DMA_UNMAP_[ADDR|LEN]
+To:     Randy Dunlap <rdunlap@infradead.org>, <netdev@vger.kernel.org>,
+        <kuba@kernel.org>
+CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+        <emil.s.tantilov@intel.com>, <joshua.a.hay@intel.com>,
+        <sridhar.samudrala@intel.com>, <alan.brady@intel.com>,
+        <madhu.chittim@intel.com>, <jesse.brandeburg@intel.com>,
+        <anthony.l.nguyen@intel.com>, <willemb@google.com>,
+        <decot@google.com>
+References: <20230812002549.36286-1-pavan.kumar.linga@intel.com>
+ <20230812002549.36286-2-pavan.kumar.linga@intel.com>
+ <9efeeb6a-a2d4-9b56-c127-119c1ac378b6@infradead.org>
+Content-Language: en-US
+From:   "Linga, Pavan Kumar" <pavan.kumar.linga@intel.com>
+In-Reply-To: <9efeeb6a-a2d4-9b56-c127-119c1ac378b6@infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0142.namprd03.prod.outlook.com
+ (2603:10b6:303:8c::27) To BN7PR11MB2593.namprd11.prod.outlook.com
+ (2603:10b6:406:ab::27)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PR11MB2593:EE_|DM8PR11MB5623:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10b257ad-9829-4efd-32f7-08db9cea7477
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EiNTt/3D/xYNFnHM4z0TVY0uvJirtmovI2JD6CMsN43Uzj+D42VWsb+srE7blq1MOIf/P19mRHT56KfS11FMtxHRdIV4trsCfXrLuopQt0/3dgMKgCAdZymlA9dNS+xTIL2LuzKvij0ize0AcpeG4S526+NfmLm6IUXa13Vx5Fe9m04UBLV/iNg6vR3m5+W356/yV/VsTi8m4bJumn7crTpnwWS5ryCxDLJL8zOQ8JAXTVroSkrcg1GVwj1yEgr7dXwI+5VvgUZF1M7z8IIGKnF8XkCtEnqpTZKTsEOZ2yZAWcA9+f/ACEviYHuTF98jFH+2Bw0oeNnx8cUDMGogtW4jP0Fvhxyk3EB0T1Pi+OeXJ1mJyVOLkr6pxAEE2l2KzviHu+5xuCfNPjDN4YoLvfFwJgQ6jwOr6lwfz+QnFV+K9gXGfkYCDoW2EvT3GsKlDoEuk6GdeICL6FhRbrkJX3Uiyryggs64A/9VWgc1cC+B6HbVjNke0ooxJ4e5WO4oApXCWC8y5YXp5h8SumWd1iEN+znb2diCCvsuVUnVAnEJKJ247Ry7yQ9Mcfto/8Jgy6OXA14R4icucNe84EdBMbCg2jzArw8NsP0KX73exInX4pHnKi3OgJCFkOR3QT9DoAcWrUFgZvgqY4ehrZRmjiZ86KIoF4jjg1gcmTuNXHc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR11MB2593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(136003)(396003)(376002)(366004)(39860400002)(1800799006)(186006)(451199021)(53546011)(26005)(6506007)(41300700001)(8936002)(66476007)(66556008)(66946007)(316002)(8676002)(6512007)(31686004)(2616005)(83380400001)(6666004)(6486002)(478600001)(38100700002)(31696002)(36756003)(86362001)(4326008)(82960400001)(5660300002)(2906002)(83133001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cm9OYzdhK2R1V1hkeGQxYnhoM0FQSExHOVdMdzYzaE04QThkZEhuWURkTEhi?=
+ =?utf-8?B?dFprS2dJV1JLMGpxVE5wTnRYWHNPSzVqUWxFSlB0UFpBdXpmL3BjcS9nN21v?=
+ =?utf-8?B?TnJ1QlZyeERMUGROMlhKQU01NWEyQ21iZmRxRWxTc0VVOVNjMURnNk5XN01X?=
+ =?utf-8?B?RjVERGE0Sm9jOEU0UTl4VVRoNUZOOUdvMUtRMGRTZERJOTQyeWpnZUwyWExO?=
+ =?utf-8?B?ZDdWUGt1RzVZVkRpeWJoUjUxR3pVcUd6R1JOTnpleCtQWHZMWUlSeFkwdmJu?=
+ =?utf-8?B?OGFlTFVxMnFvUHUyQUxmdGdzaGovdW9xcWkwVEdGcEVKREx6NUhTaUh4T3ps?=
+ =?utf-8?B?d1FabWUvak9nVTlpVWNRMFE1UmRtaWRtU3l1bDVSL0FLR0UvTWFhL2xNMW10?=
+ =?utf-8?B?Vm1zZ3ZmUUI4NllCRDRqY21iL0c1MUMvZC9zdkZiTEczeDZ1RkF3aDFLbGVt?=
+ =?utf-8?B?Rm9KQVdwMWJCOUpPUFJNODAwR3JXTjhzRUJFQ1ppc0QxMFhUcUFNVzFKdk9j?=
+ =?utf-8?B?dUt1cXdFVDh5dUtERFZ1TjVrZUxtRWNvalQ3ckJIRzJyTWRLQndIeS9iaDBD?=
+ =?utf-8?B?OHZWb2lBdkluWEN5V0NXekoydHhWYXl5ejFRUEJIczFnUGhqUXFaNUR4N2U1?=
+ =?utf-8?B?TzlhTENHbmlUdFdGNGtIcDJPVlQxazI1YUMwTm9sdVpySUZUVFVhRm5pb2Y0?=
+ =?utf-8?B?cEJEOE1HUEtSZlpsWWk0dlZ1UlErcHRwRC9UNkpUQ3dVMlJ3MDVUT1NHcWox?=
+ =?utf-8?B?NFZGWXFTRkw1WDdKcndnUDdHZTJua3llQnNwa0lEcjU0QS82SjRNTlFPRjAz?=
+ =?utf-8?B?SUQwVW0ycHB3RVZQRW95YWpiNzJiaVFCWHdYWGkxVVdvOE9XS3JybXc0RU5x?=
+ =?utf-8?B?bXBNL3kwVitPeTBBWktjZGkwbHRkUkZ1cEQvLy9tc0UwSzd2SFRRK0JLaGlI?=
+ =?utf-8?B?MVhLU2FVSjgxTVZZSFZ2VjNSOGpDRTBoY2g3bmFQL2wrUzc1VWFvdG0rR1J2?=
+ =?utf-8?B?bmtuVlh6NnFPNDlUTlNBcXR2UzlFOFJ1eDBFME4rcWlMdnExT3dLcHZ5QTFQ?=
+ =?utf-8?B?UGhUNWNveWFraDB1RDFWMkZVYW5TbFpGbXFDQTBpM09qWUpLQ21NbGxyVnZq?=
+ =?utf-8?B?RGo1aXJPc2FHSTNReC9rMG1wUE9va3l1UTZ3dVkrSkFMbGh0Y1V0VkpGQUM1?=
+ =?utf-8?B?WWdzbGgyUGhZRklMZ09GdzZLTUdjb2dxUENQT3l6TXJQNHpYMitXeHlxZ3pl?=
+ =?utf-8?B?VUs5Mk5VRWJNV2ZtMFRoaGJnTEVrbnpUTDgrZVN4RnFuY3diSDdKMjdvZTR3?=
+ =?utf-8?B?TC9aMUFDYTNEUWtsUU5JdktYeTlLZEo1UHlQeDBXRUgzM21VcHFtdXh1blY1?=
+ =?utf-8?B?cFh5cmlhT0NUcVZ6bkZ6OXpiLzc0dGlXSURWTGZmT1NqWVdjWUExVWNiaWk5?=
+ =?utf-8?B?V2RONGJGMllwOTV2V2dBSDBPLzZyY2g5MWc2YnFjTzlBQlRHTnhXS0E0QVNw?=
+ =?utf-8?B?TGNGWmZPYktvckJUU3pDZG5jY29TS0RJdlB6bXF3THVqYnRNbFNxNHl5TjB4?=
+ =?utf-8?B?RmJTZTBVUCt1azJvcUlUcHE4bjlxWlZCSEpBbXR4cHRuV0FHK29mS25ENFF4?=
+ =?utf-8?B?MlpvNnlZdTlCSnNhNVk2SUk3Q3RkMUdDRW82ZHk3Y2Y2TU9PdEtZOEtmQjFa?=
+ =?utf-8?B?OGRCd1VIRFNFTzhwQU1tMmRWNlVORk42dTU5c21OR05XSjZiRkJ5REkvQTFh?=
+ =?utf-8?B?KzBqQVdHSmw0MWdYRTNwQWVZbWl2SnlxWngxZ1ZvUGFpQThQcjNwUlhtbElv?=
+ =?utf-8?B?azdyTGJUVmdLT1huenArQ0Q2disyS1p6Y1AwRlg1RmtXMTZZZUdLdXBzTTJl?=
+ =?utf-8?B?VHU3RGdnS1JnYTUwUDBpTjYzZWZmM3czZ0dZWlFRS0pvZnBJMGxxSU5OeDE3?=
+ =?utf-8?B?SDcvaXJubDBwTm5lL20vRzdramlGZlEyZVp5b08zUXYxVnBzUm54czdxOFEr?=
+ =?utf-8?B?bmRQc1N6ei9uVkhNdjFkeU02NXl3VmQ4WjV0QWdxd1F4ZFNoTHBKODRQNjZq?=
+ =?utf-8?B?RVk0T2VyZFJhN1NHV2doc1VtQUJha1pQRm5YeGJWUW9aajdqb2ZLOXZCT2ZC?=
+ =?utf-8?B?YUZ2aHZzZ1htNEhKNnpPS2hybFZnR0szVWVOSUNBTzE4dndDRzY1b3luME5Q?=
+ =?utf-8?B?NVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10b257ad-9829-4efd-32f7-08db9cea7477
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2593.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2023 17:18:19.5695
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: inQyPGY6blDuexWh/nErwJYGYSBnaTemfckRwCMY2nkkWWaVxro3tsSWWyjkpl3ENgyyzlLtkfuG3miEqhP6gmEkoV2ztDDS1f5991HV49s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5623
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat Aug 12, 2023 at 1:46 PM EEST, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->
-> Add digest_cache_init_htable(), to size a hash table depending on the
-> number of digests to be added to the cache.
->
-> Add digest_cache_add() and digest_cache_lookup() to respectively add and
-> lookup a digest in the digest cache.
->
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> ---
->  security/integrity/digest_cache.c | 131 ++++++++++++++++++++++++++++++
->  security/integrity/digest_cache.h |  24 ++++++
->  2 files changed, 155 insertions(+)
->
-> diff --git a/security/integrity/digest_cache.c b/security/integrity/diges=
-t_cache.c
-> index 4201c68171a..d14d84b804b 100644
-> --- a/security/integrity/digest_cache.c
-> +++ b/security/integrity/digest_cache.c
-> @@ -315,3 +315,134 @@ struct digest_cache *digest_cache_get(struct dentry=
- *dentry,
-> =20
->  	return iint->dig_user;
->  }
-> +
-> +/**
-> + * digest_cache_init_htable - Allocate and initialize the hash table
-> + * @digest_cache: Digest cache
-> + * @num_digests: Number of digests to add to the digest cache
-> + *
-> + * This function allocates and initializes the hash table. Its size is
-> + * determined by the number of digests to add to the digest cache, known
-> + * at this point by the parser calling this function.
-> + *
-> + * Return: Zero on success, a negative value otherwise.
-> + */
-> +int digest_cache_init_htable(struct digest_cache *digest_cache,
-> +			     u64 num_digests)
-> +{
-> +	int i;
-> +
-> +	if (!digest_cache)
-> +		return 0;
-> +
-> +	digest_cache->num_slots =3D num_digests / DIGEST_CACHE_HTABLE_DEPTH;
-> +	if (!digest_cache->num_slots)
-> +		digest_cache->num_slots =3D 1;
-> +
-> +	digest_cache->slots =3D kmalloc_array(num_digests,
-> +					    sizeof(*digest_cache->slots),
-> +					    GFP_KERNEL);
-> +	if (!digest_cache->slots)
-> +		return -ENOMEM;
-> +
-> +	for (i =3D 0; i < digest_cache->num_slots; i++)
-> +		INIT_HLIST_HEAD(&digest_cache->slots[i]);
-> +
-> +	pr_debug("Initialized %d hash table slots for digest list %s\n",
-> +		 digest_cache->num_slots, digest_cache->path_str);
-> +	return 0;
-> +}
-> +
-> +/**
-> + * digest_cache_add - Add a new digest to the digest cache
-> + * @digest_cache: Digest cache
-> + * @digest: Digest to add
-> + *
-> + * This function, invoked by a digest list parser, adds a digest extract=
-ed
-> + * from a digest list to the digest cache.
-> + *
-> + * Return: Zero on success, a negative value on error.
 
-Nit: previous had a different phrasing "a negative value otherwise".
 
-I would suggest "a POSIX error code otherwise" for both.
+On 8/11/2023 9:47 PM, Randy Dunlap wrote:
+> 
+> 
+> On 8/11/23 17:25, Pavan Kumar Linga wrote:
+>> At present, if the marcos DEFINE_DMA_UNMAP_ADDR() and
+> 
+>                       macros
+> 
+>> DEFINE_DMA_UNMAP_LEN() are used in the structures as shown
+>> below, instead of parsing the parameter in the parenthesis,
+> 
+>                                                   parentheses
+> 
+>> kernel-doc parses 'DEFINE_DMA_UNMAP_ADDR(' and
+>> 'DEFINE_DMA_UNMAP_LEN(' which results in the following
+>> warnings:
+>>
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
+>> parameter or member 'DEFINE_DMA_UNMAP_ADDR(dma' not described in
+>> 'idpf_tx_buf'
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
+>> parameter or member 'DEFINE_DMA_UNMAP_LEN(len' not described in
+>> 'idpf_tx_buf'
+>>
+>> struct idpf_tx_buf {
+>> 	DEFINE_DMA_UNMAP_ADDR(dma);
+>> 	DEFINE_DMA_UNMAP_LEN(len);
+>> };
+>>
+>> Fix the warnings by parsing DEFINE_DMA_UNMAP_ADDR() and
+>> DEFINE_DMA_UNMAP_LEN().
+>>
+>> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> 
+> Looks good. Thanks.
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> 
 
-> + */
-> +int digest_cache_add(struct digest_cache *digest_cache, u8 *digest)
-> +{
-> +	struct digest_cache_entry *entry;
-> +	unsigned int key;
-> +	int digest_len;
-> +
-> +	if (!digest_cache)
-> +		return 0;
-> +
-> +	digest_len =3D hash_digest_size[digest_cache->algo];
-> +
-> +	entry =3D kmalloc(sizeof(*entry) + digest_len, GFP_KERNEL);
-> +	if (!entry)
-> +		return -ENOMEM;
-> +
-> +	memcpy(entry->digest, digest, digest_len);
-> +
-> +	key =3D digest_cache_hash_key(digest, digest_cache->num_slots);
-> +	hlist_add_head(&entry->hnext, &digest_cache->slots[key]);
-> +	pr_debug("Add digest %s:%*phN from digest list %s\n",
-> +		 hash_algo_name[digest_cache->algo], digest_len, digest,
-> +		 digest_cache->path_str);
-> +	return 0;
-> +}
-> +
-> +/**
-> + * digest_cache_lookup - Searches a digest in the digest cache
-> + * @digest_cache: Digest cache
-> + * @digest: Digest to search
-> + * @algo: Algorithm of the digest to search
-> + * @pathname: Path of the file whose digest is looked up
-> + *
-> + * This function, invoked by IMA or EVM, searches the calculated digest =
-of
-> + * a file or file metadata in the digest cache acquired with
-> + * digest_cache_get().
-> + *
-> + * Return: Zero if the digest is found, a negative value if not.
-> + */
-> +int digest_cache_lookup(struct digest_cache *digest_cache, u8 *digest,
-> +			enum hash_algo algo, const char *pathname)
-> +{
-> +	struct digest_cache_entry *entry;
-> +	unsigned int key;
-> +	int digest_len;
-> +	int search_depth =3D 0;
-> +
-> +	if (!digest_cache)
-> +		return -ENOENT;
-> +
-> +	if (digest_cache->algo =3D=3D HASH_ALGO__LAST) {
-> +		pr_debug("Algorithm not set for digest list %s\n",
-> +			 digest_cache->path_str);
-> +		return -ENOENT;
-> +	}
-> +
-> +	digest_len =3D hash_digest_size[digest_cache->algo];
-> +
-> +	if (algo !=3D digest_cache->algo) {
-> +		pr_debug("Algo mismatch for file %s, digest %s:%*phN in digest list %s=
- (%s)\n",
-> +			 pathname, hash_algo_name[algo], digest_len, digest,
-> +			 digest_cache->path_str,
-> +			 hash_algo_name[digest_cache->algo]);
-> +		return -ENOENT;
-> +	}
-> +
-> +	key =3D digest_cache_hash_key(digest, digest_cache->num_slots);
-> +
-> +	hlist_for_each_entry_rcu(entry, &digest_cache->slots[key], hnext) {
-> +		if (!memcmp(entry->digest, digest, digest_len)) {
-> +			pr_debug("Cache hit at depth %d for file %s, digest %s:%*phN in diges=
-t list %s\n",
-> +				 search_depth, pathname, hash_algo_name[algo],
-> +				 digest_len, digest, digest_cache->path_str);
-> +			return 0;
-> +		}
-> +
-> +		search_depth++;
-> +	}
-> +
-> +	pr_debug("Cache miss for file %s, digest %s:%*phN in digest list %s\n",
-> +		 pathname, hash_algo_name[algo], digest_len, digest,
-> +		 digest_cache->path_str);
-> +	return -ENOENT;
-> +}
-> diff --git a/security/integrity/digest_cache.h b/security/integrity/diges=
-t_cache.h
-> index ff88e8593c6..01cd70f9850 100644
-> --- a/security/integrity/digest_cache.h
-> +++ b/security/integrity/digest_cache.h
-> @@ -66,6 +66,11 @@ static inline unsigned int digest_cache_hash_key(u8 *d=
-igest,
->  void digest_cache_free(struct digest_cache *digest_cache);
->  struct digest_cache *digest_cache_get(struct dentry *dentry,
->  				      struct integrity_iint_cache *iint);
-> +int digest_cache_init_htable(struct digest_cache *digest_cache,
-> +			     u64 num_digests);
-> +int digest_cache_add(struct digest_cache *digest_cache, u8 *digest);
-> +int digest_cache_lookup(struct digest_cache *digest_cache, u8 *digest,
-> +			enum hash_algo algo, const char *pathname);
->  #else
->  static inline void digest_cache_free(struct digest_cache *digest_cache)
->  {
-> @@ -77,5 +82,24 @@ digest_cache_get(struct dentry *dentry, struct integri=
-ty_iint_cache *iint)
->  	return NULL;
->  }
-> =20
-> +static inline int digest_cache_init_htable(struct digest_cache *digest_c=
-ache,
-> +					   u64 num_digests)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline int digest_cache_add(struct digest_cache *digest_cache,
-> +				   u8 *digest)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline int digest_cache_lookup(struct digest_cache *digest_cache,
-> +				      u8 *digest, enum hash_algo algo,
-> +				      const char *pathname)
-> +{
-> +	return -ENOENT;
-> +}
-> +
->  #endif /* CONFIG_INTEGRITY_DIGEST_CACHE */
->  #endif /* _DIGEST_CACHE_H */
-> --=20
-> 2.34.1
+Thanks for the review. Fixed the typos in the v2 revision.
 
-Why all this complexity instead of using xarray?
+>> ---
+>>   scripts/kernel-doc | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+>> index d0116c6939dc..cfb1cb223508 100755
+>> --- a/scripts/kernel-doc
+>> +++ b/scripts/kernel-doc
+>> @@ -1168,6 +1168,10 @@ sub dump_struct($$) {
+>>   	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
+>>   	# replace DECLARE_FLEX_ARRAY
+>>   	$members =~ s/(?:__)?DECLARE_FLEX_ARRAY\s*\($args,\s*$args\)/$1 $2\[\]/gos;
+>> +	#replace DEFINE_DMA_UNMAP_ADDR
+>> +	$members =~ s/DEFINE_DMA_UNMAP_ADDR\s*\($args\)/dma_addr_t $1/gos;
+>> +	#replace DEFINE_DMA_UNMAP_LEN
+>> +	$members =~ s/DEFINE_DMA_UNMAP_LEN\s*\($args\)/__u32 $1/gos;
+>>   	my $declaration = $members;
+>>   
+>>   	# Split nested struct/union elements as newer ones
+> 
 
-https://docs.kernel.org/core-api/xarray.html
-
-BR, Jarkko
+Regards,
+Pavan
