@@ -2,98 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9843CC001DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A81C04FDF
 	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 07:21:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233896AbjHNHUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 03:20:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47848 "EHLO
+        id S234056AbjHNHUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 03:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234052AbjHNHUK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 03:20:10 -0400
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243D510C1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 00:20:10 -0700 (PDT)
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-        by localhost (Postfix) with ESMTP id 4RPQJn6LlTz9srt;
-        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id mOubtP7Dt_Xt; Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 4RPQJn50VRz9srs;
-        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 9F9028B76C;
-        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id SpWSJoTF7R-O; Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.233.203])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 61BE98B763;
-        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
-        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 37E62FbD271152
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Mon, 14 Aug 2023 08:02:15 +0200
-Received: (from chleroy@localhost)
-        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 37E62FtP271151;
-        Mon, 14 Aug 2023 08:02:15 +0200
-X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to christophe.leroy@csgroup.eu using -f
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-serial@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 3/3] Documentation: devices.txt: Fix minors for ttyCPM*
-Date:   Mon, 14 Aug 2023 08:02:11 +0200
-Message-ID: <27d7124cf86157e2a27c2b039e769041994d3f22.1691992627.git.christophe.leroy@csgroup.eu>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <b5deb1222eb92017f0efe5b5cae127ac11983b3d.1691992627.git.christophe.leroy@csgroup.eu>
-References: <b5deb1222eb92017f0efe5b5cae127ac11983b3d.1691992627.git.christophe.leroy@csgroup.eu>
+        with ESMTP id S234243AbjHNHUe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 03:20:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD86E77;
+        Mon, 14 Aug 2023 00:20:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0208F63579;
+        Mon, 14 Aug 2023 07:20:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 563BAC43391;
+        Mon, 14 Aug 2023 07:20:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691997622;
+        bh=Sk/MwmfdtPqlWCnzyKRYQGPjeiANNitkM94nFXMS1xo=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=d+5t1PoC4mXgA12Yrr7mDxD7e0CpGoGbQ01Pl+KkXA2aMNPwmE/Y4GDZ4AinU9op1
+         MyiF7yFW/nNGT3tiN0+cD0XwQ6Ddi4mWwRXKrkzpZFzEW1+2Qvw/f3D6PCSXld4hCx
+         UZQCo2f8mmjLjqTyoMBIrZFio5Ugx/6OxgTqe3BJoWtXzAumqY44xtRpiPA01FFcei
+         bPkQmsyXyr6vd2Zl6r06txo2+aINlEfyMhn8iYoFShtw4NAp7V0B/yD6ZYQMB3NhYP
+         kgM9MsxA1EUdLvGxo+JBscHc7p90hRFhp5jffcxg4+RLfZWq8Q89QKs3f9gzwj9VtE
+         C4Torl2DsqMnw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 35928C395C5;
+        Mon, 14 Aug 2023 07:20:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1691992929; l=1368; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=FoIuLsWO9kaLvy5DY5RPBowjED/gEyMsgQjqQ69P1WM=; b=gK1nAz4kQdKOZklF7V+AH89XLz3y36T2TYUj1uUUG4/Jr91vJ12gj/3fX182LgDstxTSbk/OP l3KvdV1FDUcCQaAdU5aKWxa0g+cNE/VhwNLxJqJQ7oIGBjoUoKfxhMQ
-X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 1/2] dt-bindings: net: ethernet-controller: add
+ PSGMII mode
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169199762221.17065.4040096090781040409.git-patchwork-notify@kernel.org>
+Date:   Mon, 14 Aug 2023 07:20:22 +0000
+References: <20230811111032.231308-1-robert.marko@sartura.hr>
+In-Reply-To: <20230811111032.231308-1-robert.marko@sartura.hr>
+To:     Robert Marko <robert.marko@sartura.hr>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        corbet@lwn.net, netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        luka.perkov@sartura.hr, robh@kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ttyCPM* devices belong to CPM_UART driver at the first place
-and that driver provides 6 ports.
+Hello:
 
-Fixes: e29c3f81eb89 ("Documentation: devices.txt: reconcile serial/ucc_uart minor numers")
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
----
- Documentation/admin-guide/devices.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-index 1ba5b7c4973c..839054923530 100644
---- a/Documentation/admin-guide/devices.txt
-+++ b/Documentation/admin-guide/devices.txt
-@@ -2691,7 +2691,7 @@
- 		 45 = /dev/ttyMM1		Marvell MPSC - port 1 (obsolete unused)
- 		 46 = /dev/ttyCPM0		PPC CPM (SCC or SMC) - port 0
- 		    ...
--		 49 = /dev/ttyCPM5		PPC CPM (SCC or SMC) - port 3
-+		 51 = /dev/ttyCPM5		PPC CPM (SCC or SMC) - port 5
- 		 82 = /dev/ttyVR0		NEC VR4100 series SIU
- 		 83 = /dev/ttyVR1		NEC VR4100 series DSIU
- 		 148 = /dev/ttyPSC0		PPC PSC - port 0
-@@ -2752,7 +2752,7 @@
- 		 43 = /dev/ttycusmx2		Callout device for ttySMX2
- 		 46 = /dev/cucpm0		Callout device for ttyCPM0
- 		    ...
--		 49 = /dev/cucpm5		Callout device for ttyCPM5
-+		 51 = /dev/cucpm5		Callout device for ttyCPM5
- 		 82 = /dev/cuvr0		Callout device for ttyVR0
- 		 83 = /dev/cuvr1		Callout device for ttyVR1
- 
+On Fri, 11 Aug 2023 13:10:06 +0200 you wrote:
+> Add a new PSGMII mode which is similar to QSGMII with the difference being
+> that it combines 5 SGMII lines into a single link compared to 4 on QSGMII.
+> 
+> It is commonly used by Qualcomm on their QCA807x PHY series.
+> 
+> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+> Acked-by: Rob Herring <robh@kernel.org>
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2,1/2] dt-bindings: net: ethernet-controller: add PSGMII mode
+    https://git.kernel.org/netdev/net-next/c/de875d35e0b0
+  - [net-next,v2,2/2] net: phy: Introduce PSGMII PHY interface mode
+    https://git.kernel.org/netdev/net-next/c/83b5f0253b1e
+
+You are awesome, thank you!
 -- 
-2.41.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
