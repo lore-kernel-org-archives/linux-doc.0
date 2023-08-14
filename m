@@ -2,106 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F24C04A6A
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 02:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6C5C001DB
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 06:08:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232345AbjHNClg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Aug 2023 22:41:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47498 "EHLO
+        id S232614AbjHNGIF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 02:08:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232593AbjHNClE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Aug 2023 22:41:04 -0400
-Received: from out-103.mta0.migadu.com (out-103.mta0.migadu.com [91.218.175.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7303BE6C
-        for <linux-doc@vger.kernel.org>; Sun, 13 Aug 2023 19:41:01 -0700 (PDT)
-Message-ID: <f8de40bf-1743-793f-7723-232adbfab623@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1691980858;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=U4Z2iziGNc9EaR/EDNMeDU4tEch1epKY77bLxp45IzA=;
-        b=wwlw1dVWK9TCOQti1gOCQRL8CzigtTXE7TAaFpglOAbQLQB/FFo91JTsJKqgS3my6Ro6Lg
-        dG46Z6UVJOkbV/xNlqDCLKZafwbNCWC9e9C49cENbhmEVHbBPHZ9HHQ11MCabqYEXZ5v9N
-        oArOxMtZrhT14WTRepJyTofXTJfpgoI=
-Date:   Mon, 14 Aug 2023 10:40:44 +0800
+        with ESMTP id S233543AbjHNGHk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 02:07:40 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A786195;
+        Sun, 13 Aug 2023 23:07:38 -0700 (PDT)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37E5wBXR008406;
+        Mon, 14 Aug 2023 06:07:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=6CpyXQhSSSWk/nIP5HWhHyxy6f44exKrqLOQXIG7O8Q=;
+ b=QoHcffab71tgCpiqTbU1Ynb7llbm3Lb2ld98jkffsI/xvZMvbcKqFkSjm3LkrMXyTZ27
+ aV6nz3zuFX8oSQCr8FwCDkf0Guse5eIq78rnZLnf8Zt9g3Vr3r7kUlkfNBWilEX1+M/T
+ fJYyfzJtWb4/HWY6cJw5w/iEqpbqsHaAZR8dwHGERKK3z7viuj2E/0R6k5wzP3u64Jh5
+ 2b7dQz/D0eNzftJWTJHgFEF7EDJ6dezMCqX7OtqJPM6C2t/THbuenV9wcKKCuRSL0EoW
+ wHS2ppVyJSzr/ujF/v2O3/+DB1QAiDcz/Pyfi6psuA+sF6Ruy6lBvKPyXITzPW6iSU1v oA== 
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sfekc04dr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 06:07:23 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37E4jbQh003495;
+        Mon, 14 Aug 2023 06:07:22 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+        by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3semds2543-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 06:07:22 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37E67K4f39649626
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 14 Aug 2023 06:07:21 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E35A92004D;
+        Mon, 14 Aug 2023 06:07:20 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 649C62004B;
+        Mon, 14 Aug 2023 06:07:20 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 14 Aug 2023 06:07:20 +0000 (GMT)
+Received: from bgray-lenovo-p15.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id A695C60556;
+        Mon, 14 Aug 2023 16:07:17 +1000 (AEST)
+From:   Benjamin Gray <bgray@linux.ibm.com>
+To:     linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Cc:     abbotti@mev.co.uk, hsweeten@visionengravers.com,
+        jan.kiszka@siemens.com, kbingham@kernel.org, mykolal@fb.com,
+        Benjamin Gray <bgray@linux.ibm.com>
+Subject: [PATCH 1/8] ia64: fix Python string escapes
+Date:   Mon, 14 Aug 2023 16:06:57 +1000
+Message-ID: <20230814060704.79655-2-bgray@linux.ibm.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230814060704.79655-1-bgray@linux.ibm.com>
+References: <20230814060704.79655-1-bgray@linux.ibm.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH RESEND v1] docs/zh_CN: add zh_CN translation for
- memory-barriers.txt
-Content-Language: en-US
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>, Alex Shi <alexs@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org
-References: <20230811080851.84497-1-gang.li@linux.dev>
- <2f519a69-8f12-4c07-bf20-6776a5ada256@loongson.cn>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Gang Li <gang.li@linux.dev>
-In-Reply-To: <2f519a69-8f12-4c07-bf20-6776a5ada256@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: RXPMHj0ybyLNAjNFHy_26VoRczrTHjPz
+X-Proofpoint-ORIG-GUID: RXPMHj0ybyLNAjNFHy_26VoRczrTHjPz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-13_24,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ malwarescore=0 adultscore=0 suspectscore=0 spamscore=0 phishscore=0
+ mlxscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308140055
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Python 3.6 introduced a DeprecationWarning for invalid escape sequences.
+This is upgraded to a SyntaxWarning in Python 3.12, and will eventually
+be a syntax error.
 
-On 2023/8/12 19:00, Yanteng Si wrote:
-> 在 2023/8/11 16:08, Gang Li 写道:
->> +译注：
->> +本文仅为方便汉语阅读，不保证与英文版本同步;
->> +若有疑问，请阅读英文版本;
->> +若有翻译问题，请通知译者；
->> +若想修改文档，也请先修改英文版本。
-> 
-> In fact, we already have an easier way to do this, just include 
-> disclaimer-zh_CN.
-> 
-> If you observe the files under .../zh_CN/, they all have a similar 
-> header, and we can completely follow them.
-> 
-Thanks. I just noticed that there are txt files under 
-"zh_CN/arch/arm64/" and "zh_CN/video4linux/". They have the same header, 
-and I will
-refer to them in v2.
+Fix these now to get ahead of it before it's an error.
 
-> But you should also have noticed that memory-barriers are not a standard 
-> rst file and will not be built, which will result in it only staying in 
-> the development tree.
-> It won't appear at:
-https://docs.kernel.org
-https://www.kernel.org/doc/html/latest/
+Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
+---
+ arch/ia64/scripts/unwcheck.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-But people can still access the txt document in this way:
-https://www.kernel.org/doc/Documentation/memory-barriers.txt
+diff --git a/arch/ia64/scripts/unwcheck.py b/arch/ia64/scripts/unwcheck.py
+index 9581742f0db2..f66f4015891b 100644
+--- a/arch/ia64/scripts/unwcheck.py
++++ b/arch/ia64/scripts/unwcheck.py
+@@ -21,7 +21,7 @@ if len(sys.argv) != 2:
+ 
+ readelf = os.getenv("READELF", "readelf")
+ 
+-start_pattern = re.compile("<([^>]*)>: \[0x([0-9a-f]+)-0x([0-9a-f]+)\]")
++start_pattern = re.compile("<([^>]*)>: \\[0x([0-9a-f]+)-0x([0-9a-f]+)\\]")
+ rlen_pattern  = re.compile(".*rlen=([0-9]+)")
+ 
+ def check_func (func, slots, rlen_sum):
+-- 
+2.41.0
 
-> Finally, this patch is too huge and we may need some time to review it.
-> 
-Of course. Would it be more convenient if I split the file into multiple
-patches and send them as one series?
-
-> 
-> Thanks,
-> 
-> Yanteng
-> 
-
-Thanks,
-Gang Li
