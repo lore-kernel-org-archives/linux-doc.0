@@ -2,140 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CE1C41513
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 06:17:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9843CC001DB
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 07:21:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232035AbjHNGQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 02:16:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53550 "EHLO
+        id S233896AbjHNHUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 03:20:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbjHNGQc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 02:16:32 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02503F4;
-        Sun, 13 Aug 2023 23:16:31 -0700 (PDT)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37E6Bkb0022430;
-        Mon, 14 Aug 2023 06:15:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=Z4fU+YYJUASo5wHESwfoB5sizpj1SLIP29KWGgkn9p4=;
- b=ZPGpBSRRsNQxbfXUWXytkgZrJ5puMr/YQbuBo+/jSurFUpKLtg/etEjz9yAmMYAAfQE6
- eCbslPsNPoQSZif2h+3C1AHCSkYWao3s9tqN1hkW7oaXGeV+3driaG4hXAH3j2ekU+FT
- vZzZwNy+ULyTpBmEgB2RWW4EBGopQ8n0RkoW8xFa9tqWTFdT2y8T9i7vBHYlsJ4yDP/Q
- pMJRL5J0GM8ukZRHhW10f+X4u63xjFiY3s3nIIcqukdtZhZ2A/l6wemZA7BIrYuWb7Zi
- psuZquyiGAvbti6n+4JFda3MZnK4jS2tstcuZHUtcbKonQCIBsopnEKJg6ZQVCRdEzEv pw== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sfek2g7kk-10
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 14 Aug 2023 06:15:33 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37E4vifS013413;
-        Mon, 14 Aug 2023 06:07:25 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3sepmj97ca-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 14 Aug 2023 06:07:25 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37E67NI936897134
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 14 Aug 2023 06:07:23 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 58B5C2004F;
-        Mon, 14 Aug 2023 06:07:23 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CCA0D2004E;
-        Mon, 14 Aug 2023 06:07:22 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 14 Aug 2023 06:07:22 +0000 (GMT)
-Received: from bgray-lenovo-p15.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id BDE9A60648;
-        Mon, 14 Aug 2023 16:07:17 +1000 (AEST)
-From:   Benjamin Gray <bgray@linux.ibm.com>
-To:     linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-doc@vger.kernel.org, bpf@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Cc:     abbotti@mev.co.uk, hsweeten@visionengravers.com,
-        jan.kiszka@siemens.com, kbingham@kernel.org, mykolal@fb.com,
-        Benjamin Gray <bgray@linux.ibm.com>
-Subject: [PATCH 8/8] selftests/bpf: fix Python string escapes in f-strings
-Date:   Mon, 14 Aug 2023 16:07:04 +1000
-Message-ID: <20230814060704.79655-9-bgray@linux.ibm.com>
+        with ESMTP id S234052AbjHNHUK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 03:20:10 -0400
+Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243D510C1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 00:20:10 -0700 (PDT)
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+        by localhost (Postfix) with ESMTP id 4RPQJn6LlTz9srt;
+        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id mOubtP7Dt_Xt; Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 4RPQJn50VRz9srs;
+        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 9F9028B76C;
+        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id SpWSJoTF7R-O; Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.233.203])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 61BE98B763;
+        Mon, 14 Aug 2023 09:00:25 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 37E62FbD271152
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 08:02:15 +0200
+Received: (from chleroy@localhost)
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 37E62FtP271151;
+        Mon, 14 Aug 2023 08:02:15 +0200
+X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to christophe.leroy@csgroup.eu using -f
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-serial@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 3/3] Documentation: devices.txt: Fix minors for ttyCPM*
+Date:   Mon, 14 Aug 2023 08:02:11 +0200
+Message-ID: <27d7124cf86157e2a27c2b039e769041994d3f22.1691992627.git.christophe.leroy@csgroup.eu>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230814060704.79655-1-bgray@linux.ibm.com>
-References: <20230814060704.79655-1-bgray@linux.ibm.com>
+In-Reply-To: <b5deb1222eb92017f0efe5b5cae127ac11983b3d.1691992627.git.christophe.leroy@csgroup.eu>
+References: <b5deb1222eb92017f0efe5b5cae127ac11983b3d.1691992627.git.christophe.leroy@csgroup.eu>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1691992929; l=1368; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=FoIuLsWO9kaLvy5DY5RPBowjED/gEyMsgQjqQ69P1WM=; b=gK1nAz4kQdKOZklF7V+AH89XLz3y36T2TYUj1uUUG4/Jr91vJ12gj/3fX182LgDstxTSbk/OP l3KvdV1FDUcCQaAdU5aKWxa0g+cNE/VhwNLxJqJQ7oIGBjoUoKfxhMQ
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: FPckdZT2o3A_ZwQtcMaL8l2LrUWOqdaj
-X-Proofpoint-ORIG-GUID: FPckdZT2o3A_ZwQtcMaL8l2LrUWOqdaj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-13_24,2023-08-10_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 mlxscore=0 phishscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- clxscore=1015 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2306200000 definitions=main-2308140055
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Python 3.6 introduced a DeprecationWarning for invalid escape sequences.
-This is upgraded to a SyntaxWarning in Python 3.12, and will eventually
-be a syntax error.
+ttyCPM* devices belong to CPM_UART driver at the first place
+and that driver provides 6 ports.
 
-Fix these now to get ahead of it before it's an error.
-
-Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
+Fixes: e29c3f81eb89 ("Documentation: devices.txt: reconcile serial/ucc_uart minor numers")
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 ---
- tools/testing/selftests/bpf/test_bpftool_synctypes.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/devices.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
-index b21bc1a35bf4..a93144b3b2b0 100755
---- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
-+++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
-@@ -66,7 +66,7 @@ class ArrayParser(BlockParser):
+diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+index 1ba5b7c4973c..839054923530 100644
+--- a/Documentation/admin-guide/devices.txt
++++ b/Documentation/admin-guide/devices.txt
+@@ -2691,7 +2691,7 @@
+ 		 45 = /dev/ttyMM1		Marvell MPSC - port 1 (obsolete unused)
+ 		 46 = /dev/ttyCPM0		PPC CPM (SCC or SMC) - port 0
+ 		    ...
+-		 49 = /dev/ttyCPM5		PPC CPM (SCC or SMC) - port 3
++		 51 = /dev/ttyCPM5		PPC CPM (SCC or SMC) - port 5
+ 		 82 = /dev/ttyVR0		NEC VR4100 series SIU
+ 		 83 = /dev/ttyVR1		NEC VR4100 series DSIU
+ 		 148 = /dev/ttyPSC0		PPC PSC - port 0
+@@ -2752,7 +2752,7 @@
+ 		 43 = /dev/ttycusmx2		Callout device for ttySMX2
+ 		 46 = /dev/cucpm0		Callout device for ttyCPM0
+ 		    ...
+-		 49 = /dev/cucpm5		Callout device for ttyCPM5
++		 51 = /dev/cucpm5		Callout device for ttyCPM5
+ 		 82 = /dev/cuvr0		Callout device for ttyVR0
+ 		 83 = /dev/cuvr1		Callout device for ttyVR1
  
-     def __init__(self, reader, array_name):
-         self.array_name = array_name
--        self.start_marker = re.compile(f'(static )?const bool {self.array_name}\[.*\] = {{\n')
-+        self.start_marker = re.compile(f'(static )?const bool {self.array_name}\\[.*\\] = {{\n')
-         super().__init__(reader)
- 
-     def search_block(self):
-@@ -226,7 +226,7 @@ class FileExtractor(object):
- 
-         @block_name: name of the blog to parse, 'TYPE' in the example
-         """
--        start_marker = re.compile(f'\*{block_name}\* := {{')
-+        start_marker = re.compile(f'\\*{block_name}\\* := {{')
-         pattern = re.compile('\\*\\*([\\w/-]+)\\*\\*')
-         end_marker = re.compile('}\n')
-         return self.__get_description_list(start_marker, pattern, end_marker)
-@@ -245,7 +245,7 @@ class FileExtractor(object):
- 
-         @block_name: name of the blog to parse, 'TYPE' in the example
-         """
--        start_marker = re.compile(f'"\s*{block_name} := {{')
-+        start_marker = re.compile(f'"\\s*{block_name} := {{')
-         pattern = re.compile('([\\w/]+) [|}]')
-         end_marker = re.compile('}')
-         return self.__get_description_list(start_marker, pattern, end_marker)
-@@ -264,7 +264,7 @@ class FileExtractor(object):
- 
-         @macro: macro starting the block, 'HELP_SPEC_OPTIONS' in the example
-         """
--        start_marker = re.compile(f'"\s*{macro}\s*" [|}}]')
-+        start_marker = re.compile(f'"\\s*{macro}\\s*" [|}}]')
-         pattern = re.compile('([\\w-]+) ?(?:\\||}[ }\\]])')
-         end_marker = re.compile('}\\\\n')
-         return self.__get_description_list(start_marker, pattern, end_marker)
 -- 
 2.41.0
 
