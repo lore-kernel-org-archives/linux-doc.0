@@ -2,72 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BBFC41513
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 15:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F22C001B0
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 16:13:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbjHNPxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 11:53:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
+        id S230049AbjHNQM2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 12:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbjHNPxW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 11:53:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680C8E9;
-        Mon, 14 Aug 2023 08:53:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F0D2862123;
-        Mon, 14 Aug 2023 15:53:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1742C433C8;
-        Mon, 14 Aug 2023 15:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692028400;
-        bh=VYn89773/Fan3jTs9Lj+W9soq0OKz68en037iNXyJcI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=G8+fGV9msZ6gV+netW5s77h+LqsYFQEk2OgkyIUTXENvsBz+e8KWcYAu81iLHbyb1
-         X0T7bIRS51XBtfLwJJqOiO9yuHC7jubMafxk+Z7K7Xc5EXRhM4W0hLBJK0cp5/dmBg
-         teaibNl1QNdC0Yi+Zbwov9A7CdgcBHgpGkCn5zrGadp0RohumKn9qUG1OWSyA4lS84
-         gaJHRsS4r7W3Donl8USTDrsaEvTtecp/ZykFR/cgY114B36+7b+ps+7VJTTEZnV2Lh
-         DZhyCgmxFyklVfKxRdPUaSjaV9N/ZFQCtyZO15vecZkOuNjrTl6nOhzZE1Dk89kXxu
-         /rPWuQBb0XuFA==
-Date:   Mon, 14 Aug 2023 08:53:18 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     "Lin Ma" <linma@zju.edu.cn>
-Cc:     corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, rdunlap@infradead.org, void@manifault.com,
-        jani.nikula@intel.com, horms@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v3] docs: net: add netlink attrs best practices
-Message-ID: <20230814085318.090c832d@kernel.org>
-In-Reply-To: <54e9d6f6.106b1a.189e798f8ae.Coremail.linma@zju.edu.cn>
-References: <20230811031549.2011622-1-linma@zju.edu.cn>
-        <20230811152634.271608c5@kernel.org>
-        <54e9d6f6.106b1a.189e798f8ae.Coremail.linma@zju.edu.cn>
+        with ESMTP id S231717AbjHNQMX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 12:12:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 761AE106;
+        Mon, 14 Aug 2023 09:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692029542; x=1723565542;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gNgwqDPrxhz8wCl3Okr47BvVxVZ4M+5ATpm+bjH86Rc=;
+  b=GmUc5Z995+4/0ESlidWBZVZ9mrduJ/xKSYtkx0p2gSWdzarbxKAU34Pf
+   y8n17x4IcnBxgvpMTOv4Yd6D27G0T+I+Z1IlB8TS3RPP+cLfqJF/ZrEwD
+   ldsNuaP/TOlcSDJTX3llEyMAXdYtpOnATSs+LOfOTq8qEyc9DogDf1qXH
+   Y+JgO5RP3vcr5SRYYqM8fgJ8hsIVJdYl07lJnOsgKUJFpe91ZSqilid8y
+   58HsaMvfGY/6ikBRfRoKlZHG/9sXQ3mPr0Hdc+mWemlFPYoosLpJvWTVY
+   Gny4oaNIicXaAyxZmtXn+gjj79Xp/RCP6S8cis5mNY1/odSs6IivCUqe7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="357033678"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="357033678"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 09:06:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="857137237"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="857137237"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga004.jf.intel.com with ESMTP; 14 Aug 2023 09:06:34 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id B12A733B; Mon, 14 Aug 2023 19:14:02 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v1 1/1] PCI: Update the devres documentation regarding to pcim_*()
+Date:   Mon, 14 Aug 2023 19:14:01 +0300
+Message-Id: <20230814161401.12007-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 12 Aug 2023 10:35:09 +0800 (GMT+08:00) Lin Ma wrote:
-> Moving forward, I suggest we consider the following options:
-> 
-> 1. Update the document to address the confusion and make it more relevant
->    to the current state of Netlink development. Maybe the newly added
->    section seems not enough for that. I would greatly appreciate any
->    specific guidance.
+There were many changes to PCI core in scope of managed resources APIs.
+Update documentation to list the current state of affairs.
 
-Unless we have docs for kernel side of modern genetlink any sort of
-indication that this doc is only a guide for looking at old code will
-fall on deaf ears.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/driver-api/driver-model/devres.rst | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-So you'd need to write a sample family and docs for modern stuff.
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index 8be086b3f829..c5f99d834ec5 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -322,10 +322,8 @@ IOMAP
+   devm_platform_ioremap_resource_byname()
+   devm_platform_get_and_ioremap_resource()
+   devm_iounmap()
+-  pcim_iomap()
+-  pcim_iomap_regions()	: do request_region() and iomap() on multiple BARs
+-  pcim_iomap_table()	: array of mapped addresses indexed by BAR
+-  pcim_iounmap()
++
++  Note: For the PCI devices the specific pcim_*() functions may be used, see below.
+ 
+ IRQ
+   devm_free_irq()
+@@ -392,8 +390,16 @@ PCI
+   devm_pci_alloc_host_bridge()  : managed PCI host bridge allocation
+   devm_pci_remap_cfgspace()	: ioremap PCI configuration space
+   devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
++
+   pcim_enable_device()		: after success, all PCI ops become managed
++  pcim_iomap()			: do iomap() on a single BAR
++  pcim_iomap_regions()		: do request_region() and iomap() on multiple BARs
++  pcim_iomap_regions_request_all() : do request_region() on all and iomap() on multiple BARs
++  pcim_iomap_table()		: array of mapped addresses indexed by BAR
++  pcim_iounmap()		: do iounmap() on a single BAR
++  pcim_iounmap_regions()	: do iounmap() and release_region() on multiple BARs
+   pcim_pin_device()		: keep PCI device enabled after release
++  pcim_set_mwi()		: enable Memory-Write-Invalidate PCI transaction
+ 
+ PHY
+   devm_usb_get_phy()
+-- 
+2.40.0.1.gaa8946217a0b
 
-> 2. If the document is deemed too outdated for being kernel documentation,
->    maybe I should publish it somewhere else. Do you have any
->    recommendations on where it could be better suited?
-
-GitHub comes to mind for publishing ReST docs, in the meantime?
