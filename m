@@ -2,33 +2,33 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D098FC41513
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 18:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17A63EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Aug 2023 19:00:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230114AbjHNS5x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 14:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35238 "EHLO
+        id S230371AbjHNTAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 15:00:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbjHNS5U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 14:57:20 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0471F1;
-        Mon, 14 Aug 2023 11:57:18 -0700 (PDT)
+        with ESMTP id S231722AbjHNS7h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 14:59:37 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7760210F7;
+        Mon, 14 Aug 2023 11:59:36 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 63DDE2DC;
-        Mon, 14 Aug 2023 18:57:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 63DDE2DC
+        by ms.lwn.net (Postfix) with ESMTPSA id DA76737B;
+        Mon, 14 Aug 2023 18:59:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DA76737B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1692039438; bh=GnNgEeSq6QmLSqjSs9yaMmzQhonNTncyRCzqeQzsfCE=;
+        t=1692039576; bh=hBASCn6VlYpnxVhZtbOLEsYPyjSypEeLvxEURgg1WUY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=BTt/XYSq0A+y0XIB/3axY5DwVGKX+OgouFFRwn9nrDda6q/HdDbfUlDq+iDIxdgRs
-         MPQL6DGix/cpYgh7onveVNtPlGFK1/aWJRKfU1Gyuyj1kWC4oNjG9wtkiLgWAo2QcU
-         clWZRlw9t3lmsVX9HMGJAZtwtQd/Hz2sgr2XeGenc3gak48ROJBI72BHM9Ne0Q7wnf
-         H0OKE/EcyFhUyHxNPy04hKv4XbOywCmYmOP3vfs7uONnV3gVVRA1Aq1DDAG1Ktr6WV
-         h6YmRQ8mdYFyCdbgOJahTNM9tiUxde2WBvuWeQB3PVj9XMkWm/62CAJIA6U9WqnwIc
-         fNY4WfjfEkgiw==
+        b=P+rK+BGO4HN7yMWwDMGhuyxsFS2/KABD2tuJMDwl9EGr3BqFMLpJMaRO/+tT2kwZT
+         9mlszdyBc6U2vDZ7KWsxQYb3GIaQkiYSmclJULeJA7Qf6uSXcoHVIBMmkNJFcebebk
+         zSp5NhIhVxoOYphgY7udxc7j5ziHOE/905a0kkx9umMAjygYS69rvpbegfhjGNKJAG
+         QrtsMeIlOxmL+8bwJEKTfnv7k8ytMEhpt+DAZMaW0AKB/ts/RetwA6mh2XBSCj9iJv
+         i9qDcDJAvA1NOWIPXqBwolXgQgueKmWpsBGT1r7rlmIPuR3IA/zjM+OaFu6oLaKDMs
+         7m/bDLda5BhAg==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Pavan Kumar Linga <pavan.kumar.linga@intel.com>,
         netdev@vger.kernel.org, kuba@kernel.org
@@ -38,13 +38,13 @@ Cc:     linux-doc@vger.kernel.org, emil.s.tantilov@intel.com,
         jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
         willemb@google.com, decot@google.com, rdunlap@infradead.org,
         Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-Subject: Re: [PATCH net-next v2 1/2] scripts: kernel-doc: parse
- DEFINE_DMA_UNMAP_[ADDR|LEN]
-In-Reply-To: <20230814170720.46229-2-pavan.kumar.linga@intel.com>
+Subject: Re: [PATCH net-next v2 2/2] scripts: kernel-doc: fix macro handling
+ in enums
+In-Reply-To: <20230814170720.46229-3-pavan.kumar.linga@intel.com>
 References: <20230814170720.46229-1-pavan.kumar.linga@intel.com>
- <20230814170720.46229-2-pavan.kumar.linga@intel.com>
-Date:   Mon, 14 Aug 2023 12:57:17 -0600
-Message-ID: <87y1idv4du.fsf@meer.lwn.net>
+ <20230814170720.46229-3-pavan.kumar.linga@intel.com>
+Date:   Mon, 14 Aug 2023 12:59:35 -0600
+Message-ID: <87ttt1v4a0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -53,56 +53,65 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Pavan Kumar Linga <pavan.kumar.linga@intel.com> writes:
 
-> At present, if the macros DEFINE_DMA_UNMAP_ADDR() and
-> DEFINE_DMA_UNMAP_LEN() are used in the structures as shown
-> below, instead of parsing the parameter in the parentheses,
-> kernel-doc parses 'DEFINE_DMA_UNMAP_ADDR(' and
-> 'DEFINE_DMA_UNMAP_LEN(' which results in the following
-> warnings:
+> drivers/net/ethernet/intel/idpf/idpf.h uses offsetof to
+> initialize the enum enumerators:
 >
-> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
-> parameter or member 'DEFINE_DMA_UNMAP_ADDR(dma' not described in
-> 'idpf_tx_buf'
-> drivers/net/ethernet/intel/idpf/idpf_txrx.h:201: warning: Function
-> parameter or member 'DEFINE_DMA_UNMAP_LEN(len' not described in
-> 'idpf_tx_buf'
->
-> struct idpf_tx_buf {
-> 	DEFINE_DMA_UNMAP_ADDR(dma);
-> 	DEFINE_DMA_UNMAP_LEN(len);
+> enum {
+> 	IDPF_BASE_CAPS = -1,
+> 	IDPF_CSUM_CAPS = offsetof(struct virtchnl2_get_capabilities,
+> 				  csum_caps),
+> 	IDPF_SEG_CAPS = offsetof(struct virtchnl2_get_capabilities,
+> 				 seg_caps),
+> 	IDPF_RSS_CAPS = offsetof(struct virtchnl2_get_capabilities,
+> 				 rss_caps),
+> 	IDPF_HSPLIT_CAPS = offsetof(struct virtchnl2_get_capabilities,
+> 				    hsplit_caps),
+> 	IDPF_RSC_CAPS = offsetof(struct virtchnl2_get_capabilities,
+> 				 rsc_caps),
+> 	IDPF_OTHER_CAPS = offsetof(struct virtchnl2_get_capabilities,
+> 				   other_caps),
 > };
 >
-> Fix the warnings by parsing DEFINE_DMA_UNMAP_ADDR() and
-> DEFINE_DMA_UNMAP_LEN().
+> kernel-doc parses the above enumerator with a ',' inside the
+> macro and treats 'csum_caps', 'seg_caps' etc. also as enumerators
+> resulting in the warnings:
+>
+> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+> 'csum_caps' not described in enum 'idpf_cap_field'
+> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+> 'seg_caps' not described in enum 'idpf_cap_field'
+> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+> 'rss_caps' not described in enum 'idpf_cap_field'
+> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+> 'hsplit_caps' not described in enum 'idpf_cap_field'
+> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+> 'rsc_caps' not described in enum 'idpf_cap_field'
+> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+> 'other_caps' not described in enum 'idpf_cap_field'
+>
+> Fix it by removing the macro arguments within the parentheses.
 >
 > Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
->  scripts/kernel-doc | 4 ++++
->  1 file changed, 4 insertions(+)
-
-Is there a reason why you didn't CC me on these?
-
+>  scripts/kernel-doc | 1 +
+>  1 file changed, 1 insertion(+)
+>
 > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index d0116c6939dc..cfb1cb223508 100755
+> index cfb1cb223508..bc008f30f3c9 100755
 > --- a/scripts/kernel-doc
 > +++ b/scripts/kernel-doc
-> @@ -1168,6 +1168,10 @@ sub dump_struct($$) {
->  	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
->  	# replace DECLARE_FLEX_ARRAY
->  	$members =~ s/(?:__)?DECLARE_FLEX_ARRAY\s*\($args,\s*$args\)/$1 $2\[\]/gos;
-> +	#replace DEFINE_DMA_UNMAP_ADDR
-> +	$members =~ s/DEFINE_DMA_UNMAP_ADDR\s*\($args\)/dma_addr_t $1/gos;
-> +	#replace DEFINE_DMA_UNMAP_LEN
-> +	$members =~ s/DEFINE_DMA_UNMAP_LEN\s*\($args\)/__u32 $1/gos;
->  	my $declaration = $members;
+> @@ -1353,6 +1353,7 @@ sub dump_enum($$) {
+>  	my %_members;
+>  
+>  	$members =~ s/\s+$//;
+> +	$members =~ s/\(.*?[\)]//g;
 
-I'm not happy with this ... we are continuing to reimplement parts of
-the C preprocessor here, badly, creating an ugly mess in the process.
+".*" matches the empty string, so * think the "?" is unnecessary.
 
-That said, you are just the latest arrival at the party, can't blame you
-for this.  Until we come up with a better way here, I guess this will
-do.
+I do worry that this regex could match more than expected, disappearing
+everything up to a final parenthesis.  It doesn't cause any changes in
+the current docs build, but still ... How do you feel about replacing
+".*" with "[^;]*" ?
 
 Thanks,
 
