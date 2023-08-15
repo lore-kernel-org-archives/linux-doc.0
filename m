@@ -2,206 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 495B8C04A6A
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 01:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2248DC001B0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 01:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233794AbjHOBMS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 21:12:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
+        id S230400AbjHOBXM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 21:23:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233805AbjHOBLz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 21:11:55 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5E310C1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 18:11:54 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-40a47e8e38dso82231cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 18:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692061913; x=1692666713;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWqNV8j4rJ01I2/kmzyAmB0UmrRYsbr0X6nXpcU09Kw=;
-        b=QoLabUP1MxN2EF7Rd4tNg3zlcuKjFWbe+WC0AcPXwj7g9lnzIQ6CDnLae+5Ox8WgHs
-         m/VbFI8L4dM1KeGHLu9fJrUhoR9io291MGq5WgqmfDFCYiTApGnU6x6GQo7baD6npljz
-         kutAhyWEFApMAXeB6fRWBFxUfZE5+2H3Z6/7B2E+xbxO9d5Vsa+pcWF8b3tU5KAesWT8
-         J0x30KMknDkoes66oe+mYhdViXl+CecTQCEJPxBrHNufY/ZkAcYR6C/DyilRhvr9FIE5
-         d9rfg8yMjJLbCGyDv2X49LhzaUQYC54VJaOeZVQoZZqnYq6s8UAmZmfRD2YR0Aj8LiJ6
-         XrAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692061913; x=1692666713;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JWqNV8j4rJ01I2/kmzyAmB0UmrRYsbr0X6nXpcU09Kw=;
-        b=LRjRVvyc7WVgI4CFvbHRTcc5unpQLTq7vHcPhgeUcpiV1L+w0fWxxenFhak5w3QEpj
-         plT5eID5gq9sBLOFDZpf08K8oooOzwfXIJUeN3GcGUS4od2lZVZrFyamfKyaODwkKQT/
-         Jibj34g6NQE1+yT4hjTJS4j9CEeGCaNvUJGwgeGPbk/sY728dZ3s3UyydWLgObSEvmtN
-         KIcscOVXLi3QeDF+MAtFWUa0fURO+awg7clyJQpBUpkW3wuTm41l+ZxqjWwyo38GeDDS
-         r1QZ5tJ50nzPn+b0pUkHYZ/JYzyV7/wGek2sydL3PVyjKo3DqxWUCWs8HsMUKrBki5IF
-         ZTRA==
-X-Gm-Message-State: AOJu0YzccCRY7G8zql22P8AGYmRCkgaHKGbPKntFXcfjxOmAYIWzarSn
-        5PoM+6Gy0q2hDF18PMxcl5YBCDRDseiiuAUyaZhJ9A==
-X-Google-Smtp-Source: AGHT+IG7MHwhRcBTr5x6srMH1dL3HfSXwFUD3fZEud/UGvJocL5lEnagtJBP+/IcyELLp0Vyr1N2I8JYPNiEqhFk2HA=
-X-Received: by 2002:a05:622a:11cb:b0:410:385c:d1d9 with SMTP id
- n11-20020a05622a11cb00b00410385cd1d9mr606418qtk.25.1692061913091; Mon, 14 Aug
- 2023 18:11:53 -0700 (PDT)
+        with ESMTP id S233905AbjHOBXC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 21:23:02 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F7FB1715
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 18:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692062581; x=1723598581;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=REaBBHhkgXG/mtEL5hEC9exD3qT9WXKU6/2HfxMAcFM=;
+  b=UH+3FD5tMzNh3T3thxYRIUY5B/Vi/i5jj1yiHQFaq6SHcUqlEpxV7Uzw
+   YGikNvTfDSJW3dm8a3dWycwQaoDkxWQ4Vh3Cc7/QA3nXRgqUGmmHyTm+V
+   yA5pNLW88Lc4EKM7zjleJilrDNH8ujtQuZqivehUjgtrSYfp9g9e9Kduz
+   f4NxvhZzRcuCWj2QemAUf0T35iCgDIB8jMb1L3nKhk/gymzjgULMhPu5Y
+   UoxSidfwqAW0flv0pjgDgNuecfwhluW+a70txCs4tFHAfe+xPjZLlpuOV
+   vVqQAnpKCqzk1J1O0LUFLMvG9awG48A89NFVrvsI1i6LB3/0XwEAzabFv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="369648970"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="369648970"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 18:23:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="710549074"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="710549074"
+Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 14 Aug 2023 18:22:59 -0700
+Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qVilu-0000Yx-27;
+        Tue, 15 Aug 2023 01:22:58 +0000
+Date:   Tue, 15 Aug 2023 09:22:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yunsheng Lin <linyunsheng@huawei.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [linyunsheng:net-next-pp_frag_v6-0813 9/10] htmldocs:
+ Documentation/networking/page_pool:59:
+ ./include/net/page_pool/helpers.h:119: WARNING: Inline strong start-string
+ without end-string.
+Message-ID: <202308150949.hadiQeCS-lkp@intel.com>
 MIME-Version: 1.0
-References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com> <1691394685-61240-6-git-send-email-renyu.zj@linux.alibaba.com>
-In-Reply-To: <1691394685-61240-6-git-send-email-renyu.zj@linux.alibaba.com>
-From:   Ian Rogers <irogers@google.com>
-Date:   Mon, 14 Aug 2023 18:11:40 -0700
-Message-ID: <CAP-5=fXPhtPCGYotDi2P_LeFPBMd8N+z_WAPwUT8eR+QiLLTMg@mail.gmail.com>
-Subject: Re: [PATCH v6 5/7] perf test: Add pmu-event test for "Compat" and new event_field.
-To:     Jing Zhang <renyu.zj@linux.alibaba.com>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 7, 2023 at 12:51=E2=80=AFAM Jing Zhang <renyu.zj@linux.alibaba.=
-com> wrote:
->
-> Add new event test for uncore system event which is used to verify the
-> functionality of "Compat" matching multiple identifiers and the new event
-> fields "EventIdCode" and "Type".
->
-> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+tree:   https://github.com/gestionlin/linux.git net-next-pp_frag_v6-0813
+head:   128629caa623079399595594b3034d162c68487d
+commit: 46a32d32ec6ffbe80f9c4d41ed9e4e0938eadeed [9/10] page_pool: update document about frag API
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150949.hadiQeCS-lkp@intel.com/reproduce)
 
-Did you test with NO_JEVENTS=3D1?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308150949.hadiQeCS-lkp@intel.com/
 
-> ---
->  .../pmu-events/arch/test/test_soc/sys/uncore.json  |  8 ++++
->  tools/perf/tests/pmu-events.c                      | 55 ++++++++++++++++=
-++++++
->  2 files changed, 63 insertions(+)
->
-> diff --git a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json b/t=
-ools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
-> index c7e7528..19ec595 100644
-> --- a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
-> +++ b/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
-> @@ -12,5 +12,13 @@
->             "EventName": "sys_ccn_pmu.read_cycles",
->             "Unit": "sys_ccn_pmu",
->             "Compat": "0x01"
-> +   },
-> +   {
-> +           "BriefDescription": "Counts total cache misses in first looku=
-p result (high priority).",
-> +           "Type": "0x05",
-> +           "EventIdCode": "0x01",
-> +           "EventName": "sys_cmn_pmu.hnf_cache_miss",
-> +           "Unit": "sys_cmn_pmu",
-> +           "Compat": "434*;436*;43c*;43a01"
+All warnings (new ones prefixed by >>):
 
-I suspect this needs adding here:
-https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tr=
-ee/tools/perf/pmu-events/empty-pmu-events.c?h=3Dperf-tools-next#n247
+>> Documentation/networking/page_pool:59: ./include/net/page_pool/helpers.h:119: WARNING: Inline strong start-string without end-string.
 
-Thanks,
-Ian
-
->     }
->  ]
-> diff --git a/tools/perf/tests/pmu-events.c b/tools/perf/tests/pmu-events.=
-c
-> index 3204252..79fb3e2 100644
-> --- a/tools/perf/tests/pmu-events.c
-> +++ b/tools/perf/tests/pmu-events.c
-> @@ -255,9 +255,24 @@ struct perf_pmu_test_pmu {
->         .matching_pmu =3D "uncore_sys_ccn_pmu4",
->  };
->
-> +static const struct perf_pmu_test_event sys_cmn_pmu_hnf_cache_miss =3D {
-> +       .event =3D {
-> +               .name =3D "sys_cmn_pmu.hnf_cache_miss",
-> +               .event =3D "type=3D0x05,eventid=3D0x01",
-> +               .desc =3D "Counts total cache misses in first lookup resu=
-lt (high priority). Unit: uncore_sys_cmn_pmu ",
-> +               .topic =3D "uncore",
-> +               .pmu =3D "uncore_sys_cmn_pmu",
-> +               .compat =3D "434*;436*;43c*;43a01",
-> +       },
-> +       .alias_str =3D "type=3D0x5,eventid=3D0x1",
-> +       .alias_long_desc =3D "Counts total cache misses in first lookup r=
-esult (high priority). Unit: uncore_sys_cmn_pmu ",
-> +       .matching_pmu =3D "uncore_sys_cmn_pmu0",
-> +};
-> +
->  static const struct perf_pmu_test_event *sys_events[] =3D {
->         &sys_ddr_pmu_write_cycles,
->         &sys_ccn_pmu_read_cycles,
-> +       &sys_cmn_pmu_hnf_cache_miss,
->         NULL
->  };
->
-> @@ -704,6 +719,46 @@ static int __test_uncore_pmu_event_aliases(struct pe=
-rf_pmu_test_pmu *test_pmu)
->                         &sys_ccn_pmu_read_cycles,
->                 },
->         },
-> +       {
-> +               .pmu =3D {
-> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
-> +                       .is_uncore =3D 1,
-> +                       .id =3D (char *)"43401",
-> +               },
-> +               .aliases =3D {
-> +                       &sys_cmn_pmu_hnf_cache_miss,
-> +               },
-> +       },
-> +       {
-> +               .pmu =3D {
-> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
-> +                       .is_uncore =3D 1,
-> +                       .id =3D (char *)"43602",
-> +               },
-> +               .aliases =3D {
-> +                       &sys_cmn_pmu_hnf_cache_miss,
-> +               },
-> +       },
-> +       {
-> +               .pmu =3D {
-> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
-> +                       .is_uncore =3D 1,
-> +                       .id =3D (char *)"43c03",
-> +               },
-> +               .aliases =3D {
-> +                       &sys_cmn_pmu_hnf_cache_miss,
-> +               },
-> +       },
-> +       {
-> +               .pmu =3D {
-> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
-> +                       .is_uncore =3D 1,
-> +                       .id =3D (char *)"43a01",
-> +               },
-> +               .aliases =3D {
-> +                       &sys_cmn_pmu_hnf_cache_miss,
-> +               },
-> +       }
->  };
->
->  /* Test that aliases generated are as expected */
-> --
-> 1.8.3.1
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
