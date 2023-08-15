@@ -2,120 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75B5FC41513
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 21:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2731C04A94
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 21:07:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjHOVCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 17:02:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
+        id S239691AbjHOVGe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 17:06:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239825AbjHOVCI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 17:02:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98B0F2;
-        Tue, 15 Aug 2023 14:02:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E96A656EB;
-        Tue, 15 Aug 2023 21:02:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEC6C433C9;
-        Tue, 15 Aug 2023 21:02:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692133326;
-        bh=cyy9dMmZpCKf0kwV7gSnc6iwwZGFtG1+94Uv3PmsMU4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bqt6Z6qZREPwPFwBqdMZB2kGJkkZypRmE9bwxc/FX8l6pnZwrXqDF3bNuPrbnNof+
-         Zbk1pTJchswaB67AS8Nj1Fds9Y0G2RQA9I45EqR3l7nWywG7yppNaZroed7qaeEEAZ
-         33mA8BkQ+gc93Br35uBf/91KWeipdjt2HZOsVUK2Ux2Vxd9ZCygGsOHP3hrhNO5jUy
-         2VYsEWdiWM2RoeaISTVoMt6DhY/pcivI+RFTbrq8SXdIqqMaMX6HRMevIxKwi4XifW
-         48vwEdEv9oFNrQbuyJP6Pq9qrvMreh/m17TY8MRUHS9jLxuBTcpwnJXfg4G673G6/2
-         25g2vLFO2qOfA==
-Date:   Tue, 15 Aug 2023 22:01:57 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "palmer@dabbelt.com" <palmer@dabbelt.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH v4 21/36] arm64/mm: Implement map_shadow_stack()
-Message-ID: <496b9d81-c4c8-471d-9be0-3a0c8fbab436@sirena.org.uk>
-References: <20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org>
- <20230807-arm64-gcs-v4-21-68cfa37f9069@kernel.org>
- <8a7bb14f808ab9da413c11f281041375d9a54b01.camel@intel.com>
+        with ESMTP id S240179AbjHOVGZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 17:06:25 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22B54F2
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 14:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692133585; x=1723669585;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=rxMXZMUeEzFrLFIgcBRR8/8rAi9+EVFWN4oV+J9FpmU=;
+  b=D1TIlvw27q5lOitJuYxeczozej/qe0nozIvXnlxf/c2QYWvzPjEBOoTL
+   JDx+JzzwfsNtU2mo2To727z2XI63I1+2kC4HD2e+vvLBegBxBvBQnEXwY
+   U4FcD4S4PF0Xd85QHyUokJ42w6xWg31zzfpAziv4ruh9HvNEbem9oDZZV
+   vUvw5wJ6KEqaVfaLYyYry0WhFqPmpPn6SMGaCuqeW6Zcd5z7lbPmSdKTS
+   GV5pbjgZWumYyYLhIzRWco78yCZvISfSw8RgsAsX4olvYnOj3PVJB8031
+   l8UhHX4zAkK/2FH8Jde1vCmh8aYNKKiyOtmOb/Hxrk60QbrZyoZN0u893
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376109602"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="376109602"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 14:06:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="803957006"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="803957006"
+Received: from unknown (HELO fedora.jf.intel.com) ([10.166.80.24])
+  by fmsmga004.fm.intel.com with ESMTP; 15 Aug 2023 14:06:22 -0700
+From:   Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+To:     linux-doc@vger.kernel.org, corbet@lwn.net
+Cc:     kuba@kernel.org, rdunlap@infradead.org, emil.s.tantilov@intel.com,
+        joshua.a.hay@intel.com, sridhar.samudrala@intel.com,
+        alan.brady@intel.com, madhu.chittim@intel.com,
+        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+        willemb@google.com, decot@google.com,
+        Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+Subject: [PATCH docs-next v3 2/2] scripts: kernel-doc: fix macro handling in enums
+Date:   Tue, 15 Aug 2023 14:04:17 -0700
+Message-Id: <20230815210417.98749-3-pavan.kumar.linga@intel.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230815210417.98749-1-pavan.kumar.linga@intel.com>
+References: <20230815210417.98749-1-pavan.kumar.linga@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dU1pnpOPTrUAVGE+"
-Content-Disposition: inline
-In-Reply-To: <8a7bb14f808ab9da413c11f281041375d9a54b01.camel@intel.com>
-X-Cookie: Darth Vader sleeps with a Teddywookie.
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+drivers/net/ethernet/intel/idpf/idpf.h uses offsetof to
+initialize the enum enumerators:
 
---dU1pnpOPTrUAVGE+
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+enum idpf_cap_field {
+	IDPF_BASE_CAPS = -1,
+	IDPF_CSUM_CAPS = offsetof(struct virtchnl2_get_capabilities,
+				  csum_caps),
+	IDPF_SEG_CAPS = offsetof(struct virtchnl2_get_capabilities,
+				 seg_caps),
+	IDPF_RSS_CAPS = offsetof(struct virtchnl2_get_capabilities,
+				 rss_caps),
+	IDPF_HSPLIT_CAPS = offsetof(struct virtchnl2_get_capabilities,
+				    hsplit_caps),
+	IDPF_RSC_CAPS = offsetof(struct virtchnl2_get_capabilities,
+				 rsc_caps),
+	IDPF_OTHER_CAPS = offsetof(struct virtchnl2_get_capabilities,
+				   other_caps),
+};
 
-On Tue, Aug 15, 2023 at 08:42:52PM +0000, Edgecombe, Rick P wrote:
-> On Mon, 2023-08-07 at 23:00 +0100, Mark Brown wrote:
-> > +=A0=A0=A0=A0=A0=A0=A0if (flags & ~(SHADOW_STACK_SET_TOKEN |
-> > SHADOW_STACK_SET_MARKER))
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EINVAL;
+kernel-doc parses the above enumerator with a ',' inside the
+macro and treats 'csum_caps', 'seg_caps' etc. also as enumerators
+resulting in the warnings:
 
-> Thanks for adding SHADOW_STACK_SET_MARKER. I don't see where it is
-> defined in these patches though. Might have been left out on accident?
+drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+'csum_caps' not described in enum 'idpf_cap_field'
+drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+'seg_caps' not described in enum 'idpf_cap_field'
+drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+'rss_caps' not described in enum 'idpf_cap_field'
+drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+'hsplit_caps' not described in enum 'idpf_cap_field'
+drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+'rsc_caps' not described in enum 'idpf_cap_field'
+drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
+'other_caps' not described in enum 'idpf_cap_field'
 
-I added it to the dependency patches I've got which pull bits out of the
-x86 series prior to you having rebased it, the ABI bits are mixed in
-with the x86 architecture changes which I didn't feel like dealing with
-the rebasing for so I pulled out the ABI portions.  I'll resolve this
-properly when I rebase back onto the x86 series (ideally after the next
-merge window it'll be in mainline!).  For these that'll probably boil
-down to adding defines to prctl.h for the generic prctl API.
+Fix it by removing the macro arguments within the parentheses.
 
---dU1pnpOPTrUAVGE+
-Content-Type: application/pgp-signature; name="signature.asc"
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+---
+ scripts/kernel-doc | 1 +
+ 1 file changed, 1 insertion(+)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index cfb1cb223508..6e199a745ccb 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1353,6 +1353,7 @@ sub dump_enum($$) {
+ 	my %_members;
+ 
+ 	$members =~ s/\s+$//;
++	$members =~ s/\([^;]*?[\)]//g;
+ 
+ 	foreach my $arg (split ',', $members) {
+ 	    $arg =~ s/^\s*(\w+).*/$1/;
+-- 
+2.38.1
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTb58UACgkQJNaLcl1U
-h9Bc4Af/Xi/XuQ8BuGwUsA64+0G15WTAgvnaEr6smr1t4oyMFuQMUHjd7iBjOThm
-PV/FOTfozLwcOPBbBklofnYUDiI04WMQKwGbdr7Zi1+GFR6+EN7hirIWkuuvQlL5
-NKBQjm5eyQL/yYYt4BJ6hRDbRNoCsRtT6zZHwZJpMXiv+nVQBOZlasA6cZ0TgBO3
-HkA5PardmuhDrB+yavSIm9rV91v8lOpnDP5q3yF8ShV6Il1n6n8cY4FsnTaXQfpk
-dYkB1QCKNAiqGdIWRgeV11iWfrslrXztH2Z94tOjqgbLti1lmf9XEIoX4Wk9Juu8
-JF1NdrdhL8X0X+5VS1Mt4bHie2rizQ==
-=r3Gb
------END PGP SIGNATURE-----
-
---dU1pnpOPTrUAVGE+--
