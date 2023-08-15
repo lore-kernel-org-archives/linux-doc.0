@@ -2,92 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 841B0C001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 09:37:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1EF5C41513
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 09:54:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233967AbjHOJgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 05:36:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37466 "EHLO
+        id S236218AbjHOJyN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 05:54:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236121AbjHOJfo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 05:35:44 -0400
+        with ESMTP id S236247AbjHOJx6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 05:53:58 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BBC119B1;
-        Tue, 15 Aug 2023 02:35:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18201F7;
+        Tue, 15 Aug 2023 02:53:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BECDC61AB6;
-        Tue, 15 Aug 2023 09:35:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F19DCC433C9;
-        Tue, 15 Aug 2023 09:35:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C70A62B61;
+        Tue, 15 Aug 2023 09:53:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6926DC433C8;
+        Tue, 15 Aug 2023 09:53:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692092142;
-        bh=hi0VtnpzEboHQQj5C2ezCxwMb9TBeAcg+ylZ1XN8Qqk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aQbtPMt+4r84phbA4Mc8Snl96/e695YtdcLzvlACgI7u0zroRxF66989IfNG2ecw/
-         6qc5zi70HzwnaB7KIOLQHkPM8J5GaPOcoAW6TJS2Ilf1E2L07JtEVG44O7tvlvh2aP
-         FhyLImSkdA3SwUQgy/29A6N9IqTpaQldMnDeK6oglrsh6+9OdrN/JkREmlvXCRdKgR
-         aSgJq7TlzvdyOYur6THuqfNYTDnY3Co7BNnp//0ckoSduTJVdqogKSnoYjSlBhIuvP
-         bRucofBX60tX+keQv7uyJWtuleNt0bF+m3XKemmk8DjD2+ds2PI52nEOyTa9r9QbtR
-         LyeLPNw5K3TeA==
-From:   Christian Brauner <brauner@kernel.org>
-To:     Loic Poulain <loic.poulain@linaro.org>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, hch@infradead.org,
-        rdunlap@infradead.org, viro@zeniv.linux.org.uk, corbet@lwn.net
-Subject: Re: [PATCH v4] init: Add support for rootwait timeout parameter
-Date:   Tue, 15 Aug 2023 11:35:28 +0200
-Message-Id: <20230815-verfechten-magisch-a9cfa1bd6a4e@brauner>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230813082349.513386-1-loic.poulain@linaro.org>
-References: <20230813082349.513386-1-loic.poulain@linaro.org>
+        s=k20201202; t=1692093235;
+        bh=kvaqJ2sBEkbN7oMgKvzp6aMeCbQ6lN6aEQjyWQJ5X6s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Uqw5AIwCq5p7sCinwmmp/Lqz+8nGO5myfGcZEaCsclPS+/Dq5OkqZIWvlAsVY8uxR
+         FL5dgh/XWOTklxmPq9FDZW5xT31bE/WIg6siTr5DLREiB2Zv7srizXhQIOcqQiDaS4
+         PCZjYG6f3/OWUWTxkKEwh7oAlcEAZU/xrZ/iMoTlKvu1SjYYeqP4Uf5CwHYCvOgzjK
+         rYulG/3FrqS9u8zCuJPbKQNYtQMWuPv1dS8t0eV05/iK8WzCJTpWThBQjtR4cOKgrU
+         qCM6KGWyF2pkR9NkX9uqoHqsfYuQ4rVzrshHKaBe0jrpTTYMdWS100Oykaz9q5eP8k
+         GMSfRQ3v6Nhuw==
+Date:   Tue, 15 Aug 2023 10:53:47 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Yi-De Wu <yi-de.wu@mediatek.com>,
+        Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        David Bradil <dbrazdil@google.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>,
+        Willix Yeh <chi-shen.yeh@mediatek.com>
+Subject: Re: [PATCH v5 04/12] virt: geniezone: Add vcpu support
+Message-ID: <20230815095346.GA11083@willie-the-truck>
+References: <20230727080005.14474-1-yi-de.wu@mediatek.com>
+ <20230727080005.14474-5-yi-de.wu@mediatek.com>
+ <20230811170054.GB3593414-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1626; i=brauner@kernel.org; h=from:subject:message-id; bh=hi0VtnpzEboHQQj5C2ezCxwMb9TBeAcg+ylZ1XN8Qqk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTcdrt1qHOKKzPb/pO+LG1nKl+tb3yQvqTwz2K9u1pcJndN PGqndpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkykWGv4KX6h+ZLXcN3Tov3nFvw3 fZozNaopcG1Xce3LiVZ42JeRTD/6wTl5+fSt7uqHxaKv+m6/a+p0zVArb3J94sP/h4X9IXGSYA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230811170054.GB3593414-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 13 Aug 2023 10:23:49 +0200, Loic Poulain wrote:
-> Add an optional timeout arg to 'rootwait' as the maximum time in
-> seconds to wait for the root device to show up before attempting
-> forced mount of the root filesystem.
+On Fri, Aug 11, 2023 at 11:00:54AM -0600, Rob Herring wrote:
+> On Thu, Jul 27, 2023 at 03:59:57PM +0800, Yi-De Wu wrote:
+> > From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+> > 
+> > VMM use this interface to create vcpu instance which is a fd, and this
+> > fd will be for any vcpu operations, such as setting vcpu registers and
+> > accepts the most important ioctl GZVM_VCPU_RUN which requests GenieZone
+> > hypervisor to do context switch to execute VM's vcpu context.
+> > 
+> > Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+> > Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
+> > Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
+> > Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+> > ---
+> >  arch/arm64/geniezone/Makefile           |   2 +-
+> >  arch/arm64/geniezone/gzvm_arch_common.h |  20 ++
+> >  arch/arm64/geniezone/vcpu.c             |  88 +++++++++
+> >  arch/arm64/geniezone/vm.c               |  11 ++
+> >  arch/arm64/include/uapi/asm/gzvm_arch.h |  30 +++
 > 
-> Use case:
-> In case of device mapper usage for the rootfs (e.g. root=/dev/dm-0),
-> if the mapper is not able to create the virtual block for any reason
-> (wrong arguments, bad dm-verity signature, etc), the `rootwait` param
-> causes the kernel to wait forever. It may however be desirable to only
-> wait for a given time and then panic (force mount) to cause device reset.
-> This gives the bootloader a chance to detect the problem and to take some
-> measures, such as marking the booted partition as bad (for A/B case) or
-> entering a recovery mode.
-> 
-> [...]
+> I'm almost certain that the arm64 maintainers will reject putting this 
+> here. What is the purpose of the split with drivers/virt/? Do you plan 
+> to support another arch in the near future?
 
-Hmkay, let's give this some -next exposure.
+Thanks, Rob. You're absolutely right that this doesn't belong in the
+architecture code.
 
----
-
-Applied to the vfs.misc branch of the vfs/vfs.git tree.
-Patches in the vfs.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.misc
-
-[1/1] init: Add support for rootwait timeout parameter
-      https://git.kernel.org/vfs/vfs/c/3b0086ced97f
+Will
