@@ -2,144 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25B8FC001DE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 07:47:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A414C0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 07:51:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235389AbjHOHrV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 03:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60106 "EHLO
+        id S233141AbjHOHuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 03:50:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235431AbjHOHrF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 03:47:05 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B4C1737
-        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 00:47:00 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-51d95aed33aso6889292a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 00:47:00 -0700 (PDT)
+        with ESMTP id S235527AbjHOHu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 03:50:26 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E193111A;
+        Tue, 15 Aug 2023 00:50:24 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-d62ae3fc7f1so3876934276.2;
+        Tue, 15 Aug 2023 00:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1692085619; x=1692690419;
+        d=gmail.com; s=20221208; t=1692085824; x=1692690624;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OGe5aB5QQFtrcwstILThBVk8o25menFmktNdebKAlpo=;
-        b=FOZc0Jg58vmTJ3w7Y4slBEtKA/i/NosQwUogj3m2eTUzme5uMzaRx+FsRyccaeWXOH
-         FWUvLDxmICvhXrS2QE7RyCuZsZdwWd2MlyNq2lNWSjp4aJYj8O+0NPlXn7zqKJKhOyel
-         MReGhZknKIbMk6Em6+RAkIOEx5DMlFOZeBK3m+HW8rawqQxFji5owRwkzwCRcpj3/qVT
-         Pz1lPb7gNsYMOY/H8o7FfUJL1Mll5WAhQ46zVp9+q+pmJpN3fdb/6rg0ICOkS2t30cgQ
-         pzbQv/HmFLrRtR+s6J4D3lQ9USgO000E7dPi5O6ufq15X34Y4aVc8j15UBD6ct0ff8P7
-         N11g==
+        bh=FA7UNvLh/NtwE8oB7thsQ+ZgxpcPVqBILp5Db1EACXc=;
+        b=i0vKNHq1GyS7aJEKx4XbRrsU+PCcQIEbW/RUDNyYjiAhDowmhMMCSpCW5uqmbQYhfU
+         0aUkNENEhyHUH4Og5FtJz4fLzUNs8pGPtvJaT5Pkmq4GcQ/RG1xOk8lJmVot4NzXWVVT
+         +EMe6Dsl16OBo1dKVXSrxy5sAXiDQQSezHfSLr+N0mYaql5ivZV9RC8qIGjF3BhqSdKg
+         j5NtGUd5VhucPZcectiLfIEWE2KX5unNEKK4w7eXIN6v5EBbc+sUKe2KXowzCE0hsBLU
+         IEfIZ1j3G9HfgN28SkhRqgplcntyqqZY6LS3sxLFknEs9+E4rix/NQLSeE45SDLAtyzU
+         d/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692085619; x=1692690419;
+        d=1e100.net; s=20221208; t=1692085824; x=1692690624;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OGe5aB5QQFtrcwstILThBVk8o25menFmktNdebKAlpo=;
-        b=MvDufk/xgi35iz65zN73TNWJLqsoK2eAviRb/MkvuN1il4WWHh4RlEcXuKaz254GIw
-         ZXxOw1xeAzDiMKHqVdNnwbWWDLAuiyWIFeu7igZifXiSs3BVCK4v38OXvrkDWOT2I5Qv
-         pCuU0upEWHOt4gk3pDyZz3kwlFMVlY4WMU2/AX6Z0CrBXd3MXAzGgm4BN18/bIzD4g5n
-         pXYQv1qoD2TyFcbEd3tn6+uNNMK8eFN+iJwZ4kP0+sTx2HOjOXP0ZcI2dti/R+QyO+sL
-         rkRas7BRyaCxruGJM+rjmGRqkaYqXD+kB2IFHBVInNzCI7dnLVH/fNFkcq27AZxHUdfh
-         8C0w==
-X-Gm-Message-State: AOJu0YzsXNXuLfRg2L4VvLLc02DC9EshWXSYuC5s1Ch24kVoCXYpJ6ZM
-        BNcsRFbR4pAthhNgWvXs23CDB0qBuq067pAA791H6w==
-X-Google-Smtp-Source: AGHT+IHuWD0xsdFGgQ//NNdDa0xXkJDK6dyoZ0eavZhIAFc2CRFqWXSPouUcFhxh7k6nJhonciV2SH/RP5EVUWLxFw0=
-X-Received: by 2002:a05:6402:550:b0:523:1901:d19c with SMTP id
- i16-20020a056402055000b005231901d19cmr9389442edx.24.1692085618886; Tue, 15
- Aug 2023 00:46:58 -0700 (PDT)
+        bh=FA7UNvLh/NtwE8oB7thsQ+ZgxpcPVqBILp5Db1EACXc=;
+        b=ZHhllPBDibaR25bl1IevukHuIbk7uRzkHANvYN1CmWW98uxOV1zfwPk1UbGCfQcU1M
+         kV7dw8eI+4+oo8lqC0To6mYc51xwsBQjs50VqSEHFf+WzXIC5k8WTG7e4ab9m6Xg6/r0
+         YAjOA2A2TdEsBBuGeehR40LwTFq1w9zHUVGOOPCt1i8uTV5zAur1hNIXwHSo2GICeJjF
+         lFNKWbySHasMKY65CWu+Sfcq13RqSBOe6zIofxlnVdfC6/qLiNm3YMweo1i9VeIP6ao7
+         bivC7WVgsYiFSeYrxgi+7FTbSAyEsxqSKON4+zBGPc8tynTqrpYKJv5BwnkhjQ/p4tLW
+         uOAA==
+X-Gm-Message-State: AOJu0YxUZiu2Pd7rLB5Mdh5Ml6tGhbBPj+M4ftq9Mg807IchFZzNlM88
+        n/rWOIKSf2UA3z+pjnJD1vECX8JnT6nm4zl3z2s=
+X-Google-Smtp-Source: AGHT+IHaiDSMY+QkhVwb3BPgUZZO+nmIvLSHf5aXIVOauSuFeN6IaJFsD4dH94ZZRJntrGxxCFrmO4AX2M6byBZ62ig=
+X-Received: by 2002:a25:bf86:0:b0:c83:27d4:c0d6 with SMTP id
+ l6-20020a25bf86000000b00c8327d4c0d6mr9479331ybk.37.1692085824032; Tue, 15 Aug
+ 2023 00:50:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <9b8d38f0-fd22-3f98-d070-16baf976ecb5@google.com>
- <20230814082339.2006418-1-snaipe@arista.com> <986c412c-669a-43fe-d72a-9e81bca8211@google.com>
-In-Reply-To: <986c412c-669a-43fe-d72a-9e81bca8211@google.com>
-From:   =?UTF-8?B?RnJhbmtsaW4g4oCcU25haXBl4oCdIE1hdGhpZXU=?= 
-        <snaipe@arista.com>
-Date:   Tue, 15 Aug 2023 09:46:22 +0200
-Message-ID: <CAK8sBDM5aid1vkCKhBxqUHXrG_FbDRN0noLtPkcPv=jXb7NTNg@mail.gmail.com>
-Subject: Re: [PATCH] shmem: add support for user extended attributes
-To:     Hugh Dickins <hughd@google.com>
-Cc:     ovt@google.com, corbet@lwn.net, akpm@linux-foundation.org,
-        brauner@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20230811105300.15889-1-nj.shetty@samsung.com> <CGME20230811105648epcas5p3ae8b8f6ed341e2aa253e8b4de8920a4d@epcas5p3.samsung.com>
+ <20230811105300.15889-3-nj.shetty@samsung.com> <3b1da341-1c7f-e28f-d6aa-cecb83188f34@acm.org>
+ <20230814121853.ms4acxwr56etf3ph@green245> <abad92af-d8b2-0488-cc75-01a3f4e8e270@acm.org>
+In-Reply-To: <abad92af-d8b2-0488-cc75-01a3f4e8e270@acm.org>
+From:   Nitesh Shetty <nitheshshetty@gmail.com>
+Date:   Tue, 15 Aug 2023 13:20:12 +0530
+Message-ID: <CAOSviJ1XL1UyMk2Ur37cJpW5BJAE5Ts6J4BtTSRd2_h_NPtGCQ@mail.gmail.com>
+Subject: Re: [dm-devel] [PATCH v14 02/11] Add infrastructure for copy offload
+ in block and request layer.
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     Nitesh Shetty <nj.shetty@samsung.com>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        martin.petersen@oracle.com, linux-doc@vger.kernel.org,
+        gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org, mcgrof@kernel.org, dlemoal@kernel.org,
+        linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 5:52=E2=80=AFAM Hugh Dickins <hughd@google.com> wro=
-te:
+We had kept this as a part of blk-types.h because we saw some other functio=
+ns
+trying to do similar things inside this file (op_is_write/flush/discard).
+But it should be okay for us to move it to blk-mq.h if that=E2=80=99s the r=
+ight way.
+
+Thank you,
+Nitesh Shetty
+
+
+On Mon, Aug 14, 2023 at 8:28=E2=80=AFPM Bart Van Assche <bvanassche@acm.org=
+> wrote:
 >
-> Thanks for the encouragement.  At the time that I wrote that (20 July)
-> I did not expect to get around to it for months.  But there happens to
-> have been various VFS-involving works going on in mm/shmem.c recently,
-> targeting v6.6: which caused me to rearrange priorities, and join the
-> party with tmpfs user xattrs, see
+> On 8/14/23 05:18, Nitesh Shetty wrote:
+> > On 23/08/11 02:25PM, Bart Van Assche wrote:
+> >> On 8/11/23 03:52, Nitesh Shetty wrote:
+> >>> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> >>> index 0bad62cca3d0..de0ad7a0d571 100644
+> >>> +static inline bool op_is_copy(blk_opf_t op)
+> >>> +{
+> >>> +    return ((op & REQ_OP_MASK) =3D=3D REQ_OP_COPY_SRC ||
+> >>> +        (op & REQ_OP_MASK) =3D=3D REQ_OP_COPY_DST);
+> >>> +}
+> >>> +
+> >>
+> >> The above function should be moved into include/linux/blk-mq.h below t=
+he
+> >> definition of req_op() such that it can use req_op() instead of
+> >> open-coding it.
+> >>
+> > We use this later for dm patches(patch 9) as well, and we don't have
+> > request at
+> > that time.
 >
-> https://lore.kernel.org/linux-fsdevel/e92a4d33-f97-7c84-95ad-4fed8e84608c=
-@google.com/
+> My understanding is that include/linux/blk_types.h should only contain
+> data types and constants and hence that inline functions like
+> op_is_copy() should be moved elsewhere.
 >
-> Which Christian Brauner quickly put into his vfs.git (vfs.tmpfs branch):
-> so unless something goes horribly wrong, you can expect them in v6.6.
-
-That's great to hear, thanks!
-
-> There's a lot that you wrote above which I have no understanding of
-> whatsoever (why would user xattrs stop rmdir failing?? it's okay, don't
-> try to educate me, I don't need to know, I'm just glad if they help you).
+> Bart.
 >
-> Though your mention of "unprivileged" does make me shiver a little:
-> Christian will understand the implications when I do not, but I wonder
-> if my effort to limit the memory usage of user xattrs to "inode space"
-> can be be undermined by unprivileged mounts with unlimited (or default,
-> that's bad enough) nr_inodes.
->
-> If so, that won't endanger the tmpfs user xattrs implementation, since
-> the problem would already go beyond those: can an unprivileged mount of
-> tmpfs allow its user to gobble up much more memory than is good for the
-> rest of the system?
-
-I don't actually know; I'm no expert in that area. That said, these
-tmpfses are themselves attached to an unprivileged mount namespace, so
-it would certainly be my assumption that in the case of an OOM
-condition, the OOM killer would keep trying to kill processes in that
-mount namespace until nothing else references it and all tmpfs mounts
-can be reclaimed, but then again, that's only my assumption and not
-necessarily reality.
-
-That said, I got curious and decided to experiment; I booted a kernel
-in a VM with 1GiB of memory and ran the following commands:
-
-    $ unshare -Umfr bash
-    # mount -t tmpfs tmp /mnt -o size=3D1g
-    # dd if=3D/dev/urandom of=3D/mnt/oversize bs=3D1M count=3D1000
-
-After about a second, the OOM killer woke up and killed bash then dd,
-causing the mount namespace to be collected (and with it the tmpfs).
-So far, so good.
-
-I got suspicious that what I was seeing was that these were the only
-reasonable candidates for the OOM killer, because there were no other
-processes in that VM besides them & init, so I modified slightly the
-experiment:
-
-    $ dd if=3D/dev/zero of=3D/dev/null bs=3D10M count=3D10000000000 &
-    $ unshare -Umfr bash
-    # mount -t tmpfs tmp /mnt -o size=3D1g
-    # dd if=3D/dev/urandom of=3D/mnt/oversize bs=3D1M count=3D1000
-
-The intent being that the first dd would have a larger footprint than
-the second because of the large block size, yet it shouldn't be killed
-if the tmpfs usage was accounted for in processes in the mount
-namespace. What happened however is that both the outer dd and the
-outer shell got terminated, causing init to exit and with it the VM.
-
-So, it's likely that there's some more work to do in that area; I'd
-certainly expect the OOM killer to take the overall memory footprint
-of mount namespaces into account when selecting which processes to
-kill. It's also possible my experiment was flawed and not
-representative of a real-life scenario, as I clearly have interacted
-with misbehaving containers before, which got killed when they wrote
-too much to tmpfs. But then again, my experiment also didn't take
-memory cgroups into account.
-
---
-Snaipe
