@@ -2,187 +2,199 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C30C41513
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 16:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60287C04A6A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 17:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238471AbjHOQaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 12:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35548 "EHLO
+        id S236709AbjHORGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 13:06:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238550AbjHOQaR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 12:30:17 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B4710E3;
-        Tue, 15 Aug 2023 09:30:16 -0700 (PDT)
+        with ESMTP id S238658AbjHORG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 13:06:27 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11A11737;
+        Tue, 15 Aug 2023 10:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692117016; x=1723653016;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kB0+uw89rlc/HY5J1IEM0QZjixKE2caKHcevwQ588Dk=;
-  b=WXNI4YljyOb5fuGvjt5IOG92UGYnZ1fHGZ0DpygnDPJim0NRiiZoJmzx
-   pj4SHuV+8NUBiisjhcu96NFsHzP18jER+OyHIYkK7LlQh6bKZlSQdxwo+
-   ueVYLekqWGkSfiaOj7u/lUP5feFkwZKhCWdMDbm/iOG3UvvkrsYWJ4QRa
-   7NCEfdCVUEQGbx1csTlSXyFrh8zILBdX62w0tzjiKTg3XHBk1ICpJEdBw
-   E+NrthTTuaOZ6helytK5B4NmmvzIAU5G1VXayDzuem1ipuzRmCCoCG+NP
-   wXRAkTMoINzWwVOI4LrZdO3JELUFsnjqfdeezqxrPandd0bymXjnwDTex
+  t=1692119186; x=1723655186;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=dotDLlo/a9YsWNlJpXd8Bf3iFLwvIMCiIU+o/OVT2tA=;
+  b=HRLsU2IZSO5iIeCl76TZbNVArSiJqjPg3pslBFiq3yTI3Ksi9tXUCAhk
+   3nEp+Mp/wwONOsUivxBIZEhVbqEZzLE/JEe94pCpS3yZ1h1S0+jGHEqpu
+   2nRj2ryhwFFNF+bNTFofCdNlU7KNfrJvMOUCdTRzgbbzla66e3LNn7r/x
+   JnYmf6/7ulHPgrv9Dmk+O4UJck8qLN+XdN8YhCsojg6D6N1fLQldBEDX1
+   YfjlhKGp9FBk8WV41nQabWZlvPbeYsbwZqY/5nyIE7+v7s52KEUO5/OOL
+   j3fkO31dtl5jmUtH840MZv4jTbx0cPV0BhFJLheVbT2l+GW5yryegmegV
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458671841"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362483565"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="458671841"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 09:30:16 -0700
+   d="scan'208";a="362483565"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 10:04:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="683716966"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="733913263"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="683716966"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Aug 2023 09:30:12 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qVwvQ-00015h-07;
-        Tue, 15 Aug 2023 16:29:54 +0000
-Date:   Wed, 16 Aug 2023 00:29:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     David Ober <dober6023@gmail.com>, linux-hwmon@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jdelvare@suse.com,
-        linux@roeck-us.net, corbet@lwn.net, dober@lenovo.com,
-        mpearson@lenovo.com, David Ober <dober6023@gmail.com>
-Subject: Re: [PATCH] hwmon: add in watchdog for nct6686
-Message-ID: <202308160001.hx3WQNSU-lkp@intel.com>
-References: <20230815115515.286142-1-dober6023@gmail.com>
+   d="scan'208";a="733913263"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orsmga002.jf.intel.com with ESMTP; 15 Aug 2023 10:04:47 -0700
+From:   Tony Nguyen <anthony.l.nguyen@intel.com>
+To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, netdev@vger.kernel.org
+Cc:     Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
+        anthony.l.nguyen@intel.com, jacob.e.keller@intel.com,
+        horms@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [PATCH net-next v3 5/5] ice: add documentation for FW logging
+Date:   Tue, 15 Aug 2023 09:57:50 -0700
+Message-Id: <20230815165750.2789609-6-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230815165750.2789609-1-anthony.l.nguyen@intel.com>
+References: <20230815165750.2789609-1-anthony.l.nguyen@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230815115515.286142-1-dober6023@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi David,
+From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
 
-kernel test robot noticed the following build errors:
+Add documentation for FW logging in
+Documentation/networking/device-drivers/ethernet/intel/ice.rst
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.5-rc6 next-20230815]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+---
+ .../device_drivers/ethernet/intel/ice.rst     | 117 ++++++++++++++++++
+ 1 file changed, 117 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Ober/hwmon-add-in-watchdog-for-nct6686/20230815-195946
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20230815115515.286142-1-dober6023%40gmail.com
-patch subject: [PATCH] hwmon: add in watchdog for nct6686
-config: i386-randconfig-i013-20230815 (https://download.01.org/0day-ci/archive/20230816/202308160001.hx3WQNSU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160001.hx3WQNSU-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160001.hx3WQNSU-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/synclink_gt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1542.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1740.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/isci/isci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/g_NCR5380.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
->> ERROR: modpost: "watchdog_init_timeout" [drivers/hwmon/nct6683.ko] undefined!
->> ERROR: modpost: "devm_watchdog_register_device" [drivers/hwmon/nct6683.ko] undefined!
-
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index e4d065c55ea8..3ddef911faaa 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -895,6 +895,123 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
+ refer to the hardware GNSS module documentation for configuration details.
+ 
+ 
++Firmware (FW) logging
++---------------------
++The driver supports FW logging via the debugfs interface on PF 0 only. In order
++for FW logging to work, the NVM must support it. The 'fwlog' file will only get
++created in the ice debugfs directory if the NVM supports FW logging.
++
++Module configuration
++~~~~~~~~~~~~~~~~~~~~
++To see the status of FW logging then read the 'fwlog/modules' file like this::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
++
++To configure FW logging then write to the 'fwlog/modules' file like this::
++
++  # echo <fwlog_event> <fwlog_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
++
++where
++
++* fwlog_level is a name as described below. Each level includes the
++  messages from the previous/lower level
++
++      * NONE
++      *	ERROR
++      *	WARNING
++      *	NORMAL
++      *	VERBOSE
++
++* fwlog_event is a name that represents the module to receive events for. The
++  module names are
++
++      *	GENERAL
++      *	CTRL
++      *	LINK
++      *	LINK_TOPO
++      *	DNL
++      *	I2C
++      *	SDP
++      *	MDIO
++      *	ADMINQ
++      *	HDMA
++      *	LLDP
++      *	DCBX
++      *	DCB
++      *	XLR
++      *	NVM
++      *	AUTH
++      *	VPD
++      *	IOSF
++      *	PARSER
++      *	SW
++      *	SCHEDULER
++      *	TXQ
++      *	RSVD
++      *	POST
++      *	WATCHDOG
++      *	TASK_DISPATCH
++      *	MNG
++      *	SYNCE
++      *	HEALTH
++      *	TSDRV
++      *	PFREG
++      *	MDLVER
++      *	ALL
++
++The name ALL is special and specifies setting all of the modules to the
++specified fwlog_level.
++
++Example usage to configure the modules::
++
++  # echo LINK VERBOSE > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
++
++Enabling FW log
++~~~~~~~~~~~~~~~
++Once the desired modules are configured the user will enable the logging. To do
++this the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An
++example is::
++
++  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
++
++Retrieving FW log data
++~~~~~~~~~~~~~~~~~~~~~~
++The FW log data can be retrieved by reading from 'fwlog/data'. The user can
++write to 'fwlog/data' to clear the data. The data can only be cleared when FW
++logging is disabled. The FW log data is a binary file that is sent to Intel and
++used to help debug user issues.
++
++An example to read the data is::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
++
++An example to clear the data is::
++
++  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
++
++Changing how often the log events are sent to the driver
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++The driver receives FW log data from the Admin Receive Queue (ARQ). The
++frequency that the FW sends the ARQ events can be configured by writing to
++'fwlog/resolution'. The range is 1-128 (1 means push every log message, 128
++means push only when the max AQ command buffer is full). The suggested value is
++10. The user can see what the value is configured to by reading
++'fwlog/resolution'. An example to set the value is::
++
++  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/resolution
++
++Configuring the number of buffers used to store FW log data
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++The driver stores FW log data in a ring within the driver. The default size of
++the ring is 256 4K buffers. Some use cases may require more or less data so
++the user can change the number of buffers that are allocated for FW log data.
++To change the number of buffers write to 'fwlog/nr_buffs'. The value must be a
++power of two and between the values 64-512. FW logging must be disabled to
++change the value. An example of changing the value is::
++
++  # echo 128 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_buffs
++
++
+ Performance Optimization
+ ========================
+ Driver defaults are meant to fit a wide variety of workloads, but if further
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.38.1
+
