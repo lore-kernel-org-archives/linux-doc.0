@@ -2,54 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2248DC001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 01:23:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FC6C001DB
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 02:38:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230400AbjHOBXM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 21:23:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40928 "EHLO
+        id S234287AbjHOCh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 22:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233905AbjHOBXC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 21:23:02 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F7FB1715
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 18:23:01 -0700 (PDT)
+        with ESMTP id S234332AbjHOCh1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 22:37:27 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B595D1737
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 19:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692062581; x=1723598581;
+  t=1692067018; x=1723603018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=REaBBHhkgXG/mtEL5hEC9exD3qT9WXKU6/2HfxMAcFM=;
-  b=UH+3FD5tMzNh3T3thxYRIUY5B/Vi/i5jj1yiHQFaq6SHcUqlEpxV7Uzw
-   YGikNvTfDSJW3dm8a3dWycwQaoDkxWQ4Vh3Cc7/QA3nXRgqUGmmHyTm+V
-   yA5pNLW88Lc4EKM7zjleJilrDNH8ujtQuZqivehUjgtrSYfp9g9e9Kduz
-   f4NxvhZzRcuCWj2QemAUf0T35iCgDIB8jMb1L3nKhk/gymzjgULMhPu5Y
-   UoxSidfwqAW0flv0pjgDgNuecfwhluW+a70txCs4tFHAfe+xPjZLlpuOV
-   vVqQAnpKCqzk1J1O0LUFLMvG9awG48A89NFVrvsI1i6LB3/0XwEAzabFv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="369648970"
+  bh=73BhJCPJjUvH9+B2+NitjAjububX5SyKFLlRA9EA+E8=;
+  b=gRWBTPm2hSy6oOxOlocyTcE2KcNVNwF5XpJrhf8w66pAPBU4XUM82gRO
+   Ljtr/+ROtslf6LKmVpHz0DuRY1KIM2AZmz30R/kv1DQRJVGWtuVFVVfxc
+   COwsgajIh+9ehFluotgL7JgwNSgAYFIP5ldjW8qjHPj2O4ydvpwDgwsXW
+   K/QsqiCCQMgxXVilAVxdGfvNGfVsGoHbmLgbIaz4MqkjxM1XNxnW4fZTE
+   QOX++TTEBa/0CdF7EQTJo29NuEfcL5oZgNV+48IKliil45lFB8GARgu+1
+   HjAOTaJvrAShTE0vOU6X2d4wrXwi+HXjHHKf5jGc9F+OkST8O8M5d0ebI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="352512834"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="369648970"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 18:23:00 -0700
+   d="scan'208";a="352512834"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 19:36:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="710549074"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="980236994"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="710549074"
+   d="scan'208";a="980236994"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 14 Aug 2023 18:22:59 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 14 Aug 2023 19:36:41 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qVilu-0000Yx-27;
-        Tue, 15 Aug 2023 01:22:58 +0000
-Date:   Tue, 15 Aug 2023 09:22:41 +0800
+        id 1qVjvE-0000bJ-1P;
+        Tue, 15 Aug 2023 02:36:40 +0000
+Date:   Tue, 15 Aug 2023 10:35:43 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Yunsheng Lin <linyunsheng@huawei.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [linyunsheng:net-next-pp_frag_v6-0813 9/10] htmldocs:
- Documentation/networking/page_pool:59:
- ./include/net/page_pool/helpers.h:119: WARNING: Inline strong start-string
- without end-string.
-Message-ID: <202308150949.hadiQeCS-lkp@intel.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [lwn:docs-next 37/49] htmldocs: Warning:
+ Documentation/riscv/boot.rst references a file that doesn't exist:
+ Documentation/arm/uefi.rst
+Message-ID: <202308151010.JGqiPc9F-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -57,19 +65,19 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/gestionlin/linux.git net-next-pp_frag_v6-0813
-head:   128629caa623079399595594b3034d162c68487d
-commit: 46a32d32ec6ffbe80f9c4d41ed9e4e0938eadeed [9/10] page_pool: update document about frag API
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150949.hadiQeCS-lkp@intel.com/reproduce)
+tree:   git://git.lwn.net/linux.git docs-next
+head:   90cd0c18573ad0583dec098a586f86d281947eb9
+commit: e0bec22f06641e4a7ccd7fb1f8ed4588839b660b [37/49] Documentation: riscv: Add early boot document
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151010.JGqiPc9F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308150949.hadiQeCS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308151010.JGqiPc9F-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/networking/page_pool:59: ./include/net/page_pool/helpers.h:119: WARNING: Inline strong start-string without end-string.
+>> Warning: Documentation/riscv/boot.rst references a file that doesn't exist: Documentation/arm/uefi.rst
 
 -- 
 0-DAY CI Kernel Test Service
