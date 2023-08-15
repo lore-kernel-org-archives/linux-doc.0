@@ -2,98 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8BAC0015E
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 18:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5975DC04A6A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 18:27:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239047AbjHOSYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 14:24:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49122 "EHLO
+        id S233315AbjHOS1Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 14:27:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239055AbjHOSXu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 14:23:50 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3BB819AF;
-        Tue, 15 Aug 2023 11:23:49 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S239138AbjHOS0x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 14:26:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C5C1BEB;
+        Tue, 15 Aug 2023 11:26:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A15F82ED;
-        Tue, 15 Aug 2023 18:23:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A15F82ED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1692123828; bh=/WDM2geFXvPyxkbFTUNOqG5i2x2y+X35CYU2z5xHmqM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=d6omHjT+TcpM0athcXjpHp2g+IsGhtmvETdogzrMyH2vhTR82BaS69oege5OcKx2O
-         Ko5g37wava/y/+EaEUza+oEanEn/8FAfiMgoMecDuz4NpyL2Ah9Y298J/fNVnWkTxu
-         BIkyxTKgmkHTuTVDyj9UZ7s6fKvQJWCaAjZAjHTgvl0WzTATpomaJrO/MiAE2cbwl1
-         j8OMYDvrBsW0jn4j1wZVpKGG0NPhsCaqr6WdxOiKlerBuXCwaAMRE8hrb2K7peJCQy
-         jjCcMeCu9q8eUnE6SR14DhlZYpBwQamr/NOyMJV3ceS1bfGOPNNRYfldm6psDkkMo3
-         7FzoFpb4WSscQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Avadhut Naik <Avadhut.Naik@amd.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [RFC] Proposal to relax warnings of htmldocs
-In-Reply-To: <85964510-4f88-58d2-2687-f7fa76013cf9@amd.com>
-References: <85964510-4f88-58d2-2687-f7fa76013cf9@amd.com>
-Date:   Tue, 15 Aug 2023 12:23:47 -0600
-Message-ID: <87v8dgtb9o.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1396663F2B;
+        Tue, 15 Aug 2023 18:26:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 494A9C433C7;
+        Tue, 15 Aug 2023 18:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692124010;
+        bh=GtF+IvGHB4Z4BZ8g2oDDGN+Mv2CJPMog9By/QT4FL4A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EM5zDvBWlYret5z1Qx59Uzh/QpcQK3QuWeUwer3GNul+PYlGMnrJ30EedNZcQ0nxs
+         EiDfxrn3yzaYr8s6F5yPVJWAKPWVuEZxx4p9wlLvkNF9mkZDMyuBYQeMxdFz9d+Tu7
+         M7pabO+YQvohFe7s3K4MaFZLRFVgdsls4WJmwzQJb1mBoyOpuAHAq9gQy4B2P7ZacH
+         dyT1J9u7ke4/zx1PBsAfK9XyaTtJNP2MRslzsGsT7kmh4PUFAxZtIaPnv8GZriqwoB
+         3mheMfQNgmE+E2Okfw1r2+VJ2/xOgBI+pk8ql+x25p5xXEUB4IThqqG+co4UCJ/NB6
+         PjKhOmdPPr0SA==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id 54185404DF; Tue, 15 Aug 2023 15:26:47 -0300 (-03)
+Date:   Tue, 15 Aug 2023 15:26:47 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Ian Rogers <irogers@google.com>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?iso-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v6 10/10] perf: tests: Adapt mmap-basic.c for riscv
+Message-ID: <ZNvDZxIS1OhXGqg0@kernel.org>
+References: <20230802080328.1213905-1-alexghiti@rivosinc.com>
+ <20230802080328.1213905-11-alexghiti@rivosinc.com>
+ <CAP-5=fVcMg7TL6W_jH61PW6dYMobuTs13d4JDuTAx=mxJ+PNtQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP-5=fVcMg7TL6W_jH61PW6dYMobuTs13d4JDuTAx=mxJ+PNtQ@mail.gmail.com>
+X-Url:  http://acmel.wordpress.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+Em Mon, Aug 14, 2023 at 09:44:58AM -0700, Ian Rogers escreveu:
+> On Wed, Aug 2, 2023 at 1:14 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+> >
+> > riscv now supports mmaping hardware counters to userspace so adapt the test
+> > to run on this architecture.
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> 
+> Reviewed-by: Ian Rogers <irogers@google.com>
 
-> Hello all,
->
-> I would like to discuss a recurring issue that we all have encountered
-> while running `make htmldocs`. The process often generates an overwhelming
-> amount of warnings that are not relevant to our work, which makes it harder
-> to identify and address actual warning messages related to our changes.
->
-> One of the reasons for this is the variation in warnings raised by
-> different compilers. For instance, the Linux kernel robot employs Sparse,
-> which recently raised a warning that we (Avadhut in CC, and then me
-> reviewing his patch) did not catch during our testing [1,2].
->
-> Particularly annoying -to me personally- are warnings of the form:
->
-> "warning: Function parameter or member 'field' not described in 'struct'"
->
-> that seem to enumerate every single undocumented field within a struct.
->
-> I would like to propose something to alleviate this issue before the list
-> of warnings keeps piling up.
+Thanks, applied.
 
-...other than fixing the actual problems? :)
+- Arnaldo
 
-> I suggest for the command `make htmldocs` to
-> only display, by default, warnings directly related to the changes being
-> made, unless explicitly requested otherwisee.
->
-> I'm thinking we could do this, for example, by making hmtldocs a two-step
-> process: First running htmldocs as usual but with warnings disabled, and
-> then generating docs again but only for the new files (see $git diff
-> --name-only HEAD), with warnings active but limited to the scope of the
-> changes made.
+ 
+> Thanks,
+> Ian
+> 
+> > ---
+> >  tools/perf/tests/mmap-basic.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
+> > index e68ca6229756..886a13a77a16 100644
+> > --- a/tools/perf/tests/mmap-basic.c
+> > +++ b/tools/perf/tests/mmap-basic.c
+> > @@ -284,7 +284,8 @@ static struct test_case tests__basic_mmap[] = {
+> >                          "permissions"),
+> >         TEST_CASE_REASON("User space counter reading of instructions",
+> >                          mmap_user_read_instr,
+> > -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
+> > +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || \
+> > +                        (defined(__riscv) && __riscv_xlen == 64)
+> >                          "permissions"
+> >  #else
+> >                          "unsupported"
+> > @@ -292,7 +293,8 @@ static struct test_case tests__basic_mmap[] = {
+> >                 ),
+> >         TEST_CASE_REASON("User space counter reading of cycles",
+> >                          mmap_user_read_cycles,
+> > -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
+> > +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || \
+> > +                        (defined(__riscv) && __riscv_xlen == 64)
+> >                          "permissions"
+> >  #else
+> >                          "unsupported"
+> > --
+> > 2.39.2
+> >
 
-A normal build should just generate warnings for files that have
-changed (since the last build).  Does that not do what you want?
+-- 
 
-Trying to get Sphinx to do smarter things with partial builds seems like
-a path to frustration.  Since the specific warnings you're talking about
-are generated by kernel-doc, a better solution would probably just
-invoke it directly.  It wouldn't be that hard to bash out a script to
-feed a given set of files to kernel-doc and see what it says.
-
-As an alternative, of course, we could consider turning off those
-specific warnings entirely for normal builds.
-
-Thanks,
-
-jon
+- Arnaldo
