@@ -2,104 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A3BBC04A6A
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 06:39:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56532C0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 07:28:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235131AbjHOGiz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 02:38:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58560 "EHLO
+        id S234752AbjHOH1w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 03:27:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235171AbjHOGhv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 02:37:51 -0400
-Received: from out-113.mta0.migadu.com (out-113.mta0.migadu.com [91.218.175.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211971BD9
-        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 23:37:28 -0700 (PDT)
-Message-ID: <8e232b68-cc15-d47b-4c49-4f36fd696963@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1692081446;
+        with ESMTP id S234941AbjHOH1f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 03:27:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 930C61737
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 00:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1692084407;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7MvC5Vc55osq3n54e9YCchu2oQZ8ocFcc0a2zTwhcsM=;
-        b=IKLcPW6nwIraNa9SEH4OcTu+wJLJ5YtvSKgC6LEUtY7kNyTSJHsN+94/s2Rl3ITE06qCuw
-        flE3Ndgn+j4WS3EpZY9LfbyKXuGNtS29XWM/dwJBdc46caKjiPgiqmFStHCMHi2aI3hkCy
-        FfcYSgG55OwEkN3xtdMI7sRlcwjELGY=
-Date:   Tue, 15 Aug 2023 14:37:17 +0800
+        bh=MUWIHiBbbg8YEf4lfImtTBAg3A+t8ntUP0gis/hwLeU=;
+        b=bKf9hYuLNZEitOj/TgCySpjut3z3t31YMzRahONnf1cmkcVbpvFxzDnW503pZtc/53lD4A
+        QKdOW3/SZeThJjRCxld6VzYTEodlOSnoiYTp9qfnWxKfyMRo9TcjfL5CQa8XnOapXNVsEf
+        Iar7hhs4FP4/8yve1omGQzsmhE7IM8c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-160-ReK6_TCjNw-EhKz5yyN4hQ-1; Tue, 15 Aug 2023 03:26:46 -0400
+X-MC-Unique: ReK6_TCjNw-EhKz5yyN4hQ-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-2f2981b8364so3273210f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 00:26:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692084405; x=1692689205;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MUWIHiBbbg8YEf4lfImtTBAg3A+t8ntUP0gis/hwLeU=;
+        b=MXMJDlA+SGgvb40U7dI5z4efWcUfFYFSMMMyuQZu/3vCpE4I7GiShoKt4BV7sggem2
+         X20TdhkikF3wn3QSvevSrL2KaY3IzvkMVlbuT2Rnd2u3s9Z3GX+XBufueuIkbmG1oSXG
+         Cd8OJHGOvYu2xVhb55TgF6lyYPGWQ4T1g8RVGizbA29cT+41IXVEljtoVy9+vMQHvTSQ
+         EUQwSZXJspjhScXupRinP+DQnzNhQURq5g+S2d5/eeVNFdA1LpBQDoaNFNgPDnhR058+
+         3G0924N2czw4NhlhaS5Nq0fa4FAbFL/07egIiVJAKK50ZflbAXVepQH5u1xCquM+o780
+         WlNQ==
+X-Gm-Message-State: AOJu0YxMlIQ6LQpziJd+JbZZgcLS4E7UEwyKlBAJngXWQGV3wrbIX69Z
+        KM/2Jmx9WrX6qWF5lg0beLnVwiRxcwWzO28uCFzzlci9Dl+f5TE+HS7ZLP9UO8WlKY7DGhpYNU/
+        PcKxxl1N9ds7NisFtakSz
+X-Received: by 2002:a5d:4451:0:b0:317:5722:a41b with SMTP id x17-20020a5d4451000000b003175722a41bmr9192178wrr.7.1692084405065;
+        Tue, 15 Aug 2023 00:26:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IELZPctW5W6HhR2f2xem6d43Ke7qyqoAtwSgO+EgNXc13wZJlKzKbg9ggB81IqopVUexwLz6w==
+X-Received: by 2002:a5d:4451:0:b0:317:5722:a41b with SMTP id x17-20020a5d4451000000b003175722a41bmr9192167wrr.7.1692084404711;
+        Tue, 15 Aug 2023 00:26:44 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c701:3100:c642:ba83:8c37:b0e? (p200300cbc7013100c642ba838c370b0e.dip0.t-ipconnect.de. [2003:cb:c701:3100:c642:ba83:8c37:b0e])
+        by smtp.gmail.com with ESMTPSA id j4-20020adfff84000000b003142ea7a661sm16991148wrr.21.2023.08.15.00.26.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Aug 2023 00:26:44 -0700 (PDT)
+Message-ID: <b805cabc-f235-417b-04f5-6602f9c50c36@redhat.com>
+Date:   Tue, 15 Aug 2023 09:26:43 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH RESEND v1] docs/zh_CN: add zh_CN translation for
- memory-barriers.txt
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1] mm/ksm: add pages scanned metric
 Content-Language: en-US
-To:     Patrick Yingxi Pan <pyxchina92929@gmail.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20230811080851.84497-1-gang.li@linux.dev>
- <CANJ3EgExk-TC=qx0Dn7wA-RfTE-h3E_E+i1MctvhvV-VEUJFnQ@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Gang Li <gang.li@linux.dev>
-In-Reply-To: <CANJ3EgExk-TC=qx0Dn7wA-RfTE-h3E_E+i1MctvhvV-VEUJFnQ@mail.gmail.com>
+To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, riel@surriel.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org
+References: <20230811193655.2518943-1-shr@devkernel.io>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230811193655.2518943-1-shr@devkernel.io>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/8/15 12:02, Patrick Yingxi Pan wrote:
->> 它由于有意 (为了简洁) 或无意 (由于人为因素) 的原因而不完整。
-> 它由于有意 (为了简洁) 和无意 (由于人会犯错) 的原因而不完整。
+On 11.08.23 21:36, Stefan Roesch wrote:
+> ksm currently maintains several statistics, which let you determine how
+> successful KSM is at sharing pages. However it does not contain a metric
+> to determine how much work it does.
 > 
->> 这些内存模型是维护者的集体意见，而不是准确无误的实现规范。
-> 然而，即使这些内存模型也只是它们的维护者的集体意见，而不是准确无误的实现规范。
+> This commit adds the pages scanned metric. This allows the administrator
+> to determine how many pages have been scanned over a period of time.
 > 
->> 再次重申，本文档不是 Linux 对硬件的规范或期望。
-> 再次重申，本文档不是 Linux 对硬件预期行为的规范。
+> Signed-off-by: Stefan Roesch <shr@devkernel.io>
+> ---
+>   Documentation/admin-guide/mm/ksm.rst |  2 ++
+>   mm/ksm.c                             | 16 +++++++++++++++-
+>   2 files changed, 17 insertions(+), 1 deletion(-)
 > 
->> (1) 为内核屏障函数指定可以依赖的最小功能，以及
-> (1) 为每个内核屏障函数，描述其可以依赖的最小功能，以及
-> 
->> (2) 提供关于如何使用屏障的指南。
-> (2) 提供关于如何使用现有屏障的指南。
-> 
->> 请注意，一个架构可以为任何屏障提供超出最低要求的功能
-> 请注意，一个架构可以为任何一个屏障提供超出其最低要求的功能
-> 
->> 因为该架构已经保证了该内存序，使得显式屏障是不必要的。
-> 因为该架构的工作方式使得显式屏障是不必要的。
-> 
->> - CPU 的保证。
-> - 功能保证。
-> 
->> (*) Inter-CPU 获取屏障。
-> (*) CPU 间获取型屏障的效果。
-> 
->> (*) 内核 I/O 屏障。
-> (*) 内核 I/O 屏障的效果。
-> 
->> (*) 假想的最小执行顺序模型。
-> (*) 可依赖的最弱的执行顺序保证。
-> 
-> 
+> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+> index 5c5be7bd84b8..776f244bdae4 100644
+> --- a/Documentation/admin-guide/mm/ksm.rst
+> +++ b/Documentation/admin-guide/mm/ksm.rst
+> @@ -159,6 +159,8 @@ The effectiveness of KSM and MADV_MERGEABLE is shown in ``/sys/kernel/mm/ksm/``:
+>   
+>   general_profit
+>           how effective is KSM. The calculation is explained below.
+> +pages_scanned
+> +        how many pages are being scanned for ksm
+>   pages_shared
+>           how many shared pages are being used
+>   pages_sharing
+> diff --git a/mm/ksm.c b/mm/ksm.c
+> index 6b7b8928fb96..8d6aee05421d 100644
+> --- a/mm/ksm.c
+> +++ b/mm/ksm.c
+> @@ -242,6 +242,9 @@ static struct kmem_cache *rmap_item_cache;
+>   static struct kmem_cache *stable_node_cache;
+>   static struct kmem_cache *mm_slot_cache;
+>   
+> +/* The number of pages scanned */
+> +static unsigned long ksm_pages_scanned;
+> +
 
-Thanks for your help!
+LGTM
 
-I try to be concise and localized in translations because sometimes
-literal translation can sound odd. In order to improve readability, I
-even rewrite certain paragraphs.
+Acked-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Cheers,
+
+David / dhildenb
+
