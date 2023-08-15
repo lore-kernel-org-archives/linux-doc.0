@@ -2,53 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7463FC001E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65746C001B0
 	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 19:44:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239942AbjHOTnx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 15:43:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46640 "EHLO
+        id S239915AbjHOTnw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 15:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239934AbjHOTng (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 15:43:36 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E36B10EC;
-        Tue, 15 Aug 2023 12:43:35 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3178dd771ceso5116541f8f.2;
-        Tue, 15 Aug 2023 12:43:35 -0700 (PDT)
+        with ESMTP id S239928AbjHOTna (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 15:43:30 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 300DCE48;
+        Tue, 15 Aug 2023 12:43:29 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-317798b359aso5002813f8f.1;
+        Tue, 15 Aug 2023 12:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692128613; x=1692733413;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CZ6MSqKSG4VDbBY3Ml3NZpJP7+4pxYoFOTAuqiAIKcM=;
-        b=HasmAn0dMuhojznORZajoyzRaW+8/M4knHqV6rYKfdwAUwmut4LqJsh9PDkB/Wq2is
-         ud8nTtIANVSaASebAruGPVJMl7irX82sJXsulVY9ff5wXf2o02jPKJ76YAPxX1jlDng2
-         PIf+IGzT2iLxH3JEYE+gnfpuJSS2mGA+xJyIm5X/j2Yki82aP6wsbxtF5txb4shTzt1c
-         kNGFJB9QRY8ii2M0lArHhbiqLQUC7eYFzAi+8HOIEYgaMq0zIeAf0aQv8qWcIJhs0Z52
-         y1vBbvPDV0nETSsHyct7EQcSgvlHPDSrykoilF27Y2inZBqsbwfi4DvW1EZgnNx+8gIa
-         1U4g==
+        d=gmail.com; s=20221208; t=1692128607; x=1692733407;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ME4brVjvaPyUiEjp65OuZNAAmyell1TrBHH94k7UmrI=;
+        b=sZVmBDc7i6SbnyPqMduap2oDVbVMtANyVo6guM8HG1Iax2dD2PwdyKiwk88Xqa/Gi/
+         y+jt6LpEiw0qF21VC9RwtE0c0FBVGYF188EtI1oHmWGsxAMlt2GkG8J78T0icfoG5amY
+         B9ALE6PYAod5sLtOP3YM+shOZ4GWXDuTM1iZpPjP/XZPaGKuyhu4fyB4fnSwf2XQz/Ga
+         YU7NZJssnXJGzxaQkItgRpDDKL5HswNDfFVbTZvgnlGnck6x4OWZKpUCcbNBuHB3RH1A
+         mYxDJp/kNnAbyQaDmtmz40LHBtf36iz8SxD+rzmNKQdmjKuQVSVAy9BUssbPa4O81wCh
+         fcaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692128613; x=1692733413;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CZ6MSqKSG4VDbBY3Ml3NZpJP7+4pxYoFOTAuqiAIKcM=;
-        b=H2v583By0Fh/thm6tYdkdRY2N014SexMSeM0rtP/8WzPs+55rd9H1yCx8n7My4/JlG
-         i1tFRBKNfaG/Gm96b37/mvnVee8hglYxuD+ujp3l9op5Bb+Rmb3jGTVqFUl4u9wJO3/T
-         tBBywkKLp4dy4RseitPpWFnFAeUedZIjzhw9tSHgKPfSbfaCtBOH4uRkzCBqThK+BrRM
-         HMKKALxNB0Y6yylJt2yGA6myhl5P8H4YvMmPct5SDQLyg1p5cj4UBjihRUwRY+2sxZwl
-         zas0prWBrot3GgNnipEK01sDNuFqlKN6MtbJ7eW0gL1vhA3d4gqdxnVcCvywxB8AnrD/
-         aXiw==
-X-Gm-Message-State: AOJu0YyFzqvz+zkQQhTaWma/mB1SHcKRQkYKVh0sFT1jULxIHLtNKg+R
-        oj0EFpHLrWmERtgL5qwOFro3Cx/DyXIVqIve
-X-Google-Smtp-Source: AGHT+IEsUDkz9X21kr8hsqAmcX7t8hx++rvo+XjF64s1RpulX6DE9NEUyQ5CvNl8DdyA+MzhS+tFdQ==
-X-Received: by 2002:a5d:4d0a:0:b0:317:70da:abdd with SMTP id z10-20020a5d4d0a000000b0031770daabddmr8806549wrt.59.1692128613166;
-        Tue, 15 Aug 2023 12:43:33 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692128607; x=1692733407;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ME4brVjvaPyUiEjp65OuZNAAmyell1TrBHH94k7UmrI=;
+        b=Q3R3lLNzFwBjhwoRGkp7CfaGcgSqudHp/e4XvJQ5xByjExLD7utSCQXEcy3nqRrpZR
+         rek17r2pBQt257VwmmVPCVdtdCNF+nRWQt7n/Ca3nYXHIfDgErgqCXF7ZLHW1QVpFQw2
+         RlJpZd+GRnyVTr9mymyUT4Wu8fLov+WcSGOKclFOtdgPBx+vSLhLVheflHEanAnolTXq
+         HfG7nuR28TsgKKpUCzezwa4Nl62D9G/toxR5S3pYHFVbsFsJ1X4oYfly7FvWB7SePulJ
+         UP00IVXvnHlrYJi9bV9FsVNqW5h62jevQ0yJV0HwsAcrvc2hOljArcyiqlVjyMG+z6ZX
+         /ldg==
+X-Gm-Message-State: AOJu0Yz0cQgDPoA1/0+ppKiww+e3DXDHa/0JiS557q6KtlzDMQvXFD+q
+        kOPpTpLocS5Pep0iisSJBNe66TR0qvrpIr9S
+X-Google-Smtp-Source: AGHT+IGvqjg6g7RYRJr6qqw6cKZ8aRPtTJYBCVaU5keEmY5P224NXpF1VtTVlE6x2fwAU53dekYmIA==
+X-Received: by 2002:a5d:5962:0:b0:319:6afc:7a3c with SMTP id e34-20020a5d5962000000b003196afc7a3cmr7315258wri.10.1692128606868;
+        Tue, 15 Aug 2023 12:43:26 -0700 (PDT)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:9934:e2f7:cd0e:75a6])
-        by smtp.gmail.com with ESMTPSA id n16-20020a5d6610000000b003179d5aee67sm18814892wru.94.2023.08.15.12.43.31
+        by smtp.gmail.com with ESMTPSA id n16-20020a5d6610000000b003179d5aee67sm18814892wru.94.2023.08.15.12.43.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 12:43:32 -0700 (PDT)
+        Tue, 15 Aug 2023 12:43:26 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -58,81 +57,75 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Stanislav Fomichev <sdf@google.com>,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v2 02/10] doc/netlink: Document the genetlink-legacy schema extensions
-Date:   Tue, 15 Aug 2023 20:42:46 +0100
-Message-ID: <20230815194254.89570-3-donald.hunter@gmail.com>
+Subject: [PATCH net-next v2 00/10] tools/net/ynl: Add support for netlink-raw families
+Date:   Tue, 15 Aug 2023 20:42:44 +0100
+Message-ID: <20230815194254.89570-1-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230815194254.89570-1-donald.hunter@gmail.com>
-References: <20230815194254.89570-1-donald.hunter@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add description of genetlink-legacy specific attributes to the ynl spec
-documentation.
+This patchset adds support for netlink-raw families such as rtnetlink.
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/userspace-api/netlink/specs.rst | 47 +++++++++++++++++++
- 1 file changed, 47 insertions(+)
+Patch 1 contains the schema definition
+Patches 2 & 3 update the schema documentation
+Patches 4 - 7 extends ynl
+Patches 8 - 10 add several netlink-raw specs
 
-diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-index 2e4acde890b7..dde70f9674d4 100644
---- a/Documentation/userspace-api/netlink/specs.rst
-+++ b/Documentation/userspace-api/netlink/specs.rst
-@@ -443,3 +443,50 @@ nest
- 
- Attribute containing other (nested) attributes.
- ``nested-attributes`` specifies which attribute set is used inside.
-+
-+genetlink-legacy
-+================
-+
-+The genetlink-legacy schema extends the genetlink schema with some additional
-+properties that are needed to support legacy genetlink families.
-+
-+Globals
-+-------
-+
-+ - ``kernel-policy`` - Specify whether the kernel input policy is ``global``,
-+   ``per-op`` or ``split``.
-+
-+Struct definitions
-+------------------
-+
-+There is a new type of definition called ``struct`` which is used for declaring
-+the C struct format of fixed headers and binary attributes.
-+
-+members
-+~~~~~~~
-+
-+ - ``name`` - The attribute name of the struct member
-+ - ``type`` - One of the scalar types ``u8``, ``u16``, ``u32``, ``u64``, ``s8``,
-+   ``s16``, ``s32``, ``s64``, ``string`` or ``binary``.
-+ - ``byte-order`` - ``big-endian`` or ``little-endian``
-+ - ``doc``, ``enum``, ``enum-as-flags``, ``display-hint`` - Same as for
-+   attribute definitions.
-+
-+Attributes
-+----------
-+
-+The genetlink-legacy families can use binary attributes that contain C struct
-+data. This is specified using a ``struct`` property containing the name of the
-+struct definition.
-+
-+ - ``struct`` - Name of the struct definition to be used for the attribute.
-+
-+Operations
-+----------
-+
-+The genetlink-legacy families can use a binary fixed header that contains C
-+struct data.
-+
-+ - ``fixed-header`` - name of the struct definition to be used for the fixed
-+   header data. This can be specified as a default for all operations and on a
-+   per-operation basis.
+The netlink-raw schema is very similar to genetlink-legacy and I thought
+about making the changes there and symlinking to it. On balance I
+thought that might be problematic for accurate schema validation.
+
+rtnetlink doesn't seem to fit into unified or directional message
+enumeration models. It seems like an 'explicit' model would be useful,
+to force the schema author to specify the message ids directly.
+
+There is not yet support for notifications because ynl currently doesn't
+support defining 'event' properties on a 'do' operation. I plan to look
+at this in a future patch.
+
+The link and route messages contain different nested attributes
+dependent on the type of link or route. Decoding these will need some
+kind of attr-space selection that uses the value of another attribute as
+the selector key. These nested attributes have been left with type
+'binary' for now.
+
+v1 -> v2:
+  - Put mcast-group changes in separate patch
+  - Put decode_fixed_header refactoring in separate patch
+  - Avoid refactoring decode_enum
+  - Rename NetlinkProtocolFamily -> NetlinkProtocol and
+    GenlProtocolFamily -> GenlProtocol and store in self.nlproto
+  - Add spec for rt link.
+
+Donald Hunter (10):
+  doc/netlink: Add a schema for netlink-raw families
+  doc/netlink: Document the genetlink-legacy schema extensions
+  doc/netlink: Document the netlink-raw schema extensions
+  tools/ynl: Add mcast-group schema parsing to ynl
+  tools/net/ynl: Refactor decode_fixed_header into NlMsg
+  tools/net/ynl: Add support for netlink-raw families
+  tools/net/ynl: Implement nlattr array-nest decoding in ynl
+  doc/netlink: Add spec for rt addr messages
+  doc/netlink: Add spec for rt link messages
+  doc/netlink: Add spec for rt route messages
+
+ Documentation/netlink/netlink-raw.yaml        |  414 +++++
+ Documentation/netlink/specs/rt_addr.yaml      |  179 +++
+ Documentation/netlink/specs/rt_link.yaml      | 1374 +++++++++++++++++
+ Documentation/netlink/specs/rt_route.yaml     |  288 ++++
+ Documentation/userspace-api/netlink/intro.rst |    2 +
+ Documentation/userspace-api/netlink/specs.rst |   64 +
+ tools/net/ynl/lib/nlspec.py                   |   26 +
+ tools/net/ynl/lib/ynl.py                      |  153 +-
+ 8 files changed, 2461 insertions(+), 39 deletions(-)
+ create mode 100644 Documentation/netlink/netlink-raw.yaml
+ create mode 100644 Documentation/netlink/specs/rt_addr.yaml
+ create mode 100644 Documentation/netlink/specs/rt_link.yaml
+ create mode 100644 Documentation/netlink/specs/rt_route.yaml
+
 -- 
 2.41.0
 
