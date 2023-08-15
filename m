@@ -2,190 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26241C001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 12:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 932FCC04A94
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 12:28:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230030AbjHOM1C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 08:27:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44740 "EHLO
+        id S234442AbjHOM2H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 08:28:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237172AbjHOM0Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 08:26:16 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B9701FD5;
-        Tue, 15 Aug 2023 05:25:42 -0700 (PDT)
-Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RQ9Nm6XLWzNmlV;
-        Tue, 15 Aug 2023 20:21:28 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 15 Aug
- 2023 20:24:59 +0800
-Subject: Re: [PATCH net-next v6 5/6] page_pool: update document about frag API
-To:     Randy Dunlap <rdunlap@infradead.org>, <davem@davemloft.net>,
-        <kuba@kernel.org>, <pabeni@redhat.com>
-CC:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Alexander Duyck <alexander.duyck@gmail.com>,
-        Liang Chen <liangchen.linux@gmail.com>,
-        Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        <linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
-References: <20230814125643.59334-1-linyunsheng@huawei.com>
- <20230814125643.59334-6-linyunsheng@huawei.com>
- <479a9c1f-9db7-61c8-3485-9b330f777930@infradead.org>
-From:   Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <0cbf592e-2f21-30ca-799e-5cc15e89c3f8@huawei.com>
-Date:   Tue, 15 Aug 2023 20:24:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        with ESMTP id S237218AbjHOM14 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 08:27:56 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027D9199F;
+        Tue, 15 Aug 2023 05:27:47 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4fe9f226cdbso4433819e87.0;
+        Tue, 15 Aug 2023 05:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692102465; x=1692707265;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hVDDJlWhUCzNd5EzhLvuiUskyN3c3RfjOPmwxNMLBoQ=;
+        b=EEZlIEkkHTSZjflV063Ba+ihFccGT6E0fQZnAkTbH4cnvs7XalS74aKS7J5Fc8+jy3
+         Oy/MfMANIuQMzgazpi58Y3jE8tq0X09EBdzUWMyUOwohCs5EGMEs6U1ED+1r0JNblfWa
+         0aYGsV2mQrrlUzWecnayklYKdyV8f92jZZqaI68H210pfWqivG71RoqDhm/igoXmWFUv
+         5/SsEB//8i94HjEdft7lAhrKAoMbRNyyZ4Ik8YtZP3FO52wWv4WXMX19imxwSfwwGCos
+         KmuZDIwsXS8uyet7Ix9BsO+uu0OuwaVgfO0uWOCgGpWsJ/XFdAx1WvxnP/ncpnAembpb
+         bLYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692102465; x=1692707265;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hVDDJlWhUCzNd5EzhLvuiUskyN3c3RfjOPmwxNMLBoQ=;
+        b=TmXIeqLh2plb0TfY37Y0y/Y1BkgEWOtiXdJUW2ibUS4S77XYFr2fcNKNluPXycdOJU
+         6xdEV1t/WvE4CJScHFbkJhbmYtO/+T4duvkMDig4UBVvHW4YSd0eRy/i8V97Rv2vcANW
+         dATK+Wm0V04944SKKGvMTfbcc+tvAVFoWTMtwzrg4oRgm2fagHau3mbLd2e3knqXeyJ/
+         b1kiKAWwHxw2MT1QSrbstFZKPmoEM7tZWTmtccELIyn6huI+oXp+AJiBu0UKBLNKcw/U
+         KQxwMWgM4HnuSFsKok8lHF+RGhy5IyMFwnJyFBIBBBDmKUMznUpjyrqIB9qP+cPuO/2B
+         LwDQ==
+X-Gm-Message-State: AOJu0YwadS+QT7ks5gSJv4wvC0QJgq8LELBhHilkqfeudAzqHz+fOLAd
+        6AKpnYxCvtOk1zSo4oNUX7J+7+qtB14=
+X-Google-Smtp-Source: AGHT+IG+cwmqQnGcgtQ0KiswsiQhrqD1uMPt1W4S48i/yx2yACHzwUMti+3UczLKtLgnuthlvtm6SA==
+X-Received: by 2002:a05:6512:acf:b0:4fe:5860:7abf with SMTP id n15-20020a0565120acf00b004fe58607abfmr9520807lfu.13.1692102464921;
+        Tue, 15 Aug 2023 05:27:44 -0700 (PDT)
+Received: from suse.localnet (host-87-6-98-229.retail.telecomitalia.it. [87.6.98.229])
+        by smtp.gmail.com with ESMTPSA id g13-20020a5d698d000000b003180027d67asm17774055wru.19.2023.08.15.05.27.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Aug 2023 05:27:44 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] Documentation/page_tables: Add info about MMU/TLB and Page
+ Faults
+Date:   Tue, 15 Aug 2023 14:27:42 +0200
+Message-ID: <3179607.5fSG56mABF@suse>
+In-Reply-To: <CACRpkdbq8UCtvtRH7FZUEqvTxPQcoGbrKvf_mT5QHMAfVoYNNQ@mail.gmail.com>
+References: <20230813182552.31792-1-fmdefrancesco@gmail.com>
+ <CACRpkdbq8UCtvtRH7FZUEqvTxPQcoGbrKvf_mT5QHMAfVoYNNQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <479a9c1f-9db7-61c8-3485-9b330f777930@infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.69.30.204]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500005.china.huawei.com (7.185.36.74)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/8/15 6:42, Randy Dunlap wrote:
-> Hi--
+On marted=EC 15 agosto 2023 10:51:24 CEST Linus Walleij wrote:
+> Hi Fabio,
+>=20
+> overall this v2 looks good!
 
-Thanks for the reviewing.
+Hi Linus,
 
-> 
+Thanks for your review. I appreciated it.
 
-...
+I'm counting at least ten mistakes. Well my poor English should still impro=
+ve=20
+in order to work on documentation.
 
->> @@ -100,6 +115,14 @@ static inline struct page *page_pool_alloc_frag(struct page_pool *pool,
->>       return __page_pool_alloc_frag(pool, offset, size, gfp);
->>   }
->>   +/**
->> + * page_pool_dev_alloc_frag() - allocate a page frag.
->> + * @pool[in]    pool from which to allocate
->> + * @offset[out]    offset to the allocated page
->> + * @size[in]    requested size
-> 
-> Please use kernel-doc syntax/notation here.
+I agree with you on all changes you are proposing, so I won't agree line by=
+=20
+line. Instead I'll send a v3 and forward your tag.=20
 
-Will change to:
+I have only a doubt and a questions.=20
+I'll jump directly to the relevant parts.
 
-/**
- * page_pool_dev_alloc_frag() - allocate a page frag.
- * @pool: pool from which to allocate
- * @offset: offset to the allocated page
- * @size: requested size
- *
- * Get a page frag from the page allocator or page_pool caches.
- *
- * Return:
- * Returns allocated page frag, otherwise return NULL.
- */
+>=20
+> The below are my grammar and spelling nitpicks.
+>
+> [snip]=20
+>=20
+> > +If the above-mentioned conditions happen in user-space, the kernel sen=
+ds=20
+a
+> > +`Segmentation Fault` (SIGSEGV) signal to the current thread. That sign=
+al
+> > usually +causes the termination of the thread and of the process it=20
+belongs
+> > to. +
+> > +Instead, there are also common and expected other causes of page fault=
+s.
+> > These
+> The word you are looking for is "Additionally" right?
+>=20
+> "Additionally, there are..."
 
+I was only able to use "Instead" to express that, contrary to the former=20
+conditions that is unexpected and uncommon, there are other expected and=20
+common causes of page faults. I thought that "Instead" stresses that the=20
+latter causes carry with them opposite and wanted consequences.
 
-> 
->> + *
->> + * Get a page frag from the page allocator or page_pool caches.
->> + */
->>   static inline struct page *page_pool_dev_alloc_frag(struct page_pool *pool,
->>                               unsigned int *offset,
->>                               unsigned int size)
->> @@ -143,6 +166,14 @@ static inline struct page *page_pool_alloc(struct page_pool *pool,
->>       return page;
->>   }
->>   +/**
->> + * page_pool_dev_alloc() - allocate a page or a page frag.
->> + * @pool[in]:        pool from which to allocate
->> + * @offset[out]:    offset to the allocated page
->> + * @size[in, out]:    in as the requested size, out as the allocated size
-> 
-> and here.
+I think of "additionally" as a means to introduce less important and less=20
+frequently occurring conditions.
 
-/**
- * page_pool_dev_alloc() - allocate a page or a page frag.
- * @pool: pool from which to allocate
- * @offset: offset to the allocated page
- * @size: in as the requested size, out as the allocated size
- *
- * Get a page or a page frag from the page allocator or page_pool caches.
- *
- * Return:
- * Returns a page or a page frag, otherwise return NULL.
- */
+Nevertheless, I'll change it to "Additionally" as you are asking for.
 
-> 
->> + *
->> + * Get a page or a page frag from the page allocator or page_pool caches.
->> + */
->>   static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
->>                              unsigned int *offset,
->>                              unsigned int *size)
->> @@ -165,6 +196,13 @@ static inline void *page_pool_cache_alloc(struct page_pool *pool,
->>       return page_address(page) + offset;
->>   }
->>   +/**
->> + * page_pool_dev_cache_alloc() - allocate a cache.
->> + * @pool[in]:        pool from which to allocate
->> + * @size[in, out]:    in as the requested size, out as the allocated size
-> 
-> and here.
+Everything that follows from here onward should surely be changed as you ar=
+e=20
+suggesting. =20
+
+[snip]
+
+> > +Swapping can't work for memory mapped by kernel logical addresses. The=
+se
+> > are a
+> "kernel logical addresses" -> "kernel-internal logical addresses"
+
+My only question is about why you prefer "kernel-internal" to a straight=20
+"kernel". Can you please say more about this?
+
+[snip]
+=20
+> With
+> or without the above suggestions:
+
+I'll do the v3 _with_ the above suggestions.
+
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>=20
+> Yours,
+> Linus Walleij
+
+Again thanks,
+
+=46abio
 
 
-/**
- * page_pool_dev_cache_alloc() - allocate a cache.
- * @pool: pool from which to allocate
- * @size: in as the requested size, out as the allocated size
- *
- * Get a cache from the page allocator or page_pool caches.
- *
- * Return:
- * Returns the addr for the allocated cache, otherwise return NULL.
- */
-
-> 
->> + *
->> + * Get a cache from the page allocator or page_pool caches.
->> + */
->>   static inline void *page_pool_dev_cache_alloc(struct page_pool *pool,
->>                             unsigned int *size)
->>   {
->> @@ -316,6 +354,14 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
->>       page_pool_put_full_page(pool, page, true);
->>   }
->>   +/**
->> + * page_pool_cache_free() - free a cache into the page_pool
->> + * @pool[in]:        pool from which cache was allocated
->> + * @data[in]:        cache to free
->> + * @allow_direct[in]:    freed by the consumer, allow lockless caching
-> 
-> and here.
-
-/**
- * page_pool_cache_free() - free a cache into the page_pool
- * @pool: pool from which cache was allocated
- * @data: addr of cache to be free
- * @allow_direct: freed by the consumer, allow lockless caching
- *
- * Free a cache allocated from page_pool_dev_cache_alloc().
- */
-
-
-> 
->> + *
->> + * Free a cache allocated from page_pool_dev_cache_alloc().
->> + */
->>   static inline void page_pool_cache_free(struct page_pool *pool, void *data,
->>                       bool allow_direct)
->>   {
-> 
-> Thanks.
