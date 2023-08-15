@@ -2,199 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60287C04A6A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 488CFC0015E
 	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 17:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236709AbjHORGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S238618AbjHORGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 15 Aug 2023 13:06:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238658AbjHORG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 13:06:27 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11A11737;
-        Tue, 15 Aug 2023 10:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692119186; x=1723655186;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dotDLlo/a9YsWNlJpXd8Bf3iFLwvIMCiIU+o/OVT2tA=;
-  b=HRLsU2IZSO5iIeCl76TZbNVArSiJqjPg3pslBFiq3yTI3Ksi9tXUCAhk
-   3nEp+Mp/wwONOsUivxBIZEhVbqEZzLE/JEe94pCpS3yZ1h1S0+jGHEqpu
-   2nRj2ryhwFFNF+bNTFofCdNlU7KNfrJvMOUCdTRzgbbzla66e3LNn7r/x
-   JnYmf6/7ulHPgrv9Dmk+O4UJck8qLN+XdN8YhCsojg6D6N1fLQldBEDX1
-   YfjlhKGp9FBk8WV41nQabWZlvPbeYsbwZqY/5nyIE7+v7s52KEUO5/OOL
-   j3fkO31dtl5jmUtH840MZv4jTbx0cPV0BhFJLheVbT2l+GW5yryegmegV
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362483565"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="362483565"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 10:04:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="733913263"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="733913263"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orsmga002.jf.intel.com with ESMTP; 15 Aug 2023 10:04:47 -0700
-From:   Tony Nguyen <anthony.l.nguyen@intel.com>
-To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, netdev@vger.kernel.org
-Cc:     Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-        anthony.l.nguyen@intel.com, jacob.e.keller@intel.com,
-        horms@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH net-next v3 5/5] ice: add documentation for FW logging
-Date:   Tue, 15 Aug 2023 09:57:50 -0700
-Message-Id: <20230815165750.2789609-6-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230815165750.2789609-1-anthony.l.nguyen@intel.com>
-References: <20230815165750.2789609-1-anthony.l.nguyen@intel.com>
+        with ESMTP id S238660AbjHORGf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 13:06:35 -0400
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 76F9B1990;
+        Tue, 15 Aug 2023 10:06:31 -0700 (PDT)
+Received: from linma$zju.edu.cn ( [112.5.88.102] ) by ajax-webmail-mail-app4
+ (Coremail) ; Wed, 16 Aug 2023 01:04:04 +0800 (GMT+08:00)
+X-Originating-IP: [112.5.88.102]
+Date:   Wed, 16 Aug 2023 01:04:04 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   "Lin Ma" <linma@zju.edu.cn>
+To:     "Jakub Kicinski" <kuba@kernel.org>
+Cc:     corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, rdunlap@infradead.org, void@manifault.com,
+        jani.nikula@intel.com, horms@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3] docs: net: add netlink attrs best practices
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220622(41e5976f)
+ Copyright (c) 2002-2023 www.mailtech.cn
+ mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
+In-Reply-To: <20230814085318.090c832d@kernel.org>
+References: <20230811031549.2011622-1-linma@zju.edu.cn>
+ <20230811152634.271608c5@kernel.org>
+ <54e9d6f6.106b1a.189e798f8ae.Coremail.linma@zju.edu.cn>
+ <20230814085318.090c832d@kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <7cba74b5.10d19d.189fa27935c.Coremail.linma@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgBHTQoFsNtkbKYYCw--.7107W
+X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwUIEmTa1vsUEQAAsK
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
-
-Add documentation for FW logging in
-Documentation/networking/device-drivers/ethernet/intel/ice.rst
-
-Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- .../device_drivers/ethernet/intel/ice.rst     | 117 ++++++++++++++++++
- 1 file changed, 117 insertions(+)
-
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index e4d065c55ea8..3ddef911faaa 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -895,6 +895,123 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
- refer to the hardware GNSS module documentation for configuration details.
- 
- 
-+Firmware (FW) logging
-+---------------------
-+The driver supports FW logging via the debugfs interface on PF 0 only. In order
-+for FW logging to work, the NVM must support it. The 'fwlog' file will only get
-+created in the ice debugfs directory if the NVM supports FW logging.
-+
-+Module configuration
-+~~~~~~~~~~~~~~~~~~~~
-+To see the status of FW logging then read the 'fwlog/modules' file like this::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+To configure FW logging then write to the 'fwlog/modules' file like this::
-+
-+  # echo <fwlog_event> <fwlog_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+where
-+
-+* fwlog_level is a name as described below. Each level includes the
-+  messages from the previous/lower level
-+
-+      * NONE
-+      *	ERROR
-+      *	WARNING
-+      *	NORMAL
-+      *	VERBOSE
-+
-+* fwlog_event is a name that represents the module to receive events for. The
-+  module names are
-+
-+      *	GENERAL
-+      *	CTRL
-+      *	LINK
-+      *	LINK_TOPO
-+      *	DNL
-+      *	I2C
-+      *	SDP
-+      *	MDIO
-+      *	ADMINQ
-+      *	HDMA
-+      *	LLDP
-+      *	DCBX
-+      *	DCB
-+      *	XLR
-+      *	NVM
-+      *	AUTH
-+      *	VPD
-+      *	IOSF
-+      *	PARSER
-+      *	SW
-+      *	SCHEDULER
-+      *	TXQ
-+      *	RSVD
-+      *	POST
-+      *	WATCHDOG
-+      *	TASK_DISPATCH
-+      *	MNG
-+      *	SYNCE
-+      *	HEALTH
-+      *	TSDRV
-+      *	PFREG
-+      *	MDLVER
-+      *	ALL
-+
-+The name ALL is special and specifies setting all of the modules to the
-+specified fwlog_level.
-+
-+Example usage to configure the modules::
-+
-+  # echo LINK VERBOSE > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+Enabling FW log
-+~~~~~~~~~~~~~~~
-+Once the desired modules are configured the user will enable the logging. To do
-+this the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An
-+example is::
-+
-+  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
-+
-+Retrieving FW log data
-+~~~~~~~~~~~~~~~~~~~~~~
-+The FW log data can be retrieved by reading from 'fwlog/data'. The user can
-+write to 'fwlog/data' to clear the data. The data can only be cleared when FW
-+logging is disabled. The FW log data is a binary file that is sent to Intel and
-+used to help debug user issues.
-+
-+An example to read the data is::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
-+
-+An example to clear the data is::
-+
-+  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
-+
-+Changing how often the log events are sent to the driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver receives FW log data from the Admin Receive Queue (ARQ). The
-+frequency that the FW sends the ARQ events can be configured by writing to
-+'fwlog/resolution'. The range is 1-128 (1 means push every log message, 128
-+means push only when the max AQ command buffer is full). The suggested value is
-+10. The user can see what the value is configured to by reading
-+'fwlog/resolution'. An example to set the value is::
-+
-+  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/resolution
-+
-+Configuring the number of buffers used to store FW log data
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver stores FW log data in a ring within the driver. The default size of
-+the ring is 256 4K buffers. Some use cases may require more or less data so
-+the user can change the number of buffers that are allocated for FW log data.
-+To change the number of buffers write to 'fwlog/nr_buffs'. The value must be a
-+power of two and between the values 64-512. FW logging must be disabled to
-+change the value. An example of changing the value is::
-+
-+  # echo 128 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_buffs
-+
-+
- Performance Optimization
- ========================
- Driver defaults are meant to fit a wide variety of workloads, but if further
--- 
-2.38.1
-
+SGVsbG8gSmFrdWIsCgo+IAo+IE9uIFNhdCwgMTIgQXVnIDIwMjMgMTA6MzU6MDkgKzA4MDAgKEdN
+VCswODowMCkgTGluIE1hIHdyb3RlOgo+ID4gTW92aW5nIGZvcndhcmQsIEkgc3VnZ2VzdCB3ZSBj
+b25zaWRlciB0aGUgZm9sbG93aW5nIG9wdGlvbnM6Cj4gPiAKPiA+IDEuIFVwZGF0ZSB0aGUgZG9j
+dW1lbnQgdG8gYWRkcmVzcyB0aGUgY29uZnVzaW9uIGFuZCBtYWtlIGl0IG1vcmUgcmVsZXZhbnQK
+PiA+ICAgIHRvIHRoZSBjdXJyZW50IHN0YXRlIG9mIE5ldGxpbmsgZGV2ZWxvcG1lbnQuIE1heWJl
+IHRoZSBuZXdseSBhZGRlZAo+ID4gICAgc2VjdGlvbiBzZWVtcyBub3QgZW5vdWdoIGZvciB0aGF0
+LiBJIHdvdWxkIGdyZWF0bHkgYXBwcmVjaWF0ZSBhbnkKPiA+ICAgIHNwZWNpZmljIGd1aWRhbmNl
+Lgo+IAo+IFVubGVzcyB3ZSBoYXZlIGRvY3MgZm9yIGtlcm5lbCBzaWRlIG9mIG1vZGVybiBnZW5l
+dGxpbmsgYW55IHNvcnQgb2YKPiBpbmRpY2F0aW9uIHRoYXQgdGhpcyBkb2MgaXMgb25seSBhIGd1
+aWRlIGZvciBsb29raW5nIGF0IG9sZCBjb2RlIHdpbGwKPiBmYWxsIG9uIGRlYWYgZWFycy4KPiAK
+PiBTbyB5b3UnZCBuZWVkIHRvIHdyaXRlIGEgc2FtcGxlIGZhbWlseSBhbmQgZG9jcyBmb3IgbW9k
+ZXJuIHN0dWZmLgoKR3JlYXQsIEkgZ3Vlc3MgSSAoZmluYWxseSkgdW5kZXJzdGFuZCB0aGUgc2l0
+dWF0aW9uIGhlcmUuIEl0IHNlZW1zIHRoYXQKdGhpcyBkb2N1bWVudCBpcyBqdXN0IG9uZSBwaWVj
+ZSBvZiB0aGUgcHV6emxlIHdoZW4gaXQgY29tZXMgdG8gdGhlIG1vZGVybgpnZW5lcmljIE5ldGxp
+bmsuIEhlbmNlLCBJIHNob3VsZCB3cml0ZSBhIHNhbXBsZSBmYW1pbHkgYW5kIGRvY3MgZm9yIG1v
+ZGVybgpzdHVmZiAobWFpbmx5IHRoZSBrZXJuZWwgc2lkZSkgYW5kIHRoZW4gbWFrZSB0aGlzIGRv
+Y3VtZW50IG9uZSBwYXJ0IG9mIGl0LgoKPiAKPiA+IDIuIElmIHRoZSBkb2N1bWVudCBpcyBkZWVt
+ZWQgdG9vIG91dGRhdGVkIGZvciBiZWluZyBrZXJuZWwgZG9jdW1lbnRhdGlvbiwKPiA+ICAgIG1h
+eWJlIEkgc2hvdWxkIHB1Ymxpc2ggaXQgc29tZXdoZXJlIGVsc2UuIERvIHlvdSBoYXZlIGFueQo+
+ID4gICAgcmVjb21tZW5kYXRpb25zIG9uIHdoZXJlIGl0IGNvdWxkIGJlIGJldHRlciBzdWl0ZWQ/
+Cj4gCj4gR2l0SHViIGNvbWVzIHRvIG1pbmQgZm9yIHB1Ymxpc2hpbmcgUmVTVCBkb2NzLCBpbiB0
+aGUgbWVhbnRpbWU/CgpObyB3b3JyaWVzLiBJJ20ganVzdCBicmFpbnN0b3JtaW5nIHdheXMgdG8g
+bWFrZSB0aGVzZSBwcmFjdGljZXMgdXNlZnVsIGlmIHRoZXkKZGlkbid0IG1ha2UgaXQgaW50byB0
+aGUga2VybmVsIGRvY3VtZW50IDpELgpBbGwgaW4gYWxsLCBJJ2xsIGZvbGxvdyB1cCBvbiBvdXIg
+cHJldmlvdXMgZGlzY3Vzc2lvbiBhbmQgZmlsbCBpbiB0aGUgZ2FwcyBhcwpzb29uIGFzIHBvc3Np
+YmxlLgoKUmVnYXJkcwpMaW4K
