@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB0BC04FE1
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 19:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 058D3C04FE0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 19:44:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239949AbjHOTnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 15:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41018 "EHLO
+        id S239947AbjHOTny (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 15:43:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239974AbjHOTno (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 15:43:44 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05D7D10C1;
-        Tue, 15 Aug 2023 12:43:43 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-4ff882397ecso1356417e87.3;
-        Tue, 15 Aug 2023 12:43:42 -0700 (PDT)
+        with ESMTP id S239952AbjHOTnl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 15:43:41 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC6410FF;
+        Tue, 15 Aug 2023 12:43:39 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso5085014f8f.0;
+        Tue, 15 Aug 2023 12:43:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692128620; x=1692733420;
+        d=gmail.com; s=20221208; t=1692128618; x=1692733418;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eLnNqJMl/isE73N1mbjQXGEF/pmHif2ExuIghaJq2uU=;
-        b=E4+EyGTgk55Ar+/aND32Egi/A6TLfOSqpz+0MIVtzXHpSm5PzXmP9l3Si6nqdyOsKK
-         KiZNxtoeVQzdrwpSa9H+2cafKa1nTuRdGVCsJlw/WoRK8+Wq8DO6PI8vswJpDfXAfUij
-         J/h9rS/E12dc61HzBgdVSjjUKfsUeC5fmgeQEktIQzedYV2Zk+Yg4VD2t6sJYfSv5+D2
-         xHSUe5ET3DfAZd6PmmFsFqimM6mvkxFmVhzKc+eIFsfV4nHsHWgVFB/IcLsVaknoOT89
-         P0KfGY08qVJBTmfce37f9QdFhl0OC6r7p3nIrTkNDrTtQI/7SNIIGJvSxvzb6qZfREU5
-         ucBw==
+        bh=r8mNYBAbLghexAM2MZEbEhjesH9w35WH3ToK8+snsTQ=;
+        b=S/R6TvnziwdQCfEmLaAxwEFqLxyeyhLK8HlN12cm0j/onoD0kciTsxG6+9B7MCZjC9
+         RDc5OMfm0zrdwupIrF1C6n4CTerBqW7IQ5gK2tDBZ1XYlIl+jZWBpUIW2uO+j6iREjAX
+         WQ1CORQi4kbixREhoUqsIIG0n8AshRk/WZeSRNJntAQ2nCR5QpFr7DIjaJmILhPt84gj
+         GrTZ4RdNNVOGoxY1SIqw9TsZ2aMNnNqN0wF7m1f3C6E1sw5P5BpO45WAsXnPN1ZzzORn
+         zcLoCe9/cB9M3SmcZzQk7fMSaAYN2mOBzsaGrYzkg2/Gdf4LgOMk/4rfu3nNfE4UeaEt
+         30SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692128620; x=1692733420;
+        d=1e100.net; s=20221208; t=1692128618; x=1692733418;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eLnNqJMl/isE73N1mbjQXGEF/pmHif2ExuIghaJq2uU=;
-        b=SQukz78zEcIYK4FzVFZ1f4u44vpy3NvUsb1K07SQtNMAylfeBFhnfjg9NcyMWJc8pZ
-         1wsMWpw+O/e7mM5OZDit1v1RBQ3nyeiuj5SyxqWsEeGI/zmkekpbn0p2JXrQqIodP5to
-         2ZBY2E9STF0oXswIzBi/cHbQvkk0fn7FBd/ECPOZAfVWAZS9ls/VjZ4BnRCqs+zmm4HG
-         1b/j1B3azD3s5wOx6wU9ewYzWJX45IF+YvQ1OwMAcLfKjkywKLimJR5VRqbHIaiEibpX
-         ate5LvPQaq5MoCqOi7zIOgqvbxW+ZCCHjXj3qpNOoiUJuiLN18IWcuZSu7vTZRSaBtlC
-         rpQQ==
-X-Gm-Message-State: AOJu0YxkhrNFsV6EYQkDVJC/6QWOdgoQzPrujhLluEEG5ZMVr9g/vbHb
-        OH5SwHZcV6AoSLp/Ibgg91xb0CBUmtEkxjNb
-X-Google-Smtp-Source: AGHT+IE/RtXNaazgveIWWB1QqfU3PBMO+3SgcBve1Hu2CgMQ8U7BQMDMUCdmYTJ1YwXRprZ+3EfK2w==
-X-Received: by 2002:ac2:5fd1:0:b0:4f7:6775:2a66 with SMTP id q17-20020ac25fd1000000b004f767752a66mr7256085lfg.53.1692128620327;
-        Tue, 15 Aug 2023 12:43:40 -0700 (PDT)
+        bh=r8mNYBAbLghexAM2MZEbEhjesH9w35WH3ToK8+snsTQ=;
+        b=U9NUx+/Z+zPF0XxnycmGVnxR/2MMfJDsmr8gO57QR4+YIfoFuYh/rod38jkT51lcFx
+         S15NYHRmQ2McFwCTPoNBWfkjoYeONtB7nm+4JlFkTerV8o0Lg6U+/OQWQCQsYk4EKO8G
+         IlhIPcmVcKaUT5qFe17bubWl+tfarpGtt9glKvO1It6UC1P6AysEItb6Rh1gpSlS7+TV
+         oqJ+vIeKrjK9UdFH1yyynDHB3nFQdJyJnSHCviuo7pgKTUHnfTNEYwm20OsSBx/FkPaZ
+         fZqSfwcPJxCJj/FgosCqiBHxBNYIogBCzIXumcvqJ6SAft2xX2CeCKNhtTL6C8Mjhyds
+         DP3Q==
+X-Gm-Message-State: AOJu0Yw7YDP4havYJZwGyH9HAJf4WOKzEuvLrZNl4hiJG1nNN1MwSY4V
+        4qGNUfMWr052lD31Lm70ECFsaud0rktHX/Ry
+X-Google-Smtp-Source: AGHT+IFkleXFNg2i9h29/7SaHyG9UpQTmAV6ugClAkOzeEi7KdmXVPRMKU37sULfjQBOS93+yKbqxA==
+X-Received: by 2002:a5d:4ec1:0:b0:317:5e0a:545e with SMTP id s1-20020a5d4ec1000000b003175e0a545emr9038845wrv.58.1692128617737;
+        Tue, 15 Aug 2023 12:43:37 -0700 (PDT)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:9934:e2f7:cd0e:75a6])
-        by smtp.gmail.com with ESMTPSA id n16-20020a5d6610000000b003179d5aee67sm18814892wru.94.2023.08.15.12.43.39
+        by smtp.gmail.com with ESMTPSA id n16-20020a5d6610000000b003179d5aee67sm18814892wru.94.2023.08.15.12.43.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 12:43:39 -0700 (PDT)
+        Tue, 15 Aug 2023 12:43:37 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -58,9 +58,9 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Stanislav Fomichev <sdf@google.com>,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v2 08/10] doc/netlink: Add spec for rt addr messages
-Date:   Tue, 15 Aug 2023 20:42:52 +0100
-Message-ID: <20230815194254.89570-9-donald.hunter@gmail.com>
+Subject: [PATCH net-next v2 06/10] tools/net/ynl: Add support for netlink-raw families
+Date:   Tue, 15 Aug 2023 20:42:50 +0100
+Message-ID: <20230815194254.89570-7-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230815194254.89570-1-donald.hunter@gmail.com>
 References: <20230815194254.89570-1-donald.hunter@gmail.com>
@@ -70,200 +70,213 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add schema for rt addr with support for:
-     - newaddr, deladdr, getaddr (dump)
+Refactor the ynl code to encapsulate protocol specifics into
+NetlinkProtocol and GenlProtocol.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 ---
- Documentation/netlink/specs/rt_addr.yaml | 179 +++++++++++++++++++++++
- 1 file changed, 179 insertions(+)
- create mode 100644 Documentation/netlink/specs/rt_addr.yaml
+ tools/net/ynl/lib/ynl.py | 103 +++++++++++++++++++++++++++++----------
+ 1 file changed, 78 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/netlink/specs/rt_addr.yaml b/Documentation/netlink/specs/rt_addr.yaml
-new file mode 100644
-index 000000000000..cbee1cedb177
---- /dev/null
-+++ b/Documentation/netlink/specs/rt_addr.yaml
-@@ -0,0 +1,179 @@
-+# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+diff --git a/tools/net/ynl/lib/ynl.py b/tools/net/ynl/lib/ynl.py
+index 4fa42a7c5955..325dc0d9c5b5 100644
+--- a/tools/net/ynl/lib/ynl.py
++++ b/tools/net/ynl/lib/ynl.py
+@@ -25,6 +25,7 @@ class Netlink:
+     NETLINK_ADD_MEMBERSHIP = 1
+     NETLINK_CAP_ACK = 10
+     NETLINK_EXT_ACK = 11
++    NETLINK_GET_STRICT_CHK = 12
+ 
+     # Netlink message
+     NLMSG_ERROR = 2
+@@ -242,6 +243,9 @@ class NlMsg:
+             self.fixed_header_attrs[m.name] = value
+         self.raw = self.raw[offset:]
+ 
++    def cmd(self):
++        return self.nl_type
 +
-+name: rt-addr
-+protocol: netlink-raw
-+protonum: 0
+     def __repr__(self):
+         msg = f"nl_len = {self.nl_len} ({len(self.raw)}) nl_flags = 0x{self.nl_flags:x} nl_type = {self.nl_type}\n"
+         if self.error:
+@@ -344,6 +348,9 @@ class GenlMsg:
+         self.raw_attrs = NlAttrs(self.raw)
+         self.fixed_header_attrs = nl_msg.fixed_header_attrs
+ 
++    def cmd(self):
++        return self.genl_cmd
 +
-+doc:
-+  Address configuration over rtnetlink.
+     def __repr__(self):
+         msg = repr(self.nl)
+         msg += f"\tgenl_cmd = {self.genl_cmd} genl_ver = {self.genl_version}\n"
+@@ -352,9 +359,35 @@ class GenlMsg:
+         return msg
+ 
+ 
+-class GenlFamily:
+-    def __init__(self, family_name):
++class NetlinkProtocol:
++    def __init__(self, family_name, proto_num):
+         self.family_name = family_name
++        self.proto_num = proto_num
 +
-+definitions:
-+  -
-+    name: ifaddrmsg
-+    type: struct
-+    members:
-+      -
-+        name: ifa-family
-+        type: u8
-+      -
-+        name: ifa-prefixlen
-+        type: u8
-+      -
-+        name: ifa-flags
-+        type: u8
-+        enum: ifa-flags
-+        enum-as-flags: true
-+      -
-+        name: ifa-scope
-+        type: u8
-+      -
-+        name: ifa-index
-+        type: u32
-+  -
-+    name: ifa-cacheinfo
-+    type: struct
-+    members:
-+      -
-+        name: ifa-prefered
-+        type: u32
-+      -
-+        name: ifa-valid
-+        type: u32
-+      -
-+        name: cstamp
-+        type: u32
-+      -
-+        name: tstamp
-+        type: u32
++    def _message(self, nl_type, nl_flags, seq=None):
++        if seq is None:
++            seq = random.randint(1, 1024)
++        nlmsg = struct.pack("HHII", nl_type, nl_flags, seq, 0)
++        return nlmsg
 +
-+  -
-+    name: ifa-flags
-+    type: flags
-+    entries:
-+      -
-+        name: secondary
-+      -
-+        name: nodad
-+      -
-+        name: optimistic
-+      -
-+        name: dadfailed
-+      -
-+        name: homeaddress
-+      -
-+        name: deprecated
-+      -
-+        name: tentative
-+      -
-+        name: permanent
-+      -
-+        name: managetempaddr
-+      -
-+        name: noprefixroute
-+      -
-+        name: mcautojoin
-+      -
-+        name: stable-privacy
++    def message(self, flags, command, version, seq=None):
++        return self._message(command, flags, seq)
 +
-+attribute-sets:
-+  -
-+    name: addr-attrs
-+    attributes:
-+      -
-+        name: ifa-address
-+        type: binary
-+        display-hint: ipv4
-+      -
-+        name: ifa-local
-+        type: binary
-+        display-hint: ipv4
-+      -
-+        name: ifa-label
-+        type: string
-+      -
-+        name: ifa-broadcast
-+        type: binary
-+        display-hint: ipv4
-+      -
-+        name: ifa-anycast
-+        type: binary
-+      -
-+        name: ifa-cacheinfo
-+        type: binary
-+        struct: ifa-cacheinfo
-+      -
-+        name: ifa-multicast
-+        type: binary
-+      -
-+        name: ifa-flags
-+        type: u32
-+        enum: ifa-flags
-+        enum-as-flags: true
-+      -
-+        name: ifa-rt-priority
-+        type: u32
-+      -
-+        name: ifa-target-netnsid
-+        type: binary
-+      -
-+        name: ifa-proto
-+        type: u8
++    def decode(self, ynl, nl_msg):
++        op = ynl.rsp_by_value[nl_msg.nl_type]
++        if op.fixed_header:
++            nl_msg.decode_fixed_header(ynl, op.fixed_header)
++        nl_msg.raw_attrs = NlAttrs(nl_msg.raw)
++        return nl_msg
 +
++    def get_mcast_id(self, mcast_name, mcast_groups):
++        if mcast_name not in mcast_groups:
++            raise Exception(f'Multicast group "{mcast_name}" not present in the spec')
++        return mcast_groups[mcast_name].id
 +
-+operations:
-+  fixed-header: ifaddrmsg
-+  enum-model: directional
-+  list:
-+    -
-+      name: newaddr
-+      doc: Add new address
-+      attribute-set: addr-attrs
-+      do:
-+        request:
-+          value: 20
-+          attributes: &ifaddr-all
-+            - ifa-family
-+            - ifa-flags
-+            - ifa-prefixlen
-+            - ifa-scope
-+            - ifa-index
-+            - ifa-address
-+            - ifa-label
-+            - ifa-local
-+            - ifa-cacheinfo
-+    -
-+      name: deladdr
-+      doc: Remove address
-+      attribute-set: addr-attrs
-+      do:
-+        request:
-+          value: 21
-+          attributes:
-+            - ifa-family
-+            - ifa-flags
-+            - ifa-prefixlen
-+            - ifa-scope
-+            - ifa-index
-+            - ifa-address
-+            - ifa-local
-+    -
-+      name: getaddr
-+      doc: Dump address information.
-+      attribute-set: addr-attrs
-+      dump:
-+        request:
-+          value: 22
-+          attributes:
-+            - ifa-index
-+        reply:
-+          value: 20
-+          attributes: *ifaddr-all
++class GenlProtocol(NetlinkProtocol):
++    def __init__(self, family_name):
++        super().__init__(family_name, Netlink.NETLINK_GENERIC)
+ 
+         global genl_family_name_to_id
+         if genl_family_name_to_id is None:
+@@ -363,6 +396,18 @@ class GenlFamily:
+         self.genl_family = genl_family_name_to_id[family_name]
+         self.family_id = genl_family_name_to_id[family_name]['id']
+ 
++    def message(self, flags, command, version, seq=None):
++        nlmsg = self._message(self.family_id, flags, seq)
++        genlmsg = struct.pack("BBH", command, version, 0)
++        return nlmsg + genlmsg
 +
-+mcast-groups:
-+  list:
-+    -
-+      name: rtnlgrp-ipv4-ifaddr
-+      value: 5
-+    -
-+      name: rtnlgrp-ipv6-ifaddr
-+      value: 9
++    def decode(self, ynl, nl_msg):
++        return GenlMsg(nl_msg, ynl)
++
++    def get_mcast_id(self, mcast_name, mcast_groups):
++        if mcast_name not in self.genl_family['mcast']:
++            raise Exception(f'Multicast group "{mcast_name}" not present in the family')
++        return self.genl_family['mcast'][mcast_name]
+ 
+ #
+ # YNL implementation details.
+@@ -375,9 +420,19 @@ class YnlFamily(SpecFamily):
+ 
+         self.include_raw = False
+ 
+-        self.sock = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, Netlink.NETLINK_GENERIC)
++        try:
++            if self.proto == "netlink-raw":
++                self.nlproto = NetlinkProtocol(self.yaml['name'],
++                                               self.yaml['protonum'])
++            else:
++                self.nlproto = GenlProtocol(self.yaml['name'])
++        except KeyError:
++            raise Exception(f"Family '{self.yaml['name']}' not supported by the kernel")
++
++        self.sock = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, self.nlproto.proto_num)
+         self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_CAP_ACK, 1)
+         self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_EXT_ACK, 1)
++        self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_GET_STRICT_CHK, 1)
+ 
+         self.async_msg_ids = set()
+         self.async_msg_queue = []
+@@ -390,18 +445,12 @@ class YnlFamily(SpecFamily):
+             bound_f = functools.partial(self._op, op_name)
+             setattr(self, op.ident_name, bound_f)
+ 
+-        try:
+-            self.family = GenlFamily(self.yaml['name'])
+-        except KeyError:
+-            raise Exception(f"Family '{self.yaml['name']}' not supported by the kernel")
+ 
+     def ntf_subscribe(self, mcast_name):
+-        if mcast_name not in self.family.genl_family['mcast']:
+-            raise Exception(f'Multicast group "{mcast_name}" not present in the family')
+-
++        mcast_id = self.nlproto.get_mcast_id(mcast_name, self.mcast_groups)
+         self.sock.bind((0, 0))
+         self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_ADD_MEMBERSHIP,
+-                             self.family.genl_family['mcast'][mcast_name])
++                             mcast_id)
+ 
+     def _add_attr(self, space, name, value):
+         attr = self.attr_sets[space][name]
+@@ -525,9 +574,12 @@ class YnlFamily(SpecFamily):
+         if self.include_raw:
+             msg['nlmsg'] = nl_msg
+             msg['genlmsg'] = genl_msg
+-        op = self.rsp_by_value[genl_msg.genl_cmd]
++        op = self.rsp_by_value[genl_msg.cmd()]
++        decoded = self._decode(genl_msg.raw_attrs, op.attr_set.name)
++        decoded.update(genl_msg.fixed_header_attrs)
++
+         msg['name'] = op['name']
+-        msg['msg'] = self._decode(genl_msg.raw_attrs, op.attr_set.name)
++        msg['msg'] = decoded
+         self.async_msg_queue.append(msg)
+ 
+     def check_ntf(self):
+@@ -547,12 +599,12 @@ class YnlFamily(SpecFamily):
+                     print("Netlink done while checking for ntf!?")
+                     continue
+ 
+-                gm = GenlMsg(nl_msg)
+-                if gm.genl_cmd not in self.async_msg_ids:
+-                    print("Unexpected msg id done while checking for ntf", gm)
++                decoded = self.nlproto.decode(self, nl_msg)
++                if decoded.cmd() not in self.async_msg_ids:
++                    print("Unexpected msg id done while checking for ntf", decoded)
+                     continue
+ 
+-                self.handle_ntf(nl_msg, gm)
++                self.handle_ntf(nl_msg, decoded)
+ 
+     def operation_do_attributes(self, name):
+       """
+@@ -573,7 +625,7 @@ class YnlFamily(SpecFamily):
+             nl_flags |= Netlink.NLM_F_DUMP
+ 
+         req_seq = random.randint(1024, 65535)
+-        msg = _genl_msg(self.family.family_id, nl_flags, op.req_value, 1, req_seq)
++        msg = self.nlproto.message(nl_flags, op.req_value, 1, req_seq)
+         fixed_header_members = []
+         if op.fixed_header:
+             fixed_header_members = self.consts[op.fixed_header].members
+@@ -605,18 +657,19 @@ class YnlFamily(SpecFamily):
+                     done = True
+                     break
+ 
+-                gm = GenlMsg(nl_msg, self)
++                decoded = self.nlproto.decode(self, nl_msg)
++
+                 # Check if this is a reply to our request
+-                if nl_msg.nl_seq != req_seq or gm.genl_cmd != op.rsp_value:
+-                    if gm.genl_cmd in self.async_msg_ids:
+-                        self.handle_ntf(nl_msg, gm)
++                if nl_msg.nl_seq != req_seq or decoded.cmd() != op.rsp_value:
++                    if decoded.cmd() in self.async_msg_ids:
++                        self.handle_ntf(nl_msg, decoded)
+                         continue
+                     else:
+-                        print('Unexpected message: ' + repr(gm))
++                        print('Unexpected message: ' + repr(decoded))
+                         continue
+ 
+-                rsp_msg = self._decode(gm.raw_attrs, op.attr_set.name)
+-                rsp_msg.update(gm.fixed_header_attrs)
++                rsp_msg = self._decode(decoded.raw_attrs, op.attr_set.name)
++                rsp_msg.update(decoded.fixed_header_attrs)
+                 rsp.append(rsp_msg)
+ 
+         if not rsp:
 -- 
 2.41.0
 
