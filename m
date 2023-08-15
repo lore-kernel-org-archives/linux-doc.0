@@ -2,1260 +2,541 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1144C04A94
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 18:58:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 009BEC0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 19:15:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239535AbjHOS57 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 14:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35948 "EHLO
+        id S234929AbjHOTPS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 15:15:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239351AbjHOS5f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 14:57:35 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD4A1BD8
-        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 11:57:01 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id ffacd0b85a97d-31969580797so3040416f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 11:57:01 -0700 (PDT)
+        with ESMTP id S239791AbjHOTPI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 15:15:08 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9CBEBF
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 12:15:04 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fe8a1591c8so42237615e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 12:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1692125818; x=1692730618;
+        d=arista.com; s=google; t=1692126903; x=1692731703;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2JMRTz+NfeDh5//BApTYF7NcyLlPRBeRMwEUD09EjF4=;
-        b=tjT41Zm2zTA32vtpGhg1xd+tFUhQkY/cvAv1ms3tOYySSG6boJ5FG0bXvRgPgdDMDi
-         hBVbs0ZbOHHjVFHAu9aTrJZbRgq836sD6OuHh5+3N2mnkXwHEIgl8v+bBxbM8twlUFvH
-         fRZ+7Ojr8uz6rKWZIbB/n0lgkCrg0HISO/qJn1xoSTMtP4o0te69Xvc06VrK4U4gPGu1
-         gx73+q2r/ulDB9jHTVdRzE6W0Ms+pDEdShXNPNVUxIY9xiLa+QJJP71uvwf3cwk5QSo3
-         PX8fDUbVBFTLbl8DgR8gonAKB1HzrUkm0PccplCaGFFr+6ksE/XyuMGjmCE82bsNwuhg
-         bjWA==
+        bh=+EGEPaaRFkSDYIUF6/mEpX4d1ngsXjj/A2mkQb8VaZ4=;
+        b=KYaWSNABaIhKBldrznlLt1jUAShQzPM1lf3raA7GTfuJNqKmtBxWt7CAnvzQfxxPuz
+         GEnkcDqaYvfZju9nGiBllBIUnaq/VRp+IcMROIrJDnCUQHz5luhnCeoMOdJ0kR4FhU75
+         jbfL9Vg0Jp1JPeQHd5VkXsVKX5A3aLzky7vF7dSSByDHaYM9Uya0LjQqp8s0AF+zeKuF
+         K6eaoERSjHlS2tH9R9ASdVf3Hy/M1Ke4D1eMMsiUixXyynFSYuEUjQ+9B6RczrfCLIWI
+         PnbJFNn62V3jCJ1RId3y/SbqFSQQHpoPkEedo9LbDDnOq3FPM5ofOIE9/wPspe5gEc2C
+         /0lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692125818; x=1692730618;
+        d=1e100.net; s=20221208; t=1692126903; x=1692731703;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2JMRTz+NfeDh5//BApTYF7NcyLlPRBeRMwEUD09EjF4=;
-        b=Ton+oTI/A6WjhgLsRQ25qG9JGEWXa0VvFwrtlSWgn2kLa2IBGImKs49eUPxFQ2PYuP
-         888KAeEbURcHqdOa4sK5nYrQE+dd4j1tkdNeC7jW/Ch2hasCJZSVAFFuZ+NnoHqrPhJN
-         lOO4RK8dEe5GJFyD/czD3cTfdz6dyL2f+AE2hxCemjoHpEQcHyMJMWo0YiOvwPLGqrE0
-         s9QZUTW6/g+DDhdGWQ2WhDCG4KyMcFhN91LLxIoXJXLtmHsmAM6McnkdeGWnlDHh/5LB
-         lrKunGqS9kJRB1rxZYtmTN2dZ7HnrWYXaVtck/xR5CzGD+j75c964ROe/IpZVN67D4yC
-         d3jQ==
-X-Gm-Message-State: AOJu0YzB03lioNnl1GYp1HrTj5xAL7qHq0R8FbpKi8ge0ZopzCJG+D6z
-        u6pJHMRwPWBNADvQPGVYdxgFUQ==
-X-Google-Smtp-Source: AGHT+IE4rSijZyr7cAzGYh0iS14YIaDfWdV9Wtoln3nLzyTdmhM5egOxl/dUYFwL4TF3A5fq/BCf1g==
-X-Received: by 2002:a5d:4dcb:0:b0:319:12c2:59cd with SMTP id f11-20020a5d4dcb000000b0031912c259cdmr9489276wru.54.1692125817825;
-        Tue, 15 Aug 2023 11:56:57 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:894:b8c7:af57:bef1])
-        by smtp.gmail.com with ESMTPSA id f14-20020adffcce000000b00317a04131c5sm18736428wrs.57.2023.08.15.11.56.56
+        bh=+EGEPaaRFkSDYIUF6/mEpX4d1ngsXjj/A2mkQb8VaZ4=;
+        b=C6SbUUn+nYVzjP79SSp+BcOObBHjWMB0ug32bixN9BoZbw5eq6wmVMpjLbGko8++qO
+         emJ3b88Tt4Tiof5FTck5//fr0PJUl2ijVjgIXUrLaALyqbz8onlRo08hu4sME/kxpU0t
+         nFL0OdGNlm1RrBStEttF/tyebdHvAyWkC0RHchrYZivkzB1fYVXIb7a4uTTd4omwNrsm
+         qhOY27aGC7u1d9aX0PdlNCrHs8Vvrbbon0RNL2ZdTJrAU/pvx5HPAGZnAeUAfPV3ineA
+         Yu1Gx8WcAn8/wPqB3DOUv5NcbKrY/Mvq/F4ci1UmVMeWEC77p7NSXr6onsamxzMzJrQK
+         NInw==
+X-Gm-Message-State: AOJu0Yx1XFcJ+kP4RTsO1J7zjX+w1RkCOd2eRVfyeoAj8sIhNzFY0UVR
+        bjwk1jpGZ3O0UvCoqR/FxFvSQA==
+X-Google-Smtp-Source: AGHT+IHRKiuhcBNfMGXQJnBXy8hRV4vrFG2DVEx7geOFtC0Fajl9yoFpvevM7x0npiur/su9qw7Mvw==
+X-Received: by 2002:a7b:c401:0:b0:3fd:1cfa:939e with SMTP id k1-20020a7bc401000000b003fd1cfa939emr11630837wmi.4.1692126902911;
+        Tue, 15 Aug 2023 12:15:02 -0700 (PDT)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id q9-20020a1ce909000000b003fbbe41fd78sm18779737wmc.10.2023.08.15.12.15.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 11:56:57 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH v5] gpio: consumer: new virtual driver
-Date:   Tue, 15 Aug 2023 20:56:50 +0200
-Message-Id: <20230815185650.152968-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.39.2
+        Tue, 15 Aug 2023 12:15:02 -0700 (PDT)
+From:   Dmitry Safonov <dima@arista.com>
+To:     David Ahern <dsahern@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     linux-kernel@vger.kernel.org, Dmitry Safonov <dima@arista.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Bob Gilligan <gilligan@arista.com>,
+        Dan Carpenter <error27@gmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Donald Cassidy <dcassidy@redhat.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Francesco Ruggeri <fruggeri05@gmail.com>,
+        "Gaillardetz, Dominik" <dgaillar@ciena.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ivan Delalande <colona@arista.com>,
+        Leonard Crestez <cdleonard@gmail.com>,
+        "Nassiri, Mohammad" <mnassiri@ciena.com>,
+        Salam Noureddine <noureddine@arista.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        "Tetreault, Francois" <ftetreau@ciena.com>, netdev@vger.kernel.org,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v10 net-next 00/23] net/tcp: Add TCP-AO support
+Date:   Tue, 15 Aug 2023 20:14:29 +0100
+Message-ID: <20230815191455.1872316-1-dima@arista.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi,
 
-The GPIO subsystem has a serious problem with undefined behavior and
-use-after-free bugs on hot-unplug of GPIO chips. This can be considered a
-corner-case by some as most GPIO controllers are enabled early in the
-boot process and live until the system goes down but most GPIO drivers
-do allow unbind over sysfs, many are loadable modules that can be (force)
-unloaded and there are also GPIO devices that can be dynamically detached,
-for instance CP2112 which is a USB GPIO expender.
+This is version 10 of TCP-AO support. It's based on net-next as
+there's a trivial conflict with the commit dfa2f0483360 ("tcp: get rid
+of sysctl_tcp_adv_win_scale").
 
-Bugs can be triggered both from user-space as well as by in-kernel users.
-We have the means of testing it from user-space via the character device
-but the issues manifest themselves differently in the kernel.
+Most changes from the previous version address Eric's review comments.
+I see also in net-next the commit d0f2b7a9ca0a ("tcp: Disable header
+prediction for MD5 flow.") that micro-optimizes TCP-MD5 header option
+prediction, which may be relevant for TCP-AO as well, but that needs
+benchmarking.
 
-This is a proposition of adding a new virtual driver - a configurable
-GPIO consumer that can be configured over configfs (similarly to
-gpio-sim).
+There's one Sparse warning introduced by tcp_sigpool_start():
+__cond_acquires() seems to currently being broken. I've described
+the reasoning for it on v9 cover letter. Also, checkpatch.pl warnings
+were addressed, but yet I've left the ones that are more personal
+preferences (i.e. 80 columns limit). Please, ping me if you have
+a strong feeling about one of them.
 
-The configfs interface allows users to create dynamic GPIO lookup tables
-that are registered with the GPIO subsystem. Every config group
-represents a consumer device. Every sub-group represents a single GPIO
-lookup. The device can work in three modes: just keeping the line
-active, toggling it every second or requesting its interrupt and
-reporting edges. Every lookup allows to specify the key, offset and
-flags as per the lookup struct defined in linux/gpio/machine.h.
+The following changes since commit 479b322ee6feaff612285a0e7f22c022e8cd84eb:
 
-The module together with gpio-sim allows to easily trigger kernel
-hot-unplug errors. A simple use-case is to create a simulated chip,
-setup the consumer to lookup one of its lines in 'monitor' mode, unbind
-the simulator, unbind the consumer and observe the fireworks in dmesg.
+  net: dsa: mv88e6060: add phylink_get_caps implementation (2023-08-14 18:57:17 -0700)
 
-This driver is aimed as a helper in tackling the hot-unplug problem in
-GPIO as well as basis for future regression testing once the fixes are
-upstream.
+are available in the Git repository at:
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
----
-RFC -> v2:
-- add documentation
-- fix various issues pointed out by Andy: use struct_size() where
-  applicable, improve the logic when storing the 'live' property,
-  improve log messages, remove commas in terminators, etc.
+  git@github.com:0x7f454c46/linux.git tcp-ao-v10
 
-v2 -> v3:
-- use cleanup.h interfaces
-- add some clarifying commets
-- more minor code tweaks
+for you to fetch changes up to 483dc671cd33311ba8b82e9b3209d0ea52578a55:
 
-v3 -> v4:
-- fix the toggle value assignment
-- use guard(mutex)() wherever we can return directly from the subsequent
-  function call
-- use skip_spaces() + strim() to avoid having to do a memmove() when
-  stripping strings off whitespaces
-- DON'T try to save a couple LOC in ifdefs if that makes them less
-  readable (Andy :) )
+  Documentation/tcp: Add TCP-AO documentation (2023-08-15 19:39:30 +0100)
 
-v4 -> v5:
-- add the gpio-consumer docs to the admin-guide/gpio/ index (reported
-  by kernel test robot <lkp@intel.com>)
+----------------------------------------------------------------
 
- .../admin-guide/gpio/gpio-consumer.rst        | 111 ++
- Documentation/admin-guide/gpio/index.rst      |   1 +
- drivers/gpio/Kconfig                          |   7 +
- drivers/gpio/Makefile                         |   1 +
- drivers/gpio/gpio-consumer.c                  | 954 ++++++++++++++++++
- 5 files changed, 1074 insertions(+)
- create mode 100644 Documentation/admin-guide/gpio/gpio-consumer.rst
- create mode 100644 drivers/gpio/gpio-consumer.c
+And another branch with selftests, that will be sent later separately:
+  git@github.com:0x7f454c46/linux.git tcp-ao-v10-with-selftests
 
-diff --git a/Documentation/admin-guide/gpio/gpio-consumer.rst b/Documentation/admin-guide/gpio/gpio-consumer.rst
-new file mode 100644
-index 000000000000..50ec57088e5a
---- /dev/null
-+++ b/Documentation/admin-guide/gpio/gpio-consumer.rst
-@@ -0,0 +1,111 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Virtual GPIO Consumer
-+=====================
-+
-+The virtual GPIO Consumer module allows users to create dynamic GPIO lookup
-+tables using the exposed configfs interface and instantiate virtual GPIO
-+consumer devices that retrieve and use GPIOs using these tables.
-+
-+Creating GPIO consumers
-+-----------------------
-+
-+The gpio-consumer module registers a configfs subsystem called
-+``'gpio-consumer'``. For details of the configfs filesystem, please refer to
-+the configfs documentation.
-+
-+The user can create a hierarchy of configfs groups and items as well as modify
-+values of exposed attributes. Once the consumer is instantiated, this hierarchy
-+will be translated to appropriate device properties. The general structure is:
-+
-+**Group:** ``/config/gpio-consumer``
-+
-+This is the top directory of the gpio-consumer configfs tree.
-+
-+**Group:** ``/config/gpio-consumer/consumer-device``
-+
-+**Attribute:** ``/config/gpio-consumer/gpio-device/function``
-+
-+**Attribute:** ``/config/gpio-consumer/gpio-device/live``
-+
-+This is a directory representing a GPIO consumer device. The ``'function'``
-+attribute defines how the device will use requested GPIOs. It takes the
-+following values: ``'active'`` - GPIOs will be requested as output-high and
-+kept in this state until the device is unbound, ``'toggle'`` - GPIOs will
-+be requested in output mode and then toggled periodically (every second)
-+between 1 and 0, ``'monitor'`` - GPIOs will be requested in input mode, then
-+requested as interrupts and their firing reported in the kernel log.
-+
-+The ``'live'`` attribute allows to trigger the actual creation of the device
-+once it's fully configured. The accepted values are: ``'1'`` to enable the
-+virtual device and ``'0'`` to disable and tear it down.
-+
-+Creating GPIO lookup tables
-+---------------------------
-+
-+User can create a number of configfs groups under the device group with the
-+following properties:
-+
-+**Group:** ``/config/gpio-consumer/consumer-device/lookupX``
-+
-+**Attribute:** ``/config/gpio-consumer/consumer-device/lookupX/key``
-+
-+**Attribute:** ``/config/gpio-consumer/consumer-device/lookupX/offset``
-+
-+**Attribute:** ``/config/gpio-consumer/consumer-device/lookupX/drive``
-+
-+**Attribute:** ``/config/gpio-consumer/consumer-device/lookupX/pull``
-+
-+**Attribute:** ``/config/gpio-consumer/consumer-device/lookupX/active_low``
-+
-+**Attribute:** ``/config/gpio-consumer/consumer-device/lookupX/transitory``
-+
-+This group represents a single entry in the GPIO lookup table. The name of the
-+sub-directory maps to the ``'con_id'`` field of ``'struct gpiod_lookup'``. The
-+``'key'`` attribute represents either the name of the chip this GPIO belongs to
-+or the GPIO line name. This depends on the value of the ``'offset'`` attribute:
-+if its value is >= 0, then ``'key'`` represents the label of the chip to lookup
-+while ``'offset'`` represents the offset of the line in that chip. If
-+``'offset'`` is < 0, then ``'key'`` represents the name of the line.
-+
-+The remaining attributes map to the ``'flags'`` field of the GPIO lookup struct.
-+The first two take string values as arguments:
-+
-+**``'drive'``:** ``'push-pull'``, ``'open-drain'``, ``'open-source'``
-+**``'pull'``:** ``'pull-up'``, ``'pull-down'``, ``'pull-disabled'``, ``'as-is'``
-+
-+``'active_low'`` and ``'transitory'`` are boolean attributes.
-+
-+Activating GPIO consumers
-+-------------------------
-+
-+Once the confiuration is complete, the ``'live'`` attribute must be set to 1 in
-+order to instantiate the consumer. It can be set back to 0 to destroy the
-+virtual devices. The module will synchronously wait for the new simulated device
-+to be successfully probed and if this doesn't happen, writing to ``'live'`` will
-+result in an error.
-+
-+Device-tree
-+-----------
-+
-+Virtual GPIO consumers can also be defined in device-tree. The compatible string
-+must be: ``"gpio-virtual-consumer"``. Supported properties are:
-+
-+  ``"gpio-virtual-consumer,function"`` - function of the virtual device
-+  ``"gpio-virtual-consumer,lines"`` - list of lookup keys
-+
-+An example device-tree code defining a virtual GPIO consumer:
-+
-+.. code-block :: none
-+
-+    gpio-virt-consumer {
-+        compatible = "gpio-virtual-consumer";
-+
-+        foo-gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
-+        bar-gpios = <&gpio0 6 0>;
-+
-+        gpio-virtual-consumer,function = "toggle";
-+        gpio-virtual-consumer,lines = "foo", "bar";
-+    };
-+
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-diff --git a/Documentation/admin-guide/gpio/index.rst b/Documentation/admin-guide/gpio/index.rst
-index f6861ca16ffe..be89cb99c027 100644
---- a/Documentation/admin-guide/gpio/index.rst
-+++ b/Documentation/admin-guide/gpio/index.rst
-@@ -8,6 +8,7 @@ gpio
-     :maxdepth: 1
- 
-     gpio-aggregator
-+    gpio-consumer
-     sysfs
-     gpio-mockup
-     gpio-sim
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index e382dfebad7c..c152fcf6c54f 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -1762,6 +1762,13 @@ config GPIO_AGGREGATOR
- 	      industrial control context, to be operated from userspace using
- 	      the GPIO chardev interface.
- 
-+config GPIO_CONSUMER
-+	tristate "GPIO Consumer Testing Module"
-+	select CONFIGFS_FS
-+	help
-+	  This enables the configurable, configfs-based virtual GPIO consumer
-+	  testing driver.
-+
- config GPIO_LATCH
- 	tristate "GPIO latch driver"
- 	help
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index c3ac51d47aa9..268e8f65f3c8 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -46,6 +46,7 @@ obj-$(CONFIG_GPIO_BT8XX)		+= gpio-bt8xx.o
- obj-$(CONFIG_GPIO_CADENCE)		+= gpio-cadence.o
- obj-$(CONFIG_GPIO_CLPS711X)		+= gpio-clps711x.o
- obj-$(CONFIG_GPIO_SNPS_CREG)		+= gpio-creg-snps.o
-+obj-$(CONFIG_GPIO_CONSUMER)		+= gpio-consumer.o
- obj-$(CONFIG_GPIO_CRYSTAL_COVE)		+= gpio-crystalcove.o
- obj-$(CONFIG_GPIO_CS5535)		+= gpio-cs5535.o
- obj-$(CONFIG_GPIO_DA9052)		+= gpio-da9052.o
-diff --git a/drivers/gpio/gpio-consumer.c b/drivers/gpio/gpio-consumer.c
-new file mode 100644
-index 000000000000..748c442da1c9
---- /dev/null
-+++ b/drivers/gpio/gpio-consumer.c
-@@ -0,0 +1,954 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Configurable virtual GPIO consumer module.
-+ *
-+ * Copyright (C) 2023 Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/cleanup.h>
-+#include <linux/completion.h>
-+#include <linux/configfs.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/idr.h>
-+#include <linux/interrupt.h>
-+#include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/limits.h>
-+#include <linux/list.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/notifier.h>
-+#include <linux/overflow.h>
-+#include <linux/platform_device.h>
-+#include <linux/printk.h>
-+#include <linux/property.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/timer.h>
-+
-+#include "gpiolib.h"
-+
-+#define GPIO_CONSUMER_MAX_PROPS 3
-+
-+enum gpio_consumer_function {
-+	GPIO_CONSUMER_FUNCTION_ACTIVE = 0,
-+	GPIO_CONSUMER_FUNCTION_TOGGLE,
-+	GPIO_CONSUMER_FUNCTION_MONITOR,
-+	__GPIO_CONSUMER_FUNCTION_LAST
-+};
-+
-+static const char *const gpio_consumer_function_strings[] = {
-+	[GPIO_CONSUMER_FUNCTION_ACTIVE] = "active",
-+	[GPIO_CONSUMER_FUNCTION_TOGGLE] = "toggle",
-+	[GPIO_CONSUMER_FUNCTION_MONITOR] = "monitor",
-+	NULL
-+};
-+
-+struct gpio_consumer_irq_data {
-+	struct device *dev;
-+	struct gpio_desc *desc;
-+};
-+
-+struct gpio_consumer_timer_data {
-+	struct timer_list timer;
-+	struct gpio_desc *desc;
-+	int val;
-+};
-+
-+static struct gpio_consumer_timer_data *to_timer_data(struct timer_list *timer)
-+{
-+	return container_of(timer, struct gpio_consumer_timer_data, timer);
-+}
-+
-+static DEFINE_IDA(gpio_consumer_ida);
-+
-+static irqreturn_t gpio_consumer_on_irq(int irq, void *data)
-+{
-+	struct gpio_consumer_irq_data *irq_data = data;
-+	struct gpio_desc *desc = irq_data->desc;
-+	struct gpio_device *gdev = desc->gdev;
-+	struct device *dev = irq_data->dev;
-+	int val;
-+
-+	val = gpiod_get_value_cansleep(desc);
-+	if (val < 0) {
-+		dev_err(dev, "failed to read GPIO value: %d\n", val);
-+		return IRQ_HANDLED;
-+	}
-+
-+	dev_info(dev, "interrupt triggered on line %u of %s, new value: %d\n",
-+		 gpio_chip_hwgpio(desc), dev_name(&gdev->dev), val);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void gpio_consumer_on_timer(struct timer_list *timer)
-+{
-+	struct gpio_consumer_timer_data *timer_data = to_timer_data(timer);
-+
-+	timer_data->val = timer_data->val ? 0 : 1;
-+	gpiod_set_value_cansleep(timer_data->desc, timer_data->val);
-+	mod_timer(&timer_data->timer, jiffies + msecs_to_jiffies(1000));
-+}
-+
-+static void gpio_consumer_del_timer(void *data)
-+{
-+	struct timer_list *timer = data;
-+
-+	del_timer(timer);
-+}
-+
-+static int gpio_consumer_probe(struct platform_device *pdev)
-+{
-+	struct gpio_consumer_timer_data *timer_data;
-+	struct gpio_consumer_irq_data *irq_data;
-+	enum gpio_consumer_function function;
-+	const char *function_prop, **lines;
-+	struct device *dev = &pdev->dev;
-+	struct gpio_desc *desc;
-+	enum gpiod_flags flags;
-+	int ret, num_lines, i;
-+
-+	ret = device_property_read_string(dev, "gpio-virtual-consumer,function",
-+					  &function_prop);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to read the consumer GPIO function\n");
-+
-+	ret = match_string(gpio_consumer_function_strings, -1, function_prop);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret,
-+				     "Invalid consumer function: '%s'\n",
-+				     function_prop);
-+
-+	function = ret;
-+	num_lines = device_property_string_array_count(dev,
-+					"gpio-virtual-consumer,lines");
-+	if (num_lines < 0)
-+		return dev_err_probe(dev, num_lines,
-+				     "List of GPIO lines to request not found\n");
-+
-+	lines = devm_kcalloc(dev, num_lines, sizeof(*lines), GFP_KERNEL);
-+	if (!lines)
-+		return -ENOMEM;
-+
-+	ret = device_property_read_string_array(dev,
-+						"gpio-virtual-consumer,lines",
-+						lines, num_lines);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to read GPIO line names\n");
-+
-+	flags = function == GPIO_CONSUMER_FUNCTION_MONITOR ?
-+					GPIOD_IN : GPIOD_OUT_HIGH;
-+	for (i = 0; i < num_lines; i++) {
-+		desc = devm_gpiod_get(dev, lines[i], flags);
-+		if (IS_ERR(desc))
-+			return dev_err_probe(dev, PTR_ERR(desc),
-+					     "Failed to get GPIO '%s'\n",
-+					     lines[i]);
-+
-+		if (function == GPIO_CONSUMER_FUNCTION_MONITOR) {
-+			irq_data = devm_kzalloc(dev, sizeof(*irq_data),
-+						GFP_KERNEL);
-+			if (!irq_data)
-+				return -ENOMEM;
-+
-+			irq_data->dev = dev;
-+			irq_data->desc = desc;
-+
-+			ret = devm_request_threaded_irq(dev, gpiod_to_irq(desc),
-+							NULL,
-+							gpio_consumer_on_irq,
-+							IRQF_TRIGGER_FALLING |
-+							IRQF_TRIGGER_RISING |
-+							IRQF_ONESHOT,
-+							lines[i], irq_data);
-+			if (ret)
-+				return dev_err_probe(dev, ret,
-+						"Failed to request GPIO line interrupt\n");
-+		} else if (function == GPIO_CONSUMER_FUNCTION_TOGGLE) {
-+			timer_data = devm_kzalloc(dev, sizeof(*timer_data),
-+						  GFP_KERNEL);
-+			if (!timer_data)
-+				return -ENOMEM;
-+
-+			timer_data->desc = desc;
-+			timer_data->val = 1;
-+
-+			timer_setup(&timer_data->timer,
-+				    gpio_consumer_on_timer, 0);
-+			mod_timer(&timer_data->timer,
-+				  jiffies + msecs_to_jiffies(1000));
-+
-+			ret = devm_add_action_or_reset(dev,
-+						       gpio_consumer_del_timer,
-+						       &timer_data->timer);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id gpio_consumer_of_match[] = {
-+	{ .compatible = "gpio-virtual-consumer" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, gpio_consumer_of_match);
-+
-+static struct platform_driver gpio_consumer_driver = {
-+	.driver = {
-+		.name = "gpio-virtual-consumer",
-+		.of_match_table = gpio_consumer_of_match,
-+	},
-+	.probe = gpio_consumer_probe,
-+};
-+
-+struct gpio_consumer_device {
-+	struct config_group group;
-+
-+	struct platform_device *pdev;
-+	int id;
-+	struct mutex lock;
-+
-+	struct notifier_block bus_notifier;
-+	struct completion probe_completion;
-+	bool driver_bound;
-+
-+	struct gpiod_lookup_table *lookup_table;
-+	enum gpio_consumer_function function;
-+
-+	struct list_head lookup_list;
-+};
-+
-+static int gpio_consumer_bus_notifier_call(struct notifier_block *nb,
-+					   unsigned long action, void *data)
-+{
-+	struct gpio_consumer_device *consumer;
-+	struct device *dev = data;
-+	char devname[32];
-+
-+	consumer = container_of(nb, struct gpio_consumer_device, bus_notifier);
-+	snprintf(devname, sizeof(devname), "gpio-virtual-consumer.%d",
-+		 consumer->id);
-+
-+	if (strcmp(dev_name(dev), devname))
-+		return NOTIFY_DONE;
-+
-+	switch (action) {
-+	case BUS_NOTIFY_BOUND_DRIVER:
-+		consumer->driver_bound = true;
-+		break;
-+	case BUS_NOTIFY_DRIVER_NOT_BOUND:
-+		consumer->driver_bound = false;
-+		break;
-+	default:
-+		return NOTIFY_DONE;
-+	}
-+
-+	complete(&consumer->probe_completion);
-+	return NOTIFY_OK;
-+}
-+
-+static struct gpio_consumer_device *
-+to_gpio_consumer_device(struct config_item *item)
-+{
-+	struct config_group *group = to_config_group(item);
-+
-+	return container_of(group, struct gpio_consumer_device, group);
-+}
-+
-+static bool
-+gpio_consumer_device_is_live_unlocked(struct gpio_consumer_device *dev)
-+{
-+	return !!dev->pdev;
-+}
-+
-+struct gpio_consumer_lookup {
-+	struct config_group group;
-+
-+	struct gpio_consumer_device *parent;
-+	struct list_head siblings;
-+
-+	char *con_id;
-+	char *key;
-+	/* Can be negative to indicate lookup by name. */
-+	int offset;
-+
-+	enum gpio_lookup_flags flags;
-+};
-+
-+static struct gpio_consumer_lookup *
-+to_gpio_consumer_lookup(struct config_item *item)
-+{
-+	struct config_group *group = to_config_group(item);
-+
-+	return container_of(group, struct gpio_consumer_lookup, group);
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_key_show(struct config_item *item, char *page)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	return sprintf(page, "%s\n", lookup->key);
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_key_store(struct config_item *item,
-+				      const char *page, size_t count)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+	char *key __free(kfree) = NULL;
-+
-+	key = kstrndup(skip_spaces(page), count, GFP_KERNEL);
-+	if (!key)
-+		return -ENOMEM;
-+
-+	strim(key);
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return -EBUSY;
-+
-+	kfree(lookup->key);
-+	lookup->key = no_free_ptr(key);
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_lookup_config_, key);
-+
-+static ssize_t
-+gpio_consumer_lookup_config_offset_show(struct config_item *item, char *page)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+	unsigned int offset;
-+
-+	scoped_guard(mutex, &dev->lock)
-+		offset = lookup->offset;
-+
-+	return sprintf(page, "%d\n", offset);
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_offset_store(struct config_item *item,
-+					 const char *page, size_t count)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+	int offset, ret;
-+
-+	ret = kstrtoint(page, 0, &offset);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Negative number here means: 'key' represents a line name to lookup.
-+	 * Non-negative means: 'key' represents the label of the chip with
-+	 * the 'offset' value representing the line within that chip.
-+	 *
-+	 * GPIOLIB uses the U16_MAX value to indicate lookup by line name so
-+	 * the greatest offset we can accept is (U16_MAX - 1).
-+	 */
-+	if (offset > (U16_MAX - 1))
-+		return -EINVAL;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return -EBUSY;
-+
-+	lookup->offset = offset;
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_lookup_config_, offset);
-+
-+static enum gpio_lookup_flags
-+gpio_consumer_lookup_get_flags(struct config_item *item)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	return lookup->flags;
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_drive_show(struct config_item *item, char *page)
-+{
-+	enum gpio_lookup_flags flags;
-+	const char *repr;
-+
-+	flags = gpio_consumer_lookup_get_flags(item);
-+
-+	if (flags & GPIO_OPEN_DRAIN)
-+		repr = "open-drain";
-+	else if (flags & GPIO_OPEN_SOURCE)
-+		repr = "open-source";
-+	else
-+		repr = "push-pull";
-+
-+	return sprintf(page, "%s\n", repr);
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_drive_store(struct config_item *item,
-+					const char *page, size_t count)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return -EBUSY;
-+
-+	if (sysfs_streq(page, "push-pull")) {
-+		lookup->flags &= ~(GPIO_OPEN_DRAIN | GPIO_OPEN_SOURCE);
-+	} else if (sysfs_streq(page, "open-drain")) {
-+		lookup->flags &= ~GPIO_OPEN_SOURCE;
-+		lookup->flags |= GPIO_OPEN_DRAIN;
-+	} else if (sysfs_streq(page, "open-source")) {
-+		lookup->flags &= ~GPIO_OPEN_DRAIN;
-+		lookup->flags |= GPIO_OPEN_SOURCE;
-+	} else {
-+		count = -EINVAL;
-+	}
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_lookup_config_, drive);
-+
-+static ssize_t
-+gpio_consumer_lookup_config_pull_show(struct config_item *item, char *page)
-+{
-+	enum gpio_lookup_flags flags;
-+	const char *repr;
-+
-+	flags = gpio_consumer_lookup_get_flags(item);
-+
-+	if (flags & GPIO_PULL_UP)
-+		repr = "pull-up";
-+	else if (flags & GPIO_PULL_DOWN)
-+		repr = "pull-down";
-+	else if (flags & GPIO_PULL_DISABLE)
-+		repr = "pull-disabled";
-+	else
-+		repr = "as-is";
-+
-+	return sprintf(page, "%s\n", repr);
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_pull_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return -EBUSY;
-+
-+	if (sysfs_streq(page, "pull-up")) {
-+		lookup->flags &= ~(GPIO_PULL_DOWN | GPIO_PULL_DISABLE);
-+		lookup->flags |= GPIO_PULL_UP;
-+	} else if (sysfs_streq(page, "pull-down")) {
-+		lookup->flags &= ~(GPIO_PULL_UP | GPIO_PULL_DISABLE);
-+		lookup->flags |= GPIO_PULL_DOWN;
-+	} else if (sysfs_streq(page, "pull-disabled")) {
-+		lookup->flags &= ~(GPIO_PULL_UP | GPIO_PULL_DOWN);
-+		lookup->flags |= GPIO_PULL_DISABLE;
-+	} else if (sysfs_streq(page, "as-is")) {
-+		lookup->flags &= ~(GPIO_PULL_UP | GPIO_PULL_DOWN |
-+				   GPIO_PULL_DISABLE);
-+	} else {
-+		count = -EINVAL;
-+	}
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_lookup_config_, pull);
-+
-+static ssize_t
-+gpio_consumer_lookup_config_active_low_show(struct config_item *item,
-+					    char *page)
-+{
-+	enum gpio_lookup_flags flags;
-+
-+	flags = gpio_consumer_lookup_get_flags(item);
-+
-+	return sprintf(page, "%s\n", flags & GPIO_ACTIVE_LOW ? "1" : "0");
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_active_low_store(struct config_item *item,
-+					     const char *page, size_t count)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+	bool active_low;
-+	int ret;
-+
-+	ret = kstrtobool(page, &active_low);
-+	if (ret)
-+		return ret;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return -EBUSY;
-+
-+	if (active_low)
-+		lookup->flags |= GPIO_ACTIVE_LOW;
-+	else
-+		lookup->flags &= ~GPIO_ACTIVE_LOW;
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_lookup_config_, active_low);
-+
-+static ssize_t
-+gpio_consumer_lookup_config_transitory_show(struct config_item *item,
-+					    char *page)
-+{
-+	enum gpio_lookup_flags flags;
-+
-+	flags = gpio_consumer_lookup_get_flags(item);
-+
-+	return sprintf(page, "%s\n", flags & GPIO_TRANSITORY ? "1" : "0");
-+}
-+
-+static ssize_t
-+gpio_consumer_lookup_config_transitory_store(struct config_item *item,
-+					     const char *page, size_t count)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+	bool transitory;
-+	int ret;
-+
-+	ret = kstrtobool(page, &transitory);
-+	if (ret)
-+		return ret;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return -EBUSY;
-+
-+	if (transitory)
-+		lookup->flags |= GPIO_TRANSITORY;
-+	else
-+		lookup->flags &= ~GPIO_TRANSITORY;
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_lookup_config_, transitory);
-+
-+static struct configfs_attribute *gpio_consumer_lookup_config_attrs[] = {
-+	&gpio_consumer_lookup_config_attr_key,
-+	&gpio_consumer_lookup_config_attr_offset,
-+	&gpio_consumer_lookup_config_attr_drive,
-+	&gpio_consumer_lookup_config_attr_pull,
-+	&gpio_consumer_lookup_config_attr_active_low,
-+	&gpio_consumer_lookup_config_attr_transitory,
-+	NULL
-+};
-+
-+static ssize_t gpio_consumer_device_config_live_show(struct config_item *item,
-+						     char *page)
-+{
-+	struct gpio_consumer_device *dev = to_gpio_consumer_device(item);
-+	bool live;
-+
-+	scoped_guard(mutex, &dev->lock)
-+		live = gpio_consumer_device_is_live_unlocked(dev);
-+
-+	return sprintf(page, "%c\n", live ? '1' : '0');
-+}
-+
-+static int
-+gpio_consumer_make_lookup_table_unlocked(struct gpio_consumer_device *dev)
-+{
-+	struct gpiod_lookup_table *table __free(kfree) = NULL;
-+	struct gpio_consumer_lookup *lookup;
-+	struct gpiod_lookup *curr;
-+	size_t num_entries;
-+	unsigned int i = 0;
-+
-+	num_entries = list_count_nodes(&dev->lookup_list);
-+	table = kzalloc(struct_size(table, table, num_entries), GFP_KERNEL);
-+	if (!table)
-+		return -ENOMEM;
-+
-+	table->dev_id = kasprintf(GFP_KERNEL, "gpio-virtual-consumer.%d",
-+				  dev->id);
-+	if (!table->dev_id)
-+		return -ENOMEM;
-+
-+	list_for_each_entry(lookup, &dev->lookup_list, siblings) {
-+		curr = &table->table[i];
-+
-+		curr->key = lookup->key;
-+		curr->chip_hwnum = lookup->offset < 0 ?
-+					U16_MAX : lookup->offset;
-+		curr->con_id = lookup->con_id;
-+		curr->flags = lookup->flags;
-+	}
-+
-+	gpiod_add_lookup_table(table);
-+	dev->lookup_table = no_free_ptr(table);
-+
-+	return 0;
-+}
-+
-+static struct fwnode_handle *
-+gpio_consumer_make_device_swnode(struct gpio_consumer_device *dev)
-+{
-+	struct property_entry properties[GPIO_CONSUMER_MAX_PROPS];
-+	struct gpio_consumer_lookup *lookup;
-+	char **lines __free(kfree) = NULL;
-+	int prop_idx = 0, i = 0;
-+	size_t num_lookups;
-+
-+	memset(properties, 0, sizeof(properties));
-+
-+	properties[prop_idx++] = PROPERTY_ENTRY_STRING(
-+			"gpio-virtual-consumer,function",
-+			gpio_consumer_function_strings[dev->function]);
-+
-+	num_lookups = list_count_nodes(&dev->lookup_list);
-+	lines = kcalloc(num_lookups + 1, sizeof(*lines), GFP_KERNEL);
-+	if (!lines)
-+		return ERR_PTR(-ENOMEM);
-+
-+	list_for_each_entry(lookup, &dev->lookup_list, siblings)
-+		lines[i++] = lookup->con_id;
-+
-+	properties[prop_idx++] = PROPERTY_ENTRY_STRING_ARRAY_LEN(
-+		"gpio-virtual-consumer,lines", lines, num_lookups);
-+
-+	return fwnode_create_software_node(properties, NULL);
-+}
-+
-+static int
-+gpio_consumer_device_activate_unlocked(struct gpio_consumer_device *dev)
-+{
-+	struct platform_device_info pdevinfo;
-+	struct fwnode_handle *swnode;
-+	struct platform_device *pdev;
-+	int ret;
-+
-+	if (list_empty(&dev->lookup_list))
-+		return -ENODATA;
-+
-+	swnode = gpio_consumer_make_device_swnode(dev);
-+	if (IS_ERR(swnode))
-+		return PTR_ERR(swnode);
-+
-+	memset(&pdevinfo, 0, sizeof(pdevinfo));
-+	pdevinfo.name = "gpio-virtual-consumer";
-+	pdevinfo.id = dev->id;
-+	pdevinfo.fwnode = swnode;
-+
-+	ret = gpio_consumer_make_lookup_table_unlocked(dev);
-+	if (ret) {
-+		fwnode_remove_software_node(swnode);
-+		return ret;
-+	}
-+
-+	reinit_completion(&dev->probe_completion);
-+	dev->driver_bound = false;
-+	bus_register_notifier(&platform_bus_type, &dev->bus_notifier);
-+
-+	pdev = platform_device_register_full(&pdevinfo);
-+	if (IS_ERR(pdev)) {
-+		bus_unregister_notifier(&platform_bus_type, &dev->bus_notifier);
-+		fwnode_remove_software_node(swnode);
-+		return PTR_ERR(pdev);
-+	}
-+
-+	wait_for_completion(&dev->probe_completion);
-+	bus_unregister_notifier(&platform_bus_type, &dev->bus_notifier);
-+
-+	if (!dev->driver_bound) {
-+		platform_device_unregister(pdev);
-+		fwnode_remove_software_node(swnode);
-+		return -ENXIO;
-+	}
-+
-+	dev->pdev = pdev;
-+
-+	return 0;
-+}
-+
-+static void
-+gpio_consumer_device_deactivate_unlocked(struct gpio_consumer_device *dev)
-+{
-+	struct fwnode_handle *swnode;
-+
-+	swnode = dev_fwnode(&dev->pdev->dev);
-+	platform_device_unregister(dev->pdev);
-+	fwnode_remove_software_node(swnode);
-+	dev->pdev = NULL;
-+	gpiod_remove_lookup_table(dev->lookup_table);
-+	kfree(dev->lookup_table);
-+}
-+
-+static ssize_t
-+gpio_consumer_device_config_live_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct gpio_consumer_device *dev = to_gpio_consumer_device(item);
-+	bool live;
-+	int ret;
-+
-+	ret = kstrtobool(page, &live);
-+	if (ret)
-+		return ret;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (live == gpio_consumer_device_is_live_unlocked(dev))
-+		ret = -EPERM;
-+	else if (live)
-+		ret = gpio_consumer_device_activate_unlocked(dev);
-+	else
-+		gpio_consumer_device_deactivate_unlocked(dev);
-+
-+	return ret ?: count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_device_config_, live);
-+
-+static ssize_t
-+gpio_consumer_device_config_function_show(struct config_item *item, char *page)
-+{
-+	struct gpio_consumer_device *dev = to_gpio_consumer_device(item);
-+	enum gpio_consumer_function function;
-+	const char *repr;
-+
-+	scoped_guard(mutex, &dev->lock)
-+		function = dev->function;
-+
-+	repr = gpio_consumer_function_strings[function];
-+
-+	return sprintf(page, "%s\n", repr);
-+}
-+
-+static ssize_t
-+gpio_consumer_device_config_function_store(struct config_item *item,
-+					   const char *page, size_t count)
-+{
-+	struct gpio_consumer_device *dev = to_gpio_consumer_device(item);
-+	int ret;
-+
-+	ret = sysfs_match_string(gpio_consumer_function_strings, page);
-+	if (ret < 0)
-+		return -EINVAL;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return -EBUSY;
-+
-+	dev->function = ret;
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_consumer_device_config_, function);
-+
-+static struct configfs_attribute *gpio_consumer_device_config_attrs[] = {
-+	&gpio_consumer_device_config_attr_live,
-+	&gpio_consumer_device_config_attr_function,
-+	NULL
-+};
-+
-+static void gpio_consumer_lookup_config_group_release(struct config_item *item)
-+{
-+	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-+	struct gpio_consumer_device *dev = lookup->parent;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	list_del(&lookup->siblings);
-+
-+	kfree(lookup->con_id);
-+	kfree(lookup->key);
-+	kfree(lookup);
-+}
-+
-+static struct configfs_item_operations gpio_consumer_lookup_config_item_ops = {
-+	.release	= gpio_consumer_lookup_config_group_release,
-+};
-+
-+static const struct config_item_type gpio_consumer_lookup_config_group_type = {
-+	.ct_item_ops	= &gpio_consumer_lookup_config_item_ops,
-+	.ct_attrs	= gpio_consumer_lookup_config_attrs,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
-+static struct config_group *
-+gpio_consumer_device_make_lookup_group(struct config_group *group,
-+				       const char *name)
-+{
-+	struct gpio_consumer_device *dev =
-+			to_gpio_consumer_device(&group->cg_item);
-+	struct gpio_consumer_lookup *lookup __free(kfree) = NULL;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		return ERR_PTR(-EBUSY);
-+
-+	lookup = kzalloc(sizeof(*lookup), GFP_KERNEL);
-+	if (!lookup)
-+		return ERR_PTR(-ENOMEM);
-+
-+	lookup->con_id = kstrdup(name, GFP_KERNEL);
-+	if (!lookup->con_id)
-+		return ERR_PTR(-ENOMEM);
-+
-+	config_group_init_type_name(&lookup->group, name,
-+				    &gpio_consumer_lookup_config_group_type);
-+	lookup->flags = GPIO_LOOKUP_FLAGS_DEFAULT;
-+	lookup->parent = dev;
-+	list_add_tail(&lookup->siblings, &dev->lookup_list);
-+
-+	return &no_free_ptr(lookup)->group;
-+}
-+
-+static void gpio_consumer_device_config_group_release(struct config_item *item)
-+{
-+	struct gpio_consumer_device *dev = to_gpio_consumer_device(item);
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_consumer_device_is_live_unlocked(dev))
-+		gpio_consumer_device_deactivate_unlocked(dev);
-+
-+	mutex_destroy(&dev->lock);
-+	ida_free(&gpio_consumer_ida, dev->id);
-+	kfree(dev);
-+}
-+
-+static struct configfs_item_operations gpio_consumer_device_config_item_ops = {
-+	.release	= gpio_consumer_device_config_group_release,
-+};
-+
-+static struct configfs_group_operations gpio_consumer_device_config_group_ops = {
-+	.make_group	= gpio_consumer_device_make_lookup_group,
-+};
-+
-+static const struct config_item_type gpio_consumer_device_config_group_type = {
-+	.ct_group_ops	= &gpio_consumer_device_config_group_ops,
-+	.ct_item_ops	= &gpio_consumer_device_config_item_ops,
-+	.ct_attrs	= gpio_consumer_device_config_attrs,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
-+static struct config_group *
-+gpio_consumer_config_make_device_group(struct config_group *group,
-+				       const char *name)
-+{
-+	struct gpio_consumer_device *dev __free(kfree) = NULL;
-+
-+	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-+	if (!dev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	dev->id = ida_alloc(&gpio_consumer_ida, GFP_KERNEL);
-+	if (dev->id < 0)
-+		return ERR_PTR(dev->id);
-+
-+	config_group_init_type_name(&dev->group, name,
-+				    &gpio_consumer_device_config_group_type);
-+	mutex_init(&dev->lock);
-+	INIT_LIST_HEAD(&dev->lookup_list);
-+	dev->bus_notifier.notifier_call = gpio_consumer_bus_notifier_call;
-+	dev->function = GPIO_CONSUMER_FUNCTION_ACTIVE;
-+	init_completion(&dev->probe_completion);
-+
-+	return &no_free_ptr(dev)->group;
-+}
-+
-+static struct configfs_group_operations gpio_consumer_config_group_ops = {
-+	.make_group	= gpio_consumer_config_make_device_group,
-+};
-+
-+static const struct config_item_type gpio_consumer_config_type = {
-+	.ct_group_ops	= &gpio_consumer_config_group_ops,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
-+static struct configfs_subsystem gpio_consumer_config_subsys = {
-+	.su_group = {
-+		.cg_item = {
-+			.ci_namebuf	= "gpio-consumer",
-+			.ci_type	= &gpio_consumer_config_type,
-+		},
-+	},
-+};
-+
-+static int __init gpio_consumer_init(void)
-+{
-+	int ret;
-+
-+	ret = platform_driver_register(&gpio_consumer_driver);
-+	if (ret) {
-+		pr_err("Failed to register the platform driver: %d\n",
-+		       ret);
-+		return ret;
-+	}
-+
-+	config_group_init(&gpio_consumer_config_subsys.su_group);
-+	mutex_init(&gpio_consumer_config_subsys.su_mutex);
-+	ret = configfs_register_subsystem(&gpio_consumer_config_subsys);
-+	if (ret) {
-+		pr_err("Failed to register the '%s' configfs subsystem: %d\n",
-+		       gpio_consumer_config_subsys.su_group.cg_item.ci_namebuf,
-+		       ret);
-+		mutex_destroy(&gpio_consumer_config_subsys.su_mutex);
-+		platform_driver_unregister(&gpio_consumer_driver);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+module_init(gpio_consumer_init);
-+
-+static void __exit gpio_consumer_exit(void)
-+{
-+	configfs_unregister_subsystem(&gpio_consumer_config_subsys);
-+	mutex_destroy(&gpio_consumer_config_subsys.su_mutex);
-+	platform_driver_unregister(&gpio_consumer_driver);
-+}
-+module_exit(gpio_consumer_exit);
-+
-+MODULE_AUTHOR("Bartosz Golaszewski <bartosz.golaszewski@linaro.org>");
-+MODULE_DESCRIPTION("Virtual GPIO consumer module");
-+MODULE_LICENSE("GPL");
+Thanks for your time and reviews,
+         Dmitry
+
+--- Changelog ---
+
+Changes from v9:
+- Read sk_family only once in tcp_ao_ignore_icmp() (Eric)
+- Don't WARN_ON_ONCE() on unexpected sk_family (Eric)
+- Call tcp_ao_ignore_icmp() outside bh_lock_sock() (Eric)
+- Make struct sock *sk `const' in tcp_ao_ignore_icmp() (Eric)
+- WRITE_ONCE() for tcp_md5_sigpool_id (Eric)
+- Cc Mohammad, who wants to contribute with PPC testing, reviews, etc
+
+Version 9: https://lore.kernel.org/all/20230802172654.1467777-1-dima@arista.com/T/#u
+
+Changes from v8:
+- Based on net-next
+- Now doing git request-pull, rather than GitHub URLs
+- Fix tmp_key buffer leak, introduced in v7 (Simon)
+- More checkpatch.pl warning fixes (even to the code that existed but
+  was touched)
+- More reverse Xmas tree declarations (Simon)
+- static code analysis fixes
+- Removed TCP-AO key port matching code
+- Removed `inline' for for static functions in .c files to make
+  netdev/source_inline happy (I didn't know it's a thing)
+- Moved tcp_ao_do_lookup() to a commit that uses it (Simon)
+- __tcp_ao_key_cmp(): prefixlen is bits, but memcmp() uses bytes
+- Added TCP port matching limitation to Documentation/networking/tcp_ao.rst
+
+Version 8: https://lore.kernel.org/all/20230719202631.472019-1-dima@arista.com/T/#u
+
+Changes from v7:
+- Fixed copy'n'paste typo in unsigned-md5.c selftest output
+- Fix build error in tcp_v6_send_reset() (kernel test robot <lkp@intel.com>)
+- Make CONFIG_TCP_AO imply IPV6 != m
+- Cleanup EXPORT_SYMBOL*() as they aren't needed with IPV6 != m
+- Used scratch area instead of on-stack buffer for scatter-gather list
+  in tcp_v{4,6}_ao_calc_key(). Fixes CONFIG_VMAP_STACK=y + CONFIG_DEBUG_SG=y
+- Allocated digest_size'd buffers for traffic keys in tcp_ao_key instead
+  of maximum-sized buffers of TCP_AO_MAX_HASH_SIZE. That will save
+  little space per key and also potentially allow algorithms with
+  digest size > TCP_AO_MAX_HASH_SIZE.
+- Removed TCP_AO_MAX_HASH_SIZE and used kmalloc(GFP_ATOMIC) instead of
+  on-stack hash buffer.
+- Don't treat fd=0 as invalid in selftests
+- Make TCP-AO selftests work with CONFIG_CRYPTO_FIPS=y
+- Don't tcp_ao_compute_sne() for snd_sne on twsk: it's redundant as
+  no data can be sent on twsk
+- Get rid of {snd,rcv}_sne_seq: use snd_nxt/snd_una or rcv_nxt instead
+- {rcv,snd}_sne and tcp_ao_compute_sne() now are introduced in
+  "net/tcp: Add TCP-AO SNE support" patch
+- trivial copy_to_sockptr() fixup for tcp_ao_get_repair() - it could
+  try copying bigger struct than the kernel one (embarrassing!)
+- Added Documentation/networking/tcp_ao.rst that describes:
+  uAPI, has FAQ on RFC 5925 and has implementation details of Linux TCP-AO
+
+Version 7: https://lore.kernel.org/all/20230614230947.3954084-1-dima@arista.com/T/#u
+
+Changes from v6:
+- Some more trivial build warnings fixups (kernel test robot <lkp@intel.com>)
+- Added TCP_AO_REPAIR setsockopt(), getsockopt()
+- Allowed TCP_AO_* setsockopts if (tp->repair) is on
+- Added selftests for TCP_AO_REPAIR, that also check incorrect
+  ISNs/SNEs, which result in a broken TCP-AO connection - that verifies
+  that both Initial Sequence Numbers and Sequence Number Extension are
+  part of MAC generation
+- Using TCP_AO_REPAIR added a selftest for SEQ numbers rollover,
+  checking that SNE was incremented, connection is alive post-rolloever
+  and no TCP segments with a wrong signature arrived
+- Wrote a selftest for RST segments: both active reset (goes through
+  transmit_skb()) and passive reset (goes through tcp_v{4,6}_send_reset()).
+- Refactored and made readable tcp_v{4,6}_send_reset(), also adding
+  support for TCP_LISTEN/TCP_NEW_SYN_RECV
+- Dropped per-CPU ahash requests allocations in favor of Herbert's
+  clone-tfm crypto API
+- Added Donald Cassidy to Cc as he's interested in getting it into RHEL.
+
+Version 6: https://lore.kernel.org/all/20230512202311.2845526-1-dima@arista.com/T/#u
+
+iperf[3] benchmarks for version 6:
+                           v6.4-rc1                 TCP-AO-v6
+  TCP                      43.9 Gbits/sec           43.5 Gbits/sec
+  TCP-MD5                  2.20 Gbits/sec           2.25 Gbits/sec
+  TCP-AO(hmac(sha1))                                2.53 Gbits/sec
+  TCP-AO(hmac(sha512))                              1.67 Gbits/sec
+  TCP-AO(hmac(sha384))                              1.77 Gbits/sec
+  TCP-AO(hmac(sha224))                              1.29 Gbits/sec
+  TCP-AO(hmac(sha3-512))                             481 Mbits/sec
+  TCP-AO(hmac(md5))                                 2.07 Gbits/sec
+  TCP-AO(hmac(rmd160))                              1.01 Gbits/sec
+  TCP-AO(cmac(aes128))                              2.11 Gbits/sec
+
+Changes from v5:
+- removed check for TCP_AO_KEYF_IFINDEX in delete command:
+  VRF might have been destroyed, there still needs to be a way to delete
+  keys that were bound to that l3intf (should tcp_v{4,6}_parse_md5_keys()
+  avoid the same check as well?)
+- corrected copy'n'paste typo in tcp_ao_info_cmd() (assign ao_info->rnext_key)
+- simplified a bit tcp_ao_copy_mkts_to_user(); added more UAPI checks
+  for getsockopt(TCP_AO_GET_KEYS)
+- More UAPI selftests in setsockopt-closed: 29 => 120
+- ported TCP-AO patches on Herbert's clone-tfm changes
+- adjusted iperf patch for TCP-AO UAPI changes from version 5
+- added measures for TCP-AO with tcp_sigpool & clone_tfm backends
+
+Version 5: https://lore.kernel.org/all/20230403213420.1576559-1-dima@arista.com/T/#u
+
+Changes from v4:
+- Renamed tcp_ao_matched_key() => tcp_ao_established_key()
+- Missed `static` in function definitions
+  (kernel test robot <lkp@intel.com>)
+- Fixed CONFIG_IPV6=m build
+- Unexported tcp_md5_*_sigpool() functions
+- Cleaned up tcp_ao.h: undeclared tcp_ao_cache_traffic_keys(),
+  tcp_v4_ao_calc_key_skb(); removed tcp_v4_inbound_ao_hash()
+- Marked "net/tcp: Prepare tcp_md5sig_pool for TCP-AO" as a [draft] patch
+- getsockopt() now returns TCP-AO per-key counters
+- Another getsockopt() now returns per-ao_info stats: counters
+  and accept_icmps flag state
+- Wired up getsockopt() returning counters to selftests
+- Fixed a porting mistake: TCP-AO hash in some cases was written in TCP
+  header without accounting for MAC length of the key, rewritting skb
+  shared info
+- Fail adding a key with L3 ifindex when !TCP_AO_KEYF_IFINDEX, instead
+  of ignoring tcpa_ifindex (stricter UAPI check)
+- Added more test-cases to setsockopt-closed.c selftest
+- tcp_ao_hash_skb_data() was a copy'n'paste of tcp_md5_hash_skb_data()
+  share it now under tcp_sigpool_hash_skb_data()
+- tcp_ao_mkt_overlap_v{4,6}() deleted as they just re-invented
+  tcp_ao_do_lookup(). That fixes an issue with multiple IPv4-mapped-IPv6
+  keys for different peers on a listening socket.
+- getsockopt() now is tested to return correct VRF number for a key
+- TCP-AO and TCP-MD5 interraction in non/default VRFs: added +19 selftests
+  made them SKIP when CONFIG_VRF=n
+- unsigned-md5 selftests now checks both scenarios:
+  (1) adding TCP-AO key _after_ TCP-MD5 key
+  (2) adding TCP-MD5 key _after_ TCP-AO key
+- Added a ratelimited warning if TCP-AO key.ifindex doesn't match
+  sk->sk_bound_dev_if - that will warn a user for potential VRF issues
+- tcp_v{4,6}_parse_md5_keys() now allows adding TCP-MD5 key with
+  ifindex=0 and TCP_MD5SIG_FLAG_IFINDEX together with TCP-AO key from
+  another VRF
+- Add TCP_AO_CMDF_AO_REQUIRED, which makes a socket TCP-AO only,
+  rejecting TCP-MD5 keys or any unsigned TCP segments
+- Remove `tcpa_' prefix for UAPI structure members
+- UAPI cleanup: I've separated & renamed per-socket settings
+  (such as ao_info flags + current/rnext set) from per-key changes:
+  TCP_AO     => TCP_AO_ADD_KEY
+  TCP_AO_DEL => TCP_AO_DEL_KEY
+  TCP_AO_GET => TCP_AO_GET_KEYS
+  TCP_AO_MOD => TCP_AO_INFO, the structure is now valid for both
+                getsockopt() and setsockopt().
+- tcp_ao_current_rnext() was split up in order to fail earlier when
+  sndid/rcvid specified can't be set, before anything was changed in ao_info
+- fetch current_key before dumping TCP-AO keys in getsockopt(TCP_AO_GET_KEYS):
+  it may race with changing current_key by RX, which in result might
+  produce a dump with no current_key for userspace.
+- instead of TCP_AO_CMDF_* flags, used bitfileds: the flags weren't
+  shared between all TCP_AO_{ADD,GET,DEL}_KEY{,S}, so bitfields are more
+  descriptive here
+- use READ_ONCE()/WRITE_ONCE() for current_key and rnext_key more
+  consistently; document in comment the rules for accessing them
+- selftests: check all setsockopts()/getsockopts() support extending
+  option structs
+
+Version 4: https://lore.kernel.org/all/20230215183335.800122-1-dima@arista.com/T/#u
+
+Changes from v3:
+- TCP_MD5 dynamic static key enable/disable patches merged separately [4]
+- crypto_pool patches were nacked [5], so instead this patch set extends
+  TCP-MD5-sigpool to be used for TCP-AO as well as for TCP-MD5
+- Added missing `static' for tcp_v6_ao_calc_key()
+  (kernel test robot <lkp@intel.com>)
+- Removed CONFIG_TCP_AO default=y and added "If unsure, say N."
+- Don't leak ao_info and don't create an unsigned TCP socket if there was
+  a TCP-AO key during handshake, but it was removed from listening socket
+  while the connection was being established
+- Migrate to use static_key_fast_inc_not_disabled() and check return
+  code of static_branch_inc()
+- Change some return codes to EAFNOSUPPORT for error-pathes where
+  family is neither AF_INET nor AF_INET6
+- setsockopt()s on a closed/listen socket might have created stray ao_info,
+  remove it if connect() is called with a correct TCP-MD5 key, the same
+  for the reverse situation: remove md5sig_info straight away from the
+  socket if it's going to be TCP-AO connection
+- IPv4-mapped-IPv6 addresses + selftest in fcnal-test.sh (by Salam)
+- fix using uninitialized sisn/disn from stack - it would only make
+  non-SYN packets fail verification on a listen socket, which are not
+  expected anyway (kernel test robot <lkp@intel.com>)
+- implicit padding in UAPI TCP-AO structures converted to explicit
+  (spotted-by David Laight)
+- Some selftests missed zero-initializers for uapi structs on stack
+- Removed tcp_ao_do_lookup_rcvid() and tcp_ao_do_lookup_sndid() in
+  favor of unified tcp_ao_matched_key()
+- Disallowed setting current/rnext keys on listen sockets - that wasn't
+  supported and didn't affect anything, cleanup for the UAPI
+- VRFs support for TCP-AO
+
+Version 3: https://lore.kernel.org/all/20221027204347.529913-1-dima@arista.com/T/#u
+
+Changes from v2:
+- Added more missing `static' declarations for local functions
+  (kernel test robot <lkp@intel.com>)
+- Building now with CONFIG_TCP_AO=n and CONFIG_TCP_MD5SIG=n
+  (kernel test robot <lkp@intel.com>)
+- Now setsockopt(TCP_AO) is allowed when it's TCP_LISTEN or TCP_CLOSE
+  state OR the key added is not the first key on a socket (by Salam)
+- CONFIG_TCP_AO does not depend on CONFIG_TCP_MD5SIG anymore
+- Don't leak tcp_md5_needed static branch counter when TCP-MD5 key
+  is modified/changed
+- TCP-AO lookups are dynamically enabled/disabled with static key when
+  there is ao_info in the system (and when it is destroyed)
+- Wired SYN cookies up to TCP-AO (by Salam)
+- Fix verification for possible re-transmitted SYN packets (by Salam)
+- use sockopt_lock_sock() instead of lock_sock()
+  (from v6.1 rebase, commit d51bbff2aba7)
+- use sockptr_t in getsockopt(TCP_AO_GET)
+  (from v6.1 rebase, commit 34704ef024ae)
+- Fixed reallocating crypto_pool's scratch area by IPI while
+  crypto_pool_get() was get by another CPU
+- selftests on older kernels (or with CONFIG_TCP_AO=n) should exit with
+  SKIP, not FAIL (Shuah Khan <shuah@kernel.org>)
+- selftests that check interaction between TCP-AO and TCP-MD5 now
+  SKIP when CONFIG_TCP_MD5SIG=n
+- Measured the performance of different hashing algorithms for TCP-AO
+  and compare with TCP-MD5 performance. This is done with hacky patches
+  to iperf (see [3]). At this moment I've done it in qemu/KVM with CPU
+  affinities set on Intel(R) Core(TM) i7-7600U CPU @ 2.80GHz.
+  No performance degradation was noticed before/after patches, but given
+  the measures were done in a VM, without measuring it on a physical dut
+  it only gives a hint of relative speed for different hash algorithms
+  with TCP-AO. Here are results, averaging on 30 measures each:
+  TCP:                    3.51Gbits/sec
+  TCP-MD5:                1.12Gbits/sec
+  TCP-AO(HMAC(SHA1)):     1.53Gbits/sec
+  TCP-AO(CMAC(AES128)):   621Mbits/sec
+  TCP-AO(HMAC(SHA512)):   1.21Gbits/sec
+  TCP-AO(HMAC(SHA384)):   1.20Gbits/sec
+  TCP-AO(HMAC(SHA224)):   961Mbits/sec
+  TCP-AO(HMAC(SHA3-512)): 157Mbits/sec
+  TCP-AO(HMAC(RMD160)):   659Mbits/sec
+  TCP-AO(HMAC(MD5):       1.12Gbits/sec
+  (the last one is just for fun, but may make sense as it provides
+  the same security as TCP-MD5, but allows multiple keys and a mechanism
+  to change them from RFC5925)
+
+Version 2: https://lore.kernel.org/all/20220923201319.493208-1-dima@arista.com/T/#u
+
+Changes from v1:
+- Building now with CONFIG_IPV6=n (kernel test robot <lkp@intel.com>)
+- Added missing static declarations for local functions
+  (kernel test robot <lkp@intel.com>)
+- Addressed static analyzer and review comments by Dan Carpenter
+  (thanks, they were very useful!)
+- Fix elif without defined() for !CONFIG_TCP_AO
+- Recursively build selftests/net/tcp_ao (Shuah Khan), patches in:
+  https://lore.kernel.org/all/20220919201958.279545-1-dima@arista.com/T/#u
+- Don't leak crypto_pool reference when TCP-MD5 key is modified/changed
+- Add TCP-AO support for nettest.c and fcnal-test.sh
+  (will be used for VRF testing in later versions)
+
+Comparison between Leonard proposal and this (overview):
+https://lore.kernel.org/all/3cf03d51-74db-675c-b392-e4647fa5b5a6@arista.com/T/#u
+
+Version 1: https://lore.kernel.org/all/20220818170005.747015-1-dima@arista.com/T/#u
+
+This patchset implements the TCP-AO option as described in RFC5925. There
+is a request from industry to move away from TCP-MD5SIG and it seems the time
+is right to have a TCP-AO upstreamed. This TCP option is meant to replace
+the TCP MD5 option and address its shortcomings. Specifically, it provides
+more secure hashing, key rotation and support for long-lived connections
+(see the summary of TCP-AO advantages over TCP-MD5 in (1.3) of RFC5925).
+The patch series starts with six patches that are not specific to TCP-AO
+but implement a general crypto facility that we thought is useful
+to eliminate code duplication between TCP-MD5SIG and TCP-AO as well as other
+crypto users. These six patches are being submitted separately in
+a different patchset [1]. Including them here will show better the gain
+in code sharing. Next are 18 patches that implement the actual TCP-AO option,
+followed by patches implementing selftests.
+
+The patch set was written as a collaboration of three authors (in alphabetical
+order): Dmitry Safonov, Francesco Ruggeri and Salam Noureddine. Additional
+credits should be given to Prasad Koya, who was involved in early prototyping
+a few years back. There is also a separate submission done by Leonard Crestez
+whom we thank for his efforts getting an implementation of RFC5925 submitted
+for review upstream [2]. This is an independent implementation that makes
+different design decisions.
+
+For example, we chose a similar design to the TCP-MD5SIG implementation and
+used setsockopts to program per-socket keys, avoiding the extra complexity
+of managing a centralized key database in the kernel. A centralized database
+in the kernel has dubious benefits since it doesn’t eliminate per-socket
+setsockopts needed to specify which sockets need TCP-AO and what are the
+currently preferred keys. It also complicates traffic key caching and
+preventing deletion of in-use keys.
+
+In this implementation, a centralized database of keys can be thought of
+as living in user space and user applications would have to program those
+keys on matching sockets. On the server side, the user application programs
+keys (MKTS in TCP-AO nomenclature) on the listening socket for all peers that
+are expected to connect. Prefix matching on the peer address is supported.
+When a peer issues a successful connect, all the MKTs matching the IP address
+of the peer are copied to the newly created socket. On the active side,
+when a connect() is issued all MKTs that do not match the peer are deleted
+from the socket since they will never match the peer. This implementation
+uses three setsockopt()s for adding, deleting and modifying keys on a socket.
+All three setsockopt()s have extensive sanity checks that prevent
+inconsistencies in the keys on a given socket. A getsockopt() is provided
+to get key information from any given socket.
+
+Few things to note about this implementation:
+- Traffic keys are cached for established connections avoiding the cost of
+  such calculation for each packet received or sent.
+- Great care has been taken to avoid deleting in-use MKTs
+  as required by the RFC.
+- Any crypto algorithm supported by the Linux kernel can be used
+  to calculate packet hashes.
+- Fastopen works with TCP-AO but hasn’t been tested extensively.
+- Tested for interop with other major networking vendors (on linux-4.19),
+  including testing for key rotation and long lived connections.
+
+[1]: https://lore.kernel.org/all/20220726201600.1715505-1-dima@arista.com/
+[2]: https://lore.kernel.org/all/cover.1658815925.git.cdleonard@gmail.com/
+[3]: https://github.com/0x7f454c46/iperf/tree/tcp-md5-ao
+[4]: https://lore.kernel.org/all/166995421700.16716.17446147162780881407.git-patchwork-notify@kernel.org/T/#u
+[5]: https://lore.kernel.org/all/Y8kSkW4X4vQdFyOl@gondor.apana.org.au/T/#u
+[6]: https://lore.kernel.org/all/ZDefxOq6Ax0JeTRH@gondor.apana.org.au/T/#u
+
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Bob Gilligan <gilligan@arista.com>
+Cc: Dan Carpenter <error27@gmail.com>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: David Laight <David.Laight@aculab.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Dmitry Safonov <0x7f454c46@gmail.com>
+Cc: Donald Cassidy <dcassidy@redhat.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Francesco Ruggeri <fruggeri05@gmail.com>
+Cc: Gaillardetz, Dominik <dgaillar@ciena.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+Cc: Ivan Delalande <colona@arista.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Leonard Crestez <cdleonard@gmail.com>
+Cc: Nassiri, Mohammad <mnassiri@ciena.com>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Salam Noureddine <noureddine@arista.com>
+Cc: Simon Horman <simon.horman@corigine.com>
+Cc: Tetreault, Francois <ftetreau@ciena.com>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Dmitry Safonov (23):
+  net/tcp: Prepare tcp_md5sig_pool for TCP-AO
+  net/tcp: Add TCP-AO config and structures
+  net/tcp: Introduce TCP_AO setsockopt()s
+  net/tcp: Prevent TCP-MD5 with TCP-AO being set
+  net/tcp: Calculate TCP-AO traffic keys
+  net/tcp: Add TCP-AO sign to outgoing packets
+  net/tcp: Add tcp_parse_auth_options()
+  net/tcp: Add AO sign to RST packets
+  net/tcp: Add TCP-AO sign to twsk
+  net/tcp: Wire TCP-AO to request sockets
+  net/tcp: Sign SYN-ACK segments with TCP-AO
+  net/tcp: Verify inbound TCP-AO signed segments
+  net/tcp: Add TCP-AO segments counters
+  net/tcp: Add TCP-AO SNE support
+  net/tcp: Add tcp_hash_fail() ratelimited logs
+  net/tcp: Ignore specific ICMPs for TCP-AO connections
+  net/tcp: Add option for TCP-AO to (not) hash header
+  net/tcp: Add TCP-AO getsockopt()s
+  net/tcp: Allow asynchronous delete for TCP-AO keys (MKTs)
+  net/tcp: Add static_key for TCP-AO
+  net/tcp: Wire up l3index to TCP-AO
+  net/tcp: Add TCP_AO_REPAIR
+  Documentation/tcp: Add TCP-AO documentation
+
+ Documentation/networking/index.rst  |    1 +
+ Documentation/networking/tcp_ao.rst |  434 +++++
+ include/linux/sockptr.h             |   23 +
+ include/linux/tcp.h                 |   30 +-
+ include/net/dropreason-core.h       |   30 +
+ include/net/tcp.h                   |  218 ++-
+ include/net/tcp_ao.h                |  347 ++++
+ include/uapi/linux/snmp.h           |    5 +
+ include/uapi/linux/tcp.h            |  105 ++
+ net/ipv4/Kconfig                    |   17 +
+ net/ipv4/Makefile                   |    2 +
+ net/ipv4/proc.c                     |    5 +
+ net/ipv4/syncookies.c               |    4 +
+ net/ipv4/tcp.c                      |  246 +--
+ net/ipv4/tcp_ao.c                   | 2342 +++++++++++++++++++++++++++
+ net/ipv4/tcp_input.c                |   97 +-
+ net/ipv4/tcp_ipv4.c                 |  334 +++-
+ net/ipv4/tcp_minisocks.c            |   50 +-
+ net/ipv4/tcp_output.c               |  232 ++-
+ net/ipv4/tcp_sigpool.c              |  358 ++++
+ net/ipv6/Makefile                   |    1 +
+ net/ipv6/syncookies.c               |    5 +
+ net/ipv6/tcp_ao.c                   |  168 ++
+ net/ipv6/tcp_ipv6.c                 |  341 +++-
+ 24 files changed, 5022 insertions(+), 373 deletions(-)
+ create mode 100644 Documentation/networking/tcp_ao.rst
+ create mode 100644 include/net/tcp_ao.h
+ create mode 100644 net/ipv4/tcp_ao.c
+ create mode 100644 net/ipv4/tcp_sigpool.c
+ create mode 100644 net/ipv6/tcp_ao.c
+
+
+base-commit: 479b322ee6feaff612285a0e7f22c022e8cd84eb
 -- 
-2.39.2
+2.41.0
 
