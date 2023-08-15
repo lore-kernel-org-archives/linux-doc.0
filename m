@@ -2,384 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26744C001DB
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 12:44:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E3B3C04A6A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 12:59:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237227AbjHOMoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 08:44:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35834 "EHLO
+        id S237302AbjHOM7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 08:59:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237264AbjHOMni (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 08:43:38 -0400
-Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC19A172A;
-        Tue, 15 Aug 2023 05:43:34 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0Vps.ZOj_1692103407;
-Received: from 30.221.150.39(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vps.ZOj_1692103407)
-          by smtp.aliyun-inc.com;
-          Tue, 15 Aug 2023 20:43:29 +0800
-Message-ID: <2b1fd6cd-69a0-c38d-c1c2-442dc36456a3@linux.alibaba.com>
-Date:   Tue, 15 Aug 2023 20:43:27 +0800
+        with ESMTP id S237308AbjHOM6r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 08:58:47 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF39E7C
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 05:58:46 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-d64f0c2bc95so4512099276.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 05:58:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692104325; x=1692709125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jJSfsYnM138pKu53K9h3vIlSr2ZBnDVD+P1hLZ7pV7Y=;
+        b=ib0C7xGJh9v/1KNd+sc0caERL7aaD0QAa7OHGef9x0JrRkY/nyKAEwMNvdN1TqYg5j
+         UI60ecWBtrbpvyQF/dMQVH+fdpy36CRkXdPRWbtyyuDgcmFzTtOHfEEM+dQhkww6GsVv
+         nEKlxXFu3Cvk0s99Lai8x/2lSRfjLnsfKs9+mMLZ+IzoGh7YCoIV8S5C/vof6GVYbwPQ
+         IK9WcE+I6yQ4WO+lW+ZgU01NxT/r29lBDoVpNcoEPvcvd+e2ADcmPQrrCuJZtiTpx3QJ
+         UDjmE/gYFsMxb2hLEDo3EOToVH6jMo5U1R15qYnAkIAjqNhXFwO6CEz53B0aTpbq+qsI
+         T1zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692104325; x=1692709125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jJSfsYnM138pKu53K9h3vIlSr2ZBnDVD+P1hLZ7pV7Y=;
+        b=TyubZKdy5dwTLvvJjplugS90FDo4PhsEpAzs4tXeJI1O03Ypdq4u8wOnkSH5vOLm/t
+         p/4fIMxleIu0Z8nrM5EwsG0Ek9IOWfpsTDUgu3CfbOhj0KyHUszm91DGEZZl/PTG7xAS
+         xIIyq1TQtD4tgerQlVvDY4vi3d0XRkH9550rehCcKxJEQKCRZU6dCxWYEipjJh9DfFHF
+         NsYHcvwEkISALtSZBsQ6j6vvwCP5TnL7doGDiF1q30YNkpo8jj3exRWHaiB1RS1HqRp4
+         NW7Q22DAdmmxrlRD7Ij99AnwasYfPLF7IoHChDBf7QVsEStOZX94DYvh50QUSdvXcJuv
+         BzbQ==
+X-Gm-Message-State: AOJu0Yw2rO+zzKpTWWKy6Huy4oE9e8PI+FqHfabh7frQot2LzOr8kizo
+        VtlU3uRVx3CfaWsJmafliJegEG9tZFbPI3HFAzx5Jw==
+X-Google-Smtp-Source: AGHT+IE78hQXbbJl4eyc+svkBIt+hrE1wZN8h+2gI+VT4VqX/jyOv9Ezkr3iKgLg5H+I7L0hjbwU177OuDvE9Pwa5tM=
+X-Received: by 2002:a25:d405:0:b0:d35:f59a:6e46 with SMTP id
+ m5-20020a25d405000000b00d35f59a6e46mr14376363ybf.49.1692104325619; Tue, 15
+ Aug 2023 05:58:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.0
-Subject: Re: [PATCH v6 6/7] perf jevents: Add support for Arm CMN PMU aliasing
-To:     Ian Rogers <irogers@google.com>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1691394685-61240-7-git-send-email-renyu.zj@linux.alibaba.com>
- <CAP-5=fWyLQrYt=LVS9SoxsuZuR5fmRaNOn+v8qxdYa6WH7WmMA@mail.gmail.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <CAP-5=fWyLQrYt=LVS9SoxsuZuR5fmRaNOn+v8qxdYa6WH7WmMA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230813182552.31792-1-fmdefrancesco@gmail.com>
+ <CACRpkdbq8UCtvtRH7FZUEqvTxPQcoGbrKvf_mT5QHMAfVoYNNQ@mail.gmail.com> <3179607.5fSG56mABF@suse>
+In-Reply-To: <3179607.5fSG56mABF@suse>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 15 Aug 2023 14:58:33 +0200
+Message-ID: <CACRpkdbZkp5Tx3SXkdmErcbJ1aMB5t5s=MUO1cDnMs=sGu92nQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/page_tables: Add info about MMU/TLB and
+ Page Faults
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Fabio!
 
+trying to answer these things as best I can!
 
-在 2023/8/15 上午6:36, Ian Rogers 写道:
-> On Mon, Aug 7, 2023 at 12:51 AM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>
->> Currently just add aliases for part of Arm CMN PMU events which
->> are general and compatible for any SoC and CMN-ANY.
->>
->> "Compat" value "434*;436*;43c*;43a*" means it is compatible with
->> all CMN600/CMN650/CMN700/Ci700, which can be obtained from
->> commit 7819e05a0dce ("perf/arm-cmn: Revamp model detection").
->>
->> The arm-cmn PMU events got from:
-> 
-> nit: The use of the words "events" and "aliases" can be confusing -
-> aliases isn't specific as there may be a notion of other aliases like
-> for PMU names. I think in the code base we should avoid to use
-> "aliases" and just use "events".
-> 
+Notice I'm not natively anglo-saxon either.
 
-Thank you for your suggestions. But if I use "event" instead of "alias" here,
-it may not describe it clearly because essentially I am adding aliases to
-existing events rather than adding new events.
+It's refreshing to have a discussion about formulations in text
+in addition to our everyday technical churn!
 
-Thanks,
-Jing
+On Tue, Aug 15, 2023 at 2:27=E2=80=AFPM Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
+> On marted=C3=AC 15 agosto 2023 10:51:24 CEST Linus Walleij wrote:
+> > > +Instead, there are also common and expected other causes of page fau=
+lts.
+> > > These
+> > The word you are looking for is "Additionally" right?
+> >
+> > "Additionally, there are..."
+>
+> I was only able to use "Instead" to express that, contrary to the former
+> conditions that is unexpected and uncommon, there are other expected and
+> common causes of page faults. I thought that "Instead" stresses that the
+> latter causes carry with them opposite and wanted consequences.
+>
+> I think of "additionally" as a means to introduce less important and less
+> frequently occurring conditions.
+>
+> Nevertheless, I'll change it to "Additionally" as you are asking for.
 
-> Thanks,
-> Ian
-> 
->> [0] https://developer.arm.com/documentation/100180/0302/?lang=en
->> [1] https://developer.arm.com/documentation/101408/0100/?lang=en
->> [2] https://developer.arm.com/documentation/102308/0302/?lang=en
->> [3] https://developer.arm.com/documentation/101569/0300/?lang=en
->>
->> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
->> Reviewed-by: John Garry <john.g.garry@oracle.com>
->> ---
->>  .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
->>  tools/perf/pmu-events/jevents.py                   |   1 +
->>  2 files changed, 267 insertions(+)
->>  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
->>
->> diff --git a/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
->> new file mode 100644
->> index 0000000..e54036c
->> --- /dev/null
->> +++ b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
->> @@ -0,0 +1,266 @@
->> +[
->> +       {
->> +               "EventName": "hnf_cache_miss",
->> +               "EventIdCode": "0x1",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts total cache misses in first lookup result (high priority).",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_slc_sf_cache_access",
->> +               "EventIdCode": "0x2",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of cache accesses in first access (high priority).",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_cache_fill",
->> +               "EventIdCode": "0x3",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts total allocations in HN SLC (all cache line allocations to SLC).",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_pocq_retry",
->> +               "EventIdCode": "0x4",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of retried requests.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_pocq_reqs_recvd",
->> +               "EventIdCode": "0x5",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of requests that HN receives.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_sf_hit",
->> +               "EventIdCode": "0x6",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of SF hits.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_sf_evictions",
->> +               "EventIdCode": "0x7",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of SF eviction cache invalidations initiated.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_dir_snoops_sent",
->> +               "EventIdCode": "0x8",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of directed snoops sent (not including SF back invalidation).",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_brd_snoops_sent",
->> +               "EventIdCode": "0x9",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of multicast snoops sent (not including SF back invalidation).",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_slc_eviction",
->> +               "EventIdCode": "0xa",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of SLC evictions (dirty only).",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_slc_fill_invalid_way",
->> +               "EventIdCode": "0xb",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of SLC fills to an invalid way.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_mc_retries",
->> +               "EventIdCode": "0xc",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of retried transactions by the MC.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_mc_reqs",
->> +               "EventIdCode": "0xd",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of requests that are sent to MC.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hnf_qos_hh_retry",
->> +               "EventIdCode": "0xe",
->> +               "Type": "0x5",
->> +               "BriefDescription": "Counts number of times a HighHigh priority request is protocolretried at the HN‑F.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "rnid_s0_rdata_beats",
->> +               "EventIdCode": "0x1",
->> +               "Type": "0xa",
->> +               "BriefDescription": "Number of RData beats (RVALID and RREADY) dispatched on port 0. This event measures the read bandwidth, including CMO responses.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "rnid_s1_rdata_beats",
->> +               "EventIdCode": "0x2",
->> +               "Type": "0xa",
->> +               "BriefDescription": "Number of RData beats (RVALID and RREADY) dispatched on port 1. This event measures the read bandwidth, including CMO responses.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "rnid_s2_rdata_beats",
->> +               "EventIdCode": "0x3",
->> +               "Type": "0xa",
->> +               "BriefDescription": "Number of RData beats (RVALID and RREADY) dispatched on port 2. This event measures the read bandwidth, including CMO responses.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "rnid_rxdat_flits",
->> +               "EventIdCode": "0x4",
->> +               "Type": "0xa",
->> +               "BriefDescription": "Number of RXDAT flits received. This event measures the true read data bandwidth, excluding CMOs.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "rnid_txdat_flits",
->> +               "EventIdCode": "0x5",
->> +               "Type": "0xa",
->> +               "BriefDescription": "Number of TXDAT flits dispatched. This event measures the write bandwidth.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "rnid_txreq_flits_total",
->> +               "EventIdCode": "0x6",
->> +               "Type": "0xa",
->> +               "BriefDescription": "Number of TXREQ flits dispatched. This event measures the total request bandwidth.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "rnid_txreq_flits_retried",
->> +               "EventIdCode": "0x7",
->> +               "Type": "0xa",
->> +               "BriefDescription": "Number of retried TXREQ flits dispatched. This event measures the retry rate.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "sbsx_txrsp_retryack",
->> +               "EventIdCode": "0x4",
->> +               "Type": "0x7",
->> +               "BriefDescription": "Number of RXREQ flits dispatched. This event is a measure of the retry rate.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "sbsx_txdat_flitv",
->> +               "EventIdCode": "0x5",
->> +               "Type": "0x7",
->> +               "BriefDescription": "Number of TXDAT flits dispatched from XP to SBSX. This event is a measure of the write bandwidth.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "sbsx_arvalid_no_arready",
->> +               "EventIdCode": "0x21",
->> +               "Type": "0x7",
->> +               "BriefDescription": "Number of cycles the SBSX bridge is stalled because of backpressure on AR channel.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "sbsx_awvalid_no_awready",
->> +               "EventIdCode": "0x22",
->> +               "Type": "0x7",
->> +               "BriefDescription": "Number of cycles the SBSX bridge is stalled because of backpressure on AW channel.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "sbsx_wvalid_no_wready",
->> +               "EventIdCode": "0x23",
->> +               "Type": "0x7",
->> +               "BriefDescription": "Number of cycles the SBSX bridge is stalled because of backpressure on W channel.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hni_txrsp_retryack",
->> +               "EventIdCode": "0x2a",
->> +               "Type": "0x4",
->> +               "BriefDescription": "Number of RXREQ flits dispatched. This event is a measure of the retry rate.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hni_arvalid_no_arready",
->> +               "EventIdCode": "0x2b",
->> +               "Type": "0x4",
->> +               "BriefDescription": "Number of cycles the HN-I bridge is stalled because of backpressure on AR channel.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hni_arready_no_arvalid",
->> +               "EventIdCode": "0x2c",
->> +               "Type": "0x4",
->> +               "BriefDescription": "Number of cycles the AR channel is waiting for new requests from HN-I bridge.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hni_awvalid_no_awready",
->> +               "EventIdCode": "0x2d",
->> +               "Type": "0x4",
->> +               "BriefDescription": "Number of cycles the HN-I bridge is stalled because of backpressure on AW channel.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hni_awready_no_awvalid",
->> +               "EventIdCode": "0x2e",
->> +               "Type": "0x4",
->> +               "BriefDescription": "Number of cycles the AW channel is waiting for new requests from HN-I bridge.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hni_wvalid_no_wready",
->> +               "EventIdCode": "0x2f",
->> +               "Type": "0x4",
->> +               "BriefDescription": "Number of cycles the HN-I bridge is stalled because of backpressure on W channel.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       },
->> +       {
->> +               "EventName": "hni_txdat_stall",
->> +               "EventIdCode": "0x30",
->> +               "Type": "0x4",
->> +               "BriefDescription": "TXDAT valid but no link credit available.",
->> +               "Unit": "arm_cmn",
->> +               "Compat": "434*;436*;43c*;43a*"
->> +       }
->> +]
->> diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
->> index 9c0f63a..bfdfb67 100755
->> --- a/tools/perf/pmu-events/jevents.py
->> +++ b/tools/perf/pmu-events/jevents.py
->> @@ -272,6 +272,7 @@ class JsonEvent:
->>            'DFPMC': 'amd_df',
->>            'cpu_core': 'cpu_core',
->>            'cpu_atom': 'cpu_atom',
->> +          'arm_cmn': 'arm_cmn',
->>        }
->>        return table[unit] if unit in table else f'uncore_{unit.lower()}'
->>
->> --
->> 1.8.3.1
->>
+I think the following is the best:
+
+"There are also other, common and expected causes of page faults".
+
+No bridge words. I can't really explain it, it's just language intuition. :=
+/
+
+An option is to also move the section about the common case section
+before the exceptions, which may be more natural to the flow of the text.
+
+> > > +Swapping can't work for memory mapped by kernel logical addresses. T=
+hese
+> > > are a
+> > "kernel logical addresses" -> "kernel-internal logical addresses"
+>
+> My only question is about why you prefer "kernel-internal" to a straight
+> "kernel". Can you please say more about this?
+
+It's because the kernel handles many address spaces and is aware about
+also the userspace address space and the physical address space.
+So just so emphasize which one it is.
+
+Yours,
+Linus Walleij
