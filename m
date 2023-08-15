@@ -2,155 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 932FCC04A94
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 12:28:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 441C0C001B0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 12:34:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234442AbjHOM2H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 08:28:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47772 "EHLO
+        id S237153AbjHOMeK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 08:34:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237218AbjHOM14 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 08:27:56 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027D9199F;
-        Tue, 15 Aug 2023 05:27:47 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4fe9f226cdbso4433819e87.0;
-        Tue, 15 Aug 2023 05:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692102465; x=1692707265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hVDDJlWhUCzNd5EzhLvuiUskyN3c3RfjOPmwxNMLBoQ=;
-        b=EEZlIEkkHTSZjflV063Ba+ihFccGT6E0fQZnAkTbH4cnvs7XalS74aKS7J5Fc8+jy3
-         Oy/MfMANIuQMzgazpi58Y3jE8tq0X09EBdzUWMyUOwohCs5EGMEs6U1ED+1r0JNblfWa
-         0aYGsV2mQrrlUzWecnayklYKdyV8f92jZZqaI68H210pfWqivG71RoqDhm/igoXmWFUv
-         5/SsEB//8i94HjEdft7lAhrKAoMbRNyyZ4Ik8YtZP3FO52wWv4WXMX19imxwSfwwGCos
-         KmuZDIwsXS8uyet7Ix9BsO+uu0OuwaVgfO0uWOCgGpWsJ/XFdAx1WvxnP/ncpnAembpb
-         bLYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692102465; x=1692707265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hVDDJlWhUCzNd5EzhLvuiUskyN3c3RfjOPmwxNMLBoQ=;
-        b=TmXIeqLh2plb0TfY37Y0y/Y1BkgEWOtiXdJUW2ibUS4S77XYFr2fcNKNluPXycdOJU
-         6xdEV1t/WvE4CJScHFbkJhbmYtO/+T4duvkMDig4UBVvHW4YSd0eRy/i8V97Rv2vcANW
-         dATK+Wm0V04944SKKGvMTfbcc+tvAVFoWTMtwzrg4oRgm2fagHau3mbLd2e3knqXeyJ/
-         b1kiKAWwHxw2MT1QSrbstFZKPmoEM7tZWTmtccELIyn6huI+oXp+AJiBu0UKBLNKcw/U
-         KQxwMWgM4HnuSFsKok8lHF+RGhy5IyMFwnJyFBIBBBDmKUMznUpjyrqIB9qP+cPuO/2B
-         LwDQ==
-X-Gm-Message-State: AOJu0YwadS+QT7ks5gSJv4wvC0QJgq8LELBhHilkqfeudAzqHz+fOLAd
-        6AKpnYxCvtOk1zSo4oNUX7J+7+qtB14=
-X-Google-Smtp-Source: AGHT+IG+cwmqQnGcgtQ0KiswsiQhrqD1uMPt1W4S48i/yx2yACHzwUMti+3UczLKtLgnuthlvtm6SA==
-X-Received: by 2002:a05:6512:acf:b0:4fe:5860:7abf with SMTP id n15-20020a0565120acf00b004fe58607abfmr9520807lfu.13.1692102464921;
-        Tue, 15 Aug 2023 05:27:44 -0700 (PDT)
-Received: from suse.localnet (host-87-6-98-229.retail.telecomitalia.it. [87.6.98.229])
-        by smtp.gmail.com with ESMTPSA id g13-20020a5d698d000000b003180027d67asm17774055wru.19.2023.08.15.05.27.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 05:27:44 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] Documentation/page_tables: Add info about MMU/TLB and Page
- Faults
-Date:   Tue, 15 Aug 2023 14:27:42 +0200
-Message-ID: <3179607.5fSG56mABF@suse>
-In-Reply-To: <CACRpkdbq8UCtvtRH7FZUEqvTxPQcoGbrKvf_mT5QHMAfVoYNNQ@mail.gmail.com>
-References: <20230813182552.31792-1-fmdefrancesco@gmail.com>
- <CACRpkdbq8UCtvtRH7FZUEqvTxPQcoGbrKvf_mT5QHMAfVoYNNQ@mail.gmail.com>
+        with ESMTP id S237277AbjHOMdw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 08:33:52 -0400
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5D91BF6;
+        Tue, 15 Aug 2023 05:33:44 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R371e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0Vps0sJO_1692102816;
+Received: from 30.221.150.39(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vps0sJO_1692102816)
+          by smtp.aliyun-inc.com;
+          Tue, 15 Aug 2023 20:33:38 +0800
+Message-ID: <30f6e625-cd3e-f846-e04d-667404f9f3c5@linux.alibaba.com>
+Date:   Tue, 15 Aug 2023 20:33:36 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.0
+Subject: Re: [PATCH v6 5/7] perf test: Add pmu-event test for "Compat" and new
+ event_field.
+To:     Ian Rogers <irogers@google.com>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1691394685-61240-6-git-send-email-renyu.zj@linux.alibaba.com>
+ <CAP-5=fXPhtPCGYotDi2P_LeFPBMd8N+z_WAPwUT8eR+QiLLTMg@mail.gmail.com>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <CAP-5=fXPhtPCGYotDi2P_LeFPBMd8N+z_WAPwUT8eR+QiLLTMg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On marted=EC 15 agosto 2023 10:51:24 CEST Linus Walleij wrote:
-> Hi Fabio,
->=20
-> overall this v2 looks good!
-
-Hi Linus,
-
-Thanks for your review. I appreciated it.
-
-I'm counting at least ten mistakes. Well my poor English should still impro=
-ve=20
-in order to work on documentation.
-
-I agree with you on all changes you are proposing, so I won't agree line by=
-=20
-line. Instead I'll send a v3 and forward your tag.=20
-
-I have only a doubt and a questions.=20
-I'll jump directly to the relevant parts.
-
->=20
-> The below are my grammar and spelling nitpicks.
->
-> [snip]=20
->=20
-> > +If the above-mentioned conditions happen in user-space, the kernel sen=
-ds=20
-a
-> > +`Segmentation Fault` (SIGSEGV) signal to the current thread. That sign=
-al
-> > usually +causes the termination of the thread and of the process it=20
-belongs
-> > to. +
-> > +Instead, there are also common and expected other causes of page fault=
-s.
-> > These
-> The word you are looking for is "Additionally" right?
->=20
-> "Additionally, there are..."
-
-I was only able to use "Instead" to express that, contrary to the former=20
-conditions that is unexpected and uncommon, there are other expected and=20
-common causes of page faults. I thought that "Instead" stresses that the=20
-latter causes carry with them opposite and wanted consequences.
-
-I think of "additionally" as a means to introduce less important and less=20
-frequently occurring conditions.
-
-Nevertheless, I'll change it to "Additionally" as you are asking for.
-
-Everything that follows from here onward should surely be changed as you ar=
-e=20
-suggesting. =20
-
-[snip]
-
-> > +Swapping can't work for memory mapped by kernel logical addresses. The=
-se
-> > are a
-> "kernel logical addresses" -> "kernel-internal logical addresses"
-
-My only question is about why you prefer "kernel-internal" to a straight=20
-"kernel". Can you please say more about this?
-
-[snip]
-=20
-> With
-> or without the above suggestions:
-
-I'll do the v3 _with_ the above suggestions.
-
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->=20
-> Yours,
-> Linus Walleij
-
-Again thanks,
-
-=46abio
 
 
+在 2023/8/15 上午9:11, Ian Rogers 写道:
+> On Mon, Aug 7, 2023 at 12:51 AM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
+>>
+>> Add new event test for uncore system event which is used to verify the
+>> functionality of "Compat" matching multiple identifiers and the new event
+>> fields "EventIdCode" and "Type".
+>>
+>> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+> 
+> Did you test with NO_JEVENTS=1?
+> 
+
+You are absolutely right. I completely overlooked the case where NO_JEVENTS=1.
+
+
+>> ---
+>>  .../pmu-events/arch/test/test_soc/sys/uncore.json  |  8 ++++
+>>  tools/perf/tests/pmu-events.c                      | 55 ++++++++++++++++++++++
+>>  2 files changed, 63 insertions(+)
+>>
+>> diff --git a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json b/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+>> index c7e7528..19ec595 100644
+>> --- a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+>> +++ b/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+>> @@ -12,5 +12,13 @@
+>>             "EventName": "sys_ccn_pmu.read_cycles",
+>>             "Unit": "sys_ccn_pmu",
+>>             "Compat": "0x01"
+>> +   },
+>> +   {
+>> +           "BriefDescription": "Counts total cache misses in first lookup result (high priority).",
+>> +           "Type": "0x05",
+>> +           "EventIdCode": "0x01",
+>> +           "EventName": "sys_cmn_pmu.hnf_cache_miss",
+>> +           "Unit": "sys_cmn_pmu",
+>> +           "Compat": "434*;436*;43c*;43a01"
+> 
+> I suspect this needs adding here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tree/tools/perf/pmu-events/empty-pmu-events.c?h=perf-tools-next#n247
+> 
+After adding the relevant code in empty-pmu-events.c, it can successfully test with NO_JEVENTS=1.
+
+Thanks,
+Jing
+
+> Thanks,
+> Ian
+> 
+>>     }
+>>  ]
+>> diff --git a/tools/perf/tests/pmu-events.c b/tools/perf/tests/pmu-events.c
+>> index 3204252..79fb3e2 100644
+>> --- a/tools/perf/tests/pmu-events.c
+>> +++ b/tools/perf/tests/pmu-events.c
+>> @@ -255,9 +255,24 @@ struct perf_pmu_test_pmu {
+>>         .matching_pmu = "uncore_sys_ccn_pmu4",
+>>  };
+>>
+>> +static const struct perf_pmu_test_event sys_cmn_pmu_hnf_cache_miss = {
+>> +       .event = {
+>> +               .name = "sys_cmn_pmu.hnf_cache_miss",
+>> +               .event = "type=0x05,eventid=0x01",
+>> +               .desc = "Counts total cache misses in first lookup result (high priority). Unit: uncore_sys_cmn_pmu ",
+>> +               .topic = "uncore",
+>> +               .pmu = "uncore_sys_cmn_pmu",
+>> +               .compat = "434*;436*;43c*;43a01",
+>> +       },
+>> +       .alias_str = "type=0x5,eventid=0x1",
+>> +       .alias_long_desc = "Counts total cache misses in first lookup result (high priority). Unit: uncore_sys_cmn_pmu ",
+>> +       .matching_pmu = "uncore_sys_cmn_pmu0",
+>> +};
+>> +
+>>  static const struct perf_pmu_test_event *sys_events[] = {
+>>         &sys_ddr_pmu_write_cycles,
+>>         &sys_ccn_pmu_read_cycles,
+>> +       &sys_cmn_pmu_hnf_cache_miss,
+>>         NULL
+>>  };
+>>
+>> @@ -704,6 +719,46 @@ static int __test_uncore_pmu_event_aliases(struct perf_pmu_test_pmu *test_pmu)
+>>                         &sys_ccn_pmu_read_cycles,
+>>                 },
+>>         },
+>> +       {
+>> +               .pmu = {
+>> +                       .name = (char *)"uncore_sys_cmn_pmu0",
+>> +                       .is_uncore = 1,
+>> +                       .id = (char *)"43401",
+>> +               },
+>> +               .aliases = {
+>> +                       &sys_cmn_pmu_hnf_cache_miss,
+>> +               },
+>> +       },
+>> +       {
+>> +               .pmu = {
+>> +                       .name = (char *)"uncore_sys_cmn_pmu0",
+>> +                       .is_uncore = 1,
+>> +                       .id = (char *)"43602",
+>> +               },
+>> +               .aliases = {
+>> +                       &sys_cmn_pmu_hnf_cache_miss,
+>> +               },
+>> +       },
+>> +       {
+>> +               .pmu = {
+>> +                       .name = (char *)"uncore_sys_cmn_pmu0",
+>> +                       .is_uncore = 1,
+>> +                       .id = (char *)"43c03",
+>> +               },
+>> +               .aliases = {
+>> +                       &sys_cmn_pmu_hnf_cache_miss,
+>> +               },
+>> +       },
+>> +       {
+>> +               .pmu = {
+>> +                       .name = (char *)"uncore_sys_cmn_pmu0",
+>> +                       .is_uncore = 1,
+>> +                       .id = (char *)"43a01",
+>> +               },
+>> +               .aliases = {
+>> +                       &sys_cmn_pmu_hnf_cache_miss,
+>> +               },
+>> +       }
+>>  };
+>>
+>>  /* Test that aliases generated are as expected */
+>> --
+>> 1.8.3.1
+>>
