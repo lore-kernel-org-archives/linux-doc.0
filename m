@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A469BC04A6A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD92C04E69
 	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 19:44:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239928AbjHOTnw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 15:43:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46638 "EHLO
+        id S239950AbjHOTnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 15:43:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239933AbjHOTng (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 15:43:36 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1552D10C1;
-        Tue, 15 Aug 2023 12:43:34 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3178dd771ceso5116525f8f.2;
-        Tue, 15 Aug 2023 12:43:34 -0700 (PDT)
+        with ESMTP id S239975AbjHOTnq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 15:43:46 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C01810C1;
+        Tue, 15 Aug 2023 12:43:45 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fe12baec61so52363075e9.2;
+        Tue, 15 Aug 2023 12:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692128612; x=1692733412;
+        d=gmail.com; s=20221208; t=1692128623; x=1692733423;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QnQ7XSvIHXwLuxrIq/EZ9Hip9Qu/5iyxqsG2XS50cdk=;
-        b=aXscVsgdjriOo8KXg0LdiKAEghGJhUkO8L5h1f3+kS729hhd2zsPNzeStVTkBMoxtT
-         1etxj64pm1sx1PTvbvlL4R87X5gNjSFrKtEKhwierD0G0Z9xe5+y/AWFhVoyXVM3Cn0x
-         NwxEnFZnx8L1LC46KLUAJYhYkRtiBhoyYPYIgJXLFytZiix/EYsg//jT/7hdwr1Vbrm1
-         r5qvfuh9O5mT036jUo+VUIHCi5qvk693WDneKvEHiIwMUdn7YZyYDMzQpMQ0uHAp6avQ
-         4nWnoosk7x/FB7p2LO5ZuwEDG8ULrGsdY7xxWHCnsQ5ZFXtYuXmDFWA42KORNWwgaMBU
-         AONw==
+        bh=E1LGjCQUqcrNY0alG6lWK84AzftAjPlRFsXyMgA7/MU=;
+        b=KhA5goXJwj8cJWFlmNkLcnXNViZLqK5ppltBZ5uCv0sY3H8kEL6An39nuKE/68cvZN
+         /Tr6bIxv96NksGRIvD5sXSKj8iDtOPPAHGRbWttkoqyml/QLqgaYgR7JpALr04lUR3/m
+         xqAzic6RNhFToWEsKJ6mgVV1sXweO0BxMeN+CCIAdfEuoa10R4p3Jx3/F5IQfkT5D1iL
+         duCN5bAIgAAXzE7BY8sadMotFb7volgtjNWSrW3xjsXqU5I5yIU3mrC0mpsvU5am35tc
+         Gpuppiv8eStoR1mlYtp89U4z3svTkkfS3ifwEYMXxUjmQlESNAKggL4qj+/l14z20zVa
+         G2ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692128612; x=1692733412;
+        d=1e100.net; s=20221208; t=1692128623; x=1692733423;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QnQ7XSvIHXwLuxrIq/EZ9Hip9Qu/5iyxqsG2XS50cdk=;
-        b=hn7kU8wFZlQqUFoVhFtpB1EoAsH1nZWGOD5V1jmtxjoew3sFiib3CB3E2WecfxnLQT
-         LpT7bBUl6MPMBA1naggsoHsD7zYuFxmK1LifEIWDSDbFLctU9Q30rmbpV6bZjOVjpejL
-         NyXbJlLk9vfENPycZUSHaQ/KzznvsKc7ztl7eTqLz8g1Ks6mpXQHgmLIikbHf4wkX9Kv
-         0Gi3FBNSTcIBeuZCZghPmRKXG02U9ID4lL1MVBfEdOhrbkbaPFTJrh0zEH7t+AwkjdRe
-         HCYHsAUYqg1oOgEUf4t555TW0/gfI3OkdrSSx10uz+fpRdY5LehIbn5fh2k56BZ1Gy0L
-         y4xw==
-X-Gm-Message-State: AOJu0YyZDhl2zvYk5GjLge7qeOiicDhapo92NXgsKYYjByXTTn+luy9h
-        fXLPhiwTn7c7YHdMnd5zduoauu9AXch9Fruq
-X-Google-Smtp-Source: AGHT+IHmXcMIlibNz25VibzdZ3BJBBrWchcsV7jhEpqOcnYR6qAgcGaWDCQK9G66gah6BR/B7vZing==
-X-Received: by 2002:adf:fdc7:0:b0:319:778f:be17 with SMTP id i7-20020adffdc7000000b00319778fbe17mr5060656wrs.49.1692128611876;
-        Tue, 15 Aug 2023 12:43:31 -0700 (PDT)
+        bh=E1LGjCQUqcrNY0alG6lWK84AzftAjPlRFsXyMgA7/MU=;
+        b=OMR8NphrkRWh76+P8d7ll+d+eXy4LO0KSXSaGEqC3IgnzJ7y8vUtHgCQLy5WvBfRZg
+         TZpmgilLxcaEJ9z5RQBFttvoLs8F1nY7XqdYN+g3xGdvcgkXB1BbyHp6DKrDhZPfkxkm
+         E+qtJs1NIEAYkESsvaxEUoqsI4+/SN//HE9BSNI6mSyhwCulJUgMaqhGFSZ0ESuFrkg0
+         D+vkT+anr2r2P+UDClhnYOIbV+Dq7Gt5U6Ve0IcYcACnDsrLr/2q44GZnIcTb8DFt6xt
+         wOLZBgT2ppSB9Ywfw5jfFKUclCX4WqvStOPEV+zbqcECGhudhm8topTIhJtyUbCSdzPq
+         cvQw==
+X-Gm-Message-State: AOJu0YxWAWaY9iqBBs0Z5l9B4sfDWQEMIP3dmw+0L4P2LzbEXy4I7qEU
+        5W9Qw73hsMafwXmlOi7YB1NdcQt8QhylErm3
+X-Google-Smtp-Source: AGHT+IEqevzzUxvLf4B29y/5WfXNAG9nvK2eScl009GC4kSDJaNRfPL6zi9Ld7Ty8XhA9wiobnih3g==
+X-Received: by 2002:a5d:6202:0:b0:319:52a5:569f with SMTP id y2-20020a5d6202000000b0031952a5569fmr8483021wru.11.1692128623145;
+        Tue, 15 Aug 2023 12:43:43 -0700 (PDT)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:9934:e2f7:cd0e:75a6])
-        by smtp.gmail.com with ESMTPSA id n16-20020a5d6610000000b003179d5aee67sm18814892wru.94.2023.08.15.12.43.30
+        by smtp.gmail.com with ESMTPSA id n16-20020a5d6610000000b003179d5aee67sm18814892wru.94.2023.08.15.12.43.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 12:43:31 -0700 (PDT)
+        Tue, 15 Aug 2023 12:43:42 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -58,9 +58,9 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Stanislav Fomichev <sdf@google.com>,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v2 01/10] doc/netlink: Add a schema for netlink-raw families
-Date:   Tue, 15 Aug 2023 20:42:45 +0100
-Message-ID: <20230815194254.89570-2-donald.hunter@gmail.com>
+Subject: [PATCH net-next v2 10/10] doc/netlink: Add spec for rt route messages
+Date:   Tue, 15 Aug 2023 20:42:54 +0100
+Message-ID: <20230815194254.89570-11-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230815194254.89570-1-donald.hunter@gmail.com>
 References: <20230815194254.89570-1-donald.hunter@gmail.com>
@@ -70,443 +70,308 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This schema is largely a copy of the genetlink-legacy schema with the
-following additions:
-
- - a top-level protonum property, e.g. 0 (for NETLINK_ROUTE)
- - add netlink-raw to the list of protocols supported by the schema
- - add a value property to mcast-group definitions
-
-This schema is very similar to genetlink-legacy and I considered
-making the changes there and symlinking to it. On balance I felt that
-might be problematic for accurate schema validation.
+Add schema for rt route with support for getroute.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 ---
- Documentation/netlink/netlink-raw.yaml | 414 +++++++++++++++++++++++++
- 1 file changed, 414 insertions(+)
- create mode 100644 Documentation/netlink/netlink-raw.yaml
+ Documentation/netlink/specs/rt_route.yaml | 288 ++++++++++++++++++++++
+ 1 file changed, 288 insertions(+)
+ create mode 100644 Documentation/netlink/specs/rt_route.yaml
 
-diff --git a/Documentation/netlink/netlink-raw.yaml b/Documentation/netlink/netlink-raw.yaml
+diff --git a/Documentation/netlink/specs/rt_route.yaml b/Documentation/netlink/specs/rt_route.yaml
 new file mode 100644
-index 000000000000..a5ec6f3e41cc
+index 000000000000..eb4f6bb80100
 --- /dev/null
-+++ b/Documentation/netlink/netlink-raw.yaml
-@@ -0,0 +1,414 @@
++++ b/Documentation/netlink/specs/rt_route.yaml
+@@ -0,0 +1,288 @@
 +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
-+%YAML 1.2
-+---
-+$id: http://kernel.org/schemas/netlink/genetlink-legacy.yaml#
-+$schema: https://json-schema.org/draft-07/schema
 +
-+# Common defines
-+$defs:
-+  uint:
-+    type: integer
-+    minimum: 0
-+  len-or-define:
-+    type: [ string, integer ]
-+    pattern: ^[0-9A-Za-z_]+( - 1)?$
-+    minimum: 0
++name: rt-route
++protocol: netlink-raw
++protonum: 0
 +
-+# Schema for specs
-+title: Protocol
-+description: Specification of a genetlink protocol
-+type: object
-+required: [ name, doc, attribute-sets, operations ]
-+additionalProperties: False
-+properties:
-+  name:
-+    description: Name of the genetlink family.
-+    type: string
-+  doc:
-+    type: string
-+  version:
-+    description: Generic Netlink family version. Default is 1.
-+    type: integer
-+    minimum: 1
-+  protocol:
-+    description: Schema compatibility level. Default is "genetlink".
-+    enum: [ genetlink, genetlink-c, genetlink-legacy, netlink-raw ] # Trim
-+  # Start netlink-raw
-+  protonum:
-+    description: Protocol number to use for netlink-raw
-+    type: integer
-+  # End netlink-raw
-+  uapi-header:
-+    description: Path to the uAPI header, default is linux/${family-name}.h
-+    type: string
-+  # Start genetlink-c
-+  c-family-name:
-+    description: Name of the define for the family name.
-+    type: string
-+  c-version-name:
-+    description: Name of the define for the verion of the family.
-+    type: string
-+  max-by-define:
-+    description: Makes the number of attributes and commands be specified by a define, not an enum value.
-+    type: boolean
-+  # End genetlink-c
-+  # Start genetlink-legacy
-+  kernel-policy:
-+    description: |
-+      Defines if the input policy in the kernel is global, per-operation, or split per operation type.
-+      Default is split.
-+    enum: [ split, per-op, global ]
-+  # End genetlink-legacy
++doc:
++  Route configuration over rtnetlink.
 +
-+  definitions:
-+    description: List of type and constant definitions (enums, flags, defines).
-+    type: array
-+    items:
-+      type: object
-+      required: [ type, name ]
-+      additionalProperties: False
-+      properties:
-+        name:
-+          type: string
-+        header:
-+          description: For C-compatible languages, header which already defines this value.
-+          type: string
-+        type:
-+          enum: [ const, enum, flags, struct ] # Trim
-+        doc:
-+          type: string
-+        # For const
-+        value:
-+          description: For const - the value.
-+          type: [ string, integer ]
-+        # For enum and flags
-+        value-start:
-+          description: For enum or flags the literal initializer for the first value.
-+          type: [ string, integer ]
-+        entries:
-+          description: For enum or flags array of values.
-+          type: array
-+          items:
-+            oneOf:
-+              - type: string
-+              - type: object
-+                required: [ name ]
-+                additionalProperties: False
-+                properties:
-+                  name:
-+                    type: string
-+                  value:
-+                    type: integer
-+                  doc:
-+                    type: string
-+        render-max:
-+          description: Render the max members for this enum.
-+          type: boolean
-+        # Start genetlink-c
-+        enum-name:
-+          description: Name for enum, if empty no name will be used.
-+          type: [ string, "null" ]
-+        name-prefix:
-+          description: For enum the prefix of the values, optional.
-+          type: string
-+        # End genetlink-c
-+        # Start genetlink-legacy
-+        members:
-+          description: List of struct members. Only scalars and strings members allowed.
-+          type: array
-+          items:
-+            type: object
-+            required: [ name, type ]
-+            additionalProperties: False
-+            properties:
-+              name:
-+                type: string
-+              type:
-+                description: The netlink attribute type
-+                enum: [ u8, u16, u32, u64, s8, s16, s32, s64, string, binary ]
-+              len:
-+                $ref: '#/$defs/len-or-define'
-+              byte-order:
-+                enum: [ little-endian, big-endian ]
-+              doc:
-+                description: Documentation for the struct member attribute.
-+                type: string
-+              enum:
-+                description: Name of the enum type used for the attribute.
-+                type: string
-+              enum-as-flags:
-+                description: |
-+                  Treat the enum as flags. In most cases enum is either used as flags or as values.
-+                  Sometimes, however, both forms are necessary, in which case header contains the enum
-+                  form while specific attributes may request to convert the values into a bitfield.
-+                type: boolean
-+              display-hint: &display-hint
-+                description: |
-+                  Optional format indicator that is intended only for choosing
-+                  the right formatting mechanism when displaying values of this
-+                  type.
-+                enum: [ hex, mac, fddi, ipv4, ipv6, uuid ]
-+        # End genetlink-legacy
++definitions:
++  -
++    name: rtm-type
++    name-prefix: rtn-
++    type: enum
++    entries:
++      - unspec
++      - unicast
++      - local
++      - broadcast
++      - anycast
++      - multicast
++      - blackhole
++      - unreachable
++      - prohibit
++      - throw
++      - nat
++      - xresolve
++  -
++    name: rtmsg
++    type: struct
++    members:
++      -
++        name: rtm-family
++        type: u8
++      -
++        name: rtm-dst-len
++        type: u8
++      -
++        name: rtm-src-len
++        type: u8
++      -
++        name: rtm-tos
++        type: u8
++      -
++        name: rtm-table
++        type: u8
++      -
++        name: rtm-protocol
++        type: u8
++      -
++        name: rtm-scope
++        type: u8
++      -
++        name: rtm-type
++        type: u8
++        enum: rtm-type
++      -
++        name: rtm-flags
++        type: u32
++  -
++    name: rta-cacheinfo
++    type: struct
++    members:
++      -
++        name: rta-clntref
++        type: u32
++      -
++        name: rta-lastuse
++        type: u32
++      -
++        name: rta-expires
++        type: u32
++      -
++        name: rta-error
++        type: u32
++      -
++        name: rta-used
++        type: u32
 +
-+  attribute-sets:
-+    description: Definition of attribute spaces for this family.
-+    type: array
-+    items:
-+      description: Definition of a single attribute space.
-+      type: object
-+      required: [ name, attributes ]
-+      additionalProperties: False
-+      properties:
-+        name:
-+          description: |
-+            Name used when referring to this space in other definitions, not used outside of the spec.
-+          type: string
-+        name-prefix:
-+          description: |
-+            Prefix for the C enum name of the attributes. Default family[name]-set[name]-a-
-+          type: string
-+        enum-name:
-+          description: Name for the enum type of the attribute.
-+          type: string
-+        doc:
-+          description: Documentation of the space.
-+          type: string
-+        subset-of:
-+          description: |
-+            Name of another space which this is a logical part of. Sub-spaces can be used to define
-+            a limited group of attributes which are used in a nest.
-+          type: string
-+        # Start genetlink-c
-+        attr-cnt-name:
-+          description: The explicit name for constant holding the count of attributes (last attr + 1).
-+          type: string
-+        attr-max-name:
-+          description: The explicit name for last member of attribute enum.
-+          type: string
-+        # End genetlink-c
-+        attributes:
-+          description: List of attributes in the space.
-+          type: array
-+          items:
-+            type: object
-+            required: [ name, type ]
-+            additionalProperties: False
-+            properties:
-+              name:
-+                type: string
-+              type: &attr-type
-+                description: The netlink attribute type
-+                enum: [ unused, pad, flag, binary, u8, u16, u32, u64, s32, s64,
-+                        string, nest, array-nest, nest-type-value ]
-+              doc:
-+                description: Documentation of the attribute.
-+                type: string
-+              value:
-+                description: Value for the enum item representing this attribute in the uAPI.
-+                $ref: '#/$defs/uint'
-+              type-value:
-+                description: Name of the value extracted from the type of a nest-type-value attribute.
-+                type: array
-+                items:
-+                  type: string
-+              byte-order:
-+                enum: [ little-endian, big-endian ]
-+              multi-attr:
-+                type: boolean
-+              nested-attributes:
-+                description: Name of the space (sub-space) used inside the attribute.
-+                type: string
-+              enum:
-+                description: Name of the enum type used for the attribute.
-+                type: string
-+              enum-as-flags:
-+                description: |
-+                  Treat the enum as flags. In most cases enum is either used as flags or as values.
-+                  Sometimes, however, both forms are necessary, in which case header contains the enum
-+                  form while specific attributes may request to convert the values into a bitfield.
-+                type: boolean
-+              checks:
-+                description: Kernel input validation.
-+                type: object
-+                additionalProperties: False
-+                properties:
-+                  flags-mask:
-+                    description: Name of the flags constant on which to base mask (unsigned scalar types only).
-+                    type: string
-+                  min:
-+                    description: Min value for an integer attribute.
-+                    type: integer
-+                  min-len:
-+                    description: Min length for a binary attribute.
-+                    $ref: '#/$defs/len-or-define'
-+                  max-len:
-+                    description: Max length for a string or a binary attribute.
-+                    $ref: '#/$defs/len-or-define'
-+              sub-type: *attr-type
-+              display-hint: *display-hint
-+              # Start genetlink-c
-+              name-prefix:
-+                type: string
-+              # End genetlink-c
-+              # Start genetlink-legacy
-+              struct:
-+                description: Name of the struct type used for the attribute.
-+                type: string
-+              # End genetlink-legacy
-+
-+      # Make sure name-prefix does not appear in subsets (subsets inherit naming)
-+      dependencies:
-+        name-prefix:
-+          not:
-+            required: [ subset-of ]
-+        subset-of:
-+          not:
-+            required: [ name-prefix ]
-+
-+  operations:
-+    description: Operations supported by the protocol.
-+    type: object
-+    required: [ list ]
-+    additionalProperties: False
-+    properties:
-+      enum-model:
-+        description: |
-+          The model of assigning values to the operations.
-+          "unified" is the recommended model where all message types belong
-+          to a single enum.
-+          "directional" has the messages sent to the kernel and from the kernel
-+          enumerated separately.
-+        enum: [ unified, directional ] # Trim
-+      name-prefix:
-+        description: |
-+          Prefix for the C enum name of the command. The name is formed by concatenating
-+          the prefix with the upper case name of the command, with dashes replaced by underscores.
++attribute-sets:
++  -
++    name: route-attrs
++    attributes:
++      -
++        name: rta-dst
++        type: binary
++        display-hint: ipv4
++      -
++        name: rta-src
++        type: binary
++        display-hint: ipv4
++      -
++        name: rta-iif
++        type: u32
++      -
++        name: rta-oif
++        type: u32
++      -
++        name: rta-gateway
++        type: binary
++        display-hint: ipv4
++      -
++        name: rta-priority
++        type: u32
++      -
++        name: rta-prefsrc
++        type: binary
++        display-hint: ipv4
++      -
++        name: rta-metrics
++        type: nest
++        nested-attributes: rta-metrics
++      -
++        name: rta-multipath
++        type: binary
++      -
++        name: rta-protoinfo # not used
++        type: binary
++      -
++        name: rta-flow
++        type: u32
++      -
++        name: rta-cacheinfo
++        type: binary
++        struct: rta-cacheinfo
++      -
++        name: rta-session # not used
++        type: binary
++      -
++        name: rta-mp-algo # not used
++        type: binary
++      -
++        name: rta-table
++        type: u32
++      -
++        name: rta-mark
++        type: u32
++      -
++        name: rta-mfc-stats
++        type: binary
++      -
++        name: rta-via
++        type: binary
++      -
++        name: rta-newdst
++        type: binary
++      -
++        name: rta-pref
++        type: u8
++      -
++        name: rta-encap-type
++        type: u16
++      -
++        name: rta-encap
++        type: binary # tunnel specific nest
++      -
++        name: rta-expires
++        type: u32
++      -
++        name: rta-pad
++        type: binary
++      -
++        name: rta-uid
++        type: u32
++      -
++        name: rta-ttl-propagate
++        type: u8
++      -
++        name: rta-ip-proto
++        type: u8
++      -
++        name: rta-sport
++        type: u16
++      -
++        name: rta-dport
++        type: u16
++      -
++        name: rta-nh-id
++        type: u32
++  -
++    name: rta-metrics
++    attributes:
++      -
++        name: rtax-unspec
++        type: unused
++        value: 0
++      -
++        name: rtax-lock
++        type: u32
++      -
++        name: rtax-mtu
++        type: u32
++      -
++        name: rtax-window
++        type: u32
++      -
++        name: rtax-rtt
++        type: u32
++      -
++        name: rtax-rttvar
++        type: u32
++      -
++        name: rtax-ssthresh
++        type: u32
++      -
++        name: rtax-cwnd
++        type: u32
++      -
++        name: rtax-advmss
++        type: u32
++      -
++        name: rtax-reordering
++        type: u32
++      -
++        name: rtax-hoplimit
++        type: u32
++      -
++        name: rtax-initcwnd
++        type: u32
++      -
++        name: rtax-features
++        type: u32
++      -
++        name: rtax-rto-min
++        type: u32
++      -
++        name: rtax-initrwnd
++        type: u32
++      -
++        name: rtax-quickack
++        type: u32
++      -
++        name: rtax-cc-algo
 +        type: string
-+      enum-name:
-+        description: Name for the enum type with commands.
-+        type: string
-+      async-prefix:
-+        description: Same as name-prefix but used to render notifications and events to separate enum.
-+        type: string
-+      async-enum:
-+        description: Name for the enum type with notifications/events.
-+        type: string
-+      # Start genetlink-legacy
-+      fixed-header: &fixed-header
-+        description: |
-+          Name of the structure defining the optional fixed-length protocol
-+          header. This header is placed in a message after the netlink and
-+          genetlink headers and before any attributes.
-+        type: string
-+      # End genetlink-legacy
-+      list:
-+        description: List of commands
-+        type: array
-+        items:
-+          type: object
-+          additionalProperties: False
-+          required: [ name, doc ]
-+          properties:
-+            name:
-+              description: Name of the operation, also defining its C enum value in uAPI.
-+              type: string
-+            doc:
-+              description: Documentation for the command.
-+              type: string
-+            value:
-+              description: Value for the enum in the uAPI.
-+              $ref: '#/$defs/uint'
-+            attribute-set:
-+              description: |
-+                Attribute space from which attributes directly in the requests and replies
-+                to this command are defined.
-+              type: string
-+            flags: &cmd_flags
-+              description: Command flags.
-+              type: array
-+              items:
-+                enum: [ admin-perm ]
-+            dont-validate:
-+              description: Kernel attribute validation flags.
-+              type: array
-+              items:
-+                enum: [ strict, dump ]
-+            # Start genetlink-legacy
-+            fixed-header: *fixed-header
-+            # End genetlink-legacy
-+            do: &subop-type
-+              description: Main command handler.
-+              type: object
-+              additionalProperties: False
-+              properties:
-+                request: &subop-attr-list
-+                  description: Definition of the request message for a given command.
-+                  type: object
-+                  additionalProperties: False
-+                  properties:
-+                    attributes:
-+                      description: |
-+                        Names of attributes from the attribute-set (not full attribute
-+                        definitions, just names).
-+                      type: array
-+                      items:
-+                        type: string
-+                    # Start genetlink-legacy
-+                    value:
-+                      description: |
-+                        ID of this message if value for request and response differ,
-+                        i.e. requests and responses have different message enums.
-+                      $ref: '#/$defs/uint'
-+                    # End genetlink-legacy
-+                reply: *subop-attr-list
-+                pre:
-+                  description: Hook for a function to run before the main callback (pre_doit or start).
-+                  type: string
-+                post:
-+                  description: Hook for a function to run after the main callback (post_doit or done).
-+                  type: string
-+            dump: *subop-type
-+            notify:
-+              description: Name of the command sharing the reply type with this notification.
-+              type: string
-+            event:
-+              type: object
-+              additionalProperties: False
-+              properties:
-+                attributes:
-+                  description: Explicit list of the attributes for the notification.
-+                  type: array
-+                  items:
-+                    type: string
-+            mcgrp:
-+              description: Name of the multicast group generating given notification.
-+              type: string
-+  mcast-groups:
-+    description: List of multicast groups.
-+    type: object
-+    required: [ list ]
-+    additionalProperties: False
-+    properties:
-+      list:
-+        description: List of groups.
-+        type: array
-+        items:
-+          type: object
-+          required: [ name ]
-+          additionalProperties: False
-+          properties:
-+            name:
-+              description: |
-+                The name for the group, used to form the define and the value of the define.
-+              type: string
-+            # Start genetlink-c
-+            c-define-name:
-+              description: Override for the name of the define in C uAPI.
-+              type: string
-+            # End genetlink-c
-+            flags: *cmd_flags
-+            # Start netlink-raw
-+            value:
-+              description: Value of the netlink multicast group in the uAPI.
-+              type: integer
-+            # End netlink-raw
++      -
++        name: rtax-fastopen-no-cookie
++        type: u32
++
++operations:
++  enum-model: directional
++  list:
++    -
++      name: getroute
++      doc: Dump route information.
++      attribute-set: route-attrs
++      fixed-header: rtmsg
++      dump:
++        request:
++          value: 26
++        reply:
++          value: 24
++          attributes:
++            - rtm-family
++            - rtm-dst-len
++            - rtm-src-len
++            - rtm-tos
++            - rtm-table
++            - rtm-protocol
++            - rtm-scope
++            - rtm-type
++            - rtm-flags
++            - rta-dst
++            - rta-src
++            - rta-iif
++            - rta-oif
++            - rta-gateway
++            - rta-priority
++            - rta-prefsrc
++            - rta-metrics
++            - rta-multipath
++            - rta-flow
++            - rta-cacheinfo
++            - rta-table
++            - rta-mark
++            - rta-mfc-stats
++            - rta-via
++            - rta-newdst
++            - rta-pref
++            - rta-encap-type
++            - rta-encap
++            - rta-expires
++            - rta-pad
++            - rta-uid
++            - rta-ttl-propagate
++            - rta-ip-proto
++            - rta-sport
++            - rta-dport
++            - rta-nh-id
 -- 
 2.41.0
 
