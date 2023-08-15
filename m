@@ -2,246 +2,206 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B859C001DB
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 00:46:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 495B8C04A6A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 01:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbjHOApm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Aug 2023 20:45:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52402 "EHLO
+        id S233794AbjHOBMS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Aug 2023 21:12:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233191AbjHOApU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 20:45:20 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F7A1723;
-        Mon, 14 Aug 2023 17:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692060319; x=1723596319;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=JZoW7kCHphL0TBioJxUPDQJ/fRkoRlhVtUvl983FG+I=;
-  b=NFdAXKmZ89bUo4kaRRa1AHOI6pz5+Uvd6v5OByQsqogwVIUTqq1QoOMd
-   ClNttm0S+iX8w0VHvtd26SKycE5sccEl0w/pqkNWHPiTUjGbC01tmVH+7
-   lDwmkeGbvlML/AwdLbvwQ1T2gpd8sfMBLZUd2BSoV/dmXiO1xvb44UzTP
-   B6OllmB+2cZo8LvlVXJ9wH2znSDQeeRAvgmmQnoBIpPNue3ezUHg9cZ9d
-   b5yke1KuxOvpwpvdCp6Jz9uVaIFOfrbMw/ka8kLW0Io7sLdQ6JOOeDD3L
-   LN8pCandR+b/NK0b2zMkChSIM5LyoPJvU2Km41gliDflvtZSsJiwPrbW/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="438511416"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="438511416"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 17:45:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="877160168"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2023 17:45:22 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 14 Aug 2023 17:45:18 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 14 Aug 2023 17:45:17 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 14 Aug 2023 17:45:17 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 14 Aug 2023 17:45:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bluNwsH2OhR7Wgd7tar/NfZgdmo76Aq+6t99Ghicaj+hNNtXmdEbqDZBV6PqFCMXJJlwJCqyXRygfQenzYxVFYjfCFZc0F2hl4uEj7S/yg2VplTqU/Ep4GFcw25V9Lqybmolv5qM7tX4pf8wB9LWZcq28wSQVwep5wnoT3aMbm/LRKLgzQPUmB/iEtGQfQQk35SaphEVgGNrFxY6OOsviVlmkp0IQUGtZ7yT/EadXUrDWo2pstAIoGIskpescwMPoWj29GijSFPTFDVsJoiEL8eO/6pOogYxeagdIXJCvLEZLgqItC1C6nf83s5htEEgq/3m80elhhm54FEeL1wx7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lxKdyju3TejQFMqYJEEFrlSS66Enz4ch2rXDCFaccig=;
- b=K9kAmKf3CsL2x7v+Pqy8g0O1Y1ee3ax7mhuJ2JMsV2lDwMqJ8umhk9LRP+OgJJ627CilEWWUjNAWjOK0I8Mr1V0gwolEZkWLvTn9vEDxNxoG9lEO9kxbppX3M/YDrrBMFXMY25MzsbTw3u0i1oKWt8qDwEVcc2Z59NOuL48Va5/fziYxNUwo4MPHw7O0s5fmJnVZ9NPnHFRQvEN7Nrf9MMJFTVyRl2Gqxl2DgMdbVP3j4WbzizBQdigkFeiQoZ3+nwu8St5GjoaYGLyUbDa+b5O+YSmuwXeUvr43NChylvket+T1uxTePKFKJfWXQgSnZ4ZHpOSRrdP96yKVn+RZVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN7PR11MB2593.namprd11.prod.outlook.com (2603:10b6:406:ab::27)
- by DM8PR11MB5606.namprd11.prod.outlook.com (2603:10b6:8:3c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Tue, 15 Aug
- 2023 00:45:15 +0000
-Received: from BN7PR11MB2593.namprd11.prod.outlook.com
- ([fe80::f195:972c:b2bd:e542]) by BN7PR11MB2593.namprd11.prod.outlook.com
- ([fe80::f195:972c:b2bd:e542%5]) with mapi id 15.20.6652.026; Tue, 15 Aug 2023
- 00:45:15 +0000
-Message-ID: <d2e07a0a-8b5c-b7ba-686e-d206800fc9c3@intel.com>
-Date:   Mon, 14 Aug 2023 17:45:11 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.14.0
-Subject: Re: [PATCH net-next v2 2/2] scripts: kernel-doc: fix macro handling
- in enums
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, <netdev@vger.kernel.org>,
-        <kuba@kernel.org>
-CC:     <linux-doc@vger.kernel.org>, <emil.s.tantilov@intel.com>,
-        <joshua.a.hay@intel.com>, <sridhar.samudrala@intel.com>,
-        <alan.brady@intel.com>, <madhu.chittim@intel.com>,
-        <jesse.brandeburg@intel.com>, <anthony.l.nguyen@intel.com>,
-        <willemb@google.com>, <decot@google.com>, <rdunlap@infradead.org>
-References: <20230814170720.46229-1-pavan.kumar.linga@intel.com>
- <20230814170720.46229-3-pavan.kumar.linga@intel.com>
- <87ttt1v4a0.fsf@meer.lwn.net>
-From:   "Linga, Pavan Kumar" <pavan.kumar.linga@intel.com>
-In-Reply-To: <87ttt1v4a0.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4P221CA0013.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:303:8b::18) To BN7PR11MB2593.namprd11.prod.outlook.com
- (2603:10b6:406:ab::27)
+        with ESMTP id S233805AbjHOBLz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Aug 2023 21:11:55 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5E310C1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 18:11:54 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-40a47e8e38dso82231cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Aug 2023 18:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692061913; x=1692666713;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JWqNV8j4rJ01I2/kmzyAmB0UmrRYsbr0X6nXpcU09Kw=;
+        b=QoLabUP1MxN2EF7Rd4tNg3zlcuKjFWbe+WC0AcPXwj7g9lnzIQ6CDnLae+5Ox8WgHs
+         m/VbFI8L4dM1KeGHLu9fJrUhoR9io291MGq5WgqmfDFCYiTApGnU6x6GQo7baD6npljz
+         kutAhyWEFApMAXeB6fRWBFxUfZE5+2H3Z6/7B2E+xbxO9d5Vsa+pcWF8b3tU5KAesWT8
+         J0x30KMknDkoes66oe+mYhdViXl+CecTQCEJPxBrHNufY/ZkAcYR6C/DyilRhvr9FIE5
+         d9rfg8yMjJLbCGyDv2X49LhzaUQYC54VJaOeZVQoZZqnYq6s8UAmZmfRD2YR0Aj8LiJ6
+         XrAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692061913; x=1692666713;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JWqNV8j4rJ01I2/kmzyAmB0UmrRYsbr0X6nXpcU09Kw=;
+        b=LRjRVvyc7WVgI4CFvbHRTcc5unpQLTq7vHcPhgeUcpiV1L+w0fWxxenFhak5w3QEpj
+         plT5eID5gq9sBLOFDZpf08K8oooOzwfXIJUeN3GcGUS4od2lZVZrFyamfKyaODwkKQT/
+         Jibj34g6NQE1+yT4hjTJS4j9CEeGCaNvUJGwgeGPbk/sY728dZ3s3UyydWLgObSEvmtN
+         KIcscOVXLi3QeDF+MAtFWUa0fURO+awg7clyJQpBUpkW3wuTm41l+ZxqjWwyo38GeDDS
+         r1QZ5tJ50nzPn+b0pUkHYZ/JYzyV7/wGek2sydL3PVyjKo3DqxWUCWs8HsMUKrBki5IF
+         ZTRA==
+X-Gm-Message-State: AOJu0YzccCRY7G8zql22P8AGYmRCkgaHKGbPKntFXcfjxOmAYIWzarSn
+        5PoM+6Gy0q2hDF18PMxcl5YBCDRDseiiuAUyaZhJ9A==
+X-Google-Smtp-Source: AGHT+IG7MHwhRcBTr5x6srMH1dL3HfSXwFUD3fZEud/UGvJocL5lEnagtJBP+/IcyELLp0Vyr1N2I8JYPNiEqhFk2HA=
+X-Received: by 2002:a05:622a:11cb:b0:410:385c:d1d9 with SMTP id
+ n11-20020a05622a11cb00b00410385cd1d9mr606418qtk.25.1692061913091; Mon, 14 Aug
+ 2023 18:11:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN7PR11MB2593:EE_|DM8PR11MB5606:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c90c6c9-6365-4974-db00-08db9d28e41f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TBenfGrCHPJAsv0LWJnq47T+lkWlA5JpHtZnkAfYy7ZOc1E2Ve4Ee8jtD3sjrNCQUWxsHHt9aYkhXnpmoO7WrMyuWNsad59Kjzu1AaQDrDD/mQwcyoWFJUEHC7RAg+QIKvO+Td/reG9H/IHwwZoFu9hPUjUZCztwdnuvLhY7NyWdBLYrYfoLnH2JAnqavT1yxfgHc3jEEGf6eA77IjVl5nbF5KHf1vD4eyAbl+QzhPKbIMg1LsiD0KodI5mLeNERwSV5jz/K1zanROcwMP20xnHKi60YmAnD6rRLioWhEH6gsqsBeBkMlO1UtV6WTe7/dopzdj+n9f01Z+rhw6T8XLqUlNXq7EmApC+oSYikIDHzdR50yY0XlVKFyvmr9M4ji7qRoFHoiwbPniHXOOksp9IPOlrPkibTeB02ClzEkfadF/x4N9n5/U0uZV6Jor4KiJ/BMZUtaExwA5WQw2q3uOpn2weJ+t0sPn4whq7jtYxbqqo29LX6BZHnMLkFJ07nJyGf9IHDGMXxS3+AEPD4eNJ5bBgC9mR97o4cs86vdFjZ9ouhElJYU1umGdoz5is23H1YA4PZMqBcm2U34DkwKMjcETxwAd6FwZHv8YyfqaeCI0LlTTpexwwvbBDwc/a8EMMIniNvHGLY4MfRchytRw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR11MB2593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(39860400002)(346002)(136003)(396003)(376002)(451199021)(1800799006)(186006)(6666004)(38100700002)(6486002)(478600001)(82960400001)(2906002)(5660300002)(36756003)(86362001)(31696002)(4326008)(66476007)(66556008)(66946007)(41300700001)(8936002)(8676002)(316002)(6506007)(53546011)(26005)(2616005)(83380400001)(31686004)(6512007)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YTcxdU16YnBHQkZtKzJKcGVFV1NZbDB2RFdkMlFRVFFzRlo1eUZ2TUFzbHRs?=
- =?utf-8?B?emE0WVRhQUVreTFiUkRnbjREcEczOE9XdWpHRkpoVDJPSUNGZjhQRnBvS1BC?=
- =?utf-8?B?ZUZVU096VE5yRjQ0T3RkazdKRFV2SmNWSnRJSGZZZ21kMFFOQ1lWNWFobTVW?=
- =?utf-8?B?cG9PSDFaNDlta3JBVVc4Vi9MKzgrNE5GQUFPTVFIa2ViNUh4T21mY1NzcEVt?=
- =?utf-8?B?MHA2bm42bFVER0F6dTRuOUNwWkhHQ3NNYm1JaUtqRWpVVmh5OTREWVowaFdU?=
- =?utf-8?B?RDIxdE1iem0yU2FEM1p3Y04wYmZPbVZyNUYzVWZEVUJnaWVWTzRsS1d1ZThI?=
- =?utf-8?B?S0JkYU4wd3ZGNkM5UDNSbE5WdVRFUFlTdmZ1UnBXWXAybktZV1p0VDR0a0hF?=
- =?utf-8?B?Z2Nqd0lGUjF5eml1OVRhbkhkVVdIY0c4b3FNUmIvcER0Q1g2Wmd6Ym5LYit6?=
- =?utf-8?B?YkVBNGJKZmtmckphYjdyL204cHBTcFFUaEN1cFh3bGQ4cE51SGZXTThOVTVQ?=
- =?utf-8?B?TXRaMzhzaFFOTlhmVnQ3YjR1V2hzalYxcjhPK3J0Tk5GeFAxVEQ2THdzVDY4?=
- =?utf-8?B?R3ZpcG8yeWVYOGRUMHlGMHlNNU5jR2xjYVVENDhBU3Myamh0bTVKQmJlVk9F?=
- =?utf-8?B?UmVzTURkRkMxZzRpV2NJbndZVUhpbjRlRDRaVm1uakRFK1ozdmExSjR0Rm8z?=
- =?utf-8?B?aG52VUlkWHNPTGpwY29KaFJaTi9sU2sxRWlJTFhSdVFLMnRMSlFHZWp0T2lp?=
- =?utf-8?B?cWhNNjBYNjlzd1Y4anNlUGdrYnZIT1MvT2YxbXBSU1FCV0g4T1hibVZ6VHpB?=
- =?utf-8?B?QkdPVEJqZEJHRHFSL2ptVUlQOWFzUk9vWFZnL0cwNG5DVU9jMkY3RTBxY214?=
- =?utf-8?B?WkRyWHR2ZHVZUzNUM20yL29IeHptTVdQckJ0VTFaSnJuNjhwSjBBRCtEdTRF?=
- =?utf-8?B?SFNwZVpaa1o1b1N3RlVTNk9lNHphZXp6NTdRWFM2M0xxRHpyeC9KRmt0a1JE?=
- =?utf-8?B?aFhmUklHQS95UzVqU09aQWxsUGl3ekxzSHRZZ3hxY0lyUyt5VUFqZnJXQWlw?=
- =?utf-8?B?eUs1dDZUMWFmdTRQOVJhNC96ZGhpeXJoZUlFUjFrQVFGOGdSTjVscUgvdGI5?=
- =?utf-8?B?d1ErNGdLbjZrYmwvaFFEL2srQzEva3FkWGVSTzFqNWhMNmIzS212Q0VzQmZj?=
- =?utf-8?B?Zy80V1ZLRXFMWkg2NEtoRklyZ0hSTjJLejlYdGV2MVlaV1JOWThXbm5jU2lH?=
- =?utf-8?B?ajFhemNQK3FMMWc3SG5MMDZkdm04S29qVWdJRjgzSHhDNkdKTmsva1V2REhr?=
- =?utf-8?B?dDNIa0FFVEhMWjYyNnEwSlV1Q2RzQUdyRDBpQzM5S0JBbHVwN0JHUGgxRVBT?=
- =?utf-8?B?NXBkNm1RcUpuVjMzMityZ3FxVHVuTkcrRXhBMVVKK0sxeXNzN05xTUVnOVFa?=
- =?utf-8?B?MUdBdWtBWlR4UStFVC9PYlJrbGgvMHBPOHY1cklCbDRJQzA4NjB3SVg5a1Fq?=
- =?utf-8?B?aWovb2s3dzhjV3Z1ZFlBMlRkZmFKb0czQ240bjlYaVZVR3oxeVBSSEFvRkpI?=
- =?utf-8?B?a3lNU3IwUkRVVjIzUFNjQUtwdVRjWHNnYS9RU1FncVp6OHlFME40VWJ6QUhh?=
- =?utf-8?B?L21WV2hveEpjTUN2OEhZclpaSjljdk42Q2d3aWVLZUV3UEljY05TSjRrY0tL?=
- =?utf-8?B?TThtTzRNK1B6UUpvRFc5SlN1emZmTFE3U0x6TW9MYmU3UmVvMG8xYVljS0V6?=
- =?utf-8?B?ZUVZUFRhZDRGbUNSNE10WjdKbmRWZUt5a2JSUnJOMU1NVnF4RXh2dUdkRFVr?=
- =?utf-8?B?R0lleUhxTEdieU9UZWFyY05vekdrZTBQUDdCeDExR0RVV1ZHNkRrRlE4ZUJo?=
- =?utf-8?B?QTZrdTZrYmd0bnhTSTVRK2hSNlFrelNKNkZaRjN6a1BoVHZOc1pFMlRyYnVz?=
- =?utf-8?B?NEN4U29VWG1PMVhRek5LY3VLejdmOTdCUEd4NFpHblJCdkdSRktMcEQ5MDMz?=
- =?utf-8?B?T1VYK0FyUkNmOFR0ZWdzTHAzaCtuV1VNa1g5L0hFWjZHSTlBc2toNjhrUG9O?=
- =?utf-8?B?REp5QitRdDVFSDJDcTJwdmJqclZRRG8ydzJMOE8vR2ZhOGRkN3phWDlVcTZS?=
- =?utf-8?B?MGtYWndVSFJGb0JRL29RaW1OMVdaYWRaMmRMTzZCT3NCSmhPdHhRL3R2ai93?=
- =?utf-8?B?NXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c90c6c9-6365-4974-db00-08db9d28e41f
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2593.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 00:45:15.7090
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cKvWF4jiEOOFsOJR+2u+9Cogoqmwh76/o0Wu266JAYlLE4TiLJoceTWPwSkG0YVxfbUSALAilYwNCLpZP8HniZ0WIesp3QZydISb5eMOmw8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5606
-X-OriginatorOrg: intel.com
+References: <1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com> <1691394685-61240-6-git-send-email-renyu.zj@linux.alibaba.com>
+In-Reply-To: <1691394685-61240-6-git-send-email-renyu.zj@linux.alibaba.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Mon, 14 Aug 2023 18:11:40 -0700
+Message-ID: <CAP-5=fXPhtPCGYotDi2P_LeFPBMd8N+z_WAPwUT8eR+QiLLTMg@mail.gmail.com>
+Subject: Re: [PATCH v6 5/7] perf test: Add pmu-event test for "Compat" and new event_field.
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 8/14/2023 11:59 AM, Jonathan Corbet wrote:
-> Pavan Kumar Linga <pavan.kumar.linga@intel.com> writes:
-> 
->> drivers/net/ethernet/intel/idpf/idpf.h uses offsetof to
->> initialize the enum enumerators:
->>
->> enum {
->> 	IDPF_BASE_CAPS = -1,
->> 	IDPF_CSUM_CAPS = offsetof(struct virtchnl2_get_capabilities,
->> 				  csum_caps),
->> 	IDPF_SEG_CAPS = offsetof(struct virtchnl2_get_capabilities,
->> 				 seg_caps),
->> 	IDPF_RSS_CAPS = offsetof(struct virtchnl2_get_capabilities,
->> 				 rss_caps),
->> 	IDPF_HSPLIT_CAPS = offsetof(struct virtchnl2_get_capabilities,
->> 				    hsplit_caps),
->> 	IDPF_RSC_CAPS = offsetof(struct virtchnl2_get_capabilities,
->> 				 rsc_caps),
->> 	IDPF_OTHER_CAPS = offsetof(struct virtchnl2_get_capabilities,
->> 				   other_caps),
->> };
->>
->> kernel-doc parses the above enumerator with a ',' inside the
->> macro and treats 'csum_caps', 'seg_caps' etc. also as enumerators
->> resulting in the warnings:
->>
->> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
->> 'csum_caps' not described in enum 'idpf_cap_field'
->> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
->> 'seg_caps' not described in enum 'idpf_cap_field'
->> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
->> 'rss_caps' not described in enum 'idpf_cap_field'
->> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
->> 'hsplit_caps' not described in enum 'idpf_cap_field'
->> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
->> 'rsc_caps' not described in enum 'idpf_cap_field'
->> drivers/net/ethernet/intel/idpf/idpf.h:130: warning: Enum value
->> 'other_caps' not described in enum 'idpf_cap_field'
->>
->> Fix it by removing the macro arguments within the parentheses.
->>
->> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
->> ---
->>   scripts/kernel-doc | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->> index cfb1cb223508..bc008f30f3c9 100755
->> --- a/scripts/kernel-doc
->> +++ b/scripts/kernel-doc
->> @@ -1353,6 +1353,7 @@ sub dump_enum($$) {
->>   	my %_members;
->>   
->>   	$members =~ s/\s+$//;
->> +	$members =~ s/\(.*?[\)]//g;
-> 
-> ".*" matches the empty string, so * think the "?" is unnecessary.
-> 
-
-As suggested, tried without "?" in the below updated regex and it 
-doesn't parse right. It substitutes everything from the 1st "(" to the 
-last ")" with empty string whereas using "?" substitutes each "( )" with 
-empty string.
-
-> I do worry that this regex could match more than expected, disappearing
-> everything up to a final parenthesis.  It doesn't cause any changes in
-> the current docs build, but still ... How do you feel about replacing
-> ".*" with "[^;]*" ?
+On Mon, Aug 7, 2023 at 12:51=E2=80=AFAM Jing Zhang <renyu.zj@linux.alibaba.=
+com> wrote:
 >
+> Add new event test for uncore system event which is used to verify the
+> functionality of "Compat" matching multiple identifiers and the new event
+> fields "EventIdCode" and "Type".
+>
+> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
 
-Thanks for the suggestion and that works for me. After the update, the 
-regex would look like:
+Did you test with NO_JEVENTS=3D1?
 
-"$members =~ s/\([^;]*?[\)]//g;"
+> ---
+>  .../pmu-events/arch/test/test_soc/sys/uncore.json  |  8 ++++
+>  tools/perf/tests/pmu-events.c                      | 55 ++++++++++++++++=
+++++++
+>  2 files changed, 63 insertions(+)
+>
+> diff --git a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json b/t=
+ools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+> index c7e7528..19ec595 100644
+> --- a/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+> +++ b/tools/perf/pmu-events/arch/test/test_soc/sys/uncore.json
+> @@ -12,5 +12,13 @@
+>             "EventName": "sys_ccn_pmu.read_cycles",
+>             "Unit": "sys_ccn_pmu",
+>             "Compat": "0x01"
+> +   },
+> +   {
+> +           "BriefDescription": "Counts total cache misses in first looku=
+p result (high priority).",
+> +           "Type": "0x05",
+> +           "EventIdCode": "0x01",
+> +           "EventName": "sys_cmn_pmu.hnf_cache_miss",
+> +           "Unit": "sys_cmn_pmu",
+> +           "Compat": "434*;436*;43c*;43a01"
 
-Will update this in the next revision.
+I suspect this needs adding here:
+https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tr=
+ee/tools/perf/pmu-events/empty-pmu-events.c?h=3Dperf-tools-next#n247
 
-> Thanks,
-> 
-> jon
+Thanks,
+Ian
 
-Regards,
-Pavan
+>     }
+>  ]
+> diff --git a/tools/perf/tests/pmu-events.c b/tools/perf/tests/pmu-events.=
+c
+> index 3204252..79fb3e2 100644
+> --- a/tools/perf/tests/pmu-events.c
+> +++ b/tools/perf/tests/pmu-events.c
+> @@ -255,9 +255,24 @@ struct perf_pmu_test_pmu {
+>         .matching_pmu =3D "uncore_sys_ccn_pmu4",
+>  };
+>
+> +static const struct perf_pmu_test_event sys_cmn_pmu_hnf_cache_miss =3D {
+> +       .event =3D {
+> +               .name =3D "sys_cmn_pmu.hnf_cache_miss",
+> +               .event =3D "type=3D0x05,eventid=3D0x01",
+> +               .desc =3D "Counts total cache misses in first lookup resu=
+lt (high priority). Unit: uncore_sys_cmn_pmu ",
+> +               .topic =3D "uncore",
+> +               .pmu =3D "uncore_sys_cmn_pmu",
+> +               .compat =3D "434*;436*;43c*;43a01",
+> +       },
+> +       .alias_str =3D "type=3D0x5,eventid=3D0x1",
+> +       .alias_long_desc =3D "Counts total cache misses in first lookup r=
+esult (high priority). Unit: uncore_sys_cmn_pmu ",
+> +       .matching_pmu =3D "uncore_sys_cmn_pmu0",
+> +};
+> +
+>  static const struct perf_pmu_test_event *sys_events[] =3D {
+>         &sys_ddr_pmu_write_cycles,
+>         &sys_ccn_pmu_read_cycles,
+> +       &sys_cmn_pmu_hnf_cache_miss,
+>         NULL
+>  };
+>
+> @@ -704,6 +719,46 @@ static int __test_uncore_pmu_event_aliases(struct pe=
+rf_pmu_test_pmu *test_pmu)
+>                         &sys_ccn_pmu_read_cycles,
+>                 },
+>         },
+> +       {
+> +               .pmu =3D {
+> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
+> +                       .is_uncore =3D 1,
+> +                       .id =3D (char *)"43401",
+> +               },
+> +               .aliases =3D {
+> +                       &sys_cmn_pmu_hnf_cache_miss,
+> +               },
+> +       },
+> +       {
+> +               .pmu =3D {
+> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
+> +                       .is_uncore =3D 1,
+> +                       .id =3D (char *)"43602",
+> +               },
+> +               .aliases =3D {
+> +                       &sys_cmn_pmu_hnf_cache_miss,
+> +               },
+> +       },
+> +       {
+> +               .pmu =3D {
+> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
+> +                       .is_uncore =3D 1,
+> +                       .id =3D (char *)"43c03",
+> +               },
+> +               .aliases =3D {
+> +                       &sys_cmn_pmu_hnf_cache_miss,
+> +               },
+> +       },
+> +       {
+> +               .pmu =3D {
+> +                       .name =3D (char *)"uncore_sys_cmn_pmu0",
+> +                       .is_uncore =3D 1,
+> +                       .id =3D (char *)"43a01",
+> +               },
+> +               .aliases =3D {
+> +                       &sys_cmn_pmu_hnf_cache_miss,
+> +               },
+> +       }
+>  };
+>
+>  /* Test that aliases generated are as expected */
+> --
+> 1.8.3.1
+>
