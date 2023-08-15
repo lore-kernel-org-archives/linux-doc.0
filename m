@@ -2,529 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99318C001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 14:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E4E7C0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 14:11:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237476AbjHOOCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 10:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56066 "EHLO
+        id S237524AbjHOOL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 10:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237571AbjHOOCi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 10:02:38 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 019871FC6;
-        Tue, 15 Aug 2023 07:02:05 -0700 (PDT)
-Received: from xpredator (unknown [IPv6:2a02:2f08:470d:cf00:7656:3cff:fe3f:7ce9])
+        with ESMTP id S237555AbjHOOLF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 10:11:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE05199B;
+        Tue, 15 Aug 2023 07:11:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        (Authenticated sender: mvlad)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 88C1F66071F0;
-        Tue, 15 Aug 2023 15:01:58 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1692108119;
-        bh=WmoWxyrjOh1kRTgRWY//MX772lQdQiNQTzfkQL8io3s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W8uGCd1gSBz6skMxS/qUiw9GNgsPHkUG33Ad/owjouxAoeZqNv4uWL+N/eyrDuNnq
-         sWLiUXD6er3Rz/mKxYr1izfIcOmF8ZZOBepf2LDWqt4NrQekJUL69ZAgt3jsYoCYku
-         qMQgk9QTHuUzIOAT/2V+RBScBgdCAhjdf+2thVV1OyFh/gDdOlfAqpShABHoHr/o6R
-         CKiLulEbKI5FnePWVpYfbDNbJjAbExFIeKVaB1ViUwgNK4k/p1PkD7+hFM9WRxqwEg
-         /0yx9IQtHsPooFb9ouU5bNBT68P/Ejpe3xWHUhsSjLFSZ5uP4zHUo2AmBSzUVA5GQm
-         qnkJil2R2QNjw==
-Date:   Tue, 15 Aug 2023 17:01:55 +0300
-From:   Marius Vlad <marius.vlad@collabora.com>
-To:     Jim Shargo <jshargo@chromium.org>
-Cc:     mairacanal@riseup.net, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] drm/vkms: Support enabling ConfigFS devices
-Message-ID: <ZNuFU3VbiKhZTIWk@xpredator>
-References: <20230623222353.97283-1-jshargo@chromium.org>
- <20230623222353.97283-6-jshargo@chromium.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9AEBF62C9C;
+        Tue, 15 Aug 2023 14:11:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB76C433C9;
+        Tue, 15 Aug 2023 14:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692108663;
+        bh=IhgKIaCPd+mwevpEPUSDQZbSsOZK+yrdE/Fu9JPnvXw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pK3EUfmzxr5H5AGVajSpO3bVBNMnf8/nnT7gE+x2ZsXaUoSmN8vzLXKBn5KlrfO8a
+         F+ZQ+tJrtUks5d6DqsU0iyIXFofegNIaHes6Iiclv0PHwxqzbMwovfckO+cf6Y+VsX
+         1X9ntDMWuj2W7GfuFQae4Fe91iirYZ3n6vdL6/rWk2nKdclnEE+f/8nYtuwx671CRs
+         fDROWl07GrtNHlwJTt5R4MXHxsb1gw52b+3QGGPXKhNqD/SJt2O7Ldh6IHAv2lNOrP
+         mcRcUgNs20v1+pkcq5zdgBbKbJBjZZCg3wSC19vZjtIjedS/919vE326w9/k5zUgc5
+         0Qq4tYrkkGxWQ==
+From:   Will Deacon <will@kernel.org>
+To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        robin.murphy@arm.com, linux-acpi@vger.kernel.org,
+        lpieralisi@kernel.org, guohanjun@huawei.com, mark.rutland@arm.com,
+        rafael@kernel.org, corbet@lwn.net,
+        Yicong Yang <yangyicong@huawei.com>, catalin.marinas@arm.com
+Cc:     kernel-team@android.com, Will Deacon <will@kernel.org>,
+        yangyicong@hisilicon.com, jonathan.cameron@huawei.com,
+        zhurui3@huawei.com, hejunhao3@huawei.com,
+        linux-kernel@vger.kernel.org, prime.zeng@hisilicon.com,
+        shameerali.kolothum.thodi@huawei.com, linuxarm@huawei.com
+Subject: Re: [PATCH v2] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
+Date:   Tue, 15 Aug 2023 15:10:50 +0100
+Message-Id: <169210025390.538323.7942274665229323750.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20230814124012.58013-1-yangyicong@huawei.com>
+References: <20230814124012.58013-1-yangyicong@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7mVKmyV3VPXXjhnm"
-Content-Disposition: inline
-In-Reply-To: <20230623222353.97283-6-jshargo@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 14 Aug 2023 20:40:12 +0800, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> Some HiSilicon SMMU PMCG suffers the erratum 162001900 that the PMU
+> disable control sometimes fail to disable the counters. This will lead
+> to error or inaccurate data since before we enable the counters the
+> counter's still counting for the event used in last perf session.
+> 
+> [...]
 
---7mVKmyV3VPXXjhnm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to will (for-next/perf), thanks!
 
-Hi,
+[1/1] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
+      https://git.kernel.org/will/c/0242737dc4eb
 
-See below some minor comments:
+Cheers,
+-- 
+Will
 
-On Fri, Jun 23, 2023 at 06:23:47PM -0400, Jim Shargo wrote:
-> VKMS now supports creating and using virtual devices!
->=20
-> In addition to the enabling logic, this commit also prevents users from
-> adding new objects once a card is registered.
->=20
-> Signed-off-by: Jim Shargo <jshargo@chromium.org>
-> ---
->  drivers/gpu/drm/vkms/vkms_configfs.c |  37 +++--
->  drivers/gpu/drm/vkms/vkms_crtc.c     |   4 +-
->  drivers/gpu/drm/vkms/vkms_drv.c      |   3 +-
->  drivers/gpu/drm/vkms/vkms_drv.h      |   2 +-
->  drivers/gpu/drm/vkms/vkms_output.c   | 201 +++++++++++++++++++++++----
->  5 files changed, 202 insertions(+), 45 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/=
-vkms_configfs.c
-> index 544024735d19..f5eed6d23dcd 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -504,29 +504,40 @@ static ssize_t device_enabled_store(struct config_i=
-tem *item, const char *buf,
->  {
->  	struct vkms_configfs *configfs =3D item_to_configfs(item);
->  	struct vkms_device *device;
-> -	int value, ret;
-> +	int enabled, ret;
-> =20
-> -	ret =3D kstrtoint(buf, 0, &value);
-> +	ret =3D kstrtoint(buf, 0, &enabled);
->  	if (ret)
->  		return ret;
-> =20
-> -	if (value !=3D 1)
-> -		return -EINVAL;
-> -
-> -	mutex_lock(&configfs->lock);
-> -
-> -	if (configfs->vkms_device) {
-> +	if (enabled =3D=3D 0) {
-> +		mutex_lock(&configfs->lock);
-> +		if (configfs->vkms_device) {
-> +			vkms_remove_device(configfs->vkms_device);
-> +			configfs->vkms_device =3D NULL;
-> +		}
->  		mutex_unlock(&configfs->lock);
-> +
->  		return len;
->  	}
-> =20
-> -	device =3D vkms_add_device(configfs);
-> -	mutex_unlock(&configfs->lock);
-> +	if (enabled =3D=3D 1) {
-> +		mutex_lock(&configfs->lock);
-> +		if (!configfs->vkms_device) {
-> +			device =3D vkms_add_device(configfs);
-> +			if (IS_ERR(device)) {
-> +				mutex_unlock(&configfs->lock);
-> +				return -PTR_ERR(device);
-> +			}
-> +
-> +			configfs->vkms_device =3D device;
-> +		}
-> +		mutex_unlock(&configfs->lock);
-> =20
-> -	if (IS_ERR(device))
-> -		return -PTR_ERR(device);
-> +		return len;
-> +	}
-> =20
-> -	return len;
-> +	return -EINVAL;
->  }
-> =20
->  CONFIGFS_ATTR(device_, enabled);
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
-_crtc.c
-> index d91e49c53adc..5ebb5264f6ef 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -278,7 +278,7 @@ static const struct drm_crtc_helper_funcs vkms_crtc_h=
-elper_funcs =3D {
-> =20
->  struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
->  				 struct drm_plane *primary,
-> -				 struct drm_plane *cursor)
-> +				 struct drm_plane *cursor, const char *name)
->  {
->  	struct drm_device *dev =3D &vkmsdev->drm;
->  	struct vkms_crtc *vkms_crtc;
-> @@ -290,7 +290,7 @@ struct vkms_crtc *vkms_crtc_init(struct vkms_device *=
-vkmsdev,
->  	vkms_crtc =3D &vkmsdev->output.crtcs[vkmsdev->output.num_crtcs++];
-> =20
->  	ret =3D drmm_crtc_init_with_planes(dev, &vkms_crtc->base, primary, curs=
-or,
-> -					 &vkms_crtc_funcs, NULL);
-> +					 &vkms_crtc_funcs, name);
->  	if (ret) {
->  		DRM_ERROR("Failed to init CRTC\n");
->  		goto out_error;
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index 1b5b7143792f..314a04659c5f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -210,7 +210,7 @@ static int vkms_platform_probe(struct platform_device=
- *pdev)
->  	ret =3D drm_dev_register(&vkms_device->drm, 0);
->  	if (ret) {
->  		DRM_ERROR("Unable to register device with id %d\n", pdev->id);
-> -		return ret;
-> +		goto out_release_group;
->  	}
-> =20
->  	drm_fbdev_generic_setup(&vkms_device->drm, 0);
-> @@ -256,6 +256,7 @@ struct vkms_device *vkms_add_device(struct vkms_confi=
-gfs *configfs)
->  			dev, &vkms_platform_driver.driver))) {
->  		pdev =3D to_platform_device(dev);
->  		max_id =3D max(max_id, pdev->id);
-> +		put_device(dev);
->  	}
-> =20
->  	pdev =3D platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 3634eeeb4548..3d592d085f49 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -239,7 +239,7 @@ void vkms_remove_device(struct vkms_device *vkms_devi=
-ce);
->  /* CRTC */
->  struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
->  				 struct drm_plane *primary,
-> -				 struct drm_plane *cursor);
-> +				 struct drm_plane *cursor, const char *name);
-> =20
->  int vkms_output_init(struct vkms_device *vkmsdev);
->  int vkms_output_init_default(struct vkms_device *vkmsdev);
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vk=
-ms_output.c
-> index c9e6c653de19..806ff01954ad 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -2,8 +2,10 @@
-> =20
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_connector.h>
-> +#include <drm/drm_crtc.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_encoder.h>
-> +#include <drm/drm_plane.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
-> =20
-> @@ -82,7 +84,6 @@ static struct drm_encoder *vkms_encoder_init(struct vkm=
-s_device *vkms_device)
-> =20
->  int vkms_output_init_default(struct vkms_device *vkmsdev)
->  {
-> -	struct vkms_output *output =3D &vkmsdev->output;
->  	struct drm_device *dev =3D &vkmsdev->drm;
->  	struct drm_connector *connector;
->  	struct drm_encoder *encoder;
-> @@ -101,8 +102,7 @@ int vkms_output_init_default(struct vkms_device *vkms=
-dev)
->  			struct vkms_plane *overlay =3D vkms_plane_init(
->  				vkmsdev, DRM_PLANE_TYPE_OVERLAY);
->  			if (IS_ERR(overlay)) {
-> -				ret =3D PTR_ERR(overlay);
-> -				goto err_planes;
-> +				return PTR_ERR(overlay);
->  			}
->  		}
->  	}
-> @@ -110,17 +110,16 @@ int vkms_output_init_default(struct vkms_device *vk=
-msdev)
->  	if (vkmsdev->config.cursor) {
->  		cursor =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
->  		if (IS_ERR(cursor)) {
-> -			ret =3D PTR_ERR(cursor);
-> -			goto err_planes;
-> +			return PTR_ERR(cursor);
->  		}
->  	}
-> =20
->  	vkms_crtc =3D vkms_crtc_init(vkmsdev, &primary->base,
-> -				   cursor ? &cursor->base : NULL);
-> +				   cursor ? &cursor->base : NULL,
-> +				   "crtc-default");
->  	if (IS_ERR(vkms_crtc)) {
->  		DRM_ERROR("Failed to init crtc\n");
-> -		ret =3D PTR_ERR(vkms_crtc);
-> -		goto err_planes;
-> +		return PTR_ERR(vkms_crtc);
->  	}
-> =20
->  	for (int i =3D 0; i < vkmsdev->output.num_planes; i++) {
-> @@ -131,22 +130,20 @@ int vkms_output_init_default(struct vkms_device *vk=
-msdev)
->  	connector =3D vkms_connector_init(vkmsdev);
->  	if (IS_ERR(connector)) {
->  		DRM_ERROR("Failed to init connector\n");
-> -		ret =3D PTR_ERR(connector);
-> -		goto err_connector;
-> +		return PTR_ERR(connector);
->  	}
-> =20
->  	encoder =3D vkms_encoder_init(vkmsdev);
->  	if (IS_ERR(encoder)) {
->  		DRM_ERROR("Failed to init encoder\n");
-> -		ret =3D PTR_ERR(encoder);
-> -		goto err_encoder;
-> +		return PTR_ERR(encoder);
->  	}
->  	encoder->possible_crtcs |=3D drm_crtc_mask(&vkms_crtc->base);
-> =20
->  	ret =3D drm_connector_attach_encoder(connector, encoder);
->  	if (ret) {
->  		DRM_ERROR("Failed to attach connector to encoder\n");
-> -		goto err_attach;
-> +		return ret;
->  	}
-> =20
->  	if (vkmsdev->config.writeback) {
-> @@ -158,27 +155,175 @@ int vkms_output_init_default(struct vkms_device *v=
-kmsdev)
->  	drm_mode_config_reset(dev);
-> =20
->  	return 0;
-> +}
-> =20
-> -err_attach:
-> -	drm_encoder_cleanup(encoder);
-> +static bool is_object_linked(struct vkms_config_links *links, unsigned l=
-ong idx)
-> +{
-> +	return links->linked_object_bitmap & (1 << idx);
-> +}
-> =20
-> -err_encoder:
-> -	drm_connector_cleanup(connector);
-> +int vkms_output_init(struct vkms_device *vkmsdev)
-> +{
-> +	struct drm_device *dev =3D &vkmsdev->drm;
-> +	struct vkms_configfs *configfs =3D vkmsdev->configfs;
-> +	struct vkms_output *output =3D &vkmsdev->output;
-> +	struct plane_map {
-> +		struct vkms_config_plane *config_plane;
-> +		struct vkms_plane *plane;
-> +	} plane_map[VKMS_MAX_PLANES] =3D { 0 };
-> +	struct encoder_map {
-> +		struct vkms_config_encoder *config_encoder;
-> +		struct drm_encoder *encoder;
-> +	} encoder_map[VKMS_MAX_OUTPUT_OBJECTS] =3D { 0 };
-> +	struct config_item *item;
-> +	int map_idx =3D 0;
-> +
-> +	list_for_each_entry(item, &configfs->planes_group.cg_children,
-> +			    ci_entry) {
-> +		struct vkms_config_plane *config_plane =3D
-> +			item_to_config_plane(item);
-> +		struct vkms_plane *plane =3D
-> +			vkms_plane_init(vkmsdev, config_plane->type);
-> +
-> +		if (IS_ERR(plane)) {
-> +			DRM_ERROR("Unable to init plane from config: %s",
-> +				  item->ci_name);
-> +			return PTR_ERR(plane);
-> +		}
-> =20
-> -err_connector:
-> -	drm_crtc_cleanup(&vkms_crtc->base);
-> +		plane_map[map_idx].config_plane =3D config_plane;
-> +		plane_map[map_idx].plane =3D plane;
-> +		map_idx +=3D 1;
-> +	}
-> =20
-> -err_planes:
-> -	for (int i =3D 0; i < output->num_planes; i++) {
-> -		drm_plane_cleanup(&output->planes[i].base);
-> +	map_idx =3D 0;
-> +	list_for_each_entry(item, &configfs->encoders_group.cg_children,
-> +			    ci_entry) {
-> +		struct vkms_config_encoder *config_encoder =3D
-> +			item_to_config_encoder(item);
-> +		struct drm_encoder *encoder =3D vkms_encoder_init(vkmsdev);
-> +
-> +		if (IS_ERR(encoder)) {
-> +			DRM_ERROR("Failed to init config encoder: %s",
-> +				  item->ci_name);
-> +			return PTR_ERR(encoder);
-> +		}
-> +		encoder_map[map_idx].config_encoder =3D config_encoder;
-A two connector configuration without an encoder would have the
-potential of blowing up if we don't create a second_encoder.
-> +		encoder_map[map_idx].encoder =3D encoder;
-> +		map_idx +=3D 1;
->  	}
-> =20
-> -	memset(output, 0, sizeof(*output));
-> +	list_for_each_entry(item, &configfs->connectors_group.cg_children,
-> +			    ci_entry) {
-> +		struct vkms_config_connector *config_connector =3D
-> +			item_to_config_connector(item);
-> +		struct drm_connector *connector =3D vkms_connector_init(vkmsdev);
-> =20
-> -	return ret;
-> -}
-> +		if (IS_ERR(connector)) {
-> +			DRM_ERROR("Failed to init connector from config: %s",
-> +				  item->ci_name);
-> +			return PTR_ERR(connector);
-> +		}
-> =20
-> -int vkms_output_init(struct vkms_device *vkmsdev)
-> -{
-> -	return -ENOTSUPP;
-> +		for (int j =3D 0; j < output->num_connectors; j++) {
-> +			struct encoder_map *encoder =3D &encoder_map[j];
-> +
-> +			if (is_object_linked(
-> +				    &config_connector->possible_encoders,
-> +				    encoder->config_encoder
-> +					    ->encoder_config_idx)) {
-Here encoder->config_encoder for two connectors but a single encoder
-will give back a empty encoder.
-> +				drm_connector_attach_encoder(connector,
-> +							     encoder->encoder);
-> +			}
-> +		}
-> +	}
-> +
-> +	list_for_each_entry(item, &configfs->crtcs_group.cg_children,
-> +			    ci_entry) {
-> +		struct vkms_config_crtc *config_crtc =3D
-> +			item_to_config_crtc(item);
-> +		struct vkms_crtc *vkms_crtc;
-> +		struct drm_plane *primary =3D NULL, *cursor =3D NULL;
-> +
-> +		for (int j =3D 0; j < output->num_planes; j++) {
-> +			struct plane_map *plane_entry =3D &plane_map[j];
-> +			struct drm_plane *plane =3D &plane_entry->plane->base;
-> +
-> +			if (!is_object_linked(
-> +				    &plane_entry->config_plane->possible_crtcs,
-> +				    config_crtc->crtc_config_idx)) {
-> +				continue;
-> +			}
-> +
-> +			if (plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY) {
-> +				if (primary) {
-> +					DRM_WARN(
-> +						"Too many primary planes found for crtc %s.",
-> +						item->ci_name);
-> +					return EINVAL;
-> +				}
-> +				primary =3D plane;
-> +			} else if (plane->type =3D=3D DRM_PLANE_TYPE_CURSOR) {
-> +				if (cursor) {
-> +					DRM_WARN(
-> +						"Too many cursor planes found for crtc %s.",
-> +						item->ci_name);
-> +					return EINVAL;
-> +				}
-> +				cursor =3D plane;
-> +			}
-> +		}
-> +
-> +		if (!primary) {
-> +			DRM_WARN("No primary plane configured for crtc %s",
-> +				 item->ci_name);
-> +			return EINVAL;
-> +		}
-> +
-> +		vkms_crtc =3D
-> +			vkms_crtc_init(vkmsdev, primary, cursor, item->ci_name);
-> +		if (IS_ERR(vkms_crtc)) {
-> +			DRM_WARN("Unable to init crtc from config: %s",
-> +				 item->ci_name);
-> +			return PTR_ERR(vkms_crtc);
-> +		}
-> +
-> +		for (int j =3D 0; j < output->num_planes; j++) {
-> +			struct plane_map *plane_entry =3D &plane_map[j];
-> +
-> +			if (!plane_entry->plane)
-> +				break;
-> +
-> +			if (is_object_linked(
-> +				    &plane_entry->config_plane->possible_crtcs,
-> +				    config_crtc->crtc_config_idx)) {
-> +				plane_entry->plane->base.possible_crtcs |=3D
-> +					drm_crtc_mask(&vkms_crtc->base);
-> +			}
-> +		}
-> +
-> +		for (int j =3D 0; j < output->num_encoders; j++) {
-> +			struct encoder_map *encoder_entry =3D &encoder_map[j];
-> +
-> +			if (is_object_linked(&encoder_entry->config_encoder
-> +						      ->possible_crtcs,
-> +					     config_crtc->crtc_config_idx)) {
-> +				encoder_entry->encoder->possible_crtcs |=3D
-> +					drm_crtc_mask(&vkms_crtc->base);
-> +			}
-> +		}
-> +
-> +		if (vkmsdev->config.writeback) {
-> +			int ret =3D vkms_enable_writeback_connector(vkmsdev,
-> +								  vkms_crtc);
-> +			if (ret)
-> +				DRM_WARN(
-> +					"Failed to init writeback connector for config crtc: %s. Error code=
- %d",
-> +					item->ci_name, ret);
-> +		}
-> +	}
-I think we might be needing here a test for missing symlinks - invalid
-configurations, like unused crtcs, encoders, connectors. I
-suppose anything that's not matched with is_object_linked(),
-such we avoid invalid configuration found by drm_mode_config_validate()=20
-and inform users about missing them.
-
-An example here would be to create a second encoder, connector, crtc and
-not symlink them to their possible_encoders,possible_crtcs mask. An
-i-g-t test for this very thing would be needed to stress different kind
-of combinations.
-
-> +
-> +	drm_mode_config_reset(dev);
-> +
-> +	return 0;
->  }
-> --=20
-> 2.41.0.162.gfafddb0af9-goog
->=20
-
---7mVKmyV3VPXXjhnm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmTbhVAACgkQ9jQS5glH
-1u9JeBAAg7X7ZPxpaFSyYbJXx6IH2TE0FVKh7r66TIKEFaCMhezqty1sDmntyyPr
-HcTpLQuyApNhKPmOYFIqR0Ii+oXuUw0g2vsOfex5KJV4dwrA2alopeH5WnBWaxEa
-mhxGu4O96oWOC/j2vL301hfpXIUd5iggqZwgGwT5/qCZSCbTlBu98ld2ZmG8km5f
-PzWfq7LJjDfZQCGm2aylOvmblPkvoSFsGk8QKiySaK+AyI5BMr6JVuZ/f1ozAYgs
-rjNIIi8gcBS9uPH/4xpqw14aHrkAQ3DDx0kTv8qqh6IhPyrtghPedVMH3TdCnwFF
-xy64GpUBj3gPdtyTrKBscw7vterRNrDawyu5LpV9Y/ScBinpBChNHGr2/fIvoACA
-dmZSYrzp7YfvTpaadF50Z44peGPDhEfP/4sMrJzBdj8u7Ochkz3J1EqF8OxtRJnj
-AKM2Q/LfzWHrzEybH6bFjzoOJ2DmUpPtflVpXYItsR3tQujzfm6M1gv89mQcBrQ1
-873OGn9GoVdNc9WIfle+WsqrSp3R2ESgFHIhzVyeoqqCePMdCiFB20kCFcjRt4ZX
-zYSX+TP12VqAucFPusccBu0Tz5p1V8GPCcyszPLfXZlDuJhDdIIxlyeEBxWJKyF5
-NatoH6vbrhs0hjo19KMOy3tVUtxoyRXcvYr70kTSwSrJhoQ+tAA=
-=ZxkW
------END PGP SIGNATURE-----
-
---7mVKmyV3VPXXjhnm--
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
