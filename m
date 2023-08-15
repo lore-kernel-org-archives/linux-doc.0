@@ -2,181 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 066E6C04E69
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 18:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC593C001B0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 18:36:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239078AbjHOS2w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 14:28:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58938 "EHLO
+        id S233367AbjHOSfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 14:35:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239103AbjHOS2W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 14:28:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E1C1BC1;
-        Tue, 15 Aug 2023 11:28:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D435E636E1;
-        Tue, 15 Aug 2023 18:28:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13927C433C8;
-        Tue, 15 Aug 2023 18:28:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692124088;
-        bh=K+26otvjFP17cj7wEWOr2nFfsRJWCmK3+NoKvksgHS0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RkdpQIw4DeWACFcizOeb+JqOBZSS+g1ZMqs3iIXgoXSa2nCvbbeW8sXmAg+TFraqQ
-         6Qw3rv5ntIRC2COrrk4eFL09IzgWeHrNqW8Xn1GsQfl4x0wLiSpsiuQx6/wqPA7Y4d
-         qG9qI54XfEmGTUk0YnVp7YQJ07bd++V/yHtpSFkCeBh9eHafjULLXBnI9FilEdvPiw
-         JjtqGE7Y8MFIrpG3UCeOlNxQWhWslwMWyDd7wLqAm6GWWZ/QSVSAbwxB0efsTbvpQu
-         UGaYpwSw2JakyBp7brO2aGob4ivUmK6r2HWMBIXxIAc7MqW2LwRJeKN98jnengdH5A
-         HVZXW6d+LKiZA==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id AFE01404DF; Tue, 15 Aug 2023 15:28:05 -0300 (-03)
-Date:   Tue, 15 Aug 2023 15:28:05 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Ian Rogers <irogers@google.com>
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        =?iso-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH v6 09/10] tools: lib: perf: Implement riscv mmap support
-Message-ID: <ZNvDtR/zmlDngjBH@kernel.org>
-References: <20230802080328.1213905-1-alexghiti@rivosinc.com>
- <20230802080328.1213905-10-alexghiti@rivosinc.com>
- <CAP-5=fWZ8GDBn3fUUzjwknLq4KZV4tepX03oDn092zzboC8Dgw@mail.gmail.com>
+        with ESMTP id S239156AbjHOSfw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 14:35:52 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3433210C8;
+        Tue, 15 Aug 2023 11:35:52 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-d67869054bfso3874462276.3;
+        Tue, 15 Aug 2023 11:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692124551; x=1692729351;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xh1O+1gVXI3T9iBOxDxQAR2i9UnYz4TT5ra9BvCc1mg=;
+        b=qBmK+aS9ICUojWI119cCyWMNuBSPLRe9lXMq3kfOSGu0GfNjihtVpU82yej5bLvwWl
+         glD1OHovQ3tLICx3voxK+rgHFbligdZ0LXnaVs6atEYUer4t3D4t1mqAJDZJT4h0nq+z
+         IoDpAMHXuuS5E5qZ/N5aOBKXC99YvQZO2EK4n8GxsXTzQ8dHUQSNuCJv1UDU0paKW4Mv
+         375JNjdGdqqlzzj73WMbfN2fmNqaigiiu1QviLrJJwxRgaUWhm13d1uuIeiLKw2xtE8a
+         ozTuAFPRNZi1C6w1gXzSh5chVfwR3I9w4M4Th2SZ97Z3Kx5s5nnDhH+LHMySH9utYpUS
+         3dBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692124551; x=1692729351;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xh1O+1gVXI3T9iBOxDxQAR2i9UnYz4TT5ra9BvCc1mg=;
+        b=Ky76bnG4QQATpaneVq+2Fc79IfmIckosv3QpP5LAMQ25LGJxkK0tdGPkq3u2qCcp0I
+         Gwhspwzea5+/Z9PKmbhZIoyV6W+p1JzB4ZBCGzVMAeWfDW7gvcb7vTpSZlhAsNoDbbkz
+         rmcoQ6gzLoyMhCNs4bqHoe8qj5hssLzPyP3CbCCJc16x+Caf1ZyZM11DFOlAve7rlKpf
+         XT25e0o8DgYQT/0IFddu4II4khDd27UgGuD6jJ89c1SwgBs7otAWe6WCmmbCkQsf1kmR
+         tjsqNxnevKEmv73UXNdB09muTYSheMhEqiO+oLlLh9TabWIs7xxOa2uuJvNL5OgNiW2w
+         dqkg==
+X-Gm-Message-State: AOJu0YyVkoLsvSYpjEA9uX5XodF/KbCkZ+pHmUdY0E8QazdJo2sPcduT
+        tO07rM3ak32ZXzXfnGhglTPZsCcGuXcwDwF3mEc=
+X-Google-Smtp-Source: AGHT+IGv3yWIjf4c9EUYmkPPQkNN0PjLvswZ93d/AfVlQdfOFwnSFiNKxxAjbWqWSI1xxQ2LIb8fMPtqdQoYMtCCllY=
+X-Received: by 2002:a25:d603:0:b0:d42:42f8:93c2 with SMTP id
+ n3-20020a25d603000000b00d4242f893c2mr13382566ybg.16.1692124551429; Tue, 15
+ Aug 2023 11:35:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAP-5=fWZ8GDBn3fUUzjwknLq4KZV4tepX03oDn092zzboC8Dgw@mail.gmail.com>
-X-Url:  http://acmel.wordpress.com
+References: <85964510-4f88-58d2-2687-f7fa76013cf9@amd.com> <87v8dgtb9o.fsf@meer.lwn.net>
+In-Reply-To: <87v8dgtb9o.fsf@meer.lwn.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 15 Aug 2023 20:35:40 +0200
+Message-ID: <CANiq72=8DH8SZS2TZF+nHzCq3onXz-OuyE-xmYZncDmiKqVfzQ@mail.gmail.com>
+Subject: Re: [RFC] Proposal to relax warnings of htmldocs
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Avadhut Naik <Avadhut.Naik@amd.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, Aug 14, 2023 at 09:44:29AM -0700, Ian Rogers escreveu:
-> On Wed, Aug 2, 2023 at 1:13 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
-> >
-> > riscv now supports mmaping hardware counters so add what's needed to
-> > take advantage of that in libperf.
-> >
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
-> 
-> Reviewed-by: Ian Rogers <irogers@google.com>
+On Tue, Aug 15, 2023 at 8:23=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+> As an alternative, of course, we could consider turning off those
+> specific warnings entirely for normal builds.
 
-Thanks, applied.
+It could be nice to get to enforce warning-free builds as soon as possible.
 
-- Arnaldo
+Perhaps we could move those to a `W=3D1`-like group and clean them over
+time instead? Or do we have that already?
 
- 
-> Thanks,
-> Ian
-> 
-> > ---
-> >  tools/lib/perf/mmap.c | 66 +++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 66 insertions(+)
-> >
-> > diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
-> > index 0d1634cedf44..2184814b37dd 100644
-> > --- a/tools/lib/perf/mmap.c
-> > +++ b/tools/lib/perf/mmap.c
-> > @@ -392,6 +392,72 @@ static u64 read_perf_counter(unsigned int counter)
-> >
-> >  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
-> >
-> > +/* __riscv_xlen contains the witdh of the native base integer, here 64-bit */
-> > +#elif defined(__riscv) && __riscv_xlen == 64
-> > +
-> > +/* TODO: implement rv32 support */
-> > +
-> > +#define CSR_CYCLE      0xc00
-> > +#define CSR_TIME       0xc01
-> > +
-> > +#define csr_read(csr)                                          \
-> > +({                                                             \
-> > +       register unsigned long __v;                             \
-> > +               __asm__ __volatile__ ("csrr %0, %1"             \
-> > +                : "=r" (__v)                                   \
-> > +                : "i" (csr) : );                               \
-> > +                __v;                                           \
-> > +})
-> > +
-> > +static unsigned long csr_read_num(int csr_num)
-> > +{
-> > +#define switchcase_csr_read(__csr_num, __val)           {\
-> > +       case __csr_num:                                 \
-> > +               __val = csr_read(__csr_num);            \
-> > +               break; }
-> > +#define switchcase_csr_read_2(__csr_num, __val)         {\
-> > +       switchcase_csr_read(__csr_num + 0, __val)        \
-> > +       switchcase_csr_read(__csr_num + 1, __val)}
-> > +#define switchcase_csr_read_4(__csr_num, __val)         {\
-> > +       switchcase_csr_read_2(__csr_num + 0, __val)      \
-> > +       switchcase_csr_read_2(__csr_num + 2, __val)}
-> > +#define switchcase_csr_read_8(__csr_num, __val)         {\
-> > +       switchcase_csr_read_4(__csr_num + 0, __val)      \
-> > +       switchcase_csr_read_4(__csr_num + 4, __val)}
-> > +#define switchcase_csr_read_16(__csr_num, __val)        {\
-> > +       switchcase_csr_read_8(__csr_num + 0, __val)      \
-> > +       switchcase_csr_read_8(__csr_num + 8, __val)}
-> > +#define switchcase_csr_read_32(__csr_num, __val)        {\
-> > +       switchcase_csr_read_16(__csr_num + 0, __val)     \
-> > +       switchcase_csr_read_16(__csr_num + 16, __val)}
-> > +
-> > +       unsigned long ret = 0;
-> > +
-> > +       switch (csr_num) {
-> > +       switchcase_csr_read_32(CSR_CYCLE, ret)
-> > +       default:
-> > +               break;
-> > +       }
-> > +
-> > +       return ret;
-> > +#undef switchcase_csr_read_32
-> > +#undef switchcase_csr_read_16
-> > +#undef switchcase_csr_read_8
-> > +#undef switchcase_csr_read_4
-> > +#undef switchcase_csr_read_2
-> > +#undef switchcase_csr_read
-> > +}
-> > +
-> > +static u64 read_perf_counter(unsigned int counter)
-> > +{
-> > +       return csr_read_num(CSR_CYCLE + counter);
-> > +}
-> > +
-> > +static u64 read_timestamp(void)
-> > +{
-> > +       return csr_read_num(CSR_TIME);
-> > +}
-> > +
-> >  #else
-> >  static u64 read_perf_counter(unsigned int counter __maybe_unused) { return 0; }
-> >  static u64 read_timestamp(void) { return 0; }
-> > --
-> > 2.39.2
-> >
-
--- 
-
-- Arnaldo
+Cheers,
+Miguel
