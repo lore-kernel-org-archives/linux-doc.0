@@ -2,148 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60581C001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 08:24:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B1D0C001B0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Aug 2023 08:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235612AbjHOIYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 04:24:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43282 "EHLO
+        id S235761AbjHOIv7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 04:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235663AbjHOIYF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 04:24:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B04C19A0;
-        Tue, 15 Aug 2023 01:24:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9521E646C8;
-        Tue, 15 Aug 2023 08:23:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB635C433C8;
-        Tue, 15 Aug 2023 08:23:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692087838;
-        bh=KEp2FbOOXG08Ft9zPTOFA2Xdae/efXZsOWxYJhsLCBw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IBUHbe5sbcFaC3XMCwpnUV3kZFE3f2iRuUndRsvdig8Kugli3fG5OOxjfNWkVn3F9
-         jIzCAcRnJzWNUNTce/Gra2+OLCAEKGqx+fbrl/gLpR2Z+aDJiUzjfa31Wp9FIoHZ/6
-         STqQLnJic45oSQJOxvzhL6ljM4THwhhdYTXlqZ7aIiJBdEseloFfvw0SbA5tSAW6bw
-         SDAkbYvvEbW02BuCwGSvD5nC5tI8xtAdOw1qPldksYU13O3CYo+Owscen6resQbZTJ
-         iYNsX7x1s3W57Z95HoNnhg+BUvPCJOsUC7F2LLzBUKyTkac8UB8d5qgtcU0pOH2HXa
-         rB2GeBgWvPxUw==
-Date:   Tue, 15 Aug 2023 10:23:53 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Franklin =?utf-8?B?4oCcU25haXBl4oCd?= Mathieu <snaipe@arista.com>
-Cc:     Hugh Dickins <hughd@google.com>, ovt@google.com, corbet@lwn.net,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] shmem: add support for user extended attributes
-Message-ID: <20230815-sensibel-weltumsegelung-6593f2195293@brauner>
-References: <9b8d38f0-fd22-3f98-d070-16baf976ecb5@google.com>
- <20230814082339.2006418-1-snaipe@arista.com>
- <986c412c-669a-43fe-d72a-9e81bca8211@google.com>
- <CAK8sBDM5aid1vkCKhBxqUHXrG_FbDRN0noLtPkcPv=jXb7NTNg@mail.gmail.com>
+        with ESMTP id S235756AbjHOIvj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 04:51:39 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE7F107
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 01:51:36 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-76ad842d12fso350239085a.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 01:51:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692089495; x=1692694295;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z+coH+wpo6G1L3l1018KvkQFkkscoUmA9S4G4+U1liU=;
+        b=jILeAcT8F/ZjGUdCFDoqyCtIzNFR4fZCkJfWZolfBjmDI9bsSwBAoFtDuPApcyHwj9
+         uOfZlWquq423IT7P9r5L2h6e/NI2BkhCg6puek3BOqaFF1IQmDUCTnQvXpZMfpkZ99pv
+         X+FFE5S78IyXIE5RBSNAsuFh32j5KE0r2DfJ4kGqov5usQLMRPL5qBvcuI7GY2f8sqSf
+         u+bFd9TYSxITCA9p6WGIP0Uvgym9xMJHr05U4bBWLCbCWMZ6DILTxgd3bf4ZqAsxxTJe
+         zbf6QemG6K8EOJl6IfJ5Lz/IBMGE5M3OUs6xVMPPyIFhz1np7bPxZmW6IuNSsJvxE7nV
+         DQdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692089495; x=1692694295;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z+coH+wpo6G1L3l1018KvkQFkkscoUmA9S4G4+U1liU=;
+        b=i09mvbuHUNqcoCHeCPtzTZOs5C9x8wJSIaZPQvvvBIT2tzgArOMqMWzxsenYM6a47h
+         nPZnXeEoibTzgvPiosduXSiprTZg2uONjB/kX/mVOiSg28t9p+Xp7S0Md73WHXk4p6wk
+         o1xhX9TSAWUfFuSptTk2vncDMXDjoo4W3RbaPRH3sycvAXGIvCgylvg16ivqnDvHsGq4
+         y6WkvWYkN3Kg65dOwtmxwtHfimlrMSr4JxoXm/FQnuqNGhNsiK5iRfUpsCVmvjfJ50TL
+         BXh+WadVgjYycVQxNuMS7T9w1t6Gu6NJRPbcrl8MtAyWxUDZJ0O+VgDDWO6DnXlP5unO
+         fITg==
+X-Gm-Message-State: AOJu0YxBPn9RNJm6kZH6qmXAH5Lmc5E0AhhSq3Q/oU+TXIbT307An1D1
+        5fEC0HoO38SkVSquUq6J+3n5MOm6PfLTmAG9EjKWjg==
+X-Google-Smtp-Source: AGHT+IGJOuWTMZv1UV4dsXeO6kHmmRY773XBZqzKSZ9eHc4ibHw4V17klynujZBGolKHTNLjULDkWQaZap43tGUDG/I=
+X-Received: by 2002:a05:620a:2452:b0:767:3b7d:687c with SMTP id
+ h18-20020a05620a245200b007673b7d687cmr15500893qkn.15.1692089495607; Tue, 15
+ Aug 2023 01:51:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK8sBDM5aid1vkCKhBxqUHXrG_FbDRN0noLtPkcPv=jXb7NTNg@mail.gmail.com>
+References: <20230813182552.31792-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20230813182552.31792-1-fmdefrancesco@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 15 Aug 2023 10:51:24 +0200
+Message-ID: <CACRpkdbq8UCtvtRH7FZUEqvTxPQcoGbrKvf_mT5QHMAfVoYNNQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/page_tables: Add info about MMU/TLB and
+ Page Faults
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 09:46:22AM +0200, Franklin “Snaipe” Mathieu wrote:
-> On Tue, Aug 15, 2023 at 5:52 AM Hugh Dickins <hughd@google.com> wrote:
-> >
-> > Thanks for the encouragement.  At the time that I wrote that (20 July)
-> > I did not expect to get around to it for months.  But there happens to
-> > have been various VFS-involving works going on in mm/shmem.c recently,
-> > targeting v6.6: which caused me to rearrange priorities, and join the
-> > party with tmpfs user xattrs, see
-> >
-> > https://lore.kernel.org/linux-fsdevel/e92a4d33-f97-7c84-95ad-4fed8e84608c@google.com/
-> >
-> > Which Christian Brauner quickly put into his vfs.git (vfs.tmpfs branch):
-> > so unless something goes horribly wrong, you can expect them in v6.6.
-> 
-> That's great to hear, thanks!
-> 
-> > There's a lot that you wrote above which I have no understanding of
-> > whatsoever (why would user xattrs stop rmdir failing?? it's okay, don't
-> > try to educate me, I don't need to know, I'm just glad if they help you).
-> >
-> > Though your mention of "unprivileged" does make me shiver a little:
-> > Christian will understand the implications when I do not, but I wonder
-> > if my effort to limit the memory usage of user xattrs to "inode space"
-> > can be be undermined by unprivileged mounts with unlimited (or default,
-> > that's bad enough) nr_inodes.
-> >
-> > If so, that won't endanger the tmpfs user xattrs implementation, since
-> > the problem would already go beyond those: can an unprivileged mount of
-> > tmpfs allow its user to gobble up much more memory than is good for the
-> > rest of the system?
-> 
-> I don't actually know; I'm no expert in that area. That said, these
-> tmpfses are themselves attached to an unprivileged mount namespace, so
-> it would certainly be my assumption that in the case of an OOM
-> condition, the OOM killer would keep trying to kill processes in that
-> mount namespace until nothing else references it and all tmpfs mounts
-> can be reclaimed, but then again, that's only my assumption and not
-> necessarily reality.
-> 
-> That said, I got curious and decided to experiment; I booted a kernel
-> in a VM with 1GiB of memory and ran the following commands:
-> 
->     $ unshare -Umfr bash
->     # mount -t tmpfs tmp /mnt -o size=1g
->     # dd if=/dev/urandom of=/mnt/oversize bs=1M count=1000
-> 
-> After about a second, the OOM killer woke up and killed bash then dd,
-> causing the mount namespace to be collected (and with it the tmpfs).
-> So far, so good.
-> 
-> I got suspicious that what I was seeing was that these were the only
-> reasonable candidates for the OOM killer, because there were no other
-> processes in that VM besides them & init, so I modified slightly the
-> experiment:
-> 
->     $ dd if=/dev/zero of=/dev/null bs=10M count=10000000000 &
->     $ unshare -Umfr bash
->     # mount -t tmpfs tmp /mnt -o size=1g
->     # dd if=/dev/urandom of=/mnt/oversize bs=1M count=1000
-> 
-> The intent being that the first dd would have a larger footprint than
-> the second because of the large block size, yet it shouldn't be killed
-> if the tmpfs usage was accounted for in processes in the mount
-> namespace. What happened however is that both the outer dd and the
-> outer shell got terminated, causing init to exit and with it the VM.
-> 
-> So, it's likely that there's some more work to do in that area; I'd
-> certainly expect the OOM killer to take the overall memory footprint
-> of mount namespaces into account when selecting which processes to
-> kill. It's also possible my experiment was flawed and not
-> representative of a real-life scenario, as I clearly have interacted
-> with misbehaving containers before, which got killed when they wrote
-> too much to tmpfs. But then again, my experiment also didn't take
-> memory cgroups into account.
+Hi Fabio,
 
-So mount namespaces are orthogonal to that and they would be the wrong
-layer to handle this.
+overall this v2 looks good!
 
-Note that an unprivileged user (regular or via containers) on the system
-can just exhaust all memory in various ways. Ultimately the container or
-user would likely be taken down by in-kernel OOM or systemd-oomd or
-similar tools under memory pressure.
+The below are my grammar and spelling nitpicks.
 
-Of course, all that means is that untrusted workloads need to have
-cgroup memory limits. That also limits tmpfs instances and prevents
-unprivileged user from using all memory.
+On Sun, Aug 13, 2023 at 8:25=E2=80=AFPM Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
 
-If you don't set a memory limit then yes, the container might be able to
-exhaust all memory but that's a bug in the container runtime. Also, at
-some point the OOM killer or related userspace tools will select the
-container init process for termination at which point all the namespaces
-and mounts go away. That's probably what you experience as misbehaving
-containers. The real bug there is probably that they're allowed to run
-without memory limits in the first place.
+> Extend page_tables.rst by adding a section about the role of MMU and TLB
+> in translating between virtual addresses and physical page frames.
+> Furthermore explain the concept behind Page Faults and how the Linux
+> kernel handles TLB misses. Finally briefly explain how and why to disable
+> the page faults handler.
+>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+(...)
+> +If the above-mentioned conditions happen in user-space, the kernel sends=
+ a
+> +`Segmentation Fault` (SIGSEGV) signal to the current thread. That signal=
+ usually
+> +causes the termination of the thread and of the process it belongs to.
+> +
+> +Instead, there are also common and expected other causes of page faults.=
+ These
+
+The word you are looking for is "Additionally" right?
+
+"Additionally, there are..."
+
+> +These techniques improve memory efficiency, reduce latency, and minimize=
+ space
+> +occupation. This document won't go deeper into the details of "Lazy Allo=
+cation"
+> +and "Copy-on-Write" because these subjects are out of scope for they bel=
+ong to
+
+"for they belong" -> "as they belong"
+(I think)
+
+> +Swapping differentiate itself from the other mentioned techniques becaus=
+e it's
+
+differentiates
+
+> +not so desirable since it's performed as a means to reduce memory under =
+heavy
+> +pressure.
+
+"not so desirable" -> "undesirable"
+
+> +Swapping can't work for memory mapped by kernel logical addresses. These=
+ are a
+
+"kernel logical addresses" -> "kernel-internal logical addresses"
+
+> +If everything fails to make room for the data that must reside be presen=
+t in
+
+"If everything fails" -> "If the kernel fails"
+
+> +This document is going to simplify and show an high altitude view of how=
+ the
+> +Linux kernel handles these page faults, creates tables and tables' entri=
+es,
+> +check if memory is present and, if not, requests to load data from persi=
+stent
+> +storage or from other devices, and updates the MMU and its caches...
+
+Skip "..." for just period "."
+
+> +The first steps are architectures dependent. Most architectures jump to
+
+architectures -> architecture
+
+> +Whatever the routes, all architectures end up to the invocation of
+> +`handle_mm_fault()` which, in turn, (likely) ends up calling
+> +`__handle_mm_fault()` to carry out the actual work of allocation of the =
+page
+> +tables.
+
+"of allocation of the" -> "of allocating the"
+
+> +`__handle_mm_fault()` carries out its work by calling several functions =
+to
+> +find the entry's offsets of the upper layers of the page tables and allo=
+cate
+> +the tables that it may need to.
+
+Skip the last "to".
+
+> +Linux supports larger page sizes than the usual 4KB (i.e., the so called
+> +`huge pages`). When using these kinds of larger pages, higher level page=
+s can
+> +directly map them, with no need to use lower level page entries (PTE). H=
+uge
+> +pages contain large contiguos physical regions that usually span from 2M=
+B to
+
+contiguous
+
+> +The huge pages bring with them several benefits like reduced TLB pressur=
+e,
+> +reduced page table overhead, memory allocation efficiency, and performan=
+ce
+> +improvement for certain workloads. However, these benefits come with
+> +trade-offs, like wasted memory and allocation challenges. Huge pages are=
+ out
+> +of scope of the present document, therefore, it won't go into further de=
+tails.
+
+Since you explain what they are, it feels they are in scope?
+I would just skip the last sentence.
+
+> +To conclude this brief overview from very high altitude of how Linux han=
+dles
+
+To conclude this high altitude view of...
+
+> +Several code path make use of the latter two functions because they need=
+ to
+
+code paths
+
+With or without the above suggestions:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
