@@ -2,86 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F087C04A94
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 07:36:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8544C04FDF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 08:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242412AbjHPHgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 03:36:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39390 "EHLO
+        id S242864AbjHPIWw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 04:22:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242454AbjHPHgO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 03:36:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0770210C3;
-        Wed, 16 Aug 2023 00:36:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 89CD361A7B;
-        Wed, 16 Aug 2023 07:36:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEC9C433C9;
-        Wed, 16 Aug 2023 07:36:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692171372;
-        bh=t6r/M93XkSU/T7fdCW3IDojho4eatPXlVGqxqVrRhNM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XQmmdiXfUIvJZzQOpztfNdFPZGbhGzOOl//SGEp07WWl3ygjTVnA1L6FIZ1JWtc1I
-         Zeavh+9jcfedDeeP7tljoniO7KBU5dOq8UICLqzEnQYR4pGNp+uFzI/NqEOlDxY7z3
-         Mf0HlQl2yxWf9vsd0mGULNarNQm5us14kp/M1BUvWAPeLKxyjhrVXNOJfTqNWQDtma
-         tdS3UXLb6VOlVqm5FvfS0o81v3ijFERO/U1eZr6ZM+1dPnppZS/NRBAGm3MmWU1348
-         PbnOKE4OWTlz5VdVyEWiVUFJZCdVhRIC0O42zrpyQIulgOSBIalyRAPTSMafq9g4U0
-         H9tnoFQgP6L9A==
-From:   Christian Brauner <brauner@kernel.org>
-To:     Seth Forshee <sforshee@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Wang Lei <wanglei249@huawei.com>,
-        gongruiqi1@huawei.com
-Subject: Re: [PATCH] doc: idmappings: fix an error and rephrase a paragraph
-Date:   Wed, 16 Aug 2023 09:36:07 +0200
-Message-Id: <20230816-speisen-fachkenntnis-699757c3961f@brauner>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230816033210.914262-1-gongruiqi@huaweicloud.com>
-References: <20230816033210.914262-1-gongruiqi@huaweicloud.com>
+        with ESMTP id S242902AbjHPIWk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 04:22:40 -0400
+Received: from frasgout12.his.huawei.com (unknown [14.137.139.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B35E21BE8;
+        Wed, 16 Aug 2023 01:22:36 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.227])
+        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4RQgkd2NsDz9v7Jj;
+        Wed, 16 Aug 2023 16:08:41 +0800 (CST)
+Received: from [10.81.209.179] (unknown [10.81.209.179])
+        by APP1 (Coremail) with SMTP id LxC2BwAn27okh9xkzRb3AA--.62650S2;
+        Wed, 16 Aug 2023 09:22:07 +0100 (CET)
+Message-ID: <84159dc8-d2e5-4c10-9910-b329500862e0@huaweicloud.com>
+Date:   Wed, 16 Aug 2023 10:21:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1153; i=brauner@kernel.org; h=from:subject:message-id; bh=t6r/M93XkSU/T7fdCW3IDojho4eatPXlVGqxqVrRhNM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTcqUnZ92BHjdFLg7qqwwJh8eKnlV9tmnIvIj5G9Xegk/gm 601xHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPZG8HIcLE3PfbSqV3frN7/eRr+9Z xV7hNmz6e2G96yKmwrN7Pc6MvI8Mv5lbX6ehHz12dPnP322XRJ8gTbItdnTy7xT/q517bVihcA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH v2 02/13] integrity: Introduce a digest cache
+Content-Language: en-US
+To:     Jarkko Sakkinen <jarkko@kernel.org>, corbet@lwn.net,
+        zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+        pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,
+        mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+        Roberto Sassu <roberto.sassu@huawei.com>
+References: <20230812104616.2190095-1-roberto.sassu@huaweicloud.com>
+ <20230812104616.2190095-3-roberto.sassu@huaweicloud.com>
+ <CUSFHQGJ3I8F.WBL3ZYT3U5FB@suppilovahvero>
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+In-Reply-To: <CUSFHQGJ3I8F.WBL3ZYT3U5FB@suppilovahvero>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: LxC2BwAn27okh9xkzRb3AA--.62650S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYj7kC6x804xWl14x267AKxVW5JVWrJwAF
+        c2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII
+        0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xv
+        wVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjc
+        xK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+        FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr
+        0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY
+        04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+        0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
+        0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+        W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_
+        Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUbG2Nt
+        UUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQALBF1jj5KudAAAs3
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Aug 2023 11:32:10 +0800, GONG, Ruiqi wrote:
-> If the modified paragraph is referring to the idmapping mentioned in the
-> previous paragraph (i.e. `u0:k10000:r10000`), then it is `u0` that the
-> upper idmapset starts with, not `u1000`.
-
-Yes, correct. Thanks!
-
+On 8/14/2023 7:03 PM, Jarkko Sakkinen wrote:
+> On Sat Aug 12, 2023 at 1:46 PM EEST, Roberto Sassu wrote:
+>> From: Roberto Sassu <roberto.sassu@huawei.com>
+>>
+>> Introduce the digest cache, a structure holding a hash table of digests,
+>> extracted from a digest list. Its pointer is stored in the iint of the
 > 
-> Fix this error and rephrase this paragraph a bit to make this reference
-> more explicit.
-> 
-> [...]
+> What is iint? I honestly don't know what it is. I first thought that it
+> was "int" typoed.
 
-Applied to the vfs.misc branch of the vfs/vfs.git tree.
-Patches in the vfs.misc branch should appear in linux-next soon.
+Ops. It is the integrity_iint_cache structure, to retain the 
+integrity-specific state of an inode. Will explain that in the next version.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Thanks
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Roberto
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.misc
-
-[1/1] doc: idmappings: fix an error and rephrase a paragraph
-      https://git.kernel.org/vfs/vfs/c/21238b550dd6
