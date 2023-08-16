@@ -2,108 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32688C001E0
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 14:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C55DC001E0
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 14:04:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbjHPOAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 10:00:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
+        id S233981AbjHPOEA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 10:04:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343514AbjHPOAc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 10:00:32 -0400
+        with ESMTP id S1343500AbjHPODv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 10:03:51 -0400
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7A4292D46;
-        Wed, 16 Aug 2023 07:00:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0681226B2;
+        Wed, 16 Aug 2023 07:03:49 -0700 (PDT)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73F70D75;
-        Wed, 16 Aug 2023 07:01:02 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF7A5D75;
+        Wed, 16 Aug 2023 07:04:30 -0700 (PDT)
 Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0A3D3F762;
-        Wed, 16 Aug 2023 07:00:19 -0700 (PDT)
-Message-ID: <ad63e8fa-6437-872b-0bc3-ef87a5150652@arm.com>
-Date:   Wed, 16 Aug 2023 15:00:18 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 318B43F762;
+        Wed, 16 Aug 2023 07:03:48 -0700 (PDT)
+Message-ID: <e51863c0-496b-9630-e61a-2faa74356118@arm.com>
+Date:   Wed, 16 Aug 2023 15:03:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v6 1/4] perf: arm_cspmu: Split 64-bit write to 32-bit
- writes
+Subject: Re: [PATCH v6 2/4] perf: arm_cspmu: Support implementation specific
+ filters
 Content-Language: en-US
-To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
         Besar Wicaksono <bwicaksono@nvidia.com>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
 References: <20230815063526.9022-1-ilkka@os.amperecomputing.com>
- <20230815063526.9022-2-ilkka@os.amperecomputing.com>
- <ab4a51ea-3956-2d2f-5705-a760be69fb59@arm.com>
- <e04669ee-d547-dbbe-e87b-5d7efa6ee8@os.amperecomputing.com>
+ <20230815063526.9022-3-ilkka@os.amperecomputing.com>
 From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <e04669ee-d547-dbbe-e87b-5d7efa6ee8@os.amperecomputing.com>
+In-Reply-To: <20230815063526.9022-3-ilkka@os.amperecomputing.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/08/2023 21:46, Ilkka Koskinen wrote:
+On 15/08/2023 07:35, Ilkka Koskinen wrote:
+> ARM Coresight PMU architecture specification [1] defines PMEVTYPER and
+> PMEVFILT* registers as optional in Chapter 2.1. Moreover, implementers may
+> choose to use PMIMPDEF* registers (offset: 0xD80-> 0xDFF) to filter the
+> events. Add support for those by adding implementation specific filter
+> callback function.
 > 
-> Hi Suzuki,
+> [1] https://developer.arm.com/documentation/ihi0091/latest
 > 
-> On Tue, 15 Aug 2023, Suzuki K Poulose wrote:
->> On 15/08/2023 07:35, Ilkka Koskinen wrote:
->>> Split the 64-bit register accesses if 64-bit access is not supported
->>> by the PMU.
->>>
->>> Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
->>> Reviewed-by: Besar Wicaksono <bwicaksono@nvidia.com>
->>
->> Do we need a Fixes tag ?
-> 
-> I believe, NVIDIA's PMU supports 64-bit access while Ampere's one 
-> doesn't and since this patchset enables support for the latter one, it 
-> doesn't seem like we need a Fixes tag here.
+> Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
+> Reviewed-by: Besar Wicaksono <bwicaksono@nvidia.com>
 
-Ok, makes sense.
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
-Suzuki
-
-
+> ---
+>   drivers/perf/arm_cspmu/arm_cspmu.c | 12 ++++++++----
+>   drivers/perf/arm_cspmu/arm_cspmu.h |  3 +++
+>   2 files changed, 11 insertions(+), 4 deletions(-)
 > 
-> Cheers, Ilkka
-> 
->>
->> With that:
->>
->> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
->>
->> Suzuki
->>
->>> ---
->>>   drivers/perf/arm_cspmu/arm_cspmu.c | 5 ++++-
->>>   1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c 
->>> b/drivers/perf/arm_cspmu/arm_cspmu.c
->>> index 04be94b4aa48..6387cbad7a7d 100644
->>> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
->>> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
->>> @@ -715,7 +715,10 @@ static void arm_cspmu_write_counter(struct 
->>> perf_event *event, u64 val)
->>>       if (use_64b_counter_reg(cspmu)) {
->>>           offset = counter_offset(sizeof(u64), event->hw.idx);
->>>   -        writeq(val, cspmu->base1 + offset);
->>> +        if (cspmu->has_atomic_dword)
->>> +            writeq(val, cspmu->base1 + offset);
->>> +        else
->>> +            lo_hi_writeq(val, cspmu->base1 + offset);
->>
->>
->>>       } else {
->>>           offset = counter_offset(sizeof(u32), event->hw.idx);
->>>
->>
->>
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
+> index 6387cbad7a7d..94f6856ec786 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
+> @@ -116,6 +116,9 @@ static unsigned long arm_cspmu_cpuhp_state;
+>   
+>   static DEFINE_MUTEX(arm_cspmu_lock);
+>   
+> +static void arm_cspmu_set_ev_filter(struct arm_cspmu *cspmu,
+> +				    struct hw_perf_event *hwc, u32 filter);
+> +
+>   static struct acpi_apmt_node *arm_cspmu_apmt_node(struct device *dev)
+>   {
+>   	return *(struct acpi_apmt_node **)dev_get_platdata(dev);
+> @@ -450,6 +453,7 @@ static int arm_cspmu_init_impl_ops(struct arm_cspmu *cspmu)
+>   	CHECK_DEFAULT_IMPL_OPS(impl_ops, event_type);
+>   	CHECK_DEFAULT_IMPL_OPS(impl_ops, event_filter);
+>   	CHECK_DEFAULT_IMPL_OPS(impl_ops, event_attr_is_visible);
+> +	CHECK_DEFAULT_IMPL_OPS(impl_ops, set_ev_filter);
+>   
+>   	return 0;
+>   }
+> @@ -811,9 +815,9 @@ static inline void arm_cspmu_set_event(struct arm_cspmu *cspmu,
+>   	writel(hwc->config, cspmu->base0 + offset);
+>   }
+>   
+> -static inline void arm_cspmu_set_ev_filter(struct arm_cspmu *cspmu,
+> -					   struct hw_perf_event *hwc,
+> -					   u32 filter)
+> +static void arm_cspmu_set_ev_filter(struct arm_cspmu *cspmu,
+> +					struct hw_perf_event *hwc,
+> +					u32 filter)
+>   {
+>   	u32 offset = PMEVFILTR + (4 * hwc->idx);
+>   
+> @@ -845,7 +849,7 @@ static void arm_cspmu_start(struct perf_event *event, int pmu_flags)
+>   		arm_cspmu_set_cc_filter(cspmu, filter);
+>   	} else {
+>   		arm_cspmu_set_event(cspmu, hwc);
+> -		arm_cspmu_set_ev_filter(cspmu, hwc, filter);
+> +		cspmu->impl.ops.set_ev_filter(cspmu, hwc, filter);
+>   	}
+>   
+>   	hwc->state = 0;
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
+> index e5c6dff2ce7f..274ca3d10578 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.h
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.h
+> @@ -104,6 +104,9 @@ struct arm_cspmu_impl_ops {
+>   	u32 (*event_type)(const struct perf_event *event);
+>   	/* Decode filter value from configs */
+>   	u32 (*event_filter)(const struct perf_event *event);
+> +	/* Set event filter */
+> +	void (*set_ev_filter)(struct arm_cspmu *cspmu,
+> +			      struct hw_perf_event *hwc, u32 filter);
+>   	/* Hide/show unsupported events */
+>   	umode_t (*event_attr_is_visible)(struct kobject *kobj,
+>   					 struct attribute *attr, int unused);
 
