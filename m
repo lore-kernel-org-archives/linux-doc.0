@@ -2,71 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FBB3C04E69
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 15:01:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A427C001E0
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 15:05:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239469AbjHPPBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 11:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55396 "EHLO
+        id S1343957AbjHPPFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 11:05:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344002AbjHPPBF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 11:01:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8E4271D
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 08:00:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S1344018AbjHPPEr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 11:04:47 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E8526AA;
+        Wed, 16 Aug 2023 08:04:43 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 139D166A7C
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 15:00:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7633C433C8;
-        Wed, 16 Aug 2023 15:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692198008;
-        bh=zIFuavAAkrRzHP97/+EypFEFEaYwyMI665GY6yMI4Hc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=XsI833QBL1DiCoS9rGj8A1KK5ljEkiOOPQOlRDcexni1sWI+j4923/ncmD/PsyJjb
-         xXrrENoEI1BjbVsD2+vZ7WltgbL1HDnavZxD+iySM/E0ywBYpwMf1Begt+Okog8Itf
-         /4vi00CxwGnkP0G347P24S6NNZGHWcuqcc4vt68DcJsTpHIfkvVJ77nEOioWID6zBT
-         drLQkcmIa/RTZHdgAsOdouzz/YIDwpedSyclQ7qAZe0oxGQU92UXECEGQ22Kt7gprn
-         BLTGKTvCLowct7OiuNuvTrbCc2OfunZUf1wRS7Vz5OZd6uQCQubDEZxoyP/PN6QcjY
-         /A81610E7jnHw==
-Date:   Wed, 16 Aug 2023 08:00:06 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v2 02/10] doc/netlink: Document the
- genetlink-legacy schema extensions
-Message-ID: <20230816080006.42496226@kernel.org>
-In-Reply-To: <m2ttszi0um.fsf@gmail.com>
-References: <20230815194254.89570-1-donald.hunter@gmail.com>
-        <20230815194254.89570-3-donald.hunter@gmail.com>
-        <20230815194902.6ce9ae12@kernel.org>
-        <m2bkf7jswr.fsf@gmail.com>
-        <m2ttszi0um.fsf@gmail.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 0D5F5385;
+        Wed, 16 Aug 2023 15:04:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0D5F5385
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1692198283; bh=+fSYm9CJrIkdJWuqjppkPHT3qTZb8tVB+rfzJ4jWDbM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=MQxvCRCWTp2JuX/XeRVbJzO9sEFw8FZhbIUIyf6lERRhWEL2M6HicHDPsbjezb+U+
+         nyXTl0vFhbN74vmVInt5sHMYDbLjkw2bgdzdkbfXJ0y9Xm310Hm5Ckjw5VLUonKyvy
+         WsCYvoSKHxcx27m6/xyFWUsE991qsRoFEdQcEJ//uWTSG2vsBBORiOr1kDP8ZnePKd
+         uq5GCQkn6P35+pB0rv/z11XS93HU56aXQ1PTeDRO78nQ7MloeIGUsip+9PwbiuE78f
+         EmWcmdekT2BI3KwTVHcG7cdNNWw9IB9gpkLIOdXu4288ZglanYQK1vj3nvCgkoNy6V
+         Q6g6JGJ2JD+wQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Avadhut Naik <Avadhut.Naik@amd.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [RFC] Proposal to relax warnings of htmldocs
+In-Reply-To: <24698029-4c45-2292-ded5-13a6c12e93dc@amd.com>
+References: <85964510-4f88-58d2-2687-f7fa76013cf9@amd.com>
+ <87v8dgtb9o.fsf@meer.lwn.net>
+ <24698029-4c45-2292-ded5-13a6c12e93dc@amd.com>
+Date:   Wed, 16 Aug 2023 09:04:42 -0600
+Message-ID: <87fs4jrpth.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Aug 2023 14:16:33 +0100 Donald Hunter wrote:
-> > Ack. As an aside, what do we mean by "kernel input policy"?  
-> 
-> So I've just spotted that kernel-policy is already documented in
-> core-api/netlink.rst and I guess I shouldn't be documenting it in the
-> userspace-api at all? I could add a reference to the core-api docs so
-> that it's easier to find the kernel side docs when reading the
-> userspace-api?
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-Ah, yes, reference sounds good.
-But we should also add split to the doc, I only see ``global`` and
-``per-op`` described?
+>> ...other than fixing the actual problems? :)
+>
+> I'm happy to fix as many as I can, but there are obstacles e.g. some things
+> lack documentation, such as undocumented fields in structures with names
+> that nobody but their creator could decipher. Also, that won't solve the
+> underlying warning display problem (which maybe it's W!=1, as noted by
+> Matthew.
+
+I *did* put a smiley on that...
+
+>>> I suggest for the command `make htmldocs` to
+>>> only display, by default, warnings directly related to the changes being
+>>> made, unless explicitly requested otherwisee.
+>>>
+>>> I'm thinking we could do this, for example, by making hmtldocs a two-step
+>>> process: First running htmldocs as usual but with warnings disabled, and
+>>> then generating docs again but only for the new files (see $git diff
+>>> --name-only HEAD), with warnings active but limited to the scope of the
+>>> changes made.
+>> 
+>> A normal build should just generate warnings for files that have
+>> changed (since the last build).  Does that not do what you want?
+>
+> That's not the behavior I see on my system, when I run `make htmldocs` I
+> see many warnings from other places.It floods my screen. The default
+> behavior appears to change between configurations and compilers.
+
+Warnings that are generated at output time, such as broken references,
+will come out every time.  Those generated during the read phase are
+generally limited to what has been changed.  I rely on that pretty
+heavily to do incremental builds when applying patches.  If you're doing
+a full rebuild after changing one file, something strange is happening.
+
+Thanks,
+
+jon
