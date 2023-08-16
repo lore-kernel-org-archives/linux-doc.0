@@ -2,108 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC37C41513
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 18:11:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2576C04FE2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 18:17:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343640AbjHPSLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 14:11:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47224 "EHLO
+        id S1345441AbjHPSQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 14:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344392AbjHPSKm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 14:10:42 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4398FE4C;
-        Wed, 16 Aug 2023 11:10:41 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        with ESMTP id S1345439AbjHPSQG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 14:16:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F98DE4C;
+        Wed, 16 Aug 2023 11:16:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id DAC321F74A;
-        Wed, 16 Aug 2023 18:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1692209439; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GA+lA+X5klcJsHYhvodnqY7nRG/CebjFbGv9hxHM5Mo=;
-        b=QmB5iDu8SPF3+fvpVS5SddkhGCWu9OPoorDmgLqq/rPnNKIZba9FNwHbFJGaiONa4iIsCB
-        P7kS1oTxBpBqUUpCeL6TiaT5IqYWQlKI1SS1/ulcSbdpkw9Cb2RkFXKLvkFLiaYAIkgMZx
-        nWmdZKFewpA5kIl7cDgtjKrQTxnOr3o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1692209439;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GA+lA+X5klcJsHYhvodnqY7nRG/CebjFbGv9hxHM5Mo=;
-        b=sh5hran2dYylPF3oJPzpcJgLlHVK7RoopWqScxu7qWwqbP8THRHQVXjL0UWXC3WvHE4t+U
-        r76LLZUhPy2Oq4BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9F25C133F2;
-        Wed, 16 Aug 2023 18:10:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id ooOzIB8R3WR/ZgAAMHmgww
-        (envelope-from <krisman@suse.de>); Wed, 16 Aug 2023 18:10:39 +0000
-From:   Gabriel Krisman Bertazi <krisman@suse.de>
-To:     Jeff Moyer <jmoyer@redhat.com>
-Cc:     matteorizzo@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
-        axboe@kernel.dk, asml.silence@gmail.com, corbet@lwn.net,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        ribalda@chromium.org, rostedt@goodmis.org, jannh@google.com,
-        chenhuacai@kernel.org, gpiccoli@igalia.com, ldufour@linux.ibm.com,
-        evn@google.com, poprdi@google.com, jordyzomer@google.com,
-        andres@anarazel.de
-Subject: Re: [PATCH v4] io_uring: add a sysctl to disable io_uring system-wide
-In-Reply-To: <x49wmxuub14.fsf@segfault.boston.devel.redhat.com> (Jeff Moyer's
-        message of "Wed, 16 Aug 2023 13:55:51 -0400")
-Organization: SUSE
-References: <x49wmxuub14.fsf@segfault.boston.devel.redhat.com>
-Date:   Wed, 16 Aug 2023 14:10:38 -0400
-Message-ID: <87cyzm504h.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 33BEE65BC3;
+        Wed, 16 Aug 2023 18:16:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C596DC433C7;
+        Wed, 16 Aug 2023 18:15:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692209762;
+        bh=TgK016C/w5t6JQKrQP4E8mcD6V8oPi/S+UCWzSu2Rbc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=djQMSkkoGjtLgUNe6JiG+uUbjTG+u7ie7eym1Qc/s0ITrVmBOvMdk78mSJmK4ub/N
+         BH/UchLawIzBNwHe6rSkOxpgF+9ayCmXUe+Jm7bBi6IIIFDF2HmzCsSA8IKIPjtzYy
+         vqUXL/PRWiYVHhJKMQDXe+LpZ7bDavgxVmYjSYwsV4NqVBdnLJnwgUEnP9jySYJcMj
+         UlvkUii28ef0E+WUplhkuFmFDfhE+PqklMByDsCChsqfuljh2qr6ywU/K+qtnnWyZy
+         aaaXhGNFfTCa6SGlKE6Cz/VqFo4RwngUUKGxQ6a30H5DdMlCF9ksxaqQXcnOfoRwXX
+         NWfU0nIwFHXfw==
+Date:   Wed, 16 Aug 2023 19:15:53 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 18/36] arm64/gcs: Context switch GCS state for EL0
+Message-ID: <28a61b5f-db65-427e-8e92-60dd61549da5@sirena.org.uk>
+References: <20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org>
+ <20230807-arm64-gcs-v4-18-68cfa37f9069@kernel.org>
+ <ZNZUerbrJmzqZzJw@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="w/BKAb+ClmJrMdeD"
+Content-Disposition: inline
+In-Reply-To: <ZNZUerbrJmzqZzJw@arm.com>
+X-Cookie: Old soldiers never die.  Young ones do.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jeff Moyer <jmoyer@redhat.com> writes:
 
-> From: Matteo Rizzo <matteorizzo@google.com>
->
-> Introduce a new sysctl (io_uring_disabled) which can be either 0, 1, or
-> 2. When 0 (the default), all processes are allowed to create io_uring
-> instances, which is the current behavior.  When 1, io_uring creation is
-> disabled (io_uring_setup() will fail with -EPERM) for processes not in
-> the kernel.io_uring_group group.  When 2, calls to io_uring_setup() fail
-> with -EPERM regardless of privilege.
->
-> Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
-> [JEM: modified to add io_uring_group]
-> Signed-off-by: Jeff Moyer <jmoyer@redhat.com>
->
-> ---
-> v4:
->
-> * Add a kernel.io_uring_group sysctl to hold a group id that is allowed
->   to use io_uring.  One thing worth pointing out is that, when a group
->   is specified, only users in that group can create an io_uring.  That
->   means that if the root user is not in that group, root can not make
->   use of io_uring.
+--w/BKAb+ClmJrMdeD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Rejecting root if it's not in the group doesn't make much sense to
-me. Of course, root can always just add itself to the group, so it is
-not a security feature. But I'd expect 'sudo <smth>' to not start giving
-EPERM based on user group settings.  Can you make CAP_SYS_ADMIN
-always allowed for option 1?
+On Fri, Aug 11, 2023 at 04:32:10PM +0100, Catalin Marinas wrote:
+> On Mon, Aug 07, 2023 at 11:00:23PM +0100, Mark Brown wrote:
 
->   I also wrote unit tests for liburing.  I'll post that as well if there
->   is consensus on this approach.
+> > +		gcs_free(current);
+> > +		current->thread.gcs_el0_mode = 0;
+> > +		write_sysreg_s(0, SYS_GCSCRE0_EL1);
+> > +		write_sysreg_s(0, SYS_GCSPR_EL0);
+> > +	}
+> > +}
 
-I'm fine with this approach as it allow me to easily reject non-root users.
+> Do we need and isb() or there's one on this path? If it's only EL0
+> making use of this register, we should be fine with the ERET before
+> returning to user. Not sure whether the kernel uses this, GCSSTTR
+> doesn't need it.
 
--- 
-Gabriel Krisman Bertazi
+They're only used by EL0, at EL1 we do read GCSPR for signal handling
+but AIUI that shouldn't be any more of an issue than it is for the
+TPIDRs which we don't have a barrier for.  It's possible I'm
+misunderstanding though.
+
+> > +	/*
+> > +	 * Ensure that GCS changes are observable by/from other PEs in
+> > +	 * case of migration.
+> > +	 */
+> > +	if (task_gcs_el0_enabled(current) || task_gcs_el0_enabled(next))
+> > +		gcsb_dsync();
+
+> What's this barrier for? The spec (at least the version I have) only
+> talks about accesses, nothing to do with the registers that we context
+> switch here.
+
+Right, it's for the GCS memory rather than the registers.  I'm fairly
+sure it's excessive but but was erring on the side of caution until I
+have convinced myself that the interactions between GCS barriers and
+regular barriers were doing the right thing, until we have physical
+implementations to contend with I'd guess the practical impact will be
+minimal.
+
+--w/BKAb+ClmJrMdeD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTdElkACgkQJNaLcl1U
+h9AWogf/YEdfvtUHD2e4VQoupNYTIQwE4lzBKY5h7rikxnt03b6khOwEnmScy/XC
+1TB3W5zmAGwyJdWCumepeAk5BTRzsKZWV9cdvP0YvcmTlzMqj/1ueNfpHfEu0NQs
+Udxb7QLhxyd8wdlIZn+ycumv7YnckO8stcBNRbenMRsLqKpTsXlM3zcsul9zvSPK
+zWPmyj/57XvYpeEmXgL+2zyLRmGfWEQB97ImfCgO0EkoAxFA6TUugdIAa6g0DWoO
+hZKEu0+mqQUN0RTXOLAqYQXJLGD2lVzT5G3L8HTPyR2GNZIruqNzD+8ZkhSSMm51
+QjFuF+aVfUlZwpNuSsl7bhqHNJmB5w==
+=8c8E
+-----END PGP SIGNATURE-----
+
+--w/BKAb+ClmJrMdeD--
