@@ -2,72 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F799C04E69
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 12:29:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9DFFC001E0
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 13:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234892AbjHPM2c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 08:28:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55456 "EHLO
+        id S238513AbjHPNBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 09:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245264AbjHPM2N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 08:28:13 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDA2D2706
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 05:27:49 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-99bccc9ec02so904681666b.2
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 05:27:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1692188867; x=1692793667;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aaCcsSxEpyyqDlzbXB5HOjQbGizw0wp80mopcOcdi0M=;
-        b=hMjB0UzncaxXwNyO/6mAQIWoL8eI9H/wuORRT+ykfvjKMRGhelkIBJ0FeOAK98QfFj
-         6ugSNV9MPsdU+RvWFY3NcLCp8Cwe0cL1PvY/9OnmJm1kU9YIi4/r+79pmkAKx6NngaVj
-         I/Qksm5+Ox7lTjTt+d7WbvJ0unewmIt4GL1kg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692188867; x=1692793667;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aaCcsSxEpyyqDlzbXB5HOjQbGizw0wp80mopcOcdi0M=;
-        b=QqPw0JKm1w++V3te+87WJ/SYAPaoxziy37/gQWFJkn3Vfh58FPFjsLS0vWuXabD0XF
-         YHP/DrJvIDE7BuCvVHDr4l/9Vpfa/ku9tqG7QsMEAPLPYwK8Y7lt/fSBz7JzIAiKE65x
-         CQZWbHntnnNvStWGaPn+iWRpTa4awnvZO3VSmq9ulWXGXR4Fj6z8eOeQG6FOpHskjT64
-         P6Pg/h7iqM+GVDO9y4O7Jrgw6ffnSdouwTc1FuKBcPfOG5HoNMWm6hceHXnoojr9M8Ej
-         13XMYqYu3f76RZYfOm5cXt/q7xw190UNIgEIFJwAfH4sKuhLnu1+wEdV5z6aYuAVX0nC
-         2NcA==
-X-Gm-Message-State: AOJu0YzROQUn+vSXLR6m09oOUNotClFismHNpUjmgo5tinuYW8fStsgg
-        rJbbaGrF0UQkPTB2dVdkV7nOUsE/rj1nx1/YDurLcQ==
-X-Google-Smtp-Source: AGHT+IFEJjQsMHwnxXfKTZ7htXSjeP5q0ZYCuaZN8uFVfqYiUPc7DgSetH5Qj6mp/A267t0Kgo6sMlUQkl9GXMvZHvk=
-X-Received: by 2002:a17:906:ae88:b0:99c:6312:73ca with SMTP id
- md8-20020a170906ae8800b0099c631273camr1317797ejb.71.1692188867145; Wed, 16
- Aug 2023 05:27:47 -0700 (PDT)
+        with ESMTP id S245321AbjHPNBi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 09:01:38 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130301FF3
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 06:01:37 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0B43D37C;
+        Wed, 16 Aug 2023 13:01:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0B43D37C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1692190895; bh=yfe9XyGLYaRO3yjoGXTTjNsrn0HHz8CERryZBncGOQM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=R3S701Q5ZfucTewmQstPBeBnrY2gU8tLQsx4b+ypCM8VqcpTrydh7iYIBSYhu5GpV
+         i98pwyXP/hSKe48h+KzYqfjQS3xvv9Jaa9q+CVnW5ei+kFKFlegL3xspaOQGBxFvgo
+         nZo+v1+KMi3AdJgkXFIkJA/bHSjc8xQmrOidZJRhpIkiCSn9jKFew/EdpXg93HG32o
+         gdI5/bHhEpuuN7ZxwKdOkoLW9PWbVMTARp1iPSkhGGYUxRBH79gEMMZQVV1McZWXBD
+         KuB1Vhfk9UIQ5BAAeZbRvTe5MKgZGAnUWh4jGfP4DqLIOH7ndeRimerzwKfSf/wWtL
+         Q1NLdL0bJ5s2Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Sarah Walker <sarah.walker@imgtec.com>, linux-doc@vger.kernel.org
+Cc:     Matt Coster <matt.coster@imgtec.com>,
+        Donald Robson <donald.robson@imgtec.com>,
+        Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v5 16/17] drm/imagination: Add driver documentation
+In-Reply-To: <20230816082806.164968-1-sarah.walker@imgtec.com>
+References: <20230816082806.164968-1-sarah.walker@imgtec.com>
+Date:   Wed, 16 Aug 2023 07:01:34 -0600
+Message-ID: <87r0o3rvip.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com> <20230711043405.66256-3-zhangjiachen.jaycee@bytedance.com>
-In-Reply-To: <20230711043405.66256-3-zhangjiachen.jaycee@bytedance.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 16 Aug 2023 14:27:35 +0200
-Message-ID: <CAJfpegtVQywX28=H+msmkcjaELpfQr6_UdvNZdCN3_B8KCfYTA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] fuse: invalidate dentry on EEXIST creates or ENOENT deletes
-To:     Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        me@jcix.top
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 11 Jul 2023 at 06:36, Jiachen Zhang
-<zhangjiachen.jaycee@bytedance.com> wrote:
->
-> The EEXIST errors returned from server are strong sign that a local
-> negative dentry should be invalidated. Similarly, The ENOENT errors from
-> server can also be a sign of revalidate failure. This commit invalidates
-> dentries on EEXIST creates and ENOENT deletes by calling
-> fuse_invalidate_entry(), which improves the consistency with no
-> performance degradation.
+Sarah Walker <sarah.walker@imgtec.com> writes:
 
-Applied, thanks.
+> Add documentation for the UAPI and for the virtual memory design.
 
-Miklos
+One little thing I happened to notice on a quick glance:
+
+> +Begin by calling :c:func:`pvr_vm_create_context` to obtain a VM context. It is
+> +bound to a PowerVR device (:c:type:`pvr_device`) and holds a reference to it.
+
+Rather than writing out the :c:func: incantation, just say
+pvr_vm_create_context().  All of the right things will happen, and your
+document will be a lot more readable.
+
+Thanks,
+
+jon
