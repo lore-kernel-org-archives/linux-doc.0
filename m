@@ -2,110 +2,212 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7DFC27C6E
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 22:41:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F1A5C27C6D
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 22:45:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346989AbjHPWlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 18:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59086 "EHLO
+        id S243960AbjHPWow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 18:44:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346991AbjHPWkj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 18:40:39 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84B01990
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 15:40:34 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id 98e67ed59e1d1-26b29b33f0cso395725a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 15:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692225634; x=1692830434;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jA3LctHZ//tnRkpcHda/4Rh45gvRjuYg1xEZKS7S7Bo=;
-        b=32dUWbILQO8YE5D9AxRrUQmoYj1xR2mqkk59trzaCfr8gMXlmkXgt0YB/ipi7Pv6DF
-         5bLBCbapMD6pOP6yHe/N00pe1BU8XROvpB5jCe7fWu7FHhfH8Ko/vdPik2SoaOyJNBY5
-         hNX01Aow4snrAtOFv75E/990Unu2EqCE4we2EDksfRNchEgjObeFtJptcOMDDbovV11n
-         ZOJ0PH1FCX8w3+eE+NWA0sxbITnDxkxGD4c+WGOKMZt4FF7gBueS4fsmwzODgjidWbx+
-         SAFeVBPo4LNKxpROkAKq1xUmDcVO2j++XH9V7ICMd8sdX/7m02wpAyYfWJ0JWy+kF0Lx
-         yjiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692225634; x=1692830434;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jA3LctHZ//tnRkpcHda/4Rh45gvRjuYg1xEZKS7S7Bo=;
-        b=DIQApf2/363o2svxUhpwkocM4I0SpCioSGSF9/LY84CIJSWdd87UNVGCWUlnsTYBYA
-         H0tDzTKAijhUBrz110MqLL57tXk0qpYam0BqD4cei5m7kHTyk4NQnbjn2BI4pvX74H9x
-         mrMYiAczSCrQNp7SO4l3mz10M8NIp/n0daR7RwNeXkJEIWSOab+kpaJgJZlGC7othekZ
-         8kEevAsYkfJsMHU2urL23HxT7M4mCf+tSA92mY+7yeKNZipBLghRiP39QPD9Ee30KF3O
-         j1imneGFw7eCm15qlhiYLbnsgOlCTTl/PyW3tSsLeZtTCS4De5jr837Sq0ZznB7b7eoM
-         DYig==
-X-Gm-Message-State: AOJu0Yz79QCymZj3jc+sq/iqOqxRIqV2EZ+lLIj01/J7NEs6rpY+3xGq
-        7uVelpCBhPfatooxYUvbw+rCXpJnHpw=
-X-Google-Smtp-Source: AGHT+IHZIEEtE0GTE23hrMSOZRsQix/uiiI7scukL34ZuU1W2Rj1Z0AwHWpwqX7Ay7qh17KF/20rEq5PwgQ=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90b:120a:b0:268:38e3:34f0 with SMTP id
- gl10-20020a17090b120a00b0026838e334f0mr237100pjb.2.1692225634418; Wed, 16 Aug
- 2023 15:40:34 -0700 (PDT)
-Date:   Wed, 16 Aug 2023 15:40:32 -0700
-In-Reply-To: <20230801002127.534020-6-mizhang@google.com>
-Mime-Version: 1.0
-References: <20230801002127.534020-1-mizhang@google.com> <20230801002127.534020-6-mizhang@google.com>
-Message-ID: <ZN1QYGfFuzlyjECm@google.com>
-Subject: Re: [PATCH v3 5/6] KVM: Documentation: Add the missing description
- for mmu_valid_gen into kvm_mmu_page
-From:   Sean Christopherson <seanjc@google.com>
-To:     Mingwei Zhang <mizhang@google.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kai Huang <kai.huang@intel.com>,
-        Jim Mattson <jmattson@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S1347005AbjHPWoj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 18:44:39 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A95B1BF7;
+        Wed, 16 Aug 2023 15:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=kfah8PV/SaG1+qbLS8sXtkthnC+KbrePk0P9kuFyEuY=; b=DUaGN9R3+GGPQEIUxR1hYC55o7
+        7l73sIf+XQFTUXqgXHeKgN20iSYgRM04X4PYHU8rX/DnpD7ZzKkvGXRR5eYrh/+R8ZehUmOLe/ryH
+        XJkKPOQYIIIa7jG/l5iysJE2fPZhzA9v2z83vx9myyNDRFkbBrXcEbPWDQuPp+ZrGhWoLNgL1zm3U
+        ih1HJA3uAqcPw+Fmpl1BDmq9USou8z2QX4Wday59J3LAo/2EdTW6f4p6SiOIJClmD03FvoaF9kpIy
+        R9SzDczxVIbi9blerj8+LIumsrdzAY/U4fVtS5UFzZcwKKzj9U89TBdqNgQoD9+RIzUHWE63S9IA3
+        7LT2Jx3g==;
+Received: from 50-198-160-193-static.hfc.comcastbusiness.net ([50.198.160.193] helo=[10.150.81.190])
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qWPFH-00DLBA-1Z;
+        Wed, 16 Aug 2023 22:44:09 +0000
+Message-ID: <ae2b7002-1230-95a1-33e8-91b1898a33ad@infradead.org>
+Date:   Wed, 16 Aug 2023 15:43:59 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH net-next v3 5/5] ice: add documentation for FW logging
+Content-Language: en-US
+To:     Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
+        kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+        netdev@vger.kernel.org
+Cc:     Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
+        jacob.e.keller@intel.com, horms@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+References: <20230815165750.2789609-1-anthony.l.nguyen@intel.com>
+ <20230815165750.2789609-6-anthony.l.nguyen@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230815165750.2789609-6-anthony.l.nguyen@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 01, 2023, Mingwei Zhang wrote:
-> Add the description for mmu_valid_gen into kvm_mmu_page description.
-> mmu_valid_gen is used in shadow MMU for fast zapping. Update the doc to
-> reflect that.
+
+
+On 8/15/23 09:57, Tony Nguyen wrote:
+> From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
 > 
-> Signed-off-by: Mingwei Zhang <mizhang@google.com>
-> Reviewed-by: Kai Huang <kai.huang@intel.com>
+> Add documentation for FW logging in
+> Documentation/networking/device-drivers/ethernet/intel/ice.rst
+> 
+> Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+> Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
 > ---
->  Documentation/virt/kvm/x86/mmu.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  .../device_drivers/ethernet/intel/ice.rst     | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
 > 
-> diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-> index 40daf8beb9b1..581e53fa00a2 100644
-> --- a/Documentation/virt/kvm/x86/mmu.rst
-> +++ b/Documentation/virt/kvm/x86/mmu.rst
-> @@ -208,6 +208,16 @@ Shadow pages contain the following information:
->      The page is not backed by a guest page table, but its first entry
->      points to one.  This is set if NPT uses 5-level page tables (host
->      CR4.LA57=1) and is shadowing L1's 4-level NPT (L1 CR4.LA57=1).
-> +  mmu_valid_gen:
-> +    The MMU generation of this page, used to fast zap of all MMU pages within a
-> +    VM without blocking vCPUs.
+> diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+> index e4d065c55ea8..3ddef911faaa 100644
+> --- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+> +++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+> @@ -895,6 +895,123 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
+>  refer to the hardware GNSS module documentation for configuration details.
+>  
+>  
+> +Firmware (FW) logging
+> +---------------------
+> +The driver supports FW logging via the debugfs interface on PF 0 only. In order
+> +for FW logging to work, the NVM must support it. The 'fwlog' file will only get
+> +created in the ice debugfs directory if the NVM supports FW logging.
+> +
+> +Module configuration
+> +~~~~~~~~~~~~~~~~~~~~
+> +To see the status of FW logging then read the 'fwlog/modules' file like this::
 
-KVM still blocks vCPUs, just for far less time.  How about this?
+                     of FW logging, read
 
-     The MMU generation of this page, used to determine whether or not a shadow
-     page is obsolete, i.e. belongs to a previous MMU generation.  KVM changes
-     the MMU generation when all shadow pages need to be invalidated, e.g. if a
-     memslot is deleted, and so effectively marks all shadow pages as obsolete
-     without having to touch each page.  Marking shadow pages obsolete allows
-     KVM to zap them in the background, i.e. so that vCPUs can run while the
-     zap is ongoing (using a root from the new generation).  The MMU generation
-     is only ever '0' or '1' (slots_lock must be held until all pages from the
-     previous generation are zapped).
+> +
+> +  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
+> +
+> +To configure FW logging then write to the 'fwlog/modules' file like this::
 
-     Note, the TDP MMU...
+                FW logging, write to
 
-> Specifically, KVM updates the per-VM valid MMU
-> +    generation which causes the mismatch of mmu_valid_gen for each mmu page.
-> +    This makes all existing MMU pages obsolete. Obsolete pages can't be used.
-> +    Therefore, vCPUs must load a new, valid root before re-entering the guest.
-> +    The MMU generation is only ever '0' or '1'.  
+> +
+> +  # echo <fwlog_event> <fwlog_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
+> +
+> +where
+> +
+> +* fwlog_level is a name as described below. Each level includes the
+> +  messages from the previous/lower level
+> +
+> +      * NONE
+
+Should NONE be aligned with the entries below?
+Ah, they are aligned in the source file, but NONE uses a space after the '*'
+while the others use a TAB after the '*'.
+
+> +      *	ERROR
+> +      *	WARNING
+> +      *	NORMAL
+> +      *	VERBOSE
+> +
+> +* fwlog_event is a name that represents the module to receive events for. The
+> +  module names are
+> +
+> +      *	GENERAL
+> +      *	CTRL
+> +      *	LINK
+> +      *	LINK_TOPO
+> +      *	DNL
+> +      *	I2C
+> +      *	SDP
+> +      *	MDIO
+> +      *	ADMINQ
+> +      *	HDMA
+> +      *	LLDP
+> +      *	DCBX
+> +      *	DCB
+> +      *	XLR
+> +      *	NVM
+> +      *	AUTH
+> +      *	VPD
+> +      *	IOSF
+> +      *	PARSER
+> +      *	SW
+> +      *	SCHEDULER
+> +      *	TXQ
+> +      *	RSVD
+> +      *	POST
+> +      *	WATCHDOG
+> +      *	TASK_DISPATCH
+> +      *	MNG
+> +      *	SYNCE
+> +      *	HEALTH
+> +      *	TSDRV
+> +      *	PFREG
+> +      *	MDLVER
+> +      *	ALL
+> +
+> +The name ALL is special and specifies setting all of the modules to the
+> +specified fwlog_level.
+> +
+> +Example usage to configure the modules::
+> +
+> +  # echo LINK VERBOSE > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
+> +
+> +Enabling FW log
+> +~~~~~~~~~~~~~~~
+> +Once the desired modules are configured the user will enable the logging. To do
+
+                                           the user enables logging. To do
+
+> +this the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An
+> +example is::
+> +
+> +  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
+> +
+> +Retrieving FW log data
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +The FW log data can be retrieved by reading from 'fwlog/data'. The user can
+> +write to 'fwlog/data' to clear the data. The data can only be cleared when FW
+> +logging is disabled. The FW log data is a binary file that is sent to Intel and
+> +used to help debug user issues.
+> +
+> +An example to read the data is::
+> +
+> +  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
+> +
+> +An example to clear the data is::
+> +
+> +  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
+> +
+> +Changing how often the log events are sent to the driver
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The driver receives FW log data from the Admin Receive Queue (ARQ). The
+> +frequency that the FW sends the ARQ events can be configured by writing to
+> +'fwlog/resolution'. The range is 1-128 (1 means push every log message, 128
+> +means push only when the max AQ command buffer is full). The suggested value is
+> +10. The user can see what the value is configured to by reading
+> +'fwlog/resolution'. An example to set the value is::
+> +
+> +  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/resolution
+> +
+> +Configuring the number of buffers used to store FW log data
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The driver stores FW log data in a ring within the driver. The default size of
+> +the ring is 256 4K buffers. Some use cases may require more or less data so
+> +the user can change the number of buffers that are allocated for FW log data.
+> +To change the number of buffers write to 'fwlog/nr_buffs'. The value must be a
+> +power of two and between the values 64-512. FW logging must be disabled to
+
+or
+The value must be one of: 64, 128, 256, or 512.
+
+> +change the value. An example of changing the value is::
+> +
+> +  # echo 128 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_buffs
+> +
+> +
+>  Performance Optimization
+>  ========================
+>  Driver defaults are meant to fit a wide variety of workloads, but if further
