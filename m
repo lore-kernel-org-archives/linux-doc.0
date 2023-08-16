@@ -2,92 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6547C001B0
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 03:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F087C04A94
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 07:36:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241523AbjHPD22 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 23:28:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
+        id S242412AbjHPHgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 03:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241551AbjHPD2K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 23:28:10 -0400
-Received: from dggsgout12.his.huawei.com (unknown [45.249.212.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8040A199D;
-        Tue, 15 Aug 2023 20:28:06 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.30.67.169])
-        by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4RQYVl0n64z4f3l2m;
-        Wed, 16 Aug 2023 11:27:59 +0800 (CST)
-Received: from ubuntu20.huawei.com (unknown [10.67.174.33])
-        by APP4 (Coremail) with SMTP id gCh0CgDnwqU7QtxktkBHAw--.44168S2;
-        Wed, 16 Aug 2023 11:28:02 +0800 (CST)
-From:   "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
-To:     Christian Brauner <brauner@kernel.org>,
-        Seth Forshee <sforshee@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        with ESMTP id S242454AbjHPHgO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 03:36:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0770210C3;
+        Wed, 16 Aug 2023 00:36:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 89CD361A7B;
+        Wed, 16 Aug 2023 07:36:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEC9C433C9;
+        Wed, 16 Aug 2023 07:36:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692171372;
+        bh=t6r/M93XkSU/T7fdCW3IDojho4eatPXlVGqxqVrRhNM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=XQmmdiXfUIvJZzQOpztfNdFPZGbhGzOOl//SGEp07WWl3ygjTVnA1L6FIZ1JWtc1I
+         Zeavh+9jcfedDeeP7tljoniO7KBU5dOq8UICLqzEnQYR4pGNp+uFzI/NqEOlDxY7z3
+         Mf0HlQl2yxWf9vsd0mGULNarNQm5us14kp/M1BUvWAPeLKxyjhrVXNOJfTqNWQDtma
+         tdS3UXLb6VOlVqm5FvfS0o81v3ijFERO/U1eZr6ZM+1dPnppZS/NRBAGm3MmWU1348
+         PbnOKE4OWTlz5VdVyEWiVUFJZCdVhRIC0O42zrpyQIulgOSBIalyRAPTSMafq9g4U0
+         H9tnoFQgP6L9A==
+From:   Christian Brauner <brauner@kernel.org>
+To:     Seth Forshee <sforshee@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Wang Lei <wanglei249@huawei.com>,
         gongruiqi1@huawei.com
-Subject: [PATCH] doc: idmappings: fix an error and rephrase a paragraph
-Date:   Wed, 16 Aug 2023 11:32:10 +0800
-Message-Id: <20230816033210.914262-1-gongruiqi@huaweicloud.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] doc: idmappings: fix an error and rephrase a paragraph
+Date:   Wed, 16 Aug 2023 09:36:07 +0200
+Message-Id: <20230816-speisen-fachkenntnis-699757c3961f@brauner>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230816033210.914262-1-gongruiqi@huaweicloud.com>
+References: <20230816033210.914262-1-gongruiqi@huaweicloud.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1153; i=brauner@kernel.org; h=from:subject:message-id; bh=t6r/M93XkSU/T7fdCW3IDojho4eatPXlVGqxqVrRhNM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTcqUnZ92BHjdFLg7qqwwJh8eKnlV9tmnIvIj5G9Xegk/gm 601xHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPZG8HIcLE3PfbSqV3frN7/eRr+9Z xV7hNmz6e2G96yKmwrN7Pc6MvI8Mv5lbX6ehHz12dPnP322XRJ8gTbItdnTy7xT/q517bVihcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgDnwqU7QtxktkBHAw--.44168S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7AF43Zr1Utw1UuF17KFg_yoW8Ar48p3
-        yrtFsrKa1Yva4j9w1xArWIgFyjvas5uw4UAFyDJw1rZr1DGF9Fyr4IkF10qFyrZ3ySkFWa
-        vFW29rWj9r13twUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgKb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
-        c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
-        CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
-        MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJV
-        Cq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
-        daVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
-X-CM-SenderInfo: pjrqw2pxltxq5kxd4v5lfo033gof0z/
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "GONG, Ruiqi" <gongruiqi1@huawei.com>
+On Wed, 16 Aug 2023 11:32:10 +0800, GONG, Ruiqi wrote:
+> If the modified paragraph is referring to the idmapping mentioned in the
+> previous paragraph (i.e. `u0:k10000:r10000`), then it is `u0` that the
+> upper idmapset starts with, not `u1000`.
 
-If the modified paragraph is referring to the idmapping mentioned in the
-previous paragraph (i.e. `u0:k10000:r10000`), then it is `u0` that the
-upper idmapset starts with, not `u1000`.
+Yes, correct. Thanks!
 
-Fix this error and rephrase this paragraph a bit to make this reference
-more explicit.
+> 
+> Fix this error and rephrase this paragraph a bit to make this reference
+> more explicit.
+> 
+> [...]
 
-Reported-by: Wang Lei <wanglei249@huawei.com>
-Signed-off-by: GONG, Ruiqi <gongruiqi1@huawei.com>
----
- Documentation/filesystems/idmappings.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Applied to the vfs.misc branch of the vfs/vfs.git tree.
+Patches in the vfs.misc branch should appear in linux-next soon.
 
-diff --git a/Documentation/filesystems/idmappings.rst b/Documentation/filesystems/idmappings.rst
-index f3d168c9f0b9..d095c5838f94 100644
---- a/Documentation/filesystems/idmappings.rst
-+++ b/Documentation/filesystems/idmappings.rst
-@@ -146,9 +146,10 @@ For the rest of this document we will prefix all userspace ids with ``u`` and
- all kernel ids with ``k``. Ranges of idmappings will be prefixed with ``r``. So
- an idmapping will be written as ``u0:k10000:r10000``.
- 
--For example, the id ``u1000`` is an id in the upper idmapset or "userspace
--idmapset" starting with ``u1000``. And it is mapped to ``k11000`` which is a
--kernel id in the lower idmapset or "kernel idmapset" starting with ``k10000``.
-+For example, within this idmapping, the id ``u1000`` is an id in the upper
-+idmapset or "userspace idmapset" starting with ``u0``. And it is mapped to
-+``k11000`` which is a kernel id in the lower idmapset or "kernel idmapset"
-+starting with ``k10000``.
- 
- A kernel id is always created by an idmapping. Such idmappings are associated
- with user namespaces. Since we mainly care about how idmappings work we're not
--- 
-2.25.1
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.misc
+
+[1/1] doc: idmappings: fix an error and rephrase a paragraph
+      https://git.kernel.org/vfs/vfs/c/21238b550dd6
