@@ -2,212 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F1A5C27C6D
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 22:45:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 671FDC27C6E
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 22:47:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243960AbjHPWow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 18:44:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37744 "EHLO
+        id S1347017AbjHPWrC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 18:47:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347005AbjHPWoj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 18:44:39 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A95B1BF7;
-        Wed, 16 Aug 2023 15:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=kfah8PV/SaG1+qbLS8sXtkthnC+KbrePk0P9kuFyEuY=; b=DUaGN9R3+GGPQEIUxR1hYC55o7
-        7l73sIf+XQFTUXqgXHeKgN20iSYgRM04X4PYHU8rX/DnpD7ZzKkvGXRR5eYrh/+R8ZehUmOLe/ryH
-        XJkKPOQYIIIa7jG/l5iysJE2fPZhzA9v2z83vx9myyNDRFkbBrXcEbPWDQuPp+ZrGhWoLNgL1zm3U
-        ih1HJA3uAqcPw+Fmpl1BDmq9USou8z2QX4Wday59J3LAo/2EdTW6f4p6SiOIJClmD03FvoaF9kpIy
-        R9SzDczxVIbi9blerj8+LIumsrdzAY/U4fVtS5UFzZcwKKzj9U89TBdqNgQoD9+RIzUHWE63S9IA3
-        7LT2Jx3g==;
-Received: from 50-198-160-193-static.hfc.comcastbusiness.net ([50.198.160.193] helo=[10.150.81.190])
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qWPFH-00DLBA-1Z;
-        Wed, 16 Aug 2023 22:44:09 +0000
-Message-ID: <ae2b7002-1230-95a1-33e8-91b1898a33ad@infradead.org>
-Date:   Wed, 16 Aug 2023 15:43:59 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH net-next v3 5/5] ice: add documentation for FW logging
-Content-Language: en-US
-To:     Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
-        kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
-        netdev@vger.kernel.org
-Cc:     Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-        jacob.e.keller@intel.com, horms@kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-References: <20230815165750.2789609-1-anthony.l.nguyen@intel.com>
- <20230815165750.2789609-6-anthony.l.nguyen@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230815165750.2789609-6-anthony.l.nguyen@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S1347013AbjHPWq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 18:46:58 -0400
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F33173F
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 15:46:57 -0700 (PDT)
+Received: by mail-pl1-x649.google.com with SMTP id d9443c01a7336-1bb8caf7312so4077785ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 15:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692226016; x=1692830816;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=n7a+uEDA5jWim2WjEe90Wh2lZxzibPYDcHdGrkYhrCo=;
+        b=3rWoeQRrMGgmiQAR59dF+dosUKDEIxpMJHcGetrQmAYhK7t/p+kJTyRyARgg6NFdIM
+         SFj6HTnU3/0HTfd8+Pi25DdHz547vqeGA+sMkVjSFICq45apap82cKChchDfpHsxqiY3
+         Cq67uWauPB+TPSB6IjaPnJqQCsmSpnVmdcOEsswdT61h1ykcZn/PWvOExXraCT51rvUB
+         Ris6ap9kzZYPhw2d0ojgodh7k26ZB9f6S/JZKn9sb0ph0bf1g4AB0mkykRAyYdH/cX6q
+         4hIgZFneL3wAUEmB3o5iHkiOy3y7bkTXxFew/qBiP5eM7Sph6BdaRAQ1IL0drcyMelIW
+         +Hug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692226016; x=1692830816;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n7a+uEDA5jWim2WjEe90Wh2lZxzibPYDcHdGrkYhrCo=;
+        b=Gf/AV5L4f/P8upwANgmZqOX6GPDNcChs/3m/CxRn93WI818ROmCXtGuBEpZkAQD9xw
+         fN2u4JrujNiCrcLJQVzo9PKYNl3zdIvYlzQb+tVo/Wj5U7ZrSdxOmYa7An4yJty/Xbm+
+         MNU2E4TnBEyKLSY3kO6mPaHTGYacBQOFktK3R2NfqQWNc5DkXK+G8wdpSmFyytkDvShL
+         fAJNE2v7vZFITUQzlo6wzl+Ol/EVppNFfCaIV3i2emFd1xSnNf691+ma+dsDPM1g3j78
+         iStMmP4WImdmbzerbZQV5s6Bhl8xP+V3cQLu2jMbCgcJh7FfkLZV+JlQ4sAO0w4Edt66
+         14kw==
+X-Gm-Message-State: AOJu0Yz+up9cY7VvLbWpTEUaRUtaYg/+anuptyedaMwoTy5AWYqq+kvZ
+        N20uAyyOyGdeMVwaaRNHqbtVIxK24pk=
+X-Google-Smtp-Source: AGHT+IH0EciIyG+E7fGItbQPNlQ+YZpngXRdFj7vCBCg/vY89U8Bdg91XCR3378skcS2onG2JHZ9RKdEjr8=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:903:27cd:b0:1bc:73a6:8be7 with SMTP id
+ km13-20020a17090327cd00b001bc73a68be7mr186093plb.3.1692226016567; Wed, 16 Aug
+ 2023 15:46:56 -0700 (PDT)
+Date:   Wed, 16 Aug 2023 15:46:55 -0700
+In-Reply-To: <20230801002127.534020-5-mizhang@google.com>
+Mime-Version: 1.0
+References: <20230801002127.534020-1-mizhang@google.com> <20230801002127.534020-5-mizhang@google.com>
+Message-ID: <ZN1R31uo4FGQfKrQ@google.com>
+Subject: Re: [PATCH v3 4/6] KVM: Documentation: Add the missing description
+ for tdp_mmu_root_count into kvm_mmu_page
+From:   Sean Christopherson <seanjc@google.com>
+To:     Mingwei Zhang <mizhang@google.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kai Huang <kai.huang@intel.com>,
+        Jim Mattson <jmattson@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
+        Zhi Wang <zhi.wang.linux@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 8/15/23 09:57, Tony Nguyen wrote:
-> From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+On Tue, Aug 01, 2023, Mingwei Zhang wrote:
+> Add the description of tdp_mmu_root_count into kvm_mmu_page description and
+> combine it with the description of root_count. tdp_mmu_root_count is an
+> atomic counter used only in TDP MMU. Update the doc.
 > 
-> Add documentation for FW logging in
-> Documentation/networking/device-drivers/ethernet/intel/ice.rst
-> 
-> Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
-> Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+> Signed-off-by: Mingwei Zhang <mizhang@google.com>
+> Reviewed-by: Kai Huang <kai.huang@intel.com>
 > ---
->  .../device_drivers/ethernet/intel/ice.rst     | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
+>  Documentation/virt/kvm/x86/mmu.rst | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-> index e4d065c55ea8..3ddef911faaa 100644
-> --- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-> @@ -895,6 +895,123 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
->  refer to the hardware GNSS module documentation for configuration details.
->  
->  
-> +Firmware (FW) logging
-> +---------------------
-> +The driver supports FW logging via the debugfs interface on PF 0 only. In order
-> +for FW logging to work, the NVM must support it. The 'fwlog' file will only get
-> +created in the ice debugfs directory if the NVM supports FW logging.
-> +
-> +Module configuration
-> +~~~~~~~~~~~~~~~~~~~~
-> +To see the status of FW logging then read the 'fwlog/modules' file like this::
+> diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
+> index 17d90974204e..40daf8beb9b1 100644
+> --- a/Documentation/virt/kvm/x86/mmu.rst
+> +++ b/Documentation/virt/kvm/x86/mmu.rst
+> @@ -229,10 +229,14 @@ Shadow pages contain the following information:
+>      can be calculated from the gfn field when used.  In addition, when
+>      role.direct is set, KVM does not track access permission for each of the
+>      gfn. See role.direct and gfn.
+> -  root_count:
+> -    A counter keeping track of how many hardware registers (guest cr3 or
+> -    pdptrs) are now pointing at the page.  While this counter is nonzero, the
+> -    page cannot be destroyed.  See role.invalid.
+> +  root_count / tdp_mmu_root_count:
+> +     root_count is a reference counter for root shadow pages in Shadow MMU.
+> +     vCPUs elevate the refcount when getting a shadow page that will be used as
+> +     a root page, i.e. page that will be loaded into hardware directly (CR3,
+> +     PDPTRs, nCR3 EPTP). Root pages cannot be destroyed while their refcount is
+> +     non-zero. See role.invalid. tdp_mmu_root_count is similar but exclusively
+> +     used in TDP MMU as an atomic refcount. When the value is non-zero, it
+> +     allows vCPUs acquire references while holding mmu_lock for read.
 
-                     of FW logging, read
+That last sentence is wrong.  *vCPUs* can't acquire references while holding
+mmu_lock for read.  And actually, they don't ever put references while holding
+for read either.  vCPUs *must* hold mmu_lock for write to obtain a new root,
+Not putting references while holding mmu_lock for read is mostly an implementation
+quirk.
 
-> +
-> +  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-> +
-> +To configure FW logging then write to the 'fwlog/modules' file like this::
+Maybe replace it with this?
 
-                FW logging, write to
-
-> +
-> +  # echo <fwlog_event> <fwlog_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-> +
-> +where
-> +
-> +* fwlog_level is a name as described below. Each level includes the
-> +  messages from the previous/lower level
-> +
-> +      * NONE
-
-Should NONE be aligned with the entries below?
-Ah, they are aligned in the source file, but NONE uses a space after the '*'
-while the others use a TAB after the '*'.
-
-> +      *	ERROR
-> +      *	WARNING
-> +      *	NORMAL
-> +      *	VERBOSE
-> +
-> +* fwlog_event is a name that represents the module to receive events for. The
-> +  module names are
-> +
-> +      *	GENERAL
-> +      *	CTRL
-> +      *	LINK
-> +      *	LINK_TOPO
-> +      *	DNL
-> +      *	I2C
-> +      *	SDP
-> +      *	MDIO
-> +      *	ADMINQ
-> +      *	HDMA
-> +      *	LLDP
-> +      *	DCBX
-> +      *	DCB
-> +      *	XLR
-> +      *	NVM
-> +      *	AUTH
-> +      *	VPD
-> +      *	IOSF
-> +      *	PARSER
-> +      *	SW
-> +      *	SCHEDULER
-> +      *	TXQ
-> +      *	RSVD
-> +      *	POST
-> +      *	WATCHDOG
-> +      *	TASK_DISPATCH
-> +      *	MNG
-> +      *	SYNCE
-> +      *	HEALTH
-> +      *	TSDRV
-> +      *	PFREG
-> +      *	MDLVER
-> +      *	ALL
-> +
-> +The name ALL is special and specifies setting all of the modules to the
-> +specified fwlog_level.
-> +
-> +Example usage to configure the modules::
-> +
-> +  # echo LINK VERBOSE > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-> +
-> +Enabling FW log
-> +~~~~~~~~~~~~~~~
-> +Once the desired modules are configured the user will enable the logging. To do
-
-                                           the user enables logging. To do
-
-> +this the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An
-> +example is::
-> +
-> +  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
-> +
-> +Retrieving FW log data
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +The FW log data can be retrieved by reading from 'fwlog/data'. The user can
-> +write to 'fwlog/data' to clear the data. The data can only be cleared when FW
-> +logging is disabled. The FW log data is a binary file that is sent to Intel and
-> +used to help debug user issues.
-> +
-> +An example to read the data is::
-> +
-> +  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
-> +
-> +An example to clear the data is::
-> +
-> +  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
-> +
-> +Changing how often the log events are sent to the driver
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +The driver receives FW log data from the Admin Receive Queue (ARQ). The
-> +frequency that the FW sends the ARQ events can be configured by writing to
-> +'fwlog/resolution'. The range is 1-128 (1 means push every log message, 128
-> +means push only when the max AQ command buffer is full). The suggested value is
-> +10. The user can see what the value is configured to by reading
-> +'fwlog/resolution'. An example to set the value is::
-> +
-> +  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/resolution
-> +
-> +Configuring the number of buffers used to store FW log data
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +The driver stores FW log data in a ring within the driver. The default size of
-> +the ring is 256 4K buffers. Some use cases may require more or less data so
-> +the user can change the number of buffers that are allocated for FW log data.
-> +To change the number of buffers write to 'fwlog/nr_buffs'. The value must be a
-> +power of two and between the values 64-512. FW logging must be disabled to
-
-or
-The value must be one of: 64, 128, 256, or 512.
-
-> +change the value. An example of changing the value is::
-> +
-> +  # echo 128 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_buffs
-> +
-> +
->  Performance Optimization
->  ========================
->  Driver defaults are meant to fit a wide variety of workloads, but if further
+    tdp_mmu_root_count is similar but exclusively used in the TDP MMU as an
+    atomic refcount (select TDP MMU flows walk all roots while holding mmu_lock
+    for read, e.g. when clearing dirty bits).
