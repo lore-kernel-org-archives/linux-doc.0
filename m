@@ -2,312 +2,347 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1063C41513
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 18:31:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11085C07E8A
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 18:38:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345510AbjHPSbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 14:31:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48774 "EHLO
+        id S242561AbjHPSh6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 14:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345542AbjHPSbU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 14:31:20 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DDF712C;
-        Wed, 16 Aug 2023 11:31:19 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37GH4hXk026626;
-        Wed, 16 Aug 2023 18:30:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2023-03-30;
- bh=+3SZUdONXjlS319Oegol8BO6E9fNHpAsos9cud0jAiw=;
- b=jwCgVkxvkEMsGN8SvvhqaOG9yP5GX34Rqn+b5b83Ojk0SHyQtnHbepYLzD/xUvCYSQfY
- 6hg6sCvcsr6ACWBAPlCMLU9EeWWJpX6iCNCN006tS7a4JRtjOmsNzNv7rlI9CbFPyLIJ
- bjMOnERj2rRCkXkQRqXuGA460tanSUd97wP58fXw0fr3BTnJebBLNvoKeMLt+UvXLVzl
- +ahYposVNx7UX90e2T3eREww54vSCI3SUxayr/6Zi89RgatBl1vNDh5W14DxzImf53Zk
- 6fpX7DI0OYFoUY8VVm5Nae3mI29iCvkN3wDojjOtkTLttF/0T8UDzeh+xaAtzKqKLEQM 0A== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3se2xwquv2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 16 Aug 2023 18:30:36 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 37GIIaca019766;
-        Wed, 16 Aug 2023 18:30:34 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3sey3x4fwe-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 16 Aug 2023 18:30:34 +0000
+        with ESMTP id S1345675AbjHPSh5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 14:37:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB4F2702;
+        Wed, 16 Aug 2023 11:37:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692211071; x=1723747071;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=vlfh1XXDkgWWEiL5k6maOT7q/k+9VKhNGdWZNZolXsY=;
+  b=byUGl4b2mAMlGZy5VCV3FG6tWWPvldfDvZ0RKT53eHwE+BAXKC1zdnWr
+   sD1Q1xnHEorHt+b2+bfZy/U/bLSlP3k4J9ZHei4NEIqHPI9kB4C8Qzr25
+   /ljlPURANCgTysY4wCcB7Bpz6SWZTvpfx9E+46DFb/x/nEqXOQ8k2rHAg
+   sOI9vUnUfh5+Kr8aETfeQTpBKmen9qeayPQbDNE1mR35+chL+Ki5mtjV4
+   DbdCZJysCkYhTNg9tP9FOfo/Cy8W3cfkCNSa/KJoXf4kktAJo4/FiPRZD
+   zyVhrJddlzVo2jW4f7FuMiLoowi5ZLrXNIupecNv4V/7MOcIOMux9Hzzx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370078916"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="370078916"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 11:37:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737383047"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="737383047"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga007.fm.intel.com with ESMTP; 16 Aug 2023 11:37:00 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Wed, 16 Aug 2023 11:37:00 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Wed, 16 Aug 2023 11:37:00 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Wed, 16 Aug 2023 11:36:59 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZTJsG8LmxQ5SzIP1LRfhfTfSzCO2Lv7oFsc2LXQDK+wHTATw1aH/Jo1v8U+fr8dG1fa1KfCG0V+s8MbALx3Lwz50XQrPEt6Zl/d06D+xoQN0Q2vrSv5Fu3VB1U4Mt4dV3f6q6L4ADsXaIQ8XU90K9xKauhTfKDW2VoZQnInlBJ/0hGiq12WQGRM5H5+VVjOSh16IvekKfJcmuZj8mnIhFzZ3SFG5KBHajeCeqE95DXHx+YMIBRUeEgpUPQz1K+LSJTvGa/c3JkCAAG0Ef4WGKurz7g7XsEdUiTgCglhcOo+WVJRcfreclaFfYYDM/4LWKoXD4nqwYYuEbbfanZp0Wg==
+ b=CLj8ejucfAUX7DYn0dtT5eFaAMk6oLzfjvygsEbykpEPd4EH2WzoNW42TMs1kbfi3JvktiE0qxSTToLOyJHIkBp1Wc06Ix3f3i4PxS9F9QDQOLDnt192M5wLqd6SHnuR9xgaEVjlKW1AdtOD/ZvyViKqP/Gf6B/0p7KGBtA/Nu/Sln/nlZd+RB0Snx+9zSpZKo9/Hl7FkuUVdKSMgekNNy+T/9TkJKYgApUWM1AXjNGXer+pX3/IjMAthp94vOeTKl056yRbFe4GfOPs85ZbB6AuQKGhY9AuJ1kgifp4MAasiLd16V64ObRKGSk3BIgEx5XRidwkX1d8W1ffn73mqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+3SZUdONXjlS319Oegol8BO6E9fNHpAsos9cud0jAiw=;
- b=WW30Ccfgnpstys10ZomV67FpZkmJMagX/pWfuTUBtqk7897tPfko7gxQuRjLhfczrC7jcz10OJU7EqbNb/GKRyNOCvVI0bXH6O+0uR2EVTJ0qHopeMayv4ZtNTpkpnskg0/PzCd/+0T//Klt9h73uPgofNmn8tTWcmxT+wLmdYFylUkDRj9Y6bMVHGQ75qbXUlOfwrwJPOgdj1MG8z2LeDIw0sNb6CMUUAnSfkIol4aTkX3A3bhy0e0ijjW0oIEZww18hMEEDB3laJbEPHBBRpYa7uiXX3j2SqfnnuqnqR1Psc8A3Y/J5NmwnxKF3GsL4+q2OKJBwp+y2hiqGbJD3Q==
+ bh=qz0d4DaVaDda319g+ORzxxM4tvDq7xkArZDezFAstH0=;
+ b=oZLwLy8QLyhe9hSvUMLy2I1Frq1Iwy3giLUWXbD0GPuXaVtMeyIYgJFSa0QRnVM2QTnIsE89Fbe8oLxcKya4EigP6E3M5nYJIhPsRMbzOIIZnzVo3cTqxnAYlhwtU+3pGDgHFFfTTf64JN2Jt1t8SMtOgThH9hL+mfqw4l4kNDQN+p6XJ07AXG213ULkeBMsNtYTJq9o/rOw/xhqL7f0ArPZtABdvK6aAiATStjXBQKKIvPoFZ+0XBwSdvzU5wPit0C+VxgfgsMR7Ka/PH+AAY9dY8ES8jZPK0ytte8B5KJ3w/prv7px3zgtiAXTAy37MvyzreToHIOrqy2RNMpL6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+3SZUdONXjlS319Oegol8BO6E9fNHpAsos9cud0jAiw=;
- b=DSYealW+Lm8+MjjtQgZekpKsE6b6OUsS7Fau/9JslhgW5eyEHMcJtzDZDG/pOORbo57zKg+t76yTrZ+j+chNlCE3vZnC4Kh3jV8f7jutULsBLlLV8rslgm1Bmfyv0VqtI3Wl6GVUWD2QT2iDDeUUvJsx604+RdacaX29yWujDrk=
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
- by PH7PR10MB6555.namprd10.prod.outlook.com (2603:10b6:510:206::20) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CY5PR11MB6343.namprd11.prod.outlook.com (2603:10b6:930:3c::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.30; Wed, 16 Aug
- 2023 18:30:32 +0000
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::26d3:6f41:6415:8c35]) by SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::26d3:6f41:6415:8c35%3]) with mapi id 15.20.6678.025; Wed, 16 Aug 2023
- 18:30:32 +0000
-Date:   Wed, 16 Aug 2023 14:30:29 -0400
-From:   "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-To:     Peng Zhang <zhangpeng.00@bytedance.com>
-Cc:     willy@infradead.org, michael.christie@oracle.com,
-        surenb@google.com, npiggin@gmail.com, corbet@lwn.net,
-        mathieu.desnoyers@efficios.com, avagin@gmail.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        akpm@linux-foundation.org, brauner@kernel.org, peterz@infradead.org
-Subject: Re: [PATCH 04/11] maple_tree: Introduce interfaces __mt_dup() and
- mt_dup()
-Message-ID: <20230816183029.5rpkbgp2umebrjh5@revolver>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-        Peng Zhang <zhangpeng.00@bytedance.com>, willy@infradead.org,
-        michael.christie@oracle.com, surenb@google.com, npiggin@gmail.com,
-        corbet@lwn.net, mathieu.desnoyers@efficios.com, avagin@gmail.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        akpm@linux-foundation.org, brauner@kernel.org, peterz@infradead.org
-References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
- <20230726080916.17454-5-zhangpeng.00@bytedance.com>
- <20230726160354.konsgq6hidj7gr5u@revolver>
- <beaab8b4-180c-017d-bd8d-8766196f302a@bytedance.com>
- <20230731162714.4x3lzymuyvu2mter@revolver>
- <3f4e73cc-1a98-95a8-9ab2-47797d236585@bytedance.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f4e73cc-1a98-95a8-9ab2-47797d236585@bytedance.com>
-User-Agent: NeoMutt/20220429
-X-ClientProxiedBy: YT4PR01CA0162.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:ac::28) To SN6PR10MB3022.namprd10.prod.outlook.com
- (2603:10b6:805:d8::25)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
+ 2023 18:36:57 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::47e:3e1f:bef4:20e0]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::47e:3e1f:bef4:20e0%3]) with mapi id 15.20.6678.025; Wed, 16 Aug 2023
+ 18:36:57 +0000
+Message-ID: <25c23223-520b-f6ff-ec8f-678e2524c511@intel.com>
+Date:   Wed, 16 Aug 2023 11:36:52 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.14.0
+Subject: Re: [PATCH v7 4/8] x86/resctrl: Add comments on RFTYPE flags
+ hierarchy
+Content-Language: en-US
+To:     <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
+        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
+        <quic_jiles@quicinc.com>, <peternewman@google.com>
+References: <169178429591.1147205.4030367096506551808.stgit@bmoger-ubuntu>
+ <169178458575.1147205.16331131496340363561.stgit@bmoger-ubuntu>
+ <37986ad0-4519-0f16-c09b-86fcf2f8a763@intel.com>
+ <c341b2cf-7ebc-f52b-76ba-77a106dc20fc@amd.com>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <c341b2cf-7ebc-f52b-76ba-77a106dc20fc@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0178.namprd03.prod.outlook.com
+ (2603:10b6:303:8d::33) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR10MB3022:EE_|PH7PR10MB6555:EE_
-X-MS-Office365-Filtering-Correlation-Id: f699c897-674f-4283-50c6-08db9e86dfe0
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CY5PR11MB6343:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3264e44a-62c2-47d1-2f73-08db9e87c50e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tgq/0MyFqdaAn+gtRgbgIuRphIF3ZYejVgSX3MV5KcQKXsV/jXclbZ2piuWjDNasDzSirRWMpAkgznXigyCkqPoVtvXTSI1MK7N4xQyrHO6tnnmehNYC0fmIUTzNwuaL+WfNw5OTV+Cfs9j0Tp9HKAVT5QIY71dgZ6veDzBcumzHT6fTgrdLbUv0bJ6TOK14R1OkZPDwHg7PLAJm2CHteuQ1l4SdaYicRdCCPEFf+SoKCqcTZfboCuJfdYNk6mQpK7G5hoj08JqM5w94yDuyYc8c40VkCe8WutjRnVP3DvUbxo68whm/EHlCZrPMAdi5zpROXMLCfbvwMsAI/szF7T1W3jPNJixjqcW9HQz8tYD6j9jPVAEZ9/+/zXV2UNGtjwIqjUoIXem6vMLQyha+6nzX4qXNytpNJwhmfrs8SMXN02H/UUOy1AFJ5jN2t+5VE/g9tlCEmC7rr1nqmx0MHteKRqKBEIm7GaZEk9Oluz/IJGjGwvampyDlVjrngwQxJ3j71fisZGqF8wm9DjTs1YK30C+Pbgvvqqcxg9NlYrBJDOmi4MrHay31VeQCOPnA
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(136003)(39860400002)(396003)(366004)(346002)(1800799009)(186009)(451199024)(38100700002)(66946007)(66556008)(66476007)(316002)(478600001)(7416002)(2906002)(41300700001)(8936002)(8676002)(4326008)(83380400001)(5660300002)(6512007)(9686003)(6486002)(6666004)(6506007)(1076003)(26005)(6916009)(86362001)(33716001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 0ZR95zktnkVSN5N4A/bJoX53qFQb9FKkx5gjeQjNrtbSaAVYiRdRuobagh7PP5zkF3lsM20LytJt6i8EiqgGsjPpL6OZD0KcwE292TQ8EUVtPjW8Yd+1GynUVrqQt497OYYgMG9i5Oi5nnc/5sdoGZPkc3LpiywyEAw4kOmCvjRIZXi8zFoFlAWX86XvEkK3850l5fiQI92a7nqJnWmAtccYTC95udnSMC2TFmmbF8wRN6lCqMbc/sfclkhNal65eAE3hG/RmonrbO9yiuftfCmG3Vcfm5EBNgmtdOWPk/Dzy/AaaJ5pVA8k7JiCTm1Kv+VvG9EG1qJYFMf7ZuGYx8UbSFwEs03J2y/XCUzWc0xyf8d31URUGMm/fHlJdWYRHe3RLlxBDv42At+jTJs6R0pgYMK04GHTaw/YnsOFUVm8YoZpjEy0wzX3k4ufb1YdGIKRFSofXQkQRj3lbvkALA6ipcY/RkrM0v9VS4Yz1iCum4yYCSI+w2aF/0nFr70Cg/S77uCnYy3vrwoy1X/UOPSXHcuR2KhT1pRrNibgHtPKFQLgCVPJMsx3jo+lji3dG1TJosjymeVgG5VU2isTupRUeP7v/l6hoDEckbjDHsurk9lqLKDAQV5DgMb1+hf+DR2Qn/pzxziZafaejLnz+Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(346002)(39860400002)(376002)(1800799009)(451199024)(186009)(2906002)(83380400001)(7416002)(7406005)(86362001)(478600001)(6506007)(36756003)(6486002)(2616005)(6666004)(6512007)(53546011)(31696002)(26005)(44832011)(5660300002)(41300700001)(316002)(66946007)(66556008)(66476007)(31686004)(8676002)(8936002)(4326008)(82960400001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RF4eqNima9vox/kXpwd90CPnUoTXC96MY4MpFODgw2UgUHnsB+J3dZ/7ay7h?=
- =?us-ascii?Q?/572vx2E/I3wb0QUrFLifwbKpPlm1klQ9viE0dRomPQyNbJD1/2iUV99qZdQ?=
- =?us-ascii?Q?zAxQGiDrvQ6xzsnz08Mh1Tseq/X8tWYY2tln8PYSg9U4hteNBZt9hXY7ceTl?=
- =?us-ascii?Q?L7H00ekrpdLVA1DE1GBTL+518cpP8TK7Pv3grX0jvDCWby7AXITrrFmLHOqP?=
- =?us-ascii?Q?9Q2OTRPQWtfDnITYIQ2Pq/S6jMBJCzgsviL9bXACF2M4ngnkEpih64TuToEf?=
- =?us-ascii?Q?sKC/Rh/gbYU/nLwOm0NyjnyxEuxkgdhD8f5n6k7fapYFEIJlaCLPQs0KGVgR?=
- =?us-ascii?Q?dz7FqRmIn6gbVO8JiTYjufDMYL4QU/UqTzRlkNdS+YWRwKuL0KoTtRWVHYJ9?=
- =?us-ascii?Q?a6EbEHIB3NpHLPkCj/UfAvXiZl4vFMHOdsiuKwD/enmJCoW/mB1X2cQQtK//?=
- =?us-ascii?Q?Rr6vYLl/5scK0CMIGKlIZFq3dOkcncPDczn9wtbcOX1/PRge/kDKlo4A3i7V?=
- =?us-ascii?Q?+OM9OHnYc5De8gq5lj/dn+IqTBRb++mC4Re2zXebIiZbdH+ER8aB/NhHf9rB?=
- =?us-ascii?Q?t0HdrpKoo+9ZC09bCzWsVnEjRrq6zexF3iKJxEYo+8Tme+FyTMiF6YD34Tg7?=
- =?us-ascii?Q?GDQDixy9XxWRW/DuQrkFWzbgKridpHB+8iwaEJL2eiV4SGH9mlaZJ151AqTX?=
- =?us-ascii?Q?KDhKkqgf1pLLYk0tEXBtLwFwmIme2iDNWbqMse+fdxCXqdXMeEuMkKxnZ8zX?=
- =?us-ascii?Q?aL96ob6/h38QcalVA7v/d87marTGFyjbJMzRthiA4ao2VLq2SH7qOFjh5THL?=
- =?us-ascii?Q?26Iv0c6S0yiVWo35hXsE60o1i9iSbzHiBkyX5zvckplS0T6cwDbLJQz7EiA/?=
- =?us-ascii?Q?9EDt9x8SIUJoaIgAevfVSOi+h3/sq6SecbvMR0kpYHZdzMwFX6U+IOp49XCA?=
- =?us-ascii?Q?6u0+4RoQAr8ppHxaarI7NHURNF/XTfD60Y6A/35lqp0J1MmiJGmgNMMk5ojj?=
- =?us-ascii?Q?XCl7kv0yoC7RAxZeWRy4Do3j0JnFtG9Kn1S/YPJvJviAi41hor4KsXu8wpfJ?=
- =?us-ascii?Q?9k/rKV8NbQEawgnpkHEizScCBqd68+bfWEJzZQhmRpihW23n25IPuVbMorU0?=
- =?us-ascii?Q?I4yg8eleBZkXIPMZFl0C447Jj8VSyiMz3qLwXacr8qYwOX+NjKG9D7mtXgfD?=
- =?us-ascii?Q?fs3ofXqwsMU+EIumN4BwRum/GHpMSanJ8VFncsQVcEXxNBbj50Jk4LntyH5+?=
- =?us-ascii?Q?opkYtStJn5zfhhXAwn5bu7/y0q39fSU5FlVW2AnXAu0Z3FHx753hE2GF4wiH?=
- =?us-ascii?Q?ZePG7A0dNUc2YimZ3o1bUIconIM9hyvaU7xSVXh6rtAOxtyGydjcAmXpTWKk?=
- =?us-ascii?Q?jenP9DF42ns3O4w5gIaM0cD0CzXC/Hs2VZxGR2shrPQVS83y+qYdejCeNOq0?=
- =?us-ascii?Q?pQYWK81hsYWWJqE/TfUE1yaOL1pOd1Fs1KcvLDl/xYze7Oi3Icr7/m342wR1?=
- =?us-ascii?Q?tLVTJ+xk3uFJTLK55sQJTIC54iUw3Z9ZDybU/OZ+fea/M261bJ2bSH/E/Q5x?=
- =?us-ascii?Q?WayUpKC16VDk86mnAvct1XKdO1rsHzBEJyaXoWg8?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?PM6ZPiyqujMPwpEUdIyKgA6UUxRXbgiJfmTmgdGNhtu5SLrelkda0wd3dm0i?=
- =?us-ascii?Q?2oqosUDaKJH1meuVZuLEk6mOJdgm3Cpk35qTkJYnHffVaFB31sMqBMU0PyDo?=
- =?us-ascii?Q?4awiVSMBYPnvpeF9MAGnliRrKzSXwS51B3RVlRbDypMzFH1SFxZMaVj6O64X?=
- =?us-ascii?Q?pkYTyPQ3OzMFArMJG9v1yg3m23H7P7TofK2QC8b9LFaYWtHH/V8oUdTdDxSH?=
- =?us-ascii?Q?aSvqyX8EHLCwJG+tqpHsA2KHOuK5baxaaSh0VEJImGlFM+J4TrIL4kO92AIe?=
- =?us-ascii?Q?OgQHbArXWAOD6n5dAllY5UJ3NNC4ZUT1r0HiDQeIR5BddgV2cu5wRW3yOgYj?=
- =?us-ascii?Q?Tr0vlmS3tYL6jKdChlOu5LDjKGtkNyOFUNl6u/r+xzjnuHSGNaPjOuQ1dQdp?=
- =?us-ascii?Q?OnYBQdwNc7La408070dUQg6oZmwTsDp7LZ8tfIghK8XhgDTjdU8+v8jYoSgU?=
- =?us-ascii?Q?/3SF8j7tg6dglXGjz2ASjFWslt+0euiGrG06n1ZgTdrgZ75kEC23hhko4G1M?=
- =?us-ascii?Q?zsJx4b7rmL3X3pSy0flRGra4fqauGHtKLr9aR+8XEqwfOrJl885TROoD8z/m?=
- =?us-ascii?Q?HSCIqLWANQnbNQYqLubyFKMwEobaIYahRNjKTOW/vOChPHxGDRDWiIP0IPk2?=
- =?us-ascii?Q?FxaYGVWjH9O8/CThE2qRevKZBMf1qmrTo+NNFZmpD8ycfNgdkAQTtlJ9Q+Ld?=
- =?us-ascii?Q?1YeMea50bm15aKtZfjxlVgFotNje4f8HzE6qllA0yNNwLj4dEY4yV6+3u+yz?=
- =?us-ascii?Q?5T6aAlYoX4Yq2PG5TRs1HglVAn2cwUv+4Wgz5TclvXXAPyUUtbDOBEnM/UdU?=
- =?us-ascii?Q?l6UiDean3m5hrTaij3R/TaQ/VzrAZjPoI+cmtCRQeYnVxePz9Qb9wfVNzEiN?=
- =?us-ascii?Q?v9JMa/4Ptw04lXHMkLFaOi8xk+C5AJqNtH5jumND58ZhSCEBnc2pWAfRqrtV?=
- =?us-ascii?Q?nlK+6ZezMN5qh6htfYnH/uMH50mwdH7fysGIwohoN1DE1O+xTgxk3iQtCNn9?=
- =?us-ascii?Q?/SaoUh+2n5CaHXYXFDcGXROGBBZtpW6PKJPMTjt/IcyhSUZdAxgwths8vLSz?=
- =?us-ascii?Q?2mQAJhK0?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f699c897-674f-4283-50c6-08db9e86dfe0
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ckZBRGt5akdMTzhKTnRHRUYvN2xRa3MrN2R5bDZnd2daSDFZQ0dKeEhmK0xH?=
+ =?utf-8?B?OHJzN1E2aXcvWm9CNjFhc0RSR2M4NVJHM0Qreno5M2swSnRoeG9IZlFZNTIx?=
+ =?utf-8?B?VmFEaVA1Q2NEYXBRbXJJTzBVYWU4Q2pVQURKaEtSNUN3M1ZUVG9DL25Qa0dL?=
+ =?utf-8?B?U2tUZ1lnWU1jWHFxZlZsenU3UFhDOEJXY2c4dnRhZFhoSGpPWDNRam5wMjlP?=
+ =?utf-8?B?clpRaHNUSGM0TFBtTHlGNFNaOStvN1J1aU9WeGtGRmhWbE1yL0h4QTNEUGJa?=
+ =?utf-8?B?TjZPRDJ0YWx0N29wZ1Brdm5BRHJJSTN1WW5yc2ROSGJLTzJEMW44WTBVaW80?=
+ =?utf-8?B?aTgyaCtFVCtiem9CeWlXUUQvZXNMbkFaY2x2MmlqeUdITEJsQVNORHIrOFpP?=
+ =?utf-8?B?ZzlDQW8vZjZFSjRWZXRIc3NqTU5uclBva3NDeEFoYjgydGV0ZUNYQTV0THF0?=
+ =?utf-8?B?dkJRTUc1M0VIZUU0SnQxV0FIWHc0T3pCK1Y0SFl5eVZOZjd5UTMxQzdURTRn?=
+ =?utf-8?B?VHNjVEdyK0o2dFluMTRzRkdlTkFFRnFncklaWXNKRVFLTUlUakZtRTNFWUhV?=
+ =?utf-8?B?M2xZcVBLNVNNWGNPTmpOUTNhOFVKYjcyT2ZPMEd3UGJuWklIbEhST1ZScFBk?=
+ =?utf-8?B?RlNIY01pMzVHb1NJRzZ4aENwQVpBdXRGTSs5Rk5zZTFHVEdsam5lZHJyQWVG?=
+ =?utf-8?B?STRINWR0ZW45SU4yMWw1QTBON0NqbUZTTnkrZ3NUQUZYcjgwYnRVT2pHU2o5?=
+ =?utf-8?B?bnRHNE1hUEpVRUpaR1hjR2p6K0lKa3hLaUFZS1hzZGhvQ2ZIdHF4ZnNicVgy?=
+ =?utf-8?B?MFh2c0VaTEpRUXhROVdNam45NndKQ3FUbzBML0VuNit3RTBHNmthZVJpK2No?=
+ =?utf-8?B?ZEMyT0NWazVLMkNqYjh0VTR5dnBVSERhNUxoc3pGZkU2eHE5SjhvVXpOQmRM?=
+ =?utf-8?B?S09OdTlkdy8wdkRyL3VNNUFLOFZwNWZpZGg0Z0UwOCs4NW5zRExRUDBOOGxV?=
+ =?utf-8?B?Q2xmNTlZWTV6cExiRW40ZEJWZWRTd0p1WGt5bTl6NW5tdk4yeW9iK3lHem1a?=
+ =?utf-8?B?cC8yODErR2NmV3htSXhkUGdLZ2liblFGMm04L3V0eUZvNUpab3QrcmIyTWFU?=
+ =?utf-8?B?MzE3WjVSTkVhY3lTdy9TbzVRUXRXREQrSFE5U0w0bU94QmRJclkxRS81SG5t?=
+ =?utf-8?B?UC8wVndMT1VlQ0E0VHJ2djIvRmJtczd4Mmg0UXdlWmdBd3ZtbGhhdnh6VS9p?=
+ =?utf-8?B?b3dnZ05ITzFoVWE3Ui9CRkxmTThWV3JLeWtXdTdLdE1FbnFWMkVBVDEyRDBw?=
+ =?utf-8?B?amViOTNnYlZJaXhoN0c4bkxpNDlGTXdHRFg2WjV2bUVrc0RCRjYyRUp1TUVi?=
+ =?utf-8?B?eDlsSnAyOU5LUjlMaW1LTnFxOWJQZ2xIeWs5S3BOUmNSU1RzWTA2M3oyMkto?=
+ =?utf-8?B?Ky9YR1RBQWp6OUlDN2NTQS9vNXFEU1hMaHRLY0NtRkl4eW4yTlIrSklIM1pI?=
+ =?utf-8?B?SEtDRnB5UktZd1VvZGpOYkZyb05nUWkwZ1FRc1djWWZDaXgxMkpua3R3MWNv?=
+ =?utf-8?B?N1NrS2QrbEVoOUhUQXdrOVFjQ0xaSi8yWVZVNy9UbHRLcmNwRXhqWVgxcGhR?=
+ =?utf-8?B?a1JFcUt1TFAySDJjbzhOdnBnRnRWaVRJeE5rQ0lNdXlCaUJINlA1eW1LVkZH?=
+ =?utf-8?B?NHdBeVU2aW1ndDdBTWFzNFI5M1l0YUtTbGhHZjBGUURZZFdZK3NqUmtSdjVm?=
+ =?utf-8?B?aXhycUFkdW93Y3VrN2VQdWxoVU5VRnhQTVRQNFNhUW8xMmYrOVRCejAvRDBK?=
+ =?utf-8?B?b3U1bEFwU3ZybWZiUW5tQkVoT2tCTHlRendUcW5sSjhQdHlIWHNsS3NTU0N1?=
+ =?utf-8?B?ellvSFVOc0s0WGtvWFVST3hsN2ZsZW13SHpTcjMyRkJHTS9JMWpQUnlqOXg3?=
+ =?utf-8?B?NzRabU56a0JtcXh2NTFqem5WQ3Z4WDhJZ0s1SUUrQjBLMHg2MVJDMEVxaWdv?=
+ =?utf-8?B?ZEl6UDN6U3dWNW1jRFFhdnh6SW9QWjhRKzY5VTJDYVVXMUVBWHJkTFI1dHdZ?=
+ =?utf-8?B?YVZzc1RUeW5pY2dSaXA2RUpCZkxjU1J2TWhvQXpzOXF4V242Q1R6MHNFMzlF?=
+ =?utf-8?B?WjdJUk14SlMvNmM5YXIvaTcxSjU3QlNESC8ydW85UVhJc3E1czM5WlVJdnZh?=
+ =?utf-8?B?clE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3264e44a-62c2-47d1-2f73-08db9e87c50e
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 18:30:32.3467
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 18:36:56.8951
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 26g6wnxRz3xjJFQo0zJorhRbul28sHoA91o7DE36ugOYGeDhyPBdVfeBNeQ41Ue7RlyUcz3+46WKq8hP+N0RUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6555
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-16_18,2023-08-15_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
- spamscore=0 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308160162
-X-Proofpoint-ORIG-GUID: cs85a8WdDXXjvYgtQ-B7y5wwHaOfM3VU
-X-Proofpoint-GUID: cs85a8WdDXXjvYgtQ-B7y5wwHaOfM3VU
+X-MS-Exchange-CrossTenant-UserPrincipalName: uBPNvKFhs5EPykqrNl/X/7XhFmcigrOYklyrssKFlP+Ys4nM9iOD2LsobgaTOg3wyC3X9REPJYrhXuizm46UC0bvcxfmZCgNR7zSXXQqW6E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6343
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Peng Zhang <zhangpeng.00@bytedance.com> [230816 09:42]:
+Hi Babu,
+
+On 8/16/2023 8:34 AM, Moger, Babu wrote:
+> Hi Reinette,
+> 
+> On 8/15/23 17:45, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 8/11/2023 1:09 PM, Babu Moger wrote:
+>>> resctrl uses RFTYPE flags for creating resctrl directory structure.
+>>>
+>>> Definitions and directory structures are not documented. Add
+>>> comments to improve the readability and help future additions.
+>>>
+>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>>> ---
+>>>  arch/x86/kernel/cpu/resctrl/internal.h |   49 ++++++++++++++++++++++++++++++++
+>>>  1 file changed, 49 insertions(+)
+>>>
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+>>> index 2051179a3b91..37800724e002 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+>>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+>>> @@ -240,6 +240,55 @@ struct rdtgroup {
+>>>  
+>>>  /*
+>>>   * Define the file type flags for base and info directories.
+>>> + *
+>>> + * RESCTRL filesystem has two main components
+>>> + *	a. info
+>>> + *	b. base
+>>> + *
+>>> + * /sys/fs/resctrl/
+>>> + *	|
+>>> + *	--> info (Top level directory named "info". Contains files that
+>>> + *	|	  provide details on control and monitoring resources.)
+>>> + *	|
+>>> + *	--> base (Root directory associated with default resource group
+>>> + *		  as well as directories created by user for MON and CTRL
+>>> + *		  groups. Contains files to interact with MON and CTRL
+>>> + *		  groups.)
+>>> + *
+>>> + *	info directory structure
+>>> + *	------------------------------------------------------------------
+>>> + *	--> RFTYPE_INFO
+>>> + *	--> <info> directory
+>>> + *		--> RFTYPE_TOP_INFO
+>>> + *		    Files: last_cmd_status
+>>> + *
+>>> + *		--> RFTYPE_MON_INFO
+>>> + *		--> <L3_MON> directory
+>>> + *		    Files: max_threshold_occupancy, mon_features,
+>>> + *			   num_rmids, mbm_total_bytes_config,
+>>> + *			   mbm_local_bytes_config
+>>> + *
+>>
+>> I think the monitor files need the same split as what you did for
+>> control files in this version. That is, there are some files
+>> that depend on RFTYPE_MON_INFO and others that depend on
+>> RFTYPE_MON_INFO | RFTYPE_RES_CACHE. In above it appears that
+>> all files depend on RFTYPE_MON_INFO only.
+> 
+> ok. Sure.
 > 
 > 
-...
-
-> > > > > +/**
-> > > > > + * __mt_dup(): Duplicate a maple tree
-> > > > > + * @mt: The source maple tree
-> > > > > + * @new: The new maple tree
-> > > > > + * @gfp: The GFP_FLAGS to use for allocations
-> > > > > + *
-> > > > > + * This function duplicates a maple tree using a faster method than traversing
-> > > > > + * the source tree and inserting entries into the new tree one by one. The user
-> > > > > + * needs to lock the source tree manually. Before calling this function, @new
-> > > > > + * must be an empty tree or an uninitialized tree. If @mt uses an external lock,
-> > > > > + * we may also need to manually set @new's external lock using
-> > > > > + * mt_set_external_lock().
-> > > > > + *
-> > > > > + * Return: 0 on success, -ENOMEM if memory could not be allocated.
-> > > > > + */
-> > > > > +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
-> > > > 
-> > > > We use mas_ for things that won't handle the locking and pass in a maple
-> > > > state.  Considering the leaves need to be altered once this is returned,
-> > > > I would expect passing in a maple state should be feasible?
-> > > But we don't really need mas here. What do you think the state of mas
-> > > should be when this function returns? Make it point to the first entry,
-> > > or the last entry?
-> > 
-> > I would write it to point to the first element so that the call to
-> > replace the first element can just do that without an extra walk and
-> > document the maple state end point.
-> Unfortunately, this does not seem to be convenient. Users usually use
-> mas_for_each() to replace elements. If we set mas to the first element,
-> the first call to mas_find() in mas_for_each() will get the next
-> element.
-
-This sounds like the need for another iterator specifically for
-duplicating.
-
+>>> + *		--> RFTYPE_CTRL_INFO
+>>> + *		    Files: num_closids
+>>> + *
+>>
+>> Looking at this closer I can see some potential confusion about where these
+>> files appear. A note saying that these files appear in all sub-directories
+>> may be helpful because at this point it appears that this file is at the
+>> same level as the directories.
 > 
-> There may also be other scenarios where the user does not necessarily
-> have to replace every element.
-
-Do you mean a limit or elements that need to be skipped?  We could have
-a limit on the iteration.
-
+> Sure..
 > 
-> Finally, getting the first element in __mt_dup() requires an additional
-> check to check whether the first element has already been recorded. Such
-> a check will be performed at each leaf node, which is unnecessary
-> overhead.
+> With both these changes. Here is the diff on top of current patch.
 > 
-> Of course, the first reason is the main reason, which prevents us from
-> using mas_for_each(). So I don't want to record the first element.
+> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h
+> b/arch/x86/kernel/cpu/resctrl/internal.h
+> index 37800724e002..412a9ef98171 100644
+> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> @@ -264,12 +264,16 @@ struct rdtgroup {
+>   *
+>   *             --> RFTYPE_MON_INFO
+>   *             --> <L3_MON> directory
+
+I understand that resctrl does not use flags for directories
+but I do find it inconsistent how the L3_MON directory is
+layered when compared to how the, for example, L3 directory
+is layered below. I actually start to wonder if it may not
+simplify interpretation if the names of directories
+are removed entirely from this documentation
+
+I also think that the current hierarchy is confusing since it
+uses combined flags while also creating a hierarchy.
+What I mean is, the documentation looks like;
+
+      *	--> RFTYPE_INFO
+      *	--> <info> directory
+      *		--> RFTYPE_TOP_INFO
+      *		    Files: last_cmd_status
+
+If I understand correctly the hierarchy is intended to mean
+that all items below flag at that level has that flag set.
+The confusing part is when combined flags are also used, like
+above where RFTYPE_TOP_INFO is (RFTYPE_INFO | RFTYPE_TOP)
+If hierarchy is followed, should it not rather be:
+
+      *	--> RFTYPE_INFO
+      *	--> <info> directory
+      *		--> RFTYPE_TOP
+      *		    Files: last_cmd_status
 
 
-I don't like the interface because it can easily be misunderstood and
-used incorrectly.  I don't know how to make a cleaner interface, but
-I've gone through a few thoughts:
 
-The first was hide _all of it_ in a new iterator:
-mas_dup_each(old, new, old_entry) {
-	if (don't_dup(old_entry)) {
-		mas_erase(new);
-		continue;
-	}
-
-	mas_dup_insert(new, new_entry);
-}
-
-This iterator would check if mas_is_start(old) and dup the tree in that
-event.  Leave the both new trees pointing to the first element and set
-old_entry.  I don't know how to handle the failure in duplicating the
-tree in this case - I guess we could return old_entry = NULL and check
-if mas_is_err(old) after the loop.  Do you see a problem with this?
+> - *                 Files: max_threshold_occupancy, mon_features,
+> - *                        num_rmids, mbm_total_bytes_config,
+> - *                        mbm_local_bytes_config
+> + *                 Files: mon_features, num_rmids
+> + *
+> + *                     --> RFTYPE_RES_CACHE
+> + *                         Files: max_threshold_occupancy,
+> + *                                mbm_total_bytes_config,
+> + *                                mbm_local_bytes_config
+>   *
+>   *             --> RFTYPE_CTRL_INFO
+>   *                 Files: num_closids
+> + *                        These files appear in all the sub-directories.
+>   *
+>   *                     --> RFTYPE_RES_CACHE
+>   *                     --> <L2,L3> directories
 
 
-The second idea was an init of the old tree.  This is closest to what you
-have:
+I made an attempt at capturing all the items I mention
+above. Please do not just copy this into your next version but
+consider first if it makes sense to you with the goal of
+reducing ambiguity.
 
-if (mas_dup_init(old, new))
-	goto -ENOMEM;
+*	info directory structure
+*	------------------------------------------------------------------
+*	--> RFTYPE_INFO
+*		--> RFTYPE_TOP (Files in top level of info directory)
+*		    Files: last_cmd_status
+*
+*		--> RFTYPE_MON (Files for all monitoring resources)
+*		    Files: mon_features, num_rmids
+*
+*		    --> RFTYPE_RES_CACHE (Files for cache monitoring resources)
+*		    Files: max_threshold_occupancy,
+*			   mbm_total_bytes_config,
+*			   mbm_local_bytes_config
+*
+*		--> RFTYPE_CTRL (Files for all control resources)
+*		    Files: num_closids
+*
+*			--> RFTYPE_RES_CACHE (Files for cache control resources)
+*			    Files: bit_usage, cbm_mask, min_cbm_bits,
+*				   shareable_bits
+*
+*			--> RFTYPE_RES_MB (Files for MBA and SMBA control resources)
+*			    Files: bandwidth_gran, delay_linear,
+*				   min_bandwidth, thread_throttle_mode
+*
+*	base directory structure
+*	------------------------------------------------------------------
+*	--> RFTYPE_BASE (Files for both MON and CTRL groups)
+*	    Files: cpus, cpus_list, tasks
+*
+*		--> RFTYPE_CTRL (Files only for CTRL group)
+*	    	Files: mode, schemata, size
+*
 
-mas_dup_each(old, new) {
-	if (don't_dup(old_entry)) {
-		mas_erase(new);
-		continue;
-	}
-
-	mas_dup_insert(new, new_entry);
-}
-
-This would duplicate the tree at the start and leave both pointing at
-the first element so that mas_dup_each() could start on that element.
-Each subsequent call would go to the next element in both maple states.
-It sounds like you don't want this for performance reasons?  Although
-looking at mas_find() today, I think this could still work since we are
-checking the maple state for a lot.
-
-Both ideas could be even faster than what you have if we handle the
-special cases of mas_is_none()/mas_is_ptr() in a smarter way because we
-don't need to be as worried about the entry point of the maple state as
-much as we do with mas_find()/mas_for_each().  I mean, is it possible to
-get to a mas_is_none() or mas_is_ptr() on duplicating a tree?  How do we
-handle these users?
-
-Both ideas still suffer from someone saying "Gee, that {insert function
-name here} is used in the forking code, so I can totally use that in my
-code because that's how it work!"  and find out it works for the limited
-testing they do.  Then it fails later and the emails start flying.
+Reinette
 
 
-I almost think we should do something like this on insert:
 
-void mas_dup_insert(old, new, new_entry) {
-	WARN_ON_ONCE(old == new);
-	WARN_ON_ONCE(old->index != new->index);
-	WARN_ON_ONCE(old->last != new->last);
-	...
-}
-
-This would at least _require_ someone to have two maple states and
-hopefully think twice on using it where it should not be used.
-
-The bottom line is that this code is close to what we need to make
-forking better, but I fear the misuse of the interface.
-
-Something else to think about:
-In the work items for the Maple Tree, there is a plan to have an enum to
-specify the type of write that is going to happen.  The idea was for
-mas_preallocate() to set this type of write so we can just go right to
-the correct function.  We could use that here and set the maple state
-write type to a direct replacement.
-
-Thanks,
-Liam
