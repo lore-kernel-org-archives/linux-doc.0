@@ -2,86 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38930C25B7F
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 20:26:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E71DBC25B4F
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 20:40:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346115AbjHPU0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 16:26:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
+        id S237000AbjHPUkT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 16:40:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346149AbjHPUZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 16:25:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EF4226A5;
-        Wed, 16 Aug 2023 13:25:57 -0700 (PDT)
+        with ESMTP id S1346222AbjHPUjy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 16:39:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3BAE2708;
+        Wed, 16 Aug 2023 13:39:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C0C5E6337F;
-        Wed, 16 Aug 2023 20:25:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A04C433C7;
-        Wed, 16 Aug 2023 20:25:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5950F65EBF;
+        Wed, 16 Aug 2023 20:39:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33ABAC433CB;
+        Wed, 16 Aug 2023 20:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692217556;
-        bh=4Hck3NckYavMevwhzS7rwNDDmjeTuC4S+YTRQAbiwVg=;
-        h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
-        b=A8v2+j3t2HQhwjby1RKm32OAsnOLt2VvG5yeCOWKH7ZpzYg5JgMnaI2z5bES5IWGE
-         GbQbip5Y9ysAZMy7xULtZJvhdLLwuUr2j5sf+Qya85gH01Muae+RfXgg18PqL6c3cg
-         hZpM43E+g2Qne22BcPrrCVF0sgGQrgSh0v098IlitieJRQTrhJQxkmX9M31y1QwsVC
-         tkoE+lNxEI6Adg5TY9PLbSrXZgajLkxogXX67gmHk8UAZ5/mCyPbTRF+FswF2O1z66
-         jXV1kH+X5NjB885Q8ky4EUDOyg3OY8z/QtSgUboPt2uWlJsO5O8x/2MV75ULfXqAvL
-         P9eH9gUIIZN3g==
+        s=k20201202; t=1692218391;
+        bh=pmS072dZEXt7YatJuOVq8UqswY8UVjXioO/Tl6j94hI=;
+        h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+        b=Ndp5yslugLgNMsZ3gI1USpmyqKuTZmSCb0FOq8KYq51JzeLxWEGnvnPN9a7FkbXNL
+         5oQExC/vjCdeFNyRRTxK09I52JFBXMO7ONerYunqggyERKaT6ZtJcSiijFZr72C4Eu
+         aq68W3f7OM9SDRQWAaiOicn8HfDNEKPkl2GL89u4f8RznR0YlkrOkLbhWWu0rGzv1R
+         C7LkLJqNRI4lvEy+NKi2W9BYVqBugJxx7JTo2aTk3Ak2X61QL8TVcTY4hjFdKfikWi
+         LlFavGGdogSNgJJxRX/gBhK/4iJssplcZ2ZCawGPllvM9uxJdJd8CWAYq0I43DE9eR
+         pi1Z3/I3ao5TA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 16 Aug 2023 23:25:51 +0300
-Message-Id: <CUU9233YQJOT.220UJ3EYHDZZ9@suppilovahvero>
-To:     "Randy Dunlap" <rdunlap@infradead.org>,
-        <linux-integrity@vger.kernel.org>
-Cc:     "Jonathan Corbet" <corbet@lwn.net>,
-        "Peter Huewe" <peterhuewe@gmx.de>,
-        "Jason Gunthorpe" <jgg@ziepe.ca>,
-        "Richard Cochran" <richardcochran@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "Daniel Sneddon" <daniel.sneddon@linux.intel.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <netdev@vger.kernel.org>
-Subject: Re: [PATCH] tpm_tis: Revert "tpm_tis: Disable interrupts on
- ThinkPad T490s"
+Date:   Wed, 16 Aug 2023 23:39:46 +0300
+Message-Id: <CUU9CQLZO8CU.2HZ1AA137CA2E@suppilovahvero>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>, <bpf@vger.kernel.org>,
+        <pbrobinson@gmail.com>, <zbyszek@in.waw.pl>, <hch@lst.de>,
+        <mjg59@srcf.ucam.org>, <pmatilai@redhat.com>, <jannh@google.com>,
+        "Roberto Sassu" <roberto.sassu@huawei.com>
+Subject: Re: [RFC][PATCH v2 02/13] integrity: Introduce a digest cache
 From:   "Jarkko Sakkinen" <jarkko@kernel.org>
+To:     "Roberto Sassu" <roberto.sassu@huaweicloud.com>, <corbet@lwn.net>,
+        <zohar@linux.ibm.com>, <dmitry.kasatkin@gmail.com>,
+        <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>
 X-Mailer: aerc 0.14.0
-References: <20230814164054.64280-1-jarkko@kernel.org>
- <155add9d-241c-0e15-cc3b-a2ea22e8cdd0@infradead.org>
-In-Reply-To: <155add9d-241c-0e15-cc3b-a2ea22e8cdd0@infradead.org>
+References: <20230812104616.2190095-1-roberto.sassu@huaweicloud.com>
+ <20230812104616.2190095-3-roberto.sassu@huaweicloud.com>
+ <CUSFHQGJ3I8F.WBL3ZYT3U5FB@suppilovahvero>
+ <84159dc8-d2e5-4c10-9910-b329500862e0@huaweicloud.com>
+In-Reply-To: <84159dc8-d2e5-4c10-9910-b329500862e0@huaweicloud.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon Aug 14, 2023 at 11:00 PM EEST, Randy Dunlap wrote:
-> Hi Jarkko,
+On Wed Aug 16, 2023 at 11:21 AM EEST, Roberto Sassu wrote:
+> On 8/14/2023 7:03 PM, Jarkko Sakkinen wrote:
+> > On Sat Aug 12, 2023 at 1:46 PM EEST, Roberto Sassu wrote:
+> >> From: Roberto Sassu <roberto.sassu@huawei.com>
+> >>
+> >> Introduce the digest cache, a structure holding a hash table of digest=
+s,
+> >> extracted from a digest list. Its pointer is stored in the iint of the
+> >=20
+> > What is iint? I honestly don't know what it is. I first thought that it
+> > was "int" typoed.
 >
-> On 8/14/23 09:40, Jarkko Sakkinen wrote:
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
-ation/admin-guide/kernel-parameters.txt
-> > index 722b6eca2e93..6354aa779178 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -6340,6 +6340,13 @@
-> >  			This will guarantee that all the other pcrs
-> >  			are saved.
-> > =20
-> > +	tpm_tis.interrupts=3D [HW,TPM]
-> > +			Enable interrupts for the MMIO based physical layer
-> > +			for the FIFO interface. By default it is set to false
-> > +			(0). For more information about TPM hardware interfaces
-> > +			defined by Trusted Computing Group (TCG) look up to
->
-> s/look up to/see/ would be much better IMO.
+> Ops. It is the integrity_iint_cache structure, to retain the=20
+> integrity-specific state of an inode. Will explain that in the next versi=
+on.
 
-Agreed, thanks.
+OK, cool!
+
+> Thanks
+>
+> Roberto
 
 BR, Jarkko
+
