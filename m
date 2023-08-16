@@ -2,283 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E7CC001DF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 08:39:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F61AC001DF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 08:42:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242617AbjHPIif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 04:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59572 "EHLO
+        id S236935AbjHPIlt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 04:41:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243002AbjHPIhj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 04:37:39 -0400
-Received: from frasgout13.his.huawei.com (unknown [14.137.139.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 569653C18;
-        Wed, 16 Aug 2023 01:36:45 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.227])
-        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4RQh5Q4x4Gz9xrq8;
-        Wed, 16 Aug 2023 16:24:58 +0800 (CST)
-Received: from [10.81.209.179] (unknown [10.81.209.179])
-        by APP1 (Coremail) with SMTP id LxC2BwBXCrpvitxk8zz3AA--.58903S2;
-        Wed, 16 Aug 2023 09:36:13 +0100 (CET)
-Message-ID: <98959e3d-7543-4a8e-9712-05a3ba04d2c8@huaweicloud.com>
-Date:   Wed, 16 Aug 2023 10:35:56 +0200
+        with ESMTP id S242848AbjHPIlZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 04:41:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9822D4E
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 01:41:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CEE9C611DD
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 08:41:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20CD3C433CA;
+        Wed, 16 Aug 2023 08:41:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692175280;
+        bh=WtavSszM3J/Pf8Dcmdp1KmdiVZodBZ0p8PCwwJgoBvw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jGb74r/xEV0UyznLMjDIcJwCqBaPz7g2fjlDbDmc8SIMDwyMdAnyAKUAi3mnzlIwh
+         fFIXa7G6teDVsmWRjwQf25Ci0a5rXAMGNlD2fMWgFq8ygXH9rvZRVgOKHnxpKCQK81
+         IHngGspIYeuUl5uy9FKo+i5FwnLN+ZRdaa4Xy9szBzbW8lZrPjIE1QcsBibgcJw9K+
+         2ziBnF+Tn+OT1w5ZfXqUutOfedw1G1vqFlWw9g7y/YHB7FUAEqRIPQFzMRHczpqldI
+         YbWX8F0eMQ3tOsnhzuKOsajwh2VC6iicyR1D2L/IGQu51OXTa0E9HtOgtvNPSiZIfS
+         uH9kzohwzRJUw==
+Date:   Wed, 16 Aug 2023 10:41:15 +0200
+From:   Simon Horman <horms@kernel.org>
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Stanislav Fomichev <sdf@google.com>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v2 01/10] doc/netlink: Add a schema for
+ netlink-raw families
+Message-ID: <ZNyLqxEVDh0JG7h7@vergenet.net>
+References: <20230815194254.89570-1-donald.hunter@gmail.com>
+ <20230815194254.89570-2-donald.hunter@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v2 03/13] integrity/digest_cache: Add functions to
- populate and search
-Content-Language: en-US
-To:     Jarkko Sakkinen <jarkko@kernel.org>, corbet@lwn.net,
-        zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
-        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-        pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,
-        mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
-        Roberto Sassu <roberto.sassu@huawei.com>
-References: <20230812104616.2190095-1-roberto.sassu@huaweicloud.com>
- <20230812104616.2190095-4-roberto.sassu@huaweicloud.com>
- <CUSFPINBGDSS.DQ0I19Z9FNR4@suppilovahvero>
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-In-Reply-To: <CUSFPINBGDSS.DQ0I19Z9FNR4@suppilovahvero>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: LxC2BwBXCrpvitxk8zz3AA--.58903S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtr4ftw4kKFyUCry5ZFWfuFg_yoW3Jr1fpa
-        s7CF1UKr4rZr13Gw17AF1ayr1SvryvqF47Gw45Wr1ayr4DZr10y3W8Aw1UWFy5Jr48Wa12
-        yF4jgr15ur1UXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
-        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-        xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
-        6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFDGOUUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgALBF1jj46tmwAAsE
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230815194254.89570-2-donald.hunter@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/14/2023 7:13 PM, Jarkko Sakkinen wrote:
-> On Sat Aug 12, 2023 at 1:46 PM EEST, Roberto Sassu wrote:
->> From: Roberto Sassu <roberto.sassu@huawei.com>
->>
->> Add digest_cache_init_htable(), to size a hash table depending on the
->> number of digests to be added to the cache.
->>
->> Add digest_cache_add() and digest_cache_lookup() to respectively add and
->> lookup a digest in the digest cache.
->>
->> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
->> ---
->>   security/integrity/digest_cache.c | 131 ++++++++++++++++++++++++++++++
->>   security/integrity/digest_cache.h |  24 ++++++
->>   2 files changed, 155 insertions(+)
->>
->> diff --git a/security/integrity/digest_cache.c b/security/integrity/digest_cache.c
->> index 4201c68171a..d14d84b804b 100644
->> --- a/security/integrity/digest_cache.c
->> +++ b/security/integrity/digest_cache.c
->> @@ -315,3 +315,134 @@ struct digest_cache *digest_cache_get(struct dentry *dentry,
->>   
->>   	return iint->dig_user;
->>   }
->> +
->> +/**
->> + * digest_cache_init_htable - Allocate and initialize the hash table
->> + * @digest_cache: Digest cache
->> + * @num_digests: Number of digests to add to the digest cache
->> + *
->> + * This function allocates and initializes the hash table. Its size is
->> + * determined by the number of digests to add to the digest cache, known
->> + * at this point by the parser calling this function.
->> + *
->> + * Return: Zero on success, a negative value otherwise.
->> + */
->> +int digest_cache_init_htable(struct digest_cache *digest_cache,
->> +			     u64 num_digests)
->> +{
->> +	int i;
->> +
->> +	if (!digest_cache)
->> +		return 0;
->> +
->> +	digest_cache->num_slots = num_digests / DIGEST_CACHE_HTABLE_DEPTH;
->> +	if (!digest_cache->num_slots)
->> +		digest_cache->num_slots = 1;
->> +
->> +	digest_cache->slots = kmalloc_array(num_digests,
->> +					    sizeof(*digest_cache->slots),
->> +					    GFP_KERNEL);
->> +	if (!digest_cache->slots)
->> +		return -ENOMEM;
->> +
->> +	for (i = 0; i < digest_cache->num_slots; i++)
->> +		INIT_HLIST_HEAD(&digest_cache->slots[i]);
->> +
->> +	pr_debug("Initialized %d hash table slots for digest list %s\n",
->> +		 digest_cache->num_slots, digest_cache->path_str);
->> +	return 0;
->> +}
->> +
->> +/**
->> + * digest_cache_add - Add a new digest to the digest cache
->> + * @digest_cache: Digest cache
->> + * @digest: Digest to add
->> + *
->> + * This function, invoked by a digest list parser, adds a digest extracted
->> + * from a digest list to the digest cache.
->> + *
->> + * Return: Zero on success, a negative value on error.
+On Tue, Aug 15, 2023 at 08:42:45PM +0100, Donald Hunter wrote:
+> This schema is largely a copy of the genetlink-legacy schema with the
+> following additions:
 > 
-> Nit: previous had a different phrasing "a negative value otherwise".
+>  - a top-level protonum property, e.g. 0 (for NETLINK_ROUTE)
+>  - add netlink-raw to the list of protocols supported by the schema
+>  - add a value property to mcast-group definitions
 > 
-> I would suggest "a POSIX error code otherwise" for both.
-
-Ok.
-
->> + */
->> +int digest_cache_add(struct digest_cache *digest_cache, u8 *digest)
->> +{
->> +	struct digest_cache_entry *entry;
->> +	unsigned int key;
->> +	int digest_len;
->> +
->> +	if (!digest_cache)
->> +		return 0;
->> +
->> +	digest_len = hash_digest_size[digest_cache->algo];
->> +
->> +	entry = kmalloc(sizeof(*entry) + digest_len, GFP_KERNEL);
->> +	if (!entry)
->> +		return -ENOMEM;
->> +
->> +	memcpy(entry->digest, digest, digest_len);
->> +
->> +	key = digest_cache_hash_key(digest, digest_cache->num_slots);
->> +	hlist_add_head(&entry->hnext, &digest_cache->slots[key]);
->> +	pr_debug("Add digest %s:%*phN from digest list %s\n",
->> +		 hash_algo_name[digest_cache->algo], digest_len, digest,
->> +		 digest_cache->path_str);
->> +	return 0;
->> +}
->> +
->> +/**
->> + * digest_cache_lookup - Searches a digest in the digest cache
->> + * @digest_cache: Digest cache
->> + * @digest: Digest to search
->> + * @algo: Algorithm of the digest to search
->> + * @pathname: Path of the file whose digest is looked up
->> + *
->> + * This function, invoked by IMA or EVM, searches the calculated digest of
->> + * a file or file metadata in the digest cache acquired with
->> + * digest_cache_get().
->> + *
->> + * Return: Zero if the digest is found, a negative value if not.
->> + */
->> +int digest_cache_lookup(struct digest_cache *digest_cache, u8 *digest,
->> +			enum hash_algo algo, const char *pathname)
->> +{
->> +	struct digest_cache_entry *entry;
->> +	unsigned int key;
->> +	int digest_len;
->> +	int search_depth = 0;
->> +
->> +	if (!digest_cache)
->> +		return -ENOENT;
->> +
->> +	if (digest_cache->algo == HASH_ALGO__LAST) {
->> +		pr_debug("Algorithm not set for digest list %s\n",
->> +			 digest_cache->path_str);
->> +		return -ENOENT;
->> +	}
->> +
->> +	digest_len = hash_digest_size[digest_cache->algo];
->> +
->> +	if (algo != digest_cache->algo) {
->> +		pr_debug("Algo mismatch for file %s, digest %s:%*phN in digest list %s (%s)\n",
->> +			 pathname, hash_algo_name[algo], digest_len, digest,
->> +			 digest_cache->path_str,
->> +			 hash_algo_name[digest_cache->algo]);
->> +		return -ENOENT;
->> +	}
->> +
->> +	key = digest_cache_hash_key(digest, digest_cache->num_slots);
->> +
->> +	hlist_for_each_entry_rcu(entry, &digest_cache->slots[key], hnext) {
->> +		if (!memcmp(entry->digest, digest, digest_len)) {
->> +			pr_debug("Cache hit at depth %d for file %s, digest %s:%*phN in digest list %s\n",
->> +				 search_depth, pathname, hash_algo_name[algo],
->> +				 digest_len, digest, digest_cache->path_str);
->> +			return 0;
->> +		}
->> +
->> +		search_depth++;
->> +	}
->> +
->> +	pr_debug("Cache miss for file %s, digest %s:%*phN in digest list %s\n",
->> +		 pathname, hash_algo_name[algo], digest_len, digest,
->> +		 digest_cache->path_str);
->> +	return -ENOENT;
->> +}
->> diff --git a/security/integrity/digest_cache.h b/security/integrity/digest_cache.h
->> index ff88e8593c6..01cd70f9850 100644
->> --- a/security/integrity/digest_cache.h
->> +++ b/security/integrity/digest_cache.h
->> @@ -66,6 +66,11 @@ static inline unsigned int digest_cache_hash_key(u8 *digest,
->>   void digest_cache_free(struct digest_cache *digest_cache);
->>   struct digest_cache *digest_cache_get(struct dentry *dentry,
->>   				      struct integrity_iint_cache *iint);
->> +int digest_cache_init_htable(struct digest_cache *digest_cache,
->> +			     u64 num_digests);
->> +int digest_cache_add(struct digest_cache *digest_cache, u8 *digest);
->> +int digest_cache_lookup(struct digest_cache *digest_cache, u8 *digest,
->> +			enum hash_algo algo, const char *pathname);
->>   #else
->>   static inline void digest_cache_free(struct digest_cache *digest_cache)
->>   {
->> @@ -77,5 +82,24 @@ digest_cache_get(struct dentry *dentry, struct integrity_iint_cache *iint)
->>   	return NULL;
->>   }
->>   
->> +static inline int digest_cache_init_htable(struct digest_cache *digest_cache,
->> +					   u64 num_digests)
->> +{
->> +	return -EOPNOTSUPP;
->> +}
->> +
->> +static inline int digest_cache_add(struct digest_cache *digest_cache,
->> +				   u8 *digest)
->> +{
->> +	return -EOPNOTSUPP;
->> +}
->> +
->> +static inline int digest_cache_lookup(struct digest_cache *digest_cache,
->> +				      u8 *digest, enum hash_algo algo,
->> +				      const char *pathname)
->> +{
->> +	return -ENOENT;
->> +}
->> +
->>   #endif /* CONFIG_INTEGRITY_DIGEST_CACHE */
->>   #endif /* _DIGEST_CACHE_H */
->> -- 
->> 2.34.1
+> This schema is very similar to genetlink-legacy and I considered
+> making the changes there and symlinking to it. On balance I felt that
+> might be problematic for accurate schema validation.
 > 
-> Why all this complexity instead of using xarray?
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>  Documentation/netlink/netlink-raw.yaml | 414 +++++++++++++++++++++++++
+>  1 file changed, 414 insertions(+)
+>  create mode 100644 Documentation/netlink/netlink-raw.yaml
 > 
-> https://docs.kernel.org/core-api/xarray.html
+> diff --git a/Documentation/netlink/netlink-raw.yaml b/Documentation/netlink/netlink-raw.yaml
+> new file mode 100644
+> index 000000000000..a5ec6f3e41cc
+> --- /dev/null
+> +++ b/Documentation/netlink/netlink-raw.yaml
+> @@ -0,0 +1,414 @@
+> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://kernel.org/schemas/netlink/genetlink-legacy.yaml#
+> +$schema: https://json-schema.org/draft-07/schema
+> +
+> +# Common defines
+> +$defs:
+> +  uint:
+> +    type: integer
+> +    minimum: 0
+> +  len-or-define:
+> +    type: [ string, integer ]
+> +    pattern: ^[0-9A-Za-z_]+( - 1)?$
+> +    minimum: 0
+> +
+> +# Schema for specs
+> +title: Protocol
+> +description: Specification of a genetlink protocol
+> +type: object
+> +required: [ name, doc, attribute-sets, operations ]
+> +additionalProperties: False
+> +properties:
+> +  name:
+> +    description: Name of the genetlink family.
+> +    type: string
+> +  doc:
+> +    type: string
+> +  version:
+> +    description: Generic Netlink family version. Default is 1.
+> +    type: integer
+> +    minimum: 1
+> +  protocol:
+> +    description: Schema compatibility level. Default is "genetlink".
+> +    enum: [ genetlink, genetlink-c, genetlink-legacy, netlink-raw ] # Trim
+> +  # Start netlink-raw
+> +  protonum:
+> +    description: Protocol number to use for netlink-raw
+> +    type: integer
+> +  # End netlink-raw
+> +  uapi-header:
+> +    description: Path to the uAPI header, default is linux/${family-name}.h
+> +    type: string
+> +  # Start genetlink-c
+> +  c-family-name:
+> +    description: Name of the define for the family name.
+> +    type: string
+> +  c-version-name:
+> +    description: Name of the define for the verion of the family.
 
-Uhm, did I get correctly from the documentation that it isn't the 
-optimal solution for hash tables?
+Hi Donald,
 
-Thanks
+a minor nit from my side: verion -> version
 
-Roberto
+> +    type: string
 
+...
