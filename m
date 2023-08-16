@@ -2,62 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E61C001B0
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 02:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6547C001B0
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 03:29:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236810AbjHPCxJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Aug 2023 22:53:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36112 "EHLO
+        id S241523AbjHPD22 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Aug 2023 23:28:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241376AbjHPCwj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 22:52:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658C9212B
-        for <linux-doc@vger.kernel.org>; Tue, 15 Aug 2023 19:52:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E7C2463C2C
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 02:52:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01022C433C8;
-        Wed, 16 Aug 2023 02:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692154357;
-        bh=3QjhTCHuuIiV8csmB6TyJmQ1YEMYzNv95EvJW8GWkZA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rxBQboLivi6aw7MZhbkeGipJwbAtnK45XfWdhdaZYYr3kUVWHnl4NP/k9YSkv/bDf
-         +L6rae7IgCI1my0IdSm1L3hkhfzTKngSd6SHGkG+0P/+L3tMu4jH+pc1x7qbdctbw+
-         xESeiUGxdN+8c8WVZ1oNmWyvZR1VfW/VqWtnQ3bF5k1Kmq+WGlzY0NTljbW1k6EBTf
-         xKVXgA/WuDoRv9cAp04WJtk+VU2HPYpCH4LuQfi2J9Q3Zk/1nyq0R8D3CbBneVIX9T
-         paGCnHcfXy4e9aus7GqHJgZGME75wEaZ5Bib05h2JJ4Zgxrp01Icn7Tox5x7C6FJMH
-         vIs7rsRHErBWw==
-Date:   Tue, 15 Aug 2023 19:52:36 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v2 03/10] doc/netlink: Document the netlink-raw
- schema extensions
-Message-ID: <20230815195236.3835a60b@kernel.org>
-In-Reply-To: <20230815194254.89570-4-donald.hunter@gmail.com>
-References: <20230815194254.89570-1-donald.hunter@gmail.com>
-        <20230815194254.89570-4-donald.hunter@gmail.com>
+        with ESMTP id S241551AbjHPD2K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Aug 2023 23:28:10 -0400
+Received: from dggsgout12.his.huawei.com (unknown [45.249.212.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8040A199D;
+        Tue, 15 Aug 2023 20:28:06 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.30.67.169])
+        by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4RQYVl0n64z4f3l2m;
+        Wed, 16 Aug 2023 11:27:59 +0800 (CST)
+Received: from ubuntu20.huawei.com (unknown [10.67.174.33])
+        by APP4 (Coremail) with SMTP id gCh0CgDnwqU7QtxktkBHAw--.44168S2;
+        Wed, 16 Aug 2023 11:28:02 +0800 (CST)
+From:   "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
+To:     Christian Brauner <brauner@kernel.org>,
+        Seth Forshee <sforshee@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Wang Lei <wanglei249@huawei.com>,
+        gongruiqi1@huawei.com
+Subject: [PATCH] doc: idmappings: fix an error and rephrase a paragraph
+Date:   Wed, 16 Aug 2023 11:32:10 +0800
+Message-Id: <20230816033210.914262-1-gongruiqi@huaweicloud.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgDnwqU7QtxktkBHAw--.44168S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7AF43Zr1Utw1UuF17KFg_yoW8Ar48p3
+        yrtFsrKa1Yva4j9w1xArWIgFyjvas5uw4UAFyDJw1rZr1DGF9Fyr4IkF10qFyrZ3ySkFWa
+        vFW29rWj9r13twUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgKb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
+        c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
+        CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
+        MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJV
+        Cq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
+        daVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
+X-CM-SenderInfo: pjrqw2pxltxq5kxd4v5lfo033gof0z/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Aug 2023 20:42:47 +0100 Donald Hunter wrote:
-> Add description of netlink-raw specific attributes to the ynl spec
-> documentation and refer to the classic netlink documentation.
+From: "GONG, Ruiqi" <gongruiqi1@huawei.com>
 
-I wonder if we should make this a separate doc, similarly to
-genetlink-legacy. Keep the specs.rst focused on newer stuff?
+If the modified paragraph is referring to the idmapping mentioned in the
+previous paragraph (i.e. `u0:k10000:r10000`), then it is `u0` that the
+upper idmapset starts with, not `u1000`.
+
+Fix this error and rephrase this paragraph a bit to make this reference
+more explicit.
+
+Reported-by: Wang Lei <wanglei249@huawei.com>
+Signed-off-by: GONG, Ruiqi <gongruiqi1@huawei.com>
+---
+ Documentation/filesystems/idmappings.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/filesystems/idmappings.rst b/Documentation/filesystems/idmappings.rst
+index f3d168c9f0b9..d095c5838f94 100644
+--- a/Documentation/filesystems/idmappings.rst
++++ b/Documentation/filesystems/idmappings.rst
+@@ -146,9 +146,10 @@ For the rest of this document we will prefix all userspace ids with ``u`` and
+ all kernel ids with ``k``. Ranges of idmappings will be prefixed with ``r``. So
+ an idmapping will be written as ``u0:k10000:r10000``.
+ 
+-For example, the id ``u1000`` is an id in the upper idmapset or "userspace
+-idmapset" starting with ``u1000``. And it is mapped to ``k11000`` which is a
+-kernel id in the lower idmapset or "kernel idmapset" starting with ``k10000``.
++For example, within this idmapping, the id ``u1000`` is an id in the upper
++idmapset or "userspace idmapset" starting with ``u0``. And it is mapped to
++``k11000`` which is a kernel id in the lower idmapset or "kernel idmapset"
++starting with ``k10000``.
+ 
+ A kernel id is always created by an idmapping. Such idmappings are associated
+ with user namespaces. Since we mainly care about how idmappings work we're not
+-- 
+2.25.1
+
