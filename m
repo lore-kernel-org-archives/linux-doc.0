@@ -2,75 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99A05C04E69
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 15:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6325CC001E0
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Aug 2023 15:21:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239567AbjHPPPl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 11:15:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54236 "EHLO
+        id S232640AbjHPPVK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 11:21:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344109AbjHPPPg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 11:15:36 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439311BF7;
-        Wed, 16 Aug 2023 08:15:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=N6a3LFi7FqtDc7rgHMTZkd2jpNcJEIic3nqXwAZCGZs=; b=ov/ggSx2aYXP+GoRT5S8O0IAZd
-        J8zSNz2y0YyfNhmoueSOUvYLus6hCmdmDllClueZMnULz5l6CSPToXFe7eHX/EKYf+Lnn9t5bOEcH
-        PA8/w8PlbZ1stXwaPcVeJm7GqKqfqbp6q/qVuixfCBo2tLoPlTJGKjfyQQt9L+w0UWB5u3OOItqbg
-        nN9M6zuydveBdjKEweGknBaFSl+Op3Icsb5LrQ2eoBcPdggme5rRzB91k/Zj62d1/khAYx+hCTwTu
-        iXeA4fnKNY5D207TZc2ajbVJgHWxbcI5tpzlFeGkKhxZ2yl+Bk4U8cLcGlXxq8VExHhDpG4yy7m9a
-        y7Zs4L3g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qWIF7-00FNcO-BO; Wed, 16 Aug 2023 15:15:29 +0000
-Date:   Wed, 16 Aug 2023 16:15:29 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Avadhut Naik <Avadhut.Naik@amd.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [RFC] Proposal to relax warnings of htmldocs
-Message-ID: <ZNzoEVYE1dTOnni4@casper.infradead.org>
-References: <85964510-4f88-58d2-2687-f7fa76013cf9@amd.com>
- <87v8dgtb9o.fsf@meer.lwn.net>
- <CANiq72=8DH8SZS2TZF+nHzCq3onXz-OuyE-xmYZncDmiKqVfzQ@mail.gmail.com>
- <ZNvGz4v2QYowrhk0@casper.infradead.org>
- <87bkf79row.fsf@intel.com>
- <f7d0e554-b6ac-49ee-4caf-640967bc1053@amd.com>
+        with ESMTP id S1343621AbjHPPUe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 11:20:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D28710C7
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 08:20:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 03BA5619C8
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 15:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A89C433C8;
+        Wed, 16 Aug 2023 15:20:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692199232;
+        bh=nPgnGrW/AxW3ysL0uPT98hzgOeH7Jh7J3p6l1H8f+cE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=I2/cVds/sLrUcBV6oXoKyVsbwyFYgwnD1FaAqXQcZLZbEazUHVpOLS2rjR0RNQVIj
+         +z7Bn8autQV9OBnS+7akDHxk4s2pLV3QzBQLgVCVLm5RC0Rs1zQ7mqsncIPQhPgTyx
+         MNlXeB0X/qdv7cfQuHcYocuENj+Q+vrnAE8ele6v33o/KIU/trOW/qL7HqXs6l6uHW
+         gvoVYJ4SKJqfO15j4Xve4dPMnuJelI/IC9J6zvsFJ8WiP65BwfW/+JJ20nMv4auIuY
+         a0rZDuyr8pakpGR09kToYQjEVaPqTvNWu+khiDjv4RI+e4RU5S2BV+/Kj8f2nla1OZ
+         xFgsEItOgHzcw==
+Date:   Wed, 16 Aug 2023 08:20:30 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Stanislav Fomichev <sdf@google.com>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v2 05/10] tools/net/ynl: Refactor
+ decode_fixed_header into NlMsg
+Message-ID: <20230816082030.5c716f37@kernel.org>
+In-Reply-To: <20230815194254.89570-6-donald.hunter@gmail.com>
+References: <20230815194254.89570-1-donald.hunter@gmail.com>
+        <20230815194254.89570-6-donald.hunter@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f7d0e554-b6ac-49ee-4caf-640967bc1053@amd.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 16, 2023 at 10:12:56AM -0500, Carlos Bilbao wrote:
-> On 8/16/23 06:01, Jani Nikula wrote:
-> > What I'd hope for is build system support to enable W=1
-> > compiler/kernel-doc warnings for a subdir with a few lines at most,
-> > instead of duplicating and copy-pasting tens of lines from
-> > scripts/Makefile.extrawarn like we have to do now.
-> 
-> That sounds feasible but, well, I actually proposed the opposite approach.
-> I wanted to "relax" the warnings (see RFC Subject) rather than making them
-> more strict by default.
-> 
-> My concern is that W=1 (by default) may theoretically result in a clean
-> `make htmldocs` but it won't in practice. Not all developers prioritize
-> good documentation like the folks from i915, and that may lead to
-> unaddressed warnings or worst, less interest in documenting the code. Isn't
-> it the case that some of these higher-control warnings don't really have
-> much effect in real life? And shoukd W=1 become the default, are we going
-> to be able to enforce that level of control?
+On Tue, 15 Aug 2023 20:42:49 +0100 Donald Hunter wrote:
+> +    def __init__(self, nl_msg, ynl=None):
+> +        self.genl_cmd, self.genl_version, _ = struct.unpack_from("BBH", nl_msg.raw, 0)
+> +        nl_msg.raw = nl_msg.raw[4:]
 
-I wasn't proposing making W=1 builds the default; I was proposing
-running kernel-doc -none at all levels.
+It's a bit of a layering violation that we are futzing with the raw
+member of NlMsg inside GenlMsg, no?
+
+Should we add "fixed hdrs len" argument to NlMsg? Either directly or
+pass ynl and let get the expected len from ynl? That way NlMsg can
+split itself into hdr, userhdrs and attrs without GenlMsg "fixing it
+up"?
+
+> -        self.hdr = nl_msg.raw[0:4]
+> -        offset = 4
+> -
+> -        self.genl_cmd, self.genl_version, _ = struct.unpack("BBH", self.hdr)
+> -
+> -        self.fixed_header_attrs = dict()
+> -        for m in fixed_header_members:
+> -            format = NlAttr.get_format(m.type, m.byte_order)
+> -            decoded = format.unpack_from(nl_msg.raw, offset)
+> -            offset += format.size
+> -            self.fixed_header_attrs[m.name] = decoded[0]
+> +        if ynl:
+> +            op = ynl.rsp_by_value[self.genl_cmd]
+> +            if op.fixed_header:
+> +                nl_msg.decode_fixed_header(ynl, op.fixed_header)
+>  
+> -        self.raw = nl_msg.raw[offset:]
+> +        self.raw = nl_msg.raw
