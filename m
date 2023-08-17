@@ -2,96 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA27FEB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 10:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B639DC2FC18
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 12:01:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349496AbjHQKmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 06:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49686 "EHLO
+        id S1350528AbjHQMAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 08:00:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350000AbjHQKmN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 06:42:13 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A162D54;
-        Thu, 17 Aug 2023 03:42:12 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4fe457ec6e7so12175628e87.3;
-        Thu, 17 Aug 2023 03:42:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692268931; x=1692873731;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L9wsnYtwCVpsPDaj6w+SIw5IfWLUcYuKsKC7dYAdAlw=;
-        b=Uqu/b2E0WlzKd1jO88FmLRWjJKIPlpFCrgXYXK7WNv36ZZfBOlHMTWo01Qh5R7By59
-         pgK7PpS1TdIQkvyzHI/AcPeLj2WXUv5bT6K4NxFKJ7binVJ5SlgGbRnxZhfxBMPaDC62
-         /c4qZ8t6GNwvBmO6e7uN6KL8hCBQHkGUM2qvAbBJGClH41d00UPWj8tdM0AZLwf2RiYy
-         QCgU1M6iWr5Gh89E4XQTpOjLIo2p6YIFuXR6Y8IuBdVJVYRKuM7JWpNOdAEJ8g0zyDiL
-         dq+uS/l9Tm7LP+6MyC/ABGEblfTt2oKsYBWq0uO6I8q/gHe0V1ESX4xZ2h1LGSJjS275
-         j9hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692268931; x=1692873731;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L9wsnYtwCVpsPDaj6w+SIw5IfWLUcYuKsKC7dYAdAlw=;
-        b=Q8RPqOkDZ95OCSPQDHMcCdZdFktdyhl6evSi5A2U5sceOIsDnn4ydlijyBIzVJhjrZ
-         Wfja89r0fPxV/q2VPUTgRnWpqeHIwGt6TMWb+45074bz7vj7u7Guv8lACnn2+K8zjrGx
-         AdYO5CnTt0EvAIFR4Wyle2rplq70UHgNi0esntYZj1evNnp0W/VHcJWSYUdgLpODvJ+5
-         JOtXlXBNY77gb0M/ydkEhGoCUyNC0+8+IYrFjoTseFR1Bjj6ZIW2nVjYz1QGFfE22Mpr
-         lAI7EBkjXnGYujcH0aCK/rZr4+QCXWHJrTQZImVBTRpkIzwc7xgvqaWKHO1n293PMGwJ
-         /AkQ==
-X-Gm-Message-State: AOJu0Yw87DJpqO5RR9CXmkZX0dINbGq6oorsYZF6RtPaEbWbiuwIMGZW
-        twL5BVEkCraVRlwJqnxdsPw=
-X-Google-Smtp-Source: AGHT+IERtmHanTnHV0WblGrYYSEzETUJAY96ypq+Y5wUzGIyV/9f/p36vTchNTM3kcHEstvgJeRp+g==
-X-Received: by 2002:a19:5010:0:b0:4fe:590:53ca with SMTP id e16-20020a195010000000b004fe059053camr3307535lfb.4.1692268930396;
-        Thu, 17 Aug 2023 03:42:10 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:b526:e684:e15e:6a87])
-        by smtp.gmail.com with ESMTPSA id t24-20020a1c7718000000b003feae747ff2sm2489969wmi.35.2023.08.17.03.42.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 03:42:09 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v2 06/10] tools/net/ynl: Add support for
- netlink-raw families
-In-Reply-To: <20230816082908.1365f287@kernel.org> (Jakub Kicinski's message of
-        "Wed, 16 Aug 2023 08:29:08 -0700")
-Date:   Thu, 17 Aug 2023 10:10:35 +0100
-Message-ID: <m2cyzmhw50.fsf@gmail.com>
-References: <20230815194254.89570-1-donald.hunter@gmail.com>
-        <20230815194254.89570-7-donald.hunter@gmail.com>
-        <20230816082908.1365f287@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        with ESMTP id S1350568AbjHQMAh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 08:00:37 -0400
+Received: from TWMBX03.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CC942133;
+        Thu, 17 Aug 2023 05:00:34 -0700 (PDT)
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Aug
+ 2023 20:00:32 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Aug 2023 20:00:32 +0800
+From:   Billy Tsai <billy_tsai@aspeedtech.com>
+To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <corbet@lwn.net>, <thierry.reding@gmail.com>,
+        <u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+        <billy_tsai@aspeedtech.com>, <linux-hwmon@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        <BMC-SW@aspeedtech.com>, <patrick@stwcx.xyz>
+Subject: [PATCH v7 1/2] dt-bindings: hwmon: Support Aspeed g6 PWM TACH Control
+Date:   Thu, 17 Aug 2023 20:00:28 +0800
+Message-ID: <20230817120029.221484-2-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230817120029.221484-1-billy_tsai@aspeedtech.com>
+References: <20230817120029.221484-1-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Document the compatible for aspeed,ast2600-pwm-tach device, which can
+support upto 16 PWM outputs and 16 fan tach input.
 
-> On Tue, 15 Aug 2023 20:42:50 +0100 Donald Hunter wrote:
->> Refactor the ynl code to encapsulate protocol specifics into
->> NetlinkProtocol and GenlProtocol.
->
-> Looks good, but do we also need some extra plumbing to decode extack
-> for classic netlink correctly?  Basically shouldn't _decode_extack()
-> also move to proto? Or we can parameterize it? All we really need there
-> is to teach it how much of fixed headers parser needs to skip to get to
-> attributes, really (which, BTW is already kinda buggy for genl families
-> with fixed headers).
+Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+---
+ .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 57 +++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
 
-I have been working on the assumption that extack responses don't
-include any fixed headers. I have seen extack messages decoded correctly
-for classic netlink, here with RTM_NEWROUTE:
+diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+new file mode 100644
+index 000000000000..1666304d0b0f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+@@ -0,0 +1,57 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2021 Aspeed, Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ASPEED G6 PWM and Fan Tach controller device driver
++
++maintainers:
++  - Billy Tsai <billy_tsai@aspeedtech.com>
++
++description: |
++  The ASPEED PWM controller can support upto 16 PWM outputs.
++  The ASPEED Fan Tacho controller can support upto 16 fan tach input.
++
++properties:
++  compatible:
++    enum:
++      - aspeed,ast2600-pwm-tach
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  "#pwm-cells":
++    const: 3
++
++  aspeed,fan-tach-ch:
++    description: Specify the Fan tach input channels.
++    $ref: "/schemas/types.yaml#/definitions/uint8-array"
++
++required:
++  - reg
++  - clocks
++  - resets
++  - "#pwm-cells"
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/aspeed-clock.h>
++    pwm_tach: pwm-tach-controller@1e610000 {
++      compatible = "aspeed,ast2600-pwm-tach";
++      reg = <0x1e610000 0x100>;
++      clocks = <&syscon ASPEED_CLK_AHB>;
++      resets = <&syscon ASPEED_RESET_PWM>;
++      #pwm-cells = <3>;
++      aspeed,fan-tach-ch = /bits/ 8 <0x00 0x02 0x4>;
++    };
+-- 
+2.25.1
 
-lib.ynl.NlError: Netlink error: Invalid argument
-nl_len = 80 (64) nl_flags = 0x300 nl_type = 2
-  error: -22  extack: {'msg': 'Invalid prefix for given prefix length'}
-
-Is there something I am missing?
