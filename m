@@ -2,116 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35AA5C41513
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 13:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D77EAC2FC34
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 14:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351213AbjHQNLN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 09:11:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
+        id S237918AbjHQOI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 10:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351233AbjHQNKn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 09:10:43 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC9033A96
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 06:10:18 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-5257e2b5d12so3003178a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 06:10:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1692277782; x=1692882582;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dia79abijhqNuyOI1X7cuUqq5ei10OSh1lyxFY8ZqEI=;
-        b=3nb6Lx91hP38MJ3GLl8uaDcXhmdsFacX63aBoL59zCMgJncHjeenKLbguGHpu3TTET
-         3CAawoe5G94N+Zlg0PjwH+2WnqRPe3YDrJPMrPzQHaT0FI6oiSgOYnaIM2iiSt7hMkx1
-         JXe0yDUxjjCa67x2MTZagetgaYShcRqgjxGBDh6Al02vtsCsgSm4dXmSnDNPl9g4DdYU
-         GDN9edqu/82jOUuqLQuz2DVd3EWcnUVWvVVvY8SygZZ/Hjs1bXVaRZDAEu0IKkSVW6DK
-         hx7/Sl76DMH9q2ilOlpGLf4ueapRgEXDufjufHMeOcHsnUf/s+wgpSVFP2vUZAuwQBHt
-         dwBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692277782; x=1692882582;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dia79abijhqNuyOI1X7cuUqq5ei10OSh1lyxFY8ZqEI=;
-        b=Rssj9qSIc5n7VfO7yZG6t1poRtiD9G72MPzwnYafctWETCYgXj8/c7xWm5qiSuzIub
-         KqsKjuMtSdxx7aOct+O6iD7z6Yv048BrD8grdJuYWnM5KWRvjKZtGM8Ex6BJ3cbYGx7E
-         YRubyKCQIrkm8nfCUOfroGKAN/+Xip2l2RT211BZelapelq2ShAvvWbqwJys0ep5bm/z
-         M3NA4qcT4A1DVR+Cn6SBUoagCs5xoXBIcf+JXzM1RyQlrZ7rN4pJsuOjC1qYuYRj73qw
-         QB30zSDFxSmqgVPutFIqYHZTsZ2tVCU7VbzO7jF4oCjb70JyxWk8Z2m7A721ylKy4pPD
-         ESuA==
-X-Gm-Message-State: AOJu0YyScLwVYtS6nUGV11uiqz3YTj+Qac1BxlPgV+4nLiOUO9n135hg
-        nGEZfAdstJUlO34WLbfTh9+4tg==
-X-Google-Smtp-Source: AGHT+IHPEG0Uf4bUW9nG0gFKJH77vR45Ar5vo3OmomUBR3HmWHPm8EAlptOc0vd76nvl6VVmMrqFKg==
-X-Received: by 2002:aa7:db58:0:b0:522:3a37:a463 with SMTP id n24-20020aa7db58000000b005223a37a463mr4006086edt.20.1692277781929;
-        Thu, 17 Aug 2023 06:09:41 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com ([77.205.22.0])
-        by smtp.gmail.com with ESMTPSA id h2-20020aa7de02000000b005232e637c24sm9912829edv.84.2023.08.17.06.09.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 06:09:41 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v7 3/3] Documentation: riscv: Update boot image header since EFI stub is supported
-Date:   Thu, 17 Aug 2023 15:07:34 +0200
-Message-Id: <20230817130734.10387-3-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230817130734.10387-1-alexghiti@rivosinc.com>
-References: <20230817130734.10387-1-alexghiti@rivosinc.com>
+        with ESMTP id S1351814AbjHQOI0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 10:08:26 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC975E6B;
+        Thu, 17 Aug 2023 07:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692281298; x=1723817298;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tSAfQ8VgV7w5FQ6Wp+p1SGY5oFBwBoq+zpUTtKJDwsI=;
+  b=J3YBOrgIujR6W2IevsIf9JqC7xBP9LFndV0bUhf00ae6sqeKbNEgqYVk
+   x0WgCjmNE3x8bpdbkwpFQVDn8Aq/OUDmMsyPBypjlbVLKbVQs/AEeSMOB
+   jRYItCbdIOnD6xWSWlzKDWCrZyBV7cYeXLZyYkncxRFARAWkZjGPdth5e
+   RBKpMt01WwHCntrUeZkwTqbchhhxZKhxvTOSj7AE3P7rSYX9gp/79N67w
+   i3ioh7XNVEWbmqt+PMfg/dSWv9EkSRPzaGmCXkDGFDFvdFvH/5cd4gByX
+   KuvvBdP6kJpJBXP2znnoRlVDpdtdCNL1zoDFcn1o5K46ayjZ6iX7dbgFq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="352404342"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="352404342"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 07:06:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="804689187"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="804689187"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2023 07:06:58 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 2DE06DAB; Thu, 17 Aug 2023 17:06:57 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] docs: kernel-parameters: Refer to the correct bitmap function
+Date:   Thu, 17 Aug 2023 17:04:32 +0300
+Message-Id: <20230817140432.507889-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The EFI stub is supported on RISC-V so update the documentation that
-explains how the boot image header was reused to support it.
+The parser of the CPU lists is bitmap_parselist() that supports
+special notations with the plain numbers. bitmap_parse() never
+supported those and will fail in case one will try it.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+Fixes: b18def121f07 ("bitmap_parse: Support 'all' semantics")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-- Changes in v5:
-  * Rebase on top of docs-next
+ Documentation/admin-guide/kernel-parameters.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/riscv/boot-image-header.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
-index a4a45310c4c4..df2ffc173e80 100644
---- a/Documentation/riscv/boot-image-header.rst
-+++ b/Documentation/riscv/boot-image-header.rst
-@@ -28,11 +28,11 @@ header in future.
- Notes
- =====
+diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+index 073f73880edf..102937bc8443 100644
+--- a/Documentation/admin-guide/kernel-parameters.rst
++++ b/Documentation/admin-guide/kernel-parameters.rst
+@@ -80,7 +80,7 @@ The special case-tolerant group name "all" has a meaning of selecting all CPUs,
+ so that "nohz_full=all" is the equivalent of "nohz_full=0-N".
  
--- This header can also be reused to support EFI stub for RISC-V in future. EFI
--  specification needs PE/COFF image header in the beginning of the kernel image
--  in order to load it as an EFI application. In order to support EFI stub,
--  code0 should be replaced with "MZ" magic string and res3(at offset 0x3c) should
--  point to the rest of the PE/COFF header.
-+- This header is also reused to support EFI stub for RISC-V. EFI specification
-+  needs PE/COFF image header in the beginning of the kernel image in order to
-+  load it as an EFI application. In order to support EFI stub, code0 is replaced
-+  with "MZ" magic string and res3(at offset 0x3c) points to the rest of the
-+  PE/COFF header.
+ The semantics of "N" and "all" is supported on a level of bitmaps and holds for
+-all users of bitmap_parse().
++all users of bitmap_parselist().
  
- - version field indicate header version number
- 
+ This document may not be entirely up to date and comprehensive. The command
+ "modinfo -p ${modulename}" shows a current list of all parameters of a loadable
 -- 
-2.39.2
+2.40.0.1.gaa8946217a0b
 
