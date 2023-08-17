@@ -2,185 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D133C2FC18
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 12:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 652E3EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 12:31:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350683AbjHQMOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 08:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58466 "EHLO
+        id S1350870AbjHQMbB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 08:31:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350776AbjHQMOS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 08:14:18 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF91A6
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 05:14:16 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-44bf46b6f97so547970137.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 05:14:16 -0700 (PDT)
+        with ESMTP id S1350868AbjHQMa0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 08:30:26 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8930F271B
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 05:30:22 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-307d20548adso6696769f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 05:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1692274456; x=1692879256;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1692275421; x=1692880221;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qp2jFPd5H/9xqBM8BS9hQEvHXOE5m+c15k9g0RAPmQs=;
-        b=109doTdOPGel7wMM6UfGY1JZDmid+V04laFQMn/GFnVUCoUblIfUQOfzouhVGqhbxf
-         hvq54yg4t87eKAAqpsRc4QBoGqOdZAK7uZ1ycGAH0zSWoN3giEYZeCIGYM8EkngSWJ7Z
-         cgNc4IOs4pbmYKtorA4A7wXgsuBjXcrq1GoIRUhoLymXUndtg/7Iqgfq0dKDQn8bhrFj
-         l18TaFm/DDVtHC6buL3k0c/H7xCT9kpsAW77aHhYtALrShXagkNAq/EZsyoLjVPioPes
-         pXqv1f7hORA3mLxbCL5CQOnu5CgzbqElz62y31rDiXokmz+xYwDlu1RvO3At9t8gY4rO
-         eagg==
+        bh=vuXRQgl4ayeLkSDW0JDXF701tiBxNx39rnIctWWyMXI=;
+        b=aChaWqCmxgNz4ErLIuuWG8YWUTpIMuWQcpYeSAw6ad1zEDeV4yx9J2tNqzpnFbCrns
+         PCQTvhSO/4u2KNK7H2+Yq3qzuuSXjGouARW32o6DufshbycXVEwSU9sycB1bbBuEgGAA
+         8RvslNCsO+5SvuZHAwq5e3DVlYCAbIo09tpG94aUyWECdzd0b1zMjph6aeBhozJPW7or
+         4NGroOxgf38+UejID4sxd23ygh49ZWXhgqlFX1Xg2UkcgjgICCT9tiI/2nvtQyRzVyMG
+         ZUloXEwidFP0HJTqdTEL0HzVsWbstB/2NhIWwxW59IWixATiMTM/iieV2DcqCZWmtRss
+         CgxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692274456; x=1692879256;
+        d=1e100.net; s=20221208; t=1692275421; x=1692880221;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qp2jFPd5H/9xqBM8BS9hQEvHXOE5m+c15k9g0RAPmQs=;
-        b=HvzA5rFpXXO3ucg+BJVMbYbY5uJzaEptp7E/vTAL+J2wulQKvU/KvTZP+8SRopT1IF
-         oZJu4Pz9Y9TXttT5x5RTBdQksBSxPeWHbBIDezmI3f4GTcpw3W/VVZoAIsRfYYE679Hs
-         URsRARxBOhINdz1b49QdulsWFF8grCLAsiPOTEpMjGklSULyCB/tW19DmLvi3+jOU7kj
-         jIZKA0yo02dYjD9h9byCIEwGqCPwvd/H0QXzt+osI3beuYjvkTpCOtipiSxwe6K0V+6Z
-         c9B112uGRAeGcC5+cCSHEX+GjtRixzcPcEj4NwKPfRgE2jdTOzyQTBLfMhQeVev7kMHx
-         tC4A==
-X-Gm-Message-State: AOJu0YysJNGl61540fbP/yyN9uP8SPEaGfVM7EZIyui3XStG4i+NGf2U
-        K4PVYvoGmesfIitCRdQA0Mmv3xnnHfT4iYYe9XsAaA==
-X-Google-Smtp-Source: AGHT+IEM0kid+C1ABw0K4dQ5YTSG/4EfeBg6JureDmfYnzZJz/RpG5c4KTKXZLIN2joDPAl31cKupwmKfDz+BI+39gI=
-X-Received: by 2002:a05:6102:511e:b0:44b:f485:2727 with SMTP id
- bm30-20020a056102511e00b0044bf4852727mr2330114vsb.4.1692274455861; Thu, 17
- Aug 2023 05:14:15 -0700 (PDT)
+        bh=vuXRQgl4ayeLkSDW0JDXF701tiBxNx39rnIctWWyMXI=;
+        b=jpShoJXPRKhl0KXu5kyVGSGyvxqXm5H4FQCvOgALnGFhoQ35q3ojvuyBfnwhTB9PfE
+         dxdkSatNs0VhPWiSFVBvu841PNG2OYg0CSdYY5UH1MTf7tTfh1qMEibEhNOFOwbnAQYv
+         ZECMaY8GMugpQxuYcKCLfIuV1NYXhSu/5YzOGkOOOp3Drw+apEu5IsuZX/4WiA/zGrYc
+         VmQ4E/SPHcGAChe3hrtAFNxvTrRE7R6DFBraUNlnbvwroaPGrhChR7sMpCAHbYAFqmmV
+         P1vqEiTlEzeeJ/XrPCHQRseHopb8iRoyQ4yqXzrMZELCqFM9PyRATJr/PfchLwYNGQug
+         VmVg==
+X-Gm-Message-State: AOJu0YzadZGRp+mLRaxp0WXP0b2dbiOnquXUKFN/2+NrqnuJxQtWIhJP
+        UeFrApfAF/8W/Ix0uJcsqFU9zuuGjIHrWnWKSEe5pw==
+X-Google-Smtp-Source: AGHT+IFUYAZNKpCPoVJxK7pTg2muMvrUAbItalLhCm+pS3KOCxcwVO8wFJ81MCKfe2JRVnuXtvkCmhwyTjkxHmr5bIE=
+X-Received: by 2002:a5d:674d:0:b0:315:a34f:b520 with SMTP id
+ l13-20020a5d674d000000b00315a34fb520mr3544053wrw.71.1692275421081; Thu, 17
+ Aug 2023 05:30:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230815185650.152968-1-brgl@bgdev.pl> <ZN3wauUBENDd7aRU@smile.fi.intel.com>
-In-Reply-To: <ZN3wauUBENDd7aRU@smile.fi.intel.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Thu, 17 Aug 2023 14:14:04 +0200
-Message-ID: <CAMRc=MdUWXZVnjkPqH2BZvDY0v-OOysQ=NMjwQEi1rt+16NEQQ@mail.gmail.com>
-Subject: Re: [PATCH v5] gpio: consumer: new virtual driver
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <202308151010.JGqiPc9F-lkp@intel.com>
+In-Reply-To: <202308151010.JGqiPc9F-lkp@intel.com>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Thu, 17 Aug 2023 14:30:10 +0200
+Message-ID: <CAHVXubjTrGQTCh0paUV9YO-0kbntqLu51FpjAJpfjZHtp-9tCQ@mail.gmail.com>
+Subject: Re: [lwn:docs-next 37/49] htmldocs: Warning: Documentation/riscv/boot.rst
+ references a file that doesn't exist: Documentation/arm/uefi.rst
+To:     kernel test robot <lkp@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 17, 2023 at 12:03=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Aug 15, 2023 at 08:56:50PM +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > The GPIO subsystem has a serious problem with undefined behavior and
-> > use-after-free bugs on hot-unplug of GPIO chips. This can be considered=
- a
-> > corner-case by some as most GPIO controllers are enabled early in the
-> > boot process and live until the system goes down but most GPIO drivers
-> > do allow unbind over sysfs, many are loadable modules that can be (forc=
-e)
-> > unloaded and there are also GPIO devices that can be dynamically detach=
-ed,
-> > for instance CP2112 which is a USB GPIO expender.
-> >
-> > Bugs can be triggered both from user-space as well as by in-kernel user=
-s.
-> > We have the means of testing it from user-space via the character devic=
-e
-> > but the issues manifest themselves differently in the kernel.
-> >
-> > This is a proposition of adding a new virtual driver - a configurable
-> > GPIO consumer that can be configured over configfs (similarly to
-> > gpio-sim).
-> >
-> > The configfs interface allows users to create dynamic GPIO lookup table=
-s
-> > that are registered with the GPIO subsystem. Every config group
-> > represents a consumer device. Every sub-group represents a single GPIO
-> > lookup. The device can work in three modes: just keeping the line
-> > active, toggling it every second or requesting its interrupt and
-> > reporting edges. Every lookup allows to specify the key, offset and
-> > flags as per the lookup struct defined in linux/gpio/machine.h.
-> >
-> > The module together with gpio-sim allows to easily trigger kernel
-> > hot-unplug errors. A simple use-case is to create a simulated chip,
-> > setup the consumer to lookup one of its lines in 'monitor' mode, unbind
-> > the simulator, unbind the consumer and observe the fireworks in dmesg.
-> >
-> > This driver is aimed as a helper in tackling the hot-unplug problem in
-> > GPIO as well as basis for future regression testing once the fixes are
-> > upstream.
->
-> ...
->
-> > +     struct gpio_consumer_device *dev =3D lookup->parent;
-> > +
-> > +     guard(mutex)(&dev->lock);
-> > +
-> > +     return sprintf(page, "%s\n", lookup->key);
->
-> ...
->
-> > +static ssize_t
-> > +gpio_consumer_lookup_config_offset_show(struct config_item *item, char=
- *page)
-> > +{
-> > +     struct gpio_consumer_lookup *lookup =3D to_gpio_consumer_lookup(i=
-tem);
-> > +     struct gpio_consumer_device *dev =3D lookup->parent;
-> > +     unsigned int offset;
-> > +
-> > +     scoped_guard(mutex, &dev->lock)
-> > +             offset =3D lookup->offset;
-> > +
-> > +     return sprintf(page, "%d\n", offset);
->
-> Consistently it can be simplified same way
->
->         guard(mutex)(&dev->lock);
->
->         return sprintf(page, "%d\n", lookup->offset);
->
-> BUT. Thinking about this more. With guard() we put sprintf() inside the l=
-ock,
-> which is suboptimal from runtime point of view. So, I think now that all =
-these
-> should actually use scoped_guard() rather than guard().
->
+Hi Jon,
 
-Precisely why I used a scoped guard here. Same elsewhere.
-
-> > +}
+On Tue, Aug 15, 2023 at 4:36=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
 >
-> ...
+> tree:   git://git.lwn.net/linux.git docs-next
+> head:   90cd0c18573ad0583dec098a586f86d281947eb9
+> commit: e0bec22f06641e4a7ccd7fb1f8ed4588839b660b [37/49] Documentation: r=
+iscv: Add early boot document
+> reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151010=
+.JGqiPc9F-lkp@intel.com/reproduce)
 >
-> > +     guard(mutex)(&dev->lock);
-> > +
-> > +     return lookup->flags;
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308151010.JGqiPc9F-lkp=
+@intel.com/
 >
-> ...
+> All warnings (new ones prefixed by >>):
 >
-> > +static ssize_t
-> > +gpio_consumer_lookup_config_transitory_show(struct config_item *item,
-> > +                                         char *page)
-> > +{
+> >> Warning: Documentation/riscv/boot.rst references a file that doesn't e=
+xist: Documentation/arm/uefi.rst
 >
-> > +     enum gpio_lookup_flags flags;
-> > +
-> > +     flags =3D gpio_consumer_lookup_get_flags(item);
->
-> This is perfectly one line < 80 characters.
->
-> > +     return sprintf(page, "%s\n", flags & GPIO_TRANSITORY ? "1" : "0")=
-;
-> > +}
->
-
-There's nothing wrong with setting the variable on another line though.
-
-Bart
-
 > --
-> With Best Regards,
-> Andy Shevchenko
->
->
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+Sorry I missed this, I respin another version right now.
+
+Alex
