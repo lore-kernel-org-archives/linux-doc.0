@@ -2,150 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43AE8C30639
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 14:30:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA60C3062E
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 14:44:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351915AbjHQOaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 10:30:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52348 "EHLO
+        id S244253AbjHQOna (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 10:43:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351939AbjHQO3t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 10:29:49 -0400
-Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C642701;
-        Thu, 17 Aug 2023 07:29:47 -0700 (PDT)
-Received: from [2001:a61:623e:e40:c80a:ff:fe00:409d] (helo=cs-wrt.lan.local); authenticated
-        by wp534.webpack.hosteurope.de running ExIM with esmtpa
-        id 1qWe0L-0004jV-Hg; Thu, 17 Aug 2023 16:29:41 +0200
-From:   =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>
-To:     =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 2/2] dt-bindings: hwmon: add renesas,isl28022
-Date:   Thu, 17 Aug 2023 16:29:21 +0200
-Message-Id: <3f98be38377cc556619c6876f6dcec2d54102271.1692033412.git.mail@carsten-spiess.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1692033412.git.mail@carsten-spiess.de>
-References: <cover.1692033412.git.mail@carsten-spiess.de>
+        with ESMTP id S1352045AbjHQOm6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 10:42:58 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C39D359D
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 07:42:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=x05b/HV5exgeM133qM2otg6aE9OHYqAirfKHhl5VQCg=; b=ByHok/nhCxVvE+JNnLqe+xZYq2
+        15kqzr1jvbkln1HcA0rnpQox3E6hFrhiTIUBLTaq71OdyMlEkMH53+0W8gq+1E74dpUa1RaFEdQeD
+        LI69nftuyQnPIvJWncOTnfMVZEBGBtKdxXuCAdhZO9bxI2XalYOmosboYSjwEGkP3HGBkcsWI3em+
+        r/LjiSpWUkSPX9I2BAY0VzIhhBP5HtSCffSYrS6ACYmsUvu5igHfb5k4pq62BCzmWhgAldIokzzV/
+        ID38I5jRVBmJ7fLd1pPCK49Ygzq57AXVPlNywowmL4yAMom9KRyfuaVDkSQkn+K8BVcs8dle5ZgAK
+        oCExAENg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qWeBz-003n4W-SL; Thu, 17 Aug 2023 14:41:43 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: [PATCH] doc: Always check kernel-doc
+Date:   Thu, 17 Aug 2023 15:41:42 +0100
+Message-Id: <20230817144142.903553-1-willy@infradead.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1692282587;43d5b731;
-X-HE-SMSGID: 1qWe0L-0004jV-Hg
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add dt-bindings for Renesas ISL28022 power monitor.
+kernel-doc checks were initially enabled only for builds which had extra
+warnings enabled.  We have now eliminated enough kernel-doc warnings that
+we can enable kernel-doc checking by default.  This comes at a slight
+cost; for an allmodconfig build, make -j8 fs/ timings on my laptop
+increase by less than 5%:
 
-Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
----
-v4:
-- compatible enum replaced by const
-- unneeded literal style removed
-v3:
-- changelog added
-v2/v3:
-- schema errors fixed
-- properties reworked
-- shunt-resistor minimum and default value added
----
- .../bindings/hwmon/renesas,isl28022.yaml      | 64 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+before real     4m7.456s        4m4.416s        4m6.663s
+after real      4m18.960s       4m21.566s       4m23.234s
+before user     29m35.370s      29m11.036s      29m30.092s
+after user      30m55.602s      31m10.918s      31m20.311s
+before sys      2m8.230s        2m6.392s        2m9.727s
+after sys       2m19.896        2m23.422s       2m25.762s
 
-diff --git a/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-new file mode 100644
-index 000000000000..dd82a80e4115
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-@@ -0,0 +1,64 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/renesas,isl28022.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas ISL28022 power monitor
-+
-+maintainers:
-+  - Carsten Spieß <mail@carsten-spiess.de>
-+
-+description: |
-+  The ISL28022 is a power monitor with I2C interface. The device monitors
-+  voltage, current via shunt resistor and calculated power.
-+
-+  Datasheets:
-+    https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
-+
-+properties:
-+  compatible:
-+    const: renesas,isl28022
-+
-+  reg:
-+    maxItems: 1
-+
-+  shunt-resistor-micro-ohms:
-+    description:
-+      Shunt resistor value in micro-Ohm
-+    minimum: 800
-+    default: 10000
-+
-+  renesas,shunt-range-microvolt:
-+    description:
-+      Maximal shunt voltage range of +/- 40 mV, 80 mV, 160 mV or 320 mV
-+    default: 320000
-+    enum: [40000, 80000, 160000, 320000]
-+
-+  renesas,average-samples:
-+    description:
-+      Number of samples to be used to report voltage, current and power values.
-+    default: 1
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2, 4, 8, 16, 32, 64, 128]
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        power-monitor@40 {
-+            compatible = "renesas,isl28022";
-+            reg = <0x40>;
-+            shunt-resistor-micro-ohms = <8000>;
-+            renesas,shunt-range-microvolt = <40000>;
-+            renesas,average-samples = <128>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b02e3b991676..23b8e8183ece 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11069,6 +11069,7 @@ ISL28022 HARDWARE MONITORING DRIVER
- M:	Carsten Spieß <mail@carsten-spiess.de>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
- F:	Documentation/hwmon/isl28022.rst
- F:	drivers/hwmon/isl28022.c
+This feels like a reasonable price to pay to force people to keep
+documentation up to date.
+
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Reviewed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+ scripts/Makefile.build | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 82e3fb19fdaf..52f57c0c5227 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -100,11 +100,9 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+         cmd_force_checksrc = $(CHECK) $(CHECKFLAGS) $(c_flags) $<
+ endif
  
+-ifneq ($(KBUILD_EXTRA_WARN),)
+-  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $(KDOCFLAGS) \
++cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $(KDOCFLAGS) \
+         $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
+         $<
+-endif
+ 
+ # Compile C sources (.c)
+ # ---------------------------------------------------------------------------
 -- 
-2.34.1
+2.40.1
 
