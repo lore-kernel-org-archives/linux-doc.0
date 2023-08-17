@@ -2,259 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D54C05052
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 01:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AB2C2FC04
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 03:05:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347473AbjHQBUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Aug 2023 21:20:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41180 "EHLO
+        id S1347761AbjHQDEm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Aug 2023 23:04:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347513AbjHQBUc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 21:20:32 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3312D63
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 18:20:25 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-686f94328a4so315796b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 18:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692235224; x=1692840024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvyxeUS9fq0mQZuA1GzyXjv4L0y4/K/wnguyQj7Xykk=;
-        b=ZqhzWxk7QJkOCT6R4F8pbFod5NEa31t3jfoj9cyNhZbDZlSWjNzEZNkZP91pJtdKZz
-         DJ8iGvN+jqVUjpYFYGkugedlVfuVXGy20ThwkUrrGFC0alkvId7W7ueXvwrgFt5aUfIg
-         zS8xWHv2v4/NdB2IlV1tuEiArplP9y41mKTZk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692235224; x=1692840024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FvyxeUS9fq0mQZuA1GzyXjv4L0y4/K/wnguyQj7Xykk=;
-        b=E78opl74DstxkwqvuSnVfk4zX+yzkEfovcUim5jwFxuKEdYAiyJWr5EM/PXREQ0jBD
-         ygNF7BK/Fz/BtlPTwPhgQyCuP9oqtLaIxqx6zAM8faqggD9fjLQPCVU2dtwVm835CeU5
-         zErqufsYEBvAjvf5gzM/ibzXxhcArJqS+02XoSc8pHBjM4FQwdBIuuxRI9hMQdC+5VaM
-         VkuiGtpdQcpiERfVglsyouLpRN16sdUIMelCkWkoy27UTLwtHoer0Q1aQiQfjzfQvsLr
-         Ydk7sXSLVNHCyMGsnK3f99ejsGBxIO1I7qXl4MrmQKgURTixrvvbeuEQ0f6q7yPIpOET
-         6a8w==
-X-Gm-Message-State: AOJu0YxQpetCJ3DJA+V70b8gAsIS10SNx9Cn5ph7+VNL1YeZbpkRFVGg
-        cKZX6hAe9CAvKZ0PZ+lpBNCaLQ==
-X-Google-Smtp-Source: AGHT+IH2q4lepA7YmeqrxG50qPCrrMNlYPYTXjfU9Hysz7Q9VTKdqFH6EII6oO0fteuDCQNZi3P8/Q==
-X-Received: by 2002:a05:6a20:1448:b0:134:3a9b:4cd7 with SMTP id a8-20020a056a20144800b001343a9b4cd7mr1546893pzi.23.1692235224554;
-        Wed, 16 Aug 2023 18:20:24 -0700 (PDT)
-Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:1601:f73d:719a:8de1])
-        by smtp.gmail.com with ESMTPSA id n7-20020a62e507000000b00686b649cdd0sm11593737pff.86.2023.08.16.18.20.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 18:20:24 -0700 (PDT)
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [RFC][PATCH] kconfig: introduce listunknownconfig
-Date:   Thu, 17 Aug 2023 10:19:58 +0900
-Message-ID: <20230817012007.131868-1-senozhatsky@chromium.org>
-X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
+        with ESMTP id S1347754AbjHQDEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Aug 2023 23:04:14 -0400
+Received: from out-25.mta1.migadu.com (out-25.mta1.migadu.com [95.215.58.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC331728
+        for <linux-doc@vger.kernel.org>; Wed, 16 Aug 2023 20:04:13 -0700 (PDT)
+Message-ID: <5c3829b0-1844-23b9-c708-88095d510954@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1692241449;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tnrzOKIT2G97aygX0TXgfM6PIy16jcjv8My4Su4wFVc=;
+        b=ej8uXug0Cd6LaTksy+HPPAsoH6A1KatkKy5VHgqAzAqspajnt1FXaWA6YDqZp5eVuei3Xo
+        XXdIoGQDD9PPo69A1QLkSaOGrb/mfKJ/95q2MyjAAZmKJgwdHqmpwzHZZK/tCKDWZKLxr5
+        UI0B+BISlAfu/u1DEzX5IA08JjtXXq8=
+Date:   Thu, 17 Aug 2023 11:03:59 +0800
 MIME-Version: 1.0
+Subject: Re: [PATCH RESEND v1] docs/zh_CN: add zh_CN translation for
+ memory-barriers.txt
+Content-Language: en-US
+To:     Yanteng Si <siyanteng@loongson.cn>,
+        Patrick Yingxi Pan <pyxchina92929@gmail.com>
+Cc:     seakeel@gmail.com, Alex Shi <alexs@kernel.org>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20230811080851.84497-1-gang.li@linux.dev>
+ <CANJ3EgExk-TC=qx0Dn7wA-RfTE-h3E_E+i1MctvhvV-VEUJFnQ@mail.gmail.com>
+ <CANJ3EgGNQhGdppzYWxLOoJ9kqdCVxOOCi89-6qq638fyqnm2fA@mail.gmail.com>
+ <24cf55ad-e40c-4d7c-9007-2906b26d74c2@loongson.cn>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Gang Li <gang.li@linux.dev>
+In-Reply-To: <24cf55ad-e40c-4d7c-9007-2906b26d74c2@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The listunknownconfig option reads old .config and lists
-all unrecognized symbols. This is especially useful for
-continuous kernel uprevs when some symbols can be either
-removed or renamed between kernel releases (which can go
-unnoticed otherwise).
+On 2023/8/16 11:06, Yanteng Si wrote:
+> 
+> 在 2023/8/15 19:08, Patrick Yingxi Pan 写道:
+>> I haven't read over the entire text yet, but I've found a couple of 
+>> places
+>> where it goes __slightly__ beyond naive translation. The added paragraphs
+>> seem to be supplementary remarks which I believe will help understanding
+>> to some degree. But will they make future maintenance harder by breaking
+>> the one-to-one correspondence between the two versions? After all the
+>> original version is perfectly understandable without the remarks.
+> 
+> Yes, this can cause some maintenance headaches, but we can label it in a 
+> suitable way：
+> 
+> .. note::
+> 
+>        译者xxx， bulabulabula.......
+> 
+>        (eg: vim Documentation/translations/zh_CN/core-api/cachetlb.rst 
+> +189)
+> 
+> 
+> Or simply in this way：
+> 
+> （译者注： bulabulabula.......）
+> 
 
-A recent real-life example of such a symbol rename
-that quietly disabled some drivers after kernel uprev
-is MFD_RK808 rename.
 
-Example:
-Suppose old .config has the following two options which
-were removed from the recent kernel:
+Good advice.
 
-$ cat .config
-CONFIG_DISABLE_BUGS=y
+>>
+>> In some other places, the translation lost some information which can
+>> (and should) be fixed easily.
+> 
+> You're right！ translations with missing information are not accepted by 
+> readers.
+> 
+> faithfulness > expressiveness > elegance    信 > 达 > 雅
+> 
 
-Running `make listunknownconfig` produces the following
-list of unrecognized symbols:
-
-.config:6:warning: unknown symbol: DISABLE_BUGS
-.config:7:warning: unknown unset symbol: ENABLE_WINAPI
-
-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
----
- Documentation/kbuild/kconfig.rst |  8 +++++
- scripts/kconfig/Makefile         |  4 ++-
- scripts/kconfig/conf.c           |  8 +++++
- scripts/kconfig/confdata.c       | 55 ++++++++++++++++++++++++++++++++
- scripts/kconfig/lkc_proto.h      |  1 +
- 5 files changed, 75 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index 6530ecd99da3..445c438dc741 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -29,6 +29,14 @@ To see a list of new config symbols, use::
- 
- and the config program will list any new symbols, one per line.
- 
-+To see a list of config symbols that are not recognized anymore (e.g.
-+removed or renamed), use::
-+
-+	cp user/some/old.config .config
-+	make listunknownconfig
-+
-+and the config program will list any unrecognized symbols, one per line.
-+
- Alternatively, you can use the brute force method::
- 
- 	make oldconfig
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index af1c96198f49..942316ddebd9 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -69,7 +69,8 @@ localyesconfig localmodconfig: $(obj)/conf
- #  deprecated for external use
- simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
- 	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
--	helpnewconfig yes2modconfig mod2yesconfig mod2noconfig
-+	helpnewconfig yes2modconfig mod2yesconfig mod2noconfig \
-+	listunknownconfig
- 
- PHONY += $(simple-targets)
- 
-@@ -141,6 +142,7 @@ help:
- 	@echo  '                    default value without prompting'
- 	@echo  '  tinyconfig	  - Configure the tiniest possible kernel'
- 	@echo  '  testconfig	  - Run Kconfig unit tests (requires python3 and pytest)'
-+	@echo  '  listunknownconfig	- List unrecognized options'
- 
- # ===========================================================================
- # object files used by all kconfig flavours
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 33d19e419908..e26aa491be00 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -36,6 +36,7 @@ enum input_mode {
- 	yes2modconfig,
- 	mod2yesconfig,
- 	mod2noconfig,
-+	listunknownconfig,
- };
- static enum input_mode input_mode = oldaskconfig;
- static int input_mode_opt;
-@@ -683,6 +684,7 @@ static const struct option long_opts[] = {
- 	{"yes2modconfig", no_argument,       &input_mode_opt, yes2modconfig},
- 	{"mod2yesconfig", no_argument,       &input_mode_opt, mod2yesconfig},
- 	{"mod2noconfig",  no_argument,       &input_mode_opt, mod2noconfig},
-+	{"listunknownconfig", no_argument,   &input_mode_opt, listunknownconfig},
- 	{NULL, 0, NULL, 0}
- };
- 
-@@ -712,6 +714,7 @@ static void conf_usage(const char *progname)
- 	printf("  --yes2modconfig         Change answers from yes to mod if possible\n");
- 	printf("  --mod2yesconfig         Change answers from mod to yes if possible\n");
- 	printf("  --mod2noconfig          Change answers from mod to no if possible\n");
-+	printf("  --listunknownconfig     List config options that do not exist anymore\n");
- 	printf("  (If none of the above is given, --oldaskconfig is the default)\n");
- }
- 
-@@ -823,6 +826,11 @@ int main(int ac, char **av)
- 			exit(1);
- 		}
- 		break;
-+	case listunknownconfig:
-+		if (conf_read_list_unknown())
-+			exit(1);
-+		exit(0);
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 992575f1e976..d387a4f08cef 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -341,6 +341,61 @@ static ssize_t compat_getline(char **lineptr, size_t *n, FILE *stream)
- 	return -1;
- }
- 
-+int conf_read_list_unknown(void)
-+{
-+	FILE *in = NULL;
-+	size_t line_asize = 0;
-+	char *line = NULL;
-+	char *p, *p2;
-+	struct symbol *sym;
-+
-+	conf_filename = conf_get_configname();
-+	in = zconf_fopen(conf_filename);
-+	if (!in)
-+		return -1;
-+
-+	while (compat_getline(&line, &line_asize, in) != -1) {
-+		conf_lineno++;
-+		sym = NULL;
-+		if (line[0] == '#') {
-+			if (memcmp(line + 2, CONFIG_, strlen(CONFIG_)))
-+				continue;
-+			p = strchr(line + 2 + strlen(CONFIG_), ' ');
-+			if (!p)
-+				continue;
-+			*p++ = 0;
-+			sym = sym_find(line + 2 + strlen(CONFIG_));
-+			if (!sym) {
-+				conf_warning("unknown unset symbol: %s",
-+					     line + 2 + strlen(CONFIG_));
-+				continue;
-+			}
-+		} else if (memcmp(line, CONFIG_, strlen(CONFIG_)) == 0) {
-+			p = strchr(line + strlen(CONFIG_), '=');
-+			if (!p)
-+				continue;
-+			*p++ = 0;
-+			p2 = strchr(p, '\n');
-+			if (p2) {
-+				*p2-- = 0;
-+				if (*p2 == '\r')
-+					*p2 = 0;
-+			}
-+
-+			sym = sym_find(line + strlen(CONFIG_));
-+			if (!sym) {
-+				conf_warning("unknown symbol: %s",
-+					     line + strlen(CONFIG_));
-+				continue;
-+			}
-+		}
-+	}
-+
-+	free(line);
-+	fclose(in);
-+	return conf_warnings;
-+}
-+
- int conf_read_simple(const char *name, int def)
- {
- 	FILE *in = NULL;
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index edd1e617b25c..bb60b1669750 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -5,6 +5,7 @@
- void conf_parse(const char *name);
- int conf_read(const char *name);
- int conf_read_simple(const char *name, int);
-+int conf_read_list_unknown(void);
- int conf_write_defconfig(const char *name);
- int conf_write(const char *name);
- int conf_write_autoconf(int overwrite);
--- 
-2.41.0.694.ge786442a9b-goog
-
+Since both of you agree to preserve the original meaning in English as
+much as possible, and I'm not strongly insisting on "elegance" either,
+we can eliminate this overly modified translation method in v2.
