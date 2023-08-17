@@ -2,103 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC745C2FC14
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 13:02:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BE4C27C7A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 13:09:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242484AbjHQNCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 09:02:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
+        id S1351044AbjHQNJT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 09:09:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351426AbjHQNCF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 09:02:05 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD0C4202;
-        Thu, 17 Aug 2023 06:01:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692277268; x=1723813268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FlmVFVLaQiYINCu3XvqupYomUiJl8X6gme0z7avFboA=;
-  b=NLymVT2mGi702JzCkPxmm1NERoYLey8qbgzeFO+1bWsMR3xciD2qyJ5l
-   tt67bjUiR4BPKnQzptd16JIry2PV3cfXB1JElZsthaAiyJRDUJGHOshvH
-   zSI5sKoTNqc4+7ynqiZ0dVMWiwjc7TauOXFRY91oCPIVwvsg0dUSlI+WV
-   BTxnNloj2pDCeDGmdRsLNo/F2u928rceSuU4x9/Ea5X8MBT7vFS6VqQHY
-   PDaUM/jU+ppXa0Ju9YbypMMxiJqsZUIvqN9jrFuBe5jal8bEIfs1nU/+u
-   k6e4lnsl1kXbM2s9wMxST1dWsaVRtTJPdivBGBelrQUZzxj0gG80mXzet
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370270128"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="370270128"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:00:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="804626902"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="804626902"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2023 06:00:55 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qWccQ-00CT5c-11;
-        Thu, 17 Aug 2023 16:00:54 +0300
-Date:   Thu, 17 Aug 2023 16:00:53 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v5] gpio: consumer: new virtual driver
-Message-ID: <ZN4aBXX69m/YxWhZ@smile.fi.intel.com>
-References: <20230815185650.152968-1-brgl@bgdev.pl>
- <ZN3wauUBENDd7aRU@smile.fi.intel.com>
- <CAMRc=MdUWXZVnjkPqH2BZvDY0v-OOysQ=NMjwQEi1rt+16NEQQ@mail.gmail.com>
- <ZN4U2u9h0vVNmf9d@smile.fi.intel.com>
- <CAMRc=Mds_PC8xO25HfjGbAP1LTqop4vkuz0OPHbcx9UO7QFF5A@mail.gmail.com>
+        with ESMTP id S1351148AbjHQNIs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 09:08:48 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07793594
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 06:08:20 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-99c3c8adb27so1042511266b.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 06:08:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1692277657; x=1692882457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TI4WEo8JBa7BZd/mm79h4G4Y9fT6R4+52BHu8koh6+Q=;
+        b=vB1JjgNnYRYIGaf7JSJrPw3vQhtSiLbPIiRuS8F+dMBz7l9Ezb280tjcdqTRNjUNS1
+         vGwIXoPDvhsHyBc4tYUR4/X92hqFciBNxmRv5roV6Bw8PljdTqJ9WHDo7oj/AsVbxJjV
+         /c8786uf4yTLw7cKhEXg9/PpGqdnh2rGBEucW8AosdbhckX6CQiZwkiKpf7tz0utrC+K
+         7qDivPtPENr/tHMoDw9xdsdddwyaulCHlIJXAdRh3fdg0JW9/9FJmQJewpKrB0L0GhQU
+         cMd1Q20z2zLldhY1SVLGQCF7VaTpvRD/VU2ae+nu2aeeiJg0Mpkbw4Of82cler629Mbm
+         JY5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692277657; x=1692882457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TI4WEo8JBa7BZd/mm79h4G4Y9fT6R4+52BHu8koh6+Q=;
+        b=lXtnhmHwQD6ew0qHvRWgaeHV99rou/JeWN1oCHmsZ8A0vOeDYW0IvUnWkGAxU9ZL/d
+         mj5UAzD81S4aCXQ3Pm4Pbykod6zkdJ2eJwXwX66X+KvEkfhjGrOk8FUnJnADMWUlc6AD
+         3lxA+UBDj1K8MfUFVI1mvvS+XG6HUXmc9WAdWO6Re7fMXbCEpTebDsJURBJ+RBmkioiw
+         w9nowENr2b2C13tIb2uHM+B/nLXvbOqJQREZWkbDtRgLfK9+S3osAAHSyb5gInsMB/G2
+         tJXVxbh659XTPvm4gpWjAJkm7MTut39ivsGL+nwcb+sPDChLydmZqTasgmen4auZbH8L
+         ycuA==
+X-Gm-Message-State: AOJu0YyMEB7+E0SQibEJMSUDw9HuZb0FZSCwRx6FO2avYmrTifldRuiC
+        S6LbU8uCNxmIpGAqmF83Re5UrQ==
+X-Google-Smtp-Source: AGHT+IEuOGz6Ic3C9ppPiDWIIRGMKEkWVcsX7LpLAMv38XoWrqVy0+63u/IO19hIcaWenrDygouLTw==
+X-Received: by 2002:a17:906:3058:b0:99c:a23b:b4f4 with SMTP id d24-20020a170906305800b0099ca23bb4f4mr4019871ejd.2.1692277656978;
+        Thu, 17 Aug 2023 06:07:36 -0700 (PDT)
+Received: from alex-rivos.ba.rivosinc.com ([77.205.22.0])
+        by smtp.gmail.com with ESMTPSA id k8-20020a1709061c0800b0099d9b50d786sm6863021ejg.199.2023.08.17.06.07.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 06:07:36 -0700 (PDT)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: [PATCH v7 1/3] Documentation: arm: Add bootargs to the table of added DT parameters
+Date:   Thu, 17 Aug 2023 15:07:32 +0200
+Message-Id: <20230817130734.10387-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Mds_PC8xO25HfjGbAP1LTqop4vkuz0OPHbcx9UO7QFF5A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 17, 2023 at 02:53:04PM +0200, Bartosz Golaszewski wrote:
-> On Thu, Aug 17, 2023 at 2:38 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Aug 17, 2023 at 02:14:04PM +0200, Bartosz Golaszewski wrote:
-> > > On Thu, Aug 17, 2023 at 12:03 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Tue, Aug 15, 2023 at 08:56:50PM +0200, Bartosz Golaszewski wrote:
+The bootargs node is also added by the EFI stub in the function
+update_fdt(), so add it to the table.
 
-...
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
+Reviewed-by: Song Shuai <songshuaishuai@tinylab.org>
+---
+- Changes in v5:
+  * Rebase on top of docs-next
 
-> > > > > +     struct gpio_consumer_device *dev = lookup->parent;
-> > > > > +
-> > > > > +     guard(mutex)(&dev->lock);
-> > > > > +
-> > > > > +     return sprintf(page, "%s\n", lookup->key);
-> >
-> > (1)
+ Documentation/arch/arm/uefi.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-...
-
-> > So the 1) has to be amended then.
-> 
-> No! lookup->key is a string stored in the lookup struct BUT protected
-> by the consumer device's lock (it must be or else the lookup could get
-> removed while it's being modified). Unless you want to duplicate the
-> string in order to release the mutex earlier, it has to be locked
-> until sprintf() returns.
-
-Ah, good point, otherwise we would need a copy...
-
+diff --git a/Documentation/arch/arm/uefi.rst b/Documentation/arch/arm/uefi.rst
+index baebe688a006..2b7ad9bd7cd2 100644
+--- a/Documentation/arch/arm/uefi.rst
++++ b/Documentation/arch/arm/uefi.rst
+@@ -50,7 +50,7 @@ The stub populates the FDT /chosen node with (and the kernel scans for) the
+ following parameters:
+ 
+ ==========================  ======   ===========================================
+-Name                        Size     Description
++Name                        Type     Description
+ ==========================  ======   ===========================================
+ linux,uefi-system-table     64-bit   Physical address of the UEFI System Table.
+ 
+@@ -67,4 +67,6 @@ linux,uefi-mmap-desc-ver    32-bit   Version of the mmap descriptor format.
+ 
+ kaslr-seed                  64-bit   Entropy used to randomize the kernel image
+                                      base address location.
++
++bootargs                    String   Kernel command line
+ ==========================  ======   ===========================================
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.2
 
