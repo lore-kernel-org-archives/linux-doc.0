@@ -2,51 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE99BC5479A
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 21:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E920C678DD
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 22:12:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240744AbjHQVNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 17:13:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48494 "EHLO
+        id S1355542AbjHQWL4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 18:11:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355179AbjHQVMv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 17:12:51 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D68E358D
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 14:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=glwxiyY3JVvFXvo819xeK51kDmUhsEf3xXAHttoHVPM=; b=oiQY2Mmkq2Ko0K7o2uRL7Fnmpr
-        El7WGZIWiWCwZ4fbiZyZIFv9lCruKWQobDIDCtqkGdMnTBneKHU40TFJPvpTABEODkBydV8a5BCX7
-        pLfLIjNa/6+TiReqirQE8/Bf1dfw+j1mRf2P064cOfQIlo9Y+HYQ8eY1kNpPNBXGLUUwXydCQE4AV
-        oCpy/wI1Rlb8AbOMw7bXXDopGUr/4gaU5CkKVM2+tYeFvhYIeRtrRtFd2C3sA8DQw1s0M5l9IbHwT
-        Erh4sm2j+c3THGoOjLPQKJ7O5jgdboO/zxwV3r+4W6H1P9SPZZ45G/aBKe8QNcKFVjJ37EfdgcDsy
-        xAxQ1qFA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qWkIS-005VEv-Sz; Thu, 17 Aug 2023 21:12:49 +0000
-Date:   Thu, 17 Aug 2023 22:12:48 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     mail@renenyffenegger.ch
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH] DOCUMENTATION: Correct filename in Documentation
-Message-ID: <ZN6NUPTCYaRPmSCZ@casper.infradead.org>
-References: <20230817205940.7477-1-mail@renenyffenegger.ch>
+        with ESMTP id S1355717AbjHQWLq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 18:11:46 -0400
+X-Greylist: delayed 61 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Aug 2023 15:11:16 PDT
+Received: from smtpcmd01-sus.aruba.it (smtpcmd01-sus.aruba.it [62.149.158.243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7B82727
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 15:11:16 -0700 (PDT)
+Received: from localhost.localdomain ([95.47.160.93])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id WlBwquBOoN2T6WlBwqMz6O; Fri, 18 Aug 2023 00:10:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1692310209; bh=YW7OOee3ntlFh+GHPTYk5DoX31eiF4LJQ1/lOJukFeY=;
+        h=From:To:Subject:Date:MIME-Version;
+        b=csE6r/INTs2vmCMgvup7TkASYill7DSypJhq/JY0uluNwB2YngpwF82O3DUyjL9Mi
+         ThGIC1+6UrWRq8rCwqXhlD9TJcYh/BEH2/6cmgu1yDFo46Z3HLLgDCJ49QrhwYS2RB
+         JdZY0Zf1Vqbp+Ti0bGOK43V/MC8RbtPpue6LVND3YFQVabioIg+WXC6osJVK+/0R7b
+         0Xx8et54o75px74GbgBVuQOznDQtHJbNbi6YOhG7FSQzWMUyKRx0jmy6+FRsyqIWrn
+         MOQLEZuPQdFAfoJXgkfCbzdV9LSlf4VWuKNkTbF6hq4EB5DMkSi8FjoRZMWvp7datJ
+         r/sVHGwJj//OA==
+From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
+To:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>
+Subject: [RFC PATCH 0/1] Attempt to add Sponsored-by tag
+Date:   Fri, 18 Aug 2023 00:09:56 +0200
+Message-Id: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230817205940.7477-1-mail@renenyffenegger.ch>
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfIjxsLaZGIR7DNFbha2F2Ri14pnsw6afb2YXf1VMxSJbADvnJRM4obQbbNq/bKrC8icvRTOUkB5JQgrsahFEetbH3tR0IAQeOuiaRs0mJXmW5ypf3CBH
+ hgiXE0xCEsrMdEqoO6NC8vFd4ppgyVex9glFP7Q8Qzl/6p9M4EszS2oJ9taz8cAELZE3LETVwRrcNZKWE821k4w2YLKEhot1uLRYoSXvetd/nfhSqSWYTIxo
+ Ht2fqPXVVddnLZKexam9OUQfKePd8IZtsL0qp73WApn3Qe3bkAb719suT3G7krc9w8kksZIbFB6TF/eGmyV3sWqBMY1MIhR8xqChR7m36eAHam7yKB2gLw7k
+ 94b9ggoHIGjbw+JZsmN0emlPhihpJwfVYLzQ/t9I4Pjz0Gfr3Zc=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 17, 2023 at 10:59:40PM +0200, mail@renenyffenegger.ch wrote:
-> Correct filename of renamed file in Documentation
-> 
-> The current documentation in Documentation/core-api/kobject.rst refers to a
-> macro named `container_of`, supposedly defined in linux/kernel.h while in
-> reality it is defined in linux/container_of.h
+Hello All,
 
-Maybe we should just remove the reference to where it's defined?
+working as a consultant for some companies it happens to end up in having
+patches that the final customer could be reluctant to send upstream for
+many reasons. One of these reason is that at the moment he would not gain
+visibility except being added in the commit log as Cc: as far as I know.
+
+What I've been pointed to by someone is "Sponsored by:" that is not a real
+tag and it's been used not that often, for example here:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73c289bac05919286f8c7e1660fcaf6ec0468363
+And as you know better than me:
+$ git log --grep="Sponsored by:"
+
+As explained in the commit log of the patch this is an attempt to define a
+standard Sponsored-by: tag including a method of acknowledge on sponsor's side.
+The goal is to possibly increase upstreamed patches giving the chance to the
+sponsors to gain visibility.
+
+I hope someone likes the idea and that someone could help me to improve the
+description in the patch because I'm not an English mother language.
+
+Best regards
+--
+Giulio Benetti
+CEO&CTO@Benetti Engineering sas
+
+Giulio Benetti (1):
+  docs: submitting-patches: Add Sponsored-by tag to give credits to who
+    sponsored the patch
+
+ Documentation/process/submitting-patches.rst | 38 ++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+-- 
+2.34.1
 
