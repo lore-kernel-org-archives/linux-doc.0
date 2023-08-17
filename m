@@ -2,160 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1755FEB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 10:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA27FEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 10:43:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349858AbjHQKDk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 06:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36598 "EHLO
+        id S1349496AbjHQKmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 06:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349885AbjHQKD2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 06:03:28 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CA28173F;
-        Thu, 17 Aug 2023 03:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692266607; x=1723802607;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bOMVKVIhDrLQfNR2KI5p28svytC8+8UPx7CiwqE8lTo=;
-  b=IyJzCPw2WK++dGtK4Ks1CWQd5/cA/bnkyenllJaT7RFrCEgWMIsH6KIq
-   kTBd8p1PpMCwaQygiKF0KyGJFcnretwxxvLvCCIWjqCoCGOLgoDEn+v4n
-   psRWGEQrORW5OccqAkrbhrwNpj/jf1IPfKBKpYYJ1bsvJ67exilpWGKFc
-   IOEJi+2ZN2MXiMs883UjrI/BGYQzrhvLEMvZ61aCegJeHaF+XC2mpzoQ6
-   fAEqsI9yMOCeD6RzRDtD6hwHskwnMq9oHqWn14CNULX0SqYJtVFqeacRY
-   0KHgRhXCmeYFf1ezrLJlGBhksHwImkqU1GNSnZgAI2YIOO9ljoKK5h7vn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352355974"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="352355974"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 03:03:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="858177291"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="858177291"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 17 Aug 2023 03:03:24 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qWZqc-006ND8-1W;
-        Thu, 17 Aug 2023 13:03:22 +0300
-Date:   Thu, 17 Aug 2023 13:03:22 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v5] gpio: consumer: new virtual driver
-Message-ID: <ZN3wauUBENDd7aRU@smile.fi.intel.com>
-References: <20230815185650.152968-1-brgl@bgdev.pl>
+        with ESMTP id S1350000AbjHQKmN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 06:42:13 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A162D54;
+        Thu, 17 Aug 2023 03:42:12 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4fe457ec6e7so12175628e87.3;
+        Thu, 17 Aug 2023 03:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692268931; x=1692873731;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L9wsnYtwCVpsPDaj6w+SIw5IfWLUcYuKsKC7dYAdAlw=;
+        b=Uqu/b2E0WlzKd1jO88FmLRWjJKIPlpFCrgXYXK7WNv36ZZfBOlHMTWo01Qh5R7By59
+         pgK7PpS1TdIQkvyzHI/AcPeLj2WXUv5bT6K4NxFKJ7binVJ5SlgGbRnxZhfxBMPaDC62
+         /c4qZ8t6GNwvBmO6e7uN6KL8hCBQHkGUM2qvAbBJGClH41d00UPWj8tdM0AZLwf2RiYy
+         QCgU1M6iWr5Gh89E4XQTpOjLIo2p6YIFuXR6Y8IuBdVJVYRKuM7JWpNOdAEJ8g0zyDiL
+         dq+uS/l9Tm7LP+6MyC/ABGEblfTt2oKsYBWq0uO6I8q/gHe0V1ESX4xZ2h1LGSJjS275
+         j9hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692268931; x=1692873731;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L9wsnYtwCVpsPDaj6w+SIw5IfWLUcYuKsKC7dYAdAlw=;
+        b=Q8RPqOkDZ95OCSPQDHMcCdZdFktdyhl6evSi5A2U5sceOIsDnn4ydlijyBIzVJhjrZ
+         Wfja89r0fPxV/q2VPUTgRnWpqeHIwGt6TMWb+45074bz7vj7u7Guv8lACnn2+K8zjrGx
+         AdYO5CnTt0EvAIFR4Wyle2rplq70UHgNi0esntYZj1evNnp0W/VHcJWSYUdgLpODvJ+5
+         JOtXlXBNY77gb0M/ydkEhGoCUyNC0+8+IYrFjoTseFR1Bjj6ZIW2nVjYz1QGFfE22Mpr
+         lAI7EBkjXnGYujcH0aCK/rZr4+QCXWHJrTQZImVBTRpkIzwc7xgvqaWKHO1n293PMGwJ
+         /AkQ==
+X-Gm-Message-State: AOJu0Yw87DJpqO5RR9CXmkZX0dINbGq6oorsYZF6RtPaEbWbiuwIMGZW
+        twL5BVEkCraVRlwJqnxdsPw=
+X-Google-Smtp-Source: AGHT+IERtmHanTnHV0WblGrYYSEzETUJAY96ypq+Y5wUzGIyV/9f/p36vTchNTM3kcHEstvgJeRp+g==
+X-Received: by 2002:a19:5010:0:b0:4fe:590:53ca with SMTP id e16-20020a195010000000b004fe059053camr3307535lfb.4.1692268930396;
+        Thu, 17 Aug 2023 03:42:10 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:b526:e684:e15e:6a87])
+        by smtp.gmail.com with ESMTPSA id t24-20020a1c7718000000b003feae747ff2sm2489969wmi.35.2023.08.17.03.42.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 03:42:09 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Stanislav Fomichev <sdf@google.com>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v2 06/10] tools/net/ynl: Add support for
+ netlink-raw families
+In-Reply-To: <20230816082908.1365f287@kernel.org> (Jakub Kicinski's message of
+        "Wed, 16 Aug 2023 08:29:08 -0700")
+Date:   Thu, 17 Aug 2023 10:10:35 +0100
+Message-ID: <m2cyzmhw50.fsf@gmail.com>
+References: <20230815194254.89570-1-donald.hunter@gmail.com>
+        <20230815194254.89570-7-donald.hunter@gmail.com>
+        <20230816082908.1365f287@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230815185650.152968-1-brgl@bgdev.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 08:56:50PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> 
-> The GPIO subsystem has a serious problem with undefined behavior and
-> use-after-free bugs on hot-unplug of GPIO chips. This can be considered a
-> corner-case by some as most GPIO controllers are enabled early in the
-> boot process and live until the system goes down but most GPIO drivers
-> do allow unbind over sysfs, many are loadable modules that can be (force)
-> unloaded and there are also GPIO devices that can be dynamically detached,
-> for instance CP2112 which is a USB GPIO expender.
-> 
-> Bugs can be triggered both from user-space as well as by in-kernel users.
-> We have the means of testing it from user-space via the character device
-> but the issues manifest themselves differently in the kernel.
-> 
-> This is a proposition of adding a new virtual driver - a configurable
-> GPIO consumer that can be configured over configfs (similarly to
-> gpio-sim).
-> 
-> The configfs interface allows users to create dynamic GPIO lookup tables
-> that are registered with the GPIO subsystem. Every config group
-> represents a consumer device. Every sub-group represents a single GPIO
-> lookup. The device can work in three modes: just keeping the line
-> active, toggling it every second or requesting its interrupt and
-> reporting edges. Every lookup allows to specify the key, offset and
-> flags as per the lookup struct defined in linux/gpio/machine.h.
-> 
-> The module together with gpio-sim allows to easily trigger kernel
-> hot-unplug errors. A simple use-case is to create a simulated chip,
-> setup the consumer to lookup one of its lines in 'monitor' mode, unbind
-> the simulator, unbind the consumer and observe the fireworks in dmesg.
-> 
-> This driver is aimed as a helper in tackling the hot-unplug problem in
-> GPIO as well as basis for future regression testing once the fixes are
-> upstream.
+Jakub Kicinski <kuba@kernel.org> writes:
 
-...
+> On Tue, 15 Aug 2023 20:42:50 +0100 Donald Hunter wrote:
+>> Refactor the ynl code to encapsulate protocol specifics into
+>> NetlinkProtocol and GenlProtocol.
+>
+> Looks good, but do we also need some extra plumbing to decode extack
+> for classic netlink correctly?  Basically shouldn't _decode_extack()
+> also move to proto? Or we can parameterize it? All we really need there
+> is to teach it how much of fixed headers parser needs to skip to get to
+> attributes, really (which, BTW is already kinda buggy for genl families
+> with fixed headers).
 
-> +	struct gpio_consumer_device *dev = lookup->parent;
-> +
-> +	guard(mutex)(&dev->lock);
-> +
-> +	return sprintf(page, "%s\n", lookup->key);
+I have been working on the assumption that extack responses don't
+include any fixed headers. I have seen extack messages decoded correctly
+for classic netlink, here with RTM_NEWROUTE:
 
-...
+lib.ynl.NlError: Netlink error: Invalid argument
+nl_len = 80 (64) nl_flags = 0x300 nl_type = 2
+  error: -22  extack: {'msg': 'Invalid prefix for given prefix length'}
 
-> +static ssize_t
-> +gpio_consumer_lookup_config_offset_show(struct config_item *item, char *page)
-> +{
-> +	struct gpio_consumer_lookup *lookup = to_gpio_consumer_lookup(item);
-> +	struct gpio_consumer_device *dev = lookup->parent;
-> +	unsigned int offset;
-> +
-> +	scoped_guard(mutex, &dev->lock)
-> +		offset = lookup->offset;
-> +
-> +	return sprintf(page, "%d\n", offset);
-
-Consistently it can be simplified same way
-
-	guard(mutex)(&dev->lock);
-
-	return sprintf(page, "%d\n", lookup->offset);
-
-BUT. Thinking about this more. With guard() we put sprintf() inside the lock,
-which is suboptimal from runtime point of view. So, I think now that all these
-should actually use scoped_guard() rather than guard().
-
-> +}
-
-...
-
-> +	guard(mutex)(&dev->lock);
-> +
-> +	return lookup->flags;
-
-...
-
-> +static ssize_t
-> +gpio_consumer_lookup_config_transitory_show(struct config_item *item,
-> +					    char *page)
-> +{
-
-> +	enum gpio_lookup_flags flags;
-> +
-> +	flags = gpio_consumer_lookup_get_flags(item);
-
-This is perfectly one line < 80 characters.
-
-> +	return sprintf(page, "%s\n", flags & GPIO_TRANSITORY ? "1" : "0");
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Is there something I am missing?
