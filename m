@@ -2,49 +2,51 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7263C2FC23
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 09:13:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6EFC2FC24
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Aug 2023 09:13:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349354AbjHQJNA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 05:13:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58690 "EHLO
+        id S1349349AbjHQJM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 05:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349377AbjHQJMw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 05:12:52 -0400
+        with ESMTP id S1349365AbjHQJMj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 05:12:39 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D48B9198E
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 02:12:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 094B1198E
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 02:12:38 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 65536638E3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 09:12:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 484A0C433C7;
-        Thu, 17 Aug 2023 09:12:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B7BE639CB
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 09:12:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78DA0C433C9;
+        Thu, 17 Aug 2023 09:12:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692263569;
-        bh=MhZ0ExkPHO6x7SjCyykMcqtKaCAzxA9PJwZ1DbtNW9o=;
+        s=k20201202; t=1692263557;
+        bh=Upkp86vw9ugMAMCg3JpwxfKSQ44z4bXL8TT4F1RVH6Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tvhGSILE6BFAij6I4l+dJPS3rr1Gnm0RCheETwkdvBKskDV49Vp/XY8hkY6KbXewR
-         R5kTcLwMMl/h2TbHoamqQGsn4qreWB60+uosp/z6SxucUIWE92U0gRyiYk1AUjXfCe
-         D0o59jW8+TOxFk/aNf6Fj1/5WR3PcTq7Qa8byvMsPsHoQJ8kg/+fgZoYLx/t1+F468
-         jkYcYrHs1F7N25mcZtXrX8eXn9g3jjS4JU0bYcoe0vnqeDaKImRl1BOte+sRxLhSKO
-         bNoJi+MYbcCPvlvFu3i4LHaQt5O4p+2WZb/Jdy5pNmThDB4blc3iqbgK0CrfEs20iT
-         5opR8LztCtSsQ==
+        b=JBCziDDdMTvWjwQB/ruqrcoCw92B+7nD/CwevpXQ4fmuWvTYPg2gB8Y65QAL0amJM
+         +EhV2ORJ/QtCck3CuxMrfX8YayLc2eKUblsV2GSfx1/R0q0IflAeaEgkjbykZDXA8p
+         49iM1vEPa8UUPVxPNS0ibnocjXwWmcyu1kBNVTyl+yQaH3mZx1shx51wdSdgY5oCG8
+         Su2AwuAWz6p3lsOtHW19t53SsDyVEJxO/qYt3wU/pKuFNGashAGcn7W6d9rT4QGHNK
+         Y6gZhb9qETZMxjYPEkfR2OwkWICuQxqH8Q1vPog9vx3AkFPMpNGBgAEOuyvc/xJKfp
+         FdIRarbDckkig==
 From:   Leon Romanovsky <leon@kernel.org>
 To:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Eric Dumazet <edumazet@google.com>,
         Paolo Abeni <pabeni@redhat.com>
-Cc:     Dima Chumak <dchumak@nvidia.com>, Jiri Pirko <jiri@resnulli.us>,
+Cc:     Leon Romanovsky <leonro@nvidia.com>,
+        Dima Chumak <dchumak@nvidia.com>,
+        Jiri Pirko <jiri@resnulli.us>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
         Steffen Klassert <steffen.klassert@secunet.com>,
         Simon Horman <simon.horman@corigine.com>
-Subject: [PATCH net-next v3 8/8] net/mlx5: Implement devlink port function cmds to control ipsec_packet
-Date:   Thu, 17 Aug 2023 12:11:30 +0300
-Message-ID: <5df76276a8d3fb638febecdf8c36d09b7ba84d0c.1692262560.git.leonro@nvidia.com>
+Subject: [PATCH net-next v3 6/8] net/mlx5: Provide an interface to block change of IPsec capabilities
+Date:   Thu, 17 Aug 2023 12:11:28 +0300
+Message-ID: <f8f3a51282be5e91c2622fa2d40e669b807c43fd.1692262560.git.leonro@nvidia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <cover.1692262560.git.leonro@nvidia.com>
 References: <cover.1692262560.git.leonro@nvidia.com>
@@ -54,356 +56,209 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dima Chumak <dchumak@nvidia.com>
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Implement devlink port function commands to enable / disable IPsec
-packet offloads. This is used to control the IPsec capability of the
-device.
+mlx5 HW can't perform IPsec offload operation simultaneously both on PF
+and VFs at the same time. While the previous patches added devlink knobs
+to change IPsec capabilities dynamically, there is a need to add a logic
+to block such IPsec capabilities for the cases when IPsec is already
+configured.
 
-When ipsec_offload is enabled for a VF, it prevents adding IPsec packet
-offloads on the PF, because the two cannot be active simultaneously due
-to HW constraints. Conversely, if there are any active IPsec packet
-offloads on the PF, it's not allowed to enable ipsec_packet on a VF,
-until PF IPsec offloads are cleared.
-
-Signed-off-by: Dima Chumak <dchumak@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- .../ethernet/mellanox/mlx5/switchdev.rst      | 10 ++
- .../mellanox/mlx5/core/esw/devlink_port.c     |  2 +
- .../ethernet/mellanox/mlx5/core/esw/ipsec.c   | 62 +++++++++++-
- .../net/ethernet/mellanox/mlx5/core/eswitch.c |  7 +-
- .../net/ethernet/mellanox/mlx5/core/eswitch.h | 11 +++
- .../mellanox/mlx5/core/eswitch_offloads.c     | 95 +++++++++++++++++++
- 6 files changed, 183 insertions(+), 4 deletions(-)
+ .../mellanox/mlx5/core/en_accel/ipsec.c       | 20 +++++++++++-
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c | 32 +++++++++++++++++++
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h | 13 ++++++++
+ include/linux/mlx5/driver.h                   |  1 +
+ 4 files changed, 65 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst
-index de51e55dcfe3..b617e93d7c2c 100644
---- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst
-+++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst
-@@ -200,6 +200,16 @@ IPsec capability enabled, any IPsec offloading is blocked on the PF.
- mlx5 driver support devlink port function attr mechanism to setup ipsec_crypto
- capability. (refer to Documentation/networking/devlink/devlink-port.rst)
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
+index 3b88a8bb7082..7d4ceb9b9c16 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
+@@ -38,6 +38,7 @@
+ #include <net/netevent.h>
  
-+IPsec packet capability setup
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+User who wants mlx5 PCI VFs to be able to perform IPsec packet offloading need
-+to explicitly enable the VF ipsec_packet capability. Enabling IPsec capability
-+for VFs is supported starting with ConnectX6dx devices and above. When a VF has
-+IPsec capability enabled, any IPsec offloading is blocked on the PF.
-+
-+mlx5 driver support devlink port function attr mechanism to setup ipsec_packet
-+capability. (refer to Documentation/networking/devlink/devlink-port.rst)
-+
- SF state setup
- --------------
+ #include "en.h"
++#include "eswitch.h"
+ #include "ipsec.h"
+ #include "ipsec_rxtx.h"
+ #include "en_rep.h"
+@@ -670,6 +671,11 @@ static int mlx5e_xfrm_add_state(struct xfrm_state *x,
+ 	if (err)
+ 		goto err_xfrm;
  
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c b/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-index 1c3a9764f8ce..2968a2412b0f 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-@@ -81,6 +81,8 @@ static const struct devlink_port_ops mlx5_esw_dl_port_ops = {
- #ifdef CONFIG_XFRM_OFFLOAD
- 	.port_fn_ipsec_crypto_get = mlx5_devlink_port_fn_ipsec_crypto_get,
- 	.port_fn_ipsec_crypto_set = mlx5_devlink_port_fn_ipsec_crypto_set,
-+	.port_fn_ipsec_packet_get = mlx5_devlink_port_fn_ipsec_packet_get,
-+	.port_fn_ipsec_packet_set = mlx5_devlink_port_fn_ipsec_packet_set,
- #endif /* CONFIG_XFRM_OFFLOAD */
- };
- 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/esw/ipsec.c b/drivers/net/ethernet/mellanox/mlx5/core/esw/ipsec.c
-index 187fb5f2d0cb..da10e04777cf 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/esw/ipsec.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/esw/ipsec.c
-@@ -37,6 +37,7 @@ static int esw_ipsec_vf_query_generic(struct mlx5_core_dev *dev, u16 vport_num,
- 
- enum esw_vport_ipsec_offload {
- 	MLX5_ESW_VPORT_IPSEC_CRYPTO_OFFLOAD,
-+	MLX5_ESW_VPORT_IPSEC_PACKET_OFFLOAD,
- };
- 
- int mlx5_esw_ipsec_vf_offload_get(struct mlx5_core_dev *dev, struct mlx5_vport *vport)
-@@ -55,6 +56,7 @@ int mlx5_esw_ipsec_vf_offload_get(struct mlx5_core_dev *dev, struct mlx5_vport *
- 
- 	if (!ipsec_enabled) {
- 		vport->info.ipsec_crypto_enabled = false;
-+		vport->info.ipsec_packet_enabled = false;
- 		return 0;
- 	}
- 
-@@ -69,6 +71,8 @@ int mlx5_esw_ipsec_vf_offload_get(struct mlx5_core_dev *dev, struct mlx5_vport *
- 	hca_cap = MLX5_ADDR_OF(query_hca_cap_out, query_cap, capability);
- 	vport->info.ipsec_crypto_enabled =
- 		MLX5_GET(ipsec_cap, hca_cap, ipsec_crypto_offload);
-+	vport->info.ipsec_packet_enabled =
-+		MLX5_GET(ipsec_cap, hca_cap, ipsec_full_offload);
- free:
- 	kvfree(query_cap);
- 	return err;
-@@ -143,6 +147,9 @@ static int esw_ipsec_vf_set_bytype(struct mlx5_core_dev *dev, struct mlx5_vport
- 	case MLX5_ESW_VPORT_IPSEC_CRYPTO_OFFLOAD:
- 		MLX5_SET(ipsec_cap, cap, ipsec_crypto_offload, enable);
- 		break;
-+	case MLX5_ESW_VPORT_IPSEC_PACKET_OFFLOAD:
-+		MLX5_SET(ipsec_cap, cap, ipsec_full_offload, enable);
-+		break;
- 	default:
- 		ret = -EOPNOTSUPP;
- 		goto free;
-@@ -222,15 +229,28 @@ static int esw_ipsec_vf_offload_set_bytype(struct mlx5_eswitch *esw, struct mlx5
- 		err = esw_ipsec_vf_set_bytype(dev, vport, enable, type);
- 		if (err)
- 			return err;
--		err = esw_ipsec_vf_set_generic(dev, vport->vport, enable);
-+		err = mlx5_esw_ipsec_vf_offload_get(dev, vport);
- 		if (err)
- 			return err;
-+
-+		/* The generic ipsec_offload cap can be disabled only if both
-+		 * ipsec_crypto_offload and ipsec_full_offload aren't enabled.
-+		 */
-+		if (!vport->info.ipsec_crypto_enabled &&
-+		    !vport->info.ipsec_packet_enabled) {
-+			err = esw_ipsec_vf_set_generic(dev, vport->vport, enable);
-+			if (err)
-+				return err;
-+		}
- 	}
- 
- 	switch (type) {
- 	case MLX5_ESW_VPORT_IPSEC_CRYPTO_OFFLOAD:
- 		vport->info.ipsec_crypto_enabled = enable;
- 		break;
-+	case MLX5_ESW_VPORT_IPSEC_PACKET_OFFLOAD:
-+		vport->info.ipsec_packet_enabled = enable;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -301,9 +321,49 @@ int mlx5_esw_ipsec_vf_crypto_offload_supported(struct mlx5_core_dev *dev,
- 	return err;
- }
- 
-+int mlx5_esw_ipsec_vf_packet_offload_supported(struct mlx5_core_dev *dev,
-+					       u16 vport_num)
-+{
-+	int query_sz = MLX5_ST_SZ_BYTES(query_hca_cap_out);
-+	void *hca_cap, *query_cap;
-+	int ret;
-+
-+	if (!mlx5_esw_ipsec_vf_offload_supported(dev))
-+		return -EOPNOTSUPP;
-+
-+	ret = esw_ipsec_offload_supported(dev, vport_num);
-+	if (ret)
-+		return ret;
-+
-+	query_cap = kvzalloc(query_sz, GFP_KERNEL);
-+	if (!query_cap)
-+		return -ENOMEM;
-+
-+	ret = mlx5_vport_get_other_func_cap(dev, vport_num, query_cap, MLX5_CAP_FLOW_TABLE);
-+	if (ret)
-+		goto out;
-+
-+	hca_cap = MLX5_ADDR_OF(query_hca_cap_out, query_cap, capability);
-+	if (!MLX5_GET(flow_table_nic_cap, hca_cap, flow_table_properties_nic_receive.decap)) {
-+		ret = -EOPNOTSUPP;
-+		goto out;
++	if (!mlx5_eswitch_block_ipsec(priv->mdev)) {
++		err = -EBUSY;
++		goto err_xfrm;
 +	}
 +
-+out:
-+	kvfree(query_cap);
-+	return ret;
-+}
-+
- int mlx5_esw_ipsec_vf_crypto_offload_set(struct mlx5_eswitch *esw, struct mlx5_vport *vport,
- 					 bool enable)
+ 	/* check esn */
+ 	if (x->props.flags & XFRM_STATE_ESN)
+ 		mlx5e_ipsec_update_esn_state(sa_entry);
+@@ -678,7 +684,7 @@ static int mlx5e_xfrm_add_state(struct xfrm_state *x,
+ 
+ 	err = mlx5_ipsec_create_work(sa_entry);
+ 	if (err)
+-		goto err_xfrm;
++		goto unblock_ipsec;
+ 
+ 	err = mlx5e_ipsec_create_dwork(sa_entry);
+ 	if (err)
+@@ -735,6 +741,8 @@ static int mlx5e_xfrm_add_state(struct xfrm_state *x,
+ 	if (sa_entry->work)
+ 		kfree(sa_entry->work->data);
+ 	kfree(sa_entry->work);
++unblock_ipsec:
++	mlx5_eswitch_unblock_ipsec(priv->mdev);
+ err_xfrm:
+ 	kfree(sa_entry);
+ 	NL_SET_ERR_MSG_WEAK_MOD(extack, "Device failed to offload this state");
+@@ -764,6 +772,7 @@ static void mlx5e_xfrm_del_state(struct xfrm_state *x)
+ static void mlx5e_xfrm_free_state(struct xfrm_state *x)
  {
- 	return esw_ipsec_vf_offload_set_bytype(esw, vport, enable,
- 					       MLX5_ESW_VPORT_IPSEC_CRYPTO_OFFLOAD);
+ 	struct mlx5e_ipsec_sa_entry *sa_entry = to_ipsec_sa_entry(x);
++	struct mlx5e_ipsec *ipsec = sa_entry->ipsec;
+ 
+ 	if (x->xso.flags & XFRM_DEV_OFFLOAD_FLAG_ACQ)
+ 		goto sa_entry_free;
+@@ -780,6 +789,7 @@ static void mlx5e_xfrm_free_state(struct xfrm_state *x)
+ 	if (sa_entry->work)
+ 		kfree(sa_entry->work->data);
+ 	kfree(sa_entry->work);
++	mlx5_eswitch_unblock_ipsec(ipsec->mdev);
+ sa_entry_free:
+ 	kfree(sa_entry);
  }
+@@ -1055,6 +1065,11 @@ static int mlx5e_xfrm_add_policy(struct xfrm_policy *x,
+ 	pol_entry->x = x;
+ 	pol_entry->ipsec = priv->ipsec;
+ 
++	if (!mlx5_eswitch_block_ipsec(priv->mdev)) {
++		err = -EBUSY;
++		goto ipsec_busy;
++	}
 +
-+int mlx5_esw_ipsec_vf_packet_offload_set(struct mlx5_eswitch *esw, struct mlx5_vport *vport,
-+					 bool enable)
-+{
-+	return esw_ipsec_vf_offload_set_bytype(esw, vport, enable,
-+					       MLX5_ESW_VPORT_IPSEC_PACKET_OFFLOAD);
-+}
+ 	mlx5e_ipsec_build_accel_pol_attrs(pol_entry, &pol_entry->attrs);
+ 	err = mlx5e_accel_ipsec_fs_add_pol(pol_entry);
+ 	if (err)
+@@ -1064,6 +1079,8 @@ static int mlx5e_xfrm_add_policy(struct xfrm_policy *x,
+ 	return 0;
+ 
+ err_fs:
++	mlx5_eswitch_unblock_ipsec(priv->mdev);
++ipsec_busy:
+ 	kfree(pol_entry);
+ 	NL_SET_ERR_MSG_MOD(extack, "Device failed to offload this policy");
+ 	return err;
+@@ -1074,6 +1091,7 @@ static void mlx5e_xfrm_del_policy(struct xfrm_policy *x)
+ 	struct mlx5e_ipsec_pol_entry *pol_entry = to_ipsec_pol_entry(x);
+ 
+ 	mlx5e_accel_ipsec_fs_del_pol(pol_entry);
++	mlx5_eswitch_unblock_ipsec(pol_entry->ipsec->mdev);
+ }
+ 
+ static void mlx5e_xfrm_free_policy(struct xfrm_policy *x)
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c
-index 74b27b5fed65..cdd5fc09e231 100644
+index 4a7a13169a90..ae4059b51410 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c
-@@ -821,7 +821,6 @@ static int mlx5_esw_vport_caps_get(struct mlx5_eswitch *esw, struct mlx5_vport *
- 	vport->info.mig_enabled = MLX5_GET(cmd_hca_cap_2, hca_caps, migratable);
+@@ -48,6 +48,7 @@
+ #include "devlink.h"
+ #include "ecpf.h"
+ #include "en/mod_hdr.h"
++#include "en_accel/ipsec.h"
  
- 	err = mlx5_esw_ipsec_vf_offload_get(esw->dev, vport);
--
- out_free:
- 	kfree(query_ctx);
- 	return err;
-@@ -939,7 +938,8 @@ int mlx5_esw_vport_enable(struct mlx5_eswitch *esw, u16 vport_num,
- 	/* Sync with current vport context */
- 	vport->enabled_events = enabled_events;
- 	vport->enabled = true;
--	if (vport->vport != MLX5_VPORT_PF && vport->info.ipsec_crypto_enabled)
-+	if (vport->vport != MLX5_VPORT_PF &&
-+	    (vport->info.ipsec_crypto_enabled || vport->info.ipsec_packet_enabled))
- 		esw->enabled_ipsec_vf_count++;
+ enum {
+ 	MLX5_ACTION_NONE = 0,
+@@ -882,6 +883,37 @@ static void esw_vport_cleanup(struct mlx5_eswitch *esw, struct mlx5_vport *vport
+ 	esw_vport_cleanup_acl(esw, vport);
+ }
  
- 	/* Esw manager is trusted by default. Host PF (vport 0) is trusted as well
-@@ -1000,7 +1000,8 @@ void mlx5_esw_vport_disable(struct mlx5_eswitch *esw, u16 vport_num)
- 	    MLX5_CAP_GEN(esw->dev, vhca_resource_manager))
- 		mlx5_esw_vport_vhca_id_clear(esw, vport_num);
- 
--	if (vport->vport != MLX5_VPORT_PF && vport->info.ipsec_crypto_enabled)
-+	if (vport->vport != MLX5_VPORT_PF &&
-+	    (vport->info.ipsec_crypto_enabled || vport->info.ipsec_packet_enabled))
- 		esw->enabled_ipsec_vf_count--;
- 
- 	/* We don't assume VFs will cleanup after themselves.
++bool mlx5_eswitch_block_ipsec(struct mlx5_core_dev *dev)
++{
++	struct mlx5_eswitch *esw = dev->priv.eswitch;
++
++	if (!mlx5_esw_allowed(esw))
++		return true;
++
++	mutex_lock(&esw->state_lock);
++	if (esw->enabled_ipsec_vf_count) {
++		mutex_unlock(&esw->state_lock);
++		return false;
++	}
++
++	dev->num_ipsec_offloads++;
++	mutex_unlock(&esw->state_lock);
++	return true;
++}
++
++void mlx5_eswitch_unblock_ipsec(struct mlx5_core_dev *dev)
++{
++	struct mlx5_eswitch *esw = dev->priv.eswitch;
++
++	if (!mlx5_esw_allowed(esw))
++		/* Failure means no eswitch => core dev is not a PF */
++		return;
++
++	mutex_lock(&esw->state_lock);
++	dev->num_ipsec_offloads--;
++	mutex_unlock(&esw->state_lock);
++}
++
+ int mlx5_esw_vport_enable(struct mlx5_eswitch *esw, u16 vport_num,
+ 			  enum mlx5_eswitch_vport_event enabled_events)
+ {
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-index a92a23198b3c..2c273d301c78 100644
+index 8042e2222ee9..9fc3cc978ede 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-@@ -164,6 +164,7 @@ struct mlx5_vport_info {
- 	u8                      roce_enabled: 1;
- 	u8                      mig_enabled: 1;
- 	u8                      ipsec_crypto_enabled: 1;
-+	u8                      ipsec_packet_enabled: 1;
+@@ -357,6 +357,7 @@ struct mlx5_eswitch {
+ 	struct blocking_notifier_head n_head;
+ 	struct xarray paired;
+ 	struct mlx5_devcom_comp_dev *devcom;
++	u16 enabled_ipsec_vf_count;
  };
  
- /* Vport context events */
-@@ -542,6 +543,10 @@ int mlx5_devlink_port_fn_ipsec_crypto_get(struct devlink_port *port, bool *is_en
- 					  struct netlink_ext_ack *extack);
- int mlx5_devlink_port_fn_ipsec_crypto_set(struct devlink_port *port, bool enable,
- 					  struct netlink_ext_ack *extack);
-+int mlx5_devlink_port_fn_ipsec_packet_get(struct devlink_port *port, bool *is_enabled,
-+					  struct netlink_ext_ack *extack);
-+int mlx5_devlink_port_fn_ipsec_packet_set(struct devlink_port *port, bool enable,
-+					  struct netlink_ext_ack *extack);
- #endif /* CONFIG_XFRM_OFFLOAD */
- void *mlx5_eswitch_get_uplink_priv(struct mlx5_eswitch *esw, u8 rep_type);
+ void esw_offloads_disable(struct mlx5_eswitch *esw);
+@@ -689,6 +690,12 @@ mlx5_eswitch_enable_pf_vf_vports(struct mlx5_eswitch *esw,
+ 				 enum mlx5_eswitch_vport_event enabled_events);
+ void mlx5_eswitch_disable_pf_vf_vports(struct mlx5_eswitch *esw);
  
-@@ -702,8 +707,14 @@ int mlx5_esw_ipsec_vf_crypto_offload_supported(struct mlx5_core_dev *dev,
- 					       u16 vport_num);
- int mlx5_esw_ipsec_vf_offload_get(struct mlx5_core_dev *dev,
- 				  struct mlx5_vport *vport);
-+int mlx5_esw_ipsec_vf_packet_offload_supported(struct mlx5_core_dev *dev,
++bool mlx5_esw_ipsec_vf_offload_supported(struct mlx5_core_dev *dev);
++int mlx5_esw_ipsec_vf_crypto_offload_supported(struct mlx5_core_dev *dev,
 +					       u16 vport_num);
- int mlx5_esw_ipsec_vf_crypto_offload_set(struct mlx5_eswitch *esw, struct mlx5_vport *vport,
- 					 bool enable);
-+int mlx5_esw_ipsec_vf_packet_offload_set(struct mlx5_eswitch *esw, struct mlx5_vport *vport,
-+					 bool enable);
-+void mlx5_esw_vport_ipsec_offload_enable(struct mlx5_eswitch *esw);
-+void mlx5_esw_vport_ipsec_offload_disable(struct mlx5_eswitch *esw);
- bool mlx5_eswitch_block_ipsec(struct mlx5_core_dev *dev);
- void mlx5_eswitch_unblock_ipsec(struct mlx5_core_dev *dev);
++bool mlx5_eswitch_block_ipsec(struct mlx5_core_dev *dev);
++void mlx5_eswitch_unblock_ipsec(struct mlx5_core_dev *dev);
++
+ int mlx5_esw_vport_enable(struct mlx5_eswitch *esw, u16 vport_num,
+ 			  enum mlx5_eswitch_vport_event enabled_events);
+ void mlx5_esw_vport_disable(struct mlx5_eswitch *esw, u16 vport_num);
+@@ -872,6 +879,12 @@ static inline void mlx5_eswitch_unblock_encap(struct mlx5_core_dev *dev)
  
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-index 9b9aecc1809e..e30d357fcd9d 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-@@ -4538,4 +4538,99 @@ int mlx5_devlink_port_fn_ipsec_crypto_set(struct devlink_port *port, bool enable
- 	mutex_unlock(&esw->state_lock);
- 	return err;
- }
-+
-+int mlx5_devlink_port_fn_ipsec_packet_get(struct devlink_port *port, bool *is_enabled,
-+					  struct netlink_ext_ack *extack)
+ static inline int mlx5_eswitch_block_mode(struct mlx5_core_dev *dev) { return 0; }
+ static inline void mlx5_eswitch_unblock_mode(struct mlx5_core_dev *dev) {}
++static inline bool mlx5_eswitch_block_ipsec(struct mlx5_core_dev *dev)
 +{
-+	struct mlx5_eswitch *esw;
-+	struct mlx5_vport *vport;
-+	int err = 0;
-+
-+	esw = mlx5_devlink_eswitch_get(port->devlink);
-+	if (IS_ERR(esw))
-+		return PTR_ERR(esw);
-+
-+	vport = mlx5_devlink_port_fn_get_vport(port, esw);
-+	if (IS_ERR(vport)) {
-+		NL_SET_ERR_MSG_MOD(extack, "Invalid port");
-+		return PTR_ERR(vport);
-+	}
-+
-+	if (!mlx5_esw_ipsec_vf_offload_supported(esw->dev)) {
-+		NL_SET_ERR_MSG_MOD(extack, "Device doesn't support IPsec packet");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	mutex_lock(&esw->state_lock);
-+	if (!vport->enabled) {
-+		err = -EOPNOTSUPP;
-+		goto unlock;
-+	}
-+
-+	*is_enabled = vport->info.ipsec_packet_enabled;
-+unlock:
-+	mutex_unlock(&esw->state_lock);
-+	return err;
++	return false;
 +}
 +
-+int mlx5_devlink_port_fn_ipsec_packet_set(struct devlink_port *port,
-+					  bool enable,
-+					  struct netlink_ext_ack *extack)
-+{
-+	struct mlx5_eswitch *esw;
-+	struct mlx5_vport *vport;
-+	u16 vport_num;
-+	int err;
-+
-+	esw = mlx5_devlink_eswitch_get(port->devlink);
-+	if (IS_ERR(esw))
-+		return PTR_ERR(esw);
-+
-+	vport = mlx5_devlink_port_fn_get_vport(port, esw);
-+	if (IS_ERR(vport)) {
-+		NL_SET_ERR_MSG_MOD(extack, "Invalid port");
-+		return PTR_ERR(vport);
-+	}
-+
-+	vport_num = mlx5_esw_devlink_port_index_to_vport_num(port->index);
-+	err = mlx5_esw_ipsec_vf_packet_offload_supported(esw->dev, vport_num);
-+	if (err) {
-+		NL_SET_ERR_MSG_MOD(
-+			extack,
-+			"Device doesn't support IPsec packet mode");
-+		return err;
-+	}
-+
-+	mutex_lock(&esw->state_lock);
-+	if (!vport->enabled) {
-+		err = -EOPNOTSUPP;
-+		NL_SET_ERR_MSG_MOD(extack, "Eswitch vport is disabled");
-+		goto unlock;
-+	}
-+
-+	if (vport->info.ipsec_packet_enabled == enable)
-+		goto unlock;
-+
-+	if (!esw->enabled_ipsec_vf_count && esw->dev->num_ipsec_offloads) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	err = mlx5_esw_ipsec_vf_packet_offload_set(esw, vport, enable);
-+	if (err) {
-+		NL_SET_ERR_MSG_MOD(
-+			extack,
-+			"Failed to set IPsec packet mode");
-+		goto unlock;
-+	}
-+
-+	vport->info.ipsec_packet_enabled = enable;
-+	if (enable)
-+		esw->enabled_ipsec_vf_count++;
-+	else
-+		esw->enabled_ipsec_vf_count--;
-+unlock:
-+	mutex_unlock(&esw->state_lock);
-+	return err;
-+}
- #endif /* CONFIG_XFRM_OFFLOAD */
++static inline void mlx5_eswitch_unblock_ipsec(struct mlx5_core_dev *dev) {}
+ #endif /* CONFIG_MLX5_ESWITCH */
+ 
+ #endif /* __MLX5_ESWITCH_H__ */
+diff --git a/include/linux/mlx5/driver.h b/include/linux/mlx5/driver.h
+index caa6006d940c..5e3c46b38047 100644
+--- a/include/linux/mlx5/driver.h
++++ b/include/linux/mlx5/driver.h
+@@ -814,6 +814,7 @@ struct mlx5_core_dev {
+ 	/* MACsec notifier chain to sync MACsec core and IB database */
+ 	struct blocking_notifier_head macsec_nh;
+ #endif
++	u64 			num_ipsec_offloads;
+ };
+ 
+ struct mlx5_db {
 -- 
 2.41.0
 
