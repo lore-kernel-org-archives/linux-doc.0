@@ -2,262 +2,266 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCBCC678DC
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 09:39:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C52C678DC
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 09:41:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243458AbjHRJjD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 05:39:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47228 "EHLO
+        id S1359338AbjHRJkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 05:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359363AbjHRJi7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 05:38:59 -0400
-Received: from email.cn (m218-153.88.com [110.43.218.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D2723C23;
-        Fri, 18 Aug 2023 02:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=From:To:Date; bh=9lcI/VTcO7u3Jfok4rz7Q7p8zfxcmR2oP5L13
-        pSlhGk=; b=NdeAFIk5+qunpugAYXGcqr1CtNNNTcVOB957rPcqE6fRXHoOCJoNz
-        885erK6rPbXHHwfZWLQ+5DJXWLxojIYzxrtcRt8P4XxfteuPbIct+oJR/QvsKYHI
-        vs6pjvXCllM8C0tIDPY9D/TVLDN0aHmahyGAnx57LxYBMOnrBhqJe4=
-Received: from localhost (unknown [119.3.119.8])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBHwXjlO99kUCwqAA--.20331S3;
-        Fri, 18 Aug 2023 17:37:42 +0800 (CST)
-From:   Liang Li <liliang6@email.cn>
-To:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/mm/zh_CN: a few native ZH revisements
-Date:   Fri, 18 Aug 2023 17:37:41 +0800
-Message-Id: <20230818093741.359419-1-liliang6@email.cn>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S1359491AbjHRJka (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 05:40:30 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3C32684
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 02:40:05 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-5694ee2d0edso230819a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 02:40:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1692351605; x=1692956405;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4wdQzST43/YR9G4a+4189fYlBvDwxb+VSYYfxMLNAKQ=;
+        b=SOWjBTjalNORHHZKvzGHsM3e0FrM/OqDNxtFK/uL+5nzyqhsD6NLaufr46k4Y8QxIQ
+         zgK1jghWZBqZAIRyB5J3byn68BKAsvF7YaHHX8tOhVyu+hdemHkxaChLroYdldZp/YS2
+         DcmB/R7dnzLOjNH6fy3dFipxatNmM/4i1YG3lcIQTGJFYI+PUAi2T3yjKJVMIFo3XukF
+         nqKyYmF6D8w6Ou0cNkW8MEa6l6XSlStkCd2ZBORIdndSHFz77BpMHD0OV3b6FmFR8rqG
+         l2YmqJGp9+OCrGY5qpxOdec04Q1h6we9OYwSfIJK8uS5rpnFXb/2w5XnJlR4CLX4Mdmu
+         tDjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692351605; x=1692956405;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4wdQzST43/YR9G4a+4189fYlBvDwxb+VSYYfxMLNAKQ=;
+        b=hIfkowl7CMdFfg+WaR7XzZTJGGff7sV/7vDlf0fw3kxOA1YjznffdpFN5bbuDY0wpb
+         Y11eUDSx0XhDOmyQdCCJZ70kyxnXlKwyhjSATdmi3B0fWy2EyN4r6LkBRn/xmxDJEsRR
+         Toog92PBsOVe2/PojYLRzLKxvvFXyTVlm8t1YTv8nxx0bB1OyGRH7NSqveMICTzrvgmt
+         Po7kAg6lwZL2FZ2OKjI6f1mQLpSQTdt4Jf4Flo3YiKKr7UaEM/1o67C2sNFCdZjDq08L
+         ru83iZW2Bw0dufAowSURmifQ2MKiDaXdFO2yimHD4LElKVTmV9i/XNd505LdiFowc82F
+         lN/w==
+X-Gm-Message-State: AOJu0YwbElfMl/WXv3qqZM8FKQZTZotQkzL2zNJincltgmkzjo2qapEr
+        Eh/byzJMazEKz3tkreYZ4nUwxw==
+X-Google-Smtp-Source: AGHT+IEEgnW6TEQSEWSujD0tsFa+B/Q9tAV7ezMC0E7moN24gpezliNgu9s2GVwQQGX0a8dFdnkB5Q==
+X-Received: by 2002:a05:6a20:9384:b0:12f:dce2:b385 with SMTP id x4-20020a056a20938400b0012fdce2b385mr2823148pzh.10.1692351604800;
+        Fri, 18 Aug 2023 02:40:04 -0700 (PDT)
+Received: from [10.254.252.111] ([139.177.225.249])
+        by smtp.gmail.com with ESMTPSA id 11-20020aa7910b000000b0067acbc74977sm1169971pfh.96.2023.08.18.02.39.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Aug 2023 02:40:04 -0700 (PDT)
+Message-ID: <51cc7e0c-2fb3-1c40-4cd2-bad15737d616@bytedance.com>
+Date:   Fri, 18 Aug 2023 17:39:53 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [PATCH 06/11] maple_tree: Introduce mas_replace_entry() to
+ directly replace an entry
+To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+        Peng Zhang <zhangpeng.00@bytedance.com>, avagin@gmail.com,
+        npiggin@gmail.com, mathieu.desnoyers@efficios.com,
+        peterz@infradead.org, michael.christie@oracle.com,
+        surenb@google.com, brauner@kernel.org, willy@infradead.org,
+        akpm@linux-foundation.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org
+References: <20230726080916.17454-1-zhangpeng.00@bytedance.com>
+ <20230726080916.17454-7-zhangpeng.00@bytedance.com>
+ <20230726160843.hpl4razxiikqbuxy@revolver>
+ <20aab1af-c183-db94-90d7-5e5425e3fd80@bytedance.com>
+ <20230731164854.vbndc2z2mqpw53in@revolver>
+ <6babc4c1-0f0f-f0b1-1d45-311448af8d70@bytedance.com>
+ <20230816174017.4imcdnktvyoqcxw6@revolver>
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+In-Reply-To: <20230816174017.4imcdnktvyoqcxw6@revolver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GiKnCgBHwXjlO99kUCwqAA--.20331S3
-X-Coremail-Antispam: 1UD129KBjvAXoW3Cr4xXr1xJF45urW3XrWxCrg_yoW8Wr48Go
-        WfAanxCr4kXr45Ga40qayqyFy7ur4vkFs3GwsrGrnFvrZxXr15Ca1kX347AFyqkr98CFn8
-        tF1xWa13G3ZFkasxn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUU5-7k0a2IF6w4xM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-        IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vE
-        x4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr4
-        1l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
-        F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
-        1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
-        xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
-        1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUUOz
-        VUUUUUU==
-X-Originating-IP: [119.3.119.8]
-X-CM-SenderInfo: 5oloxttqjwqvhpdlzhdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Revise some ZH sentences to be more zh-native and try to add blank
-space between English words and Chinese chars.
 
-Signed-off-by: Liang Li <liliang6@email.cn>
----
- .../translations/zh_CN/mm/memory-model.rst    | 142 +++++++++---------
- 1 file changed, 75 insertions(+), 67 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/mm/memory-model.rst b/Documentation/translations/zh_CN/mm/memory-model.rst
-index 77ec149a970c..a93eaacc286b 100644
---- a/Documentation/translations/zh_CN/mm/memory-model.rst
-+++ b/Documentation/translations/zh_CN/mm/memory-model.rst
-@@ -13,62 +13,64 @@
- 物理内存模型
- ============
- 
--系统中的物理内存可以用不同的方式进行寻址。最简单的情况是，物理内存从地址0开
--始，跨越一个连续的范围，直到最大的地址。然而，这个范围可能包含CPU无法访问的
--小孔隙。那么，在完全不同的地址可能有几个连续的范围。而且，别忘了NUMA，即不
--同的内存库连接到不同的CPU。
-+系统中的物理内存可以用不同的方式进行寻址。最简单的情况是，物理内存从地址 0 开
-+始，跨越一个连续的范围，直到最大的物理内存地址。然而，这个地址范围中可能包含
-+CPU 无法访问的小孔隙。那么，物理内存的地址范围可能呈现为几个不同的连续地址范
-+围。而且，还有 NUMA，即不同的内存器件连接到不同的 CPU 这种情况。
- 
--Linux使用两种内存模型中的一种对这种多样性进行抽象。FLATMEM和SPARSEM。每
--个架构都定义了它所支持的内存模型，默认的内存模型是什么，以及是否有可能手动
--覆盖该默认值。
-+Linux 使用两种内存模型中的一种对这种多样性进行抽象：FLATMEM 和 SPARSEMEM。
-+每个 Linux 支持的架构都定义了架构所支持的内存模型；默认的内存模型，以及是否
-+有可能手动覆盖该默认值。
- 
--所有的内存模型都使用排列在一个或多个数组中的 `struct page` 来跟踪物理页
--帧的状态。
-+所有的内存模型都使用排列在一个或多个数组中的 `struct page` 来跟踪物理页框的
-+状态。
- 
- 无论选择哪种内存模型，物理页框号（PFN）和相应的 `struct page` 之间都存
- 在一对一的映射关系。
- 
- 每个内存模型都定义了 :c:func:`pfn_to_page` 和 :c:func:`page_to_pfn`
--帮助函数，允许从PFN到 `struct page` 的转换，反之亦然。
-+帮助函数，实现 PFN 和 `struct page` 之间的双向转换。
- 
- FLATMEM
- =======
- 
--最简单的内存模型是FLATMEM。这个模型适用于非NUMA系统的连续或大部分连续的
-+最简单的内存模型是 FLATMEM。这个模型适用于非 NUMA 系统的连续或大部分连续的
- 物理内存。
- 
--在FLATMEM内存模型中，有一个全局的 `mem_map` 数组来映射整个物理内存。对
--于大多数架构，孔隙在 `mem_map` 数组中都有条目。与孔洞相对应的 `struct page`
--对象从未被完全初始化。
-+在 FLATMEM 内存模型中，有一个全局的 `mem_map` 数组来映射整个物理内存。对
-+于大多数架构，如果存在‘内存空洞’，则‘空洞’在 `mem_map` 数组中都有条目。与
-+空洞相对应的 `struct page` 对象不会被完全初始化。
- 
--为了分配 `mem_map` 数组，架构特定的设置代码应该调用free_area_init()函数。
--然而，在调用memblock_free_all()函数之前，映射数组是不能使用的，该函数
--将所有的内存交给页分配器。
-+为了分配 `mem_map` 数组，架构特定的初始化代码(mem_init)应该调用
-+free_area_init() 函数。并且，在 memblock_free_all() 函数被调用之前，mem_map
-+数组是不能使用的。在 memblock_free_all 函数中，将所有的内存交给伙伴分配器。
- 
--一个架构可能会释放 `mem_map` 数组中不包括实际物理页的部分。在这种情况下，特
--定架构的 :c:func:`pfn_valid` 实现应该考虑到 `mem_map` 中的孔隙。
-+特定架构的实现可能会释放 `mem_map` 数组中不包括实际物理页的部分。此时，架构
-+特定的 :c:func:`pfn_valid` 实现应该考虑到识别 `mem_map` 中存在的‘空洞’并恰当
-+的处理之。
- 
--使用FLATMEM，PFN和 `struct page` 之间的转换是直接的。 `PFN - ARCH_PFN_OFFSET`
--是 `mem_map` 数组的一个索引。
--
--`ARCH_PFN_OFFSET` 定义了物理内存起始地址不同于0的系统的第一个页框号。
-+使用 FLATMEM 模型，PFN 和 `struct page` 之间的转换很简便：
-+`PFN - ARCH_PFN_OFFSET` 可以直接作为 `mem_map` 数组的索引使用。
-+架构特定的定义：
-+`ARCH_PFN_OFFSET` 定义了物理内存起始地址对应的第一个页框号。当然如果物理内存
-+的起始地址是 0 那么这个宏可能不会定义。
- 
- SPARSEMEM
- =========
- 
--SPARSEMEM是Linux中最通用的内存模型，它是唯一支持若干高级功能的内存模型，
--如物理内存的热插拔、非易失性内存设备的替代内存图和较大系统的内存图的延迟
--初始化。
-+SPARSEMEM 是 Linux 内核中最通用的内存模型，若干高级功能如物理内存的热插拔、非
-+易失性内存设备的替代内存图以及大系统的内存图延迟初始化等都只基于 SPARSEMEM 内
-+存模型实现。
- 
--SPARSEMEM模型将物理内存显示为一个部分的集合。一个区段用mem_section结构
-+SPARSEMEM 模型将物理内存显式分为内存区段的集合。内存区段用 mem_section 结构
- 体表示，它包含 `section_mem_map` ，从逻辑上讲，它是一个指向 `struct page`
--阵列的指针。然而，它被存储在一些其他的magic中，以帮助分区管理。区段的大小
--和最大区段数是使用 `SECTION_SIZE_BITS` 和 `MAX_PHYSMEM_BITS` 常量
--来指定的，这两个常量是由每个支持SPARSEMEM的架构定义的。 `MAX_PHYSMEM_BITS`
--是一个架构所支持的物理地址的实际宽度，而 `SECTION_SIZE_BITS` 是一个任
--意的值。
-+阵列的指针。然而，在这个 section_mem_map 中还编码了其他用以帮助分区管理的数值。
-+区段的大小和最大区段数使用 `SECTION_SIZE_BITS` 和 `MAX_PHYSMEM_BITS` 常量
-+来指定，这两个常量由每个支持 SPARSEMEM 的架构定义。 `MAX_PHYSMEM_BITS`
-+是特定架构所支持的物理地址的实际宽度，而 `SECTION_SIZE_BITS` 是交由特定架构自由
-+发挥。
- 
--最大的段数表示为 `NR_MEM_SECTIONS` ，定义为
-+最大的段数表示为 `NR_MEM_SECTIONS` ，定义为:
- 
- .. math::
- 
-@@ -83,53 +85,59 @@ SPARSEMEM模型将物理内存显示为一个部分的集合。一个区段用me
-   每一行包含价值 `PAGE_SIZE` 的 `mem_section` 对象，行数的计算是为了适应所有的
-   内存区。
- 
--架构设置代码应该调用sparse_init()来初始化内存区和内存映射。
-+架构特定的设置代码需要调用 sparse_init() 来初始化内存区和内存映射。
- 
--通过SPARSEMEM，有两种可能的方式将PFN转换为相应的 `struct page` --"classic sparse"和
-- "sparse vmemmap"。选择是在构建时进行的，它由 `CONFIG_SPARSEMEM_VMEMMAP` 的
-- 值决定。
-+基于 SPARSEMEM 模型，有两种可能的方式将 PFN 转换为相应的 `struct page` --
-+"classic sparse" 和 "sparse vmemmap"。具体选择哪一种由内核配置选项
-+`CONFIG_SPARSEMEM_VMEMMAP` 的值决定。在内核构建之前需要选择是哪一种。
- 
--Classic sparse在page->flags中编码了一个页面的段号，并使用PFN的高位来访问映射该页
--框的段。在一个区段内，PFN是指向页数组的索引。
-+Classic sparse 在 page->flags 中编码了一个页面的段号，并使用 PFN 的高位来访问
-+映射该页框的区段。在一个区段内，PFN 是指向页数组的索引。
- 
--Sparse vmemmapvmemmap使用虚拟映射的内存映射来优化pfn_to_page和page_to_pfn操
-+Sparse vmemmap 使用虚拟映射的内存映射来优化 pfn_to_page 和 page_to_pfn 操
- 作。有一个全局的 `struct page *vmemmap` 指针，指向一个虚拟连续的 `struct page`
--对象阵列。PFN是该数组的一个索引，`struct page` 从 `vmemmap` 的偏移量是该页的PFN。
-+数组对象。PFN 是该数组的索引，`struct page` 在 `vmemmap` 中的偏移量就是该页的
-+PFN。
- 
--为了使用vmemmap，一个架构必须保留一个虚拟地址的范围，以映射包含内存映射的物理页，并
--确保 `vmemmap`指向该范围。此外，架构应该实现 :c:func:`vmemmap_populate` 方法，
--它将分配物理内存并为虚拟内存映射创建页表。如果一个架构对vmemmap映射没有任何特殊要求，
--它可以使用通用内存管理提供的默认 :c:func:`vmemmap_populate_basepages`。
-+为了使用 vmemmap，特定架构必须保留一段虚拟地址围，以映射包含内存映射图的物理页，
-+并确保 `vmemmap` 指向该范围。此外，架构特定代码需要实现
-+:c:func:`vmemmap_populate` 方法，在这个方法中，需要分配物理内存并为虚拟内存映
-+射图创建页表。如果特定架构对 vmemmap 映射没有任何特殊要求，它可以使用通用内存
-+管理提供的默认实现 :c:func:`vmemmap_populate_basepages`。
- 
--虚拟映射的内存映射允许将持久性内存设备的 `struct page` 对象存储在这些设备上预先分
--配的存储中。这种存储用vmem_altmap结构表示，最终通过一长串的函数调用传递给
--vmemmap_populate()。vmemmap_populate()实现可以使用 `vmem_altmap` 和
--:c:func:`vmemmap_alloc_block_buf` 助手来分配持久性内存设备上的内存映射。
-+虚拟映射的内存映射图允许将持久性内存设备的 `struct page` 对象存储在这些设备上
-+预先分配好的（内存）存储中。这种存储用 vmem_altmap 数据结构表示，最终通过一长
-+串的函数调用传递给 vmemmap_populate() 函数。vmemmap_populate() 的实现里面可
-+使用 `vmem_altmap` 和 :c:func:`vmemmap_alloc_block_buf` 助手函数来从持久性内
-+存设备上为内存映射图分配内存。
- 
- ZONE_DEVICE
- ===========
- `ZONE_DEVICE` 设施建立在 `SPARSEM_VMEMMAP` 之上，为设备驱动识别的物理地址范
--围提供 `struct page` `mem_map` 服务。 `ZONE_DEVICE` 的 "设备" 方面与以下
--事实有关：这些地址范围的页面对象从未被在线标记过，而且必须对设备进行引用，而不仅仅
--是页面，以保持内存被“锁定”以便使用。 `ZONE_DEVICE` ，通过 :c:func:`devm_memremap_pages` ，
--为给定的pfns范围执行足够的内存热插拔来开启 :c:func:`pfn_to_page`，
--:c:func:`page_to_pfn`, ，和 :c:func:`get_user_pages` 服务。由于页面引
--用计数永远不会低于1，所以页面永远不会被追踪为空闲内存，页面的 `struct list_head lru`
--空间被重新利用，用于向映射该内存的主机设备/驱动程序进行反向引用。
--
--虽然 `SPARSEMEM` 将内存作为一个区段的集合，可以选择收集并合成内存块，但
--`ZONE_DEVICE` 用户需要更小的颗粒度来填充 `mem_map` 。鉴于 `ZONE_DEVICE`
--内存从未被在线标记，因此它的内存范围从未通过sysfs内存热插拔api暴露在内存块边界
--上。这个实现依赖于这种缺乏用户接口的约束，允许子段大小的内存范围被指定给
--:c:func:`arch_add_memory` ，即内存热插拔的上半部分。子段支持允许2MB作为
-+围提供 `struct page` 和 `mem_map` 服务。 `ZONE_DEVICE` 的 "设备" 方面与以下
-+事实有关：这些地址范围的页面对象不会被标记为在线；并且必须增加对设备的引用计
-+数，而不仅仅是页面的引用计数，以保持相关数据被“锁定”在内存中。
-+`ZONE_DEVICE` ，通过 :c:func:`devm_memremap_pages` ，为给定 pfns 范围内的内
-+存提供足够的内存热插拔支持来开启 :c:func:`pfn_to_page`，
-+:c:func:`page_to_pfn`, 和 :c:func:`get_user_pages` 服务。由于页面引
-+用计数永远不会低于 1，所以页面永远不会被标记为空闲内存，页面的
-+`struct list_head lru` 空间被重新利用，用于向映射该内存的主机设备/驱动程序进
-+行反向引用。
-+
-+虽然 `SPARSEMEM` 将全部内存抽象为区段的集合，可以选择收集并合成内存块，但
-+`ZONE_DEVICE` 用户需要更小的颗粒度来用作 `mem_map` 。鉴于 `ZONE_DEVICE`
-+内存从未被标记为在线，因此它的内存范围不会通过 sysfs 内存热插拔 api 暴露在
-+内存块边界上。这个实现依赖于这种缺乏用户接口的约束，允许小于段大小的内存范围被
-+指定给 :c:func:`arch_add_memory` ，即内存热插拔的上半部分。子段支持 2MB 作为
- :c:func:`devm_memremap_pages` 的跨架构通用对齐颗粒度。
- 
--`ZONE_DEVICE` 的用户是:
-+`ZONE_DEVICE` 的用户有:
- 
--* pmem: 通过DAX映射将平台持久性内存作为直接I/O目标使用。
-+* pmem: 通过 DAX 映射使用平台持久性内存作为直接 I/O 的目标。
- 
- * hmm: 用 `->page_fault()` 和 `->page_free()` 事件回调扩展 `ZONE_DEVICE` ，
--  以允许设备驱动程序协调与设备内存相关的内存管理事件，通常是GPU内存。参见Documentation/mm/hmm.rst。
-+  以允许设备驱动程序协调与设备内存相关的内存管理事件，典型的设备内存有 GPU 内
-+  存等。详情可参考 Documentation/mm/hmm.rst。
- 
--* p2pdma: 创建 `struct page` 对象，允许PCI/E拓扑结构中的peer设备协调它们之间的
--  直接DMA操作，即绕过主机内存。
-+* p2pdma: 创建 `struct page` 对象，允许 PCI/-E 设备拓扑结构中的 peer 设备协
-+  调它们之间的直接 DMA 操作，比如：绕过主机内存在 peer 之间直接 DMA。
--- 
-2.34.1
-
+在 2023/8/17 01:40, Liam R. Howlett 写道:
+> * Peng Zhang <zhangpeng.00@bytedance.com> [230816 09:11]:
+>>
+>>
+>> 在 2023/8/1 00:48, Liam R. Howlett 写道:
+>>> * Peng Zhang <zhangpeng.00@bytedance.com> [230731 08:39]:
+>>>>
+>>>>
+>>>> 在 2023/7/27 00:08, Liam R. Howlett 写道:
+>>>>> * Peng Zhang <zhangpeng.00@bytedance.com> [230726 04:10]:
+>>>>>> If mas has located a specific entry, it may be need to replace this
+>>>>>> entry, so introduce mas_replace_entry() to do this. mas_replace_entry()
+>>>>>> will be more efficient than mas_store*() because it doesn't do many
+>>>>>> unnecessary checks.
+>>>>>>
+>>>>>> This function should be inline, but more functions need to be moved to
+>>>>>> the header file, so I didn't do it for the time being.
+>>>>>
+>>>>> I am really nervous having no checks here.  I get that this could be
+>>>>> used for duplicating the tree more efficiently, but having a function
+>>>>> that just swaps a value in is very dangerous - especially since it is
+>>>>> decoupled from the tree duplication code.
+>>>> I've thought about this, and I feel like this is something the user
+>>>> should be guaranteed. If the user is not sure whether to use it,
+>>>> mas_store() can be used instead.
+>>>
+>>> Documentation often isn't up to date and even more rarely read.
+>>> mas_replace_entry() does not give a hint of a requirement for a specific
+>>> state to the mas.  This is not acceptable.
+>>>
+>>> The description of the function also doesn't say anything about a
+>>> requirement of the maple state, just that it replaces an already
+>>> existing entry.  You have to read the notes to find out that 'mas must
+>>> already locate an existing entry'.
+>>>
+>>>> And we should provide this interface
+>>>> because it has better performance.
+>>>
+>>> How much better is the performance?  There's always a trade off but
+>>> without numbers, this is hard to justify.
+>> I have implemented a new version of this pachset, and I will post it
+>> soon.
+>>
+>> I tested the benefits of mas_replace_entry() in userspace.
+>> The test code is attached at the end.
+>>
+>> Run three times:
+>> mas_replace_entry(): 2.7613050s 2.7120030s 2.7274200s
+>> mas_store():         3.8451260s 3.8113200s 3.9334160s
+> 
+> This runtime is too short, we should increase the number of elements or
+> loops until it is over 10 seconds.  This will make the setup time
+> and other variances less significant and we can use the command run time
+> as a rough estimate of performance. IIRC 134 was picked for a rough
+> estimate of an average task size so maybe increase the loops.
+I changed nr_entries to 1000, and the measured numbers are as follows:
+mas_replace_entry():	20.0375820s
+mas_store():		28.6175720s
+It can be seen that mas_store() is still nearly 40% slower.
+> 
+> I understand the numbers here are from clock recordings to demonstrate
+> the significance of your change.
+> 
+>>
+>> Using mas_store() reduces the performance of duplicating VMAs by about
+>> 41%.
+>>
+>> So I think mas_replace_entry() is necessary. We can describe it in more
+>> detail in the documentation to prevent users from misusing it.
+> 
+> I think something is necessary for a quicker replacement, yes.  I don't
+> want to go as far as you did with the lack of checking.
+> 
+>>
+>>
+>> static noinline void __init bench_forking(struct maple_tree *mt)
+>> {
+>> 	struct maple_tree newmt;
+>> 	int i, nr_entries = 134, nr_fork = 80000, ret;
+>> 	void *val;
+>> 	MA_STATE(mas, mt, 0, 0);
+>> 	MA_STATE(newmas, &newmt, 0, 0);
+>> 	clock_t start;
+>> 	clock_t end;
+>> 	double cpu_time_used = 0;
+>>
+>> 	for (i = 0; i <= nr_entries; i++)
+>> 		mtree_store_range(mt, i*10, i*10 + 5,
+>> 				  xa_mk_value(i), GFP_KERNEL);
+>>
+>> 	for (i = 0; i < nr_fork; i++) {
+>> 		mt_set_non_kernel(99999);
+>>
+>> 		start = clock();
+>> 		mt_init_flags(&newmt, MT_FLAGS_ALLOC_RANGE);
+>> 		mas_lock(&newmas);
+>> 		mas_lock(&mas);
+>> 		ret = __mt_dup(mt, &newmt, GFP_NOWAIT | __GFP_NOWARN);
+>> 		if (ret) {
+>> 			pr_err("OOM!");
+>> 			BUG_ON(1);
+>> 		}
+>>
+>> 		mas_set(&newmas, 0);
+>> 		mas_for_each(&newmas, val, ULONG_MAX) {
+>> 			mas_replace_entry(&newmas, val);
+>> 		}
+>>
+>> 		mas_unlock(&mas);
+>> 		mas_unlock(&newmas);
+>> 		end = clock();
+>> 		cpu_time_used += ((double) (end - start));
+>>
+>> 		mas_destroy(&newmas);
+>> 		mt_validate(&newmt);
+>> 		mt_set_non_kernel(0);
+>> 		mtree_destroy(&newmt);
+>> 	}
+>> 	printf("time consumption:%.7fs\n", cpu_time_used / CLOCKS_PER_SEC);
+>> }
+>>
+>>
+>>>
+>>>>>
+>>>>>>
+>>>>>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+>>>>>> ---
+>>>>>>     include/linux/maple_tree.h |  1 +
+>>>>>>     lib/maple_tree.c           | 25 +++++++++++++++++++++++++
+>>>>>>     2 files changed, 26 insertions(+)
+>>>>>>
+>>>>>> diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+>>>>>> index 229fe78e4c89..a05e9827d761 100644
+>>>>>> --- a/include/linux/maple_tree.h
+>>>>>> +++ b/include/linux/maple_tree.h
+>>>>>> @@ -462,6 +462,7 @@ struct ma_wr_state {
+>>>>>>     void *mas_walk(struct ma_state *mas);
+>>>>>>     void *mas_store(struct ma_state *mas, void *entry);
+>>>>>> +void mas_replace_entry(struct ma_state *mas, void *entry);
+>>>>>>     void *mas_erase(struct ma_state *mas);
+>>>>>>     int mas_store_gfp(struct ma_state *mas, void *entry, gfp_t gfp);
+>>>>>>     void mas_store_prealloc(struct ma_state *mas, void *entry);
+>>>>>> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
+>>>>>> index efac6761ae37..d58572666a00 100644
+>>>>>> --- a/lib/maple_tree.c
+>>>>>> +++ b/lib/maple_tree.c
+>>>>>> @@ -5600,6 +5600,31 @@ void *mas_store(struct ma_state *mas, void *entry)
+>>>>>>     }
+>>>>>>     EXPORT_SYMBOL_GPL(mas_store);
+>>>>>> +/**
+>>>>>> + * mas_replace_entry() - Replace an entry that already exists in the maple tree
+>>>>>> + * @mas: The maple state
+>>>>>> + * @entry: The entry to store
+>>>>>> + *
+>>>>>> + * Please note that mas must already locate an existing entry, and the new entry
+>>>>>> + * must not be NULL. If these two points cannot be guaranteed, please use
+>>>>>> + * mas_store*() instead, otherwise it will cause an internal error in the maple
+>>>>>> + * tree. This function does not need to allocate memory, so it must succeed.
+>>>>>> + */
+>>>>>> +void mas_replace_entry(struct ma_state *mas, void *entry)
+>>>>>> +{
+>>>>>> +	void __rcu **slots;
+>>>>>> +
+>>>>>> +#ifdef CONFIG_DEBUG_MAPLE_TREE
+> 
+> CONFIG_DEBUG_MAPLE_TREE is not necessary, MAS_WRAN_ON() will be compiled
+> out if it's not set.
+> 
+>>>>>> +	MAS_WARN_ON(mas, !mte_is_leaf(mas->node));
+>>>>>> +	MAS_WARN_ON(mas, !entry);
+>>>>>> +	MAS_WARN_ON(mas, mas->offset >= mt_slots[mte_node_type(mas->node)]);
+>>>>>> +#endif
+>>>>>> +
+>>>>>> +	slots = ma_slots(mte_to_node(mas->node), mte_node_type(mas->node));
+>>>>>> +	rcu_assign_pointer(slots[mas->offset], entry);
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL_GPL(mas_replace_entry);
+>>>>>> +
+>>>>>>     /**
+>>>>>>      * mas_store_gfp() - Store a value into the tree.
+>>>>>>      * @mas: The maple state
+>>>>>> -- 
+>>>>>> 2.20.1
+>>>>>>
