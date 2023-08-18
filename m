@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB354C7113C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C84C001DE
 	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 07:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358210AbjHRHfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 03:35:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
+        id S1358206AbjHRHfa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 03:35:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358224AbjHRHfZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 03:35:25 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B60230F5
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:35:23 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-68896d7eb1eso516064b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:35:23 -0700 (PDT)
+        with ESMTP id S1358200AbjHRHfM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 03:35:12 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 082E330E6
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:35:11 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-688779ffc0aso515151b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692344123; x=1692948923;
+        d=chromium.org; s=google; t=1692344110; x=1692948910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q0h2wCokTLJGZ1d7u4CaVmkJlNkioh2OoblHBPOXP7Y=;
-        b=LZ/S09GEJWmCh3Jc1vyQRbIHxLeXZ7wMbdvgp124NrkNB6zxeiPQ4iWuiHS1jHVTkx
-         haFNUUsHZ2Z5xILYueGqtjsUlUh3xhR5L7T2v1B8S2K1Hp9GiwdiT79Wbp6q6VyDMGL+
-         P14X7SalaJDpzwGYiKLGl3rXzOwKh7Jph/3vc=
+        bh=9xQIXi7bu5jPEvUoNFU5+d+V/znMEpTNbM7qk9XTFgo=;
+        b=H4PDNLvHcs5RV4Mb8biKlGsuPM8P5eMSkkCDD370HS4otT26bdUNM/mlQ0HvDIpuKG
+         1fxLrNUHTF4DeV7Z8X8ijdEa4JLJ6gXHLhJfJy2A9E7n/P+Bo8DENCPdwxx99smJivPX
+         OfXGv+1rXkB/VHx4PnQbnnkl0zoUQAoU4ZKV0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692344123; x=1692948923;
+        d=1e100.net; s=20221208; t=1692344110; x=1692948910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q0h2wCokTLJGZ1d7u4CaVmkJlNkioh2OoblHBPOXP7Y=;
-        b=dJkxI5fmViqXHA8DTppqSFrQbI5lFeTapKESqa5vY8qJDzRXHgVF3PayPehb8ys7P5
-         tbADrcN4TOkSRDOYwB80Qlw485/aVXVKXWSV1zXP4cbXG/gXBeH/HELqKEmz+5A20wgH
-         Cb0g95BXScQocXxWpMazwUZ+NWkROf42g939PUTTImJEsy+4BrSv+pd0H0TRUCl7nNbQ
-         aNGNImyYe9PypjASi2vGFm+e/wmuiHWKbDBwW4tT7Z1c2X2EU+fGFpvoeUK5KGdKXA8y
-         Xz85djpAll3XMCeGkhaPJ0p67KLJxdUZt2wYIjYe0pbWi/0ZvCI9i5NypTjVZcb5mPnC
-         cTxw==
-X-Gm-Message-State: AOJu0YzVzaakgtIFP4tBg/MWOM+SqFksY8UO8QdgCqpgN8AuB0qpl1ry
-        RLWUdBygOcAKFiwHDO25LXrPMg==
-X-Google-Smtp-Source: AGHT+IHccT5ZnoRFS2s9VeYqVMvqcTSq7+uVe0UXeT+7ab+PfAvtl9e71Xj/j73DfPA6yXjXN5hIrQ==
-X-Received: by 2002:a05:6a20:7485:b0:13b:a2c9:922e with SMTP id p5-20020a056a20748500b0013ba2c9922emr2173938pzd.27.1692344122970;
-        Fri, 18 Aug 2023 00:35:22 -0700 (PDT)
+        bh=9xQIXi7bu5jPEvUoNFU5+d+V/znMEpTNbM7qk9XTFgo=;
+        b=E5K2tO7rTAG4IlV/y69rupXlrW4nol8TB/KJPxjWkPSfVCpU/O/OFaZHiGDukNLtkZ
+         3Cnn1yh5msM86maYgb4qzx+vcWGQu3THi7uFdX5xy89Cug0WarMcHAXHjWRMDYxS3Tat
+         32ehGAk4cmCv4ofzC+hSt9RaWf/HbBr/tl20DajgTeFjQWeq+JMRm7HzzL2VyqYRzCZt
+         0XOdxbimqt42LATSFtMTsJ0m9yXjGZVGHvbhKbZDjcECVtVQQud44JKzQjARSBaMbwVL
+         c3WGKbASj2Fuq+qCgmJNVCe5cK+d7GmZ6fyUsex44kUlJmHeP2Ci+nzsEvtowOpDysRB
+         vsrw==
+X-Gm-Message-State: AOJu0Yz0Ju3tTERAbaH7i0c/fo/rElLcvzzyvpQ2L9tRufWta2dglc5j
+        r8lQHrUMgT1F9VffY3piauhcRg==
+X-Google-Smtp-Source: AGHT+IGbfnLNNjt5jYIxVc0bYzQFOj3ipmB3a0VpVwR2JDjV7NhR6ZHWBVMddpm7vSYl/sKeh9IJow==
+X-Received: by 2002:a05:6a20:96ce:b0:138:60e:9c4 with SMTP id hq14-20020a056a2096ce00b00138060e09c4mr1654343pzc.23.1692344110440;
+        Fri, 18 Aug 2023 00:35:10 -0700 (PDT)
 Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
-        by smtp.gmail.com with ESMTPSA id c2-20020a62e802000000b00686fe7b7b48sm906041pfi.121.2023.08.18.00.35.20
+        by smtp.gmail.com with ESMTPSA id c2-20020a62e802000000b00686fe7b7b48sm906041pfi.121.2023.08.18.00.35.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 00:35:22 -0700 (PDT)
+        Fri, 18 Aug 2023 00:35:10 -0700 (PDT)
 From:   Brandon Pollack <brpol@chromium.org>
 To:     marius.vlad@collabora.com, jshargo@chromium.org
 Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
@@ -56,9 +56,9 @@ Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
         airlied@gmail.com, daniel@ffwll.ch,
         maarten.lankhorst@linux.intel.com, mduggan@chromium.org,
         hirono@chromium.org, Brandon Pollack <brpol@chromium.org>
-Subject: [PATCH v3 3/7] drm/vkms: Provide platform data when creating VKMS devices
-Date:   Fri, 18 Aug 2023 07:29:28 +0000
-Message-ID: <20230818073411.3414628-5-brpol@chromium.org>
+Subject: [PATCH v3 1/7] drm/vkms: Back VKMS with DRM memory management instead of static objects
+Date:   Fri, 18 Aug 2023 07:29:26 +0000
+Message-ID: <20230818073411.3414628-3-brpol@chromium.org>
 X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 In-Reply-To: <20230818073411.3414628-2-brpol@chromium.org>
 References: <20230818073411.3414628-2-brpol@chromium.org>
@@ -70,125 +70,296 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Jim Shargo <jshargo@chromium.org>
 
-This is a small refactor to make ConfigFS support easier. This should be
-a no-op refactor.
+This is a small refactor to make ConfigFS support easier. Once we
+support ConfigFS, there can be multiple devices instantiated by the
+driver, and so moving everything into managed memory makes things much
+easier.
+
+This should be a no-op refactor.
 
 Signed-off-by: Jim Shargo <jshargo@chromium.org>
 Signed-off-by: Brandon Pollack <brpol@chromium.org>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c    | 14 ++++++++++++--
- drivers/gpu/drm/vkms/vkms_drv.h    |  9 ++++++---
- drivers/gpu/drm/vkms/vkms_output.c |  2 +-
- 3 files changed, 19 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vkms/vkms_drv.c    | 128 +++++++++++++++--------------
+ drivers/gpu/drm/vkms/vkms_drv.h    |   4 +-
+ drivers/gpu/drm/vkms/vkms_output.c |   6 +-
+ 3 files changed, 71 insertions(+), 67 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 65b1e2c52106..6c94c2b5d529 100644
+index dd0af086e7fa..387c832f5dc9 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.c
 +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -9,6 +9,7 @@
+@@ -9,10 +9,12 @@
   * the GPU in DRM API tests.
   */
  
-+#include "asm-generic/errno-base.h"
- #include <linux/device.h>
++#include <linux/device.h>
  #include <linux/module.h>
  #include <linux/platform_device.h>
-@@ -171,12 +172,14 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+ #include <linux/dma-mapping.h>
+ 
++#include <drm/drm_device.h>
+ #include <drm/drm_gem.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -37,8 +39,6 @@
+ #define DRIVER_MAJOR	1
+ #define DRIVER_MINOR	0
+ 
+-static struct vkms_config *default_config;
+-
+ static bool enable_cursor = true;
+ module_param_named(enable_cursor, enable_cursor, bool, 0444);
+ MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+@@ -96,9 +96,9 @@ static int vkms_config_show(struct seq_file *m, void *data)
+ 	struct drm_device *dev = entry->dev;
+ 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+ 
+-	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+-	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+-	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
++	seq_printf(m, "writeback=%d\n", vkmsdev->config.writeback);
++	seq_printf(m, "cursor=%d\n", vkmsdev->config.cursor);
++	seq_printf(m, "overlay=%d\n", vkmsdev->config.overlay);
+ 
+ 	return 0;
+ }
+@@ -166,121 +166,127 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+ 	dev->mode_config.cursor_height = 512;
+ 	/* FIXME: There's a confusion between bpp and depth between this and
+ 	 * fbdev helpers. We have to go with 0, meaning "pick the default",
+-	 * which ix XRGB8888 in all cases. */
++	 * which ix XRGB8888 in all cases.
++	 */
  	dev->mode_config.preferred_depth = 0;
  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
  
--	return vkms_output_init(vkmsdev, 0);
-+	return vkmsdev->is_default ? vkms_output_init_default(vkmsdev) :
-+				     -EINVAL;
+ 	return vkms_output_init(vkmsdev, 0);
  }
  
- static int vkms_platform_probe(struct platform_device *pdev)
+-static int vkms_create(struct vkms_config *config)
++static int vkms_platform_probe(struct platform_device *pdev)
  {
  	int ret;
-+	struct vkms_device_setup *vkms_device_setup = pdev->dev.platform_data;
+-	struct platform_device *pdev;
  	struct vkms_device *vkms_device;
- 	void *grp;
++	void *grp;
  
-@@ -195,6 +198,7 @@ static int vkms_platform_probe(struct platform_device *pdev)
- 	vkms_device->config.cursor = enable_cursor;
- 	vkms_device->config.writeback = enable_writeback;
- 	vkms_device->config.overlay = enable_overlay;
-+	vkms_device->is_default = vkms_device_setup->is_default;
+-	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+-	if (IS_ERR(pdev))
+-		return PTR_ERR(pdev);
+-
+-	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+-		ret = -ENOMEM;
+-		goto out_unregister;
+-	}
++	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
++	if (!grp)
++		return -ENOMEM;
+ 
+ 	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+ 					 struct vkms_device, drm);
+ 	if (IS_ERR(vkms_device)) {
+ 		ret = PTR_ERR(vkms_device);
+-		goto out_devres;
++		goto out_release_group;
+ 	}
++
+ 	vkms_device->platform = pdev;
+-	vkms_device->config = config;
+-	config->dev = vkms_device;
++	vkms_device->config.cursor = enable_cursor;
++	vkms_device->config.writeback = enable_writeback;
++	vkms_device->config.overlay = enable_overlay;
  
  	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
  					   DMA_BIT_MASK(64));
-@@ -258,6 +262,9 @@ static int __init vkms_init(void)
- {
- 	int ret;
- 	struct platform_device *pdev;
-+	struct vkms_device_setup vkms_device_setup = {
-+		.is_default = true,
-+	};
- 
- 	ret = platform_driver_register(&vkms_platform_driver);
+-
  	if (ret) {
-@@ -265,8 +272,11 @@ static int __init vkms_init(void)
- 		return ret;
+ 		DRM_ERROR("Could not initialize DMA support\n");
+-		goto out_devres;
++		goto out_release_group;
  	}
  
--	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
-+	pdev = platform_device_register_data(NULL, DRIVER_NAME, 0,
-+					     &vkms_device_setup,
-+					     sizeof(vkms_device_setup));
- 	if (IS_ERR(pdev)) {
-+		DRM_ERROR("Unable to register default vkms device\n");
- 		platform_driver_unregister(&vkms_platform_driver);
- 		return PTR_ERR(pdev);
+ 	ret = drm_vblank_init(&vkms_device->drm, 1);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to vblank\n");
+-		goto out_devres;
++		goto out_release_group;
  	}
+ 
+ 	ret = vkms_modeset_init(vkms_device);
+-	if (ret)
+-		goto out_devres;
++	if (ret) {
++		DRM_ERROR("Unable to initialize modesetting\n");
++		goto out_release_group;
++	}
+ 
+ 	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
+ 			      ARRAY_SIZE(vkms_config_debugfs_list));
+ 
+ 	ret = drm_dev_register(&vkms_device->drm, 0);
+-	if (ret)
+-		goto out_devres;
++	if (ret) {
++		DRM_ERROR("Unable to register device with id %d\n", pdev->id);
++		goto out_release_group;
++	}
+ 
+ 	drm_fbdev_generic_setup(&vkms_device->drm, 0);
++	platform_set_drvdata(pdev, vkms_device);
++	devres_close_group(&pdev->dev, grp);
+ 
+ 	return 0;
+ 
+-out_devres:
+-	devres_release_group(&pdev->dev, NULL);
+-out_unregister:
+-	platform_device_unregister(pdev);
++out_release_group:
++	devres_release_group(&pdev->dev, grp);
+ 	return ret;
+ }
+ 
+-static int __init vkms_init(void)
++static int vkms_platform_remove(struct platform_device *pdev)
+ {
+-	int ret;
+-	struct vkms_config *config;
+-
+-	config = kmalloc(sizeof(*config), GFP_KERNEL);
+-	if (!config)
+-		return -ENOMEM;
+-
+-	default_config = config;
++	struct vkms_device *vkms_device;
+ 
+-	config->cursor = enable_cursor;
+-	config->writeback = enable_writeback;
+-	config->overlay = enable_overlay;
++	vkms_device = platform_get_drvdata(pdev);
++	if (!vkms_device)
++		return 0;
+ 
+-	ret = vkms_create(config);
+-	if (ret)
+-		kfree(config);
+-
+-	return ret;
++	drm_dev_unregister(&vkms_device->drm);
++	drm_atomic_helper_shutdown(&vkms_device->drm);
++	return 0;
+ }
+ 
+-static void vkms_destroy(struct vkms_config *config)
++static struct platform_driver vkms_platform_driver = {
++	.probe = vkms_platform_probe,
++	.remove = vkms_platform_remove,
++	.driver.name = DRIVER_NAME,
++};
++
++static int __init vkms_init(void)
+ {
++	int ret;
+ 	struct platform_device *pdev;
+ 
+-	if (!config->dev) {
+-		DRM_INFO("vkms_device is NULL.\n");
+-		return;
++	ret = platform_driver_register(&vkms_platform_driver);
++	if (ret) {
++		DRM_ERROR("Unable to register platform driver\n");
++		return ret;
+ 	}
+ 
+-	pdev = config->dev->platform;
+-
+-	drm_dev_unregister(&config->dev->drm);
+-	drm_atomic_helper_shutdown(&config->dev->drm);
+-	devres_release_group(&pdev->dev, NULL);
+-	platform_device_unregister(pdev);
++	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
++	if (IS_ERR(pdev)) {
++		platform_driver_unregister(&vkms_platform_driver);
++		return PTR_ERR(pdev);
++	}
+ 
+-	config->dev = NULL;
++	return 0;
+ }
+ 
+ static void __exit vkms_exit(void)
+ {
+-	if (default_config->dev)
+-		vkms_destroy(default_config);
++	struct device *dev;
++
++	while ((dev = platform_find_device_by_driver(
++			NULL, &vkms_platform_driver.driver))) {
++		// platform_find_device_by_driver increments the refcount. Drop
++		// it so we don't leak memory.
++		put_device(dev);
++		platform_device_unregister(to_platform_device(dev));
++	}
+ 
+-	kfree(default_config);
++	platform_driver_unregister(&vkms_platform_driver);
+ }
+ 
+ module_init(vkms_init);
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 761cd809617e..4262dcffd7e1 100644
+index c7ae6c2ba1df..4c35d6305f2a 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.h
 +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -132,17 +132,20 @@ struct vkms_output {
- 	struct vkms_plane planes[VKMS_MAX_PLANES];
- };
- 
--struct vkms_device;
--
- struct vkms_config {
+@@ -124,15 +124,13 @@ struct vkms_config {
  	bool writeback;
  	bool cursor;
  	bool overlay;
+-	/* only set when instantiated */
+-	struct vkms_device *dev;
  };
  
-+struct vkms_device_setup {
-+	bool is_default;
-+};
-+
  struct vkms_device {
  	struct drm_device drm;
  	struct platform_device *platform;
-+	bool is_default;
  	struct vkms_output output;
- 	struct vkms_config config;
+-	const struct vkms_config *config;
++	struct vkms_config config;
  };
-@@ -166,7 +169,7 @@ struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
- 				 struct drm_plane *primary,
- 				 struct drm_plane *cursor);
  
--int vkms_output_init(struct vkms_device *vkmsdev, int index);
-+int vkms_output_init_default(struct vkms_device *vkmsdev);
- 
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 				   enum drm_plane_type type);
+ #define drm_crtc_to_vkms_output(target) \
 diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 86faf94f7408..bfc2e2362c6d 100644
+index 5ce70dd946aa..963a64cf068b 100644
 --- a/drivers/gpu/drm/vkms/vkms_output.c
 +++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -80,7 +80,7 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device)
- 	return encoder;
- }
+@@ -62,7 +62,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	if (IS_ERR(primary))
+ 		return PTR_ERR(primary);
  
--int vkms_output_init(struct vkms_device *vkmsdev, int index)
-+int vkms_output_init_default(struct vkms_device *vkmsdev)
- {
- 	struct vkms_output *output = &vkmsdev->output;
- 	struct drm_device *dev = &vkmsdev->drm;
+-	if (vkmsdev->config->overlay) {
++	if (vkmsdev->config.overlay) {
+ 		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
+ 			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
+ 			if (ret)
+@@ -70,7 +70,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 		}
+ 	}
+ 
+-	if (vkmsdev->config->cursor) {
++	if (vkmsdev->config.cursor) {
+ 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+ 		if (IS_ERR(cursor))
+ 			return PTR_ERR(cursor);
+@@ -103,7 +103,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 		goto err_attach;
+ 	}
+ 
+-	if (vkmsdev->config->writeback) {
++	if (vkmsdev->config.writeback) {
+ 		writeback = vkms_enable_writeback_connector(vkmsdev);
+ 		if (writeback)
+ 			DRM_ERROR("Failed to init writeback connector\n");
 -- 
 2.42.0.rc1.204.g551eb34607-goog
 
