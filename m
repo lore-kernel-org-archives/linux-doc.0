@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 178DDC71143
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 07:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9C3C05052
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 07:53:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358298AbjHRHwG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 03:52:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34038 "EHLO
+        id S1358380AbjHRHwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 03:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358373AbjHRHvo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 03:51:44 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5EB3A88
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:51:34 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bdc243d62bso4690145ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:51:34 -0700 (PDT)
+        with ESMTP id S1358392AbjHRHvv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 03:51:51 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9F43C17
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:51:49 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-689e8115f8dso581324b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692345094; x=1692949894;
+        d=chromium.org; s=google; t=1692345108; x=1692949908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J3zzxCocNGAiuIkgmACmBWWghOpIjW/4eoGUpEKr6o8=;
-        b=NG39hm02kllVH0dXlLgMmL2Ow1e1Ey1XoLZrKRR1MpScFsh37098sm88DEuJm0s+ep
-         MWw2F1QNVnx6HAcxXDXykEIVV56bwoE56YZwxIZfb1D/870dNKRI2ROQadwYXGSsnZ3V
-         Siy7a1U+kZdnOIrjKUIEOjDpaXakoLZHW7efA=
+        bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
+        b=fj3Sr39wL3fzDsfknyoIDSaX/hKw0qm2MKFHXwlW7V9t9CPsWpsqFK2rfR2EgXsszt
+         SWCQirErdL/v3nmZ72wbpZl+AR6oZm16OEK6F3AE2bLwje1DcOmrQawSHnVEKXuy/9xL
+         bZltYEqUJdjK65OUQxsdvbIr3kD8WxSK0C/E4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692345094; x=1692949894;
+        d=1e100.net; s=20221208; t=1692345108; x=1692949908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J3zzxCocNGAiuIkgmACmBWWghOpIjW/4eoGUpEKr6o8=;
-        b=FNwdua9pdALaHj4oFysJrwltkqj96Ug5ZcxjK+NFVBmveusZlf9gUIgnap629cX1/O
-         51I+G/qBcbKfNB1r2jwZ80AWAgR7EmAsiI6XvsCGUGuJ8VRPhInPWVUw3vvAz6oDETRq
-         zDZdK9Pb7tjoXDqhlPFefNb6q57acS0R8+cXiA02kyaXfaOS4VhM7AgTQhX1l4nUkQ9F
-         uxZjosIRFz8MiAPhJa+IcSxnkp+MsFTBCA6tqPHY/2uJmfGgLJ5Qdrao3SljtmJ5WSfw
-         k6TYPKwKopN9gYb0Ys1VA24XmkxjJ/hGp3QWYCswzMfFCMLLUFzkxgkfI6T1weIMXEVw
-         IMnw==
-X-Gm-Message-State: AOJu0Yw2LInLnP5j3j/4iIjJb40CcIcAgj8RmxUXVxePOcm7H+ouTTSE
-        jURLwMZk1tECsjSwPDqP0wtYRA==
-X-Google-Smtp-Source: AGHT+IFJHh35q6aNGymHtkm91PAyoM1bZBy5KAdjn7JyOzQe1u7k00CZT4Gn1K4rVx+ngtWULEN41g==
-X-Received: by 2002:a17:902:d2ce:b0:1bd:fa71:f476 with SMTP id n14-20020a170902d2ce00b001bdfa71f476mr1792240plc.30.1692345093960;
-        Fri, 18 Aug 2023 00:51:33 -0700 (PDT)
+        bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
+        b=SHTlOrta2AkD7oWUqfW/ECNUQ63/56Ae9Nria5aXGcjEocx9ao8jzNyPvfyEfBSiBm
+         v1iIqmpe3dOkg5olN60jUU99ucnwt04/fkuVOFlIu3TrkSRnoIfvU8HFshpjIArwW+UI
+         AueFkIIW9OSsDhrZ2dApTG8Bi9msHfld/4YYQJRALb6PzIxUyN66YCAdJMM22vwADz1M
+         5YjySuFLnwtUgq0ME02lHsHr7fgEffaq+0M2e+pf9NeIuYa9oOtU1Lh7xio1kBKun80Q
+         DTrXpQiZICu66hZ51IwzwCJvqNdShitO5NkoWIM8ISbUgtp4doS+zGkcWy+pbz1mqA2B
+         +2Yg==
+X-Gm-Message-State: AOJu0Yy1NaiqcO94VCQ8HyDfBle+3vQEQYF/lxWfJcBV24Z3R5Gocqth
+        NGGiTQ1DYT46NPlkDsmOkH/hCg==
+X-Google-Smtp-Source: AGHT+IEIPfYQQOp7jsIkLFRE8mPyTRJa5CnoOzNE5/KmBJCC8jFwXhgN6gQgyfaCEuHN7j92G9EyIA==
+X-Received: by 2002:a05:6a20:8f14:b0:13d:3b4d:e4b4 with SMTP id b20-20020a056a208f1400b0013d3b4de4b4mr2663291pzk.9.1692345108666;
+        Fri, 18 Aug 2023 00:51:48 -0700 (PDT)
 Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
-        by smtp.gmail.com with ESMTPSA id jj19-20020a170903049300b001ba066c589dsm1051834plb.137.2023.08.18.00.51.31
+        by smtp.gmail.com with ESMTPSA id jj19-20020a170903049300b001ba066c589dsm1051834plb.137.2023.08.18.00.51.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 00:51:33 -0700 (PDT)
+        Fri, 18 Aug 2023 00:51:48 -0700 (PDT)
 From:   Brandon Pollack <brpol@chromium.org>
 To:     marius.vlad@collabora.com, jshargo@chromium.org
 Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
@@ -56,9 +56,9 @@ Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
         airlied@gmail.com, daniel@ffwll.ch,
         maarten.lankhorst@linux.intel.com, mduggan@chromium.org,
         hirono@chromium.org, Brandon Pollack <brpol@chromium.org>
-Subject: [PATCH v3 2/7] drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
-Date:   Fri, 18 Aug 2023 07:43:07 +0000
-Message-ID: <20230818075057.3426088-3-brpol@chromium.org>
+Subject: [PATCH v3 7/7] drm/vkms Add hotplug support via configfs to VKMS.
+Date:   Fri, 18 Aug 2023 07:43:12 +0000
+Message-ID: <20230818075057.3426088-8-brpol@chromium.org>
 X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 In-Reply-To: <20230818075057.3426088-1-brpol@chromium.org>
 References: <20230818075057.3426088-1-brpol@chromium.org>
@@ -68,862 +68,295 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jim Shargo <jshargo@chromium.org>
+This change adds the ability to read or write a "1" or a "0" to the
+newly added "connected" attribute of a connector in the vkms entry in
+configfs.
 
-This change supports multiple CRTCs, encoders, connectors instead of one
-of each per device.
+A write will trigger a call to drm_kms_helper_hotplug_event, causing a
+hotplug uevent.
 
-Since ConfigFS-based devices will support multiple crtcs, it's useful to
-move all of the writeback/composition data from being per-"output" to
-being per-CRTC.
+With this we can write virtualized multidisplay tests that involve
+hotplugging displays (eg recompositing windows when a monitor is turned
+off).
 
-Since there's still only ever one CRTC, this should be a no-op refactor.
-
-Signed-off-by: Jim Shargo <jshargo@chromium.org>
 Signed-off-by: Brandon Pollack <brpol@chromium.org>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c  |  30 +++----
- drivers/gpu/drm/vkms/vkms_crtc.c      | 101 ++++++++++++---------
- drivers/gpu/drm/vkms/vkms_drv.c       |  12 +--
- drivers/gpu/drm/vkms/vkms_drv.h       |  70 +++++++++------
- drivers/gpu/drm/vkms/vkms_output.c    | 122 ++++++++++++++++++--------
- drivers/gpu/drm/vkms/vkms_plane.c     |  38 ++++++--
- drivers/gpu/drm/vkms/vkms_writeback.c |  33 +++----
- 7 files changed, 259 insertions(+), 147 deletions(-)
+ Documentation/gpu/vkms.rst           |  2 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c | 68 ++++++++++++++++++++++++++--
+ drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++
+ drivers/gpu/drm/vkms/vkms_output.c   | 47 ++++++++++++++++++-
+ 4 files changed, 123 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index d5d4f642d367..a59eb75a21c4 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -300,13 +300,13 @@ void vkms_composer_worker(struct work_struct *work)
- 						composer_work);
- 	struct drm_crtc *crtc = crtc_state->base.crtc;
- 	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc *vkms_crtc = drm_crtc_to_vkms_crtc(crtc);
- 	bool crc_pending, wb_pending;
- 	u64 frame_start, frame_end;
- 	u32 crc32 = 0;
- 	int ret;
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index c3875bf66dba..7f715097539c 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -145,7 +145,7 @@ We want to be able to manipulate vkms instances without having to reload the
+ module. Such configuration can be added as extensions to vkms's ConfigFS
+ support. Use-cases:
  
--	spin_lock_irq(&out->composer_lock);
-+	spin_lock_irq(&vkms_crtc->composer_lock);
- 	frame_start = crtc_state->frame_start;
- 	frame_end = crtc_state->frame_end;
- 	crc_pending = crtc_state->crc_pending;
-@@ -330,7 +330,7 @@ void vkms_composer_worker(struct work_struct *work)
- 		crtc_state->gamma_lut.base = NULL;
- 	}
+-- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
++- Hotremove connectors on the fly (to be able to test DP MST handling
+   of compositors).
  
--	spin_unlock_irq(&out->composer_lock);
-+	spin_unlock_irq(&vkms_crtc->composer_lock);
- 
- 	/*
- 	 * We raced with the vblank hrtimer and previous work already computed
-@@ -348,10 +348,10 @@ void vkms_composer_worker(struct work_struct *work)
- 		return;
- 
- 	if (wb_pending) {
--		drm_writeback_signal_completion(&out->wb_connector, 0);
--		spin_lock_irq(&out->composer_lock);
-+		drm_writeback_signal_completion(&vkms_crtc->wb_connector, 0);
-+		spin_lock_irq(&vkms_crtc->composer_lock);
- 		crtc_state->wb_pending = false;
--		spin_unlock_irq(&out->composer_lock);
-+		spin_unlock_irq(&vkms_crtc->composer_lock);
- 	}
- 
- 	/*
-@@ -401,30 +401,30 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *src_name,
- 	return 0;
- }
- 
--void vkms_set_composer(struct vkms_output *out, bool enabled)
-+void vkms_set_composer(struct vkms_crtc *vkms_crtc, bool enabled)
- {
- 	bool old_enabled;
- 
- 	if (enabled)
--		drm_crtc_vblank_get(&out->crtc);
-+		drm_crtc_vblank_get(&vkms_crtc->base);
- 
--	mutex_lock(&out->enabled_lock);
--	old_enabled = out->composer_enabled;
--	out->composer_enabled = enabled;
-+	mutex_lock(&vkms_crtc->enabled_lock);
-+	old_enabled = vkms_crtc->composer_enabled;
-+	vkms_crtc->composer_enabled = enabled;
- 
- 	/* the composition wasn't enabled, so unlock the lock to make sure the lock
- 	 * will be balanced even if we have a failed commit
- 	 */
--	if (!out->composer_enabled)
--		mutex_unlock(&out->enabled_lock);
-+	if (!vkms_crtc->composer_enabled)
-+		mutex_unlock(&vkms_crtc->enabled_lock);
- 
- 	if (old_enabled)
--		drm_crtc_vblank_put(&out->crtc);
-+		drm_crtc_vblank_put(&vkms_crtc->base);
- }
- 
- int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
- {
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc *out = drm_crtc_to_vkms_crtc(crtc);
- 	bool enabled = false;
- 	int ret = 0;
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 3c5ebf106b66..f10a5ec8111d 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+ - Change output configuration: Plug/unplug screens, change EDID, allow changing
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+index d9c48ab3d760..94a78780af09 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.c
++++ b/drivers/gpu/drm/vkms/vkms_configfs.c
 @@ -1,5 +1,6 @@
  // SPDX-License-Identifier: GPL-2.0+
  
-+#include "linux/mutex.h"
- #include <linux/dma-fence.h>
++#include "drm/drm_probe_helper.h"
+ #include <linux/configfs.h>
+ #include <linux/mutex.h>
+ #include <linux/platform_device.h>
+@@ -40,6 +41,7 @@
+  *   `-- vkms
+  *       `-- test
+  *           |-- connectors
++ *                `-- connected
+  *           |-- crtcs
+  *           |-- encoders
+  *           |-- planes
+@@ -92,6 +94,14 @@
+  *
+  *   echo 1 > /config/vkms/test/enabled
+  *
++ * By default no display is "connected" so to connect a connector you'll also
++ * have to write 1 to a connectors "connected" attribute::
++ *
++ *   echo 1 > /config/vkms/test/connectors/connector/connected
++ *
++ * One can verify that this is worked using the `modetest` utility or the
++ * equivalent for your platform.
++ *
+  * When you're done with the virtual device, you can clean up the device like
+  * so::
+  *
+@@ -237,7 +247,58 @@ static void add_possible_encoders(struct config_group *parent,
  
- #include <drm/drm_atomic.h>
-@@ -11,27 +12,27 @@
+ /*  Connector item, e.g. /config/vkms/device/connectors/ID */
  
- static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- {
--	struct vkms_output *output = container_of(timer, struct vkms_output,
--						  vblank_hrtimer);
--	struct drm_crtc *crtc = &output->crtc;
-+	struct vkms_crtc *vkms_crtc = timer_to_vkms_crtc(timer);
-+	struct drm_crtc *crtc = &vkms_crtc->base;
- 	struct vkms_crtc_state *state;
- 	u64 ret_overrun;
- 	bool ret, fence_cookie, composer_enabled;
- 
- 	fence_cookie = dma_fence_begin_signalling();
- 
--	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
--					  output->period_ns);
-+	ret_overrun = hrtimer_forward_now(&vkms_crtc->vblank_hrtimer,
-+					  vkms_crtc->period_ns);
- 	if (ret_overrun != 1)
- 		pr_warn("%s: vblank timer overrun\n", __func__);
- 
-+	mutex_lock(&vkms_crtc->enabled_lock);
- 	ret = drm_crtc_handle_vblank(crtc);
- 	if (!ret)
- 		DRM_ERROR("vkms failure on handling vblank");
- 
--	state = output->composer_state;
--	composer_enabled = output->composer_enabled;
--	mutex_unlock(&output->enabled_lock);
-+	state = vkms_crtc->composer_state;
-+	composer_enabled = vkms_crtc->composer_enabled;
-+	mutex_unlock(&vkms_crtc->enabled_lock);
- 
- 	if (state && composer_enabled) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
-@@ -39,7 +40,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 		/* update frame_start only if a queued vkms_composer_worker()
- 		 * has read the data
- 		 */
--		spin_lock(&output->composer_lock);
-+		spin_lock(&vkms_crtc->composer_lock);
- 		if (!state->crc_pending)
- 			state->frame_start = frame;
- 		else
-@@ -47,9 +48,10 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 					 state->frame_start, frame);
- 		state->frame_end = frame;
- 		state->crc_pending = true;
--		spin_unlock(&output->composer_lock);
-+		spin_unlock(&vkms_crtc->composer_lock);
- 
--		ret = queue_work(output->composer_workq, &state->composer_work);
-+		ret = queue_work(vkms_crtc->composer_workq,
-+				 &state->composer_work);
- 		if (!ret)
- 			DRM_DEBUG_DRIVER("Composer worker already queued\n");
- 	}
-@@ -62,25 +64,27 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- static int vkms_enable_vblank(struct drm_crtc *crtc)
- {
- 	struct drm_device *dev = crtc->dev;
-+	struct vkms_crtc *vkms_crtc = drm_crtc_to_vkms_crtc(crtc);
- 	unsigned int pipe = drm_crtc_index(crtc);
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
- 
- 	drm_calc_timestamping_constants(crtc, &crtc->mode);
- 
--	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
--	out->vblank_hrtimer.function = &vkms_vblank_simulate;
--	out->period_ns = ktime_set(0, vblank->framedur_ns);
--	hrtimer_start(&out->vblank_hrtimer, out->period_ns, HRTIMER_MODE_REL);
-+	hrtimer_init(&vkms_crtc->vblank_hrtimer, CLOCK_MONOTONIC,
-+		     HRTIMER_MODE_REL);
-+	vkms_crtc->vblank_hrtimer.function = &vkms_vblank_simulate;
-+	vkms_crtc->period_ns = ktime_set(0, vblank->framedur_ns);
-+	hrtimer_start(&vkms_crtc->vblank_hrtimer, vkms_crtc->period_ns,
-+		      HRTIMER_MODE_REL);
- 
- 	return 0;
- }
- 
- static void vkms_disable_vblank(struct drm_crtc *crtc)
- {
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc *vkms_crtc = drm_crtc_to_vkms_crtc(crtc);
- 
--	hrtimer_cancel(&out->vblank_hrtimer);
-+	hrtimer_cancel(&vkms_crtc->vblank_hrtimer);
- }
- 
- static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
-@@ -88,9 +92,8 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
- 				      bool in_vblank_irq)
- {
- 	struct drm_device *dev = crtc->dev;
-+	struct vkms_crtc *vkms_crtc = drm_crtc_to_vkms_crtc(crtc);
- 	unsigned int pipe = crtc->index;
--	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
--	struct vkms_output *output = &vkmsdev->output;
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 
- 	if (!READ_ONCE(vblank->enabled)) {
-@@ -98,7 +101,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
- 		return true;
- 	}
- 
--	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
-+	*vblank_time = READ_ONCE(vkms_crtc->vblank_hrtimer.node.expires);
- 
- 	if (WARN_ON(*vblank_time == vblank->time))
- 		return true;
-@@ -110,7 +113,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
- 	 * the vblank core expects. Therefore we need to always correct the
- 	 * timestampe by one frame.
- 	 */
--	*vblank_time -= output->period_ns;
-+	*vblank_time -= vkms_crtc->period_ns;
- 
- 	return true;
- }
-@@ -236,18 +239,18 @@ static void vkms_crtc_atomic_disable(struct drm_crtc *crtc,
- static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- {
--	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc *vkms_crtc = drm_crtc_to_vkms_crtc(crtc);
- 
- 	/* This lock is held across the atomic commit to block vblank timer
- 	 * from scheduling vkms_composer_worker until the composer is updated
- 	 */
--	spin_lock_irq(&vkms_output->lock);
-+	spin_lock_irq(&vkms_crtc->lock);
- }
- 
- static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- {
--	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc *vkms_crtc = drm_crtc_to_vkms_crtc(crtc);
- 
- 	if (crtc->state->event) {
- 		spin_lock(&crtc->dev->event_lock);
-@@ -262,9 +265,9 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 		crtc->state->event = NULL;
- 	}
- 
--	vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
-+	vkms_crtc->composer_state = to_vkms_crtc_state(crtc->state);
- 
--	spin_unlock_irq(&vkms_output->lock);
-+	spin_unlock_irq(&vkms_crtc->lock);
- }
- 
- static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
-@@ -275,31 +278,45 @@ static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 	.atomic_disable	= vkms_crtc_atomic_disable,
- };
- 
--int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
--		   struct drm_plane *primary, struct drm_plane *cursor)
-+struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
-+				 struct drm_plane *primary,
-+				 struct drm_plane *cursor)
- {
--	struct vkms_output *vkms_out = drm_crtc_to_vkms_output(crtc);
-+	struct drm_device *dev = &vkmsdev->drm;
-+	struct vkms_crtc *vkms_crtc;
- 	int ret;
- 
--	ret = drmm_crtc_init_with_planes(dev, crtc, primary, cursor,
-+	if (vkmsdev->output.num_crtcs >= VKMS_MAX_OUTPUT_OBJECTS)
-+		return ERR_PTR(-ENOMEM);
++static ssize_t connector_connected_show(struct config_item *item, char *buf)
++{
++	struct vkms_config_connector *connector =
++		item_to_config_connector(item);
++	struct vkms_configfs *configfs = connector_item_to_configfs(item);
++	bool connected = false;
 +
-+	vkms_crtc = &vkmsdev->output.crtcs[vkmsdev->output.num_crtcs++];
++	mutex_lock(&configfs->lock);
++	connected = connector->connected;
++	mutex_unlock(&configfs->lock);
 +
-+	ret = drmm_crtc_init_with_planes(dev, &vkms_crtc->base, primary, cursor,
- 					 &vkms_crtc_funcs, NULL);
- 	if (ret) {
- 		DRM_ERROR("Failed to init CRTC\n");
--		return ret;
-+		goto out_error;
- 	}
- 
--	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
-+	drm_crtc_helper_add(&vkms_crtc->base, &vkms_crtc_helper_funcs);
- 
--	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
--	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
-+	drm_mode_crtc_set_gamma_size(&vkms_crtc->base, VKMS_LUT_SIZE);
-+	drm_crtc_enable_color_mgmt(&vkms_crtc->base, 0, false, VKMS_LUT_SIZE);
- 
--	spin_lock_init(&vkms_out->lock);
--	spin_lock_init(&vkms_out->composer_lock);
--	mutex_init(&vkms_out->enabled_lock);
-+	spin_lock_init(&vkms_crtc->lock);
-+	spin_lock_init(&vkms_crtc->composer_lock);
-+	mutex_init(&vkms_crtc->enabled_lock);
- 
--	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
--	if (!vkms_out->composer_workq)
--		return -ENOMEM;
-+	vkms_crtc->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
-+	if (!vkms_crtc->composer_workq) {
-+		ret = -ENOMEM;
-+		goto out_error;
++	return sprintf(buf, "%d\n", connected);
++}
++
++static ssize_t connector_connected_store(struct config_item *item,
++					 const char *buf, size_t len)
++{
++	struct vkms_config_connector *connector =
++		item_to_config_connector(item);
++	struct vkms_configfs *configfs = connector_item_to_configfs(item);
++	int val, ret;
++
++	ret = kstrtouint(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	if (val != 1 && val != 0)
++		return -EINVAL;
++
++	mutex_lock(&configfs->lock);
++	connector->connected = val;
++	if (!connector->connector) {
++		pr_info("VKMS Device %s is not yet enabled, connector will be enabled on start",
++			configfs->device_group.cg_item.ci_name);
 +	}
++	mutex_unlock(&configfs->lock);
 +
-+	return vkms_crtc;
- 
--	return ret;
-+out_error:
-+	memset(vkms_crtc, 0, sizeof(*vkms_crtc));
-+	vkmsdev->output.num_crtcs -= 1;
-+	return ERR_PTR(ret);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 387c832f5dc9..65b1e2c52106 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -57,8 +57,8 @@ static void vkms_release(struct drm_device *dev)
- {
- 	struct vkms_device *vkms = drm_device_to_vkms_device(dev);
- 
--	if (vkms->output.composer_workq)
--		destroy_workqueue(vkms->output.composer_workq);
-+	for (int i = 0; i < vkms->output.num_crtcs; i++)
-+		destroy_workqueue(vkms->output.crtcs[i].composer_workq);
- }
- 
- static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
-@@ -203,15 +203,15 @@ static int vkms_platform_probe(struct platform_device *pdev)
- 		goto out_release_group;
- 	}
- 
--	ret = drm_vblank_init(&vkms_device->drm, 1);
-+	ret = vkms_modeset_init(vkms_device);
- 	if (ret) {
--		DRM_ERROR("Failed to vblank\n");
-+		DRM_ERROR("Unable to initialize modesetting\n");
- 		goto out_release_group;
- 	}
- 
--	ret = vkms_modeset_init(vkms_device);
-+	ret = drm_vblank_init(&vkms_device->drm, vkms_device->output.num_crtcs);
- 	if (ret) {
--		DRM_ERROR("Unable to initialize modesetting\n");
-+		DRM_ERROR("Failed to vblank\n");
- 		goto out_release_group;
- 	}
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 4c35d6305f2a..761cd809617e 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -23,6 +23,10 @@
- 
- #define NUM_OVERLAY_PLANES 8
- 
++	if (connector->connector)
++		drm_kms_helper_hotplug_event(connector->connector->dev);
 +
-+#define VKMS_MAX_OUTPUT_OBJECTS 16
-+#define VKMS_MAX_PLANES (3 * VKMS_MAX_OUTPUT_OBJECTS)
++	return len;
++}
 +
- #define VKMS_LUT_SIZE 256
- 
- struct vkms_frame_info {
-@@ -66,6 +70,27 @@ struct vkms_plane {
- 	struct drm_plane base;
- };
- 
-+struct vkms_crtc {
-+	struct drm_crtc base;
++CONFIGFS_ATTR(connector_, connected);
 +
-+	struct drm_writeback_connector wb_connector;
-+	struct hrtimer vblank_hrtimer;
-+	ktime_t period_ns;
-+	struct drm_pending_vblank_event *event;
-+	/* ordered wq for composer_work */
-+	struct workqueue_struct *composer_workq;
-+	/* protects concurrent access to composer */
-+	spinlock_t lock;
-+	/* guarantees that if the composer is enabled, a job will be queued */
-+	struct mutex enabled_lock;
-+
-+	/* protected by @enabled_lock */
-+	bool composer_enabled;
-+	struct vkms_crtc_state *composer_state;
-+
-+	spinlock_t composer_lock;
++static struct configfs_attribute *connector_attrs[] = {
++	&connector_attr_connected,
++	NULL,
 +};
 +
- struct vkms_color_lut {
- 	struct drm_color_lut *base;
- 	size_t lut_length;
-@@ -97,25 +122,14 @@ struct vkms_crtc_state {
+ static struct config_item_type connector_type = {
++	.ct_attrs = connector_attrs,
+ 	.ct_owner = THIS_MODULE,
  };
  
- struct vkms_output {
--	struct drm_crtc crtc;
--	struct drm_encoder encoder;
--	struct drm_connector connector;
--	struct drm_writeback_connector wb_connector;
--	struct hrtimer vblank_hrtimer;
--	ktime_t period_ns;
--	struct drm_pending_vblank_event *event;
--	/* ordered wq for composer_work */
--	struct workqueue_struct *composer_workq;
--	/* protects concurrent access to composer */
--	spinlock_t lock;
--	/* guarantees that if the composer is enabled, a job will be queued */
--	struct mutex enabled_lock;
--
--	/* protected by @enabled_lock */
--	bool composer_enabled;
--	struct vkms_crtc_state *composer_state;
--
--	spinlock_t composer_lock;
-+	int num_crtcs;
-+	struct vkms_crtc crtcs[VKMS_MAX_OUTPUT_OBJECTS];
-+	int num_encoders;
-+	struct drm_encoder encoders[VKMS_MAX_OUTPUT_OBJECTS];
-+	int num_connectors;
-+	struct drm_connector connectors[VKMS_MAX_OUTPUT_OBJECTS];
-+	int num_planes;
-+	struct vkms_plane planes[VKMS_MAX_PLANES];
+@@ -265,7 +326,7 @@ static ssize_t plane_type_show(struct config_item *item, char *buf)
+ 	plane_type = plane->type;
+ 	mutex_unlock(&configfs->lock);
+ 
+-	return sprintf(buf, "%u", plane_type);
++	return sprintf(buf, "%u\n", plane_type);
+ }
+ 
+ static ssize_t plane_type_store(struct config_item *item, const char *buf,
+@@ -320,6 +381,7 @@ static struct config_group *connectors_group_make(struct config_group *group,
+ 				    &connector_type);
+ 	add_possible_encoders(&connector->config_group,
+ 			      &connector->possible_encoders.group);
++	connector->connected = false;
+ 
+ 	return &connector->config_group;
+ }
+@@ -501,7 +563,7 @@ static ssize_t device_enabled_show(struct config_item *item, char *buf)
+ 	is_enabled = configfs->vkms_device != NULL;
+ 	mutex_unlock(&configfs->lock);
+ 
+-	return sprintf(buf, "%d", is_enabled);
++	return sprintf(buf, "%d\n", is_enabled);
+ }
+ 
+ static ssize_t device_enabled_store(struct config_item *item, const char *buf,
+@@ -558,7 +620,7 @@ static ssize_t device_id_show(struct config_item *item, char *buf)
+ 
+ 	mutex_unlock(&configfs->lock);
+ 
+-	return sprintf(buf, "%d", id);
++	return sprintf(buf, "%d\n", id);
+ }
+ 
+ CONFIGFS_ATTR_RO(device_, id);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 9f1465b06055..a6947c24276b 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -3,6 +3,7 @@
+ #ifndef _VKMS_DRV_H_
+ #define _VKMS_DRV_H_
+ 
++#include "drm/drm_connector.h"
+ #include <linux/configfs.h>
+ #include <linux/hrtimer.h>
+ 
+@@ -147,7 +148,9 @@ struct vkms_config_links {
+ 
+ struct vkms_config_connector {
+ 	struct config_group config_group;
++	struct drm_connector *connector;
+ 	struct vkms_config_links possible_encoders;
++	bool connected;
  };
  
- struct vkms_device;
-@@ -133,12 +147,14 @@ struct vkms_device {
- 	struct vkms_config config;
- };
+ struct vkms_config_crtc {
+@@ -220,6 +223,10 @@ struct vkms_device {
+ #define item_to_configfs(item) \
+ 	container_of(to_config_group(item), struct vkms_configfs, device_group)
  
--#define drm_crtc_to_vkms_output(target) \
--	container_of(target, struct vkms_output, crtc)
-+#define drm_crtc_to_vkms_crtc(crtc) container_of(crtc, struct vkms_crtc, base)
- 
- #define drm_device_to_vkms_device(target) \
- 	container_of(target, struct vkms_device, drm)
- 
-+#define timer_to_vkms_crtc(timer) \
-+	container_of(timer, struct vkms_crtc, vblank_hrtimer)
++#define connector_item_to_configfs(item)                                     \
++	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
++		     connectors_group)
 +
- #define to_vkms_crtc_state(target)\
- 	container_of(target, struct vkms_crtc_state, base)
+ #define item_to_config_connector(item)                                    \
+ 	container_of(to_config_group(item), struct vkms_config_connector, \
+ 		     config_group)
+@@ -279,4 +286,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+ int vkms_init_configfs(void);
+ void vkms_unregister_configfs(void);
  
-@@ -146,13 +162,14 @@ struct vkms_device {
- 	container_of(target, struct vkms_plane_state, base.base)
- 
- /* CRTC */
--int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
--		   struct drm_plane *primary, struct drm_plane *cursor);
-+struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
-+				 struct drm_plane *primary,
-+				 struct drm_plane *cursor);
- 
- int vkms_output_init(struct vkms_device *vkmsdev, int index);
- 
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
--				   enum drm_plane_type type, int index);
-+				   enum drm_plane_type type);
- 
- /* CRC Support */
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-@@ -163,11 +180,12 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
- 
- /* Composer Support */
- void vkms_composer_worker(struct work_struct *work);
--void vkms_set_composer(struct vkms_output *out, bool enabled);
-+void vkms_set_composer(struct vkms_crtc *vkms_crtc, bool enabled);
- void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
- void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer *src_buffer, int y);
- 
- /* Writeback */
--int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-+int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
-+				    struct vkms_crtc *vkms_crtc);
- 
++/* Connector hotplugging */
++enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
++						bool force);
++
  #endif /* _VKMS_DRV_H_ */
 diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 963a64cf068b..86faf94f7408 100644
+index 512f147d41b8..5b23bdf7fb81 100644
 --- a/drivers/gpu/drm/vkms/vkms_output.c
 +++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -1,9 +1,13 @@
+@@ -1,5 +1,6 @@
  // SPDX-License-Identifier: GPL-2.0+
  
--#include "vkms_drv.h"
++#include <drm/drm_print.h>
  #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_connector.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_encoder.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
+@@ -8,10 +9,12 @@
+ #include <drm/drm_plane.h>
  #include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+
-+#include "vkms_drv.h"
- 
- static const struct drm_connector_funcs vkms_connector_funcs = {
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-@@ -28,74 +32,116 @@ static int vkms_conn_get_modes(struct drm_connector *connector)
- }
- 
- static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
--	.get_modes    = vkms_conn_get_modes,
-+	.get_modes = vkms_conn_get_modes,
- };
- 
--static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
--				  struct drm_crtc *crtc)
-+static struct drm_connector *
-+vkms_connector_init(struct vkms_device *vkms_device)
- {
--	struct vkms_plane *overlay;
-+	struct drm_connector *connector;
-+	int ret;
- 
--	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
--	if (IS_ERR(overlay))
--		return PTR_ERR(overlay);
-+	if (vkms_device->output.num_connectors >= VKMS_MAX_OUTPUT_OBJECTS)
-+		return ERR_PTR(-ENOMEM);
- 
--	if (!overlay->base.possible_crtcs)
--		overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-+	connector = &vkms_device->output
-+			     .connectors[vkms_device->output.num_connectors++];
-+	ret = drm_connector_init(&vkms_device->drm, connector,
-+				 &vkms_connector_funcs,
-+				 DRM_MODE_CONNECTOR_VIRTUAL);
-+	if (ret) {
-+		memset(connector, 0, sizeof(*connector));
-+		vkms_device->output.num_connectors -= 1;
-+		return ERR_PTR(ret);
-+	}
- 
--	return 0;
-+	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-+
-+	return connector;
-+}
-+
-+static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device)
-+{
-+	struct drm_encoder *encoder;
-+	int ret;
-+
-+	if (vkms_device->output.num_encoders >= VKMS_MAX_OUTPUT_OBJECTS)
-+		return ERR_PTR(-ENOMEM);
-+
-+	encoder = &vkms_device->output
-+			   .encoders[vkms_device->output.num_encoders++];
-+	ret = drm_encoder_init(&vkms_device->drm, encoder, &vkms_encoder_funcs,
-+			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-+	if (ret) {
-+		memset(encoder, 0, sizeof(*encoder));
-+		vkms_device->output.num_encoders -= 1;
-+		return ERR_PTR(ret);
-+	}
-+	return encoder;
- }
- 
- int vkms_output_init(struct vkms_device *vkmsdev, int index)
- {
- 	struct vkms_output *output = &vkmsdev->output;
- 	struct drm_device *dev = &vkmsdev->drm;
--	struct drm_connector *connector = &output->connector;
--	struct drm_encoder *encoder = &output->encoder;
--	struct drm_crtc *crtc = &output->crtc;
-+	struct drm_connector *connector;
-+	struct drm_encoder *encoder;
-+	struct vkms_crtc *vkms_crtc;
- 	struct vkms_plane *primary, *cursor = NULL;
- 	int ret;
- 	int writeback;
- 	unsigned int n;
- 
--	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
-+	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
- 	if (IS_ERR(primary))
- 		return PTR_ERR(primary);
- 
- 	if (vkmsdev->config.overlay) {
- 		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
--			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
--			if (ret)
--				return ret;
-+			struct vkms_plane *overlay = vkms_plane_init(
-+				vkmsdev, DRM_PLANE_TYPE_OVERLAY);
-+			if (IS_ERR(overlay)) {
-+				ret = PTR_ERR(overlay);
-+				goto err_planes;
-+			}
- 		}
- 	}
- 
- 	if (vkmsdev->config.cursor) {
--		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
--		if (IS_ERR(cursor))
--			return PTR_ERR(cursor);
-+		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
-+		if (IS_ERR(cursor)) {
-+			ret = PTR_ERR(cursor);
-+			goto err_planes;
-+		}
- 	}
- 
--	ret = vkms_crtc_init(dev, crtc, &primary->base, &cursor->base);
--	if (ret)
--		return ret;
-+	vkms_crtc = vkms_crtc_init(vkmsdev, &primary->base,
-+				   cursor ? &cursor->base : NULL);
-+	if (IS_ERR(vkms_crtc)) {
-+		DRM_ERROR("Failed to init crtc\n");
-+		ret = PTR_ERR(vkms_crtc);
-+		goto err_planes;
-+	}
- 
--	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
--				 DRM_MODE_CONNECTOR_VIRTUAL);
--	if (ret) {
-+	for (int i = 0; i < vkmsdev->output.num_planes; i++) {
-+		vkmsdev->output.planes[i].base.possible_crtcs |=
-+			drm_crtc_mask(&vkms_crtc->base);
-+	}
-+
-+	connector = vkms_connector_init(vkmsdev);
-+	if (IS_ERR(connector)) {
- 		DRM_ERROR("Failed to init connector\n");
-+		ret = PTR_ERR(connector);
- 		goto err_connector;
- 	}
- 
--	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
--
--	ret = drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
--			       DRM_MODE_ENCODER_VIRTUAL, NULL);
--	if (ret) {
-+	encoder = vkms_encoder_init(vkmsdev);
-+	if (IS_ERR(encoder)) {
- 		DRM_ERROR("Failed to init encoder\n");
-+		ret = PTR_ERR(encoder);
- 		goto err_encoder;
- 	}
--	encoder->possible_crtcs = 1;
-+	encoder->possible_crtcs |= drm_crtc_mask(&vkms_crtc->base);
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret) {
-@@ -104,7 +150,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	}
- 
- 	if (vkmsdev->config.writeback) {
--		writeback = vkms_enable_writeback_connector(vkmsdev);
-+		writeback = vkms_enable_writeback_connector(vkmsdev, vkms_crtc);
- 		if (writeback)
- 			DRM_ERROR("Failed to init writeback connector\n");
- 	}
-@@ -120,7 +166,13 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	drm_connector_cleanup(connector);
- 
- err_connector:
--	drm_crtc_cleanup(crtc);
-+	drm_crtc_cleanup(&vkms_crtc->base);
-+
-+err_planes:
-+	for (int i = 0; i < output->num_planes; i++)
-+		drm_plane_cleanup(&output->planes[i].base);
-+
-+	memset(output, 0, sizeof(*output));
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index e5c625ab8e3e..950e6c930273 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -8,6 +8,8 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_plane.h>
-+#include <drm/drm_plane_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
++#include <linux/printk.h>
  
  #include "vkms_drv.h"
- #include "vkms_formats.h"
-@@ -65,6 +67,20 @@ static void vkms_plane_destroy_state(struct drm_plane *plane,
- 	kfree(vkms_state);
- }
  
-+static void vkms_plane_destroy(struct drm_plane *plane)
+ static const struct drm_connector_funcs vkms_connector_funcs = {
++	.detect = vkms_connector_detect,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = drm_connector_cleanup,
+ 	.reset = drm_atomic_helper_connector_reset,
+@@ -19,6 +22,48 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
++static const struct vkms_config_connector *
++find_config_for_connector(struct drm_connector *connector)
 +{
-+	struct vkms_plane *vkms_plane =
-+		container_of(plane, struct vkms_plane, base);
++	struct vkms_device *vkms = drm_device_to_vkms_device(connector->dev);
++	struct vkms_configfs *configfs = vkms->configfs;
++	struct config_item *item;
 +
-+	if (plane->state) {
-+		vkms_plane_destroy_state(plane, plane->state);
-+		plane->state = NULL;
++	if (!configfs) {
++		pr_info("Default connector has no configfs entry");
++		return NULL;
 +	}
 +
-+	drm_plane_cleanup(plane);
-+	memset(vkms_plane, 0, sizeof(struct vkms_plane));
++	list_for_each_entry(item, &configfs->connectors_group.cg_children,
++			    ci_entry) {
++		struct vkms_config_connector *config_connector =
++			item_to_config_connector(item);
++		if (config_connector->connector == connector)
++			return config_connector;
++	}
++
++	pr_warn("Could not find config to match connector %s, but configfs was initialized",
++		connector->name);
++
++	return NULL;
 +}
 +
- static void vkms_plane_reset(struct drm_plane *plane)
- {
- 	struct vkms_plane_state *vkms_state;
-@@ -86,9 +102,10 @@ static void vkms_plane_reset(struct drm_plane *plane)
- static const struct drm_plane_funcs vkms_plane_funcs = {
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
-+	.destroy = vkms_plane_destroy,
- 	.reset			= vkms_plane_reset,
- 	.atomic_duplicate_state = vkms_plane_duplicate_state,
--	.atomic_destroy_state	= vkms_plane_destroy_state,
-+	.atomic_destroy_state = vkms_plane_destroy_state,
- };
- 
- static void vkms_plane_atomic_update(struct drm_plane *plane,
-@@ -198,17 +215,22 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
- };
- 
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
--				   enum drm_plane_type type, int index)
-+				   enum drm_plane_type type)
- {
- 	struct drm_device *dev = &vkmsdev->drm;
-+	struct vkms_output *output = &vkmsdev->output;
- 	struct vkms_plane *plane;
-+	int ret;
- 
--	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
--					   &vkms_plane_funcs,
--					   vkms_formats, ARRAY_SIZE(vkms_formats),
--					   NULL, type, NULL);
--	if (IS_ERR(plane))
--		return plane;
-+	if (output->num_planes >= VKMS_MAX_PLANES)
-+		return ERR_PTR(-ENOMEM);
++enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
++						bool force)
++{
++	enum drm_connector_status status = connector_status_connected;
++	const struct vkms_config_connector *config_connector =
++		find_config_for_connector(connector);
 +
-+	plane = &output->planes[output->num_planes++];
-+	ret = drm_universal_plane_init(dev, &plane->base, 0, &vkms_plane_funcs,
-+				       vkms_formats, ARRAY_SIZE(vkms_formats),
-+				       NULL, type, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
- 
- 	drm_plane_helper_add(&plane->base, &vkms_plane_helper_funcs);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index d7e63aa14663..92565e3e25f6 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- 
- #include <linux/iosys-map.h>
-+#include <linux/kernel.h>
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_edid.h>
-@@ -102,7 +103,8 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
- 				struct drm_writeback_job *job)
- {
- 	struct vkms_writeback_job *vkmsjob = job->priv;
--	struct vkms_device *vkmsdev;
-+	struct vkms_crtc *vkms_crtc =
-+		container_of(connector, struct vkms_crtc, wb_connector);
- 
- 	if (!job->fb)
- 		return;
-@@ -111,8 +113,7 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
- 
- 	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
- 
--	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
--	vkms_set_composer(&vkmsdev->output, false);
-+	vkms_set_composer(vkms_crtc, false);
- 	kfree(vkmsjob);
- }
- 
-@@ -121,11 +122,10 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- {
- 	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
- 											 conn);
--	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
--	struct vkms_output *output = &vkmsdev->output;
--	struct drm_writeback_connector *wb_conn = &output->wb_connector;
--	struct drm_connector_state *conn_state = wb_conn->base.state;
--	struct vkms_crtc_state *crtc_state = output->composer_state;
-+	struct vkms_crtc *vkms_crtc =
-+		drm_crtc_to_vkms_crtc(connector_state->crtc);
-+	struct drm_writeback_connector *wb_conn = &vkms_crtc->wb_connector;
-+	struct vkms_crtc_state *crtc_state = vkms_crtc->composer_state;
- 	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
- 	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
- 	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
-@@ -133,23 +133,25 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	struct vkms_frame_info *wb_frame_info;
- 	u32 wb_format = fb->format->format;
- 
--	if (!conn_state)
-+	if (!connector_state)
- 		return;
- 
--	vkms_set_composer(&vkmsdev->output, true);
-+	vkms_set_composer(vkms_crtc, true);
- 
--	active_wb = conn_state->writeback_job->priv;
-+	active_wb = connector_state->writeback_job->priv;
- 	wb_frame_info = &active_wb->wb_frame_info;
- 
--	spin_lock_irq(&output->composer_lock);
-+	spin_lock_irq(&vkms_crtc->composer_lock);
- 	crtc_state->active_writeback = active_wb;
- 	crtc_state->wb_pending = true;
--	spin_unlock_irq(&output->composer_lock);
-+	spin_unlock_irq(&vkms_crtc->composer_lock);
- 
- 	wb_frame_info->offset = fb->offsets[0];
- 	wb_frame_info->pitch = fb->pitches[0];
- 	wb_frame_info->cpp = fb->format->cpp[0];
- 
-+	crtc_state->wb_pending = true;
-+	spin_unlock_irq(&vkms_crtc->composer_lock);
- 	drm_writeback_queue_job(wb_conn, connector_state);
- 	active_wb->pixel_write = get_pixel_write_function(wb_format);
- 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
-@@ -163,9 +165,10 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
- 	.atomic_commit = vkms_wb_atomic_commit,
++	if (!config_connector)
++		return connector_status_connected;
++
++	if (!config_connector->connected)
++		status = connector_status_disconnected;
++
++	return status;
++}
++
+ static const struct drm_encoder_funcs vkms_encoder_funcs = {
+ 	.destroy = drm_encoder_cleanup,
  };
+@@ -216,12 +261,12 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 		struct vkms_config_connector *config_connector =
+ 			item_to_config_connector(item);
+ 		struct drm_connector *connector = vkms_connector_init(vkmsdev);
+-
+ 		if (IS_ERR(connector)) {
+ 			DRM_ERROR("Failed to init connector from config: %s",
+ 				  item->ci_name);
+ 			return PTR_ERR(connector);
+ 		}
++		config_connector->connector = connector;
  
--int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
-+int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
-+				    struct vkms_crtc *vkms_crtc)
- {
--	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
-+	struct drm_writeback_connector *wb = &vkms_crtc->wb_connector;
- 
- 	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
- 
+ 		for (int j = 0; j < output->num_encoders; j++) {
+ 			struct encoder_map *encoder = &encoder_map[j];
 -- 
 2.42.0.rc1.204.g551eb34607-goog
 
