@@ -2,50 +2,49 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24812C7113D
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 07:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 712B1C678DC
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 07:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358216AbjHRHgH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 03:36:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48070 "EHLO
+        id S1358289AbjHRHwD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 03:52:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358226AbjHRHfh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 03:35:37 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9361D30E6
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:35:35 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-689f1e81293so500063b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:35:35 -0700 (PDT)
+        with ESMTP id S1358321AbjHRHvk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 03:51:40 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74DB03A84
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:51:28 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1bda9207132so5326665ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 00:51:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692344135; x=1692948935;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
-        b=KRGjOJK4oHgsYbkMGBvnw4IUikwfYSOyDgEXgUkWzK3pcqjHJYyz6hS+oYoWLslGP9
-         e+Agbsdpza1A4IqTEStenN5HTnt7YPJcLlU1Mm1E3WBkA2cPZUB9u5SnQNkyCqAKhmBG
-         O7LtAYEsryDWK4WJC9sNsS6T++LQqrW+XOmII=
+        d=chromium.org; s=google; t=1692345088; x=1692949888;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GNjosiFza5eZ8AzQ6EtrPFDkWUDthg2MbmBsjDUS0f4=;
+        b=OFeh6xVr4kXV6Q1jV7E46aI8kzKDR7ZLAYO0UcLqsJVApAi9zup8+PJhe62UfF+KJu
+         /WNKE9FSJsShKLLIMjT5jzLUKfni9Pv8PAa7ERNF82oCEieEKrcY/H7sFoVVKOmeSune
+         udSLWJXyeF1SfGrMZmo3JYsmWSe4uQT6uAwzU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692344135; x=1692948935;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
-        b=I6Ck/xCMf4lcZth5B/+LxuCILDtjoIWr3K3YTnfePUMSstouqrMTZ3wDvVlhu4BGsV
-         HNH1A3zW0rySaVyeAqdasufMwh7kpE8bloplVPrVVXCRe+2aH3+Xl7oSxa/8zQzpvZv3
-         N1lrE4W2fif0rDRLJ18LUZfJWsJMfEIqLFulGawvlxdMoAON9mSTsOJ0nSdzvcleGJyz
-         ZB47kQete/+bF2N2uq525k/ZkTzZN8bOAPJjk+PDbck3ma4wwt2I94U5S3C/1V/rSu9w
-         5X7CvM7cHj7vLPt6pOWnlJ2tfvdasMPp/jISrBUZASBngfWhpHrA4+JPFaxZQXj5Bh89
-         /jTw==
-X-Gm-Message-State: AOJu0YzQAh0dWNsiBfITVSQVUcb+oPrf6OThXiZ5HhXG2+uKljxZ6A9D
-        ITfwDnbxRFIvZVo9qQXGKV+9mg==
-X-Google-Smtp-Source: AGHT+IF2G2zTWZkjSABWdi5lrQI4ybZAgwkLvsLm8x2j8kezmlumYTjzfd5WuogoWO4ECdzdQIZHJw==
-X-Received: by 2002:a05:6a21:3b45:b0:147:c29e:4c33 with SMTP id zy5-20020a056a213b4500b00147c29e4c33mr1213947pzb.61.1692344135112;
-        Fri, 18 Aug 2023 00:35:35 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692345088; x=1692949888;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GNjosiFza5eZ8AzQ6EtrPFDkWUDthg2MbmBsjDUS0f4=;
+        b=fg3ZhPS4SEoItN43R9njqjsfD/6EPV+Y1n1EGl9SzQkDgb4gpTd7CwBRfsCHbBI9mS
+         hf3wEePbdri8iP5gOen4ZIiBBZD6C4z/qh6ZIBb8mNvFDkPvsHGoUIbbyuJ1cegDw83G
+         xP9ydxfX9wUBLLYxhZTTv9wVQyaaPDcESAKfWTTtkQBOyY5LIEpFUIoKkNFJQCP4bBac
+         XS7Av/h+cA1Q5sVg0RBsrJBhbBG+CppU3ef2m0ldf5WkE5RXcjZ1o2fr276CTZf5J5o7
+         Ke5hxp5wW3oTWiCnJuUqDsvvT253njmAwD/VuB+jJa93zg+ma4pZw/8v/W8FTZPbih32
+         Bk+Q==
+X-Gm-Message-State: AOJu0YyJRTxWadPx9MHhcn6T/XOZDS+G87niBWgAku5/Qboa0UtF5yM6
+        Yo6KauAnDEe/kW34+wPwfbdhHw==
+X-Google-Smtp-Source: AGHT+IE0qUgsLAEdbNZSbOllAJUBEu6mdWYQlh4tavv+TAFALNCFVxPl8/bJqJYd/MFzx+dhzL5rUw==
+X-Received: by 2002:a17:902:e74b:b0:1b8:94f4:3e0 with SMTP id p11-20020a170902e74b00b001b894f403e0mr2237474plf.14.1692345087938;
+        Fri, 18 Aug 2023 00:51:27 -0700 (PDT)
 Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
-        by smtp.gmail.com with ESMTPSA id c2-20020a62e802000000b00686fe7b7b48sm906041pfi.121.2023.08.18.00.35.32
+        by smtp.gmail.com with ESMTPSA id jj19-20020a170903049300b001ba066c589dsm1051834plb.137.2023.08.18.00.51.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 00:35:34 -0700 (PDT)
+        Fri, 18 Aug 2023 00:51:27 -0700 (PDT)
 From:   Brandon Pollack <brpol@chromium.org>
 To:     marius.vlad@collabora.com, jshargo@chromium.org
 Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
@@ -56,307 +55,158 @@ Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
         airlied@gmail.com, daniel@ffwll.ch,
         maarten.lankhorst@linux.intel.com, mduggan@chromium.org,
         hirono@chromium.org, Brandon Pollack <brpol@chromium.org>
-Subject: [PATCH v3 7/7] drm/vkms Add hotplug support via configfs to VKMS.
-Date:   Fri, 18 Aug 2023 07:29:32 +0000
-Message-ID: <20230818073411.3414628-9-brpol@chromium.org>
+Subject: [PATCH v3 0/7] Adds support for ConfigFS to VKMS!
+Date:   Fri, 18 Aug 2023 07:43:05 +0000
+Message-ID: <20230818075057.3426088-1-brpol@chromium.org>
 X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
-In-Reply-To: <20230818073411.3414628-2-brpol@chromium.org>
-References: <20230818073411.3414628-2-brpol@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This change adds the ability to read or write a "1" or a "0" to the
-newly added "connected" attribute of a connector in the vkms entry in
-configfs.
+Since Jim is busy with other work and I'm working on some things that
+rely on this, I've taken up the task of doing the iterations.  I've
+addressed the comments as best I can (those replies are to each
+individual change) and here is the patch set to go with those.
 
-A write will trigger a call to drm_kms_helper_hotplug_event, causing a
-hotplug uevent.
+I added my own signoff to each commit, but I've left jshargo@ as the
+author of all the commits he wrote.  I'm sure there is still more to
+address and the ICT tests that were writtein parallel to this may also
+need some additions, but I'm hoping we're in a good enough state to get
+this in and iterate from there soon.
 
-With this we can write virtualized multidisplay tests that involve
-hotplugging displays (eg recompositing windows when a monitor is turned
-off).
+Since V3:
+========
+I've added hotplug support in the latest patch.  This has been reviewed some
+and the notes from that review are addressed here as well.
 
-Signed-off-by: Brandon Pollack <brpol@chromium.org>
----
- Documentation/gpu/vkms.rst           |  2 +-
- drivers/gpu/drm/vkms/vkms_configfs.c | 68 ++++++++++++++++++++++++++--
- drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++
- drivers/gpu/drm/vkms/vkms_output.c   | 47 ++++++++++++++++++-
- 4 files changed, 123 insertions(+), 5 deletions(-)
+Relevant/Utilizing work:
+=======================
+I've built a while test framework based on this as proof it functions (though
+I'm sure there may be lingering bugs!).  You can check that out on
+crrev.com if you are interested and need to get started yourself (but be
+aware of any licensing that may differ from the kernel itself!  Make
+sure you understand the license:
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index c3875bf66dba..7f715097539c 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -145,7 +145,7 @@ We want to be able to manipulate vkms instances without having to reload the
- module. Such configuration can be added as extensions to vkms's ConfigFS
- support. Use-cases:
- 
--- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
-+- Hotremove connectors on the fly (to be able to test DP MST handling
-   of compositors).
- 
- - Change output configuration: Plug/unplug screens, change EDID, allow changing
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index d9c48ab3d760..94a78780af09 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- 
-+#include "drm/drm_probe_helper.h"
- #include <linux/configfs.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
-@@ -40,6 +41,7 @@
-  *   `-- vkms
-  *       `-- test
-  *           |-- connectors
-+ *                `-- connected
-  *           |-- crtcs
-  *           |-- encoders
-  *           |-- planes
-@@ -92,6 +94,14 @@
-  *
-  *   echo 1 > /config/vkms/test/enabled
-  *
-+ * By default no display is "connected" so to connect a connector you'll also
-+ * have to write 1 to a connectors "connected" attribute::
-+ *
-+ *   echo 1 > /config/vkms/test/connectors/connector/connected
-+ *
-+ * One can verify that this is worked using the `modetest` utility or the
-+ * equivalent for your platform.
-+ *
-  * When you're done with the virtual device, you can clean up the device like
-  * so::
-  *
-@@ -237,7 +247,58 @@ static void add_possible_encoders(struct config_group *parent,
- 
- /*  Connector item, e.g. /config/vkms/device/connectors/ID */
- 
-+static ssize_t connector_connected_show(struct config_item *item, char *buf)
-+{
-+	struct vkms_config_connector *connector =
-+		item_to_config_connector(item);
-+	struct vkms_configfs *configfs = connector_item_to_configfs(item);
-+	bool connected = false;
-+
-+	mutex_lock(&configfs->lock);
-+	connected = connector->connected;
-+	mutex_unlock(&configfs->lock);
-+
-+	return sprintf(buf, "%d\n", connected);
-+}
-+
-+static ssize_t connector_connected_store(struct config_item *item,
-+					 const char *buf, size_t len)
-+{
-+	struct vkms_config_connector *connector =
-+		item_to_config_connector(item);
-+	struct vkms_configfs *configfs = connector_item_to_configfs(item);
-+	int val, ret;
-+
-+	ret = kstrtouint(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val != 1 && val != 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&configfs->lock);
-+	connector->connected = val;
-+	if (!connector->connector) {
-+		pr_info("VKMS Device %s is not yet enabled, connector will be enabled on start",
-+			configfs->device_group.cg_item.ci_name);
-+	}
-+	mutex_unlock(&configfs->lock);
-+
-+	if (connector->connector)
-+		drm_kms_helper_hotplug_event(connector->connector->dev);
-+
-+	return len;
-+}
-+
-+CONFIGFS_ATTR(connector_, connected);
-+
-+static struct configfs_attribute *connector_attrs[] = {
-+	&connector_attr_connected,
-+	NULL,
-+};
-+
- static struct config_item_type connector_type = {
-+	.ct_attrs = connector_attrs,
- 	.ct_owner = THIS_MODULE,
- };
- 
-@@ -265,7 +326,7 @@ static ssize_t plane_type_show(struct config_item *item, char *buf)
- 	plane_type = plane->type;
- 	mutex_unlock(&configfs->lock);
- 
--	return sprintf(buf, "%u", plane_type);
-+	return sprintf(buf, "%u\n", plane_type);
- }
- 
- static ssize_t plane_type_store(struct config_item *item, const char *buf,
-@@ -320,6 +381,7 @@ static struct config_group *connectors_group_make(struct config_group *group,
- 				    &connector_type);
- 	add_possible_encoders(&connector->config_group,
- 			      &connector->possible_encoders.group);
-+	connector->connected = false;
- 
- 	return &connector->config_group;
- }
-@@ -501,7 +563,7 @@ static ssize_t device_enabled_show(struct config_item *item, char *buf)
- 	is_enabled = configfs->vkms_device != NULL;
- 	mutex_unlock(&configfs->lock);
- 
--	return sprintf(buf, "%d", is_enabled);
-+	return sprintf(buf, "%d\n", is_enabled);
- }
- 
- static ssize_t device_enabled_store(struct config_item *item, const char *buf,
-@@ -558,7 +620,7 @@ static ssize_t device_id_show(struct config_item *item, char *buf)
- 
- 	mutex_unlock(&configfs->lock);
- 
--	return sprintf(buf, "%d", id);
-+	return sprintf(buf, "%d\n", id);
- }
- 
- CONFIGFS_ATTR_RO(device_, id);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 9f1465b06055..a6947c24276b 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -3,6 +3,7 @@
- #ifndef _VKMS_DRV_H_
- #define _VKMS_DRV_H_
- 
-+#include "drm/drm_connector.h"
- #include <linux/configfs.h>
- #include <linux/hrtimer.h>
- 
-@@ -147,7 +148,9 @@ struct vkms_config_links {
- 
- struct vkms_config_connector {
- 	struct config_group config_group;
-+	struct drm_connector *connector;
- 	struct vkms_config_links possible_encoders;
-+	bool connected;
- };
- 
- struct vkms_config_crtc {
-@@ -220,6 +223,10 @@ struct vkms_device {
- #define item_to_configfs(item) \
- 	container_of(to_config_group(item), struct vkms_configfs, device_group)
- 
-+#define connector_item_to_configfs(item)                                     \
-+	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
-+		     connectors_group)
-+
- #define item_to_config_connector(item)                                    \
- 	container_of(to_config_group(item), struct vkms_config_connector, \
- 		     config_group)
-@@ -279,4 +286,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
- int vkms_init_configfs(void);
- void vkms_unregister_configfs(void);
- 
-+/* Connector hotplugging */
-+enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
-+						bool force);
-+
- #endif /* _VKMS_DRV_H_ */
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 512f147d41b8..5b23bdf7fb81 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- 
-+#include <drm/drm_print.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
-@@ -8,10 +9,12 @@
- #include <drm/drm_plane.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-+#include <linux/printk.h>
- 
- #include "vkms_drv.h"
- 
- static const struct drm_connector_funcs vkms_connector_funcs = {
-+	.detect = vkms_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = drm_connector_cleanup,
- 	.reset = drm_atomic_helper_connector_reset,
-@@ -19,6 +22,48 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
-+static const struct vkms_config_connector *
-+find_config_for_connector(struct drm_connector *connector)
-+{
-+	struct vkms_device *vkms = drm_device_to_vkms_device(connector->dev);
-+	struct vkms_configfs *configfs = vkms->configfs;
-+	struct config_item *item;
-+
-+	if (!configfs) {
-+		pr_info("Default connector has no configfs entry");
-+		return NULL;
-+	}
-+
-+	list_for_each_entry(item, &configfs->connectors_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_connector *config_connector =
-+			item_to_config_connector(item);
-+		if (config_connector->connector == connector)
-+			return config_connector;
-+	}
-+
-+	pr_warn("Could not find config to match connector %s, but configfs was initialized",
-+		connector->name);
-+
-+	return NULL;
-+}
-+
-+enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
-+						bool force)
-+{
-+	enum drm_connector_status status = connector_status_connected;
-+	const struct vkms_config_connector *config_connector =
-+		find_config_for_connector(connector);
-+
-+	if (!config_connector)
-+		return connector_status_connected;
-+
-+	if (!config_connector->connected)
-+		status = connector_status_disconnected;
-+
-+	return status;
-+}
-+
- static const struct drm_encoder_funcs vkms_encoder_funcs = {
- 	.destroy = drm_encoder_cleanup,
- };
-@@ -216,12 +261,12 @@ int vkms_output_init(struct vkms_device *vkmsdev)
- 		struct vkms_config_connector *config_connector =
- 			item_to_config_connector(item);
- 		struct drm_connector *connector = vkms_connector_init(vkmsdev);
--
- 		if (IS_ERR(connector)) {
- 			DRM_ERROR("Failed to init connector from config: %s",
- 				  item->ci_name);
- 			return PTR_ERR(connector);
- 		}
-+		config_connector->connector = connector;
- 
- 		for (int j = 0; j < output->num_encoders; j++) {
- 			struct encoder_map *encoder = &encoder_map[j];
+https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/tast-tests/LICENSE
+
+That said, you can see the changes in review on the crrev gerrit:
+
+https://chromium-review.googlesource.com/c/chromiumos/platform/tast-tests/+/4666669
+
+Outro:
+=====
+I really appreciate everyone's input and tolerance in getting these
+changes in.  Jim's first patch series was this, and other than some
+small cleanups and documentation, taking over it is also mine.
+
+Thank you everyone :)
+
+Original Message:
+>Usage
+>=====
+>
+>After installing these patches, you can create a VKMS device with two
+>displays and a movable overlay like so (this is documented in the
+>patches):
+>
+>  $ modprobe vkms enable_overlay=1 enable_cursor=1 enable_writeback=1
+>  $ mkdir -p /config/
+>  $ mount -t configfs none /config
+>
+>  $ export DRM_PLANE_TYPE_PRIMARY=1
+>  $ export DRM_PLANE_TYPE_CURSOR=2
+>  $ export DRM_PLANE_TYPE_OVERLAY=0
+>
+>  $ mkdir /config/vkms/test
+>
+>  $ mkdir /config/vkms/test/planes/primary
+>  $ echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/type
+>
+>  $ mkdir /config/vkms/test/planes/other_primary
+>  $ echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_primary/type
+>
+>  $ mkdir /config/vkms/test/planes/cursor
+>  $ echo $DRM_PLANE_TYPE_CURSOR > /config/vkms/test/planes/cursor/type
+>
+>  $ mkdir /config/vkms/test/planes/overlay
+>  $ echo $DRM_PLANE_TYPE_OVERLAY > /config/vkms/test/planes/overlay/type
+>
+>  $ mkdir /config/vkms/test/crtcs/crtc
+>  $ mkdir /config/vkms/test/crtcs/crtc_other
+>  $ mkdir /config/vkms/test/encoders/encoder
+>  $ mkdir /config/vkms/test/connectors/connector
+>
+>  $ ln -s /config/vkms/test/encoders/encoder /config/vkms/test/connectors/connector/possible_encoders
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/encoders/encoder/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/primary/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/cursor/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/overlay/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/overlay/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/other_primary/possible_crtcs/
+>
+>  $ echo 1 > /config/vkms/test/enabled
+>
+>Changes within core VKMS
+>========================
+>
+>This introduces a few important changes to the overall structure of
+>VKMS:
+>
+>  - Devices are now memory managed!
+>  - Support for multiple CRTCs and other objects has been added
+>
+>Since v1
+>========
+>
+>  - Added DRMM memory management to automatically clean up resources
+>  - Added a param to disable the default device
+>  - Renamed "cards" to "devices" to improve legibility
+>  - Added a lock for the configfs setup handler
+>  - Moved all the new docs into the relevant .c file
+>  - Addressed as many of sean@poorly.run as possible
+>
+>Testing
+>=======
+>
+>  - New IGT tests (see
+>    gitlab.freedesktop.org/jshargo/igt-gpu-tools/-/merge_requests/1)
+>  - Existing IGT tests (excluding .*suspend.*, including .*kms_flip.*
+>    .*kms_writeback.* .*kms_cursor_crc.*, .*kms_plane.*)
+>
+>Outro
+>=====
+>
+>I'm excited to share these changes, it's my still my first kernel patch
+>and I've been putting a lot of love into these.
+
+Brandon Pollack (1):
+  drm/vkms Add hotplug support via configfs to VKMS.
+
+Jim Shargo (6):
+  drm/vkms: Back VKMS with DRM memory management instead of static
+    objects
+  drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
+  drm/vkms: Provide platform data when creating VKMS devices
+  drm/vkms: Add ConfigFS scaffolding to VKMS
+  drm/vkms: Support enabling ConfigFS devices
+  drm/vkms: Add a module param to enable/disable the default device
+
+ Documentation/gpu/vkms.rst            |  20 +-
+ drivers/gpu/drm/Kconfig               |   1 +
+ drivers/gpu/drm/vkms/Makefile         |   1 +
+ drivers/gpu/drm/vkms/vkms_composer.c  |  30 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 724 ++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 103 ++--
+ drivers/gpu/drm/vkms/vkms_drv.c       | 206 +++++---
+ drivers/gpu/drm/vkms/vkms_drv.h       | 182 +++++--
+ drivers/gpu/drm/vkms/vkms_output.c    | 340 ++++++++++--
+ drivers/gpu/drm/vkms/vkms_plane.c     |  38 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  33 +-
+ 11 files changed, 1443 insertions(+), 235 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+
 -- 
 2.42.0.rc1.204.g551eb34607-goog
 
