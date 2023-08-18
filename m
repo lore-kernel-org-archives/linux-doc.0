@@ -2,98 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B44EE498F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 20:07:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC963EE4999
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 20:07:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379883AbjHRUGu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1379885AbjHRUGu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 18 Aug 2023 16:06:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39766 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379887AbjHRUGp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 16:06:45 -0400
+        with ESMTP id S1379888AbjHRUGs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 16:06:48 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AD331BD4;
-        Fri, 18 Aug 2023 13:06:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C7EA1BD4;
+        Fri, 18 Aug 2023 13:06:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=H22wfoU9WmEkYEOI01RrpJTB8uzVeuDiXA5dlaT4Dc0=; b=DtFJI03cyruQ7/gwxPDSCMj7Mt
-        P7ih/uMjbC/Hacz5WgyFcuMutT4pErsivhRTYQEcszmURU+a9Y575Pn7GK61xVl5JRekPeoM89EVX
-        ZoP1r+vGiVM1o3Yd71Zr+SowTe+QhoRKq6QridfZAiz2n1aXhpZ0Ny31IQVbh7NUlF/bxVDWiLhN+
-        /hsHBY5hsZ/kkSh0S1MTJJXm+CnVRW8d8B/yOBOPvVua6tf9awy+XGYc0GMzJTUej9x7JAz4+lbPQ
-        O34tQw0e2/7/EDgYoKrsvSRiHAUmoGY2PoF+R50Ie/03rQ+AYed5NnsHzh3enTnSwUNnxNyUVafeP
-        dg+Tw5yQ==;
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=sS4yQXJ2Ya3KF8lqJJez/ry2mxKfhg1PxX5ngqnXF1w=; b=Odxo8IkqUnJLxGrSY+DvFGfooH
+        vN+ao/DDJPwfKbeLt8qj9IuL1ZDN1NGpEL/LvlZ5ixQyLt1dNz8c7rJJYraWBJvqWa2QYDyuhRmJS
+        /dNWPMrBKeMQm2eUN3tqTYt2wNsE/q7NMsavULQgQgN6F5EbX1PZ5d2ZVaF+UnchLCSDpNzK3yDCU
+        0VUy5K31ZVPWwGxjaEARqeh07lVygSoTG+RJAZKVIXjEQRj+lgJ5FLX/XHVYxYkguU1POn5V0lBCr
+        F0ha0kOAx8ywFl/XMawCQYsXk7yqhZuQDWglk8fnQpw8bvNEbjOeXDdeJYTaOZ+IzSjejRcFp58Qt
+        1kr/K7Xw==;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qX5js-00BPVA-Jw; Fri, 18 Aug 2023 20:06:32 +0000
+        id 1qX5js-00BPV6-Du; Fri, 18 Aug 2023 20:06:32 +0000
 From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         linux-mm@kvack.org, Mike Rapoport <rppt@kernel.org>,
         linux-doc@vger.kernel.org, cgroups@vger.kernel.org
-Subject: [PATCH 2/4] mm: Fix get_mctgt_type() kernel-doc
-Date:   Fri, 18 Aug 2023 21:06:28 +0100
-Message-Id: <20230818200630.2719595-3-willy@infradead.org>
+Subject: [PATCH 0/4] Improve mm documentation
+Date:   Fri, 18 Aug 2023 21:06:26 +0100
+Message-Id: <20230818200630.2719595-1-willy@infradead.org>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230818200630.2719595-1-willy@infradead.org>
-References: <20230818200630.2719595-1-willy@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the return values to an ReST list and tidy up the wording while
-I'm touching it.
+If you build with W=1, kernel-doc complains about tlb_flush_rmaps().
+Then I ran scripts/find-unused-docs.sh against mm/ and found a large
+number of files which weren't included in the ReST documentation.
+I fixed up a couple of them, and added all those without erros to the
+rst files.  There's a lot more work to do to organise all of this, but
+at least now if we have documentation that refers to these functions,
+we'll get a nice link to them.
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- mm/memcontrol.c | 31 +++++++++++++------------------
- 1 file changed, 13 insertions(+), 18 deletions(-)
+Matthew Wilcox (Oracle) (4):
+  mm: Fix kernel-doc warning from tlb_flush_rmaps()
+  mm: Fix get_mctgt_type() kernel-doc
+  mm: Fix clean_record_shared_mapping_range kernel-doc
+  mm: Add orphaned kernel-doc to the rst files.
 
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index e041ba827e59..cd8b3ae6b8d9 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -5850,25 +5850,20 @@ static int mem_cgroup_move_account(struct page *page,
-  * @ptent: the pte to be checked
-  * @target: the pointer the target page or swap ent will be stored(can be NULL)
-  *
-- * Returns
-- *   0(MC_TARGET_NONE): if the pte is not a target for move charge.
-- *   1(MC_TARGET_PAGE): if the page corresponding to this pte is a target for
-- *     move charge. if @target is not NULL, the page is stored in target->page
-- *     with extra refcnt got(Callers should handle it).
-- *   2(MC_TARGET_SWAP): if the swap entry corresponding to this pte is a
-- *     target for charge migration. if @target is not NULL, the entry is stored
-- *     in target->ent.
-- *   3(MC_TARGET_DEVICE): like MC_TARGET_PAGE  but page is device memory and
-- *   thus not on the lru.
-- *     For now we such page is charge like a regular page would be as for all
-- *     intent and purposes it is just special memory taking the place of a
-- *     regular page.
-- *
-- *     See Documentations/vm/hmm.txt and include/linux/hmm.h
-- *
-- * Called with pte lock held.
-+ * Context: Called with pte lock held.
-+ * Return:
-+ * * MC_TARGET_NONE - If the pte is not a target for move charge.
-+ * * MC_TARGET_PAGE - If the page corresponding to this pte is a target for
-+ *   move charge. If @target is not NULL, the page is stored in target->page
-+ *   with extra refcnt got (Callers should handle it).
-+ * * MC_TARGET_SWAP - If the swap entry corresponding to this pte is a
-+ *   target for charge migration. if @target is not NULL, the entry is stored
-+ *   in target->ent.
-+ * * MC_TARGET_DEVICE - Like MC_TARGET_PAGE but page is device memory and
-+ *   thus not on the lru.  For now such page is charged like a regular page
-+ *   would be as it is just special memory taking the place of a regular page.
-+ *   See Documentations/vm/hmm.txt and include/linux/hmm.h
-  */
--
- static enum mc_target_type get_mctgt_type(struct vm_area_struct *vma,
- 		unsigned long addr, pte_t ptent, union mc_target *target)
- {
+ Documentation/core-api/mm-api.rst | 25 +++++++++++++++++++++++++
+ Documentation/mm/highmem.rst      |  1 +
+ Documentation/mm/zsmalloc.rst     |  5 +++++
+ mm/mapping_dirty_helpers.c        | 11 ++++++-----
+ mm/memcontrol.c                   | 31 +++++++++++++------------------
+ mm/mmu_gather.c                   |  1 +
+ 6 files changed, 51 insertions(+), 23 deletions(-)
+
 -- 
 2.40.1
 
