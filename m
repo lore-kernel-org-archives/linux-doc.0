@@ -2,145 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4296DEE4997
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 21:12:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD29EE4992
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 21:23:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239806AbjHRVMB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 17:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
+        id S239312AbjHRVWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 17:22:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239873AbjHRVLm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 17:11:42 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954134214;
-        Fri, 18 Aug 2023 14:11:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=rJjjg0/ZnxDlYEL8zqvSbEB/tj+r89an8hC6WCMDSRI=; b=S9U6VOK0v4D5Zj/tx99KZIfRg6
-        gwZUuZzuoBGkJODS231x4AmgAaGewCyUW/oTXzNDTcKDzmTK4X62mM/fSj5zBKM4WVGG+zGcjzZqe
-        f6gW/h8Js+vKI1QclS80gLkR3awxYcFVQ3xgu2jCKepesOsFxRK253vX3MRc1zjcalnUu/1nNhQCH
-        yG0A/KClEUXQ3CGXhkX14t1s3az3mVir8kSRckiyvJfthbYSE2aDPz1e8wgh/4OfTG8H7GyoBwAvn
-        YCvTIXLZazdHvoCxRDy3yjNAy0ycRQzov9nDX9CCLPjFPNGjVHZKIRgwcD/RpRaxf9PXCZgS+52vs
-        Tcv58muA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qX6kq-00A2Xb-1Y;
-        Fri, 18 Aug 2023 21:11:36 +0000
-Message-ID: <51f4b571-a5b2-b1bb-b990-fe2c4c5387bf@infradead.org>
-Date:   Fri, 18 Aug 2023 14:11:34 -0700
+        with ESMTP id S237820AbjHRVWV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 17:22:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A6F421A;
+        Fri, 18 Aug 2023 14:22:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB9D36341E;
+        Fri, 18 Aug 2023 21:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7D6BC433C7;
+        Fri, 18 Aug 2023 21:22:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1692393739;
+        bh=6RF79ZSClj1lQVSBT0ejpgM4pv7TXowmSx5NBfjobbs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hBSbsHInjlHazMciWMHxCxcAGABJuPtozyKAzAc309XhhI2hH8SUGyjkKMOoqkCK7
+         GBh9mEp6wGaYEk7GqoXZqwgWARk3UQePAhaj6EGJ3z6X5Fow0aDFKCxJYgE1RRlEKj
+         pTcmtJxTeqfM03kOH+A7zJyBAPglJ/xjdw2rN7CA=
+Date:   Fri, 18 Aug 2023 23:22:15 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-serial@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 1/3] Documentation: devices.txt: Remove ttyIOC*
+Message-ID: <2023081806-bobtail-donut-f0a3@gregkh>
+References: <b5deb1222eb92017f0efe5b5cae127ac11983b3d.1691992627.git.christophe.leroy@csgroup.eu>
+ <87il9cl00v.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH V4 1/3] coresight: etm: Override TRCIDR3.CCITMIN on errata
- affected cpus
-Content-Language: en-US
-To:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-References: <20230818112051.594986-1-anshuman.khandual@arm.com>
- <20230818112051.594986-2-anshuman.khandual@arm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230818112051.594986-2-anshuman.khandual@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87il9cl00v.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 8/18/23 04:20, Anshuman Khandual wrote:
-> This work arounds errata 1490853 on Cortex-A76, and Neoverse-N1, errata
-> 1491015 on Cortex-A77, errata 1502854 on Cortex-X1, and errata 1619801 on
-> Neoverse-V1, based affected cpus, where software read for TRCIDR3.CCITMIN
-> field in ETM gets an wrong value.
+On Fri, Aug 18, 2023 at 11:42:56AM -0600, Jonathan Corbet wrote:
+> Christophe Leroy <christophe.leroy@csgroup.eu> writes:
 > 
-> If software uses the value returned by the TRCIDR3.CCITMIN register field,
-> then it will limit the range which could be used for programming the ETM.
-> In reality, the ETM could be programmed with a much smaller value than what
-> is indicated by the TRCIDR3.CCITMIN field and still function correctly.
+> > IOC4 serial driver was removed, remove associated devices
+> > from documentation.
+> >
+> > Fixes: a017ef17cfd8 ("tty/serial: remove the ioc4_serial driver")
+> > Cc: Christoph Hellwig <hch@lst.de>
+> > Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> > ---
+> >  Documentation/admin-guide/devices.txt | 9 ---------
+> >  1 file changed, 9 deletions(-)
 > 
-> If software reads the TRCIDR3.CCITMIN register field, corresponding to the
-> instruction trace counting minimum threshold, observe the value 0x100 or a
-> minimum cycle count threshold of 256. The correct value should be 0x4 or a
-> minimum cycle count threshold of 4.
-> 
-> This work arounds the problem via storing 4 in drvdata->ccitmin on affected
-> systems where the TRCIDR3.CCITMIN has been 256, thus preserving cycle count
-> threshold granularity.
-> 
-> These errata information has been updated in arch/arm64/silicon-errata.rst,
-> but without their corresponding configs because these have been implemented
-> directly in the driver.
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Cc: Mike Leach <mike.leach@linaro.org>
-> Cc: James Clark <james.clark@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: coresight@lists.linaro.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  Documentation/arch/arm64/silicon-errata.rst   | 10 ++++++
->  .../coresight/coresight-etm4x-core.c          | 36 +++++++++++++++++++
->  2 files changed, 46 insertions(+)
-> 
+> This doesn't apply to docs-next, seemingly as the result of a change
+> that went through Greg's tree, so these should follow the same path,
+> methinks.
 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 7e307022303a..591fab73ee79 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -1131,6 +1131,39 @@ static void cpu_detect_trace_filtering(struct etmv4_drvdata *drvdata)
->  	drvdata->trfcr = trfcr;
->  }
->  
-> +/*
-> + * The following errata on applicable cpu ranges, affect the CCITMIN filed
-> + * in TCRIDR3 register. Software read for the field returns 0x100 limiting
-> + * the cycle threshold granularity, where as the right value should have
+I'll be glad to take it, thanks.
 
-                                       whereas
-
-> + * been 0x4, which is well supported in the hardware.
-> + */
-> +static struct midr_range etm_wrong_ccitmin_cpus[] = {
-> +	/* Erratum #1490853 - Cortex-A76 */
-> +	MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 4, 0),
-> +	/* Erratum #1490853 - Neoverse-N1 */
-> +	MIDR_RANGE(MIDR_NEOVERSE_N1, 0, 0, 4, 0),
-> +	/* Erratum #1491015 - Cortex-A77 */
-> +	MIDR_RANGE(MIDR_CORTEX_A77, 0, 0, 1, 0),
-> +	/* Erratum #1502854 - Cortex-X1 */
-> +	MIDR_REV(MIDR_CORTEX_X1, 0, 0),
-> +	/* Erratum #1619801 - Neoverse-V1 */
-> +	MIDR_REV(MIDR_NEOVERSE_V1, 0, 0),
-> +	{},
-> +};
-> +
-> +static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
-> +{
-> +	/*
-> +	 * Erratum affected cpus will read 256 as the minimum
-> +	 * instruction trace cycle counting threshold where as
-
-	                                              whereas
-
-> +	 * the correct value should be 4 instead. Override the
-> +	 * recorded value for 'drvdata->ccitmin' to workaround
-> +	 * this problem.
-> +	 */
-
--- 
-~Randy
+greg k-h
