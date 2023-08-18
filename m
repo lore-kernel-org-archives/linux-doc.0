@@ -2,104 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB2DC7EE2F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 17:09:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F6F2EE4981
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 17:15:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbjHRRJI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 13:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46308 "EHLO
+        id S239211AbjHRRO7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 13:14:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378915AbjHRRJD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 13:09:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4978510C0;
-        Fri, 18 Aug 2023 10:09:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DC7B162BC5;
-        Fri, 18 Aug 2023 17:09:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 610E8C433C7;
-        Fri, 18 Aug 2023 17:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692378541;
-        bh=1JiWSPRDzlcQkonHOTJfOlbVQmRCyzrqNmv6BEdoPCA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UeDGkINQMUZMOv0CaERFn8GmpN/lFFhAiO84OP7u1x7AFZUtfVsRfzTEFzC+ygpsR
-         Y9xpRo/IlegEekeP1Dut+AJzPtf3KaySn86syYV9hvhBj7tYI7hwm7WVjGwkVpEbKQ
-         ZjgkorrFmrhhByHlHzjOB7PJonhx3wFLnve5nNkSRvFS4Qnnbvl/LHsJGsoNKavGlh
-         wQaSzUFSZnBSxJIIJQqmSVEnLqSDKMGJQhsBsfKCrvRcquTSr/kacVzGcONadDoykq
-         GZMPrwKnsKvdT1EyR550F0bV2J9QMoG16RUnCOQNCw1zWjT6j+ubsWMcE8yFgXt2oD
-         mtaDQp5RlwIFg==
-Date:   Fri, 18 Aug 2023 18:08:52 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 21/36] arm64/mm: Implement map_shadow_stack()
-Message-ID: <9c722954-8f30-425e-a0a4-6edad463620f@sirena.org.uk>
-References: <20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org>
- <20230807-arm64-gcs-v4-21-68cfa37f9069@kernel.org>
- <ZNZkADhSnodXuH5F@arm.com>
+        with ESMTP id S1354384AbjHRROd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 13:14:33 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1A23AB0
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 10:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Sged2QBxFz12vkRid+UwW1ChCbX67jfoXNst1SEnGXo=; b=RIoa3ZG3DZeK88/qcBc/XDkO7r
+        00nh58emeQr4ce8YdUOxsWcFKWLJiD7PiwaRnaO5GedPpt3uE9LiFdJ2iH5i72zaD+104J0PL2AZb
+        JhWimTyvyh4moqH1iBigxK8EQKb9ORtxzN+BvZRHr9cEo3wGWsxV4iWT7c5Q+oBS/KS0qUpuGLJ/w
+        mcwhWU7D0jKjNZI6YGoLHxM8vydEAG4pfyB+tLxdtkhWhMfCBd6KykbC3UbWM7Xn68YehzK1V1la2
+        cYhHa05xIe6Mmmpb0/IH3gTkr7a6uTRp1yXDqnQEGjTw7bBNMZgIxkxyRpxRoGh0422tcFlb0mpUg
+        sylquLsQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qX33M-00AfAj-MY; Fri, 18 Aug 2023 17:14:28 +0000
+Date:   Fri, 18 Aug 2023 18:14:28 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, Carlos Bilbao <carlos.bilbao@amd.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] doc: Always check kernel-doc
+Message-ID: <ZN+m9Bb7P+uH/TN8@casper.infradead.org>
+References: <20230817144142.903553-1-willy@infradead.org>
+ <87cyzkmh26.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="t6HZ5j30fo2L27Lx"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZNZkADhSnodXuH5F@arm.com>
-X-Cookie: Your aim is high and to the right.
+In-Reply-To: <87cyzkmh26.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Aug 18, 2023 at 10:49:37AM -0600, Jonathan Corbet wrote:
+> "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
+> > kernel-doc checks were initially enabled only for builds which had extra
+> > warnings enabled.  We have now eliminated enough kernel-doc warnings that
+> > we can enable kernel-doc checking by default.  This comes at a slight
+> > cost; for an allmodconfig build, make -j8 fs/ timings on my laptop
+> > increase by less than 5%:
+> 
+> So I'm not opposed to this and can carry it in docs-next (after the
+> merge window, though, for something like this).  But, it seems to me, we
+> should copy Masahiro (added) on a build patch of this type.
 
---t6HZ5j30fo2L27Lx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks!  I've got a small collection of doc fixup patches redy to go;
+I'm going to spray them at maintainers and see what lands in this
+merge window.  I'm focusing on mm/ and fs/ since I know those areas
+better than others.  net/ is in good shape; only 25 lines of errors
+(21 of them in ceph).
 
-On Fri, Aug 11, 2023 at 05:38:24PM +0100, Catalin Marinas wrote:
-
-> Given that we won't have an mmap(PROT_SHADOW_STACK), are we going to
-> have restrictions on mprotect()? E.g. it would be useful to reject a
-> PROT_EXEC on the shadow stack.
-
-mprotect() uses arch_validate_flags() which we're already having cover
-this so it's already covered.
-
---t6HZ5j30fo2L27Lx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTfpaMACgkQJNaLcl1U
-h9CmuAf/Y7ANc4Kk+mnfQwnFeS/EQ5r5NF8oVlV+xJ9aNN/eMcDpeaYBvln2GA6v
-ki7svYKRiiuRDNr3/h0fyHapLK3tsJpZxS76iqNbYh6EFBbZ5vX5njXBuLHneFL2
-Kc18LKu7USgVA0WGmDvkClBhnSmeoOFrZjnrBJyJZFHNjTwRNM+tVnOCBeKTS/Ur
-zPyUEIEB9wq1bs+NTA1CgvI82vIVrO3nLu00IP/35zQpX665RocIKw3craz+6Efl
-8NH22NdfYjWPNSv9WI5pf2WG+CX2AOQ3v1IMF+S3jrN6NVdf5oOrpAYiejOjtf50
-5MKlsT1RWl3PNInSnsIkRNYXCDmr7A==
-=lwGM
------END PGP SIGNATURE-----
-
---t6HZ5j30fo2L27Lx--
+I would suggest that we still have quite a lot of kernel-doc which is
+not incorporated into .rst files, which seems like a shame.  Does anyone
+have time to write a script that finds every file with kernel-doc in
+it, then finds which of those files do not have ".. kernel-doc::"
+lines in Documentation/ ?
