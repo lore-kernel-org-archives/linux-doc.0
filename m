@@ -2,121 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF44EC71133
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 03:37:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B2EC05052
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 04:21:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357716AbjHRDgi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 23:36:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57012 "EHLO
+        id S1357823AbjHREUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 00:20:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357750AbjHRDgQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 23:36:16 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8C72705
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 20:36:11 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1bf3a2f44ffso1485745ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 20:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692329771; x=1692934571;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3m40FRUJpIDHL/YXHaQLM+AuAcFnZMVMgTICBVKdbro=;
-        b=C4jGlUfJkXgxD3An6hmhtU+KPQE93MPQPa1EESR+R+1bT9Dxwv4Sn6rSvGVDoUJduM
-         7Hthw0xCVjJ5GzPopB6xwOI41P+/W18OQNkVANAOKoITPr913xgHZcyps5dO0PuJGHHG
-         tYetDjTlGqErp2xRLc8ct6/Y6FBtj7r+pEago=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692329771; x=1692934571;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3m40FRUJpIDHL/YXHaQLM+AuAcFnZMVMgTICBVKdbro=;
-        b=lT/kR8sbu7mqKU1jm3Z1zxpLTneNw7bwmpioY8+il1smI/72fKvqHiLsyZy0JiO6qV
-         gIVP0bSNbN6ktJlqpAXlXLcNW0wAS+eSTfPse2iWQvVtLM5r1SlTjiCJ4ffJWHynjBbR
-         lywJwwI2zGn7OQHBEAldc5jaEzXn2D3gPELgoIRNhpX84PU8X1SKCuCKhL+nUxf9YLTw
-         P+A9gluiyBpUgoizPsM2mSucQcgIqEenOIJ6L0W9InjAhczZbLKrR3dCV7uQV3rHGFrp
-         1wiDYPAaWsGbKvpJB8bDQK686MUTeLMbfOtDyWpcnhK+VP5oEyVT1m7jKMbNFUdvDh/o
-         UMvQ==
-X-Gm-Message-State: AOJu0YyjXfFdd+ifxwxQDdpeLHEOpzmC4sm5DPv+CIWJGG0yq2wSszLK
-        v5Srgp1z4fLG6klwZWaJsVECAw==
-X-Google-Smtp-Source: AGHT+IG5DCHR6i3h9KLfRF1clc8LUV/IbwFQyEkyPLkU6zwgsv75e3f+gu3tO2G3UUs7+4te0SOZIQ==
-X-Received: by 2002:a17:903:44c:b0:1bb:ce4a:5893 with SMTP id iw12-20020a170903044c00b001bbce4a5893mr1331720plb.30.1692329771277;
-        Thu, 17 Aug 2023 20:36:11 -0700 (PDT)
-Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
-        by smtp.gmail.com with ESMTPSA id 13-20020a170902c20d00b001b857352285sm521228pll.247.2023.08.17.20.36.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 20:36:10 -0700 (PDT)
-From:   Brandon Pollack <brpol@chromium.org>
-To:     marius.vlad@collabora.com
-Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        hamohammed.sa@gmail.com, jshargo@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mairacanal@riseup.net, melissa.srw@gmail.com, mripard@kernel.org,
-        rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
-Subject: Re: [PATCH v2 2/6] drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
-Date:   Fri, 18 Aug 2023 03:36:05 +0000
-Message-ID: <20230818033605.2910699-1-brpol@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
-In-Reply-To: <ZNthoImm48DYrBJx@xpredator>
-References: <ZNthoImm48DYrBJx@xpredator>
+        with ESMTP id S1357845AbjHREUG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 00:20:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2791E5F
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 21:20:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5ADCF64A39
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 04:20:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEADDC433C8;
+        Fri, 18 Aug 2023 04:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692332404;
+        bh=hD/1Id2eN+ldgf7KbCidk7uUSIBHbkkWIHhq3KwMC+Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=STgyJ20Kx1ZtOKzG+zDpHVd6QtrwdP+XACSmwuCKtUDrtc0dIuI7oY3oIQyPW1RF+
+         wHptwW9tMyDfyduIGyQp4da4+61TOjb9FccKp03G355pXzsp9uvnUlOK1wmqD2MOmG
+         GTRSvSvNC5ZylK0MNI1UYFS4dvDqq5d9yQo4bEC9VdBQjIKBw+Id4DBx0pxTG1AQRu
+         JUn+Xlx8ZFU8UH5blNtpdF2jrxsHseRvLSZJCgOUgBuOxq3gm1lyqFR5+LjafAcfTA
+         dkyQ4br2hiWS3WkROoI+pypdt7gDmm8b0UzQT2JnahY9/rjeTlgFpGCaCj03JNV2E9
+         vpQ4T3P4d1H8w==
+Date:   Fri, 18 Aug 2023 07:19:59 +0300
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Dima Chumak <dchumak@nvidia.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Simon Horman <simon.horman@corigine.com>
+Subject: Re: [PATCH net-next v3 0/8] devlink: Add port function attributes
+Message-ID: <20230818041959.GX22185@unreal>
+References: <cover.1692262560.git.leonro@nvidia.com>
+ <20230817200725.20589529@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230817200725.20589529@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for taking the time, everyone! Sorry it took so long, we had some
-internal shuffling etc going on and I was building out what we needed these
-chagnes for in the first place, this will be the first of a few replies
-followed by a new version of the series to be sent out.
+On Thu, Aug 17, 2023 at 08:07:25PM -0700, Jakub Kicinski wrote:
+> On Thu, 17 Aug 2023 12:11:22 +0300 Leon Romanovsky wrote:
+> > Introduce hypervisor-level control knobs to set the functionality of PCI
+> > VF devices passed through to guests. The administrator of a hypervisor
+> > host may choose to change the settings of a port function from the
+> > defaults configured by the device firmware.
+> > 
+> > The software stack has two types of IPsec offload - crypto and packet.
+> > Specifically, the ip xfrm command has sub-commands for "state" and
+> > "policy" that have an "offload" parameter. With ip xfrm state, both
+> > crypto and packet offload types are supported, while ip xfrm policy can
+> > only be offloaded in packet mode.
+> > 
+> > The series introduces two new boolean attributes of a port function:
+> > ipsec_crypto and ipsec_packet. The goal is to provide a similar level of
+> > granularity for controlling VF IPsec offload capabilities, which would
+> > be aligned with the software model. This will allow users to decide if
+> > they want both types of offload enabled for a VF, just one of them, or
+> > none at all (which is the default).
+> > 
+> > At a high level, the difference between the two knobs is that with
+> > ipsec_crypto, only XFRM state can be offloaded. Specifically, only the
+> > crypto operation (Encrypt/Decrypt) is offloaded. With ipsec_packet, both
+> > XFRM state and policy can be offloaded. Furthermore, in addition to
+> > crypto operation offload, IPsec encapsulation is also offloaded. For
+> > XFRM state, choosing between crypto and packet offload types is
+> > possible. From the HW perspective, different resources may be required
+> > for each offload type.
+> 
+> What's going on with all the outstanding nVidia patches?!
+> The expectation is 1 series per vendor / driver. Let's say
+> 2 if there are core changes. You had 5 outstanding today.
 
-First up is a respons to Maria, Marius to follow.
+I sent only three security related series, two of three were already reviewed
+and waiting to be applied [1,2]. This third series is only one which touches core.
 
----
+It is very strange to expect 1 series per vendor/driver without taking
+into account the size of that driver and the amount of upstream work
+involvement from that vendor.
 
-Maria,
+Thanks
 
-> -	if (vkms->output.composer_workq)
-> -		destroy_workqueue(vkms->output.composer_workq);
-> +	for (int i = 0; i < vkms->output.num_crtcs; i++)
-> +		destroy_workqueue(vkms->output.crtcs[i].composer_workq);
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=774239&state=*
+[2] https://patchwork.kernel.org/project/netdevbpf/list/?series=775702
 
-I don't believe there is any need for a null check.  If you look in the
-crtc_init, it is zero'd before returning any errors and that is the only place
-it is set.  I don't believe that release can be called by an interrupt/async
-(and if it did it would need a mutex/lock anyway).
-
->
->   static const struct drm_plane_funcs vkms_plane_funcs = {
-> -	.update_plane		= drm_atomic_helper_update_plane,
-> -	.disable_plane		= drm_atomic_helper_disable_plane,
-> -	.reset			= vkms_plane_reset,
-
-Yeah these do seem weirdly formatted on devices that don't treat tabs well.
-The default formatter on my editor has a few suggestions for this file, but
-they are all optional.  I'll send an extra patch that formats stuff and see
-what people think, but ill make it seperate after all this is done. 
-For now I reverted this.
-
->> -	if (IS_ERR(plane))
->> -		return plane;
->> +	if (output->num_planes >= VKMS_MAX_PLANES)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	plane = &output->planes[output->num_planes++];
->> +	ret = drm_universal_plane_init(dev, &plane->base, 0, &vkms_plane_funcs,
->> +				       vkms_formats, ARRAY_SIZE(vkms_formats),
->> +				       NULL, type, NULL);
->
->Wouldn't be possible to use drmm_universal_plane_alloc?
-
-Maybe, but the *_init pattern allows these things to be inline in the struct as
-they are now, and consistent with the other drm kernel objects in the
-vkms_output struct.  There are also a few other places we could use drmm,
-surely, but to limit the scope/risk why don't we do that as a followup?
-
----
-
-Marius,
-
-Yeah those values could safely be completely removed.  Good catch :)
+> 
+> I'm tossing this out.
+> -- 
+> pw-bot: defer
