@@ -2,106 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B2EC05052
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 04:21:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C40DC71136
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 05:09:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357823AbjHREUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 00:20:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54774 "EHLO
+        id S1356133AbjHRFJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 01:09:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357845AbjHREUG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 00:20:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2791E5F
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 21:20:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5ADCF64A39
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 04:20:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEADDC433C8;
-        Fri, 18 Aug 2023 04:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692332404;
-        bh=hD/1Id2eN+ldgf7KbCidk7uUSIBHbkkWIHhq3KwMC+Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=STgyJ20Kx1ZtOKzG+zDpHVd6QtrwdP+XACSmwuCKtUDrtc0dIuI7oY3oIQyPW1RF+
-         wHptwW9tMyDfyduIGyQp4da4+61TOjb9FccKp03G355pXzsp9uvnUlOK1wmqD2MOmG
-         GTRSvSvNC5ZylK0MNI1UYFS4dvDqq5d9yQo4bEC9VdBQjIKBw+Id4DBx0pxTG1AQRu
-         JUn+Xlx8ZFU8UH5blNtpdF2jrxsHseRvLSZJCgOUgBuOxq3gm1lyqFR5+LjafAcfTA
-         dkyQ4br2hiWS3WkROoI+pypdt7gDmm8b0UzQT2JnahY9/rjeTlgFpGCaCj03JNV2E9
-         vpQ4T3P4d1H8w==
-Date:   Fri, 18 Aug 2023 07:19:59 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Dima Chumak <dchumak@nvidia.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Simon Horman <simon.horman@corigine.com>
-Subject: Re: [PATCH net-next v3 0/8] devlink: Add port function attributes
-Message-ID: <20230818041959.GX22185@unreal>
-References: <cover.1692262560.git.leonro@nvidia.com>
- <20230817200725.20589529@kernel.org>
+        with ESMTP id S1357998AbjHRFIf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 01:08:35 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79989E48;
+        Thu, 17 Aug 2023 22:08:27 -0700 (PDT)
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37I57d4V028882;
+        Fri, 18 Aug 2023 05:08:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=zQ4ZV5K1bdnTPKV5NsQUc1byk1vtYyfiLQor5t6FJ2o=;
+ b=jOYvmhY0UhmrW1sb0yINPFLTmBYNXskWcaSH6VvSgpk9ASAnkojuZP+iukWwvuu0gEZ6
+ LGOH/9GMNeeuvMW7EElKTHoXgDakmJVexi3QXmLxxnaLVV7/F6Ubzc3ox0c+WW25PUJ4
+ s8nzRgY1lSyyZUqExG3LF9arItng94anN1gTRdDxBeos1tI8eeNKfsDzPHV1cQJ7U2lH
+ SwVnTuVakTVaGXvsAYVG+rnDAuH76fpcb1t1Q+NkFU/1sZGQ0fGc1ZjFOuv6ac1/yh3V
+ le057wWyQx5q0IvqQ9sORvTVhDIqG5dUDc5hdb42Rb58MbeimC2w/dV0b9Bx40kD/EbK aw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sj20ur5hq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 18 Aug 2023 05:08:04 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37I57nnH029681;
+        Fri, 18 Aug 2023 05:08:04 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sj20ur5hg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 18 Aug 2023 05:08:04 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37I43xMI018831;
+        Fri, 18 Aug 2023 05:08:03 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+        by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3seq423t4c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 18 Aug 2023 05:08:02 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37I581lD26935868
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 18 Aug 2023 05:08:01 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3A95F20040;
+        Fri, 18 Aug 2023 05:08:01 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6F5802005A;
+        Fri, 18 Aug 2023 05:07:56 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.43.74.199])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with SMTP;
+        Fri, 18 Aug 2023 05:07:56 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Fri, 18 Aug 2023 10:37:55 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Cc:     Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>
+Subject: [PATCH] powerpc: Enable generic cpu idle-loop
+Date:   Fri, 18 Aug 2023 10:37:37 +0530
+Message-ID: <20230818050739.827851-1-vaibhav@linux.ibm.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230817200725.20589529@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VtksZ_e5l-_iKvMYKpVpTFlPNpi1l42A
+X-Proofpoint-ORIG-GUID: SAzGTLYVjM9Nt2VVAas-tQa4a_ff2Dgh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-18_05,2023-08-17_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1011 suspectscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=561 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308180047
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 17, 2023 at 08:07:25PM -0700, Jakub Kicinski wrote:
-> On Thu, 17 Aug 2023 12:11:22 +0300 Leon Romanovsky wrote:
-> > Introduce hypervisor-level control knobs to set the functionality of PCI
-> > VF devices passed through to guests. The administrator of a hypervisor
-> > host may choose to change the settings of a port function from the
-> > defaults configured by the device firmware.
-> > 
-> > The software stack has two types of IPsec offload - crypto and packet.
-> > Specifically, the ip xfrm command has sub-commands for "state" and
-> > "policy" that have an "offload" parameter. With ip xfrm state, both
-> > crypto and packet offload types are supported, while ip xfrm policy can
-> > only be offloaded in packet mode.
-> > 
-> > The series introduces two new boolean attributes of a port function:
-> > ipsec_crypto and ipsec_packet. The goal is to provide a similar level of
-> > granularity for controlling VF IPsec offload capabilities, which would
-> > be aligned with the software model. This will allow users to decide if
-> > they want both types of offload enabled for a VF, just one of them, or
-> > none at all (which is the default).
-> > 
-> > At a high level, the difference between the two knobs is that with
-> > ipsec_crypto, only XFRM state can be offloaded. Specifically, only the
-> > crypto operation (Encrypt/Decrypt) is offloaded. With ipsec_packet, both
-> > XFRM state and policy can be offloaded. Furthermore, in addition to
-> > crypto operation offload, IPsec encapsulation is also offloaded. For
-> > XFRM state, choosing between crypto and packet offload types is
-> > possible. From the HW perspective, different resources may be required
-> > for each offload type.
-> 
-> What's going on with all the outstanding nVidia patches?!
-> The expectation is 1 series per vendor / driver. Let's say
-> 2 if there are core changes. You had 5 outstanding today.
+This minor patch enables config option GENERIC_IDLE_POLL_SETUP for arch
+powerpc. This should add support for kernel param 'nohlt'.
 
-I sent only three security related series, two of three were already reviewed
-and waiting to be applied [1,2]. This third series is only one which touches core.
+Powerpc kernel also supports another kernel boot-time param called
+'powersave' which can also be used to disable all cpu idle-states and
+forces CPU to an idle-loop similar to what cpu_idle_poll() does. This
+patch however makes powerpc kernel-parameters better aligned to the
+generic boot-time parameters.
 
-It is very strange to expect 1 series per vendor/driver without taking
-into account the size of that driver and the amount of upstream work
-involvement from that vendor.
+Signed-off-by: Vaibhav Jain<vaibhav@linux.ibm.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ arch/powerpc/Kconfig                            | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Thanks
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 722b6eca2e93..6b657ebafcfb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3738,7 +3738,7 @@
+ 
+ 	nohibernate	[HIBERNATION] Disable hibernation and resume.
+ 
+-	nohlt		[ARM,ARM64,MICROBLAZE,MIPS,SH] Forces the kernel to
++	nohlt		[ARM,ARM64,MICROBLAZE,MIPS,PPC,SH] Forces the kernel to
+ 			busy wait in do_idle() and not use the arch_cpu_idle()
+ 			implementation; requires CONFIG_GENERIC_IDLE_POLL_SETUP
+ 			to be effective. This is useful on platforms where the
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 0b1172cbeccb..574661403800 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -193,6 +193,7 @@ config PPC
+ 	select GENERIC_CPU_VULNERABILITIES	if PPC_BARRIER_NOSPEC
+ 	select GENERIC_EARLY_IOREMAP
+ 	select GENERIC_GETTIMEOFDAY
++	select GENERIC_IDLE_POLL_SETUP
+ 	select GENERIC_IRQ_SHOW
+ 	select GENERIC_IRQ_SHOW_LEVEL
+ 	select GENERIC_PCI_IOMAP		if PCI
+-- 
+2.41.0
 
-[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=774239&state=*
-[2] https://patchwork.kernel.org/project/netdevbpf/list/?series=775702
-
-> 
-> I'm tossing this out.
-> -- 
-> pw-bot: defer
