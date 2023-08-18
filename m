@@ -2,127 +2,382 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B6C6C001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 05:27:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D17F9C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 05:40:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356562AbjHRF1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 01:27:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59286 "EHLO
+        id S234891AbjHRFjp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 01:39:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357830AbjHRF0b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 01:26:31 -0400
+        with ESMTP id S244436AbjHRFjQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 01:39:16 -0400
 Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D300F3AB6
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 22:26:29 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1bf3a2f44ffso1953865ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 22:26:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96FFE26AD
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 22:39:13 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1bf11b1c7d0so10068715ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 22:39:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692336389; x=1692941189;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rk4LUnZhgDX0fAzmHzqei0ex7/pVRshtevMGzPqY4to=;
-        b=UtzI73kYLFLtzKgHqDkl/JMuJGgdA2kKxVHo2p5bGwtBas2l80jjTbmLCg5AEAqSFs
-         7pcakZl6L+WzC3/LRyPRZlqZpyXLyiecqwf0A+9dDpJBB80p5vDi0dkZNCMn+NNlbxHK
-         rOan65qNvcqmRuUWYsW+2mr0S8waWUsY6ZeKo=
+        d=chromium.org; s=google; t=1692337153; x=1692941953;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6ivYpwW9DO3lSrQDhw7QRJZzEj2WsxNzf3Yq1gbJej4=;
+        b=CRKAQV8WOuLHZYJvitnCVMzITyjpSHKmHOQShy1S13INVDUswDwxQaZPfg3ss0jGGo
+         t5wMjm3LSZz7YEaOvEm8sqrFvj1ByM/yZ4IC9SH2rlVu/F+MewkLseQQ+wVycGibJQLv
+         8SUA51hDgUbZpguT5fs/R2QxkLxRfHyX5W59c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692336389; x=1692941189;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1692337153; x=1692941953;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rk4LUnZhgDX0fAzmHzqei0ex7/pVRshtevMGzPqY4to=;
-        b=Ms570F+SM2CBtxfmzlaOnPgeF/+xvnzMF9XaHEbAvgvVDpSOgzQMkaZipvJChAXRlF
-         +AOrfh7bwFCQEpTDXMl3w+/20BcGiKtKJ7B4KO9TeKwNV1YY3/q+NuZ8bmGYVi+Jouc5
-         nffAwIFj7b2Fqk8icLAj33x1O1a2dLnNfhOVV699QEbwYosogC1Ys13nYWYZzSqpkNwI
-         K0c//cAuXTb+hwpAtFFxS6N8U/LTVssUltUqBrtuQ6vk9Go6VWpE+IADH/VXUzQplG8A
-         D5Os4HfCBm3ddQj4n/2gdTOm8qdHc4plxckiJzi+zQsJ31CjQq43thiJIGkQ5Prk0VKM
-         64oA==
-X-Gm-Message-State: AOJu0YynKN2BFxOqr6lmNUVuV3qCSVuRonU3wo8o4CWmFXH+AroW+Dww
-        XQLVxiVnrhoCuTz/mcm1PSgUeg==
-X-Google-Smtp-Source: AGHT+IFgDSpPPvvRGEyBogq5IuenXl71J1nG/CyBKgfUmysleFmyTdi6pHlkTot9nJLekZ6n6DF4Iw==
-X-Received: by 2002:a17:902:ead5:b0:1bd:ec9e:59fe with SMTP id p21-20020a170902ead500b001bdec9e59femr1585669pld.68.1692336389311;
-        Thu, 17 Aug 2023 22:26:29 -0700 (PDT)
+        bh=6ivYpwW9DO3lSrQDhw7QRJZzEj2WsxNzf3Yq1gbJej4=;
+        b=EuZOyMZR++IzpQhRTaGrKraHNIef0922jzQIcOMoOGxeDbLeget5A41EnSownVOEAT
+         2eWLUXMWVxHx24Rc+tFBpDBRyXA/m7SqjXtl5EwBtMbxos9Uy6IeeplHa4XczCp9zChp
+         YAaigyhaqR6VAL94FD9w8RKySin/SCEiMpZODN+T1KNwaEUNd+ZwT/Hyqorsza8tr4op
+         yAz16rvDN/PSVwau31ke9gVmsj13UPZqvKUfH6I+5QJezpcTh68W5iYL2eb8/hvrtBCf
+         GZcikCa7X2UalN67TMdv+kMTGpNjt+HLPrqMZ4axuycZpwkb9nYyjhygHT9P9/hlmfgK
+         jDPg==
+X-Gm-Message-State: AOJu0YyRcw3KI2NNt71HiCuNLFgchZgBYf+i+uzZVaQ9ApZ/TeCVK+3z
+        u2NmBlJt/zm+nR2X9Aw4YM6YGQ==
+X-Google-Smtp-Source: AGHT+IHeoNaUPGLlGJDKwl0db5Nb6fOdEwjex20ywDp30zG1xeJ0YnCjIUdgguuCE8maCfDNQb4Q1g==
+X-Received: by 2002:a17:903:2446:b0:1bd:b073:a567 with SMTP id l6-20020a170903244600b001bdb073a567mr1964207pls.31.1692337153007;
+        Thu, 17 Aug 2023 22:39:13 -0700 (PDT)
 Received: from ?IPV6:2401:fa00:8f:203:4e9f:532f:e004:aaa1? ([2401:fa00:8f:203:4e9f:532f:e004:aaa1])
-        by smtp.gmail.com with ESMTPSA id bi9-20020a170902bf0900b001bd99fd1114sm708552plb.288.2023.08.17.22.26.26
+        by smtp.gmail.com with ESMTPSA id q1-20020a170902dac100b001b864add154sm741856plx.154.2023.08.17.22.39.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Aug 2023 22:26:29 -0700 (PDT)
-Message-ID: <62ca5d60-1b4b-d102-1a5e-50288dae4c37@chromium.org>
-Date:   Fri, 18 Aug 2023 14:26:25 +0900
+        Thu, 17 Aug 2023 22:39:12 -0700 (PDT)
+Message-ID: <6620ac6e-ffe4-f7b9-2213-1a4e3382cf9a@chromium.org>
+Date:   Fri, 18 Aug 2023 14:39:08 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.1
-Subject: Re: [PATCH v2 2/6] drm/vkms: Support multiple DRM objects (crtcs,
- etc.) per VKMS device
-From:   Brandon Ross Pollack <brpol@chromium.org>
-To:     marius.vlad@collabora.com
-Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        hamohammed.sa@gmail.com, jshargo@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mairacanal@riseup.net, melissa.srw@gmail.com, mripard@kernel.org,
-        rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
-References: <ZNthoImm48DYrBJx@xpredator>
- <20230818033605.2910699-1-brpol@chromium.org>
+Subject: Re: [PATCH v2 6/6] drm/vkms: Add a module param to enable/disable the
+ default device
 Content-Language: en-US
-In-Reply-To: <20230818033605.2910699-1-brpol@chromium.org>
+To:     Maira Canal <mairacanal@riseup.net>,
+        Jim Shargo <jshargo@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230623222353.97283-1-jshargo@chromium.org>
+ <20230623222353.97283-7-jshargo@chromium.org>
+ <64c40359-d0ee-5070-2a52-033c7e655e0a@riseup.net>
+From:   Brandon Ross Pollack <brpol@chromium.org>
+In-Reply-To: <64c40359-d0ee-5070-2a52-033c7e655e0a@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Silly addition but I need to apologize for mispelling somone's name in 
-my reply.
 
-Maira, please accept my sincere apology.
+On 6/26/23 03:04, Maira Canal wrote:
+> Hi Jim,
+>
+> On 6/23/23 19:23, Jim Shargo wrote:
+>> In many testing circumstances, we will want to just create a new device
+>> and test against that. If we create a default device, it can be annoying
+>> to have to manually select the new device instead of choosing the only
+>> one that exists.
+>>
+>> The param, enable_default, is defaulted to true to maintain backwards
+>> compatibility.
+>>
+>> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+>> ---
+>>   drivers/gpu/drm/vkms/vkms_drv.c | 44 ++++++++++++++++++++++-----------
+>>   1 file changed, 29 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c 
+>> b/drivers/gpu/drm/vkms/vkms_drv.c
+>> index 314a04659c5f..1cb56c090a65 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+>> @@ -42,17 +42,26 @@
+>>   #define DRIVER_MAJOR    1
+>>   #define DRIVER_MINOR    0
+>>   +static bool enable_default_device = true;
+>> +module_param_named(enable_default_device, enable_default_device, 
+>> bool, 0444);
+>> +MODULE_PARM_DESC(enable_default_device,
+>> +         "Enable/Disable creating the default device");
+>
+> Wouldn't be better to just call it "enable_default"?
 
-On 8/18/23 12:36, Brandon Pollack wrote:
-> Thanks for taking the time, everyone! Sorry it took so long, we had some
-> internal shuffling etc going on and I was building out what we needed these
-> chagnes for in the first place, this will be the first of a few replies
-> followed by a new version of the series to be sent out.
+At the risk of being annoyingly pedantic, I actually like the original 
+name better because it makes it clear it is an entire device and setup,
+
+including the planes/encoders/connectors/crtcs needed and connecting 
+them as necessary etc.  I just feel "device" here makes it clearer what 
+is the default thing.
+
 >
-> First up is a respons to Maria, Marius to follow.
+> Also, could you add this parameter to vkms_config debugfs file?
+
+But of course! This is the last comment before I send out the new series.
+
+
+Thank you so much for your time, looking forward to the next round of 
+comments.
+
+
 >
-> ---
+> Best Regards,
+> - Maíra
 >
-> Maria,
+>> +
+>>   static bool enable_cursor = true;
+>>   module_param_named(enable_cursor, enable_cursor, bool, 0444);
+>> -MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+>> +MODULE_PARM_DESC(enable_cursor,
+>> +         "Enable/Disable cursor support for the default device");
+>>     static bool enable_writeback = true;
+>>   module_param_named(enable_writeback, enable_writeback, bool, 0444);
+>> -MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback 
+>> connector support");
+>> +MODULE_PARM_DESC(
+>> +    enable_writeback,
+>> +    "Enable/Disable writeback connector support for the default 
+>> device");
+>>     static bool enable_overlay;
+>>   module_param_named(enable_overlay, enable_overlay, bool, 0444);
+>> -MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
+>> +MODULE_PARM_DESC(enable_overlay,
+>> +         "Enable/Disable overlay support for the default device");
+>>     DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+>>   @@ -278,10 +287,7 @@ void vkms_remove_device(struct vkms_device 
+>> *vkms_device)
+>>   static int __init vkms_init(void)
+>>   {
+>>       int ret;
+>> -    struct platform_device *pdev;
+>> -    struct vkms_device_setup vkms_device_setup = {
+>> -        .configfs = NULL,
+>> -    };
+>> +    struct platform_device *default_pdev = NULL;
+>>         ret = platform_driver_register(&vkms_platform_driver);
+>>       if (ret) {
+>> @@ -289,19 +295,27 @@ static int __init vkms_init(void)
+>>           return ret;
+>>       }
+>>   -    pdev = platform_device_register_data(NULL, DRIVER_NAME, 0,
+>> -                         &vkms_device_setup,
+>> -                         sizeof(vkms_device_setup));
+>> -    if (IS_ERR(pdev)) {
+>> -        DRM_ERROR("Unable to register default vkms device\n");
+>> -        platform_driver_unregister(&vkms_platform_driver);
+>> -        return PTR_ERR(pdev);
+>> +    if (enable_default_device) {
+>> +        struct vkms_device_setup vkms_device_setup = {
+>> +            .configfs = NULL,
+>> +        };
+>> +
+>> +        default_pdev = platform_device_register_data(
+>> +            NULL, DRIVER_NAME, 0, &vkms_device_setup,
+>> +            sizeof(vkms_device_setup));
+>> +        if (IS_ERR(default_pdev)) {
+>> +            DRM_ERROR("Unable to register default vkms device\n");
+>> + platform_driver_unregister(&vkms_platform_driver);
+>> +            return PTR_ERR(default_pdev);
+>> +        }
+>>       }
+>>         ret = vkms_init_configfs();
+>>       if (ret) {
+>>           DRM_ERROR("Unable to initialize configfs\n");
+>> -        platform_device_unregister(pdev);
+>> +        if (default_pdev)
+>> +            platform_device_unregister(default_pdev);
+>> +
+>>           platform_driver_unregister(&vkms_platform_driver);
+>>       }
 >
->> -	if (vkms->output.composer_workq)
->> -		destroy_workqueue(vkms->output.composer_workq);
->> +	for (int i = 0; i < vkms->output.num_crtcs; i++)
->> +		destroy_workqueue(vkms->output.crtcs[i].composer_workq);
-> I don't believe there is any need for a null check.  If you look in the
-> crtc_init, it is zero'd before returning any errors and that is the only place
-> it is set.  I don't believe that release can be called by an interrupt/async
-> (and if it did it would need a mutex/lock anyway).
+> From mboxrd@z Thu Jan  1 00:00:00 1970
+> Return-Path: <dri-devel-bounces@lists.freedesktop.org>
+> X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+>     aws-us-west-2-korg-lkml-1.web.codeaurora.org
+> Received: from gabe.freedesktop.org (gabe.freedesktop.org 
+> [131.252.210.177])
+>     (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 
+> bits))
+>     (No client certificate requested)
+>     by smtp.lore.kernel.org (Postfix) with ESMTPS id AB561C0015E
+>     for <dri-devel@archiver.kernel.org>; Sun, 25 Jun 2023 18:04:15 
+> +0000 (UTC)
+> Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+>     by gabe.freedesktop.org (Postfix) with ESMTP id D153310E18C;
+>     Sun, 25 Jun 2023 18:04:14 +0000 (UTC)
+> Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+> by gabe.freedesktop.org (Postfix) with ESMTPS id C6BE910E187
+> for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 18:04:12 +0000 
+> (UTC)
+> Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net 
+> [10.0.1.109])
+> (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+> key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest 
+> SHA256)
+> (No client certificate requested)
+> by mx1.riseup.net (Postfix) with ESMTPS id 4QpzPl6CHTzDrNy;
+> Sun, 25 Jun 2023 18:04:11 +0000 (UTC)
+> DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; 
+> s=squak;
+> t=1687716252; bh=3cOd9Tulf+RLZ2R/lGuVfEdERy8xqZ4HHWjkWZv3FAs=;
+> h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+> b=lXentHTOo29YwgA/Q5WAgBBEUsl5DTqsmOJd4wsjxBgZocgZ/PG9hmyBm6a2IjvcQ
+> jSPI26UWubdYOe7kngWhcU0/oO570ofVUyrxiNgiJQfcscdp5bpwrskBKK4yXdJc0q
+> 2YM4+n0xeBBSr2pFLMDwbOsLDvaGUK77nSPcbPXQ=
+> X-Riseup-User-ID: 
+> 7EBE90DED2258EE1CA830B796CBA05FD63338D890F31F4C1BCCCB27A6DA77A56
+> Received: from [127.0.0.1] (localhost [127.0.0.1])
+> by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4QpzPg4YpbzJntB;
+> Sun, 25 Jun 2023 18:04:07 +0000 (UTC)
+> Message-ID: <64c40359-d0ee-5070-2a52-033c7e655e0a@riseup.net>
+> Date: Sun, 25 Jun 2023 15:04:05 -0300
+> MIME-Version: 1.0
+> Subject: Re: [PATCH v2 6/6] drm/vkms: Add a module param to 
+> enable/disable the
+> default device
+> Content-Language: en-US
+> To: Jim Shargo <jshargo@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+> David Airlie <airlied@gmail.com>, Haneen Mohammed 
+> <hamohammed.sa@gmail.com>,
+> Jonathan Corbet <corbet@lwn.net>,
+> Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+> Maxime Ripard <mripard@kernel.org>, Melissa Wen <melissa.srw@gmail.com>,
+> Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+> Thomas Zimmermann <tzimmermann@suse.de>
+> References: <20230623222353.97283-1-jshargo@chromium.org>
+> <20230623222353.97283-7-jshargo@chromium.org>
+> From: Maira Canal <mairacanal@riseup.net>
+> In-Reply-To: <20230623222353.97283-7-jshargo@chromium.org>
+> Content-Type: text/plain; charset=UTF-8; format=flowed
+> Content-Transfer-Encoding: 8bit
+> X-BeenThere: dri-devel@lists.freedesktop.org
+> X-Mailman-Version: 2.1.29
+> Precedence: list
+> List-Id: Direct Rendering Infrastructure - Development
+> <dri-devel.lists.freedesktop.org>
+> List-Unsubscribe: 
+> <https://lists.freedesktop.org/mailman/options/dri-devel>,
+> <mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+> List-Archive: <https://lists.freedesktop.org/archives/dri-devel>
+> List-Post: <mailto:dri-devel@lists.freedesktop.org>
+> List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+> List-Subscribe: 
+> <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+> <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+> Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+> linux-doc@vger.kernel.org
+> Errors-To: dri-devel-bounces@lists.freedesktop.org
+> Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 >
->>    static const struct drm_plane_funcs vkms_plane_funcs = {
->> -	.update_plane		= drm_atomic_helper_update_plane,
->> -	.disable_plane		= drm_atomic_helper_disable_plane,
->> -	.reset			= vkms_plane_reset,
-> Yeah these do seem weirdly formatted on devices that don't treat tabs well.
-> The default formatter on my editor has a few suggestions for this file, but
-> they are all optional.  I'll send an extra patch that formats stuff and see
-> what people think, but ill make it seperate after all this is done.
-> For now I reverted this.
+> Hi Jim,
 >
->>> -	if (IS_ERR(plane))
->>> -		return plane;
->>> +	if (output->num_planes >= VKMS_MAX_PLANES)
->>> +		return ERR_PTR(-ENOMEM);
->>> +
->>> +	plane = &output->planes[output->num_planes++];
->>> +	ret = drm_universal_plane_init(dev, &plane->base, 0, &vkms_plane_funcs,
->>> +				       vkms_formats, ARRAY_SIZE(vkms_formats),
->>> +				       NULL, type, NULL);
->> Wouldn't be possible to use drmm_universal_plane_alloc?
-> Maybe, but the *_init pattern allows these things to be inline in the struct as
-> they are now, and consistent with the other drm kernel objects in the
-> vkms_output struct.  There are also a few other places we could use drmm,
-> surely, but to limit the scope/risk why don't we do that as a followup?
+> On 6/23/23 19:23, Jim Shargo wrote:
+>> In many testing circumstances, we will want to just create a new device
+>> and test against that. If we create a default device, it can be annoying
+>> to have to manually select the new device instead of choosing the only
+>> one that exists.
+>>
+>> The param, enable_default, is defaulted to true to maintain backwards
+>> compatibility.
+>>
+>> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+>> ---
+>>   drivers/gpu/drm/vkms/vkms_drv.c | 44 ++++++++++++++++++++++-----------
+>>   1 file changed, 29 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c 
+>> b/drivers/gpu/drm/vkms/vkms_drv.c
+>> index 314a04659c5f..1cb56c090a65 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+>> @@ -42,17 +42,26 @@
+>>   #define DRIVER_MAJOR    1
+>>   #define DRIVER_MINOR    0
+>>   +static bool enable_default_device = true;
+>> +module_param_named(enable_default_device, enable_default_device, 
+>> bool, 0444);
+>> +MODULE_PARM_DESC(enable_default_device,
+>> +         "Enable/Disable creating the default device");
 >
-> ---
+> Wouldn't be better to just call it "enable_default"?
 >
-> Marius,
+> Also, could you add this parameter to vkms_config debugfs file?
 >
-> Yeah those values could safely be completely removed.  Good catch :)
+> Best Regards,
+> - Maíra
+>
+>> +
+>>   static bool enable_cursor = true;
+>>   module_param_named(enable_cursor, enable_cursor, bool, 0444);
+>> -MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+>> +MODULE_PARM_DESC(enable_cursor,
+>> +         "Enable/Disable cursor support for the default device");
+>>     static bool enable_writeback = true;
+>>   module_param_named(enable_writeback, enable_writeback, bool, 0444);
+>> -MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback 
+>> connector support");
+>> +MODULE_PARM_DESC(
+>> +    enable_writeback,
+>> +    "Enable/Disable writeback connector support for the default 
+>> device");
+>>     static bool enable_overlay;
+>>   module_param_named(enable_overlay, enable_overlay, bool, 0444);
+>> -MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
+>> +MODULE_PARM_DESC(enable_overlay,
+>> +         "Enable/Disable overlay support for the default device");
+>>     DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+>>   @@ -278,10 +287,7 @@ void vkms_remove_device(struct vkms_device 
+>> *vkms_device)
+>>   static int __init vkms_init(void)
+>>   {
+>>       int ret;
+>> -    struct platform_device *pdev;
+>> -    struct vkms_device_setup vkms_device_setup = {
+>> -        .configfs = NULL,
+>> -    };
+>> +    struct platform_device *default_pdev = NULL;
+>>         ret = platform_driver_register(&vkms_platform_driver);
+>>       if (ret) {
+>> @@ -289,19 +295,27 @@ static int __init vkms_init(void)
+>>           return ret;
+>>       }
+>>   -    pdev = platform_device_register_data(NULL, DRIVER_NAME, 0,
+>> -                         &vkms_device_setup,
+>> -                         sizeof(vkms_device_setup));
+>> -    if (IS_ERR(pdev)) {
+>> -        DRM_ERROR("Unable to register default vkms device\n");
+>> -        platform_driver_unregister(&vkms_platform_driver);
+>> -        return PTR_ERR(pdev);
+>> +    if (enable_default_device) {
+>> +        struct vkms_device_setup vkms_device_setup = {
+>> +            .configfs = NULL,
+>> +        };
+>> +
+>> +        default_pdev = platform_device_register_data(
+>> +            NULL, DRIVER_NAME, 0, &vkms_device_setup,
+>> +            sizeof(vkms_device_setup));
+>> +        if (IS_ERR(default_pdev)) {
+>> +            DRM_ERROR("Unable to register default vkms device\n");
+>> + platform_driver_unregister(&vkms_platform_driver);
+>> +            return PTR_ERR(default_pdev);
+>> +        }
+>>       }
+>>         ret = vkms_init_configfs();
+>>       if (ret) {
+>>           DRM_ERROR("Unable to initialize configfs\n");
+>> -        platform_device_unregister(pdev);
+>> +        if (default_pdev)
+>> +            platform_device_unregister(default_pdev);
+>> +
+>>           platform_driver_unregister(&vkms_platform_driver);
+>>       }
+>
