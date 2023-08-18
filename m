@@ -2,56 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF589C3DA6F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 03:03:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89C10C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 03:08:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244068AbjHRDCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 23:02:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
+        id S236400AbjHRDHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 23:07:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357418AbjHRDCo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 23:02:44 -0400
+        with ESMTP id S1343839AbjHRDH3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 23:07:29 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF90F1BB
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 20:02:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AA62D56
+        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 20:07:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4AE5A61607
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 03:02:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C39B4C433C7;
-        Fri, 18 Aug 2023 03:02:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E38946311D
+        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 03:07:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD10FC433C7;
+        Fri, 18 Aug 2023 03:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692327761;
-        bh=C+qb50i/AzAs7tmX3ps1WN6qoUMah+yzD4vKL0B6vZE=;
+        s=k20201202; t=1692328047;
+        bh=XtpCOzAGlGBG+ijzXnOGop7l8rBn+bP0MyROKMkYCTs=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=m0rzyzPD5FejdY7HoEQzgw6hi7jQNoPmXKG14VsIV4NxVZAsWdhEm0Hgt4qllW/q7
-         t288bqiIDR6A/6VTNAxyriyMfCtta7uEKsm1wqLgRURZdyV9u1EiaPLwPl1pxPxfQ3
-         k1Kg6zKnHcbFLiSwHxFVu9C/uUh5hzFhNRvl1rb4HaNRNWz2VmtSPeUlUM4Sc+l46V
-         GrSNQD8zpcmZH21hJFMXvQyfClYuv8rS1KtjEe9vROSfsSwzMY0OjJj65DNjvCY5yL
-         eIyWbiONH4ysCNHgFNv300cpkWyobvQHBqLGmJQirIxTgXzA5de20nzFiZMV5aDKKn
-         jKs3+CKifweOg==
-Date:   Thu, 17 Aug 2023 20:02:39 -0700
+        b=sg1oQ0phrq1PXOVattZ1mHbzAIz4baJGjMVdSWwziu9meTuQ5b2nkDHiMSYvHQJKN
+         BSljlziJ96r/PNP9IsHqJjmrCS0L9jeMN5cbf/zZVXpfNMSRtgZ34VLOqwqRGwU+lW
+         ePL3brJp8uHJcBoGOQyIFr/ZMcUxYzx9DMMMUlA1G54IG0zTjOqPVIn2baCVDjjaMi
+         wUXwQLbMDttcl8HoFUdap6fC/KgmoEjKJBJWEISymIoO9s5PhusRVzxaNKwhYvBIHJ
+         H+UvZq67vQZ/GE4fsWcG8WQQYvPavgPs9XTNTqk9PE34dGuZ6RwEmiiqa0h+j9A+X9
+         Nuo+H7fENei0A==
+Date:   Thu, 17 Aug 2023 20:07:25 -0700
 From:   Jakub Kicinski <kuba@kernel.org>
-To:     Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc:     davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
-        netdev@vger.kernel.org, Joshua Hay <joshua.a.hay@intel.com>,
-        pavan.kumar.linga@intel.com, emil.s.tantilov@intel.com,
-        jesse.brandeburg@intel.com, sridhar.samudrala@intel.com,
-        shiraz.saleem@intel.com, sindhu.devale@intel.com,
-        willemb@google.com, decot@google.com, andrew@lunn.ch,
-        leon@kernel.org, mst@redhat.com, simon.horman@corigine.com,
-        shannon.nelson@amd.com, stephen@networkplumber.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, Alan Brady <alan.brady@intel.com>,
-        Madhu Chittim <madhu.chittim@intel.com>,
-        Phani Burra <phani.r.burra@intel.com>
-Subject: Re: [PATCH net-next v5 15/15] idpf: configure SRIOV and add other
- ndo_ops
-Message-ID: <20230817200239.7d2643dd@kernel.org>
-In-Reply-To: <20230816004305.216136-16-anthony.l.nguyen@intel.com>
-References: <20230816004305.216136-1-anthony.l.nguyen@intel.com>
-        <20230816004305.216136-16-anthony.l.nguyen@intel.com>
+To:     Leon Romanovsky <leon@kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Dima Chumak <dchumak@nvidia.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Simon Horman <simon.horman@corigine.com>
+Subject: Re: [PATCH net-next v3 0/8] devlink: Add port function attributes
+Message-ID: <20230817200725.20589529@kernel.org>
+In-Reply-To: <cover.1692262560.git.leonro@nvidia.com>
+References: <cover.1692262560.git.leonro@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -59,18 +56,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Aug 2023 17:43:05 -0700 Tony Nguyen wrote:
-> Add PCI callback to configure SRIOV and add the necessary support
-> to initialize the requested number of VFs by sending the virtchnl
-> message to the device Control Plane.
+On Thu, 17 Aug 2023 12:11:22 +0300 Leon Romanovsky wrote:
+> Introduce hypervisor-level control knobs to set the functionality of PCI
+> VF devices passed through to guests. The administrator of a hypervisor
+> host may choose to change the settings of a port function from the
+> defaults configured by the device firmware.
+> 
+> The software stack has two types of IPsec offload - crypto and packet.
+> Specifically, the ip xfrm command has sub-commands for "state" and
+> "policy" that have an "offload" parameter. With ip xfrm state, both
+> crypto and packet offload types are supported, while ip xfrm policy can
+> only be offloaded in packet mode.
+> 
+> The series introduces two new boolean attributes of a port function:
+> ipsec_crypto and ipsec_packet. The goal is to provide a similar level of
+> granularity for controlling VF IPsec offload capabilities, which would
+> be aligned with the software model. This will allow users to decide if
+> they want both types of offload enabled for a VF, just one of them, or
+> none at all (which is the default).
+> 
+> At a high level, the difference between the two knobs is that with
+> ipsec_crypto, only XFRM state can be offloaded. Specifically, only the
+> crypto operation (Encrypt/Decrypt) is offloaded. With ipsec_packet, both
+> XFRM state and policy can be offloaded. Furthermore, in addition to
+> crypto operation offload, IPsec encapsulation is also offloaded. For
+> XFRM state, choosing between crypto and packet offload types is
+> possible. From the HW perspective, different resources may be required
+> for each offload type.
 
-There is no API here to configure the SRIOV, please drop that from 
-the next verison.
+What's going on with all the outstanding nVidia patches?!
+The expectation is 1 series per vendor / driver. Let's say
+2 if there are core changes. You had 5 outstanding today.
 
-Sorry I run out of day. My comments so far are pretty minor, feel 
-free to post v6 without waiting the 24h, otherwise I'll take a look 
-at 9-14 tomorrow.
-
-Please add my Acked-by on patches 1-7, if you're posting v6.
+I'm tossing this out.
 -- 
-pw-bot: cr
+pw-bot: defer
