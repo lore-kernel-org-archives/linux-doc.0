@@ -2,69 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD29EE4992
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 21:23:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83E0FEE499D
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 21:25:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239312AbjHRVWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 17:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48990 "EHLO
+        id S240343AbjHRVZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 17:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237820AbjHRVWV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 17:22:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A6F421A;
-        Fri, 18 Aug 2023 14:22:20 -0700 (PDT)
+        with ESMTP id S240604AbjHRVYj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 17:24:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 058262102;
+        Fri, 18 Aug 2023 14:24:38 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DB9D36341E;
-        Fri, 18 Aug 2023 21:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7D6BC433C7;
-        Fri, 18 Aug 2023 21:22:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8AFD9666E9;
+        Fri, 18 Aug 2023 21:24:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E71C433C7;
+        Fri, 18 Aug 2023 21:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1692393739;
-        bh=6RF79ZSClj1lQVSBT0ejpgM4pv7TXowmSx5NBfjobbs=;
+        s=korg; t=1692393876;
+        bh=Wdz4oVuBLe9dL/FbEM8zLUrqIvKI32lgagofb0qvY6o=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hBSbsHInjlHazMciWMHxCxcAGABJuPtozyKAzAc309XhhI2hH8SUGyjkKMOoqkCK7
-         GBh9mEp6wGaYEk7GqoXZqwgWARk3UQePAhaj6EGJ3z6X5Fow0aDFKCxJYgE1RRlEKj
-         pTcmtJxTeqfM03kOH+A7zJyBAPglJ/xjdw2rN7CA=
-Date:   Fri, 18 Aug 2023 23:22:15 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-serial@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 1/3] Documentation: devices.txt: Remove ttyIOC*
-Message-ID: <2023081806-bobtail-donut-f0a3@gregkh>
-References: <b5deb1222eb92017f0efe5b5cae127ac11983b3d.1691992627.git.christophe.leroy@csgroup.eu>
- <87il9cl00v.fsf@meer.lwn.net>
+        b=qCq6FBHKwur8aDhPsmBJ8x7a/pO6VKC1iTCOZWMlrV+nEghj+H0DqAjTnOlZUR00P
+         OdozVSYiigsj0UhUy+ly+qwBkX+RJEOGfUzAj4Hwm6GEpTCj7+gItKltc+AVOsfrqs
+         5g3zd+1+RH9uR0hpRVYfZeJOm9UwkwF1061rIaxY=
+Date:   Fri, 18 Aug 2023 23:24:33 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Evan Quan <evan.quan@amd.com>
+Cc:     rafael@kernel.org, lenb@kernel.org, johannes@sipsolutions.net,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, alexander.deucher@amd.com, andrew@lunn.ch,
+        rdunlap@infradead.org, quic_jjohnson@quicinc.com, horms@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [V9 1/9] drivers core: Add support for Wifi band RF mitigations
+Message-ID: <2023081806-rounding-distract-b695@gregkh>
+References: <20230818032619.3341234-1-evan.quan@amd.com>
+ <20230818032619.3341234-2-evan.quan@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87il9cl00v.fsf@meer.lwn.net>
+In-Reply-To: <20230818032619.3341234-2-evan.quan@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 18, 2023 at 11:42:56AM -0600, Jonathan Corbet wrote:
-> Christophe Leroy <christophe.leroy@csgroup.eu> writes:
-> 
-> > IOC4 serial driver was removed, remove associated devices
-> > from documentation.
-> >
-> > Fixes: a017ef17cfd8 ("tty/serial: remove the ioc4_serial driver")
-> > Cc: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> > ---
-> >  Documentation/admin-guide/devices.txt | 9 ---------
-> >  1 file changed, 9 deletions(-)
-> 
-> This doesn't apply to docs-next, seemingly as the result of a change
-> that went through Greg's tree, so these should follow the same path,
-> methinks.
+On Fri, Aug 18, 2023 at 11:26:11AM +0800, Evan Quan wrote:
+>  drivers/base/Makefile                         |   1 +
+>  drivers/base/wbrf.c                           | 280 ++++++++++++++++++
 
-I'll be glad to take it, thanks.
+Why is a wifi-specific thing going into drivers/base/?
+
+confused,
 
 greg k-h
