@@ -2,92 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89C10C001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 03:08:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 044FAC71136
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 03:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236400AbjHRDHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Aug 2023 23:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
+        id S1357568AbjHRD1T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Aug 2023 23:27:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343839AbjHRDH3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 23:07:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AA62D56
-        for <linux-doc@vger.kernel.org>; Thu, 17 Aug 2023 20:07:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E38946311D
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 03:07:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD10FC433C7;
-        Fri, 18 Aug 2023 03:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692328047;
-        bh=XtpCOzAGlGBG+ijzXnOGop7l8rBn+bP0MyROKMkYCTs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=sg1oQ0phrq1PXOVattZ1mHbzAIz4baJGjMVdSWwziu9meTuQ5b2nkDHiMSYvHQJKN
-         BSljlziJ96r/PNP9IsHqJjmrCS0L9jeMN5cbf/zZVXpfNMSRtgZ34VLOqwqRGwU+lW
-         ePL3brJp8uHJcBoGOQyIFr/ZMcUxYzx9DMMMUlA1G54IG0zTjOqPVIn2baCVDjjaMi
-         wUXwQLbMDttcl8HoFUdap6fC/KgmoEjKJBJWEISymIoO9s5PhusRVzxaNKwhYvBIHJ
-         H+UvZq67vQZ/GE4fsWcG8WQQYvPavgPs9XTNTqk9PE34dGuZ6RwEmiiqa0h+j9A+X9
-         Nuo+H7fENei0A==
-Date:   Thu, 17 Aug 2023 20:07:25 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Dima Chumak <dchumak@nvidia.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Simon Horman <simon.horman@corigine.com>
-Subject: Re: [PATCH net-next v3 0/8] devlink: Add port function attributes
-Message-ID: <20230817200725.20589529@kernel.org>
-In-Reply-To: <cover.1692262560.git.leonro@nvidia.com>
-References: <cover.1692262560.git.leonro@nvidia.com>
+        with ESMTP id S1357580AbjHRD1R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Aug 2023 23:27:17 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2046.outbound.protection.outlook.com [40.107.100.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13FE22684;
+        Thu, 17 Aug 2023 20:27:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EecBCNjpcl86pHCOlGvMmwKEsVsWq0x9s7uNZO9bKz7R6XM9kP20Sf6zMonTcSEX+dVZbA/xcykKi53wpTGKIgppaIuzbb0IybE3w92mSLZIFKyWAChqkE9ycBn3eX8Q46YP7NA19PWlW97P3oE6hFWrFBP72wN753PjQQdpWupZOkJfhv+aCL7W8Vwltvt0hThrFLAvsFnQ7+dKjSVzeqZvJxoAc+EHgLA2ox2SMxc7sT0CxVsSgwKyLOjGUNmFvfpN7AZGbmWCU0CWh+eg0QHps2gke7vK8sgeyXGZi2xaHClobPGEDJpph+Ds1ZdQGRBOBxEA3+5LpvW0RM4u+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0B+3MWM6N9PGlcrXt+gaqTSeMr8OkzHx7VUQS16hnfE=;
+ b=kb7/pSao24p4miCPeRGg+nU7uxS00TMNDxU4taFg9qMMUjaSlKNSNiHQHho+Z88W7QXX7srlXAgacJVyhAxhAKXX4XKyL52AenucjRI23FaZO6xTBUXDfIfXBPhInq7uus4gbPQvkMS66De/NXLo8z4QDaMp/PI7aZsrJHrixdsKX5yYlGVyJupNBDhv7NL2vglBGKKGMitYXcx258WUDPnZEY6WBfb0mf/FA2lOCauSgHdP4NHkdwhHmkyNnnFZxsMVunzy0Q4Nl/U1UgUCl9v7Fi/RrCxDVh7TUqAJGwHm06mLWuKswxUpYs/pdwu7hDEJ/2bawiZES29SbRsAEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0B+3MWM6N9PGlcrXt+gaqTSeMr8OkzHx7VUQS16hnfE=;
+ b=UetmnGgWdZZ0c6RkiqH5jTOYRuFdUke2YREPxH+rJMAdx57jgrlTbdVjuXpY2PF8ru1HLr2NQBgQDKEuVhsFtMhEgPZQ/pXvjMel333lMM6UF9VXEIeg4GUzsDd5RFgmp46t7ymIdFDhcp+TIOCEFgGWzM1sRFlrtnDMBTtTg0M=
+Received: from SA1P222CA0162.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:3c3::13)
+ by SA1PR12MB7126.namprd12.prod.outlook.com (2603:10b6:806:2b0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Fri, 18 Aug
+ 2023 03:27:12 +0000
+Received: from SN1PEPF0002636D.namprd02.prod.outlook.com
+ (2603:10b6:806:3c3:cafe::82) by SA1P222CA0162.outlook.office365.com
+ (2603:10b6:806:3c3::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.17 via Frontend
+ Transport; Fri, 18 Aug 2023 03:27:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF0002636D.mail.protection.outlook.com (10.167.241.138) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6699.15 via Frontend Transport; Fri, 18 Aug 2023 03:27:12 +0000
+Received: from equan-buildpc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 17 Aug
+ 2023 22:27:07 -0500
+From:   Evan Quan <evan.quan@amd.com>
+To:     <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+        <lenb@kernel.org>, <johannes@sipsolutions.net>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <alexander.deucher@amd.com>, <andrew@lunn.ch>,
+        <rdunlap@infradead.org>, <quic_jjohnson@quicinc.com>,
+        <horms@kernel.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-acpi@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+        <linux-wireless@vger.kernel.org>, <netdev@vger.kernel.org>,
+        Evan Quan <evan.quan@amd.com>
+Subject: [V9 0/9] Enable Wifi RFI interference mitigation feature support
+Date:   Fri, 18 Aug 2023 11:26:10 +0800
+Message-ID: <20230818032619.3341234-1-evan.quan@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636D:EE_|SA1PR12MB7126:EE_
+X-MS-Office365-Filtering-Correlation-Id: c82cbb9b-aa3c-462e-98ba-08db9f9b032f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2k5zjiat4qmgszNMWwwAB24lVkWaG2sMFDC4Ru12TaEDujSxdrv7KDAkYr86BHFNkVI4hkPh/E+yP9tGEhnIm97d1XQkYwtUybPHIFTfPWV/olnkQ8QdXLch42DdNeAbgGJgCISR4uQGtPIjzZEJwa5KgP0IngumHVWUHCUOYenIFo8dgZjL7TtuV4Cs8CpEU4JOZ2k3y98e25DeZRWWoLEvzODFpYefz2+Wn3cnGyGovY4MALAfzjwsyH/APtRSKGpLKhUFCiMmCnoZGHd5+3Kl5VNICOiFjDj+Dur9S02becKk2y4+6PEoIufshsbY4zhcOrABWrXfn/jqOn6F9PwVSrGduam/ynPrEAA53RxL8MNtVvIpcUopAgOg9/6Y9LU6o5VeYg8LWRo7OAsGUNO98dILn04Y6vQewlj1MagVcmfEMMDFDyHdZki1GyTvD62JCnbzLc5rQ1vUTsemLAxZ29pKjoXRVAlUTbebljjlVk7hwKwb2QuiXOaf/+rVTA/dnM4ObB58MCdNNyfEbt6uS3l1vR1D7fuOwt98GV57wJ+qqbZ98WVpTIB7giJ2Zaklw7jGl5tVuS2GTl9hcQwKBUX5byaIwotCBZY3y72pQ8kdoAFoLdro0xsvHEHYW6Oa5lCdKDN2C2IyyqvJ1UBzyxAmYHkEAljE5hiyGWj3iVjgfe+qW5vMq5qAlqkxoNlUKd8dURndZ5wbwpTRVHk9sSCk9qsGQ0oG7NVp9uhSRhv+NhFfKo4MomrkPK/YWaWkhqrhO/P+cdY+ULpIqCp/YVhLOXlil9OqghaB20dfVMKaq79hYq6ydcGp72qqAe+qkhFMO0GqthfyV+eJ9g==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(39860400002)(346002)(376002)(1800799009)(186009)(82310400011)(451199024)(46966006)(36840700001)(40470700004)(40480700001)(40460700003)(426003)(47076005)(7416002)(2906002)(83380400001)(36860700001)(336012)(110136005)(70586007)(478600001)(70206006)(54906003)(6666004)(7696005)(316002)(5660300002)(16526019)(2616005)(44832011)(1076003)(8676002)(8936002)(41300700001)(4326008)(26005)(86362001)(36756003)(82740400003)(81166007)(356005)(921005)(36900700001)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 03:27:12.4630
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c82cbb9b-aa3c-462e-98ba-08db9f9b032f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7126
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Aug 2023 12:11:22 +0300 Leon Romanovsky wrote:
-> Introduce hypervisor-level control knobs to set the functionality of PCI
-> VF devices passed through to guests. The administrator of a hypervisor
-> host may choose to change the settings of a port function from the
-> defaults configured by the device firmware.
-> 
-> The software stack has two types of IPsec offload - crypto and packet.
-> Specifically, the ip xfrm command has sub-commands for "state" and
-> "policy" that have an "offload" parameter. With ip xfrm state, both
-> crypto and packet offload types are supported, while ip xfrm policy can
-> only be offloaded in packet mode.
-> 
-> The series introduces two new boolean attributes of a port function:
-> ipsec_crypto and ipsec_packet. The goal is to provide a similar level of
-> granularity for controlling VF IPsec offload capabilities, which would
-> be aligned with the software model. This will allow users to decide if
-> they want both types of offload enabled for a VF, just one of them, or
-> none at all (which is the default).
-> 
-> At a high level, the difference between the two knobs is that with
-> ipsec_crypto, only XFRM state can be offloaded. Specifically, only the
-> crypto operation (Encrypt/Decrypt) is offloaded. With ipsec_packet, both
-> XFRM state and policy can be offloaded. Furthermore, in addition to
-> crypto operation offload, IPsec encapsulation is also offloaded. For
-> XFRM state, choosing between crypto and packet offload types is
-> possible. From the HW perspective, different resources may be required
-> for each offload type.
+Due to electrical and mechanical constraints in certain platform designs there
+may be likely interference of relatively high-powered harmonics of the (G-)DDR
+memory clocks with local radio module frequency bands used by Wifi 6/6e/7. To
+mitigate possible RFI interference producers can advertise the frequencies in
+use and consumers can use this information to avoid using these frequencies for
+sensitive features.
 
-What's going on with all the outstanding nVidia patches?!
-The expectation is 1 series per vendor / driver. Let's say
-2 if there are core changes. You had 5 outstanding today.
+The whole patch set is based on Linux 6.5-rc5. With some brief introductions
+as below:
+Patch1 - 2:  Core functionality setup for WBRF feature support
+Patch3 - 4:  Bring WBRF support to wifi subsystem.
+Patch5 - 9:  Bring WBRF support to AMD graphics driver.
 
-I'm tossing this out.
+Evan Quan (9):
+  drivers core: Add support for Wifi band RF mitigations
+  drivers core: add ACPI based WBRF mechanism introduced by AMD
+  cfg80211: expose nl80211_chan_width_to_mhz for wide sharing
+  wifi: mac80211: Add support for WBRF features
+  drm/amd/pm: update driver_if and ppsmc headers for coming wbrf feature
+  drm/amd/pm: setup the framework to support Wifi RFI mitigation feature
+  drm/amd/pm: add flood detection for wbrf events
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.0
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
+
+ .../admin-guide/kernel-parameters.txt         |   8 +
+ drivers/acpi/Makefile                         |   2 +
+ drivers/acpi/amd_wbrf.c                       | 294 ++++++++++++++
+ drivers/base/Kconfig                          |  20 +
+ drivers/base/Makefile                         |   1 +
+ drivers/base/wbrf.c                           | 367 ++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  17 +
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     | 213 ++++++++++
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h |  33 ++
+ .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  14 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  14 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_0_ppsmc.h  |   3 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_7_ppsmc.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h  |   3 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    |   9 +
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c  |  60 +++
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  |  59 +++
+ drivers/gpu/drm/amd/pm/swsmu/smu_internal.h   |   3 +
+ include/linux/acpi_amd_wbrf.h                 |  25 ++
+ include/linux/ieee80211.h                     |   1 +
+ include/linux/wbrf.h                          |  47 +++
+ include/net/cfg80211.h                        |   8 +
+ net/mac80211/Makefile                         |   2 +
+ net/mac80211/chan.c                           |   9 +
+ net/mac80211/ieee80211_i.h                    |   9 +
+ net/mac80211/main.c                           |   2 +
+ net/mac80211/wbrf.c                           | 103 +++++
+ net/wireless/chan.c                           |   3 +-
+ 30 files changed, 1331 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/acpi/amd_wbrf.c
+ create mode 100644 drivers/base/wbrf.c
+ create mode 100644 include/linux/acpi_amd_wbrf.h
+ create mode 100644 include/linux/wbrf.h
+ create mode 100644 net/mac80211/wbrf.c
+
 -- 
-pw-bot: defer
+2.34.1
+
