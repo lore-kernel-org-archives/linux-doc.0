@@ -2,67 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC963EE4999
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 20:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C3AEEE498F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 20:07:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379885AbjHRUGu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 16:06:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39778 "EHLO
+        id S1379888AbjHRUHV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 16:07:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379888AbjHRUGs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 16:06:48 -0400
+        with ESMTP id S1379886AbjHRUGu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 16:06:50 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C7EA1BD4;
-        Fri, 18 Aug 2023 13:06:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE421BD4;
+        Fri, 18 Aug 2023 13:06:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=sS4yQXJ2Ya3KF8lqJJez/ry2mxKfhg1PxX5ngqnXF1w=; b=Odxo8IkqUnJLxGrSY+DvFGfooH
-        vN+ao/DDJPwfKbeLt8qj9IuL1ZDN1NGpEL/LvlZ5ixQyLt1dNz8c7rJJYraWBJvqWa2QYDyuhRmJS
-        /dNWPMrBKeMQm2eUN3tqTYt2wNsE/q7NMsavULQgQgN6F5EbX1PZ5d2ZVaF+UnchLCSDpNzK3yDCU
-        0VUy5K31ZVPWwGxjaEARqeh07lVygSoTG+RJAZKVIXjEQRj+lgJ5FLX/XHVYxYkguU1POn5V0lBCr
-        F0ha0kOAx8ywFl/XMawCQYsXk7yqhZuQDWglk8fnQpw8bvNEbjOeXDdeJYTaOZ+IzSjejRcFp58Qt
-        1kr/K7Xw==;
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=vsBXmbIBGjgL8OAsP8lhIU5HpuKdHOAcVbKVff35yq0=; b=rkSXXrRqZSDngZsXaXS1lbcvKi
+        QcxZl8fRtvl2u5og3DaZCgWwOd8wNJiUmPuNozZFhK4Rp2yqmIrBH6RtwP++DppbgOZSGlhwnIezt
+        e1vasqNE2W4aZU+QTDwKwQiw25UEVta9LR0f40lR26wYW8zzUOaRhROTU2QP+RCM811qjbWcygzK2
+        7Vuyv70yxpieq2E6NKpJanmkNqbcKLdBa6fsqSwE7FViFyinr4zEmkSFCp68hihuKk5XIqq9+GNHL
+        fGl5oRgErGTMT2HUat8VgevjzrG6L30Rgiwy1OXl6ZCChibpTt3+MbcOEm7yqywAdIuemdd9xrcze
+        90jN3SXw==;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qX5js-00BPV6-Du; Fri, 18 Aug 2023 20:06:32 +0000
+        id 1qX5js-00BPVC-MY; Fri, 18 Aug 2023 20:06:32 +0000
 From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         linux-mm@kvack.org, Mike Rapoport <rppt@kernel.org>,
         linux-doc@vger.kernel.org, cgroups@vger.kernel.org
-Subject: [PATCH 0/4] Improve mm documentation
-Date:   Fri, 18 Aug 2023 21:06:26 +0100
-Message-Id: <20230818200630.2719595-1-willy@infradead.org>
+Subject: [PATCH 3/4] mm: Fix clean_record_shared_mapping_range kernel-doc
+Date:   Fri, 18 Aug 2023 21:06:29 +0100
+Message-Id: <20230818200630.2719595-4-willy@infradead.org>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20230818200630.2719595-1-willy@infradead.org>
+References: <20230818200630.2719595-1-willy@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If you build with W=1, kernel-doc complains about tlb_flush_rmaps().
-Then I ran scripts/find-unused-docs.sh against mm/ and found a large
-number of files which weren't included in the ReST documentation.
-I fixed up a couple of them, and added all those without erros to the
-rst files.  There's a lot more work to do to organise all of this, but
-at least now if we have documentation that refers to these functions,
-we'll get a nice link to them.
+Turn the a), b) into an unordered ReST list and remove the unnecessary
+'Note:' prefix.
 
-Matthew Wilcox (Oracle) (4):
-  mm: Fix kernel-doc warning from tlb_flush_rmaps()
-  mm: Fix get_mctgt_type() kernel-doc
-  mm: Fix clean_record_shared_mapping_range kernel-doc
-  mm: Add orphaned kernel-doc to the rst files.
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ mm/mapping_dirty_helpers.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
- Documentation/core-api/mm-api.rst | 25 +++++++++++++++++++++++++
- Documentation/mm/highmem.rst      |  1 +
- Documentation/mm/zsmalloc.rst     |  5 +++++
- mm/mapping_dirty_helpers.c        | 11 ++++++-----
- mm/memcontrol.c                   | 31 +++++++++++++------------------
- mm/mmu_gather.c                   |  1 +
- 6 files changed, 51 insertions(+), 23 deletions(-)
-
+diff --git a/mm/mapping_dirty_helpers.c b/mm/mapping_dirty_helpers.c
+index a26dd8bcfcdb..2f8829b3541a 100644
+--- a/mm/mapping_dirty_helpers.c
++++ b/mm/mapping_dirty_helpers.c
+@@ -288,13 +288,14 @@ EXPORT_SYMBOL_GPL(wp_shared_mapping_range);
+  * @end: Pointer to the number of the last set bit in @bitmap.
+  * none set. The value is modified as new bits are set by the function.
+  *
+- * Note: When this function returns there is no guarantee that a CPU has
++ * When this function returns there is no guarantee that a CPU has
+  * not already dirtied new ptes. However it will not clean any ptes not
+  * reported in the bitmap. The guarantees are as follows:
+- * a) All ptes dirty when the function starts executing will end up recorded
+- *    in the bitmap.
+- * b) All ptes dirtied after that will either remain dirty, be recorded in the
+- *    bitmap or both.
++ *
++ * * All ptes dirty when the function starts executing will end up recorded
++ *   in the bitmap.
++ * * All ptes dirtied after that will either remain dirty, be recorded in the
++ *   bitmap or both.
+  *
+  * If a caller needs to make sure all dirty ptes are picked up and none
+  * additional are added, it first needs to write-protect the address-space
 -- 
 2.40.1
 
