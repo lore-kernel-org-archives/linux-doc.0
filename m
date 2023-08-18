@@ -2,109 +2,246 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10EE8C678DC
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 10:23:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF90C001DE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Aug 2023 10:46:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242038AbjHRKW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 06:22:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52948 "EHLO
+        id S1357691AbjHRKqY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Aug 2023 06:46:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358913AbjHRKWm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 06:22:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F7D73592
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 03:21:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1692354113;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=MMCs5YxFvVB+fiLSaL+VMY2Wpe2VaOEHRXiYp6vzx4M=;
-        b=PWviVAYMSjmglLBYghajp03zLc2Ttfnref8xJV04Ci/4IW7pqeIDftFlCi2UG8nFKREMQ3
-        S/qJlwO6qJRjZ18jpxUTtuuD3FY7dCOimeuxzoniSqjkZrXQKwDcsEfacmEuXj5AZmfFk6
-        WwpHtPFoFEpv5DIgNPvIyQtznl91oWk=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-225-WXjdiqbINSO1JkBmizoIZw-1; Fri, 18 Aug 2023 06:21:52 -0400
-X-MC-Unique: WXjdiqbINSO1JkBmizoIZw-1
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-56c877bb4a9so899458eaf.2
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 03:21:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692354111; x=1692958911;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MMCs5YxFvVB+fiLSaL+VMY2Wpe2VaOEHRXiYp6vzx4M=;
-        b=B5WGInYVz2tphL8VBO6eSsPnFSvOr06IVoLbzFLB3d45JMKpRo0dG+amQKYUj/L7p/
-         0FAEwIvU1AuKWP0bZUxwdlWkC1pszQLiz9YgfIpCCqLq6TCw9y+qHNjwLNaobUK3E6fc
-         IBgexjoZF78r2KFaOH9kp16O7xGEgE5VLqWTRdn/ujHEjE9Hf0si96XbbijqcZTO7vdv
-         fTezvKzt1zrlDmCTsZoeOICqPEtK07SXU8SSQfga5o5Btv3xNjt2GMPj9q616fngC1B9
-         BgUSYE6xtJDjgb+RMFB6K3sp8IA8wwuRY4d5pnU4BDvAT4tYuYDyYUeL1r8AIhskSNln
-         4TOA==
-X-Gm-Message-State: AOJu0Yx9LAC34fPdTnbTKQxROrOehoMQvoDDK2XEIY0FPoT/+zc7xPxC
-        Hf2y5q2P7eS3KCCPQprDvAisTv/N9+MaCLhkxfBhN/rAQvtBvJihLtfwUfMzOsILb7DlCPE0GE1
-        sgM5/qt7QfhsrOij693lRw+HnnA2DS7fIvYwQ
-X-Received: by 2002:a05:6358:27a4:b0:139:c7cb:77d4 with SMTP id l36-20020a05635827a400b00139c7cb77d4mr2316831rwb.24.1692354111671;
-        Fri, 18 Aug 2023 03:21:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGVl7u3okw/rSA7AwHYEXaUXprn/MNPwiAA8hA7Tw09iDT4nRzegrWi2GlgLqVnNfTt3BzQBxpRCirLH8dFvMw=
-X-Received: by 2002:a05:6358:27a4:b0:139:c7cb:77d4 with SMTP id
- l36-20020a05635827a400b00139c7cb77d4mr2316801rwb.24.1692354111375; Fri, 18
- Aug 2023 03:21:51 -0700 (PDT)
+        with ESMTP id S1376442AbjHRKqF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 06:46:05 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8F73D2D4A;
+        Fri, 18 Aug 2023 03:46:01 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F357D75;
+        Fri, 18 Aug 2023 03:46:41 -0700 (PDT)
+Received: from [10.163.55.189] (unknown [10.163.55.189])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 924723F762;
+        Fri, 18 Aug 2023 03:45:57 -0700 (PDT)
+Message-ID: <666d2938-a058-ac63-4222-39efa84e38d7@arm.com>
+Date:   Fri, 18 Aug 2023 16:15:53 +0530
 MIME-Version: 1.0
-References: <20230815194254.89570-1-donald.hunter@gmail.com>
- <20230815194254.89570-6-donald.hunter@gmail.com> <20230816082030.5c716f37@kernel.org>
- <CAAf2yc=C4N=QT6hpxmLi-uywc+MhuLdAsbfPRORv5ms9k1JAfQ@mail.gmail.com> <20230817183751.194d547a@kernel.org>
-In-Reply-To: <20230817183751.194d547a@kernel.org>
-From:   Donald Hunter <donald.hunter@redhat.com>
-Date:   Fri, 18 Aug 2023 11:21:40 +0100
-Message-ID: <CAAf2yckUjoKOqxF1uMB+3jo9gQomSfva72WKZmpKjKUdFpQqCQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 05/10] tools/net/ynl: Refactor
- decode_fixed_header into NlMsg
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Donald Hunter <donald.hunter@gmail.com>, netdev@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH V3 1/3] coresight: etm: Override TRCIDR3.CCITMIN on errata
+ affected cpus
+Content-Language: en-US
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+References: <20230811034600.944386-1-anshuman.khandual@arm.com>
+ <20230811034600.944386-2-anshuman.khandual@arm.com>
+ <CAJ9a7Vgd8C_yGa7aoppGHuNhHMzD=7+yjLHU9X4=NJ2CDJA+mQ@mail.gmail.com>
+ <9b9d8928-ab4a-990e-9391-41657f5a54ae@arm.com>
+ <99811457-740c-69a0-7662-dbe24fa2a1c1@arm.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <99811457-740c-69a0-7662-dbe24fa2a1c1@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Aug 2023 at 02:37, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Thu, 17 Aug 2023 16:14:35 +0100 Donald Hunter wrote:
-> > > It's a bit of a layering violation that we are futzing with the raw
-> > > member of NlMsg inside GenlMsg, no?
-> > >
-> > > Should we add "fixed hdrs len" argument to NlMsg? Either directly or
-> > > pass ynl and let get the expected len from ynl? That way NlMsg can
-> > > split itself into hdr, userhdrs and attrs without GenlMsg "fixing it
-> > > up"?
-> >
-> > I agree, it breaks the layering. The issue is that GenlMsg gets created at
-> > some point after NlMsg, only when we know the nl_msg is suitable for
-> > decoding. The fixed header bit is quite well encapsulated in NlMsg,
-> > it's the genl header that needs pulled out and NlMsg shouldn't know
-> > anything about it. How about I add a take_bytes(length) method or a
-> > generic decode_subheader(format, length) method to NlMsg?
->
-> Why do we need to fix up the .raw of NlMsg underlying the GenlMsg
-> in the first place? GenlMsg by itself didn't need to do that until now.
 
-Fair point. I will refactor to leave nl_msg.raw untouched.
 
-> Another option to consider which would make things more symmetric
-> between raw and genetlink would be to add a wrapper class for old
-> families, too. ClassicMsg? CnlMsg? That way we could retain the
-> separation of NlMsg is just a raw message which could be a NLM_DONE or
-> some other control thing, and higher level class being used to pull
-> fixed headers and separate out attrs. Just a thought, not sure it helps.
+On 8/18/23 14:20, Suzuki K Poulose wrote:
+> On 18/08/2023 09:45, Anshuman Khandual wrote:
+>>
+>>
+>> On 8/11/23 14:33, Mike Leach wrote:
+>>> Hi Anshuman,
+>>>
+>>> A few minor points.
+>>>
+>>> On Fri, 11 Aug 2023 at 04:46, Anshuman Khandual
+>>> <anshuman.khandual@arm.com> wrote:
+>>>>
+>>>> This work arounds errata 1490853 on Cortex-A76, and Neoverse-N1, errata
+>>>> 1491015 on Cortex-A77, errata 1502854 on Cortex-X1, and errata 1619801 on
+>>>> Neoverse-V1, based affected cpus, where software read for TRCIDR3.CCITMIN
+>>>> field in ETM gets an wrong value.
+>>>>
+>>>> If software uses the value returned by the TRCIDR3.CCITMIN register field,
+>>>> then it will limit the range which could be used for programming the ETM.
+>>>> In reality, the ETM could be programmed with a much smaller value than what
+>>>> is indicated by the TRCIDR3.CCITMIN field and still function correctly.
+>>>>
+>>>> If software reads the TRCIDR3.CCITMIN register field, corresponding to the
+>>>> instruction trace counting minimum threshold, observe the value 0x100 or a
+>>>> minimum cycle count threshold of 256. The correct value should be 0x4 or a
+>>>> minimum cycle count threshold of 4.
+>>>>
+>>>> This work arounds the problem via storing 4 in drvdata->ccitmin on affected
+>>>> systems where the TRCIDR3.CCITMIN has been 256, thus preserving cycle count
+>>>> threshold granularity.
+>>>>
+>>>> These errata information has been updated in arch/arm64/silicon-errata.rst,
+>>>> but without their corresponding configs because these have been implemented
+>>>> directly in the driver.
+>>>>
+>>>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>>>> Cc: Will Deacon <will@kernel.org>
+>>>> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+>>>> Cc: Mike Leach <mike.leach@linaro.org>
+>>>> Cc: James Clark <james.clark@arm.com>
+>>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>>> Cc: linux-doc@vger.kernel.org
+>>>> Cc: coresight@lists.linaro.org
+>>>> Cc: linux-arm-kernel@lists.infradead.org
+>>>> Cc: linux-kernel@vger.kernel.org
+>>>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>>>> ---
+>>>>   Documentation/arch/arm64/silicon-errata.rst   | 10 +++++
+>>>>   .../coresight/coresight-etm4x-core.c          | 37 +++++++++++++++++++
+>>>>   2 files changed, 47 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+>>>> index bedd3a1d7b42..b08f33eda5f1 100644
+>>>> --- a/Documentation/arch/arm64/silicon-errata.rst
+>>>> +++ b/Documentation/arch/arm64/silicon-errata.rst
+>>>> @@ -107,6 +107,10 @@ stable kernels.
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Cortex-A76      | #1463225        | ARM64_ERRATUM_1463225       |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>> +| ARM            | Cortex-A76      | #1490853        | N/A                         |
+>>>> ++----------------+-----------------+-----------------+-----------------------------+
+>>>> +| ARM            | Cortex-A77      | #1491015        | N/A                         |
+>>>> ++----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Cortex-A77      | #1508412        | ARM64_ERRATUM_1508412       |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Cortex-A510     | #2051678        | ARM64_ERRATUM_2051678       |
+>>>> @@ -125,6 +129,8 @@ stable kernels.
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Cortex-A715     | #2645198        | ARM64_ERRATUM_2645198       |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>> +| ARM            | Cortex-X1       | #1502854        | N/A                         |
+>>>> ++----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Cortex-X2       | #2119858        | ARM64_ERRATUM_2119858       |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Cortex-X2       | #2224489        | ARM64_ERRATUM_2224489       |
+>>>> @@ -133,6 +139,8 @@ stable kernels.
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Neoverse-N1     | #1349291        | N/A                         |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>> +| ARM            | Neoverse-N1     | #1490853        | N/A                         |
+>>>> ++----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Neoverse-N1     | #1542419        | ARM64_ERRATUM_1542419       |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Neoverse-N2     | #2139208        | ARM64_ERRATUM_2139208       |
+>>>> @@ -141,6 +149,8 @@ stable kernels.
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | Neoverse-N2     | #2253138        | ARM64_ERRATUM_2253138       |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>> +| ARM            | Neoverse-V1     | #1619801        | N/A                         |
+>>>> ++----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | MMU-500         | #841119,826419  | N/A                         |
+>>>>   +----------------+-----------------+-----------------+-----------------------------+
+>>>>   | ARM            | MMU-600         | #1076982,1209401| N/A                         |
+>>>
+>>> Could these doc changes not go in patch 3?
+>>
+>> As Suzuki had explained earlier, will keep this errata documentation here in this patch.
+>>
+>>>
+>>>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>> index 703b6fcbb6a5..1f3d29a639ff 100644
+>>>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>> @@ -1150,6 +1150,31 @@ static void cpu_detect_trace_filtering(struct etmv4_drvdata *drvdata)
+>>>>          drvdata->trfcr = trfcr;
+>>>>   }
+>>>>
+>>>> +/*
+>>>> + * The following errata on applicable cpu rangess affect the CCITMIN filed
+>>>
+>>> s/rangess/ranges
+>>
+>> Fixed.
+>>
+>>>
+>>>> + * in TCRIDR3 register. Software read for the field returns 0x100 limiting
+>>>> + * the cycle threshold granularity, where as the right value should have
+>>>> + * been 0x4, which is well supported in the hardware.
+>>>> + */
+>>>> +static struct midr_range etm_wrong_ccitmin_cpus[] = {
+>>>> +       /* Erratum #1490853 - Cortex-A76 */
+>>>> +       MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 4, 0),
+>>>> +       /* Erratum #1490853 - Neoverse-N1 */
+>>>> +       MIDR_RANGE(MIDR_NEOVERSE_N1, 0, 0, 4, 0),
+>>>> +       /* Erratum #1491015 - Cortex-A77 */
+>>>> +       MIDR_RANGE(MIDR_CORTEX_A77, 0, 0, 1, 0),
+>>>> +       /* Erratum #1502854 - Cortex-X1 */
+>>>> +       MIDR_REV(MIDR_CORTEX_X1, 0, 0),
+>>>> +       /* Erratum #1619801 - Neoverse-V1 */
+>>>> +       MIDR_REV(MIDR_NEOVERSE_V1, 0, 0),
+>>>> +       {},
+>>>> +};
+>>>> +
+>>>> +static bool etm4_work_around_wrong_ccitmin(void)
+>>>
+>>> This is not the actual work around - perhaps this should be
+>>> etm4_core_reads_wrong_ccitmin()?
+>>
+>> Sounds better, will rename the function.
+> 
+> Or even move the drvdata->ccitmin == 256 check to this function,
+> pass in the drvdata as an argument. That way, the function
+> completes its meaning. i.e., it reads wrong value only if the value
+> is 256.
 
-I _think_ I can avoid doing this. There's an asymmetry to the way
-the NlAttrs get created that I need to fix. When I do that, the rest
-should be a bit cleaner.
+Something like the following ?
+
+--- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+@@ -1159,9 +1159,20 @@ static struct midr_range etm_wrong_ccitmin_cpus[] = {
+        {},
+ };
+ 
+-static bool etm4_core_reads_wrong_ccitmin(void)
++static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
+ {
+-       return is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus);
++       if (is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus)) {
++               /*
++                * Erratum affected cpus will read 256 as the minimum
++                * instruction trace cycle counting threshold where as
++                * the correct value should be 4 instead. Override the
++                * recorded value for 'drvdata->ccitmin' to workaround
++                * this problem.
++                */
++               if (drvdata->ccitmin == 256)
++                       return true;
++       }
++       return false;
+ }
+ 
+ static void etm4_init_arch_data(void *info)
+@@ -1228,17 +1239,8 @@ static void etm4_init_arch_data(void *info)
+        etmidr3 = etm4x_relaxed_read32(csa, TRCIDR3);
+        /* CCITMIN, bits[11:0] minimum threshold value that can be programmed */
+        drvdata->ccitmin = FIELD_GET(TRCIDR3_CCITMIN_MASK, etmidr3);
+-       if (etm4_core_reads_wrong_ccitmin()) {
+-               /*
+-                * Erratum affected cpus will read 256 as the minimum
+-                * instruction trace cycle counting threshold where as
+-                * the correct value should be 4 instead. Override the
+-                * recorded value for 'drvdata->ccitmin' to workaround
+-                * this problem.
+-                */
+-               if (drvdata->ccitmin == 256)
+-                       drvdata->ccitmin = 4;
+-       }
++       if (etm4_core_reads_wrong_ccitmin(drvdata))
++               drvdata->ccitmin = 4;
+ 
+        /* EXLEVEL_S, bits[19:16] Secure state instruction tracing */
+        drvdata->s_ex_level = FIELD_GET(TRCIDR3_EXLEVEL_S_MASK, etmidr3);
 
