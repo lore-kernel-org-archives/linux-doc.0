@@ -2,802 +2,388 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D885EE49A8
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Aug 2023 14:26:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEAA1EE4993
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Aug 2023 16:25:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233378AbjHSO0t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Aug 2023 10:26:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53040 "EHLO
+        id S233913AbjHSQZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Aug 2023 12:25:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232977AbjHSO0s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 10:26:48 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39955F5BF;
-        Sat, 19 Aug 2023 07:26:46 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68871bbfe33so1458774b3a.0;
-        Sat, 19 Aug 2023 07:26:46 -0700 (PDT)
+        with ESMTP id S233911AbjHSQZg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 12:25:36 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF3783E7
+        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 09:25:34 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bbff6b2679so12951815ad.1
+        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 09:25:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692455205; x=1693060005;
+        d=linaro.org; s=google; t=1692462333; x=1693067133;
         h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZkR/mgdJ1VUHRr+NhSICARlKAyuf8VSff5g1yc7JZ8E=;
-        b=KObHjTecG/QjGRS/qNUn36d1d8kWyRDHHf8vavYCrYVDokcINxj1Z0CQZ/VLTZO3Ty
-         2eiLwdH+/XXIXaeH7B7xl6N0YArGwgUc9jXpnINJJx/tzF3Y20gVNhY8RwudcJfpCAWy
-         J3oB9R/PqmwBRNRzGmPC4OVLyWExVGOHLFHD4vCGoq1wdXhqE3otzn9n+IQIxyMwFZVR
-         CUkIIMsyL3AyFUYO9ouY17bJDxXz4rIeii/sA2mzxsyJNL0QPDAC8PAfrF4HbrDL4NvB
-         z3qDMrpYWI2Lj6N5BbURO2nC+jbO0osPwWDeSZgPW3jAi+vVVcpVzTaYGtQM5Pke/kC1
-         jdGA==
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WA5JDd/9nUU2fK4W4FowJyIDo0hZC42y0ehtux77zMQ=;
+        b=sNW0KUZRGeAXGHzvoScyY2/aFp2GFPkerenykd6naqGfTRHlCiSEUlqTdC1BUJezRN
+         hEW4JL/mSoSrBcKPscDg1xdymSA7PqF9KvnAplbzUxMcF/5uV32/0Tl0siLCx5Lrjr3Q
+         NRzKzaycNNNT/4+nCqCNfP6cm0bEakiGQQcvLIP1KlVUrf7QvBam0tmz944NWgEhx8XL
+         eVMmz4DEnIPndUzyr4HcqYxuppmHXuH6CcXhpOZtnVdZGvGtj9z7cjBffkWmxNLbaors
+         5OhsKj/rCnLZCJlmZZ4z9Y1HUh/zGl22Lmbw8zbNE1mxVQbOWtrX43bCQCS0JkdAs7xO
+         XMfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692455205; x=1693060005;
+        d=1e100.net; s=20221208; t=1692462333; x=1693067133;
         h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZkR/mgdJ1VUHRr+NhSICARlKAyuf8VSff5g1yc7JZ8E=;
-        b=jGveQeHPQMYaAIPZqJBGvU0Yln7CmH82DjVtKjOzZshmNOh9aJMNfJ7AhE3TtaNyPf
-         hGVAea4N3GxTpwxJxMzNxbQgG+xpptPP+lGQIp6BhaZCWknxxMUVY/wIvFQeLhdIhRa6
-         4qVrWm/m7LTRN3Rgw3tfNDFrrs7+knBmuB53mlsg8lWstTgAazwB2LEJ1ahYYqa8+sDy
-         PTeVCJJXApufPlzsYnDRLz8tik4eWRbLL1MjofKM/HYlGBgC9kQN4l4nxW8DnBjE3WmD
-         1N2pKKP1q0fj+QtwFVZMyPaMpRKJH92n3akVfva88LGk+ex4CcptnAznSrWOrA1s+iOx
-         vn8Q==
-X-Gm-Message-State: AOJu0YwckqQCuHYLhWBk6BqYWEqaaKHwvTbdRoRbBPMKFqdy/yBjFdjj
-        iIy7cGYSYvV7cZbcWhXNONI8DqNvrDQ=
-X-Google-Smtp-Source: AGHT+IHrvKJ9bGqkU7eGx2G0hiQAvlVSc0dMIvAcL6mwAytvylGlbkJuP7/YMpHXY/XY/L9yGoJ8Zg==
-X-Received: by 2002:a05:6a21:47c8:b0:148:9ba1:9f6f with SMTP id as8-20020a056a2147c800b001489ba19f6fmr77090pzc.38.1692455205328;
-        Sat, 19 Aug 2023 07:26:45 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s26-20020aa78d5a000000b00666b012baedsm3233220pfe.158.2023.08.19.07.26.44
+        bh=WA5JDd/9nUU2fK4W4FowJyIDo0hZC42y0ehtux77zMQ=;
+        b=NSwUMMTxLKywz0WMOqtSVf32pYCftQJnUKGWoWH+y4ZeCxeEXUqIXCzeK0vZyq0EiT
+         wNahE+lrrIcpFKaCTvquGD39ghhfH1QjR24+eI5KADB1wCinEyC3JR42vidFuqcwGXZ1
+         xOekjZGdXErAQbbIVY4KY5TGSy9+kFSOdbcKrR4D3PsGOqgKugAz3YAnPGvWecu8pg9y
+         Z30ByhWev60Q/FaD2GvOc1cmM5JPIi/x98JqFtxl9hEhfPVKobIZNpM0zmroN4SDJHpY
+         qZPOf2GA7FW34ZDRusM80AvN72vXfl1/3jwYbZs6ku4h8CZHb4zfqD0uyfMXvpmHM7UW
+         BWKQ==
+X-Gm-Message-State: AOJu0YzmqEsLnCX1zRbYqfFOkC5SXfSeR4LI7uORuD/Wk3Rvk2UQTPfM
+        met31JArrCo8Y1EHODKm6Hu4IA==
+X-Google-Smtp-Source: AGHT+IFa5xhJmHi1B7k8WN50Y4oHUGAg2Qd3sJJM1mihhQByTEWkqUDhI+rj35OMLxGgKzkE0Cpuzw==
+X-Received: by 2002:a17:902:e802:b0:1bf:1acf:9c0c with SMTP id u2-20020a170902e80200b001bf1acf9c0cmr2084621plg.26.1692462333490;
+        Sat, 19 Aug 2023 09:25:33 -0700 (PDT)
+Received: from leoy-huanghe.lan ([156.59.96.144])
+        by smtp.gmail.com with ESMTPSA id f21-20020a170902e99500b001aadd0d7364sm3855425plb.83.2023.08.19.09.25.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Aug 2023 07:26:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sat, 19 Aug 2023 07:26:43 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>
-Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <9f2f502c-dd5c-4b0a-b72f-fba30b1f4f1c@roeck-us.net>
-References: <cover.1692033412.git.mail@carsten-spiess.de>
- <f9cff1af48255fd988a7ead37c93aa32c60f7699.1692033412.git.mail@carsten-spiess.de>
+        Sat, 19 Aug 2023 09:25:32 -0700 (PDT)
+Date:   Sun, 20 Aug 2023 00:25:26 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Gang Li <gang.li@linux.dev>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v1] docs/zh_CN: add zh_CN translation for
+ memory-barriers.txt
+Message-ID: <20230819162526.GA274478@leoy-huanghe.lan>
+References: <214aed18-5df5-1014-b73d-a1748c0cca13@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f9cff1af48255fd988a7ead37c93aa32c60f7699.1692033412.git.mail@carsten-spiess.de>
+In-Reply-To: <214aed18-5df5-1014-b73d-a1748c0cca13@linux.dev>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 17, 2023 at 04:29:20PM +0200, Carsten Spie� wrote:
-> Driver for Renesas ISL28022 power monitor with I2C interface.
-> The device monitors voltage, current via shunt resistor
-> and calculated power.
+Hi,
+
+On Fri, Aug 11, 2023 at 02:22:55PM +0800, Gang Li wrote:
+> Add new zh translation zh_CN/memory-barrier.txt based on v6.5-rc5.
 > 
-> Signed-off-by: Carsten Spie� <mail@carsten-spiess.de>
+> Signed-off-by: Gang Li <gang.li@linux.dev>
 > ---
-> v4:
-> - no changes
-> v3:
-> - changelog added
-> v2/v3:
-> - hwmon input shunt voltage removed
-> - debugfs for shunt voltage read access added
-> - missing error handling added
-> - shunt resistor minimum and default value added
-> - properties reworked
-> - device_property_* instead of_property fixed
-> - possible overflows fixed
-> - MAINTAINERS order fixed
-> - documentation updated
-> ---
->  Documentation/hwmon/index.rst    |   1 +
->  Documentation/hwmon/isl28022.rst |  63 ++++
->  MAINTAINERS                      |   7 +
->  drivers/hwmon/Kconfig            |  11 +
->  drivers/hwmon/Makefile           |   1 +
->  drivers/hwmon/isl28022.c         | 496 +++++++++++++++++++++++++++++++
->  6 files changed, 579 insertions(+)
->  create mode 100644 Documentation/hwmon/isl28022.rst
->  create mode 100644 drivers/hwmon/isl28022.c
+>   .../translations/zh_CN/memory-barriers.txt    | 2458 +++++++++++++++++
+>   1 file changed, 2458 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/memory-barriers.txt
 > 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index d11924667f76..c9548fc5c40e 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -90,6 +90,7 @@ Hardware Monitoring Kernel Drivers
->     ir35221
->     ir38064
->     ir36021
-> +   isl28022
->     isl68137
->     it87
->     jc42
-> diff --git a/Documentation/hwmon/isl28022.rst b/Documentation/hwmon/isl28022.rst
+> diff --git a/Documentation/translations/zh_CN/memory-barriers.txt 
+> b/Documentation/translations/zh_CN/memory-barriers.txt
 > new file mode 100644
-> index 000000000000..8d4422a2dacd
+> index 000000000000..caa2775cc9c6
 > --- /dev/null
-> +++ b/Documentation/hwmon/isl28022.rst
-> @@ -0,0 +1,63 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +++ b/Documentation/translations/zh_CN/memory-barriers.txt
+> @@ -0,0 +1,2458 @@
+> +译注：
+> +本文仅为方便汉语阅读，不保证与英文版本同步;
+> +若有疑问，请阅读英文版本;
+> +若有翻译问题，请通知译者；
+> +若想修改文档，也请先修改英文版本。
 > +
-> +Kernel driver isl28022
-> +======================
+> +			 ============================
+> +			 	Linux 内核内存屏障
+> +			 ============================
 > +
-> +Supported chips:
+> +作者：David Howells <dhowells@redhat.com>
+> +    Paul E. McKenney <paulmck@linux.ibm.com>
+> +    Will Deacon <will.deacon@arm.com>
+> +    Peter Zijlstra <peterz@infradead.org>
 > +
-> +  * Renesas ISL28022
+> +译者：李港 Gang Li <gang.li@linux.dev>
 > +
-> +    Prefix: 'isl28022'
+> +==========
+> +免责声明
+> +==========
 > +
-> +    Addresses scanned: none
+> +本文档不是一个规范；它由于有意 (为了简洁) 或无意 (由于人为因素) 
+> 的原因而不完整。本文档
+> +旨在指导如何使用 Linux 提供的各种内存屏障，如果有疑问 
+> (而且有很多)，请在邮件列表咨询。
+> +一些疑问可以通过参考正式的内存一致性模型和 tools/memory-model/ 
+> 下的相关文档来解决。
+> +这些内存模型是维护者的集体意见，而不是准确无误的实现规范。
 > +
-> +    Datasheet: Publicly available at the Renesas website
-> +
-> +	       https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
-> +
-> +Author:
-> +    Carsten Spie� <mail@carsten-spiess.de>
-> +
-> +Description
-> +-----------
-> +
-> +The ISL28022 is a power monitor with I2C interface. The device monitors
-> +voltage, current via shunt resistor and calculated power.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not auto-detect devices. You will have to instantiate the
-> +device explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-> +details.
-> +
-> +The shunt value in micro-ohms, shunt voltage range and averaging can be set
-> +with device properties.
-> +Please refer to the Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-> +for bindings if the device tree is used.
-> +
-> +The driver supports only shunt and bus continuous ADC mode at 15bit resolution.
-> +Averaging can be set from 1 to 128 samples (power of 2) on both channels.
-> +Shunt voltage range of 40, 80, 160 or 320mV is allowed
-> +The bus voltage range is 60V fixed.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +The following attributes are supported. All attributes are read-only.
-> +
-> +======================= =======================================================
-> +in0_input		bus voltage (milli Volt)
-> +
-> +curr1_input		current (milli Ampere)
-> +power1_input		power (micro Watt)
-> +======================= =======================================================
-> +
-> +Debugfs entries
-> +---------------
-> +
-> +The following attributes are supported. All attributes are read-only.
-> +
-> +======================= =======================================================
-> +shunt_voltage		shunt voltage (micro Volt)
-> +======================= =======================================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7abb5710e1bb..b02e3b991676 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11065,6 +11065,13 @@ F:	drivers/isdn/Makefile
->  F:	drivers/isdn/hardware/
->  F:	drivers/isdn/mISDN/
->  
-> +ISL28022 HARDWARE MONITORING DRIVER
-> +M:	Carsten Spie� <mail@carsten-spiess.de>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/hwmon/isl28022.rst
-> +F:	drivers/hwmon/isl28022.c
-> +
->  ISOFS FILESYSTEM
->  M:	Jan Kara <jack@suse.cz>
->  L:	linux-fsdevel@vger.kernel.org
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 2913299c2c9e..3049c519e6ac 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -800,6 +800,17 @@ config SENSORS_CORETEMP
->  	  sensor inside your CPU. Most of the family 6 CPUs
->  	  are supported. Check Documentation/hwmon/coretemp.rst for details.
->  
-> +config SENSORS_ISL28022
-> +	tristate "Renesas ISL28022"
-> +	depends on I2C
-> +	select REGMAP_I2C
-> +	help
-> +	  If you say yes here you get support for ISL28022 power monitor.
-> +	  Check Documentation/hwmon/isl28022.rst for details.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called isl28022.
-> +
->  config SENSORS_IT87
->  	tristate "ITE IT87xx and compatibles"
->  	depends on !PPC
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index ff6bfd109c72..4046fed7f48d 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -98,6 +98,7 @@ obj-$(CONFIG_SENSORS_INA2XX)	+= ina2xx.o
->  obj-$(CONFIG_SENSORS_INA238)	+= ina238.o
->  obj-$(CONFIG_SENSORS_INA3221)	+= ina3221.o
->  obj-$(CONFIG_SENSORS_INTEL_M10_BMC_HWMON) += intel-m10-bmc-hwmon.o
-> +obj-$(CONFIG_SENSORS_ISL28022)	+= isl28022.o
->  obj-$(CONFIG_SENSORS_IT87)	+= it87.o
->  obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
->  obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
-> diff --git a/drivers/hwmon/isl28022.c b/drivers/hwmon/isl28022.c
-> new file mode 100644
-> index 000000000000..18b4481d5ff6
-> --- /dev/null
-> +++ b/drivers/hwmon/isl28022.c
-> @@ -0,0 +1,496 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * isl28022.c - driver for Renesas ISL28022 power monitor chip monitoring
-> + *
-> + * Copyright (c) 2023 Carsten Spie� <mail@carsten-spiess.de>
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/slab.h>
-> +#include <linux/i2c.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
+> +再次重申，本文档不是 Linux 对硬件的规范或期望。
 
-Unnecessary include file.
+再次重申，本文档不是 Linux 对硬件要求的规范手册。
 
-> +#include <linux/debugfs.h>
-> +#include <linux/err.h>
-> +#include <linux/of_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/util_macros.h>
-> +#include <linux/regulator/consumer.h>
+> +本文档的目的有两个：
+> +
+> + (1) 为内核屏障函数指定可以依赖的最小功能，以及
 
-Aplhabetic include file order, please.
+(1) 针对任何一个特定的屏障，定义其可依赖的最小功能;
 
 > +
-> +/* ISL28022 registers */
-> +#define ISL28022_REG_CONFIG	0x00
-> +#define ISL28022_REG_SHUNT	0x01
-> +#define ISL28022_REG_BUS	0x02
-> +#define ISL28022_REG_POWER	0x03
-> +#define ISL28022_REG_CURRENT	0x04
-> +#define ISL28022_REG_CALIB	0x05
-> +#define ISL28022_REG_SHUNT_THR	0x06
-> +#define ISL28022_REG_BUS_THR	0x07
-> +#define ISL28022_REG_INT	0x08
-> +#define ISL28022_REG_AUX	0x09
-> +#define ISL28022_REG_MAX	ISL28022_REG_AUX
-> +
-> +/* ISL28022 config flags */
-> +/* mode flags */
-> +#define ISL28022_MODE_SHIFT	0
-> +#define ISL28022_MODE_MASK	0x0007
-> +
-> +#define ISL28022_MODE_PWR_DOWN	0x0
-> +#define ISL28022_MODE_TRG_S	0x1
-> +#define ISL28022_MODE_TRG_B	0x2
-> +#define ISL28022_MODE_TRG_SB	0x3
-> +#define ISL28022_MODE_ADC_OFF	0x4
-> +#define ISL28022_MODE_CONT_S	0x5
-> +#define ISL28022_MODE_CONT_B	0x6
-> +#define ISL28022_MODE_CONT_SB	0x7
-> +
-> +/* shunt ADC settings */
-> +#define ISL28022_SADC_SHIFT	3
-> +#define ISL28022_SADC_MASK	0x0078
-> +
-> +#define ISL28022_BADC_SHIFT	7
-> +#define ISL28022_BADC_MASK	0x0780
-> +
-> +#define ISL28022_ADC_12		0x0	/* 12 bit ADC */
-> +#define ISL28022_ADC_13		0x1	/* 13 bit ADC */
-> +#define ISL28022_ADC_14		0x2	/* 14 bit ADC */
-> +#define ISL28022_ADC_15		0x3	/* 15 bit ADC */
-> +#define ISL28022_ADC_15_1	0x8	/* 15 bit ADC, 1 sample */
-> +#define ISL28022_ADC_15_2	0x9	/* 15 bit ADC, 2 samples */
-> +#define ISL28022_ADC_15_4	0xA	/* 15 bit ADC, 4 samples */
-> +#define ISL28022_ADC_15_8	0xB	/* 15 bit ADC, 8 samples */
-> +#define ISL28022_ADC_15_16	0xC	/* 15 bit ADC, 16 samples */
-> +#define ISL28022_ADC_15_32	0xD	/* 15 bit ADC, 32 samples */
-> +#define ISL28022_ADC_15_64	0xE	/* 15 bit ADC, 64 samples */
-> +#define ISL28022_ADC_15_128	0xF	/* 15 bit ADC, 128 samples */
-> +
-> +/* shunt voltage range */
-> +#define ISL28022_PG_SHIFT	11
-> +#define ISL28022_PG_MASK	0x1800
-> +
-> +#define ISL28022_PG_40		0x0	/* +/-40 mV */
-> +#define ISL28022_PG_80		0x1	/* +/-80 mV */
-> +#define ISL28022_PG_160		0x2	/* +/-160 mV */
-> +#define ISL28022_PG_320		0x3	/* +/-3200 mV */
-> +
-> +/* bus voltage range */
-> +#define ISL28022_BRNG_SHIFT	13
-> +#define ISL28022_BRNG_MASK	0x6000
-> +
-> +#define ISL28022_BRNG_16	0x0	/* 16 V */
-> +#define ISL28022_BRNG_32	0x1	/* 32 V */
-> +#define ISL28022_BRNG_60	0x3	/* 60 V */
-> +
-> +/* reset */
-> +#define ISL28022_RESET		0x8000
-> +
-> +struct isl28022_data {
-> +	struct i2c_client	*client;
-> +	struct regmap		*regmap;
-> +#ifdef CONFIG_DEBUG_FS
-> +	struct dentry		*debugfs;
-> +#endif
-> +	u32			shunt;
-> +	u32			gain;
-> +	u32			average;
-> +	u16			config;
-> +	u16			calib;
-> +};
-> +
-> +static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
-> +			 u32 attr, int channel, long *val)
-> +{
-> +	struct isl28022_data *data = dev_get_drvdata(dev);
-> +	unsigned int regval;
-> +	int err;
-> +
-> +	switch (type) {
-> +	case hwmon_in:
-> +		switch (attr) {
-> +		case hwmon_in_input:
-> +			err = regmap_read(data->regmap,
-> +					  ISL28022_REG_BUS, &regval);
-> +			if (err < 0)
-> +				return err;
-> +			/* driver supports only 60V mode (BRNG 11) */
-> +			*val = (long)(((u16)regval) & 0xFFFC);
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case hwmon_curr:
-> +		switch (attr) {
-> +		case hwmon_curr_input:
-> +			err = regmap_read(data->regmap,
-> +					  ISL28022_REG_CURRENT, &regval);
-> +			if (err < 0)
-> +				return err;
-> +			*val = ((long)regval * 1250L * (long)data->gain) /
-> +				(long)data->shunt;
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case hwmon_power:
-> +		switch (attr) {
-> +		case hwmon_power_input:
-> +			err = regmap_read(data->regmap,
-> +					  ISL28022_REG_POWER, &regval);
-> +			if (err < 0)
-> +				return err;
-> +			*val = ((51200000L * ((long)data->gain)) /
-> +				(long)data->shunt) * (long)regval;
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t isl28022_is_visible(const void *data, enum hwmon_sensor_types type,
-> +				   u32 attr, int channel)
-> +{
-> +	switch (type) {
-> +	case hwmon_in:
-> +		switch (attr) {
-> +		case hwmon_in_input:
-> +			return 0444;
-> +		}
-> +		break;
-> +	case hwmon_curr:
-> +		switch (attr) {
-> +		case hwmon_curr_input:
-> +			return 0444;
-> +		}
-> +		break;
-> +	case hwmon_power:
-> +		switch (attr) {
-> +		case hwmon_power_input:
-> +			return 0444;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +	return 0;
-> +}
+> + (2) 提供关于如何使用屏障的指南。
 
-Various default: missing.
+(2) 对于可用的屏障，提供如何使用的指南。
 
 > +
-> +static const struct hwmon_channel_info *isl28022_info[] = {
-> +	HWMON_CHANNEL_INFO(in,
-> +			   HWMON_I_INPUT),	/* channel 0: bus voltage (mV) */
-> +	HWMON_CHANNEL_INFO(curr,
-> +			   HWMON_C_INPUT),	/* channel 1: current (mA) */
-> +	HWMON_CHANNEL_INFO(power,
-> +			   HWMON_P_INPUT),	/* channel 1: power (�W) */
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_ops isl28022_hwmon_ops = {
-> +	.is_visible = isl28022_is_visible,
-> +	.read = isl28022_read,
-> +};
-> +
-> +static const struct hwmon_chip_info isl28022_chip_info = {
-> +	.ops = &isl28022_hwmon_ops,
-> +	.info = isl28022_info,
-> +};
-> +
-> +static bool isl28022_is_writeable_reg(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case ISL28022_REG_CONFIG:
-> +	case ISL28022_REG_CALIB:
-> +	case ISL28022_REG_SHUNT_THR:
-> +	case ISL28022_REG_BUS_THR:
-> +	case ISL28022_REG_INT:
-> +	case ISL28022_REG_AUX:
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static bool isl28022_is_volatile_reg(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case ISL28022_REG_CONFIG:
-> +	case ISL28022_REG_SHUNT:
-> +	case ISL28022_REG_BUS:
-> +	case ISL28022_REG_POWER:
-> +	case ISL28022_REG_CURRENT:
-> +	case ISL28022_REG_INT:
-> +	case ISL28022_REG_AUX:
-> +		return true;
-> +	}
-> +	return true;
-> +}
-> +
-> +static const struct regmap_config isl28022_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 16,
-> +	.max_register = ISL28022_REG_MAX,
-> +	.writeable_reg = isl28022_is_writeable_reg,
-> +	.volatile_reg = isl28022_is_volatile_reg,
-> +	.val_format_endian = REGMAP_ENDIAN_BIG,
-> +	.cache_type = REGCACHE_RBTREE,
-> +	.use_single_read = true,
-> +	.use_single_write = true,
-> +};
-> +
-> +static const struct i2c_device_id isl28022_ids[] = {
-> +	{ "isl28022", 0},
-> +	{ /* LIST END */ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, isl28022_ids);
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +static int shunt_voltage_show(struct seq_file *seqf, void *unused)
-> +{
-> +	struct isl28022_data *data = seqf->private;
-> +	unsigned int regval;
-> +	int err;
-> +
-> +	err = regmap_read(data->regmap,
-> +			  ISL28022_REG_SHUNT, &regval);
-> +	if (err)
-> +		return err;
-> +
-> +	/* print shunt voltage in micro volt  */
-> +	seq_printf(seqf, "%d\n", regval * 10);
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(shunt_voltage);
-> +
-> +static struct dentry *isl28022_debugfs_root;
-> +
-> +static void isl28022_debugfs_remove(void *res)
-> +{
-> +	debugfs_remove_recursive(res);
-> +}
-> +
-> +static int isl28022_debugfs_init(struct isl28022_data *data)
-> +{
+> +请注意，一个架构可以为任何屏障提供超出最低要求的功能，但是，如果架构提供的功能少于最低
+> +要求，则该架构是错误的。
 
-This function should not return an error (see below).
-
-> +	char name[16];
-> +	int err;
-> +	struct dentry *entry;
-> +
-> +	scnprintf(name, sizeof(name), "%d-%04hx", data->client->adapter->nr, data->client->addr);
-> +
-
-I am sure I mentioned this before. data->client is only used in this
-function. Pass it as argument instead of storing it in data->client.
-
-> +	data->debugfs = debugfs_create_dir(name, isl28022_debugfs_root);
-
-Why store 'debugfs' in data ? It is not used outside this function.
-
-Actually, 'data' is only used to get data->client, and to
-(unnecessarily) store debugfs in it. Just pass 'client',
-add a local 'debugfs' variable instead, and drop both 'client'
-and 'debugfs' from struct isl28022_data.
-
-> +	if (IS_ERR(data->debugfs))
-> +		return PTR_ERR(data->debugfs);
-> +
-> +	err = devm_add_action_or_reset(&data->client->dev, isl28022_debugfs_remove, data->debugfs);
-> +	if (err)
-> +		return err;
-> +
-> +	entry = debugfs_create_file("shunt_voltage", 0444, data->debugfs, data,
-> +			    &shunt_voltage_fops);
-> +	if (IS_ERR(entry))
-> +		return PTR_ERR(entry);
-> +
-
-Error checking / handling of debugfs calls in this function should not
-be necessary. debugfs code handles it transparently.
-
-> +	return 0;
-> +}
-> +#endif /* CONFIG_DEBUG_FS*/
-> +
-> +/*
-> + * read property values and make consistency checks.
-> + *
-> + * following values for shunt range and resistor are allowed:
-> + *   40 mV -> gain 1, shunt min.  800 micro ohms
-> + *   80 mV -> gain 2, shunt min. 1600 micro ohms
-> + *  160 mV -> gain 4, shunt min. 3200 micro ohms
-> + *  320 mV -> gain 8, shunt min. 6400 micro ohms
-> + */
-> +static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
-> +{
-> +	u32 val;
-> +	int err;
-> +
-> +	err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
-> +	if (err == -ENODATA)
-> +		val = 10000;
-> +	else if (err < 0)
-> +		return err;
-> +	data->shunt = val;
-> +
-> +	err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
-> +	if (err == -ENODATA)
-> +		val = 320000;
-> +	else if (err < 0)
-> +		return err;
-> +	switch (val) {
-> +	case 40000:
-> +		data->gain = 1;
-> +		if (data->shunt < 800)
-> +			goto shunt_invalid;
-> +		break;
-> +	case 80000:
-> +		data->gain = 2;
-> +		if (data->shunt < 1600)
-> +			goto shunt_invalid;
-> +		break;
-> +	case 160000:
-> +		data->gain = 4;
-> +		if (data->shunt < 3200)
-> +			goto shunt_invalid;
-> +		break;
-> +	case 320000:
-> +		data->gain = 8;
-> +		if (data->shunt < 6400)
-> +			goto shunt_invalid;
-> +		break;
-> +	default:
-> +		dev_err(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
-> +		return -EINVAL;
-> +	}
-> +
-> +	err = device_property_read_u32(dev, "renesas,average-samples", &val);
-> +	if (err == -ENODATA)
-> +		val = 1;
-
--ENODATA means the property exists (as boolean) but contains no value.
-Is that really what you want here and above ? It contradicts the devicetree
-documentation which suggests defaults but doesn't say anything about a
-boolean property which should be interpreted as "use default".
-Should this check for -EINVAL instead ?
-
-> +	else if (err < 0)
-> +		return err;
-> +	if ((val > 128) || (BIT(__ffs(val)) != val)) {
-
-Please no unnecessary ( ). Also, the return value of __ffs() is undefined
-if the parameter is 0. While BIT(some random number) is unlikely to be 0,
-it might well be if 'some random number' is >= 32. I don't think
-relying on this is a good idea. I would suggest checking for
-hweight32(val) != 1 instead.
-
-> +		dev_err(dev, "renesas,average-samples invalid value %d\n", val);
-> +		return -EINVAL;
-> +	}
-> +	data->average = val;
-> +
-> +	return 0;
-> +
-> +shunt_invalid:
-> +	dev_err(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
-> +	return -EINVAL;
-> +}
-> +
-> +/*
-> + * write configuration and calibration registers
-> + *
-> + * The driver supports only shunt and bus continuous ADC mode at 15bit resolution
-> + * with averaging from 1 to 128 samples (pow of 2) on both channels.
-> + * Shunt voltage gain 1,2,4 or 8 is allowed.
-> + * The bus voltage range is 60V fixed.
-> + */
-> +static int isl28022_config(struct isl28022_data *data)
-> +{
-> +	int err;
-> +
-> +	data->config = (ISL28022_MODE_CONT_SB << ISL28022_MODE_SHIFT) |
-> +			(ISL28022_BRNG_60 << ISL28022_BRNG_SHIFT) |
-> +			(__ffs(data->gain) << ISL28022_PG_SHIFT) |
-> +			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_SADC_SHIFT) |
-> +			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_BADC_SHIFT);
-> +
-> +	data->calib = data->shunt ? 0x8000 / data->gain : 0;
-> +
-> +	err = regmap_write(data->regmap, ISL28022_REG_CONFIG, data->config);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	err = regmap_write(data->regmap, ISL28022_REG_CALIB, data->calib);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	return 0;
-> +}
-> +
-> +static int isl28022_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct device *hwmon_dev;
-> +	struct isl28022_data *data;
-> +	int err;
-> +
-> +	if (!i2c_check_functionality(client->adapter,
-> +				     I2C_FUNC_SMBUS_BYTE_DATA |
-> +				     I2C_FUNC_SMBUS_WORD_DATA))
-> +		return -ENODEV;
-> +
-> +	data = devm_kzalloc(dev, sizeof(struct isl28022_data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->client = client;
-> +
-> +	err = isl28022_read_properties(dev, data);
-> +	if (err)
-> +		return err;
-> +
-> +	data->regmap = devm_regmap_init_i2c(client, &isl28022_regmap_config);
-> +	if (IS_ERR(data->regmap))
-> +		return PTR_ERR(data->regmap);
-> +
-> +	err = isl28022_config(data);
-> +	if (err)
-> +		return err;
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +	err = isl28022_debugfs_init(data);
-> +	if (err)
-> +		return err;
-
-debugfs errors are not supposed to result in instantiation aborts.
-
-> +#endif
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, "isl28022_hwmon",
-> +							 data, &isl28022_chip_info, NULL);
-> +	if (IS_ERR(hwmon_dev))
-> +		return PTR_ERR(hwmon_dev);
-> +
-> +	dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->name);
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id __maybe_unused isl28022_of_match[] = {
-> +	{ .compatible = "renesas,isl28022"},
-> +	{ /* LIST END */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, isl28022_of_match);
-> +
-> +static struct i2c_driver isl28022_driver = {
-> +	.class		= I2C_CLASS_HWMON,
-> +	.driver = {
-> +		.name	= "isl28022",
-> +	},
-> +	.probe_new	= isl28022_probe,
-> +	.id_table	= isl28022_ids,
-> +};
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +static int __init
-> +isl28022_init(void)
-> +{
-> +	int err;
-> +
-> +	isl28022_debugfs_root = debugfs_create_dir("isl28022", NULL);
-> +	err = i2c_add_driver(&isl28022_driver);
-> +	if (!err)
-> +		return 0;
-> +
-> +	debugfs_remove_recursive(isl28022_debugfs_root);
-> +	return err;
-> +}
-> +
-> +static void __exit
-> +isl28022_exit(void)
-> +{
-> +	i2c_del_driver(&isl28022_driver);
-> +	debugfs_remove_recursive(isl28022_debugfs_root);
-> +}
-> +
-> +module_init(isl28022_init);
-> +module_exit(isl28022_exit);
-> +#else /* CONFIG_DEBUG_FS */
-> +module_i2c_driver(isl28022_driver);
-> +#endif /* CONFIG_DEBUG_FS */
-
-This set of ifdefs is unnecessary. debugfs functions are dummies
-if debugfs is not enabled. The above just makes the code more
-difficult to understand.
-
-In general, it is always better to avoid "#ifdef CONFIG_DEBUG_FS"
-to make sure that the code compiles with and without it.
-Please consider just always keeping that code. The compiler will
-drop most if not all of it if debugfs is not enabled.
+... 一个架构可以为任何特定的屏障实现超出最低要求的功能 ...
 
 > +
-> +MODULE_AUTHOR("Carsten Spie� <mail@carsten-spiess.de>");
-> +MODULE_DESCRIPTION("ISL28022 driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.34.1
-> 
+> +还要注意的是，在某些架构中，部分屏障可能是空操作。因为该架构已经保证了该内存序，使得
+> +显式屏障是不必要的。
+
+还要注意，在某些架构中，一个屏障可能是空操作。这是因为这些架构的工作
+方式不再需要显式地使用屏障了。
+
+> +
+> +========
+> +目录
+> +========
+> +
+> + (*) 抽象内存访问模型。
+> +
+> +     - 设备操作。
+> +     - CPU 的保证。
+> +
+> + (*) 什么是内存屏障？
+> +
+> +     - 内存屏障的种类。
+> +     - 关于内存屏障不可假设什么？
+> +     - 地址依赖屏障 (旧) 。
+> +     - 控制依赖。
+> +     - SMP 屏障配对。
+> +     - 内存屏障序列示例。
+> +     - 读屏障与预读。
+
+s/预读/读取预测
+
+> +     - 多拷贝原子性。
+> +
+> + (*) 显式内核屏障函数。
+> +
+> +     - 编译器屏障。
+> +     - CPU 内存屏障。
+> +
+> + (*) 隐式内核屏障函数。
+> +
+> +     - 取锁函数。
+
+锁获取函数。
+
+> +     - 关中断函数。
+> +     - 睡眠和唤醒函数。
+> +     - 其他函数。
+> +
+> + (*) 跨CPU ACQUIRING 屏障的影响。
+> +
+> +     - Acquires 与 内存访问。
+> +
+> + (*) 哪里需要内存屏障？
+> +
+> +     - 处理器间交互。
+> +     - 原子操作。
+> +     - 访问设备。
+> +     - 中断。
+> +
+> + (*) 内核 I/O 屏障。
+> +
+> + (*) 假想的最小执行顺序模型。
+
+s/假想/预设 ?
+
+> +
+> + (*) CPU 缓存的影响。
+> +
+> +     - 缓存一致性。
+> +     - 缓存一致性与 DMA。
+> +     - 缓存一致性与 MMIO。
+> +
+> + (*) CPU 相关。
+> +
+> +     - 还有就是Alpha。
+> +     - 虚拟机客户端。
+> +
+> + (*) 使用示例。
+> +
+> +     - 环形缓冲区。
+> +
+> + (*) 参考资料。
+> +
+> +============================
+> +抽象内存访问模型
+> +============================
+> +
+> +考虑以下抽象模型：
+> +
+> +		            :                :
+> +		            :                :
+> +		            :                :
+> +		+-------+   :   +--------+   :   +-------+
+> +		|       |   :   |        |   :   |       |
+> +		|       |   :   |        |   :   |       |
+> +		| CPU 1 |<----->|   内存  |<----->| CPU 2 |
+
+Unalignment caused by extra space around "内存".
+
+> +		|       |   :   |        |   :   |       |
+> +		|       |   :   |        |   :   |       |
+> +		+-------+   :   +--------+   :   +-------+
+> +		    ^       :       ^        :       ^
+> +		    |       :       |        :       |
+> +		    |       :       |        :       |
+> +		    |       :       v        :       |
+> +		    |       :   +--------+   :       |
+> +		    |       :   |        |   :       |
+> +		    |       :   |        |   :       |
+> +		    +---------->|   设备  |<----------+
+> +		            :   |        |   :
+> +		            :   |        |   :
+> +		            :   +--------+   :
+> +		            :                :
+> +
+> +每个 CPU 执行一个访存程序。在本文的抽象 CPU 中，访问指令的顺序非常松散，每个 
+
+s/访问指令的顺序非常松散/访问操作可以是完全乱序的/
+
+Here we need to take care the subtle difference between the "memory
+instructions ordering" vs "memory operations ordering".
+
+
+> CPU 可以
+
+Unintended new line.
+
+> +按照任意顺序执行访存指令，每个 CPU 
+
+s/访存指令/访存操作/
+
+> 都保证在本核心看来，最终执行结果与不乱序的情况相同。
+> +同样，编译器也可以按照任意顺序排列指令，只要不影响程序的运行结果。
+> +
+> +CPU可以通过一些本地缓存来提高指令运行效率，内存操作会被缓存在当前CPU上，每个 
+> CPU 都能
+> +按顺序看到自己的内存操作。但每个缓存项写入到主存的顺序未知，在上图中，即每条指令的结果穿过
+> +虚线的顺序未知。
+
+Here cannot match with the original words:
+
+"So in the above diagram, the effects of the memory operations performed by a
+CPU are perceived by the rest of the system as the operations cross the
+interface between the CPU and rest of the system (the dotted lines)."
+
+在上图中，当一个CPU执行内存操作后，其结果可以被系统中其他硬件所感知,
+这需要通过在CPU和系统其他模块的接口(虚线所示)之间的额外操作来完成。
+
+> +
+> +
+> +例如，考虑以下内存操作序列：
+> +
+> +	CPU 1		CPU 2
+> +	===============	===============
+> +	{ A == 1; B == 2 }
+> +	A = 3;		x = B;
+> +	B = 4;		y = A;
+> +
+> +CPU 外部可能看到如下任意顺序：
+
+CPU 外部可能看到如下任意顺序, 其排列组合共有24种情况:
+
+> +
+> +	STORE A=3,	STORE B=4,	y=LOAD A->3,	x=LOAD B->4
+> +	STORE A=3,	STORE B=4,	x=LOAD B->4,	y=LOAD A->3
+> +	STORE A=3,	y=LOAD A->3,	STORE B=4,	x=LOAD B->4
+> +	STORE A=3,	y=LOAD A->3,	x=LOAD B->2,	STORE B=4
+> +	STORE A=3,	x=LOAD B->2,	STORE B=4,	y=LOAD A->3
+> +	STORE A=3,	x=LOAD B->2,	y=LOAD A->3,	STORE B=4
+> +	STORE B=4,	STORE A=3,	y=LOAD A->3,	x=LOAD B->4
+> +	STORE B=4, ...
+> +	...
+> +
+> +可以得到四种不同的结果组合：
+> +
+> +	x == 2, y == 1
+> +	x == 2, y == 3
+> +	x == 4, y == 1
+> +	x == 4, y == 3
+> +
+> +
+> +此外，一个 CPU 核心向主存提交的写可能不会被另一个 CPU 核心按顺序读。
+
+一个CPU向内存进行写操作，而另外一个CPU在执行读操作，进行读操作的CPU
+感知（或者观察到）的数据顺序，有可能和写操作（Stores）的顺序是不同的。
+
+> +
+> +
+> +再举一个例子，考虑这个序列：
+> +
+> +	CPU 1		CPU 2
+> +	===============	===============
+> +	{ A == 1, B == 2, C == 3, P == &A, Q == &C }
+> +	B = 4;		Q = P;
+> +	P = &B;		D = *Q;
+> +
+> +这里有一个明显的地址依赖，D 的值取决于 CPU 2 从 P 
+> 读到的地址。在序列结束时，可能出现以下任何结果：
+> +
+> +	(Q == &A) 和 (D == 1)
+> +	(Q == &B) 和 (D == 2)
+> +	(Q == &B) 和 (D == 4)
+> +
+> +请注意，CPU 2 永远不会 将 C 的值写入 D，因为 CPU 会在读 *Q 前将 P 赋值给 
+> Q。
+> +
+> +
+> +设备操作
+> +-----------------
+> +
+> +有些设备是通过将自己的寄存器映射到内存来控制的，访问控制寄存器的顺序非常重要。假设一个
+
+一些设备提供了一组访存地址空间，用于访问设备的控制接口（例如寄存器），
+那么访问控制寄存器的顺序非常重要。例如，我们想象一个网卡，需要通过其
+地址端口寄存器 (A) 和数据端口寄存器 (D)来访问内部寄存器。
+
+> +网卡有一组通过地址端口寄存器 (A) 和数据端口寄存器 (D) 访问的内部寄存器。
+> +要读取 5 号内部寄存器，可以使用以下代码：
+> +
+> +	*A = 5;
+> +	x = *D;
+> +
+> +可能有两种执行顺序：
+> +
+> +	STORE *A = 5, x = LOAD *D
+> +	x = LOAD *D, STORE *A = 5
+> +
+> +其中第二个序列几乎肯定会导致故障，因为先读后写。
+
+... 因为地址的设置是在读取寄存器之后才完成的。
+
+
+I stop here in today and will continue to review this doc.
+
+Thanks for doing this!
+
+Leo
