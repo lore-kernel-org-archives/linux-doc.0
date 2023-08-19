@@ -2,64 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2001DEE49A2
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Aug 2023 01:47:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C70EE49A8
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Aug 2023 05:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242180AbjHSBrQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Aug 2023 21:47:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46894 "EHLO
+        id S243889AbjHSFEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Aug 2023 01:04:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242219AbjHSBqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Aug 2023 21:46:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C8735A5
-        for <linux-doc@vger.kernel.org>; Fri, 18 Aug 2023 18:46:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EA3C660A5C
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 01:46:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E5D4C433C7;
-        Sat, 19 Aug 2023 01:46:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692409609;
-        bh=4aZ+zC6/s4isGMHOIFZxl3OM7a+uB6FHX+BHCSXvwsQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ijRBIHnvFNZziKaDwTz8K6lVRzSDvlMkmwnc6eWlBOcrc0lcP+j+ZX42OQs2YHw/0
-         zwO3EyCBwxUNSe4ylABUhWDjNO0BLc9Uos5YS7GMP9LFUeULcL/OKsSLM4P7RAyK2P
-         QI9l+Ehwk3zc8Gt9yITXAamSx3rjnRydvrVoqRloDv55ev2+W2lgVrMY2u44IsOJg3
-         4+V5S3Yy7TOEuEn8T9iAZ4Vu9aOL1K9lQco9tZOxLLFJ1szIt909uJQNVIRVt2blbz
-         kG7LtAxBIrXapgm2+Ylpu5Ha0aFk5g56Fy74/SZb3szJnQQlxsK28kIaBk3MspSdrP
-         YbjCh3eUnUyuQ==
-Date:   Fri, 18 Aug 2023 18:46:48 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Sabrina Dubroca <sd@queasysnail.net>
-Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Scott Dial <scott@scottdial.com>
-Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
-Message-ID: <20230818184648.127b2ccf@kernel.org>
-In-Reply-To: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
-References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
+        with ESMTP id S244018AbjHSFEc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 01:04:32 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236E73AAF;
+        Fri, 18 Aug 2023 22:04:31 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-640c5df2e6eso9299676d6.1;
+        Fri, 18 Aug 2023 22:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692421470; x=1693026270;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KtK1oAuhBttNzRyy67XkfSx54w+cZ+dAiOd6z4pwQRk=;
+        b=Ba8BuUAuiM9gzQtU5otRTk8pFp5BvXG3mW/gwpVVSpt2Nj1wnbLtOAVBpqNqmmR+BK
+         ERZLVEfIw9ck7LN8Y15eAgMQMCP9HkK18OBmhiwjvwrs4D10uuxzZm7C3v2pIh4QroUz
+         UJGBbEfOV8Xbf4KGCdhg/biozzxmuAYOpBX1RSw+ffXts4xTHyU1IvvgrxfzID35ZBEk
+         p4haXP0AUaTy3MrBuomkvcISBlnm0mU6G/YeVUHSMlB0qGpVV/KaAJY3/gp9YfQIVWun
+         kDFGLkarWeq60DJOZuVc+berBp/pKcRIoyLApBqOKbOuhlU7JQguBliIAQ4dGCUqbW7b
+         e+HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692421470; x=1693026270;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KtK1oAuhBttNzRyy67XkfSx54w+cZ+dAiOd6z4pwQRk=;
+        b=c+HqbmnA/PjXFWsERh1pLcxL/hfKL1eoEBz7Ue2dL7LkexOIdNVMs0EYjBx/UMTj3H
+         M/kOnjUQuzfTYPtZTnCHptMYMAAVNTGLG/DKbWu9Jp3zndd60mvdh8pxvJlAadfuRchy
+         r0/PE9DMRH83e217xyRRwajnLcGNBnrS70a35fqnfc/PQWrhCeUfTHWl8jBST/ZJPn+1
+         e01+N9VWQKGDlmoSmTXHHc3VZEVEi5yW0rYKjd5c+rG50mSJStw3yR9IhPqsoaxuNaxq
+         wRwL/TMpOAsB0xjMoDuEHckaH734ES4z/7AQh/Ma1Ik5piKXjfVs1/6y8HXUSKRduX7h
+         1rcQ==
+X-Gm-Message-State: AOJu0YzlWReJTLYKRmuJuo6i5mavFIPMHpeQ2ZOnTjLSTHXgn8D74JJo
+        Gs2Allp2bTwBBAGdt3bCw1dtrbUOEqVyCQ==
+X-Google-Smtp-Source: AGHT+IGS+6BWF8/LxX6KK7fC35+ucaXK7FQnD1n/cICDiwGquKRaVp0R0UoJwLrrtBilmmoNeM+76A==
+X-Received: by 2002:a0c:abc3:0:b0:63d:6138:1026 with SMTP id k3-20020a0cabc3000000b0063d61381026mr1149974qvb.21.1692421470290;
+        Fri, 18 Aug 2023 22:04:30 -0700 (PDT)
+Received: from Slackware.localdomain ([154.16.192.72])
+        by smtp.gmail.com with ESMTPSA id d28-20020a0cb2dc000000b0063d0b792469sm1213356qvf.136.2023.08.18.22.04.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Aug 2023 22:04:30 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, corbet@lwn.net,
+        linux-btrfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH 1/3] btrfs: MAINTAINERS: Remove obsolete wiki link
+Date:   Sat, 19 Aug 2023 10:23:03 +0530
+Message-ID: <d2f12dde8a0ef7b57b551ba163248551c290b4cb.1692420752.git.unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <cover.1692420752.git.unixbhaskar@gmail.com>
+References: <cover.1692420752.git.unixbhaskar@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Aug 2023 17:07:03 +0200 Sabrina Dubroca wrote:
-> Commit ab046a5d4be4 ("net: macsec: preserve ingress frame ordering")
-> tried to solve an issue caused by MACsec's use of asynchronous crypto
-> operations, but introduced a large performance regression in cases
-> where async crypto isn't causing reordering of packets.
-> 
-> This patch introduces a per-netns sysctl that administrators can set
-> to allow new SAs to use async crypto, such as aesni. Existing SAs
-> won't be modified.
-> 
-> By setting default_async_crypto=1 and reconfiguring macsec, a single
-> netperf instance jumps from 1.4Gbps to 4.4Gbps.
+Removed the obsolete link.
 
-Can we not fix the ordering problem?
-Queue the packets locally if they get out of order?
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 06ea4dd1ea0e..bf02985e1c3d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4360,7 +4360,6 @@ M:	David Sterba <dsterba@suse.com>
+ L:	linux-btrfs@vger.kernel.org
+ S:	Maintained
+ W:	https://btrfs.readthedocs.io
+-W:	https://btrfs.wiki.kernel.org/
+ Q:	https://patchwork.kernel.org/project/linux-btrfs/list/
+ C:	irc://irc.libera.chat/btrfs
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git
+--
+2.41.0
+
