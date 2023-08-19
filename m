@@ -2,999 +2,541 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 598C0EE49A5
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Aug 2023 10:40:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4DE6EE49A5
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Aug 2023 10:44:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230054AbjHSKkO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Aug 2023 06:40:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41534 "EHLO
+        id S230152AbjHSKoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Aug 2023 06:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbjHSKkI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 06:40:08 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C82B828374
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 02:33:58 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-cfcebc33d04so1713253276.2
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 02:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692437638; x=1693042438;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hVU2EL76XZBMMyQ9mpmLeflLartVykNFJa1athLefs0=;
-        b=uQEeu5WcW8CdI1yAIfR2RJCsb8KbUYwJ43UdTXH7PovufPgBxDY+ctAKWdsJzyA2nV
-         AYghz45kzDjmz8QmcQklrX+iNg4DXZ2cAPo4GlJ2h5/Y1wErCeW4N/vC2sl9dwlUWcU3
-         6zlRMh7VbTRhLCATnU2KkYqUqRjxqbBX7fiYQJMkE8tjzvXqRk2T6eywrnP2PFSJkOq0
-         h4xo6gLpGHUDVJpGZAfcod3mAIS2KSpW4i6jyLW6s7Es5PCEeBz1nPbLFluZN+f/jf35
-         BD0KBKTcon80ly/q7x01RFcOUJ58luexXMWbJcWoZBR6uNQXWqIRgaNi2GesqRWohHL0
-         OUoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692437638; x=1693042438;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hVU2EL76XZBMMyQ9mpmLeflLartVykNFJa1athLefs0=;
-        b=XjP8J0+Se+OFbWZq16fEQR3w/QkK7CJb/MK1novyfpiM6PmUO6yZxfH2w697nnZEZ3
-         WKqCCQ37Td92qmYUkHnF6tdKQZIiIWiJFIlyTf5b1kEZMJCU72cFZPKcwdhiKGCgiEd1
-         j/CNptH7N0smSp6P8zqesgIwoCx/YnUV2iRyB3Ob2YMdi9HBVOg8dDKZJ/w7DC2la0pu
-         AlpDiZIZqAMk+UxVR5eDolvWu4EFN3b3T0O3gFUAqwtXoFaotZurkwBK0BtN+yh7Zqcg
-         CQI7QCeNEyIIm3H+JlhcnvzkaY/Qj/hNZfGo/gc7dpIj45JBDrtwSVIAlGp0bs9noiio
-         c9HA==
-X-Gm-Message-State: AOJu0YxYhHDQx0MoV+iO5qxHPhuTmkllF+L4yvH3uLTQb40KB/6qilm6
-        ZpXGxF+tqFqaiPiDDE4zXn0qWg==
-X-Google-Smtp-Source: AGHT+IEWd7zJXdmmOzT0o+Z3w0Noox708eTVlKtpfx6ZEFHiQ9J7VyRDNdPmm/svBeLpucPz5C8XEg==
-X-Received: by 2002:a25:938c:0:b0:d62:7dad:8ae1 with SMTP id a12-20020a25938c000000b00d627dad8ae1mr1678535ybm.20.1692437637475;
-        Sat, 19 Aug 2023 02:33:57 -0700 (PDT)
-Received: from leoy-huanghe.lan ([8.45.48.113])
-        by smtp.gmail.com with ESMTPSA id r5-20020a638f45000000b00528db73ed70sm2850603pgn.3.2023.08.19.02.33.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Aug 2023 02:33:56 -0700 (PDT)
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Thomas Richter <tmricht@linux.ibm.com>,
-        Namhyung Kim <namhyung@kernel.org>,
+        with ESMTP id S231332AbjHSKoj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 06:44:39 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E52854DA8B;
+        Sat, 19 Aug 2023 03:34:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Po3w0SYbug+Vazx6oZdJnkRc7HwO0Usqq6CIFaKgRhVuLTsJN13VEc1P7uCpXJYBSaGw/tZEz9EqTHI/aNDU4WiVvVploqNgyN2SQGfhflTaEfTnhMTtYxuJBRYtkQxaHWU5aEmooxZUAcurrUEwCPDrdqHVtxBQCHmOkMyZ/GIb1wbWL6tHY9xZAOZF2JsOMCz6nPKwdSPOAyJ0xx4ZzBvp+YG/zSnpPnfobOx3NbnlSwqdnHpgJehisTPwF5u8j0Xl4KZMtNU/E4GLur81NvabMGiwEhMnWFYi9zt6uTUTLJWmsLtr3ykTfRYmdeeBuUYsh7DpltO7JRUOuwGvBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rsKdvsuFV3ztJdWZrcEnDelp2Acr5QS+fInxczrSYcw=;
+ b=NIqvWN9TKRyyc1fCdMq7vgeKZsNGYW+5Ih3xR745Pn0HuJJvjgH4fuSPDlF5Rwa+wSbEAkAoBbqGfkFJ26EKBtJ5fxkODp0PuQV93VCN3ZFHv8Py/EThWEro0rwi5m7fv1HqZeoeSUCtCG2/ettgqLGnMFvUW12248ijbSfnBHDPoFRJMz9jP4Er3NGisyel4Sy5B1dZQYpke4GI1RiHE49Wk3DVHSghYPD7jxoIToOjGXf32XF/MIPUbr+jJppcWaGNvAFnSKRr3jpgGq/SGvGJpIeUdz6VPjbLqIuFXwGQuKHE8bE6JJEv06VXiZV+u2L8T3V9jgw9EFXYiSkU0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rsKdvsuFV3ztJdWZrcEnDelp2Acr5QS+fInxczrSYcw=;
+ b=mZFeOtks05Dzt2WfZn671fG61GXKv90LUpKSGPL0uYAqR1JgiH9kuFY9tUY+9LH+r68kxNrtn8IQEO1E43wCVy2R3/RoH70Z9zI7bbhduH8FXFejL+3GK6tOdR3hwKIg+YovPoJh0jQ64bVT9irgTippS5HW7yG/g4xWd7OGqoo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB2843.namprd12.prod.outlook.com (2603:10b6:5:48::24) by
+ CH2PR12MB4325.namprd12.prod.outlook.com (2603:10b6:610:a9::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6678.31; Sat, 19 Aug 2023 10:34:03 +0000
+Received: from DM6PR12MB2843.namprd12.prod.outlook.com
+ ([fe80::e64e:9886:22bf:e7e7]) by DM6PR12MB2843.namprd12.prod.outlook.com
+ ([fe80::e64e:9886:22bf:e7e7%7]) with mapi id 15.20.6699.020; Sat, 19 Aug 2023
+ 10:34:03 +0000
+Message-ID: <cd226133-ed18-101b-6401-a6dcd89a1db8@amd.com>
+Date:   Sat, 19 Aug 2023 20:33:47 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.1
+Subject: Re: [PATCH] tee: amdtee: add support for use of cma region
+Content-Language: en-US
+To:     Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [PATCH v6] Documentation: userspace-api: Document perf ring buffer mechanism
-Date:   Sat, 19 Aug 2023 17:33:40 +0800
-Message-Id: <20230819093340.265817-1-leo.yan@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Rijo Thomas <Rijo-john.Thomas@amd.com>,
+        SivaSangeetha SK <SivaSangeetha.SK@amd.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ross Lagerwall <ross.lagerwall@citrix.com>,
+        Yuntao Wang <ytcoode@gmail.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        op-tee@lists.trustedfirmware.org
+Cc:     Mythri PK <Mythri.Pandeshwarakrishna@amd.com>,
+        Nimesh Easow <Nimesh.Easow@amd.com>
+References: <7531423fcb3b18ff78737ae5eabc84b0e3cb2909.1692369704.git.Devaraj.Rangasamy@amd.com>
+From:   Alexey Kardashevskiy <aik@amd.com>
+In-Reply-To: <7531423fcb3b18ff78737ae5eabc84b0e3cb2909.1692369704.git.Devaraj.Rangasamy@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SYBPR01CA0040.ausprd01.prod.outlook.com
+ (2603:10c6:10:4::28) To DM6PR12MB2843.namprd12.prod.outlook.com
+ (2603:10b6:5:48::24)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2843:EE_|CH2PR12MB4325:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0def1362-400f-46e5-aec0-08dba09fce7c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dN99c4FNkD0DimtR/FHUIipu9o5YYMSNmvJoElYS3ZIMn8b15Yr8Ar/2tWG00armtIu2iBauE2Wk8u8TdDmJvPHFY3/Hlio136aTEJXCARvx1YN7rReuXEfmAaSwXvhhtRhBF1WVZ8CXY+zYwhTDnSpZPrvkyPle2mHjLgWWobnUPGf/sQADwKRIwMPPp+7BCCm9miXx42T7xjOkZR5AqlTUFkYlrQxgOQqdeb9ahze1O9q6et2kb2jTQHIjskvJ/e2aWD2lnKuZdKfotHfGP9HfhHtKWRIf3ySD4boqAt5zL3NgBlxFhbpBdgMbmSiSb/0af9Ye3ePm1tYCucGj0bgF/ggkksCci1XLdq43jUcslzrSdOZg46HuTGoZYO3BEE7SK2hrIZvfSq9D347eiABLkPY8mjVNyzm2T11wY5NhwDMMyOPNb29MQBkaDJCGtpjUB0WhPMPfGAXlRIdKBQ880gW1/lPbiL8DCgBDnVGWOOs7Rv9/1JLgwGqgdbVAcOd/n1UfJX/Y3b/zln+39lQPvIqkZdQ6V20NCIl8PYPWSbotjTyZvJwTg9mmfQnbE+5LkJHo429c2b1qZqVuUaADA9NDNvdT57r1X4PpuwDvkmyg7antmge8H1PDQ6HlHED7Om5aCKeIPzabjQ9uz77fIZeQsnw+I8Whfnp7w2M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB2843.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(136003)(366004)(396003)(39860400002)(451199024)(1800799009)(186009)(31686004)(31696002)(36756003)(38100700002)(921005)(2616005)(110136005)(6666004)(66946007)(66556008)(66476007)(316002)(6486002)(53546011)(478600001)(54906003)(6506007)(5660300002)(26005)(6512007)(8936002)(4326008)(8676002)(41300700001)(7416002)(2906002)(83380400001)(30864003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0ttS2dQTmR4TVlTWkdaRzlLMW9OTm45T0hmckl4cmtBQ3N4OWhsb2Z4dDdk?=
+ =?utf-8?B?SGVHa3RRRHFXc0VhdGdQbmg2M0FiZktlYWtEK2YrbWc1OS9FNFZJSTR3VGNZ?=
+ =?utf-8?B?Z0UxeENvU3BKRE5iNkEwOTcvcFJtMjJOQ3hXOEtHNUNNRTB5TlpaZUhqZG9Q?=
+ =?utf-8?B?REFrM0tYQk9EbWtCR2ZGM1kwbTlHT3IxYVM1dkJGTnhreEErRFVJNXpQbHRP?=
+ =?utf-8?B?YVlQbzZyYlZVZjVNZURGQ0xNekcvUXIwUG5ieC9oMEt1YVMvOGZ2MEFHWUlB?=
+ =?utf-8?B?MW5uODRNS3FEczBkeFlBV1J1Z1ZlVDJSeEZDQ0h4V2VYbGRHSDF4aFROaVBF?=
+ =?utf-8?B?bko3a1FBT2VxMGkwbndtbVlCZi9qSFhkWXd5N1ZSajRZZEJUYllMV2luWitW?=
+ =?utf-8?B?ZjRMY01pOWQrZzdmR21nUVVxN0hBd0FqZzcyS0I4V05Vbnh6anBvUkVvK3VR?=
+ =?utf-8?B?Q1FZVWNDTGxaQ2FKajdqdyt2TWZ5dVlPUzg3Zy8xM1FUMWp4S01Uamc3VDl6?=
+ =?utf-8?B?QzdVa09Gc0thVkVTK2NwbDN5NUYyUVZQdUdBQmVaWmtTUEhET1V5aTFoQ3Vk?=
+ =?utf-8?B?TnFIOEMwNHd6ajlETjlucnlOampyZ3Fsb1NVWDBqSEt0TEgrenlXeGlhZnM3?=
+ =?utf-8?B?YzJuTERFeUppaklpTlFlUXZ4UTNjRTByWHNndjRlZnZiL1dxcFdaWHV3ZzI2?=
+ =?utf-8?B?ZitndSsvcWJBcmZiTi9jS1c1cUFxZnltVVVqVUlNLy8zQ0h3N3V3ZFl2M0k5?=
+ =?utf-8?B?RjhKaWhNRmpYWnpCNW5BOHNjYmFKbXZDY3pXcG12NlRhL1J6NnVJTWJjdjZv?=
+ =?utf-8?B?U1krMVErQU0rbnBsMVNyamRRWDRuK1lQUlYvc0wzUHBzWnhYTlBHSFk4dHpm?=
+ =?utf-8?B?RWUzQVhlS3pybkNTa3cwcSs3VHoxdndjSE9ocmNjNTRNcEM5UDI1RTg1cktj?=
+ =?utf-8?B?dTBKaWpldE1aMVd4S0E3YnpMbFdiN3BBUTZSVTlwMmNKclU2c0VyL01MRlln?=
+ =?utf-8?B?T0I1REIyVy83TEMwY1UwNitma3V4K2pHSW5ydGtkOGdMdzVGMThaN3p3T3Er?=
+ =?utf-8?B?UHpnbHZpY3BTR1psZExkODFQOHZISENKODZDSHFaSzRWSDJZQWFmaElHS0My?=
+ =?utf-8?B?QlMyM09VeVlpQ0dYQy9rdnFubnlWVThNa2VLV0FILzUraUQyMG5mZndmQVFM?=
+ =?utf-8?B?aGhONkp3cVlTcGhMWjlFeUh5UUZYV1FGSWN4b05ST2p5K0EySUI5YXBpdE1j?=
+ =?utf-8?B?d3hkd0hPNG90ZHdqcVdJV0hTOGNweHdEOVUwR3I1VGYzT08xZ04rUVNLeS8r?=
+ =?utf-8?B?NEtxanZSaVVnZ2NremNOWHpXUDd6aDNWL0dCa0QzQzFOaENMQlU5dFk5clJH?=
+ =?utf-8?B?UHl2dE4wZS9YK3NWcE0yVHV6Zk5ITmJ1bE5ESW1taTRTYXpNclAzUzZmZjZ2?=
+ =?utf-8?B?V0tIWW9xRmo2ZTBtdlg3ajlXMnVzRnpFcU1zdFBCc2w4MWg4enNWeUlUUHNG?=
+ =?utf-8?B?aXhKdCtrdWNwR0VwcEk1V2lkck9UYlRHL1E3a2hhRlNYcnIvWkhWMmh5VU5V?=
+ =?utf-8?B?S3Y1V3hVNDhnNFo5SDA2V1BjVzAwT01JRVZXKzJ3dmJ1N24veVBTRVhxMWlM?=
+ =?utf-8?B?b1JDOXNobExFOTdNL3BXS1VMUmxrRVAyellCSjQwTkNVTGV1U0t6cThtRWU0?=
+ =?utf-8?B?ZGx2THR3NTZ6THExMlZvSXRjaHFLeUQyQUdIY25EcC9iYk9zaTAxUzFnRDI3?=
+ =?utf-8?B?dnZId3JyaXgrcS92SjNGdUdaekp6S3kxM2x1WG5UREVqR25EN2cra3pYdDEv?=
+ =?utf-8?B?VjQwTHMwNHQxNWl5VGYyWjM3TjJkR1RhOWlqL3g2UzB4QVdSblN4L09HWDlU?=
+ =?utf-8?B?YTJyZ3J4aU9BdEdZM0FCVW44ZElQYzZENld4YkhrWDhWdWh1RUdyemg5WWxO?=
+ =?utf-8?B?bkt5cE5SUzRhbm5Bd1k1M0VwNWt1Y3dHUE9JREljMTVpcmlVYytSYTVQN1Q2?=
+ =?utf-8?B?YlNEQ0owVmRScmhOcS9iRWh5YXJEeHN6NWF4d3ljS1k3ejFHVmpRSVY1aCtT?=
+ =?utf-8?B?dU40aXM0TWtPT2xFMTh3aHJQUkpaOGlqWTJ2TDN5MG44dGhiNmRIejdpYkgx?=
+ =?utf-8?Q?gVo7J7W0mGvKDdecDGsxXMLgT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0def1362-400f-46e5-aec0-08dba09fce7c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2843.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2023 10:34:03.2642
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6VjVucDg3g/jQmYbn86eOn14YctRYKrw6BSMvn7Nk0++DmhKNp1GvOGuyas9ryCCfe4mUfnhXMOuO/sbURyqBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4325
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the Linux perf tool, the ring buffer serves not only as a medium for
-transferring PMU event data but also as a vital mechanism for hardware
-tracing using technologies like Intel PT and Arm CoreSight, etc.
+On 19/8/23 00:42, Devaraj Rangasamy wrote:
+> In systems with low memory configuration, memory gets fragmented
+> easily, and any bigger size contiguous memory allocations are likely
+> to fail.
+> Contiguous Memory Allocator (CMA) is used to overcome this
+> limitation, and to guarantee memory allocations.
+> 
+> This patch adds support for CMA area exclusive to amdtee.
+> The support can be enabled if kernel have CONFIG_CMA enabled.
+> The size can be set via the AMDTEE_CMA_SIZE config option
+> at compile time or with the "amdtee_cma" kernel parameter.
+> (e.g. "amdtee_cma=32 for 32MB").
+> 
+> Also, cma zone is utilized only for buffer allocation bigger than
+> 64k bytes. When such allocation fails, there is a fallback to the
+> buddy allocator. Since CMA requires a boot time initialization,
+> it is enabled only when amdtee is built as an inbuilt driver.
+> 
+> Signed-off-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
+> Co-developed-by: SivaSangeetha SK <SivaSangeetha.SK@amd.com>
+> Signed-off-by: SivaSangeetha SK <SivaSangeetha.SK@amd.com>
+> Reviewed-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
+> ---
+>   .../admin-guide/kernel-parameters.txt         |  7 ++
+>   arch/x86/include/asm/setup.h                  |  6 ++
+>   arch/x86/kernel/setup.c                       |  2 +
+>   drivers/tee/amdtee/Kconfig                    |  9 +++
+>   drivers/tee/amdtee/Makefile                   |  1 +
+>   drivers/tee/amdtee/amdtee_private.h           |  6 +-
+>   drivers/tee/amdtee/core.c                     |  6 +-
+>   drivers/tee/amdtee/shm_pool.c                 | 32 ++++++--
+>   drivers/tee/amdtee/shm_pool_cma.c             | 78 +++++++++++++++++++
+>   drivers/tee/amdtee/shm_pool_cma.h             | 38 +++++++++
+>   10 files changed, 176 insertions(+), 9 deletions(-)
+>   create mode 100644 drivers/tee/amdtee/shm_pool_cma.c
+>   create mode 100644 drivers/tee/amdtee/shm_pool_cma.h
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 722b6eca2e93..5e38423f3d53 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -363,6 +363,13 @@
+>   			  selects a performance level in this range and appropriate
+>   			  to the current workload.
+>   
+> +	amdtee_cma=nn	[HW,TEE]
+> +			Sets the memory size reserved for contiguous memory
+> +			allocations, to be used by amdtee device driver.
+> +			Value is in MB and can range from 4 to 128 (MBs)
+> +			CMA will be active only when CMA is enabled, and amdtee is
+> +			built as inbuilt driver, and not loaded as module.
+> +
+>   	amijoy.map=	[HW,JOY] Amiga joystick support
+>   			Map of devices attached to JOY0DAT and JOY1DAT
+>   			Format: <a>,<b>
+> diff --git a/arch/x86/include/asm/setup.h b/arch/x86/include/asm/setup.h
+> index f3495623ac99..bb5e4b7134a2 100644
+> --- a/arch/x86/include/asm/setup.h
+> +++ b/arch/x86/include/asm/setup.h
+> @@ -66,6 +66,12 @@ extern void x86_ce4100_early_setup(void);
+>   static inline void x86_ce4100_early_setup(void) { }
+>   #endif
+>   
+> +#if IS_BUILTIN(CONFIG_AMDTEE) && IS_ENABLED(CONFIG_CMA)
+> +void amdtee_cma_reserve(void);
+> +#else
+> +static inline void amdtee_cma_reserve(void) { }
+> +#endif
+> +
+>   #ifndef _SETUP
+>   
+>   #include <asm/espfix.h>
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index fd975a4a5200..e73433af3bfa 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -1223,6 +1223,8 @@ void __init setup_arch(char **cmdline_p)
+>   	initmem_init();
+>   	dma_contiguous_reserve(max_pfn_mapped << PAGE_SHIFT);
+>   
+> +	amdtee_cma_reserve();
+> +
+>   	if (boot_cpu_has(X86_FEATURE_GBPAGES))
+>   		hugetlb_cma_reserve(PUD_SHIFT - PAGE_SHIFT);
+>   
+> diff --git a/drivers/tee/amdtee/Kconfig b/drivers/tee/amdtee/Kconfig
+> index 191f9715fa9a..5843c739a7b8 100644
+> --- a/drivers/tee/amdtee/Kconfig
+> +++ b/drivers/tee/amdtee/Kconfig
+> @@ -6,3 +6,12 @@ config AMDTEE
+>   	depends on CRYPTO_DEV_SP_PSP && CRYPTO_DEV_CCP_DD
+>   	help
+>   	  This implements AMD's Trusted Execution Environment (TEE) driver.
+> +
+> +config AMDTEE_CMA_SIZE
+> +	int "Size of Memory in MiB reserved in CMA for AMD-TEE"
+> +	default "0"
+> +	depends on CMA && (AMDTEE=y)
+> +	help
+> +	  Specify the default amount of memory in MiB reserved in CMA for AMD-TEE driver
+> +	  Any amdtee shm buffer allocation larger than 64k will allocate memory from the CMA
+> +	  The default can be overridden with the kernel commandline parameter "amdtee_cma".
+> \ No newline at end of file
+> diff --git a/drivers/tee/amdtee/Makefile b/drivers/tee/amdtee/Makefile
+> index ff1485266117..a197839cfcf3 100644
+> --- a/drivers/tee/amdtee/Makefile
+> +++ b/drivers/tee/amdtee/Makefile
+> @@ -3,3 +3,4 @@ obj-$(CONFIG_AMDTEE) += amdtee.o
+>   amdtee-objs += core.o
+>   amdtee-objs += call.o
+>   amdtee-objs += shm_pool.o
+> +amdtee-objs += shm_pool_cma.o
+> diff --git a/drivers/tee/amdtee/amdtee_private.h b/drivers/tee/amdtee/amdtee_private.h
+> index 6d0f7062bb87..9ba47795adb6 100644
+> --- a/drivers/tee/amdtee/amdtee_private.h
+> +++ b/drivers/tee/amdtee/amdtee_private.h
+> @@ -87,11 +87,13 @@ struct shmem_desc {
+>    * struct amdtee_shm_data - Shared memory data
+>    * @kaddr:	Kernel virtual address of shared memory
+>    * @buf_id:	Buffer id of memory mapped by TEE_CMD_ID_MAP_SHARED_MEM
+> + * @is_cma:	Indicates whether memory is allocated from cma region or not
+>    */
+>   struct amdtee_shm_data {
+>   	struct  list_head shm_node;
+>   	void    *kaddr;
+>   	u32     buf_id;
+> +	bool    is_cma;
+>   };
+>   
+>   /**
+> @@ -145,9 +147,9 @@ int amdtee_invoke_func(struct tee_context *ctx,
+>   
+>   int amdtee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session);
+>   
+> -int amdtee_map_shmem(struct tee_shm *shm);
+> +int amdtee_map_shmem(struct tee_shm *shm, bool is_cma);
+>   
+> -void amdtee_unmap_shmem(struct tee_shm *shm);
+> +void amdtee_unmap_shmem(struct tee_shm *shm, bool *is_cma);
+>   
+>   int handle_load_ta(void *data, u32 size,
+>   		   struct tee_ioctl_open_session_arg *arg);
+> diff --git a/drivers/tee/amdtee/core.c b/drivers/tee/amdtee/core.c
+> index 372d64756ed6..448802dccf13 100644
+> --- a/drivers/tee/amdtee/core.c
+> +++ b/drivers/tee/amdtee/core.c
+> @@ -336,7 +336,7 @@ int amdtee_close_session(struct tee_context *ctx, u32 session)
+>   	return 0;
+>   }
+>   
+> -int amdtee_map_shmem(struct tee_shm *shm)
+> +int amdtee_map_shmem(struct tee_shm *shm, bool is_cma)
+>   {
+>   	struct amdtee_context_data *ctxdata;
+>   	struct amdtee_shm_data *shmnode;
+> @@ -368,6 +368,7 @@ int amdtee_map_shmem(struct tee_shm *shm)
+>   
+>   	shmnode->kaddr = shm->kaddr;
+>   	shmnode->buf_id = buf_id;
+> +	shmnode->is_cma = is_cma;
+>   	ctxdata = shm->ctx->data;
+>   	mutex_lock(&ctxdata->shm_mutex);
+>   	list_add(&shmnode->shm_node, &ctxdata->shm_list);
+> @@ -378,7 +379,7 @@ int amdtee_map_shmem(struct tee_shm *shm)
+>   	return 0;
+>   }
+>   
+> -void amdtee_unmap_shmem(struct tee_shm *shm)
+> +void amdtee_unmap_shmem(struct tee_shm *shm, bool *is_cma)
+>   {
+>   	struct amdtee_context_data *ctxdata;
+>   	struct amdtee_shm_data *shmnode;
+> @@ -395,6 +396,7 @@ void amdtee_unmap_shmem(struct tee_shm *shm)
+>   	mutex_lock(&ctxdata->shm_mutex);
+>   	list_for_each_entry(shmnode, &ctxdata->shm_list, shm_node)
+>   		if (buf_id == shmnode->buf_id) {
+> +			*is_cma = shmnode->is_cma;
+>   			list_del(&shmnode->shm_node);
+>   			kfree(shmnode);
+>   			break;
+> diff --git a/drivers/tee/amdtee/shm_pool.c b/drivers/tee/amdtee/shm_pool.c
+> index f0303126f199..9aad401387be 100644
+> --- a/drivers/tee/amdtee/shm_pool.c
+> +++ b/drivers/tee/amdtee/shm_pool.c
+> @@ -7,19 +7,30 @@
+>   #include <linux/tee_drv.h>
+>   #include <linux/psp.h>
+>   #include "amdtee_private.h"
+> +#include "shm_pool_cma.h"
+>   
+>   static int pool_op_alloc(struct tee_shm_pool *pool, struct tee_shm *shm,
+>   			 size_t size, size_t align)
+>   {
+>   	unsigned int order = get_order(size);
+>   	unsigned long va;
+> +	bool is_cma = false;
+>   	int rc;
+>   
+>   	/*
+>   	 * Ignore alignment since this is already going to be page aligned
+>   	 * and there's no need for any larger alignment.
+>   	 */
+> -	va = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
+> +
+> +	/* if CMA is available, use it for higher order allocation */
+> +	if (amdtee_get_cma_size() && order > 6)
+> +		va = amdtee_alloc_from_cma(shm, order);
+> +
+> +	if (va)
+> +		is_cma = true;
+> +	else
+> +		va = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
+> +
+>   	if (!va)
+>   		return -ENOMEM;
+>   
+> @@ -28,9 +39,13 @@ static int pool_op_alloc(struct tee_shm_pool *pool, struct tee_shm *shm,
+>   	shm->size = PAGE_SIZE << order;
+>   
+>   	/* Map the allocated memory in to TEE */
+> -	rc = amdtee_map_shmem(shm);
+> +	rc = amdtee_map_shmem(shm, is_cma);
+>   	if (rc) {
+> -		free_pages(va, order);
+> +		if (is_cma)
+> +			amdtee_free_from_cma(shm);
+> +		else
+> +			free_pages(va, order);
+> +
+>   		shm->kaddr = NULL;
+>   		return rc;
+>   	}
+> @@ -40,9 +55,16 @@ static int pool_op_alloc(struct tee_shm_pool *pool, struct tee_shm *shm,
+>   
+>   static void pool_op_free(struct tee_shm_pool *pool, struct tee_shm *shm)
+>   {
+> +	bool is_cma = false;
+> +
+>   	/* Unmap the shared memory from TEE */
+> -	amdtee_unmap_shmem(shm);
+> -	free_pages((unsigned long)shm->kaddr, get_order(shm->size));
+> +	amdtee_unmap_shmem(shm, &is_cma);
+> +
+> +	if (is_cma)
 
-Consequently, the ring buffer mechanism plays a crucial role by ensuring
-high throughput for data transfer between the kernel and user space
-while avoiding excessive overhead caused by the ring buffer itself.
-
-This commit documents the ring buffer mechanism in detail.  It explains
-the implementation of both the regular ring buffer and the AUX ring
-buffer.  Additionally, it covers how these ring buffers support various
-tracing modes and explains the synchronization with memory barriers.
-
-Signed-off-by: Leo Yan <leo.yan@linaro.org>
----
-
-Changes from v5:
-- Fixed 'make htmldocs' warning (kernel test robot);
-- Fixed whitespace errors detected by 'git am'.
-
-Changes from v4:
-- Amended the documentation for the stable interface in the uapi header
-  (Namhyung Kim).
-
-Changes from v3:
-- Converted to RST format and moved from perf folder to the
-  userspace-api folder (Jonathan Corbet).
-
-Changes from v2:
-- Refined doc for Thomas's suggestions (Thomas Richter).
-
-Changes from v1:
-- Addressed Ian's comments and suggestions (Ian Rogers).
+No need in is_cma here and other places.
 
 
- Documentation/userspace-api/index.rst         |   1 +
- .../userspace-api/perf_ring_buffer.rst        | 867 ++++++++++++++++++
- 2 files changed, 868 insertions(+)
- create mode 100644 Documentation/userspace-api/perf_ring_buffer.rst
+> +		amdtee_free_from_cma(shm);
+> +	else
+> +		free_pages((unsigned long)shm->kaddr, get_order(shm->size));
+> +
+>   	shm->kaddr = NULL;
+>   }
+>   
+> diff --git a/drivers/tee/amdtee/shm_pool_cma.c b/drivers/tee/amdtee/shm_pool_cma.c
+> new file mode 100644
+> index 000000000000..99dda9adb1c6
+> --- /dev/null
+> +++ b/drivers/tee/amdtee/shm_pool_cma.c
+> @@ -0,0 +1,78 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + */
+> +
+> +#if IS_BUILTIN(CONFIG_AMDTEE) && IS_ENABLED(CONFIG_CMA)
+> +
+> +#define pr_fmt(fmt) "%s: " fmt, __func__
+> +
+> +#include <linux/cma.h>
+> +#include <linux/mm.h>
+> +#include <linux/tee_drv.h>
+> +#include "shm_pool_cma.h"
+> +
+> +static struct cma *amdtee_cma;
+> +unsigned long amdtee_cma_size __initdata = CONFIG_AMDTEE_CMA_SIZE * SZ_1M;
+> +
+> +static int __init early_parse_amdtee_cma(char *p)
+> +{
+> +	int cmd_size;
 
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 72a65db0c498..ead958f5505d 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -32,6 +32,7 @@ place where this information is gathered.
-    sysfs-platform_profile
-    vduse
-    futex2
-+   perf_ring_buffer
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/userspace-api/perf_ring_buffer.rst b/Documentation/userspace-api/perf_ring_buffer.rst
-new file mode 100644
-index 000000000000..a228368ae7db
---- /dev/null
-+++ b/Documentation/userspace-api/perf_ring_buffer.rst
-@@ -0,0 +1,867 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================
-+Perf ring buffer
-+================
-+
-+.. CONTENTS
-+
-+    1. Introduction
-+
-+    2. Ring buffer implementation
-+    2.1  Basic algorithm
-+    2.2  Ring buffer for different tracing modes
-+    2.2.1       Default mode
-+    2.2.2       Per-thread mode
-+    2.2.3       Per-CPU mode
-+    2.2.4       System wide mode
-+    2.3  Accessing buffer
-+    2.3.1       Producer-consumer model
-+    2.3.2       Writing samples into buffer
-+    2.3.3       Reading samples from buffer
-+    2.3.4       Memory synchronization
-+
-+    3. The mechanism of AUX ring buffer
-+    3.1  The relationship between AUX and regular ring buffers
-+    3.2  AUX events
-+    3.3  Snapshot mode
-+
-+
-+1. Introduction
-+===============
-+
-+The ring buffer is a fundamental mechanism for data transfer.  perf uses
-+ring buffers to transfer event data from kernel to user space, another
-+kind of ring buffer which is so called auxiliary (AUX) ring buffer also
-+plays an important role for hardware tracing with Intel PT, Arm
-+CoreSight, etc.
-+
-+The ring buffer implementation is critical but it's also a very
-+challenging work.  On the one hand, the kernel and perf tool in the user
-+space use the ring buffer to exchange data and stores data into data
-+file, thus the ring buffer needs to transfer data with high throughput;
-+on the other hand, the ring buffer management should avoid significant
-+overload to distract profiling results.
-+
-+This documentation dives into the details for perf ring buffer with two
-+parts: firstly it explains the perf ring buffer implementation, then the
-+second part discusses the AUX ring buffer mechanism.
-+
-+2. Ring buffer implementation
-+=============================
-+
-+2.1 Basic algorithm
-+-------------------
-+
-+That said, a typical ring buffer is managed by a head pointer and a tail
-+pointer; the head pointer is manipulated by a writer and the tail
-+pointer is updated by a reader respectively.
-+
-+::
-+
-+        +---------------------------+
-+        |   |   |***|***|***|   |   |
-+        +---------------------------+
-+                `-> Tail    `-> Head
-+
-+        * : the data is filled by the writer.
-+
-+                Figure 1. Ring buffer
-+
-+Perf uses the same way to manage its ring buffer.  In the implementation
-+there are two key data structures held together in a set of consecutive
-+pages, the control structure and then the ring buffer itself.  The page
-+with the control structure in is known as the "user page".  Being held
-+in continuous virtual addresses simplifies locating the ring buffer
-+address, it is in the pages after the page with the user page.
-+
-+The control structure is named as ``perf_event_mmap_page``, it contains a
-+head pointer ``data_head`` and a tail pointer ``data_tail``.  When the
-+kernel starts to fill records into the ring buffer, it updates the head
-+pointer to reserve the memory so later it can safely store events into
-+the buffer.  On the other side, when the user page is a writable mapping,
-+the perf tool has the permission to update the tail pointer after consuming
-+data from the ring buffer.  Yet another case is for the user page's
-+read-only mapping, which is to be addressed in the section
-+:ref:`writing_samples_into_buffer`.
-+
-+::
-+
-+          user page                          ring buffer
-+    +---------+---------+   +---------------------------------------+
-+    |data_head|data_tail|...|   |   |***|***|***|***|***|   |   |   |
-+    +---------+---------+   +---------------------------------------+
-+        `          `----------------^                   ^
-+         `----------------------------------------------|
-+
-+              * : the data is filled by the writer.
-+
-+                Figure 2. Perf ring buffer
-+
-+When using the ``perf record`` tool, we can specify the ring buffer size
-+with option ``-m`` or ``--mmap-pages=``, the given size will be rounded up
-+to a power of two that is a multiple of a page size.  Though the kernel
-+allocates at once for all memory pages, it's deferred to map the pages
-+to VMA area until the perf tool accesses the buffer from the user space.
-+In other words, at the first time accesses the buffer's page from user
-+space in the perf tool, a data abort exception for page fault is taken
-+and the kernel uses this occasion to map the page into process VMA
-+(see ``perf_mmap_fault()``), thus the perf tool can continue to access
-+the page after returning from the exception.
-+
-+2.2 Ring buffer for different tracing modes
-+-------------------------------------------
-+
-+The perf profiles programs with different modes: default mode, per thread
-+mode, per cpu mode, and system wide mode.  This section describes these
-+modes and how the ring buffer meets requirements for them.  At last we
-+will review the race conditions caused by these modes.
-+
-+2.2.1 Default mode
-+^^^^^^^^^^^^^^^^^^
-+
-+Usually we execute ``perf record`` command followed by a profiling program
-+name, like below command::
-+
-+        perf record test_program
-+
-+This command doesn't specify any options for CPU and thread modes, the
-+perf tool applies the default mode on the perf event.  It maps all the
-+CPUs in the system and the profiled program's PID on the perf event, and
-+it enables inheritance mode on the event so that child tasks inherits
-+the events.  As a result, the perf event is attributed as::
-+
-+    evsel::cpus::map[]    = { 0 .. _SC_NPROCESSORS_ONLN-1 }
-+    evsel::threads::map[] = { pid }
-+    evsel::attr::inherit  = 1
-+
-+These attributions finally will be reflected on the deployment of ring
-+buffers.  As shown below, the perf tool allocates individual ring buffer
-+for each CPU, but it only enables events for the profiled program rather
-+than for all threads in the system.  The *T1* thread represents the
-+thread context of the 'test_program', whereas *T2* and *T3* are irrelevant
-+threads in the system.   The perf samples are exclusively collected for
-+the *T1* thread and stored in the ring buffer associated with the CPU on
-+which the *T1* thread is running.
-+
-+::
-+
-+              T1                      T2                 T1
-+            +----+              +-----------+          +----+
-+    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-+            +----+--------------+-----------+----------+----+-------->
-+              |                                          |
-+              v                                          v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 0                      |
-+            +-----------------------------------------------------+
-+
-+                   T1
-+                 +-----+
-+    CPU1         |xxxxx|
-+            -----+-----+--------------------------------------------->
-+                    |
-+                    v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 1                      |
-+            +-----------------------------------------------------+
-+
-+                                        T1              T3
-+                                      +----+        +-------+
-+    CPU2                              |xxxx|        |xxxxxxx|
-+            --------------------------+----+--------+-------+-------->
-+                                        |
-+                                        v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 2                      |
-+            +-----------------------------------------------------+
-+
-+                              T1
-+                       +--------------+
-+    CPU3               |xxxxxxxxxxxxxx|
-+            -----------+--------------+------------------------------>
-+                              |
-+                              v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 3                      |
-+            +-----------------------------------------------------+
-+
-+	    T1: Thread 1; T2: Thread 2; T3: Thread 3
-+	    x: Thread is in running state
-+
-+                Figure 3. Ring buffer for default mode
-+
-+2.2.2 Per-thread mode
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+By specifying option ``--per-thread`` in perf command, e.g.
-+
-+::
-+
-+        perf record --per-thread test_program
-+
-+The perf event doesn't map to any CPUs and is only bound to the
-+profiled process, thus, the perf event's attributions are::
-+
-+    evsel::cpus::map[0]   = { -1 }
-+    evsel::threads::map[] = { pid }
-+    evsel::attr::inherit  = 0
-+
-+In this mode, a single ring buffer is allocated for the profiled thread;
-+if the thread is scheduled on a CPU, the events on that CPU will be
-+enabled; and if the thread is scheduled out from the CPU, the events on
-+the CPU will be disabled.  When the thread is migrated from one CPU to
-+another, the events are to be disabled on the previous CPU and enabled
-+on the next CPU correspondingly.
-+
-+::
-+
-+              T1                      T2                 T1
-+            +----+              +-----------+          +----+
-+    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-+            +----+--------------+-----------+----------+----+-------->
-+              |                                           |
-+              |    T1                                     |
-+              |  +-----+                                  |
-+    CPU1      |  |xxxxx|                                  |
-+            --|--+-----+----------------------------------|---------->
-+              |     |                                     |
-+              |     |                   T1            T3  |
-+              |     |                 +----+        +---+ |
-+    CPU2      |     |                 |xxxx|        |xxx| |
-+            --|-----|-----------------+----+--------+---+-|---------->
-+              |     |                   |                 |
-+              |     |         T1        |                 |
-+              |     |  +--------------+ |                 |
-+    CPU3      |     |  |xxxxxxxxxxxxxx| |                 |
-+            --|-----|--+--------------+-|-----------------|---------->
-+              |     |         |         |                 |
-+              v     v         v         v                 v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer                        |
-+            +-----------------------------------------------------+
-+
-+            T1: Thread 1
-+            x: Thread is in running state
-+
-+                Figure 4. Ring buffer for per-thread mode
-+
-+When perf runs in per-thread mode, a ring buffer is allocated for the
-+profiled thread *T1*.  The ring buffer is dedicated for thread *T1*, if the
-+thread *T1* is running, the perf events will be recorded into the ring
-+buffer; when the thread is sleeping, all associated events will be
-+disabled, thus no trace data will be recorded into the ring buffer.
-+
-+2.2.3 Per-CPU mode
-+^^^^^^^^^^^^^^^^^^
-+
-+The option ``-C`` is used to collect samples on the list of CPUs, for
-+example the below perf command receives option ``-C 0,2``::
-+
-+	perf record -C 0,2 test_program
-+
-+It maps the perf event to CPUs 0 and 2, and the event is not associated to any
-+PID.  Thus the perf event attributions are set as::
-+
-+    evsel::cpus::map[0]   = { 0, 2 }
-+    evsel::threads::map[] = { -1 }
-+    evsel::attr::inherit  = 0
-+
-+This results in the session of ``perf record`` will sample all threads on CPU0
-+and CPU2, and be terminated until test_program exits.  Even there have tasks
-+running on CPU1 and CPU3, since the ring buffer is absent for them, any
-+activities on these two CPUs will be ignored.  A usage case is to combine the
-+options for per-thread mode and per-CPU mode, e.g. the options ``–C 0,2`` and
-+``––per–thread`` are specified together, the samples are recorded only when
-+the profiled thread is scheduled on any of the listed CPUs.
-+
-+::
-+
-+              T1                      T2                 T1
-+            +----+              +-----------+          +----+
-+    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-+            +----+--------------+-----------+----------+----+-------->
-+              |                       |                  |
-+              v                       v                  v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 0                      |
-+            +-----------------------------------------------------+
-+
-+                   T1
-+                 +-----+
-+    CPU1         |xxxxx|
-+            -----+-----+--------------------------------------------->
-+
-+                                        T1              T3
-+                                      +----+        +-------+
-+    CPU2                              |xxxx|        |xxxxxxx|
-+            --------------------------+----+--------+-------+-------->
-+                                        |               |
-+                                        v               v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 1                      |
-+            +-----------------------------------------------------+
-+
-+                              T1
-+                       +--------------+
-+    CPU3               |xxxxxxxxxxxxxx|
-+            -----------+--------------+------------------------------>
-+
-+            T1: Thread 1; T2: Thread 2; T3: Thread 3
-+            x: Thread is in running state
-+
-+                Figure 5. Ring buffer for per-CPU mode
-+
-+2.2.4 System wide mode
-+^^^^^^^^^^^^^^^^^^^^^^
-+
-+By using option ``–a`` or ``––all–cpus``, perf collects samples on all CPUs
-+for all tasks, we call it as the system wide mode, the command is::
-+
-+        perf record -a test_program
-+
-+Similar to the per-CPU mode, the perf event doesn't bind to any PID, and
-+it maps to all CPUs in the system::
-+
-+   evsel::cpus::map[]    = { 0 .. _SC_NPROCESSORS_ONLN-1 }
-+   evsel::threads::map[] = { -1 }
-+   evsel::attr::inherit  = 0
-+
-+In the system wide mode, every CPU has its own ring buffer, all threads
-+are monitored during the running state and the samples are recorded into
-+the ring buffer belonging to the CPU which the events occurred on.
-+
-+::
-+
-+              T1                      T2                 T1
-+            +----+              +-----------+          +----+
-+    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-+            +----+--------------+-----------+----------+----+-------->
-+              |                       |                  |
-+              v                       v                  v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 0                      |
-+            +-----------------------------------------------------+
-+
-+                   T1
-+                 +-----+
-+    CPU1         |xxxxx|
-+            -----+-----+--------------------------------------------->
-+                    |
-+                    v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 1                      |
-+            +-----------------------------------------------------+
-+
-+                                        T1              T3
-+                                      +----+        +-------+
-+    CPU2                              |xxxx|        |xxxxxxx|
-+            --------------------------+----+--------+-------+-------->
-+                                        |               |
-+                                        v               v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 2                      |
-+            +-----------------------------------------------------+
-+
-+                              T1
-+                       +--------------+
-+    CPU3               |xxxxxxxxxxxxxx|
-+            -----------+--------------+------------------------------>
-+                              |
-+                              v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 3                      |
-+            +-----------------------------------------------------+
-+
-+            T1: Thread 1; T2: Thread 2; T3: Thread 3
-+            x: Thread is in running state
-+
-+                Figure 6. Ring buffer for system wide mode
-+
-+2.3 Accessing buffer
-+--------------------
-+
-+Based on the understanding of how the ring buffer is allocated in
-+various modes, this section explains access the ring buffer.
-+
-+2.3.1 Producer-consumer model
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+In the Linux kernel, the PMU events can produce samples which are stored
-+into the ring buffer; the perf command in user space consumes the
-+samples by reading out data from the ring buffer and finally saves the
-+data into the file for post analysis.  It’s a typical producer-consumer
-+model for using the ring buffer.
-+
-+The perf process polls on the PMU events and sleeps when no events are
-+incoming.  To prevent frequent exchanges between the kernel and user
-+space, the kernel event core layer introduces a watermark, which is
-+stored in the ``perf_buffer::watermark``.  When a sample is recorded into
-+the ring buffer, and if the used buffer exceeds the watermark, the
-+kernel wakes up the perf process to read samples from the ring buffer.
-+
-+::
-+
-+                       Perf
-+                       / | Read samples
-+             Polling  /  `--------------|               Ring buffer
-+                     v                  v    ;---------------------v
-+    +----------------+     +---------+---------+   +-------------------+
-+    |Event wait queue|     |data_head|data_tail|   |***|***|   |   |***|
-+    +----------------+     +---------+---------+   +-------------------+
-+             ^                  ^ `------------------------^
-+             | Wake up tasks    | Store samples
-+          +-----------------------------+
-+          |  Kernel event core layer    |
-+          +-----------------------------+
-+
-+              * : the data is filled by the writer.
-+
-+                Figure 7. Writing and reading the ring buffer
-+
-+When the kernel event core layer notifies the user space, because
-+multiple events might share the same ring buffer for recording samples,
-+the core layer iterates every event associated with the ring buffer and
-+wakes up tasks waiting on the event.  This is fulfilled by the kernel
-+function ``ring_buffer_wakeup()``.
-+
-+After the perf process is woken up, it starts to check the ring buffers
-+one by one, if it finds any ring buffer containing samples it will read
-+out the samples for statistics or saving into the data file.  Given the
-+perf process is able to run on any CPU, this leads to the ring buffer
-+potentially being accessed from multiple CPUs simultaneously, which
-+causes race conditions.  The race condition handling is described in the
-+section :ref:`memory_synchronization`.
-+
-+.. _writing_samples_into_buffer:
-+
-+2.3.2 Writing samples into buffer
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Ring buffers are mapped as read-write mode or read-only mode, which is
-+used for a normal ring buffer and an overwritable ring buffer
-+respectively.
-+
-+The ring buffer in the read-write mode is mapped with the property
-+``PROT_READ | PROT_WRITE``.  With the write permission, the perf tool
-+updates the ``data_tail`` to indicate the data start position.  Combining
-+with the head pointer ``data_head``, which works as the end position of
-+the current data, the perf tool can easily know where read out the data
-+from.
-+
-+Alternatively, in the read-only mode, only the kernel keeps to update
-+the ``data_head`` while the user space cannot access the ``data_tail`` due
-+to the mapping property ``PROT_READ``.
-+
-+Why ring buffers are mapped with above two different modes?  Here the
-+write direction matters.  The forward writing starts to save data from
-+the beginning of the ring buffer and wrap around when overflow, which is
-+used with the read-write mode in the normal ring buffer.  When the
-+consumer doesn't keep up with the producer, it would lose some data, the
-+kernel keeps how many records it lost and generates the
-+``PERF_RECORD_LOST`` records in the next time when it finds a space in the
-+ring buffer.
-+
-+On the other hand, the backward writing saves the data from the end of
-+the ring buffer and the ``data_head`` keeps the position of current data,
-+the perf always knows where it starts to read and until the end of the
-+ring buffer, thus it don't need the ``data_tail``.  This is why the perf
-+uses the backward writing with the read-only mode for the overwritable
-+ring buffer.  In this mode, it will not generate the PERF_RECORD_LOST
-+records.
-+
-+When a sample is taken and saved into the ring buffer, the function
-+``__perf_event_output()`` is used to fill samples into the ring buffer -
-+which can support both the forward and the backward writing.  It calls
-+below sub functions:
-+
-+- The sub function ``perf_prepare_sample()`` prepares sample fields based on
-+  the sample type;
-+- ``output_begin()`` is a function pointer, it’s passed dynamically via the
-+  argument for different writing directions - it can be
-+  ``perf_output_begin_forward()`` or ``perf_output_begin_backward()``.  This
-+  step is to prepare the info for writing ring buffer, when it returns back
-+  the ring buffer info is stored in structure ``perf_output_handle``;
-+- ``perf_output_sample()`` outputs the sample into the ring buffer;
-+- ``perf_output_end()`` updates the head pointer for user page so perf tool
-+  can see the latest value.
-+
-+Let's see how the data structures are used to help the recording.
-+
-+::
-+
-+      struct perf_output_handle       /---->  struct perf_buffer
-+    +---------------------------+     |     +--------------------+
-+    |           *rb;            |-----|     |   local_t head;    |
-+    +---------------------------+           +--------------------+
-+    |        int page;          |           |    *user_page;     |
-+    +---------------------------+           +--------------------+
-+    |       void *addr;         |                      |
-+    +---------------------------+                      v
-+    |   unsigned long size;     |         struct perf_event_mmap_page
-+    +---------------------------+           +--------------------+
-+                                            |   __u64 data_head; |
-+                                            +--------------------+
-+                                            |   __u64 data_tail; |
-+                                            +--------------------+
-+
-+                Figure 8. Data structures for writing ring buffer
-+
-+In Linux kernel, the event core layer uses the structure ``perf_buffer`` to
-+track the buffer’s latest header, and it keeps the information for
-+buffer pages.  The structure ``perf_buffer`` manages ring buffer during its
-+life cycle, it is allocated once the ring buffer is created and released
-+when the ring buffer is destroyed.
-+
-+It’s possible for multiple events to write buffer concurrently.  For
-+instance, a software event and a hardware PMU event both are enabled for
-+profiling, when the software event is in the middle of sampling, the
-+hardware event maybe be overflow and its interrupt is triggered in this
-+case.  This leads to the race condition for updating ``perf_buffer::head``.
-+In ``__perf_output_begin()``, Linux kernel uses compare-and-swap atomicity
-+``local_cmpxchg()`` to implement the lockless algorithm for protecting
-+``perf_buffer::head``.
-+
-+The structure ``perf_output_handle`` serves as a temporary context for
-+tracking the information related to the buffer.  For instance, the
-+``perf_output_handle::rb`` field points to the global ``perf_buffer``
-+structure.  Additionally, the ``perf_output_handle::addr`` field, based on the
-+lockless algorithm, specifies the destination address where the sample data is
-+to be stored.
-+
-+The advantages of the ``perf_output_handle`` structure is that it enables
-+concurrent writing to the buffer by different events.  For the previous
-+example, two instances of ``perf_output_handle`` serve as separate contexts
-+for software events and hardware events.  This allows each event to
-+reserve its own memory space within the ``out_begin()`` function, and
-+``perf_output_handle::addr`` is used for populating the specific event.
-+
-+Once the sample data has been successfully stored in the buffer, the
-+header of the ring buffer is synced from ``perf_buffer::head`` to
-+``perf_event_mmap_page::data_head``, which is fulfilled in the function
-+``perf_output_end()``.  This synchronization indicates to the perf tool that
-+it is now safe to read the newly added samples from the user space.
-+
-+2.3.3 Reading samples from buffer
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+In the user space, the perf tool utilizes the ``perf_event_mmap_page``
-+structure to handle the head and tail of the buffer.  It also uses
-+``perf_mmap`` structure to keep track of a context for the ring buffer, this
-+context includes information about the buffer's starting and ending
-+addresses.  Additionally, the mask value can be utilized to compute the
-+circular buffer pointer even for an overflow.
-+
-+Similar to the kernel, the perf tool in the user space first reads out
-+the recorded data from the ring buffer, and then updates the buffer's
-+tail pointer ``perf_event_mmap_page::data_tail``.
-+
-+.. _memory_synchronization:
-+
-+2.3.4 Memory synchronization
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+The modern CPUs with relaxed memory model cannot promise the memory
-+ordering, this means it’s possible to access the ring buffer and the
-+``perf_event_mmap_page`` structure out of order.  To assure the specific
-+sequence for memory accessing perf ring buffer, memory barriers are
-+used to assure the data dependency.  The rationale for the memory
-+synchronization is as below::
-+
-+  Kernel                          User space
-+
-+  if (LOAD ->data_tail) {         LOAD ->data_head
-+                   (A)            smp_rmb()        (C)
-+    STORE $data                   LOAD $data
-+    smp_wmb()      (B)            smp_mb()         (D)
-+    STORE ->data_head             STORE ->data_tail
-+  }
-+
-+The comments in tools/include/linux/ring_buffer.h gives nice description
-+for why and how to use memory barriers, here we will just provide an
-+alternative explanation:
-+
-+(A) is a control dependency so that CPU assures order between checking
-+pointer ``perf_event_mmap_page::data_tail`` and filling sample into ring
-+buffer;
-+
-+(D) pairs with (A).  (D) separates the ring buffer data reading from
-+writing the pointer ``data_tail``, perf tool first consumes samples and then
-+tells the kernel that the data chunk has been released.  Since a reading
-+operation is followed by a writing operation, thus (D) is a full memory
-+barrier.
-+
-+(B) is a writing barrier in the middle of two writing operations, which
-+makes sure that recording a sample must be prior to updating the head
-+pointer.
-+
-+(C) pairs with (B).  (C) is a read memory barrier to ensure the head
-+pointer is fetched before reading samples.
-+
-+To implement the above algorithm, the ``perf_output_put_handle()`` function
-+in the kernel and two helpers ``ring_buffer_read_head()`` and
-+``ring_buffer_write_tail()`` in the user space are introduced, they rely
-+on memory barriers as described above to ensure the data dependency.
-+
-+Some architectures support one-way permeable barrier with load-acquire
-+and store-release operations, these barriers are more relaxed with less
-+performance penalty, so (C) and (D) can be optimized to use barriers
-+``smp_load_acquire()`` and ``smp_store_release()`` respectively.
-+
-+If an architecture doesn’t support load-acquire and store-release in its
-+memory model, it will roll back to the old fashion of memory barrier
-+operations.  In this case, ``smp_load_acquire()`` encapsulates
-+``READ_ONCE()`` + ``smp_mb()``, since ``smp_mb()`` is costly,
-+``ring_buffer_read_head()`` doesn't invoke ``smp_load_acquire()`` and it uses
-+the barriers ``READ_ONCE()`` + ``smp_rmb()`` instead.
-+
-+3. The mechanism of AUX ring buffer
-+===================================
-+
-+In this chapter, we will explain the implementation of the AUX ring
-+buffer.  In the first part it will discuss the connection between the
-+AUX ring buffer and the regular ring buffer, then the second part will
-+examine how the AUX ring buffer co-works with the regular ring buffer,
-+as well as the additional features introduced by the AUX ring buffer for
-+the sampling mechanism.
-+
-+3.1 The relationship between AUX and regular ring buffers
-+---------------------------------------------------------
-+
-+Generally, the AUX ring buffer is an auxiliary for the regular ring
-+buffer.  The regular ring buffer is primarily used to store the event
-+samples and every event format complies with the definition in the
-+union ``perf_event``; the AUX ring buffer is for recording the hardware
-+trace data and the trace data format is hardware IP dependent.
-+
-+The general use and advantage of the AUX ring buffer is that it is
-+written directly by hardware rather than by the kernel.  For example,
-+regular profile samples that write to the regular ring buffer cause an
-+interrupt.  Tracing execution requires a high number of samples and
-+using interrupts would be overwhelming for the regular ring buffer
-+mechanism.  Having an AUX buffer allows for a region of memory more
-+decoupled from the kernel and written to directly by hardware tracing.
-+
-+The AUX ring buffer reuses the same algorithm with the regular ring
-+buffer for the buffer management.  The control structure
-+``perf_event_mmap_page`` extends the new fields ``aux_head`` and ``aux_tail``
-+for the head and tail pointers of the AUX ring buffer.
-+
-+During the initialisation phase, besides the mmap()-ed regular ring
-+buffer, the perf tool invokes a second syscall in the
-+``auxtrace_mmap__mmap()`` function for the mmap of the AUX buffer;
-+``rb_alloc_aux()`` in the kernel allocates pages correspondingly, these
-+pages will be deferred to map into VMA when handling the page fault,
-+which is the same lazy mechanism with the regular ring buffer.
-+
-+AUX events and AUX trace data are two different things.  Let's see an
-+example::
-+
-+        perf record -a -e cycles -e cs_etm/@tmc_etr0/ -- sleep 2
-+
-+The above command enables two events: one is the event *cycles* from PMU
-+and another is the AUX event *cs_etm* from Arm CoreSight, both are saved
-+into the regular ring buffer while the CoreSight's AUX trace data is
-+stored in the AUX ring buffer.
-+
-+As a result, we can see the regular ring buffer and the AUX ring buffer
-+are allocated in pairs.  The perf in default mode allocates the regular
-+ring buffer and the AUX ring buffer per CPU-wise, which is the same as
-+the system wide mode, however, the default mode records samples only for
-+the profiled program, whereas the latter mode profiles for all programs
-+in the system.  For per-thread mode, the perf tool allocates only one
-+regular ring buffer and one AUX ring buffer for the whole session.  For
-+the per-CPU mode, the perf allocates two kinds of ring buffers for CPUs
-+specified by the option ``-C``.
-+
-+The below figure demonstrates the buffers' layout in the system wide
-+mode; if there are any activities on one CPU, the AUX event samples and
-+the hardware trace data will be recorded into the dedicated buffers for
-+the CPU.
-+
-+::
-+
-+              T1                      T2                 T1
-+            +----+              +-----------+          +----+
-+    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
-+            +----+--------------+-----------+----------+----+-------->
-+              |                       |                  |
-+              v                       v                  v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 0                      |
-+            +-----------------------------------------------------+
-+              |                       |                  |
-+              v                       v                  v
-+            +-----------------------------------------------------+
-+            |               AUX Ring buffer 0                     |
-+            +-----------------------------------------------------+
-+
-+                   T1
-+                 +-----+
-+    CPU1         |xxxxx|
-+            -----+-----+--------------------------------------------->
-+                    |
-+                    v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 1                      |
-+            +-----------------------------------------------------+
-+                    |
-+                    v
-+            +-----------------------------------------------------+
-+            |               AUX Ring buffer 1                     |
-+            +-----------------------------------------------------+
-+
-+                                        T1              T3
-+                                      +----+        +-------+
-+    CPU2                              |xxxx|        |xxxxxxx|
-+            --------------------------+----+--------+-------+-------->
-+                                        |               |
-+                                        v               v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 2                      |
-+            +-----------------------------------------------------+
-+                                        |               |
-+                                        v               v
-+            +-----------------------------------------------------+
-+            |               AUX Ring buffer 2                     |
-+            +-----------------------------------------------------+
-+
-+                              T1
-+                       +--------------+
-+    CPU3               |xxxxxxxxxxxxxx|
-+            -----------+--------------+------------------------------>
-+                              |
-+                              v
-+            +-----------------------------------------------------+
-+            |                  Ring buffer 3                      |
-+            +-----------------------------------------------------+
-+                              |
-+                              v
-+            +-----------------------------------------------------+
-+            |               AUX Ring buffer 3                     |
-+            +-----------------------------------------------------+
-+
-+            T1: Thread 1; T2: Thread 2; T3: Thread 3
-+            x: Thread is in running state
-+
-+                Figure 9. AUX ring buffer for system wide mode
-+
-+3.2 AUX events
-+--------------
-+
-+Similar to ``perf_output_begin()`` and ``perf_output_end()``'s working for the
-+regular ring buffer, ``perf_aux_output_begin()`` and ``perf_aux_output_end()``
-+serve for the AUX ring buffer for processing the hardware trace data.
-+The structure ``perf_output_handle`` is used as a context to track the AUX
-+buffer’s info.
-+
-+``perf_aux_output_begin()`` initializes the structure perf_output_handle.
-+It fetches the AUX head pointer and assigns to ``perf_output_handle::head``,
-+afterwards, the low level driver uses ``perf_output_handle::head`` as the
-+start address for storing hardware trace data.
-+
-+Once the hardware trace data is stored into the AUX ring buffer, the PMU
-+driver will stop hardware tracing by calling the ``pmu::stop()`` callback.
-+Similar to the regular ring buffer, the AUX ring buffer needs to apply
-+the memory synchronization mechanism as discussed in the section
-+:ref:`memory_synchronization`.  Since the AUX ring buffer is managed by the
-+PMU driver, the barrier (B), which is a writing barrier to ensure the trace
-+data is externally visible prior to updating the head pointer, is asked
-+to be implemented in the PMU driver.
-+
-+Then ``pmu::stop()`` can safely call the ``perf_aux_output_end()`` function to
-+finish two things:
-+
-+- It fills an event ``PERF_RECORD_AUX`` into the regular ring buffer, this
-+  event delivers the information of the start address and data size for a
-+  chunk of hardware trace data has been stored into the AUX ring buffer;
-+
-+- Since the hardware trace driver has stored new trace data into the AUX
-+  ring buffer, the argument *size* indicates how many bytes have been
-+  consumed by the hardware tracing, thus ``perf_aux_output_end()`` updates the
-+  header pointer ``perf_buffer::aux_head`` to reflect the latest buffer usage.
-+
-+At the end, the PMU driver will restart hardware tracing.  During this
-+temporary suspending period, it will lose hardware trace data, which
-+will introduce a discontinuity during decoding phase.
-+
-+The event ``PERF_RECORD_AUX`` presents an AUX event which is handled in the
-+kernel, but it lacks the information for saving the AUX trace data in
-+the perf file.  When the perf tool copies the trace data from AUX ring
-+buffer to the perf data file, it synthesizes a ``PERF_RECORD_AUXTRACE``
-+event which includes the offest and size of the AUX trace data in the
-+perf file.  Afterwards, the perf tool reads out the AUX trace data from
-+the perf file based on the ``PERF_RECORD_AUXTRACE`` events, and the
-+``PERF_RECORD_AUX`` event is used to decode a chunk of data by correlating
-+with time order.
-+
-+3.3 Snapshot mode
-+-----------------
-+
-+Perf supports snapshot mode for AUX ring buffer, in this mode, users
-+only record AUX trace data at a specific time point which users are
-+interested in.  E.g. below gives an example of how to take snapshots
-+with 1 second interval with Arm CoreSight::
-+
-+  perf record -e cs_etm/@tmc_etr0/u -S -a program &
-+  PERFPID=$!
-+  while true; do
-+      kill -USR2 $PERFPID
-+      sleep 1
-+  done
-+
-+The main flow for snapshot mode is:
-+
-+- Before a snapshot is taken, the AUX ring buffer acts in free run mode.
-+  During free run mode the perf doesn't record any of the AUX events and
-+  trace data;
-+
-+- Once the perf tool receives the *USR2* signal, it triggers the callback
-+  function ``auxtrace_record::snapshot_start()`` to deactivate hardware
-+  tracing.  The kernel driver then populates the AUX ring buffer with the
-+  hardware trace data, and the event ``PERF_RECORD_AUX`` is stored in the
-+  regular ring buffer;
-+
-+- Then perf tool takes a snapshot, ``record__read_auxtrace_snapshot()``
-+  reads out the hardware trace data from the AUX ring buffer and saves it
-+  into perf data file;
-+
-+- After the snapshot is finished, ``auxtrace_record::snapshot_finish()``
-+  restarts the PMU event for AUX tracing.
-+
-+The perf only accesses the head pointer ``perf_event_mmap_page::aux_head``
-+in snapshot mode and doesn’t touch tail pointer ``aux_tail``, this is
-+because the AUX ring buffer can overflow in free run mode, the tail
-+pointer is useless in this case.  Alternatively, the callback
-+``auxtrace_record::find_snapshot()`` is introduced for making the decision
-+of whether the AUX ring buffer has been wrapped around or not, at the
-+end it fixes up the AUX buffer's head which are used to calculate the
-+trace data size.
-+
-+As we know, the buffers' deployment can be per-thread mode, per-CPU
-+mode, or system wide mode, and the snapshot can be applied to any of
-+these modes.  Below is an example of taking snapshot with system wide
-+mode.
-+
-+::
-+
-+                                         Snapshot is taken
-+                                                 |
-+                                                 v
-+                        +------------------------+
-+                        |  AUX Ring buffer 0     | <- aux_head
-+                        +------------------------+
-+                                                 v
-+                +--------------------------------+
-+                |          AUX Ring buffer 1     | <- aux_head
-+                +--------------------------------+
-+                                                 v
-+    +--------------------------------------------+
-+    |                      AUX Ring buffer 2     | <- aux_head
-+    +--------------------------------------------+
-+                                                 v
-+         +---------------------------------------+
-+         |                 AUX Ring buffer 3     | <- aux_head
-+         +---------------------------------------+
-+
-+                Figure 10. Snapshot with system wide mode
+Not int but unsigned long long.
+
+> +
+> +	if (!p)
+> +		return 1;
+> +
+> +	cmd_size = memparse(p, NULL);
+> +	if (cmd_size >= 4 && cmd_size <= 256)
+> +		amdtee_cma_size = cmd_size * SZ_1M;
+
+Change the doc to use 4M and 256M instead of plain 4 and 256. Or stop 
+using memparse().
+
+/me sad.
+
+
+> +	else
+> +		pr_err("invalid amdtee_cma size: %lu\n", amdtee_cma_size);
+> +
+> +	return 0;
+> +}
+> +early_param("amdtee_cma", early_parse_amdtee_cma);
+> +
+> +void __init amdtee_cma_reserve(void)
+> +{
+> +	int ret;
+> +
+> +	ret = cma_declare_contiguous(0, amdtee_cma_size, 0, 0, 0, false, "amdtee", &amdtee_cma);
+> +	if (ret)
+> +		pr_err("Failed to reserve CMA region of size %lu\n", amdtee_cma_size);
+> +	else
+> +		pr_info("Reserved %lu bytes CMA for amdtee\n", amdtee_cma_size);
+> +}
+> +
+> +unsigned long amdtee_alloc_from_cma(struct tee_shm *shm, unsigned int order)
+> +{
+> +	struct page *page = NULL;
+> +	unsigned long va = 0;
+> +	int nr_pages = 0;
+> +
+> +	if (amdtee_cma) {
+> +		nr_pages = 1 << order;
+> +		page = cma_alloc(amdtee_cma, nr_pages, 0, false);
+> +		if (page)
+> +			va = (unsigned long)page_to_virt(page);
+> +		else
+> +			pr_debug("failed to allocate from CMA region\n");
+> +	} else {
+> +		pr_debug("CMA region is not available\n");
+> +	}
+> +	return va;
+> +}
+> +
+> +void amdtee_free_from_cma(struct tee_shm *shm)
+> +{
+> +	struct page *page;
+> +	int nr_pages = 0;
+> +
+> +	if (amdtee_cma) {
+> +		nr_pages = 1 << get_order(shm->size);
+> +		page = virt_to_page(shm->kaddr);
+> +		cma_release(amdtee_cma, page, nr_pages);
+> +	} else {
+> +		pr_err("CMA region is not available\n");
+> +	}
+> +}
+> +#endif /* IS_BUILTIN(CONFIG_AMDTEE) && IS_ENABLED(CONFIG_CMA) */
+> diff --git a/drivers/tee/amdtee/shm_pool_cma.h b/drivers/tee/amdtee/shm_pool_cma.h
+> new file mode 100644
+> index 000000000000..d1cde11cbede
+> --- /dev/null
+> +++ b/drivers/tee/amdtee/shm_pool_cma.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + */
+> +
+> +#ifndef SHM_POOL_CMA_H
+> +#define SHM_POOL_CMA_H
+> +
+> +#if IS_BUILTIN(CONFIG_AMDTEE) && IS_ENABLED(CONFIG_CMA)
+> +
+> +extern unsigned long amdtee_cma_size;
+> +
+> +static inline unsigned long amdtee_get_cma_size(void)
+> +{
+> +	return amdtee_cma_size;
+> +}
+> +
+> +unsigned long amdtee_alloc_from_cma(struct tee_shm *shm, unsigned int order);
+> +
+> +void amdtee_free_from_cma(struct tee_shm *shm);
+> +
+> +#else /* IS_BUILTIN(CONFIG_AMDTEE) && IS_ENABLED(CONFIG_CMA) */
+> +
+> +static inline unsigned long amdtee_get_cma_size(void)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline unsigned long amdtee_alloc_from_cma(struct tee_shm *shm, unsigned int order)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void amdtee_free_from_cma(struct tee_shm *shm) { }
+> +
+> +#endif /* IS_BUILTIN(CONFIG_AMDTEE) && IS_ENABLED(CONFIG_CMA) */
+> +#endif /* SHM_POOL_CMA_H */
+
 -- 
-2.34.1
+Alexey
 
