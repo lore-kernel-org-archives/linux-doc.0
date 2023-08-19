@@ -2,108 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E00BDEE49A3
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 00:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D050EE49AB
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 02:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjHTA3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Aug 2023 20:29:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
+        id S229912AbjHTCgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Aug 2023 22:36:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbjHTA2r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 20:28:47 -0400
+        with ESMTP id S229869AbjHTCfs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 22:35:48 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E2F5337B5
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 15:49:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A96DC6CB35;
+        Sat, 19 Aug 2023 16:20:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 24D3560E93
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 22:49:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88AB4C433CA
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 22:49:03 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F50761882;
+        Sat, 19 Aug 2023 23:20:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9B0C433CB;
+        Sat, 19 Aug 2023 23:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692485343;
-        bh=kt6HRmoAxyQ+g+xRJ8gAjYUo+itgYgs6KUxXT9GPvKI=;
+        s=k20201202; t=1692487234;
+        bh=DIVwax5Y3AFVt2W6HkTTPIpqSiJRvcBZtl6jpYXaXlU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=C5hgnqVJIE453eMQ411nZcDPSXULZ5pvu2PQOe06kzpfNJ/QYNkm14hZnja1m1qaa
-         OiXcVSRGqt5NWtr1MA+vqyhgaa2B2pOFAYaP66cde/3LEX4WP3HkXEF/yBGiMoTbBv
-         nFKOdh/DkbwpptXaXB1waViAJEasx5Oo/s3Z4cHqNtb9rhbRkE/fHt7GY5OosgYGig
-         2ngdW7xlkow3v4spdky2dytbk+e+apPfiG6DD8nZmccAgRbNHBbb+PCmKu9toPOeqD
-         Q5Jbc5NIGEy8wI5/NcQtbY21cT8uokU5CkY5/sSc8Rjaz3Ox1Yt8S/lImz2FcKXEA9
-         7VEDXsIYfaCSg==
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6bd0a0a6766so1634954a34.2
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 15:49:03 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyGz/0zkOFqhwIW+qay2cv1QauiUBRDov2Nwb3ifxXTHxDY7Z10
-        HwZkJMs4OwMxHzRZqTPsOZOLiXxsIPA98qTL9vM=
-X-Google-Smtp-Source: AGHT+IGfDAMlX3Izyv4hEazXTl9htOBX0lXnNklHZPW8Dt4EMGa8oVIocnKdqwkF81IM99XOsX2C50vdBw0afJxrdVo=
-X-Received: by 2002:a05:6870:2051:b0:1bb:5892:2f76 with SMTP id
- l17-20020a056870205100b001bb58922f76mr4337128oad.4.1692485342783; Sat, 19 Aug
- 2023 15:49:02 -0700 (PDT)
+        b=LC38TrMnFINW6OjR+twcKA37K3TMDEiEQNxY4Rx5vZCI5YGancu0e5BgkxXcp1l8C
+         Ig4ldcWwp/L9BnkZudSTWB9zSxPTbkOwHpFTZkggOaEfI/Yfj56ca4zSiYZF3vjT5l
+         gg4rYAB7q66vzvixkl4PxoMXoeQA53P8rz8a2mLiEjDCKYOD0Kj3jYkz3cTzlEcAB+
+         iE9ICRmdKJF378HkKrWmOgBWhidea4WToYYu/u8JyudRRVT+/F2trquEh3YkTokZvl
+         FKsrEuCHx2e4No1VCScgpV/WU38zTSL1YywwMO94aIlUA9f4iMibnXXAVQ+NRVPnN/
+         IHx8LK/RErqlg==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-56e0d6651fbso1714419eaf.1;
+        Sat, 19 Aug 2023 16:20:34 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz5SD1TivzVbkV0/dqCy/P2BrEgfLxnPlt61baabNa7v75yYI5T
+        4yGDNtlBbbgP3aKcwIonP4LaOc5rTzmr8mfvvDY=
+X-Google-Smtp-Source: AGHT+IFXuIQCKgq40Jh+CUksunkc4g/HDrnQiJZxj1NwMk0N8zIlTUbmfGTPV89p9ZOEo/oIbsfpCG8Z9qm6KBIXmfM=
+X-Received: by 2002:aca:1b08:0:b0:3a4:8ecb:185c with SMTP id
+ b8-20020aca1b08000000b003a48ecb185cmr2035399oib.22.1692487233928; Sat, 19 Aug
+ 2023 16:20:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230817144142.903553-1-willy@infradead.org> <87cyzkmh26.fsf@meer.lwn.net>
- <ZN+m9Bb7P+uH/TN8@casper.infradead.org>
-In-Reply-To: <ZN+m9Bb7P+uH/TN8@casper.infradead.org>
+References: <20230817012007.131868-1-senozhatsky@chromium.org>
+In-Reply-To: <20230817012007.131868-1-senozhatsky@chromium.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 20 Aug 2023 07:48:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARKv_HGsF3r076u+G1ia645stimnoYc93CQ-9_3wvBe5w@mail.gmail.com>
-Message-ID: <CAK7LNARKv_HGsF3r076u+G1ia645stimnoYc93CQ-9_3wvBe5w@mail.gmail.com>
-Subject: Re: [PATCH] doc: Always check kernel-doc
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Carlos Bilbao <carlos.bilbao@amd.com>
+Date:   Sun, 20 Aug 2023 08:19:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
+Message-ID: <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 19, 2023 at 2:14=E2=80=AFAM Matthew Wilcox <willy@infradead.org=
-> wrote:
+On Thu, Aug 17, 2023 at 5:30=E2=80=AFPM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
 >
-> On Fri, Aug 18, 2023 at 10:49:37AM -0600, Jonathan Corbet wrote:
-> > "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
-> > > kernel-doc checks were initially enabled only for builds which had ex=
-tra
-> > > warnings enabled.  We have now eliminated enough kernel-doc warnings =
-that
-> > > we can enable kernel-doc checking by default.  This comes at a slight
-> > > cost; for an allmodconfig build, make -j8 fs/ timings on my laptop
-> > > increase by less than 5%:
-
-
-Adding CONFIG_KDOC_CHECK or something
-will allow people to avoid 5% build-time cost.
-You can set "default y" or "default COMPILE_TEST".
-
-
-
-> >
-> > So I'm not opposed to this and can carry it in docs-next (after the
-> > merge window, though, for something like this).  But, it seems to me, w=
-e
-> > should copy Masahiro (added) on a build patch of this type.
+> Example:
+> Suppose old .config has the following two options which
+> were removed from the recent kernel:
 >
-> Thanks!  I've got a small collection of doc fixup patches redy to go;
-> I'm going to spray them at maintainers and see what lands in this
-> merge window.  I'm focusing on mm/ and fs/ since I know those areas
-> better than others.  net/ is in good shape; only 25 lines of errors
-> (21 of them in ceph).
-
-Any single instance of warning may result in a rejection by Linus.
-Anyway, we will see.
-
-
-
-
-> I would suggest that we still have quite a lot of kernel-doc which is
-> not incorporated into .rst files, which seems like a shame.  Does anyone
-> have time to write a script that finds every file with kernel-doc in
-> it, then finds which of those files do not have ".. kernel-doc::"
-> lines in Documentation/ ?
+> $ cat .config
+> CONFIG_DISABLE_BUGS=3Dy
+>
+> Running `make listunknownconfig` produces the following
+> list of unrecognized symbols:
+>
+> .config:6:warning: unknown symbol: DISABLE_BUGS
+> .config:7:warning: unknown unset symbol: ENABLE_WINAPI
+>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 
 
+A new target is not what I like to see.
 
---=20
+
+We decided to add KCONFIG_VERBOSE, which will be used to
+warn options accidentally disabled or downgraded.
+
+https://lore.kernel.org/linux-kbuild/20230809002436.18079-1-sunying@nj.isca=
+s.ac.cn/T/#u
+
+
+--
 Best Regards
+
 Masahiro Yamada
