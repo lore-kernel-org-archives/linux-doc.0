@@ -2,99 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E27C7113B
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 00:11:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E00BDEE49A3
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 00:29:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjHTALG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Aug 2023 20:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47236 "EHLO
+        id S229523AbjHTA3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Aug 2023 20:29:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229762AbjHTAKy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 20:10:54 -0400
-Received: from smtpcmd0653.aruba.it (smtpcmd0653.aruba.it [62.149.156.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A9AB1503
-        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 13:44:26 -0700 (PDT)
-Received: from [192.168.1.205] ([95.47.160.93])
-        by Aruba Outgoing Smtp  with ESMTPSA
-        id XSo3qPcIKvaOzXSo3qL50G; Sat, 19 Aug 2023 22:44:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1692477865; bh=oMkQERsbWOQWYmbb8CeI2xbETyjxK7maYdZU8W7yv+Y=;
-        h=Date:MIME-Version:Subject:To:From:Content-Type;
-        b=mYStym781e151ro6NvVLbugNb6RVFIAVBAROXWoopr8+2YNUr3WPxwB9j13pesI+l
-         OWMAx1bbX+ha83zzXjjfU9ZieATWN69LjnEYfDiQQ/Ks7xUbOjJHXJINhiGAI99Kmk
-         x8dVm49TrSsNKc1T180N49zcqTKsEdi6Gccwo0n4I8//WbmnZ7PxG7mL+iCb6qPSTJ
-         mnilnp6LHD4kitwDDVBR/KC/BJ8oABUGKErKtydNMIrWyPtJG6PDzXyuXKTpGzxMfu
-         J6mt+z+zvO9UDRPae85jIYeS4k7i+2uxXeShnXTXl+qNWMnZYZ/yBiMXo9kThpye2B
-         EctSwoeX2rIxg==
-Message-ID: <2b4f4c90-19a3-434a-9559-ea72058f7b75@benettiengineering.com>
-Date:   Sat, 19 Aug 2023 22:44:23 +0200
+        with ESMTP id S229697AbjHTA2r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Aug 2023 20:28:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E2F5337B5
+        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 15:49:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 24D3560E93
+        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 22:49:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88AB4C433CA
+        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 22:49:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692485343;
+        bh=kt6HRmoAxyQ+g+xRJ8gAjYUo+itgYgs6KUxXT9GPvKI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=C5hgnqVJIE453eMQ411nZcDPSXULZ5pvu2PQOe06kzpfNJ/QYNkm14hZnja1m1qaa
+         OiXcVSRGqt5NWtr1MA+vqyhgaa2B2pOFAYaP66cde/3LEX4WP3HkXEF/yBGiMoTbBv
+         nFKOdh/DkbwpptXaXB1waViAJEasx5Oo/s3Z4cHqNtb9rhbRkE/fHt7GY5OosgYGig
+         2ngdW7xlkow3v4spdky2dytbk+e+apPfiG6DD8nZmccAgRbNHBbb+PCmKu9toPOeqD
+         Q5Jbc5NIGEy8wI5/NcQtbY21cT8uokU5CkY5/sSc8Rjaz3Ox1Yt8S/lImz2FcKXEA9
+         7VEDXsIYfaCSg==
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6bd0a0a6766so1634954a34.2
+        for <linux-doc@vger.kernel.org>; Sat, 19 Aug 2023 15:49:03 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyGz/0zkOFqhwIW+qay2cv1QauiUBRDov2Nwb3ifxXTHxDY7Z10
+        HwZkJMs4OwMxHzRZqTPsOZOLiXxsIPA98qTL9vM=
+X-Google-Smtp-Source: AGHT+IGfDAMlX3Izyv4hEazXTl9htOBX0lXnNklHZPW8Dt4EMGa8oVIocnKdqwkF81IM99XOsX2C50vdBw0afJxrdVo=
+X-Received: by 2002:a05:6870:2051:b0:1bb:5892:2f76 with SMTP id
+ l17-20020a056870205100b001bb58922f76mr4337128oad.4.1692485342783; Sat, 19 Aug
+ 2023 15:49:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag to
- give credits to who sponsored the patch
-Content-Language: en-US
-To:     Matthew Wilcox <willy@infradead.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
- <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
- <20230817232348.GC1175@pendragon.ideasonboard.com>
- <ZN65iiRiSLmXz89k@casper.infradead.org>
-From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
-In-Reply-To: <ZN65iiRiSLmXz89k@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfL4WXDWFVjPv6V4AzTF+DkLSD65XGYHDXCR6W4dNgzXeJCi0T6HLmLCiUzja8AHa75XosdlfE/T+NV3IGMVi9akuo2ifMY1CaxNJ7Zm37WyKVryUMbWn
- 11A8NXq4JXwXDCvgLoEqj4Fg8ZrEbHsYK4uaXvw/nUKqKlQGo8/Jd1FnMn9LQNPUaUbX4civQhaaebnRhBOpOjA81ZjRp+MUT0UqxwAWv7JlmkgmeZP7u0vH
- PP681rgpR6wZOkIjc1EQrPG+yYRg812bnMfEAjvEAA8jj8iGvQ14vyaSh3uhiegLlHlvcbVpFbOVkcWjXsplANHGWoVkdoJMtUdLNgtdaJ8kLKJsPcscYNdz
- 7bPSHOeCry/rQcL8TfEdjOmuDkXHlUuknuzOPbn0krk919wDDQ8=
+References: <20230817144142.903553-1-willy@infradead.org> <87cyzkmh26.fsf@meer.lwn.net>
+ <ZN+m9Bb7P+uH/TN8@casper.infradead.org>
+In-Reply-To: <ZN+m9Bb7P+uH/TN8@casper.infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 20 Aug 2023 07:48:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARKv_HGsF3r076u+G1ia645stimnoYc93CQ-9_3wvBe5w@mail.gmail.com>
+Message-ID: <CAK7LNARKv_HGsF3r076u+G1ia645stimnoYc93CQ-9_3wvBe5w@mail.gmail.com>
+Subject: Re: [PATCH] doc: Always check kernel-doc
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Matthew, Laurent,
+On Sat, Aug 19, 2023 at 2:14=E2=80=AFAM Matthew Wilcox <willy@infradead.org=
+> wrote:
+>
+> On Fri, Aug 18, 2023 at 10:49:37AM -0600, Jonathan Corbet wrote:
+> > "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
+> > > kernel-doc checks were initially enabled only for builds which had ex=
+tra
+> > > warnings enabled.  We have now eliminated enough kernel-doc warnings =
+that
+> > > we can enable kernel-doc checking by default.  This comes at a slight
+> > > cost; for an allmodconfig build, make -j8 fs/ timings on my laptop
+> > > increase by less than 5%:
 
-On 18/08/23 02:21, Matthew Wilcox wrote:
-> On Fri, Aug 18, 2023 at 02:23:48AM +0300, Laurent Pinchart wrote:
->> Just adding one data point here, without judging on the merits of this
->> proposal. I've been requested previously by customers to increase their
->> visibility in the kernel development statistics, and the way we found to
->> do so was to sign-off patches with
->>
->> Laurent Pinchart <laurent.pinchart+customer@ideasonboard.com>
->>
->> (where "customer" is to be replaced with the customer name).
-> 
-> I quite like Sponsored-by: but yet another approach could be the
-> same as that used by those of us whole use personal email addresses
-> while being employed by someone.  So my SoB is:
-> 
-> Matthew Wilcox (Oracle) <willy@infradead.org>
-> 
-> but you might have (eg)
-> 
-> Laurent Pinchard (Coca-Cola) <laurent.pinchart@ideasonboard.com>
-> 
-> and then when working for another sponsor:
-> 
-> Laurent Pinchard (Ford) <laurent.pinchart@ideasonboard.com>
 
-This is a good solution too. It's only that it gives me the idea that
-Laurent Pinchard actually works inside Coca-Cola then Ford and so on.
-At the least this is my understanding at first sight.
+Adding CONFIG_KDOC_CHECK or something
+will allow people to avoid 5% build-time cost.
+You can set "default y" or "default COMPILE_TEST".
 
-What I've found not easy at all instead in my patch is to deal with the
-Acked-by: from the Sponsor, because he could have to do that for(let's
-say) 100 patches, and it becomes not easy to check.
-I've been pointed that there is already the DCO the prevents from fake
-Sponsored-by: tags removing the need to send Acked-by: from the Sponsor.
-So I would modify this patch.
 
-But before I'd really like to have more feedback by someone else if 
-possible.
 
--- 
-Giulio Benetti
-CEO&CTO@Benetti Engineering sas
+> >
+> > So I'm not opposed to this and can carry it in docs-next (after the
+> > merge window, though, for something like this).  But, it seems to me, w=
+e
+> > should copy Masahiro (added) on a build patch of this type.
+>
+> Thanks!  I've got a small collection of doc fixup patches redy to go;
+> I'm going to spray them at maintainers and see what lands in this
+> merge window.  I'm focusing on mm/ and fs/ since I know those areas
+> better than others.  net/ is in good shape; only 25 lines of errors
+> (21 of them in ceph).
+
+Any single instance of warning may result in a rejection by Linus.
+Anyway, we will see.
+
+
+
+
+> I would suggest that we still have quite a lot of kernel-doc which is
+> not incorporated into .rst files, which seems like a shame.  Does anyone
+> have time to write a script that finds every file with kernel-doc in
+> it, then finds which of those files do not have ".. kernel-doc::"
+> lines in Documentation/ ?
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
