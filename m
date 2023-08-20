@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 636D3EE49A4
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 07:25:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F31D7EE49A5
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 07:35:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbjHTHZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Aug 2023 03:25:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52348 "EHLO
+        id S230047AbjHTHfk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Aug 2023 03:35:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230082AbjHTHZV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 03:25:21 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46668198C
-        for <linux-doc@vger.kernel.org>; Sun, 20 Aug 2023 00:21:25 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-68a3f1d8be2so248014b3a.3
-        for <linux-doc@vger.kernel.org>; Sun, 20 Aug 2023 00:21:25 -0700 (PDT)
+        with ESMTP id S229929AbjHTHfi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 03:35:38 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07DC4206
+        for <linux-doc@vger.kernel.org>; Sun, 20 Aug 2023 00:33:37 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1bdca7cc28dso18080665ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 20 Aug 2023 00:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692516085; x=1693120885;
+        d=chromium.org; s=google; t=1692516817; x=1693121617;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2GjKlgrr0th7ky2xTqHRqanB89DFHlsIAVq6xB4FtkI=;
-        b=Llw5jlEyl3YJi8wPXC3XEdwm80JhWBms1Hxwa7M375oPxtMMsDMpdXnno3QM8UkHij
-         rd5tvbNpbUehZhZHZZdanPyF/mwJrwHcJJY9lUX7AsUS45F0JW/gpleCdp1WSL6ZAiN/
-         P98p+J84mIm2om+7bduqY7/h185yDO9UEyjeo=
+        bh=JT3lS/Jv4Funx3x4lB2IfaEWNFY6X105VqzhdeEsq94=;
+        b=VyUcsj1JGYEopaoBHIqTW+KTajNecFXm1mCLu66FxbfJp/r0p5D6QzZO7ZIAeYX4oa
+         UunNQ36jLS2a7vGTXUDPhPAXtt7Tszi6R5NAResk8U1xJJbs/iRfxVX4g2A8whEWqPOO
+         eC1EwXjuH9a6pEZnZcLNX046Z8q0eW1Kg2vmA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692516085; x=1693120885;
+        d=1e100.net; s=20221208; t=1692516817; x=1693121617;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2GjKlgrr0th7ky2xTqHRqanB89DFHlsIAVq6xB4FtkI=;
-        b=iKzMRTqPXUVP+5iqWi4ZpofiiOFzqM3qBl28t4LggkeCKb6AYF/muCDZSHWLXJg0Wo
-         dULkxTQXEwFm9A0kAcmEakbzXpV0UQ9wtVAQ4Y61cCjwQHbUM4/pSUImRRG0IYf6VeGz
-         07Lj9sEEOgxSA3pR8LGsyd/fmqB6H9KyWTCzXAUvLI6cW0FQulQ/maHG4p/KEYoHmy5H
-         NMjalfKeGfNMwHcv3wbqennBdwEhHTh7xW4GMhajs5EGXx/RbaoA/cWpM1f5EBpBnN8R
-         CyZGkI5A4mNThzBGVLrug5ZsJcrqKwpakFhNtrE4AExw0Ib/CqOliXDFPO4SLqqQc6TH
-         KFVg==
-X-Gm-Message-State: AOJu0YxfY2uTs7OX45QRo/YwC6xpfIqR7y6qtquB+I0UsG+pEHueH+2C
-        3+3ZrNpT/rmcEiFmOrw09h+2Sw==
-X-Google-Smtp-Source: AGHT+IGIQAjbE3hh0ICrLFqCMNEeMJMax+giGMT6cu4dqkwKnm2z/qwkPtiVoEYnad5tcQ5DceDh6A==
-X-Received: by 2002:a05:6a00:b4e:b0:687:6184:def4 with SMTP id p14-20020a056a000b4e00b006876184def4mr5234317pfo.21.1692516084499;
-        Sun, 20 Aug 2023 00:21:24 -0700 (PDT)
+        bh=JT3lS/Jv4Funx3x4lB2IfaEWNFY6X105VqzhdeEsq94=;
+        b=iIVQoglZipas+QCNYd94+vBRRK/wiOhf17VBVheia0zxv7CTOXuqpXL47CI35F8QxB
+         Qd+HwLhsIFB+dX9AhVNfH5kEMp8IRglijly6eUCX0HxLYLTERlFBqWS317RpjTo1R+9s
+         HORMXK5fixWVNhGOzXV4K+Qi3M89hQIqDQIsNS2gQ0y1o6mwZjHAyFOAolJUV/U+Ps8S
+         7xRfZh8SJXNpkiiwYB5HBu1TJcCKE/4guLJtGVKkPPiK6ch3slR46D7/c7LWMBK+3VWd
+         MwtZWjoYtDCvj4FTNRMzb13CbozYSdp0DBY2ZAbo/oIKtGBPAjZBT6VO7zPisjHSohup
+         ol0g==
+X-Gm-Message-State: AOJu0YzjGlEGehv+NLHI9oE2pSjm7DSfA2Z63HJnEY5jBT0It/EmmB4f
+        CM8pmaZ2ubVVzGoq63Tq2PYzIA==
+X-Google-Smtp-Source: AGHT+IEje6KjE5NQg/EB2Mr/qhSz7z0A+zpIPsBpEjnxEEcS++pnUt3/LqKj+wpt3NNsuCMvqnKtqA==
+X-Received: by 2002:a17:903:1108:b0:1bc:1b01:8961 with SMTP id n8-20020a170903110800b001bc1b018961mr4803262plh.1.1692516817118;
+        Sun, 20 Aug 2023 00:33:37 -0700 (PDT)
 Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id j6-20020aa78d06000000b0068991abe1desm4150966pfe.176.2023.08.20.00.21.21
+        by smtp.gmail.com with ESMTPSA id z17-20020a170903019100b001bf846dd2ebsm108808plg.303.2023.08.20.00.33.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Aug 2023 00:21:23 -0700 (PDT)
-Date:   Sun, 20 Aug 2023 16:21:19 +0900
+        Sun, 20 Aug 2023 00:33:36 -0700 (PDT)
+Date:   Sun, 20 Aug 2023 16:33:32 +0900
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
@@ -56,59 +56,93 @@ Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
-Message-ID: <20230820072119.GM907732@google.com>
+Message-ID: <20230820073332.GN907732@google.com>
 References: <20230817012007.131868-1-senozhatsky@chromium.org>
  <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
  <20230820024519.GK907732@google.com>
  <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
+ <20230820072119.GM907732@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
+In-Reply-To: <20230820072119.GM907732@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (23/08/20 14:11), Masahiro Yamada wrote:
-> > That doesn't seem cover the cases that I'm concerned with. I don't see
-> > anything related to "!sym" in the patch.
-> >
-> > What will KCONFIG_VERBOSE do if it reads the following config file?
-> >
-> > // assuming that both config options were valid and existed in the old
-> > // kernel, but were removed/renamed in the new kernel
-> >
-> >  $ cat .config
-> >  CONFIG_DISABLE_BUGS=y
-> >  # CONFIG_ENABLE_WINAPI is not set
-> >
-> >
-> > I'd like to see warnings for both lines, even for config that is not
-> > set, because it maybe we set by a build script depending on USE flags
-> > for instance, so that build target may still refer to non-existent
-> > config.
+On (23/08/20 16:21), Sergey Senozhatsky wrote:
+> What the preferred approach would be? Do we want a new KCONFIG_FOO env
+> variable that changes behaviour of one of the targets? E.g.
 > 
+> 	KCONFIG_LIST_MISSING=1 make oldconfig
 > 
-> I did not say Ying Sun's patch covered your case.
-> 
-> I just meant I dislike your approach.
+> and then have conf list symbols and terminate with exit(1) if there are
+> some unrecognized symbols?
 
-Sure, OK.
 
-> After his patch is applied, please come back with a similar approach
+Will something like this be OK with you?
 
-I guess Ying Sun's patch cannot be extended to cover these extra cases?
 
-What the preferred approach would be? Do we want a new KCONFIG_FOO env
-variable that changes behaviour of one of the targets? E.g.
+ KCONFIG_LIST_MISSING=1 make oldconfig
 
-	KCONFIG_LIST_MISSING=1 make oldconfig
+.config:6:warning: unknown symbol: DISABLE_BUGS
+.config:7:warning: unknown unset symbol: ENABLE_WINAPI
 
-and then have conf list symbols and terminate with exit(1) if there are
-some unrecognized symbols?
+make[2]: *** [scripts/kconfig/Makefile:77: oldconfig] Error 1
 
-We have "listnew", so "listmissing" sort of fits as a new target.
 
-> if you want to address your case in the mainline kernel
+---
 
-Yes please, we want an upstream solution for the problem in question.
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index fa2ae6f63352..b2c0bcf0e5c1 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -360,7 +360,9 @@ int conf_read_simple(const char *name, int def)
+        char *p, *p2;
+        struct symbol *sym;
+        int i, def_flags;
++       const char *list_missing;
+ 
++       list_missing = getenv("KCONFIG_LIST_MISSING");
+        if (name) {
+                in = zconf_fopen(name);
+        } else {
+@@ -448,6 +450,12 @@ int conf_read_simple(const char *name, int def)
+                        if (def == S_DEF_USER) {
+                                sym = sym_find(line + 2 + strlen(CONFIG_));
+                                if (!sym) {
++                                       if (list_missing) {
++                                               conf_warning("unknown unset symbol: %s",
++                                                            line + 2 + strlen(CONFIG_));
++                                               continue;
++                                       }
++
+                                        conf_set_changed(true);
+                                        continue;
+                                }
+@@ -482,6 +490,12 @@ int conf_read_simple(const char *name, int def)
+ 
+                        sym = sym_find(line + strlen(CONFIG_));
+                        if (!sym) {
++                               if (list_missing) {
++                                       conf_warning("unknown symbol: %s",
++                                                    line + strlen(CONFIG_));
++                                       continue;
++                               }
++
+                                if (def == S_DEF_AUTO)
+                                        /*
+                                         * Reading from include/config/auto.conf
+@@ -530,6 +544,13 @@ int conf_read_simple(const char *name, int def)
+        }
+        free(line);
+        fclose(in);
++
++       if (list_missing) {
++               if (conf_warnings)
++                       exit(1);
++               exit(0);
++       }
++
+        return 0;
+ }
