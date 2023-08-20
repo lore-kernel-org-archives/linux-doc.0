@@ -2,120 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE37EE49A8
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 06:02:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 636D3EE49A4
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 07:25:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbjHTGCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Aug 2023 02:02:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59040 "EHLO
+        id S229598AbjHTHZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Aug 2023 03:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjHTGCc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 02:02:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1055422A39;
-        Sat, 19 Aug 2023 22:12:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E8906182A;
-        Sun, 20 Aug 2023 05:12:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1597C433C8;
-        Sun, 20 Aug 2023 05:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692508325;
-        bh=FvDr/dOuSBFMzqfBbCipsALY383eEHqj2Qwe11D0HDA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KaN8k0NY77Wny/IQOJMxFoSGNrKN4NwtmU34eA1QyNTKsbSrH/kwLp9nw02mCBVmx
-         /YT4Z0Ffe6EWO13yd8iyxJwVJ9CaJfLa6LVrlHzSueINLPtmsjb2gmQ9m0dnNc2SbL
-         jmsVIkWLuxZ/CNIV3Lf0O1/W1vNrK8bgfU//bVeAX5ykuadsjfxTWRc61yfu/03iC8
-         G5bIkiDPsSdDTy2e1NGgyV7SkXMzX2ZMve2h4/38p0bj3ihNl+od8E4obH/M03xyie
-         zi8sYv+HXvVV8pD+DXTcYOOVi9j2/7AJqqHcm4dqmxocqukz20o2bJjXM3ZcNFp1ns
-         B9UDCkfI9y0xQ==
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-570bf51cb96so247239eaf.0;
-        Sat, 19 Aug 2023 22:12:05 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw4UThhXM6Bxj+xcrc7GkfZslUwRHY94W4KJ/3+sTXwIpOTsLOj
-        xXbqh01xjV330c3+CD0H/Mn7IejlrT5LdqoyeIY=
-X-Google-Smtp-Source: AGHT+IHzO4eqjEpPnew8SirXjxbH4XY7DpO8dFrmzm+w9atlwVBaJBJn1veuEp92e8AUHCrKjbSikzI8chtwMjMrUK0=
-X-Received: by 2002:a4a:851b:0:b0:56c:c061:a9a8 with SMTP id
- k27-20020a4a851b000000b0056cc061a9a8mr3189511ooh.0.1692508325067; Sat, 19 Aug
- 2023 22:12:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230817012007.131868-1-senozhatsky@chromium.org>
- <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com> <20230820024519.GK907732@google.com>
-In-Reply-To: <20230820024519.GK907732@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 20 Aug 2023 14:11:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
-Message-ID: <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
-Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+        with ESMTP id S230082AbjHTHZV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 03:25:21 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46668198C
+        for <linux-doc@vger.kernel.org>; Sun, 20 Aug 2023 00:21:25 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-68a3f1d8be2so248014b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 20 Aug 2023 00:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692516085; x=1693120885;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2GjKlgrr0th7ky2xTqHRqanB89DFHlsIAVq6xB4FtkI=;
+        b=Llw5jlEyl3YJi8wPXC3XEdwm80JhWBms1Hxwa7M375oPxtMMsDMpdXnno3QM8UkHij
+         rd5tvbNpbUehZhZHZZdanPyF/mwJrwHcJJY9lUX7AsUS45F0JW/gpleCdp1WSL6ZAiN/
+         P98p+J84mIm2om+7bduqY7/h185yDO9UEyjeo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692516085; x=1693120885;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2GjKlgrr0th7ky2xTqHRqanB89DFHlsIAVq6xB4FtkI=;
+        b=iKzMRTqPXUVP+5iqWi4ZpofiiOFzqM3qBl28t4LggkeCKb6AYF/muCDZSHWLXJg0Wo
+         dULkxTQXEwFm9A0kAcmEakbzXpV0UQ9wtVAQ4Y61cCjwQHbUM4/pSUImRRG0IYf6VeGz
+         07Lj9sEEOgxSA3pR8LGsyd/fmqB6H9KyWTCzXAUvLI6cW0FQulQ/maHG4p/KEYoHmy5H
+         NMjalfKeGfNMwHcv3wbqennBdwEhHTh7xW4GMhajs5EGXx/RbaoA/cWpM1f5EBpBnN8R
+         CyZGkI5A4mNThzBGVLrug5ZsJcrqKwpakFhNtrE4AExw0Ib/CqOliXDFPO4SLqqQc6TH
+         KFVg==
+X-Gm-Message-State: AOJu0YxfY2uTs7OX45QRo/YwC6xpfIqR7y6qtquB+I0UsG+pEHueH+2C
+        3+3ZrNpT/rmcEiFmOrw09h+2Sw==
+X-Google-Smtp-Source: AGHT+IGIQAjbE3hh0ICrLFqCMNEeMJMax+giGMT6cu4dqkwKnm2z/qwkPtiVoEYnad5tcQ5DceDh6A==
+X-Received: by 2002:a05:6a00:b4e:b0:687:6184:def4 with SMTP id p14-20020a056a000b4e00b006876184def4mr5234317pfo.21.1692516084499;
+        Sun, 20 Aug 2023 00:21:24 -0700 (PDT)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id j6-20020aa78d06000000b0068991abe1desm4150966pfe.176.2023.08.20.00.21.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Aug 2023 00:21:23 -0700 (PDT)
+Date:   Sun, 20 Aug 2023 16:21:19 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Jonathan Corbet <corbet@lwn.net>,
         Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
+Message-ID: <20230820072119.GM907732@google.com>
+References: <20230817012007.131868-1-senozhatsky@chromium.org>
+ <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
+ <20230820024519.GK907732@google.com>
+ <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 20, 2023 at 1:20=E2=80=AFPM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> On (23/08/20 08:19), Masahiro Yamada wrote:
-> > > Example:
-> > > Suppose old .config has the following two options which
-> > > were removed from the recent kernel:
-> > >
-> > > $ cat .config
-> > > CONFIG_DISABLE_BUGS=3Dy
-> > >
-> > > Running `make listunknownconfig` produces the following
-> > > list of unrecognized symbols:
-> > >
-> > > .config:6:warning: unknown symbol: DISABLE_BUGS
-> > > .config:7:warning: unknown unset symbol: ENABLE_WINAPI
-> > >
-> > > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+On (23/08/20 14:11), Masahiro Yamada wrote:
+> > That doesn't seem cover the cases that I'm concerned with. I don't see
+> > anything related to "!sym" in the patch.
+> >
+> > What will KCONFIG_VERBOSE do if it reads the following config file?
+> >
+> > // assuming that both config options were valid and existed in the old
+> > // kernel, but were removed/renamed in the new kernel
+> >
+> >  $ cat .config
+> >  CONFIG_DISABLE_BUGS=y
+> >  # CONFIG_ENABLE_WINAPI is not set
 > >
 > >
-> > A new target is not what I like to see.
-> >
-> >
-> > We decided to add KCONFIG_VERBOSE, which will be used to
-> > warn options accidentally disabled or downgraded.
->
-> That doesn't seem cover the cases that I'm concerned with. I don't see
-> anything related to "!sym" in the patch.
->
-> What will KCONFIG_VERBOSE do if it reads the following config file?
->
-> // assuming that both config options were valid and existed in the old
-> // kernel, but were removed/renamed in the new kernel
->
->  $ cat .config
->  CONFIG_DISABLE_BUGS=3Dy
->  # CONFIG_ENABLE_WINAPI is not set
->
->
-> I'd like to see warnings for both lines, even for config that is not
-> set, because it maybe we set by a build script depending on USE flags
-> for instance, so that build target may still refer to non-existent
-> config.
+> > I'd like to see warnings for both lines, even for config that is not
+> > set, because it maybe we set by a build script depending on USE flags
+> > for instance, so that build target may still refer to non-existent
+> > config.
+> 
+> 
+> I did not say Ying Sun's patch covered your case.
+> 
+> I just meant I dislike your approach.
 
+Sure, OK.
 
-I did not say Ying Sun's patch covered your case.
+> After his patch is applied, please come back with a similar approach
 
-I just meant I dislike your approach.
+I guess Ying Sun's patch cannot be extended to cover these extra cases?
 
-After his patch is applied, please come back with a similar approach
-if you want to address your case in the mainline kernel.
+What the preferred approach would be? Do we want a new KCONFIG_FOO env
+variable that changes behaviour of one of the targets? E.g.
 
+	KCONFIG_LIST_MISSING=1 make oldconfig
 
+and then have conf list symbols and terminate with exit(1) if there are
+some unrecognized symbols?
 
---=20
-Best Regards
-Masahiro Yamada
+We have "listnew", so "listmissing" sort of fits as a new target.
+
+> if you want to address your case in the mainline kernel
+
+Yes please, we want an upstream solution for the problem in question.
