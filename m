@@ -2,129 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58FF4EE49AA
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 14:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53629EE49A6
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 14:52:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233056AbjHUOjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 10:39:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54992 "EHLO
+        id S236205AbjHUOwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 10:52:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232459AbjHUOjE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 10:39:04 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B21E2;
-        Mon, 21 Aug 2023 07:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692628742; x=1724164742;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=n+H1JgW1FSq0KiMcggmPISRuggzNMJX7eaMiKiqfo+U=;
-  b=ed2nRecItHqt5hMQgb8p/eROaCrNtbZYkWKkN9iuHUGf62fOQt7Zk43X
-   teQKjnnriQz3z0nmpA7GM4SahXDslu+uNBdiWN49NwIzEphE7hZ72Em4l
-   hN6nU9kjVT+rAZyLi0wyUjaBjyHEppeenunY+RJivirWOBi/WXyIri76j
-   ARPGfRZTreTEOXXBXyORWzIofb6E5X9STg9k5YxMdr/yHFiqFKtwbSH02
-   qOOwcMrqkjCZYR3lGNekggnKXNTb09jA0dHjJ2s9SOjTbm8FrN+x2QIMt
-   3mSqQEw5jr+ClqYyJhMTX4JeihLsbYAoUQ4zGcS7QFE6g7vMcBKc8s0Ap
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="371036580"
-X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="371036580"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:39:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="738913417"
-X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="738913417"
-Received: from hpabst-mobl.ger.corp.intel.com (HELO localhost) ([10.252.54.190])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:39:00 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Giulio Benetti <giulio.benetti@benettiengineering.com>,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag
- to give credits to who sponsored the patch
-In-Reply-To: <ZONfKKwFaDQpuZ9w@casper.infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
- <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
- <20230817232348.GC1175@pendragon.ideasonboard.com>
- <ZN65iiRiSLmXz89k@casper.infradead.org> <87ttss7q8o.fsf@intel.com>
- <ZONTiijMLWbt6naQ@casper.infradead.org> <87o7j07frk.fsf@intel.com>
- <ZONfKKwFaDQpuZ9w@casper.infradead.org>
-Date:   Mon, 21 Aug 2023 17:38:57 +0300
-Message-ID: <87lee4794u.fsf@intel.com>
+        with ESMTP id S234951AbjHUOwC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 10:52:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F84DE7;
+        Mon, 21 Aug 2023 07:52:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CEBBE62A8B;
+        Mon, 21 Aug 2023 14:52:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8935C433C8;
+        Mon, 21 Aug 2023 14:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692629520;
+        bh=o7TMneqKMD7yd3mxtbwuDOYsNFG2NCLJL2n2vsDbDak=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=M99vuKPwGvKRrYNdVSJYyDlnJ2w+2bMfB7rIbbb0zMav+2u04juf4V+a2CsgqzNDo
+         zY6p3etAWgX2q0/22uvpOXZ/Wzv2xTeEA24KwFEji65i1wZTlYystv6gRAw4+2MQyU
+         oaEd6VKB8db0tJ0jyQCgDFMURy4ykFZ8qlFZzqlpCL3m5/CT0XKkZ//9TDuKHgVv1B
+         1bj5jxEglUDzU7LJyjnLgzdtFv9TCTgkDman9YPVSVaDL/+xpgTfKLthde6DWuRUfj
+         mL5fOqnuU3mR99U8NW/yi1PUgJ+e9n5c7OFWa20Kvwh1o+Ql5Jeha1cJb0MI9W7Aaa
+         CYGgkZ4MlB+0Q==
+Date:   Mon, 21 Aug 2023 17:51:34 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, cgroups@vger.kernel.org
+Subject: Re: [PATCH 1/4] mm: Fix kernel-doc warning from tlb_flush_rmaps()
+Message-ID: <20230821145134.GB9849@kernel.org>
+References: <20230818200630.2719595-1-willy@infradead.org>
+ <20230818200630.2719595-2-willy@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230818200630.2719595-2-willy@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 21 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
-> On Mon, Aug 21, 2023 at 03:15:43PM +0300, Jani Nikula wrote:
->> On Mon, 21 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
->> > On Mon, Aug 21, 2023 at 11:29:27AM +0300, Jani Nikula wrote:
->> >> On Fri, 18 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
->> >> > but you might have (eg)
->> >> >
->> >> > Laurent Pinchard (Coca-Cola) <laurent.pinchart@ideasonboard.com>
->> >> >
->> >> > and then when working for another sponsor:
->> >> >
->> >> > Laurent Pinchard (Ford) <laurent.pinchart@ideasonboard.com>
->> >> 
->> >> Just an observation, git shortlog -s/-se groups/distinguishes,
->> >> respectively, the author and sponsor in Laurent's approach. Not so with
->> >> Matthew's approach.
->> >
->> > Hm?
->> >
->> > $ git shortlog -s next-20230817..
->> >      1  Matthew Wilcox (Novartis)
->> >     25  Matthew Wilcox (Oracle)
->> >
->> > $ git shortlog -se next-20230817..
->> >      1  Matthew Wilcox (Novartis) <willy@infradead.org>
->> >     25  Matthew Wilcox (Oracle) <willy@infradead.org>
->> 
->> $ git shortlog v6.4.. -s --author="Laurent Pinchart"
->>     12  Laurent Pinchart
->> 
->> $ git shortlog v6.4.. -se --author="Laurent Pinchart"
->>      2  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>     10  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> I must not be understanding your point correctly.
+On Fri, Aug 18, 2023 at 09:06:27PM +0100, Matthew Wilcox (Oracle) wrote:
+> The vma parameter wasn't described.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-That's probably a correct assesment, and not necessarily your fault. ;)
+Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
 
-My point was that git shortlog -s groups and adds up the commits
-together if the name is the same, but -se can still be used to
-distinguish the mbox+tag difference in email. 12 for -s, but 2 and 10
-for -se in Laurent's stats above.
-
-If the names differ, even if just by the thing in parens, git shortlog
-won't combine them.
-
-> $ git shortlog v6.4.. -s --author="Matthew Wilcox"
->      7  Matthew Wilcox
->      1  Matthew Wilcox (Novartis)
->    123  Matthew Wilcox (Oracle)
->
-> That seems to me like it successfully distinguishes my fake commit on
-> behalf of Novartis (who I haven't actually worked for since 1997) from
-> my real commits on behalf of Oracle.  It also shows a few places where
-> my commits weren't attributed to Oracle (I think this happens when I
-> send patches using mutt instead of git-send-email)
-
-I'm not saying either is right or wrong or has any shortcomings, I'm
-just saying they're *different* in this regard.
-
-BR,
-Jani.
-
+> ---
+>  mm/mmu_gather.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/mm/mmu_gather.c b/mm/mmu_gather.c
+> index ea9683e12936..4f559f4ddd21 100644
+> --- a/mm/mmu_gather.c
+> +++ b/mm/mmu_gather.c
+> @@ -63,6 +63,7 @@ static void tlb_flush_rmap_batch(struct mmu_gather_batch *batch, struct vm_area_
+>  /**
+>   * tlb_flush_rmaps - do pending rmap removals after we have flushed the TLB
+>   * @tlb: the current mmu_gather
+> + * @vma: The memory area from which the pages are being removed.
+>   *
+>   * Note that because of how tlb_next_batch() above works, we will
+>   * never start multiple new batches with pending delayed rmaps, so
+> -- 
+> 2.40.1
+> 
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Sincerely yours,
+Mike.
