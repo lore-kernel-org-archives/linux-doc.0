@@ -2,77 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2313EE49A0
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 04:52:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4275EE49A0
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 05:00:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232796AbjHUEwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 00:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
+        id S233099AbjHUFAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 01:00:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjHUEwr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 00:52:47 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 93801B1;
-        Sun, 20 Aug 2023 21:52:44 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E99461FB;
-        Sun, 20 Aug 2023 21:53:24 -0700 (PDT)
-Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.42.6])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 214853F740;
-        Sun, 20 Aug 2023 21:52:39 -0700 (PDT)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        with ESMTP id S231553AbjHUFAk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 01:00:40 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62F84A3;
+        Sun, 20 Aug 2023 22:00:38 -0700 (PDT)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37L4nlYA013435;
+        Mon, 21 Aug 2023 04:59:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=3BP7bDeODG6UVTGjz19TNhnESUfJJakLyBzNwkErhc8=;
+ b=IqGaY6jk3rI2zjjjSUYhdXs7kfhyPSOR5+VNJ34Zhwr4eA3w2wpb1wOgKwo7ROV/04CX
+ skOwYQJpN/TvfiwkWtx06Wi0OpveOMHg/vZqBGkI4SGbkpHHOA7lOaow5TNsGamgIIFr
+ znK3awQlNEpN0r5EC4bhQfQh0p2ByzhcAPjqA9v9MoDga5MDeDPjpMmeSuSwl27gHhdH
+ 3ZQ9VEro3EbaAhl9cBkEmTLZMpF18p3dGxlOQnjOTvEoyLtv1iyzK0a0a0uizNf74dop
+ klwrMEUnC7tY4LL9nOEAzD9Mojh2focwn7jlM/KwE7AFYdmjLNup56wjMCiTJW226ijE Pw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sm18a84er-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Aug 2023 04:59:40 +0000
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37L4oOLq015108;
+        Mon, 21 Aug 2023 04:59:40 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sm18a84e9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Aug 2023 04:59:40 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37L3PO5o018452;
+        Mon, 21 Aug 2023 04:59:39 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+        by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3sk82sgc2x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Aug 2023 04:59:39 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37L4xbmY45154668
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 21 Aug 2023 04:59:37 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 579A720049;
+        Mon, 21 Aug 2023 04:59:37 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A5CDC20040;
+        Mon, 21 Aug 2023 04:59:32 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.43.51.109])
+        by smtpav06.fra02v.mail.ibm.com (Postfix) with SMTP;
+        Mon, 21 Aug 2023 04:59:32 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Mon, 21 Aug 2023 10:29:31 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Cc:     Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V5 3/3] Documentation: coresight: Add cc_threshold tunable
-Date:   Mon, 21 Aug 2023 10:22:16 +0530
-Message-Id: <20230821045216.641499-4-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230821045216.641499-1-anshuman.khandual@arm.com>
-References: <20230821045216.641499-1-anshuman.khandual@arm.com>
-MIME-Version: 1.0
+        Randy Dunlap <rdunlap@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>
+Subject: [PATCH v2] powerpc: Enable generic cpu idle-loop
+Date:   Mon, 21 Aug 2023 10:29:27 +0530
+Message-ID: <20230821045928.1350893-1-vaibhav@linux.ibm.com>
+X-Mailer: git-send-email 2.41.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: xDUJgrdof8nK5PJFeS0qk8QHDtLLNxoW
+X-Proofpoint-ORIG-GUID: NblDWfCNsH2Gd8Y2x87nRhyPlc1ecka3
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-20_15,2023-08-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 malwarescore=0
+ clxscore=1015 mlxlogscore=672 suspectscore=0 phishscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308210042
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This updates config option to include 'cc_threshold' tunable value.
+This minor patch enables config option GENERIC_IDLE_POLL_SETUP for arch
+powerpc. This should add support for kernel param 'nohlt'.
 
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: Mike Leach <mike.leach@linaro.org>
-Cc: James Clark <james.clark@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: coresight@lists.linaro.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Reviewed by: Mike Leach <mike.leach@linaro.org>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Powerpc kernel also supports another kernel boot-time param called
+'powersave' which can also be used to disable all cpu idle-states and
+forces CPU to an idle-loop similar to what cpu_idle_poll() does. Hence this
+patch  also updates the handling of 'powersave=off' kernel param to enable
+generic cpu idle-loop if its enabled.
+
+Signed-off-by: Vaibhav Jain<vaibhav@linux.ibm.com>
 ---
- Documentation/trace/coresight/coresight.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+Changelog:
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 4a71ea6cb390..ce55adb80b82 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -624,6 +624,10 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
-    * - timestamp
-      - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
-        <coresight-timestamp>`
-+   * - cc_threshold
-+     - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
-+       default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
-+       value, as indicated via TRCIDR3.CCITMIN, then the minimum value will be used instead.
+Since v1:
+https://lore.kernel.org/all/20230818050739.827851-1-vaibhav@linux.ibm.com
+* Updated powersave_off() to enable generic cpu idle-loop if
+'powersave=off' kernel arg is given. [Mpe]
+* Update patch description
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ arch/powerpc/Kconfig                            | 1 +
+ arch/powerpc/kernel/idle.c                      | 3 +++
+ 3 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 722b6eca2e93..6b657ebafcfb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3738,7 +3738,7 @@
  
- How to use the STM module
- -------------------------
+ 	nohibernate	[HIBERNATION] Disable hibernation and resume.
+ 
+-	nohlt		[ARM,ARM64,MICROBLAZE,MIPS,SH] Forces the kernel to
++	nohlt		[ARM,ARM64,MICROBLAZE,MIPS,PPC,SH] Forces the kernel to
+ 			busy wait in do_idle() and not use the arch_cpu_idle()
+ 			implementation; requires CONFIG_GENERIC_IDLE_POLL_SETUP
+ 			to be effective. This is useful on platforms where the
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 0b1172cbeccb..574661403800 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -193,6 +193,7 @@ config PPC
+ 	select GENERIC_CPU_VULNERABILITIES	if PPC_BARRIER_NOSPEC
+ 	select GENERIC_EARLY_IOREMAP
+ 	select GENERIC_GETTIMEOFDAY
++	select GENERIC_IDLE_POLL_SETUP
+ 	select GENERIC_IRQ_SHOW
+ 	select GENERIC_IRQ_SHOW_LEVEL
+ 	select GENERIC_PCI_IOMAP		if PCI
+diff --git a/arch/powerpc/kernel/idle.c b/arch/powerpc/kernel/idle.c
+index b1c0418b25c8..7367a0698459 100644
+--- a/arch/powerpc/kernel/idle.c
++++ b/arch/powerpc/kernel/idle.c
+@@ -21,6 +21,7 @@
+ #include <linux/cpu.h>
+ #include <linux/sysctl.h>
+ #include <linux/tick.h>
++#include <linux/cpu.h>
+ 
+ #include <asm/processor.h>
+ #include <asm/cputable.h>
+@@ -35,6 +36,8 @@ EXPORT_SYMBOL(cpuidle_disable);
+ 
+ static int __init powersave_off(char *arg)
+ {
++	/* Use generic idle loop if thats available */
++	cpu_idle_poll_ctrl(true);
+ 	ppc_md.power_save = NULL;
+ 	cpuidle_disable = IDLE_POWERSAVE_OFF;
+ 	return 1;
 -- 
-2.25.1
+2.41.0
 
