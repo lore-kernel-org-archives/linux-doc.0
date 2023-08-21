@@ -2,224 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 607C9EE49A0
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 21:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE5BEE4996
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 21:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbjHUVK5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 17:10:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36830 "EHLO
+        id S229658AbjHUVxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 17:53:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229896AbjHUVK4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 17:10:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDF2F3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Aug 2023 14:10:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1692652212;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=E35jzro2Tv8U+PinJA0pDM7g/GJWl3m/gR5601RAoo4=;
-        b=PQWZAA4juLfmZHFeInF/nSYFZ1T5EOEO9l/oN2ae1m/+e2J7VEEqrOxyG4IpSwtOOHJGNo
-        u8zz3gaeo6YZ6jtg7wsyIXL1VkMPyWrfd8T7zfgVTnFQkH1v9c6HIgGD6gDCR6ISxyd8Ps
-        faf6KkxRO/v8ubz3kfSg8ObfULY2sXo=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-EIr0vtgmPO2LdG3TjK9oqQ-1; Mon, 21 Aug 2023 17:10:06 -0400
-X-MC-Unique: EIr0vtgmPO2LdG3TjK9oqQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC2BC29DD983;
-        Mon, 21 Aug 2023 21:10:05 +0000 (UTC)
-Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 256FE492C13;
-        Mon, 21 Aug 2023 21:10:05 +0000 (UTC)
-From:   Jeff Moyer <jmoyer@redhat.com>
-To:     matteorizzo@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
-        axboe@kernel.dk, asml.silence@gmail.com
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, keescook@chromium.org,
-        ribalda@chromium.org, rostedt@goodmis.org, jannh@google.com,
-        chenhuacai@kernel.org, gpiccoli@igalia.com, ldufour@linux.ibm.com,
-        evn@google.com, poprdi@google.com, jordyzomer@google.com,
-        krisman@suse.de, andres@anarazel.de
-Subject: [PATCH v5] io_uring: add a sysctl to disable io_uring system-wide
-X-PGP-KeyID: 1F78E1B4
-X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
-Date:   Mon, 21 Aug 2023 17:15:52 -0400
-Message-ID: <x49y1i42j1z.fsf@segfault.boston.devel.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        with ESMTP id S229638AbjHUVxR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 17:53:17 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EF2129;
+        Mon, 21 Aug 2023 14:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=Icdp6L2IcSi59UlWlFjAZimxTTfJngGpDQ5q2XGzEJY=; b=j3sidcPk0LJCiC+GWIh3RPeulA
+        mNok3KUk74VxS/Th0+6Ec1ea5TxSVrIfj78p5S7TtR5bIiLK7GmTUyklvprc6ljG65aPS1xAqdrC9
+        VOzVLGBqlcEpy0a4KPh4DcOsnAeKB7NdM/affQu19OoChCwH0xz5V71AhpIv1t2SB85EaBKslF48f
+        uljjpgqoEca12sFEwWYvdHcNNH2Ha1rmAtvVJczZgEHgA2nu1PMyjTKetHnLQ/pxPNzi8eoFznOUy
+        VHFulL2zdzj3mQZEI/f5qTaOJ0CBa8F6ngb+VgpDFlgY/H5kFHMcHLFvfb0cC45/xDYmpWBsAbD9e
+        fcIxjzhw==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qYCpi-00Ekbl-2n;
+        Mon, 21 Aug 2023 21:53:10 +0000
+Message-ID: <faf9dca2-ee62-3647-7f56-808d0da42ee2@infradead.org>
+Date:   Mon, 21 Aug 2023 14:53:09 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] dt-bindings: Fix typos
+Content-Language: en-US
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>
+References: <20230821194132.366474-1-helgaas@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230821194132.366474-1-helgaas@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matteo Rizzo <matteorizzo@google.com>
 
-Introduce a new sysctl (io_uring_disabled) which can be either 0, 1, or
-2. When 0 (the default), all processes are allowed to create io_uring
-instances, which is the current behavior.  When 1, io_uring creation is
-disabled (io_uring_setup() will fail with -EPERM) for unprivileged
-processes not in the kernel.io_uring_group group.  When 2, calls to
-io_uring_setup() fail with -EPERM regardless of privilege.
 
-Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
-[JEM: modified to add io_uring_group]
-Signed-off-by: Jeff Moyer <jmoyer@redhat.com>
+On 8/21/23 12:41, Bjorn Helgaas wrote:
+> From: Bjorn Helgaas <bhelgaas@google.com>
+> 
+> Fix typos in Documentation/devicetree/bindings.  The changes are in
+> descriptions or comments where they shouldn't affect functionality.
+> 
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 
----
-v5:
+Hi,
+One nit below. In any case:
 
-* When io_uring_disabled=1, privleged processes can create io_uring
-  instances regardless of the io_uring_group.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
-v4:
+> ---
+> This is a follow-up to the patch at [1] for things that conflicted with
+> other changes in linux-next, plus a couple that I missed before.
+> 
+> Based on next-20230821: 47d9bb711707 ("Add linux-next specific files for
+> 20230821")
+> 
+> [1] https://lore.kernel.org/r/20230814212822.193684-3-helgaas@kernel.org
+> 
+>  .../devicetree/bindings/leds/leds-group-multicolor.yaml       | 2 +-
+>  Documentation/devicetree/bindings/net/motorcomm,yt8xxx.yaml   | 4 ++--
+>  Documentation/devicetree/bindings/phy/apm-xgene-phy.txt       | 2 +-
+>  .../devicetree/bindings/serial/nvidia,tegra20-hsuart.yaml     | 2 +-
+>  .../devicetree/bindings/thermal/nvidia,tegra124-soctherm.yaml | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
+> 
 
-* Add a kernel.io_uring_group sysctl to hold a group id that is allowed
-  to use io_uring.  One thing worth pointing out is that, when a group
-  is specified, only users in that group can create an io_uring.  That
-  means that if the root user is not in that group, root can not make
-  use of io_uring.
+> diff --git a/Documentation/devicetree/bindings/phy/apm-xgene-phy.txt b/Documentation/devicetree/bindings/phy/apm-xgene-phy.txt
+> index e1bb12711fbf..602cf952b92b 100644
+> --- a/Documentation/devicetree/bindings/phy/apm-xgene-phy.txt
+> +++ b/Documentation/devicetree/bindings/phy/apm-xgene-phy.txt
+> @@ -36,7 +36,7 @@ Optional properties:
+>  			  3-tuple setting for each (up to 3) supported link
+>  			  speed on the host. Range is 0 to 273000 in unit of
+>  			  uV. Default is 0.
+> -- apm,tx-pre-cursor2	: 2st pre-cursor emphasis taps control. Two set of
+> +- apm,tx-pre-cursor2	: 2nd pre-cursor emphasis taps control. Two set of
 
-  I also wrote unit tests for liburing.  I'll post that as well if there
-  is consensus on this approach.
+s/set/sets/
 
-  Matteo, you didn't reply to Jens' message about pulling the patch, so
-  I figured you got busy, so I picked up the patch.  I hope you're okay
-  with the signoff.
+>  			  3-tuple setting for each (up to 3) supported link
+>  			  speed on the host. Range is 0 to 127400 in unit uV.
+>  			  Default is 0x0.
 
-v3:
-
-* Fix the commit message
-* Use READ_ONCE in io_uring_allowed to avoid races
-* Add reviews
-
-v2:
-
-* Documentation style fixes
-* Add a third level that only disables io_uring for unprivileged
-  processes
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 3800fab1619b..0795d790cc56 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -450,6 +450,35 @@ this allows system administrators to override the
- ``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
- 
- 
-+io_uring_disabled
-+=================
-+
-+Prevents all processes from creating new io_uring instances. Enabling this
-+shrinks the kernel's attack surface.
-+
-+= ======================================================================
-+0 All processes can create io_uring instances as normal. This is the
-+  default setting.
-+1 io_uring creation is disabled (io_uring_setup() will fail with
-+  -EPERM) for unprivileged processes not in the io_uring_group group.
-+  Existing io_uring instances can still be used.  See the
-+  documentation for io_uring_group for more information.
-+2 io_uring creation is disabled for all processes. io_uring_setup()
-+  always fails with -EPERM. Existing io_uring instances can still be
-+  used.
-+= ======================================================================
-+
-+
-+io_uring_group
-+==============
-+
-+When io_uring_disabled is set to 1, a process must either be
-+privileged (CAP_SYS_ADMIN) or be in the io_uring_group group in order
-+to create an io_uring instance.  If io_uring_group is set to -1 (the
-+default), only processes with the CAP_SYS_ADMIN capability may create
-+io_uring instances.
-+
-+
- kexec_load_disabled
- ===================
- 
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 93db3e4e7b68..8beb362356fd 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -152,6 +152,31 @@ static void __io_submit_flush_completions(struct io_ring_ctx *ctx);
- 
- struct kmem_cache *req_cachep;
- 
-+static int __read_mostly sysctl_io_uring_disabled;
-+static int __read_mostly sysctl_io_uring_group = -1;
-+
-+#ifdef CONFIG_SYSCTL
-+static struct ctl_table kernel_io_uring_disabled_table[] = {
-+	{
-+		.procname	= "io_uring_disabled",
-+		.data		= &sysctl_io_uring_disabled,
-+		.maxlen		= sizeof(sysctl_io_uring_disabled),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_TWO,
-+	},
-+	{
-+		.procname	= "io_uring_group",
-+		.data		= &sysctl_io_uring_group,
-+		.maxlen		= sizeof(gid_t),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+	},
-+	{},
-+};
-+#endif
-+
- struct sock *io_uring_get_socket(struct file *file)
- {
- #if defined(CONFIG_UNIX)
-@@ -4040,9 +4065,30 @@ static long io_uring_setup(u32 entries, struct io_uring_params __user *params)
- 	return io_uring_create(entries, &p, params);
- }
- 
-+static inline bool io_uring_allowed(void)
-+{
-+	int disabled = READ_ONCE(sysctl_io_uring_disabled);
-+	kgid_t io_uring_group;
-+
-+	if (disabled == 2)
-+		return false;
-+
-+	if (disabled == 0 || capable(CAP_SYS_ADMIN))
-+		return true;
-+
-+	io_uring_group = make_kgid(&init_user_ns, sysctl_io_uring_group);
-+	if (!gid_valid(io_uring_group))
-+		return false;
-+
-+	return in_group_p(io_uring_group);
-+}
-+
- SYSCALL_DEFINE2(io_uring_setup, u32, entries,
- 		struct io_uring_params __user *, params)
- {
-+	if (!io_uring_allowed())
-+		return -EPERM;
-+
- 	return io_uring_setup(entries, params);
- }
- 
-@@ -4617,6 +4663,11 @@ static int __init io_uring_init(void)
- 
- 	req_cachep = KMEM_CACHE(io_kiocb, SLAB_HWCACHE_ALIGN | SLAB_PANIC |
- 				SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU);
-+
-+#ifdef CONFIG_SYSCTL
-+	register_sysctl_init("kernel", kernel_io_uring_disabled_table);
-+#endif
-+
- 	return 0;
- };
- __initcall(io_uring_init);
-
+-- 
+~Randy
