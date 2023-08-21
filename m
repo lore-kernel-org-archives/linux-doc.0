@@ -2,275 +2,203 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F877EE49A8
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 22:48:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5454EE4996
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 23:31:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231593AbjHUWsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 18:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49356 "EHLO
+        id S231722AbjHUXb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 19:31:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231534AbjHUWso (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 18:48:44 -0400
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2055.outbound.protection.outlook.com [40.107.21.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C02129;
-        Mon, 21 Aug 2023 15:48:42 -0700 (PDT)
+        with ESMTP id S231634AbjHUXb0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 19:31:26 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2206CD4;
+        Mon, 21 Aug 2023 16:31:11 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P4h054R6PuJZ80TxV0Ex+1HtYkgkZY9AFhUo42se0KQhRhGdJViMkL8amn5F6NfYx9noyh2vOsHBpbN1Gpc48YPmR3c/NTwTkDQksAHPWePV5J4ERP27LzXaVj8BGbjIjSvM/HMvHI8ljIUoi57S9bpXWCV6/tmJcAgOIFFbZ1s01bqo6nuIkkRNDcGayDUvQSU7YKD0shci9JRP0QTPxBd6uKx4PRfXKPRUEzO5h4AVzU+wQaafl5fInm3Wy577YCYTicw/mDW8uSVyXt1FWQExlZROVdMxfXdmAOE5r1gzR6Rhbw1owfpPV+ady79LlWjhoUGfC+Z3YWcDZxHUMQ==
+ b=Yuc0X3E8EZMNaPamzatv8kYYrRPtwwCEJOYALdIU2paUidNpp7yAxXYJQQiYWe5Yj7KQ0gwut47C4MUt/9Rp+J8JMpebAc9Ddynw1OxQcYA7+g7JQ+o3yuru/sPApavqcXcfjsgzwjZiGOjFgCcFHQR2KCYbh5rUaUn/qNirlf9FUqSnv+kO6sh96sre6m2XiYLPTDxhBAgUGlP/455ff+IfhKOpcY/NsrywHAjP9NTbD8M/EWjdWixCPZJ0UpO4bPrqwAOw9r7sVEs4K2f3vhR3mBpRCOnaV3Ssz1NUcNE65brrKnhnIeHwwP9G4hH0WkqXXd79+p9k1Tk6ehk6wQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MOjONp43FhgrCFr3VoviClnt9T++FiCJ/+En2c2fKKQ=;
- b=A6NrGdVwHcLmmvnvmjih0znjmZ3yi+EnMQ9h0u/q+6Q6N5XXj/+7+6Bhpinusl7TavMz8HOxTTp3Yi5AKB4vhx3EXnwyogOvReuvjjmWzLFTGRbHgbKhdM5hGuXzCnhh1uUUcpIMkRvQc+er9Kxy0kdWTWch2XZ1XYXEZjHfRL27HPFhGtBLS85T+UKQ/s7QlIdomQo4JsPzpMg+j8QK1Iobd+WeunNJMvWp47+CXR6rusyprCr1HCK60hwhiGh2cA6Cbw/yQraessoqwDkms0AOjGsjnpk/PQWR+HqGPx61KtS2zsw5F6uiB2GkxKQ3t/ugjTNz9t8FVGpCFjR/qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ bh=UaBvfeRKpcvK3xvD7eu2qu4xJTr9RI7ouRIwwVAoC0U=;
+ b=RF9OZ8P+DIKBkGF8fNLJul95Z0RO4kcXyCmhX8WwBTZsTu7eifkSmm/T3OgnqX0SCztwiGCxq1Ysp5/QRtG8bZTXZC2VoniKtSXjKTqAWbAORFixdw5uyBGonUhG1gu/7dfYj08v0L6HFDTF7kU/wCKYHqbJxA18u4yYmh5hrs6uR6+JNQEBrjLldPp6+04f8v5x4vOEMlUCsdtwLLFKBZCHsdJknvnXHxrEHBXKACOHwgLeGf76S5rxqfT6rygMSfBgeGVJwnB8LieT30aJhxkDd1Ei9VR76+knNbyPRuLGiiCdUtGPB15IWOdadMEgVkhGbuzpDJilugH4Lh/cdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MOjONp43FhgrCFr3VoviClnt9T++FiCJ/+En2c2fKKQ=;
- b=cDR3HYxTz0Ld3In4fltr0ndu+qBAs7KootFG+VhgGc8l8zaYCuh2BIxbwMNQPgYs6YQhk+vCTslRA6uewMfQaXnl/yG54yqJzE8U2VF4JnXrLQkudyeYIkEl614dLgaJ/Nw9M0Jh4CrNyojsEckRb1QJrhZYQWGVzgUVWMyti/w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by AS1PR04MB9357.eurprd04.prod.outlook.com (2603:10a6:20b:4dd::12) with
+ bh=UaBvfeRKpcvK3xvD7eu2qu4xJTr9RI7ouRIwwVAoC0U=;
+ b=lPeuYRG4sQrqV8dflMuZBeGAYdgGoHBf62QIm4iLG+I6992sV3ANuBoYwZ4qAWMYrRKZ9mOoG1JRmGNJxd4oTIoZDP+CCDRPVLN4fqG22b7ML4ezz76jtpz+rg1WkKvRdw9nEnCY5QVKBIYOooXARGvSpeA/DBHZhSWyTcUkvnQ=
+Received: from SJ0PR13CA0038.namprd13.prod.outlook.com (2603:10b6:a03:2c2::13)
+ by SN7PR12MB8789.namprd12.prod.outlook.com (2603:10b6:806:34b::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 22:48:39 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::d4ed:20a0:8c0a:d9cf]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::d4ed:20a0:8c0a:d9cf%7]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
- 22:48:39 +0000
-Date:   Tue, 22 Aug 2023 01:48:34 +0300
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     Sean Anderson <sean.anderson@seco.com>
-Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-phy@lists.infradead.org,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        =?utf-8?B?RmVybuKUnMOtbmRleg==?= Rojas <noltari@gmail.com>,
-        Jonas Gorski <jonas.gorski@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
-Message-ID: <20230821224834.ppk4hmjyajupy7va@skbuf>
-References: <20230613142754.wr5njtjo4tbloqwu@skbuf>
- <20230811150826.urp2hzl3tahesrjx@skbuf>
- <26623d0c-8a5a-614b-7df7-69214aaec524@seco.com>
- <20230811163637.bs7a46juasjgnmf4@skbuf>
- <20230821124952.mraqqp7pxlo56gkh@skbuf>
- <a2e3fcad-9857-f1b3-8ada-efb2013a4bf5@seco.com>
- <20230821181349.hls6pukp5d6rc5av@LXL00007.wbi.nxp.com>
- <73d59dd2-88f0-3c1a-0de2-de2e050cba5a@seco.com>
- <20230821195823.ns55h3livxgol7fp@skbuf>
- <a66c9abf-5351-62b6-5573-cae38e6768e2@seco.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a66c9abf-5351-62b6-5573-cae38e6768e2@seco.com>
-X-ClientProxiedBy: FR2P281CA0166.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:99::13) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Mon, 21 Aug
+ 2023 23:31:08 +0000
+Received: from MWH0EPF000971E6.namprd02.prod.outlook.com
+ (2603:10b6:a03:2c2:cafe::47) by SJ0PR13CA0038.outlook.office365.com
+ (2603:10b6:a03:2c2::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.14 via Frontend
+ Transport; Mon, 21 Aug 2023 23:31:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000971E6.mail.protection.outlook.com (10.167.243.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6699.14 via Frontend Transport; Mon, 21 Aug 2023 23:31:07 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 21 Aug
+ 2023 18:31:01 -0500
+From:   Babu Moger <babu.moger@amd.com>
+To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>, <babu.moger@amd.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
+        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
+        <quic_jiles@quicinc.com>, <peternewman@google.com>
+Subject: [PATCH v8 0/8] x86/resctrl: Miscellaneous resctrl features
+Date:   Mon, 21 Aug 2023 18:30:40 -0500
+Message-ID: <20230821233048.434531-1-babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|AS1PR04MB9357:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d1bafe0-f523-4a6e-b300-08dba298c2a1
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E6:EE_|SN7PR12MB8789:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37ce29fa-b287-4e29-a0a9-08dba29eb1e8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UeS7rZkZeGqmV3P3XeAoGT0pC49nCWBgOzmTDuOMwHpR0jiKrmT9liGmUn9kYTUe1+Rs/srgPXOpiERYcNXdcivRjjSIlN/LurkJS7n0iTllCFI+UDXNbRS4mMQb9PK1J9Cz7336LIi30EO2TjSvBHf1SEKLVUa0y0EZgoeICe26xRO05k5/AZpxuVWLBEI+T0EGpLMjHHopP7Oi3TKvEhLpEooN2rVcrQOhfKT9XfWRT4abrhVEsRyOR0mYCkPTw49a4XjLUZNzQoP14Pt3QhVn9/c9I75q+FUE4iuS4NdkufugFUg8xI59NAoMb+DkkJpRjqNuiOCKjecP/i/mwRdctODoaU7hs8K428hG1Tib0Vayy8qJRwc4DqYUBu/oyB3FWd8CV4MveXU4yeEIF0B4/l8TwxZxF1fZv4oEg/94aTdOQ6rBEulu93ioEzpRlywrN72E13gekjbyxes9kHG/lAW98iHV1ukt++6It6Z1j0w6b5uv2ZdcgYftJVSqEnE2YPbT+3IyofGoBpSNckS/vO1bt7MLSsB//nJLTyk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(376002)(136003)(346002)(39860400002)(366004)(186009)(1800799009)(451199024)(54906003)(6916009)(66476007)(66556008)(9686003)(316002)(6512007)(66946007)(66899024)(8676002)(8936002)(4326008)(1076003)(33716001)(41300700001)(966005)(478600001)(6666004)(38100700002)(53546011)(6506007)(6486002)(83380400001)(2906002)(7416002)(86362001)(44832011)(5660300002)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wqS+VRN0lRKpPoE+BxhPLFY57wWIeUpkSA96UMSAhDthBy5Oae6Lqbg2qMLw?=
- =?us-ascii?Q?vDKDR49/cAw92cXQyuTbLSkslrL/ZfE2LFHycvbdaNXDeMoiPhiAjvu1YLDd?=
- =?us-ascii?Q?sc4xQzPgtFS6kF9/ZszuMoiYZcHJ5EkKgIig7/V50WeH2NrUK2JyqmaWZbMJ?=
- =?us-ascii?Q?JjiKu6Q62wR+jh0jedow00bPlFztlxj5118x6x8f9zqrFf30h+mhhnLVgjWT?=
- =?us-ascii?Q?JDZdQtSQL+mH97FTRoix0icxOJze+9/odcsu6srT1Kfw+Zkxlt1P6JC8UJPe?=
- =?us-ascii?Q?JyhqJW6XtQq/kXaqyQT+TQ067U7rdcrTOogl2xJGrhpbhzHPUtJklcpqJpHU?=
- =?us-ascii?Q?gTwol2UY7VKt2Y6hLh3+hVIkDaJ4ewmo7hHg1NA3U3iznmbgoUJG31HIb0Xx?=
- =?us-ascii?Q?YM+CPdwRQ4kmwVT6ODDHq7vNLEnip2gqKW0JtPKJZBN4NJNyGK9BsDW+XUAT?=
- =?us-ascii?Q?lxspgle91OLkJ8SSkKk6gE9bhLfR9EM/joUFCd5oD+0YQbdgCebhVBIWKe01?=
- =?us-ascii?Q?0jdUobgxwmZbPwvUSfeLwxpBkD7CRXo+1AulqJeTNKZuEPqiiHIt4b8JFwdU?=
- =?us-ascii?Q?6A7KVXdn+G+yLLrXB7gvFTec+Rtns4KO2YH4VjjTCLRY+hT20enxUDSDx4Ou?=
- =?us-ascii?Q?qkKBlimIDJQH2GzQIUvG1rrQsZdn5HuGsHyNuCkMk1GfohPo0vRLwQD8+dYA?=
- =?us-ascii?Q?7+gd/wjFG+vkv/1eWUHLVdXxL9F+X79RDD9mgJcojHXngVvhiC1LRHh7mlqb?=
- =?us-ascii?Q?55lrNAB+fDX5xWB47vbypbpakcRUpW4xTZf2moDcbIXCmrHjUTch4FvuVn1n?=
- =?us-ascii?Q?w2ciT31pFhFJH/x+5oOImNxPHB48eD30EOZKOxbztEhH5ticU3S2i4wZkOnQ?=
- =?us-ascii?Q?eaE0qo7FRJEJ4dp7tVZ/00Gw+VcxAFIIiVu4w7GnBRoNsWYbB7Buk1xCt7ke?=
- =?us-ascii?Q?tdQMLKncgKlh3dH9oDtadh8gVXscbultZWYL7pMGS/iR9Jwn2L+LJlIfHU6p?=
- =?us-ascii?Q?CuwplvNP0cD6USDRFPN20dtJewuaPraU43D/rezZhYTwZd5D20P/M/whUzXg?=
- =?us-ascii?Q?EBZj+0cl2HV2a0RAuyqeKf6yjjMmkzIvZPOBAa5bw/pFbhEL7885yXHMFiMC?=
- =?us-ascii?Q?ENmaAEWvgc+Pbr/r4nNvcHWkHsu9G7/k72oRTichp+iDrPJmL3hqoNuvlnH/?=
- =?us-ascii?Q?z57kQRWhAhd55kLoeUin0nCp6ZsVSUdYoXp1+iXfPz3R0h+OGywCII4JPnql?=
- =?us-ascii?Q?Cc/7CcISzTE0YJZJ4FHYBRlHr3NP4EqYr83CCKYKRQSqy7DRuX+dsLTkasbG?=
- =?us-ascii?Q?sAr88pGvCM7fmhhYKyrc/NuAU43Uq2LbPiNb04RxG7Iddj9hoXMWKVY0Oy0C?=
- =?us-ascii?Q?5QizKw3gBuodwgjfNvhINmB4JURg7aaZGhvtH7S/XaBA2fKtSwt/2EpN1zVC?=
- =?us-ascii?Q?gScphzmNPA5HqrFClvA4Xp58x1+ejW+cOubd+DkVh85prfwHky06GOV8OC6t?=
- =?us-ascii?Q?EVd5Ma3kMXfrxEhsOfpConkpzdT7czL7OFxcxGUxrNiTwJ6dXJff6I17m4ty?=
- =?us-ascii?Q?xrKZ+k4JUeZdG41K+FvUj52vSF6uCDiiTwRzVau7CeE9rAOUTJnXueaiwSex?=
- =?us-ascii?Q?2g=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d1bafe0-f523-4a6e-b300-08dba298c2a1
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 22:48:39.0063
+X-Microsoft-Antispam-Message-Info: 4+pyhTnwd+tfWqhhajRc5Z3N+Pj/P12j/KBzOycjoAG/toeA6X4k+KMVzb+WTpSE5dFF9PRxy1SWfEUPnc5zf/J6cUDGgR7XMwgtEQgd8u2BBDWSGD4OBXV6nLvFTAb1lvPl8mzh4pVnm10pWLspjRI1oB1bAbUNHBvGGWtEdxaRFMiPx2xxr+W4WT3cfkt9Nxi5ySynQSDfZ9qH5G6eeHbcOvFguEnDBmDX0pjS9iow2lIPf0i+cYGd8hSOLTKcSk8kIhRktzPbDTayTfKFc7XU7zN5RfbUXMc4QQP7rRAeq7HizG8N9+e5iQf/ziFuKOyMa8fs4kPGzN11DmJZCzkc82hsRL/nEtLfhBcfeYrp/eqCe5kdZ1X+tP/JKAWjEBRkEZYDu1zTvp75FViFDQYVD9hgeOMOc7wMFRw0/eBB2OZWrN747aWG2OwSC4IrWY+96Q44drEZa3TXKvxC257D4cTE6DXNAfLR7d8Hl0k55YcCqcXiubSCX2sY9BkjyNvFbGUgyoIe6HAvFfZtfQCHElbSek0d/z4ZZodbKQmOPE4fgFIXb8QUL4s0mI1eoAJveTrH/fhxadIZ+BiNnt6R8vQ2ellW4bMIQY58O4BOY5VnQdvf+IV37YtsW3GvOjOoG5xHPQCoSM8tKIUw49bHlavmnbmXjjGVoAfzXshogpHLQ0EvabnBOiHCBmhQWFkJGfXlrqU7JCD3dOpClOeojMS6jTNFdndjqfpC5kZjsA9wSUlCkRbbStMTWUGPpk9hqudfHrwYHmTHzYa7sLXTABnkLEksvbkjOsiLXJM=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(136003)(346002)(39860400002)(186009)(1800799009)(82310400011)(451199024)(36840700001)(40470700004)(46966006)(54906003)(70586007)(70206006)(316002)(110136005)(8676002)(8936002)(2616005)(4326008)(1076003)(36756003)(41300700001)(40460700003)(356005)(82740400003)(81166007)(966005)(478600001)(6666004)(40480700001)(83380400001)(2906002)(7406005)(7416002)(86362001)(7696005)(47076005)(36860700001)(336012)(44832011)(426003)(5660300002)(16526019)(26005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 23:31:07.4995
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tjqWj1TeWUylLP03gTz7TmsnO+/s9+FLT1mYwGyScspy7D223t7RwfG8kEOh0Ka2t5sMnTquFs5LoXIUTX9Epw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9357
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37ce29fa-b287-4e29-a0a9-08dba29eb1e8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8789
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 05:06:46PM -0400, Sean Anderson wrote:
-> On 8/21/23 15:58, Vladimir Oltean wrote:
-> > On Mon, Aug 21, 2023 at 02:46:53PM -0400, Sean Anderson wrote:
-> >> After further review, it seems the reason 28g can get away without this
-> >> is because there's a one-to-one mapping between protocol controllers and
-> >> lanes. Unfortunately, that regularity is not present for 10g.
-> >> 
-> >> --Sean
-> > 
-> > There are some things I saw in your phy-fsl-lynx-10g.c driver and device
-> > tree bindings that I don't understand (the concept of lane groups)
-> 
-> Each lane group corresponds to a phy device (struct phy). For protocols
-> like PCIe or XAUI which can use multiple lanes, this lets the driver
-> coordinate configuring all lanes at once in the correct order.
+These series adds support few minor features.
+1. Support assigning multiple tasks to control/mon groups in one command.
+2. Add debug mount option for resctrl interface.
+3. Add RMID and CLOSID in resctrl interface when mounted with debug option.
+4. Moves the default control group creation during the mount instead of during init.
+5. While doing these above changes, found that rftype flags needed some cleanup.
+   They were named inconsistently. Re-arranged them much more cleanly now and added
+   few comments. Hope it can help future additions.
+---
+v8:
+   Changes since v7:
+   Earlier moved both default group initialization and file creation on mount.
+   Now kept the group initialization as is and only moved the file creation on mount.
+   Re-organized the RFTYPE flags comments little more to avoid confusion. Thanks
+   to Reinette for feedback.
+   Re-factored the rdt_enable_ctx and added rdt_disable_ctx to unwind the errors.
+   And same call also used in rdt_kill_sb which simplifies the code.
+   Few other minor text changes.
+   
+v7:
+   Changes since v6:
+   While moving the default group file creation on mount, I also moved the
+   initialization of default group data structures. Reinette suggested to move
+   only the filesystem creation and keep the group initialization as is. Addressed it now.
+   Added a new function rdt_disable_ctx to unwind the context related features.
+   Few other minor text changes.
 
-For PCIe I admit that I don't know. I don't even know if there's any
-valid (current or future) use case for having the PCIe controller have a
-phandle to the SerDes. Everything else below in my reply assumes Ethernet.
+v6:
+   Changes since v5:
+   Moved the default group creation during mount instead of kernel init.
+   The rdt_root creation moved to rdt_get_tree as suggested by Reinette.
+   https://lore.kernel.org/lkml/8f68ace7-e05b-ad6d-fa74-5ff8e179aec9@intel.com/
+   Needed to modify rdtgroup_setup_root to take care of this.
+   Re-arraged the patches to move the default group creation earlier.
+   Others are mostly text changes and few minor changes.
+   Patches are based on tip/master commit 1a2945f27157825a561be7840023e3664111ab2f
 
-> > and
-> > I'm not sure if they're related with what you're saying here, so if you
-> > could elaborate a bit more (ideally with an example) on the one-to-one
-> > mapping and the specific problems it causes, it would be great.
-> 
-> For e.g. the LS2088A, SerDes1 lanes H-A use SG1-8 and XFI1-8. SerDes2
-> lanes A-H use SG9-16 and XFI9-16. Each lane has its own controller, and
-> the mapping is 1-to-1. In the PCCRs, each controller uses the same
-> value, and is mapped in a regular way. So you can go directly from the
-> lane number to the right value to mask in the PCCR, with a very simple
-> translation scheme.
-> 
-> For e.g. the LS1046A, SerDes1 lane D uses XFI.9 (aka XFIA) and lane C
-> uses XFI.10 (aka XFIB). This is the opposite of how SerDes1 lanes A-D
-> use SGMII.9, .10, .5, and .6 (aka SGMIIA-D).
-> 
-> For e.g. the T4240, SerDes1 lanes A-H use sg1.5, .6, .10, .9, .1, .2,
-> .3, .4 (aka SGMII E, F, H, G, A, B, C, D).
-> 
-> For e.g. the B4860, SerDes lanes A uses sgmii1 or sgmii5 and B uses
-> sgmii2 or sgmii6. The MAC selected is determined based on the value
-> programmed into PCCR2.
+v5:
+   Changes since v4:
+   Moved the default group creation during mount instead of kernel init.
+   Tried to address most of the comments on commit log. Added more context and details.
+   Addressed feedback about the patch4. Removed the code changes and only kept the comments.
+   I am ok to drop patch4. But I will wait for the comment on that.
+   There were lots of comments. Hope I did not miss anything. Even if I missed, it is
+   not intentional. 
 
-It's so exceedingly unlikely that B4860 will gain support for anything
-new, that it's not even worth talking about it, or even considering it
-in the design of a new driver. Just forget about it.
+v4: Changes since v3
+    Addressed comments from Reinette and others.
+    Removed newline requirement when adding tasks.
+    Dropped one of the changes on flags. Kept the flag names mostly same.
+    Changed the names of closid and rmid to ctrl_hw_id and mon_hw_id respectively.
+    James had some concerns about adding these files. Addressed it by making these
+    files x86 specific.
+    Tried to address Reinette's comment on patch 7. But due to current code design
+    I could not do it exact way. But changed it little bit to make it easy debug
+    file additions in the future.  
 
-Let's concentrate on the Layerscapes, and on the T series to the extent
-that we're not going out of our way to support them with a fairly simple
-design.
+v3: Changes since v2
+    Still waiting for more comments. While waiting, addressed few comments from Fenghua.
+    Added few more texts in the documentation about multiple tasks assignment feature.
+    Added pid in last_cmd_status when applicable.
+    Introduced static resctrl_debug to save the debug option.
+    Few minor text changes.
+  
+v2: Changes since v1
+  a. Removed the changes to add the task's threads automatically. It required
+     book keeping to handle the failures and gets complicated. Removed that change
+     for now.
+  b. Added -o debug option to mount in debug mode(comment from Fenghua)
+  c. Added debug files rmid and closid. Stephane wanted to rename them more
+     generic to accommodate ARM. It kind of loses meaning if is renamed differently.
+     Kept it same for now. Will change if he feels strong about it. 
 
-In the Lynx 10G block guide that I have, PCCR2 is a register that does
-something completely different from Ethernet. I'm not sure if B4860 has
-a Lynx 10G block and not something else.
+v7: https://lore.kernel.org/lkml/169178429591.1147205.4030367096506551808.stgit@bmoger-ubuntu/
+v6: https://lore.kernel.org/lkml/168980872063.1619861.420806535295905172.stgit@bmoger-ubuntu/
+v5: https://lore.kernel.org/lkml/168564586603.527584.10518315376465080920.stgit@bmoger-ubuntu/
+v4: https://lore.kernel.org/lkml/168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu/
+v3: https://lore.kernel.org/lkml/167778850105.1053859.14596357862185564029.stgit@bmoger-ubuntu/
+v2: https://lore.kernel.org/lkml/167537433143.647488.9641864719195184123.stgit@bmoger-ubuntu/
+v1: https://lore.kernel.org/lkml/167278351577.34228.12803395505584557101.stgit@bmoger-ubuntu/
 
-> While I appreciate that your hardware engineers did a better job for
-> 28g, many 10g serdes arbitrarily map lanes to protocol controllers.
-> I think the mapping is too irregular to tame, and it is better to say
-> "if you want this configuration, program this value".
+Babu Moger (8):
+  x86/resctrl: Add multiple tasks to the resctrl group at once
+  x86/resctrl: Simplify rftype flag definitions
+  x86/resctrl: Rename rftype flags for consistency
+  x86/resctrl: Add comments on RFTYPE flags hierarchy
+  x86/resctrl: Unwind the errors inside rdt_enable_ctx()
+  x86/resctrl: Move default group file creation to mount
+  x86/resctrl: Introduce "-o debug" mount option
+  x86/resctrl: Display hardware ids of resource groups
 
-Ok, but that's a lateral argument (or I'm not understanding the connection).
+ Documentation/arch/x86/resctrl.rst     |  21 ++-
+ arch/x86/kernel/cpu/resctrl/internal.h |  87 +++++++--
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 246 ++++++++++++++++++-------
+ 3 files changed, 273 insertions(+), 81 deletions(-)
 
-Some maintainers (Mark Brown for sure, from my personal experience) prefer
-that expert-level knowledge of hardware should be hardcoded into the kernel
-driver based on known stuff such as the SoC-specific compatible string.
-I certainly share the same view.
+-- 
+2.34.1
 
-With your case, I think that argument is even more pertinent, because
-IIUC, the lane group protocols won't be put in the SoC .dtsi (so as to
-be written only once), but in the board device trees (since the
-available protocols invariably depend upon the board provisioning).
-So, non-expert board device tree writers will have to know what's with
-the PCCR stuff. Pretty brain-intensive.
-
-> > I may be off with my understanding of the regularity you are talking about,
-> > but the LX2160 (and Lynx 28G block) also has multi-lane protocols like 40G,
-> > 100G, assuming that's what you are talking about. I haven't started yet
-> > working on those for the mtip_backplane driver, but I'm not currently
-> > seeing a problem with the architecture where a phy_device represents a
-> > single lane that's part of a multi-lane port, and not an entire group.
-> 
-> Resetting one lane in a group will reset the rest, which could confuse
-> the driver. Additionally, treating the lanes as one phy lets us set the
-> reset direction and first lane bits correctly.
-
-Yeah, in theory that is probably correct, but in practice can't we hide
-our head in the sand and say that the "phys" phandles have to have the
-lanes in the same order as LNmGCR0[1STLANE] expects them (which is also
-the "natural" order as the SoC RM describes it)? With a "for" loop
-implementation in the MAC, that would work just fine 100% of the time.
-Doing more intricate massaging of the "phys" in the consumer, and you're
-just asking for trouble. My 2 cents.
-
-Sure, it's the same kind of ask of a board device tree writer as "hey,
-please give me a good PCCR value", but I honestly think that the head
-scratching will be much less severe.
-
-> > In my imagination, there are 2 cases:
-> > - all 4 lanes are managed by the single dpaa2-mac consumer (which has 4
-> >   phandles, and iterates over them with a "for" loop)
-> > - each of the 4 lanes is managed by the respective backplane AN/LT core,
-> >   and thus, there's one phandle to each lane
-> 
-> By doing the grouping in the driver, we also simplify the consumer
-> implementation. The MAC can always use a single phy, without worrying
-> about the actual number of lanes. This matches the hardware, since the
-> MAC is going to talk XGMII (or whatever) to the protocol controller
-> anyway.
-
-XGMII is the link between the MAC and the PCS, but the "phys" phandle to
-the SerDes gives insight to the MAC driver way beyond the PCS layer.
-That kinda invalidates the idea that "you don't need to worry about the
-actual number of lanes". When you're a MAC driver with an XLAUI link and
-you need insight into the PMA/PMD layer, you'd better not be surprised
-about the fact that there are 4 lanes, at the very least?
-
-> I think it will be a lot easier to add multi-lane support with this
-> method because it gives the driver more information about what's going
-> on. The driver can control the whole configuration/reset process and the
-> timing.
-
-Also, I'm thinking that if you support multi-lane (which dpaa2-mac currently
-doesn't, even in LSDK), you can't avoid multiple "phys" phandles in dpaa2-mac,
-and a "for" loop, eventually, anyway. That's because if your lanes have protocol
-retimers on them, those are going to be modeled as generic PHYs too. And those
-will not be bundled in these "groups", because they might be one chip per lane.
-
-The retimer thing isn't theoretical, but, due to reasons independent of NXP,
-we lack the ability to provide an upstream user of the "lane retimer as
-generic PHY" functionality in dpaa2-mac. So it stays downstream for now.
-https://github.com/nxp-qoriq/linux/commit/627c5f626a13657f46f68b90882f329310e0e22f
-
-So, if you're thinking of easing the work of the consumer side, I'm not
-sure that the gains will be that high.
-
-Otherwise, I will repeat the idea that lynx-10g and lynx-28g should be
-treated in unison, because some drivers (dpaa2-mac, mtip_backplane) will
-have to interface with both, and I don't really believe that major deviations
-in software architecture between the 2 SerDes drivers are justifiable in
-any way (multi-protocol handled differently, for example).
