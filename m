@@ -2,141 +2,73 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4574EE49AB
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 08:36:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE83EE4993
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 09:18:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234117AbjHUIgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 04:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
+        id S233072AbjHUJST (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 05:18:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234077AbjHUIgn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 04:36:43 -0400
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A127DB;
-        Mon, 21 Aug 2023 01:36:38 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0VqEq8EK_1692606994;
-Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VqEq8EK_1692606994)
-          by smtp.aliyun-inc.com;
-          Mon, 21 Aug 2023 16:36:34 +0800
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-To:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Jing Zhang <renyu.zj@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: [PATCH v7 8/8] perf vendor events: Add JSON metrics for Arm CMN
-Date:   Mon, 21 Aug 2023 16:36:17 +0800
-Message-Id: <1692606977-92009-9-git-send-email-renyu.zj@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com>
-References: <1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com>
+        with ESMTP id S231397AbjHUJSS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 05:18:18 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C074C4
+        for <linux-doc@vger.kernel.org>; Mon, 21 Aug 2023 02:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692609497; x=1724145497;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=50GMRPYH7p1TVk638yp/q+eo8/RzlT//jwRoo1wxTR4=;
+  b=VMBuvDX0awXZYSToB+czdi4ZV2JdWNOc78a2Gs3TOKiFnySOSko/k1dD
+   Xd8aQtAKLrbTM7Fb8eDC94eAXzdNDKdpTKNJwl8YCF98tQcWaitrb85R3
+   eesLLwWSTDkBJu4TOzE3M8N1k+obpaClN+GQaUyNfC6KQglCqS7NGhY8z
+   P/kiZBCrChvRehdT2+uHrJOeWRndoX3M5M0ItvKxKetyDihRr4z2nStsG
+   Xzv6ZJwSSlRZftdjmeR9F30r4c4eCxKvIqf8a3SGNH3hj4F4t1ZZT3sBZ
+   BVPgvcJZAtuRQLSr17Otj5bPvzmJUXzD6QDG61zAvu+8c1uSs2TK4yQy0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="373509764"
+X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
+   d="scan'208";a="373509764"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 02:18:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="879448058"
+Received: from hpabst-mobl.ger.corp.intel.com (HELO localhost) ([10.252.54.190])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 02:18:19 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Matthew Wilcox <willy@infradead.org>, mail@renenyffenegger.ch
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH] DOCUMENTATION: Correct filename in Documentation
+In-Reply-To: <ZN6NUPTCYaRPmSCZ@casper.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230817205940.7477-1-mail@renenyffenegger.ch>
+ <ZN6NUPTCYaRPmSCZ@casper.infradead.org>
+Date:   Mon, 21 Aug 2023 12:18:12 +0300
+Message-ID: <87r0nw7nzf.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add JSON metrics for Arm CMN. Currently just add part of CMN PMU
-metrics which are general and compatible for any SoC with CMN-ANY.
+On Thu, 17 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+> On Thu, Aug 17, 2023 at 10:59:40PM +0200, mail@renenyffenegger.ch wrote:
+>> Correct filename of renamed file in Documentation
+>> 
+>> The current documentation in Documentation/core-api/kobject.rst refers to a
+>> macro named `container_of`, supposedly defined in linux/kernel.h while in
+>> reality it is defined in linux/container_of.h
+>
+> Maybe we should just remove the reference to where it's defined?
 
-Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
----
- .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  | 74 ++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+container_of.h seems to have kernel-doc, but it's not included anywhere
+in Documentation. With that fixed, this could be a reference to the
+documentation.
 
-diff --git a/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
-new file mode 100644
-index 0000000..64db534
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
-@@ -0,0 +1,74 @@
-+[
-+	{
-+		"MetricName": "slc_miss_rate",
-+		"BriefDescription": "The system level cache miss rate.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_cache_miss / hnf_slc_sf_cache_access",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "hnf_message_retry_rate",
-+		"BriefDescription": "HN-F message retry rate indicates whether a lack of credits is causing the bottlenecks.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_pocq_retry / hnf_pocq_reqs_recvd",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "sf_hit_rate",
-+		"BriefDescription": "Snoop filter hit rate can be used to measure the snoop filter efficiency.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_sf_hit / hnf_slc_sf_cache_access",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "mc_message_retry_rate",
-+		"BriefDescription": "The memory controller request retries rate indicates whether the memory controller is the bottleneck.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_mc_retries / hnf_mc_reqs",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_actual_read_bandwidth.all",
-+		"BriefDescription": "This event measure the actual bandwidth that RN-I bridge sends to the interconnect.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_rxdat_flits * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_actual_write_bandwidth.all",
-+		"BriefDescription": "This event measures the actual write bandwidth at RN-I bridges.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_txdat_flits * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_retry_rate",
-+		"BriefDescription": "RN-I bridge retry rate indicates whether the memory controller is the bottleneck.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_txreq_flits_retried / rnid_txreq_flits_total",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "sbsx_actual_write_bandwidth.all",
-+		"BriefDescription": "sbsx actual write bandwidth.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "sbsx_txdat_flitv * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	}
-+]
+BR,
+Jani.
+
 -- 
-1.8.3.1
-
+Jani Nikula, Intel Open Source Graphics Center
