@@ -2,125 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF70EE4993
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 14:03:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58FF4EE49AA
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 14:39:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232934AbjHUODC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 10:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41844 "EHLO
+        id S233056AbjHUOjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 10:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231825AbjHUODB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 10:03:01 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5147DC2;
-        Mon, 21 Aug 2023 07:03:00 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-3197808bb08so3148219f8f.2;
-        Mon, 21 Aug 2023 07:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692626579; x=1693231379;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/R3tuyhTy1dIqh36B++R19xvH0q9egrvUaY90xCKCrM=;
-        b=lcLkVmPKeYIoBi3yqk/p67iN2weyBsttNN/w9mUVAD8cYrkIHFFzaQGAT883LTykmc
-         BhZE/9HNpKm6UakRpTNnjEg3mw0wnKE0xpgbZ6DsrTcNZtutuEwNVm3rOlYs62imq5F/
-         JlFTG2aDiwyFIfK5Rp2wEGwZ4LHaby02iv+voZn/dapFgNyNngXQ2xUcdRSK18TGt7Si
-         gAHAJ7AmK/ifCYXJ7YGLIr0pLMQkvvgOVgi16lMS2QfyuJIxLrcuYztnNrHhn67xY7TX
-         f25n68GQGnouf95ZG2QLfk8+hFegvO/GYaAKliXJXzoJgvj7984RsEF/QgO2AX8mwceg
-         Xlpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692626579; x=1693231379;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/R3tuyhTy1dIqh36B++R19xvH0q9egrvUaY90xCKCrM=;
-        b=MGpW333UHxU+zRXEEreKxrotErphe4dmd6nxLu96jZWPA6n40g8OsNQpXumhcnHNMZ
-         VbEtmvo/hwo5aj8L8juYE+TNp5zIBDaZ8eR8WMt4UxwXxz5iL59xwZvF6iYUGiJPV9h0
-         BOdoEmaBJmoEh9cehqMOnxmDtM9M6ubK02xAap6AQLduOdUF2s5gVQ4vROSdA5kc7L9y
-         H96ewIGdb55hTcHWFV2aYAwMGbmYlIV6ejx7IdOzPJD6Pu/LXGryEeX+7n/atBrHpro+
-         uO55YJQvTJW9Um/hg43leCANRw2qBry6QaW+smlG1lkXf6kPoxkW4boxR0nZOwotD7EQ
-         WZ3g==
-X-Gm-Message-State: AOJu0Yw6CDTlEmkK3eNbjWrGeTfYwmXB7ULaav01+s4wUxGmY96qFcJ9
-        oEshmMW/gTH3HiWJoIw5B2Q=
-X-Google-Smtp-Source: AGHT+IGlnNBEMu/xWI+NfVQ7xMln6KdV8bEYtCVyXEHDJcw2ukJnRciEu29meeT7u5JtD+KK4FQw+Q==
-X-Received: by 2002:a5d:4a06:0:b0:317:5e73:7594 with SMTP id m6-20020a5d4a06000000b003175e737594mr4511136wrq.28.1692626578369;
-        Mon, 21 Aug 2023 07:02:58 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:18ac:90b7:a4b7:83f8])
-        by smtp.gmail.com with ESMTPSA id e4-20020adffc44000000b00317ddccb0d1sm12620352wrs.24.2023.08.21.07.02.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 07:02:57 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v2 06/10] tools/net/ynl: Add support for
- netlink-raw families
-In-Reply-To: <20230817181828.76ac2c11@kernel.org> (Jakub Kicinski's message of
-        "Thu, 17 Aug 2023 18:18:28 -0700")
-Date:   Mon, 21 Aug 2023 15:00:14 +0100
-Message-ID: <m24jksijgx.fsf@gmail.com>
-References: <20230815194254.89570-1-donald.hunter@gmail.com>
-        <20230815194254.89570-7-donald.hunter@gmail.com>
-        <20230816082908.1365f287@kernel.org> <m2cyzmhw50.fsf@gmail.com>
-        <20230817181828.76ac2c11@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        with ESMTP id S232459AbjHUOjE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 10:39:04 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B21E2;
+        Mon, 21 Aug 2023 07:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692628742; x=1724164742;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=n+H1JgW1FSq0KiMcggmPISRuggzNMJX7eaMiKiqfo+U=;
+  b=ed2nRecItHqt5hMQgb8p/eROaCrNtbZYkWKkN9iuHUGf62fOQt7Zk43X
+   teQKjnnriQz3z0nmpA7GM4SahXDslu+uNBdiWN49NwIzEphE7hZ72Em4l
+   hN6nU9kjVT+rAZyLi0wyUjaBjyHEppeenunY+RJivirWOBi/WXyIri76j
+   ARPGfRZTreTEOXXBXyORWzIofb6E5X9STg9k5YxMdr/yHFiqFKtwbSH02
+   qOOwcMrqkjCZYR3lGNekggnKXNTb09jA0dHjJ2s9SOjTbm8FrN+x2QIMt
+   3mSqQEw5jr+ClqYyJhMTX4JeihLsbYAoUQ4zGcS7QFE6g7vMcBKc8s0Ap
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="371036580"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="371036580"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:39:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="738913417"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="738913417"
+Received: from hpabst-mobl.ger.corp.intel.com (HELO localhost) ([10.252.54.190])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:39:00 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag
+ to give credits to who sponsored the patch
+In-Reply-To: <ZONfKKwFaDQpuZ9w@casper.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
+ <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
+ <20230817232348.GC1175@pendragon.ideasonboard.com>
+ <ZN65iiRiSLmXz89k@casper.infradead.org> <87ttss7q8o.fsf@intel.com>
+ <ZONTiijMLWbt6naQ@casper.infradead.org> <87o7j07frk.fsf@intel.com>
+ <ZONfKKwFaDQpuZ9w@casper.infradead.org>
+Date:   Mon, 21 Aug 2023 17:38:57 +0300
+Message-ID: <87lee4794u.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
-
-> On Thu, 17 Aug 2023 10:10:35 +0100 Donald Hunter wrote:
->> > Looks good, but do we also need some extra plumbing to decode extack
->> > for classic netlink correctly?  Basically shouldn't _decode_extack()
->> > also move to proto? Or we can parameterize it? All we really need there
->> > is to teach it how much of fixed headers parser needs to skip to get to
->> > attributes, really (which, BTW is already kinda buggy for genl families
->> > with fixed headers).  
+On Mon, 21 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+> On Mon, Aug 21, 2023 at 03:15:43PM +0300, Jani Nikula wrote:
+>> On Mon, 21 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+>> > On Mon, Aug 21, 2023 at 11:29:27AM +0300, Jani Nikula wrote:
+>> >> On Fri, 18 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+>> >> > but you might have (eg)
+>> >> >
+>> >> > Laurent Pinchard (Coca-Cola) <laurent.pinchart@ideasonboard.com>
+>> >> >
+>> >> > and then when working for another sponsor:
+>> >> >
+>> >> > Laurent Pinchard (Ford) <laurent.pinchart@ideasonboard.com>
+>> >> 
+>> >> Just an observation, git shortlog -s/-se groups/distinguishes,
+>> >> respectively, the author and sponsor in Laurent's approach. Not so with
+>> >> Matthew's approach.
+>> >
+>> > Hm?
+>> >
+>> > $ git shortlog -s next-20230817..
+>> >      1  Matthew Wilcox (Novartis)
+>> >     25  Matthew Wilcox (Oracle)
+>> >
+>> > $ git shortlog -se next-20230817..
+>> >      1  Matthew Wilcox (Novartis) <willy@infradead.org>
+>> >     25  Matthew Wilcox (Oracle) <willy@infradead.org>
 >> 
->> I have been working on the assumption that extack responses don't
->> include any fixed headers. I have seen extack messages decoded correctly
->> for classic netlink, here with RTM_NEWROUTE:
+>> $ git shortlog v6.4.. -s --author="Laurent Pinchart"
+>>     12  Laurent Pinchart
 >> 
->> lib.ynl.NlError: Netlink error: Invalid argument
->> nl_len = 80 (64) nl_flags = 0x300 nl_type = 2
->>   error: -22  extack: {'msg': 'Invalid prefix for given prefix length'}
->> 
->> Is there something I am missing?
+>> $ git shortlog v6.4.. -se --author="Laurent Pinchart"
+>>      2  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>     10  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> I'm thinking of extack messages carrying offsets in addition to the 
-> textual error message. NLMSGERR_ATTR_OFFS or NLMSGERR_ATTR_MISS_NEST.
->
-> In that case ynl will try to re-parse its own message via
-> _decode_extack_path() to resolve from the offset to what attribute
-> was there. See the commit message on a552bfa16:
->
->     lib.ynl.NlError: Netlink error: Numerical result out of range
->     nl_len = 108 (92) nl_flags = 0x300 nl_type = 2
->             error: -34      extack: {'msg': 'integer out of range',...
->                                      'bad-attr': '.ifindex'}
->
-> I mean the "bad-attr" thing.
->
-> I think it works out of sheer luck here, we happen to skip over 
-> the fixed header because it looks like a 0-length attribute?
+> I must not be understanding your point correctly.
 
-You're right, sheer luck, and maybe only for some values of dp-ifindex.
-When I tried to reproduce your test in commit a552bfa16, with a value of
-dp-ifindex = 5, then ynl goes into an infinite loop trying to read a
-zero length nlattr.
+That's probably a correct assesment, and not necessarily your fault. ;)
 
-As you say, I'll need to rework the extack handling to account for fixed
-headers. At a minimum _decode_extack will need to use nlproto.decode()
-and needs to learn to skip the fixed header.
+My point was that git shortlog -s groups and adds up the commits
+together if the name is the same, but -se can still be used to
+distinguish the mbox+tag difference in email. 12 for -s, but 2 and 10
+for -se in Laurent's stats above.
 
-Apologies for being slow to catch up with you on this. Failing to grok
-that _decode_extack is decoding the request, not the response.
+If the names differ, even if just by the thing in parens, git shortlog
+won't combine them.
+
+> $ git shortlog v6.4.. -s --author="Matthew Wilcox"
+>      7  Matthew Wilcox
+>      1  Matthew Wilcox (Novartis)
+>    123  Matthew Wilcox (Oracle)
+>
+> That seems to me like it successfully distinguishes my fake commit on
+> behalf of Novartis (who I haven't actually worked for since 1997) from
+> my real commits on behalf of Oracle.  It also shows a few places where
+> my commits weren't attributed to Oracle (I think this happens when I
+> send patches using mutt instead of git-send-email)
+
+I'm not saying either is right or wrong or has any shortcomings, I'm
+just saying they're *different* in this regard.
+
+BR,
+Jani.
 
 
+-- 
+Jani Nikula, Intel Open Source Graphics Center
