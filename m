@@ -2,193 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C64CCEE4996
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 09:27:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE60DEE49A8
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 09:44:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbjHUJ1U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 05:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48416 "EHLO
+        id S232410AbjHUJos (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 05:44:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231397AbjHUJ1T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 05:27:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A27FC7;
-        Mon, 21 Aug 2023 02:27:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9EC0662CE8;
-        Mon, 21 Aug 2023 09:27:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFE64C433C7;
-        Mon, 21 Aug 2023 09:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692610035;
-        bh=nzfsOP8ZfW0Kf6CwX63e/wWipgnj7gweYgyYH96xch0=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ULjMk6/bXS/xZzZsQwusR382GwzpOA29vvjhwlayyXJT0PTMBYbcnpgIvZaaw1OOY
-         9gezSKyH1oGC4DwWZyWm2cfSKIh4UydqBZtVamezZ7MIxKhkusdtM0gRgO0ohHF0Nh
-         3W7YnTPilshOVEBELEIue1UFzWkc+UcG04/DwFRJL+36UZVqBnq9FohEdbJnt7mijK
-         B8sF8YXm0TYu2rfT/1i8Piw3MKsHtJptrHsCdxfrmIeEr7pJ3KX/7kJsuntczCnOuH
-         PqCjlXuYozOGRNezKRVQiYQDhtqUYcAjLCgf8fRJsDVcEgJAHFvKFVGUvqIibWTXlB
-         a8OtYWd88wHLw==
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id A140ED3CB14; Mon, 21 Aug 2023 11:27:11 +0200 (CEST)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Giulio Benetti <giulio.benetti@benettiengineering.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag
- to give credits to who sponsored the patch
-In-Reply-To: <CAMuHMdVY7vaU8wpJrMD4HNkQwkJD0Rd9sL-xFDYXxJEcP91yuw@mail.gmail.com>
-References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
- <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
- <20230817232348.GC1175@pendragon.ideasonboard.com>
- <28289906-4fd1-26aa-b1c4-eb393ac52d48@benettiengineering.com>
- <CAMuHMdVY7vaU8wpJrMD4HNkQwkJD0Rd9sL-xFDYXxJEcP91yuw@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Mon, 21 Aug 2023 11:27:11 +0200
-Message-ID: <878ra4bv9s.fsf@toke.dk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        with ESMTP id S230107AbjHUJos (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 05:44:48 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:242:246e::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEC5A1;
+        Mon, 21 Aug 2023 02:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=d9AC3Y3wKvLhTCxarPAnq2BCxnL4Toqn/q0Gu3hZcq0=;
+        t=1692611087; x=1693820687; b=pce1bbcqzid6XJBsSrkqYv/RaOqYOpF/w4Kfw+fB1fv6kM+
+        UeGMP5K2y7zfNElskru7tulx+03dzI35U65rtGZbQuVWMFeaxJs2Y58Pbcbr2x7cLUG6CozHXjO3Y
+        URpdVZzUhXnbjQ/uXx2S56oD/25Wzw89AOHUBylrEcsdYOAp9TyOLNG4Xc8EJvWxLRF1jVWOF8fPJ
+        ZGCBzmqnkYWVNW+9O4ec7a7FVzDwhRkRPE4MNvFt+rp6MlmrJUnXqqH9QqtJmb2bHpFh1RQOZSd0a
+        BbokVvvEfOuVkGYAXzsr+FLDAqX6k0M/j7dy0bBZ+1r/5EzbN9/10LkASrDN8FaQ==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1qY1SZ-002xnF-2J;
+        Mon, 21 Aug 2023 11:44:31 +0200
+Message-ID: <e167e97797a90d3d6ea09840ac909325537d6034.camel@sipsolutions.net>
+Subject: Re: [V9 4/9] wifi: mac80211: Add support for WBRF features
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Evan Quan <evan.quan@amd.com>, gregkh@linuxfoundation.org,
+        rafael@kernel.org, lenb@kernel.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        alexander.deucher@amd.com, andrew@lunn.ch, rdunlap@infradead.org,
+        quic_jjohnson@quicinc.com, horms@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Mario Limonciello <mario.limonciello@amd.com>
+Date:   Mon, 21 Aug 2023 11:44:29 +0200
+In-Reply-To: <20230818032619.3341234-5-evan.quan@amd.com>
+References: <20230818032619.3341234-1-evan.quan@amd.com>
+         <20230818032619.3341234-5-evan.quan@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+On Fri, 2023-08-18 at 11:26 +0800, Evan Quan wrote:
+> To support the WBRF mechanism, Wifi adapters utilized in the system must
+> register the frequencies in use(or unregister those frequencies no longer
+> used) via the dedicated calls. So that, other drivers responding to the
+> frequencies can take proper actions to mitigate possible interference.
+>=20
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Co-developed-by: Evan Quan <evan.quan@amd.com>
+> Signed-off-by: Evan Quan <evan.quan@amd.com>
 
-> Hi Giulio,
->
-> On Sun, Aug 20, 2023 at 2:35=E2=80=AFAM Giulio Benetti
-> <giulio.benetti@benettiengineering.com> wrote:
->> On 18/08/23 01:23, Laurent Pinchart wrote:
->> > On Fri, Aug 18, 2023 at 12:09:57AM +0200, Giulio Benetti wrote:
->> >> Sometimes it happens that a Company or a Physical Person sponsors the
->> >> creation and/or the upstreaming process of a patch, but at the moment
->> >> there is no way to give credits to it. There are some commit that inc=
-lude
->> >> a sort of tag "Sponsored by" without the dash to avoid
->> >> scripts/checkpatch.pl to complain but a real standard has not been de=
-fined.
->> >> With this patch let's try to define a method to give credits consiste=
-ntly
->> >> including an acknowledge from the sponsor. The goal is to improve
->> >> contributions from companies or physical persons that this way should=
- gain
->> >> visibility in Linux kernel and so they should be more prone to let the
->> >> work done for them for to be upstreamed.
->> >
->> > Just adding one data point here, without judging on the merits of this
->> > proposal. I've been requested previously by customers to increase their
->> > visibility in the kernel development statistics, and the way we found =
-to
->> > do so was to sign-off patches with
->> >
->> > Laurent Pinchart <laurent.pinchart+customer@ideasonboard.com>
->> >
->> > (where "customer" is to be replaced with the customer name).
->>
->> this approach works good for the developer because of the +customer
->> mailbox capability but in term of appeal for the final customer I've
->> been told(by the customer) he would really like more the "Sponsored-by:"
->> way. To tell the truth while I was looking for an existing alternative
->> I've found the commits with "Sponsored by:" pseudo-tag that look cooler.
->>
->> This is my taste of course and the taste of one of my customers, but
->> to me it's like having a brand shown:
->> Sponsored-by: Sponsoring Company
->> vs:
->> Signed-off-by: Giulio Benetti
->> <giulio.benetti+sponsor.company@benettiengineering.com>
->
-> Personally, I would respond "I'm sorry, but the only advertising
-> space we offer are Copyright headers (for employees) and
-> "user+customer@..." or "name (customer) user@..." (for contractors).
->
-> And this is a separate tag, so it's harder for the analysis tools
-> (whose output your customers must be interested in, too?) to
-> match the tag to the actual Author/Reviewer/...
->
->> If I am the customer I'd really prefer the first option.
->
-> You are aware this will cause lots of work for the customer, too?
-> (See below).
->
->> >> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
->> >> ---
->> >>   Documentation/process/submitting-patches.rst | 38 +++++++++++++++++=
-+++
->> >>   1 file changed, 38 insertions(+)
->> >>
->> >> diff --git a/Documentation/process/submitting-patches.rst b/Documenta=
-tion/process/submitting-patches.rst
->> >> index efac910e2659..870e6b5def3f 100644
->> >> --- a/Documentation/process/submitting-patches.rst
->> >> +++ b/Documentation/process/submitting-patches.rst
->> >> @@ -600,6 +600,44 @@ process nor the requirement to Cc: stable@vger.k=
-ernel.org on all stable
->> >>   patch candidates. For more information, please read
->> >>   Documentation/process/stable-kernel-rules.rst.
->> >>
->> >> +Using Sponsored-by:
->> >> +-------------------
->> >> +
->> >> +A Sponsored-by tag gives credit to who sponsored the creation and/or=
- the
->> >> +upstreaming process of the patch. Sponsored-by can contain a company=
- name or
->> >> +a physical person name. If a company sponsored the patch this is the=
- form::
->> >> +
->> >> +    Company Name <mail@companyname.com>
->> >> +
->> >> +where the Company Name must be a valid Business Name at the time of =
-sending the
->> >> +patch until the confirmation of the Sponsored-by tag, while the e-ma=
-il can be
->> >> +either a generic e-mail the company can be reached out or an e-mail =
-of a person
->> >> +who has the rights inside it to confirm the Sponsored-by tag.
->> >> +
->> >> +If a physical person sponsored the patch the form must be same used =
-in
->> >> +Signed-off-by tag::
->> >> +
->> >> +    Physical Person <physical.person@mail.com>
->> >> +
->> >> +In both cases, to prevent fake credits, either the company or the pe=
-rson should
->> >> +send an Acked-by tag placed right under Sponsored-by tag using the s=
-ame form
->> >> +described above. So for example if the patch contains::
->> >> +
->> >> +    <changelog>
->> >> +
->> >> +    Sponsored-by: Company Name <mail@companyname.com>
->> >> +    Signed-off-by: Developer Name <developer.name@developername.com>
->> >> +
->> >> +The result including the answer from the sponsor must be::
->> >> +
->> >> +    <changelog>
->> >> +
->> >> +    Sponsored-by: Company Name <mail@companyname.com>
->> >> +    Acked-by: Company Name <mail@companyname.com>
->> >> +    Signed-off-by: Developer Name <developer.name@developername.com>
->> >> +
->> >> +This way the sponsor agrees to the usage of this tag using its name.
->
-> This is also causing more work for maintainers: now they have to check
-> if any Sponsored-by tags are present, and track if there is a response
-> with a matching Acked-by tag...
->
-> And obviously they should postpone applying the patch until a
-> confirmation response is sent... which may never happen...
+From WiFi POV, this looks _almost_ fine to me.
 
-Yeah, definitely not going to track that. I'm pretty agnostic to the tag
-itself, but please don't put the burden of validity testing of it on
-maintainers...
+> +static void wbrf_get_ranges_from_chandef(struct cfg80211_chan_def *chand=
+ef,
+> +					 struct wbrf_ranges_in *ranges_in)
+> +{
+> +	u64 start_freq1, end_freq1;
+> +	u64 start_freq2, end_freq2;
+> +	int bandwidth;
+> +
+> +	bandwidth =3D nl80211_chan_width_to_mhz(chandef->width);
+> +
+> +	get_chan_freq_boundary(chandef->center_freq1,
+> +			       bandwidth,
+> +			       &start_freq1,
+> +			       &end_freq1);
+> +
+> +	ranges_in->band_list[0].start =3D start_freq1;
+> +	ranges_in->band_list[0].end =3D end_freq1;
+> +
+> +	if (chandef->width =3D=3D NL80211_CHAN_WIDTH_80P80) {
+> +		get_chan_freq_boundary(chandef->center_freq2,
+> +				       bandwidth,
+> +				       &start_freq2,
+> +				       &end_freq2);
+> +
+> +		ranges_in->band_list[1].start =3D start_freq2;
+> +		ranges_in->band_list[1].end =3D end_freq2;
+> +	}
+> +}
 
--Toke
+This has to setup ranges_in->num_of_ranges, no?
+(Also no real good reason for num_of_ranges to be a u64, btw, since it
+can only go up to 11)
+
+With that fixed, you can add
+
+Reviewed-by: Johannes Berg <johannes@sipsolutions.net>
+
+johannes
+
