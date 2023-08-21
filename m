@@ -2,81 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 439B0EE49A6
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Aug 2023 23:14:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15418EE4996
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 02:29:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232103AbjHTXOQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Aug 2023 19:14:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
+        id S230261AbjHUC3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Aug 2023 22:29:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231931AbjHTXOP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 19:14:15 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A8EA4;
-        Sun, 20 Aug 2023 16:14:13 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-d656d5e8265so2767288276.1;
-        Sun, 20 Aug 2023 16:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692573253; x=1693178053;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hhDiFrK3+zWwpt3e9Un/dsmmqZVfbwmw3k24hfaK8x4=;
-        b=oP/ZDuQfgP3TV3EvP6EPzckklS3z3d8VPQ3KSnF3ypgzokwqKjql2Ljq+jZ/lWK6HD
-         RoHFy2odljf3HQOfAWEzIEjP3DDBx0jB/1cswNoZM6q9g+JdP24EAzhA0HLHbV99LpDl
-         s1apYRrNcKpA+f7KEP/6c6h+rRiwYTvzQWGJc2v1ay3x96JDusWWZKUH2gWKtRxirE8v
-         UAp0/FAhiu12VJpDc7uPtxSfv8YmLxdqRYfW8l5nVGH43LKAtntH+azgK9aoakZFlpt8
-         zK1pIPFbca9NHjXlB2U/mHCUjUhhegh181ymICJpZr/dfLOVOmqUXLkGwzeMV2ZyLh/8
-         b2zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692573253; x=1693178053;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hhDiFrK3+zWwpt3e9Un/dsmmqZVfbwmw3k24hfaK8x4=;
-        b=RAKE0OdDCD/7INR/qkEx01POWXLgRG5OpItaogKs0BRB9pZYkVBHtpRWKP7V1jvaQ9
-         0ryC4RqtMli7d/SFyntzR5O9WYdPZJ1tVostn/wSd1fgWELNpjbyEnuo041Ztr/XzcIb
-         33B1qGSOt0O7o3UhcJnucUK+U0z3QTwI9w1uEK7sd+6USwMbocBW/6HZ7Y/w4DRikU4L
-         husvWc1Cvyu90oTCfh7tDA6Mua4CcmBftHEUxqJKy4N5hPjIi4jz9dc/9j3WqgCmPfnN
-         vXjASMQEMuA38uHpinktaJt1AoMq37KbZTgz5OR/K0b8NWZcjAR03gZ56K69g1Wdg7JW
-         UnsA==
-X-Gm-Message-State: AOJu0Ywuc2dtFlZYjxmMN7tqlh5cwwgKgcKVSQRcG1fuRncBb9Qj7l3E
-        BpSCeAGqNIIVssBCbPi4P0L7CJUB7PHeHaJLQFk=
-X-Google-Smtp-Source: AGHT+IHput9LE8dKoh1ZT/0B7w2PzQb7MFgu0AJXlDmYRwz0PtUMUJooJHs2+l8bTa6J1rhzqEr754t3Ki82QM0VuAg=
-X-Received: by 2002:a5b:60a:0:b0:d4c:83a8:268a with SMTP id
- d10-20020a5b060a000000b00d4c83a8268amr5134928ybq.17.1692573252959; Sun, 20
- Aug 2023 16:14:12 -0700 (PDT)
+        with ESMTP id S232512AbjHUC3R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 22:29:17 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2A535B0;
+        Sun, 20 Aug 2023 19:29:11 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F8BD1FB;
+        Sun, 20 Aug 2023 19:29:51 -0700 (PDT)
+Received: from [10.162.42.6] (a077893.blr.arm.com [10.162.42.6])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1034B3F762;
+        Sun, 20 Aug 2023 19:29:06 -0700 (PDT)
+Message-ID: <e62d00bc-52ee-9828-9b73-08c685d4052a@arm.com>
+Date:   Mon, 21 Aug 2023 07:59:03 +0530
 MIME-Version: 1.0
-References: <20230803060437.12157-1-tmgross@umich.edu>
-In-Reply-To: <20230803060437.12157-1-tmgross@umich.edu>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 21 Aug 2023 01:14:02 +0200
-Message-ID: <CANiq72nHmt5_CnLB3+3RopJ+u94pgq1Nk08j0TSk28NZmeoCPg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] docs: rust: update instructions for obtaining
- 'core' source
-To:     Trevor Gross <tmgross@umich.edu>
-Cc:     ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
-        boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-        benno.lossin@proton.me, corbet@lwn.net, yakoyoku@gmail.com,
-        aliceryhl@google.com, linux-doc@vger.kernel.org,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH V4 2/3] coresight: etm: Make cycle count threshold user
+ configurable
+Content-Language: en-US
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+References: <20230818112051.594986-1-anshuman.khandual@arm.com>
+ <20230818112051.594986-3-anshuman.khandual@arm.com>
+ <75147373-d5f0-b9cc-cdf8-15b5093fb8e2@arm.com>
+ <CAJ9a7Vhg+OznPN_wfVFXgJ9Zx2Y1bCOJZEXpuXK-Ot0JertYyw@mail.gmail.com>
+ <23b73617-1d42-df19-0ff6-27afbf8b7a77@arm.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <23b73617-1d42-df19-0ff6-27afbf8b7a77@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 3, 2023 at 8:12=E2=80=AFAM Trevor Gross <tmgross@umich.edu> wro=
-te:
->
-> This changes the suggested method of obtaining Rust's source to using the
-> tarball rather than a full clone, and adds a clarification about 'rustup
-> override'.
 
-Applied to `rust-next`, thanks!
 
-In the second patch, I undid the `:` to `::` change -- the latter is
-meant to create a literal block.
+On 8/18/23 18:34, Suzuki K Poulose wrote:
+> On 18/08/2023 14:01, Mike Leach wrote:
+>> On Fri, 18 Aug 2023 at 12:25, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
+>>>
+>>> On 18/08/2023 12:20, Anshuman Khandual wrote:
+>>>> Cycle counting is enabled, when requested and supported but with a default
+>>>> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
+>>>> representing the minimum interval between cycle count trace packets.
+>>>>
+>>>> This makes cycle threshold user configurable, from the user space via perf
+>>>> event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
+>>>> in case no explicit request. As expected it creates a sysfs file as well.
+>>>>
+>>>> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
+>>>>
+>>>> New 'cc_threshold' uses 'event->attr.config3' as no more space is available
+>>>> in 'event->attr.config1' or 'event->attr.config2'.
+>>>>
+>>>> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+>>>> Cc: Mike Leach <mike.leach@linaro.org>
+>>>> Cc: James Clark <james.clark@arm.com>
+>>>> Cc: Leo Yan <leo.yan@linaro.org>
+>>>> Cc: coresight@lists.linaro.org
+>>>> Cc: linux-arm-kernel@lists.infradead.org
+>>>> Cc: linux-doc@vger.kernel.org
+>>>> Cc: linux-kernel@vger.kernel.org
+>>>> Reviewed-by: Mike Leach <mike.leach@linaro.org>
+>>>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>>>> ---
+>>>>    drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
+>>>>    drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
+>>>>    2 files changed, 12 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>>>> index 5ca6278baff4..09f75dffae60 100644
+>>>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+>>>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>>>> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,             "config:0-3");
+>>>>    PMU_FORMAT_ATTR(sinkid,             "config2:0-31");
+>>>>    /* config ID - set if a system configuration is selected */
+>>>>    PMU_FORMAT_ATTR(configid,   "config2:32-63");
+>>>> +PMU_FORMAT_ATTR(cc_threshold,        "config3:0-11");
+>>>>
+>>>>
+>>>>    /*
+>>>> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
+>>>>        &format_attr_preset.attr,
+>>>>        &format_attr_configid.attr,
+>>>>        &format_attr_branch_broadcast.attr,
+>>>> +     &format_attr_cc_threshold.attr,
+>>>>        NULL,
+>>>>    };
+>>>>
+>>>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>> index 591fab73ee79..3193dafa7618 100644
+>>>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>> @@ -635,7 +635,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>>>>        struct etmv4_config *config = &drvdata->config;
+>>>>        struct perf_event_attr *attr = &event->attr;
+>>>>        unsigned long cfg_hash;
+>>>> -     int preset;
+>>>> +     int preset, cc_threshold;
+>>>>
+>>>>        /* Clear configuration from previous run */
+>>>>        memset(config, 0, sizeof(struct etmv4_config));
+>>>> @@ -658,7 +658,15 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>>>>        if (attr->config & BIT(ETM_OPT_CYCACC)) {
+>>>>                config->cfg |= TRCCONFIGR_CCI;
+>>>>                /* TRM: Must program this for cycacc to work */
+>>>> -             config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
+>>>> +             cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
+>>>> +             if (cc_threshold) {
+>>>> +                     if (cc_threshold < drvdata->ccitmin)
+>>>> +                             config->ccctlr = drvdata->ccitmin;
+>>>> +                     else
+>>>> +                             config->ccctlr = cc_threshold;
+>>>> +             } else {
+>>>> +                     config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
+>>>
+>>> Ideally this must be the ccitmin ? Theoretically, default value could be
+>>> bigger than the minimum value supported by the implementation (i.e.,
+>>> ccitmin)
+>>>
+>>> Suzuki
+>>>
+>>
+>> In order not to change existing behaviour unexpectedly this could be
+>> re-ordered...
+>>
+>> cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
+>> if (!cc_threshold)
+>>           cc_threshold = ETM_CYC_THRESHOLD_DEFAULT;
+>> if (cc_threshold < drvdata->ccitmin)
+>>           cc_threshold = drvdata->ccitmin
+>> config->ccctlr = cc_threshold;
+> 
+> That sounds better, Thanks Mike
 
-Cheers,
-Miguel
+Sure, will change as suggested.
