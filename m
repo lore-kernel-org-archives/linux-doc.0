@@ -2,152 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08981EE49A6
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 19:45:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A7FEE49AA
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 19:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbjHUTpo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 15:45:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41882 "EHLO
+        id S229936AbjHUT6e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 15:58:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjHUTpo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 15:45:44 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 727B1CC
-        for <linux-doc@vger.kernel.org>; Mon, 21 Aug 2023 12:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1692647134; x=1693251934; i=xypron.glpk@gmx.de;
- bh=iqCHCXKOO1iG+ysFWrqqs7rz/35g9oeTkQ26UArU7es=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=ejNNQ3pXVbeuYLgHlDHELTy1JsWl/VtrLAv0cHF4Bska1B8z6B/nbhS8nU/mNpx33dQ/sv1
- RLSh0ZSaT4TfJhD1r8nr5V3yg6MUN208U1if99PKRvUqcXGjzVFBuO8bI9fXSDVmCghih3UeV
- zrJ6x0Yz5AI265CyIiepgucTjtIjd3caHQDbnQGT0/k1txRLPd3jsgFR3NlNgaEgF9Jk2AFoi
- QsdRealEee00AsuTMRc5jRLLAz0QMnciz/NGwkrTEWRRIYGIGeqgNgJV53hl2/+rLYFro7Xt/
- lFek70GiTheGb9Th/ozqnAj/U0nPW18sUSthuZGaAibi5fJ/S50g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.123.67] ([62.143.244.162]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MUGiJ-1q6z3W3Mbj-00RLYR; Mon, 21
- Aug 2023 21:45:33 +0200
-Message-ID: <66d25d72-4556-6085-064a-7f7cb79fa061@gmx.de>
-Date:   Mon, 21 Aug 2023 21:45:19 +0200
+        with ESMTP id S229933AbjHUT6d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 15:58:33 -0400
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2041.outbound.protection.outlook.com [40.107.247.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6125128;
+        Mon, 21 Aug 2023 12:58:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CbNz5YEedylV/dAjvzcDf+lesfJfwQyFHifk0Ed6VglTMTqy7i6mjjqsGlKBSYrlwd4Mig5peuFAPBIZ1KlHPlINcVfllpvVSGjU9Qaq0lI6wcPSra7mtwJwNhbCXiZ4TMea4aM4toyCX3C4+lmZ3xP642YZnrXPssv12F870HmcsCYBRrnZXuXwcJybXocw1UcQdxyT1dffeegEAJH6l0PMcVonEEojgkO7IiDZlAV8v9ZWMeRrJDdbXESIeZ+EMYRynZ0cKrn4uuDuSo6yowW5d67Q5ifoe015vHY5IH5nb97ivL/7iqTwNvmot/Fvs1eVRI9yrciSJLvt2yxLeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Uw2dqzeVz3mOz3X5TWJk+1gvqybhGGEkQvrrY8vXHk=;
+ b=Q6YbmuzweNKMNqE6GEEGc3D7m7l1Ts5ZmsCRzUB0KMIF5am1/i7f4OXxRLcEbRc3MpiSOqkD8SxJ/6cY49j/vGd2gE4XURsTmY4IaplU27n2u8Apj+C5syrs/FI5TAyIta/sJU93OmEpqokljSkAqfRqNhhGnQv79pVNOD2J232zZp3Ud8A4eLOdZBOv9FI03KzPQezfvXcvJqA+n8866P49c3DpU6JOfVaWmr4qpxl25k7wn5Y16Ml/FwjQHPWGfzlQ/DeQttxE7rUI9R72xHEUSYR7mKQAJe236IVe1pAUA3mLmk6HLZ4ksQ4v+9l4B/c8e0wefV+ZYh0mOPH9sQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Uw2dqzeVz3mOz3X5TWJk+1gvqybhGGEkQvrrY8vXHk=;
+ b=ru0g7N0ZFuudho4dvhNNZ9B5VmEr6yKkrxxYArDLfQPN0nm2hXQMcAS6iwVW/QENtZZ8xOl+w9kqhZL9knJTT0hHC1QYskqM8YTPTPaMRPoZZL7DavslnxhKov8UFvrMJA2GYuyorVOk6eR1akxLuBbX7tA3aM90pdeGYg5IT8Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
+ by PAXPR04MB8173.eurprd04.prod.outlook.com (2603:10a6:102:1ca::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Mon, 21 Aug
+ 2023 19:58:28 +0000
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::d4ed:20a0:8c0a:d9cf]) by AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::d4ed:20a0:8c0a:d9cf%7]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
+ 19:58:28 +0000
+Date:   Mon, 21 Aug 2023 22:58:23 +0300
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?utf-8?B?RmVybuKUnMOtbmRleg==?= Rojas <noltari@gmail.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
+Message-ID: <20230821195823.ns55h3livxgol7fp@skbuf>
+References: <20230612163353.dwouatvqbuo6h4ea@skbuf>
+ <1dd01fe2-08a8-ec2f-1184-a58b2f55ba85@seco.com>
+ <20230613142754.wr5njtjo4tbloqwu@skbuf>
+ <20230811150826.urp2hzl3tahesrjx@skbuf>
+ <26623d0c-8a5a-614b-7df7-69214aaec524@seco.com>
+ <20230811163637.bs7a46juasjgnmf4@skbuf>
+ <20230821124952.mraqqp7pxlo56gkh@skbuf>
+ <a2e3fcad-9857-f1b3-8ada-efb2013a4bf5@seco.com>
+ <20230821181349.hls6pukp5d6rc5av@LXL00007.wbi.nxp.com>
+ <73d59dd2-88f0-3c1a-0de2-de2e050cba5a@seco.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <73d59dd2-88f0-3c1a-0de2-de2e050cba5a@seco.com>
+X-ClientProxiedBy: AM0PR06CA0108.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::49) To AM0PR04MB6452.eurprd04.prod.outlook.com
+ (2603:10a6:208:16d::21)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: Doc style for method functions
-Content-Language: en-US
-To:     Simon Glass <sjg@chromium.org>
-Cc:     linux-doc@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        U-Boot Mailing List <u-boot@lists.denx.de>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <CAPnjgZ0vPwd9v+V8Pg5Bo87OELD-vokB7ZrvU3Bv5dQ_O9z6Sg@mail.gmail.com>
- <877cpusybz.fsf@meer.lwn.net>
- <CAPnjgZ3Lo4Na7YeKPFaY30bwsv_gBGapN_DXeab+k7yhCF3uww@mail.gmail.com>
- <dfac4932-7cbc-3a4e-bde7-c2048516ddf1@gmx.de>
- <CAPnjgZ07G=+QZU9+qT23x+aZw4VES0jNkXUTu4Axm400NF-hzQ@mail.gmail.com>
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-In-Reply-To: <CAPnjgZ07G=+QZU9+qT23x+aZw4VES0jNkXUTu4Axm400NF-hzQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BValcThMPwSVJHYiyNu04DP8lfKkgS3GwfAXbaMH0qXT0yma8pZ
- t9rEixAofv+zGUGyYryJop688DhKi7Yd8hDR4u8duvuCoHW+SSD9xSpeiHXJDY2wJB8zcfw
- Od6dfxnkhNeCbSq2ireJOWRB4KC9mekK0FOZqFfSkq4koSoIfGLSSR4jNRFsoC3SrPo/qTl
- xTtnKwsyuNQBDqTpW3lWA==
-UI-OutboundReport: notjunk:1;M01:P0:Wu2NKnCj2Q4=;a2J44LizWt7ZpqPDjFd1qsGW6n7
- 5JsplRubC+nmjZ4tB6wwoCT/Db4OOgQQlSg/nW+LIoTJh+Df2prwAI0sEMZVuDLJxRkCEcr/y
- WFmx7VrWa3daDt2YPm37mD2qPC0C0t8qWPC5LtDWOfclrNNaLZt/HGtbdCzMZXv7TzSKlLlt2
- brm5/zqHC7iJDDOuXbYHo06aLgVjhfwMZv2T+icUz2z8CD70agU4nF83J25mwZ+PyG7mM++3U
- ZfG9QNv3phUif1yduwFjNEl+40Qs+rYylhkwvOQyYvX3Ar0yYkytoEt+rspTwdzVQPicP05s+
- UxylK9auTlt2Xy5NIyS2eRQnIf+RX459oOVEo/kxYPCNidILO/z8vvWY1kHTauGTawFkKS4W+
- 8q/6Z4a/2HGDPVaKEHCLbqLoyCDAtdzbzum4dnaq4u+rsG3aD4JPx1FWXzjOB2xxfo5fFjdrR
- uoQglNV3y+eGOQyrn8noENLa4BFm3GetzSf9Qm7eLQj7PR+cSNyf2QTnRdofLpG3Ub8ikuPah
- sWzxw3sQZNO7P3O2OMXVYF6B5A3BbG3didscb3eloEDX+1pMgWg6rqg46Rcg00nXEWve8QVKE
- 8KghfZ7UTogH48WlRWcVwdUcFkKuzic5gx3B566ocJlIrgpY6GtZKTvKniWv8e8G3E4KaSkit
- TAPuQ8yJ4I1DIJWMHD52/A+kmeadwnsX/ceO6Ut7jTGdFm0QB8owQETuHVJrXimN6ltwxFy3y
- H2jcRaHUpxBm1zea1nWqsW00O3Cpzl4qlJymyAqjhLOJoNWqi1IsCoQiVYnv13nJ18ClHICyk
- oq2XUpZyuSfV6MyJqa7m/1FC5xyomvmRTF4+wQXZmajoySc8c7dsenqE5em+/6spSuczhyjRF
- QSAj2wf9xEOsr5Cmbb38BpT0Sl/J2sGJf/vL6OxinXc/Fl0kSiYh62EZqh5/5wJhPKBVIHdI6
- 2isB/r6VoiquKYF1FTugQh/XRuE=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|PAXPR04MB8173:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11a6bbbd-784b-4ed9-98f1-08dba280fc52
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: y1xxVW3z5kJ7ohSZmxlKkJZt7qj4mTZxmBSaxQZnxISI8z+5IN17b224EA4hH9NmiJBPuFaMR3I2FfkPWNqxU6N+2Z0JKCopw3u3lkI5LLYeogScZJwHoF6iWsqdkgoNfZab+m21h0DCVgfrqkzlwkzSVQHDN1GUIydj34okQ17Ixo+GefeZIfyDJDc/bZ+oWLl8WUsaH1UZ3sTI1huL4fboDKw1Z/SZqoOJ9OQWA00q1B5csOWjfl2RMJiGrmdyHQosu8yi8QjQhlgnHmYJiF4N5i2rjDHSFCINYZ+QeDaZn7TflXicTtvocUWGlpc6sD+fWtHeXK0sP9MPU0d02Dj08sDXGY8yLCDdv6PTsKN0sAUB9U76aFVM/hGoTc2hdmEM1XBdnej/eros+rbkXoQerT2sA0nPydig9/VcUPs66owUSQ3gmk/pFYN8hkXZTguAdhAMgHbSBbHfzIHBq7isgyoxENZRRtIfsVBCs51fEYWq0mL0XcYsHyDH6kNsPWHAJ+Ykvym2y7Rv4HqvbrEB+09xc2j7iwKDY2AC80w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(376002)(396003)(136003)(39860400002)(346002)(186009)(1800799009)(451199024)(1076003)(26005)(9686003)(6512007)(66899024)(86362001)(38100700002)(83380400001)(33716001)(41300700001)(316002)(8936002)(8676002)(66946007)(6916009)(66476007)(54906003)(66556008)(2906002)(44832011)(5660300002)(4326008)(7416002)(6666004)(6486002)(6506007)(966005)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PXXVgPOj0v1x3m2uWPaunKNURW5jaRA+dutMJteJzhFPjkJrUR6cHKQGgvD0?=
+ =?us-ascii?Q?f6YLa5qzDAeydEJb6IwV3UinVcDJ6M2FinDWK9PHMzDCy0fSfhdPtJXH1sRd?=
+ =?us-ascii?Q?EJjUQO/o5P4yx3skSDrZivpPXrfC1hCIxwARaU9mriAeD1Iu0J4j1Yioda4E?=
+ =?us-ascii?Q?G9QpXkzHpDPVKQg2vLFPbotVw2osACQ42xpv0ajWId3T/ibG93+3xSYQ8FTI?=
+ =?us-ascii?Q?TwRg6Xudw3agOx7leEe4ISZjrE8jCJpJAzUGAf2S/vHildh4xs+L6kHnZ9R/?=
+ =?us-ascii?Q?nw6iSQey24d9QKTbxQK0PEKa7pTgdLWN+F1Np/K9UHc1b2Drv3vVQ2T5IUdv?=
+ =?us-ascii?Q?3/mO10PjnuRYWhI4AP/p6wicNq5FUK3xHh+3nb8NX67AUu2hqU1PQeHHPcfG?=
+ =?us-ascii?Q?rqAgxgjhGeR0fS1j6e9VtgEEQnoD96lio3A1nvjiEYrxN1xjIuvb6ek4JQtb?=
+ =?us-ascii?Q?LeSxQA0fHo7ZToAH46fClcUe9w/4oDZGXpHCl+C1JfWv4i13EvgYtB/L4NO+?=
+ =?us-ascii?Q?sQZ7RlFGuwHJr3ZQadgJSzrfapfAnFYtXpGfahOVk6bbRwYVyE3LWXNQHU1P?=
+ =?us-ascii?Q?x2QguDcrNN23UIQ+FTJOFGddKcaIUVdFO8dv3CIGowsL9jdOI6qWJP/DKg3V?=
+ =?us-ascii?Q?jPi/qvBAENoubges2GyD3FeK20cb6qUHt7IczMnXsuX9KhI6cW93eJTxpkEQ?=
+ =?us-ascii?Q?u/J0H1JJZB+/6llaCdRtcF+jPg9z+Qwtw1qeqN0CDbEdHeoICmEq62qjUmpk?=
+ =?us-ascii?Q?m5v2W/mYFYyLJp8IWoHVMjQSeH7KdcGL8894ixoSkxG8O8T8Q00pznCSNna7?=
+ =?us-ascii?Q?Iuvw+AKTFeMsg0GZG0dBMUnaG0iDsG3u03onIR1/Bq+J9fFIC1XLnUmFAtlw?=
+ =?us-ascii?Q?FTzHRbL4ODHxbqxX2hQ5hNkrjNk5RMA1kCgs4Vw96pWBwB0Y7WVPOKX2BB26?=
+ =?us-ascii?Q?J7ftV2ca9VL/L4zS/gyuLIB6sZAnKyy5BrD8o77MEsIdA2r/550dPniZB5Se?=
+ =?us-ascii?Q?UVomiV/1Dtp9UKDvVn143szZT8mlFoEdOUDIcJxmWOuMRxl5xNjSG7bmarQT?=
+ =?us-ascii?Q?1fmEnvXwsHbwnR7xA6+vmTVI7Ha4cEvxwTTZmgCygFZx7Tik8uPHGXRLwSXQ?=
+ =?us-ascii?Q?wCxDGQWkfLWU7CD9oSX1kJsQrZdHLj42a844Zq8j1laL/BW9Tqa5xwm1Q/7c?=
+ =?us-ascii?Q?EcLq8caD0TxHJf4fqHzfQdGTiZkwxMeYdsVDyQF4dvc7xqMXIAilFbgVlXnM?=
+ =?us-ascii?Q?VQhyZ2pNox+/1KVjSJKszTXua7SaXE6C39L4zgWbNfn1x2FiDYcXJTDGkr/Z?=
+ =?us-ascii?Q?62+ZyuKfjn0TBHcVzz6mC+cYbScjKvh3h+/ooLxG/ft7NU+q1BXUCYlpomST?=
+ =?us-ascii?Q?ygzg/g6/35oKn+ZgiERI+TCbni5mZ21eX09qRLnGCjlZ6pK55i2nIH4LfUK1?=
+ =?us-ascii?Q?KwUp8QNIREGf9jUUwwvs/9fClsllCIf++rcM61OQfX3Q2qPEAIsVrMnSuQBm?=
+ =?us-ascii?Q?1aC3v5pAj9T0Y8ufC0+ZI5Tw3CfG/wy9LIsVDnBGozBzHdpsr5rY+LL3JQdW?=
+ =?us-ascii?Q?zVxqmHLutUxFJzhgVSH6a+sJ9kxXC3FIq+AOz28G/lKbEJUcfnZHlc7Q1yLx?=
+ =?us-ascii?Q?3g=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11a6bbbd-784b-4ed9-98f1-08dba280fc52
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 19:58:27.7888
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9dbcWDFzHB+CsIrdjgF5uvkQWBEYcGDwncaG2Y7ijQsZ+WvxGjsM/EMYwPgD4dfgtAI8+A3JQ6j9zBCNNPCqcQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8173
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18.08.23 16:59, Simon Glass wrote:
-> Hi Heinrich,
->
-> On Thu, 17 Aug 2023 at 10:36, Heinrich Schuchardt <xypron.glpk@gmx.de> w=
-rote:
->>
->> On 16.08.23 19:47, Simon Glass wrote:
->>> Hi Jonathan,
->>>
->>> On Wed, 16 Aug 2023 at 11:15, Jonathan Corbet <corbet@lwn.net> wrote:
->>>>
->>>> Simon Glass <sjg@chromium.org> writes:
->>>>
->>>>> Hi Jonathan,
->>>>>
->>>>> I would like to do something like this:
->>>>>
->>>>> struct part_driver {
->>>>>      /**
->>>>>       * get_info() - Get information about a partition
->>>>>
->>>>>                 ^ causes error
->>>>>
->>>>>       *
->>>>>       * @desc: Block device descriptor
->>>>>       * @part: Partition number (1 =3D first)
->>>>>       * @info: Returns partition information
->>>>>       */
->>>>>      int (*get_info)(struct blk_desc *desc, int part, struct
->>>>> disk_partition *info);
->>>>> ...
->>>>> };
->>>>>
->>>>> But this gives:
->>>>>
->>>>> scripts/kernel-doc:292:
->>>>>      print STDERR "Incorrect use of kernel-doc format: $_";
->>>>>
->>>>> Without the brackets on get_info() it works OK. What is the purpose =
-of
->>>>> that check, please?
->>>>
->>>> That's how the kerneldoc syntax was defined, well before my time as t=
-he
->>>> maintainer.  This could be relaxed, I guess, but one would have to lo=
-ok
->>>> at the parsing code to be sure that the right thing happens all the w=
-ay
->>>> through the process.  I'm not entirely sure it's worth it...
->>>
->>> I see. It is inconsistent, since we use () after normal functions.
->>>
->>> I think I can fix it just by removing that check.
->>>
->>> Regards,
->>> Simon
->>
->> If the structure element in not a function pointer, we probably still
->> want to forbid adding parentheses. Just dropping the check might not be
->> the solution.
->
-> Is that the purpose of this check? Is it likely that someone would add
-> a bracket immediately after a variable?
+On Mon, Aug 21, 2023 at 02:46:53PM -0400, Sean Anderson wrote:
+> After further review, it seems the reason 28g can get away without this
+> is because there's a one-to-one mapping between protocol controllers and
+> lanes. Unfortunately, that regularity is not present for 10g.
+> 
+> --Sean
 
-We don't want anything but a colon ':' after a structure member name.
-This excludes white space, parentheses (), brackets[], and braces {} and
-a lot more.
+There are some things I saw in your phy-fsl-lynx-10g.c driver and device
+tree bindings that I don't understand (the concept of lane groups), and
+I'm not sure if they're related with what you're saying here, so if you
+could elaborate a bit more (ideally with an example) on the one-to-one
+mapping and the specific problems it causes, it would be great.
 
-A structure member name relating to a function pointer should be the
-only exception. Here we expect the parentheses and the colon to follow
-immediately without white space.
+I may be off with my understanding of the regularity you are talking about,
+but the LX2160 (and Lynx 28G block) also has multi-lane protocols like 40G,
+100G, assuming that's what you are talking about. I haven't started yet
+working on those for the mtip_backplane driver, but I'm not currently
+seeing a problem with the architecture where a phy_device represents a
+single lane that's part of a multi-lane port, and not an entire group.
 
-Best regards
+In my imagination, there are 2 cases:
+- all 4 lanes are managed by the single dpaa2-mac consumer (which has 4
+  phandles, and iterates over them with a "for" loop)
+- each of the 4 lanes is managed by the respective backplane AN/LT core,
+  and thus, there's one phandle to each lane
 
-Heinrich
-
-
->
-> Regards,
-> Simon
-
+I sketched some dt-bindings for the second case here, so I guess it must
+be the first scenario that's somehow problematic?
+https://patchwork.kernel.org/project/netdevbpf/patch/20230817150644.3605105-9-vladimir.oltean@nxp.com/
