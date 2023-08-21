@@ -2,153 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15418EE4996
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 02:29:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB0DEE4996
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 02:35:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbjHUC3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Aug 2023 22:29:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33706 "EHLO
+        id S232569AbjHUCfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Aug 2023 22:35:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232512AbjHUC3R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 22:29:17 -0400
+        with ESMTP id S232568AbjHUCfL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Aug 2023 22:35:11 -0400
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2A535B0;
-        Sun, 20 Aug 2023 19:29:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 40A48B0;
+        Sun, 20 Aug 2023 19:35:05 -0700 (PDT)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F8BD1FB;
-        Sun, 20 Aug 2023 19:29:51 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90D371FB;
+        Sun, 20 Aug 2023 19:35:45 -0700 (PDT)
 Received: from [10.162.42.6] (a077893.blr.arm.com [10.162.42.6])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1034B3F762;
-        Sun, 20 Aug 2023 19:29:06 -0700 (PDT)
-Message-ID: <e62d00bc-52ee-9828-9b73-08c685d4052a@arm.com>
-Date:   Mon, 21 Aug 2023 07:59:03 +0530
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4293E3F762;
+        Sun, 20 Aug 2023 19:35:00 -0700 (PDT)
+Message-ID: <b6b76d8e-cce5-5d79-9488-645a5420558d@arm.com>
+Date:   Mon, 21 Aug 2023 08:04:58 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH V4 2/3] coresight: etm: Make cycle count threshold user
- configurable
+Subject: Re: [PATCH V4 1/3] coresight: etm: Override TRCIDR3.CCITMIN on errata
+ affected cpus
 Content-Language: en-US
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
+        Mike Leach <mike.leach@linaro.org>,
         James Clark <james.clark@arm.com>,
         Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, coresight@lists.linaro.org,
         linux-kernel@vger.kernel.org
 References: <20230818112051.594986-1-anshuman.khandual@arm.com>
- <20230818112051.594986-3-anshuman.khandual@arm.com>
- <75147373-d5f0-b9cc-cdf8-15b5093fb8e2@arm.com>
- <CAJ9a7Vhg+OznPN_wfVFXgJ9Zx2Y1bCOJZEXpuXK-Ot0JertYyw@mail.gmail.com>
- <23b73617-1d42-df19-0ff6-27afbf8b7a77@arm.com>
+ <20230818112051.594986-2-anshuman.khandual@arm.com>
+ <51f4b571-a5b2-b1bb-b990-fe2c4c5387bf@infradead.org>
 From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <23b73617-1d42-df19-0ff6-27afbf8b7a77@arm.com>
+In-Reply-To: <51f4b571-a5b2-b1bb-b990-fe2c4c5387bf@infradead.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 8/18/23 18:34, Suzuki K Poulose wrote:
-> On 18/08/2023 14:01, Mike Leach wrote:
->> On Fri, 18 Aug 2023 at 12:25, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
->>>
->>> On 18/08/2023 12:20, Anshuman Khandual wrote:
->>>> Cycle counting is enabled, when requested and supported but with a default
->>>> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
->>>> representing the minimum interval between cycle count trace packets.
->>>>
->>>> This makes cycle threshold user configurable, from the user space via perf
->>>> event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
->>>> in case no explicit request. As expected it creates a sysfs file as well.
->>>>
->>>> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
->>>>
->>>> New 'cc_threshold' uses 'event->attr.config3' as no more space is available
->>>> in 'event->attr.config1' or 'event->attr.config2'.
->>>>
->>>> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
->>>> Cc: Mike Leach <mike.leach@linaro.org>
->>>> Cc: James Clark <james.clark@arm.com>
->>>> Cc: Leo Yan <leo.yan@linaro.org>
->>>> Cc: coresight@lists.linaro.org
->>>> Cc: linux-arm-kernel@lists.infradead.org
->>>> Cc: linux-doc@vger.kernel.org
->>>> Cc: linux-kernel@vger.kernel.org
->>>> Reviewed-by: Mike Leach <mike.leach@linaro.org>
->>>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
->>>> ---
->>>>    drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
->>>>    drivers/hwtracing/coresight/coresight-etm4x-core.c | 12 ++++++++++--
->>>>    2 files changed, 12 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
->>>> index 5ca6278baff4..09f75dffae60 100644
->>>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
->>>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
->>>> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,             "config:0-3");
->>>>    PMU_FORMAT_ATTR(sinkid,             "config2:0-31");
->>>>    /* config ID - set if a system configuration is selected */
->>>>    PMU_FORMAT_ATTR(configid,   "config2:32-63");
->>>> +PMU_FORMAT_ATTR(cc_threshold,        "config3:0-11");
->>>>
->>>>
->>>>    /*
->>>> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
->>>>        &format_attr_preset.attr,
->>>>        &format_attr_configid.attr,
->>>>        &format_attr_branch_broadcast.attr,
->>>> +     &format_attr_cc_threshold.attr,
->>>>        NULL,
->>>>    };
->>>>
->>>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->>>> index 591fab73ee79..3193dafa7618 100644
->>>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
->>>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->>>> @@ -635,7 +635,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->>>>        struct etmv4_config *config = &drvdata->config;
->>>>        struct perf_event_attr *attr = &event->attr;
->>>>        unsigned long cfg_hash;
->>>> -     int preset;
->>>> +     int preset, cc_threshold;
->>>>
->>>>        /* Clear configuration from previous run */
->>>>        memset(config, 0, sizeof(struct etmv4_config));
->>>> @@ -658,7 +658,15 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->>>>        if (attr->config & BIT(ETM_OPT_CYCACC)) {
->>>>                config->cfg |= TRCCONFIGR_CCI;
->>>>                /* TRM: Must program this for cycacc to work */
->>>> -             config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
->>>> +             cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
->>>> +             if (cc_threshold) {
->>>> +                     if (cc_threshold < drvdata->ccitmin)
->>>> +                             config->ccctlr = drvdata->ccitmin;
->>>> +                     else
->>>> +                             config->ccctlr = cc_threshold;
->>>> +             } else {
->>>> +                     config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
->>>
->>> Ideally this must be the ccitmin ? Theoretically, default value could be
->>> bigger than the minimum value supported by the implementation (i.e.,
->>> ccitmin)
->>>
->>> Suzuki
->>>
->>
->> In order not to change existing behaviour unexpectedly this could be
->> re-ordered...
->>
->> cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
->> if (!cc_threshold)
->>           cc_threshold = ETM_CYC_THRESHOLD_DEFAULT;
->> if (cc_threshold < drvdata->ccitmin)
->>           cc_threshold = drvdata->ccitmin
->> config->ccctlr = cc_threshold;
+On 8/19/23 02:41, Randy Dunlap wrote:
+> Hi--
 > 
-> That sounds better, Thanks Mike
+> On 8/18/23 04:20, Anshuman Khandual wrote:
+>> This work arounds errata 1490853 on Cortex-A76, and Neoverse-N1, errata
+>> 1491015 on Cortex-A77, errata 1502854 on Cortex-X1, and errata 1619801 on
+>> Neoverse-V1, based affected cpus, where software read for TRCIDR3.CCITMIN
+>> field in ETM gets an wrong value.
+>>
+>> If software uses the value returned by the TRCIDR3.CCITMIN register field,
+>> then it will limit the range which could be used for programming the ETM.
+>> In reality, the ETM could be programmed with a much smaller value than what
+>> is indicated by the TRCIDR3.CCITMIN field and still function correctly.
+>>
+>> If software reads the TRCIDR3.CCITMIN register field, corresponding to the
+>> instruction trace counting minimum threshold, observe the value 0x100 or a
+>> minimum cycle count threshold of 256. The correct value should be 0x4 or a
+>> minimum cycle count threshold of 4.
+>>
+>> This work arounds the problem via storing 4 in drvdata->ccitmin on affected
+>> systems where the TRCIDR3.CCITMIN has been 256, thus preserving cycle count
+>> threshold granularity.
+>>
+>> These errata information has been updated in arch/arm64/silicon-errata.rst,
+>> but without their corresponding configs because these have been implemented
+>> directly in the driver.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
+>> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+>> Cc: Mike Leach <mike.leach@linaro.org>
+>> Cc: James Clark <james.clark@arm.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: coresight@lists.linaro.org
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ---
+>>  Documentation/arch/arm64/silicon-errata.rst   | 10 ++++++
+>>  .../coresight/coresight-etm4x-core.c          | 36 +++++++++++++++++++
+>>  2 files changed, 46 insertions(+)
+>>
+> 
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> index 7e307022303a..591fab73ee79 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> @@ -1131,6 +1131,39 @@ static void cpu_detect_trace_filtering(struct etmv4_drvdata *drvdata)
+>>  	drvdata->trfcr = trfcr;
+>>  }
+>>  
+>> +/*
+>> + * The following errata on applicable cpu ranges, affect the CCITMIN filed
+>> + * in TCRIDR3 register. Software read for the field returns 0x100 limiting
+>> + * the cycle threshold granularity, where as the right value should have
+> 
+>                                        whereas
+> 
+>> + * been 0x4, which is well supported in the hardware.
+>> + */
+>> +static struct midr_range etm_wrong_ccitmin_cpus[] = {
+>> +	/* Erratum #1490853 - Cortex-A76 */
+>> +	MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 4, 0),
+>> +	/* Erratum #1490853 - Neoverse-N1 */
+>> +	MIDR_RANGE(MIDR_NEOVERSE_N1, 0, 0, 4, 0),
+>> +	/* Erratum #1491015 - Cortex-A77 */
+>> +	MIDR_RANGE(MIDR_CORTEX_A77, 0, 0, 1, 0),
+>> +	/* Erratum #1502854 - Cortex-X1 */
+>> +	MIDR_REV(MIDR_CORTEX_X1, 0, 0),
+>> +	/* Erratum #1619801 - Neoverse-V1 */
+>> +	MIDR_REV(MIDR_NEOVERSE_V1, 0, 0),
+>> +	{},
+>> +};
+>> +
+>> +static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
+>> +{
+>> +	/*
+>> +	 * Erratum affected cpus will read 256 as the minimum
+>> +	 * instruction trace cycle counting threshold where as
+> 
+> 	                                              whereas
 
-Sure, will change as suggested.
+Right, 'whereas' is a single word indeed. I will change these as required.
