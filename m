@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D05EE49AC
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 23:31:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD9FEE49A6
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 23:31:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231754AbjHUXbe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 19:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56720 "EHLO
+        id S231764AbjHUXbs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 19:31:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231742AbjHUXbd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 19:31:33 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2084.outbound.protection.outlook.com [40.107.100.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12400CFC;
-        Mon, 21 Aug 2023 16:31:16 -0700 (PDT)
+        with ESMTP id S231759AbjHUXbp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 19:31:45 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F02FF19E;
+        Mon, 21 Aug 2023 16:31:19 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f9tWIxgLEKU5f4phwDN6rzVWrmFPPF5eguJADS4yKqZ0JOXWPo7vRPGmnagSMBGqGH58ybW80SZ2frKjWUVduOr3kLchgvnsegtkyQCjecA0sAtYaniIvqY34V4NzRz/N/opCiQY2jb1LQqVWWF6H6JLfMdIKGbKbqbdbgGF660r0ssiMzHga742nhqo7azN+OcCh3G4AtWnz4RoGcnDE60CYAtIzjsPPefQwyteSQIPy942zJu36FZnUCeDDV2Ag0nlSqUC36jltJ06d2PnsCZx4t9t3yAiHZiyrCY9mwm9HyLr4e0oM40slesZb1/sCL7jFmNaKJURrsc1aC4iHQ==
+ b=YHQjjeV/WJT9/1QVif6mEEuW/s2c/70/sCTRDFqale+4YJFW9MRLJGUGSiU56MsH1V+GyugXFHgb4hU/qt6YrjvPv2kojJxhWK7ioXxuWJGKo5CLPEn7bbXFm1TpD59xzm1aXHOiCxQJPs/8H8Xmtz5aIVQKo4ZBRnspb8LBRy6U/1hErwRmwvRLNioXqKriigZgy2JQ/WYQUulR7BX1aUtdsAYQ0evTHIl7oy+Sv07380/5d73wmdaAWRqZavG3CRHoWYhZnOh15fEEN/6TEPbX0oqFr0eMM5DhgvnzAGmugLKaOFyGj59LIdxZ8HRL6DnDN/bEswUPoBBywLkCPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WMUFck+2VMtQIu0eZZmniECKgvvM1ZTyI1KmUy6yZGs=;
- b=aF+uWFt8hu2HTc+3C9qCJBEGdS6INdmmXgHIzCSFe96JjZPC9XSb0IsS10johT7mNpCuNXCnP2G12ZUUfexnihld/0p8aH//+Tq7IyCAmcZmNUSSqFlJbnNgoHONT7wCpifJOUy1geYuQIJDmaY0wjLj3ckj4Dj5fUcEUSKNnM1U5m/qFa04p+/BJ7L91iCMX+qhVDqu6La0CuaOVnBSYjLF8WJedDUWVIpyt3Zq/+2PwKwcS4pFJGAB4G9DbElopnu6AIio4br3k3oB+yjL3pwqfIbyIhmT0+h2VLzuKBzCxgH/PpwvZs4ksHNKkA7kssA9m5WH0e9Za8A9DtjOwg==
+ bh=+5JaRJlGzVTLm2l253/kTdU+ipXbVl1ECpEphihZf7Q=;
+ b=fZOQJFKEM107IJv83fwPIMBg9gIKZ//cIoQLHZAlYU16ux/sPjetk/eJ+lqawO1mQyUmNw3qZlaZ7CFUcS+AR4BrFIpWur6zISs64Ti3yWDCOFz5csnuRiBl5QqjvJphEZU3qYgyueMJaB/DH735WLfvnZUg5Ktm+ok0QHpNqEbFIcaMoK9Ncitmzj5CINKEC4ma5tQ4mo/Q0e1K5Wyn3Drl5wTBQtdxzRTpLow1/fTS2LoqBtZoFAPtFj2BhdnM5HQIBilb53FQyJtda0UixoMFjZv4HHhw8vSb2NdnI+6lc2IBLaBI8bqxdL6iGKxXq4QVlj7QnXugwkJyhY74yA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WMUFck+2VMtQIu0eZZmniECKgvvM1ZTyI1KmUy6yZGs=;
- b=udRQNhbUoIUAo2oc58rKV7SHeOnK6f2KK6sAHc3lfnNEft20De7EqX8md/em8zFek0bSPzGwOmgpCZH2/fQlbL2QUj39BWB4/3Ahes2nwcZe0lftD8+K19SOX7XOdhT+HiJBnpLSioX6n3XLINTn+Xi0ZRULlXWu7PZxAD3xGgU=
-Received: from SJ0PR13CA0051.namprd13.prod.outlook.com (2603:10b6:a03:2c2::26)
- by CH2PR12MB4134.namprd12.prod.outlook.com (2603:10b6:610:a7::15) with
+ bh=+5JaRJlGzVTLm2l253/kTdU+ipXbVl1ECpEphihZf7Q=;
+ b=fiN/+YneJ/2bTH+0WbmAhbqXUOWdwuW8Qat7tsIZ0dZ446aRkfCMu+RF+we9RP7blZo5Wb6Yysxnx6XYvbHmIUKxmYfsSjc59oS+52M9JAt+wBTNVHhGAh/Tdu5AC1MK2avrg7+HiYOz9voUYvNuDQ+0IfyLYUSjG2j6OI91MgM=
+Received: from BYAPR21CA0017.namprd21.prod.outlook.com (2603:10b6:a03:114::27)
+ by LV3PR12MB9354.namprd12.prod.outlook.com (2603:10b6:408:211::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 23:31:09 +0000
-Received: from MWH0EPF000971E6.namprd02.prod.outlook.com
- (2603:10b6:a03:2c2:cafe::85) by SJ0PR13CA0051.outlook.office365.com
- (2603:10b6:a03:2c2::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.14 via Frontend
- Transport; Mon, 21 Aug 2023 23:31:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Mon, 21 Aug
+ 2023 23:31:17 +0000
+Received: from MWH0EPF000971E5.namprd02.prod.outlook.com
+ (2603:10b6:a03:114:cafe::6a) by BYAPR21CA0017.outlook.office365.com
+ (2603:10b6:a03:114::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.4 via Frontend
+ Transport; Mon, 21 Aug 2023 23:31:17 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,13 +46,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000971E6.mail.protection.outlook.com (10.167.243.74) with Microsoft
+ MWH0EPF000971E5.mail.protection.outlook.com (10.167.243.73) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6699.14 via Frontend Transport; Mon, 21 Aug 2023 23:31:08 +0000
+ 15.20.6699.14 via Frontend Transport; Mon, 21 Aug 2023 23:31:17 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 21 Aug
- 2023 18:31:03 -0500
+ 2023 18:31:14 -0500
 From:   Babu Moger <babu.moger@amd.com>
 To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
         <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
@@ -70,9 +70,9 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <eranian@google.com>, <christophe.leroy@csgroup.eu>,
         <jarkko@kernel.org>, <adrian.hunter@intel.com>,
         <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v8 1/8] x86/resctrl: Add multiple tasks to the resctrl group at once
-Date:   Mon, 21 Aug 2023 18:30:41 -0500
-Message-ID: <20230821233048.434531-2-babu.moger@amd.com>
+Subject: [PATCH v8 8/8] x86/resctrl: Display hardware ids of resource groups
+Date:   Mon, 21 Aug 2023 18:30:48 -0500
+Message-ID: <20230821233048.434531-9-babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230821233048.434531-1-babu.moger@amd.com>
 References: <20230821233048.434531-1-babu.moger@amd.com>
@@ -84,116 +84,170 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E6:EE_|CH2PR12MB4134:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a7c6580-a420-4437-0a91-08dba29eb299
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E5:EE_|LV3PR12MB9354:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5425fc69-3ccb-4493-5f14-08dba29eb7d9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dWHlFevBdQVeZud0HYCV6Cf4k54qASDL2uPtUqwUufKK/iLvgw6y6jbitrQK0XiKl8X2fqYelXwkVtAMG0o0VFdwrrBrkR+R3LJHDv2ZdxTZHCOZw+JZxqYlNPb0esoy4VD3V0sa6wtWtesQEEhztvkJ/AnnL115W6ZnKxfzAVn+WZRhFMuDEYs6vocso8Xsq5CaoT2+YPsaSH9dX28zfmDzo+LrO6maCVIDebf9DNYD7euHKzQ2dwrsnDpSKJ+J2sL+ToTWlB1s9aQERzuqsLK0jaXn0sRCeii4XispaF7N1QyxYZ5nStPHBFO7zhWd8TM2YGpQhcd4cgCD3o7w32CPkIorJBSVp+lo8hfsyEdmxhaIFU1oEQK3Qlyo7ST7KQ3TP8MZR94efK15QvjKeUWbPyXrjiDBT9EN4kY4A0z0JKiQubmhdJevwLU7Bc7pC27ilTQvm6njGsV3TfBVhMf5emWddTf0u7YkKRBMjRSNomaaZyWxC9S7MuQYubGCFRHNlONMnie+HMfA6UbUgPMNOv5HamkXBF6+o9AlyK3xvhbGo3QzMGuT9f9N8toU4iTAOgh+UHmcEHA47jkPXbEY+ENpvFh7JsAOIcHniml/fFZbJnlBZNEvS+8Yrb0oL2i3qNNV3CxXOd9Ig3l13eXKbExX6bAKhAwwuKJQ8uhr/DLCVeL5BEZ0B2vQVgc0E65o+8Fv+yEDkAVuEbtc8LiPEF38t6aso859LrCx7gAKmTagi2+jEP4zIYYGtnEwPFGIyY4J5AokPcq+j48hHQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(136003)(346002)(39860400002)(186009)(1800799009)(82310400011)(451199024)(36840700001)(40470700004)(46966006)(54906003)(70586007)(70206006)(316002)(66899024)(110136005)(8676002)(8936002)(2616005)(4326008)(1076003)(36756003)(41300700001)(40460700003)(356005)(82740400003)(81166007)(478600001)(6666004)(40480700001)(83380400001)(2906002)(7406005)(7416002)(86362001)(7696005)(47076005)(36860700001)(336012)(44832011)(426003)(5660300002)(16526019)(26005)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: W2EYCSbynyH3+ZEfijxj9nTKO7iEXt4OXv7ri96oFEu95VgdxuMpdIAX5sm5BvoYJp1j2fW1u5LnMyoaQBUp8iQgHWhCYsgI0WK4Ck6XNxF+h/fPcT/isnyDxpj287Ns2IrMKqqHf21L+gllx3Oic4Z/X6mP6t4VcCViwXUDfDd4ZTqXYuDJuroE2Hxcd52CemkgBDLaKusZUdM8YFvrAYqZ3Z/0M0funEGK0uum0yEYrlj0vqS0ogkdlUm/oDv9em//HjCDZinumZRSXkZD+fWikdNVd6KAnqY/vqbCjo5/GZPC5buScPFn1yxvDfYYJuF7JQ6Tjti7LfnW0eO/8LDckmLvN9gecV1uBzc83CJmChtS9B1CI6xERJYwkoAvNAtd9/FzMsDJl7w99pzHHKJNs9RR5e0lRBqERXV6tmJoJ9c542N+KByOw+QVpkggy4D+qh91XSABQl6RLzi1VUGjCUhFS0GUIjQ86gbAOTHCwsjQho3AxqCkmmcoWIyAJ7a6gw3I7JAspm9NUWnh+5suephfgZS0PUl9Ci/sopszSCC+R7gIJUWa6zYFhO3EB7VqHzKCP+UxdCv7bZn7mgi0mlt7bT/M53WBpERnOW7QAH6NBiSmZBQJObnwf5GjJbg3nnDSXs0ndk5H+eniBMy49R/4TrVK5MLmLOP9VYds+ERgT6yq6yVtmi4JSerjCzrGiNTMUTtg1v87GY68i7hURUxCLCgrftHpgtuZ9ys6rJEG6F3Hiaxmv5y+9IosZjuiO5rxzlIt/CfBG137Tw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(346002)(396003)(376002)(39860400002)(82310400011)(451199024)(1800799009)(186009)(40470700004)(46966006)(36840700001)(86362001)(82740400003)(36756003)(81166007)(356005)(40480700001)(2616005)(16526019)(44832011)(110136005)(70206006)(70586007)(478600001)(316002)(7696005)(6666004)(54906003)(4326008)(5660300002)(1076003)(8936002)(26005)(8676002)(41300700001)(40460700003)(2906002)(36860700001)(336012)(426003)(7416002)(47076005)(7406005)(83380400001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 23:31:08.6557
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 23:31:17.4347
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a7c6580-a420-4437-0a91-08dba29eb299
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5425fc69-3ccb-4493-5f14-08dba29eb7d9
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E5.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4134
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9354
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The resctrl task assignment for monitor or control group needs to be
-done one at a time. For example:
+In x86, hardware uses CLOSID and an RMID to identify a control group and
+a monitoring group respectively. When a user creates a control or monitor
+group these details are not visible to the user. These details can help
+debugging.
 
-  $mount -t resctrl resctrl /sys/fs/resctrl/
-  $mkdir /sys/fs/resctrl/ctrl_grp1
-  $echo 123 > /sys/fs/resctrl/ctrl_grp1/tasks
-  $echo 456 > /sys/fs/resctrl/ctrl_grp1/tasks
-  $echo 789 > /sys/fs/resctrl/ctrl_grp1/tasks
+Add CLOSID(ctrl_hw_id) and RMID(mon_hw_id) to the control/monitor groups
+display in resctrl interface. Users can see these details when resctrl
+is mounted with "-o debug" option.
 
-This is not user-friendly when dealing with hundreds of tasks.
+Other architectures do not use "CLOSID" and "RMID". Use the names
+ctrl_hw_id and mon_hw_id to refer to "CLOSID" and "RMID" respectively in
+an effort to keep the naming generic.
 
-Support multiple task assignment in one command with tasks ids separated
-by commas. For example:
-  $echo 123,456,789 > /sys/fs/resctrl/ctrl_grp1/tasks
+For example:
+ $cat /sys/fs/resctrl/ctrl_grp1/ctrl_hw_id
+ 1
+ $cat /sys/fs/resctrl/mon_groups/mon_grp1/mon_hw_id
+ 3
 
-Reviewed-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
-Tested-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
 Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 ---
- Documentation/arch/x86/resctrl.rst     |  8 +++++++-
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 25 ++++++++++++++++++++++---
- 2 files changed, 29 insertions(+), 4 deletions(-)
+ Documentation/arch/x86/resctrl.rst     |  8 +++++
+ arch/x86/kernel/cpu/resctrl/internal.h |  6 ++++
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 46 ++++++++++++++++++++++++++
+ 3 files changed, 60 insertions(+)
 
 diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index cb05d90111b4..af234681756e 100644
+index 5a2346d2c561..41ad9b1f0c6a 100644
 --- a/Documentation/arch/x86/resctrl.rst
 +++ b/Documentation/arch/x86/resctrl.rst
-@@ -299,7 +299,13 @@ All groups contain the following files:
- "tasks":
- 	Reading this file shows the list of all tasks that belong to
- 	this group. Writing a task id to the file will add a task to the
--	group. If the group is a CTRL_MON group the task is removed from
-+	group. Multiple tasks can be added by separating the task ids
-+	with commas. Tasks will be assigned sequentially. Multiple
-+	failures are not supported. A single failure encountered while
-+	attempting to assign a task will cause the operation to abort.
-+	Failures will be logged to /sys/fs/resctrl/info/last_cmd_status.
+@@ -351,6 +351,10 @@ When control is enabled all CTRL_MON groups will also contain:
+ 	file. On successful pseudo-locked region creation the mode will
+ 	automatically change to "pseudo-locked".
+ 
++"ctrl_hw_id":
++	Available only with debug option. The identifier used by hardware
++	for the control group. On x86 this is the CLOSID.
 +
-+	If the group is a CTRL_MON group the task is removed from
- 	whichever previous CTRL_MON group owned the task and also from
- 	any MON group that owned the task. If the group is a MON group,
- 	then the task must already belong to the CTRL_MON parent of this
+ When monitoring is enabled all MON groups will also contain:
+ 
+ "mon_data":
+@@ -364,6 +368,10 @@ When monitoring is enabled all MON groups will also contain:
+ 	the sum for all tasks in the CTRL_MON group and all tasks in
+ 	MON groups. Please see example section for more details on usage.
+ 
++"mon_hw_id":
++	Available only with debug option. The identifier used by hardware
++	for the monitor group. On x86 this is the RMID.
++
+ Resource allocation rules
+ -------------------------
+ 
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index 2fae6d9e24d3..3fa32c1c2677 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -296,9 +296,15 @@ struct rdtgroup {
+  *	--> RFTYPE_BASE (Files common for both MON and CTRL groups)
+  *	    Files: cpus, cpus_list, tasks
+  *
++ *		--> RFTYPE_DEBUG (Files to help resctrl debugging)
++ *		    File: mon_hw_id
++ *
+  *		--> RFTYPE_CTRL (Files only for CTRL group)
+  *		    Files: mode, schemata, size
+  *
++ *			--> RFTYPE_DEBUG (Files to help resctrl debugging)
++ *			    File: ctrl_hw_id
++ *
+  */
+ #define RFTYPE_INFO			BIT(0)
+ #define RFTYPE_BASE			BIT(1)
 diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 725344048f85..8c91c333f9b3 100644
+index 94bd69f9964c..e0c2479acf49 100644
 --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -696,11 +696,10 @@ static ssize_t rdtgroup_tasks_write(struct kernfs_open_file *of,
- 				    char *buf, size_t nbytes, loff_t off)
- {
- 	struct rdtgroup *rdtgrp;
-+	char *pid_str;
- 	int ret = 0;
- 	pid_t pid;
+@@ -776,6 +776,38 @@ static int rdtgroup_tasks_show(struct kernfs_open_file *of,
+ 	return ret;
+ }
  
--	if (kstrtoint(strstrip(buf), 0, &pid) || pid < 0)
--		return -EINVAL;
- 	rdtgrp = rdtgroup_kn_lock_live(of->kn);
- 	if (!rdtgrp) {
- 		rdtgroup_kn_unlock(of->kn);
-@@ -715,7 +714,27 @@ static ssize_t rdtgroup_tasks_write(struct kernfs_open_file *of,
- 		goto unlock;
- 	}
++static int rdtgroup_closid_show(struct kernfs_open_file *of,
++				struct seq_file *s, void *v)
++{
++	struct rdtgroup *rdtgrp;
++	int ret = 0;
++
++	rdtgrp = rdtgroup_kn_lock_live(of->kn);
++	if (rdtgrp)
++		seq_printf(s, "%u\n", rdtgrp->closid);
++	else
++		ret = -ENOENT;
++	rdtgroup_kn_unlock(of->kn);
++
++	return ret;
++}
++
++static int rdtgroup_rmid_show(struct kernfs_open_file *of,
++			      struct seq_file *s, void *v)
++{
++	struct rdtgroup *rdtgrp;
++	int ret = 0;
++
++	rdtgrp = rdtgroup_kn_lock_live(of->kn);
++	if (rdtgrp)
++		seq_printf(s, "%u\n", rdtgrp->mon.rmid);
++	else
++		ret = -ENOENT;
++	rdtgroup_kn_unlock(of->kn);
++
++	return ret;
++}
++
+ #ifdef CONFIG_PROC_CPU_RESCTRL
  
--	ret = rdtgroup_move_task(pid, rdtgrp, of);
-+	while (buf && buf[0] != '\0' && buf[0] != '\n') {
-+		pid_str = strim(strsep(&buf, ","));
-+
-+		if (kstrtoint(pid_str, 0, &pid)) {
-+			rdt_last_cmd_puts("Task list parsing error\n");
-+			ret = -EINVAL;
-+			break;
-+		}
-+
-+		if (pid < 0) {
-+			rdt_last_cmd_printf("Invalid pid %d\n", pid);
-+			ret = -EINVAL;
-+			break;
-+		}
-+
-+		ret = rdtgroup_move_task(pid, rdtgrp, of);
-+		if (ret) {
-+			rdt_last_cmd_printf("Error while processing task %d\n", pid);
-+			break;
-+		}
-+	}
+ /*
+@@ -1837,6 +1869,13 @@ static struct rftype res_common_files[] = {
+ 		.seq_show	= rdtgroup_tasks_show,
+ 		.fflags		= RFTYPE_BASE,
+ 	},
++	{
++		.name		= "mon_hw_id",
++		.mode		= 0444,
++		.kf_ops		= &rdtgroup_kf_single_ops,
++		.seq_show	= rdtgroup_rmid_show,
++		.fflags		= RFTYPE_BASE | RFTYPE_DEBUG,
++	},
+ 	{
+ 		.name		= "schemata",
+ 		.mode		= 0644,
+@@ -1860,6 +1899,13 @@ static struct rftype res_common_files[] = {
+ 		.seq_show	= rdtgroup_size_show,
+ 		.fflags		= RFTYPE_CTRL_BASE,
+ 	},
++	{
++		.name		= "ctrl_hw_id",
++		.mode		= 0444,
++		.kf_ops		= &rdtgroup_kf_single_ops,
++		.seq_show	= rdtgroup_closid_show,
++		.fflags		= RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
++	},
  
- unlock:
- 	rdtgroup_kn_unlock(of->kn);
+ };
+ 
 -- 
 2.34.1
 
