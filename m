@@ -2,114 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F22EE49AA
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 12:53:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D15EE4996
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 12:57:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235093AbjHUMxm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 08:53:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
+        id S235116AbjHUM5V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 08:57:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235078AbjHUMxl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 08:53:41 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC26CD
-        for <linux-doc@vger.kernel.org>; Mon, 21 Aug 2023 05:53:39 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-68a402c1fcdso578807b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Aug 2023 05:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692622418; x=1693227218;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FGj7cgUeosSqTN/BBHBDpq4ZyUn/x93LQfy/ClJCFOc=;
-        b=kyWX9hSLpAVOja1750OXW/QVKio4MmIVBBfRwhH6n/n9t+blozapD0mxyh02Dn7QWy
-         U8B3x0hIcNQPaIOb69glmycvy9xsWk5i00uLFy3iAwWUsoCWOM/6rEmHPj/y2vPT3IR8
-         43ZBusyxagmEdEWUZD7G3j1U+bUd31oBHxMETewPTlwhl4eZnvmgRfsNVeX7sZ24MDKS
-         ZnAG0p/YCbCuOaQSWJFFKGXrwVU7FNSjkFB2/NsY6gya2dfvDjceZavWXbm3GGpoiUKT
-         o1MCjctSze9XfjOwEWS5DFwWEZVNCzoJsJ2sMBiJ5QIwrVVxIfso+zQoUd/kQzexbAgl
-         6YGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692622418; x=1693227218;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FGj7cgUeosSqTN/BBHBDpq4ZyUn/x93LQfy/ClJCFOc=;
-        b=LMN4AKTz8j/IC9uaOJDS6D38ffPCaHb5r4LvIOq3bqkJF++Sl4oP0Zui07xOyTiTPt
-         ahemsS+Ay/WneKyLGBDPnXBiYdVjte9VAmX8mQe5tKhulJhjggHyHl6KOW2ZETrL74zG
-         fmxSCPM7Qe5QLnTM8EGEwCidEpAu6qDpi44d9cATlrL33UQubNRQU2kWx3T4IF5/EDWo
-         Mx9XAu9bYFoM8hRGXjQIQVUgeTdWhHBp48bX1h9JlmymTJ4Zhg/vRRBBc6ywG0apViaK
-         neUwG4D2ZXYlae+vkCHoe+PQ5pPmeMKXdzDQCdDLF2Y6vbY/pMfbHqXct9oQGYEkT618
-         5nkA==
-X-Gm-Message-State: AOJu0Yxf8SZNAZC4UvA4S5sMcCFX3fUbdF2XRgKjXbiTw43s7TXd59xF
-        qFrKqzgLwOnh4w/DoZDDxV7fOw==
-X-Google-Smtp-Source: AGHT+IGe4iVmkOrwuPWAugYbuiVpJRW6VeHjDTj1eIWYsr7cFWnlIOuVBua0w1tuWmu3DBw6edBQmQ==
-X-Received: by 2002:a05:6a20:96ce:b0:131:f3a:4020 with SMTP id hq14-20020a056a2096ce00b001310f3a4020mr3477088pzc.33.1692622418516;
-        Mon, 21 Aug 2023 05:53:38 -0700 (PDT)
-Received: from leoy-huanghe.lan ([94.177.131.100])
-        by smtp.gmail.com with ESMTPSA id q10-20020a17090311ca00b001b83dc8649dsm6942852plh.250.2023.08.21.05.53.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 05:53:38 -0700 (PDT)
-Date:   Mon, 21 Aug 2023 20:53:22 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Gang Li <gang.li@linux.dev>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v1] docs/zh_CN: add zh_CN translation for
- memory-barriers.txt
-Message-ID: <20230821125322.GB57731@leoy-huanghe.lan>
-References: <214aed18-5df5-1014-b73d-a1748c0cca13@linux.dev>
- <20230819162526.GA274478@leoy-huanghe.lan>
- <f7eac106-abe4-aba1-14df-6c9d1bfdf3b3@linux.dev>
+        with ESMTP id S235090AbjHUM5V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 08:57:21 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B242B1;
+        Mon, 21 Aug 2023 05:57:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bkpIHgJ72JldiWUel9wVfgGF2ysEoVcz7b0lE+gT6jg=; b=KQ5ekz5vxHnK1vYsygUx286252
+        wC/k81Uz0vXgbfMXfbYd7VEJ+FI/9GEX2VVAdfdEALcbJUc+CBei90d2g5U4kRXMoG5Ob1qkcUWSu
+        R5GkY6BHiP/gBoTaARanxeNcZlIq97x4IW+46JrXCoI242sxhLQKXXoYZt1MJK4hp+g25ZQBsjEuE
+        hVpq2u4TRwZkSxi9Xmf60gv+Kg9LzK8HndFeTog/7l7Rl0wxPi4qVMPK3NOBTo2hTBczoXn8+axfF
+        mPe5a0lCNTzriPNwDFxsknbOIviTDiyLQ931aoKOZk+awBJLPg3a8Kh0pRVYC0W9KcDugFaZLz7eY
+        I5+DtpMA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qY4T2-00AIWb-Jt; Mon, 21 Aug 2023 12:57:12 +0000
+Date:   Mon, 21 Aug 2023 13:57:12 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag
+ to give credits to who sponsored the patch
+Message-ID: <ZONfKKwFaDQpuZ9w@casper.infradead.org>
+References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
+ <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
+ <20230817232348.GC1175@pendragon.ideasonboard.com>
+ <ZN65iiRiSLmXz89k@casper.infradead.org>
+ <87ttss7q8o.fsf@intel.com>
+ <ZONTiijMLWbt6naQ@casper.infradead.org>
+ <87o7j07frk.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f7eac106-abe4-aba1-14df-6c9d1bfdf3b3@linux.dev>
+In-Reply-To: <87o7j07frk.fsf@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 02:39:15PM +0800, Gang Li wrote:
-> Thanks for your review!
+On Mon, Aug 21, 2023 at 03:15:43PM +0300, Jani Nikula wrote:
+> On Mon, 21 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+> > On Mon, Aug 21, 2023 at 11:29:27AM +0300, Jani Nikula wrote:
+> >> On Fri, 18 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+> >> > but you might have (eg)
+> >> >
+> >> > Laurent Pinchard (Coca-Cola) <laurent.pinchart@ideasonboard.com>
+> >> >
+> >> > and then when working for another sponsor:
+> >> >
+> >> > Laurent Pinchard (Ford) <laurent.pinchart@ideasonboard.com>
+> >> 
+> >> Just an observation, git shortlog -s/-se groups/distinguishes,
+> >> respectively, the author and sponsor in Laurent's approach. Not so with
+> >> Matthew's approach.
+> >
+> > Hm?
+> >
+> > $ git shortlog -s next-20230817..
+> >      1  Matthew Wilcox (Novartis)
+> >     25  Matthew Wilcox (Oracle)
+> >
+> > $ git shortlog -se next-20230817..
+> >      1  Matthew Wilcox (Novartis) <willy@infradead.org>
+> >     25  Matthew Wilcox (Oracle) <willy@infradead.org>
 > 
-> Your suggestions will be integrated into the next version(v2).
+> $ git shortlog v6.4.. -s --author="Laurent Pinchart"
+>     12  Laurent Pinchart
 > 
-> On 2023/8/20 00:25, Leo Yan wrote:
-> > > +		|       |   :   |        |   :   |       |
-> > > +		|       |   :   |        |   :   |       |
-> > > +		| CPU 1 |<----->|  内存  |<----->| CPU 2 |
-> > 
-> > Unalignment caused by extra space around "内存".
-> > 
-> If using Chinese, it is impossible to align properly no matter
-> how it is modified. If strict alignment is needed, the text in the
-> charts should not be translated.
+> $ git shortlog v6.4.. -se --author="Laurent Pinchart"
+>      2  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>     10  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-In my editor (vim), a Chinese character is two-width of English
-character.  So you could see in above, I can simply remove a space for
-alignment.
+I must not be understanding your point correctly.
 
-Anyway, if you have different editor or configuration, using either
-langauge is fine for me.
+$ git shortlog v6.4.. -s --author="Matthew Wilcox"
+     7  Matthew Wilcox
+     1  Matthew Wilcox (Novartis)
+   123  Matthew Wilcox (Oracle)
 
-Please expect I will have more review.
-
-Thanks,
-Leo
+That seems to me like it successfully distinguishes my fake commit on
+behalf of Novartis (who I haven't actually worked for since 1997) from
+my real commits on behalf of Oracle.  It also shows a few places where
+my commits weren't attributed to Oracle (I think this happens when I
+send patches using mutt instead of git-send-email)
