@@ -2,107 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE60DEE49A8
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 09:44:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C9C6EE49A6
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Aug 2023 12:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232410AbjHUJos (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Aug 2023 05:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52894 "EHLO
+        id S234278AbjHUMHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Aug 2023 08:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbjHUJos (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 05:44:48 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:242:246e::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEC5A1;
-        Mon, 21 Aug 2023 02:44:47 -0700 (PDT)
+        with ESMTP id S232295AbjHUMHw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Aug 2023 08:07:52 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07B0BE;
+        Mon, 21 Aug 2023 05:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=d9AC3Y3wKvLhTCxarPAnq2BCxnL4Toqn/q0Gu3hZcq0=;
-        t=1692611087; x=1693820687; b=pce1bbcqzid6XJBsSrkqYv/RaOqYOpF/w4Kfw+fB1fv6kM+
-        UeGMP5K2y7zfNElskru7tulx+03dzI35U65rtGZbQuVWMFeaxJs2Y58Pbcbr2x7cLUG6CozHXjO3Y
-        URpdVZzUhXnbjQ/uXx2S56oD/25Wzw89AOHUBylrEcsdYOAp9TyOLNG4Xc8EJvWxLRF1jVWOF8fPJ
-        ZGCBzmqnkYWVNW+9O4ec7a7FVzDwhRkRPE4MNvFt+rp6MlmrJUnXqqH9QqtJmb2bHpFh1RQOZSd0a
-        BbokVvvEfOuVkGYAXzsr+FLDAqX6k0M/j7dy0bBZ+1r/5EzbN9/10LkASrDN8FaQ==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.96)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1qY1SZ-002xnF-2J;
-        Mon, 21 Aug 2023 11:44:31 +0200
-Message-ID: <e167e97797a90d3d6ea09840ac909325537d6034.camel@sipsolutions.net>
-Subject: Re: [V9 4/9] wifi: mac80211: Add support for WBRF features
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Evan Quan <evan.quan@amd.com>, gregkh@linuxfoundation.org,
-        rafael@kernel.org, lenb@kernel.org, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        alexander.deucher@amd.com, andrew@lunn.ch, rdunlap@infradead.org,
-        quic_jjohnson@quicinc.com, horms@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        Mario Limonciello <mario.limonciello@amd.com>
-Date:   Mon, 21 Aug 2023 11:44:29 +0200
-In-Reply-To: <20230818032619.3341234-5-evan.quan@amd.com>
-References: <20230818032619.3341234-1-evan.quan@amd.com>
-         <20230818032619.3341234-5-evan.quan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=JqoZh4j5vDPGDIYjMUoDWXygkriwUyqpdmDkXxwFKUY=; b=kHbNoNIQmnKW3eiIhvfmiMTBQw
+        oGMjbNzTExz6otTNkAShMEu1bvig7HkVfaLiH3BkeGUlYEpazVo19ETIVdSKj7i/+ic2BJzrySwRu
+        31dfjjQmFXsOgvfi0fs5a5IYZFoCLBXMYw7EWZ4VoymRmwOwPbLsDs6+9+V9iSmrIZnMWw46vLokd
+        mjo34ABh0rV3PhAw94bwGG8IusAbeg0mr4b0Iz9KIn1Za0R9vRNu+GYesMlH2sI0ZzfH6IOgK5xeI
+        SBHkHf06PIe4tBkM1YjG1Xc2kpyxnAsqAHP04IZHs24hx1E5TTVdRFRv4xvdT5BgcxvEMwVcAsl52
+        laC4ZHOA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qY3h4-00A50W-Jp; Mon, 21 Aug 2023 12:07:38 +0000
+Date:   Mon, 21 Aug 2023 13:07:38 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag
+ to give credits to who sponsored the patch
+Message-ID: <ZONTiijMLWbt6naQ@casper.infradead.org>
+References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
+ <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
+ <20230817232348.GC1175@pendragon.ideasonboard.com>
+ <ZN65iiRiSLmXz89k@casper.infradead.org>
+ <87ttss7q8o.fsf@intel.com>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ttss7q8o.fsf@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2023-08-18 at 11:26 +0800, Evan Quan wrote:
-> To support the WBRF mechanism, Wifi adapters utilized in the system must
-> register the frequencies in use(or unregister those frequencies no longer
-> used) via the dedicated calls. So that, other drivers responding to the
-> frequencies can take proper actions to mitigate possible interference.
->=20
-> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Co-developed-by: Evan Quan <evan.quan@amd.com>
-> Signed-off-by: Evan Quan <evan.quan@amd.com>
+On Mon, Aug 21, 2023 at 11:29:27AM +0300, Jani Nikula wrote:
+> On Fri, 18 Aug 2023, Matthew Wilcox <willy@infradead.org> wrote:
+> > but you might have (eg)
+> >
+> > Laurent Pinchard (Coca-Cola) <laurent.pinchart@ideasonboard.com>
+> >
+> > and then when working for another sponsor:
+> >
+> > Laurent Pinchard (Ford) <laurent.pinchart@ideasonboard.com>
+> 
+> Just an observation, git shortlog -s/-se groups/distinguishes,
+> respectively, the author and sponsor in Laurent's approach. Not so with
+> Matthew's approach.
 
-From WiFi POV, this looks _almost_ fine to me.
+Hm?
 
-> +static void wbrf_get_ranges_from_chandef(struct cfg80211_chan_def *chand=
-ef,
-> +					 struct wbrf_ranges_in *ranges_in)
-> +{
-> +	u64 start_freq1, end_freq1;
-> +	u64 start_freq2, end_freq2;
-> +	int bandwidth;
-> +
-> +	bandwidth =3D nl80211_chan_width_to_mhz(chandef->width);
-> +
-> +	get_chan_freq_boundary(chandef->center_freq1,
-> +			       bandwidth,
-> +			       &start_freq1,
-> +			       &end_freq1);
-> +
-> +	ranges_in->band_list[0].start =3D start_freq1;
-> +	ranges_in->band_list[0].end =3D end_freq1;
-> +
-> +	if (chandef->width =3D=3D NL80211_CHAN_WIDTH_80P80) {
-> +		get_chan_freq_boundary(chandef->center_freq2,
-> +				       bandwidth,
-> +				       &start_freq2,
-> +				       &end_freq2);
-> +
-> +		ranges_in->band_list[1].start =3D start_freq2;
-> +		ranges_in->band_list[1].end =3D end_freq2;
-> +	}
-> +}
+$ git shortlog -s next-20230817..
+     1  Matthew Wilcox (Novartis)
+    25  Matthew Wilcox (Oracle)
 
-This has to setup ranges_in->num_of_ranges, no?
-(Also no real good reason for num_of_ranges to be a u64, btw, since it
-can only go up to 11)
-
-With that fixed, you can add
-
-Reviewed-by: Johannes Berg <johannes@sipsolutions.net>
-
-johannes
+$ git shortlog -se next-20230817..
+     1  Matthew Wilcox (Novartis) <willy@infradead.org>
+    25  Matthew Wilcox (Oracle) <willy@infradead.org>
 
