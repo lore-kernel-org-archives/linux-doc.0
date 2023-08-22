@@ -2,91 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCDFDEE4993
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 15:40:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E63EE49A3
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 15:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237231AbjHVPkS convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 11:40:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44738 "EHLO
+        id S235913AbjHVPmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 11:42:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234657AbjHVPkR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 11:40:17 -0400
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70DB4CF2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Aug 2023 08:40:05 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-682-tA653UeBNwqxcEs-SIXIXA-1; Tue, 22 Aug 2023 11:39:59 -0400
-X-MC-Unique: tA653UeBNwqxcEs-SIXIXA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S232959AbjHVPmc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 11:42:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF2AE7E;
+        Tue, 22 Aug 2023 08:41:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6C508015A8;
-        Tue, 22 Aug 2023 15:39:58 +0000 (UTC)
-Received: from hog (unknown [10.39.192.31])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D2FEB2166B26;
-        Tue, 22 Aug 2023 15:39:57 +0000 (UTC)
-Date:   Tue, 22 Aug 2023 17:39:56 +0200
-From:   Sabrina Dubroca <sd@queasysnail.net>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Scott Dial <scott@scottdial.com>
-Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
-Message-ID: <ZOTWzJ4aEa5geNva@hog>
-References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
- <20230818184648.127b2ccf@kernel.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A243265B14;
+        Tue, 22 Aug 2023 15:41:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F198BC433C7;
+        Tue, 22 Aug 2023 15:41:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692718902;
+        bh=U8sk7r3HpjuM6jyf6I/ZCmrrIT4hPUtWgTjlWgfZQ+E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ew1lxee1O/Ti1p/vQKYfVrokDQePlcLRRcpwk16Sz433/A4D7AWBgD3BRDBIf4X4a
+         fgRp87Xf/4hsKqH1P1veF7eYsQVXiFifYGG80LgQD/9WhpHdqV0wzwdNl9g5n8o4Is
+         BU7SEV6UiJDuuKjAcW7KgylZl46xOuShdprb7imzwhaqgdpaWPuAZaW+SgljORXEqk
+         bYT4DY30YPyhtbGZeq/Y5wXvmzcvTPRyyMUdQnfal+F/LjJWiqxIGX1Sr3xqwpstgA
+         E91ugzTDnLfi50x+F5ZD+ysZzx7G1FYX11oVwClMHP6ycS7PC20BZUcsFSLKaaP2s1
+         Z4ILnptB/1A+w==
+Date:   Tue, 22 Aug 2023 16:41:32 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v5 11/37] mm: Define VM_SHADOW_STACK for arm64 when we
+ support GCS
+Message-ID: <54b2c1e5-a99d-42c0-b686-1b5cbb849581@sirena.org.uk>
+References: <20230822-arm64-gcs-v5-0-9ef181dd6324@kernel.org>
+ <20230822-arm64-gcs-v5-11-9ef181dd6324@kernel.org>
+ <8f2cf5af-cad7-a69c-e8ec-39f48deae1cb@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20230818184648.127b2ccf@kernel.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: queasysnail.net
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Rm2VNANgsE/SCWLa"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <8f2cf5af-cad7-a69c-e8ec-39f48deae1cb@redhat.com>
+X-Cookie: MIT:
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2023-08-18, 18:46:48 -0700, Jakub Kicinski wrote:
-> On Thu, 17 Aug 2023 17:07:03 +0200 Sabrina Dubroca wrote:
-> > Commit ab046a5d4be4 ("net: macsec: preserve ingress frame ordering")
-> > tried to solve an issue caused by MACsec's use of asynchronous crypto
-> > operations, but introduced a large performance regression in cases
-> > where async crypto isn't causing reordering of packets.
-> > 
-> > This patch introduces a per-netns sysctl that administrators can set
-> > to allow new SAs to use async crypto, such as aesni. Existing SAs
-> > won't be modified.
-> > 
-> > By setting default_async_crypto=1 and reconfiguring macsec, a single
-> > netperf instance jumps from 1.4Gbps to 4.4Gbps.
-> 
-> Can we not fix the ordering problem?
-> Queue the packets locally if they get out of order?
 
-Actually, looking into the crypto API side, I don't see how they can
-get out of order since commit 81760ea6a95a ("crypto: cryptd - Add
-helpers to check whether a tfm is queued"):
+--Rm2VNANgsE/SCWLa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-    [...] ensure that no reordering is introduced because of requests
-    queued in cryptd with respect to requests being processed in
-    softirq context.
+On Tue, Aug 22, 2023 at 05:21:09PM +0200, David Hildenbrand wrote:
+> On 22.08.23 15:56, Mark Brown wrote:
 
-And cryptd_aead_queued() is used by AESNI (via simd_aead_decrypt()) to
-decide whether to process the request synchronously or not.
+> > @@ -372,7 +372,17 @@ extern unsigned int kobjsize(const void *objp);
+> >    * having a PAGE_SIZE guard gap.
+> >    */
+> >   # define VM_SHADOW_STACK	VM_HIGH_ARCH_5
+> > -#else
+> > +#endif
+> > +
+> > +#if defined(CONFIG_ARM64_GCS)
+> > +/*
+> > + * arm64's Guarded Control Stack implements similar functionality and
+> > + * has similar constraints to shadow stacks.
+> > + */
+> > +# define VM_SHADOW_STACK	VM_HIGH_ARCH_5
+> > +#endif
 
-So I really don't get what commit ab046a5d4be4 was trying to fix. I've
-never been able to reproduce that issue, I guess commit 81760ea6a95a
-explains why.
+> Shouldn't that all just merged with the previous define(s)?
 
-I'd suggest to revert commit ab046a5d4be4, but it feels wrong to
-revert it without really understanding what problem Scott hit and why
-81760ea6a95a didn't solve it.
+> Also, I wonder if we now want to have CONFIG_HAVE_ARCH_SHADOW_STACK or
+> similar.
 
-What do you think?
+I can certainly update it to do that, I was just trying to fit in with
+how the code was written on the basis that there was probably a good
+reason for it that had been discussed somewhere.  I can send an
+incremental patch for this on top of the x86 patches assuming they go in
+during the merge window.
 
--- 
-Sabrina
+--Rm2VNANgsE/SCWLa
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTk1ywACgkQJNaLcl1U
+h9BD9wf/cB5zRdwIzkkWbWNj7vGmdw/naEVnAbVYCNZ/bHdhOSOrh0n6okk3VIRr
+nG08750cw+elIt7ZbSAQPiP1+CFzCr/dshkv4rpO3BsDkOLG5T4fGC1k2lDGxkod
+RLVF6XQwgM2ztHvSeEkAR+R4QiLHJ/x+wO/3GmmhU/uI7mEZUGtJSfDCYAVoha5E
+vREhonRSaCxOzb+/K+v+oGApAxl15DggL1W5Kz9nwoYd4rnQaxYBKref5sCuZ+xL
+znOWuAx8fzyiQO9PxBHSvgI5oddgUpbkmWA9zvZNWysIEtoKN01wlzPxlyv2mHyz
+Zct6RQVH8GSydpTlgzb6BPdxyXhOLw==
+=WYLZ
+-----END PGP SIGNATURE-----
+
+--Rm2VNANgsE/SCWLa--
