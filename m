@@ -2,169 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 018D4EE49AA
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 11:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DEECEE4993
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 12:10:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235387AbjHVLtU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 07:49:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50994 "EHLO
+        id S235026AbjHVMKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 08:10:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235444AbjHVLtS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 07:49:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336FBCFC;
-        Tue, 22 Aug 2023 04:49:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 55970648DB;
-        Tue, 22 Aug 2023 11:48:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7AFC433C8;
-        Tue, 22 Aug 2023 11:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1692704886;
-        bh=M+R+3pWKXJqUrPOyQ4zKrKqSO3DUrA/AmLMHVhlP3nI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bjt8CupKmCYOjx7EYwRS8Rg0MHxXvf8Ogp7gd8WgjA16Iz3PGveIbCbZJ/HRZDajJ
-         6sSv89VdTjgbVV1suOhrA/eIjoCBbtlbi/J4ixXRG3CfRYOtSUiRUmxA+PJpY8UKNf
-         PYnPXg39d1Vi8AnWvd0A8BEHVaJ2dS2OYaytH4UQ=
-Date:   Tue, 22 Aug 2023 13:48:03 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Saurabh Singh Sengar <ssengar@microsoft.com>
-Cc:     Saurabh Sengar <ssengar@linux.microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
- devices
-Message-ID: <2023082246-lumping-rebate-4142@gregkh>
-References: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
- <2023081215-canine-fragile-0a69@gregkh>
- <PUZP153MB06350DAEA2384B996519E07EBE1EA@PUZP153MB0635.APCP153.PROD.OUTLOOK.COM>
+        with ESMTP id S231261AbjHVMKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 08:10:11 -0400
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BCB2893;
+        Tue, 22 Aug 2023 05:09:57 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.102])
+        by gateway (Coremail) with SMTP id _____8CxfOqUpeRkWugaAA--.27989S3;
+        Tue, 22 Aug 2023 20:09:56 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.109.102])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxzyORpeRkVkZgAA--.62529S3;
+        Tue, 22 Aug 2023 20:09:55 +0800 (CST)
+Message-ID: <bee90784-e53c-4a30-b1f5-feeba46c7f5a@loongson.cn>
+Date:   Tue, 22 Aug 2023 20:09:53 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PUZP153MB06350DAEA2384B996519E07EBE1EA@PUZP153MB0635.APCP153.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] docs/zh_CN: add zh_CN translation for
+ memory-barriers.txt
+To:     Gang Li <gang.li@linux.dev>
+Cc:     Leo Yan <leo.yan@linaro.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <214aed18-5df5-1014-b73d-a1748c0cca13@linux.dev>
+ <20230819162526.GA274478@leoy-huanghe.lan>
+ <f7eac106-abe4-aba1-14df-6c9d1bfdf3b3@linux.dev>
+ <20230821125322.GB57731@leoy-huanghe.lan>
+Content-Language: en-US
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20230821125322.GB57731@leoy-huanghe.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxzyORpeRkVkZgAA--.62529S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrKrW5AFy7Xw15GryxXrW3XFc_yoWkAwb_ua
+        4Y9F4kAr4DXF4Ikan2kr48CayvqaykXr1UJF40qw4fArZ2qFykWFnYvrZ2vwn5JFs3JwnI
+        kr1vq3W2q39FqosvyTuYvTs0mTUanT9S1TB71UUUU1DqnTZGkaVYY2UrUUUUj1kv1TuYvT
+        s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+        cSsGvfJTRUUUbS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+        vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+        w2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+        W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+        6r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+        xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
+        6rW5McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwI
+        xGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+        JVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+        vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+        x2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
+        wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jxDG5UUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 07:36:18AM +0000, Saurabh Singh Sengar wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Greg KH <gregkh@linuxfoundation.org>
-> > Sent: Saturday, August 12, 2023 4:45 PM
-> > To: Saurabh Sengar <ssengar@linux.microsoft.com>
-> > Cc: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
-> > <haiyangz@microsoft.com>; wei.liu@kernel.org; Dexuan Cui
-> > <decui@microsoft.com>; Michael Kelley (LINUX) <mikelley@microsoft.com>;
-> > corbet@lwn.net; linux-kernel@vger.kernel.org; linux-hyperv@vger.kernel.org;
-> > linux-doc@vger.kernel.org
-> > Subject: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
-> > devices
-> > 
-> > On Fri, Aug 04, 2023 at 12:09:53AM -0700, Saurabh Sengar wrote:
-> > > Hyper-V is adding multiple low speed "speciality" synthetic devices.
-> > > Instead of writing a new kernel-level VMBus driver for each device,
-> > > make the devices accessible to user space through a UIO-based
-> > > hv_vmbus_client driver. Each device can then be supported by a user
-> > > space driver. This approach optimizes the development process and
-> > > provides flexibility to user space applications to control the key
-> > > interactions with the VMBus ring buffer.
-> > 
-> > Why is it faster to write userspace drivers here?  Where are those new drivers,
-> > and why can't they be proper kernel drivers?  Are all hyper-v drivers going to
-> > move to userspace now?
-> 
-> Hi Greg,
-> 
-> You are correct; it isn't faster. However, the developers working on these userspace
-> drivers can concentrate entirely on the business logic of these devices. The more
-> intricate aspects of the kernel, such as interrupt management and host communication,
-> can be encapsulated within the uio driver.
 
-Yes, kernel drivers are hard, we all know that.
+在 2023/8/21 20:53, Leo Yan 写道:
+> On Mon, Aug 21, 2023 at 02:39:15PM +0800, Gang Li wrote:
+>> Thanks for your review!
+>>
+>> Your suggestions will be integrated into the next version(v2).
+>>
+>> On 2023/8/20 00:25, Leo Yan wrote:
+>>>> +		|       |   :   |        |   :   |       |
+>>>> +		|       |   :   |        |   :   |       |
+>>>> +		| CPU 1 |<----->|  内存  |<----->| CPU 2 |
+>>> Unalignment caused by extra space around "内存".
+>>>
+>> If using Chinese, it is impossible to align properly no matter
+>> how it is modified. If strict alignment is needed, the text in the
+>> charts should not be translated.
+> In my editor (vim), a Chinese character is two-width of English
+> character.  So you could see in above, I can simply remove a space for
+> alignment.
 
-But if you do it right, it doesn't have to be, saying "it's too hard for
-our programmers to write good code for our platform" isn't exactly a
-good endorcement of either your programmers, or your platform :)
+Hi Gang,
 
-> The quantity of Hyper-V devices is substantial, and their numbers are consistently
-> increasing. Presently, all of these drivers are in a development/planning phase and
-> rely significantly on the acceptance of this UIO driver as a prerequisite.
 
-Don't make my acceptance of something that you haven't submitted before
-a business decision that I need to make, that's disenginous.
+Yes, we will use vim to make adjustments in the end, no matter what 
+editor we use for this work.
 
-> Not all hyper-v drivers will move to userspace, but many a new slow Hyperv-V
-> devices will use this framework and will avoid introducing a new kernel driver. We
-> will also plan to remove some of the existing drivers like kvp/vss.
 
-Define "slow" please.
+BTW, The title should also be aligned, with one Chinese character and 
+two "=".
 
-> > > The new synthetic devices are low speed devices that don't support
-> > > VMBus monitor bits, and so they must use vmbus_setevent() to notify
-> > > the host of ring buffer updates. The new driver provides this
-> > > functionality along with a configurable ring buffer size.
-> > >
-> > > Moreover, this series of patches incorporates an update to the fcopy
-> > > application, enabling it to seamlessly utilize the new interface. The
-> > > older fcopy driver and application will be phased out gradually.
-> > > Development of other similar userspace drivers is still underway.
-> > >
-> > > Moreover, this patch series adds a new implementation of the fcopy
-> > > application that uses the new UIO driver. The older fcopy driver and
-> > > application will be phased out gradually. Development of other similar
-> > > userspace drivers is still underway.
-> > 
-> > You are adding a new user api with the "ring buffer" size api, which is odd for
-> > normal UIO drivers as that's not something that UIO was designed for.
-> > 
-> > Why not just make you own generic type uiofs type kernel api if you really
-> > want to do all of this type of thing in userspace instead of in the kernel?
-> 
-> Could you please elaborate more on this suggestion. I couldn't understand it
-> completely.
+Just like:
 
-Why is uio the requirement here?  Why not make your own framework to
-write hv drivers in userspace that fits in better with the overall goal?
-Call it "hvfs" or something like that, much like we have usbfs for
-writing usb drivers in userspace.
+-+==========
+-+免责声明
+-+==========
+++========
+++免责声明
+++========
 
-Bolting on HV drivers to UIO seems very odd as that is not what this
-framework is supposed to be providing at all.  UIO was to enable "pass
-through" memory-mapped drivers that only wanted an interrupt and access
-to raw memory locations in the hardware.
 
-Now you are adding ring buffer managment and all other sorts of things
-just for your platform.  So make it a real subsystem tuned exactly for
-what you need and NOT try to force it into the UIO interface (which
-should know nothing about ring buffers...)
+Thanks,
 
-> > And finally, if this is going to replace the fcopy driver, then it should be part of
-> > this series as well, removing it to show that you really mean it when you say it
-> > will be deleted, otherwise we all know that will never happen.
-> 
-> I was hesitant about disrupting the backward compatibility, but I suppose I could
-> rename the new fcopy daemon to match the old one.
+Yanteng
 
-If you can't drop the driver today due to backwards compatibility, then
-you will not be able to drop it in the future either.
+> Anyway, if you have different editor or configuration, using either
+> langauge is fine for me.
+>
+> Please expect I will have more review.
+>
+> Thanks,
+> Leo
 
-Please work to come up with a sane framework if you are going to insist
-on writing drivers in userspace for your platform, that works well and
-it not bolted onto the UIO api.  Consider this a chance to fix the
-issues that the UIO api currently has that we can't change due to
-compatiblity reasons :)
-
-thanks,
-
-greg k-h
