@@ -2,74 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C965EE49AB
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 21:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE6A3EE49A5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 21:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231231AbjHVVW2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 17:22:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57238 "EHLO
+        id S231243AbjHVVdg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 17:33:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231178AbjHVVW2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 17:22:28 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0CCCF3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Aug 2023 14:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692739339; x=1724275339;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y/PX+iIZHu/Jekn+z+/zm+Vb0q6ZXF8TRNOr3t2FcOw=;
-  b=FoNWPuRpm+IsW748/5gx5twj705FNfSTicR67bZhWHrOAvOVRjCP7tTg
-   pbkChsjrb+ZaAtd+KUuuqlIectWGaYkff/cOTX/VZxrb2lwMSU79yHTW9
-   RnUB5xRrWfh3gLvKARW4E6cAukaXagH44eIkQWfvRcCju2h6AxL0wWep1
-   I2ygKPKKxccAlWGO+6NeWM3Zto/sowGrGrirHVE3Bi//iL0U0ztiwXEer
-   wbKTWkanxbQnZEv2R3dw8FPbZ7Gali8plY9/ufz1vjjFJd2FoR4i61ACr
-   cCpAcsTxi3FYtGSiyA0HnNBd1F6x7nxiZ/owCrDLmQvwzH9IJh9BqLjlZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="377755791"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="377755791"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 14:22:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="806432741"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="806432741"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Aug 2023 14:22:06 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qYYpC-0000XA-0D;
-        Tue, 22 Aug 2023 21:22:06 +0000
-Date:   Wed, 23 Aug 2023 05:21:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Fabio Estevam <festevam@denx.de>
-Cc:     oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [robh:for-next 22/34] htmldocs: Warning: MAINTAINERS references a
- file that doesn't exist: Documentation/devicetree/bindings/pps/pps-gpio.txt
-Message-ID: <202308230517.n0rrszYH-lkp@intel.com>
+        with ESMTP id S230516AbjHVVdf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 17:33:35 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D93CDF;
+        Tue, 22 Aug 2023 14:33:32 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1cc69d1f9b1so389028fac.1;
+        Tue, 22 Aug 2023 14:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692740012; x=1693344812;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=INI5oiFH+66CehZMbF3pmu6G1MXsfiESDSRSKZHLaRY=;
+        b=fgqVrynvkq6uP08BaXCnNWw/p06D/4o+QC336L0CUsEz6UD+oH/Vd4n0c1wMnzIUhF
+         vUgxAe4dYrQz9skKsjzGsWzOCr31RfbD11PENfLsAgUCuUPlZmu3mRJ2xKBb9jkF1O8j
+         sDzgCt4LBN11ek0r5qJNa1aXnACy7u45hPSIsubH2c86OBOsqxKpVxNFu1FyrNDrDtWO
+         RjX/vugFLc52L+h0NDjP7saPh9TmmXhVVLLkScpi8WCx3zgJCk9vGhv+zWWfPo/UaAUd
+         7LGrT6f7NVCH4g/1U4hQYDInBbYQ1AzaJSW114/jcURPz4LR7IWv4of2UuD0BtURJwyE
+         Td8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692740012; x=1693344812;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=INI5oiFH+66CehZMbF3pmu6G1MXsfiESDSRSKZHLaRY=;
+        b=NuloRnzIiVY2yofWCvZGIGjVD+PCz1y6J8F2FCInyyGiVaHNz2kBomVJNZSKDPxrh8
+         B/qqpfeDPPIoQqyFTUz/sm4b7nIfJJDBcbjS9rfRa/KluSdECQJoI0DmjZjtgI03zUii
+         +FBBX6ccrKGLLm9Df6FTinErysG5UmS0fDPgf1HKON9QhDjeQB2zQDJ0o63zqmACu8F8
+         k+gB0Nzdny4ResfppTOccpQRjRGZ0KDQOy7bqHAQ2rC3j3OSMX4aOoZOBzsSkhSKS8Ze
+         uRHU2SqrR5a4qrWt83nafFhBhROPMaMS9eEcp5SQhr5i36+Z06zoGF7+D5zg5HFWDhkl
+         jxqQ==
+X-Gm-Message-State: AOJu0YwOJ4s6LYRU1I5/bV0ay1qx8UFexXYmITvdscgdZDkpgAM2mOUX
+        RfnNs4Knm3JFMsUOU1KSank=
+X-Google-Smtp-Source: AGHT+IGdU9WK6dn0/CXstsASCTDYl3IpbJI/A3uatHo8Wxh/zd0fX94yR6UvkFhzl1DJF/dXvby6yg==
+X-Received: by 2002:a05:6808:1599:b0:3a8:7446:7aba with SMTP id t25-20020a056808159900b003a874467abamr97745oiw.5.1692740011888;
+        Tue, 22 Aug 2023 14:33:31 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1bf5:f5af:8849:83c8])
+        by smtp.gmail.com with ESMTPSA id r2-20020a056870878200b001c4b473581fsm6081220oam.12.2023.08.22.14.33.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Aug 2023 14:33:31 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     robh+dt@kernel.org
+Cc:     linux-doc@vger.kernel.org, giometti@enneenne.com,
+        linux-kernel@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] MAINTAINERS: pps: Update pps-gpio bindings location
+Date:   Tue, 22 Aug 2023 18:33:17 -0300
+Message-Id: <20230822213317.60798-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-head:   ef04d2801c5d239b83932f8ce97af1d4a1ec1cf7
-commit: 7ceb60ece8567e58b7e04965b3a434a0ed606053 [22/34] dt-bindings: pps: pps-gpio: Convert to yaml
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230517.n0rrszYH-lkp@intel.com/reproduce)
+From: Fabio Estevam <festevam@denx.de>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308230517.n0rrszYH-lkp@intel.com/
+The pps-gpio bindings have been converted to yaml.
 
-All warnings (new ones prefixed by >>):
+Update the file path accordingly.
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pps/pps-gpio.txt
+Fixes: 7ceb60ece856 ("dt-bindings: pps: pps-gpio: Convert to yaml")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202308230517.n0rrszYH-lkp@intel.com/
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cf8dd33048ba..afde89d9b7ff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17132,7 +17132,7 @@ L:	linuxpps@ml.enneenne.com (subscribers-only)
+ S:	Maintained
+ W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
+ F:	Documentation/ABI/testing/sysfs-pps
+-F:	Documentation/devicetree/bindings/pps/pps-gpio.txt
++F:	Documentation/devicetree/bindings/pps/pps-gpio.yaml
+ F:	Documentation/driver-api/pps.rst
+ F:	drivers/pps/
+ F:	include/linux/pps*.h
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
