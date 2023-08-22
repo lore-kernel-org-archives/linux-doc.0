@@ -2,67 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E4F5EE49A5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 07:12:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DBF5EE49AB
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 09:02:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233539AbjHVHMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 03:12:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
+        id S234131AbjHVJCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 05:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233366AbjHVHMA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 03:12:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D0FCED;
-        Tue, 22 Aug 2023 00:11:35 -0700 (PDT)
+        with ESMTP id S234151AbjHVJB5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 05:01:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA08B1B7;
+        Tue, 22 Aug 2023 02:01:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F66163B33;
-        Tue, 22 Aug 2023 07:11:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C08C43140;
-        Tue, 22 Aug 2023 07:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1692688268;
-        bh=OSFmIc6DjVqzpF68MG32L32Nfk/PkwF+T/iEcUfE7zI=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 37D19637EC;
+        Tue, 22 Aug 2023 09:01:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CBD6C433CA;
+        Tue, 22 Aug 2023 09:01:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692694914;
+        bh=oCbojt07SO8RbzwvZv92plbP41oFUdM1PKdym5EtsfI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=yFhT1h6G7GQs4G8xdXWO83os1xmaegpIyyVgziAzY/RjT4jaPabj1XFXBMGL/iE0W
-         IHtR6aNZw4QOeK7FZqjtRLpC+fVw62vbtkU06cUtNIRZiBgB1yiGvLyyej+vglfWid
-         24ydufv4IeSFNst1ft204xjSah4Qbu3Wjk6I543w=
-Date:   Tue, 22 Aug 2023 08:39:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Limonciello, Mario" <mario.limonciello@amd.com>
-Cc:     Evan Quan <evan.quan@amd.com>, Andrew Lunn <andrew@lunn.ch>,
-        rafael@kernel.org, lenb@kernel.org, johannes@sipsolutions.net,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, alexander.deucher@amd.com,
-        rdunlap@infradead.org, quic_jjohnson@quicinc.com, horms@kernel.org,
+        b=ejrTcNOML+v/yoUgA5Kwpb44WA3VNRLu9jjOGOsnxQIwSlaxCp540Hmvyg63i9rtH
+         NdoIi551+poyczVZA2UTFZ5DlC0VSUsvPKRz8YEWfUb6M0souzHca+GM79eNmbfCU5
+         KVoBkD6GSip0E/5EzRgqxXSf3zqmL/jBy3g4trtpSvDWQ/UeiGuIPipI/KSLm8PHrj
+         wi0oMF8WbQ9eHTlZpyyhkZL2HPZcXItn3Y6DCNL5+hE8LvRIw54l2RyqdM7hBxUYBt
+         IsuqXXAbc3ytNVE7BX3Ogu6VXKu/H+zqfrNwHgy41qXj3G0NyAPja/nQyUezJtWl13
+         WQJp9W02FGyEw==
+Date:   Tue, 22 Aug 2023 11:01:44 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Hugh Dickins <hughd@google.com>
+Cc:     Franklin =?utf-8?B?4oCcU25haXBl4oCd?= Mathieu <snaipe@arista.com>,
+        ovt@google.com, corbet@lwn.net, akpm@linux-foundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [V9 1/9] drivers core: Add support for Wifi band RF mitigations
-Message-ID: <2023082247-synthesis-revenge-470d@gregkh>
-References: <20230818032619.3341234-1-evan.quan@amd.com>
- <20230818032619.3341234-2-evan.quan@amd.com>
- <2023081806-rounding-distract-b695@gregkh>
- <2328cf53-849d-46a1-87e6-436e3a1f5fd8@amd.com>
- <2023081919-mockup-bootleg-bdb9@gregkh>
- <e5d153ed-df8a-4d6f-8222-18dfd97f6371@amd.com>
+        linux-mm@kvack.org
+Subject: Re: [PATCH] shmem: add support for user extended attributes
+Message-ID: <20230822-mammut-weinlaune-7925b2a8af59@brauner>
+References: <9b8d38f0-fd22-3f98-d070-16baf976ecb5@google.com>
+ <20230814082339.2006418-1-snaipe@arista.com>
+ <986c412c-669a-43fe-d72a-9e81bca8211@google.com>
+ <CAK8sBDM5aid1vkCKhBxqUHXrG_FbDRN0noLtPkcPv=jXb7NTNg@mail.gmail.com>
+ <20230815-sensibel-weltumsegelung-6593f2195293@brauner>
+ <924ed61c-5681-aa8b-d943-7f73694d159@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e5d153ed-df8a-4d6f-8222-18dfd97f6371@amd.com>
+In-Reply-To: <924ed61c-5681-aa8b-d943-7f73694d159@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 10:13:45PM -0500, Limonciello, Mario wrote:
-> So I wonder if the right answer is to put it in drivers/net/wireless
-> initially and if we come up with a need later for non wifi producers we can
-> discuss moving it at that time.
+> "tmpfs,xattr: GFP_KERNEL_ACCOUNT for simple xattrs" just sent to fix it:
+> https://lore.kernel.org/linux-fsdevel/f6953e5a-4183-8314-38f2-40be60998615@google.com/
 
-Please do so.
-
-thanks,
-
-greg k-h
+Thank you. I snatched it now.
