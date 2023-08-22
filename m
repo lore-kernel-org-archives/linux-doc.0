@@ -2,92 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A0B7EE49A3
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 06:12:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E4F5EE49A5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 07:12:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232936AbjHVGML (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 02:12:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45816 "EHLO
+        id S233539AbjHVHMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 03:12:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231494AbjHVGMK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 02:12:10 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D1F185
-        for <linux-doc@vger.kernel.org>; Mon, 21 Aug 2023 23:12:09 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1bc3d94d40fso31973545ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Aug 2023 23:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692684728; x=1693289528;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w45Oqv9V+9GduMYZDVvpjOPvC6nIzmlSs0r5WVQ2Q5k=;
-        b=NRA3ibdjsNuRArDJbB+9n5vZjZxQGhFDqh2Cr9v17/iiJCG9qQo6bRiXx8hMPByy6O
-         wdAEn0XZi7zJASuTW9oGUjKm4QD2GkH6W5APo6rjGD5NDgjqrbxHF87+B3gitaeqCuCq
-         DwIu796zGkwCSTW+efq9ZxNNQczi0pIYy+/gg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692684728; x=1693289528;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w45Oqv9V+9GduMYZDVvpjOPvC6nIzmlSs0r5WVQ2Q5k=;
-        b=e+HRhgTPBwGY8ToqG2HxOiWkvxFZSFmpy3I1FVzpAuQLPjkR1wA3Z2/fqjxDsns7kc
-         dt8FxPeAwDqzsBElR50vzGEN3hnuXtL8oXEqI+ByqfkFtNqbZuyUb+V6eZPFEYhAS6M+
-         HICVJSCIpmnktGTPfq9Agh0JoCA21qCEuYBBkY1D0aAnUKtdKL2Ny3VvJyY1ltzkh7+S
-         soHMpSjfT9iOAwehdR2V05bN/4lTadAL7FQZzgr/sHElhv7135d1rJ82gTUVpLqXVx+9
-         Fsh2IP8fqyw0sh8IWxNkSOh0Z47FFmB7Uw5996exL899nddXcSP1Nz4961ew8maUuWNX
-         rRdg==
-X-Gm-Message-State: AOJu0YyC9AothsTI1M6YHKk2Qamf8B9kxhCxZSq9mMaJsI2H/IbXkCG1
-        S/zdi4+hyW1MWCpgTJVHZHf8wA==
-X-Google-Smtp-Source: AGHT+IHiuSHIk401989XjYLzZuT/i2ncQJKajBtdSdauDZOiU31hXa77jn81segf0rCj+wwJsWu52Q==
-X-Received: by 2002:a17:902:d4c9:b0:1b8:a88c:4dc6 with SMTP id o9-20020a170902d4c900b001b8a88c4dc6mr11451735plg.45.1692684728409;
-        Mon, 21 Aug 2023 23:12:08 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:f833:4d35:e744:4f9e])
-        by smtp.gmail.com with ESMTPSA id d2-20020a170903230200b001b9ecee459csm8122816plh.34.2023.08.21.23.12.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 23:12:07 -0700 (PDT)
-Date:   Tue, 22 Aug 2023 15:12:03 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Ying Sun <sunying@nj.iscas.ac.cn>,
-        Jesse T <mr.bossman075@gmail.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
-Message-ID: <20230822061203.GA610023@google.com>
-References: <20230817012007.131868-1-senozhatsky@chromium.org>
- <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
- <20230820024519.GK907732@google.com>
- <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
- <20230820072119.GM907732@google.com>
- <20230820073332.GN907732@google.com>
- <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
+        with ESMTP id S233366AbjHVHMA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 03:12:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D0FCED;
+        Tue, 22 Aug 2023 00:11:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F66163B33;
+        Tue, 22 Aug 2023 07:11:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C08C43140;
+        Tue, 22 Aug 2023 07:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1692688268;
+        bh=OSFmIc6DjVqzpF68MG32L32Nfk/PkwF+T/iEcUfE7zI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=yFhT1h6G7GQs4G8xdXWO83os1xmaegpIyyVgziAzY/RjT4jaPabj1XFXBMGL/iE0W
+         IHtR6aNZw4QOeK7FZqjtRLpC+fVw62vbtkU06cUtNIRZiBgB1yiGvLyyej+vglfWid
+         24ydufv4IeSFNst1ft204xjSah4Qbu3Wjk6I543w=
+Date:   Tue, 22 Aug 2023 08:39:00 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Limonciello, Mario" <mario.limonciello@amd.com>
+Cc:     Evan Quan <evan.quan@amd.com>, Andrew Lunn <andrew@lunn.ch>,
+        rafael@kernel.org, lenb@kernel.org, johannes@sipsolutions.net,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, alexander.deucher@amd.com,
+        rdunlap@infradead.org, quic_jjohnson@quicinc.com, horms@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [V9 1/9] drivers core: Add support for Wifi band RF mitigations
+Message-ID: <2023082247-synthesis-revenge-470d@gregkh>
+References: <20230818032619.3341234-1-evan.quan@amd.com>
+ <20230818032619.3341234-2-evan.quan@amd.com>
+ <2023081806-rounding-distract-b695@gregkh>
+ <2328cf53-849d-46a1-87e6-436e3a1f5fd8@amd.com>
+ <2023081919-mockup-bootleg-bdb9@gregkh>
+ <e5d153ed-df8a-4d6f-8222-18dfd97f6371@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
+In-Reply-To: <e5d153ed-df8a-4d6f-8222-18dfd97f6371@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (23/08/21 21:27), Masahiro Yamada wrote:
-> 
-> My (original) hope was to add a single switch, KCONFIG_VERBOSE, to address both:
-> 
->   - A CONFIG option is hidden by unmet dependency (Ying Sun's case)
->   - A CONFIG option no longer exists  (your case)
->   - Anything else we need to be careful
+On Mon, Aug 21, 2023 at 10:13:45PM -0500, Limonciello, Mario wrote:
+> So I wonder if the right answer is to put it in drivers/net/wireless
+> initially and if we come up with a need later for non wifi producers we can
+> discuss moving it at that time.
 
-A quick question: is it too late to suggest an alternative name?
-Could KCONFIG_SANITY_CHECKS be a little cleaner? Because we basically
-run sanity checks on the config.
+Please do so.
 
-And one more question: those sanity checks seem very reasonable.
-Is there any reason we would not want to keep them ON by default?
-And those brave souls, that do not wish for the tool to very that
-the .config is sane and nothing will get downgraded/disabled, can
-always set KCONFIG_SANITY_CHECKS to 0.
+thanks,
+
+greg k-h
