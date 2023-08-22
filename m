@@ -2,110 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94048EE49A3
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 17:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F4AEE49B0
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 17:46:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237984AbjHVRFb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 13:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40532 "EHLO
+        id S229510AbjHVRqt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 13:46:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237959AbjHVRFb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 13:05:31 -0400
+        with ESMTP id S229459AbjHVRqt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 13:46:49 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 012ABD7;
-        Tue, 22 Aug 2023 10:05:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC989213E;
+        Tue, 22 Aug 2023 10:46:25 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 804EF621B9;
-        Tue, 22 Aug 2023 17:05:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C885FC433C8;
-        Tue, 22 Aug 2023 17:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692723928;
-        bh=+/XUXGpY2ACCPD3YzzrpK3JtSQqnOrDZMR5OCAEhgDg=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6820F6234E;
+        Tue, 22 Aug 2023 17:46:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA9CC433CA;
+        Tue, 22 Aug 2023 17:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1692726384;
+        bh=+AEJDgQND+MTKWXpZoLOxttSEcb4AQ/a1ssvaTQGP4M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G928dxMHkk1xDk/SX1dNnL+spqkcZRuq0C5Z40fu1Tb9wObRKQhtFzT0ipOQBh80X
-         M0BVrVcY8VmxczuqKrntaU8eZ0hqbR8EE1e7UAwRJz7snKD2v4GCMfQ9hgFuv0aBvc
-         38dD7dDK0lef3oOPG14kshG+9z1JoNQxNiubdga4OgfcfWS0/Ve3yY/2BVaHKd3pvN
-         cYaVOE7zu3UopoUb04Il5Y+Q0rXflj/XshyiU6vP1UN0j8lgReDw7ES6DUIaCc0AWt
-         YsDqY20pamlKghLyhjkFUTLoZ7KEg8lQf5JmsfEUOmiIbu47LoB18jET0Zcw96dt7s
-         2Z35AOyitp5nQ==
-Date:   Tue, 22 Aug 2023 18:05:19 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 21/36] arm64/mm: Implement map_shadow_stack()
-Message-ID: <007e1239-1258-4b89-b5db-a1c505e7aff5@sirena.org.uk>
-References: <20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org>
- <20230807-arm64-gcs-v4-21-68cfa37f9069@kernel.org>
- <ZNZkADhSnodXuH5F@arm.com>
- <9c722954-8f30-425e-a0a4-6edad463620f@sirena.org.uk>
- <ZOTlBpAbSX6TSZzW@arm.com>
+        b=HJtg7BRliVQUq3lHWyuW+tkwc73Eb8qIWb4ZhDElf0goLMWuSuH0/Pb63EJtmb2Zr
+         M8q5eh7a2Rs1nC9ACTvEUt2Et/eGlntqsRIwz51kUAqp5OeDoYICMStpoYuflhRN8Z
+         CwzEl8o/nQXt6OwXEaDDHnYatmVsAqv++nrZtLlw=
+Date:   Tue, 22 Aug 2023 19:46:21 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Georgi Djakov <djakov@kernel.org>
+Cc:     Mike Tipton <quic_mdtipton@quicinc.com>, rafael@kernel.org,
+        corbet@lwn.net, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, quic_okukatla@quicinc.com,
+        quic_viveka@quicinc.com, peterz@infradead.org,
+        quic_pkondeti@quicinc.com
+Subject: Re: [PATCH v3 1/3] debugfs: Add write support to debugfs_create_str()
+Message-ID: <2023082242-udder-refinish-1f6e@gregkh>
+References: <20230807142914.12480-1-quic_mdtipton@quicinc.com>
+ <20230807142914.12480-2-quic_mdtipton@quicinc.com>
+ <2023081203-happier-mutable-e4f0@gregkh>
+ <44a63cb2-1ae5-f52b-19d2-fe03d48fd44d@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="exkeVuAAvGvWqCpS"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZOTlBpAbSX6TSZzW@arm.com>
-X-Cookie: MIT:
+In-Reply-To: <44a63cb2-1ae5-f52b-19d2-fe03d48fd44d@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Aug 18, 2023 at 01:05:57PM +0300, Georgi Djakov wrote:
+> Hi Greg,
+> 
+> On 12.08.23 13:40, Greg KH wrote:
+> > On Mon, Aug 07, 2023 at 07:29:12AM -0700, Mike Tipton wrote:
+> > > Currently, debugfs_create_str() only supports reading strings from
+> > > debugfs. Add support for writing them as well.
+> > > 
+> > > Based on original implementation by Peter Zijlstra [0]. Write support
+> > > was present in the initial patch version, but dropped in v2 due to lack
+> > > of users. We have a user now, so reintroduce it.
+> > > 
+> > > [0] https://lore.kernel.org/all/YF3Hv5zXb%2F6lauzs@hirez.programming.kicks-ass.net/
+> > > 
+> > > Signed-off-by: Mike Tipton <quic_mdtipton@quicinc.com>
+> > > ---
+> > >   fs/debugfs/file.c | 48 +++++++++++++++++++++++++++++++++++++++++++++--
+> > >   1 file changed, 46 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+> > > index b7711888dd17..87b3753aa4b1 100644
+> > > --- a/fs/debugfs/file.c
+> > > +++ b/fs/debugfs/file.c
+> > > @@ -904,8 +904,52 @@ EXPORT_SYMBOL_GPL(debugfs_create_str);
+> > >   static ssize_t debugfs_write_file_str(struct file *file, const char __user *user_buf,
+> > >   				      size_t count, loff_t *ppos)
+> > >   {
+> > > -	/* This is really only for read-only strings */
+> > > -	return -EINVAL;
+> > > +	struct dentry *dentry = F_DENTRY(file);
+> > > +	char *old, *new = NULL;
+> > > +	int pos = *ppos;
+> > > +	int r;
+> > > +
+> > > +	r = debugfs_file_get(dentry);
+> > > +	if (unlikely(r))
+> > > +		return r;
+> > > +
+> > > +	old = *(char **)file->private_data;
+> > > +
+> > > +	/* only allow strict concatenation */
+> > > +	r = -EINVAL;
+> > > +	if (pos && pos != strlen(old))
+> > > +		goto error;
+> > > +
+> > > +	r = -E2BIG;
+> > > +	if (pos + count + 1 > PAGE_SIZE)
+> > > +		goto error;
+> > > +
+> > > +	r = -ENOMEM;
+> > > +	new = kmalloc(pos + count + 1, GFP_KERNEL);
+> > > +	if (!new)
+> > > +		goto error;
+> > > +
+> > > +	if (pos)
+> > > +		memcpy(new, old, pos);
+> > > +
+> > > +	r = -EFAULT;
+> > > +	if (copy_from_user(new + pos, user_buf, count))
+> > > +		goto error;
+> > > +
+> > > +	new[pos + count] = '\0';
+> > > +	strim(new);
+> > > +
+> > > +	rcu_assign_pointer(*(char **)file->private_data, new);
+> > > +	synchronize_rcu();
+> > > +	kfree(old);
+> > > +
+> > > +	debugfs_file_put(dentry);
+> > > +	return count;
+> > > +
+> > > +error:
+> > > +	kfree(new);
+> > > +	debugfs_file_put(dentry);
+> > > +	return r;
+> > >   }
+> > 
+> > So you just added write support for ALL debugfs files that use the
+> > string interface, what did you just allow to break?
+> 
+> Not true. Write support is added only for debugfs string files that are
+> created with +w permissions. All existing files are created as read-only
+> and use the fops_str_ro ops.
+> 
+> > I recommend just using your own debugfs file function instead, as this
+> > could cause bad problems, right?  Are you sure that all string calls can
+> > handle the variable be freed underneath it like this call will allow to
+> > happen?
+> > 
+> > So I wouldn't recommend doing this, sorry.
+> > 
+> 
+> Maybe you missed the fact that the different file ops are already there
+> and are selected based on permissions:
+> 
+> > static const struct file_operations fops_str = {
+> >         .read =         debugfs_read_file_str,
+> >         .write =        debugfs_write_file_str,
+> >         .open =         simple_open,
+> >         .llseek =       default_llseek,
+> > };
+> > 
+> > static const struct file_operations fops_str_ro = {
+> >         .read =         debugfs_read_file_str,
+> >         .open =         simple_open,
+> >         .llseek =       default_llseek,
+> > };
+> > 
+> > static const struct file_operations fops_str_wo = {
+> >         .write =        debugfs_write_file_str,
+> >         .open =         simple_open,
+> >         .llseek =       default_llseek,
+> > };
+> 
+> ...so this patch is doing exactly what you suggested? If you agree,
+> could you ack it again please?
 
---exkeVuAAvGvWqCpS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, I did miss that, sorry, my appologies for dragging this out so
+long:
 
-On Tue, Aug 22, 2023 at 05:40:38PM +0100, Catalin Marinas wrote:
-> On Fri, Aug 18, 2023 at 06:08:52PM +0100, Mark Brown wrote:
-
-> > mprotect() uses arch_validate_flags() which we're already having cover
-> > this so it's already covered.
-
-> I searched the patches and there's no change to the arm64
-> arch_validate_flags(). Maybe I missed it.
-
-It's in v5, the update to arch_validate_flags() was one of your comments
-=66rom another patch in the series.
-
---exkeVuAAvGvWqCpS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTk6s4ACgkQJNaLcl1U
-h9DssAf9EW4nFH7RlADvE4EkIEjYj6kUziCf6Hh2iZGyNLK3aFRxnL1nY1u1zP6j
-q/ACfgdD1+OLEnvbezfXu1bJ6avmKqmnJHnkP7zF5C/63tXoF8IUUwodZXV4d3DP
-54ezvT4yQ8Yu5AxpmLPCItJkHbeLAezr41EbEpcJWSfkAnXqhT/cO7JREhVKH/3f
-czlWXKNy8c+vwIXC7x7mRKOCeBcJ4mofi6i5T8JDYcL1b59ItFYO7zfcB1H/nPh7
-qV10AxG61aXsJoiboml1UjyOA8+ZaiLpjgGmxZ1YEZSF3C+TVw2Ul5Z4yHtgdVdA
-FQHfQawXdzOTgnqQG2uCel7CjV9LDQ==
-=ME24
------END PGP SIGNATURE-----
-
---exkeVuAAvGvWqCpS--
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
