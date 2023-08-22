@@ -2,126 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A85EE49AE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 17:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA61EE49AB
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Aug 2023 18:43:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjHVRzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 13:55:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56176 "EHLO
+        id S229508AbjHVSnw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 14:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjHVRzi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 13:55:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013891FC8;
-        Tue, 22 Aug 2023 10:55:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229669AbjHVSnw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 14:43:52 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C90CD5;
+        Tue, 22 Aug 2023 11:43:49 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 879A162094;
-        Tue, 22 Aug 2023 17:55:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02761C433C7;
-        Tue, 22 Aug 2023 17:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692726934;
-        bh=nRhOqPrA5BuPwRcvI7MlHlUwPN6wyHo9eKiXJKZmvt4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=myEcl1WQzsR8pyBO5c97oqf72AeVeGXqJVloLwBX8iLiTVv8X7Ia5vxoJdiPn9i+Y
-         VjQOYYmvKvjZbfOh6E8xc61ay9ODF00wOGJfXl/c1vGl0Y6OYChvzjcdwufld/IScF
-         1UGlm7KFs7gyhSRfsTyEylIum6Z+RkaBDfABGffR9V76JaIS9JY5hMmlmS0q/9LklM
-         ePT2X4GvVlJEVV0h+Oer2GtY4Hxhd4pfL+5zEq8l0XyzfybeFF7tgxUXVLmquGqvQ1
-         TZIES52DEgXIUwTk2PsKGVvUBdwYPMTgBnyG4aO6gC+pZlhQLIK4t/O11L17SOC7Vu
-         mGZAJ84Zodf5Q==
-Date:   Tue, 22 Aug 2023 18:55:24 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "palmer@dabbelt.com" <palmer@dabbelt.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v5 11/37] mm: Define VM_SHADOW_STACK for arm64 when we
- support GCS
-Message-ID: <c9d0881d-e26b-4680-8f8e-0d5e1c82655c@sirena.org.uk>
-References: <20230822-arm64-gcs-v5-0-9ef181dd6324@kernel.org>
- <20230822-arm64-gcs-v5-11-9ef181dd6324@kernel.org>
- <8f2cf5af-cad7-a69c-e8ec-39f48deae1cb@redhat.com>
- <54b2c1e5-a99d-42c0-b686-1b5cbb849581@sirena.org.uk>
- <e10e729392c5fa421baf08b4ea7aaac6ffada0f5.camel@intel.com>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 72EE222C0C;
+        Tue, 22 Aug 2023 18:43:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1692729827;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Dqfe1xNLanx1P+RTqEk7FWW1QngcON/3PVFKsrMpkq0=;
+        b=tWNBJn9rv3zs5t0qGc1hAWU8YWxVHwqn8y1/JIt/D6J/qugMYjaibZAdiwQjmxO5nkueHU
+        EsG7GR+N8qRKSWzUTwsgZlbP+5dRPYansRPbHiW6KEZYQO8NB8pcDL7GAgpXjkx+VEOuVI
+        SqBgj+7/Zfm2OZAznNXwoAAeM6/Adjg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1692729827;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Dqfe1xNLanx1P+RTqEk7FWW1QngcON/3PVFKsrMpkq0=;
+        b=6sj8kCiH0tvwWEon4s8diLYzW5lsWzWf2hptywUfC1iHz11xAoBhRHBomwLBK1sHR3jOwS
+        fHryKAak40vj6uBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4A8F413919;
+        Tue, 22 Aug 2023 18:43:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id IKiUEeMB5WTYFwAAMHmgww
+        (envelope-from <dsterba@suse.cz>); Tue, 22 Aug 2023 18:43:47 +0000
+Date:   Tue, 22 Aug 2023 20:37:15 +0200
+From:   David Sterba <dsterba@suse.cz>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, corbet@lwn.net,
+        linux-btrfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] btrfs: kconfig: Doc: MAINTAINERS: Obsolete wiki link
+ replace
+Message-ID: <20230822183715.GF2420@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <cover.1692420752.git.unixbhaskar@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="M/5Lioh+7qcaKBw4"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e10e729392c5fa421baf08b4ea7aaac6ffada0f5.camel@intel.com>
-X-Cookie: MIT:
+In-Reply-To: <cover.1692420752.git.unixbhaskar@gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Aug 19, 2023 at 10:23:02AM +0530, Bhaskar Chowdhury wrote:
+>  Remove and replace old and obsolete wiki link to active maintained link.
+> 
+> Bhaskar Chowdhury (3):
+>   Remove obsolete wiki link
+>   Replace obsolete wiki link
+>   Remove obsolete wiki link
 
---M/5Lioh+7qcaKBw4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Aug 22, 2023 at 04:47:26PM +0000, Edgecombe, Rick P wrote:
-> On Tue, 2023-08-22 at 16:41 +0100, Mark Brown wrote:
-
-> > I can certainly update it to do that, I was just trying to fit in
-> > with
-> > how the code was written on the basis that there was probably a good
-> > reason for it that had been discussed somewhere.=A0 I can send an
-> > incremental patch for this on top of the x86 patches assuming they go
-> > in
-> > during the merge window.
-
-> There was something like that on the x86 series way back, but it was
-> dropped[0]. IIRC risc-v was going to try to do something other than
-> VM_SHADOW_STACK, so they may conflict some day. But in the meantime,
-> adding a CONFIG_HAVE_ARCH_SHADOW_STACK here in the arm series makes
-> sense to me.
-
-OK, I'll do that.
-
---M/5Lioh+7qcaKBw4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTk9owACgkQJNaLcl1U
-h9BzkQf/R6al2pexuFT7yjh/QmDQ605ZLN9i97Je0LSd5PuT5nU6GF3W5a54fMib
-6W/3nsCaMStJXsvd+VW79higHGjkzwpJF2gPeI94UCLBgKYqU8qB4MR/adY9Ff1r
-1sA4RWSjuxtC8NBEoIYomxAXMpW05vpD0eruSLYjUnEnTf0NrXtxZmwZQjcVHeeS
-f47zzzB9vzZ1wei7YyAcO+oju9JjWVkD2jTdQJjddCKNIuR+qB98g/qO4BvHp86+
-OPVeSsY4Ko7Kqh4JKdTddAYte0KvQ0SaRh59Zmo6tcorDOv6yVJOfTOEQ8v2SdFD
-daJaRcq070YEVByUMToJ3C0wq/P7+w==
-=2kJA
------END PGP SIGNATURE-----
-
---M/5Lioh+7qcaKBw4--
+I'd rather merge all the patches into one, it's not a functional change
+nor a potentially conflicting change so I don't see a reason to send
+them separately.
