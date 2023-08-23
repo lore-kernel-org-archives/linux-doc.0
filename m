@@ -2,76 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9718EE49A5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 02:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8707CEE49A3
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 02:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbjHWCDt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 22:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45124 "EHLO
+        id S232244AbjHWCiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Aug 2023 22:38:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231443AbjHWCDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 22:03:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C05CF
-        for <linux-doc@vger.kernel.org>; Tue, 22 Aug 2023 19:03:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C5F82631D3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 02:03:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3148C433C8;
-        Wed, 23 Aug 2023 02:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692756225;
-        bh=yFN0cQpMIat5ayx3g1CsZp0uk9eYWA06wwCrpsWjxkY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HA/TtqL3GIQBKA7JOLGo1omaxrH2T1Arg85bX+NFA/N6Td5PfOlpYXOOpLWo2uB4e
-         qawm2VOGr6UZMLKYNSZ9M6m96F8WxQDmK22v9CAs2Lb6hwh+Ja++Hu2M4uYmJvLgsH
-         mY6ECkznlMjexF/ixxe3uPGfIItushnEIl1CPGhctjCxMGX5IdG09B4aryN5emdszc
-         WmKMPw8WjEXwmZNg6zGEMNP1ahF2Dk0XHnOD1GeikGJmZxpgqWsr8wX7XfoiVJLjht
-         fO7pOsGjXY++oOyzpv0+I6PhZ60VWEjqgpKs7+iriIHe4aw4n0x/Rpz48Ildu+BB3m
-         V32cTGKAE4Psw==
-Date:   Tue, 22 Aug 2023 19:03:43 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v3 00/12] tools/net/ynl: Add support for
- netlink-raw families
-Message-ID: <20230822190343.3e780afb@kernel.org>
-In-Reply-To: <20230822194304.87488-1-donald.hunter@gmail.com>
-References: <20230822194304.87488-1-donald.hunter@gmail.com>
+        with ESMTP id S232249AbjHWCit (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 22:38:49 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB80CF9
+        for <linux-doc@vger.kernel.org>; Tue, 22 Aug 2023 19:38:46 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6bca857accbso4011198a34.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Aug 2023 19:38:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692758326; x=1693363126;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTuoNAPJjhEfJo2OfKuB84Fta+CXlvmq3TsH4v0Gc3g=;
+        b=jyddBpA6JF26tJElQM9u56fmP7n8yWWcXgzfN5Thy8dDv+owhfZa1KkDLVu2fycyF0
+         PEqSfqxoFUa8npK0jl2U0vF6NaC4rDusoXZFImuIw5m1S2EokaY38+a4LbpzYCEfD6w4
+         arE2N/NQlSdBHW6P85jX8+G64byXCcHiMmI26IgemCS63nrpcIKKbg/dxxAgPWOK0H1y
+         0GkSuc/UxgOuJRJGw0jH79dqqDmzESN8DSRTd+Tq5aFgdsUb6IhXaU5/Wsnq3qAIYY9d
+         Y/RiI+iTfofSF44eT1866KFDqzwenU/5ervB/1czBJF0+WNnUku5eiMoR46vDIj7CQHX
+         kn8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692758326; x=1693363126;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hTuoNAPJjhEfJo2OfKuB84Fta+CXlvmq3TsH4v0Gc3g=;
+        b=OylXOwqIZ+d5KWsjavxWvdBDdyeQg8yEjLQIP4EpCv1Rz8bBGHqipPkJl5KvZQQUD1
+         5j3uXof6ghbnCSuU5LnJJnTIy21mBIOub+/6V2g5hUEhbnCAtAjdCP8M0w4YNaFYTk/K
+         XGdfuBWJqATkiU5txTi/qjCwFutDTHgKz972dz8jgBSxvbD5PmzipeSos+P4VAsra/Nb
+         5LtITUr5rpUEQJWYfRRfJbguTrKyXbUj7romd97QFHKqPBWKU23aA8I8o9QNJFmjmw+j
+         cw18Twg4MbxI6ZMRClXUpqHdMkPsFgcMXeXnn8JmWZemtJ0m+1WyQZeOB+QXPGQbowJP
+         Nvkw==
+X-Gm-Message-State: AOJu0Yy5mTwvI+GbmeN+YGeclP7RosH2XZl5gmFBf12wpIDhInzkHvDe
+        gWGb9gwCKtsCwLp+sguxIwewtjQqSZ/+HnpDxhdfhIqR
+X-Google-Smtp-Source: AGHT+IGAdnKYLSqSf7A7lfSdx8pKYq98ovZ5cGgI4uVrvPU+aL9l1OQxSIoesF3LdJdnmRB5C0GKdQ==
+X-Received: by 2002:a9d:694e:0:b0:6b9:5734:135f with SMTP id p14-20020a9d694e000000b006b95734135fmr12642626oto.28.1692758325869;
+        Tue, 22 Aug 2023 19:38:45 -0700 (PDT)
+Received: from leoy-huanghe.lan ([94.177.131.100])
+        by smtp.gmail.com with ESMTPSA id y8-20020a63b508000000b0056a36ac322dsm5837038pge.4.2023.08.22.19.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Aug 2023 19:38:45 -0700 (PDT)
+Date:   Wed, 23 Aug 2023 10:38:38 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Namhyung Kim <namhyung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Thomas Richter <tmricht@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v6] Documentation: userspace-api: Document perf ring
+ buffer mechanism
+Message-ID: <20230823023838.GF57731@leoy-huanghe.lan>
+References: <20230819093340.265817-1-leo.yan@linaro.org>
+ <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 22 Aug 2023 20:42:52 +0100 Donald Hunter wrote:
-> The netlink-raw schema is very similar to genetlink-legacy and I thought
-> about making the changes there and symlinking to it. On balance I
-> thought that might be problematic for accurate schema validation.
-> 
-> rtnetlink doesn't seem to fit into unified or directional message
-> enumeration models. It seems like an 'explicit' model would be useful,
-> to force the schema author to specify the message ids directly.
-> 
-> There is not yet support for notifications because ynl currently doesn't
-> support defining 'event' properties on a 'do' operation. The message ids
-> are shared so ops need to be both sync and async. I plan to look at this
-> in a future patch.
-> 
-> The link and route messages contain different nested attributes
-> dependent on the type of link or route. Decoding these will need some
-> kind of attr-space selection that uses the value of another attribute as
-> the selector key. These nested attributes have been left with type
-> 'binary' for now.
+Hi Namhyung,
 
-Looks good, thanks!
+On Tue, Aug 22, 2023 at 05:43:25PM -0700, Namhyung Kim wrote:
+
+[...]
+
+> > +2.3.2 Writing samples into buffer
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +Ring buffers are mapped as read-write mode or read-only mode, which is
+> > +used for a normal ring buffer and an overwritable ring buffer
+> > +respectively.
+> > +
+> > +The ring buffer in the read-write mode is mapped with the property
+> > +``PROT_READ | PROT_WRITE``.  With the write permission, the perf tool
+> > +updates the ``data_tail`` to indicate the data start position.  Combining
+> > +with the head pointer ``data_head``, which works as the end position of
+> > +the current data, the perf tool can easily know where read out the data
+> > +from.
+> > +
+> > +Alternatively, in the read-only mode, only the kernel keeps to update
+> > +the ``data_head`` while the user space cannot access the ``data_tail`` due
+> > +to the mapping property ``PROT_READ``.
+> > +
+> > +Why ring buffers are mapped with above two different modes?  Here the
+> > +write direction matters.  The forward writing starts to save data from
+> > +the beginning of the ring buffer and wrap around when overflow, which is
+> > +used with the read-write mode in the normal ring buffer.  When the
+> > +consumer doesn't keep up with the producer, it would lose some data, the
+> > +kernel keeps how many records it lost and generates the
+> > +``PERF_RECORD_LOST`` records in the next time when it finds a space in the
+> > +ring buffer.
+> 
+> Thanks for the update.  It's unclear to me if all 4 combination of
+> (rw, ro) x (fwd, bwd) are possible (yes!).  The rw mode and back-
+> ward is also possible but just not used for perf tool.
+
+I can add a matrix for the combinations:
+
+  The combination is supported in perf tool:
+
+  ---+------------+-----------
+     |  Forward   | Backward
+  ---+------------+-----------
+  rw |  Yes       |   No
+  ---+------------+-----------
+  ro |  X         |   Yes
+  ---+------------+-----------
+
+  Yes: is supported
+  No: is not supported
+  X: is not feasible
+
+> And I think the description below in this section shows kernel
+> internals too much.  Name of kernel functions and data structure
+> is not an API and can be changed any time.  You can describe
+> the logic without the names.
+
+Understand, I agree this will introduce maintenance efforts in later.
+
+I will refine the description and send a new patch.
+
+Thanks for reviewing!
+
+Leo
