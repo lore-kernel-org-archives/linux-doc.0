@@ -2,162 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9076DC3DA66
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 22:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85EA7C27C40
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 23:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238804AbjHWW4J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 18:56:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47628 "EHLO
+        id S231844AbjHWXTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 19:19:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235522AbjHWWzi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 18:55:38 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B78E50;
-        Wed, 23 Aug 2023 15:55:37 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 09BFF5C01AD;
-        Wed, 23 Aug 2023 18:55:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 23 Aug 2023 18:55:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
-        cc:cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1692831334; x=1692917734; bh=Am3NaVWh1u/SgUw7D2u+AYl0pmbKqJ0ODUQ
-        Srt76FLw=; b=YB0nxz8sKG1HPYZ65G22dhh+G104mMsVpx3YCbl29nFeVSwgSpa
-        4vBKAWSk5hmSTktXkvmmzpZo1UJh9ZY/jWZh8sWwFPiGrdpwQI4iGDT/LCroJA5i
-        SAsnmzBYyZayRGZ3itMRoCEzI/uvx77YrdM8GwcmbnuLp8zCVkz/XlFk0HV97TKc
-        hHoxUGfJA0OP1a8rxrsPG/iCg6WWl1EirDxap4lBZoG16bUOyuN5F37ov2grhR04
-        0K36nkN2F4mAhlh7vcGVLMUk4ZY5yTQ+ckHcLNtHWtyYm5UmnFKSg2ZrwzOkFXdW
-        19TkykbggkYyWVo4As/JKIext1/EdFyZF7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-        1692831334; x=1692917734; bh=Am3NaVWh1u/SgUw7D2u+AYl0pmbKqJ0ODUQ
-        Srt76FLw=; b=G2WqtEH5Bme/lGj/cbwwRqfJNPMkhQT/2FU/2g9FNMgk3UsxGS+
-        Qw70Mn5889ecllLcQNaNcnVLqarP+8OsWHXYL8bb656SMOSZEZNu5ade1pa9d7PB
-        3D3t9+yY1YMrMSp9QQLXzHfsc1FfE8+o6hue+rl7aJbfaEKz1DVNOxknUCOREvZu
-        ixRCaS+ICxmMdurKtCX+b3zO1VVSqGFzY/Q82pj0WFh2D0kr0TJZYSixu1vMa3BY
-        7z8SymN7IH8tkaYcX5EGkDp/1YNJXlAFtRVUzFjmglSBiC2gR6nk+mVyYn+JMoa5
-        PuIW+c9W8W6nEUj/utGsFOB+zPX+eMnythA==
-X-ME-Sender: <xms:ZI7mZPdVTaEZHAeSusAr0CdEjYK9W3iDkbel76QFCgveTkzOxMlpGw>
-    <xme:ZI7mZFOg0-IXeDFuB_sHvCkLAAY8UCBraoSx8A8YFFQQFCaXkDSSenEbw9mWKtcGf
-    e8KQlwwaYKejdQ0>
-X-ME-Received: <xmr:ZI7mZIgtCnSinPCSrqpD9fhuCyc5c7GzCDJQW1WNHpDsH7Ad5uHrWNhRvFpbdZh6ZftH81z-hDwZB_AlsC2Hy-r5-Hskn65YAmKi-gu4wxvOgy2fp7tG>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedruddvhedgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeeuvghr
-    nhguucfutghhuhgsvghrthcuoegsvghrnhgurdhstghhuhgsvghrthesfhgrshhtmhgrih
-    hlrdhfmheqnecuggftrfgrthhtvghrnhepfffhtddvveeivdduuedujeetffekkeelgfdv
-    fefgueffieefjefgjeffhedttdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepsggvrhhnugdrshgthhhusggvrhhtsehfrghsthhmrghilhdr
-    fhhm
-X-ME-Proxy: <xmx:ZI7mZA__gLvDsrZi6XdmTCmlsG_kXF1kcP13MCbW2AutxMaEVLYRpw>
-    <xmx:ZI7mZLvXKxuKfb8m8kBd-UFIYUY5nuR7yGjyBHE8wYYnmPgMCBanMg>
-    <xmx:ZI7mZPF4x4AgUbwQTTFGjme2CnGNKVbCCSrdc3GIQUiGyTHCHlBhJA>
-    <xmx:Zo7mZBVzzL9BfCCAzBMOsYVYjB82LOwcT1p2YaCTqFgl5tMeMtWr8A>
-Feedback-ID: id8a24192:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Aug 2023 18:55:31 -0400 (EDT)
-Message-ID: <38a74f67-9bfc-6cb6-6999-343aac95b781@fastmail.fm>
-Date:   Thu, 24 Aug 2023 00:55:29 +0200
+        with ESMTP id S238443AbjHWXTZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 19:19:25 -0400
+Received: from smtpcmd12131.aruba.it (smtpcmd12131.aruba.it [62.149.156.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0AE4E66
+        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 16:19:21 -0700 (PDT)
+Received: from [192.168.50.162] ([146.241.122.243])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id Yx89qku9EgpIyYx89qIqzt; Thu, 24 Aug 2023 01:19:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1692832758; bh=xQTbOVG87TK9JPqsKuzRZJRYGXmtTFs9rbM9Q0xQjtY=;
+        h=Date:MIME-Version:Subject:To:From:Content-Type;
+        b=PxddRZU0GUt1fBjLGV0hlO/shNw6wr3jPLezBDiPcV+WC1ZEyhcWF4cd3zK4XshLc
+         w6dv7WfIEfnR0Aqqg+czCOCfl7sPCH+i4Zubxc+XKd7Kyu9lBhPJYDwmN+W3S1zgIh
+         /GVxlCoU9rG7QfCsBfgGTd9PVbM7JH+TM8QdEjn44IyDZNEkbvn1TbX1aakIaCQxzm
+         wjx4EIVeHG/UxzK9jP5lpphGTEQW6L3j5JyyoomonWT3v6geeL37cgoYNOuwBXQ4Rp
+         6VIph5dabEuXLzWqF235gGUVcrrApeH3xBU39CyexDGz3ccE9DTW0TaLhpWCefjP9v
+         N/ssxNs0oy25g==
+Message-ID: <8ebb9e45-a69e-783b-3c93-30a7c27bdbc6@benettiengineering.com>
+Date:   Thu, 24 Aug 2023 01:19:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.14.0
-Subject: Re: [PATCH 4/5] fuse: writeback_cache consistency enhancement
- (writeback_cache_v2)
-To:     Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
-        Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        me@jcix.top
-References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
- <20230711043405.66256-5-zhangjiachen.jaycee@bytedance.com>
- <CAJfpegtqJo78wqT0EY0=1xfoSROsJogg9BNC_xJv6id9J1Oa+g@mail.gmail.com>
- <699673a6-ff82-8968-6310-9a0b1c429be3@fastmail.fm>
- <029cb695-9b8e-8fb3-ef0f-b223f34e7639@bytedance.com>
-Content-Language: en-US, de-DE
-From:   Bernd Schubert <bernd.schubert@fastmail.fm>
-In-Reply-To: <029cb695-9b8e-8fb3-ef0f-b223f34e7639@bytedance.com>
+Subject: Re: [RFC PATCH 1/1] docs: submitting-patches: Add Sponsored-by tag to
+ give credits to who sponsored the patch
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230817220957.41582-1-giulio.benetti@benettiengineering.com>
+ <20230817220957.41582-2-giulio.benetti@benettiengineering.com>
+ <20230817232348.GC1175@pendragon.ideasonboard.com>
+ <28289906-4fd1-26aa-b1c4-eb393ac52d48@benettiengineering.com>
+ <CAMuHMdVY7vaU8wpJrMD4HNkQwkJD0Rd9sL-xFDYXxJEcP91yuw@mail.gmail.com>
+From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
+In-Reply-To: <CAMuHMdVY7vaU8wpJrMD4HNkQwkJD0Rd9sL-xFDYXxJEcP91yuw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfJWR0OmGkhmDtClfBYYvNLsTPkH9pYsZ6wtECtnDH4auxntA/aai4Q8AFi8QazHctJVaXV0QSlDams1ArtAuMQViNxX25Tt/NmdYP4zOsBefVD2GbTi2
+ +2+LptVPzOkSCRtaDFJ9LfemY1Jv7dUKZstNlHg5/YGT9BR0l0YDovRLUFchbnayk7M4A+6adjyiYsiBRct+zldr/+SfrH0Rm+tigfGxlNHHtkQiUQoLqI4B
+ kiob6b7VPSJIq+38UzoVimYpt8/vbyx9ncVEE0i1vopv1fgSd6GwVV7o/9FkcE2BSsngPLejOT3JOW0AozaoEzCXO6oBBGBGblgWQSKfvRWeZpeMflmGTdhA
+ QYZ01YUDcuskSmU/ZbDehjYx+5zjJ40QCGFJq0lIwKGPMDbpzIsaE6jXOnbP/nS8LUrUxnF1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello Geert, All,
 
-
-On 8/23/23 12:59, Jiachen Zhang wrote:
-> On 2023/8/23 18:35, Bernd Schubert wrote:
->> On 8/23/23 11:07, Miklos Szeredi wrote:
->>> On Tue, 11 Jul 2023 at 06:36, Jiachen Zhang
->>> <zhangjiachen.jaycee@bytedance.com> wrote:
->>>>
->>>> Some users may want both the high performance of the writeback_cahe 
->>>> mode
->>>> and a little bit more consistency among FUSE mounts. Current
->>>> writeback_cache mode never updates attributes from server, so can never
->>>> see the file attributes changed by other FUSE mounts, which means
->>>> 'zero-consisteny'.
->>>>
->>>> This commit introduces writeback_cache_v2 mode, which allows the 
->>>> attributes
->>>> to be updated from server to kernel when the inode is clean and no
->>>> writeback is in-progressing. FUSE daemons can select this mode by the
->>>> FUSE_WRITEBACK_CACHE_V2 init flag.
->>>>
->>>> In writeback_cache_v2 mode, the server generates official attributes.
->>>> Therefore,
->>>>
->>>>      1. For the cmtime, the cmtime generated by kernel are just 
->>>> temporary
->>>>      values that are never flushed to server by fuse_write_inode(), 
->>>> and they
->>>>      could be eventually updated by the official server cmtime. The
->>>>      mtime-based revalidation of the fc->auto_inval_data mode is also
->>>>      skipped, as the kernel-generated temporary cmtime are likely 
->>>> not equal
->>>>      to the offical server cmtime.
->>>>
->>>>      2. For the file size, we expect server updates its file size on
->>>>      FUSE_WRITEs. So we increase fi->attr_version in 
->>>> fuse_writepage_end() to
->>>>      check the staleness of the returning file size.
->>>>
->>>> Together with FOPEN_INVAL_ATTR, a FUSE daemon is able to implement
->>>> close-to-open (CTO) consistency like NFS client implementations.
+On 21/08/23 09:40, Geert Uytterhoeven wrote:
+> Hi Giulio,
+> 
+> On Sun, Aug 20, 2023 at 2:35 AM Giulio Benetti
+> <giulio.benetti@benettiengineering.com> wrote:
+>> On 18/08/23 01:23, Laurent Pinchart wrote:
+>>> On Fri, Aug 18, 2023 at 12:09:57AM +0200, Giulio Benetti wrote:
+>>>> Sometimes it happens that a Company or a Physical Person sponsors the
+>>>> creation and/or the upstreaming process of a patch, but at the moment
+>>>> there is no way to give credits to it. There are some commit that include
+>>>> a sort of tag "Sponsored by" without the dash to avoid
+>>>> scripts/checkpatch.pl to complain but a real standard has not been defined.
+>>>> With this patch let's try to define a method to give credits consistently
+>>>> including an acknowledge from the sponsor. The goal is to improve
+>>>> contributions from companies or physical persons that this way should gain
+>>>> visibility in Linux kernel and so they should be more prone to let the
+>>>> work done for them for to be upstreamed.
 >>>
->>> What I'd prefer is mode similar to NFS: getattr flushes pending writes
->>> so that server ctime/mtime are always in sync with client.  FUSE
->>> probably should have done that from the beginning, but at that time I
->>> wasn't aware of the NFS solution.
+>>> Just adding one data point here, without judging on the merits of this
+>>> proposal. I've been requested previously by customers to increase their
+>>> visibility in the kernel development statistics, and the way we found to
+>>> do so was to sign-off patches with
+>>>
+>>> Laurent Pinchart <laurent.pinchart+customer@ideasonboard.com>
+>>>
+>>> (where "customer" is to be replaced with the customer name).
 >>
+>> this approach works good for the developer because of the +customer
+>> mailbox capability but in term of appeal for the final customer I've
+>> been told(by the customer) he would really like more the "Sponsored-by:"
+>> way. To tell the truth while I was looking for an existing alternative
+>> I've found the commits with "Sponsored by:" pseudo-tag that look cooler.
 >>
->> I think it would be good to have flush-on-getattr configurable - 
->> systems with a distributed lock manager (DLM) and notifications from 
->> server/daemon to kernel should not need it.
->>
->>
->> Thanks,
->> Bernd
+>> This is my taste of course and the taste of one of my customers, but
+>> to me it's like having a brand shown:
+>> Sponsored-by: Sponsoring Company
+>> vs:
+>> Signed-off-by: Giulio Benetti
+>> <giulio.benetti+sponsor.company@benettiengineering.com>
 > 
-> Hi Miklos and Bernd,
+> Personally, I would respond "I'm sorry, but the only advertising
+> space we offer are Copyright headers (for employees) and
+> "user+customer@..." or "name (customer) user@..." (for contractors).
+
+This is a good answer. So these are the 2 possible ways to give credits
+to sponsors.
+
+Does it make sense if I send a patch describing exactly this?
+This is because my finding was only "Sponsored by" that looked good
+to me. So I can avoid other possible pain for the future.
+
+> And this is a separate tag, so it's harder for the analysis tools
+> (whose output your customers must be interested in, too?) to
+> match the tag to the actual Author/Reviewer/...
+
+Right
+
+>> If I am the customer I'd really prefer the first option.
 > 
-> I agree that flush-on-getattr is a good solution to keep the c/mtime
-> consistency for the view of userspace applications.
+> You are aware this will cause lots of work for the customer, too?
+> (See below).
+
+[ SNIP ]
+
+>>>> +In both cases, to prevent fake credits, either the company or the person should
+>>>> +send an Acked-by tag placed right under Sponsored-by tag using the same form
+>>>> +described above. So for example if the patch contains::
+>>>> +
+>>>> +    <changelog>
+>>>> +
+>>>> +    Sponsored-by: Company Name <mail@companyname.com>
+>>>> +    Signed-off-by: Developer Name <developer.name@developername.com>
+>>>> +
+>>>> +The result including the answer from the sponsor must be::
+>>>> +
+>>>> +    <changelog>
+>>>> +
+>>>> +    Sponsored-by: Company Name <mail@companyname.com>
+>>>> +    Acked-by: Company Name <mail@companyname.com>
+>>>> +    Signed-off-by: Developer Name <developer.name@developername.com>
+>>>> +
+>>>> +This way the sponsor agrees to the usage of this tag using its name.
 > 
-> Maybe in the next version, we can add the flush-on-getattr just for the
-> writeback_cache_v2 mode, as daemons replying on reverse notifications
-> are likely not need the writeback_cache_v2 mode. What do you think?
+> This is also causing more work for maintainers: now they have to check
+> if any Sponsored-by tags are present, and track if there is a response
+> with a matching Acked-by tag...
+> 
+> And obviously they should postpone applying the patch until a
+> confirmation response is sent... which may never happen...
 
-Hi Jiachen,
+Yes it came into my mind and I wanted to rely only on DCO dropping the
+part of acked-by tag. But there are too many cons for Sponsored-by approach.
 
-isn't Miklos' idea that we can avoid writeback_cache_v2 mode?
+So I will go for one of the 2 ways I've been pointed.
 
-
-Thanks,
-Bernd
+Thank you
+Best regards
+-- 
+Giulio Benetti
+CEO&CTO@Benetti Engineering sas
