@@ -2,81 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3629DEE4993
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 07:52:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 270BCEE49AF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 08:32:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbjHWHwu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 03:52:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37254 "EHLO
+        id S230334AbjHWIcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 04:32:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbjHWHwt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 03:52:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CD581BE;
-        Wed, 23 Aug 2023 00:52:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F45561A24;
-        Wed, 23 Aug 2023 07:52:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88C7C433C8;
-        Wed, 23 Aug 2023 07:52:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692777167;
-        bh=n9oUBtOY4v6iN8QeG3ySrjb2E4LovnG5A5s20mkNAwU=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=o4dbetyVcKe/463jEhmKakZIdv0sfO0FZftM7FIZ0vH45iTEYSZ26GGVWIhKi3lbQ
-         zFnsbnvIxUzEA4WO47amELVI87xNbsAXaQ3D/tkafCpFg3ijjBTtXG0PMIckt1Ru1W
-         ZZLZYu0A5xJ5e3VB+gMs+8QqvUQYmsSYFleqIdk/6vnr6Cw3QjyHn8IWjZmg06zNDV
-         wwhthvluYf3IPZyrZpNseQjzG9VAszAw2uu9xSffsAcVyQurCPrj6k5vAImuK9HqfY
-         AHNfHsQIkDlfYADV7Fbu0VvVutb9QW1W8II0gR4sIeEwBNYjUrBGRT6wJwiH9+CQue
-         mgYgplV8zyurw==
-From:   Kalle Valo <kvalo@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     "Limonciello, Mario" <mario.limonciello@amd.com>,
-        Evan Quan <evan.quan@amd.com>, Andrew Lunn <andrew@lunn.ch>,
-        rafael@kernel.org, lenb@kernel.org, johannes@sipsolutions.net,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, alexander.deucher@amd.com,
-        rdunlap@infradead.org, quic_jjohnson@quicinc.com, horms@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [V9 1/9] drivers core: Add support for Wifi band RF mitigations
-References: <20230818032619.3341234-1-evan.quan@amd.com>
-        <20230818032619.3341234-2-evan.quan@amd.com>
-        <2023081806-rounding-distract-b695@gregkh>
-        <2328cf53-849d-46a1-87e6-436e3a1f5fd8@amd.com>
-        <2023081919-mockup-bootleg-bdb9@gregkh>
-        <e5d153ed-df8a-4d6f-8222-18dfd97f6371@amd.com>
-        <2023082247-synthesis-revenge-470d@gregkh>
-Date:   Wed, 23 Aug 2023 10:53:43 +0300
-In-Reply-To: <2023082247-synthesis-revenge-470d@gregkh> (Greg KH's message of
-        "Tue, 22 Aug 2023 08:39:00 +0200")
-Message-ID: <87a5uiw5x4.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        with ESMTP id S234690AbjHWI2d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 04:28:33 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82381737;
+        Wed, 23 Aug 2023 01:25:40 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1692779123;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YABGz93CwcKXya0myrUbxzMc6GMWWiFYKpVWpDX9Jqg=;
+        b=L4GoeeBRl3glZv6lbixeTgYrBZpSrPDFsQdLhJawqekTDt5YAaSikOYK2DPF3KB0+Hbfr1
+        nUiOjO6Zk9a/Q+yhHwGSPzgpFSYuS8fPk7cuDkI9ywShgWhbWl8V0Rf4h4sej0Zn2QEP5v
+        N8dRldK3jc1LZLrahFjJQrgnNJ51AkJ7LRUF+1NZcnbdlG5DnT3tOdEqtb5yyMuXJEdPPe
+        jV+/JE1r1Gsilt1LJRMIcoAHf2uOvwIzLrHk0zQja4OtfCJsgw9aheTasZPyJ4pElokhc6
+        r/8Tg6H2Os3mA40bXhnm/2v0+NDrCVRExgjAZlEyEDpdbbV+Q6/ff8hGhBsK2w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1692779123;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YABGz93CwcKXya0myrUbxzMc6GMWWiFYKpVWpDX9Jqg=;
+        b=ZpBuholq/wvCUXcRLF6xZLyx25TNsMb5dhHgBFxho60PTxz6hV1vXqbhkVWnORuyBBJJ8U
+        BwimVeB9amrXjKAA==
+To:     Erdem Aktas <erdemaktas@google.com>,
+        Dan Williams <dan.j.williams@intel.com>
+Cc:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Dionna Amalie Glaze <dionnaglaze@google.com>,
+        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        dhowells@redhat.com, brijesh.singh@amd.com, atishp@rivosinc.com
+Subject: Re: [PATCH v3 3/3] selftests/tdx: Test GetQuote TDX attestation
+ feature
+In-Reply-To: <CAAYXXYyK4g9k7a78CU9w6Sn9KTBdoNLOu9gcgrSHJfp+3-tO=w@mail.gmail.com>
+References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
+ <CAAYXXYyK4g9k7a78CU9w6Sn9KTBdoNLOu9gcgrSHJfp+3-tO=w@mail.gmail.com>
+Date:   Wed, 23 Aug 2023 10:25:22 +0200
+Message-ID: <87msyidv2l.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Greg KH <gregkh@linuxfoundation.org> writes:
-
-> On Mon, Aug 21, 2023 at 10:13:45PM -0500, Limonciello, Mario wrote:
->> So I wonder if the right answer is to put it in drivers/net/wireless
->> initially and if we come up with a need later for non wifi producers we can
->> discuss moving it at that time.
+On Thu, Jun 22 2023 at 14:01, Erdem Aktas wrote:
+> On Mon, Jun 12, 2023 at 12:03=E2=80=AFPM Dan Williams <dan.j.williams@int=
+el.com>
+> wrote:
+>> Now multiple
+>> confidential computing vendors trying to develop similar flows with
+>> differentiated formats where that differentiation need not leak over the
+>> ABI boundary.
+>>
 >
-> Please do so.
+> <Just my personal opinion below>
+> I agree with this statement in the high level but it is also somehow
+> surprising for me after all the discussion happened around this topic.
+> Honestly, I feel like there are multiple versions of "Intel"  working in
+> different directions.
+>
+> If we want multiple vendors trying to do the similar things behind a comm=
+on
+> ABI, it should start with the spec. Since this comment is coming from
+> Intel, I wonder if there is any plan to combine the GHCB and GHCI
+> interfaces under common ABI in the future or why it did not even happen in
+> the first place.
 
-Sorry, I haven't been able to follow the discussion in detail but just a
-quick comment: if there's supposed to be code which is shared with
-different wifi drivers then drivers/net/wireless sounds wrong,
-net/wireless or net/mac80211 would be more approriate location.
+You are conflating things here.
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+The GETQUOTE TDVMCALL interface is part of the Guest-Hypervisor
+Communication Interface (GHCI), which is a firmware interface.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Firmware (likewise hardware) interfaces have the unfortunate property
+that they are mostly cast in stone.
+
+But that has absolutely nothing to do with the way how the kernel
+implements support for them. If we'd follow your reasoning then we'd
+have a gazillion of vendor specific SCSI stacks in the kernel.
+
+> What I see is that Intel has GETQUOTE TDVMCALL interface in its spec and
+> again Intel does not really want to provide support for it in linux. It
+> feels really frustrating.
+
+Intel definitely wants to provide support for this interface and this
+very thread is about that support. But Intel is not in a position to
+define what the kernel community has to accept or not, neither is
+Google.
+
+Sure, it would have been more efficient to come up with a better
+interface earlier, but that's neither an Intel nor a TDX specific
+problem.
+
+It's just how kernel development works. Some ideas look good on first
+sight, some stuff slips through and at some point the maintainers
+realize that this is not the way to go and request a proper generalized
+and maintainable implementation.
+
+If you can provide compelling technical reasons why the IOCTL is the
+better and more maintainable approach for the kernel, then we are all
+ears and happy to debate that on the technical level.
+
+Feel free to be frustrated, but I can assure you that the only way to
+resolve this dilemma is to sit down and actually get work done in a way
+which is acceptable by the kernel community at the technical level.
+
+Everything else is frustrating for everyone involved, not only you.
+
+Thanks,
+
+        tglx
+
+
