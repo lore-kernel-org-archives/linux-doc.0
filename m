@@ -2,55 +2,49 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8707CEE49A3
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 02:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28EF2EE49A3
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 04:26:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232244AbjHWCiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Aug 2023 22:38:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
+        id S232547AbjHWE0V convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 00:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232249AbjHWCit (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Aug 2023 22:38:49 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB80CF9
-        for <linux-doc@vger.kernel.org>; Tue, 22 Aug 2023 19:38:46 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6bca857accbso4011198a34.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Aug 2023 19:38:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692758326; x=1693363126;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hTuoNAPJjhEfJo2OfKuB84Fta+CXlvmq3TsH4v0Gc3g=;
-        b=jyddBpA6JF26tJElQM9u56fmP7n8yWWcXgzfN5Thy8dDv+owhfZa1KkDLVu2fycyF0
-         PEqSfqxoFUa8npK0jl2U0vF6NaC4rDusoXZFImuIw5m1S2EokaY38+a4LbpzYCEfD6w4
-         arE2N/NQlSdBHW6P85jX8+G64byXCcHiMmI26IgemCS63nrpcIKKbg/dxxAgPWOK0H1y
-         0GkSuc/UxgOuJRJGw0jH79dqqDmzESN8DSRTd+Tq5aFgdsUb6IhXaU5/Wsnq3qAIYY9d
-         Y/RiI+iTfofSF44eT1866KFDqzwenU/5ervB/1czBJF0+WNnUku5eiMoR46vDIj7CQHX
-         kn8A==
+        with ESMTP id S232348AbjHWE0U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 00:26:20 -0400
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C5C7E56;
+        Tue, 22 Aug 2023 21:26:18 -0700 (PDT)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-48d0eb04c8cso888923e0c.0;
+        Tue, 22 Aug 2023 21:26:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692758326; x=1693363126;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hTuoNAPJjhEfJo2OfKuB84Fta+CXlvmq3TsH4v0Gc3g=;
-        b=OylXOwqIZ+d5KWsjavxWvdBDdyeQg8yEjLQIP4EpCv1Rz8bBGHqipPkJl5KvZQQUD1
-         5j3uXof6ghbnCSuU5LnJJnTIy21mBIOub+/6V2g5hUEhbnCAtAjdCP8M0w4YNaFYTk/K
-         XGdfuBWJqATkiU5txTi/qjCwFutDTHgKz972dz8jgBSxvbD5PmzipeSos+P4VAsra/Nb
-         5LtITUr5rpUEQJWYfRRfJbguTrKyXbUj7romd97QFHKqPBWKU23aA8I8o9QNJFmjmw+j
-         cw18Twg4MbxI6ZMRClXUpqHdMkPsFgcMXeXnn8JmWZemtJ0m+1WyQZeOB+QXPGQbowJP
-         Nvkw==
-X-Gm-Message-State: AOJu0Yy5mTwvI+GbmeN+YGeclP7RosH2XZl5gmFBf12wpIDhInzkHvDe
-        gWGb9gwCKtsCwLp+sguxIwewtjQqSZ/+HnpDxhdfhIqR
-X-Google-Smtp-Source: AGHT+IGAdnKYLSqSf7A7lfSdx8pKYq98ovZ5cGgI4uVrvPU+aL9l1OQxSIoesF3LdJdnmRB5C0GKdQ==
-X-Received: by 2002:a9d:694e:0:b0:6b9:5734:135f with SMTP id p14-20020a9d694e000000b006b95734135fmr12642626oto.28.1692758325869;
-        Tue, 22 Aug 2023 19:38:45 -0700 (PDT)
-Received: from leoy-huanghe.lan ([94.177.131.100])
-        by smtp.gmail.com with ESMTPSA id y8-20020a63b508000000b0056a36ac322dsm5837038pge.4.2023.08.22.19.38.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 19:38:45 -0700 (PDT)
-Date:   Wed, 23 Aug 2023 10:38:38 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Namhyung Kim <namhyung@kernel.org>
+        d=1e100.net; s=20221208; t=1692764777; x=1693369577;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nE6DTLfN3ouIo27YNTlsSzc6zc01NPTEWUx80jUS8mk=;
+        b=iKOkLQmyHLhL7TY7FiJrnfIETQhwca+/bPzrPldHu9VHDqjx/p8XYF6nRot/N/NQU8
+         2Yds6P4qCc3BV/yFtWfKVkQOBYQzGElHuDINMZZN4eiUEPpFssqpt8h5h28ztaauGJb0
+         ALpG/DhjmrkjanGh+hWY78r/jx+0PpXlhh9iKzI+KQ+8/Iko5zTznU2EBca0Mj2gdPR+
+         VyAuph9bcq4b7MplSByTlOyUcVa92JWkyb1Da5yGRR5gjzL68ETTHRy/i9ynjhYRqaQC
+         B2fRGSLOg2KLHWjzqBbVoZz8F3/HmYgaiquoGu3t9jA3Cs0otvMR9LPWyIYOCWFewbvg
+         A7Fw==
+X-Gm-Message-State: AOJu0YxMgSnIDwgX1P8W0Z7v3u3NsEKJdtu2Dn0ZnUMxCzmjLxHZp8Ol
+        itE2A5iHGPGUlTd8EoFVPQS4vtygZWjKNfRRsE0=
+X-Google-Smtp-Source: AGHT+IFO5xLcXF5NEqb9XiIxPrEIUso2679WWl2TFLuJB7mx3RgByBjshF1425w5r3W52E/2dq2JHixGHuQwqVElbQw=
+X-Received: by 2002:a1f:c386:0:b0:48d:5f5:e201 with SMTP id
+ t128-20020a1fc386000000b0048d05f5e201mr5510580vkf.15.1692764777198; Tue, 22
+ Aug 2023 21:26:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230819093340.265817-1-leo.yan@linaro.org> <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
+ <20230823023838.GF57731@leoy-huanghe.lan>
+In-Reply-To: <20230823023838.GF57731@leoy-huanghe.lan>
+From:   Namhyung Kim <namhyung@kernel.org>
+Date:   Tue, 22 Aug 2023 21:26:05 -0700
+Message-ID: <CAM9d7cgaMyH=vSjVEOBjLzBWbZOricm6aHcP9hfLsTJ_gUEh3g@mail.gmail.com>
+Subject: Re: [PATCH v6] Documentation: userspace-api: Document perf ring
+ buffer mechanism
+To:     Leo Yan <leo.yan@linaro.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Ian Rogers <irogers@google.com>,
@@ -59,81 +53,86 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Adrian Hunter <adrian.hunter@intel.com>,
         Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v6] Documentation: userspace-api: Document perf ring
- buffer mechanism
-Message-ID: <20230823023838.GF57731@leoy-huanghe.lan>
-References: <20230819093340.265817-1-leo.yan@linaro.org>
- <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Namhyung,
+On Tue, Aug 22, 2023 at 7:38 PM Leo Yan <leo.yan@linaro.org> wrote:
+>
+> Hi Namhyung,
+>
+> On Tue, Aug 22, 2023 at 05:43:25PM -0700, Namhyung Kim wrote:
+>
+> [...]
+>
+> > > +2.3.2 Writing samples into buffer
+> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > +
+> > > +Ring buffers are mapped as read-write mode or read-only mode, which is
+> > > +used for a normal ring buffer and an overwritable ring buffer
+> > > +respectively.
+> > > +
+> > > +The ring buffer in the read-write mode is mapped with the property
+> > > +``PROT_READ | PROT_WRITE``.  With the write permission, the perf tool
+> > > +updates the ``data_tail`` to indicate the data start position.  Combining
+> > > +with the head pointer ``data_head``, which works as the end position of
+> > > +the current data, the perf tool can easily know where read out the data
+> > > +from.
+> > > +
+> > > +Alternatively, in the read-only mode, only the kernel keeps to update
+> > > +the ``data_head`` while the user space cannot access the ``data_tail`` due
+> > > +to the mapping property ``PROT_READ``.
+> > > +
+> > > +Why ring buffers are mapped with above two different modes?  Here the
+> > > +write direction matters.  The forward writing starts to save data from
+> > > +the beginning of the ring buffer and wrap around when overflow, which is
+> > > +used with the read-write mode in the normal ring buffer.  When the
+> > > +consumer doesn't keep up with the producer, it would lose some data, the
+> > > +kernel keeps how many records it lost and generates the
+> > > +``PERF_RECORD_LOST`` records in the next time when it finds a space in the
+> > > +ring buffer.
+> >
+> > Thanks for the update.  It's unclear to me if all 4 combination of
+> > (rw, ro) x (fwd, bwd) are possible (yes!).  The rw mode and back-
+> > ward is also possible but just not used for perf tool.
+>
+> I can add a matrix for the combinations:
+>
+>   The combination is supported in perf tool:
+>
+>   ---+------------+-----------
+>      |  Forward   | Backward
+>   ---+------------+-----------
+>   rw |  Yes       |   No
+>   ---+------------+-----------
+>   ro |  X         |   Yes
+>   ---+------------+-----------
+>
+>   Yes: is supported
+>   No: is not supported
+>   X: is not feasible
 
-On Tue, Aug 22, 2023 at 05:43:25PM -0700, Namhyung Kim wrote:
+I think they are all supported.  You can use rw mode with backward
+direction but it's just not intuitive.  Also ro mode with forward direction
+is working but there's a chance to miss the start position of the
+previous event.
 
-[...]
+Thanks,
+Namhyung
 
-> > +2.3.2 Writing samples into buffer
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +Ring buffers are mapped as read-write mode or read-only mode, which is
-> > +used for a normal ring buffer and an overwritable ring buffer
-> > +respectively.
-> > +
-> > +The ring buffer in the read-write mode is mapped with the property
-> > +``PROT_READ | PROT_WRITE``.  With the write permission, the perf tool
-> > +updates the ``data_tail`` to indicate the data start position.  Combining
-> > +with the head pointer ``data_head``, which works as the end position of
-> > +the current data, the perf tool can easily know where read out the data
-> > +from.
-> > +
-> > +Alternatively, in the read-only mode, only the kernel keeps to update
-> > +the ``data_head`` while the user space cannot access the ``data_tail`` due
-> > +to the mapping property ``PROT_READ``.
-> > +
-> > +Why ring buffers are mapped with above two different modes?  Here the
-> > +write direction matters.  The forward writing starts to save data from
-> > +the beginning of the ring buffer and wrap around when overflow, which is
-> > +used with the read-write mode in the normal ring buffer.  When the
-> > +consumer doesn't keep up with the producer, it would lose some data, the
-> > +kernel keeps how many records it lost and generates the
-> > +``PERF_RECORD_LOST`` records in the next time when it finds a space in the
-> > +ring buffer.
-> 
-> Thanks for the update.  It's unclear to me if all 4 combination of
-> (rw, ro) x (fwd, bwd) are possible (yes!).  The rw mode and back-
-> ward is also possible but just not used for perf tool.
 
-I can add a matrix for the combinations:
-
-  The combination is supported in perf tool:
-
-  ---+------------+-----------
-     |  Forward   | Backward
-  ---+------------+-----------
-  rw |  Yes       |   No
-  ---+------------+-----------
-  ro |  X         |   Yes
-  ---+------------+-----------
-
-  Yes: is supported
-  No: is not supported
-  X: is not feasible
-
-> And I think the description below in this section shows kernel
-> internals too much.  Name of kernel functions and data structure
-> is not an API and can be changed any time.  You can describe
-> the logic without the names.
-
-Understand, I agree this will introduce maintenance efforts in later.
-
-I will refine the description and send a new patch.
-
-Thanks for reviewing!
-
-Leo
+>
+> > And I think the description below in this section shows kernel
+> > internals too much.  Name of kernel functions and data structure
+> > is not an API and can be changed any time.  You can describe
+> > the logic without the names.
+>
+> Understand, I agree this will introduce maintenance efforts in later.
+>
+> I will refine the description and send a new patch.
+>
+> Thanks for reviewing!
+>
+> Leo
