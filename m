@@ -2,141 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F6DC27C40
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 20:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC7A4C27C40
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 20:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235887AbjHWU2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 16:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55524 "EHLO
+        id S236109AbjHWUs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 16:48:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236271AbjHWU2B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 16:28:01 -0400
-X-Greylist: delayed 324 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Aug 2023 13:27:59 PDT
-Received: from mail.scottdial.com (bert.scottdial.com [104.237.142.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A9210C7;
-        Wed, 23 Aug 2023 13:27:58 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.scottdial.com (Postfix) with ESMTP id A119E111B49E;
-        Wed, 23 Aug 2023 16:22:33 -0400 (EDT)
-Received: from mail.scottdial.com ([127.0.0.1])
-        by localhost (mail.scottdial.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id UQH3nC_IfCdB; Wed, 23 Aug 2023 16:22:32 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.scottdial.com (Postfix) with ESMTP id 0AC44111B0C2;
-        Wed, 23 Aug 2023 16:22:32 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.scottdial.com 0AC44111B0C2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scottdial.com;
-        s=24B7B964-7506-11E8-A7D6-CF6FBF8C6FCF; t=1692822152;
-        bh=4ro6skDZPhNFiMNcHq20oe+J8XwK1HUQS3NB15eFkJY=;
-        h=Message-ID:Date:MIME-Version:To:From;
-        b=yEqAvoZFxTwcGOciJVr6R0XxP7RxINnUUet34rKL5zHpOpL7YpkHO8QkeWYAjSGkz
-         iFOnZATQ2tpnfD3OnCiwScFdVRMacHed37epCFpzAMDplQqU0/zMZIcbJD116ntFmD
-         FWU5+f6ikFCWaMgCq2r3/9nbt7E35rGr5dl9cxU0HrOmJXru9JuGJYhi+pyAoq+jr9
-         6xeMSt778MK0ljTxK/CbLq7XBNiUaX68n3w1NM2MsQw7fbVMXqHdcHn3pTginLWE/X
-         j6w+aLOxbOGQ2aWvR8D+OOXR0DxDVP5TDehHgg1ni89A7l+xuwdbJ9PzNIw7wKokaS
-         G9BXRwnzTO8HA==
-X-Virus-Scanned: amavisd-new at scottdial.com
-Received: from mail.scottdial.com ([127.0.0.1])
-        by localhost (mail.scottdial.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 4nDsxhdqy-ZN; Wed, 23 Aug 2023 16:22:31 -0400 (EDT)
-Received: from [172.17.2.2] (unknown [172.17.2.2])
-        by mail.scottdial.com (Postfix) with ESMTPSA id D4BBC111B49E;
-        Wed, 23 Aug 2023 16:22:31 -0400 (EDT)
-Message-ID: <a9af0c0a-ec7c-fa01-05ac-147fccb94fbf@scottdial.com>
-Date:   Wed, 23 Aug 2023 16:22:31 -0400
+        with ESMTP id S236329AbjHWUsC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 16:48:02 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436DA10D8;
+        Wed, 23 Aug 2023 13:48:00 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1692823677;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7Yapx1izqMJNWGK86iIChhl3nrTxYbrL7JSLHDQf04I=;
+        b=bn1U5vh7lJw1fYSPNnnahndougAW/wNnVzaFq/KE0dHrxPoiaBK+WT67o5omMBmRcpZJG1
+        JRwYBwCgCSTEFjHdciilk7Ijytbv05jGaU7JVGCUrBCKwzBM219yeLDdCdwcSUHmmfjoB9
+        AmiP0c2y5XsG6SUgpMSStDnJupVG4SqecK4jgOA2/B0bHmNE8BClWYmkW40jlhPJNAqb8i
+        VZSJnF0/59MIyb0UeK5IOX5Nv4Gfipsk5I0C/zLos2tIkvar9flMv/87ZGBPV9GVWvvabJ
+        n9isWQJB1LxSlmiP2XvC1votth+EAC30kSfs42H5CsnqLd1H0GkBAVZ+NZdETw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1692823677;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7Yapx1izqMJNWGK86iIChhl3nrTxYbrL7JSLHDQf04I=;
+        b=moPng/ju61TIqvlhSh1Q6penCZsj2aRYqBLzACeg5iH4k7zo4kfr31GlSpbHa/4/jMJayl
+        waJQONQh+J02rgDw==
+To:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Dionna Amalie Glaze <dionnaglaze@google.com>,
+        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] x86/tdx: Add TDX Guest event notify interrupt
+ support
+In-Reply-To: <83a832b156f6e3bf906fee657b0147f042481a36.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <83a832b156f6e3bf906fee657b0147f042481a36.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+Date:   Wed, 23 Aug 2023 22:47:56 +0200
+Message-ID: <875y55eb9f.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
-Content-Language: en-US
-To:     Sabrina Dubroca <sd@queasysnail.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
- <20230818184648.127b2ccf@kernel.org> <ZOTWzJ4aEa5geNva@hog>
-From:   Scott Dial <scott@scottdial.com>
-In-Reply-To: <ZOTWzJ4aEa5geNva@hog>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> 2023-08-18, 18:46:48 -0700, Jakub Kicinski wrote:
->> Can we not fix the ordering problem?
->> Queue the packets locally if they get out of order?
+On Sun, May 14 2023 at 00:23, Kuppuswamy Sathyanarayanan wrote:
+> +static int __init tdx_event_irq_init(void)
+> +{
+> +	struct irq_affinity_desc desc;
+> +	struct irq_alloc_info info;
+> +	struct irq_cfg *cfg;
+> +	int irq;
+> +
+> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
+> +		return 0;
+> +
+> +	init_irq_alloc_info(&info, NULL);
+> +
+> +	cpumask_set_cpu(smp_processor_id(), &desc.mask);
 
-AES-NI's implementation of gcm(aes) requires the FPU, so if it's busy 
-the decrypt gets stuck on the cryptd queue, but that queue is not 
-order-preserving. If the macsec driver maintained a queue for the netdev 
-that was order-preserving, then you could resolve the issue, but it adds 
-more complexity to the macsec driver, so I assume that's why the 
-maintainers have always desired to revert my patch instead of ensuring 
-packet order.
+desc is completely uninitialized here and therefore desc.mask and
+desc.is_managed contain random stack content.
 
-With respect to AES-NI's implementation of gcm(aes), it's unfortunate 
-that there is not a synchronous version that uses the FPU when available 
-and fallsback to gcm_base(ctr(aes-aesni),ghash-generic) when it's not. 
-In that case, you would get the benefit of the FPU for the majority of 
-time when it's available. When I suggested this to linux-crypto, I was 
-told that relying on synchronous crypto in the macsec driver was wrong:
+The only reason why this "works" is that tdx_event_irq_init() is an
+early initcall which is invoked before SMP init, so the only choice of
+the allocator is to pick an interrupt on CPU0.
 
-On 12 Aug 2020 10:45:00 +0000, Pascal Van Leeuwen wrote:
-> Forcing the use of sync algorithms only would be detrimental to platforms
-> that do not have CPU accelerated crypto, but do have HW acceleration
-> for crypto external to the CPU. I understand it's much easier to implement,
-> but that is just being lazy IMHO. For bulk crypto of relatively independent
-> blocks (networking packets, disk sectors), ASYNC should always be preferred.
+Thanks,
 
-So, I abandoned my suggestion to add a fallback. The complexity of the 
-queueing the macsec driver was beyond the time I had available, and the 
-regression in performance was not significant for my use case, but I 
-understand that others may have different requirements. I would 
-emphasize that benchmarking of network performance should be done by 
-looking at more than just the interface frame rate. For instance, 
-out-of-order deliver of packets can trigger TCP backoff. I was never 
-interested in how many packets the macsec driver could stuff onto the 
-wire, because the impact was my TCP socket stalling and my UDP streams 
-being garbled.
+        tglx
 
-On 8/22/2023 11:39 AM, Sabrina Dubroca wrote:
-> Actually, looking into the crypto API side, I don't see how they can
-> get out of order since commit 81760ea6a95a ("crypto: cryptd - Add
-> helpers to check whether a tfm is queued"):
-> 
->      [...] ensure that no reordering is introduced because of requests
->      queued in cryptd with respect to requests being processed in
->      softirq context.
-> 
-> And cryptd_aead_queued() is used by AESNI (via simd_aead_decrypt()) to
-> decide whether to process the request synchronously or not.
 
-I have not been following linux-crypto changes, but I would be surprised 
-if request is not flagged with CRYPTO_TFM_REQ_MAY_BACKLOG, so it would 
-be queue. If that's not the case, then the attempt to decrypt would 
-return -EBUSY, which would translate to a packet error, since 
-macsec_decrypt MUST handle the skb during the softirq.
-
-> So I really don't get what commit ab046a5d4be4 was trying to fix. I've
-> never been able to reproduce that issue, I guess commit 81760ea6a95a
-> explains why.
- >
- > I'd suggest to revert commit ab046a5d4be4, but it feels wrong to
- > revert it without really understanding what problem Scott hit and why
- > 81760ea6a95a didn't solve it.
-
-I don't think that commit has any relevance to the issue. For instance 
-with AES-NI, you need to have competing load on the FPU such that 
-crypto_simd_usable() fails to be true. In the past, I replicated this 
-failure mode using two SuperMicro 5018D-FN4T servers directly connected 
-to each other, which is a Xeon-D 1541 w/ Intel 10GbE NIC (ixgbe driver). 
- From there, I would send /dev/urandom as UDP to the other host. I would 
-get about 1 out of 10k packets queued on cryptd with that setup. My real 
-world case was transporting MPEG TS video streams, each about 1k pps, so 
-that is an decode error in the video stream every 10 seconds.
-
--- 
-Scott Dial
-scott@scottdial.com
 
