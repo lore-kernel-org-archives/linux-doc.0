@@ -2,123 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B387EE4993
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 11:13:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 848FAEE49A0
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 11:42:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234230AbjHWLNH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 07:13:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39774 "EHLO
+        id S232311AbjHWLmT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 07:42:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234215AbjHWLNH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 07:13:07 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0DC198
-        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 04:12:46 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-68a520dba33so2416516b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 04:12:46 -0700 (PDT)
+        with ESMTP id S231807AbjHWLmT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 07:42:19 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F123E5D;
+        Wed, 23 Aug 2023 04:42:16 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fee51329feso25233745e9.0;
+        Wed, 23 Aug 2023 04:42:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1692789166; x=1693393966;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1692790935; x=1693395735;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9l/C/Em55hDWEZsHiOtUwvmf9bvizEENoPNvEct/EfI=;
-        b=KP1ChHFNfM0e8toOlV+hECyU3u1mwZA4fCDAIuIBoDsCINkYYwUNx/uyNtnzVS1X+W
-         tLlWGrw4f31BtIWSLy/MKwD2LysTeZPQjA/pvFNsf4aOGaM2IiJuIx6O8vmDU48DTSeR
-         aWmZwfKSZy8U5Nh/LRsbJvk7BdR8IE8HWUiPt3xWoyH9dH0psaU9LfYkVVMyLtqX6lEw
-         En7Yz8R7yFeGrv1l0UxpDPS5An2HvGCgplhkvNEZ3w1ILVNL/DQSEMxbtTqLS3F0+gqk
-         exBdyVgu/fMj9G7MQym2TQ1KNBlSOsYu30fxLGZC13pgE6zCjt/8oL4uO9nCN7o/tgDq
-         hLpQ==
+        bh=KzgGtNlOM1cvqfWM/EJhHUGF+FWBrjyYnlJyMWp5WUE=;
+        b=IKbSNW4QnXPoSgymJztuM3DV8rOHJoBFYJzo40OVp2pAMGDHY9MrAFtLoomRK59nHW
+         yKg4c0zWXVD1NlfWU/FHYjrHtdG7VX0Uv7aMBSqXOc4a6GfuJr1SVnUn+1maddpq/nGX
+         Eha7ePOF0q3p2VGcqrihS2aFca7gwBr98877KFhfe9qZwFOvtvcWtbr6DfzltzkMI/9x
+         I2QUPYdU8hUE0K1K6wdvESNxPUmFQ+B3F1fkYDpxNZliVZKjm8/66OElsISPez+iJoDd
+         KtM96VUfSEtZ8KRqWtpVQhG8IH8AVHvKvktFTbuopIXfdMtWVXe28ry+3yHK2a9RM75z
+         sesQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692789166; x=1693393966;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9l/C/Em55hDWEZsHiOtUwvmf9bvizEENoPNvEct/EfI=;
-        b=jVpoAf5PZw36tk6gstPyfGvP+j8yTFNIWqfYmaTzWKUXZPE1IIeWKe9mGf6Lv256c8
-         DCDX7f8JlkVJYOlJNPEvMNRGIYOEiHuVobtUtnMbwHJTa5yG18xpoKeba1bTjhKY4Yls
-         SQbrgS+kK1bPBSOgflan8hfZDlZeAUwHapbHHf6KZyZVXYKI4UGiQ8ABesnrMSZH0LqA
-         suZL5VV5XR/wjjbeS7+6cAqa6X9hhNniRIevWH4JU94HDEzGW73e/2+TbxcTRXlWDq6U
-         D3YAP1o5PcKf74Imy5T5tDvZZNJPrW20KcVyeqXl/8UGPaTHNBmseoXf2I5ddse8jCCc
-         jn2w==
-X-Gm-Message-State: AOJu0YwdIqMUH8OnmvWZT3l7Dg4B4LGJUCXIqjWuBvEkujSUIzmzv9fA
-        V5LbgaCeakb+d7j61/BrN8Cueg==
-X-Google-Smtp-Source: AGHT+IH6qjCXnJXfdTQcWKr9U/NGAmqaIa6a51NYKXyh+nsa4CDocmJi35FlCNTOYm6GU3g0v8EN1g==
-X-Received: by 2002:a05:6a21:3d8b:b0:132:ef90:1d1d with SMTP id bj11-20020a056a213d8b00b00132ef901d1dmr13871845pzc.0.1692789166350;
-        Wed, 23 Aug 2023 04:12:46 -0700 (PDT)
-Received: from [10.255.208.99] ([139.177.225.251])
-        by smtp.gmail.com with ESMTPSA id r21-20020a170902ea5500b001bb99e188fcsm10702619plg.194.2023.08.23.04.12.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Aug 2023 04:12:45 -0700 (PDT)
-Message-ID: <446c65f1-e5e9-4f99-467f-a64654bcf131@bytedance.com>
-Date:   Wed, 23 Aug 2023 19:12:41 +0800
+        d=1e100.net; s=20221208; t=1692790935; x=1693395735;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KzgGtNlOM1cvqfWM/EJhHUGF+FWBrjyYnlJyMWp5WUE=;
+        b=UPmrQfUEi2NFikLgN1m8t4pcrNhu41wkICTJEUFctLlIgSTt9DlsQMu6O1kfDxIG43
+         XmdPrG2dzWVtqyf6D224Qh3eiNVsI8FuWMReWgihdS8QiBVPGPTo+YUdnJeYEz092KA/
+         B/7yeT+TIDf8PQxawRZZURFKXbYJRfxu+M+2qhqpAeS9LvY1nuMgpDEDH5gBc8kjeIFh
+         MIkE2D2QVyGxqNdgBXgh9IddCq9d6WBSd7ULQIXsSXG5BMln6FZvMo6JDc1dhk4akNGg
+         734s0VDO9+OaAS9CoRMOg1UGCg8mBi5UVIIixOeXr3ZdjqRULz2P4P9/t3y/L9/OXT+P
+         HSgA==
+X-Gm-Message-State: AOJu0YwCssUNb2oQuYuyBm529MzVVs19i0ug2I72QOYmCvkisVynhJXq
+        R+8LfM0a0sZTNkzQCf2Q/Dulsw+nuO4usw==
+X-Google-Smtp-Source: AGHT+IE8XHeTN7mJ7ipg+hRrva+knqb5v6+kSRDdhWZNoMLz2QsIhF/nfZ6MU5AP9+2vK0Vo723ZOg==
+X-Received: by 2002:a05:600c:2291:b0:3fb:f0b2:20eb with SMTP id 17-20020a05600c229100b003fbf0b220ebmr9180011wmf.1.1692790934535;
+        Wed, 23 Aug 2023 04:42:14 -0700 (PDT)
+Received: from imac.taild7a78.ts.net ([2a02:8010:60a0:0:e4cf:1132:7b40:4262])
+        by smtp.gmail.com with ESMTPSA id k21-20020a05600c1c9500b003fed9b1a1f4sm559508wms.1.2023.08.23.04.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 04:42:13 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Stanislav Fomichev <sdf@google.com>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH net-next v4 01/12] doc/netlink: Fix typo in genetlink-* schemas
+Date:   Wed, 23 Aug 2023 12:41:50 +0100
+Message-ID: <20230823114202.5862-2-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230823114202.5862-1-donald.hunter@gmail.com>
+References: <20230823114202.5862-1-donald.hunter@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH 3/5] fuse: add FOPEN_INVAL_ATTR
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        me@jcix.top
-References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
- <20230711043405.66256-4-zhangjiachen.jaycee@bytedance.com>
- <CAJfpegtocWjfqVUpdnct-1-pq_DYJXUuvkBWey2N5q6+K=pL_w@mail.gmail.com>
-From:   Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-In-Reply-To: <CAJfpegtocWjfqVUpdnct-1-pq_DYJXUuvkBWey2N5q6+K=pL_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/8/23 17:01, Miklos Szeredi wrote:
-> On Tue, 11 Jul 2023 at 06:36, Jiachen Zhang
-> <zhangjiachen.jaycee@bytedance.com> wrote:
->>
->> Add FOPEN_INVAL_ATTR so that the fuse daemon can ask kernel to invalidate
->> the attr cache on file open.
->>
->> The fi->attr_version should be increased when handling FOPEN_INVAL_ATTR.
->> Because if a FUSE request returning attributes (getattr, setattr, lookup,
->> and readdirplus) starts before a FUSE_OPEN replying FOPEN_INVAL_ATTR, but
->> finishes after the FUSE_OPEN, staled attributes will be set to the inode
->> and falsely clears the inval_mask.
->>
->> Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
->> ---
->>   fs/fuse/file.c            | 10 ++++++++++
->>   include/uapi/linux/fuse.h |  2 ++
->>   2 files changed, 12 insertions(+)
->>
->> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
->> index de37a3a06a71..412824a11b7b 100644
->> --- a/fs/fuse/file.c
->> +++ b/fs/fuse/file.c
->> @@ -215,6 +215,16 @@ void fuse_finish_open(struct inode *inode, struct file *file)
->>                  file_update_time(file);
->>                  fuse_invalidate_attr_mask(inode, FUSE_STATX_MODSIZE);
->>          }
->> +
->> +       if (ff->open_flags & FOPEN_INVAL_ATTR) {
->> +               struct fuse_inode *fi = get_fuse_inode(inode);
->> +
->> +               spin_lock(&fi->lock);
->> +               fi->attr_version = atomic64_inc_return(&fc->attr_version);
-> 
-> No need to add locking or change fi->attr_version.  This will be done
-> next time the attributes are updated.
-> 
-> Thanks,
-> Miklos
+Fix typo verion -> version in genetlink-c and genetlink-legacy.
 
-Hi Miklos,
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+ Documentation/netlink/genetlink-c.yaml      | 2 +-
+ Documentation/netlink/genetlink-legacy.yaml | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Thanks for the review! As said in the commit message, increasing the
-attr version here is to prevent the attr updated by staled operations. 
-If such cases happen, inval_mask will be falsely cleared, and 
-FOPEN_INVAL_ATTR takes no effect from the user's point of view.
+diff --git a/Documentation/netlink/genetlink-c.yaml b/Documentation/netlink/genetlink-c.yaml
+index 4c1f8c22627b..9806c44f604c 100644
+--- a/Documentation/netlink/genetlink-c.yaml
++++ b/Documentation/netlink/genetlink-c.yaml
+@@ -41,7 +41,7 @@ properties:
+     description: Name of the define for the family name.
+     type: string
+   c-version-name:
+-    description: Name of the define for the verion of the family.
++    description: Name of the define for the version of the family.
+     type: string
+   max-by-define:
+     description: Makes the number of attributes and commands be specified by a define, not an enum value.
+diff --git a/Documentation/netlink/genetlink-legacy.yaml b/Documentation/netlink/genetlink-legacy.yaml
+index 196076dfa309..12a0a045605d 100644
+--- a/Documentation/netlink/genetlink-legacy.yaml
++++ b/Documentation/netlink/genetlink-legacy.yaml
+@@ -41,7 +41,7 @@ properties:
+     description: Name of the define for the family name.
+     type: string
+   c-version-name:
+-    description: Name of the define for the verion of the family.
++    description: Name of the define for the version of the family.
+     type: string
+   max-by-define:
+     description: Makes the number of attributes and commands be specified by a define, not an enum value.
+-- 
+2.41.0
 
-The increasing of attr_version here can also be explained as the
-attr has been updated from the server side.
-
-Thanks,
-Jiachen
