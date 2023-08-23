@@ -2,137 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28EF2EE49A3
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 04:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4220CEE49A3
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 06:19:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232547AbjHWE0V convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 00:26:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33650 "EHLO
+        id S232772AbjHWGTi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 02:19:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232348AbjHWE0U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 00:26:20 -0400
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C5C7E56;
-        Tue, 22 Aug 2023 21:26:18 -0700 (PDT)
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-48d0eb04c8cso888923e0c.0;
-        Tue, 22 Aug 2023 21:26:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692764777; x=1693369577;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nE6DTLfN3ouIo27YNTlsSzc6zc01NPTEWUx80jUS8mk=;
-        b=iKOkLQmyHLhL7TY7FiJrnfIETQhwca+/bPzrPldHu9VHDqjx/p8XYF6nRot/N/NQU8
-         2Yds6P4qCc3BV/yFtWfKVkQOBYQzGElHuDINMZZN4eiUEPpFssqpt8h5h28ztaauGJb0
-         ALpG/DhjmrkjanGh+hWY78r/jx+0PpXlhh9iKzI+KQ+8/Iko5zTznU2EBca0Mj2gdPR+
-         VyAuph9bcq4b7MplSByTlOyUcVa92JWkyb1Da5yGRR5gjzL68ETTHRy/i9ynjhYRqaQC
-         B2fRGSLOg2KLHWjzqBbVoZz8F3/HmYgaiquoGu3t9jA3Cs0otvMR9LPWyIYOCWFewbvg
-         A7Fw==
-X-Gm-Message-State: AOJu0YxMgSnIDwgX1P8W0Z7v3u3NsEKJdtu2Dn0ZnUMxCzmjLxHZp8Ol
-        itE2A5iHGPGUlTd8EoFVPQS4vtygZWjKNfRRsE0=
-X-Google-Smtp-Source: AGHT+IFO5xLcXF5NEqb9XiIxPrEIUso2679WWl2TFLuJB7mx3RgByBjshF1425w5r3W52E/2dq2JHixGHuQwqVElbQw=
-X-Received: by 2002:a1f:c386:0:b0:48d:5f5:e201 with SMTP id
- t128-20020a1fc386000000b0048d05f5e201mr5510580vkf.15.1692764777198; Tue, 22
- Aug 2023 21:26:17 -0700 (PDT)
+        with ESMTP id S231163AbjHWGTi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 02:19:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E95E7E;
+        Tue, 22 Aug 2023 23:19:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C44D861351;
+        Wed, 23 Aug 2023 06:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 938C3C433C7;
+        Wed, 23 Aug 2023 06:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692771561;
+        bh=hRs5dH0ZEPcb6II3vz8akVjaVIarEG42/y1v3tkpUzg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UbMFTgwT5DIncy9OyNxvxDcjJUmUgPFw7S5x606CbXJpl2Ajsbj6TiDFa/YQ78dFo
+         1+xteboubD3G3s2MMuyXy7QqqaOpnoMuXlTFuZs1E0QwQR/S7H4ciOpbbZTs8BD8T0
+         8l8KYh2C/htx1VRg17/k91/sHkNTodHdEZ4IORwl7MM3q0gbMowADeU8FOT74pFuEG
+         jb6nHdr6AO1SubsNLRkHgMqKZliGUYRAHjHivlSBs95f500FCOHFu984DexcWtjTVw
+         sRvufy3n7QSLO17xEiOpa46LpK20gEYM9LCIxNrJUyUZht9U30Ml8YPOhPJ+lqxC6Z
+         x9ciOHFMWXwig==
+Date:   Wed, 23 Aug 2023 11:49:04 +0530
+From:   Manivannan Sadhasivam <mani@kernel.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+        manivannan.sadhasivam@linaro.org, oe-kbuild-all@lists.linux.dev,
+        helgaas@kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
+        quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
+        quic_parass@quicinc.com, krzysztof.kozlowski@linaro.org,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
+Message-ID: <20230823061904.GC3737@thinkpad>
+References: <1690948281-2143-2-git-send-email-quic_krichai@quicinc.com>
+ <202308021312.obgu7FWM-lkp@intel.com>
 MIME-Version: 1.0
-References: <20230819093340.265817-1-leo.yan@linaro.org> <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
- <20230823023838.GF57731@leoy-huanghe.lan>
-In-Reply-To: <20230823023838.GF57731@leoy-huanghe.lan>
-From:   Namhyung Kim <namhyung@kernel.org>
-Date:   Tue, 22 Aug 2023 21:26:05 -0700
-Message-ID: <CAM9d7cgaMyH=vSjVEOBjLzBWbZOricm6aHcP9hfLsTJ_gUEh3g@mail.gmail.com>
-Subject: Re: [PATCH v6] Documentation: userspace-api: Document perf ring
- buffer mechanism
-To:     Leo Yan <leo.yan@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Thomas Richter <tmricht@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202308021312.obgu7FWM-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 22, 2023 at 7:38 PM Leo Yan <leo.yan@linaro.org> wrote:
->
-> Hi Namhyung,
->
-> On Tue, Aug 22, 2023 at 05:43:25PM -0700, Namhyung Kim wrote:
->
-> [...]
->
-> > > +2.3.2 Writing samples into buffer
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +Ring buffers are mapped as read-write mode or read-only mode, which is
-> > > +used for a normal ring buffer and an overwritable ring buffer
-> > > +respectively.
-> > > +
-> > > +The ring buffer in the read-write mode is mapped with the property
-> > > +``PROT_READ | PROT_WRITE``.  With the write permission, the perf tool
-> > > +updates the ``data_tail`` to indicate the data start position.  Combining
-> > > +with the head pointer ``data_head``, which works as the end position of
-> > > +the current data, the perf tool can easily know where read out the data
-> > > +from.
-> > > +
-> > > +Alternatively, in the read-only mode, only the kernel keeps to update
-> > > +the ``data_head`` while the user space cannot access the ``data_tail`` due
-> > > +to the mapping property ``PROT_READ``.
-> > > +
-> > > +Why ring buffers are mapped with above two different modes?  Here the
-> > > +write direction matters.  The forward writing starts to save data from
-> > > +the beginning of the ring buffer and wrap around when overflow, which is
-> > > +used with the read-write mode in the normal ring buffer.  When the
-> > > +consumer doesn't keep up with the producer, it would lose some data, the
-> > > +kernel keeps how many records it lost and generates the
-> > > +``PERF_RECORD_LOST`` records in the next time when it finds a space in the
-> > > +ring buffer.
-> >
-> > Thanks for the update.  It's unclear to me if all 4 combination of
-> > (rw, ro) x (fwd, bwd) are possible (yes!).  The rw mode and back-
-> > ward is also possible but just not used for perf tool.
->
-> I can add a matrix for the combinations:
->
->   The combination is supported in perf tool:
->
->   ---+------------+-----------
->      |  Forward   | Backward
->   ---+------------+-----------
->   rw |  Yes       |   No
->   ---+------------+-----------
->   ro |  X         |   Yes
->   ---+------------+-----------
->
->   Yes: is supported
->   No: is not supported
->   X: is not feasible
+On Wed, Aug 02, 2023 at 01:14:44PM +0800, kernel test robot wrote:
+> Hi Krishna,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on pci/next]
+> [also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230801]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/PCI-endpoint-Add-D-state-change-notifier-support/20230802-115309
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> patch link:    https://lore.kernel.org/r/1690948281-2143-2-git-send-email-quic_krichai%40quicinc.com
+> patch subject: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
+> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021312.obgu7FWM-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/pci/endpoint/pci-epc-core.c:795:6: warning: no previous prototype for 'pci_epc_dstate_notity' [-Wmissing-prototypes]
+>      795 | void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
 
-I think they are all supported.  You can use rw mode with backward
-direction but it's just not intuitive.  Also ro mode with forward direction
-is working but there's a chance to miss the start position of the
-previous event.
+This tells that you haven't build tested the series before sending. Please
+always do both build and functionality testing before sending each iteration.
 
-Thanks,
-Namhyung
+- Mani
 
+>          |      ^~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/pci_epc_dstate_notity +795 drivers/pci/endpoint/pci-epc-core.c
+> 
+>    785	
+>    786	/**
+>    787	 * pci_epc_dstate_notity() - Notify the EPF driver that EPC device D-state
+>    788	 *			has changed
+>    789	 * @epc: the EPC device which has change in D-state
+>    790	 * @state: the changed D-state
+>    791	 *
+>    792	 * Invoke to Notify the EPF device that the EPC device has D-state has
+>    793	 * changed.
+>    794	 */
+>  > 795	void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
+>    796	{
+>    797		struct pci_epf *epf;
+>    798	
+>    799		if (!epc || IS_ERR(epc))
+>    800			return;
+>    801	
+>    802		mutex_lock(&epc->list_lock);
+>    803		list_for_each_entry(epf, &epc->pci_epf, list) {
+>    804			mutex_lock(&epf->lock);
+>    805			if (epf->event_ops && epf->event_ops->dstate_notify)
+>    806				epf->event_ops->dstate_notify(epf, state);
+>    807			mutex_unlock(&epf->lock);
+>    808		}
+>    809		mutex_unlock(&epc->list_lock);
+>    810	}
+>    811	EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
+>    812	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
->
-> > And I think the description below in this section shows kernel
-> > internals too much.  Name of kernel functions and data structure
-> > is not an API and can be changed any time.  You can describe
-> > the logic without the names.
->
-> Understand, I agree this will introduce maintenance efforts in later.
->
-> I will refine the description and send a new patch.
->
-> Thanks for reviewing!
->
-> Leo
+-- 
+மணிவண்ணன் சதாசிவம்
