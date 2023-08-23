@@ -2,139 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 270BCEE49AF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 08:32:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6974AEE4993
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 09:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbjHWIcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 04:32:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54060 "EHLO
+        id S235048AbjHWJKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 05:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234690AbjHWI2d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 04:28:33 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82381737;
-        Wed, 23 Aug 2023 01:25:40 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1692779123;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YABGz93CwcKXya0myrUbxzMc6GMWWiFYKpVWpDX9Jqg=;
-        b=L4GoeeBRl3glZv6lbixeTgYrBZpSrPDFsQdLhJawqekTDt5YAaSikOYK2DPF3KB0+Hbfr1
-        nUiOjO6Zk9a/Q+yhHwGSPzgpFSYuS8fPk7cuDkI9ywShgWhbWl8V0Rf4h4sej0Zn2QEP5v
-        N8dRldK3jc1LZLrahFjJQrgnNJ51AkJ7LRUF+1NZcnbdlG5DnT3tOdEqtb5yyMuXJEdPPe
-        jV+/JE1r1Gsilt1LJRMIcoAHf2uOvwIzLrHk0zQja4OtfCJsgw9aheTasZPyJ4pElokhc6
-        r/8Tg6H2Os3mA40bXhnm/2v0+NDrCVRExgjAZlEyEDpdbbV+Q6/ff8hGhBsK2w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1692779123;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YABGz93CwcKXya0myrUbxzMc6GMWWiFYKpVWpDX9Jqg=;
-        b=ZpBuholq/wvCUXcRLF6xZLyx25TNsMb5dhHgBFxho60PTxz6hV1vXqbhkVWnORuyBBJJ8U
-        BwimVeB9amrXjKAA==
-To:     Erdem Aktas <erdemaktas@google.com>,
-        Dan Williams <dan.j.williams@intel.com>
-Cc:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Dionna Amalie Glaze <dionnaglaze@google.com>,
-        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        dhowells@redhat.com, brijesh.singh@amd.com, atishp@rivosinc.com
-Subject: Re: [PATCH v3 3/3] selftests/tdx: Test GetQuote TDX attestation
- feature
-In-Reply-To: <CAAYXXYyK4g9k7a78CU9w6Sn9KTBdoNLOu9gcgrSHJfp+3-tO=w@mail.gmail.com>
-References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
- <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
- <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
- <CAAYXXYyK4g9k7a78CU9w6Sn9KTBdoNLOu9gcgrSHJfp+3-tO=w@mail.gmail.com>
-Date:   Wed, 23 Aug 2023 10:25:22 +0200
-Message-ID: <87msyidv2l.ffs@tglx>
+        with ESMTP id S235313AbjHWJHy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 05:07:54 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F491BF6
+        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 02:02:03 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-997c4107d62so715028066b.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 02:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1692781314; x=1693386114;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=htSMjdk85wELugVDXAhr8cuhpjEm2Q5vyQ8twDUxEyk=;
+        b=hG3ilkGGJUfAI8sRdQkgGVOuFHUn22bI04fyKmmYAttiVJlkyoYN3afCusCr4PMbkA
+         pNfZSGNZXoSy2v14RslrgQtlmPD00F52wpUwPUo+INhkkkDq8S5TgiTaX1OmH6cwxhvM
+         K+2F0DAHY0lZgmYME1PI3mNPKJN0EmsDIGstw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692781314; x=1693386114;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=htSMjdk85wELugVDXAhr8cuhpjEm2Q5vyQ8twDUxEyk=;
+        b=SWVOe+RZYotIh6U5BYFpW/wZgHwTSstC33gIl6EmB3oO2ToZjuJHb/pd1E+sH4fya3
+         frnLuUg20tVAawDzZjvPgEyHUliabUL6znOEUNL3sYkN4zfZ0N5Z9WjZcvG85vbuYs0N
+         SThnw4HU62ITw+x1fymkQ50AwB6hA38TVxAEqC6uu0QbXFmDr4fDKaDhdsOJgeOCjchI
+         a957U40zU9hafuf6IfSCYIcPs9SWOu4HOc0jtFCnQVodHkVJYPCOJh0lVKOp91S53FCA
+         tneow9EfolVniUtXB6U5xpkGgnHXXJhM5E7uCMsGO2TUoVigGH2M3W8Ugj5iHkmK+RTZ
+         YBSA==
+X-Gm-Message-State: AOJu0YzRItrOdwBqkrBlLUjgzYqc3nFx9bSAxa+a7/VBqU9MS0IzgHQm
+        l0eyqDkMKseV9nh/UP3LTnt+yYGGLXz9JVtpcrBL6A==
+X-Google-Smtp-Source: AGHT+IETRpv9wXDM4ZeEVu1LHXQq7WY3Gxn4hHYL3/vW0KawK2WFCTMwX7ltbe/FKT2CNlG4aOJ/vzL7dF8Br1Y5zzw=
+X-Received: by 2002:a17:906:1d9:b0:991:b554:e64b with SMTP id
+ 25-20020a17090601d900b00991b554e64bmr10551621ejj.54.1692781313930; Wed, 23
+ Aug 2023 02:01:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com> <20230711043405.66256-4-zhangjiachen.jaycee@bytedance.com>
+In-Reply-To: <20230711043405.66256-4-zhangjiachen.jaycee@bytedance.com>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Wed, 23 Aug 2023 11:01:42 +0200
+Message-ID: <CAJfpegtocWjfqVUpdnct-1-pq_DYJXUuvkBWey2N5q6+K=pL_w@mail.gmail.com>
+Subject: Re: [PATCH 3/5] fuse: add FOPEN_INVAL_ATTR
+To:     Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        me@jcix.top
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 22 2023 at 14:01, Erdem Aktas wrote:
-> On Mon, Jun 12, 2023 at 12:03=E2=80=AFPM Dan Williams <dan.j.williams@int=
-el.com>
-> wrote:
->> Now multiple
->> confidential computing vendors trying to develop similar flows with
->> differentiated formats where that differentiation need not leak over the
->> ABI boundary.
->>
+On Tue, 11 Jul 2023 at 06:36, Jiachen Zhang
+<zhangjiachen.jaycee@bytedance.com> wrote:
 >
-> <Just my personal opinion below>
-> I agree with this statement in the high level but it is also somehow
-> surprising for me after all the discussion happened around this topic.
-> Honestly, I feel like there are multiple versions of "Intel"  working in
-> different directions.
+> Add FOPEN_INVAL_ATTR so that the fuse daemon can ask kernel to invalidate
+> the attr cache on file open.
 >
-> If we want multiple vendors trying to do the similar things behind a comm=
-on
-> ABI, it should start with the spec. Since this comment is coming from
-> Intel, I wonder if there is any plan to combine the GHCB and GHCI
-> interfaces under common ABI in the future or why it did not even happen in
-> the first place.
+> The fi->attr_version should be increased when handling FOPEN_INVAL_ATTR.
+> Because if a FUSE request returning attributes (getattr, setattr, lookup,
+> and readdirplus) starts before a FUSE_OPEN replying FOPEN_INVAL_ATTR, but
+> finishes after the FUSE_OPEN, staled attributes will be set to the inode
+> and falsely clears the inval_mask.
+>
+> Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+> ---
+>  fs/fuse/file.c            | 10 ++++++++++
+>  include/uapi/linux/fuse.h |  2 ++
+>  2 files changed, 12 insertions(+)
+>
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index de37a3a06a71..412824a11b7b 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -215,6 +215,16 @@ void fuse_finish_open(struct inode *inode, struct file *file)
+>                 file_update_time(file);
+>                 fuse_invalidate_attr_mask(inode, FUSE_STATX_MODSIZE);
+>         }
+> +
+> +       if (ff->open_flags & FOPEN_INVAL_ATTR) {
+> +               struct fuse_inode *fi = get_fuse_inode(inode);
+> +
+> +               spin_lock(&fi->lock);
+> +               fi->attr_version = atomic64_inc_return(&fc->attr_version);
 
-You are conflating things here.
-
-The GETQUOTE TDVMCALL interface is part of the Guest-Hypervisor
-Communication Interface (GHCI), which is a firmware interface.
-
-Firmware (likewise hardware) interfaces have the unfortunate property
-that they are mostly cast in stone.
-
-But that has absolutely nothing to do with the way how the kernel
-implements support for them. If we'd follow your reasoning then we'd
-have a gazillion of vendor specific SCSI stacks in the kernel.
-
-> What I see is that Intel has GETQUOTE TDVMCALL interface in its spec and
-> again Intel does not really want to provide support for it in linux. It
-> feels really frustrating.
-
-Intel definitely wants to provide support for this interface and this
-very thread is about that support. But Intel is not in a position to
-define what the kernel community has to accept or not, neither is
-Google.
-
-Sure, it would have been more efficient to come up with a better
-interface earlier, but that's neither an Intel nor a TDX specific
-problem.
-
-It's just how kernel development works. Some ideas look good on first
-sight, some stuff slips through and at some point the maintainers
-realize that this is not the way to go and request a proper generalized
-and maintainable implementation.
-
-If you can provide compelling technical reasons why the IOCTL is the
-better and more maintainable approach for the kernel, then we are all
-ears and happy to debate that on the technical level.
-
-Feel free to be frustrated, but I can assure you that the only way to
-resolve this dilemma is to sit down and actually get work done in a way
-which is acceptable by the kernel community at the technical level.
-
-Everything else is frustrating for everyone involved, not only you.
+No need to add locking or change fi->attr_version.  This will be done
+next time the attributes are updated.
 
 Thanks,
-
-        tglx
-
-
+Miklos
