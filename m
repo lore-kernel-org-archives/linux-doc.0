@@ -2,180 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DDFC71145
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 21:26:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04FBAC27C40
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 21:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237525AbjHWVZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 17:25:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41162 "EHLO
+        id S232847AbjHWV2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 17:28:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237574AbjHWVZZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 17:25:25 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641CDCEE;
-        Wed, 23 Aug 2023 14:25:20 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fef3c3277bso30174585e9.1;
-        Wed, 23 Aug 2023 14:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692825919; x=1693430719;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dpEEPZmrCPCqgC5T/1i+GwHqJ4iLE4jDzYi6rzURs+E=;
-        b=HOkQvCobvX9x7ulu29c55ytxc1OGYiGtTPbbh5HtJy7rN6uKauwkiOcgYwr9V1oIFu
-         D82xul/e2nXtHr/GLUt+rYvMgD1tApOp8529LdCGORjgksy4IrMFW4PxmkK2cHPfRUWd
-         qgQVKYFol4dDNU4fiLGXRWRzg6nFYgspxfrmCmLdYW905ecs2MZs++T5Kg9HgmxP0lq6
-         GuMgcsnMRvFMiQgRB2sxFhvSZ/0iopIc8piPGi322XPP0DOBVICgLvwHJ2Vsd4ITsOZ2
-         c13AkmY81jkreZ6rYzD/65b+3kPfsLuPaqXvFbJZ37UoSIisHaYQH+Onq7KTJxRUKzHU
-         IClw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692825919; x=1693430719;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dpEEPZmrCPCqgC5T/1i+GwHqJ4iLE4jDzYi6rzURs+E=;
-        b=fPIpP1kDGYb47PZ1msD6hPn7D3O1TULfFYXSvA2iU/zXD9xglhr5ZWO+aRts+vIAy8
-         8I5WV5OFGBdFXZuoVKu1OCjcfAuRLlKUsmldJCY3rZe5v7r4Ysb2T26C5QT7NIkdfrH3
-         URrvSYY+UZZpr4ubfii2eq+EJwhvanB5I9kZbcOoJ7nwiLLZGrQY12KJhoYL/dWqkKPr
-         kRt61EhGMjnnYR/MsuIldAyiWJY6lj9IP0p/hPUMnzE+ZrtILMFXHkH2UiYgRb9T5s0l
-         dQUxdiDJxSCsFNqzYgafOeJeEwZt4khcBpxKHq+pKxGUCZeg0IQgDQJkgOFAPpo7q3bH
-         YmYQ==
-X-Gm-Message-State: AOJu0YwXTkLB+g5qOVpu+TRPFkA+GO1rw7GNP1dfaO4yTfdAuUDD4Ehs
-        XzP9WlgWYovw8zg38nPgsP0=
-X-Google-Smtp-Source: AGHT+IE/5XU5oCGdgY0CogQYbKgKek+oWdnVGern9hnv3jEdck7Fb/r5UKfUjbthF70JRTKwfPuhdw==
-X-Received: by 2002:a05:600c:2218:b0:3fe:ad3:b072 with SMTP id z24-20020a05600c221800b003fe0ad3b072mr9995370wml.17.1692825918588;
-        Wed, 23 Aug 2023 14:25:18 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:1a5:1436:c34c:226])
-        by smtp.gmail.com with ESMTPSA id f10-20020a1c6a0a000000b003fe407ca05bsm651380wmc.37.2023.08.23.14.25.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 14:25:17 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Jacob Keller <jacob.e.keller@intel.com>
-Cc:     <netdev@vger.kernel.org>, "Jakub Kicinski" <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric Dumazet" <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        <donald.hunter@redhat.com>
-Subject: Re: [PATCH net-next v4 02/12] doc/netlink: Add a schema for
- netlink-raw families
-In-Reply-To: <005940db-b7b6-c935-b16f-8106d3970b11@intel.com> (Jacob Keller's
-        message of "Wed, 23 Aug 2023 12:32:49 -0700")
-Date:   Wed, 23 Aug 2023 22:19:53 +0100
-Message-ID: <m2edjth2x2.fsf@gmail.com>
-References: <20230823114202.5862-1-donald.hunter@gmail.com>
-        <20230823114202.5862-3-donald.hunter@gmail.com>
-        <005940db-b7b6-c935-b16f-8106d3970b11@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        with ESMTP id S234427AbjHWV1t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 17:27:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A49FCEE;
+        Wed, 23 Aug 2023 14:27:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CDC0666304;
+        Wed, 23 Aug 2023 21:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44221C433C7;
+        Wed, 23 Aug 2023 21:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692826066;
+        bh=PadaEDKvbss1R09ksA7Vme1mVb0BrzW+7fddYJQYEaY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=N7jfPp6Aj1qdjwNSgeYeMpl+cecQAz9UnceJeNiS3tXrK7yDAnqnYhhibDcKy3pEp
+         oDLdou4O364SGzCx+99PH0uCw/VzOf6YWNvvkKhR6agof3eQZimKW3RC0tjjLSVpvP
+         8ewDzRjTlM8nRykfj/930byab09ZdWYyefZxCkjqx3ND6TM8FTgsh9O3GzG/p04j6j
+         ct9OtGmywDazNfzio0WSd8QIq5WZryPWlkvFAUmiPCKh60Ch18X89hmWS+Bd+BPwvX
+         aFu+Mzw5p1A2pQhQU0fIk/il860LN2kampPKOtgmGvcGlS/kn+yHg8YdvR9k9suffP
+         42OX8Fpcs0OSg==
+Received: (nullmailer pid 2915007 invoked by uid 1000);
+        Wed, 23 Aug 2023 21:27:44 -0000
+Date:   Wed, 23 Aug 2023 16:27:44 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Fabio Estevam <festevam@denx.de>, giometti@enneenne.com,
+        linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org
+Subject: Re: [PATCH] MAINTAINERS: pps: Update pps-gpio bindings location
+Message-ID: <169282605431.2914753.6885024870777628111.robh@kernel.org>
+References: <20230822213317.60798-1-festevam@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230822213317.60798-1-festevam@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jacob Keller <jacob.e.keller@intel.com> writes:
 
-> On 8/23/2023 4:41 AM, Donald Hunter wrote:
->> This schema is largely a copy of the genetlink-legacy schema with the
->> following additions:
->> 
->>  - a top-level protonum property, e.g. 0 (for NETLINK_ROUTE)
->>  - add netlink-raw to the list of protocols supported by the schema
->>  - add a value property to mcast-group definitions
->> 
->> This schema is very similar to genetlink-legacy and I considered
->> making the changes there and symlinking to it. On balance I felt that
->> might be problematic for accurate schema validation.
->> 
->
-> Ya, I think they have to be distinct to properly validate.
->
->> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
->> ---
->>  Documentation/netlink/netlink-raw.yaml | 414 +++++++++++++++++++++++++
->>  1 file changed, 414 insertions(+)
->>  create mode 100644 Documentation/netlink/netlink-raw.yaml
->> 
->> diff --git a/Documentation/netlink/netlink-raw.yaml b/Documentation/netlink/netlink-raw.yaml
->> new file mode 100644
->> index 000000000000..ef7bd07eab62
->> --- /dev/null
->> +++ b/Documentation/netlink/netlink-raw.yaml
->> @@ -0,0 +1,414 @@
->> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://kernel.org/schemas/netlink/genetlink-legacy.yaml#
->> +$schema: https://json-schema.org/draft-07/schema
->> +
->> +# Common defines
->> +$defs:
->> +  uint:
->> +    type: integer
->> +    minimum: 0
->> +  len-or-define:
->> +    type: [ string, integer ]
->> +    pattern: ^[0-9A-Za-z_]+( - 1)?$
->> +    minimum: 0
->> +
->> +# Schema for specs
->> +title: Protocol
->> +description: Specification of a genetlink protocol
->
-> If this is for netlink-raw, shouldn't this not say genetlink? Same
-> elsewhere? or am I misunderstanding something?
+On Tue, 22 Aug 2023 18:33:17 -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> The pps-gpio bindings have been converted to yaml.
+> 
+> Update the file path accordingly.
+> 
+> Fixes: 7ceb60ece856 ("dt-bindings: pps: pps-gpio: Convert to yaml")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202308230517.n0rrszYH-lkp@intel.com/
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-It's a good question. The schema definitions are currently strict
-supersets of genetlink:
+Applied, thanks!
 
-genetlink <= genetlink-c <= genetlink-legacy <= netlink-raw
-
-As you noted below, there's only 2 additions needed for the netlink raw
-families, protonum and mcast-group value.
-
-I would be happy to change the description and other references to
-genetlink in this spec, but I'd like to hear Jakub's thoughts about
-minimal modification vs a more thorough rewording. Perhaps a middle
-ground would be to extend the top-level description to say "genetlink or
-raw netlink" and qualify that all mention of genetlink also applies to
-raw netlink.
-
-Either way, I just noticed that the schema $id does need to be updated.
-
->> +type: object
->> +required: [ name, doc, attribute-sets, operations ]
->> +additionalProperties: False
->> +properties:
->> +  name:
->> +    description: Name of the genetlink family.
->> +    type: string
->> +  doc:
->> +    type: string
->> +  version:
->> +    description: Generic Netlink family version. Default is 1.
->> +    type: integer
->> +    minimum: 1
->> +  protocol:
->> +    description: Schema compatibility level. Default is "genetlink".
->> +    enum: [ genetlink, genetlink-c, genetlink-legacy, netlink-raw ] # Trim
->> +  # Start netlink-raw
->
-> I guess the netlink raw part is only below this? Or does netlink raw
-> share more of the generic netlink code than I thought?
-
-Raw netlink is, so far, the same as genetlink-legacy with the addition
-of hard-coded protocol ids.
-
->> +  protonum:
->> +    description: Protocol number to use for netlink-raw
->> +    type: integer
->> +  # End netlink-raw
-
-[...]
-
->> +            # Start netlink-raw
->> +            value:
->> +              description: Value of the netlink multicast group in the uAPI.
->> +              type: integer
->> +            # End netlink-raw
