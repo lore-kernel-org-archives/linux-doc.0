@@ -2,210 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA61FEE49B2
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 10:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2014EEE4993
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 10:59:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234041AbjHWKyU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 06:54:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53224 "EHLO
+        id S234253AbjHWK76 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 06:59:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232161AbjHWKyT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 06:54:19 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 162D719A;
-        Wed, 23 Aug 2023 03:54:17 -0700 (PDT)
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37NAnB9r030951;
-        Wed, 23 Aug 2023 10:53:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=3eNJ1F1ZIh5qb5ABj3u6R40fpkitePvKxhd0FlU+G8s=;
- b=VKt8IydGFnohWH59XRysxy6TXiX7WNJup4ggmXgZsJgtwJ0A17CkWAmXdihvozm7b8b7
- RpfJB/mi8aDIlezw6SNvhk9occtvjPu8efnV7vSE/pWXbGTLRKpVvrsHx6qd7CneFaoy
- i7RUQlIHzHGCSFEhkbo99IHpGeRRV4LHo7w0KNQyKD8D6uvtr5WBHoitFTotQ69fhAdn
- wUu2uKRyEo30lmgj58dFk9lTzaGFc1sPjA+XFMEhviWb6/bloLfVQUKmIC2d+t2OLwQ3
- SkuttcS/e3Or3U9TfQrcjQfiqMZW2oy37iHOUaLQULIq0b1UMVu2gN3yFnI+GqrIEqER hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sngpfr1qa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 23 Aug 2023 10:53:11 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37NAnGSX031081;
-        Wed, 23 Aug 2023 10:53:10 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sngpfr1pt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 23 Aug 2023 10:53:10 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37N9Ujs5020144;
-        Wed, 23 Aug 2023 10:53:09 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3sn22adnqx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 23 Aug 2023 10:53:08 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37NAr6TJ45089220
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Aug 2023 10:53:06 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1494B2004D;
-        Wed, 23 Aug 2023 10:53:06 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B274420040;
-        Wed, 23 Aug 2023 10:53:03 +0000 (GMT)
-Received: from [9.171.92.225] (unknown [9.171.92.225])
-        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Wed, 23 Aug 2023 10:53:03 +0000 (GMT)
-Message-ID: <67ec0e36908b7e6d7a6eba642ec76ef87d0d4945.camel@linux.ibm.com>
-Subject: Re: [PATCH v11 4/6] iommu/s390: Force ISM devices to use
- IOMMU_DOMAIN_DMA
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Date:   Wed, 23 Aug 2023 12:53:03 +0200
-In-Reply-To: <ba1e0b29-52e0-2fc0-2eb9-475735febacf@arm.com>
-References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
-         <20230717-dma_iommu-v11-4-a7a0b83c355c@linux.ibm.com>
-         <ba1e0b29-52e0-2fc0-2eb9-475735febacf@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        with ESMTP id S232105AbjHWK75 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 06:59:57 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B12FB
+        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 03:59:56 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1bf5c314a57so22522235ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 03:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1692788395; x=1693393195;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GYZFq9HoRCm6GUrGyMS4vRuIGoFXcojk2tIii80AOf8=;
+        b=hMCv8kaLg9uRTJ7vSvi6IGdU5fZSfTMhlG0zlRPlHSqcYvoDeYlf/0xO+0jJfC14cS
+         Bw/WseNRlkcUtziB19vuZoUOtCEHMS/ZTmr/X4WMxnB4mRrckS65mlok1QlaHfFhxJWk
+         sCvx4/kcuXPrO7i7krfxqRgWsnc78+OU1y2ROexiQGs+BLzrE+OARml5+vAU4fFs8ULg
+         vZc+BkaxQnXvXkkrRzvgPDlePDCUSX3woqMTGCbE1YsycvsZfrDHsQqaTcUoXCtw7MOX
+         MBAUxFHt8Uk9IU3BohH1PGp12RZ6tKt7MxNaUPCBmr/H2Ffdj7158cXTW8jz7fZUES/Q
+         AYYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692788395; x=1693393195;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GYZFq9HoRCm6GUrGyMS4vRuIGoFXcojk2tIii80AOf8=;
+        b=d2yYVJnM+rrDDu2T+Y7tzZWQKyhhHTE0b47KCwgJOnBoXbXm9ShQCjtiVcPa4gLEpm
+         oxVapgs2Cb0iVbqHm8QhIvc+kkhO2XD1qVUyIeCv+eYJVLaK43jSUsn7jknvSrBltdpO
+         NhGdBeMjWtC2WIbNR5Z5dpC67qyAlnbXmlq6XuKkxQslkjVM2Qre7GSJAPUtJx6HZ+0D
+         cgDw/qvt+5WkM+RDekt8UhljFmgrsmW20rfnN7D0dJ6nD382tskCuWJ3RrECyvLRIb4K
+         a9R0WFkBjOPYFvN25/QzfZ5BiMn6wcqKcmmaPkMyQS04aM1ctHy1VK86uRBVKE57Om2P
+         JmuA==
+X-Gm-Message-State: AOJu0YwATjzg2QCWNdk5FoSGBZdNzoxMLz7D9NwraiiDDPm2+C0lNtbB
+        fshLOPySsK/veZ/10uTMTWE2ww==
+X-Google-Smtp-Source: AGHT+IG9GEvdMxJhiziwd/SHslHP1nERR5FT/wwW48l3HyWAFbQ06s+mBPnSX8kpNLDY/xUfOyXAKg==
+X-Received: by 2002:a17:902:ea06:b0:1b2:1b22:196 with SMTP id s6-20020a170902ea0600b001b21b220196mr11544921plg.48.1692788395431;
+        Wed, 23 Aug 2023 03:59:55 -0700 (PDT)
+Received: from [10.255.208.99] ([139.177.225.251])
+        by smtp.gmail.com with ESMTPSA id a7-20020a170902ecc700b001b2069072ccsm10655073plh.18.2023.08.23.03.59.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Aug 2023 03:59:55 -0700 (PDT)
+Message-ID: <029cb695-9b8e-8fb3-ef0f-b223f34e7639@bytedance.com>
+Date:   Wed, 23 Aug 2023 18:59:49 +0800
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Dn5I7UigftX5RBKQwAj9CDPxUIpK94FJ
-X-Proofpoint-GUID: X6PgzynOD1cJFA8yBLSkFvc2jrgZNG5R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-23_06,2023-08-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 malwarescore=0
- spamscore=0 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2308100000 definitions=main-2308230096
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [PATCH 4/5] fuse: writeback_cache consistency enhancement
+ (writeback_cache_v2)
+To:     Bernd Schubert <bernd.schubert@fastmail.fm>,
+        Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        me@jcix.top
+References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
+ <20230711043405.66256-5-zhangjiachen.jaycee@bytedance.com>
+ <CAJfpegtqJo78wqT0EY0=1xfoSROsJogg9BNC_xJv6id9J1Oa+g@mail.gmail.com>
+ <699673a6-ff82-8968-6310-9a0b1c429be3@fastmail.fm>
+From:   Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+In-Reply-To: <699673a6-ff82-8968-6310-9a0b1c429be3@fastmail.fm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2023-08-18 at 20:10 +0100, Robin Murphy wrote:
-> On 2023-07-17 12:00, Niklas Schnelle wrote:
-> > ISM devices are virtual PCI devices used for cross-LPAR communication.
-> > Unlike real PCI devices ISM devices do not use the hardware IOMMU but
-> > inspects IOMMU translation tables directly on IOTLB flush (s390 RPCIT
-> > instruction).
-> >=20
-> > While ISM devices keep their DMA allocations static and only very rarel=
-y
-> > DMA unmap at all, For each IOTLB flush that occurs after unmap the ISM
-> > devices will inspect the area of the IOVA space indicated by the flush.
-> > This means that for the global IOTLB flushes used by the flush queue
-> > mechanism the entire IOVA space would be inspected. In principle this
-> > would be fine, albeit potentially unnecessarily slow, it turns out
-> > however that ISM devices are sensitive to seeing IOVA addresses that ar=
-e
-> > currently in use in the IOVA range being flushed. Seeing such in-use
-> > IOVA addresses will cause the ISM device to enter an error state and
-> > become unusable.
-> >=20
-> > Fix this by forcing IOMMU_DOMAIN_DMA to be used for ISM devices. This
-> > makes sure IOTLB flushes only cover IOVAs that have been unmapped and
-> > also restricts the range of the IOTLB flush potentially reducing latenc=
-y
-> > spikes.
->=20
-> Would it not be simpler to return false for IOMMU_CAP_DEFERRED_FLUSH for=
-=20
-> these devices?
->=20
-> Cheers,
-> Robin.
+On 2023/8/23 18:35, Bernd Schubert wrote:
+> On 8/23/23 11:07, Miklos Szeredi wrote:
+>> On Tue, 11 Jul 2023 at 06:36, Jiachen Zhang
+>> <zhangjiachen.jaycee@bytedance.com> wrote:
+>>>
+>>> Some users may want both the high performance of the writeback_cahe mode
+>>> and a little bit more consistency among FUSE mounts. Current
+>>> writeback_cache mode never updates attributes from server, so can never
+>>> see the file attributes changed by other FUSE mounts, which means
+>>> 'zero-consisteny'.
+>>>
+>>> This commit introduces writeback_cache_v2 mode, which allows the 
+>>> attributes
+>>> to be updated from server to kernel when the inode is clean and no
+>>> writeback is in-progressing. FUSE daemons can select this mode by the
+>>> FUSE_WRITEBACK_CACHE_V2 init flag.
+>>>
+>>> In writeback_cache_v2 mode, the server generates official attributes.
+>>> Therefore,
+>>>
+>>>      1. For the cmtime, the cmtime generated by kernel are just 
+>>> temporary
+>>>      values that are never flushed to server by fuse_write_inode(), 
+>>> and they
+>>>      could be eventually updated by the official server cmtime. The
+>>>      mtime-based revalidation of the fc->auto_inval_data mode is also
+>>>      skipped, as the kernel-generated temporary cmtime are likely not 
+>>> equal
+>>>      to the offical server cmtime.
+>>>
+>>>      2. For the file size, we expect server updates its file size on
+>>>      FUSE_WRITEs. So we increase fi->attr_version in 
+>>> fuse_writepage_end() to
+>>>      check the staleness of the returning file size.
+>>>
+>>> Together with FOPEN_INVAL_ATTR, a FUSE daemon is able to implement
+>>> close-to-open (CTO) consistency like NFS client implementations.
+>>
+>> What I'd prefer is mode similar to NFS: getattr flushes pending writes
+>> so that server ctime/mtime are always in sync with client.  FUSE
+>> probably should have done that from the beginning, but at that time I
+>> wasn't aware of the NFS solution.
+> 
+> 
+> I think it would be good to have flush-on-getattr configurable - systems 
+> with a distributed lock manager (DLM) and notifications from 
+> server/daemon to kernel should not need it.
+> 
+> 
+> Thanks,
+> Bernd
 
-Nice idea thank you. This is indeed less code, basically just return
-zdev->pft !=3D PCI_FUNC_TYPE_ISM for the IOMMU_CAP_DEFERRED_FLUSH check.
-I think it's also semantically more clear in that we don't really care
-about the domain type but about not getting deferred flushes.
+Hi Miklos and Bernd,
+
+I agree that flush-on-getattr is a good solution to keep the c/mtime
+consistency for the view of userspace applications.
+
+Maybe in the next version, we can add the flush-on-getattr just for the
+writeback_cache_v2 mode, as daemons replying on reverse notifications
+are likely not need the writeback_cache_v2 mode. What do you think?
 
 Thanks,
-Niklas
+Jiachen
 
->=20
-> > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> > ---
-> >   drivers/iommu/s390-iommu.c | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
-> >=20
-> > diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-> > index f6d6c60e5634..020cc538e4c4 100644
-> > --- a/drivers/iommu/s390-iommu.c
-> > +++ b/drivers/iommu/s390-iommu.c
-> > @@ -710,6 +710,15 @@ struct zpci_iommu_ctrs *zpci_get_iommu_ctrs(struct=
- zpci_dev *zdev)
-> >   	return &zdev->s390_domain->ctrs;
-> >   }
-> >  =20
-> > +static int s390_iommu_def_domain_type(struct device *dev)
-> > +{
-> > +	struct zpci_dev *zdev =3D to_zpci_dev(dev);
-> > +
-> > +	if (zdev->pft =3D=3D PCI_FUNC_TYPE_ISM)
-> > +		return IOMMU_DOMAIN_DMA;
-> > +	return 0;
-> > +}
-> > +
-> >   int zpci_init_iommu(struct zpci_dev *zdev)
-> >   {
-> >   	u64 aperture_size;
-> > @@ -789,6 +798,7 @@ static const struct iommu_ops s390_iommu_ops =3D {
-> >   	.probe_device =3D s390_iommu_probe_device,
-> >   	.probe_finalize =3D s390_iommu_probe_finalize,
-> >   	.release_device =3D s390_iommu_release_device,
-> > +	.def_domain_type =3D s390_iommu_def_domain_type,
-> >   	.device_group =3D generic_device_group,
-> >   	.pgsize_bitmap =3D SZ_4K,
-> >   	.get_resv_regions =3D s390_iommu_get_resv_regions,
-> >=20
->=20
 
