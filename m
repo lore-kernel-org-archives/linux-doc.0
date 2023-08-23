@@ -2,106 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FECEE49A0
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 09:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 922CBEE49B0
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 09:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232255AbjHWJ2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 05:28:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59008 "EHLO
+        id S235153AbjHWJ32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 05:29:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235097AbjHWJYR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 05:24:17 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D7A430F1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 01:57:55 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-99c3c8adb27so695767666b.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Aug 2023 01:57:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1692781074; x=1693385874;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=j94zWW7Vhu+ruknitmkA2V61CnG1G233OM0eLPAXM94=;
-        b=aE8USWDve+ALI4xTEFgpO9tclZQeUCRPADb7topbHxa8xw8n2gjpZWpr25uzUb1d4o
-         4gpCN6Emb7DSX1w/oGpJviJTtYX/bJDMj7FFb+2x3llYXXXXG6N21MPPWNQjQTx95phM
-         6C0E8hjoDSmo7sa8LyQ85wpYsjHjgvBIAKw7Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692781074; x=1693385874;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j94zWW7Vhu+ruknitmkA2V61CnG1G233OM0eLPAXM94=;
-        b=hU+I8bBGQ2CWj0MLc5gqPjGCpuuw1nKPSJzG466Z+2tL8Zs01WdmmTq1HwC882709f
-         H18dBM8KcRX9K6cv4payZBwQBaDTsnbsGPZOId1EGzugw5gJMmwbUFcFjQp4Ihg8vFGK
-         YLWpzagCjebHVJ13oXSrTi3fwHZXOkKu4llmAtu093u6V+gH6GtRz4lnAbkCcmBX2t7q
-         7TT20/aQRttWsYApD/DvRhMd81YFCqx4WmV+xthJt11FcGJZEMYbBT1Gfo/jba9DhJQu
-         Dx3GP1H5SQKRgAClOLGi1yHYLbnVXlmmjkrFe/7bw5jd+NFMVKxLHCqyLcvTqUZsaqBJ
-         Yn5A==
-X-Gm-Message-State: AOJu0Yxq+SyQKb0WCHmViwowahOoU8cLVxEzF1Fzh5ybgTKE9Knhj6u5
-        hPNMBjH4nQoL921lmYNMwF5kDZ5Dw1skXvW4XS9xUg==
-X-Google-Smtp-Source: AGHT+IHu4J7XyCWwQocI/2gqFnASyJynFOF4R6ZFGu4VmMZ/F7bDbjKPAe77MZcL9mjbpK2ZFj2uWOntDLLUgUi3yH4=
-X-Received: by 2002:a17:907:801f:b0:99b:d599:5086 with SMTP id
- ft31-20020a170907801f00b0099bd5995086mr8048062ejc.75.1692781073800; Wed, 23
- Aug 2023 01:57:53 -0700 (PDT)
+        with ESMTP id S235292AbjHWJ0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 05:26:11 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D681E5FCD;
+        Wed, 23 Aug 2023 02:12:51 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 30EAE1042;
+        Wed, 23 Aug 2023 02:13:31 -0700 (PDT)
+Received: from [10.57.3.6] (unknown [10.57.3.6])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E6FD3F740;
+        Wed, 23 Aug 2023 02:12:46 -0700 (PDT)
+Message-ID: <166d2a93-0d86-b106-e996-d74fb4521aa2@arm.com>
+Date:   Wed, 23 Aug 2023 10:12:40 +0100
 MIME-Version: 1.0
-References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com> <20230711043405.66256-2-zhangjiachen.jaycee@bytedance.com>
-In-Reply-To: <20230711043405.66256-2-zhangjiachen.jaycee@bytedance.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 23 Aug 2023 10:57:42 +0200
-Message-ID: <CAJfpegvkcYcJYL0Q6XxF1E0MiQ5NxvReP4H=7Ra=yCrDLTqD1A@mail.gmail.com>
-Subject: Re: [PATCH 1/5] fuse: check attributes staleness on fuse_iget()
-To:     Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        me@jcix.top
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v7 4/8] perf jevents: Support more event fields
+Content-Language: en-GB
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>,
+        John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1692606977-92009-5-git-send-email-renyu.zj@linux.alibaba.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <1692606977-92009-5-git-send-email-renyu.zj@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 11 Jul 2023 at 06:36, Jiachen Zhang
-<zhangjiachen.jaycee@bytedance.com> wrote:
->
-> Function fuse_direntplus_link() might call fuse_iget() to initialize a new
-> fuse_inode and change its attributes. If fi->attr_version is always
-> initialized with 0, even if the attributes returned by the FUSE_READDIR
-> request is staled, as the new fi->attr_version is 0, fuse_change_attributes
-> will still set the staled attributes to inode. This wrong behaviour may
-> cause file size inconsistency even when there is no changes from
-> server-side.
->
-> To reproduce the issue, consider the following 2 programs (A and B) are
-> running concurrently,
->
->         A                                               B
-> ----------------------------------      --------------------------------
-> { /fusemnt/dir/f is a file path in a fuse mount, the size of f is 0. }
->
-> readdir(/fusemnt/dir) start
-> //Daemon set size 0 to f direntry
->                                         fallocate(f, 1024)
->                                         stat(f) // B see size 1024
->                                         echo 2 > /proc/sys/vm/drop_caches
-> readdir(/fusemnt/dir) reply to kernel
-> Kernel set 0 to the I_NEW inode
->
->                                         stat(f) // B see size 0
->
-> In the above case, only program B is modifying the file size, however, B
-> observes file size changing between the 2 'readonly' stat() calls. To fix
-> this issue, we should make sure readdirplus still follows the rule of
-> attr_version staleness checking even if the fi->attr_version is lost due to
-> inode eviction. So this patch increases fc->attr_version on inode eviction,
-> and compares request attr_version and the fc->attr_version when a
-> FUSE_READDIRPLUS request is finished.
+On 2023-08-21 09:36, Jing Zhang wrote:
+> The previous code assumes an event has either an "event=" or "config"
+> field at the beginning. For CMN neither of these may be present, as an
+> event is typically "type=xx,eventid=xxx".
+> 
+> If EventCode and ConfigCode is not added in the alias JSON file, the
+> event description will add "event=0" by default. So, even if the event
+> field is added "eventid=xxx" and "type=xxx", the CMN events final
+> parsing result will be "event=0, eventid=xxx, type=xxx".
+> 
+> Therefore, when EventCode and ConfigCode are missing in JSON, "event=0"
+> is no longer added by default. And add EventIdCode and Type to the event
+> field.
+> 
+> I compared pmu_event.c before and after compiling with JEVENT_ARCH=all,
+> they are consistent.
+> 
+> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+> ---
+>   tools/perf/pmu-events/jevents.py | 20 ++++++++++++++++----
+>   1 file changed, 16 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
+> index f57a8f2..369c8bf 100755
+> --- a/tools/perf/pmu-events/jevents.py
+> +++ b/tools/perf/pmu-events/jevents.py
+> @@ -275,11 +275,14 @@ class JsonEvent:
+>         }
+>         return table[unit] if unit in table else f'uncore_{unit.lower()}'
+>   
+> -    eventcode = 0
+> +    eventcode = None
+>       if 'EventCode' in jd:
+>         eventcode = int(jd['EventCode'].split(',', 1)[0], 0)
+>       if 'ExtSel' in jd:
+> -      eventcode |= int(jd['ExtSel']) << 8
+> +      if eventcode is None:
+> +        eventcode = int(jd['ExtSel']) << 8
+> +      else:
+> +        eventcode |= int(jd['ExtSel']) << 8
+>       configcode = int(jd['ConfigCode'], 0) if 'ConfigCode' in jd else None
+>       self.name = jd['EventName'].lower() if 'EventName' in jd else None
+>       self.topic = ''
+> @@ -317,7 +320,11 @@ class JsonEvent:
+>       if precise and self.desc and '(Precise Event)' not in self.desc:
+>         extra_desc += ' (Must be precise)' if precise == '2' else (' (Precise '
+>                                                                    'event)')
+> -    event = f'config={llx(configcode)}' if configcode is not None else f'event={llx(eventcode)}'
+> +    event = None
+> +    if eventcode is not None:
+> +      event = f'event={llx(eventcode)}'
+> +    elif configcode is not None:
+> +      event = f'config={llx(configcode)}'
+>       event_fields = [
+>           ('AnyThread', 'any='),
+>           ('PortMask', 'ch_mask='),
+> @@ -327,10 +334,15 @@ class JsonEvent:
+>           ('Invert', 'inv='),
+>           ('SampleAfterValue', 'period='),
+>           ('UMask', 'umask='),
+> +        ('NodeType', 'type='),
+> +        ('EventIdCode', 'eventid='),
 
-Thanks for the report.  It's really interesting that you are the first
-to notice this misbehavior, even though it's been there since the
-beginning.
+FWIW, this smells like another brewing scalability problem, given that 
+these are entirely driver-specific. Not sure off-hand how feasible it 
+might be, but my instinct says that a neat solution would be to encode 
+them right in the JSON, e.g.:
 
-The fix looks correct but suboptimal: fc->attr_version will get
-incremented due to non-evict events as well, which could lead to false
-positives.   I'd add another counter (e.g. fc->evict_ctr) and manage
-that separately for lookup type operations (LOOKUP/READDIRPLUS).
+	"FormatAttr": { "type": 0x5 }
+
+such that jevents should then only really need to consider whether an 
+event is defined in terms of a raw "ConfigCode", one or more 
+"FormatAttr"s which it can then parse dynamically, or reasonable special 
+cases like "EventCode" (given how "event" is one of the most commonly 
+used formats).
 
 Thanks,
-Miklos
+Robin.
+
+>       ]
+>       for key, value in event_fields:
+>         if key in jd and jd[key] != '0':
+> -        event += ',' + value + jd[key]
+> +        if event:
+> +          event += ',' + value + jd[key]
+> +        else:
+> +          event = value + jd[key]
+>       if filter:
+>         event += f',{filter}'
+>       if msr:
