@@ -2,116 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C76DEE49AF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 07:33:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B6E6EE49AB
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Aug 2023 07:39:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233355AbjHWHdM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 03:33:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44570 "EHLO
+        id S233482AbjHWHjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 03:39:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233342AbjHWHdL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 03:33:11 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11525128;
-        Wed, 23 Aug 2023 00:33:10 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1692775988;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/S8aAMC8431wDl9EHieHaDMQtPnYNA9A+BMaoDCWW+Y=;
-        b=p3b//x87LF4MIS/ydL5RQPDyLPAa3wrJ8ZuI1YF5NmpSVzakWWcYXUcNiAmulCkgSMuHfl
-        pBcVXeoFemeMmwv+M+gjYtmZIRggmYr8+3Uub9vjYchbDMXHVderVZWyLbdxL711mzcHoD
-        qLvzmoOnjs3lBLquIAEbSJChuFqOMgF9Wde2tPcNAOJ/riVPcq/Fwg66kWVfH9xP854OuZ
-        QOVRnX0HAXS5yQiti8MJ+LoFLGW3XKk1huGDQCjGVwy3QBUkxR4ygYoLPx9YTGXOonPwUk
-        ivHnhdLU8R8QHpz5oMuk2wpw6QFY7JgqOuC3hvWenp5hKbgonNnwngLeadrJjQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1692775988;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/S8aAMC8431wDl9EHieHaDMQtPnYNA9A+BMaoDCWW+Y=;
-        b=Sm4+LbiyXoHegImmukuqOtU0ct8r9zucugT0HQj8DWGSLsSpC2ALLcb8vFcgdmq4TAspsd
-        iWBQPT58aDXQGXBQ==
-To:     Chong Cai <chongc@google.com>,
-        Dan Williams <dan.j.williams@intel.com>
-Cc:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Erdem Aktas <erdemaktas@google.com>,
-        Dionna Amalie Glaze <dionnaglaze@google.com>,
-        Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] TDX Guest Quote generation support
-In-Reply-To: <CALRH0CiHjNeaHS88Oa_57hS_WGXY3-x2_aHco14nQpo-5e9seA@mail.gmail.com>
-References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
- <64966b842becf_142af8294a5@dwillia2-xfh.jf.intel.com.notmuch>
- <cdd04046-4bcb-d6fd-1688-0a85546e7b91@linux.intel.com>
- <649914ab3de4d_8e17829490@dwillia2-xfh.jf.intel.com.notmuch>
- <CALRH0CiHjNeaHS88Oa_57hS_WGXY3-x2_aHco14nQpo-5e9seA@mail.gmail.com>
-Date:   Wed, 23 Aug 2023 09:33:07 +0200
-Message-ID: <87pm3edxho.ffs@tglx>
+        with ESMTP id S233245AbjHWHjN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 03:39:13 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEAC7E7F;
+        Wed, 23 Aug 2023 00:38:42 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fed963273cso26665255e9.1;
+        Wed, 23 Aug 2023 00:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692776317; x=1693381117;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pESS9OyXd4b4MwXA7MmwtxF+VqbMh78IBFirX8/MdPM=;
+        b=qzpATMFb5mJ7QuY/P1GXrob5daj4MU7R3Khsp1ZjJL0KLvPrmy6l4aEQlO4/mUYNCo
+         XCyxuGrnb7gu3iHGCdVnAhyiGjB/vY/t3z6ZdFhnjQ8RlAmTVV815TQ90P23Kp7x7K7e
+         kYqbXceIhT3g3Oj1bw1PxkQR0qGm16Je/yjvR2iQ8GcSJoxknaP1i683sfYCxjxnom7D
+         ySmmll+V3FsjF9Hk8dpid30jpL9jeJeRviyAfI8iYxiTKiUyTa1JF12vMgqS85eCYIp4
+         b8itKDWZFVmANZmYg5Y6brLCsi0tnTNCuAo8yGkr8T5E8M2Lh4xmtpIv8aFhijClxeoq
+         26EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692776317; x=1693381117;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pESS9OyXd4b4MwXA7MmwtxF+VqbMh78IBFirX8/MdPM=;
+        b=HcNlP4mD+2K79clLt62VUPyGRgst0aNw7iKEGoj5to1kwC4zrn1NMQAMeql/jO3aCL
+         rW5GNWQu8GF4Tf5WcyEwBRM/HUZ7Qr8km8MTby+/YI2VDN2utvISpLid02gUB2xaT2pp
+         eFKq4oVKbf2GjJ+7etiTLhhXwL//0DwgLRopQdFesyAKFDworQ7P74fA7RGr5a6bYuoM
+         2DkNmkDVejKONZ84tZH19iuqDRjDUiV5/ZBNsiScDObPq9Ze7XQ3gFaB7RzjTF//EY19
+         eg0qZxS3QlcIJ+xgzcRO0XsiI5PaoPkQl1MuWi8o786DrTYqxSizZ6Hm1nlOF5nK9n+D
+         6KLQ==
+X-Gm-Message-State: AOJu0YwlTARgkcghC/W18J/BMAU7Mb96lS4Ed8bzB7/W1G0U1Gkbr+gH
+        XJ7D1VJsl0OKThXyFqYScnk=
+X-Google-Smtp-Source: AGHT+IEzljQwkrTc75QvlauFjhCv2bOoxK9oGDYKLDmc20p7cRlVbWWuxUP1pTgDMB97r1C8fdJ5Nw==
+X-Received: by 2002:adf:f9c4:0:b0:319:7abb:4112 with SMTP id w4-20020adff9c4000000b003197abb4112mr9977755wrr.21.1692776316668;
+        Wed, 23 Aug 2023 00:38:36 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:e4cf:1132:7b40:4262])
+        by smtp.gmail.com with ESMTPSA id q13-20020adffecd000000b00317643a93f4sm17924234wrs.96.2023.08.23.00.38.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 00:38:35 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     netdev@vger.kernel.org
+Cc:     Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Stanislav Fomichev <sdf@google.com>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v3 07/12] tools/net/ynl: Add support for
+ netlink-raw families
+In-Reply-To: <20230822194304.87488-8-donald.hunter@gmail.com> (Donald Hunter's
+        message of "Tue, 22 Aug 2023 20:42:59 +0100")
+Date:   Wed, 23 Aug 2023 08:29:39 +0100
+Message-ID: <m2v8d6gqsc.fsf@gmail.com>
+References: <20230822194304.87488-1-donald.hunter@gmail.com>
+        <20230822194304.87488-8-donald.hunter@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 27 2023 at 00:50, Chong Cai wrote:
-> On Sun, Jun 25, 2023 at 9:32=E2=80=AFPM Dan Williams <dan.j.williams@inte=
-l.com> wrote:
->> What I would ask of those who absolutely cannot support the TDVMCALL
->> method is to contribute a solution that intercepts the "upcall" to the
->> platform "guest_attest_ops" and turn it into a typical keys upcall to
->> userspace that can use the report data with a vsock tunnel.
->>
->> That way the end result is still the same, a key established with the
->> TDX Quote evidence contained within a Linux-defined envelope.
+Donald Hunter <donald.hunter@gmail.com> writes:
 >
-> I agree a unified ABI across vendors would be ideal in the long term.
-> However, it sounds like a non-trivial task and could take quite some
-> time to achieve.
-> Given there's already an AMD equivalent approach upstreamed, can we
-> also allow this TDVMCALL patch as an intermediate step to unblock
-> various TDX attestation user cases while targeting unified ABI? The
-> TDVMCALL here is quite isolated and serves a very specific purpose, it
-> should be very low risk to other kernel features and easy to be
-> reverted in the future.
+> -    def handle_ntf(self, nl_msg, genl_msg):
+> +    def handle_ntf(self, decoded):
+>          msg = dict()
+>          if self.include_raw:
+> -            msg['nlmsg'] = nl_msg
+> -            msg['genlmsg'] = genl_msg
+> -        op = self.rsp_by_value[genl_msg.genl_cmd]
+> +            msg['raw'] = decoded
+> +        op = self.rsp_by_value[decoded.cmd()]
+> +        attrs = self._decode(decoded.raw_attrs, op.attr_set.name)
+> +        if op.fixed_header:
+> +            attrs.update(self._decode_fixed_header(gm, op.fixed_header))
 
-No way. This is exactly how the kernel ends up with an unmaintainable
-mess simply because this creates an user space ABI which is not
-revertable ever.
+There's a mistake here, 'gm' should be 'decoded'. I'll fix in a v4.
 
-It's bad enough that nobody paid attention when the AMD muck was merged,
-but that does not make an argument or any form of justification to add
-more of this.
-
-Dan's proposal makes a lot of sense and allows to implement this in a
-mostly vendor agnostic way. While the AMD interface is not going away
-due to that, I'm 100% confident (pun intended) that such an unified
-interface is going to be utilized and supported by AMD (or any other
-vendor) sooner than later simply because the user space people who have
-to implement vendor agnostic orchestration tools will go for it as it
-makes their life easier too.
-
-The time wasted to argue about this TDX ioctl mess could have been spent
-to actually migrate TDX over to this scheme. But sure it's way simpler
-to flog a dead horse instead of actually sitting down and getting useful
-work done.
-
-Thanks,
-
-        tglx
+> +
+>          msg['name'] = op['name']
+> -        msg['msg'] = self._decode(genl_msg.raw_attrs, op.attr_set.name)
+> +        msg['msg'] = attrs
+>          self.async_msg_queue.append(msg)
