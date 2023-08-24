@@ -2,166 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14226C3DA6F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 02:30:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 631E1C3DA66
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 02:34:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236540AbjHXC3n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 22:29:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41548 "EHLO
+        id S236734AbjHXCeA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Aug 2023 22:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234511AbjHXC3Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 22:29:16 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007A21AD;
-        Wed, 23 Aug 2023 19:29:12 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bbc87ded50so42882335ad.1;
-        Wed, 23 Aug 2023 19:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692844152; x=1693448952;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zKCXhB2d9eEsIabhRkYFGz83DNRkbGFKkcNsgtOAWX4=;
-        b=ffn7fTgO+vYmAGFEXgt8aPjndNN4bdpbtFiNTdc6aWN6ml2+aCOQXSZGX59R5hYrO2
-         /RJphiz+Po1O/vVKcqrH2acU/cwlfbiT22E+QT2+q/p2hNZoW7oTfBPSnvKe5STxP/Rx
-         KzXLR3QZJfvX7nRfz22pFhc6nvH2RXPvNARUSZUIjy54XOgKIzgDF/W1pxbcVp69T2M/
-         eSDNTrlpJOsyCm8Imqnk/PPO/aiRHnWZA8Lb22F3gd6fm/s8iZ7GZmc6fSZBgHqoheYA
-         Fc2A+11G8hO/h8B1yZb8otIy258fw45MJp94p3WS5E2KFZHCwPv7874VghCoBL+NgusO
-         ZLzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692844152; x=1693448952;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zKCXhB2d9eEsIabhRkYFGz83DNRkbGFKkcNsgtOAWX4=;
-        b=HWhNeRHVTCIVOWTZ8HO0/pISidsvylTbaYmHF7hLwnP1+my9AlQOeSb0FI7q/87YHa
-         /x8dzeSe8xFNdDbjgmV17DJwgTj8WSrqWGKpUA0lJPYT8jp9+Cj1zNKXWQqMWMZ6utF0
-         5I1XT2BvsbR6hLLj1Eiclczi1xJoWkjfqKSqRzuujlmcgDZIlX+ZhZPfXDFjB2B2Q4oF
-         E8k1e1fI4qCDi86aEdhSdhQjqZapv0oEteuewnPxr1imcwWIbFYtfiwvEabrf/d+fxQQ
-         fNPX5mRhoxvHXlZwkEd/1+jTx0rX85lBtjkBVhZ5OYrMgOoNh68XVyxgfhkyhK8G2EGB
-         bJpQ==
-X-Gm-Message-State: AOJu0Yx0qmcl756c80eVxnbLSMfpnBt6gW8Hlr5PNjFjwM2vcv68qh2E
-        B7xpGwNP9AHR0mgAK79C9KA=
-X-Google-Smtp-Source: AGHT+IEgoVqccPkY6NNtb9xdY3HJrJDVSmeLCx3iVcKjBL6dZsYoK+YU+LymbLU204An74vBUJLA6g==
-X-Received: by 2002:a17:902:d507:b0:1bf:3c10:1d70 with SMTP id b7-20020a170902d50700b001bf3c101d70mr13711414plg.6.1692844152344;
-        Wed, 23 Aug 2023 19:29:12 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id kx14-20020a170902f94e00b001b567bbe82dsm11568484plb.150.2023.08.23.19.29.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Aug 2023 19:29:12 -0700 (PDT)
-Message-ID: <db8c6795-0632-4288-98a9-d22e50c689ac@gmail.com>
-Date:   Wed, 23 Aug 2023 23:28:34 -0300
+        with ESMTP id S239542AbjHXCdi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 22:33:38 -0400
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3422F10DD;
+        Wed, 23 Aug 2023 19:33:33 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R751e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VqS2P5a_1692844408;
+Received: from 30.221.146.144(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VqS2P5a_1692844408)
+          by smtp.aliyun-inc.com;
+          Thu, 24 Aug 2023 10:33:29 +0800
+Message-ID: <a1e0be71-e613-7a62-6b4c-452515ea566f@linux.alibaba.com>
+Date:   Thu, 24 Aug 2023 10:33:27 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] rust: upgrade to Rust 1.72.0
-Content-Language: en-US
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230823160244.188033-1-ojeda@kernel.org>
- <20230823160244.188033-3-ojeda@kernel.org>
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230823160244.188033-3-ojeda@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [PATCH v7 0/8] perf vendor events: Add JSON metrics for Arm CMN
+To:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <566ec1ff-fdea-336e-3cb8-503fc593f8ec@oracle.com>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <566ec1ff-fdea-336e-3cb8-503fc593f8ec@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/23/23 13:02, Miguel Ojeda wrote:
-> This is the second upgrade to the Rust toolchain, from 1.71.1 to 1.72.0
-> (i.e. the latest) [1].
+
+
+在 2023/8/23 下午4:12, John Garry 写道:
+> On 21/08/2023 09:36, Jing Zhang wrote:
 > 
-> See the upgrade policy [2] and the comments on the first upgrade in
-> commit 3ed03f4da06e ("rust: upgrade to Rust 1.68.2").
+> I'm hoping that Ian can check the outstanding patches here, but I'll also have a look.
 > 
-> # Unstable features
-> 
-> No unstable features (that we use) were stabilized.
-> 
-> Therefore, the only unstable feature allowed to be used outside
-> the `kernel` crate is still `new_uninit`, though other code to be
-> upstreamed may increase the list.
-> 
-> Please see [3] for details.
-> 
-> # Other improvements
-> 
-> Previously, the compiler could incorrectly generate a `.eh_frame`
-> section under `-Cpanic=abort`. We were hitting this bug in our
-> old `rust` branch [4]. Gary fixed the issue in Rust 1.72.0 [5].
-> 
-> # Required changes
-> 
-> For the upgrade, the following changes are required:
-> 
->    - A call to `Box::from_raw` in `rust/kernel/sync/arc.rs` now requires
->      an explicit `drop()` call. See previous patch for details.
-> 
-> # `alloc` upgrade and reviewing
-> 
-> The vast majority of changes are due to our `alloc` fork being upgraded
-> at once.
-> 
-> There are two kinds of changes to be aware of: the ones coming from
-> upstream, which we should follow as closely as possible, and the updates
-> needed in our added fallible APIs to keep them matching the newer
-> infallible APIs coming from upstream.
-> 
-> Instead of taking a look at the diff of this patch, an alternative
-> approach is reviewing a diff of the changes between upstream `alloc` and
-> the kernel's. This allows to easily inspect the kernel additions only,
-> especially to check if the fallible methods we already have still match
-> the infallible ones in the new version coming from upstream.
-> 
-> Another approach is reviewing the changes introduced in the additions in
-> the kernel fork between the two versions. This is useful to spot
-> potentially unintended changes to our additions.
-> 
-> To apply these approaches, one may follow steps similar to the following
-> to generate a pair of patches that show the differences between upstream
-> Rust and the kernel (for the subset of `alloc` we use) before and after
-> applying this patch:
-> 
->      # Get the difference with respect to the old version.
->      git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
->      git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
->          cut -d/ -f3- |
->          grep -Fv README.md |
->          xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
->      git -C linux diff --patch-with-stat --summary -R > old.patch
->      git -C linux restore rust/alloc
-> 
->      # Apply this patch.
->      git -C linux am rust-upgrade.patch
-> 
->      # Get the difference with respect to the new version.
->      git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
->      git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
->          cut -d/ -f3- |
->          grep -Fv README.md |
->          xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
->      git -C linux diff --patch-with-stat --summary -R > new.patch
->      git -C linux restore rust/alloc
-> 
-> Now one may check the `new.patch` to take a look at the additions (first
-> approach) or at the difference between those two patches (second
-> approach). For the latter, a side-by-side tool is recommended.
-> 
-> Link: https://github.com/rust-lang/rust/blob/stable/RELEASES.md#version-1720-2023-08-24 [1]
-> Link: https://rust-for-linux.com/rust-version-policy [2]
-> Link: https://github.com/Rust-for-Linux/linux/issues/2 [3]
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1012 [4]
-> Link: https://github.com/rust-lang/rust/pull/112403 [5]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
-> [...]
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+
+Thanks! I haven't added your tag to patch 6 for now, because I made a modification and added
+the code in empty-pmu-events.c. Looking forward to your review.
+
+Thanks,
+Jing
+
+>> Changes since v6:
+>> - Supplement the omitted EventCode;
+>> - Keep the original way of ConfigCode;
+>> - Supplement the test in empty-pmu-events.c, so that the pmu event test
+>>    can succeed when build with NO_JEVENT=1.
+>> - Link: https://urldefense.com/v3/__https://lore.kernel.org/all/1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com/__;!!ACWV5N9M2RV99hQ!Lakh7Lf-6l6Hovm4Tt5S5pqV1xHm-LAW2ICVl6gLONlN4CNk-BvyADBfjwQe5yQQj89yMK7s7rSjMNHCyFsIUxnHXg$
+>>
+>> Jing Zhang (8):
+>>    perf pmu: "Compat" supports matching multiple identifiers
+>>    perf metric: "Compat" supports matching multiple identifiers
+>>    perf vendor events: Supplement the omitted EventCode
+>>    perf jevents: Support more event fields
+>>    perf test: Make matching_pmu effective
+>>    perf test: Add pmu-event test for "Compat" and new event_field.
+>>    perf jevents: Add support for Arm CMN PMU aliasing
+>>    perf vendor events: Add JSON metrics for Arm CMN
+>>
+>>   .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
+>>   .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
+>>   .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
+>>   .../pmu-events/arch/x86/alderlake/pipeline.json    |   9 +
+>>   .../pmu-events/arch/x86/alderlaken/pipeline.json   |   3 +
+>>   .../pmu-events/arch/x86/broadwell/pipeline.json    |   4 +
+>>   .../pmu-events/arch/x86/broadwellde/pipeline.json  |   4 +
+>>   .../arch/x86/broadwellde/uncore-cache.json         |   2 +
+>>   .../arch/x86/broadwellde/uncore-interconnect.json  |   1 +
+>>   .../arch/x86/broadwellde/uncore-memory.json        |   1 +
+>>   .../arch/x86/broadwellde/uncore-power.json         |   1 +
+>>   .../pmu-events/arch/x86/broadwellx/pipeline.json   |   4 +
+>>   .../arch/x86/broadwellx/uncore-cache.json          |   2 +
+>>   .../arch/x86/broadwellx/uncore-interconnect.json   |  13 +
+>>   .../arch/x86/broadwellx/uncore-memory.json         |   2 +
+>>   .../arch/x86/broadwellx/uncore-power.json          |   1 +
+>>   .../pmu-events/arch/x86/cascadelakex/pipeline.json |   4 +
+>>   .../arch/x86/cascadelakex/uncore-cache.json        |   2 +
+>>   .../arch/x86/cascadelakex/uncore-interconnect.json |   1 +
+>>   .../arch/x86/cascadelakex/uncore-io.json           |   1 +
+>>   .../arch/x86/cascadelakex/uncore-memory.json       |   1 +
+>>   .../arch/x86/cascadelakex/uncore-power.json        |   1 +
+>>   .../pmu-events/arch/x86/elkhartlake/pipeline.json  |   2 +
+>>   .../pmu-events/arch/x86/goldmont/pipeline.json     |   3 +
+>>   .../pmu-events/arch/x86/goldmontplus/pipeline.json |   3 +
+>>   .../pmu-events/arch/x86/grandridge/pipeline.json   |   3 +
+>>   .../arch/x86/graniterapids/pipeline.json           |   4 +
+>>   .../perf/pmu-events/arch/x86/haswell/pipeline.json |   4 +
+>>   .../pmu-events/arch/x86/haswellx/pipeline.json     |   4 +
+>>   .../pmu-events/arch/x86/haswellx/uncore-cache.json |   2 +
+>>   .../arch/x86/haswellx/uncore-interconnect.json     |  14 ++
+>>   .../arch/x86/haswellx/uncore-memory.json           |   2 +
+>>   .../pmu-events/arch/x86/haswellx/uncore-power.json |   1 +
+>>   .../perf/pmu-events/arch/x86/icelake/pipeline.json |   4 +
+>>   .../pmu-events/arch/x86/icelakex/pipeline.json     |   4 +
+>>   .../pmu-events/arch/x86/icelakex/uncore-cache.json |   1 +
+>>   .../arch/x86/icelakex/uncore-interconnect.json     |   1 +
+>>   .../arch/x86/icelakex/uncore-memory.json           |   1 +
+>>   .../pmu-events/arch/x86/icelakex/uncore-power.json |   1 +
+>>   .../pmu-events/arch/x86/ivybridge/pipeline.json    |   3 +
+>>   .../perf/pmu-events/arch/x86/ivytown/pipeline.json |   4 +
+>>   .../pmu-events/arch/x86/ivytown/uncore-cache.json  |   2 +
+>>   .../arch/x86/ivytown/uncore-interconnect.json      |  11 +
+>>   .../pmu-events/arch/x86/ivytown/uncore-memory.json |   1 +
+>>   .../pmu-events/arch/x86/ivytown/uncore-power.json  |   1 +
+>>   .../pmu-events/arch/x86/jaketown/pipeline.json     |   4 +
+>>   .../pmu-events/arch/x86/jaketown/uncore-cache.json |   2 +
+>>   .../arch/x86/jaketown/uncore-interconnect.json     |  12 +
+>>   .../arch/x86/jaketown/uncore-memory.json           |   1 +
+>>   .../pmu-events/arch/x86/jaketown/uncore-power.json |   2 +
+>>   .../arch/x86/knightslanding/pipeline.json          |   3 +
+>>   .../arch/x86/knightslanding/uncore-cache.json      |   1 +
+>>   .../arch/x86/knightslanding/uncore-memory.json     |   4 +
+>>   .../pmu-events/arch/x86/meteorlake/pipeline.json   |   8 +
+>>   .../pmu-events/arch/x86/sandybridge/pipeline.json  |   4 +
+>>   .../arch/x86/sapphirerapids/pipeline.json          |   5 +
+>>   .../pmu-events/arch/x86/sierraforest/pipeline.json |   4 +
+>>   .../pmu-events/arch/x86/silvermont/pipeline.json   |   3 +
+>>   .../perf/pmu-events/arch/x86/skylake/pipeline.json |   4 +
+>>   .../pmu-events/arch/x86/skylakex/pipeline.json     |   4 +
+>>   .../pmu-events/arch/x86/skylakex/uncore-cache.json |   2 +
+>>   .../arch/x86/skylakex/uncore-interconnect.json     |   1 +
+>>   .../pmu-events/arch/x86/skylakex/uncore-io.json    |   1 +
+>>   .../arch/x86/skylakex/uncore-memory.json           |   1 +
+>>   .../pmu-events/arch/x86/skylakex/uncore-power.json |   1 +
+>>   .../pmu-events/arch/x86/snowridgex/pipeline.json   |   2 +
+>>   .../arch/x86/snowridgex/uncore-cache.json          |   1 +
+>>   .../arch/x86/snowridgex/uncore-interconnect.json   |   1 +
+>>   .../arch/x86/snowridgex/uncore-memory.json         |   1 +
+>>   .../arch/x86/snowridgex/uncore-power.json          |   1 +
+>>   .../pmu-events/arch/x86/tigerlake/pipeline.json    |   5 +
+>>   tools/perf/pmu-events/empty-pmu-events.c           |   8 +
+>>   tools/perf/pmu-events/jevents.py                   |  21 +-
+>>   tools/perf/tests/pmu-events.c                      |  64 ++++-
+>>   tools/perf/util/metricgroup.c                      |   2 +-
+>>   tools/perf/util/pmu.c                              |  33 ++-
+>>   tools/perf/util/pmu.h                              |   1 +
+>>   77 files changed, 679 insertions(+), 9 deletions(-)
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
+>>   create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+>>
