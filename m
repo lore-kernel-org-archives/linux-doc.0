@@ -2,164 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 631E1C3DA66
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 02:34:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFABC3DA6F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 08:45:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236734AbjHXCeA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Aug 2023 22:34:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58780 "EHLO
+        id S235019AbjHXIoi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 04:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239542AbjHXCdi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Aug 2023 22:33:38 -0400
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3422F10DD;
-        Wed, 23 Aug 2023 19:33:33 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R751e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VqS2P5a_1692844408;
-Received: from 30.221.146.144(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VqS2P5a_1692844408)
-          by smtp.aliyun-inc.com;
-          Thu, 24 Aug 2023 10:33:29 +0800
-Message-ID: <a1e0be71-e613-7a62-6b4c-452515ea566f@linux.alibaba.com>
-Date:   Thu, 24 Aug 2023 10:33:27 +0800
+        with ESMTP id S240588AbjHXIoW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 04:44:22 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F356F1739
+        for <linux-doc@vger.kernel.org>; Thu, 24 Aug 2023 01:44:00 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-26fb8225268so821078a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 24 Aug 2023 01:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692866640; x=1693471440;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y9yjcEfs2OFrUeBpnL2ajQE3l0qYqeBYQoYwLcaGsKQ=;
+        b=DFvh/wKLGcXlv5D9In26iDuLC0aD9R5iukoxmW8IrfmwGz0uQLumNxZLniCMJcONbr
+         43s36PB/3Bi93GdSd807VcLcE6Q15KutpqOKpKp0oUvWM9v1IQeRowNe/lktpecv2o9I
+         NK+AjhE2A5ucQpZLaG6wWuKKJV0Qo7SJZ/+Ow=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692866640; x=1693471440;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y9yjcEfs2OFrUeBpnL2ajQE3l0qYqeBYQoYwLcaGsKQ=;
+        b=g6WNyFTH8clU43m2WlFKWP9ZMUmEttVc5Sh1U+7AtQDzZjj/fVT/UvWsj1wxjYB0ec
+         CCWjKtOslOmgDaQAVzAf3GUGQj3lYcP0osvmqv+j6QCt5lU23E6bBozC/5gva8A84uGD
+         xudjYXjoPoF4AOmKsdWemdkNQQr12Q1Z4J1EScJL2Cmi+jI0B6SeghkQyqfEbMguk4/0
+         X8YaPFxG4qBGkHQNmVBf9AeF/50B5L25neeEvE8y5QOJqMF2QRDketMkkp7gZUMbES/1
+         G0yg01Q1yWJfdTvKsUtEaLeKQxUhLlEHv900Lk+h0bj6BnxyxmwtwnlJb/coabykwDh4
+         eeZQ==
+X-Gm-Message-State: AOJu0YxpyO+jzJTvy0uGNQmCzGc3I9ZSb93xaZ36pIaMG1sTmNa6WS1E
+        psoi7G86X2nG8BojC0nH5CT72Q==
+X-Google-Smtp-Source: AGHT+IHGy90y1dicpE2qaM/R53DR7qOXY+58m9LmWY0PWcbYHXJaczn5XyI9/K5jArmR9OEYZloe1w==
+X-Received: by 2002:a17:90a:df07:b0:268:5bed:708e with SMTP id gp7-20020a17090adf0700b002685bed708emr10757082pjb.24.1692866640376;
+        Thu, 24 Aug 2023 01:44:00 -0700 (PDT)
+Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
+        by smtp.gmail.com with ESMTPSA id 12-20020a17090a194c00b00268188ea4b9sm1150216pjh.19.2023.08.24.01.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Aug 2023 01:44:00 -0700 (PDT)
+From:   Brandon Pollack <brpol@chromium.org>
+To:     marius.vlad@collabora.com, jshargo@chromium.org
+Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        hamohammed.sa@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mairacanal@riseup.net,
+        melissa.srw@gmail.com, mripard@kernel.org,
+        rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de,
+        airlied@gmail.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mduggan@chromium.org,
+        hirono@chromium.org, Brandon Pollack <brpol@chromium.org>
+Subject: [PATCH v4 0/7] Adds support for ConfigFS to VKMS!
+Date:   Thu, 24 Aug 2023 08:40:31 +0000
+Message-ID: <20230824084350.1062579-1-brpol@chromium.org>
+X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH v7 0/8] perf vendor events: Add JSON metrics for Arm CMN
-To:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com>
- <566ec1ff-fdea-336e-3cb8-503fc593f8ec@oracle.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <566ec1ff-fdea-336e-3cb8-503fc593f8ec@oracle.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Since Jim is busy with other work and I'm working on some things that
+rely on this, I've taken up the task of doing the iterations.  I've
+addressed the comments as best I can (those replies are to each
+individual change) and here is the patch set to go with those.
 
+I added my own signoff to each commit, but I've left jshargo@ as the
+author of all the commits he wrote.  I'm sure there is still more to
+address and the ICT tests that were writtein parallel to this may also
+need some additions, but I'm hoping we're in a good enough state to get
+this in and iterate from there soon.
 
-在 2023/8/23 下午4:12, John Garry 写道:
-> On 21/08/2023 09:36, Jing Zhang wrote:
-> 
-> I'm hoping that Ian can check the outstanding patches here, but I'll also have a look.
-> 
+Since V4:
+========
+Fixed up some documentation as suggested by Marius
+Fixed up some bad locking as suggested by Marius
+Small fixes here and there (most have email responses to previous chain
+emails)
 
-Thanks! I haven't added your tag to patch 6 for now, because I made a modification and added
-the code in empty-pmu-events.c. Looking forward to your review.
+Since V3:
+========
+I've added hotplug support in the latest patch.  This has been reviewed some
+and the notes from that review are addressed here as well.
 
-Thanks,
-Jing
+Relevant/Utilizing work:
+=======================
+I've built a while test framework based on this as proof it functions (though
+I'm sure there may be lingering bugs!).  You can check that out on
+crrev.com if you are interested and need to get started yourself (but be
+aware of any licensing that may differ from the kernel itself!  Make
+sure you understand the license:
 
->> Changes since v6:
->> - Supplement the omitted EventCode;
->> - Keep the original way of ConfigCode;
->> - Supplement the test in empty-pmu-events.c, so that the pmu event test
->>    can succeed when build with NO_JEVENT=1.
->> - Link: https://urldefense.com/v3/__https://lore.kernel.org/all/1691394685-61240-1-git-send-email-renyu.zj@linux.alibaba.com/__;!!ACWV5N9M2RV99hQ!Lakh7Lf-6l6Hovm4Tt5S5pqV1xHm-LAW2ICVl6gLONlN4CNk-BvyADBfjwQe5yQQj89yMK7s7rSjMNHCyFsIUxnHXg$
->>
->> Jing Zhang (8):
->>    perf pmu: "Compat" supports matching multiple identifiers
->>    perf metric: "Compat" supports matching multiple identifiers
->>    perf vendor events: Supplement the omitted EventCode
->>    perf jevents: Support more event fields
->>    perf test: Make matching_pmu effective
->>    perf test: Add pmu-event test for "Compat" and new event_field.
->>    perf jevents: Add support for Arm CMN PMU aliasing
->>    perf vendor events: Add JSON metrics for Arm CMN
->>
->>   .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
->>   .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
->>   .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
->>   .../pmu-events/arch/x86/alderlake/pipeline.json    |   9 +
->>   .../pmu-events/arch/x86/alderlaken/pipeline.json   |   3 +
->>   .../pmu-events/arch/x86/broadwell/pipeline.json    |   4 +
->>   .../pmu-events/arch/x86/broadwellde/pipeline.json  |   4 +
->>   .../arch/x86/broadwellde/uncore-cache.json         |   2 +
->>   .../arch/x86/broadwellde/uncore-interconnect.json  |   1 +
->>   .../arch/x86/broadwellde/uncore-memory.json        |   1 +
->>   .../arch/x86/broadwellde/uncore-power.json         |   1 +
->>   .../pmu-events/arch/x86/broadwellx/pipeline.json   |   4 +
->>   .../arch/x86/broadwellx/uncore-cache.json          |   2 +
->>   .../arch/x86/broadwellx/uncore-interconnect.json   |  13 +
->>   .../arch/x86/broadwellx/uncore-memory.json         |   2 +
->>   .../arch/x86/broadwellx/uncore-power.json          |   1 +
->>   .../pmu-events/arch/x86/cascadelakex/pipeline.json |   4 +
->>   .../arch/x86/cascadelakex/uncore-cache.json        |   2 +
->>   .../arch/x86/cascadelakex/uncore-interconnect.json |   1 +
->>   .../arch/x86/cascadelakex/uncore-io.json           |   1 +
->>   .../arch/x86/cascadelakex/uncore-memory.json       |   1 +
->>   .../arch/x86/cascadelakex/uncore-power.json        |   1 +
->>   .../pmu-events/arch/x86/elkhartlake/pipeline.json  |   2 +
->>   .../pmu-events/arch/x86/goldmont/pipeline.json     |   3 +
->>   .../pmu-events/arch/x86/goldmontplus/pipeline.json |   3 +
->>   .../pmu-events/arch/x86/grandridge/pipeline.json   |   3 +
->>   .../arch/x86/graniterapids/pipeline.json           |   4 +
->>   .../perf/pmu-events/arch/x86/haswell/pipeline.json |   4 +
->>   .../pmu-events/arch/x86/haswellx/pipeline.json     |   4 +
->>   .../pmu-events/arch/x86/haswellx/uncore-cache.json |   2 +
->>   .../arch/x86/haswellx/uncore-interconnect.json     |  14 ++
->>   .../arch/x86/haswellx/uncore-memory.json           |   2 +
->>   .../pmu-events/arch/x86/haswellx/uncore-power.json |   1 +
->>   .../perf/pmu-events/arch/x86/icelake/pipeline.json |   4 +
->>   .../pmu-events/arch/x86/icelakex/pipeline.json     |   4 +
->>   .../pmu-events/arch/x86/icelakex/uncore-cache.json |   1 +
->>   .../arch/x86/icelakex/uncore-interconnect.json     |   1 +
->>   .../arch/x86/icelakex/uncore-memory.json           |   1 +
->>   .../pmu-events/arch/x86/icelakex/uncore-power.json |   1 +
->>   .../pmu-events/arch/x86/ivybridge/pipeline.json    |   3 +
->>   .../perf/pmu-events/arch/x86/ivytown/pipeline.json |   4 +
->>   .../pmu-events/arch/x86/ivytown/uncore-cache.json  |   2 +
->>   .../arch/x86/ivytown/uncore-interconnect.json      |  11 +
->>   .../pmu-events/arch/x86/ivytown/uncore-memory.json |   1 +
->>   .../pmu-events/arch/x86/ivytown/uncore-power.json  |   1 +
->>   .../pmu-events/arch/x86/jaketown/pipeline.json     |   4 +
->>   .../pmu-events/arch/x86/jaketown/uncore-cache.json |   2 +
->>   .../arch/x86/jaketown/uncore-interconnect.json     |  12 +
->>   .../arch/x86/jaketown/uncore-memory.json           |   1 +
->>   .../pmu-events/arch/x86/jaketown/uncore-power.json |   2 +
->>   .../arch/x86/knightslanding/pipeline.json          |   3 +
->>   .../arch/x86/knightslanding/uncore-cache.json      |   1 +
->>   .../arch/x86/knightslanding/uncore-memory.json     |   4 +
->>   .../pmu-events/arch/x86/meteorlake/pipeline.json   |   8 +
->>   .../pmu-events/arch/x86/sandybridge/pipeline.json  |   4 +
->>   .../arch/x86/sapphirerapids/pipeline.json          |   5 +
->>   .../pmu-events/arch/x86/sierraforest/pipeline.json |   4 +
->>   .../pmu-events/arch/x86/silvermont/pipeline.json   |   3 +
->>   .../perf/pmu-events/arch/x86/skylake/pipeline.json |   4 +
->>   .../pmu-events/arch/x86/skylakex/pipeline.json     |   4 +
->>   .../pmu-events/arch/x86/skylakex/uncore-cache.json |   2 +
->>   .../arch/x86/skylakex/uncore-interconnect.json     |   1 +
->>   .../pmu-events/arch/x86/skylakex/uncore-io.json    |   1 +
->>   .../arch/x86/skylakex/uncore-memory.json           |   1 +
->>   .../pmu-events/arch/x86/skylakex/uncore-power.json |   1 +
->>   .../pmu-events/arch/x86/snowridgex/pipeline.json   |   2 +
->>   .../arch/x86/snowridgex/uncore-cache.json          |   1 +
->>   .../arch/x86/snowridgex/uncore-interconnect.json   |   1 +
->>   .../arch/x86/snowridgex/uncore-memory.json         |   1 +
->>   .../arch/x86/snowridgex/uncore-power.json          |   1 +
->>   .../pmu-events/arch/x86/tigerlake/pipeline.json    |   5 +
->>   tools/perf/pmu-events/empty-pmu-events.c           |   8 +
->>   tools/perf/pmu-events/jevents.py                   |  21 +-
->>   tools/perf/tests/pmu-events.c                      |  64 ++++-
->>   tools/perf/util/metricgroup.c                      |   2 +-
->>   tools/perf/util/pmu.c                              |  33 ++-
->>   tools/perf/util/pmu.h                              |   1 +
->>   77 files changed, 679 insertions(+), 9 deletions(-)
->>   create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
->>   create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
->>
+https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/tast-tests/LICENSE
+
+That said, you can see the changes in review on the crrev gerrit:
+
+https://chromium-review.googlesource.com/c/chromiumos/platform/tast-tests/+/4666669
+
+Outro:
+=====
+I really appreciate everyone's input and tolerance in getting these
+changes in.  Jim's first patch series was this, and other than some
+small cleanups and documentation, taking over it is also mine.
+
+Thank you everyone :)
+
+Brandon Pollack (1):
+  drm/vkms Add hotplug support via configfs to VKMS.
+
+Jim Shargo (6):
+  drm/vkms: Back VKMS with DRM memory management instead of static
+    objects
+  drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
+  drm/vkms: Provide platform data when creating VKMS devices
+  drm/vkms: Add ConfigFS scaffolding to VKMS
+  drm/vkms: Support enabling ConfigFS devices
+  drm/vkms: Add a module param to enable/disable the default device
+
+ Documentation/gpu/vkms.rst            |  20 +-
+ drivers/gpu/drm/Kconfig               |   1 +
+ drivers/gpu/drm/vkms/Makefile         |   1 +
+ drivers/gpu/drm/vkms/vkms_composer.c  |  30 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 721 ++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 102 ++--
+ drivers/gpu/drm/vkms/vkms_drv.c       | 206 +++++---
+ drivers/gpu/drm/vkms/vkms_drv.h       | 182 +++++--
+ drivers/gpu/drm/vkms/vkms_output.c    | 403 ++++++++++++--
+ drivers/gpu/drm/vkms/vkms_plane.c     |  44 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  31 +-
+ 11 files changed, 1506 insertions(+), 235 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+
+-- 
+2.42.0.rc1.204.g551eb34607-goog
+
