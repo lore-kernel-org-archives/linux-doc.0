@@ -2,310 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C149C3DA6F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 18:50:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F58C27C40
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 19:37:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243102AbjHXSt3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 14:49:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53082 "EHLO
+        id S243224AbjHXThF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 15:37:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243155AbjHXStR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 14:49:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEAC11BEC;
-        Thu, 24 Aug 2023 11:49:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F9C6654B0;
-        Thu, 24 Aug 2023 18:49:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1834FC433C8;
-        Thu, 24 Aug 2023 18:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692902952;
-        bh=94vHtzPsl9oXrZlsH6lhNF4M/HFIYPrHAJF+1ksp+4M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Lo2p0YLEphwm81d0oEgKNUMWoi9EGZKDjywJpM0QIYalPJJPssihFctVwmeYRtJ5Q
-         18geKR2i7iFshvzeQVl3PmzfSDe2tZOYPPMhqJHSqv6YeW2euZ28hFnCXOnCA5GyCe
-         QiuSBID5B3QcMnq9Eezlfj/+vieaWvjfJ60Nes9EXBBVAyulrogt3jGS8s9miJasD2
-         /OQDMaLT5IYVxI7xnoQ7JpTz8fzD8PZUr13TMxQ6U/uz3krBbzSK6ZrZmoLRfo4tvv
-         lBfjrQTj15G66QHjXqP9lzHlouSZOcsBiKFpo46yKreAMW1hz9f8bWxtw9QJOskzWk
-         lfsi1MFba79TA==
-Date:   Thu, 24 Aug 2023 11:49:10 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     ndesaulniers@google.com
-Cc:     Masahiro Yamada <masahiroy@kernel.org>, Tom Rix <trix@redhat.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] Documentation/llvm: refresh docs
-Message-ID: <20230824184910.GA2015748@dev-arch.thelio-3990X>
-References: <20230824-docs-v1-1-67e061278b8f@google.com>
+        with ESMTP id S243233AbjHXTgw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 15:36:52 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E601B0;
+        Thu, 24 Aug 2023 12:36:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=eoB4gbV/oYw5Dkw8MYUKcw3Rv5zfAt8VrbVigwxJuTQ=; b=ghES/e6bSG61n2H4JeUxOhZSnI
+        LDVuKmScqUy36Ce/8AHQunKIZ844T9P3g0Bp+JKklxpwQLYO4Y/p5ttUQMGhJ12cZZu9orElXf08i
+        ga11i7LvnvxIxa6UuJQohTTa2WDC2FzdX4eHttGBaOjBTxeL41LY+MuRTB/Cks1iBW7d1GlySUbn8
+        qUeqtoC9tOUtM18oh/s2rXvsu+iJOX0atIazsaNPh2uzxzayOojT3qnQLSR5HTVWFIcZsBk8vR5U4
+        ATD9stLv/tuKzw082t678y3ObqVEfDc6W+f5sEQdK8fSoDCs4kt6PDZcXjz+vLuqk8OXcIuRQcH8N
+        7Cb0DpTQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qZG8M-00Ci1H-6t; Thu, 24 Aug 2023 19:36:46 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] fork: Fix kernel-doc
+Date:   Thu, 24 Aug 2023 20:36:44 +0100
+Message-Id: <20230824193644.3029141-1-willy@infradead.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230824-docs-v1-1-67e061278b8f@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 11:03:17AM -0700, ndesaulniers@google.com wrote:
-> Recent fixes for an embargoed hardware security vulnerability failed to
-> link with ld.lld (LLVM's linker).  [0]  To be fair, our documentation
-> mentions ``CC=clang`` foremost with ``LLVM=1`` being buried "below the
-> fold."
-> 
-> We want to encourage the use of ``LLVM=1`` rather than just
-> ``CC=clang``. Make that sugguestion "above the fold" and "front and
-> center" in our docs.
-> 
-> While here, the following additional changes were made:
-> - remove the bit about CROSS_COMPILE setting --target=, that's no longer
->   true.
-> - Add ARCH=loongarch to the list of maintained targets (though we're
->   still working on getting defconfig building cleanly at the moment;
->   we're pretty close).
-> - Promote ARCH=riscv from being Maintained to being Supported. Android
->   is working towards supporting RISC-V, and we have excellent support
->   from multiple companies in this regard.
-> - Note that the toolchain distribution on kernel.org has been built with
->   profile data from kernel builds.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1907 [0]
-> ---
-> 
-> 
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Fix the various warnings from kernel-doc in kernel/fork.c
 
-Nit: Your signed-off-by ended up below the fold, was it in your cover
-letter commit rather than your actual commit?
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ kernel/fork.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-Aside from the relatively minor comments below, this looks like a really
-good improvement to the documentation to me. It feels like it is more
-targeting users or non-kbuild folks now, which I think is great.
+diff --git a/kernel/fork.c b/kernel/fork.c
+index a9c18d480dc5..63d8c6c057a9 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1400,6 +1400,8 @@ EXPORT_SYMBOL_GPL(mmput_async);
+ 
+ /**
+  * set_mm_exe_file - change a reference to the mm's executable file
++ * @mm: The mm to change.
++ * @new_exe_file: The new file to use.
+  *
+  * This changes mm's executable file (shown as symlink /proc/[pid]/exe).
+  *
+@@ -1439,6 +1441,8 @@ int set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+ 
+ /**
+  * replace_mm_exe_file - replace a reference to the mm's executable file
++ * @mm: The mm to change.
++ * @new_exe_file: The new file to use.
+  *
+  * This changes mm's executable file (shown as symlink /proc/[pid]/exe).
+  *
+@@ -1490,6 +1494,7 @@ int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+ 
+ /**
+  * get_mm_exe_file - acquire a reference to the mm's executable file
++ * @mm: The mm of interest.
+  *
+  * Returns %NULL if mm has no associated executable file.
+  * User must release file via fput().
+@@ -1508,6 +1513,7 @@ struct file *get_mm_exe_file(struct mm_struct *mm)
+ 
+ /**
+  * get_task_exe_file - acquire a reference to the task's executable file
++ * @task: The task.
+  *
+  * Returns %NULL if task's mm (if any) has no associated executable file or
+  * this is a kernel thread with borrowed mm (see the comment above get_task_mm).
+@@ -1530,6 +1536,7 @@ struct file *get_task_exe_file(struct task_struct *task)
+ 
+ /**
+  * get_task_mm - acquire a reference to the task's mm
++ * @task: The task.
+  *
+  * Returns %NULL if the task has no mm.  Checks PF_KTHREAD (meaning
+  * this kernel workthread has transiently adopted a user mm with use_mm,
+@@ -2109,11 +2116,11 @@ const struct file_operations pidfd_fops = {
+  * __pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
+  * @pid:   the struct pid for which to create a pidfd
+  * @flags: flags of the new @pidfd
+- * @pidfd: the pidfd to return
++ * @ret: Where to return the file for the pidfd.
+  *
+  * Allocate a new file that stashes @pid and reserve a new pidfd number in the
+  * caller's file descriptor table. The pidfd is reserved but not installed yet.
+-
++ *
+  * The helper doesn't perform checks on @pid which makes it useful for pidfds
+  * created via CLONE_PIDFD where @pid has no task attached when the pidfd and
+  * pidfd file are prepared.
+@@ -2160,7 +2167,7 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
+  * pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
+  * @pid:   the struct pid for which to create a pidfd
+  * @flags: flags of the new @pidfd
+- * @pidfd: the pidfd to return
++ * @ret: Where to return the pidfd.
+  *
+  * Allocate a new file that stashes @pid and reserve a new pidfd number in the
+  * caller's file descriptor table. The pidfd is reserved but not installed yet.
+@@ -3188,7 +3195,7 @@ static bool clone3_args_valid(struct kernel_clone_args *kargs)
+ }
+ 
+ /**
+- * clone3 - create a new process with specific properties
++ * sys_clone3 - create a new process with specific properties
+  * @uargs: argument structure
+  * @size:  size of @uargs
+  *
+-- 
+2.40.1
 
-I trust you to address my comments as you see fit, so please carry
-forward:
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
-> ---
->  Documentation/kbuild/llvm.rst | 102 +++++++++++++++++++++++-------------------
->  1 file changed, 55 insertions(+), 47 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index c3851fe1900d..00b26a0a6bf1 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -25,50 +25,38 @@ objects <https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM
->  that supports C and the GNU C extensions required by the kernel, and is
->  pronounced "klang," not "see-lang."
->  
-> -Clang
-> ------
-> -
-> -The compiler used can be swapped out via ``CC=`` command line argument to ``make``.
-> -``CC=`` should be set when selecting a config and during a build. ::
-> -
-> -	make CC=clang defconfig
-> +Building with LLVM
-> +------------------
->  
-> -	make CC=clang
-> -
-> -Cross Compiling
-> ----------------
-> +Invoke ``make`` via::
->  
-> -A single Clang compiler binary will typically contain all supported backends,
-> -which can help simplify cross compiling. ::
-> -
-> -	make ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-
-> +	make LLVM=1
->  
-> -``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
-> -``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
-> -example: ::
-> +to compile for the host target. For cross compiling::
->  
-> -	clang --target=aarch64-linux-gnu foo.c
-> +	make LLVM=1 ARCH=arm64
->  
-> -LLVM Utilities
-> +The LLVM= argument
->  --------------
-
-I see a few new kernel-doc warnings from not adjusting the underlines to
-match the new length of the title:
-
-  Documentation/kbuild/llvm.rst:40: WARNING: Title underline too short.
-
-  The LLVM= argument
-  --------------
-  Documentation/kbuild/llvm.rst:40: WARNING: Title underline too short.
-
-  The LLVM= argument
-  --------------
-  Documentation/kbuild/llvm.rst:102: WARNING: Title underline too short.
-
-  The LLVM_IAS= argument
-  -----------------
-  Documentation/kbuild/llvm.rst:102: WARNING: Title underline too short.
-
-  The LLVM_IAS= argument
-  -----------------
-
->  
-> -LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
-> -The full list of supported make variables::
-> +LLVM has substitutes for GNU binutils utilities. They can be enabled
-> +individually. The full list of supported make variables::
->  
->  	make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
->  	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
->  	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
->  
-> -To simplify the above command, Kbuild supports the ``LLVM`` variable::
-> -
-> -	make LLVM=1
-> +``LLVM=1`` expands to the above.
->  
->  If your LLVM tools are not available in your PATH, you can supply their
->  location using the LLVM variable with a trailing slash::
->  
->  	make LLVM=/path/to/llvm/
->  
-> -which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
-> +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc. The
-> +following may also be used::
-> +
-> +	PATH=/path/to/llvm:$PATH make LLVM=1
->  
->  If your LLVM tools have a version suffix and you want to test with that
->  explicit version rather than the unsuffixed executables like ``LLVM=1``, you
-> @@ -78,31 +66,46 @@ can pass the suffix using the ``LLVM`` variable::
->  
->  which will use ``clang-14``, ``ld.lld-14``, etc.
->  
-> -``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
-> -``LLVM=1``. If you only wish to use certain LLVM utilities, use their respective
-> -make variables.
-> +To support combinations of out of tree paths with version suffixes, we
-> +recommend::
-> +
-> +	PATH=/path/to/llvm/:$PATH make LLVM=-14
->  
-> -The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
-> -disable it.
-> +``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
-> +``LLVM=1``. If you only wish to use certain LLVM utilities, use their
-> +respective make variables.
->  
-> -Omitting CROSS_COMPILE
-> -----------------------
-> +The same value used for ``LLVM=`` should be set for each invocation of ``make``
-> +if configuring and building via distinct commands. ``LLVM=`` should also be set
-> +as an environment variable when running scripts that will eventually run
-> +``make``.
->  
-> -As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
-> +Cross Compiling
-> +---------------
->  
-> -If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
-> -from ``ARCH``.
-> +A single Clang compiler binary (and corresponding LLVM utilities) will
-> +typically contain all supported backends, which can help simplify cross
-> +compiling especially when ``LLVM=1`` is used. If you use only LLVM tools,
-> +``CROSS_COMPILE`` becomes unnecessary.
->  
-> -That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
-> +As an example, for a target like ``ARCH=s390`` which does not yet have
-> +``ld.lld`` support, you could invoke ``make`` via::
->  
-> -For example, to cross-compile the arm64 kernel::
-> +	make LLVM=1 LD=ld.bfd CROSS_COMPILE=s390x-linux-gnu-
-
-This should probably have ARCH=s390?
-
-> -	make ARCH=arm64 LLVM=1
-> +``CROSS_COMPILE`` is not used to prefix the Clang compiler binary (or
-> +corresponding LLVM utilities), but it will be for any GNU toolchain utilities.
-> +This example will invoke ``s390x-linux-gnu-ld.bfd`` as the linker, so ensure
-> +that is reachable in your ``$PATH``.
-
-I like the example as I feel like it addresses some of the fear I have had
-around recommending LLVM=1 as the initial build suggestion but 'LLVM=1
-LD=ld.bfd CROSS_COMPILE=s390x-linux-gnu-' does not compose as you describe here
-because $(LD) is not prefixed with $(CROSS_COMPILE) anywhere in Makefile. The
-non-$(LLVM) default assignment of $(LD) is '$(CROSS_COMPILE)ld' and that is
-overridden by 'LD=ld.bfd' on the command line.
-
-In other words, this should be
-
-  make ARCH=s390 LLVM=1 LD=s390x-linux-gnu-ld.bfd
-
-and have the note about CROSS_COMPILE prefixing any GNU toolchain utilities
-removed. It should problably have OBJCOPY and OBJDUMP too, as those are
-required due to https://github.com/ClangBuiltLinux/linux/issues/859 and
-https://github.com/ClangBuiltLinux/linux/issues/1530.
-
-> -If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
-> -``--prefix=<path>`` to search for the GNU assembler and linker. ::
-> +The LLVM_IAS= argument
-> +-----------------
->  
-> -	make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
-> +Clang can assemble assembler code. You can pass ``LLVM_IAS=0`` to disable this
-> +behavior and have Clang invoke the system assembler instead (or the assembler
-> +based on ``CROSS_COMPILE``). ``CROSS_COMPILE`` is necessary when ``LLVM_IAS=0``
-> +is set when cross compiling in order to set ``--prefix=`` for the compiler to
-> +find the corresponding non-integrated assembler.
-
-Thanks a lot for documenting this behavior, it is one of the most common
-issues I run into myself (adding LLVM_IAS=0 without CROSS_COMPILE) and
-maybe this note will be what I need in order to remember :)
-
->  Supported Architectures
->  -----------------------
-> @@ -135,14 +138,17 @@ yet. Bug reports are always welcome at the issue tracker below!
->     * - hexagon
->       - Maintained
->       - ``LLVM=1``
-> +   * - loongarch
-> +     - Maintained
-> +     - ``LLVM=1``
->     * - mips
->       - Maintained
->       - ``LLVM=1``
->     * - powerpc
->       - Maintained
-> -     - ``CC=clang``
-> +     - ``LLVM=1``
->     * - riscv
-> -     - Maintained
-> +     - Supported
->       - ``LLVM=1``
->     * - s390
->       - Maintained
-> @@ -171,9 +177,11 @@ Getting Help
->  Getting LLVM
->  -------------
->  
-> -We provide prebuilt stable versions of LLVM on `kernel.org <https://kernel.org/pub/tools/llvm/>`_.
-> -Below are links that may be useful for building LLVM from source or procuring
-> -it through a distribution's package manager.
-> +We provide prebuilt stable versions of LLVM on `kernel.org
-> +<https://kernel.org/pub/tools/llvm/>`_. These have been optimized with profile
-> +data for building Linux kernels. Below are links that may be useful for
-
-Maybe make a note of why this matters? ", which should lower kernel
-build times compared to non-optimized LLVM toolchains."?
-
-Cheers,
-Nathan
