@@ -2,126 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C509C7113B
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 13:02:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 390ADC27C40
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 13:54:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236351AbjHXNC0 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 09:02:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36404 "EHLO
+        id S239437AbjHXNyE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 09:54:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240529AbjHXNCX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 09:02:23 -0400
-Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD23198B
-        for <linux-doc@vger.kernel.org>; Thu, 24 Aug 2023 06:02:20 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-ETa1D-A2MPqAaQHtOCMZeg-1; Thu, 24 Aug 2023 09:02:01 -0400
-X-MC-Unique: ETa1D-A2MPqAaQHtOCMZeg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAAA18D40AF;
-        Thu, 24 Aug 2023 13:01:57 +0000 (UTC)
-Received: from hog (unknown [10.39.192.31])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 29588C1602B;
-        Thu, 24 Aug 2023 13:01:56 +0000 (UTC)
-Date:   Thu, 24 Aug 2023 15:01:55 +0200
-From:   Sabrina Dubroca <sd@queasysnail.net>
-To:     Scott Dial <scott@scottdial.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
-Message-ID: <ZOdUw66jbDWE8blF@hog>
-References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
- <20230818184648.127b2ccf@kernel.org>
- <ZOTWzJ4aEa5geNva@hog>
- <a9af0c0a-ec7c-fa01-05ac-147fccb94fbf@scottdial.com>
+        with ESMTP id S241300AbjHXNx5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 09:53:57 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D2FA8;
+        Thu, 24 Aug 2023 06:53:51 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2b9f0b7af65so102953251fa.1;
+        Thu, 24 Aug 2023 06:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692885230; x=1693490030;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5LYpTKXg3FZey1/Sx1CuzIbt0+XrBzCQETNfbb8Zj50=;
+        b=DN73H0Au+zeKlQ/SNDV6ZPc9sqSdbcTrTVKA8EKfKm1iaxY21dA8TKMPEEgoQPsmyX
+         ig615V4/j0biqjWMjKwPqgSkX/hKeLZdweth/uoPv1vxxBq32yCeyAvs7Y5D5JvPD+de
+         MUCcahsaMShuJhkfkiJJfP5dWt06dHMsrADe2y0ivjjotIm7U3HK+rysIGclcNVVZPo2
+         fb04lQ83XwNLhKMBbW6qZqkXFseYHFZPsN1AyKT9kTSQmeXbhvR+ADeCToIW7KQ8VYvA
+         07F2q9EtxikWELTtXf9eBqroKysJaUIpkB0WoeqQBmJO+NwN+WS2IXZFn698DsRPrz1K
+         Y2BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692885230; x=1693490030;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5LYpTKXg3FZey1/Sx1CuzIbt0+XrBzCQETNfbb8Zj50=;
+        b=H86wPFmqHYlsC1y6p4aR2/tI0WEe/HkMutPr6RN8lKO8aI/c9npQSrIwYMIzGJaJld
+         79Mi2WcVKG4sFN2qdQ2N1DkYqkJS7QK8FS/cSur81ZeNZPc4pVVLJvW7c3C8/SnNkWSY
+         XiZg6NR3aCDkCbzkFVoSXkUXeaZuDrXvmRxJTxTUSeQJ7Rj7/cnEKJXDVE88DbDAFSeZ
+         c8OfTOhrXjs20lJxNMOcE/kpieRenoxYYfveciMF/hZfOBKHwFdWITD3FPELEnV52PZu
+         8upSBjKIIugyzpiF8kcuBN1oVH2kMO8bCs9I0jEJvX+qukzgImhYRxlRCDw3OO2t4tfy
+         gj0g==
+X-Gm-Message-State: AOJu0YwBZOvFOsJaydj0l+niHMUyigU4xoYQ9DsREfLloKD3EgvqVZBz
+        cw8L9NoB1ekVZZ2OE+0Yb+wX76X0MD9kLmT4
+X-Google-Smtp-Source: AGHT+IEefotIFfjeuslW/NyPnOv1al/whlGKNiU+Okhol05ME3LSn5l6OfI7GK7mwS6vyDa9APZYrw==
+X-Received: by 2002:a2e:b164:0:b0:2bb:bfa5:b72c with SMTP id a4-20020a2eb164000000b002bbbfa5b72cmr10493041ljm.15.1692885229450;
+        Thu, 24 Aug 2023 06:53:49 -0700 (PDT)
+Received: from [192.168.20.89] (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id p15-20020a2e9a8f000000b002bcdbfe36a1sm857498lji.84.2023.08.24.06.53.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Aug 2023 06:53:48 -0700 (PDT)
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+Date:   Thu, 24 Aug 2023 15:55:50 +0200
+Subject: [PATCH] input: docs: pxrc: remove reference to phoenix-sim
 MIME-Version: 1.0
-In-Reply-To: <a9af0c0a-ec7c-fa01-05ac-147fccb94fbf@scottdial.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: queasysnail.net
-Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230824-pxrc-doc-v1-1-038b75a2ef05@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAGVh52QC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDCyMT3YKKomTdlPxkXcPElJSkxEQjI1ODNCWg8oKi1LTMCrBR0bG1tQA
+ AEEX8WgAAAA==
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Marcus Folkesson <marcus.folkesson@gmail.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1501;
+ i=marcus.folkesson@gmail.com; h=from:subject:message-id;
+ bh=gfPdoZJ8VqVP1ME7IqsQu+o/zRkAyUXKN51ex5LYZ+Q=;
+ b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBk52F/TGpSKHPMSR+AnOnRcktJokJeDTpjV6ckL
+ nJMFaco50aJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCZOdhfwAKCRCIgE5vWV1S
+ MqnFD/0Wa8toMqQSoAU20Ebtgi6FPbWgY+nmcCod45Y0sQM9+oGlCQ0pGBeNDo2YwX3Flu6aDla
+ JvnBoki8hIEWlXk0cR5rsXk9Zz4u1P0lb/3IDZjRRtZadK6HbDVnU3WzaLGwgDnNxSs3SL/eMTy
+ CRZ/NtGu9QeXLhqSpqZjzkPozE1iDk5Bhx4pWyyjEbEA9uRH8kC0tOVSClcbSk0+ZlAmtrnpRgL
+ b1yw5D/vAjOpJXtIBF5SYo5Any4uMzkipkWf1ac9tOtRfPEYLPmPn/yaeghuMIIDsVFpfWitxiX
+ sXjl+shem38L6AwEQIBnGu0cxNHz74Of6uDHmDOXopphbs6t4kML9kXP9+3IRu6tivlwg83p3em
+ qYp4PdzNQsIw42tP42d+NO9quZHP0jkBc75MDe6y1ZbrrHZ/xRbJxziOb7VSD96N9AnZ27ZJdO1
+ YyVqKS3LlKp9pUR6gjJzOGyiOH/0zxgIHAHbxFUrwMt1PLOhY1TM0mruC+jyirxnwElMUIZ7egz
+ IMmLNV+alFNxiLJLUHihfpPDrSIBBxJCDy2R2TuA5KMFrr/gmwjOVudXwLLHi7UoutxdNAIAHTc
+ bK0Jx6x5uXoCV5LkPBSOYJdp0cmsZFRMRTKW09610TDkRKZpOmOYNqqNEf4qa9YvrKRcV6XWBZc
+ TC7m10qXXPTrl7w==
+X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
+ fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2023-08-23, 16:22:31 -0400, Scott Dial wrote:
-> > 2023-08-18, 18:46:48 -0700, Jakub Kicinski wrote:
-> > > Can we not fix the ordering problem?
-> > > Queue the packets locally if they get out of order?
-> 
-> AES-NI's implementation of gcm(aes) requires the FPU, so if it's busy the
-> decrypt gets stuck on the cryptd queue, but that queue is not
-> order-preserving.
+The reference undeniably points to something unrelated nowadays.
+Remove it.
 
-It should be (per CPU [*]). The queue itself is a linked list, and if we
-have requests on the queue we don't let new requests skip the queue.
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
+ Documentation/input/devices/pxrc.rst | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-[*] and if you have packets coming through multiple CPUs at the same
-    time, ordering won't be predictable anyway
+diff --git a/Documentation/input/devices/pxrc.rst b/Documentation/input/devices/pxrc.rst
+index ca11f646bae8..5a86df4ad079 100644
+--- a/Documentation/input/devices/pxrc.rst
++++ b/Documentation/input/devices/pxrc.rst
+@@ -5,7 +5,7 @@ pxrc - PhoenixRC Flight Controller Adapter
+ :Author: Marcus Folkesson <marcus.folkesson@gmail.com>
+ 
+ This driver let you use your own RC controller plugged into the
+-adapter that comes with PhoenixRC [1]_ or other compatible adapters.
++adapter that comes with PhoenixRC or other compatible adapters.
+ 
+ The adapter supports 7 analog channels and 1 digital input switch.
+ 
+@@ -41,7 +41,7 @@ Manual Testing
+ ==============
+ 
+ To test this driver's functionality you may use `input-event` which is part of
+-the `input layer utilities` suite [2]_.
++the `input layer utilities` suite [1]_.
+ 
+ For example::
+ 
+@@ -53,5 +53,4 @@ To print all input events from input `devnr`.
+ References
+ ==========
+ 
+-.. [1] http://www.phoenix-sim.com/
+-.. [2] https://www.kraxel.org/cgit/input/
++.. [1] https://www.kraxel.org/cgit/input/
 
-> I would emphasize
-> that benchmarking of network performance should be done by looking at more
-> than just the interface frame rate. For instance, out-of-order deliver of
-> packets can trigger TCP backoff. I was never interested in how many packets
-> the macsec driver could stuff onto the wire, because the impact was my TCP
-> socket stalling and my UDP streams being garbled.
+---
+base-commit: 7214161111af87aeee721ab1b2808fcb4421aff7
+change-id: 20230824-pxrc-doc-1addbaa2250f
 
-Sure. And for iperf3/TCP tests, I'm seeing much better performance out
-of async crypto (or much lower CPU utilization for the same throughput
-on UDP tests), even with the FPU busy. I decided to go the sysctl
-route instead of reverting because I couldn't figure out how to
-reproduce the problems you've hit, but I didn't want to just bring
-them back for your setup.
-
-> On 8/22/2023 11:39 AM, Sabrina Dubroca wrote:
-> > Actually, looking into the crypto API side, I don't see how they can
-> > get out of order since commit 81760ea6a95a ("crypto: cryptd - Add
-> > helpers to check whether a tfm is queued"):
-> > 
-> >      [...] ensure that no reordering is introduced because of requests
-> >      queued in cryptd with respect to requests being processed in
-> >      softirq context.
-> > 
-> > And cryptd_aead_queued() is used by AESNI (via simd_aead_decrypt()) to
-> > decide whether to process the request synchronously or not.
-> 
-> I have not been following linux-crypto changes, but I would be surprised if
-> request is not flagged with CRYPTO_TFM_REQ_MAY_BACKLOG, so it would be
-
-macsec doesn't use CRYPTO_TFM_REQ_MAY_BACKLOG.
-
-> queue. If that's not the case, then the attempt to decrypt would return
-> -EBUSY, which would translate to a packet error, since macsec_decrypt MUST
-> handle the skb during the softirq.
-
-If we get more packets than we can process, we drop them. I think
-that's fine.
-
-> > So I really don't get what commit ab046a5d4be4 was trying to fix. I've
-> > never been able to reproduce that issue, I guess commit 81760ea6a95a
-> > explains why.
-> >
-> > I'd suggest to revert commit ab046a5d4be4, but it feels wrong to
-> > revert it without really understanding what problem Scott hit and why
-> > 81760ea6a95a didn't solve it.
-> 
-> I don't think that commit has any relevance to the issue. 
-
-It maintains the ordering of requests. If there are async requests
-currently waiting to be processed, we don't let requests bypass the
-queue until we've drained it.
-
-To make sure, I ran some tests with numbered messages and a patched
-kernel that forces queueing decryption every couple of requests, and I
-didn't see any reordering.
-
+Best regards,
 -- 
-Sabrina
+Marcus Folkesson <marcus.folkesson@gmail.com>
 
