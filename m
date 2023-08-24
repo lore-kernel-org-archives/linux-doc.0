@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C0BC6FA8F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E71C83003
 	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 11:21:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239344AbjHXLUw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 07:20:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40064 "EHLO
+        id S240988AbjHXLUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 07:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240921AbjHXLUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 07:20:23 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AD010FE;
-        Thu, 24 Aug 2023 04:20:20 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3fe32016bc8so60952075e9.1;
-        Thu, 24 Aug 2023 04:20:20 -0700 (PDT)
+        with ESMTP id S240991AbjHXLU2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 07:20:28 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C031119B7;
+        Thu, 24 Aug 2023 04:20:24 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-31c71898109so862230f8f.2;
+        Thu, 24 Aug 2023 04:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692876018; x=1693480818;
+        d=gmail.com; s=20221208; t=1692876023; x=1693480823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g7vOTpfqqD54MzrSkWe2MWcCQ4puu0V5khTsQz3wBjk=;
-        b=gX0nkGheG1sRPBoeQMDLbfUmiG+4DDE/iTbFCcgh7vJft0YXXdOdZAMBZtZnV0bGO8
-         H9EhrPbfprMrOXnqedlSe73TawfVH2Lz9BGhvU1RW5+gNpFHNqYXnwMQUhx+rm5LpOXM
-         sd8FVexhOMoL/2hAjLXm32cDPSnQFcSw8UzzbhCyTBiWHwwdDuPxZe9ZG12cmO2SZNAI
-         /CBe+2qH4m8fInoHDuYcGabuAyxhYuPdotPCU4nCXZ0efDfr84h/Ud1FVN3HCQdrEyY8
-         /mU83Z7tRUVSFb6p7471yzb8JWxPrKa7sMU2zImjFrI1AIBGtUne4xnV+tPt/FDdbvKH
-         XSbw==
+        bh=6xYApsDeilR/lh/FduE88Yq5t+89QhdT6EgnUVD7mho=;
+        b=CGZK0n4tTp/q5XNWidUDWXMGNBfMaaLV86EKEJQW1HP2ugu3okeP8THIJQxkb4ptUz
+         1KHJ1uEARhmuFlvwBlJ+y9CTj21KQX9bKpYCOCm5JLfwQhF1OISQk0qEGprzvfsxKj9Y
+         0v0KRx3RnZIpyA3neEkM2GRgNJcxiCjGFLFOi0Q2iSH5yFu2Xe7wqvxnnZ1Y5CjB32F1
+         ikj+cYcwBWu3f59/LxoG31W/9Pc/bPW5heVKtrKzDK/OwdNNKK22tB5Q08YXtTFzshUk
+         pM6ryIzMnNWPjhY55LoJQ2Qyb167Q+ZGCsN1AiR6oc1qXNwFaXWZVI22HSBljm3feu45
+         UiYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692876018; x=1693480818;
+        d=1e100.net; s=20221208; t=1692876023; x=1693480823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g7vOTpfqqD54MzrSkWe2MWcCQ4puu0V5khTsQz3wBjk=;
-        b=e8PacALFTIKzHg4fGcHryT7wljrMvEVqpYBvPojAcmnugdsrmFah35lksguUy3xA4R
-         70Yh+GRAonm3hq/4P+nVe0i+LvjXXyfDaoahdc3fWcfgZhK9OZr8jtv4IS4XnFBg5QSu
-         h74pP5qhoHfv8gl7qDXzql+X6InWM9wyVLvm3wx7aL262OqV+zcKVDQ7GQiwgNQux2jK
-         QT4NQkwh+ljqzhtIZci6Kz1knBIqfxC3+Gu03y5eQke8/no+hMeINskQgVuj4D/RIHWK
-         wjYk6DKtGModKGpPGvxUM97vCPRTITg7tsNnwISgL8ytzy/ovIjbzdZHcRhqw9t7Znsw
-         CRQg==
-X-Gm-Message-State: AOJu0Yym0auwqEGurF15IH5rds/Dv0MTB9xSdZ/jhCmG1tr89J62/I0+
-        7HTFINIDXOM7GhFDPTAfctD07zLCT+25nA==
-X-Google-Smtp-Source: AGHT+IGF2jFxGvIfRpD+4B8vndfe9neRU6b/o6Y33RUFXhznitXDjlZdWCN2vClWiBH6jlxMxxI0mw==
-X-Received: by 2002:adf:f043:0:b0:317:5b29:f10a with SMTP id t3-20020adff043000000b003175b29f10amr11177920wro.47.1692876017717;
-        Thu, 24 Aug 2023 04:20:17 -0700 (PDT)
+        bh=6xYApsDeilR/lh/FduE88Yq5t+89QhdT6EgnUVD7mho=;
+        b=GRObB0nr1/AvTYzW3QQ9nydV6hVdvi8AshwztV+NCkYNnzo9wAJjFXdSgkjqMnEwBB
+         0aBNN57VOdW/UUPhcFdgNz32dFndCVdeDe9FHkdYCmO9mAKgyvigelDLM71fATTBih9A
+         zL8nXtwJe7k7kmjkeXUsWMT3KMRI6YejpUjY1yfGGvzLyXKs44OpnqSBm9gyHtCq6zOy
+         QXEiYRVVeLiIzobKmGb4tTCEldC1Dsc/IVxUb7wx7CkRvCMjMjn39JTI5/bvHdWYlL6h
+         ybEPYiqbCzdedqPjZ/jhJ8r6Hg7hx4NZiKQ/vrUxLbN8i/3yTFZYw/kXcPTY98Gx2qet
+         jSRQ==
+X-Gm-Message-State: AOJu0Yy13plJONvX/jiPdUonUbvxO1VqTWkeP6hx+R1ajGUDj1dU+QQi
+        f3ryXnLbnpB6Z7Qd61HUJSmQklEt8Onc0g==
+X-Google-Smtp-Source: AGHT+IHXvVtFv2KHiZuXteTdT1D+ep7x1kdon/zlQoA11jMGffRK4x8Bg6gdkd2HxXYrrWTssUY3AQ==
+X-Received: by 2002:adf:fa88:0:b0:319:7abf:d8e2 with SMTP id h8-20020adffa88000000b003197abfd8e2mr11196464wrr.24.1692876022754;
+        Thu, 24 Aug 2023 04:20:22 -0700 (PDT)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:1a5:1436:c34c:226])
-        by smtp.gmail.com with ESMTPSA id i14-20020a5d630e000000b0031980783d78sm21875295wru.54.2023.08.24.04.20.16
+        by smtp.gmail.com with ESMTPSA id i14-20020a5d630e000000b0031980783d78sm21875295wru.54.2023.08.24.04.20.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 04:20:17 -0700 (PDT)
+        Thu, 24 Aug 2023 04:20:22 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -57,11 +57,10 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Stanislav Fomichev <sdf@google.com>,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>,
-        Jacob Keller <jacob.e.keller@intel.com>
-Subject: [PATCH net-next v5 03/12] doc/netlink: Update genetlink-legacy documentation
-Date:   Thu, 24 Aug 2023 12:19:54 +0100
-Message-ID: <20230824112003.52939-4-donald.hunter@gmail.com>
+Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH net-next v5 07/12] tools/net/ynl: Add support for netlink-raw families
+Date:   Thu, 24 Aug 2023 12:19:58 +0100
+Message-ID: <20230824112003.52939-8-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230824112003.52939-1-donald.hunter@gmail.com>
 References: <20230824112003.52939-1-donald.hunter@gmail.com>
@@ -71,125 +70,244 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for recently added genetlink-legacy schema attributes.
-Remove statements about 'work in progress' and 'todo'.
+Refactor the ynl code to encapsulate protocol specifics into
+NetlinkProtocol and GenlProtocol.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 ---
- Documentation/core-api/netlink.rst            |  9 ++++---
- .../netlink/genetlink-legacy.rst              | 26 ++++++++++++-------
- Documentation/userspace-api/netlink/specs.rst | 13 ++++++++++
- 3 files changed, 35 insertions(+), 13 deletions(-)
+ tools/net/ynl/lib/ynl.py | 124 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 91 insertions(+), 33 deletions(-)
 
-diff --git a/Documentation/core-api/netlink.rst b/Documentation/core-api/netlink.rst
-index e4a938a05cc9..9f692b02bfe6 100644
---- a/Documentation/core-api/netlink.rst
-+++ b/Documentation/core-api/netlink.rst
-@@ -67,10 +67,11 @@ Globals
- kernel-policy
- ~~~~~~~~~~~~~
+diff --git a/tools/net/ynl/lib/ynl.py b/tools/net/ynl/lib/ynl.py
+index 1d1bc712456e..e5001356ad0c 100644
+--- a/tools/net/ynl/lib/ynl.py
++++ b/tools/net/ynl/lib/ynl.py
+@@ -25,6 +25,7 @@ class Netlink:
+     NETLINK_ADD_MEMBERSHIP = 1
+     NETLINK_CAP_ACK = 10
+     NETLINK_EXT_ACK = 11
++    NETLINK_GET_STRICT_CHK = 12
  
--Defines if the kernel validation policy is per operation (``per-op``)
--or for the entire family (``global``). New families should use ``per-op``
--(default) to be able to narrow down the attributes accepted by a specific
--command.
-+Defines whether the kernel validation policy is ``global`` i.e. the same for all
-+operations of the family, defined for each operation individually - ``per-op``,
-+or separately for each operation and operation type (do vs dump) - ``split``.
-+New families should use ``per-op`` (default) to be able to narrow down the
-+attributes accepted by a specific command.
+     # Netlink message
+     NLMSG_ERROR = 2
+@@ -228,6 +229,9 @@ class NlMsg:
+                             desc += f" ({spec['doc']})"
+                         self.extack['miss-type'] = desc
  
- checks
- ------
-diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-index 802875a37a27..40b82ad5d54a 100644
---- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
-+++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-@@ -8,11 +8,8 @@ This document describes the many additional quirks and properties
- required to describe older Generic Netlink families which form
- the ``genetlink-legacy`` protocol level.
++    def cmd(self):
++        return self.nl_type
++
+     def __repr__(self):
+         msg = f"nl_len = {self.nl_len} ({len(self.raw)}) nl_flags = 0x{self.nl_flags:x} nl_type = {self.nl_type}\n"
+         if self.error:
+@@ -322,6 +326,9 @@ class GenlMsg:
+         self.genl_cmd, self.genl_version, _ = struct.unpack_from("BBH", nl_msg.raw, 0)
+         self.raw = nl_msg.raw[4:]
  
--The spec is a work in progress, some of the quirks are just documented
--for future reference.
++    def cmd(self):
++        return self.genl_cmd
++
+     def __repr__(self):
+         msg = repr(self.nl)
+         msg += f"\tgenl_cmd = {self.genl_cmd} genl_ver = {self.genl_version}\n"
+@@ -330,9 +337,41 @@ class GenlMsg:
+         return msg
+ 
+ 
+-class GenlFamily:
+-    def __init__(self, family_name):
++class NetlinkProtocol:
++    def __init__(self, family_name, proto_num):
+         self.family_name = family_name
++        self.proto_num = proto_num
++
++    def _message(self, nl_type, nl_flags, seq=None):
++        if seq is None:
++            seq = random.randint(1, 1024)
++        nlmsg = struct.pack("HHII", nl_type, nl_flags, seq, 0)
++        return nlmsg
++
++    def message(self, flags, command, version, seq=None):
++        return self._message(command, flags, seq)
++
++    def _decode(self, nl_msg):
++        return nl_msg
++
++    def decode(self, ynl, nl_msg):
++        msg = self._decode(nl_msg)
++        fixed_header_size = 0
++        if ynl:
++            op = ynl.rsp_by_value[msg.cmd()]
++            fixed_header_size = ynl._fixed_header_size(op)
++        msg.raw_attrs = NlAttrs(msg.raw[fixed_header_size:])
++        return msg
++
++    def get_mcast_id(self, mcast_name, mcast_groups):
++        if mcast_name not in mcast_groups:
++            raise Exception(f'Multicast group "{mcast_name}" not present in the spec')
++        return mcast_groups[mcast_name].value
++
++
++class GenlProtocol(NetlinkProtocol):
++    def __init__(self, family_name):
++        super().__init__(family_name, Netlink.NETLINK_GENERIC)
+ 
+         global genl_family_name_to_id
+         if genl_family_name_to_id is None:
+@@ -341,6 +380,19 @@ class GenlFamily:
+         self.genl_family = genl_family_name_to_id[family_name]
+         self.family_id = genl_family_name_to_id[family_name]['id']
+ 
++    def message(self, flags, command, version, seq=None):
++        nlmsg = self._message(self.family_id, flags, seq)
++        genlmsg = struct.pack("BBH", command, version, 0)
++        return nlmsg + genlmsg
++
++    def _decode(self, nl_msg):
++        return GenlMsg(nl_msg)
++
++    def get_mcast_id(self, mcast_name, mcast_groups):
++        if mcast_name not in self.genl_family['mcast']:
++            raise Exception(f'Multicast group "{mcast_name}" not present in the family')
++        return self.genl_family['mcast'][mcast_name]
++
+ 
+ #
+ # YNL implementation details.
+@@ -353,9 +405,19 @@ class YnlFamily(SpecFamily):
+ 
+         self.include_raw = False
+ 
+-        self.sock = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, Netlink.NETLINK_GENERIC)
++        try:
++            if self.proto == "netlink-raw":
++                self.nlproto = NetlinkProtocol(self.yaml['name'],
++                                               self.yaml['protonum'])
++            else:
++                self.nlproto = GenlProtocol(self.yaml['name'])
++        except KeyError:
++            raise Exception(f"Family '{self.yaml['name']}' not supported by the kernel")
++
++        self.sock = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, self.nlproto.proto_num)
+         self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_CAP_ACK, 1)
+         self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_EXT_ACK, 1)
++        self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_GET_STRICT_CHK, 1)
+ 
+         self.async_msg_ids = set()
+         self.async_msg_queue = []
+@@ -368,18 +430,12 @@ class YnlFamily(SpecFamily):
+             bound_f = functools.partial(self._op, op_name)
+             setattr(self, op.ident_name, bound_f)
+ 
+-        try:
+-            self.family = GenlFamily(self.yaml['name'])
+-        except KeyError:
+-            raise Exception(f"Family '{self.yaml['name']}' not supported by the kernel")
+ 
+     def ntf_subscribe(self, mcast_name):
+-        if mcast_name not in self.family.genl_family['mcast']:
+-            raise Exception(f'Multicast group "{mcast_name}" not present in the family')
 -
--Specification (defined)
--=======================
-+Specification
-+=============
++        mcast_id = self.nlproto.get_mcast_id(mcast_name, self.mcast_groups)
+         self.sock.bind((0, 0))
+         self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_ADD_MEMBERSHIP,
+-                             self.family.genl_family['mcast'][mcast_name])
++                             mcast_id)
  
- Attribute type nests
- --------------------
-@@ -156,16 +153,27 @@ it will be allocated 3 for the request (``a`` is the previous operation
- with a request section and the value of 2) and 8 for response (``c`` is
- the previous operation in the "from-kernel" direction).
+     def _add_attr(self, space, name, value):
+         try:
+@@ -500,11 +556,9 @@ class YnlFamily(SpecFamily):
+         if 'bad-attr-offs' not in extack:
+             return
  
--Other quirks (todo)
--===================
-+Other quirks
-+============
+-        genl_req = GenlMsg(NlMsg(request, 0, op.attr_set))
+-        fixed_header_size = self._fixed_header_size(op)
+-        offset = 20 + fixed_header_size
+-        path = self._decode_extack_path(NlAttrs(genl_req.raw[fixed_header_size:]),
+-                                        op.attr_set, offset,
++        msg = self.nlproto.decode(self, NlMsg(request, 0, op.attr_set))
++        offset = 20 + self._fixed_header_size(op)
++        path = self._decode_extack_path(msg.raw_attrs, op.attr_set, offset,
+                                         extack['bad-attr-offs'])
+         if path:
+             del extack['bad-attr-offs']
+@@ -534,14 +588,17 @@ class YnlFamily(SpecFamily):
+             fixed_header_attrs[m.name] = value
+         return fixed_header_attrs
  
- Structures
- ----------
- 
- Legacy families can define C structures both to be used as the contents of
- an attribute and as a fixed message header. Structures are defined in
--``definitions``  and referenced in operations or attributes. Note that
--structures defined in YAML are implicitly packed according to C
-+``definitions``  and referenced in operations or attributes.
+-    def handle_ntf(self, nl_msg, genl_msg):
++    def handle_ntf(self, decoded):
+         msg = dict()
+         if self.include_raw:
+-            msg['nlmsg'] = nl_msg
+-            msg['genlmsg'] = genl_msg
+-        op = self.rsp_by_value[genl_msg.genl_cmd]
++            msg['raw'] = decoded
++        op = self.rsp_by_value[decoded.cmd()]
++        attrs = self._decode(decoded.raw_attrs, op.attr_set.name)
++        if op.fixed_header:
++            attrs.update(self._decode_fixed_header(decoded, op.fixed_header))
 +
-+members
-+~~~~~~~
+         msg['name'] = op['name']
+-        msg['msg'] = self._decode(genl_msg.raw_attrs, op.attr_set.name)
++        msg['msg'] = attrs
+         self.async_msg_queue.append(msg)
+ 
+     def check_ntf(self):
+@@ -561,12 +618,12 @@ class YnlFamily(SpecFamily):
+                     print("Netlink done while checking for ntf!?")
+                     continue
+ 
+-                gm = GenlMsg(nl_msg)
+-                if gm.genl_cmd not in self.async_msg_ids:
+-                    print("Unexpected msg id done while checking for ntf", gm)
++                decoded = self.nlproto.decode(self, nl_msg)
++                if decoded.cmd() not in self.async_msg_ids:
++                    print("Unexpected msg id done while checking for ntf", decoded)
+                     continue
+ 
+-                self.handle_ntf(nl_msg, gm)
++                self.handle_ntf(decoded)
+ 
+     def operation_do_attributes(self, name):
+       """
+@@ -587,7 +644,7 @@ class YnlFamily(SpecFamily):
+             nl_flags |= Netlink.NLM_F_DUMP
+ 
+         req_seq = random.randint(1024, 65535)
+-        msg = _genl_msg(self.family.family_id, nl_flags, op.req_value, 1, req_seq)
++        msg = self.nlproto.message(nl_flags, op.req_value, 1, req_seq)
+         fixed_header_members = []
+         if op.fixed_header:
+             fixed_header_members = self.consts[op.fixed_header].members
+@@ -619,19 +676,20 @@ class YnlFamily(SpecFamily):
+                     done = True
+                     break
+ 
+-                gm = GenlMsg(nl_msg)
++                decoded = self.nlproto.decode(self, nl_msg)
 +
-+ - ``name`` - The attribute name of the struct member
-+ - ``type`` - One of the scalar types ``u8``, ``u16``, ``u32``, ``u64``, ``s8``,
-+   ``s16``, ``s32``, ``s64``, ``string`` or ``binary``.
-+ - ``byte-order`` - ``big-endian`` or ``little-endian``
-+ - ``doc``, ``enum``, ``enum-as-flags``, ``display-hint`` - Same as for
-+   :ref:`attribute definitions <attribute_properties>`
-+
-+Note that structures defined in YAML are implicitly packed according to C
- conventions. For example, the following struct is 4 bytes, not 6 bytes:
+                 # Check if this is a reply to our request
+-                if nl_msg.nl_seq != req_seq or gm.genl_cmd != op.rsp_value:
+-                    if gm.genl_cmd in self.async_msg_ids:
+-                        self.handle_ntf(nl_msg, gm)
++                if nl_msg.nl_seq != req_seq or decoded.cmd() != op.rsp_value:
++                    if decoded.cmd() in self.async_msg_ids:
++                        self.handle_ntf(decoded)
+                         continue
+                     else:
+-                        print('Unexpected message: ' + repr(gm))
++                        print('Unexpected message: ' + repr(decoded))
+                         continue
  
- .. code-block:: c
-diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-index 2e4acde890b7..cc4e2430997e 100644
---- a/Documentation/userspace-api/netlink/specs.rst
-+++ b/Documentation/userspace-api/netlink/specs.rst
-@@ -68,6 +68,10 @@ The following sections describe the properties of the most modern ``genetlink``
- schema. See the documentation of :doc:`genetlink-c <c-code-gen>`
- for information on how C names are derived from name properties.
+-                rsp_msg = self._decode(NlAttrs(gm.raw), op.attr_set.name)
++                rsp_msg = self._decode(decoded.raw_attrs, op.attr_set.name)
+                 if op.fixed_header:
+-                    rsp_msg.update(self._decode_fixed_header(gm, op.fixed_header))
++                    rsp_msg.update(self._decode_fixed_header(decoded, op.fixed_header))
+                 rsp.append(rsp_msg)
  
-+See also :ref:`Documentation/core-api/netlink.rst <kernel_netlink>` for
-+information on the Netlink specification properties that are only relevant to
-+the kernel space and not part of the user space API.
-+
- genetlink
- =========
- 
-@@ -180,6 +184,8 @@ attributes
- 
- List of attributes in the set.
- 
-+.. _attribute_properties:
-+
- Attribute properties
- --------------------
- 
-@@ -264,6 +270,13 @@ a C array of u32 values can be specified with ``type: binary`` and
- ``sub-type: u32``. Binary types and legacy array formats are described in
- more detail in :doc:`genetlink-legacy`.
- 
-+display-hint
-+~~~~~~~~~~~~
-+
-+Optional format indicator that is intended only for choosing the right
-+formatting mechanism when displaying values of this type. Currently supported
-+hints are ``hex``, ``mac``, ``fddi``, ``ipv4``, ``ipv6`` and ``uuid``.
-+
- operations
- ----------
- 
+         if not rsp:
 -- 
 2.39.2 (Apple Git-143)
 
