@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B60AC3DA6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C0BC6FA8F
 	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 11:21:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231667AbjHXLUv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 07:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36260 "EHLO
+        id S239344AbjHXLUw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 07:20:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239344AbjHXLUT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 07:20:19 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 582EC10FA;
-        Thu, 24 Aug 2023 04:20:17 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-31aeedbb264so4494648f8f.0;
-        Thu, 24 Aug 2023 04:20:17 -0700 (PDT)
+        with ESMTP id S240921AbjHXLUX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 07:20:23 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AD010FE;
+        Thu, 24 Aug 2023 04:20:20 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3fe32016bc8so60952075e9.1;
+        Thu, 24 Aug 2023 04:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692876015; x=1693480815;
+        d=gmail.com; s=20221208; t=1692876018; x=1693480818;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=guMXOiwH+7PQQTpnwzBFMxTJ+ih2dVZbmeyJv2NUgGc=;
-        b=OS3YYLz9l6NBxtiAGDWVdQnHrrZPaImf2cF1cF+GuasSnBd2geakFM8oIxIErcuAij
-         y4Ef0P6fNLjsl856KrLN1YSTbeU1b8PyXbwiXYmlDbDJDTUeMJwwTB/A9tXZqf6p4PDw
-         TzTte0IcAjUcUvDTei+ALMWaH/PxQadRJYPHVUP00nDnjFQem1xgSl9+Ec1XuxQDstjn
-         whDgc6xSZtqnsPlZHLYysSV2LJ/bSXBfsGKHsLykE00dRts66/5bLxJ7I0UtQqvl9guC
-         96KFrp/xML35Kr5sJl7AzxugvvBCyB0bHgBdzJkNuzQVz/kA31hLdFTueuNASOgxS/jd
-         /dZg==
+        bh=g7vOTpfqqD54MzrSkWe2MWcCQ4puu0V5khTsQz3wBjk=;
+        b=gX0nkGheG1sRPBoeQMDLbfUmiG+4DDE/iTbFCcgh7vJft0YXXdOdZAMBZtZnV0bGO8
+         H9EhrPbfprMrOXnqedlSe73TawfVH2Lz9BGhvU1RW5+gNpFHNqYXnwMQUhx+rm5LpOXM
+         sd8FVexhOMoL/2hAjLXm32cDPSnQFcSw8UzzbhCyTBiWHwwdDuPxZe9ZG12cmO2SZNAI
+         /CBe+2qH4m8fInoHDuYcGabuAyxhYuPdotPCU4nCXZ0efDfr84h/Ud1FVN3HCQdrEyY8
+         /mU83Z7tRUVSFb6p7471yzb8JWxPrKa7sMU2zImjFrI1AIBGtUne4xnV+tPt/FDdbvKH
+         XSbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692876015; x=1693480815;
+        d=1e100.net; s=20221208; t=1692876018; x=1693480818;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=guMXOiwH+7PQQTpnwzBFMxTJ+ih2dVZbmeyJv2NUgGc=;
-        b=KR7mXh2C6Omcwzzb8/BLeEHk3o7VWDvyuQJysxf1ym/AuHNpxQB3sdtjUuTgBDSDxG
-         xuYol+hzmkHhtD4v2GlIovCeGStw12I7i+JLW1OSM0bJ80r3PUwK8RCswDALmIV3IpB/
-         f/bZV9vHpP1JtamhnI3V6154QzwtgmdVNEkcgNZNIK41Xi/DhPRfs7xqtNbAnV82o9Ua
-         N+g1EZSKrTE/VPWMz60URqIw5unj4cs9hHqAo/MLwPpq6fqXuZaLJ7BE5wsRzaCkZp27
-         Q3J/TR4vKUsbUsJ0M9gK+R8WGFUr3fTULG9TO4soo4eSp2taP5HcUTJ7uaHf9r/P2/zD
-         xEig==
-X-Gm-Message-State: AOJu0YxfSr4Nt1s2cIWqCsHS4IqoTbE7oDbZr0JL4LNU3Tw+a8/TshMv
-        CM+cgzI5oD4fIvwNpy/WumgZd9cQAvzdHQ==
-X-Google-Smtp-Source: AGHT+IFJ/Ft4r+NCLXk6RxHfgkxBlr1aYmpuHuN0w2hcOdOC0nr4JlP6LgmyAZbUQ8bJIfR83C2eYA==
-X-Received: by 2002:a5d:4a12:0:b0:318:7bc:122e with SMTP id m18-20020a5d4a12000000b0031807bc122emr11658199wrq.23.1692876015175;
-        Thu, 24 Aug 2023 04:20:15 -0700 (PDT)
+        bh=g7vOTpfqqD54MzrSkWe2MWcCQ4puu0V5khTsQz3wBjk=;
+        b=e8PacALFTIKzHg4fGcHryT7wljrMvEVqpYBvPojAcmnugdsrmFah35lksguUy3xA4R
+         70Yh+GRAonm3hq/4P+nVe0i+LvjXXyfDaoahdc3fWcfgZhK9OZr8jtv4IS4XnFBg5QSu
+         h74pP5qhoHfv8gl7qDXzql+X6InWM9wyVLvm3wx7aL262OqV+zcKVDQ7GQiwgNQux2jK
+         QT4NQkwh+ljqzhtIZci6Kz1knBIqfxC3+Gu03y5eQke8/no+hMeINskQgVuj4D/RIHWK
+         wjYk6DKtGModKGpPGvxUM97vCPRTITg7tsNnwISgL8ytzy/ovIjbzdZHcRhqw9t7Znsw
+         CRQg==
+X-Gm-Message-State: AOJu0Yym0auwqEGurF15IH5rds/Dv0MTB9xSdZ/jhCmG1tr89J62/I0+
+        7HTFINIDXOM7GhFDPTAfctD07zLCT+25nA==
+X-Google-Smtp-Source: AGHT+IGF2jFxGvIfRpD+4B8vndfe9neRU6b/o6Y33RUFXhznitXDjlZdWCN2vClWiBH6jlxMxxI0mw==
+X-Received: by 2002:adf:f043:0:b0:317:5b29:f10a with SMTP id t3-20020adff043000000b003175b29f10amr11177920wro.47.1692876017717;
+        Thu, 24 Aug 2023 04:20:17 -0700 (PDT)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:1a5:1436:c34c:226])
-        by smtp.gmail.com with ESMTPSA id i14-20020a5d630e000000b0031980783d78sm21875295wru.54.2023.08.24.04.20.13
+        by smtp.gmail.com with ESMTPSA id i14-20020a5d630e000000b0031980783d78sm21875295wru.54.2023.08.24.04.20.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 04:20:14 -0700 (PDT)
+        Thu, 24 Aug 2023 04:20:17 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -59,9 +59,9 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>,
         Jacob Keller <jacob.e.keller@intel.com>
-Subject: [PATCH net-next v5 01/12] doc/netlink: Fix typo in genetlink-* schemas
-Date:   Thu, 24 Aug 2023 12:19:52 +0100
-Message-ID: <20230824112003.52939-2-donald.hunter@gmail.com>
+Subject: [PATCH net-next v5 03/12] doc/netlink: Update genetlink-legacy documentation
+Date:   Thu, 24 Aug 2023 12:19:54 +0100
+Message-ID: <20230824112003.52939-4-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230824112003.52939-1-donald.hunter@gmail.com>
 References: <20230824112003.52939-1-donald.hunter@gmail.com>
@@ -71,41 +71,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typo verion -> version in genetlink-c and genetlink-legacy.
+Add documentation for recently added genetlink-legacy schema attributes.
+Remove statements about 'work in progress' and 'todo'.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 ---
- Documentation/netlink/genetlink-c.yaml      | 2 +-
- Documentation/netlink/genetlink-legacy.yaml | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/core-api/netlink.rst            |  9 ++++---
+ .../netlink/genetlink-legacy.rst              | 26 ++++++++++++-------
+ Documentation/userspace-api/netlink/specs.rst | 13 ++++++++++
+ 3 files changed, 35 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/netlink/genetlink-c.yaml b/Documentation/netlink/genetlink-c.yaml
-index 4c1f8c22627b..9806c44f604c 100644
---- a/Documentation/netlink/genetlink-c.yaml
-+++ b/Documentation/netlink/genetlink-c.yaml
-@@ -41,7 +41,7 @@ properties:
-     description: Name of the define for the family name.
-     type: string
-   c-version-name:
--    description: Name of the define for the verion of the family.
-+    description: Name of the define for the version of the family.
-     type: string
-   max-by-define:
-     description: Makes the number of attributes and commands be specified by a define, not an enum value.
-diff --git a/Documentation/netlink/genetlink-legacy.yaml b/Documentation/netlink/genetlink-legacy.yaml
-index 196076dfa309..12a0a045605d 100644
---- a/Documentation/netlink/genetlink-legacy.yaml
-+++ b/Documentation/netlink/genetlink-legacy.yaml
-@@ -41,7 +41,7 @@ properties:
-     description: Name of the define for the family name.
-     type: string
-   c-version-name:
--    description: Name of the define for the verion of the family.
-+    description: Name of the define for the version of the family.
-     type: string
-   max-by-define:
-     description: Makes the number of attributes and commands be specified by a define, not an enum value.
+diff --git a/Documentation/core-api/netlink.rst b/Documentation/core-api/netlink.rst
+index e4a938a05cc9..9f692b02bfe6 100644
+--- a/Documentation/core-api/netlink.rst
++++ b/Documentation/core-api/netlink.rst
+@@ -67,10 +67,11 @@ Globals
+ kernel-policy
+ ~~~~~~~~~~~~~
+ 
+-Defines if the kernel validation policy is per operation (``per-op``)
+-or for the entire family (``global``). New families should use ``per-op``
+-(default) to be able to narrow down the attributes accepted by a specific
+-command.
++Defines whether the kernel validation policy is ``global`` i.e. the same for all
++operations of the family, defined for each operation individually - ``per-op``,
++or separately for each operation and operation type (do vs dump) - ``split``.
++New families should use ``per-op`` (default) to be able to narrow down the
++attributes accepted by a specific command.
+ 
+ checks
+ ------
+diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+index 802875a37a27..40b82ad5d54a 100644
+--- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
++++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+@@ -8,11 +8,8 @@ This document describes the many additional quirks and properties
+ required to describe older Generic Netlink families which form
+ the ``genetlink-legacy`` protocol level.
+ 
+-The spec is a work in progress, some of the quirks are just documented
+-for future reference.
+-
+-Specification (defined)
+-=======================
++Specification
++=============
+ 
+ Attribute type nests
+ --------------------
+@@ -156,16 +153,27 @@ it will be allocated 3 for the request (``a`` is the previous operation
+ with a request section and the value of 2) and 8 for response (``c`` is
+ the previous operation in the "from-kernel" direction).
+ 
+-Other quirks (todo)
+-===================
++Other quirks
++============
+ 
+ Structures
+ ----------
+ 
+ Legacy families can define C structures both to be used as the contents of
+ an attribute and as a fixed message header. Structures are defined in
+-``definitions``  and referenced in operations or attributes. Note that
+-structures defined in YAML are implicitly packed according to C
++``definitions``  and referenced in operations or attributes.
++
++members
++~~~~~~~
++
++ - ``name`` - The attribute name of the struct member
++ - ``type`` - One of the scalar types ``u8``, ``u16``, ``u32``, ``u64``, ``s8``,
++   ``s16``, ``s32``, ``s64``, ``string`` or ``binary``.
++ - ``byte-order`` - ``big-endian`` or ``little-endian``
++ - ``doc``, ``enum``, ``enum-as-flags``, ``display-hint`` - Same as for
++   :ref:`attribute definitions <attribute_properties>`
++
++Note that structures defined in YAML are implicitly packed according to C
+ conventions. For example, the following struct is 4 bytes, not 6 bytes:
+ 
+ .. code-block:: c
+diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
+index 2e4acde890b7..cc4e2430997e 100644
+--- a/Documentation/userspace-api/netlink/specs.rst
++++ b/Documentation/userspace-api/netlink/specs.rst
+@@ -68,6 +68,10 @@ The following sections describe the properties of the most modern ``genetlink``
+ schema. See the documentation of :doc:`genetlink-c <c-code-gen>`
+ for information on how C names are derived from name properties.
+ 
++See also :ref:`Documentation/core-api/netlink.rst <kernel_netlink>` for
++information on the Netlink specification properties that are only relevant to
++the kernel space and not part of the user space API.
++
+ genetlink
+ =========
+ 
+@@ -180,6 +184,8 @@ attributes
+ 
+ List of attributes in the set.
+ 
++.. _attribute_properties:
++
+ Attribute properties
+ --------------------
+ 
+@@ -264,6 +270,13 @@ a C array of u32 values can be specified with ``type: binary`` and
+ ``sub-type: u32``. Binary types and legacy array formats are described in
+ more detail in :doc:`genetlink-legacy`.
+ 
++display-hint
++~~~~~~~~~~~~
++
++Optional format indicator that is intended only for choosing the right
++formatting mechanism when displaying values of this type. Currently supported
++hints are ``hex``, ``mac``, ``fddi``, ``ipv4``, ``ipv6`` and ``uuid``.
++
+ operations
+ ----------
+ 
 -- 
 2.39.2 (Apple Git-143)
 
