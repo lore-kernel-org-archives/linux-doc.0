@@ -2,132 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 390ADC27C40
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 13:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C9FDC6FA8F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 15:06:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239437AbjHXNyE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 09:54:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54234 "EHLO
+        id S237436AbjHXPGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 11:06:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241300AbjHXNx5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 09:53:57 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D2FA8;
-        Thu, 24 Aug 2023 06:53:51 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2b9f0b7af65so102953251fa.1;
-        Thu, 24 Aug 2023 06:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692885230; x=1693490030;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5LYpTKXg3FZey1/Sx1CuzIbt0+XrBzCQETNfbb8Zj50=;
-        b=DN73H0Au+zeKlQ/SNDV6ZPc9sqSdbcTrTVKA8EKfKm1iaxY21dA8TKMPEEgoQPsmyX
-         ig615V4/j0biqjWMjKwPqgSkX/hKeLZdweth/uoPv1vxxBq32yCeyAvs7Y5D5JvPD+de
-         MUCcahsaMShuJhkfkiJJfP5dWt06dHMsrADe2y0ivjjotIm7U3HK+rysIGclcNVVZPo2
-         fb04lQ83XwNLhKMBbW6qZqkXFseYHFZPsN1AyKT9kTSQmeXbhvR+ADeCToIW7KQ8VYvA
-         07F2q9EtxikWELTtXf9eBqroKysJaUIpkB0WoeqQBmJO+NwN+WS2IXZFn698DsRPrz1K
-         Y2BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692885230; x=1693490030;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5LYpTKXg3FZey1/Sx1CuzIbt0+XrBzCQETNfbb8Zj50=;
-        b=H86wPFmqHYlsC1y6p4aR2/tI0WEe/HkMutPr6RN8lKO8aI/c9npQSrIwYMIzGJaJld
-         79Mi2WcVKG4sFN2qdQ2N1DkYqkJS7QK8FS/cSur81ZeNZPc4pVVLJvW7c3C8/SnNkWSY
-         XiZg6NR3aCDkCbzkFVoSXkUXeaZuDrXvmRxJTxTUSeQJ7Rj7/cnEKJXDVE88DbDAFSeZ
-         c8OfTOhrXjs20lJxNMOcE/kpieRenoxYYfveciMF/hZfOBKHwFdWITD3FPELEnV52PZu
-         8upSBjKIIugyzpiF8kcuBN1oVH2kMO8bCs9I0jEJvX+qukzgImhYRxlRCDw3OO2t4tfy
-         gj0g==
-X-Gm-Message-State: AOJu0YwBZOvFOsJaydj0l+niHMUyigU4xoYQ9DsREfLloKD3EgvqVZBz
-        cw8L9NoB1ekVZZ2OE+0Yb+wX76X0MD9kLmT4
-X-Google-Smtp-Source: AGHT+IEefotIFfjeuslW/NyPnOv1al/whlGKNiU+Okhol05ME3LSn5l6OfI7GK7mwS6vyDa9APZYrw==
-X-Received: by 2002:a2e:b164:0:b0:2bb:bfa5:b72c with SMTP id a4-20020a2eb164000000b002bbbfa5b72cmr10493041ljm.15.1692885229450;
-        Thu, 24 Aug 2023 06:53:49 -0700 (PDT)
-Received: from [192.168.20.89] (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id p15-20020a2e9a8f000000b002bcdbfe36a1sm857498lji.84.2023.08.24.06.53.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 06:53:48 -0700 (PDT)
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-Date:   Thu, 24 Aug 2023 15:55:50 +0200
-Subject: [PATCH] input: docs: pxrc: remove reference to phoenix-sim
+        with ESMTP id S240038AbjHXPFy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 11:05:54 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 132FFFD;
+        Thu, 24 Aug 2023 08:05:52 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B5679D75;
+        Thu, 24 Aug 2023 08:06:31 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B82353F762;
+        Thu, 24 Aug 2023 08:05:48 -0700 (PDT)
+Message-ID: <cbd34ed6-3220-3c0c-74bc-46a2baa744e5@arm.com>
+Date:   Thu, 24 Aug 2023 16:05:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 1/8] perf pmu: "Compat" supports matching multiple
+ identifiers
+Content-Language: en-GB
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>,
+        John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1692606977-92009-2-git-send-email-renyu.zj@linux.alibaba.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <1692606977-92009-2-git-send-email-renyu.zj@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230824-pxrc-doc-v1-1-038b75a2ef05@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAGVh52QC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDCyMT3YKKomTdlPxkXcPElJSkxEQjI1ODNCWg8oKi1LTMCrBR0bG1tQA
- AEEX8WgAAAA==
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1501;
- i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=gfPdoZJ8VqVP1ME7IqsQu+o/zRkAyUXKN51ex5LYZ+Q=;
- b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBk52F/TGpSKHPMSR+AnOnRcktJokJeDTpjV6ckL
- nJMFaco50aJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCZOdhfwAKCRCIgE5vWV1S
- MqnFD/0Wa8toMqQSoAU20Ebtgi6FPbWgY+nmcCod45Y0sQM9+oGlCQ0pGBeNDo2YwX3Flu6aDla
- JvnBoki8hIEWlXk0cR5rsXk9Zz4u1P0lb/3IDZjRRtZadK6HbDVnU3WzaLGwgDnNxSs3SL/eMTy
- CRZ/NtGu9QeXLhqSpqZjzkPozE1iDk5Bhx4pWyyjEbEA9uRH8kC0tOVSClcbSk0+ZlAmtrnpRgL
- b1yw5D/vAjOpJXtIBF5SYo5Any4uMzkipkWf1ac9tOtRfPEYLPmPn/yaeghuMIIDsVFpfWitxiX
- sXjl+shem38L6AwEQIBnGu0cxNHz74Of6uDHmDOXopphbs6t4kML9kXP9+3IRu6tivlwg83p3em
- qYp4PdzNQsIw42tP42d+NO9quZHP0jkBc75MDe6y1ZbrrHZ/xRbJxziOb7VSD96N9AnZ27ZJdO1
- YyVqKS3LlKp9pUR6gjJzOGyiOH/0zxgIHAHbxFUrwMt1PLOhY1TM0mruC+jyirxnwElMUIZ7egz
- IMmLNV+alFNxiLJLUHihfpPDrSIBBxJCDy2R2TuA5KMFrr/gmwjOVudXwLLHi7UoutxdNAIAHTc
- bK0Jx6x5uXoCV5LkPBSOYJdp0cmsZFRMRTKW09610TDkRKZpOmOYNqqNEf4qa9YvrKRcV6XWBZc
- TC7m10qXXPTrl7w==
-X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
- fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reference undeniably points to something unrelated nowadays.
-Remove it.
+On 21/08/2023 9:36 am, Jing Zhang wrote:
+> The jevent "Compat" is used for uncore PMU alias or metric definitions.
+> 
+> The same PMU driver has different PMU identifiers due to different
+> hardware versions and types, but they may have some common PMU event.
+> Since a Compat value can only match one identifier, when adding the
+> same event alias to PMUs with different identifiers, each identifier
+> needs to be defined once, which is not streamlined enough.
+> 
+> So let "Compat" supports matching multiple identifiers for uncore PMU
+> alias. For example, the Compat value {43401;436*} can match the PMU
+> identifier "43401", that is, CMN600_r0p0, and the PMU identifier with
+> the prefix "436", that is, all CMN650, where "*" is a wildcard.
+> Tokens in Unit field are delimited by ';' with no spaces.
 
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
- Documentation/input/devices/pxrc.rst | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+I wonder is there any possibility of supporting multiple values as a 
+JSON array, rather than a single delimited string? Otherwise, if we're 
+putting restrictions on what characters a driver can expose as an 
+identifier, then I think that really wants explicitly documenting. 
+AFAICT there's currently not even any documentation of the de-facto ABI 
+that it's expected to be a free-form string rather than completely 
+arbitrary binary data.
 
-diff --git a/Documentation/input/devices/pxrc.rst b/Documentation/input/devices/pxrc.rst
-index ca11f646bae8..5a86df4ad079 100644
---- a/Documentation/input/devices/pxrc.rst
-+++ b/Documentation/input/devices/pxrc.rst
-@@ -5,7 +5,7 @@ pxrc - PhoenixRC Flight Controller Adapter
- :Author: Marcus Folkesson <marcus.folkesson@gmail.com>
- 
- This driver let you use your own RC controller plugged into the
--adapter that comes with PhoenixRC [1]_ or other compatible adapters.
-+adapter that comes with PhoenixRC or other compatible adapters.
- 
- The adapter supports 7 analog channels and 1 digital input switch.
- 
-@@ -41,7 +41,7 @@ Manual Testing
- ==============
- 
- To test this driver's functionality you may use `input-event` which is part of
--the `input layer utilities` suite [2]_.
-+the `input layer utilities` suite [1]_.
- 
- For example::
- 
-@@ -53,5 +53,4 @@ To print all input events from input `devnr`.
- References
- ==========
- 
--.. [1] http://www.phoenix-sim.com/
--.. [2] https://www.kraxel.org/cgit/input/
-+.. [1] https://www.kraxel.org/cgit/input/
+Thanks,
+Robin.
 
----
-base-commit: 7214161111af87aeee721ab1b2808fcb4421aff7
-change-id: 20230824-pxrc-doc-1addbaa2250f
-
-Best regards,
--- 
-Marcus Folkesson <marcus.folkesson@gmail.com>
-
+> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+> Reviewed-by: John Garry <john.g.garry@oracle.com>
+> ---
+>   tools/perf/util/pmu.c | 33 +++++++++++++++++++++++++++++++--
+>   tools/perf/util/pmu.h |  1 +
+>   2 files changed, 32 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
+> index ad209c8..6402423 100644
+> --- a/tools/perf/util/pmu.c
+> +++ b/tools/perf/util/pmu.c
+> @@ -776,6 +776,35 @@ static bool pmu_uncore_alias_match(const char *pmu_name, const char *name)
+>   	return res;
+>   }
+>   
+> +bool pmu_uncore_identifier_match(const char *id, const char *compat)
+> +{
+> +	char *tmp = NULL, *tok, *str;
+> +	bool res;
+> +	int n;
+> +
+> +	/*
+> +	 * The strdup() call is necessary here because "compat" is a const str*
+> +	 * type and cannot be used as an argument to strtok_r().
+> +	 */
+> +	str = strdup(compat);
+> +	if (!str)
+> +		return false;
+> +
+> +	tok = strtok_r(str, ";", &tmp);
+> +	for (; tok; tok = strtok_r(NULL, ";", &tmp)) {
+> +		n = strlen(tok);
+> +		if ((tok[n - 1] == '*' && !strncmp(id, tok, n - 1)) ||
+> +		    !strcmp(id, tok)) {
+> +			res = true;
+> +			goto out;
+> +		}
+> +	}
+> +	res = false;
+> +out:
+> +	free(str);
+> +	return res;
+> +}
+> +
+>   struct pmu_add_cpu_aliases_map_data {
+>   	struct list_head *head;
+>   	const char *name;
+> @@ -847,8 +876,8 @@ static int pmu_add_sys_aliases_iter_fn(const struct pmu_event *pe,
+>   	if (!pe->compat || !pe->pmu)
+>   		return 0;
+>   
+> -	if (!strcmp(pmu->id, pe->compat) &&
+> -	    pmu_uncore_alias_match(pe->pmu, pmu->name)) {
+> +	if (pmu_uncore_alias_match(pe->pmu, pmu->name) &&
+> +	    pmu_uncore_identifier_match(pmu->id, pe->compat)) {
+>   		__perf_pmu__new_alias(idata->head, -1,
+>   				      (char *)pe->name,
+>   				      (char *)pe->desc,
+> diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
+> index b9a02de..9d4385d 100644
+> --- a/tools/perf/util/pmu.h
+> +++ b/tools/perf/util/pmu.h
+> @@ -241,6 +241,7 @@ void pmu_add_cpu_aliases_table(struct list_head *head, struct perf_pmu *pmu,
+>   char *perf_pmu__getcpuid(struct perf_pmu *pmu);
+>   const struct pmu_events_table *pmu_events_table__find(void);
+>   const struct pmu_metrics_table *pmu_metrics_table__find(void);
+> +bool pmu_uncore_identifier_match(const char *id, const char *compat);
+>   void perf_pmu_free_alias(struct perf_pmu_alias *alias);
+>   
+>   int perf_pmu__convert_scale(const char *scale, char **end, double *sval);
