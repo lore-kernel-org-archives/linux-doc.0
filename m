@@ -2,130 +2,221 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F58C27C40
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 19:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E9FC7113B
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 20:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243224AbjHXThF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 15:37:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47678 "EHLO
+        id S243499AbjHXUdJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 16:33:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243233AbjHXTgw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 15:36:52 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E601B0;
-        Thu, 24 Aug 2023 12:36:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=eoB4gbV/oYw5Dkw8MYUKcw3Rv5zfAt8VrbVigwxJuTQ=; b=ghES/e6bSG61n2H4JeUxOhZSnI
-        LDVuKmScqUy36Ce/8AHQunKIZ844T9P3g0Bp+JKklxpwQLYO4Y/p5ttUQMGhJ12cZZu9orElXf08i
-        ga11i7LvnvxIxa6UuJQohTTa2WDC2FzdX4eHttGBaOjBTxeL41LY+MuRTB/Cks1iBW7d1GlySUbn8
-        qUeqtoC9tOUtM18oh/s2rXvsu+iJOX0atIazsaNPh2uzxzayOojT3qnQLSR5HTVWFIcZsBk8vR5U4
-        ATD9stLv/tuKzw082t678y3ObqVEfDc6W+f5sEQdK8fSoDCs4kt6PDZcXjz+vLuqk8OXcIuRQcH8N
-        7Cb0DpTQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qZG8M-00Ci1H-6t; Thu, 24 Aug 2023 19:36:46 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-doc@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] fork: Fix kernel-doc
-Date:   Thu, 24 Aug 2023 20:36:44 +0100
-Message-Id: <20230824193644.3029141-1-willy@infradead.org>
-X-Mailer: git-send-email 2.37.1
+        with ESMTP id S243551AbjHXUc5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 16:32:57 -0400
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5458E7D
+        for <linux-doc@vger.kernel.org>; Thu, 24 Aug 2023 13:32:54 -0700 (PDT)
+Received: by mail-vs1-xe31.google.com with SMTP id ada2fe7eead31-44dbd5011beso117587137.1
+        for <linux-doc@vger.kernel.org>; Thu, 24 Aug 2023 13:32:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692909174; x=1693513974;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tHgc3WP+Nh6Vx2D3nfsqbnX7Tv1DqoV0JUg0NhhaZj0=;
+        b=yUSsrWXewLlVITH1WXfUdKTdRJucx44NluTkLK1hKUN7MOAOoeNAxg0GbiBkppLBqw
+         2SSw7fRty8PZ4jahXDUgvCq6mHGME3/pusrnlWgJBQyOLKpyGrwtNZ76eo8bzd4gEbps
+         yRsgzQ8KQjJ/SYrfq4tsGNfmnB+XT/f61OeeP2a91WwQmxDzHRf5reDG0dTf5yreKwOP
+         YkPC563nZqNgtMUZ6rDBIU3zgrCfc4DRcSVZJC+mjhLctJcnN6fh+yCgPrn8OqJW//CO
+         J1fTP929LHNCV/PLeEV0dYOaVChPytLLrG7ZW53zcO8+NggVhA0Ci2pCr05ZYWWLt7Gj
+         Y3pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692909174; x=1693513974;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tHgc3WP+Nh6Vx2D3nfsqbnX7Tv1DqoV0JUg0NhhaZj0=;
+        b=D/o6koVt72/YaweCt8/N2O+5KalI19lNXkxCvWZFurWl0y2FfRoK67tcR3wfIU0uXk
+         y0kYivbd9cnBqLd7ughVzyzGwP7XDis2Eji9jOOHulR5JWT6YL5q7zhCsMg08LnScumU
+         13ejY3floQqRn/jZdzqO0n94AEUWKCn5lw5GCOEaLIIJ/Y1Jqgaj4YA/aoDOYdlOgGwD
+         dbGMDfY0sM66I+IqGyJt+heRpnGsIcb+3GbIsknC7M80zDnMhmIhKi/A9BUJ671y2P0g
+         N3sTQ70YfyLt7e3WtAvolHV6yYdACmpxgSVdU+ImSSEgwZzxVHyXM6Rp68HPaO4QoWOb
+         QDUQ==
+X-Gm-Message-State: AOJu0YwFHg6HPmf83KSNjHu8ksYK76zEC2o32Azkrp28S2n+0w3rK0j9
+        iSdfSbwVCY3Q7VilNZ3BMOqy6gVr6bgrHdatoIfyeg==
+X-Google-Smtp-Source: AGHT+IHx+HdR8IQ8OXZN+MAUVyWyXJ/kKMpdKNVgDgofuFkKOBodmgQtn3uFU6QlecscjQN2j2BzMPtDM26C8djqy14=
+X-Received: by 2002:a05:6102:2d3:b0:44d:3f58:c42f with SMTP id
+ h19-20020a05610202d300b0044d3f58c42fmr13443054vsh.11.1692909173739; Thu, 24
+ Aug 2023 13:32:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230824-docs-v1-1-67e061278b8f@google.com> <20230824184910.GA2015748@dev-arch.thelio-3990X>
+In-Reply-To: <20230824184910.GA2015748@dev-arch.thelio-3990X>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 24 Aug 2023 13:32:42 -0700
+Message-ID: <CAKwvOdkdb=dDggNNPHb08AiZNp5V-H9utgm0H+2hJmZJdO-biA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: refresh docs
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>, Tom Rix <trix@redhat.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, llvm@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the various warnings from kernel-doc in kernel/fork.c
+On Thu, Aug 24, 2023 at 11:49=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> On Thu, Aug 24, 2023 at 11:03:17AM -0700, ndesaulniers@google.com wrote:
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1907 [0]
+> > ---
+> >
+> >
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+> Nit: Your signed-off-by ended up below the fold, was it in your cover
+> letter commit rather than your actual commit?
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- kernel/fork.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+Heh, no. I'm restoring a machine after suffering drive corruption last
+week. I just got patatt and friends re-set up, but I forgot to `git
+commit --amend -s` for this patch once everything was working again.
+Thanks for catching this!
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index a9c18d480dc5..63d8c6c057a9 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1400,6 +1400,8 @@ EXPORT_SYMBOL_GPL(mmput_async);
- 
- /**
-  * set_mm_exe_file - change a reference to the mm's executable file
-+ * @mm: The mm to change.
-+ * @new_exe_file: The new file to use.
-  *
-  * This changes mm's executable file (shown as symlink /proc/[pid]/exe).
-  *
-@@ -1439,6 +1441,8 @@ int set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
- 
- /**
-  * replace_mm_exe_file - replace a reference to the mm's executable file
-+ * @mm: The mm to change.
-+ * @new_exe_file: The new file to use.
-  *
-  * This changes mm's executable file (shown as symlink /proc/[pid]/exe).
-  *
-@@ -1490,6 +1494,7 @@ int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
- 
- /**
-  * get_mm_exe_file - acquire a reference to the mm's executable file
-+ * @mm: The mm of interest.
-  *
-  * Returns %NULL if mm has no associated executable file.
-  * User must release file via fput().
-@@ -1508,6 +1513,7 @@ struct file *get_mm_exe_file(struct mm_struct *mm)
- 
- /**
-  * get_task_exe_file - acquire a reference to the task's executable file
-+ * @task: The task.
-  *
-  * Returns %NULL if task's mm (if any) has no associated executable file or
-  * this is a kernel thread with borrowed mm (see the comment above get_task_mm).
-@@ -1530,6 +1536,7 @@ struct file *get_task_exe_file(struct task_struct *task)
- 
- /**
-  * get_task_mm - acquire a reference to the task's mm
-+ * @task: The task.
-  *
-  * Returns %NULL if the task has no mm.  Checks PF_KTHREAD (meaning
-  * this kernel workthread has transiently adopted a user mm with use_mm,
-@@ -2109,11 +2116,11 @@ const struct file_operations pidfd_fops = {
-  * __pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
-  * @pid:   the struct pid for which to create a pidfd
-  * @flags: flags of the new @pidfd
-- * @pidfd: the pidfd to return
-+ * @ret: Where to return the file for the pidfd.
-  *
-  * Allocate a new file that stashes @pid and reserve a new pidfd number in the
-  * caller's file descriptor table. The pidfd is reserved but not installed yet.
--
-+ *
-  * The helper doesn't perform checks on @pid which makes it useful for pidfds
-  * created via CLONE_PIDFD where @pid has no task attached when the pidfd and
-  * pidfd file are prepared.
-@@ -2160,7 +2167,7 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
-  * pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
-  * @pid:   the struct pid for which to create a pidfd
-  * @flags: flags of the new @pidfd
-- * @pidfd: the pidfd to return
-+ * @ret: Where to return the pidfd.
-  *
-  * Allocate a new file that stashes @pid and reserve a new pidfd number in the
-  * caller's file descriptor table. The pidfd is reserved but not installed yet.
-@@ -3188,7 +3195,7 @@ static bool clone3_args_valid(struct kernel_clone_args *kargs)
- }
- 
- /**
-- * clone3 - create a new process with specific properties
-+ * sys_clone3 - create a new process with specific properties
-  * @uargs: argument structure
-  * @size:  size of @uargs
-  *
--- 
-2.40.1
+>
+> Aside from the relatively minor comments below, this looks like a really
+> good improvement to the documentation to me. It feels like it is more
+> targeting users or non-kbuild folks now, which I think is great.
+>
+> I trust you to address my comments as you see fit, so please carry
+> forward:
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
+Thanks for the review!
+
+> I see a few new kernel-doc warnings from not adjusting the underlines to
+> match the new length of the title:
+>
+>   Documentation/kbuild/llvm.rst:40: WARNING: Title underline too short.
+>
+>   The LLVM=3D argument
+>   --------------
+>   Documentation/kbuild/llvm.rst:40: WARNING: Title underline too short.
+>
+>   The LLVM=3D argument
+>   --------------
+>   Documentation/kbuild/llvm.rst:102: WARNING: Title underline too short.
+>
+>   The LLVM_IAS=3D argument
+>   -----------------
+>   Documentation/kbuild/llvm.rst:102: WARNING: Title underline too short.
+>
+>   The LLVM_IAS=3D argument
+>   -----------------
+
+oops! remind me of the make target to observe these?
+
+> > -For example, to cross-compile the arm64 kernel::
+> > +     make LLVM=3D1 LD=3Dld.bfd CROSS_COMPILE=3Ds390x-linux-gnu-
+>
+> This should probably have ARCH=3Ds390?
+
+Oops! Good catch!
+
+>
+> > -     make ARCH=3Darm64 LLVM=3D1
+> > +``CROSS_COMPILE`` is not used to prefix the Clang compiler binary (or
+> > +corresponding LLVM utilities), but it will be for any GNU toolchain ut=
+ilities.
+> > +This example will invoke ``s390x-linux-gnu-ld.bfd`` as the linker, so =
+ensure
+> > +that is reachable in your ``$PATH``.
+>
+> I like the example as I feel like it addresses some of the fear I have ha=
+d
+> around recommending LLVM=3D1 as the initial build suggestion but 'LLVM=3D=
+1
+> LD=3Dld.bfd CROSS_COMPILE=3Ds390x-linux-gnu-' does not compose as you des=
+cribe here
+> because $(LD) is not prefixed with $(CROSS_COMPILE) anywhere in Makefile.=
+ The
+> non-$(LLVM) default assignment of $(LD) is '$(CROSS_COMPILE)ld' and that =
+is
+> overridden by 'LD=3Dld.bfd' on the command line.
+>
+> In other words, this should be
+>
+>   make ARCH=3Ds390 LLVM=3D1 LD=3Ds390x-linux-gnu-ld.bfd
+>
+> and have the note about CROSS_COMPILE prefixing any GNU toolchain utiliti=
+es
+> removed. It should problably have OBJCOPY and OBJDUMP too, as those are
+> required due to https://github.com/ClangBuiltLinux/linux/issues/859 and
+> https://github.com/ClangBuiltLinux/linux/issues/1530.
+
+Ah right; I'm no longer able to repro the build failure with OBJDUMP,
+though I still see warnings.
+
+I kind of feel like we should bring back CROSS_COMPILE in some form;
+having to respecify the triple is still sub-optimal.
+
+i.e. today:
+$ make LLVM=3D1 ARCH=3Ds390 LD=3Ds390x-linux-gnu-ld.bfd
+OBJCOPY=3Ds390x-linux-gnu-objcopy OBJDUMP=3Ds390x-linux-gnu-objdump
+
+vs
+
+$ make LLVM=3D1 ARCH=3Ds390 CROSS_COMPILE=3Ds390x-linux-gnu- LD=3Dld.bfd
+OBJCOPY=3Dobjcopy OBJDUMP=3Dobjdump
+
+but perhaps that's a change for another day.
+
+>
+> > -If ``LLVM_IAS=3D0`` is specified, ``CROSS_COMPILE`` is also used to de=
+rive
+> > -``--prefix=3D<path>`` to search for the GNU assembler and linker. ::
+> > +The LLVM_IAS=3D argument
+> > +-----------------
+> >
+> > -     make ARCH=3Darm64 LLVM=3D1 LLVM_IAS=3D0 CROSS_COMPILE=3Daarch64-l=
+inux-gnu-
+> > +Clang can assemble assembler code. You can pass ``LLVM_IAS=3D0`` to di=
+sable this
+> > +behavior and have Clang invoke the system assembler instead (or the as=
+sembler
+> > +based on ``CROSS_COMPILE``). ``CROSS_COMPILE`` is necessary when ``LLV=
+M_IAS=3D0``
+> > +is set when cross compiling in order to set ``--prefix=3D`` for the co=
+mpiler to
+> > +find the corresponding non-integrated assembler.
+>
+> Thanks a lot for documenting this behavior, it is one of the most common
+> issues I run into myself (adding LLVM_IAS=3D0 without CROSS_COMPILE) and
+> maybe this note will be what I need in order to remember :)
+
+Ah right, I'll make that clearer.
+
+> >
+> > -We provide prebuilt stable versions of LLVM on `kernel.org <https://ke=
+rnel.org/pub/tools/llvm/>`_.
+> > -Below are links that may be useful for building LLVM from source or pr=
+ocuring
+> > -it through a distribution's package manager.
+> > +We provide prebuilt stable versions of LLVM on `kernel.org
+> > +<https://kernel.org/pub/tools/llvm/>`_. These have been optimized with=
+ profile
+> > +data for building Linux kernels. Below are links that may be useful fo=
+r
+>
+> Maybe make a note of why this matters? ", which should lower kernel
+> build times compared to non-optimized LLVM toolchains."?
+
+Ack
+
+--=20
+Thanks,
+~Nick Desaulniers
