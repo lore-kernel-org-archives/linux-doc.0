@@ -2,1603 +2,220 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 947EEEE49B3
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 11:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF7ADC6FA8F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 12:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241000AbjHXLU6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 07:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
+        id S236052AbjHXMVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 08:21:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241012AbjHXLUh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 07:20:37 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D02D19A6;
-        Thu, 24 Aug 2023 04:20:30 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fed963273cso4684735e9.1;
-        Thu, 24 Aug 2023 04:20:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692876028; x=1693480828;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f8iIAHi3lFfN0udMRzFXyr4NBWLHe3jhbTAPRyW9SKM=;
-        b=db3PBPj+M/FtPBOE96mc48hjJV8DbtqE6cOhH6os66ZJYJbIYv/11QW2b70erZJbp4
-         1p3ECBtTKTEYlKPj0smr0I6chbNTgIPupqupeIsWWbvAbB77CLNPIp/zeM4Ay3UhBMHS
-         RWHFjFzkAH0B+mM8Hzsl5GisdlSQ2wWZYCotTytI+3+GwbHGqlOngHv7B8mowkmtX25B
-         XylQp6po6wS4jADq4J64BdutgrlKYgkTw+97Ov66GHiDB4q70DeinYI/aLprKgYy0AI2
-         7c6Hw2iV+RHSMSjmiiJzkUTzpJXlxn1CAuWVdUrb8JMlt15QNcImxiMjEazNs4EXaM+8
-         hckQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692876028; x=1693480828;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f8iIAHi3lFfN0udMRzFXyr4NBWLHe3jhbTAPRyW9SKM=;
-        b=LJA9WQ2o/1qYNQGlMUmyMzpoYfP/0e0ptB0dHfATXOHsCUApgY3r1HMs091jEhKKvc
-         oQnwxFExgcK8tFhdbd06eGwWZiJP4qCNt+WFR3Dq4cg7c6z9ucooz90JA+fAVt5xV9Rv
-         ZJTf0YFwKQaBl1M9sBBeJ2AXlpQOhBHo1qW40YhgjzHSO2DmEjq3e+OynB4CncCTQGXv
-         Hf6cvpBKjFrfyAf4QYxLUD/FSX7LJoaVOjzEhQqDH7yVP0g7adqJNvQvtuB2xGy61qHS
-         +Uif/AdnEe7DlYrlfcM7l8IZeDmgiNz3o4U4DCsVj4LR3a13pnuAO7IUM0wTVTp6V0/N
-         NmwA==
-X-Gm-Message-State: AOJu0YzJ8U3rjAPJCf1jsQRjvPyaUMMGDlhmxIJRJP2/oj2T8IjZhYqq
-        LPI0Puo+lHK1lboUv3l9x/hO7ZeCm+/vLA==
-X-Google-Smtp-Source: AGHT+IHR0DwHixf+iB5Zvtd3nYmMzGdwvomjWv6a13fEtNb/MjfDC2D8yOWxMvGzreb1S+ISGYdV/g==
-X-Received: by 2002:adf:f9c4:0:b0:319:7abb:4112 with SMTP id w4-20020adff9c4000000b003197abb4112mr13223153wrr.21.1692876028001;
-        Thu, 24 Aug 2023 04:20:28 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:1a5:1436:c34c:226])
-        by smtp.gmail.com with ESMTPSA id i14-20020a5d630e000000b0031980783d78sm21875295wru.54.2023.08.24.04.20.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 04:20:27 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>,
-        Jacob Keller <jacob.e.keller@intel.com>
-Subject: [PATCH net-next v5 11/12] doc/netlink: Add spec for rt link messages
-Date:   Thu, 24 Aug 2023 12:20:02 +0100
-Message-ID: <20230824112003.52939-12-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230824112003.52939-1-donald.hunter@gmail.com>
-References: <20230824112003.52939-1-donald.hunter@gmail.com>
+        with ESMTP id S241342AbjHXMUy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 08:20:54 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A78019B0;
+        Thu, 24 Aug 2023 05:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1692879651; x=1724415651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UniHE8T8CBJsXsp5AUwf/p97KIJh8SiPdFKSRg4PQ+0=;
+  b=gyEZHeBRWxhU1PBDnEAvl5BL3Ah+mmHP+78Eov4u/4B6GNJO4nP2e5nW
+   FHtRlt4+U8B1vZ0GweVHRgqi6xYX5jLzm8mE9WtrlcP+vG1LE9NA/uuro
+   9HXQ/DG6eCoe9KJm+jgT/O6UE8D73+k32rhjR+HbSuv7DfHVt25O3PMUb
+   DX/399keAVBLf5MVHNl241yay4kQFD4pIm5T/Gyvgl/lIiPV405R57G+g
+   FRlyMx3zFyLvunXukOGModDZMCMLqgQHEq2CHq6XuL8st8Ip5jvMda/cT
+   +mgXKNEYjbi4XsuVIV5pLhm1tJuhM+q61MAV+e5cDSfsjI3GNWWAp2K8t
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="asc'?scan'208";a="1101686"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Aug 2023 05:20:49 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 24 Aug 2023 05:20:49 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Thu, 24 Aug 2023 05:20:47 -0700
+Date:   Thu, 24 Aug 2023 13:20:06 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Evan Green <evan@rivosinc.com>
+CC:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+Message-ID: <20230824-factual-jawed-2dddd2cf2bdd@wendy>
+References: <20230711201831.2695097-1-evan@rivosinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qk1i/rPebejGNd0P"
+Content-Disposition: inline
+In-Reply-To: <20230711201831.2695097-1-evan@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add schema for rt link with support for newlink, dellink, getlink,
-setlink and getstats.
+--qk1i/rPebejGNd0P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A dummy link can be created like this:
+On Tue, Jul 11, 2023 at 01:18:30PM -0700, Evan Green wrote:
+> In /proc/cpuinfo, most of the information we show for each processor is
+> specific to that hart: marchid, mvendorid, mimpid, processor, hart,
+> compatible, and the mmu size. But the ISA string gets filtered through a
+> lowest common denominator mask, so that if one CPU is missing an ISA
+> extension, no CPUs will show it.
+>=20
+> Now that we track the ISA extensions for each hart, let's report ISA
+> extension info accurately per-hart in /proc/cpuinfo. We cannot change
+> the "isa:" line, as usermode may be relying on that line to show only
+> the common set of extensions supported across all harts. Add a new "hart
+> isa" line instead, which reports the true set of extensions for that
+> hart. This matches what is returned in riscv_hwprobe() when querying a
+> given hart.
+>=20
+> Signed-off-by: Evan Green <evan@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>=20
+> ---
+>=20
+> Changes in v4:
+>  - Documentation: Made the underline match the text line (Conor)
+>  - Documentation: hanged "in question" to "being described" (Andrew)
+>=20
+> Changes in v3:
+>  - Add some documentation (Conor)
+>=20
+> Changes in v2:
+>  - Added new "hart isa" line rather than altering behavior of existing
+>    "isa" line (Conor, Palmer)
+>=20
+>=20
+> I based this series on top of Conor's riscv-extensions-strings branch
+> from July 3rd, since otherwise this change gets hopelessly entangled
+> with that series.
+>=20
+> ---
+>  Documentation/riscv/uabi.rst | 10 ++++++++++
+>  arch/riscv/kernel/cpu.c      | 22 ++++++++++++++++++----
+>  2 files changed, 28 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
+> index 8960fac42c40..afdda580e5a2 100644
+> --- a/Documentation/riscv/uabi.rst
+> +++ b/Documentation/riscv/uabi.rst
+> @@ -42,6 +42,16 @@ An example string following the order is::
+> =20
+>     rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+> =20
+> +"isa" vs "hart isa" lines in /proc/cpuinfo
+> +------------------------------------------
+> +
+> +The "isa" line in /proc/cpuinfo describes the lowest common denominator =
+of
+> +RISC-V ISA extensions understood by the kernel and implemented on all ha=
+rts. The
+> +"hart isa" line, in contrast, describes the set of extensions understood=
+ by the
+> +kernel on the particular hart being described, even if those extensions =
+may not
+> +be present on all harts in the system. The "hart isa" line is consistent=
+ with
+> +what's returned by __riscv_hwprobe() when querying for that specific CPU.
 
-sudo ./tools/net/ynl/cli.py \
-    --spec Documentation/netlink/specs/rt_link.yaml \
-    --do newlink --create \
-    --json '{"ifname": "dummy0", "linkinfo": {"kind": "dummy"}}'
+Thinking about this again, I don't think this is true. hwprobe uses
+has_fpu(), has_vector() etc that interact with Kconfig options but the
+percpu isa bitmap isn't affected by these.
 
-For example, offload stats can be fetched like this:
 
-./tools/net/ynl/cli.py \
-    --spec Documentation/netlink/specs/rt_link.yaml \
-    --dump getstats --json '{ "filter-mask": 8 }'
+> +
+>  Misaligned accesses
+>  -------------------
+> =20
+> diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+> index 1acf3679600d..6264b7b94945 100644
+> --- a/arch/riscv/kernel/cpu.c
+> +++ b/arch/riscv/kernel/cpu.c
+> @@ -197,9 +197,8 @@ arch_initcall(riscv_cpuinfo_init);
+> =20
+>  #ifdef CONFIG_PROC_FS
+> =20
+> -static void print_isa(struct seq_file *f)
+> +static void print_isa(struct seq_file *f, const unsigned long *isa_bitma=
+p)
+>  {
+> -	seq_puts(f, "isa\t\t: ");
+> =20
+>  	if (IS_ENABLED(CONFIG_32BIT))
+>  		seq_write(f, "rv32", 4);
+> @@ -207,7 +206,7 @@ static void print_isa(struct seq_file *f)
+>  		seq_write(f, "rv64", 4);
+> =20
+>  	for (int i =3D 0; i < riscv_isa_ext_count; i++) {
+> -		if (!__riscv_isa_extension_available(NULL, riscv_isa_ext[i].id))
+> +		if (!__riscv_isa_extension_available(isa_bitmap, riscv_isa_ext[i].id))
+>  			continue;
+> =20
+>  		/* Only multi-letter extensions are split by underscores */
+> @@ -271,7 +270,15 @@ static int c_show(struct seq_file *m, void *v)
+> =20
+>  	seq_printf(m, "processor\t: %lu\n", cpu_id);
+>  	seq_printf(m, "hart\t\t: %lu\n", cpuid_to_hartid_map(cpu_id));
+> -	print_isa(m);
+> +
+> +	/*
+> +	 * For historical raisins, the isa: line is limited to the lowest common
+> +	 * denominator of extensions supported across all harts. A true list of
+> +	 * extensions supported on this hart is printed later in the hart_isa:
+> +	 * line.
+> +	 */
+> +	seq_puts(m, "isa\t\t: ");
+> +	print_isa(m, NULL);
+>  	print_mmu(m);
+> =20
+>  	if (acpi_disabled) {
+> @@ -287,6 +294,13 @@ static int c_show(struct seq_file *m, void *v)
+>  	seq_printf(m, "mvendorid\t: 0x%lx\n", ci->mvendorid);
+>  	seq_printf(m, "marchid\t\t: 0x%lx\n", ci->marchid);
+>  	seq_printf(m, "mimpid\t\t: 0x%lx\n", ci->mimpid);
+> +
+> +	/*
+> +	 * Print the ISA extensions specific to this hart, which may show
+> +	 * additional extensions not present across all harts.
+> +	 */
+> +	seq_puts(m, "hart isa\t: ");
+> +	print_isa(m, hart_isa[cpu_id].isa);
+>  	seq_puts(m, "\n");
+> =20
+>  	return 0;
+> --=20
+> 2.34.1
+>=20
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
----
- Documentation/netlink/specs/rt_link.yaml | 1499 ++++++++++++++++++++++
- 1 file changed, 1499 insertions(+)
- create mode 100644 Documentation/netlink/specs/rt_link.yaml
+--qk1i/rPebejGNd0P
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/Documentation/netlink/specs/rt_link.yaml b/Documentation/netlink/specs/rt_link.yaml
-new file mode 100644
-index 000000000000..794125c8ed71
---- /dev/null
-+++ b/Documentation/netlink/specs/rt_link.yaml
-@@ -0,0 +1,1499 @@
-+# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
-+
-+name: rt-link
-+protocol: netlink-raw
-+protonum: 0
-+
-+doc:
-+  Link configuration over rtnetlink.
-+
-+definitions:
-+  -
-+    name: ifinfo-flags
-+    type: flags
-+    entries:
-+      -
-+        name: up
-+      -
-+        name: broadcast
-+      -
-+        name: debug
-+      -
-+        name: loopback
-+      -
-+        name: point-to-point
-+      -
-+        name: no-trailers
-+      -
-+        name: running
-+      -
-+        name: no-arp
-+      -
-+        name: promisc
-+      -
-+        name: all-multi
-+      -
-+        name: master
-+      -
-+        name: slave
-+      -
-+        name: multicast
-+      -
-+        name: portsel
-+      -
-+        name: auto-media
-+      -
-+        name: dynamic
-+      -
-+        name: lower-up
-+      -
-+        name: dormant
-+      -
-+        name: echo
-+
-+  -
-+    name: rtgenmsg
-+    type: struct
-+    members:
-+      -
-+        name: family
-+        type: u8
-+  -
-+    name: ifinfomsg
-+    type: struct
-+    members:
-+      -
-+        name: ifi-family
-+        type: u8
-+      -
-+        name: padding
-+        type: u8
-+      -
-+        name: ifi-type
-+        type: u16
-+      -
-+        name: ifi-index
-+        type: s32
-+      -
-+        name: ifi-flags
-+        type: u32
-+        enum: ifinfo-flags
-+        enum-as-flags: true
-+      -
-+        name: ifi-change
-+        type: u32
-+  -
-+    name: ifla-cacheinfo
-+    type: struct
-+    members:
-+      -
-+        name: max-reasm-len
-+        type: u32
-+      -
-+        name: tstamp
-+        type: u32
-+      -
-+        name: reachable-time
-+        type: s32
-+      -
-+        name: retrans-time
-+        type: u32
-+  -
-+    name: rtnl-link-stats
-+    type: struct
-+    members:
-+      -
-+        name: rx-packets
-+        type: u32
-+      -
-+        name: tx-packets
-+        type: u32
-+      -
-+        name: rx-bytes
-+        type: u32
-+      -
-+        name: tx-bytes
-+        type: u32
-+      -
-+        name: rx-errors
-+        type: u32
-+      -
-+        name: tx-errors
-+        type: u32
-+      -
-+        name: rx-dropped
-+        type: u32
-+      -
-+        name: tx-dropped
-+        type: u32
-+      -
-+        name: multicast
-+        type: u32
-+      -
-+        name: collisions
-+        type: u32
-+      -
-+        name: rx-length-errors
-+        type: u32
-+      -
-+        name: rx-over-errors
-+        type: u32
-+      -
-+        name: rx-crc-errors
-+        type: u32
-+      -
-+        name: rx-frame-errors
-+        type: u32
-+      -
-+        name: rx-fifo-errors
-+        type: u32
-+      -
-+        name: rx-missed-errors
-+        type: u32
-+      -
-+        name: tx-aborted-errors
-+        type: u32
-+      -
-+        name: tx-carrier-errors
-+        type: u32
-+      -
-+        name: tx-fifo-errors
-+        type: u32
-+      -
-+        name: tx-heartbeat-errors
-+        type: u32
-+      -
-+        name: tx-window-errors
-+        type: u32
-+      -
-+        name: rx-compressed
-+        type: u32
-+      -
-+        name: tx-compressed
-+        type: u32
-+      -
-+        name: rx-nohandler
-+        type: u32
-+  -
-+    name: rtnl-link-stats64
-+    type: struct
-+    members:
-+      -
-+        name: rx-packets
-+        type: u64
-+      -
-+        name: tx-packets
-+        type: u64
-+      -
-+        name: rx-bytes
-+        type: u64
-+      -
-+        name: tx-bytes
-+        type: u64
-+      -
-+        name: rx-errors
-+        type: u64
-+      -
-+        name: tx-errors
-+        type: u64
-+      -
-+        name: rx-dropped
-+        type: u64
-+      -
-+        name: tx-dropped
-+        type: u64
-+      -
-+        name: multicast
-+        type: u64
-+      -
-+        name: collisions
-+        type: u64
-+      -
-+        name: rx-length-errors
-+        type: u64
-+      -
-+        name: rx-over-errors
-+        type: u64
-+      -
-+        name: rx-crc-errors
-+        type: u64
-+      -
-+        name: rx-frame-errors
-+        type: u64
-+      -
-+        name: rx-fifo-errors
-+        type: u64
-+      -
-+        name: rx-missed-errors
-+        type: u64
-+      -
-+        name: tx-aborted-errors
-+        type: u64
-+      -
-+        name: tx-carrier-errors
-+        type: u64
-+      -
-+        name: tx-fifo-errors
-+        type: u64
-+      -
-+        name: tx-heartbeat-errors
-+        type: u64
-+      -
-+        name: tx-window-errors
-+        type: u64
-+      -
-+        name: rx-compressed
-+        type: u64
-+      -
-+        name: tx-compressed
-+        type: u64
-+      -
-+        name: rx-nohandler
-+        type: u64
-+      -
-+        name: rx-otherhost-dropped
-+        type: u64
-+  -
-+    name: rtnl-link-ifmap
-+    type: struct
-+    members:
-+      -
-+        name: mem-start
-+        type: u64
-+      -
-+        name: mem-end
-+        type: u64
-+      -
-+        name: base-addr
-+        type: u64
-+      -
-+        name: irq
-+        type: u16
-+      -
-+        name: dma
-+        type: u8
-+      -
-+        name: port
-+        type: u8
-+  -
-+    name: ipv4-devconf
-+    type: struct
-+    members:
-+      -
-+        name: forwarding
-+        type: u32
-+      -
-+        name: mc-forwarding
-+        type: u32
-+      -
-+        name: proxy-arp
-+        type: u32
-+      -
-+        name: accept-redirects
-+        type: u32
-+      -
-+        name: secure-redirects
-+        type: u32
-+      -
-+        name: send-redirects
-+        type: u32
-+      -
-+        name: shared-media
-+        type: u32
-+      -
-+        name: rp-filter
-+        type: u32
-+      -
-+        name: accept-source-route
-+        type: u32
-+      -
-+        name: bootp-relay
-+        type: u32
-+      -
-+        name: log-martians
-+        type: u32
-+      -
-+        name: tag
-+        type: u32
-+      -
-+        name: arpfilter
-+        type: u32
-+      -
-+        name: medium-id
-+        type: u32
-+      -
-+        name: noxfrm
-+        type: u32
-+      -
-+        name: nopolicy
-+        type: u32
-+      -
-+        name: force-igmp-version
-+        type: u32
-+      -
-+        name: arp-announce
-+        type: u32
-+      -
-+        name: arp-ignore
-+        type: u32
-+      -
-+        name: promote-secondaries
-+        type: u32
-+      -
-+        name: arp-accept
-+        type: u32
-+      -
-+        name: arp-notify
-+        type: u32
-+      -
-+        name: accept-local
-+        type: u32
-+      -
-+        name: src-vmark
-+        type: u32
-+      -
-+        name: proxy-arp-pvlan
-+        type: u32
-+      -
-+        name: route-localnet
-+        type: u32
-+      -
-+        name: igmpv2-unsolicited-report-interval
-+        type: u32
-+      -
-+        name: igmpv3-unsolicited-report-interval
-+        type: u32
-+      -
-+        name: ignore-routes-with-linkdown
-+        type: u32
-+      -
-+        name: drop-unicast-in-l2-multicast
-+        type: u32
-+      -
-+        name: drop-gratuitous-arp
-+        type: u32
-+      -
-+        name: bc-forwarding
-+        type: u32
-+      -
-+        name: arp-evict-nocarrier
-+        type: u32
-+  -
-+    name: ipv6-devconf
-+    type: struct
-+    members:
-+      -
-+        name: forwarding
-+        type: u32
-+      -
-+        name: hoplimit
-+        type: u32
-+      -
-+        name: mtu6
-+        type: u32
-+      -
-+        name: accept-ra
-+        type: u32
-+      -
-+        name: accept-redirects
-+        type: u32
-+      -
-+        name: autoconf
-+        type: u32
-+      -
-+        name: dad-transmits
-+        type: u32
-+      -
-+        name: rtr-solicits
-+        type: u32
-+      -
-+        name: rtr-solicit-interval
-+        type: u32
-+      -
-+        name: rtr-solicit-delay
-+        type: u32
-+      -
-+        name: use-tempaddr
-+        type: u32
-+      -
-+        name: temp-valid-lft
-+        type: u32
-+      -
-+        name: temp-prefered-lft
-+        type: u32
-+      -
-+        name: regen-max-retry
-+        type: u32
-+      -
-+        name: max-desync-factor
-+        type: u32
-+      -
-+        name: max-addresses
-+        type: u32
-+      -
-+        name: force-mld-version
-+        type: u32
-+      -
-+        name: accept-ra-defrtr
-+        type: u32
-+      -
-+        name: accept-ra-pinfo
-+        type: u32
-+      -
-+        name: accept-ra-rtr-pref
-+        type: u32
-+      -
-+        name: rtr-probe-interval
-+        type: u32
-+      -
-+        name: accept-ra-rt-info-max-plen
-+        type: u32
-+      -
-+        name: proxy-ndp
-+        type: u32
-+      -
-+        name: optimistic-dad
-+        type: u32
-+      -
-+        name: accept-source-route
-+        type: u32
-+      -
-+        name: mc-forwarding
-+        type: u32
-+      -
-+        name: disable-ipv6
-+        type: u32
-+      -
-+        name: accept-dad
-+        type: u32
-+      -
-+        name: force-tllao
-+        type: u32
-+      -
-+        name: ndisc-notify
-+        type: u32
-+      -
-+        name: mldv1-unsolicited-report-interval
-+        type: u32
-+      -
-+        name: mldv2-unsolicited-report-interval
-+        type: u32
-+      -
-+        name: suppress-frag-ndisc
-+        type: u32
-+      -
-+        name: accept-ra-from-local
-+        type: u32
-+      -
-+        name: use-optimistic
-+        type: u32
-+      -
-+        name: accept-ra-mtu
-+        type: u32
-+      -
-+        name: stable-secret
-+        type: u32
-+      -
-+        name: use-oif-addrs-only
-+        type: u32
-+      -
-+        name: accept-ra-min-hop-limit
-+        type: u32
-+      -
-+        name: ignore-routes-with-linkdown
-+        type: u32
-+      -
-+        name: drop-unicast-in-l2-multicast
-+        type: u32
-+      -
-+        name: drop-unsolicited-na
-+        type: u32
-+      -
-+        name: keep-addr-on-down
-+        type: u32
-+      -
-+        name: rtr-solicit-max-interval
-+        type: u32
-+      -
-+        name: seg6-enabled
-+        type: u32
-+      -
-+        name: seg6-require-hmac
-+        type: u32
-+      -
-+        name: enhanced-dad
-+        type: u32
-+      -
-+        name: addr-gen-mode
-+        type: u32
-+      -
-+        name: disable-policy
-+        type: u32
-+      -
-+        name: accept-ra-rt-info-min-plen
-+        type: u32
-+      -
-+        name: ndisc-tclass
-+        type: u32
-+      -
-+        name: rpl-seg-enabled
-+        type: u32
-+      -
-+        name: ra-defrtr-metric
-+        type: u32
-+      -
-+        name: ioam6-enabled
-+        type: u32
-+      -
-+        name: ioam6-id
-+        type: u32
-+      -
-+        name: ioam6-id-wide
-+        type: u32
-+      -
-+        name: ndisc-evict-nocarrier
-+        type: u32
-+      -
-+        name: accept-untracked-na
-+        type: u32
-+  -
-+    name: ifla-icmp6-stats
-+    type: struct
-+    members:
-+      -
-+        name: inmsgs
-+        type: u64
-+      -
-+        name: inerrors
-+        type: u64
-+      -
-+        name: outmsgs
-+        type: u64
-+      -
-+        name: outerrors
-+        type: u64
-+      -
-+        name: csumerrors
-+        type: u64
-+      -
-+        name: ratelimithost
-+        type: u64
-+  -
-+    name: ifla-inet6-stats
-+    type: struct
-+    members:
-+      -
-+        name: inpkts
-+        type: u64
-+      -
-+        name: inoctets
-+        type: u64
-+      -
-+        name: indelivers
-+        type: u64
-+      -
-+        name: outforwdatagrams
-+        type: u64
-+      -
-+        name: outpkts
-+        type: u64
-+      -
-+        name: outoctets
-+        type: u64
-+      -
-+        name: inhdrerrors
-+        type: u64
-+      -
-+        name: intoobigerrors
-+        type: u64
-+      -
-+        name: innoroutes
-+        type: u64
-+      -
-+        name: inaddrerrors
-+        type: u64
-+      -
-+        name: inunknownprotos
-+        type: u64
-+      -
-+        name: intruncatedpkts
-+        type: u64
-+      -
-+        name: indiscards
-+        type: u64
-+      -
-+        name: outdiscards
-+        type: u64
-+      -
-+        name: outnoroutes
-+        type: u64
-+      -
-+        name: reasmtimeout
-+        type: u64
-+      -
-+        name: reasmreqds
-+        type: u64
-+      -
-+        name: reasmoks
-+        type: u64
-+      -
-+        name: reasmfails
-+        type: u64
-+      -
-+        name: fragoks
-+        type: u64
-+      -
-+        name: fragfails
-+        type: u64
-+      -
-+        name: fragcreates
-+        type: u64
-+      -
-+        name: inmcastpkts
-+        type: u64
-+      -
-+        name: outmcastpkts
-+        type: u64
-+      -
-+        name: inbcastpkts
-+        type: u64
-+      -
-+        name: outbcastpkts
-+        type: u64
-+      -
-+        name: inmcastoctets
-+        type: u64
-+      -
-+        name: outmcastoctets
-+        type: u64
-+      -
-+        name: inbcastoctets
-+        type: u64
-+      -
-+        name: outbcastoctets
-+        type: u64
-+      -
-+        name: csumerrors
-+        type: u64
-+      -
-+        name: noectpkts
-+        type: u64
-+      -
-+        name: ect1-pkts
-+        type: u64
-+      -
-+        name: ect0-pkts
-+        type: u64
-+      -
-+        name: cepkts
-+        type: u64
-+      -
-+        name: reasm-overlaps
-+        type: u64
-+  - name: br-boolopt-multi
-+    type: struct
-+    members:
-+      -
-+        name: optval
-+        type: u32
-+      -
-+        name: optmask
-+        type: u32
-+  -
-+    name: if_stats_msg
-+    type: struct
-+    members:
-+      -
-+        name: family
-+        type: u8
-+      -
-+        name: pad1
-+        type: u8
-+      -
-+        name: pad2
-+        type: u16
-+      -
-+        name: ifindex
-+        type: u32
-+      -
-+        name: filter-mask
-+        type: u32
-+
-+
-+attribute-sets:
-+  -
-+    name: link-attrs
-+    name-prefix: ifla-
-+    attributes:
-+      -
-+        name: address
-+        type: binary
-+        display-hint: mac
-+        value: 1
-+      -
-+        name: broadcast
-+        type: binary
-+        display-hint: mac
-+        value: 2
-+      -
-+        name: ifname
-+        type: string
-+        value: 3
-+      -
-+        name: mtu
-+        type: u32
-+        value: 4
-+      -
-+        name: link
-+        type: u32
-+        value: 5
-+      -
-+        name: qdisc
-+        type: string
-+        value: 6
-+      -
-+        name: stats
-+        type: binary
-+        value: 7
-+        struct: rtnl-link-stats
-+      -
-+        name: cost
-+        type: string
-+        value: 8
-+      -
-+        name: priority
-+        type: string
-+        value: 9
-+      -
-+        name: master
-+        type: u32
-+        value: 10
-+      -
-+        name: wireless
-+        type: string
-+        value: 11
-+      -
-+        name: protinfo
-+        type: string
-+        value: 12
-+      -
-+        name: txqlen
-+        type: u32
-+        value: 13
-+      -
-+        name: map
-+        type: binary
-+        value: 14
-+        struct: rtnl-link-ifmap
-+      -
-+        name: weight
-+        type: u32
-+        value: 15
-+      -
-+        name: operstate
-+        type: u8
-+        value: 16
-+      -
-+        name: linkmode
-+        type: u8
-+        value: 17
-+      -
-+        name: linkinfo
-+        type: nest
-+        value: 18
-+        nested-attributes: linkinfo-attrs
-+      -
-+        name: net-ns-pid
-+        type: u32
-+        value: 19
-+      -
-+        name: ifalias
-+        type: string
-+        value: 20
-+      -
-+        name: num-vf
-+        type: u32
-+        value: 21
-+      -
-+        name: vfinfo-list
-+        type: nest
-+        value: 22
-+        nested-attributes: vfinfo-attrs
-+      -
-+        name: stats64
-+        type: binary
-+        value: 23
-+        struct: rtnl-link-stats64
-+      -
-+        name: vf-ports
-+        type: nest
-+        value: 24
-+        nested-attributes: vf-ports-attrs
-+      -
-+        name: port-self
-+        type: nest
-+        value: 25
-+        nested-attributes: port-self-attrs
-+      -
-+        name: af-spec
-+        type: nest
-+        value: 26
-+        nested-attributes: af-spec-attrs
-+      -
-+        name: group
-+        type: u32
-+        value: 27
-+      -
-+        name: net-ns-fd
-+        type: u32
-+        value: 28
-+      -
-+        name: ext-mask
-+        type: u32
-+        value: 29
-+      -
-+        name: promiscuity
-+        type: u32
-+        value: 30
-+      -
-+        name: num-tx-queues
-+        type: u32
-+        value: 31
-+      -
-+        name: num-rx-queues
-+        type: u32
-+        value: 32
-+      -
-+        name: carrier
-+        type: u8
-+        value: 33
-+      -
-+        name: phys-port-id
-+        type: binary
-+        value: 34
-+      -
-+        name: carrier-changes
-+        type: u32
-+        value: 35
-+      -
-+        name: phys-switch-id
-+        type: binary
-+        value: 36
-+      -
-+        name: link-netnsid
-+        type: s32
-+        value: 37
-+      -
-+        name: phys-port-name
-+        type: string
-+        value: 38
-+      -
-+        name: proto-down
-+        type: u8
-+        value: 39
-+      -
-+        name: gso-max-segs
-+        type: u32
-+        value: 40
-+      -
-+        name: gso-max-size
-+        type: u32
-+        value: 41
-+      -
-+        name: pad
-+        type: string
-+        value: 42
-+      -
-+        name: xdp
-+        type: nest
-+        value: 43
-+        nested-attributes: xdp-attrs
-+      -
-+        name: event
-+        type: u32
-+        value: 44
-+      -
-+        name: new-netnsid
-+        type: s32
-+        value: 45
-+      -
-+        name: if-netnsid
-+        type: s32
-+        value: 46
-+      -
-+        name: target-netnsid
-+        type: s32
-+        value: 46
-+      -
-+        name: carrier-up-count
-+        type: u32
-+        value: 47
-+      -
-+        name: carrier-down-count
-+        type: u32
-+        value: 48
-+      -
-+        name: new-ifindex
-+        type: s32
-+        value: 49
-+      -
-+        name: min-mtu
-+        type: u32
-+        value: 50
-+      -
-+        name: max-mtu
-+        type: u32
-+        value: 51
-+      -
-+        name: prop-list
-+        type: nest
-+        nested-attributes: link-attrs
-+        value: 52
-+      -
-+        name: alt-ifname
-+        type: string
-+        multi-attr: true
-+        value: 53
-+      -
-+        name: perm-address
-+        type: binary
-+        display-hint: mac
-+        value: 54
-+      -
-+        name: proto-down-reason
-+        type: string
-+        value: 55
-+      -
-+        name: parent-dev-name
-+        type: string
-+        value: 56
-+      -
-+        name: parent-dev-bus-name
-+        type: string
-+        value: 57
-+      -
-+        name: gro-max-size
-+        type: u32
-+        value: 58
-+      -
-+        name: tso-max-size
-+        type: u32
-+        value: 59
-+      -
-+        name: tso-max-segs
-+        type: u32
-+        value: 60
-+      -
-+        name: allmulti
-+        type: u32
-+      -
-+        name: devlink-port
-+        type: binary
-+      -
-+        name: gso-ipv4-max-size
-+        type: u32
-+      -
-+        name: gro-ipv4-max-size
-+        type: u32
-+  -
-+    name: af-spec-attrs
-+    attributes:
-+      -
-+        name: "inet"
-+        type: nest
-+        value: 2
-+        nested-attributes: ifla-attrs
-+      -
-+        name: "inet6"
-+        type: nest
-+        value: 10
-+        nested-attributes: ifla6-attrs
-+      -
-+        name: "mctp"
-+        type: nest
-+        value: 45
-+        nested-attributes: mctp-attrs
-+  -
-+    name: vfinfo-attrs
-+    attributes: []
-+  -
-+    name: vf-ports-attrs
-+    attributes: []
-+  -
-+    name: port-self-attrs
-+    attributes: []
-+  -
-+    name: linkinfo-attrs
-+    attributes:
-+      -
-+        name: kind
-+        type: string
-+      -
-+        name: data
-+        type: binary
-+        nested-attributes: linkinfo-bridge-attrs
-+      -
-+        name: xstats
-+        type: binary
-+      -
-+        name: slave-kind
-+        type: string
-+      -
-+        name: slave-data
-+        type: nest
-+        nested-attributes: linkinfo-slave-data-attrs
-+  -
-+    name: linkinfo-bridge-attrs
-+    attributes:
-+      -
-+        name: forward-delay
-+        type: u32
-+      -
-+        name: hello-time
-+        type: u32
-+      -
-+        name: max-age
-+        type: u32
-+      -
-+        name: ageing-time
-+        type: u32
-+      -
-+        name: stp-state
-+        type: u32
-+      -
-+        name: priority
-+        type: u16
-+      -
-+        name: vlan-filtering
-+        type: u8
-+      -
-+        name: vlan-protocol
-+        type: u16
-+      -
-+        name: group-fwd-mask
-+        type: u16
-+      -
-+        name: root-id
-+        type: binary
-+      -
-+        name: bridge-id
-+        type: binary
-+      -
-+        name: root-port
-+        type: u16
-+      -
-+        name: root-path-cost
-+        type: u32
-+      -
-+        name: topology-change
-+        type: u8
-+      -
-+        name: topology-change-detected
-+        type: u8
-+      -
-+        name: hello-timer
-+        type: u64
-+      -
-+        name: tcn-timer
-+        type: u64
-+      -
-+        name: topology-change-timer
-+        type: u64
-+      -
-+        name: gc-timer
-+        type: u64
-+      -
-+        name: group-addr
-+        type: binary
-+      -
-+        name: fdb-flush
-+        type: binary
-+      -
-+        name: mcast-router
-+        type: u8
-+      -
-+        name: mcast-snooping
-+        type: u8
-+      -
-+        name: mcast-query-use-ifaddr
-+        type: u8
-+      -
-+        name: mcast-querier
-+        type: u8
-+      -
-+        name: mcast-hash-elasticity
-+        type: u32
-+      -
-+        name: mcast-hash-max
-+        type: u32
-+      -
-+        name: mcast-last-member-cnt
-+        type: u32
-+      -
-+        name: mcast-startup-query-cnt
-+        type: u32
-+      -
-+        name: mcast-last-member-intvl
-+        type: u64
-+      -
-+        name: mcast-membership-intvl
-+        type: u64
-+      -
-+        name: mcast-querier-intvl
-+        type: u64
-+      -
-+        name: mcast-query-intvl
-+        type: u64
-+      -
-+        name: mcast-query-response-intvl
-+        type: u64
-+      -
-+        name: mcast-startup-query-intvl
-+        type: u64
-+      -
-+        name: nf-call-iptables
-+        type: u8
-+      -
-+        name: nf-call-ip6-tables
-+        type: u8
-+      -
-+        name: nf-call-arptables
-+        type: u8
-+      -
-+        name: vlan-default-pvid
-+        type: u16
-+      -
-+        name: pad
-+        type: u32
-+      -
-+        name: vlan-stats-enabled
-+        type: u8
-+      -
-+        name: mcast-stats-enabled
-+        type: u8
-+      -
-+        name: mcast-igmp-version
-+        type: u8
-+      -
-+        name: mcast-mld-version
-+        type: u8
-+      -
-+        name: vlan-stats-per-port
-+        type: u8
-+      -
-+        name: multi-boolopt
-+        type: binary
-+        struct: br-boolopt-multi
-+      -
-+        name: mcast-querier-state
-+        type: binary
-+  -
-+    name: linkinfo-slave-data-attrs
-+    attributes: []
-+  -
-+    name: xdp-attrs
-+    attributes:
-+      -
-+        name: fd
-+        type: s32
-+      -
-+        name: attached
-+        type: u8
-+      -
-+        name: flags
-+        type: u32
-+      -
-+        name: prog-id
-+        type: u32
-+      -
-+        name: drv-prog-id
-+        type: u32
-+      -
-+        name: skb-prog-id
-+        type: u32
-+      -
-+        name: hw-prog-id
-+        type: u32
-+      -
-+        name: expected-fd
-+        type: s32
-+  -
-+    name: ifla-attrs
-+    attributes:
-+      -
-+        name: conf
-+        type: binary
-+        struct: ipv4-devconf
-+  -
-+    name: ifla6-attrs
-+    attributes:
-+      -
-+        name: flags
-+        type: u32
-+      -
-+        name: conf
-+        type: binary
-+        struct: ipv6-devconf
-+      -
-+        name: stats
-+        type: binary
-+        struct: ifla-inet6-stats
-+      -
-+        name: mcast
-+        type: binary
-+      -
-+        name: cacheinfo
-+        type: binary
-+        struct: ifla-cacheinfo
-+      -
-+        name: icmp6-stats
-+        type: binary
-+        struct: ifla-icmp6-stats
-+      -
-+        name: token
-+        type: binary
-+      -
-+        name: addr-gen-mode
-+        type: u8
-+      -
-+        name: ra-mtu
-+        type: u32
-+  -
-+    name: mctp-attrs
-+    attributes:
-+      -
-+        name: mctp-net
-+        type: u32
-+  -
-+    name: stats-attrs
-+    name-prefix: ifla-stats-
-+    attributes:
-+      -
-+        name: link-64
-+        type: binary
-+        struct: rtnl-link-stats64
-+      -
-+        name: link-xstats
-+        type: binary
-+      -
-+        name: link-xstats-slave
-+        type: binary
-+      -
-+        name: link-offload-xstats
-+        type: nest
-+        nested-attributes: link-offload-xstats
-+      -
-+        name: af-spec
-+        type: binary
-+  -
-+    name: link-offload-xstats
-+    attributes:
-+      -
-+        name: cpu-hit
-+        type: binary
-+      -
-+        name: hw-s-info
-+        type: array-nest
-+        nested-attributes: hw-s-info-one
-+      -
-+        name: l3-stats
-+        type: binary
-+  -
-+    name: hw-s-info-one
-+    attributes:
-+      -
-+        name: request
-+        type: u8
-+      -
-+        name: used
-+        type: u8
-+
-+operations:
-+  enum-model: directional
-+  list:
-+    -
-+      name: newlink
-+      doc: Create a new link.
-+      attribute-set: link-attrs
-+      fixed-header: ifinfomsg
-+      do:
-+        request:
-+          value: 16
-+          attributes: &link-new-attrs
-+            - ifi-index
-+            - ifname
-+            - net-ns-pid
-+            - net-ns-fd
-+            - target-netnsid
-+            - link-netnsid
-+            - linkinfo
-+            - group
-+            - num-tx-queues
-+            - num-rx-queues
-+            - address
-+            - broadcast
-+            - mtu
-+            - txqlen
-+            - operstate
-+            - linkmode
-+            - group
-+            - gso-max-size
-+            - gso-max-segs
-+            - gro-max-size
-+            - gso-ipv4-max-size
-+            - gro-ipv4-max-size
-+            - af-spec
-+    -
-+      name: dellink
-+      doc: Delete an existing link.
-+      attribute-set: link-attrs
-+      fixed-header: ifinfomsg
-+      do:
-+        request:
-+          value: 17
-+          attributes:
-+            - ifi-index
-+            - ifname
-+    -
-+      name: getlink
-+      doc: Get / dump information about a link.
-+      attribute-set: link-attrs
-+      fixed-header: ifinfomsg
-+      do:
-+        request:
-+          value: 18
-+          attributes:
-+            - ifi-index
-+            - ifname
-+            - alt-ifname
-+            - ext-mask
-+            - target-netnsid
-+        reply:
-+          value: 16
-+          attributes: &link-all-attrs
-+            - ifi-family
-+            - ifi-type
-+            - ifi-index
-+            - ifi-flags
-+            - ifi-change
-+            - address
-+            - broadcast
-+            - ifname
-+            - mtu
-+            - link
-+            - qdisc
-+            - stats
-+            - cost
-+            - priority
-+            - master
-+            - wireless
-+            - protinfo
-+            - txqlen
-+            - map
-+            - weight
-+            - operstate
-+            - linkmode
-+            - linkinfo
-+            - net-ns-pid
-+            - ifalias
-+            - num-vf
-+            - vfinfo-list
-+            - stats64
-+            - vf-ports
-+            - port-self
-+            - af-spec
-+            - group
-+            - net-ns-fd
-+            - ext-mask
-+            - promiscuity
-+            - num-tx-queues
-+            - num-rx-queues
-+            - carrier
-+            - phys-port-id
-+            - carrier-changes
-+            - phys-switch-id
-+            - link-netnsid
-+            - phys-port-name
-+            - proto-down
-+            - gso-max-segs
-+            - gso-max-size
-+            - pad
-+            - xdp
-+            - event
-+            - new-netnsid
-+            - if-netnsid
-+            - target-netnsid
-+            - carrier-up-count
-+            - carrier-down-count
-+            - new-ifindex
-+            - min-mtu
-+            - max-mtu
-+            - prop-list
-+            - alt-ifname
-+            - perm-address
-+            - proto-down-reason
-+            - parent-dev-name
-+            - parent-dev-bus-name
-+            - gro-max-size
-+            - tso-max-size
-+            - tso-max-segs
-+            - allmulti
-+            - devlink-port
-+            - gso-ipv4-max-size
-+            - gro-ipv4-max-size
-+      dump:
-+        request:
-+          value: 18
-+          attributes:
-+            - target-netnsid
-+            - ext-mask
-+            - master
-+            - linkinfo
-+        reply:
-+          value: 16
-+          attributes: *link-all-attrs
-+    -
-+      name: setlink
-+      doc: Set information about a link.
-+      attribute-set: link-attrs
-+      fixed-header: ifinfomsg
-+      do:
-+        request:
-+          value: 19
-+          attributes: *link-all-attrs
-+    -
-+      name: getstats
-+      doc: Get / dump link stats.
-+      attribute-set: stats-attrs
-+      fixed-header: if_stats_msg
-+      do:
-+        request:
-+          value: 94
-+          attributes:
-+            - ifindex
-+        reply:
-+          value: 92
-+          attributes: &link-stats-attrs
-+            - family
-+            - ifindex
-+            - filter-mask
-+            - link-64
-+            - link-xstats
-+            - link-xstats-slave
-+            - link-offload-xstats
-+            - af-spec
-+      dump:
-+        request:
-+          value: 94
-+        reply:
-+          value: 92
-+          attributes: *link-stats-attrs
-+
-+mcast-groups:
-+  list:
-+    -
-+      name: rtnlgrp-link
-+      value: 1
-+    -
-+      name: rtnlgrp-stats
-+      value: 36
--- 
-2.39.2 (Apple Git-143)
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZOdK9gAKCRB4tDGHoIJi
+0liiAP4gl0tcLeJen0DrqHl7mUfFjKLV+rxAVZFw6sBF8FRmaQEAu0Z51JiElsPS
+KyIRZMIWB/CZJgPwPVBoToRKWWbtSAA=
+=u5eg
+-----END PGP SIGNATURE-----
+
+--qk1i/rPebejGNd0P--
