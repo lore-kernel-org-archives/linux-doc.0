@@ -2,234 +2,167 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED64C6FA8F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 22:08:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEEDC7EE43
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Aug 2023 22:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231425AbjHXWH4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Aug 2023 18:07:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38796 "EHLO
+        id S243849AbjHXWKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Aug 2023 18:10:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243887AbjHXWHf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 18:07:35 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F991BF0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Aug 2023 15:07:31 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4fe2d152f62so460749e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Aug 2023 15:07:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1692914849; x=1693519649;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l11912n3qa2CSpw+kZXNOtODsxBrBizs0n9GmmfpDCU=;
-        b=jFwrMYJdrwzpJtmpEf4heHBoQiKWCODnVVviQ2Y5TouOiHrgkdwUYPuy+TcVQbYxA6
-         XCRA+Yhh9pq5u9VZ+amDDkLt7jjxrufQ9ZfoLF1cZFpT2hQfjUzsT9iJj2tAuywQVeM8
-         bDhzZN5OVMIKMDM5VnIJNu5VrGDN6LJpTM+fnmN6v931weJ6vu6Rikqw6ugU1Rmr4CX+
-         m3GNzlyvJ/PTP6CXsuwKb/IJO5/RHR/BptfFivVzDKucupIlru2aqEhiH60OhYbOax+t
-         qkKdQ7e9klys/UT7EC5nuxTzScF9UOcw/HcZ+OWW2OP4T13qVnTMpWgCV1hTC9UGpEVm
-         hDaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692914849; x=1693519649;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l11912n3qa2CSpw+kZXNOtODsxBrBizs0n9GmmfpDCU=;
-        b=OzGHDM2KLWKT5zk2RtYK0FfNRvMw/ydzW5RjlZUCDEo/wpff2J1n3yS4Js6tiLQO2e
-         /T78QMbojiObQrNCuvIclcjBT2SB0maJ0pv34bcmkk900owS+p+c2o2uIjPOVUFg23bJ
-         n0/3Ev+sNmZ3GGr6YtTyMTIYqrGS9K9DrfhcCDKHA5Y+rjjbG1nptNXIzkNkQTDfZz7T
-         7HQol53WVXaw1ugV6MpQ/XBa4A/tIVn6Lt2djC2Nldz8B3HGRVpDAU9zbsoQolAu97DR
-         zakuna9jiz+XR+L2eE39pXLM0Lp2Cxo6mFFS9PRagQbUxJzvGFOwg6OGq7YD8V3LWGfc
-         o5yA==
-X-Gm-Message-State: AOJu0Yx6yuxIWcbToq00CY9g6YDMivLEE7fu//e0o0Nv3b8aP207Mw2b
-        YkJL2gOCtxh5jXWMojkTZG+a6VRzALVxts3q9fAmRA==
-X-Google-Smtp-Source: AGHT+IGHliznsl8IHMzh8+mmPAASwa3zHuMXxpd3WMGnZUqFAJe0ZmozwDjGhtg5A8SAU2rE9JZwtqWwi3cTvGHg/6w=
-X-Received: by 2002:a19:5f0e:0:b0:4fd:bdf8:930d with SMTP id
- t14-20020a195f0e000000b004fdbdf8930dmr9788363lfb.22.1692914849169; Thu, 24
- Aug 2023 15:07:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230711201831.2695097-1-evan@rivosinc.com> <20230824-factual-jawed-2dddd2cf2bdd@wendy>
- <CALs-Hss51fQE1yxe1Y1T86X+OfjPaAd386vosQ8gzRm=Njm1gw@mail.gmail.com> <20230824-exploit-spectacle-ecedd91e9075@spud>
-In-Reply-To: <20230824-exploit-spectacle-ecedd91e9075@spud>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Thu, 24 Aug 2023 15:06:53 -0700
-Message-ID: <CALs-HssqaOjvUOdBVn=oN+uzkkmjguys2UttTYgdcqJwJB0HnQ@mail.gmail.com>
-Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
+        with ESMTP id S243844AbjHXWKV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Aug 2023 18:10:21 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05hn2237.outbound.protection.outlook.com [52.100.174.237])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCAF61B9;
+        Thu, 24 Aug 2023 15:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=79WQMo1An+kEjfD00O/FIsavhTriaIzAE1XWuOS+3hA=;
+ b=TBwNzf3XKNPB7c8XLAMgR6IWsB7cuX7kJSU1iDUUJZfmsl4Gz/Tu4eSZU0xDha4VivD5Mn1fxvGD1aZopyL679vvtQyqk0f7mXf7Q1YT+8wHqv4+L7bn+p+IhOFoQ3oUPz6nY2vLe7OWsW2SGDUfs/ymPR/2vB9s3P27ZXotvH0Atcl3qQZ5GXGBirhMubpjeqHZ8H8GDmJs6qpELJTxiiLumnXTSCDOQxzKA+QkpQCWSmfwlm/Hqm06KK9oVhzVR6mdmv/MMPFmNPuKQbqsi3uX18XdzP7a5qj0n57WJLneVJj633Toc/LGAs9YV/cjWm5AYnFM3eP8efH9GsC/+A==
+Received: from DB3PR08CA0010.eurprd08.prod.outlook.com (2603:10a6:8::23) by
+ AM7PR03MB6264.eurprd03.prod.outlook.com (2603:10a6:20b:13d::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6699.27; Thu, 24 Aug 2023 22:10:14 +0000
+Received: from DB8EUR05FT015.eop-eur05.prod.protection.outlook.com
+ (2603:10a6:8:0:cafe::e2) by DB3PR08CA0010.outlook.office365.com
+ (2603:10a6:8::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.30 via Frontend
+ Transport; Thu, 24 Aug 2023 22:10:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.160.56.85)
+ smtp.mailfrom=seco.com; dkim=pass (signature was verified)
+ header.d=seco.com;dmarc=pass action=none header.from=seco.com;
+Received-SPF: Pass (protection.outlook.com: domain of seco.com designates
+ 20.160.56.85 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.160.56.85; helo=inpost-eu.tmcas.trendmicro.com; pr=C
+Received: from inpost-eu.tmcas.trendmicro.com (20.160.56.85) by
+ DB8EUR05FT015.mail.protection.outlook.com (10.233.238.127) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6723.16 via Frontend Transport; Thu, 24 Aug 2023 22:10:14 +0000
+Received: from outmta (unknown [192.168.82.135])
+        by inpost-eu.tmcas.trendmicro.com (Trend Micro CAS) with ESMTP id DE6A0200813A8;
+        Thu, 24 Aug 2023 22:10:13 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (unknown [104.47.17.175])
+        by repre.tmcas.trendmicro.com (Trend Micro CAS) with ESMTPS id 66CCA2008006E;
+        Thu, 24 Aug 2023 22:10:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aim7+34kmdpnPLquMdpMRc6Nsn2oyUjqA8iEUgrxtZ+pJCplXJw4CvoAGHv2L4HA1mNEUw3heDouacQ0q2ztldFJvCp2kVRGK7GYsGaD4BA99ZMksNM1OxNW7+TvDUp2Eh83A11WBHXCns4LSY3q8fboaHoG3yU1S6mJXVlEeW2swa+a7kYXE/WzyGJCMsbGxzf7rpY6bCpnHjbI9EvzxUOX/DOx9V4EyUWJnr/yeubBL4vX7YyvDwA+fSJjLWTlRl8QjH7DtP/ss7IigV0i3b5CNcHKlVSzYf9wT83eE7O6DXVdHb94ngTLXc4S1RCcU85HTBhmOVxR1yxYQmNcAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=79WQMo1An+kEjfD00O/FIsavhTriaIzAE1XWuOS+3hA=;
+ b=TOBsdNoED18bv+w/PUjLXmP1XEz13SIGIpYPuR95Jitc/AuWvA0X469zRrr0nGZMgPB4dLg/AgsxkdhZNkbLZxV6eIyHFMvYPVNA+SAD0SEnG5z77ke3GUnK6v8DpMSSvULGbHdL6ans3Nsje0J7FGryGmlbcasYlYJyvEmo1zNmp8YbWvpmqgyq8m0n90ESznegISB+RdFnVp4czxHu6mnUQOGyhVuDAeo3QZNQeUcQFxJK9a6YYYm9H3daMs05CbS2+cSnmq3zyeO/hZpTa88smvIcg+LzB6V6HaBZJxDkjxsghoyV6WaZ3Ephm+jsNhFundDK1F1VOodWoy8gmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=79WQMo1An+kEjfD00O/FIsavhTriaIzAE1XWuOS+3hA=;
+ b=TBwNzf3XKNPB7c8XLAMgR6IWsB7cuX7kJSU1iDUUJZfmsl4Gz/Tu4eSZU0xDha4VivD5Mn1fxvGD1aZopyL679vvtQyqk0f7mXf7Q1YT+8wHqv4+L7bn+p+IhOFoQ3oUPz6nY2vLe7OWsW2SGDUfs/ymPR/2vB9s3P27ZXotvH0Atcl3qQZ5GXGBirhMubpjeqHZ8H8GDmJs6qpELJTxiiLumnXTSCDOQxzKA+QkpQCWSmfwlm/Hqm06KK9oVhzVR6mdmv/MMPFmNPuKQbqsi3uX18XdzP7a5qj0n57WJLneVJj633Toc/LGAs9YV/cjWm5AYnFM3eP8efH9GsC/+A==
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by AM7PR03MB6673.eurprd03.prod.outlook.com (2603:10a6:20b:1b1::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.27; Thu, 24 Aug
+ 2023 22:10:06 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::21bd:6579:b3d1:e5f7]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::21bd:6579:b3d1:e5f7%5]) with mapi id 15.20.6699.027; Thu, 24 Aug 2023
+ 22:10:00 +0000
+Message-ID: <54621dd6-275b-fd9d-a158-6871f1a04fd1@seco.com>
+Date:   Thu, 24 Aug 2023 18:09:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
+Content-Language: en-US
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv@lists.infradead.org,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Andrew Jones <ajones@ventanamicro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?UTF-8?B?RmVybuKUnMOtbmRleiBSb2phcw==?= <noltari@gmail.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <26623d0c-8a5a-614b-7df7-69214aaec524@seco.com>
+ <20230811163637.bs7a46juasjgnmf4@skbuf>
+ <20230821124952.mraqqp7pxlo56gkh@skbuf>
+ <a2e3fcad-9857-f1b3-8ada-efb2013a4bf5@seco.com>
+ <20230821181349.hls6pukp5d6rc5av@LXL00007.wbi.nxp.com>
+ <73d59dd2-88f0-3c1a-0de2-de2e050cba5a@seco.com>
+ <20230821195823.ns55h3livxgol7fp@skbuf>
+ <a66c9abf-5351-62b6-5573-cae38e6768e2@seco.com>
+ <20230821224834.ppk4hmjyajupy7va@skbuf>
+ <a4828cf7-9cac-286f-0aba-fcd1688c8422@seco.com>
+ <20230821235917.mzawnkoi7oj4zgm6@skbuf>
+From:   Sean Anderson <sean.anderson@seco.com>
+In-Reply-To: <20230821235917.mzawnkoi7oj4zgm6@skbuf>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL0PR02CA0053.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::30) To DB9PR03MB8847.eurprd03.prod.outlook.com
+ (2603:10a6:10:3dd::13)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|AM7PR03MB6673:EE_|DB8EUR05FT015:EE_|AM7PR03MB6264:EE_
+X-MS-Office365-Filtering-Correlation-Id: 810daba8-3d73-42e2-bed7-08dba4eee451
+X-TrendMicro-CAS-OUT-LOOP-IDENTIFIER: 656f966764b7fb185830381c646b41a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: Xi8IaRb8efHNhChiX9wqVwb3hgrjvYpcIGB2Egp8N0XhCeqwAFxHdjm2C0w+nZgscwQfv0JxiJ2JcPxHRogAixlfyp1H7rvqHFm4z7qA5jWM5HZcmh1D1Y56qth0XnTRPvjtbCNDNSpZptJog0n4XeSAXsopBGH8SQUiFH+ECQbeUZu/qfoc9PEwOiaRtuh3JakXfClT8vjo03DgR555YXByDf7xNYBK56h9iidOna22Kg+EF1UMfmmkgtqKp42jp43/LiZUD1pmQgtmD5WrqhVWk5SQ+jy8DZbT31FSEO51WfT/0ytsSEqFfwlKnBsiptMv0IMPRh5BBR67FGuFmVJXzVVXG2CV1NPjJdSwljhW5az1Hp8HkhAje4VbFj/VGqP/fBUybHWv4EVha2hHQlsF5w9iUl2G80JO4U174muQF0O3e3ivq5i9T7JKbPXCxXBbvrF0N6k3dVqtQpPKUdIh4cLRTtPz8oEuil4mmCZrQgVTX3VEO7fR3KnCiPliZY2oD3TlqlHU9jAE/rZPZXx5CYagiTSXyJJsxjYfujAtiyZuMP9n/aTQthyMLFrJtiix7LbFRWphaMzwj19WZ7vW5Dwii0wXeJSDJP9u9TCdiTn9g16OlCUf12m8ERHlUOR/OLTMaL6jzQE+yhR5b/dBzmkI9nUJ/YuWwz5jRWIlSLHMlHXrAU/21PQiolKl
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(346002)(396003)(136003)(39850400004)(186009)(1800799009)(451199024)(66476007)(54906003)(66946007)(66556008)(316002)(6916009)(478600001)(26005)(6666004)(38350700002)(38100700002)(41300700001)(31696002)(6506007)(53546011)(6486002)(86362001)(52116002)(2906002)(6512007)(31686004)(4326008)(8676002)(8936002)(2616005)(5660300002)(7416002)(44832011)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR03MB6673
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB8EUR05FT015.eop-eur05.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 280fc6de-da17-4c96-83d6-08dba4eedb8d
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Cr10FIPobyKAN3bFuwPu+idIZMqCR+e3lgWu1b24poVeBvyrfl/sm3qVKuM49452UH+NAHZMBZWdPypLyxttv7PsyQmsSUtpQrJxCkLNxGkSkeeCYChRskeyZYGxHC7y0UGgAVsq9u6MaLo1DcONIAtZLurxv6KrJ8ItdnyemA8N2dKhbM0LlfBqmpVY3Y/9F6HTdoBVy2NHt7sBqmlCRnyrHvADP1jt3EMq1KFCoGAAxCmhZVGXcsf5YqJBhHp/BPO1tUmCEVHer+LmqgBlDPRuKOz78BR/iPJc4xymCcPrwncH3HPdTK7e9XIV0nRFyWZN7Gh9bg2I8vtqojxMVPMhDQ3zqpK9ykAVqOW56fDO6y9tBhfGTw+Y3HGnL80PK+nSC7hK2sFjsrrpCG+s7RSJevhQNK9eIwD0xgxgNgenT0rmMuEYVswpY5gPDec8MgWVKAw0OzdZXbMhWsgx9kmocf2WWpgPFo2fExirkAlUIm805abtArpYpw5dKCl+LARp6jxb2uQymMRSm2ktm7mp4go69id1yx74c4I1HA9G9hFosGVkfxc5Io/6YoNYcLA8hMG1D2yyPYWZF2sfNdtn+2klkfK7wLStegT7qgKrCcH5ZlK6BQg/vGdsn030ltkqRVOAi9fI8Y8/p+rAQWilQHNO9BEyH7wNtUhNMlx0i7lh/aQUIhu4GNLZ082RBLYCtO2s/vc/+gOpTp8IG02Plux1qQca4F4qnqNAJQf4Kg4ZWZmvKJGEKH2qHCf4V/Yt4UFAnOJk4vZbAYftE1phoQcfrzVQbd8fwwBKvSC5j91OspwVY+709R0RbgZ/
+X-Forefront-Antispam-Report: CIP:20.160.56.85;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:inpost-eu.tmcas.trendmicro.com;PTR:inpost-eu.tmcas.trendmicro.com;CAT:NONE;SFS:(13230031)(376002)(39850400004)(396003)(136003)(346002)(82310400011)(186009)(1800799009)(451199024)(5400799018)(36840700001)(46966006)(2616005)(5660300002)(34070700002)(4326008)(8676002)(8936002)(336012)(47076005)(36756003)(7416002)(44832011)(36860700001)(26005)(40480700001)(82740400003)(7596003)(356005)(7636003)(6666004)(70586007)(70206006)(54906003)(6916009)(316002)(478600001)(31686004)(53546011)(41300700001)(6512007)(6506007)(2906002)(86362001)(6486002)(31696002)(43740500002)(12100799039);DIR:OUT;SFP:1501;
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2023 22:10:14.2166
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 810daba8-3d73-42e2-bed7-08dba4eee451
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bebe97c3-6438-442e-ade3-ff17aa50e733;Ip=[20.160.56.85];Helo=[inpost-eu.tmcas.trendmicro.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB8EUR05FT015.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR03MB6264
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 10:29=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Thu, Aug 24, 2023 at 09:18:16AM -0700, Evan Green wrote:
-> > On Thu, Aug 24, 2023 at 5:20=E2=80=AFAM Conor Dooley <conor.dooley@micr=
-ochip.com> wrote:
-> > >
-> > > On Tue, Jul 11, 2023 at 01:18:30PM -0700, Evan Green wrote:
-> > > > In /proc/cpuinfo, most of the information we show for each processo=
-r is
-> > > > specific to that hart: marchid, mvendorid, mimpid, processor, hart,
-> > > > compatible, and the mmu size. But the ISA string gets filtered thro=
-ugh a
-> > > > lowest common denominator mask, so that if one CPU is missing an IS=
-A
-> > > > extension, no CPUs will show it.
-> > > >
-> > > > Now that we track the ISA extensions for each hart, let's report IS=
-A
-> > > > extension info accurately per-hart in /proc/cpuinfo. We cannot chan=
-ge
-> > > > the "isa:" line, as usermode may be relying on that line to show on=
-ly
-> > > > the common set of extensions supported across all harts. Add a new =
-"hart
-> > > > isa" line instead, which reports the true set of extensions for tha=
-t
-> > > > hart. This matches what is returned in riscv_hwprobe() when queryin=
-g a
-> > > > given hart.
-> > > >
-> > > > Signed-off-by: Evan Green <evan@rivosinc.com>
-> > > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > > >
-> > > > ---
-> > > >
-> > > > Changes in v4:
-> > > >  - Documentation: Made the underline match the text line (Conor)
-> > > >  - Documentation: hanged "in question" to "being described" (Andrew=
-)
-> > > >
-> > > > Changes in v3:
-> > > >  - Add some documentation (Conor)
-> > > >
-> > > > Changes in v2:
-> > > >  - Added new "hart isa" line rather than altering behavior of exist=
-ing
-> > > >    "isa" line (Conor, Palmer)
-> > > >
-> > > >
-> > > > I based this series on top of Conor's riscv-extensions-strings bran=
-ch
-> > > > from July 3rd, since otherwise this change gets hopelessly entangle=
-d
-> > > > with that series.
-> > > >
-> > > > ---
-> > > >  Documentation/riscv/uabi.rst | 10 ++++++++++
-> > > >  arch/riscv/kernel/cpu.c      | 22 ++++++++++++++++++----
-> > > >  2 files changed, 28 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uab=
-i.rst
-> > > > index 8960fac42c40..afdda580e5a2 100644
-> > > > --- a/Documentation/riscv/uabi.rst
-> > > > +++ b/Documentation/riscv/uabi.rst
-> > > > @@ -42,6 +42,16 @@ An example string following the order is::
-> > > >
-> > > >     rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
-> > > >
-> > > > +"isa" vs "hart isa" lines in /proc/cpuinfo
-> > > > +------------------------------------------
-> > > > +
-> > > > +The "isa" line in /proc/cpuinfo describes the lowest common denomi=
-nator of
-> > > > +RISC-V ISA extensions understood by the kernel and implemented on =
-all harts. The
-> > > > +"hart isa" line, in contrast, describes the set of extensions unde=
-rstood by the
-> > > > +kernel on the particular hart being described, even if those exten=
-sions may not
-> > > > +be present on all harts in the system. The "hart isa" line is cons=
-istent with
-> > > > +what's returned by __riscv_hwprobe() when querying for that specif=
-ic CPU.
-> > >
-> > > Thinking about this again, I don't think this is true. hwprobe uses
-> > > has_fpu(), has_vector() etc that interact with Kconfig options but th=
-e
-> > > percpu isa bitmap isn't affected by these.
-> >
-> > Ugh yeah it's kind of a mishmash isn't it. hwprobe_isa_ext0() uses the
-> > lowest common denominator for FD, C, V, but per-hart info for
-> > Zba,Zbb,Zbs. Given the interface, per-hart info seems like what we
-> > should have done there, and the FD, C, and V were my bad. The good
-> > news is we can define new bits that do the right thing, though maybe
-> > we should wait until someone actually wants them. For this patch we
-> > should just remove this sentence. We can also correct the
-> > documentation in hwprobe to mention the shortcoming in FD,C,V.
->
-> I'm not really sure it's all that much of a shortcoming for V or FD,
-> since without the kernel support you shouldn't be using those extensions
-> anyway. A hwprobe thing for that sounds like a footgun to me & I think
-> the current behaviour is how it should be for these extensions.
-> It not being per-cpu is arguably a bug I suppose? But I would contend
+On 8/21/23 19:59, Vladimir Oltean wrote:
+> On Mon, Aug 21, 2023 at 07:39:15PM -0400, Sean Anderson wrote:
+>> Well, I think we should take the opportunity to think about the hardware
+>> which exists and how we plan to model it. IMO grouping lanes into a
+>> single phy simplifies both the phy driver and the mac driver.
+> 
+> Ok, but ungrouped for backplane and grouped for !backplane? For the KR
+> link modes, parallel link training, with separate consumers per lanes in
+> a group, will be needed per lane.
 
-Yeah it was mostly the not being per-cpu I was pointing to in my previous e=
-mail.
+Hm, this is the sort of thing I hadn't considered since separate link
+training isn't necessary for lynx 10g. But couldn't this be done by
+adding a "lane" parameter to phy_configure_opts_xgkr?
 
-> that we are conveying support for the extension on a per-hart level,
-> with it then also gated by the kernel supporting V or FD, which is on a
-> system-wide basis.
-> Any other extensions that require Kconfig-gated kernel support should
-> also not report via hwprobe that the extension is supported when the
-> Kconfig option is disabled. It just so happens that the set of
-> extensions that hwprobe supports that are Kconfig-gated and those that
-> require all-hart support are one and the same right now, so we can kinda
-> just conflate the two & use has_vector() et al that handles both
-> kconfig-gating and all-hart support. Until something comes along that nee=
-ds
-> anything different, I'd leave well enough alone for hwprobe...
+Although, I am not sure how the driver is supposed to figure out what
+coefficients to use. c73 implies that the training frame should be sent
+on each lane. So I expected that there would be four copies of the
+link coefficient registers. However, when reading the LX2160ARM, I only
+saw one set of registers (e.g. 26.6.3.3). So is link training done
+serially? I didn't see anything like a "lane select" field.
 
-Sounds good.
-
->
-> > Palmer, do you want a spin of this patch or a followup on top to
-> > remove the above sentence?
->
-> It's not actually been applied yet, right?
->
-> Do you want to have this new thing in cpuinfo tell the user "this hart
-> has xyz extensions that are supported by a kernel, but maybe not this
-> kernel" or to tell the user "this hart has xyz extensions that are
-> supported by this kernel"? Your text above says "understood by the
-> kernel", but I think that's a poor definition that needs to be improved
-> to spell out exactly what you mean. IOW does "understood" mean the
-> kernel will parse them into a structure, or does it mean "yes you can
-> use this extension on this particular hart".
-
-I'm imagining /proc/cpuinfo being closer to "the CPU has it and the
-kernel at least vaguely understands it, but may not have full support
-for it enabled". I'm assuming /proc/cpuinfo is mostly used by 1)
-humans wanting to know if they have hardware support for a feature,
-and 2) administrators collecting telemetry to manage fleets (ie do I
-have any hardware deployed that supports X). Programmers looking to
-see "is the kernel support for this feature ready right now" would
-ideally not be parsing /proc/cpuinfo text, as more direct mechanisms
-like specific hwprobe bits for "am I fully ready to go" would be
-easier to work with. Feel free to yell at me if this overall vision
-seems flawed.
-
-I tried to look to see if there was consensus among the other
-architectures. Aarch64 seems to go with "supported and fully enabled",
-as their cpu_has_feature() directly tests elf_hwcap, and elements in
-arm64_elf_hwcaps[] are Kconfig gated. X86 is complicated, but IIRC is
-more along the lines of "hardware has it". They have two macros,
-cpu_has() for "raw capability" and cpu_feature_enabled() for "kernel
-can do it too", and they use cpu_has() for /proc/cpuinfo flags.
-
--Evan
+--Sean
