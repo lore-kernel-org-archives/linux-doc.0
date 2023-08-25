@@ -2,89 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC1AFC83F06
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 22:47:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BD7AC83F04
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 22:52:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229987AbjHYWqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 18:46:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56866 "EHLO
+        id S229532AbjHYWwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 18:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230463AbjHYWqQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 18:46:16 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B42026B0;
-        Fri, 25 Aug 2023 15:46:09 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 93DB76E3;
-        Fri, 25 Aug 2023 22:46:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93DB76E3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1693003568; bh=L2tfz4qEYX8iRgs5nKkp8n2pKDrpHgsTjVgLjX3svnA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=g6chkHoupJ+SoqhLePiLjOTIWlnHJVDGB6Va8B+Zd1U4R1S5eiJxmrFlnxACKXcIy
-         1bo7JWiscD1o9gffnuEJ2GQ0VfOr2AEiK4m8s35zZX1ux5SYEvX+4riJJ4vK5bCF0v
-         oBKIfCEVRouOsq+2ApuXAfOyFeWFB09AAK1xALCOoqxSPopNb2FG9j1A5lUOixcj/1
-         WvFu5bdaOPWZvzqvMl0a/i/FDc/IW3WFqSO4zrqctY7tCaPjfrHhzmaQAAN6eQqvKp
-         EP3gNvsyuMb/SsZBT8P9HXw9zIomrq57yWQbZD4UJ6OiU2cDsLqNJj+iSeY6rGrVIb
-         wlEGMmOvW4EGQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Nishanth Menon <nm@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bpf@vger.kernel.org,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>,
-        Neha Francis <n-francis@ti.com>, Nishanth Menon <nm@ti.com>
-Subject: Re: [PATCH 1/2] Documentation: sphinx: Add sphinx-prompt
-In-Reply-To: <20230824182107.3702766-2-nm@ti.com>
-References: <20230824182107.3702766-1-nm@ti.com>
- <20230824182107.3702766-2-nm@ti.com>
-Date:   Fri, 25 Aug 2023 16:46:07 -0600
-Message-ID: <87h6om4u6o.fsf@meer.lwn.net>
+        with ESMTP id S230120AbjHYWwK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 18:52:10 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAB87268F
+        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 15:52:06 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4fe61ae020bso2119670e87.2
+        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 15:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1693003925; x=1693608725;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+y9J0Vp2KEC0gOHwcifgBi34rB9oiYo6WicEeCrDYUk=;
+        b=BqHgwsSFGMBSzPfBjaL1mADgNZ/JMV/t3ctoiSTSqoIS5gT/l4uFn/xXCt6JLYHUy7
+         gPuSEJB2mTISHBWmZIMp31j/ybBK4kdYAyhdBlOs7wfaR8ddFAL65C0HQ5z5ntzz3uF2
+         vYBhDyW9oc46xobiDjao2H/AWMfF8ipOXkLGtC3ycfJ4b1+g9r+V0M1UbbRMqnP7UrZo
+         Og6lQd7ZrW6gCTz/6+vO73sKL64j4iTfOyFUwP12X0LaQZBEFoe8Yzt7H0KYrJH/kTkH
+         Ldj7CMmu49LAQ012XQkydspk8hWy7+53LwAoR6wNe3O6zq7t2zoG4e1xYxGAb2GJpwOA
+         bdYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693003925; x=1693608725;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+y9J0Vp2KEC0gOHwcifgBi34rB9oiYo6WicEeCrDYUk=;
+        b=ZwEjq3xaZyEV7LcdGFDKMKxBPgTR4zjoOM9UiUHaz4NYb+jYfmEGgiLxXkHUYsOyhZ
+         9H2GRmonTllVXjNJ/lGPF+PD/f5oY12ldpJANhmFoq+DG4vPuhsFnnrtVTv2zBhZZ8Lx
+         YGypZugKUs6oAq7Iw7r+pQZjlyN67Zo117RAhs0uPAZwDCvNu8aGHqOVpA9y94BEYBoR
+         oxIPjTBQvOeLunhOobdxIpYEJq4+ndzyjJuLYvHu2UWjN08fEDGe97OdmxRSeNetrZkn
+         JcD16uB7WvZK38OIRu2AUt/pv77A7ARud3W5KGD/fIQwC4nQC+ZwkRA/QWwzld+UYPsf
+         h2Ww==
+X-Gm-Message-State: AOJu0Yx+Q1R3bOJwUVYIatc60erttKxStDSnHSVFCW9Dk4Ffio0ferC5
+        Z68PccWwYAGhfJVEwPI2v1GXvlzcApOCeM0YX1Cxxw==
+X-Google-Smtp-Source: AGHT+IF+v+BY77506pMI43cchja2d3T+v50mea58RnGu7jsCphVTLnNPxrVLDaC4mo5oFMYvPobn4jQYIezwB6lXp8o=
+X-Received: by 2002:a05:6512:4026:b0:4f9:570c:7b28 with SMTP id
+ br38-20020a056512402600b004f9570c7b28mr17775050lfb.32.1693003924895; Fri, 25
+ Aug 2023 15:52:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230711201831.2695097-1-evan@rivosinc.com> <20230824-factual-jawed-2dddd2cf2bdd@wendy>
+ <CALs-Hss51fQE1yxe1Y1T86X+OfjPaAd386vosQ8gzRm=Njm1gw@mail.gmail.com>
+ <20230824-exploit-spectacle-ecedd91e9075@spud> <CALs-HssqaOjvUOdBVn=oN+uzkkmjguys2UttTYgdcqJwJB0HnQ@mail.gmail.com>
+ <20230825-374a82446ed3eea02fcb41e6@orel>
+In-Reply-To: <20230825-374a82446ed3eea02fcb41e6@orel>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Fri, 25 Aug 2023 15:51:28 -0700
+Message-ID: <CALs-HstfA29DDrmVemP6bZe+kON9JDKYR3p132gG_WefA6d7eQ@mail.gmail.com>
+Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Conor Dooley <conor@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv@lists.infradead.org,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Nishanth Menon <nm@ti.com> writes:
-
-> Sphinx-prompt[1] helps bring-in '.. prompt::' option that allows a
-> better rendered documentation, yet be able to copy paste without
-> picking up the prompt from the rendered documentation.
+On Fri, Aug 25, 2023 at 1:16=E2=80=AFAM Andrew Jones <ajones@ventanamicro.c=
+om> wrote:
 >
-> [1] https://pypi.org/project/sphinx-prompt/
-> Link: https://lore.kernel.org/all/87fs48rgto.fsf@baylibre.com/
-> Suggested-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-> Suggested-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-> Signed-off-by: Nishanth Menon <nm@ti.com>
-> ---
-> I would have added Reported-by for Simon, since he reported the issue in
-> the first place.. but it was for the u-boot documentation, so skipping
-> here.
+> On Thu, Aug 24, 2023 at 03:06:53PM -0700, Evan Green wrote:
+> > On Thu, Aug 24, 2023 at 10:29=E2=80=AFAM Conor Dooley <conor@kernel.org=
+> wrote:
+> ...
+> > > Do you want to have this new thing in cpuinfo tell the user "this har=
+t
+> > > has xyz extensions that are supported by a kernel, but maybe not this
+> > > kernel" or to tell the user "this hart has xyz extensions that are
+> > > supported by this kernel"? Your text above says "understood by the
+> > > kernel", but I think that's a poor definition that needs to be improv=
+ed
+> > > to spell out exactly what you mean. IOW does "understood" mean the
+> > > kernel will parse them into a structure, or does it mean "yes you can
+> > > use this extension on this particular hart".
+> >
+> > I'm imagining /proc/cpuinfo being closer to "the CPU has it and the
+> > kernel at least vaguely understands it, but may not have full support
+> > for it enabled". I'm assuming /proc/cpuinfo is mostly used by 1)
+> > humans wanting to know if they have hardware support for a feature,
+> > and 2) administrators collecting telemetry to manage fleets (ie do I
+> > have any hardware deployed that supports X).
 >
->  Documentation/conf.py                 | 2 +-
->  Documentation/sphinx/requirements.txt | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
+> Is (2) a special case of (1)? (I want to make sure I understand all the
+> cases.)
 
-So it would sure be nice for the changelog to say what this actually
-does.
+More or less, yes. In bucket two are also folks wondering things like
+"are all these crash reports I'm getting specific to machines with X".
 
-This appears to add a build dependency for the docs; we can't just add
-that without updating the documentation, adjusting
-scripts/sphinx-pre-install, and so on.
+>
+> > Programmers looking to
+> > see "is the kernel support for this feature ready right now" would
+> > ideally not be parsing /proc/cpuinfo text, as more direct mechanisms
+> > like specific hwprobe bits for "am I fully ready to go" would be
+> > easier to work with. Feel free to yell at me if this overall vision
+> > seems flawed.
+> >
+> > I tried to look to see if there was consensus among the other
+> > architectures. Aarch64 seems to go with "supported and fully enabled",
+> > as their cpu_has_feature() directly tests elf_hwcap, and elements in
+> > arm64_elf_hwcaps[] are Kconfig gated. X86 is complicated, but IIRC is
+> > more along the lines of "hardware has it". They have two macros,
+> > cpu_has() for "raw capability" and cpu_feature_enabled() for "kernel
+> > can do it too", and they use cpu_has() for /proc/cpuinfo flags.
+> >
+>
+> I'd lean more towards the way AArch64 goes, because, unless /proc/cpuinfo
+> is just a blind regurgitation of an isa string from DT / ACPI, then the
+> kernel must at least know something about it. Advertising a feature which
+> is known, but also known not to work, seems odd to me. So my vote is that
+> only features which are present and enabled in the kernel or present and
+> not necessary to be enabled in the kernel in order for userspace or
+> virtual machines to use be advertised in /proc/cpuinfo.
+>
+> We still have SMBIOS (dmidecode) to blindly dump what the hardware
+> supports for cases (1) and (2) above.
 
-But, beyond that, this extension goes entirely counter to the idea that
-the plain-text files are the primary form of documentation; it adds
-clutter and makes those files less readable.  We can do that when the
-benefit is sufficient, but I'm pretty far from convinced that this is
-the case here.  Certainly the case hasn't been made in the changelog.
-What *is* the benefit of making this change?
-
-Thanks,
-
-jon
-
+Yeah, there's an argument to be made for that. My worry is it's a
+difficult line to hold. The bar you're really trying to describe (or
+at least what people might take away from it) is "if it's listed here
+then it's fully ready to be used in userspace". But then things get
+squishy when there are additional ways to control the use of the
+feature (prctls() in init to turn it on, usermode policy to turn it
+off, security doodads that disable it, etc). I'm assuming nobody wants
+a version of /proc/cpuinfo that changes depending on which process is
+asking. So then the line would have to be more carefully described as
+"well, the hardware can do it, and the kernel COULD do it under some
+circumstances, but YMMV", which ends up falling somewhat short of the
+original goal. In my mind keeping /proc/cpuinfo as close to "here's
+what the hardware can do" seems like a more defensible position.
+-Evan
