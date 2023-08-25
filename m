@@ -2,150 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30818C71133
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 18:28:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC1AFC83F06
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 22:47:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbjHYS2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 14:28:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57000 "EHLO
+        id S229987AbjHYWqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 18:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbjHYS1j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 14:27:39 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D179CD2;
-        Fri, 25 Aug 2023 11:27:34 -0700 (PDT)
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37PHuYWF017369;
-        Fri, 25 Aug 2023 18:27:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=QHQOxiPuUa0ebvOp4zeF41oQRZYAzTOs8FVVwIp9Ljk=;
- b=fxnjY7pa/kjrEjYsAn3f830wFpCa/pqiFmmssVqUCVajBH7x0d3Z7b+szRJJK2n7EvvZ
- m/0mxjm3m4ZSW2RFapYNT9kcRBym4ds2RoJ38RygPWd8SF/MZxnDjRmJCKmN9kzRSzEw
- 8I0uPAFHRTbugceMPcELPp3L1tcI+r0cXo3Tm5EXkPkEsPkMeoHQFPXgaMMjkN5rg3K9
- gk4W5GX/UGrgdsRsyFDViK6VOwAZzWQ1OQw0woGDuZZbm0id+qS0iYZLkDKatSGOwRIA
- YkJ0RIkIGgKDYHEqIuUrsswDvpF84AMTKNM7lLuqDHUrKUlTiMHkSsY/doHiy1nCX/Ca qw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sq1528vru-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 18:26:59 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37PIHT0S004200;
-        Fri, 25 Aug 2023 18:26:58 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sq1528vr8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 18:26:58 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-        by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37PI48X6016687;
-        Fri, 25 Aug 2023 18:26:57 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-        by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sn2289ner-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 18:26:57 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-        by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37PIQuda1770098
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 25 Aug 2023 18:26:56 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1B91258055;
-        Fri, 25 Aug 2023 18:26:56 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7EBBD5804B;
-        Fri, 25 Aug 2023 18:26:51 +0000 (GMT)
-Received: from [9.61.160.138] (unknown [9.61.160.138])
-        by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-        Fri, 25 Aug 2023 18:26:51 +0000 (GMT)
-Message-ID: <240c26d3-b821-8410-3142-62e9a8656146@linux.ibm.com>
-Date:   Fri, 25 Aug 2023 14:26:51 -0400
+        with ESMTP id S230463AbjHYWqQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 18:46:16 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B42026B0;
+        Fri, 25 Aug 2023 15:46:09 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 93DB76E3;
+        Fri, 25 Aug 2023 22:46:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93DB76E3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1693003568; bh=L2tfz4qEYX8iRgs5nKkp8n2pKDrpHgsTjVgLjX3svnA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=g6chkHoupJ+SoqhLePiLjOTIWlnHJVDGB6Va8B+Zd1U4R1S5eiJxmrFlnxACKXcIy
+         1bo7JWiscD1o9gffnuEJ2GQ0VfOr2AEiK4m8s35zZX1ux5SYEvX+4riJJ4vK5bCF0v
+         oBKIfCEVRouOsq+2ApuXAfOyFeWFB09AAK1xALCOoqxSPopNb2FG9j1A5lUOixcj/1
+         WvFu5bdaOPWZvzqvMl0a/i/FDc/IW3WFqSO4zrqctY7tCaPjfrHhzmaQAAN6eQqvKp
+         EP3gNvsyuMb/SsZBT8P9HXw9zIomrq57yWQbZD4UJ6OiU2cDsLqNJj+iSeY6rGrVIb
+         wlEGMmOvW4EGQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Nishanth Menon <nm@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bpf@vger.kernel.org,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>,
+        Neha Francis <n-francis@ti.com>, Nishanth Menon <nm@ti.com>
+Subject: Re: [PATCH 1/2] Documentation: sphinx: Add sphinx-prompt
+In-Reply-To: <20230824182107.3702766-2-nm@ti.com>
+References: <20230824182107.3702766-1-nm@ti.com>
+ <20230824182107.3702766-2-nm@ti.com>
+Date:   Fri, 25 Aug 2023 16:46:07 -0600
+Message-ID: <87h6om4u6o.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Content-Language: en-US
-To:     Niklas Schnelle <schnelle@linux.ibm.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: gJVEk2wQaewkyrtQ9b__FpQB1m2yDbYi
-X-Proofpoint-ORIG-GUID: plJWB3elhf65jTBHYa7I2-RRr5Ln9Ish
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-25_16,2023-08-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- malwarescore=0 mlxlogscore=758 lowpriorityscore=0 clxscore=1015
- suspectscore=0 bulkscore=0 adultscore=0 mlxscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308250162
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/25/23 6:11 AM, Niklas Schnelle wrote:
-> Hi All,
-> 
-> This patch series converts s390's PCI support from its platform specific DMA
-> API implementation in arch/s390/pci/pci_dma.c to the common DMA IOMMU layer.
-> The conversion itself is done in patches 3-4 with patch 2 providing the final
-> necessary IOMMU driver improvement to handle s390's special IOTLB flush
-> out-of-resource indication in virtualized environments. The conversion
-> itself only touches the s390 IOMMU driver and s390 arch code moving over
-> remaining functions from the s390 DMA API implementation. No changes to
-> common code are necessary.
-> 
+Nishanth Menon <nm@ti.com> writes:
 
-I also picked up this latest version and ran various tests with ISM, mlx5 and some NVMe drives.  FWIW, I have been including versions of this series in my s390 dev environments for a number of months now and have also been building my s390 pci iommufd nested translation series on top of this, so it's seen quite a bit of testing from me at least.
+> Sphinx-prompt[1] helps bring-in '.. prompt::' option that allows a
+> better rendered documentation, yet be able to copy paste without
+> picking up the prompt from the rendered documentation.
+>
+> [1] https://pypi.org/project/sphinx-prompt/
+> Link: https://lore.kernel.org/all/87fs48rgto.fsf@baylibre.com/
+> Suggested-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> Suggested-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+> Signed-off-by: Nishanth Menon <nm@ti.com>
+> ---
+> I would have added Reported-by for Simon, since he reported the issue in
+> the first place.. but it was for the u-boot documentation, so skipping
+> here.
+>
+>  Documentation/conf.py                 | 2 +-
+>  Documentation/sphinx/requirements.txt | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
-So as far as I'm concerned anyway, this series is ready for -next (after the merge window). 
+So it would sure be nice for the changelog to say what this actually
+does.
+
+This appears to add a build dependency for the docs; we can't just add
+that without updating the documentation, adjusting
+scripts/sphinx-pre-install, and so on.
+
+But, beyond that, this extension goes entirely counter to the idea that
+the plain-text files are the primary form of documentation; it adds
+clutter and makes those files less readable.  We can do that when the
+benefit is sufficient, but I'm pretty far from convinced that this is
+the case here.  Certainly the case hasn't been made in the changelog.
+What *is* the benefit of making this change?
 
 Thanks,
-Matt
+
+jon
 
