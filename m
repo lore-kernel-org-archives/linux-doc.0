@@ -2,122 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75348C3DA6F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 13:57:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F21ACC3DA6F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 14:16:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244627AbjHYN5E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 09:57:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47134 "EHLO
+        id S1343818AbjHYOQP convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 10:16:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245447AbjHYN4y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 09:56:54 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7122722;
-        Fri, 25 Aug 2023 06:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692971788; x=1724507788;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=rL8lwlEpWwyz5gytyannueKCuDWZ7o3Z7O2OXGq9D24=;
-  b=n2NsTeYC9dPgt8JUtmceRHEGDy+zmLfYRx22h38ZYAHBykBC9R0G3NMq
-   vGlmACzkVvY9UYi2pvyarR0ewng5inwB1nyg0tud/yKVtXd0XDwYX5cdI
-   t3t3nAdoLr3FII+4hhLBVxBWCUKGf/dzXWfQOtWymWRBKIIEJnnGgSjbp
-   POFT0yktsUUIvQI/1yMY2nutO8fbiaJQCPqm1zl5EaSKHS4EWhLJDraV4
-   CiG8UQN6JR9LogHZrNaeLLAo0VrnpXxuiK+fBlKNEYd7aI/RCZpYn9RZc
-   GblVxbkD8dutmuc2BLvDein1tbgtV75fIE3NkqgRGQG+atFDQeRDiTmlI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373586065"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="373586065"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 06:56:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="731073145"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="731073145"
-Received: from ogbrugge-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.56.56])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 06:56:16 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Vignesh Raman <vignesh.raman@collabora.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     emma@anholt.net, linux-doc@vger.kernel.org,
-        david.heidelberg@collabora.com, linux-amlogic@lists.infradead.org,
-        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
-        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
-        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
-        daniels@collabora.com, martin.blumenstingl@googlemail.com,
-        robclark@freedesktop.org, helen.koike@collabora.com,
+        with ESMTP id S1343822AbjHYOPm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 10:15:42 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EED526A1;
+        Fri, 25 Aug 2023 07:15:17 -0700 (PDT)
+Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1c:f269::1])
+        by madras.collabora.co.uk (Postfix) with ESMTP id 4C74566071BE;
+        Fri, 25 Aug 2023 15:09:04 +0100 (BST)
+From:   "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
+In-Reply-To: <87pm3b2pkz.fsf@intel.com>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+Date:   Fri, 25 Aug 2023 15:09:04 +0100
+Cc:     "Vignesh Raman" <vignesh.raman@collabora.com>,
+        dri-devel@lists.freedesktop.org, emma@anholt.net,
+        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
+        linux-amlogic@lists.infradead.org, jbrunet@baylibre.com,
+        robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
+        sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
+        linux-rockchip@lists.infradead.org, daniels@collabora.com,
+        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
         anholt@google.com, linux-mediatek@lists.infradead.org,
         mripard@kernel.org, matthias.bgg@gmail.com,
         linux-arm-kernel@lists.infradead.org,
         angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
         guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
         tzimmermann@suse.de
-Subject: Re: [PATCH 2/6] drm: ci: Force db410c to host mode
-In-Reply-To: <20230825122435.316272-3-vignesh.raman@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230825122435.316272-1-vignesh.raman@collabora.com>
- <20230825122435.316272-3-vignesh.raman@collabora.com>
-Date:   Fri, 25 Aug 2023 16:56:12 +0300
-Message-ID: <87pm3b2pkz.fsf@intel.com>
+To:     "Jani Nikula" <jani.nikula@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Message-ID: <29c7-64e8b600-1-6afffd8@162524228>
+Subject: =?utf-8?q?Re=3A?= [PATCH 2/6] =?utf-8?q?drm=3A?==?utf-8?q?_ci=3A?= Force 
+ db410c to host mode
+User-Agent: SOGoMail 5.8.4
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Aug 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> Force db410c to host mode to fix network issue which results in failure
-> to mount root fs via NFS.
-> See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
->
-> Since this fix is not sent upstream, add it to build.sh script
-> before building the kernel and dts. Better approach would be
-> to use devicetree overlays.
->
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> ---
->  drivers/gpu/drm/ci/build.sh | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-> index 7b014287a041..c39834bd6bd7 100644
-> --- a/drivers/gpu/drm/ci/build.sh
-> +++ b/drivers/gpu/drm/ci/build.sh
-> @@ -70,6 +70,10 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
->      fi
->  fi
->  
-> +# Force db410c to host mode to fix network issue which results in failure to mount root fs via NFS.
-> +# See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
-> +sed -i '/&usb {/,/status = "okay";/s/status = "okay";/&\n\tdr_mode = "host";/' arch/arm64/boot/dts/qcom/apq8016-sbc.dts
-> +
+Hi Jani, thanks for your comments
 
-It seems like a really bad idea to me to have the CI build modify the
-source tree before building.
+On Friday, August 25, 2023 10:56 -03, Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-The kernel being built will have a dirty git repo, and the localversion
-will have -dirty in it.
+> On Fri, 25 Aug 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+> > Force db410c to host mode to fix network issue which results in failure
+> > to mount root fs via NFS.
+> > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
+> >
+> > Since this fix is not sent upstream, add it to build.sh script
+> > before building the kernel and dts. Better approach would be
+> > to use devicetree overlays.
+> >
+> > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> > ---
+> >  drivers/gpu/drm/ci/build.sh | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+> > index 7b014287a041..c39834bd6bd7 100644
+> > --- a/drivers/gpu/drm/ci/build.sh
+> > +++ b/drivers/gpu/drm/ci/build.sh
+> > @@ -70,6 +70,10 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
+> >      fi
+> >  fi
+> >  
+> > +# Force db410c to host mode to fix network issue which results in failure to mount root fs via NFS.
+> > +# See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
+> > +sed -i '/&usb {/,/status = "okay";/s/status = "okay";/&\n\tdr_mode = "host";/' arch/arm64/boot/dts/qcom/apq8016-sbc.dts
+> > +
+> 
+> It seems like a really bad idea to me to have the CI build modify the
+> source tree before building.
+> 
+> The kernel being built will have a dirty git repo, and the localversion
+> will have -dirty in it.
 
-I think it would be better to do out-of-tree builds and assume the
-source is read-only.
+Is it bad?
 
->  for opt in $ENABLE_KCONFIGS; do
->    echo CONFIG_$opt=y >> drivers/gpu/drm/ci/${KERNEL_ARCH}.config
->  done
+The other option was to work with device tree overlays (but we still need to spend some time to
+see how to fit it all together)
 
-Ditto for the config changes in the context here. Those are files in
-git, don't change them.
+> 
+> I think it would be better to do out-of-tree builds and assume the
+> source is read-only.
 
-Shouldn't this use something like 'scripts/config --enable' or
-'scripts/config --disable' on the .config file to be used for building
-instead?
+I'm not sure I get what do you call out-of-tree builds.
 
+Another option would be to apply .patch file, or to have another branch
+just with fix ups for ci that would be applied in the tree before building.
 
-BR,
-Jani.
+> 
+> >  for opt in $ENABLE_KCONFIGS; do
+> >    echo CONFIG_$opt=y >> drivers/gpu/drm/ci/${KERNEL_ARCH}.config
+> >  done
+> 
+> Ditto for the config changes in the context here. Those are files in
+> git, don't change them.
 
+Probably these changes could go directly into drivers/gpu/drm/ci/${KERNEL_ARCH}.config
+files, no need to modify them on the fly here
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> 
+> Shouldn't this use something like 'scripts/config --enable' or
+> 'scripts/config --disable' on the .config file to be used for building
+> instead?
+
+I wasn't aware about this possibility, looks cleaner indeed.
+
+Regards,
+Helen
+
+> 
+> 
+> BR,
+> Jani.
+> 
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
+
