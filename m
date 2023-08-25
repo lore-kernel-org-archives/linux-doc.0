@@ -2,320 +2,413 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB092C6787B
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 17:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE49C3DA66
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 17:50:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237008AbjHYRim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 13:38:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38132 "EHLO
+        id S229575AbjHYRuI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 13:50:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239147AbjHYRiJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 13:38:09 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 798722129
-        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 10:38:04 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d74829dd58fso1510866276.1
-        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 10:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692985083; x=1693589883;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nW0lHbEH2B08cVP1PWHu98ltXXBWNNKQyHzU/WWXVBg=;
-        b=vn4NLE80Ek9GDI0l8rmwhGAFZ6JE/I3eUGF3uLS3egRG40IHqIQPHIsjSutvU8y5xL
-         Njj/tLMcKkb15HZWuZFzflfPCy7+B8iPSh9ZgnfJgZh0Kw60IZroSrw4BgDeFiOsH3OI
-         yuiAWyJ1pcGeBsx1rZieeM5ZlBicl0471NqKG4ALCHozh8MN0fiHKxVPnnaHmmkhpvdF
-         tyM/kkDeSXNVDdI9OsrIJVAGF48h9ehJCDz5PH/O7naQnt5MFca9GG8GHFf00+hcu+eO
-         KaehujKdOBagy0UPqXO5wxuhodsw9nST+n4coH1oZT18/NyAallpETLm8eWbEru5rcyD
-         bxUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692985083; x=1693589883;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nW0lHbEH2B08cVP1PWHu98ltXXBWNNKQyHzU/WWXVBg=;
-        b=hRvjwv48iDuvl/Cd9SOFhSarcwf/QfgpA+3Df/tBIkyQEZy0jX/+uOB4UjFj4FplLa
-         58s/EjZwkJOug3W5+eadq88brUnp6Cavf/OPC8ikapUGPvnQxUQlUMt8UrWE6XojKV2P
-         IvVhKEg1v0E5224WIi2/VsWAz4R1UYTwi74aTJb63zU7exl8HDvzcGIdCAPjwss/cooh
-         4VIXzswFwZKqExWhCaOnpBCC9REB73LVjz+NEAJ7X4sQ3wkg4qYNufemZ9eDJaBaGztg
-         deBf1JcqoJvncvbwL+r6yOjMRkZlQDi9/spMThogumBBp9gzu0a3a2yN8Q0QsaWNw0GW
-         AYiw==
-X-Gm-Message-State: AOJu0YyOXX5Cz+jhnxR5lDFkcVS+YowljWDQb+YIzuFQPq1KXtSG4rbH
-        uO19xUG9uUdc544/O88OUBnuhNIwtYsfU1Wi+Pw=
-X-Google-Smtp-Source: AGHT+IHh4uVC5aH+i5xEI7dEkjUEt+yyAPTH2Q365Oe63akHuYT/y05k9vHwgZxXbnuGD7oaMh2+4z+0vlx0AQ24A5M=
-X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:dd9c:e8e8:b275:92e3])
- (user=ndesaulniers job=sendgmr) by 2002:a25:3284:0:b0:d5d:6bfe:76d6 with SMTP
- id y126-20020a253284000000b00d5d6bfe76d6mr460590yby.8.1692985083762; Fri, 25
- Aug 2023 10:38:03 -0700 (PDT)
-Date:   Fri, 25 Aug 2023 10:38:01 -0700
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAPjm6GQC/22MwQ7CIBAFf6XZsxiW0kI8+R/GQwtLS6LFgCGah
- n+X9qbxOC9vZoVE0VOCU7NCpOyTD0uF9tCAmYdlIuZtZRBctFwLyWwwiRlUQ2dJOeQt1OsjkvO
- vPXO5Vp59eob43qsZt/UnkJEh6xXxHoXSo3bnKYTpRkcT7rAVsvhniWppqYfR9R2ill9WKeUDw 9hoTs8AAAA=
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=eMOZeIQ4DYNKvsNmDNzVbQZqpdex34Aww3b8Ah957X4=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692985082; l=9234;
- i=ndesaulniers@google.com; s=20230823; h=from:subject:message-id;
- bh=eNHemkeELfQC57dQP3CgrFEDRhCWp3y52DYMEFkhFy4=; b=dTfxeajlSMkHazbF+bce+tV9cZMKgDf0kPy8dBaNmvhbNxmmtqvJK15nn/4/QVVk0vgRK2He7
- rdNI+uwdKIYBJF1kQqyy0w4Q/4IAJnbTNOadhGrkW+XCACgxHmjqN0q
-X-Mailer: b4 0.12.3
-Message-ID: <20230825-docs-v3-1-384048d32a51@google.com>
-Subject: [PATCH v3] Documentation/llvm: refresh docs
-From:   ndesaulniers@google.com
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
+        with ESMTP id S232978AbjHYRtw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 13:49:52 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EBA212B;
+        Fri, 25 Aug 2023 10:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692985789; x=1724521789;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6h29044JPGtXHYMRzJJgRsNjgN6sokE079HHjZToSbw=;
+  b=IVpYH0A3lShmazJENGAM4DncRNqGKDRzgNhwUvwkYTVNQ5vhisIFCdts
+   zGJz1hZw3M7Ay/lttCPCdl11xqDuUSHsFlt358R7MJN3KTsbmJ2vhQf9y
+   /hc2xvBLd/gjt+vEsh/Inv+AXdrGg4ye8+iuqBLX/FZCgaJBhGnR0JCXc
+   QXGL8nsBjRLlTmZd8Wj6fg4tdIvZ7rImFuOds58XwLVSYBoGF6N0vysiC
+   42SQ7hrQP/Xxnb015kGvIl7GekTp+BEfJ96sZBLrkAZQjnSia9qIslzCh
+   86PIPxhqsXjl/eqD9d++TC2MVb4JPjLSUF8/HERZbd78l0waomcOwoC0G
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="441115213"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
+   d="scan'208";a="441115213"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 10:49:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068311270"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
+   d="scan'208";a="1068311270"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 10:49:48 -0700
+Date:   Fri, 25 Aug 2023 10:49:46 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Reinette Chatre <reinette.chatre@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Peter Newman <peternewman@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="utf-8"
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev
+Subject: Re: [PATCH v4 5/7] x86/resctrl: Determine if Sub-NUMA Cluster is
+ enabled and initialize.
+Message-ID: <ZOjpugXNDVx/cGRl@agluck-desk3>
+References: <20230713163207.219710-1-tony.luck@intel.com>
+ <20230722190740.326190-1-tony.luck@intel.com>
+ <20230722190740.326190-6-tony.luck@intel.com>
+ <7c8650d5-eb69-dd28-81fc-7a97d45f9bfb@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7c8650d5-eb69-dd28-81fc-7a97d45f9bfb@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Recent fixes for an embargoed hardware security vulnerability failed to
-link with ld.lld (LLVM's linker).  [0]  To be fair, our documentation
-mentions ``CC=clang`` foremost with ``LLVM=1`` being buried "below the
-fold."
+On Fri, Aug 11, 2023 at 10:32:29AM -0700, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 7/22/2023 12:07 PM, Tony Luck wrote:
+> > There isn't a simple hardware enumeration to indicate to software that
+> > a system is running with Sub-NUMA Cluster enabled.
+> > 
+> > Compare the number of NUMA nodes with the number of L3 caches to calculate
+> > the number of Sub-NUMA nodes per L3 cache.
+> > 
+> > When Sub-NUMA cluster mode is enabled in BIOS setup the RMID counters
+> > are distributed equally between the SNC nodes within each socket.
+> > 
+> > E.g. if there are 400 RMID counters, and the system is configured with
+> > two SNC nodes per socket, then RMID counter 0..199 are used on SNC node
+> > 0 on the socket, and RMID counter 200..399 on SNC node 1.
+> > 
+> > A model specific MSR (0xca0) can change the configuration of the RMIDs
+> > when SNC mode is enabled.
+> > 
+> > The MSR controls the interpretation of the RMID field in the
+> > IA32_PQR_ASSOC MSR so that the appropriate hardware counters
+> > within the SNC node are updated.
+> > 
+> > To read the RMID counters an offset must be used to get data
+> > from the physical counter associated with the SNC node. As in
+> > the example above with 400 RMID counters Linux sees only 200
+> > counters. No special action is needed to read a counter from
+> > the first SNC node on a socket. But to read a Linux visible
+> > counter 50 on the second SNC node the kernel must load 250
+> > into the QM_EVTSEL MSR.
+> > 
+> > N.B. this works well for well-behaved NUMA applications that access
+> > memory predominantly from the local memory node. For applications that
+> > access memory across multiple nodes it may be necessary for the user
+> > to read counters for all SNC nodes on a socket and add the values to
+> > get the actual LLC occupancy or memory bandwidth. Perhaps this isn't
+> > all that different from applications that span across multiple sockets
+> > in a legacy system.
+> > 
+> > The cache allocation feature still provides the same number of
+> > bits in a mask to control allocation into the L3 cache. But each
+> > of those ways has its capacity reduced because the cache is divided
+> > between the SNC nodes. Adjust the value reported in the resctrl
+> > "size" file accordingly.
+> > 
+> > Mounting the file system with the "mba_MBps" option is disabled
+> > when SNC mode is enabled. This is because the measurement of bandwidth
+> > is per SNC node, while the MBA throttling controls are still at
+> > the L3 cache scope.
+> > 
+> 
+> I'm counting four logical changes in this changelog. Can they be separate
+> patches?
 
-We want to encourage the use of ``LLVM=1`` rather than just
-``CC=clang``. Make that suggestion "above the fold" and "front and
-center" in our docs.
+Split into three parts. I couln't quite see how to get to four.
 
-While here, the following additional changes were made:
-- remove the bit about CROSS_COMPILE setting --target=, that's no longer
-  true.
-- Add ARCH=loongarch to the list of maintained targets (though we're
-  still working on getting defconfig building cleanly at the moment;
-  we're pretty close).
-- Bump ARCH=powerpc from CC=clang to LLVM=1 status.
-- Promote ARCH=riscv from being Maintained to being Supported. Android
-  is working towards supporting RISC-V, and we have excellent support
-  from multiple companies in this regard.
-- Note that the toolchain distribution on kernel.org has been built with
-  profile data from kernel builds.
-- Note how to use ccache with clang.
+> 
+> > Signed-off-by: Tony Luck <tony.luck@intel.com>
+> > ---
+> >  include/linux/resctrl.h                |  2 +
+> >  arch/x86/include/asm/msr-index.h       |  1 +
+> >  arch/x86/kernel/cpu/resctrl/internal.h |  2 +
+> >  arch/x86/kernel/cpu/resctrl/core.c     | 82 +++++++++++++++++++++++++-
+> >  arch/x86/kernel/cpu/resctrl/monitor.c  | 18 +++++-
+> >  arch/x86/kernel/cpu/resctrl/rdtgroup.c |  4 +-
+> >  6 files changed, 103 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+> > index 80a89d171eba..576dc21bd990 100644
+> > --- a/include/linux/resctrl.h
+> > +++ b/include/linux/resctrl.h
+> > @@ -200,6 +200,8 @@ struct rdt_resource {
+> >  	bool			cdp_capable;
+> >  };
+> >  
+> > +#define MON_SCOPE_NODE 100
+> > +
+> 
+> Could you please add a comment to explain what this constant represents
+> and how it is used?
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1907 [0]
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes in v3:
-- Note why kernel.org toolchains are shiny.
-- Add note about ccache to doc and commit message.
-- Link to v2: https://lore.kernel.org/r/20230824-docs-v2-1-848abf651184@google.com
+This is gone in V6. It's become part of an "enum" for each of the scope
+options.
 
-Changes in v2:
-- Commit message changes:
-  - Put SOB tag above the fold.
-  - Mention PPC change in commit message.
-  - Fix typos in commit message.
-  - Add Nathan's RB tag to commit message.
-- Fix kernel doc warnings
-- Reword s390 example under `The LLVM= argument`.
-- Reword and add examples to `The LLVM_IAS= argument`.
-- Link to v1: https://lore.kernel.org/r/20230824-docs-v1-1-67e061278b8f@google.com
----
- Documentation/kbuild/llvm.rst | 124 +++++++++++++++++++++++++++---------------
- 1 file changed, 80 insertions(+), 44 deletions(-)
+> 
+> >  /**
+> >   * struct resctrl_schema - configuration abilities of a resource presented to
+> >   *			   user-space
+> > diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> > index 3aedae61af4f..4b624a37d64a 100644
+> > --- a/arch/x86/include/asm/msr-index.h
+> > +++ b/arch/x86/include/asm/msr-index.h
+> > @@ -1087,6 +1087,7 @@
+> >  #define MSR_IA32_QM_CTR			0xc8e
+> >  #define MSR_IA32_PQR_ASSOC		0xc8f
+> >  #define MSR_IA32_L3_CBM_BASE		0xc90
+> > +#define MSR_RMID_SNC_CONFIG		0xca0
+> >  #define MSR_IA32_L2_CBM_BASE		0xd10
+> >  #define MSR_IA32_MBA_THRTL_BASE		0xd50
+> >  
+> > diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+> > index 016ef0373c5a..00a330bc5ced 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> > +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> > @@ -446,6 +446,8 @@ DECLARE_STATIC_KEY_FALSE(rdt_alloc_enable_key);
+> >  
+> >  extern struct dentry *debugfs_resctrl;
+> >  
+> > +extern int snc_nodes_per_l3_cache;
+> > +
+> >  enum resctrl_res_level {
+> >  	RDT_RESOURCE_L3,
+> >  	RDT_RESOURCE_L2,
+> > diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+> > index 0161362b0c3e..1331add347fc 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/core.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> > @@ -16,11 +16,14 @@
+> >  
+> >  #define pr_fmt(fmt)	"resctrl: " fmt
+> >  
+> > +#include <linux/cpu.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/err.h>
+> >  #include <linux/cacheinfo.h>
+> >  #include <linux/cpuhotplug.h>
+> > +#include <linux/mod_devicetable.h>
+> >  
+> 
+> What does this include provide?
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index c3851fe1900d..384622dd36b7 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -25,50 +25,38 @@ objects <https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM
- that supports C and the GNU C extensions required by the kernel, and is
- pronounced "klang," not "see-lang."
- 
--Clang
-------
--
--The compiler used can be swapped out via ``CC=`` command line argument to ``make``.
--``CC=`` should be set when selecting a config and during a build. ::
--
--	make CC=clang defconfig
--
--	make CC=clang
-+Building with LLVM
-+------------------
- 
--Cross Compiling
-----------------
-+Invoke ``make`` via::
- 
--A single Clang compiler binary will typically contain all supported backends,
--which can help simplify cross compiling. ::
--
--	make ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-
-+	make LLVM=1
- 
--``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
--``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
--example: ::
-+to compile for the host target. For cross compiling::
- 
--	clang --target=aarch64-linux-gnu foo.c
-+	make LLVM=1 ARCH=arm64
- 
--LLVM Utilities
----------------
-+The LLVM= argument
-+------------------
- 
--LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
--The full list of supported make variables::
-+LLVM has substitutes for GNU binutils utilities. They can be enabled
-+individually. The full list of supported make variables::
- 
- 	make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
- 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
- 	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
- 
--To simplify the above command, Kbuild supports the ``LLVM`` variable::
--
--	make LLVM=1
-+``LLVM=1`` expands to the above.
- 
- If your LLVM tools are not available in your PATH, you can supply their
- location using the LLVM variable with a trailing slash::
- 
- 	make LLVM=/path/to/llvm/
- 
--which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
-+which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc. The
-+following may also be used::
-+
-+	PATH=/path/to/llvm:$PATH make LLVM=1
- 
- If your LLVM tools have a version suffix and you want to test with that
- explicit version rather than the unsuffixed executables like ``LLVM=1``, you
-@@ -78,31 +66,72 @@ can pass the suffix using the ``LLVM`` variable::
- 
- which will use ``clang-14``, ``ld.lld-14``, etc.
- 
-+To support combinations of out of tree paths with version suffixes, we
-+recommend::
-+
-+	PATH=/path/to/llvm/:$PATH make LLVM=-14
-+
- ``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
--``LLVM=1``. If you only wish to use certain LLVM utilities, use their respective
--make variables.
-+``LLVM=1``. If you only wish to use certain LLVM utilities, use their
-+respective make variables.
-+
-+The same value used for ``LLVM=`` should be set for each invocation of ``make``
-+if configuring and building via distinct commands. ``LLVM=`` should also be set
-+as an environment variable when running scripts that will eventually run
-+``make``.
- 
--The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
--disable it.
-+Cross Compiling
-+---------------
- 
--Omitting CROSS_COMPILE
-+A single Clang compiler binary (and corresponding LLVM utilities) will
-+typically contain all supported back ends, which can help simplify cross
-+compiling especially when ``LLVM=1`` is used. If you use only LLVM tools,
-+``CROSS_COMPILE`` or target-triple-prefixes become unnecessary. Example::
-+
-+	make LLVM=1 ARCH=arm64
-+
-+As an example of mixing LLVM and GNU utilities, for a target like ``ARCH=s390``
-+which does not yet have ``ld.lld`` or ``llvm-objcopy`` support, you could
-+invoke ``make`` via::
-+
-+	make LLVM=1 ARCH=s390 LD=s390x-linux-gnu-ld.bfd \
-+	  OBJCOPY=s390x-linux-gnu-objcopy
-+
-+This example will invoke ``s390x-linux-gnu-ld.bfd`` as the linker and
-+``s390x-linux-gnu-objcopy``, so ensure those are reachable in your ``$PATH``.
-+
-+``CROSS_COMPILE`` is not used to prefix the Clang compiler binary (or
-+corresponding LLVM utilities) as is the case for GNU utilities when ``LLVM=1``
-+is not set.
-+
-+The LLVM_IAS= argument
- ----------------------
- 
--As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
-+Clang can assemble assembler code. You can pass ``LLVM_IAS=0`` to disable this
-+behavior and have Clang invoke the corresponding non-integrated assembler
-+instead. Example::
-+
-+	make LLVM=1 LLVM_IAS=0
-+
-+``CROSS_COMPILE`` is necessary when cross compiling and ``LLVM_IAS=0``
-+is used in order to set ``--prefix=`` for the compiler to find the
-+corresponding non-integrated assembler (typically, you don't want to use the
-+system assembler when targeting another architecture). Example::
- 
--If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
--from ``ARCH``.
-+	make LLVM=1 ARCH=arm LLVM_IAS=0 CROSS_COMPILE=arm-linux-gnueabi-
- 
--That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
- 
--For example, to cross-compile the arm64 kernel::
-+Ccache
-+------
- 
--	make ARCH=arm64 LLVM=1
-+``ccache`` can be used with ``clang`` to improve subsequent builds, (though
-+KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
-+in order to avoid 100% cache misses, see Reprocible_builds_ for more info):
- 
--If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
--``--prefix=<path>`` to search for the GNU assembler and linker. ::
-+	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
- 
--	make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
-+.. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
-+.. _Reproducible_builds: reproducible-builds.html#timestamps
- 
- Supported Architectures
- -----------------------
-@@ -135,14 +164,17 @@ yet. Bug reports are always welcome at the issue tracker below!
-    * - hexagon
-      - Maintained
-      - ``LLVM=1``
-+   * - loongarch
-+     - Maintained
-+     - ``LLVM=1``
-    * - mips
-      - Maintained
-      - ``LLVM=1``
-    * - powerpc
-      - Maintained
--     - ``CC=clang``
-+     - ``LLVM=1``
-    * - riscv
--     - Maintained
-+     - Supported
-      - ``LLVM=1``
-    * - s390
-      - Maintained
-@@ -171,7 +203,11 @@ Getting Help
- Getting LLVM
- -------------
- 
--We provide prebuilt stable versions of LLVM on `kernel.org <https://kernel.org/pub/tools/llvm/>`_.
-+We provide prebuilt stable versions of LLVM on `kernel.org
-+<https://kernel.org/pub/tools/llvm/>`_. These have been optimized with profile
-+data for building Linux kernels, which should improve kernel build times
-+relative to other distributions of LLVM.
-+
- Below are links that may be useful for building LLVM from source or procuring
- it through a distribution's package manager.
- 
+This header provides the defintion of struct x86_cpu_id.
 
----
-base-commit: 93f5de5f648d2b1ce3540a4ac71756d4a852dc23
-change-id: 20230824-docs-c17a5de7f103
+> 
+> > +#include <asm/cpu_device_id.h>
+> >  #include <asm/intel-family.h>
+> >  #include <asm/resctrl.h>
+> >  #include "internal.h"
+> > @@ -48,6 +51,13 @@ int max_name_width, max_data_width;
+> >   */
+> >  bool rdt_alloc_capable;
+> >  
+> > +/*
+> > + * Number of SNC nodes that share each L3 cache.
+> > + * Default is 1 for systems that do not support
+> > + * SNC, or have SNC disabled.
+> > + */
+> > +int snc_nodes_per_l3_cache = 1;
+> > +
+> >  static void
+> >  mba_wrmsr_intel(struct rdt_domain *d, struct msr_param *m,
+> >  		struct rdt_resource *r);
+> > @@ -543,9 +553,16 @@ static void domain_add_cpu_ctrl(int cpu, struct rdt_resource *r)
+> >  	}
+> >  }
+> >  
+> > +static int get_mon_scope_id(int cpu, int scope)
+> > +{
+> > +	if (scope == MON_SCOPE_NODE)
+> > +		return cpu_to_node(cpu);
+> > +	return get_cpu_cacheinfo_id(cpu, scope);
+> > +}
+> > +
+> >  static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
+> >  {
+> > -	int id = get_cpu_cacheinfo_id(cpu, r->mon_scope);
+> > +	int id = get_mon_scope_id(cpu, r->mon_scope);
+> >  	struct list_head *add_pos = NULL;
+> >  	struct rdt_hw_mondomain *hw_mondom;
+> >  	struct rdt_mondomain *d;
+> > @@ -692,11 +709,28 @@ static void clear_closid_rmid(int cpu)
+> >  	wrmsr(MSR_IA32_PQR_ASSOC, 0, 0);
+> >  }
+> >  
+> > +static void snc_remap_rmids(int cpu)
+> > +{
+> > +	u64	val;
+> 
+> No need for tab here.
 
-Best regards,
--- 
-Nick Desaulniers <ndesaulniers@google.com>
+Turned into a <SPACE>
 
+> 
+> > +
+> > +	/* Only need to enable once per package */
+> > +	if (cpumask_first(topology_core_cpumask(cpu)) != cpu)
+> > +		return;
+> > +
+> > +	rdmsrl(MSR_RMID_SNC_CONFIG, val);
+> > +	val &= ~BIT_ULL(0);
+> > +	wrmsrl(MSR_RMID_SNC_CONFIG, val);
+> > +}
+> 
+> Could you please document snc_remap_rmids()
+> with information on what the bit in the register means
+> and what the above function does?
+
+Added header comment for this function describing the MSR
+and the function.
+
+> 
+> > +
+> >  static int resctrl_online_cpu(unsigned int cpu)
+> >  {
+> >  	struct rdt_resource *r;
+> >  
+> >  	mutex_lock(&rdtgroup_mutex);
+> > +
+> > +	if (snc_nodes_per_l3_cache > 1)
+> > +		snc_remap_rmids(cpu);
+> > +
+> >  	for_each_capable_rdt_resource(r)
+> >  		domain_add_cpu(cpu, r);
+> >  	/* The cpu is set in default rdtgroup after online. */
+> > @@ -951,11 +985,57 @@ static __init bool get_rdt_resources(void)
+> >  	return (rdt_mon_capable || rdt_alloc_capable);
+> >  }
+> >  
+> 
+> I think it will help to add a comment like:
+> "CPUs that support the model specific MSR_RMID_SNC_CONFIG register."
+
+Done.
+
+> 
+> > +static const struct x86_cpu_id snc_cpu_ids[] __initconst = {
+> > +	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X, 0),
+> > +	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X, 0),
+> > +	X86_MATCH_INTEL_FAM6_MODEL(EMERALDRAPIDS_X, 0),
+> > +	{}
+> > +};
+> > +
+> > +/*
+> > + * There isn't a simple enumeration bit to show whether SNC mode
+> > + * is enabled. Look at the ratio of number of NUMA nodes to the
+> > + * number of distinct L3 caches. Take care to skip memory-only nodes.
+> > + */
+> > +static __init int get_snc_config(void)
+> > +{
+> > +	unsigned long *node_caches;
+> > +	int mem_only_nodes = 0;
+> > +	int cpu, node, ret;
+> > +
+> > +	if (!x86_match_cpu(snc_cpu_ids))
+> > +		return 1;
+> > +
+> > +	node_caches = kcalloc(BITS_TO_LONGS(nr_node_ids), sizeof(*node_caches), GFP_KERNEL);
+> > +	if (!node_caches)
+> > +		return 1;
+> > +
+> > +	cpus_read_lock();
+> > +	for_each_node(node) {
+> > +		cpu = cpumask_first(cpumask_of_node(node));
+> > +		if (cpu < nr_cpu_ids)
+> > +			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
+> > +		else
+> > +			mem_only_nodes++;
+> > +	}
+> > +	cpus_read_unlock();
+> 
+> I am not familiar with the numa code at all so please correct me
+> where I am wrong. I do see that nr_node_ids is initialized with __init code
+> so it should be accurate at this point. It looks to me like this initialization
+> assumes that at least one CPU per node will be online at the time it is run.
+> It is not clear to me that this assumption would always be true. 
+
+Resctrl initialization is kicked off as a late_initcall(). So all CPUs
+and devices are fully initialized before this code runs.
+
+Resctrl can't be moved to an "init" state before CPUs are brought online
+because it makes a call to cpuhp_setup_state() to get callbacks for
+online/offline CPU events ... that call can't be done early.
+
+> 
+> > +
+> > +	ret = (nr_node_ids - mem_only_nodes) / bitmap_weight(node_caches, nr_node_ids);
+> > +	kfree(node_caches);
+> > +
+> > +	if (ret > 1)
+> > +		rdt_resources_all[RDT_RESOURCE_L3].r_resctrl.mon_scope = MON_SCOPE_NODE;
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static __init void rdt_init_res_defs_intel(void)
+> >  {
+> >  	struct rdt_hw_resource *hw_res;
+> >  	struct rdt_resource *r;
+> >  
+> > +	snc_nodes_per_l3_cache = get_snc_config();
+> > +
+> >  	for_each_rdt_resource(r) {
+> >  		hw_res = resctrl_to_arch_res(r);
+> >  
+> > diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+> > index 0d9605fccb34..4ca064e62911 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> > @@ -148,8 +148,18 @@ static inline struct rmid_entry *__rmid_entry(u32 rmid)
+> >  
+> >  static int __rmid_read(u32 rmid, enum resctrl_event_id eventid, u64 *val)
+> >  {
+> > +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+> > +	int cpu = get_cpu();
+> 
+> I do not think it is necessary to disable preemption here. Also please note that
+> James is working on changes to not have this code block. Could just smp_processor_id()
+> do?
+
+Not needed to disable pre-emption - because it is already disabled ...
+call sequence to get to here comes through smp_call_function_single()
+which does it's own get_cpu()). Will change this code to use
+smp_processor_id()
+> 
+> > +	int rmid_offset = 0;
+> >  	u64 msr_val;
+> >  
+> > +	/*
+> > +	 * When SNC mode is on, need to compute the offset to read the
+> > +	 * physical RMID counter for the node to which this CPU belongs
+> > +	 */
+> > +	if (snc_nodes_per_l3_cache > 1)
+> > +		rmid_offset = (cpu_to_node(cpu) % snc_nodes_per_l3_cache) * r->num_rmid;
+> > +
+> >  	/*
+> >  	 * As per the SDM, when IA32_QM_EVTSEL.EvtID (bits 7:0) is configured
+> >  	 * with a valid event code for supported resource type and the bits
+> > @@ -158,9 +168,11 @@ static int __rmid_read(u32 rmid, enum resctrl_event_id eventid, u64 *val)
+> >  	 * IA32_QM_CTR.Error (bit 63) and IA32_QM_CTR.Unavailable (bit 62)
+> >  	 * are error bits.
+> >  	 */
+> > -	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid);
+> > +	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid + rmid_offset);
+> >  	rdmsrl(MSR_IA32_QM_CTR, msr_val);
+> >  
+> > +	put_cpu();
+> > +
+> >  	if (msr_val & RMID_VAL_ERROR)
+> >  		return -EIO;
+> >  	if (msr_val & RMID_VAL_UNAVAIL)
+> 
+> Reinette
+
+-Tony
