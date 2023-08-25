@@ -2,145 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 606B8C7EE2C
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 08:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4254C71133
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 08:41:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238329AbjHYIiz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 04:38:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34680 "EHLO
+        id S243749AbjHYIkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 04:40:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243752AbjHYIig (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 04:38:36 -0400
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DB542114;
-        Fri, 25 Aug 2023 01:38:26 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R381e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=liusong@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VqWSqxp_1692952701;
-Received: from 30.178.80.74(mailfrom:liusong@linux.alibaba.com fp:SMTPD_---0VqWSqxp_1692952701)
+        with ESMTP id S243824AbjHYIkN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 04:40:13 -0400
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FE61FD4;
+        Fri, 25 Aug 2023 01:40:09 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0VqWZWZJ_1692952804;
+Received: from 30.221.145.196(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VqWZWZJ_1692952804)
           by smtp.aliyun-inc.com;
-          Fri, 25 Aug 2023 16:38:23 +0800
-Message-ID: <cc5a3029-3698-1310-519a-c545f7e515b7@linux.alibaba.com>
-Date:   Fri, 25 Aug 2023 16:38:19 +0800
+          Fri, 25 Aug 2023 16:40:06 +0800
+Message-ID: <27446554-54dd-51f9-c3e9-e3aa225d8380@linux.alibaba.com>
+Date:   Fri, 25 Aug 2023 16:40:03 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH] mm/khugepaged: increase
- transparent_hugepage_recommend_disable parameter to disable active
- modification of min_free_kbytes
-To:     corbet@lwn.net, akpm@linux-foundation.org, paulmck@kernel.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        dave.hansen@linux.intel.com, rostedt@goodmis.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20230817035155.84230-1-liusong@linux.alibaba.com>
-From:   Liu Song <liusong@linux.alibaba.com>
-In-Reply-To: <20230817035155.84230-1-liusong@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v7 1/8] perf pmu: "Compat" supports matching multiple
+ identifiers
+To:     Robin Murphy <robin.murphy@arm.com>,
+        John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1692606977-92009-2-git-send-email-renyu.zj@linux.alibaba.com>
+ <cbd34ed6-3220-3c0c-74bc-46a2baa744e5@arm.com>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <cbd34ed6-3220-3c0c-74bc-46a2baa744e5@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi
 
-Any suggestions for this patch? Indeed, too much memory is being 
-reserved for the 64K PAGESIZE scenario. Looking forward to everyone's 
-suggestions.
 
-Thanks
+在 2023/8/24 下午11:05, Robin Murphy 写道:
+> On 21/08/2023 9:36 am, Jing Zhang wrote:
+>> The jevent "Compat" is used for uncore PMU alias or metric definitions.
+>>
+>> The same PMU driver has different PMU identifiers due to different
+>> hardware versions and types, but they may have some common PMU event.
+>> Since a Compat value can only match one identifier, when adding the
+>> same event alias to PMUs with different identifiers, each identifier
+>> needs to be defined once, which is not streamlined enough.
+>>
+>> So let "Compat" supports matching multiple identifiers for uncore PMU
+>> alias. For example, the Compat value {43401;436*} can match the PMU
+>> identifier "43401", that is, CMN600_r0p0, and the PMU identifier with
+>> the prefix "436", that is, all CMN650, where "*" is a wildcard.
+>> Tokens in Unit field are delimited by ';' with no spaces.
+> 
+> I wonder is there any possibility of supporting multiple values as a JSON array, rather than a single delimited string? Otherwise, if we're putting restrictions on what characters a driver can expose as an identifier, then I think that really wants explicitly documenting. AFAICT there's currently not even any documentation of the de-facto ABI that it's expected to be a free-form string rather than completely arbitrary binary data.
+> 
 
-在 2023/8/17 11:51, Liu Song 写道:
-> In the arm64 environment, when PAGESIZE is 4K, the "pageblock_nr_pages"
-> value is 512, and the recommended min_free_kbytes in
-> "set_recommended_min_free_kbytes" usually does not exceed 44MB.
->
-> However, when PAGESIZE is 64K, the "pageblock_nr_pages" value is 8192,
-> and the recommended min_free_kbytes in "set_recommended_min_free_kbytes"
-> is 8192 * 2 * (2 + 9) * 64K, which directly increases to 11GB.
->
-> According to this calculation method, due to the modification of min_free_kbytes,
-> the reserved memory in my 128GB memory environment reaches 10GB, and MemAvailable
-> is correspondingly reduced by 10GB.
->
-> In the case of PAGESIZE 64K, transparent hugepages are 512MB, and we only
-> need them to be used on demand. If transparent hugepages cannot be allocated,
-> falling back to regular 64K pages is completely acceptable.
->
-> Therefore, we added the transparent_hugepage_recommend_disable parameter
-> to disable active modification of min_free_kbytes, thereby meeting our
-> requirements for transparent hugepages in the 64K scenario, and it will
-> not excessively reduce the available memory.
->
-> Signed-off-by: Liu Song <liusong@linux.alibaba.com>
-> ---
->   .../admin-guide/kernel-parameters.txt         |  5 +++++
->   mm/khugepaged.c                               | 20 ++++++++++++++++++-
->   2 files changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 654d0d921101..612bdf601cce 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6553,6 +6553,11 @@
->   			See Documentation/admin-guide/mm/transhuge.rst
->   			for more details.
->   
-> +	transparent_hugepage_recommend_disable
-> +			[KNL,THP]
-> +			Can be used to disable transparent hugepage to actively modify
-> +			/proc/sys/vm/min_free_kbytes during enablement process.
-> +
->   	trusted.source=	[KEYS]
->   			Format: <string>
->   			This parameter identifies the trust source as a backend
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 78fc1a24a1cc..ac40c618f4f6 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -88,6 +88,9 @@ static unsigned int khugepaged_max_ptes_none __read_mostly;
->   static unsigned int khugepaged_max_ptes_swap __read_mostly;
->   static unsigned int khugepaged_max_ptes_shared __read_mostly;
->   
-> +/* default enable recommended */
-> +static unsigned int transparent_hugepage_recommend __read_mostly = 1;
-> +
->   #define MM_SLOTS_HASH_BITS 10
->   static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
->   
-> @@ -2561,6 +2564,11 @@ static void set_recommended_min_free_kbytes(void)
->   		goto update_wmarks;
->   	}
->   
-> +	if (!transparent_hugepage_recommend) {
-> +		pr_info("do not allow to recommend modify min_free_kbytes\n");
-> +		return;
-> +	}
-> +
->   	for_each_populated_zone(zone) {
->   		/*
->   		 * We don't need to worry about fragmentation of
-> @@ -2591,7 +2599,10 @@ static void set_recommended_min_free_kbytes(void)
->   
->   	if (recommended_min > min_free_kbytes) {
->   		if (user_min_free_kbytes >= 0)
-> -			pr_info("raising min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
-> +			pr_info("raising user specified min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
-> +				min_free_kbytes, recommended_min);
-> +		else
-> +			pr_info("raising default min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
->   				min_free_kbytes, recommended_min);
->   
->   		min_free_kbytes = recommended_min;
-> @@ -2601,6 +2612,13 @@ static void set_recommended_min_free_kbytes(void)
->   	setup_per_zone_wmarks();
->   }
->   
-> +static int __init setup_transparent_hugepage_recommend_disable(char *str)
-> +{
-> +	transparent_hugepage_recommend = 0;
-> +	return 1;
-> +}
-> +__setup("transparent_hugepage_recommend_disable", setup_transparent_hugepage_recommend_disable);
-> +
->   int start_stop_khugepaged(void)
->   {
->   	int err = 0;
+I'm sorry I almost missed this message, as it was in my spam folder.
+
+If we put multiple values as an array, its parsing in jevent.py will become complicated.
+I agree that we need to document the character restrictions for driver identifier composition.
+Both Unit and Compat have the same problem, so certain characters need to be restricted in
+the identifiers and names of drivers. However, it seems that there is no such document.
+
+Thanks,
+Jing
+
+> Thanks,
+> Robin.
+> 
+>> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+>> Reviewed-by: John Garry <john.g.garry@oracle.com>
+>> ---
+>>   tools/perf/util/pmu.c | 33 +++++++++++++++++++++++++++++++--
+>>   tools/perf/util/pmu.h |  1 +
+>>   2 files changed, 32 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
+>> index ad209c8..6402423 100644
+>> --- a/tools/perf/util/pmu.c
+>> +++ b/tools/perf/util/pmu.c
+>> @@ -776,6 +776,35 @@ static bool pmu_uncore_alias_match(const char *pmu_name, const char *name)
+>>       return res;
+>>   }
+>>   +bool pmu_uncore_identifier_match(const char *id, const char *compat)
+>> +{
+>> +    char *tmp = NULL, *tok, *str;
+>> +    bool res;
+>> +    int n;
+>> +
+>> +    /*
+>> +     * The strdup() call is necessary here because "compat" is a const str*
+>> +     * type and cannot be used as an argument to strtok_r().
+>> +     */
+>> +    str = strdup(compat);
+>> +    if (!str)
+>> +        return false;
+>> +
+>> +    tok = strtok_r(str, ";", &tmp);
+>> +    for (; tok; tok = strtok_r(NULL, ";", &tmp)) {
+>> +        n = strlen(tok);
+>> +        if ((tok[n - 1] == '*' && !strncmp(id, tok, n - 1)) ||
+>> +            !strcmp(id, tok)) {
+>> +            res = true;
+>> +            goto out;
+>> +        }
+>> +    }
+>> +    res = false;
+>> +out:
+>> +    free(str);
+>> +    return res;
+>> +}
+>> +
+>>   struct pmu_add_cpu_aliases_map_data {
+>>       struct list_head *head;
+>>       const char *name;
+>> @@ -847,8 +876,8 @@ static int pmu_add_sys_aliases_iter_fn(const struct pmu_event *pe,
+>>       if (!pe->compat || !pe->pmu)
+>>           return 0;
+>>   -    if (!strcmp(pmu->id, pe->compat) &&
+>> -        pmu_uncore_alias_match(pe->pmu, pmu->name)) {
+>> +    if (pmu_uncore_alias_match(pe->pmu, pmu->name) &&
+>> +        pmu_uncore_identifier_match(pmu->id, pe->compat)) {
+>>           __perf_pmu__new_alias(idata->head, -1,
+>>                         (char *)pe->name,
+>>                         (char *)pe->desc,
+>> diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
+>> index b9a02de..9d4385d 100644
+>> --- a/tools/perf/util/pmu.h
+>> +++ b/tools/perf/util/pmu.h
+>> @@ -241,6 +241,7 @@ void pmu_add_cpu_aliases_table(struct list_head *head, struct perf_pmu *pmu,
+>>   char *perf_pmu__getcpuid(struct perf_pmu *pmu);
+>>   const struct pmu_events_table *pmu_events_table__find(void);
+>>   const struct pmu_metrics_table *pmu_metrics_table__find(void);
+>> +bool pmu_uncore_identifier_match(const char *id, const char *compat);
+>>   void perf_pmu_free_alias(struct perf_pmu_alias *alias);
+>>     int perf_pmu__convert_scale(const char *scale, char **end, double *sval);
