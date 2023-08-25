@@ -2,80 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F54AC3DA6F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 14:18:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA03EC3DA66
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 14:28:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231837AbjHYOSK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 10:18:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51002 "EHLO
+        id S244044AbjHYO2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 10:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344054AbjHYOSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 10:18:06 -0400
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 017212682;
-        Fri, 25 Aug 2023 07:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=97b0JfQGSNXqXd4NigawyuOiSD9yyLhmMPvce7xdAJo=; b=bZk9slxNMCK8YfIOmLcT8bDoQ+
-        CF+iY2j2oqXiKFmSR7+zwzbCqwEpYA5VISyStJg2Tttg/Pl3MZ5WGrNerwHBT4gigZU31jLXYn76A
-        ulpj+UZiVCyzAmkOup3aEDwMe4Jh6rUWaKfaY758KyVI/8kFRMxeEX/wkfhKFZh/iw5Ya5CKrKYNE
-        Uz9+CUnyciMsTGggroLM4tSx5DHd8kufPkmohiyotTXibwExH6WZq/urzgWF6RnzMzM+IvmNaHVKP
-        eW+Hor8lFEYZ6rXt9YH9AQZEdDShegK83YSVFG2kS7ZdaG3RxubcGPwsqji2crERVvpByraHyFT4M
-        Yl2Bf2lg==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1qZXcI-000Hqa-5E; Fri, 25 Aug 2023 16:16:50 +0200
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1qZXcH-000OoA-W6; Fri, 25 Aug 2023 16:16:50 +0200
-Subject: Re: [PATCH 1/2] Documentation: sphinx: Add sphinx-prompt
-To:     Nishanth Menon <nm@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bpf@vger.kernel.org,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>,
-        Neha Francis <n-francis@ti.com>
-References: <20230824182107.3702766-1-nm@ti.com>
- <20230824182107.3702766-2-nm@ti.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <149528e1-062b-ebed-aa25-d37be5fe5894@iogearbox.net>
-Date:   Fri, 25 Aug 2023 16:16:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        with ESMTP id S242709AbjHYO1t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 10:27:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461E819AE;
+        Fri, 25 Aug 2023 07:27:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D401862C7B;
+        Fri, 25 Aug 2023 14:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD22AC433C7;
+        Fri, 25 Aug 2023 14:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692973666;
+        bh=UksBdrJBzm/E55qDKqtkZMez6Zo0v+Z97iw2xCA3TEk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LyZP72FBnStze+r9BnWyPApB1h7vLsXBKgwj5SOM62pRh892THuUfVJmFjcSERomT
+         UN2YBoMdNNbvaJGrPgGwj/Vw3PYx3amtGKZGeFHeU4Vpem/NFeFF7cH+YEazBTsx0T
+         +CSPYYEMxo9j9g0eEvFJRMcu4EaFjRP5fkAGCD1a8Cy7q1dKyN1cPrpWYagRTOHfjk
+         vBtgySlby3pkTX1E1zhiynTYIyxthE2T6nIwUZ6LElorgVPCr/89BkTNynwJ5IlzMx
+         SAi2tjLW9N7ZtthyI733S0lREiTHCTRbSfxxXaax4/HWXYgaSie6M6emrXmt2VjGxI
+         N7Zmo0VEOHb0A==
+Date:   Fri, 25 Aug 2023 16:27:43 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Vignesh Raman <vignesh.raman@collabora.com>,
+        dri-devel@lists.freedesktop.org, emma@anholt.net,
+        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
+        linux-amlogic@lists.infradead.org, jbrunet@baylibre.com,
+        robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
+        sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
+        linux-rockchip@lists.infradead.org, daniels@collabora.com,
+        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
+        anholt@google.com, linux-mediatek@lists.infradead.org,
+        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de
+Subject: Re: [PATCH 2/6] drm: ci: Force db410c to host mode
+Message-ID: <5xlfrdnutrncqdyal36222ka7qkgbtrixm3cpjk6reb7xu6zwu@nyiowsjng5k6>
+References: <87pm3b2pkz.fsf@intel.com>
+ <29c7-64e8b600-1-6afffd8@162524228>
 MIME-Version: 1.0
-In-Reply-To: <20230824182107.3702766-2-nm@ti.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.8/27011/Fri Aug 25 09:40:47 2023)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="uahdtp2khpso5z52"
+Content-Disposition: inline
+In-Reply-To: <29c7-64e8b600-1-6afffd8@162524228>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/24/23 8:21 PM, Nishanth Menon wrote:
-> Sphinx-prompt[1] helps bring-in '.. prompt::' option that allows a
-> better rendered documentation, yet be able to copy paste without
-> picking up the prompt from the rendered documentation.
-> 
-> [1] https://pypi.org/project/sphinx-prompt/
-> Link: https://lore.kernel.org/all/87fs48rgto.fsf@baylibre.com/
-> Suggested-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-> Suggested-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-> Signed-off-by: Nishanth Menon <nm@ti.com>
 
-Given the patch 2/2 is targeted for bpf docs, we can route this via bpf-next.
-Jonathan, could we get an ack for this one if it looks good to you?
+--uahdtp2khpso5z52
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Daniel
+Hi Helen,
+
+On Fri, Aug 25, 2023 at 03:09:04PM +0100, Helen Mae Koike Fornazier wrote:
+> Hi Jani, thanks for your comments
+>=20
+> On Friday, August 25, 2023 10:56 -03, Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>=20
+> > On Fri, 25 Aug 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+> > > Force db410c to host mode to fix network issue which results in failu=
+re
+> > > to mount root fs via NFS.
+> > > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c1=
+5c80a54dda510743cefd1c4b65b8
+> > >
+> > > Since this fix is not sent upstream, add it to build.sh script
+> > > before building the kernel and dts. Better approach would be
+> > > to use devicetree overlays.
+> > >
+> > > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/ci/build.sh | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+> > > index 7b014287a041..c39834bd6bd7 100644
+> > > --- a/drivers/gpu/drm/ci/build.sh
+> > > +++ b/drivers/gpu/drm/ci/build.sh
+> > > @@ -70,6 +70,10 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
+> > >      fi
+> > >  fi
+> > > =20
+> > > +# Force db410c to host mode to fix network issue which results in fa=
+ilure to mount root fs via NFS.
+> > > +# See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b=
+8c15c80a54dda510743cefd1c4b65b8
+> > > +sed -i '/&usb {/,/status =3D "okay";/s/status =3D "okay";/&\n\tdr_mo=
+de =3D "host";/' arch/arm64/boot/dts/qcom/apq8016-sbc.dts
+> > > +
+> >=20
+> > It seems like a really bad idea to me to have the CI build modify the
+> > source tree before building.
+> >=20
+> > The kernel being built will have a dirty git repo, and the localversion
+> > will have -dirty in it.
+>=20
+> Is it bad?
+>=20
+> The other option was to work with device tree overlays (but we still
+> need to spend some time to see how to fit it all together)
+
+That would be much better. libfdt provides an fdtoverlay command to
+merge a base device tree with an overlay.
+
+Do that while setting up the DUT and you're done :)
+
+Maxime
+
+--uahdtp2khpso5z52
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOi6XwAKCRDj7w1vZxhR
+xSBKAQDfFOVdXMCZ/9a7sggeX0OzQ2xZtgSgfdTEVanD/QmKiAEAo93ffgaueCJa
+HBQKGvHTkvdsjLQGuuPJdVW683tzXAU=
+=kd8L
+-----END PGP SIGNATURE-----
+
+--uahdtp2khpso5z52--
