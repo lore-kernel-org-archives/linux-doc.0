@@ -2,108 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A84C3DA66
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 13:38:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EEB3C3DA6F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 13:53:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234499AbjHYNiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 09:38:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56740 "EHLO
+        id S234446AbjHYNxU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 09:53:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232572AbjHYNh6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 09:37:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01936213B
-        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 06:36:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1692970583;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=adBV5QdoIxMd11EUvCs5qDeDIAAmKS8CbHIBdJKT2cc=;
-        b=GgzhEudvwkwUISR+ZdSFn6DaeL5nf6d4URfY3mdof6YCrmtPs3tUkV8z/LYlOB4snLVv/S
-        k4T5sLgnHFB4YjgYEvKFZY0bCvqI41hN+MZ4HaEPjBe7vuIPhfcDS1TU2uPLI9fwTvYPAS
-        gYX+7Hsibqv5koaN30oN+OURwed0i+k=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-3aOaglZRObqjTREfWm_vgA-1; Fri, 25 Aug 2023 09:36:21 -0400
-X-MC-Unique: 3aOaglZRObqjTREfWm_vgA-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-31aecb86dacso657177f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 06:36:21 -0700 (PDT)
+        with ESMTP id S245299AbjHYNw7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 09:52:59 -0400
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E481BDB
+        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 06:52:57 -0700 (PDT)
+Received: by mail-oo1-xc2f.google.com with SMTP id 006d021491bc7-5733aa10291so625722eaf.3
+        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 06:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1692971577; x=1693576377;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hypiZrNUAlpFpds6qforN3FHopPaWtqa1VnQGLSWLoM=;
+        b=jWibQtNGlxQKd+CM2JR3hPEcfbc3/Uqw5jr/+nsaSm2YidCYfOpwm9Crz/ZcG7hPKz
+         KUXjCCzhK0OMBbeY7lX9SylSHgjOLagl6MBvGvTfAOVd7NzjUJux9n0Lg6nBCNTBCki6
+         29gYWrDtMjinKBTJ3HEp4DWmQBJw+NkHbTY3pE4pAVkJIX9k5Zrh+KMSVq/55AXrYa+9
+         qqivS4UJF/T/iTWxYzu0VxBb2pL3x7/JRTZhPObOjhXRHAgR/9Y8Roi+W3Ng3k+qD1Hf
+         ylHggW5r7LgFe2OQGBMLsLSr71YhsKnzvhHVKmET7tJ0I2H8UBGiG8rr5WDidnMPSB71
+         Ne2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692970580; x=1693575380;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=adBV5QdoIxMd11EUvCs5qDeDIAAmKS8CbHIBdJKT2cc=;
-        b=FdgjpHz1B8QUsN3MSbD/xBzGmRmYfZ1T/m9TnprulHA277GuhtTAwnct7zKJlWKQ+c
-         GsLeEEh69TtoKHN527AGkrtTv32gqYj9rjccwTxupGDIxt7W6kqoAVgVM4vwka7RVFrQ
-         OxCwHnS52FOxjsP7cq+mGL1Pl0+Pp5KLm0H9HLb2XC4sKpYMCGj5hff90Bi8JUk/a/Lw
-         1JE6VMotXbJRyO+GehufCVU5Ga2H9SiARsu34bk4S5MIIwa3n191dJtfLDJydnRX3rTe
-         K0Dj/z2z9j8qpcAJfm3QHWIqAK8XtDN8KZaqIT9YdkVTrqc/EXLUlo7Hv/7Y48NZL4P2
-         g+8Q==
-X-Gm-Message-State: AOJu0YyViBBrL+kl6zLuW5G3B8oKXSuAu4hMkyRqBN7VrqY5UhyJCVpc
-        PwU7jqdqf9Lm4otpV+87MXdtAYptg35EbEjUVO4zDwN597wnbLD8bahVi3R2CcZzKNWl9piDkMy
-        9gzyjKO8gP4k+0ZfoBls=
-X-Received: by 2002:a5d:4211:0:b0:31c:769d:287c with SMTP id n17-20020a5d4211000000b0031c769d287cmr3990217wrq.50.1692970580506;
-        Fri, 25 Aug 2023 06:36:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IESApNQupeVzOoGH4xg/snp9WaQNwtnffnKK9WmFU7GZsNrMOGWLSfcHEOPViwtO0QwkRmx6A==
-X-Received: by 2002:a5d:4211:0:b0:31c:769d:287c with SMTP id n17-20020a5d4211000000b0031c769d287cmr3990199wrq.50.1692970580113;
-        Fri, 25 Aug 2023 06:36:20 -0700 (PDT)
-Received: from klayman.redhat.com (net-2-34-31-124.cust.vodafonedsl.it. [2.34.31.124])
-        by smtp.gmail.com with ESMTPSA id e11-20020adffd0b000000b0031b2c01f342sm2253915wrr.87.2023.08.25.06.36.19
+        d=1e100.net; s=20221208; t=1692971577; x=1693576377;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hypiZrNUAlpFpds6qforN3FHopPaWtqa1VnQGLSWLoM=;
+        b=gkyoSomyH7Y7Ki5D7C0TPLjRZm0sMK/HlPn1ULQgjT6Kuv/2TM66QzPXHjx5uum/b2
+         At/hONm7B65PvYtU3hY+uAf8O9u7EYL73KrSDA00f/HrzSXWE/tZ0/UBwi7BZBodSseG
+         puRXUzqjbFEl6XXU+I3D2/BEW289n4rnF9vLntD7sRnB8xOofbosHylbutpmMzegKweP
+         ATvAuB/GfgsBA/whJ+sZx06yEe81KBTSBPl0SEOx4fk1S1YwYaPk3j3su6X6ogl5DXEj
+         5f7qWUTCI52qSIaFVE9dvgf/xUVCP6CAlGNki/0RR0wL8eQRg++qiVDydq2kIwCwKbc4
+         SWrA==
+X-Gm-Message-State: AOJu0Yyw1lmaX7pePMlk7N0CWOcHJRmROfjz6/LyP2BE36mMIXdHvMqm
+        X4Xnn1MNwlXkBpTScnBMe9uKJQ==
+X-Google-Smtp-Source: AGHT+IE6kTpf/gf9HoBQB+U/Q6hDTLaZ1E8OoH4eSzztM0CCEntRDyeSI5r7KkHkcgGZBbnGkIfyLw==
+X-Received: by 2002:a05:6871:206:b0:1be:dbd9:dd2b with SMTP id t6-20020a056871020600b001bedbd9dd2bmr3482658oad.54.1692971577180;
+        Fri, 25 Aug 2023 06:52:57 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id e17-20020a62ee11000000b0068bdb0be6bdsm1574051pfi.191.2023.08.25.06.52.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 06:36:19 -0700 (PDT)
-From:   Marco Pagani <marpagan@redhat.com>
-To:     Jerome Glisse <jglisse@redhat.com>,
+        Fri, 25 Aug 2023 06:52:56 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1qZXF9-0024Mu-3M;
+        Fri, 25 Aug 2023 10:52:55 -0300
+Date:   Fri, 25 Aug 2023 10:52:55 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Marco Pagani <marpagan@redhat.com>
+Cc:     Jerome Glisse <jglisse@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Marco Pagani <marpagan@redhat.com>,
         Mika Penttila <mpenttil@redhat.com>, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/mm: remove references to hmm_mirror ops and clean typos
-Date:   Fri, 25 Aug 2023 15:35:46 +0200
-Message-ID: <20230825133546.249683-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Subject: Re: [PATCH] docs/mm: remove references to hmm_mirror ops and clean
+ typos
+Message-ID: <ZOiyNxU1BGxMq8NF@ziepe.ca>
+References: <20230825133546.249683-1-marpagan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230825133546.249683-1-marpagan@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Clean typos and remove the reference to the sync_cpu_device_pagetables()
-callback since all hmm_mirror ops have been removed.
+On Fri, Aug 25, 2023 at 03:35:46PM +0200, Marco Pagani wrote:
+> Clean typos and remove the reference to the sync_cpu_device_pagetables()
+> callback since all hmm_mirror ops have been removed.
+> 
+> Fixes: a22dd506400d ("mm/hmm: remove hmm_mirror and related")
+> Signed-off-by: Marco Pagani <marpagan@redhat.com>
+> Reviewed-by: Mika Penttilä <mpenttil@redhat.com>
+> ---
+>  Documentation/mm/hmm.rst | 11 +----------
+>  1 file changed, 1 insertion(+), 10 deletions(-)
 
-Fixes: a22dd506400d ("mm/hmm: remove hmm_mirror and related")
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
-Reviewed-by: Mika Penttilä <mpenttil@redhat.com>
----
- Documentation/mm/hmm.rst | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
-index 9aa512c3a12c..1e0f2b2f58fb 100644
---- a/Documentation/mm/hmm.rst
-+++ b/Documentation/mm/hmm.rst
-@@ -163,16 +163,7 @@ use::
- 
- It will trigger a page fault on missing or read-only entries if write access is
- requested (see below). Page faults use the generic mm page fault code path just
--like a CPU page fault.
--
--Both functions copy CPU page table entries into their pfns array argument. Each
--entry in that array corresponds to an address in the virtual range. HMM
--provides a set of flags to help the driver identify special CPU page table
--entries.
--
--Locking within the sync_cpu_device_pagetables() callback is the most important
--aspect the driver must respect in order to keep things properly synchronized.
--The usage pattern is::
-+like a CPU page fault. The usage pattern is::
- 
-  int driver_populate_range(...)
-  {
--- 
-2.41.0
-
+Jason
