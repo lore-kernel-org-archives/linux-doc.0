@@ -2,60 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19700C71133
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 14:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C40C71133
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 14:35:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343680AbjHYObA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 10:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
+        id S237180AbjHYOeo convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 10:34:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343694AbjHYOad (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 10:30:33 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1024A1995;
-        Fri, 25 Aug 2023 07:30:31 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-99bcf2de59cso129101566b.0;
-        Fri, 25 Aug 2023 07:30:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692973829; x=1693578629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+TKRKdJyVPQnXrud/UFhZyJn/bFLsStYMULRC9lmJOg=;
-        b=OQXrYSh/ZTaRcrWWA0vglXPp3TlsL1Ma7vpCxlFdwF1lEPdbMdGQ/tKMaMonLuwtO5
-         JABJFdxaAHTAHmpQ686SHGkxHl979MSfAFLV+3B5HIinjzcPUGnuPBGRlMn6pbEscsw4
-         b0PqksMuIqStaAEvnyVczSfPUB69oWqBDHLqH0RNamea7U8iC2tZ6nNFXK2HuYAt/32n
-         2kynjPi6lEJRwFgree9ATo/CaHaPlGM78Qu24dsK7wKNCKVFgt5H/HBeLRbk++6K2c1l
-         0MoGgedsO6+4cm5hC27BUve7gq5G1M1pu2ApSyFKqsJXzh2yWo+9u/FQYYSPKg4EXygz
-         Vhkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692973829; x=1693578629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+TKRKdJyVPQnXrud/UFhZyJn/bFLsStYMULRC9lmJOg=;
-        b=jdgxEyOeYFc5O8iOobdWGKzhm0NIxVxjUgr6PoaFGAguNz/AF+zrsJWhnd1i/Waon/
-         /4NEVeZ6y4m7Z1IE/NyMMMpWKp+sGiV+3CZQAbbXgNIz/0DMuGVcb1Ia/GBwJiJ1vHvq
-         lCQ3bParVf1H21OqvLYoH36CebkaiuCHTH3rf4O+GJ8y6CgO+VXNHASX0f2dm7hrPuJC
-         O6nHHJJCdBiz+Yva23m2ntRKoqyMy53b6uhRMiHiFGa8IONDhtuZNsj2+tIQXQiMONAg
-         +Bguw48aHhYNYEBW4AVr7uWKx1hkrsl2d0Jo8MG4S99DUqQIzL6nlsNP2TmShELQ2f21
-         lr4A==
-X-Gm-Message-State: AOJu0Ywjb7oM5F/F38DZ4eetIjcyMhKSk4aZ3Y0G2Dsqff8AqJAtnYxU
-        GBqCrNQPuclxYaEUBi4FG5o22cOYi1SuayIDjIo=
-X-Google-Smtp-Source: AGHT+IEES/Rzsyvr1JvufABrAQWEAlPgt7MuBwIREScZLrLGFwNRoIXbaWrIdhd46oBepXht/zkQv0lQ0dAVqCGxlr0=
-X-Received: by 2002:a17:906:150:b0:9a1:d79a:418e with SMTP id
- 16-20020a170906015000b009a1d79a418emr6028363ejh.40.1692973829204; Fri, 25 Aug
- 2023 07:30:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230825122435.316272-1-vignesh.raman@collabora.com>
- <20230825122435.316272-3-vignesh.raman@collabora.com> <87pm3b2pkz.fsf@intel.com>
-In-Reply-To: <87pm3b2pkz.fsf@intel.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 25 Aug 2023 07:30:17 -0700
-Message-ID: <CAF6AEGs4p0xXJjsNug45CFiP0n-5h7wpdy22YBryjrnWFROESg@mail.gmail.com>
-Subject: Re: [PATCH 2/6] drm: ci: Force db410c to host mode
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Vignesh Raman <vignesh.raman@collabora.com>,
+        with ESMTP id S1343799AbjHYOeW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 10:34:22 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F671FFE;
+        Fri, 25 Aug 2023 07:34:19 -0700 (PDT)
+Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1c:f269::1])
+        by madras.collabora.co.uk (Postfix) with ESMTP id 12B3E66071BE;
+        Fri, 25 Aug 2023 15:34:15 +0100 (BST)
+From:   "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
+In-Reply-To: <CAF6AEGs4p0xXJjsNug45CFiP0n-5h7wpdy22YBryjrnWFROESg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+Date:   Fri, 25 Aug 2023 15:34:15 +0100
+Cc:     "Jani Nikula" <jani.nikula@linux.intel.com>,
+        "Vignesh Raman" <vignesh.raman@collabora.com>,
         dri-devel@lists.freedesktop.org, emma@anholt.net,
         linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
         linux-amlogic@lists.infradead.org, jbrunet@baylibre.com,
@@ -63,92 +32,100 @@ Cc:     Vignesh Raman <vignesh.raman@collabora.com>,
         sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
         linux-rockchip@lists.infradead.org, daniels@collabora.com,
         martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
-        helen.koike@collabora.com, anholt@google.com,
-        linux-mediatek@lists.infradead.org, mripard@kernel.org,
-        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+        anholt@google.com, linux-mediatek@lists.infradead.org,
+        mripard@kernel.org, matthias.bgg@gmail.com,
+        linux-arm-kernel@lists.infradead.org,
         angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
         guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
         tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     "Rob Clark" <robdclark@gmail.com>
+MIME-Version: 1.0
+Message-ID: <29c7-64e8bc00-3-6afffd8@162524261>
+Subject: =?utf-8?q?Re=3A?= [PATCH 2/6] =?utf-8?q?drm=3A?==?utf-8?q?_ci=3A?= Force 
+ db410c to host mode
+User-Agent: SOGoMail 5.8.4
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 25, 2023 at 6:56=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> On Fri, 25 Aug 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> > Force db410c to host mode to fix network issue which results in failure
-> > to mount root fs via NFS.
-> > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c=
-80a54dda510743cefd1c4b65b8
+On Friday, August 25, 2023 11:30 -03, Rob Clark <robdclark@gmail.com> wrote:
+
+> On Fri, Aug 25, 2023 at 6:56 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
 > >
-> > Since this fix is not sent upstream, add it to build.sh script
-> > before building the kernel and dts. Better approach would be
-> > to use devicetree overlays.
+> > On Fri, 25 Aug 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+> > > Force db410c to host mode to fix network issue which results in failure
+> > > to mount root fs via NFS.
+> > > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
+> > >
+> > > Since this fix is not sent upstream, add it to build.sh script
+> > > before building the kernel and dts. Better approach would be
+> > > to use devicetree overlays.
+> > >
+> > > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/ci/build.sh | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+> > > index 7b014287a041..c39834bd6bd7 100644
+> > > --- a/drivers/gpu/drm/ci/build.sh
+> > > +++ b/drivers/gpu/drm/ci/build.sh
+> > > @@ -70,6 +70,10 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
+> > >      fi
+> > >  fi
+> > >
+> > > +# Force db410c to host mode to fix network issue which results in failure to mount root fs via NFS.
+> > > +# See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
+> > > +sed -i '/&usb {/,/status = "okay";/s/status = "okay";/&\n\tdr_mode = "host";/' arch/arm64/boot/dts/qcom/apq8016-sbc.dts
+> > > +
 > >
-> > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> > ---
-> >  drivers/gpu/drm/ci/build.sh | 4 ++++
-> >  1 file changed, 4 insertions(+)
+> > It seems like a really bad idea to me to have the CI build modify the
+> > source tree before building.
 > >
-> > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-> > index 7b014287a041..c39834bd6bd7 100644
-> > --- a/drivers/gpu/drm/ci/build.sh
-> > +++ b/drivers/gpu/drm/ci/build.sh
-> > @@ -70,6 +70,10 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
-> >      fi
-> >  fi
+> > The kernel being built will have a dirty git repo, and the localversion
+> > will have -dirty in it.
 > >
-> > +# Force db410c to host mode to fix network issue which results in fail=
-ure to mount root fs via NFS.
-> > +# See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c=
-15c80a54dda510743cefd1c4b65b8
-> > +sed -i '/&usb {/,/status =3D "okay";/s/status =3D "okay";/&\n\tdr_mode=
- =3D "host";/' arch/arm64/boot/dts/qcom/apq8016-sbc.dts
-> > +
->
-> It seems like a really bad idea to me to have the CI build modify the
-> source tree before building.
->
-> The kernel being built will have a dirty git repo, and the localversion
-> will have -dirty in it.
->
-> I think it would be better to do out-of-tree builds and assume the
-> source is read-only.
+> > I think it would be better to do out-of-tree builds and assume the
+> > source is read-only.
+> 
+> We have the ${target_branch}-external-fixes mechanism to merge
+> necessary changes before building the kernel for CI.  Which is
+> necessary for a couple of reasons:
 
-We have the ${target_branch}-external-fixes mechanism to merge
-necessary changes before building the kernel for CI.  Which is
-necessary for a couple of reasons:
+Should we create an official topic/drm-ci-external-fixes branch ?
 
-1) patches like this which aren't appropriate upstream but necessary
-due to the CI lab setup
-2) target branch if often based on an early -rc, and it isn't unheard
-of to need some fix for some board or another which isn't appropriate
-to land via drm-next
+Regards,
+Helen
 
-We should use the -external-fixes branch mechanism for patches like this on=
-e.
-
-BR,
--R
-
-> >  for opt in $ENABLE_KCONFIGS; do
-> >    echo CONFIG_$opt=3Dy >> drivers/gpu/drm/ci/${KERNEL_ARCH}.config
-> >  done
->
-> Ditto for the config changes in the context here. Those are files in
-> git, don't change them.
->
-> Shouldn't this use something like 'scripts/config --enable' or
-> 'scripts/config --disable' on the .config file to be used for building
-> instead?
->
->
+> 
+> 1) patches like this which aren't appropriate upstream but necessary
+> due to the CI lab setup
+> 2) target branch if often based on an early -rc, and it isn't unheard
+> of to need some fix for some board or another which isn't appropriate
+> to land via drm-next
+> 
+> We should use the -external-fixes branch mechanism for patches like this one.
+> 
 > BR,
-> Jani.
->
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+> -R
+> 
+> > >  for opt in $ENABLE_KCONFIGS; do
+> > >    echo CONFIG_$opt=y >> drivers/gpu/drm/ci/${KERNEL_ARCH}.config
+> > >  done
+> >
+> > Ditto for the config changes in the context here. Those are files in
+> > git, don't change them.
+> >
+> > Shouldn't this use something like 'scripts/config --enable' or
+> > 'scripts/config --disable' on the .config file to be used for building
+> > instead?
+> >
+> >
+> > BR,
+> > Jani.
+> >
+> >
+> > --
+> > Jani Nikula, Intel Open Source Graphics Center
+
