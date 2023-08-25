@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E63ECEE49B7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02956EE49BA
 	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 12:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244868AbjHYM3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S244865AbjHYM3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 25 Aug 2023 08:29:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244936AbjHYM3Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 08:29:16 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2FFA2120;
-        Fri, 25 Aug 2023 05:28:55 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso7495285e9.2;
-        Fri, 25 Aug 2023 05:28:55 -0700 (PDT)
+        with ESMTP id S244917AbjHYM3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 08:29:13 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B0E271B;
+        Fri, 25 Aug 2023 05:28:49 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fee8b78097so7659825e9.0;
+        Fri, 25 Aug 2023 05:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692966503; x=1693571303;
+        d=gmail.com; s=20221208; t=1692966500; x=1693571300;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vpwPycZDfvKtBkur6NB+pKaDkgLkYk3Zg/JjaDmqaGc=;
-        b=eTWkr2pylSmiuFCfFkJZcyp9biJsLUE5m03CsOk9GmqoYSj83QTxnxsyBPIRrTQ9cS
-         qkpDOmhgfsgzDBi6BO6kuElygLSXyW+cF6oN3m1p5iS/CrUDy9c0XxV7kRjmP7g0jrFb
-         XHk6WIhFr0JUmp92rcynpbCrwdiDdXHjCiwcBPIS1fPGNexzYeiqcUS4Q+ZIsvWtL6ka
-         wAnhGba4g1Gk2rz6wcmuP1YRqdDsWwV3IHKnwB4uAYZUMs3mk48CondHVQHgHoMzR/iE
-         IHRpNkEsCk5dcnvoHo926ei+7Ag8BKSD8WAOC+wjHfWK53Iaj81TwkfxLJxyo3sYUIjI
-         hVGA==
+        bh=UgFxz6c7G9zGaCUht47lmD9+ThAV4YgMBfvso9jo/Po=;
+        b=JaMBs3JygI/K+3ipCwFPyH8IwzkAwWNBdC0LvHOC3JIqgmvWoqq6+NV2o/xUL/+/ne
+         gsjPsGXoFn8csRQ6ZbAn1kMYUiol4Wl3owwhOquVFXLYpJZmGxtqddMCK8AaENc9Oddg
+         Pu4tTq/0I+i3zje1X/mLQkKKN/tfzcm5rGzuyUO3AYeotnCRG229p9sDz0wxfKq6gHtw
+         zUsEIka8M0vd6Te0FUxDOKh1ZtOiINswoXPVSQ9Oo0aBVn1d8tQ0pIVKXQAbsNGr+9Py
+         KGRTMi3/5nIaq3dQImoHLfV0SO8mTEi3VVBRIjRsq5cLfT4uBMGnFk3zzZXnjZ63cYTA
+         f03w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692966503; x=1693571303;
+        d=1e100.net; s=20221208; t=1692966500; x=1693571300;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vpwPycZDfvKtBkur6NB+pKaDkgLkYk3Zg/JjaDmqaGc=;
-        b=jaMDHEYF2CV9mYfsQh0tqtQ5jTtyPMeqNP8hRXUj3YxwzJKxME7RifwZV14mYygByA
-         GZ4LoG2kci7V9U/1l8VI101Ri46B9rWue78bIIkBEjfRZb1aUgk41tZtgW5vvUsWRpWS
-         1b4RRDgTtOZ61DYEncszq89jk1g0YfYj+wAuAg+ZcuwvrC4mPKqmeF4UodKxGJcuWLOu
-         p/WC7ULyRDGdkOpkj7/eTy/aPJ+Kbq8dQ/sr6xpGnyD851Sw37m8pZGZQR1ngIXTyj51
-         iqmtJyE52auXgyapIxMe1m7phC0uAbpumdoUt3fcWzUHc4ocoDd1wOPAYLQ6YsItza3K
-         W2XQ==
-X-Gm-Message-State: AOJu0YyQnV1kgmFDzyOVedKBCodm1F+BjsHnAJZYmTrYHXz/AXsY49EH
-        LQPXJvf1E1Ux6PlaylfhFjfqUOsBvdo5Ww==
-X-Google-Smtp-Source: AGHT+IHmnPo2PRIhSBpGBkhersl8EVnDxcwjKMp8HtBI+PjacXZg27OMtBN3B3MeAAMhWo9lP0dpKA==
-X-Received: by 2002:a05:600c:3795:b0:400:419c:bbe2 with SMTP id o21-20020a05600c379500b00400419cbbe2mr5326181wmr.24.1692966502653;
-        Fri, 25 Aug 2023 05:28:22 -0700 (PDT)
+        bh=UgFxz6c7G9zGaCUht47lmD9+ThAV4YgMBfvso9jo/Po=;
+        b=LZo2YAdOhb0flKb1oXy8SX/t/lVw+qdXY7UYAB12X6W5AYvfNGImwqNEfVa6NTnSQN
+         HWFLux6Bh7GO/G7UOkyRzd3kFwkeemyV3fmk44wVy/RhF8BCJZkEs9E9MtMlrw0vDvww
+         Ey/i+47zEcR/rzLN1c5JvpC48KipGT4FR+iExGGhxEwRHnAJ8Oi7JRXZ6mbX98+NiF96
+         1197a2gqlOJsXNTxWi4xZlhxTt+TV1dwR506X2wIUtyqCPD5g9pGChs1FhrTEYE7Nr4l
+         5EeI1PnUmIWEVcA4p9wMqLYADcsqBmvvMbbv31n8xLWMPpmS65QoQmexAjwM7K7h1NM+
+         k8YA==
+X-Gm-Message-State: AOJu0Yza4WywMEzNz6NTz0hvI1/dmFrj26m6kkWgiGYDa+uP5/5BfEav
+        XWCoA7NBuCmJkb6ozbeMVWG/FX3TZADODQ==
+X-Google-Smtp-Source: AGHT+IH6+ssp0gDBeVMs3bsf+sbdEtW8SJ6tP92EiOGDU1yNVal5tPKqrohLMjddsgcHrm17FwPW5w==
+X-Received: by 2002:a7b:cc93:0:b0:3fe:f74c:b4f6 with SMTP id p19-20020a7bcc93000000b003fef74cb4f6mr8689528wma.17.1692966499973;
+        Fri, 25 Aug 2023 05:28:19 -0700 (PDT)
 Received: from imac.taild7a78.ts.net ([2a02:8010:60a0:0:88fe:5215:b5d:bbee])
-        by smtp.gmail.com with ESMTPSA id 16-20020a05600c229000b003fff96bb62csm2089561wmf.16.2023.08.25.05.28.21
+        by smtp.gmail.com with ESMTPSA id 16-20020a05600c229000b003fff96bb62csm2089561wmf.16.2023.08.25.05.28.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 05:28:22 -0700 (PDT)
+        Fri, 25 Aug 2023 05:28:19 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -59,9 +59,9 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>,
         Jacob Keller <jacob.e.keller@intel.com>
-Subject: [PATCH net-next v6 12/12] doc/netlink: Add spec for rt route messages
-Date:   Fri, 25 Aug 2023 13:27:55 +0100
-Message-ID: <20230825122756.7603-13-donald.hunter@gmail.com>
+Subject: [PATCH net-next v6 10/12] doc/netlink: Add spec for rt addr messages
+Date:   Fri, 25 Aug 2023 13:27:53 +0100
+Message-ID: <20230825122756.7603-11-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230825122756.7603-1-donald.hunter@gmail.com>
 References: <20230825122756.7603-1-donald.hunter@gmail.com>
@@ -71,355 +71,201 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add schema for rt route with support for getroute, newroute and
-delroute.
-
-Routes can be dumped with filter attributes like this:
-
-./tools/net/ynl/cli.py \
-    --spec Documentation/netlink/specs/rt_route.yaml \
-    --dump getroute --json '{"rtm-family": 2, "rtm-table": 254}'
+Add schema for rt addr with support for:
+     - newaddr, deladdr, getaddr (dump)
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 ---
- Documentation/netlink/specs/rt_route.yaml | 327 ++++++++++++++++++++++
- 1 file changed, 327 insertions(+)
- create mode 100644 Documentation/netlink/specs/rt_route.yaml
+ Documentation/netlink/specs/rt_addr.yaml | 179 +++++++++++++++++++++++
+ 1 file changed, 179 insertions(+)
+ create mode 100644 Documentation/netlink/specs/rt_addr.yaml
 
-diff --git a/Documentation/netlink/specs/rt_route.yaml b/Documentation/netlink/specs/rt_route.yaml
+diff --git a/Documentation/netlink/specs/rt_addr.yaml b/Documentation/netlink/specs/rt_addr.yaml
 new file mode 100644
-index 000000000000..f4368be0caed
+index 000000000000..cbee1cedb177
 --- /dev/null
-+++ b/Documentation/netlink/specs/rt_route.yaml
-@@ -0,0 +1,327 @@
++++ b/Documentation/netlink/specs/rt_addr.yaml
+@@ -0,0 +1,179 @@
 +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
 +
-+name: rt-route
++name: rt-addr
 +protocol: netlink-raw
 +protonum: 0
 +
 +doc:
-+  Route configuration over rtnetlink.
++  Address configuration over rtnetlink.
 +
 +definitions:
 +  -
-+    name: rtm-type
-+    name-prefix: rtn-
-+    type: enum
++    name: ifaddrmsg
++    type: struct
++    members:
++      -
++        name: ifa-family
++        type: u8
++      -
++        name: ifa-prefixlen
++        type: u8
++      -
++        name: ifa-flags
++        type: u8
++        enum: ifa-flags
++        enum-as-flags: true
++      -
++        name: ifa-scope
++        type: u8
++      -
++        name: ifa-index
++        type: u32
++  -
++    name: ifa-cacheinfo
++    type: struct
++    members:
++      -
++        name: ifa-prefered
++        type: u32
++      -
++        name: ifa-valid
++        type: u32
++      -
++        name: cstamp
++        type: u32
++      -
++        name: tstamp
++        type: u32
++
++  -
++    name: ifa-flags
++    type: flags
 +    entries:
-+      - unspec
-+      - unicast
-+      - local
-+      - broadcast
-+      - anycast
-+      - multicast
-+      - blackhole
-+      - unreachable
-+      - prohibit
-+      - throw
-+      - nat
-+      - xresolve
-+  -
-+    name: rtmsg
-+    type: struct
-+    members:
 +      -
-+        name: rtm-family
-+        type: u8
++        name: secondary
 +      -
-+        name: rtm-dst-len
-+        type: u8
++        name: nodad
 +      -
-+        name: rtm-src-len
-+        type: u8
++        name: optimistic
 +      -
-+        name: rtm-tos
-+        type: u8
++        name: dadfailed
 +      -
-+        name: rtm-table
-+        type: u8
++        name: homeaddress
 +      -
-+        name: rtm-protocol
-+        type: u8
++        name: deprecated
 +      -
-+        name: rtm-scope
-+        type: u8
++        name: tentative
 +      -
-+        name: rtm-type
-+        type: u8
-+        enum: rtm-type
++        name: permanent
 +      -
-+        name: rtm-flags
-+        type: u32
-+  -
-+    name: rta-cacheinfo
-+    type: struct
-+    members:
++        name: managetempaddr
 +      -
-+        name: rta-clntref
-+        type: u32
++        name: noprefixroute
 +      -
-+        name: rta-lastuse
-+        type: u32
++        name: mcautojoin
 +      -
-+        name: rta-expires
-+        type: u32
-+      -
-+        name: rta-error
-+        type: u32
-+      -
-+        name: rta-used
-+        type: u32
++        name: stable-privacy
 +
 +attribute-sets:
 +  -
-+    name: route-attrs
++    name: addr-attrs
 +    attributes:
 +      -
-+        name: rta-dst
++        name: ifa-address
 +        type: binary
 +        display-hint: ipv4
 +      -
-+        name: rta-src
++        name: ifa-local
 +        type: binary
 +        display-hint: ipv4
 +      -
-+        name: rta-iif
-+        type: u32
-+      -
-+        name: rta-oif
-+        type: u32
-+      -
-+        name: rta-gateway
-+        type: binary
-+        display-hint: ipv4
-+      -
-+        name: rta-priority
-+        type: u32
-+      -
-+        name: rta-prefsrc
-+        type: binary
-+        display-hint: ipv4
-+      -
-+        name: rta-metrics
-+        type: nest
-+        nested-attributes: rta-metrics
-+      -
-+        name: rta-multipath
-+        type: binary
-+      -
-+        name: rta-protoinfo # not used
-+        type: binary
-+      -
-+        name: rta-flow
-+        type: u32
-+      -
-+        name: rta-cacheinfo
-+        type: binary
-+        struct: rta-cacheinfo
-+      -
-+        name: rta-session # not used
-+        type: binary
-+      -
-+        name: rta-mp-algo # not used
-+        type: binary
-+      -
-+        name: rta-table
-+        type: u32
-+      -
-+        name: rta-mark
-+        type: u32
-+      -
-+        name: rta-mfc-stats
-+        type: binary
-+      -
-+        name: rta-via
-+        type: binary
-+      -
-+        name: rta-newdst
-+        type: binary
-+      -
-+        name: rta-pref
-+        type: u8
-+      -
-+        name: rta-encap-type
-+        type: u16
-+      -
-+        name: rta-encap
-+        type: binary # tunnel specific nest
-+      -
-+        name: rta-expires
-+        type: u32
-+      -
-+        name: rta-pad
-+        type: binary
-+      -
-+        name: rta-uid
-+        type: u32
-+      -
-+        name: rta-ttl-propagate
-+        type: u8
-+      -
-+        name: rta-ip-proto
-+        type: u8
-+      -
-+        name: rta-sport
-+        type: u16
-+      -
-+        name: rta-dport
-+        type: u16
-+      -
-+        name: rta-nh-id
-+        type: u32
-+  -
-+    name: rta-metrics
-+    attributes:
-+      -
-+        name: rtax-unspec
-+        type: unused
-+        value: 0
-+      -
-+        name: rtax-lock
-+        type: u32
-+      -
-+        name: rtax-mtu
-+        type: u32
-+      -
-+        name: rtax-window
-+        type: u32
-+      -
-+        name: rtax-rtt
-+        type: u32
-+      -
-+        name: rtax-rttvar
-+        type: u32
-+      -
-+        name: rtax-ssthresh
-+        type: u32
-+      -
-+        name: rtax-cwnd
-+        type: u32
-+      -
-+        name: rtax-advmss
-+        type: u32
-+      -
-+        name: rtax-reordering
-+        type: u32
-+      -
-+        name: rtax-hoplimit
-+        type: u32
-+      -
-+        name: rtax-initcwnd
-+        type: u32
-+      -
-+        name: rtax-features
-+        type: u32
-+      -
-+        name: rtax-rto-min
-+        type: u32
-+      -
-+        name: rtax-initrwnd
-+        type: u32
-+      -
-+        name: rtax-quickack
-+        type: u32
-+      -
-+        name: rtax-cc-algo
++        name: ifa-label
 +        type: string
 +      -
-+        name: rtax-fastopen-no-cookie
++        name: ifa-broadcast
++        type: binary
++        display-hint: ipv4
++      -
++        name: ifa-anycast
++        type: binary
++      -
++        name: ifa-cacheinfo
++        type: binary
++        struct: ifa-cacheinfo
++      -
++        name: ifa-multicast
++        type: binary
++      -
++        name: ifa-flags
 +        type: u32
++        enum: ifa-flags
++        enum-as-flags: true
++      -
++        name: ifa-rt-priority
++        type: u32
++      -
++        name: ifa-target-netnsid
++        type: binary
++      -
++        name: ifa-proto
++        type: u8
++
 +
 +operations:
++  fixed-header: ifaddrmsg
 +  enum-model: directional
 +  list:
 +    -
-+      name: getroute
-+      doc: Dump route information.
-+      attribute-set: route-attrs
-+      fixed-header: rtmsg
++      name: newaddr
++      doc: Add new address
++      attribute-set: addr-attrs
 +      do:
 +        request:
-+          value: 26
++          value: 20
++          attributes: &ifaddr-all
++            - ifa-family
++            - ifa-flags
++            - ifa-prefixlen
++            - ifa-scope
++            - ifa-index
++            - ifa-address
++            - ifa-label
++            - ifa-local
++            - ifa-cacheinfo
++    -
++      name: deladdr
++      doc: Remove address
++      attribute-set: addr-attrs
++      do:
++        request:
++          value: 21
 +          attributes:
-+            - rtm-family
-+            - rta-src
-+            - rtm-src-len
-+            - rta-dst
-+            - rtm-dst-len
-+            - rta-iif
-+            - rta-oif
-+            - rta-ip-proto
-+            - rta-sport
-+            - rta-dport
-+            - rta-mark
-+            - rta-uid
-+        reply:
-+          value: 24
-+          attributes: &all-route-attrs
-+            - rtm-family
-+            - rtm-dst-len
-+            - rtm-src-len
-+            - rtm-tos
-+            - rtm-table
-+            - rtm-protocol
-+            - rtm-scope
-+            - rtm-type
-+            - rtm-flags
-+            - rta-dst
-+            - rta-src
-+            - rta-iif
-+            - rta-oif
-+            - rta-gateway
-+            - rta-priority
-+            - rta-prefsrc
-+            - rta-metrics
-+            - rta-multipath
-+            - rta-flow
-+            - rta-cacheinfo
-+            - rta-table
-+            - rta-mark
-+            - rta-mfc-stats
-+            - rta-via
-+            - rta-newdst
-+            - rta-pref
-+            - rta-encap-type
-+            - rta-encap
-+            - rta-expires
-+            - rta-pad
-+            - rta-uid
-+            - rta-ttl-propagate
-+            - rta-ip-proto
-+            - rta-sport
-+            - rta-dport
-+            - rta-nh-id
++            - ifa-family
++            - ifa-flags
++            - ifa-prefixlen
++            - ifa-scope
++            - ifa-index
++            - ifa-address
++            - ifa-local
++    -
++      name: getaddr
++      doc: Dump address information.
++      attribute-set: addr-attrs
 +      dump:
 +        request:
-+          value: 26
++          value: 22
 +          attributes:
-+            - rtm-family
++            - ifa-index
 +        reply:
-+          value: 24
-+          attributes: *all-route-attrs
++          value: 20
++          attributes: *ifaddr-all
++
++mcast-groups:
++  list:
 +    -
-+      name: newroute
-+      doc: Create a new route
-+      attribute-set: route-attrs
-+      fixed-header: rtmsg
-+      do:
-+        request:
-+          value: 24
-+          attributes: *all-route-attrs
++      name: rtnlgrp-ipv4-ifaddr
++      value: 5
 +    -
-+      name: delroute
-+      doc: Delete an existing route
-+      attribute-set: route-attrs
-+      fixed-header: rtmsg
-+      do:
-+        request:
-+          value: 25
-+          attributes: *all-route-attrs
++      name: rtnlgrp-ipv6-ifaddr
++      value: 9
 -- 
 2.41.0
 
