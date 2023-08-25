@@ -2,508 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D43EE49B5
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 12:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A84C3DA66
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 13:38:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244859AbjHYM33 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 08:29:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49356 "EHLO
+        id S234499AbjHYNiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 09:38:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244853AbjHYM3A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 08:29:00 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0972C2704;
-        Fri, 25 Aug 2023 05:28:32 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2ba1e9b1fa9so12851101fa.3;
-        Fri, 25 Aug 2023 05:28:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692966489; x=1693571289;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wFHO6mh/7rEyUBUMvrOtvG6ewNr2B36cOkHywnt7bYQ=;
-        b=TBd43d8o09I/YZpW8xGLVm3IameEuavwhiAhQjcl6Np6A61NtBd2QLuxvyEwehpXPe
-         mzGOsc8o+7UfijXikKR8+98JR2oZcvNnZzK9+cD/PGNT7Bl0sWBMwlUQR17Kx6QwYBD5
-         ZLQYlms2VI1eNx9shpBDSCcPU4XHIad7AppoO4DWovRWyoNMFbwyWl1z4EbA9QueRBaw
-         RHpYuFAbf3jY7m41Cp/dNqWWVJQMj+aGoBIyH9kiX3atto+luuDnus5pfJL9Syo+AW1+
-         21eA+bj5DrxmWOwa+aZ+ERcssddayzeeaz+KKrBTJiHpzdERgHvsidQI/C8G0r/U6Qde
-         2Fxw==
+        with ESMTP id S232572AbjHYNh6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 09:37:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01936213B
+        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 06:36:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1692970583;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=adBV5QdoIxMd11EUvCs5qDeDIAAmKS8CbHIBdJKT2cc=;
+        b=GgzhEudvwkwUISR+ZdSFn6DaeL5nf6d4URfY3mdof6YCrmtPs3tUkV8z/LYlOB4snLVv/S
+        k4T5sLgnHFB4YjgYEvKFZY0bCvqI41hN+MZ4HaEPjBe7vuIPhfcDS1TU2uPLI9fwTvYPAS
+        gYX+7Hsibqv5koaN30oN+OURwed0i+k=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-651-3aOaglZRObqjTREfWm_vgA-1; Fri, 25 Aug 2023 09:36:21 -0400
+X-MC-Unique: 3aOaglZRObqjTREfWm_vgA-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-31aecb86dacso657177f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 25 Aug 2023 06:36:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692966489; x=1693571289;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wFHO6mh/7rEyUBUMvrOtvG6ewNr2B36cOkHywnt7bYQ=;
-        b=T0RYxtu9CNdMhrVrAkg6aNJUnmfVacI8htn2TD+6BZs1r/NVB/gOj/PwFwxUsegnGq
-         eKDzgSD50qy7UPQ40ESbqDMQR3ulGFXgraK2wodb740rMCqd9161issrGFuIzbj4tm2S
-         6pp9hkxq0JIHhNsdrTeDCt8Zeehf9ZCudMLBXyUcveKQSe6cW8oT/6Kccw+uUAouD1K1
-         DzgdYmo3e/gGQXZU8iThv+1DmmtZWs9lmHS6uzFSRGWVa80mKhiuYzlNBrgYpcfgBPnv
-         lOd9VnWzhdW2FEocZrh1PVQ3chNlt5Ois+kKpP0DweXSu8xzhdSt5nIjHNOSGeDcnMo/
-         oQGQ==
-X-Gm-Message-State: AOJu0YwtQtTcqfNiKUSqBqgvHaA9NE36iFYCywo2PUrLc/UhbElwKg66
-        Joj5e7GTJofi8ZUneMr/jZmn2wJN4dS1GA==
-X-Google-Smtp-Source: AGHT+IEyA/Lhx0lDY3rJ7ztZerzQ6a3Tlir+/aDPz7XkyZhT9X0bXRh48gq0Oa2wSgBFkBgJ61wZ0g==
-X-Received: by 2002:a2e:80c2:0:b0:2bc:c557:84a0 with SMTP id r2-20020a2e80c2000000b002bcc55784a0mr10600059ljg.30.1692966489188;
-        Fri, 25 Aug 2023 05:28:09 -0700 (PDT)
-Received: from imac.taild7a78.ts.net ([2a02:8010:60a0:0:88fe:5215:b5d:bbee])
-        by smtp.gmail.com with ESMTPSA id 16-20020a05600c229000b003fff96bb62csm2089561wmf.16.2023.08.25.05.28.07
+        d=1e100.net; s=20221208; t=1692970580; x=1693575380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=adBV5QdoIxMd11EUvCs5qDeDIAAmKS8CbHIBdJKT2cc=;
+        b=FdgjpHz1B8QUsN3MSbD/xBzGmRmYfZ1T/m9TnprulHA277GuhtTAwnct7zKJlWKQ+c
+         GsLeEEh69TtoKHN527AGkrtTv32gqYj9rjccwTxupGDIxt7W6kqoAVgVM4vwka7RVFrQ
+         OxCwHnS52FOxjsP7cq+mGL1Pl0+Pp5KLm0H9HLb2XC4sKpYMCGj5hff90Bi8JUk/a/Lw
+         1JE6VMotXbJRyO+GehufCVU5Ga2H9SiARsu34bk4S5MIIwa3n191dJtfLDJydnRX3rTe
+         K0Dj/z2z9j8qpcAJfm3QHWIqAK8XtDN8KZaqIT9YdkVTrqc/EXLUlo7Hv/7Y48NZL4P2
+         g+8Q==
+X-Gm-Message-State: AOJu0YyViBBrL+kl6zLuW5G3B8oKXSuAu4hMkyRqBN7VrqY5UhyJCVpc
+        PwU7jqdqf9Lm4otpV+87MXdtAYptg35EbEjUVO4zDwN597wnbLD8bahVi3R2CcZzKNWl9piDkMy
+        9gzyjKO8gP4k+0ZfoBls=
+X-Received: by 2002:a5d:4211:0:b0:31c:769d:287c with SMTP id n17-20020a5d4211000000b0031c769d287cmr3990217wrq.50.1692970580506;
+        Fri, 25 Aug 2023 06:36:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IESApNQupeVzOoGH4xg/snp9WaQNwtnffnKK9WmFU7GZsNrMOGWLSfcHEOPViwtO0QwkRmx6A==
+X-Received: by 2002:a5d:4211:0:b0:31c:769d:287c with SMTP id n17-20020a5d4211000000b0031c769d287cmr3990199wrq.50.1692970580113;
+        Fri, 25 Aug 2023 06:36:20 -0700 (PDT)
+Received: from klayman.redhat.com (net-2-34-31-124.cust.vodafonedsl.it. [2.34.31.124])
+        by smtp.gmail.com with ESMTPSA id e11-20020adffd0b000000b0031b2c01f342sm2253915wrr.87.2023.08.25.06.36.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 05:28:08 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stanislav Fomichev <sdf@google.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>,
-        Jacob Keller <jacob.e.keller@intel.com>
-Subject: [PATCH net-next v6 02/12] doc/netlink: Add a schema for netlink-raw families
-Date:   Fri, 25 Aug 2023 13:27:45 +0100
-Message-ID: <20230825122756.7603-3-donald.hunter@gmail.com>
+        Fri, 25 Aug 2023 06:36:19 -0700 (PDT)
+From:   Marco Pagani <marpagan@redhat.com>
+To:     Jerome Glisse <jglisse@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Marco Pagani <marpagan@redhat.com>,
+        Mika Penttila <mpenttil@redhat.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/mm: remove references to hmm_mirror ops and clean typos
+Date:   Fri, 25 Aug 2023 15:35:46 +0200
+Message-ID: <20230825133546.249683-1-marpagan@redhat.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230825122756.7603-1-donald.hunter@gmail.com>
-References: <20230825122756.7603-1-donald.hunter@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This schema is largely a copy of the genetlink-legacy schema with the
-following modifications:
+Clean typos and remove the reference to the sync_cpu_device_pagetables()
+callback since all hmm_mirror ops have been removed.
 
- - change the schema id to netlink-raw
- - add a top-level protonum property, e.g. 0 (for NETLINK_ROUTE)
- - change the protocol enumeration to netlink-raw, removing the
-   genetlink options.
- - replace doc references to generic netlink with raw netlink
- - add a value property to mcast-group definitions
-
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+Fixes: a22dd506400d ("mm/hmm: remove hmm_mirror and related")
+Signed-off-by: Marco Pagani <marpagan@redhat.com>
+Reviewed-by: Mika Penttilä <mpenttil@redhat.com>
 ---
- Documentation/netlink/netlink-raw.yaml | 410 +++++++++++++++++++++++++
- 1 file changed, 410 insertions(+)
- create mode 100644 Documentation/netlink/netlink-raw.yaml
+ Documentation/mm/hmm.rst | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/Documentation/netlink/netlink-raw.yaml b/Documentation/netlink/netlink-raw.yaml
-new file mode 100644
-index 000000000000..896797876414
---- /dev/null
-+++ b/Documentation/netlink/netlink-raw.yaml
-@@ -0,0 +1,410 @@
-+# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
-+%YAML 1.2
-+---
-+$id: http://kernel.org/schemas/netlink/netlink-raw.yaml#
-+$schema: https://json-schema.org/draft-07/schema
-+
-+# Common defines
-+$defs:
-+  uint:
-+    type: integer
-+    minimum: 0
-+  len-or-define:
-+    type: [ string, integer ]
-+    pattern: ^[0-9A-Za-z_]+( - 1)?$
-+    minimum: 0
-+
-+# Schema for specs
-+title: Protocol
-+description: Specification of a raw netlink protocol
-+type: object
-+required: [ name, doc, attribute-sets, operations ]
-+additionalProperties: False
-+properties:
-+  name:
-+    description: Name of the netlink family.
-+    type: string
-+  doc:
-+    type: string
-+  protocol:
-+    description: Schema compatibility level.
-+    enum: [ netlink-raw ] # Trim
-+  # Start netlink-raw
-+  protonum:
-+    description: Protocol number to use for netlink-raw
-+    type: integer
-+  # End netlink-raw
-+  uapi-header:
-+    description: Path to the uAPI header, default is linux/${family-name}.h
-+    type: string
-+  # Start genetlink-c
-+  c-family-name:
-+    description: Name of the define for the family name.
-+    type: string
-+  c-version-name:
-+    description: Name of the define for the version of the family.
-+    type: string
-+  max-by-define:
-+    description: Makes the number of attributes and commands be specified by a define, not an enum value.
-+    type: boolean
-+  # End genetlink-c
-+  # Start genetlink-legacy
-+  kernel-policy:
-+    description: |
-+      Defines if the input policy in the kernel is global, per-operation, or split per operation type.
-+      Default is split.
-+    enum: [ split, per-op, global ]
-+  # End genetlink-legacy
-+
-+  definitions:
-+    description: List of type and constant definitions (enums, flags, defines).
-+    type: array
-+    items:
-+      type: object
-+      required: [ type, name ]
-+      additionalProperties: False
-+      properties:
-+        name:
-+          type: string
-+        header:
-+          description: For C-compatible languages, header which already defines this value.
-+          type: string
-+        type:
-+          enum: [ const, enum, flags, struct ] # Trim
-+        doc:
-+          type: string
-+        # For const
-+        value:
-+          description: For const - the value.
-+          type: [ string, integer ]
-+        # For enum and flags
-+        value-start:
-+          description: For enum or flags the literal initializer for the first value.
-+          type: [ string, integer ]
-+        entries:
-+          description: For enum or flags array of values.
-+          type: array
-+          items:
-+            oneOf:
-+              - type: string
-+              - type: object
-+                required: [ name ]
-+                additionalProperties: False
-+                properties:
-+                  name:
-+                    type: string
-+                  value:
-+                    type: integer
-+                  doc:
-+                    type: string
-+        render-max:
-+          description: Render the max members for this enum.
-+          type: boolean
-+        # Start genetlink-c
-+        enum-name:
-+          description: Name for enum, if empty no name will be used.
-+          type: [ string, "null" ]
-+        name-prefix:
-+          description: For enum the prefix of the values, optional.
-+          type: string
-+        # End genetlink-c
-+        # Start genetlink-legacy
-+        members:
-+          description: List of struct members. Only scalars and strings members allowed.
-+          type: array
-+          items:
-+            type: object
-+            required: [ name, type ]
-+            additionalProperties: False
-+            properties:
-+              name:
-+                type: string
-+              type:
-+                description: The netlink attribute type
-+                enum: [ u8, u16, u32, u64, s8, s16, s32, s64, string, binary ]
-+              len:
-+                $ref: '#/$defs/len-or-define'
-+              byte-order:
-+                enum: [ little-endian, big-endian ]
-+              doc:
-+                description: Documentation for the struct member attribute.
-+                type: string
-+              enum:
-+                description: Name of the enum type used for the attribute.
-+                type: string
-+              enum-as-flags:
-+                description: |
-+                  Treat the enum as flags. In most cases enum is either used as flags or as values.
-+                  Sometimes, however, both forms are necessary, in which case header contains the enum
-+                  form while specific attributes may request to convert the values into a bitfield.
-+                type: boolean
-+              display-hint: &display-hint
-+                description: |
-+                  Optional format indicator that is intended only for choosing
-+                  the right formatting mechanism when displaying values of this
-+                  type.
-+                enum: [ hex, mac, fddi, ipv4, ipv6, uuid ]
-+        # End genetlink-legacy
-+
-+  attribute-sets:
-+    description: Definition of attribute spaces for this family.
-+    type: array
-+    items:
-+      description: Definition of a single attribute space.
-+      type: object
-+      required: [ name, attributes ]
-+      additionalProperties: False
-+      properties:
-+        name:
-+          description: |
-+            Name used when referring to this space in other definitions, not used outside of the spec.
-+          type: string
-+        name-prefix:
-+          description: |
-+            Prefix for the C enum name of the attributes. Default family[name]-set[name]-a-
-+          type: string
-+        enum-name:
-+          description: Name for the enum type of the attribute.
-+          type: string
-+        doc:
-+          description: Documentation of the space.
-+          type: string
-+        subset-of:
-+          description: |
-+            Name of another space which this is a logical part of. Sub-spaces can be used to define
-+            a limited group of attributes which are used in a nest.
-+          type: string
-+        # Start genetlink-c
-+        attr-cnt-name:
-+          description: The explicit name for constant holding the count of attributes (last attr + 1).
-+          type: string
-+        attr-max-name:
-+          description: The explicit name for last member of attribute enum.
-+          type: string
-+        # End genetlink-c
-+        attributes:
-+          description: List of attributes in the space.
-+          type: array
-+          items:
-+            type: object
-+            required: [ name, type ]
-+            additionalProperties: False
-+            properties:
-+              name:
-+                type: string
-+              type: &attr-type
-+                description: The netlink attribute type
-+                enum: [ unused, pad, flag, binary, u8, u16, u32, u64, s32, s64,
-+                        string, nest, array-nest, nest-type-value ]
-+              doc:
-+                description: Documentation of the attribute.
-+                type: string
-+              value:
-+                description: Value for the enum item representing this attribute in the uAPI.
-+                $ref: '#/$defs/uint'
-+              type-value:
-+                description: Name of the value extracted from the type of a nest-type-value attribute.
-+                type: array
-+                items:
-+                  type: string
-+              byte-order:
-+                enum: [ little-endian, big-endian ]
-+              multi-attr:
-+                type: boolean
-+              nested-attributes:
-+                description: Name of the space (sub-space) used inside the attribute.
-+                type: string
-+              enum:
-+                description: Name of the enum type used for the attribute.
-+                type: string
-+              enum-as-flags:
-+                description: |
-+                  Treat the enum as flags. In most cases enum is either used as flags or as values.
-+                  Sometimes, however, both forms are necessary, in which case header contains the enum
-+                  form while specific attributes may request to convert the values into a bitfield.
-+                type: boolean
-+              checks:
-+                description: Kernel input validation.
-+                type: object
-+                additionalProperties: False
-+                properties:
-+                  flags-mask:
-+                    description: Name of the flags constant on which to base mask (unsigned scalar types only).
-+                    type: string
-+                  min:
-+                    description: Min value for an integer attribute.
-+                    type: integer
-+                  min-len:
-+                    description: Min length for a binary attribute.
-+                    $ref: '#/$defs/len-or-define'
-+                  max-len:
-+                    description: Max length for a string or a binary attribute.
-+                    $ref: '#/$defs/len-or-define'
-+              sub-type: *attr-type
-+              display-hint: *display-hint
-+              # Start genetlink-c
-+              name-prefix:
-+                type: string
-+              # End genetlink-c
-+              # Start genetlink-legacy
-+              struct:
-+                description: Name of the struct type used for the attribute.
-+                type: string
-+              # End genetlink-legacy
-+
-+      # Make sure name-prefix does not appear in subsets (subsets inherit naming)
-+      dependencies:
-+        name-prefix:
-+          not:
-+            required: [ subset-of ]
-+        subset-of:
-+          not:
-+            required: [ name-prefix ]
-+
-+  operations:
-+    description: Operations supported by the protocol.
-+    type: object
-+    required: [ list ]
-+    additionalProperties: False
-+    properties:
-+      enum-model:
-+        description: |
-+          The model of assigning values to the operations.
-+          "unified" is the recommended model where all message types belong
-+          to a single enum.
-+          "directional" has the messages sent to the kernel and from the kernel
-+          enumerated separately.
-+        enum: [ unified, directional ] # Trim
-+      name-prefix:
-+        description: |
-+          Prefix for the C enum name of the command. The name is formed by concatenating
-+          the prefix with the upper case name of the command, with dashes replaced by underscores.
-+        type: string
-+      enum-name:
-+        description: Name for the enum type with commands.
-+        type: string
-+      async-prefix:
-+        description: Same as name-prefix but used to render notifications and events to separate enum.
-+        type: string
-+      async-enum:
-+        description: Name for the enum type with notifications/events.
-+        type: string
-+      # Start genetlink-legacy
-+      fixed-header: &fixed-header
-+        description: |
-+          Name of the structure defining the optional fixed-length protocol
-+          header. This header is placed in a message after the netlink and
-+          genetlink headers and before any attributes.
-+        type: string
-+      # End genetlink-legacy
-+      list:
-+        description: List of commands
-+        type: array
-+        items:
-+          type: object
-+          additionalProperties: False
-+          required: [ name, doc ]
-+          properties:
-+            name:
-+              description: Name of the operation, also defining its C enum value in uAPI.
-+              type: string
-+            doc:
-+              description: Documentation for the command.
-+              type: string
-+            value:
-+              description: Value for the enum in the uAPI.
-+              $ref: '#/$defs/uint'
-+            attribute-set:
-+              description: |
-+                Attribute space from which attributes directly in the requests and replies
-+                to this command are defined.
-+              type: string
-+            flags: &cmd_flags
-+              description: Command flags.
-+              type: array
-+              items:
-+                enum: [ admin-perm ]
-+            dont-validate:
-+              description: Kernel attribute validation flags.
-+              type: array
-+              items:
-+                enum: [ strict, dump ]
-+            # Start genetlink-legacy
-+            fixed-header: *fixed-header
-+            # End genetlink-legacy
-+            do: &subop-type
-+              description: Main command handler.
-+              type: object
-+              additionalProperties: False
-+              properties:
-+                request: &subop-attr-list
-+                  description: Definition of the request message for a given command.
-+                  type: object
-+                  additionalProperties: False
-+                  properties:
-+                    attributes:
-+                      description: |
-+                        Names of attributes from the attribute-set (not full attribute
-+                        definitions, just names).
-+                      type: array
-+                      items:
-+                        type: string
-+                    # Start genetlink-legacy
-+                    value:
-+                      description: |
-+                        ID of this message if value for request and response differ,
-+                        i.e. requests and responses have different message enums.
-+                      $ref: '#/$defs/uint'
-+                    # End genetlink-legacy
-+                reply: *subop-attr-list
-+                pre:
-+                  description: Hook for a function to run before the main callback (pre_doit or start).
-+                  type: string
-+                post:
-+                  description: Hook for a function to run after the main callback (post_doit or done).
-+                  type: string
-+            dump: *subop-type
-+            notify:
-+              description: Name of the command sharing the reply type with this notification.
-+              type: string
-+            event:
-+              type: object
-+              additionalProperties: False
-+              properties:
-+                attributes:
-+                  description: Explicit list of the attributes for the notification.
-+                  type: array
-+                  items:
-+                    type: string
-+            mcgrp:
-+              description: Name of the multicast group generating given notification.
-+              type: string
-+  mcast-groups:
-+    description: List of multicast groups.
-+    type: object
-+    required: [ list ]
-+    additionalProperties: False
-+    properties:
-+      list:
-+        description: List of groups.
-+        type: array
-+        items:
-+          type: object
-+          required: [ name ]
-+          additionalProperties: False
-+          properties:
-+            name:
-+              description: |
-+                The name for the group, used to form the define and the value of the define.
-+              type: string
-+            # Start genetlink-c
-+            c-define-name:
-+              description: Override for the name of the define in C uAPI.
-+              type: string
-+            # End genetlink-c
-+            flags: *cmd_flags
-+            # Start netlink-raw
-+            value:
-+              description: Value of the netlink multicast group in the uAPI.
-+              type: integer
-+            # End netlink-raw
+diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
+index 9aa512c3a12c..1e0f2b2f58fb 100644
+--- a/Documentation/mm/hmm.rst
++++ b/Documentation/mm/hmm.rst
+@@ -163,16 +163,7 @@ use::
+ 
+ It will trigger a page fault on missing or read-only entries if write access is
+ requested (see below). Page faults use the generic mm page fault code path just
+-like a CPU page fault.
+-
+-Both functions copy CPU page table entries into their pfns array argument. Each
+-entry in that array corresponds to an address in the virtual range. HMM
+-provides a set of flags to help the driver identify special CPU page table
+-entries.
+-
+-Locking within the sync_cpu_device_pagetables() callback is the most important
+-aspect the driver must respect in order to keep things properly synchronized.
+-The usage pattern is::
++like a CPU page fault. The usage pattern is::
+ 
+  int driver_populate_range(...)
+  {
 -- 
 2.41.0
 
