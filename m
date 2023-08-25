@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75042C3DA66
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 12:27:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69321C3DA66
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 12:27:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241593AbjHYM0f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 08:26:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35788 "EHLO
+        id S237251AbjHYM1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 08:27:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244815AbjHYM0S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 08:26:18 -0400
+        with ESMTP id S244925AbjHYM1B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 08:27:01 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF492125;
-        Fri, 25 Aug 2023 05:25:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DBF2114;
+        Fri, 25 Aug 2023 05:26:37 -0700 (PDT)
 Received: from localhost.localdomain (unknown [171.76.83.99])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: vignesh)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1819A6607283;
-        Fri, 25 Aug 2023 13:24:51 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0D081660728C;
+        Fri, 25 Aug 2023 13:25:19 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1692966298;
-        bh=KTW2XkA7TENvlUjtZxVgz0cTJt8BRHSoHLAxDPCe3/M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=atR3yLJW3d4/PabzFRiwGIHVX5yPIRv3bnIJQpvAaxuB1jWhWikx9Rkc7j2ZFJn4d
-         b73hUkhgzynNX8aEiXefftccC/IKE8gKQ7GAsmwBhpKhvzxJTVzi0OViisAtSg4LAU
-         Ozr8OLVfH9ZbsTgvSRZ99RdWR4aByxBqbuvK6Sfzg4IojwEXR/4d30coZHDrJq+8YF
-         tBK4niVms8OfEcUo9BK1nFBuOSwqFJ2/oNZo2yNDI+b2OJHvChJwX5Q0pBJTlG4LSx
-         7ZAcPq8tCEQAC66520N4XYo6jVIUyLao0SU6VN8nAy2qbaboSWx0uDioZ9K8nxI2HI
-         oqtqq8AyWLwVQ==
+        s=mail; t=1692966326;
+        bh=NyIn73BQxUrufKyWq8BDAMtc8SZCd6gx2Lk9WFhK3Lc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=F8QshP2U5DJiUF7YueJ5M3UMGb/xy1qVTBpLqtvCvmRHlJ9Sev0qybWHNGqqfkqLh
+         C+I8ZNkkUyuEOMVh+3pbLiP4PdBVFVxDHfyqF4GBcoR8WdQPcDZo0cmrBruIBH9du9
+         5oaQf5x3Sva4vXLBt1fp5qlFm7by3HfwXc5zJWK05PAUi+Mj9fHICeO1ZH6uEXiXaQ
+         UqyC/9VxpCRwt88OxRoBNt3DJhGnRcTB0Qw6aay2ovu08IwdcyvPOUnGvntLwAtbMr
+         WWp3wPbhPwA9WH3D4/7HMPIKnjAJWhdJFTs8TuF/F5GvTXGFzWiWDkVAK/9haRwGfb
+         jn9JQhk1DSqxQ==
 From:   Vignesh Raman <vignesh.raman@collabora.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     helen.koike@collabora.com, guilherme.gallo@collabora.com,
@@ -48,46 +48,39 @@ Cc:     helen.koike@collabora.com, guilherme.gallo@collabora.com,
         linux-mediatek@lists.infradead.org,
         linux-amlogic@lists.infradead.org,
         linux-rockchip@lists.infradead.org
-Subject: [PATCH 0/6] drm: ci: fixes
-Date:   Fri, 25 Aug 2023 17:54:29 +0530
-Message-Id: <20230825122435.316272-1-vignesh.raman@collabora.com>
+Subject: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
+Date:   Fri, 25 Aug 2023 17:54:33 +0530
+Message-Id: <20230825122435.316272-5-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230825122435.316272-1-vignesh.raman@collabora.com>
+References: <20230825122435.316272-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The patch series contains improvements, enabling new ci jobs which
-enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
-fixing issues with the ci jobs and updating the expectation files.
-This series is intended for drm branch topic/drm-ci.
+Enable regulator
+Enable MT6397 RTC driver
 
-Vignesh Raman (6):
-  drm: ci: igt_runner: remove todo
-  drm: ci: Force db410c to host mode
-  drm: ci: virtio: update ci variables
-  drm: ci: Enable configs to fix mt8173 boot hang issue
-  drm: ci: Update xfails
-  drm: ci: Remove rules
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
+ drivers/gpu/drm/ci/arm64.config | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/gpu/drm/ci/arm64.config                  |  2 ++
- drivers/gpu/drm/ci/build.sh                      |  4 ++++
- drivers/gpu/drm/ci/gitlab-ci.yml                 |  2 +-
- drivers/gpu/drm/ci/igt_runner.sh                 |  1 -
- drivers/gpu/drm/ci/test.yml                      | 14 ++++----------
- .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt    |  1 -
- drivers/gpu/drm/ci/xfails/i915-cml-fails.txt     |  1 -
- drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt    |  2 ++
- drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt    |  1 +
- .../gpu/drm/ci/xfails/mediatek-mt8173-fails.txt  |  2 --
- .../gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt | 16 ++++++++++++++++
- drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt |  2 ++
- .../gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt |  1 +
- .../gpu/drm/ci/xfails/rockchip-rk3399-fails.txt  |  4 ++--
- .../gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt |  3 +++
- 15 files changed, 38 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+index 817e18ddfd4f..ea7a6cceff40 100644
+--- a/drivers/gpu/drm/ci/arm64.config
++++ b/drivers/gpu/drm/ci/arm64.config
+@@ -184,6 +184,8 @@ CONFIG_HW_RANDOM_MTK=y
+ CONFIG_MTK_DEVAPC=y
+ CONFIG_PWM_MTK_DISP=y
+ CONFIG_MTK_CMDQ=y
++CONFIG_REGULATOR_DA9211=y
++CONFIG_RTC_DRV_MT6397=y
+ 
+ # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
+ CONFIG_ARCH_TEGRA=y
 -- 
 2.40.1
 
