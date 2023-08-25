@@ -2,130 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F21ACC3DA6F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 14:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F54AC3DA6F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Aug 2023 14:18:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343818AbjHYOQP convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Aug 2023 10:16:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46594 "EHLO
+        id S231837AbjHYOSK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Aug 2023 10:18:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343822AbjHYOPm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 10:15:42 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EED526A1;
-        Fri, 25 Aug 2023 07:15:17 -0700 (PDT)
-Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1c:f269::1])
-        by madras.collabora.co.uk (Postfix) with ESMTP id 4C74566071BE;
-        Fri, 25 Aug 2023 15:09:04 +0100 (BST)
-From:   "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
-In-Reply-To: <87pm3b2pkz.fsf@intel.com>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-Date:   Fri, 25 Aug 2023 15:09:04 +0100
-Cc:     "Vignesh Raman" <vignesh.raman@collabora.com>,
-        dri-devel@lists.freedesktop.org, emma@anholt.net,
-        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
-        linux-amlogic@lists.infradead.org, jbrunet@baylibre.com,
-        robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
-        sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
-        linux-rockchip@lists.infradead.org, daniels@collabora.com,
-        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
-        anholt@google.com, linux-mediatek@lists.infradead.org,
-        mripard@kernel.org, matthias.bgg@gmail.com,
-        linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de
-To:     "Jani Nikula" <jani.nikula@linux.intel.com>
+        with ESMTP id S1344054AbjHYOSG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Aug 2023 10:18:06 -0400
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 017212682;
+        Fri, 25 Aug 2023 07:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+        bh=97b0JfQGSNXqXd4NigawyuOiSD9yyLhmMPvce7xdAJo=; b=bZk9slxNMCK8YfIOmLcT8bDoQ+
+        CF+iY2j2oqXiKFmSR7+zwzbCqwEpYA5VISyStJg2Tttg/Pl3MZ5WGrNerwHBT4gigZU31jLXYn76A
+        ulpj+UZiVCyzAmkOup3aEDwMe4Jh6rUWaKfaY758KyVI/8kFRMxeEX/wkfhKFZh/iw5Ya5CKrKYNE
+        Uz9+CUnyciMsTGggroLM4tSx5DHd8kufPkmohiyotTXibwExH6WZq/urzgWF6RnzMzM+IvmNaHVKP
+        eW+Hor8lFEYZ6rXt9YH9AQZEdDShegK83YSVFG2kS7ZdaG3RxubcGPwsqji2crERVvpByraHyFT4M
+        Yl2Bf2lg==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1qZXcI-000Hqa-5E; Fri, 25 Aug 2023 16:16:50 +0200
+Received: from [85.1.206.226] (helo=linux.home)
+        by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1qZXcH-000OoA-W6; Fri, 25 Aug 2023 16:16:50 +0200
+Subject: Re: [PATCH 1/2] Documentation: sphinx: Add sphinx-prompt
+To:     Nishanth Menon <nm@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bpf@vger.kernel.org,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>,
+        Neha Francis <n-francis@ti.com>
+References: <20230824182107.3702766-1-nm@ti.com>
+ <20230824182107.3702766-2-nm@ti.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <149528e1-062b-ebed-aa25-d37be5fe5894@iogearbox.net>
+Date:   Fri, 25 Aug 2023 16:16:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Message-ID: <29c7-64e8b600-1-6afffd8@162524228>
-Subject: =?utf-8?q?Re=3A?= [PATCH 2/6] =?utf-8?q?drm=3A?==?utf-8?q?_ci=3A?= Force 
- db410c to host mode
-User-Agent: SOGoMail 5.8.4
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20230824182107.3702766-2-nm@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.103.8/27011/Fri Aug 25 09:40:47 2023)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jani, thanks for your comments
-
-On Friday, August 25, 2023 10:56 -03, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-
-> On Fri, 25 Aug 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> > Force db410c to host mode to fix network issue which results in failure
-> > to mount root fs via NFS.
-> > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
-> >
-> > Since this fix is not sent upstream, add it to build.sh script
-> > before building the kernel and dts. Better approach would be
-> > to use devicetree overlays.
-> >
-> > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> > ---
-> >  drivers/gpu/drm/ci/build.sh | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-> > index 7b014287a041..c39834bd6bd7 100644
-> > --- a/drivers/gpu/drm/ci/build.sh
-> > +++ b/drivers/gpu/drm/ci/build.sh
-> > @@ -70,6 +70,10 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
-> >      fi
-> >  fi
-> >  
-> > +# Force db410c to host mode to fix network issue which results in failure to mount root fs via NFS.
-> > +# See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
-> > +sed -i '/&usb {/,/status = "okay";/s/status = "okay";/&\n\tdr_mode = "host";/' arch/arm64/boot/dts/qcom/apq8016-sbc.dts
-> > +
+On 8/24/23 8:21 PM, Nishanth Menon wrote:
+> Sphinx-prompt[1] helps bring-in '.. prompt::' option that allows a
+> better rendered documentation, yet be able to copy paste without
+> picking up the prompt from the rendered documentation.
 > 
-> It seems like a really bad idea to me to have the CI build modify the
-> source tree before building.
-> 
-> The kernel being built will have a dirty git repo, and the localversion
-> will have -dirty in it.
+> [1] https://pypi.org/project/sphinx-prompt/
+> Link: https://lore.kernel.org/all/87fs48rgto.fsf@baylibre.com/
+> Suggested-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> Suggested-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+> Signed-off-by: Nishanth Menon <nm@ti.com>
 
-Is it bad?
+Given the patch 2/2 is targeted for bpf docs, we can route this via bpf-next.
+Jonathan, could we get an ack for this one if it looks good to you?
 
-The other option was to work with device tree overlays (but we still need to spend some time to
-see how to fit it all together)
-
-> 
-> I think it would be better to do out-of-tree builds and assume the
-> source is read-only.
-
-I'm not sure I get what do you call out-of-tree builds.
-
-Another option would be to apply .patch file, or to have another branch
-just with fix ups for ci that would be applied in the tree before building.
-
-> 
-> >  for opt in $ENABLE_KCONFIGS; do
-> >    echo CONFIG_$opt=y >> drivers/gpu/drm/ci/${KERNEL_ARCH}.config
-> >  done
-> 
-> Ditto for the config changes in the context here. Those are files in
-> git, don't change them.
-
-Probably these changes could go directly into drivers/gpu/drm/ci/${KERNEL_ARCH}.config
-files, no need to modify them on the fly here
-
-> 
-> Shouldn't this use something like 'scripts/config --enable' or
-> 'scripts/config --disable' on the .config file to be used for building
-> instead?
-
-I wasn't aware about this possibility, looks cleaner indeed.
-
-Regards,
-Helen
-
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-
+Thanks,
+Daniel
