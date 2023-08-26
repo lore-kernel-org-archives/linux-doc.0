@@ -2,164 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A672C83F16
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 07:15:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B299C83F01
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 07:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231631AbjHZHOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Aug 2023 03:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40472 "EHLO
+        id S231645AbjHZHan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Aug 2023 03:30:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjHZHOJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 03:14:09 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD6BE2136
-        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1bbc87ded50so11708585ad.1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
+        with ESMTP id S231873AbjHZHaI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 03:30:08 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989141FD0
+        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 00:30:03 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bdf4752c3cso11609565ad.2
+        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 00:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693034047; x=1693638847;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bw2vMsREcv77KurmsfcR7swCy8AJPq+KbriFrDX4PYQ=;
-        b=D5u2AjQcDsFKZ6gyFgKYdA9ekITPYtKILfZSMR7BD+CCW7jwDfa4AJNc3myvWKf/5h
-         6Vqhap2NyOYTqzndBtHoV97TuEvbpv8noHIpPRD6OEJ9n/iM/N4z6Co6mVNFwrmNcuwo
-         WbqCmVPC42aUHOiNMQpu7109NZzp6PnpR9pdw=
+        d=linaro.org; s=google; t=1693035003; x=1693639803;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8CqFyAMQ/NEx7yEtjnGCEGZfyqhrq/vnvZyQ6gXe7Io=;
+        b=ieujeqA9N/TfU/OAbSJE8YfxngCmvXR4gsSqKaOXVJEdmVmSeXON5W24Q7DVuBx7/t
+         M6gkn2JpdbdNdtW63mDbCxmoY2ejMaaBiCkT5oKy4K525PguByrlMI/43XmOkJIBLiSq
+         LT/R6VaeiTLsXMHo9J9V/mSIWmpivBYzQfbgXPBNY9w2Z6qL/TS4p5sbucKWGkKZIv0n
+         S7oCKO3HwmZb0ay3MZWmA3KO9I/75LfHdgMC9XW9WWyjIPmT5n6Kq/naJ4OoaNVXKfzl
+         dekyLDaGMQYtI+DTlnGZVC7vcoRoGeUCI/9UcstV0PFwo1WcnP2bo7JEcxoLQrQwToZq
+         VGyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693034047; x=1693638847;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bw2vMsREcv77KurmsfcR7swCy8AJPq+KbriFrDX4PYQ=;
-        b=dBzAWJpN/2w4cAgHuSWivePzk2BPuHJi+gP8mTw3VUbag2rJx5NfjgfFuJTEfaS8TK
-         nezC+C61iSq5RzAgdY51bFfunmoWGfJfceGEq7eveSQNKRpMkLcS7dLo5YsDBeOCGzUu
-         hCd0/QdIUj96aGtuSEXHgmM2dp2PLbVuogkyBA86G9fSPbW9WgHONEt3Es+eJmPxMRuA
-         /D7sUP7b6kOLOAxBj8zCCCJDr4j/xOGD9Z9FmFX4tahOAsQajiGPj6UWps2WufJdfqwa
-         kE5MOuqWNWjSpD0VguEjFs0dh1uLuft8dscbPpEwfmvE8yq7ByE64PrnHyknWbSUGnlH
-         +V6A==
-X-Gm-Message-State: AOJu0YzOWiBSLT3ioq3bR9A5oGgKwqzU/B4SOmGZDlmgrvLOdxJ62DUe
-        Tg2tLnCAwO4CxPRKT1LKREC7rj5HNN7QmwElTjU=
-X-Google-Smtp-Source: AGHT+IEPE5/mQHDL2cI1rWkGWf1H9bzL0SNhk927KOlXZzcOKt4MQ0Y+aaiCAigt2QWS9leNJjdupA==
-X-Received: by 2002:a17:902:e888:b0:1bd:edac:af44 with SMTP id w8-20020a170902e88800b001bdedacaf44mr21152605plg.51.1693034047207;
-        Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
-Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:e5a4:5dc1:67ab:c8f5])
-        by smtp.gmail.com with ESMTPSA id d10-20020a170902654a00b001bc68602e54sm2986168pln.142.2023.08.26.00.14.04
+        d=1e100.net; s=20221208; t=1693035003; x=1693639803;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8CqFyAMQ/NEx7yEtjnGCEGZfyqhrq/vnvZyQ6gXe7Io=;
+        b=ieNDTwO/eTUIcVAwU2rEX6ksNLerjXBFiZ5QRkmu/femZSJbJCclo0lVX4iqK8kyPl
+         wQsYRzWgtz+fWjp+oYYLkTQn9aVsuZcBexjnNj4VMlJJVuERk9imejO1x30st+cutXfg
+         vSDGMLNRcWliTdNdx9BLfH80PvwgnoKsxMZOyWNCmOugAajgeCzWjjAG0lToy71KU8o6
+         lsRFkQMTSpu9vIxsTMdREe7LrVUTgeQrLszAIBuS6ELv66NyL2piw0WeoOTkgd5XoCjl
+         +uwzbt9MtaucReNoQ8+phzdMHKdATKfDk/XTjYlL7yqZspAk+v+iXiatq16pDdi1OPcF
+         KPGw==
+X-Gm-Message-State: AOJu0YyYu8KfflQebDP8CELpzao/7rwVrnMLov9PYgL7N27WbsjBcEIt
+        1EaJoS8HIhmX3gC9NbmjsQtUDQ==
+X-Google-Smtp-Source: AGHT+IFk37CMOS1xQ4ye3EHiPgykN3Yffd2tVo0Uc5MDoLthwjhO+tm6XDC0HF0yz8mJ50dgm382YA==
+X-Received: by 2002:a17:903:25d4:b0:1bb:94ed:20a with SMTP id jc20-20020a17090325d400b001bb94ed020amr16657758plb.24.1693035002767;
+        Sat, 26 Aug 2023 00:30:02 -0700 (PDT)
+Received: from leoy-huanghe.lan (211-75-219-204.hinet-ip.hinet.net. [211.75.219.204])
+        by smtp.gmail.com with ESMTPSA id j10-20020a170902690a00b001b86e17ecacsm2994238plk.131.2023.08.26.00.29.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 00:14:06 -0700 (PDT)
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCH] kconfig: add warn-unknown-symbols sanity check
-Date:   Sat, 26 Aug 2023 16:13:52 +0900
-Message-ID: <20230826071359.2060501-1-senozhatsky@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
+        Sat, 26 Aug 2023 00:30:02 -0700 (PDT)
+Date:   Sat, 26 Aug 2023 15:29:57 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Namhyung Kim <namhyung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Thomas Richter <tmricht@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v6] Documentation: userspace-api: Document perf ring
+ buffer mechanism
+Message-ID: <20230826072957.GA75980@leoy-huanghe.lan>
+References: <20230819093340.265817-1-leo.yan@linaro.org>
+ <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
+ <20230823023838.GF57731@leoy-huanghe.lan>
+ <CAM9d7cgaMyH=vSjVEOBjLzBWbZOricm6aHcP9hfLsTJ_gUEh3g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAM9d7cgaMyH=vSjVEOBjLzBWbZOricm6aHcP9hfLsTJ_gUEh3g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce KCONFIG_WARN_UNKNOWN_SYMBOLS environment variable,
-which makes Kconfig warn about unknown .config symbols.
+Hi Namhyung,
 
-This is especially useful for continuous kernel uprevs when
-some symbols can be either removed or renamed between kernel
-releases (which can go unnoticed otherwise).
+On Tue, Aug 22, 2023 at 09:26:05PM -0700, Namhyung Kim wrote:
 
-By default KCONFIG_WARN_UNKNOWN_SYMBOLS generates warnings,
-which are non-terminal. There is an additional environment
-variable KCONFIG_WERROR that overrides this behaviour and
-turns warnings into errors.
+[...]
 
-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
----
- Documentation/kbuild/kconfig.rst | 11 +++++++++++
- scripts/kconfig/confdata.c       | 23 +++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+> > > > +Why ring buffers are mapped with above two different modes?  Here the
+> > > > +write direction matters.  The forward writing starts to save data from
+> > > > +the beginning of the ring buffer and wrap around when overflow, which is
+> > > > +used with the read-write mode in the normal ring buffer.  When the
+> > > > +consumer doesn't keep up with the producer, it would lose some data, the
+> > > > +kernel keeps how many records it lost and generates the
+> > > > +``PERF_RECORD_LOST`` records in the next time when it finds a space in the
+> > > > +ring buffer.
+> > >
+> > > Thanks for the update.  It's unclear to me if all 4 combination of
+> > > (rw, ro) x (fwd, bwd) are possible (yes!).  The rw mode and back-
+> > > ward is also possible but just not used for perf tool.
+> >
+> > I can add a matrix for the combinations:
+> >
+> >   The combination is supported in perf tool:
+> >
+> >   ---+------------+-----------
+> >      |  Forward   | Backward
+> >   ---+------------+-----------
+> >   rw |  Yes       |   No
+> >   ---+------------+-----------
+> >   ro |  X         |   Yes
+> >   ---+------------+-----------
+> >
+> >   Yes: is supported
+> >   No: is not supported
+> >   X: is not feasible
+> 
+> I think they are all supported.  You can use rw mode with backward
+> direction but it's just not intuitive.  Also ro mode with forward direction
+> is working but there's a chance to miss the start position of the
+> previous event.
 
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index 6530ecd99da3..4de1f5435b7b 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -56,6 +56,17 @@ KCONFIG_OVERWRITECONFIG
- If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
- break symlinks when .config is a symlink to somewhere else.
- 
-+KCONFIG_WARN_UNKNOWN_SYMBOLS
-+----------------------------
-+This environment variable makes Kconfig warn about all unrecognized
-+symbols in the .config file.
-+
-+KCONFIG_WERROR
-+--------------
-+If set, Kconfig will treat `KCONFIG_WARN_UNKNOWN_SYMBOLS` warnings as
-+errors.
-+
-+
- `CONFIG_`
- ---------
- If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 992575f1e976..c24f637827fe 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -349,7 +349,12 @@ int conf_read_simple(const char *name, int def)
- 	char *p, *p2;
- 	struct symbol *sym;
- 	int i, def_flags;
-+	bool found_unknown = false;
-+	const char *warn_unknown;
-+	const char *werror;
- 
-+	warn_unknown = getenv("KCONFIG_WARN_UNKNOWN_SYMBOLS");
-+	werror = getenv("KCONFIG_WERROR");
- 	if (name) {
- 		in = zconf_fopen(name);
- 	} else {
-@@ -437,6 +442,13 @@ int conf_read_simple(const char *name, int def)
- 			if (def == S_DEF_USER) {
- 				sym = sym_find(line + 2 + strlen(CONFIG_));
- 				if (!sym) {
-+					if (warn_unknown) {
-+						conf_warning("unknown symbol: %s",
-+							     line + 2 + strlen(CONFIG_));
-+						found_unknown = true;
-+						continue;
-+					}
-+
- 					conf_set_changed(true);
- 					continue;
- 				}
-@@ -471,6 +483,13 @@ int conf_read_simple(const char *name, int def)
- 
- 			sym = sym_find(line + strlen(CONFIG_));
- 			if (!sym) {
-+				if (warn_unknown && def != S_DEF_AUTO) {
-+					conf_warning("unknown symbol: %s",
-+						     line + strlen(CONFIG_));
-+					found_unknown = true;
-+					continue;
-+				}
-+
- 				if (def == S_DEF_AUTO)
- 					/*
- 					 * Reading from include/config/auto.conf
-@@ -519,6 +538,10 @@ int conf_read_simple(const char *name, int def)
- 	}
- 	free(line);
- 	fclose(in);
-+
-+	if (found_unknown && werror)
-+		exit(1);
-+
- 	return 0;
- }
- 
--- 
-2.42.0.rc2.253.gd59a3bf2b4-goog
+I am a bit confused for the all four modes are supported.
 
+From the code [1], we can see there have only two combinations:
+
+- overwrite + read-only mode (PROT_READ);
+- no-overwrite + read-write mode (PROT_READ | PROT_WRITE);
+
+And I think perf tool must use the backward writing for "overwrite",
+and use the forward writing for "non-overwrite" mode.  I think the
+code [2] can help us to conclude this.
+
+In the end, the perf tool doesn't support the combinations:
+
+- overwrite + read-write mode
+- no-overwrite + read-only mode
+
+I have sent a v6 patch, please let me know if you have any concerns or
+if I misunderstand anything.  Thanks!
+
+Leo
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/evlist.c#n474
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/mmap.c#n141
