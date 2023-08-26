@@ -2,207 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6E6C83F16
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 08:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEBEC83F01
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 09:57:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230215AbjHZIIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Aug 2023 04:08:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38648 "EHLO
+        id S231417AbjHZJ4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Aug 2023 05:56:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbjHZIH6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 04:07:58 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF8A2694
-        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 01:07:54 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31c73c21113so1395806f8f.1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 01:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1693037273; x=1693642073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fC4WZsMhyCohhKB9zSr+KT2wl5NJx/+h9RZP4Ctvhp0=;
-        b=eOt95+E07ON6zeEGedPjyC1QMO71915I0XMuK8/WKOmzqvQMPYz9Bav8NYXv6TuSxf
-         LlJ7b2OzmKVfy1szcDeH5Jzl88YTG5m3yGQ66552ll0BkUm8rtoKdEZZwD0Sudn1omM8
-         3Y50icrJMQkH88wbl/RMvK+xizYYj61pWq1I5hGyvrErNJ3gnaODRS2OQI8D+K9OmQg6
-         ygBWlTX7jym2bZsoyeyoPTD0a48AlDSpVxvN32zvZcodoQFQqin+tMYioFna0FioQGnT
-         MGsYeJlwKJt+gPhHYH3nVLGbFCmH/JAe6rd0RhbYPTr5pcFVO1fE0nguulD1tPSK9cGn
-         P8dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693037273; x=1693642073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fC4WZsMhyCohhKB9zSr+KT2wl5NJx/+h9RZP4Ctvhp0=;
-        b=SbiElnewDPN1Wko+5ChtizoZsth+Uyfen3CZMJEmDSVGjwDea0SetZYL1t53mI930t
-         ooZhyg2tEQrib2KlzAaLEfroMXrPPfRLWljeqy8kEdSsYfZR+rnifRqRnxzeJwS+A04M
-         tsXSnEv50mZyQLlQLnqt5gLj1s2QrOuILS1suMIObRz7LSSKk9KDSZIzoCW0cyX6sc86
-         HjUwx0l1/2V/lKWshjH/2vAX8YKN0PPHfAl+QlwGD8upwCc9v0cB4NnF68hp+en9oteH
-         l8tneUsd7d8NJKhiDuYx9BqX+r37o+3Dnx3TG+dIUCo3cK/6zLhJGFSLv+Ot6ytIb7CR
-         Locg==
-X-Gm-Message-State: AOJu0Yw0yuYDCwofPHAZ4V9rRFhRaqiKhOjaUVe9aJJwNSp5ksdpaKyq
-        KC3b39EZaYONBz/OSZmaCWROGQ==
-X-Google-Smtp-Source: AGHT+IGMPGXDXtGgESddQTOeTJz31uVZuHV/5a/MONPOXhu6E1qGsm5fbdMkp074B6aPRGLH0/NLhQ==
-X-Received: by 2002:a5d:630d:0:b0:31a:c6b2:8c63 with SMTP id i13-20020a5d630d000000b0031ac6b28c63mr14226802wru.21.1693037272127;
-        Sat, 26 Aug 2023 01:07:52 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id m15-20020adffe4f000000b003195504c754sm4252498wrs.31.2023.08.26.01.07.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 01:07:50 -0700 (PDT)
-Date:   Sat, 26 Aug 2023 10:07:50 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
+        with ESMTP id S231638AbjHZJ4h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 05:56:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64D53C9;
+        Sat, 26 Aug 2023 02:56:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 031126250A;
+        Sat, 26 Aug 2023 09:56:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A135BC433C8;
+        Sat, 26 Aug 2023 09:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693043794;
+        bh=qlZJ4SptZpC3yzlNPg9RvGeSpsH0gDY6HJ2kxhhw/TY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RcXdebU+QGtCLb13X/77v6ukAdI/a6OlUpm7Jlx++Mf0E3YrE2YDhVWLzWdo4Ak9n
+         LV88+EYn7SVefmnEgBTkxaC1bCbzALvbYgztwNQknPIPqDVzKntmSWq0mjntZAzhXJ
+         fpR6JZsPthKr3SRkDrHQsQOgkIgtVjAsh3lBr11Ro9ZAqXhwlEEBTIImwSj5ElOCu0
+         FvH6EluxwE89Qui8TaocibQ65mQ7s9BnNBxxUw4m3N0ZOf8qVHNF0OmaXIirikudQ2
+         vbP8Uj4bGnqe3gF9XApvm6m6CMBU+WViytPOyfVoCTPlF9EHn25L+G8Tn6BPcrFwwY
+         t03aOnvo9CzXA==
+Date:   Sat, 26 Aug 2023 10:56:29 +0100
+From:   Conor Dooley <conor@kernel.org>
 To:     Evan Green <evan@rivosinc.com>
 Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
         Anup Patel <apatel@ventanamicro.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Heiko Stuebner <heiko@sntech.de>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
+        linux-riscv@lists.infradead.org,
+        Andrew Jones <ajones@ventanamicro.com>
 Subject: Re: [PATCH v5] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
-Message-ID: <20230826-323be460a0dcd2a5fc2917b9@orel>
+Message-ID: <20230826-copper-suffocate-5f4f0e67f9a7@spud>
 References: <20230825231139.1145522-1-evan@rivosinc.com>
+ <20230826-anguished-tutu-81d63b3081a7@spud>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ZgcPN0UduebIi3vr"
 Content-Disposition: inline
-In-Reply-To: <20230825231139.1145522-1-evan@rivosinc.com>
+In-Reply-To: <20230826-anguished-tutu-81d63b3081a7@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 25, 2023 at 04:11:38PM -0700, Evan Green wrote:
-> In /proc/cpuinfo, most of the information we show for each processor is
-> specific to that hart: marchid, mvendorid, mimpid, processor, hart,
-> compatible, and the mmu size. But the ISA string gets filtered through a
-> lowest common denominator mask, so that if one CPU is missing an ISA
-> extension, no CPUs will show it.
-> 
-> Now that we track the ISA extensions for each hart, let's report ISA
-> extension info accurately per-hart in /proc/cpuinfo. We cannot change
-> the "isa:" line, as usermode may be relying on that line to show only
-> the common set of extensions supported across all harts. Add a new "hart
-> isa" line instead, which reports the true set of extensions for that
-> hart.
-> 
-> Signed-off-by: Evan Green <evan@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> 
-> ---
-> 
-> Changes in v5:
->  - Documentation changes (only) (Conor)
-> 
-> Changes in v4:
->  - Documentation: Made the underline match the text line (Conor)
->  - Documentation: hanged "in question" to "being described" (Andrew)
-> 
-> Changes in v3:
->  - Add some documentation (Conor)
-> 
-> Changes in v2:
->  - Added new "hart isa" line rather than altering behavior of existing
->    "isa" line (Conor, Palmer)
-> 
->  Documentation/riscv/uabi.rst | 12 ++++++++++++
->  arch/riscv/kernel/cpu.c      | 22 ++++++++++++++++++----
->  2 files changed, 30 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
-> index 8960fac42c40..a46017f57db2 100644
-> --- a/Documentation/riscv/uabi.rst
-> +++ b/Documentation/riscv/uabi.rst
-> @@ -42,6 +42,18 @@ An example string following the order is::
->  
->     rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
->  
-> +"isa" vs "hart isa" lines in /proc/cpuinfo
-> +------------------------------------------
-> +
-> +The "isa" line in /proc/cpuinfo describes the lowest common denominator of
-> +RISC-V ISA extensions recognized by the kernel and implemented on all harts. The
-> +"hart isa" line, in contrast, describes the set of extensions recognized by the
-> +kernel on the particular hart being described, even if those extensions may not
-> +be present on all harts in the system. In both cases, the presence of a feature
-> +in these lines guarantees only that the hardware has the described capability.
-> +Additional kernel support or policy control changes may be required before a
-> +feature is fully usable by userspace programs.
 
-These last words imply that extensions listed in /proc/cpuinfo are all
-potentially usable by userspace, but we also advertise extensions which
-are only usable in S-mode (which is fine because of VMs). We should just
-make that clear here.
+--ZgcPN0UduebIi3vr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Also, I frequently bounce between the words 'feature' and 'extension',
-but, for documentation, I think we should try to be consistent. Or, we
-could write somewhere that 'feature' == 'extension'.
+On Sat, Aug 26, 2023 at 12:26:25AM +0100, Conor Dooley wrote:
+> On Fri, Aug 25, 2023 at 04:11:38PM -0700, Evan Green wrote:
+> > In /proc/cpuinfo, most of the information we show for each processor is
+> > specific to that hart: marchid, mvendorid, mimpid, processor, hart,
+> > compatible, and the mmu size. But the ISA string gets filtered through a
+> > lowest common denominator mask, so that if one CPU is missing an ISA
+> > extension, no CPUs will show it.
+> >=20
+> > Now that we track the ISA extensions for each hart, let's report ISA
+> > extension info accurately per-hart in /proc/cpuinfo. We cannot change
+> > the "isa:" line, as usermode may be relying on that line to show only
+> > the common set of extensions supported across all harts. Add a new "hart
+> > isa" line instead, which reports the true set of extensions for that
+> > hart.
+> >=20
+> > Signed-off-by: Evan Green <evan@rivosinc.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+>=20
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>=20
+> Can you drop this if you repost?
+>=20
+> > +"isa" vs "hart isa" lines in /proc/cpuinfo
+> > +------------------------------------------
+> > +
+> > +The "isa" line in /proc/cpuinfo describes the lowest common denominato=
+r of
+> > +RISC-V ISA extensions recognized by the kernel and implemented on all =
+harts. The
+> > +"hart isa" line, in contrast, describes the set of extensions recogniz=
+ed by the
+> > +kernel on the particular hart being described, even if those extension=
+s may not
+> > +be present on all harts in the system.
+>=20
+> > In both cases, the presence of a feature
+> > +in these lines guarantees only that the hardware has the described cap=
+ability.
+> > +Additional kernel support or policy control changes may be required be=
+fore a
+> > +feature is fully usable by userspace programs.
+>=20
+> I do not think that "in both cases" matches the expectations of
+> userspace for the existing line. It's too late at night for me to think
+> properly, but I think our existing implementation does work like you
+> have documented for FD/V. I think I previously mentioned that it could
+> misreport things for vector during the review of the vector series but
+> forgot about it until now.
 
-Thanks,
-drew
+I went and checked, and yes it does currently do that for vector. I
+don't think that that is what userspace would expect, that Google
+cpu_features project for example would draw incorrect conclusions.
 
-> +
->  Misaligned accesses
->  -------------------
->  
-> diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-> index 7b793c4321bb..100fb382b450 100644
-> --- a/arch/riscv/kernel/cpu.c
-> +++ b/arch/riscv/kernel/cpu.c
-> @@ -197,9 +197,8 @@ arch_initcall(riscv_cpuinfo_init);
->  
->  #ifdef CONFIG_PROC_FS
->  
-> -static void print_isa(struct seq_file *f)
-> +static void print_isa(struct seq_file *f, const unsigned long *isa_bitmap)
->  {
-> -	seq_puts(f, "isa\t\t: ");
->  
->  	if (IS_ENABLED(CONFIG_32BIT))
->  		seq_write(f, "rv32", 4);
-> @@ -207,7 +206,7 @@ static void print_isa(struct seq_file *f)
->  		seq_write(f, "rv64", 4);
->  
->  	for (int i = 0; i < riscv_isa_ext_count; i++) {
-> -		if (!__riscv_isa_extension_available(NULL, riscv_isa_ext[i].id))
-> +		if (!__riscv_isa_extension_available(isa_bitmap, riscv_isa_ext[i].id))
->  			continue;
->  
->  		/* Only multi-letter extensions are split by underscores */
-> @@ -271,7 +270,15 @@ static int c_show(struct seq_file *m, void *v)
->  
->  	seq_printf(m, "processor\t: %lu\n", cpu_id);
->  	seq_printf(m, "hart\t\t: %lu\n", cpuid_to_hartid_map(cpu_id));
-> -	print_isa(m);
-> +
-> +	/*
-> +	 * For historical raisins, the isa: line is limited to the lowest common
-> +	 * denominator of extensions supported across all harts. A true list of
-> +	 * extensions supported on this hart is printed later in the hart_isa:
-> +	 * line.
-> +	 */
-> +	seq_puts(m, "isa\t\t: ");
-> +	print_isa(m, NULL);
->  	print_mmu(m);
->  
->  	if (acpi_disabled) {
-> @@ -287,6 +294,13 @@ static int c_show(struct seq_file *m, void *v)
->  	seq_printf(m, "mvendorid\t: 0x%lx\n", ci->mvendorid);
->  	seq_printf(m, "marchid\t\t: 0x%lx\n", ci->marchid);
->  	seq_printf(m, "mimpid\t\t: 0x%lx\n", ci->mimpid);
-> +
-> +	/*
-> +	 * Print the ISA extensions specific to this hart, which may show
-> +	 * additional extensions not present across all harts.
-> +	 */
-> +	seq_puts(m, "hart isa\t: ");
-> +	print_isa(m, hart_isa[cpu_id].isa);
->  	seq_puts(m, "\n");
->  
->  	return 0;
-> -- 
-> 2.34.1
-> 
+--ZgcPN0UduebIi3vr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZOnMTQAKCRB4tDGHoIJi
+0nrvAPwLjbOL6r4TZW8GOS8xZlIkG4PyNOBaEqN4E33o2EgBowD/Tkd86pHiHX8a
+n+M7q7/2r0Zr/7yxpNogkShnxCTCoAw=
+=V3DK
+-----END PGP SIGNATURE-----
+
+--ZgcPN0UduebIi3vr--
