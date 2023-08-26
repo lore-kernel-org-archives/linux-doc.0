@@ -2,531 +2,235 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DFDEC83F01
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 17:01:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44208C83F11
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 20:19:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbjHZRAy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Aug 2023 13:00:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47280 "EHLO
+        id S229647AbjHZUTE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Aug 2023 16:19:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjHZRA2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 13:00:28 -0400
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 870CDD2;
-        Sat, 26 Aug 2023 10:00:25 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-76ef935abaeso103818585a.2;
-        Sat, 26 Aug 2023 10:00:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693069224; x=1693674024;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5oiW9Lm2nWMWfvvlDIk1gze3Y3xzku1+fmafGi1nUCs=;
-        b=EURJESvN07W6rRRlXi5F9Zwxrn6WFdNadH0xJCjUiq5Upx8j9uqbJyvyBuK409xRbQ
-         ydF2eEbqXMwEXJtYlVl0wB3LzPvArt5wSV1CbmVcs+aOaPLu4qGri75LhjLKSNMy2aF0
-         czPqH4r1KZqiJaVRcwUtvNe3OMvI0czNWau0lKtHcKHi4eilZdBTgZJbeZIp3epdDvT0
-         IevDTn9sRNyjBECsivzIbpFKL9/xGxOCsj68Vixsc/Jihq4fvYbhdaHVVe1m7EvEFMs0
-         BR1msCUvg4EKRwsU9JKOLYtVxsM+yvSTy2SGMCIDhyRoOTGePqxR42SNw7aNI5cX9Rky
-         O+pA==
-X-Gm-Message-State: AOJu0YypxaD1PEm50X53t0pPnfCJ6yNcnlwT83k1V0YlBLV85UsHfGQP
-        XwTiPBSmQIAL8Br/EU9Z1/I=
-X-Google-Smtp-Source: AGHT+IFHrI/AzP1Sy1eLvXCrwUrdu2hsBHcnbDM5n/E/shfCEjGWWI5M7YLWQQ7sUbVoH+QsmBMa6A==
-X-Received: by 2002:a05:620a:1a16:b0:76c:dbbd:6df3 with SMTP id bk22-20020a05620a1a1600b0076cdbbd6df3mr25947875qkb.62.1693069224326;
-        Sat, 26 Aug 2023 10:00:24 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a040:199:8fff:fff6:56dc:6bcb:5787])
-        by smtp.gmail.com with ESMTPSA id pj47-20020a05620a1daf00b0076cddd12aa4sm1249392qkn.77.2023.08.26.10.00.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 10:00:23 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-        "Oliver O'Halloran" <oohall@gmail.com>,
-        Linas Vepstas <linasvepstas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        "Manoj N. Kumar" <manoj@linux.ibm.com>,
-        "Matthew R. Ochs" <mrochs@linux.ibm.com>,
-        Uma Krishnan <ukrishn@linux.ibm.com>,
-        Qiang Zhao <qiang.zhao@nxp.com>, Li Yang <leoyang.li@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Costa Shulyupin <costa.shul@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-        Nicholas Miehlbradt <nicholas@linux.ibm.com>,
-        Benjamin Gray <bgray@linux.ibm.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Rohan McLure <rmclure@linux.ibm.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Sathvika Vasireddy <sv@linux.ibm.com>,
-        Laurent Dufour <laurent.dufour@fr.ibm.com>,
-        Nathan Lynch <nathanl@linux.ibm.com>,
-        Brian King <brking@linux.vnet.ibm.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-serial@vger.kernel.org
-Subject: [PATCH] docs: move powerpc under arch
-Date:   Sat, 26 Aug 2023 19:56:08 +0300
-Message-ID: <20230826165737.2101199-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <169052340516.4355.10339828466636149348@legolas.ozlabs.org>
-References: <169052340516.4355.10339828466636149348@legolas.ozlabs.org>
+        with ESMTP id S229687AbjHZUSn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 16:18:43 -0400
+Received: from belinda3.kreativmedia.ch (belinda3.kreativmedia.ch [80.74.158.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446EC1AD
+        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 13:18:39 -0700 (PDT)
+Received: from localhost.localdomain (localhost [127.0.0.1]) by belinda3.kreativmedia.ch (Postfix) with ESMTPSA id 7142952C0D09;
+        Sat, 26 Aug 2023 22:18:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renenyffenegger.ch;
+        s=default; t=1693081116;
+        bh=Ec7533GMLLWF/m6rKV8DkBLMx+GJdf+tPKLpxxGR1WE=; h=From:To:Subject;
+        b=IaJOrTKIoiKq/b2FbUx2HG1cbMAyX6VM6vlZcffMsZKWuxEok4FLkJkdLAr0N670p
+         jo8dvnGqmv06SG4W/6ipEsvlpoRuRhlmcpLya1KnzpzILtuPuFivaWcNYZZ/SMNuZw
+         zEvOjqu8RbY1vlgugp2H+UzuXmy4YF0mz6tVqx3k=
+Authentication-Results: belinda.kreativmedia.ch;
+        spf=pass (sender IP is 31.10.136.171) smtp.mailfrom=mail@renenyffenegger.ch smtp.helo=localhost.localdomain
+Received-SPF: pass (belinda.kreativmedia.ch: connection is authenticated)
+From:   mail@renenyffenegger.ch
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Ren=C3=A9=20Nyffenegger?= <mail@renenyffenegger.ch>
+Subject: [PATCH] Reference kernel-doc for container_of
+Date:   Sat, 26 Aug 2023 22:18:26 +0200
+Message-Id: <20230826201826.8407-1-mail@renenyffenegger.ch>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-and fix all in-tree references.
+From: René Nyffenegger <mail@renenyffenegger.ch>
 
-Architecture-specific documentation is being moved into Documentation/arch/
-as a way of cleaning up the top-level documentation directory and making
-the docs hierarchy more closely match the source hierarchy.
+The file include/linux/container_of.h contained kernel-doc but was not
+referenced in any .rst file. In addition, the file
+Documentation/core-api/kobject.rst wrongly located the definition
+of the macro `container_of` in linux/kernel.h while in reality
+it is defined in linux/container_of.h
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+This patch adds a new .rst file that includes the kernel-doc of
+container_of.h and rectifies the wrong reference of the header
+file.
 
+Signed-off-by: René Nyffenegger <mail@renenyffenegger.ch>
 ---
+ Documentation/core-api/container_of.rst | 64 +++++++++++++++++++++++++
+ Documentation/core-api/index.rst        |  1 +
+ Documentation/core-api/kobject.rst      | 58 +++++++++++-----------
+ 3 files changed, 93 insertions(+), 30 deletions(-)
+ create mode 100644 Documentation/core-api/container_of.rst
 
-Changes in v2:
-- added relocation of new file vmemmap_dedup.rst
----
- Documentation/ABI/testing/sysfs-bus-papr-pmem             | 2 +-
- Documentation/PCI/pci-error-recovery.rst                  | 4 ++--
- Documentation/arch/index.rst                              | 2 +-
- Documentation/{ => arch}/powerpc/associativity.rst        | 0
- Documentation/{ => arch}/powerpc/booting.rst              | 0
- Documentation/{ => arch}/powerpc/bootwrapper.rst          | 0
- Documentation/{ => arch}/powerpc/cpu_families.rst         | 0
- Documentation/{ => arch}/powerpc/cpu_features.rst         | 0
- Documentation/{ => arch}/powerpc/cxl.rst                  | 0
- Documentation/{ => arch}/powerpc/cxlflash.rst             | 2 +-
- Documentation/{ => arch}/powerpc/dawr-power9.rst          | 0
- Documentation/{ => arch}/powerpc/dexcr.rst                | 0
- Documentation/{ => arch}/powerpc/dscr.rst                 | 0
- .../{ => arch}/powerpc/eeh-pci-error-recovery.rst         | 0
- Documentation/{ => arch}/powerpc/elf_hwcaps.rst           | 6 +++---
- Documentation/{ => arch}/powerpc/elfnote.rst              | 0
- Documentation/{ => arch}/powerpc/features.rst             | 0
- .../{ => arch}/powerpc/firmware-assisted-dump.rst         | 0
- Documentation/{ => arch}/powerpc/hvcs.rst                 | 0
- Documentation/{ => arch}/powerpc/imc.rst                  | 0
- Documentation/{ => arch}/powerpc/index.rst                | 0
- Documentation/{ => arch}/powerpc/isa-versions.rst         | 0
- Documentation/{ => arch}/powerpc/kasan.txt                | 0
- Documentation/{ => arch}/powerpc/kaslr-booke32.rst        | 0
- Documentation/{ => arch}/powerpc/mpc52xx.rst              | 0
- Documentation/{ => arch}/powerpc/papr_hcalls.rst          | 0
- .../{ => arch}/powerpc/pci_iov_resource_on_powernv.rst    | 0
- Documentation/{ => arch}/powerpc/pmu-ebb.rst              | 0
- Documentation/{ => arch}/powerpc/ptrace.rst               | 0
- Documentation/{ => arch}/powerpc/qe_firmware.rst          | 0
- Documentation/{ => arch}/powerpc/syscall64-abi.rst        | 0
- Documentation/{ => arch}/powerpc/transactional_memory.rst | 0
- Documentation/{ => arch}/powerpc/ultravisor.rst           | 0
- Documentation/{ => arch}/powerpc/vas-api.rst              | 0
- Documentation/{ => arch}/powerpc/vcpudispatch_stats.rst   | 0
- Documentation/{ => arch}/powerpc/vmemmap_dedup.rst        | 0
- MAINTAINERS                                               | 8 ++++----
- arch/powerpc/kernel/exceptions-64s.S                      | 6 +++---
- arch/powerpc/kernel/paca.c                                | 2 +-
- arch/powerpc/kvm/book3s_64_entry.S                        | 2 +-
- drivers/soc/fsl/qe/qe.c                                   | 2 +-
- drivers/tty/hvc/hvcs.c                                    | 2 +-
- include/soc/fsl/qe/qe.h                                   | 2 +-
- 43 files changed, 20 insertions(+), 20 deletions(-)
- rename Documentation/{ => arch}/powerpc/associativity.rst (100%)
- rename Documentation/{ => arch}/powerpc/booting.rst (100%)
- rename Documentation/{ => arch}/powerpc/bootwrapper.rst (100%)
- rename Documentation/{ => arch}/powerpc/cpu_families.rst (100%)
- rename Documentation/{ => arch}/powerpc/cpu_features.rst (100%)
- rename Documentation/{ => arch}/powerpc/cxl.rst (100%)
- rename Documentation/{ => arch}/powerpc/cxlflash.rst (99%)
- rename Documentation/{ => arch}/powerpc/dawr-power9.rst (100%)
- rename Documentation/{ => arch}/powerpc/dexcr.rst (100%)
- rename Documentation/{ => arch}/powerpc/dscr.rst (100%)
- rename Documentation/{ => arch}/powerpc/eeh-pci-error-recovery.rst (100%)
- rename Documentation/{ => arch}/powerpc/elf_hwcaps.rst (97%)
- rename Documentation/{ => arch}/powerpc/elfnote.rst (100%)
- rename Documentation/{ => arch}/powerpc/features.rst (100%)
- rename Documentation/{ => arch}/powerpc/firmware-assisted-dump.rst (100%)
- rename Documentation/{ => arch}/powerpc/hvcs.rst (100%)
- rename Documentation/{ => arch}/powerpc/imc.rst (100%)
- rename Documentation/{ => arch}/powerpc/index.rst (100%)
- rename Documentation/{ => arch}/powerpc/isa-versions.rst (100%)
- rename Documentation/{ => arch}/powerpc/kasan.txt (100%)
- rename Documentation/{ => arch}/powerpc/kaslr-booke32.rst (100%)
- rename Documentation/{ => arch}/powerpc/mpc52xx.rst (100%)
- rename Documentation/{ => arch}/powerpc/papr_hcalls.rst (100%)
- rename Documentation/{ => arch}/powerpc/pci_iov_resource_on_powernv.rst (100%)
- rename Documentation/{ => arch}/powerpc/pmu-ebb.rst (100%)
- rename Documentation/{ => arch}/powerpc/ptrace.rst (100%)
- rename Documentation/{ => arch}/powerpc/qe_firmware.rst (100%)
- rename Documentation/{ => arch}/powerpc/syscall64-abi.rst (100%)
- rename Documentation/{ => arch}/powerpc/transactional_memory.rst (100%)
- rename Documentation/{ => arch}/powerpc/ultravisor.rst (100%)
- rename Documentation/{ => arch}/powerpc/vas-api.rst (100%)
- rename Documentation/{ => arch}/powerpc/vcpudispatch_stats.rst (100%)
- rename Documentation/{ => arch}/powerpc/vmemmap_dedup.rst (100%)
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-papr-pmem b/Documentation/ABI/testing/sysfs-bus-papr-pmem
-index 46cfe02058fd..34ee8c59ab25 100644
---- a/Documentation/ABI/testing/sysfs-bus-papr-pmem
-+++ b/Documentation/ABI/testing/sysfs-bus-papr-pmem
-@@ -8,7 +8,7 @@ Description:
- 		more bits set in the dimm-health-bitmap retrieved in
- 		response to H_SCM_HEALTH hcall. The details of the bit
- 		flags returned in response to this hcall is available
--		at 'Documentation/powerpc/papr_hcalls.rst' . Below are
-+		at 'Documentation/arch/powerpc/papr_hcalls.rst' . Below are
- 		the flags reported in this sysfs file:
+diff --git a/Documentation/core-api/container_of.rst b/Documentation/core-api/container_of.rst
+new file mode 100644
+index 000000000000..f063d3f9e536
+--- /dev/null
++++ b/Documentation/core-api/container_of.rst
+@@ -0,0 +1,64 @@
++=====================================================================================
++Given a pointer to a member of a struct, returning a pointer to the containing struct
++=====================================================================================
++
++.. _container_of:
++
++Overview
++========
++
++The two macros ``container_of`` and ``container_of_const``, defined in ``<include/linux/container_of.h>``, return a pointer to the ``struct`` (i. e. the *container*) from a pointer to a member of this ``struct``.
++
++These macros might be used when :ref:`embedding kobjects<embedding_kobjects>`, but see also :ref:`usage<container_of_usage>`.
++
++
++.. kernel-doc:: include/linux/container_of.h
++
++Usage
++=====
++
++.. _container_of_usage:
++
++The following simple code demonstrates the usage of ``container_of``
++
++.. code-block:: c
++
++ struct inner_struct
++ {
++ 	int abc;
++ 	int def;
++ }
++ 
++ struct container_struct
++ {
++ 	struct inner_struct inner;
++ 	char               *member_xyz;
++ 	int                 member_val;
++ };
++ 
++ static void f(struct inner_struct *inr)
++ {
++ 	struct container_struct *cont;
++ 
++ 	cont = container_of(inr, struct container_struct, inner);
++ 
++        /* Use cont and its members */
++ }
++ 
++ static void g(char** member)
++ {
++ 	struct container_struct *cont;
++ 
++ 	cont = container_of(member, struct container_struct, member_xyz);
++        /* Use cont and its members */
++ }
++ 
++ void somewhere()
++ {
++ 	struct container_struct cont;
++ 
++ 	/* Initialize cont */
++ 
++ 	f(& cont.inner      );
++ 	g(& cont.member_xyz );
++ }
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index 7a3a08d81f11..595af47d0d5f 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -37,6 +37,7 @@ Library functionality that is used throughout the kernel.
+    kref
+    assoc_array
+    xarray
++   container_of
+    maple_tree
+    idr
+    circular-buffers
+diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
+index 7310247310a0..058570694418 100644
+--- a/Documentation/core-api/kobject.rst
++++ b/Documentation/core-api/kobject.rst
+@@ -49,6 +49,8 @@ approach will be taken, so we'll go back to kobjects.
+ Embedding kobjects
+ ==================
  
- 		* "not_armed"
-diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
-index 0c7552a00c8c..42e1e78353f3 100644
---- a/Documentation/PCI/pci-error-recovery.rst
-+++ b/Documentation/PCI/pci-error-recovery.rst
-@@ -364,7 +364,7 @@ Note, however, not all failures are truly "permanent". Some are
- caused by over-heating, some by a poorly seated card. Many
- PCI error events are caused by software bugs, e.g. DMAs to
- wild addresses or bogus split transactions due to programming
--errors. See the discussion in Documentation/powerpc/eeh-pci-error-recovery.rst
-+errors. See the discussion in Documentation/arch/powerpc/eeh-pci-error-recovery.rst
- for additional detail on real-life experience of the causes of
- software errors.
++.. _embedding_kobjects:
++
+ It is rare for kernel code to create a standalone kobject, with one major
+ exception explained below.  Instead, kobjects are used to control access to
+ a larger, domain-specific object.  To this end, kobjects will be found
+@@ -66,50 +68,46 @@ their own, but are invariably found embedded in the larger objects of
+ interest.)
  
-@@ -404,7 +404,7 @@ That is, the recovery API only requires that:
- .. note::
+ So, for example, the UIO code in ``drivers/uio/uio.c`` has a structure that
+-defines the memory region associated with a uio device::
++defines the memory region associated with a uio device:
  
-    Implementation details for the powerpc platform are discussed in
--   the file Documentation/powerpc/eeh-pci-error-recovery.rst
-+   the file Documentation/arch/powerpc/eeh-pci-error-recovery.rst
+-    struct uio_map {
+-            struct kobject kobj;
+-            struct uio_mem *mem;
+-    };
++.. code-block:: c
  
-    As of this writing, there is a growing list of device drivers with
-    patches implementing error recovery. Not all of these patches are in
-diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-index 84b80255b851..1bf7a3f1c77b 100644
---- a/Documentation/arch/index.rst
-+++ b/Documentation/arch/index.rst
-@@ -19,7 +19,7 @@ implementation.
-    nios2/index
-    openrisc/index
-    parisc/index
--   ../powerpc/index
-+   powerpc/index
-    ../riscv/index
-    s390/index
-    sh/index
-diff --git a/Documentation/powerpc/associativity.rst b/Documentation/arch/powerpc/associativity.rst
-similarity index 100%
-rename from Documentation/powerpc/associativity.rst
-rename to Documentation/arch/powerpc/associativity.rst
-diff --git a/Documentation/powerpc/booting.rst b/Documentation/arch/powerpc/booting.rst
-similarity index 100%
-rename from Documentation/powerpc/booting.rst
-rename to Documentation/arch/powerpc/booting.rst
-diff --git a/Documentation/powerpc/bootwrapper.rst b/Documentation/arch/powerpc/bootwrapper.rst
-similarity index 100%
-rename from Documentation/powerpc/bootwrapper.rst
-rename to Documentation/arch/powerpc/bootwrapper.rst
-diff --git a/Documentation/powerpc/cpu_families.rst b/Documentation/arch/powerpc/cpu_families.rst
-similarity index 100%
-rename from Documentation/powerpc/cpu_families.rst
-rename to Documentation/arch/powerpc/cpu_families.rst
-diff --git a/Documentation/powerpc/cpu_features.rst b/Documentation/arch/powerpc/cpu_features.rst
-similarity index 100%
-rename from Documentation/powerpc/cpu_features.rst
-rename to Documentation/arch/powerpc/cpu_features.rst
-diff --git a/Documentation/powerpc/cxl.rst b/Documentation/arch/powerpc/cxl.rst
-similarity index 100%
-rename from Documentation/powerpc/cxl.rst
-rename to Documentation/arch/powerpc/cxl.rst
-diff --git a/Documentation/powerpc/cxlflash.rst b/Documentation/arch/powerpc/cxlflash.rst
-similarity index 99%
-rename from Documentation/powerpc/cxlflash.rst
-rename to Documentation/arch/powerpc/cxlflash.rst
-index cea67931b3b9..e8f488acfa41 100644
---- a/Documentation/powerpc/cxlflash.rst
-+++ b/Documentation/arch/powerpc/cxlflash.rst
-@@ -32,7 +32,7 @@ Introduction
-     responsible for the initialization of the adapter, setting up the
-     special path for user space access, and performing error recovery. It
-     communicates directly the Flash Accelerator Functional Unit (AFU)
--    as described in Documentation/powerpc/cxl.rst.
-+    as described in Documentation/arch/powerpc/cxl.rst.
+-If you have a struct uio_map structure, finding its embedded kobject is
+-just a matter of using the kobj member.  Code that works with kobjects will
+-often have the opposite problem, however: given a struct kobject pointer,
++ struct uio_map {
++ 	struct kobject kobj;
++ 	struct uio_mem *mem;
++ };
++
++If you have a ``struct uio_map`` structure, finding its embedded kobject is
++just a matter of using the ``kobj`` member.  Code that works with kobjects will
++often have the opposite problem, however: given a ``struct kobject *``,
+ what is the pointer to the containing structure?  You must avoid tricks
+ (such as assuming that the kobject is at the beginning of the structure)
+-and, instead, use the container_of() macro, found in ``<linux/kernel.h>``::
+-
+-    container_of(ptr, type, member)
++and, instead, use the container_of() macro:
  
-     The cxlflash driver supports two, mutually exclusive, modes of
-     operation at the device (LUN) level:
-diff --git a/Documentation/powerpc/dawr-power9.rst b/Documentation/arch/powerpc/dawr-power9.rst
-similarity index 100%
-rename from Documentation/powerpc/dawr-power9.rst
-rename to Documentation/arch/powerpc/dawr-power9.rst
-diff --git a/Documentation/powerpc/dexcr.rst b/Documentation/arch/powerpc/dexcr.rst
-similarity index 100%
-rename from Documentation/powerpc/dexcr.rst
-rename to Documentation/arch/powerpc/dexcr.rst
-diff --git a/Documentation/powerpc/dscr.rst b/Documentation/arch/powerpc/dscr.rst
-similarity index 100%
-rename from Documentation/powerpc/dscr.rst
-rename to Documentation/arch/powerpc/dscr.rst
-diff --git a/Documentation/powerpc/eeh-pci-error-recovery.rst b/Documentation/arch/powerpc/eeh-pci-error-recovery.rst
-similarity index 100%
-rename from Documentation/powerpc/eeh-pci-error-recovery.rst
-rename to Documentation/arch/powerpc/eeh-pci-error-recovery.rst
-diff --git a/Documentation/powerpc/elf_hwcaps.rst b/Documentation/arch/powerpc/elf_hwcaps.rst
-similarity index 97%
-rename from Documentation/powerpc/elf_hwcaps.rst
-rename to Documentation/arch/powerpc/elf_hwcaps.rst
-index 3366e5b18e67..4c896cf077c2 100644
---- a/Documentation/powerpc/elf_hwcaps.rst
-+++ b/Documentation/arch/powerpc/elf_hwcaps.rst
-@@ -202,7 +202,7 @@ PPC_FEATURE2_VEC_CRYPTO
+-where:
++.. code-block:: c
  
- PPC_FEATURE2_HTM_NOSC
-     System calls fail if called in a transactional state, see
--    Documentation/powerpc/syscall64-abi.rst
-+    Documentation/arch/powerpc/syscall64-abi.rst
+-  * ``ptr`` is the pointer to the embedded kobject,
+-  * ``type`` is the type of the containing structure, and
+-  * ``member`` is the name of the structure field to which ``pointer`` points.
+-
+-The return value from container_of() is a pointer to the corresponding
+-container type. So, for example, a pointer ``kp`` to a struct kobject
+-embedded **within** a struct uio_map could be converted to a pointer to the
+-**containing** uio_map structure with::
+-
+-    struct uio_map *u_map = container_of(kp, struct uio_map, kobj);
++ struct kobject *kp =  ; /* Pointer to a kobj member of a uio_map */
++ struct uio_map *u_map = container_of(kp, struct uio_map, kobj);
  
- PPC_FEATURE2_ARCH_3_00
-     The processor supports the v3.0B / v3.0C userlevel architecture. Processors
-@@ -217,11 +217,11 @@ PPC_FEATURE2_DARN
+ For convenience, programmers often define a simple macro for **back-casting**
+ kobject pointers to the containing type.  Exactly this happens in the
+-earlier ``drivers/uio/uio.c``, as you can see here::
++earlier ``drivers/uio/uio.c``, as you can see here:
  
- PPC_FEATURE2_SCV
-     The scv 0 instruction may be used for system calls, see
--    Documentation/powerpc/syscall64-abi.rst.
-+    Documentation/arch/powerpc/syscall64-abi.rst.
+-    struct uio_map {
+-            struct kobject kobj;
+-            struct uio_mem *mem;
+-    };
++.. code-block:: c
  
- PPC_FEATURE2_HTM_NO_SUSPEND
-     A limited Transactional Memory facility that does not support suspend is
--    available, see Documentation/powerpc/transactional_memory.rst.
-+    available, see Documentation/arch/powerpc/transactional_memory.rst.
+-    #define to_map(map) container_of(map, struct uio_map, kobj)
++ struct uio_map {
++ 	struct kobject kobj;
++ 	struct uio_mem *mem;
++ };
++ 
++ #define to_map(map) container_of(map, struct uio_map, kobj)
  
- PPC_FEATURE2_ARCH_3_1
-     The processor supports the v3.1 userlevel architecture. Processors
-diff --git a/Documentation/powerpc/elfnote.rst b/Documentation/arch/powerpc/elfnote.rst
-similarity index 100%
-rename from Documentation/powerpc/elfnote.rst
-rename to Documentation/arch/powerpc/elfnote.rst
-diff --git a/Documentation/powerpc/features.rst b/Documentation/arch/powerpc/features.rst
-similarity index 100%
-rename from Documentation/powerpc/features.rst
-rename to Documentation/arch/powerpc/features.rst
-diff --git a/Documentation/powerpc/firmware-assisted-dump.rst b/Documentation/arch/powerpc/firmware-assisted-dump.rst
-similarity index 100%
-rename from Documentation/powerpc/firmware-assisted-dump.rst
-rename to Documentation/arch/powerpc/firmware-assisted-dump.rst
-diff --git a/Documentation/powerpc/hvcs.rst b/Documentation/arch/powerpc/hvcs.rst
-similarity index 100%
-rename from Documentation/powerpc/hvcs.rst
-rename to Documentation/arch/powerpc/hvcs.rst
-diff --git a/Documentation/powerpc/imc.rst b/Documentation/arch/powerpc/imc.rst
-similarity index 100%
-rename from Documentation/powerpc/imc.rst
-rename to Documentation/arch/powerpc/imc.rst
-diff --git a/Documentation/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
-similarity index 100%
-rename from Documentation/powerpc/index.rst
-rename to Documentation/arch/powerpc/index.rst
-diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/arch/powerpc/isa-versions.rst
-similarity index 100%
-rename from Documentation/powerpc/isa-versions.rst
-rename to Documentation/arch/powerpc/isa-versions.rst
-diff --git a/Documentation/powerpc/kasan.txt b/Documentation/arch/powerpc/kasan.txt
-similarity index 100%
-rename from Documentation/powerpc/kasan.txt
-rename to Documentation/arch/powerpc/kasan.txt
-diff --git a/Documentation/powerpc/kaslr-booke32.rst b/Documentation/arch/powerpc/kaslr-booke32.rst
-similarity index 100%
-rename from Documentation/powerpc/kaslr-booke32.rst
-rename to Documentation/arch/powerpc/kaslr-booke32.rst
-diff --git a/Documentation/powerpc/mpc52xx.rst b/Documentation/arch/powerpc/mpc52xx.rst
-similarity index 100%
-rename from Documentation/powerpc/mpc52xx.rst
-rename to Documentation/arch/powerpc/mpc52xx.rst
-diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/arch/powerpc/papr_hcalls.rst
-similarity index 100%
-rename from Documentation/powerpc/papr_hcalls.rst
-rename to Documentation/arch/powerpc/papr_hcalls.rst
-diff --git a/Documentation/powerpc/pci_iov_resource_on_powernv.rst b/Documentation/arch/powerpc/pci_iov_resource_on_powernv.rst
-similarity index 100%
-rename from Documentation/powerpc/pci_iov_resource_on_powernv.rst
-rename to Documentation/arch/powerpc/pci_iov_resource_on_powernv.rst
-diff --git a/Documentation/powerpc/pmu-ebb.rst b/Documentation/arch/powerpc/pmu-ebb.rst
-similarity index 100%
-rename from Documentation/powerpc/pmu-ebb.rst
-rename to Documentation/arch/powerpc/pmu-ebb.rst
-diff --git a/Documentation/powerpc/ptrace.rst b/Documentation/arch/powerpc/ptrace.rst
-similarity index 100%
-rename from Documentation/powerpc/ptrace.rst
-rename to Documentation/arch/powerpc/ptrace.rst
-diff --git a/Documentation/powerpc/qe_firmware.rst b/Documentation/arch/powerpc/qe_firmware.rst
-similarity index 100%
-rename from Documentation/powerpc/qe_firmware.rst
-rename to Documentation/arch/powerpc/qe_firmware.rst
-diff --git a/Documentation/powerpc/syscall64-abi.rst b/Documentation/arch/powerpc/syscall64-abi.rst
-similarity index 100%
-rename from Documentation/powerpc/syscall64-abi.rst
-rename to Documentation/arch/powerpc/syscall64-abi.rst
-diff --git a/Documentation/powerpc/transactional_memory.rst b/Documentation/arch/powerpc/transactional_memory.rst
-similarity index 100%
-rename from Documentation/powerpc/transactional_memory.rst
-rename to Documentation/arch/powerpc/transactional_memory.rst
-diff --git a/Documentation/powerpc/ultravisor.rst b/Documentation/arch/powerpc/ultravisor.rst
-similarity index 100%
-rename from Documentation/powerpc/ultravisor.rst
-rename to Documentation/arch/powerpc/ultravisor.rst
-diff --git a/Documentation/powerpc/vas-api.rst b/Documentation/arch/powerpc/vas-api.rst
-similarity index 100%
-rename from Documentation/powerpc/vas-api.rst
-rename to Documentation/arch/powerpc/vas-api.rst
-diff --git a/Documentation/powerpc/vcpudispatch_stats.rst b/Documentation/arch/powerpc/vcpudispatch_stats.rst
-similarity index 100%
-rename from Documentation/powerpc/vcpudispatch_stats.rst
-rename to Documentation/arch/powerpc/vcpudispatch_stats.rst
-diff --git a/Documentation/powerpc/vmemmap_dedup.rst b/Documentation/arch/powerpc/vmemmap_dedup.rst
-similarity index 100%
-rename from Documentation/powerpc/vmemmap_dedup.rst
-rename to Documentation/arch/powerpc/vmemmap_dedup.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 37b9626ee654..5c770ddd2c73 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5597,7 +5597,7 @@ M:	Andrew Donnellan <ajd@linux.ibm.com>
- L:	linuxppc-dev@lists.ozlabs.org
- S:	Supported
- F:	Documentation/ABI/testing/sysfs-class-cxl
--F:	Documentation/powerpc/cxl.rst
-+F:	Documentation/arch/powerpc/cxl.rst
- F:	arch/powerpc/platforms/powernv/pci-cxl.c
- F:	drivers/misc/cxl/
- F:	include/misc/cxl*
-@@ -5609,7 +5609,7 @@ M:	Matthew R. Ochs <mrochs@linux.ibm.com>
- M:	Uma Krishnan <ukrishn@linux.ibm.com>
- L:	linux-scsi@vger.kernel.org
- S:	Supported
--F:	Documentation/powerpc/cxlflash.rst
-+F:	Documentation/arch/powerpc/cxlflash.rst
- F:	drivers/scsi/cxlflash/
- F:	include/uapi/scsi/cxlflash_ioctl.h
+ where the macro argument "map" is a pointer to the struct kobject in
+-question.  That macro is subsequently invoked with::
++question.  That macro is subsequently invoked with:
++
++.. code-block:: c
  
-@@ -12093,7 +12093,7 @@ F:	Documentation/ABI/stable/sysfs-firmware-opal-*
- F:	Documentation/devicetree/bindings/i2c/i2c-opal.txt
- F:	Documentation/devicetree/bindings/powerpc/
- F:	Documentation/devicetree/bindings/rtc/rtc-opal.txt
--F:	Documentation/powerpc/
-+F:	Documentation/arch/powerpc/
- F:	arch/powerpc/
- F:	drivers/*/*/*pasemi*
- F:	drivers/*/*pasemi*
-@@ -16487,7 +16487,7 @@ R:	Oliver O'Halloran <oohall@gmail.com>
- L:	linuxppc-dev@lists.ozlabs.org
- S:	Supported
- F:	Documentation/PCI/pci-error-recovery.rst
--F:	Documentation/powerpc/eeh-pci-error-recovery.rst
-+F:	Documentation/arch/powerpc/eeh-pci-error-recovery.rst
- F:	arch/powerpc/include/*/eeh*.h
- F:	arch/powerpc/kernel/eeh*.c
- F:	arch/powerpc/platforms/*/eeh*.c
-diff --git a/arch/powerpc/kernel/exceptions-64s.S b/arch/powerpc/kernel/exceptions-64s.S
-index c33c8ebf8641..eaf2f167c342 100644
---- a/arch/powerpc/kernel/exceptions-64s.S
-+++ b/arch/powerpc/kernel/exceptions-64s.S
-@@ -893,7 +893,7 @@ __start_interrupts:
-  *
-  * Call convention:
-  *
-- * syscall register convention is in Documentation/powerpc/syscall64-abi.rst
-+ * syscall register convention is in Documentation/arch/powerpc/syscall64-abi.rst
-  */
- EXC_VIRT_BEGIN(system_call_vectored, 0x3000, 0x1000)
- 	/* SCV 0 */
-@@ -1952,8 +1952,8 @@ EXC_VIRT_NONE(0x4b00, 0x100)
-  * Call convention:
-  *
-  * syscall and hypercalls register conventions are documented in
-- * Documentation/powerpc/syscall64-abi.rst and
-- * Documentation/powerpc/papr_hcalls.rst respectively.
-+ * Documentation/arch/powerpc/syscall64-abi.rst and
-+ * Documentation/arch/powerpc/papr_hcalls.rst respectively.
-  *
-  * The intersection of volatile registers that don't contain possible
-  * inputs is: cr0, xer, ctr. We may use these as scratch regs upon entry
-diff --git a/arch/powerpc/kernel/paca.c b/arch/powerpc/kernel/paca.c
-index cda4e00b67c1..7502066c3c53 100644
---- a/arch/powerpc/kernel/paca.c
-+++ b/arch/powerpc/kernel/paca.c
-@@ -68,7 +68,7 @@ static void *__init alloc_shared_lppaca(unsigned long size, unsigned long limit,
- 		memblock_set_bottom_up(true);
+-    struct uio_map *map = to_map(kobj);
++ struct uio_map *map = to_map(kobj);
  
- 		/*
--		 * See Documentation/powerpc/ultravisor.rst for more details.
-+		 * See Documentation/arch/powerpc/ultravisor.rst for more details.
- 		 *
- 		 * UV/HV data sharing is in PAGE_SIZE granularity. In order to
- 		 * minimize the number of pages shared, align the allocation to
-diff --git a/arch/powerpc/kvm/book3s_64_entry.S b/arch/powerpc/kvm/book3s_64_entry.S
-index 3b361af87313..a9ab92abffe8 100644
---- a/arch/powerpc/kvm/book3s_64_entry.S
-+++ b/arch/powerpc/kvm/book3s_64_entry.S
-@@ -19,7 +19,7 @@
  
- /*
-  * This is a hcall, so register convention is as
-- * Documentation/powerpc/papr_hcalls.rst.
-+ * Documentation/arch/powerpc/papr_hcalls.rst.
-  *
-  * This may also be a syscall from PR-KVM userspace that is to be
-  * reflected to the PR guest kernel, so registers may be set up for
-diff --git a/drivers/soc/fsl/qe/qe.c b/drivers/soc/fsl/qe/qe.c
-index 3ee0c7c1e9a4..70b6eddb867b 100644
---- a/drivers/soc/fsl/qe/qe.c
-+++ b/drivers/soc/fsl/qe/qe.c
-@@ -430,7 +430,7 @@ static void qe_upload_microcode(const void *base,
- /*
-  * Upload a microcode to the I-RAM at a specific address.
-  *
-- * See Documentation/powerpc/qe_firmware.rst for information on QE microcode
-+ * See Documentation/arch/powerpc/qe_firmware.rst for information on QE microcode
-  * uploading.
-  *
-  * Currently, only version 1 is supported, so the 'version' field must be
-diff --git a/drivers/tty/hvc/hvcs.c b/drivers/tty/hvc/hvcs.c
-index d29fdfe9d93d..98433a53bae1 100644
---- a/drivers/tty/hvc/hvcs.c
-+++ b/drivers/tty/hvc/hvcs.c
-@@ -47,7 +47,7 @@
-  * using the 2.6 Linux kernel kref construct.
-  *
-  * For direction on installation and usage of this driver please reference
-- * Documentation/powerpc/hvcs.rst.
-+ * Documentation/arch/powerpc/hvcs.rst.
-  */
- 
- #include <linux/device.h>
-diff --git a/include/soc/fsl/qe/qe.h b/include/soc/fsl/qe/qe.h
-index eb5079904cc8..af793f2a0ec4 100644
---- a/include/soc/fsl/qe/qe.h
-+++ b/include/soc/fsl/qe/qe.h
-@@ -258,7 +258,7 @@ static inline int qe_alive_during_sleep(void)
- 
- /* Structure that defines QE firmware binary files.
-  *
-- * See Documentation/powerpc/qe_firmware.rst for a description of these
-+ * See Documentation/arch/powerpc/qe_firmware.rst for a description of these
-  * fields.
-  */
- struct qe_firmware {
+ Initialization of kobjects
 -- 
-2.41.0
+2.30.2
 
