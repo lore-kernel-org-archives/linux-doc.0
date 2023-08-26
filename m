@@ -2,138 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B299C83F01
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 07:31:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A3F4C83F16
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 08:02:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231645AbjHZHan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Aug 2023 03:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57802 "EHLO
+        id S231260AbjHZIBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Aug 2023 04:01:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231873AbjHZHaI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 03:30:08 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989141FD0
-        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 00:30:03 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bdf4752c3cso11609565ad.2
-        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 00:30:03 -0700 (PDT)
+        with ESMTP id S229508AbjHZIBR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 04:01:17 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCF51FD7
+        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 01:01:10 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-401b393df02so15157035e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 01:01:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693035003; x=1693639803;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8CqFyAMQ/NEx7yEtjnGCEGZfyqhrq/vnvZyQ6gXe7Io=;
-        b=ieujeqA9N/TfU/OAbSJE8YfxngCmvXR4gsSqKaOXVJEdmVmSeXON5W24Q7DVuBx7/t
-         M6gkn2JpdbdNdtW63mDbCxmoY2ejMaaBiCkT5oKy4K525PguByrlMI/43XmOkJIBLiSq
-         LT/R6VaeiTLsXMHo9J9V/mSIWmpivBYzQfbgXPBNY9w2Z6qL/TS4p5sbucKWGkKZIv0n
-         S7oCKO3HwmZb0ay3MZWmA3KO9I/75LfHdgMC9XW9WWyjIPmT5n6Kq/naJ4OoaNVXKfzl
-         dekyLDaGMQYtI+DTlnGZVC7vcoRoGeUCI/9UcstV0PFwo1WcnP2bo7JEcxoLQrQwToZq
-         VGyA==
+        d=ventanamicro.com; s=google; t=1693036869; x=1693641669;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8zeI6AUjlRlAi0IA4zOJ4FhSx5m+2z7V0zbKgXgsP9A=;
+        b=R57hJHNjTKj/VEVKSt8dYUPyyXeow2ml98lOSYDxkU7RHCFR5yDkFFmWRViV5/GByr
+         uDOekwb5fbx+0Gti3DO6w1UJiFJ5nf0b7H+Us29Odze8jV4uXk1OWUA+xhfazzeyRyv6
+         Zaix3hDh8kwgFoEfVJtJBFXkG9/YfBvOf15xqjo8d+bjbn3j8+21pnDXBj/2YGyXYgyw
+         4z1y3pHgYUTmcPtOi3ETJr3T4XefMDk9UlEXz92H7Htvb2ZYPt3zCifw/KFuuJGuhKX0
+         L45CD620XAp0ovJ3thFCrG3p6Hms29c8HJG6hCtuvium7AAbq437AVeyrtCxl18AEnV8
+         IFWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693035003; x=1693639803;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8CqFyAMQ/NEx7yEtjnGCEGZfyqhrq/vnvZyQ6gXe7Io=;
-        b=ieNDTwO/eTUIcVAwU2rEX6ksNLerjXBFiZ5QRkmu/femZSJbJCclo0lVX4iqK8kyPl
-         wQsYRzWgtz+fWjp+oYYLkTQn9aVsuZcBexjnNj4VMlJJVuERk9imejO1x30st+cutXfg
-         vSDGMLNRcWliTdNdx9BLfH80PvwgnoKsxMZOyWNCmOugAajgeCzWjjAG0lToy71KU8o6
-         lsRFkQMTSpu9vIxsTMdREe7LrVUTgeQrLszAIBuS6ELv66NyL2piw0WeoOTkgd5XoCjl
-         +uwzbt9MtaucReNoQ8+phzdMHKdATKfDk/XTjYlL7yqZspAk+v+iXiatq16pDdi1OPcF
-         KPGw==
-X-Gm-Message-State: AOJu0YyYu8KfflQebDP8CELpzao/7rwVrnMLov9PYgL7N27WbsjBcEIt
-        1EaJoS8HIhmX3gC9NbmjsQtUDQ==
-X-Google-Smtp-Source: AGHT+IFk37CMOS1xQ4ye3EHiPgykN3Yffd2tVo0Uc5MDoLthwjhO+tm6XDC0HF0yz8mJ50dgm382YA==
-X-Received: by 2002:a17:903:25d4:b0:1bb:94ed:20a with SMTP id jc20-20020a17090325d400b001bb94ed020amr16657758plb.24.1693035002767;
-        Sat, 26 Aug 2023 00:30:02 -0700 (PDT)
-Received: from leoy-huanghe.lan (211-75-219-204.hinet-ip.hinet.net. [211.75.219.204])
-        by smtp.gmail.com with ESMTPSA id j10-20020a170902690a00b001b86e17ecacsm2994238plk.131.2023.08.26.00.29.59
+        d=1e100.net; s=20221208; t=1693036869; x=1693641669;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8zeI6AUjlRlAi0IA4zOJ4FhSx5m+2z7V0zbKgXgsP9A=;
+        b=iqbPPQwJ1ci7Nh4ChRtFrPW/O9B2XQWJuaR90aH1a+nkRAETdrA9l3hGvN/47sK2eA
+         Af8MtmO+aWxS8jdgYT7+PSJ7k7HVxN3u/f+5AFfEix/RNf/NkuXLe4YxKlMA+rX+Ayzw
+         rOLYOGpLmw77eo7Mm20TfYmi11hQwmYIgnkLPATI0IGmyDUUcTHPKEOV1kng7UTroc3P
+         DTX8AvxcWR30/Zg7XwkhDgKjAjmP7xxNAh4BJiPW4ktVGgLgzdC7zcuPgF66ugOId/5m
+         Jbp1GNfzUcJsHb1f8f/qGa9YdS8toLgr5l2t8LheZmQBaZi7MAUCaaLA6F7iBQD6tbor
+         YaOQ==
+X-Gm-Message-State: AOJu0Yz9Qh2A/xQ1oUwxJvxOrv58FV4aTqIeYAY6HRKu5tqUfGOV/K00
+        Ua6JD0X3VmH6rwkzUsLJAuf1Ew==
+X-Google-Smtp-Source: AGHT+IFip3zr5PD+wLFjohJxk2E8ZxQQ84TpALHTFZrixS+eOIyqK8L89Dze85NSTr4EcwqXulYF6A==
+X-Received: by 2002:a7b:c413:0:b0:3ff:ca80:eda3 with SMTP id k19-20020a7bc413000000b003ffca80eda3mr7191670wmi.10.1693036868537;
+        Sat, 26 Aug 2023 01:01:08 -0700 (PDT)
+Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+        by smtp.gmail.com with ESMTPSA id 16-20020a05600c229000b003fff96bb62csm4253440wmf.16.2023.08.26.01.01.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 00:30:02 -0700 (PDT)
-Date:   Sat, 26 Aug 2023 15:29:57 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Namhyung Kim <namhyung@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Thomas Richter <tmricht@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v6] Documentation: userspace-api: Document perf ring
- buffer mechanism
-Message-ID: <20230826072957.GA75980@leoy-huanghe.lan>
-References: <20230819093340.265817-1-leo.yan@linaro.org>
- <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
- <20230823023838.GF57731@leoy-huanghe.lan>
- <CAM9d7cgaMyH=vSjVEOBjLzBWbZOricm6aHcP9hfLsTJ_gUEh3g@mail.gmail.com>
+        Sat, 26 Aug 2023 01:01:07 -0700 (PDT)
+Date:   Sat, 26 Aug 2023 10:01:06 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Evan Green <evan@rivosinc.com>
+Cc:     Conor Dooley <conor@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv@lists.infradead.org,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>
+Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+Message-ID: <20230826-3869468d499caf2850681d08@orel>
+References: <20230711201831.2695097-1-evan@rivosinc.com>
+ <20230824-factual-jawed-2dddd2cf2bdd@wendy>
+ <CALs-Hss51fQE1yxe1Y1T86X+OfjPaAd386vosQ8gzRm=Njm1gw@mail.gmail.com>
+ <20230824-exploit-spectacle-ecedd91e9075@spud>
+ <CALs-HssqaOjvUOdBVn=oN+uzkkmjguys2UttTYgdcqJwJB0HnQ@mail.gmail.com>
+ <20230825-374a82446ed3eea02fcb41e6@orel>
+ <CALs-HstfA29DDrmVemP6bZe+kON9JDKYR3p132gG_WefA6d7eQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAM9d7cgaMyH=vSjVEOBjLzBWbZOricm6aHcP9hfLsTJ_gUEh3g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALs-HstfA29DDrmVemP6bZe+kON9JDKYR3p132gG_WefA6d7eQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Namhyung,
-
-On Tue, Aug 22, 2023 at 09:26:05PM -0700, Namhyung Kim wrote:
-
-[...]
-
-> > > > +Why ring buffers are mapped with above two different modes?  Here the
-> > > > +write direction matters.  The forward writing starts to save data from
-> > > > +the beginning of the ring buffer and wrap around when overflow, which is
-> > > > +used with the read-write mode in the normal ring buffer.  When the
-> > > > +consumer doesn't keep up with the producer, it would lose some data, the
-> > > > +kernel keeps how many records it lost and generates the
-> > > > +``PERF_RECORD_LOST`` records in the next time when it finds a space in the
-> > > > +ring buffer.
+On Fri, Aug 25, 2023 at 03:51:28PM -0700, Evan Green wrote:
+> On Fri, Aug 25, 2023 at 1:16 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+> >
+> > On Thu, Aug 24, 2023 at 03:06:53PM -0700, Evan Green wrote:
+> > > On Thu, Aug 24, 2023 at 10:29 AM Conor Dooley <conor@kernel.org> wrote:
+> > ...
+> > > > Do you want to have this new thing in cpuinfo tell the user "this hart
+> > > > has xyz extensions that are supported by a kernel, but maybe not this
+> > > > kernel" or to tell the user "this hart has xyz extensions that are
+> > > > supported by this kernel"? Your text above says "understood by the
+> > > > kernel", but I think that's a poor definition that needs to be improved
+> > > > to spell out exactly what you mean. IOW does "understood" mean the
+> > > > kernel will parse them into a structure, or does it mean "yes you can
+> > > > use this extension on this particular hart".
 > > >
-> > > Thanks for the update.  It's unclear to me if all 4 combination of
-> > > (rw, ro) x (fwd, bwd) are possible (yes!).  The rw mode and back-
-> > > ward is also possible but just not used for perf tool.
+> > > I'm imagining /proc/cpuinfo being closer to "the CPU has it and the
+> > > kernel at least vaguely understands it, but may not have full support
+> > > for it enabled". I'm assuming /proc/cpuinfo is mostly used by 1)
+> > > humans wanting to know if they have hardware support for a feature,
+> > > and 2) administrators collecting telemetry to manage fleets (ie do I
+> > > have any hardware deployed that supports X).
 > >
-> > I can add a matrix for the combinations:
-> >
-> >   The combination is supported in perf tool:
-> >
-> >   ---+------------+-----------
-> >      |  Forward   | Backward
-> >   ---+------------+-----------
-> >   rw |  Yes       |   No
-> >   ---+------------+-----------
-> >   ro |  X         |   Yes
-> >   ---+------------+-----------
-> >
-> >   Yes: is supported
-> >   No: is not supported
-> >   X: is not feasible
+> > Is (2) a special case of (1)? (I want to make sure I understand all the
+> > cases.)
 > 
-> I think they are all supported.  You can use rw mode with backward
-> direction but it's just not intuitive.  Also ro mode with forward direction
-> is working but there's a chance to miss the start position of the
-> previous event.
+> More or less, yes. In bucket two are also folks wondering things like
+> "are all these crash reports I'm getting specific to machines with X".
+> 
+> >
+> > > Programmers looking to
+> > > see "is the kernel support for this feature ready right now" would
+> > > ideally not be parsing /proc/cpuinfo text, as more direct mechanisms
+> > > like specific hwprobe bits for "am I fully ready to go" would be
+> > > easier to work with. Feel free to yell at me if this overall vision
+> > > seems flawed.
+> > >
+> > > I tried to look to see if there was consensus among the other
+> > > architectures. Aarch64 seems to go with "supported and fully enabled",
+> > > as their cpu_has_feature() directly tests elf_hwcap, and elements in
+> > > arm64_elf_hwcaps[] are Kconfig gated. X86 is complicated, but IIRC is
+> > > more along the lines of "hardware has it". They have two macros,
+> > > cpu_has() for "raw capability" and cpu_feature_enabled() for "kernel
+> > > can do it too", and they use cpu_has() for /proc/cpuinfo flags.
+> > >
+> >
+> > I'd lean more towards the way AArch64 goes, because, unless /proc/cpuinfo
+> > is just a blind regurgitation of an isa string from DT / ACPI, then the
+> > kernel must at least know something about it. Advertising a feature which
+> > is known, but also known not to work, seems odd to me. So my vote is that
+> > only features which are present and enabled in the kernel or present and
+> > not necessary to be enabled in the kernel in order for userspace or
+> > virtual machines to use be advertised in /proc/cpuinfo.
+> >
+> > We still have SMBIOS (dmidecode) to blindly dump what the hardware
+> > supports for cases (1) and (2) above.
+> 
+> Yeah, there's an argument to be made for that. My worry is it's a
+> difficult line to hold. The bar you're really trying to describe (or
+> at least what people might take away from it) is "if it's listed here
+> then it's fully ready to be used in userspace". But then things get
+> squishy when there are additional ways to control the use of the
+> feature (prctls() in init to turn it on, usermode policy to turn it
+> off, security doodads that disable it, etc). I'm assuming nobody wants
+> a version of /proc/cpuinfo that changes depending on which process is
+> asking. So then the line would have to be more carefully described as
+> "well, the hardware can do it, and the kernel COULD do it under some
+> circumstances, but YMMV", which ends up falling somewhat short of the
+> original goal. In my mind keeping /proc/cpuinfo as close to "here's
+> what the hardware can do" seems like a more defensible position.
+> -Evan
 
-I am a bit confused for the all four modes are supported.
+I agree with that. I was actually even trying to say the same thing,
+but only by bringing up virtual machines. Once we decide we'll expose
+extensions to VMs, whether or not the host kernel enables them, then
+none of the other host kernel configurations matter with respect to
+advertising the feature, since the guest kernel may have a completely
+different set of configurations.
 
-From the code [1], we can see there have only two combinations:
+So I think we should only be filtering out extensions that are disabled
+because they're broken (have a detected erratum), have been "hidden"
+(have a kernel command line allowing them to be treated as if not
+present), or cannot be used at all due to missing accompanying hardware
+descriptions (such as block size info for CBO extensions). In all cases,
+I presume we'd wire checks up in riscv_isa_extension_check() and no
+checks would be gated on Kconfigs or anything else. And, since
+/proc/cpuinfo gets its list from the bitmap that's already filtered by
+riscv_isa_extension_check(), then, long story short, we're good to go :-)
 
-- overwrite + read-only mode (PROT_READ);
-- no-overwrite + read-write mode (PROT_READ | PROT_WRITE);
+But maybe we can try to spell that policy out a bit more in
+Documentation/riscv/uabi.rst.
 
-And I think perf tool must use the backward writing for "overwrite",
-and use the forward writing for "non-overwrite" mode.  I think the
-code [2] can help us to conclude this.
-
-In the end, the perf tool doesn't support the combinations:
-
-- overwrite + read-write mode
-- no-overwrite + read-only mode
-
-I have sent a v6 patch, please let me know if you have any concerns or
-if I misunderstand anything.  Thanks!
-
-Leo
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/evlist.c#n474
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/mmap.c#n141
+Thanks,
+drew
