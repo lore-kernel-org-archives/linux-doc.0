@@ -2,235 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44208C83F11
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Aug 2023 20:19:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 181A3C83F01
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 01:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbjHZUTE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Aug 2023 16:19:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46750 "EHLO
+        id S229505AbjH1BK5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Aug 2023 21:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbjHZUSn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Aug 2023 16:18:43 -0400
-Received: from belinda3.kreativmedia.ch (belinda3.kreativmedia.ch [80.74.158.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446EC1AD
-        for <linux-doc@vger.kernel.org>; Sat, 26 Aug 2023 13:18:39 -0700 (PDT)
-Received: from localhost.localdomain (localhost [127.0.0.1]) by belinda3.kreativmedia.ch (Postfix) with ESMTPSA id 7142952C0D09;
-        Sat, 26 Aug 2023 22:18:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renenyffenegger.ch;
-        s=default; t=1693081116;
-        bh=Ec7533GMLLWF/m6rKV8DkBLMx+GJdf+tPKLpxxGR1WE=; h=From:To:Subject;
-        b=IaJOrTKIoiKq/b2FbUx2HG1cbMAyX6VM6vlZcffMsZKWuxEok4FLkJkdLAr0N670p
-         jo8dvnGqmv06SG4W/6ipEsvlpoRuRhlmcpLya1KnzpzILtuPuFivaWcNYZZ/SMNuZw
-         zEvOjqu8RbY1vlgugp2H+UzuXmy4YF0mz6tVqx3k=
-Authentication-Results: belinda.kreativmedia.ch;
-        spf=pass (sender IP is 31.10.136.171) smtp.mailfrom=mail@renenyffenegger.ch smtp.helo=localhost.localdomain
-Received-SPF: pass (belinda.kreativmedia.ch: connection is authenticated)
-From:   mail@renenyffenegger.ch
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Ren=C3=A9=20Nyffenegger?= <mail@renenyffenegger.ch>
-Subject: [PATCH] Reference kernel-doc for container_of
-Date:   Sat, 26 Aug 2023 22:18:26 +0200
-Message-Id: <20230826201826.8407-1-mail@renenyffenegger.ch>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229441AbjH1BKf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Aug 2023 21:10:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B78AA
+        for <linux-doc@vger.kernel.org>; Sun, 27 Aug 2023 18:10:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 933FF60EEF
+        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 01:10:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E8301C433CB;
+        Mon, 28 Aug 2023 01:10:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693185032;
+        bh=cfZiD3y3ugpsmjINH8YbPrPJZ/R9Oz49mvJK+G06CNI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=oKmDPZ32ZTkxIV2AOR28nVjWwteY6vPGuJiRKLVq6OPdLiRq5bNtapaIc2apZcYpF
+         3w5URoizOMLULYib7XktNf0p4AsnJ3kyLqTeZ582dW5dDyntl9sGMlaHAKaCMOlBVh
+         DN2Wp0XuOKc+aPGlfQRYby4feLu3KHyiWbjNSvngC8wnBUbE8apdOe93UL2+yKnJpv
+         5SO23MXuWMLD8A3SazsqgdrAyDKxZ5NA9U5nLhsMfkyfry6uVyTQxrvRACnywmle0l
+         Vk4iWJeSakEiC1z8amJHi6YeB4+dBgAP95Qr4c6LpWNXatvg2tKAWPWSrSQ9eeabCL
+         aPcJvsB+cAWRw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CAF0FE44466;
+        Mon, 28 Aug 2023 01:10:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6 00/12] tools/net/ynl: Add support for netlink-raw
+ families
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169318503182.15537.7692763414392804985.git-patchwork-notify@kernel.org>
+Date:   Mon, 28 Aug 2023 01:10:31 +0000
+References: <20230825122756.7603-1-donald.hunter@gmail.com>
+In-Reply-To: <20230825122756.7603-1-donald.hunter@gmail.com>
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     netdev@vger.kernel.org, kuba@kernel.org, davem@davemloft.net,
+        edumazet@google.com, pabeni@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, sdf@google.com,
+        arkadiusz.kubalewski@intel.com, donald.hunter@redhat.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: René Nyffenegger <mail@renenyffenegger.ch>
+Hello:
 
-The file include/linux/container_of.h contained kernel-doc but was not
-referenced in any .rst file. In addition, the file
-Documentation/core-api/kobject.rst wrongly located the definition
-of the macro `container_of` in linux/kernel.h while in reality
-it is defined in linux/container_of.h
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-This patch adds a new .rst file that includes the kernel-doc of
-container_of.h and rectifies the wrong reference of the header
-file.
+On Fri, 25 Aug 2023 13:27:43 +0100 you wrote:
+> This patchset adds support for netlink-raw families such as rtnetlink.
+> 
+> Patch 1 fixes a typo in existing schemas
+> Patch 2 contains the schema definition
+> Patches 3 & 4 update the schema documentation
+> Patches 5 - 9 extends ynl
+> Patches 10 - 12 add several netlink-raw specs
+> 
+> [...]
 
-Signed-off-by: René Nyffenegger <mail@renenyffenegger.ch>
----
- Documentation/core-api/container_of.rst | 64 +++++++++++++++++++++++++
- Documentation/core-api/index.rst        |  1 +
- Documentation/core-api/kobject.rst      | 58 +++++++++++-----------
- 3 files changed, 93 insertions(+), 30 deletions(-)
- create mode 100644 Documentation/core-api/container_of.rst
+Here is the summary with links:
+  - [net-next,v6,01/12] doc/netlink: Fix typo in genetlink-* schemas
+    https://git.kernel.org/netdev/net-next/c/c4e1ab07b557
+  - [net-next,v6,02/12] doc/netlink: Add a schema for netlink-raw families
+    https://git.kernel.org/netdev/net-next/c/ed68c58c0eb4
+  - [net-next,v6,03/12] doc/netlink: Update genetlink-legacy documentation
+    https://git.kernel.org/netdev/net-next/c/294f37fc8772
+  - [net-next,v6,04/12] doc/netlink: Document the netlink-raw schema extensions
+    https://git.kernel.org/netdev/net-next/c/2db8abf0b455
+  - [net-next,v6,05/12] tools/ynl: Add mcast-group schema parsing to ynl
+    https://git.kernel.org/netdev/net-next/c/88901b967958
+  - [net-next,v6,06/12] tools/net/ynl: Fix extack parsing with fixed header genlmsg
+    https://git.kernel.org/netdev/net-next/c/fb0a06d455d6
+  - [net-next,v6,07/12] tools/net/ynl: Add support for netlink-raw families
+    https://git.kernel.org/netdev/net-next/c/e46dd903efe3
+  - [net-next,v6,08/12] tools/net/ynl: Implement nlattr array-nest decoding in ynl
+    https://git.kernel.org/netdev/net-next/c/0493e56d021d
+  - [net-next,v6,09/12] tools/net/ynl: Add support for create flags
+    https://git.kernel.org/netdev/net-next/c/1768d8a767f8
+  - [net-next,v6,10/12] doc/netlink: Add spec for rt addr messages
+    https://git.kernel.org/netdev/net-next/c/dfb0f7d9d979
+  - [net-next,v6,11/12] doc/netlink: Add spec for rt link messages
+    https://git.kernel.org/netdev/net-next/c/b2f63d904e72
+  - [net-next,v6,12/12] doc/netlink: Add spec for rt route messages
+    https://git.kernel.org/netdev/net-next/c/023289b4f582
 
-diff --git a/Documentation/core-api/container_of.rst b/Documentation/core-api/container_of.rst
-new file mode 100644
-index 000000000000..f063d3f9e536
---- /dev/null
-+++ b/Documentation/core-api/container_of.rst
-@@ -0,0 +1,64 @@
-+=====================================================================================
-+Given a pointer to a member of a struct, returning a pointer to the containing struct
-+=====================================================================================
-+
-+.. _container_of:
-+
-+Overview
-+========
-+
-+The two macros ``container_of`` and ``container_of_const``, defined in ``<include/linux/container_of.h>``, return a pointer to the ``struct`` (i. e. the *container*) from a pointer to a member of this ``struct``.
-+
-+These macros might be used when :ref:`embedding kobjects<embedding_kobjects>`, but see also :ref:`usage<container_of_usage>`.
-+
-+
-+.. kernel-doc:: include/linux/container_of.h
-+
-+Usage
-+=====
-+
-+.. _container_of_usage:
-+
-+The following simple code demonstrates the usage of ``container_of``
-+
-+.. code-block:: c
-+
-+ struct inner_struct
-+ {
-+ 	int abc;
-+ 	int def;
-+ }
-+ 
-+ struct container_struct
-+ {
-+ 	struct inner_struct inner;
-+ 	char               *member_xyz;
-+ 	int                 member_val;
-+ };
-+ 
-+ static void f(struct inner_struct *inr)
-+ {
-+ 	struct container_struct *cont;
-+ 
-+ 	cont = container_of(inr, struct container_struct, inner);
-+ 
-+        /* Use cont and its members */
-+ }
-+ 
-+ static void g(char** member)
-+ {
-+ 	struct container_struct *cont;
-+ 
-+ 	cont = container_of(member, struct container_struct, member_xyz);
-+        /* Use cont and its members */
-+ }
-+ 
-+ void somewhere()
-+ {
-+ 	struct container_struct cont;
-+ 
-+ 	/* Initialize cont */
-+ 
-+ 	f(& cont.inner      );
-+ 	g(& cont.member_xyz );
-+ }
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 7a3a08d81f11..595af47d0d5f 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -37,6 +37,7 @@ Library functionality that is used throughout the kernel.
-    kref
-    assoc_array
-    xarray
-+   container_of
-    maple_tree
-    idr
-    circular-buffers
-diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
-index 7310247310a0..058570694418 100644
---- a/Documentation/core-api/kobject.rst
-+++ b/Documentation/core-api/kobject.rst
-@@ -49,6 +49,8 @@ approach will be taken, so we'll go back to kobjects.
- Embedding kobjects
- ==================
- 
-+.. _embedding_kobjects:
-+
- It is rare for kernel code to create a standalone kobject, with one major
- exception explained below.  Instead, kobjects are used to control access to
- a larger, domain-specific object.  To this end, kobjects will be found
-@@ -66,50 +68,46 @@ their own, but are invariably found embedded in the larger objects of
- interest.)
- 
- So, for example, the UIO code in ``drivers/uio/uio.c`` has a structure that
--defines the memory region associated with a uio device::
-+defines the memory region associated with a uio device:
- 
--    struct uio_map {
--            struct kobject kobj;
--            struct uio_mem *mem;
--    };
-+.. code-block:: c
- 
--If you have a struct uio_map structure, finding its embedded kobject is
--just a matter of using the kobj member.  Code that works with kobjects will
--often have the opposite problem, however: given a struct kobject pointer,
-+ struct uio_map {
-+ 	struct kobject kobj;
-+ 	struct uio_mem *mem;
-+ };
-+
-+If you have a ``struct uio_map`` structure, finding its embedded kobject is
-+just a matter of using the ``kobj`` member.  Code that works with kobjects will
-+often have the opposite problem, however: given a ``struct kobject *``,
- what is the pointer to the containing structure?  You must avoid tricks
- (such as assuming that the kobject is at the beginning of the structure)
--and, instead, use the container_of() macro, found in ``<linux/kernel.h>``::
--
--    container_of(ptr, type, member)
-+and, instead, use the container_of() macro:
- 
--where:
-+.. code-block:: c
- 
--  * ``ptr`` is the pointer to the embedded kobject,
--  * ``type`` is the type of the containing structure, and
--  * ``member`` is the name of the structure field to which ``pointer`` points.
--
--The return value from container_of() is a pointer to the corresponding
--container type. So, for example, a pointer ``kp`` to a struct kobject
--embedded **within** a struct uio_map could be converted to a pointer to the
--**containing** uio_map structure with::
--
--    struct uio_map *u_map = container_of(kp, struct uio_map, kobj);
-+ struct kobject *kp =  ; /* Pointer to a kobj member of a uio_map */
-+ struct uio_map *u_map = container_of(kp, struct uio_map, kobj);
- 
- For convenience, programmers often define a simple macro for **back-casting**
- kobject pointers to the containing type.  Exactly this happens in the
--earlier ``drivers/uio/uio.c``, as you can see here::
-+earlier ``drivers/uio/uio.c``, as you can see here:
- 
--    struct uio_map {
--            struct kobject kobj;
--            struct uio_mem *mem;
--    };
-+.. code-block:: c
- 
--    #define to_map(map) container_of(map, struct uio_map, kobj)
-+ struct uio_map {
-+ 	struct kobject kobj;
-+ 	struct uio_mem *mem;
-+ };
-+ 
-+ #define to_map(map) container_of(map, struct uio_map, kobj)
- 
- where the macro argument "map" is a pointer to the struct kobject in
--question.  That macro is subsequently invoked with::
-+question.  That macro is subsequently invoked with:
-+
-+.. code-block:: c
- 
--    struct uio_map *map = to_map(kobj);
-+ struct uio_map *map = to_map(kobj);
- 
- 
- Initialization of kobjects
+You are awesome, thank you!
 -- 
-2.30.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
