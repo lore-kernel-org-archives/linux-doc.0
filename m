@@ -2,114 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE424C83F11
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 19:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30503C83F12
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 19:06:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231865AbjH1TGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 15:06:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52674 "EHLO
+        id S233290AbjH1TGR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 15:06:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233252AbjH1TGG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 15:06:06 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCE3E0;
-        Mon, 28 Aug 2023 12:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693249564; x=1724785564;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mt0j3jMw8EW+E+l8MtReNSWFBKlj4P+LduvO4XW1DGs=;
-  b=DAoz9qkwzKFcRxYDndu2kTGI30XiTx4aI7BYgRpE3L4gdoNfByl0VMY2
-   ep/ES8/0eN1sXB/hbTSjN720mIzm+vjwYxxKsSfZNssvCNx90XaV+XBaq
-   SHOTBDjJ89rS622gGs5pj//bmvWyWO0eqB2Mo7necOxFBu+c3tmKHAcoO
-   HLITXEINoN+9bTQY66JOIecgu4BY4EdhOSXjRaITJ6LKdxtWhg9P4y8Sw
-   wBOhixpN+m7zYICqmip/QHeVcZhl7nX0p50zvOGoLAzeOT+ADtEX5b1u0
-   fed5Qia24MlKaXjd1iTQtviTyucdVphiN9uimM1HxDoTI/jDX8nTPcQdW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="439134250"
-X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="439134250"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 12:06:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="688207661"
-X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="688207661"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 12:06:02 -0700
-Date:   Mon, 28 Aug 2023 12:06:01 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Reinette Chatre <reinette.chatre@intel.com>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        patches@lists.linux.dev
-Subject: Re: [PATCH v4 7/7] selftests/resctrl: Adjust effective L3 cache size
- when SNC enabled
-Message-ID: <ZOzwGQhGucBXZGO+@agluck-desk3>
-References: <20230713163207.219710-1-tony.luck@intel.com>
- <20230722190740.326190-1-tony.luck@intel.com>
- <20230722190740.326190-8-tony.luck@intel.com>
- <dc06f2ea-ed1e-60e5-f2d7-ccf7facde25b@intel.com>
- <ZOjrYB1UgtRchbXK@agluck-desk3>
- <f791d0e5-43b2-8ec2-436b-c008d2ce7696@intel.com>
+        with ESMTP id S232147AbjH1TFw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 15:05:52 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B9D2E0;
+        Mon, 28 Aug 2023 12:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=xkhA18b/HI2p84vEFmfzC1lj/4noW4sLrAyRAOLe3/0=; b=FM4eN16lx/l4Y9TiOmq2fcBiV8
+        OUv/ZfMBCx/496RH/k5ZIxfk6gHVTg9Y7qqfcVUvQo/1rqOmpTSYsYeKT7IQSpVHOFjhsqAaxMyfZ
+        SHviAj7WDt3iWJ6GpxrG2e35ZFv3F3m99EAvQO+sRr4Bvw20hc/BDdaDvdqYche26OiumoKS9xM7C
+        ETG1pgqG+cBHOi6n8b447ja54rg0P4RpeAUnH9MlorqEy+uAoX5AKbQTIYoE8Nfu2K9ciSSBf55ZU
+        dXkK8VzH/D467P0zs9xywkPCRB0moH4sYbycvztygvDLJucbJNm325cDNkQpE+iEO8sNH4Bf5bEtN
+        TRzI5xEw==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qahYX-00A7gm-24;
+        Mon, 28 Aug 2023 19:05:45 +0000
+Message-ID: <5b7d9eff-cc95-fe37-6762-ef08e153213c@infradead.org>
+Date:   Mon, 28 Aug 2023 12:05:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f791d0e5-43b2-8ec2-436b-c008d2ce7696@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH net-next] docs: netdev: document patchwork patch states
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230828184447.2142383-1-kuba@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230828184447.2142383-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 28, 2023 at 10:06:32AM -0700, Reinette Chatre wrote:
-> Hi Tony,
-> 
-> On 8/25/2023 10:56 AM, Tony Luck wrote:
-> > On Fri, Aug 11, 2023 at 10:33:43AM -0700, Reinette Chatre wrote:
-> >> Hi Tony,
-> >>
-> >> On 7/22/2023 12:07 PM, Tony Luck wrote:
-> 
-> ...
-> 
-> >>> @@ -190,6 +245,8 @@ int get_cache_size(int cpu_no, char *cache_type, unsigned long *cache_size)
-> >>>  			break;
-> >>>  	}
-> >>>  
-> >>> +	if (cache_num == 3)
-> >>> +		*cache_size /= snc_ways();
-> >>>  	return 0;
-> >>>  }
-> >>>  
-> >>
-> >> I am surprised that this small change is sufficient. The resctrl
-> >> selftests are definitely not NUMA aware and the CAT and CMT tests
-> >> are not taking that into account when picking CPUs to run on. From
-> >> what I understand LLC occupancy counters need to be added in this
-> >> scenario but I do not see that done either.
-> > 
-> > This is a first step (the tests are definitely going to fail if
-> > they have incorrect information about the cache size).
-> > 
-> > For a fully reliable set of tests some major surgery will be required
-> > to bind to CPUs and memory to control allocation and access.
-> > 
-> 
-> What is the plan for making the tests more reliable? What is the
-> use of this patch if it is just the first step?
+Hi,
 
-Reinette,
+On 8/28/23 11:44, Jakub Kicinski wrote:
+> The patchwork states are largely self-explanatory but small
+> ambiguities may still come up. Document how we interpret
+> the states in networking.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: corbet@lwn.net
+> CC: workflows@vger.kernel.org
+> CC: linux-doc@vger.kernel.org
+> ---
+>  Documentation/process/maintainer-netdev.rst | 27 ++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+> index c1c732e9748b..5d16fbb93d25 100644
+> --- a/Documentation/process/maintainer-netdev.rst
+> +++ b/Documentation/process/maintainer-netdev.rst
+> @@ -120,7 +120,32 @@ Status of a patch can be checked by looking at the main patchwork
+>    https://patchwork.kernel.org/project/netdevbpf/list/
+>  
+>  The "State" field will tell you exactly where things are at with your
+> -patch. Patches are indexed by the ``Message-ID`` header of the emails
+> +patch:
 
-I have no immediate plan to re-architect the the resctrl self-tests.
-If you feel this step towards a solution is useless unless it is part
-of a complete solution, then I can drop it from this series.
+                                                      of the patch's email.
+?
 
--Tony
+> +
+> +================== =============================================================
+> +Patch state        Description
+> +================== =============================================================
+> +New, Under review  pending review, patch is in the maintainer’s queue for review
+> +Accepted           patch was applied to the appropriate networking tree, this is
+> +                   usually set automatically by the pw-bot
+> +Needs ACK          waiting for an ack from an area maintainer or testing
+> +Changes requested  patch has not passed the review, new revision is expected
+> +                   with appropriate code and commit message changes
+> +Rejected           patch has been rejected and new revision is not expected
+> +Not applicable     patch is expected to be applied outside of the networking
+> +                   subsystem
+> +Awaiting upstream  patch should be reviewed and handled by appropriate
+> +                   sub-maintainer, who will send it on to the networking trees
+> +Deferred           patch needs to be reposted later, usually due to dependency
+> +                   or because it was posted for a closed tree
+> +Superseded         new version of the patch was posted, usually set by the
+> +                   pw-bot
+> +RFC                not to be applied, usually not in maintainer’s review queue,
+> +                   pw-bot can automatically set patches to this state based
+> +		   on subject tags
+
+Nit:
+Above line uses tabs for indentation. All other lines here use spaces.
+
+> +================== =============================================================
+> +
+> +Patches are indexed by the ``Message-ID`` header of the emails
+>  which carried them so if you have trouble finding your patch append
+>  the value of ``Message-ID`` to the URL above.
+>  
+
+Thanks.
+-- 
+~Randy
