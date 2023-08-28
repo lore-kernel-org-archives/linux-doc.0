@@ -2,157 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D18AC83F11
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 12:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD83C83F12
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 13:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbjH1Mwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 08:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52948 "EHLO
+        id S230225AbjH1M74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 08:59:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbjH1Mwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 08:52:30 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA82107;
-        Mon, 28 Aug 2023 05:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693227147; x=1724763147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=63cN16He7oU1cpUOTTDNru9E4nWgxrEdWbwOQMyKlZ0=;
-  b=KXN8QtfMx+at/9PMPQdeuMAjAJkmK8d4BWtuPuBiToL5KG+JxcFSFSFC
-   WRFARnlVF4vaFF7+jdMW26VrJVztuqi61xrai2eUJqKq7lLcjDwZpmgBt
-   e7c6h4jY0A+s5ezF3IpDAqoaa0Oj/kYu4QEyVnTYoUwGOlUHrLaexwneo
-   ca1B1DuXNamkxCzOorriMxD21upf0ctDl3TS5m7FwTPeUWsqF5RJybOHk
-   D+2Sq60d6bimjpmYhtwhSUaJd50lnQle5iB4FxKJLJwznbkOAfQrbaysS
-   Dx/XWlXBbXHYDfiDVlzAtU5mZaXsKpVZingwDmqbM7QDrtmUh8HlCVXRm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="439038877"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="439038877"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 05:52:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="912044321"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="912044321"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 28 Aug 2023 05:52:22 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qabj4-0007sp-1l;
-        Mon, 28 Aug 2023 12:52:16 +0000
-Date:   Mon, 28 Aug 2023 20:52:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Brandon Pollack <brpol@chromium.org>, marius.vlad@collabora.com,
-        mairacanal@riseup.net, jshargo@chromium.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
-        linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
-        tzimmermann@suse.de, Brandon Pollack <brpol@chromium.org>
-Subject: Re: [PATCH v5 5/7] drm/vkms: Support enabling ConfigFS devices
-Message-ID: <202308282031.pHgZz2pY-lkp@intel.com>
-References: <20230828081929.3574228-6-brpol@chromium.org>
+        with ESMTP id S231807AbjH1M71 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 08:59:27 -0400
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 801AB11C;
+        Mon, 28 Aug 2023 05:59:23 -0700 (PDT)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37SCxC0v008198;
+        Mon, 28 Aug 2023 07:59:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1693227552;
+        bh=RGaXn3WZuuecRsYHVTXM26hoG7JPsA33rXGA8BjFj30=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=bdL+G4KXYUuv1tiFM5tmY0CRJyEWuqGKuDO4gFD6rK8erWHPL5Fqwf79cVXB016+a
+         A4RpIKnwksmv+aYXgOrE0FGMEc1TAz9pkSZkmDSO9vBFyB98QV/R2uzOUEvGkun/cI
+         S01Cj4c7CTrgm7GrCPNH/ZI8VNKIEUnWZ99wHRZk=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37SCxCBb015942
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 28 Aug 2023 07:59:12 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 28
+ Aug 2023 07:59:12 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 28 Aug 2023 07:59:12 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37SCxClt038571;
+        Mon, 28 Aug 2023 07:59:12 -0500
+Date:   Mon, 28 Aug 2023 07:59:12 -0500
+From:   Nishanth Menon <nm@ti.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <bpf@vger.kernel.org>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>,
+        Neha Francis <n-francis@ti.com>
+Subject: Re: [PATCH 1/2] Documentation: sphinx: Add sphinx-prompt
+Message-ID: <20230828125912.hndmzfkof23zxpxl@tidings>
+References: <20230824182107.3702766-1-nm@ti.com>
+ <20230824182107.3702766-2-nm@ti.com>
+ <87h6om4u6o.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230828081929.3574228-6-brpol@chromium.org>
+In-Reply-To: <87h6om4u6o.fsf@meer.lwn.net>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Brandon,
+Hi Jon,
 
-kernel test robot noticed the following build warnings:
+On 16:46-20230825, Jonathan Corbet wrote:
+> Nishanth Menon <nm@ti.com> writes:
+> 
+> > Sphinx-prompt[1] helps bring-in '.. prompt::' option that allows a
+> > better rendered documentation, yet be able to copy paste without
+> > picking up the prompt from the rendered documentation.
+> >
+> > [1] https://pypi.org/project/sphinx-prompt/
+> > Link: https://lore.kernel.org/all/87fs48rgto.fsf@baylibre.com/
+> > Suggested-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> > Suggested-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+> > Signed-off-by: Nishanth Menon <nm@ti.com>
+> > ---
+> > I would have added Reported-by for Simon, since he reported the issue in
+> > the first place.. but it was for the u-boot documentation, so skipping
+> > here.
+> >
+> >  Documentation/conf.py                 | 2 +-
+> >  Documentation/sphinx/requirements.txt | 1 +
+> >  2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> So it would sure be nice for the changelog to say what this actually
+> does.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20230828]
-[cannot apply to linus/master v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+All this does is to bring in a better rendered documentation when
+published in html format.
+https://youtu.be/ItjdVa59jjE shows how the "copy-paste" functionality is
+improved.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brandon-Pollack/drm-vkms-Back-VKMS-with-DRM-memory-management-instead-of-static-objects/20230828-162136
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230828081929.3574228-6-brpol%40chromium.org
-patch subject: [PATCH v5 5/7] drm/vkms: Support enabling ConfigFS devices
-config: x86_64-randconfig-r015-20230828 (https://download.01.org/0day-ci/archive/20230828/202308282031.pHgZz2pY-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230828/202308282031.pHgZz2pY-lkp@intel.com/reproduce)
+If you could recommend changes, I'd be glad to incorporate the same.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308282031.pHgZz2pY-lkp@intel.com/
+> 
+> This appears to add a build dependency for the docs; we can't just add
+> that without updating the documentation, adjusting
+> scripts/sphinx-pre-install, and so on.
 
-All warnings (new ones prefixed by >>):
+I had checked scripts/shinx-pre-install and that picks up
+Documentation/sphinx/requirements.txt and installs the dependencies
+from there using pip. Am I missing something?
 
->> drivers/gpu/drm/vkms/vkms_output.c:180: warning: Function parameter or member 'vkmsdev' not described in 'validate_vkms_configfs_no_dangling_objects'
+Same thing with Documentation/doc-guide/sphinx.rst
 
+Am I missing something?
 
-vim +180 drivers/gpu/drm/vkms/vkms_output.c
+> 
+> But, beyond that, this extension goes entirely counter to the idea that
+> the plain-text files are the primary form of documentation; it adds
+> clutter and makes those files less readable.  We can do that when the
 
-   166	
-   167	/**
-   168	* validate_vkms_configfs_no_dangling_objects - warn on unused objects in vkms
-   169	* configfs.
-   170	* @vkmsdev vkms device
-   171	*
-   172	* This gives slightly more visible warning messaging to the user before the drm
-   173	* system finds the configuration invalid and prints it's debug information.  In
-   174	* this case the user may have accidentally not included some links, or the user
-   175	* could be testing this faulty configuration.
-   176	*
-   177	*/
-   178	static void
-   179	validate_vkms_configfs_no_dangling_objects(struct vkms_device *vkmsdev)
- > 180	{
-   181		struct vkms_configfs *configfs = vkmsdev->configfs;
-   182		struct config_item *item;
-   183	
-   184		// 1. Planes
-   185		list_for_each_entry(item, &configfs->planes_group.cg_children,
-   186				    ci_entry) {
-   187			struct vkms_config_plane *config_plane =
-   188				item_to_config_plane(item);
-   189			if (config_plane->possible_crtcs.linked_object_bitmap == 0)
-   190				DRM_WARN(
-   191					"Vkms configfs created plane %s has no linked crtcs",
-   192					item->ci_name);
-   193		}
-   194	
-   195		// 2. connectors
-   196		list_for_each_entry(item, &configfs->connectors_group.cg_children,
-   197				    ci_entry) {
-   198			struct vkms_config_connector *config_connector =
-   199				item_to_config_connector(item);
-   200			if (config_connector->possible_encoders.linked_object_bitmap ==
-   201			    0) {
-   202				DRM_WARN(
-   203					"Vkms configfs created connector %s has no linked encoders",
-   204					item->ci_name);
-   205			}
-   206		}
-   207	
-   208		// 3. encoders
-   209		list_for_each_entry(item, &configfs->encoders_group.cg_children,
-   210				    ci_entry) {
-   211			struct vkms_config_encoder *config_encoder =
-   212				item_to_config_encoder(item);
-   213			if (config_encoder->possible_crtcs.linked_object_bitmap == 0) {
-   214				DRM_WARN(
-   215					"Vkms configfs created encoder %s has no linked crtcs",
-   216					item->ci_name);
-   217			}
-   218		}
-   219	
-   220		// 4. crtcs only require a primary plane to function, this is checked during
-   221		// output initialization and returns an error.
-   222	}
-   223	
+Are you sure this is going against the readable text documentation? If
+anything it reduces the clutter and allows the text doc to be
+copy-paste-able as well.
+
+https://lore.kernel.org/all/20230824182107.3702766-3-nm@ti.com/
+
+As you see from the diffstat:
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+Nothing extra added. What kind of clutter are you suggesting we added
+with the change?
+
+prompt:: bash $ is clearly readable that this is prompt documentation
+in fact, dropping the "$" in the example logs, one can easily copy paste
+the documentation from rst files as well.
+
+> benefit is sufficient, but I'm pretty far from convinced that this is
+> the case here.  Certainly the case hasn't been made in the changelog.
+> What *is* the benefit of making this change?
+
+Let me know *how* I can improve (note: I am not a native English
+speaker, so, I'd appreciate any suggestions to make the argument clear
+in the changelog). Intent here is to help make the rendered html
+documentation that we publish in docs.kernel.org such as
+https://docs.kernel.org/bpf/libbpf/libbpf_build.html better usable.
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
