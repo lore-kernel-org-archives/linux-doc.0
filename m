@@ -2,239 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06238C83F11
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 17:19:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE4C1C83F15
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 17:25:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232752AbjH1RTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 13:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38080 "EHLO
+        id S229975AbjH1RZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 13:25:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232798AbjH1RTF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 13:19:05 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A27CBE
-        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 10:19:02 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-500b6456c7eso2346130e87.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 10:19:02 -0700 (PDT)
+        with ESMTP id S229924AbjH1RZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 13:25:01 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E73102
+        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 10:24:58 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-58f9db8bc1dso51058287b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 10:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1693243140; x=1693847940;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JdKbGkiMEHDZxtvYcB55AX2r1kA+uiZkHP+paoU6rrc=;
-        b=tcLEXaH7U2rrkp8U48odL6CZ9G0Yj99XWgWuWbIi+UqEQJYr6rL/iyJYDlRli70j+I
-         82klvz+6xlCINNfhaFVHlwKtsUlC66SqJF62dBJ4FxDkL+qRg4k6KQJ/vRXGx3za+sR9
-         moDWg7GOcvn/MxBC0lJo5zvcj/6vwcdoiKrovRfh11G9Tzc3v/xrzHzimUAztd4zQIwE
-         rSEerbOTo3ZeWbU6t/FikfSDKLKcauIQS9NG8UvhiZoq7kSsfVfX2Erhs5TKasYRVnye
-         FwHjL+9IoegnxeNtkp5B1b8lo8ZAhhE6OdiY7gIctUHUOpsF+NLg5JI/saWY3GsNw2B+
-         fHcg==
+        d=google.com; s=20221208; t=1693243498; x=1693848298;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/oLxkqcj6idE2RAd7eB+LLnuv7c2HnjVXYsMqqnGgg8=;
+        b=Q3kdIiExrixB0kXpfSIkMi+WUhVxAjzZp1Gb0Pv92AW7RoauqfxFtrlVmmUAgDr92G
+         YT3v72v+p4ZdtUIfnVnnt4izhXVNFK2RaLOtbuijsYwyUD4zlE5ZbDmmOGaAteX6o2I0
+         rjeRnbkLNa7xN4WC/7Tk4ej57vemznhk7e5+sQX87NqNVIdfOnOonenrEBGV5LTpv70m
+         EOK8gmCgoWq+WNRgfDYABZPBFV68uSsbt77FNJ7F9JS4Xut8mVJOPGih8H/fPSEU0DjS
+         zU3AeR8ISUVZQ07y8530/l9a8o/ybm02tigJ6dk72/7WTDAqn5kOIPfrsnSyTGte3I4b
+         8nDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693243140; x=1693847940;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JdKbGkiMEHDZxtvYcB55AX2r1kA+uiZkHP+paoU6rrc=;
-        b=KVLLgVoSTXmeKwxj12VpGQJzqAQGcVmkqmErKMuGMyHJG09LBLsNhioZUWdKVa6kYr
-         47LO3J1fbxuGcsOtA8Qi+B+hgUWNJ+heCpkHz/Nn9XT06GRVzPpEJicrX2uD/I3x/gss
-         PvQEzkcGpCpfFRzk/c0rr4+TA1mEoGtCBzcW828giNHeu77pXTqYTO+h0sZMEI4cQUIB
-         lfuW9AqlMFQ6fC0DMpUstpwbVQU0syMWDrFu6aftB/V4ViK2W0Fz2O2njodzLuzRMceg
-         5wfdPjUHEKwcAbn0z49fOVpE0320oJIsaAvWhHz/YTtncG2CzejYHj0uX+PCRA4lfmUA
-         y2uw==
-X-Gm-Message-State: AOJu0YyuERfFHlhP4DjNf+WM5tnWuqdtRlxbMosdab4JHe9n67RDU7eQ
-        PibaYwzO01vp449pthVF2nHhTESmRv0L3PRcOhuGbg==
-X-Google-Smtp-Source: AGHT+IEYUWRZ0JpXXlpm+5EXrS0OW+lBPytKeqgJpS6Qt+weN8A4HwoSwMDa4hK4cbEiOzGW8mMIFOuVsIRkvH9Z9nw=
-X-Received: by 2002:a05:6512:108d:b0:4ff:9095:a817 with SMTP id
- j13-20020a056512108d00b004ff9095a817mr23538756lfg.57.1693243140412; Mon, 28
- Aug 2023 10:19:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230825231139.1145522-1-evan@rivosinc.com> <20230826-anguished-tutu-81d63b3081a7@spud>
- <20230826-copper-suffocate-5f4f0e67f9a7@spud> <CALs-HsvwLpcUMPeKEs3ZW3tOwLGeGRQSe=grxE5L14Tj8b+XHw@mail.gmail.com>
- <20230828-dangling-decency-ededaa58d014@spud>
-In-Reply-To: <20230828-dangling-decency-ededaa58d014@spud>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Mon, 28 Aug 2023 10:18:24 -0700
-Message-ID: <CALs-Hss8KNV9zkEHujVmzb7Rf8Zp9OGkDF9Fj8BCjQuFDYaHHA@mail.gmail.com>
-Subject: Re: [PATCH v5] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        d=1e100.net; s=20221208; t=1693243498; x=1693848298;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/oLxkqcj6idE2RAd7eB+LLnuv7c2HnjVXYsMqqnGgg8=;
+        b=KJybtsYXbdRhU4M/9Ai2dHbG2NK1q/SOc3jk20lKndp4MuA1EXGmU1NwLD4c0Axzk6
+         J2274n9AFTQawUqvswEfwubAHvnicWH6L8K68MDo1XKfzvYu3rEFdbU/ijRd+B3/EhOS
+         aDl+mjEIpDDq4z6wNat3hKmvhCq6OVUd91YGNurHFT+JSCtLA8sbdAngKeWFPD5A5Iyy
+         eRckYcLUhiJAYVlZ/GdwMQrbE0us4MGCudvF9Rq7ydHeTjBdjRkWBipNDcZMne/MNwEW
+         soIavb7lqqq+V3etrpZTi04xGfE/cdlwLF42yGD9DwqoyzLfsFRToIoWqdcEDFQNXFYn
+         yNNQ==
+X-Gm-Message-State: AOJu0YyPoOreANyJVVoLFHNeunrnf5mZLdZxX+NB97oIPQeNdozxS9OX
+        l29H2BBFdB7pTf7grl9mVG41cCZ1aIJFI69j62E=
+X-Google-Smtp-Source: AGHT+IGK2UAO+x9AivLfeQCbe/oWqNS//H5fFRBkRtH1NHfK+e8tED1exgd39eYPQHfAxiWZ7GpFXPzi/ILoF0aXDNM=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:b64:7817:9989:9eba])
+ (user=ndesaulniers job=sendgmr) by 2002:a25:d809:0:b0:d01:60ec:d0e with SMTP
+ id p9-20020a25d809000000b00d0160ec0d0emr864417ybg.9.1693243497711; Mon, 28
+ Aug 2023 10:24:57 -0700 (PDT)
+Date:   Mon, 28 Aug 2023 10:24:56 -0700
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAGfY7GQC/x2MQQqAIBAAvyJ7TjBFkL4SEaJr7UVFKQLp7y0dh
+ 2FmQMdG2GERAxre1KlkhnkSEE6fD5QUmUErbZTTTsYS+p7ouaqMxhtrfUwuKeCgNmTxz9btfT+ CiCgEXAAAAA==
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=eMOZeIQ4DYNKvsNmDNzVbQZqpdex34Aww3b8Ah957X4=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1693243496; l=1285;
+ i=ndesaulniers@google.com; s=20230823; h=from:subject:message-id;
+ bh=zCJ5iDIwWerWby5h6qezWElTcBWFCjLXZm+/Emze4k4=; b=Be7HD5ZZzeKJKDc7FCdvIqAeEUnkF5wWw4dcsSwn+XM/KS7qdTk8/xSGsBu46LPiDpE8tF4YV
+ kYUBq67QmrBC/DHsEyUTt2eT9Z3C+LmJgo+FpAyYBzTdDk7AxcVeK1l
+X-Mailer: b4 0.12.3
+Message-ID: <20230828-docs_fixup-v1-1-cc78af124667@google.com>
+Subject: [PATCH] Documentation/llvm: fix typo in link
+From:   ndesaulniers@google.com
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv@lists.infradead.org,
-        Andrew Jones <ajones@ventanamicro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 28, 2023 at 9:53=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Mon, Aug 28, 2023 at 09:24:03AM -0700, Evan Green wrote:
-> > On Sat, Aug 26, 2023 at 2:56=E2=80=AFAM Conor Dooley <conor@kernel.org>=
- wrote:
-> > >
-> > > On Sat, Aug 26, 2023 at 12:26:25AM +0100, Conor Dooley wrote:
-> > > > On Fri, Aug 25, 2023 at 04:11:38PM -0700, Evan Green wrote:
-> > > > > In /proc/cpuinfo, most of the information we show for each proces=
-sor is
-> > > > > specific to that hart: marchid, mvendorid, mimpid, processor, har=
-t,
-> > > > > compatible, and the mmu size. But the ISA string gets filtered th=
-rough a
-> > > > > lowest common denominator mask, so that if one CPU is missing an =
-ISA
-> > > > > extension, no CPUs will show it.
-> > > > >
-> > > > > Now that we track the ISA extensions for each hart, let's report =
-ISA
-> > > > > extension info accurately per-hart in /proc/cpuinfo. We cannot ch=
-ange
-> > > > > the "isa:" line, as usermode may be relying on that line to show =
-only
-> > > > > the common set of extensions supported across all harts. Add a ne=
-w "hart
-> > > > > isa" line instead, which reports the true set of extensions for t=
-hat
-> > > > > hart.
-> > > > >
-> > > > > Signed-off-by: Evan Green <evan@rivosinc.com>
-> > > > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > > >
-> > > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > > >
-> > > > Can you drop this if you repost?
-> >
-> > Will do.
-> >
-> > > >
-> > > > > +"isa" vs "hart isa" lines in /proc/cpuinfo
-> > > > > +------------------------------------------
-> > > > > +
-> > > > > +The "isa" line in /proc/cpuinfo describes the lowest common deno=
-minator of
-> > > > > +RISC-V ISA extensions recognized by the kernel and implemented o=
-n all harts. The
-> > > > > +"hart isa" line, in contrast, describes the set of extensions re=
-cognized by the
-> > > > > +kernel on the particular hart being described, even if those ext=
-ensions may not
-> > > > > +be present on all harts in the system.
-> > > >
-> > > > > In both cases, the presence of a feature
-> > > > > +in these lines guarantees only that the hardware has the describ=
-ed capability.
-> > > > > +Additional kernel support or policy control changes may be requi=
-red before a
-> > > > > +feature is fully usable by userspace programs.
-> > > >
-> > > > I do not think that "in both cases" matches the expectations of
-> > > > userspace for the existing line. It's too late at night for me to t=
-hink
-> > > > properly, but I think our existing implementation does work like yo=
-u
-> > > > have documented for FD/V. I think I previously mentioned that it co=
-uld
-> > > > misreport things for vector during the review of the vector series =
-but
-> > > > forgot about it until now.
-> > >
-> > > I went and checked, and yes it does currently do that for vector. I
-> > > don't think that that is what userspace would expect, that Google
-> > > cpu_features project for example would draw incorrect conclusions.
-> >
-> > I'm lost, could you explain a little more?
->
-> There (may be/)are userspace programs that will interpret the appearance
-> of extensions in cpuinfo as meaning they can be used without performing
-> any further checks.
->
-> > My goal was to say that
-> > there's no blanket guarantee that the feature is 100% ready to go for
-> > userspace just because it's seen here.
->
-> Right. I was agreeing that this is true, but it is also not how some
-> userspace programs have interpreted things. Consider a platform & kernel
-> that support the V extension but vector has not been enabled by default
-> or by early userspace. If someone cats cpuinfo, they'll see v there, but
-> it won't be usable. That Google cpu_features project (or a punter) may
-> then assume they can use it, as that's been the case so far in general*.
->
-> The caveat producing the * being that the same problem actually exists
-> for F/D too AFAICT, but it's likely that nobody really encountered it
-> as they didn't build non-FP userspaces & then try to use FP in some
-> userspace applications.
->
-> > For some extensions, it may in
-> > fact end up meaning just that (hence the "additional ... may be
-> > required" rather than "is required").
->
-> > This is true for FD (maybe,
-> > depending on history?),
->
-> AFAICT, it's not true for FD. The FPU config option not being set, or
-> either of F and D being missing will lead to unusable extensions
-> appearing.
+Fixes the following observed build failure from `make htmldocs`:
+  Documentation/kbuild/llvm.rst:127: ERROR: Unknown target name:
+  "reprocible_builds".
 
-Ah ok.
+Fixes: bda09c0e14a4 ("Documentation/llvm: refresh docs")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20230828145737.6ff53bc9@canb.auug.org.au/
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ Documentation/kbuild/llvm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> > or extensions whose minimal/zero kernel
-> > support was unconditionally added at the same time as its parsing for
-> > it. But it's not true solely by virtue of being in /proc/cpuinfo. In
-> > other words, I'm trying to establish the floor of what /proc/cpuinfo
-> > guarantees, without fully specifying the ceiling.
->
-> > Are you saying that
-> > we need to spell out the guarantees for each extension?
->
-> No, I don't want that!
->
-> > Or are you
-> > saying the floor I've defined in general is incorrect or insufficient?
->
-> I think the floor that you have defined is probably misleading to users.
-> It's also the floor that has existed for quite a while, so this might be
-> a case of the userspace devs messing up due to an absence of any
-> explanation of what to do here.
-> Things will get abhorrently messy if we try to do what these userspace
-> programs expect, and I don't think we should go there. We just need to
-> bear in mind that the behaviour we have & the behaviour that you are
-> documenting flys in the face of what some userspace expects.
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index 384622dd36b7..b1d97fafddcf 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -126,7 +126,7 @@ Ccache
+ 
+ ``ccache`` can be used with ``clang`` to improve subsequent builds, (though
+ KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
+-in order to avoid 100% cache misses, see Reprocible_builds_ for more info):
++in order to avoid 100% cache misses, see Reproducible_builds_ for more info):
+ 
+ 	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
+ 
 
-Thanks, I think I understand now. You're saying the floor I'm defining
-might surprise some users, who were expecting the floor to be "fully
-enabled and ready to party". Given there was no documentation about it
-before, and this documentation is consistent with what we actually do
-(and there seems to be consensus this is a maintainable position to
-hold), can we just tell those users they're holding it wrong?
+---
+base-commit: 2ee82481c392eec06a7ef28df61b7f0d8e45be2e
+change-id: 20230828-docs_fixup-d3a355adf8f0
 
->
-> > I'm also open to direct suggestions of wording if you've got something
-> > in mind :)
->
-> Someone mentioned it recently, but it really is starting to feel more
-> and more like lscpu should grow support for hwprobe and funnel people
-> into using that instead of /proc/cpuinfo when all they want is to see
-> what their hardware can do.
+Best regards,
+-- 
+Nick Desaulniers <ndesaulniers@google.com>
 
-Maybe for the fiddly microarchitectural bits, yeah. But I'd think our
-newly proposed documentation for /proc/cpuinfo of keeping it closer to
-what the hardware can do would suit the lscpu folks' mission well. (In
-ChromeOS at least, we didn't have lscpu, but snarfed /proc/cpuinfo
-directly into feedback reports that consented to sending along system
-info). Really I'd think it's the application/library writers who want
-to know "am I ready to go right now" are who we should be pushing to
-use hwprobe, since we can define those bits to be as specific as we
-want (eg V is on AND it's a full moon, so go for it).
-
-Depending on your thoughts on this, if there are changes requested on
-this patch, let me know what they are.
--Evan
