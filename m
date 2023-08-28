@@ -2,91 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E8BC83F17
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 18:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6C5C83F14
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 18:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231737AbjH1SoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 14:44:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42046 "EHLO
+        id S233328AbjH1Spv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 14:45:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233130AbjH1SoN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 14:44:13 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67626B3;
-        Mon, 28 Aug 2023 11:44:10 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S233306AbjH1Spr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 14:45:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EC72E43;
+        Mon, 28 Aug 2023 11:45:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 152117DB;
-        Mon, 28 Aug 2023 18:44:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 152117DB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1693248250; bh=6VI2H7gLRgPr4ukXUvV7bf1IPmuT5gXIgiO43jCaM7s=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Nipej7Om2wYDdE/JHiIB4X+DAqfpf6NRVhlgRiYYg2dxmQNopi9Sv0zo+p2eT4467
-         MPYhYqCzfJABVNyK/0DC1G8Js2BeaqwF8BqSNx3e3CQrMRC8jLnAKdk9Bw/CNSXOCh
-         JC0+HfxlEH54jiqEe8RF44GIhmx0Cu7qstDxCsq5n1gh3H8iN/h3xmptWAmuKuTG3H
-         W1ZPvuZ/rkkk26Xyw/qQsoA2hIQ322ER23LfNKduv8jmffBlZGEA/Vn4Mv3l75m5qo
-         8X46wlbxuWkBoe7zcQ46t3qo6+Kxy5KktS93gnp3eU6qYM+zswnuK92ywuxvue1bQw
-         /FzHq9nUHLkeg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH] input: docs: pxrc: remove reference to phoenix-sim
-In-Reply-To: <20230824-pxrc-doc-v1-1-038b75a2ef05@gmail.com>
-References: <20230824-pxrc-doc-v1-1-038b75a2ef05@gmail.com>
-Date:   Mon, 28 Aug 2023 12:44:09 -0600
-Message-ID: <877cpf0zye.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DBD964F13;
+        Mon, 28 Aug 2023 18:45:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2231BC433C7;
+        Mon, 28 Aug 2023 18:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693248310;
+        bh=G9FshI/MbkwP6DFeCFqMQDP37LfIo9y0U219jgPrxXM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SeJY5Qjh6KWyoysR78zsJed1Vgmv6RQGZYawRREdLn+4Q+/1c+Gf0GNYLp6aURsul
+         DKUpvpPrHAlEq2KSynAZBccxOzFw2k4QavLiWIQPBbwUBhUNmac56oGDjgTfgerKUh
+         XBKfsCEW1TllP5REJkLSK5dB01irt4qhAgJ/2q58AHxPcIyWUx8ojdbDLwS1kVBzz8
+         mQ5Zd9V2dZ/gExkhnxhDsrflfXtjKocpwga5OTsGlWy8mFcgwfzrkNGc/PH6z3gJ6q
+         CKkecCLTRS3PyQN8l8o1mYE5uIUBJPKgN1OYSx4eP4I7JCldL7aPws2atZxdt9BfqE
+         0PGj5NuuKeAUg==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: netdev: document patchwork patch states
+Date:   Mon, 28 Aug 2023 11:44:41 -0700
+Message-ID: <20230828184447.2142383-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=a
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+The patchwork states are largely self-explanatory but small
+ambiguities may still come up. Document how we interpret
+the states in networking.
 
-> The reference undeniably points to something unrelated nowadays.
-> Remove it.
->
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> ---
->  Documentation/input/devices/pxrc.rst | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/input/devices/pxrc.rst b/Documentation/input/devices/pxrc.rst
-> index ca11f646bae8..5a86df4ad079 100644
-> --- a/Documentation/input/devices/pxrc.rst
-> +++ b/Documentation/input/devices/pxrc.rst
-> @@ -5,7 +5,7 @@ pxrc - PhoenixRC Flight Controller Adapter
->  :Author: Marcus Folkesson <marcus.folkesson@gmail.com>
->  
->  This driver let you use your own RC controller plugged into the
-> -adapter that comes with PhoenixRC [1]_ or other compatible adapters.
-> +adapter that comes with PhoenixRC or other compatible adapters.
->  
->  The adapter supports 7 analog channels and 1 digital input switch.
->  
-> @@ -41,7 +41,7 @@ Manual Testing
->  ==============
->  
->  To test this driver's functionality you may use `input-event` which is part of
-> -the `input layer utilities` suite [2]_.
-> +the `input layer utilities` suite [1]_.
->  
->  For example::
->  
-> @@ -53,5 +53,4 @@ To print all input events from input `devnr`.
->  References
->  ==========
->  
-> -.. [1] http://www.phoenix-sim.com/
-> -.. [2] https://www.kraxel.org/cgit/input/
-> +.. [1] https://www.kraxel.org/cgit/input/
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: workflows@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 27 ++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-Hmm...that does indeed seem like a link that lacks value for kernel
-development.  Patch applied, thanks.
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index c1c732e9748b..5d16fbb93d25 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -120,7 +120,32 @@ Status of a patch can be checked by looking at the main patchwork
+   https://patchwork.kernel.org/project/netdevbpf/list/
+ 
+ The "State" field will tell you exactly where things are at with your
+-patch. Patches are indexed by the ``Message-ID`` header of the emails
++patch:
++
++================== =============================================================
++Patch state        Description
++================== =============================================================
++New, Under review  pending review, patch is in the maintainer’s queue for review
++Accepted           patch was applied to the appropriate networking tree, this is
++                   usually set automatically by the pw-bot
++Needs ACK          waiting for an ack from an area maintainer or testing
++Changes requested  patch has not passed the review, new revision is expected
++                   with appropriate code and commit message changes
++Rejected           patch has been rejected and new revision is not expected
++Not applicable     patch is expected to be applied outside of the networking
++                   subsystem
++Awaiting upstream  patch should be reviewed and handled by appropriate
++                   sub-maintainer, who will send it on to the networking trees
++Deferred           patch needs to be reposted later, usually due to dependency
++                   or because it was posted for a closed tree
++Superseded         new version of the patch was posted, usually set by the
++                   pw-bot
++RFC                not to be applied, usually not in maintainer’s review queue,
++                   pw-bot can automatically set patches to this state based
++		   on subject tags
++================== =============================================================
++
++Patches are indexed by the ``Message-ID`` header of the emails
+ which carried them so if you have trouble finding your patch append
+ the value of ``Message-ID`` to the URL above.
+ 
+-- 
+2.41.0
 
-jon
