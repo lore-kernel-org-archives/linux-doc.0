@@ -2,236 +2,239 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D54C83F11
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 17:15:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06238C83F11
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 17:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbjH1ROb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 13:14:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59134 "EHLO
+        id S232752AbjH1RTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 13:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232852AbjH1ROU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 13:14:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09ED1AA;
-        Mon, 28 Aug 2023 10:14:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E25464DE2;
-        Mon, 28 Aug 2023 17:14:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E49AC433C7;
-        Mon, 28 Aug 2023 17:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693242840;
-        bh=FOkV7yPXUTKCY+8e4n1fvk3H2HGOvC/3kmnoKum8M+4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LvS38BCw8YQG0WpYxcdTcAqnXRbR9rn3hB0mPrN788KlVO9qNZfDvWQOkc4N5Ipdw
-         u/l5NzfXsxqK5Lao0VDNS/2CZeOncgmhn5m5nHX0fZcdT4T686b6/G9SC5ab4W8pNM
-         G+XNJJoj4vNj8lS2DzoWNrLNcJdfBZIQOdKTmXEKdpcUOy3Gv2sh5p1mY1aBo3UMEt
-         H7dw9Ov2dP5tis/Ysy63UA11F0R/7xP0lmcrBzyizV+EZWdi019OhxmCiZLNiJ7rD1
-         dIuoFlOjVGyI56OrydvZQP9wX79ZJdWqdVCqQBtLNjgQ9L3sdh7SsRNsUSZTqJmPve
-         3uLQfmA4dnzog==
-Date:   Mon, 28 Aug 2023 18:13:54 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Andrew Jones <ajones@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
+        with ESMTP id S232798AbjH1RTF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 13:19:05 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A27CBE
+        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 10:19:02 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-500b6456c7eso2346130e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 10:19:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1693243140; x=1693847940;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JdKbGkiMEHDZxtvYcB55AX2r1kA+uiZkHP+paoU6rrc=;
+        b=tcLEXaH7U2rrkp8U48odL6CZ9G0Yj99XWgWuWbIi+UqEQJYr6rL/iyJYDlRli70j+I
+         82klvz+6xlCINNfhaFVHlwKtsUlC66SqJF62dBJ4FxDkL+qRg4k6KQJ/vRXGx3za+sR9
+         moDWg7GOcvn/MxBC0lJo5zvcj/6vwcdoiKrovRfh11G9Tzc3v/xrzHzimUAztd4zQIwE
+         rSEerbOTo3ZeWbU6t/FikfSDKLKcauIQS9NG8UvhiZoq7kSsfVfX2Erhs5TKasYRVnye
+         FwHjL+9IoegnxeNtkp5B1b8lo8ZAhhE6OdiY7gIctUHUOpsF+NLg5JI/saWY3GsNw2B+
+         fHcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693243140; x=1693847940;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JdKbGkiMEHDZxtvYcB55AX2r1kA+uiZkHP+paoU6rrc=;
+        b=KVLLgVoSTXmeKwxj12VpGQJzqAQGcVmkqmErKMuGMyHJG09LBLsNhioZUWdKVa6kYr
+         47LO3J1fbxuGcsOtA8Qi+B+hgUWNJ+heCpkHz/Nn9XT06GRVzPpEJicrX2uD/I3x/gss
+         PvQEzkcGpCpfFRzk/c0rr4+TA1mEoGtCBzcW828giNHeu77pXTqYTO+h0sZMEI4cQUIB
+         lfuW9AqlMFQ6fC0DMpUstpwbVQU0syMWDrFu6aftB/V4ViK2W0Fz2O2njodzLuzRMceg
+         5wfdPjUHEKwcAbn0z49fOVpE0320oJIsaAvWhHz/YTtncG2CzejYHj0uX+PCRA4lfmUA
+         y2uw==
+X-Gm-Message-State: AOJu0YyuERfFHlhP4DjNf+WM5tnWuqdtRlxbMosdab4JHe9n67RDU7eQ
+        PibaYwzO01vp449pthVF2nHhTESmRv0L3PRcOhuGbg==
+X-Google-Smtp-Source: AGHT+IEYUWRZ0JpXXlpm+5EXrS0OW+lBPytKeqgJpS6Qt+weN8A4HwoSwMDa4hK4cbEiOzGW8mMIFOuVsIRkvH9Z9nw=
+X-Received: by 2002:a05:6512:108d:b0:4ff:9095:a817 with SMTP id
+ j13-20020a056512108d00b004ff9095a817mr23538756lfg.57.1693243140412; Mon, 28
+ Aug 2023 10:19:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230825231139.1145522-1-evan@rivosinc.com> <20230826-anguished-tutu-81d63b3081a7@spud>
+ <20230826-copper-suffocate-5f4f0e67f9a7@spud> <CALs-HsvwLpcUMPeKEs3ZW3tOwLGeGRQSe=grxE5L14Tj8b+XHw@mail.gmail.com>
+ <20230828-dangling-decency-ededaa58d014@spud>
+In-Reply-To: <20230828-dangling-decency-ededaa58d014@spud>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Mon, 28 Aug 2023 10:18:24 -0700
+Message-ID: <CALs-Hss8KNV9zkEHujVmzb7Rf8Zp9OGkDF9Fj8BCjQuFDYaHHA@mail.gmail.com>
+Subject: Re: [PATCH v5] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
         Anup Patel <apatel@ventanamicro.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Stuebner <heiko@sntech.de>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+        linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         linux-riscv@lists.infradead.org,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>
-Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
-Message-ID: <20230828-unwelcome-cauterize-8db7188a5e07@spud>
-References: <20230711201831.2695097-1-evan@rivosinc.com>
- <20230824-factual-jawed-2dddd2cf2bdd@wendy>
- <CALs-Hss51fQE1yxe1Y1T86X+OfjPaAd386vosQ8gzRm=Njm1gw@mail.gmail.com>
- <20230824-exploit-spectacle-ecedd91e9075@spud>
- <CALs-HssqaOjvUOdBVn=oN+uzkkmjguys2UttTYgdcqJwJB0HnQ@mail.gmail.com>
- <20230825-374a82446ed3eea02fcb41e6@orel>
- <CALs-HstfA29DDrmVemP6bZe+kON9JDKYR3p132gG_WefA6d7eQ@mail.gmail.com>
- <20230826-3869468d499caf2850681d08@orel>
- <CALs-HsskEUu3cu8pAc272Z47ro25e=fyuPt8jQBcJE2_RmFGtQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="CLJlKiYV2dRbV0kf"
-Content-Disposition: inline
-In-Reply-To: <CALs-HsskEUu3cu8pAc272Z47ro25e=fyuPt8jQBcJE2_RmFGtQ@mail.gmail.com>
+        Andrew Jones <ajones@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---CLJlKiYV2dRbV0kf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 28, 2023 at 09:44:55AM -0700, Evan Green wrote:
-> On Sat, Aug 26, 2023 at 1:01=E2=80=AFAM Andrew Jones <ajones@ventanamicro=
-=2Ecom> wrote:
-> >
-> > On Fri, Aug 25, 2023 at 03:51:28PM -0700, Evan Green wrote:
-> > > On Fri, Aug 25, 2023 at 1:16=E2=80=AFAM Andrew Jones <ajones@ventanam=
-icro.com> wrote:
-> > > >
-> > > > On Thu, Aug 24, 2023 at 03:06:53PM -0700, Evan Green wrote:
-> > > > > On Thu, Aug 24, 2023 at 10:29=E2=80=AFAM Conor Dooley <conor@kern=
-el.org> wrote:
-> > > > ...
-> > > > > > Do you want to have this new thing in cpuinfo tell the user "th=
-is hart
-> > > > > > has xyz extensions that are supported by a kernel, but maybe no=
-t this
-> > > > > > kernel" or to tell the user "this hart has xyz extensions that =
-are
-> > > > > > supported by this kernel"? Your text above says "understood by =
-the
-> > > > > > kernel", but I think that's a poor definition that needs to be =
-improved
-> > > > > > to spell out exactly what you mean. IOW does "understood" mean =
-the
-> > > > > > kernel will parse them into a structure, or does it mean "yes y=
-ou can
-> > > > > > use this extension on this particular hart".
-> > > > >
-> > > > > I'm imagining /proc/cpuinfo being closer to "the CPU has it and t=
-he
-> > > > > kernel at least vaguely understands it, but may not have full sup=
-port
-> > > > > for it enabled". I'm assuming /proc/cpuinfo is mostly used by 1)
-> > > > > humans wanting to know if they have hardware support for a featur=
-e,
-> > > > > and 2) administrators collecting telemetry to manage fleets (ie d=
-o I
-> > > > > have any hardware deployed that supports X).
-> > > >
-> > > > Is (2) a special case of (1)? (I want to make sure I understand all=
- the
-> > > > cases.)
+On Mon, Aug 28, 2023 at 9:53=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Mon, Aug 28, 2023 at 09:24:03AM -0700, Evan Green wrote:
+> > On Sat, Aug 26, 2023 at 2:56=E2=80=AFAM Conor Dooley <conor@kernel.org>=
+ wrote:
 > > >
-> > > More or less, yes. In bucket two are also folks wondering things like
-> > > "are all these crash reports I'm getting specific to machines with X".
-> > >
-> > > >
-> > > > > Programmers looking to
-> > > > > see "is the kernel support for this feature ready right now" would
-> > > > > ideally not be parsing /proc/cpuinfo text, as more direct mechani=
-sms
-> > > > > like specific hwprobe bits for "am I fully ready to go" would be
-> > > > > easier to work with. Feel free to yell at me if this overall visi=
-on
-> > > > > seems flawed.
+> > > On Sat, Aug 26, 2023 at 12:26:25AM +0100, Conor Dooley wrote:
+> > > > On Fri, Aug 25, 2023 at 04:11:38PM -0700, Evan Green wrote:
+> > > > > In /proc/cpuinfo, most of the information we show for each proces=
+sor is
+> > > > > specific to that hart: marchid, mvendorid, mimpid, processor, har=
+t,
+> > > > > compatible, and the mmu size. But the ISA string gets filtered th=
+rough a
+> > > > > lowest common denominator mask, so that if one CPU is missing an =
+ISA
+> > > > > extension, no CPUs will show it.
 > > > > >
-> > > > > I tried to look to see if there was consensus among the other
-> > > > > architectures. Aarch64 seems to go with "supported and fully enab=
-led",
-> > > > > as their cpu_has_feature() directly tests elf_hwcap, and elements=
- in
-> > > > > arm64_elf_hwcaps[] are Kconfig gated. X86 is complicated, but IIR=
-C is
-> > > > > more along the lines of "hardware has it". They have two macros,
-> > > > > cpu_has() for "raw capability" and cpu_feature_enabled() for "ker=
-nel
-> > > > > can do it too", and they use cpu_has() for /proc/cpuinfo flags.
+> > > > > Now that we track the ISA extensions for each hart, let's report =
+ISA
+> > > > > extension info accurately per-hart in /proc/cpuinfo. We cannot ch=
+ange
+> > > > > the "isa:" line, as usermode may be relying on that line to show =
+only
+> > > > > the common set of extensions supported across all harts. Add a ne=
+w "hart
+> > > > > isa" line instead, which reports the true set of extensions for t=
+hat
+> > > > > hart.
 > > > > >
+> > > > > Signed-off-by: Evan Green <evan@rivosinc.com>
+> > > > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 > > > >
-> > > > I'd lean more towards the way AArch64 goes, because, unless /proc/c=
-puinfo
-> > > > is just a blind regurgitation of an isa string from DT / ACPI, then=
- the
-> > > > kernel must at least know something about it. Advertising a feature=
- which
-> > > > is known, but also known not to work, seems odd to me. So my vote i=
-s that
-> > > > only features which are present and enabled in the kernel or presen=
-t and
-> > > > not necessary to be enabled in the kernel in order for userspace or
-> > > > virtual machines to use be advertised in /proc/cpuinfo.
+> > > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 > > > >
-> > > > We still have SMBIOS (dmidecode) to blindly dump what the hardware
-> > > > supports for cases (1) and (2) above.
+> > > > Can you drop this if you repost?
+> >
+> > Will do.
+> >
+> > > >
+> > > > > +"isa" vs "hart isa" lines in /proc/cpuinfo
+> > > > > +------------------------------------------
+> > > > > +
+> > > > > +The "isa" line in /proc/cpuinfo describes the lowest common deno=
+minator of
+> > > > > +RISC-V ISA extensions recognized by the kernel and implemented o=
+n all harts. The
+> > > > > +"hart isa" line, in contrast, describes the set of extensions re=
+cognized by the
+> > > > > +kernel on the particular hart being described, even if those ext=
+ensions may not
+> > > > > +be present on all harts in the system.
+> > > >
+> > > > > In both cases, the presence of a feature
+> > > > > +in these lines guarantees only that the hardware has the describ=
+ed capability.
+> > > > > +Additional kernel support or policy control changes may be requi=
+red before a
+> > > > > +feature is fully usable by userspace programs.
+> > > >
+> > > > I do not think that "in both cases" matches the expectations of
+> > > > userspace for the existing line. It's too late at night for me to t=
+hink
+> > > > properly, but I think our existing implementation does work like yo=
+u
+> > > > have documented for FD/V. I think I previously mentioned that it co=
+uld
+> > > > misreport things for vector during the review of the vector series =
+but
+> > > > forgot about it until now.
 > > >
-> > > Yeah, there's an argument to be made for that. My worry is it's a
-> > > difficult line to hold. The bar you're really trying to describe (or
-> > > at least what people might take away from it) is "if it's listed here
-> > > then it's fully ready to be used in userspace". But then things get
-> > > squishy when there are additional ways to control the use of the
-> > > feature (prctls() in init to turn it on, usermode policy to turn it
-> > > off, security doodads that disable it, etc). I'm assuming nobody wants
-> > > a version of /proc/cpuinfo that changes depending on which process is
-> > > asking. So then the line would have to be more carefully described as
-> > > "well, the hardware can do it, and the kernel COULD do it under some
-> > > circumstances, but YMMV", which ends up falling somewhat short of the
-> > > original goal. In my mind keeping /proc/cpuinfo as close to "here's
-> > > what the hardware can do" seems like a more defensible position.
-> > > -Evan
+> > > I went and checked, and yes it does currently do that for vector. I
+> > > don't think that that is what userspace would expect, that Google
+> > > cpu_features project for example would draw incorrect conclusions.
 > >
-> > I agree with that. I was actually even trying to say the same thing,
-> > but only by bringing up virtual machines. Once we decide we'll expose
-> > extensions to VMs, whether or not the host kernel enables them, then
-> > none of the other host kernel configurations matter with respect to
-> > advertising the feature, since the guest kernel may have a completely
-> > different set of configurations.
->=20
-> My head spins a little when I try to picture a feature which 1)
-> requires kernel support to use, 2) has that kernel support turned off
-> in the host kernel, but 3) is passed down into guest kernels.
+> > I'm lost, could you explain a little more?
+>
+> There (may be/)are userspace programs that will interpret the appearance
+> of extensions in cpuinfo as meaning they can be used without performing
+> any further checks.
+>
+> > My goal was to say that
+> > there's no blanket guarantee that the feature is 100% ready to go for
+> > userspace just because it's seen here.
+>
+> Right. I was agreeing that this is true, but it is also not how some
+> userspace programs have interpreted things. Consider a platform & kernel
+> that support the V extension but vector has not been enabled by default
+> or by early userspace. If someone cats cpuinfo, they'll see v there, but
+> it won't be usable. That Google cpu_features project (or a punter) may
+> then assume they can use it, as that's been the case so far in general*.
+>
+> The caveat producing the * being that the same problem actually exists
+> for F/D too AFAICT, but it's likely that nobody really encountered it
+> as they didn't build non-FP userspaces & then try to use FP in some
+> userspace applications.
+>
+> > For some extensions, it may in
+> > fact end up meaning just that (hence the "additional ... may be
+> > required" rather than "is required").
+>
+> > This is true for FD (maybe,
+> > depending on history?),
+>
+> AFAICT, it's not true for FD. The FPU config option not being set, or
+> either of F and D being missing will lead to unusable extensions
+> appearing.
 
-Mine did too, but apparently these already exist for kvm guests. I can't
-find the exact email, but either Drew or Anup told me that Svpbmt can be
-used by a guest even if support for it is not present in the host
-kernel.
+Ah ok.
 
-Thanks,
-Conor.
+>
+> > or extensions whose minimal/zero kernel
+> > support was unconditionally added at the same time as its parsing for
+> > it. But it's not true solely by virtue of being in /proc/cpuinfo. In
+> > other words, I'm trying to establish the floor of what /proc/cpuinfo
+> > guarantees, without fully specifying the ceiling.
+>
+> > Are you saying that
+> > we need to spell out the guarantees for each extension?
+>
+> No, I don't want that!
+>
+> > Or are you
+> > saying the floor I've defined in general is incorrect or insufficient?
+>
+> I think the floor that you have defined is probably misleading to users.
+> It's also the floor that has existed for quite a while, so this might be
+> a case of the userspace devs messing up due to an absence of any
+> explanation of what to do here.
+> Things will get abhorrently messy if we try to do what these userspace
+> programs expect, and I don't think we should go there. We just need to
+> bear in mind that the behaviour we have & the behaviour that you are
+> documenting flys in the face of what some userspace expects.
 
-> Generally though, I agree that trying to tie the guarantees of
-> features in /proc/cpuinfo too much to software gets confusing when
-> viewed through the double lens of virtualization.
->=20
-> >
-> > So I think we should only be filtering out extensions that are disabled
-> > because they're broken (have a detected erratum), have been "hidden"
-> > (have a kernel command line allowing them to be treated as if not
-> > present), or cannot be used at all due to missing accompanying hardware
-> > descriptions (such as block size info for CBO extensions). In all cases,
-> > I presume we'd wire checks up in riscv_isa_extension_check() and no
-> > checks would be gated on Kconfigs or anything else. And, since
-> > /proc/cpuinfo gets its list from the bitmap that's already filtered by
-> > riscv_isa_extension_check(), then, long story short, we're good to go :=
--)
-> >
-> > But maybe we can try to spell that policy out a bit more in
-> > Documentation/riscv/uabi.rst.
->=20
-> Right, that sounds reasonable to me, and is consistent with the
-> behavior we already have. With this documentation change I was only
-> trying to define the lower bound, rather than the complete definition
-> for every case. In other words, seeing a feature in cpuinfo guarantees
-> only that the hardware (or virtualized hardware) supports the feature,
-> but that's all the language says. So for instance NOT seeing a feature
-> in cpuinfo doesn't necessarily mean the hardware doesn't support it.
-> Software turning it off for the reasons you describe IMO doesn't
-> contradict what's written here. I was planning to leave that tacit,
-> but if you have suggestions on how to spell that out I'd take them.
->=20
-> -Evan
+Thanks, I think I understand now. You're saying the floor I'm defining
+might surprise some users, who were expecting the floor to be "fully
+enabled and ready to party". Given there was no documentation about it
+before, and this documentation is consistent with what we actually do
+(and there seems to be consensus this is a maintainable position to
+hold), can we just tell those users they're holding it wrong?
 
---CLJlKiYV2dRbV0kf
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> > I'm also open to direct suggestions of wording if you've got something
+> > in mind :)
+>
+> Someone mentioned it recently, but it really is starting to feel more
+> and more like lscpu should grow support for hwprobe and funnel people
+> into using that instead of /proc/cpuinfo when all they want is to see
+> what their hardware can do.
 
------BEGIN PGP SIGNATURE-----
+Maybe for the fiddly microarchitectural bits, yeah. But I'd think our
+newly proposed documentation for /proc/cpuinfo of keeping it closer to
+what the hardware can do would suit the lscpu folks' mission well. (In
+ChromeOS at least, we didn't have lscpu, but snarfed /proc/cpuinfo
+directly into feedback reports that consented to sending along system
+info). Really I'd think it's the application/library writers who want
+to know "am I ready to go right now" are who we should be pushing to
+use hwprobe, since we can define those bits to be as specific as we
+want (eg V is on AND it's a full moon, so go for it).
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZOzV0gAKCRB4tDGHoIJi
-0uCkAQDrJJBsBDRdSmhWBJEcfmvJYdxtVq9gBPMdZtQUyGmYrwEAvclnY2T0sdV5
-yLXH80ZP8ZXhDRxsyrvq72AhliYbAgg=
-=xt3A
------END PGP SIGNATURE-----
-
---CLJlKiYV2dRbV0kf--
+Depending on your thoughts on this, if there are changes requested on
+this patch, let me know what they are.
+-Evan
