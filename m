@@ -2,81 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EFCC83F11
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 09:43:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DAEC83F17
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 09:45:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjH1Jmq convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 05:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34282 "EHLO
+        id S230201AbjH1JpC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 05:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230146AbjH1Jmg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 05:42:36 -0400
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A4D100
-        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 02:42:33 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-roygIhXMM0-hLGSViJHjJA-1; Mon, 28 Aug 2023 05:42:28 -0400
-X-MC-Unique: roygIhXMM0-hLGSViJHjJA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED3218564F0;
-        Mon, 28 Aug 2023 09:42:27 +0000 (UTC)
-Received: from hog (unknown [10.45.224.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 199BD492C13;
-        Mon, 28 Aug 2023 09:42:26 +0000 (UTC)
-Date:   Mon, 28 Aug 2023 11:42:25 +0200
-From:   Sabrina Dubroca <sd@queasysnail.net>
-To:     Scott Dial <scott@scottdial.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
-Message-ID: <ZOxsAR42r8t3z0Dq@hog>
-References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
- <20230818184648.127b2ccf@kernel.org>
- <ZOTWzJ4aEa5geNva@hog>
- <a9af0c0a-ec7c-fa01-05ac-147fccb94fbf@scottdial.com>
- <ZOdUw66jbDWE8blF@hog>
- <76e055e9-5b2b-75b9-b545-cbdbc6ad2112@scottdial.com>
+        with ESMTP id S230198AbjH1Jod (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 05:44:33 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0596310E
+        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 02:44:31 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qaYmy-0006ra-8t; Mon, 28 Aug 2023 11:44:04 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qaYmv-002BLV-LR; Mon, 28 Aug 2023 11:44:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qaYmv-00GkIv-1x; Mon, 28 Aug 2023 11:44:01 +0200
+Date:   Mon, 28 Aug 2023 11:43:57 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Carsten =?utf-8?B?U3BpZcOf?= <mail@carsten-spiess.de>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <20230828094357.tdlzntuycsehsmu6@pengutronix.de>
+References: <cover.1692623638.git.mail@carsten-spiess.de>
+ <d510d6f7f65c95d5cff1b8e8a4dcd5675bd100fd.1692623638.git.mail@carsten-spiess.de>
 MIME-Version: 1.0
-In-Reply-To: <76e055e9-5b2b-75b9-b545-cbdbc6ad2112@scottdial.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: queasysnail.net
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mxh2tttbileuzupu"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <d510d6f7f65c95d5cff1b8e8a4dcd5675bd100fd.1692623638.git.mail@carsten-spiess.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2023-08-24, 13:08:41 -0400, Scott Dial wrote:
-> On 8/24/2023 9:01 AM, Sabrina Dubroca wrote:
-> > 2023-08-23, 16:22:31 -0400, Scott Dial wrote:
-> > > AES-NI's implementation of gcm(aes) requires the FPU, so if it's busy the
-> > > decrypt gets stuck on the cryptd queue, but that queue is not
-> > > order-preserving.
-> > 
-> > It should be (per CPU [*]). The queue itself is a linked list, and if we
-> > have requests on the queue we don't let new requests skip the queue.
-> 
-> My apologies, I'll be the first to admit that I have not tracked all of the
-> code changes to either the macsec driver or linux-crypto since I first made
-> the commit. This comment that requests are queued forced me to review the
-> code again and it appears that the queueing issue was resolved in v5.2-rc1
-> with commit 1661131a0479, so I no longer believe we need the
-> CRYPTO_ALG_ASYNC since v5.2 and going forward.
 
-Are you sure about this? 1661131a0479 pre-dates your patch by over a
-year.
+--mxh2tttbileuzupu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-And AFAICT, that series only moved the existing FPU usable +
-cryptd_aead_queued tests from AESNI's implementation of gcm(aes) to
-common SIMD helpers.
+Hello Carsten,
 
--- 
-Sabrina
+On Mon, Aug 21, 2023 at 06:40:03PM +0200, Carsten Spie=DF wrote:
+> +static struct i2c_driver isl28022_driver =3D {
+> +	.class		=3D I2C_CLASS_HWMON,
+> +	.driver =3D {
+> +		.name	=3D "isl28022",
+> +	},
+> +	.probe_new	=3D isl28022_probe,
 
+Please use .probe instead of .probe_new. Apart from s/probe_new/probe/
+here nothing further is needed.
+
+My plan is to drop .probe_new in next soon after v6.6-rc1.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--mxh2tttbileuzupu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmTsbFwACgkQj4D7WH0S
+/k7a7wf+MaXh0uwDFsbCNb8ohW72XaVnEiUzpn9onziOrbvabzMctWIStLwRBTl2
+2qZ24HmPbzF9vzEakBb9fMZkFEb5bjnxLf59jR9Z/Gvwe9WHgm0qvezeUS6zEcs3
+VAEslFSwAzgv+47YwNrNZkaxIyD5U9x8Nb4YbQaGxGnYb3mRjuNZXao+Gzbcn8wo
+N50vH/s9vlrgPGx2lhdncP1sFlYGB9sc7rqfG0Gr/gbtiZYRPiX9pVaQ//HgIGQW
+53xnUn+dw/AuFspgc6tG0VhWIj8Mra50/zseBrrigIRLk2vl0F5XahTQqR94JjTy
+wnkzqfohOOmH3evW3Y5BOkuljakd6w==
+=Ub8Z
+-----END PGP SIGNATURE-----
+
+--mxh2tttbileuzupu--
