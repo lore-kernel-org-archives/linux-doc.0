@@ -2,89 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF78CC83F12
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 13:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D053C71153
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 13:43:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbjH1NRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 09:17:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56412 "EHLO
+        id S232223AbjH1Nmq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 09:42:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231469AbjH1NRX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 09:17:23 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5239122
-        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 06:17:20 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-d7830c5b20aso4053290276.0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 06:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1693228640; x=1693833440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MGYTgGJyz9hK6P1W5cYWJ37ojkoun6scwiaYLpf40GM=;
-        b=PDCzEuB4+vOFbmlh9WJaVjW8tsiEFTj81FSUQotQQVuJyuddJBEM6FCZABer6pd7gz
-         qZP9Jjhj7qU+ei9c6IIh1aVkpKKiXLZxr1qnGL9qczFSYStHkCYvpRv8JTnM7UF/705j
-         gOpAC2ZDoVUm2R4RV/xkBw/VcwedpwWOiBS6k37BLE3C9ihOwrn0uCEGaiGE2ug+0LKa
-         uO5mhSGt4DE13AGsazbGDfCsya1jdMG5KrKt+5b5Am4HsMtGpn5A+/YztZfQo+gBQzJE
-         lVP0EqmMGzwE9nyUKvlROzTt1GMY0rNpAs8fTnre9C8bq5H19nk0OZBW1ZfKwSK74dkO
-         g8BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693228640; x=1693833440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MGYTgGJyz9hK6P1W5cYWJ37ojkoun6scwiaYLpf40GM=;
-        b=NHHRYQafWddc+4c9/CA5I2pgCBym6TDUz+3BFFiZ9bBF0tAOjZGMSSukWktUz50YeA
-         fRK79BBpRYD6sZCjyIlUwGAikTbZIa3Xr877VO0mxq80VqVmAwPcYzJAm+1jrF3neQjn
-         266mz9LaVdEAVifn2so6nRDpZynN0Sf2OhHm7a+kjA/4vd9HKs8/EOjr4/qCT6K5lnA3
-         oUbl2kOXysMYO3oA6EOj1mpt6rzmnxnO7VNdEd1vyJ1w5Ak9HCAMV5U6VnqGPp1Qriji
-         MKw+d3CPpfRey1LuEP5Gg/mXs4y4t87xILjm/ZkftTet35tY7JFLxFbCiw8sN/N7cgoo
-         Dchw==
-X-Gm-Message-State: AOJu0Yw2CiLM4pyCpBIZH341XqUZ+fDGPdzALA9Bexm4EPUj8DsMJM56
-        jDaedqzSP1V/zdWQS3AqUdF14g5xuOhFw9k194bj7w==
-X-Google-Smtp-Source: AGHT+IF472zwt+zJU5bvh6KBEPeZ/osWrL9kS5Td1S0IJH6vipNayQJ/MzpTXVzXkB4GiGqUispoj9X4m11CdMwjvSY=
-X-Received: by 2002:a25:27c5:0:b0:d66:9fcb:1fc1 with SMTP id
- n188-20020a2527c5000000b00d669fcb1fc1mr22835256ybn.24.1693228639796; Mon, 28
- Aug 2023 06:17:19 -0700 (PDT)
+        with ESMTP id S230429AbjH1NmP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 09:42:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DCD913E;
+        Mon, 28 Aug 2023 06:41:40 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C66BE2CD;
+        Mon, 28 Aug 2023 13:41:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C66BE2CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1693230100; bh=hd5RWFpF6EBC15DMwWzaSp+wf4nhGJkFAjw07uGsTno=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=I770UVudoPwj36eFz0KUbsx6GDGkeBljvPiu6EUdTAOPBPycDuhTgpU5GvMFGp9wU
+         vqTfPaSnnSKXjP4N7phI4ofNDybs4yLpfHbQjZVYWkKLBlOasdcp+QiYUg5O4ZDSK0
+         7qFVHQ0kNInojoei3WkhUqUPprG9pjvbz2fnd8lYzAY/yim+jzfUbJngtZodTxipoL
+         1PJeaNw/8UZWO8vJT8HA+QE9uWtapG46nVIxb1P5MjvlXhjzA+A0FnJ07Qj9Hde4UD
+         xquEdYlZLMUKCsUd2GE7JiWQL+2OsKrx2CxtcvGCzQOqRxhs9+v1P1ULOsyGWinonp
+         mrI+Y8muXxOBg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Nishanth Menon <nm@ti.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bpf@vger.kernel.org,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>,
+        Neha Francis <n-francis@ti.com>
+Subject: Re: [PATCH 1/2] Documentation: sphinx: Add sphinx-prompt
+In-Reply-To: <20230828125912.hndmzfkof23zxpxl@tidings>
+References: <20230824182107.3702766-1-nm@ti.com>
+ <20230824182107.3702766-2-nm@ti.com> <87h6om4u6o.fsf@meer.lwn.net>
+ <20230828125912.hndmzfkof23zxpxl@tidings>
+Date:   Mon, 28 Aug 2023 07:41:39 -0600
+Message-ID: <87edjn2sj0.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20230823160244.188033-1-ojeda@kernel.org> <20230823160244.188033-3-ojeda@kernel.org>
-In-Reply-To: <20230823160244.188033-3-ojeda@kernel.org>
-From:   Alice Ryhl <aliceryhl@google.com>
-Date:   Mon, 28 Aug 2023 15:17:08 +0200
-Message-ID: <CAH5fLgjDf9VP4BWp9zX1iv9KiUhA6y+p2Cp2L6-3mR=KS_ExDQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rust: upgrade to Rust 1.72.0
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 6:03=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
-> This is the second upgrade to the Rust toolchain, from 1.71.1 to 1.72.0
-> (i.e. the latest) [1].
->
-> See the upgrade policy [2] and the comments on the first upgrade in
-> commit 3ed03f4da06e ("rust: upgrade to Rust 1.68.2").
->
-> [...]
->
-> Link: https://github.com/rust-lang/rust/blob/stable/RELEASES.md#version-1=
-720-2023-08-24 [1]
-> Link: https://rust-for-linux.com/rust-version-policy [2]
-> Link: https://github.com/Rust-for-Linux/linux/issues/2 [3]
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1012 [4]
-> Link: https://github.com/rust-lang/rust/pull/112403 [5]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Nishanth Menon <nm@ti.com> writes:
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Hi Jon,
+>
+> On 16:46-20230825, Jonathan Corbet wrote:
+
+>> So it would sure be nice for the changelog to say what this actually
+>> does.
+>
+> All this does is to bring in a better rendered documentation when
+> published in html format.
+> https://youtu.be/ItjdVa59jjE shows how the "copy-paste" functionality is
+> improved.
+
+Youtube references aren't a great way to explain the value of a patch;
+you'll find that maintainers will, in general, lack the time or
+inclination to follow them up.  The patch should explain itself.
+
+>> This appears to add a build dependency for the docs; we can't just add
+>> that without updating the documentation, adjusting
+>> scripts/sphinx-pre-install, and so on.
+>
+> I had checked scripts/shinx-pre-install and that picks up
+> Documentation/sphinx/requirements.txt and installs the dependencies
+> from there using pip. Am I missing something?
+>
+> Same thing with Documentation/doc-guide/sphinx.rst
+>
+> Am I missing something?
+
+That works, I guess, but doesn't change the fact that you have added
+another docs build dependency.  That will, among other things, break the
+build for anybody who is set up to do it now until they install your new
+package.  That's not something we want to do without good reason.
+
+>> But, beyond that, this extension goes entirely counter to the idea that
+>> the plain-text files are the primary form of documentation; it adds
+>> clutter and makes those files less readable.  We can do that when the
+>
+> Are you sure this is going against the readable text documentation? If
+> anything it reduces the clutter and allows the text doc to be
+> copy-paste-able as well.
+>
+> https://lore.kernel.org/all/20230824182107.3702766-3-nm@ti.com/
+>
+> As you see from the diffstat:
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+>
+> Nothing extra added. What kind of clutter are you suggesting we added
+> with the change?
+>
+> prompt:: bash $ is clearly readable that this is prompt documentation
+> in fact, dropping the "$" in the example logs, one can easily copy paste
+> the documentation from rst files as well.
+
+.. prompt:: is clutter.  It also adds a bit of extra cognitive load to
+reading that part of the documentation.
+
+Quick copy-paste of multiple lines of privileged shell commands has
+never really been a requirement for the kernel docs; why do we need that
+so badly?
+
+I appreciate attempts to improve our documentation, and hope that you
+will continue to do so.  I am far from convinced, though, that this
+change clears the bar for mainline inclusion.
+
+Thanks,
+
+jon
