@@ -2,171 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA5EC83F12
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 19:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB090C83F11
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 19:06:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbjH1TCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 15:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55558 "EHLO
+        id S230338AbjH1TFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 15:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233255AbjH1TBf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 15:01:35 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B01E0;
-        Mon, 28 Aug 2023 12:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693249291; x=1724785291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KZPfLYpGnJSu/C8KGBRwKECa7cxJe+NwZDmDiVii1JA=;
-  b=h6yayN5tWLhqY10XMaQmmyaHwv1Luwb4E2VhzZ8uOg6hPd7P+UiAy7wW
-   6HRMJlKb0phl/pPvSRllsvNJOgvKkPogjH/c8EIP8GcNZdMIhEQO1mx4E
-   OQWGKawIi2tedClJTRW84RnC2S+vnuujtDdx2tVEHeclz8CpqDyjD3jat
-   aaKs3CS61eWIRSby0oE4WUpvlbs2BgJ/8Cx+U+vSfgevaXwz8Q1h0LQMV
-   m7dntPLPzFpQsby19CgvBgkatS5neoyoIQitAKL96QSZtWEPlfSDGckBV
-   tTvSoSpi0TkCNmT4lzCw0KIX1UBgjj9RxN2wSwciNHi2C+4pnflvTSPga
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="378961561"
-X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="378961561"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 12:01:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="715220950"
-X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="715220950"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 12:01:30 -0700
-Date:   Mon, 28 Aug 2023 12:01:28 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Reinette Chatre <reinette.chatre@intel.com>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        patches@lists.linux.dev
-Subject: Re: [PATCH v4 5/7] x86/resctrl: Determine if Sub-NUMA Cluster is
- enabled and initialize.
-Message-ID: <ZOzvCHcDy6xaEsB8@agluck-desk3>
-References: <20230713163207.219710-1-tony.luck@intel.com>
- <20230722190740.326190-1-tony.luck@intel.com>
- <20230722190740.326190-6-tony.luck@intel.com>
- <7c8650d5-eb69-dd28-81fc-7a97d45f9bfb@intel.com>
- <ZOjpugXNDVx/cGRl@agluck-desk3>
- <15b289cd-3e9c-3757-c1b0-7f5f79244564@intel.com>
+        with ESMTP id S233339AbjH1TFY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 15:05:24 -0400
+Received: from mail.scottdial.com (bert.scottdial.com [104.237.142.221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11463CFC;
+        Mon, 28 Aug 2023 12:04:56 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.scottdial.com (Postfix) with ESMTP id 86ACA111B49E;
+        Mon, 28 Aug 2023 15:04:54 -0400 (EDT)
+Received: from mail.scottdial.com ([127.0.0.1])
+        by localhost (mail.scottdial.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 9EN6lY18c3e8; Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.scottdial.com (Postfix) with ESMTP id A0454111B0C2;
+        Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.scottdial.com A0454111B0C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scottdial.com;
+        s=24B7B964-7506-11E8-A7D6-CF6FBF8C6FCF; t=1693249492;
+        bh=5OmDCOGEa2SP/NbvsW5JdLooYjt5BjPxfm70C0bKnbc=;
+        h=Message-ID:Date:MIME-Version:To:From;
+        b=rpaPLqhYjHKJYaFoSHmBG7HLhrrELyCyP7Lnfov4gAnH1NzGiP3r/7I7R2sYGmWh9
+         2D/5Vxnz4Gp7+3DAsXVp2JNbLNrCVESzLEu4J50BLp3jQ/7bbVHUbSizeCcCDYZlKC
+         E5cRRwHFXHsTGfQe8Z8AKsOGh/nhi0JitXzMzKSZoqgV7cQ12H91qO7dTJ/VS7IoII
+         GX/adIuJd0dDlyzKrP1QOJ4C5oOKe+UIyqnno3k50mUHnMQd8XrdfMqP9qkpFLl57A
+         zdjQcsQdY0mq2bE2ey12Mrm1NRDCblVPiiNcP3LLa4lpyBNRoDmAOgx6+dP/+EBZLF
+         lRmYbXkIhMbEg==
+X-Virus-Scanned: amavisd-new at scottdial.com
+Received: from mail.scottdial.com ([127.0.0.1])
+        by localhost (mail.scottdial.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 1s3ckXlcyey1; Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
+Received: from [172.17.2.2] (unknown [172.17.2.2])
+        by mail.scottdial.com (Postfix) with ESMTPSA id 761C9111B49E;
+        Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
+Message-ID: <2d34e8a8-24c2-1781-2317-687bfcbeafda@scottdial.com>
+Date:   Mon, 28 Aug 2023 15:04:51 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15b289cd-3e9c-3757-c1b0-7f5f79244564@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
+To:     Sabrina Dubroca <sd@queasysnail.net>
+Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
+ <20230818184648.127b2ccf@kernel.org> <ZOTWzJ4aEa5geNva@hog>
+ <a9af0c0a-ec7c-fa01-05ac-147fccb94fbf@scottdial.com> <ZOdUw66jbDWE8blF@hog>
+ <76e055e9-5b2b-75b9-b545-cbdbc6ad2112@scottdial.com> <ZOxsAR42r8t3z0Dq@hog>
+Content-Language: en-US
+From:   Scott Dial <scott@scottdial.com>
+In-Reply-To: <ZOxsAR42r8t3z0Dq@hog>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 28, 2023 at 10:05:50AM -0700, Reinette Chatre wrote:
-> Hi Tony,
+On 8/28/2023 5:42 AM, Sabrina Dubroca wrote:
+> 2023-08-24, 13:08:41 -0400, Scott Dial wrote:
+>> On 8/24/2023 9:01 AM, Sabrina Dubroca wrote:
+>>> 2023-08-23, 16:22:31 -0400, Scott Dial wrote:
+>>>> AES-NI's implementation of gcm(aes) requires the FPU, so if it's busy the
+>>>> decrypt gets stuck on the cryptd queue, but that queue is not
+>>>> order-preserving.
+>>>
+>>> It should be (per CPU [*]). The queue itself is a linked list, and if we
+>>> have requests on the queue we don't let new requests skip the queue.
+>>
+>> My apologies, I'll be the first to admit that I have not tracked all of the
+>> code changes to either the macsec driver or linux-crypto since I first made
+>> the commit. This comment that requests are queued forced me to review the
+>> code again and it appears that the queueing issue was resolved in v5.2-rc1
+>> with commit 1661131a0479, so I no longer believe we need the
+>> CRYPTO_ALG_ASYNC since v5.2 and going forward.
 > 
-> On 8/25/2023 10:49 AM, Tony Luck wrote:
-> > On Fri, Aug 11, 2023 at 10:32:29AM -0700, Reinette Chatre wrote:
-> >> On 7/22/2023 12:07 PM, Tony Luck wrote:
+> Are you sure about this? 1661131a0479 pre-dates your patch by over a
+> year.
 > 
-> ...
-> 
-> >>> +static const struct x86_cpu_id snc_cpu_ids[] __initconst = {
-> >>> +	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X, 0),
-> >>> +	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X, 0),
-> >>> +	X86_MATCH_INTEL_FAM6_MODEL(EMERALDRAPIDS_X, 0),
-> >>> +	{}
-> >>> +};
-> >>> +
-> >>> +/*
-> >>> + * There isn't a simple enumeration bit to show whether SNC mode
-> >>> + * is enabled. Look at the ratio of number of NUMA nodes to the
-> >>> + * number of distinct L3 caches. Take care to skip memory-only nodes.
-> >>> + */
-> >>> +static __init int get_snc_config(void)
-> >>> +{
-> >>> +	unsigned long *node_caches;
-> >>> +	int mem_only_nodes = 0;
-> >>> +	int cpu, node, ret;
-> >>> +
-> >>> +	if (!x86_match_cpu(snc_cpu_ids))
-> >>> +		return 1;
-> >>> +
-> >>> +	node_caches = kcalloc(BITS_TO_LONGS(nr_node_ids), sizeof(*node_caches), GFP_KERNEL);
-> >>> +	if (!node_caches)
-> >>> +		return 1;
-> >>> +
-> >>> +	cpus_read_lock();
-> >>> +	for_each_node(node) {
-> >>> +		cpu = cpumask_first(cpumask_of_node(node));
-> >>> +		if (cpu < nr_cpu_ids)
-> >>> +			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
-> >>> +		else
-> >>> +			mem_only_nodes++;
-> >>> +	}
-> >>> +	cpus_read_unlock();
-> >>
-> >> I am not familiar with the numa code at all so please correct me
-> >> where I am wrong. I do see that nr_node_ids is initialized with __init code
-> >> so it should be accurate at this point. It looks to me like this initialization
-> >> assumes that at least one CPU per node will be online at the time it is run.
-> >> It is not clear to me that this assumption would always be true. 
-> > 
-> > Resctrl initialization is kicked off as a late_initcall(). So all CPUs
-> > and devices are fully initialized before this code runs.
-> > 
-> > Resctrl can't be moved to an "init" state before CPUs are brought online
-> > because it makes a call to cpuhp_setup_state() to get callbacks for
-> > online/offline CPU events ... that call can't be done early.
-> 
-> Apologies but this is not so obvious to me. From what I understand a
-> system need not be booted with all CPUs online. CPUs can be brought
-> online at any time.
+> And AFAICT, that series only moved the existing FPU usable +
+> cryptd_aead_queued tests from AESNI's implementation of gcm(aes) to
+> common SIMD helpers.
 
-So you are concerned about the case where the system was booted with a
-maxcpus=N boot argument, and additional CPUs are brought online later?
+My original issue started with a RHEL7 system, so a backport of the 
+macsec driver to the 3.10 kernel. I recall building newer kernels and 
+reproducing the issue, but I don't have my test setup anymore nor any 
+meaningful notes that would indicate to me what kernels I tested. In any 
+case, I didn't bisect when the queuing behavior was changed, and maybe I 
+misread the code, and maybe my test setup was flawed in some other way.
 
-My code will fail to detect SNC mode if someone does that. I don't see
-any possible way to recover from this in a safe way later when additional
-CPUs are brought online. Those CPUs could be brought online in any order
-by the user, and there is no way to know when they are all done. Without an
-explicit enumeration of SNC mode there is no fool-proof way to detect
-SNC mode in the face of CPU hot plug post-boot.
+1661131a0479 wasn't obviously just moving code to me, so I didn't trace 
+back further, but looking at the longterm maintenance 4.x kernels, I can 
+see that the AES-NI code has the same cryptd_aead_queued check, so I 
+think you are correct to say that you could revert my change on all of 
+the maintenance kernels to restore the performance of MACsec w/ AES-NI.
 
-I could add a pr_warn() into this code:
+Whether that causes any ordering regressions for any other crypto 
+accelerations, I have no idea since it would require auditing a lot of 
+crypto code.
 
- 915 static int __init nrcpus(char *str)
- 916 {
- 917         int nr_cpus;
- 918
- 919         if (get_option(&str, &nr_cpus) && nr_cpus > 0 && nr_cpus < nr_cpu_ids)
- 920                 set_nr_cpu_ids(nr_cpus);
- 921
- 922         return 0;
- 923 }
- 924
- 925 early_param("nr_cpus", nrcpus);
-
-But this feels like a "user shot themself in the foot" case. I don't
-think it necessary to add checks and warnings for every possible strange
-way a user could configure a system.
-
-> >>> +
-> >>> +	ret = (nr_node_ids - mem_only_nodes) / bitmap_weight(node_caches, nr_node_ids);
-> >>> +	kfree(node_caches);
-> >>> +
-> >>> +	if (ret > 1)
-> >>> +		rdt_resources_all[RDT_RESOURCE_L3].r_resctrl.mon_scope = MON_SCOPE_NODE;
-> >>> +
-> >>> +	return ret;
-> >>> +}
-> >>> +
-
--Tony
+-- 
+Scott Dial
+scott@scottdial.com
