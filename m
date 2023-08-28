@@ -2,109 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB090C83F11
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 19:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE424C83F11
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Aug 2023 19:06:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbjH1TFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Aug 2023 15:05:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54884 "EHLO
+        id S231865AbjH1TGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Aug 2023 15:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233339AbjH1TFY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 15:05:24 -0400
-Received: from mail.scottdial.com (bert.scottdial.com [104.237.142.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11463CFC;
-        Mon, 28 Aug 2023 12:04:56 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.scottdial.com (Postfix) with ESMTP id 86ACA111B49E;
-        Mon, 28 Aug 2023 15:04:54 -0400 (EDT)
-Received: from mail.scottdial.com ([127.0.0.1])
-        by localhost (mail.scottdial.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 9EN6lY18c3e8; Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.scottdial.com (Postfix) with ESMTP id A0454111B0C2;
-        Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.scottdial.com A0454111B0C2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scottdial.com;
-        s=24B7B964-7506-11E8-A7D6-CF6FBF8C6FCF; t=1693249492;
-        bh=5OmDCOGEa2SP/NbvsW5JdLooYjt5BjPxfm70C0bKnbc=;
-        h=Message-ID:Date:MIME-Version:To:From;
-        b=rpaPLqhYjHKJYaFoSHmBG7HLhrrELyCyP7Lnfov4gAnH1NzGiP3r/7I7R2sYGmWh9
-         2D/5Vxnz4Gp7+3DAsXVp2JNbLNrCVESzLEu4J50BLp3jQ/7bbVHUbSizeCcCDYZlKC
-         E5cRRwHFXHsTGfQe8Z8AKsOGh/nhi0JitXzMzKSZoqgV7cQ12H91qO7dTJ/VS7IoII
-         GX/adIuJd0dDlyzKrP1QOJ4C5oOKe+UIyqnno3k50mUHnMQd8XrdfMqP9qkpFLl57A
-         zdjQcsQdY0mq2bE2ey12Mrm1NRDCblVPiiNcP3LLa4lpyBNRoDmAOgx6+dP/+EBZLF
-         lRmYbXkIhMbEg==
-X-Virus-Scanned: amavisd-new at scottdial.com
-Received: from mail.scottdial.com ([127.0.0.1])
-        by localhost (mail.scottdial.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 1s3ckXlcyey1; Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
-Received: from [172.17.2.2] (unknown [172.17.2.2])
-        by mail.scottdial.com (Postfix) with ESMTPSA id 761C9111B49E;
-        Mon, 28 Aug 2023 15:04:52 -0400 (EDT)
-Message-ID: <2d34e8a8-24c2-1781-2317-687bfcbeafda@scottdial.com>
-Date:   Mon, 28 Aug 2023 15:04:51 -0400
+        with ESMTP id S233252AbjH1TGG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Aug 2023 15:06:06 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCE3E0;
+        Mon, 28 Aug 2023 12:06:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693249564; x=1724785564;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mt0j3jMw8EW+E+l8MtReNSWFBKlj4P+LduvO4XW1DGs=;
+  b=DAoz9qkwzKFcRxYDndu2kTGI30XiTx4aI7BYgRpE3L4gdoNfByl0VMY2
+   ep/ES8/0eN1sXB/hbTSjN720mIzm+vjwYxxKsSfZNssvCNx90XaV+XBaq
+   SHOTBDjJ89rS622gGs5pj//bmvWyWO0eqB2Mo7necOxFBu+c3tmKHAcoO
+   HLITXEINoN+9bTQY66JOIecgu4BY4EdhOSXjRaITJ6LKdxtWhg9P4y8Sw
+   wBOhixpN+m7zYICqmip/QHeVcZhl7nX0p50zvOGoLAzeOT+ADtEX5b1u0
+   fed5Qia24MlKaXjd1iTQtviTyucdVphiN9uimM1HxDoTI/jDX8nTPcQdW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="439134250"
+X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
+   d="scan'208";a="439134250"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 12:06:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="688207661"
+X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
+   d="scan'208";a="688207661"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 12:06:02 -0700
+Date:   Mon, 28 Aug 2023 12:06:01 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Reinette Chatre <reinette.chatre@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev
+Subject: Re: [PATCH v4 7/7] selftests/resctrl: Adjust effective L3 cache size
+ when SNC enabled
+Message-ID: <ZOzwGQhGucBXZGO+@agluck-desk3>
+References: <20230713163207.219710-1-tony.luck@intel.com>
+ <20230722190740.326190-1-tony.luck@intel.com>
+ <20230722190740.326190-8-tony.luck@intel.com>
+ <dc06f2ea-ed1e-60e5-f2d7-ccf7facde25b@intel.com>
+ <ZOjrYB1UgtRchbXK@agluck-desk3>
+ <f791d0e5-43b2-8ec2-436b-c008d2ce7696@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
-To:     Sabrina Dubroca <sd@queasysnail.net>
-Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
- <20230818184648.127b2ccf@kernel.org> <ZOTWzJ4aEa5geNva@hog>
- <a9af0c0a-ec7c-fa01-05ac-147fccb94fbf@scottdial.com> <ZOdUw66jbDWE8blF@hog>
- <76e055e9-5b2b-75b9-b545-cbdbc6ad2112@scottdial.com> <ZOxsAR42r8t3z0Dq@hog>
-Content-Language: en-US
-From:   Scott Dial <scott@scottdial.com>
-In-Reply-To: <ZOxsAR42r8t3z0Dq@hog>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f791d0e5-43b2-8ec2-436b-c008d2ce7696@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/28/2023 5:42 AM, Sabrina Dubroca wrote:
-> 2023-08-24, 13:08:41 -0400, Scott Dial wrote:
->> On 8/24/2023 9:01 AM, Sabrina Dubroca wrote:
->>> 2023-08-23, 16:22:31 -0400, Scott Dial wrote:
->>>> AES-NI's implementation of gcm(aes) requires the FPU, so if it's busy the
->>>> decrypt gets stuck on the cryptd queue, but that queue is not
->>>> order-preserving.
->>>
->>> It should be (per CPU [*]). The queue itself is a linked list, and if we
->>> have requests on the queue we don't let new requests skip the queue.
->>
->> My apologies, I'll be the first to admit that I have not tracked all of the
->> code changes to either the macsec driver or linux-crypto since I first made
->> the commit. This comment that requests are queued forced me to review the
->> code again and it appears that the queueing issue was resolved in v5.2-rc1
->> with commit 1661131a0479, so I no longer believe we need the
->> CRYPTO_ALG_ASYNC since v5.2 and going forward.
+On Mon, Aug 28, 2023 at 10:06:32AM -0700, Reinette Chatre wrote:
+> Hi Tony,
 > 
-> Are you sure about this? 1661131a0479 pre-dates your patch by over a
-> year.
+> On 8/25/2023 10:56 AM, Tony Luck wrote:
+> > On Fri, Aug 11, 2023 at 10:33:43AM -0700, Reinette Chatre wrote:
+> >> Hi Tony,
+> >>
+> >> On 7/22/2023 12:07 PM, Tony Luck wrote:
 > 
-> And AFAICT, that series only moved the existing FPU usable +
-> cryptd_aead_queued tests from AESNI's implementation of gcm(aes) to
-> common SIMD helpers.
+> ...
+> 
+> >>> @@ -190,6 +245,8 @@ int get_cache_size(int cpu_no, char *cache_type, unsigned long *cache_size)
+> >>>  			break;
+> >>>  	}
+> >>>  
+> >>> +	if (cache_num == 3)
+> >>> +		*cache_size /= snc_ways();
+> >>>  	return 0;
+> >>>  }
+> >>>  
+> >>
+> >> I am surprised that this small change is sufficient. The resctrl
+> >> selftests are definitely not NUMA aware and the CAT and CMT tests
+> >> are not taking that into account when picking CPUs to run on. From
+> >> what I understand LLC occupancy counters need to be added in this
+> >> scenario but I do not see that done either.
+> > 
+> > This is a first step (the tests are definitely going to fail if
+> > they have incorrect information about the cache size).
+> > 
+> > For a fully reliable set of tests some major surgery will be required
+> > to bind to CPUs and memory to control allocation and access.
+> > 
+> 
+> What is the plan for making the tests more reliable? What is the
+> use of this patch if it is just the first step?
 
-My original issue started with a RHEL7 system, so a backport of the 
-macsec driver to the 3.10 kernel. I recall building newer kernels and 
-reproducing the issue, but I don't have my test setup anymore nor any 
-meaningful notes that would indicate to me what kernels I tested. In any 
-case, I didn't bisect when the queuing behavior was changed, and maybe I 
-misread the code, and maybe my test setup was flawed in some other way.
+Reinette,
 
-1661131a0479 wasn't obviously just moving code to me, so I didn't trace 
-back further, but looking at the longterm maintenance 4.x kernels, I can 
-see that the AES-NI code has the same cryptd_aead_queued check, so I 
-think you are correct to say that you could revert my change on all of 
-the maintenance kernels to restore the performance of MACsec w/ AES-NI.
+I have no immediate plan to re-architect the the resctrl self-tests.
+If you feel this step towards a solution is useless unless it is part
+of a complete solution, then I can drop it from this series.
 
-Whether that causes any ordering regressions for any other crypto 
-accelerations, I have no idea since it would require auditing a lot of 
-crypto code.
-
--- 
-Scott Dial
-scott@scottdial.com
+-Tony
