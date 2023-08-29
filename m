@@ -2,92 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A29E9C6FA8F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 08:56:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD287C83F12
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 09:55:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbjH2Iz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Aug 2023 04:55:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35532 "EHLO
+        id S234932AbjH2JzJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Aug 2023 05:55:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234378AbjH2Izz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 04:55:55 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD94F9;
-        Tue, 29 Aug 2023 01:55:53 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fefe898f76so40359025e9.0;
-        Tue, 29 Aug 2023 01:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693299351; x=1693904151;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KErYlQfM+ER4ST6ZQk6w3/k4qEq0kUyWnuGXWwXbdAk=;
-        b=P4RCLsQVQytklMdLAC7ZLqdjIYErwsKz60Wup7fqEJlYSTL7ZTUjUATnf4Ny3pEIpW
-         vhsvK/8ugTfELX93KsIuaKWIQ8j+OtdWAHkdF8Fyz4bJCUOdFvZWbOhOKoQM/4RfPzCJ
-         Nw35o85kbyS0hJ09O4RrE8yVo+D3FFQGDYtvaNAIPfgdnhlgztpRV7AyJGS6yXgdKe/g
-         QNIVBCWm2HDm5alGIz3ajK564SA5YrpUpTSoTm9aNPI+ByH/W7P8ru4AaDBfoim+9HDI
-         scS29cicIyj3czkMtlgg7lLKVjdOE+Qi521PygULneX/XWQe7ZQnxdlnYG81svpm1zY6
-         t2XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693299351; x=1693904151;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KErYlQfM+ER4ST6ZQk6w3/k4qEq0kUyWnuGXWwXbdAk=;
-        b=czgOhVNohzzCeoy+62ZyD2NMzR/cAFAgzsvOtb2bhG4Q86FgKdobOAg1/iDHgojUA2
-         Fvnl18v0ec3KotJDsn+UNXVFqESNDb4+1qYArgJbTnVwVfCNjG7e891t4npYhqeHgM4s
-         Y/lLpySW3/0AtWWVTYRLdwQ7ODLnltbxPSBx/Zz/xwOB6UpcWoTHSEKkQ0p7nbI0FdBB
-         I210KQniUUjbkmADzb27yS8fgMnc2q4II+mj8IfxF+cixd3FwbwFYQbd6CsRl+juBVfj
-         jYKXDgHjYivaJnQPUnMQn2L8+SYQk49lQ1E2L5n/NjNiJW2yI1EUbbTP9JLnVIFLXgn9
-         AeeQ==
-X-Gm-Message-State: AOJu0YztJAUo83/LN7SbHUKlGNMdkedAQMaAah3Sta+ZBxDLjceinrxp
-        cJbC0O1dY2xTafG3hNEPX5GIOZ/HY71OyQ==
-X-Google-Smtp-Source: AGHT+IFQGfLIO1I2fMKSmom+DI4hc2ojpF5wVO4Eo76npX4BQPnQMxR4XOHCo1yiAoNXE21cIux3cQ==
-X-Received: by 2002:a7b:c7c3:0:b0:3fd:2e1d:eca1 with SMTP id z3-20020a7bc7c3000000b003fd2e1deca1mr21317976wmk.4.1693299350921;
-        Tue, 29 Aug 2023 01:55:50 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:f4a3:3eb3:6f1d:fdce])
-        by smtp.gmail.com with ESMTPSA id g12-20020a7bc4cc000000b003fed8e12d62sm13330228wmk.27.2023.08.29.01.55.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Aug 2023 01:55:50 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next] doc/netlink: Fix missing classic_netlink doc reference
-Date:   Tue, 29 Aug 2023 09:55:39 +0100
-Message-ID: <20230829085539.36354-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S231666AbjH2Jyl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 05:54:41 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 738D9E9;
+        Tue, 29 Aug 2023 02:54:38 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RZjNP5yT5zhZHV;
+        Tue, 29 Aug 2023 17:50:45 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 29 Aug
+ 2023 17:54:36 +0800
+Message-ID: <4b4063c2-dfd3-474b-6827-8dbd1257af2d@huawei.com>
+Date:   Tue, 29 Aug 2023 17:54:35 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v9 0/2] support allocating crashkernel above 4G
+ explicitly on riscv
+To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
+References: <20230726175000.2536220-1-chenjiahao16@huawei.com>
+Content-Language: en-US
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <20230726175000.2536220-1-chenjiahao16@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add missing cross-reference label for classic_netlink.
+Hi folks,
 
-Fixes: 2db8abf0b455 ("doc/netlink: Document the netlink-raw schema extensions")
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/userspace-api/netlink/intro.rst | 2 ++
- 1 file changed, 2 insertions(+)
+This is a friendly ping. Anyone has additional comments on this patch set?
 
-diff --git a/Documentation/userspace-api/netlink/intro.rst b/Documentation/userspace-api/netlink/intro.rst
-index 0955e9f203d3..3ea70ad53c58 100644
---- a/Documentation/userspace-api/netlink/intro.rst
-+++ b/Documentation/userspace-api/netlink/intro.rst
-@@ -528,6 +528,8 @@ families may, however, require a larger buffer. 32kB buffer is recommended
- for most efficient handling of dumps (larger buffer fits more dumped
- objects and therefore fewer recvmsg() calls are needed).
- 
-+.. _classic_netlink:
-+
- Classic Netlink
- ===============
- 
--- 
-2.41.0
+Best regards,
+Jiahao
 
+On 2023/7/27 1:49, Chen Jiahao wrote:
+> On riscv, the current crash kernel allocation logic is trying to
+> allocate within 32bit addressible memory region by default, if
+> failed, try to allocate without 4G restriction.
+>
+> In need of saving DMA zone memory while allocating a relatively large
+> crash kernel region, allocating the reserved memory top down in
+> high memory, without overlapping the DMA zone, is a mature solution.
+> Hence this patchset introduces the parameter option crashkernel=X,[high,low].
+>
+> One can reserve the crash kernel from high memory above DMA zone range
+> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+> below 4G with "crashkernel=X,low". Besides, there are few rules need
+> to take notice:
+> 1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
+>     is specified.
+> 2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
+>     and there is enough memory to be allocated under 4G.
+> 3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
+>     specified, a 128M low memory will be allocated automatically for
+>     swiotlb bounce buffer.
+> See Documentation/admin-guide/kernel-parameters.txt for more information.
+>
+> To verify loading the crashkernel, adapted kexec-tools is attached below:
+> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+>
+> Following test cases have been performed as expected:
+> 1) crashkernel=256M                          //low=256M
+> 2) crashkernel=1G                            //low=1G
+> 3) crashkernel=4G                            //high=4G, low=128M(default)
+> 4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
+> 5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
+> 6) crashkernel=4G,high                       //high=4G, low=128M(default)
+> 7) crashkernel=256M,low                      //low=0M, invalid
+> 8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
+> 9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
+> 10) crashkernel=512M@0xd0000000              //low=512M
+> 11) crashkernel=1G,high crashkernel=0M,low   //high=1G, low=0M
+>
+> Changes since [v9]:
+> 1. As per Conor's comment, rebase to correct base on riscv/for-next
+>     branch. No code logic changed.
+>
+> Changes since [v8]:
+> 1. Rebase to newest mainline head, not modifying any code logic.
+>
+> Changes since [v7]:
+> 1. Minor refactor: move crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE
+>     into the !high branch when the first allocation fails. Not changing
+>     the result but further align with Arm64 logic, refer to Baoquan's
+>     comment.
+> 2. Add test case "crashkernel=1G,high crashkernel=0M,low", the result
+>     also matches our expectation.
+>
+> Changes since [v6]:
+> 1. Introduce the "high" flag to mark whether "crashkernel=X,high"
+>     is passed. Fix the retrying logic between "crashkernel=X,high"
+>     case and others when the first allocation attempt fails.
+>
+> Changes since [v5]:
+> 1. Update the crashkernel allocation logic when crashkernel=X,high
+>     is specified. In this case, region above 4G will directly get
+>     reserved as crashkernel, rather than trying lower 32bit allocation
+>     first.
+>
+> Changes since [v4]:
+> 1. Update some imprecise code comments for cmdline parsing.
+>
+> Changes since [v3]:
+> 1. Update to print warning and return explicitly on failure when
+>     crashkernel=size@offset is specified. Not changing the result
+>     in this case but making the logic more straightforward.
+> 2. Some minor cleanup.
+>
+> Changes since [v2]:
+> 1. Update the allocation logic to ensure the high crashkernel
+>     region is reserved strictly above dma32_phys_limit.
+> 2. Clean up some minor format problems.
+>
+> Chen Jiahao (2):
+>    riscv: kdump: Implement crashkernel=X,[high,low]
+>    docs: kdump: Update the crashkernel description for riscv
+>
+>   .../admin-guide/kernel-parameters.txt         | 15 +--
+>   arch/riscv/kernel/setup.c                     |  5 +
+>   arch/riscv/mm/init.c                          | 93 +++++++++++++++++--
+>   3 files changed, 99 insertions(+), 14 deletions(-)
+>
