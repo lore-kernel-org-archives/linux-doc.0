@@ -2,610 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D4CC83F21
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 05:33:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C601EC83F12
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 08:49:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235817AbjH2Fc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Aug 2023 01:32:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44468 "EHLO
+        id S233525AbjH2Isw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Aug 2023 04:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235832AbjH2Fcc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 01:32:32 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33D551B5
-        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 22:32:24 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1bdf4752c3cso23248565ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Aug 2023 22:32:24 -0700 (PDT)
+        with ESMTP id S233022AbjH2Ish (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 04:48:37 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14213AD
+        for <linux-doc@vger.kernel.org>; Tue, 29 Aug 2023 01:48:35 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-99c3d3c3db9so527897366b.3
+        for <linux-doc@vger.kernel.org>; Tue, 29 Aug 2023 01:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693287143; x=1693891943;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qkJ4KwAcx+TQGTx0OTFOcApAR7YfD4hOh7t3xGiRrRk=;
-        b=ZQ04fzVqF2jcMlxLXhYaY/LKeEVSh4fE86ZxRRBXUUqTTsArunvANVto1TzcVboxVd
-         rT45sjX8m2K3I6yhhz9tG/6yxD2JM9W+BwPCvyw6voAb7jkT+Sk7dKTF0+D0bWuXPL1r
-         LZ4Z7dwBOT23nlc4n5nj3J9DohWioC8okhI5w=
+        d=ventanamicro.com; s=google; t=1693298913; x=1693903713;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7YJc8FCGCtf+QA21PW9zw+dSzN4oao0rbur83lcAqpY=;
+        b=Nkoj5q9dpgihnYQDPjsqU6J6Uuu9c8pYZBsdwMP2jSuzFN/URHy4uhx/gAYTdEX32i
+         msyWquKqH7TyXlBzqaQkLwp0sL177Ys+TKCv/110EI5nE4tzMlccH3ibQajkI5ptQu73
+         s80ARD1kkvuMVOgxOFHdtFvvcr4jJ9gruwZSuQNNTf5uZ68tYeLzcSMryNVQkhz1PXqL
+         2htVRTZcB4z+6aRYe7Mn/Szlr91Os1jMRgjZn1gspUnOeD6bCKCDZxYRIc9IeDOTfKjz
+         ppH7c/aNgMT1ltsDXRUPxDSAf8X09phm4Lkd91008AqflC31IAKtoow49OwDLLtvgTik
+         v1bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693287143; x=1693891943;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qkJ4KwAcx+TQGTx0OTFOcApAR7YfD4hOh7t3xGiRrRk=;
-        b=Jy26uOcT4X1knKvs4w3D9QXHdoPtXaSToM3iLlJBdTSRf5jtNw6xNAe/D+hrwgLljf
-         Zq6IROGnzSQqlBEzhQ+8JBOWjZR59+hAx4CEttPBWLSDgZ9ueLuj6/F2sCGxhY091x4c
-         9UBbsvbeOBMa3GB8+KiIc22VVvvhcS/M/BydeR/ZsgQt2Pg9r1CjfGYN6zZLeq+0oQwf
-         06EPmYUBvAkJ2fI5mDcuumrxfmur7n7B3v61qdxYZpW+jq8413mMBoNgZmi3xWE8tJNu
-         IR3WfzISA8+gwi+cd4c+j0FRHUsPB5QIyIYpxy1DB4ra2pcixkNjULchnqlu5QpoubFR
-         T0CQ==
-X-Gm-Message-State: AOJu0YzMNLhGd3KTVnQ84FpytFF9TEltKU5lPS+DzCXx99SuUxRKz+xz
-        qnVDvhuOmf3330OasCkbO9OXVhTp4M2InuBBeKE7wcjt
-X-Google-Smtp-Source: AGHT+IFnu9WJp/5ngWW8gHk5i3T5TrY+fcpcRQsOJ6/BJ3XvxgJhLPt+K6XWqGpzTILbKN9q94e4RA==
-X-Received: by 2002:a17:903:32c6:b0:1b3:d4ed:8306 with SMTP id i6-20020a17090332c600b001b3d4ed8306mr26898562plr.19.1693287143619;
-        Mon, 28 Aug 2023 22:32:23 -0700 (PDT)
-Received: from datalore.c.googlers.com.com (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
-        by smtp.gmail.com with ESMTPSA id g6-20020a170902c38600b001bdccf6b8c9sm8420874plg.127.2023.08.28.22.32.20
+        d=1e100.net; s=20221208; t=1693298913; x=1693903713;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7YJc8FCGCtf+QA21PW9zw+dSzN4oao0rbur83lcAqpY=;
+        b=EbK9GIuYR97+WQ2pgl9OQsM9/4jN1eBnlUDUrquu1dXUDK3x57Zwjj3f9u5Gk5LalS
+         MO8XIsRnIsH4Lryfnm3+6TjgvzO62hiMgtiSZN4U+vqi2Vdd/lDaoQsc+nlLyRGlNj7K
+         6eF2/BXlYbO7ckDu0MEUovazvQKIjJCUhcygpYHm7pgIBbEPGZphRPfqNficcY8E6Of0
+         98iRxDLR2jLwth04q74ikIHA/+pS+FdTKHlolHtkQ6Ly9+mpiE1Dar/UMiRlOnNq1ZgH
+         EVuYw7zcksP59kKG8wWbokBl8pUhax4gs2a1r+c3qnV536jCbyMwRNOhK60m2iNkaILR
+         lPNw==
+X-Gm-Message-State: AOJu0YxcwS2lc0m5rgd9VKAqzSxkGmOdga/Ejm59yUlP6poFV1X2NGyf
+        SKqBDuENaI86YxOw0YzpoRAlhg==
+X-Google-Smtp-Source: AGHT+IGANV0ko3RQERka+ZkTfDKbn4edddXZrJXmeK3uAtPTDgyJGdXhlgqVkQjEV7B8tUjt22YIPg==
+X-Received: by 2002:a17:907:2bf7:b0:9a1:ad87:1354 with SMTP id gv55-20020a1709072bf700b009a1ad871354mr17131329ejc.34.1693298913427;
+        Tue, 29 Aug 2023 01:48:33 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id lw13-20020a170906bccd00b00992f2befcbcsm5675917ejb.180.2023.08.29.01.48.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Aug 2023 22:32:23 -0700 (PDT)
-From:   Brandon Pollack <brpol@chromium.org>
-To:     marius.vlad@collabora.com, mairacanal@riseup.net,
-        jshargo@chromium.org
-Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        hamohammed.sa@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, melissa.srw@gmail.com,
-        mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
-        tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mduggan@chromium.org,
-        hirono@chromium.org, Brandon Pollack <brpol@chromium.org>
-Subject: [PATCH v6 5/7] drm/vkms: Support enabling ConfigFS devices
-Date:   Tue, 29 Aug 2023 05:30:57 +0000
-Message-ID: <20230829053201.423261-6-brpol@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
-In-Reply-To: <20230829053201.423261-1-brpol@chromium.org>
-References: <20230829053201.423261-1-brpol@chromium.org>
+        Tue, 29 Aug 2023 01:48:33 -0700 (PDT)
+Date:   Tue, 29 Aug 2023 10:48:32 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Evan Green <evan@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+Message-ID: <20230829-e445d0bdff78969cc33a6263@orel>
+References: <20230711201831.2695097-1-evan@rivosinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230711201831.2695097-1-evan@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jim Shargo <jshargo@chromium.org>
+Hi Evan,
 
-VKMS now supports creating and using virtual devices!
+Here's my stab at new wording.
 
-In addition to the enabling logic, this commit also prevents users from
-adding new objects once a card is registered.
+On Tue, Jul 11, 2023 at 01:18:30PM -0700, Evan Green wrote:
+...
+> diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
+> index 8960fac42c40..afdda580e5a2 100644
+> --- a/Documentation/riscv/uabi.rst
+> +++ b/Documentation/riscv/uabi.rst
+> @@ -42,6 +42,16 @@ An example string following the order is::
+>  
+>     rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+>  
+> +"isa" vs "hart isa" lines in /proc/cpuinfo
+> +------------------------------------------
+> +
+> +The "isa" line in /proc/cpuinfo describes the lowest common denominator of
+> +RISC-V ISA extensions understood by the kernel and implemented on all harts. The
+> +"hart isa" line, in contrast, describes the set of extensions understood by the
+> +kernel on the particular hart being described, even if those extensions may not
+> +be present on all harts in the system. The "hart isa" line is consistent with
+> +what's returned by __riscv_hwprobe() when querying for that specific CPU.
+> +
 
-Signed-off-by: Jim Shargo <jshargo@chromium.org>
-Signed-off-by: Brandon Pollack <brpol@chromium.org>
+The "isa" and "hart isa" lines in /proc/cpuinfo list RISC-V ISA extensions
+which the kernel can identify (the kernel recognizes the extension's name)
+and have not been filtered out due to effectively not being present.  An
+extension is effectively not present when it is unusable, either due to
+defects (which the kernel is aware of), due to missing information which
+is necessary to complete the extension's description, or due to being
+explicitly "hidden", such as when a kernel command line parameter
+instructs the kernel to pretend the extension is not present.  Note, an
+extension's presence in a list does not imply the kernel is using the
+extension, nor does it imply that userspace or guest kernels may use the
+extension (__riscv_hwprobe() should be queried for userspace usability.
+The hypervisor should be queried, using hypervisor-specific APIs, to
+check guest kernel usability.)
+
+The "isa" line describes the lowest common denominator of extensions,
+which are the extensions implemented on all harts.  In contrast, the
+extensions listed in the "hart isa" line need not be implemented by
+any other hart than the hart corresponding to the line.
+
 ---
- drivers/gpu/drm/vkms/vkms_configfs.c |  37 ++--
- drivers/gpu/drm/vkms/vkms_crtc.c     |   4 +-
- drivers/gpu/drm/vkms/vkms_drv.c      |   1 +
- drivers/gpu/drm/vkms/vkms_drv.h      |   4 +-
- drivers/gpu/drm/vkms/vkms_output.c   | 282 +++++++++++++++++++++++----
- drivers/gpu/drm/vkms/vkms_plane.c    |  10 +-
- 6 files changed, 282 insertions(+), 56 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index dae2e85d83a1..bc35dcc47585 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -508,29 +508,40 @@ static ssize_t device_enabled_store(struct config_item *item, const char *buf,
- {
- 	struct vkms_configfs *configfs = item_to_configfs(item);
- 	struct vkms_device *device;
--	int value, ret;
-+	int enabled, ret;
- 
--	ret = kstrtoint(buf, 0, &value);
-+	ret = kstrtoint(buf, 0, &enabled);
- 	if (ret)
- 		return ret;
- 
--	if (value != 1)
--		return -EINVAL;
--
--	mutex_lock(&configfs->lock);
--
--	if (configfs->vkms_device) {
-+	if (enabled == 0) {
-+		mutex_lock(&configfs->lock);
-+		if (configfs->vkms_device) {
-+			vkms_remove_device(configfs->vkms_device);
-+			configfs->vkms_device = NULL;
-+		}
- 		mutex_unlock(&configfs->lock);
-+
- 		return len;
- 	}
- 
--	device = vkms_add_device(configfs);
--	mutex_unlock(&configfs->lock);
-+	if (enabled == 1) {
-+		mutex_lock(&configfs->lock);
-+		if (!configfs->vkms_device) {
-+			device = vkms_add_device(configfs);
-+			if (IS_ERR(device)) {
-+				mutex_unlock(&configfs->lock);
-+				return -PTR_ERR(device);
-+			}
-+
-+			configfs->vkms_device = device;
-+		}
-+		mutex_unlock(&configfs->lock);
- 
--	if (IS_ERR(device))
--		return -PTR_ERR(device);
-+		return len;
-+	}
- 
--	return len;
-+	return -EINVAL;
- }
- 
- CONFIGFS_ATTR(device_, enabled);
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 74bbd675464b..2aa1c5246b7e 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -279,7 +279,7 @@ static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 
- struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
- 				 struct drm_plane *primary,
--				 struct drm_plane *cursor)
-+				 struct drm_plane *cursor, const char *name)
- {
- 	struct drm_device *dev = &vkmsdev->drm;
- 	struct vkms_crtc *vkms_crtc;
-@@ -291,7 +291,7 @@ struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
- 	vkms_crtc = &vkmsdev->output.crtcs[vkmsdev->output.num_crtcs++];
- 
- 	ret = drmm_crtc_init_with_planes(dev, &vkms_crtc->base, primary, cursor,
--					 &vkms_crtc_funcs, NULL);
-+					 &vkms_crtc_funcs, name);
- 	if (ret) {
- 		DRM_ERROR("Failed to init CRTC\n");
- 		goto out_error;
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 819e880a8cf7..6e7f20681890 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -275,6 +275,7 @@ struct vkms_device *vkms_add_device(struct vkms_configfs *configfs)
- 			dev, &vkms_platform_driver.driver))) {
- 		pdev = to_platform_device(dev);
- 		max_id = max(max_id, pdev->id);
-+		put_device(dev);
- 	}
- 
- 	pdev = platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 8cdd7949f661..2b9545ada9c2 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -250,13 +250,13 @@ void vkms_remove_device(struct vkms_device *vkms_device);
- /* CRTC */
- struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
- 				 struct drm_plane *primary,
--				 struct drm_plane *cursor);
-+				 struct drm_plane *cursor, const char *name);
- 
- int vkms_output_init(struct vkms_device *vkmsdev);
- int vkms_output_init_default(struct vkms_device *vkmsdev);
- 
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
--				   enum drm_plane_type type);
-+				   enum drm_plane_type type, char* name, ...);
- 
- /* CRC Support */
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index dc69959c5e1d..0ee1f3f4a305 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -2,8 +2,10 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_connector.h>
-+#include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_encoder.h>
-+#include <drm/drm_plane.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- 
-@@ -60,7 +62,8 @@ vkms_connector_init(struct vkms_device *vkms_device)
- 	return connector;
- }
- 
--static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device)
-+static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device,
-+					     char *name)
- {
- 	struct drm_encoder *encoder;
- 	int ret;
-@@ -71,7 +74,7 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device)
- 	encoder = &vkms_device->output
- 			   .encoders[vkms_device->output.num_encoders++];
- 	ret = drm_encoder_init(&vkms_device->drm, encoder, &vkms_encoder_funcs,
--			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-+			       DRM_MODE_ENCODER_VIRTUAL, name);
- 	if (ret) {
- 		memset(encoder, 0, sizeof(*encoder));
- 		vkms_device->output.num_encoders -= 1;
-@@ -82,7 +85,6 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device)
- 
- int vkms_output_init_default(struct vkms_device *vkmsdev)
- {
--	struct vkms_output *output = &vkmsdev->output;
- 	struct drm_device *dev = &vkmsdev->drm;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
-@@ -92,35 +94,34 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
- 	int writeback;
- 	unsigned int n;
- 
--	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
-+	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY,
-+				  "default-primary-plane");
- 	if (IS_ERR(primary))
- 		return PTR_ERR(primary);
- 
- 	if (vkmsdev->config.overlay) {
- 		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
--			struct vkms_plane *overlay = vkms_plane_init(
--				vkmsdev, DRM_PLANE_TYPE_OVERLAY);
--			if (IS_ERR(overlay)) {
--				ret = PTR_ERR(overlay);
--				goto err_planes;
--			}
-+			struct vkms_plane *overlay =
-+				vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY,
-+						"default-overlay-plane-%d", n);
-+			if (IS_ERR(overlay))
-+				return PTR_ERR(overlay);
- 		}
- 	}
- 
- 	if (vkmsdev->config.cursor) {
--		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
--		if (IS_ERR(cursor)) {
--			ret = PTR_ERR(cursor);
--			goto err_planes;
--		}
-+		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR,
-+					 "default-cursor-plane");
-+		if (IS_ERR(cursor))
-+			return PTR_ERR(cursor);
- 	}
- 
- 	vkms_crtc = vkms_crtc_init(vkmsdev, &primary->base,
--				   cursor ? &cursor->base : NULL);
-+				   cursor ? &cursor->base : NULL,
-+				   "crtc-default");
- 	if (IS_ERR(vkms_crtc)) {
- 		DRM_ERROR("Failed to init crtc\n");
--		ret = PTR_ERR(vkms_crtc);
--		goto err_planes;
-+		return PTR_ERR(vkms_crtc);
- 	}
- 
- 	for (int i = 0; i < vkmsdev->output.num_planes; i++) {
-@@ -131,22 +132,20 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
- 	connector = vkms_connector_init(vkmsdev);
- 	if (IS_ERR(connector)) {
- 		DRM_ERROR("Failed to init connector\n");
--		ret = PTR_ERR(connector);
--		goto err_connector;
-+		return PTR_ERR(connector);
- 	}
- 
--	encoder = vkms_encoder_init(vkmsdev);
-+	encoder = vkms_encoder_init(vkmsdev, "encoder-default");
- 	if (IS_ERR(encoder)) {
- 		DRM_ERROR("Failed to init encoder\n");
--		ret = PTR_ERR(encoder);
--		goto err_encoder;
-+		return PTR_ERR(encoder);
- 	}
- 	encoder->possible_crtcs |= drm_crtc_mask(&vkms_crtc->base);
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret) {
- 		DRM_ERROR("Failed to attach connector to encoder\n");
--		goto err_attach;
-+		return ret;
- 	}
- 
- 	if (vkmsdev->config.writeback) {
-@@ -158,26 +157,235 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
- 	drm_mode_config_reset(dev);
- 
- 	return 0;
-+}
- 
--err_attach:
--	drm_encoder_cleanup(encoder);
--
--err_encoder:
--	drm_connector_cleanup(connector);
-+static bool is_object_linked(struct vkms_config_links *links, unsigned long idx)
-+{
-+	return links->linked_object_bitmap & (1 << idx);
-+}
- 
--err_connector:
--	drm_crtc_cleanup(&vkms_crtc->base);
-+/**
-+* validate_vkms_configfs_no_dangling_objects - warn on unused objects in vkms
-+* configfs.
-+* @vkmsdev: vkms device
-+*
-+* This gives slightly more visible warning messaging to the user before the drm
-+* system finds the configuration invalid and prints it's debug information.  In
-+* this case the user may have accidentally not included some links, or the user
-+* could be testing this faulty configuration.
-+*/
-+static void
-+validate_vkms_configfs_no_dangling_objects(struct vkms_device *vkmsdev)
-+{
-+	struct vkms_configfs *configfs = vkmsdev->configfs;
-+	struct config_item *item;
-+
-+	// 1. Planes
-+	list_for_each_entry(item, &configfs->planes_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_plane *config_plane =
-+			item_to_config_plane(item);
-+		if (config_plane->possible_crtcs.linked_object_bitmap == 0)
-+			DRM_WARN(
-+				"Vkms configfs created plane %s has no linked crtcs",
-+				item->ci_name);
-+	}
- 
--err_planes:
--	for (int i = 0; i < output->num_planes; i++)
--		drm_plane_cleanup(&output->planes[i].base);
-+	// 2. connectors
-+	list_for_each_entry(item, &configfs->connectors_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_connector *config_connector =
-+			item_to_config_connector(item);
-+		if (config_connector->possible_encoders.linked_object_bitmap ==
-+		    0) {
-+			DRM_WARN(
-+				"Vkms configfs created connector %s has no linked encoders",
-+				item->ci_name);
-+		}
-+	}
- 
--	memset(output, 0, sizeof(*output));
-+	// 3. encoders
-+	list_for_each_entry(item, &configfs->encoders_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_encoder *config_encoder =
-+			item_to_config_encoder(item);
-+		if (config_encoder->possible_crtcs.linked_object_bitmap == 0) {
-+			DRM_WARN(
-+				"Vkms configfs created encoder %s has no linked crtcs",
-+				item->ci_name);
-+		}
-+	}
- 
--	return ret;
-+	// 4. crtcs only require a primary plane to function, this is checked during
-+	// output initialization and returns an error.
- }
- 
- int vkms_output_init(struct vkms_device *vkmsdev)
- {
--	return -EOPNOTSUPP;
-+	struct drm_device *dev = &vkmsdev->drm;
-+	struct vkms_configfs *configfs = vkmsdev->configfs;
-+	struct vkms_output *output = &vkmsdev->output;
-+	struct plane_map {
-+		struct vkms_config_plane *config_plane;
-+		struct vkms_plane *plane;
-+	} plane_map[VKMS_MAX_PLANES] = { 0 };
-+	struct encoder_map {
-+		struct vkms_config_encoder *config_encoder;
-+		struct drm_encoder *encoder;
-+	} encoder_map[VKMS_MAX_OUTPUT_OBJECTS] = { 0 };
-+	struct config_item *item;
-+	int map_idx = 0;
-+
-+	// Ensure configfs has no unused objects, and warn if so.
-+	validate_vkms_configfs_no_dangling_objects(vkmsdev);
-+
-+	list_for_each_entry(item, &configfs->planes_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_plane *config_plane =
-+			item_to_config_plane(item);
-+		struct vkms_plane *plane = vkms_plane_init(
-+			vkmsdev, config_plane->type, item->ci_name);
-+
-+		if (IS_ERR(plane)) {
-+			DRM_ERROR("Unable to init plane from config: %s",
-+				  item->ci_name);
-+			return PTR_ERR(plane);
-+		}
-+
-+		plane_map[map_idx].config_plane = config_plane;
-+		plane_map[map_idx].plane = plane;
-+		map_idx += 1;
-+	}
-+
-+	map_idx = 0;
-+	list_for_each_entry(item, &configfs->encoders_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_encoder *config_encoder =
-+			item_to_config_encoder(item);
-+		struct drm_encoder *encoder =
-+			vkms_encoder_init(vkmsdev, item->ci_name);
-+
-+		if (IS_ERR(encoder)) {
-+			DRM_ERROR("Failed to init config encoder: %s",
-+				  item->ci_name);
-+			return PTR_ERR(encoder);
-+		}
-+		encoder_map[map_idx].config_encoder = config_encoder;
-+		encoder_map[map_idx].encoder = encoder;
-+		map_idx += 1;
-+	}
-+
-+	list_for_each_entry(item, &configfs->connectors_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_connector *config_connector =
-+			item_to_config_connector(item);
-+		struct drm_connector *connector = vkms_connector_init(vkmsdev);
-+
-+		if (IS_ERR(connector)) {
-+			DRM_ERROR("Failed to init connector from config: %s",
-+				  item->ci_name);
-+			return PTR_ERR(connector);
-+		}
-+
-+		for (int j = 0; j < output->num_encoders; j++) {
-+			struct encoder_map *encoder = &encoder_map[j];
-+
-+			if (is_object_linked(
-+				    &config_connector->possible_encoders,
-+				    encoder->config_encoder
-+					    ->encoder_config_idx)) {
-+				drm_connector_attach_encoder(connector,
-+							     encoder->encoder);
-+			}
-+		}
-+	}
-+
-+	list_for_each_entry(item, &configfs->crtcs_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_crtc *config_crtc =
-+			item_to_config_crtc(item);
-+		struct vkms_crtc *vkms_crtc;
-+		struct drm_plane *primary = NULL, *cursor = NULL;
-+
-+		for (int j = 0; j < output->num_planes; j++) {
-+			struct plane_map *plane_entry = &plane_map[j];
-+			struct drm_plane *plane = &plane_entry->plane->base;
-+
-+			if (!is_object_linked(
-+				    &plane_entry->config_plane->possible_crtcs,
-+				    config_crtc->crtc_config_idx)) {
-+				continue;
-+			}
-+
-+			if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
-+				if (primary) {
-+					DRM_WARN(
-+						"Too many primary planes found for crtc %s.",
-+						item->ci_name);
-+					return -EINVAL;
-+				}
-+				primary = plane;
-+			} else if (plane->type == DRM_PLANE_TYPE_CURSOR) {
-+				if (cursor) {
-+					DRM_WARN(
-+						"Too many cursor planes found for crtc %s.",
-+						item->ci_name);
-+					return -EINVAL;
-+				}
-+				cursor = plane;
-+			}
-+		}
-+
-+		if (!primary) {
-+			DRM_WARN("No primary plane configured for crtc %s",
-+				 item->ci_name);
-+			return -EINVAL;
-+		}
-+
-+		vkms_crtc =
-+			vkms_crtc_init(vkmsdev, primary, cursor, item->ci_name);
-+		if (IS_ERR(vkms_crtc)) {
-+			DRM_WARN("Unable to init crtc from config: %s",
-+				 item->ci_name);
-+			return PTR_ERR(vkms_crtc);
-+		}
-+
-+		for (int j = 0; j < output->num_planes; j++) {
-+			struct plane_map *plane_entry = &plane_map[j];
-+
-+			if (!plane_entry->plane)
-+				break;
-+
-+			if (is_object_linked(
-+				    &plane_entry->config_plane->possible_crtcs,
-+				    config_crtc->crtc_config_idx)) {
-+				plane_entry->plane->base.possible_crtcs |=
-+					drm_crtc_mask(&vkms_crtc->base);
-+			}
-+		}
-+
-+		for (int j = 0; j < output->num_encoders; j++) {
-+			struct encoder_map *encoder_entry = &encoder_map[j];
-+
-+			if (is_object_linked(&encoder_entry->config_encoder
-+						      ->possible_crtcs,
-+					     config_crtc->crtc_config_idx)) {
-+				encoder_entry->encoder->possible_crtcs |=
-+					drm_crtc_mask(&vkms_crtc->base);
-+			}
-+		}
-+
-+		if (vkmsdev->config.writeback) {
-+			int ret = vkms_enable_writeback_connector(vkmsdev,
-+								  vkms_crtc);
-+			if (ret)
-+				DRM_WARN(
-+					"Failed to init writeback connector for config crtc: %s. Error code %d",
-+					item->ci_name, ret);
-+		}
-+	}
-+
-+	drm_mode_config_reset(dev);
-+
-+	return 0;
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 950e6c930273..3198bf0dca73 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- 
- #include <linux/iosys-map.h>
-+#include <linux/stdarg.h>
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -215,20 +216,25 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
- };
- 
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
--				   enum drm_plane_type type)
-+				   enum drm_plane_type type, char *name, ...)
- {
- 	struct drm_device *dev = &vkmsdev->drm;
- 	struct vkms_output *output = &vkmsdev->output;
- 	struct vkms_plane *plane;
-+	va_list va;
- 	int ret;
- 
- 	if (output->num_planes >= VKMS_MAX_PLANES)
- 		return ERR_PTR(-ENOMEM);
- 
- 	plane = &output->planes[output->num_planes++];
-+
-+	va_start(va, name);
- 	ret = drm_universal_plane_init(dev, &plane->base, 0, &vkms_plane_funcs,
- 				       vkms_formats, ARRAY_SIZE(vkms_formats),
--				       NULL, type, NULL);
-+				       NULL, type, name, va);
-+	va_end(va);
-+
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--- 
-2.42.0.rc2.253.gd59a3bf2b4-goog
+I've specifically dropped the 'The "hart isa" line is consistent with
+what's returned by __riscv_hwprobe()...' part because I suspect hwprobe
+could at least lag what gets put in "hart isa", since the kernel may be
+taught about an extension for a different purpose first, neglecting
+hwprobe. And, there may be cases that hwprobe never enumerates an
+extension which the kernel does.
 
+Thanks,
+drew
