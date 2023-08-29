@@ -2,145 +2,256 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD287C83F12
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 09:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC704C71153
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 13:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234932AbjH2JzJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Aug 2023 05:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
+        id S235880AbjH2NOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Aug 2023 09:14:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231666AbjH2Jyl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 05:54:41 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 738D9E9;
-        Tue, 29 Aug 2023 02:54:38 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RZjNP5yT5zhZHV;
-        Tue, 29 Aug 2023 17:50:45 +0800 (CST)
-Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 29 Aug
- 2023 17:54:36 +0800
-Message-ID: <4b4063c2-dfd3-474b-6827-8dbd1257af2d@huawei.com>
-Date:   Tue, 29 Aug 2023 17:54:35 +0800
+        with ESMTP id S235908AbjH2NOY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 09:14:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03DD3BE;
+        Tue, 29 Aug 2023 06:14:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 91EBB63682;
+        Tue, 29 Aug 2023 13:14:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDAD2C433C7;
+        Tue, 29 Aug 2023 13:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693314860;
+        bh=8JuxMsJ3U5i7GuhCyC/QrZ1hPppSeHOK4ObwLj5mz6U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lentXxNxN5mmx8xZXG4cqwYpiTX3+qDYYnae4LjeLx+BBa8wA5N76Luk9yp6kd9rP
+         ruI6+iJ/vi0HLejPHe2OYGjJHVBhCFhXU0cfiOTG9wfHeDdL6qN4iARQZ+JNyeHNEr
+         kY4LrDw5nNWBInCX0FXCqXabAJ3oAola09T2p1xBNiX4JHBpj5ZlT63hgCA0ux+uwB
+         pGy8Y+8ID8SUfvWliIrGsSWTx8MB+Y4nznK5pRhZf4ISMTCtmzza/hpOe+s5N9ZE2X
+         3JFGBdUCYmoQek/Mjz192YwJ8av5909vhOpma6HVPzkGy/ZbILlC1NsHKExg91RYly
+         +JmBLQ6vcWWJA==
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3a8506f5b73so3090116b6e.0;
+        Tue, 29 Aug 2023 06:14:19 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwpL1uavq0/LmYl+v9ab18B6dOp4weTyxLa9MMqP4t9puQd991t
+        +ijg+FMhu2CaOEESF0xyIR8IdCzBfbtea+O7qho=
+X-Google-Smtp-Source: AGHT+IEHY+TUkRwN9caizuIvWFd/8ucahftpstde9afS5W4HOCHDxNhbIuQHyoQfTwnRvwdAmcDwVo72D/R/sV73t+Y=
+X-Received: by 2002:a05:6808:218c:b0:3a1:d656:21c with SMTP id
+ be12-20020a056808218c00b003a1d656021cmr17611136oib.21.1693314859223; Tue, 29
+ Aug 2023 06:14:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH -next v9 0/2] support allocating crashkernel above 4G
- explicitly on riscv
-To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-        <conor.dooley@microchip.com>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
-        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
-        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
-References: <20230726175000.2536220-1-chenjiahao16@huawei.com>
-Content-Language: en-US
-From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
-In-Reply-To: <20230726175000.2536220-1-chenjiahao16@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.108.26]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
+References: <20230826071359.2060501-1-senozhatsky@chromium.org>
+In-Reply-To: <20230826071359.2060501-1-senozhatsky@chromium.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 29 Aug 2023 22:13:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAROnZpZiOC4eS5kTcv4Q2YDrE9KYBD-dVcfXwBPQWvbmg@mail.gmail.com>
+Message-ID: <CAK7LNAROnZpZiOC4eS5kTcv4Q2YDrE9KYBD-dVcfXwBPQWvbmg@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: add warn-unknown-symbols sanity check
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi folks,
+On Sun, Aug 27, 2023 at 6:00=E2=80=AFPM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
+>
+> Introduce KCONFIG_WARN_UNKNOWN_SYMBOLS environment variable,
+> which makes Kconfig warn about unknown .config symbols.
+>
+> This is especially useful for continuous kernel uprevs when
+> some symbols can be either removed or renamed between kernel
+> releases (which can go unnoticed otherwise).
+>
+> By default KCONFIG_WARN_UNKNOWN_SYMBOLS generates warnings,
+> which are non-terminal. There is an additional environment
+> variable KCONFIG_WERROR that overrides this behaviour and
+> turns warnings into errors.
+>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> ---
+>  Documentation/kbuild/kconfig.rst | 11 +++++++++++
+>  scripts/kconfig/confdata.c       | 23 +++++++++++++++++++++++
+>  2 files changed, 34 insertions(+)
+>
+> diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kcon=
+fig.rst
+> index 6530ecd99da3..4de1f5435b7b 100644
+> --- a/Documentation/kbuild/kconfig.rst
+> +++ b/Documentation/kbuild/kconfig.rst
+> @@ -56,6 +56,17 @@ KCONFIG_OVERWRITECONFIG
+>  If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
+>  break symlinks when .config is a symlink to somewhere else.
+>
+> +KCONFIG_WARN_UNKNOWN_SYMBOLS
+> +----------------------------
+> +This environment variable makes Kconfig warn about all unrecognized
+> +symbols in the .config file.
 
-This is a friendly ping. Anyone has additional comments on this patch set?
 
-Best regards,
-Jiahao
+This warns not only for the .config but also defconfig files.
 
-On 2023/7/27 1:49, Chen Jiahao wrote:
-> On riscv, the current crash kernel allocation logic is trying to
-> allocate within 32bit addressible memory region by default, if
-> failed, try to allocate without 4G restriction.
+Could you reword it?
+
+For example,
+
+ "symbols in the config input".
+
+
+> +
+> +KCONFIG_WERROR
+> +--------------
+> +If set, Kconfig will treat `KCONFIG_WARN_UNKNOWN_SYMBOLS` warnings as
+> +errors.
+
+My hope is to turn other warnings in the config file into errors.
+
+See below.
+
+
+> +
+> +
+>  `CONFIG_`
+>  ---------
+>  If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 992575f1e976..c24f637827fe 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -349,7 +349,12 @@ int conf_read_simple(const char *name, int def)
+>         char *p, *p2;
+>         struct symbol *sym;
+>         int i, def_flags;
+> +       bool found_unknown =3D false;
+> +       const char *warn_unknown;
+> +       const char *werror;
 >
-> In need of saving DMA zone memory while allocating a relatively large
-> crash kernel region, allocating the reserved memory top down in
-> high memory, without overlapping the DMA zone, is a mature solution.
-> Hence this patchset introduces the parameter option crashkernel=X,[high,low].
+> +       warn_unknown =3D getenv("KCONFIG_WARN_UNKNOWN_SYMBOLS");
+> +       werror =3D getenv("KCONFIG_WERROR");
+>         if (name) {
+>                 in =3D zconf_fopen(name);
+>         } else {
+> @@ -437,6 +442,13 @@ int conf_read_simple(const char *name, int def)
+>                         if (def =3D=3D S_DEF_USER) {
+>                                 sym =3D sym_find(line + 2 + strlen(CONFIG=
+_));
+>                                 if (!sym) {
+> +                                       if (warn_unknown) {
+> +                                               conf_warning("unknown sym=
+bol: %s",
+> +                                                            line + 2 + s=
+trlen(CONFIG_));
+> +                                               found_unknown =3D true;
+> +                                               continue;
+
+Please drop this 'continue' because it would skip
+conf_set_changed(true).
+
+warn_unknown should keep the same code flow
+except showing the warning message.
+
+
+
+
+> +                                       }
+> +
+>                                         conf_set_changed(true);
+>                                         continue;
+>                                 }
+> @@ -471,6 +483,13 @@ int conf_read_simple(const char *name, int def)
 >
-> One can reserve the crash kernel from high memory above DMA zone range
-> by explicitly passing "crashkernel=X,high"; or reserve a memory range
-> below 4G with "crashkernel=X,low". Besides, there are few rules need
-> to take notice:
-> 1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
->     is specified.
-> 2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
->     and there is enough memory to be allocated under 4G.
-> 3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
->     specified, a 128M low memory will be allocated automatically for
->     swiotlb bounce buffer.
-> See Documentation/admin-guide/kernel-parameters.txt for more information.
->
-> To verify loading the crashkernel, adapted kexec-tools is attached below:
-> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
->
-> Following test cases have been performed as expected:
-> 1) crashkernel=256M                          //low=256M
-> 2) crashkernel=1G                            //low=1G
-> 3) crashkernel=4G                            //high=4G, low=128M(default)
-> 4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
-> 5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
-> 6) crashkernel=4G,high                       //high=4G, low=128M(default)
-> 7) crashkernel=256M,low                      //low=0M, invalid
-> 8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
-> 9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
-> 10) crashkernel=512M@0xd0000000              //low=512M
-> 11) crashkernel=1G,high crashkernel=0M,low   //high=1G, low=0M
->
-> Changes since [v9]:
-> 1. As per Conor's comment, rebase to correct base on riscv/for-next
->     branch. No code logic changed.
->
-> Changes since [v8]:
-> 1. Rebase to newest mainline head, not modifying any code logic.
->
-> Changes since [v7]:
-> 1. Minor refactor: move crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE
->     into the !high branch when the first allocation fails. Not changing
->     the result but further align with Arm64 logic, refer to Baoquan's
->     comment.
-> 2. Add test case "crashkernel=1G,high crashkernel=0M,low", the result
->     also matches our expectation.
->
-> Changes since [v6]:
-> 1. Introduce the "high" flag to mark whether "crashkernel=X,high"
->     is passed. Fix the retrying logic between "crashkernel=X,high"
->     case and others when the first allocation attempt fails.
->
-> Changes since [v5]:
-> 1. Update the crashkernel allocation logic when crashkernel=X,high
->     is specified. In this case, region above 4G will directly get
->     reserved as crashkernel, rather than trying lower 32bit allocation
->     first.
->
-> Changes since [v4]:
-> 1. Update some imprecise code comments for cmdline parsing.
->
-> Changes since [v3]:
-> 1. Update to print warning and return explicitly on failure when
->     crashkernel=size@offset is specified. Not changing the result
->     in this case but making the logic more straightforward.
-> 2. Some minor cleanup.
->
-> Changes since [v2]:
-> 1. Update the allocation logic to ensure the high crashkernel
->     region is reserved strictly above dma32_phys_limit.
-> 2. Clean up some minor format problems.
->
-> Chen Jiahao (2):
->    riscv: kdump: Implement crashkernel=X,[high,low]
->    docs: kdump: Update the crashkernel description for riscv
->
->   .../admin-guide/kernel-parameters.txt         | 15 +--
->   arch/riscv/kernel/setup.c                     |  5 +
->   arch/riscv/mm/init.c                          | 93 +++++++++++++++++--
->   3 files changed, 99 insertions(+), 14 deletions(-)
->
+>                         sym =3D sym_find(line + strlen(CONFIG_));
+>                         if (!sym) {
+> +                               if (warn_unknown && def !=3D S_DEF_AUTO) =
+{
+> +                                       conf_warning("unknown symbol: %s"=
+,
+> +                                                    line + strlen(CONFIG=
+_));
+> +                                       found_unknown =3D true;
+> +                                       continue;
+
+Same here.
+When KCONFIG_WARN_UNKNOWN_SYMBOLS is set,
+conf_set_changed(true) will be skipped.
+
+
+
+You can do like this:
+
+
+@@ -471,7 +483,7 @@ int conf_read_simple(const char *name, int def)
+
+                        sym =3D sym_find(line + strlen(CONFIG_));
+                        if (!sym) {
+-                               if (def =3D=3D S_DEF_AUTO)
++                               if (def =3D=3D S_DEF_AUTO) {
+                                        /*
+                                         * Reading from include/config/auto=
+.conf
+                                         * If CONFIG_FOO previously existed=
+ in
+@@ -479,8 +491,13 @@ int conf_read_simple(const char *name, int def)
+                                         * include/config/FOO must be touch=
+ed.
+                                         */
+                                        conf_touch_dep(line + strlen(CONFIG=
+_));
+-                               else
++                               } else {
++                                       if (warn_unknown && def !=3D S_DEF_=
+AUTO)
++                                               conf_warning("unknown
+symbol: %s",
++                                                            line +
+strlen(CONFIG_));
++
+                                        conf_set_changed(true);
++                               }
+                                continue;
+                        }
+
+
+
+
+
+> +                               }
+> +
+>                                 if (def =3D=3D S_DEF_AUTO)
+>                                         /*
+>                                          * Reading from include/config/au=
+to.conf
+> @@ -519,6 +538,10 @@ int conf_read_simple(const char *name, int def)
+>         }
+>         free(line);
+>         fclose(in);
+> +
+> +       if (found_unknown && werror)
+> +               exit(1);
+
+
+I like to reuse 'conf_warnings' as you did in the previous version.
+
+      if (conf_warnings && werror)
+                exit(1)
+
+
+
+Then, you do not need to add 'found_unknown'.
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
