@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 735FDC83F20
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A7B4C83F22
 	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 23:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241212AbjH2Xox (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S241211AbjH2Xox (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 29 Aug 2023 19:44:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45774 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241222AbjH2Xop (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 19:44:45 -0400
+        with ESMTP id S241224AbjH2Xoq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 19:44:46 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0CB1B1;
-        Tue, 29 Aug 2023 16:44:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 736881B3;
+        Tue, 29 Aug 2023 16:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693352682; x=1724888682;
+  t=1693352683; x=1724888683;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=E2VN7C6YvAgSWRKL0T6DnmwaxuervSEnb92Npb1t5PA=;
-  b=IJsk+CTfEH++PVxPLsCB6kVX0y8E0heUDtSodip5laQtO/Rl2KuKpIrS
-   qodwnWfx3BxaowM5imgD2QVlEQSOD9GLLbMyWPTVyCuvIpBIekypUMe9S
-   Cuoi17n5yem9nsI6tThR0RiTNdLKPs0yuwcitQKritoWdTWq+362GJmgH
-   YDeF9+7TqGYd9NvKo5YUv7gSx7LH0FvBo0PhAnIY9aEXsS1wbAJH4AvKG
-   b06IZWGdgNdFAGEWWjjYy4Tz3kRlZZfQ0as4eBSYG0UrvOTqEuu2YAS3Z
-   dq2DRdPk8CaV67oKpEsE8hMnNBJVT8qzTjb/FYtzPfyy4Q4lHcdvFxGcG
+  bh=+XDRINXx73/bMenFlRGiWAYMrGt/x5/6+qfN9SAWjoE=;
+  b=mD2YNV0sxoFjkCNSufMSC/J/WfVb9bxSfWBn5W35J9yj5lpjB1jJwhED
+   v57f+yYLurPTmGtHlHwdq6lCG3r6QneIv0cveZncZvB8qN5RKixprW3At
+   qlEzU1DlWImfw/p8Dy6KFrAbKkPQVHdRyrrl95xmxOV8H+owf7t9o6Cnu
+   vlijXKmYpiTxq7+oASzOZLIlZQWwXydja2D31KxBFBFl9ZPcRRYvK2H1e
+   SF/xQoSDogqoYDGU6B2JmUZlL3m7/wyHpSVdy7+q8qlCRYfy8Atth4b37
+   IHn+Yxs6I3CEiPIEPBkvlHtQePnzDYv94WT26fLzYiqFcqoZYOiPB1VqQ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="355015472"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="355015483"
 X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="355015472"
+   d="scan'208";a="355015483"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 16:44:41 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 16:44:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688691036"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688691039"
 X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="688691036"
+   d="scan'208";a="688691039"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
   by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 16:44:41 -0700
 From:   Tony Luck <tony.luck@intel.com>
@@ -51,9 +51,9 @@ Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v5 6/8] x86/resctrl: Sub NUMA Cluster detection and enable
-Date:   Tue, 29 Aug 2023 16:44:24 -0700
-Message-ID: <20230829234426.64421-7-tony.luck@intel.com>
+Subject: [PATCH v5 7/8] x86/resctrl: Update documentation with Sub-NUMA cluster changes
+Date:   Tue, 29 Aug 2023 16:44:25 -0700
+Message-ID: <20230829234426.64421-8-tony.luck@intel.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230829234426.64421-1-tony.luck@intel.com>
 References: <20230722190740.326190-1-tony.luck@intel.com>
@@ -64,138 +64,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There isn't a simple h/w bit that indicates whether a CPU is
-running in Sub NUMA Cluster mode. Infer the state by comparing
-the ratio of NUMA nodes to L3 cache instances.
+With Sub-NUMA Cluster mode enabled the scope of monitoring resources is
+per-NODE instead of per-L3 cache. Suffixes of directories with "L3" in
+their name refer to Sub-NUMA nodes instead of L3 cache ids.
 
-When SNC mode is detected, reconfigure the RMID counters by updating
-the MSR_RMID_SNC_CONFIG MSR on each socket as CPUs are seen.
+Users should be aware that SNC mode also affects the amount of L3 cache
+available for allocation within each SNC node.
 
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- arch/x86/include/asm/msr-index.h   |  1 +
- arch/x86/kernel/cpu/resctrl/core.c | 68 ++++++++++++++++++++++++++++++
- 2 files changed, 69 insertions(+)
+ Documentation/arch/x86/resctrl.rst | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 1d111350197f..393d1b047617 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -1100,6 +1100,7 @@
- #define MSR_IA32_QM_CTR			0xc8e
- #define MSR_IA32_PQR_ASSOC		0xc8f
- #define MSR_IA32_L3_CBM_BASE		0xc90
-+#define MSR_RMID_SNC_CONFIG		0xca0
- #define MSR_IA32_L2_CBM_BASE		0xd10
- #define MSR_IA32_MBA_THRTL_BASE		0xd50
+diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+index cb05d90111b4..407764f43f25 100644
+--- a/Documentation/arch/x86/resctrl.rst
++++ b/Documentation/arch/x86/resctrl.rst
+@@ -345,9 +345,15 @@ When control is enabled all CTRL_MON groups will also contain:
+ When monitoring is enabled all MON groups will also contain:
  
-diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-index ed4f55b3e5e4..9f0ac9721fab 100644
---- a/arch/x86/kernel/cpu/resctrl/core.c
-+++ b/arch/x86/kernel/cpu/resctrl/core.c
-@@ -16,11 +16,14 @@
+ "mon_data":
+-	This contains a set of files organized by L3 domain and by
+-	RDT event. E.g. on a system with two L3 domains there will
+-	be subdirectories "mon_L3_00" and "mon_L3_01".	Each of these
++	This contains a set of files organized by L3 domain or by NUMA
++	node (depending on whether Sub-NUMA Cluster (SNC) mode is disabled
++	or enabled respectively) and by RDT event. E.g. on a system with
++	SNC mode disabled with two L3 domains there will be subdirectories
++	"mon_L3_00" and "mon_L3_01". The numerical suffix refers to the
++	L3 cache id.  With SNC enabled the directory names are the same,
++	but the numerical suffix refers to the node id.
++        Mappings from node ids to CPUs are available in the
++        /sys/devices/system/node/node*/cpulist files. Each of these
+ 	directories have one file per event (e.g. "llc_occupancy",
+ 	"mbm_total_bytes", and "mbm_local_bytes"). In a MON group these
+ 	files provide a read out of the current value of the event for
+@@ -452,6 +458,19 @@ and 0xA are not.  On a system with a 20-bit mask each bit represents 5%
+ of the capacity of the cache. You could partition the cache into four
+ equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
  
- #define pr_fmt(fmt)	"resctrl: " fmt
- 
-+#include <linux/cpu.h>
- #include <linux/slab.h>
- #include <linux/err.h>
- #include <linux/cacheinfo.h>
- #include <linux/cpuhotplug.h>
-+#include <linux/mod_devicetable.h>
- 
-+#include <asm/cpu_device_id.h>
- #include <asm/intel-family.h>
- #include <asm/resctrl.h>
- #include "internal.h"
-@@ -724,11 +727,34 @@ static void clear_closid_rmid(int cpu)
- 	wrmsr(MSR_IA32_PQR_ASSOC, 0, 0);
- }
- 
-+/*
-+ * The power-on reset value of MSR_RMID_SNC_CONFIG is 0x1
-+ * which indicates that RMIDs are configured in legacy mode.
-+ * Clearing bit 0 reconfigures the RMID counters for use
-+ * in Sub NUMA Cluster mode.
-+ */
-+static void snc_remap_rmids(int cpu)
-+{
-+	u64 val;
++Notes on Sub-NUMA Cluster mode
++==============================
++When SNC mode is enabled the "llc_occupancy", "mbm_total_bytes", and
++"mbm_local_bytes" will only give accurate results for well behaved NUMA
++applications. I.e. those that perform the majority of memory accesses
++to memory on the local NUMA node to the CPU where the task is executing.
 +
-+	/* Only need to enable once per package */
-+	if (cpumask_first(topology_core_cpumask(cpu)) != cpu)
-+		return;
++The cache allocation feature still provides the same number of
++bits in a mask to control allocation into the L3 cache. But each
++of those ways has its capacity reduced because the cache is divided
++between the SNC nodes. The values reported in the resctrl
++"size" files are adjusted accordingly.
 +
-+	rdmsrl(MSR_RMID_SNC_CONFIG, val);
-+	val &= ~BIT_ULL(0);
-+	wrmsrl(MSR_RMID_SNC_CONFIG, val);
-+}
-+
- static int resctrl_online_cpu(unsigned int cpu)
- {
- 	struct rdt_resource *r;
- 
- 	mutex_lock(&rdtgroup_mutex);
-+
-+	if (snc_nodes_per_l3_cache > 1)
-+		snc_remap_rmids(cpu);
-+
- 	for_each_capable_rdt_resource(r)
- 		domain_add_cpu(cpu, r);
- 	/* The cpu is set in default rdtgroup after online. */
-@@ -983,11 +1009,53 @@ static __init bool get_rdt_resources(void)
- 	return (rdt_mon_capable || rdt_alloc_capable);
- }
- 
-+/* CPU models that support MSR_RMID_SNC_CONFIG */
-+static const struct x86_cpu_id snc_cpu_ids[] __initconst = {
-+	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X, 0),
-+	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X, 0),
-+	X86_MATCH_INTEL_FAM6_MODEL(EMERALDRAPIDS_X, 0),
-+	{}
-+};
-+
-+static __init int get_snc_config(void)
-+{
-+	unsigned long *node_caches;
-+	int mem_only_nodes = 0;
-+	int cpu, node, ret;
-+
-+	if (!x86_match_cpu(snc_cpu_ids))
-+		return 1;
-+
-+	node_caches = kcalloc(BITS_TO_LONGS(nr_node_ids), sizeof(*node_caches), GFP_KERNEL);
-+	if (!node_caches)
-+		return 1;
-+
-+	cpus_read_lock();
-+	for_each_node(node) {
-+		cpu = cpumask_first(cpumask_of_node(node));
-+		if (cpu < nr_cpu_ids)
-+			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
-+		else
-+			mem_only_nodes++;
-+	}
-+	cpus_read_unlock();
-+
-+	ret = (nr_node_ids - mem_only_nodes) / bitmap_weight(node_caches, nr_node_ids);
-+	kfree(node_caches);
-+
-+	if (ret > 1)
-+		rdt_resources_all[RDT_RESOURCE_L3].r_resctrl.mon_scope = RESCTRL_NODE;
-+
-+	return ret;
-+}
-+
- static __init void rdt_init_res_defs_intel(void)
- {
- 	struct rdt_hw_resource *hw_res;
- 	struct rdt_resource *r;
- 
-+	snc_nodes_per_l3_cache = get_snc_config();
-+
- 	for_each_rdt_resource(r) {
- 		hw_res = resctrl_to_arch_res(r);
+ Memory bandwidth Allocation and monitoring
+ ==========================================
  
 -- 
 2.41.0
