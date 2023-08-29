@@ -2,190 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58798C6FA8F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 20:05:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5FB3C6FA8F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Aug 2023 20:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239903AbjH2UE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Aug 2023 16:04:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
+        id S238300AbjH2UJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Aug 2023 16:09:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239958AbjH2UEv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 16:04:51 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B8BD2;
-        Tue, 29 Aug 2023 13:04:49 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-68a42d06d02so3366278b3a.0;
-        Tue, 29 Aug 2023 13:04:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693339488; x=1693944288; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YShQRRIoUyeyVMKKWVcVmBlF4Nh0zIEcHUDD0S50i3Y=;
-        b=pXBZ/FTvovqhVwVdSlqmG0VWdpzUSbmFO/G8jktn5vdMQ5yIJBDWYzJh3n0DtcuG5r
-         rskHLGSvA55QpZUWDNsF3wtofHDscYVs4T4VAHsLpuauZcIUycB+pfAZdfn3dWnFtMEQ
-         yhOu0MAkUjRI7AngcLHnlZjnEiKD31i2gVK41I9Qudbp8LnYjyyBy82v/dInILSzonf/
-         ldyoj4sXZGKpv7BOrs+87iFl8iEhuEGEEYCocGY/emGh2r6NAp/WbgmtOMP9461eKsEH
-         4y+d+wZqgx43gYEvhteFxtxxe7SrnBq9f65c7C8GDnAD1xZ0BeaalNIP4mpEPIleW6Ke
-         zxYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693339488; x=1693944288;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YShQRRIoUyeyVMKKWVcVmBlF4Nh0zIEcHUDD0S50i3Y=;
-        b=lsdgcXQ4TRTixGpF1DW03KZlzOK9HspL1AqKXQPFYt/rENdyWegrWvOr5EOC3EG3EI
-         pvXFP0tP9vDf5nvPnYxIeaMCNBK9r/qgvDvmVnIkuKwPAtp5s3KfPFBGQKXMG63TPeEf
-         EqM6CK0E7sLEENUHmF3XZhWuJpj0KM8khebeMsL3lCpEVXQRNuYGtdvZHqIV2PuiJgmc
-         IT+KiTZ+L8jyswJ+o8DhuJAehKf5AeWOzRuDt3oCuqoAD/5z0vPbiJW0xnS/uGPdrKhN
-         Dp3ESavE5V0kC/wjNj7O1//5zXbYyENfeb6ySs6+LW8WogyVZzBsPT3D/vHCacv/J2kf
-         Y94Q==
-X-Gm-Message-State: AOJu0YxfP8E/3/PLpU0VLtVNIAG1imNG4xzaLc4aFMNoZzmHuCTbfHYj
-        u/3WZcxGDCRGfebj2TX+LH8JQ6ykCwBixoqfnUM=
-X-Google-Smtp-Source: AGHT+IF6MhqDzAOisq0kHguEIaPPsIYjONL9aE/QSQ+8Gt4dzCwb8f5PtvxGbko/WhJSAI9ZUBceCJ/2/Jyov7xHLBg=
-X-Received: by 2002:a17:90a:d41:b0:263:931b:bb5f with SMTP id
- 1-20020a17090a0d4100b00263931bbb5fmr262103pju.14.1693339488394; Tue, 29 Aug
- 2023 13:04:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230817035155.84230-1-liusong@linux.alibaba.com>
-In-Reply-To: <20230817035155.84230-1-liusong@linux.alibaba.com>
-From:   Yang Shi <shy828301@gmail.com>
-Date:   Tue, 29 Aug 2023 13:04:36 -0700
-Message-ID: <CAHbLzkrUQ2i0jtgiDf25t_VD4W8hm3jZvd=N=dTyCqvFXc8Q1g@mail.gmail.com>
-Subject: Re: [PATCH] mm/khugepaged: increase transparent_hugepage_recommend_disable
- parameter to disable active modification of min_free_kbytes
-To:     Liu Song <liusong@linux.alibaba.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, paulmck@kernel.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        dave.hansen@linux.intel.com, rostedt@goodmis.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
+        with ESMTP id S239465AbjH2UJH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 16:09:07 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067AADB;
+        Tue, 29 Aug 2023 13:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693339744; x=1724875744;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=krBOWdc4YqSurZHc3sRJ6NKNy+mQr8WOXEtkn0EmVXE=;
+  b=A7lgoDZAFODCEhffxpkvapxzfHQWmEI6RLTtJccFf3ZLE1HiHWXuDtj+
+   alb/16RLbs9XTbxGEqkbzOsITrT7A4XquAhkiKO0S+UPgtfIAMvylS8tV
+   bDhmclE6EV0N+UODikl6xnZeJgPnJl3T06djbV6uBd7/RP2Y0mm3XRYmO
+   T2T3MLevKndxs4XEtOyxBKs2qSfZeTFKPZ1nHYfA/WXcPooi76yWOKs7k
+   5BDE7bMYXG2E2/VruWhZPqgpuZBEF+tx0HUO87+Br6ytYzI1QVmXalFwC
+   e2Qu6kdQVlbydbsalNvPEOz3PKwJDmk8syKZWfltWlZ4AwzZ9KuT4EM0n
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="372879580"
+X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
+   d="scan'208";a="372879580"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 13:09:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="862348845"
+X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
+   d="scan'208";a="862348845"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga004.jf.intel.com with ESMTP; 29 Aug 2023 13:09:03 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 29 Aug 2023 13:09:02 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 29 Aug 2023 13:09:02 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 29 Aug 2023 13:09:02 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 29 Aug 2023 13:09:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DaRdAGklbf3A/esc9v00QhcAXAvbwuCee0JdZERaCJGNAeoiqosnVO84c89HN8MA7k/X/RrjAf3FpTalduwO1kXX5GYfif9wHD+oFN1A+rnptFoNdX5vm+39pSNmXi4r6pjKdJSr2vhPxKNu1U7pyJR9an6qbw848zbBdwPEk66Ssr+eNaO+6rw8vHKpFRNRDaGM0ZPr6v32aAXdtrCCQfXA4WLUHpKXzr5QhJktLaeqE2isfb4x+9JYE0REGDOGmnS+acCzuPY7e7pgh+29pz1gCS1735uUPcNjqGDly9HxiV5Bi1ewL7LwwdE31IOldSbAcLDDezFznzubAvBE3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qsgGr5YbBzudjpyQnP2/YG6N+LIyvpduWWo7qrlAx8E=;
+ b=V4MttxTNk8ZpbSZ49eZIEtYhHhkxORFQoQVzNznpTP5CcE6VxLlcizjqN590KGzEjjrMOWENqceoawh8qfcaZPXwkSGz/x/6ZEFUy0QCtZIx6YqHXWkVoZr+224tkxUBI+1IoRTKmFciT6f/KoUWAJyUZVvxFv71+iTYT0MPb4rXRGfFTDcMryJ2OtjToULz8w9qjGLugOggDtZt6JsPpY2PLlpTT+DiPbt8L33gQf+Q2MkOshzbxToB5Q3MQKi1oHl/uAIzcaE36X+MySDOoqTuuhbUh6VHvZfM8QPRiiPYZ+gH+HWo/oPniBztAslDomA2MZtMCwLiVgxaM5SDeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by DS0PR11MB8081.namprd11.prod.outlook.com (2603:10b6:8:15c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Tue, 29 Aug
+ 2023 20:09:00 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::47e:3e1f:bef4:20e0]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::47e:3e1f:bef4:20e0%3]) with mapi id 15.20.6699.034; Tue, 29 Aug 2023
+ 20:09:00 +0000
+Message-ID: <410830e4-51ba-0e22-ea73-3a71fbed3643@intel.com>
+Date:   Tue, 29 Aug 2023 13:08:55 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.14.0
+Subject: Re: [PATCH v8 4/8] x86/resctrl: Add comments on RFTYPE flags
+ hierarchy
+Content-Language: en-US
+To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
+        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
+        <quic_jiles@quicinc.com>, <peternewman@google.com>
+References: <20230821233048.434531-1-babu.moger@amd.com>
+ <20230821233048.434531-5-babu.moger@amd.com>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20230821233048.434531-5-babu.moger@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0279.namprd04.prod.outlook.com
+ (2603:10b6:303:89::14) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS0PR11MB8081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b3d9e71-d035-4b3a-3f5a-08dba8cbc874
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: brAz/QP53Lo5zrEqlXC/SvmfJ0zIuP0KaxuZgdqWxC3HKFlytHLHw5nMcOPdab4YL1yppLZyx7hN01IQWevltXlDDtP1QmTad8Gq2P57dYu+mTMiEsys5KPDOKTXqOoT3j0vxYwrbxi21JhismcjC3IXE9tldfop2hQ8+MyhwDlpkEklNUknfIPqDV1xdwVeRgUlvm3sCCmqXBE9k1/wYzf2NuDwvzzcx6B5U6m0hYTwzhtsuFHQogZnbSb9x9lOUoaK9fJWSJagqUWJaVxFXXnZ97Sl7Oq6iaIRDG7DB4PhdLYTqzQ1bxTG0mWZdZsLSAE/NYF6Fn8suaTwoT4rF9NYlpiv7AzfW4qDIztEz5cqJQGbfb97FNGEmqN49d1dHZbzIMPUd/XEKXcRvLjeI+0MgDFSzJf8PtSyG9FMQXnUQeqsrhqgnMMP9vmOP6i+t5HoppjZEeeQFJB7gFmkTGz2xtI9/h6OwxQ1bvb14Gl8hVWpTsE8GJlmnGk5+ZS92Vh6OjOXFr9PKTjCoTryGwb6ETyztJeRJy9SuGFlwQ/05Dd3rjZa9T3g0PBbKoh3vouSO5sKsOi99fu8VxK/8N/oxZu0PQBwQI+SYg6iKkDTZHApomYqCiErVKe00u7CAM9FKdRp/4AWdcUgQ4QWEw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(136003)(346002)(396003)(376002)(451199024)(1800799009)(186009)(26005)(6512007)(38100700002)(316002)(41300700001)(82960400001)(4326008)(7406005)(7416002)(2906002)(31696002)(4744005)(2616005)(86362001)(36756003)(8676002)(44832011)(5660300002)(8936002)(6666004)(6506007)(6486002)(66476007)(66556008)(53546011)(478600001)(66946007)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmNUeDFZS1Z5Smp5MnhLbEZxZ0FUT2VsVTNaWW45OG9uVExnWEJRaTBVekJn?=
+ =?utf-8?B?djlPeUZ1MW9PemVyRWN1WDRjS1dRTCtXQldyWDJnZGk0Zm5xUU1qZ1hUZVZ3?=
+ =?utf-8?B?TTl4TVhYUjU2d3ZsT1BYOE9VdWNwemh0Y2tMNDNWekpzRTVWeXlnM3FSZlBy?=
+ =?utf-8?B?UkdHNTVOQ0R4bU9lWGFrSWlrdVJmQ2ZhdEJEU3NYZXBiaElPd0hycW1CZE52?=
+ =?utf-8?B?NjJFVk16d29KSVdpdVlzOGxidUU3YjFTZXJ6UTN1Yk9xWE91RDZRbWFpcmNG?=
+ =?utf-8?B?ZWZjMlJzOXVwQWdMOWRXbHgraFp6OVVoZ2tweDFCVWpBSldzd2hleGg4dm9m?=
+ =?utf-8?B?amdMZzRWUmpIemh5TkptNUttbUhIcjZBVG5nZlBmVVltOW0xQU1JMjA3TjBH?=
+ =?utf-8?B?MWJMUHN0V0o5R1NFVEZMNmlodmJmNmdZbnYrNUxKUDN2em1TVDhzMW1CZVJG?=
+ =?utf-8?B?UDRUV2hDSlRTTk13SkRvWXRIVExHdXlTNm9QUjgxT3hDMXRuOUJUQ05Ya2Fp?=
+ =?utf-8?B?NDN3eHNsZW9ZRks2U2o5bVpOZjlTQ2pRTTJydFcwVC9HQTRkbU5IRWZkMGpl?=
+ =?utf-8?B?UEhXRlI4VVR2RTluMHF5OFZXdUtEMk5xQnRZRjMwbmdjQ0dLaVVRM2d6N2w2?=
+ =?utf-8?B?enV2cllLMlkzME5KRDdadGFkVnJpNXZsaks3YjBzSlQxck5tcWY0bUFobElk?=
+ =?utf-8?B?dlhqMG1jQ0IzdXcwYm5LUmlMaEx3eTA4Wi85RkNjdlY4ZURCN1pvRU4yQlZL?=
+ =?utf-8?B?akRONWNHa1ZMeGpCK0d2aTZ2eVdPN0pDWHNSZkJkRVdHRGhaaWVvUUdzT1M1?=
+ =?utf-8?B?Rlc1NG9SNWpIZzcweVdOY1g0ckdMcUlDWlhHNnlEV010WjlhN3F2bjdiVjZG?=
+ =?utf-8?B?cmkvNWJyUDZlMWM4ajZyRldqWHM0QWdlam9BeUphYzBaMlA1UnJkVkZhK2FQ?=
+ =?utf-8?B?dzV4WS9NdGx1VTZ6SmRJOVFaRVF0UG83a3JDNk9lMXdRWGw4Z3dLUks3V3Av?=
+ =?utf-8?B?TGF2c2c5ZGZsZE9DbWZ5VlJnVXl6eXBUY3lzTVM4S1NQalpNVE5kOVRJaWww?=
+ =?utf-8?B?UTc1SkZ0ZDdQc3c4OTFUSFlrY3hTMHRHZnhqV1k0VXpSaWpMVFBhZTdwSXVo?=
+ =?utf-8?B?NFZMQTltVXFIYlY4aXlxVkVSYi8wamxvck9mcnhmYXFmaXUvenlVMUJwRUE0?=
+ =?utf-8?B?N01CSC9Pbk9HdG5BME9DQ1hyTm95TU5Xb0l6T2Z1TjNZSmRINGZxUHhyb0N6?=
+ =?utf-8?B?NG1LSU1iWTgrclVPeTJiRFdkMjlaTHpNbHRZUVN6OWtKMXVBYnZJMlc3a3Er?=
+ =?utf-8?B?SkJsZXQwU2NiWnpOMVNjSlJ6bldlbHpXaGZRaEtTNGlrREY3UitNWitGOTF2?=
+ =?utf-8?B?NUtUOVpTbEdVU1VKdnc0ejRIcytPNllhQ0M5Mmh6U3dOOWxtTkdEbVYxRzlJ?=
+ =?utf-8?B?NzNSVE81VityWVM5M0c0RjJEWVlFMmcxZ0h1eWp0WVpYYVNNdDc4dFZwVHhM?=
+ =?utf-8?B?anVNaW9PK2dyUkE1Z0lRQU95L3ZxZ1JVbTQvalc2eW9jWjNVSXBLeW5JNWIx?=
+ =?utf-8?B?WTNaZW82ZGphTXpBRmRZQjRGT0pOK1dzN0txRWNJMHFWVmNxeXJpSTExMy8v?=
+ =?utf-8?B?OFVmaHZSc3EzRDNoSHk1UWNFdGp2UGVqclYzc25ta3dWWTFFbzZ6UjNKQWMz?=
+ =?utf-8?B?ckF3aGhRaWRUK2Y1MEpqaFU0cEM3T0Zia2R3YUdudkVnWE5kQ01aWkN4ZnV6?=
+ =?utf-8?B?ZFh1S3hTZWo2WkdtWUZyOXo1dWMybU9LMTJmSDh4bzBVcTc4d0pXVkNpMVVP?=
+ =?utf-8?B?MndqenQyWkM3dmZMTndFaHUyczV5N09rTzYwWS9vTUptMFpGM2NBb0JIcUZy?=
+ =?utf-8?B?WXZXTmJHb000Y3pLR08zRHNsY1JPUjdwdTROUzdDaTBMSzFXdVZnOVlEM0Zm?=
+ =?utf-8?B?UUlKMFk5WDZuSjl5YVk1TWR2L0ZiNjV6bW1mTVBtSVUvbVB5ZWIyVVJzSzN1?=
+ =?utf-8?B?ZW50VHZhcVp0WUcycTlaNkpGand3WG5ySnhrQVN5aDdWUDJ5c3k2bzBIbnNH?=
+ =?utf-8?B?a2NkekRvclUwQXYrdFdGblJjb3NCemR3RlBqcndScXU5eHhVV0xlYjlWTHhD?=
+ =?utf-8?B?OVFKYmdkZXJZY01hM083dnZLUEwzeWVYdnlVRy9mdHN1eVpJWGVCeUpDV1dF?=
+ =?utf-8?B?c1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b3d9e71-d035-4b3a-3f5a-08dba8cbc874
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 20:09:00.0523
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S9hK+NeJVWhEVvcHHjcRqdutQzVcl5sH90LWhFDLya4zYQ9AbD8apTGpRIe9uK9hZIdHH/LtGZc3Li7uukbM7TSDLOn/SlqTzYoScE8KHsY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8081
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 16, 2023 at 8:52=E2=80=AFPM Liu Song <liusong@linux.alibaba.com=
-> wrote:
->
-> In the arm64 environment, when PAGESIZE is 4K, the "pageblock_nr_pages"
-> value is 512, and the recommended min_free_kbytes in
-> "set_recommended_min_free_kbytes" usually does not exceed 44MB.
->
-> However, when PAGESIZE is 64K, the "pageblock_nr_pages" value is 8192,
-> and the recommended min_free_kbytes in "set_recommended_min_free_kbytes"
-> is 8192 * 2 * (2 + 9) * 64K, which directly increases to 11GB.
->
-> According to this calculation method, due to the modification of min_free=
-_kbytes,
-> the reserved memory in my 128GB memory environment reaches 10GB, and MemA=
-vailable
-> is correspondingly reduced by 10GB.
->
-> In the case of PAGESIZE 64K, transparent hugepages are 512MB, and we only
-> need them to be used on demand. If transparent hugepages cannot be alloca=
-ted,
-> falling back to regular 64K pages is completely acceptable.
->
-> Therefore, we added the transparent_hugepage_recommend_disable parameter
-> to disable active modification of min_free_kbytes, thereby meeting our
-> requirements for transparent hugepages in the 64K scenario, and it will
-> not excessively reduce the available memory.
+Hi Babu,
 
-Thanks for debugging this. I agree 11GB for min_free_kbytes is too
-much. But a kernel parameter sounds overkilling to me either. IMHO we
-just need to have a better scaling for bigger base page size. For
-example, we just keep one or two pageblock for min_free_kbytes when
-the base page size is bigger than 4K.
+On 8/21/2023 4:30 PM, Babu Moger wrote:
+> resctrl uses RFTYPE flags for creating resctrl directory structure.
+> 
+> Definitions and directory structures are not documented. Add
+> comments to improve the readability and help future additions.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 
->
-> Signed-off-by: Liu Song <liusong@linux.alibaba.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  5 +++++
->  mm/khugepaged.c                               | 20 ++++++++++++++++++-
->  2 files changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 654d0d921101..612bdf601cce 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6553,6 +6553,11 @@
->                         See Documentation/admin-guide/mm/transhuge.rst
->                         for more details.
->
-> +       transparent_hugepage_recommend_disable
-> +                       [KNL,THP]
-> +                       Can be used to disable transparent hugepage to ac=
-tively modify
-> +                       /proc/sys/vm/min_free_kbytes during enablement pr=
-ocess.
-> +
->         trusted.source=3D [KEYS]
->                         Format: <string>
->                         This parameter identifies the trust source as a b=
-ackend
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 78fc1a24a1cc..ac40c618f4f6 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -88,6 +88,9 @@ static unsigned int khugepaged_max_ptes_none __read_mos=
-tly;
->  static unsigned int khugepaged_max_ptes_swap __read_mostly;
->  static unsigned int khugepaged_max_ptes_shared __read_mostly;
->
-> +/* default enable recommended */
-> +static unsigned int transparent_hugepage_recommend __read_mostly =3D 1;
-> +
->  #define MM_SLOTS_HASH_BITS 10
->  static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
->
-> @@ -2561,6 +2564,11 @@ static void set_recommended_min_free_kbytes(void)
->                 goto update_wmarks;
->         }
->
-> +       if (!transparent_hugepage_recommend) {
-> +               pr_info("do not allow to recommend modify min_free_kbytes=
-\n");
-> +               return;
-> +       }
-> +
->         for_each_populated_zone(zone) {
->                 /*
->                  * We don't need to worry about fragmentation of
-> @@ -2591,7 +2599,10 @@ static void set_recommended_min_free_kbytes(void)
->
->         if (recommended_min > min_free_kbytes) {
->                 if (user_min_free_kbytes >=3D 0)
-> -                       pr_info("raising min_free_kbytes from %d to %lu t=
-o help transparent hugepage allocations\n",
-> +                       pr_info("raising user specified min_free_kbytes f=
-rom %d to %lu to help transparent hugepage allocations\n",
-> +                               min_free_kbytes, recommended_min);
-> +               else
-> +                       pr_info("raising default min_free_kbytes from %d =
-to %lu to help transparent hugepage allocations\n",
->                                 min_free_kbytes, recommended_min);
->
->                 min_free_kbytes =3D recommended_min;
-> @@ -2601,6 +2612,13 @@ static void set_recommended_min_free_kbytes(void)
->         setup_per_zone_wmarks();
->  }
->
-> +static int __init setup_transparent_hugepage_recommend_disable(char *str=
-)
-> +{
-> +       transparent_hugepage_recommend =3D 0;
-> +       return 1;
-> +}
-> +__setup("transparent_hugepage_recommend_disable", setup_transparent_huge=
-page_recommend_disable);
-> +
->  int start_stop_khugepaged(void)
->  {
->         int err =3D 0;
-> --
-> 2.19.1.6.gb485710b
->
->
+After the typo that Shaopeng pointed out is fixed you
+can add:
+
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+
+Reinette
