@@ -2,89 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB64FC83F01
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E324DC83F21
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238422AbjH3Shp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S238409AbjH3Shp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 30 Aug 2023 14:37:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48252 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244555AbjH3NUj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 09:20:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC48CD6;
-        Wed, 30 Aug 2023 06:20:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC40062000;
-        Wed, 30 Aug 2023 13:20:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B455FC433AB;
-        Wed, 30 Aug 2023 13:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693401634;
-        bh=7gwrtueLyswihMZE2JPWq840cyLUSNmg9lpfnOQrhcA=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=e6k88Cc/TU9FsjqPbaaGCT3TAzQdnDwcDOCQJGAriL1cZQXOG4+kR1DdXkS48R6M7
-         Qxba6cHLNS3Ao3zXNddcWauycZsPvdoqu4L5M8bJ9ssjb33I78NaKVtyMgVwOyz9gY
-         a4/QeqIQ0Jq03INtemWCeDpxp7083w0LCObbld2ORbGY3WB67LDE0OmdVU6VaI5Mpz
-         n/nXRXvpdXcRG31hJitTpXeVjEqGZJetn0ueGsKq/0gPfvIQOm5DHGzIAjep9bnQGj
-         HOsRt/kTDI6PA54ysAZ1ss0laEbbCqT53KBmN2Xt72Pjo0djq7zRkp85DfC+IRtz/s
-         kdicHPHCKDg3w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9C9A9E49FAF;
-        Wed, 30 Aug 2023 13:20:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S244371AbjH3NGA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 09:06:00 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C632185
+        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 06:05:33 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-68bed286169so4720603b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 06:05:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1693400733; x=1694005533; darn=vger.kernel.org;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=AuHbSOFTvqi/OHC2pMXhUQiesWAhfO/K/9P+//bPFUg=;
+        b=LhAou4jea0x7J/vj7NCyJvNI4GhK7c3nOds7/dYxsUKo84EXHV/3HKdgz3wjepTaWL
+         HK8OYEpLi7xpn3BlbXsXy4xnT0Z8YU+q4VTJqjy1otBtJLkhai1FUtxDKgnFysgViUQ+
+         mh1GCaqTpNb3qMbWGGJzy0PciDE2vX/p4iMW/9aHDj0zxXtFOC8ZZKZfYDrUSXFZH6wM
+         Iqf64uGy0qjI5I2Epu47fBcjIOQaXLZjSmJVtuWcTuyUWvbtuh1n94JgYPj+oRz/ZPBu
+         Y/gjvnJI0866Q32N5JDwdUmOw1QpvXpCOWN5037HLMK90lCx0HoYiAuURshqu+Bvi6Qw
+         qwqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693400733; x=1694005533;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AuHbSOFTvqi/OHC2pMXhUQiesWAhfO/K/9P+//bPFUg=;
+        b=ETz/DIuXkuHn9nkEYuxY9fzglHrhbhStSje35bpKqMAX7GZrumDRa3tDtoZSZkVxiF
+         WpOdyGXYQr4+CXfDr1tZHsa3fZX5NkhpLFNy6w2T/l1hUVrJJ8ufWcYOAwqeC2OzBnJ2
+         7XByZe342Dx882XkC2DON/umzeY/SeIb1xePui6CAtYdZ1m3dmscJEdYhvqTQuNO/mES
+         I2m3JpYK2dV4CNV3kVicAAuDNOP9LckDLXSqtY+FD2HPsPNm2dLRb3D5YtNf0HTs+Cve
+         O0yAOiY3tsj6mv9mst1WMAadqF9yubheW50LkyCN6Hs2Fd+8ljCCXNnZm+6GcvEmWNdW
+         0HNg==
+X-Gm-Message-State: AOJu0YwyRWtmMbt9uQjooW9LV75KHgTb9WXb8o/x1zljg55orQ6sN67e
+        +jGHL3jNB+04KH+U5ONBDHxTog==
+X-Google-Smtp-Source: AGHT+IHOlCMheE29etxNdfLTa0p9kkStvYGizf583zwnKOEZy1gdmtrymts1JN6BymfKY+O+N4WM7A==
+X-Received: by 2002:a05:6a00:1342:b0:68a:45a1:c0ee with SMTP id k2-20020a056a00134200b0068a45a1c0eemr2497862pfu.15.1693400732856;
+        Wed, 30 Aug 2023 06:05:32 -0700 (PDT)
+Received: from [10.254.254.90] ([139.177.225.231])
+        by smtp.gmail.com with ESMTPSA id j22-20020a62b616000000b006889664aa6csm10047615pff.5.2023.08.30.06.05.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Aug 2023 06:05:30 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------OVtgML5C81J3Y8tXZzsRAyY0"
+Message-ID: <25696c65-f8a7-c2e2-81ea-955c280fd478@bytedance.com>
+Date:   Wed, 30 Aug 2023 21:05:22 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v10 0/4] RISC-V: mm: Make SV48 the default address space
-From:   patchwork-bot+linux-riscv@kernel.org
-Message-Id: <169340163463.19859.14293662814940071934.git-patchwork-notify@kernel.org>
-Date:   Wed, 30 Aug 2023 13:20:34 +0000
-References: <20230809232218.849726-1-charlie@rivosinc.com>
-In-Reply-To: <20230809232218.849726-1-charlie@rivosinc.com>
-To:     Charlie Jenkins <charlie@rivosinc.com>
-Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org,
-        alexghiti@rivosinc.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [PATCH v2 0/6] Introduce __mt_dup() to improve the performance of
+ fork()
+To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
+        willy@infradead.org, brauner@kernel.org, surenb@google.com,
+        michael.christie@oracle.com, peterz@infradead.org,
+        mathieu.desnoyers@efficios.com, npiggin@gmail.com, avagin@gmail.com
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+In-Reply-To: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+This is a multi-part message in MIME format.
+--------------OVtgML5C81J3Y8tXZzsRAyY0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+See the attachment for the slightly modified benchmark.
+--------------OVtgML5C81J3Y8tXZzsRAyY0
+Content-Type: text/plain; charset=UTF-8; name="spawn.c"
+Content-Disposition: attachment; filename="spawn.c"
+Content-Transfer-Encoding: base64
 
-On Wed,  9 Aug 2023 16:22:00 -0700 you wrote:
-> Make sv48 the default address space for mmap as some applications
-> currently depend on this assumption. Users can now select a
-> desired address space using a non-zero hint address to mmap. Previously,
-> requesting the default address space from mmap by passing zero as the hint
-> address would result in using the largest address space possible. Some
-> applications depend on empty bits in the virtual address space, like Go and
-> Java, so this patch provides more flexibility for application developers.
-> 
-> [...]
+LyoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioKICogIFRoZSBCWVRFIFVOSVggQmVuY2htYXJr
+cyAtIFJlbGVhc2UgMwogKiAgICAgICAgICBNb2R1bGU6IHNwYXduLmMgICBTSUQ6IDMuMyA1
+LzE1LzkxIDE5OjMwOjIwCiAqCiAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqCiAqIEJ1ZyBy
+ZXBvcnRzLCBwYXRjaGVzLCBjb21tZW50cywgc3VnZ2VzdGlvbnMgc2hvdWxkIGJlIHNlbnQg
+dG86CiAqCiAqCUJlbiBTbWl0aCwgUmljayBHcmVoYW4gb3IgVG9tIFlhZ2VyYXQgQllURSBN
+YWdhemluZQogKgliZW5AYnl0ZXBiLmJ5dGUuY29tICAgcmlja19nQGJ5dGVwYi5ieXRlLmNv
+bSAgIHR5YWdlckBieXRlcGIuYnl0ZS5jb20KICoKICoqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioKICogIE1vZGlmaWNhdGlvbiBMb2c6CiAqICAkSGVhZGVyOiBzcGF3bi5jLHYgMy40IDg3
+LzA2LzIyIDE0OjMyOjQ4IGtqbWNkb25lbGwgQmV0YSAkCiAqICBBdWd1c3QgMjksIDE5OTAg
+LSBNb2RpZmllZCB0aW1pbmcgcm91dGluZXMgKHR5KQogKiAgT2N0b2JlciAyMiwgMTk5NyAt
+IGNvZGUgY2xlYW51cCB0byByZW1vdmUgQU5TSSBDIGNvbXBpbGVyIHdhcm5pbmdzCiAqICAg
+ICAgICAgICAgICAgICAgICAgQW5keSBLYWhuIDxrYWhuQHprMy5kZWMuY29tPgogKgogKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqLwpjaGFyIFNDQ1NpZFtdID0gIkAoIykgQCgjKXNwYXdu
+LmM6My4zIC0tIDUvMTUvOTEgMTk6MzA6MjAiOwovKgogKiAgUHJvY2VzcyBjcmVhdGlvbgog
+KgogKi8KCiNpbmNsdWRlIDxzdGRpby5oPgojaW5jbHVkZSA8c3RkbGliLmg+CiNpbmNsdWRl
+IDxzaWduYWwuaD4KI2luY2x1ZGUgPHVuaXN0ZC5oPgojaW5jbHVkZSA8c3lzL3dhaXQuaD4K
+I2luY2x1ZGUgPHN5cy9tbWFuLmg+Cgp2b2xhdGlsZSBpbnQgc3RvcDsKdW5zaWduZWQgbG9u
+ZyBpdGVyOwoKdm9pZCB3YWtlX21lKGludCBzZWNvbmRzLCB2b2lkICgqZnVuYykoKSkKewoJ
+Lyogc2V0IHVwIHRoZSBzaWduYWwgaGFuZGxlciAqLwoJc2lnbmFsKFNJR0FMUk0sIGZ1bmMp
+OwoJLyogZ2V0IHRoZSBjbG9jayBydW5uaW5nICovCglhbGFybShzZWNvbmRzKTsKfQoKdm9p
+ZCByZXBvcnQoKQp7CglmcHJpbnRmKHN0ZGVyciwiQ09VTlQ6ICVsdVxuIiwgaXRlcik7Cglp
+dGVyID0gMDsKCXN0b3AgPSAxOwp9Cgp2b2lkIHNwYXduKCkKewoJaW50IHN0YXR1cywgc2xh
+dmU7CgoJd2hpbGUgKCFzdG9wKSB7CgkJaWYgKChzbGF2ZSA9IGZvcmsoKSkgPT0gMCkgewoJ
+CQkvKiBzbGF2ZSAuLiBib3JpbmcgKi8KCQkJZXhpdCgwKTsKCQl9IGVsc2UgaWYgKHNsYXZl
+IDwgMCkgewoJCQkvKiB3b29wcyAuLi4gKi8KCQkJZnByaW50ZihzdGRlcnIsIkZvcmsgZmFp
+bGVkIGF0IGl0ZXJhdGlvbiAlbHVcbiIsIGl0ZXIpOwoJCQlwZXJyb3IoIlJlYXNvbiIpOwoJ
+CQlleGl0KDIpOwoJCX0gZWxzZQoJCQkvKiBtYXN0ZXIgKi8KCQkJd2FpdCgmc3RhdHVzKTsK
+CQlpZiAoc3RhdHVzICE9IDApIHsKCQkJZnByaW50ZihzdGRlcnIsIkJhZCB3YWl0IHN0YXR1
+czogMHgleFxuIiwgc3RhdHVzKTsKCQkJZXhpdCgyKTsKCQl9CgkJaXRlcisrOwoJfQp9Cgpp
+bnQgbWFpbihpbnQgYXJnYywgY2hhcgkqYXJndltdKQp7CglpbnQgZHVyYXRpb24sIG5yX3Zt
+YXMgPSAwOwoJc2l6ZV90IHNpemU7Cgl2b2lkICphZGRyOwoKCWlmIChhcmdjICE9IDIpIHsK
+CQlmcHJpbnRmKHN0ZGVyciwiVXNhZ2U6ICVzIGR1cmF0aW9uIFxuIiwgYXJndlswXSk7CgkJ
+ZXhpdCgxKTsKCX0KCWR1cmF0aW9uID0gYXRvaShhcmd2WzFdKTsKCglzaXplID0gMTAgKiBn
+ZXRwYWdlc2l6ZSgpOwoJZm9yIChpbnQgaSA9IDA7IGkgPD0gNzAwMDsgKytpKSB7CgkJaWYg
+KGkgPT0gbnJfdm1hcykgewoJCQlzdG9wID0gMDsKCQkJZnByaW50ZihzdGRlcnIsIlZNQXM6
+ICVkXG4iLCBpKTsKCQkJd2FrZV9tZShkdXJhdGlvbiwgcmVwb3J0KTsKCQkJc3Bhd24oKTsK
+CQkJaWYgKG5yX3ZtYXMgPT0gMCkKCQkJCW5yX3ZtYXMgPSAxMDA7CgkJCWVsc2UgbnJfdm1h
+cyAqPSAyOwoJCX0KCQlhZGRyID0gbW1hcChOVUxMLCBzaXplLCBpICYgMSA/IFBST1RfUkVB
+RCA6IFBST1RfV1JJVEUsCgkJCU1BUF9QUklWQVRFIHwgTUFQX0FOT05ZTU9VUywgLTEsIDAp
+OwoKCQlpZiAoYWRkciA9PSBNQVBfRkFJTEVEKSB7CgkJCXBlcnJvcigibW1hcCIpOwoJCQll
+eGl0KDIpOwoJCX0KCX0KfQo=
 
-Here is the summary with links:
-  - [v10,1/4] RISC-V: mm: Restrict address space for sv39,sv48,sv57
-    https://git.kernel.org/riscv/c/add2cc6b6515
-  - [v10,2/4] RISC-V: mm: Add tests for RISC-V mm
-    https://git.kernel.org/riscv/c/4d0c04eac0c2
-  - [v10,3/4] RISC-V: mm: Update pgtable comment documentation
-    https://git.kernel.org/riscv/c/26eee2bfc477
-  - [v10,4/4] RISC-V: mm: Document mmap changes
-    https://git.kernel.org/riscv/c/7998abe69d3c
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+--------------OVtgML5C81J3Y8tXZzsRAyY0--
