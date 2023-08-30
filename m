@@ -2,122 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F941C83F19
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA99C83F1A
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238533AbjH3Shy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:37:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60258 "EHLO
+        id S238504AbjH3Shw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244316AbjH3M5u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 08:57:50 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C131A2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:46 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1c1f8aaab9aso17946815ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1693400266; x=1694005066; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2nBO87JODOc2vxfEDdYbEmz2onn6zs2zxUKCCOpJdk0=;
-        b=ZrmpUQzKwPGg4ygFxX3/Sd2+3b7Vd3uIX43oPFzWowCcl8lQXHkDPyQ5MNNs9T2YgJ
-         /TZE6L4kvi8wF8DOsbcfDENR/8yx76nsIUbdA1gtbC+LPgaADGUa2F+/M/V+ffta8BfE
-         Hg+RPW6+dih/PTd9oIrKn9e9LuAGIKCGOAPzmRMBkMN9HC8hq7d+DW8jhn/Yh1NkOKYR
-         yptavTQhuM7k0tqhR2Lb8YCALxsCo4KiXKdVk0s52iNLpB3GQeswP6oS0YjqP1Pq42Sr
-         vyMLCjQuYnkU208i0gqNzhw9hNN5s2qBc2qJqwN3aJ9Gz6qZW+O/mjLDmb+6nvhKjtd2
-         K7Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693400266; x=1694005066;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2nBO87JODOc2vxfEDdYbEmz2onn6zs2zxUKCCOpJdk0=;
-        b=AaIiHYZMppAONrGn0ejpeA0BKUUWTXBhyhJVhhUIEU6JVA6xvV0KAouVWYLBIeFYl4
-         jRdziTMXH8Pds/C1pCf9Jn1mCmq06Sz5JXdbct8SFc8RfghwGxQhxqvAFPfCINFbjpQA
-         8xRnzT1mVlzqBEP96CgBqwj9s6XLKLt9HPJWVyyMjGMATMA+16oo2el2o7XAZPGwWseO
-         XTtDFIDk3jwugla0lKi9QKpmMkEKh7g49uzRfcRiLpVjZO4nIubru+uBeq+RALxdFjwZ
-         H//EPDt8g/YoQy4indmEBaoULaWzBEG/jHCzSgOZw+atKi4b5g12mp1lywmeAfBV9/O3
-         C9sw==
-X-Gm-Message-State: AOJu0YyeAWSc3yDDsbPORReDwcgmmwi1IjViLR2lIuIPR35GLolDcpQ0
-        cmtdaQtT+qB5kBVONStLuaLqHA==
-X-Google-Smtp-Source: AGHT+IGx3EmrDiZTTIfJpOeK4JOagyqHaEyqo+fM7q0DuUUO076LoLX7sVQJgZT4uYkTB/BqJlAAiQ==
-X-Received: by 2002:a17:903:268a:b0:1b8:7e53:704 with SMTP id jf10-20020a170903268a00b001b87e530704mr1893310plb.27.1693400265985;
-        Wed, 30 Aug 2023 05:57:45 -0700 (PDT)
-Received: from GL4FX4PXWL.bytedance.net ([139.177.225.247])
-        by smtp.gmail.com with ESMTPSA id iw1-20020a170903044100b001bbd8cf6b57sm11023265plb.230.2023.08.30.05.57.40
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 30 Aug 2023 05:57:45 -0700 (PDT)
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
-        willy@infradead.org, brauner@kernel.org, surenb@google.com,
-        michael.christie@oracle.com, peterz@infradead.org,
-        mathieu.desnoyers@efficios.com, npiggin@gmail.com, avagin@gmail.com
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Peng Zhang <zhangpeng.00@bytedance.com>
-Subject: [PATCH v2 4/6] maple_tree: Skip other tests when BENCH is enabled
-Date:   Wed, 30 Aug 2023 20:56:52 +0800
-Message-Id: <20230830125654.21257-5-zhangpeng.00@bytedance.com>
-X-Mailer: git-send-email 2.37.0 (Apple Git-136)
-In-Reply-To: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
-References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+        with ESMTP id S244083AbjH3McM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 08:32:12 -0400
+Received: from TWMBX03.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57148CCF;
+        Wed, 30 Aug 2023 05:32:07 -0700 (PDT)
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 30 Aug
+ 2023 20:32:06 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 30 Aug 2023 20:32:06 +0800
+From:   Billy Tsai <billy_tsai@aspeedtech.com>
+To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <corbet@lwn.net>, <thierry.reding@gmail.com>,
+        <u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+        <billy_tsai@aspeedtech.com>, <naresh.solanki@9elements.com>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        <BMC-SW@aspeedtech.com>, <patrick@stwcx.xyz>
+Subject: [PATCH v8 0/3] Support pwm/tach driver for aspeed ast26xx
+Date:   Wed, 30 Aug 2023 20:31:59 +0800
+Message-ID: <20230830123202.3408318-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Skip other tests when BENCH is enabled so that performance can be
-measured in user space.
+Unlike the old design that the register setting of the TACH should based
+on the configure of the PWM. In ast26xx, the dependency between pwm and
+tach controller is eliminated and becomes a separate hardware block. One
+is used to provide pwm output and another is used to monitor the frequency
+of the input. This driver implements them by exposing two kernel
+subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside
+existing drivers for controlling elements such as fans (pwm-fan.c),
+beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the driver
+provides sysfs interfaces for fan.
 
-Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
----
- lib/test_maple_tree.c            | 8 ++++----
- tools/testing/radix-tree/maple.c | 2 ++
- 2 files changed, 6 insertions(+), 4 deletions(-)
+Changes since v7:
+Cherry-pick the fan-common.yaml and add the following properties:
+- min-rpm
+- div
+- mode
+- tach-ch
+Fix the warning which is reported by the kernel test robot.
 
-diff --git a/lib/test_maple_tree.c b/lib/test_maple_tree.c
-index 0674aebd4423..0ec0c6a7c0b5 100644
---- a/lib/test_maple_tree.c
-+++ b/lib/test_maple_tree.c
-@@ -3514,10 +3514,6 @@ static int __init maple_tree_seed(void)
- 
- 	pr_info("\nTEST STARTING\n\n");
- 
--	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
--	check_root_expand(&tree);
--	mtree_destroy(&tree);
--
- #if defined(BENCH_SLOT_STORE)
- #define BENCH
- 	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
-@@ -3575,6 +3571,10 @@ static int __init maple_tree_seed(void)
- 	goto skip;
- #endif
- 
-+	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
-+	check_root_expand(&tree);
-+	mtree_destroy(&tree);
-+
- 	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
- 	check_iteration(&tree);
- 	mtree_destroy(&tree);
-diff --git a/tools/testing/radix-tree/maple.c b/tools/testing/radix-tree/maple.c
-index 38455916331e..57f153b8bf4b 100644
---- a/tools/testing/radix-tree/maple.c
-+++ b/tools/testing/radix-tree/maple.c
-@@ -36282,7 +36282,9 @@ void farmer_tests(void)
- 
- void maple_tree_tests(void)
- {
-+#if !defined(BENCH)
- 	farmer_tests();
-+#endif
- 	maple_tree_seed();
- 	maple_tree_harvest();
- }
+Changes since v6:
+Consolidate the PWM and TACH functionalities into a unified driver.
+
+Changes since v5:
+- pwm/tach:
+  - Remove the utilization of common resources from the parent node.
+  - Change the concept to 16 PWM/TACH controllers, each with one channel,
+  instead of 1 PWM/TACH controller with 16 channels.
+- dt-binding:
+  - Eliminate the usage of simple-mfd.
+
+Changes since v4:
+- pwm:
+  - Fix the return type of get_status function.
+- tach:
+  - read clk source once and re-use it
+  - Remove the constants variables
+  - Allocate tach_channel as array
+  - Use dev->parent
+- dt-binding:
+  - Fix the order of the patches
+  - Add example and description for tach child node
+  - Remove pwm extension property
+
+Changes since v3:
+- pwm:
+  - Remove unnecessary include header
+  - Fix warning Prefer "GPL" over "GPL v2"
+- tach:
+  - Remove the paremeter min_rpm and max_rpm and return the tach value 
+  directly without any polling or delay.
+  - Fix warning Prefer "GPL" over "GPL v2"
+- dt-binding:
+  - Replace underscore in node names with dashes
+  - Split per subsystem
+
+Changes since v2:
+- pwm:
+  - Use devm_* api to simplify the error cleanup
+  - Fix the multi-line alignment problem
+- tach:
+  - Add tach-aspeed-ast2600 to index.rst
+  - Fix the multi-line alignment problem
+  - Remove the tach enable/disable when read the rpm
+  - Fix some coding format issue
+
+Changes since v1:
+- tach:
+  - Add the document tach-aspeed-ast2600.rst
+  - Use devm_* api to simplify the error cleanup.
+  - Change hwmon register api to devm_hwmon_device_register_with_info
+
+Billy Tsai (2):
+  dt-bindings: hwmon: Support Aspeed g6 PWM TACH Control
+  hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
+
+Naresh Solanki (1):
+  dt-bindings: hwmon: fan: Add fan binding to schema
+
+ .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    |  67 +++
+ .../devicetree/bindings/hwmon/fan-common.yaml |  63 +++
+ Documentation/hwmon/aspeed-g6-pwm-tach.rst    |  26 +
+ Documentation/hwmon/index.rst                 |   1 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/aspeed-g6-pwm-tach.c            | 528 ++++++++++++++++++
+ 7 files changed, 697 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.yaml
+ create mode 100644 Documentation/hwmon/aspeed-g6-pwm-tach.rst
+ create mode 100644 drivers/hwmon/aspeed-g6-pwm-tach.c
+
 -- 
-2.20.1
+2.25.1
 
