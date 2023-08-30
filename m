@@ -2,282 +2,234 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A06C83F1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16573C83F17
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238519AbjH3Shx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S238525AbjH3Shx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 30 Aug 2023 14:37:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42202 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344001AbjH3Rzd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 13:55:33 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B3E3193
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 10:55:29 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-31aeef88a55so4880255f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 10:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1693418127; x=1694022927; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YmQ2MoNhzEr+YuyoVMHgEFmPqeMcMuiCUmdWY8clz8w=;
-        b=YCiq13hH41A6jbxxSrrVLWtdoED84VxLNS4aatc6VpfKrNWXKsR4jqCUBLGIfLH5Fq
-         cCOdWyL3u/BS5z/C+F3NFhLCeXtAaRKQpZqgtiv9kQgUH2KqLV4uerMfTuaoVmyYEw0C
-         ahUhQk0dcUrB4QOpYYoRpVvKhI3V1n6C4pSO//rqtcRRvf+KlJkCHYGCwuM+kPvsAY2d
-         x7pGLczufxQuUtfsnxRqAAwOCBnKf6GwExbuQq6GfIrFIyg8F7ZNo+zUh7zp2W7HXnib
-         VTn1CaG+bY2f2lDT+X4NZqTRSrczG0aQjizYoHANxHZ28K9aV/2Blf8Zt9pLgQKM45yE
-         u9Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693418127; x=1694022927;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YmQ2MoNhzEr+YuyoVMHgEFmPqeMcMuiCUmdWY8clz8w=;
-        b=cwZag64r+PTPIh+YJkkhcmSFGv0pyKBnSQOjwZgZTXoLq7l5k3KLaA89rX3zgOR72q
-         fPVpZPUoKnXLUJxJxll2vHDS9Y+EiV7BiQXYapC/WeBOFBFLHo6wXviiR4E1Xc4saq7N
-         yUTzYwIAYxNGOId4bi71NEH8XQwqAqCNfDDoAL99c9Q8LjjutzYs7qCGRYwdqU+PMilp
-         Jz84t0w+4wZDgZzg8yJBm1H5r5zvqX91+Gr4U1N5cYkgkq2NYZLZF1sn1mL6dmuuXV6B
-         E71F3VUVqRb9nI1T8CcyOP832Xc/UcVdyYrpjwtHv3joxQ1ZEkYPb55bnUVTjmFzsO62
-         5x4g==
-X-Gm-Message-State: AOJu0YzQ+NqULr1w7PGn0zS8aEkUnGHHm2k66SFvA/Hmr61D8Rpoxwzv
-        f1bzjrqHuUQBGcqhKjufaDtlkg==
-X-Google-Smtp-Source: AGHT+IFXsFgR+tmPtm38ZlRVYhxslbRFJdsH4JOYvx35ERaaS6F+AyFw/k5jhjXcltzBM4OYBEwI6A==
-X-Received: by 2002:adf:dcce:0:b0:315:ad1a:5abc with SMTP id x14-20020adfdcce000000b00315ad1a5abcmr2044751wrm.5.1693418127398;
-        Wed, 30 Aug 2023 10:55:27 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id x8-20020a5d60c8000000b0031c52e81490sm17301023wrt.72.2023.08.30.10.55.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 10:55:26 -0700 (PDT)
-Date:   Wed, 30 Aug 2023 19:55:25 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
-Message-ID: <20230830-ae09c1dd0bc8b21f0dcdbc9a@orel>
-References: <20230711201831.2695097-1-evan@rivosinc.com>
- <20230829-e445d0bdff78969cc33a6263@orel>
- <CALs-HsuTySr0ZojRtBeU3F6hd82UeNWNupaQpEULVqxf2jqzww@mail.gmail.com>
- <20230830-86f54e19392767c02d8d3146@orel>
- <CALs-HsuCx_UH4oiFEq7arrAjRFtGe7So07ur-pwvafw3a0QyEw@mail.gmail.com>
+        with ESMTP id S244594AbjH3NZI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 09:25:08 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A10B9137;
+        Wed, 30 Aug 2023 06:25:04 -0700 (PDT)
+Received: from [192.168.68.123] (unknown [177.134.102.128])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 36740660722B;
+        Wed, 30 Aug 2023 14:24:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1693401903;
+        bh=G/DHKFUG7s0qMAoyav81I+mbhLCoFwsZk7/P9oL6Tkg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=eE5ohWBLy6eMUr8erFWuKbia8CRNxVUorscR+ubvEICkLpG53tedgk83frCQ+ekwT
+         rRZXOPhonx8dZ0R3nhDaH5PyrfAVJqY3zbgXI/34LITcqHgj4tkT8k+FaDEAdnY8PQ
+         18ebb8g0aCiinTB3Xixb9FHoe8VPfnbKBXp5YXySHK2UuVE/LFLJ0KIJoKa8sH3Nae
+         Y5Fw5mfYfncBZxgoIWp/AiiqHfNFwH3n0dtcQtX3i1c0mhiwc9amSfzTXus7/TPRKv
+         4SBJ8ovIxii+kDnpBI0cmJzi65sPSNDzxnnTWWV0x4dvLv5z6M0mdw9a1VRbthFpoM
+         73ERVurapcECw==
+Message-ID: <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
+Date:   Wed, 30 Aug 2023 10:24:49 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALs-HsuCx_UH4oiFEq7arrAjRFtGe7So07ur-pwvafw3a0QyEw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+Content-Language: en-US
+To:     Maxime Ripard <mripard@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     emma@anholt.net, linux-doc@vger.kernel.org,
+        david.heidelberg@collabora.com, dri-devel@lists.freedesktop.org,
+        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
+        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
+        gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
+        daniels@collabora.com, martin.blumenstingl@googlemail.com,
+        robclark@freedesktop.org, anholt@google.com,
+        linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de, alyssa@rosenzweig.io,
+        vignesh.raman@collabora.com
+References: <20230811171953.176431-1-helen.koike@collabora.com>
+ <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
+ <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
+ <87bkeo23vs.fsf@intel.com>
+ <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+From:   Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 10:33:04AM -0700, Evan Green wrote:
-> On Wed, Aug 30, 2023 at 2:03 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Tue, Aug 29, 2023 at 10:20:04AM -0700, Evan Green wrote:
-> > > On Tue, Aug 29, 2023 at 1:48 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> > > >
-> > > > Hi Evan,
-> > > >
-> > > > Here's my stab at new wording.
-> > > >
-> > > > On Tue, Jul 11, 2023 at 01:18:30PM -0700, Evan Green wrote:
-> > > > ...
-> > > > > diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
-> > > > > index 8960fac42c40..afdda580e5a2 100644
-> > > > > --- a/Documentation/riscv/uabi.rst
-> > > > > +++ b/Documentation/riscv/uabi.rst
-> > > > > @@ -42,6 +42,16 @@ An example string following the order is::
-> > > > >
-> > > > >     rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
-> > > > >
-> > > > > +"isa" vs "hart isa" lines in /proc/cpuinfo
-> > > > > +------------------------------------------
-> > > > > +
-> > > > > +The "isa" line in /proc/cpuinfo describes the lowest common denominator of
-> > > > > +RISC-V ISA extensions understood by the kernel and implemented on all harts. The
-> > > > > +"hart isa" line, in contrast, describes the set of extensions understood by the
-> > > > > +kernel on the particular hart being described, even if those extensions may not
-> > > > > +be present on all harts in the system. The "hart isa" line is consistent with
-> > > > > +what's returned by __riscv_hwprobe() when querying for that specific CPU.
-> > > > > +
-> > > >
-> > > > The "isa" and "hart isa" lines in /proc/cpuinfo list RISC-V ISA extensions
-> > > > which the kernel can identify (the kernel recognizes the extension's name)
-> > > > and have not been filtered out due to effectively not being present.  An
-> > > > extension is effectively not present when it is unusable, either due to
-> > > > defects (which the kernel is aware of), due to missing information which
-> > > > is necessary to complete the extension's description, or due to being
-> > > > explicitly "hidden", such as when a kernel command line parameter
-> > > > instructs the kernel to pretend the extension is not present.  Note, an
-> > > > extension's presence in a list does not imply the kernel is using the
-> > > > extension, nor does it imply that userspace or guest kernels may use the
-> > > > extension (__riscv_hwprobe() should be queried for userspace usability.
-> > > > The hypervisor should be queried, using hypervisor-specific APIs, to
-> > > > check guest kernel usability.)
-> > > >
-> > > > The "isa" line describes the lowest common denominator of extensions,
-> > > > which are the extensions implemented on all harts.  In contrast, the
-> > > > extensions listed in the "hart isa" line need not be implemented by
-> > > > any other hart than the hart corresponding to the line.
-> > > >
-> > > > ---
-> > > >
-> > > > I've specifically dropped the 'The "hart isa" line is consistent with
-> > > > what's returned by __riscv_hwprobe()...' part because I suspect hwprobe
-> > > > could at least lag what gets put in "hart isa", since the kernel may be
-> > > > taught about an extension for a different purpose first, neglecting
-> > > > hwprobe. And, there may be cases that hwprobe never enumerates an
-> > > > extension which the kernel does.
-> > >
-> > > Thanks for this. My v5 had also dropped the hwprobe part. A few thoughts:
-> > >
-> > >  * It seems like you want to make sure we call out the fact that the
-> > > kernel may trim out, for various reasons, ISA extensions that the
-> > > hardware does in fact support. This seems reasonable, but I don't
-> > > think we need to enumerate the complete list of "why" this might
-> > > happen, as that list is likely to go stale.
-> >
-> > I agree it's better to not [try to] list all the possibilities, assuming
-> > we can come up with good, general words to capture the idea.
-> >
-> > >  * The "kernel is using the extension" part is a slightly confusing
-> > > perspective in this context, as it sort of implies the kernel has its
-> > > own agenda :). I'd expect users looking at /proc/cpuinfo are mostly
-> > > trying to figure out what extensions they themselves can use, and the
-> > > kernel's behavior factors in only insofar as it's required to support
-> > > the user in using a feature. Mostly I guess this is a phrasing nit.
-> >
-> > We'll have plenty of S-mode extensions listed in these strings. Users
-> > who recognize S-mode extensions may want to know if they're listed because
-> > the kernel is applying them (and wouldn't be listed otherwise), or whether
-> > they're listed simply because they exist on the hart(s).
-> 
-> I see. You're right I was thinking only about U-mode extensions.
-> 
-> >
-> > >  * The bringing up of guest kernels also seems confusing to me in the
-> > > context of /proc/cpuinfo. I'd expect discussions on how host ISA
-> > > extensions filter into guest OSes to be in a hypervisor-specifc
-> > > document, or at least a section dedicated to virtualization.
-> >
-> > If there weren't S-mode extensions being listed, then I would agree,
-> > but, since there are, it seems odd to not explain what it means for
-> > them to be there wrt host and guest kernels.
-> 
-> I'm not a virtualization guy, but my impression was people didn't have
-> expectations that everything they saw in cpuinfo would be wholesale
-> presented to guest VMs. There's always that layer of hypervisor
-> configuration that may strip out some features. So I'm still not super
-> convinced guest VMs need a carveout/caveat here, but let me see if I
-> can fold it in.
-> 
-> >
-> > >  * I hesitated in adding prescriptive guidance on what users should
-> > > do, as I think this section will hold up better over time if it just
-> > > describes current characteristics, rather than attempting to prescribe
-> > > behavior. If we want a prescriptive documentation on "use this for
-> > > that", that should probably be its own section
-> >
-> > I guess the guidance you're referring to is the "(__riscv_hwprobe() should
-> > be queried for userspace usability.  The hypervisor should be queried,
-> > using hypervisor-specific APIs, to check guest kernel usability.)" bit.
-> > I'm fine with dropping that or moving it to another section, but I think
-> > the more we point out hwprobe, the better. If developers are reading this
-> > /proc/cpuinfo section because they want to detect extensions, then I'd
-> > prefer the section redirects them to hwprobe.
-> 
-> Fair enough. I still haven't brought myself to wedge in an ad for
-> hwprobe, but I also don't disagree with this :)
-> 
-> >
-> > >
-> > > If I try to fold the gist of what you wrote into v5, I get something
-> > > like this (also with a very slight section heading change). Let me
-> > > know what you think:
-> > >
-> > > "isa" and "hart isa" lines in /proc/cpuinfo
-> > > ------------------------------------------
-> >
-> > need one more _
-> >
-> > >
-> > > The "isa" line in /proc/cpuinfo describes the lowest common denominator of
-> > > RISC-V ISA extensions recognized by the kernel and implemented on all harts. The
-> > > "hart isa" line, in contrast, describes the set of extensions recognized by the
-> > > kernel on the particular hart being described, even if those extensions may not
-> > > be present on all harts in the system.
-> > >
-> > > In both lines, the presence of an extension guarantees only that the
-> > > hardware has the described capability.
-> > > Additional kernel support or policy changes may be required before an
-> > > extension's capability is fully usable by userspace programs.
-> >
-> > or guest kernels in the case of S-mode extensions.
-> >
-> > >
-> > > Inversely, the absence of an extension in these lines does not
-> > > necessarily mean the hardware does not support that feature. The
-> > > running kernel may not recognize the extension, or may have
-> > > deliberately disabled access to it.
-> >
-> > I'm not sure about the word "disabled". The kernel can only disable U-mode
-> > extensions and S-mode extensions for guests. S-mode extensions for the
-> > current kernel would have to be disabled by its next higher privilege
-> > level.
-> >
-> > How about "...may not recognize the extension, or may have deliberately
-> > removed it from the listing."
-> 
-> Perfect.
-> 
-> >
-> > (But then readers will wonder why an extension would be deliberately
-> > removed from the listing, which brings us back to trying to come up
-> > with general words to capture the cases I listed. Or, maybe we don't
-> > have to care if they wonder why in this section/document.)
-> 
-> I know, I felt the same pull to explain why as well. But I think given
-> that our goal with this section is mostly to make the distinction of
-> "presence != active", explaining exactly why the kernel may remove it
-> is not strictly necessary. All of my attempts to tack something on end
-> up being enumerated lists, which don't come out well and muddle the
-> message.
-> 
-> Here's another shot (line endings may be wonky):
-> 
-> "isa" and "hart isa" lines in /proc/cpuinfo
-> -------------------------------------------
-> 
-> The "isa" line in /proc/cpuinfo describes the lowest common denominator of
-> RISC-V ISA extensions recognized by the kernel and implemented on all harts. The
-> "hart isa" line, in contrast, describes the set of extensions recognized by the
-> kernel on the particular hart being described, even if those extensions may not
-> be present on all harts in the system.
-> 
-> In both lines, the presence of an extension guarantees only that the
-> hardware has the described capability.
-> Additional kernel support or policy changes may be required before an
-> extension's capability is fully usable by userspace programs.
-> Similarly, for S-mode extensions, presence in one of these lines does
-> not guarantee that the kernel is taking advantage of the extension, or
-> that the feature will be visible in guest VMs managed by this kernel.
-> 
-> Inversely, the absence of an extension in these lines does not
-> necessarily mean the hardware does not support that feature. The
-> running kernel may not recognize the extension, or may have
-> deliberately removed it from the listing.
+Hi all,
 
-Looks good to me!
+Thanks for you comments.
 
-Thanks,
-drew
+On 30/08/2023 08:37, Maxime Ripard wrote:
+> On Wed, Aug 30, 2023 at 01:58:31PM +0300, Jani Nikula wrote:
+>> On Wed, 30 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>>> On Tue, Aug 22, 2023 at 04:26:06PM +0200, Daniel Vetter wrote:
+>>>> On Fri, Aug 11, 2023 at 02:19:53PM -0300, Helen Koike wrote:
+>>>>> From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>>>>
+>>>>> Developers can easily execute several tests on different devices
+>>>>> by just pushing their branch to their fork in a repository hosted
+>>>>> on gitlab.freedesktop.org which has an infrastructure to run jobs
+>>>>> in several runners and farms with different devices.
+>>>>>
+>>>>> There are also other automated tools that uprev dependencies,
+>>>>> monitor the infra, and so on that are already used by the Mesa
+>>>>> project, and we can reuse them too.
+>>>>>
+>>>>> Also, store expectations about what the DRM drivers are supposed
+>>>>> to pass in the IGT test suite. By storing the test expectations
+>>>>> along with the code, we can make sure both stay in sync with each
+>>>>> other so we can know when a code change breaks those expectations.
+>>>>>
+>>>>> Also, include a configuration file that points to the out-of-tree
+>>>>> CI scripts.
+>>>>>
+>>>>> This will allow all contributors to drm to reuse the infrastructure
+>>>>> already in gitlab.freedesktop.org to test the driver on several
+>>>>> generations of the hardware.
+>>>>>
+>>>>> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>>>>> Acked-by: Daniel Stone <daniels@collabora.com>
+>>>>> Acked-by: Rob Clark <robdclark@gmail.com>
+>>>>> Tested-by: Rob Clark <robdclark@gmail.com>
+>>>>
+>>>> Ok I pushed this into a topic/drm-ci branch in drm.git and asked sfr to
+>>>> include that branch in linux-next.
+>>>>
+>>>> But also I'd like to see a lot more acks here, we should be able to at
+>>>> least pile up a bunch of (driver) maintainers from drm-misc in support of
+>>>> this. Also maybe media, at least I've heard noises that they're maybe
+>>>> interested too? Plus anyone else, the more the better.
+>>>
+>>> I'm not really convinced by that approach at all, and most of the issues
+>>> I see are shown by the follow-up series here:
+>>
+>> I'm not fully convinced either, more like "let's see". In that narrow
+>> sense, ack. I don't see harm in trying, if you're also open to backing
+>> off in case it does not pan out.
+>>
+>>> https://lore.kernel.org/dri-devel/20230825122435.316272-1-vignesh.raman@collabora.com/
+>>>
+>>>    * We hardcode a CI farm setup into the kernel
+
+
+These could be out of tree.
+
+There is a version outside the kernel tree where you just point the CI
+configuration to a url:
+https://gitlab.freedesktop.org/gfx-ci/drm-ci/-/merge_requests/1
+
+We were discussing it here 
+https://www.linuxtv.org/cgi-bin/mailman/private/linuxtv-ci/2023-August/000027.html
+
+(I guess Sima's reply didn't got into the mailing list) but the argument 
+of not having out of tree repo is due to historical bad experience of 
+having to sync the kernel with the code and it can become messy.
+
+
+>>>
+>>>    * We cannot trust that the code being run is actually the one being
+>>>      pushed into gitlab
+
+
+We can improve this if this is a requirement.
+For DTS configuration we can work with overlays (which is the current 
+modification on that patchset). For other changes that are not suitable 
+to upstream (and should be rare) we can see if we work with the 
+`-external-fixes` approach or another approach, we can check it case by 
+case to understand why it is not suitable for upstream.
+
+
+>>>
+>>>    * IMO, and I know we disagree here, any IGT test we enable for a given
+>>>      platform should work, period. Allowing failures and flaky tests just
+>>>      sweeps whatever issue is there under the rug. If the test is at
+>>>      fault, we should fix the test, if the driver / kernel is at fault,
+>>>      then I certainly want to know about it.
+
+
+I believe we need a baseline and understand the current status of tests. 
+If you check the xfails folder in the patch you can see that I had to 
+add a few tests on *-skips.txt since those tests crashes the system and 
+other on *-fails.txt that are consistently not passing.
+
+Since the "any IGT test we enable for a given platform should work" is 
+not a reality atm, we need to have a clear view about which tests are 
+not corresponding to it, so we can start fixing. First we need to be 
+aware of the issues so we can start fixing them, otherwise we will stay 
+in the "no tests no failures" ground :)
+
+
+>>
+>> At least for display, where this also depends on peripheral hardware,
+>> it's not an easy problem, really.
+> 
+> Aside from the Chamelium tests, which tests actually rely on peripheral
+> hardware? On EDID and hotplug, sure, but that can easily be set up from
+> the userspace, or something like
+> 
+> https://www.lindy-international.com/HDMI-2-0-EDID-Emulator.htm?websale8=ld0101.ld021102&pi=32115
+> 
+>> How reliable do you need it to be? How many nines? Who is going to
+>> debug the issues that need hundreds or thousands of runs to reproduce?
+>> If a commit makes some test less reliable, how long is it going to
+>> take to even see that or pinpoint that?
+> 
+> I mean, that's also true for failures or success then. How many times do
+> you need a test to run properly to qualify it as a meaningful test? How
+> do you know that it's not a flaky test?
+> 
+> Ultimately, it's about trust. If, for a given test that just failed, I
+> can't be certain that it's because of the branch I just submitted, I
+> will just ignore the tests results after a while.
+> 
+> This is already what plagues kernelci, and we should do better.
+
+
+This is something that is really nice on Mesa3D, a patch only gets 
+merged if tests passes, which forces people to not ignore it, which 
+forces the code to be fixed and the CI to be constantly maintained.
+
+Of course there are bad days there, but there is real value. Nice thread 
+to check: https://gitlab.freedesktop.org/mesa/mesa/-/issues/8635 (thanks 
+Alyssa for the feedback).
+
+
+> 
+> And I'm sorry, but if some part of the kernel or driver just isn't
+> reliable, then we shouldn't claim it is (except for all the times it
+> isn't). If no-one has the time to look into it, fine, but flagging it
+> under a flaky test doesn't help anyone.
+
+
+At least we would know what is there that isn't reliable.
+We could also define policies like: failing one out of 10 is fine. And 
+we can have scripts that do a stress test and report back.
+It is really nice for users to know this kind of status of drivers.
+
+
+Thanks for your feedback, please keep them coming :)
+
+Regards,
+Helen
+
+
+> 
+> Like, from that patch, how can I know what is the issue with
+> kms_hdmi_inject@inject-4k or kms_addfb_basic@addfb25-bad-modifier on
+> mt8173. I certainly can't. And neither of those have anything to do with
+> peripheral hardware.
+> 
+> Maxime
