@@ -2,193 +2,442 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC8D5C83F18
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB2CC83F01
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238543AbjH3Sh4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41638 "EHLO
+        id S238551AbjH3Sh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242497AbjH3Iy1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 04:54:27 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E99EACC9;
-        Wed, 30 Aug 2023 01:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693385662; x=1724921662;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=Wg5Gxrl5wr58VmwBTR2/OFLyUCtlWaMu+gHod2nqnuk=;
-  b=Uz7AnVBuvj4UeSpC9hjK+MgDs15QJxK3H56a1aSC9za1k0B/lxo8X6Qc
-   yCf8tKQTfJKCQMAm68VIIJTsnSLBEG3qo707aRhqTLDYhAn5AuBGY8IXM
-   r4l8t/1PtWKEXZ3zQblRtF+IjuN5GOsAG+ibo/yXE0mhHxgJabpILRiwb
-   JqeuaWX+jYh/Mul/qBvbkUytq9594sqp2Jbc7gS5oM/x2NGNEi9Aq8nof
-   jJoJ8Oe28lYbPXTv0Lq/Kn77vmbIyfwFY39S+eE+eIwgn10QbHevVgixK
-   9k/ImAr1w+H3UAFetpRL+rhtZme4tvIZH7Z+U8gNZOYZk3mDEZ6QTH4kC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441949612"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="441949612"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 01:54:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="985667442"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="985667442"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Aug 2023 01:54:18 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 30 Aug 2023 01:54:18 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 30 Aug 2023 01:54:17 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 30 Aug 2023 01:54:17 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Wed, 30 Aug 2023 01:54:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fgqh9EOdwzS/gtrsaSQVMpJcnVrqPaBb/xLh6SGW++goY8/cLArp22XryAFGLf/EurCli2WmW1/NglLHSTDvc3VK+Vg+tUGxroczyvOyJZ21cKEHpM/7NSYp0nx2zR+qz9+GyQyjMQpQMvix+OLMZHWbZz0EekVA3J1vwTxPJlA6ZZ0J6YWp3DcJK49eBayD7qLA2zNQ8gWjJsJKa2a1Gi0Ue4wdelBEk4J1TBDzPlgQa5L2sLBlx3jf37LQXS0avanz9eQEmRU3HU/ZnxvubH1K2ex/QSwU/hW7bcG+NNLy2/gnZYs2iA3TpafG5g39gcO5Uz6bhipA3hma77g8xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dh+YfU81QgYXHePp1lKAEGjsKJ5h/R9YcpHwwYyFQMM=;
- b=cJg8ywjMGfuxl58klE68RlC8hsCrWh80Mp1UR3TxMP1L34cBL0skn6M58bUDUIaLMJLvqgoQDuqyWBgSxykqooHWxfkvYRhDbH40V0I1oRunrXetWcTwsYaYgyX9QPuNrgOGKpFjC6pjGZAnKYT7OB5fTRCheLCd2dxkJiu1kARfAXcpLDh8yFpnOr1Qa8D2t5IExFkq5ebXIF+7jSlKmWAChVUQOUg2oC0Bd0naOmENXWwSwSnc0T4km57mGwaHaP/jURETiN7eyRO5dbH70k3C2xBkePCCm0Kb1ES0Cdzl78iyc2s9MZ19jgMrayxznWxmU1yneeOB8HAHgbC5lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
- by DM6PR11MB4513.namprd11.prod.outlook.com (2603:10b6:5:2a2::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Wed, 30 Aug
- 2023 08:54:11 +0000
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::8824:ea30:b0ab:f107]) by MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::8824:ea30:b0ab:f107%4]) with mapi id 15.20.6699.034; Wed, 30 Aug 2023
- 08:54:10 +0000
-Date:   Wed, 30 Aug 2023 10:53:58 +0200
-From:   Maciej =?utf-8?Q?Wiecz=C3=B3r-Retman?= 
-        <maciej.wieczor-retman@intel.com>
-To:     Tony Luck <tony.luck@intel.com>
-CC:     Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, <x86@kernel.org>,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <patches@lists.linux.dev>
-Subject: Re: [PATCH v5 1/8] x86/resctrl: Prepare for new domain scope
-Message-ID: <bssbtlnjbytqoraiamg7igvawtmlnimzthud5mlacbmjotivhj@hrrabdpmkbjx>
-References: <20230722190740.326190-1-tony.luck@intel.com>
- <20230829234426.64421-1-tony.luck@intel.com>
- <20230829234426.64421-2-tony.luck@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230829234426.64421-2-tony.luck@intel.com>
-X-ClientProxiedBy: BE1P281CA0035.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:22::12) To MN0PR11MB6231.namprd11.prod.outlook.com
- (2603:10b6:208:3c4::15)
+        with ESMTP id S244324AbjH3M6F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 08:58:05 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303D419A
+        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:40 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1c09673b006so29608425ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1693400259; x=1694005059; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q/ZpDcXIY2uplQWCw9dEjDeDQjyl2gwHXqRgJ65MCOs=;
+        b=NL34znoJJEiETTAsUKZzZo7lJr56vtSsAkuGYwO7VTXqqfUAEsZ7xcW/Mxq8SCgwo2
+         T7RannTuzAz2HsaTMPf71x6qNvVhzPGdWMp/bz1d+hZdLQYCuIlSY+/ysYdncgnBX7tB
+         UyLYFMtUHRl2ZqwE7kyFPUx+31PzYsesaPMCqyUvzvHpEtj38k7H/1kLZ0pFa7P+cGd7
+         CbhDhYUC1+uXXTFgtRxdgPoRBQGB1+JfuRJfYxEuanhsSFnAewiBcvuod/CRg5y9DyrY
+         eBwAzJCwfuL2tbrC4X4NywXeSIXbv84A1EvyKpWF+KscYT8iQ5EmuLt2mAnjDay3A5nY
+         DmRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693400259; x=1694005059;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q/ZpDcXIY2uplQWCw9dEjDeDQjyl2gwHXqRgJ65MCOs=;
+        b=QHCIO1pEsEDymYDmaOoP0qnA6kD0lkrmu1ynf7+mEYuenYjpsZKpIOEQNZMoCtOLXF
+         b6jjIweP7AsC+g/zq/+SxjfsKMa5Ho0DbGY8CDkut3xRMrDbSh4nudbQ8Khm5X9wqrOF
+         3jYgfhsw3ZpAcVxSKjQuXUV+g8lGmUHZFhwJ8u20uW3XO7K44iQybxxbf73wKqVTT9hP
+         aEZWBOr9XkTNg/DB0B6lQRXPSk7SFq/9VG8zVn+0348JiMyyfSg4c0Y+FVqYygTUV9dR
+         Vb4aLHoXV1gcLFCw3MLcF4fo1LhdBKG1I1JrfswcfktphwT29IIQcSOFGVwqUwwVye+E
+         vRwA==
+X-Gm-Message-State: AOJu0YwGzroWUGrMhzAvCd6Ekus/rBiLZbbp2esn60uZ8C2hOcMnILqD
+        jtwGu+kht6JPK4uM/+Z3HIpniA==
+X-Google-Smtp-Source: AGHT+IGJ6wl3h1zU1EZ8Va876ePXGOkXhL6Bg48jGTnNAf5hacvqb0Z714nNSA6Bq7dqCI/W67lR4Q==
+X-Received: by 2002:a17:902:ee84:b0:1bf:63c0:ae79 with SMTP id a4-20020a170902ee8400b001bf63c0ae79mr1769233pld.33.1693400259641;
+        Wed, 30 Aug 2023 05:57:39 -0700 (PDT)
+Received: from GL4FX4PXWL.bytedance.net ([139.177.225.247])
+        by smtp.gmail.com with ESMTPSA id iw1-20020a170903044100b001bbd8cf6b57sm11023265plb.230.2023.08.30.05.57.32
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 30 Aug 2023 05:57:39 -0700 (PDT)
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
+        willy@infradead.org, brauner@kernel.org, surenb@google.com,
+        michael.christie@oracle.com, peterz@infradead.org,
+        mathieu.desnoyers@efficios.com, npiggin@gmail.com, avagin@gmail.com
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Peng Zhang <zhangpeng.00@bytedance.com>
+Subject: [PATCH v2 3/6] maple_tree: Add test for mtree_dup()
+Date:   Wed, 30 Aug 2023 20:56:51 +0800
+Message-Id: <20230830125654.21257-4-zhangpeng.00@bytedance.com>
+X-Mailer: git-send-email 2.37.0 (Apple Git-136)
+In-Reply-To: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|DM6PR11MB4513:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8bc0731-7c52-414f-5d98-08dba936acf5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1gvNCmjBfKxVF5u7kxbhKVvbPwtJSzz2vEyLWaqajAyWMH2uRiDTAZQ8j2yUepGITPX0fiMwwZ2O0X5gNujeEXqGY37P8CmDOW+Qf/Nm8mBfOtrjx5vcb3JmB4K5Oq6FkvXjuJot9eVrqimxPfWFzum4mlYYeZvuIdcFIs5zq+t044+9xZypP5p06cYPRN9HxIXr7JrnoRgSCX+W+XcsLJ1WKuQ6Vo/7SV8cgjBU4IsjJJ+UQixJb3E9x2gcBv0IASaFscICO3HjWnA77HYXuZNI6yeRXfrFK/3eKcAwemBqI5uBYfcbh4Kzq2Ix6fIckj2TvCyNJ+IbLPJJ7+pzVuk7Vl2g/yuXGOArfJgvau0X/y8eq2niHzF151JfZrlJ3vlOm/ESO7SmpwYRW206D405Z41goR127QJD/m5M6+mo/FTMyh3HPC90/8DVNhtd8FdByhOxhJxVUOeZhGIvzMIW7PPSz5uvYhaYSfHS1uluCJ2GkE0h+uoumXO7+/tB90GQp+QvfytJc3Sa7OMmpZBi5sGRMTjNVGzYKjd78TgxYFWHRetPm2StdqbNnKDB
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(366004)(136003)(39860400002)(396003)(346002)(1800799009)(451199024)(186009)(6512007)(9686003)(8936002)(86362001)(478600001)(33716001)(66476007)(53546011)(6486002)(54906003)(316002)(6636002)(6506007)(41300700001)(66946007)(66556008)(6666004)(5660300002)(4326008)(8676002)(6862004)(26005)(4744005)(82960400001)(2906002)(38100700002)(7416002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?0grj6J9ZqdyFUACjgDOdxrp/IROAdwWQqXY2CKX8091lOFgDtkE6EFjiLO?=
- =?iso-8859-1?Q?jpSalQKzfzqd51ScFAVsr8eIiGRUePn341EWAMCdIz08ZKtGUZQUYm6GAt?=
- =?iso-8859-1?Q?CN+jIcy75EbGUaQF+prLDU1wlgbuqkbHpwEOXqHsNZUYIoLlvnJCLDPSF2?=
- =?iso-8859-1?Q?XmKNxxW3RnLGDWLHCypP1Y5i3yPxjd4ypWcn1m2pF/YWr8WpBFLJFCb94N?=
- =?iso-8859-1?Q?iQrzDKapJ6PrDE8yIAmbsK7UT+onFyg8gI3kUqeuexQamQhR7Z5eubWFHW?=
- =?iso-8859-1?Q?RUv74Rzl3ldZjjvXbtFH36eegGoBl8zsJe9kDBFWV6/W+YiKNTWnJB09kM?=
- =?iso-8859-1?Q?zfYLHbBbun/p00RRDcwvTajYEb950PXAEXyu9CSGQo8iCrxbRF/aoxxHPN?=
- =?iso-8859-1?Q?vE+z/2YGN1NBq5joE8n0EXPA/VzOMLYrULf/rRabvHZVgFA5Wf6iby5lwD?=
- =?iso-8859-1?Q?4sxwJTbc7jFM8Y3p2+4YtqoFvv7KXInND8QpGn/LR0rxxfSqLiqmAxCQkh?=
- =?iso-8859-1?Q?CvZM1zi7xPVl3QqWwUxDLj8M5qN2ElvFQmnS57L8TotMvJEq3ZlKzRmMSN?=
- =?iso-8859-1?Q?7coYa9P3GhAvu4yELXCecH3T2NuU0xud7xKyW1zDtEPuphGpl8TRsZaWNG?=
- =?iso-8859-1?Q?qcBBh8sTk6Qiyvrct61eUXHc8CWj63IIxDDrvuu1RzcsV5OX1CQVOFOWqe?=
- =?iso-8859-1?Q?9Uw7vijz2I6HzXSFxpqOohXhJ+RhL5VF1XPjlh/LDNqJQV+5HjYg4+Ikf/?=
- =?iso-8859-1?Q?sqCWfwwZuXCc5gMHByU61sQiXdrA26bISLKQ6KMkHVIBUAdDD2npluqwE6?=
- =?iso-8859-1?Q?4TQBz3EvfkMgD+KX13BhlWbYavQKYieoksorzYKNU6h3IfZkCHIUFs3+sm?=
- =?iso-8859-1?Q?O5HsUtOtilAamcJDXtiuP11zNBmxahUnZGOAMHX1mIBhkvS6bZ/bvRcGs4?=
- =?iso-8859-1?Q?nAMGmUZ6S81vw52hS3za4Nmr+/ypmkpLteTZvZIvxSx+pPJI8JJJJIlZeu?=
- =?iso-8859-1?Q?RiG2EUVh+ZSnNxWH9Vkvan56GSWYCXPUBIGdAMvZs2p4h5uJQDcEGG0e+u?=
- =?iso-8859-1?Q?LiADzeFsVYK/b265b8tUE/JxrBotj+73zOyynLnoZzaTh1imf4Z/E1aRNT?=
- =?iso-8859-1?Q?74mN2mcrWhVYDfJVWkKcMECgVNY1A3H7RE91Bsc0gL6pvwfs/xOOLjslBo?=
- =?iso-8859-1?Q?xT0Lpdx1k7Es4zxWX6CueJ+Z8qVLw+kCEYJLp5GehEz0xBe2j/H4poGOLZ?=
- =?iso-8859-1?Q?qv1YRWZ74kyKvF1dwuUs/K7+/VaAc4x5YFHem3vd5PGVyl9x1SW5NMGO0H?=
- =?iso-8859-1?Q?ecbsw9OyCHi4P0/QnOyxW5wADBSEZvt+NDJ0T5KdZUAWST5baSe+ktptBv?=
- =?iso-8859-1?Q?F8uQbgKHCMTzG2WgbLFWOsOu/RLEzT5ybLNyCIDSGoim47PIkjIT0g0iyK?=
- =?iso-8859-1?Q?ctrTen4RDxIY8R0xRAsphNYEX/v9gTgMLmp7L0/2B0DvTG0VmkKNRv9Vhb?=
- =?iso-8859-1?Q?/PRBYgk4Ue7jcoSV11H7xVWkPoOHY/+6F1eiSGzSCO9oVMxAqWQ0qBEBkd?=
- =?iso-8859-1?Q?j9GjxfHdSMz7vSvOrfbOmn62/cojtP4dJodWBvIAyatjswjrfMXcslJyB2?=
- =?iso-8859-1?Q?2XvgBxitZyBorknYO9JSivVjCxOFdTs1r6o6PYGIX67oM/GmKZ0VCOHh6s?=
- =?iso-8859-1?Q?TMZ6jr3DMZEQtwEF40k=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8bc0731-7c52-414f-5d98-08dba936acf5
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 08:54:10.3281
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bJuf/N7jf4Jdqvxz9jvh7SOVCeNaL+Qhx9W1wYJosCLAQTOlVpz/k8zsYjOGOPKf/X8zPqnDcYaMiq0FkAJHruyN35C6kNvfMrwIOjgdMgQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4513
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Add test for mtree_dup().
 
-On 2023-08-29 at 16:44:19 -0700, Tony Luck wrote:
->diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
->index 030d3b409768..0d3bae523ecb 100644
->--- a/arch/x86/kernel/cpu/resctrl/core.c
->+++ b/arch/x86/kernel/cpu/resctrl/core.c
->@@ -487,6 +487,21 @@ static int arch_domain_mbm_alloc(u32 num_rmid, struct rdt_hw_domain *hw_dom)
-> 	return 0;
-> }
-> 
->+static int get_domain_id_from_scope(int cpu, enum resctrl_scope scope)
->+{
->+	switch (scope) {
->+	case RESCTRL_L3_CACHE:
->+		return get_cpu_cacheinfo_id(cpu, 3);
->+	case RESCTRL_L2_CACHE:
->+		return get_cpu_cacheinfo_id(cpu, 2);
->+	default:
->+		WARN_ON_ONCE(1);
->+		break;
->+	}
->+
->+	return -1;
->+}
+Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+---
+ tools/testing/radix-tree/maple.c | 344 +++++++++++++++++++++++++++++++
+ 1 file changed, 344 insertions(+)
 
-Is there some reason the "return -1" is outside of the default switch
-case?
-
-Other switch statements in this patch do have returns inside the default
-case, is this one different in some way?
-
+diff --git a/tools/testing/radix-tree/maple.c b/tools/testing/radix-tree/maple.c
+index e5da1cad70ba..38455916331e 100644
+--- a/tools/testing/radix-tree/maple.c
++++ b/tools/testing/radix-tree/maple.c
+@@ -35857,6 +35857,346 @@ static noinline void __init check_locky(struct maple_tree *mt)
+ 	mt_clear_in_rcu(mt);
+ }
+ 
++/*
++ * Compare two nodes and return 0 if they are the same, non-zero otherwise.
++ */
++static int __init compare_node(struct maple_enode *enode_a,
++			       struct maple_enode *enode_b)
++{
++	struct maple_node *node_a, *node_b;
++	struct maple_node a, b;
++	void **slots_a, **slots_b; /* Do not use the rcu tag. */
++	enum maple_type type;
++	int i;
++
++	if (((unsigned long)enode_a & MAPLE_NODE_MASK) !=
++	    ((unsigned long)enode_b & MAPLE_NODE_MASK)) {
++		pr_err("The lower 8 bits of enode are different.\n");
++		return -1;
++	}
++
++	type = mte_node_type(enode_a);
++	node_a = mte_to_node(enode_a);
++	node_b = mte_to_node(enode_b);
++	a = *node_a;
++	b = *node_b;
++
++	/* Do not compare addresses. */
++	if (ma_is_root(node_a) || ma_is_root(node_b)) {
++		a.parent = (struct maple_pnode *)((unsigned long)a.parent &
++						  MA_ROOT_PARENT);
++		b.parent = (struct maple_pnode *)((unsigned long)b.parent &
++						  MA_ROOT_PARENT);
++	} else {
++		a.parent = (struct maple_pnode *)((unsigned long)a.parent &
++						  MAPLE_NODE_MASK);
++		b.parent = (struct maple_pnode *)((unsigned long)b.parent &
++						  MAPLE_NODE_MASK);
++	}
++
++	if (a.parent != b.parent) {
++		pr_err("The lower 8 bits of parents are different. %p %p\n",
++			a.parent, b.parent);
++		return -1;
++	}
++
++	/*
++	 * If it is a leaf node, the slots do not contain the node address, and
++	 * no special processing of slots is required.
++	 */
++	if (ma_is_leaf(type))
++		goto cmp;
++
++	slots_a = ma_slots(&a, type);
++	slots_b = ma_slots(&b, type);
++
++	for (i = 0; i < mt_slots[type]; i++) {
++		if (!slots_a[i] && !slots_b[i])
++			break;
++
++		if (!slots_a[i] || !slots_b[i]) {
++			pr_err("The number of slots is different.\n");
++			return -1;
++		}
++
++		/* Do not compare addresses in slots. */
++		((unsigned long *)slots_a)[i] &= MAPLE_NODE_MASK;
++		((unsigned long *)slots_b)[i] &= MAPLE_NODE_MASK;
++	}
++
++cmp:
++	/*
++	 * Compare all contents of two nodes, including parent (except address),
++	 * slots (except address), pivots, gaps and metadata.
++	 */
++	return memcmp(&a, &b, sizeof(struct maple_node));
++}
++
++/*
++ * Compare two trees and return 0 if they are the same, non-zero otherwise.
++ */
++static int __init compare_tree(struct maple_tree *mt_a, struct maple_tree *mt_b)
++{
++	MA_STATE(mas_a, mt_a, 0, 0);
++	MA_STATE(mas_b, mt_b, 0, 0);
++
++	if (mt_a->ma_flags != mt_b->ma_flags) {
++		pr_err("The flags of the two trees are different.\n");
++		return -1;
++	}
++
++	mas_dfs_preorder(&mas_a);
++	mas_dfs_preorder(&mas_b);
++
++	if (mas_is_ptr(&mas_a) || mas_is_ptr(&mas_b)) {
++		if (!(mas_is_ptr(&mas_a) && mas_is_ptr(&mas_b))) {
++			pr_err("One is MAS_ROOT and the other is not.\n");
++			return -1;
++		}
++		return 0;
++	}
++
++	while (!mas_is_none(&mas_a) || !mas_is_none(&mas_b)) {
++
++		if (mas_is_none(&mas_a) || mas_is_none(&mas_b)) {
++			pr_err("One is MAS_NONE and the other is not.\n");
++			return -1;
++		}
++
++		if (mas_a.min != mas_b.min ||
++		    mas_a.max != mas_b.max) {
++			pr_err("mas->min, mas->max do not match.\n");
++			return -1;
++		}
++
++		if (compare_node(mas_a.node, mas_b.node)) {
++			pr_err("The contents of nodes %p and %p are different.\n",
++			       mas_a.node, mas_b.node);
++			mt_dump(mt_a, mt_dump_dec);
++			mt_dump(mt_b, mt_dump_dec);
++			return -1;
++		}
++
++		mas_dfs_preorder(&mas_a);
++		mas_dfs_preorder(&mas_b);
++	}
++
++	return 0;
++}
++
++static __init void mas_subtree_max_range(struct ma_state *mas)
++{
++	unsigned long limit = mas->max;
++	MA_STATE(newmas, mas->tree, 0, 0);
++	void *entry;
++
++	mas_for_each(mas, entry, limit) {
++		if (mas->last - mas->index >=
++		    newmas.last - newmas.index) {
++			newmas = *mas;
++		}
++	}
++
++	*mas = newmas;
++}
++
++/*
++ * build_full_tree() - Build a full tree.
++ * @mt: The tree to build.
++ * @flags: Use @flags to build the tree.
++ * @height: The height of the tree to build.
++ *
++ * Build a tree with full leaf nodes and internal nodes. Note that the height
++ * should not exceed 3, otherwise it will take a long time to build.
++ * Return: zero if the build is successful, non-zero if it fails.
++ */
++static __init int build_full_tree(struct maple_tree *mt, unsigned int flags,
++		int height)
++{
++	MA_STATE(mas, mt, 0, 0);
++	unsigned long step;
++	int ret = 0, cnt = 1;
++	enum maple_type type;
++
++	mt_init_flags(mt, flags);
++	mtree_insert_range(mt, 0, ULONG_MAX, xa_mk_value(5), GFP_KERNEL);
++
++	mtree_lock(mt);
++
++	while (1) {
++		mas_set(&mas, 0);
++		if (mt_height(mt) < height) {
++			mas.max = ULONG_MAX;
++			goto store;
++		}
++
++		while (1) {
++			mas_dfs_preorder(&mas);
++			if (mas_is_none(&mas))
++				goto unlock;
++
++			type = mte_node_type(mas.node);
++			if (mas_data_end(&mas) + 1 < mt_slots[type]) {
++				mas_set(&mas, mas.min);
++				goto store;
++			}
++		}
++store:
++		mas_subtree_max_range(&mas);
++		step = mas.last - mas.index;
++		if (step < 1) {
++			ret = -1;
++			goto unlock;
++		}
++
++		step /= 2;
++		mas.last = mas.index + step;
++		mas_store_gfp(&mas, xa_mk_value(5),
++				GFP_KERNEL);
++		++cnt;
++	}
++unlock:
++	mtree_unlock(mt);
++
++	MT_BUG_ON(mt, mt_height(mt) != height);
++	/* pr_info("height:%u number of elements:%d\n", mt_height(mt), cnt); */
++	return ret;
++}
++
++static noinline void __init check_mtree_dup(struct maple_tree *mt)
++{
++	DEFINE_MTREE(new);
++	int i, j, ret, count = 0;
++	unsigned int rand_seed = 17, rand;
++
++	/* store a value at [0, 0] */
++	mt_init_flags(&tree, 0);
++	mtree_store_range(&tree, 0, 0, xa_mk_value(0), GFP_KERNEL);
++	ret = mtree_dup(&tree, &new, GFP_KERNEL);
++	MT_BUG_ON(&new, ret);
++	mt_validate(&new);
++	if (compare_tree(&tree, &new))
++		MT_BUG_ON(&new, 1);
++
++	mtree_destroy(&tree);
++	mtree_destroy(&new);
++
++	/* The two trees have different attributes. */
++	mt_init_flags(&tree, 0);
++	mt_init_flags(&new, MT_FLAGS_ALLOC_RANGE);
++	ret = mtree_dup(&tree, &new, GFP_KERNEL);
++	MT_BUG_ON(&new, ret != -EINVAL);
++	mtree_destroy(&tree);
++	mtree_destroy(&new);
++
++	/* The new tree is not empty */
++	mt_init_flags(&tree, 0);
++	mt_init_flags(&new, 0);
++	mtree_store(&new, 5, xa_mk_value(5), GFP_KERNEL);
++	ret = mtree_dup(&tree, &new, GFP_KERNEL);
++	MT_BUG_ON(&new, ret != -EINVAL);
++	mtree_destroy(&tree);
++	mtree_destroy(&new);
++
++	/* Test for duplicating full trees. */
++	for (i = 1; i <= 3; i++) {
++		ret = build_full_tree(&tree, 0, i);
++		MT_BUG_ON(&tree, ret);
++		mt_init_flags(&new, 0);
++
++		ret = mtree_dup(&tree, &new, GFP_KERNEL);
++		MT_BUG_ON(&new, ret);
++		mt_validate(&new);
++		if (compare_tree(&tree, &new))
++			MT_BUG_ON(&new, 1);
++
++		mtree_destroy(&tree);
++		mtree_destroy(&new);
++	}
++
++	for (i = 1; i <= 3; i++) {
++		ret = build_full_tree(&tree, MT_FLAGS_ALLOC_RANGE, i);
++		MT_BUG_ON(&tree, ret);
++		mt_init_flags(&new, MT_FLAGS_ALLOC_RANGE);
++
++		ret = mtree_dup(&tree, &new, GFP_KERNEL);
++		MT_BUG_ON(&new, ret);
++		mt_validate(&new);
++		if (compare_tree(&tree, &new))
++			MT_BUG_ON(&new, 1);
++
++		mtree_destroy(&tree);
++		mtree_destroy(&new);
++	}
++
++	/* Test for normal duplicating. */
++	for (i = 0; i < 1000; i += 3) {
++		if (i & 1) {
++			mt_init_flags(&tree, 0);
++			mt_init_flags(&new, 0);
++		} else {
++			mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
++			mt_init_flags(&new, MT_FLAGS_ALLOC_RANGE);
++		}
++
++		for (j = 0; j < i; j++) {
++			mtree_store_range(&tree, j * 10, j * 10 + 5,
++					  xa_mk_value(j), GFP_KERNEL);
++		}
++
++		ret = mtree_dup(&tree, &new, GFP_KERNEL);
++		MT_BUG_ON(&new, ret);
++		mt_validate(&new);
++		if (compare_tree(&tree, &new))
++			MT_BUG_ON(&new, 1);
++
++		mtree_destroy(&tree);
++		mtree_destroy(&new);
++	}
++
++	/* Test memory allocation failed. */
++	for (i = 0; i < 1000; i += 3) {
++		if (i & 1) {
++			mt_init_flags(&tree, 0);
++			mt_init_flags(&new, 0);
++		} else {
++			mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
++			mt_init_flags(&new, MT_FLAGS_ALLOC_RANGE);
++		}
++
++		for (j = 0; j < i; j++) {
++			mtree_store_range(&tree, j * 10, j * 10 + 5,
++					  xa_mk_value(j), GFP_KERNEL);
++		}
++		/*
++		 * The rand() library function is not used, so we can generate
++		 * the same random numbers on any platform.
++		 */
++		rand_seed = rand_seed * 1103515245 + 12345;
++		rand = rand_seed / 65536 % 128;
++		mt_set_non_kernel(rand);
++
++		ret = mtree_dup(&tree, &new, GFP_NOWAIT);
++		mt_set_non_kernel(0);
++		if (ret != 0) {
++			MT_BUG_ON(&new, ret != -ENOMEM);
++			count++;
++			mtree_destroy(&tree);
++			continue;
++		}
++
++		mt_validate(&new);
++		if (compare_tree(&tree, &new))
++			MT_BUG_ON(&new, 1);
++
++		mtree_destroy(&tree);
++		mtree_destroy(&new);
++	}
++
++	/* pr_info("mtree_dup() fail %d times\n", count); */
++	BUG_ON(!count);
++}
++
+ extern void test_kmem_cache_bulk(void);
+ 
+ void farmer_tests(void)
+@@ -35904,6 +36244,10 @@ void farmer_tests(void)
+ 	check_null_expand(&tree);
+ 	mtree_destroy(&tree);
+ 
++	mt_init_flags(&tree, 0);
++	check_mtree_dup(&tree);
++	mtree_destroy(&tree);
++
+ 	/* RCU testing */
+ 	mt_init_flags(&tree, 0);
+ 	check_erase_testset(&tree);
 -- 
-Kind regards
-Maciej Wieczór-Retman
+2.20.1
+
