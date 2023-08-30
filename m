@@ -2,306 +2,236 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65274C83F01
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E54C4C6FA8F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238373AbjH3Shl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:37:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51650 "EHLO
+        id S238460AbjH3Shu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343946AbjH3Rdr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 13:33:47 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F9B9193
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 10:33:43 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-500cefc3644so126910e87.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 10:33:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1693416821; x=1694021621; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rFAqUPUHLCt1ICzqJ94/cfZ/om7aUCeIQB1HCAlluIQ=;
-        b=d3eG/se/rEzfjo4z4K53ffufuviJ3j6M6a4rjL0WcL5IjIzrO8rDucyHVzVeLp5cFJ
-         SfS6SQPuL15qcRNto9r3Aiug3pym+0Pg+4x/8MEUJNpurGY/61/rBGzC2pnDMD+QsntN
-         +O0o0YNESeVZ02vE7plcU1pzRrqFYRyHZo6SseJXyF5nLXhl7vpOZEVCYgAe4nLL2IFQ
-         8pB621D9DIbRw2XPhXBS2tN7WRIKYulsSBBSROdsafk+3/TCIvJbjljy5ajlqn0KmKJr
-         BY8hopEQ4oykp4yUoE0nShaWzzS7otjxBOTMrVi1OV9f3Ky8dt3eO95xkrCGeKDV/tLD
-         EXaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693416821; x=1694021621;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rFAqUPUHLCt1ICzqJ94/cfZ/om7aUCeIQB1HCAlluIQ=;
-        b=JzyDdD0KDGrVUFIggg/Ch91KwB0bmKeYeHUgWDXq0MaM1Cc2mmDobqCcQtXJgNMkv/
-         6F50lSM1nNvz7bzFSh9Xt5m7ZtkpXnNd7TgbI5REw8yfNc2OBkawyyrHRGIGKZbWO16l
-         ISBIppOjTyT+ojsUzxHKnyA2uYoBgCZazWre6UKYiKkrZhn3foI4hNqlrpssCPfbumBa
-         ODH0Gjejwx2KWXF7/ZSL2a3gcsKRWB4RozSfYe+YP4hZgFlYqziXftlDmO6Hyiq0hyyL
-         94zM/zuVLnH5jcouw5Ex5ZI5cjmFDTRjb2pwqQQxHAKPtF+r2Al0o/AMkZGPwitaJ4Qw
-         7ABQ==
-X-Gm-Message-State: AOJu0Yynz40IbF+Qh/jZvUMAPeIGBNsN+rf/+MA+/lA/2FMn+2I4s5yY
-        +BMXvapyR341JTcwQXTiUfSHMv2qJW6xOC7TriCcwg==
-X-Google-Smtp-Source: AGHT+IHlWKSdVmP8pFG6g9r/7t6cofB3knDmKEpJmBCYjlMtzueLbcTeNe00mhRVTtaLSoCabnUPc5rXtH1thlBuqjQ=
-X-Received: by 2002:a05:6512:ac3:b0:500:780b:5bdc with SMTP id
- n3-20020a0565120ac300b00500780b5bdcmr2588428lfu.49.1693416821252; Wed, 30 Aug
- 2023 10:33:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230711201831.2695097-1-evan@rivosinc.com> <20230829-e445d0bdff78969cc33a6263@orel>
- <CALs-HsuTySr0ZojRtBeU3F6hd82UeNWNupaQpEULVqxf2jqzww@mail.gmail.com> <20230830-86f54e19392767c02d8d3146@orel>
-In-Reply-To: <20230830-86f54e19392767c02d8d3146@orel>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Wed, 30 Aug 2023 10:33:04 -0700
-Message-ID: <CALs-HsuCx_UH4oiFEq7arrAjRFtGe7So07ur-pwvafw3a0QyEw@mail.gmail.com>
-Subject: Re: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
+        with ESMTP id S1344009AbjH3R5N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 13:57:13 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC49B193;
+        Wed, 30 Aug 2023 10:57:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693418230; x=1724954230;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=qyGeGPU9mGAvruqmB0cdhRtrOjhf1i3sOWdPH/CPM9U=;
+  b=FyV4ugXOEyrsM8zes/8V6v9fRTfMEoT5nHcTDTWXkxolJNNqgAOG55hh
+   nUEbBkCOpx6tRYm4icVmPLW3HJ6mPISrzqpB+DnLvdgGERmSvDNcs7BW/
+   g/Ttv/w4Zf7lRdj1rro1HZ434Bbg0v5RUjmfCI45Pb/FmRbKYBPyxE8vn
+   mb20VgfDYGw/q12GbX77u9+MXMhn5MQRSg4XCMq39G2FgBGgYMuFC3aHJ
+   I3F38A3pjPmoptHDql49mwWDGnifGsP1JXXkzuCvboWkFz9G/JMI6DqTA
+   OUzq0MQYFvFMFDrFLBof9sRhmfkQVthJcIuKQ2Gd4ps7c8PQ43Cuyo5r5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="462088156"
+X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
+   d="scan'208";a="462088156"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 10:57:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="739173056"
+X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
+   d="scan'208";a="739173056"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga002.jf.intel.com with ESMTP; 30 Aug 2023 10:57:08 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Wed, 30 Aug 2023 10:57:07 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Wed, 30 Aug 2023 10:57:06 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Wed, 30 Aug 2023 10:57:06 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Wed, 30 Aug 2023 10:57:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PwQaxsjO3yZozQdgxz1dbvi/mgTIEFBQAXII1g1OiF4hbeZEuB92XCKJIbzcTWhz/wuWsNom81XKyN1R37uItyi9SNenWCuKw6Rc9PXhSjMXZRrpeaH70ESaMARwEiqV6dTXgTIXf4MSYmaCmbdTZH9s9wPSiVpOpFuneKA3kdGpljfxXwbUFLJKnqjeIlLk9Az3g4xCcTuFAlXRoYVYI7ciJl7IZnsQH6JtfUh486Bropt9RQA8B1RjUCC9IkY703SufKoKjtclSrgAZL1ahjHjQjDJq3mg6Uv3YwaQd3j1ua8ZH0LMjQYdz7psvzBKnHW2pKUlgquLlYVc3IreiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dkNYOFoS1dir0APkzu/LTiPjTSFT+1Kne1W/mPANsCo=;
+ b=OZGU7tkgsGEOb3J3tXsFIgxNQyEjO2t7D2Vs+yBFmEOQLuswyxtF373qkZxx87VrWiOxEqqU2Ju/6lwLLofBejs2mUHn/ctXDwped6lrRADpAPCuEpg9UfaprOSqtOckPmS8UomQZubZVj0JQ3VXwTnokLkKVOdWLAAa+8ngMvhLtzrK6PTHiC6NXTWWPpPEm+vjxvkNupF1GhEMCxkxKpE8f0fhRW2t39ScjuB8cQTx6rxG2ttQkzgpHG/NEOK/tp+aIT5LlJsuEy8lG0GoBtZ5ZclpD53A/t3foOQ9eQqx/qY+EmT69SZaegJ0EaFdy6OTfxxd4t83J04LkWTyjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA1PR11MB6712.namprd11.prod.outlook.com (2603:10b6:806:25c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Wed, 30 Aug
+ 2023 17:57:00 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::47e:3e1f:bef4:20e0]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::47e:3e1f:bef4:20e0%3]) with mapi id 15.20.6745.020; Wed, 30 Aug 2023
+ 17:56:59 +0000
+Message-ID: <b48d2489-a5af-d9af-08e6-cbc2d5d8194f@intel.com>
+Date:   Wed, 30 Aug 2023 10:56:55 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.14.0
+Subject: Re: [PATCH v8 5/8] x86/resctrl: Unwind the errors inside
+ rdt_enable_ctx()
+Content-Language: en-US
+To:     <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
+        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
+        <quic_jiles@quicinc.com>, <peternewman@google.com>
+References: <20230821233048.434531-1-babu.moger@amd.com>
+ <20230821233048.434531-6-babu.moger@amd.com>
+ <343d12e8-9934-9194-cadd-7d133567396c@intel.com>
+ <54236122-55d8-fd4a-1791-e6f96a61e3f0@amd.com>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <54236122-55d8-fd4a-1791-e6f96a61e3f0@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0144.namprd04.prod.outlook.com
+ (2603:10b6:303:84::29) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA1PR11MB6712:EE_
+X-MS-Office365-Filtering-Correlation-Id: abf83b76-c083-4973-6c70-08dba9828219
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DiziPyze8MPGs80fdlC9zTK0BFlB/tIU6c/fnRGFcI8DAL40ZDnWqzCk8QYrC2s6tPgYUVUYhmAXO1pZJdTQE+CKWUXnBSWguLBTgSCotucq0+MfpQGhZU+PWQpo3833wlxs7tvPMQnNJ7QaO10mdvtohmS8R4vtZ+XDlGgNxw8xi6LO7pMLVGRKgv3XPYtAiURN1iTp/Z3F+LJbzHEKcUrr3oX51KAHDGReEPKALZpRoGgoJToftf3WpNoOEhrqZolvT+2t+taMDXNlI0evp44AYfgJP8eUyMHtsdy29Dauta30CI5ncv1UttIj1GE/HVmDPubhAV0xYZKF6TzSyozRs2RP6nv4Eka+5QYKaA4Pce+uh3eTcdldey2iS1/mFMdTx84HYryplHHz6MdQuDJSzfNQdS2gYLBxdTCCWBbw7bx1jYl0mRtLG/qrGY9p8H51BjX2SmBLSNet8a7sUbJM2Z8asdAvL3AWpnPQpUihIYeFcBrQkEq79XkFlRno28d+3UMSMJXQqyAPNv5iFkU3xvON9MKGe6pETrLJhGj4DiEKhMX2nXXWITog5JZ7uCS7ch6nyCzwwLZcigolRcvg2y8BlL+a63YdoqgLZkxSnFh3EF4IY8PDZy8CgSkeWZv6P3ZV0dIpX5WyXafvsg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(346002)(376002)(39860400002)(396003)(1800799009)(451199024)(186009)(36756003)(31686004)(7416002)(8676002)(5660300002)(31696002)(86362001)(7406005)(41300700001)(44832011)(4326008)(8936002)(53546011)(26005)(6666004)(6486002)(2616005)(6506007)(6512007)(478600001)(2906002)(38100700002)(66946007)(66476007)(66556008)(316002)(82960400001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K09zQitxc1p1c3gwamN0bmJpTjN5ODJWQ1ZPb01seEloYjVlbG1zdHkrQU5S?=
+ =?utf-8?B?T1J1Z21zS2R2ZzNTcHBNN2JWQmNkbThMdlh6TUpXaERSczY2ZXRUN1VyT3ZP?=
+ =?utf-8?B?TStKcGR5RzNwa3U0TG9xN29TMkJpWk5JVDhobmZhWFlHRUdwdDlRVU9GeGpp?=
+ =?utf-8?B?cGQwSTNXMWZhZzV5aC9lclE3aXZOSWN4bXZqaDc1SS9Zc3ljRVdDNHMrNEVC?=
+ =?utf-8?B?ZEQxOGpFUk8xOThLZUMwWTN3MlEvZk5rWVdKTUNBTkpiQW44SU1pdStOc3V0?=
+ =?utf-8?B?Mnkwb2FHNitVSHdJa05YSFU4SjRrQjBta0o1VE83OGFudFJLRWtPdnpvYUxy?=
+ =?utf-8?B?bWF5QlNpSjlPYmt6SlpsdzRTdTQ2Ylh2akFQSXkydDVqWm1XdkdCTDhvc0NU?=
+ =?utf-8?B?WE1zdFd3UDlHamJDUDByZmhqaGhJL2dONVlKVXN5clRjeTQ5RytjRVc5cEJu?=
+ =?utf-8?B?WlZ2ZTQ4SlBLRE1acG5lSFg0YlVMQk4ydUlacXdXYmxlNkF6SkpURkg3bi9s?=
+ =?utf-8?B?bFVYSmVPR1JyZVdvS1g2N0I2dWphMCsyN2RaS3REcUJ3Q1VzVkVYcUpXMlUz?=
+ =?utf-8?B?WC9NTHFnSmM3alZpM2VNMjdIWFVIdVY5V2dsdmZTRDc0ZDl1a1RPWUIvVDh6?=
+ =?utf-8?B?QTBvcHlEWXZyamV4RGZ2SjBuNDVHeUN4R01SZDg2MjFPK3hvMEp2SnpEVVFT?=
+ =?utf-8?B?Tnd1RXJRS0RQbGgvYWE5eFpEOXU0bndWSnpXOTZDNVkxNDRoMUlSdzNGQVMx?=
+ =?utf-8?B?Y0FpZjNFMVJZQ0JtYXpLVTNjcEtHaXhzZFVXOVhXdkZ2anh4ZWRscUUySEFC?=
+ =?utf-8?B?Rnd2b09KVFNoakJLNVFibWdvV0RCSmgyWXFEU3hwZHRvTC9KR2Z1MzJYL2R0?=
+ =?utf-8?B?eHZTYTRRamVtRW9vWWFwaFQ4UDhlRXBSakR1V2NwSkh5NytUL2xvWkcyT01H?=
+ =?utf-8?B?SlZjTUh2QzUvRVlhdFJYajV4VHpWSFR6bjZUMCtRMjdTYytEQ2Z0SEQwK21M?=
+ =?utf-8?B?dHFTWFJxdDNKYVlrWVhGWHhsYUgrcXRTNDJicEord3dxbDVYOXFxQkwwODNN?=
+ =?utf-8?B?cGtjajBPSGpmTVpST3dBWDFUaHhDU3IybWFNNXB4YmFsdnVzTURGVTIvWVBs?=
+ =?utf-8?B?eEFId0d0cm5yekZWazlXZ2JTNWZlODNaQ1FNRFRzdTIybmZwUVZTZ2s1eWsv?=
+ =?utf-8?B?MUNrZ3VUakk4T0dvcmFuSnRrb2F6dWw2Vk9IQnpBRVJHQ1BRWTVZVm8weG54?=
+ =?utf-8?B?S1l4L2NhQUxHU0pCd0orYTB0bVFjVlpQRng0bUkxeXNkRTVLVGZMOHJXVFhD?=
+ =?utf-8?B?VlJESzlyTHBodW9QQlZDaHp1NXBiSDNrZUNNcnU4ajRGaGMvRVVYYnp4YUMz?=
+ =?utf-8?B?aU9ZVVU5NGhFODl6OWFvU0twWlM3VllVYWxmVzF2UXF1N2t6WlhKajZuR1p4?=
+ =?utf-8?B?NncreVllYUdLOFVEa2VUOVlVS1pxWE1jdWtpUmNDaW1WVnRENDFhcGhDYmRS?=
+ =?utf-8?B?clRNZHkydHZCd3hEc2kxQlFrRWFvQWRqTmhVc21YZUtCRW81d1UvcUoxY1Y4?=
+ =?utf-8?B?NExMQjFIZFFLT0RtVytIYXdzaC9ibE9BWC9ZZmlGMWFEWm5IZXBkZTJZZmZK?=
+ =?utf-8?B?anZ1K1ZXTkxrYklvcFNyblVkemh5TW8rZmdaTGdkdkFSUWZCUDgrNWRid0Zk?=
+ =?utf-8?B?NGZ0VVppRXpLMjV3STZ0TUFxamh3MVZwcm1zeTJYdFJuZDJEOVRJSmhxZis5?=
+ =?utf-8?B?SXg0M2xGeWFEeG1GVEVocU1PTE1pOWplbjBhL0Fsa1JUNWcyZTFJUUhhRk9j?=
+ =?utf-8?B?VDhyZ2wwcE1JU3F0ODBZLys1Y1NPWmQ5d0hMZlk2ZnhTaW52L3dvV0gvdUkw?=
+ =?utf-8?B?QThBN0kxbzFEamFRbVBUMlhRYjdGUUhlTXBOVlUxclpHeW1obFA2UXlCckNF?=
+ =?utf-8?B?WnlEZ01wVUFRWFZ1MHFlaEVncmdmb1NLWEc2dS9ITlFaSS80allKYS84dGFK?=
+ =?utf-8?B?WjM0VDdGTFRzQVpNQjFwTDRvMWRWQkE1eEhvK1FvanhmYjJKVmVsUkdGaHRt?=
+ =?utf-8?B?clNMV3REQWZmR1BLT3JqRzR3Z0hGYTFqZEIvbzNIUll1SzROSmJmWGp2c0Ex?=
+ =?utf-8?B?bVNxRFozYWlGNzNtdEp4bWd2VzJ1bGx4dW5WVFYxazJJS3o1Wktza2c5dDFC?=
+ =?utf-8?B?S0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: abf83b76-c083-4973-6c70-08dba9828219
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 17:56:59.8248
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2z82lWGYlhFM6NAqLex8nKNdpcRrZQSnWECd+A8F63GrFw5SJ1SpoxM+GUADhKdCnP5oWwpvkcAlapsBWN497cMoEnwIm4KarndmJYOqdaQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6712
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 2:03=E2=80=AFAM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
->
-> On Tue, Aug 29, 2023 at 10:20:04AM -0700, Evan Green wrote:
-> > On Tue, Aug 29, 2023 at 1:48=E2=80=AFAM Andrew Jones <ajones@ventanamic=
-ro.com> wrote:
-> > >
-> > > Hi Evan,
-> > >
-> > > Here's my stab at new wording.
-> > >
-> > > On Tue, Jul 11, 2023 at 01:18:30PM -0700, Evan Green wrote:
-> > > ...
-> > > > diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uab=
-i.rst
-> > > > index 8960fac42c40..afdda580e5a2 100644
-> > > > --- a/Documentation/riscv/uabi.rst
-> > > > +++ b/Documentation/riscv/uabi.rst
-> > > > @@ -42,6 +42,16 @@ An example string following the order is::
-> > > >
-> > > >     rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
-> > > >
-> > > > +"isa" vs "hart isa" lines in /proc/cpuinfo
-> > > > +------------------------------------------
-> > > > +
-> > > > +The "isa" line in /proc/cpuinfo describes the lowest common denomi=
-nator of
-> > > > +RISC-V ISA extensions understood by the kernel and implemented on =
-all harts. The
-> > > > +"hart isa" line, in contrast, describes the set of extensions unde=
-rstood by the
-> > > > +kernel on the particular hart being described, even if those exten=
-sions may not
-> > > > +be present on all harts in the system. The "hart isa" line is cons=
-istent with
-> > > > +what's returned by __riscv_hwprobe() when querying for that specif=
-ic CPU.
-> > > > +
-> > >
-> > > The "isa" and "hart isa" lines in /proc/cpuinfo list RISC-V ISA exten=
-sions
-> > > which the kernel can identify (the kernel recognizes the extension's =
-name)
-> > > and have not been filtered out due to effectively not being present. =
- An
-> > > extension is effectively not present when it is unusable, either due =
-to
-> > > defects (which the kernel is aware of), due to missing information wh=
-ich
-> > > is necessary to complete the extension's description, or due to being
-> > > explicitly "hidden", such as when a kernel command line parameter
-> > > instructs the kernel to pretend the extension is not present.  Note, =
-an
-> > > extension's presence in a list does not imply the kernel is using the
-> > > extension, nor does it imply that userspace or guest kernels may use =
-the
-> > > extension (__riscv_hwprobe() should be queried for userspace usabilit=
-y.
-> > > The hypervisor should be queried, using hypervisor-specific APIs, to
-> > > check guest kernel usability.)
-> > >
-> > > The "isa" line describes the lowest common denominator of extensions,
-> > > which are the extensions implemented on all harts.  In contrast, the
-> > > extensions listed in the "hart isa" line need not be implemented by
-> > > any other hart than the hart corresponding to the line.
-> > >
-> > > ---
-> > >
-> > > I've specifically dropped the 'The "hart isa" line is consistent with
-> > > what's returned by __riscv_hwprobe()...' part because I suspect hwpro=
-be
-> > > could at least lag what gets put in "hart isa", since the kernel may =
-be
-> > > taught about an extension for a different purpose first, neglecting
-> > > hwprobe. And, there may be cases that hwprobe never enumerates an
-> > > extension which the kernel does.
-> >
-> > Thanks for this. My v5 had also dropped the hwprobe part. A few thought=
-s:
-> >
-> >  * It seems like you want to make sure we call out the fact that the
-> > kernel may trim out, for various reasons, ISA extensions that the
-> > hardware does in fact support. This seems reasonable, but I don't
-> > think we need to enumerate the complete list of "why" this might
-> > happen, as that list is likely to go stale.
->
-> I agree it's better to not [try to] list all the possibilities, assuming
-> we can come up with good, general words to capture the idea.
->
-> >  * The "kernel is using the extension" part is a slightly confusing
-> > perspective in this context, as it sort of implies the kernel has its
-> > own agenda :). I'd expect users looking at /proc/cpuinfo are mostly
-> > trying to figure out what extensions they themselves can use, and the
-> > kernel's behavior factors in only insofar as it's required to support
-> > the user in using a feature. Mostly I guess this is a phrasing nit.
->
-> We'll have plenty of S-mode extensions listed in these strings. Users
-> who recognize S-mode extensions may want to know if they're listed becaus=
-e
-> the kernel is applying them (and wouldn't be listed otherwise), or whethe=
-r
-> they're listed simply because they exist on the hart(s).
+Hi Babu,
 
-I see. You're right I was thinking only about U-mode extensions.
+On 8/30/2023 9:38 AM, Moger, Babu wrote:
+> On 8/29/23 15:10, Reinette Chatre wrote:
+>> On 8/21/2023 4:30 PM, Babu Moger wrote:
+>>>  static int rdt_enable_ctx(struct rdt_fs_context *ctx)
+>>>  {
+>>>  	int ret = 0;
+>>>  
+>>> -	if (ctx->enable_cdpl2)
+>>> +	if (ctx->enable_cdpl2) {
+>>>  		ret = resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L2, true);
+>>> +		if (ret)
+>>> +			goto out_done;
+>>> +	}
+>>>  
+>>> -	if (!ret && ctx->enable_cdpl3)
+>>> +	if (ctx->enable_cdpl3) {
+>>>  		ret = resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L3, true);
+>>> +		if (ret)
+>>> +			goto out_cdpl2;
+>>> +	}
+>>>  
+>>> -	if (!ret && ctx->enable_mba_mbps)
+>>> +	if (ctx->enable_mba_mbps) {
+>>>  		ret = set_mba_sc(true);
+>>> +		if (ret)
+>>> +			goto out_cdpl3;
+>>
+>> An error may be encountered here without CDP ever enabled or just
+>> enabled for L2 or L3. I think that the error unwinding should
+>> take care to not unwind an action that was not done. Considering
+>> the information available I think checking either ctx->enable_...
+>> or the checks used in rdt_disable_ctx() would be ok but for consistency
+>> the resctrl_arch_get_cdp_enabled() checks may be most appropriate.
+>>
+>>> +	}
+>>> +
+>>> +	return 0;
+>>>  
+>>> +out_cdpl3:
+>>
+>> So here I think there should be a check. 
+>> 	if (resctrl_arch_get_cdp_enabled(RDT_RESOURCE_L3))
+>>
+>>> +	resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L3, false);
+>>> +out_cdpl2:
+>>
+>> ... and here a check:
+>> 	if (resctrl_arch_get_cdp_enabled(RDT_RESOURCE_L2))
+> 
+> 
+> I know it does not hurt to add these checks.  But, it may be unnecessary
+> considering  cdp_disable() has the check "if (r_hw->cdp_enabled)" already.
+> Both are same checks. What do you think?
 
->
-> >  * The bringing up of guest kernels also seems confusing to me in the
-> > context of /proc/cpuinfo. I'd expect discussions on how host ISA
-> > extensions filter into guest OSes to be in a hypervisor-specifc
-> > document, or at least a section dedicated to virtualization.
->
-> If there weren't S-mode extensions being listed, then I would agree,
-> but, since there are, it seems odd to not explain what it means for
-> them to be there wrt host and guest kernels.
+Yes, good point. Thank you for checking. Considering this it looks like
+rdt_disable_ctx() can be simplified also by removing those CDP
+enabled checks from it? Also looks like rdt_disable_ctx()-> set_mba_sc(false)
+can be called unconditionally.
 
-I'm not a virtualization guy, but my impression was people didn't have
-expectations that everything they saw in cpuinfo would be wholesale
-presented to guest VMs. There's always that layer of hypervisor
-configuration that may strip out some features. So I'm still not super
-convinced guest VMs need a carveout/caveat here, but let me see if I
-can fold it in.
+Reinette
 
->
-> >  * I hesitated in adding prescriptive guidance on what users should
-> > do, as I think this section will hold up better over time if it just
-> > describes current characteristics, rather than attempting to prescribe
-> > behavior. If we want a prescriptive documentation on "use this for
-> > that", that should probably be its own section
->
-> I guess the guidance you're referring to is the "(__riscv_hwprobe() shoul=
-d
-> be queried for userspace usability.  The hypervisor should be queried,
-> using hypervisor-specific APIs, to check guest kernel usability.)" bit.
-> I'm fine with dropping that or moving it to another section, but I think
-> the more we point out hwprobe, the better. If developers are reading this
-> /proc/cpuinfo section because they want to detect extensions, then I'd
-> prefer the section redirects them to hwprobe.
-
-Fair enough. I still haven't brought myself to wedge in an ad for
-hwprobe, but I also don't disagree with this :)
-
->
-> >
-> > If I try to fold the gist of what you wrote into v5, I get something
-> > like this (also with a very slight section heading change). Let me
-> > know what you think:
-> >
-> > "isa" and "hart isa" lines in /proc/cpuinfo
-> > ------------------------------------------
->
-> need one more _
->
-> >
-> > The "isa" line in /proc/cpuinfo describes the lowest common denominator=
- of
-> > RISC-V ISA extensions recognized by the kernel and implemented on all h=
-arts. The
-> > "hart isa" line, in contrast, describes the set of extensions recognize=
-d by the
-> > kernel on the particular hart being described, even if those extensions=
- may not
-> > be present on all harts in the system.
-> >
-> > In both lines, the presence of an extension guarantees only that the
-> > hardware has the described capability.
-> > Additional kernel support or policy changes may be required before an
-> > extension's capability is fully usable by userspace programs.
->
-> or guest kernels in the case of S-mode extensions.
->
-> >
-> > Inversely, the absence of an extension in these lines does not
-> > necessarily mean the hardware does not support that feature. The
-> > running kernel may not recognize the extension, or may have
-> > deliberately disabled access to it.
->
-> I'm not sure about the word "disabled". The kernel can only disable U-mod=
-e
-> extensions and S-mode extensions for guests. S-mode extensions for the
-> current kernel would have to be disabled by its next higher privilege
-> level.
->
-> How about "...may not recognize the extension, or may have deliberately
-> removed it from the listing."
-
-Perfect.
-
->
-> (But then readers will wonder why an extension would be deliberately
-> removed from the listing, which brings us back to trying to come up
-> with general words to capture the cases I listed. Or, maybe we don't
-> have to care if they wonder why in this section/document.)
-
-I know, I felt the same pull to explain why as well. But I think given
-that our goal with this section is mostly to make the distinction of
-"presence !=3D active", explaining exactly why the kernel may remove it
-is not strictly necessary. All of my attempts to tack something on end
-up being enumerated lists, which don't come out well and muddle the
-message.
-
-Here's another shot (line endings may be wonky):
-
-"isa" and "hart isa" lines in /proc/cpuinfo
--------------------------------------------
-
-The "isa" line in /proc/cpuinfo describes the lowest common denominator of
-RISC-V ISA extensions recognized by the kernel and implemented on all harts=
-. The
-"hart isa" line, in contrast, describes the set of extensions recognized by=
- the
-kernel on the particular hart being described, even if those extensions may=
- not
-be present on all harts in the system.
-
-In both lines, the presence of an extension guarantees only that the
-hardware has the described capability.
-Additional kernel support or policy changes may be required before an
-extension's capability is fully usable by userspace programs.
-Similarly, for S-mode extensions, presence in one of these lines does
-not guarantee that the kernel is taking advantage of the extension, or
-that the feature will be visible in guest VMs managed by this kernel.
-
-Inversely, the absence of an extension in these lines does not
-necessarily mean the hardware does not support that feature. The
-running kernel may not recognize the extension, or may have
-deliberately removed it from the listing.
-
--Evan
-
->
-> Thanks,
-> drew
