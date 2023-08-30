@@ -2,375 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFACC83F17
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3CD7C83F19
 	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238392AbjH3Shn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:37:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48462 "EHLO
+        id S238381AbjH3Shm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244320AbjH3M6A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 08:58:00 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E172B1B2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:32 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1c0ecb9a075so23529275ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1693400252; x=1694005052; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d26r5h0CmoNOET0LiIs8p2rIU7MrnWiXaRawIuYer7M=;
-        b=KweIXoJnWMLJ8OUXWAWhwDqHxJ4YL9vIQw/T006F7lfamNbqQZE9Mazy74A5aiG+09
-         f56KLeLkH7l0CqUWqApnlb79bsIgaSiAGxnTnPbI3UbHHKbjGs0A2r5HJ/yIAFKBBt34
-         0FV8gAQIHE+mtTDyvw2tLAv2/vIR3lDI2hrclPHzY7XaelCbg2cpS0C7tPHcm5YxNA4/
-         5oGXC4d19e4b5MBHdVBTe6p3ENdfjJMC/gwP+k+dqdI806VGvTLONasvi4mFqaxquzsN
-         A7Fsiu6sa3yjTaxf5JfPqtmNYsIKfpF3i9XeFI4oqz01YpEbxWxmOn6JVmRGvA2DT9/N
-         ANxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693400252; x=1694005052;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d26r5h0CmoNOET0LiIs8p2rIU7MrnWiXaRawIuYer7M=;
-        b=bK+nFKW1AW4u6JTsC6FXYS3K8qmV4D/05/qfac1aEPRWkMiHz28jl6u10ANGAo8Lwa
-         S1GIFwlCM8tCk8hZhx0dC8jHhgu3NIkTipZMgmCfDBvDBsQAuHlzskqLXsNBcDA+HcYu
-         PgZMqQFVXyShCZyyLgDijTfRMNyqKGw8STFZtgYdd0aHzPE/2MIDObJPrFLRAaH1znC3
-         NYpaaq3ynfHo1o6S7+ha+8lRiaSwLNTU2ITmsFHFIl75kfj+Z8HY577yW1bshkHJEz9Z
-         Sc3O4Oobv2qXrt6R/wfmkYHo1P4b1/RNL+JOHS7bXX4/MWOd9DDXGmDB9qlM3sMJ/rYI
-         HQuw==
-X-Gm-Message-State: AOJu0YyKiBHZ/+ZCLeJNjhQaTRfxtk6QBRRzOgybgMSK5c/5+CghrogJ
-        /iW8RhObQ0mfAFN4bL2I/3gPHg==
-X-Google-Smtp-Source: AGHT+IFlsKJ4gsggMjq3Qups2gBw5dyyMz0AGXGO84i6jUNMN2vnjaDbpUxjVunPZt/9zXz+SwW1rQ==
-X-Received: by 2002:a17:902:edc7:b0:1bb:c5a9:6b26 with SMTP id q7-20020a170902edc700b001bbc5a96b26mr1834665plk.5.1693400252383;
-        Wed, 30 Aug 2023 05:57:32 -0700 (PDT)
-Received: from GL4FX4PXWL.bytedance.net ([139.177.225.247])
-        by smtp.gmail.com with ESMTPSA id iw1-20020a170903044100b001bbd8cf6b57sm11023265plb.230.2023.08.30.05.57.26
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 30 Aug 2023 05:57:32 -0700 (PDT)
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
-        willy@infradead.org, brauner@kernel.org, surenb@google.com,
-        michael.christie@oracle.com, peterz@infradead.org,
-        mathieu.desnoyers@efficios.com, npiggin@gmail.com, avagin@gmail.com
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Peng Zhang <zhangpeng.00@bytedance.com>
-Subject: [PATCH v2 2/6] maple_tree: Introduce interfaces __mt_dup() and mtree_dup()
-Date:   Wed, 30 Aug 2023 20:56:50 +0800
-Message-Id: <20230830125654.21257-3-zhangpeng.00@bytedance.com>
-X-Mailer: git-send-email 2.37.0 (Apple Git-136)
-In-Reply-To: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
-References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+        with ESMTP id S244170AbjH3Mih (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 08:38:37 -0400
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2080.outbound.protection.outlook.com [40.107.105.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16351D2;
+        Wed, 30 Aug 2023 05:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wV8mPRMaR1P1rFQgy90FKbO/pA1JI7UIbXfKBiXscyc=;
+ b=0HECq+n//99ifwPs3hI25BCyHpAMZZ8HmFsRml8mk4x3kt/6OnDOi0++4f4yiddYjjNsBjMCJOjEsd4G99DKZetc2Bd2gbKzDK5+zZn2ix5flWm/lmTGQdA+R4aDSPQ/iIILQXAQ84ofVyyJel8VLLMUe53rn3fOi/T1LN4B7c8=
+Received: from AM5PR0101CA0028.eurprd01.prod.exchangelabs.com
+ (2603:10a6:206:16::41) by AS4PR08MB7926.eurprd08.prod.outlook.com
+ (2603:10a6:20b:575::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.35; Wed, 30 Aug
+ 2023 12:38:04 +0000
+Received: from AM7EUR03FT025.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:206:16:cafe::59) by AM5PR0101CA0028.outlook.office365.com
+ (2603:10a6:206:16::41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20 via Frontend
+ Transport; Wed, 30 Aug 2023 12:38:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT025.mail.protection.outlook.com (100.127.140.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6745.20 via Frontend Transport; Wed, 30 Aug 2023 12:38:03 +0000
+Received: ("Tessian outbound 169aaa6bf2b7:v175"); Wed, 30 Aug 2023 12:38:03 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: f3df13224b1ec5d9
+X-CR-MTA-TID: 64aa7808
+Received: from 0e08af961bde.2
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id A930DF65-6BEA-493C-90C7-95D9A52A42EA.1;
+        Wed, 30 Aug 2023 12:37:53 +0000
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0e08af961bde.2
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 30 Aug 2023 12:37:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QhSWutMyJ1kSENpbrpQZWrTUeJcqMGO4/nJxBzKoKGP0b6PqtRgz5sDosrqxeop9uSlq9j3tuOcMK6o0LqkrUvJHHYUHIRWSGGzDGdzy1Aac7no8MMAszMVgNaBmMnI9qdyQ+gHK2PmHUd+SaZCPaCIhbsIC7o7kVMPYD7RM9zjYE1zIIZmnkV5Xz8fFJhpQMlncfrpEBrYaqvDdbu9MRD9YeaQDSPQyFrrzExx7sH2fffliO5redpoLN9mHYDvHvgJerd88+4mLhtn66jOo2Bs/Bg/D4uJgfJGpREZHdJte5ZNgZ5biUDkxYpB9Q+sUwl1IN2iVZkaRCM+zKWKBzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wV8mPRMaR1P1rFQgy90FKbO/pA1JI7UIbXfKBiXscyc=;
+ b=lQK7A0ALSYRQUMmHvrZQnrtBr+hFioYgWXxmg1snXS7uh4KqhyKprV8TFxLa4ZyS3qD79XkY/6K4oJGKEk6/OuOILUIF/eHJCtY0aD/sgmsDla5CVMCuKgLHq2+w3hEAyUE/XVCOy3sQSq7Iwz+0/H7x2T1aA92LC1SwwMQwcn9e9smMCCwJsIJaGiSPxyL/CqHyA02aDWgc52H4YrJnPsJ+8VS+tzEIHDj6c8SDe41xoZ1IqkIym6kTiO1QU0fcjXLlhTM/KQ12FUD9AgHlO8v/KnH3Swjom6ww2P9aJ0HaswUG/gakTJzvqZ/0YMiqg9vT3/ysEYDpUs72bVU5pA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wV8mPRMaR1P1rFQgy90FKbO/pA1JI7UIbXfKBiXscyc=;
+ b=0HECq+n//99ifwPs3hI25BCyHpAMZZ8HmFsRml8mk4x3kt/6OnDOi0++4f4yiddYjjNsBjMCJOjEsd4G99DKZetc2Bd2gbKzDK5+zZn2ix5flWm/lmTGQdA+R4aDSPQ/iIILQXAQ84ofVyyJel8VLLMUe53rn3fOi/T1LN4B7c8=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
+ by DB9PR08MB6393.eurprd08.prod.outlook.com (2603:10a6:10:25a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Wed, 30 Aug
+ 2023 12:37:50 +0000
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::adb0:61cb:8733:6db2]) by DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::adb0:61cb:8733:6db2%7]) with mapi id 15.20.6745.020; Wed, 30 Aug 2023
+ 12:37:50 +0000
+Date:   Wed, 30 Aug 2023 13:37:33 +0100
+From:   Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 03/36] arm64/gcs: Document the ABI for Guarded Control
+ Stacks
+Message-ID: <ZO84DWEiYk6dU3iR@arm.com>
+References: <ZN+qki9EaZ6f9XNi@arm.com>
+ <aaea542c-929c-4c9b-8caa-ca67e0eb9c1e@sirena.org.uk>
+ <ZOTnL1SDJWZjHPUW@arm.com>
+ <43ec219d-bf20-47b8-a5f8-32bc3b64d487@sirena.org.uk>
+ <ZOXa98SqwYPwxzNP@arm.com>
+ <227e6552-353c-40a9-86c1-280587a40e3c@sirena.org.uk>
+ <ZOY3lz+Zyhd5ZyQ9@arm.com>
+ <ZOZEmO6WGyVAcOqK@arm.com>
+ <ef7272d2-d807-428f-9915-6fc9febadb5c@sirena.org.uk>
+ <ZOd6lzj29VksAp7L@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZOd6lzj29VksAp7L@arm.com>
+X-ClientProxiedBy: LO4P123CA0550.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:319::20) To DB9PR08MB7179.eurprd08.prod.outlook.com
+ (2603:10a6:10:2cc::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|DB9PR08MB6393:EE_|AM7EUR03FT025:EE_|AS4PR08MB7926:EE_
+X-MS-Office365-Filtering-Correlation-Id: d1a6c58c-f047-4297-32bc-08dba955f44a
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: cNAz/hpoSFm1p+4pzfjNhQORnvLX83LoV7Dl6XnLmgKDXaFe7I534uViSj2bd9s10w48rqzxrYplFxgNc7FdiEc1GUnB64H+HOwxGLH/tJnOiwFpSi5H+PI1JomPuA7qc9w7QaCk715nxzM43D9AxcFICBrMqX4BTR9lRFwma2UtGIVW6Tzxaokhcv0S4WUwNexlDEzrNLCGL4FbAFv6KPXSvguOW2KaDaVUCYUxDgx/RBUlCNOVQFPynPi8L4ishHm9WtCFo+ts836y7LBNdIDkMB0ROfSdTZCGXbXtrHKPwiJC5Ak87QNHll69wBuooBIv4yhX1E77m2XcEzAPVg3+sJ4reRSPYyMjQGNbgqMhkqp51gNpsRYt9Fev3FVjZPesSL95AfLo/+iP76S4IjHWQCiQtXZTgvs0wk72TGWm0cC0fYgzA7u94Xc4KNDxSmFB95ECMHksq5CWgN0PhzMcgrk2n/tZSyFNDJSb0qmUqmqQ7kjPmLcAPQ8Sp06tJPsO0Eg8jIWYziWfJI+K0k056IZiOaNWd/vwlJ714qpIHYn2kniuJnsIOVmQ9TNb
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(136003)(376002)(366004)(396003)(451199024)(1800799009)(186009)(6486002)(6666004)(6512007)(6506007)(83380400001)(478600001)(2906002)(26005)(110136005)(7416002)(41300700001)(66476007)(66946007)(66556008)(54906003)(316002)(8676002)(8936002)(5660300002)(4326008)(36756003)(2616005)(38100700002)(86362001)(66899024);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6393
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT025.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 8116f766-498c-49e6-ce34-08dba955eb68
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: enUTmKejbF4nIxcGH/C7zmiBA5kmWHTWhcllGnmZi+Yj+cBGiE6tOUMg6zQdx//BhN9lTbYaK8UG6iAa91hWVwqGamplGV8FNYHp9rFveprFwelkQLSaaXAYxKKJOLM614sF7I45Oi49qP0ZKVXGUg38YF/gzSi/CzLSprXnDZL+FF+xVW9I2ZiMfdbXHd6fJztlDPR8BJk1bLP8GJmZYQJEVS7Qvt4jHxy3mclT4JVWjTRn1aPgtJBYsgL5YU/2QFh5KNFIYLlFLW7ga8NLGyUNonDmx7U0GVDHkn32v7MzS46In/ZvzLr7f4kwFB+DhKuoUS6bcAQl6sEpBkdofDYRtoVKUyP3faPu/O1Uu8+fOqDqi1vhS6yTwY4VUyWUZFl2Nn8h7fT/P8YeSiValPrg40HZo98RVFyfISUmQHsc85zoctwKHtctQKf+bfWQyJlPf0AlmrbMinYkX63XWMnQDvT3Uj26eAE5pPBjD/gHP2a2vNqGbBOWZjdxIEb/j5tOcvi8Nb+TftxJTYW/d19BgxhW8nv1GBGrlnKvcpQvjsK8lQ//f1/+qxSQFuYdkfQtWtlx1ITisRADEgeEbYswgwzs8xYebVSZ1X79BoPYzQXvLHIazxmXM5w+1B38uQTWP9sWJSpfIHxsZDizGPg6/y5Kk3rAtE1HHpPcDE+D/CgJOEFYl2voHXgnnGAQH8XHn1ipQmPrduT3C9w60liU2yk+ozmGACwL0p9+oYD7Z5QPwUcnJ4aeYf0s9vPp
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(346002)(396003)(376002)(1800799009)(82310400011)(451199024)(186009)(36840700001)(46966006)(40470700004)(6512007)(40460700003)(316002)(41300700001)(66899024)(4326008)(336012)(47076005)(26005)(86362001)(83380400001)(107886003)(2616005)(36756003)(5660300002)(8676002)(40480700001)(36860700001)(2906002)(8936002)(450100002)(6666004)(82740400003)(356005)(81166007)(6506007)(6486002)(54906003)(70206006)(110136005)(70586007)(478600001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 12:38:03.7468
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1a6c58c-f047-4297-32bc-08dba955f44a
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT025.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7926
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce interfaces __mt_dup() and mtree_dup(), which are used to
-duplicate a maple tree. Compared with traversing the source tree and
-reinserting entry by entry in the new tree, it has better performance.
-The difference between __mt_dup() and mtree_dup() is that mtree_dup()
-handles locks internally.
+The 08/24/2023 16:43, Catalin Marinas wrote:
+> Is there a use-case for the unlocked configuration to allow disabling
+> the GCS implicitly via a clone syscall?
 
-Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
----
- include/linux/maple_tree.h |   3 +
- lib/maple_tree.c           | 265 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 268 insertions(+)
+how would you handle clone or clone3 without gcs specified?
+(in the cases when clone creates a new thread with new stack)
 
-diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
-index e41c70ac7744..44fe8a57ecbd 100644
---- a/include/linux/maple_tree.h
-+++ b/include/linux/maple_tree.h
-@@ -327,6 +327,9 @@ int mtree_store(struct maple_tree *mt, unsigned long index,
- 		void *entry, gfp_t gfp);
- void *mtree_erase(struct maple_tree *mt, unsigned long index);
- 
-+int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
-+int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
-+
- void mtree_destroy(struct maple_tree *mt);
- void __mt_destroy(struct maple_tree *mt);
- 
-diff --git a/lib/maple_tree.c b/lib/maple_tree.c
-index ef234cf02e3e..8f841682269c 100644
---- a/lib/maple_tree.c
-+++ b/lib/maple_tree.c
-@@ -6370,6 +6370,271 @@ void *mtree_erase(struct maple_tree *mt, unsigned long index)
- }
- EXPORT_SYMBOL(mtree_erase);
- 
-+/*
-+ * mas_dup_free() - Free a half-constructed tree.
-+ * @mas: Points to the last node of the half-constructed tree.
-+ *
-+ * This function frees all nodes starting from @mas->node in the reverse order
-+ * of mas_dup_build(). There is no need to hold the source tree lock at this
-+ * time.
-+ */
-+static void mas_dup_free(struct ma_state *mas)
-+{
-+	struct maple_node *node;
-+	enum maple_type type;
-+	void __rcu **slots;
-+	unsigned char count, i;
-+
-+	/* Maybe the first node allocation failed. */
-+	if (!mas->node)
-+		return;
-+
-+	while (!mte_is_root(mas->node)) {
-+		mas_ascend(mas);
-+
-+		if (mas->offset) {
-+			mas->offset--;
-+			do {
-+				mas_descend(mas);
-+				mas->offset = mas_data_end(mas);
-+			} while (!mte_is_leaf(mas->node));
-+
-+			mas_ascend(mas);
-+		}
-+
-+		node = mte_to_node(mas->node);
-+		type = mte_node_type(mas->node);
-+		slots = (void **)ma_slots(node, type);
-+		count = mas_data_end(mas) + 1;
-+		for (i = 0; i < count; i++)
-+			((unsigned long *)slots)[i] &= ~MAPLE_NODE_MASK;
-+
-+		mt_free_bulk(count, slots);
-+	}
-+
-+	node = mte_to_node(mas->node);
-+	mt_free_one(node);
-+}
-+
-+/*
-+ * mas_copy_node() - Copy a maple node and allocate child nodes.
-+ * @mas: Points to the source node.
-+ * @new_mas: Points to the new node.
-+ * @parent: The parent node of the new node.
-+ * @gfp: The GFP_FLAGS to use for allocations.
-+ *
-+ * Copy @mas->node to @new_mas->node, set @parent to be the parent of
-+ * @new_mas->node and allocate new child nodes for @new_mas->node.
-+ * If memory allocation fails, @mas is set to -ENOMEM.
-+ */
-+static inline void mas_copy_node(struct ma_state *mas, struct ma_state *new_mas,
-+		struct maple_node *parent, gfp_t gfp)
-+{
-+	struct maple_node *node = mte_to_node(mas->node);
-+	struct maple_node *new_node = mte_to_node(new_mas->node);
-+	enum maple_type type;
-+	unsigned long val;
-+	unsigned char request, count, i;
-+	void __rcu **slots;
-+	void __rcu **new_slots;
-+
-+	/* Copy the node completely. */
-+	memcpy(new_node, node, sizeof(struct maple_node));
-+
-+	/* Update the parent node pointer. */
-+	if (unlikely(ma_is_root(node)))
-+		val = MA_ROOT_PARENT;
-+	else
-+		val = (unsigned long)node->parent & MAPLE_NODE_MASK;
-+
-+	new_node->parent = ma_parent_ptr(val | (unsigned long)parent);
-+
-+	if (mte_is_leaf(mas->node))
-+		return;
-+
-+	/* Allocate memory for child nodes. */
-+	type = mte_node_type(mas->node);
-+	new_slots = ma_slots(new_node, type);
-+	request = mas_data_end(mas) + 1;
-+	count = mt_alloc_bulk(gfp, request, new_slots);
-+	if (unlikely(count < request)) {
-+		if (count)
-+			mt_free_bulk(count, new_slots);
-+		mas_set_err(mas, -ENOMEM);
-+		return;
-+	}
-+
-+	/* Restore node type information in slots. */
-+	slots = ma_slots(node, type);
-+	for (i = 0; i < count; i++)
-+		((unsigned long *)new_slots)[i] |=
-+			((unsigned long)mt_slot_locked(mas->tree, slots, i) &
-+			MAPLE_NODE_MASK);
-+}
-+
-+/*
-+ * mas_dup_build() - Build a new maple tree from a source tree
-+ * @mas: The maple state of source tree.
-+ * @new_mas: The maple state of new tree.
-+ * @gfp: The GFP_FLAGS to use for allocations.
-+ *
-+ * This function builds a new tree in DFS preorder. If the memory allocation
-+ * fails, the error code -ENOMEM will be set in @mas, and @new_mas points to the
-+ * last node. mas_dup_free() will free the half-constructed tree.
-+ *
-+ * Note that the attributes of the two trees must be exactly the same, and the
-+ * new tree must be empty, otherwise -EINVAL will be returned.
-+ */
-+static inline void mas_dup_build(struct ma_state *mas, struct ma_state *new_mas,
-+		gfp_t gfp)
-+{
-+	struct maple_node *node, *parent;
-+	struct maple_enode *root;
-+	enum maple_type type;
-+
-+	if (unlikely(mt_attr(mas->tree) != mt_attr(new_mas->tree)) ||
-+	    unlikely(!mtree_empty(new_mas->tree))) {
-+		mas_set_err(mas, -EINVAL);
-+		return;
-+	}
-+
-+	mas_start(mas);
-+	if (mas_is_ptr(mas) || mas_is_none(mas)) {
-+		/*
-+		 * The attributes of the two trees must be the same before this.
-+		 * The following assignment makes them the same height.
-+		 */
-+		new_mas->tree->ma_flags = mas->tree->ma_flags;
-+		rcu_assign_pointer(new_mas->tree->ma_root, mas->tree->ma_root);
-+		return;
-+	}
-+
-+	node = mt_alloc_one(gfp);
-+	if (!node) {
-+		new_mas->node = NULL;
-+		mas_set_err(mas, -ENOMEM);
-+		return;
-+	}
-+
-+	type = mte_node_type(mas->node);
-+	root = mt_mk_node(node, type);
-+	new_mas->node = root;
-+	new_mas->min = 0;
-+	new_mas->max = ULONG_MAX;
-+	parent = ma_mnode_ptr(new_mas->tree);
-+
-+	while (1) {
-+		mas_copy_node(mas, new_mas, parent, gfp);
-+
-+		if (unlikely(mas_is_err(mas)))
-+			return;
-+
-+		/* Once we reach a leaf, we need to ascend, or end the loop. */
-+		if (mte_is_leaf(mas->node)) {
-+			if (mas->max == ULONG_MAX) {
-+				new_mas->tree->ma_flags = mas->tree->ma_flags;
-+				rcu_assign_pointer(new_mas->tree->ma_root,
-+						   mte_mk_root(root));
-+				break;
-+			}
-+
-+			do {
-+				/*
-+				 * Must not at the root node, because we've
-+				 * already end the loop when we reach the last
-+				 * leaf.
-+				 */
-+				mas_ascend(mas);
-+				mas_ascend(new_mas);
-+			} while (mas->offset == mas_data_end(mas));
-+
-+			mas->offset++;
-+			new_mas->offset++;
-+		}
-+
-+		mas_descend(mas);
-+		parent = mte_to_node(new_mas->node);
-+		mas_descend(new_mas);
-+		mas->offset = 0;
-+		new_mas->offset = 0;
-+	}
-+}
-+
-+/**
-+ * __mt_dup(): Duplicate a maple tree
-+ * @mt: The source maple tree
-+ * @new: The new maple tree
-+ * @gfp: The GFP_FLAGS to use for allocations
-+ *
-+ * This function duplicates a maple tree using a faster method than traversing
-+ * the source tree and inserting entries into the new tree one by one.
-+ * The user needs to ensure that the attributes of the source tree and the new
-+ * tree are the same, and the new tree needs to be an empty tree, otherwise
-+ * -EINVAL will be returned.
-+ * Note that the user needs to manually lock the source tree and the new tree.
-+ *
-+ * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
-+ * the attributes of the two trees are different or the new tree is not an empty
-+ * tree.
-+ */
-+int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
-+{
-+	int ret = 0;
-+	MA_STATE(mas, mt, 0, 0);
-+	MA_STATE(new_mas, new, 0, 0);
-+
-+	mas_dup_build(&mas, &new_mas, gfp);
-+
-+	if (unlikely(mas_is_err(&mas))) {
-+		ret = xa_err(mas.node);
-+		if (ret == -ENOMEM)
-+			mas_dup_free(&new_mas);
-+	}
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(__mt_dup);
-+
-+/**
-+ * mtree_dup(): Duplicate a maple tree
-+ * @mt: The source maple tree
-+ * @new: The new maple tree
-+ * @gfp: The GFP_FLAGS to use for allocations
-+ *
-+ * This function duplicates a maple tree using a faster method than traversing
-+ * the source tree and inserting entries into the new tree one by one.
-+ * The user needs to ensure that the attributes of the source tree and the new
-+ * tree are the same, and the new tree needs to be an empty tree, otherwise
-+ * -EINVAL will be returned.
-+ *
-+ * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
-+ * the attributes of the two trees are different or the new tree is not an empty
-+ * tree.
-+ */
-+int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
-+{
-+	int ret = 0;
-+	MA_STATE(mas, mt, 0, 0);
-+	MA_STATE(new_mas, new, 0, 0);
-+
-+	mas_lock(&new_mas);
-+	mas_lock(&mas);
-+
-+	mas_dup_build(&mas, &new_mas, gfp);
-+	mas_unlock(&mas);
-+
-+	if (unlikely(mas_is_err(&mas))) {
-+		ret = xa_err(mas.node);
-+		if (ret == -ENOMEM)
-+			mas_dup_free(&new_mas);
-+	}
-+
-+	mas_unlock(&new_mas);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(mtree_dup);
-+
- /**
-  * __mt_destroy() - Walk and free all nodes of a locked maple tree.
-  * @mt: The maple tree
--- 
-2.20.1
+(1) fail.
+(2) allocate gcs.
+(3) disable gcs.
 
+the problem with (1) is that it requires changes to user code
+(this only affects code outside the libc doing something special
+since raw clone thread cannot call into the libc, all executing
+code have to be tightly controlled. i don't know how common this
+is, but i at least expect it in test code for system level tools
+like debuggers, strace, valgrind, qemu-system, seccomp filters
+etc. if it appears in actual use then that's a deployment issue
+for distros: note that changing clone to clone3 is non-trivial:
+it requires fallback logic and may have to deal with seccomp
+filters).
+
+problem with (2) is that the size policy and lifetime management
+is in the kernel then. (since only special cases are affected i
+guess that is ok, but i assumed we want to avoid this by moving
+to clone3 and user managed gcs).
+
+the problem with (3) is escaping the security measure, however
+it only applies to very special threads that can always decide
+to opt-in to gcs, so i don't see this as such a bad option and
+at least bw compat with existing code. (in my threat model the
+attacker cannot hijack clone syscalls as that seems stronger
+than hijacking return addresses.)
+
+so i guess the answer depends on how much headache failing
+raw clone may cause and i don't know that.
