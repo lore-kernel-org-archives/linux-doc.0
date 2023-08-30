@@ -2,319 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37502C83F20
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CDA1C83F18
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:46:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238429AbjH3Shq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:37:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44690 "EHLO
+        id S238399AbjH3Sho (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245252AbjH3O5P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 10:57:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CE0C198;
-        Wed, 30 Aug 2023 07:57:11 -0700 (PDT)
+        with ESMTP id S1343718AbjH3Qmk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 12:42:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FEA19A;
+        Wed, 30 Aug 2023 09:42:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EFD9A624EC;
-        Wed, 30 Aug 2023 14:57:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA762C433C8;
-        Wed, 30 Aug 2023 14:57:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 81AD762119;
+        Wed, 30 Aug 2023 16:42:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F379C433C7;
+        Wed, 30 Aug 2023 16:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693407430;
-        bh=hvNd6USN55C63Ho+Y1o3PyEx2EFP7F9vcDQbxMzgnHo=;
+        s=k20201202; t=1693413751;
+        bh=+cegdjpC7G5umSHFHbrmT1BIlMdov4rtt+v2oJEk1tM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rlBpeLsGS4yzjCj6X53MRyUJ3jJYJUhuKn1S44WNd388z1wPi6LPKIyP0yikkPtrN
-         OGgS1sGF1MQuxUQqAlzl+LUJ6l7LaluuE6f/Dr4lAn37hxYYJ00Dbb+AxhjHbop9Yp
-         dqM+0Vnu+W9TF8tRFe9ptUidIjREnW/rP8L0SNM3kBB4/DIU5nT3HwAuyoxC7nmmhy
-         i+HAnAy2AymEv99T3Z0kRSPL3YxelypUnZsyaicZIGURWVirMUnsjJVt3e7jcoSkfH
-         Xk3+MCSyShvhvxLU4qCXZ8kxUXghXvZPOdB/xoCvwzCP87FNJ0W+eO3fJ6xNJGEmpJ
-         QK71cMn6T1GNw==
-Date:   Wed, 30 Aug 2023 16:57:07 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>, emma@anholt.net,
-        linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
-        dri-devel@lists.freedesktop.org, jbrunet@baylibre.com,
-        robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
-        sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
-        linux-rockchip@lists.infradead.org, daniels@collabora.com,
-        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
-        anholt@google.com, linux-mediatek@lists.infradead.org,
-        matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de, alyssa@rosenzweig.io,
-        vignesh.raman@collabora.com
-Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
-Message-ID: <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
-References: <20230811171953.176431-1-helen.koike@collabora.com>
- <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
- <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
- <87bkeo23vs.fsf@intel.com>
- <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
- <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
+        b=VjbX4CCwh2T7VRmcGdTip7u/f/TaIxuYGePqe7e+D4VSLmbiZHbmccKJEensZqdYd
+         /SkVtQoHfFek1l/akYZpl6ne+8eKdaeb9A2TuvGKtHgX54qQvFDVWxI1azmcGgWe2A
+         TCS6C1oK4Z9Yi4kRDMDic1bnoquUGBouKD5MDQ3AY/kt+9FcjbvW5qvdsxbxoapCQj
+         m6CelcYTizHCgj7uEUvmooKRW1IDpuIbzMXpLTY63MW/y+bD0wODuEHfxQZ27KwMGs
+         UK+r1H9fjVVo3zf7MJOTbhSZBfN9GnYmDVX/HSF7zUQGGf3T2s6/zw2yHd96jP9gqw
+         cyxOybFWimvpA==
+Date:   Wed, 30 Aug 2023 17:42:18 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 03/36] arm64/gcs: Document the ABI for Guarded Control
+ Stacks
+Message-ID: <9992beaf-f57d-41f8-9dbb-8044c783ddf4@sirena.org.uk>
+References: <aaea542c-929c-4c9b-8caa-ca67e0eb9c1e@sirena.org.uk>
+ <ZOTnL1SDJWZjHPUW@arm.com>
+ <43ec219d-bf20-47b8-a5f8-32bc3b64d487@sirena.org.uk>
+ <ZOXa98SqwYPwxzNP@arm.com>
+ <227e6552-353c-40a9-86c1-280587a40e3c@sirena.org.uk>
+ <ZOY3lz+Zyhd5ZyQ9@arm.com>
+ <ZOZEmO6WGyVAcOqK@arm.com>
+ <ef7272d2-d807-428f-9915-6fc9febadb5c@sirena.org.uk>
+ <ZOd6lzj29VksAp7L@arm.com>
+ <ZO84DWEiYk6dU3iR@arm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7ec3syeqgcjlux4q"
+        protocol="application/pgp-signature"; boundary="K/vjy3MP44rS/waF"
 Content-Disposition: inline
-In-Reply-To: <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
+In-Reply-To: <ZO84DWEiYk6dU3iR@arm.com>
+X-Cookie: Immanuel doesn't pun, he Kant.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---7ec3syeqgcjlux4q
+--K/vjy3MP44rS/waF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 30, 2023 at 10:24:49AM -0300, Helen Koike wrote:
-> Hi all,
->=20
-> Thanks for you comments.
->=20
-> On 30/08/2023 08:37, Maxime Ripard wrote:
-> > On Wed, Aug 30, 2023 at 01:58:31PM +0300, Jani Nikula wrote:
-> > > On Wed, 30 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > > > On Tue, Aug 22, 2023 at 04:26:06PM +0200, Daniel Vetter wrote:
-> > > > > On Fri, Aug 11, 2023 at 02:19:53PM -0300, Helen Koike wrote:
-> > > > > > From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > > > > >=20
-> > > > > > Developers can easily execute several tests on different devices
-> > > > > > by just pushing their branch to their fork in a repository host=
-ed
-> > > > > > on gitlab.freedesktop.org which has an infrastructure to run jo=
-bs
-> > > > > > in several runners and farms with different devices.
-> > > > > >=20
-> > > > > > There are also other automated tools that uprev dependencies,
-> > > > > > monitor the infra, and so on that are already used by the Mesa
-> > > > > > project, and we can reuse them too.
-> > > > > >=20
-> > > > > > Also, store expectations about what the DRM drivers are supposed
-> > > > > > to pass in the IGT test suite. By storing the test expectations
-> > > > > > along with the code, we can make sure both stay in sync with ea=
-ch
-> > > > > > other so we can know when a code change breaks those expectatio=
-ns.
-> > > > > >=20
-> > > > > > Also, include a configuration file that points to the out-of-tr=
-ee
-> > > > > > CI scripts.
-> > > > > >=20
-> > > > > > This will allow all contributors to drm to reuse the infrastruc=
-ture
-> > > > > > already in gitlab.freedesktop.org to test the driver on several
-> > > > > > generations of the hardware.
-> > > > > >=20
-> > > > > > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > > > > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > > > > > Acked-by: Daniel Stone <daniels@collabora.com>
-> > > > > > Acked-by: Rob Clark <robdclark@gmail.com>
-> > > > > > Tested-by: Rob Clark <robdclark@gmail.com>
-> > > > >=20
-> > > > > Ok I pushed this into a topic/drm-ci branch in drm.git and asked =
-sfr to
-> > > > > include that branch in linux-next.
-> > > > >=20
-> > > > > But also I'd like to see a lot more acks here, we should be able =
-to at
-> > > > > least pile up a bunch of (driver) maintainers from drm-misc in su=
-pport of
-> > > > > this. Also maybe media, at least I've heard noises that they're m=
-aybe
-> > > > > interested too? Plus anyone else, the more the better.
-> > > >=20
-> > > > I'm not really convinced by that approach at all, and most of the i=
-ssues
-> > > > I see are shown by the follow-up series here:
-> > >=20
-> > > I'm not fully convinced either, more like "let's see". In that narrow
-> > > sense, ack. I don't see harm in trying, if you're also open to backing
-> > > off in case it does not pan out.
-> > >=20
-> > > > https://lore.kernel.org/dri-devel/20230825122435.316272-1-vignesh.r=
-aman@collabora.com/
-> > > >=20
-> > > >    * We hardcode a CI farm setup into the kernel
->=20
->=20
-> These could be out of tree.
->=20
-> There is a version outside the kernel tree where you just point the CI
-> configuration to a url:
-> https://gitlab.freedesktop.org/gfx-ci/drm-ci/-/merge_requests/1
->=20
-> We were discussing it here https://www.linuxtv.org/cgi-bin/mailman/privat=
-e/linuxtv-ci/2023-August/000027.html
+On Wed, Aug 30, 2023 at 01:37:33PM +0100, Szabolcs Nagy wrote:
+> The 08/24/2023 16:43, Catalin Marinas wrote:
 
-It looks like it's private
+> > Is there a use-case for the unlocked configuration to allow disabling
+> > the GCS implicitly via a clone syscall?
 
-> (I guess Sima's reply didn't got into the mailing list) but the argument =
-of
-> not having out of tree repo is due to historical bad experience of having=
- to
-> sync the kernel with the code and it can become messy.
+> how would you handle clone or clone3 without gcs specified?
+> (in the cases when clone creates a new thread with new stack)
 
-My point is that even though the test strategy might be considered a
-"property" of the kernel, how you execute it is definitely not and you
-will have as many setups as you have CI farms. You can't put that into
-the kernel, just like we don't put the kernel command line in it for
-example.
+> (1) fail.
+> (2) allocate gcs.
+> (3) disable gcs.
 
-> > > >=20
-> > > >    * We cannot trust that the code being run is actually the one be=
-ing
-> > > >      pushed into gitlab
->=20
->=20
-> We can improve this if this is a requirement.
-> For DTS configuration we can work with overlays (which is the current
-> modification on that patchset). For other changes that are not suitable to
-> upstream (and should be rare) we can see if we work with the
-> `-external-fixes` approach or another approach, we can check it case by c=
-ase
-> to understand why it is not suitable for upstream.
+...
 
-The existence of that branch in itself is an issue to me. Again, it's a
-matter of trust. How can I trust a branch I barely know about, of which
-the development is not clear and isn't reviewed by any of the
-maintainers of the code that might affect the test outcomes.
+> problem with (2) is that the size policy and lifetime management
+> is in the kernel then. (since only special cases are affected i
+> guess that is ok, but i assumed we want to avoid this by moving
+> to clone3 and user managed gcs).
 
-Or put another way, if I run the tests on my machine, it won't work. Why
-should it work on the CI farm? The branch itself is broken. It might not
-be due to any of the work I did, but it's broken still.
+Right, it seems like if we go with this then we may as well just allow
+plain clone() too.
 
-> > > >
-> > > >    * IMO, and I know we disagree here, any IGT test we enable for a=
- given
-> > > >      platform should work, period. Allowing failures and flaky test=
-s just
-> > > >      sweeps whatever issue is there under the rug. If the test is at
-> > > >      fault, we should fix the test, if the driver / kernel is at fa=
-ult,
-> > > >      then I certainly want to know about it.
->
-> I believe we need a baseline and understand the current status of tests. =
-If
-> you check the xfails folder in the patch you can see that I had to add a =
-few
-> tests on *-skips.txt since those tests crashes the system and other on
-> *-fails.txt that are consistently not passing.
+> the problem with (3) is escaping the security measure, however
+> it only applies to very special threads that can always decide
+> to opt-in to gcs, so i don't see this as such a bad option and
+> at least bw compat with existing code. (in my threat model the
+> attacker cannot hijack clone syscalls as that seems stronger
+> than hijacking return addresses.)
 
-I agree that we need a baseline, but that baseline should be defined by
-the tests own merits, not their outcome on a particular platform.
+It doesn't seem great to have a feature which is to a large extent a
+security feature where we provide a fairly straightforward mechanism for
+disabling the feature and actively expect things to be using it.
 
-In other words, I want all drivers to follow that baseline, and if they
-don't it's a bug we should fix, and we should be vocal about it. We
-shouldn't ignore the test because it's broken.
+Given the timescales until this gets practically deployed on arm64 I
+would be inclined to go with making things fail and forcing updates in
+the users, though obviously that's less helpful for x86 where the
+hardware is in user hands already so it's more of a pressing issue (and
+there's already what is effectively option 2 in the code).  We could
+have the architectures diverge, as you say the effect is likely to be
+mainly in very low level code rather than general software.
 
-Going back to the example I used previously, kms_hdmi_inject@inject-4k
-shouldn't fail on mt8173, ever. That's a bug. Ignoring it and reporting
-that "all tests are good" isn't ok. There's something wrong with that
-driver and we should fix it.
-
-Or at the very least, explain in much details what is the breakage, how
-we noticed it, why we can't fix it, and how to reproduce it.
-
-Because in its current state, there's no chance we'll ever go over that
-test list and remove some of them. Or even know if, if we ever fix a bug
-somewhere, we should remove a flaky or failing test.
-
-> Since the "any IGT test we enable for a given platform should work" is no=
-t a
-> reality atm,
-
-Thanks for the reality check, but it's very much doable: we're in
-control of the test suite.
-
-> we need to have a clear view about which tests are not corresponding
-> to it, so we can start fixing. First we need to be aware of the issues
-> so we can start fixing them, otherwise we will stay in the "no tests
-> no failures" ground :)
-
-I think we have somewhat contradicting goals. You want to make
-regression testing, so whatever test used to work in the past should
-keep working. That's fine, but it's different from "expectations about
-what the DRM drivers are supposed to pass in the IGT test suite" which
-is about validation, ie "all KMS drivers must behave this way".
-
-I guess for regression you very much would like that all-green
-dashboard, and it's understandable. For validation, we don't care and we
-should be as vocal as possible to report broken drivers.
-
-Eventually, we should have regression testing over the validation test
-suite.
-
-It's not about reality. We should be clear what we expect from those
-test suites, and not claim that it's something it's not.
-
-> > > At least for display, where this also depends on peripheral hardware,
-> > > it's not an easy problem, really.
-> >=20
-> > Aside from the Chamelium tests, which tests actually rely on peripheral
-> > hardware? On EDID and hotplug, sure, but that can easily be set up from
-> > the userspace, or something like
-> >=20
-> > https://www.lindy-international.com/HDMI-2-0-EDID-Emulator.htm?websale8=
-=3Dld0101.ld021102&pi=3D32115
-> >=20
-> > > How reliable do you need it to be? How many nines? Who is going to
-> > > debug the issues that need hundreds or thousands of runs to reproduce?
-> > > If a commit makes some test less reliable, how long is it going to
-> > > take to even see that or pinpoint that?
-> >=20
-> > I mean, that's also true for failures or success then. How many times do
-> > you need a test to run properly to qualify it as a meaningful test? How
-> > do you know that it's not a flaky test?
-> >=20
-> > Ultimately, it's about trust. If, for a given test that just failed, I
-> > can't be certain that it's because of the branch I just submitted, I
-> > will just ignore the tests results after a while.
-> >=20
-> > This is already what plagues kernelci, and we should do better.
->
-> This is something that is really nice on Mesa3D, a patch only gets merged=
- if
-> tests passes, which forces people to not ignore it, which forces the code=
- to
-> be fixed and the CI to be constantly maintained.
->=20
-> Of course there are bad days there, but there is real value. Nice thread =
-to
-> check: https://gitlab.freedesktop.org/mesa/mesa/-/issues/8635 (thanks Aly=
-ssa
-> for the feedback).
-
-I'm sure it works great for Mesa, but I'm also sure it doesn't ignore
-CTS reports that a particular device isn't a valid OpenGL or Vulkan
-implementation anymore.
-
-> > And I'm sorry, but if some part of the kernel or driver just isn't
-> > reliable, then we shouldn't claim it is (except for all the times it
-> > isn't). If no-one has the time to look into it, fine, but flagging it
-> > under a flaky test doesn't help anyone.
->
-> At least we would know what is there that isn't reliable.
-
-We would too if the test was reported as failed. But our preferred
-approach to do so diverge.
-
-Maxime
-
---7ec3syeqgcjlux4q
+--K/vjy3MP44rS/waF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZO9YuwAKCRDj7w1vZxhR
-xTjpAQCXnznNR0kerRl5Ng+uhQHuTUw4kVf1BDYBmz0qDPDkAwD/SjLSiPg4qZYr
-X/ObWceHFsnKS9Q1QzhUri/hcHTamA0=
-=Icx+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTvcWkACgkQJNaLcl1U
+h9BrNwf/ZAr2lf9jr/JbNkYpu9zm6Fga4tZrLQoMWCDnP9PGxphhBn9iAMWz6X+F
+0X05x9pIN7D4g7qLffjEzsFOpfukbLwIQ4wH/AdjNW7MvFpuH+4kt7iWwiDparY/
+wliRfw6VyCf8lMA40bSac+jlTEJowbBmX+nh1z+EI924BOUXDONu/PGGfoVtn9U0
+mOVw+DFx3lACf5cjCPKSE9JfYf74s+y9cH8fk9x1/D6jHuJuX5IOafLld3PytL/v
+Yxbc/C9XY0Qa9If9yV/NWPb7irX1i7vTMOcHJ8AAzwzHV7LjOOk2cBgRj0IJ2TBI
+1fuiPsv3RNuj2GUC01Od5Md0pPjifQ==
+=qSdV
 -----END PGP SIGNATURE-----
 
---7ec3syeqgcjlux4q--
+--K/vjy3MP44rS/waF--
