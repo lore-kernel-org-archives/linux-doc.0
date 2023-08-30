@@ -2,165 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB664C6FA8F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 00:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 830E6C83F17
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235960AbjH3AuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Aug 2023 20:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54736 "EHLO
+        id S233393AbjH3ShM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241531AbjH3Ats (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Aug 2023 20:49:48 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67482CCE
-        for <linux-doc@vger.kernel.org>; Tue, 29 Aug 2023 17:49:44 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-57124ee486dso3003176eaf.3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Aug 2023 17:49:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693356583; x=1693961383; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=via/b64rRT/FAfyvThbExEJ7JcUZLeffgNRrzpR/58I=;
-        b=hXD8pyTKPHZ2bzc53WU+YwosiloJHqHE/43unAfF77pzbRBoXu/I67HlOurw6rHkXW
-         +ZOyZbNjVE1rLQK8krItQ1hOAW2V8CS/KG2sUMNZ5TdmzWyZze7vOpQ11TkUbLtUjnTN
-         XMLCHPfbM8CMuhIpeaTWGU2p+er4km0rtw8hM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693356583; x=1693961383;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=via/b64rRT/FAfyvThbExEJ7JcUZLeffgNRrzpR/58I=;
-        b=Hd21mEgh+ff7YXvX85hFaKQLN2PRRgtCxsVBgJG2jsLAUQVqHKChQlNWeiuMYS+hve
-         DMAVvEJiKERNHmQKE1zJqPkiHrAJlYtnnEik8s4p9wH95pJtA0HQVHClq9XGYtn28qrj
-         q+i/5YnqeIxXXIrjxz/dq7FYjJw8AavTqPO654zvM9x4+/jx0NdUSVLeY7PmawsMZM+N
-         OhZALMbtMPpBja2tmsC4Hw6/1UtcGmR9dW9s2aFFqNem887DrcXY+nIaiSUwQbPosBeh
-         M3cFhT36oddj687YuH5CNyqQwSuXYC+vzQNZkEXGbBpAtdjGVoFH6cDOguMKzTdSbXCY
-         sAXA==
-X-Gm-Message-State: AOJu0Ywvdbz8ESYRK+8HKcH9pLs6FWRl3MwWuJmGZfBW83MbulWck5Ko
-        mbY66LeUfWmo9fkcG0UNhzykYA==
-X-Google-Smtp-Source: AGHT+IEbFb8kIdRZ7Xq2JR1MjpzSFhzbrp4qqpjheQl+A9rBj9UvjIxkJ2/Nu1Rv94okveUdTWygVw==
-X-Received: by 2002:a05:6808:1450:b0:3a7:5a6:e0b1 with SMTP id x16-20020a056808145000b003a705a6e0b1mr943648oiv.10.1693356583728;
-        Tue, 29 Aug 2023 17:49:43 -0700 (PDT)
-Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:dcca:2774:b0c2:d030])
-        by smtp.gmail.com with ESMTPSA id 3-20020aa79203000000b0066f37665a6asm8946722pfo.117.2023.08.29.17.49.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Aug 2023 17:49:43 -0700 (PDT)
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCHv2] kconfig: add warn-unknown-symbols sanity check
-Date:   Wed, 30 Aug 2023 09:49:36 +0900
-Message-ID: <20230830004937.2938195-1-senozhatsky@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
+        with ESMTP id S244551AbjH3NUi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 09:20:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EA4F1A6;
+        Wed, 30 Aug 2023 06:20:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 38C54615F5;
+        Wed, 30 Aug 2023 13:20:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80511C433C9;
+        Wed, 30 Aug 2023 13:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693401634;
+        bh=lU/0eFOBFVkuTE1IldAB8o4ifPlzPWcD6cixm0reo2A=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=bgzOKPRbpUn291lsqU9Z1dLg3L/B12TOne9+koWorFDPSeaeOhmTvGUyhG+gI2BjL
+         xXPEehjiwSkhyeGIYoF9Q1pA4XNU6fSdeogfImQ1EIV9keK0BLa+4TNeCLaYYcbyCO
+         7FnQaKKMDtuJIUdo1NuLBx1O3NjG3fZUffKkTqjJJI0NlZASxhdts9yqpli5nt45La
+         5wIp6B4CWg94mqnotehPPrsl6Z0Xqior9mZDZZ3hCMOrhauaBD2NUk3EzJ2zqDSuqq
+         atVcsLU96cpPto61Ly3S1JiE1NdGpyqSmp6DL+3VlITZL7meH19E5plCwb6Q6LEseh
+         lPU/joGQnSL5w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 629B6C64457;
+        Wed, 30 Aug 2023 13:20:34 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v6 00/10] riscv: Allow userspace to directly access perf
+ counters
+From:   patchwork-bot+linux-riscv@kernel.org
+Message-Id: <169340163439.19859.16491167037069434691.git-patchwork-notify@kernel.org>
+Date:   Wed, 30 Aug 2023 13:20:34 +0000
+References: <20230802080328.1213905-1-alexghiti@rivosinc.com>
+In-Reply-To: <20230802080328.1213905-1-alexghiti@rivosinc.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     linux-riscv@lists.infradead.org, corbet@lwn.net,
+        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, atishp@atishpatra.org, anup@brainfault.org,
+        will@kernel.org, robh@kernel.org, ajones@ventanamicro.com,
+        remi@remlab.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce KCONFIG_WARN_UNKNOWN_SYMBOLS environment variable,
-which makes Kconfig warn about unknown config symbols.
+Hello:
 
-This is especially useful for continuous kernel uprevs when
-some symbols can be either removed or renamed between kernel
-releases (which can go unnoticed otherwise).
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-By default KCONFIG_WARN_UNKNOWN_SYMBOLS generates warnings,
-which are non-terminal. There is an additional environment
-variable KCONFIG_WERROR that overrides this behaviour and
-turns warnings into errors.
+On Wed,  2 Aug 2023 10:03:18 +0200 you wrote:
+> riscv used to allow direct access to cycle/time/instret counters,
+> bypassing the perf framework, this patchset intends to allow the user to
+> mmap any counter when accessed through perf.
+> 
+> **Important**: The default mode is now user access through perf only, not
+> the legacy so some applications will break. However, we introduce a sysctl
+> perf_user_access like arm64 does, which will allow to switch to the legacy
+> mode described above.
+> 
+> [...]
 
-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
----
- Documentation/kbuild/kconfig.rst |  9 +++++++++
- scripts/kconfig/confdata.c       | 21 +++++++++++++++++++--
- 2 files changed, 28 insertions(+), 2 deletions(-)
+Here is the summary with links:
+  - [v6,01/10] perf: Fix wrong comment about default event_idx
+    https://git.kernel.org/riscv/c/366d259ff597
+  - [v6,02/10] include: riscv: Fix wrong include guard in riscv_pmu.h
+    https://git.kernel.org/riscv/c/f117ae55b019
+  - [v6,03/10] riscv: Make legacy counter enum match the HW numbering
+    https://git.kernel.org/riscv/c/e8b785e98abb
+  - [v6,04/10] drivers: perf: Rename riscv pmu sbi driver
+    https://git.kernel.org/riscv/c/d5ac062d82d8
+  - [v6,05/10] riscv: Prepare for user-space perf event mmap support
+    https://git.kernel.org/riscv/c/83c5e13b8cbb
+  - [v6,06/10] drivers: perf: Implement perf event mmap support in the legacy backend
+    https://git.kernel.org/riscv/c/50be34282905
+  - [v6,07/10] drivers: perf: Implement perf event mmap support in the SBI backend
+    https://git.kernel.org/riscv/c/cc4c07c89aad
+  - [v6,08/10] Documentation: admin-guide: Add riscv sysctl_perf_user_access
+    https://git.kernel.org/riscv/c/57972127b20e
+  - [v6,09/10] tools: lib: perf: Implement riscv mmap support
+    https://git.kernel.org/riscv/c/60bd50116484
+  - [v6,10/10] perf: tests: Adapt mmap-basic.c for riscv
+    https://git.kernel.org/riscv/c/26ba042414a3
 
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index 6530ecd99da3..c946eb44bd13 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -56,6 +56,15 @@ KCONFIG_OVERWRITECONFIG
- If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
- break symlinks when .config is a symlink to somewhere else.
- 
-+KCONFIG_WARN_UNKNOWN_SYMBOLS
-+----------------------------
-+This environment variable makes Kconfig warn about all unrecognized
-+symbols in the config input.
-+
-+KCONFIG_WERROR
-+--------------
-+If set, Kconfig treats warnings as errors.
-+
- `CONFIG_`
- ---------
- If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 992575f1e976..4a6811d77d18 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -349,7 +349,11 @@ int conf_read_simple(const char *name, int def)
- 	char *p, *p2;
- 	struct symbol *sym;
- 	int i, def_flags;
-+	const char *warn_unknown;
-+	const char *werror;
- 
-+	warn_unknown = getenv("KCONFIG_WARN_UNKNOWN_SYMBOLS");
-+	werror = getenv("KCONFIG_WERROR");
- 	if (name) {
- 		in = zconf_fopen(name);
- 	} else {
-@@ -437,6 +441,10 @@ int conf_read_simple(const char *name, int def)
- 			if (def == S_DEF_USER) {
- 				sym = sym_find(line + 2 + strlen(CONFIG_));
- 				if (!sym) {
-+					if (warn_unknown)
-+						conf_warning("unknown symbol: %s",
-+							     line + 2 + strlen(CONFIG_));
-+
- 					conf_set_changed(true);
- 					continue;
- 				}
-@@ -471,7 +479,7 @@ int conf_read_simple(const char *name, int def)
- 
- 			sym = sym_find(line + strlen(CONFIG_));
- 			if (!sym) {
--				if (def == S_DEF_AUTO)
-+				if (def == S_DEF_AUTO) {
- 					/*
- 					 * Reading from include/config/auto.conf
- 					 * If CONFIG_FOO previously existed in
-@@ -479,8 +487,13 @@ int conf_read_simple(const char *name, int def)
- 					 * include/config/FOO must be touched.
- 					 */
- 					conf_touch_dep(line + strlen(CONFIG_));
--				else
-+				} else {
-+					if (warn_unknown)
-+						conf_warning("unknown symbol: %s",
-+							     line + strlen(CONFIG_));
-+
- 					conf_set_changed(true);
-+				}
- 				continue;
- 			}
- 
-@@ -519,6 +532,10 @@ int conf_read_simple(const char *name, int def)
- 	}
- 	free(line);
- 	fclose(in);
-+
-+	if (conf_warnings && werror)
-+		exit(1);
-+
- 	return 0;
- }
- 
+You are awesome, thank you!
 -- 
-2.42.0.rc2.253.gd59a3bf2b4-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
