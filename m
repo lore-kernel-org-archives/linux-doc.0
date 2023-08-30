@@ -2,125 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0BBC83F19
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:38:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4C8C6FA8F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238099AbjH3ShT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:37:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53934 "EHLO
+        id S238105AbjH3ShW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244315AbjH3M5q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 08:57:46 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F41B132
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:19 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c0ecb9a075so23528215ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1693400239; x=1694005039; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dtd6q3SyxBvaZmQAvE8P+QtZVZRCjxwa7BoiOx4Ow2A=;
-        b=hXcYwd19n0oHlzatNp4OoAc9g+V+yogC6I0LGKFx/Mh/qFYIBfg0navOsaPrr2/Bwe
-         DwwOlGRaHQU9Tl7prr4Q0u4zjsubk3TYs6duoWEsqibWe3rCT39pvnzvxyw5+5qxCrTD
-         d+kxtTa2Ws5FpmUAS863F5h4NDx6nzaPMN6F5EscaWybPVkmTp9d6vkSq2oBzp7gG1Bs
-         9OoJXae9XkpnJ9t73GxwRk79qkbvjXTxy/6Fq+nc9MzwxAP8+4CNfLOxzLKY3nStnt7m
-         wpRRmwl9uGYmFA+kPTGmaZeyf4DQQI6gZGSwm+DjcEBgLTJ170ZK/hEz5JqnMjwREDbu
-         uhtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693400239; x=1694005039;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dtd6q3SyxBvaZmQAvE8P+QtZVZRCjxwa7BoiOx4Ow2A=;
-        b=IhG+G1kZrnctgw7YqN4kpsmTpcIjKsB+j7w/T7u3GQaDWoyrgsiWicWTsfn9ISkGKZ
-         5yUbNmAi5SQpSVH128cV3xGEI5dP17EXe6Gd2xzrsk5gfI4AgrSfC91eUApW0qkf69Un
-         3oI6YzzePzKfjQyJZ74ATLXDJx+izduQY+rCsVBUP8DCtQyW+GdFvfWjzv8YMgHfBAWA
-         CyQVJ5//oZXHQxuweBsxZDjOkS3D3QJvv0rTihkLJVHuhQEbb4qqF78a6e+NjqaWg1I9
-         8uX/GBCxs2kGWaui+ls17ilr+Cw8h4AsaVVB8eQB4lPVY+vhEFXqyPFlmTZ6078f3ocn
-         EI1Q==
-X-Gm-Message-State: AOJu0Yxv0AFBHpUQY8VcFk7/ZxssZ+eDpQ1yB97Nqh0PnsC9fg5SQZdw
-        zN+ZdMuuhL+QjDPrYryWiMNQpleMOVHquhfuPWs=
-X-Google-Smtp-Source: AGHT+IGKPuYQWBKa1a4+1P4c5NUAY3fS0w+iEhxnmdtT4j9dZZVQZKmRW9OE8TVjanTCPupqydzJDg==
-X-Received: by 2002:a17:903:110d:b0:1bf:6c4e:4d60 with SMTP id n13-20020a170903110d00b001bf6c4e4d60mr2040423plh.3.1693400238850;
-        Wed, 30 Aug 2023 05:57:18 -0700 (PDT)
-Received: from GL4FX4PXWL.bytedance.net ([139.177.225.247])
-        by smtp.gmail.com with ESMTPSA id iw1-20020a170903044100b001bbd8cf6b57sm11023265plb.230.2023.08.30.05.57.12
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 30 Aug 2023 05:57:18 -0700 (PDT)
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
-        willy@infradead.org, brauner@kernel.org, surenb@google.com,
-        michael.christie@oracle.com, peterz@infradead.org,
-        mathieu.desnoyers@efficios.com, npiggin@gmail.com, avagin@gmail.com
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Peng Zhang <zhangpeng.00@bytedance.com>
-Subject: [PATCH v2 0/6] Introduce __mt_dup() to improve the performance of fork()
-Date:   Wed, 30 Aug 2023 20:56:48 +0800
-Message-Id: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
-X-Mailer: git-send-email 2.37.0 (Apple Git-136)
+        with ESMTP id S1343645AbjH3Qav (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 12:30:51 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2088.outbound.protection.outlook.com [40.107.223.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6DEE19A;
+        Wed, 30 Aug 2023 09:30:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hBgWI2cKv6F2Xk7IPx7LedbH+CjEpyCI8tUSo6VjmnkkvIXexuWIhD2ojlanxoYc3DrzXL/VjDd5obzJ0ErEfEZkEcIijvExG15A5NphDi0LGN40D+6iqRWpmp7nNEBEIulhA7QGBrcTyrofULDvZ224qCd+KWqdfpqaSlifk+vupouNViZGKT5IDC0xRYmRyFT5+15JZebHDryDYyyhvDMv6jq7XxRdLummHao5KxqNQHQl3tqcPmPvpj/KxfYE4r1K0ioi6ltbBWhEn238Pu2a8MLADsLH2tXWeW/aB6S6nhqP35wJdxORIGpP3WFnLhK7NX8AbN6UpROXg2/H3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q80TxtnrTsCf04qidjzG4AFpuBOwwSxbTkrnb1PBErM=;
+ b=J2Dsbv7OxdI0FrQkDxT2XJ9a0Rg3n3wGtLROpNepptCfIVrEqGxgGxEbLEd05MzdjIKL1DFp8OQuh5K/VoS6Y5NnX3+HobnFWAhMK/2N5sSOjWOR8rtgeHxE3u8DFZ4LFwk9kjrTVeDnmEzthxD811lucDPh4NelRffN/giDJHF1gkyYyl4hoYj2CsrxrYEy37ij8SGsGnhYagct/zAmh33Xlmkxd0LOgScI+ZXSdmCZI+V4fjdOyqilnKBqLoOfGfHww94lt90Vuf1rNh9C7dPdrGzLdhKrP2IYEhAkA7iTlccSpp7IdqcNDotP+qrBWnysTttlE7zwnAU8dgGTrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q80TxtnrTsCf04qidjzG4AFpuBOwwSxbTkrnb1PBErM=;
+ b=VdmyVzt8WWwW6yiGJviiXOYfDe3ibqSotPTdve0jCqCEZ057mOlhWOsB56z/fUQi1ywMh3MyOJ73AvhQmE1jFAZCYeytqp0ISxLpqu5IQPD/mlRFlWlbiAfFbOnMLa2AF/GCiZ4ukYG1xIvawef9NyHPrn3kenjsi13GAu5EmgI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CH0PR12MB8507.namprd12.prod.outlook.com (2603:10b6:610:189::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Wed, 30 Aug
+ 2023 16:30:45 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::fbfe:ec9c:b106:437e]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::fbfe:ec9c:b106:437e%5]) with mapi id 15.20.6745.015; Wed, 30 Aug 2023
+ 16:30:45 +0000
+Message-ID: <22b629ae-a836-b6af-6879-62f8818f0ec8@amd.com>
+Date:   Wed, 30 Aug 2023 11:30:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v8 4/8] x86/resctrl: Add comments on RFTYPE flags
+ hierarchy
+To:     Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
+Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+References: <20230821233048.434531-1-babu.moger@amd.com>
+ <20230821233048.434531-5-babu.moger@amd.com>
+ <410830e4-51ba-0e22-ea73-3a71fbed3643@intel.com>
+Content-Language: en-US
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <410830e4-51ba-0e22-ea73-3a71fbed3643@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0007.namprd05.prod.outlook.com
+ (2603:10b6:803:40::20) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH0PR12MB8507:EE_
+X-MS-Office365-Filtering-Correlation-Id: 431865f0-984f-4504-0455-08dba97675c2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xQl1jVmp0Jy2MSIccRnGEHF9qmqrWSX35gqIgAQqcljQGB6MyV0M7ao7FXJHakIyRnZuVbtw64v/HVNbzYo7HkMrDtqN5KO7Ijj/sqSr1A3O+3D8UgRGTpg/v2K6WiyVUQInZNoh6k/eYAfblzJcOVui8/Kv11rofjs+Gyu6vPkv973mkCjUC0LIT1OvLIb4U5GWQLLgBzNnAL9SzSRopBpE+SzYjT1W4GOYBwaSgaQz7l9Ey+tLT3bjOOc2EZ8SdKT2FL+A2niFWPYHD79MVJBRMVpsJbJ6ziiBJPL4FL1OQT7iwlfjru1sV0bb93XDW+9YdobxaLV1uiTtgaDoQh3bVjJPtdav6jigS3kLwb/X8DNlDSia6Kt0KH8hY6t31ceItFBI2Z8xF7mWQhJQYQMd8U5Gk9HtdLGNXVJWx9cbTHT0Nm5DtdH605mWOYvVYH/FPVJnx+YVhnkPRmLz49UI83TG/EbXsjTbklCij6Jul0Yy2kDGTlSKJAkY/1pJdjPZ1CHwEn5FeJg4BlvMTQpzikFWRV9b2T/lKGqCVQeXMZCwGF/5VPB3P2cu8JQu/uamXobKddKcHZeZE6s78hWyQZ2qblI7MjUKydr8kpefJavVyc5q3YRF9qtW2/kbWvX5Gke0W2jmW2aS0vrhnw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(396003)(136003)(346002)(376002)(1800799009)(186009)(451199024)(66476007)(66556008)(66946007)(316002)(38100700002)(478600001)(4744005)(3450700001)(2906002)(7406005)(7416002)(31696002)(86362001)(8936002)(8676002)(41300700001)(5660300002)(4326008)(53546011)(6512007)(6666004)(6486002)(6506007)(26005)(2616005)(36756003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?My9obVRMd0tlaFVNYWRGQzIyV2tzTzlnaEcyVGxNelZHMXFHZkw0dlhYajMw?=
+ =?utf-8?B?S2pBYmV4aFA0UEtReHk4YktZeEh5blZoalhMblRYRGdKMHk2NjhmS3Z6ZEdi?=
+ =?utf-8?B?V3BxZFZ0UW1TZ212b1FYK2pWUHQ5VHVEMnNKWlY0MVdReS9yOWdzM1NIbExN?=
+ =?utf-8?B?bUYrMm9COXNOSE5TaHZyOVJPaUdDd2xkR29lL1podzBpR1ZKbW1XVE5rY2Jy?=
+ =?utf-8?B?enpoOUVwTXhway8rRTNDSkx4RXBYc0hDWWdSY3hSNjZKak1WR1R0NlNOM1Jm?=
+ =?utf-8?B?Nk1ySTYzYkYzTlhGZVBWZldkZHBibHNqWGt0b2tjaSt5RWhtY1NiSUluaTRU?=
+ =?utf-8?B?YVYrOUovRVRNRnZjb0tWanBMcEdPV0x0akkzUVBhNkFOUzFUZFE3bm1LQWxa?=
+ =?utf-8?B?b1ovUWhNWmV5RFRiRUo4dGNtbWNELzZaVkFpRGNjWFNnUk04VkJPZERHejdq?=
+ =?utf-8?B?S3pxUDlWZWJsU1I5NitmSjViQy84QmR3TFlNSFk2UUpXQzRoQlNUSjBEb1la?=
+ =?utf-8?B?THdaUXdKZ0l6VmFMRU9KMmdGLzBvdFFXbkY2RHMwTFRYSGQ5b09UYUsrT0lh?=
+ =?utf-8?B?ZXYvWWUrcW5NQVRQOGxwOUV1dTM4R3QramZCaXJWSktjQkJNNHpWUWIwMHlx?=
+ =?utf-8?B?dGhQbmYxMCtYbk9iUkFYenNCVmwzbVd2OXZPRjI4Ti93ZUE3dlg4OU1VNExV?=
+ =?utf-8?B?NzN5VDJVdk0zVnJOZ0NpRW55ZWV1NFMwV0tFUnBIZnlDTUdzc25zc2NrODNW?=
+ =?utf-8?B?cGdSZHJkd2hWbEltenBkOFRXT2c2dTBhbXVWbEpRY29ad1RsNktwTmV2aWlO?=
+ =?utf-8?B?QlFxYUJtWlhmb1JGVFZaeTQ5N3NLa0NjenViekJJODNYTkFJNU5tWmtzVE95?=
+ =?utf-8?B?RDhGc1NPOUFLUnJYTnJGTHJ4Vno1VmZRK2wzaURyeWV2NGdhK25pM0NPL0U4?=
+ =?utf-8?B?ZFlPL1lEN1kwMWNtcUk1d2Nrd09jV2c4cVdIdHVQT0VNUXJNaXhVY3lQYUZp?=
+ =?utf-8?B?Q2xIdXBVL1UvZ1FMd242dW4yOE5XUzdmbzJCekxLOVlmOEwvT0dzZCtRR0ti?=
+ =?utf-8?B?Zzg1RnZKTzU2U1V3TmVuR2VaejcwcUVST25qc0RwM2RORkNla1R6N2ViZGtM?=
+ =?utf-8?B?dmNnWDkwYTJFellEZkt0cTF3ejlrQ0Vna0tMTE5zM1NoZ3diZktNY3MweGZa?=
+ =?utf-8?B?QWVxYkNIVXR1N09rZFo4L1kybFZHZkVMaTZDYjF6S1piRVVCcis0ZVQ2dWtJ?=
+ =?utf-8?B?aFRDMTZBemhrMTZCUE52ZHdPL25pUXBqVk9NMlRwNklTdEJXa2NJNTQ2dEdD?=
+ =?utf-8?B?ajhUUzVmcHUvTEw5Qm1sYmtlcS9JUW5MWVBPNitDTXcvR0wwTzAvaXpDa3pj?=
+ =?utf-8?B?MWtqQmJYcEc2OGtNKy9MK3hBRTFDMlg1QTV4cG9haE1ZYzZlVFhhRnRTM29y?=
+ =?utf-8?B?VzZWeVBZaitrckUzbUpwKzd4ZEgwZms4NlRSK1Nwb2ZNLzFIUmovSW9pc1ZT?=
+ =?utf-8?B?dkwrTEJ2d1VucU50K05URmpxVDBseDhPd1NyNnpXd0JvZDErQkFMWUFsWGNn?=
+ =?utf-8?B?WkppWnZGcDJnUVJ1dmZoczNaTEpqdTJjb2JTSmg5R2piWGxrdXJuaUd3amZU?=
+ =?utf-8?B?Qy8xQnNaVFFDalBZNUtRQStLeHpjdXNHZG9LUlpEdURxUUltRVhPbXBrQ2w2?=
+ =?utf-8?B?djRGaGk4Z013WlM1YTlrSnpUNlQrQ2hmNDk1dURsOHc3UURwbjc5N2tmY2Nr?=
+ =?utf-8?B?MmQzVUlOYnFHMXp5MkU0dnBQOXg2N0RkcjBEaG1xeDFrYkVoVk0vbGdqbU9M?=
+ =?utf-8?B?OXFYbmVtSDdyWEhOZmFLb2tWa1NLRVl0WnFUNnBQS3hLUEZBT2xWcDNoT3Na?=
+ =?utf-8?B?NFQxNjN4b29jTTFqN2FWOGU3d1ptVWpGNDhHOC9qUXp2YTBQbWowVDMvdWNx?=
+ =?utf-8?B?WERwQWZITDcvV2JHd2hzM0pUSTVCY2dnZTRrYXRHK1hTdXF3SWwrNWF6NlJj?=
+ =?utf-8?B?OFgrYk9aUis1c2s1VEp0YkhEaUdWWkhrS0pYcFpDL2kxb0RqNmJEZU50UkJJ?=
+ =?utf-8?B?QmVWdGErRE02dGpmMkFwaURwcmpqUnU2TlVwU2FWdGhNMmsrOVg4emtQa2xz?=
+ =?utf-8?Q?L10c=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 431865f0-984f-4504-0455-08dba97675c2
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 16:30:45.2780
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IPXPXrkRNjFeyUYEaJCs4QOX1F5+Vsfc0+bCtxtiNgSa3mlENkgedr/TXvDqc9ls
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8507
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the process of duplicating mmap in fork(), VMAs will be inserted into the new
-maple tree one by one. When inserting into the maple tree, the maple tree will
-be rebalanced multiple times. The rebalancing of maple tree is not as fast as
-the rebalancing of red-black tree and will be slower. Therefore, __mt_dup() is
-introduced to directly duplicate the structure of the old maple tree, and then
-modify each element of the new maple tree. This avoids rebalancing and some extra
-copying, so is faster than the original method.
-More information can refer to [1].
+Hi Reinette,
 
-There is a "spawn" in byte-unixbench[2], which can be used to test the performance
-of fork(). I modified it slightly to make it work with different number of VMAs.
+On 8/29/23 15:08, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 8/21/2023 4:30 PM, Babu Moger wrote:
+>> resctrl uses RFTYPE flags for creating resctrl directory structure.
+>>
+>> Definitions and directory structures are not documented. Add
+>> comments to improve the readability and help future additions.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> 
+> After the typo that Shaopeng pointed out is fixed you
+> can add:
 
-Below are the test numbers. There are 21 VMAs by default. The first row indicates
-the number of added VMAs. The following two lines are the number of fork() calls
-every 10 seconds. These numbers are different from the test results in v1 because
-this time the benchmark is bound to a CPU. This way the numbers are more stable.
-
-  Increment of VMAs: 0      100     200     400     800     1600    3200    6400
-6.5.0-next-20230829: 111878 75531   53683   35282   20741   11317   6110    3158
-Apply this patchset: 114531 85420   64541   44592   28660   16371   9038    4831
-                     +2.37% +13.09% +20.23% +26.39% +38.18% +44.66% +47.92% +52.98%
-
-Todo:
-  - Update the documentation.
-
-Changes since v1:
- - Reimplement __mt_dup() and mtree_dup(). Loops are implemented without using
-   goto instructions.
- - The new tree also needs to be locked to avoid some lockdep warnings.
- - Drop and add some helpers.
- - Add test for duplicating full tree.
- - Drop mas_replace_entry(), it doesn't seem to have a big impact on the
-   performance of fork().
-
-[1] https://lore.kernel.org/lkml/463899aa-6cbd-f08e-0aca-077b0e4e4475@bytedance.com/
-[2] https://github.com/kdlucas/byte-unixbench/tree/master
-
-v1: https://lore.kernel.org/lkml/20230726080916.17454-1-zhangpeng.00@bytedance.com/
-
-Peng Zhang (6):
-  maple_tree: Add two helpers
-  maple_tree: Introduce interfaces __mt_dup() and mtree_dup()
-  maple_tree: Add test for mtree_dup()
-  maple_tree: Skip other tests when BENCH is enabled
-  maple_tree: Update check_forking() and bench_forking()
-  fork: Use __mt_dup() to duplicate maple tree in dup_mmap()
-
- include/linux/maple_tree.h       |   3 +
- kernel/fork.c                    |  34 ++-
- lib/maple_tree.c                 | 277 ++++++++++++++++++++++++-
- lib/test_maple_tree.c            |  69 +++---
- mm/mmap.c                        |  14 +-
- tools/testing/radix-tree/maple.c | 346 +++++++++++++++++++++++++++++++
- 6 files changed, 697 insertions(+), 46 deletions(-)
+Sure.
+> 
+> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 
 -- 
-2.20.1
-
+Thanks
+Babu Moger
