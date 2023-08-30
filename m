@@ -2,106 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 830E6C83F17
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 567D8C83F01
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Aug 2023 18:37:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233393AbjH3ShM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48236 "EHLO
+        id S238049AbjH3ShR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:37:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244551AbjH3NUi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 09:20:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EA4F1A6;
-        Wed, 30 Aug 2023 06:20:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 38C54615F5;
-        Wed, 30 Aug 2023 13:20:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80511C433C9;
-        Wed, 30 Aug 2023 13:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693401634;
-        bh=lU/0eFOBFVkuTE1IldAB8o4ifPlzPWcD6cixm0reo2A=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=bgzOKPRbpUn291lsqU9Z1dLg3L/B12TOne9+koWorFDPSeaeOhmTvGUyhG+gI2BjL
-         xXPEehjiwSkhyeGIYoF9Q1pA4XNU6fSdeogfImQ1EIV9keK0BLa+4TNeCLaYYcbyCO
-         7FnQaKKMDtuJIUdo1NuLBx1O3NjG3fZUffKkTqjJJI0NlZASxhdts9yqpli5nt45La
-         5wIp6B4CWg94mqnotehPPrsl6Z0Xqior9mZDZZ3hCMOrhauaBD2NUk3EzJ2zqDSuqq
-         atVcsLU96cpPto61Ly3S1JiE1NdGpyqSmp6DL+3VlITZL7meH19E5plCwb6Q6LEseh
-         lPU/joGQnSL5w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 629B6C64457;
-        Wed, 30 Aug 2023 13:20:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S244335AbjH3M60 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Aug 2023 08:58:26 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F137A1A2
+        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:58 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1c1f7f7151fso17621035ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Aug 2023 05:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1693400278; x=1694005078; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0yWpUOFFGV0pFtikzJZ55MStl9p8vL9hqNAbNokJEAE=;
+        b=VEn31CjsPWihCIC3/0e4qz3VNlKzPvkl/Rqp1B5PPv9Mang1f30xJT/J3yRfE6yh2B
+         3wx3t5kE1JTFKTS5dpc9Z3Bb0wdi9PlZkmB2Oul+nc5ERxNubeKn4yEZ4OBR86XbKsF4
+         AeF+DuYzuBNmqEUFdmmqQA9++4JI7tQ3/YacwUS3Y0Mx3X5PRwYeZluglypRvTD8FJgZ
+         Xu0aCM8e8lo5nLJSv/TfoDa/ZXM4nY56TcPhSMj6LrO1qPW6QrwBTvKHxwSb96AN4G70
+         ayD1C2XoG/lD38I+4F8cskDKoKnAJ3v+/4Tsd3gzalj/b1/mO9W9XMIhLl45+yk412lA
+         AUyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693400278; x=1694005078;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0yWpUOFFGV0pFtikzJZ55MStl9p8vL9hqNAbNokJEAE=;
+        b=G52QOZCgN+rWydt5YusuQ7dWPIEy4O4Se4/Dav9l7y00Pb1tprdt8jSiFjOZVQL7PU
+         x/Rvj2B9tworFuOw89L4FcHBgM5ogbLCWsAosv26YUTSp08VVkqGrQPdpkR5G0IYFvSr
+         rLLwwaX9EO2TJF68NTPYpUkVU9YNXMCoC29CZE6CfOlB+W1RVYL9LAoBKM6/w8HZ3/9l
+         cAz8IT92eF47InGCKhh4JsGFd7RE4lHcYgxe8wezq07C9MznHokjAqbnB2ggJ4h6CnFU
+         1fYh2Cesorwe2DApG2Q59ha6i9hNBvZW8LzawgNbgzZPO7rNDZGbFR6u2JU4aURyicmY
+         mbnQ==
+X-Gm-Message-State: AOJu0Yx2UOjNfdp3j6nu14GXKT7AhnW1ntMoYDhA8OYL3wFaBGwqfd1Q
+        98zcYsMRS32FfLRZmW0S7xY5RA==
+X-Google-Smtp-Source: AGHT+IHrE4rTvkXO7RwqgnTEvxw+lDK+ANzha4IBQF+qFVxQo+OdsPaqgZdwuRA69Q5Iw9LfoqglQw==
+X-Received: by 2002:a17:902:da8c:b0:1bf:78d:5cde with SMTP id j12-20020a170902da8c00b001bf078d5cdemr1986513plx.59.1693400278469;
+        Wed, 30 Aug 2023 05:57:58 -0700 (PDT)
+Received: from GL4FX4PXWL.bytedance.net ([139.177.225.247])
+        by smtp.gmail.com with ESMTPSA id iw1-20020a170903044100b001bbd8cf6b57sm11023265plb.230.2023.08.30.05.57.52
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 30 Aug 2023 05:57:58 -0700 (PDT)
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
+        willy@infradead.org, brauner@kernel.org, surenb@google.com,
+        michael.christie@oracle.com, peterz@infradead.org,
+        mathieu.desnoyers@efficios.com, npiggin@gmail.com, avagin@gmail.com
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Peng Zhang <zhangpeng.00@bytedance.com>
+Subject: [PATCH v2 6/6] fork: Use __mt_dup() to duplicate maple tree in dup_mmap()
+Date:   Wed, 30 Aug 2023 20:56:54 +0800
+Message-Id: <20230830125654.21257-7-zhangpeng.00@bytedance.com>
+X-Mailer: git-send-email 2.37.0 (Apple Git-136)
+In-Reply-To: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 00/10] riscv: Allow userspace to directly access perf
- counters
-From:   patchwork-bot+linux-riscv@kernel.org
-Message-Id: <169340163439.19859.16491167037069434691.git-patchwork-notify@kernel.org>
-Date:   Wed, 30 Aug 2023 13:20:34 +0000
-References: <20230802080328.1213905-1-alexghiti@rivosinc.com>
-In-Reply-To: <20230802080328.1213905-1-alexghiti@rivosinc.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     linux-riscv@lists.infradead.org, corbet@lwn.net,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, atishp@atishpatra.org, anup@brainfault.org,
-        will@kernel.org, robh@kernel.org, ajones@ventanamicro.com,
-        remi@remlab.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Use __mt_dup() to duplicate the old maple tree in dup_mmap(), and then
+directly modify the entries of VMAs in the new maple tree, which can
+get better performance. The optimization effect is proportional to the
+number of VMAs.
 
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+There is a "spawn" in byte-unixbench[1], which can be used to test the
+performance of fork(). I modified it slightly to make it work with
+different number of VMAs.
 
-On Wed,  2 Aug 2023 10:03:18 +0200 you wrote:
-> riscv used to allow direct access to cycle/time/instret counters,
-> bypassing the perf framework, this patchset intends to allow the user to
-> mmap any counter when accessed through perf.
-> 
-> **Important**: The default mode is now user access through perf only, not
-> the legacy so some applications will break. However, we introduce a sysctl
-> perf_user_access like arm64 does, which will allow to switch to the legacy
-> mode described above.
-> 
-> [...]
+Below are the test numbers. There are 21 VMAs by default. The first row
+indicates the number of added VMAs. The following two lines are the
+number of fork() calls every 10 seconds. These numbers are different
+from the test results in v1 because this time the benchmark is bound to
+a CPU. This way the numbers are more stable.
 
-Here is the summary with links:
-  - [v6,01/10] perf: Fix wrong comment about default event_idx
-    https://git.kernel.org/riscv/c/366d259ff597
-  - [v6,02/10] include: riscv: Fix wrong include guard in riscv_pmu.h
-    https://git.kernel.org/riscv/c/f117ae55b019
-  - [v6,03/10] riscv: Make legacy counter enum match the HW numbering
-    https://git.kernel.org/riscv/c/e8b785e98abb
-  - [v6,04/10] drivers: perf: Rename riscv pmu sbi driver
-    https://git.kernel.org/riscv/c/d5ac062d82d8
-  - [v6,05/10] riscv: Prepare for user-space perf event mmap support
-    https://git.kernel.org/riscv/c/83c5e13b8cbb
-  - [v6,06/10] drivers: perf: Implement perf event mmap support in the legacy backend
-    https://git.kernel.org/riscv/c/50be34282905
-  - [v6,07/10] drivers: perf: Implement perf event mmap support in the SBI backend
-    https://git.kernel.org/riscv/c/cc4c07c89aad
-  - [v6,08/10] Documentation: admin-guide: Add riscv sysctl_perf_user_access
-    https://git.kernel.org/riscv/c/57972127b20e
-  - [v6,09/10] tools: lib: perf: Implement riscv mmap support
-    https://git.kernel.org/riscv/c/60bd50116484
-  - [v6,10/10] perf: tests: Adapt mmap-basic.c for riscv
-    https://git.kernel.org/riscv/c/26ba042414a3
+  Increment of VMAs: 0      100     200     400     800     1600    3200    6400
+6.5.0-next-20230829: 111878 75531   53683   35282   20741   11317   6110    3158
+Apply this patchset: 114531 85420   64541   44592   28660   16371   9038    4831
+                     +2.37% +13.09% +20.23% +26.39% +38.18% +44.66% +47.92% +52.98%
 
-You are awesome, thank you!
+[1] https://github.com/kdlucas/byte-unixbench/tree/master
+
+Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+---
+ kernel/fork.c | 34 ++++++++++++++++++++++++++--------
+ mm/mmap.c     | 14 ++++++++++++--
+ 2 files changed, 38 insertions(+), 10 deletions(-)
+
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 3b6d20dfb9a8..e6299adefbd8 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -650,7 +650,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+ 	int retval;
+ 	unsigned long charge = 0;
+ 	LIST_HEAD(uf);
+-	VMA_ITERATOR(old_vmi, oldmm, 0);
+ 	VMA_ITERATOR(vmi, mm, 0);
+ 
+ 	uprobe_start_dup_mmap();
+@@ -678,17 +677,39 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+ 		goto out;
+ 	khugepaged_fork(mm, oldmm);
+ 
+-	retval = vma_iter_bulk_alloc(&vmi, oldmm->map_count);
+-	if (retval)
++	/* Use __mt_dup() to efficiently build an identical maple tree. */
++	retval = __mt_dup(&oldmm->mm_mt, &mm->mm_mt, GFP_NOWAIT | __GFP_NOWARN);
++	if (unlikely(retval))
+ 		goto out;
+ 
+ 	mt_clear_in_rcu(vmi.mas.tree);
+-	for_each_vma(old_vmi, mpnt) {
++	for_each_vma(vmi, mpnt) {
+ 		struct file *file;
+ 
+ 		vma_start_write(mpnt);
+ 		if (mpnt->vm_flags & VM_DONTCOPY) {
+ 			vm_stat_account(mm, mpnt->vm_flags, -vma_pages(mpnt));
++
++			/*
++			 * Since the new tree is exactly the same as the old one,
++			 * we need to remove the unneeded VMAs.
++			 */
++			mas_store(&vmi.mas, NULL);
++
++			/*
++			 * Even removing an entry may require memory allocation,
++			 * and if removal fails, we use XA_ZERO_ENTRY to mark
++			 * from which VMA it failed. The case of encountering
++			 * XA_ZERO_ENTRY will be handled in exit_mmap().
++			 */
++			if (unlikely(mas_is_err(&vmi.mas))) {
++				retval = xa_err(vmi.mas.node);
++				mas_reset(&vmi.mas);
++				if (mas_find(&vmi.mas, ULONG_MAX))
++					mas_store(&vmi.mas, XA_ZERO_ENTRY);
++				goto loop_out;
++			}
++
+ 			continue;
+ 		}
+ 		charge = 0;
+@@ -750,8 +771,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+ 			hugetlb_dup_vma_private(tmp);
+ 
+ 		/* Link the vma into the MT */
+-		if (vma_iter_bulk_store(&vmi, tmp))
+-			goto fail_nomem_vmi_store;
++		mas_store(&vmi.mas, tmp);
+ 
+ 		mm->map_count++;
+ 		if (!(tmp->vm_flags & VM_WIPEONFORK))
+@@ -778,8 +798,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+ 	uprobe_end_dup_mmap();
+ 	return retval;
+ 
+-fail_nomem_vmi_store:
+-	unlink_anon_vmas(tmp);
+ fail_nomem_anon_vma_fork:
+ 	mpol_put(vma_policy(tmp));
+ fail_nomem_policy:
+diff --git a/mm/mmap.c b/mm/mmap.c
+index b56a7f0c9f85..dfc6881be81c 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -3196,7 +3196,11 @@ void exit_mmap(struct mm_struct *mm)
+ 	arch_exit_mmap(mm);
+ 
+ 	vma = mas_find(&mas, ULONG_MAX);
+-	if (!vma) {
++	/*
++	 * If dup_mmap() fails to remove a VMA marked VM_DONTCOPY,
++	 * xa_is_zero(vma) may be true.
++	 */
++	if (!vma || xa_is_zero(vma)) {
+ 		/* Can happen if dup_mmap() received an OOM */
+ 		mmap_read_unlock(mm);
+ 		return;
+@@ -3234,7 +3238,13 @@ void exit_mmap(struct mm_struct *mm)
+ 		remove_vma(vma, true);
+ 		count++;
+ 		cond_resched();
+-	} while ((vma = mas_find(&mas, ULONG_MAX)) != NULL);
++		vma = mas_find(&mas, ULONG_MAX);
++		/*
++		 * If xa_is_zero(vma) is true, it means that subsequent VMAs
++		 * donot need to be removed. Can happen if dup_mmap() fails to
++		 * remove a VMA marked VM_DONTCOPY.
++		 */
++	} while (vma != NULL && !xa_is_zero(vma));
+ 
+ 	BUG_ON(count != mm->map_count);
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.20.1
 
