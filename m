@@ -2,170 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 336B9C83F10
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 14:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A48D7C83F2F
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 14:56:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232549AbjHaObC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Aug 2023 10:31:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37950 "EHLO
+        id S1346473AbjHaO46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Aug 2023 10:56:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbjHaObC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 10:31:02 -0400
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3C4D7;
-        Thu, 31 Aug 2023 07:30:57 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R721e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=liusong@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0VqySyaf_1693492251;
-Received: from 30.0.139.142(mailfrom:liusong@linux.alibaba.com fp:SMTPD_---0VqySyaf_1693492251)
-          by smtp.aliyun-inc.com;
-          Thu, 31 Aug 2023 22:30:52 +0800
-Message-ID: <e0088370-1ff9-a8df-65a6-bc4ae393b4dc@linux.alibaba.com>
-Date:   Thu, 31 Aug 2023 22:30:50 +0800
+        with ESMTP id S1346472AbjHaO45 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 10:56:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50C3BCD7;
+        Thu, 31 Aug 2023 07:56:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E277A606A0;
+        Thu, 31 Aug 2023 14:56:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5699AC433C7;
+        Thu, 31 Aug 2023 14:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693493813;
+        bh=kOFh/fp/f3g52y+ZSaSQZzBLFCGMa0o3VZUWZA3MBck=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mh7JEklUISW5EwyLhRw06gHT1TlgevM8+9OS9z+/IJ3zBgVGMCeVkbEgO6qUOi1n8
+         xZ0tvEWHhq0BsSgY6FJFOPSESq2TYu3h5PaCX2S03nPYWiHv58vFG+WgQ70UY+/Ha5
+         elGDtcQLLz/YjQEPFNVnToDM/traJ+rfHzWCfhB/SXz5oFCJf9tGxvHFHvvIRX5qAp
+         nB3A9V9s+0lVPYvKFx9Sg/tc6jqyfOT4MFJY6FSUPm1B83a9ONLTlXTx3rzyFCZgOY
+         7a5yPx9dPU5baKI/6/yH5wkYKuNNDS98BxqkWQ+xPZMTXv7AbnWip0D9AMv1UOKNdn
+         NqQmNKo7frugw==
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3a76d882080so545155b6e.2;
+        Thu, 31 Aug 2023 07:56:53 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxKiI8532zWi3ri7FJeQfbTQ132GYTx7cFWhN/WAiOjSJqm42I5
+        l0aUQBp049LJ28V+qfxcHeEmwNJcma9hEbjSh4s=
+X-Google-Smtp-Source: AGHT+IGc4H1BLJQnbde1NNvAyGUWH7P48NHTtS8coaD4Oy43L+5yfOD5IuuBa4SN22A0E8nDEVyQjR/WxPf27UhUO1c=
+X-Received: by 2002:a05:6808:bc2:b0:3a7:e6fb:c8a9 with SMTP id
+ o2-20020a0568080bc200b003a7e6fbc8a9mr6973862oik.8.1693493812662; Thu, 31 Aug
+ 2023 07:56:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH] mm/khugepaged: increase
- transparent_hugepage_recommend_disable parameter to disable active
- modification of min_free_kbytes
-To:     Yang Shi <shy828301@gmail.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, paulmck@kernel.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        dave.hansen@linux.intel.com, rostedt@goodmis.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20230817035155.84230-1-liusong@linux.alibaba.com>
- <CAHbLzkrUQ2i0jtgiDf25t_VD4W8hm3jZvd=N=dTyCqvFXc8Q1g@mail.gmail.com>
-From:   Liu Song <liusong@linux.alibaba.com>
-In-Reply-To: <CAHbLzkrUQ2i0jtgiDf25t_VD4W8hm3jZvd=N=dTyCqvFXc8Q1g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230830004937.2938195-1-senozhatsky@chromium.org>
+In-Reply-To: <20230830004937.2938195-1-senozhatsky@chromium.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 31 Aug 2023 23:56:16 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQvFR0dQAFU2YiqxrXJTKcH0-=n0Fea1Q8pc7ZuHHf0zg@mail.gmail.com>
+Message-ID: <CAK7LNAQvFR0dQAFU2YiqxrXJTKcH0-=n0Fea1Q8pc7ZuHHf0zg@mail.gmail.com>
+Subject: Re: [PATCHv2] kconfig: add warn-unknown-symbols sanity check
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 2023/8/30 04:04, Yang Shi 写道:
-
-> On Wed, Aug 16, 2023 at 8:52 PM Liu Song <liusong@linux.alibaba.com> wrote:
->> In the arm64 environment, when PAGESIZE is 4K, the "pageblock_nr_pages"
->> value is 512, and the recommended min_free_kbytes in
->> "set_recommended_min_free_kbytes" usually does not exceed 44MB.
->>
->> However, when PAGESIZE is 64K, the "pageblock_nr_pages" value is 8192,
->> and the recommended min_free_kbytes in "set_recommended_min_free_kbytes"
->> is 8192 * 2 * (2 + 9) * 64K, which directly increases to 11GB.
->>
->> According to this calculation method, due to the modification of min_free_kbytes,
->> the reserved memory in my 128GB memory environment reaches 10GB, and MemAvailable
->> is correspondingly reduced by 10GB.
->>
->> In the case of PAGESIZE 64K, transparent hugepages are 512MB, and we only
->> need them to be used on demand. If transparent hugepages cannot be allocated,
->> falling back to regular 64K pages is completely acceptable.
->>
->> Therefore, we added the transparent_hugepage_recommend_disable parameter
->> to disable active modification of min_free_kbytes, thereby meeting our
->> requirements for transparent hugepages in the 64K scenario, and it will
->> not excessively reduce the available memory.
-> Thanks for debugging this. I agree 11GB for min_free_kbytes is too
-> much. But a kernel parameter sounds overkilling to me either. IMHO we
-> just need to have a better scaling for bigger base page size. For
-> example, we just keep one or two pageblock for min_free_kbytes when
-> the base page size is bigger than 4K.
+On Thu, Aug 31, 2023 at 11:15=E2=80=AFPM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
 >
-Thank you very much for your advice, but how do we determine the number 
-of pageblocks?
-This is a difficult number to determine. When PAGESIZE is 64K, arm64 
-supports hugepages
-of 2M, 512M, and 16G, which can meet the requirements of scenarios that 
-require hugepages.
-
-However, transparent huge pages can only support 512M, and 512M is a 
-very large number, so
-enabling transparent huge pages should be carefully considered, not to 
-mention whether it makes
-sense to reserve such a large amount of memory.
-
-Therefore, I think that in the scenario of 64K PAGESIZE, it might also 
-be a good choice to directly
-cancel set_recommended_min_free_kbytes?
-
-Thanks
+> Introduce KCONFIG_WARN_UNKNOWN_SYMBOLS environment variable,
+> which makes Kconfig warn about unknown config symbols.
+>
+> This is especially useful for continuous kernel uprevs when
+> some symbols can be either removed or renamed between kernel
+> releases (which can go unnoticed otherwise).
+>
+> By default KCONFIG_WARN_UNKNOWN_SYMBOLS generates warnings,
+> which are non-terminal. There is an additional environment
+> variable KCONFIG_WERROR that overrides this behaviour and
+> turns warnings into errors.
+>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 
 
->> Signed-off-by: Liu Song <liusong@linux.alibaba.com>
->> ---
->>   .../admin-guide/kernel-parameters.txt         |  5 +++++
->>   mm/khugepaged.c                               | 20 ++++++++++++++++++-
->>   2 files changed, 24 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 654d0d921101..612bdf601cce 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -6553,6 +6553,11 @@
->>                          See Documentation/admin-guide/mm/transhuge.rst
->>                          for more details.
->>
->> +       transparent_hugepage_recommend_disable
->> +                       [KNL,THP]
->> +                       Can be used to disable transparent hugepage to actively modify
->> +                       /proc/sys/vm/min_free_kbytes during enablement process.
->> +
->>          trusted.source= [KEYS]
->>                          Format: <string>
->>                          This parameter identifies the trust source as a backend
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index 78fc1a24a1cc..ac40c618f4f6 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -88,6 +88,9 @@ static unsigned int khugepaged_max_ptes_none __read_mostly;
->>   static unsigned int khugepaged_max_ptes_swap __read_mostly;
->>   static unsigned int khugepaged_max_ptes_shared __read_mostly;
->>
->> +/* default enable recommended */
->> +static unsigned int transparent_hugepage_recommend __read_mostly = 1;
->> +
->>   #define MM_SLOTS_HASH_BITS 10
->>   static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
->>
->> @@ -2561,6 +2564,11 @@ static void set_recommended_min_free_kbytes(void)
->>                  goto update_wmarks;
->>          }
->>
->> +       if (!transparent_hugepage_recommend) {
->> +               pr_info("do not allow to recommend modify min_free_kbytes\n");
->> +               return;
->> +       }
->> +
->>          for_each_populated_zone(zone) {
->>                  /*
->>                   * We don't need to worry about fragmentation of
->> @@ -2591,7 +2599,10 @@ static void set_recommended_min_free_kbytes(void)
->>
->>          if (recommended_min > min_free_kbytes) {
->>                  if (user_min_free_kbytes >= 0)
->> -                       pr_info("raising min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
->> +                       pr_info("raising user specified min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
->> +                               min_free_kbytes, recommended_min);
->> +               else
->> +                       pr_info("raising default min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
->>                                  min_free_kbytes, recommended_min);
->>
->>                  min_free_kbytes = recommended_min;
->> @@ -2601,6 +2612,13 @@ static void set_recommended_min_free_kbytes(void)
->>          setup_per_zone_wmarks();
->>   }
->>
->> +static int __init setup_transparent_hugepage_recommend_disable(char *str)
->> +{
->> +       transparent_hugepage_recommend = 0;
->> +       return 1;
->> +}
->> +__setup("transparent_hugepage_recommend_disable", setup_transparent_hugepage_recommend_disable);
->> +
->>   int start_stop_khugepaged(void)
->>   {
->>          int err = 0;
->> --
->> 2.19.1.6.gb485710b
->>
->>
+Applied to linux-kbuild. Thanks.
+
+
+
+
+> ---
+>  Documentation/kbuild/kconfig.rst |  9 +++++++++
+>  scripts/kconfig/confdata.c       | 21 +++++++++++++++++++--
+>  2 files changed, 28 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kcon=
+fig.rst
+> index 6530ecd99da3..c946eb44bd13 100644
+> --- a/Documentation/kbuild/kconfig.rst
+> +++ b/Documentation/kbuild/kconfig.rst
+> @@ -56,6 +56,15 @@ KCONFIG_OVERWRITECONFIG
+>  If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
+>  break symlinks when .config is a symlink to somewhere else.
+>
+> +KCONFIG_WARN_UNKNOWN_SYMBOLS
+> +----------------------------
+> +This environment variable makes Kconfig warn about all unrecognized
+> +symbols in the config input.
+> +
+> +KCONFIG_WERROR
+> +--------------
+> +If set, Kconfig treats warnings as errors.
+> +
+>  `CONFIG_`
+>  ---------
+>  If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 992575f1e976..4a6811d77d18 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -349,7 +349,11 @@ int conf_read_simple(const char *name, int def)
+>         char *p, *p2;
+>         struct symbol *sym;
+>         int i, def_flags;
+> +       const char *warn_unknown;
+> +       const char *werror;
+>
+> +       warn_unknown =3D getenv("KCONFIG_WARN_UNKNOWN_SYMBOLS");
+> +       werror =3D getenv("KCONFIG_WERROR");
+>         if (name) {
+>                 in =3D zconf_fopen(name);
+>         } else {
+> @@ -437,6 +441,10 @@ int conf_read_simple(const char *name, int def)
+>                         if (def =3D=3D S_DEF_USER) {
+>                                 sym =3D sym_find(line + 2 + strlen(CONFIG=
+_));
+>                                 if (!sym) {
+> +                                       if (warn_unknown)
+> +                                               conf_warning("unknown sym=
+bol: %s",
+> +                                                            line + 2 + s=
+trlen(CONFIG_));
+> +
+>                                         conf_set_changed(true);
+>                                         continue;
+>                                 }
+> @@ -471,7 +479,7 @@ int conf_read_simple(const char *name, int def)
+>
+>                         sym =3D sym_find(line + strlen(CONFIG_));
+>                         if (!sym) {
+> -                               if (def =3D=3D S_DEF_AUTO)
+> +                               if (def =3D=3D S_DEF_AUTO) {
+>                                         /*
+>                                          * Reading from include/config/au=
+to.conf
+>                                          * If CONFIG_FOO previously exist=
+ed in
+> @@ -479,8 +487,13 @@ int conf_read_simple(const char *name, int def)
+>                                          * include/config/FOO must be tou=
+ched.
+>                                          */
+>                                         conf_touch_dep(line + strlen(CONF=
+IG_));
+> -                               else
+> +                               } else {
+> +                                       if (warn_unknown)
+> +                                               conf_warning("unknown sym=
+bol: %s",
+> +                                                            line + strle=
+n(CONFIG_));
+> +
+>                                         conf_set_changed(true);
+> +                               }
+>                                 continue;
+>                         }
+>
+> @@ -519,6 +532,10 @@ int conf_read_simple(const char *name, int def)
+>         }
+>         free(line);
+>         fclose(in);
+> +
+> +       if (conf_warnings && werror)
+> +               exit(1);
+> +
+>         return 0;
+>  }
+>
+> --
+> 2.42.0.rc2.253.gd59a3bf2b4-goog
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
