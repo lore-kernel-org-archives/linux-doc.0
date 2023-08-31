@@ -2,122 +2,170 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D219BC83F01
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 14:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 336B9C83F10
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 14:31:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232064AbjHaOL1 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Aug 2023 10:11:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34124 "EHLO
+        id S232549AbjHaObC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Aug 2023 10:31:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbjHaOL1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 10:11:27 -0400
-Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D58A3
-        for <linux-doc@vger.kernel.org>; Thu, 31 Aug 2023 07:11:23 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-zI_WNUMnOF6tT_us97ScKQ-1; Thu, 31 Aug 2023 10:10:58 -0400
-X-MC-Unique: zI_WNUMnOF6tT_us97ScKQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C608C101CC98;
-        Thu, 31 Aug 2023 14:10:44 +0000 (UTC)
-Received: from hog (unknown [10.45.224.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B06D5140E950;
-        Thu, 31 Aug 2023 14:10:41 +0000 (UTC)
-Date:   Thu, 31 Aug 2023 16:10:40 +0200
-From:   Sabrina Dubroca <sd@queasysnail.net>
-To:     Scott Dial <scott@scottdial.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>
-Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] macsec: introduce default_async_crypto sysctl
-Message-ID: <ZPCfYLsLycX68IeG@hog>
-References: <9328d206c5d9f9239cae27e62e74de40b258471d.1692279161.git.sd@queasysnail.net>
- <20230818184648.127b2ccf@kernel.org>
- <ZOTWzJ4aEa5geNva@hog>
- <a9af0c0a-ec7c-fa01-05ac-147fccb94fbf@scottdial.com>
- <ZOdUw66jbDWE8blF@hog>
- <76e055e9-5b2b-75b9-b545-cbdbc6ad2112@scottdial.com>
- <ZOxsAR42r8t3z0Dq@hog>
- <2d34e8a8-24c2-1781-2317-687bfcbeafda@scottdial.com>
+        with ESMTP id S229834AbjHaObC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 10:31:02 -0400
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3C4D7;
+        Thu, 31 Aug 2023 07:30:57 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R721e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=liusong@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0VqySyaf_1693492251;
+Received: from 30.0.139.142(mailfrom:liusong@linux.alibaba.com fp:SMTPD_---0VqySyaf_1693492251)
+          by smtp.aliyun-inc.com;
+          Thu, 31 Aug 2023 22:30:52 +0800
+Message-ID: <e0088370-1ff9-a8df-65a6-bc4ae393b4dc@linux.alibaba.com>
+Date:   Thu, 31 Aug 2023 22:30:50 +0800
 MIME-Version: 1.0
-In-Reply-To: <2d34e8a8-24c2-1781-2317-687bfcbeafda@scottdial.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: queasysnail.net
-Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [PATCH] mm/khugepaged: increase
+ transparent_hugepage_recommend_disable parameter to disable active
+ modification of min_free_kbytes
+To:     Yang Shi <shy828301@gmail.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, paulmck@kernel.org,
+        rdunlap@infradead.org, catalin.marinas@arm.com,
+        dave.hansen@linux.intel.com, rostedt@goodmis.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20230817035155.84230-1-liusong@linux.alibaba.com>
+ <CAHbLzkrUQ2i0jtgiDf25t_VD4W8hm3jZvd=N=dTyCqvFXc8Q1g@mail.gmail.com>
+From:   Liu Song <liusong@linux.alibaba.com>
+In-Reply-To: <CAHbLzkrUQ2i0jtgiDf25t_VD4W8hm3jZvd=N=dTyCqvFXc8Q1g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2023-08-28, 15:04:51 -0400, Scott Dial wrote:
-> On 8/28/2023 5:42 AM, Sabrina Dubroca wrote:
-> > 2023-08-24, 13:08:41 -0400, Scott Dial wrote:
-> > > On 8/24/2023 9:01 AM, Sabrina Dubroca wrote:
-> > > > 2023-08-23, 16:22:31 -0400, Scott Dial wrote:
-> > > > > AES-NI's implementation of gcm(aes) requires the FPU, so if it's busy the
-> > > > > decrypt gets stuck on the cryptd queue, but that queue is not
-> > > > > order-preserving.
-> > > > 
-> > > > It should be (per CPU [*]). The queue itself is a linked list, and if we
-> > > > have requests on the queue we don't let new requests skip the queue.
-> > > 
-> > > My apologies, I'll be the first to admit that I have not tracked all of the
-> > > code changes to either the macsec driver or linux-crypto since I first made
-> > > the commit. This comment that requests are queued forced me to review the
-> > > code again and it appears that the queueing issue was resolved in v5.2-rc1
-> > > with commit 1661131a0479, so I no longer believe we need the
-> > > CRYPTO_ALG_ASYNC since v5.2 and going forward.
-> > 
-> > Are you sure about this? 1661131a0479 pre-dates your patch by over a
-> > year.
-> > 
-> > And AFAICT, that series only moved the existing FPU usable +
-> > cryptd_aead_queued tests from AESNI's implementation of gcm(aes) to
-> > common SIMD helpers.
-> 
-> My original issue started with a RHEL7 system, so a backport of the macsec
-> driver to the 3.10 kernel. I recall building newer kernels and reproducing
-> the issue, but I don't have my test setup anymore nor any meaningful notes
-> that would indicate to me what kernels I tested. In any case, I didn't
-> bisect when the queuing behavior was changed, and maybe I misread the code,
-> and maybe my test setup was flawed in some other way.
-> 
-> 1661131a0479 wasn't obviously just moving code to me, so I didn't trace back
-> further, but looking at the longterm maintenance 4.x kernels, I can see that
-> the AES-NI code has the same cryptd_aead_queued check
+在 2023/8/30 04:04, Yang Shi 写道:
 
-Yes, that's more what I meant. The check exists before and after
-commits 1661131a0479 and 149e12252fb3.
+> On Wed, Aug 16, 2023 at 8:52 PM Liu Song <liusong@linux.alibaba.com> wrote:
+>> In the arm64 environment, when PAGESIZE is 4K, the "pageblock_nr_pages"
+>> value is 512, and the recommended min_free_kbytes in
+>> "set_recommended_min_free_kbytes" usually does not exceed 44MB.
+>>
+>> However, when PAGESIZE is 64K, the "pageblock_nr_pages" value is 8192,
+>> and the recommended min_free_kbytes in "set_recommended_min_free_kbytes"
+>> is 8192 * 2 * (2 + 9) * 64K, which directly increases to 11GB.
+>>
+>> According to this calculation method, due to the modification of min_free_kbytes,
+>> the reserved memory in my 128GB memory environment reaches 10GB, and MemAvailable
+>> is correspondingly reduced by 10GB.
+>>
+>> In the case of PAGESIZE 64K, transparent hugepages are 512MB, and we only
+>> need them to be used on demand. If transparent hugepages cannot be allocated,
+>> falling back to regular 64K pages is completely acceptable.
+>>
+>> Therefore, we added the transparent_hugepage_recommend_disable parameter
+>> to disable active modification of min_free_kbytes, thereby meeting our
+>> requirements for transparent hugepages in the 64K scenario, and it will
+>> not excessively reduce the available memory.
+> Thanks for debugging this. I agree 11GB for min_free_kbytes is too
+> much. But a kernel parameter sounds overkilling to me either. IMHO we
+> just need to have a better scaling for bigger base page size. For
+> example, we just keep one or two pageblock for min_free_kbytes when
+> the base page size is bigger than 4K.
+>
+Thank you very much for your advice, but how do we determine the number 
+of pageblocks?
+This is a difficult number to determine. When PAGESIZE is 64K, arm64 
+supports hugepages
+of 2M, 512M, and 16G, which can meet the requirements of scenarios that 
+require hugepages.
 
-(and FWIW, RHEL7 doesn't have it, but that's not a concern for netdev)
+However, transparent huge pages can only support 512M, and 512M is a 
+very large number, so
+enabling transparent huge pages should be carefully considered, not to 
+mention whether it makes
+sense to reserve such a large amount of memory.
 
-> so I think you are
-> correct to say that you could revert my change on all of the maintenance
-> kernels to restore the performance of MACsec w/ AES-NI.
+Therefore, I think that in the scenario of 64K PAGESIZE, it might also 
+be a good choice to directly
+cancel set_recommended_min_free_kbytes?
 
-Ok, thanks.
+Thanks
 
-> Whether that causes any ordering regressions for any other crypto
-> accelerations, I have no idea since it would require auditing a lot of
-> crypto code.
 
-Herbert, can we expect ASYNC implementations of gcm(aes) to maintain
-ordering of completions wrt requests? For AESNI, the use of
-cryptd_aead_queued() makes sure of that, but I don't know if other
-implementations under drivers/crypto would have the same
-guarantee.
-
-[context: we're considering reverting commit ab046a5d4be4 ("net:
-macsec: preserve ingress frame ordering"), but Scott is concerned that
-the issue he saw would happen with other types of acceleration]
-
--- 
-Sabrina
-
+>> Signed-off-by: Liu Song <liusong@linux.alibaba.com>
+>> ---
+>>   .../admin-guide/kernel-parameters.txt         |  5 +++++
+>>   mm/khugepaged.c                               | 20 ++++++++++++++++++-
+>>   2 files changed, 24 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 654d0d921101..612bdf601cce 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -6553,6 +6553,11 @@
+>>                          See Documentation/admin-guide/mm/transhuge.rst
+>>                          for more details.
+>>
+>> +       transparent_hugepage_recommend_disable
+>> +                       [KNL,THP]
+>> +                       Can be used to disable transparent hugepage to actively modify
+>> +                       /proc/sys/vm/min_free_kbytes during enablement process.
+>> +
+>>          trusted.source= [KEYS]
+>>                          Format: <string>
+>>                          This parameter identifies the trust source as a backend
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index 78fc1a24a1cc..ac40c618f4f6 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -88,6 +88,9 @@ static unsigned int khugepaged_max_ptes_none __read_mostly;
+>>   static unsigned int khugepaged_max_ptes_swap __read_mostly;
+>>   static unsigned int khugepaged_max_ptes_shared __read_mostly;
+>>
+>> +/* default enable recommended */
+>> +static unsigned int transparent_hugepage_recommend __read_mostly = 1;
+>> +
+>>   #define MM_SLOTS_HASH_BITS 10
+>>   static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
+>>
+>> @@ -2561,6 +2564,11 @@ static void set_recommended_min_free_kbytes(void)
+>>                  goto update_wmarks;
+>>          }
+>>
+>> +       if (!transparent_hugepage_recommend) {
+>> +               pr_info("do not allow to recommend modify min_free_kbytes\n");
+>> +               return;
+>> +       }
+>> +
+>>          for_each_populated_zone(zone) {
+>>                  /*
+>>                   * We don't need to worry about fragmentation of
+>> @@ -2591,7 +2599,10 @@ static void set_recommended_min_free_kbytes(void)
+>>
+>>          if (recommended_min > min_free_kbytes) {
+>>                  if (user_min_free_kbytes >= 0)
+>> -                       pr_info("raising min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
+>> +                       pr_info("raising user specified min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
+>> +                               min_free_kbytes, recommended_min);
+>> +               else
+>> +                       pr_info("raising default min_free_kbytes from %d to %lu to help transparent hugepage allocations\n",
+>>                                  min_free_kbytes, recommended_min);
+>>
+>>                  min_free_kbytes = recommended_min;
+>> @@ -2601,6 +2612,13 @@ static void set_recommended_min_free_kbytes(void)
+>>          setup_per_zone_wmarks();
+>>   }
+>>
+>> +static int __init setup_transparent_hugepage_recommend_disable(char *str)
+>> +{
+>> +       transparent_hugepage_recommend = 0;
+>> +       return 1;
+>> +}
+>> +__setup("transparent_hugepage_recommend_disable", setup_transparent_hugepage_recommend_disable);
+>> +
+>>   int start_stop_khugepaged(void)
+>>   {
+>>          int err = 0;
+>> --
+>> 2.19.1.6.gb485710b
+>>
+>>
