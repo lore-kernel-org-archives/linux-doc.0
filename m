@@ -2,312 +2,436 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE2B5C83F35
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 17:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B386C83F35
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 17:48:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243130AbjHaRmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Aug 2023 13:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40032 "EHLO
+        id S245690AbjHaRsv convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Aug 2023 13:48:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232708AbjHaRmy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 13:42:54 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3C8CF3;
-        Thu, 31 Aug 2023 10:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693503771; x=1725039771;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ChgFEwBuhRPds7hGCbcm+sApIa6xGr1pxW8Lsj3f0HY=;
-  b=lZ2siF+mv1U5hkBv9kO8OcO/JbMi0D0FdDjdC8PULbNru+M6ifvcMwXI
-   fi2Y/fnmoDxu1e+ZXOouM+A+g+2z5VKAgJOxhhrtGjaz02E/2INHefpWM
-   75nj0IbkRsT8by6wbAo5f61CuHFcqdBUEjEA5iEp2inYDl5SlOvCqrr79
-   A1l+bruR93jtKS+sUBJFQ3Pn7RqZNExYSysE4CgmBqYAObHoOJcKQCNZh
-   /FsmtQMl3Tj8z9Z9UcWuAgrrKGx0S4BijcrosXRnqlp/eEevIc/XzqAtP
-   Qnffp3S2AOOXpqdfFMMh58JFriNwVtn664bv1qQLvAtkOIqw1y2Yd2b3i
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="442413335"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="442413335"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 10:42:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="774673395"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="774673395"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Aug 2023 10:42:48 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 31 Aug 2023 10:42:47 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 31 Aug 2023 10:42:47 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 31 Aug 2023 10:42:47 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 31 Aug 2023 10:42:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gHmQmoVC4X54mAdRUaPylJ1i6SWdt27h6/1V0cQRNWdZPKzNvqvhC2aAPEbhqtOzRAmGqxayoeSaJSxNfq0Rwg2Z8NF5fi9ppaJAudfBEA1vXrfbOeq+RGJFHo0tiZFN+8qBR4vwHHNr5ibYvR7kCQmodzpEViN514ja9219Bk2+WXIMg7zTJAzyC+oNakSYySBbq4fETuj/KUw+5kyPtmbxcI6Rj9AKUzLN/sYgVeDpomp1w8EWleH59B0hAjEdt2trlMqntwJrhPfcpPL+EFLPaeO4H8+lNmtF1GQ62zu+9U/zcaTMKOt7zPtm6YpqY1WmjxRwLjJ8CCHtvcjhEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qgtBkRim+VfRjDou54hVHsdNEHCoueK8KwjN0Ldu4jI=;
- b=OM198W8h/nUXQxT+vI9QiFYu3IbNSNQQ6voYq7ixew9potv4Ca0rsZ3Gdgg9Ds2cGQfVg90SK+/8tII9+c5s5P5T2Mz86D93dCthtWrXSlfwy7irDwAedXBa6UNSyOQpT1zfj1DKu5ZZ759AAjQKBvat7yIC9yBsvgZMG+bjsUSPq0klEhrNEgzMWSDI3/ojCP928exm25q8zS0FjpL1xzkvCpPHRS+f9owoLFdVmTH9f1wpXFZowQUTkz+Q/x0QG4Y4mmwEuKrMNj3P8TfN1nnaC4GzyapiX+caxqjtgOslY+ac2ajiN3+B/ZJ7rHqQUjdEL1/RpnEZk+eUih3s7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by CYXPR11MB8690.namprd11.prod.outlook.com (2603:10b6:930:e5::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.21; Thu, 31 Aug
- 2023 17:42:43 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::47e:3e1f:bef4:20e0]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::47e:3e1f:bef4:20e0%3]) with mapi id 15.20.6745.020; Thu, 31 Aug 2023
- 17:42:43 +0000
-Message-ID: <5b75506b-80ac-a89d-4b70-f775c3b354d3@intel.com>
-Date:   Thu, 31 Aug 2023 10:42:39 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.14.0
-Subject: Re: [PATCH v8 8/8] x86/resctrl: Display hardware ids of resource
- groups
-To:     <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
-        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
-        <quic_jiles@quicinc.com>, <peternewman@google.com>
-References: <20230821233048.434531-1-babu.moger@amd.com>
- <20230821233048.434531-9-babu.moger@amd.com>
- <4019a73a-8478-f18b-7f34-b8d838dfc7fe@intel.com>
- <da47698a-aa9e-3760-1321-5ec3ea1a14e6@amd.com>
-Content-Language: en-US
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <da47698a-aa9e-3760-1321-5ec3ea1a14e6@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4P221CA0018.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:303:8b::23) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+        with ESMTP id S1345842AbjHaRsv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 13:48:51 -0400
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA776E76;
+        Thu, 31 Aug 2023 10:48:42 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7927f241772so40234939f.1;
+        Thu, 31 Aug 2023 10:48:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693504122; x=1694108922;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1aiQh0/psGoXqeYgus+Db46IktFjNj34WKa6B13MkAk=;
+        b=C6tLquyAXMDVOdnHPUyqVn+iYVSWGlmZA+QoD0lno2vnRHOEyWodvpAKTimPmOl3r/
+         UN2hjfsEeO0sV3kPmcVFTnzzg9brHpky4zHIFKHQkQZHHY/AhfwCjUmKZRNUpByuhuxq
+         2GHkYupyr6Djby2hnSLQx2HX8Hp82Og7zHhWwGdxaZPVSYldGSvJcdQjWxY6dm+0Ylpz
+         5+1fIthwX803f6IOKA88dv3X8EGixIL31DC3XUZHU1oRPPYNseF3h5SZXISieVZyqCHg
+         RB5RHNGF+v8kymaPKMfyaWRFQxkCHggXym/W3KpXVz5b8w3oL15trsh4gNUCJ0/sFEF+
+         8E9Q==
+X-Gm-Message-State: AOJu0Yzdh3t1D7eQVYKJONJtfI6sbRBnd+/EpIwvJhD9NAvvoDLg0Sd9
+        2leqtu5HHVgdo5UhWUzCSD4ngk3h7GRBOJHeiJA=
+X-Google-Smtp-Source: AGHT+IGATg8vwkN8sqpmK3oCH1Wz3TccBZl98PRaz90L+g2Q+qMmE75R/d0vgf3ofoHprcLRbIN5sLws1i1h8VUMuqY=
+X-Received: by 2002:a6b:7a01:0:b0:785:ca70:46a2 with SMTP id
+ h1-20020a6b7a01000000b00785ca7046a2mr6339311iom.4.1693504121921; Thu, 31 Aug
+ 2023 10:48:41 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CYXPR11MB8690:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c70b46b-f8b8-491e-d306-08dbaa49ade5
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hEp8r5MKz/ERjPyZaLy7ucL0iVBXv+muqs7G7FChfmcwxnHzfeg46HgMrTykhAPJsk1J46Cx/KB5FIJhmp/qbPNiC+LsVsubIk+5+zbBDgVeI5FNaQ6FAPqzoIfvQCA6aAHMGsVt/lUTCF95W4sVvVxreDxClvD91f0QUUiQa0+C2KBySbgN//C0e38y1QmTEJn2LTqx+SYCAThUScwwfpN/sRGh15jTJckQnboIcGjTS3+7EkPBPcnLR1Jf9RSxUWWW59vsLs8PWu6+dEtwBp5UltEAw6L3eqK5AU7owCKWJ+4zhAp4zpCA0rx4rOxrFNEB4/DL8nkHUTkgT8MggV2V/ZWSpG31gTyhUvtmgiEfW9++yBh11xGR6Js+SMgF26ejulmAtgtrXaGBIg6n1kZHPWP1P80hREm9kUZioogXjAtn0keI3PtpiDqMd9vF1adWe1XdU0JTNf0nakBp6BR9Qxw4amNxcJ8+uo/9p6NneKWx7e4vWvgKqTV45sSChsRHs1KksuyI55mZtuh+l7wC7EDH/GTUQRXwNuPs1C6yBtu0Pl00faXxsT+ozfck5dtD+lqAVDlo/MQz4LsDDwzpSkNv9As1oJ4/5r9oWzfwcv9l0s74F0tGbFVAR4SK8QjHhV0H9zCbQiqUngHA2w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(366004)(396003)(346002)(136003)(1800799009)(186009)(451199024)(31686004)(6666004)(6506007)(6512007)(6486002)(36756003)(82960400001)(31696002)(86362001)(38100700002)(2616005)(2906002)(26005)(53546011)(83380400001)(478600001)(66946007)(8936002)(8676002)(4326008)(66476007)(5660300002)(7416002)(7406005)(66556008)(44832011)(41300700001)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N1lvV08rT0o3ZnFoTVI0cEtvU1Z3MXhxYmdCbjdNNVlNdVVWRUVqWTllYURy?=
- =?utf-8?B?b1NGNElWUmxVTmtlMVQrSFhoUDE3RXZ5bDhYQzlBNmFJc0FDbzhmSVNDS1g5?=
- =?utf-8?B?dThrbGkvblJSY21LT3U1ZkF6aDByemhQcXJkMW9uUmt3ZTBkR2I5cjllRjNV?=
- =?utf-8?B?Z25nSmxrYU5ETFR6eGlQTW1Wc3hhNDlKNUFxMVRWTEFNL1c4Y0hVT3RIWm5x?=
- =?utf-8?B?L0s1TlUzRkFwNVdLejFrSzZOR1BZZk5EYkYwTnd1Rno4bXA1d3dybXlSc2Uy?=
- =?utf-8?B?dmNTMW55bGR5QXB1ZTZQRDFUQjVHVkxWWXV2M3A0TmEwdjlXRmI4NXk1M1JE?=
- =?utf-8?B?VEp4dXBSVHZDdHgrV0RLbVFINU1UZ3BhTTlCVkNrYTNRS2p2SFdFOGZ2OURk?=
- =?utf-8?B?NnJvMWxmcTkwSzdaYWVKVW15b2w2SkhTRlBRd3pnQm9yb0RNd1o2cDJ0emFM?=
- =?utf-8?B?QWVuN3FHb0FqS0haTTlycGZWNFFXVWtKekVCdW5JdFgydExOYWdINnJ5STdL?=
- =?utf-8?B?WGkvMWx1V0QvNHFZenVOUHQ0VUpSV3VlSVlDWWx0NTBsZTlLU1Yvai9xS0Z0?=
- =?utf-8?B?KzZ5VEdWQ0VaMjE5ZUtOUmh6YkRiYkc3ejJOMGpGdFJTVkRndDUvU0dDSjN4?=
- =?utf-8?B?REJqNkhJa28xRXNaK2E3anZTUlpnYkFDSldwRFhibE9VWnZGa3g2T2tXTGo2?=
- =?utf-8?B?K0pIWUxOMWdvN2FuaU9XRzJGaXVsU2lOQnF5cU9aVjFWRi9sbWF4V2x5OUhz?=
- =?utf-8?B?VCs3QmY5QlZsa1UraGZ6ZHIrTEkzRGJRVEVOelIwZFpnMUZmalZhSmZBcUYr?=
- =?utf-8?B?T055bWNXMlQybkJiLzBzWEw0N2N6WG91eWhjTHBxSWo5dnpacVFnMUsvTzlF?=
- =?utf-8?B?TDNDbHRrVTc5ZEVtVVYxcnhmeUtIZ2NsTFN6aUU0elNicHpjYUpTUUVvck9v?=
- =?utf-8?B?V1pCQlorcVpUMy9xNjU0a0liNW5zenhQcURVRGI1YkFlUmFYcGYydlViVUla?=
- =?utf-8?B?YVQrbnZWOTFDZmdkd0RXNlVBZFI0amNvVExqYWo2VC94VEFORXJ1R3FZNW8x?=
- =?utf-8?B?QUhqaGdIclNLUWwvdXlTRTRkYlFPb2JHNjVHeXVoQkplMTlUVFMzMUIvZHlj?=
- =?utf-8?B?NmRZS011K0NxZTdlY1czZmRWRFhVVFB2R1k2UFl4L2M4bHdYanJXM3JydE8z?=
- =?utf-8?B?SlEveHREQUN2MmdUdlVSc1hLTFlhY0JSZmRFUTQ2dHYrSEkrNWx3cm9JcjZ4?=
- =?utf-8?B?R0xRdHhUZVloNTNnM3IrYmh2SjZSbmZVSjVUZFdkYy9JSFVjSXlQR0paM000?=
- =?utf-8?B?L2l1Q0RGS1g1TzRBMVRWOHpoY3Y3cXh5Q1B1U2s3SFBrRmFKSlFONFVhL3lv?=
- =?utf-8?B?S20zd1pROGhiYWRpWU5nQVA1ODZsVDVRenpUTHBvZEpPbTJUUGVsakZXemJ3?=
- =?utf-8?B?RzZTQTFTTkRMVWhqeW9ZcUw5WEtZa1ZCVnJjeEYwL1JsUUtnMmlrdnlqRjRC?=
- =?utf-8?B?dE9EZWJ4dGc0cGsrKzhRVTlFQUkzMVJxWkpDbjRDZXNWbVY2eFcxT0ZWejk2?=
- =?utf-8?B?YUpTOWs2N3RPdUtNM2kzblBxdk1QOUc2cWtZOW5hbWY1SkdoVldkcjg3clRq?=
- =?utf-8?B?QU00YURNK1c2aU41WFFscUJFaEY5YVlSU0lyWEZqdVhzY2hoWWlsbjNTTzU2?=
- =?utf-8?B?dUhiQmorMzE3bmhsNCsyQWNjdW5vWjMwZGdCRkYyaEFBZGUyaDFQdVZrR2Vx?=
- =?utf-8?B?ckpLT09IK0hLS3o1emFjTnBuemx4djY3aVZIZElkZGZRMENNL3NkbFB4TnpB?=
- =?utf-8?B?QmZCR0FWTDlROG1lankzM3NsRFQwRDVJNzlKYjh5ZGVCQXhaWUUvWFFXMEpK?=
- =?utf-8?B?Z1QzVUFSckk5MFh3c1R6T0dRbXdHSU9hVUNQSUVFWjVWOE1FSzArS29mczAz?=
- =?utf-8?B?dnJYekRJU1l5VkxCZ2JWa0J6WjlLUEl1N1MwRldOOTNBWU02THlsR1hXaDlL?=
- =?utf-8?B?UUVYQlIrZGp4WFRwRTFxcVpYd1daT1VYRGZDQWZ6RVJwRlZTSkNFbFJhRSta?=
- =?utf-8?B?OVdaYklDWXFEdW1qaVlzMWZSVlRSSUZ4SEdLSFNuWStGdk5iVkplYzZIVXMr?=
- =?utf-8?B?VTVRdFpqaWgwRVhFVmhFQXY0eFM3cHlYSEI4QTZyK1pzREd0MFU2V2dSL0t3?=
- =?utf-8?B?bnc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c70b46b-f8b8-491e-d306-08dbaa49ade5
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2023 17:42:43.2123
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SLaPPunawtVF3G098hs35c1X7P14B9Nh+Eie6wgdsgD2eMLHKjFPBD5zciAykjMIQHK6fJFe5FxMTfyNalQWhvDQqiC1Uj45DGgtszauc8k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8690
-X-OriginatorOrg: intel.com
+References: <20230826070921.75956-1-leo.yan@linaro.org>
+In-Reply-To: <20230826070921.75956-1-leo.yan@linaro.org>
+From:   Namhyung Kim <namhyung@kernel.org>
+Date:   Thu, 31 Aug 2023 10:48:30 -0700
+Message-ID: <CAM9d7cjs5RG1D8DLEmCOTrm=TLEF9CYUvaYem7Z_T85fE-PBRg@mail.gmail.com>
+Subject: Re: [PATCH v7] Documentation: userspace-api: Document perf ring
+ buffer mechanism
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Thomas Richter <tmricht@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
+Hi Leo,
 
-On 8/30/2023 4:19 PM, Moger, Babu wrote:
-> On 8/29/23 15:14, Reinette Chatre wrote:
->> On 8/21/2023 4:30 PM, Babu Moger wrote:
->>
->> ...
->>
->>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
->>> index 2fae6d9e24d3..3fa32c1c2677 100644
->>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
->>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
->>> @@ -296,9 +296,15 @@ struct rdtgroup {
->>>   *	--> RFTYPE_BASE (Files common for both MON and CTRL groups)
->>>   *	    Files: cpus, cpus_list, tasks
->>>   *
->>> + *		--> RFTYPE_DEBUG (Files to help resctrl debugging)
->>> + *		    File: mon_hw_id
->>> + *
->>
->> This does not look right. I think mon_hw_id should have RFTYPE_MON
->> (more below).
-> 
-> I am not sure about this (more below).
-> 
->>
->>>   *		--> RFTYPE_CTRL (Files only for CTRL group)
->>>   *		    Files: mode, schemata, size
->>>   *
->>> + *			--> RFTYPE_DEBUG (Files to help resctrl debugging)
->>> + *			    File: ctrl_hw_id
->>> + *
->>>   */
->>>  #define RFTYPE_INFO			BIT(0)
->>>  #define RFTYPE_BASE			BIT(1)
->>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>> index 94bd69f9964c..e0c2479acf49 100644
->>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>> @@ -776,6 +776,38 @@ static int rdtgroup_tasks_show(struct kernfs_open_file *of,
->>>  	return ret;
->>>  }
->>>  
->>> +static int rdtgroup_closid_show(struct kernfs_open_file *of,
->>> +				struct seq_file *s, void *v)
->>> +{
->>> +	struct rdtgroup *rdtgrp;
->>> +	int ret = 0;
->>> +
->>> +	rdtgrp = rdtgroup_kn_lock_live(of->kn);
->>> +	if (rdtgrp)
->>> +		seq_printf(s, "%u\n", rdtgrp->closid);
->>> +	else
->>> +		ret = -ENOENT;
->>> +	rdtgroup_kn_unlock(of->kn);
->>> +
->>> +	return ret;
->>> +}
->>> +
->>> +static int rdtgroup_rmid_show(struct kernfs_open_file *of,
->>> +			      struct seq_file *s, void *v)
->>> +{
->>> +	struct rdtgroup *rdtgrp;
->>> +	int ret = 0;
->>> +
->>> +	rdtgrp = rdtgroup_kn_lock_live(of->kn);
->>> +	if (rdtgrp)
->>> +		seq_printf(s, "%u\n", rdtgrp->mon.rmid);
->>> +	else
->>> +		ret = -ENOENT;
->>> +	rdtgroup_kn_unlock(of->kn);
->>> +
->>> +	return ret;
->>> +}
->>> +
->>>  #ifdef CONFIG_PROC_CPU_RESCTRL
->>>  
->>>  /*
->>> @@ -1837,6 +1869,13 @@ static struct rftype res_common_files[] = {
->>>  		.seq_show	= rdtgroup_tasks_show,
->>>  		.fflags		= RFTYPE_BASE,
->>>  	},
->>> +	{
->>> +		.name		= "mon_hw_id",
->>> +		.mode		= 0444,
->>> +		.kf_ops		= &rdtgroup_kf_single_ops,
->>> +		.seq_show	= rdtgroup_rmid_show,
->>> +		.fflags		= RFTYPE_BASE | RFTYPE_DEBUG,
->>
->> I missed this earlier but I think this also needs a RFTYPE_MON.
->> Perhaps patch 3 can introduce a new RFTYPE_MON_BASE to not
->> have the flags of the two new files look too different?
-> 
-> We have two types of files in base directory structure.
-> 
->  if (rtype == RDTCTRL_GROUP)
->                 files = RFTYPE_BASE | RFTYPE_CTRL;
->         else
->                 files = RFTYPE_BASE | RFTYPE_MON;
-> 
-> 1. RFTYPE_BASE | RFTYPE_CTRL;
->    Files for the control group only.
-> 
-> 2. RFTYPE_BASE | RFTYPE_MON;
->    Files for both control and mon groups. However, RFTYPE_MON is not used
-> for any files. It is only RFTYPE_BASE.
-> 
-> Because of the check in rdtgroup_add_files it all works fine.
-> For the control group it creates files with RFTYPE_BASE | RFTYPE_CTRL and
-> RFTYPE_BASE.
-> 
-> For the mon group it creates files with RFTYPE_BASE only.
+Thanks for your work on this!
 
-This describes current behavior because there are no resctrl
-files in base that are specific to monitoring, mon_hw_id is the
-first.
+On Sat, Aug 26, 2023 at 12:09 AM Leo Yan <leo.yan@linaro.org> wrote:
+>
+> In the Linux perf tool, the ring buffer serves not only as a medium for
+> transferring PMU event data but also as a vital mechanism for hardware
+> tracing using technologies like Intel PT and Arm CoreSight, etc.
+>
+> Consequently, the ring buffer mechanism plays a crucial role by ensuring
+> high throughput for data transfer between the kernel and user space
+> while avoiding excessive overhead caused by the ring buffer itself.
+>
+> This commit documents the ring buffer mechanism in detail.  It explains
+> the implementation of both the regular ring buffer and the AUX ring
+> buffer.  Additionally, it covers how these ring buffers support various
+> tracing modes and explains the synchronization with memory barriers.
+>
+> Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> ---
 
-This does not mean that the new file mon_hw_id should just have
-RFTYPE_BASE because that would result in mon_hw_id being created
-for all control groups, even those that do not support monitoring
-Having mon_hw_id in resctrl for a group that does not support
-monitoring is not correct.
+[SNIP]
+> +.. _writing_samples_into_buffer:
+> +
+> +2.3.2 Writing samples into buffer
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Ring buffers are mapped in either read-write mode or read-only mode to
+> +the user space.
+> +
+> +The ring buffer in the read-write mode is mapped with the property
+> +``PROT_READ | PROT_WRITE``.  With the write permission, the perf tool
+> +updates the ``data_tail`` to indicate the data start position.  Combining
+> +with the head pointer ``data_head``, which works as the end position of
+> +the current data, the perf tool can easily know where read out the data
+> +from.
+> +
+> +Alternatively, in the read-only mode, only the kernel keeps to update
+> +the ``data_head`` while the user space cannot access the ``data_tail`` due
+> +to the mapping property ``PROT_READ``.
+> +
+> +In addition to the mapping modes, the write direction also matters. The
+> +perf tool supports two write directions: forward and backward.  As a
 
-You should be able to reproduce this when booting your system
-with rdt=!cmt,!mbmlocal,!mbmtotal.
+s/perf tool/Linux kernel/
 
-> 
-> Adding FTYPE_MON_BASE will be a problem.
-> 
+> +result, the matrix below shows the combinations between the mapping
+> +modes and write directions.
+> +
+> +.. list-table::
+> +   :widths: 1 1 1
+> +   :header-rows: 1
+> +
+> +   * - Mapping mode
+> +     - Forward
+> +     - Backward
+> +   * - read-write
+> +     - Normal ring buffer
+> +     - Not supported
+> +   * - read-only
+> +     - Not supported
+> +     - Overwritable ring buffer
 
-Yes, this change does not just involve assigning the RFTYPE_MON
-to mon_hw_id. As you describe mkdir_rdt_prepare() does not take
-RFTYPE_MON into account when creating the files. Could this not just
-be a straightforward change to have it append RFTYPE_MON to the flags
-of files needing to be created for a CTRL_MON group? This would
-support new resource groups and then the default resource group
-would need to be taken into account also. What am I missing?
+In the kernel's point of view, they are supported.  It's just perf tool
+not using them.  So I think we should say "Not used".
 
-Reinette
+> +
+> +The normal ring buffer uses the read-write mapping with forward writing.
+> +It starts to save data from the beginning of the ring buffer and wrap
+> +around when overflow, which is used with the read-write mode in the
+> +normal ring buffer.  When the consumer doesn't keep up with the
+> +producer, it would lose some data, the kernel keeps how many records it
+> +lost and generates the ``PERF_RECORD_LOST`` records in the next time
+> +when it finds a space in the ring buffer.
+> +
+> +On the other hand, the overwritable ring buffer uses the backward
+> +writing with the read-only mode.  It saves the data from the end of the
+> +ring buffer and the ``data_head`` keeps the position of current data,
+> +the perf always knows where it starts to read and until the end of the
+> +ring buffer, thus it don't need the ``data_tail``.  In this mode, it
+> +will not generate the ``PERF_RECORD_LOST`` records.
+> +
+> +When a sample is taken and saved into the ring buffer, the kernel
+> +prepares sample fields based on the sample type; then it prepares the
+> +info for writing ring buffer which is stored in the structure
+> +``perf_output_handle``.  In the end, the kernel outputs the sample into
+> +the ring buffer and updates the head pointer in the user page so the
+> +perf tool can see the latest value.
+> +
+> +The structure ``perf_output_handle`` serves as a temporary context for
+> +tracking the information related to the buffer.  The advantages of it is
+> +that it enables concurrent writing to the buffer by different events.
+> +For example, a software event and a hardware PMU event both are enabled
+> +for profiling, two instances of ``perf_output_handle`` serve as separate
+> +contexts for the software event and the hardware event respectively.
+> +This allows each event to reserve its own memory space for populating
+> +the record data.
+> +
+
+[SNIP]
+> +
+> +3. The mechanism of AUX ring buffer
+> +===================================
+> +
+> +In this chapter, we will explain the implementation of the AUX ring
+> +buffer.  In the first part it will discuss the connection between the
+> +AUX ring buffer and the regular ring buffer, then the second part will
+> +examine how the AUX ring buffer co-works with the regular ring buffer,
+> +as well as the additional features introduced by the AUX ring buffer for
+> +the sampling mechanism.
+> +
+> +3.1 The relationship between AUX and regular ring buffers
+> +---------------------------------------------------------
+> +
+> +Generally, the AUX ring buffer is an auxiliary for the regular ring
+> +buffer.  The regular ring buffer is primarily used to store the event
+> +samples and every event format complies with the definition in the
+> +union ``perf_event``; the AUX ring buffer is for recording the hardware
+> +trace data and the trace data format is hardware IP dependent.
+> +
+> +The general use and advantage of the AUX ring buffer is that it is
+> +written directly by hardware rather than by the kernel.  For example,
+> +regular profile samples that write to the regular ring buffer cause an
+> +interrupt.  Tracing execution requires a high number of samples and
+> +using interrupts would be overwhelming for the regular ring buffer
+> +mechanism.  Having an AUX buffer allows for a region of memory more
+> +decoupled from the kernel and written to directly by hardware tracing.
+> +
+> +The AUX ring buffer reuses the same algorithm with the regular ring
+> +buffer for the buffer management.  The control structure
+> +``perf_event_mmap_page`` extends the new fields ``aux_head`` and ``aux_tail``
+> +for the head and tail pointers of the AUX ring buffer.
+> +
+> +During the initialisation phase, besides the mmap()-ed regular ring
+> +buffer, the perf tool invokes a second syscall in the
+
+second mmap syscall
+
+> +``auxtrace_mmap__mmap()`` function for the mmap of the AUX buffer;
+
+with non-zero file offset.
+
+> +``rb_alloc_aux()`` in the kernel allocates pages correspondingly, these
+> +pages will be deferred to map into VMA when handling the page fault,
+> +which is the same lazy mechanism with the regular ring buffer.
+> +
+> +AUX events and AUX trace data are two different things.  Let's see an
+> +example::
+> +
+> +        perf record -a -e cycles -e cs_etm/@tmc_etr0/ -- sleep 2
+> +
+> +The above command enables two events: one is the event *cycles* from PMU
+> +and another is the AUX event *cs_etm* from Arm CoreSight, both are saved
+> +into the regular ring buffer while the CoreSight's AUX trace data is
+> +stored in the AUX ring buffer.
+> +
+> +As a result, we can see the regular ring buffer and the AUX ring buffer
+> +are allocated in pairs.  The perf in default mode allocates the regular
+> +ring buffer and the AUX ring buffer per CPU-wise, which is the same as
+> +the system wide mode, however, the default mode records samples only for
+> +the profiled program, whereas the latter mode profiles for all programs
+> +in the system.  For per-thread mode, the perf tool allocates only one
+> +regular ring buffer and one AUX ring buffer for the whole session.  For
+> +the per-CPU mode, the perf allocates two kinds of ring buffers for CPUs
+> +specified by the option ``-C``.
+
+Considering -a option, it can be "ring buffers for selected CPUs".
+
+> +
+> +The below figure demonstrates the buffers' layout in the system wide
+> +mode; if there are any activities on one CPU, the AUX event samples and
+> +the hardware trace data will be recorded into the dedicated buffers for
+> +the CPU.
+> +
+> +::
+> +
+> +              T1                      T2                 T1
+> +            +----+              +-----------+          +----+
+> +    CPU0    |xxxx|              |xxxxxxxxxxx|          |xxxx|
+> +            +----+--------------+-----------+----------+----+-------->
+> +              |                       |                  |
+> +              v                       v                  v
+> +            +-----------------------------------------------------+
+> +            |                  Ring buffer 0                      |
+> +            +-----------------------------------------------------+
+> +              |                       |                  |
+> +              v                       v                  v
+> +            +-----------------------------------------------------+
+> +            |               AUX Ring buffer 0                     |
+> +            +-----------------------------------------------------+
+> +
+> +                   T1
+> +                 +-----+
+> +    CPU1         |xxxxx|
+> +            -----+-----+--------------------------------------------->
+> +                    |
+> +                    v
+> +            +-----------------------------------------------------+
+> +            |                  Ring buffer 1                      |
+> +            +-----------------------------------------------------+
+> +                    |
+> +                    v
+> +            +-----------------------------------------------------+
+> +            |               AUX Ring buffer 1                     |
+> +            +-----------------------------------------------------+
+> +
+> +                                        T1              T3
+> +                                      +----+        +-------+
+> +    CPU2                              |xxxx|        |xxxxxxx|
+> +            --------------------------+----+--------+-------+-------->
+> +                                        |               |
+> +                                        v               v
+> +            +-----------------------------------------------------+
+> +            |                  Ring buffer 2                      |
+> +            +-----------------------------------------------------+
+> +                                        |               |
+> +                                        v               v
+> +            +-----------------------------------------------------+
+> +            |               AUX Ring buffer 2                     |
+> +            +-----------------------------------------------------+
+> +
+> +                              T1
+> +                       +--------------+
+> +    CPU3               |xxxxxxxxxxxxxx|
+> +            -----------+--------------+------------------------------>
+> +                              |
+> +                              v
+> +            +-----------------------------------------------------+
+> +            |                  Ring buffer 3                      |
+> +            +-----------------------------------------------------+
+> +                              |
+> +                              v
+> +            +-----------------------------------------------------+
+> +            |               AUX Ring buffer 3                     |
+> +            +-----------------------------------------------------+
+> +
+> +            T1: Thread 1; T2: Thread 2; T3: Thread 3
+> +            x: Thread is in running state
+> +
+> +                Figure 8. AUX ring buffer for system wide mode
+> +
+> +3.2 AUX events
+> +--------------
+> +
+> +Similar to ``perf_output_begin()`` and ``perf_output_end()``'s working for the
+> +regular ring buffer, ``perf_aux_output_begin()`` and ``perf_aux_output_end()``
+> +serve for the AUX ring buffer for processing the hardware trace data.
+> +The structure ``perf_output_handle`` is used as a context to track the AUX
+> +buffer’s info.
+
+I feel like this section contains kernel implementation details.
+Please focus on the user-visible aspect.
+
+> +
+> +``perf_aux_output_begin()`` initializes the structure perf_output_handle.
+> +It fetches the AUX head pointer and assigns to ``perf_output_handle::head``,
+> +afterwards, the low level driver uses ``perf_output_handle::head`` as the
+> +start address for storing hardware trace data.
+> +
+> +Once the hardware trace data is stored into the AUX ring buffer, the PMU
+> +driver will stop hardware tracing by calling the ``pmu::stop()`` callback.
+> +Similar to the regular ring buffer, the AUX ring buffer needs to apply
+> +the memory synchronization mechanism as discussed in the section
+> +:ref:`memory_synchronization`.  Since the AUX ring buffer is managed by the
+> +PMU driver, the barrier (B), which is a writing barrier to ensure the trace
+> +data is externally visible prior to updating the head pointer, is asked
+> +to be implemented in the PMU driver.
+> +
+> +Then ``pmu::stop()`` can safely call the ``perf_aux_output_end()`` function to
+> +finish two things:
+> +
+> +- It fills an event ``PERF_RECORD_AUX`` into the regular ring buffer, this
+> +  event delivers the information of the start address and data size for a
+> +  chunk of hardware trace data has been stored into the AUX ring buffer;
+> +
+> +- Since the hardware trace driver has stored new trace data into the AUX
+> +  ring buffer, the argument *size* indicates how many bytes have been
+> +  consumed by the hardware tracing, thus ``perf_aux_output_end()`` updates the
+> +  header pointer ``perf_buffer::aux_head`` to reflect the latest buffer usage.
+> +
+> +At the end, the PMU driver will restart hardware tracing.  During this
+> +temporary suspending period, it will lose hardware trace data, which
+> +will introduce a discontinuity during decoding phase.
+> +
+> +The event ``PERF_RECORD_AUX`` presents an AUX event which is handled in the
+> +kernel, but it lacks the information for saving the AUX trace data in
+> +the perf file.  When the perf tool copies the trace data from AUX ring
+> +buffer to the perf data file, it synthesizes a ``PERF_RECORD_AUXTRACE``
+
+I think you should mention that AUXTRACE record is not a kernel ABI.
+It's defined by perf tool to describe which portion of data in the AUX
+ring buffer is saved.
+
+Thanks,
+Namhyung
+
+
+> +event which includes the offest and size of the AUX trace data in the
+> +perf file.  Afterwards, the perf tool reads out the AUX trace data from
+> +the perf file based on the ``PERF_RECORD_AUXTRACE`` events, and the
+> +``PERF_RECORD_AUX`` event is used to decode a chunk of data by correlating
+> +with time order.
+> +
+> +3.3 Snapshot mode
+> +-----------------
+> +
+> +Perf supports snapshot mode for AUX ring buffer, in this mode, users
+> +only record AUX trace data at a specific time point which users are
+> +interested in.  E.g. below gives an example of how to take snapshots
+> +with 1 second interval with Arm CoreSight::
+> +
+> +  perf record -e cs_etm/@tmc_etr0/u -S -a program &
+> +  PERFPID=$!
+> +  while true; do
+> +      kill -USR2 $PERFPID
+> +      sleep 1
+> +  done
+> +
+> +The main flow for snapshot mode is:
+> +
+> +- Before a snapshot is taken, the AUX ring buffer acts in free run mode.
+> +  During free run mode the perf doesn't record any of the AUX events and
+> +  trace data;
+> +
+> +- Once the perf tool receives the *USR2* signal, it triggers the callback
+> +  function ``auxtrace_record::snapshot_start()`` to deactivate hardware
+> +  tracing.  The kernel driver then populates the AUX ring buffer with the
+> +  hardware trace data, and the event ``PERF_RECORD_AUX`` is stored in the
+> +  regular ring buffer;
+> +
+> +- Then perf tool takes a snapshot, ``record__read_auxtrace_snapshot()``
+> +  reads out the hardware trace data from the AUX ring buffer and saves it
+> +  into perf data file;
+> +
+> +- After the snapshot is finished, ``auxtrace_record::snapshot_finish()``
+> +  restarts the PMU event for AUX tracing.
+> +
+> +The perf only accesses the head pointer ``perf_event_mmap_page::aux_head``
+> +in snapshot mode and doesn’t touch tail pointer ``aux_tail``, this is
+> +because the AUX ring buffer can overflow in free run mode, the tail
+> +pointer is useless in this case.  Alternatively, the callback
+> +``auxtrace_record::find_snapshot()`` is introduced for making the decision
+> +of whether the AUX ring buffer has been wrapped around or not, at the
+> +end it fixes up the AUX buffer's head which are used to calculate the
+> +trace data size.
+> +
+> +As we know, the buffers' deployment can be per-thread mode, per-CPU
+> +mode, or system wide mode, and the snapshot can be applied to any of
+> +these modes.  Below is an example of taking snapshot with system wide
+> +mode.
+> +
+> +::
+> +
+> +                                         Snapshot is taken
+> +                                                 |
+> +                                                 v
+> +                        +------------------------+
+> +                        |  AUX Ring buffer 0     | <- aux_head
+> +                        +------------------------+
+> +                                                 v
+> +                +--------------------------------+
+> +                |          AUX Ring buffer 1     | <- aux_head
+> +                +--------------------------------+
+> +                                                 v
+> +    +--------------------------------------------+
+> +    |                      AUX Ring buffer 2     | <- aux_head
+> +    +--------------------------------------------+
+> +                                                 v
+> +         +---------------------------------------+
+> +         |                 AUX Ring buffer 3     | <- aux_head
+> +         +---------------------------------------+
+> +
+> +                Figure 9. Snapshot with system wide mode
+> --
+> 2.34.1
+>
