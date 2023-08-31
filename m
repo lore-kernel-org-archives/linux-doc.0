@@ -2,209 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C371C83F01
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 11:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C16C83F01
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Aug 2023 13:02:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234577AbjHaLTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Aug 2023 07:19:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48428 "EHLO
+        id S244296AbjHaNCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Aug 2023 09:02:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235573AbjHaLTW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 07:19:22 -0400
-Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83836E5F;
-        Thu, 31 Aug 2023 04:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1693480752; x=1725016752;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=h/nMy0t4wtPt6LFAJDminDBn1Pn/Vgam85P5np4XTd4=;
-  b=swCz9v3YRVTMd5259QHRH4KEnJ5nD9O+h/bouBOKcW9hWeTF38JyTTSI
-   kPR8jDIPqnlPKgMU1VmUUnCa5+RFEz5/81NyMwwn8N9oSQ2r2z0P9e2lL
-   MiUBG7wXNbn8m46gn/fRyiN0/4y4EJfUFmY9O48l0ejtvPYzLce3qpDlT
-   8=;
-X-IronPort-AV: E=Sophos;i="6.02,216,1688428800"; 
-   d="scan'208";a="26125601"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-6e7a78d7.us-east-1.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 11:19:09 +0000
-Received: from EX19MTAUWA002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-iad-1e-m6i4x-6e7a78d7.us-east-1.amazon.com (Postfix) with ESMTPS id 8D7A7808D7;
-        Thu, 31 Aug 2023 11:19:08 +0000 (UTC)
-Received: from EX19D002ANA003.ant.amazon.com (10.37.240.141) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.37; Thu, 31 Aug 2023 11:19:01 +0000
-Received: from b0f1d8753182.ant.amazon.com (10.106.83.27) by
- EX19D002ANA003.ant.amazon.com (10.37.240.141) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.37;
- Thu, 31 Aug 2023 11:18:57 +0000
-From:   Takahiro Itazuri <itazur@amazon.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        Takahiro Itazuri <zulinx86@gmail.com>,
-        Takahiro Itazuri <itazur@amazon.com>
-Subject: [PATCH v2] docs: Update desc of best effort mode
-Date:   Thu, 31 Aug 2023 12:18:47 +0100
-Message-ID: <20230831111847.71030-1-itazur@amazon.com>
-X-Mailer: git-send-email 2.38.0
+        with ESMTP id S229716AbjHaNCC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Aug 2023 09:02:02 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3005BCFF
+        for <linux-doc@vger.kernel.org>; Thu, 31 Aug 2023 06:01:59 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Rc1V86mHXz1L9BN;
+        Thu, 31 Aug 2023 21:00:16 +0800 (CST)
+Received: from huawei.com (10.67.174.58) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 31 Aug
+ 2023 21:01:56 +0800
+From:   Chen Jiahao <chenjiahao16@huawei.com>
+To:     <corbet@lwn.net>, <linux@armlinux.org.uk>, <paulmck@kernel.org>,
+        <rdunlap@infradead.org>, <catalin.marinas@arm.com>,
+        <mpe@ellerman.id.au>, <rostedt@goodmis.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+CC:     <chenjiahao16@huawei.com>
+Subject: [PATCH -next] ARM: spectre-bhb: expand boot cmdline param to turn off mitigation on ARM32
+Date:   Thu, 31 Aug 2023 21:01:40 +0800
+Message-ID: <20230831130140.291250-1-chenjiahao16@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.106.83.27]
-X-ClientProxiedBy: EX19D035UWB004.ant.amazon.com (10.13.138.104) To
- EX19D002ANA003.ant.amazon.com (10.37.240.141)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.67.174.58]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Moves the description of the best effort mitigation mode to the table of
-the possible values in the mds and tsx_async_abort docs, and adds the
-same one to the mmio_stale_data doc.
+spectre-bhb mitigation is enabled by default on ARM32, which may
+cause performance regression. To offer an option to turn off the
+mitigation, here expand an existing cmdline parameter 'nospectre_bhb'
+to ARM32, which sets up a switch to skip the mitigation code entry
+and bhb workarounds in mitigation method handler.
 
-Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
+Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
 ---
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ arch/arm/mm/proc-v7-bugs.c                      | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-v1 -> v2: https://lore.kernel.org/all/20230830144426.80258-1-itazur@amazon.com/
-- Puts the desc into the table of the possible values.
-
----
- Documentation/admin-guide/hw-vuln/mds.rst     | 33 ++++++++-----------
- .../hw-vuln/processor_mmio_stale_data.rst     | 13 +++++++-
- .../admin-guide/hw-vuln/tsx_async_abort.rst   | 32 ++++++++----------
- 3 files changed, 38 insertions(+), 40 deletions(-)
-
-diff --git a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
-index 48ca0bd85..0fe98151a 100644
---- a/Documentation/admin-guide/hw-vuln/mds.rst
-+++ b/Documentation/admin-guide/hw-vuln/mds.rst
-@@ -102,9 +102,19 @@ The possible values in this file are:
-      * - 'Vulnerable'
-        - The processor is vulnerable, but no mitigation enabled
-      * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
--       - The processor is vulnerable but microcode is not updated.
--
--         The mitigation is enabled on a best effort basis. See :ref:`vmwerv`
-+       - The processor is vulnerable but microcode is not updated. The
-+         mitigation is enabled on a best effort basis.
-+
-+         If the processor is vulnerable but the availability of the microcode
-+         based mitigation mechanism is not advertised via CPUID, the kernel
-+         selects a best effort mitigation mode. This mode invokes the mitigation
-+         instructions without a guarantee that they clear the CPU buffers.
-+
-+         This is done to address virtualization scenarios where the host has the
-+         microcode update applied, but the hypervisor is not yet updated to
-+         expose the CPUID to the guest. If the host has updated microcode the
-+         protection takes effect; otherwise a few CPU cycles are wasted
-+         pointlessly.
-      * - 'Mitigation: Clear CPU buffers'
-        - The processor is vulnerable and the CPU buffer clearing mitigation is
-          enabled.
-@@ -119,23 +129,6 @@ to the above information:
-     'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
-     ========================  ============================================
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0a1731a0f0ef..856edb4403fb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3902,7 +3902,7 @@
+ 	nospec_store_bypass_disable
+ 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
  
--.. _vmwerv:
--
--Best effort mitigation mode
--^^^^^^^^^^^^^^^^^^^^^^^^^^^
--
--  If the processor is vulnerable, but the availability of the microcode based
--  mitigation mechanism is not advertised via CPUID the kernel selects a best
--  effort mitigation mode.  This mode invokes the mitigation instructions
--  without a guarantee that they clear the CPU buffers.
--
--  This is done to address virtualization scenarios where the host has the
--  microcode update applied, but the hypervisor is not yet updated to expose
--  the CPUID to the guest. If the host has updated microcode the protection
--  takes effect otherwise a few cpu cycles are wasted pointlessly.
--
--  The state in the mds sysfs file reflects this situation accordingly.
--
+-	nospectre_bhb	[ARM64] Disable all mitigations for Spectre-BHB (branch
++	nospectre_bhb	[ARM,ARM64] Disable all mitigations for Spectre-BHB (branch
+ 			history injection) vulnerability. System may allow data leaks
+ 			with this option.
  
- Mitigation mechanism
- -------------------------
-diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
-index c98fd1190..1302fd1b5 100644
---- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
-+++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
-@@ -225,8 +225,19 @@ The possible values in this file are:
-      * - 'Vulnerable'
-        - The processor is vulnerable, but no mitigation enabled
-      * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
--       - The processor is vulnerable, but microcode is not updated. The
-+       - The processor is vulnerable but microcode is not updated. The
-          mitigation is enabled on a best effort basis.
-+
-+         If the processor is vulnerable but the availability of the microcode
-+         based mitigation mechanism is not advertised via CPUID, the kernel
-+         selects a best effort mitigation mode. This mode invokes the mitigation
-+         instructions without a guarantee that they clear the CPU buffers.
-+
-+         This is done to address virtualization scenarios where the host has the
-+         microcode update applied, but the hypervisor is not yet updated to
-+         expose the CPUID to the guest. If the host has updated microcode the
-+         protection takes effect; otherwise a few CPU cycles are wasted
-+         pointlessly.
-      * - 'Mitigation: Clear CPU buffers'
-        - The processor is vulnerable and the CPU buffer clearing mitigation is
-          enabled.
-diff --git a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
-index 014167ef8..c6400fe6b 100644
---- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
-+++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
-@@ -98,7 +98,19 @@ The possible values in this file are:
-    * - 'Vulnerable'
-      - The CPU is affected by this vulnerability and the microcode and kernel mitigation are not applied.
-    * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
--     - The system tries to clear the buffers but the microcode might not support the operation.
-+     - The processor is vulnerable but microcode is not updated. The
-+       mitigation is enabled on a best effort basis.
-+
-+       If the processor is vulnerable but the availability of the microcode
-+       based mitigation mechanism is not advertised via CPUID, the kernel
-+       selects a best effort mitigation mode. This mode invokes the mitigation
-+       instructions without a guarantee that they clear the CPU buffers.
-+
-+       This is done to address virtualization scenarios where the host has the
-+       microcode update applied, but the hypervisor is not yet updated to
-+       expose the CPUID to the guest. If the host has updated microcode the
-+       protection takes effect; otherwise a few CPU cycles are wasted
-+       pointlessly.
-    * - 'Mitigation: Clear CPU buffers'
-      - The microcode has been updated to clear the buffers. TSX is still enabled.
-    * - 'Mitigation: TSX disabled'
-@@ -106,24 +118,6 @@ The possible values in this file are:
-    * - 'Not affected'
-      - The CPU is not affected by this issue.
+diff --git a/arch/arm/mm/proc-v7-bugs.c b/arch/arm/mm/proc-v7-bugs.c
+index 8bc7a2d6d6c7..dd2ddece714f 100644
+--- a/arch/arm/mm/proc-v7-bugs.c
++++ b/arch/arm/mm/proc-v7-bugs.c
+@@ -9,6 +9,15 @@
+ #include <asm/spectre.h>
+ #include <asm/system_misc.h>
  
--.. _ucode_needed:
--
--Best effort mitigation mode
--^^^^^^^^^^^^^^^^^^^^^^^^^^^
--
--If the processor is vulnerable, but the availability of the microcode-based
--mitigation mechanism is not advertised via CPUID the kernel selects a best
--effort mitigation mode.  This mode invokes the mitigation instructions
--without a guarantee that they clear the CPU buffers.
--
--This is done to address virtualization scenarios where the host has the
--microcode update applied, but the hypervisor is not yet updated to expose the
--CPUID to the guest. If the host has updated microcode the protection takes
--effect; otherwise a few CPU cycles are wasted pointlessly.
--
--The state in the tsx_async_abort sysfs file reflects this situation
--accordingly.
--
++static int nospectre_bhb __read_mostly;
++
++static int __init nospectre_bhb_setup(char *str)
++{
++	nospectre_bhb = 1;
++	return 0;
++}
++early_param("nospectre_bhb", nospectre_bhb_setup);
++
+ #ifdef CONFIG_ARM_PSCI
+ static int __maybe_unused spectre_v2_get_cpu_fw_mitigation_state(void)
+ {
+@@ -226,6 +235,11 @@ static void cpu_v7_spectre_bhb_init(void)
+ {
+ 	unsigned int state, method = 0;
  
- Mitigation mechanism
- --------------------
++	if (nospectre_bhb) {
++		pr_info_once("Spectre bhb: hardening is disabled\n");
++		return;
++	}
++
+ 	switch (read_cpuid_part()) {
+ 	case ARM_CPU_PART_CORTEX_A15:
+ 	case ARM_CPU_PART_BRAHMA_B15:
 -- 
-2.40.1
+2.34.1
 
