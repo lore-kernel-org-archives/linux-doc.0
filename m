@@ -2,233 +2,243 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B198CA0FE1
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 07:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4052CA0FE8
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 07:12:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347035AbjIAHHj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Sep 2023 03:07:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33156 "EHLO
+        id S1348462AbjIAHMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Sep 2023 03:12:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231418AbjIAHHi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 03:07:38 -0400
-Received: from belinda3.kreativmedia.ch (belinda3.kreativmedia.ch [80.74.158.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F454C5
-        for <linux-doc@vger.kernel.org>; Fri,  1 Sep 2023 00:07:34 -0700 (PDT)
-Received: from localhost.localdomain (localhost [127.0.0.1]) by belinda3.kreativmedia.ch (Postfix) with ESMTPSA id EB56152C0099;
-        Fri,  1 Sep 2023 09:07:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renenyffenegger.ch;
-        s=default; t=1693552052;
-        bh=iEM4ahnYXJ58Yz+o5+k7v6EgmA2Ee6rUY1aG/N8eemM=; h=From:To:Subject;
-        b=RQOqam05YnWBXcdcosKvldu+BFS1c8lmwVvZG4YvLmdjGdLl9tN3f/H9FNVuWVViz
-         c97gNDUtdjnF7k0YgkASL2aNSqS/F9SCZ7X7rHKap4p6xxYolpAJWzP/4tNR1xRyBK
-         h1GinllKRvQ+v/aOKNNnPfTtqoQ9qEUgCpDZhlqI=
-Authentication-Results: belinda.kreativmedia.ch;
-        spf=pass (sender IP is 31.10.136.251) smtp.mailfrom=mail@renenyffenegger.ch smtp.helo=localhost.localdomain
-Received-SPF: pass (belinda.kreativmedia.ch: connection is authenticated)
-From:   =?UTF-8?q?Ren=C3=A9=20Nyffenegger?= <mail@renenyffenegger.ch>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Ren=C3=A9=20Nyffenegger?= <mail@renenyffenegger.ch>
-Subject: [PATCH] Documentation: Reference kernel-doc for container_of
-Date:   Fri,  1 Sep 2023 09:07:28 +0200
-Message-Id: <20230901070728.28400-1-mail@renenyffenegger.ch>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S231418AbjIAHMC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 03:12:02 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76CA7E7F;
+        Fri,  1 Sep 2023 00:11:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1AEB8B8249D;
+        Fri,  1 Sep 2023 07:11:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4967BC433C8;
+        Fri,  1 Sep 2023 07:11:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693552315;
+        bh=jL6V71q+JQ0fwfAxJn/3YfPCITb3l3CFMd1wVZr+rM8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=coSjDrXd6jydcj9Jlh2XcO5LIBYCqbYjPXCkn2TnfOQVh+6sfAm19T81nDvflziH3
+         +XikcbhcgxooF3aXODlQyUQR0J/FSzBXLYi/kcQ+rsCJgOxKE/X3D5fba/ZqWK+veX
+         xR6qxYlfuSnURekKEvW4WZibxvijlErCNh8Q/i6HqrAtE/ippCllnPPSmaPmKxCSVk
+         5RKn7ip2tc+mSGkzbMU5tTfmXj4B2gcKzxn1JdDMCKEbRpK1qAW+wNUNa6CRHINNce
+         bDtRIfv+99lehWcty5cGBJhKiOAxm3E4v8g8NOzlGwX3TdKyv8YvyoOvdXPbigfbFV
+         3TKMVel82XD8Q==
+Date:   Fri, 1 Sep 2023 09:11:46 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Rae Moar <rmoar@google.com>
+Cc:     Arthur Grillo <arthurgrillo@riseup.net>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        David Gow <davidgow@google.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        =?UTF-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, mauro.chehab@intel.com
+Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit
+ test
+Message-ID: <20230901091146.749cfdfa@sal.lan>
+In-Reply-To: <CA+GJov6VPggogod2=pYAxKRnP_hnqO7DMmpTzT4AAU_fiPQOfw@mail.gmail.com>
+References: <cover.1689171160.git.mchehab@kernel.org>
+        <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+        <CA+GJov6VPggogod2=pYAxKRnP_hnqO7DMmpTzT4AAU_fiPQOfw@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file include/linux/container_of.h contained kernel-doc but was not
-referenced in any .rst file. In addition, the file
-Documentation/core-api/kobject.rst wrongly located the definition
-of the macro `container_of` in linux/kernel.h while in reality
-it is defined in linux/container_of.h
+Hi Rae,
 
-This patch adds a new .rst file that includes the kernel-doc of
-container_of.h and rectifies the wrong reference of the header
-file.
+Em Thu, 13 Jul 2023 17:31:19 -0400
+Rae Moar <rmoar@google.com> escreveu:
 
-Signed-off-by: René Nyffenegger <mail@renenyffenegger.ch>
----
- Documentation/core-api/container_of.rst | 64 +++++++++++++++++++++++++
- Documentation/core-api/index.rst        |  1 +
- Documentation/core-api/kobject.rst      | 58 +++++++++++-----------
- 3 files changed, 93 insertions(+), 30 deletions(-)
- create mode 100644 Documentation/core-api/container_of.rst
+> On Wed, Jul 12, 2023 at 10:29 AM Mauro Carvalho Chehab <mchehab@kernel.or=
+g>
+> wrote:
+>=20
+> > As an example for the new documentation tool, add a documentation
+> > for drm_buddy_test.
+> >
+> > I opted to place this on a completely different directory, in order
+> > to make easier to test the feature with:
+> >
+> >         $ make SPHINXDIRS=3D"tests" htmldocs
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > ---
+> >
+> > To avoid mailbombing on a large number of people, only mailing lists we=
+re
+> > C/C on the cover.
+> > See [PATCH RFC 0/2] at:
+> > https://lore.kernel.org/all/cover.1689171160.git.mchehab@kernel.org/
+> >
+> >  Documentation/index.rst                |  2 +-
+> >  Documentation/tests/index.rst          |  6 ++++++
+> >  Documentation/tests/kunit.rst          |  5 +++++
+> >  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+> >  4 files changed, 24 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/tests/index.rst
+> >  create mode 100644 Documentation/tests/kunit.rst
+> >
+> > diff --git a/Documentation/index.rst b/Documentation/index.rst
+> > index 9dfdc826618c..80a6ce14a61a 100644
+> > --- a/Documentation/index.rst
+> > +++ b/Documentation/index.rst
+> > @@ -60,7 +60,7 @@ Various other manuals with useful information for all
+> > kernel developers.
+> >     fault-injection/index
+> >     livepatch/index
+> >     rust/index
+> > -
+> > +   test/index
+> >
+> >  User-oriented documentation
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.=
+rst
+> > new file mode 100644
+> > index 000000000000..bfc39eb5c0aa
+> > --- /dev/null
+> > +++ b/Documentation/tests/index.rst
+> > @@ -0,0 +1,6 @@
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > +Kunit documentation test
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > +
+> > +.. toctree::
+> > +   kunit
+> > diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.=
+rst
+> > new file mode 100644
+> > index 000000000000..6ffc151988a0
+> > --- /dev/null
+> > +++ b/Documentation/tests/kunit.rst
+> > @@ -0,0 +1,5 @@
+> > +Kunit tests
+> > +-----------
+> > +
+> > +.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
+> > +
+> > diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c
+> > b/drivers/gpu/drm/tests/drm_buddy_test.c
+> > index 09ee6f6af896..dd6c5afd6cd6 100644
+> > --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> > +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> > @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite
+> > *suite)
+> >         return 0;
+> >  }
+> >
+> > +/**
+> > + * KTEST_SUITE: set of tests for drm buddy alloc
+> > + * Scope: drm subsystem
+> > + * Mega feature: drm
+> > + * Feature: buddy_alloc
+> > + *
+> > + * KTEST_TEST: drm_test_buddy_alloc_%s
+> > + * Description: Run DRM buddy allocation %arg[1] test
+> > + *
+> > + * arg[1].values: limit, range, optimistic, smoke, pathological
+> > + */ =20
+>=20
+>=20
+> Hi!
+>=20
+> This is such a cool patch series. I just have a few comments related to t=
+he
+> output.
 
-diff --git a/Documentation/core-api/container_of.rst b/Documentation/core-api/container_of.rst
-new file mode 100644
-index 000000000000..f063d3f9e536
---- /dev/null
-+++ b/Documentation/core-api/container_of.rst
-@@ -0,0 +1,64 @@
-+=====================================================================================
-+Given a pointer to a member of a struct, returning a pointer to the containing struct
-+=====================================================================================
-+
-+.. _container_of:
-+
-+Overview
-+========
-+
-+The two macros ``container_of`` and ``container_of_const``, defined in ``<include/linux/container_of.h>``, return a pointer to the ``struct`` (i. e. the *container*) from a pointer to a member of this ``struct``.
-+
-+These macros might be used when :ref:`embedding kobjects<embedding_kobjects>`, but see also :ref:`usage<container_of_usage>`.
-+
-+
-+.. kernel-doc:: include/linux/container_of.h
-+
-+Usage
-+=====
-+
-+.. _container_of_usage:
-+
-+The following simple code demonstrates the usage of ``container_of``
-+
-+.. code-block:: c
-+
-+ struct inner_struct
-+ {
-+ 	int abc;
-+ 	int def;
-+ }
-+ 
-+ struct container_struct
-+ {
-+ 	struct inner_struct inner;
-+ 	char               *member_xyz;
-+ 	int                 member_val;
-+ };
-+ 
-+ static void f(struct inner_struct *inr)
-+ {
-+ 	struct container_struct *cont;
-+ 
-+ 	cont = container_of(inr, struct container_struct, inner);
-+ 
-+        /* Use cont and its members */
-+ }
-+ 
-+ static void g(char** member)
-+ {
-+ 	struct container_struct *cont;
-+ 
-+ 	cont = container_of(member, struct container_struct, member_xyz);
-+        /* Use cont and its members */
-+ }
-+ 
-+ void somewhere()
-+ {
-+ 	struct container_struct cont;
-+ 
-+ 	/* Initialize cont */
-+ 
-+ 	f(& cont.inner      );
-+ 	g(& cont.member_xyz );
-+ }
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 7a3a08d81f11..595af47d0d5f 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -37,6 +37,7 @@ Library functionality that is used throughout the kernel.
-    kref
-    assoc_array
-    xarray
-+   container_of
-    maple_tree
-    idr
-    circular-buffers
-diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
-index 7310247310a0..058570694418 100644
---- a/Documentation/core-api/kobject.rst
-+++ b/Documentation/core-api/kobject.rst
-@@ -49,6 +49,8 @@ approach will be taken, so we'll go back to kobjects.
- Embedding kobjects
- ==================
- 
-+.. _embedding_kobjects:
-+
- It is rare for kernel code to create a standalone kobject, with one major
- exception explained below.  Instead, kobjects are used to control access to
- a larger, domain-specific object.  To this end, kobjects will be found
-@@ -66,50 +68,46 @@ their own, but are invariably found embedded in the larger objects of
- interest.)
- 
- So, for example, the UIO code in ``drivers/uio/uio.c`` has a structure that
--defines the memory region associated with a uio device::
-+defines the memory region associated with a uio device:
- 
--    struct uio_map {
--            struct kobject kobj;
--            struct uio_mem *mem;
--    };
-+.. code-block:: c
- 
--If you have a struct uio_map structure, finding its embedded kobject is
--just a matter of using the kobj member.  Code that works with kobjects will
--often have the opposite problem, however: given a struct kobject pointer,
-+ struct uio_map {
-+ 	struct kobject kobj;
-+ 	struct uio_mem *mem;
-+ };
-+
-+If you have a ``struct uio_map`` structure, finding its embedded kobject is
-+just a matter of using the ``kobj`` member.  Code that works with kobjects will
-+often have the opposite problem, however: given a ``struct kobject *``,
- what is the pointer to the containing structure?  You must avoid tricks
- (such as assuming that the kobject is at the beginning of the structure)
--and, instead, use the container_of() macro, found in ``<linux/kernel.h>``::
--
--    container_of(ptr, type, member)
-+and, instead, use the container_of() macro:
- 
--where:
-+.. code-block:: c
- 
--  * ``ptr`` is the pointer to the embedded kobject,
--  * ``type`` is the type of the containing structure, and
--  * ``member`` is the name of the structure field to which ``pointer`` points.
--
--The return value from container_of() is a pointer to the corresponding
--container type. So, for example, a pointer ``kp`` to a struct kobject
--embedded **within** a struct uio_map could be converted to a pointer to the
--**containing** uio_map structure with::
--
--    struct uio_map *u_map = container_of(kp, struct uio_map, kobj);
-+ struct kobject *kp =  ; /* Pointer to a kobj member of a uio_map */
-+ struct uio_map *u_map = container_of(kp, struct uio_map, kobj);
- 
- For convenience, programmers often define a simple macro for **back-casting**
- kobject pointers to the containing type.  Exactly this happens in the
--earlier ``drivers/uio/uio.c``, as you can see here::
-+earlier ``drivers/uio/uio.c``, as you can see here:
- 
--    struct uio_map {
--            struct kobject kobj;
--            struct uio_mem *mem;
--    };
-+.. code-block:: c
- 
--    #define to_map(map) container_of(map, struct uio_map, kobj)
-+ struct uio_map {
-+ 	struct kobject kobj;
-+ 	struct uio_mem *mem;
-+ };
-+ 
-+ #define to_map(map) container_of(map, struct uio_map, kobj)
- 
- where the macro argument "map" is a pointer to the struct kobject in
--question.  That macro is subsequently invoked with::
-+question.  That macro is subsequently invoked with:
-+
-+.. code-block:: c
- 
--    struct uio_map *map = to_map(kobj);
-+ struct uio_map *map = to_map(kobj);
- 
- 
- Initialization of kobjects
--- 
-2.30.2
+Thank you for your comments! Sorry for not answering earlier. I took some
+vacations and this series ended sleeping over other tasks on my
+todo list.
+
+Also, before sending another version, I wanted to have the test_list.py
+changes to make it generic enough to be merged on IGT, to avoid having
+a fork of it. Those got merged today.
+
+> In the html output the tests are listed as:
+> ktest@drm_buddy_test@=E2=80=A6
+>=20
+> I wonder if instead of using the file name of =E2=80=9Cdrm_buddy_test=E2=
+=80=9D this could
+> possibly be the suite name, =E2=80=9Cdrm_buddy=E2=80=9D, as this is what =
+users will call
+> when using kunit.py to run the tests. Although "drm_buddy_test" is also t=
+he
+> module name so I don't mind it too much. But in the future the file name
+> and module name are not guaranteed to be the same for other tests.
+>=20
+> Most preferably, there would be a reference to the kunit suite name, file
+> name, and the module name.
+
+I guess it shouldn't be hard to do such change in a way that it won't
+affect its usage on IGT. We need to define what would be the best
+pattern. As this can be used for both kunit and selftests, I would
+place kunit at the beginning.
+
+Currently, we're using:
+
+	kunit@<base file name without .c>@<test_name>
+
+Some possible patterns would be:
+
+	kunit@<base file name without .c>@<suite name>@<test_name>
+	kunit@<subsystem>@<base file name without .c>@<suite name>@<test_name>
+	kunit@<subsystem>@<suite name>@<test_name>
+
+Would do you think it would work best?
+
+> This may be difficult to implement as these can all differ. I am currently
+> working on the KUnit Attribute framework which saves the module name and I
+> am thinking about also saving the file path as a future attribute. This
+> could be a helpful framework for the KUnit tests specifically.
+>=20
+> I am not sure how easy it would be to access c objects/functions using th=
+is
+> system.
+
+I would prefer not. C language allows lots of flexibility with macros,
+making it hard to write a parser to read those C objects from the source.
+We have this at kernel-doc. As one of the people that did some work there,
+I can say that that several tricks are needed to keep this working.
+
+On the other hand, it should be easy to use the TestList class from
+test_list.py at kunit.py.
+
+So, kunit.py could use the data that came from the documentation
+directly.
+
+> Finally, I was wondering if it is the intention to put a list of all kunit
+> tests that use this new feature into tests/kunit.rst or would this be
+> broken up in some way
+
+IMO, it makes sense to break this per subsystem, and have an auto-generated
+index.rst pointing to the entire set of documents.
+
+We're already storing the subsystem at the documentation macros, so, IMO,
+it should shouldn't be hard to implement it.
+
+Regards,
+Mauro
 
