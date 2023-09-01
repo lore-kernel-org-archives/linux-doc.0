@@ -2,123 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE51CA0FE6
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 14:24:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD91ECA0FE5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 16:25:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349966AbjIAOYP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Sep 2023 10:24:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59412 "EHLO
+        id S1344879AbjIAQZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Sep 2023 12:25:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349965AbjIAOYP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 10:24:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D874DCC5;
-        Fri,  1 Sep 2023 07:24:11 -0700 (PDT)
+        with ESMTP id S230131AbjIAQZU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 12:25:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851AF10D4;
+        Fri,  1 Sep 2023 09:25:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 90C42B82447;
-        Fri,  1 Sep 2023 14:24:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9F18C433C7;
-        Fri,  1 Sep 2023 14:24:08 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 35913628A6;
+        Fri,  1 Sep 2023 16:25:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A218C433C7;
+        Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693578249;
-        bh=OOhCtZIDeEuvCmuQ9P67An3LMk7p9jF2AWqTMjsBM4E=;
-        h=From:To:Cc:Subject:Date:From;
-        b=f/1h2N+Mji5JYs/Yex9ztPL1SVMjrHxbyeqEQPP91dYKPZBTMOhp/ryQprDvk8pP5
-         ayicrV6ZzTDNH5mdZTqsukBseOV74syT3hcoSG2OZm6S5qDg3o7bfHEAA5vH9GIQSh
-         bV6wYPgOlGsOrEgdHAqk9PEMnGX21pMdHgVmxmDPJkB3LGI8RledC1Y2tirwMA4nJb
-         mQ18z5oEiqohn9wtdPRaS5NX1JR+oXcEEDU1ja7XrYCHM8G/NLbgFcUz0VP1JXAjT8
-         9iSl23bUQcIjJobSc1wVvNSHllkkJyrxVVeOq8GFjrs+vtpde0AiCzeSS48v5QfUdZ
-         yBN+AgEYNeArA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        rdunlap@infradead.org, laurent.pinchart@ideasonboard.com,
-        sd@queasysnail.net
-Subject: [PATCH net v4] docs: netdev: document patchwork patch states
-Date:   Fri,  1 Sep 2023 07:24:05 -0700
-Message-ID: <20230901142406.586042-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        s=k20201202; t=1693585515;
+        bh=UsrWWuGhBsfObaHsj8jo58OGQiK1tUZL0wJ+nLLR09w=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=D2IwhzH6BD7FOaUUtbnoy/8AckypdF8yx4e5QoAr1iDtDWR2fHUdhO2LE4wGGxvws
+         Gaf/CNiJe0bNBnXLe72e4qk2xwigJXT5U1t7icHwGOdOxIjinRLiqxyB+lgRjYhgem
+         Vi/vKbZNN6yP+Xm7+d9Z+Gg/j/VcAJ4AUVhgTPTHSHtgI9Ejv1t928vNhvIPRISP1E
+         n9xgvFCx7ifK8U1nGjPeaYrwk323HRSDT+REKySdlmqR/R5pJRcgWK6oPnel2OnZGd
+         WlL/ZOmszjlVfWdNhAwh4JAeRLP00wia+Nx3a+ykamnx0p2EA4fVA7VRSvIv032Rae
+         ZpfaJpwENV9/g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D709E29F3C;
+        Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v7 1/3] Documentation: arm: Add bootargs to the table of added
+ DT parameters
+From:   patchwork-bot+linux-riscv@kernel.org
+Message-Id: <169358551543.8276.13081700534673063288.git-patchwork-notify@kernel.org>
+Date:   Fri, 01 Sep 2023 16:25:15 +0000
+References: <20230817130734.10387-1-alexghiti@rivosinc.com>
+In-Reply-To: <20230817130734.10387-1-alexghiti@rivosinc.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     linux-riscv@lists.infradead.org, corbet@lwn.net,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, bjorn@rivosinc.com, ajones@ventanamicro.com,
+        conor.dooley@microchip.com, sunilvl@ventanamicro.com,
+        songshuaishuai@tinylab.org, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        atishp@rivosinc.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The patchwork states are largely self-explanatory but small
-ambiguities may still come up. Document how we interpret
-the states in networking.
+Hello:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-v4:
- - clarify that patches once set to Awaiting Upstream will stay there
-v3: no change
-v2: https://lore.kernel.org/all/20230830220659.170911-1-kuba@kernel.org/
- - add a sentence about New vs Under Review
- - s/maintainer/export/ for Needs ACK
- - fix indent
-v1: https://lore.kernel.org/all/20230828184447.2142383-1-kuba@kernel.org/
+This series was applied to riscv/linux.git (fixes)
+by Jonathan Corbet <corbet@lwn.net>:
 
-CC: corbet@lwn.net
-CC: workflows@vger.kernel.org
-CC: linux-doc@vger.kernel.org
+On Thu, 17 Aug 2023 15:07:32 +0200 you wrote:
+> The bootargs node is also added by the EFI stub in the function
+> update_fdt(), so add it to the table.
+> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> Reviewed-by: Song Shuai <songshuaishuai@tinylab.org>
+> 
+> [...]
 
-CC: rdunlap@infradead.org
-CC: laurent.pinchart@ideasonboard.com
-CC: sd@queasysnail.net
----
- Documentation/process/maintainer-netdev.rst | 32 ++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+Here is the summary with links:
+  - [v7,1/3] Documentation: arm: Add bootargs to the table of added DT parameters
+    https://git.kernel.org/riscv/c/b4ba5e5eafad
+  - [v7,2/3] Documentation: riscv: Add early boot document
+    https://git.kernel.org/riscv/c/e79be4bea58f
+  - [v7,3/3] Documentation: riscv: Update boot image header since EFI stub is supported
+    https://git.kernel.org/riscv/c/180bb41d61b7
 
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index c1c732e9748b..db1b81cfba9b 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -120,7 +120,37 @@ Status of a patch can be checked by looking at the main patchwork
-   https://patchwork.kernel.org/project/netdevbpf/list/
- 
- The "State" field will tell you exactly where things are at with your
--patch. Patches are indexed by the ``Message-ID`` header of the emails
-+patch:
-+
-+================== =============================================================
-+Patch state        Description
-+================== =============================================================
-+New, Under review  pending review, patch is in the maintainer’s queue for
-+                   review; the two states are used interchangeably (depending on
-+                   the exact co-maintainer handling patchwork at the time)
-+Accepted           patch was applied to the appropriate networking tree, this is
-+                   usually set automatically by the pw-bot
-+Needs ACK          waiting for an ack from an area expert or testing
-+Changes requested  patch has not passed the review, new revision is expected
-+                   with appropriate code and commit message changes
-+Rejected           patch has been rejected and new revision is not expected
-+Not applicable     patch is expected to be applied outside of the networking
-+                   subsystem
-+Awaiting upstream  patch should be reviewed and handled by appropriate
-+                   sub-maintainer, who will send it on to the networking trees;
-+                   patches set to ``Awaiting upstream`` in netdev's patchwork
-+                   will usually remain in this state, whether the sub-maintainer
-+                   requested changes, accepted or rejected the patch
-+Deferred           patch needs to be reposted later, usually due to dependency
-+                   or because it was posted for a closed tree
-+Superseded         new version of the patch was posted, usually set by the
-+                   pw-bot
-+RFC                not to be applied, usually not in maintainer’s review queue,
-+                   pw-bot can automatically set patches to this state based
-+                   on subject tags
-+================== =============================================================
-+
-+Patches are indexed by the ``Message-ID`` header of the emails
- which carried them so if you have trouble finding your patch append
- the value of ``Message-ID`` to the URL above.
- 
+You are awesome, thank you!
 -- 
-2.41.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
