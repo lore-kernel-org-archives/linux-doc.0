@@ -2,116 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A88CCA0FE1
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 08:57:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F5CCA0FE6
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 09:26:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345787AbjIAI5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Sep 2023 04:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57262 "EHLO
+        id S232402AbjIAJ00 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Sep 2023 05:26:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348674AbjIAI5L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 04:57:11 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275FF10F2;
-        Fri,  1 Sep 2023 01:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693558622; x=1725094622;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=psJh6vY3E+3/B3OgEgSlz9IZ/M/u0a/9heXK3c+Qo8Q=;
-  b=VoM3k9ttp/vEBhTifx350RKyZWLmuvssOO1zLjfqatlLDgIgdxiKDTk+
-   a5t/v4gVmsOVSVMgoTO4oxnxFIWFqvaJUAMkS76JwGvHS/ZexSdsPZCsm
-   YAXjeZrCoHX3SqQ+W3ADZIGUDiSjO2BFYt26Bt6TEU0yU+o/6AGPvuZWg
-   RTHYb2Jo8F+HCQ58lTGikVzxVb90dc5dDzN0sj5r8aNLa0cywUaSVYgP1
-   /Md7NNbkG86FnKVq+ko02+X5jmt9xYeDY95JY01dFaZSHaYenZ3OTRw5y
-   LdvD09d13vgpW0UGcVmZ3HAHje7qd2QmtAVu8ZdP7gMy4WcocReIosQnk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440151945"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
-   d="scan'208";a="440151945"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 01:56:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="769133703"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
-   d="scan'208";a="769133703"
-Received: from akoczor-mobl1.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.213.14.236])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 01:56:52 -0700
-From:   "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>
-To:     Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH 3/3] Documentation/x86: Document resctrl's new sparse_bitmaps
-Date:   Fri,  1 Sep 2023 10:55:39 +0200
-Message-ID: <89435c36b43651d63bd034adc142e932062aab21.1693557919.git.maciej.wieczor-retman@intel.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1693557919.git.maciej.wieczor-retman@intel.com>
-References: <cover.1693557919.git.maciej.wieczor-retman@intel.com>
+        with ESMTP id S229909AbjIAJ0Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 05:26:24 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15E4E7B
+        for <linux-doc@vger.kernel.org>; Fri,  1 Sep 2023 02:26:16 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-52bcd4db4e6so2312995a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 Sep 2023 02:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693560375; x=1694165175; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=aFmHZTLlIQkbBzornOPgrV8aRoSDhdsHZyavX+Ey+So=;
+        b=pDOoB3x7CGw2lSTd8GNalwzBTvTGbwL9LTXG6s8GxmVmaI033Xad3jOmjK2IczNUVJ
+         2JpkfcPVPysUuinPcuBMjY0GdB7HF+GRLJr7zVGXGM0LF935SN4HwO6eoJSFOk6jtJbP
+         HBOPhD/fTEHKBqNeZCDhirfflxPjFDgv1hv9Avw7is5GFRGk2re++IS9WddZfOm60fY/
+         ssis1Gfby9OTIfBnoqz7/u+/yyxIYNK12B8cZFZotyoOoZhc4rFUAMQv0xxnLN9lphjZ
+         bJZJUkxgOuB2EhcqP6RZ7B+yfRdmqBGsTZNVdcYyMUN8N9llQ/tVyaMXfNXjSqaFxGCH
+         hGQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693560375; x=1694165175;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aFmHZTLlIQkbBzornOPgrV8aRoSDhdsHZyavX+Ey+So=;
+        b=mAa2JKVBI5xO1/aFmTQHnWTXZsUcQUn/UiiRtS6KuELyLjX2wR/1Y7N2sS13DHc/3b
+         Ic82Z83l1NoXa8ZEzrYFJgOG8CuNdYSYwW7u7qCZP19W8wgUitn8yEraUz+VARgliwD4
+         tXb5auo9uhatPqtWnr5n5MKMYRyr8+K9isJ2jPVVZSZB1AyRMbyGPCUnzXoxdUw5uBBQ
+         s//NiLRpDD/kR/d7kwS/9eM+zF/VYM789RDNo75mk7n/SQUN8mISwajIYL1ByHceddGZ
+         AW6M97QAS3O69ft9R98RfpRC5Udiy2zlkbrTn2W9aulJfVKcegj4t+QiHkMoGP9EOws5
+         ciew==
+X-Gm-Message-State: AOJu0Ywx4/y2mISWVNxxwOR6SnKj91gqervft/Imlp3VZSb5egBOeX0w
+        c0lQtLqhhfRw8xBwQKfxPNpr7MADTzM=
+X-Google-Smtp-Source: AGHT+IHehlB4aC9ZcuCGZ1KNjx6dilk4rgHXOqoik7CTyzTtojx4tshpzbkwbfQmLuov5rA7oLztzw==
+X-Received: by 2002:a17:906:2249:b0:9a1:da9a:f1c5 with SMTP id 9-20020a170906224900b009a1da9af1c5mr1163975ejr.45.1693560375260;
+        Fri, 01 Sep 2023 02:26:15 -0700 (PDT)
+Received: from [192.168.1.95] (host-176-36-0-241.b024.la.net.ua. [176.36.0.241])
+        by smtp.gmail.com with ESMTPSA id h21-20020a1709060f5500b009a1be9c29d7sm1754642ejj.179.2023.09.01.02.26.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Sep 2023 02:26:14 -0700 (PDT)
+Message-ID: <a62b47218f1852d09b243b8fb1741c2baca4d336.camel@gmail.com>
+Subject: Re: [bpf:master 6/15] htmldocs: Warning: Documentation/bpf/btf.rst
+ references a file that doesn't exist: Documentation/bpf/llvm_reloc
+From:   Eduard Zingerman <eddyz87@gmail.com>
+To:     Daniel Borkmann <daniel@iogearbox.net>,
+        kernel test robot <lkp@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Date:   Fri, 01 Sep 2023 12:26:13 +0300
+In-Reply-To: <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
+References: <202309010804.G3MpXo59-lkp@intel.com>
+         <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Fenghua Yu <fenghua.yu@intel.com>
+On Fri, 2023-09-01 at 08:29 +0200, Daniel Borkmann wrote:
+> Hi Eduard,
+>=20
+> On 9/1/23 2:05 AM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git mas=
+ter
+> > head:   be8e754cbfac698d6304bb8382c8d18ac74424d3
+> > commit: be4033d36070e44fba766a21ef2d0c24fa04c377 [6/15] docs/bpf: Add d=
+escription for CO-RE relocations
+> > reproduce: (https://download.01.org/0day-ci/archive/20230901/2023090108=
+04.G3MpXo59-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309010804.G3MpXo59-l=
+kp@intel.com/
+> >=20
+> > All warnings (new ones prefixed by >>):
+> >=20
+> > > > Warning: Documentation/bpf/btf.rst references a file that doesn't e=
+xist: Documentation/bpf/llvm_reloc
+> > > > Warning: Documentation/bpf/llvm_reloc.rst references a file that do=
+esn't exist: Documentation/bpf/btf
+>=20
+> Could you send a follow-up fix for bpf tree?
 
-The documentation mentions that non-contiguous bitmasks are not
-supported in Intel Cache Allocation Technology (CAT).
+Hi Daniel,
 
-Update the documentation on how to determine if sparse bitmasks are
-allowed in L2 and L3 CAT.
+Will send the fix shortly. Strangely, I did check this syntax locally
+before sending the original patch, and had no warnings reported.
 
-Mention the file with feature support information is located in
-the /sys/fs/resctrl/info/{resource}/ directories and enumerate what
-are the possible outputs on file read operation.
-
-Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
-Signed-off-by: Wieczor-Retman, Maciej <maciej.wieczor-retman@intel.com>
----
- Documentation/arch/x86/resctrl.rst | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index cb05d90111b4..38694fc5800c 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -124,6 +124,13 @@ related to allocation:
- 			"P":
- 			      Corresponding region is pseudo-locked. No
- 			      sharing allowed.
-+"sparse_bitmaps":
-+		Indicates if non-contiguous 1s value in CBM is supported.
-+
-+			"0":
-+			      Only contiguous 1s value in CBM is supported.
-+			"1":
-+			      Non-contiguous 1s value in CBM is supported.
- 
- Memory bandwidth(MB) subdirectory contains the following files
- with respect to allocation:
-@@ -445,12 +452,13 @@ For cache resources we describe the portion of the cache that is available
- for allocation using a bitmask. The maximum value of the mask is defined
- by each cpu model (and may be different for different cache levels). It
- is found using CPUID, but is also provided in the "info" directory of
--the resctrl file system in "info/{resource}/cbm_mask". Intel hardware
-+the resctrl file system in "info/{resource}/cbm_mask". Some Intel hardware
- requires that these masks have all the '1' bits in a contiguous block. So
- 0x3, 0x6 and 0xC are legal 4-bit masks with two bits set, but 0x5, 0x9
--and 0xA are not.  On a system with a 20-bit mask each bit represents 5%
--of the capacity of the cache. You could partition the cache into four
--equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
-+and 0xA are not. Check /sys/fs/resctrl/info/{resource}/sparse_bitmaps
-+if non-contiguous 1s value is supported. On a system with a 20-bit mask
-+each bit represents 5% of the capacity of the cache. You could partition
-+the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
- 
- Memory bandwidth Allocation and monitoring
- ==========================================
--- 
-2.42.0
-
+Thanks,
+Eduard
