@@ -2,80 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8355ECA0FE6
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 06:29:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79CDFCA0FE6
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 06:51:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237766AbjIAG3n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Sep 2023 02:29:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39276 "EHLO
+        id S1344034AbjIAGv3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Sep 2023 02:51:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235920AbjIAG3m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 02:29:42 -0400
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D5409E
-        for <linux-doc@vger.kernel.org>; Thu, 31 Aug 2023 23:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=0yVlZhVTDHsPKDCknPqs3aBxvYkcIanhygteaa9APgg=; b=C11jvKceZpY6nbsGS9oZUyC7MD
-        NkFICre9tp09O708ClbQEoR0zn1rLgM62NOgLenWAvMswL0RHTXAkc6Aw9sgHVLPvA1mGPgEUh3C6
-        o0f0W0XpjzFTBCm2X0imrRsSUFHWLV1kdthDnK3skdYSbisKagUJrsZ9rFDyRtVHiBn7+mvuWnHxa
-        rFBFRQZOIuHkdh1BOl78syvA/k+GthWSLmEYEYTIMmPrE4x43vES4AQp9+xwCt4EJcGI6kpeCxMDI
-        Tbp712R3iQ9jgzt2L5b1+ItxRvy1hf0gg05Uam7N8TLIsiON1RZrz8JtCRybvA9Sacmt7f4XwOPdR
-        FU2KYYFQ==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1qbxep-0005Bo-9v; Fri, 01 Sep 2023 08:29:27 +0200
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1qbxep-000K2Q-Cm; Fri, 01 Sep 2023 08:29:27 +0200
-Subject: Re: [bpf:master 6/15] htmldocs: Warning: Documentation/bpf/btf.rst
- references a file that doesn't exist: Documentation/bpf/llvm_reloc
-To:     kernel test robot <lkp@intel.com>,
-        Eduard Zingerman <eddyz87@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-References: <202309010804.G3MpXo59-lkp@intel.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
-Date:   Fri, 1 Sep 2023 08:29:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        with ESMTP id S235906AbjIAGv2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 02:51:28 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CBA610CE;
+        Thu, 31 Aug 2023 23:51:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 495A7CE22C6;
+        Fri,  1 Sep 2023 06:51:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80E76C433CB;
+        Fri,  1 Sep 2023 06:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693551080;
+        bh=H4sFSXj77zJBbwgHv3uvGQNL4INzIL1GKSeiGgtyJZE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=O/foAS1iHLc7NlpoyULYIj8DhwN73TLQM0l/1fdvvxYSqkjxgdj1YdKsZhELBtVz2
+         V7oe7FYnICAmNqlr/QKT3lhY5BBgiliI5XAhtiFvzX3tAszWCA2RTInqW0+/FKK07M
+         cNW0GM4FMIAPGX/0Ri+sPLqehshti00hLbZSE3EokLarTyLREKV0cqyJCfB1vVgliR
+         630QIbRtVSr4/23XwGvhoItXm7Apv6eV48oSGVUOqKMHvBqU9Os49/aDCigMYEXhoa
+         5qfQa5hytp0Z3g9oUlPY5TromiV4u4zlpEwmEetqMWHFsglw+7P7SsEzsUOT+fUl0I
+         rx3d0h8oAHEqA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.96)
+        (envelope-from <mchehab@kernel.org>)
+        id 1qbxzw-0012VE-23;
+        Fri, 01 Sep 2023 08:51:16 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koening@amd.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+        Arthur Grillo <arthurgrillo@riseup.net>,
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        David Gow <davidgow@google.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] drm: add documentation for drm_buddy_test kUnit test
+Date:   Fri,  1 Sep 2023 08:51:06 +0200
+Message-ID: <da7e150c65b85b414f2f9790e04442408678877d.1693550658.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <cover.1693550658.git.mchehab@kernel.org>
+References: <cover.1693550658.git.mchehab@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <202309010804.G3MpXo59-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.8/27017/Thu Aug 31 09:40:48 2023)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Eduard,
+As an example for the new documentation tool, add a documentation
+for drm_buddy_test.
 
-On 9/1/23 2:05 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-> head:   be8e754cbfac698d6304bb8382c8d18ac74424d3
-> commit: be4033d36070e44fba766a21ef2d0c24fa04c377 [6/15] docs/bpf: Add description for CO-RE relocations
-> reproduce: (https://download.01.org/0day-ci/archive/20230901/202309010804.G3MpXo59-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309010804.G3MpXo59-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> Warning: Documentation/bpf/btf.rst references a file that doesn't exist: Documentation/bpf/llvm_reloc
->>> Warning: Documentation/bpf/llvm_reloc.rst references a file that doesn't exist: Documentation/bpf/btf
+I opted to place this on a completely different directory, in order
+to make easier to test the feature with:
 
-Could you send a follow-up fix for bpf tree?
+	$ make SPHINXDIRS="tests" htmldocs
 
-Thanks,
-Daniel
+Acked-by: Christian König <christian.koening@amd.com>
+Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
+ Documentation/index.rst                |  2 +-
+ Documentation/tests/index.rst          |  6 ++++++
+ Documentation/tests/kunit.rst          |  5 +++++
+ drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+ 4 files changed, 24 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/tests/index.rst
+ create mode 100644 Documentation/tests/kunit.rst
+
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 9dfdc826618c..80a6ce14a61a 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -60,7 +60,7 @@ Various other manuals with useful information for all kernel developers.
+    fault-injection/index
+    livepatch/index
+    rust/index
+-
++   test/index
+ 
+ User-oriented documentation
+ ===========================
+diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.rst
+new file mode 100644
+index 000000000000..bfc39eb5c0aa
+--- /dev/null
++++ b/Documentation/tests/index.rst
+@@ -0,0 +1,6 @@
++========================
++Kunit documentation test
++========================
++
++.. toctree::
++   kunit
+diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.rst
+new file mode 100644
+index 000000000000..6ffc151988a0
+--- /dev/null
++++ b/Documentation/tests/kunit.rst
+@@ -0,0 +1,5 @@
++Kunit tests
++-----------
++
++.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
++
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+index 09ee6f6af896..dd6c5afd6cd6 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+@@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *suite)
+ 	return 0;
+ }
+ 
++/**
++ * KTEST_SUITE: set of tests for drm buddy alloc
++ * Scope: drm subsystem
++ * Mega feature: drm
++ * Feature: buddy_alloc
++ *
++ * KTEST_TEST: drm_test_buddy_alloc_%s
++ * Description: Run DRM buddy allocation %arg[1] test
++ *
++ * arg[1].values: limit, range, optimistic, smoke, pathological
++ */
++
+ static struct kunit_case drm_buddy_tests[] = {
+ 	KUNIT_CASE(drm_test_buddy_alloc_limit),
+ 	KUNIT_CASE(drm_test_buddy_alloc_range),
+-- 
+2.41.0
+
