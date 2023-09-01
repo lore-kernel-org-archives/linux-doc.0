@@ -2,243 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4052CA0FE8
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 07:12:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49997CA0FE6
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 08:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348462AbjIAHMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Sep 2023 03:12:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
+        id S233558AbjIAIaf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Sep 2023 04:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231418AbjIAHMC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 03:12:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76CA7E7F;
-        Fri,  1 Sep 2023 00:11:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1AEB8B8249D;
-        Fri,  1 Sep 2023 07:11:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4967BC433C8;
-        Fri,  1 Sep 2023 07:11:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693552315;
-        bh=jL6V71q+JQ0fwfAxJn/3YfPCITb3l3CFMd1wVZr+rM8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=coSjDrXd6jydcj9Jlh2XcO5LIBYCqbYjPXCkn2TnfOQVh+6sfAm19T81nDvflziH3
-         +XikcbhcgxooF3aXODlQyUQR0J/FSzBXLYi/kcQ+rsCJgOxKE/X3D5fba/ZqWK+veX
-         xR6qxYlfuSnURekKEvW4WZibxvijlErCNh8Q/i6HqrAtE/ippCllnPPSmaPmKxCSVk
-         5RKn7ip2tc+mSGkzbMU5tTfmXj4B2gcKzxn1JdDMCKEbRpK1qAW+wNUNa6CRHINNce
-         bDtRIfv+99lehWcty5cGBJhKiOAxm3E4v8g8NOzlGwX3TdKyv8YvyoOvdXPbigfbFV
-         3TKMVel82XD8Q==
-Date:   Fri, 1 Sep 2023 09:11:46 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Rae Moar <rmoar@google.com>
-Cc:     Arthur Grillo <arthurgrillo@riseup.net>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        David Gow <davidgow@google.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        =?UTF-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, mauro.chehab@intel.com
-Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit
- test
-Message-ID: <20230901091146.749cfdfa@sal.lan>
-In-Reply-To: <CA+GJov6VPggogod2=pYAxKRnP_hnqO7DMmpTzT4AAU_fiPQOfw@mail.gmail.com>
-References: <cover.1689171160.git.mchehab@kernel.org>
-        <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
-        <CA+GJov6VPggogod2=pYAxKRnP_hnqO7DMmpTzT4AAU_fiPQOfw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        with ESMTP id S232145AbjIAIaf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 04:30:35 -0400
+Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22EE9E;
+        Fri,  1 Sep 2023 01:30:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1693557031; x=1725093031;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Yn40/F52PrZNKOQZ2H5d9y5yfXuLciO6u8/X0LdsjxI=;
+  b=Pz9OMQLag54gQRrhFz0o9T4B8Hr1svJPi3GtWMjvlXwuaJgUXhrrtWKa
+   O8/kFYnP8zu9po0eXTOljZA6TuiBKETOJc98IEjVYq0sELXclzFeZueQn
+   tkOCehAmY1UT+wF5qHqhfrQtej3Vg2wtJrEiWcauw9zKQC3Yt7rpesdDn
+   E=;
+X-IronPort-AV: E=Sophos;i="6.02,219,1688428800"; 
+   d="scan'208";a="669111413"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-21d8d9f4.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 08:30:25 +0000
+Received: from EX19MTAUWB002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-pdx-2a-m6i4x-21d8d9f4.us-west-2.amazon.com (Postfix) with ESMTPS id C214F8042F;
+        Fri,  1 Sep 2023 08:30:14 +0000 (UTC)
+Received: from EX19D002ANA003.ant.amazon.com (10.37.240.141) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.37; Fri, 1 Sep 2023 08:30:14 +0000
+Received: from b0f1d8753182.ant.amazon.com (10.106.83.26) by
+ EX19D002ANA003.ant.amazon.com (10.37.240.141) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.37; Fri, 1 Sep 2023 08:30:10 +0000
+From:   Takahiro Itazuri <itazur@amazon.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        Takahiro Itazuri <zulinx86@gmail.com>,
+        Takahiro Itazuri <itazur@amazon.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Subject: [PATCH v3] docs/hw-vuln: Update desc of best effort mode
+Date:   Fri, 1 Sep 2023 09:29:59 +0100
+Message-ID: <20230901082959.28310-1-itazur@amazon.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.106.83.26]
+X-ClientProxiedBy: EX19D039UWB003.ant.amazon.com (10.13.138.93) To
+ EX19D002ANA003.ant.amazon.com (10.37.240.141)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rae,
+Moves the description of the best effort mitigation mode to the table of
+the possible values in the mds and tsx_async_abort docs, and adds the
+same one to the mmio_stale_data doc.
 
-Em Thu, 13 Jul 2023 17:31:19 -0400
-Rae Moar <rmoar@google.com> escreveu:
+Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
+Reviewed-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+---
 
-> On Wed, Jul 12, 2023 at 10:29 AM Mauro Carvalho Chehab <mchehab@kernel.or=
-g>
-> wrote:
->=20
-> > As an example for the new documentation tool, add a documentation
-> > for drm_buddy_test.
-> >
-> > I opted to place this on a completely different directory, in order
-> > to make easier to test the feature with:
-> >
-> >         $ make SPHINXDIRS=3D"tests" htmldocs
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > ---
-> >
-> > To avoid mailbombing on a large number of people, only mailing lists we=
-re
-> > C/C on the cover.
-> > See [PATCH RFC 0/2] at:
-> > https://lore.kernel.org/all/cover.1689171160.git.mchehab@kernel.org/
-> >
-> >  Documentation/index.rst                |  2 +-
-> >  Documentation/tests/index.rst          |  6 ++++++
-> >  Documentation/tests/kunit.rst          |  5 +++++
-> >  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
-> >  4 files changed, 24 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/tests/index.rst
-> >  create mode 100644 Documentation/tests/kunit.rst
-> >
-> > diff --git a/Documentation/index.rst b/Documentation/index.rst
-> > index 9dfdc826618c..80a6ce14a61a 100644
-> > --- a/Documentation/index.rst
-> > +++ b/Documentation/index.rst
-> > @@ -60,7 +60,7 @@ Various other manuals with useful information for all
-> > kernel developers.
-> >     fault-injection/index
-> >     livepatch/index
-> >     rust/index
-> > -
-> > +   test/index
-> >
-> >  User-oriented documentation
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.=
-rst
-> > new file mode 100644
-> > index 000000000000..bfc39eb5c0aa
-> > --- /dev/null
-> > +++ b/Documentation/tests/index.rst
-> > @@ -0,0 +1,6 @@
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> > +Kunit documentation test
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> > +
-> > +.. toctree::
-> > +   kunit
-> > diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.=
-rst
-> > new file mode 100644
-> > index 000000000000..6ffc151988a0
-> > --- /dev/null
-> > +++ b/Documentation/tests/kunit.rst
-> > @@ -0,0 +1,5 @@
-> > +Kunit tests
-> > +-----------
-> > +
-> > +.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
-> > +
-> > diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c
-> > b/drivers/gpu/drm/tests/drm_buddy_test.c
-> > index 09ee6f6af896..dd6c5afd6cd6 100644
-> > --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> > +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> > @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite
-> > *suite)
-> >         return 0;
-> >  }
-> >
-> > +/**
-> > + * KTEST_SUITE: set of tests for drm buddy alloc
-> > + * Scope: drm subsystem
-> > + * Mega feature: drm
-> > + * Feature: buddy_alloc
-> > + *
-> > + * KTEST_TEST: drm_test_buddy_alloc_%s
-> > + * Description: Run DRM buddy allocation %arg[1] test
-> > + *
-> > + * arg[1].values: limit, range, optimistic, smoke, pathological
-> > + */ =20
->=20
->=20
-> Hi!
->=20
-> This is such a cool patch series. I just have a few comments related to t=
-he
-> output.
+v2 -> v3: https://lore.kernel.org/all/20230831111847.71030-1-itazur@amazon.com/
+- Changed the subject prefix to "docs/hw-vuln".
+- Removed an extra newline left.
 
-Thank you for your comments! Sorry for not answering earlier. I took some
-vacations and this series ended sleeping over other tasks on my
-todo list.
+v1 -> v2: https://lore.kernel.org/all/20230830144426.80258-1-itazur@amazon.com/
+- Moved the desc into the table of the possible values.
 
-Also, before sending another version, I wanted to have the test_list.py
-changes to make it generic enough to be merged on IGT, to avoid having
-a fork of it. Those got merged today.
+---
+ Documentation/admin-guide/hw-vuln/mds.rst     | 34 +++++++------------
+ .../hw-vuln/processor_mmio_stale_data.rst     | 13 ++++++-
+ .../admin-guide/hw-vuln/tsx_async_abort.rst   | 33 +++++++-----------
+ 3 files changed, 38 insertions(+), 42 deletions(-)
 
-> In the html output the tests are listed as:
-> ktest@drm_buddy_test@=E2=80=A6
->=20
-> I wonder if instead of using the file name of =E2=80=9Cdrm_buddy_test=E2=
-=80=9D this could
-> possibly be the suite name, =E2=80=9Cdrm_buddy=E2=80=9D, as this is what =
-users will call
-> when using kunit.py to run the tests. Although "drm_buddy_test" is also t=
-he
-> module name so I don't mind it too much. But in the future the file name
-> and module name are not guaranteed to be the same for other tests.
->=20
-> Most preferably, there would be a reference to the kunit suite name, file
-> name, and the module name.
-
-I guess it shouldn't be hard to do such change in a way that it won't
-affect its usage on IGT. We need to define what would be the best
-pattern. As this can be used for both kunit and selftests, I would
-place kunit at the beginning.
-
-Currently, we're using:
-
-	kunit@<base file name without .c>@<test_name>
-
-Some possible patterns would be:
-
-	kunit@<base file name without .c>@<suite name>@<test_name>
-	kunit@<subsystem>@<base file name without .c>@<suite name>@<test_name>
-	kunit@<subsystem>@<suite name>@<test_name>
-
-Would do you think it would work best?
-
-> This may be difficult to implement as these can all differ. I am currently
-> working on the KUnit Attribute framework which saves the module name and I
-> am thinking about also saving the file path as a future attribute. This
-> could be a helpful framework for the KUnit tests specifically.
->=20
-> I am not sure how easy it would be to access c objects/functions using th=
-is
-> system.
-
-I would prefer not. C language allows lots of flexibility with macros,
-making it hard to write a parser to read those C objects from the source.
-We have this at kernel-doc. As one of the people that did some work there,
-I can say that that several tricks are needed to keep this working.
-
-On the other hand, it should be easy to use the TestList class from
-test_list.py at kunit.py.
-
-So, kunit.py could use the data that came from the documentation
-directly.
-
-> Finally, I was wondering if it is the intention to put a list of all kunit
-> tests that use this new feature into tests/kunit.rst or would this be
-> broken up in some way
-
-IMO, it makes sense to break this per subsystem, and have an auto-generated
-index.rst pointing to the entire set of documents.
-
-We're already storing the subsystem at the documentation macros, so, IMO,
-it should shouldn't be hard to implement it.
-
-Regards,
-Mauro
+diff --git a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
+index 48ca0bd85..48c7b0b72 100644
+--- a/Documentation/admin-guide/hw-vuln/mds.rst
++++ b/Documentation/admin-guide/hw-vuln/mds.rst
+@@ -102,9 +102,19 @@ The possible values in this file are:
+      * - 'Vulnerable'
+        - The processor is vulnerable, but no mitigation enabled
+      * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable but microcode is not updated.
+-
+-         The mitigation is enabled on a best effort basis. See :ref:`vmwerv`
++       - The processor is vulnerable but microcode is not updated. The
++         mitigation is enabled on a best effort basis.
++
++         If the processor is vulnerable but the availability of the microcode
++         based mitigation mechanism is not advertised via CPUID, the kernel
++         selects a best effort mitigation mode. This mode invokes the mitigation
++         instructions without a guarantee that they clear the CPU buffers.
++
++         This is done to address virtualization scenarios where the host has the
++         microcode update applied, but the hypervisor is not yet updated to
++         expose the CPUID to the guest. If the host has updated microcode the
++         protection takes effect; otherwise a few CPU cycles are wasted
++         pointlessly.
+      * - 'Mitigation: Clear CPU buffers'
+        - The processor is vulnerable and the CPU buffer clearing mitigation is
+          enabled.
+@@ -119,24 +129,6 @@ to the above information:
+     'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
+     ========================  ============================================
+ 
+-.. _vmwerv:
+-
+-Best effort mitigation mode
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-
+-  If the processor is vulnerable, but the availability of the microcode based
+-  mitigation mechanism is not advertised via CPUID the kernel selects a best
+-  effort mitigation mode.  This mode invokes the mitigation instructions
+-  without a guarantee that they clear the CPU buffers.
+-
+-  This is done to address virtualization scenarios where the host has the
+-  microcode update applied, but the hypervisor is not yet updated to expose
+-  the CPUID to the guest. If the host has updated microcode the protection
+-  takes effect otherwise a few cpu cycles are wasted pointlessly.
+-
+-  The state in the mds sysfs file reflects this situation accordingly.
+-
+-
+ Mitigation mechanism
+ -------------------------
+ 
+diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+index c98fd1190..1302fd1b5 100644
+--- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
++++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+@@ -225,8 +225,19 @@ The possible values in this file are:
+      * - 'Vulnerable'
+        - The processor is vulnerable, but no mitigation enabled
+      * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-       - The processor is vulnerable, but microcode is not updated. The
++       - The processor is vulnerable but microcode is not updated. The
+          mitigation is enabled on a best effort basis.
++
++         If the processor is vulnerable but the availability of the microcode
++         based mitigation mechanism is not advertised via CPUID, the kernel
++         selects a best effort mitigation mode. This mode invokes the mitigation
++         instructions without a guarantee that they clear the CPU buffers.
++
++         This is done to address virtualization scenarios where the host has the
++         microcode update applied, but the hypervisor is not yet updated to
++         expose the CPUID to the guest. If the host has updated microcode the
++         protection takes effect; otherwise a few CPU cycles are wasted
++         pointlessly.
+      * - 'Mitigation: Clear CPU buffers'
+        - The processor is vulnerable and the CPU buffer clearing mitigation is
+          enabled.
+diff --git a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+index 014167ef8..444f84e22 100644
+--- a/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
++++ b/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+@@ -98,7 +98,19 @@ The possible values in this file are:
+    * - 'Vulnerable'
+      - The CPU is affected by this vulnerability and the microcode and kernel mitigation are not applied.
+    * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+-     - The system tries to clear the buffers but the microcode might not support the operation.
++     - The processor is vulnerable but microcode is not updated. The
++       mitigation is enabled on a best effort basis.
++
++       If the processor is vulnerable but the availability of the microcode
++       based mitigation mechanism is not advertised via CPUID, the kernel
++       selects a best effort mitigation mode. This mode invokes the mitigation
++       instructions without a guarantee that they clear the CPU buffers.
++
++       This is done to address virtualization scenarios where the host has the
++       microcode update applied, but the hypervisor is not yet updated to
++       expose the CPUID to the guest. If the host has updated microcode the
++       protection takes effect; otherwise a few CPU cycles are wasted
++       pointlessly.
+    * - 'Mitigation: Clear CPU buffers'
+      - The microcode has been updated to clear the buffers. TSX is still enabled.
+    * - 'Mitigation: TSX disabled'
+@@ -106,25 +118,6 @@ The possible values in this file are:
+    * - 'Not affected'
+      - The CPU is not affected by this issue.
+ 
+-.. _ucode_needed:
+-
+-Best effort mitigation mode
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-
+-If the processor is vulnerable, but the availability of the microcode-based
+-mitigation mechanism is not advertised via CPUID the kernel selects a best
+-effort mitigation mode.  This mode invokes the mitigation instructions
+-without a guarantee that they clear the CPU buffers.
+-
+-This is done to address virtualization scenarios where the host has the
+-microcode update applied, but the hypervisor is not yet updated to expose the
+-CPUID to the guest. If the host has updated microcode the protection takes
+-effect; otherwise a few CPU cycles are wasted pointlessly.
+-
+-The state in the tsx_async_abort sysfs file reflects this situation
+-accordingly.
+-
+-
+ Mitigation mechanism
+ --------------------
+ 
+-- 
+2.40.1
 
