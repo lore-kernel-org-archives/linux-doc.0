@@ -2,63 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 784F0CA0FF6
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Sep 2023 06:36:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8EE3CA0FFE
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Sep 2023 08:14:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351664AbjIBGgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Sep 2023 02:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41638 "EHLO
+        id S229496AbjIBIO5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Sep 2023 04:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231330AbjIBGgv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Sep 2023 02:36:51 -0400
-Received: from smtp.gentoo.org (mail.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9AC11702;
-        Fri,  1 Sep 2023 23:36:47 -0700 (PDT)
-References: <20230825050618.never.197-kees@kernel.org>
-User-agent: mu4e 1.10.6; emacs 30.0.50
-From:   Sam James <sam@gentoo.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Salvatore Mesoraca <s.mesoraca16@gmail.com>, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org, kernel@gentoo.org
-Subject: Re: [PATCH] hardening: Provide Kconfig fragments for basic options
-Date:   Sat, 02 Sep 2023 07:35:07 +0100
-Organization: Gentoo
-In-reply-to: <20230825050618.never.197-kees@kernel.org>
-Message-ID: <87ledpcc92.fsf@gentoo.org>
+        with ESMTP id S1351816AbjIBIO4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Sep 2023 04:14:56 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C51210F9
+        for <linux-doc@vger.kernel.org>; Sat,  2 Sep 2023 01:14:53 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31ad779e6b3so2347382f8f.2
+        for <linux-doc@vger.kernel.org>; Sat, 02 Sep 2023 01:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693642492; x=1694247292; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+orQorNPUo6KSCKW6crP6TptJaHrZr+1uo8TeED/eMM=;
+        b=nuZ7LRCDD8Uo0ziB4avRDvxh3CiHggpsd6IwGJfl/ncOMWAhtIZmW89GBWLG3Iq4Wi
+         3iVMlz+fAydBoXUMGH+YdmZUIHci/sGFT/dQdIbMLs/RdyUIOwdCftc7soaWf59n/lRK
+         611hxVDO60UDa/+erHJgd5k36l0Ez1bEi3XLSsOTSUzifJQ5ARUA0U0vDdTStvB0OwVQ
+         1gCIbYpbPo4xWADWNtusAiil5TWKjuKlapUF/yPLhDOnVF+4rK66dujkPY4vGWC98sq8
+         VZl5gSpPuGNstOg6Mg6XL16j4c9XyTeyLeElqZ72v+Nf7KKZ7thI7izzNzD5Wr03yXIb
+         YdZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693642492; x=1694247292;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+orQorNPUo6KSCKW6crP6TptJaHrZr+1uo8TeED/eMM=;
+        b=KCbpcRPJevpHUzOMUhU5sNGS7m3HmPgewn/E+bihrSlYaahd69D8Frfs38iZgJKwNF
+         rBAKAP/ZVeMvhtPXwHIhKKCaAkIbCMF3JOCCu/mRtIqLv4u1bWMmp6W5sOkLLOlrxQ8g
+         eZnYHemQKbrA0JP/ap74Pru15BZscbWKuDFKvowNLQWgk5fCiIQ7OF/gj7eSyWUnPIxm
+         jcyQDGe3JMDOOg/AmEQEjyIU+Ny/4IH6PX9v/2BoDt779wiyNFyVGWStGDcrTs8yzU77
+         NEHW86k7S2ZPYwriPrPg9ixvay82JJTNgEMVYvK1dE9W2rzI4hse8iGsVuyv44QtihS2
+         O2LQ==
+X-Gm-Message-State: AOJu0YxavtrZ8ccDaMRTw0iOLlPGBW2u9FBiuY+X+HUy6KNryCzUmIGd
+        FNNDrdct+LsWSsWk8zsoaU3tTb0yGEr3BtIRBeTokQ==
+X-Google-Smtp-Source: AGHT+IGssLJAq5Eqm+CddbR0K32DVSCl5LIdA8ZBywnBACFN/kb7Lsv+HAqT8RQFL4H3Tgao+QSAiuwK1bcmHfczBuY=
+X-Received: by 2002:a05:6000:1081:b0:319:79a9:4d9e with SMTP id
+ y1-20020a056000108100b0031979a94d9emr3340613wrw.44.1693642491915; Sat, 02 Sep
+ 2023 01:14:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230819093340.265817-1-leo.yan@linaro.org> <CAM9d7cj=ichFk4bVQSbyptqy9wo8GFm1Z1Q7QzfhMFLjewNF-Q@mail.gmail.com>
+ <20230823023838.GF57731@leoy-huanghe.lan> <CAM9d7cgaMyH=vSjVEOBjLzBWbZOricm6aHcP9hfLsTJ_gUEh3g@mail.gmail.com>
+ <20230826072957.GA75980@leoy-huanghe.lan> <CAM9d7cjkQAhponi_mO9yBHaBP3wB4cBcWc5B7yb_4nE2dQWpLw@mail.gmail.com>
+In-Reply-To: <CAM9d7cjkQAhponi_mO9yBHaBP3wB4cBcWc5B7yb_4nE2dQWpLw@mail.gmail.com>
+From:   Leo Yan <leo.yan@linaro.org>
+Date:   Sat, 2 Sep 2023 16:14:40 +0800
+Message-ID: <CALZQ+UOvBe9352td44g3+qCqGGmLLq3=ObRyfQ=JXucY-MX9Gg@mail.gmail.com>
+Subject: Re: [PATCH v6] Documentation: userspace-api: Document perf ring
+ buffer mechanism
+To:     Namhyung Kim <namhyung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Thomas Richter <tmricht@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Namhyung,
 
-Kees Cook <keescook@chromium.org> writes:
+On Sat, Aug 26, 2023 at 07:45:15AM -0700, Namhyung Kim wrote:
 
-> Inspired by Salvatore Mesoraca's earlier[1] efforts to provide some
-> in-tree guidance for kernel hardening Kconfig options, add a new fragment
-> named "hardening-basic.config" (along with some arch-specific fragments)
-> that enable a basic set of kernel hardening options that have the least
-> (or no) performance impact and remove a reasonable set of legacy APIs.
+[...]
+
+> > > >   The combination is supported in perf tool:
+> > > >
+> > > >   ---+------------+-----------
+> > > >      |  Forward   | Backward
+> > > >   ---+------------+-----------
+> > > >   rw |  Yes       |   No
+> > > >   ---+------------+-----------
+> > > >   ro |  X         |   Yes
+> > > >   ---+------------+-----------
+> > > >
+> > > >   Yes: is supported
+> > > >   No: is not supported
+> > > >   X: is not feasible
+> > >
+> > > I think they are all supported.  You can use rw mode with backward
+> > > direction but it's just not intuitive.  Also ro mode with forward direction
+> > > is working but there's a chance to miss the start position of the
+> > > previous event.
+> >
+> > I am a bit confused for the all four modes are supported.
+> >
+> > From the code [1], we can see there have only two combinations:
+> >
+> > - overwrite + read-only mode (PROT_READ);
+> > - no-overwrite + read-write mode (PROT_READ | PROT_WRITE);
+> >
+> > And I think perf tool must use the backward writing for "overwrite",
+> > and use the forward writing for "non-overwrite" mode.  I think the
+> > code [2] can help us to conclude this.
 >
-> Using this fragment is as simple as running "make hardening.config".
->
-> More extreme fragments can be added[2] in the future to cover all the
-> recognized hardening options, and more per-architecture files can be
-> added too.
->
-> For now, document the fragments directly via comments. Perhaps .rst
-> documentation can be generated from them in the future (rather than the
-> other way around).
->
+> I mean the kernel supports all the combinations but perf tool uses
+> the selected two.  IIUC you are describing the kernel behavior, right?
 
-This is likely to make life a bit easier for us downstream in Gentoo,
-where we currently supply a patch for KSPP:
-https://gitweb.gentoo.org/proj/linux-patches.git/tree/4567_distro-Gentoo-Kconfig.patch?h=6.4#n237.
+You are right.  I read the kernel code again and get the same conclusion
+with you.
 
-> [1] https://lore.kernel.org/kernel-hardening/1536516257-30871-1-git-send-email-s.mesoraca16@gmail.com/
-> [2] https://github.com/KSPP/linux/issues/14
+The kernel code is general enough, which supports forward and backward
+writing directions and doesn't assume the direction is bound to any
+specific ring buffer mode.  On the other hand, the perf tool selects
+the combinations of the direction and mapping property for two modes:
+one is the non-overwrite mode and another is the overwritable mode.
 
-best,
-sam
+In the next spin, I'd like to add a subsection "Ring buffer modes" to
+describe the implementation in the kernel and userspace respectively,
+hope this can avoid confusion.
+
+Thanks a lot for suggestion!
+
+
+Leo
