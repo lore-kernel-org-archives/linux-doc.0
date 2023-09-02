@@ -2,60 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38487CA0FF8
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Sep 2023 08:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DFC5CA0FF8
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Sep 2023 09:13:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244759AbjIBIpZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Sep 2023 04:45:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59712 "EHLO
+        id S1351902AbjIBJNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Sep 2023 05:13:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351863AbjIBIpZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Sep 2023 04:45:25 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F4701706;
-        Sat,  2 Sep 2023 01:45:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 6AE2ACE02C1;
-        Sat,  2 Sep 2023 08:45:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D006C433C8;
-        Sat,  2 Sep 2023 08:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693644318;
-        bh=D0VKU97IUIqN1bvcHCUYCp6kzWS5ndv73r4TdZg6LEg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o16YLLhT69i2vF6xGy67WPGceqraJOO3yohv2/UY7wo2GrApWjzfLsB1hyvHKula1
-         UfFPX2Y12JAWj3NvgYhaVtfqVMZBCzX3WdkuF4d6iJMUkrIgSNJkPh+RxhVyZ9APLr
-         LHhWWQBGOgPiL2pjbWsZbxaSxv/blZD/GATDX6t9KXn4e48LEpuGsKS1iNtwHg/dEk
-         zK7G3ud5lAOhseADajxGI3My4Hx1c2rwuCtgEY+47sFssxJG0De0HLIkl+NAESnPiE
-         AVvE7z71O7kBsgep31PdeMGpCplnhaKiJFoT5TE83T+H1ckxloPxYxL5QTENZhyIdJ
-         fdRcrT9PLT9cQ==
-Date:   Sat, 2 Sep 2023 10:45:14 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org
-Subject: Re: [PATCH net] docs: netdev: update the netdev infra URLs
-Message-ID: <20230902084514.GA2146@kernel.org>
-References: <20230901211718.739139-1-kuba@kernel.org>
+        with ESMTP id S231882AbjIBJNZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Sep 2023 05:13:25 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 927939F;
+        Sat,  2 Sep 2023 02:13:21 -0700 (PDT)
+Received: from dggpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Rd8JR3q4XzVk8J;
+        Sat,  2 Sep 2023 17:10:47 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by dggpemm500009.china.huawei.com
+ (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sat, 2 Sep
+ 2023 17:13:17 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Yosry Ahmed <yosryahmed@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC:     <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH] mm, memcg: expose swapcache stat for memcg v1
+Date:   Sat, 2 Sep 2023 18:07:28 +0800
+Message-ID: <20230902100728.3850149-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230901211718.739139-1-kuba@kernel.org>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 01, 2023 at 02:17:18PM -0700, Jakub Kicinski wrote:
-> Some corporate proxies block our current NIPA URLs because
-> they use a free / shady DNS domain. As suggested by Jesse
-> we got a new DNS entry from Konstantin - netdev.bots.linux.dev,
-> use it.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Since commit b6038942480e ("mm: memcg: add swapcache stat for memcg v2")
+adds swapcache stat for the cgroup v2, it seems there is no reason to
+hide it in memcg v1. Conversely, with swapcached it is more accurate to
+evaluate the available memory for memcg.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Suggested-by: Yosry Ahmed <yosryahmed@google.com>
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+---
+ Documentation/admin-guide/cgroup-v1/memory.rst | 1 +
+ mm/memcontrol.c                                | 6 ++++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
+index fabaad3fd9c2..fb4abe0dc228 100644
+--- a/Documentation/admin-guide/cgroup-v1/memory.rst
++++ b/Documentation/admin-guide/cgroup-v1/memory.rst
+@@ -546,6 +546,7 @@ memory.stat file includes following statistics:
+                     event happens each time a page is unaccounted from the
+                     cgroup.
+     swap            # of bytes of swap usage
++    swapcached      # of bytes of swap cached in memory
+     dirty           # of bytes that are waiting to get written back to the disk.
+     writeback       # of bytes of file/anon cache that are queued for syncing to
+                     disk.
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index c465829db92b..619acf479be7 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4068,6 +4068,9 @@ static const unsigned int memcg1_stats[] = {
+ 	WORKINGSET_REFAULT_ANON,
+ 	WORKINGSET_REFAULT_FILE,
+ 	MEMCG_SWAP,
++#ifdef CONFIG_SWAP
++	NR_SWAPCACHE,
++#endif
+ };
+ 
+ static const char *const memcg1_stat_names[] = {
+@@ -4083,6 +4086,9 @@ static const char *const memcg1_stat_names[] = {
+ 	"workingset_refault_anon",
+ 	"workingset_refault_file",
+ 	"swap",
++#ifdef CONFIG_SWAP
++	"swapcached",
++#endif
+ };
+ 
+ /* Universal VM events cgroup1 shows, original sort order */
+-- 
+2.25.1
 
