@@ -2,185 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5E1CA0FF6
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Sep 2023 23:49:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5C0CA0FFC
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Sep 2023 05:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345302AbjIAXtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Sep 2023 19:49:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37696 "EHLO
+        id S229492AbjIBFZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Sep 2023 01:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245571AbjIAXtF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Sep 2023 19:49:05 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3CBE65;
-        Fri,  1 Sep 2023 16:48:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693612119; x=1725148119;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Db3juBuDfy5Ie++FCmKOwmYBw6bK8xDwkwHWRBNJB10=;
-  b=D89phe6YqljQASHbHvssOXAqO8gggsmkLDm43NV9za4p5qyLwu1LZVP3
-   rYxWCqSCp6SN9JIBYrkAl+btkvYVlHnNWK0GUYXQBQQgJC3ipy/PGfUF+
-   /Qp+gAgluzRu1FdnI3G7P3Kh1eQv1j7agOKnG5n5SayDSJz6hg/4r/qSM
-   Tg2YloUffkpaaOkNcfLNkanemvrr8yWos5O6Ou/6oXovhi5YuyYClEWma
-   TmxrthvxksGEnXFQuOTEGkEsidlxhh3XDVZU52EluJbjheJwGp4ga4CAI
-   kgpHBgHXzMNRmpuBz9w8obYYa3/6Osgeqc8yic4cu1pmKMfOVRVON8CZN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440299679"
-X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="440299679"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 16:48:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="740082678"
-X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="740082678"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Sep 2023 16:48:09 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 1 Sep 2023 16:48:09 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 1 Sep 2023 16:48:08 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Fri, 1 Sep 2023 16:48:08 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Fri, 1 Sep 2023 16:48:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FqDtoKOUIjgUlUdW+IgQm3PvHD8VU5zQEZnpsRsDB8GLpZ7BnZZej8nGHlVcSHuWc5MrW+jq/Nz74jKpsJD7THjMNdPHOkfwrgJ1bb4xbPi8FW7OUCfEME/am4UAZpGNmL9i/oEF8sNkTibvFGjUUJGCxQlkT335dUCY/NYjsZT87OGn1uSysYFrGgHW/R4EXgCCEH272jtMRv2ov8FkSeNE4VOgqCTmFMqeFAcrKSUiOS8ZlKxoo0v3Oagctn3ZWeAwYoq6YUryVlbMIfc8F9H7GGnktGsVsz4yw0LAX+/nesdUE73yMqSDOS+a6wsDrJaFjL+8xWuOY5Aadx13AQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b42Ud7h+puO8YGIivWLMRHOTiEFYx2v/1r/MpFs5T6E=;
- b=NmtNiMxE0wHeqateciPTDkEdmCbYjr6kNC+fncp1RF5V9CY+eDgRLTHstovZhnlrvUSVBl/GkfoyX5CBX7eW4rQehzWqW6iqKqSSuMBROnbVx4ce8jcLsqWTevI1B4qymFzvq0Ws1jk6XMbu1sV7kU111+QG39z9laydPj7K5CZaux/Wb6I0nyds4xuxezAxTFolUWcz0JfqRmOq2Juim/0V7T4OhOMKisVsfFoM8G+ht7HLIjNNeIbosSMGdcR59Ycu1jRvy4c3HzqM/orROLO+s1PaZExMEJGrrbnTajlE+VB8pp9MnjOPaUxrLMvTXUb+NX1mYs0cAzBAjguFqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SA2PR11MB4793.namprd11.prod.outlook.com (2603:10b6:806:fa::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Fri, 1 Sep
- 2023 23:48:06 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::afd6:ce92:6244:7203]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::afd6:ce92:6244:7203%5]) with mapi id 15.20.6745.023; Fri, 1 Sep 2023
- 23:48:06 +0000
-Message-ID: <0002409c-5f8d-e783-2e1f-1fac3886c799@intel.com>
-Date:   Fri, 1 Sep 2023 16:48:00 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.15.0
-Subject: Re: [PATCH v8 6/8] x86/resctrl: Move default group file creation to
- mount
-Content-Language: en-US
-To:     Fenghua Yu <fenghua.yu@intel.com>, Babu Moger <babu.moger@amd.com>,
-        <corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>,
-        <bp@alien8.de>
-CC:     <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <paulmck@kernel.org>, <akpm@linux-foundation.org>,
-        <quic_neeraju@quicinc.com>, <rdunlap@infradead.org>,
-        <damien.lemoal@opensource.wdc.com>, <songmuchun@bytedance.com>,
-        <peterz@infradead.org>, <jpoimboe@kernel.org>,
-        <pbonzini@redhat.com>, <chang.seok.bae@intel.com>,
-        <pawan.kumar.gupta@linux.intel.com>, <jmattson@google.com>,
-        <daniel.sneddon@linux.intel.com>, <sandipan.das@amd.com>,
-        <tony.luck@intel.com>, <james.morse@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bagasdotme@gmail.com>, <eranian@google.com>,
-        <christophe.leroy@csgroup.eu>, <jarkko@kernel.org>,
-        <adrian.hunter@intel.com>, <quic_jiles@quicinc.com>,
-        <peternewman@google.com>
-References: <20230821233048.434531-1-babu.moger@amd.com>
- <20230821233048.434531-7-babu.moger@amd.com>
- <d6af932b-4e1b-103f-77f0-d91c2f3fd75a@intel.com>
- <f33d96b1-ef46-f1fd-94e3-52baab2fd29f@intel.com>
- <87cd3ac9-7ade-1d57-bd78-da78ce0d2cdd@intel.com>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <87cd3ac9-7ade-1d57-bd78-da78ce0d2cdd@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0318.namprd03.prod.outlook.com
- (2603:10b6:303:dd::23) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+        with ESMTP id S1351541AbjIBFZX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Sep 2023 01:25:23 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA01C180;
+        Fri,  1 Sep 2023 22:25:19 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6bca3311b4fso2195604a34.0;
+        Fri, 01 Sep 2023 22:25:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693632318; x=1694237118; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KFoQ1P3RZsvjJDmcT2AlLGhdYrSSPHfWfcPWm8WWHjY=;
+        b=gDNFPF3XRdnQ9avn1ZD9djp1JqXkQPTqtGnFrVx4O/ED+oPVLmNmyRM9Bq95/r6MpR
+         r30uFhcXkaztwGgZo8pP3xiAxt+nWVNwRrQU6NAa0PyrHfTeIPL/2rmt8mSTfu1u38rY
+         wDuN+WM831srxZDWpZ46ZWwPCkRPOsVwSAOFis3+98z9fxiAgnacbcE2OlOI7ppmCavc
+         SFYewUzpSaPHvzWiLAOe6uvbX5ZdbqsRRMcCGdGyFC9Vu26wWfQ3hh0bFjphulKMuNrD
+         yV6KoTLLysXqziyzjZP3ebN2ixlGL9LV/nRqvE4h9ontlaKmHxwsisjH6tSQi55M2bmk
+         s26w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693632318; x=1694237118;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KFoQ1P3RZsvjJDmcT2AlLGhdYrSSPHfWfcPWm8WWHjY=;
+        b=D4NLoj/6gagQiu4Wv5IFqN17rruDy8hzcbFV8XCp1En5S5ZAsiUYN7yBz3dB3KX8Me
+         wZu6HuDiM4TBhtgl4EJa8o7v1nprGG38difqqoVAKwy7xdyJ5wdUl60H5RbhHUiwc9cY
+         YoCYJSrF3oRzBvijSI7/V/qK6x6ZCNVY0KgXJuNvjwleW+eVf3vqQZT3rLvhe+unJng2
+         iycRPxXcpC7e/lBb70jLgMd7BvZqbW9zf04W3eYRdVRITgd3ij88/KfiE0KTK9n3dmRw
+         TsebTDAdCTEM06ghX8pfO7l69Rh/G+ycjWD9i9Nb4RihohoVpzi1tpF4YeC7kmMgwk9D
+         lO/A==
+X-Gm-Message-State: AOJu0Yzfzo5Bys4sycWWYXoEv5jkYxGDneUol2Ge0NDnYXjXJXjpOMrr
+        gaYbG3v9lYkeIhkdCFXADAc=
+X-Google-Smtp-Source: AGHT+IH4ibxeTyahNsmUPqIhANnp40SDRqfd2ny/Xu+BNV8kxI6K2s1sX0MKWZaDMxQjf7GJQpUb5w==
+X-Received: by 2002:a9d:7f83:0:b0:6bd:701:6928 with SMTP id t3-20020a9d7f83000000b006bd07016928mr4811445otp.3.1693632318465;
+        Fri, 01 Sep 2023 22:25:18 -0700 (PDT)
+Received: from ubuntu777.domain.name (36-228-78-250.dynamic-ip.hinet.net. [36.228.78.250])
+        by smtp.gmail.com with ESMTPSA id b15-20020a63714f000000b0056c24c2e23dsm3708320pgn.25.2023.09.01.22.25.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Sep 2023 22:25:17 -0700 (PDT)
+From:   Min-Hua Chen <minhuadotchen@gmail.com>
+To:     Hu Haowen <src.res@email.cn>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Min-Hua Chen <minhuadotchen@gmail.com>
+Subject: [PATCH v3 0/3] convert TW translation sparse.txt to RST
+Date:   Sat,  2 Sep 2023 13:25:09 +0800
+Message-Id: <20230902052512.12184-1-minhuadotchen@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA2PR11MB4793:EE_
-X-MS-Office365-Filtering-Correlation-Id: de0c811b-0e68-4271-9f6d-08dbab45e377
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2dYpPzFOg/pnpkvugHmIN/M6HCeTRQA8wplMVNetU383gxw6M8rTtSLLA1RCR0tmsPndQQBoIh9pv0FxdtWLA0pokd2zgpvew2hikCzW4wvNyWCKIGAZjAqQtRa6/e7JskWgvUWdDiCBjERZRY3ADQo7Sk3+t9zi7qzvGOVCre/uFqwvqc6udj3FgajvQfULDYUDhPrYWVK3mPlvutXs2dz6FyCh1JzR7MjnNPXEsvJJ5tjcb/y3UHX3PmSIQ38ljo3WcvK7QtUFvLHPjQeQTskUBu3K+gmprVIf/U3Zqfa4Uf4E1hqybHPGtawmStnHglCnt18ZM3P6AjSHBzOCow2CHroGMZqFPjG12i6FMj9OVpIokbtXz+I+IDmvfV9IVe9nHDjT0rmHlmd+iLBaiM1U1TwRFQ5jHFbASl55JWuB56mbzNYSUfwF7IZCa0QT22O63btghbk/halXJ8AsmCL189k8a9WK6zRlYeq891dvcWi3lLFCv3kN7aKj12VETknqULeaJVtulk3EHfjRyQoFMwbRMIj93iT8aY+r09OXTOCXZMQHpGIG6nGVtmru5zvo9uw4m8V+1AF7BZdhidyyIs9QQBF/KvGJuQbZWyfRZGCs4paIvZ/uM8/HBfRM3e0Hc/tId8jZ00KXff9d6w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(376002)(136003)(346002)(396003)(451199024)(186009)(1800799009)(6512007)(38100700002)(41300700001)(316002)(82960400001)(7406005)(4326008)(7416002)(2616005)(2906002)(86362001)(36756003)(558084003)(26005)(5660300002)(44832011)(31696002)(8676002)(8936002)(6666004)(6486002)(66476007)(66946007)(66556008)(6506007)(110136005)(53546011)(478600001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dDRyVlU4MllqanVudlcxRGYwUFRLMXlVUEtFY0o2aC9zejB5Nk0zS2h0TnpR?=
- =?utf-8?B?aVFpRVlqRkhpZUhrQmZleTlQdkRRdEhNZDhEUjRwTG5oVG9BZ3pWYnpCTkxu?=
- =?utf-8?B?NDFkMWw0c0VKbDFCb1FpUWYwWXp2SmZpdjh3Rjk3dDhDQzVHOG1ma1hJQnZw?=
- =?utf-8?B?L1UrMGZPSG03K2pPc0xwK1MyVEp6cWhmczRtRlVGWjhaOFpZbnpNTlRZYm5W?=
- =?utf-8?B?TnpvSWpFZjQ3V3hRWTVwVjA0MnZXejBZYzVKN0ZadnJrUXZvM2FQcWY1STNM?=
- =?utf-8?B?bzNicGhoYkJRdDZSK0tua3BIcmpUSXk2anJCYUdnODhoUFpuYXFXZW0rY2d0?=
- =?utf-8?B?clhNdytybC9idWxxSUl3MnhHQkhtcndsYWNIYzdNVjdRR0x3Q1dDSkZZNkE2?=
- =?utf-8?B?UkdUdXFrUXZPaUR5UUZrRkFuUHBJMjhBRFBiYXY4K2h1ZmRiNk55VlFjZ2dY?=
- =?utf-8?B?SEtuS3FNVGMzNlRDY3FHelJLSExBRXRXdFYwdEZPUGdkUEY1bGxYT2gxU1dH?=
- =?utf-8?B?R2NTKzZkM0N0MkduekFVNGh3em82bURSODk3R2VzZlRJZndvL0VFK2NCekZq?=
- =?utf-8?B?Ylp3bDJKVXFhMC9ER01NaXVIRGpBNHR6Q3dsR1d4WnNRamZSdDlhNWJzQ2gx?=
- =?utf-8?B?R0ZDMkFNdlJhaHVFMG5Xd1p2SCtDRFE5TkZseFVsRXhtU1hlS1FxaUNGSXND?=
- =?utf-8?B?VkxjTjh3ZEpVSlArNXArOTBWVXR1TkpWemlOaEJPWEVsZ05XbTkrbG92d2d0?=
- =?utf-8?B?MmNDM0Q3M2l0MXNZbFZiNVV1ZVNjL3NDcmpxdDVvSEExQk1TN2plWlpVeWRT?=
- =?utf-8?B?TE9tb1BJSVI1UVhQVE82V3ZsSmpYQ281d0tBVXR3b0hVaHhvdmNSYTI1ZGkw?=
- =?utf-8?B?MWJTblluRVpxdHVyZ2RPZUt6TFV2OU9lZmsydEhuQm1qUWZyQ0lVc3luRVln?=
- =?utf-8?B?TkNySVVFTVd2eFNRdWt2NG9pdUV4RWdSeW42VERyNlpsb0VVa3IxTDZMbEs5?=
- =?utf-8?B?RkhDeTZhS2JSUndydjB6bWdjSGRoYUo0NFQreHhOTEE5TlN3cU1rbjdEeURx?=
- =?utf-8?B?UC91NnpCSi81L2g2dnJGWCtvUDdQSFQxUllhZ1N1aWliejF1QVZLeUhKVGRi?=
- =?utf-8?B?VnBRWS9OUVdWVjlhTEYwTk81SnB3YlJ0WWxkZk55SGl3TmxDWkdRM0lvSGxz?=
- =?utf-8?B?MEZoSzYvYXMzM2sxbzFoQTF0NSt5OG83MzlYRG82bHhvaEZDenI3NDhkNzZh?=
- =?utf-8?B?V1RqV1BscktLN2FVWEV5VmJtTWxYUVlpRTB4b3c3bVNCL2V2R2pMZ1BSNnVm?=
- =?utf-8?B?anVQRytjTVNyL3RCT0tuUWlvQWRNRVludW0ySkk0SFZ0alhOR2tiSFN2dWF6?=
- =?utf-8?B?ZXlJQ0ZudTl4bE1QKzR1ekkyRzdaRFR6bm96TzBPd2wxTzFKdXJ5eEtJS3pT?=
- =?utf-8?B?VnpFZ21jY01XR21XNkxQd3kzWmlDYmhIK0RaN2tJaDdyYjdlem9sNkZHYWV5?=
- =?utf-8?B?dTkyTWV5QlZiYWx0V1FqbDlQbmZMRGdqRER0aU4zNTVyZzROSGVoVlNSL2ln?=
- =?utf-8?B?UDlyZ2ZzRm53Q3J1bmc1c2ZVSTZBdWlnZzQrSGJjdWxrNnRCYzVkSWEwYmdw?=
- =?utf-8?B?aWI2aUladFRUVWlhUHdGZzJLUGluOW54MEJQNmo2Qi9oQ0NOZ01EaHdtQm9m?=
- =?utf-8?B?My81dGFydzBtdlFWYmpkUW02NVN2RzVEL2VDUUhCNlgvNGJ6RG5ENHNwN0JE?=
- =?utf-8?B?WUdHTGxuN3ovSnMxMXBCNVNkMi9ydnRZNWFGelpHMWRFeHBaR1EzOFVVbTBr?=
- =?utf-8?B?WXJMbE1tWTZvMkpKVTlycmNMYTZ5Um9GNG1mUmhzaGMxY0JBQzZNQmptajVi?=
- =?utf-8?B?dCtPamF6N25DbFdwbjQ3Z0dyRUFrWDBDK3lQbi9tRGZRbGtWallOU3hMbmlV?=
- =?utf-8?B?Zmx5OVluRy9Ba29WZnVvd2hQNWRIeGRlL2N4TkYvQndNOFJjc09Jcmk2RGQr?=
- =?utf-8?B?ZkRIanZQb0hNbzJvWUZXTGZJdXhpQlp1ell4TFRxNnMwVktJOGd5cGExcUlK?=
- =?utf-8?B?N3B2aDdRZnBYVGQzSFdMLzdUQVFxempLWW5TZGdjSjEvRVpBeGNxOHJVa0NH?=
- =?utf-8?B?T0krcWtqL0lSK2VuUUd6YTNRNHp3Y3QvVWc0MjhnVUlLc2xKZUg3b2htbDJT?=
- =?utf-8?B?a3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: de0c811b-0e68-4271-9f6d-08dbab45e377
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2023 23:48:06.1753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HmLNzkVkoVGgA6EcPkgQzt99+plu3NwsM8v40ku95pzZLMu8yVnJRrkWPDMkBtFfhDCr96z9MSEtEq/tZ2YeuGP4v20ouvHVdWoa6Pugpr4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4793
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+These patches move TW sparse.txt to TW dev-tools and
+convert TW sparse.txt to RST, based on [1].
+Add the RST to toctree [2].
+
+Randy said [1]:
+"
+it would be good if someone would update/modify this
+sparse.txt file to be in Documentation/translation/zh_TW/dev-tools/
+and convert it to sparse.rst (IMO).
+"
+
+[1] https://lore.kernel.org/lkml/bfab7c5b-e4d3-d8d9-afab-f43c0cdf26cf@infradead.org/
+[2] https://lore.kernel.org/lkml/87a5uxxqf3.fsf@meer.lwn.net/
 
 
-On 9/1/2023 4:46 PM, Fenghua Yu wrote:
-> 
-> Yes, putting the static declarations earlier in rdtgroup.c is right AFAICT.
-> 
 
-Thank you very much Fenghua.
+Min-Hua Chen (3):
+  docs: sparse: move TW sparse.txt to TW dev-tools
+  docs: sparse: convert sparse.txt to RST
+  docs: sparse: add sparse.rst to toctree
 
-Reinette
+ .../translations/zh_TW/dev-tools/index.rst    | 40 +++++++++++++++++++
+ .../{sparse.txt => dev-tools/sparse.rst}      |  2 +-
+ Documentation/translations/zh_TW/index.rst    |  2 +-
+ 3 files changed, 42 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_TW/dev-tools/index.rst
+ rename Documentation/translations/zh_TW/{sparse.txt => dev-tools/sparse.rst} (99%)
+
+---
+
+Change since v1:
+1. change subject to convert sparse.txt to RST
+2. add Suggested-by tag to credit Randy
+
+Change since v2:
+rebase to next-20230831
+
+-- 
+2.34.1
+
