@@ -2,102 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DFC5CA0FF8
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Sep 2023 09:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 141F5C83F2C
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Sep 2023 16:41:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351902AbjIBJNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Sep 2023 05:13:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34820 "EHLO
+        id S234572AbjIBQlb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Sep 2023 12:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231882AbjIBJNZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Sep 2023 05:13:25 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 927939F;
-        Sat,  2 Sep 2023 02:13:21 -0700 (PDT)
-Received: from dggpemm500009.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Rd8JR3q4XzVk8J;
-        Sat,  2 Sep 2023 17:10:47 +0800 (CST)
-Received: from huawei.com (10.175.113.32) by dggpemm500009.china.huawei.com
- (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sat, 2 Sep
- 2023 17:13:17 +0800
-From:   Liu Shixin <liushixin2@huawei.com>
-To:     Yosry Ahmed <yosryahmed@google.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-CC:     <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH] mm, memcg: expose swapcache stat for memcg v1
-Date:   Sat, 2 Sep 2023 18:07:28 +0800
-Message-ID: <20230902100728.3850149-1-liushixin2@huawei.com>
+        with ESMTP id S232336AbjIBQlb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Sep 2023 12:41:31 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DF5DCDD;
+        Sat,  2 Sep 2023 09:41:28 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-68a56ed12c0so31834b3a.0;
+        Sat, 02 Sep 2023 09:41:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693672888; x=1694277688; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Dai6Rn13iIFlOKODTu21yMH7mTPIAobImIUwb+rr64=;
+        b=k+OGeA+ziqa4YmrN9Kx8LhXlc95JmK88xVGME32wcPQHr/DCNmkHb4w53V6fJGrurZ
+         a3QEUPZ2aconp2fdjseOvd3FacdInxFcWJZS12SvWZYqhZZ0JBn+7tiyXRQgaTFIhmfL
+         Aff5qLLH4xzcj8ghjJMZ5k1DoupWqn7mb6m1dbfiT3Lrf3AYTeW/bvAlCZZQZXoDCPps
+         oLK1scNJ7X1tpvJij9iedSC5p/I9anHxVg6i+BGW0D7V1K8+ThoHRcUgFyUSrc76twYC
+         eUZbTRYtRtSpGih9AldKX8ISTAY3TWzlXPeO7oGMVNskQgo6sHyhEKKLR/mbLyiIelhg
+         LwGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693672888; x=1694277688;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4Dai6Rn13iIFlOKODTu21yMH7mTPIAobImIUwb+rr64=;
+        b=QBFyzC0PSHMEJp+Hk2G/pLecFlFbD6romFCz3Fe/5XOv+xMnI4YPKFro4MSllyeE3p
+         C8HcCMvQ8HIOE7Z4G05/pVdgcp6v9PGJC7XSynwXyvHbE+qt1FcAAWMeZDC7QGjSM9+4
+         o4WCeyxVyFot0a8qieLr5wu3dWbF2mh7BeTBSMeMAPFYQdh0dkEMZ3kAbjmCMdVv24Xi
+         7A3QuoaFB7ArYwOZYlEqXHZj3zotP79DvDNiQImMHob8qzHO51y+NUcaflhcZHkIO6si
+         P4sO7wgvE/9JUd65LVwtzMsqJtJXg/i2obevATY6E1EiCQISA3qIkyUCOZyxMNOhRy+n
+         8Aew==
+X-Gm-Message-State: AOJu0YwKh8cNlgY8myM9TjJCEO5uGf0IuzMiAHe2XB0hL5FZ/MYGHE7j
+        Yg/C2ZJw3qVW+MFXPHJzW24=
+X-Google-Smtp-Source: AGHT+IHQencBwVyU06k7HcFKjui6Tn7z7XBah7CJH8uDoYk6g9lnMrVbn9Zvc3qPnc1WmZy1bCSbrw==
+X-Received: by 2002:a05:6a00:1d87:b0:68a:4bf9:3b21 with SMTP id z7-20020a056a001d8700b0068a4bf93b21mr6537476pfw.0.1693672887667;
+        Sat, 02 Sep 2023 09:41:27 -0700 (PDT)
+Received: from localhost.localdomain ([140.116.154.65])
+        by smtp.gmail.com with ESMTPSA id m19-20020aa78a13000000b0068a3e7634d0sm4744089pfa.129.2023.09.02.09.41.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Sep 2023 09:41:27 -0700 (PDT)
+From:   Kuan-Wei Chiu <visitorckw@gmail.com>
+To:     axboe@kernel.dk
+Cc:     corbet@lwn.net, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kuan-Wei Chiu <visitorckw@gmail.com>
+Subject: [PATCH] docs: block: blk-mq.rst: correct places -> place
+Date:   Sun,  3 Sep 2023 00:41:21 +0800
+Message-Id: <20230902164121.2653109-1-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500009.china.huawei.com (7.185.36.225)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit b6038942480e ("mm: memcg: add swapcache stat for memcg v2")
-adds swapcache stat for the cgroup v2, it seems there is no reason to
-hide it in memcg v1. Conversely, with swapcached it is more accurate to
-evaluate the available memory for memcg.
+Corrected a typo in the blk-mq.rst documentation where 'places' was
+incorrectly used instead of 'place'.
 
-Suggested-by: Yosry Ahmed <yosryahmed@google.com>
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- Documentation/admin-guide/cgroup-v1/memory.rst | 1 +
- mm/memcontrol.c                                | 6 ++++++
- 2 files changed, 7 insertions(+)
+ Documentation/block/blk-mq.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
-index fabaad3fd9c2..fb4abe0dc228 100644
---- a/Documentation/admin-guide/cgroup-v1/memory.rst
-+++ b/Documentation/admin-guide/cgroup-v1/memory.rst
-@@ -546,6 +546,7 @@ memory.stat file includes following statistics:
-                     event happens each time a page is unaccounted from the
-                     cgroup.
-     swap            # of bytes of swap usage
-+    swapcached      # of bytes of swap cached in memory
-     dirty           # of bytes that are waiting to get written back to the disk.
-     writeback       # of bytes of file/anon cache that are queued for syncing to
-                     disk.
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index c465829db92b..619acf479be7 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -4068,6 +4068,9 @@ static const unsigned int memcg1_stats[] = {
- 	WORKINGSET_REFAULT_ANON,
- 	WORKINGSET_REFAULT_FILE,
- 	MEMCG_SWAP,
-+#ifdef CONFIG_SWAP
-+	NR_SWAPCACHE,
-+#endif
- };
+diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
+index 31f52f326971..fc06761b6ea9 100644
+--- a/Documentation/block/blk-mq.rst
++++ b/Documentation/block/blk-mq.rst
+@@ -56,7 +56,7 @@ sent to the software queue.
+ Then, after the requests are processed by software queues, they will be placed
+ at the hardware queue, a second stage queue where the hardware has direct access
+ to process those requests. However, if the hardware does not have enough
+-resources to accept more requests, blk-mq will places requests on a temporary
++resources to accept more requests, blk-mq will place requests on a temporary
+ queue, to be sent in the future, when the hardware is able.
  
- static const char *const memcg1_stat_names[] = {
-@@ -4083,6 +4086,9 @@ static const char *const memcg1_stat_names[] = {
- 	"workingset_refault_anon",
- 	"workingset_refault_file",
- 	"swap",
-+#ifdef CONFIG_SWAP
-+	"swapcached",
-+#endif
- };
- 
- /* Universal VM events cgroup1 shows, original sort order */
+ Software staging queues
 -- 
 2.25.1
 
