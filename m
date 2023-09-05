@@ -2,151 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDAE9C83F3E
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 19:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85C55CA1003
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 19:32:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242150AbjIETRK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Sep 2023 15:17:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51510 "EHLO
+        id S242032AbjIETct (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Sep 2023 15:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242195AbjIETRJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 15:17:09 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6091B6
-        for <linux-doc@vger.kernel.org>; Tue,  5 Sep 2023 12:16:45 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-500760b296aso225258e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 Sep 2023 12:16:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693941354; x=1694546154; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MsWRVBFEL3St6TG3Dmm9kVxN1Ow0LMYu4TSTEd74xWc=;
-        b=IO9Q2ewZ1xt/BTnwyavEoLvmjlUq6z1lRdxDEdhtxR+IUgaZFhahJ7rjZ4Mk3GxE2V
-         sHB6yLG4NXgtaLjXsflrsFsUWmAPZ0x8oi4a3rAMgSInx3tsZAsqiPXLBOQW4npkG5V5
-         AmCGF7qAXJ1ckGjEy3ka5U9adKZ1wjETI9aO4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693941354; x=1694546154;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MsWRVBFEL3St6TG3Dmm9kVxN1Ow0LMYu4TSTEd74xWc=;
-        b=kIU6f2XRfrUA8oK5nK1bvtPREA5/8oQ6lXqYJOuayjwb/BjDU2wL3IPSPA3KLeh+gS
-         rgjQNop2cY5M2PFXKT0yI1QUivO3MI6SfQkFmsPs9Yaa7shQetkQWHhF63nB4q9Bjh+c
-         45nA45ehiCMbcF9aZoYuVBbwrfiVVo6B5y3lmhf6ceSG1VWc7L2eTe5b2jzFXnKvI+7j
-         uPqaXh35l0QCWBSMAIcKZdmAFB2yNUNG64xV9X85W2GkiwQq8cEwz7JwCrd0AUV21+sY
-         AMRGKcnUYs0otEA8K/YvDj4LXt8uubYVJXITv1dWszy2n9aoDuK0DYYAMoZEdZqoc9ax
-         JH6g==
-X-Gm-Message-State: AOJu0YwrToF638vDRIKGvbRe0aiQRAbedUIt60qZSEKRgzGF5h3rOkoc
-        xfdfZUT7He3rYUXLGSezOUuQwlrZ0zUzgZxgssH34i82
-X-Google-Smtp-Source: AGHT+IFSXOvj4V+S5xmYds9//GYibIzWJ1yzcAcaxUUD/bLtsDptEsdkEhvPQ5Q79kooR8m4PWakLw==
-X-Received: by 2002:a05:6512:3d10:b0:501:ba04:f352 with SMTP id d16-20020a0565123d1000b00501ba04f352mr315319lfv.1.1693941353830;
-        Tue, 05 Sep 2023 12:15:53 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id u22-20020ac243d6000000b005008757cd6csm2495507lfl.241.2023.09.05.12.15.53
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Sep 2023 12:15:53 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5009dd43130so852e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 05 Sep 2023 12:15:53 -0700 (PDT)
-X-Received: by 2002:a05:600c:4fd1:b0:3fe:ef25:8b86 with SMTP id
- o17-20020a05600c4fd100b003feef258b86mr26556wmq.4.1693941331939; Tue, 05 Sep
- 2023 12:15:31 -0700 (PDT)
+        with ESMTP id S243110AbjIETcr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 15:32:47 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 068711719;
+        Tue,  5 Sep 2023 12:32:23 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6CB8106F;
+        Tue,  5 Sep 2023 09:10:04 -0700 (PDT)
+Received: from [10.1.36.15] (010265703453.arm.com [10.1.36.15])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AFCF3F64C;
+        Tue,  5 Sep 2023 09:09:19 -0700 (PDT)
+Message-ID: <e949a91f-88b3-681e-6e0e-d5d1e8922284@arm.com>
+Date:   Tue, 5 Sep 2023 17:09:15 +0100
 MIME-Version: 1.0
-References: <20230804210644.1862287-1-dianders@chromium.org> <CACRpkdaF4GqHtdJeBed0JGVXNkpA9dvbPgGMK=Qy0_RZyvOtNQ@mail.gmail.com>
-In-Reply-To: <CACRpkdaF4GqHtdJeBed0JGVXNkpA9dvbPgGMK=Qy0_RZyvOtNQ@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 5 Sep 2023 12:15:19 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UFuUsrrZmkL8_RL5WLvkJryDwRSAy_PWTa-hX_p0dF+Q@mail.gmail.com>
-Message-ID: <CAD=FV=UFuUsrrZmkL8_RL5WLvkJryDwRSAy_PWTa-hX_p0dF+Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/10] drm/panel: Remove most store/double-check of
- prepared/enabled state
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     dri-devel@lists.freedesktop.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@gmail.com>,
-        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
-        Jianhua Lu <lujianhua000@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Ondrej Jirman <megi@xff.cz>, Ondrej Jirman <megous@megous.com>,
-        Purism Kernel Team <kernel@puri.sm>,
-        Robert Chiras <robert.chiras@nxp.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Stefan Mavrodiev <stefan@olimex.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
+ IOTLB flushing
+Content-Language: en-GB
+To:     Matthew Rosato <mjrosato@linux.ibm.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+ <240c26d3-b821-8410-3142-62e9a8656146@linux.ibm.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <240c26d3-b821-8410-3142-62e9a8656146@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 2023-08-25 19:26, Matthew Rosato wrote:
+> On 8/25/23 6:11 AM, Niklas Schnelle wrote:
+>> Hi All,
+>>
+>> This patch series converts s390's PCI support from its platform specific DMA
+>> API implementation in arch/s390/pci/pci_dma.c to the common DMA IOMMU layer.
+>> The conversion itself is done in patches 3-4 with patch 2 providing the final
+>> necessary IOMMU driver improvement to handle s390's special IOTLB flush
+>> out-of-resource indication in virtualized environments. The conversion
+>> itself only touches the s390 IOMMU driver and s390 arch code moving over
+>> remaining functions from the s390 DMA API implementation. No changes to
+>> common code are necessary.
+>>
+> 
+> I also picked up this latest version and ran various tests with ISM, mlx5 and some NVMe drives.  FWIW, I have been including versions of this series in my s390 dev environments for a number of months now and have also been building my s390 pci iommufd nested translation series on top of this, so it's seen quite a bit of testing from me at least.
+> 
+> So as far as I'm concerned anyway, this series is ready for -next (after the merge window).
 
-On Thu, Aug 10, 2023 at 1:23=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
->
-> On Fri, Aug 4, 2023 at 11:07=E2=80=AFPM Douglas Anderson <dianders@chromi=
-um.org> wrote:
->
-> > As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-> > prepared/enabled in drm_panel"), we want to remove needless code from
-> > panel drivers that was storing and double-checking the
-> > prepared/enabled state. Even if someone was relying on the
-> > double-check before, that double-check is now in the core and not
-> > needed in individual drivers.
-> >
-> > This series attempts to do just that. While the original grep, AKA:
-> >   git grep 'if.*>prepared' -- drivers/gpu/drm/panel
-> >   git grep 'if.*>enabled' -- drivers/gpu/drm/panel
-> > ...still produces a few hits after my series, they are _mostly_ all
-> > gone. The ones that are left are less trivial to fix.
-> >
-> > One of the main reasons that many panels probably needed to store and
-> > double-check their prepared/enabled appears to have been to handle
-> > shutdown and/or remove. Panels drivers often wanted to force the power
-> > off for panels in these cases and this was a good reason for the
-> > double-check. As part of this series a new helper is added that uses
-> > the state tracking that the drm_panel core is doing so each individual
-> > panel driver doesn't need to do it.
-> >
-> > This series changes a lot of drivers and obviously the author can't
-> > test on all of them. The changes here are also not completely trivial
-> > in all cases. Please double-check your drivers carefully to make sure
-> > something wasn't missed. After looking at over 40 drivers I'll admit
-> > that my eyes glazed over a little.
-> >
-> > I've attempted to organize these patches like to group together panels
-> > that needed similar handling. Panels that had code that didn't seem to
-> > match anyone else got their own patch. I made judgement calls on what
-> > I considered "similar".
-> >
-> > As noted in individual patches, there are some cases here where I
-> > expect behavior to change a little bit. I'm hoping these changes are
-> > for the better and don't cause any problems. Fingers crossed.
-> >
-> > I have at least confirmed that "allmodconfig" for arm64 doesn't fall
-> > on its face with this series. I haven't done a ton of other testing.
->
-> The series:
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->
-> Please send out a non-RFC version, this is clearly the right thing to
-> do.
+Agreed; I'll trust your reviews for the s390-specific parts, so indeed 
+it looks like this should have all it needs now and is ready for a nice 
+long soak in -next once Joerg opens the tree for 6.7 material.
 
-As per the long discussion in response to patch #4, I think there are
-still open questions about the later patches in this series. However,
-I could land patches #1 - #3 if there are no concerns. Would anyone
-object if I just landed them straight from this series with Linus's
-review, or would I need to repost just patches #1 - #3 without the
-"RFC" tag?
-
-Thanks!
-
--Doug
+Cheers,
+Robin.
