@@ -2,377 +2,251 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80374CA0FFD
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 16:24:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 001FBCA0FFE
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 16:24:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350239AbjIEQYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:24:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57220 "EHLO
+        id S1350297AbjIEQYh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:24:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354417AbjIEL1x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 07:27:53 -0400
-Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2149.outbound.protection.outlook.com [40.92.62.149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B6C1AD;
-        Tue,  5 Sep 2023 04:27:49 -0700 (PDT)
+        with ESMTP id S1354903AbjIEPnz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 11:43:55 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79A4A8;
+        Tue,  5 Sep 2023 08:43:50 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jONtlyxhCkMKEeUxkuGupxF8d/tyKLviM0j48FBHphbp32ozrWB0sGrT/VdNeEEfKtE7lbiJ9JRSjD8iSUFKF69udPWyjedBL12mMJqIMsBxokFY7rhtQkn+DFLvU5eMn+IYASwooI3GimxBfJZRilzWn2JdJcStxJea4ZRhkkZ+quIIIZQ9ytbwGVGWI/iln7a+riGeqqN7fX0CqPD583M8MClfQKEH0rxAAuDfeEqZtEF3xrM9u2pYR0k+14WyDDzB4Ql6uPFQTTcHtQBFfH36gNT23x1rRmLSWF08aOZR1lcmqYFB+/GDWZkQRzmVNN6B0SrATFTsVey7gpmlSQ==
+ b=Xlzbbgpe1QI7XYtWR22RJrMAFKfUoXSacIj8ooMKbtFMlY842H0CYO4rygGPEti1HdU0GcN5I90IOc6y5W7wF2nl5ULiFU7MjicHwUJlRTxa5D7xd+U0Un7wm2DJb8ccmxpcTMIf6rc+BdejTIxd2BjHhkZ0A+tKGLJODhhdovuVquhs4JpFQNHELh68udpItroeyz11vuOYyx+0zDeol08/fC4HnBNjAt49TaxBD5BhgOqJ+V3kFp6cK4B+z4vHwTzCR+UukOlB8G6TxvPtT5JV246+i9fKRx+qM3hggAcfjUOgcUz7o3RUOU4qsnle0OXwr0ad3lYEcFRG3stljw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+8PFbMC95shG1VszT+wYO5vVC55/zpOiNBE06jOrGIw=;
- b=ml+mhHXz6WL0RF572APuqwwk1kqOUmduWX6ClVFrN/2jpz+193hnuA3fiG+0q5rXq41Oq7sm5yZjVsAtojX0coV1kzW56p9bGjwNWWThSJc2iXp9SyotYnNdCVLc8doVZo18U3ewzT75zoeDmmzXdJU5YP4rBJ1F+R3LCe0abohGGSqOwzxgW3tN19/CeS9uM6uTqj42QzLpaFGUzu3kTPeOxiCmwsZ1/onkDltbrIkb9FOnuOzC125Jm3fpAqI4mIf1rs+WAm6TiO/2LsfnLfQfH2mTkWyXy6YpGOwci1wcYvrIsXXD52MEVIJq24LfBA0FG2uAno+4XjitcYxg9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
+ bh=+LbMAXlUiUK6DgMvBQ848tC+ZctvqfMtxMS+KcQhB1M=;
+ b=adPfY9jC91CpfcybGLKZHnOd/l+hDmy+vDMqTm8Q779ykIh9fl/WHsM+VzzOX2xaXqIxCgLR11HQiLA2KhSeEPANU5PSIm48wBLgU0+c3gt3WWieYzd2TsQe9qsmMQ+cZ5+6Kn/gNEASsIi7ivIOY766YTr7+AkAB9F+RUHcslJQYPTp2dxjlzLtd1amsip90fIubUJaBs9c/f/+aK86yH8L6Z+hkM0KdUC48BoDc6SYCSchWGLDnXeZEAJizc5VXoR/FxMb6rheTx0AnIqGoLUU0OWu0k8wiIPyYbU8vsNycg2bbsC4lsl9xdMDZe6goXmMlrVu+HE3X/4Ez8iEsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+8PFbMC95shG1VszT+wYO5vVC55/zpOiNBE06jOrGIw=;
- b=TLuCT9KB5KD17ogL65qZFNOBz3stjOGjoYVvYp+Bsq3zl2u+KtyWBjuncQoG1gJFj/39J3BxvsGxIkLIC6bsKAkBQydgRWVLASH4SG1Bo2D6gW7yAxeeUteORYbEloJWvWR6wOPWPQX98NFTh2JDcAr7jPuZKu860j/jHIr3bx4ZWFPY/azDetdKVUtcv6RZfEPlm2lqSqL6etDoIRjRZcfgg7Q0Q8pD5jBeMrxlqXuorYO0axCZ5tMwgmuDjw8GoDGzjNWNGVPLroj7unrzvmaaZqE6yA1/mgr9k8J3cFpup9Zq9NdfpFYFLXIGMFEZUeGdFD9s4KmaMlfWn+Q82w==
-Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
- by SY6P282MB3213.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:164::8) with
+ bh=+LbMAXlUiUK6DgMvBQ848tC+ZctvqfMtxMS+KcQhB1M=;
+ b=x1XKFuxFwf7w8JDVaKVMimuF10E38uq6aL7PL5l+Ybp7GIKqA6w1earA+P6XGeLy2app6vNyPeo4N9h346uCYWKPrk1+0sZIPdV3kKxtd2e8m9cv2JGpQDIagGW+fFGJS4T7YYrnXJEciE550N0KbizXAxE82FNjPm5rKUVSBe8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
+ by MN2PR12MB4045.namprd12.prod.outlook.com (2603:10b6:208:1d6::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 11:27:43 +0000
-Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
- ([fe80::beb:8e33:17b1:a347]) by MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
- ([fe80::beb:8e33:17b1:a347%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
- 11:27:42 +0000
-From:   Jinjian Song <songjinjian@hotmail.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
-        ryazanov.s.a@gmail.com
-Cc:     jiri@resnulli.us, johannes@sipsolutions.net,
-        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
-        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-        m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nmarupaka@google.com,
-        vsankar@lenovo.com, danielwinkler@google.com,
-        Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net-next v3 5/5] net: wwan: t7xx: Devlink documentation
-Date:   Tue,  5 Sep 2023 19:26:37 +0800
-Message-ID: <MEYP282MB2697DB50DD70C7B755E04578BBE8A@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230905112637.18877-1-songjinjian@hotmail.com>
-References: <20230905112637.18877-1-songjinjian@hotmail.com>
+ 2023 15:43:45 +0000
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d267:7b8b:844f:8bcd]) by DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d267:7b8b:844f:8bcd%7]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 15:43:45 +0000
+Message-ID: <dc03c6b8-0c44-9212-ee38-6d83af0d00d5@amd.com>
+Date:   Tue, 5 Sep 2023 10:43:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 11/13] KVM: SVM: Add support for IBS virtualization for
+ SEV-ES guests
+Content-Language: en-US
+To:     Manali Shukla <manali.shukla@amd.com>, kvm@vger.kernel.org,
+        seanjc@google.com
+Cc:     linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        x86@kernel.org, pbonzini@redhat.com, peterz@infradead.org,
+        bp@alien8.de, santosh.shukla@amd.com, ravi.bangoria@amd.com,
+        nikunj@amd.com
+References: <20230904095347.14994-1-manali.shukla@amd.com>
+ <20230904095347.14994-12-manali.shukla@amd.com>
+From:   Tom Lendacky <thomas.lendacky@amd.com>
+In-Reply-To: <20230904095347.14994-12-manali.shukla@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN:  [Su1kXluObHKZ17sNiTTcdGTllkWRsfFn]
-X-ClientProxiedBy: SGAP274CA0006.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::18)
- To MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
-X-Microsoft-Original-Message-ID: <20230905112637.18877-6-songjinjian@hotmail.com>
+X-ClientProxiedBy: SA9PR11CA0014.namprd11.prod.outlook.com
+ (2603:10b6:806:6e::19) To DM4PR12MB5229.namprd12.prod.outlook.com
+ (2603:10b6:5:398::12)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MEYP282MB2697:EE_|SY6P282MB3213:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c4d8455-5189-4e58-f737-08dbae031ea9
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5229:EE_|MN2PR12MB4045:EE_
+X-MS-Office365-Filtering-Correlation-Id: dafd1821-9eb0-46df-9ee4-08dbae26e38f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RpFN2E90E71raooRQhQvn8x12MeNxaEJUNsaeVN9M6HQ7gGYaW7t777Ub1y6q57TWTq2w4qS5tW1NZggqq8pyF+q4LNzj25sc5PaabugCMfyf5oaFirdGSb7FzAsB/3lZakqAGc0YuZKOFpuUm/FRclWeuGgzfUwZUBPoHytFIUmMViN6LcXebNUxM7tQNT6vkgBQDKBttNGlv4dUopKhsVOI5BTCf7VzHMdFIpaAc4BFylvPDiSfK2Dk7aCUW3SLYG1EuA+wknoLxdQqI596oex3DW5NoNphno2+X2lemAYYfd8Z7PUJ3r6esqrMmlLhe+UTstGFhKyaYCm7Wsa4F/Ur6+6ROcjbscdWl1oN35m2bIYtI4wGzPYsuZVSHubuBIL/hBo7bSKv0eI+wexvmmjEAUObHIEqJQU+904p3dJDffZMFVHedjIfJY7//uxxv232dbkK45MWa6j+g5qR1hqhlg0PciAFlCCFIk3MLC5jNd6NBCQle4OcyBdGbSB02Z0tsCUo3iXD63OwcH2+EJ0+tlMuwFNJi69TkUx0hI=
+X-Microsoft-Antispam-Message-Info: M2gv4kg0lUwHwFONY8/cgcdoNeh5iMkrojyhmQAHNb4tkbdp/1AbB1+CqYwrxqHlMztwluYN9zCZowv71HRjO4bxa9ePaKHPS8k0hRr+LTL9jISaIjrmVgAYNy1HzhChP+bfKiZSetmsGVeXtxb+MNtofa5S5bc11BPBx9owf3fnDAX3HqTAdkzHflFWeH7Ds/r9+nVbv7kPBU8QNlplDAkOuXU5lxdwd2WH4C+Bl8sG543i2S/ooRkYqdQjyQcAf49u7WkwlaBrlWojo0B+V6cLMSUPmpyA4uewwduWStnXtuX0j0RXi8CRj4kV/00dl6nZN4ubrIL9voEoPv10n7zNqBWIJ3nER6H43HTKsHGite9SOJpP7/SfrtPC93+TBB7RGiUonMgGbK6rwn7jzpUEdPo4X0hVWFw/O3LlgRpeoZqVOs32WEGJzGs8uV+KAXN0UhLBwXWo2eejXcHC/NCWiCXWbQDHvA5BmO8jSYkWrCY39QNCOpAx3Bj+xEoscdoQPe3XPCRmuYO8IIB++YPPNI3tr5iofep896vxi9/2P89kvFPt70tOXWGapPt3k6HFvqj/f5ogZU/dz6xg0k+d9o09L2LNJHb+5i+EinjYxV5cZOjHqs/YXd2lokFetvpou+tzdO9TVXiBvRiaiQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5229.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(39860400002)(366004)(346002)(451199024)(1800799009)(186009)(66476007)(66556008)(66946007)(31696002)(86362001)(41300700001)(316002)(6512007)(2616005)(26005)(966005)(53546011)(6486002)(6506007)(31686004)(4326008)(5660300002)(8936002)(8676002)(478600001)(36756003)(38100700002)(83380400001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WlwGMv9yAZ6eq4V5DxwBrVXt8P7j6cEbFo1uaSuZt+QXykcp6k0aSht0NrFm?=
- =?us-ascii?Q?LuZ1vq+vDyl/m6kMAgf+OV9AiSSTaELR70YLfHaRD4M73va+ZnmaInNkPWho?=
- =?us-ascii?Q?uJaKowfODq3bxdt6U1N/apmoWWvhB5CmAmVXIWYKzMVX5Oqlbj9N/H0trvEq?=
- =?us-ascii?Q?Tf9dd3UVflHRDt28MR9vE9fzcJoiZbM2oh+kw8O2sIY3UwT0ztzs0EKMmUA6?=
- =?us-ascii?Q?dLeb5YIn3KazP+OG0C8Gb0EjvSXh9APNPEcaFM/1Ixwg4nfqQuyMeLZRQDkk?=
- =?us-ascii?Q?iBO45yzqVFxSDp/u5n5osyUREpb/UfsVPNREyaAEYqVmcTjnROETNKK8mHoD?=
- =?us-ascii?Q?mmLvzSobRMwmypsrraWMGxnPU4o/NZxExbEZyqWShDdfySDPUqR29SpqQ9A1?=
- =?us-ascii?Q?99CsD8OiyuhjzS6T4tC+cSplgQFCI8C97Ww9+XqPNbd3iB5Hmp7fB/QZiOrl?=
- =?us-ascii?Q?8jQ5m3VTbyMAnljbG0thPlpwbrUmu/hEYaWfzeH8sPo+AkT6AVWhaDWdj1hg?=
- =?us-ascii?Q?APwVHghcLFcvNcqYpPgl+2unLzRFYs8CYxLXxzH5HFtfaul5XtJeOLebBoZp?=
- =?us-ascii?Q?A6FnUy2dBz1vAY1sSdtC57dshcXKdO95tiiJpB+Q7d8WnqbL+JaE2nRJeRgq?=
- =?us-ascii?Q?IyDSaWI0r2+CcLnFFiE8fcZGhyJSfmB2UMg/+83S54CWmKMJ6UlXGC5t1GS9?=
- =?us-ascii?Q?493DarLcb4X8h830CKWNVxNh7QWfk9q/yKaGofWJ8rKaEZswE3AHFSQTe9GY?=
- =?us-ascii?Q?73zKoyDyLf3tpuKMt0Yy/1BshQlESQjeNf6uaogVuiUIAEXruMbwQ/nS/Woc?=
- =?us-ascii?Q?C8l5fO210i4dvcHNJFARdPRS/BOQSfYS1Fi+4Ew8HPWgQL5zRFnynE6NYud8?=
- =?us-ascii?Q?KLC+gvnSz22NMIdThJZKEJivegU90RqRTQLR7mFOmbgaFAa4uTF0/eiJ9YX5?=
- =?us-ascii?Q?wOiaeF3ELDUsY3iVoc2KertFjK9c3nzJOPSbffDqgtiJazxRrdgbQ+6iET/B?=
- =?us-ascii?Q?dZsagUTCtz2lYmNtuak6pqs12BNFiwPw/WrIgLoAzhqIRAS/ciskc6uC+H8v?=
- =?us-ascii?Q?/HEylwox+Bl6QG4wqsBa+Dlp8onb3Ar50viLyPhpqRSy3ekgF0EXipOGau34?=
- =?us-ascii?Q?4osVck6Zt/t0nIPGFKZy5Lm30c2B/fQ4KXaqjErzf8OtSBrsJo3MA0ZsHZ++?=
- =?us-ascii?Q?Jq16gpFJ3XCBYUkpfa0yD5CP4XAozl9UHQTK3f3NnYCxC26c/l3KIK8P1zw?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c4d8455-5189-4e58-f737-08dbae031ea9
-X-MS-Exchange-CrossTenant-AuthSource: MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U1l3cndRSDM5SkptZEVhRE5lYzdybWRDc3BZQ2JBeVc2ZlBWa1pDektEOVZZ?=
+ =?utf-8?B?cTJ2NXZSTnBxS2ZseDUzWGh1dWRlbmxNYmpDMWFGeGdmQkJWb3lhU3VhdXJI?=
+ =?utf-8?B?MmV0R0JoMzBSdi9tRllkekZyYllaNHRLb3M1NVRJd1JrTHRHRkhHd1dZekZI?=
+ =?utf-8?B?SE02WlJNNWpNa2t1U25yRkROamlFd2w1dmNyMm93blQ1ZEg2YjZkZHF6S3Bh?=
+ =?utf-8?B?OUpYVGV0UUZKdzY2Y3pyNHlvd2JDTXRWWmZYS3pZbFAzbjliOWRNZ3FLYy80?=
+ =?utf-8?B?eUVGT0w0UVdMSnBkSGs2WThITlNURkNLbnp3eUJsYno0VTRGVitJdHpuSDI5?=
+ =?utf-8?B?ZXVwdDUwUE9SL0NUWElvblpYelNSc1huZDU5cjB5VmdJeDBFUGxvdjNpbTFM?=
+ =?utf-8?B?eEtQTjdxQUpMZDVXeTJSL1h5T0JCV3dIbEtiNHFjb20vSHdjZFArcTRCVHIz?=
+ =?utf-8?B?WlorV2pwUnBMbllXNFYxbklDM1lhejN5WlFpRWtIRzBQNmNoMnV5am8yS090?=
+ =?utf-8?B?bzVSOSt4UWRLOUgvWUwwZXg2MHJDNzRrZ3U0Yy9uMjhYM1RmSzdqMG11YlE5?=
+ =?utf-8?B?S3pUclE3QkFSRzBJL3N0ekY5a2lvSWtOV1dhMFRzQkEyM0N2WHUvRTc4Y2Vj?=
+ =?utf-8?B?OU1oU0x6YUZERFNha3ZEakZlZjNEM3lOZU9PM1FkTFZOdTJkU0Nvc1BDWmRm?=
+ =?utf-8?B?QjFTNFlobXczM1VLZnljTHhPRzg2N1FEWFNEMVhmMzVxNlNPTXI0dU96dXcw?=
+ =?utf-8?B?a0tqMjJ0SnhPK1ZJT0plZFV5dWJ0bDg3ZlNGbnBucnYyTjIwcWZxUVd6Q2tI?=
+ =?utf-8?B?MDZZaG9DckhEWDRFNi9IK3JOclF5MVF2SHZ2UWJzMTZjRFcrcEIwU0VTWVZQ?=
+ =?utf-8?B?WlpIeU5PWVErOEIwQzVSOFlmWitWMjdGcEZHL0ZQd3Q1d1hFdnUzZXJkemxT?=
+ =?utf-8?B?R0g1ZkI5QlRpRnVZOW9DRnRSZlBhb0ZxNjVRRkRRdWJTSml4UTAyS25WVVNy?=
+ =?utf-8?B?YWRjL3hIWWdGSGdmblpNYVBzWnRsR2N4R24rUUt6Nk55VHBiejJBbll3ZjhN?=
+ =?utf-8?B?d05tdE1pckliSVZKczFGbHVmZ0xXZkdSczdRSkgxUFlLdzVPU2lxbjQ3cU15?=
+ =?utf-8?B?T0ZCYWE3NWVhWWNqVVpsbytrMFFyejJzalFuUW5ML0c4Zy9kTnBVWUpBcm5G?=
+ =?utf-8?B?b2pFZXNUclFQNVAxb0UwNzczWEYzaVVBTHVyU1k4YXVITXJFaHlDTGFITWZ4?=
+ =?utf-8?B?SXB5elZFcEwrdUkxUmpVWW9uYWZSekxIWGxRUEVuM2hXamVhM0RiU3Rscllz?=
+ =?utf-8?B?UHBaYThXRDB3SUptWFJQUC9OWHgrYXdKUGc0TEMrTnM1bkthdVVHR083OE80?=
+ =?utf-8?B?OGFUY28xZzk1b3RPMCtFNVdlTjNqd2VSaVlnVVNLSEtXN3JKT09obzJFQ0lR?=
+ =?utf-8?B?UGZ2bys0bFBqV3RTU21OQjk3a0tLTWt1dW1pQ0NSaVE5dG1yREpidUIvQmJC?=
+ =?utf-8?B?N1pVUDJNVWlpS3pCakZVSmFOZ3A5Q0JQc2dUMDBWaG5TL3c5Z0JtalNuZ3BV?=
+ =?utf-8?B?UVhOK2hReGpZeXJLQ08rbmUzdm5NcUN1ZFd6aWFIQ01odEx1NTFRbHZCRHpn?=
+ =?utf-8?B?eXRVbzdKbjFFcFF1dWJ6cTZUL2xOZDJvc2loQ1pKOTl1K215aktveEFCbHEz?=
+ =?utf-8?B?T05ML2FmMFUva3BJMTBKN1V3YXVhdGh3RUhBcXlSZmF2SVFoWFI2dzhQYWMz?=
+ =?utf-8?B?dTFuekNXY3JwQkM3QXBBN2xoMDN2OEdVZ09HTFovOVQxSGViOUhGc2tRUjZD?=
+ =?utf-8?B?T2I4MEx0Tm1lcEJsdllXRzJQbHJFMjlsbTR1Nm5paTBwVU5pUko0UDVUclNC?=
+ =?utf-8?B?Y3RuVVViVHBEblFSK3YrOE95UkNDeWNxMWUreEdqVlRRcGpod3l4OEJhaDhZ?=
+ =?utf-8?B?Y2VFanNXQWM3ajFhMmErOVdrT2F0TDF1SXo0cld3WEpNRzFzRzBQTTVYeCtB?=
+ =?utf-8?B?T095WXJwaVp5YVloSmZrb09tSGd5QlRjVWdzUlFIRnVjUEdTTjZMQXRpOUVE?=
+ =?utf-8?B?MDBsNlJFY25ab1VmNDNIaGg4ZTBQNzR2WFVpMDRVYlFkTDZDOVgzekZ5WlhJ?=
+ =?utf-8?Q?RmpZ85msh13kqbL/eBAo0mM0b?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dafd1821-9eb0-46df-9ee4-08dbae26e38f
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 11:27:42.8861
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 15:43:45.8040
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY6P282MB3213
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8i6g7khDEGuTNcZ6ZonFTwj0bebOCAxzkUYqPV82fTc+jx6FaYyHBVGbGytzZvQnJPEsl0O31DdFuaa1czzz9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4045
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jinjian Song <jinjian.song@fibocom.com>
+On 9/4/23 04:53, Manali Shukla wrote:
+> Since the IBS state is swap type C, the hypervisor is responsible for
+> saving its own IBS state before VMRUN and restoring it after VMEXIT.
+> It is also responsible for disabling IBS before VMRUN and re-enabling
+> it after VMEXIT. For a SEV-ES guest with IBS virtualization enabled,
+> a VMEXIT_INVALID will happen if IBS is found to be enabled on VMRUN
+> [1].
+> 
+> The IBS virtualization feature for SEV-ES guests is not enabled in this
+> patch. Later patches enable IBS virtualization for SEV-ES guests.
+> 
+> [1]: https://bugzilla.kernel.org/attachment.cgi?id=304653
+>       AMD64 Architecture Programmer’s Manual, Vol 2, Section 15.38
+>       Instruction-Based Sampling Virtualization.
+> 
+> Signed-off-by: Manali Shukla <manali.shukla@amd.com>
+> ---
+>   arch/x86/include/asm/svm.h | 14 +++++++++++++-
+>   arch/x86/kvm/svm/sev.c     |  7 +++++++
+>   arch/x86/kvm/svm/svm.c     | 11 +++++------
+>   3 files changed, 25 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
+> index 4096d2f68770..58b60842a3b7 100644
+> --- a/arch/x86/include/asm/svm.h
+> +++ b/arch/x86/include/asm/svm.h
+> @@ -469,6 +469,18 @@ struct sev_es_save_area {
+>   	u8 fpreg_x87[80];
+>   	u8 fpreg_xmm[256];
+>   	u8 fpreg_ymm[256];
+> +	u8 lbr_stack_from_to[256];
+> +	u64 lbr_select;
+> +	u64 ibs_fetch_ctl;
+> +	u64 ibs_fetch_linear_addr;
+> +	u64 ibs_op_ctl;
+> +	u64 ibs_op_rip;
+> +	u64 ibs_op_data;
+> +	u64 ibs_op_data2;
+> +	u64 ibs_op_data3;
+> +	u64 ibs_dc_linear_addr;
+> +	u64 ibs_br_target;
+> +	u64 ibs_fetch_extd_ctl;
+>   } __packed;
+>   
+>   struct ghcb_save_area {
+> @@ -527,7 +539,7 @@ struct ghcb {
+>   
+>   #define EXPECTED_VMCB_SAVE_AREA_SIZE		1992
+>   #define EXPECTED_GHCB_SAVE_AREA_SIZE		1032
+> -#define EXPECTED_SEV_ES_SAVE_AREA_SIZE		1648
+> +#define EXPECTED_SEV_ES_SAVE_AREA_SIZE		1992
+>   #define EXPECTED_VMCB_CONTROL_AREA_SIZE		1024
+>   #define EXPECTED_GHCB_SIZE			PAGE_SIZE
+>   
+> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+> index d3aec1f2cad2..41706335cedd 100644
+> --- a/arch/x86/kvm/svm/sev.c
+> +++ b/arch/x86/kvm/svm/sev.c
+> @@ -59,6 +59,7 @@ module_param_named(sev_es, sev_es_enabled, bool, 0444);
+>   #define sev_es_enabled false
+>   #endif /* CONFIG_KVM_AMD_SEV */
+>   
+> +static bool sev_es_vibs_enabled;
+>   static u8 sev_enc_bit;
+>   static DECLARE_RWSEM(sev_deactivate_lock);
+>   static DEFINE_MUTEX(sev_bitmap_lock);
+> @@ -2256,6 +2257,9 @@ void __init sev_hardware_setup(void)
+>   
+>   	sev_enabled = sev_supported;
+>   	sev_es_enabled = sev_es_supported;
+> +
+> +	if (!sev_es_enabled || !cpu_feature_enabled(X86_FEATURE_SEV_ES_VIBS))
+> +		sev_es_vibs_enabled = false;
 
-Document the t7xx devlink commands usage for firmware flashing &
-coredump collection.
+sev_es_vibs_enabled = sev_es_enabled && cpu_feature_enabled(X86_FEATURE_SEV_ES_VIBS);
 
-Base on the v5 patch version of follow series:
-'net: wwan: t7xx: fw flashing & coredump support'
-(https://patchwork.kernel.org/project/netdevbpf/patch/f902d4a0cb807a205687f7e693079fba72ca7341.1674307425.git.m.chetan.kumar@linux.intel.com/)
+But won't this require VNMI support, too? So should that also be checked
+along with vibs from svm.c (since AVIC isn't supported with SEV).
 
-Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
----
-v3:
- * supplementary separator '~'
-v2:
- * no change
----
- Documentation/networking/devlink/index.rst |   1 +
- Documentation/networking/devlink/t7xx.rst  | 232 +++++++++++++++++++++
- 2 files changed, 233 insertions(+)
- create mode 100644 Documentation/networking/devlink/t7xx.rst
+>   #endif
+>   }
+>   
+> @@ -2993,6 +2997,9 @@ static void sev_es_init_vmcb(struct vcpu_svm *svm)
+>   		if (guest_cpuid_has(&svm->vcpu, X86_FEATURE_RDTSCP))
+>   			svm_clr_intercept(svm, INTERCEPT_RDTSCP);
+>   	}
+> +
+> +	if (sev_es_vibs_enabled && svm->ibs_enabled)
+> +		svm_ibs_msr_interception(svm, false);
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index b49749e2b9a6..f101781105ca 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -67,3 +67,4 @@ parameters, info versions, and other features it supports.
-    iosm
-    octeontx2
-    sfc
-+   mtk_t7xx
-diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/networking/devlink/t7xx.rst
-new file mode 100644
-index 000000000000..20057bda3923
---- /dev/null
-+++ b/Documentation/networking/devlink/t7xx.rst
-@@ -0,0 +1,232 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+t7xx devlink support
-+====================
-+
-+This document describes the devlink features implemented by the ``t7xx``
-+device driver.
-+
-+Parameters
-+==========
-+The ``t7xx`` driver implements the following driver-specific parameters.
-+
-+.. list-table:: Driver-specific parameters
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Mode
-+     - Description
-+   * - ``fastboot``
-+     - boolean
-+     - driverinit
-+     - Set this param to enter fastboot mode.
-+
-+Flash Update
-+============
-+
-+The ``t7xx`` driver implements the flash update using the ``devlink-flash``
-+interface.
-+
-+The driver uses ``DEVLINK_SUPPORT_FLASH_UPDATE_OVERWRITE_MASK`` to identify the type of
-+firmware image that need to be programmed upon the request by user space application.
-+
-+``t7xx`` driver uses fastboot protocol for firmware flashing. In the firmware
-+flashing procedure, fastboot command & response are exchanged between driver
-+and wwan device.
-+
-+::
-+
-+  $ devlink dev param set pci/0000:bdf name fastboot value 1 cmode driverinit
-+
-+The devlink param fastboot is set to true via devlink param command, by
-+passing name ``fastboot``, value ``1`` and cmode ``driverinit``.
-+
-+::
-+
-+  $ devlink dev reload pci/0000:$bdf action driver_reinit
-+
-+The wwan device is put into fastboot mode via devlink reload command, by
-+passing ``driver_reinit`` action.
-+
-+::
-+
-+  $ devlink dev reload pci/0000:$bdf action fw_activate
-+
-+Upon completion of firmware flashing or coredump collection the wwan device is
-+reset to normal mode using devlink reload command, by passing ``fw_activate``
-+action.
-+
-+Flash Commands
-+--------------
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.bin component "preloader"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component "loader_ext1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spmfw"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm_1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcupm_1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1img"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1dsp"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
-+
-+Note: Component selects the partition type to be programmed.
-+
-+
-+The supported list of firmware image types is described below.
-+
-+.. list-table:: Firmware Image types
-+    :widths: 15 85
-+
-+    * - Name
-+      - Description
-+    * - ``preloader``
-+      - The first-stage bootloader image
-+    * - ``loader_ext1``
-+      - Preloader extension image
-+    * - ``tee1``
-+      - ARM trusted firmware and TEE (Trusted Execution Environment) image
-+    * - ``lk``
-+      - The second-stage bootloader image
-+    * - ``spmfw``
-+      - MediaTek in-house ASIC for power management image
-+    * - ``sspm_1``
-+      - MediaTek in-house ASIC for power management under secure world image
-+    * - ``mcupm_1``
-+      - MediaTek in-house ASIC for cpu power management image
-+    * - ``dpm_1``
-+      - MediaTek in-house ASIC for dram power management image
-+    * - ``boot``
-+      - The kernel and dtb image
-+    * - ``rootfs``
-+      - Root filesystem image
-+    * - ``md1img``
-+      - Modem image
-+    * - ``md1dsp``
-+      - Modem DSP image
-+    * - ``mcf1``
-+      - Modem OTA image (Modem Configuration Framework) for operators
-+    * - ``mcf2``
-+      - Modem OTA image (Modem Configuration Framework) for OEM vendors
-+    * - ``mcf3``
-+      - Modem OTA image (other usage) for OEM configurations
-+
-+
-+Regions
-+=======
-+
-+The ``t7xx`` driver supports core dump collection in exception state and second
-+stage bootloader log collection in fastboot mode. The log snapshot is taken by
-+the driver using fastboot commands.
-+
-+Region commands
-+---------------
-+
-+::
-+
-+  $ devlink region show
-+
-+This command list the regions implemented by driver. These regions are accessed
-+for device internal data. Below table describes the regions.
-+
-+.. list-table:: Regions
-+    :widths: 15 85
-+
-+    * - Name
-+      - Description
-+    * - ``mr_dump``
-+      - The detailed modem component logs are captured in this region
-+    * - ``lk_dump``
-+      - This region dumps the current snapshot of lk
-+
-+Coredump Collection
-+~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+  $ devlink region new mr_dump
-+
-+::
-+
-+  $ devlink region read mr_dump snapshot 0 address 0 length $len
-+
-+::
-+
-+  $ devlink region del mr_dump snapshot 0
-+
-+Note: $len is actual len to be dumped.
-+
-+The userspace application uses these commands for obtaining the modem component
-+logs when device encounters an exception.
-+
-+Second Stage Bootloader dump
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+  $ devlink region new lk_dump
-+
-+::
-+
-+  $ devlink region read lk_dump snapshot 0 address 0 length $len
-+
-+::
-+
-+  $ devlink region del lk_dump snapshot 0
-+
-+Note: $len is actual len to be dumped.
-+
-+In fastboot mode the userspace application uses these commands for obtaining the
-+current snapshot of second stage bootloader.
-+
--- 
-2.34.1
+I might be missing something here...  if svm->ibs_enabled is true, then
+this intercept change will already have been done. Shouldn't this be
+doing the reverse?  But, it looks like svm->ibs_enabled is set in the
+init_vmcb_after_set_cpuid() function, which is called after
+sev_es_init_vmcb() is called...  so it can never be true here, right?
 
+Thanks,
+Tom
+
+>   }
+>   
+>   void sev_init_vmcb(struct vcpu_svm *svm)
+> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+> index 6f566ed93f4c..0cfe23bb144a 100644
+> --- a/arch/x86/kvm/svm/svm.c
+> +++ b/arch/x86/kvm/svm/svm.c
+> @@ -4194,16 +4194,15 @@ static noinstr void svm_vcpu_enter_exit(struct kvm_vcpu *vcpu, bool spec_ctrl_in
+>   	guest_state_enter_irqoff();
+>   
+>   	amd_clear_divider();
+> +	restore_mask = svm_save_swap_type_c(vcpu);
+>   
+> -	if (sev_es_guest(vcpu->kvm)) {
+> +	if (sev_es_guest(vcpu->kvm))
+>   		__svm_sev_es_vcpu_run(svm, spec_ctrl_intercepted);
+> -	} else {
+> -		restore_mask = svm_save_swap_type_c(vcpu);
+> +	else
+>   		__svm_vcpu_run(svm, spec_ctrl_intercepted);
+>   
+> -		if (restore_mask)
+> -			svm_restore_swap_type_c(vcpu, restore_mask);
+> -	}
+> +	if (restore_mask)
+> +		svm_restore_swap_type_c(vcpu, restore_mask);
+>   
+>   	guest_state_exit_irqoff();
+>   }
