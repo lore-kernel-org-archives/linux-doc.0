@@ -2,544 +2,419 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9472CA0FE2
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 16:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 115A1CA0FF3
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 16:25:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350868AbjIEQZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:25:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47922 "EHLO
+        id S1350878AbjIEQZK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354415AbjIEL1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 07:27:41 -0400
-Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2169.outbound.protection.outlook.com [40.92.62.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F761AE;
-        Tue,  5 Sep 2023 04:27:37 -0700 (PDT)
+        with ESMTP id S1354838AbjIEOy5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 10:54:57 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2041.outbound.protection.outlook.com [40.107.94.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7F7113;
+        Tue,  5 Sep 2023 07:54:52 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XZYC+G8W/wHswo126k6QMY0UEGLIBuDaeYlBzNZVPGbOnSgKIHl/y4qdNejr94GX844DZh5w7BbPx/jnimM+V4daiFq7CeHshoXAFiY+ynfuo1ITYxqGIloBLM2LvNuFmZyNbb1PC7nJg0FP/lTYZG23UTsXN2pbgqjmDuXwQ0zSE47RVIkyOpvWELr+aElEJnq6yD4rgEgESoGMJz1utKd02QN52gSVwXnqg5/FszgnhAlxSjdy/FsGtmsluWSxyshSODz9iJq3fC2fMNF0AwdyIs57ePh9J3yig8XIdGCulHWkT+fIyVYT+Fh+PembpLkPVSM/2xPcjNKwQ2f11A==
+ b=VVSnAXWFHBDNtK+rxMeJDC7013LWLldAROteX8Ze9chxSr4DIdHZJGLpZ53Yul6OAk4IwhSslCC+ec+1nAxfMSpVqK9I8T02ZW/ci4Gz95YYhB950fmPNvyIHlxNFKkJc+ix4HQ6n8PImK9+q3mMqGchYBR+VloLT/yWpgg4PHUiIKusWQUOnTZmH6lfMbzsbU9/3X0aaS7m84lxK23JdPhnovOANFupIkBv0KkIZOFm0YM4i9ValKjAyp8/1qiJjqFPOlP4AyJz2PO6iQnA3IrQYabj8disa16a5ononVBnC8JmqfQFYGy7pHIzl2m9QUv+IFSFTRPgN3395QF/Gw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZV1jfBQJTdlaTb9AJaEU7wTiQTdWHPksKJfAk5caves=;
- b=bGFNWC+c6odKZZSNIFJ2jHlpWMjCqJsJIMwaRo/RoJn33IntIbAiEs47Bp+qt0j2GPTNW/omM4rQfwqehi4YJDY0Hh8mP2xhvLRMBHcDBS4eTIaffXSRLyKPzoEXHFZ1tDgKHNg3I0+/bjfdzI/KZOm+gfICAzJEwLtTfAQhRHMFV5G8Myp5EiZX0Owlrri44sJd+9SymgUSP1mnfHWZJKkYvtriZMmMHanOLsqhLkHKnv2kO4qGzmQAaqnqkQhZIskMXfybjArbWBfiw4lJqLNbKMN15JGHa4MQcjOAWKP4UOSqELXtipCDkm+IiPR/AO5MI01n4JK7fbaPeI+7Lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
+ bh=vc2/Ryvggu9lzX0DGkqDlM6IZKwbqOq7wT9izvp74ts=;
+ b=AZKqfcRuH1ofkEmEFayU7j4UM4cbb9mjyFaMWKhOcrIk8pHFRtWxUAZuUFt4/xty0ki7PTpVHb6AoqYKbJt/sc1Tcemc+lqL4s/J6B/ZQhiulIzQ6o6M3zvTMrnsDqTpXq/bc7qtiyuGCJaKBeE5J8+g6XKToqF5wbIVojje/ZiqbOKIvL5eoPvNti1Oe+eCVWqeVROCMOzY2Oa3PysAqpQ3m/3OWDex8Fnov5w86Y6naw1Mlv5nL3Y2DZeUja4Lxs7uVmjmWUApWaLz52/xnUpTwtYRUMzOuu20twlivaRS5sZS7iPksFXYnZqGumrj7vSKjI97/Snxx4xckNWuCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZV1jfBQJTdlaTb9AJaEU7wTiQTdWHPksKJfAk5caves=;
- b=twi0k74w5T/tXFwjS4mJyq8Tqr5gDtAgINpMpdiFPtCPR2UyMvIDrW72lz028A8iqnNCGCQi+GQb1Dpl6MVB3U8DGAqJJUAaIYPe2YlxY9tB6lPynLmQqu98yj4amSUTGwsfHtifFcnf+19nuriFEmBzL52okJ4px6g5nXcLaaGtV7NbRFjYDpknKdZnyGyTJKRIfLdCAe5ksVO0wfK3Ve8bBUdkCoN4UDNulwPQdhamQ9MVuQJdivN5aJYli0DX78Tim4kGJpbnwbLk+Ot7T2L+B/pFp+9Pz4ycf3vfLhLb9ji/uDTvBWpWQftPqikcGKWQ4iGembsUtfsOxqqXkg==
-Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
- by SY6P282MB3213.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:164::8) with
+ bh=vc2/Ryvggu9lzX0DGkqDlM6IZKwbqOq7wT9izvp74ts=;
+ b=bdQXyzXSWFoSsxFVGvflH5eGI9apTMwWSrz9bAHxeQW6ofVGbjzV6HU/cq8CzimBXS5EJOuFxfEpBVLN0cWAQZJ8DWhAIui80b3JgAvOsi42KMkQWwdFO3sLyjyHbZsbxf7Z4X+jdJTnnQNNsFnkOqt6tnmwmvwqMBwadH+BMSo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
+ by MW4PR12MB5626.namprd12.prod.outlook.com (2603:10b6:303:169::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 11:27:31 +0000
-Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
- ([fe80::beb:8e33:17b1:a347]) by MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
- ([fe80::beb:8e33:17b1:a347%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
- 11:27:31 +0000
-From:   Jinjian Song <songjinjian@hotmail.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
-        ryazanov.s.a@gmail.com
-Cc:     jiri@resnulli.us, johannes@sipsolutions.net,
-        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
-        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-        m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nmarupaka@google.com,
-        vsankar@lenovo.com, danielwinkler@google.com,
-        Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net-next v3 3/5] net: wwan: t7xx: Creates region & snapshot for coredump log collection
-Date:   Tue,  5 Sep 2023 19:26:35 +0800
-Message-ID: <MEYP282MB2697959ECDE02DD1A88F3DFABBE8A@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230905112637.18877-1-songjinjian@hotmail.com>
-References: <20230905112637.18877-1-songjinjian@hotmail.com>
+ 2023 14:54:49 +0000
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d267:7b8b:844f:8bcd]) by DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d267:7b8b:844f:8bcd%7]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 14:54:49 +0000
+Message-ID: <f792b2e1-381a-d37d-d862-427838de1e4f@amd.com>
+Date:   Tue, 5 Sep 2023 09:54:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 08/13] perf/x86/amd: Add framework to save/restore host
+ IBS state
+Content-Language: en-US
+To:     Manali Shukla <manali.shukla@amd.com>, kvm@vger.kernel.org,
+        seanjc@google.com
+Cc:     linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        x86@kernel.org, pbonzini@redhat.com, peterz@infradead.org,
+        bp@alien8.de, santosh.shukla@amd.com, ravi.bangoria@amd.com,
+        nikunj@amd.com
+References: <20230904095347.14994-1-manali.shukla@amd.com>
+ <20230904095347.14994-9-manali.shukla@amd.com>
+From:   Tom Lendacky <thomas.lendacky@amd.com>
+In-Reply-To: <20230904095347.14994-9-manali.shukla@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN:  [CIjnzUYyH3SvvVoPRhKwBfRG1TY4ptps]
-X-ClientProxiedBy: SGAP274CA0006.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::18)
- To MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
-X-Microsoft-Original-Message-ID: <20230905112637.18877-4-songjinjian@hotmail.com>
+X-ClientProxiedBy: SA1P222CA0182.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c4::20) To DM4PR12MB5229.namprd12.prod.outlook.com
+ (2603:10b6:5:398::12)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MEYP282MB2697:EE_|SY6P282MB3213:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbd59c7d-0956-4fd3-ff74-08dbae0317a6
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5229:EE_|MW4PR12MB5626:EE_
+X-MS-Office365-Filtering-Correlation-Id: 440aa950-ccce-4aec-01b2-08dbae200d9d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jCa9EpKyhFagXW97zP5Xnu7a8d8wQXEuPibYXNVXmGlQcjOCezmkjHXt7vheZPMhyQ19zIrpm35gvgEVdXgjPgCtcgXMd1yn0g762d81bYvyyqTnIJiXjhZUlzUs0FleVY14F3sb+nWy5UsfTenr/2UiZ67OtXp1sid5ETttnpQNO9kEGvlu+eX8ieeyKV3RqGdB82MSMCdn566oIhcZ/NKvB7jLuMcvLwzIeVeQby9r0KRypznxQgrghAPiI1M1sjwcJom4qiWp7oU5URlLFoXaFQoNRvFubKeXxcKIWbGKbc2UKhUdpHAwCDXvknVfNOQP50134vJzrODwLDsYjqwuPjtuBlkC7ftLwvy6M79TNM47eod7eUWmdBBftecGsyWZHU0qUk2SQJUiv5uXpJNI9modhiQdrgDRKwp1oCkhSELsQCO90a7/vfgCsM+LK3MeC1Yu2lIqCVk70JHCNSYjjiW7g8MbljyxKRK5BWWeiUXAM9EPXd2nD9QJFf7CS0l3iQlleOY0QVpIkDps5NKiCoLKoCDvAagu3wr6Z10uvZAX9MvZLcYZyLSLIgVd
+X-Microsoft-Antispam-Message-Info: fF9L5ZhWWJuDMsVV7ZgP3TBMeLmty7pamy7hu4qWIYDPXSxRvkdwQsafZmBTXwK+sRHypRWOtcfz1mkwbIvHMtZpsZQd7+m2IS4FwmqetUc97vLddJXrHgWnI19lrtOnf8vocLwcCo96PUcsmMPi8zzdiySPb8fYnjLHo6qzHploRHXBNuK2f5+x8jqxMIaObbZVKia1jRId6KeKwg8E2VIuVV9rGyw5hDdlZecKi6ugoAoAlx4DPNHLzRc9Op5B7RQRNTZKJ8iSKUGVWIg1FSzQEHkrzyWVhu13w4CMrVUq/BQty3ZwRUilt1QrkT1of50UXJ+0PeTf36hEnedfgaMnuwhlQjxmHx8YnwAvc8T6KHVKkQHFudQXAmNcMnB3YQVz8PfHT49Q72Bn8NDTn0S8Ra4POuxZpoMxTZc3mB3uLxDVHBVHj3l3Nq4/Rx6bJl2av8z0d9deNj567bBgSaTkb93x/9r3SdAqYEXH72MCeTB8Dgk/arQ0gfAzOd3Mc3r5VTCaHXcK1Fb/Uj18BkQJl14YqYzdzbWcpLdl0DnC8In2Y9399IJ7YyC5rgww5tVZHp4YSdq6uyICm4UvP+qSHzDXzIAyjFQ+R9q8Ekv/gixzNXZ7Ki3MJXEd62uRgQe/H5mHS4FoeLmComwkBw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5229.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(376002)(396003)(346002)(136003)(451199024)(1800799009)(186009)(5660300002)(316002)(2906002)(66476007)(66556008)(36756003)(66946007)(8676002)(4326008)(8936002)(31686004)(41300700001)(53546011)(6486002)(6506007)(26005)(6512007)(38100700002)(478600001)(966005)(2616005)(83380400001)(31696002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3tBbmanMy+E9vqNKe7YMh1SmLA8uAQ8MVedv4FmbnBAlqY3kPGcOB9+vSyeI?=
- =?us-ascii?Q?7K5EIHi0pHILhcNW1LjdCm6nizKVDgEZ5cLoCzoyonf6g/JoKr1KOiqlqYF8?=
- =?us-ascii?Q?TgFTgtf/5UwUmlN6DGfXMv8xVa3OedgM9aN5rvtf3mqNPE0GvMypYNjO30xo?=
- =?us-ascii?Q?GuK47JBVeD0QTGpgTDbarJiE+5QK4KWoQ8vGdH1h5rA8tQKEsifNfo9kcAzK?=
- =?us-ascii?Q?oDa4WbzUeXPp1ZnlXqi8vWTHYyu8ez4UDUOM17+YQ9+hqNMw1jriZkcw+mgn?=
- =?us-ascii?Q?yW/6dywT2MVDwedtX0jcVnSvdMG+z24KggPwLk6lYgztYRwl35vdYMIiLDCJ?=
- =?us-ascii?Q?HPs/uAb2y4S8/LrpVR9pQ7jsB+fxtsM3rKccPcNNqt1ZsuwHDopFT3xYIDAT?=
- =?us-ascii?Q?F4BpGXve7HN8WsN8VnUsCQtTgBVbTjdFa5bPmdsXG6PxjFwxe0o7i9jaTdhx?=
- =?us-ascii?Q?bg047+5TDYzntTbLPzgTov31k84Kx0XiriUUYP25/qiTOJeNAGapGEFfPE1m?=
- =?us-ascii?Q?jpb3GTIH9IKh4lA9Ce9NOrJzT2Tipj4G0PAYnbLiKweJy0Sn5ZG1Qr3FTVEA?=
- =?us-ascii?Q?KDr55NUU/VRQUAhVFH8aMX833Fa9bRuW8zaZptxWZBv+bvVI93aRtEV7R0uX?=
- =?us-ascii?Q?aBEgjqCWGS/1zPKllziMct2254CbdrC7xAyeGg1cuE5LuDEuhkLDSyhNoN1t?=
- =?us-ascii?Q?R41OjLAA2oYstrdQxVT8OwF19CgZdrhuOEMpoHDsJCWNx/HLorwtRNuR5zLy?=
- =?us-ascii?Q?+oBNp2E1smVlrBtCLjtjWFAMUQg/kudp98pzM/h1w4jHdZqwfU4L9bggvx55?=
- =?us-ascii?Q?+pcSUYurlxvZ50dWXGtkXJeoAA5K782ssYPqKHzACPWS/RzmDodx59yFnIzG?=
- =?us-ascii?Q?NKOzTZ+uTLxXskshlO3vs0pHNwIJ2kGS+MRAqmO4p4f3gn7UFSsD1LfcLTMJ?=
- =?us-ascii?Q?a4vCmPUTP+h/SxJ/bUJXOrnMMZBryuRaq/srdKz1C8ZsQ46nET3hf6iFL19g?=
- =?us-ascii?Q?do0Z6wjVuJAjI21kUfvtE6pan7VvsjRuYfOIrPZLMKb/mD/VYE2/QjMfnX0H?=
- =?us-ascii?Q?v5Pfzj9dxni1L9SgWtGuNXCAlhfVXela/Voqh30X/WuUPKHnyrmf47zL64Ug?=
- =?us-ascii?Q?8LnqYYhbbxmzDzqzurEHgqzIN9BJGquwk3Oyt4L5paqm5dTLu9/AY1H4lMrQ?=
- =?us-ascii?Q?xl3ryUpHqt/3uPtoVgnMh77wYpPfHPo7Zeh7PbwDyqxb/+1DS9r14d1Y/sk?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbd59c7d-0956-4fd3-ff74-08dbae0317a6
-X-MS-Exchange-CrossTenant-AuthSource: MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZDM0dUp6RlNSc1NiZllwVGNnUG9tMVBUbWFHZ2MzVXRhWVBacStTN0kybnQy?=
+ =?utf-8?B?WWltemVMRHo0aFR0eHVRVkZLMUlLMnNZbHhDKzEyZ2xZTjI3Q3ZGY1BPK3BY?=
+ =?utf-8?B?RXgvb25TU2JUWjFjSVJvQXlBRmI2ZS9XNWF2MzhvdTk4VjVFUTVhZTRJK2Qx?=
+ =?utf-8?B?cGxGTkFIZmZqbkdoTXA4dEtOZHBzV0RNZVJVenl6WUpQRE52NHJSdFVWN2Vq?=
+ =?utf-8?B?anY5YlZQaDlDUXViTHplT0JuV1haTTk0dVJoOTJqTE9sMnBXeGdrcURLREdI?=
+ =?utf-8?B?bk41RTQ5dVphenVtWjJTQTRPTk5jbGpDWVR1YUZveFliYWE5K25BMzc1TTBF?=
+ =?utf-8?B?OEw5b2VYMGw2UmpiN2Q4MXM4WDBXZWVxKzFtRGpYdEphUGtPbHJjMDVmNmJx?=
+ =?utf-8?B?b05lZ21XeUEyNWJCVmRaRTFFMVVkeEYrbHNycUlEL0xkemZHUmJDUmF2alBZ?=
+ =?utf-8?B?cEo5RUUweGowMVl0bk9pVitFWjFXMmVGbDhRVElyaGRGMkZobXFhc3hJTVpM?=
+ =?utf-8?B?cUliY1RLS0ZKSjA5bG5uSmFJc1FETHlpdVhlTlhPMG15dkV3Y2xNdDBtRDZo?=
+ =?utf-8?B?TnZrdHdFMU83QUpoSWZaSFJlM3IvcnZnSUgzZ2pCRnRPeGlBcVdDRG1Xc0Fq?=
+ =?utf-8?B?S1hqaVhyRE81UzZqd04xc0NscXVtcHplaER1UzJpKzVIMkFmVitneldVYzlv?=
+ =?utf-8?B?YkJyK3dySC9uR3hhUkNaNWoyUGU0Y2ZRMzhLdUpGUVNyaVdaV3YwQmxPK01P?=
+ =?utf-8?B?RG5nNVF5TERscWhHVlR5S0hTcjIva0hBQm9KaEpqRHZLemRVd3VHQnU0WFdP?=
+ =?utf-8?B?endROS9tbzhxVFhhZUJkS2dKbHpPa1RNTmxTSUx3Rkt5ZTV1SlpOdlNiTk95?=
+ =?utf-8?B?czF3YWdsL2pSVDZUbjM2bU9hTUp1N1RubHlKVFZOcFd6bEtrWnVVbGZodVBL?=
+ =?utf-8?B?N2w3RDdSRk54MXV2MElUcm5ubTBjZWpQSDNMSmhRK3RiNjluVnFvWmVTQzNL?=
+ =?utf-8?B?MFhDUE1CdnRGZVhERkNHSTNuL1Ava1cvZVQ1andlN1d3d0s2Q1p2emUrRXp2?=
+ =?utf-8?B?N1lpcloxSWprTkZPOUswMGJXY3d0aUE5bHVvZGtDbzMrb20vMG8rekVPZ3ZQ?=
+ =?utf-8?B?dXlBNitHellsTHNLczR3OEZPTDBGV1QwdGdNcFBDWk5VRU94ZnBicHZZdFpQ?=
+ =?utf-8?B?am1WL2JvSi91cUtuQURYVXJUTVlQSTkvYWdkK2FSVEIxcFA5UmR5alE5QVVw?=
+ =?utf-8?B?cjV0TVFFQlBpb3pYTXJ3d1V4TUd1aThnRE5qbHZtdlpzUlVieUJQTEVJQ2k5?=
+ =?utf-8?B?V2pvK1N1R1QzNDIxOFpEVlVSa0lNYUNtY3oxYldoay92MTNLN2owazFxemNK?=
+ =?utf-8?B?NU54L1BucXoyaXdFOE1UdHhvVWFSdWtnUGE3N0E0MnQ3T3N5RkEzWGhPR1RN?=
+ =?utf-8?B?K3pHQ0FlcEY3eGh1bkhiVWJkZ3RDUUIxZFlYc0pmdytjQzNpSC9KWDlYR3d3?=
+ =?utf-8?B?bU01ZVE5MHVxMEFPdmRTelJuZ0hJWm85Sks1aThzRDdqN1U2UE1RZE1OVHEx?=
+ =?utf-8?B?aC9yZmp4dGczdmJ2bTZiQzFiOUpuenY0NHZaSUZWb2xtdTZCNHlrNFRKaFY5?=
+ =?utf-8?B?TVJtWjBWcmRJUHoyMWRQSUVxeUFMQkZ2K2VFc2hxUkM1SEsxZGQrTS9RQkxV?=
+ =?utf-8?B?dE9EMnNHMVVVbngwUUk1NDBETDJxTlBPQjFwT2oyZGR0WGdEL01zUDhlTnJ5?=
+ =?utf-8?B?Yi9HVjlTWDFMNE9pc1krei90b0hsNzNvMDBmdzBVY1JPZ3gzZHlJaEd5YVBp?=
+ =?utf-8?B?UldpdVNiV0tLODlRNjREMFV6b2hPK1BNU3pEQ1hDVlJ5WEYzUTQ2RjBOdHRj?=
+ =?utf-8?B?Q3ZubzhHMVVUV09xYmtzTjFtb3U1Sk9PWjd2RzA1OENxYisrckNsWmpMVTFz?=
+ =?utf-8?B?YndkVk8vQnFEVTBxTzgvUzkwQTNDVWhTSDVFL0ZzeVlRdUpIa0RWWWkzV0J3?=
+ =?utf-8?B?aFBhQzdHZk5ubFpuc3hOQS9Hbm5BM3hUMHZ6U3R5ZUdibEV4ZEtFQzdBUGdH?=
+ =?utf-8?B?Y1krMWpxK1FibklyaktiN1BGOVBOWXF0UFZpdmIvTDdndG8rbzc0c3hTV2tZ?=
+ =?utf-8?Q?yaC/85nAYcgtVxx7MOgOta76H?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 440aa950-ccce-4aec-01b2-08dbae200d9d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 11:27:31.2399
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 14:54:49.5701
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY6P282MB3213
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dG7AJWNidnh0Ycsob8aGELPf31MKTnPYaTjJRd82oi2iAmMVb4oiPAlFdglV7FxbqYl5vhSS7YRW78jyjJ+wKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5626
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jinjian Song <jinjian.song@fibocom.com>
+On 9/4/23 04:53, Manali Shukla wrote:
+> Since IBS registers falls under swap type C [1], only the guest state
 
-Adds support for t7xx wwan device coredump collection using devlink.
+s/falls/fall/
 
-In case of coredump collection when wwan device encounters an exception
-it reboots & stays in fastboot mode for coredump collection by host driver.
-On detecting exception state driver collects the core dump, creates the
-devlink region & reports an event to user space application for dump
-collection. The user space application invokes devlink region read command
-for dump collection.
+> is saved and restored automatically by the hardware. Host state needs
+> to be saved and restored manually by the hypervisor. Note that, saving
+> and restoring of host IBS state happens only when IBS is active on
+> host to avoid unnecessary rdmsrs/wrmsrs.
+> 
+> Also, hypervisor needs to disable host IBS before VMRUN and re-enable
+> it after VMEXIT [2]. However, disabling and enabling of IBS leads to
+> subtle races between software and hardware since IBS_*_CTL registers
+> contain both control and result bits in the same MSR.
+> 
+> Consider the following scenario, hypervisor reads IBS control MSR and
+> finds enable=1 (control bit) and valid=0 (result bit). While kernel is
+> clearing enable bit in its local copy, IBS hardware sets valid bit to
+> 1 in the MSR. Software, who is unaware of the change done by IBS
+> hardware, overwrites IBS MSR with enable=0 and valid=0. Note that,
+> this situation occurs while NMIs are disabled. So CPU will receive IBS
+> NMI only after STGI. However, the IBS driver won't handle NMI because
+> of the valid bit being 0. Since the real source of NMI was IBS, nobody
+> else will also handle it which will result in the unknown NMIs.
+> 
+> Handle the above mentioned race by keeping track of different actions
+> performed by KVM on IBS:
+> 
+>    WINDOW_START: After CLGI and before VMRUN. KVM informs IBS driver
+>                  about its intention to enable IBS for the guest. Thus
+> 		IBS should be disabled on host and IBS host register
+> 		state should be saved.
+>    WINDOW_STOPPING: After VMEXIT and before STGI. KVM informs IBS driver
+>                  that it's done using IBS inside the guest and thus host
+> 		IBS state should be restored followed by re-enabling
+> 		IBS for host.
+>    WINDOW_STOPPED: After STGI. CPU will receive any pending NMI if it
+>                  was raised between CLGI and STGI. NMI will be marked
+> 		as handled by IBS driver if WINDOW_STOPPED action is
+>                  _not performed, valid bit is _not_ set and a valid
+>                  IBS event exists. However, IBS sample won't be generated.
+> 
+> [1]: https://bugzilla.kernel.org/attachment.cgi?id=304653
+>       AMD64 Architecture Programmer’s Manual, Vol 2, Appendix B Layout
+>       of VMCB, Table B-3 Swap Types.
+> 
+> [2]: https://bugzilla.kernel.org/attachment.cgi?id=304653
+>       AMD64 Architecture Programmer’s Manual, Vol 2, Section 15.38
+>       Instruction-Based Sampling Virtualization.
+> 
+> Signed-off-by: Manali Shukla <manali.shukla@amd.com>
+> ---
+>   arch/x86/events/amd/Makefile      |   2 +-
+>   arch/x86/events/amd/ibs.c         |  23 +++++++
+>   arch/x86/events/amd/vibs.c        | 101 ++++++++++++++++++++++++++++++
+>   arch/x86/include/asm/perf_event.h |  27 ++++++++
+>   4 files changed, 152 insertions(+), 1 deletion(-)
+>   create mode 100644 arch/x86/events/amd/vibs.c
+> 
+> diff --git a/arch/x86/events/amd/Makefile b/arch/x86/events/amd/Makefile
+> index 527d947eb76b..13c2980db9a7 100644
+> --- a/arch/x86/events/amd/Makefile
+> +++ b/arch/x86/events/amd/Makefile
+> @@ -2,7 +2,7 @@
+>   obj-$(CONFIG_CPU_SUP_AMD)		+= core.o lbr.o
+>   obj-$(CONFIG_PERF_EVENTS_AMD_BRS)	+= brs.o
+>   obj-$(CONFIG_PERF_EVENTS_AMD_POWER)	+= power.o
+> -obj-$(CONFIG_X86_LOCAL_APIC)		+= ibs.o
+> +obj-$(CONFIG_X86_LOCAL_APIC)		+= ibs.o vibs.o
+>   obj-$(CONFIG_PERF_EVENTS_AMD_UNCORE)	+= amd-uncore.o
+>   amd-uncore-objs				:= uncore.o
+>   ifdef CONFIG_AMD_IOMMU
+> diff --git a/arch/x86/events/amd/ibs.c b/arch/x86/events/amd/ibs.c
+> index 6911c5399d02..359464f2910d 100644
+> --- a/arch/x86/events/amd/ibs.c
+> +++ b/arch/x86/events/amd/ibs.c
+> @@ -1039,6 +1039,16 @@ static int perf_ibs_handle_irq(struct perf_ibs *perf_ibs, struct pt_regs *iregs)
+>   		 */
+>   		if (test_and_clear_bit(IBS_STOPPED, pcpu->state))
+>   			return 1;
+> +		/*
+> +		 * Catch NMIs generated in an active IBS window: Incoming NMIs
+> +		 * from an active IBS window might have the VALID bit cleared
+> +		 * when it is supposed to be set due to a race. The reason for
+> +		 * the race is ENABLE and VALID bits for MSR_AMD64_IBSFETCHCTL
+> +		 * and MSR_AMD64_IBSOPCTL being in their same respective MSRs.
+> +		 * Ignore all such NMIs and treat them as handled.
+> +		 */
+> +		if (amd_vibs_ignore_nmi())
+> +			return 1;
+>   
+>   		return 0;
+>   	}
+> @@ -1542,3 +1552,16 @@ static __init int amd_ibs_init(void)
+>   
+>   /* Since we need the pci subsystem to init ibs we can't do this earlier: */
+>   device_initcall(amd_ibs_init);
+> +
+> +static inline bool get_ibs_state(struct perf_ibs *perf_ibs)
+> +{
+> +	struct cpu_perf_ibs *pcpu = this_cpu_ptr(perf_ibs->pcpu);
+> +
+> +	return test_bit(IBS_STARTED, pcpu->state);
+> +}
+> +
+> +bool is_amd_ibs_started(void)
+> +{
+> +	return get_ibs_state(&perf_ibs_fetch) || get_ibs_state(&perf_ibs_op);
+> +}
+> +EXPORT_SYMBOL_GPL(is_amd_ibs_started);
 
-Below are the devlink commands used for coredump collection.
+If this is only used by the IBS support, it shouldn't have an 
+EXPORT_SYMBOL_GPL.
 
-devlink region new pci/$BDF/mr_dump
-devlink region read pci/$BDF/mr_dump snapshot $ID address $ADD length $LEN
-devlink region del pci/$BDF/mr_dump snapshot $ID
+> diff --git a/arch/x86/events/amd/vibs.c b/arch/x86/events/amd/vibs.c
+> new file mode 100644
+> index 000000000000..273a60f1cb7f
+> --- /dev/null
+> +++ b/arch/x86/events/amd/vibs.c
+> @@ -0,0 +1,101 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + *  Virtualized Performance events - AMD VIBS
+> + *
+> + *  Copyright (C) 2023 Advanced Micro Devices, Inc., Manali Shukla
+> + *
+> + *  For licencing details see kernel-base/COPYING
+> + */
+> +
+> +#include <linux/perf_event.h>
+> +
+> +DEFINE_PER_CPU(bool, vibs_window_active);
+> +
+> +static bool amd_disable_ibs_fetch(u64 *ibs_fetch_ctl)
+> +{
+> +	*ibs_fetch_ctl = __rdmsr(MSR_AMD64_IBSFETCHCTL);
+> +	if (!(*ibs_fetch_ctl & IBS_FETCH_ENABLE))
+> +		return false;
+> +
+> +	native_wrmsrl(MSR_AMD64_IBSFETCHCTL, *ibs_fetch_ctl & ~IBS_FETCH_ENABLE);
+> +
+> +	return true;
+> +}
+> +
+> +static u64 amd_disable_ibs_op(u64 *ibs_op_ctl)
+> +{
+> +	*ibs_op_ctl = __rdmsr(MSR_AMD64_IBSOPCTL);
+> +	if (!(*ibs_op_ctl & IBS_OP_ENABLE))
+> +		return false;
+> +
+> +	native_wrmsrl(MSR_AMD64_IBSOPCTL, *ibs_op_ctl & ~IBS_OP_ENABLE);
+> +
+> +	return true;
+> +}
+> +
+> +static void amd_restore_ibs_fetch(u64 ibs_fetch_ctl)
+> +{
+> +	native_wrmsrl(MSR_AMD64_IBSFETCHCTL, ibs_fetch_ctl);
+> +}
+> +
+> +static void amd_restore_ibs_op(u64 ibs_op_ctl)
+> +{
+> +	native_wrmsrl(MSR_AMD64_IBSOPCTL, ibs_op_ctl);
+> +}
+> +
+> +bool amd_vibs_ignore_nmi(void)
+> +{
+> +	return __this_cpu_read(vibs_window_active);
+> +}
+> +EXPORT_SYMBOL_GPL(amd_vibs_ignore_nmi);
 
-Base on the v5 patch version of follown series:
-'net: wwan: t7xx: fw flashing & coredump support'
-(https://patchwork.kernel.org/project/netdevbpf/patch/fc8bbb0b66a5ff3a489ea9857d79b374508090ef.1674307425.git.m.chetan.kumar@linux.intel.com/)
+If this is only used by the IBS support, it shouldn't have an 
+EXPORT_SYMBOL_GPL.
 
-Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
----
-v3:
- * no change
-v2:
- * rename function name from devlink to flash_dump
----
- drivers/net/wwan/t7xx/t7xx_port_flash_dump.c | 256 ++++++++++++++++++-
- drivers/net/wwan/t7xx/t7xx_port_flash_dump.h |  39 +++
- drivers/net/wwan/t7xx/t7xx_state_monitor.c   |   2 +
- 3 files changed, 296 insertions(+), 1 deletion(-)
+> +
+> +bool amd_vibs_window(enum amd_vibs_window_state state, u64 *f_ctl,
+> +		     u64 *o_ctl)
+> +{
+> +	bool f_active, o_active;
+> +
+> +	switch (state) {
+> +	case WINDOW_START:
+> +		if (!f_ctl || !o_ctl)
+> +			return false;
+> +
+> +		if (!is_amd_ibs_started())
+> +			return false;
+> +
+> +		f_active = amd_disable_ibs_fetch(f_ctl);
+> +		o_active = amd_disable_ibs_op(o_ctl);
+> +		__this_cpu_write(vibs_window_active, (f_active || o_active));
+> +		break;
+> +
+> +	case WINDOW_STOPPING:
+> +		if (!f_ctl || !o_ctl)
+> +			return false;
+> +
+> +		if (__this_cpu_read(vibs_window_active))
 
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c
-index 1129ef793798..b8ef3b7d7430 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c
-+++ b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c
-@@ -9,6 +9,11 @@
- #include "t7xx_port_ap_msg.h"
- #include "t7xx_port_flash_dump.h"
- 
-+static struct t7xx_dump_region_info t7xx_dump_region_infos[] = {
-+	[T7XX_MRDUMP_INDEX] = {"mr_dump", T7XX_MRDUMP_SIZE},
-+	[T7XX_LKDUMP_INDEX] = {"lk_dump", T7XX_LKDUMP_SIZE},
-+};
-+
- static int t7xx_flash_dump_port_read(struct t7xx_port *port, char *buf, size_t count)
- {
- 	struct sk_buff *skb;
-@@ -130,6 +135,151 @@ static int t7xx_flash_dump_fb_raw_command(char *cmd, struct t7xx_port *port, cha
- 	return ret;
- }
- 
-+static int t7xx_flash_dump_fb_cmd_send(struct t7xx_port *port, char *cmd)
-+{
-+	int len = strlen(cmd);
-+	int ret;
-+
-+	ret = t7xx_flash_dump_port_write(port, cmd, len);
-+	if (ret == len)
-+		return 0;
-+
-+	return ret;
-+}
-+
-+static int t7xx_flash_dump_fb_get_core(struct t7xx_port *port)
-+{
-+	u32 mrd_mb = T7XX_MRDUMP_SIZE / (1024 * 1024);
-+	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
-+	char mcmd[T7XX_FB_MCMD_SIZE + 1];
-+	size_t offset_dlen = 0;
-+	int clen, dlen, ret;
-+
-+	flash_dump->regions[T7XX_MRDUMP_INDEX].buf =
-+		vmalloc(flash_dump->regions[T7XX_MRDUMP_INDEX].info->size);
-+	if (!flash_dump->regions[T7XX_MRDUMP_INDEX].buf)
-+		return -ENOMEM;
-+
-+	set_bit(T7XX_MRDUMP_STATUS, &flash_dump->status);
-+	ret = t7xx_flash_dump_fb_raw_command(T7XX_FB_CMD_OEM_MRDUMP, port, NULL);
-+	if (ret) {
-+		dev_err(port->dev, "%s command failed\n", T7XX_FB_CMD_OEM_MRDUMP);
-+		goto free_mem;
-+	}
-+
-+	while (flash_dump->regions[T7XX_MRDUMP_INDEX].info->size > offset_dlen) {
-+		clen = t7xx_flash_dump_port_read(port, mcmd, sizeof(mcmd) - 1);
-+		if (clen <= 0)
-+			goto free_mem;
-+
-+		mcmd[clen] = '\0';
-+		if (!strcmp(mcmd, T7XX_FB_CMD_RTS)) {
-+			memset(mcmd, 0, sizeof(mcmd));
-+			ret = t7xx_flash_dump_fb_cmd_send(port, T7XX_FB_CMD_CTS);
-+			if (ret < 0) {
-+				dev_err(port->dev, "write for _CTS failed:%zu\n",
-+					strlen(T7XX_FB_CMD_CTS));
-+				goto free_mem;
-+			}
-+
-+			dlen = t7xx_flash_dump_port_read(port,
-+							 flash_dump->regions[T7XX_MRDUMP_INDEX].buf
-+							 + offset_dlen, T7XX_FB_MDATA_SIZE);
-+			if (dlen <= 0) {
-+				dev_err(port->dev, "read data error(%d)\n", dlen);
-+				ret = dlen;
-+				goto free_mem;
-+			}
-+			offset_dlen += dlen;
-+
-+			ret = t7xx_flash_dump_fb_cmd_send(port, T7XX_FB_CMD_FIN);
-+			if (ret < 0) {
-+				dev_err(port->dev, "_FIN failed, (Read %05zu:%05zu)\n",
-+					strlen(T7XX_FB_CMD_FIN), offset_dlen);
-+				goto free_mem;
-+			}
-+			continue;
-+		} else if (!strcmp(mcmd, T7XX_FB_RESP_MRDUMP_DONE)) {
-+			dev_dbg(port->dev, "%s! size:%zd\n", T7XX_FB_RESP_MRDUMP_DONE, offset_dlen);
-+			clear_bit(T7XX_MRDUMP_STATUS, &flash_dump->status);
-+			return 0;
-+		}
-+		dev_err(port->dev, "getcore protocol error (read len %05d, response %s)\n",
-+			clen, mcmd);
-+		ret = -EPROTO;
-+		goto free_mem;
-+	}
-+
-+	dev_err(port->dev, "mrdump exceeds %uMB size. Discarded!\n", mrd_mb);
-+
-+free_mem:
-+	vfree(flash_dump->regions[T7XX_MRDUMP_INDEX].buf);
-+	clear_bit(T7XX_MRDUMP_STATUS, &flash_dump->status);
-+	return ret;
-+}
-+
-+static int t7xx_flash_dump_fb_dump_log(struct t7xx_port *port)
-+{
-+	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
-+	struct t7xx_dump_region *lkdump_region;
-+	char rsp[T7XX_FB_RESPONSE_SIZE];
-+	int datasize = 0, ret;
-+	size_t offset = 0;
-+
-+	if (flash_dump->status != T7XX_DEVLINK_IDLE) {
-+		dev_err(&flash_dump->t7xx_dev->pdev->dev, "Modem is busy!\n");
-+		return -EBUSY;
-+	}
-+
-+	set_bit(T7XX_LKDUMP_STATUS, &flash_dump->status);
-+	ret = t7xx_flash_dump_fb_raw_command(T7XX_FB_CMD_OEM_LKDUMP, port, rsp);
-+	if (ret) {
-+		dev_err(port->dev, "%s command returns failure\n", T7XX_FB_CMD_OEM_LKDUMP);
-+		goto err_clear_bit;
-+	}
-+
-+	ret = kstrtoint(rsp, 16, &datasize);
-+	if (ret) {
-+		dev_err(port->dev, "bad value\n");
-+		goto err_clear_bit;
-+	}
-+
-+	lkdump_region = &flash_dump->regions[T7XX_LKDUMP_INDEX];
-+	if (datasize > lkdump_region->info->size) {
-+		dev_err(port->dev, "lkdump size is more than %dKB. Discarded!\n",
-+			T7XX_LKDUMP_SIZE / 1024);
-+		ret = -EFBIG;
-+		goto err_clear_bit;
-+	}
-+
-+	lkdump_region->buf = vmalloc(lkdump_region->info->size);
-+	if (!lkdump_region->buf) {
-+		ret = -ENOMEM;
-+		goto err_clear_bit;
-+	}
-+
-+	while (datasize > 0) {
-+		int dlen = t7xx_flash_dump_port_read(port, lkdump_region->buf + offset, datasize);
-+
-+		if (dlen <= 0) {
-+			dev_err(port->dev, "lkdump read error ret = %d\n", dlen);
-+			ret = dlen;
-+			goto err_clear_bit;
-+		}
-+
-+		datasize -= dlen;
-+		offset += dlen;
-+	}
-+
-+	dev_dbg(port->dev, "LKDUMP DONE! size:%zd\n", offset);
-+	clear_bit(T7XX_LKDUMP_STATUS, &flash_dump->status);
-+	return t7xx_flash_dump_fb_handle_response(port, NULL);
-+
-+err_clear_bit:
-+	clear_bit(T7XX_LKDUMP_STATUS, &flash_dump->status);
-+	return ret;
-+}
-+
- static int t7xx_flash_dump_fb_download_command(struct t7xx_port *port, size_t size)
- {
- 	char download_command[T7XX_FB_COMMAND_SIZE];
-@@ -355,6 +505,67 @@ static const struct devlink_ops devlink_flash_ops = {
- 	.reload_up = t7xx_devlink_reload_up,
- };
- 
-+static int t7xx_flash_dump_region_snapshot(struct devlink *dl, const struct devlink_region_ops *ops,
-+					   struct netlink_ext_ack *extack, u8 **data)
-+{
-+	struct t7xx_flash_dump *flash_dump = devlink_priv(dl);
-+	struct t7xx_dump_region *region = ops->priv;
-+	struct t7xx_port *port = flash_dump->port;
-+	u8 *snapshot_mem;
-+
-+	if (flash_dump->status != T7XX_DEVLINK_IDLE)
-+		return -EBUSY;
-+
-+	if (!strncmp(ops->name, "mr_dump", strlen("mr_dump"))) {
-+		snapshot_mem = vmalloc(region->info->size);
-+		memcpy(snapshot_mem, region->buf, region->info->size);
-+		*data = snapshot_mem;
-+	} else if (!strncmp(ops->name, "lk_dump", strlen("lk_dump"))) {
-+		int ret;
-+
-+		ret = t7xx_flash_dump_fb_dump_log(port);
-+		if (ret)
-+			return ret;
-+
-+		*data = region->buf;
-+	}
-+
-+	return 0;
-+}
-+
-+static_assert(ARRAY_SIZE(t7xx_dump_region_infos) ==
-+	      ARRAY_SIZE(((struct t7xx_flash_dump *)NULL)->regions));
-+
-+/* To create regions for dump files */
-+static int t7xx_flash_dump_create_regions(struct t7xx_flash_dump *flash_dump)
-+{
-+	int ret, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(t7xx_dump_region_infos); i++) {
-+		flash_dump->regions[i].info = &t7xx_dump_region_infos[i];
-+		flash_dump->regions[i].ops.name = flash_dump->regions[i].info->name;
-+		flash_dump->regions[i].ops.snapshot = t7xx_flash_dump_region_snapshot;
-+		flash_dump->regions[i].ops.destructor = vfree;
-+		flash_dump->regions[i].dlreg = devlink_region_create(flash_dump->ctx,
-+								     &flash_dump->regions[i].ops,
-+								     T7XX_MAX_SNAPSHOTS,
-+								     t7xx_dump_region_infos[i].size
-+								     );
-+		if (IS_ERR(flash_dump->regions[i].dlreg)) {
-+			ret = PTR_ERR(flash_dump->regions[i].dlreg);
-+			dev_err(flash_dump->port->dev, "create region failed, err %d\n", ret);
-+			while (i >= 0)
-+				devlink_region_destroy(flash_dump->regions[i--].dlreg);
-+
-+			return ret;
-+		}
-+
-+		flash_dump->regions[i].ops.priv = &flash_dump->regions[i];
-+	}
-+
-+	return 0;
-+}
-+
- int t7xx_devlink_register(struct t7xx_pci_dev *t7xx_dev)
- {
- 	union devlink_param_value value;
-@@ -379,6 +590,14 @@ int t7xx_devlink_register(struct t7xx_pci_dev *t7xx_dev)
- 	return 0;
- }
- 
-+static void t7xx_flash_dump_work(struct work_struct *work)
-+{
-+	struct t7xx_flash_dump *flash_dump;
-+
-+	flash_dump = container_of(work, struct t7xx_flash_dump, ws);
-+	t7xx_flash_dump_fb_get_core(flash_dump->port);
-+}
-+
- void t7xx_devlink_unregister(struct t7xx_pci_dev *t7xx_dev)
- {
- 	struct devlink *dl_ctx = t7xx_dev->flash_dump->ctx;
-@@ -399,29 +618,64 @@ void t7xx_devlink_unregister(struct t7xx_pci_dev *t7xx_dev)
- static int t7xx_port_flash_dump_init(struct t7xx_port *port)
- {
- 	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
-+	struct workqueue_struct *flash_dump_wq;
-+	int rc;
-+
-+	flash_dump_wq = create_workqueue("t7xx_flash_dump");
-+	if (!flash_dump_wq) {
-+		dev_err(port->dev, "create_workqueue failed\n");
-+		return -ENODATA;
-+	}
- 
-+	INIT_WORK(&flash_dump->ws, t7xx_flash_dump_work);
- 	port->rx_length_th = T7XX_MAX_QUEUE_LENGTH;
- 
- 	flash_dump->mode = T7XX_NORMAL_MODE;
- 	flash_dump->status = T7XX_DEVLINK_IDLE;
-+	flash_dump->wq = flash_dump_wq;
- 	flash_dump->port = port;
- 
-+	rc = t7xx_flash_dump_create_regions(flash_dump);
-+	if (rc) {
-+		destroy_workqueue(flash_dump->wq);
-+		dev_err(port->dev, "devlink region creation failed, rc %d\n", rc);
-+		return -ENOMEM;
-+	}
-+
- 	return 0;
- }
- 
- static void t7xx_port_flash_dump_uninit(struct t7xx_port *port)
- {
- 	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
-+	int i;
-+
-+	vfree(flash_dump->regions[T7XX_MRDUMP_INDEX].buf);
- 
- 	flash_dump->mode = T7XX_NORMAL_MODE;
-+	destroy_workqueue(flash_dump->wq);
-+
-+	for (i = 0; i < ARRAY_SIZE(t7xx_dump_region_infos); ++i)
-+		devlink_region_destroy(flash_dump->regions[i].dlreg);
- 
- 	skb_queue_purge(&port->rx_skb_list);
- }
- 
-+static int t7xx_flash_dump_enable_chl(struct t7xx_port *port)
-+{
-+	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
-+
-+	t7xx_port_enable_chl(port);
-+	if (flash_dump->mode == T7XX_FB_DUMP_MODE)
-+		queue_work(flash_dump->wq, &flash_dump->ws);
-+
-+	return 0;
-+}
-+
- struct port_ops flash_dump_port_ops = {
- 	.init = &t7xx_port_flash_dump_init,
- 	.recv_skb = &t7xx_port_enqueue_skb,
- 	.uninit = &t7xx_port_flash_dump_uninit,
--	.enable_chl = &t7xx_port_enable_chl,
-+	.enable_chl = &t7xx_flash_dump_enable_chl,
- 	.disable_chl = &t7xx_port_disable_chl,
- };
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h
-index 7614c01dcb2c..90758baa7854 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h
-+++ b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h
-@@ -12,28 +12,67 @@
- #define T7XX_MAX_QUEUE_LENGTH 32
- #define T7XX_FB_COMMAND_SIZE  64
- #define T7XX_FB_RESPONSE_SIZE 512
-+#define T7XX_FB_MCMD_SIZE     64
-+#define T7XX_FB_MDATA_SIZE    1024
- #define T7XX_FB_RESP_COUNT    30
- 
-+#define T7XX_FB_EVENT_SIZE      50
-+
-+#define T7XX_MAX_SNAPSHOTS  1
-+#define T7XX_MRDUMP_SIZE    (160 * 1024 * 1024)
-+#define T7XX_LKDUMP_SIZE    (256 * 1024)
-+#define T7XX_TOTAL_REGIONS  2
-+
- #define T7XX_FLASH_STATUS   0
-+#define T7XX_MRDUMP_STATUS  1
-+#define T7XX_LKDUMP_STATUS  2
- #define T7XX_GET_INFO       3
- 
- #define T7XX_DEVLINK_IDLE   0
- #define T7XX_NORMAL_MODE    0
- #define T7XX_FB_DL_MODE     1
-+#define T7XX_FB_DUMP_MODE   2
- 
-+#define T7XX_FB_CMD_RTS          "_RTS"
-+#define T7XX_FB_CMD_CTS          "_CTS"
-+#define T7XX_FB_CMD_FIN          "_FIN"
-+#define T7XX_FB_CMD_OEM_MRDUMP   "oem mrdump"
-+#define T7XX_FB_CMD_OEM_LKDUMP   "oem dump_pllk_log"
- #define T7XX_FB_CMD_DOWNLOAD     "download"
- #define T7XX_FB_CMD_FLASH        "flash"
- #define T7XX_FB_CMD_REBOOT       "reboot"
-+#define T7XX_FB_RESP_MRDUMP_DONE "MRDUMP08_DONE"
- #define T7XX_FB_RESP_OKAY        "OKAY"
- #define T7XX_FB_RESP_FAIL        "FAIL"
- #define T7XX_FB_RESP_DATA        "DATA"
- #define T7XX_FB_RESP_INFO        "INFO"
- #define T7XX_FB_CMD_GET_VER      "get_version"
- 
-+/* Internal region indexes */
-+enum t7xx_regions {
-+	T7XX_MRDUMP_INDEX,
-+	T7XX_LKDUMP_INDEX,
-+};
-+
-+struct t7xx_dump_region_info {
-+	const char *name;
-+	size_t size;
-+};
-+
-+struct t7xx_dump_region {
-+	struct t7xx_dump_region_info *info;
-+	struct devlink_region_ops ops;
-+	struct devlink_region *dlreg;
-+	void *buf;
-+};
-+
- struct t7xx_flash_dump {
- 	struct t7xx_pci_dev *t7xx_dev;
- 	struct t7xx_port *port;
- 	struct devlink *ctx;
-+	struct t7xx_dump_region regions[T7XX_TOTAL_REGIONS];
-+	struct workqueue_struct *wq;
-+	struct work_struct ws;
- 	unsigned long status;
- 	u8 mode;
- };
-diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.c b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-index 24f79e981fd9..86cdb0d572d4 100644
---- a/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-+++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-@@ -244,6 +244,8 @@ static void t7xx_lk_stage_event_handling(struct t7xx_fsm_ctl *ctl, unsigned int
- 
- 		if (lk_event == LK_EVENT_CREATE_POST_DL_PORT)
- 			md->t7xx_dev->flash_dump->mode = T7XX_FB_DL_MODE;
-+		else
-+			md->t7xx_dev->flash_dump->mode = T7XX_FB_DUMP_MODE;
- 
- 		port->port_conf->ops->enable_chl(port);
- 		t7xx_cldma_start(md_ctrl);
--- 
-2.34.1
+Shouldn't this be if (!__this_cpu_read(vibs_window_active)) ?
 
+> +			return false;
+> +
+> +		if (*f_ctl & IBS_FETCH_ENABLE)
+> +			amd_restore_ibs_fetch(*f_ctl);
+> +		if (*o_ctl & IBS_OP_ENABLE)
+> +			amd_restore_ibs_op(*o_ctl);
+
+Nit, these if checks could go into the restore functions to make this look 
+a bit cleaner, but that's just from my point of view.
+
+> +
+> +		break;
+> +
+> +	case WINDOW_STOPPED:
+> +		/*
+> +		 * This state is executed right after STGI (which is executed
+> +		 * after VMEXIT).  By this time, host IBS states are already
+> +		 * restored in WINDOW_STOPPING state, so f_ctl and o_ctl will
+> +		 * be passed as NULL for this state.
+> +		 */
+> +		if (__this_cpu_read(vibs_window_active))
+> +			__this_cpu_write(vibs_window_active, false);
+
+Any reason not to just issue __this_cpu_write(vibs_window_active, false) 
+without the if check?
+
+> +		break;
+> +
+> +	default:
+> +		return false;
+> +	}
+> +
+> +	return __this_cpu_read(vibs_window_active);
+
+You could just issue a return true or return false (depending on the case) 
+instead of having the break statements, e.g.:
+
+For WINDOW_START replace break with return (f_active || o_active)
+For WINDOW_STOPPING replace break with return true
+For WINDOW_STOPPED replace break with return false
+
+> +}
+> +EXPORT_SYMBOL_GPL(amd_vibs_window);
+> diff --git a/arch/x86/include/asm/perf_event.h b/arch/x86/include/asm/perf_event.h
+> index 85a9fd5a3ec3..b87c235e0e1e 100644
+> --- a/arch/x86/include/asm/perf_event.h
+> +++ b/arch/x86/include/asm/perf_event.h
+> @@ -486,6 +486,12 @@ struct pebs_xmm {
+>   #define IBS_OP_MAX_CNT_EXT_MASK	(0x7FULL<<20)	/* separate upper 7 bits */
+>   #define IBS_RIP_INVALID		(1ULL<<38)
+>   
+> +enum amd_vibs_window_state {
+> +	WINDOW_START = 0,
+> +	WINDOW_STOPPING,
+> +	WINDOW_STOPPED,
+> +};
+> +
+>   #ifdef CONFIG_X86_LOCAL_APIC
+>   extern u32 get_ibs_caps(void);
+>   extern int forward_event_to_ibs(struct perf_event *event);
+> @@ -584,6 +590,27 @@ static inline void intel_pt_handle_vmx(int on)
+>   }
+>   #endif
+>   
+> +#if defined(CONFIG_X86_LOCAL_APIC) && defined(CONFIG_CPU_SUP_AMD)
+> +extern bool amd_vibs_window(enum amd_vibs_window_state state, u64 *vibs_fetch_ctl,
+> +			    u64 *vibs_op_ctl);
+> +extern bool is_amd_ibs_started(void);
+> +extern bool amd_vibs_ignore_nmi(void);
+
+And if the two above functions aren't EXPORT_SYMBOL_GPL, then they could 
+go somewhere else instead of here.
+
+Thanks,
+Tom
+
+> +#else
+> +static inline bool amd_vibs_window(enum amd_vibs_window_state state, u64 *vibs_fetch_ctl,
+> +				  u64 *vibs_op_ctl)
+> +{
+> +	return false;
+> +}
+> +static inline bool is_amd_ibs_started(void)
+> +{
+> +	return false;
+> +}
+> +static inline bool amd_vibs_ignore_nmi(void)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>   #if defined(CONFIG_PERF_EVENTS) && defined(CONFIG_CPU_SUP_AMD)
+>    extern void amd_pmu_enable_virt(void);
+>    extern void amd_pmu_disable_virt(void);
