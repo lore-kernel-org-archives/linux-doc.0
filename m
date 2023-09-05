@@ -2,107 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85C55CA1003
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 19:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A04CA1006
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 19:51:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242032AbjIETct (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Sep 2023 15:32:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55606 "EHLO
+        id S242110AbjIETvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Sep 2023 15:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243110AbjIETcr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 15:32:47 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 068711719;
-        Tue,  5 Sep 2023 12:32:23 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6CB8106F;
-        Tue,  5 Sep 2023 09:10:04 -0700 (PDT)
-Received: from [10.1.36.15] (010265703453.arm.com [10.1.36.15])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AFCF3F64C;
-        Tue,  5 Sep 2023 09:09:19 -0700 (PDT)
-Message-ID: <e949a91f-88b3-681e-6e0e-d5d1e8922284@arm.com>
-Date:   Tue, 5 Sep 2023 17:09:15 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Content-Language: en-GB
-To:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        with ESMTP id S235587AbjIETvh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 15:51:37 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15BA9CE
+        for <linux-doc@vger.kernel.org>; Tue,  5 Sep 2023 12:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693943494; x=1725479494;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eFBbE9HzqQzshixjouQ4Gq9jsVJLPT5uB03U4EUQI+o=;
+  b=SdcGDrY63zvNJ9gmsrJgp4XLyw1NIfUfQTrnF7IkI35bzDL13PjLt5FC
+   U2/TW94Bq29xGeR5u1d4RCF1lSuyQfuO1IXwEVzl4cdpsAhBeUh2IOtBt
+   dBQn5g8UWNfjpj6E9WlCua73kE6RMnTeh/3Pl5peClHGFyLKr+9riNyBk
+   IPh2OcBWaooIuFLjYShVsroNK5Mp7Qk41TkzywAxh635W50eqNZArAgmq
+   BISa+7LmFjIrunK9wihpBcgATYQMICbiE+3WaXs8GaS3IX5wE+D9l9122
+   aghd0CdTwupi8jGJRaak9aslGhLFqQPI+wuh6+oG9rR0aGwxKOTLr5uM2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379607732"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="379607732"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:51:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="717981535"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="717981535"
+Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 05 Sep 2023 12:51:32 -0700
+Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qdc56-000219-0i;
+        Tue, 05 Sep 2023 19:51:25 +0000
+Date:   Wed, 6 Sep 2023 03:50:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
         linux-doc@vger.kernel.org
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
- <240c26d3-b821-8410-3142-62e9a8656146@linux.ibm.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <240c26d3-b821-8410-3142-62e9a8656146@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [linux-next:master 13629/13985] htmldocs:
+ Documentation/loongarch/introduction.rst:362: WARNING: duplicate label
+ loongarch-references, other instance in
+ Documentation/arch/loongarch/introduction.rst
+Message-ID: <202309060352.2ZuAeYVF-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-08-25 19:26, Matthew Rosato wrote:
-> On 8/25/23 6:11 AM, Niklas Schnelle wrote:
->> Hi All,
->>
->> This patch series converts s390's PCI support from its platform specific DMA
->> API implementation in arch/s390/pci/pci_dma.c to the common DMA IOMMU layer.
->> The conversion itself is done in patches 3-4 with patch 2 providing the final
->> necessary IOMMU driver improvement to handle s390's special IOTLB flush
->> out-of-resource indication in virtualized environments. The conversion
->> itself only touches the s390 IOMMU driver and s390 arch code moving over
->> remaining functions from the s390 DMA API implementation. No changes to
->> common code are necessary.
->>
-> 
-> I also picked up this latest version and ran various tests with ISM, mlx5 and some NVMe drives.  FWIW, I have been including versions of this series in my s390 dev environments for a number of months now and have also been building my s390 pci iommufd nested translation series on top of this, so it's seen quite a bit of testing from me at least.
-> 
-> So as far as I'm concerned anyway, this series is ready for -next (after the merge window).
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c50216cfa084d5eb67dc10e646a3283da1595bb6
+commit: 2bf3c0292f35e84a2111e6e83f023c2690b25a71 [13629/13985] Merge patch series "RISC-V: Probe for misaligned access speed"
+reproduce: (https://download.01.org/0day-ci/archive/20230906/202309060352.2ZuAeYVF-lkp@intel.com/reproduce)
 
-Agreed; I'll trust your reviews for the s390-specific parts, so indeed 
-it looks like this should have all it needs now and is ready for a nice 
-long soak in -next once Joerg opens the tree for 6.7 material.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060352.2ZuAeYVF-lkp@intel.com/
 
-Cheers,
-Robin.
+All warnings (new ones prefixed by >>):
+
+>> Documentation/loongarch/introduction.rst:362: WARNING: duplicate label loongarch-references, other instance in Documentation/arch/loongarch/introduction.rst
+>> Documentation/translations/zh_CN/loongarch/introduction.rst:325: WARNING: duplicate label loongarch-references-zh_cn, other instance in Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+>> Documentation/translations/zh_CN/mips/booting.rst:14: WARNING: duplicate label cn_booting, other instance in Documentation/translations/zh_CN/arch/mips/booting.rst
+>> Documentation/translations/zh_CN/mips/ingenic-tcu.rst:15: WARNING: duplicate label cn_ingenic-tcu, other instance in Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
+>> Documentation/bpf/instruction-set.rst: WARNING: document isn't included in any toctree
+>> Documentation/hwmon/smm665.rst: WARNING: document isn't included in any toctree
+>> Documentation/loongarch/index.rst: WARNING: document isn't included in any toctree
+>> Documentation/mips/index.rst: WARNING: document isn't included in any toctree
+>> Documentation/mm/frontswap.rst: WARNING: document isn't included in any toctree
+>> Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst: WARNING: document isn't included in any toctree
+>> Documentation/s390/index.rst: WARNING: document isn't included in any toctree
+>> Documentation/translations/zh_CN/mm/frontswap.rst: WARNING: document isn't included in any toctree
+
+vim +362 Documentation/loongarch/introduction.rst
+
+0ea8ce61cb2c48 Huacai Chen 2022-05-31  360  
+0ea8ce61cb2c48 Huacai Chen 2022-05-31  361  References
+0ea8ce61cb2c48 Huacai Chen 2022-05-31 @362  ==========
+0ea8ce61cb2c48 Huacai Chen 2022-05-31  363  
+
+:::::: The code at line 362 was first introduced by commit
+:::::: 0ea8ce61cb2c487e818c515f91329fa9972a7155 Documentation: LoongArch: Add basic documentations
+
+:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
