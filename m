@@ -2,242 +2,377 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E28C83F33
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Sep 2023 18:01:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80374CA0FFD
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 16:24:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231892AbjIDSCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Sep 2023 14:02:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33048 "EHLO
+        id S1350239AbjIEQYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:24:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbjIDSCB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Sep 2023 14:02:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434FCDD;
-        Mon,  4 Sep 2023 11:01:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D5F8261862;
-        Mon,  4 Sep 2023 18:01:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84AE4C433C7;
-        Mon,  4 Sep 2023 18:01:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693850516;
-        bh=vnkVaZq/lB8aHehszev+SeZQLIWYgpuwniR73BL97ek=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jzncw7Puj9sAp4WMEzBR2zZxspbdp3nZUQzKsM1ZhgBADpPqQcwscQxwxA1NOMPo5
-         C7+VYQCvSl63q0ZuIeRrrOtpwYLJYb9VfndGQbXZUMsyNkvNf/1J7Jln3lqRRq9DcI
-         z4uTnwpi8X9HL0lzE1xjU0I8TXxc8uFE9bkHUllt6XQFs3b5ilHuCPrS/WaQNLc7fU
-         Qz/PI/1F/WoIsXMw9je2R+aYZ9fTWPj2eKI66AUkvJsSLfKMifmw3wj5THZ6F0sQf8
-         fWwAhAQ/59ptGAQDH8Tmi12SawU1yq7uHZ5/riok5fcdHoatlht9y82huraQce99d5
-         jMTFPuUbKzwPQ==
-Date:   Mon, 4 Sep 2023 21:01:11 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3] Documentation/page_tables: Add info about MMU/TLB and
- Page Faults
-Message-ID: <20230904180111.GG3223@kernel.org>
-References: <20230818112726.6156-1-fmdefrancesco@gmail.com>
+        with ESMTP id S1354417AbjIEL1x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 07:27:53 -0400
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2149.outbound.protection.outlook.com [40.92.62.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B6C1AD;
+        Tue,  5 Sep 2023 04:27:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jONtlyxhCkMKEeUxkuGupxF8d/tyKLviM0j48FBHphbp32ozrWB0sGrT/VdNeEEfKtE7lbiJ9JRSjD8iSUFKF69udPWyjedBL12mMJqIMsBxokFY7rhtQkn+DFLvU5eMn+IYASwooI3GimxBfJZRilzWn2JdJcStxJea4ZRhkkZ+quIIIZQ9ytbwGVGWI/iln7a+riGeqqN7fX0CqPD583M8MClfQKEH0rxAAuDfeEqZtEF3xrM9u2pYR0k+14WyDDzB4Ql6uPFQTTcHtQBFfH36gNT23x1rRmLSWF08aOZR1lcmqYFB+/GDWZkQRzmVNN6B0SrATFTsVey7gpmlSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+8PFbMC95shG1VszT+wYO5vVC55/zpOiNBE06jOrGIw=;
+ b=ml+mhHXz6WL0RF572APuqwwk1kqOUmduWX6ClVFrN/2jpz+193hnuA3fiG+0q5rXq41Oq7sm5yZjVsAtojX0coV1kzW56p9bGjwNWWThSJc2iXp9SyotYnNdCVLc8doVZo18U3ewzT75zoeDmmzXdJU5YP4rBJ1F+R3LCe0abohGGSqOwzxgW3tN19/CeS9uM6uTqj42QzLpaFGUzu3kTPeOxiCmwsZ1/onkDltbrIkb9FOnuOzC125Jm3fpAqI4mIf1rs+WAm6TiO/2LsfnLfQfH2mTkWyXy6YpGOwci1wcYvrIsXXD52MEVIJq24LfBA0FG2uAno+4XjitcYxg9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+8PFbMC95shG1VszT+wYO5vVC55/zpOiNBE06jOrGIw=;
+ b=TLuCT9KB5KD17ogL65qZFNOBz3stjOGjoYVvYp+Bsq3zl2u+KtyWBjuncQoG1gJFj/39J3BxvsGxIkLIC6bsKAkBQydgRWVLASH4SG1Bo2D6gW7yAxeeUteORYbEloJWvWR6wOPWPQX98NFTh2JDcAr7jPuZKu860j/jHIr3bx4ZWFPY/azDetdKVUtcv6RZfEPlm2lqSqL6etDoIRjRZcfgg7Q0Q8pD5jBeMrxlqXuorYO0axCZ5tMwgmuDjw8GoDGzjNWNGVPLroj7unrzvmaaZqE6yA1/mgr9k8J3cFpup9Zq9NdfpFYFLXIGMFEZUeGdFD9s4KmaMlfWn+Q82w==
+Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
+ by SY6P282MB3213.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:164::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
+ 2023 11:27:43 +0000
+Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::beb:8e33:17b1:a347]) by MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::beb:8e33:17b1:a347%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 11:27:42 +0000
+From:   Jinjian Song <songjinjian@hotmail.com>
+To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
+        ryazanov.s.a@gmail.com
+Cc:     jiri@resnulli.us, johannes@sipsolutions.net,
+        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
+        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+        m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, nmarupaka@google.com,
+        vsankar@lenovo.com, danielwinkler@google.com,
+        Jinjian Song <jinjian.song@fibocom.com>
+Subject: [net-next v3 5/5] net: wwan: t7xx: Devlink documentation
+Date:   Tue,  5 Sep 2023 19:26:37 +0800
+Message-ID: <MEYP282MB2697DB50DD70C7B755E04578BBE8A@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230905112637.18877-1-songjinjian@hotmail.com>
+References: <20230905112637.18877-1-songjinjian@hotmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [Su1kXluObHKZ17sNiTTcdGTllkWRsfFn]
+X-ClientProxiedBy: SGAP274CA0006.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::18)
+ To MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
+X-Microsoft-Original-Message-ID: <20230905112637.18877-6-songjinjian@hotmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230818112726.6156-1-fmdefrancesco@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MEYP282MB2697:EE_|SY6P282MB3213:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c4d8455-5189-4e58-f737-08dbae031ea9
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RpFN2E90E71raooRQhQvn8x12MeNxaEJUNsaeVN9M6HQ7gGYaW7t777Ub1y6q57TWTq2w4qS5tW1NZggqq8pyF+q4LNzj25sc5PaabugCMfyf5oaFirdGSb7FzAsB/3lZakqAGc0YuZKOFpuUm/FRclWeuGgzfUwZUBPoHytFIUmMViN6LcXebNUxM7tQNT6vkgBQDKBttNGlv4dUopKhsVOI5BTCf7VzHMdFIpaAc4BFylvPDiSfK2Dk7aCUW3SLYG1EuA+wknoLxdQqI596oex3DW5NoNphno2+X2lemAYYfd8Z7PUJ3r6esqrMmlLhe+UTstGFhKyaYCm7Wsa4F/Ur6+6ROcjbscdWl1oN35m2bIYtI4wGzPYsuZVSHubuBIL/hBo7bSKv0eI+wexvmmjEAUObHIEqJQU+904p3dJDffZMFVHedjIfJY7//uxxv232dbkK45MWa6j+g5qR1hqhlg0PciAFlCCFIk3MLC5jNd6NBCQle4OcyBdGbSB02Z0tsCUo3iXD63OwcH2+EJ0+tlMuwFNJi69TkUx0hI=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WlwGMv9yAZ6eq4V5DxwBrVXt8P7j6cEbFo1uaSuZt+QXykcp6k0aSht0NrFm?=
+ =?us-ascii?Q?LuZ1vq+vDyl/m6kMAgf+OV9AiSSTaELR70YLfHaRD4M73va+ZnmaInNkPWho?=
+ =?us-ascii?Q?uJaKowfODq3bxdt6U1N/apmoWWvhB5CmAmVXIWYKzMVX5Oqlbj9N/H0trvEq?=
+ =?us-ascii?Q?Tf9dd3UVflHRDt28MR9vE9fzcJoiZbM2oh+kw8O2sIY3UwT0ztzs0EKMmUA6?=
+ =?us-ascii?Q?dLeb5YIn3KazP+OG0C8Gb0EjvSXh9APNPEcaFM/1Ixwg4nfqQuyMeLZRQDkk?=
+ =?us-ascii?Q?iBO45yzqVFxSDp/u5n5osyUREpb/UfsVPNREyaAEYqVmcTjnROETNKK8mHoD?=
+ =?us-ascii?Q?mmLvzSobRMwmypsrraWMGxnPU4o/NZxExbEZyqWShDdfySDPUqR29SpqQ9A1?=
+ =?us-ascii?Q?99CsD8OiyuhjzS6T4tC+cSplgQFCI8C97Ww9+XqPNbd3iB5Hmp7fB/QZiOrl?=
+ =?us-ascii?Q?8jQ5m3VTbyMAnljbG0thPlpwbrUmu/hEYaWfzeH8sPo+AkT6AVWhaDWdj1hg?=
+ =?us-ascii?Q?APwVHghcLFcvNcqYpPgl+2unLzRFYs8CYxLXxzH5HFtfaul5XtJeOLebBoZp?=
+ =?us-ascii?Q?A6FnUy2dBz1vAY1sSdtC57dshcXKdO95tiiJpB+Q7d8WnqbL+JaE2nRJeRgq?=
+ =?us-ascii?Q?IyDSaWI0r2+CcLnFFiE8fcZGhyJSfmB2UMg/+83S54CWmKMJ6UlXGC5t1GS9?=
+ =?us-ascii?Q?493DarLcb4X8h830CKWNVxNh7QWfk9q/yKaGofWJ8rKaEZswE3AHFSQTe9GY?=
+ =?us-ascii?Q?73zKoyDyLf3tpuKMt0Yy/1BshQlESQjeNf6uaogVuiUIAEXruMbwQ/nS/Woc?=
+ =?us-ascii?Q?C8l5fO210i4dvcHNJFARdPRS/BOQSfYS1Fi+4Ew8HPWgQL5zRFnynE6NYud8?=
+ =?us-ascii?Q?KLC+gvnSz22NMIdThJZKEJivegU90RqRTQLR7mFOmbgaFAa4uTF0/eiJ9YX5?=
+ =?us-ascii?Q?wOiaeF3ELDUsY3iVoc2KertFjK9c3nzJOPSbffDqgtiJazxRrdgbQ+6iET/B?=
+ =?us-ascii?Q?dZsagUTCtz2lYmNtuak6pqs12BNFiwPw/WrIgLoAzhqIRAS/ciskc6uC+H8v?=
+ =?us-ascii?Q?/HEylwox+Bl6QG4wqsBa+Dlp8onb3Ar50viLyPhpqRSy3ekgF0EXipOGau34?=
+ =?us-ascii?Q?4osVck6Zt/t0nIPGFKZy5Lm30c2B/fQ4KXaqjErzf8OtSBrsJo3MA0ZsHZ++?=
+ =?us-ascii?Q?Jq16gpFJ3XCBYUkpfa0yD5CP4XAozl9UHQTK3f3NnYCxC26c/l3KIK8P1zw?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c4d8455-5189-4e58-f737-08dbae031ea9
+X-MS-Exchange-CrossTenant-AuthSource: MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 11:27:42.8861
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY6P282MB3213
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 18, 2023 at 01:19:34PM +0200, Fabio M. De Francesco wrote:
-> Extend page_tables.rst by adding a section about the role of MMU and TLB
-> in translating between virtual addresses and physical page frames.
-> Furthermore explain the concept behind Page Faults and how the Linux
-> kernel handles TLB misses. Finally briefly explain how and why to disable
-> the page faults handler.
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+From: Jinjian Song <jinjian.song@fibocom.com>
 
-Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+Document the t7xx devlink commands usage for firmware flashing &
+coredump collection.
 
-> ---
-> 
-> v2 -> v3: This version fixes the grammar mistakes found by Linus
-> and forwards his "Reviewed-by" tag (thanks!).
-> https://lore.kernel.org/all/CACRpkdbq8UCtvtRH7FZUEqvTxPQcoGbrKvf_mT5QHMAfVoYNNQ@mail.gmail.com/
-> 
-> v1 -> v2: This version takes into account the comments provided by Mike
-> (thanks!). I hope I haven't overlooked anything he suggested :-)
-> https://lore.kernel.org/all/20230807105010.GK2607694@kernel.org/
-> 
-> Furthermore, v2 adds few more information about swapping which was not present
-> in v1.
-> 
-> before the "real" patch, this has been an RFC PATCH in its 2nd version for a week
-> or so until I received comments and suggestions from Jonathan Cameron (thanks!),
-> and then it morphed to a real patch.
-> 
-> The link to the thread with the RFC PATCH v2 and the messages between Jonathan
-> and me start at https://lore.kernel.org/all/20230723120721.7139-1-fmdefrancesco@gmail.com/#r
-> 
-> 
->  Documentation/mm/page_tables.rst | 127 +++++++++++++++++++++++++++++++
->  1 file changed, 127 insertions(+)
-> 
-> diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
-> index 7840c1891751..be47b192a596 100644
-> --- a/Documentation/mm/page_tables.rst
-> +++ b/Documentation/mm/page_tables.rst
-> @@ -152,3 +152,130 @@ Page table handling code that wishes to be architecture-neutral, such as the
->  virtual memory manager, will need to be written so that it traverses all of the
->  currently five levels. This style should also be preferred for
->  architecture-specific code, so as to be robust to future changes.
-> +
-> +
-> +MMU, TLB, and Page Faults
-> +=========================
-> +
-> +The `Memory Management Unit (MMU)` is a hardware component that handles virtual
-> +to physical address translations. It may use relatively small caches in hardware
-> +called `Translation Lookaside Buffers (TLBs)` and `Page Walk Caches` to speed up
-> +these translations.
-> +
-> +When CPU accesses a memory location, it provides a virtual address to the MMU,
-> +which checks if there is the existing translation in the TLB or in the Page
-> +Walk Caches (on architectures that support them). If no translation is found,
-> +MMU uses the page walks to determine the physical address and create the map.
-> +
-> +The dirty bit for a page is set (i.e., turned on) when the page is written to.
-> +Each page of memory has associated permission and dirty bits. The latter
-> +indicate that the page has been modified since it was loaded into memory.
-> +
-> +If nothing prevents it, eventually the physical memory can be accessed and the
-> +requested operation on the physical frame is performed.
-> +
-> +There are several reasons why the MMU can't find certain translations. It could
-> +happen because the CPU is trying to access memory that the current task is not
-> +permitted to, or because the data is not present into physical memory.
-> +
-> +When these conditions happen, the MMU triggers page faults, which are types of
-> +exceptions that signal the CPU to pause the current execution and run a special
-> +function to handle the mentioned exceptions.
-> +
-> +There are common and expected causes of page faults. These are triggered by
-> +process management optimization techniques called "Lazy Allocation" and
-> +"Copy-on-Write". Page faults may also happen when frames have been swapped out
-> +to persistent storage (swap partition or file) and evicted from their physical
-> +locations.
-> +
-> +These techniques improve memory efficiency, reduce latency, and minimize space
-> +occupation. This document won't go deeper into the details of "Lazy Allocation"
-> +and "Copy-on-Write" because these subjects are out of scope as they belong to
-> +Process Address Management.
-> +
-> +Swapping differentiates itself from the other mentioned techniques because it's
-> +undesirable since it's performed as a means to reduce memory under heavy
-> +pressure.
-> +
-> +Swapping can't work for memory mapped by kernel logical addresses. These are a
-> +subset of the kernel virtual space that directly maps a contiguous range of
-> +physical memory. Given any logical address, its physical address is determined
-> +with simple arithmetic on an offset. Accesses to logical addresses are fast
-> +because they avoid the need for complex page table lookups at the expenses of
-> +frames not being evictable and pageable out.
-> +
-> +If the kernel fails to make room for the data that must be present in the
-> +physical frames, the kernel invokes the out-of-memory (OOM) killer to make room
-> +by terminating lower priority processes until pressure reduces under a safe
-> +threshold.
-> +
-> +Additionally, page faults may be also caused by code bugs or by maliciously
-> +crafted addresses that the CPU is instructed to access. A thread of a process
-> +could use instructions to address (non-shared) memory which does not belong to
-> +its own address space, or could try to execute an instruction that want to write
-> +to a read-only location.
-> +
-> +If the above-mentioned conditions happen in user-space, the kernel sends a
-> +`Segmentation Fault` (SIGSEGV) signal to the current thread. That signal usually
-> +causes the termination of the thread and of the process it belongs to.
-> +
-> +This document is going to simplify and show an high altitude view of how the
-> +Linux kernel handles these page faults, creates tables and tables' entries,
-> +check if memory is present and, if not, requests to load data from persistent
-> +storage or from other devices, and updates the MMU and its caches.
-> +
-> +The first steps are architecture dependent. Most architectures jump to
-> +`do_page_fault()`, whereas the x86 interrupt handler is defined by the
-> +`DEFINE_IDTENTRY_RAW_ERRORCODE()` macro which calls `handle_page_fault()`.
-> +
-> +Whatever the routes, all architectures end up to the invocation of
-> +`handle_mm_fault()` which, in turn, (likely) ends up calling
-> +`__handle_mm_fault()` to carry out the actual work of allocating the page
-> +tables.
-> +
-> +The unfortunate case of not being able to call `__handle_mm_fault()` means
-> +that the virtual address is pointing to areas of physical memory which are not
-> +permitted to be accessed (at least from the current context). This
-> +condition resolves to the kernel sending the above-mentioned SIGSEGV signal
-> +to the process and leads to the consequences already explained.
-> +
-> +`__handle_mm_fault()` carries out its work by calling several functions to
-> +find the entry's offsets of the upper layers of the page tables and allocate
-> +the tables that it may need.
-> +
-> +The functions that look for the offset have names like `*_offset()`, where the
-> +"*" is for pgd, p4d, pud, pmd, pte; instead the functions to allocate the
-> +corresponding tables, layer by layer, are called `*_alloc`, using the
-> +above-mentioned convention to name them after the corresponding types of tables
-> +in the hierarchy.
-> +
-> +The page table walk may end at one of the middle or upper layers (PMD, PUD).
-> +
-> +Linux supports larger page sizes than the usual 4KB (i.e., the so called
-> +`huge pages`). When using these kinds of larger pages, higher level pages can
-> +directly map them, with no need to use lower level page entries (PTE). Huge
-> +pages contain large contiguous physical regions that usually span from 2MB to
-> +1GB. They are respectively mapped by the PMD and PUD page entries.
-> +
-> +The huge pages bring with them several benefits like reduced TLB pressure,
-> +reduced page table overhead, memory allocation efficiency, and performance
-> +improvement for certain workloads. However, these benefits come with
-> +trade-offs, like wasted memory and allocation challenges.
-> +
-> +At the very end of the walk with allocations, if it didn't return errors,
-> +`__handle_mm_fault()` finally calls `handle_pte_fault()`, which via `do_fault()`
-> +performs one of `do_read_fault()`, `do_cow_fault()`, `do_shared_fault()`.
-> +"read", "cow", "shared" give hints about the reasons and the kind of fault it's
-> +handling.
-> +
-> +The actual implementation of the workflow is very complex. Its design allows
-> +Linux to handle page faults in a way that is tailored to the specific
-> +characteristics of each architecture, while still sharing a common overall
-> +structure.
-> +
-> +To conclude this high altitude view of how Linux handles page faults, let's
-> +add that the page faults handler can be disabled and enabled respectively with
-> +`pagefault_disable()` and `pagefault_enable()`.
-> +
-> +Several code path make use of the latter two functions because they need to
-> +disable traps into the page faults handler, mostly to prevent deadlocks.
-> -- 
-> 2.41.0
-> 
+Base on the v5 patch version of follow series:
+'net: wwan: t7xx: fw flashing & coredump support'
+(https://patchwork.kernel.org/project/netdevbpf/patch/f902d4a0cb807a205687f7e693079fba72ca7341.1674307425.git.m.chetan.kumar@linux.intel.com/)
 
+Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+---
+v3:
+ * supplementary separator '~'
+v2:
+ * no change
+---
+ Documentation/networking/devlink/index.rst |   1 +
+ Documentation/networking/devlink/t7xx.rst  | 232 +++++++++++++++++++++
+ 2 files changed, 233 insertions(+)
+ create mode 100644 Documentation/networking/devlink/t7xx.rst
+
+diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
+index b49749e2b9a6..f101781105ca 100644
+--- a/Documentation/networking/devlink/index.rst
++++ b/Documentation/networking/devlink/index.rst
+@@ -67,3 +67,4 @@ parameters, info versions, and other features it supports.
+    iosm
+    octeontx2
+    sfc
++   mtk_t7xx
+diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/networking/devlink/t7xx.rst
+new file mode 100644
+index 000000000000..20057bda3923
+--- /dev/null
++++ b/Documentation/networking/devlink/t7xx.rst
+@@ -0,0 +1,232 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++t7xx devlink support
++====================
++
++This document describes the devlink features implemented by the ``t7xx``
++device driver.
++
++Parameters
++==========
++The ``t7xx`` driver implements the following driver-specific parameters.
++
++.. list-table:: Driver-specific parameters
++   :widths: 5 5 5 85
++
++   * - Name
++     - Type
++     - Mode
++     - Description
++   * - ``fastboot``
++     - boolean
++     - driverinit
++     - Set this param to enter fastboot mode.
++
++Flash Update
++============
++
++The ``t7xx`` driver implements the flash update using the ``devlink-flash``
++interface.
++
++The driver uses ``DEVLINK_SUPPORT_FLASH_UPDATE_OVERWRITE_MASK`` to identify the type of
++firmware image that need to be programmed upon the request by user space application.
++
++``t7xx`` driver uses fastboot protocol for firmware flashing. In the firmware
++flashing procedure, fastboot command & response are exchanged between driver
++and wwan device.
++
++::
++
++  $ devlink dev param set pci/0000:bdf name fastboot value 1 cmode driverinit
++
++The devlink param fastboot is set to true via devlink param command, by
++passing name ``fastboot``, value ``1`` and cmode ``driverinit``.
++
++::
++
++  $ devlink dev reload pci/0000:$bdf action driver_reinit
++
++The wwan device is put into fastboot mode via devlink reload command, by
++passing ``driver_reinit`` action.
++
++::
++
++  $ devlink dev reload pci/0000:$bdf action fw_activate
++
++Upon completion of firmware flashing or coredump collection the wwan device is
++reset to normal mode using devlink reload command, by passing ``fw_activate``
++action.
++
++Flash Commands
++--------------
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.bin component "preloader"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component "loader_ext1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spmfw"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm_1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcupm_1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1img"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1dsp"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
++
++Note: Component selects the partition type to be programmed.
++
++
++The supported list of firmware image types is described below.
++
++.. list-table:: Firmware Image types
++    :widths: 15 85
++
++    * - Name
++      - Description
++    * - ``preloader``
++      - The first-stage bootloader image
++    * - ``loader_ext1``
++      - Preloader extension image
++    * - ``tee1``
++      - ARM trusted firmware and TEE (Trusted Execution Environment) image
++    * - ``lk``
++      - The second-stage bootloader image
++    * - ``spmfw``
++      - MediaTek in-house ASIC for power management image
++    * - ``sspm_1``
++      - MediaTek in-house ASIC for power management under secure world image
++    * - ``mcupm_1``
++      - MediaTek in-house ASIC for cpu power management image
++    * - ``dpm_1``
++      - MediaTek in-house ASIC for dram power management image
++    * - ``boot``
++      - The kernel and dtb image
++    * - ``rootfs``
++      - Root filesystem image
++    * - ``md1img``
++      - Modem image
++    * - ``md1dsp``
++      - Modem DSP image
++    * - ``mcf1``
++      - Modem OTA image (Modem Configuration Framework) for operators
++    * - ``mcf2``
++      - Modem OTA image (Modem Configuration Framework) for OEM vendors
++    * - ``mcf3``
++      - Modem OTA image (other usage) for OEM configurations
++
++
++Regions
++=======
++
++The ``t7xx`` driver supports core dump collection in exception state and second
++stage bootloader log collection in fastboot mode. The log snapshot is taken by
++the driver using fastboot commands.
++
++Region commands
++---------------
++
++::
++
++  $ devlink region show
++
++This command list the regions implemented by driver. These regions are accessed
++for device internal data. Below table describes the regions.
++
++.. list-table:: Regions
++    :widths: 15 85
++
++    * - Name
++      - Description
++    * - ``mr_dump``
++      - The detailed modem component logs are captured in this region
++    * - ``lk_dump``
++      - This region dumps the current snapshot of lk
++
++Coredump Collection
++~~~~~~~~~~~~~~~~~~~
++
++::
++
++  $ devlink region new mr_dump
++
++::
++
++  $ devlink region read mr_dump snapshot 0 address 0 length $len
++
++::
++
++  $ devlink region del mr_dump snapshot 0
++
++Note: $len is actual len to be dumped.
++
++The userspace application uses these commands for obtaining the modem component
++logs when device encounters an exception.
++
++Second Stage Bootloader dump
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++::
++
++  $ devlink region new lk_dump
++
++::
++
++  $ devlink region read lk_dump snapshot 0 address 0 length $len
++
++::
++
++  $ devlink region del lk_dump snapshot 0
++
++Note: $len is actual len to be dumped.
++
++In fastboot mode the userspace application uses these commands for obtaining the
++current snapshot of second stage bootloader.
++
 -- 
-Sincerely yours,
-Mike.
+2.34.1
+
