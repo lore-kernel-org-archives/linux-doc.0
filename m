@@ -2,196 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A3AAC83F3E
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 18:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDAE9C83F3E
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 19:17:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240110AbjIESMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Sep 2023 14:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
+        id S242150AbjIETRK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Sep 2023 15:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233532AbjIESMY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 14:12:24 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on20608.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe59::608])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C21F61B0;
-        Tue,  5 Sep 2023 10:08:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qn7N+lw5nFRVPRQoEP3ZWJ7HsXFYMtVFNfLAUBdvQpGa6q8OaDpjYPLm0KetATmik/M1LR5ySPMWSsVPKo0C9csvCrrBGHffO6CmuVQoQCh485TqdRm3KNyj574Xvn5Vkm1+VtOtfdP25MxOGnzC9qlqwfQBqrJfkHJ6zaljNarW79dpuDhITvqdu+FTzVGak/TMX6SfSCcIRxpFLZjG901Dkrp6ekrovysG0zGc6UOw/fiV8Z1mb9im/dCpZDoT6rdEu2M3sgzyagz7b+ftjxWQoG3cIefBPNF+2Eo9ZNnSFnGFln+iQw5mvDZO7cokrIb2x8LUys0B08IC/vkKrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a0ljZAVWu594IVPo3wq0wTWXp2kv3SCEeV1+6FzjSwk=;
- b=OJKUyg7HPcQgh4H4QG9TFeTNGWQAULuuc9vedhyNLNvgn1Qzj2LPl4eE24rM9zUnzPfNSJ1GaWHLO8ueGsWY0+jkQtYaHa60QPeiek0IsVOBIvgvrLqRCDORkAfLlakSW2gGu2TPb20vlD4hiSDndy6JZehfShgVIIh1V72JkpW+AC2r/uyZOB9l4xV2l+xouKWW+9uet0uwGeA8lD+o8hSJmUzxWxQD37fnwYPOGztO9dSyW68YI8iyuvT4rlOquvnzBMYfAXeajtKG48pCi8bZa4GcbjBstOMhH3/h3l33f4CPG6ABQ4E0bBTOV7JFosTwXwOHYA1zBo8zVCblHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a0ljZAVWu594IVPo3wq0wTWXp2kv3SCEeV1+6FzjSwk=;
- b=QEc7t8Fl5WDHgmgy1OhyM3e5f7zJ/FSaSabAJZV7sKKjO8gy5s0Ayhb1DGujXD8l6yHlGRA8CxoC2I091mnMMWqmxemyeL1vqe4pQ67WevhR09RR5ArBHt2HrhRhP8vjYfFkFsrDGF/NfnwZN7MmbM3qQc9d6+76mGetx0Hv7vI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CH3PR12MB8509.namprd12.prod.outlook.com (2603:10b6:610:157::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 16:51:33 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e%5]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
- 16:51:33 +0000
-Message-ID: <cdfeb701-3eee-167e-1132-d14bacd845f1@amd.com>
-Date:   Tue, 5 Sep 2023 11:51:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v8 8/8] x86/resctrl: Display hardware ids of resource
- groups
-To:     Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
-Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-References: <20230821233048.434531-1-babu.moger@amd.com>
- <20230821233048.434531-9-babu.moger@amd.com>
- <4019a73a-8478-f18b-7f34-b8d838dfc7fe@intel.com>
- <da47698a-aa9e-3760-1321-5ec3ea1a14e6@amd.com>
- <5b75506b-80ac-a89d-4b70-f775c3b354d3@intel.com>
- <012bf30d-7c41-b9a8-cdda-0922797d6a80@amd.com>
- <2feb3e01-96c7-fdde-a0d2-509fa1527243@intel.com>
- <ce3e0cf3-9b4c-86ae-8095-d433a5669737@amd.com>
- <f2481932-fb3c-d9e7-c6cc-9407fc0df416@intel.com>
-Content-Language: en-US
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <f2481932-fb3c-d9e7-c6cc-9407fc0df416@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0127.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c2::17) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S242195AbjIETRJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 15:17:09 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6091B6
+        for <linux-doc@vger.kernel.org>; Tue,  5 Sep 2023 12:16:45 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-500760b296aso225258e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 Sep 2023 12:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1693941354; x=1694546154; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MsWRVBFEL3St6TG3Dmm9kVxN1Ow0LMYu4TSTEd74xWc=;
+        b=IO9Q2ewZ1xt/BTnwyavEoLvmjlUq6z1lRdxDEdhtxR+IUgaZFhahJ7rjZ4Mk3GxE2V
+         sHB6yLG4NXgtaLjXsflrsFsUWmAPZ0x8oi4a3rAMgSInx3tsZAsqiPXLBOQW4npkG5V5
+         AmCGF7qAXJ1ckGjEy3ka5U9adKZ1wjETI9aO4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693941354; x=1694546154;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MsWRVBFEL3St6TG3Dmm9kVxN1Ow0LMYu4TSTEd74xWc=;
+        b=kIU6f2XRfrUA8oK5nK1bvtPREA5/8oQ6lXqYJOuayjwb/BjDU2wL3IPSPA3KLeh+gS
+         rgjQNop2cY5M2PFXKT0yI1QUivO3MI6SfQkFmsPs9Yaa7shQetkQWHhF63nB4q9Bjh+c
+         45nA45ehiCMbcF9aZoYuVBbwrfiVVo6B5y3lmhf6ceSG1VWc7L2eTe5b2jzFXnKvI+7j
+         uPqaXh35l0QCWBSMAIcKZdmAFB2yNUNG64xV9X85W2GkiwQq8cEwz7JwCrd0AUV21+sY
+         AMRGKcnUYs0otEA8K/YvDj4LXt8uubYVJXITv1dWszy2n9aoDuK0DYYAMoZEdZqoc9ax
+         JH6g==
+X-Gm-Message-State: AOJu0YwrToF638vDRIKGvbRe0aiQRAbedUIt60qZSEKRgzGF5h3rOkoc
+        xfdfZUT7He3rYUXLGSezOUuQwlrZ0zUzgZxgssH34i82
+X-Google-Smtp-Source: AGHT+IFSXOvj4V+S5xmYds9//GYibIzWJ1yzcAcaxUUD/bLtsDptEsdkEhvPQ5Q79kooR8m4PWakLw==
+X-Received: by 2002:a05:6512:3d10:b0:501:ba04:f352 with SMTP id d16-20020a0565123d1000b00501ba04f352mr315319lfv.1.1693941353830;
+        Tue, 05 Sep 2023 12:15:53 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id u22-20020ac243d6000000b005008757cd6csm2495507lfl.241.2023.09.05.12.15.53
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Sep 2023 12:15:53 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5009dd43130so852e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Sep 2023 12:15:53 -0700 (PDT)
+X-Received: by 2002:a05:600c:4fd1:b0:3fe:ef25:8b86 with SMTP id
+ o17-20020a05600c4fd100b003feef258b86mr26556wmq.4.1693941331939; Tue, 05 Sep
+ 2023 12:15:31 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB8509:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc9e6c13-ac96-4c86-2f61-08dbae305c36
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fQzGSNg2wf/+gzVDnrhuwBImUUwzglHDTvqLvRBK+ONYHfqYTqyUg19YOEBde7/1amydC8lFipsvdICia+7DkYC9JX+0Ke88haBfzOwP0vl+NDBz0SbryV8vqZj+CbiHXCpJL1k+YWmcKjJtq6ZvXZhjttM7K2rpy7L3whUQ1SjLKJ6lDokUB1L+bYlvvt+e3qzlY5+AMnMrJwcT40rZiCmPptbhfw28eYjeEyL3murjgcHE+d8oISvSNXbw3nVcLV04m7iA7Dlt54gkqenxVXI2MP5hSvvFsIyJE6uoY6QpkUhhJbWv6tUhH00VKossk7bpIjCET6D41xeTS3OJq/2X5xoX2LAGvz0EEc64NrrLP6u6CpN/NE0lBUA1Hh0e9BYlUN0JELkYJr/vrEHqwl+E2/xFoPjRDSttkq3nMkMJ08pC+Xa2TugsVvB5HZ/rvEIrnQDyWois4rpO3mUqJGle4FISEM9H5oIWy4zstWHWdx0dLiU4iZQDCA3Yc+bZ78al3e1oAuqrYy4uO6sRZk31XtDlMG9q7MQDiRwYFSiSaQnWl8Gp0khqwh0/xIDlnuQytsLtcYO/oUB4gQ7Z9TtavWkgaRVPM5SFD+sQWMGMQhV9Jtb3yppP1jTPsSqvoCVi5GccDfiSxub+MUACzg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(39860400002)(376002)(346002)(451199024)(1800799009)(186009)(36756003)(86362001)(38100700002)(31696002)(31686004)(6666004)(478600001)(26005)(5660300002)(53546011)(6506007)(66946007)(316002)(66476007)(66556008)(6486002)(41300700001)(2616005)(8936002)(6512007)(4326008)(8676002)(2906002)(7416002)(7406005)(3450700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTNLUnhtczc3a1RWRmdJQTArQzlpd2J2YVBNWkc0UnhxN3BkTjlheE1kMlhK?=
- =?utf-8?B?VFFxbERhREtSMG5xbWwvanYySExvN2Y5c21Ibng2ZmxpT0dVdlZxS0svaWdq?=
- =?utf-8?B?SVVETU00bFFIMHlUcysvN0RLM3Z6TzlUMHBHVEEyU2NWVTFNOFJNdGtaeTBs?=
- =?utf-8?B?MERUZnFrSzV4SnZWQWhHZENDN0VBSUQ2YjN5MUR5YkFlVHlkUFhQZ0VTU1Ns?=
- =?utf-8?B?dGR5dUpqR2pwb2ttWmx6Q3lod0dST3RMaW1ReFpiTmlNWjdpTmk2VEZJOFFt?=
- =?utf-8?B?NlpRcjI4YmxiRlN3ZzlmK01IUDBWVVdMYXpiSmNHd2oyZjFxT1ZOQ0FIdjg2?=
- =?utf-8?B?WWg3SXFDUmVKYzM5OXJIZU96Y1BGMTJqVjVldTZtVkg2UWZBM0oxRnRvNFdx?=
- =?utf-8?B?OHJ6cSt6TUpOVGRuNGJ4TlhBM2N1elhmMG5CWnVxY1M4MmtmelM1LzdscGo3?=
- =?utf-8?B?N3FFc00vZkJVeS9MYlNNTmlGS01rYTRNUXVIYi9MVWlNT2gveFZycHFmQ2lO?=
- =?utf-8?B?bzV1YUxxdG9PTzBXdTFMVUFLMS9IaWtqSkFFSW11VFNEckJ0OVdVOVlQMjJL?=
- =?utf-8?B?NlNEeGtJR21jUm9HR3ZOQ3NZZllyM3RPeVlmQnVrQnpFTHVOdXBWMDFEd01W?=
- =?utf-8?B?Y013aUxXZFpQWXB1dkZ1eU9iSGhxWWhwKzRUTEMwaUtVcmcyVUtXWEdmalNi?=
- =?utf-8?B?RWlNQjg4c2pLWGpUam00MXNhRjFzWmtabjR2YzAxNnZlbDY5MkFTaXo0YXR0?=
- =?utf-8?B?K0V6S2hMMzQ0MGJpUURCbmJHdml4bVBoNWtzVGtNdTBrL0hHU0hORWd4R0Qy?=
- =?utf-8?B?L3doZ3lFNFpUU0hzSktseXdzUUdKMDYwZm5FUUN2ZnFKbGRIQTBLT0UzdGtL?=
- =?utf-8?B?Q0oybHJaeXJrZ2JvdVpwRGltUzl2N2ZLVUtGQWlBUzJYbUJsemFOb2pTRDJx?=
- =?utf-8?B?Q3BpaU9yVk5yQ2JnTlZQREpnWXY1VTQrcERQR1crbjREaitESGNYb1o0NmFa?=
- =?utf-8?B?aEZWd3dMTDFpQjhlSkFHSVZrbEh3S2ZIZkhFNTE3SmZBY2tjL1JYdGdLSjYx?=
- =?utf-8?B?VzB3QzZ5cXZCdDlpMjFObDM4MVRjR0lUL1BWZXNRRy9ZNWpzL0NlbjZtQjEz?=
- =?utf-8?B?OWVRMnY2VFErc25IU0oydXZFTjJ6SmxQQlJnVklhbTR0Y3hmMk9jbm10enhs?=
- =?utf-8?B?T0pQalVXTkRZa2wrbXdCOVBhSk5UT1lFblRVWGxYVFVFckhqczRvZjhxd3Q3?=
- =?utf-8?B?TTcyYlpWQ0NIeHEvbmNqemdsWk5tSllEb0dPR2UrLy9aTWROcW1xbEMvRXlS?=
- =?utf-8?B?dHpVRHJUT2pOQmJ4SnZ3SnJaZmd3VU1VZmFlMEx5MnA5L21tQzVtTkdDbU9G?=
- =?utf-8?B?TkgzRmdOaFRZL2FobmhRRWtHcnUyVUxEbWpEN3JQNDBNaGEvZXppTi8vRGJQ?=
- =?utf-8?B?Y0x0OVl4TEFlQU5hT1NBUEtKa015WWVtVEJZNXZoWXRuQTZCSlgzMEdVQlBO?=
- =?utf-8?B?dyttZVdPc09rMTl1L3hjdlFVTkg0T1paQ3NpWFhDRVBiQWRkWEJlbC8rRC9a?=
- =?utf-8?B?Yng4Y2pGSTZ4ZVpVTm5XelF2TUN1OXAzNTRUd1crZTNjM1BwQ1JiZFVjVTh0?=
- =?utf-8?B?M2Q3WVNzSEV1SnpFMWpZWWJwL0haUFJHeURzdE91UCtYUC85akQwVFpkQkRm?=
- =?utf-8?B?Tm1seFdJL0NvYUpLNjRYU1h5WHhNL0ZZZm5YTTRTRXMyVXI0ZHVTaG1oZXpN?=
- =?utf-8?B?a1MzWWQ4Q2hDaHpKTi9xc1JxUXg2dFExWHFnMCtac0wwcDV0SVJvaFRqdWpK?=
- =?utf-8?B?blBFRGZwOFVJc0p0Yi9JSjJGRjZ1aE5HakdUODh1alp0YjBOMmVST2V1WDBQ?=
- =?utf-8?B?VkZ5dkYxTFBtaFo1UUF2VW9wanMrblFObDUvb1VxaWdGUTdZYlhmYVRLbTNn?=
- =?utf-8?B?cGR0MWlnS2ZnTzczMnFvbGF6ekVTMU9iZElkYnJOKzd1eDFuOFNZSi8xL2Nr?=
- =?utf-8?B?WDl4RWRNZ1MxaS84TkRhSHRydks4SE0vaWZKNmJoaFhrYVpXWG9XZS9VNVFj?=
- =?utf-8?B?dWsxUDRBU244T21QSmpPR0dBR2FsTU5GcFVtQTJCS1ZtNGZIK1pYMGh3ZUly?=
- =?utf-8?Q?Z0kA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc9e6c13-ac96-4c86-2f61-08dbae305c36
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 16:51:33.4037
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gZKFu6xRgJy/+hUUPuNb+FYJksb2Yv9lrHRqz6Kw7Is8L2xUIMBbCKS6R87MiKKh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8509
+References: <20230804210644.1862287-1-dianders@chromium.org> <CACRpkdaF4GqHtdJeBed0JGVXNkpA9dvbPgGMK=Qy0_RZyvOtNQ@mail.gmail.com>
+In-Reply-To: <CACRpkdaF4GqHtdJeBed0JGVXNkpA9dvbPgGMK=Qy0_RZyvOtNQ@mail.gmail.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Tue, 5 Sep 2023 12:15:19 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UFuUsrrZmkL8_RL5WLvkJryDwRSAy_PWTa-hX_p0dF+Q@mail.gmail.com>
+Message-ID: <CAD=FV=UFuUsrrZmkL8_RL5WLvkJryDwRSAy_PWTa-hX_p0dF+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/10] drm/panel: Remove most store/double-check of
+ prepared/enabled state
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     dri-devel@lists.freedesktop.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+        Jianhua Lu <lujianhua000@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Ondrej Jirman <megi@xff.cz>, Ondrej Jirman <megous@megous.com>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Stefan Mavrodiev <stefan@olimex.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Reinette,
+Hi,
 
-On 9/1/23 12:57, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 9/1/2023 10:28 AM, Moger, Babu wrote:
->> On 8/31/23 19:43, Reinette Chatre wrote:
->>> On 8/31/2023 4:58 PM, Moger, Babu wrote:
->>>> @@ -3336,6 +3340,9 @@ static int mkdir_rdt_prepare(struct kernfs_node
->>>> *parent_kn,
->>>>         else
->>>>                 files = RFTYPE_BASE | RFTYPE_MON;
->>>>
->>>> +       if (rdt_mon_capable)
->>>> +               files |= RFTYPE_MON;
->>>> +
->>>
->>> Is this not redundant considering what just happened a few lines above?
->>
->> Yea. Right. I will change the previous line to
->>
->> files = RFTYPE_BASE;
->>
-> 
-> This is not clear to me. If I understand correctly this means that
-> when rtype == RDTMON_GROUP then files = RFTYPE_BASE?
-> This does not sound right to me. I think it would be awkward to to set
-> files = RFTYPE_BASE if rtype == RDTMON_GROUP and then later do another
-> test using rdt_mon_capable to set the correct flag. It should be possible
-> to integrate this better.
-> 
-> What is needed is:
-> When group is a control group:
-> 	files = RFTYPE_BASE | RFTYPE_CTRL;
-> When group is a monitor group:
-> 	files = RFTYPE_BASE | RFTYPE_MON;
-> When group is a monitor and control group then:
-> 	files = RFTYPE_BASE | RFTYPE_CTRL | RFTYPE_MON;
-> 
-> How about just moving the "if (rdt_mon_capable)" check into the 
-> snippet that sets the flag for a control group?
-> 
-Sure. Will change it to.
+On Thu, Aug 10, 2023 at 1:23=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> On Fri, Aug 4, 2023 at 11:07=E2=80=AFPM Douglas Anderson <dianders@chromi=
+um.org> wrote:
+>
+> > As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> > prepared/enabled in drm_panel"), we want to remove needless code from
+> > panel drivers that was storing and double-checking the
+> > prepared/enabled state. Even if someone was relying on the
+> > double-check before, that double-check is now in the core and not
+> > needed in individual drivers.
+> >
+> > This series attempts to do just that. While the original grep, AKA:
+> >   git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+> >   git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+> > ...still produces a few hits after my series, they are _mostly_ all
+> > gone. The ones that are left are less trivial to fix.
+> >
+> > One of the main reasons that many panels probably needed to store and
+> > double-check their prepared/enabled appears to have been to handle
+> > shutdown and/or remove. Panels drivers often wanted to force the power
+> > off for panels in these cases and this was a good reason for the
+> > double-check. As part of this series a new helper is added that uses
+> > the state tracking that the drm_panel core is doing so each individual
+> > panel driver doesn't need to do it.
+> >
+> > This series changes a lot of drivers and obviously the author can't
+> > test on all of them. The changes here are also not completely trivial
+> > in all cases. Please double-check your drivers carefully to make sure
+> > something wasn't missed. After looking at over 40 drivers I'll admit
+> > that my eyes glazed over a little.
+> >
+> > I've attempted to organize these patches like to group together panels
+> > that needed similar handling. Panels that had code that didn't seem to
+> > match anyone else got their own patch. I made judgement calls on what
+> > I considered "similar".
+> >
+> > As noted in individual patches, there are some cases here where I
+> > expect behavior to change a little bit. I'm hoping these changes are
+> > for the better and don't cause any problems. Fingers crossed.
+> >
+> > I have at least confirmed that "allmodconfig" for arm64 doesn't fall
+> > on its face with this series. I haven't done a ton of other testing.
+>
+> The series:
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> Please send out a non-RFC version, this is clearly the right thing to
+> do.
 
-   if (rtype == RDTCTRL_GROUP) {
-                files = RFTYPE_BASE | RFTYPE_CTRL;
-                if (rdt_mon_capable)
-                        files |= RFTYPE_MON;
-   } else {
-                files = RFTYPE_BASE | RFTYPE_MON;
-   }
+As per the long discussion in response to patch #4, I think there are
+still open questions about the later patches in this series. However,
+I could land patches #1 - #3 if there are no concerns. Would anyone
+object if I just landed them straight from this series with Linus's
+review, or would I need to repost just patches #1 - #3 without the
+"RFC" tag?
 
+Thanks!
 
-thanks
-Babu
-
+-Doug
