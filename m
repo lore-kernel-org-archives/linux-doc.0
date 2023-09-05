@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C657CA0FE2
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 16:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9472CA0FE2
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Sep 2023 16:25:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350848AbjIEQZE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:25:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
+        id S1350868AbjIEQZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:25:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354413AbjIEL1f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 07:27:35 -0400
-Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2144.outbound.protection.outlook.com [40.92.62.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A3581AD;
-        Tue,  5 Sep 2023 04:27:27 -0700 (PDT)
+        with ESMTP id S1354415AbjIEL1l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Sep 2023 07:27:41 -0400
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2169.outbound.protection.outlook.com [40.92.62.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F761AE;
+        Tue,  5 Sep 2023 04:27:37 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D5HUmaSy3iNUjyZDeALDIIBWwVpXu1SanKKl0hAWnWPG74ySPlHZN1rqh1FimX9GDyIsZyzOKCqsphIh94B2OtHpZ/lwAuH3txA5qhTAmPdw2ZhfX+fxxnJ8DCWKPI+4qq/Pp5XYUsYig73HH427o2EvFoa2dJZyYSVeQdTXlB5m6g7dLRu0U7MaqK17dgCE021Lasd5dSwNMLdso1kmrKMRGFaEXueHqXW3Yoholm87uGhqu/kFcUehl7JtcXo8Di9WRmk02+TzIArYbFtRMoSur8yccKDhw/JRbujix9Vfcm7YXxFrVOXDkf51d5qFxOyHftIADZ3hfM1VcaaSlw==
+ b=XZYC+G8W/wHswo126k6QMY0UEGLIBuDaeYlBzNZVPGbOnSgKIHl/y4qdNejr94GX844DZh5w7BbPx/jnimM+V4daiFq7CeHshoXAFiY+ynfuo1ITYxqGIloBLM2LvNuFmZyNbb1PC7nJg0FP/lTYZG23UTsXN2pbgqjmDuXwQ0zSE47RVIkyOpvWELr+aElEJnq6yD4rgEgESoGMJz1utKd02QN52gSVwXnqg5/FszgnhAlxSjdy/FsGtmsluWSxyshSODz9iJq3fC2fMNF0AwdyIs57ePh9J3yig8XIdGCulHWkT+fIyVYT+Fh+PembpLkPVSM/2xPcjNKwQ2f11A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lRB0cLRgTAcmc59Uqmc+gC7BKKaguaMDPd4K5F3pjpk=;
- b=htEOJMHgPh1GLIQPVtQ0lwcfb2EGqV8nZt6gWxQqM8fl11UuKTQ4LBb4e3HS00mdSyNbN7gMFqf47UuiQjHNe+4lLXYdTrh/dxySSG48esFO15GUv9wHn9zREQGwbjRKw6EVDaIbQdt4Gr+Pr8j2NHCihQ5vbMkHR/6RNcGOcDk3RRyl4iiGarwmUG4IuHwnixRSX1zqOj+uKuQYjVjUrKHx3DdgPxYBBh5H75ct1u20EO+atKU/Lq0HmA3fMu24IrvM9r2uHf/v8Be+UylxiDx/Hn1FIzA7Dpe/nZARMer6A+5OYOwBZB6H8jhNDhD4iAU4iYMX0W4XFIkFJsP+jg==
+ bh=ZV1jfBQJTdlaTb9AJaEU7wTiQTdWHPksKJfAk5caves=;
+ b=bGFNWC+c6odKZZSNIFJ2jHlpWMjCqJsJIMwaRo/RoJn33IntIbAiEs47Bp+qt0j2GPTNW/omM4rQfwqehi4YJDY0Hh8mP2xhvLRMBHcDBS4eTIaffXSRLyKPzoEXHFZ1tDgKHNg3I0+/bjfdzI/KZOm+gfICAzJEwLtTfAQhRHMFV5G8Myp5EiZX0Owlrri44sJd+9SymgUSP1mnfHWZJKkYvtriZMmMHanOLsqhLkHKnv2kO4qGzmQAaqnqkQhZIskMXfybjArbWBfiw4lJqLNbKMN15JGHa4MQcjOAWKP4UOSqELXtipCDkm+IiPR/AO5MI01n4JK7fbaPeI+7Lg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lRB0cLRgTAcmc59Uqmc+gC7BKKaguaMDPd4K5F3pjpk=;
- b=s8B6nvp5WtN+wlc6oyASxQceWrQgSelrva+8LJIFXPC0nL3j4mhoxySw8D1MgFZhmj4VksGXSwfzx51GvJ0wgYhtaEOhKbXvXPVnd0J/4DGMnqj0E8iDX0WmX3c7xjJjcdaq6hi9evna2fBy4w58X+8IW7CJNhT4hqgdxkK1MDBvfiBFeozMdqu1ofcOzKO+NEXYn2Apdb6YPRblXiBpM45SzQsduGSNeZ/QH4fePL7SLocyrySHI5x6tBXKBTJg3IDEKTHSDwYBZx58sVf8cIQuqJpdVwKwF4pTRL8qXGzWyDhwgoKZgELOZJCI7aVQuB4toM7lvazazVlJZJjHZg==
+ bh=ZV1jfBQJTdlaTb9AJaEU7wTiQTdWHPksKJfAk5caves=;
+ b=twi0k74w5T/tXFwjS4mJyq8Tqr5gDtAgINpMpdiFPtCPR2UyMvIDrW72lz028A8iqnNCGCQi+GQb1Dpl6MVB3U8DGAqJJUAaIYPe2YlxY9tB6lPynLmQqu98yj4amSUTGwsfHtifFcnf+19nuriFEmBzL52okJ4px6g5nXcLaaGtV7NbRFjYDpknKdZnyGyTJKRIfLdCAe5ksVO0wfK3Ve8bBUdkCoN4UDNulwPQdhamQ9MVuQJdivN5aJYli0DX78Tim4kGJpbnwbLk+Ot7T2L+B/pFp+9Pz4ycf3vfLhLb9ji/uDTvBWpWQftPqikcGKWQ4iGembsUtfsOxqqXkg==
 Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
  by SY6P282MB3213.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:164::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 11:27:19 +0000
+ 2023 11:27:31 +0000
 Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
  ([fe80::beb:8e33:17b1:a347]) by MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
  ([fe80::beb:8e33:17b1:a347%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
- 11:27:19 +0000
+ 11:27:31 +0000
 From:   Jinjian Song <songjinjian@hotmail.com>
 To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
@@ -49,53 +49,53 @@ Cc:     jiri@resnulli.us, johannes@sipsolutions.net,
         linux-kernel@vger.kernel.org, nmarupaka@google.com,
         vsankar@lenovo.com, danielwinkler@google.com,
         Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net-next v3 1/5] net: wwan: t7xx: Infrastructure for early port configuration
-Date:   Tue,  5 Sep 2023 19:26:33 +0800
-Message-ID: <MEYP282MB269787E8D7F5383D9E6E02DABBE8A@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
+Subject: [net-next v3 3/5] net: wwan: t7xx: Creates region & snapshot for coredump log collection
+Date:   Tue,  5 Sep 2023 19:26:35 +0800
+Message-ID: <MEYP282MB2697959ECDE02DD1A88F3DFABBE8A@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230905112637.18877-1-songjinjian@hotmail.com>
 References: <20230905112637.18877-1-songjinjian@hotmail.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN:  [3WhbPeplG4Gv1UqwMtw+mVA9m5zlL60Q]
+X-TMN:  [CIjnzUYyH3SvvVoPRhKwBfRG1TY4ptps]
 X-ClientProxiedBy: SGAP274CA0006.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::18)
  To MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
-X-Microsoft-Original-Message-ID: <20230905112637.18877-2-songjinjian@hotmail.com>
+X-Microsoft-Original-Message-ID: <20230905112637.18877-4-songjinjian@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MEYP282MB2697:EE_|SY6P282MB3213:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba7d1440-12f6-4112-a14a-08dbae0310df
+X-MS-Office365-Filtering-Correlation-Id: cbd59c7d-0956-4fd3-ff74-08dbae0317a6
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Eutbg5jpIZDR47cW6Uw2ubClpLPm1WTUJnLcXQ3rIUn0VcSJDy6oWWIXwQBcaxz6EXkT115WdIVF4tqDCWLglAmxWf76uXBlXU2p8PhZ1oZ7WTrNjg4VH3i7i4he8y65VtoUBbFjOmxwrye04/GJWTpYIViGfIs01LYJRUTp9hqlShW876DhjYXWK0AYDSZf+XkIFL9gZeDrqVnhemM/nkWFLe/hAzwG099qYW0L0dW19AwVFYuYT4Bdqiki1VG0ykJw9dPtYxx9AQPooDK8hOsPKcyYghCa1QhNkn5lmHbruNlHwMxipvf4B1+Kl+Acs+jxEuLqF7QiIylzrjInMxN/yDgJvi2abCWLVU5MK1xBVWb2OXVewKQmE7f8qm4iASV4v4FaSQhi+9VCiXFwYKp3pPIC/fYImzVpQ6vbSpPgm/tRYiRgh3qoW6gEH0cvUEn0g8SB1WQPpc+9EABdoJL42fk428gekCat/pWU0rOH5oC4tsHLYahMtDKiSrP5NrMVAGM9dNqFNSuIMPAKzAgYaWpxS6w1WSG520xcPnByn54kIBKDYq8Aoh6hPBMZ
+X-Microsoft-Antispam-Message-Info: jCa9EpKyhFagXW97zP5Xnu7a8d8wQXEuPibYXNVXmGlQcjOCezmkjHXt7vheZPMhyQ19zIrpm35gvgEVdXgjPgCtcgXMd1yn0g762d81bYvyyqTnIJiXjhZUlzUs0FleVY14F3sb+nWy5UsfTenr/2UiZ67OtXp1sid5ETttnpQNO9kEGvlu+eX8ieeyKV3RqGdB82MSMCdn566oIhcZ/NKvB7jLuMcvLwzIeVeQby9r0KRypznxQgrghAPiI1M1sjwcJom4qiWp7oU5URlLFoXaFQoNRvFubKeXxcKIWbGKbc2UKhUdpHAwCDXvknVfNOQP50134vJzrODwLDsYjqwuPjtuBlkC7ftLwvy6M79TNM47eod7eUWmdBBftecGsyWZHU0qUk2SQJUiv5uXpJNI9modhiQdrgDRKwp1oCkhSELsQCO90a7/vfgCsM+LK3MeC1Yu2lIqCVk70JHCNSYjjiW7g8MbljyxKRK5BWWeiUXAM9EPXd2nD9QJFf7CS0l3iQlleOY0QVpIkDps5NKiCoLKoCDvAagu3wr6Z10uvZAX9MvZLcYZyLSLIgVd
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zEYmkXfcHfc3fL6l1RcsIBFQ/fxQ5jYrXyPk5ZMfGJV3MmXnMBkEJ6rhdDJp?=
- =?us-ascii?Q?udVnPzD58wBShcSXRLHKOiw8ztFHxlwZUorKW9p6qK5nROAF9Sw0sKE2G1om?=
- =?us-ascii?Q?h4BjK7YAQsT1ol7i5Uf9hA2wYRq2768krfIpVNw8akVbeWvUUSFUHirO1Nz9?=
- =?us-ascii?Q?k+7u2U5hSf4u1ke/QKL8dQrzOfULDFJSLXYqRvqc6tcC+1X0YmtHnXLwg1YG?=
- =?us-ascii?Q?W2YTKav5nMXKjjrtfgnjZyPyNUAbCiGr2Pdjt9VjtHsk8xxCYhAiYTZbL/Ro?=
- =?us-ascii?Q?ZH7LqS8PXvUXyOaHULIjm4BG9Cu863gxdtXQhXHCStUBgydYepBReKhtHOr+?=
- =?us-ascii?Q?O+snsJsLaAJze62OUUeSYjLGkCarXV63OpmrUMMRrxEada1upkj4KbaoPtTg?=
- =?us-ascii?Q?nvuGuXXuirZEggV1QlMysObHkyObWTQAqq7wkryBRpJvIWlNOs9RVPne+MBc?=
- =?us-ascii?Q?uvjr897zGO+jwHjvDufTUQLIWEubPm7ajOyMzMIumuJRTrisAAi8UgXiHE2H?=
- =?us-ascii?Q?HMhHme10iVJ9M0AwfT5YWVjWZff60Xcp5mt60JyzgtSrXevlMtpX6ThxRzIa?=
- =?us-ascii?Q?CYVqyGM8d/y62FRQFdxpOsJCHgF77+m5s3NgzEGCSX1OOpp7U93Y0XccFSR4?=
- =?us-ascii?Q?3N7bSjO46vd2feYwnOm33AhoB4lGi9044XE+TLD6O/yE6x6b8NBsBvKb1F+C?=
- =?us-ascii?Q?SouFAaBoSR+oY6FLVrA5Z2cu0sP/JgXhcDKgu3BDErM+p+JbZ9DZoYv670O1?=
- =?us-ascii?Q?fzQJ6G9T0OG0V98L2RC/FxQIXENYJXcuc2N376aanaRR8s80MZxOeKFr1h3+?=
- =?us-ascii?Q?pXQSh8EnUfKTE6QPBwYu2JVw/esi+3sXl/lsAaM1YRJQErvHIgv9YXJ72+kS?=
- =?us-ascii?Q?lvgX0V2O+ZlmIxLJGQXKTW1Is77jlz9lC9olehg2Xs/0C3NAnlQmQjfEA1Wc?=
- =?us-ascii?Q?LjQCJnyinvIw9eDE47YgYszZA+D9vEb8xGSehBkvS9YJjZNOHY5IC2ZklZPw?=
- =?us-ascii?Q?TI/LR+8iu27gSB0eI2xHwQY/izZ0s400J9V6pn9nFtlQZAE3j5ss9faDv4iF?=
- =?us-ascii?Q?0RJpPMVYkxmkDmniM1kKMeYGo5TvPvr/UFqAZgG0xSogq3fUak7TNHOPF5Hi?=
- =?us-ascii?Q?p3uS+r5hXfFiW8lFobm1dnBdk8U5FZg0BbpkjPBenMd/J8PaojVqps0ezbCG?=
- =?us-ascii?Q?SxU6X1kJWf/kJRXF6UGTluHRb6Zc6YLWf6p1ouGE869ZAlgDwm0wnK/FE5U?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3tBbmanMy+E9vqNKe7YMh1SmLA8uAQ8MVedv4FmbnBAlqY3kPGcOB9+vSyeI?=
+ =?us-ascii?Q?7K5EIHi0pHILhcNW1LjdCm6nizKVDgEZ5cLoCzoyonf6g/JoKr1KOiqlqYF8?=
+ =?us-ascii?Q?TgFTgtf/5UwUmlN6DGfXMv8xVa3OedgM9aN5rvtf3mqNPE0GvMypYNjO30xo?=
+ =?us-ascii?Q?GuK47JBVeD0QTGpgTDbarJiE+5QK4KWoQ8vGdH1h5rA8tQKEsifNfo9kcAzK?=
+ =?us-ascii?Q?oDa4WbzUeXPp1ZnlXqi8vWTHYyu8ez4UDUOM17+YQ9+hqNMw1jriZkcw+mgn?=
+ =?us-ascii?Q?yW/6dywT2MVDwedtX0jcVnSvdMG+z24KggPwLk6lYgztYRwl35vdYMIiLDCJ?=
+ =?us-ascii?Q?HPs/uAb2y4S8/LrpVR9pQ7jsB+fxtsM3rKccPcNNqt1ZsuwHDopFT3xYIDAT?=
+ =?us-ascii?Q?F4BpGXve7HN8WsN8VnUsCQtTgBVbTjdFa5bPmdsXG6PxjFwxe0o7i9jaTdhx?=
+ =?us-ascii?Q?bg047+5TDYzntTbLPzgTov31k84Kx0XiriUUYP25/qiTOJeNAGapGEFfPE1m?=
+ =?us-ascii?Q?jpb3GTIH9IKh4lA9Ce9NOrJzT2Tipj4G0PAYnbLiKweJy0Sn5ZG1Qr3FTVEA?=
+ =?us-ascii?Q?KDr55NUU/VRQUAhVFH8aMX833Fa9bRuW8zaZptxWZBv+bvVI93aRtEV7R0uX?=
+ =?us-ascii?Q?aBEgjqCWGS/1zPKllziMct2254CbdrC7xAyeGg1cuE5LuDEuhkLDSyhNoN1t?=
+ =?us-ascii?Q?R41OjLAA2oYstrdQxVT8OwF19CgZdrhuOEMpoHDsJCWNx/HLorwtRNuR5zLy?=
+ =?us-ascii?Q?+oBNp2E1smVlrBtCLjtjWFAMUQg/kudp98pzM/h1w4jHdZqwfU4L9bggvx55?=
+ =?us-ascii?Q?+pcSUYurlxvZ50dWXGtkXJeoAA5K782ssYPqKHzACPWS/RzmDodx59yFnIzG?=
+ =?us-ascii?Q?NKOzTZ+uTLxXskshlO3vs0pHNwIJ2kGS+MRAqmO4p4f3gn7UFSsD1LfcLTMJ?=
+ =?us-ascii?Q?a4vCmPUTP+h/SxJ/bUJXOrnMMZBryuRaq/srdKz1C8ZsQ46nET3hf6iFL19g?=
+ =?us-ascii?Q?do0Z6wjVuJAjI21kUfvtE6pan7VvsjRuYfOIrPZLMKb/mD/VYE2/QjMfnX0H?=
+ =?us-ascii?Q?v5Pfzj9dxni1L9SgWtGuNXCAlhfVXela/Voqh30X/WuUPKHnyrmf47zL64Ug?=
+ =?us-ascii?Q?8LnqYYhbbxmzDzqzurEHgqzIN9BJGquwk3Oyt4L5paqm5dTLu9/AY1H4lMrQ?=
+ =?us-ascii?Q?xl3ryUpHqt/3uPtoVgnMh77wYpPfHPo7Zeh7PbwDyqxb/+1DS9r14d1Y/sk?=
  =?us-ascii?Q?=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba7d1440-12f6-4112-a14a-08dbae0310df
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbd59c7d-0956-4fd3-ff74-08dbae0317a6
 X-MS-Exchange-CrossTenant-AuthSource: MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 11:27:19.7686
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 11:27:31.2399
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -107,633 +107,439 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Jinjian Song <jinjian.song@fibocom.com>
 
-To support cases such as FW update or Core dump, the t7xx
-device is capable of signaling the host that a special port
-needs to be created before the handshake phase.
+Adds support for t7xx wwan device coredump collection using devlink.
 
-Adds the infrastructure required to create the early ports
-which also requires a different configuration of CLDMA queues.
+In case of coredump collection when wwan device encounters an exception
+it reboots & stays in fastboot mode for coredump collection by host driver.
+On detecting exception state driver collects the core dump, creates the
+devlink region & reports an event to user space application for dump
+collection. The user space application invokes devlink region read command
+for dump collection.
 
-Base on the v5 patch version of follow series:
+Below are the devlink commands used for coredump collection.
+
+devlink region new pci/$BDF/mr_dump
+devlink region read pci/$BDF/mr_dump snapshot $ID address $ADD length $LEN
+devlink region del pci/$BDF/mr_dump snapshot $ID
+
+Base on the v5 patch version of follown series:
 'net: wwan: t7xx: fw flashing & coredump support'
-(https://patchwork.kernel.org/project/netdevbpf/patch/3777bb382f4b0395cb594a602c5c79dbab86c9e0.1674307425.git.m.chetan.kumar@linux.intel.com/)
+(https://patchwork.kernel.org/project/netdevbpf/patch/fc8bbb0b66a5ff3a489ea9857d79b374508090ef.1674307425.git.m.chetan.kumar@linux.intel.com/)
 
 Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
 ---
 v3:
  * no change
 v2:
- * remove t7xx_port_ap_msg file
+ * rename function name from devlink to flash_dump
 ---
- drivers/net/wwan/t7xx/t7xx_hif_cldma.c     | 47 ++++++++----
- drivers/net/wwan/t7xx/t7xx_hif_cldma.h     | 18 +++--
- drivers/net/wwan/t7xx/t7xx_modem_ops.c     |  4 +-
- drivers/net/wwan/t7xx/t7xx_port.h          |  4 +
- drivers/net/wwan/t7xx/t7xx_port_proxy.c    | 86 +++++++++++++++++++---
- drivers/net/wwan/t7xx/t7xx_port_proxy.h    | 10 +++
- drivers/net/wwan/t7xx/t7xx_port_wwan.c     |  5 +-
- drivers/net/wwan/t7xx/t7xx_reg.h           | 22 +++++-
- drivers/net/wwan/t7xx/t7xx_state_monitor.c | 86 +++++++++++++++++++---
- drivers/net/wwan/t7xx/t7xx_state_monitor.h |  1 +
- 10 files changed, 235 insertions(+), 48 deletions(-)
+ drivers/net/wwan/t7xx/t7xx_port_flash_dump.c | 256 ++++++++++++++++++-
+ drivers/net/wwan/t7xx/t7xx_port_flash_dump.h |  39 +++
+ drivers/net/wwan/t7xx/t7xx_state_monitor.c   |   2 +
+ 3 files changed, 296 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/wwan/t7xx/t7xx_hif_cldma.c b/drivers/net/wwan/t7xx/t7xx_hif_cldma.c
-index cc70360364b7..abc41a7089fa 100644
---- a/drivers/net/wwan/t7xx/t7xx_hif_cldma.c
-+++ b/drivers/net/wwan/t7xx/t7xx_hif_cldma.c
-@@ -57,8 +57,6 @@
- #define CHECK_Q_STOP_TIMEOUT_US		1000000
- #define CHECK_Q_STOP_STEP_US		10000
+diff --git a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c
+index 1129ef793798..b8ef3b7d7430 100644
+--- a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c
++++ b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c
+@@ -9,6 +9,11 @@
+ #include "t7xx_port_ap_msg.h"
+ #include "t7xx_port_flash_dump.h"
  
--#define CLDMA_JUMBO_BUFF_SZ		(63 * 1024 + sizeof(struct ccci_header))
--
- static void md_cd_queue_struct_reset(struct cldma_queue *queue, struct cldma_ctrl *md_ctrl,
- 				     enum mtk_txrx tx_rx, unsigned int index)
++static struct t7xx_dump_region_info t7xx_dump_region_infos[] = {
++	[T7XX_MRDUMP_INDEX] = {"mr_dump", T7XX_MRDUMP_SIZE},
++	[T7XX_LKDUMP_INDEX] = {"lk_dump", T7XX_LKDUMP_SIZE},
++};
++
+ static int t7xx_flash_dump_port_read(struct t7xx_port *port, char *buf, size_t count)
  {
-@@ -161,7 +159,7 @@ static int t7xx_cldma_gpd_rx_from_q(struct cldma_queue *queue, int budget, bool
- 		skb_reset_tail_pointer(skb);
- 		skb_put(skb, le16_to_cpu(gpd->data_buff_len));
- 
--		ret = md_ctrl->recv_skb(queue, skb);
-+		ret = queue->recv_skb(queue, skb);
- 		/* Break processing, will try again later */
- 		if (ret < 0)
- 			return ret;
-@@ -897,13 +895,13 @@ static void t7xx_cldma_hw_start_send(struct cldma_ctrl *md_ctrl, int qno,
- 
- /**
-  * t7xx_cldma_set_recv_skb() - Set the callback to handle RX packets.
-- * @md_ctrl: CLDMA context structure.
-+ * @queue: CLDMA queue.
-  * @recv_skb: Receiving skb callback.
-  */
--void t7xx_cldma_set_recv_skb(struct cldma_ctrl *md_ctrl,
-+void t7xx_cldma_set_recv_skb(struct cldma_queue *queue,
- 			     int (*recv_skb)(struct cldma_queue *queue, struct sk_buff *skb))
- {
--	md_ctrl->recv_skb = recv_skb;
-+	queue->recv_skb = recv_skb;
- }
- 
- /**
-@@ -993,6 +991,28 @@ int t7xx_cldma_send_skb(struct cldma_ctrl *md_ctrl, int qno, struct sk_buff *skb
+ 	struct sk_buff *skb;
+@@ -130,6 +135,151 @@ static int t7xx_flash_dump_fb_raw_command(char *cmd, struct t7xx_port *port, cha
  	return ret;
  }
  
-+static void t7xx_cldma_adjust_config(struct cldma_ctrl *md_ctrl, enum cldma_cfg cfg_id)
++static int t7xx_flash_dump_fb_cmd_send(struct t7xx_port *port, char *cmd)
 +{
-+	int qno;
-+
-+	for (qno = 0; qno < CLDMA_RXQ_NUM; qno++) {
-+		md_ctrl->rx_ring[qno].pkt_size = CLDMA_SHARED_Q_BUFF_SZ;
-+		t7xx_cldma_set_recv_skb(&md_ctrl->rxq[qno], t7xx_port_proxy_recv_skb);
-+	}
-+
-+	md_ctrl->rx_ring[CLDMA_RXQ_NUM - 1].pkt_size = CLDMA_JUMBO_BUFF_SZ;
-+
-+	for (qno = 0; qno < CLDMA_TXQ_NUM; qno++)
-+		md_ctrl->tx_ring[qno].pkt_size = CLDMA_SHARED_Q_BUFF_SZ;
-+
-+	if (cfg_id == CLDMA_DEDICATED_Q_CFG) {
-+		md_ctrl->tx_ring[CLDMA_Q_IDX_DUMP].pkt_size = CLDMA_DEDICATED_Q_BUFF_SZ;
-+		md_ctrl->rx_ring[CLDMA_Q_IDX_DUMP].pkt_size = CLDMA_DEDICATED_Q_BUFF_SZ;
-+		t7xx_cldma_set_recv_skb(&md_ctrl->rxq[CLDMA_Q_IDX_DUMP],
-+					t7xx_port_proxy_recv_skb_from_dedicated_queue);
-+	}
-+}
-+
- static int t7xx_cldma_late_init(struct cldma_ctrl *md_ctrl)
- {
- 	char dma_pool_name[32];
-@@ -1018,16 +1038,9 @@ static int t7xx_cldma_late_init(struct cldma_ctrl *md_ctrl)
- 			dev_err(md_ctrl->dev, "control TX ring init fail\n");
- 			goto err_free_tx_ring;
- 		}
--
--		md_ctrl->tx_ring[i].pkt_size = CLDMA_MTU;
- 	}
- 
- 	for (j = 0; j < CLDMA_RXQ_NUM; j++) {
--		md_ctrl->rx_ring[j].pkt_size = CLDMA_MTU;
--
--		if (j == CLDMA_RXQ_NUM - 1)
--			md_ctrl->rx_ring[j].pkt_size = CLDMA_JUMBO_BUFF_SZ;
--
- 		ret = t7xx_cldma_rx_ring_init(md_ctrl, &md_ctrl->rx_ring[j]);
- 		if (ret) {
- 			dev_err(md_ctrl->dev, "Control RX ring init fail\n");
-@@ -1094,6 +1107,7 @@ int t7xx_cldma_alloc(enum cldma_id hif_id, struct t7xx_pci_dev *t7xx_dev)
- {
- 	struct device *dev = &t7xx_dev->pdev->dev;
- 	struct cldma_ctrl *md_ctrl;
-+	int qno;
- 
- 	md_ctrl = devm_kzalloc(dev, sizeof(*md_ctrl), GFP_KERNEL);
- 	if (!md_ctrl)
-@@ -1102,7 +1116,9 @@ int t7xx_cldma_alloc(enum cldma_id hif_id, struct t7xx_pci_dev *t7xx_dev)
- 	md_ctrl->t7xx_dev = t7xx_dev;
- 	md_ctrl->dev = dev;
- 	md_ctrl->hif_id = hif_id;
--	md_ctrl->recv_skb = t7xx_cldma_default_recv_skb;
-+	for (qno = 0; qno < CLDMA_RXQ_NUM; qno++)
-+		md_ctrl->rxq[qno].recv_skb = t7xx_cldma_default_recv_skb;
-+
- 	t7xx_hw_info_init(md_ctrl);
- 	t7xx_dev->md->md_ctrl[hif_id] = md_ctrl;
- 	return 0;
-@@ -1332,9 +1348,10 @@ int t7xx_cldma_init(struct cldma_ctrl *md_ctrl)
- 	return -ENOMEM;
- }
- 
--void t7xx_cldma_switch_cfg(struct cldma_ctrl *md_ctrl)
-+void t7xx_cldma_switch_cfg(struct cldma_ctrl *md_ctrl, enum cldma_cfg cfg_id)
- {
- 	t7xx_cldma_late_release(md_ctrl);
-+	t7xx_cldma_adjust_config(md_ctrl, cfg_id);
- 	t7xx_cldma_late_init(md_ctrl);
- }
- 
-diff --git a/drivers/net/wwan/t7xx/t7xx_hif_cldma.h b/drivers/net/wwan/t7xx/t7xx_hif_cldma.h
-index 4410bac6993a..5453cfecbe19 100644
---- a/drivers/net/wwan/t7xx/t7xx_hif_cldma.h
-+++ b/drivers/net/wwan/t7xx/t7xx_hif_cldma.h
-@@ -31,6 +31,10 @@
- #include "t7xx_cldma.h"
- #include "t7xx_pci.h"
- 
-+#define CLDMA_JUMBO_BUFF_SZ		(63 * 1024 + sizeof(struct ccci_header))
-+#define CLDMA_SHARED_Q_BUFF_SZ		3584
-+#define CLDMA_DEDICATED_Q_BUFF_SZ	2048
-+
- /**
-  * enum cldma_id - Identifiers for CLDMA HW units.
-  * @CLDMA_ID_MD: Modem control channel.
-@@ -55,6 +59,11 @@ struct cldma_gpd {
- 	__le16 not_used2;
- };
- 
-+enum cldma_cfg {
-+	CLDMA_SHARED_Q_CFG,
-+	CLDMA_DEDICATED_Q_CFG,
-+};
-+
- struct cldma_request {
- 	struct cldma_gpd *gpd;	/* Virtual address for CPU */
- 	dma_addr_t gpd_addr;	/* Physical address for DMA */
-@@ -82,6 +91,7 @@ struct cldma_queue {
- 	wait_queue_head_t req_wq;	/* Only for TX */
- 	struct workqueue_struct *worker;
- 	struct work_struct cldma_work;
-+	int (*recv_skb)(struct cldma_queue *queue, struct sk_buff *skb);
- };
- 
- struct cldma_ctrl {
-@@ -101,24 +111,22 @@ struct cldma_ctrl {
- 	struct md_pm_entity *pm_entity;
- 	struct t7xx_cldma_hw hw_info;
- 	bool is_late_init;
--	int (*recv_skb)(struct cldma_queue *queue, struct sk_buff *skb);
- };
- 
-+#define CLDMA_Q_IDX_DUMP 1
- #define GPD_FLAGS_HWO		BIT(0)
- #define GPD_FLAGS_IOC		BIT(7)
- #define GPD_DMAPOOL_ALIGN	16
- 
--#define CLDMA_MTU		3584	/* 3.5kB */
--
- int t7xx_cldma_alloc(enum cldma_id hif_id, struct t7xx_pci_dev *t7xx_dev);
- void t7xx_cldma_hif_hw_init(struct cldma_ctrl *md_ctrl);
- int t7xx_cldma_init(struct cldma_ctrl *md_ctrl);
- void t7xx_cldma_exit(struct cldma_ctrl *md_ctrl);
--void t7xx_cldma_switch_cfg(struct cldma_ctrl *md_ctrl);
-+void t7xx_cldma_switch_cfg(struct cldma_ctrl *md_ctrl, enum cldma_cfg cfg_id);
- void t7xx_cldma_start(struct cldma_ctrl *md_ctrl);
- int t7xx_cldma_stop(struct cldma_ctrl *md_ctrl);
- void t7xx_cldma_reset(struct cldma_ctrl *md_ctrl);
--void t7xx_cldma_set_recv_skb(struct cldma_ctrl *md_ctrl,
-+void t7xx_cldma_set_recv_skb(struct cldma_queue *queue,
- 			     int (*recv_skb)(struct cldma_queue *queue, struct sk_buff *skb));
- int t7xx_cldma_send_skb(struct cldma_ctrl *md_ctrl, int qno, struct sk_buff *skb);
- void t7xx_cldma_stop_all_qs(struct cldma_ctrl *md_ctrl, enum mtk_txrx tx_rx);
-diff --git a/drivers/net/wwan/t7xx/t7xx_modem_ops.c b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
-index 24e7d491468e..cbd65aa48721 100644
---- a/drivers/net/wwan/t7xx/t7xx_modem_ops.c
-+++ b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
-@@ -529,7 +529,7 @@ static void t7xx_md_hk_wq(struct work_struct *work)
- 
- 	/* Clear the HS2 EXIT event appended in core_reset() */
- 	t7xx_fsm_clr_event(ctl, FSM_EVENT_MD_HS2_EXIT);
--	t7xx_cldma_switch_cfg(md->md_ctrl[CLDMA_ID_MD]);
-+	t7xx_cldma_switch_cfg(md->md_ctrl[CLDMA_ID_MD], CLDMA_SHARED_Q_CFG);
- 	t7xx_cldma_start(md->md_ctrl[CLDMA_ID_MD]);
- 	t7xx_fsm_broadcast_state(ctl, MD_STATE_WAITING_FOR_HS2);
- 	md->core_md.handshake_ongoing = true;
-@@ -544,7 +544,7 @@ static void t7xx_ap_hk_wq(struct work_struct *work)
- 	 /* Clear the HS2 EXIT event appended in t7xx_core_reset(). */
- 	t7xx_fsm_clr_event(ctl, FSM_EVENT_AP_HS2_EXIT);
- 	t7xx_cldma_stop(md->md_ctrl[CLDMA_ID_AP]);
--	t7xx_cldma_switch_cfg(md->md_ctrl[CLDMA_ID_AP]);
-+	t7xx_cldma_switch_cfg(md->md_ctrl[CLDMA_ID_AP], CLDMA_SHARED_Q_CFG);
- 	t7xx_cldma_start(md->md_ctrl[CLDMA_ID_AP]);
- 	md->core_ap.handshake_ongoing = true;
- 	t7xx_core_hk_handler(md, &md->core_ap, ctl, FSM_EVENT_AP_HS2, FSM_EVENT_AP_HS2_EXIT);
-diff --git a/drivers/net/wwan/t7xx/t7xx_port.h b/drivers/net/wwan/t7xx/t7xx_port.h
-index 4ae8a00a8532..09acb1ef144d 100644
---- a/drivers/net/wwan/t7xx/t7xx_port.h
-+++ b/drivers/net/wwan/t7xx/t7xx_port.h
-@@ -75,6 +75,8 @@ enum port_ch {
- 	PORT_CH_DSS6_TX = 0x20df,
- 	PORT_CH_DSS7_RX = 0x20e0,
- 	PORT_CH_DSS7_TX = 0x20e1,
-+
-+	PORT_CH_ID_UNIMPORTANT = 0xffff,
- };
- 
- struct t7xx_port;
-@@ -135,9 +137,11 @@ struct t7xx_port {
- 	};
- };
- 
-+int t7xx_get_port_mtu(struct t7xx_port *port);
- struct sk_buff *t7xx_port_alloc_skb(int payload);
- struct sk_buff *t7xx_ctrl_alloc_skb(int payload);
- int t7xx_port_enqueue_skb(struct t7xx_port *port, struct sk_buff *skb);
-+int t7xx_port_send_raw_skb(struct t7xx_port *port, struct sk_buff *skb);
- int t7xx_port_send_skb(struct t7xx_port *port, struct sk_buff *skb, unsigned int pkt_header,
- 		       unsigned int ex_msg);
- int t7xx_port_send_ctl_skb(struct t7xx_port *port, struct sk_buff *skb, unsigned int msg,
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_proxy.c b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-index 274846d39fbf..bdfeb10e0c51 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-+++ b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-@@ -100,6 +100,18 @@ static const struct t7xx_port_conf t7xx_port_conf[] = {
- 	},
- };
- 
-+static struct t7xx_port_conf t7xx_early_port_conf[] = {
-+	{
-+		.tx_ch = PORT_CH_ID_UNIMPORTANT,
-+		.rx_ch = PORT_CH_ID_UNIMPORTANT,
-+		.txq_index = CLDMA_Q_IDX_DUMP,
-+		.rxq_index = CLDMA_Q_IDX_DUMP,
-+		.txq_exp_index = CLDMA_Q_IDX_DUMP,
-+		.rxq_exp_index = CLDMA_Q_IDX_DUMP,
-+		.path_id = CLDMA_ID_AP,
-+	},
-+};
-+
- static struct t7xx_port *t7xx_proxy_get_port_by_ch(struct port_proxy *port_prox, enum port_ch ch)
- {
- 	const struct t7xx_port_conf *port_conf;
-@@ -214,7 +226,17 @@ int t7xx_port_enqueue_skb(struct t7xx_port *port, struct sk_buff *skb)
- 	return 0;
- }
- 
--static int t7xx_port_send_raw_skb(struct t7xx_port *port, struct sk_buff *skb)
-+int t7xx_get_port_mtu(struct t7xx_port *port)
-+{
-+	enum cldma_id path_id = port->port_conf->path_id;
-+	int tx_qno = t7xx_port_get_queue_no(port);
-+	struct cldma_ctrl *md_ctrl;
-+
-+	md_ctrl = port->t7xx_dev->md->md_ctrl[path_id];
-+	return md_ctrl->tx_ring[tx_qno].pkt_size;
-+}
-+
-+int t7xx_port_send_raw_skb(struct t7xx_port *port, struct sk_buff *skb)
- {
- 	enum cldma_id path_id = port->port_conf->path_id;
- 	struct cldma_ctrl *md_ctrl;
-@@ -329,6 +351,30 @@ static void t7xx_proxy_setup_ch_mapping(struct port_proxy *port_prox)
- 	}
- }
- 
-+int t7xx_port_proxy_recv_skb_from_dedicated_queue(struct cldma_queue *queue, struct sk_buff *skb)
-+{
-+	struct t7xx_pci_dev *t7xx_dev = queue->md_ctrl->t7xx_dev;
-+	struct port_proxy *port_prox = t7xx_dev->md->port_prox;
-+	const struct t7xx_port_conf *port_conf;
-+	struct t7xx_port *port;
++	int len = strlen(cmd);
 +	int ret;
 +
-+	port = &port_prox->ports[0];
-+	if (WARN_ON_ONCE(port->port_conf->rxq_index != queue->index)) {
-+		dev_kfree_skb_any(skb);
-+		return -EINVAL;
-+	}
-+
-+	port_conf = port->port_conf;
-+	ret = port_conf->ops->recv_skb(port, skb);
-+	if (ret < 0 && ret != -ENOBUFS) {
-+		dev_err(port->dev, "drop on RX ch %d, %d\n", port_conf->rx_ch, ret);
-+		dev_kfree_skb_any(skb);
-+	}
++	ret = t7xx_flash_dump_port_write(port, cmd, len);
++	if (ret == len)
++		return 0;
 +
 +	return ret;
 +}
 +
- static struct t7xx_port *t7xx_port_proxy_find_port(struct t7xx_pci_dev *t7xx_dev,
- 						   struct cldma_queue *queue, u16 channel)
++static int t7xx_flash_dump_fb_get_core(struct t7xx_port *port)
++{
++	u32 mrd_mb = T7XX_MRDUMP_SIZE / (1024 * 1024);
++	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
++	char mcmd[T7XX_FB_MCMD_SIZE + 1];
++	size_t offset_dlen = 0;
++	int clen, dlen, ret;
++
++	flash_dump->regions[T7XX_MRDUMP_INDEX].buf =
++		vmalloc(flash_dump->regions[T7XX_MRDUMP_INDEX].info->size);
++	if (!flash_dump->regions[T7XX_MRDUMP_INDEX].buf)
++		return -ENOMEM;
++
++	set_bit(T7XX_MRDUMP_STATUS, &flash_dump->status);
++	ret = t7xx_flash_dump_fb_raw_command(T7XX_FB_CMD_OEM_MRDUMP, port, NULL);
++	if (ret) {
++		dev_err(port->dev, "%s command failed\n", T7XX_FB_CMD_OEM_MRDUMP);
++		goto free_mem;
++	}
++
++	while (flash_dump->regions[T7XX_MRDUMP_INDEX].info->size > offset_dlen) {
++		clen = t7xx_flash_dump_port_read(port, mcmd, sizeof(mcmd) - 1);
++		if (clen <= 0)
++			goto free_mem;
++
++		mcmd[clen] = '\0';
++		if (!strcmp(mcmd, T7XX_FB_CMD_RTS)) {
++			memset(mcmd, 0, sizeof(mcmd));
++			ret = t7xx_flash_dump_fb_cmd_send(port, T7XX_FB_CMD_CTS);
++			if (ret < 0) {
++				dev_err(port->dev, "write for _CTS failed:%zu\n",
++					strlen(T7XX_FB_CMD_CTS));
++				goto free_mem;
++			}
++
++			dlen = t7xx_flash_dump_port_read(port,
++							 flash_dump->regions[T7XX_MRDUMP_INDEX].buf
++							 + offset_dlen, T7XX_FB_MDATA_SIZE);
++			if (dlen <= 0) {
++				dev_err(port->dev, "read data error(%d)\n", dlen);
++				ret = dlen;
++				goto free_mem;
++			}
++			offset_dlen += dlen;
++
++			ret = t7xx_flash_dump_fb_cmd_send(port, T7XX_FB_CMD_FIN);
++			if (ret < 0) {
++				dev_err(port->dev, "_FIN failed, (Read %05zu:%05zu)\n",
++					strlen(T7XX_FB_CMD_FIN), offset_dlen);
++				goto free_mem;
++			}
++			continue;
++		} else if (!strcmp(mcmd, T7XX_FB_RESP_MRDUMP_DONE)) {
++			dev_dbg(port->dev, "%s! size:%zd\n", T7XX_FB_RESP_MRDUMP_DONE, offset_dlen);
++			clear_bit(T7XX_MRDUMP_STATUS, &flash_dump->status);
++			return 0;
++		}
++		dev_err(port->dev, "getcore protocol error (read len %05d, response %s)\n",
++			clen, mcmd);
++		ret = -EPROTO;
++		goto free_mem;
++	}
++
++	dev_err(port->dev, "mrdump exceeds %uMB size. Discarded!\n", mrd_mb);
++
++free_mem:
++	vfree(flash_dump->regions[T7XX_MRDUMP_INDEX].buf);
++	clear_bit(T7XX_MRDUMP_STATUS, &flash_dump->status);
++	return ret;
++}
++
++static int t7xx_flash_dump_fb_dump_log(struct t7xx_port *port)
++{
++	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
++	struct t7xx_dump_region *lkdump_region;
++	char rsp[T7XX_FB_RESPONSE_SIZE];
++	int datasize = 0, ret;
++	size_t offset = 0;
++
++	if (flash_dump->status != T7XX_DEVLINK_IDLE) {
++		dev_err(&flash_dump->t7xx_dev->pdev->dev, "Modem is busy!\n");
++		return -EBUSY;
++	}
++
++	set_bit(T7XX_LKDUMP_STATUS, &flash_dump->status);
++	ret = t7xx_flash_dump_fb_raw_command(T7XX_FB_CMD_OEM_LKDUMP, port, rsp);
++	if (ret) {
++		dev_err(port->dev, "%s command returns failure\n", T7XX_FB_CMD_OEM_LKDUMP);
++		goto err_clear_bit;
++	}
++
++	ret = kstrtoint(rsp, 16, &datasize);
++	if (ret) {
++		dev_err(port->dev, "bad value\n");
++		goto err_clear_bit;
++	}
++
++	lkdump_region = &flash_dump->regions[T7XX_LKDUMP_INDEX];
++	if (datasize > lkdump_region->info->size) {
++		dev_err(port->dev, "lkdump size is more than %dKB. Discarded!\n",
++			T7XX_LKDUMP_SIZE / 1024);
++		ret = -EFBIG;
++		goto err_clear_bit;
++	}
++
++	lkdump_region->buf = vmalloc(lkdump_region->info->size);
++	if (!lkdump_region->buf) {
++		ret = -ENOMEM;
++		goto err_clear_bit;
++	}
++
++	while (datasize > 0) {
++		int dlen = t7xx_flash_dump_port_read(port, lkdump_region->buf + offset, datasize);
++
++		if (dlen <= 0) {
++			dev_err(port->dev, "lkdump read error ret = %d\n", dlen);
++			ret = dlen;
++			goto err_clear_bit;
++		}
++
++		datasize -= dlen;
++		offset += dlen;
++	}
++
++	dev_dbg(port->dev, "LKDUMP DONE! size:%zd\n", offset);
++	clear_bit(T7XX_LKDUMP_STATUS, &flash_dump->status);
++	return t7xx_flash_dump_fb_handle_response(port, NULL);
++
++err_clear_bit:
++	clear_bit(T7XX_LKDUMP_STATUS, &flash_dump->status);
++	return ret;
++}
++
+ static int t7xx_flash_dump_fb_download_command(struct t7xx_port *port, size_t size)
  {
-@@ -359,7 +405,7 @@ static struct t7xx_port *t7xx_port_proxy_find_port(struct t7xx_pci_dev *t7xx_dev
-  ** 0		- Packet consumed.
-  ** -ERROR	- Failed to process skb.
-  */
--static int t7xx_port_proxy_recv_skb(struct cldma_queue *queue, struct sk_buff *skb)
-+int t7xx_port_proxy_recv_skb(struct cldma_queue *queue, struct sk_buff *skb)
+ 	char download_command[T7XX_FB_COMMAND_SIZE];
+@@ -355,6 +505,67 @@ static const struct devlink_ops devlink_flash_ops = {
+ 	.reload_up = t7xx_devlink_reload_up,
+ };
+ 
++static int t7xx_flash_dump_region_snapshot(struct devlink *dl, const struct devlink_region_ops *ops,
++					   struct netlink_ext_ack *extack, u8 **data)
++{
++	struct t7xx_flash_dump *flash_dump = devlink_priv(dl);
++	struct t7xx_dump_region *region = ops->priv;
++	struct t7xx_port *port = flash_dump->port;
++	u8 *snapshot_mem;
++
++	if (flash_dump->status != T7XX_DEVLINK_IDLE)
++		return -EBUSY;
++
++	if (!strncmp(ops->name, "mr_dump", strlen("mr_dump"))) {
++		snapshot_mem = vmalloc(region->info->size);
++		memcpy(snapshot_mem, region->buf, region->info->size);
++		*data = snapshot_mem;
++	} else if (!strncmp(ops->name, "lk_dump", strlen("lk_dump"))) {
++		int ret;
++
++		ret = t7xx_flash_dump_fb_dump_log(port);
++		if (ret)
++			return ret;
++
++		*data = region->buf;
++	}
++
++	return 0;
++}
++
++static_assert(ARRAY_SIZE(t7xx_dump_region_infos) ==
++	      ARRAY_SIZE(((struct t7xx_flash_dump *)NULL)->regions));
++
++/* To create regions for dump files */
++static int t7xx_flash_dump_create_regions(struct t7xx_flash_dump *flash_dump)
++{
++	int ret, i;
++
++	for (i = 0; i < ARRAY_SIZE(t7xx_dump_region_infos); i++) {
++		flash_dump->regions[i].info = &t7xx_dump_region_infos[i];
++		flash_dump->regions[i].ops.name = flash_dump->regions[i].info->name;
++		flash_dump->regions[i].ops.snapshot = t7xx_flash_dump_region_snapshot;
++		flash_dump->regions[i].ops.destructor = vfree;
++		flash_dump->regions[i].dlreg = devlink_region_create(flash_dump->ctx,
++								     &flash_dump->regions[i].ops,
++								     T7XX_MAX_SNAPSHOTS,
++								     t7xx_dump_region_infos[i].size
++								     );
++		if (IS_ERR(flash_dump->regions[i].dlreg)) {
++			ret = PTR_ERR(flash_dump->regions[i].dlreg);
++			dev_err(flash_dump->port->dev, "create region failed, err %d\n", ret);
++			while (i >= 0)
++				devlink_region_destroy(flash_dump->regions[i--].dlreg);
++
++			return ret;
++		}
++
++		flash_dump->regions[i].ops.priv = &flash_dump->regions[i];
++	}
++
++	return 0;
++}
++
+ int t7xx_devlink_register(struct t7xx_pci_dev *t7xx_dev)
  {
- 	struct ccci_header *ccci_h = (struct ccci_header *)skb->data;
- 	struct t7xx_pci_dev *t7xx_dev = queue->md_ctrl->t7xx_dev;
-@@ -451,13 +497,39 @@ static void t7xx_proxy_init_all_ports(struct t7xx_modem *md)
- 	t7xx_proxy_setup_ch_mapping(port_prox);
+ 	union devlink_param_value value;
+@@ -379,6 +590,14 @@ int t7xx_devlink_register(struct t7xx_pci_dev *t7xx_dev)
+ 	return 0;
  }
  
-+void t7xx_port_proxy_set_cfg(struct t7xx_modem *md, enum port_cfg_id cfg_id)
++static void t7xx_flash_dump_work(struct work_struct *work)
 +{
-+	struct port_proxy *port_prox = md->port_prox;
-+	const struct t7xx_port_conf *port_conf;
-+	u32 port_count;
++	struct t7xx_flash_dump *flash_dump;
++
++	flash_dump = container_of(work, struct t7xx_flash_dump, ws);
++	t7xx_flash_dump_fb_get_core(flash_dump->port);
++}
++
+ void t7xx_devlink_unregister(struct t7xx_pci_dev *t7xx_dev)
+ {
+ 	struct devlink *dl_ctx = t7xx_dev->flash_dump->ctx;
+@@ -399,29 +618,64 @@ void t7xx_devlink_unregister(struct t7xx_pci_dev *t7xx_dev)
+ static int t7xx_port_flash_dump_init(struct t7xx_port *port)
+ {
+ 	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
++	struct workqueue_struct *flash_dump_wq;
++	int rc;
++
++	flash_dump_wq = create_workqueue("t7xx_flash_dump");
++	if (!flash_dump_wq) {
++		dev_err(port->dev, "create_workqueue failed\n");
++		return -ENODATA;
++	}
+ 
++	INIT_WORK(&flash_dump->ws, t7xx_flash_dump_work);
+ 	port->rx_length_th = T7XX_MAX_QUEUE_LENGTH;
+ 
+ 	flash_dump->mode = T7XX_NORMAL_MODE;
+ 	flash_dump->status = T7XX_DEVLINK_IDLE;
++	flash_dump->wq = flash_dump_wq;
+ 	flash_dump->port = port;
+ 
++	rc = t7xx_flash_dump_create_regions(flash_dump);
++	if (rc) {
++		destroy_workqueue(flash_dump->wq);
++		dev_err(port->dev, "devlink region creation failed, rc %d\n", rc);
++		return -ENOMEM;
++	}
++
+ 	return 0;
+ }
+ 
+ static void t7xx_port_flash_dump_uninit(struct t7xx_port *port)
+ {
+ 	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
 +	int i;
 +
-+	t7xx_port_proxy_uninit(port_prox);
++	vfree(flash_dump->regions[T7XX_MRDUMP_INDEX].buf);
+ 
+ 	flash_dump->mode = T7XX_NORMAL_MODE;
++	destroy_workqueue(flash_dump->wq);
 +
-+	if (cfg_id == PORT_CFG_ID_EARLY) {
-+		port_conf = t7xx_early_port_conf;
-+		port_count = ARRAY_SIZE(t7xx_early_port_conf);
-+	} else {
-+		port_conf = t7xx_port_conf;
-+		port_count = ARRAY_SIZE(t7xx_port_conf);
-+	}
++	for (i = 0; i < ARRAY_SIZE(t7xx_dump_region_infos); ++i)
++		devlink_region_destroy(flash_dump->regions[i].dlreg);
+ 
+ 	skb_queue_purge(&port->rx_skb_list);
+ }
+ 
++static int t7xx_flash_dump_enable_chl(struct t7xx_port *port)
++{
++	struct t7xx_flash_dump *flash_dump = port->t7xx_dev->flash_dump;
 +
-+	for (i = 0; i < port_count; i++)
-+		port_prox->ports[i].port_conf = &port_conf[i];
++	t7xx_port_enable_chl(port);
++	if (flash_dump->mode == T7XX_FB_DUMP_MODE)
++		queue_work(flash_dump->wq, &flash_dump->ws);
 +
-+	port_prox->cfg_id = cfg_id;
-+	port_prox->port_count = port_count;
-+	t7xx_proxy_init_all_ports(md);
++	return 0;
 +}
 +
- static int t7xx_proxy_alloc(struct t7xx_modem *md)
- {
-+	unsigned int early_port_count = ARRAY_SIZE(t7xx_early_port_conf);
- 	unsigned int port_count = ARRAY_SIZE(t7xx_port_conf);
- 	struct device *dev = &md->t7xx_dev->pdev->dev;
- 	struct port_proxy *port_prox;
--	int i;
- 
-+	port_count = max(port_count, early_port_count);
- 	port_prox = devm_kzalloc(dev, sizeof(*port_prox) + sizeof(struct t7xx_port) * port_count,
- 				 GFP_KERNEL);
- 	if (!port_prox)
-@@ -465,12 +537,8 @@ static int t7xx_proxy_alloc(struct t7xx_modem *md)
- 
- 	md->port_prox = port_prox;
- 	port_prox->dev = dev;
-+	t7xx_port_proxy_set_cfg(md, PORT_CFG_ID_EARLY);
- 
--	for (i = 0; i < port_count; i++)
--		port_prox->ports[i].port_conf = &t7xx_port_conf[i];
--
--	port_prox->port_count = port_count;
--	t7xx_proxy_init_all_ports(md);
- 	return 0;
- }
- 
-@@ -492,8 +560,6 @@ int t7xx_port_proxy_init(struct t7xx_modem *md)
- 	if (ret)
- 		return ret;
- 
--	t7xx_cldma_set_recv_skb(md->md_ctrl[CLDMA_ID_AP], t7xx_port_proxy_recv_skb);
--	t7xx_cldma_set_recv_skb(md->md_ctrl[CLDMA_ID_MD], t7xx_port_proxy_recv_skb);
- 	return 0;
- }
- 
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_proxy.h b/drivers/net/wwan/t7xx/t7xx_port_proxy.h
-index 81d059fbc0fb..7f5706811445 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_proxy.h
-+++ b/drivers/net/wwan/t7xx/t7xx_port_proxy.h
-@@ -31,11 +31,18 @@
- #define RX_QUEUE_MAXLEN		32
- #define CTRL_QUEUE_MAXLEN	16
- 
-+enum port_cfg_id {
-+	PORT_CFG_ID_INVALID,
-+	PORT_CFG_ID_NORMAL,
-+	PORT_CFG_ID_EARLY,
-+};
-+
- struct port_proxy {
- 	int			port_count;
- 	struct list_head	rx_ch_ports[PORT_CH_ID_MASK + 1];
- 	struct list_head	queue_ports[CLDMA_NUM][MTK_QUEUES];
- 	struct device		*dev;
-+	enum port_cfg_id	cfg_id;
- 	struct t7xx_port	ports[];
+ struct port_ops flash_dump_port_ops = {
+ 	.init = &t7xx_port_flash_dump_init,
+ 	.recv_skb = &t7xx_port_enqueue_skb,
+ 	.uninit = &t7xx_port_flash_dump_uninit,
+-	.enable_chl = &t7xx_port_enable_chl,
++	.enable_chl = &t7xx_flash_dump_enable_chl,
+ 	.disable_chl = &t7xx_port_disable_chl,
  };
+diff --git a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h
+index 7614c01dcb2c..90758baa7854 100644
+--- a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h
++++ b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.h
+@@ -12,28 +12,67 @@
+ #define T7XX_MAX_QUEUE_LENGTH 32
+ #define T7XX_FB_COMMAND_SIZE  64
+ #define T7XX_FB_RESPONSE_SIZE 512
++#define T7XX_FB_MCMD_SIZE     64
++#define T7XX_FB_MDATA_SIZE    1024
+ #define T7XX_FB_RESP_COUNT    30
  
-@@ -98,5 +105,8 @@ void t7xx_port_proxy_md_status_notify(struct port_proxy *port_prox, unsigned int
- int t7xx_port_enum_msg_handler(struct t7xx_modem *md, void *msg);
- int t7xx_port_proxy_chl_enable_disable(struct port_proxy *port_prox, unsigned int ch_id,
- 				       bool en_flag);
-+void t7xx_port_proxy_set_cfg(struct t7xx_modem *md, enum port_cfg_id cfg_id);
-+int t7xx_port_proxy_recv_skb(struct cldma_queue *queue, struct sk_buff *skb);
-+int t7xx_port_proxy_recv_skb_from_dedicated_queue(struct cldma_queue *queue, struct sk_buff *skb);
++#define T7XX_FB_EVENT_SIZE      50
++
++#define T7XX_MAX_SNAPSHOTS  1
++#define T7XX_MRDUMP_SIZE    (160 * 1024 * 1024)
++#define T7XX_LKDUMP_SIZE    (256 * 1024)
++#define T7XX_TOTAL_REGIONS  2
++
+ #define T7XX_FLASH_STATUS   0
++#define T7XX_MRDUMP_STATUS  1
++#define T7XX_LKDUMP_STATUS  2
+ #define T7XX_GET_INFO       3
  
- #endif /* __T7XX_PORT_PROXY_H__ */
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_wwan.c b/drivers/net/wwan/t7xx/t7xx_port_wwan.c
-index 17389c8f6600..ddc20ddfa734 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_wwan.c
-+++ b/drivers/net/wwan/t7xx/t7xx_port_wwan.c
-@@ -152,14 +152,15 @@ static int t7xx_port_wwan_disable_chl(struct t7xx_port *port)
- static void t7xx_port_wwan_md_state_notify(struct t7xx_port *port, unsigned int state)
- {
- 	const struct t7xx_port_conf *port_conf = port->port_conf;
--	unsigned int header_len = sizeof(struct ccci_header);
-+	unsigned int header_len = sizeof(struct ccci_header), mtu;
- 	struct wwan_port_caps caps;
+ #define T7XX_DEVLINK_IDLE   0
+ #define T7XX_NORMAL_MODE    0
+ #define T7XX_FB_DL_MODE     1
++#define T7XX_FB_DUMP_MODE   2
  
- 	if (state != MD_STATE_READY)
- 		return;
++#define T7XX_FB_CMD_RTS          "_RTS"
++#define T7XX_FB_CMD_CTS          "_CTS"
++#define T7XX_FB_CMD_FIN          "_FIN"
++#define T7XX_FB_CMD_OEM_MRDUMP   "oem mrdump"
++#define T7XX_FB_CMD_OEM_LKDUMP   "oem dump_pllk_log"
+ #define T7XX_FB_CMD_DOWNLOAD     "download"
+ #define T7XX_FB_CMD_FLASH        "flash"
+ #define T7XX_FB_CMD_REBOOT       "reboot"
++#define T7XX_FB_RESP_MRDUMP_DONE "MRDUMP08_DONE"
+ #define T7XX_FB_RESP_OKAY        "OKAY"
+ #define T7XX_FB_RESP_FAIL        "FAIL"
+ #define T7XX_FB_RESP_DATA        "DATA"
+ #define T7XX_FB_RESP_INFO        "INFO"
+ #define T7XX_FB_CMD_GET_VER      "get_version"
  
- 	if (!port->wwan.wwan_port) {
--		caps.frag_len = CLDMA_MTU - header_len;
-+		mtu = t7xx_get_port_mtu(port);
-+		caps.frag_len = mtu - header_len;
- 		caps.headroom_len = header_len;
- 		port->wwan.wwan_port = wwan_create_port(port->dev, port_conf->port_type,
- 							&wwan_ops, &caps, port);
-diff --git a/drivers/net/wwan/t7xx/t7xx_reg.h b/drivers/net/wwan/t7xx/t7xx_reg.h
-index c41d7d094c08..3b665c6116fe 100644
---- a/drivers/net/wwan/t7xx/t7xx_reg.h
-+++ b/drivers/net/wwan/t7xx/t7xx_reg.h
-@@ -102,10 +102,26 @@ enum t7xx_pm_resume_state {
++/* Internal region indexes */
++enum t7xx_regions {
++	T7XX_MRDUMP_INDEX,
++	T7XX_LKDUMP_INDEX,
++};
++
++struct t7xx_dump_region_info {
++	const char *name;
++	size_t size;
++};
++
++struct t7xx_dump_region {
++	struct t7xx_dump_region_info *info;
++	struct devlink_region_ops ops;
++	struct devlink_region *dlreg;
++	void *buf;
++};
++
+ struct t7xx_flash_dump {
+ 	struct t7xx_pci_dev *t7xx_dev;
+ 	struct t7xx_port *port;
+ 	struct devlink *ctx;
++	struct t7xx_dump_region regions[T7XX_TOTAL_REGIONS];
++	struct workqueue_struct *wq;
++	struct work_struct ws;
+ 	unsigned long status;
+ 	u8 mode;
  };
- 
- #define T7XX_PCIE_MISC_DEV_STATUS		0x0d1c
--#define MISC_STAGE_MASK				GENMASK(2, 0)
--#define MISC_RESET_TYPE_PLDR			BIT(26)
- #define MISC_RESET_TYPE_FLDR			BIT(27)
--#define LINUX_STAGE				4
-+#define MISC_RESET_TYPE_PLDR			BIT(26)
-+#define MISC_LK_EVENT_MASK			GENMASK(11, 8)
-+
-+enum lk_event_id {
-+	LK_EVENT_NORMAL = 0,
-+	LK_EVENT_CREATE_PD_PORT = 1,
-+	LK_EVENT_CREATE_POST_DL_PORT = 2,
-+	LK_EVENT_RESET = 7,
-+};
-+
-+#define MISC_STAGE_MASK				GENMASK(2, 0)
-+
-+enum t7xx_device_stage {
-+	T7XX_DEV_STAGE_INIT = 0,
-+	T7XX_DEV_STAGE_BROM_PRE = 1,
-+	T7XX_DEV_STAGE_BROM_POST = 2,
-+	T7XX_DEV_STAGE_LK = 3,
-+	T7XX_DEV_STAGE_LINUX = 4,
-+};
- 
- #define T7XX_PCIE_RESOURCE_STATUS		0x0d28
- #define T7XX_PCIE_RESOURCE_STS_MSK		GENMASK(4, 0)
 diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.c b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-index 80edb8e75a6a..9c51e332e7c5 100644
+index 24f79e981fd9..86cdb0d572d4 100644
 --- a/drivers/net/wwan/t7xx/t7xx_state_monitor.c
 +++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-@@ -206,6 +206,34 @@ static void fsm_routine_exception(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_comm
- 		fsm_finish_command(ctl, cmd, 0);
- }
+@@ -244,6 +244,8 @@ static void t7xx_lk_stage_event_handling(struct t7xx_fsm_ctl *ctl, unsigned int
  
-+static void t7xx_lk_stage_event_handling(struct t7xx_fsm_ctl *ctl, unsigned int status)
-+{
-+	struct t7xx_modem *md = ctl->md;
-+	struct cldma_ctrl *md_ctrl;
-+	enum lk_event_id lk_event;
-+	struct device *dev;
-+
-+	dev = &md->t7xx_dev->pdev->dev;
-+	lk_event = FIELD_GET(MISC_LK_EVENT_MASK, status);
-+	switch (lk_event) {
-+	case LK_EVENT_NORMAL:
-+	case LK_EVENT_RESET:
-+		break;
-+
-+	case LK_EVENT_CREATE_PD_PORT:
-+		md_ctrl = md->md_ctrl[CLDMA_ID_AP];
-+		t7xx_cldma_hif_hw_init(md_ctrl);
-+		t7xx_cldma_stop(md_ctrl);
-+		t7xx_cldma_switch_cfg(md_ctrl, CLDMA_DEDICATED_Q_CFG);
-+		t7xx_cldma_start(md_ctrl);
-+		break;
-+
-+	default:
-+		dev_err(dev, "Invalid LK event %d\n", lk_event);
-+		break;
-+	}
-+}
-+
- static int fsm_stopped_handler(struct t7xx_fsm_ctl *ctl)
- {
- 	ctl->curr_state = FSM_STATE_STOPPED;
-@@ -317,7 +345,8 @@ static int fsm_routine_starting(struct t7xx_fsm_ctl *ctl)
- static void fsm_routine_start(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command *cmd)
- {
- 	struct t7xx_modem *md = ctl->md;
--	u32 dev_status;
-+	struct device *dev;
-+	u32 status;
- 	int ret;
+ 		if (lk_event == LK_EVENT_CREATE_POST_DL_PORT)
+ 			md->t7xx_dev->flash_dump->mode = T7XX_FB_DL_MODE;
++		else
++			md->t7xx_dev->flash_dump->mode = T7XX_FB_DUMP_MODE;
  
- 	if (!md)
-@@ -329,23 +358,57 @@ static void fsm_routine_start(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command
- 		return;
- 	}
- 
-+	dev = &md->t7xx_dev->pdev->dev;
- 	ctl->curr_state = FSM_STATE_PRE_START;
- 	t7xx_md_event_notify(md, FSM_PRE_START);
- 
--	ret = read_poll_timeout(ioread32, dev_status,
--				(dev_status & MISC_STAGE_MASK) == LINUX_STAGE, 20000, 2000000,
--				false, IREG_BASE(md->t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
-+	ret = read_poll_timeout(ioread32, status,
-+				((status & MISC_STAGE_MASK) == T7XX_DEV_STAGE_LINUX) ||
-+				((status & MISC_STAGE_MASK) == T7XX_DEV_STAGE_LK), 100000,
-+				20000000, false, IREG_BASE(md->t7xx_dev) +
-+				T7XX_PCIE_MISC_DEV_STATUS);
-+
- 	if (ret) {
--		struct device *dev = &md->t7xx_dev->pdev->dev;
-+		dev_err(dev, "read poll timeout %d\n", ret);
-+		goto finish_command;
-+	}
- 
--		fsm_finish_command(ctl, cmd, -ETIMEDOUT);
--		dev_err(dev, "Invalid device status 0x%lx\n", dev_status & MISC_STAGE_MASK);
--		return;
-+	if (status != ctl->prev_status || cmd->flag != 0) {
-+		u32 stage = FIELD_GET(MISC_STAGE_MASK, status);
-+
-+		switch (stage) {
-+		case T7XX_DEV_STAGE_INIT:
-+		case T7XX_DEV_STAGE_BROM_PRE:
-+		case T7XX_DEV_STAGE_BROM_POST:
-+			dev_dbg(dev, "BROM_STAGE Entered\n");
-+			ret = t7xx_fsm_append_cmd(ctl, FSM_CMD_START, 0);
-+			break;
-+
-+		case T7XX_DEV_STAGE_LK:
-+			dev_dbg(dev, "LK_STAGE Entered\n");
-+			t7xx_lk_stage_event_handling(ctl, status);
-+			break;
-+
-+		case T7XX_DEV_STAGE_LINUX:
-+			dev_dbg(dev, "LINUX_STAGE Entered\n");
-+			t7xx_mhccif_mask_clr(md->t7xx_dev, D2H_INT_PORT_ENUM |
-+					     D2H_INT_ASYNC_MD_HK | D2H_INT_ASYNC_AP_HK);
-+			if (cmd->flag == 0)
-+				break;
-+			t7xx_cldma_hif_hw_init(md->md_ctrl[CLDMA_ID_AP]);
-+			t7xx_cldma_hif_hw_init(md->md_ctrl[CLDMA_ID_MD]);
-+			t7xx_port_proxy_set_cfg(md, PORT_CFG_ID_NORMAL);
-+			ret = fsm_routine_starting(ctl);
-+			break;
-+
-+		default:
-+			break;
-+		}
-+		ctl->prev_status = status;
- 	}
- 
--	t7xx_cldma_hif_hw_init(md->md_ctrl[CLDMA_ID_AP]);
--	t7xx_cldma_hif_hw_init(md->md_ctrl[CLDMA_ID_MD]);
--	fsm_finish_command(ctl, cmd, fsm_routine_starting(ctl));
-+finish_command:
-+	fsm_finish_command(ctl, cmd, ret);
- }
- 
- static int fsm_main_thread(void *data)
-@@ -516,6 +579,7 @@ void t7xx_fsm_reset(struct t7xx_modem *md)
- 	fsm_flush_event_cmd_qs(ctl);
- 	ctl->curr_state = FSM_STATE_STOPPED;
- 	ctl->exp_flg = false;
-+	ctl->prev_status = 0;
- }
- 
- int t7xx_fsm_init(struct t7xx_modem *md)
-diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.h b/drivers/net/wwan/t7xx/t7xx_state_monitor.h
-index b6e76f3903c8..5e8012567ba1 100644
---- a/drivers/net/wwan/t7xx/t7xx_state_monitor.h
-+++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.h
-@@ -96,6 +96,7 @@ struct t7xx_fsm_ctl {
- 	bool			exp_flg;
- 	spinlock_t		notifier_lock;		/* Protects notifier list */
- 	struct list_head	notifier_list;
-+	u32                     prev_status;
- };
- 
- struct t7xx_fsm_event {
+ 		port->port_conf->ops->enable_chl(port);
+ 		t7xx_cldma_start(md_ctrl);
 -- 
 2.34.1
 
