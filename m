@@ -2,299 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE79BEE14A9
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 22:39:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFFCEE14A9
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 22:59:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230016AbjIFWja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 18:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48890 "EHLO
+        id S242749AbjIFW7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 18:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232062AbjIFWj2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 18:39:28 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E1019B5
-        for <linux-doc@vger.kernel.org>; Wed,  6 Sep 2023 15:39:23 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-4005f0a6c2bso14775e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 06 Sep 2023 15:39:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1694039962; x=1694644762; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IyLpoOXcwFkFhP5nUfC2Oc1JLo+RO0y34xG0OWhq0EE=;
-        b=oKri3sOCRogXd8fYTrgjGZhOwOdkuNPJtxcxK4h+PDjID/qkLc5i5D+a2nrFmCL1R7
-         vzy5L3sjxmZ+cRQFAplo45aXaex94qQDvwZu3vMhtx038sv8Dknr20fkzuIq4Th72YRh
-         ktI0u90VqfaFAq7WyfUs3EIz7mg6qLESGc2p/Vb5iw8fO9IqzrKo7kWyN/RQ0zQpXrvm
-         zRnctNmRspZ4d+BUeGke6A2LPpjFyuBMDuy2VRZPoBb9y0tig/OJbkYa9LcLmF4f3Ifi
-         gjK63YLc/PGuvELodzm/NxQN30a43yXnsj5e1QPx44Ri+dNxpIHCQCkd1C+AyM+zf0lH
-         AFdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694039962; x=1694644762;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IyLpoOXcwFkFhP5nUfC2Oc1JLo+RO0y34xG0OWhq0EE=;
-        b=THziSQ6kXAv8L4f9JOv4/ouAbFF4fc58ikFJCrgtWeDetK4lhJm7Wu2NANaZeC7b6M
-         Y0upodW/j+jGHpi8IfdDta3IJDQT5akbi7MHVb4GsuZQFQWn519lwOIkBWX6N4kCUChw
-         LmFn07YaRzNOGhXMUnXiMrLpS2VSijHaCYqMYvjy0vNq1VO5nmWmZulljFpytDlS3qIK
-         ozscrVr7xkIt27N55JbPREwHTo6owAiGXCPl8JAaUmY9Cc7CXkRhJd/vwSA3Igcz1McN
-         4xdF4zwWarCnwkSMRz6DaqkVlUhMEFSw8iqcCwrYk3pPwLWaZKk1osRNRM3p4eW4gw05
-         ZcGg==
-X-Gm-Message-State: AOJu0YxecfTAxjq29wKQ2Nn+2lDaOO+ugzxhGIeAVTrv+Zmb1vfzcylk
-        C5yXuU7KNV1NOxeMFjnQ6nfhbmp8f3BcMr71NZC/xRFBFv9uTvnFZa8=
-X-Google-Smtp-Source: AGHT+IFjE7IkWNudt3/ZAtns7s8g7VmC8LdCo6/f7zAueKmVJHutmR5MznXqdcLNUd0jg35qMP4G5z1jptraZwVBqEg=
-X-Received: by 2002:a05:600c:1d8b:b0:3f7:e4d8:2569 with SMTP id
- p11-20020a05600c1d8b00b003f7e4d82569mr15129wms.5.1694039961651; Wed, 06 Sep
- 2023 15:39:21 -0700 (PDT)
+        with ESMTP id S231475AbjIFW7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 18:59:19 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA7819A9;
+        Wed,  6 Sep 2023 15:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694041155; x=1725577155;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iZpacsJmtPibvRYCVTNE2cwagSSO7Bbbq8tQpQEh6CI=;
+  b=jMdG8uWYkmbLcw8PDu2Me4eS7cVHoJLWNjsYqHwXA1IXNl7PgKyjz3tc
+   TB1KLGAHGxVMmTn8bjjxv1qJ8AQUvhWJwTWaQGYuWVSdxMuQb1nhjIzKU
+   a9gW1vN907KAfwbwyt5780n7yXS7VamyunJNlE7p4EB09yvITSXmHItFs
+   4SAtdQacKqxWj5sh1k1xsdAiW/2mfCjRKyS2v39G50tHgokShFkLiREBL
+   x3dce893sHuBfTNd1ZlPGU5m1uwo3ZemhEkZ/GAx45q2P7QK3EAYvaFwC
+   1PtcTJFy4WgTQJ2NWuSsKuHAEqBkuxahJtMLLaIHhzo+iAwUBvf6p89sT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="463582382"
+X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
+   d="scan'208";a="463582382"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 15:59:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691498791"
+X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
+   d="scan'208";a="691498791"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 06 Sep 2023 15:59:08 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qe1UI-0000ff-0E;
+        Wed, 06 Sep 2023 22:59:06 +0000
+Date:   Thu, 7 Sep 2023 06:58:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nitesh Shetty <nj.shetty@samsung.com>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
+        mcgrof@kernel.org, gost.dev@samsung.com,
+        Nitesh Shetty <nj.shetty@samsung.com>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Anuj Gupta <anuj20.g@samsung.com>,
+        Vincent Fu <vincent.fu@samsung.com>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v15 12/12] null_blk: add support for copy offload
+Message-ID: <202309070607.akFEF327-lkp@intel.com>
+References: <20230906163844.18754-13-nj.shetty@samsung.com>
 MIME-Version: 1.0
-References: <cover.1689171160.git.mchehab@kernel.org> <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
- <CA+GJov6VPggogod2=pYAxKRnP_hnqO7DMmpTzT4AAU_fiPQOfw@mail.gmail.com> <20230901091146.749cfdfa@sal.lan>
-In-Reply-To: <20230901091146.749cfdfa@sal.lan>
-From:   Rae Moar <rmoar@google.com>
-Date:   Wed, 6 Sep 2023 18:39:09 -0400
-Message-ID: <CA+GJov6X5pMYDWMOB=7ujv36yyMKQemDGyP6C310VaVz1h2FuA@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit test
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Arthur Grillo <arthurgrillo@riseup.net>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        David Gow <davidgow@google.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, mauro.chehab@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230906163844.18754-13-nj.shetty@samsung.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 1, 2023 at 3:11=E2=80=AFAM Mauro Carvalho Chehab <mchehab@kerne=
-l.org> wrote:
->
-> Hi Rae,
->
-> Em Thu, 13 Jul 2023 17:31:19 -0400
-> Rae Moar <rmoar@google.com> escreveu:
->
-> > On Wed, Jul 12, 2023 at 10:29 AM Mauro Carvalho Chehab <mchehab@kernel.=
-org>
-> > wrote:
-> >
-> > > As an example for the new documentation tool, add a documentation
-> > > for drm_buddy_test.
-> > >
-> > > I opted to place this on a completely different directory, in order
-> > > to make easier to test the feature with:
-> > >
-> > >         $ make SPHINXDIRS=3D"tests" htmldocs
-> > >
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > ---
-> > >
-> > > To avoid mailbombing on a large number of people, only mailing lists =
-were
-> > > C/C on the cover.
-> > > See [PATCH RFC 0/2] at:
-> > > https://lore.kernel.org/all/cover.1689171160.git.mchehab@kernel.org/
-> > >
-> > >  Documentation/index.rst                |  2 +-
-> > >  Documentation/tests/index.rst          |  6 ++++++
-> > >  Documentation/tests/kunit.rst          |  5 +++++
-> > >  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
-> > >  4 files changed, 24 insertions(+), 1 deletion(-)
-> > >  create mode 100644 Documentation/tests/index.rst
-> > >  create mode 100644 Documentation/tests/kunit.rst
-> > >
-> > > diff --git a/Documentation/index.rst b/Documentation/index.rst
-> > > index 9dfdc826618c..80a6ce14a61a 100644
-> > > --- a/Documentation/index.rst
-> > > +++ b/Documentation/index.rst
-> > > @@ -60,7 +60,7 @@ Various other manuals with useful information for a=
-ll
-> > > kernel developers.
-> > >     fault-injection/index
-> > >     livepatch/index
-> > >     rust/index
-> > > -
-> > > +   test/index
-> > >
-> > >  User-oriented documentation
-> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > > diff --git a/Documentation/tests/index.rst b/Documentation/tests/inde=
-x.rst
-> > > new file mode 100644
-> > > index 000000000000..bfc39eb5c0aa
-> > > --- /dev/null
-> > > +++ b/Documentation/tests/index.rst
-> > > @@ -0,0 +1,6 @@
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> > > +Kunit documentation test
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> > > +
-> > > +.. toctree::
-> > > +   kunit
-> > > diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kuni=
-t.rst
-> > > new file mode 100644
-> > > index 000000000000..6ffc151988a0
-> > > --- /dev/null
-> > > +++ b/Documentation/tests/kunit.rst
-> > > @@ -0,0 +1,5 @@
-> > > +Kunit tests
-> > > +-----------
-> > > +
-> > > +.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
-> > > +
-> > > diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c
-> > > b/drivers/gpu/drm/tests/drm_buddy_test.c
-> > > index 09ee6f6af896..dd6c5afd6cd6 100644
-> > > --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> > > +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> > > @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_sui=
-te
-> > > *suite)
-> > >         return 0;
-> > >  }
-> > >
-> > > +/**
-> > > + * KTEST_SUITE: set of tests for drm buddy alloc
-> > > + * Scope: drm subsystem
-> > > + * Mega feature: drm
-> > > + * Feature: buddy_alloc
-> > > + *
-> > > + * KTEST_TEST: drm_test_buddy_alloc_%s
-> > > + * Description: Run DRM buddy allocation %arg[1] test
-> > > + *
-> > > + * arg[1].values: limit, range, optimistic, smoke, pathological
-> > > + */
-> >
-> >
-> > Hi!
-> >
-> > This is such a cool patch series. I just have a few comments related to=
- the
-> > output.
->
-> Thank you for your comments! Sorry for not answering earlier. I took some
-> vacations and this series ended sleeping over other tasks on my
-> todo list.
->
-> Also, before sending another version, I wanted to have the test_list.py
-> changes to make it generic enough to be merged on IGT, to avoid having
-> a fork of it. Those got merged today.
+Hi Nitesh,
 
-Hi Mauro!
+kernel test robot noticed the following build warnings:
 
-No worries at all!
+[auto build test WARNING on c50216cfa084d5eb67dc10e646a3283da1595bb6]
 
->
-> > In the html output the tests are listed as:
-> > ktest@drm_buddy_test@=E2=80=A6
-> >
-> > I wonder if instead of using the file name of =E2=80=9Cdrm_buddy_test=
-=E2=80=9D this could
-> > possibly be the suite name, =E2=80=9Cdrm_buddy=E2=80=9D, as this is wha=
-t users will call
-> > when using kunit.py to run the tests. Although "drm_buddy_test" is also=
- the
-> > module name so I don't mind it too much. But in the future the file nam=
-e
-> > and module name are not guaranteed to be the same for other tests.
-> >
-> > Most preferably, there would be a reference to the kunit suite name, fi=
-le
-> > name, and the module name.
->
-> I guess it shouldn't be hard to do such change in a way that it won't
-> affect its usage on IGT. We need to define what would be the best
-> pattern. As this can be used for both kunit and selftests, I would
-> place kunit at the beginning.
->
-> Currently, we're using:
->
->         kunit@<base file name without .c>@<test_name>
->
-> Some possible patterns would be:
->
->         kunit@<base file name without .c>@<suite name>@<test_name>
->         kunit@<subsystem>@<base file name without .c>@<suite name>@<test_=
-name>
->         kunit@<subsystem>@<suite name>@<test_name>
->
-> Would do you think it would work best?
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230907-015817
+base:   c50216cfa084d5eb67dc10e646a3283da1595bb6
+patch link:    https://lore.kernel.org/r/20230906163844.18754-13-nj.shetty%40samsung.com
+patch subject: [PATCH v15 12/12] null_blk: add support for copy offload
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/reproduce)
 
-How possible is it to separate out the file and suite name as headers?
-I think that this could reduce some of the repetition.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309070607.akFEF327-lkp@intel.com/
 
-If we are already separating documentation pages by subsystem, a
-potential format could be:
+All warnings (new ones prefixed by >>):
 
-File: <base file>
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/block/null_blk/trace.h:104,
+                    from drivers/block/null_blk/main.c:15:
+   drivers/block/null_blk/./trace.h: In function 'trace_raw_output_nullb_copy_op':
+>> drivers/block/null_blk/./trace.h:91:27: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   drivers/block/null_blk/./trace.h:73:1: note: in expansion of macro 'TRACE_EVENT'
+      73 | TRACE_EVENT(nullb_copy_op,
+         | ^~~~~~~~~~~
+   drivers/block/null_blk/./trace.h:91:17: note: in expansion of macro 'TP_printk'
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                 ^~~~~~~~~
+   In file included from include/trace/trace_events.h:237:
+   drivers/block/null_blk/./trace.h:91:68: note: format string is defined here
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                                                                  ~~^
+         |                                                                    |
+         |                                                                    long unsigned int
+         |                                                                  %u
 
-<kunit_or_kselftest> suite: <suite name>
-List of Tests:
-<test name>
-<test name>
-...
 
-What do you think?
+vim +91 drivers/block/null_blk/./trace.h
 
->
-> > This may be difficult to implement as these can all differ. I am curren=
-tly
-> > working on the KUnit Attribute framework which saves the module name an=
-d I
-> > am thinking about also saving the file path as a future attribute. This
-> > could be a helpful framework for the KUnit tests specifically.
-> >
-> > I am not sure how easy it would be to access c objects/functions using =
-this
-> > system.
->
-> I would prefer not. C language allows lots of flexibility with macros,
-> making it hard to write a parser to read those C objects from the source.
-> We have this at kernel-doc. As one of the people that did some work there=
-,
-> I can say that that several tricks are needed to keep this working.
->
-> On the other hand, it should be easy to use the TestList class from
-> test_list.py at kunit.py.
->
-> So, kunit.py could use the data that came from the documentation
-> directly.
->
+    72	
+    73	TRACE_EVENT(nullb_copy_op,
+    74			TP_PROTO(struct request *req,
+    75				 sector_t dst, sector_t src, size_t len),
+    76			TP_ARGS(req, dst, src, len),
+    77			TP_STRUCT__entry(
+    78					 __array(char, disk, DISK_NAME_LEN)
+    79					 __field(enum req_op, op)
+    80					 __field(sector_t, dst)
+    81					 __field(sector_t, src)
+    82					 __field(size_t, len)
+    83			),
+    84			TP_fast_assign(
+    85				       __entry->op = req_op(req);
+    86				       __assign_disk_name(__entry->disk, req->q->disk);
+    87				       __entry->dst = dst;
+    88				       __entry->src = src;
+    89				       __entry->len = len;
+    90			),
+  > 91			TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+    92				  __print_disk_name(__entry->disk),
+    93				  blk_op_str(__entry->op),
+    94				  __entry->dst, __entry->src, __entry->len)
+    95	);
+    96	#endif /* _TRACE_NULLB_H */
+    97	
 
-Got it. So it is possible to get some of this info. Thanks!
-
-> > Finally, I was wondering if it is the intention to put a list of all ku=
-nit
-> > tests that use this new feature into tests/kunit.rst or would this be
-> > broken up in some way
->
-> IMO, it makes sense to break this per subsystem, and have an auto-generat=
-ed
-> index.rst pointing to the entire set of documents.
->
-> We're already storing the subsystem at the documentation macros, so, IMO,
-> it should shouldn't be hard to implement it.
->
-> Regards,
-> Mauro
-
-I think breaking this up by subsystems sounds like a good idea,
-especially since we still have them documented already.
-
-Thanks for your responses!
--Rae
-
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
