@@ -2,58 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27EC0EB8FAD
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 09:57:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12DCEB8FB4
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 09:57:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238089AbjIFJ5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 05:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49958 "EHLO
+        id S238163AbjIFJ6B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 05:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236631AbjIFJ5k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 05:57:40 -0400
+        with ESMTP id S229524AbjIFJ6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 05:58:01 -0400
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701561730;
-        Wed,  6 Sep 2023 02:57:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 742531BC5;
+        Wed,  6 Sep 2023 02:57:22 -0700 (PDT)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
-        by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3866CjBd015358;
-        Wed, 6 Sep 2023 10:56:26 +0100
+        by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3866fp8V018775;
+        Wed, 6 Sep 2023 10:56:28 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
         :content-transfer-encoding:content-type:mime-version; s=
-        dk201812; bh=WbT76yMO8LvNSPHt/uhDqNsMOk6uZxh2yRJSCTpK7XU=; b=qGw
-        jbpxZFKGOzdrtRX+B3oTGb7Jds/E9DUUnKXe10AroB2psbcf5CB5Ud0FH+YQvLma
-        4hPhg28OElVURHPUL9yoh6voT0gqZC1U7EzjIKvYR2lAXtmmV0AeLJoDtgAXTPyG
-        A6O+DCfwaJDUtjbx7Ht+/Rzra+kl7lG1ELOpJCcqv9UvZOwMeH0JP4qOJyRsEaq4
-        z9fUTtRiceE5oG00RmjUaUTMlKKLBXLEexnC8m9kGdmTqIGboqjmD0cyZRmbDtwo
-        4VgHcbnu7e/IWvNpZU0G7oQ5bCEVfiafuYhtUhqRMnSjopEBt+gmBjURqN18SJg/
-        mJzzKGPsQz9bk2Nidag==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
-        by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3suuanu2s2-1
+        dk201812; bh=oUnpPo0Uhh0MrkvZDrcZLBZIgwBEd6OJe5mf/h6fZ+U=; b=Pfv
+        ZIYWpbpo/6v3da7IxH7Rzz3HnalGi5ia8iog5B3mRgsKvoszkZxNokKWGb3292ag
+        xSg0kaWo5WAoVi8BJZCvx2KgvygPdh1ufnO/iUJIujoJEqzkeLmVcROdBLsDB4HB
+        7mKEHjc3JKd9fl3zF7xiG5wqovUwbKh2vL19GcUjgD+blq7AvIxPksQI/5pfwFaL
+        PN24a9cfbuuDK6Hc2OBeMWmsysz3NFh745Bt092L8krBXANUU3/4fz+ZLCJc9jEp
+        SVPfqad4LWKQ/GIm2n+YYpyDFZAVLWRmcckAwVSbHMAgBFd1AUqNAi0qwT9/lpws
+        Fk7JhvZvHBLAi4VIvEA==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+        by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3suuanu2s4-2
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Wed, 06 Sep 2023 10:56:25 +0100 (BST)
+        Wed, 06 Sep 2023 10:56:27 +0100 (BST)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Wed, 6 Sep 2023 10:56:24 +0100
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.107)
- by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31 via Frontend Transport; Wed, 6 Sep 2023 10:56:24 +0100
+ 15.1.2507.31; Wed, 6 Sep 2023 10:56:25 +0100
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (104.47.85.48) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31 via Frontend
+ Transport; Wed, 6 Sep 2023 10:56:25 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AuMK6qzol8/Q2Qa6OuUV0N8xKV1m+wacJ1OeuXceLtwcib0XpGq3Zf54xiNv86kpCdOV64Q2sDw6C9N5m8IOw4lONUpRT5l8kNbYlTKb9X75POu3t7KV21ZJkGytfRR4FttE7ic1Z0bSQoB7iKnXHzi7D+tJYJ4l5J/Oxcrq0gbAEum4LDfwM/wxU1luDbGQJllB04g9y/sQ5o8qE4QXukZduFOvxQFvlN7lQ2/Z/n0wWMd0NJie1aja0BmfJBXyFm4YUM+6b6W66E9YApkc1BrytyPxNLA0tGXwKTGJWDEI3Mug+6hAtIqMlis+vjHANyqOjMszoG8h2mt+4Ldqnw==
+ b=CuOgblNAmfcOTuNMGZ/nOuzQq2rJLdKz21Xm+lFQvz82bMAtTqB9vE/ppFYsbyUgTcNEub49V/pLosdtUF9oZO0TjwomYyYVtwB2SeJH/s7b6EwbW/R0X1ByPZWWjhbzrS3Nuhgj5lAvCtehpsXTdjGtLXa7EoR2sn/4Y0gN8QABuMQTgDaCtKMxEfrilO3tNmmsy5gTjS8tNpnsi5xX5NrkUQH/ZKmadEdhMW05RPqt2N3Rd+06+KznvZqhxjn6BE7J45rzSYWzxTjayzPiO0LR6vep1NSgu5VkdCiSnNZnwiPeIOOJd5mqIOA1+yL2xOZg4ZJqAtpCtSUIr5dQ3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WbT76yMO8LvNSPHt/uhDqNsMOk6uZxh2yRJSCTpK7XU=;
- b=XvsO/hrMzaouvNsazNLHf9uh1eQSux8Z+Sizw+qFpCtF7QhyqhKP6+ZEnk50VzANUjgqxX4aQntFbvzwRk0VsbK8GVTkCn44Zz066UEtKMewdplbc3WPDs/sg+ehnN4IQNfJmNBbWKTTG7NpSFTzV2Q3x9v4Z6Q8dE6rSe4xEPKyGzizBWjqky57BWehEBO0gEC6jSqimW/vzee3gYsk6DkUDyVA2H+JC1xVfrMaXGG6GHdND7HoZev1UQnnePEwzvZPxFmqE2W0dsMnLaM0RtHiVRndopM4wpZNu/rDkg+Rx3e7wl9Zvj1NO0xRRPlnYLcOyD+ivVgTfNeYQ+OcWg==
+ bh=oUnpPo0Uhh0MrkvZDrcZLBZIgwBEd6OJe5mf/h6fZ+U=;
+ b=RlV7xARNw7MJrIg6LigyPT7YjECLdZtoah69UzjIgc4dR3/bS0gK/y+sIY+DLP91Hb0V3rtrqbHeMCNEBkucBk5guqpTn5N2Xkalf9/ZGfLZ50ElZ8UyaB+Q2nbA+i/ZqCJZba9TLKXPFK2yk05NV1AR7k86t9hEzrDtqjZUnDUZUn5OxftyOdYGlyFgMWpGZDEHi2inkZGTXnvvvm8Hnp88YgfEJWzvH2yDZvQETdxk7ZYIx7QAnxyyE8umpWpD1aejWt/Fns1IaWxNVlkf6d3oI1lWfc3C/Vk+R3R8trSd7RuenfQ6dRSNMpTRCbx/XJexwfOSzNWWLd5xeqaXDw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WbT76yMO8LvNSPHt/uhDqNsMOk6uZxh2yRJSCTpK7XU=;
- b=ANTmOOdrkG3V/zBln+wZSw2moNlHclWLMS+EGDA6JJ+kBIcWWYJaBFOm1kJ3DPt6S3PwB7HNx6KPzzBmFQsEpTJJWWJm1XEHfDk8j2F+5nagXS1eQOtP1fSt9cX+jn4GeDD9QLIYI/g9SgZFnud4uG9pUC4WPMUI7Yr5F3gzeeA=
+ bh=oUnpPo0Uhh0MrkvZDrcZLBZIgwBEd6OJe5mf/h6fZ+U=;
+ b=K72Uwz1J90mbTTARm7jVKJT+NBAQ/T+Q5McVRkYGiTq2GS8QYTSNNifpX3OOj/RTgJ9QKYquE4gvYzKpvmUrm4knLe7tR+7mJ4uvw6wpluVv545v8RiG8mEpPxkGKEtdCG534/LQyyNpoPGNERO2QCVJb4XYURCDPUWE1tZoXDk=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by CWLP265MB2436.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:96::10) with
  Microsoft SMTP Server (version=TLS1_2,
@@ -77,9 +77,9 @@ CC:     <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
         <faith.ekstrand@collabora.com>, <afd@ti.com>, <hns@goldelico.com>,
         <matthew.brost@intel.com>, <luben.tuikov@amd.com>,
         <dakr@redhat.com>
-Subject: [PATCH v6 14/20] drm/imagination: Implement MIPS firmware processor and MMU support
-Date:   Wed,  6 Sep 2023 10:55:36 +0100
-Message-Id: <20230906095542.3280699-15-sarah.walker@imgtec.com>
+Subject: [PATCH v6 16/20] drm/imagination: Implement context creation/destruction ioctls
+Date:   Wed,  6 Sep 2023 10:55:38 +0100
+Message-Id: <20230906095542.3280699-17-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230906095542.3280699-1-sarah.walker@imgtec.com>
 References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
@@ -91,721 +91,407 @@ X-ClientProxiedBy: LO4P265CA0279.GBRP265.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB2436:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb6b77fa-cae7-40cb-994c-08dbaebf8341
+X-MS-Office365-Filtering-Correlation-Id: d9adc73b-82c9-44de-cf5d-08dbaebf8447
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e5Zv+m6aMD8cbccfOwOnloEs7vBkwORzoM7FULIAqqQgPPWmfNyqoBAhlFD1Uj0b86UK0/sP7eE6S+ZJjflQDqGF1oHAqKR42Yj7QODDR3oeW1Z7RfhZ7xHqXK9vj//Lsj67v+WUc/r7ithlOjo41SHn8BLuX9h0MVp5q0FS6Uhd2dpsm3tR1Xb0S9EeTuLW/umMFzy3LcFW/LdBETpwonIBl0Ck5Kdxi5KaY7oXBks1yNGTNW+nAKNysEOew2r0s6XhosMQl0fGrv1dJAl+loCXMKijek7ziK2b1pT3P5PZ38cGScs/ploUo8YvILJTSC+yuRYLLzyL64XL9isNL0qF/0K41AVkGtwKvf8HQSf5QVIfW4bKobjwxm/kpLPV/2TJOsAIfbx1NBcqWGzn0k+BXMtc52QfWNDMxDRbORTDD6UC3D37sfSmHZ8sVUppSgS0tJNipuG+T/vvQ5l+1KmCBf1fNjbOiFP2Fp3/cn04M+F8oejF5p0WjINUpVWnaJMdsKeSuPdrnO70A4aqEGIj6Hx+sGzuPlSgCj4nQqg27Mzwq3Lt1zuKpBeA7hRJcTHknM8CMaYeE7XdgXe0NM8m2+1M1wM+QxZVx8Yn9uYlolcBwo036dZRSbqY+SQliFEefpiL5xwP+vquGAaSzwCt9JFV5u1SNYKZUM9tzXs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(346002)(39850400004)(376002)(451199024)(186009)(1800799009)(52116002)(6506007)(6512007)(6666004)(6486002)(36756003)(38350700002)(38100700002)(86362001)(30864003)(1076003)(2616005)(2906002)(26005)(478600001)(83380400001)(66946007)(8936002)(8676002)(5660300002)(44832011)(4326008)(41300700001)(66476007)(7416002)(6916009)(66556008)(316002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: mDnA/r4x3yslOC1AgjWH1/r6XVRP/GRcojqU5EmrOzaV023FOGMLmOL5aEu7cbmyBLlyJObOu7tZJyZJs9gSAgg5Vz8NNXUWzYsBj0ZU0v7BG9y4BSRrn/1lPRCbSCQKpvqy3j357MCUk7q9nADjuqoBs1mVEgwp+87uYX59FVF7j5NX0wtXQU/joxp7O347JAPBJbDpE5Fl/lpOBCZHcswch4exHcWso3QzUdXyWkHVCS5eO+Nu9Nl6wQSh0a208uaqOSSTQZrYETteJSJDKzEE49QBZZTb2iTdmp+Gkye3wI9A7oxDUUfcWOjs3Da7EFim/9Ku24m14/Xb3rTK+y8iToAkXYy07ueeOX69YQ0IBJjPfTSo+O2+VJRYK1PVmvqzQygB/I7Y55EvQqLE2dnfqLC4Hk9M7ONCtIBqobIYrnD23lRB3iNoStS03umY5iOMf5jMdslf3R+m/bSOYSgZxz3NWczgYWeEoziPrYkedYPpJy1xKONEqzXI2fWRBzEN0zJ9Fgbvnhv4GEVFPQdttb2ia6Nx0ijdDtzj598gg0C/KIdBhzzHCal+Z5HXDY/UaJiOCjEicC4KfwUZ4yzTv921C5dd62mmYAozA/XnShbfzKS6RZ3Djpz46kND91Zo4thIu6adIxsS/bXUtz4CIZi35lMlBM/sSouqoL8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(346002)(39850400004)(376002)(451199024)(186009)(1800799009)(52116002)(6506007)(6512007)(6666004)(6486002)(36756003)(38350700002)(38100700002)(86362001)(30864003)(1076003)(2616005)(2906002)(26005)(478600001)(83380400001)(66946007)(8936002)(8676002)(5660300002)(44832011)(4326008)(41300700001)(66476007)(7416002)(6916009)(66556008)(316002)(579004)(559001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nDxJTxjx0S1maHHuCBgC9GV8iM08niWwcIK5hOHxq6OQGY8Wk031ii3jzQsM?=
- =?us-ascii?Q?OcRwNzhjV5kZkP5p/hytpgDy/gFfhPEvTgTsr+APE+zSpMc2FT/1P8glY8+w?=
- =?us-ascii?Q?vV8YNpwI7jR55AAlwvYZFxGQMHhJ1LzREVCfjy0EQv5U7rkLkGw/NVy3Fbc+?=
- =?us-ascii?Q?lgXTq7luXCIa/nPrSfE1r98H1LAPzJoJ9yjxs3TRW5S2l4XxeWRU0qD1XGnm?=
- =?us-ascii?Q?2JC2Wl8OC6LiijK3CyJeAFwykFiy0eYFJRTKCOE855ykti3rz8vQR6HLONXE?=
- =?us-ascii?Q?r2yqWZB0PewKWWTSs082g6SrPqUkUg7lZ6LP4wYqMDg8rLhOTZTUDtlP+E6n?=
- =?us-ascii?Q?xBR09YnVISZ5FzF+ue0zj0yBHrVa+BpkAMZmCka1cecOktvl3wpj1V6wn/Ik?=
- =?us-ascii?Q?SFqNiJNDvH2pnAAsXmbjyWBCHeZms82ANIpsxStpgTUAeDS+9nBz0Y5A5I+6?=
- =?us-ascii?Q?MOfMxbHIt/S8UpgLHUXlz0aUDVZZbU1GrU8WoCHUr7EWMLYCXwvHjAatS9Ga?=
- =?us-ascii?Q?3+eJJLqRnF7sp5JlgmMA/4kLLIi6rCihNZtzb/r5CBeryxbWss7hiTtsG+G1?=
- =?us-ascii?Q?AjRhWAjftTQsAyqzyAnKvGyzCMyd3n58ueP0PPvLzCwj9Q4YIR+9Ep1zA4Fn?=
- =?us-ascii?Q?jQmajLDB+AphuM6kXjFdBe/DYBW8JJT7Soh77I5TdQrbAZF1zt4oeX1uOtE1?=
- =?us-ascii?Q?vFxcdqBCmQL0zaFY8CuYVBfYmVEWRmzAyhYQPRwydgCJfbSToRgoIk3RauRr?=
- =?us-ascii?Q?aky9Q1iu+Iy32kUe2/eGVbN6LXKyMhRfVP7nq9nDPcxCL7NGBUO1X0p8RvZA?=
- =?us-ascii?Q?UrV6dqDAGop6LtPxvWHAxEOL1nOkcKBCTi3Oz/M+VGg1QKmQ5bG9XO2X3srP?=
- =?us-ascii?Q?9AwusoYGBlnb/9Cs6fD6+Ig/lpeVt9E8AqtCCvyTY3xDDZiT5DC4ISXnc7yL?=
- =?us-ascii?Q?/c3Uk2bqxL7ityKeJ3y/vwZZXKBvfiWNjEKn0fY62iRoADq2oSWOV8CM7WE8?=
- =?us-ascii?Q?JYYwuEb90NyhtlAVW4CvLq5VU65xBF8sUaJFcKOfl3//dRDANYu2/ZoIEK9F?=
- =?us-ascii?Q?ROBtVxDJjYzm/jWmtqTw3sVpkmuAbsnHDsfkecgLHOiNezmn7m4x9ZqrbKnM?=
- =?us-ascii?Q?iwEq3dQfQQJztA4lwr12FJ8KU9Ay/I/Tl9lVZTYxUfJnlfe+kgLsaZ6gGqPG?=
- =?us-ascii?Q?USriWHmx6tSb4SkAPs0wKuHnENiAwGmuLN2YNMEw8FgF885vtqTtgG9yNj5b?=
- =?us-ascii?Q?U6QB9YNSRATY4qHs67LzVr999BhUte9rwJmjSg7WWDTwxPjKVWOR3GCvsO3Y?=
- =?us-ascii?Q?S2cstt5/OKGeQOV0MujmUaH+CbmFp65d9zTGguY+AQ8MmSdUuloTFyKMSmsN?=
- =?us-ascii?Q?AlCzLQr591pFbayxSshx5V+0YswmioBcKytxi2/qv1oqqaeWXR1xfW3a7Wfx?=
- =?us-ascii?Q?jyGwxMkS/OkLsnYETfaMyknyZqiH+Wkdy1hSY+hJLdOk8dAfMm5a1riUDkKt?=
- =?us-ascii?Q?dLWS46r9xdyNzowVmbhWZ59Odfyw4wy1e7RKJRIkTVW/9xqP1JGU1XqRQx6m?=
- =?us-ascii?Q?wmxbp4DN+TBSpr4y15y5bre+N+hwuzlqBzALS5PUPOF6jTySuJRHqCU29CGb?=
- =?us-ascii?Q?lg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb6b77fa-cae7-40cb-994c-08dbaebf8341
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ND5S+5EP3i06jB8805slB6ICoaBEGUa7l8YSpD18VAZ5caV431FTxmFWw2QY?=
+ =?us-ascii?Q?EX9JtLxU0DfSmAXgN1zKOUCX1Ejjg3EJo316yRz1B7GIgnYNlQNC9DcupnCO?=
+ =?us-ascii?Q?+ZpW7T4PFSON0ugnUR/1u0RZQw6TmudBoOzQLwOAl2vM1UpP9S9QcHCePT5C?=
+ =?us-ascii?Q?ZPI+M3gBViHz+SDwR/l8if46duw1izenjAzZtGunw9NdPNSwjP/QeFMD3wcu?=
+ =?us-ascii?Q?ukPwAxRFqtPAzLRZOMnm1QRnTKNqvCyEYwNHUiV9tl9CudCACXKPJjGQXZs1?=
+ =?us-ascii?Q?yyJHPkCiscFO2eAzbcYZHsRbM1h0LXrFVkZpiJ9uQJOIBW1SmGMpy1Y4CjLE?=
+ =?us-ascii?Q?CqLekFsRqD/quI5XzQIFKVn1xCV7J3F+yxnMztpLXXjbFftVFc9EiAjHsa0e?=
+ =?us-ascii?Q?KOo+BkjjfoRD/bhv+ZPYB+WD1FsHEmwCyfVZTrF8OUYfwpBT6doIo5nOwlK8?=
+ =?us-ascii?Q?hTbI+jUhOojMfDIMxu8C3lm95KGLsItWL/7Icv5IM/+yH0gl13jv/EhmlnIi?=
+ =?us-ascii?Q?LXtfJNV9t3DGZWYSClAHDT/kCOauKznwo+Oh5HiAHSe+D068iHHk5Xy3ykC9?=
+ =?us-ascii?Q?/zIxeAb5mZxZZ7cJRcwk57rEA6OBxBZXxRjZA8gigpXUIa9a8QrlK5tm2B2j?=
+ =?us-ascii?Q?HBy9jXei02Abm5w2srPbDahUIct5NnEE570XXsiypGXsyw89EGyzoAf/6iBA?=
+ =?us-ascii?Q?mr7L1nOgWaTBbzT60iUUpGCWvxJn50dqv+M3fyQQX4FSuelTB5gGMRWkzq33?=
+ =?us-ascii?Q?EeVcFCEDOo43zw0FXON1Dk+Skj5A/HgWO7C8Cj4k/7mMG0pCRG8u8cO6G9fE?=
+ =?us-ascii?Q?tXFd9lCEFDc12dowZPxzsbEQxnn9MGZZQU4oJNGqakcd3VZdZyyziujrNpFN?=
+ =?us-ascii?Q?pDi0dnw++PrPaIaUdKwHiq6iOPw0vzlpJ6hPCXraFjNH869XJodTavoL8NqI?=
+ =?us-ascii?Q?iWJebjCWNrxNCR6H0PRmUIMb2npUt89bXbtS3PYJMfHIpI6nlVxI7XAI9Tig?=
+ =?us-ascii?Q?fm2zfaV2XHnY8w8Y+sqJE/2Q3sOkYnKzaUSzddmruBIv/3E2UVZfSGvv6S47?=
+ =?us-ascii?Q?cUSm4wkq4CQIolz7z5Pd3y1Ou52M/iWmuvNbrBQHU1nAYEefUe4tTO/1I6qG?=
+ =?us-ascii?Q?D+dpZUVktLZZN5YNnSG464HugWr6xMtJ6bLjVgQNOvRKNwf8JwkDxVaEg8hI?=
+ =?us-ascii?Q?QXTatoravu88QNcZRFc4LUXZDLEKQ8FbEz4/8mhGpBb7U8Gesk4e9wtNdhN8?=
+ =?us-ascii?Q?lxCF30Rxze8kQDH6r7VZYA9MUIfm/rMVLsNPqkNM2lSpzgxw6sfDT65AxqxP?=
+ =?us-ascii?Q?fOJw9RiJVO14DrdFNNHM9XXm6gXj9TgSjM0scLR2S8i28kSphXG9SbOi163c?=
+ =?us-ascii?Q?Bz/LDeo8IaGMvy71ji6/1PkWjBqiSTXBIR3pybMZUPFNd8xrnY8Y9mXIRnZe?=
+ =?us-ascii?Q?BpCfBoQ4sNZ9fB7tm3duFOKi6wlWErCqgnn6IKCUOpub3Qu5jPwfVp2Bo0MB?=
+ =?us-ascii?Q?2+5n4BMB3AII2CDJnXddXcVW8VmH9cqI44UL5bUoa+8tKuUM/pYVBoYmJ8XL?=
+ =?us-ascii?Q?p/pfHJT4L7A4pFsG2nGpG4oDUMTbnd3lyTj/oI3Y5COEqHm6bWXgv3BHSR+r?=
+ =?us-ascii?Q?MA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9adc73b-82c9-44de-cf5d-08dbaebf8447
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 09:56:16.9821
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 09:56:18.7172
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FORmfacmixwxn/0gQbArcaomYB8OmV9qpN3ZwrIVd5eTmetnaS8ymcKBhk/BT90LOfRnJTSvMurr/PzWOOdJdA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: cCFD7adrEXNcWldbVYLwTXYDFZT977FCgMYklX7S07ir6S2zqpAUqYatZLBQLeOV7d/JjWlbfcuc+K71QEb/UQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2436
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: DDjcFUdr5s7cMoDlLBqWoulfczhx3yMb
-X-Proofpoint-ORIG-GUID: DDjcFUdr5s7cMoDlLBqWoulfczhx3yMb
+X-Proofpoint-GUID: RWBo4LjkesgJ1iVr7EGOv4TXjEm2bgi6
+X-Proofpoint-ORIG-GUID: RWBo4LjkesgJ1iVr7EGOv4TXjEm2bgi6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for the MIPS firmware processor, used in the Series AXE GPU.
-The MIPS firmware processor uses a separate MMU to the rest of the GPU, so
-this patch adds support for that as well.
+Implement ioctls for the creation and destruction of contexts. Contexts are
+used for job submission and each is associated with a particular job type.
 
 Changes since v5:
-- Use alloc_page() when allocating MIPS pagetable
+- Fix context release in final error path in pvr_context_create()
 
 Changes since v3:
-- Get regs resource (removed from GPU resources commit)
+- Use drm_dev_{enter,exit}
 
+Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 ---
- drivers/gpu/drm/imagination/Makefile      |   4 +-
- drivers/gpu/drm/imagination/pvr_device.c  |   5 +-
- drivers/gpu/drm/imagination/pvr_device.h  |   3 +
- drivers/gpu/drm/imagination/pvr_fw.c      |   2 +
- drivers/gpu/drm/imagination/pvr_fw_mips.c | 252 ++++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_fw_mips.h |  48 +++++
- drivers/gpu/drm/imagination/pvr_vm_mips.c | 236 ++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_vm_mips.h |  22 ++
- 8 files changed, 570 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.h
+ drivers/gpu/drm/imagination/Makefile          |   4 +
+ drivers/gpu/drm/imagination/pvr_cccb.c        | 267 ++++++++++++++
+ drivers/gpu/drm/imagination/pvr_cccb.h        | 109 ++++++
+ drivers/gpu/drm/imagination/pvr_context.c     | 341 ++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_context.h     | 161 +++++++++
+ drivers/gpu/drm/imagination/pvr_device.h      |  21 ++
+ drivers/gpu/drm/imagination/pvr_drv.c         |  29 +-
+ drivers/gpu/drm/imagination/pvr_stream.c      | 285 +++++++++++++++
+ drivers/gpu/drm/imagination/pvr_stream.h      |  75 ++++
+ drivers/gpu/drm/imagination/pvr_stream_defs.c | 125 +++++++
+ drivers/gpu/drm/imagination/pvr_stream_defs.h |  16 +
+ 11 files changed, 1431 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_cccb.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_cccb.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_context.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_context.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream_defs.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream_defs.h
 
 diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 5b02440841be..0a6532d30c00 100644
+index fca2ee2efbac..0c8ab120f277 100644
 --- a/drivers/gpu/drm/imagination/Makefile
 +++ b/drivers/gpu/drm/imagination/Makefile
-@@ -10,11 +10,13 @@ powervr-y := \
+@@ -5,6 +5,8 @@ subdir-ccflags-y := -I$(srctree)/$(src)
+ 
+ powervr-y := \
+ 	pvr_ccb.o \
++	pvr_cccb.o \
++	pvr_context.o \
+ 	pvr_device.o \
+ 	pvr_device_info.o \
  	pvr_drv.o \
- 	pvr_fw.o \
- 	pvr_fw_meta.o \
-+	pvr_fw_mips.o \
- 	pvr_fw_startstop.o \
- 	pvr_fw_trace.o \
- 	pvr_gem.o \
+@@ -18,6 +20,8 @@ powervr-y := \
+ 	pvr_hwrt.o \
  	pvr_mmu.o \
  	pvr_power.o \
--	pvr_vm.o
-+	pvr_vm.o \
-+	pvr_vm_mips.o
++	pvr_stream.o \
++	pvr_stream_defs.o \
+ 	pvr_vm.o \
+ 	pvr_vm_mips.o
  
- obj-$(CONFIG_DRM_POWERVR) += powervr.o
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index ad198ed432fe..bc7333444388 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -50,16 +50,19 @@ pvr_device_reg_init(struct pvr_device *pvr_dev)
- {
- 	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
- 	struct platform_device *plat_dev = to_platform_device(drm_dev->dev);
-+	struct resource *regs_resource;
- 	void __iomem *regs;
- 
-+	pvr_dev->regs_resource = NULL;
- 	pvr_dev->regs = NULL;
- 
--	regs = devm_platform_ioremap_resource(plat_dev, 0);
-+	regs = devm_platform_get_and_ioremap_resource(plat_dev, 0, &regs_resource);
- 	if (IS_ERR(regs))
- 		return dev_err_probe(drm_dev->dev, PTR_ERR(regs),
- 				     "failed to ioremap gpu registers\n");
- 
- 	pvr_dev->regs = regs;
-+	pvr_dev->regs_resource = regs_resource;
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index b5de9574a116..cbcfc5d4b845 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -93,6 +93,9 @@ struct pvr_device {
- 	/** @fw_version: Firmware version detected at runtime. */
- 	struct pvr_fw_version fw_version;
- 
-+	/** @regs_resource: Resource representing device control registers. */
-+	struct resource *regs_resource;
-+
- 	/**
- 	 * @regs: Device control registers.
- 	 *
-diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
-index 449984c0f233..0799c70f1a0c 100644
---- a/drivers/gpu/drm/imagination/pvr_fw.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw.c
-@@ -914,6 +914,8 @@ pvr_fw_init(struct pvr_device *pvr_dev)
- 
- 	if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_META)
- 		fw_dev->defs = &pvr_fw_defs_meta;
-+	else if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_MIPS)
-+		fw_dev->defs = &pvr_fw_defs_mips;
- 	else
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.c b/drivers/gpu/drm/imagination/pvr_fw_mips.c
+diff --git a/drivers/gpu/drm/imagination/pvr_cccb.c b/drivers/gpu/drm/imagination/pvr_cccb.c
 new file mode 100644
-index 000000000000..bf13b05d1248
+index 000000000000..8dfc157c3c10
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.c
-@@ -0,0 +1,252 @@
++++ b/drivers/gpu/drm/imagination/pvr_cccb.c
+@@ -0,0 +1,267 @@
 +// SPDX-License-Identifier: GPL-2.0 OR MIT
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
++#include "pvr_ccb.h"
++#include "pvr_cccb.h"
 +#include "pvr_device.h"
-+#include "pvr_fw.h"
-+#include "pvr_fw_mips.h"
 +#include "pvr_gem.h"
-+#include "pvr_rogue_mips.h"
-+#include "pvr_vm_mips.h"
++#include "pvr_hwrt.h"
 +
-+#include <linux/elf.h>
-+#include <linux/err.h>
++#include <linux/compiler.h>
++#include <linux/delay.h>
++#include <linux/jiffies.h>
++#include <linux/mutex.h>
 +#include <linux/types.h>
 +
-+#define ROGUE_FW_HEAP_MIPS_BASE 0xC0000000
-+#define ROGUE_FW_HEAP_MIPS_SHIFT 24 /* 16 MB */
-+#define ROGUE_FW_HEAP_MIPS_RESERVED_SIZE SZ_1M
-+
-+/**
-+ * process_elf_command_stream() - Process ELF firmware image and populate
-+ *                                firmware sections
-+ * @pvr_dev: Device pointer.
-+ * @fw: Pointer to firmware image.
-+ * @fw_code_ptr: Pointer to FW code section.
-+ * @fw_data_ptr: Pointer to FW data section.
-+ * @fw_core_code_ptr: Pointer to FW coremem code section.
-+ * @fw_core_data_ptr: Pointer to FW coremem data section.
-+ *
-+ * Returns :
-+ *  * 0 on success, or
-+ *  * -EINVAL on any error in ELF command stream.
-+ */
-+static int
-+process_elf_command_stream(struct pvr_device *pvr_dev, const u8 *fw, u8 *fw_code_ptr,
-+			   u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr)
++static __always_inline u32
++get_ccb_space(u32 w_off, u32 r_off, u32 ccb_size)
 +{
-+	struct elf32_hdr *header = (struct elf32_hdr *)fw;
-+	struct elf32_phdr *program_header = (struct elf32_phdr *)(fw + header->e_phoff);
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	u32 entry;
-+	int err;
-+
-+	for (entry = 0; entry < header->e_phnum; entry++, program_header++) {
-+		void *write_addr;
-+
-+		/* Only consider loadable entries in the ELF segment table */
-+		if (program_header->p_type != PT_LOAD)
-+			continue;
-+
-+		err = pvr_fw_find_mmu_segment(pvr_dev, program_header->p_vaddr,
-+					      program_header->p_memsz, fw_code_ptr, fw_data_ptr,
-+					      fw_core_code_ptr, fw_core_data_ptr, &write_addr);
-+		if (err) {
-+			drm_err(drm_dev,
-+				"Addr 0x%x (size: %d) not found in any firmware segment",
-+				program_header->p_vaddr, program_header->p_memsz);
-+			return err;
-+		}
-+
-+		/* Write to FW allocation only if available */
-+		if (write_addr) {
-+			memcpy(write_addr, fw + program_header->p_offset,
-+			       program_header->p_filesz);
-+
-+			memset((u8 *)write_addr + program_header->p_filesz, 0,
-+			       program_header->p_memsz - program_header->p_filesz);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_mips_init(struct pvr_device *pvr_dev)
-+{
-+	pvr_fw_heap_info_init(pvr_dev, ROGUE_FW_HEAP_MIPS_SHIFT, ROGUE_FW_HEAP_MIPS_RESERVED_SIZE);
-+
-+	return pvr_vm_mips_init(pvr_dev);
++	return (((r_off) - (w_off)) + ((ccb_size) - 1)) & ((ccb_size) - 1);
 +}
 +
 +static void
-+pvr_mips_fini(struct pvr_device *pvr_dev)
++cccb_ctrl_init(void *cpu_ptr, void *priv)
 +{
-+	pvr_vm_mips_fini(pvr_dev);
++	struct rogue_fwif_cccb_ctl *ctrl = cpu_ptr;
++	struct pvr_cccb *pvr_cccb = priv;
++
++	WRITE_ONCE(ctrl->write_offset, 0);
++	WRITE_ONCE(ctrl->read_offset, 0);
++	WRITE_ONCE(ctrl->dep_offset, 0);
++	WRITE_ONCE(ctrl->wrap_mask, pvr_cccb->wrap_mask);
 +}
 +
-+static int
-+pvr_mips_fw_process(struct pvr_device *pvr_dev, const u8 *fw,
-+		    u8 *fw_code_ptr, u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr,
-+		    u32 core_code_alloc_size)
++/**
++ * pvr_cccb_init() - Initialise a Client CCB
++ * @pvr_dev: Device pointer.
++ * @pvr_cccb: Pointer to Client CCB structure to initialise.
++ * @size_log2: Log2 size of Client CCB in bytes.
++ * @name: Name of owner of Client CCB. Used for fence context.
++ *
++ * Return:
++ *  * Zero on success, or
++ *  * Any error code returned by pvr_fw_object_create_and_map().
++ */
++int
++pvr_cccb_init(struct pvr_device *pvr_dev, struct pvr_cccb *pvr_cccb,
++	      u32 size_log2, const char *name)
 +{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	const struct pvr_fw_layout_entry *boot_code_entry;
-+	const struct pvr_fw_layout_entry *boot_data_entry;
-+	const struct pvr_fw_layout_entry *exception_code_entry;
-+	const struct pvr_fw_layout_entry *stack_entry;
-+	struct rogue_mipsfw_boot_data *boot_data;
-+	dma_addr_t dma_addr;
-+	u32 page_nr;
++	size_t size = 1 << size_log2;
 +	int err;
 +
-+	err = process_elf_command_stream(pvr_dev, fw, fw_code_ptr, fw_data_ptr, fw_core_code_ptr,
-+					 fw_core_data_ptr);
-+	if (err)
-+		return err;
++	pvr_cccb->size = size;
++	pvr_cccb->write_offset = 0;
++	pvr_cccb->wrap_mask = size - 1;
 +
-+	boot_code_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_BOOT_CODE);
-+	boot_data_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_BOOT_DATA);
-+	exception_code_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_EXCEPTIONS_CODE);
-+	if (!boot_code_entry || !boot_data_entry || !exception_code_entry)
-+		return -EINVAL;
-+
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.code_obj->gem, boot_code_entry->alloc_offset,
-+				     &mips_data->boot_code_dma_addr));
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.data_obj->gem, boot_data_entry->alloc_offset,
-+				     &mips_data->boot_data_dma_addr));
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.code_obj->gem,
-+				     exception_code_entry->alloc_offset,
-+				     &mips_data->exception_code_dma_addr));
-+
-+	stack_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_STACK);
-+	if (!stack_entry)
-+		return -EINVAL;
-+
-+	boot_data = (struct rogue_mipsfw_boot_data *)(fw_data_ptr + boot_data_entry->alloc_offset +
-+						      ROGUE_MIPSFW_BOOTLDR_CONF_OFFSET);
-+
-+	WARN_ON(pvr_fw_object_get_dma_addr(fw_dev->mem.data_obj, stack_entry->alloc_offset,
-+					   &dma_addr));
-+	boot_data->stack_phys_addr = dma_addr;
-+
-+	boot_data->reg_base = pvr_dev->regs_resource->start;
-+
-+	for (page_nr = 0; page_nr < ARRAY_SIZE(boot_data->pt_phys_addr); page_nr++) {
-+		/* Firmware expects 4k pages, but host page size might be different. */
-+		u32 src_page_nr = (page_nr * ROGUE_MIPSFW_PAGE_SIZE_4K) >> PAGE_SHIFT;
-+		u32 page_offset = (page_nr * ROGUE_MIPSFW_PAGE_SIZE_4K) & ~PAGE_MASK;
-+
-+		boot_data->pt_phys_addr[page_nr] = mips_data->pt_dma_addr[src_page_nr] +
-+						   page_offset;
-+	}
-+
-+	boot_data->pt_log2_page_size = ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	boot_data->pt_num_pages = ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES;
-+	boot_data->reserved1 = 0;
-+	boot_data->reserved2 = 0;
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_mips_wrapper_init(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_mips_data *mips_data = pvr_dev->fw_dev.processor_data.mips_data;
-+	const u64 remap_settings = ROGUE_MIPSFW_BOOT_REMAP_LOG2_SEGMENT_SIZE;
-+	u32 phys_bus_width;
-+
-+	int err = PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width);
-+
-+	if (WARN_ON(err))
-+		return err;
-+
-+	/* Currently MIPS FW only supported with physical bus width > 32 bits. */
-+	if (WARN_ON(phys_bus_width <= 32))
-+		return -EINVAL;
-+
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MIPS_WRAPPER_CONFIG,
-+		       (ROGUE_MIPSFW_REGISTERS_VIRTUAL_BASE >>
-+			ROGUE_MIPSFW_WRAPPER_CONFIG_REGBANK_ADDR_ALIGN) |
-+		       ROGUE_CR_MIPS_WRAPPER_CONFIG_BOOT_ISA_MODE_MICROMIPS);
-+
-+	/* Configure remap for boot code, boot data and exceptions code areas. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1,
-+		       ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2,
-+		       (mips_data->boot_code_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	if (PVR_HAS_QUIRK(pvr_dev, 63553)) {
-+		/*
-+		 * WA always required on 36 bit cores, to avoid continuous unmapped memory accesses
-+		 * to address 0x0.
-+		 */
-+		WARN_ON(phys_bus_width != 36);
-+
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1,
-+			       ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_MODE_ENABLE_EN);
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2,
-+			       (mips_data->boot_code_dma_addr &
-+				~ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_ADDR_OUT_CLRMSK) |
-+			       remap_settings);
-+	}
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1,
-+		       ROGUE_MIPSFW_DATA_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2,
-+		       (mips_data->boot_data_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1,
-+		       ROGUE_MIPSFW_CODE_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2,
-+		       (mips_data->exception_code_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	/* Garten IDLE bit controlled by MIPS. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG,
-+		       ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_META);
-+
-+	/* Turn on the EJTAG probe. */
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MIPS_DEBUG_CONFIG, 0);
-+
-+	return 0;
-+}
-+
-+static u32
-+pvr_mips_get_fw_addr_with_offset(struct pvr_fw_object *fw_obj, u32 offset)
-+{
-+	struct pvr_device *pvr_dev = to_pvr_device(gem_from_pvr_gem(fw_obj->gem)->dev);
-+
-+	/* MIPS cacheability is determined by page table. */
-+	return ((fw_obj->fw_addr_offset + offset) & pvr_dev->fw_dev.fw_heap_info.offset_mask) |
-+	       ROGUE_FW_HEAP_MIPS_BASE;
-+}
-+
-+static bool
-+pvr_mips_has_fixed_data_addr(void)
-+{
-+	return true;
-+}
-+
-+const struct pvr_fw_defs pvr_fw_defs_mips = {
-+	.init = pvr_mips_init,
-+	.fini = pvr_mips_fini,
-+	.fw_process = pvr_mips_fw_process,
-+	.vm_map = pvr_vm_mips_map,
-+	.vm_unmap = pvr_vm_mips_unmap,
-+	.get_fw_addr_with_offset = pvr_mips_get_fw_addr_with_offset,
-+	.wrapper_init = pvr_mips_wrapper_init,
-+	.has_fixed_data_addr = pvr_mips_has_fixed_data_addr,
-+	.irq = {
-+		.enable_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE,
-+		.status_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS,
-+		.clear_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR,
-+		.event_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN,
-+		.clear_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_EN,
-+	},
-+};
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.h b/drivers/gpu/drm/imagination/pvr_fw_mips.h
-new file mode 100644
-index 000000000000..676b2d279796
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.h
-@@ -0,0 +1,48 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_FW_MIPS_H
-+#define PVR_FW_MIPS_H
-+
-+#include "pvr_rogue_mips.h"
-+
-+#include <asm/page.h>
-+#include <linux/types.h>
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_gem_object;
-+
-+#define PVR_MIPS_PT_PAGE_COUNT ((ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * ROGUE_MIPSFW_PAGE_SIZE_4K) \
-+				>> PAGE_SHIFT)
-+/**
-+ * struct pvr_fw_mips_data - MIPS-specific data
-+ */
-+struct pvr_fw_mips_data {
-+	/**
-+	 * @pt_pages: Pages containing MIPS pagetable.
++	/*
++	 * Map CCCB and control structure as uncached, so we don't have to flush
++	 * CPU cache repeatedly when polling for space.
 +	 */
-+	struct page *pt_pages[PVR_MIPS_PT_PAGE_COUNT];
++	pvr_cccb->ctrl = pvr_fw_object_create_and_map(pvr_dev, sizeof(*pvr_cccb->ctrl),
++						      PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++						      cccb_ctrl_init, pvr_cccb,
++						      &pvr_cccb->ctrl_obj);
++	if (IS_ERR(pvr_cccb->ctrl))
++		return PTR_ERR(pvr_cccb->ctrl);
 +
-+	/** @pt: Pointer to CPU mapping of MIPS pagetable. */
-+	u32 *pt;
-+
-+	/** @pt_dma_addr: DMA mappings of MIPS pagetable. */
-+	dma_addr_t pt_dma_addr[PVR_MIPS_PT_PAGE_COUNT];
-+
-+	/** @boot_code_dma_addr: DMA address of MIPS boot code. */
-+	dma_addr_t boot_code_dma_addr;
-+
-+	/** @boot_data_dma_addr: DMA address of MIPS boot data. */
-+	dma_addr_t boot_data_dma_addr;
-+
-+	/** @exception_code_dma_addr: DMA address of MIPS exception code. */
-+	dma_addr_t exception_code_dma_addr;
-+
-+	/** @cache_policy: Cache policy for this processor. */
-+	u32 cache_policy;
-+
-+	/** @pfn_mask: PFN mask for MIPS pagetable. */
-+	u32 pfn_mask;
-+};
-+
-+#endif /* PVR_FW_MIPS_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_vm_mips.c b/drivers/gpu/drm/imagination/pvr_vm_mips.c
-new file mode 100644
-index 000000000000..157197a5ee2c
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_vm_mips.c
-@@ -0,0 +1,236 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_device.h"
-+#include "pvr_fw_mips.h"
-+#include "pvr_gem.h"
-+#include "pvr_mmu.h"
-+#include "pvr_rogue_mips.h"
-+#include "pvr_vm.h"
-+#include "pvr_vm_mips.h"
-+
-+#include <drm/drm_managed.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+/**
-+ * pvr_vm_mips_init() - Initialise MIPS FW pagetable
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EINVAL,
-+ *  * Any error returned by pvr_gem_object_create(), or
-+ *  * And error returned by pvr_gem_object_vmap().
-+ */
-+int
-+pvr_vm_mips_init(struct pvr_device *pvr_dev)
-+{
-+	u32 pt_size = 1 << ROGUE_MIPSFW_LOG2_PAGETABLE_SIZE_4K(pvr_dev);
-+	struct device *dev = from_pvr_device(pvr_dev)->dev;
-+	struct pvr_fw_mips_data *mips_data;
-+	u32 phys_bus_width;
-+	int page_nr;
-+	int err;
-+
-+	/* Page table size must be at most ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * 4k pages. */
-+	if (pt_size > ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * SZ_4K)
-+		return -EINVAL;
-+
-+	if (PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width))
-+		return -EINVAL;
-+
-+	mips_data = drmm_kzalloc(from_pvr_device(pvr_dev), sizeof(*mips_data), GFP_KERNEL);
-+	if (!mips_data)
-+		return -ENOMEM;
-+
-+	for (page_nr = 0; page_nr < ARRAY_SIZE(mips_data->pt_pages); page_nr++) {
-+		mips_data->pt_pages[page_nr] = alloc_page(GFP_KERNEL | __GFP_ZERO);
-+		if (!mips_data->pt_pages[page_nr]) {
-+			err = -ENOMEM;
-+			goto err_free_pages;
-+		}
-+
-+		mips_data->pt_dma_addr[page_nr] = dma_map_page(dev, mips_data->pt_pages[page_nr], 0,
-+							       PAGE_SIZE, DMA_TO_DEVICE);
-+		if (dma_mapping_error(dev, mips_data->pt_dma_addr[page_nr])) {
-+			err = -ENOMEM;
-+			goto err_free_pages;
-+		}
++	pvr_cccb->cccb = pvr_fw_object_create_and_map(pvr_dev, size,
++						      PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++						      NULL, NULL, &pvr_cccb->cccb_obj);
++	if (IS_ERR(pvr_cccb->cccb)) {
++		err = PTR_ERR(pvr_cccb->cccb);
++		goto err_free_ctrl;
 +	}
 +
-+	mips_data->pt = vmap(mips_data->pt_pages, pt_size >> PAGE_SHIFT, VM_MAP,
-+			     pgprot_writecombine(PAGE_KERNEL));
-+	if (!mips_data->pt) {
-+		err = -ENOMEM;
-+		goto err_free_pages;
-+	}
-+
-+	mips_data->pfn_mask = (phys_bus_width > 32) ? ROGUE_MIPSFW_ENTRYLO_PFN_MASK_ABOVE_32BIT :
-+						      ROGUE_MIPSFW_ENTRYLO_PFN_MASK;
-+
-+	mips_data->cache_policy = (phys_bus_width > 32) ? ROGUE_MIPSFW_CACHED_POLICY_ABOVE_32BIT :
-+							  ROGUE_MIPSFW_CACHED_POLICY;
-+
-+	pvr_dev->fw_dev.processor_data.mips_data = mips_data;
++	pvr_fw_object_get_fw_addr(pvr_cccb->ctrl_obj, &pvr_cccb->ctrl_fw_addr);
++	pvr_fw_object_get_fw_addr(pvr_cccb->cccb_obj, &pvr_cccb->cccb_fw_addr);
 +
 +	return 0;
 +
-+err_free_pages:
-+	for (; page_nr >= 0; page_nr--) {
-+		if (mips_data->pt_dma_addr[page_nr])
-+			dma_unmap_page(from_pvr_device(pvr_dev)->dev,
-+				       mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
-+
-+		if (mips_data->pt_pages[page_nr])
-+			__free_page(mips_data->pt_pages[page_nr]);
-+	}
++err_free_ctrl:
++	pvr_fw_object_unmap_and_destroy(pvr_cccb->ctrl_obj);
 +
 +	return err;
 +}
 +
 +/**
-+ * pvr_vm_mips_fini() - Release MIPS FW pagetable
-+ * @pvr_dev: Target PowerVR device.
++ * pvr_cccb_fini() - Release Client CCB structure
++ * @pvr_cccb: Client CCB to release.
 + */
 +void
-+pvr_vm_mips_fini(struct pvr_device *pvr_dev)
++pvr_cccb_fini(struct pvr_cccb *pvr_cccb)
 +{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	int page_nr;
-+
-+	vunmap(mips_data->pt);
-+	for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
-+		dma_unmap_page(from_pvr_device(pvr_dev)->dev,
-+			       mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
-+
-+		__free_page(mips_data->pt_pages[page_nr]);
-+	}
-+
-+	fw_dev->processor_data.mips_data = NULL;
-+}
-+
-+static u32
-+get_mips_pte_flags(bool read, bool write, u32 cache_policy)
-+{
-+	u32 flags = 0;
-+
-+	if (read && write) /* Read/write. */
-+		flags |= ROGUE_MIPSFW_ENTRYLO_DIRTY_EN;
-+	else if (write)    /* Write only. */
-+		flags |= ROGUE_MIPSFW_ENTRYLO_READ_INHIBIT_EN;
-+	else
-+		WARN_ON(!read);
-+
-+	flags |= cache_policy << ROGUE_MIPSFW_ENTRYLO_CACHE_POLICY_SHIFT;
-+
-+	flags |= ROGUE_MIPSFW_ENTRYLO_VALID_EN | ROGUE_MIPSFW_ENTRYLO_GLOBAL_EN;
-+
-+	return flags;
++	pvr_fw_object_unmap_and_destroy(pvr_cccb->cccb_obj);
++	pvr_fw_object_unmap_and_destroy(pvr_cccb->ctrl_obj);
 +}
 +
 +/**
-+ * pvr_vm_mips_map() - Map a FW object into MIPS address space
-+ * @pvr_dev: Target PowerVR device.
-+ * @fw_obj: FW object to map.
++ * pvr_cccb_cmdseq_fits() - Check if a command sequence fits in the CCCB
++ * @pvr_cccb: Target Client CCB.
++ * @size: Size of the command sequence.
 + *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EINVAL if object does not reside within FW address space, or
-+ *  * Any error returned by pvr_fw_object_get_dma_addr().
++ * Check if a command sequence fits in the CCCB we have at hand.
++ *
++ * Return:
++ *  * true if the command sequence fits in the CCCB, or
++ *  * false otherwise.
 + */
-+int
-+pvr_vm_mips_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
++bool pvr_cccb_cmdseq_fits(struct pvr_cccb *pvr_cccb, size_t size)
 +{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+	u64 start = fw_obj->fw_mm_node.start;
-+	u64 size = fw_obj->fw_mm_node.size;
-+	u64 end;
-+	u32 cache_policy;
-+	u32 pte_flags;
-+	u32 start_pfn;
-+	u32 end_pfn;
-+	u32 pfn;
-+	int err;
++	struct rogue_fwif_cccb_ctl *ctrl = pvr_cccb->ctrl;
++	u32 read_offset, remaining;
++	bool fits = false;
 +
-+	if (check_add_overflow(start, size - 1, &end))
-+		return -EINVAL;
++	read_offset = READ_ONCE(ctrl->read_offset);
++	remaining = pvr_cccb->size - pvr_cccb->write_offset;
 +
-+	if (start < ROGUE_FW_HEAP_BASE ||
-+	    start >= ROGUE_FW_HEAP_BASE + fw_dev->fw_heap_info.raw_size ||
-+	    end < ROGUE_FW_HEAP_BASE ||
-+	    end >= ROGUE_FW_HEAP_BASE + fw_dev->fw_heap_info.raw_size ||
-+	    (start & ROGUE_MIPSFW_PAGE_MASK_4K) ||
-+	    ((end + 1) & ROGUE_MIPSFW_PAGE_MASK_4K))
-+		return -EINVAL;
++	/* Always ensure we have enough room for a padding command at the end of the CCCB.
++	 * If our command sequence does not fit, reserve the remaining space for a padding
++	 * command.
++	 */
++	if (size + PADDING_COMMAND_SIZE > remaining)
++		size += remaining;
 +
-+	start_pfn = (start & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	end_pfn = (end & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
++	if (get_ccb_space(pvr_cccb->write_offset, read_offset, pvr_cccb->size) >= size)
++		fits = true;
 +
-+	if (pvr_obj->flags & PVR_BO_FW_FLAGS_DEVICE_UNCACHED)
-+		cache_policy = ROGUE_MIPSFW_UNCACHED_CACHE_POLICY;
-+	else
-+		cache_policy = mips_data->cache_policy;
-+
-+	pte_flags = get_mips_pte_flags(true, true, cache_policy);
-+
-+	for (pfn = start_pfn; pfn <= end_pfn; pfn++) {
-+		dma_addr_t dma_addr;
-+		u32 pte;
-+
-+		err = pvr_fw_object_get_dma_addr(fw_obj,
-+						 (pfn - start_pfn) <<
-+						 ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K,
-+						 &dma_addr);
-+		if (err)
-+			goto err_unmap_pages;
-+
-+		pte = ((dma_addr >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K)
-+		       << ROGUE_MIPSFW_ENTRYLO_PFN_SHIFT) & mips_data->pfn_mask;
-+		pte |= pte_flags;
-+
-+		WRITE_ONCE(mips_data->pt[pfn], pte);
-+	}
-+
-+	pvr_mmu_flush(pvr_dev);
-+
-+	return 0;
-+
-+err_unmap_pages:
-+	for (; pfn >= start_pfn; pfn--)
-+		WRITE_ONCE(mips_data->pt[pfn], 0);
-+
-+	pvr_mmu_flush(pvr_dev);
-+
-+	return err;
++	return fits;
 +}
 +
 +/**
-+ * pvr_vm_mips_unmap() - Unmap a FW object into MIPS address space
-+ * @pvr_dev: Target PowerVR device.
-+ * @fw_obj: FW object to unmap.
++ * pvr_cccb_write_command_with_header() - Write a command + command header to a
++ *                                        Client CCB
++ * @pvr_cccb: Target Client CCB.
++ * @cmd_type: Client CCB command type. Must be one of %ROGUE_FWIF_CCB_CMD_TYPE_*.
++ * @cmd_size: Size of command in bytes.
++ * @cmd_data: Pointer to command to write.
++ * @ext_job_ref: External job reference.
++ * @int_job_ref: Internal job reference.
++ *
++ * Caller must make sure there's enough space in CCCB to queue this command. This
++ * can be done by calling pvr_cccb_cmdseq_fits().
++ *
++ * This function is not protected by any lock. The caller must ensure there's
++ * no concurrent caller, which should be guaranteed by the drm_sched model (job
++ * submission is serialized in drm_sched_main()).
 + */
 +void
-+pvr_vm_mips_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
++pvr_cccb_write_command_with_header(struct pvr_cccb *pvr_cccb, u32 cmd_type, u32 cmd_size,
++				   void *cmd_data, u32 ext_job_ref, u32 int_job_ref)
 +{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	u64 start = fw_obj->fw_mm_node.start;
-+	u64 size = fw_obj->fw_mm_node.size;
-+	u64 end = start + size;
++	u32 sz_with_hdr = pvr_cccb_get_size_of_cmd_with_hdr(cmd_size);
++	struct rogue_fwif_ccb_cmd_header cmd_header = {
++		.cmd_type = cmd_type,
++		.cmd_size = ALIGN(cmd_size, 8),
++		.ext_job_ref = ext_job_ref,
++		.int_job_ref = int_job_ref,
++	};
++	struct rogue_fwif_cccb_ctl *ctrl = pvr_cccb->ctrl;
++	u32 remaining = pvr_cccb->size - pvr_cccb->write_offset;
++	u32 required_size, cccb_space, read_offset;
 +
-+	u32 start_pfn = (start & fw_dev->fw_heap_info.offset_mask) >>
-+			ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	u32 end_pfn = (end & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	u32 pfn;
++	/*
++	 * Always ensure we have enough room for a padding command at the end of
++	 * the CCCB.
++	 */
++	if (remaining < sz_with_hdr + PADDING_COMMAND_SIZE) {
++		/*
++		 * Command would need to wrap, so we need to pad the remainder
++		 * of the CCCB.
++		 */
++		required_size = sz_with_hdr + remaining;
++	} else {
++		required_size = sz_with_hdr;
++	}
 +
-+	for (pfn = start_pfn; pfn < end_pfn; pfn++)
-+		WRITE_ONCE(mips_data->pt[pfn], 0);
++	read_offset = READ_ONCE(ctrl->read_offset);
++	cccb_space = get_ccb_space(pvr_cccb->write_offset, read_offset, pvr_cccb->size);
++	if (WARN_ON(cccb_space < required_size))
++		return;
 +
-+	pvr_mmu_flush(pvr_dev);
++	if (required_size != sz_with_hdr) {
++		/* Add padding command */
++		struct rogue_fwif_ccb_cmd_header pad_cmd = {
++			.cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_PADDING,
++			.cmd_size = remaining - sizeof(pad_cmd),
++		};
++
++		memcpy(&pvr_cccb->cccb[pvr_cccb->write_offset], &pad_cmd, sizeof(pad_cmd));
++		pvr_cccb->write_offset = 0;
++	}
++
++	memcpy(&pvr_cccb->cccb[pvr_cccb->write_offset], &cmd_header, sizeof(cmd_header));
++	memcpy(&pvr_cccb->cccb[pvr_cccb->write_offset + sizeof(cmd_header)], cmd_data, cmd_size);
++	pvr_cccb->write_offset += sz_with_hdr;
 +}
-diff --git a/drivers/gpu/drm/imagination/pvr_vm_mips.h b/drivers/gpu/drm/imagination/pvr_vm_mips.h
++
++static void fill_cmd_kick_data(struct pvr_cccb *cccb, u32 ctx_fw_addr,
++			       struct pvr_hwrt_data *hwrt,
++			       struct rogue_fwif_kccb_cmd_kick_data *k)
++{
++	k->context_fw_addr = ctx_fw_addr;
++	k->client_woff_update = cccb->write_offset;
++	k->client_wrap_mask_update = cccb->wrap_mask;
++
++	if (hwrt) {
++		u32 cleanup_state_offset = offsetof(struct rogue_fwif_hwrtdata, cleanup_state);
++
++		pvr_fw_object_get_fw_addr_offset(hwrt->fw_obj, cleanup_state_offset,
++						 &k->cleanup_ctl_fw_addr[k->num_cleanup_ctl++]);
++	}
++}
++
++/**
++ * pvr_cccb_send_kccb_kick: Send KCCB kick to trigger command processing
++ * @pvr_dev: Device pointer.
++ * @pvr_cccb: Pointer to CCCB to process.
++ * @cctx_fw_addr: FW virtual address for context owning this Client CCB.
++ * @hwrt: HWRT data set associated with this kick. May be %NULL.
++ *
++ * You must call pvr_kccb_reserve_slot() and wait for the returned fence to
++ * signal (if this function didn't return NULL) before calling
++ * pvr_cccb_send_kccb_kick().
++ */
++void
++pvr_cccb_send_kccb_kick(struct pvr_device *pvr_dev,
++			struct pvr_cccb *pvr_cccb, u32 cctx_fw_addr,
++			struct pvr_hwrt_data *hwrt)
++{
++	struct rogue_fwif_kccb_cmd cmd_kick = {
++		.cmd_type = ROGUE_FWIF_KCCB_CMD_KICK,
++	};
++
++	fill_cmd_kick_data(pvr_cccb, cctx_fw_addr, hwrt, &cmd_kick.cmd_data.cmd_kick_data);
++
++	/* Make sure the writes to the CCCB are flushed before sending the KICK. */
++	wmb();
++
++	pvr_kccb_send_cmd_reserved_powered(pvr_dev, &cmd_kick, NULL);
++}
++
++void
++pvr_cccb_send_kccb_combined_kick(struct pvr_device *pvr_dev,
++				 struct pvr_cccb *geom_cccb,
++				 struct pvr_cccb *frag_cccb,
++				 u32 geom_ctx_fw_addr,
++				 u32 frag_ctx_fw_addr,
++				 struct pvr_hwrt_data *hwrt,
++				 bool frag_is_pr)
++{
++	struct rogue_fwif_kccb_cmd cmd_kick = {
++		.cmd_type = ROGUE_FWIF_KCCB_CMD_COMBINED_GEOM_FRAG_KICK,
++	};
++
++	fill_cmd_kick_data(geom_cccb, geom_ctx_fw_addr, hwrt,
++			   &cmd_kick.cmd_data.combined_geom_frag_cmd_kick_data.geom_cmd_kick_data);
++
++	/* If this is a partial-render job, we don't attach resources to cleanup-ctl array,
++	 * because the resources are already retained by the geometry job.
++	 */
++	fill_cmd_kick_data(frag_cccb, frag_ctx_fw_addr, frag_is_pr ? NULL : hwrt,
++			   &cmd_kick.cmd_data.combined_geom_frag_cmd_kick_data.frag_cmd_kick_data);
++
++	/* Make sure the writes to the CCCB are flushed before sending the KICK. */
++	wmb();
++
++	pvr_kccb_send_cmd_reserved_powered(pvr_dev, &cmd_kick, NULL);
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_cccb.h b/drivers/gpu/drm/imagination/pvr_cccb.h
 new file mode 100644
-index 000000000000..71d238d5327a
+index 000000000000..a9f5f38b874b
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_vm_mips.h
-@@ -0,0 +1,22 @@
++++ b/drivers/gpu/drm/imagination/pvr_cccb.h
+@@ -0,0 +1,109 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_VM_MIPS_H
-+#define PVR_VM_MIPS_H
++#ifndef PVR_CCCB_H
++#define PVR_CCCB_H
++
++#include "pvr_rogue_fwif.h"
++#include "pvr_rogue_fwif_shared.h"
++
++#include <linux/mutex.h>
++#include <linux/types.h>
++
++#define PADDING_COMMAND_SIZE sizeof(struct rogue_fwif_ccb_cmd_header)
 +
 +/* Forward declaration from pvr_device.h. */
 +struct pvr_device;
@@ -813,16 +499,1262 @@ index 000000000000..71d238d5327a
 +/* Forward declaration from pvr_gem.h. */
 +struct pvr_fw_object;
 +
-+int
-+pvr_vm_mips_init(struct pvr_device *pvr_dev);
-+void
-+pvr_vm_mips_fini(struct pvr_device *pvr_dev);
-+int
-+pvr_vm_mips_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
-+void
-+pvr_vm_mips_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
++/* Forward declaration from pvr_hwrt.h. */
++struct pvr_hwrt_data;
 +
-+#endif /* PVR_VM_MIPS_H */
++struct pvr_cccb {
++	/** @ctrl_obj: FW object representing CCCB control structure. */
++	struct pvr_fw_object *ctrl_obj;
++
++	/** @ccb_obj: FW object representing CCCB. */
++	struct pvr_fw_object *cccb_obj;
++
++	/**
++	 * @ctrl: Kernel mapping of CCCB control structure. @lock must be held
++	 *        when accessing.
++	 */
++	struct rogue_fwif_cccb_ctl *ctrl;
++
++	/** @cccb: Kernel mapping of CCCB. @lock must be held when accessing.*/
++	u8 *cccb;
++
++	/** @ctrl_fw_addr: FW virtual address of CCCB control structure. */
++	u32 ctrl_fw_addr;
++	/** @ccb_fw_addr: FW virtual address of CCCB. */
++	u32 cccb_fw_addr;
++
++	/** @size: Size of CCCB in bytes. */
++	size_t size;
++
++	/** @write_offset: CCCB write offset. */
++	u32 write_offset;
++
++	/** @wrap_mask: CCCB wrap mask. */
++	u32 wrap_mask;
++};
++
++int pvr_cccb_init(struct pvr_device *pvr_dev, struct pvr_cccb *cccb,
++		  u32 size_log2, const char *name);
++void pvr_cccb_fini(struct pvr_cccb *cccb);
++
++void pvr_cccb_write_command_with_header(struct pvr_cccb *pvr_cccb,
++					u32 cmd_type, u32 cmd_size, void *cmd_data,
++					u32 ext_job_ref, u32 int_job_ref);
++void pvr_cccb_send_kccb_kick(struct pvr_device *pvr_dev,
++			     struct pvr_cccb *pvr_cccb, u32 cctx_fw_addr,
++			     struct pvr_hwrt_data *hwrt);
++void pvr_cccb_send_kccb_combined_kick(struct pvr_device *pvr_dev,
++				      struct pvr_cccb *geom_cccb,
++				      struct pvr_cccb *frag_cccb,
++				      u32 geom_ctx_fw_addr,
++				      u32 frag_ctx_fw_addr,
++				      struct pvr_hwrt_data *hwrt,
++				      bool frag_is_pr);
++bool pvr_cccb_cmdseq_fits(struct pvr_cccb *pvr_cccb, size_t size);
++
++/**
++ * pvr_cccb_get_size_of_cmd_with_hdr() - Get the size of a command and its header.
++ * @cmd_size: Command size.
++ *
++ * Returns the size of the command and its header.
++ */
++static __always_inline u32
++pvr_cccb_get_size_of_cmd_with_hdr(u32 cmd_size)
++{
++	WARN_ON(!IS_ALIGNED(cmd_size, 8));
++	return sizeof(struct rogue_fwif_ccb_cmd_header) + ALIGN(cmd_size, 8);
++}
++
++/**
++ * pvr_cccb_cmdseq_can_fit() - Check if a command sequence can fit in the CCCB.
++ * @size: Command sequence size.
++ *
++ * Returns:
++ *  * true it the CCCB is big enough to contain a command sequence, or
++ *  * false otherwise.
++ */
++static __always_inline bool
++pvr_cccb_cmdseq_can_fit(struct pvr_cccb *pvr_cccb, size_t size)
++{
++	/* We divide the capacity by two to simplify our CCCB fencing logic:
++	 * we want to be sure that, no matter what we had queued before, we
++	 * are able to either queue our command sequence at the end or add a
++	 * padding command and queue the command sequence at the beginning
++	 * of the CCCB. If the command sequence size is bigger than half the
++	 * CCCB capacity, we'd have to queue the padding command and make sure
++	 * the FW is done processing it before queueing our command sequence.
++	 */
++	return size + PADDING_COMMAND_SIZE <= pvr_cccb->size / 2;
++}
++
++#endif /* PVR_CCCB_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/imagination/pvr_context.c
+new file mode 100644
+index 000000000000..7ade4d395d1d
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_context.c
+@@ -0,0 +1,341 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_cccb.h"
++#include "pvr_context.h"
++#include "pvr_device.h"
++#include "pvr_drv.h"
++#include "pvr_gem.h"
++#include "pvr_power.h"
++#include "pvr_rogue_fwif.h"
++#include "pvr_rogue_fwif_common.h"
++#include "pvr_rogue_fwif_resetframework.h"
++#include "pvr_stream_defs.h"
++#include "pvr_vm.h"
++
++#include <drm/drm_auth.h>
++#include <drm/drm_managed.h>
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/sched.h>
++#include <linux/slab.h>
++#include <linux/string.h>
++#include <linux/types.h>
++#include <linux/xarray.h>
++
++static int
++remap_priority(struct pvr_file *pvr_file, s32 uapi_priority,
++	       enum pvr_context_priority *priority_out)
++{
++	switch (uapi_priority) {
++	case DRM_PVR_CTX_PRIORITY_LOW:
++		*priority_out = PVR_CTX_PRIORITY_LOW;
++		break;
++	case DRM_PVR_CTX_PRIORITY_NORMAL:
++		*priority_out = PVR_CTX_PRIORITY_MEDIUM;
++		break;
++	case DRM_PVR_CTX_PRIORITY_HIGH:
++		if (!capable(CAP_SYS_NICE) && !drm_is_current_master(from_pvr_file(pvr_file)))
++			return -EACCES;
++		*priority_out = PVR_CTX_PRIORITY_HIGH;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int get_fw_obj_size(enum drm_pvr_ctx_type type)
++{
++	switch (type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		return sizeof(struct rogue_fwif_fwrendercontext);
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		return sizeof(struct rogue_fwif_fwcomputecontext);
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		return sizeof(struct rogue_fwif_fwtransfercontext);
++	}
++
++	return -EINVAL;
++}
++
++static int
++process_static_context_state(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
++			     u64 stream_user_ptr, u32 stream_size, void *dest)
++{
++	void *stream;
++	int err;
++
++	stream = kzalloc(stream_size, GFP_KERNEL);
++	if (!stream)
++		return -ENOMEM;
++
++	if (copy_from_user(stream, u64_to_user_ptr(stream_user_ptr), stream_size)) {
++		err = -EFAULT;
++		goto err_free;
++	}
++
++	err = pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, dest);
++	if (err)
++		goto err_free;
++
++	kfree(stream);
++
++	return 0;
++
++err_free:
++	kfree(stream);
++
++	return err;
++}
++
++static int init_render_fw_objs(struct pvr_context *ctx,
++			       struct drm_pvr_ioctl_create_context_args *args,
++			       void *fw_ctx_map)
++{
++	struct rogue_fwif_static_rendercontext_state *static_rendercontext_state;
++	struct rogue_fwif_fwrendercontext *fw_render_context = fw_ctx_map;
++
++	if (!args->static_context_state_len)
++		return -EINVAL;
++
++	static_rendercontext_state = &fw_render_context->static_render_context_state;
++
++	/* Copy static render context state from userspace. */
++	return process_static_context_state(ctx->pvr_dev,
++					    &pvr_static_render_context_state_stream,
++					    args->static_context_state,
++					    args->static_context_state_len,
++					    &static_rendercontext_state->ctxswitch_regs[0]);
++}
++
++static int init_compute_fw_objs(struct pvr_context *ctx,
++				struct drm_pvr_ioctl_create_context_args *args,
++				void *fw_ctx_map)
++{
++	struct rogue_fwif_fwcomputecontext *fw_compute_context = fw_ctx_map;
++	struct rogue_fwif_cdm_registers_cswitch *ctxswitch_regs;
++
++	if (!args->static_context_state_len)
++		return -EINVAL;
++
++	ctxswitch_regs = &fw_compute_context->static_compute_context_state.ctxswitch_regs;
++
++	/* Copy static render context state from userspace. */
++	return process_static_context_state(ctx->pvr_dev,
++					    &pvr_static_compute_context_state_stream,
++					    args->static_context_state,
++					    args->static_context_state_len,
++					    ctxswitch_regs);
++}
++
++static int init_transfer_fw_objs(struct pvr_context *ctx,
++				 struct drm_pvr_ioctl_create_context_args *args,
++				 void *fw_ctx_map)
++{
++	if (args->static_context_state_len)
++		return -EINVAL;
++
++	return 0;
++}
++
++static int init_fw_objs(struct pvr_context *ctx,
++			struct drm_pvr_ioctl_create_context_args *args,
++			void *fw_ctx_map)
++{
++	switch (ctx->type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		return init_render_fw_objs(ctx, args, fw_ctx_map);
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		return init_compute_fw_objs(ctx, args, fw_ctx_map);
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		return init_transfer_fw_objs(ctx, args, fw_ctx_map);
++	}
++
++	return -EINVAL;
++}
++
++static void
++ctx_fw_data_init(void *cpu_ptr, void *priv)
++{
++	struct pvr_context *ctx = priv;
++
++	memcpy(cpu_ptr, ctx->data, ctx->data_size);
++}
++
++/**
++ * pvr_context_create() - Create a context.
++ * @pvr_file: File to attach the created context to.
++ * @args: Context creation arguments.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * A negative error code on failure.
++ */
++int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_context_args *args)
++{
++	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
++	struct pvr_context *ctx;
++	int ctx_size;
++	int err;
++
++	/* Context creation flags are currently unused and must be zero. */
++	if (args->flags)
++		return -EINVAL;
++
++	ctx_size = get_fw_obj_size(args->type);
++	if (ctx_size < 0)
++		return ctx_size;
++
++	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ctx->data_size = ctx_size;
++	ctx->type = args->type;
++	ctx->flags = args->flags;
++	ctx->pvr_dev = pvr_dev;
++	kref_init(&ctx->ref_count);
++
++	err = remap_priority(pvr_file, args->priority, &ctx->priority);
++	if (err)
++		goto err_free_ctx;
++
++	ctx->vm_ctx = pvr_vm_context_lookup(pvr_file, args->vm_context_handle);
++	if (IS_ERR(ctx->vm_ctx)) {
++		err = PTR_ERR(ctx->vm_ctx);
++		goto err_free_ctx;
++	}
++
++	ctx->data = kzalloc(ctx_size, GFP_KERNEL);
++	if (!ctx->data) {
++		err = -ENOMEM;
++		goto err_put_vm;
++	}
++
++	err = init_fw_objs(ctx, args, ctx->data);
++	if (err)
++		goto err_free_ctx_data;
++
++	err = pvr_fw_object_create(pvr_dev, ctx_size, PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++				   ctx_fw_data_init, ctx, &ctx->fw_obj);
++	if (err)
++		goto err_free_ctx_data;
++
++	err = xa_alloc(&pvr_dev->ctx_ids, &ctx->ctx_id, ctx, xa_limit_32b, GFP_KERNEL);
++	if (err)
++		goto err_destroy_fw_obj;
++
++	err = xa_alloc(&pvr_file->ctx_handles, &args->handle, ctx, xa_limit_32b, GFP_KERNEL);
++	if (err) {
++		/*
++		 * It's possible that another thread could have taken a reference on the context at
++		 * this point as it is in the ctx_ids xarray. Therefore instead of directly
++		 * destroying the context, drop a reference instead.
++		 */
++		pvr_context_put(ctx);
++		return err;
++	}
++
++	return 0;
++
++err_destroy_fw_obj:
++	pvr_fw_object_destroy(ctx->fw_obj);
++
++err_free_ctx_data:
++	kfree(ctx->data);
++
++err_put_vm:
++	pvr_vm_context_put(ctx->vm_ctx);
++
++err_free_ctx:
++	kfree(ctx);
++	return err;
++}
++
++static void
++pvr_context_release(struct kref *ref_count)
++{
++	struct pvr_context *ctx =
++		container_of(ref_count, struct pvr_context, ref_count);
++	struct pvr_device *pvr_dev = ctx->pvr_dev;
++
++	xa_erase(&pvr_dev->ctx_ids, ctx->ctx_id);
++	pvr_fw_object_destroy(ctx->fw_obj);
++	kfree(ctx->data);
++	pvr_vm_context_put(ctx->vm_ctx);
++	kfree(ctx);
++}
++
++/**
++ * pvr_context_put() - Release reference on context
++ * @ctx: Target context.
++ */
++void
++pvr_context_put(struct pvr_context *ctx)
++{
++	if (ctx)
++		kref_put(&ctx->ref_count, pvr_context_release);
++}
++
++/**
++ * pvr_context_destroy() - Destroy context
++ * @pvr_file: Pointer to pvr_file structure.
++ * @handle: Userspace context handle.
++ *
++ * Removes context from context list and drops initial reference. Context will
++ * then be destroyed once all outstanding references are dropped.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if context not in context list.
++ */
++int
++pvr_context_destroy(struct pvr_file *pvr_file, u32 handle)
++{
++	struct pvr_context *ctx = xa_erase(&pvr_file->ctx_handles, handle);
++
++	if (!ctx)
++		return -EINVAL;
++
++	/* Release the reference held by the handle set. */
++	pvr_context_put(ctx);
++
++	return 0;
++}
++
++/**
++ * pvr_destroy_contexts_for_file: Destroy any contexts associated with the given file
++ * @pvr_file: Pointer to pvr_file structure.
++ *
++ * Removes all contexts associated with @pvr_file from the device context list and drops initial
++ * references. Contexts will then be destroyed once all outstanding references are dropped.
++ */
++void pvr_destroy_contexts_for_file(struct pvr_file *pvr_file)
++{
++	struct pvr_context *ctx;
++	unsigned long handle;
++
++	xa_for_each(&pvr_file->ctx_handles, handle, ctx)
++		pvr_context_destroy(pvr_file, handle);
++}
++
++/**
++ * pvr_context_device_init() - Device level initialization for queue related resources.
++ * @pvr_dev: The device to initialize.
++ */
++void pvr_context_device_init(struct pvr_device *pvr_dev)
++{
++	xa_init_flags(&pvr_dev->ctx_ids, XA_FLAGS_ALLOC1);
++}
++
++/**
++ * pvr_context_device_fini() - Device level cleanup for queue related resources.
++ * @pvr_dev: The device to cleanup.
++ */
++void pvr_context_device_fini(struct pvr_device *pvr_dev)
++{
++	WARN_ON(!xa_empty(&pvr_dev->ctx_ids));
++	xa_destroy(&pvr_dev->ctx_ids);
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_context.h b/drivers/gpu/drm/imagination/pvr_context.h
+new file mode 100644
+index 000000000000..fa7115380272
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_context.h
+@@ -0,0 +1,161 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_CONTEXT_H
++#define PVR_CONTEXT_H
++
++#include <drm/gpu_scheduler.h>
++
++#include <linux/compiler_attributes.h>
++#include <linux/dma-fence.h>
++#include <linux/kref.h>
++#include <linux/types.h>
++#include <linux/xarray.h>
++#include <uapi/drm/pvr_drm.h>
++
++#include "pvr_cccb.h"
++#include "pvr_device.h"
++
++/* Forward declaration from pvr_gem.h. */
++struct pvr_fw_object;
++
++enum pvr_context_priority {
++	PVR_CTX_PRIORITY_LOW = 0,
++	PVR_CTX_PRIORITY_MEDIUM,
++	PVR_CTX_PRIORITY_HIGH,
++};
++
++/**
++ * struct pvr_context - Context data
++ */
++struct pvr_context {
++	/** @ref_count: Refcount for context. */
++	struct kref ref_count;
++
++	/** @pvr_dev: Pointer to owning device. */
++	struct pvr_device *pvr_dev;
++
++	/** @vm_ctx: Pointer to associated VM context. */
++	struct pvr_vm_context *vm_ctx;
++
++	/** @type: Type of context. */
++	enum drm_pvr_ctx_type type;
++
++	/** @flags: Context flags. */
++	u32 flags;
++
++	/** @priority: Context priority*/
++	enum pvr_context_priority priority;
++
++	/** @fw_obj: FW object representing FW-side context data. */
++	struct pvr_fw_object *fw_obj;
++
++	/** @data: Pointer to local copy of FW context data. */
++	void *data;
++
++	/** @data_size: Size of FW context data, in bytes. */
++	u32 data_size;
++
++	/** @ctx_id: FW context ID. */
++	u32 ctx_id;
++};
++
++/**
++ * pvr_context_get() - Take additional reference on context.
++ * @ctx: Context pointer.
++ *
++ * Call pvr_context_put() to release.
++ *
++ * Returns:
++ *  * The requested context on success, or
++ *  * %NULL if no context pointer passed.
++ */
++static __always_inline struct pvr_context *
++pvr_context_get(struct pvr_context *ctx)
++{
++	if (ctx)
++		kref_get(&ctx->ref_count);
++
++	return ctx;
++}
++
++/**
++ * pvr_context_lookup() - Lookup context pointer from handle and file.
++ * @pvr_file: Pointer to pvr_file structure.
++ * @handle: Context handle.
++ *
++ * Takes reference on context. Call pvr_context_put() to release.
++ *
++ * Return:
++ *  * The requested context on success, or
++ *  * %NULL on failure (context does not exist, or does not belong to @pvr_file).
++ */
++static __always_inline struct pvr_context *
++pvr_context_lookup(struct pvr_file *pvr_file, u32 handle)
++{
++	struct pvr_context *ctx;
++
++	/* Take the array lock to protect against context removal.  */
++	xa_lock(&pvr_file->ctx_handles);
++	ctx = pvr_context_get(xa_load(&pvr_file->ctx_handles, handle));
++	xa_unlock(&pvr_file->ctx_handles);
++
++	return ctx;
++}
++
++/**
++ * pvr_context_lookup_id() - Lookup context pointer from ID.
++ * @pvr_dev: Device pointer.
++ * @id: FW context ID.
++ *
++ * Takes reference on context. Call pvr_context_put() to release.
++ *
++ * Return:
++ *  * The requested context on success, or
++ *  * %NULL on failure (context does not exist).
++ */
++static __always_inline struct pvr_context *
++pvr_context_lookup_id(struct pvr_device *pvr_dev, u32 id)
++{
++	struct pvr_context *ctx;
++
++	/* Take the array lock to protect against context removal.  */
++	xa_lock(&pvr_dev->ctx_ids);
++
++	/* Contexts are removed from the ctx_ids set in the context release path,
++	 * meaning the ref_count reached zero before they get removed. We need
++	 * to make sure we're not trying to acquire a context that's being
++	 * destroyed.
++	 */
++	ctx = xa_load(&pvr_dev->ctx_ids, id);
++	if (!kref_get_unless_zero(&ctx->ref_count))
++		ctx = NULL;
++
++	xa_unlock(&pvr_dev->ctx_ids);
++
++	return ctx;
++}
++
++static __always_inline u32
++pvr_context_get_fw_addr(struct pvr_context *ctx)
++{
++	u32 ctx_fw_addr = 0;
++
++	pvr_fw_object_get_fw_addr(ctx->fw_obj, &ctx_fw_addr);
++
++	return ctx_fw_addr;
++}
++
++void pvr_context_put(struct pvr_context *ctx);
++
++int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_context_args *args);
++
++int pvr_context_destroy(struct pvr_file *pvr_file, u32 handle);
++
++void pvr_destroy_contexts_for_file(struct pvr_file *pvr_file);
++
++void pvr_context_device_init(struct pvr_device *pvr_dev);
++
++void pvr_context_device_fini(struct pvr_device *pvr_dev);
++
++#endif /* PVR_CONTEXT_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index 84166266ace8..d419e4cc0214 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -7,6 +7,8 @@
+ #include "pvr_ccb.h"
+ #include "pvr_device_info.h"
+ #include "pvr_fw.h"
++#include "pvr_rogue_fwif_stream.h"
++#include "pvr_stream.h"
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_file.h>
+@@ -146,6 +148,17 @@ struct pvr_device {
+ 	/** @fw_dev: Firmware related data. */
+ 	struct pvr_fw_device fw_dev;
+ 
++	/** @stream_musthave_quirks: Bit array of "must-have" quirks for stream commands. */
++	u32 stream_musthave_quirks[PVR_STREAM_TYPE_MAX][PVR_STREAM_EXTHDR_TYPE_MAX];
++
++	/**
++	 * @ctx_ids: Array of contexts belonging to this device. Array members
++	 *           are of type "struct pvr_context *".
++	 *
++	 * This array is used to allocate IDs used by the firmware.
++	 */
++	struct xarray ctx_ids;
++
+ 	/**
+ 	 * @free_list_ids: Array of free lists belonging to this device. Array members
+ 	 *                 are of type "struct pvr_free_list *".
+@@ -249,6 +262,14 @@ struct pvr_file {
+ 	 */
+ 	struct pvr_device *pvr_dev;
+ 
++	/**
++	 * @ctx_handles: Array of contexts belonging to this file. Array members
++	 *               are of type "struct pvr_context *".
++	 *
++	 * This array is used to allocate handles returned to userspace.
++	 */
++	struct xarray ctx_handles;
++
+ 	/**
+ 	 * @free_list_handles: Array of free lists belonging to this file. Array
+ 	 * members are of type "struct pvr_free_list *".
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+index 9a3f34fdced1..138eee20f238 100644
+--- a/drivers/gpu/drm/imagination/pvr_drv.c
++++ b/drivers/gpu/drm/imagination/pvr_drv.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /* Copyright (c) 2023 Imagination Technologies Ltd. */
+ 
++#include "pvr_context.h"
+ #include "pvr_device.h"
+ #include "pvr_drv.h"
+ #include "pvr_free_list.h"
+@@ -685,7 +686,19 @@ static int
+ pvr_ioctl_create_context(struct drm_device *drm_dev, void *raw_args,
+ 			 struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_create_context_args *args = raw_args;
++	struct pvr_file *pvr_file = file->driver_priv;
++	int idx;
++	int ret;
++
++	if (!drm_dev_enter(drm_dev, &idx))
++		return -EIO;
++
++	ret = pvr_context_create(pvr_file, args);
++
++	drm_dev_exit(idx);
++
++	return ret;
+ }
+ 
+ /**
+@@ -705,7 +718,13 @@ static int
+ pvr_ioctl_destroy_context(struct drm_device *drm_dev, void *raw_args,
+ 			  struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_destroy_context_args *args = raw_args;
++	struct pvr_file *pvr_file = file->driver_priv;
++
++	if (args->_padding_4)
++		return -EINVAL;
++
++	return pvr_context_destroy(pvr_file, args->handle);
+ }
+ 
+ /**
+@@ -1301,6 +1320,7 @@ pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
+ 	 */
+ 	pvr_file->pvr_dev = pvr_dev;
+ 
++	xa_init_flags(&pvr_file->ctx_handles, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&pvr_file->free_list_handles, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&pvr_file->hwrt_handles, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&pvr_file->vm_ctx_handles, XA_FLAGS_ALLOC1);
+@@ -1330,6 +1350,9 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
+ {
+ 	struct pvr_file *pvr_file = to_pvr_file(file);
+ 
++	/* Kill remaining contexts. */
++	pvr_destroy_contexts_for_file(pvr_file);
++
+ 	/* Drop references on any remaining objects. */
+ 	pvr_destroy_free_lists_for_file(pvr_file);
+ 	pvr_destroy_hwrt_datasets_for_file(pvr_file);
+@@ -1375,6 +1398,7 @@ pvr_probe(struct platform_device *plat_dev)
+ 	drm_dev = &pvr_dev->base;
+ 
+ 	platform_set_drvdata(plat_dev, drm_dev);
++	pvr_context_device_init(pvr_dev);
+ 
+ 	devm_pm_runtime_enable(&plat_dev->dev);
+ 	pm_runtime_mark_last_busy(&plat_dev->dev);
+@@ -1418,6 +1442,7 @@ pvr_remove(struct platform_device *plat_dev)
+ 	drm_dev_unplug(drm_dev);
+ 	pvr_device_fini(pvr_dev);
+ 	pvr_watchdog_fini(pvr_dev);
++	pvr_context_device_fini(pvr_dev);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/imagination/pvr_stream.c b/drivers/gpu/drm/imagination/pvr_stream.c
+new file mode 100644
+index 000000000000..7603db7e79a7
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_stream.c
+@@ -0,0 +1,285 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_device.h"
++#include "pvr_rogue_fwif_stream.h"
++#include "pvr_stream.h"
++
++#include <linux/align.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++#include <uapi/drm/pvr_drm.h>
++
++static __always_inline bool
++stream_def_is_supported(struct pvr_device *pvr_dev, const struct pvr_stream_def *stream_def)
++{
++	if (stream_def->feature == PVR_FEATURE_NONE)
++		return true;
++
++	if (!(stream_def->feature & PVR_FEATURE_NOT) &&
++	    pvr_device_has_feature(pvr_dev, stream_def->feature)) {
++		return true;
++	}
++
++	if ((stream_def->feature & PVR_FEATURE_NOT) &&
++	    !pvr_device_has_feature(pvr_dev, stream_def->feature & ~PVR_FEATURE_NOT)) {
++		return true;
++	}
++
++	return false;
++}
++
++static int
++pvr_stream_get_data(u8 *stream, u32 *stream_offset, u32 stream_size, u32 data_size, u32 align_size,
++		    void *dest)
++{
++	*stream_offset = ALIGN(*stream_offset, align_size);
++
++	if ((*stream_offset + data_size) > stream_size)
++		return -EINVAL;
++
++	memcpy(dest, stream + *stream_offset, data_size);
++
++	(*stream_offset) += data_size;
++
++	return 0;
++}
++
++/**
++ * pvr_stream_process_1() - Process a single stream and fill destination structure
++ * @pvr_dev: Device pointer.
++ * @stream_def: Stream definition.
++ * @nr_entries: Number of entries in &stream_def.
++ * @stream: Pointer to stream.
++ * @stream_offset: Starting offset within stream.
++ * @stream_size: Size of input stream, in bytes.
++ * @dest: Pointer to destination structure.
++ * @dest_size: Size of destination structure.
++ * @stream_offset_out: Pointer to variable to write updated stream offset to. May be NULL.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * -%EINVAL on malformed stream.
++ */
++static int
++pvr_stream_process_1(struct pvr_device *pvr_dev, const struct pvr_stream_def *stream_def,
++		     u32 nr_entries, u8 *stream, u32 stream_offset, u32 stream_size,
++		     u8 *dest, u32 dest_size, u32 *stream_offset_out)
++{
++	int err = 0;
++	u32 i;
++
++	for (i = 0; i < nr_entries; i++) {
++		if (stream_def[i].offset >= dest_size) {
++			err = -EINVAL;
++			break;
++		}
++
++		if (!stream_def_is_supported(pvr_dev, &stream_def[i]))
++			continue;
++
++		switch (stream_def[i].size) {
++		case PVR_STREAM_SIZE_8:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u8),
++						  sizeof(u8), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_16:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u16),
++						  sizeof(u16), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_32:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u32),
++						  sizeof(u32), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_64:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u64),
++						  sizeof(u64), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_ARRAY:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size,
++						  stream_def[i].array_size, sizeof(u64),
++						  dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++		}
++	}
++
++	if (stream_offset_out)
++		*stream_offset_out = stream_offset;
++
++	return 0;
++}
++
++static int
++pvr_stream_process_ext_stream(struct pvr_device *pvr_dev,
++			      const struct pvr_stream_cmd_defs *cmd_defs, void *ext_stream,
++			      u32 stream_offset, u32 ext_stream_size, void *dest)
++{
++	u32 musthave_masks[PVR_STREAM_EXTHDR_TYPE_MAX];
++	u32 ext_header;
++	int err = 0;
++	u32 i;
++
++	/* Copy "must have" mask from device. We clear this as we process the stream. */
++	memcpy(musthave_masks, pvr_dev->stream_musthave_quirks[cmd_defs->type],
++	       sizeof(musthave_masks));
++
++	do {
++		const struct pvr_stream_ext_header *header;
++		u32 type;
++		u32 data;
++
++		err = pvr_stream_get_data(ext_stream, &stream_offset, ext_stream_size, sizeof(u32),
++					  sizeof(ext_header), &ext_header);
++		if (err)
++			return err;
++
++		type = (ext_header & PVR_STREAM_EXTHDR_TYPE_MASK) >> PVR_STREAM_EXTHDR_TYPE_SHIFT;
++		data = ext_header & PVR_STREAM_EXTHDR_DATA_MASK;
++
++		if (type >= cmd_defs->ext_nr_headers)
++			return -EINVAL;
++
++		header = &cmd_defs->ext_headers[type];
++		if (data & ~header->valid_mask)
++			return -EINVAL;
++
++		musthave_masks[type] &= ~data;
++
++		for (i = 0; i < header->ext_streams_num; i++) {
++			const struct pvr_stream_ext_def *ext_def = &header->ext_streams[i];
++
++			if (!(ext_header & ext_def->header_mask))
++				continue;
++
++			if (!pvr_device_has_uapi_quirk(pvr_dev, ext_def->quirk))
++				return -EINVAL;
++
++			err = pvr_stream_process_1(pvr_dev, ext_def->stream, ext_def->stream_len,
++						   ext_stream, stream_offset,
++						   ext_stream_size, dest,
++						   cmd_defs->dest_size, &stream_offset);
++			if (err)
++				return err;
++		}
++	} while (ext_header & PVR_STREAM_EXTHDR_CONTINUATION);
++
++	/*
++	 * Verify that "must have" mask is now zero. If it isn't then one of the "must have" quirks
++	 * for this command was not present.
++	 */
++	for (i = 0; i < cmd_defs->ext_nr_headers; i++) {
++		if (musthave_masks[i])
++			return -EINVAL;
++	}
++
++	return 0;
++}
++
++/**
++ * pvr_stream_process() - Build FW structure from stream
++ * @pvr_dev: Device pointer.
++ * @cmd_defs: Stream definition.
++ * @stream: Pointer to command stream.
++ * @stream_size: Size of command stream, in bytes.
++ * @dest_out: Pointer to destination buffer.
++ *
++ * Caller is responsible for freeing the output structure.
++ *
++ * Returns:
++ *  * 0 on success,
++ *  * -%ENOMEM on out of memory, or
++ *  * -%EINVAL on malformed stream.
++ */
++int
++pvr_stream_process(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
++		   void *stream, u32 stream_size, void *dest_out)
++{
++	u32 stream_offset = 0;
++	u32 main_stream_len;
++	u32 padding;
++	int err;
++
++	if (!stream || !stream_size)
++		return -EINVAL;
++
++	err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u32),
++				  sizeof(u32), &main_stream_len);
++	if (err)
++		return err;
++
++	/*
++	 * u32 after stream length is padding to ensure u64 alignment, but may be used for expansion
++	 * in the future. Verify it's zero.
++	 */
++	err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u32),
++				  sizeof(u32), &padding);
++	if (err)
++		return err;
++
++	if (main_stream_len < stream_offset || main_stream_len > stream_size || padding)
++		return -EINVAL;
++
++	err = pvr_stream_process_1(pvr_dev, cmd_defs->main_stream, cmd_defs->main_stream_len,
++				   stream, stream_offset, main_stream_len, dest_out,
++				   cmd_defs->dest_size, &stream_offset);
++	if (err)
++		return err;
++
++	if (stream_offset < stream_size) {
++		err = pvr_stream_process_ext_stream(pvr_dev, cmd_defs, stream, stream_offset,
++						    stream_size, dest_out);
++		if (err)
++			return err;
++	} else {
++		u32 i;
++
++		/*
++		 * If we don't have an extension stream then there must not be any "must have"
++		 * quirks for this command.
++		 */
++		for (i = 0; i < cmd_defs->ext_nr_headers; i++) {
++			if (pvr_dev->stream_musthave_quirks[cmd_defs->type][i])
++				return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
++/**
++ * pvr_stream_create_musthave_masks() - Create "must have" masks for streams based on current device
++ *                                      quirks
++ * @pvr_dev: Device pointer.
++ */
++void
++pvr_stream_create_musthave_masks(struct pvr_device *pvr_dev)
++{
++	memset(pvr_dev->stream_musthave_quirks, 0, sizeof(pvr_dev->stream_musthave_quirks));
++
++	if (pvr_device_has_uapi_quirk(pvr_dev, 47217))
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_FRAG][0] |=
++			PVR_STREAM_EXTHDR_FRAG0_BRN47217;
++
++	if (pvr_device_has_uapi_quirk(pvr_dev, 49927)) {
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_GEOM][0] |=
++			PVR_STREAM_EXTHDR_GEOM0_BRN49927;
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_FRAG][0] |=
++			PVR_STREAM_EXTHDR_FRAG0_BRN49927;
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_COMPUTE][0] |=
++			PVR_STREAM_EXTHDR_COMPUTE0_BRN49927;
++	}
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_stream.h b/drivers/gpu/drm/imagination/pvr_stream.h
+new file mode 100644
+index 000000000000..ecc5edfb7bf4
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_stream.h
+@@ -0,0 +1,75 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_STREAM_H
++#define PVR_STREAM_H
++
++#include <linux/bits.h>
++#include <linux/limits.h>
++#include <linux/types.h>
++
++struct pvr_device;
++
++struct pvr_job;
++
++enum pvr_stream_type {
++	PVR_STREAM_TYPE_GEOM = 0,
++	PVR_STREAM_TYPE_FRAG,
++	PVR_STREAM_TYPE_COMPUTE,
++	PVR_STREAM_TYPE_TRANSFER,
++	PVR_STREAM_TYPE_STATIC_RENDER_CONTEXT,
++	PVR_STREAM_TYPE_STATIC_COMPUTE_CONTEXT,
++
++	PVR_STREAM_TYPE_MAX
++};
++
++enum pvr_stream_size {
++	PVR_STREAM_SIZE_8 = 0,
++	PVR_STREAM_SIZE_16,
++	PVR_STREAM_SIZE_32,
++	PVR_STREAM_SIZE_64,
++	PVR_STREAM_SIZE_ARRAY,
++};
++
++#define PVR_FEATURE_NOT  BIT(31)
++#define PVR_FEATURE_NONE U32_MAX
++
++struct pvr_stream_def {
++	u32 offset;
++	enum pvr_stream_size size;
++	u32 array_size;
++	u32 feature;
++};
++
++struct pvr_stream_ext_def {
++	const struct pvr_stream_def *stream;
++	u32 stream_len;
++	u32 header_mask;
++	u32 quirk;
++};
++
++struct pvr_stream_ext_header {
++	const struct pvr_stream_ext_def *ext_streams;
++	u32 ext_streams_num;
++	u32 valid_mask;
++};
++
++struct pvr_stream_cmd_defs {
++	enum pvr_stream_type type;
++
++	const struct pvr_stream_def *main_stream;
++	u32 main_stream_len;
++
++	u32 ext_nr_headers;
++	const struct pvr_stream_ext_header *ext_headers;
++
++	size_t dest_size;
++};
++
++int
++pvr_stream_process(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
++		   void *stream, u32 stream_size, void *dest_out);
++void
++pvr_stream_create_musthave_masks(struct pvr_device *pvr_dev);
++
++#endif /* PVR_STREAM_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_stream_defs.c b/drivers/gpu/drm/imagination/pvr_stream_defs.c
+new file mode 100644
+index 000000000000..3c646e25accf
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_stream_defs.c
+@@ -0,0 +1,125 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_device_info.h"
++#include "pvr_rogue_fwif_client.h"
++#include "pvr_rogue_fwif_stream.h"
++#include "pvr_stream.h"
++#include "pvr_stream_defs.h"
++
++#include <linux/stddef.h>
++#include <uapi/drm/pvr_drm.h>
++
++#define PVR_STREAM_DEF_SET(owner, member, _size, _array_size, _feature) \
++	{ .offset = offsetof(struct owner, member), \
++	  .size = (_size),  \
++	  .array_size = (_array_size), \
++	  .feature = (_feature) }
++
++#define PVR_STREAM_DEF(owner, member, member_size)  \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ ## member_size, 0, PVR_FEATURE_NONE)
++
++#define PVR_STREAM_DEF_FEATURE(owner, member, member_size, feature) \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ ## member_size, 0, feature)
++
++#define PVR_STREAM_DEF_NOT_FEATURE(owner, member, member_size, feature)       \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ ## member_size, 0, \
++			   (feature) | PVR_FEATURE_NOT)
++
++#define PVR_STREAM_DEF_ARRAY(owner, member)                                       \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ARRAY,                  \
++			   sizeof(((struct owner *)0)->member), PVR_FEATURE_NONE)
++
++#define PVR_STREAM_DEF_ARRAY_FEATURE(owner, member, feature)            \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ARRAY,         \
++			   sizeof(((struct owner *)0)->member), feature)
++
++#define PVR_STREAM_DEF_ARRAY_NOT_FEATURE(owner, member, feature)                             \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ARRAY,                             \
++			   sizeof(((struct owner *)0)->member), (feature) | PVR_FEATURE_NOT)
++
++/*
++ * When adding new parameters to the stream definition, the new parameters must go after the
++ * existing parameters, to preserve order. As parameters are naturally aligned, care must be taken
++ * with respect to implicit padding in the stream; padding should be minimised as much as possible.
++ */
++static const struct pvr_stream_def rogue_fwif_static_render_context_state_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_reg_vdm_context_state_base_addr, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_reg_vdm_context_state_resume_addr, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_reg_ta_context_state_base_addr, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task4, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task4, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task4, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task4, 64),
++};
++
++const struct pvr_stream_cmd_defs pvr_static_render_context_state_stream = {
++	.type = PVR_STREAM_TYPE_STATIC_RENDER_CONTEXT,
++
++	.main_stream = rogue_fwif_static_render_context_state_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_static_render_context_state_stream),
++
++	.ext_nr_headers = 0,
++
++	.dest_size = sizeof(struct rogue_fwif_geom_registers_caswitch),
++};
++
++static const struct pvr_stream_def rogue_fwif_static_compute_context_state_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds0, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds1, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_terminate_pds, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_terminate_pds1, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_resume_pds0, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds0_b, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_resume_pds0_b, 64),
++};
++
++const struct pvr_stream_cmd_defs pvr_static_compute_context_state_stream = {
++	.type = PVR_STREAM_TYPE_STATIC_COMPUTE_CONTEXT,
++
++	.main_stream = rogue_fwif_static_compute_context_state_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_static_compute_context_state_stream),
++
++	.ext_nr_headers = 0,
++
++	.dest_size = sizeof(struct rogue_fwif_cdm_registers_cswitch),
++};
+diff --git a/drivers/gpu/drm/imagination/pvr_stream_defs.h b/drivers/gpu/drm/imagination/pvr_stream_defs.h
+new file mode 100644
+index 000000000000..7e0ecfa12030
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_stream_defs.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_STREAM_DEFS_H
++#define PVR_STREAM_DEFS_H
++
++#include "pvr_stream.h"
++
++extern const struct pvr_stream_cmd_defs pvr_cmd_geom_stream;
++extern const struct pvr_stream_cmd_defs pvr_cmd_frag_stream;
++extern const struct pvr_stream_cmd_defs pvr_cmd_compute_stream;
++extern const struct pvr_stream_cmd_defs pvr_cmd_transfer_stream;
++extern const struct pvr_stream_cmd_defs pvr_static_render_context_state_stream;
++extern const struct pvr_stream_cmd_defs pvr_static_compute_context_state_stream;
++
++#endif /* PVR_STREAM_DEFS_H */
 -- 
 2.42.0
 
