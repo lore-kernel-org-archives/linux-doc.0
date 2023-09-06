@@ -2,179 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EBA7EB8FB6
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 12:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BED77EB8FC7
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 12:53:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236756AbjIFMXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 08:23:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41726 "EHLO
+        id S234075AbjIFMxD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 08:53:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231504AbjIFMXL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 08:23:11 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C7F2410F7;
-        Wed,  6 Sep 2023 05:23:07 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
-        id 3ED6A2127D29; Wed,  6 Sep 2023 05:23:07 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3ED6A2127D29
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1694002987;
-        bh=GcmoeHEZqmYSxPBXkGbiIt6VZAhFc9Ngk4PsxTeHqzM=;
+        with ESMTP id S230316AbjIFMxD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 08:53:03 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 012EBE43;
+        Wed,  6 Sep 2023 05:52:59 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54BDDC433C7;
+        Wed,  6 Sep 2023 12:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694004779;
+        bh=IEQWAcQjvy0vq8Wt0nLK8PBigx3I9ooqM2Ln/kxqa8Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C/Xu+QSsraqmAvqOKbuQukFu8XLegSTvFc5XchO7C/hznLc8x17uSr/dsC2ph+zIj
-         CpjXJQYxhYcRzlvzDbQrLv3l6x1BpaxdXqQtRiYzgNVhXmkbDovqXpRL7ZReNgnaFL
-         9EiTD30hTJAXIqkmcyndopQCuE4TkzZk+HZZKYjE=
-Date:   Wed, 6 Sep 2023 05:23:07 -0700
-From:   Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Saurabh Singh Sengar <ssengar@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
- devices
-Message-ID: <20230906122307.GA5737@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
- <2023081215-canine-fragile-0a69@gregkh>
- <PUZP153MB06350DAEA2384B996519E07EBE1EA@PUZP153MB0635.APCP153.PROD.OUTLOOK.COM>
- <2023082246-lumping-rebate-4142@gregkh>
+        b=UuTtdlafUYrrBR4SAd4A5R/rmJEvoZrOtMKNmsb1+9+RJvg+HEFQSBA3+UveWLrMe
+         KoDhNOr7CWOoxzPSC/OPiRC7408bRdYFuz/ynqg+URjQETLUPKwqQfeJTOGjBeZcuw
+         pj9P/EpNrGTxEq5Rre/G6MzazlxmXWsM2UPdcL/MsW6rZks1LQ49jcdMPLopbnpd8x
+         9NQeCyC2esxQVktTzYzpLG7FUeUvdtomN5s3t8iJTCJJ6y/fmC5SyzaIo5IzpfFKOK
+         qP8cZxRUwL7l7oWAWvPVze+ENNHIBivObQQ8xs1RSjkbOlrQPH2NcYMkem61+cQIHG
+         P1FcuZSPKe2/w==
+Date:   Wed, 6 Sep 2023 15:52:14 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH] docs/mm: Physical Memory: add "Memory map" section
+Message-ID: <20230906125214.GK3223@kernel.org>
+References: <20230906074210.3051751-1-rppt@kernel.org>
+ <ZPhurt9P7hnsVvua@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023082246-lumping-rebate-4142@gregkh>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <ZPhurt9P7hnsVvua@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 22, 2023 at 01:48:03PM +0200, Greg KH wrote:
-> On Mon, Aug 21, 2023 at 07:36:18AM +0000, Saurabh Singh Sengar wrote:
-> > 
-> > 
-> > > -----Original Message-----
-> > > From: Greg KH <gregkh@linuxfoundation.org>
-> > > Sent: Saturday, August 12, 2023 4:45 PM
-> > > To: Saurabh Sengar <ssengar@linux.microsoft.com>
-> > > Cc: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
-> > > <haiyangz@microsoft.com>; wei.liu@kernel.org; Dexuan Cui
-> > > <decui@microsoft.com>; Michael Kelley (LINUX) <mikelley@microsoft.com>;
-> > > corbet@lwn.net; linux-kernel@vger.kernel.org; linux-hyperv@vger.kernel.org;
-> > > linux-doc@vger.kernel.org
-> > > Subject: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
-> > > devices
-> > > 
-> > > On Fri, Aug 04, 2023 at 12:09:53AM -0700, Saurabh Sengar wrote:
-> > > > Hyper-V is adding multiple low speed "speciality" synthetic devices.
-> > > > Instead of writing a new kernel-level VMBus driver for each device,
-> > > > make the devices accessible to user space through a UIO-based
-> > > > hv_vmbus_client driver. Each device can then be supported by a user
-> > > > space driver. This approach optimizes the development process and
-> > > > provides flexibility to user space applications to control the key
-> > > > interactions with the VMBus ring buffer.
-> > > 
-> > > Why is it faster to write userspace drivers here?  Where are those new drivers,
-> > > and why can't they be proper kernel drivers?  Are all hyper-v drivers going to
-> > > move to userspace now?
-> > 
-> > Hi Greg,
-> > 
-> > You are correct; it isn't faster. However, the developers working on these userspace
-> > drivers can concentrate entirely on the business logic of these devices. The more
-> > intricate aspects of the kernel, such as interrupt management and host communication,
-> > can be encapsulated within the uio driver.
+On Wed, Sep 06, 2023 at 01:21:02PM +0100, Matthew Wilcox wrote:
+> On Wed, Sep 06, 2023 at 10:42:10AM +0300, Mike Rapoport wrote:
+> > +The basic memory descriptor is called :ref:`struct page <Pages>` and it is
+> > +essentially a union of several structures, each representing a page frame
+> > +metadata for a paricular usage.
 > 
-> Yes, kernel drivers are hard, we all know that.
-> 
-> But if you do it right, it doesn't have to be, saying "it's too hard for
-> our programmers to write good code for our platform" isn't exactly a
-> good endorcement of either your programmers, or your platform :)
-> 
-> > The quantity of Hyper-V devices is substantial, and their numbers are consistently
-> > increasing. Presently, all of these drivers are in a development/planning phase and
-> > rely significantly on the acceptance of this UIO driver as a prerequisite.
-> 
-> Don't make my acceptance of something that you haven't submitted before
-> a business decision that I need to make, that's disenginous.
-> 
-> > Not all hyper-v drivers will move to userspace, but many a new slow Hyperv-V
-> > devices will use this framework and will avoid introducing a new kernel driver. We
-> > will also plan to remove some of the existing drivers like kvp/vss.
-> 
-> Define "slow" please.
+> "each representing page frame metadata".  And "particular".
 
-In the Hyper-V environment, most devices, with the exception of network and storage,
-typically do not require extensive data read/write exchanges with the host. Such
-devices are considered to be 'slow' devices.
-
+sure
+ 
+> >  Folios
+> > -======
+> > +------
+> >  
+> > -.. admonition:: Stub
+> > +`struct folio` represents a physically, virtually and logically contiguous
+> > +set of bytes. It is a power-of-two in size, and it is aligned to that same
+> > +power-of-two. It is at least as large as ``PAGE_SIZE``. If it is in the
+> > +page cache, it is at a file offset which is a multiple of that
+> > +power-of-two. It may be mapped into userspace at an address which is at an
+> > +arbitrary page offset, but its kernel virtual address is aligned to its
+> > +size.
+> >  
+> > -   This section is incomplete. Please list and describe the appropriate fields.
+> > +`struct folio` occupies several consecutive entries in the memory map and
+> > +has the following fields:
+> > +
+> > +``flags``
+> > +  Identical to the page flags.
+> > +
+> > +``lru``
+> > +  Least Recently Used list; tracks how recently this folio was used.
+> > +
+> > +``mlock_count``
+> > +  Number of times this folio has been pinned by mlock().
+> > +
+> > +``mapping``
+> > +  The file this page belongs to. Can be pagecache or swapcahe. For
+> > +  anonymous memory refers to the `struct anon_vma`.
+> > +
+> > +``index``
+> > +  Offset within the file, in units of pages. For anonymous memory, this is
+> > +  the index from the beginning of the mmap.
+> > +
+> > +``private``
+> > +  Filesystem per-folio data (see folio_attach_private()). Used for
+> > +  ``swp_entry_t`` if folio is in the swap cache
+> > +  (i.e. folio_test_swapcache() is true)
+> > +
+> > +``_mapcount``
+> > +  Do not access this member directly. Use folio_mapcount() to find out how
+> > +  many times this folio is mapped by userspace.
+> > +
+> > +``_refcount``
+> > +  Do not access this member directly. Use folio_ref_count() to find how
+> > +  many references there are to this folio.
+> > +
+> > +``memcg_data``
+> > +  Memory Control Group data.
+> > +
+> > +``_folio_dtor``
+> > +  Which destructor to use for this folio.
+> > +
+> > +``_folio_order``
+> > +  The allocation order of a folio. Do not use directly, call folio_order().
+> > +
+> > +``_entire_mapcount``
+> > +  How many times the entire folio is mapped as a single unit (for example
+> > +  by a PMD or PUD entry). Does not include PTE-mapped subpages. This might
+> > +  be useful for debugging, but to find out how many times the folio is
+> > +  mapped look at folio_mapcount() or page_mapcount() or total_mapcount()
+> > +  instead.
+> > +  Do not use directly, call folio_entire_mapcount().
+> > +
+> > +``_nr_pages_mapped``
+> > +  The total number of times the folio is mapped.
+> > +  Do not use directly, call folio_mapcount().
+> > +
+> > +``_pincount``
+> > +  Used to track pinning of the folio for DMA.
+> > +  Do not use directly, call folio_maybe_dma_pinned().
+> > +
+> > +``_folio_nr_pages``
+> > +  The number of pages in the folio.
+> > +  Do not use directly, call folio_nr_pages().
+> > +
+> > +``_hugetlb_subpool``
+> > +  HugeTLB subpool the folio beongs to.
+> > +  Do not use directly, use accessor in ``include/linux/hugetlb.h``.
+> > +
+> > +``_hugetlb_cgroup``
+> > +  Memory Control Group data for a HugeTLB folio.
+> > +  Do not use directly, use accessor in ``include/linux/hugetlb_cgroup.h``.
+> > +
+> > +``_hugetlb_cgroup_rsvd``
+> > +  Memory Control Group data for a HugeTLB folio.
+> > +  Do not use directly, use accessor in ``include/linux/hugetlb_cgroup.h``.
+> > +
+> > +``_hugetlb_hwpoison``
+> > +  List of failed (hwpoisoned) pages for a HugeTLB folio.
+> > +  Do not use directly, call raw_hwp_list_head().
+> > +
+> > +``_deferred_list``
+> > +  Folios to be split under memory pressure.
 > 
-> > > > The new synthetic devices are low speed devices that don't support
-> > > > VMBus monitor bits, and so they must use vmbus_setevent() to notify
-> > > > the host of ring buffer updates. The new driver provides this
-> > > > functionality along with a configurable ring buffer size.
-> > > >
-> > > > Moreover, this series of patches incorporates an update to the fcopy
-> > > > application, enabling it to seamlessly utilize the new interface. The
-> > > > older fcopy driver and application will be phased out gradually.
-> > > > Development of other similar userspace drivers is still underway.
-> > > >
-> > > > Moreover, this patch series adds a new implementation of the fcopy
-> > > > application that uses the new UIO driver. The older fcopy driver and
-> > > > application will be phased out gradually. Development of other similar
-> > > > userspace drivers is still underway.
-> > > 
-> > > You are adding a new user api with the "ring buffer" size api, which is odd for
-> > > normal UIO drivers as that's not something that UIO was designed for.
-> > > 
-> > > Why not just make you own generic type uiofs type kernel api if you really
-> > > want to do all of this type of thing in userspace instead of in the kernel?
-> > 
-> > Could you please elaborate more on this suggestion. I couldn't understand it
-> > completely.
-> 
-> Why is uio the requirement here?  Why not make your own framework to
-> write hv drivers in userspace that fits in better with the overall goal?
-> Call it "hvfs" or something like that, much like we have usbfs for
-> writing usb drivers in userspace.
-> 
-> Bolting on HV drivers to UIO seems very odd as that is not what this
-> framework is supposed to be providing at all.  UIO was to enable "pass
-> through" memory-mapped drivers that only wanted an interrupt and access
-> to raw memory locations in the hardware.
-> 
-> Now you are adding ring buffer managment and all other sorts of things
-> just for your platform.  So make it a real subsystem tuned exactly for
-> what you need and NOT try to force it into the UIO interface (which
-> should know nothing about ring buffers...)
+> I don't understand why you've done all this instead of linking to the
+> kernel-doc I wrote.
 
-Thank you for elaborating the details. I will drop the plan to introduce a
-new UIO driver for this effort. However, I would like to know your thoughts
-on enhancing existing 'uio_hv_generic' driver to achieve the same.  We
-already have 'uio_hv_generic' driver in linux kernel, which is used for
-developing userspace drivers for 'fast Hyper-V devices'.
+We can't have it both in Documentation/core-api/mm-api.rst and here without
+sphinx complaining: 
 
-Since these newly introduced synthetic devices operate at a lower speed,
-they do not have the capability to support monitor bits. Instead, we must
-utilize the 'vmbus_setevent()' method to enable interrupts from the host.
-Earlier we made an attempt to support slow devices by uio_hv_generic :
-https://lore.kernel.org/lkml/1665685754-13971-1-git-send-email-ssengar@linux.microsoft.com/.
-At that time, the absence of userspace code (fcopy) hindered progress
-in this direction.
+Documentation/mm/physical_memory:561: include/linux/mm_types.h:3: WARNING: Duplicate C declaration, also defined at core-api/mm-api:3.
+Declaration is '.. c:struct:: folio'.
 
-Acknowledging your valid concerns about introducing a new UIO driver for
-Hyper-V, I propose exploring the potential to enhance the existing
-'uio_hv_generic' driver to accommodate slower devices effectively. My
-commitment to this endeavour includes ensuring the seamless operation of
-the existing 'fcopy' functionality with the modified 'uio_hv_generic'
-driver. Additionally, I will undertake the task of removing the current
-'fcopy' kernel driver and userspace daemon as part of this effort.
-
-Please let me know your thoughts. I look forward to your feedback and
-the opportunity to discuss this proposal further. 
-
-- Saurabh
+-- 
+Sincerely yours,
+Mike.
