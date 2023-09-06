@@ -2,73 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C1C5EE14C7
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 18:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2541EE14D0
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 19:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243651AbjIFSGv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 14:06:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51704 "EHLO
+        id S244090AbjIFTEv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 15:04:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243329AbjIFSGu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 14:06:50 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C677CE9;
-        Wed,  6 Sep 2023 11:06:47 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id DD66321E64;
-        Wed,  6 Sep 2023 18:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1694023605;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ey9UAaue26FUITi3Sy53sclXKow+Hnx0YF9+1WSZNJY=;
-        b=tAxYGLulb0xgzy/Bz8EBaUFjGMoJE3VPf8VmuYkWPMhge7cD/jDrI4t30lDEG6NVvLo71y
-        bonOxfF4z32lalvtueW/PvrgxmGGIwQf/8Y5VgpXOUZDPuEUVYCAHO7LcDMEfE078mUWJO
-        KMoRqmrI1plA4BledpkzeMpaHGdWouc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1694023605;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ey9UAaue26FUITi3Sy53sclXKow+Hnx0YF9+1WSZNJY=;
-        b=kVGf+10KN5ijz1TBYkECa3STZikvHA5ZczdrjONkPG1K4TooIKq2+g4ka83hlckNsw/Rvs
-        6SKuHLA4QUPTj4DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E34E1333E;
-        Wed,  6 Sep 2023 18:06:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 4o3aJbW/+GTwLwAAMHmgww
-        (envelope-from <dsterba@suse.cz>); Wed, 06 Sep 2023 18:06:45 +0000
-Date:   Wed, 6 Sep 2023 20:00:05 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, corbet@lwn.net,
-        linux-btrfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Btrfs: Replace obsolete wiki url with maintained doc url
-Message-ID: <20230906180005.GV14420@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <20230822215158.10542-1-unixbhaskar@gmail.com>
+        with ESMTP id S244054AbjIFTEk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 15:04:40 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0B51FD9
+        for <linux-doc@vger.kernel.org>; Wed,  6 Sep 2023 12:04:05 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-d74a012e613so137237276.1
+        for <linux-doc@vger.kernel.org>; Wed, 06 Sep 2023 12:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694027023; x=1694631823; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8z7JfMeTWIa2dMIiQZF3QfNFt+waJmFYaLRg5N1AX5A=;
+        b=eo+K1xA7ms6DFDGW/npp6j1DlZ9ma2kXzhbQMBJ4a2VgYVEFXPkeaBQVVADWrSkaaL
+         4H0NyWrMepvuD7mzRqytOve+hi6s5VTklS43E6CUeVRcvDEL5KY8gDQSQrqpVmtXxYzP
+         0Pb8AvCA7doDlXW/pQ//NIGzftAAN9rB9gc8magZoSt7z7gct3D4KXUu8sosZXN1uyd7
+         qi29bkrHpWfjTBTnC2vmdtrwnJVdpmyhWtKUrkZe4JrgwwZCgIxsB7CP2gSNbTN2iSU/
+         3Mmf4JaYShJ93KiHxmzJBP52gBRm7RX9rOiHAybadKPBvgekIYFJaV7k2M6XHRHfZ08e
+         rB5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694027023; x=1694631823;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8z7JfMeTWIa2dMIiQZF3QfNFt+waJmFYaLRg5N1AX5A=;
+        b=Vvs1KkhqPtz/+WnzF8FxJ6yDq+fXVuWxIyF8m7Qsd5Oiln76a3NJYV137cQvKVS+hg
+         64XIukt2xTExe78xY4X3x8F2kmdt0+akNKP22XiJLfeBtPe4+C7F48i9GfQ6SMNoacYp
+         nP2blbkFJajaPWlw686RF87X8nF4cecDRjkUhy2GYk8GYKuYd3jauhZufwjs3Y/79uGH
+         gb4U6QhGz18HLeEmtvfw7TtA7e8R+eFMqeQsdRKfn9H99HE8+lKAXc9t3KYio0jveQ6J
+         tAujiEhM+g6Fgg9R4pH/TPJokjItxIzuGj//qfmetd8Ai3oLURu4NrazqvQsF6Fqgu0q
+         GCDg==
+X-Gm-Message-State: AOJu0YxvnYXAag8yiu+i+ThKDd6Ir1OwwDXyxkvuLrNse9HD3HONdgtE
+        tMMhq8iu9jNOk8hoXRcC2vXqOz+rPRN4t404885J4A==
+X-Google-Smtp-Source: AGHT+IH86FyU3nX8IvvfomZQMTa9OGpwmdFMH+65w5YXwKbO2KVUTcIKAGjBIG77tJnR85zEQ4SNo0g2UWc6erEZNP4=
+X-Received: by 2002:a25:a429:0:b0:d79:e08f:e9c2 with SMTP id
+ f38-20020a25a429000000b00d79e08fe9c2mr496388ybi.11.1694027023098; Wed, 06 Sep
+ 2023 12:03:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230822215158.10542-1-unixbhaskar@gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+References: <20230906095542.3280699-1-sarah.walker@imgtec.com> <20230906095542.3280699-4-sarah.walker@imgtec.com>
+In-Reply-To: <20230906095542.3280699-4-sarah.walker@imgtec.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 6 Sep 2023 21:03:31 +0200
+Message-ID: <CACRpkdaNbr_7ivzz=fam2rup0HYH6UivBexLDWLLyWiXDSHoOA@mail.gmail.com>
+Subject: Re: [PATCH v6 03/20] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR/IMG GPU
+To:     Sarah Walker <sarah.walker@imgtec.com>
+Cc:     dri-devel@lists.freedesktop.org, frank.binns@imgtec.com,
+        donald.robson@imgtec.com, boris.brezillon@collabora.com,
+        airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, corbet@lwn.net, christian.koenig@amd.com,
+        matt.coster@imgtec.com, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        faith.ekstrand@collabora.com, afd@ti.com, hns@goldelico.com,
+        matthew.brost@intel.com, luben.tuikov@amd.com, dakr@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 03:17:47AM +0530, Bhaskar Chowdhury wrote:
-> Replaced and removed obsolete url with maintained url.
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+On Wed, Sep 6, 2023 at 11:56=E2=80=AFAM Sarah Walker <sarah.walker@imgtec.c=
+om> wrote:
 
-Added to misc-next with reworded subject and changelog, thanks.
+> Add the device tree binding documentation for the IMG AXE GPU used in
+> TI AM62 SoCs.
+>
+> Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+> Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+> ---
+> Changes since v5:
+> - Update compatible string & description to match marketing name
+> - Remove unnecessary clock-names definition in ti,am62-gpu constraints
+> - Document that GPU revision is discoverable
+
+This looks good to me!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
