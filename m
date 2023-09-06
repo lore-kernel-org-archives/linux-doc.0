@@ -2,67 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60875EB8FA5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 10:43:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A065FEB8FB8
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 10:43:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237050AbjIFKnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 06:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39388 "EHLO
+        id S238296AbjIFKnL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 06:43:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229683AbjIFKnJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 06:43:09 -0400
+        with ESMTP id S230053AbjIFKnK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 06:43:10 -0400
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA9C10F5;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4418171A;
         Wed,  6 Sep 2023 03:43:02 -0700 (PDT)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
-        by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3866KYCP026978;
-        Wed, 6 Sep 2023 10:56:23 +0100
+        by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3866KYCR026978;
+        Wed, 6 Sep 2023 10:56:27 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
         :content-transfer-encoding:content-type:mime-version; s=
-        dk201812; bh=XnYAicxIgdljRhTsKb8exOLwGLGMEwFmvdyJqg+9Ucg=; b=db8
-        5n1tkugojQktiRXwyrCwesD/sR4J5Ye9R8UUuRccHNY4AvDcRhN60RjjWzKr+oPy
-        zhSHuI4+wQO76Q20iSCn7wiEkR4a+UDeBdUkC3KE2qJbNL0jsmTbRESb7+HcCM5y
-        d7Pr1PzacrD9wIijnOyL3u/q1dLiqnR4jZ4WRxf6gobaUmyYwPd/l3zH1PPlRpRH
-        L+YUeqi/BIFRY4aQWn0gAFvydzO3W3Hm3n9fETFGSPrmPTseki49WQ/A/uoI81MV
-        cILg4jcVimClTxfZ/mvatHWHJu5lTzTH/HqHRVjp9tgFp2dce8ePh2Zq53a7n+1R
-        ytTsBvajEfMrWN5F+NQ==
+        dk201812; bh=sjijGMQLYQ+no8/N0/BDFGbXANQWobBb/adZMNvmdK0=; b=whg
+        ovvsozJ35vAypZunCH/DJ0IpXknNjcmQ3Fh85pukGyxqrytOY51oEnVjkVO9e8Gn
+        XrDnj2yw4ZHqBAOOjfHNUmNRmZiIMOdYh6U81BnKv/AxCwMmVx4w1lXf4nHK6IAz
+        XswS4FqHY6JrfRuMF4uNIYtoVo6PrqqGrMqEHwsV+ZKLODLwLLxKPTmSj5tg3yqE
+        k7ypDGVKtxwaYC1mTq02ayTSlqJ1d4hHSQLJrb5aruymWHQ58TY/3Xlz+yerjr1a
+        A8YWcynjHBAMIhU7XzuqtRLaXRaF5mhd36MqTt0NWYU25BgXfWLIUCKrrlBkFxSm
+        x0+JY0Ww/X6ZoP+h4ng==
 Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
-        by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3suwpqu26a-1
+        by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3suwpqu26e-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Wed, 06 Sep 2023 10:56:23 +0100 (BST)
+        Wed, 06 Sep 2023 10:56:27 +0100 (BST)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
  HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Wed, 6 Sep 2023 10:56:22 +0100
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.53) by
- email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31 via Frontend
- Transport; Wed, 6 Sep 2023 10:56:22 +0100
+ 15.1.2507.31; Wed, 6 Sep 2023 10:56:26 +0100
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.107)
+ by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31 via Frontend Transport; Wed, 6 Sep 2023 10:56:26 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aY3dXZ1pWQCSm1he3qjQEur2+a1VR7tV7EUjukIFLeqY5cN30ZOgG9QZ2Mq4bkJB/c86MkpD9ojbfJ7K9h2hI4y194UJtiYep2U0i6MwXBiPDht2P+86wvmkFQHrDMsXIvj8ShNvFQi2fCFldn/gm83JywgFQFry+IDcrFkgHcd6kaBK/f8zC9Z7Bc+5R8M58FUk9lW9Q7QYqSOMDylFZIT2+vvUp5OBM/mcC/+LpBGJIzrQipjXHVelgwp+LKsViVb0Aikjt9QVcm7tgx+ro5rKtMsFjWT94UKn82bK7VVPf8P4GC+v0YcUVAvKbIYn5bZw7PB2QcdaXhW8fp+XFA==
+ b=HE4gf3wtjohw9e3G+jdAXVYmKcLM8p7ykAKchKpQfXxbefdmR5/gxcgNoeH44Rh7j7UoCX2exyNPwD9mB+mI+Y3eQhnU49XIKlqNMEbUchZcw0+0yKM3rk8WRWRXjAOOycwVfBdJGYY2xbdkRzULTdGGinZdjYVv3zF99AHauPntKGM3Bm2jozNQqOK8Eqz8KvVYNhloc2v2+A1WwTjCnnne1Pio2yqGATosoQnhu2dS5KgT8WGS2rePsENX9iJghfbUFKJGe1hkZ5FkfeV7RN9JeSA+rTwWYpdS7XkdA+odT+ukYNnjDK6q51vuU/XcuSBgmhry/ICzSmmRZQbWuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XnYAicxIgdljRhTsKb8exOLwGLGMEwFmvdyJqg+9Ucg=;
- b=iQ1Nx0LGKHdbw/9wq3XQyFv45c0TDT3tIdfiKjt0kFKALXwtXEupC/oiTXQv3yCwaqZ6RzuIdLWwbUYdVRM/LOmHUzAP8FRt8AyLdGuDA64nCbQz/4uPQkcmmTkl7RhABDFT1epV3A6PGF9Vj1z5/oQOVuurATjmK+4YLs7tVG0qEiziLuiO+/A0dN9+ePrr2S/GoCaURgBZ9VUl6DTdwvt/bLbwi0OGNkWU4UETZBoYdkqtVDpFc/F6g2MEgeGdZvGzEBWM8XTxzCNfQQRW5UpTfSdA76GRbZwA0AQZxolY5MGY1OjfmD0TMa8MunrnoClqG6WNTXYk9PwbptQt5A==
+ bh=sjijGMQLYQ+no8/N0/BDFGbXANQWobBb/adZMNvmdK0=;
+ b=dWbaT5aIhz1uUMGwQgs3GwFPL85NtvrmmBw3liyM805rMSbT7X4r1+AucK90k81H42H7u/qPlWT+mzEl4Rt9MiaSBUFiCAmWRgBIE16GKSPJhqdNUOJOwWisoImkifSkql3y0+cCpLEUKfDxZtueaMk9p3FdKVgXzUeULez/R7rriIEQ5q7CfOMeYDfDe/qfnHwBGHZUREOwGkrh70OzCAd2E9rUMyz1mqnwVQJg6tJ5lI8XjUbPny1YDd48lX6giDKbpu07QaL0DJZuyBRSiYqyy9CScEnSx6paJ6ANd6PrC80Imvfr9j4xE2RJd7Kvnw3ITjxoUNZeXGTekWuEvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XnYAicxIgdljRhTsKb8exOLwGLGMEwFmvdyJqg+9Ucg=;
- b=mJ8dIPwQrTOklRExAedtHoOY6tziqSjZoN0qbqQG/q24o5T21yKt3a6T/GgujEbLGDPf812ej9V1AjwK2VllEnAe8qcBW4jJnC7CJyQwCN9IsmZ0/Ahc1hjATvL9Y2Ncr84OF9OYV3eFTHDGA2uEp0bMqy/CJLw9C10Ue/dnQns=
+ bh=sjijGMQLYQ+no8/N0/BDFGbXANQWobBb/adZMNvmdK0=;
+ b=CUcM3F293yx7alHsYMFW5hSk39rvQZh1g5B1mxf2gsNxjja3O9p6y7LshuhlT2kQVo2hn35EITvrj4DbaIWUsLv0EAdRIpDr/r+8PO94S0Vr4Kl/uE622bWlAPj/b6M1mLPMK46ILS0KD7s1lctmXnpxAeFLSefVHf8AjT0veLQ=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
- by LO2P265MB4992.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:22f::5) with
+ by CWLP265MB2436.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:96::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
- 2023 09:56:15 +0000
+ 2023 09:56:21 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::b3c:3f6:e3d0:a81b]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::b3c:3f6:e3d0:a81b%6]) with mapi id 15.20.6745.034; Wed, 6 Sep 2023
- 09:56:15 +0000
+ 09:56:21 +0000
 From:   Sarah Walker <sarah.walker@imgtec.com>
 To:     <dri-devel@lists.freedesktop.org>
 CC:     <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
@@ -77,9 +77,9 @@ CC:     <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
         <faith.ekstrand@collabora.com>, <afd@ti.com>, <hns@goldelico.com>,
         <matthew.brost@intel.com>, <luben.tuikov@amd.com>,
         <dakr@redhat.com>
-Subject: [PATCH v6 12/20] drm/imagination: Implement power management
-Date:   Wed,  6 Sep 2023 10:55:34 +0100
-Message-Id: <20230906095542.3280699-13-sarah.walker@imgtec.com>
+Subject: [PATCH v6 20/20] drm/imagination: Add driver documentation
+Date:   Wed,  6 Sep 2023 10:55:42 +0100
+Message-Id: <20230906095542.3280699-21-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230906095542.3280699-1-sarah.walker@imgtec.com>
 References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
@@ -90,613 +90,307 @@ X-ClientProxiedBy: LO4P265CA0279.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:400:170::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LO2P265MB4992:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e867e43-db4d-4fa5-2d7a-08dbaebf8202
+X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB2436:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ef8564b-6a1d-4887-a393-08dbaebf8618
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZBZXupAPvGBCIkhSOPp65lf50IEdzLDV4QSWXGeKNJW/XWaZDW6y3A2Q8zmYIwUfTnRRCFD2vD8zEBkRZSttBkTPCLaFF2Fk7EBuKK3Qjq9BqDYCxEyrqvZzFA1VUe1XjYfQeekENT4SSnPPX5bxLVSVOvsvZ+uSFeQSVA0R3EKhQcbSL2x30fewk/VYJj7S+CXmwSpg84Hwjtmy3LnJSWr9Xem23buf35kwN5M8cYCv7jQ/2qP0Lwe0iQcZkFMWEvHF/TYZP7VDjJdLUxrlyjqQlrljLIUywGr+hyenN4EO+vUM6rsy0+E/lUrbWGIWj4yY0L6KpelQrCXQpG3uIHEMHAu5brmK5hXZoL8H7Pfvdm9Mw8K9Ap5ZHqIvxohqNW6+7Ksw58EF6ekFVCj2cQfUNUb/lQsxSrCaFzCRGuZ+or+FcG7+4Th46lfyfJEfFA3Yq4CI4jdoVaORiYfZdTQFqN0BQHxBIFNs7zwQ/W7QEm3SioMOXaJqzFWFZXoNk2ED2lA67Fpme8bfANc6yRzvl7YTYXGFqySIqx3/MQk7LCnpxz1m7Gm6Fyaomspwigh0D5IrZkzdRx3ki/1mbGpGsYq/17sUGXsl+0WRKLWBilGaTin5IcJaWfgZS6rR
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(39850400004)(376002)(136003)(1800799009)(451199024)(186009)(8676002)(44832011)(8936002)(6506007)(5660300002)(6486002)(4326008)(6666004)(30864003)(7416002)(66476007)(316002)(66556008)(66946007)(6916009)(41300700001)(478600001)(52116002)(6512007)(2906002)(26005)(1076003)(2616005)(83380400001)(38100700002)(38350700002)(86362001)(36756003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: +r3XzRXGHSzr4zE3lpEZkTTQpoHeYGtG02ioK8j9nwbNNKUi13qIhKEuoILDBSdKe2WSmOpIML8xrxCOGgCjR0EnOt/SQXfTv0WFay28tNdAmNLMbDvjh6XdcZpY5OUcGD4Hb6mVAGvThB1weRyzKiqDHckVEQ56FdQatXeZIqIj+h4Ov5sv62cGaXnSBJqZ72LATX1lQrvJnKgtuq6YWPxowlY5msgFxSfeu5RuZavnw/CWLDV2CoKR2xv3EGz4+VjDMIKOWCK2xotmeV0mJDZwokSUspFIHfnWPIufW+AwShWfoOEPOx+VbWqC6fnm9mM+ef8bodOn8TICXMlts28DpqwA/QsVSGk7svP7mbupHLTePBYgSG58dpG7PkOotz03n6+eOLSXpgVEXB//TkNrt4SGTVMK3UqFwFni1FoNMa5tNjJ8ncnaw7Hf83Ax4fTWX9WsBvndwtrrndbk93jk7aim7KhLhK/R4CYtDFZKMd6+WdekNIywT1V0DdqFqDLYvnNMwYFrqBzK4nfNBOhhXtwrFfLA8WqRCRX8uV7J/rlV6iH0sbsg489BW12/3NZ7FoMhZin8Ide61p+NduRCG+ZCYXDcF0hv51s9/9y/AML8sm2SdvDxl9rPgbvLKa7k8UUuDpFmrlbQ4WcAPYoPiBqKBv6drKFc8FaK+8U=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(346002)(39850400004)(376002)(451199024)(186009)(1800799009)(52116002)(6506007)(6512007)(6666004)(6486002)(36756003)(38350700002)(38100700002)(86362001)(1076003)(2616005)(2906002)(26005)(478600001)(66946007)(8936002)(8676002)(5660300002)(44832011)(4326008)(41300700001)(66476007)(7416002)(6916009)(66556008)(316002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YNuIFfPknXDMs6EEfdi5A2JMU/V1K6Lpj50E2zngu2/QdViWsBdkJQcv/D/f?=
- =?us-ascii?Q?tNgVSOjrDLYK/QIe2WlKZDoygYDzTL1sA5HMOsuHz+3MEnLWXaNsXHBWPUcn?=
- =?us-ascii?Q?TmVUB9x6wwtF4lTUXDJg9Mv5W2wK5ziKMCfU0ZnlKF52KjEoQTt4UqGZlRjc?=
- =?us-ascii?Q?9xi9u+MWBFyu5EkfwAc2bGK8fEEYc0a+qVdfMazYvsaSXu1KT0JR4HcJg4ix?=
- =?us-ascii?Q?6yHgs7W1RhdrxAW0+6lUe2yHrdMV25/jyuTgv4Dqx9oF9X+LDWYG+Q0/7BJz?=
- =?us-ascii?Q?puTTFAkYyB5WWuzzzH8Nd8C657snYrFodPikS0W94lTsoQRYDUAjVtCTxu7i?=
- =?us-ascii?Q?RdvuLArXVFHGW6tPXDeBywdB/OtGNiRkh1M0piQ2q1+bUakQgDHLZjXseLih?=
- =?us-ascii?Q?qOWaGKwgVC4mAI504eqbnDnUh4RwiPuPGRmk2y72554k0FJnhbU8cj8YKMim?=
- =?us-ascii?Q?6yGhPtvxVramRe1NL49MnbuNmtALU8MPXQP2A5j14NzIGDcfaG0bPFVvnUjo?=
- =?us-ascii?Q?UYEU8y2lcw4zzQBj6rrc8XyG01qesU0cvsN6qiNVZhuKDFvNQq3+YVefGbIn?=
- =?us-ascii?Q?T3zVjvH9qoUNlsJgNybKbiUhe93LdtDiv4OaAwYmmhdzmv9iGPgViL5OBuLh?=
- =?us-ascii?Q?3yi28l52G84gZnVibHlefnX85QJLvAgf7nUca4EPpccGvQtQiPqdNJVm5zzI?=
- =?us-ascii?Q?JqZiKJFYhnwvLUbMOMvmLJBeAhU0jh1beYPMQcNEFnf0GbHe5AHplHD9izuN?=
- =?us-ascii?Q?v7nad4ZsaUR1tlUnVtajyoSK3cC9GfcQnYx98Mivk0/QMrSFSDkgs/STa6qU?=
- =?us-ascii?Q?GuFsJZW7ss8bVyeOEaqPwSeOlXqDTu7LIpjKfHEt1HRGHQ8n3WlfKmwJnU3R?=
- =?us-ascii?Q?eySd3XdM1FQr5NUjYADqE2bztdtEysYbVq+87TubacntPXUptO7yT/Vo5Gox?=
- =?us-ascii?Q?Uwzbj9UlYm5C2uvvLurfhP9wsyLhz7SOGwI22yh0FvtvWjam7QFvfNS+UWj2?=
- =?us-ascii?Q?7He8HZrSr9QK+306TAB9MlfRVWdqcbP6dVawAOG5VVRtlDq5g3iHng8eVUIp?=
- =?us-ascii?Q?fpAoKs6U8Us4s+bzsR9NqXDmlmlYx4IDS5KH9ELAKK3KkYwO2PivsGOUq8Wy?=
- =?us-ascii?Q?rFSxM5Z4fU8moNQsrNJrbHZ8FsbKy/aQQVWnMTBrqmZdlLUshXfN40GCQyhc?=
- =?us-ascii?Q?kKOHZfHcIigerqo58xs2ALn8oDRPZzRoKgXV6qdpJ0qqKDYT7tH8kyPqAxma?=
- =?us-ascii?Q?5jnfEJGQz7HJzfJjaWpV6MydHpXvTFu5yUeAPvc2rCvjJ8AHHiNprgljv/m1?=
- =?us-ascii?Q?ugsRt6qqI51/wDCyJIgrsIhDAgUZ45UThHYOQyI6ixHRziQgXSv7sCMUWAiz?=
- =?us-ascii?Q?ZQzV/x5VX5IgC4cesnevuvouApz75RSDyANn/r0ojvW6MKMo36fhya3/lpU0?=
- =?us-ascii?Q?xo9M7RhyLH3AWTdEdpPhGz38hnq51sg9QSqD189NJcu0az6ct/2FTklyCB5K?=
- =?us-ascii?Q?j4fO6UN3qFwsMMfviAv3w3h/t2JJsmBpykSrbXkStcRO9Os8vZ9CktQO9m3B?=
- =?us-ascii?Q?MD6Zw0Noapu7n7HrK5pIzK1OMf8YuA+1LGdQfb4wLvZwYbJZDk4UGdNQQYDL?=
- =?us-ascii?Q?cw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e867e43-db4d-4fa5-2d7a-08dbaebf8202
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wxTcU9vM/4tX0yNZBYT5cl4rAiMpXCoEjErVxVwz3JT52B1qJ0jV5Z6etquA?=
+ =?us-ascii?Q?GM/EdcgcBf53OdItpjn7zOwwRbA2Fm86iEtw/SjjlQipoV06W1YnMnbgEF6I?=
+ =?us-ascii?Q?02INeqRWnSpENaYaOXkgFXh6n7L+twP+P38K1dPGVAFoglOfa6dtvZLINe7t?=
+ =?us-ascii?Q?yT0mzc+7Ly95ne+RARTjHjFwnigaKXnzX1T01RM1cjhpRt/TRopAFfdG8Hgk?=
+ =?us-ascii?Q?S8ShpfUD6rQiCu+AEJu5YGlIyoMN1Zo38wNPRAwSyIzWTMHhT/rdJo9+3FBx?=
+ =?us-ascii?Q?RHBfk/QqzEYY/TqATygZd/Fu8iY1k41jLXYZXov+XP5P8dap2QNGFPkt5EPO?=
+ =?us-ascii?Q?rA9DxcLPs+DkY01MEV8lQO6NmWz49bJjkBkiBYuwUMN+tj6X+JN73jmXJ1Og?=
+ =?us-ascii?Q?+PN15KHSi7P2yRwoK/yZhyixAvIcEqya/lpBHVRBOsp2/Ihe7A+AIJRd/MiN?=
+ =?us-ascii?Q?1rI4Usce97rQaTASkqq2pTKfDiubDEZrjs/10QwFc5r/oXGYeUHDrraH06Sx?=
+ =?us-ascii?Q?YhoCcsO0v81DYKnJDzxYoFvW6ILNKLhpKtJmcxyadptuoH1lVulHt0NgFMua?=
+ =?us-ascii?Q?6kBnZKHftMeJ56eE3SmJIgtvjnYPmlUgd/SdZaqor3F8taD3xbK4jOKM9B4k?=
+ =?us-ascii?Q?Ed3aFgIDjFsQ7AHvv8B6Y3unxOi+f0y/Ne6+6yuUrbATtMfS0TGb6Fh8mZYN?=
+ =?us-ascii?Q?ZamVJmKPCpvvi7kpDpuyJo7Du3qBJKOdoL+evE0bhhw/ljBu5TjpGm2JF210?=
+ =?us-ascii?Q?rXES/q2BjUqa/zVNqhBPpDZSHIYyYRJDp5vvBE8JOQ8KGj9EttJUDJ6BRCz2?=
+ =?us-ascii?Q?0QYYhHbNYwaPboHda14upepDX3AMiuiPe+uXmY2zWPmv66iBwTFwNFMo8pTd?=
+ =?us-ascii?Q?QIsAIEfE/5vlcNAOWFYpeIeZ7gr0WPKERDcqqpMtlIUkSWuRJbdvCnGb3Eds?=
+ =?us-ascii?Q?CKxvEGdlsbYMppLyE/6tNpHYyjgSdG8g3B57NKs0OIdssufuJ1GOkUjkfSaw?=
+ =?us-ascii?Q?mDX09BV4VX6akXFemHp8gA+vxtuCIZvDvsuQDgi6c1DUpr1TQthbzY+5B4tv?=
+ =?us-ascii?Q?S/TB3ShycvtMlD/bmpxj5yPWbz7pxSmAswPqd5eevtHmUunt4QsY2AGBlwNQ?=
+ =?us-ascii?Q?3/zGDms9UAhIKDjuQpBYV5buZ/b5d5ApEk904FXVDpUOKR2WwNvvNWfkeDYM?=
+ =?us-ascii?Q?wcIEuDmPzw2cEWXmtE06RZGvy4Eo5SFqZqYDZYVRaqP5q46Tgry27aCDJbmF?=
+ =?us-ascii?Q?W+aUyCMRSW2Xl0qkMY0onDJ1d5q5VUPusQd66RONhrPAU7M2muGRDboenC28?=
+ =?us-ascii?Q?cZfo9uTm13M6uYyY6B0LrFzvNjPbau6L31e16yoMteyxLX3kv+2d+45RGCO6?=
+ =?us-ascii?Q?4YY+//jI8EAVoba+/4mApu2gIixZvQNrss0rlUP0oEjypRlRpgaLnQNQkDN+?=
+ =?us-ascii?Q?LTl4+spKYkV1YTtqTQz91eB6K1OcrqXzQN6PQs7pXNLoHuBlOb20AvstK0xZ?=
+ =?us-ascii?Q?zAzmi4aIs3w+x2qFLrdbs6IM0boyZLi2HZV/vyuNOnZUyqyS5aQDrzNSq5ov?=
+ =?us-ascii?Q?z5yb8U7EGG9TRma9V9TTBEnVJNQLjiWgXPcZxorvYP7/s72nnqDYY5XQ+CSM?=
+ =?us-ascii?Q?xg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ef8564b-6a1d-4887-a393-08dbaebf8618
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 09:56:14.7348
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 09:56:21.7207
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IgTJwLjH5kwrjz/YjM6JHEJWwz+4Burc7Jzl+mP0UP+3lypJ/gjInjY9hqRgVgVrZKGx9/H3/EP4ehqrY494cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB4992
+X-MS-Exchange-CrossTenant-UserPrincipalName: yE4RCTrBpWEuI6yzqX7w/3R81pygKSkFEjrnGW3af/X5XFfSigtl1l17fls16CpLN4PNIXFBOiZ/SWymulwcfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2436
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: YNXsogxZSzj3XmxoPv8RduF3quR8tNBc
-X-Proofpoint-GUID: YNXsogxZSzj3XmxoPv8RduF3quR8tNBc
+X-Proofpoint-ORIG-GUID: AuFekKQ_x9o2OrnGp8rp7eRcU_t6e3iD
+X-Proofpoint-GUID: AuFekKQ_x9o2OrnGp8rp7eRcU_t6e3iD
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add power management to the driver, using runtime pm. The power off
-sequence depends on firmware commands which are not implemented in this
-patch.
+Add documentation for the UAPI.
 
 Changes since v5:
-- Use RUNTIME_PM_OPS() to declare PM callbacks
-- Add Kconfig dependency on CONFIG_PM
+- Remove obsolete VM documentation
 
-Changes since v4:
-- Suspend runtime PM before unplugging device on rmmod
-
-Changes since v3:
-- Don't power device when calling pvr_device_gpu_fini()
-- Documentation for pvr_dev->lost has been improved
-- pvr_power_init() renamed to pvr_watchdog_init()
-- Use drm_dev_{enter,exit}
-
-Changes since v2:
-- Use runtime PM
-- Implement watchdog
-
+Co-developed-by: Matt Coster <matt.coster@imgtec.com>
+Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+Co-developed-by: Donald Robson <donald.robson@imgtec.com>
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/imagination/Kconfig      |   1 +
- drivers/gpu/drm/imagination/Makefile     |   1 +
- drivers/gpu/drm/imagination/pvr_device.c |  23 +-
- drivers/gpu/drm/imagination/pvr_device.h |  22 ++
- drivers/gpu/drm/imagination/pvr_drv.c    |  20 +-
- drivers/gpu/drm/imagination/pvr_mmu.c    |   6 +-
- drivers/gpu/drm/imagination/pvr_power.c  | 271 +++++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_power.h  |  39 ++++
- 8 files changed, 378 insertions(+), 5 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_power.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_power.h
+ Documentation/gpu/drivers.rst           |   2 +
+ Documentation/gpu/imagination/index.rst |  13 ++
+ Documentation/gpu/imagination/uapi.rst  | 174 ++++++++++++++++++++++++
+ MAINTAINERS                             |   1 +
+ 4 files changed, 190 insertions(+)
+ create mode 100644 Documentation/gpu/imagination/index.rst
+ create mode 100644 Documentation/gpu/imagination/uapi.rst
 
-diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
-index e9aaa5313485..47c294b431b6 100644
---- a/drivers/gpu/drm/imagination/Kconfig
-+++ b/drivers/gpu/drm/imagination/Kconfig
-@@ -5,6 +5,7 @@ config DRM_POWERVR
- 	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG Graphics"
- 	depends on ARM64
- 	depends on DRM
-+	depends on PM
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_SCHED
- 	select FW_LOADER
-diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 8fcabc1bea36..235e2d329e29 100644
---- a/drivers/gpu/drm/imagination/Makefile
-+++ b/drivers/gpu/drm/imagination/Makefile
-@@ -10,6 +10,7 @@ powervr-y := \
- 	pvr_fw.o \
- 	pvr_gem.o \
- 	pvr_mmu.o \
-+	pvr_power.o \
- 	pvr_vm.o
+diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+index 3a52f48215a3..5487deb218a3 100644
+--- a/Documentation/gpu/drivers.rst
++++ b/Documentation/gpu/drivers.rst
+@@ -3,9 +3,11 @@ GPU Driver Documentation
+ ========================
  
- obj-$(CONFIG_DRM_POWERVR) += powervr.o
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index ef8f7a2ff1a9..5dbd05f21238 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -5,6 +5,7 @@
- #include "pvr_device_info.h"
+ .. toctree::
++   :maxdepth: 3
  
- #include "pvr_fw.h"
-+#include "pvr_power.h"
- #include "pvr_rogue_cr_defs.h"
- #include "pvr_vm.h"
- 
-@@ -357,6 +358,8 @@ pvr_device_gpu_fini(struct pvr_device *pvr_dev)
- int
- pvr_device_init(struct pvr_device *pvr_dev)
- {
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	struct device *dev = drm_dev->dev;
- 	int err;
- 
- 	/* Enable and initialize clocks required for the device to operate. */
-@@ -364,13 +367,29 @@ pvr_device_init(struct pvr_device *pvr_dev)
- 	if (err)
- 		return err;
- 
-+	/* Explicitly power the GPU so we can access control registers before the FW is booted. */
-+	err = pm_runtime_resume_and_get(dev);
-+	if (err)
-+		return err;
-+
- 	/* Map the control registers into memory. */
- 	err = pvr_device_reg_init(pvr_dev);
- 	if (err)
--		return err;
-+		goto err_pm_runtime_put;
- 
- 	/* Perform GPU-specific initialization steps. */
--	return pvr_device_gpu_init(pvr_dev);
-+	err = pvr_device_gpu_init(pvr_dev);
-+	if (err)
-+		goto err_pm_runtime_put;
-+
-+	pm_runtime_put(dev);
-+
-+	return 0;
-+
-+err_pm_runtime_put:
-+	pm_runtime_put_sync_suspend(dev);
-+
-+	return err;
- }
- 
- /**
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 350e894a2939..f7eb14942195 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -135,6 +135,28 @@ struct pvr_device {
- 
- 	/** @fw_dev: Firmware related data. */
- 	struct pvr_fw_device fw_dev;
-+
-+	struct {
-+		/** @work: Work item for watchdog callback. */
-+		struct delayed_work work;
-+
-+		/** @old_kccb_cmds_executed: KCCB command execution count at last watchdog poll. */
-+		u32 old_kccb_cmds_executed;
-+
-+		/** @kccb_stall_count: Number of watchdog polls KCCB has been stalled for. */
-+		u32 kccb_stall_count;
-+	} watchdog;
-+
-+	/**
-+	 * @lost: %true if the device has been lost.
-+	 *
-+	 * This variable is set if the device has become irretrievably unavailable, e.g. if the
-+	 * firmware processor has stopped responding and can not be revived via a hard reset.
-+	 */
-+	bool lost;
-+
-+	/** @sched_wq: Workqueue for schedulers. */
-+	struct workqueue_struct *sched_wq;
- };
- 
- /**
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index 4b0c52118735..cfd4cea5a69c 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -4,6 +4,7 @@
- #include "pvr_device.h"
- #include "pvr_drv.h"
- #include "pvr_gem.h"
-+#include "pvr_power.h"
- #include "pvr_rogue_defs.h"
- #include "pvr_rogue_fwif_client.h"
- #include "pvr_rogue_fwif_shared.h"
-@@ -1277,9 +1278,16 @@ pvr_probe(struct platform_device *plat_dev)
- 
- 	platform_set_drvdata(plat_dev, drm_dev);
- 
-+	devm_pm_runtime_enable(&plat_dev->dev);
-+	pm_runtime_mark_last_busy(&plat_dev->dev);
-+
-+	pm_runtime_set_autosuspend_delay(&plat_dev->dev, 50);
-+	pm_runtime_use_autosuspend(&plat_dev->dev);
-+	pvr_watchdog_init(pvr_dev);
-+
- 	err = pvr_device_init(pvr_dev);
- 	if (err)
--		return err;
-+		goto err_watchdog_fini;
- 
- 	err = drm_dev_register(drm_dev, 0);
- 	if (err)
-@@ -1290,6 +1298,9 @@ pvr_probe(struct platform_device *plat_dev)
- err_device_fini:
- 	pvr_device_fini(pvr_dev);
- 
-+err_watchdog_fini:
-+	pvr_watchdog_fini(pvr_dev);
-+
- 	return err;
- }
- 
-@@ -1299,8 +1310,10 @@ pvr_remove(struct platform_device *plat_dev)
- 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
- 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
- 
-+	pm_runtime_suspend(drm_dev->dev);
- 	drm_dev_unplug(drm_dev);
- 	pvr_device_fini(pvr_dev);
-+	pvr_watchdog_fini(pvr_dev);
- 
- 	return 0;
- }
-@@ -1311,11 +1324,16 @@ static const struct of_device_id dt_match[] = {
- };
- MODULE_DEVICE_TABLE(of, dt_match);
- 
-+static const struct dev_pm_ops pvr_pm_ops = {
-+	RUNTIME_PM_OPS(pvr_power_device_suspend, pvr_power_device_resume, pvr_power_device_idle)
-+};
-+
- static struct platform_driver pvr_driver = {
- 	.probe = pvr_probe,
- 	.remove = pvr_remove,
- 	.driver = {
- 		.name = PVR_DRIVER_NAME,
-+		.pm = &pvr_pm_ops,
- 		.of_match_table = dt_match,
- 	},
- };
-diff --git a/drivers/gpu/drm/imagination/pvr_mmu.c b/drivers/gpu/drm/imagination/pvr_mmu.c
-index 895e206fe555..34a290136f74 100644
---- a/drivers/gpu/drm/imagination/pvr_mmu.c
-+++ b/drivers/gpu/drm/imagination/pvr_mmu.c
-@@ -61,8 +61,10 @@
-  * pvr_mmu_flush() - Request flush of all MMU caches.
-  * @pvr_dev: Target PowerVR device.
-  *
-- * This function must be called following any possible change to the MMU page
-- * tables.
-+ * This function must be called following any possible change to the MMU page tables.
-+ *
-+ * As a failure to flush the MMU caches could risk memory corruption, if the flush fails (implying
-+ * the firmware is not responding) then the GPU device is marked as lost.
-  *
-  * Returns:
-  *  * 0 on success, or
-diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
+    amdgpu/index
+    i915
++   imagination/index
+    mcde
+    meson
+    pl111
+diff --git a/Documentation/gpu/imagination/index.rst b/Documentation/gpu/imagination/index.rst
 new file mode 100644
-index 000000000000..a494fed92e81
+index 000000000000..dc9579e758c3
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_power.c
-@@ -0,0 +1,271 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
++++ b/Documentation/gpu/imagination/index.rst
+@@ -0,0 +1,13 @@
++=======================================
++drm/imagination PowerVR Graphics Driver
++=======================================
 +
-+#include "pvr_device.h"
-+#include "pvr_fw.h"
-+#include "pvr_power.h"
-+#include "pvr_rogue_fwif.h"
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_drv.c
++   :doc: PowerVR Graphics Driver
 +
-+#include <drm/drm_drv.h>
-+#include <drm/drm_managed.h>
-+#include <linux/clk.h>
-+#include <linux/interrupt.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/timer.h>
-+#include <linux/types.h>
-+#include <linux/workqueue.h>
++Contents
++========
++.. toctree::
++   :maxdepth: 2
 +
-+#define POWER_SYNC_TIMEOUT_US (1000000) /* 1s */
-+
-+#define WATCHDOG_TIME_MS (500)
-+
-+static int
-+pvr_power_send_command(struct pvr_device *pvr_dev, struct rogue_fwif_kccb_cmd *pow_cmd)
-+{
-+	/* TODO: implement */
-+	return -ENODEV;
-+}
-+
-+static int
-+pvr_power_request_idle(struct pvr_device *pvr_dev)
-+{
-+	struct rogue_fwif_kccb_cmd pow_cmd;
-+
-+	/* Send FORCED_IDLE request to FW. */
-+	pow_cmd.cmd_type = ROGUE_FWIF_KCCB_CMD_POW;
-+	pow_cmd.cmd_data.pow_data.pow_type = ROGUE_FWIF_POW_FORCED_IDLE_REQ;
-+	pow_cmd.cmd_data.pow_data.power_req_data.pow_request_type = ROGUE_FWIF_POWER_FORCE_IDLE;
-+
-+	return pvr_power_send_command(pvr_dev, &pow_cmd);
-+}
-+
-+static int
-+pvr_power_request_pwr_off(struct pvr_device *pvr_dev)
-+{
-+	struct rogue_fwif_kccb_cmd pow_cmd;
-+
-+	/* Send POW_OFF request to firmware. */
-+	pow_cmd.cmd_type = ROGUE_FWIF_KCCB_CMD_POW;
-+	pow_cmd.cmd_data.pow_data.pow_type = ROGUE_FWIF_POW_OFF_REQ;
-+	pow_cmd.cmd_data.pow_data.power_req_data.forced = true;
-+
-+	return pvr_power_send_command(pvr_dev, &pow_cmd);
-+}
-+
-+static int
-+pvr_power_fw_disable(struct pvr_device *pvr_dev, bool hard_reset)
-+{
-+	if (!hard_reset) {
-+		int err;
-+
-+		cancel_delayed_work_sync(&pvr_dev->watchdog.work);
-+
-+		err = pvr_power_request_idle(pvr_dev);
-+		if (err)
-+			return err;
-+
-+		err = pvr_power_request_pwr_off(pvr_dev);
-+		if (err)
-+			return err;
-+	}
-+
-+	/* TODO: stop firmware */
-+	return -ENODEV;
-+}
-+
-+static int
-+pvr_power_fw_enable(struct pvr_device *pvr_dev)
-+{
-+	int err;
-+
-+	/* TODO: start firmware */
-+	err = -ENODEV;
-+	if (err)
-+		return err;
-+
-+	queue_delayed_work(pvr_dev->sched_wq, &pvr_dev->watchdog.work,
-+			   msecs_to_jiffies(WATCHDOG_TIME_MS));
-+
-+	return 0;
-+}
-+
-+bool
-+pvr_power_is_idle(struct pvr_device *pvr_dev)
-+{
-+	/* TODO: implement */
-+	return true;
-+}
-+
-+static bool
-+pvr_watchdog_kccb_stalled(struct pvr_device *pvr_dev)
-+{
-+	/* TODO: implement */
-+	return false;
-+}
-+
-+static void
-+pvr_watchdog_worker(struct work_struct *work)
-+{
-+	struct pvr_device *pvr_dev = container_of(work, struct pvr_device,
-+						  watchdog.work.work);
-+	bool stalled;
-+
-+	if (pvr_dev->lost)
-+		return;
-+
-+	if (pm_runtime_get_if_in_use(from_pvr_device(pvr_dev)->dev) <= 0)
-+		goto out_requeue;
-+
-+	stalled = pvr_watchdog_kccb_stalled(pvr_dev);
-+
-+	if (stalled) {
-+		drm_err(from_pvr_device(pvr_dev), "FW stalled, trying hard reset");
-+
-+		pvr_power_reset(pvr_dev, true);
-+		/* Device may be lost at this point. */
-+	}
-+
-+	pm_runtime_put(from_pvr_device(pvr_dev)->dev);
-+
-+out_requeue:
-+	if (!pvr_dev->lost) {
-+		queue_delayed_work(pvr_dev->sched_wq, &pvr_dev->watchdog.work,
-+				   msecs_to_jiffies(WATCHDOG_TIME_MS));
-+	}
-+}
-+
-+/**
-+ * pvr_watchdog_init() - Initialise watchdog for device
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * -%ENOMEM on out of memory.
-+ */
-+int
-+pvr_watchdog_init(struct pvr_device *pvr_dev)
-+{
-+	INIT_DELAYED_WORK(&pvr_dev->watchdog.work, pvr_watchdog_worker);
-+
-+	return 0;
-+}
-+
-+int
-+pvr_power_device_suspend(struct device *dev)
-+{
-+	struct platform_device *plat_dev = to_platform_device(dev);
-+	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	int idx;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	clk_disable_unprepare(pvr_dev->mem_clk);
-+	clk_disable_unprepare(pvr_dev->sys_clk);
-+	clk_disable_unprepare(pvr_dev->core_clk);
-+
-+	drm_dev_exit(idx);
-+
-+	return 0;
-+}
-+
-+int
-+pvr_power_device_resume(struct device *dev)
-+{
-+	struct platform_device *plat_dev = to_platform_device(dev);
-+	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	int idx;
-+	int err;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	err = clk_prepare_enable(pvr_dev->core_clk);
-+	if (err)
-+		goto err_drm_dev_exit;
-+
-+	err = clk_prepare_enable(pvr_dev->sys_clk);
-+	if (err)
-+		goto err_core_clk_disable;
-+
-+	err = clk_prepare_enable(pvr_dev->mem_clk);
-+	if (err)
-+		goto err_sys_clk_disable;
-+
-+	drm_dev_exit(idx);
-+
-+	return 0;
-+
-+err_sys_clk_disable:
-+	clk_disable_unprepare(pvr_dev->sys_clk);
-+
-+err_core_clk_disable:
-+	clk_disable_unprepare(pvr_dev->core_clk);
-+
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
-+
-+	return err;
-+}
-+
-+int
-+pvr_power_device_idle(struct device *dev)
-+{
-+	struct platform_device *plat_dev = to_platform_device(dev);
-+	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+
-+	return pvr_power_is_idle(pvr_dev) ? 0 : -EBUSY;
-+}
-+
-+/**
-+ * pvr_power_reset() - Reset the GPU
-+ * @pvr_dev: Device pointer
-+ * @hard_reset: %true for hard reset, %false for soft reset
-+ *
-+ * If @hard_reset is %false and the FW processor fails to respond during the reset process, this
-+ * function will attempt a hard reset.
-+ *
-+ * If a hard reset fails then the GPU device is reported as lost.
-+ *
-+ * Returns:
-+ *  * 0 on success, or
-+ *  * Any error code returned by pvr_power_get, pvr_power_fw_disable or pvr_power_fw_enable().
-+ */
-+int
-+pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
-+{
-+	/* TODO: Implement hard reset. */
-+	int err;
-+
-+	/*
-+	 * Take a power reference during the reset. This should prevent any interference with the
-+	 * power state during reset.
-+	 */
-+	WARN_ON(pvr_power_get(pvr_dev));
-+
-+	err = pvr_power_fw_disable(pvr_dev, false);
-+	if (err)
-+		goto err_power_put;
-+
-+	err = pvr_power_fw_enable(pvr_dev);
-+
-+err_power_put:
-+	pvr_power_put(pvr_dev);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_watchdog_fini() - Shutdown watchdog for device
-+ * @pvr_dev: Target PowerVR device.
-+ */
-+void
-+pvr_watchdog_fini(struct pvr_device *pvr_dev)
-+{
-+	cancel_delayed_work_sync(&pvr_dev->watchdog.work);
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_power.h b/drivers/gpu/drm/imagination/pvr_power.h
++   uapi
+diff --git a/Documentation/gpu/imagination/uapi.rst b/Documentation/gpu/imagination/uapi.rst
 new file mode 100644
-index 000000000000..439f08d13655
+index 000000000000..2227ea7e6222
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_power.h
-@@ -0,0 +1,39 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
++++ b/Documentation/gpu/imagination/uapi.rst
+@@ -0,0 +1,174 @@
++====
++UAPI
++====
++The sources associated with this section can be found in ``pvr_drm.h``.
 +
-+#ifndef PVR_POWER_H
-+#define PVR_POWER_H
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR UAPI
 +
-+#include "pvr_device.h"
++OBJECT ARRAYS
++=============
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_obj_array
 +
-+#include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: DRM_PVR_OBJ_ARRAY
 +
-+int pvr_watchdog_init(struct pvr_device *pvr_dev);
-+void pvr_watchdog_fini(struct pvr_device *pvr_dev);
++IOCTLS
++======
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL interface
 +
-+bool pvr_power_is_idle(struct pvr_device *pvr_dev);
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: PVR_IOCTL
 +
-+int pvr_power_device_suspend(struct device *dev);
-+int pvr_power_device_resume(struct device *dev);
-+int pvr_power_device_idle(struct device *dev);
++DEV_QUERY
++---------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL DEV_QUERY interface
 +
-+int pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset);
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_dev_query
 +
-+static __always_inline int
-+pvr_power_get(struct pvr_device *pvr_dev)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_dev_query_args
 +
-+	return pm_runtime_resume_and_get(drm_dev->dev);
-+}
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_dev_query_gpu_info
++                 drm_pvr_dev_query_runtime_info
++                 drm_pvr_dev_query_hwrt_info
++                 drm_pvr_dev_query_quirks
++                 drm_pvr_dev_query_enhancements
 +
-+static __always_inline int
-+pvr_power_put(struct pvr_device *pvr_dev)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_heap_id
++                 drm_pvr_heap
++                 drm_pvr_dev_query_heap_info
 +
-+	return pm_runtime_put(drm_dev->dev);
-+}
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
 +
-+#endif /* PVR_POWER_H */
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_static_data_area_usage
++                 drm_pvr_static_data_area
++                 drm_pvr_dev_query_static_data_areas
++
++CREATE_BO
++---------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_BO interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_bo_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for CREATE_BO
++
++GET_BO_MMAP_OFFSET
++------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL GET_BO_MMAP_OFFSET interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_get_bo_mmap_offset_args
++
++CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT
++----------------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_vm_context_args
++                 drm_pvr_ioctl_destroy_vm_context_args
++
++VM_MAP and VM_UNMAP
++-------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL VM_MAP and VM_UNMAP interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_vm_map_args
++                 drm_pvr_ioctl_vm_unmap_args
++
++CREATE_CONTEXT and DESTROY_CONTEXT
++----------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_CONTEXT and DESTROY_CONTEXT interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_context_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ctx_priority
++                 drm_pvr_ctx_type
++                 drm_pvr_static_render_context_state
++                 drm_pvr_static_render_context_state_format
++                 drm_pvr_reset_framework
++                 drm_pvr_reset_framework_format
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_destroy_context_args
++
++CREATE_FREE_LIST and DESTROY_FREE_LIST
++--------------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_FREE_LIST and DESTROY_FREE_LIST interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_free_list_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_destroy_free_list_args
++
++CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET
++--------------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_hwrt_dataset_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_create_hwrt_geom_data_args
++                 drm_pvr_create_hwrt_rt_data_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_destroy_hwrt_dataset_args
++
++SUBMIT_JOBS
++-----------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL SUBMIT_JOBS interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for the drm_pvr_sync_op object.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_submit_jobs_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl geometry command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl fragment command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl compute command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl transfer command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_sync_op
++                 drm_pvr_job_type
++                 drm_pvr_hwrt_data_ref
++                 drm_pvr_job
++
++Internal notes
++==============
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
++   :doc: IOCTL validation helpers
++
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
++   :identifiers: PVR_STATIC_ASSERT_64BIT_ALIGNED PVR_IOCTL_UNION_PADDING_CHECK
++                 pvr_ioctl_union_padding_check
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b2144511a5b..89a9c32cd56a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10146,6 +10146,7 @@ M:	Sarah Walker <sarah.walker@imgtec.com>
+ M:	Donald Robson <donald.robson@imgtec.com>
+ S:	Supported
+ F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
++F:	Documentation/gpu/imagination/
+ F:	drivers/gpu/drm/imagination/
+ F:	include/uapi/drm/pvr_drm.h
+ 
 -- 
 2.42.0
 
