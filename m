@@ -2,91 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1494FEB8FB7
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 11:35:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4872EEB8FB8
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 11:36:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239849AbjIFLfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 07:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37732 "EHLO
+        id S236369AbjIFLgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 07:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239842AbjIFLfo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 07:35:44 -0400
+        with ESMTP id S235315AbjIFLgN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 07:36:13 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264E995;
-        Wed,  6 Sep 2023 04:35:41 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638CEC433C7;
-        Wed,  6 Sep 2023 11:35:40 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53E7F1987;
+        Wed,  6 Sep 2023 04:36:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A7FBC433C8;
+        Wed,  6 Sep 2023 11:36:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694000140;
-        bh=R8cX6KBAOR46kqNyWM5gSlQFjpzLIdHBLmnmWEd82Cg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tpiWsu7HogmInxaMLnRjvlJgp1n/vNaB9C7CnsCWxJs5ThTRQ/IM3708Vht7shtCK
-         jOU6ITZ6+Ml9yRqXds4l8H0hFoEaICnZMi9hm86XtUyOGWdCqC1Zngmbw52bqHk3Vi
-         ZPSBhM7R1AcYL4DI0VFHCC6bjD6tLo+jo6tXubr55pMtq9TgLk2W5yFbcgijor0lFq
-         2Bk5/psx8VBPsEu7arDV0JW3bGGby1ew4lNS9upVJCQZF+HZiW4peKp1HI7EG11ZUX
-         LVwSKUlFQQU+78OYbsWkuunBTQhM42XaaIWpyG7YExvFzAHyADVolEMN/xb8jWgC9G
-         2ZBlnPJPXSpUQ==
-Date:   Wed, 6 Sep 2023 13:35:37 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Sarah Walker <sarah.walker@imgtec.com>
-Cc:     dri-devel@lists.freedesktop.org, frank.binns@imgtec.com,
-        donald.robson@imgtec.com, boris.brezillon@collabora.com,
-        airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
-        corbet@lwn.net, christian.koenig@amd.com, linus.walleij@linaro.org,
-        matt.coster@imgtec.com, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        faith.ekstrand@collabora.com, afd@ti.com, hns@goldelico.com,
-        matthew.brost@intel.com, luben.tuikov@amd.com, dakr@redhat.com
-Subject: Re: [PATCH v6 02/20] drm/gpuva_mgr: Helper to get range of unmap
- from a remap op.
-Message-ID: <7z6t4sudgits372e26f37gydfxxonsduiajurr7ztgvmh3crch@mbeb66xwin5s>
-References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
- <20230906095542.3280699-3-sarah.walker@imgtec.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kgq6kck2vs7tqvol"
-Content-Disposition: inline
-In-Reply-To: <20230906095542.3280699-3-sarah.walker@imgtec.com>
+        s=k20201202; t=1694000162;
+        bh=XvZQw/D6OS4nurgc67PWjQY0smNSqPLGy1z+2Y7iLEE=;
+        h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+        b=qAbNrWUfTm6JFrqriekyq9HXVlp5/O/Kyhggcyf6moJCv8OjJVkjl90iQaGT5FVUb
+         PIKhM7545DtydKwRk8SZQu2LVPjeoFBxj9VD0DhFl0jc3lKeNgB9hHLgeKZFAXB1Mh
+         Orh1iB/4Za+xNq7vly8Y3LSeSrgrxXGEc+yCj6r4VYkUsO25AG6+HEyBTCkPPqJSvd
+         POQPjLajrsSSScEkcG4O2JR+2Hnox1onqoXzsyUpdaHCOHGyCQfz627MBi8T/WRdTT
+         LotE6Ozif+HT4R1YRUnKEjZh0gvK+ZKg7jd0kLWxjb8CV8j3/yINYSsv3yuUEd43PG
+         w9is3v6yibUxw==
+Message-ID: <c8360c51a96a457a8b9341a9918f0c52.mripard@kernel.org>
+Date:   Wed, 06 Sep 2023 11:36:00 +0000
+From:   "Maxime Ripard" <mripard@kernel.org>
+To:     "Sarah Walker" <sarah.walker@imgtec.com>
+Subject: Re: [PATCH v6 03/20] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR/IMG GPU
+In-Reply-To: <20230906095542.3280699-4-sarah.walker@imgtec.com>
+References: <20230906095542.3280699-4-sarah.walker@imgtec.com>
+Cc:     afd@ti.com, airlied@gmail.com, boris.brezillon@collabora.com,
+        christian.koenig@amd.com, conor+dt@kernel.org, corbet@lwn.net,
+        dakr@redhat.com, daniel@ffwll.ch, devicetree@vger.kernel.org,
+        donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
+        faith.ekstrand@collabora.com, frank.binns@imgtec.com,
+        hns@goldelico.com, krzysztof.kozlowski+dt@linaro.org,
+        linus.walleij@linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, luben.tuikov@amd.com,
+        maarten.lankhorst@linux.intel.com, matt.coster@imgtec.com,
+        matthew.brost@intel.com, mripard@kernel.org, robh+dt@kernel.org,
+        tzimmermann@suse.de
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 6 Sep 2023 10:55:25 +0100, Sarah Walker wrote:
+> Add the device tree binding documentation for the IMG AXE GPU used in
+> TI AM62 SoCs.
+> 
+> Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+> Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+> 
+> [ ... ]
 
---kgq6kck2vs7tqvol
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-Hi Sarah,
-
-On Wed, Sep 06, 2023 at 10:55:24AM +0100, Sarah Walker wrote:
-> From: Donald Robson <donald.robson@imgtec.com>
->=20
-> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
-
-Sorry, this applied to your previous versions too but I only caught it
-right now. When you submit a patch on someone else's behalf, you need to
-add your Signed-off-by. That's also true when you're the committer of a
-patch you didn't write.
-
-This one, and patch 1, are affected.
-
-Also, generally speaking, it's a good to write a commit log for a patch
-to at least provide some context on what you want to achieve.
-
+Thanks!
 Maxime
-
---kgq6kck2vs7tqvol
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZPhkCQAKCRDj7w1vZxhR
-xXXKAP9f8E7gk6BdQrqtOlP19X5C2PDO24NNYUt53ReNjMx1IQEAvg2g5mAfgBOv
-7sh6wvmMaiVlRQbQiibMAh1kOMIXYAQ=
-=qF9D
------END PGP SIGNATURE-----
-
---kgq6kck2vs7tqvol--
