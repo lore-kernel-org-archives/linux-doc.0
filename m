@@ -2,476 +2,238 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A75F3EB8FDE
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 14:41:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E9D5EE14A1
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 14:57:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233865AbjIFOlg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 10:41:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49760 "EHLO
+        id S232385AbjIFO50 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 10:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjIFOlf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 10:41:35 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DADE92;
-        Wed,  6 Sep 2023 07:41:30 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1927D2BD;
-        Wed,  6 Sep 2023 14:41:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1927D2BD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1694011289; bh=P4XbTYrbyFVipsH3NpNDOMKLr6UvSvDqubSY9VraH4U=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=kwNQd2eoa27LZIjQJdoBdaB0Rt3iWhaGoCuDtNazb7YAvBTxl83nhhbDMLdbKYvAj
-         NDRpmUuIGIth9nwSvE81/2U8KVhXilZQ/Dl3WGCDLiZVHa1A2YO8dEWM3n+CaCoDvt
-         DKnMRzepW1wRQ1BZgO5nOVhsZ4le4pvIZiWbvTQe+HNYg1FmoV8bjjXCL3/Pm/Y2nx
-         xxeghv7cxhG2fbfpnDCdpxfUIGn02nEz4tK2fToEIKKVT2GAx2E6/95st8PQIzQ6P9
-         I1+aB4/C0xHMsqxupAG8jhVdPzQbrnJKcpFi1tN0QedKfSXIL9HIAQOk9XJKbXWBdc
-         aLPSs8gvoOABg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] docs/mm: Physical Memory: add "Memory map" section
-In-Reply-To: <20230906074210.3051751-1-rppt@kernel.org>
-References: <20230906074210.3051751-1-rppt@kernel.org>
-Date:   Wed, 06 Sep 2023 08:41:28 -0600
-Message-ID: <87ledjgy93.fsf@meer.lwn.net>
+        with ESMTP id S242225AbjIFO5Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 10:57:25 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DE84198A;
+        Wed,  6 Sep 2023 07:57:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ArzbfMhMpAxvG3grxrHzFtjpPDt14W5VmXiBbndheCg+lHBCmUrrVeFgxcHsROFng7xM9pLV/kqC2kZacqH77vMzckfGtSP/0bys3m76mWzlGhUfp2LB+FMCOCX9hQIPAQ7akja4UHY/jivkkYA6uYMn29Kl6QoVu1VPbVTkmZ+IxmGQRTl0ShUYOfL4Sxk7Y31s6GiF8l202IvOrKfCvt6QHD9HrLsodts8fQjvPkaYIhGccqTbpuvvVs4aq0GFTCtXIJzzTb39suPwrrf3x7P51TiDRdPxQgMazWHMNYb6DPWpmJNTa6qJG4PIQW/cVIY7fyWZe27HcVvMqwXfeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vtjkJFxMkadYVcjQWJFxC93jsQ1eVkQG3mWtREbMc9g=;
+ b=Uq39qlpWjZn6sc/hfDrJD8OB1RSRzIV9FVW7bpQe6mz634HOO0jLzrZq5iPqQ5mGz/CSK5d+QK5kwPirAkRFLk3VK3VP0YDe2MuquqNH2e6imd28xOqcR75OaQhC/eNqjVHspmS/Jkl46rR19+sNHDfHXb8cL+ViIdSivjBfYH1X8L7fogbjeUue23kGgQ7KjRkUfiv0NzvegoIFtqpZAjIAj0L7naqK/yXk/3v4JP94QD6QvESQsIFwupB050JH18ikcdhODJ3wVQehKh1ULOKasS/2cJ52rWTo9aAZAuEcJW5ZSDueL6IU3Afb24XTIrNySdXSiosIeq2QXvwRpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vtjkJFxMkadYVcjQWJFxC93jsQ1eVkQG3mWtREbMc9g=;
+ b=glVqtzHr+yZQlJqSMn3CRjCqMdhShKwoPpCNDuTgF0a8w9Dkh70Wb7W4KeqUee65ln3oOQXAVWgDHSJMIh4eun9MujhyzecB3M0wOIIuHntiJzSeg0A3uVwU8bv6BLEz8vAR30JhdwOSoj7AMkDFCVS276VdsgJWzGeqDap1KDM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH0PR12MB7814.namprd12.prod.outlook.com (2603:10b6:510:288::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
+ 2023 14:57:01 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::fbfe:ec9c:b106:437e]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::fbfe:ec9c:b106:437e%5]) with mapi id 15.20.6745.034; Wed, 6 Sep 2023
+ 14:57:01 +0000
+Message-ID: <fda1fea1-5e39-8a54-ab97-78d182c54801@amd.com>
+Date:   Wed, 6 Sep 2023 09:56:55 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v8 1/8] x86/resctrl: Add multiple tasks to the resctrl
+ group at once
+Content-Language: en-US
+To:     Fenghua Yu <fenghua.yu@intel.com>, Babu Moger <babu.moger@amd.com>,
+        corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de
+Cc:     dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+References: <20230821233048.434531-1-babu.moger@amd.com>
+ <20230821233048.434531-2-babu.moger@amd.com>
+ <a59be218-350b-b88b-2b02-be9c1d2bf797@intel.com>
+From:   "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <a59be218-350b-b88b-2b02-be9c1d2bf797@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR11CA0137.namprd11.prod.outlook.com
+ (2603:10b6:806:131::22) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH0PR12MB7814:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8bc7f82-2393-4dd8-1a7e-08dbaee9869b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cUPPRjd48LFrWeVCbRst3Ycgic8l8LTFBZ8jULYoaXFV9f0EqUhrmIbx95QV2rTYMu1k0VCtTJ2XkhLfNH2Ts0ZaIWkZ212LWCTXy3bAYo12A1NYFdPt1mP05MDgzF5ZXLqRoAbtuP+jZnny57EV14TmdQD5mCCaVHTXnThAbfRSjBs8m6OJE75ly5LEIPt9XyVfEE/M8m+D9go7PpPvGoiZYG1Mjgi+AnNd1XpZjY+JkUJ6wnkDkA+fPXWxuhswAeRna/phE1oTDzoIxgc5LPnjt5bVJdaNQ90v8uc38KjMD8IfL4ro2yo2RyQcMcLuljQ6hQ3BWDgNdaYGC9LDg+2iCsLuU5p0TQwqk+l15ml+8zc83gUJtEV5o68BMve2ZC+yv91zZAHAfDmtCyEJSH+vWiYZOUJYu3xkG8/HK1yagu+9ELBolwaGKrR9WJScTwXYE9poISfB7WWbkZwKU2SwrLODqOn5w4X3kDqJzve6uWFKTw/TOI5tY6eZptx7GjSKOhWnDJ1274k5wQtiInVJdbTfL+U6WbU25OmZdS9ZXvSLbUSum/RIN2HQiV/C0IxECLTfazsU8lbZsICgRB7CIfvnMrAqEhXDNcoTTla6sRsKKI0kfsvs4xFJx0NNi9V6JMmyWckC89IGn7jp1A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(346002)(39860400002)(396003)(376002)(1800799009)(186009)(451199024)(8936002)(4326008)(8676002)(83380400001)(478600001)(66556008)(66476007)(110136005)(66946007)(6512007)(2616005)(26005)(6486002)(6506007)(6666004)(53546011)(41300700001)(2906002)(316002)(38100700002)(5660300002)(31696002)(7416002)(7406005)(36756003)(31686004)(66899024)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MzdFZGdiU1liT2hmYncycHBNN2JGWTNPMThDRk5TY0Z5SjZLczRmQkV0c0dr?=
+ =?utf-8?B?QnhMeWZydVJXWVdHblNzOEJzcnBEOEFwSTVYYU40dzV3MjN2T3EzVVY4d0w1?=
+ =?utf-8?B?aERmZ25rSHJmajc5UFZIMkZuNDFhcGluSDNZbW1odGI5ajgzSzRRNXUybnVx?=
+ =?utf-8?B?ZVpXckVwbGdvTlRWZ05YdmtkWFM1d2ZtaURzWGFTU0Q1VkFvcXR2MkM3c0VQ?=
+ =?utf-8?B?MzJxcjUvSXFONG9tU3dQNGRhS1RCalBlb2tkRmlvQk4zTnVzYjNUQmx5NW40?=
+ =?utf-8?B?ejBTUzBvZmY3ckQ4UjVBUWl1aXZ2WGhUREI4VTZNL1cxZGJSYWJyVW00VUZJ?=
+ =?utf-8?B?VzhEZmdTdC9DYlhwdi9RL01RV3M5dkVSZHA3eFJJdnlNWXViV0hGRGlibm90?=
+ =?utf-8?B?V08rK3hEMjhGZXhjeG1NaVV3NHptZGZxMGc3N2dmaW1HR3ZPeGovV0grbS9l?=
+ =?utf-8?B?dzM0Nldod0ZDSk9iZTlDc3NLUnU4dDhncDdaQ1kyT0FNUHFvSVcyR0l6QTV2?=
+ =?utf-8?B?a1BSRXZBS2VEYTVubkJXdXlVbTV6cmhIV1FnTDViWGNndnBIZzdFbDdBRzkw?=
+ =?utf-8?B?R2RuQmFUM0w3MTh1am1YQ3d0c0I5em52SXEzWGl4Z3pWdTRodlU3akl5clI1?=
+ =?utf-8?B?eDAwYVoxNWFWbnBZQUs3ZjE0QU8yMzliVzNwbjFTZUxDU0Y2dlVXTS92Z3FD?=
+ =?utf-8?B?TTU0R2t2KzcwZE8zazVhclZvNkQ2K3cwSjBiTHhocUtFcFlQeE5UNkFRRHUy?=
+ =?utf-8?B?MU9DYWI5Q1g0aWZ0c0c5L0dPekJrQmRNSks3a1FXR1JScGlrOGtSOEJXbXlU?=
+ =?utf-8?B?M0NKWDZic2x1aE1SYkwwWnBLYjhtcXl5WGFreTRTVGYvZEE1MHk1Rmh5aTFI?=
+ =?utf-8?B?aVdGMmhpNVhEdVBuaVFFVmlxdzkvOWo5K2E3WnZWRDBxNm9yWTFkMFRLMlVy?=
+ =?utf-8?B?ZWsxeVFmK0tkRE9VdkY2Ync2OHhZSTA0REdxbXpHUEhZRjZuQ1pZZldvMWs1?=
+ =?utf-8?B?cGxXRVZXQUpqQlpjRkt0VXdja1NzSmtxNHN2L2NCZmY1TlRaK2FyVWhndHNX?=
+ =?utf-8?B?YlRKQVpHc1dYT1RCWW9acEJpOWxXbWNONXNmV1ArNlR1NXJBUTk1dnhsZktF?=
+ =?utf-8?B?bTJTY0YxVUVOaHhGQWZ6TmlhZzFHWS9xZnVaSllsaXZrVUhPSVFnRUpiVWdN?=
+ =?utf-8?B?eEN5VnRZOENwUG1Jb05lMGNJcm9LUUdrOFlCYWsvQVJQcnB2MGYxb3lCeEYx?=
+ =?utf-8?B?VGRJakREOHRFa2REWUlNcVNWZktoaHk4RUhXazkrR0ZWbTRZZzdiK0tXSzgr?=
+ =?utf-8?B?bHBEaUNLRk5nYitaTEphVGdqVE1MYkYvNElCRGNLTTNGU3pxWVhsalh4ZEQr?=
+ =?utf-8?B?QzVFSHYwQVgzeXdVREZUU3MwbzlmRnh6QVVwYm1vTjRURTNjbFJQd0JIRFBX?=
+ =?utf-8?B?bnBzOWVPU2hjTzZRQml2S3dYS3pkZXUyUURlOE5UVElFTndaZGVrSVA0dTc0?=
+ =?utf-8?B?NkIzQVJ2SitTT3RESGtmcjVELzR6aVBoL1dZaXdCcnpiVEhvYXFXRGVaaFR3?=
+ =?utf-8?B?cW1KYWZBK2xRVi9aL0hqS2NEdFhHUkdsUCtuOUdLWnFvNlJHZ2dkWmR6UytK?=
+ =?utf-8?B?aStDY2VzZmFjS0YwVnZvMEphUExLQWxoK0NjYU1rd2hJd2pXc3lMd0JTS3lC?=
+ =?utf-8?B?dk9YUWc0Vk5VejNuZlFpZm0zbUtMSXlqd1k4NjFmd0RhR0lOM2JXRG5DOEpj?=
+ =?utf-8?B?aWh2MkxRN3B6OTRwWmFweEVlV0w3UGRrcmJ3N2RscVkzUTk5MjFrVm81VWoy?=
+ =?utf-8?B?QWVPazNFNmZnMjVuRzhPSkw1Nnk5TjhSQnFJbTV1U0s5bnZKZm1Gb2JDeTJp?=
+ =?utf-8?B?Q0VHOC9iZnNJVGVyRUlWbEpqQlM0UjhPd3dDZEl2U2VBMkh6dUJhdWxDbTRp?=
+ =?utf-8?B?YlY2S0VHcWVzeFZlZTBrUnhnNGgxTHh4NUJPNGJrSjZMeWEyZHgrdUJubHlZ?=
+ =?utf-8?B?b3NmMGt4TnNNQi9VOG1SdENjNnR1a2c3OWhoR0s5WXVaV0Y0b0RVSGkyOTIz?=
+ =?utf-8?B?OHBXTjd3cHhDNXRHOFprcGJRU094WnJrQnRWbXZneU01QlA5VFV4cGVzMHRQ?=
+ =?utf-8?Q?OXIY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8bc7f82-2393-4dd8-1a7e-08dbaee9869b
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 14:57:01.4402
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2V+1ycYNyDnVi8QqNjJkomX26A39VX+MZLJDRdVENaNgXWZEcsCJTbKN9s/rVXRz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7814
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mike Rapoport <rppt@kernel.org> writes:
+Hi Fenghua,
 
-> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
+On 9/1/2023 5:13 PM, Fenghua Yu wrote:
+> Hi, Babu,
 >
-> Briefly describe memory map and add sub-sections for pages, folios and
-> ptdescs.
+> On 8/21/23 16:30, Babu Moger wrote:
+>> The resctrl task assignment for monitor or control group needs to be
+>> done one at a time. For example:
+>>
+>>    $mount -t resctrl resctrl /sys/fs/resctrl/
+>>    $mkdir /sys/fs/resctrl/ctrl_grp1
+>>    $echo 123 > /sys/fs/resctrl/ctrl_grp1/tasks
+>>    $echo 456 > /sys/fs/resctrl/ctrl_grp1/tasks
+>>    $echo 789 > /sys/fs/resctrl/ctrl_grp1/tasks
+>>
+>> This is not user-friendly when dealing with hundreds of tasks.
+>>
+>> Support multiple task assignment in one command with tasks ids separated
+>> by commas. For example:
+>>    $echo 123,456,789 > /sys/fs/resctrl/ctrl_grp1/tasks
+>>
+>> Reviewed-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
+>> Tested-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+>> ---
+>>   Documentation/arch/x86/resctrl.rst     |  8 +++++++-
+>>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 25 ++++++++++++++++++++++---
+>>   2 files changed, 29 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/arch/x86/resctrl.rst 
+>> b/Documentation/arch/x86/resctrl.rst
+>> index cb05d90111b4..af234681756e 100644
+>> --- a/Documentation/arch/x86/resctrl.rst
+>> +++ b/Documentation/arch/x86/resctrl.rst
+>> @@ -299,7 +299,13 @@ All groups contain the following files:
+>>   "tasks":
+>>       Reading this file shows the list of all tasks that belong to
+>>       this group. Writing a task id to the file will add a task to the
+>> -    group. If the group is a CTRL_MON group the task is removed from
+>> +    group. Multiple tasks can be added by separating the task ids
+>> +    with commas. Tasks will be assigned sequentially. Multiple
+>> +    failures are not supported. A single failure encountered while
+>> +    attempting to assign a task will cause the operation to abort.
 >
-> Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> ---
->  Documentation/mm/physical_memory.rst | 338 ++++++++++++++++++++++++++-
->  1 file changed, 332 insertions(+), 6 deletions(-)
+> What happens to the already moved tasks when "abort"?
 >
-> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
-> index 531e73b003dd..e3318897bf57 100644
-> --- a/Documentation/mm/physical_memory.rst
-> +++ b/Documentation/mm/physical_memory.rst
-> @@ -343,23 +343,349 @@ Zones
->  
->     This section is incomplete. Please list and describe the appropriate fields.
->  
-> +.. _memmap:
+> Could you please add add more details on "abort"?
+>
+> "A single failure encountered while attempting to assign a task will 
+> cause the operation to abort and already added tasks before the 
+> failure will remain in the group."
+Sure.
+>
+>> +    Failures will be logged to /sys/fs/resctrl/info/last_cmd_status.
+>> +
+>> +    If the group is a CTRL_MON group the task is removed from
+>>       whichever previous CTRL_MON group owned the task and also from
+>>       any MON group that owned the task. If the group is a MON group,
+>>       then the task must already belong to the CTRL_MON parent of this
+>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c 
+>> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> index 725344048f85..8c91c333f9b3 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> @@ -696,11 +696,10 @@ static ssize_t rdtgroup_tasks_write(struct 
+>> kernfs_open_file *of,
+>>                       char *buf, size_t nbytes, loff_t off)
+>>   {
+>>       struct rdtgroup *rdtgrp;
+>> +    char *pid_str;
+>>       int ret = 0;
+>>       pid_t pid;
+>>   -    if (kstrtoint(strstrip(buf), 0, &pid) || pid < 0)
+>> -        return -EINVAL;
+>>       rdtgrp = rdtgroup_kn_lock_live(of->kn);
+>>       if (!rdtgrp) {
+>>           rdtgroup_kn_unlock(of->kn);
+>> @@ -715,7 +714,27 @@ static ssize_t rdtgroup_tasks_write(struct 
+>> kernfs_open_file *of,
+>>           goto unlock;
+>>       }
+>>   -    ret = rdtgroup_move_task(pid, rdtgrp, of);
+>> +    while (buf && buf[0] != '\0' && buf[0] != '\n') {
+>> +        pid_str = strim(strsep(&buf, ","));
+>> +
+>> +        if (kstrtoint(pid_str, 0, &pid)) {
+>> +            rdt_last_cmd_puts("Task list parsing error\n");
+>
+> It would be better to show the failed pid string in the failure report:
+> +            rdt_last_cmd_puts("Task list parsing error pid %s\n", 
+> pid_str);
+>
+> So user will know which pid string causes the failure?
 
-Please, let's not clutter the docs with labels that are never used.  We
-don't do that with code!
+It was already discussed. Printing the characters during parsing error 
+may not be much useful.
 
-> +Memory map and memory descriptors
-> +=================================
-> +
-> +Every physical page frame in the systam has an associated descriptor which
-> +is used to keep track of its status. The collection of these descriptors is
-> +called `memory map` and it is arranged in one or more arrays, depending on
+Thanks
 
-*the* memory map
+Babu
 
-Also, why the `backtick quotes` ?  They don't have any particular
-meaning to Sphinx here.
 
-> +the selection of the memory model. Memory models are described in more
-> +detail in Documentation/mm/memory-model.rst
-> +
-> +The basic memory descriptor is called :ref:`struct page <Pages>` and it is
-> +essentially a union of several structures, each representing a page frame
-> +metadata for a paricular usage.
-> +
-> +In many cases the entries in the memory map are not treated as `struct page`,
-> +but rather as different types of descriptors such as :ref:`struct folio
-> +<Folios>`, :ref:`struct ptdesc <ptdesc>` or `struct slab`.
-
-I would hope that just saying "struct folio" would do the right thing;
-did that not happen for you?
-
->  .. _pages:
-
-I'd drop this label too
-
->  Pages
-> -=====
-> +-----
->  
-> -.. admonition:: Stub
-> +`struct page` tracks status of a single physical page frame. This structure
-
-tracks *the* status
-
-> +is a mixture of several types that represent metadata for different uses of
-> +a page frame. To save memory these types partially overlap so the `struct
-> +page` definition in ``include/linux/mm_types.h`` mixes scalar fields and
-> +unions of structures.
->  
-> -   This section is incomplete. Please list and describe the appropriate fields.
-> +Common fields
-> +~~~~~~~~~~~~~
-> +
-> +``flags``
-> +  This field contains flags which describe the status of the page and
-> +  additional information about the page, like, for instance, zone, section
-> +  and node this page belongs to. Several flags determine how the page is
-> +  used, sometimes in combination with ``page_type`` field. Other flags
-> +  determine the state of the page, for instance if it is dirty or should be
-> +  reclaimed, what LRU list this page is on and many others.
-> +
-> +  All flags are declared in ``include/linux/page-flags.h``. There are a
-> +  number of macros defined for testing, clearing and setting the flags. Page
-> +  flags should not be accessed directly, but only using these macros.
-
-It would sure be nice if we had documentation for what all the flags
-mean :)
-
-> +  The layout of the ``flags`` field depends on the kernel configuration. It
-> +  is affeted by selection of the memory model, section size for SPARSEMEM
-
-affected
-
-> +  without VMEMMAP, number of zone types, maximal number of nodes and other
-> +  build time parameters, such as ``CONFIG_NUMA_BALANCING``,
-> +  ``CONFIG_KASAN_SW_TAGS`` and ``CONFIG_LRU_GEN``.
-> +
-> +  For example, a kernel configured for 64-bit system with
-> +  SPARSEMEM_VMEMMAP, four zone types and maximum of 64 nodes and other
-> +  relevant options disabled layout of ``flags`` will be::
-> +
-> +    63   58 57  56 55                  23 22                      0
-> +    +------+------+----------------------+------------------------+
-> +    | node | zone |         ...          |         flags          |
-> +    +------+------+----------------------+------------------------+
-> +
-> +  And for the same configuration with enabled ``CONFIG_LRU_GEN`` and
-> +  ``CONFIG_NUMA_BALANCING`` it will be::
-> +
-> +    63   58 57  56 55    42 41     39 38      37 36  23 22        0
-> +    +------+------+--------+---------+----------+------+----------+
-> +    | node | zone | cpupid | lru_gen | lru_refs | ...  |  flags   |
-> +    +------+------+--------+---------+----------+------+----------+
-> +
-> +  For the exact details refer to ``include/linux/page-flags-layout.h`` and
-> +  ``include/linux/mmzone.h``.
-> +
-> +  Although in the above examples the page flags layout includes 23 flags,
-> +  their number may vary with different kernel configurations.
-> +
-> +``_refcount``
-> +  Usage count of the `struct page`. Should not be used directly. Use
-> +  accessors defined in ``include/linux/page_ref.h``.
-> +
-> +``memcg_data``
-> +  An opaque object used by memory cgroups. Defined only when
-> +  ``CONFIG_MEMCG`` is enabled.
-> +
-> +``virtual``
-> +  Virtual address in the kernel direct map. Will be ``NULL`` for highmem
-> +  pages. Only defined for some architectures.
-
-I'd say virtual is absent more often than present anymore, right?
-Perhaps it's worth being more explicit about that.  And maybe say to use
-page_address() rather than accessing it directly?
-
-> +``kmsan_shadow``
-> +  KMSAN shadow page: every bit indicates whether the corresponding bit of
-> +  the original page is initialized (0) or not (1). Defined only when
-> +  ``CONFIG_KMSAN`` is enabled.
-> +
-> +``kmsan_origin``
-> +  KMSAN origin page: every 4 bytes contain an id of the stack trace where
-> +  the uninitialized value was created. Defined only when ``CONFIG_KMSAN``
-> +  is enabled.
-> +
-> +``_last_cpupid``
-> +  IDs of last CPU and last process that accessed the page. Only enabled if
-> +  there are not enough bits in the ``flags`` field.
-> +  Do not use directly, use accessors defined in ``include/linux/mm.h``
-> +
-> +Fields shared between multiple types
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +``_mapcount``
-> +  If the page can be mapped to userspace, encodes the number of times this
-> +  page is referenced by a page table.
-> +  Do not use directly, call page_mapcount().
-
-Have we figured out what mapcount really means yet? :)
-
-> +``page_type``
-> +  If the page is neither ``PageSlab`` nor mappable to userspace, the value
-> +  stored here may help determine what this page is used for. See
-> +  ``include/linux/page-flags.h`` for a list of page types which are
-> +  currently stored here.
-> +
-> +``rcu_head``
-> +  You can use this to free a page by RCU. Available for page table pages
-> +  and for page cache and anonymous pages not linked to any of the LRU
-> +  lists.
-> +
-> +Page cache and anonymous pages
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +The following fields are used to link `struct page` to a linked list and
-> +they overlap with each other:
-> +
-> +``lru``
-> +  Linked list pointers for pages on LRU lists, for example active_list
-> +  protected by ``lruvec->lru_lock``. Sometimes used as a generic list by
-> +  the page owner.
-> +
-> +For pages on unevictable "LRU list" ``lru`` is overlayed with an anonymous
-> +struct containing two fields:
-> +
-> +``__filler``
-> +  A dummy field that must be always even to avoid conflict with compound
-> +  page encoding.
-
-Do we care about the constraints on this field's contents?  Presumably
-that is taken care of somewhere and nobody should mess with it?
-
-> +``mlock_count``
-> +  Number of times the page has been pinned by mlock().
-> +
-> +Pages on free lists used by the page allocator are linked to the relevant
-> +list with eithter of the two below fields:
-
-Spellcheckers are your friend :)
-
-> +``buddy_list``
-> +  Links the page to one of the free lists in the buddy allocator. Overlaps
-> +  with ``lru``.
-> +
-> +``pcp_list``
-> +  Links the page to a per-cpu free list. Overlaps with ``lru``.
-> +
-> +``mapping``
-> +  The file this page belongs to. Can be pagecache or swapcahe. For
-> +  anonymous memory refers to the `struct anon_vma`.
-> +  See also ``include/linux/page-flags.h`` for ``PAGE_MAPPING_FLAGS``
-
-It seems like putting in the types for fields like this would be useful;
-readers of the HTML docs can then follow the links and see what is
-actually pointed to.
-
-> +``index``
-> +  Page offset within mapping. Overlaps with ``share``.
-> +
-> +``share``
-> +  Share count for fsdax. Overlaps with ``index``.
-> +
-> +``private``
-> +  Mapping-private opaque data. Usually used for buffer_heads if
-> +  PagePrivate. Used for swp_entry_t if PageSwapCache. Indicates order in
-> +  the buddy system if PageBuddy.
-> +
-> +Page pool
-> +~~~~~~~~~
-> +
-> +The following fields are used by
-> +`page_pool <Documentation/networking/page_pool.rst>`
-> +allocator used by the networking stack.
-> +
-> +``pp_magic``
-> +  Magic value to avoid recycling non page_pool allocated pages.
-> +
-> +``pp``
-> +  `struct page_pool` holding the page.
-> +
-> +``_pp_mapping_pad``
-> +  A padding to avoid collision of page_pool data with ``mapping``.
-> +
-> +``dma_addr``
-> +  DMAable address of the page.
-> +
-> +``dma_addr_upper``
-> +  Upper part of DMA address on 32-bit architectures that use 64-bit DMA
-> +  addressing. Overlaps with ``pp_frag_count``.
-> +
-> +``pp_frag_count``
-> +  Used by sub-page allocations in ``page_pool``. Not supported on 32-bit
-> +  architectures with 64-bit DMA addresses. Overlaps with ``dma_addr_upper``.
-> +
-> +Tail pages of compound page
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +``compound_head``
-> +  Pointer to the head page of compound page. Bit zero is always set for
-> +  tail pages and cleared for head pages.
-> +
-> +ZONE_DEVICE pages
-> +~~~~~~~~~~~~~~~~~
-> +
-> +``pgmap``
-> +  Points to the hosting device page map.
-> +
-> +``zone_device_data``
-> +  Private data used by the owning device.
->  
->  .. _folios:
->  
->  Folios
-> -======
-> +------
-
-As Willy said, linking to the existing docs might be better here.
-
-> -.. admonition:: Stub
-> +`struct folio` represents a physically, virtually and logically contiguous
-> +set of bytes. It is a power-of-two in size, and it is aligned to that same
-> +power-of-two. It is at least as large as ``PAGE_SIZE``. If it is in the
-> +page cache, it is at a file offset which is a multiple of that
-> +power-of-two. It may be mapped into userspace at an address which is at an
-> +arbitrary page offset, but its kernel virtual address is aligned to its
-> +size.
->  
-> -   This section is incomplete. Please list and describe the appropriate fields.
-> +`struct folio` occupies several consecutive entries in the memory map and
-> +has the following fields:
-> +
-> +``flags``
-> +  Identical to the page flags.
-> +
-> +``lru``
-> +  Least Recently Used list; tracks how recently this folio was used.
-> +
-> +``mlock_count``
-> +  Number of times this folio has been pinned by mlock().
-> +
-> +``mapping``
-> +  The file this page belongs to. Can be pagecache or swapcahe. For
-> +  anonymous memory refers to the `struct anon_vma`.
-> +
-> +``index``
-> +  Offset within the file, in units of pages. For anonymous memory, this is
-> +  the index from the beginning of the mmap.
-> +
-> +``private``
-> +  Filesystem per-folio data (see folio_attach_private()). Used for
-> +  ``swp_entry_t`` if folio is in the swap cache
-> +  (i.e. folio_test_swapcache() is true)
-> +
-> +``_mapcount``
-> +  Do not access this member directly. Use folio_mapcount() to find out how
-> +  many times this folio is mapped by userspace.
-> +
-> +``_refcount``
-> +  Do not access this member directly. Use folio_ref_count() to find how
-> +  many references there are to this folio.
-> +
-> +``memcg_data``
-> +  Memory Control Group data.
-> +
-> +``_folio_dtor``
-> +  Which destructor to use for this folio.
-> +
-> +``_folio_order``
-> +  The allocation order of a folio. Do not use directly, call folio_order().
-> +
-> +``_entire_mapcount``
-> +  How many times the entire folio is mapped as a single unit (for example
-> +  by a PMD or PUD entry). Does not include PTE-mapped subpages. This might
-> +  be useful for debugging, but to find out how many times the folio is
-> +  mapped look at folio_mapcount() or page_mapcount() or total_mapcount()
-> +  instead.
-> +  Do not use directly, call folio_entire_mapcount().
-> +
-> +``_nr_pages_mapped``
-> +  The total number of times the folio is mapped.
-> +  Do not use directly, call folio_mapcount().
-> +
-> +``_pincount``
-> +  Used to track pinning of the folio for DMA.
-> +  Do not use directly, call folio_maybe_dma_pinned().
-> +
-> +``_folio_nr_pages``
-> +  The number of pages in the folio.
-> +  Do not use directly, call folio_nr_pages().
-> +
-> +``_hugetlb_subpool``
-> +  HugeTLB subpool the folio beongs to.
-> +  Do not use directly, use accessor in ``include/linux/hugetlb.h``.
-> +
-> +``_hugetlb_cgroup``
-> +  Memory Control Group data for a HugeTLB folio.
-> +  Do not use directly, use accessor in ``include/linux/hugetlb_cgroup.h``.
-> +
-> +``_hugetlb_cgroup_rsvd``
-> +  Memory Control Group data for a HugeTLB folio.
-> +  Do not use directly, use accessor in ``include/linux/hugetlb_cgroup.h``.
-> +
-> +``_hugetlb_hwpoison``
-> +  List of failed (hwpoisoned) pages for a HugeTLB folio.
-> +  Do not use directly, call raw_hwp_list_head().
-> +
-> +``_deferred_list``
-> +  Folios to be split under memory pressure.
-> +
-> +.. _ptdesc:
-> +
-> +Page table descriptors
-> +----------------------
-> +
-> +`struct ptdesc` describes the pages used by page tables. It has the
-> +following fields:
-> +
-> +``_page_flags``
-> +  Same as page flags. Unused for page tables.
-> +
-> +``pt_rcu_head``
-> +  For freeing page table pages using RCU.
-> +
-> +``pt_list``
-> +  List of used page tables. Used for s390 and x86.
-> +
-> +``pmd_huge_pte``
-> +  Used by THP to track page tables that map huge pages. Protected by
-> +  ``ptdesc->ptl`` or ``mm->page_table_lock``, depending on values of
-> +  ``CONFIG_NR_CPUS`` and ``CONFIG_SPLIT_PTLOCK_CPUS`` configuration
-> +  options.
-> +
-> +``pt_mm``
-> +  Pointer to mm_struct owning the page table. Only used for PGDs on x86.
-> +
-> +``pt_frag_refcount``
-> +  For fragmented page table tracking. Used on Powerpc and s390 only.
-> +
-> +``ptl``
-> +  Page table lock. If the size of `spinlock_t` object is small enough the
-> +  lock is embedded in `struct ptdesc`, otherwise this field points to a
-> +  lock allocated for each page table page.
-> +
-> +``_refcount``
-> +  Same as page refcount. Used for s390 page tables.
-> +
-> +``pt_memcg_data``
-> +  Memcg data. Tracked for page tables here.
-
-It's good to see this documentation being filled in!
-
-An overall concern that comes to mind is that you're documenting
-something that is very much a moving target.  It's already a bit of an
-awkward fit with the page types that have been split out into their own
-structures, and will become more so as that work proceeds.  The document
-seems likely to go out of date quickly.
-
-I wonder if it might be better to structure it as if the splitting of
-struct page were already complete, with a section for each page
-descriptor type, even the ones that don't exist as separate entities
-yet?  Maybe that would make it easier for people to keep it current as
-they hack pieces out of struct page?
-
-Just a thought.
-
-Thanks,
-
-jon
