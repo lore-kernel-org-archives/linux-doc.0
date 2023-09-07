@@ -2,177 +2,330 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF3E0EC874B
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F21EC8726
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 17:33:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230132AbjIGQ7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59986 "EHLO
+        id S235141AbjIGRdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 13:33:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244356AbjIGQiX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:38:23 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD182210C;
-        Thu,  7 Sep 2023 09:23:02 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3F0C43395;
-        Thu,  7 Sep 2023 16:06:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694102791;
-        bh=wTTVey9YZJtMRL2JwAl4Bl6GOm8D1pcSnWWALoFSdIQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ly3WQ1iEc2TELoq4i1Tuj7guxul+pO6MqtfVJ2o+DC+ddi//R2z3/Qj+UfygKr1/b
-         hN/xZyEhZvyZ8A8v7+fkILHcGAcQHz2ACAyX93Vew8vm0wXizP0Pu021F1V19+eipM
-         Ah08TKcNIoBMLkTi5RGgLfODGHxxuI+egvLERORHZm/GwrCYpwJL6/WpGWDck1ptMt
-         H8BOphEpWe8O7ax68EN1bn/9ApNiwMIrUuwOVIB3+e7vVtCGL9ACDgdeMAb519/oE5
-         BxURPeoB3eRlC8xBqxJ2NzYFZJWPz5zGWjQfSJxdKwGRbqwuz5OJ4knfwGobNVP5h9
-         dLyMIJZybOlEQ==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id 31F4A403F4; Thu,  7 Sep 2023 13:06:28 -0300 (-03)
-Date:   Thu, 7 Sep 2023 13:06:28 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Jing Zhang <renyu.zj@linux.alibaba.com>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>, Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: Re: [PATCH v8 0/8] Add metrics for Arm CMN
-Message-ID: <ZPn1BEzAoQa/ogtL@kernel.org>
-References: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
+        with ESMTP id S244824AbjIGRdA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 13:33:00 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544DC10FD;
+        Thu,  7 Sep 2023 10:32:34 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id D54322184B;
+        Thu,  7 Sep 2023 05:50:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1694065801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GkBgQJPFmxHSxjl0QqrHficEND3DHJwl7TSsSPl31Fk=;
+        b=OG/bX/wrznenCvi4sH/KPgR14Bby2fChMRcPR0onrTpciMwcRSMqhwU92k6p4F3mYpEjrM
+        I73ZOXQxPb1P2/tWgTdEU1Vt7uGnuPI4/Nq3+F3L8f0eGoN45orjQzGgA5nogh707sjQSU
+        lU6OFXkGX5+JoD9SNdIkEB1HGapEjsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1694065801;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GkBgQJPFmxHSxjl0QqrHficEND3DHJwl7TSsSPl31Fk=;
+        b=P1+WN2lEYCmr3vUbniY4nBzQ0JIJQZ9CjwNIIWHR3JfF+Ww/p4VX/BIwViWf0CHNVx0sXh
+        1MuiyNe4GgEVZFAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A2E3B13458;
+        Thu,  7 Sep 2023 05:50:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id fk1vIYhk+WRcYAAAMHmgww
+        (envelope-from <hare@suse.de>); Thu, 07 Sep 2023 05:50:00 +0000
+Message-ID: <b0f3d320-047b-4bd8-a6fc-25b468caf5b3@suse.de>
+Date:   Thu, 7 Sep 2023 07:49:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
-X-Url:  http://acmel.wordpress.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 03/12] block: add copy offload support
+Content-Language: en-US
+To:     Nitesh Shetty <nj.shetty@samsung.com>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>
+Cc:     martin.petersen@oracle.com, mcgrof@kernel.org,
+        gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org
+References: <20230906163844.18754-1-nj.shetty@samsung.com>
+ <CGME20230906164312epcas5p397662c68dde1dbc4dc14c3e80ca260b3@epcas5p3.samsung.com>
+ <20230906163844.18754-4-nj.shetty@samsung.com>
+From:   Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20230906163844.18754-4-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, Sep 07, 2023 at 07:58:25PM +0800, Jing Zhang escreveu:
-> Changes since v7:
-> - Optimized pmu_uncore_identifier_match().
-> - Added all missing "event=0" in JSON file.
-> - Rebase this series onto the latest perf-tools-next.
-> - Link: https://lore.kernel.org/all/1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com/
-
-Can you please refresh on top of what is in the tmp.perf-tools-next
-branch at:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git
-
-patch 3/8 has some fuzz and b4 is not finding it in the mailing list,
-probably the patch is too large? Do you have some git tree somewhere I
-can use to pull from?
-
-- Arnaldo
- 
-> Jing Zhang (8):
->   perf pmu: "Compat" supports matching multiple identifiers
->   perf metric: "Compat" supports matching multiple identifiers
->   perf vendor events: Supplement the omitted EventCode
->   perf jevents: Support more event fields
->   perf test: Make matching_pmu effective
->   perf test: Add pmu-event test for "Compat" and new event_field.
->   perf jevents: Add support for Arm CMN PMU aliasing
->   perf vendor events: Add JSON metrics for Arm CMN
+On 9/6/23 18:38, Nitesh Shetty wrote:
+> Introduce blkdev_copy_offload to perform copy offload.
+> Issue REQ_OP_COPY_SRC with source info along with taking a plug.
+> This flows till request layer and waits for dst bio to arrive.
+> Issue REQ_OP_COPY_DST with destination info and this bio reaches request
+> layer and merges with src request.
+> For any reason, if a request comes to the driver with only one of src/dst
+> bio, we fail the copy offload.
 > 
->  .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
->  .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
->  .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
->  .../pmu-events/arch/x86/alderlake/pipeline.json    |   9 +
->  .../pmu-events/arch/x86/alderlaken/pipeline.json   |   3 +
->  .../pmu-events/arch/x86/broadwell/pipeline.json    |   4 +
->  .../pmu-events/arch/x86/broadwellde/pipeline.json  |   4 +
->  .../arch/x86/broadwellde/uncore-cache.json         |   2 +
->  .../arch/x86/broadwellde/uncore-interconnect.json  |   1 +
->  .../arch/x86/broadwellde/uncore-memory.json        |   1 +
->  .../arch/x86/broadwellde/uncore-power.json         |   1 +
->  .../pmu-events/arch/x86/broadwellx/pipeline.json   |   4 +
->  .../arch/x86/broadwellx/uncore-cache.json          |   2 +
->  .../arch/x86/broadwellx/uncore-interconnect.json   |  13 +
->  .../arch/x86/broadwellx/uncore-memory.json         |   2 +
->  .../arch/x86/broadwellx/uncore-power.json          |   1 +
->  .../pmu-events/arch/x86/cascadelakex/pipeline.json |   4 +
->  .../arch/x86/cascadelakex/uncore-cache.json        |   2 +
->  .../arch/x86/cascadelakex/uncore-interconnect.json |   1 +
->  .../arch/x86/cascadelakex/uncore-io.json           |   1 +
->  .../arch/x86/cascadelakex/uncore-memory.json       |   1 +
->  .../arch/x86/cascadelakex/uncore-power.json        |   1 +
->  .../pmu-events/arch/x86/elkhartlake/pipeline.json  |   2 +
->  .../pmu-events/arch/x86/goldmont/pipeline.json     |   3 +
->  .../pmu-events/arch/x86/goldmontplus/pipeline.json |   3 +
->  .../pmu-events/arch/x86/grandridge/pipeline.json   |   3 +
->  .../arch/x86/graniterapids/pipeline.json           |   4 +
->  .../perf/pmu-events/arch/x86/haswell/pipeline.json |   4 +
->  .../pmu-events/arch/x86/haswellx/pipeline.json     |   4 +
->  .../pmu-events/arch/x86/haswellx/uncore-cache.json |   2 +
->  .../arch/x86/haswellx/uncore-interconnect.json     |  14 ++
->  .../arch/x86/haswellx/uncore-memory.json           |   2 +
->  .../pmu-events/arch/x86/haswellx/uncore-power.json |   1 +
->  .../perf/pmu-events/arch/x86/icelake/pipeline.json |   5 +
->  .../pmu-events/arch/x86/icelakex/pipeline.json     |   5 +
->  .../pmu-events/arch/x86/icelakex/uncore-cache.json |   1 +
->  .../arch/x86/icelakex/uncore-interconnect.json     |   1 +
->  .../arch/x86/icelakex/uncore-memory.json           |   1 +
->  .../pmu-events/arch/x86/icelakex/uncore-power.json |   1 +
->  .../pmu-events/arch/x86/ivybridge/pipeline.json    |   3 +
->  .../perf/pmu-events/arch/x86/ivytown/pipeline.json |   4 +
->  .../pmu-events/arch/x86/ivytown/uncore-cache.json  |   2 +
->  .../arch/x86/ivytown/uncore-interconnect.json      |  11 +
->  .../pmu-events/arch/x86/ivytown/uncore-memory.json |   1 +
->  .../pmu-events/arch/x86/ivytown/uncore-power.json  |   1 +
->  .../pmu-events/arch/x86/jaketown/pipeline.json     |   4 +
->  .../pmu-events/arch/x86/jaketown/uncore-cache.json |   2 +
->  .../arch/x86/jaketown/uncore-interconnect.json     |  12 +
->  .../arch/x86/jaketown/uncore-memory.json           |   1 +
->  .../pmu-events/arch/x86/jaketown/uncore-power.json |   2 +
->  .../arch/x86/knightslanding/pipeline.json          |   3 +
->  .../arch/x86/knightslanding/uncore-cache.json      |   1 +
->  .../arch/x86/knightslanding/uncore-memory.json     |   4 +
->  .../pmu-events/arch/x86/meteorlake/pipeline.json   |   9 +
->  .../pmu-events/arch/x86/rocketlake/pipeline.json   |   3 +
->  .../pmu-events/arch/x86/sandybridge/pipeline.json  |   4 +
->  .../arch/x86/sapphirerapids/pipeline.json          |   5 +
->  .../pmu-events/arch/x86/sierraforest/pipeline.json |   4 +
->  .../pmu-events/arch/x86/silvermont/pipeline.json   |   3 +
->  .../perf/pmu-events/arch/x86/skylake/pipeline.json |   4 +
->  .../pmu-events/arch/x86/skylakex/pipeline.json     |   4 +
->  .../pmu-events/arch/x86/skylakex/uncore-cache.json |   2 +
->  .../arch/x86/skylakex/uncore-interconnect.json     |   1 +
->  .../pmu-events/arch/x86/skylakex/uncore-io.json    |   1 +
->  .../arch/x86/skylakex/uncore-memory.json           |   1 +
->  .../pmu-events/arch/x86/skylakex/uncore-power.json |   1 +
->  .../pmu-events/arch/x86/snowridgex/pipeline.json   |   2 +
->  .../arch/x86/snowridgex/uncore-cache.json          |   1 +
->  .../arch/x86/snowridgex/uncore-interconnect.json   |   1 +
->  .../arch/x86/snowridgex/uncore-memory.json         |   1 +
->  .../arch/x86/snowridgex/uncore-power.json          |   1 +
->  .../pmu-events/arch/x86/tigerlake/pipeline.json    |   5 +
->  tools/perf/pmu-events/empty-pmu-events.c           |   8 +
->  tools/perf/pmu-events/jevents.py                   |  21 +-
->  tools/perf/tests/pmu-events.c                      |  65 ++++-
->  tools/perf/util/metricgroup.c                      |   2 +-
->  tools/perf/util/pmu.c                              |  28 ++-
->  tools/perf/util/pmu.h                              |   1 +
->  78 files changed, 681 insertions(+), 9 deletions(-)
->  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
->  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+> Larger copy will be divided, based on max_copy_sectors limit.
 > 
-> -- 
-> 1.8.3.1
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>   block/blk-lib.c        | 202 +++++++++++++++++++++++++++++++++++++++++
+>   include/linux/blkdev.h |   4 +
+>   2 files changed, 206 insertions(+)
 > 
+> diff --git a/block/blk-lib.c b/block/blk-lib.c
+> index e59c3069e835..d22e1e7417ca 100644
+> --- a/block/blk-lib.c
+> +++ b/block/blk-lib.c
+> @@ -10,6 +10,22 @@
+>   
+>   #include "blk.h"
+>   
+> +/* Keeps track of all outstanding copy IO */
+> +struct blkdev_copy_io {
+> +	atomic_t refcount;
+> +	ssize_t copied;
+> +	int status;
+> +	struct task_struct *waiter;
+> +	void (*endio)(void *private, int status, ssize_t copied);
+> +	void *private;
+> +};
+> +
+> +/* Keeps track of single outstanding copy offload IO */
+> +struct blkdev_copy_offload_io {
+> +	struct blkdev_copy_io *cio;
+> +	loff_t offset;
+> +};
+> +
+>   static sector_t bio_discard_limit(struct block_device *bdev, sector_t sector)
+>   {
+>   	unsigned int discard_granularity = bdev_discard_granularity(bdev);
+> @@ -115,6 +131,192 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+>   }
+>   EXPORT_SYMBOL(blkdev_issue_discard);
+>   
+> +static inline ssize_t blkdev_copy_sanity_check(struct block_device *bdev_in,
+> +					       loff_t pos_in,
+> +					       struct block_device *bdev_out,
+> +					       loff_t pos_out, size_t len)
+> +{
+> +	unsigned int align = max(bdev_logical_block_size(bdev_out),
+> +				 bdev_logical_block_size(bdev_in)) - 1;
+> +
+> +	if ((pos_in & align) || (pos_out & align) || (len & align) || !len ||
+> +	    len >= BLK_COPY_MAX_BYTES)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static inline void blkdev_copy_endio(struct blkdev_copy_io *cio)
+> +{
+> +	if (cio->endio) {
+> +		cio->endio(cio->private, cio->status, cio->copied);
+> +		kfree(cio);
+> +	} else {
+> +		struct task_struct *waiter = cio->waiter;
+> +
+> +		WRITE_ONCE(cio->waiter, NULL);
+> +		blk_wake_io_task(waiter);
+> +	}
+> +}
+> +
+> +/*
+> + * This must only be called once all bios have been issued so that the refcount
+> + * can only decrease. This just waits for all bios to complete.
+> + * Returns the length of bytes copied or error
+> + */
+> +static ssize_t blkdev_copy_wait_io_completion(struct blkdev_copy_io *cio)
+> +{
+> +	ssize_t ret;
+> +
+> +	for (;;) {
+> +		__set_current_state(TASK_UNINTERRUPTIBLE);
+> +		if (!READ_ONCE(cio->waiter))
+> +			break;
+> +		blk_io_schedule();
+> +	}
+> +	__set_current_state(TASK_RUNNING);
+> +	ret = cio->copied;
+> +	kfree(cio);
+> +
+> +	return ret;
+> +}
+> +
+> +static void blkdev_copy_offload_dst_endio(struct bio *bio)
+> +{
+> +	struct blkdev_copy_offload_io *offload_io = bio->bi_private;
+> +	struct blkdev_copy_io *cio = offload_io->cio;
+> +
+> +	if (bio->bi_status) {
+> +		cio->copied = min_t(ssize_t, offload_io->offset, cio->copied);
+> +		if (!cio->status)
+> +			cio->status = blk_status_to_errno(bio->bi_status);
+> +	}
+> +	bio_put(bio);
+> +
+> +	if (atomic_dec_and_test(&cio->refcount))
+> +		blkdev_copy_endio(cio);
+> +}
+> +
+> +/*
+> + * @bdev:	block device
+> + * @pos_in:	source offset
+> + * @pos_out:	destination offset
+> + * @len:	length in bytes to be copied
+> + * @endio:	endio function to be called on completion of copy operation,
+> + *		for synchronous operation this should be NULL
+> + * @private:	endio function will be called with this private data,
+> + *		for synchronous operation this should be NULL
+> + * @gfp_mask:	memory allocation flags (for bio_alloc)
+> + *
+> + * For synchronous operation returns the length of bytes copied or error
+> + * For asynchronous operation returns -EIOCBQUEUED or error
+> + *
+> + * Description:
+> + *	Copy source offset to destination offset within block device, using
+> + *	device's native copy offload feature. This function can fail, and
+> + *	in that case the caller can fallback to emulation.
+> + *	We perform copy operation using 2 bio's.
+> + *	1. We take a plug and send a REQ_OP_COPY_SRC bio along with source
+> + *	sector and length. Once this bio reaches request layer, we form a
+> + *	request and wait for dst bio to arrive.
+> + *	2. We issue REQ_OP_COPY_DST bio along with destination sector, length.
+> + *	Once this bio reaches request layer and find a request with previously
+> + *	sent source info we merge the destination bio and return.
+> + *	3. Release the plug and request is sent to driver
+> + *	This design works only for drivers with request queue.
+> + */
+> +ssize_t blkdev_copy_offload(struct block_device *bdev, loff_t pos_in,
+> +			    loff_t pos_out, size_t len,
+> +			    void (*endio)(void *, int, ssize_t),
+> +			    void *private, gfp_t gfp)
+> +{
+> +	struct blkdev_copy_io *cio;
+> +	struct blkdev_copy_offload_io *offload_io;
+> +	struct bio *src_bio, *dst_bio;
+> +	ssize_t rem, chunk, ret;
+> +	ssize_t max_copy_bytes = bdev_max_copy_sectors(bdev) << SECTOR_SHIFT;
+> +	struct blk_plug plug;
+> +
+> +	if (!max_copy_bytes)
+> +		return -EINVAL;
+> +
+> +	ret = blkdev_copy_sanity_check(bdev, pos_in, bdev, pos_out, len);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cio = kzalloc(sizeof(*cio), GFP_KERNEL);
+> +	if (!cio)
+> +		return -ENOMEM;
+> +	atomic_set(&cio->refcount, 1);
+> +	cio->waiter = current;
+> +	cio->endio = endio;
+> +	cio->private = private;
+> +
+> +	/*
+> +	 * If there is a error, copied will be set to least successfully
+> +	 * completed copied length
+> +	 */
+> +	cio->copied = len;
+> +	for (rem = len; rem > 0; rem -= chunk) {
+> +		chunk = min(rem, max_copy_bytes);
+> +
+> +		offload_io = kzalloc(sizeof(*offload_io), GFP_KERNEL);
+> +		if (!offload_io)
+> +			goto err_free_cio;
+> +		offload_io->cio = cio;
+> +		/*
+> +		 * For partial completion, we use offload_io->offset to truncate
+> +		 * successful copy length
+> +		 */
+> +		offload_io->offset = len - rem;
+> +
+> +		src_bio = bio_alloc(bdev, 0, REQ_OP_COPY_SRC, gfp);
+> +		if (!src_bio)
+> +			goto err_free_offload_io;
+> +		src_bio->bi_iter.bi_size = chunk;
+> +		src_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
+> +
+> +		blk_start_plug(&plug);
+> +		dst_bio = blk_next_bio(src_bio, bdev, 0, REQ_OP_COPY_DST, gfp);
+> +		if (!dst_bio)
+> +			goto err_free_src_bio;
+> +		dst_bio->bi_iter.bi_size = chunk;
+> +		dst_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
+> +		dst_bio->bi_end_io = blkdev_copy_offload_dst_endio;
+> +		dst_bio->bi_private = offload_io;
+> +
+> +		atomic_inc(&cio->refcount);
+> +		submit_bio(dst_bio);
+> +		blk_finish_plug(&plug);
+> +		pos_in += chunk;
+> +		pos_out += chunk;
+> +	}
+> +
+> +	if (atomic_dec_and_test(&cio->refcount))
+> +		blkdev_copy_endio(cio);
+> +	if (cio->endio)
+> +		return -EIOCBQUEUED;
+> +
+> +	return blkdev_copy_wait_io_completion(cio);
+> +
+> +err_free_src_bio:
+> +	bio_put(src_bio);
+> +err_free_offload_io:
+> +	kfree(offload_io);
+> +err_free_cio:
+> +	cio->copied = min_t(ssize_t, cio->copied, (len - rem));
+> +	cio->status = -ENOMEM;
+> +	if (rem == len) {
+> +		kfree(cio);
+> +		return cio->status;
+> +	}
+> +	if (cio->endio)
+> +		return cio->status;
+> +
+> +	return blkdev_copy_wait_io_completion(cio);
+> +}
+> +EXPORT_SYMBOL_GPL(blkdev_copy_offload);
 
+Hmm. That looks a bit odd. Why do you have to use wait_for_completion?
+Can't you submit the 'src' bio, and then submit the 'dst' bio from the 
+endio handler of the 'src' bio?
+
+Cheers,
+
+Hannes
 -- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
-- Arnaldo
