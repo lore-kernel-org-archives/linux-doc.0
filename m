@@ -2,193 +2,318 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D84EC873C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62856EC873B
 	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 15:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230409AbjIGPhq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 11:37:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40300 "EHLO
+        id S235223AbjIGPhr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 11:37:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237058AbjIGPXZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 11:23:25 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828C31B2;
-        Thu,  7 Sep 2023 08:23:20 -0700 (PDT)
+        with ESMTP id S1344220AbjIGPcm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 11:32:42 -0400
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2071c.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::71c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4717D1BC9;
+        Thu,  7 Sep 2023 08:32:17 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mPwiRdIOiWmV3ZTAQm7HtDQuGLouoKkdLwnRvedoQ5hloLlztQc+S10hgo9j7X7z8dtCTiSGW31IeucBveiUaVLLQvnfYmsD0ZgtiZipW6/TyHld/CDUWKgcImJWz9bXE8s4WIyQPZmO54t/i3r9Wpxt+G996lBxs5JsRFbgmIDUzcTg7CacUtuFwxAUFQ5+X39orXcwmdjqwE1740YWJLlJAQ/hzhT+fdGI6pLxGNP2wnmEv3lT87X6+u/eXkZ8gOUi9xBwra1xbP5iGvmG80oUxsTRXzduWiwDm4eeG1EH/vFksAOm/sfdqqlxf9r11J4YThapHB82uVivm0Y+cQ==
+ b=hh69poRUVIAktMtH+ZwKoMdyPVk2TVa3Lr0iO1MPpX/ggtxhazSd6YCn5j4iMEXcOXxzpGKYlsDuuEuFEyXp02UEu14FedlLwKEfS2AljTSjw+4PsTDgxEakMssu6CTlbpHn9wMs50mKVsLkhnVyUHwfrBUulAuEaq5szvqAY4dz2DwUW/XKt4041OvOMwXLRgsgHPctyXmsW4djMZ59bhKIBVLNi8m3BQZNlwWHxPZBa6Z7jwqEo5dxTUmlAE2Z0d62nB/Y8RhU1/SRG9J09In8moMaDI51AlEwyIfZRMnf8GNn2R7YgyyLQoMLkwcvqlfv5LB2VrtMmGTxwitbjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A3y5ih7Gd1C8zh11BAqAXdO9/z0EiGVuG1vMJuNp/sA=;
- b=eQ6iqiONPWbwCTppyhAjcGZLCJMozcQvgCtsaKARNGe5hWWObgASq+qqE4INYuP/hW+vDG9rWjcLbfxU42QPIkVx5xM/5O97+xNd1Rjg1hj76VYSKqW/cP2LfM9Po9KSpjAjxWe/ObAyKJ145s2c1T48CHKKulgFxZ5+R5dRXxg6XfOuUDJsUvVef1z37ifLPT9mKkjU4ZM6caW3qOYTFrvJy6H9zkauQdzZaJuj8htmqs9gw1x4FtoT0/5SNlAYzr3JTvpOsczWbYJalPMhoXieLpoun5zQmM7b/WtBRcVguKfaV2NQi4Wz4EQLWqrltMxzuA3FnsaNww3IufgbSw==
+ bh=ILdyH+y3Ag8MQ5/OU0a8nDvQT8qItD7SrbA7qWiTn3Q=;
+ b=eFT5iPgK+zNHhHX4MN1za1LqwITCwpPGzM725B+bIAPcUrYb3GqNMLj2THzsDmS1Glep/IzYTQhdfkf7Z2WXPKNojjGhtHrPPJRQqdD4yL1vNNHaG4GUftrZAIUuU2lT81Pw+SM+EXMCud6s8xr467+fSzooiqgCKkb8P3IaLvVcWa5tjE2Rrjj4uaKA4G35rElljVibvooMuZls3/vfILjxeccp5/m2EPK/fHsZ4z1Ddgyo3OQ7W8dF0CvfTHiRTUochXnYvHe8c7wGAGkDS1snz57p9BtWx5Yvl0AHEGUSfQ2/nkkwzNqDj4TY4p4m9TMiqGi9FSbhS8nnkZD7xQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A3y5ih7Gd1C8zh11BAqAXdO9/z0EiGVuG1vMJuNp/sA=;
- b=MHoIA3Z+iCYO3n4Q0wxHGGYsd80X1hI2VrANuWfoMwlOg5iQS2PCFVFcVzDVIFoHSJzJn8aBRe/CmUruzYy6sM872TZyty86nSEogEDezCEYhgePnzgj18xL+3gTIGqjvHjtlnkv+0XoKVLk9abN30yGsgSO5LhqahHrfEPSIY8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by BL3PR12MB9052.namprd12.prod.outlook.com (2603:10b6:208:3bb::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 7 Sep
- 2023 14:44:46 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e%5]) with mapi id 15.20.6768.029; Thu, 7 Sep 2023
- 14:44:46 +0000
-Message-ID: <dd8d6beb-a24d-afe8-929f-acdfef544a39@amd.com>
-Date:   Thu, 7 Sep 2023 09:44:41 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v8 1/8] x86/resctrl: Add multiple tasks to the resctrl
- group at once
+ bh=ILdyH+y3Ag8MQ5/OU0a8nDvQT8qItD7SrbA7qWiTn3Q=;
+ b=TIT80aqnx1oav1pXJdD6mq8zgsPlgj117pgQPILSZw8uxjtA9xaxFVwmj7loWAbvxuxE4chi0EMacAXB71bs2hkTjej/i8ScT3gov0E8kId1mgbn7KsJlSsFiy1rMBKEEiMQr7pGD2oO9ZSlep1opb45aJp+sK7Omz8V0cKS4heHeIK/x3Z3YdqY3HQCfx5Wf7ZmVLTFxGbKszmHmcSiO8cOZbZNtibhBrQY4Jq3dIMx8GtKLNZ+gUW6lB57NOjYgraqI0eCVjv1kyYOW3C1AzP0FLhOE3aHCU6ZB+m8F+djkE/ZUq74itbITI3RyisC+T5J3RUBxetMCWNNhooq9A==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ SEZPR06MB6198.apcprd06.prod.outlook.com (2603:1096:101:f1::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6745.34; Thu, 7 Sep 2023 07:17:56 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::791a:38e8:18cf:d205]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::791a:38e8:18cf:d205%5]) with mapi id 15.20.6745.030; Thu, 7 Sep 2023
+ 07:17:55 +0000
+From:   Billy Tsai <billy_tsai@aspeedtech.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "naresh.solanki@9elements.com" <naresh.solanki@9elements.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        BMC-SW <BMC-SW@aspeedtech.com>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>
+Subject: Re: [PATCH v8 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
+Thread-Topic: [PATCH v8 1/3] dt-bindings: hwmon: fan: Add fan binding to
+ schema
+Thread-Index: AQHZ2z4C+uKKem1S50iGi7OYH9WEnLAMfl8AgAKBk6I=
+Date:   Thu, 7 Sep 2023 07:17:55 +0000
+Message-ID: <SG2PR06MB336567E43537C7F4947E342F8BEEA@SG2PR06MB3365.apcprd06.prod.outlook.com>
+References: <20230830123202.3408318-1-billy_tsai@aspeedtech.com>
+ <20230830123202.3408318-2-billy_tsai@aspeedtech.com>
+ <20230905170010.GA3505375-robh@kernel.org>
+In-Reply-To: <20230905170010.GA3505375-robh@kernel.org>
+Accept-Language: en-US, zh-TW
 Content-Language: en-US
-To:     Fenghua Yu <fenghua.yu@intel.com>, babu.moger@amd.com,
-        corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de
-Cc:     dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-References: <20230821233048.434531-1-babu.moger@amd.com>
- <20230821233048.434531-2-babu.moger@amd.com>
- <a59be218-350b-b88b-2b02-be9c1d2bf797@intel.com>
- <fda1fea1-5e39-8a54-ab97-78d182c54801@amd.com>
- <80cad07b-27e8-ab80-24f2-c6befa5db710@intel.com>
-From:   "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <80cad07b-27e8-ab80-24f2-c6befa5db710@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR06CA0007.namprd06.prod.outlook.com
- (2603:10b6:8:2a::25) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|SEZPR06MB6198:EE_
+x-ms-office365-filtering-correlation-id: 0feb26c9-7fdd-4aae-70a0-08dbaf728eba
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gjadcIWuvkP37pgM56WRpO2Jn6eLPzrv69Z7uYUYI2p61PEBBfmiqsrBzJV+riJN7Xf9umG4wJsKy5z9gQZ27hkYri5Sfm87KhjtMtDT83yeS2qjqYSBLbxA65YU+qC86LBJlwAbRTAK7yT7EkVMbZEpjEZKJSQI/BzcRI/EsmAdfZp14D6lriG18LdOl5xiy1UIjmAOx6bZKsvxq4amto8MKaypE4pDxBg7J+CnPw887O+U5Ec8Oao2UrjW8heHCfNJk6twrwlsra/+nVs+kAEvT2XzcaYEGrq/7+vDwcCaW8woFHB6mYg/mQtwQfVxRqAjqbKh/MLNgB/L23obES9mfTDML3qPDz8qJXyJiiOq/EMgAxLgAH/NgUYCmhOH3rq0449vFEe6NCAV4jnOyturcJYa2IxuYJChl8R0YN7Swze6YkOHNLSQLwEPWmusKBWBU1Vu5IbWEtQaANChhpSYLqAso9ILWHVpmuxsmWHDd/Zwaoo9m+dhWgq3NN5zzlXL9Zo2L9c0FeTmDZ4bz3uU9tnwcMPouOfahoSMssqmfQGz75K+g1liadu+y0UEzdZ14F13git/NGyBncZoKo5jUXONrmZoDZqCyXB77Ak=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(366004)(346002)(396003)(136003)(376002)(186009)(1800799009)(451199024)(6506007)(7696005)(9686003)(55236004)(55016003)(83380400001)(26005)(122000001)(91956017)(64756008)(54906003)(52536014)(66946007)(38070700005)(38100700002)(76116006)(66446008)(6916009)(66556008)(66476007)(5660300002)(7416002)(316002)(33656002)(41300700001)(86362001)(8676002)(8936002)(4326008)(2906002)(71200400001)(966005)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?uq8qgk4rMOm3HKcl/zSWqwPMKP+ZvhjefiHO6IWQ1VJbiP1RGFYTt45WtE?=
+ =?iso-8859-1?Q?Y2JttAbiyZluub6uNRg1Ix9G7HXFRfjGdqiJb/Sz4nRUTw/ayLn384w3XT?=
+ =?iso-8859-1?Q?T4SLsgUg7HaJClkfXsj7kd8S5cr4/Op5mVecKZ5OSEQQDeQe1jHwVFhEy/?=
+ =?iso-8859-1?Q?qixBQsxufAZmDEi9qda9DYVv77P4ZELokqoXuL0QvLbrYCkHSW9UpyVBvr?=
+ =?iso-8859-1?Q?+6twoQbBH3mVM2sI6goSkN+TWXGRD2ZHAwDfNZqZwLcnGfrmuta9QluUvb?=
+ =?iso-8859-1?Q?50sdZTB+gBuO+1hDUdd66iMY/fz0fLCg5RGKwQFwYLZMmqF5CeFH8bkHEZ?=
+ =?iso-8859-1?Q?caYLhzRVBKfJqPF4JoiJXrb3Cpv5UL4ywC/g6UJlHTnbyyiM+eFyzVeWHf?=
+ =?iso-8859-1?Q?OedUHtpB2KuAXZUujz1nqlsG74Dg3PGb0Bb1hn9SQv/9/fm+GjJ2Jl6epY?=
+ =?iso-8859-1?Q?iZRE/TZnGz686+BZY0+X69du9m0lHJBEtBz9pDzTGC+ap4u5RmvtUd6rYg?=
+ =?iso-8859-1?Q?zQWFLBRDcfIo7iCva+AEuFucyJwDV06r5XqhcUNTggRqCGijLFw5ffHP2k?=
+ =?iso-8859-1?Q?yIVZ546Ickjthbe0v64l2JKw2Em7UB1K164kj2aduroYkyvnd70XnhCD+2?=
+ =?iso-8859-1?Q?S44mjV1nYRvD1vu3KzsIpm9fNwHJjEW+KpQTIHc5wiRUXRUFn+62DGj+9+?=
+ =?iso-8859-1?Q?jeo/yNA8di/3/6FQsEJrBR7+0pX2SnWTGiDaSBpY6qSCT0e7NkhiKferDM?=
+ =?iso-8859-1?Q?vCbLhS3dOONQpNCxd4qdu7IKCLQCnlFWUZo1UtQjUZvqQpp0D3UPv3Qn2c?=
+ =?iso-8859-1?Q?Dv1mKziE1ZJg1AotH210odX7vPypv1zXRXFowbrpv4/UVYk2iCCE9Il1/6?=
+ =?iso-8859-1?Q?r6UQIfdU6ARRusGz7d5Nfvg1ossngANkYEZV1OS5j2PrPzIpY6Y6DjLhtD?=
+ =?iso-8859-1?Q?/LzJDubwlJfXfpQqM8diePEgHXgCg+zdY83cpFxRZmx0gW+pgT2QBKOAWC?=
+ =?iso-8859-1?Q?pufGZOqj+vYIkhB1w1LP97SwPFogv+WDhe8gyZoBn1LDFkggJm0gnJL0vb?=
+ =?iso-8859-1?Q?T0RrgqNe1PSwZcf2Fj/XqVGL0kLdHNE4UvvN3x5jsBGQINFyji+FPkDNrK?=
+ =?iso-8859-1?Q?fEtktG6yorIBT8+0qgZB0xASXeKXKfryFGRZIZobOt9DvjEACWnClPd60F?=
+ =?iso-8859-1?Q?DxdIlJ1OSfON+ZKr5bEc7ifZtxiDVQe2mzNuyGA4yszsVuwKXqhIDnYgcn?=
+ =?iso-8859-1?Q?VccLbKTe7Ekz/a86x3vMN+FChnTkA/dmgqsQkpP8+mZ/u2+JlI/nzxXa0J?=
+ =?iso-8859-1?Q?ATjQTTXna9Xc+4J88yP+q8dGnioO4vBAKDcOGyqFqVGABLCyYl7RovTvTP?=
+ =?iso-8859-1?Q?1zuwJTIKb4zbCcXX73ylCGFqelJDw/hBRnjvfFKRKtuH9HkNV/cjOfgkTI?=
+ =?iso-8859-1?Q?kNfO6ppIsMhKUWZGaXoeTBPtdO2SIq/3hi8MAUVCtYPpEzsVfj2RHd+ym4?=
+ =?iso-8859-1?Q?nfm9V823kgjPa2R/nh+Eg0U39/8/TdPAZ3LV+F+uQUJ2RAlTXAWnnsjgZE?=
+ =?iso-8859-1?Q?WM4WpPe1vQbJUY40bz35MO/ozV8yaAXAI9ejNR7wAqvSwiLjJGOMa+juUv?=
+ =?iso-8859-1?Q?BbFGAKwpTQSHbT2LtwWpPfyJHoBXi8Ju8m?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|BL3PR12MB9052:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f7e1ef3-85f8-4676-9edd-08dbafb0fb0c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 29ZJz+p9BhorRUqjrPZn4yhuoQz7T8mhtwxPGqQnixRGuOQleoIQ/x35F59/S7SC3o7UigidPlt8Z+0rLh5wIsPSB4gw/oWOOZ4Zj+YTS1tuuu9GqEjt+e5kDe26qPT2aHk+KGT3s9wPz/w2C0ZoVHtIZh9+SaiuUsqFzuKDdpsLem4tDQIZElI1OmGX2bYjzBMEPJLY5WGJxYBGhXuznfcWY9VHbyV0HScjb/yIeb//JPLkPTVx0BK8NPg52hC/2OEG0ZkMxJhR2S48IDpvLpPS7sqecnWWPraViKOksw3/GkrhagZqSubjhVbQ2gN8UCXWiEBisjaUQrREZ+CIhtNPB6dBGxVvIBtTJQ8OpmVMDP+fZ3suatmQq7R6yNn7IZ1wwuwbomXYEeP5+KFPncR6skrwACNRTi0LMIerrB31WSm4CC5r4A9QzN9k7zFoUdnORvSFEOcNmPl6VjIFt5zbyUQ0kh4xHY4K/iI0SSI4fWqLq6M57mInGTaseb0hpfvq8Uz+yKxHAlbhvXSk6DlmOVTTB64Ltb6o9cHleFEVQF2wZlvP21IGwxkswy7d9vgVNwZCDdJZlZBDZlEVbKwjjgcBrcqcyi/0Nm+BMgOwnUejFD8iQUF0ssFSyGWtr6f3Jt7MeCvl817pitWQqg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(366004)(396003)(376002)(136003)(1800799009)(186009)(451199024)(31686004)(53546011)(6666004)(6506007)(6486002)(36756003)(31696002)(38100700002)(2616005)(26005)(2906002)(478600001)(966005)(6512007)(83380400001)(8676002)(5660300002)(41300700001)(8936002)(4326008)(66476007)(66556008)(7416002)(7406005)(66946007)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGVHMUx2MjlIV25MUXdNRklZN3pzWVdRMXRYTDE5VEdrK0N5eWtiWHFhTzll?=
- =?utf-8?B?R3pOQkVYa2hNOVU2N1QrVUJreFFkMHpyZnlzbk1vR1l1SDQ2SFNJM0diQWFF?=
- =?utf-8?B?ejBBYk1lS1NUN2pPRExkcHNiaVp4S01XZjJ1WE1iWUEvODl3dEVMV0hPeisy?=
- =?utf-8?B?RlVMZXpDUUQySWJ1a0I4Z0dZcVVpTnR6WnczS3c5RnN3U245elFENC9GQnJy?=
- =?utf-8?B?c0piZXgwUG1uVWUzNmhzZkZMN1UrakxyNlJRUDQ1MUNyeHR1Z1M3ektVZTFx?=
- =?utf-8?B?OWZZN0tRbWU4ZnlvV1pTOVozSUM2OTBuNzdZdnQxOWNuQnFRcCtpR0VTR2RN?=
- =?utf-8?B?b215cWRSbjlMVkNiWjJ4T3FVMjZ4MGFTQVhRWkxFakhZbWRyRGxnOHJjMWs3?=
- =?utf-8?B?MXNqYWtOZU95RW96VjFjL0dPSS9EOGR6d0ZIdGRKSFRDeTBoU2JNZThxQjQr?=
- =?utf-8?B?M2psdTNWU0ExNU1MMmNEUlIrVm9lM0xEREJqWWFzVitGRm4weEFjTGZuS21I?=
- =?utf-8?B?S3F1ZlRaQnJJZSszOXN3b1ZyV0IwQUJWUXNVa1FoblZmcUZlUHZ0WTZoNm5P?=
- =?utf-8?B?c3BLbW1zTzZQclZNWGhobXV3UlBSQXd5SXdPS0ZjNEFYR0dmd01xQWQvTlpD?=
- =?utf-8?B?eGVjMTZ0K3Rvcmhva09ibjJ6aUZzdlA1RTdmRFFrRkpUeHQ2TGNUQnJvR1hl?=
- =?utf-8?B?WHZwN0syOXdreDJvWnlxOXpPcWpDdGhaRzl3QTJyTGVJWVNaVGRrejJNdTdV?=
- =?utf-8?B?UWlzQnpHQXB2MHlaK0xKeXQvckl6M1dXUkluQnJjREprNDlpcmZOOHpkTUZW?=
- =?utf-8?B?RmZDSWJBc3hYcjI2L1p3b1VEaEJwZy9mTDZEbXorUm03Yk03TWVyY0xQQlhm?=
- =?utf-8?B?WFJmRjdlcUw2T2NMQnVIMWRNUm5iWkR1N25FNkZTTWl6S3l4NnBic3Z4UFl4?=
- =?utf-8?B?QjNaMlR1NElvdnA3d1RUYkQzTGlPdEdVT3dzM0RXbWx2cUlSNFl1YjE4L1VM?=
- =?utf-8?B?WmJqUTFHeWhKc0pKbHZDN2dSSFMrV0lQZ3MwOFJrMmJSK25ndE9JRnJhWmpZ?=
- =?utf-8?B?eS81aTREeXZqSGpRREkzdWwyd1RKQ0dSZGs1dmkwK0tpd2RHY2cxc3F4cVA1?=
- =?utf-8?B?SnNTY0xkaEdIVDJiTUFrMXRlREVCL1FndTdnb3E0QmVCSTNmU2daS0QvcXpm?=
- =?utf-8?B?SlVPYlFDakltOW9sN2U0RndVMGJ3ajVtYlZseVFOZmZzeUpCSVZtajRJR3JT?=
- =?utf-8?B?NU5kUmU3OHlzYXYxZ3Q4QWpsTGVTV1dzT2EweVNNVDhNWnFHd1BhSFRmdkZz?=
- =?utf-8?B?VTFxSnNGQXp2N1JKUGVzcy95U3A5VVpza2ZTZGNFK0VqUlZWYXFEdFVMQytu?=
- =?utf-8?B?S0xUZUU1bjBVUTFmM3RGeXZMR3JnNkd3QmpBelhjNE1EN1BJdW5xa1MxV0hQ?=
- =?utf-8?B?ZDlVNnhnY1BNNThVVEkrZXRYMHlEYzVCTmlsZ2NRSVVGQkJSOGJNOFpDaThJ?=
- =?utf-8?B?TlRWd21ZYmE5dmg4NFR2MUY2UnFNckt0bE0zdXlnT1lsTkNmTmhJTnlOQW5r?=
- =?utf-8?B?djJGaWtHTzZGZnBXZ1UxaklnUENlaFRTeVBuMnZpYmt4TklUajM3RUJRUXFC?=
- =?utf-8?B?K2ZJd2NWdWlLdU5lVGhJczJtRzlUem1IN25xSi80NkQ3MWs2bjZjQ2VXanVk?=
- =?utf-8?B?Y3NMOHpEbllVaWlRMnhZV3c3UHZkUjhRMFFNUkNLRitsZkFxa1BBRkpvZEUx?=
- =?utf-8?B?ZmEwOWYvR0VhMHZlTGQ3R1R1R05zcEp3ekMyVEFtTHJTOEphYzRsOFZ5OXMz?=
- =?utf-8?B?V3FtQWd0Y1NlaWpnZ1lhckRWcFppalVOaFNERFoyY3pYNXE2YjE1VnpsR00z?=
- =?utf-8?B?TUxpUVZENzU1OTJtZXBvYlhjT250eHFaanJ2RFZsWVhWeE9jVk5tdlRJdUZO?=
- =?utf-8?B?RUgveEpWZW96UVFuNHBLZllzaFltNk0zTWJNTmtYVUttOXk2T2orWVJLeFhQ?=
- =?utf-8?B?T1YyRFdHZ0tyTllydUtTaHJSay95UDhhTDMyQUpWY2lrbTZHNVZmUzBSZ2VP?=
- =?utf-8?B?Q0t3T0FpVDZkTzd1Q3JBMCt4aXhMaVo4U2h6SjJvV0xnWFBZd3dLN2M4cUZh?=
- =?utf-8?Q?VcQU=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f7e1ef3-85f8-4676-9edd-08dbafb0fb0c
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 14:44:46.6252
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0feb26c9-7fdd-4aae-70a0-08dbaf728eba
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2023 07:17:55.8712
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6NVDk7DlZQmwzfvTRzfoX5EsQuEguvdX8MBivvbVi/JiYkOGGcbriBfPERvOJQwS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB9052
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zcK5GmglR+3MXi2qIIq1nHTdHr6oevqtBYy47RKg3qcXJpuqNzf4Q5AjQYW07hTw/GFt9L3fMCEUzLBiZsTYcUrYyNaEywETx9eMH9xIi/0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6198
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Fenghua,
-
-On 9/6/2023 3:42 PM, Fenghua Yu wrote:
-> Hi, Babu,
->
-> On 9/6/23 07:56, Moger, Babu wrote:
->>>> @@ -715,7 +714,27 @@ static ssize_t rdtgroup_tasks_write(struct 
->>>> kernfs_open_file *of,
->>>>           goto unlock;
->>>>       }
->>>>   -    ret = rdtgroup_move_task(pid, rdtgrp, of);
->>>> +    while (buf && buf[0] != '\0' && buf[0] != '\n') {
->>>> +        pid_str = strim(strsep(&buf, ","));
->>>> +
->>>> +        if (kstrtoint(pid_str, 0, &pid)) {
->>>> +            rdt_last_cmd_puts("Task list parsing error\n");
->>>
->>> It would be better to show the failed pid string in the failure report:
->>> +            rdt_last_cmd_puts("Task list parsing error pid %s\n", 
->>> pid_str);
->>>
->>> So user will know which pid string causes the failure?
->>
->> It was already discussed. Printing the characters during parsing 
->> error may not be much useful.
->
-> Could you please let me know where printing "pid_str" is discussed?
-
-My bad.  Should have read your comments more carefully.
-
-
->
-> My understanding is a similar thing is discussed in v3:
-> https://lore.kernel.org/all/167778866506.1053859.2329229096484796501.stgit@bmoger-ubuntu/ 
->
->
-> Then v4 has this code without printing pid_str. In v4, there is a 
-> similar discussion of printing pid, but not pid_str.
->
-> But I cannot find a discussion of why "pid_str" is not printed.
->
-> If kstritoint(pid_str, 0, &pid) fails, without printing pid_str, how 
-> can user know which pid string fails? e.g. user tries to move 100 pids 
-> and the 51st pid parsing fails. It's hard for user to know the 51st 
-> pid fails without showing pid_str in the error info and then it's hard 
-> for the user to decide to re-do moving or aborting moving etc.
-
-That is correct.  Will add following print statement o print the pid_str.
-
-rdt_last_cmd_printf("Task list parsing error pid %s\n", pid_str);
-
-Thanks
-
-Babu
-
-
+On Wed, Aug 30, 2023 at 08:32:00PM +0800, Billy Tsai wrote:=0A=
+>> From: Naresh Solanki <naresh.solanki@9elements.com>=0A=
+>> =0A=
+>> Add common fan properties bindings to a schema.=0A=
+>> =0A=
+>> Bindings for fan controllers can reference the common schema for the=0A=
+>> fan=0A=
+>> =0A=
+>> child nodes:=0A=
+>> =0A=
+>>   patternProperties:=0A=
+>>     "^fan@[0-2]":=0A=
+>>       type: object=0A=
+>>       $ref: fan-common.yaml#=0A=
+=0A=
+>        unevaluatedProperties: false=0A=
+=0A=
+OK, I will add this.=0A=
+=0A=
+>> =0A=
+>> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>=0A=
+>> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>=0A=
+>> ---=0A=
+>>  .../devicetree/bindings/hwmon/fan-common.yaml | 63 +++++++++++++++++++=
+=0A=
+>>  1 file changed, 63 insertions(+)=0A=
+>>  create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.y=
+aml=0A=
+>> =0A=
+>> diff --git a/Documentation/devicetree/bindings/hwmon/fan-common.yaml b/D=
+ocumentation/devicetree/bindings/>hwmon/fan-common.yaml=0A=
+>> new file mode 100644=0A=
+>> index 000000000000..a69b4d553e45=0A=
+>> --- /dev/null=0A=
+>> +++ b/Documentation/devicetree/bindings/hwmon/fan-common.yaml=0A=
+>> @@ -0,0 +1,63 @@=0A=
+>> +# SPDX-License-Identifier: GPL-2.0-or-later OR BSD-2-Clause=0A=
+=0A=
+> Drop 'or-later'. It's GPL2 only.=0A=
+=0A=
+OK, I will fix it.=0A=
+=0A=
+>> +%YAML 1.2=0A=
+>> +---=0A=
+>> +$id: http://devicetree.org/schemas/hwmon/fan-common.yaml#=0A=
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#=0A=
+>> +=0A=
+>> +title: Common Fan Properties=0A=
+>> +=0A=
+>> +maintainers:=0A=
+>> +  - Naresh Solanki <naresh.solanki@9elements.com>=0A=
+>> +  - Billy Tsai <billy_tsai@aspeedtech.com>=0A=
+>> +=0A=
+>> +properties:=0A=
+>> +  max-rpm:=0A=
+>> +    description:=0A=
+>> +      Max RPM supported by fan.=0A=
+>> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
+=0A=
+> Physics will limit this to something much less than 2^32. Add some =0A=
+> constraints. 10000?=0A=
+=0A=
+=0A=
+>> +=0A=
+>> +  min-rpm:=0A=
+>> +    description:=0A=
+>> +      Min RPM supported by fan.=0A=
+>> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
+=0A=
+> ditto=0A=
+=0A=
+>> +=0A=
+>> +  pulses-per-revolution:=0A=
+>> +    description:=0A=
+>> +      The number of pulse from fan sensor per revolution.=0A=
+>> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
+=0A=
+>Needs constraints. I assume this is never more than 4 (or 2 even)?=0A=
+=0A=
+Do you think we should add the contraint in the common binding?=0A=
+In my option, the limit of the max/min rpm should be declared by=0A=
+the binding if necessary, because the usage of each fan monitor is=0A=
+based on the connection of the tach pin.=0A=
+=0A=
+=0A=
+>> +  div:=0A=
+=0A=
+> Too generic of a name.=0A=
+=0A=
+>> +    description:=0A=
+>> +      Fan clock divisor=0A=
+=0A=
+> But what is a fan clock?=0A=
+=0A=
+This is the divisor for the tachometer sampling clock, which determines the=
+ sensitivity of the tach pin.=0A=
+So, if the name of the property changes to 'tach-div,' is it acceptable to =
+you?=0A=
+=0A=
+=0A=
+>> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
+>> +=0A=
+>> +  target-rpm:=0A=
+>> +    description:=0A=
+>> +      Target RPM the fan should be configured during driver probe.=0A=
+=0A=
+> What driver? By the time the OS driver runs, a bunch of other boot =0A=
+> software has already run on modern systems. So this value would likely =
+=0A=
+> be used much earlier. The point is that when exactly is outside the =0A=
+> scope of DT. This is "what RPM do I use in case of no other information =
+=0A=
+> (e.g. temperature)".=0A=
+=0A=
+So, the description should be changed to 'The default desired fan speed in =
+RPM,'=0A=
+and we shouldn't mention the timing of the property's operation in the DT, =
+is that correct?=0A=
+=0A=
+>> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
+>> +=0A=
+>> +  mode:=0A=
+=0A=
+> Too generic.=0A=
+=0A=
+>> +    description:=0A=
+>> +      Select the operational mode of the fan.=0A=
+=0A=
+> What are modes? Spin and don't spin?=0A=
+=0A=
+The mode is used to indicate the driving mode of the fan (DC, PWM and so on=
+).=0A=
+So, if the name of the property changes to 'fan-driving-mode,' is it accept=
+able to you?=0A=
+=0A=
+>> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
+>> +=0A=
+>> +  pwms:=0A=
+>> +    description:=0A=
+>> +      PWM provider.=0A=
+=0A=
+> maxItems: 1=0A=
+=0A=
+> I don't think there are fans with more than 1 PWM input?=0A=
+=0A=
+Ok, I will add the constraint for the pwm input.=0A=
+=0A=
+>> +=0A=
+>> +  tach-ch:=0A=
+>> +    description:=0A=
+>> +      The tach channel used for the fan.=0A=
+>> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
+=0A=
+> The existing ASpeed version of this property allows more than 1 entry. I =
+=0A=
+> don't understand how a fan would have 2 tach signals, but if so, the =0A=
+> generic property should allow for that.=0A=
+=0A=
+Ok, I will modify it to the uint32-array=0A=
+=0A=
+> Perhaps 'reg' should be defined in here with some text saying 'reg' =0A=
+> corresponds to the fan controller specific id which may be the PWM+TACH =
+=0A=
+> channel, PWM channel (deprecated), or TACH channel. I think there are =0A=
+> examples of all 3 of these cases.=0A=
+=0A=
+I don't think it's necessary for the 'reg' because the case you mentioned i=
+s=0A=
+already covered by the property 'tach-ch' and the 'pwms'.=0A=
+=0A=
+> +=0A=
+> +  label:=0A=
+> +    description:=0A=
+> +      Optional fan label=0A=
+> +=0A=
+> +  fan-supply:=0A=
+> +    description:=0A=
+> +      Power supply for fan.=0A=
+> +=0A=
+> +additionalProperties: true=0A=
+> +=0A=
+> +...=0A=
+> -- =0A=
+> 2.25.1=0A=
+> =0A=
