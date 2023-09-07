@@ -2,156 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFFCEE14A9
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Sep 2023 22:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C7C9EE14D4
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 02:29:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242749AbjIFW7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Sep 2023 18:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40022 "EHLO
+        id S237471AbjIGC3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Sep 2023 22:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbjIFW7T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 18:59:19 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA7819A9;
-        Wed,  6 Sep 2023 15:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694041155; x=1725577155;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iZpacsJmtPibvRYCVTNE2cwagSSO7Bbbq8tQpQEh6CI=;
-  b=jMdG8uWYkmbLcw8PDu2Me4eS7cVHoJLWNjsYqHwXA1IXNl7PgKyjz3tc
-   TB1KLGAHGxVMmTn8bjjxv1qJ8AQUvhWJwTWaQGYuWVSdxMuQb1nhjIzKU
-   a9gW1vN907KAfwbwyt5780n7yXS7VamyunJNlE7p4EB09yvITSXmHItFs
-   4SAtdQacKqxWj5sh1k1xsdAiW/2mfCjRKyS2v39G50tHgokShFkLiREBL
-   x3dce893sHuBfTNd1ZlPGU5m1uwo3ZemhEkZ/GAx45q2P7QK3EAYvaFwC
-   1PtcTJFy4WgTQJ2NWuSsKuHAEqBkuxahJtMLLaIHhzo+iAwUBvf6p89sT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="463582382"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="463582382"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 15:59:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691498791"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="691498791"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 06 Sep 2023 15:59:08 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qe1UI-0000ff-0E;
-        Wed, 06 Sep 2023 22:59:06 +0000
-Date:   Thu, 7 Sep 2023 06:58:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nitesh Shetty <nj.shetty@samsung.com>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
-        mcgrof@kernel.org, gost.dev@samsung.com,
-        Nitesh Shetty <nj.shetty@samsung.com>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Anuj Gupta <anuj20.g@samsung.com>,
-        Vincent Fu <vincent.fu@samsung.com>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v15 12/12] null_blk: add support for copy offload
-Message-ID: <202309070607.akFEF327-lkp@intel.com>
-References: <20230906163844.18754-13-nj.shetty@samsung.com>
+        with ESMTP id S229498AbjIGC3h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Sep 2023 22:29:37 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D746C12C;
+        Wed,  6 Sep 2023 19:29:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58E7C433C8;
+        Thu,  7 Sep 2023 02:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694053772;
+        bh=4jvhHwmojf1N1ScmiTRSf81bUPIFUZAdFcnyTSgTh30=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dp5fJs4bWQca4lDJUBnJZn7y/0m70XnX03LEKYPGjcmIO/TJ76AkgpmSJH369axGd
+         ofP7ksIhxB3n1u4kO3nkzyC7pN0y8NbgQntwcqfqWJpPt0lvSFI8k9EIwKnnYOt/Tr
+         jFBBAKaSwjJ2PxXF2naDgZcFJxN2QHtXrFCyNZrBh0UmTGa7HAQbQPY7KMlEKPSkPk
+         KGGwo+uYKxfd9NwBmgZqSGfyzG7kSPeBOlb6uhcdOabuawy27ruTmVbWl6VZLSfT/y
+         FEKDUGZHH4/RahCdsa8bgxaFqe+EFdUzYq9de/UwZU4H6+LZKu2ttvEw5+7zqWfpal
+         Xwzh0lpSPHWeg==
+From:   SeongJae Park <sj@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>, damon@lists.linux.dev,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/11] mm/damon: misc fixups for documents, comments and its tracepoint
+Date:   Thu,  7 Sep 2023 02:29:18 +0000
+Message-Id: <20230907022929.91361-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230906163844.18754-13-nj.shetty@samsung.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nitesh,
+This patchset contains miscellaneous simple fixups for documents, comments and
+tracepoint of DAMON.
 
-kernel test robot noticed the following build warnings:
+SeongJae Park (11):
+  Docs/admin-guide/mm/damon/usage: fixup missed :ref: keyword
+  Docs/admin-guide/mm/damon/usage: place debugfs usage at the bottom
+  Docs/admin-guide/mm/damon/usage: move debugfs intro to the bottom of
+    the section
+  Docs/mm/damon/design: explicitly introduce ``nr_accesses``
+  Docs/admin-guide/mm/damon/usage: explain the format of damon_aggregate
+    tracepoint
+  Docs/mm/damon/design: add a section for kdamond and DAMON context
+  Docs/admin-guide/mm/damon/usage: link design doc for details of
+    kdamond and context
+  mm/damon/core: fix a comment about damon_set_attrs() call timings
+  mm/damon/core: add more comments for nr_accesses
+  mm/damon/core: remove duplicated comment for watermarks-based
+    deactivation
+  mm/damon/core: remove 'struct target *' parameter from
+    damon_aggregated tracepoint
 
-[auto build test WARNING on c50216cfa084d5eb67dc10e646a3283da1595bb6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230907-015817
-base:   c50216cfa084d5eb67dc10e646a3283da1595bb6
-patch link:    https://lore.kernel.org/r/20230906163844.18754-13-nj.shetty%40samsung.com
-patch subject: [PATCH v15 12/12] null_blk: add support for copy offload
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070607.akFEF327-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/define_trace.h:102,
-                    from drivers/block/null_blk/trace.h:104,
-                    from drivers/block/null_blk/main.c:15:
-   drivers/block/null_blk/./trace.h: In function 'trace_raw_output_nullb_copy_op':
->> drivers/block/null_blk/./trace.h:91:27: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
-      45 |                              PARAMS(print));                   \
-         |                              ^~~~~~
-   drivers/block/null_blk/./trace.h:73:1: note: in expansion of macro 'TRACE_EVENT'
-      73 | TRACE_EVENT(nullb_copy_op,
-         | ^~~~~~~~~~~
-   drivers/block/null_blk/./trace.h:91:17: note: in expansion of macro 'TP_printk'
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                 ^~~~~~~~~
-   In file included from include/trace/trace_events.h:237:
-   drivers/block/null_blk/./trace.h:91:68: note: format string is defined here
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                                                                  ~~^
-         |                                                                    |
-         |                                                                    long unsigned int
-         |                                                                  %u
+ Documentation/admin-guide/mm/damon/usage.rst | 86 +++++++++++---------
+ Documentation/mm/damon/design.rst            | 23 +++++-
+ include/linux/damon.h                        | 22 ++---
+ include/trace/events/damon.h                 |  6 +-
+ mm/damon/core.c                              |  8 +-
+ 5 files changed, 90 insertions(+), 55 deletions(-)
 
 
-vim +91 drivers/block/null_blk/./trace.h
-
-    72	
-    73	TRACE_EVENT(nullb_copy_op,
-    74			TP_PROTO(struct request *req,
-    75				 sector_t dst, sector_t src, size_t len),
-    76			TP_ARGS(req, dst, src, len),
-    77			TP_STRUCT__entry(
-    78					 __array(char, disk, DISK_NAME_LEN)
-    79					 __field(enum req_op, op)
-    80					 __field(sector_t, dst)
-    81					 __field(sector_t, src)
-    82					 __field(size_t, len)
-    83			),
-    84			TP_fast_assign(
-    85				       __entry->op = req_op(req);
-    86				       __assign_disk_name(__entry->disk, req->q->disk);
-    87				       __entry->dst = dst;
-    88				       __entry->src = src;
-    89				       __entry->len = len;
-    90			),
-  > 91			TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-    92				  __print_disk_name(__entry->disk),
-    93				  blk_op_str(__entry->op),
-    94				  __entry->dst, __entry->src, __entry->len)
-    95	);
-    96	#endif /* _TRACE_NULLB_H */
-    97	
-
+base-commit: ac8e8303c9c11b5c2e1d2e110866eb66c9fd771e
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
