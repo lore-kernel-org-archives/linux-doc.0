@@ -2,176 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40679EC873B
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 15:37:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12018EC873B
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 15:37:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232817AbjIGPhW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 11:37:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52092 "EHLO
+        id S233660AbjIGPhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 11:37:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343599AbjIGPag (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 11:30:36 -0400
+        with ESMTP id S1345280AbjIGPfV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 11:35:21 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 552181BCA;
-        Thu,  7 Sep 2023 08:30:10 -0700 (PDT)
-Received: from [100.126.43.34] (fooishbar.org [176.58.101.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5C51FD7;
+        Thu,  7 Sep 2023 08:34:49 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        (Authenticated sender: daniels)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9191A6607303;
-        Thu,  7 Sep 2023 12:40:05 +0100 (BST)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 143D166072F8;
+        Thu,  7 Sep 2023 11:46:40 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1694086806;
-        bh=x7HmtDk+/L753kx6qpsqNqd9JfrlYkvhjpKDB4v0o3c=;
+        s=mail; t=1694083601;
+        bh=2hPXnQEkAUOISA9uLrJm8cZfdkF/pQpShzz3sVJQr08=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VLmN0SF/LLpdCPr1G0Ibp2FEoaOVF19k5YefjGDuziOHGFNwwbZFk8fMTlInzwtEr
-         qCVv5V09tVupfFpgYIXCE2Oi9J3a2E21gdIT2MLR5BB6gSHXUPkn8laGzk2hj0VdWn
-         nIW89OkP9Th2PNol0U7Ob93GDqOTF2l8vBs/wqnWfhQDUc9Taiv0dkycu0qYwmynq+
-         7JVIaARIbQX1bPe4h7bxH0iyVIeFeEBINAMhFtFOU619IdM9OW1so+s1X3g32Ptd5d
-         mxzEnmAMZGjAp3sfxgfJBqN60iBixl3ohnBYi3a4nE9cidbR7CP61qMIqbRFkOXWAl
-         upKAuATZbxFWA==
-Message-ID: <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
-Date:   Thu, 7 Sep 2023 13:40:02 +0200
+        b=XDbzvsjyiXngBH29KcKNLuh/kqUeM1vbRDtSOTKSb8Ajfk+NEDnHE2FEdK+RpCqkz
+         zaaduzHlimmMz43g+AaZoJQrIvNr/marM4fQwLjCUNahOIrEZVt5rb372yO2//kPnE
+         P85dh+CkEgQFsE+h8Ao8gq5s+Fg0gzV6P2ss6wOEFpuTVidEcXz6KAhuUkBhD9S438
+         AyMxKvltsDGxrz9zHhg3MAWJaISGh+0U7NrqkDH5Qr4f21Oyd13CW8/vS8GLomA86/
+         yAZq7D5ZPLyDvYSywyyUnGXga0Tv381OyDxBRiZt1iv4d5losFQBa+vpmPnJ0JYDar
+         i1DnriQCy/jpA==
+Message-ID: <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
+Date:   Thu, 7 Sep 2023 12:46:37 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
 Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        Helen Koike <helen.koike@collabora.com>
-Cc:     Maxime Ripard <mripard@kernel.org>, emma@anholt.net,
-        linux-doc@vger.kernel.org, vignesh.raman@collabora.com,
-        dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io,
-        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
-        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
-        david.heidelberg@collabora.com, linux-rockchip@lists.infradead.org,
-        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
-        anholt@google.com, linux-mediatek@lists.infradead.org,
-        matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org,
-        gustavo.padovan@collabora.com,
+To:     Vignesh Raman <vignesh.raman@collabora.com>,
+        dri-devel@lists.freedesktop.org,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     helen.koike@collabora.com, guilherme.gallo@collabora.com,
+        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+        daniels@collabora.com, emma@anholt.net, robclark@freedesktop.org,
+        gustavo.padovan@collabora.com, robdclark@google.com,
+        anholt@google.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+        daniel@ffwll.ch, corbet@lwn.net, neil.armstrong@linaro.org,
+        khilman@baylibre.com, jbrunet@baylibre.com,
+        martin.blumenstingl@googlemail.com, heiko@sntech.de,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de
-References: <20230811171953.176431-1-helen.koike@collabora.com>
- <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
- <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
- <87bkeo23vs.fsf@intel.com>
- <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
- <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
- <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
- <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com>
- <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
-From:   Daniel Stone <daniels@collabora.com>
-In-Reply-To: <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org
+References: <20230825122435.316272-1-vignesh.raman@collabora.com>
+ <20230825122435.316272-5-vignesh.raman@collabora.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230825122435.316272-5-vignesh.raman@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Il 25/08/23 14:24, Vignesh Raman ha scritto:
+> Enable regulator
+> Enable MT6397 RTC driver
+> 
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> ---
+>   drivers/gpu/drm/ci/arm64.config | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+> index 817e18ddfd4f..ea7a6cceff40 100644
+> --- a/drivers/gpu/drm/ci/arm64.config
+> +++ b/drivers/gpu/drm/ci/arm64.config
+> @@ -184,6 +184,8 @@ CONFIG_HW_RANDOM_MTK=y
+>   CONFIG_MTK_DEVAPC=y
+>   CONFIG_PWM_MTK_DISP=y
+>   CONFIG_MTK_CMDQ=y
+> +CONFIG_REGULATOR_DA9211=y
+> +CONFIG_RTC_DRV_MT6397=y
 
-On 04/09/2023 09:54, Daniel Vetter wrote:
-> On Wed, 30 Aug 2023 at 17:14, Helen Koike <helen.koike@collabora.com>  > wrote: >> >> On 30/08/2023 11:57, Maxime Ripard wrote: >>> >>> I 
-agree that we need a baseline, but that baseline should be >>> defined 
-by the tests own merits, not their outcome on a >>> particular platform. 
- >>> >>> In other words, I want all drivers to follow that baseline, and 
- >>> if they don't it's a bug we should fix, and we should be vocal >>> 
-about it. We shouldn't ignore the test because it's broken. >>> >>> 
-Going back to the example I used previously, >>> 
-kms_hdmi_inject@inject-4k shouldn't fail on mt8173, ever. That's >>> a 
-bug. Ignoring it and reporting that "all tests are good" isn't >>> ok. 
-There's something wrong with that driver and we should fix >>> it. >>> 
- >>> Or at the very least, explain in much details what is the >>> 
-breakage, how we noticed it, why we can't fix it, and how to >>> 
-reproduce it. >>> >>> Because in its current state, there's no chance 
-we'll ever go >>> over that test list and remove some of them. Or even 
-know if, if >>> we ever fix a bug somewhere, we should remove a flaky or 
-failing >>> test. >>> >>> [...] >>> >>>> we need to have a clear view 
-about which tests are not >>>> corresponding to it, so we can start 
-fixing. First we need to >>>> be aware of the issues so we can start 
-fixing them, otherwise >>>> we will stay in the "no tests no failures" 
-ground :) >>> >>> I think we have somewhat contradicting goals. You want 
-to make >>> regression testing, so whatever test used to work in the 
-past >>> should keep working. That's fine, but it's different from >>> 
-"expectations about what the DRM drivers are supposed to pass in >>> the 
-IGT test suite" which is about validation, ie "all KMS >>> drivers must 
-behave this way". >> >> [...] >> >> >> We could have some policy: if you 
-want to enable a certain device >> in the CI, you need to make sure it 
-passes all tests first to force >> people to go fix the issues, but 
-maybe it would be a big barrier. >> >> I'm afraid that, if a test fail 
-(and it is a clear bug), people >> would just say "work for most of the 
-cases, this is not a priority >> to fix" and just start ignoring the CI, 
-this is why I think >> regression tests is a good way to start with. > > 
-I think eventually we need to get to both goals, but currently > driver 
-and test quality just isn't remotely there. > > I think a good approach 
-would be if CI work focuses on the pure sw > tests first, so kunit and 
-running igt against vgem/vkms. And then we > could use that to polish a 
-set of must-pass igt testcases, which > also drivers in general are 
-supposed to pass. Plus ideally weed out > the bad igts that aren't 
-reliable enough or have bad assumptions. > > For hardware I think it 
-will take a very long time until we get to a > point where CI can work 
-without a test result list, we're nowhere > close to that. But for 
-virtual driver this really should be > achievable, albeit with a huge 
-amount of effort required to get > there I think.
-Yeah, this is what our experience with Mesa (in particular) has taught us.
+I wonder if it'd be a better idea to simply add those to the defconfig instead as
 
-Having 100% of the tests pass 100% of the time on 100% of the platforms 
-is a great goal that everyone should aim for. But it will also never happen.
+CONFIG_REGULATOR_DA9211=m
+CONFIG_RTC_DRV_MT6397=m
 
-Firstly, we're just not there yet today. Every single GPU-side DRM 
-driver has userspace-triggerable faults which cause occasional errors in 
-GL/Vulkan tests. Every single one. We deal with these in Mesa by 
-retrying; if we didn't retry, across the breadth of hardware we test, 
-I'd expect 99% of should-succeed merges to fail because of these 
-intermittent bugs in the DRM drivers. We don't have the same figure for 
-KMS - because we don't test it - but I'd be willing to bet no driver is 
-100% if you run tests often enough.
-
-Secondly, we will never be there. If we could pause for five years and 
-sit down making all the current usecases for all the current hardware on 
-the current kernel run perfectly, we'd probably get there. But we can't: 
-there's new hardware, new userspace, and hundreds of new kernel trees. 
-Even without the first two, what happens when the Arm SMMU maintainers 
-(choosing a random target to pick on, sorry Robin) introduce subtle 
-breakage which makes a lot of tests fail some of the time? Do we refuse 
-to backmerge Linus into DRM until it's fixed, or do we disable all 
-testing on Arm until it's fixed? When we've done that, what happens when 
-we re-enable testing, and discover that a bunch of tests get broken 
-because we haven't been testing?
-
-Thirdly, hardware is capricious. 'This board doesn't make it to u-boot' 
-is a clear infrastructure error, but if you test at sufficient scale, 
-cold solder or failing caps surface way more often than you might think. 
-And you can't really pick those out by any other means than running at 
-scale, dealing with non-binary results, and looking at the trends over 
-time. (Again this is something we do in Mesa - we graph test failures 
-per DUT, look for outliers, and pull DUTs out of the rotation when 
-they're clearly defective. But that only works if you actually run 
-enough tests on them in the first place to discover trends - if you stop 
-at the first failed test, it's impossible to tell the difference between 
-'infuriatingly infrequent kernel/test bug?' and 'cracked main board 
-maybe?'.)
-
-What we do know is that we _can_ classify tests four ways in 
-expectations. Always-passing tests should always pass. Always-failing 
-tests should always fail (and update the expectations if you make them 
-pass). Flaking tests work often enough that they'll always pass if you 
-run them a couple/few times, but fail often enough that you can't rely 
-on them. Then you just skip tests which exhibit catastrophic failure 
-i.e. local DoS which affects the whole test suite.
-
-By keeping those sets of expectations, we've been able to keep Mesa 
-pretty clear of regressions, whilst having a very clear set of things 
-that should be fixed to point to. It would be great if those set of 
-things were zero, but it just isn't. Having that is far better than the 
-two alternatives: either not testing at all (obviously bad), or having 
-the test always be red so it's always ignored (might as well just not test).
-
+Any opinion on this? Matthias? Anyone else?
 
 Cheers,
+Angelo
 
-Daniel
+>   
+>   # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
+>   CONFIG_ARCH_TEGRA=y
 
 
