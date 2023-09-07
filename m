@@ -2,158 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E691FEC8738
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACE1EC873F
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:05:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233194AbjIGQFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:05:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42162 "EHLO
+        id S232605AbjIGQFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:05:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236859AbjIGQEd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:04:33 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD8F6A76;
-        Thu,  7 Sep 2023 08:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694102023; x=1725638023;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=4Zc2NSQczgzpNCTjAeZ+vgoDDV24z7zZmEzSqmTWoV8=;
-  b=UdfaggH2VB5SmzXi54f6JDs0yVt0a/jKfSP4xHqye9vADx4Kr3u8pl4e
-   2s3kgggxgOE9fiEerRwc/BjSXHuvhgvg+h71NJKRD6jpIR7bkzi7QymOp
-   jfqlPN/rn57HrUVze4IQDcGiFuNopiowLupxs8uV8FQDWGVHJdi4Snvu6
-   gbwVQ+f7nkW1HpaoZ3mM2ViWukJZq6GrjhLuyv90WrFiSEg+wDDJaQ1WM
-   +yCPNGZaZqlC7A+kTSTKR67A6fp7aU5yoB+y0jLmFoySzrqD2cbbkcZ32
-   FkFQZQpPe59/A0o0/FiFfUi5NXd1tp7AJ60NvGjlE5oYIs+cQJh94ZWhm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="356825430"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="356825430"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 06:16:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691782245"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="691782245"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 06:16:00 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Donald Robson <Donald.Robson@imgtec.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Sarah Walker <Sarah.Walker@imgtec.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "mripard@kernel.org" <mripard@kernel.org>,
-        "matthew.brost@intel.com" <matthew.brost@intel.com>,
-        "afd@ti.com" <afd@ti.com>, "hns@goldelico.com" <hns@goldelico.com>,
-        Matt Coster <Matt.Coster@imgtec.com>,
-        "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "dakr@redhat.com" <dakr@redhat.com>,
-        "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>
-Subject: Re: [PATCH v6 02/20] drm/gpuva_mgr: Helper to get range of unmap
- from a remap op.
-In-Reply-To: <5b7f431f26eea296193d9e49ea85e0377e6ebcf0.camel@imgtec.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
- <20230906095542.3280699-3-sarah.walker@imgtec.com>
- <87a5tygoyx.fsf@intel.com>
- <5b7f431f26eea296193d9e49ea85e0377e6ebcf0.camel@imgtec.com>
-Date:   Thu, 07 Sep 2023 16:15:57 +0300
-Message-ID: <877cp2gm42.fsf@intel.com>
+        with ESMTP id S236811AbjIGQFR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:05:17 -0400
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A1233136;
+        Thu,  7 Sep 2023 08:55:29 -0700 (PDT)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1bee82fad0fso9376055ad.2;
+        Thu, 07 Sep 2023 08:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694102003; x=1694706803; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=68ien6P8EjWPgIgg6+cN/j6LlnAbZ2VKZ0DZlOp5E4Y=;
+        b=c4BbTeHH+WMIHOf15HGBpiSF7SH3A/TufNuq/vqGFb1F7RLNEFWEiLhCyG8uU+JWjm
+         abO5H7EEUwRu1759JtTSlJ8QgaQrBs92ur6LgVdLvvAZ7w1BPnkzMONVlwg41BZhBPgY
+         z5TeumX0DTmj/p/3tjd3R+v2U6UciuOjrn3Fs6lN7/eWXVP0+YH4lFUel1LkSZwcWPaL
+         UDrqdb2EfJW3sm85qYiGhGWMoJaIC7uLNrOpwBRrqna8drxjNQRYZ8PXtk1DdxlOx2aa
+         uPJOfX5wrFoo4vQCkwWo79uxRBNjei1ABuDBr+IYQQYteM3aU4ohTphzObOMDm6ZgVm9
+         8SRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694102003; x=1694706803;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=68ien6P8EjWPgIgg6+cN/j6LlnAbZ2VKZ0DZlOp5E4Y=;
+        b=kX6X7+QyIR1O1r7TlWni7wD2/rHhHikNE0V8I6QO+aI+Akk/PNEUIXigPY7MDeXUDt
+         or0Ql/Ep57n1+qIr2iUISEog/Pu1iz/He7PQ14z+MvB2owWlKj2adYzj3HU9Iuj52Shi
+         l0xRfYMw0P6YeddUd5ucr/chVOm5SDsXXrNXRaHLnNLCowi/LMVJhunxByCGC1aoyJRK
+         B78P73NWgpfl9Q3Cef34fn7n0aNf+6WDLMcK6dJAq49yAOAhwsHWHIbavf1m+fx2cZ+y
+         E8CJqvHzLp+Sty85pESmLA+dhx15AfFkqm0Ufok82RNVK8/EH0wivP+Sk3NWNHad+gEt
+         r2Sw==
+X-Gm-Message-State: AOJu0YyNX4nZzGBcFfBgDAgn+EFOJehkUPCUyxeGeu7c0Qk8LvQNztP/
+        6pJPaUeeSzJsh9cTmOc3cHM6jTOxfo8=
+X-Google-Smtp-Source: AGHT+IEsPigsaCPMfm4kXxqxwZDH1m2Obx1qY9653d+G+QaYngXT5/XWvrkj8yqDbz8ukOLWnMv2sw==
+X-Received: by 2002:a05:620a:2982:b0:76d:f544:3426 with SMTP id r2-20020a05620a298200b0076df5443426mr23268417qkp.28.1694091541805;
+        Thu, 07 Sep 2023 05:59:01 -0700 (PDT)
+Received: from Gentoo ([154.16.192.36])
+        by smtp.gmail.com with ESMTPSA id e20-20020a05620a12d400b0076d9e298928sm5766763qkl.66.2023.09.07.05.58.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Sep 2023 05:59:01 -0700 (PDT)
+Date:   Thu, 7 Sep 2023 18:28:53 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jesper.juhl@gmail.com
+Subject: Re: [PATCH] Documentation: Process: Add a note about git way of
+ applying patch
+Message-ID: <ZPnJDTcKb5Wf30Zl@Gentoo>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jesper.juhl@gmail.com
+References: <20230907115420.28642-1-unixbhaskar@gmail.com>
+ <87bkee40ac.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="K0i0x7Q1WPm/S9JY"
+Content-Disposition: inline
+In-Reply-To: <87bkee40ac.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 07 Sep 2023, Donald Robson <Donald.Robson@imgtec.com> wrote:
-> On Thu, 2023-09-07 at 15:14 +0300, Jani Nikula wrote:
->> On Wed, 06 Sep 2023, Sarah Walker <sarah.walker@imgtec.com> wrote:
->> > From: Donald Robson <donald.robson@imgtec.com>
->> > 
->> > Signed-off-by: Donald Robson <donald.robson@imgtec.com>
->> > ---
->> >  include/drm/drm_gpuva_mgr.h | 27 +++++++++++++++++++++++++++
->> >  1 file changed, 27 insertions(+)
->> > 
->> > diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
->> > index ed8d50200cc3..be7b3a6d7e67 100644
->> > --- a/include/drm/drm_gpuva_mgr.h
->> > +++ b/include/drm/drm_gpuva_mgr.h
->> > @@ -703,4 +703,31 @@ void drm_gpuva_remap(struct drm_gpuva *prev,
->> >  
->> >  void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
->> >  
->> > +/**
->> > + * drm_gpuva_op_remap_get_unmap_range() - Helper to get the start and range of
->> > + * the unmap stage of a remap op.
->> > + * @op: Remap op.
->> > + * @start_addr: Output pointer for the start of the required unmap.
->> > + * @range: Output pointer for the length of the required unmap.
->> > + *
->> > + * These parameters can then be used by the caller to unmap memory pages that
->> > + * are no longer required.
->> > + */
->> > +static __always_inline void
->> 
->> IMO __always_inline *always* requires a justification in the commit
->> message.
->> 
->> BR,
->> Jani.
+
+--K0i0x7Q1WPm/S9JY
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+
+On 06:48 Thu 07 Sep 2023, Jonathan Corbet wrote:
+>Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
 >
-> Hi Jani,
-> I went with __always_inline because I can't see this being used more than once per driver.
-> I can add that to the commit message, but is that suitable justification? I could move
-> it to the source file or make it a macro if you prefer.
+>> cc: jesper.juhl@gmail.com
+>>
+>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>> ---
+>>  Documentation/process/applying-patches.rst | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
+>> index c269f5e1a0a3..201b9900bffe 100644
+>> --- a/Documentation/process/applying-patches.rst
+>> +++ b/Documentation/process/applying-patches.rst
+>> @@ -6,6 +6,13 @@ Applying Patches To The Linux Kernel
+>>  Original by:
+>>  	Jesper Juhl, August 2005
+>>
+>> +
+>> +.. applying patch by Git::
+>> +
+>> +    You can use the below syntax to patch in git repository
+>> +    git-apply --whitespace=error-all <patchfile>
+>> +
+>> +
+>>  .. note::
+>>
+>>     This document is obsolete.  In most cases, rather than using ``patch``
+>
+>So why are you sending a patch ... with no changelog
 
-My personal opinion is that static inlines in general should always have
-a performance justification. If there isn't one, it should be a regular
-function. Static inlines leak the abstractions and often make the header
-dependencies worse.
-
-Not everyone agrees, of course.
-
-More than anything I was looking for justification on __always_inline
-rather than just inline, though.
+My bad. Realized it once send it.
 
 
-BR,
-Jani.
+>to a document that is explicitly marked as being obsolete?
+
+I thought if people visit that page , that note might help.
+
+Are we taking out that page from the doc? Why that page is still there?
 
 
+>jon
 
-> Thanks,
-> Donald
->> 
->> 
->> > +drm_gpuva_op_remap_get_unmap_range(const struct drm_gpuva_op_remap *op,
->> > +				   u64 *start_addr, u64 *range)
->> > +{
->> > +	const u64 va_start = op->prev ?
->> > +			     op->prev->va.addr + op->prev->va.range :
->> > +			     op->unmap->va->va.addr;
->> > +	const u64 va_end = op->next ?
->> > +			   op->next->va.addr :
->> > +			   op->unmap->va->va.addr + op->unmap->va->va.range;
->> > +
->> > +	if (start_addr)
->> > +		*start_addr = va_start;
->> > +	if (range)
->> > +		*range = va_end - va_start;
->> > +}
->> > +
->> >  #endif /* __DRM_GPUVA_MGR_H__ */
+--
+Thanks,
+Bhaskar
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+"Here's looking at you kid"-- Casablanca
+https://about.me/unixbhaskar
+
+--K0i0x7Q1WPm/S9JY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmT5yQ0ACgkQsjqdtxFL
+KRX2DAf+I8IZr0j+AMDxxdMnRNECiZQBaAaKvCssIKADPSyXaMlfV5809rCbuEIT
+v6pv9siThkZ8oIADhTjumfLgWTPxc+1vAEqkSvLXVP6Al2EEGzofc3/+9MtyGQr7
+geHwBRopaOlp+vdWFlSzkQHc68Y1QQsPKXXEQdbD4WD3Ps8jD7h/fOhB3L4D+WZ0
+8ODxp6olt16xArLSYc4/fw5d+Jf0LSDh4Zz80WFtgvRFcvpGGX4zsC0hy/+qTJd+
+Bw2FIhmmRxL51aK+t+1Su8PQh88Jngl5LJwjdKRoMqQulemc63gPkvMLAGVe3bZU
+I8l0k3rbKUBdVL+QNOqZjmXKT+KyFg==
+=n5Yg
+-----END PGP SIGNATURE-----
+
+--K0i0x7Q1WPm/S9JY--
