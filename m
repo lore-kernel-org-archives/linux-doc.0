@@ -2,80 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAEFEC873D
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:38:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BACE0EC873E
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:46:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241373AbjIGQiq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:38:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44172 "EHLO
+        id S238913AbjIGQqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:46:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244125AbjIGQiU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:38:20 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB264694;
-        Thu,  7 Sep 2023 09:26:29 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F19E12E0;
-        Thu,  7 Sep 2023 12:48:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F19E12E0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1694090892; bh=JysPJRxXrczQoAPmvqIYhM9DcAdktvVPirtxUtRrSuU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=gq1rdGWSBptK8bB4PeNqahqtX1h9qLqu+1xycBkYyqsLa4s2keClWk6Y2GMOTUJx3
-         /4TUy131r9C92oxQ9pcn9PAmArhMmEE6h3ANtn+nx6bTAwu2KCGdBPSXvltnsLKev5
-         WRjrdoqmsi6U+YAfOww83Z4m9Mj803LQhWu9aaGZDeWL09HBFquwqIfwtpVfJj+nmM
-         3orype6boAO/OJSe38ttkzvGjXPa+hk1wRP0lTs2PRBz5eZrjo/ZOnqJD/wyxm9iaV
-         eHeJAHoUIT3J8xMWyecyLz+LdemPc9Ku8+En66auar1NkZUVrk8XmacEkblgQranzJ
-         gdfvZWjzzwyBg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, jesper.juhl@gmail.com
-Subject: Re: [PATCH] Documentation: Process: Add a note about git way of
- applying patch
-In-Reply-To: <20230907115420.28642-1-unixbhaskar@gmail.com>
-References: <20230907115420.28642-1-unixbhaskar@gmail.com>
-Date:   Thu, 07 Sep 2023 06:48:11 -0600
-Message-ID: <87bkee40ac.fsf@meer.lwn.net>
+        with ESMTP id S236693AbjIGQqU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:46:20 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AEF7683;
+        Thu,  7 Sep 2023 09:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694103600; x=1725639600;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=DBrL4mS557cxBvRouvwV9QF+iy39q5mSe7MPFfBAAyY=;
+  b=lfdlF99KklkzalsqntVN6PKzyH0ow+w0VQACqIar0NT6NHtTXD9DM89u
+   y4/rNSXkpy7fnGUQb+gEXAOrp0rLGDajdtaV+SJW9eXAVoG5KlzA/OmeJ
+   CztiZMrVmqnEA3cQgIyJlj+RpIB6exyUvDjoiM3Q3gpDJ/eVr5qIo7txc
+   kdIFkreJGQD0nOhXfdweFSh0LJRWm9Q4/ywY1k3xUbus2dgycbJ+8HCnf
+   lJKafiXQGZJ4xVLQ2Qb9uJRsNAEx9HmvnEQhL3eq4tycCVi4g6d4qslDH
+   WWFL8hwaE4hp4b/sUIUHVb2M93dB3GaYnOTKBLXb+Jx7KXJBDWgSGsgMB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="441323679"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="441323679"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 05:14:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="807515912"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="807515912"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 05:14:16 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Sarah Walker <sarah.walker@imgtec.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-doc@vger.kernel.org, hns@goldelico.com,
+        krzysztof.kozlowski+dt@linaro.org, matthew.brost@intel.com,
+        corbet@lwn.net, luben.tuikov@amd.com, dakr@redhat.com,
+        donald.robson@imgtec.com, devicetree@vger.kernel.org,
+        conor+dt@kernel.org, mripard@kernel.org, matt.coster@imgtec.com,
+        robh+dt@kernel.org, faith.ekstrand@collabora.com,
+        linux-kernel@vger.kernel.org, afd@ti.com,
+        boris.brezillon@collabora.com, tzimmermann@suse.de,
+        christian.koenig@amd.com
+Subject: Re: [PATCH v6 02/20] drm/gpuva_mgr: Helper to get range of unmap
+ from a remap op.
+In-Reply-To: <20230906095542.3280699-3-sarah.walker@imgtec.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
+ <20230906095542.3280699-3-sarah.walker@imgtec.com>
+Date:   Thu, 07 Sep 2023 15:14:14 +0300
+Message-ID: <87a5tygoyx.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
-
-> cc: jesper.juhl@gmail.com
+On Wed, 06 Sep 2023, Sarah Walker <sarah.walker@imgtec.com> wrote:
+> From: Donald Robson <donald.robson@imgtec.com>
 >
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 > ---
->  Documentation/process/applying-patches.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  include/drm/drm_gpuva_mgr.h | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 >
-> diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
-> index c269f5e1a0a3..201b9900bffe 100644
-> --- a/Documentation/process/applying-patches.rst
-> +++ b/Documentation/process/applying-patches.rst
-> @@ -6,6 +6,13 @@ Applying Patches To The Linux Kernel
->  Original by:
->  	Jesper Juhl, August 2005
->
-> +
-> +.. applying patch by Git::
-> +
-> +    You can use the below syntax to patch in git repository
-> +    git-apply --whitespace=error-all <patchfile>
-> +
-> +
->  .. note::
->
->     This document is obsolete.  In most cases, rather than using ``patch``
+> diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+> index ed8d50200cc3..be7b3a6d7e67 100644
+> --- a/include/drm/drm_gpuva_mgr.h
+> +++ b/include/drm/drm_gpuva_mgr.h
+> @@ -703,4 +703,31 @@ void drm_gpuva_remap(struct drm_gpuva *prev,
+>  
+>  void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
+>  
+> +/**
+> + * drm_gpuva_op_remap_get_unmap_range() - Helper to get the start and range of
+> + * the unmap stage of a remap op.
+> + * @op: Remap op.
+> + * @start_addr: Output pointer for the start of the required unmap.
+> + * @range: Output pointer for the length of the required unmap.
+> + *
+> + * These parameters can then be used by the caller to unmap memory pages that
+> + * are no longer required.
+> + */
+> +static __always_inline void
 
-So why are you sending a patch ... with no changelog ... adding a
-useless label ... and Sphinx syntax errors ... to a document that is
-explicitly marked as being obsolete?
+IMO __always_inline *always* requires a justification in the commit
+message.
 
-jon
+BR,
+Jani.
+
+
+> +drm_gpuva_op_remap_get_unmap_range(const struct drm_gpuva_op_remap *op,
+> +				   u64 *start_addr, u64 *range)
+> +{
+> +	const u64 va_start = op->prev ?
+> +			     op->prev->va.addr + op->prev->va.range :
+> +			     op->unmap->va->va.addr;
+> +	const u64 va_end = op->next ?
+> +			   op->next->va.addr :
+> +			   op->unmap->va->va.addr + op->unmap->va->va.range;
+> +
+> +	if (start_addr)
+> +		*start_addr = va_start;
+> +	if (range)
+> +		*range = va_end - va_start;
+> +}
+> +
+>  #endif /* __DRM_GPUVA_MGR_H__ */
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
