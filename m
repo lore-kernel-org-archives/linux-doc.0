@@ -2,208 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB0FEC873E
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF6FEC873E
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:23:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240457AbjIGQVl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:21:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39984 "EHLO
+        id S238629AbjIGQYA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:24:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240587AbjIGQVV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:21:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A456EAB;
-        Thu,  7 Sep 2023 09:18:28 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F45EC32793;
-        Thu,  7 Sep 2023 14:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694096489;
-        bh=hSt7wsfPeE4rNbCQRwe/nzPw00nFbicSqlMNJAavVXc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hq4EgHob8Xz11Jt01iQuCv6mdAgm4oyPxYuMOwNfhNmJrHtz+cQCmz6q92IYJ0DLd
-         UazsxN91/INTH9Br2V3olWabeTIVlYJO52nXCQ2ggD1oEuITJAjJLSK7hUiJwPnO70
-         7f8/j8UPOF3UYyDS9X+PWokSTj6zjyAMmkLWkFLpO+CManj6qRNQkyPJ/iJXPiQvre
-         NTMGcZaA/Vt7S7QwsaeayyvOCxNCPVq1Uvxf2tVco+ENRLE9gsTI+Y8UmpebkLC6Z6
-         1iy3Ngf2nAawdUtlOUcF/GiIj00iYxPar/M+w3xxXkAaA1x5UQ9y8sAkfa77+xuvON
-         QhPuYSD+rL/Vw==
-Date:   Thu, 7 Sep 2023 17:20:43 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH] docs/mm: Physical Memory: add "Memory map" section
-Message-ID: <20230907142043.GL3223@kernel.org>
-References: <20230906074210.3051751-1-rppt@kernel.org>
- <87ledjgy93.fsf@meer.lwn.net>
+        with ESMTP id S241914AbjIGQWj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:22:39 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5795C93E3;
+        Thu,  7 Sep 2023 09:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694103602; x=1725639602;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=uAWHLVg1qfsQr0lppp73XqZT9ttK0k7h98NBg8HAtgI=;
+  b=AUwMkgzwv4Zh2BSkJu9Zth87SmNcF9+Iy/+AIzXpjVNfSHnaU9zjx6rX
+   bELmnbzQncte0zzxVJxo1T6ZF3/kA/D/zYPMBiN6HEsW9xpplTbpZmTyc
+   bGygoTxB3tuJLXY0GTX8kQJ0KA3ggmLq5CBjSEptkNOOC7UbpQE16yhOt
+   Wld5TskpoIqjSdY4gZUy+TvE1pG3hRtnkdKcFmrlkHfIO0pkTmBjtR4Hg
+   HOnuBfGj08YfuspvwNERCYLPHSsBktX73YtLggPn530FZkx24f+dpheWd
+   ln5fyO600oNzfYOSqEGzdpwsnPO9cXJ0ZBxTkYbXkoT1t3aQRoR957tpk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="381209252"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="381209252"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 09:19:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="742076980"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="742076980"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Sep 2023 09:19:41 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 7 Sep 2023 09:19:40 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 7 Sep 2023 09:19:40 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Thu, 7 Sep 2023 09:19:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NYM5Z+OaLduQdrLDKxw3NZ7zwrJJIsGdXqzyaBZ96G7PqJbFh/LkGmO222pGuAK2VbFsJnk9ofhL8nTiXvtDXnXfT8Vo2ACg7PQMlFp8NtxL7/J54xh6LQPHUa5B3r9MuByzBY+BcCmTCmf4SG0Hkp5f7ILk99p/JOSJWXaCK+dHrcd/ss5B9o3KXPhmerjrWvfwQ+yGfn6OOXVP9w3pRMTv7hBpLPHXNZjTDFFmZDtiaNbBsyfAY3L3cu2bvkoAAwHKR2YQrR/zua1PPpb4gBYM7CpInhGkZTZ+7drG6AKYn6SeJBfXRuNjbq5ho0tyo49pWBQhTOH/vJq7zRDvrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RISBtQcTAwv8A5xS2dx6TStYjtcN4WAF+2LIL4evQbc=;
+ b=DxWJjwmdBkpg1exjXCoUVVrYw4iC67MVG+nAuqQWaVKWkWdwaVy837whVryN22ak88oNv5SjENS9OHM25iIJXYykjUoeS9mP6UHVtfUrZFrngumB1Af70bKJAcjGfbEdkanTKiNVu1GlfFr53QfkiGpe0d+I2IGCXwZ8k8U+z0DWI1uiac+vAA2rhU+Z34w6AGXdOfNHNikfbxpsI4vXbnl+ihXo3Kir0vztvSQcWO4QHf/0khn7sjE8Wt/1B9PKj0dMRm/klSM5fompN3ml7LPfVXddmQrh9+O7KxtcRNTadwIgcm1hBBk02MsOQj93sSzpAob9UWhmHdKV3F5VBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by CYYPR11MB8358.namprd11.prod.outlook.com (2603:10b6:930:c9::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 7 Sep
+ 2023 16:19:37 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::bbd6:576b:132:74e4]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::bbd6:576b:132:74e4%6]) with mapi id 15.20.6768.029; Thu, 7 Sep 2023
+ 16:19:37 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "x86@kernel.org" <x86@kernel.org>
+CC:     James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH v5 8/8] selftests/resctrl: Adjust effective L3 cache size
+ when SNC enabled
+Thread-Topic: [PATCH v5 8/8] selftests/resctrl: Adjust effective L3 cache size
+ when SNC enabled
+Thread-Index: AQHZ2tLQzZViQZuDwEGXIVxBB0yNB7AO4J8AgAC3GnA=
+Date:   Thu, 7 Sep 2023 16:19:37 +0000
+Message-ID: <SJ1PR11MB60839EB5CC3D172D864DF7A7FCEEA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20230722190740.326190-1-tony.luck@intel.com>
+ <20230829234426.64421-1-tony.luck@intel.com>
+ <20230829234426.64421-9-tony.luck@intel.com>
+ <TYAPR01MB633033C489AAC0E514CBC6688BEEA@TYAPR01MB6330.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB633033C489AAC0E514CBC6688BEEA@TYAPR01MB6330.jpnprd01.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: =?iso-2022-jp?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZl?=
+ =?iso-2022-jp?B?Y2UwNTBfQWN0aW9uSWQ9MmIyMmI5YzItN2VmYy00ZmE4LWI2NzEtMGNh?=
+ =?iso-2022-jp?B?NDA0OTJkOTU5O01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFi?=
+ =?iso-2022-jp?B?NGQtM2IwZjRmZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9h?=
+ =?iso-2022-jp?B?NzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxl?=
+ =?iso-2022-jp?B?ZD10cnVlO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQt?=
+ =?iso-2022-jp?B?M2IwZjRmZWNlMDUwX01ldGhvZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3?=
+ =?iso-2022-jp?B?Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9OYW1lPUZV?=
+ =?iso-2022-jp?B?SklUU1UtUkVTVFJJQ1RFRBskQiJMJT8lUhsoQjtNU0lQX0xhYmVsX2E3?=
+ =?iso-2022-jp?B?Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9TZXREYXRl?=
+ =?iso-2022-jp?B?PTIwMjMtMDktMDdUMDQ6NTA6MzJaO01TSVBfTGFiZWxfYTcyOTVjYzEt?=
+ =?iso-2022-jp?B?ZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX1NpdGVJZD1hMTlmMTIx?=
+ =?iso-2022-jp?B?ZC04MWUxLTQ4NTgtYTlkOC03MzZlMjY3ZmQ0Yzc7?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|CYYPR11MB8358:EE_
+x-ms-office365-filtering-correlation-id: 91d9cdeb-c212-4e8a-166a-08dbafbe3b19
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FrjnczZ4tsyo5K5iaKIWwQipy/trTtDVOD59rIlTAFVm0p3u4QpoXLs8TnM82bUeiKwes6vENWxDSx2Djz2/g6PmFRFnDj4k6ItK5WV7/aRp/0tF/xgMG96d2iUzzC+/MYsX18+E3DUB/qdAibab2sKZ7KTK2W7+2pxG3oza0y4phW9PJ/NcW4lm2sZE+dzXV7OKfZvUHNctWPIC4TM1keOreDKySS3wpIONvocGDAeRyvE47T5ltkjgt+umQE2SHBdK8In+GNS20aRsHnhxMiepYTHDjr5ZZAkTHKN1DDfrG9WR3r5974usBiw7NybGeAjMmsoGDvd3xJifh0Wc5/qvjlyxEQDDMc4hYc5fdRkGrQfCPU1JgaBfBpcbj9G6Vu//tKKspGIqfMwVHZER6a7fIt0v0+UEZe3TYS6F14FUek0Ix7cNrRWbHre2CTsOVg1GpEuae5Fy54ImmkTw6/BAm6szpRct5d0rK++2FwLguvhkl8J1vAXZWDS29cQ3/LefHWbZSjqiDiHVhbl6AvyqLUfVnQ78ooHHmj5isRLZxN4ImQzKZapqDi1h91SD9PctR6lqV0rzcKTryTrrpBD+vVBdGHsG7SGg0uZtmZyWiWCjA9eHZVmrL5EGfz9j
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(366004)(396003)(346002)(376002)(186009)(1800799009)(451199024)(55016003)(33656002)(26005)(86362001)(66556008)(66476007)(54906003)(64756008)(66446008)(66946007)(316002)(76116006)(110136005)(5660300002)(38070700005)(41300700001)(38100700002)(52536014)(4326008)(8676002)(8936002)(6506007)(71200400001)(9686003)(7696005)(122000001)(478600001)(82960400001)(2906002)(4744005)(7416002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-2022-jp?B?Y2hTMDZaYnQvZktteWZ1UE1wUk9KQ0tuTS80elRMUlROdEM2clNTOUNs?=
+ =?iso-2022-jp?B?M3EzelVONWRDOUlJNFJ6cE90cjFERDcrL3NuVWJtazJzWnBzZktuamQ4?=
+ =?iso-2022-jp?B?b05Ecjk2OCtXYkdkMlZpNVhDSkdUbHByYnpRUlllN0xuSWdhRXhZeXhj?=
+ =?iso-2022-jp?B?amNpcWJ1c2daOStJMXpjTytxTVYweU5ZVHd6cWNNaFdJK3Fvb2Naa0g5?=
+ =?iso-2022-jp?B?NlVFNTlrQXVpZ3A5bUc1THNmUXlJSm9mbWxwOUhVaFFqNWFoNmVpd05H?=
+ =?iso-2022-jp?B?R0JqVXJIdzltQjJoMVVwMGxYZEFSQ2RFMitnVGhJWC9YY0ViSnEyRFZw?=
+ =?iso-2022-jp?B?eUQ5WkhiOVUydmNlR0szemZtWUtSUGlObHFhdFZaczNNbDBFUDlYOGpq?=
+ =?iso-2022-jp?B?VktuY1RyUnRhOG5lQ01CZ1RyeGNMd0JXbjFJek1ydXZLVDdNVVhmMXlx?=
+ =?iso-2022-jp?B?LzQ2aFkvc0hadVE2cE8zZWZqT0VmZWhvNE9wV3dmOWs2VG5LTVJkbHJG?=
+ =?iso-2022-jp?B?eHhrNnNpemVzdE9STy9BT3pLczNadlp4REFWcTNkZ1lacEJ0bkZyTDdL?=
+ =?iso-2022-jp?B?TTdFa3RDd0FXWnp4UFVlRms3L3RaQ2hXbVJPN3A1N0RweVpCWjUydXRW?=
+ =?iso-2022-jp?B?UjdiNndybUhiQjhXQUJMejg4NDBhaHEyQVdJb0ZuN3dGWEFPdndmbk0z?=
+ =?iso-2022-jp?B?bTNVbCtWMU9kRUs2YXlNUWhkUW53NS9OdjdSYmZrRkdvQ0pFcVphQkR6?=
+ =?iso-2022-jp?B?NUNiOUtxKzIvaUNMUzJKbENYVUxhdWpLVUpiUmpaZnYvd3RkMjZtTXh2?=
+ =?iso-2022-jp?B?b3krejJJZlNnaDh1UnppeldrL1l2RThyZkM3MlNSUzNtYmR0VXdtYjM1?=
+ =?iso-2022-jp?B?Q2FDOERvSzZ1NEFaa1QrTjRCWk8velRZeTVpMytpeDVxMXVpMUhQQjU2?=
+ =?iso-2022-jp?B?VmNoZkxERmxERFE5a21haURMS3N0RldaUWhHUXdpWWMxUnJlcTdKcmRZ?=
+ =?iso-2022-jp?B?NUJaWGJ3blZVRFpMWjlnVWNzR2NWbGdzSVgvWk5Xc2ZaZzhuVEE3cUZi?=
+ =?iso-2022-jp?B?a3Z2RTd1dE8yemg5TnJheUFuckdLSEJVQnhqdDlUc0ZzN0hzUVhvazNW?=
+ =?iso-2022-jp?B?TU9DMzk3RWZuRWFOeDE0dTJ6bFdLQ09YZkFLeTk3SFdjYk5pVXhVL2p0?=
+ =?iso-2022-jp?B?dXp1OXBvZENnS0Q5SEd6WWhtRE4rTkd2V1g4d01COW9BNW5mM3ZTNGcy?=
+ =?iso-2022-jp?B?enVZNGtFaFMrWndZRXh3MGtuZDdCZUp1QXFydVBnNEhzK0lRNHhMRDNh?=
+ =?iso-2022-jp?B?RDZIMysvWFJSOGdNYUtOUDRvbG8wOWY3L3BRS2d5bll3bnZWN3ExM1ZI?=
+ =?iso-2022-jp?B?aDVnSmhITExtbXV5TW9sNytqVnBEN1FxWW1aUHhQODlwNTR3WGVKa0Jj?=
+ =?iso-2022-jp?B?TzFHa1VQNmVGdFQwOHdyQjFLWmZkTDF3K3U2ZFlxbkZta3VLd1ZydTMz?=
+ =?iso-2022-jp?B?NGZpUzNPdTlES1FHU05aTlFYVHAvWS9nZG5EWkVOSDVBY05qUkdoQ0px?=
+ =?iso-2022-jp?B?UjFhc2g2eVRXS2kwRmdTVjAyWUFzcXVLcFdieFdwRHJRN3NFcW0vSi9v?=
+ =?iso-2022-jp?B?UlU1Sng1NE9DRHo2OFRNRXJ5aDMzOGxSWmp0Q05Pa0ozOU13eldsR1k2?=
+ =?iso-2022-jp?B?UUpUTXRWWVcrU3d6OWhiRjhyUk5uRUNXVnBROFBaKzdPL01teXRMZHJZ?=
+ =?iso-2022-jp?B?UHF2aHNXeldhcHBXdEFhUy9XOFRCU3pSZjg4eDNoNmRjeWI4TDNRdjBi?=
+ =?iso-2022-jp?B?TlBlWFBqajJmZ2U0YXZCcjlqdTdWaUhWSDdhT256SVg0cGNVS3l4QjZj?=
+ =?iso-2022-jp?B?T3Z4NFI1R3RURi9NT3lBSVFyRHRoalVWRTZSUXlOLzRZdm1sT1ZVNm82?=
+ =?iso-2022-jp?B?QjI3MklMSHpCaXEzaDR1cjM3SUhEbU54VjZYMTY0NzhNU1FpeVc1SkU1?=
+ =?iso-2022-jp?B?Z0Q2RWF3UWgyUGN5bExBTmNFcVdyL2pMblhqTUllVTJGekdvdk0rcHhO?=
+ =?iso-2022-jp?B?TU90L092QW10RlQ0Uk1aQ2RTeS91SytBbnVvYzNQRTdJWThzdW4rVmJU?=
+ =?iso-2022-jp?B?Qyt3RnRXb01xSk9SMVdReXF6c1IxcXZ5RGIwQ1hCK0lGWWRCd3dSWnc5?=
+ =?iso-2022-jp?B?RU96dVNnMk9GMmZnVk5DbU1nc1hNOVVPalNTWUZ5MGsyZGJnV1lXZmkw?=
+ =?iso-2022-jp?B?bmVYSkpWQTRudXQvTzNGMWxscUVjQ1B5MD0=?=
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ledjgy93.fsf@meer.lwn.net>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91d9cdeb-c212-4e8a-166a-08dbafbe3b19
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2023 16:19:37.2757
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8HXAhJA+wFFB+Jz7vuQdT9D/CGzirx6UsIglZDfFo4BfAjqF4D1z8u/o7NxDaGBKK6eoNnr/nGmppMwPw0xBNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8358
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 06, 2023 at 08:41:28AM -0600, Jonathan Corbet wrote:
-> Mike Rapoport <rppt@kernel.org> writes:
-> 
-> > From: "Mike Rapoport (IBM)" <rppt@kernel.org>
-> >
-> > Briefly describe memory map and add sub-sections for pages, folios and
-> > ptdescs.
-> >
-> > Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> > ---
-> >  Documentation/mm/physical_memory.rst | 338 ++++++++++++++++++++++++++-
-> >  1 file changed, 332 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
-> > index 531e73b003dd..e3318897bf57 100644
-> > --- a/Documentation/mm/physical_memory.rst
-> > +++ b/Documentation/mm/physical_memory.rst
-> 
-> > +the selection of the memory model. Memory models are described in more
-> > +detail in Documentation/mm/memory-model.rst
-> > +
-> > +The basic memory descriptor is called :ref:`struct page <Pages>` and it is
-> > +essentially a union of several structures, each representing a page frame
-> > +metadata for a paricular usage.
-> > +
-> > +In many cases the entries in the memory map are not treated as `struct page`,
-> > +but rather as different types of descriptors such as :ref:`struct folio
-> > +<Folios>`, :ref:`struct ptdesc <ptdesc>` or `struct slab`.
-> 
-> I would hope that just saying "struct folio" would do the right thing;
-> did that not happen for you?
+> > +   if (4 * node_cpus >=3D cache_cpus)
+> > +           return 4;
+> > +   else if (2 * node_cpus >=3D cache_cpus)
+> > +           return 2;
+>
+>
+> If "4 * node_cpus >=3D cache_cpus " is not true=1B$B!$=1B(B
+> "2 * node_cpus >=3D cache_cpus" will never be true.
+> Is it the following code?
+>
+> +     if (2 * node_cpus >=3D cache_cpus)
+> +             return 2;
+> +     else if (4 * node_cpus >=3D cache_cpus)
+> +             return 4;
 
-`struct folio` links to core-api/mm-api.rst, I wanted a link to the "Folio"
-section here.
- 
-> > -   This section is incomplete. Please list and describe the appropriate fields.
-> > +Common fields
-> > +~~~~~~~~~~~~~
-> > +
-> > +``flags``
-> > +  This field contains flags which describe the status of the page and
-> > +  additional information about the page, like, for instance, zone, section
-> > +  and node this page belongs to. Several flags determine how the page is
-> > +  used, sometimes in combination with ``page_type`` field. Other flags
-> > +  determine the state of the page, for instance if it is dirty or should be
-> > +  reclaimed, what LRU list this page is on and many others.
-> > +
-> > +  All flags are declared in ``include/linux/page-flags.h``. There are a
-> > +  number of macros defined for testing, clearing and setting the flags. Page
-> > +  flags should not be accessed directly, but only using these macros.
-> 
-> It would sure be nice if we had documentation for what all the flags
-> mean :)
 
-This alone would take another several months :)
- 
-> > +  The layout of the ``flags`` field depends on the kernel configuration. It
-> > +  is affeted by selection of the memory model, section size for SPARSEMEM
-> > +
-> > +``virtual``
-> > +  Virtual address in the kernel direct map. Will be ``NULL`` for highmem
-> > +  pages. Only defined for some architectures.
-> 
-> I'd say virtual is absent more often than present anymore, right?
-> Perhaps it's worth being more explicit about that.  And maybe say to use
-> page_address() rather than accessing it directly?
-> 
-> > +Fields shared between multiple types
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +``_mapcount``
-> > +  If the page can be mapped to userspace, encodes the number of times this
-> > +  page is referenced by a page table.
-> > +  Do not use directly, call page_mapcount().
-> 
-> Have we figured out what mapcount really means yet? :)
+Shaopeng TAN,
 
-It's a number, isn't it? :)
- 
-> > +``mlock_count``
-> > +  Number of times the page has been pinned by mlock().
-> > +
-> > +Pages on free lists used by the page allocator are linked to the relevant
-> > +list with eithter of the two below fields:
-> 
-> Spellcheckers are your friend :)
+Good catch. Your solution is the correct one.
 
-I was sure checkpatch.pl does that :(
- 
-> > +``buddy_list``
-> > +  Links the page to one of the free lists in the buddy allocator. Overlaps
-> > +  with ``lru``.
-> > +
-> > +``pcp_list``
-> > +  Links the page to a per-cpu free list. Overlaps with ``lru``.
-> > +
-> > +``mapping``
-> > +  The file this page belongs to. Can be pagecache or swapcahe. For
-> > +  anonymous memory refers to the `struct anon_vma`.
-> > +  See also ``include/linux/page-flags.h`` for ``PAGE_MAPPING_FLAGS``
-> 
-> It seems like putting in the types for fields like this would be useful;
-> readers of the HTML docs can then follow the links and see what is
-> actually pointed to.
- 
-Does sphinx create references for defines? (presuming someone will add
-kernel-doc description for them)
+Will fix in next post.
 
-> >  Folios
-> > -======
-> > +------
-> 
-> As Willy said, linking to the existing docs might be better here.
- 
-...
- 
-> It's good to see this documentation being filled in!
-> 
-> An overall concern that comes to mind is that you're documenting
-> something that is very much a moving target.  It's already a bit of an
-> awkward fit with the page types that have been split out into their own
-> structures, and will become more so as that work proceeds.  The document
-> seems likely to go out of date quickly.
-
-I hesitated quite a lot about writing this documentation exactly because of
-page types being a moving target. And I decided to give it a go to have
-something that will show up in git grep and hopefully people would update
-the documentation along with the code changes. (Sorry Willy, I know it's
-more work for you).
-
-An alternative is to wait until we completely get rid of struct page and
-have this undocumented for quite some time.
- 
-> I wonder if it might be better to structure it as if the splitting of
-> struct page were already complete, with a section for each page
-> descriptor type, even the ones that don't exist as separate entities
-> yet?  Maybe that would make it easier for people to keep it current as
-> they hack pieces out of struct page?
-
-After reading your and Willy's comments, I think description of the fields
-in "API reference" style is not what I want to see in this document in the
-end. I'd prefer it to target people who want to dig deeper into mm and
-understand how things work rather than how to use them.
-
-That's why I think linking kernel-doc here would be suboptimal here because
-kernel-doc is API reference and does not describe internal workings in the
-majority of cases.
-
-Starting with the comments we have in the code (both kernel-doc and not)
-with some additions and alterations seems to me a good starting point.
-
-Just some thoughts :)
- 
-> Just a thought.
-> 
-> Thanks,
-> 
-> jon
-
--- 
-Sincerely yours,
-Mike.
+-Tony
