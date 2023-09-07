@@ -2,102 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12018EC873B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A4CEC873C
 	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 15:37:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233660AbjIGPhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 11:37:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
+        id S231705AbjIGPhn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 11:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345280AbjIGPfV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 11:35:21 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5C51FD7;
-        Thu,  7 Sep 2023 08:34:49 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        with ESMTP id S243129AbjIGPZV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 11:25:21 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 428CE1990;
+        Thu,  7 Sep 2023 08:25:04 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 143D166072F8;
-        Thu,  7 Sep 2023 11:46:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1694083601;
-        bh=2hPXnQEkAUOISA9uLrJm8cZfdkF/pQpShzz3sVJQr08=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=XDbzvsjyiXngBH29KcKNLuh/kqUeM1vbRDtSOTKSb8Ajfk+NEDnHE2FEdK+RpCqkz
-         zaaduzHlimmMz43g+AaZoJQrIvNr/marM4fQwLjCUNahOIrEZVt5rb372yO2//kPnE
-         P85dh+CkEgQFsE+h8Ao8gq5s+Fg0gzV6P2ss6wOEFpuTVidEcXz6KAhuUkBhD9S438
-         AyMxKvltsDGxrz9zHhg3MAWJaISGh+0U7NrqkDH5Qr4f21Oyd13CW8/vS8GLomA86/
-         yAZq7D5ZPLyDvYSywyyUnGXga0Tv381OyDxBRiZt1iv4d5losFQBa+vpmPnJ0JYDar
-         i1DnriQCy/jpA==
-Message-ID: <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
-Date:   Thu, 7 Sep 2023 12:46:37 +0200
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 1F7E621869;
+        Thu,  7 Sep 2023 15:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1694100294; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=zFcvvMfLX/FLCw89MZD/SftO31WVSjyKM8zaaef4qC0=;
+        b=jnp2YcfgSBGHrqpz0lPrMlO2WAiAnLH5iVvvgzOw4A0LNJAcaIhIAL2PfJWwQMnErcne/D
+        d6Iy5cxt7/mnHfXeO6GKOwiWGZ62czzPOrS5mtYz82g64fG2uLRVcwc+jaVSKc0/vZ7CX5
+        yAfGbYQLBoFhWbc4LrA1JQ7NVZlcV4Q=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CD0B9138FA;
+        Thu,  7 Sep 2023 15:24:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id RkM2MUXr+WSxewAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Thu, 07 Sep 2023 15:24:53 +0000
+Date:   Thu, 7 Sep 2023 17:24:52 +0200
+From:   Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To:     Liu Shixin <liushixin2@huawei.com>
+Cc:     Yosry Ahmed <yosryahmed@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm, memcg: expose swapcache stat for memcg v1
+Message-ID: <mei7epglsl25g4q5xe7pvh4drvnepp6ojuspd5hhfceg2nheui@pnfvj3ttsisj>
+References: <20230902100728.3850149-1-liushixin2@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
-Content-Language: en-US
-To:     Vignesh Raman <vignesh.raman@collabora.com>,
-        dri-devel@lists.freedesktop.org,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     helen.koike@collabora.com, guilherme.gallo@collabora.com,
-        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
-        daniels@collabora.com, emma@anholt.net, robclark@freedesktop.org,
-        gustavo.padovan@collabora.com, robdclark@google.com,
-        anholt@google.com, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-        daniel@ffwll.ch, corbet@lwn.net, neil.armstrong@linaro.org,
-        khilman@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com, heiko@sntech.de,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-rockchip@lists.infradead.org
-References: <20230825122435.316272-1-vignesh.raman@collabora.com>
- <20230825122435.316272-5-vignesh.raman@collabora.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230825122435.316272-5-vignesh.raman@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wxfpj2ogfybqrtvf"
+Content-Disposition: inline
+In-Reply-To: <20230902100728.3850149-1-liushixin2@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Il 25/08/23 14:24, Vignesh Raman ha scritto:
-> Enable regulator
-> Enable MT6397 RTC driver
-> 
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> ---
->   drivers/gpu/drm/ci/arm64.config | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
-> index 817e18ddfd4f..ea7a6cceff40 100644
-> --- a/drivers/gpu/drm/ci/arm64.config
-> +++ b/drivers/gpu/drm/ci/arm64.config
-> @@ -184,6 +184,8 @@ CONFIG_HW_RANDOM_MTK=y
->   CONFIG_MTK_DEVAPC=y
->   CONFIG_PWM_MTK_DISP=y
->   CONFIG_MTK_CMDQ=y
-> +CONFIG_REGULATOR_DA9211=y
-> +CONFIG_RTC_DRV_MT6397=y
 
-I wonder if it'd be a better idea to simply add those to the defconfig instead as
+--wxfpj2ogfybqrtvf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-CONFIG_REGULATOR_DA9211=m
-CONFIG_RTC_DRV_MT6397=m
+Hello.
 
-Any opinion on this? Matthias? Anyone else?
+On Sat, Sep 02, 2023 at 06:07:28PM +0800, Liu Shixin <liushixin2@huawei.com=
+> wrote:
+> Since commit b6038942480e ("mm: memcg: add swapcache stat for memcg v2")
+> adds swapcache stat for the cgroup v2, it seems there is no reason to
+> hide it in memcg v1. Conversely, with swapcached it is more accurate to
+> evaluate the available memory for memcg.
 
-Cheers,
-Angelo
+Hm, since the commit b25806dcd3d5 ("mm: memcontrol: deprecate swapaccountin=
+g=3D0 mode")=20
+do_memsw_account() is synonymous with
+!cgroup_subsys_on_dfl(memory_cgrp_subsys) so its uses in
+memcg1_stat_format can be simplified.
 
->   
->   # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
->   CONFIG_ARCH_TEGRA=y
+Would you mind making your patch into a series with (to keep diffstat
+low ;-)):
+
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4098,8 +4098,6 @@ static void memcg1_stat_format(struct mem_cgroup *mem=
+cg, struct seq_buf *s)
+        for (i =3D 0; i < ARRAY_SIZE(memcg1_stats); i++) {
+                unsigned long nr;
+=20
+-               if (memcg1_stats[i] =3D=3D MEMCG_SWAP && !do_memsw_account(=
+))
+-                       continue;
+                nr =3D memcg_page_state_local(memcg, memcg1_stats[i]);
+                seq_buf_printf(s, "%s %lu\n", memcg1_stat_names[i],
+                           nr * memcg_page_state_unit(memcg1_stats[i]));
+@@ -4122,15 +4120,12 @@ static void memcg1_stat_format(struct mem_cgroup *m=
+emcg, struct seq_buf *s)
+        }
+        seq_buf_printf(s, "hierarchical_memory_limit %llu\n",
+                       (u64)memory * PAGE_SIZE);
+-       if (do_memsw_account())
+-               seq_buf_printf(s, "hierarchical_memsw_limit %llu\n",
+-                              (u64)memsw * PAGE_SIZE);
++       seq_buf_printf(s, "hierarchical_memsw_limit %llu\n",
++                      (u64)memsw * PAGE_SIZE);
+=20
+        for (i =3D 0; i < ARRAY_SIZE(memcg1_stats); i++) {
+                unsigned long nr;
+=20
+-               if (memcg1_stats[i] =3D=3D MEMCG_SWAP && !do_memsw_account(=
+))
+-                       continue;
+                nr =3D memcg_page_state(memcg, memcg1_stats[i]);
+                seq_buf_printf(s, "total_%s %llu\n", memcg1_stat_names[i],
+                           (u64)nr * memcg_page_state_unit(memcg1_stats[i])=
+);
 
 
+Also,
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -4068,6 +4068,9 @@ static const unsigned int memcg1_stats[] =3D {
+>  	WORKINGSET_REFAULT_ANON,
+>  	WORKINGSET_REFAULT_FILE,
+>  	MEMCG_SWAP,
+> +#ifdef CONFIG_SWAP
+> +	NR_SWAPCACHE,
+> +#endif
+>  };
+
+The guard should cover both NR_SWAPCACHE and MEMCG_SWAP or none, no?
+(Similarly in memcg1_stat_names.)
+
+Thanks,
+Michal
+
+
+--wxfpj2ogfybqrtvf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZPnrQgAKCRAGvrMr/1gc
+jn8BAP9ux2iqMVWdi0SIkBy8fzCs7S97CpmXcNHLQr2/54hnqQD/crinaGH5Lq0o
+qJTHnwxhWG1t9D1dZK8ifnirUwdT/wY=
+=KKmU
+-----END PGP SIGNATURE-----
+
+--wxfpj2ogfybqrtvf--
