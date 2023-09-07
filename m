@@ -2,99 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71117EC8746
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:27:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAEFEC873D
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:38:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238022AbjIGQ1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:27:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34528 "EHLO
+        id S241373AbjIGQiq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238169AbjIGQYw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:24:52 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBCF24EE6;
-        Thu,  7 Sep 2023 09:21:37 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B29BC116AA;
-        Thu,  7 Sep 2023 10:20:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694082058;
-        bh=w08iyCZEv2y91XhjG6gytJX/08/uuFNdY7YRHOjrTKg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SVoOSJ9LefWstHF2hTnikgZ/UUNwtOUth5vPxYcufjsTjslUusP7MKDm091Ndjv1q
-         78kLUean1Oc8AnlV8LY0GWc6zu1Qfpc073Z1iT+MgtqAwnVLgMiQVVGnrYveCMxn/N
-         c8fhp/kCn/PoATsQH64OI+p5gHydwnV92anTt+1L3Elxd+AKcgSsInhDqyMS8P3IAo
-         TFybtf55GAyA7GLjEXjySR85zLpTch/rXP8HTvBJYw1rsE6xfhbUVn3q7hpySc9f44
-         CrPl1sz5GpTIM4eHWAMqSuN15v7QaGWsaiynG/2uDQdcBjUyvitKHO1de8bG15fFcr
-         46GOXc5xqg9XA==
-Date:   Thu, 7 Sep 2023 11:20:50 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Sarah Walker <sarah.walker@imgtec.com>
-Cc:     dri-devel@lists.freedesktop.org, frank.binns@imgtec.com,
-        donald.robson@imgtec.com, boris.brezillon@collabora.com,
-        airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, corbet@lwn.net, christian.koenig@amd.com,
-        linus.walleij@linaro.org, matt.coster@imgtec.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, faith.ekstrand@collabora.com,
-        afd@ti.com, hns@goldelico.com, matthew.brost@intel.com,
-        luben.tuikov@amd.com, dakr@redhat.com
-Subject: Re: [PATCH v6 03/20] dt-bindings: gpu: Add Imagination Technologies
- PowerVR/IMG GPU
-Message-ID: <20230907-22495ffd0407dacc5cf1cd12@fedora>
-References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
- <20230906095542.3280699-4-sarah.walker@imgtec.com>
+        with ESMTP id S244125AbjIGQiU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:38:20 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB264694;
+        Thu,  7 Sep 2023 09:26:29 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id F19E12E0;
+        Thu,  7 Sep 2023 12:48:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F19E12E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1694090892; bh=JysPJRxXrczQoAPmvqIYhM9DcAdktvVPirtxUtRrSuU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=gq1rdGWSBptK8bB4PeNqahqtX1h9qLqu+1xycBkYyqsLa4s2keClWk6Y2GMOTUJx3
+         /4TUy131r9C92oxQ9pcn9PAmArhMmEE6h3ANtn+nx6bTAwu2KCGdBPSXvltnsLKev5
+         WRjrdoqmsi6U+YAfOww83Z4m9Mj803LQhWu9aaGZDeWL09HBFquwqIfwtpVfJj+nmM
+         3orype6boAO/OJSe38ttkzvGjXPa+hk1wRP0lTs2PRBz5eZrjo/ZOnqJD/wyxm9iaV
+         eHeJAHoUIT3J8xMWyecyLz+LdemPc9Ku8+En66auar1NkZUVrk8XmacEkblgQranzJ
+         gdfvZWjzzwyBg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, jesper.juhl@gmail.com
+Subject: Re: [PATCH] Documentation: Process: Add a note about git way of
+ applying patch
+In-Reply-To: <20230907115420.28642-1-unixbhaskar@gmail.com>
+References: <20230907115420.28642-1-unixbhaskar@gmail.com>
+Date:   Thu, 07 Sep 2023 06:48:11 -0600
+Message-ID: <87bkee40ac.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="/PgLc/igXG8aid6c"
-Content-Disposition: inline
-In-Reply-To: <20230906095542.3280699-4-sarah.walker@imgtec.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
 
---/PgLc/igXG8aid6c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hey,
-
-On Wed, Sep 06, 2023 at 10:55:25AM +0100, Sarah Walker wrote:
-
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+> cc: jesper.juhl@gmail.com
+>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  Documentation/process/applying-patches.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
+> index c269f5e1a0a3..201b9900bffe 100644
+> --- a/Documentation/process/applying-patches.rst
+> +++ b/Documentation/process/applying-patches.rst
+> @@ -6,6 +6,13 @@ Applying Patches To The Linux Kernel
+>  Original by:
+>  	Jesper Juhl, August 2005
+>
 > +
-> +    gpu: gpu@fd00000 {
+> +.. applying patch by Git::
+> +
+> +    You can use the below syntax to patch in git repository
+> +    git-apply --whitespace=error-all <patchfile>
+> +
+> +
+>  .. note::
+>
+>     This document is obsolete.  In most cases, rather than using ``patch``
 
-This "gpu" label isn't used and can be dropped if you respin.
-Otherwise, this seems fine to me,
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+So why are you sending a patch ... with no changelog ... adding a
+useless label ... and Sphinx syntax errors ... to a document that is
+explicitly marked as being obsolete?
 
-Thanks,
-Conor.
-
-> +        compatible = "ti,am62-gpu", "img,img-axe";
-> +        reg = <0x0fd00000 0x20000>;
-> +        clocks = <&k3_clks 187 0>;
-> +        clock-names = "core";
-> +        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
-> +        power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
-> +    };
-
---/PgLc/igXG8aid6c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZPmkAgAKCRB4tDGHoIJi
-0nQkAP9uKeN6K/WPKUkM5yMV//ie+sobH7mqetqT7BiWIVUj3wD/V2onnXfHh+pl
-bVSIzTHnqcOZIQIgCDr+4Zw1Uj/lTAk=
-=7B7v
------END PGP SIGNATURE-----
-
---/PgLc/igXG8aid6c--
+jon
