@@ -2,92 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8172EC8745
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:25:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71117EC8746
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:27:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238560AbjIGQZf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:25:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50094 "EHLO
+        id S238022AbjIGQ1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:27:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241227AbjIGQYI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:24:08 -0400
+        with ESMTP id S238169AbjIGQYw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:24:52 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 612431FDF;
-        Thu,  7 Sep 2023 09:21:15 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05308C4AF1E;
-        Thu,  7 Sep 2023 13:43:00 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBCF24EE6;
+        Thu,  7 Sep 2023 09:21:37 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B29BC116AA;
+        Thu,  7 Sep 2023 10:20:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694094181;
-        bh=Ch7WblfpRipfDsuU7KUHy0F8vKh0ktD+BcNoYhc8y+Y=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b/8JNqqseFOR0e9l5PZBJaIzhgEHXNoIDyKqiJLOltxBAFysfDS8BUMZUMTFaqg6L
-         MPScSWVBGue0KFRKHWA0MnIkl/i+HYxJDUYBY/d6WP33EO/3Ignt0QbgAzz3mmwSq8
-         oWSq4uWHpeeBpPW+RxAyM+fXP5Q4QjXravMtT3rrpcGR9L0vpZYNO95FXo9xIK5W9k
-         izVGHWxJOa6lSYPsDFAcI1ftMh6aHbLDeagdeB7KPe3NhLoTNEOsNw+CSw3PDzD5A7
-         p6QA3WzuReIVD4VNVESXRYIrTzIoUdpPIrpNmmNVS2h5yHp0MtRcwRtDDx8SFG7XoU
-         rNrZ4pz2H8vSg==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-502153ae36cso1532565e87.3;
-        Thu, 07 Sep 2023 06:43:00 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw2g7BwxmKwGT3UaW0H/eHCcbGEY5HyyjU+FBzRRqoylfy5nJUl
-        BlDzfBJVGWhq7FQBGZl6Z8O1t4Bn6x0uo71Gsqg=
-X-Google-Smtp-Source: AGHT+IHu6xlf9Nt86B4MNq35FJyEJ2bVFSEf4fWRycJTBsW+Zv6qVuk98yeu06hp9URFP8EVR0kovvh3HF3Ux14Dgik=
-X-Received: by 2002:a05:6512:12ca:b0:500:a2d0:51b6 with SMTP id
- p10-20020a05651212ca00b00500a2d051b6mr6218457lfg.37.1694094179012; Thu, 07
- Sep 2023 06:42:59 -0700 (PDT)
+        s=k20201202; t=1694082058;
+        bh=w08iyCZEv2y91XhjG6gytJX/08/uuFNdY7YRHOjrTKg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SVoOSJ9LefWstHF2hTnikgZ/UUNwtOUth5vPxYcufjsTjslUusP7MKDm091Ndjv1q
+         78kLUean1Oc8AnlV8LY0GWc6zu1Qfpc073Z1iT+MgtqAwnVLgMiQVVGnrYveCMxn/N
+         c8fhp/kCn/PoATsQH64OI+p5gHydwnV92anTt+1L3Elxd+AKcgSsInhDqyMS8P3IAo
+         TFybtf55GAyA7GLjEXjySR85zLpTch/rXP8HTvBJYw1rsE6xfhbUVn3q7hpySc9f44
+         CrPl1sz5GpTIM4eHWAMqSuN15v7QaGWsaiynG/2uDQdcBjUyvitKHO1de8bG15fFcr
+         46GOXc5xqg9XA==
+Date:   Thu, 7 Sep 2023 11:20:50 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Sarah Walker <sarah.walker@imgtec.com>
+Cc:     dri-devel@lists.freedesktop.org, frank.binns@imgtec.com,
+        donald.robson@imgtec.com, boris.brezillon@collabora.com,
+        airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, corbet@lwn.net, christian.koenig@amd.com,
+        linus.walleij@linaro.org, matt.coster@imgtec.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, faith.ekstrand@collabora.com,
+        afd@ti.com, hns@goldelico.com, matthew.brost@intel.com,
+        luben.tuikov@amd.com, dakr@redhat.com
+Subject: Re: [PATCH v6 03/20] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR/IMG GPU
+Message-ID: <20230907-22495ffd0407dacc5cf1cd12@fedora>
+References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
+ <20230906095542.3280699-4-sarah.walker@imgtec.com>
 MIME-Version: 1.0
-References: <20230904113214.4147021-1-mikko.rapeli@linaro.org>
-In-Reply-To: <20230904113214.4147021-1-mikko.rapeli@linaro.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Thu, 7 Sep 2023 15:42:47 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGveLhJ1fNgZe_SSN4DrPeJc4VLpx+or2vqO8eezHdOUw@mail.gmail.com>
-Message-ID: <CAMj1kXGveLhJ1fNgZe_SSN4DrPeJc4VLpx+or2vqO8eezHdOUw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation efi-stub.rst: fix arm64 EFI source location
-To:     mikko.rapeli@linaro.org
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-efi@vger.kernel.org, stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="/PgLc/igXG8aid6c"
+Content-Disposition: inline
+In-Reply-To: <20230906095542.3280699-4-sarah.walker@imgtec.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 4 Sept 2023 at 13:42, <mikko.rapeli@linaro.org> wrote:
->
-> From: Mikko Rapeli <mikko.rapeli@linaro.org>
->
-> arch/arm64/kernel/efi-entry.S has been moved to
-> drivers/firmware/efi/libstub/arm64-entry.S by commit
-> v6.1-rc4-6-g4ef806096bdb and to
-> drivers/firmware/efi/libstub/arm64.c by commit
-> v6.2-rc3-6-g617861703830
->
-> Fixes: 4ef806096bdb (arm64: efi: Move efi-entry.S into the libstub source directory)
-> Fixes: 617861703830 (efi: arm64: enter with MMU and caches enabled)
->
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-efi@vger.kernel.org
-> Cc: stable@kernel.org
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+--/PgLc/igXG8aid6c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> ---
->  Documentation/admin-guide/efi-stub.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
-> index b24e7c40d832..090f3a185e18 100644
-> --- a/Documentation/admin-guide/efi-stub.rst
-> +++ b/Documentation/admin-guide/efi-stub.rst
-> @@ -15,7 +15,7 @@ between architectures is in drivers/firmware/efi/libstub.
->
->  For arm64, there is no compressed kernel support, so the Image itself
->  masquerades as a PE/COFF image and the EFI stub is linked into the
-> -kernel. The arm64 EFI stub lives in arch/arm64/kernel/efi-entry.S
-> +kernel. The arm64 EFI stub lives in drivers/firmware/efi/libstub/arm64.c
->  and drivers/firmware/efi/libstub/arm64-stub.c.
->
->  By using the EFI boot stub it's possible to boot a Linux kernel
-> --
-> 2.34.1
->
+Hey,
+
+On Wed, Sep 06, 2023 at 10:55:25AM +0100, Sarah Walker wrote:
+
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+> +
+> +    gpu: gpu@fd00000 {
+
+This "gpu" label isn't used and can be dropped if you respin.
+Otherwise, this seems fine to me,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks,
+Conor.
+
+> +        compatible = "ti,am62-gpu", "img,img-axe";
+> +        reg = <0x0fd00000 0x20000>;
+> +        clocks = <&k3_clks 187 0>;
+> +        clock-names = "core";
+> +        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+> +        power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
+> +    };
+
+--/PgLc/igXG8aid6c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZPmkAgAKCRB4tDGHoIJi
+0nQkAP9uKeN6K/WPKUkM5yMV//ie+sobH7mqetqT7BiWIVUj3wD/V2onnXfHh+pl
+bVSIzTHnqcOZIQIgCDr+4Zw1Uj/lTAk=
+=7B7v
+-----END PGP SIGNATURE-----
+
+--/PgLc/igXG8aid6c--
