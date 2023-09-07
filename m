@@ -2,120 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BACE0EC873E
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:46:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF3E0EC874B
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Sep 2023 16:59:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238913AbjIGQqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 12:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38126 "EHLO
+        id S230132AbjIGQ7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236693AbjIGQqU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:46:20 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AEF7683;
-        Thu,  7 Sep 2023 09:20:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694103600; x=1725639600;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=DBrL4mS557cxBvRouvwV9QF+iy39q5mSe7MPFfBAAyY=;
-  b=lfdlF99KklkzalsqntVN6PKzyH0ow+w0VQACqIar0NT6NHtTXD9DM89u
-   y4/rNSXkpy7fnGUQb+gEXAOrp0rLGDajdtaV+SJW9eXAVoG5KlzA/OmeJ
-   CztiZMrVmqnEA3cQgIyJlj+RpIB6exyUvDjoiM3Q3gpDJ/eVr5qIo7txc
-   kdIFkreJGQD0nOhXfdweFSh0LJRWm9Q4/ywY1k3xUbus2dgycbJ+8HCnf
-   lJKafiXQGZJ4xVLQ2Qb9uJRsNAEx9HmvnEQhL3eq4tycCVi4g6d4qslDH
-   WWFL8hwaE4hp4b/sUIUHVb2M93dB3GaYnOTKBLXb+Jx7KXJBDWgSGsgMB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="441323679"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="441323679"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 05:14:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="807515912"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="807515912"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 05:14:16 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Sarah Walker <sarah.walker@imgtec.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-doc@vger.kernel.org, hns@goldelico.com,
-        krzysztof.kozlowski+dt@linaro.org, matthew.brost@intel.com,
-        corbet@lwn.net, luben.tuikov@amd.com, dakr@redhat.com,
-        donald.robson@imgtec.com, devicetree@vger.kernel.org,
-        conor+dt@kernel.org, mripard@kernel.org, matt.coster@imgtec.com,
-        robh+dt@kernel.org, faith.ekstrand@collabora.com,
-        linux-kernel@vger.kernel.org, afd@ti.com,
-        boris.brezillon@collabora.com, tzimmermann@suse.de,
-        christian.koenig@amd.com
-Subject: Re: [PATCH v6 02/20] drm/gpuva_mgr: Helper to get range of unmap
- from a remap op.
-In-Reply-To: <20230906095542.3280699-3-sarah.walker@imgtec.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
- <20230906095542.3280699-3-sarah.walker@imgtec.com>
-Date:   Thu, 07 Sep 2023 15:14:14 +0300
-Message-ID: <87a5tygoyx.fsf@intel.com>
+        with ESMTP id S244356AbjIGQiX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 12:38:23 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD182210C;
+        Thu,  7 Sep 2023 09:23:02 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3F0C43395;
+        Thu,  7 Sep 2023 16:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694102791;
+        bh=wTTVey9YZJtMRL2JwAl4Bl6GOm8D1pcSnWWALoFSdIQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ly3WQ1iEc2TELoq4i1Tuj7guxul+pO6MqtfVJ2o+DC+ddi//R2z3/Qj+UfygKr1/b
+         hN/xZyEhZvyZ8A8v7+fkILHcGAcQHz2ACAyX93Vew8vm0wXizP0Pu021F1V19+eipM
+         Ah08TKcNIoBMLkTi5RGgLfODGHxxuI+egvLERORHZm/GwrCYpwJL6/WpGWDck1ptMt
+         H8BOphEpWe8O7ax68EN1bn/9ApNiwMIrUuwOVIB3+e7vVtCGL9ACDgdeMAb519/oE5
+         BxURPeoB3eRlC8xBqxJ2NzYFZJWPz5zGWjQfSJxdKwGRbqwuz5OJ4knfwGobNVP5h9
+         dLyMIJZybOlEQ==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id 31F4A403F4; Thu,  7 Sep 2023 13:06:28 -0300 (-03)
+Date:   Thu, 7 Sep 2023 13:06:28 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>, Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+Subject: Re: [PATCH v8 0/8] Add metrics for Arm CMN
+Message-ID: <ZPn1BEzAoQa/ogtL@kernel.org>
+References: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
+X-Url:  http://acmel.wordpress.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 06 Sep 2023, Sarah Walker <sarah.walker@imgtec.com> wrote:
-> From: Donald Robson <donald.robson@imgtec.com>
->
-> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
-> ---
->  include/drm/drm_gpuva_mgr.h | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
->
-> diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
-> index ed8d50200cc3..be7b3a6d7e67 100644
-> --- a/include/drm/drm_gpuva_mgr.h
-> +++ b/include/drm/drm_gpuva_mgr.h
-> @@ -703,4 +703,31 @@ void drm_gpuva_remap(struct drm_gpuva *prev,
->  
->  void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
->  
-> +/**
-> + * drm_gpuva_op_remap_get_unmap_range() - Helper to get the start and range of
-> + * the unmap stage of a remap op.
-> + * @op: Remap op.
-> + * @start_addr: Output pointer for the start of the required unmap.
-> + * @range: Output pointer for the length of the required unmap.
-> + *
-> + * These parameters can then be used by the caller to unmap memory pages that
-> + * are no longer required.
-> + */
-> +static __always_inline void
+Em Thu, Sep 07, 2023 at 07:58:25PM +0800, Jing Zhang escreveu:
+> Changes since v7:
+> - Optimized pmu_uncore_identifier_match().
+> - Added all missing "event=0" in JSON file.
+> - Rebase this series onto the latest perf-tools-next.
+> - Link: https://lore.kernel.org/all/1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com/
 
-IMO __always_inline *always* requires a justification in the commit
-message.
+Can you please refresh on top of what is in the tmp.perf-tools-next
+branch at:
 
-BR,
-Jani.
+git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git
 
+patch 3/8 has some fuzz and b4 is not finding it in the mailing list,
+probably the patch is too large? Do you have some git tree somewhere I
+can use to pull from?
 
-> +drm_gpuva_op_remap_get_unmap_range(const struct drm_gpuva_op_remap *op,
-> +				   u64 *start_addr, u64 *range)
-> +{
-> +	const u64 va_start = op->prev ?
-> +			     op->prev->va.addr + op->prev->va.range :
-> +			     op->unmap->va->va.addr;
-> +	const u64 va_end = op->next ?
-> +			   op->next->va.addr :
-> +			   op->unmap->va->va.addr + op->unmap->va->va.range;
-> +
-> +	if (start_addr)
-> +		*start_addr = va_start;
-> +	if (range)
-> +		*range = va_end - va_start;
-> +}
-> +
->  #endif /* __DRM_GPUVA_MGR_H__ */
+- Arnaldo
+ 
+> Jing Zhang (8):
+>   perf pmu: "Compat" supports matching multiple identifiers
+>   perf metric: "Compat" supports matching multiple identifiers
+>   perf vendor events: Supplement the omitted EventCode
+>   perf jevents: Support more event fields
+>   perf test: Make matching_pmu effective
+>   perf test: Add pmu-event test for "Compat" and new event_field.
+>   perf jevents: Add support for Arm CMN PMU aliasing
+>   perf vendor events: Add JSON metrics for Arm CMN
+> 
+>  .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
+>  .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
+>  .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
+>  .../pmu-events/arch/x86/alderlake/pipeline.json    |   9 +
+>  .../pmu-events/arch/x86/alderlaken/pipeline.json   |   3 +
+>  .../pmu-events/arch/x86/broadwell/pipeline.json    |   4 +
+>  .../pmu-events/arch/x86/broadwellde/pipeline.json  |   4 +
+>  .../arch/x86/broadwellde/uncore-cache.json         |   2 +
+>  .../arch/x86/broadwellde/uncore-interconnect.json  |   1 +
+>  .../arch/x86/broadwellde/uncore-memory.json        |   1 +
+>  .../arch/x86/broadwellde/uncore-power.json         |   1 +
+>  .../pmu-events/arch/x86/broadwellx/pipeline.json   |   4 +
+>  .../arch/x86/broadwellx/uncore-cache.json          |   2 +
+>  .../arch/x86/broadwellx/uncore-interconnect.json   |  13 +
+>  .../arch/x86/broadwellx/uncore-memory.json         |   2 +
+>  .../arch/x86/broadwellx/uncore-power.json          |   1 +
+>  .../pmu-events/arch/x86/cascadelakex/pipeline.json |   4 +
+>  .../arch/x86/cascadelakex/uncore-cache.json        |   2 +
+>  .../arch/x86/cascadelakex/uncore-interconnect.json |   1 +
+>  .../arch/x86/cascadelakex/uncore-io.json           |   1 +
+>  .../arch/x86/cascadelakex/uncore-memory.json       |   1 +
+>  .../arch/x86/cascadelakex/uncore-power.json        |   1 +
+>  .../pmu-events/arch/x86/elkhartlake/pipeline.json  |   2 +
+>  .../pmu-events/arch/x86/goldmont/pipeline.json     |   3 +
+>  .../pmu-events/arch/x86/goldmontplus/pipeline.json |   3 +
+>  .../pmu-events/arch/x86/grandridge/pipeline.json   |   3 +
+>  .../arch/x86/graniterapids/pipeline.json           |   4 +
+>  .../perf/pmu-events/arch/x86/haswell/pipeline.json |   4 +
+>  .../pmu-events/arch/x86/haswellx/pipeline.json     |   4 +
+>  .../pmu-events/arch/x86/haswellx/uncore-cache.json |   2 +
+>  .../arch/x86/haswellx/uncore-interconnect.json     |  14 ++
+>  .../arch/x86/haswellx/uncore-memory.json           |   2 +
+>  .../pmu-events/arch/x86/haswellx/uncore-power.json |   1 +
+>  .../perf/pmu-events/arch/x86/icelake/pipeline.json |   5 +
+>  .../pmu-events/arch/x86/icelakex/pipeline.json     |   5 +
+>  .../pmu-events/arch/x86/icelakex/uncore-cache.json |   1 +
+>  .../arch/x86/icelakex/uncore-interconnect.json     |   1 +
+>  .../arch/x86/icelakex/uncore-memory.json           |   1 +
+>  .../pmu-events/arch/x86/icelakex/uncore-power.json |   1 +
+>  .../pmu-events/arch/x86/ivybridge/pipeline.json    |   3 +
+>  .../perf/pmu-events/arch/x86/ivytown/pipeline.json |   4 +
+>  .../pmu-events/arch/x86/ivytown/uncore-cache.json  |   2 +
+>  .../arch/x86/ivytown/uncore-interconnect.json      |  11 +
+>  .../pmu-events/arch/x86/ivytown/uncore-memory.json |   1 +
+>  .../pmu-events/arch/x86/ivytown/uncore-power.json  |   1 +
+>  .../pmu-events/arch/x86/jaketown/pipeline.json     |   4 +
+>  .../pmu-events/arch/x86/jaketown/uncore-cache.json |   2 +
+>  .../arch/x86/jaketown/uncore-interconnect.json     |  12 +
+>  .../arch/x86/jaketown/uncore-memory.json           |   1 +
+>  .../pmu-events/arch/x86/jaketown/uncore-power.json |   2 +
+>  .../arch/x86/knightslanding/pipeline.json          |   3 +
+>  .../arch/x86/knightslanding/uncore-cache.json      |   1 +
+>  .../arch/x86/knightslanding/uncore-memory.json     |   4 +
+>  .../pmu-events/arch/x86/meteorlake/pipeline.json   |   9 +
+>  .../pmu-events/arch/x86/rocketlake/pipeline.json   |   3 +
+>  .../pmu-events/arch/x86/sandybridge/pipeline.json  |   4 +
+>  .../arch/x86/sapphirerapids/pipeline.json          |   5 +
+>  .../pmu-events/arch/x86/sierraforest/pipeline.json |   4 +
+>  .../pmu-events/arch/x86/silvermont/pipeline.json   |   3 +
+>  .../perf/pmu-events/arch/x86/skylake/pipeline.json |   4 +
+>  .../pmu-events/arch/x86/skylakex/pipeline.json     |   4 +
+>  .../pmu-events/arch/x86/skylakex/uncore-cache.json |   2 +
+>  .../arch/x86/skylakex/uncore-interconnect.json     |   1 +
+>  .../pmu-events/arch/x86/skylakex/uncore-io.json    |   1 +
+>  .../arch/x86/skylakex/uncore-memory.json           |   1 +
+>  .../pmu-events/arch/x86/skylakex/uncore-power.json |   1 +
+>  .../pmu-events/arch/x86/snowridgex/pipeline.json   |   2 +
+>  .../arch/x86/snowridgex/uncore-cache.json          |   1 +
+>  .../arch/x86/snowridgex/uncore-interconnect.json   |   1 +
+>  .../arch/x86/snowridgex/uncore-memory.json         |   1 +
+>  .../arch/x86/snowridgex/uncore-power.json          |   1 +
+>  .../pmu-events/arch/x86/tigerlake/pipeline.json    |   5 +
+>  tools/perf/pmu-events/empty-pmu-events.c           |   8 +
+>  tools/perf/pmu-events/jevents.py                   |  21 +-
+>  tools/perf/tests/pmu-events.c                      |  65 ++++-
+>  tools/perf/util/metricgroup.c                      |   2 +-
+>  tools/perf/util/pmu.c                              |  28 ++-
+>  tools/perf/util/pmu.h                              |   1 +
+>  78 files changed, 681 insertions(+), 9 deletions(-)
+>  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
+>  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+> 
+> -- 
+> 1.8.3.1
+> 
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+
+- Arnaldo
