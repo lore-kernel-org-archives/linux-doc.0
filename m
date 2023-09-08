@@ -2,94 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47639EE57FD
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 11:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6DAEE7FE1
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 12:27:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236769AbjIHLof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 07:44:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46980 "EHLO
+        id S233768AbjIHM1J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 08:27:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234915AbjIHLof (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 07:44:35 -0400
-X-Greylist: delayed 300 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 08 Sep 2023 04:44:28 PDT
-Received: from aib29gb122.yyz1.oracleemaildelivery.com (aib29gb122.yyz1.oracleemaildelivery.com [192.29.72.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 946841BE7
-        for <linux-doc@vger.kernel.org>; Fri,  8 Sep 2023 04:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=oci-2023;
- d=n8pjl.ca;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
- bh=QCXst9TnbvTydHtdRtk/wlOXkWWqj8Vu/QEOd9ujz9A=;
- b=F+nSuANDr1wXoCgEVQ39pYOkQ7+uBWMFd0QtML/JbfBzByjbt0bJgQa4vzc8amC4Ye2NYenL2DNq
-   Kw3JbpK/FpvT8aaNvGQACqZEKXV7ICrq3Z90/A2+zvhccfDM9P/P0jCOkZCKYWDMe85XGl3U+lsf
-   hvwdfw0KrpqPrB4kKlNld66mD9NNC2QWsJh2z54guVBt6xv3aeXE84bmQ8Xletf5QhFFS2uXOHQw
-   rYrvF3LIkzrB0XA1kz27xhJh0YyqmrAnZFeFZccXQPEBNAnylhbeRw+l53BWgd925/uKtLAIsxv6
-   Zwu7+kNSwlC1jr0CfUONm4jWnL++OiCyoY0wyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-yyz-20200204;
- d=yyz1.rp.oracleemaildelivery.com;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
- bh=QCXst9TnbvTydHtdRtk/wlOXkWWqj8Vu/QEOd9ujz9A=;
- b=Ir+1t2M8TtsKyR6VRloBbEX6I76KNlNYgpXZqZYyvue/sCPcO3nvMFboIRurXudSLFxxgQjVC+k0
-   GUqjKF/84Ni6VWtlR4yUDkcFX6gI7oa7tHlh/wI/ag0TKAe07OEMTlBvhzGr9cIlrnYT/bIlxIi6
-   fjtfABgsbPit/UCGqS3zzDZ64ZDKffwGRk3QMdP2fJdHqNrqI4ikwjO8NFO2ZcuWidIVZ8LSf6O9
-   0fyWZrdwR5+UowGSZLQkxXjToE6DembqgI9MMTcO+7H8Xi6IbgsuxmrTdMpjZek7M8dHsGYL1Gsh
-   hddoJhjwal34xV/ZH/6rV2xnmxOj2z8mY2MCEQ==
-Received: by omta-ad1-fd1-401-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com
- (Oracle Communications Messaging Server 8.1.0.1.20230808 64bit (built Aug  8
- 2023))
- with ESMTPS id <0S0O002OK0DRGN10@omta-ad1-fd1-401-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com> for
- linux-doc@vger.kernel.org; Fri, 08 Sep 2023 11:39:27 +0000 (GMT)
-From:   Peter Lafreniere <peter@n8pjl.ca>
-To:     linux-doc@vger.kernel.org
-Cc:     Peter Lafreniere <peter@n8pjl.ca>, corbet@lwn.org,
-        linux-hams@vger.kernel.org, ralf@linux-mips.org,
-        stable@vger.kernel.org
-Subject: [PATCH] Documentation: netdev: fix dead link in ax25.rst
-Date:   Fri,  8 Sep 2023 07:39:05 -0400
-Message-id: <20230908113907.25053-1-peter@n8pjl.ca>
-X-Mailer: git-send-email 2.42.0
-MIME-version: 1.0
-Content-transfer-encoding: 8bit
-Reporting-Meta: AAHcve5kvIsOR4vqKkWsaSBP3N1G/gfAjUvtuKuqNQtp/6VFrgItE6EOgXBaIpAs
- I3f2DqqBpheuzF9+wzMJRSFoYIqGUUrqAt17j6IXlyL6Y3lveUKkoQck4cTrtzVb
- HNNWYMBoXK/Ki/8dxQ7aBmzvpQTr0QDNATm+rzaJnMfYVVXqOQ515jk9dBGPp1mJ
- T9eQKgndS8/Lc4CzeX/fqzCJkdJZuoLErdpvB5XkXg1U0YcWkVwVZp0n9dreCpnl
- 49ib9cmKuh0sQwyjpkRYO0AGh/XDjTJjvtrPY4qnClOEYmLd1uxUHBRARQPs1+9E
- 68lQMA50MscYxbyeLUiMkU7FSeljjf9YzKFuP54MmdZBQykZ1IzfKL6OYrUpN6xj
- QV/+tCxZXEbMfIwaaPZEZWavL43YdkYtK+WNSvX5SWAeCzug8yZVXu6e9Vm48g==
+        with ESMTP id S232080AbjIHM1I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 08:27:08 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16D41BEE;
+        Fri,  8 Sep 2023 05:27:03 -0700 (PDT)
+Received: from [172.22.36.47] (unknown [115.110.84.132])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: david.heidelberg)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3326E6607249;
+        Fri,  8 Sep 2023 13:26:56 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694176022;
+        bh=kxmYxmERfaHjIcR3GX44H1XW83N5R1EvDpk8rarq7DM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=RLbKzevVNzRpoYpSOUweFFqV1PRi95V1QP0aZkLHgy9FMlPUBdaTU1jiX2HrmCWKV
+         HIPqb9JG1zqG/qvy5nmv36psPYBdSJrfXMr869574pyE9z/e0vG5wo/dbANcMFNOaQ
+         h47VoJSADABNfqonov5ftn/5ZzHoyKsMnMsty/sSwZz5Rlfsv9y3+6MN5Dru9XtWzG
+         JiQUFm3HXBGAlpgYF5EIgH1ktK2F+/vc96f+OxXYEirTsKYMuVA75QJrhe93UGzDfh
+         ebjPpaCyo5tUE/0KcdRVpA5t0+fG0WvXj1p2ux3FHP5ZfjvGAMQ9B4VgFjs77B/EpE
+         12/KaIjUQUF+Q==
+Message-ID: <2dc6f9fa-06fb-44d8-97cb-6b5a983b7539@collabora.com>
+Date:   Fri, 8 Sep 2023 17:56:36 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
+To:     Vignesh Raman <vignesh.raman@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        dri-devel@lists.freedesktop.org,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     helen.koike@collabora.com, guilherme.gallo@collabora.com,
+        sergi.blanch.torne@collabora.com, daniels@collabora.com,
+        emma@anholt.net, robclark@freedesktop.org,
+        gustavo.padovan@collabora.com, robdclark@google.com,
+        anholt@google.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+        daniel@ffwll.ch, corbet@lwn.net, neil.armstrong@linaro.org,
+        khilman@baylibre.com, jbrunet@baylibre.com,
+        martin.blumenstingl@googlemail.com, heiko@sntech.de,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org
+References: <20230825122435.316272-1-vignesh.raman@collabora.com>
+ <20230825122435.316272-5-vignesh.raman@collabora.com>
+ <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
+ <ff99380a-cb0d-dc6c-0442-7aa60d14cec2@collabora.com>
+Content-Language: en-US
+From:   David Heidelberg <david.heidelberg@collabora.com>
+Autocrypt: addr=david.heidelberg@collabora.com; keydata=
+ xjMEYlvLOxYJKwYBBAHaRw8BAQdA5CoWEzz4igpwK4h6lK6ZformRk84+ymcfkGNPwqEeILN
+ MURhdmlkIEhlaWRlbGJlcmcgPGRhdmlkLmhlaWRlbGJlcmdAY29sbGFib3JhLmNvbT7ClgQT
+ FggAPhYhBEo7kSl22BK0F1Np/mn1Z4YcHsAUBQJiW8s7AhsDBQkFo5qABQsJCAcCBhUKCQgL
+ AgQWAgMBAh4BAheAAAoJEGn1Z4YcHsAU84kBAK5YqSWAOuIumAqgWvke6BEsaIGWGQzXSuKj
+ er/TXuFuAQCwc9ITSVXWWTSpdFt2+4z7Wch8tIGlbIFcS9dCFddwCc44BGJbyzsSCisGAQQB
+ l1UBBQEBB0AEk7jXEwDApGOwMH/X0UAPBH8Y3isjxhNMjpyRcnl2CwMBCAfCfgQYFggAJhYh
+ BEo7kSl22BK0F1Np/mn1Z4YcHsAUBQJiW8s7AhsMBQkFo5qAAAoJEGn1Z4YcHsAU0PEA/j0Y
+ uAOKJCnnwrkf3ozPP0sutA5bojoARwcIaZKO/zvIAP9PwTC9DGLg+8LJm7m2Lyf0LxLA8FXD
+ wueLHBdwHg6zAQ==
+In-Reply-To: <ff99380a-cb0d-dc6c-0442-7aa60d14cec2@collabora.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------QVbyyDjtHt2Y2bqlRUbNjGy2"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-http://linux-ax25.org has been down for nearly a year. Its official
-replacement is https://linux-ax25.in-berlin.de.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------QVbyyDjtHt2Y2bqlRUbNjGy2
+Content-Type: multipart/mixed; boundary="------------0SjgPXBdE0pfxmCy61iR0gjG";
+ protected-headers="v1"
+From: David Heidelberg <david.heidelberg@collabora.com>
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>
+Cc: helen.koike@collabora.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, daniels@collabora.com, emma@anholt.net,
+ robclark@freedesktop.org, gustavo.padovan@collabora.com,
+ robdclark@google.com, anholt@google.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ corbet@lwn.net, neil.armstrong@linaro.org, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, heiko@sntech.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org
+Message-ID: <2dc6f9fa-06fb-44d8-97cb-6b5a983b7539@collabora.com>
+Subject: Re: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
+References: <20230825122435.316272-1-vignesh.raman@collabora.com>
+ <20230825122435.316272-5-vignesh.raman@collabora.com>
+ <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
+ <ff99380a-cb0d-dc6c-0442-7aa60d14cec2@collabora.com>
+In-Reply-To: <ff99380a-cb0d-dc6c-0442-7aa60d14cec2@collabora.com>
 
-Update the documentation to point there instead. And acknowledge that
-while the linux-hams list isn't entirely dead, it isn't what most would
-call 'active'. Remove that word.
+--------------0SjgPXBdE0pfxmCy61iR0gjG
+Content-Type: multipart/mixed; boundary="------------yPjLj8M50Ol2VqN53k1e0e4X"
 
-Link: https://marc.info/?m=166792551600315
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Lafreniere <peter@n8pjl.ca>
----
- Documentation/networking/ax25.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--------------yPjLj8M50Ol2VqN53k1e0e4X
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/Documentation/networking/ax25.rst b/Documentation/networking/ax25.rst
-index f060cfb1445a..605e72c6c877 100644
---- a/Documentation/networking/ax25.rst
-+++ b/Documentation/networking/ax25.rst
-@@ -7,9 +7,9 @@ AX.25
- To use the amateur radio protocols within Linux you will need to get a
- suitable copy of the AX.25 Utilities. More detailed information about
- AX.25, NET/ROM and ROSE, associated programs and utilities can be
--found on http://www.linux-ax25.org.
-+found on https://linux-ax25.in-berlin.de.
- 
--There is an active mailing list for discussing Linux amateur radio matters
-+There is a mailing list for discussing Linux amateur radio matters
- called linux-hams@vger.kernel.org. To subscribe to it, send a message to
- majordomo@vger.kernel.org with the words "subscribe linux-hams" in the body
- of the message, the subject field is ignored.  You don't need to be
--- 
-2.42.0
+T24gMDgvMDkvMjAyMyAxMzoyMywgVmlnbmVzaCBSYW1hbiB3cm90ZToNCg0KPiBIaSBBbmdl
+bG8sDQo+DQo+IE9uIDA3LzA5LzIzIDE2OjE2LCBBbmdlbG9HaW9hY2NoaW5vIERlbCBSZWdu
+byB3cm90ZToNCj4+IElsIDI1LzA4LzIzIDE0OjI0LCBWaWduZXNoIFJhbWFuIGhhIHNjcml0
+dG86DQo+Pj4gRW5hYmxlIHJlZ3VsYXRvcg0KPj4+IEVuYWJsZSBNVDYzOTcgUlRDIGRyaXZl
+cg0KPj4+DQo+Pj4gU2lnbmVkLW9mZi1ieTogVmlnbmVzaCBSYW1hbiA8dmlnbmVzaC5yYW1h
+bkBjb2xsYWJvcmEuY29tPg0KPj4+IC0tLQ0KPj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9jaS9h
+cm02NC5jb25maWcgfCAyICsrDQo+Pj4gwqAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
+cygrKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9jaS9hcm02NC5j
+b25maWcgDQo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vY2kvYXJtNjQuY29uZmlnDQo+Pj4gaW5k
+ZXggODE3ZTE4ZGRmZDRmLi5lYTdhNmNjZWZmNDAgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2NpL2FybTY0LmNvbmZpZw0KPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9j
+aS9hcm02NC5jb25maWcNCj4+PiBAQCAtMTg0LDYgKzE4NCw4IEBAIENPTkZJR19IV19SQU5E
+T01fTVRLPXkNCj4+PiDCoCBDT05GSUdfTVRLX0RFVkFQQz15DQo+Pj4gwqAgQ09ORklHX1BX
+TV9NVEtfRElTUD15DQo+Pj4gwqAgQ09ORklHX01US19DTURRPXkNCj4+PiArQ09ORklHX1JF
+R1VMQVRPUl9EQTkyMTE9eQ0KPj4+ICtDT05GSUdfUlRDX0RSVl9NVDYzOTc9eQ0KPj4NCj4+
+IEkgd29uZGVyIGlmIGl0J2QgYmUgYSBiZXR0ZXIgaWRlYSB0byBzaW1wbHkgYWRkIHRob3Nl
+IHRvIHRoZSANCj4+IGRlZmNvbmZpZyBpbnN0ZWFkIGFzDQo+Pg0KPj4gQ09ORklHX1JFR1VM
+QVRPUl9EQTkyMTE9bQ0KPj4gQ09ORklHX1JUQ19EUlZfTVQ2Mzk3PW0NCj4+DQo+PiBBbnkg
+b3BpbmlvbiBvbiB0aGlzPyBNYXR0aGlhcz8gQW55b25lIGVsc2U/DQo+DQo+IENPTkZJR19S
+VENfRFJWX01UNjM5Nz1tIGlzIGFscmVhZHkgcHJlc2VudCBpbiBkZWZjb25maWcuDQo+IFdl
+IGNhbiBhbHNvIGFkZCBDT05GSUdfUkVHVUxBVE9SX0RBOTIxMT1tIHRvIGRlZmNvbmZpZy4N
+Cg0KV2UgbmVlZCBhZGQgY29uZmlnIHNuaXBwZXQgb3ZlcnJpZGUgZm9yIENPTkZJR19SRUdV
+TEFUT1JfREE5MjExPXkgDQpiZWNhdXNlIG91ciBDSSBkb24ndCBoYXZlIGFueSBpbml0cmQg
+d2l0aCBtb2R1bGVzLCB3ZSBqdXN0IGltbWVkaWF0ZWx5IA0KY29udGludWUgYm9vdCBmcm9t
+IE5GUywgd2hlcmUgd2UgbG9hZCByZXN0IG9mIHRoZSBib290IG5vbi1lc3NlbnRpYWwgDQpt
+b2R1bGVzLg0KDQpGb3IgZ2VuZXJpYyBrZXJuZWwsIEkgYXNzdW1lIENPTkZJR19SRUdVTEFU
+T1JfREE5MjExPW0gc2hvdWxkIGJlIGFkZGVkLg0KDQpEYXZpZA0KDQo+DQo+IFJlZ2FyZHMs
+DQo+IFZpZ25lc2gNCg0KLS0gDQpEYXZpZCBIZWlkZWxiZXJnDQpDb25zdWx0YW50IFNvZnR3
+YXJlIEVuZ2luZWVyDQoNCkNvbGxhYm9yYSBMdGQuDQpQbGF0aW51bSBCdWlsZGluZywgU3Qg
+Sm9obidzIElubm92YXRpb24gUGFyaywgQ2FtYnJpZGdlIENCNCAwRFMsIFVLDQpSZWdpc3Rl
+cmVkIGluIEVuZ2xhbmQgJiBXYWxlcywgbm8uIDU1MTM3MTgNCg0K
+--------------yPjLj8M50Ol2VqN53k1e0e4X
+Content-Type: application/pgp-keys; name="OpenPGP_0x69F567861C1EC014.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x69F567861C1EC014.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEYlvLOxYJKwYBBAHaRw8BAQdA5CoWEzz4igpwK4h6lK6ZformRk84+ymcfkGN
+PwqEeILNMURhdmlkIEhlaWRlbGJlcmcgPGRhdmlkLmhlaWRlbGJlcmdAY29sbGFi
+b3JhLmNvbT7ClgQTFggAPhYhBEo7kSl22BK0F1Np/mn1Z4YcHsAUBQJiW8s7AhsD
+BQkFo5qABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEGn1Z4YcHsAU84kBAK5Y
+qSWAOuIumAqgWvke6BEsaIGWGQzXSuKjer/TXuFuAQCwc9ITSVXWWTSpdFt2+4z7
+Wch8tIGlbIFcS9dCFddwCc44BGJbyzsSCisGAQQBl1UBBQEBB0AEk7jXEwDApGOw
+MH/X0UAPBH8Y3isjxhNMjpyRcnl2CwMBCAfCfgQYFggAJhYhBEo7kSl22BK0F1Np
+/mn1Z4YcHsAUBQJiW8s7AhsMBQkFo5qAAAoJEGn1Z4YcHsAU0PEA/j0YuAOKJCnn
+wrkf3ozPP0sutA5bojoARwcIaZKO/zvIAP9PwTC9DGLg+8LJm7m2Lyf0LxLA8FXD
+wueLHBdwHg6zAQ=3D=3D
+=3DOQS+
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------yPjLj8M50Ol2VqN53k1e0e4X--
+
+--------------0SjgPXBdE0pfxmCy61iR0gjG--
+
+--------------QVbyyDjtHt2Y2bqlRUbNjGy2
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYIAB0WIQRKO5EpdtgStBdTaf5p9WeGHB7AFAUCZPsS/AAKCRBp9WeGHB7A
+FJMXAQDOC4fWl0gYmEvUPLQhSmJbWUme0uzP1yaP5MxtaDwvCwD7BgNQv9t8Yrp6
+kbFOXh1myrvVXSi5VYV9ry9kKAgaVQs=
+=LHU6
+-----END PGP SIGNATURE-----
+
+--------------QVbyyDjtHt2Y2bqlRUbNjGy2--
