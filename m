@@ -2,182 +2,191 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4F4EE14C3
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 03:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5A7EE57C4
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 04:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237050AbjIHDjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 23:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47560 "EHLO
+        id S232301AbjIHElp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 00:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233131AbjIHDjY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 23:39:24 -0400
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EE81BD5;
-        Thu,  7 Sep 2023 20:39:19 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VraxvXs_1694144354;
-Received: from 30.221.149.157(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VraxvXs_1694144354)
-          by smtp.aliyun-inc.com;
-          Fri, 08 Sep 2023 11:39:15 +0800
-Message-ID: <3ab1f1d6-0aac-5a58-1bf9-74a62ec5901e@linux.alibaba.com>
-Date:   Fri, 8 Sep 2023 11:39:13 +0800
+        with ESMTP id S231678AbjIHElo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 00:41:44 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 660141BC1;
+        Thu,  7 Sep 2023 21:41:40 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3884b5IX021572;
+        Fri, 8 Sep 2023 04:41:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=/YpH8EiXOi2Wqulnarf+kRVpHMxGqgcCEA1tZip1MHQ=;
+ b=J0YDM8asu9d4CzV+lJMxzJiSEwDPhSFl4fqvpqc0LNVckzbL1+htrd3UtVP8czR14pPg
+ y+0k1mKeYG9t0VgrcP3/25xBp0JcDusGMvlNjYV+kRGbNqX/nn607XzPeRojd5huTIsy
+ po0JvML9Qu06l8SbcTWL9esX6G3xLRDvypjeiHQSJAz4WdosK8uUg7i3FEkqhHY3Kk1j
+ 4jyUi0Gm9zwg8CKoXW3z2DUMTOu+Ac6U/0XuzxuXtVbMhlCsZ7bIhcv85EHNaYQfi1Ko
+ 1oi/pqhQz6+nMpFUCqRgY1HK+HpeN4Ez5ZpaWAy17LkZ8uG1kZZbbO9ApaliyLqeYCfh Hw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3synyq8qe3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 08 Sep 2023 04:41:29 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3884fS9G028485
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 8 Sep 2023 04:41:28 GMT
+Received: from [10.217.219.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 7 Sep
+ 2023 21:41:23 -0700
+Message-ID: <ae239a22-a038-c4d4-c715-cb775de82659@quicinc.com>
+Date:   Fri, 8 Sep 2023 10:11:19 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH v8 0/8] Add metrics for Arm CMN
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>, Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
- <ZPn1BEzAoQa/ogtL@kernel.org>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <ZPn1BEzAoQa/ogtL@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
+Content-Language: en-US
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     <manivannan.sadhasivam@linaro.org>, <linux-pci@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_vbadigan@quicinc.com>, <quic_nitegupt@quicinc.com>,
+        <quic_skananth@quicinc.com>, <quic_ramkri@quicinc.com>,
+        <quic_parass@quicinc.com>, <krzysztof.kozlowski@linaro.org>,
+        "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        "Kishon Vijay Abraham I" <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20230803174858.GA103086@bhelgaas>
+From:   Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+In-Reply-To: <20230803174858.GA103086@bhelgaas>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: up_dQetlEW2PBoj_01JzC9Ph6IkKzxWU
+X-Proofpoint-GUID: up_dQetlEW2PBoj_01JzC9Ph6IkKzxWU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-08_01,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ spamscore=0 clxscore=1011 malwarescore=0 priorityscore=1501 suspectscore=0
+ mlxlogscore=999 impostorscore=0 phishscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309080042
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-
-在 2023/9/8 上午12:06, Arnaldo Carvalho de Melo 写道:
-> Em Thu, Sep 07, 2023 at 07:58:25PM +0800, Jing Zhang escreveu:
->> Changes since v7:
->> - Optimized pmu_uncore_identifier_match().
->> - Added all missing "event=0" in JSON file.
->> - Rebase this series onto the latest perf-tools-next.
->> - Link: https://lore.kernel.org/all/1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com/
-> 
-> Can you please refresh on top of what is in the tmp.perf-tools-next
-> branch at:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git
-> 
-
-Yes, this series is already based on the latest tmp.perf-tools-next.
-
-> patch 3/8 has some fuzz and b4 is not finding it in the mailing list,
-> probably the patch is too large? Do you have some git tree somewhere I
-> can use to pull from?
-> 
-
-Patch 3/8 is too large and it is being held until the list moderator can
-review it for approval.
-
-Perhaps you can pull it from my repository. Sorry for the inconvenience.
-https://github.com/ZhangJing-hub/linux/commit/c33234e62aa210cc7dea0be3c749af1a8737b88d
-
-Thanks,
-Jing
-
-> - Arnaldo
->  
->> Jing Zhang (8):
->>   perf pmu: "Compat" supports matching multiple identifiers
->>   perf metric: "Compat" supports matching multiple identifiers
->>   perf vendor events: Supplement the omitted EventCode
->>   perf jevents: Support more event fields
->>   perf test: Make matching_pmu effective
->>   perf test: Add pmu-event test for "Compat" and new event_field.
->>   perf jevents: Add support for Arm CMN PMU aliasing
->>   perf vendor events: Add JSON metrics for Arm CMN
+On 8/3/2023 11:18 PM, Bjorn Helgaas wrote:
+> On Wed, Aug 02, 2023 at 09:21:18AM +0530, Krishna chaitanya chundru wrote:
+>> Add support to notify the EPF device about the D-state change event
+>> from the EPC device.
 >>
->>  .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
->>  .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
->>  .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
->>  .../pmu-events/arch/x86/alderlake/pipeline.json    |   9 +
->>  .../pmu-events/arch/x86/alderlaken/pipeline.json   |   3 +
->>  .../pmu-events/arch/x86/broadwell/pipeline.json    |   4 +
->>  .../pmu-events/arch/x86/broadwellde/pipeline.json  |   4 +
->>  .../arch/x86/broadwellde/uncore-cache.json         |   2 +
->>  .../arch/x86/broadwellde/uncore-interconnect.json  |   1 +
->>  .../arch/x86/broadwellde/uncore-memory.json        |   1 +
->>  .../arch/x86/broadwellde/uncore-power.json         |   1 +
->>  .../pmu-events/arch/x86/broadwellx/pipeline.json   |   4 +
->>  .../arch/x86/broadwellx/uncore-cache.json          |   2 +
->>  .../arch/x86/broadwellx/uncore-interconnect.json   |  13 +
->>  .../arch/x86/broadwellx/uncore-memory.json         |   2 +
->>  .../arch/x86/broadwellx/uncore-power.json          |   1 +
->>  .../pmu-events/arch/x86/cascadelakex/pipeline.json |   4 +
->>  .../arch/x86/cascadelakex/uncore-cache.json        |   2 +
->>  .../arch/x86/cascadelakex/uncore-interconnect.json |   1 +
->>  .../arch/x86/cascadelakex/uncore-io.json           |   1 +
->>  .../arch/x86/cascadelakex/uncore-memory.json       |   1 +
->>  .../arch/x86/cascadelakex/uncore-power.json        |   1 +
->>  .../pmu-events/arch/x86/elkhartlake/pipeline.json  |   2 +
->>  .../pmu-events/arch/x86/goldmont/pipeline.json     |   3 +
->>  .../pmu-events/arch/x86/goldmontplus/pipeline.json |   3 +
->>  .../pmu-events/arch/x86/grandridge/pipeline.json   |   3 +
->>  .../arch/x86/graniterapids/pipeline.json           |   4 +
->>  .../perf/pmu-events/arch/x86/haswell/pipeline.json |   4 +
->>  .../pmu-events/arch/x86/haswellx/pipeline.json     |   4 +
->>  .../pmu-events/arch/x86/haswellx/uncore-cache.json |   2 +
->>  .../arch/x86/haswellx/uncore-interconnect.json     |  14 ++
->>  .../arch/x86/haswellx/uncore-memory.json           |   2 +
->>  .../pmu-events/arch/x86/haswellx/uncore-power.json |   1 +
->>  .../perf/pmu-events/arch/x86/icelake/pipeline.json |   5 +
->>  .../pmu-events/arch/x86/icelakex/pipeline.json     |   5 +
->>  .../pmu-events/arch/x86/icelakex/uncore-cache.json |   1 +
->>  .../arch/x86/icelakex/uncore-interconnect.json     |   1 +
->>  .../arch/x86/icelakex/uncore-memory.json           |   1 +
->>  .../pmu-events/arch/x86/icelakex/uncore-power.json |   1 +
->>  .../pmu-events/arch/x86/ivybridge/pipeline.json    |   3 +
->>  .../perf/pmu-events/arch/x86/ivytown/pipeline.json |   4 +
->>  .../pmu-events/arch/x86/ivytown/uncore-cache.json  |   2 +
->>  .../arch/x86/ivytown/uncore-interconnect.json      |  11 +
->>  .../pmu-events/arch/x86/ivytown/uncore-memory.json |   1 +
->>  .../pmu-events/arch/x86/ivytown/uncore-power.json  |   1 +
->>  .../pmu-events/arch/x86/jaketown/pipeline.json     |   4 +
->>  .../pmu-events/arch/x86/jaketown/uncore-cache.json |   2 +
->>  .../arch/x86/jaketown/uncore-interconnect.json     |  12 +
->>  .../arch/x86/jaketown/uncore-memory.json           |   1 +
->>  .../pmu-events/arch/x86/jaketown/uncore-power.json |   2 +
->>  .../arch/x86/knightslanding/pipeline.json          |   3 +
->>  .../arch/x86/knightslanding/uncore-cache.json      |   1 +
->>  .../arch/x86/knightslanding/uncore-memory.json     |   4 +
->>  .../pmu-events/arch/x86/meteorlake/pipeline.json   |   9 +
->>  .../pmu-events/arch/x86/rocketlake/pipeline.json   |   3 +
->>  .../pmu-events/arch/x86/sandybridge/pipeline.json  |   4 +
->>  .../arch/x86/sapphirerapids/pipeline.json          |   5 +
->>  .../pmu-events/arch/x86/sierraforest/pipeline.json |   4 +
->>  .../pmu-events/arch/x86/silvermont/pipeline.json   |   3 +
->>  .../perf/pmu-events/arch/x86/skylake/pipeline.json |   4 +
->>  .../pmu-events/arch/x86/skylakex/pipeline.json     |   4 +
->>  .../pmu-events/arch/x86/skylakex/uncore-cache.json |   2 +
->>  .../arch/x86/skylakex/uncore-interconnect.json     |   1 +
->>  .../pmu-events/arch/x86/skylakex/uncore-io.json    |   1 +
->>  .../arch/x86/skylakex/uncore-memory.json           |   1 +
->>  .../pmu-events/arch/x86/skylakex/uncore-power.json |   1 +
->>  .../pmu-events/arch/x86/snowridgex/pipeline.json   |   2 +
->>  .../arch/x86/snowridgex/uncore-cache.json          |   1 +
->>  .../arch/x86/snowridgex/uncore-interconnect.json   |   1 +
->>  .../arch/x86/snowridgex/uncore-memory.json         |   1 +
->>  .../arch/x86/snowridgex/uncore-power.json          |   1 +
->>  .../pmu-events/arch/x86/tigerlake/pipeline.json    |   5 +
->>  tools/perf/pmu-events/empty-pmu-events.c           |   8 +
->>  tools/perf/pmu-events/jevents.py                   |  21 +-
->>  tools/perf/tests/pmu-events.c                      |  65 ++++-
->>  tools/perf/util/metricgroup.c                      |   2 +-
->>  tools/perf/util/pmu.c                              |  28 ++-
->>  tools/perf/util/pmu.h                              |   1 +
->>  78 files changed, 681 insertions(+), 9 deletions(-)
->>  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
->>  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+>> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+>> ---
+>>   Documentation/PCI/endpoint/pci-endpoint.rst |  4 ++++
+>>   drivers/pci/endpoint/pci-epc-core.c         | 27 +++++++++++++++++++++++++++
+>>   include/linux/pci-epc.h                     |  1 +
+>>   include/linux/pci-epf.h                     |  1 +
+>>   4 files changed, 33 insertions(+)
 >>
+>> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
+>> index 4f5622a..66f3191 100644
+>> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
+>> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
+>> @@ -78,6 +78,10 @@ by the PCI controller driver.
+>>      Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
+>>   
+>>   
+>> +* pci_epc_dstate_notity()
+> s/notity/notify/ (several instances)
+
+sorry for late reply, till now I was using a different branch which has 
+some out of tree patches for testing and rebasing the patch on 
+linux-next to send them because of that few things are getting missed.
+
+Now I took time to completely move to the linux next so that testing and 
+sending patches will be on same code base.
+
+>> +
+>> +   Notify all the function drivers that the EPC device has changed its D-state.
+>> +
+>>   EPC APIs for the PCI Endpoint Function Driver
+>>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>   
+>> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+>> index 6c54fa5..4cf9c82 100644
+>> --- a/drivers/pci/endpoint/pci-epc-core.c
+>> +++ b/drivers/pci/endpoint/pci-epc-core.c
+>> @@ -785,6 +785,33 @@ void pci_epc_bme_notify(struct pci_epc *epc)
+>>   EXPORT_SYMBOL_GPL(pci_epc_bme_notify);
+>>   
+>>   /**
+>> + * pci_epc_dstate_notity() - Notify the EPF driver that EPC device D-state
+>> + *			has changed
+>> + * @epc: the EPC device which has change in D-state
+>> + * @state: the changed D-state
+>> + *
+>> + * Invoke to Notify the EPF device that the EPC device has D-state has
+>> + * changed.
+> s/device has D-state/device D-state/
+>
+>> + */
+>> +void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
+>> +{
+>> +	struct pci_epf *epf;
+>> +
+>> +	if (!epc || IS_ERR(epc))
+>> +		return;
+> Is this needed?  Looks like a programming error if we return here.  I
+> don't like silently ignoring errors like this.  I generally prefer
+> taking the NULL pointer dereference oops so we know the caller is
+> broken and can fix it.
+sure I will remove this check in the next patch series.
+>
+>> +	mutex_lock(&epc->list_lock);
+>> +	list_for_each_entry(epf, &epc->pci_epf, list) {
+>> +		mutex_lock(&epf->lock);
+>> +		if (epf->event_ops && epf->event_ops->dstate_notify)
+>> +			epf->event_ops->dstate_notify(epf, state);
+>> +		mutex_unlock(&epf->lock);
+>> +	}
+>> +	mutex_unlock(&epc->list_lock);
+>> +}
+>> +EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
+>> +
+>> +/**
+>>    * pci_epc_destroy() - destroy the EPC device
+>>    * @epc: the EPC device that has to be destroyed
+>>    *
+>> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+>> index 5cb6940..26a1108 100644
+>> --- a/include/linux/pci-epc.h
+>> +++ b/include/linux/pci-epc.h
+>> @@ -251,4 +251,5 @@ void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
+>>   				     phys_addr_t *phys_addr, size_t size);
+>>   void pci_epc_mem_free_addr(struct pci_epc *epc, phys_addr_t phys_addr,
+>>   			   void __iomem *virt_addr, size_t size);
+>> +void pci_epc_dstate_change(struct pci_epc *epc, pci_power_t state);
+>>   #endif /* __LINUX_PCI_EPC_H */
+>> diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+>> index 3f44b6a..529075b 100644
+>> --- a/include/linux/pci-epf.h
+>> +++ b/include/linux/pci-epf.h
+>> @@ -79,6 +79,7 @@ struct pci_epc_event_ops {
+>>   	int (*link_up)(struct pci_epf *epf);
+>>   	int (*link_down)(struct pci_epf *epf);
+>>   	int (*bme)(struct pci_epf *epf);
+>> +	int (*dstate_notify)(struct pci_epf *epf, pci_power_t state);
+>>   };
+>>   
+>>   /**
 >> -- 
->> 1.8.3.1
+>> 2.7.4
 >>
-> 
