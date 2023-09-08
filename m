@@ -2,52 +2,51 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E384BEEB562
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 18:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9166EEB567
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 18:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232133AbjIHSFV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 14:05:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
+        id S242185AbjIHSPT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 14:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237308AbjIHSFT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 14:05:19 -0400
+        with ESMTP id S238675AbjIHSPS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 14:15:18 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF62213A;
-        Fri,  8 Sep 2023 11:04:53 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B1BC4339A;
-        Fri,  8 Sep 2023 18:03:42 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6076E268B;
+        Fri,  8 Sep 2023 11:14:53 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 472F7C433BA;
+        Fri,  8 Sep 2023 18:04:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694196224;
-        bh=sFVKC6ZtU01nH+4NDc99qk06dtDHrlavBl1Ztc+0BzQ=;
+        s=k20201202; t=1694196250;
+        bh=ePCXNaz13TyVqbC3bpr9tEkvoz3QlSDyKgq5X8SU6sM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YVBxIZfRb1OFBHx0arlg4pOlMvqvGe5D/+MuZsiHO7QJFL0UsADzc/7CK3V8sQ95z
-         RCjS5Iq2uZqoKyto5cHbCd44VAfkFUDIsSabWbpnxiYFSHhXwYsK1TGFqFkGu45rO9
-         gVQX3+SZZXhYGOcA9n0SSGjYtmjWpSRVIvqzv82fMzrSHQLmNMgZgoqd/07gm0Ig9w
-         WgMOLZpoBtf1nWWtKqdW0C89EpDKQKQ4tVm44UpnD4ecEs4j4p9sbHUJGjGeqSwoKt
-         czPmfPtcL7RSDsS6XFYrfajbOUVfwjADmpK8UkRp6gYN6IMU40o4M3xrnZfJeNmVCI
-         FCcZAZL3tkmtw==
+        b=bxbew/tmLYgIorwV4UhJE3pWa5RCSTYHTzuFHQJ+Yxy94eRi0Y1nptsqcbjF7KNPv
+         g7ELXwP9wnabTQjax7f8nvz07N8JdNUJERWKBTaXvXDVHFYPcvIA38tMAK+hTJUUD8
+         7qIT2WC2HnByE2oBF16JkQxfJFBH4X9Zj2vRPCwfUobvYEpWWUNGB1PSJsu+eG3gnx
+         ZQYXsg1wHQ7Zp4Rho24pB6yVr5jA5iwZu8yCBAzBo9AN2rpk/944FymzII3CqG7CYV
+         pCzP+t0cKCEmb4lmlpTV+C+vmptqlxbG+DmIN4q1CszgHQnZdOMXOZbhdBIEV4R27u
+         5KG5iBaolas1g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yicong Yang <yangyicong@hisilicon.com>,
         Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
         corbet@lwn.net, lpieralisi@kernel.org, guohanjun@huawei.com,
         sudeep.holla@arm.com, rafael@kernel.org, mark.rutland@arm.com,
-        catalin.marinas@arm.com, maz@kernel.org, robin.murphy@arm.com,
-        nicolinc@nvidia.com, anshuman.khandual@arm.com,
-        james.morse@arm.com, sebastian.reichel@collabora.com,
-        zhengyan@asrmicro.com, shahuang@redhat.com, arnd@arndb.de,
-        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 6/8] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
-Date:   Fri,  8 Sep 2023 14:03:17 -0400
-Message-Id: <20230908180320.3458596-6-sashal@kernel.org>
+        catalin.marinas@arm.com, maz@kernel.org, nicolinc@nvidia.com,
+        robin.murphy@arm.com, james.morse@arm.com,
+        anshuman.khandual@arm.com, oliver.upton@linux.dev,
+        zhengyan@asrmicro.com, arnd@arndb.de, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.4 4/5] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
+Date:   Fri,  8 Sep 2023 14:03:50 -0400
+Message-Id: <20230908180352.3458731-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230908180320.3458596-1-sashal@kernel.org>
-References: <20230908180320.3458596-1-sashal@kernel.org>
+In-Reply-To: <20230908180352.3458731-1-sashal@kernel.org>
+References: <20230908180352.3458731-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.194
+X-stable-base: Linux 5.4.256
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -79,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  4 files changed, 53 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 4f3206495217c..10a26d44ef4a9 100644
+index 36a8c01191a07..6b70b6aabcffe 100644
 --- a/Documentation/arm64/silicon-errata.rst
 +++ b/Documentation/arm64/silicon-errata.rst
-@@ -149,6 +149,9 @@ stable kernels.
+@@ -134,6 +134,9 @@ stable kernels.
  +----------------+-----------------+-----------------+-----------------------------+
  | Hisilicon      | Hip08 SMMU PMCG | #162001800      | N/A                         |
  +----------------+-----------------+-----------------+-----------------------------+
@@ -93,10 +92,10 @@ index 4f3206495217c..10a26d44ef4a9 100644
  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
  +----------------+-----------------+-----------------+-----------------------------+
 diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index 50ed949dc1449..554943be26984 100644
+index 553c89b0bdcbb..09eb170f26d27 100644
 --- a/drivers/acpi/arm64/iort.c
 +++ b/drivers/acpi/arm64/iort.c
-@@ -1474,7 +1474,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
+@@ -1393,7 +1393,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
  static struct acpi_platform_list pmcg_plat_info[] __initdata = {
  	/* HiSilicon Hip08 Platform */
  	{"HISI  ", "HIP08   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
@@ -109,7 +108,7 @@ index 50ed949dc1449..554943be26984 100644
  };
  
 diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
-index f5a33dbe7acb9..6ebe72b862661 100644
+index 0b6af77196418..de85e9191947a 100644
 --- a/drivers/perf/arm_smmuv3_pmu.c
 +++ b/drivers/perf/arm_smmuv3_pmu.c
 @@ -95,6 +95,7 @@
@@ -176,7 +175,7 @@ index f5a33dbe7acb9..6ebe72b862661 100644
  		break;
  	}
  
-@@ -806,6 +840,16 @@ static int smmu_pmu_probe(struct platform_device *pdev)
+@@ -808,6 +842,16 @@ static int smmu_pmu_probe(struct platform_device *pdev)
  
  	smmu_pmu_get_acpi_options(smmu_pmu);
  
@@ -194,7 +193,7 @@ index f5a33dbe7acb9..6ebe72b862661 100644
  	smmu_pmu->on_cpu = raw_smp_processor_id();
  	WARN_ON(irq_set_affinity_hint(smmu_pmu->irq,
 diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
-index 1a12baa58e409..136dba94c646f 100644
+index 8e7e2ec37f1b2..64f700254ca0f 100644
 --- a/include/linux/acpi_iort.h
 +++ b/include/linux/acpi_iort.h
 @@ -21,6 +21,7 @@
