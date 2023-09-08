@@ -2,59 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA9C1EEB569
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 20:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8025BEEB56F
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 20:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241982AbjIHUDB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 16:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40008 "EHLO
+        id S232109AbjIHUeg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 16:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234042AbjIHUDA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 16:03:00 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F267210DF;
-        Fri,  8 Sep 2023 13:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694203359; x=1725739359;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R88nXWWc0OUb6aIDazZdF1rypv5AxHZtVExhYQzX2hM=;
-  b=XG4DuEg7Rt6taSiKZKPn/NP0NwDAy7Qjgf+WM2OhKopD6y/OX/9MO+sV
-   qdlZqqUKfJ9HaV2ax6IC4uJ9+2MerKQLqfkjF8+XjBxOVBrSNcaWUAzRL
-   YJxlF2QyIOkuroetY8MRFCYw7KSPvl33sXZ18YRdPLftA8AMllp6keODx
-   /SvPWsLyZccz0rtG8fBxClUnt/4wkgVS/RWfafaJSFHQHwUUkmzk2356a
-   kvynUR0GFOTUnaCTZAHGL/+a0T7pCZsYOY3k1+dtcBUp61ZCCr1F6Bm6Q
-   pN2Ukn1iZ/6pl2jOhUsCUI0X9JwgpHjA/ruqVK+0SRoJ+QlwefKurnKlL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357200341"
-X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="357200341"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 13:02:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="885782557"
-X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="885782557"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Sep 2023 13:02:10 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qehgP-0002Yc-0X;
-        Fri, 08 Sep 2023 20:02:25 +0000
-Date:   Sat, 9 Sep 2023 04:02:10 +0800
-From:   kernel test robot <lkp@intel.com>
+        with ESMTP id S231203AbjIHUeg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 16:34:36 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D808E;
+        Fri,  8 Sep 2023 13:34:30 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E0603732;
+        Fri,  8 Sep 2023 20:34:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E0603732
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1694205270; bh=MDqJnX+WbR6SonVUJc2b/jr2kB7zjQHa9+7BCtZ8K2A=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=HTkoomFfydhscycwnKd3Cy9JPJ+BEWU99bVy1XpLrFCnWKMW1CV4/tdC2XtjtbO5t
+         PTIgn9ZaMnT3Z7S7TkMeMYa+93uHTfbD725swExTm//fZ4BlPmpgp9EbCjgFTyHzUB
+         KLZ1QEbzihpL7c7/ol1uYdiwqIFSWHTaLmyX/sHE3ALPXiYSRxdIwAzwxY311wXcRL
+         hebiJpl7KFKV3t+IHOqNSFjOF7nDLjy3SahLBRBUBR23vWG/uVpo0DY0z7J6EPHGzw
+         +IVmmMZqnaz7CAOuB/RXy9VY0qDIk2GVU/2jMyU2fYYPsKZLlTkzLhYsCSEMhQtvML
+         Ck7Co0a4wQR/w==
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Michal Clapinski <mclapinski@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Muchun Song <muchun.song@linux.dev>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
+        Hugh Dickins <hughd@google.com>, Shuah Khan <shuah@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>, Yi Liu <yi.l.liu@intel.com>,
         Dominik Brodowski <linux@dominikbrodowski.net>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Steve French <stfrench@microsoft.com>,
         Simon Ser <contact@emersion.fr>,
         Jason Gunthorpe <jgg@ziepe.ca>,
@@ -66,57 +50,55 @@ To:     Michal Clapinski <mclapinski@google.com>,
         Kees Cook <keescook@chromium.org>,
         Daniel Verkamp <dverkamp@chromium.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Michal Clapinski <mclapinski@google.com>
-Subject: Re: [PATCH v2 1/2] mm/memfd: add ioctl(MEMFD_CHECK_IF_ORIGINAL)
-Message-ID: <202309090301.rMwXPz1I-lkp@intel.com>
-References: <20230908175738.41895-2-mclapinski@google.com>
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Cc:     Michal Clapinski <mclapinski@google.com>
+Subject: Re: [PATCH v2 0/2] mm/memfd: add ioctl(MEMFD_CHECK_IF_ORIGINAL)
+In-Reply-To: <20230908175738.41895-1-mclapinski@google.com>
+References: <20230908175738.41895-1-mclapinski@google.com>
+Date:   Fri, 08 Sep 2023 14:34:29 -0600
+Message-ID: <87tts4z9nu.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230908175738.41895-2-mclapinski@google.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Michal,
+Michal Clapinski <mclapinski@google.com> writes:
 
-kernel test robot noticed the following build warnings:
+> This change introduces a way to check if an fd points to a memfd's
+> original open fd (the one created by memfd_create).
+>
+> We encountered an issue with migrating memfds in CRIU (checkpoint
+> restore in userspace - it migrates running processes between
+> machines). Imagine a scenario:
+> 1. Create a memfd. By default it's open with O_RDWR and yet one can
+> exec() to it (unlike with regular files, where one would get ETXTBSY).
+> 2. Reopen that memfd with O_RDWR via /proc/self/fd/<fd>.
+>
+> Now those 2 fds are indistinguishable from userspace. You can't exec()
+> to either of them (since the reopen incremented inode->i_writecount)
+> and their /proc/self/fdinfo/ are exactly the same. Unfortunately they
+> are not the same. If you close the second one, the first one becomes
+> exec()able again. If you close the first one, the other doesn't become
+> exec()able. Therefore during migration it does matter which is recreated
+> first and which is reopened but there is no way for CRIU to tell which
+> was first.
 
-[auto build test WARNING on akpm-mm/mm-everything]
+So please bear with me...I'll confess that I don't fully understand the
+situation here, so this is probably a dumb question.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Clapinski/mm-memfd-add-ioctl-MEMFD_CHECK_IF_ORIGINAL/20230909-020048
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230908175738.41895-2-mclapinski%40google.com
-patch subject: [PATCH v2 1/2] mm/memfd: add ioctl(MEMFD_CHECK_IF_ORIGINAL)
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230909/202309090301.rMwXPz1I-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090301.rMwXPz1I-lkp@intel.com/reproduce)
+It seems like you are adding this "original open" test as a way of
+working around a quirk with the behavior of subsequent opens.  I don't
+*think* that this is part of the intended, documented behavior of
+memfds, it's just something that happens.  You're exposing an artifact
+of the current implementation.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309090301.rMwXPz1I-lkp@intel.com/
+Given that the two file descriptors are otherwise indistinguishable,
+might a better fix be to make them indistinguishable in this regard as
+well?  Is there a good reason why the second fd doesn't become
+exec()able in this scenario and, if not, perhaps that behavior could be
+changed instead?
 
-All warnings (new ones prefixed by >>):
+Thanks,
 
->> mm/shmem.c:4480:13: warning: 'shmem_file_ioctl' defined but not used [-Wunused-function]
-    4480 | static long shmem_file_ioctl(struct file *file, unsigned int cmd,
-         |             ^~~~~~~~~~~~~~~~
-
-
-vim +/shmem_file_ioctl +4480 mm/shmem.c
-
-  4479	
-> 4480	static long shmem_file_ioctl(struct file *file, unsigned int cmd,
-  4481				     unsigned long arg)
-  4482	{
-  4483		return memfd_ioctl(file, cmd, arg);
-  4484	}
-  4485	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+jon
