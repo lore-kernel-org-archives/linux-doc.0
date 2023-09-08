@@ -2,46 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C662EE8011
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 14:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F08EE8000
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 14:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243933AbjIHOa3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 10:30:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38060 "EHLO
+        id S243999AbjIHOah (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 10:30:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243978AbjIHOa0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 10:30:26 -0400
+        with ESMTP id S243970AbjIHOab (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 10:30:31 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8C11FE1;
-        Fri,  8 Sep 2023 07:30:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AFA51FE8;
+        Fri,  8 Sep 2023 07:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1694183420; x=1725719420;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KHR8Qc7/5doglix8W9O2Ns4ouxyrUJKNX4AIFv8kWLY=;
-  b=ab+4PIvAr91Hp4S8u4kH/m8e94fkIp/hSiD6ekfZKuvzHh8+tKfGpFDK
-   pwxtLAf5K7qjTacizyq5QPQ/nY0191oOdsi8NXU3yYcjdrHrOZmkn8dBo
-   PNwe2MkLK0E9Ydby21zsD/Ev92Fjlw5A5LpYtuOvKdpnqwbgzdrb+Lt4E
-   HEwdhgACfGVoWcDOH66LmSywXhykT0naKQaUoBi0Y+3G8aj+KFF+ik0Zu
-   4m2U9gmtx8+095+D+s7akMUGDGfgHD1dRTHejA8oD3O6hJF1z1pJUS0Pr
-   RAcAYTLcPW9nbO4/j+X7Wz+RnS80d20U/9w+YUv8kUKz/Qm7wja5B71uj
-   w==;
-X-CSE-ConnectionGUID: asNxVD5cQQC9XPoqMIkXxg==
-X-CSE-MsgGUID: j/lDpi6ASPmAIXsdJCS8dA==
+  t=1694183422; x=1725719422;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=o/4kIOJ9QiV558+OQwsWtdlftTAaBUFLv7BslVDZoe4=;
+  b=cOvNhMNNqGnG95Cwno7D/374xXDT7shCCSWKWykYCsdzyvZ4PbPgcOSu
+   mbOQtp7jV8hRF9xRa1LB6scSdIhSAlnZ+ZNYN9dAXWTf//68zxocQAz66
+   ZsqjpO4YyQRdAlqsxc/O0BTB8Gnc8cjDX46ISRcNTfhqoPoGnguL71IzF
+   C3mHNNpRbTdHiZKH0cyAYV3WtLcNiVJnhlmz8pOw3QB+gVm6tWOB+1ytd
+   V9P/MYCW9EvycO725eLuT5wJ0406VyVINgQAN1t88Sw8RtzjCaUZs9Z55
+   6IgH0wWtsOCy/RbzPFWulqnCN8B+f8o5GqccoRpyDe6LRsstaWNNJHoDY
+   Q==;
+X-CSE-ConnectionGUID: 0oM0WiPjTKynEvbCqNPq+Q==
+X-CSE-MsgGUID: Vkq0kZYKRvy3VwWmZvV6yQ==
 X-ThreatScanner-Verdict: Negative
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="3643518"
+   d="scan'208";a="170641771"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Sep 2023 07:30:19 -0700
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Sep 2023 07:30:20 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 8 Sep 2023 07:29:53 -0700
+ 15.1.2507.21; Fri, 8 Sep 2023 07:30:16 -0700
 Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Fri, 8 Sep 2023 07:29:45 -0700
+ 15.1.2507.21 via Frontend Transport; Fri, 8 Sep 2023 07:30:09 -0700
 From:   Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 To:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
         <pabeni@redhat.com>, <robh+dt@kernel.org>,
@@ -55,48 +55,143 @@ CC:     <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <Nicolas.Ferre@microchip.com>, <UNGLinuxDriver@microchip.com>,
         <Thorsten.Kummermehr@microchip.com>,
         Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Subject: [RFC PATCH net-next 0/6] Add support for OPEN Alliance 10BASE-T1x MACPHY Serial Interface
-Date:   Fri, 8 Sep 2023 19:59:13 +0530
-Message-ID: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+Subject: [RFC PATCH net-next 3/6] net: ethernet: implement OA TC6 configuration function
+Date:   Fri, 8 Sep 2023 19:59:16 +0530
+Message-ID: <20230908142919.14849-4-Parthiban.Veerasooran@microchip.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch series contain the below updates,
-- Adds support for OPEN Alliance 10BASE-T1x MACPHY Serial Interface in the
-  net/ethernet/oa_tc6.c.
-- Adds driver support for Microchip LAN8650/1 Rev.B0 10BASE-T1S MACPHY
-  Ethernet driver in the net/ethernet/microchip/lan865x.c.
+Read STDCAP register for the MAC-PHY capability and check against the
+configuration parameters such as chunk payload, tx cut through and rx cut
+through to configure the MAC-PHY. It also configures the control command
+protected/unprotected mode.
 
-Parthiban Veerasooran (6):
-  net: ethernet: implement OPEN Alliance control transaction interface
-  net: ethernet: add mac-phy interrupt support with reset complete
-    handling
-  net: ethernet: implement OA TC6 configuration function
-  net: ethernet: implement data transaction interface
-  microchip: lan865x: add driver support for Microchip's LAN865X MACPHY
-  microchip: lan865x: add device-tree support for Microchip's LAN865X
-    MACPHY
+In cut through mode configuration the MAC-PHY doesn't buffer the incoming
+data. In tx case, it passes the data to the network if the configured cps
+of data available. In rx case, it passes the data to the SPI host if the
+configured cps of data available from the network. Also disables all the
+errors mask in the IMASK0 register to check for the errors.
 
- .../bindings/net/microchip,lan865x.yaml       |  54 ++
- Documentation/networking/oa-tc6-framework.rst | 231 +++++
- MAINTAINERS                                   |  15 +
- drivers/net/ethernet/microchip/Kconfig        |  10 +
- drivers/net/ethernet/microchip/Makefile       |   3 +
- drivers/net/ethernet/microchip/lan865x.c      | 589 +++++++++++++
- drivers/net/ethernet/oa_tc6.c                 | 807 ++++++++++++++++++
- include/linux/oa_tc6.h                        | 130 +++
- 8 files changed, 1839 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/net/microchip,lan865x.yaml
- create mode 100644 Documentation/networking/oa-tc6-framework.rst
- create mode 100644 drivers/net/ethernet/microchip/lan865x.c
- create mode 100644 drivers/net/ethernet/oa_tc6.c
- create mode 100644 include/linux/oa_tc6.h
+Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+---
+ drivers/net/ethernet/oa_tc6.c | 39 +++++++++++++++++++++++++++++++++++
+ include/linux/oa_tc6.h        | 28 ++++++++++++++++++++++---
+ 2 files changed, 64 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+index 0019f70345b6..65a7317f768d 100644
+--- a/drivers/net/ethernet/oa_tc6.c
++++ b/drivers/net/ethernet/oa_tc6.c
+@@ -287,6 +287,45 @@ int oa_tc6_read_register(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len)
+ }
+ EXPORT_SYMBOL_GPL(oa_tc6_read_register);
+ 
++int oa_tc6_configure(struct oa_tc6 *tc6, u8 cps, bool ctrl_prot, bool tx_cut_thr,
++		     bool rx_cut_thr)
++{
++	u32 regval;
++	int ret;
++
++	/* Read and configure the IMASK0 register for unmasking the interrupts */
++	ret = oa_tc6_read_register(tc6, OA_TC6_IMASK0, &regval, 1);
++	if (ret)
++		return ret;
++
++	regval &= TXPEM & TXBOEM & TXBUEM & RXBOEM & LOFEM & HDREM;
++	ret = oa_tc6_write_register(tc6, OA_TC6_IMASK0, &regval, 1);
++	if (ret)
++		return ret;
++
++	/* Configure the CONFIG0 register with the required configurations */
++	regval = SYNC;
++	if (ctrl_prot)
++		regval |= PROTE;
++	if (tx_cut_thr)
++		regval |= TXCTE;
++	if (rx_cut_thr)
++		regval |= RXCTE;
++	regval |= FIELD_PREP(CPS, ilog2(cps) / ilog2(2));
++
++	ret = oa_tc6_write_register(tc6, OA_TC6_CONFIG0, &regval, 1);
++	if (ret)
++		return ret;
++
++	tc6->cps = cps;
++	tc6->ctrl_prot = ctrl_prot;
++	tc6->tx_cut_thr = tx_cut_thr;
++	tc6->rx_cut_thr = rx_cut_thr;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(oa_tc6_configure);
++
+ struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
+ {
+ 	struct oa_tc6 *tc6;
+diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
+index 315f061c2dfe..fa29c4e09720 100644
+--- a/include/linux/oa_tc6.h
++++ b/include/linux/oa_tc6.h
+@@ -19,11 +19,28 @@
+ 
+ /* Open Alliance TC6 Standard Control and Status Registers */
+ #define OA_TC6_RESET	0x0003		/* Reset Control and Status Register */
++#define OA_TC6_CONFIG0	0x0004		/* Configuration Register #0 */
+ #define OA_TC6_STS0	0x0008		/* Status Register #0 */
++#define OA_TC6_IMASK0	0x000C		/* Interrupt Mask Register #0 */
+ 
+ /* RESET register field */
+ #define SW_RESET	BIT(0)		/* Software Reset */
+ 
++/* CONFIG0 register fields */
++#define SYNC		BIT(15)		/* Configuration Synchronization */
++#define TXCTE		BIT(9)		/* Tx cut-through enable */
++#define RXCTE		BIT(8)		/* Rx cut-through enable */
++#define PROTE		BIT(5)		/* Ctrl read/write Protection Enable */
++#define CPS		GENMASK(2, 0)	/* Chunk Payload Size */
++
++/* Unmasking interrupt fields in IMASK0 */
++#define HDREM		~BIT(5)		/* Header Error Mask */
++#define LOFEM		~BIT(4)		/* Loss of Framing Error Mask */
++#define RXBOEM		~BIT(3)		/* Rx Buffer Overflow Error Mask */
++#define TXBUEM		~BIT(2)		/* Tx Buffer Underflow Error Mask */
++#define TXBOEM		~BIT(1)		/* Tx Buffer Overflow Error Mask */
++#define TXPEM		~BIT(0)		/* Tx Protocol Error Mask */
++
+ /* STATUS0 register field */
+ #define RESETC		BIT(6)		/* Reset Complete */
+ 
+@@ -31,15 +48,20 @@
+ #define TC6_FTR_SIZE	4		/* Ctrl command footer size ss per OA */
+ 
+ struct oa_tc6 {
+-	struct spi_device *spi;
+-	bool ctrl_prot;
++	struct completion rst_complete;
+ 	struct task_struct *tc6_task;
+ 	wait_queue_head_t tc6_wq;
++	struct spi_device *spi;
++	bool tx_cut_thr;
++	bool rx_cut_thr;
++	bool ctrl_prot;
+ 	bool int_flag;
+-	struct completion rst_complete;
++	u8 cps;
+ };
+ 
+ struct oa_tc6 *oa_tc6_init(struct spi_device *spi);
+ int oa_tc6_deinit(struct oa_tc6 *tc6);
+ int oa_tc6_write_register(struct oa_tc6 *tc6, u32 addr, u32 value[], u8 len);
+ int oa_tc6_read_register(struct oa_tc6 *tc6, u32 addr, u32 value[], u8 len);
++int oa_tc6_configure(struct oa_tc6 *tc6, u8 cps, bool ctrl_prot, bool tx_cut_thr,
++		     bool rx_cut_thr);
 -- 
 2.34.1
 
