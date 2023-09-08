@@ -2,73 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2519AEB8FDE
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 02:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4F4EE14C3
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 03:39:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236692AbjIHCqX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Sep 2023 22:46:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57808 "EHLO
+        id S237050AbjIHDjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Sep 2023 23:39:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230466AbjIHCqW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 22:46:22 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D5DD1BD9
-        for <linux-doc@vger.kernel.org>; Thu,  7 Sep 2023 19:45:57 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-68c0d886ea0so1410925b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 Sep 2023 19:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1694141156; x=1694745956; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9h7VfuU4Oy/BBgAD3W63aRNBjYZvFElCK9G+YIFUMro=;
-        b=DlEwLOspdKXitmVgPP5k0/K4ooJ3MyQHIs7lhOhjcTE+E42DkhFzKmvNxk0Gu5N01O
-         r421176bwKsCgtKGE945YI2yBzo8UbI05piy5UdjwFZ6YyWf2gBrzh09H1gGWdXD0lIj
-         CSU/h2voAqbUzT1BPeMkWqr1QP/mvAII3wJ3sz3FQQrFA90uJbVcNlfyNTFiAePZqvkD
-         LClU3+jFDoWcxxRzpAzjfJ5iKXSqd9VLpHlfyWkzeCaDJQPqOIHHYIN9nRNqqpTmXOh/
-         ZLlpA9y9wgbV+HnMF05/aWnljsNlncJ/S9mgUHWJbr9A/6mI2tSCKjAzFicFy7PR4zZd
-         wnIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694141156; x=1694745956;
-        h=content-transfer-encoding:in-reply-to:from:references:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9h7VfuU4Oy/BBgAD3W63aRNBjYZvFElCK9G+YIFUMro=;
-        b=vZ2+mfEHzjfKyT4iFldwHGTFRgEG13JDhTTR8DvZ61mlCNnJkyV2HZykv1ZMZCmkEH
-         xRHjmVsXeIO5hGqSgnBWdDHagg7970MVm4sUy+EcOoqUhrHiHzdA9PvKmi0++I65awAJ
-         P525CzNDkI577Hq0/8dE4Va1cXCrof5HPQNZ0sWxykN8CYmU6yz0RgLH2h7qhtP/Vs3+
-         ETcStDbW4MldmfMqvCoi4B+7bPulYM4HFsrY9dlAFyoGgEDjUcWtJ2f1ON+bXxXJ1oDV
-         N61kNdil8TW8HD0nlkL7uk86odBobNYb2FpQDPcQqT/nha+ls1XKc4zTaVg49Ty51fk4
-         qFZQ==
-X-Gm-Message-State: AOJu0YzpY+k0UCNvK8/tbs7x5znUgbi5LBzADOT32rp+5mcOe/YuH82V
-        0W2E9NScwaQQJLOjSkEG51l6fA==
-X-Google-Smtp-Source: AGHT+IFQnqvdNGpryMKcZ/mzsBNIkInaLkAduE8sTSSLhlfJiuy33tUzTGUUvwepdzpMVoAqKZwRRA==
-X-Received: by 2002:a05:6a00:248d:b0:68e:290b:bb57 with SMTP id c13-20020a056a00248d00b0068e290bbb57mr1309970pfv.18.1694141156556;
-        Thu, 07 Sep 2023 19:45:56 -0700 (PDT)
-Received: from [10.254.232.87] ([139.177.225.246])
-        by smtp.gmail.com with ESMTPSA id p15-20020aa7860f000000b00666e649ca46sm357491pfn.101.2023.09.07.19.45.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Sep 2023 19:45:56 -0700 (PDT)
-Message-ID: <3ebd7fab-ba27-9abd-b06f-b16fa567ebbc@bytedance.com>
-Date:   Fri, 8 Sep 2023 10:45:47 +0800
+        with ESMTP id S233131AbjIHDjY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Sep 2023 23:39:24 -0400
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EE81BD5;
+        Thu,  7 Sep 2023 20:39:19 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VraxvXs_1694144354;
+Received: from 30.221.149.157(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VraxvXs_1694144354)
+          by smtp.aliyun-inc.com;
+          Fri, 08 Sep 2023 11:39:15 +0800
+Message-ID: <3ab1f1d6-0aac-5a58-1bf9-74a62ec5901e@linux.alibaba.com>
+Date:   Fri, 8 Sep 2023 11:39:13 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v2 1/6] maple_tree: Add two helpers
-To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-        Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, willy@infradead.org, brauner@kernel.org,
-        surenb@google.com, michael.christie@oracle.com,
-        peterz@infradead.org, mathieu.desnoyers@efficios.com,
-        npiggin@gmail.com, avagin@gmail.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
- <20230830125654.21257-2-zhangpeng.00@bytedance.com>
- <20230907201314.g4scadi3tk5ctrd2@revolver>
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <20230907201314.g4scadi3tk5ctrd2@revolver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [PATCH v8 0/8] Add metrics for Arm CMN
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>, Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+References: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <ZPn1BEzAoQa/ogtL@kernel.org>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <ZPn1BEzAoQa/ogtL@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -76,59 +53,131 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-在 2023/9/8 04:13, Liam R. Howlett 写道:
-> * Peng Zhang <zhangpeng.00@bytedance.com> [230830 08:57]:
->> Add two helpers, which will be used later.
+在 2023/9/8 上午12:06, Arnaldo Carvalho de Melo 写道:
+> Em Thu, Sep 07, 2023 at 07:58:25PM +0800, Jing Zhang escreveu:
+>> Changes since v7:
+>> - Optimized pmu_uncore_identifier_match().
+>> - Added all missing "event=0" in JSON file.
+>> - Rebase this series onto the latest perf-tools-next.
+>> - Link: https://lore.kernel.org/all/1692606977-92009-1-git-send-email-renyu.zj@linux.alibaba.com/
 > 
-> Can you please change the subject to something like:
-> Add mt_free_one() and mt_attr() helpers
+> Can you please refresh on top of what is in the tmp.perf-tools-next
+> branch at:
 > 
-> for easier git log readability?
-OK, I'll do that.
+> git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git
 > 
+
+Yes, this series is already based on the latest tmp.perf-tools-next.
+
+> patch 3/8 has some fuzz and b4 is not finding it in the mailing list,
+> probably the patch is too large? Do you have some git tree somewhere I
+> can use to pull from?
+> 
+
+Patch 3/8 is too large and it is being held until the list moderator can
+review it for approval.
+
+Perhaps you can pull it from my repository. Sorry for the inconvenience.
+https://github.com/ZhangJing-hub/linux/commit/c33234e62aa210cc7dea0be3c749af1a8737b88d
+
+Thanks,
+Jing
+
+> - Arnaldo
+>  
+>> Jing Zhang (8):
+>>   perf pmu: "Compat" supports matching multiple identifiers
+>>   perf metric: "Compat" supports matching multiple identifiers
+>>   perf vendor events: Supplement the omitted EventCode
+>>   perf jevents: Support more event fields
+>>   perf test: Make matching_pmu effective
+>>   perf test: Add pmu-event test for "Compat" and new event_field.
+>>   perf jevents: Add support for Arm CMN PMU aliasing
+>>   perf vendor events: Add JSON metrics for Arm CMN
 >>
->> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
->> ---
->>   lib/maple_tree.c | 12 +++++++++++-
->>   1 file changed, 11 insertions(+), 1 deletion(-)
+>>  .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
+>>  .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
+>>  .../pmu-events/arch/test/test_soc/sys/uncore.json  |   8 +
+>>  .../pmu-events/arch/x86/alderlake/pipeline.json    |   9 +
+>>  .../pmu-events/arch/x86/alderlaken/pipeline.json   |   3 +
+>>  .../pmu-events/arch/x86/broadwell/pipeline.json    |   4 +
+>>  .../pmu-events/arch/x86/broadwellde/pipeline.json  |   4 +
+>>  .../arch/x86/broadwellde/uncore-cache.json         |   2 +
+>>  .../arch/x86/broadwellde/uncore-interconnect.json  |   1 +
+>>  .../arch/x86/broadwellde/uncore-memory.json        |   1 +
+>>  .../arch/x86/broadwellde/uncore-power.json         |   1 +
+>>  .../pmu-events/arch/x86/broadwellx/pipeline.json   |   4 +
+>>  .../arch/x86/broadwellx/uncore-cache.json          |   2 +
+>>  .../arch/x86/broadwellx/uncore-interconnect.json   |  13 +
+>>  .../arch/x86/broadwellx/uncore-memory.json         |   2 +
+>>  .../arch/x86/broadwellx/uncore-power.json          |   1 +
+>>  .../pmu-events/arch/x86/cascadelakex/pipeline.json |   4 +
+>>  .../arch/x86/cascadelakex/uncore-cache.json        |   2 +
+>>  .../arch/x86/cascadelakex/uncore-interconnect.json |   1 +
+>>  .../arch/x86/cascadelakex/uncore-io.json           |   1 +
+>>  .../arch/x86/cascadelakex/uncore-memory.json       |   1 +
+>>  .../arch/x86/cascadelakex/uncore-power.json        |   1 +
+>>  .../pmu-events/arch/x86/elkhartlake/pipeline.json  |   2 +
+>>  .../pmu-events/arch/x86/goldmont/pipeline.json     |   3 +
+>>  .../pmu-events/arch/x86/goldmontplus/pipeline.json |   3 +
+>>  .../pmu-events/arch/x86/grandridge/pipeline.json   |   3 +
+>>  .../arch/x86/graniterapids/pipeline.json           |   4 +
+>>  .../perf/pmu-events/arch/x86/haswell/pipeline.json |   4 +
+>>  .../pmu-events/arch/x86/haswellx/pipeline.json     |   4 +
+>>  .../pmu-events/arch/x86/haswellx/uncore-cache.json |   2 +
+>>  .../arch/x86/haswellx/uncore-interconnect.json     |  14 ++
+>>  .../arch/x86/haswellx/uncore-memory.json           |   2 +
+>>  .../pmu-events/arch/x86/haswellx/uncore-power.json |   1 +
+>>  .../perf/pmu-events/arch/x86/icelake/pipeline.json |   5 +
+>>  .../pmu-events/arch/x86/icelakex/pipeline.json     |   5 +
+>>  .../pmu-events/arch/x86/icelakex/uncore-cache.json |   1 +
+>>  .../arch/x86/icelakex/uncore-interconnect.json     |   1 +
+>>  .../arch/x86/icelakex/uncore-memory.json           |   1 +
+>>  .../pmu-events/arch/x86/icelakex/uncore-power.json |   1 +
+>>  .../pmu-events/arch/x86/ivybridge/pipeline.json    |   3 +
+>>  .../perf/pmu-events/arch/x86/ivytown/pipeline.json |   4 +
+>>  .../pmu-events/arch/x86/ivytown/uncore-cache.json  |   2 +
+>>  .../arch/x86/ivytown/uncore-interconnect.json      |  11 +
+>>  .../pmu-events/arch/x86/ivytown/uncore-memory.json |   1 +
+>>  .../pmu-events/arch/x86/ivytown/uncore-power.json  |   1 +
+>>  .../pmu-events/arch/x86/jaketown/pipeline.json     |   4 +
+>>  .../pmu-events/arch/x86/jaketown/uncore-cache.json |   2 +
+>>  .../arch/x86/jaketown/uncore-interconnect.json     |  12 +
+>>  .../arch/x86/jaketown/uncore-memory.json           |   1 +
+>>  .../pmu-events/arch/x86/jaketown/uncore-power.json |   2 +
+>>  .../arch/x86/knightslanding/pipeline.json          |   3 +
+>>  .../arch/x86/knightslanding/uncore-cache.json      |   1 +
+>>  .../arch/x86/knightslanding/uncore-memory.json     |   4 +
+>>  .../pmu-events/arch/x86/meteorlake/pipeline.json   |   9 +
+>>  .../pmu-events/arch/x86/rocketlake/pipeline.json   |   3 +
+>>  .../pmu-events/arch/x86/sandybridge/pipeline.json  |   4 +
+>>  .../arch/x86/sapphirerapids/pipeline.json          |   5 +
+>>  .../pmu-events/arch/x86/sierraforest/pipeline.json |   4 +
+>>  .../pmu-events/arch/x86/silvermont/pipeline.json   |   3 +
+>>  .../perf/pmu-events/arch/x86/skylake/pipeline.json |   4 +
+>>  .../pmu-events/arch/x86/skylakex/pipeline.json     |   4 +
+>>  .../pmu-events/arch/x86/skylakex/uncore-cache.json |   2 +
+>>  .../arch/x86/skylakex/uncore-interconnect.json     |   1 +
+>>  .../pmu-events/arch/x86/skylakex/uncore-io.json    |   1 +
+>>  .../arch/x86/skylakex/uncore-memory.json           |   1 +
+>>  .../pmu-events/arch/x86/skylakex/uncore-power.json |   1 +
+>>  .../pmu-events/arch/x86/snowridgex/pipeline.json   |   2 +
+>>  .../arch/x86/snowridgex/uncore-cache.json          |   1 +
+>>  .../arch/x86/snowridgex/uncore-interconnect.json   |   1 +
+>>  .../arch/x86/snowridgex/uncore-memory.json         |   1 +
+>>  .../arch/x86/snowridgex/uncore-power.json          |   1 +
+>>  .../pmu-events/arch/x86/tigerlake/pipeline.json    |   5 +
+>>  tools/perf/pmu-events/empty-pmu-events.c           |   8 +
+>>  tools/perf/pmu-events/jevents.py                   |  21 +-
+>>  tools/perf/tests/pmu-events.c                      |  65 ++++-
+>>  tools/perf/util/metricgroup.c                      |   2 +-
+>>  tools/perf/util/pmu.c                              |  28 ++-
+>>  tools/perf/util/pmu.h                              |   1 +
+>>  78 files changed, 681 insertions(+), 9 deletions(-)
+>>  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
+>>  create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
 >>
->> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
->> index ee1ff0c59fd7..ef234cf02e3e 100644
->> --- a/lib/maple_tree.c
->> +++ b/lib/maple_tree.c
->> @@ -165,6 +165,11 @@ static inline int mt_alloc_bulk(gfp_t gfp, size_t size, void **nodes)
->>   	return kmem_cache_alloc_bulk(maple_node_cache, gfp, size, nodes);
->>   }
->>   
->> +static inline void mt_free_one(struct maple_node *node)
->> +{
->> +	kmem_cache_free(maple_node_cache, node);
->> +}
->> +
->>   static inline void mt_free_bulk(size_t size, void __rcu **nodes)
->>   {
->>   	kmem_cache_free_bulk(maple_node_cache, size, (void **)nodes);
->> @@ -205,6 +210,11 @@ static unsigned int mas_mt_height(struct ma_state *mas)
->>   	return mt_height(mas->tree);
->>   }
->>   
->> +static inline unsigned int mt_attr(struct maple_tree *mt)
->> +{
->> +	return mt->ma_flags & ~MT_FLAGS_HEIGHT_MASK;
->> +}
->> +
->>   static inline enum maple_type mte_node_type(const struct maple_enode *entry)
->>   {
->>   	return ((unsigned long)entry >> MAPLE_NODE_TYPE_SHIFT) &
->> @@ -5520,7 +5530,7 @@ void mas_destroy(struct ma_state *mas)
->>   			mt_free_bulk(count, (void __rcu **)&node->slot[1]);
->>   			total -= count;
->>   		}
->> -		kmem_cache_free(maple_node_cache, node);
->> +		mt_free_one(ma_mnode_ptr(node));
->>   		total--;
->>   	}
->>   
 >> -- 
->> 2.20.1
+>> 1.8.3.1
 >>
+> 
