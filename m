@@ -2,148 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7405EE57CA
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 06:54:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C1CEE57E2
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 07:53:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242453AbjIHGyh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 02:54:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
+        id S232817AbjIHHxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 03:53:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242442AbjIHGyc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 02:54:32 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 104691FDF;
-        Thu,  7 Sep 2023 23:54:22 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3885Tbdt007733;
-        Fri, 8 Sep 2023 06:54:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : date :
- subject : mime-version : content-type : content-transfer-encoding :
- message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=xbPGXFjhk3rQpoGLqXnqN54My/xDiWdIVQN0PE1OG6s=;
- b=nObuKNjCR0mlCsMCZJ+dY4DGu6UQOVbhb8UPIKqoyPxahi9WmjjKCza/wKcHxb6W2fel
- EXAOYmuNKQ0bHbY8UA+qCx5ck+HRNgffgTuh8ow55OnyyRAZ+PaKm8Ff7lzwzzzjP/9I
- RrunlqK3oeeUrUkoOjqY0czJfEU2OjHh0HAgByOI+XJaMUyUuewUjCRRYaBI4GOt9NRT
- sMbvNvquv/Kkta8msBZ0FJ4zWhQnjYrUUc4Ry10CSuNtYQbvIR4VYw+N21K2c6xXKKmt
- yjBYWIBEfKgXJC7M/kVereseWxk8VKDbvYfm5n2jQK9R8CKUo3Tx0igqh4DfRbLHAh/u gw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3syf5c1ygc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 Sep 2023 06:54:13 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3886sCcQ015257
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 8 Sep 2023 06:54:12 GMT
-Received: from hu-krichai-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Thu, 7 Sep 2023 23:54:08 -0700
-From:   Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Date:   Fri, 8 Sep 2023 12:23:38 +0530
-Subject: [PATCH v6 4/4] PCI: epf-mhi: Add support for handling D-state
- notify from EPC
+        with ESMTP id S229715AbjIHHxa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 03:53:30 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE591997;
+        Fri,  8 Sep 2023 00:53:25 -0700 (PDT)
+Received: from [192.168.1.23] (unknown [171.76.82.102])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: vignesh)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DEF3566072A2;
+        Fri,  8 Sep 2023 08:53:17 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694159603;
+        bh=1Be9Ga17gksJsOil0d5EZoQWNEzJGykPqruhkf331P8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=AZ8K5q+HuIaaU6/G04eKJSX0xrkxKxQB3FT9sj7Ftu3/eZFbcjcUuN0wZDB1Uru/+
+         SRRAaZZY9CpqexRRTVJwqqy2gLir7pE2gZVNT1DV4X/m0nKY7UEX8kzAk1oZgSXQdL
+         Lmq3zfkiEKO5O28VvgFGJu7mu2A9LXIHs4XR/1wUMTNnQo25S7RIs7xdl152ZM7Lwk
+         lZi/4cDySYL16Pemg1Mc/OnqIxALgeq5SLlrMVZt/Gj/AY3Xl27NJXEHwaFZnjvpyL
+         DFbNN+wBQgmXV+uLAfoCeQfeyyzzPlysSiOmAuLvMu3+DuB7yAYXGyUnQUfJlUSQrX
+         Oj81GmCXY/TKg==
+Message-ID: <ff99380a-cb0d-dc6c-0442-7aa60d14cec2@collabora.com>
+Date:   Fri, 8 Sep 2023 13:23:12 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230908-dstate_change-v6-4-b414a6edd765@quicinc.com>
-References: <20230908-dstate_change-v6-0-b414a6edd765@quicinc.com>
-In-Reply-To: <20230908-dstate_change-v6-0-b414a6edd765@quicinc.com>
-To:     Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>
-CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <mhi@lists.linux.dev>,
-        Krishna chaitanya chundru <quic_krichai@quicinc.com>
-X-Mailer: b4 0.13-dev-83828
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694156032; l=1755;
- i=quic_krichai@quicinc.com; s=20230907; h=from:subject:message-id;
- bh=vF/dQCu3TPF1bViARZ8lDBrNRejc29BwCNshPXeJqbg=;
- b=CfyLczHQOj9gA4+LDiEHuovleozRyYYl3Bj/1Z2z8PLGXS+8pl/cTnSnsz8JNRLCLi9DztnP/
- S5SJklpzlk4BFXLqeeEm8++BySsMPGlp2D7sMs3NuY5Oj0BRnLGCjLg
-X-Developer-Key: i=quic_krichai@quicinc.com; a=ed25519;
- pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: VwRbAi8vdbHXtvqrYeXxho8-t81XDIZV
-X-Proofpoint-ORIG-GUID: VwRbAi8vdbHXtvqrYeXxho8-t81XDIZV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-08_03,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 spamscore=0 lowpriorityscore=0 phishscore=0
- malwarescore=0 suspectscore=0 impostorscore=0 bulkscore=0 mlxlogscore=857
- mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309080062
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
+Content-Language: en-US
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        dri-devel@lists.freedesktop.org,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     helen.koike@collabora.com, guilherme.gallo@collabora.com,
+        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+        daniels@collabora.com, emma@anholt.net, robclark@freedesktop.org,
+        gustavo.padovan@collabora.com, robdclark@google.com,
+        anholt@google.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+        daniel@ffwll.ch, corbet@lwn.net, neil.armstrong@linaro.org,
+        khilman@baylibre.com, jbrunet@baylibre.com,
+        martin.blumenstingl@googlemail.com, heiko@sntech.de,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org
+References: <20230825122435.316272-1-vignesh.raman@collabora.com>
+ <20230825122435.316272-5-vignesh.raman@collabora.com>
+ <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
+From:   Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for handling D-state notify for MHI EPF.
+Hi Angelo,
 
-Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
----
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
- include/linux/mhi_ep.h                       |  3 +++
- 2 files changed, 14 insertions(+)
+On 07/09/23 16:16, AngeloGioacchino Del Regno wrote:
+> Il 25/08/23 14:24, Vignesh Raman ha scritto:
+>> Enable regulator
+>> Enable MT6397 RTC driver
+>>
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>   drivers/gpu/drm/ci/arm64.config | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/ci/arm64.config 
+>> b/drivers/gpu/drm/ci/arm64.config
+>> index 817e18ddfd4f..ea7a6cceff40 100644
+>> --- a/drivers/gpu/drm/ci/arm64.config
+>> +++ b/drivers/gpu/drm/ci/arm64.config
+>> @@ -184,6 +184,8 @@ CONFIG_HW_RANDOM_MTK=y
+>>   CONFIG_MTK_DEVAPC=y
+>>   CONFIG_PWM_MTK_DISP=y
+>>   CONFIG_MTK_CMDQ=y
+>> +CONFIG_REGULATOR_DA9211=y
+>> +CONFIG_RTC_DRV_MT6397=y
+> 
+> I wonder if it'd be a better idea to simply add those to the defconfig 
+> instead as
+> 
+> CONFIG_REGULATOR_DA9211=m
+> CONFIG_RTC_DRV_MT6397=m
+> 
+> Any opinion on this? Matthias? Anyone else?
 
-diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index b7b9d3e21f97..7bd15cca686c 100644
---- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -592,6 +592,16 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
- 	return 0;
- }
- 
-+static int pci_epf_mhi_dstate_notify(struct pci_epf *epf, pci_power_t state)
-+{
-+	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-+	struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
-+
-+	mhi_cntrl->dstate = state;
-+
-+	return 0;
-+}
-+
- static int pci_epf_mhi_bind(struct pci_epf *epf)
- {
- 	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-@@ -649,6 +659,7 @@ static struct pci_epc_event_ops pci_epf_mhi_event_ops = {
- 	.link_up = pci_epf_mhi_link_up,
- 	.link_down = pci_epf_mhi_link_down,
- 	.bme = pci_epf_mhi_bme,
-+	.dstate_notify = pci_epf_mhi_dstate_notify,
- };
- 
- static int pci_epf_mhi_probe(struct pci_epf *epf,
-diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-index f198a8ac7ee7..c3a068592d21 100644
---- a/include/linux/mhi_ep.h
-+++ b/include/linux/mhi_ep.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/dma-direction.h>
- #include <linux/mhi.h>
-+#include <linux/pci.h>
- 
- #define MHI_EP_DEFAULT_MTU 0x8000
- 
-@@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
- 
- 	enum mhi_state mhi_state;
- 
-+	pci_power_t dstate;
-+
- 	u32 max_chan;
- 	u32 mru;
- 	u32 event_rings;
+CONFIG_RTC_DRV_MT6397=m is already present in defconfig.
+We can also add CONFIG_REGULATOR_DA9211=m to defconfig.
 
--- 
-2.42.0
-
+Regards,
+Vignesh
