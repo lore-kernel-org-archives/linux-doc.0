@@ -2,349 +2,499 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A2C0EE57E7
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 08:49:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4DDAEE57EB
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 09:26:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239828AbjIHItm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 04:49:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36362 "EHLO
+        id S234156AbjIHJ0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 05:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237336AbjIHItl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 04:49:41 -0400
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2110.outbound.protection.outlook.com [40.107.255.110])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5672E1BEE;
-        Fri,  8 Sep 2023 01:49:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YobqQmROvwANhzjtRpHGG3ML1QQlNtUr1WiEvKysZeo7ep81Xz5xbRw3EQJU/rZhpD9dqsEKifks/Fh3HjIYOAcSrlgCM1Lt0RVFx2xuX7dqtqb0b0NX2D7WdswNfhymNzHGOeEwBefu1plyewC5z/qhcnXZn8ZluCJFIzTZBRJzjXaaWRuXI03FtzxiEzPIqV2QhEtSJ/y2UsPfccAFrE0GDCfpMpZI5eZqUFntEPbmTTPd0ngJelE9Zj4eJVhqyuX2XHgGPdjybd8Lwf3/JWfvHHOQHO/BdH5azzlrinIWMlcyficiQulndmnZzcRiGzntULgu+UFJ6qOEDt+UBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q/sryLcnlRCdI6AMY6X/AxgKrFqlpkF7HkBroAsp28Q=;
- b=ChuMp1jaP1tWKiOXFRvsNC9nx/GKpax/6YaLJGggMoxg7gR5vt/OAhJAWi16nBHUbnM7hPJUybYt7rrWOb6OPmZEwk59ObXeUZ+WQdwZyI17NXUNexaYJAFerc1thiNWp7zz5mrcRygv8rpwvOfilFo5WDG071KBEAPPVXLliSsbErQxI6Y0+FPDkQRwopDdI1yV3bO5Ac3SShn6UjNhfk57TKSNGAHraeQJtZeLGYfuO/t5ZmTzHrjUrGwtoCQFuV9otqEy5v4F+mTmZQRsE/rfc2a5B7PySXCVveoCQDMnZ5qoYIoF6lSATRi6YsEBS87sUTufQMDV+K9MJTtk6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q/sryLcnlRCdI6AMY6X/AxgKrFqlpkF7HkBroAsp28Q=;
- b=ZlJ5AnakE/HLdhk9NfbLsZ2vGUX8+1UpnlMjtUtbogcFzrCMKDNDC6NAiRx+gSIhqpOKUr6sIM/uH56/wjR+MUntwU0iO0OimRg9mHFeVAemiyAaKgm2BpveX1FwOVJAXoPqqmSdLIe57M7j9reVwRjSoVdKSdAItOBKOZuabkd7fRzhkcFkICHAny/W0uYDsxnXQplSpuOz2owPxozGelcNFuWL2afJUsJTd2gs6WK87Trnzy6bsG4Rx46+HmMLXFRKYvz32KnHpx+lfqQ1pNVSSL2Nf2uR7d8IMED8GH6nbNFld5wCEHLkMK5xCPbBhaQ9bWHwb66+9dmTwZdoxw==
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
- JH0PR06MB6342.apcprd06.prod.outlook.com (2603:1096:990:11::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6768.30; Fri, 8 Sep 2023 08:49:25 +0000
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::791a:38e8:18cf:d205]) by SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::791a:38e8:18cf:d205%5]) with mapi id 15.20.6745.030; Fri, 8 Sep 2023
- 08:49:25 +0000
-From:   Billy Tsai <billy_tsai@aspeedtech.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "naresh.solanki@9elements.com" <naresh.solanki@9elements.com>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        BMC-SW <BMC-SW@aspeedtech.com>,
-        "patrick@stwcx.xyz" <patrick@stwcx.xyz>
-Subject: Re: [PATCH v8 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
-Thread-Topic: [PATCH v8 1/3] dt-bindings: hwmon: fan: Add fan binding to
- schema
-Thread-Index: AQHZ2z4C+uKKem1S50iGi7OYH9WEnLAMfl8AgAKBk6KAANDSgIAA2pqv
-Date:   Fri, 8 Sep 2023 08:49:25 +0000
-Message-ID: <SG2PR06MB3365B916E3AD2CE331A0D4258BEDA@SG2PR06MB3365.apcprd06.prod.outlook.com>
-References: <20230830123202.3408318-1-billy_tsai@aspeedtech.com>
- <20230830123202.3408318-2-billy_tsai@aspeedtech.com>
- <20230905170010.GA3505375-robh@kernel.org>
- <SG2PR06MB336567E43537C7F4947E342F8BEEA@SG2PR06MB3365.apcprd06.prod.outlook.com>
- <20230907194351.GA2033402-robh@kernel.org>
-In-Reply-To: <20230907194351.GA2033402-robh@kernel.org>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|JH0PR06MB6342:EE_
-x-ms-office365-filtering-correlation-id: af7ee160-e128-49e8-05b4-08dbb048814e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QB0cFEOBJI6LQSjrXzyq+mqMgn94pxdccjBrebOBKspGfEeSDIq5hBUXSM7CtfMv+KtGcSvamoRFA4Iuu7XWpZ/QKBsGJdLSx0raaY9eb9Y01Ndcw6aDagRzot2vyiYmd5SS3lyvZ5TWN1XnhpuV6uXn+N09LBItD1L5DeFIZAwrYKXyN8JKmpTUOEWzqYWnK9a9pGryQsWvTq+vjHEz8ktQ5n4lTZ23fD3DVJBISR0uTwNSv+qvUVDmhZCw+5YSxw/QwWT0fehtt8vTyVC/6QIO0MHTddz34QGBkwhRebbhwXlbv8OEeFN4DFq3tYF5I6lhqHrxUglrj53Rx9RNa1tkH9RP//90fgqwOYdRT/iUcTYPeTDTQnUr2ZRKIoVkVu8lxlLSCfoDh6db5yI4rkrx5k/BGILYudAR/UbbS4D3lrR+1Rs0YQ2QqPxTH82WLHCMRZxvVP/u65PDJeD+v62g2oxuIsGmHOQPHEYRa4CY+6ZKmsyskINcSRbNED9j8T358E7x/hGIy7D0fXXrLoMMBNv8pvNINN1KLVEX34k4s1d7JLQ8gGTHMs0SaijDMd2YuEItZ+aQ3uJu82NhCPOD1SIhUfGJCfM0HAsiGTY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39850400004)(376002)(366004)(396003)(346002)(1800799009)(186009)(451199024)(41300700001)(9686003)(71200400001)(7696005)(6506007)(55236004)(966005)(478600001)(83380400001)(26005)(76116006)(316002)(7416002)(66476007)(6916009)(54906003)(66946007)(66446008)(64756008)(66556008)(91956017)(52536014)(5660300002)(8676002)(4326008)(2906002)(8936002)(33656002)(38070700005)(86362001)(38100700002)(55016003)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?cBy7xRqLUgJHE3SgGYqkxUyoH45asUHwOf2PTPTMkJ8zomFfH2LIB/39yF?=
- =?iso-8859-1?Q?22z7DSqhd3Nq4uLVncowUDmIb/gFxziPMH8wcgRqKHOIE+o+Sy03ASnVzJ?=
- =?iso-8859-1?Q?Cg6wZ4Bx8E1VEcu8PBcl5AS6s+n96lLP6aeE3IvmGRHSHO8+bnVmp8st9u?=
- =?iso-8859-1?Q?Kkrs0CJlUX7VmwGluTOMpsUK1v6YAbEFecTtZxilS2nEy0agNVQqzhpWyZ?=
- =?iso-8859-1?Q?O28x/CuzVkSQAMC9CVjQIVycoueaUvgEvDzNKzjZBxb14yDFwPSD2qUyno?=
- =?iso-8859-1?Q?DtNezY3SK7Mey//87ptNWVkT3EhmhNUdhmsxfCoCzvaDdkhpbxHAhKNxZ7?=
- =?iso-8859-1?Q?+nZjbOHm8nv0AVozlVKR70+Zg0eeothcgH8TihyawCYRtW6n1jPrPBPHQY?=
- =?iso-8859-1?Q?P3p1wunEeVXGrhxymzD8ceH38UA198yIfA65jPslpqQDqpCs/nwzQJ9Oat?=
- =?iso-8859-1?Q?wnlntleR8V5WyYH62+FkbTg6C0EZbkbDBtgOMD8Hj3/Q0eOCJchXrsU6NH?=
- =?iso-8859-1?Q?SjLk1liCOxToruOi1ZwF3n7YcdmJAhYH0VTdAFKQE8UvrIN8Xz7vG+sSg4?=
- =?iso-8859-1?Q?g0rVzZUdD0KDIxOC7quwPToaD6pfY9exY5aaH4UpU4pyLdSq1IrH+ZiFV0?=
- =?iso-8859-1?Q?BjtgqFguO3LEo2hLS4MWfc++eZutvuvj2XyUybBL0sho8YAqpFxXCT+iTC?=
- =?iso-8859-1?Q?HTO/GfL/JG+FogSdm7tJur7W0jeY/bl/j6s/5ZEAJEc0rf6qBJNWpJiZal?=
- =?iso-8859-1?Q?/lBXEPbKvxFXqnUXtMai9IoHl1UXCIJvkAGA/Qm2kB8+ni/WygkaVGHGkl?=
- =?iso-8859-1?Q?EVu4itNnO8uDzp1tYXC6rn+ge78CDvfqkMbeyBaVinU4ZFNnxBMMw0nMwM?=
- =?iso-8859-1?Q?86BystXV0/nyiEly1IUNL+a8w9oxja6Ui9OmTpgLOzO/IKuQux6NLRCYIm?=
- =?iso-8859-1?Q?hG4uK8meguERYb9iqhKDdgs23XFcQ8Kv6GxUCs2+J+vTkKG+Z6k7SOPwUb?=
- =?iso-8859-1?Q?hg64mjoj9f1bCbM+V3/qNfFiQHNCak4Ryg/PD74fV/hzIO8Y38Jt+BSTsx?=
- =?iso-8859-1?Q?J2La4Tt8uYFaC2teU+jS5Z1sY/sv+Wfhvf92V4Dgt8Pa7uhz6AlB8HFbn9?=
- =?iso-8859-1?Q?qRa9cXwIEN3PV/AC4my2HJMpXvy49PvoaQMuIeFodyHYaIo1eZGjAUgJTh?=
- =?iso-8859-1?Q?6cwedilMmXyadfV1veHqxGHBRvuYPVq7LKCVs55bzpmi7zpgrHj+tWszC+?=
- =?iso-8859-1?Q?G0dXvEwhh73v4vVIIpwn9XECSm8sRvW7jwW4mg/B8PjZA+U8QcBjhkdwM/?=
- =?iso-8859-1?Q?qO3pZ+Ni16f7jFy8r2KLBD1suqSDBzgsgWw4AnHOcL1F/tNHW0gXJh9dAe?=
- =?iso-8859-1?Q?wGVm6PSM42p7LDohiUwUTVxc5VDPofuZVPvkxS20kALrz8LiuGRsdwnRSz?=
- =?iso-8859-1?Q?gvxsn42ggXnjpTzgZK2g/tk9b3Q0zt9yzbA1gwj5gZgAg35ZRGT4FLrco4?=
- =?iso-8859-1?Q?ctIfjRBN0gi/LKdj8QARspLBfeJzkGyyJua2k0rSFGObVyh3Uwqc7SdZ4U?=
- =?iso-8859-1?Q?eW/kQNTsj9DoHd6lBQNe3J4NDTDl1hzQtFEzwwPqj8Uu6B/VXuvnx3VFes?=
- =?iso-8859-1?Q?7I1skqiD9syEFF0P1g35cWZQVxaFd/n0Bh?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229644AbjIHJ0l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 05:26:41 -0400
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 735E411B
+        for <linux-doc@vger.kernel.org>; Fri,  8 Sep 2023 02:26:14 -0700 (PDT)
+Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-571194584e2so1114300eaf.3
+        for <linux-doc@vger.kernel.org>; Fri, 08 Sep 2023 02:26:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1694165173; x=1694769973; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KjO9TnSjJprlNljVu2rJdiIpjkiWT/Cq6e4AaJY9UGE=;
+        b=LKmo/KJZSpVRpt3cakoHzVg/oVYEwI/6IpXUQJvoGmhylctSrVgyy0hRHMrJrejvwN
+         6zN574Y/T8RHIT4TTLt2z23DF2QoLKO4VCRDggHxPg43L2fybYuLmXmIJK5GdJFfkVDX
+         yWGYh4AapE+go/BoSeZXcMvKmM6/MYcdoMRC73a2vw3bezH9/GEckayN02Wwq0jOvIp1
+         AQkl2Cx8uSc485Lh/zHlhvrNUa8SZhkkmG9s0fwmQFocb3mPfXFF4YOvlDm3X63sBccn
+         z7OEWcs/ZoDZVgxK6TjVD1O6eiR0hWgVb8vt3f0aGRhsana4SZOjnqhf5BM3ebLmA/1k
+         iM9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694165173; x=1694769973;
+        h=content-transfer-encoding:in-reply-to:references:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KjO9TnSjJprlNljVu2rJdiIpjkiWT/Cq6e4AaJY9UGE=;
+        b=qspI8m93xDllk1QvpRZvKw7ZcuQIC2mZv+RGCrTa+wB7qLUgH2Q3srnnuZ7X5eR8Ga
+         BmXBV1eNzahv4eUs2DImBOgz3nZ4mlqGDs0X0fPru94piEOE6gtwy4qIu2p991xlsyqC
+         +6Gb3//75faGrW8hNVvaeqNtcRmxsFCyCKg3F7HEuZcpLfF+aAyCi0m5qnzs2wW6n2QF
+         KPju8JcA842fJXvnMX/nBaBfcl3g7kZPZASEBDD0sB5ak4LJi9n4hzK8MauHFyoDBwxw
+         +JZ0kB56Tgca0m3b9KkdTVBrllp6l+RdlUURWTPVZF5JWBGXzuXnUpz0A/PD44azFTKa
+         i2XA==
+X-Gm-Message-State: AOJu0YwtXvjS0kLtj030Mp2r4RAgXG242KRIy2MlF0TR7+xsD6P5ISk1
+        CdMr2QGrQwMseb6jVxGARGmpsmFWPI9Q3iMbY4w=
+X-Google-Smtp-Source: AGHT+IF8zwKAcwUQqyQWvS5xgeLxYU2cHp7Bbpc2GajDarvy7eM59qtd9INVkOnNrFV1e5c6rO3FUA==
+X-Received: by 2002:a05:6358:88c:b0:139:cb15:ecd3 with SMTP id m12-20020a056358088c00b00139cb15ecd3mr1933679rwj.8.1694165173170;
+        Fri, 08 Sep 2023 02:26:13 -0700 (PDT)
+Received: from [10.254.232.87] ([139.177.225.246])
+        by smtp.gmail.com with ESMTPSA id j17-20020aa783d1000000b0068c5bd3c3b4sm952593pfn.206.2023.09.08.02.26.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Sep 2023 02:26:12 -0700 (PDT)
+Message-ID: <31cbd8a7-2b21-b7c5-51dc-20ea61353695@bytedance.com>
+Date:   Fri, 8 Sep 2023 17:26:04 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af7ee160-e128-49e8-05b4-08dbb048814e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2023 08:49:25.6552
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5/yDB/vKKga/qxBblVIdsQZjHOKejk9H8HUGa4Q3M2iDerSOroUx/S3qpxwCyGay+Hue5r0GHz6lljpkmTFya8G+QFxSEXc+EzDHDuZkOyo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6342
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+Subject: Re: [PATCH v2 2/6] maple_tree: Introduce interfaces __mt_dup() and
+ mtree_dup()
+To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+        Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, willy@infradead.org, brauner@kernel.org,
+        surenb@google.com, michael.christie@oracle.com,
+        peterz@infradead.org, mathieu.desnoyers@efficios.com,
+        npiggin@gmail.com, avagin@gmail.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+ <20230830125654.21257-3-zhangpeng.00@bytedance.com>
+ <20230907201333.nyydilmlbbf2wzf7@revolver>
+In-Reply-To: <20230907201333.nyydilmlbbf2wzf7@revolver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 07, 2023 at 07:17:55AM +0000, Billy Tsai wrote:=0A=
-> > On Wed, Aug 30, 2023 at 08:32:00PM +0800, Billy Tsai wrote:=0A=
-> > >> From: Naresh Solanki <naresh.solanki@9elements.com>=0A=
-> > >> =0A=
-> > >> Add common fan properties bindings to a schema.=0A=
-> > >> =0A=
-> > >> Bindings for fan controllers can reference the common schema for the=
-=0A=
-> > >> fan=0A=
-=0A=
-=0A=
-> > >> +properties:=0A=
-> > >> +  max-rpm:=0A=
-> > >> +    description:=0A=
-> > >> +      Max RPM supported by fan.=0A=
-> > >> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-> > =0A=
-> > > Physics will limit this to something much less than 2^32. Add some =
-=0A=
-> > > constraints. 10000?=0A=
-> > =0A=
-> > =0A=
-> > >> +=0A=
-> > >> +  min-rpm:=0A=
-> > >> +    description:=0A=
-> > >> +      Min RPM supported by fan.=0A=
-> > >> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-> > =0A=
-> > > ditto=0A=
-> > =0A=
-> > >> +=0A=
-> > >> +  pulses-per-revolution:=0A=
-> > >> +    description:=0A=
-> > >> +      The number of pulse from fan sensor per revolution.=0A=
-> > >> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-> > =0A=
-> > >Needs constraints. I assume this is never more than 4 (or 2 even)?=0A=
-> > =0A=
-> > Do you think we should add the contraint in the common binding?=0A=
-> > In my option, the limit of the max/min rpm should be declared by=0A=
-> > the binding if necessary, because the usage of each fan monitor is=0A=
-> > based on the connection of the tach pin.=0A=
-=0A=
-> Yes, I think we should have default limits.=0A=
-=0A=
-> Unless we go as far as a schema for every specific fan model, then there =
-=0A=
-> is actually no way we can have specific limits unless the fan =0A=
-> controllers have some limits.=0A=
-=0A=
-> The most I see in tree for pulses-per-revolution is 2. There's no value =
-=0A=
-> in more. So set the max to 4 and then if anyone needs more they can bump =
-=0A=
-> the value.=0A=
-=0A=
-> Or maybe there's some electrical/mechanical design reason fans are 1 or =
-=0A=
-> 2 pulses and we'll never see anything else? This document[1] seems to =0A=
-> indicate that is indeed the case. (First hit googling "fan tach signal =
-=0A=
-> pulses")=0A=
-=0A=
-OK, I will add the maximum value for the max-rpm, min-rpm and pulses-per-re=
-volution.=0A=
-=0A=
-> > =0A=
-> > =0A=
-> > >> +  div:=0A=
-> > =0A=
-> > > Too generic of a name.=0A=
-> > =0A=
-> > >> +    description:=0A=
-> > >> +      Fan clock divisor=0A=
-> > =0A=
-> > > But what is a fan clock?=0A=
-> > =0A=
-> > This is the divisor for the tachometer sampling clock, which determines=
- the sensitivity of the tach pin.=0A=
-> > So, if the name of the property changes to 'tach-div,' is it acceptable=
- to you?=0A=
-=0A=
-> That sounds like a property of the controller, not the fan, so it =0A=
-> belongs in the controller binding. Is this really a common thing?=0A=
-=0A=
-Yes, I believe this is a common feature for fans. You can refer to the Docu=
-mentation/hwmon/sysfs-interface.rst,=0A=
-where the fan divisor is defined for users, determining the fan's sensitivi=
-ty.=0A=
- =0A=
-> > >> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-> > >> +=0A=
-> > >> +  target-rpm:=0A=
-> > >> +    description:=0A=
-> > >> +      Target RPM the fan should be configured during driver probe.=
-=0A=
-> > =0A=
-> > > What driver? By the time the OS driver runs, a bunch of other boot =
-=0A=
-> > > software has already run on modern systems. So this value would likel=
-y =0A=
-> > > be used much earlier. The point is that when exactly is outside the =
-=0A=
-> > > scope of DT. This is "what RPM do I use in case of no other informati=
-on =0A=
-> > > (e.g. temperature)".=0A=
-> > =0A=
-> > So, the description should be changed to 'The default desired fan speed=
- in RPM,'=0A=
-> > and we shouldn't mention the timing of the property's operation in the =
-DT, is that correct?=0A=
-=0A=
-> Correct.=0A=
-=0A=
-> > =0A=
-> > >> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-> > >> +=0A=
-> > >> +  mode:=0A=
-> > =0A=
-> > > Too generic.=0A=
-> > =0A=
-> > >> +    description:=0A=
-> > >> +      Select the operational mode of the fan.=0A=
-> > =0A=
-> > > What are modes? Spin and don't spin?=0A=
-> > =0A=
-> > The mode is used to indicate the driving mode of the fan (DC, PWM and s=
-o on).=0A=
-> > So, if the name of the property changes to 'fan-driving-mode,' is it ac=
-ceptable to you?=0A=
-=0A=
-> I tend to think that should be implied from the parent node and/or other =
-=0A=
-> properties. PWM if "pwms" property is present. DC if the supply is =0A=
-> variable. We could also use compatible strings in the fan nodes if =0A=
-> there's a need.=0A=
-=0A=
-So, it looks that this property isn't necessary for the fan. And it should =
-be determined by the=0A=
-present of the driving source. is that correct?=0A=
-=0A=
-> That reminds me, both of these modes probably need a table of =0A=
-> voltage/duty-cycle to RPMs. I imagine it's not always a linear response. =
- =0A=
-> Naresh also privately sent me (don't do that) an updated common binding =
-=0A=
-> which we discussed the need for this. I expect him to comment further =0A=
-> with details.=0A=
-=0A=
-For this purpose, we should add the speed-map like the usage of the gpio-fa=
-n, right?=0A=
-https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bind=
-ings/hwmon/gpio-fan.txt=0A=
-=0A=
-=0A=
-> > >> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-> > >> +=0A=
-> > >> +  pwms:=0A=
-> > >> +    description:=0A=
-> > >> +      PWM provider.=0A=
-> > =0A=
-> > > maxItems: 1=0A=
-> > =0A=
-> > > I don't think there are fans with more than 1 PWM input?=0A=
-> > =0A=
-> > Ok, I will add the constraint for the pwm input.=0A=
-> > =0A=
-> > >> +=0A=
-> > >> +  tach-ch:=0A=
-> > >> +    description:=0A=
-> > >> +      The tach channel used for the fan.=0A=
-> > >> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-> > =0A=
-> > > The existing ASpeed version of this property allows more than 1 entry=
-. I =0A=
-> > > don't understand how a fan would have 2 tach signals, but if so, the =
-=0A=
-> > > generic property should allow for that.=0A=
-> > =0A=
-> > Ok, I will modify it to the uint32-array=0A=
-=0A=
-> Perhaps uint8-array to align with existing versions of the property.=0A=
-=0A=
-Ok, I will modify it to the uint8-array.=0A=
-=0A=
-> > =0A=
-> > > Perhaps 'reg' should be defined in here with some text saying 'reg' =
-=0A=
-> > > corresponds to the fan controller specific id which may be the PWM+TA=
-CH =0A=
-> > > channel, PWM channel (deprecated), or TACH channel. I think there are=
- =0A=
-> > > examples of all 3 of these cases.=0A=
-> > =0A=
-> > I don't think it's necessary for the 'reg' because the case you mention=
-ed is=0A=
-> > already covered by the property 'tach-ch' and the 'pwms'.=0A=
-=0A=
-> Yes, but when we have N child nodes of the same thing, we usually have =
-=0A=
-> "reg" and its value corresponds to how the parent identifies each child. =
-=0A=
-> We already have a mixture using PWM or tach channel. Yes, this can all =
-=0A=
-> just be in the fan controllers binding, but putting it here would just =
-=0A=
-> document the options.=0A=
-=0A=
-Ok, I will add reg property for the option.=0A=
-=0A=
-> Rob=0A=
-=0A=
-=0A=
-> [1] http://www.comairrotron.com/methods-monitoring-fan-performance=
+
+
+在 2023/9/8 04:13, Liam R. Howlett 写道:
+> * Peng Zhang <zhangpeng.00@bytedance.com> [230830 08:57]:
+>> Introduce interfaces __mt_dup() and mtree_dup(), which are used to
+>> duplicate a maple tree. Compared with traversing the source tree and
+>> reinserting entry by entry in the new tree, it has better performance.
+>> The difference between __mt_dup() and mtree_dup() is that mtree_dup()
+>> handles locks internally.
+> 
+> __mt_dup() should be called mas_dup() to indicate the advanced interface
+> which requires users to handle their own locks.
+Ok, I'll change __mt_dup() to mas_dup().
+> 
+>>
+>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+>> ---
+>>   include/linux/maple_tree.h |   3 +
+>>   lib/maple_tree.c           | 265 +++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 268 insertions(+)
+>>
+>> diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+>> index e41c70ac7744..44fe8a57ecbd 100644
+>> --- a/include/linux/maple_tree.h
+>> +++ b/include/linux/maple_tree.h
+>> @@ -327,6 +327,9 @@ int mtree_store(struct maple_tree *mt, unsigned long index,
+>>   		void *entry, gfp_t gfp);
+>>   void *mtree_erase(struct maple_tree *mt, unsigned long index);
+>>   
+>> +int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
+>> +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
+>> +
+>>   void mtree_destroy(struct maple_tree *mt);
+>>   void __mt_destroy(struct maple_tree *mt);
+>>   
+>> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
+>> index ef234cf02e3e..8f841682269c 100644
+>> --- a/lib/maple_tree.c
+>> +++ b/lib/maple_tree.c
+>> @@ -6370,6 +6370,271 @@ void *mtree_erase(struct maple_tree *mt, unsigned long index)
+>>   }
+>>   EXPORT_SYMBOL(mtree_erase);
+>>   
+>> +/*
+>> + * mas_dup_free() - Free a half-constructed tree.
+> 
+> Maybe "Free an incomplete duplication of a tree" ?
+> 
+>> + * @mas: Points to the last node of the half-constructed tree.
+> 
+> Your use of "Points to" seems to indicate someone knows you are talking
+> about a "maple state that has a node pointing to".  Can this be made
+> more clear?
+> @mas: The maple state of a incomplete tree.
+> 
+> Then add a note that @mas->node points to the last successfully
+> allocated node?
+> 
+> Or something along those lines.
+Ok, I'll revise the comment.
+> 
+>> + *
+>> + * This function frees all nodes starting from @mas->node in the reverse order
+>> + * of mas_dup_build(). There is no need to hold the source tree lock at this
+>> + * time.
+>> + */
+>> +static void mas_dup_free(struct ma_state *mas)
+>> +{
+>> +	struct maple_node *node;
+>> +	enum maple_type type;
+>> +	void __rcu **slots;
+>> +	unsigned char count, i;
+>> +
+>> +	/* Maybe the first node allocation failed. */
+>> +	if (!mas->node)
+>> +		return;
+>> +
+>> +	while (!mte_is_root(mas->node)) {
+>> +		mas_ascend(mas);
+>> +
+>> +		if (mas->offset) {
+>> +			mas->offset--;
+>> +			do {
+>> +				mas_descend(mas);
+>> +				mas->offset = mas_data_end(mas);
+>> +			} while (!mte_is_leaf(mas->node));
+> 
+> Can you blindly descend and check !mte_is_leaf()?  What happens when the
+> tree duplication fails at random internal nodes?  Maybe I missed how
+> this cannot happen?
+This cannot happen. Note the mas_ascend(mas) at the beginning of the
+outermost loop.
+
+> 
+>> +
+>> +			mas_ascend(mas);
+>> +		}
+>> +
+>> +		node = mte_to_node(mas->node);
+>> +		type = mte_node_type(mas->node);
+>> +		slots = (void **)ma_slots(node, type);
+>> +		count = mas_data_end(mas) + 1;
+>> +		for (i = 0; i < count; i++)
+>> +			((unsigned long *)slots)[i] &= ~MAPLE_NODE_MASK;
+>> +
+>> +		mt_free_bulk(count, slots);
+>> +	}
+> 
+> 
+>> +
+>> +	node = mte_to_node(mas->node);
+>> +	mt_free_one(node);
+>> +}
+>> +
+>> +/*
+>> + * mas_copy_node() - Copy a maple node and allocate child nodes.
+> 
+> if required. "..and allocate child nodes if required."
+> 
+>> + * @mas: Points to the source node.
+>> + * @new_mas: Points to the new node.
+>> + * @parent: The parent node of the new node.
+>> + * @gfp: The GFP_FLAGS to use for allocations.
+>> + *
+>> + * Copy @mas->node to @new_mas->node, set @parent to be the parent of
+>> + * @new_mas->node and allocate new child nodes for @new_mas->node.
+>> + * If memory allocation fails, @mas is set to -ENOMEM.
+>> + */
+>> +static inline void mas_copy_node(struct ma_state *mas, struct ma_state *new_mas,
+>> +		struct maple_node *parent, gfp_t gfp)
+>> +{
+>> +	struct maple_node *node = mte_to_node(mas->node);
+>> +	struct maple_node *new_node = mte_to_node(new_mas->node);
+>> +	enum maple_type type;
+>> +	unsigned long val;
+>> +	unsigned char request, count, i;
+>> +	void __rcu **slots;
+>> +	void __rcu **new_slots;
+>> +
+>> +	/* Copy the node completely. */
+>> +	memcpy(new_node, node, sizeof(struct maple_node));
+>> +
+>> +	/* Update the parent node pointer. */
+>> +	if (unlikely(ma_is_root(node)))
+>> +		val = MA_ROOT_PARENT;
+>> +	else
+>> +		val = (unsigned long)node->parent & MAPLE_NODE_MASK;
+> 
+> If you treat the root as special and outside the loop, then you can
+> avoid the check for root for every non-root node.  For root, you just
+> need to copy and do this special parent thing before the main loop in
+> mas_dup_build().  This will avoid an extra branch for each VMA over 14,
+> so that would add up to a lot of instructions.
+I'll handle the root node outside.
+However, do you think it makes sense to have the parent of the root node
+point to the struct maple_tree? I don't see it used anywhere.
+
+> 
+>> +
+>> +	new_node->parent = ma_parent_ptr(val | (unsigned long)parent);
+>> +
+>> +	if (mte_is_leaf(mas->node))
+>> +		return;
+> 
+> You are checking here and in mas_dup_build() for the leaf, splitting the
+> function into parent assignment and allocate would allow you to check
+> once. Copy could be moved to the main loop or with the parent setting,
+> depending on how you handle the root suggestion above.
+I'll try to reduce some checks.
+> 
+>> +
+>> +	/* Allocate memory for child nodes. */
+>> +	type = mte_node_type(mas->node);
+>> +	new_slots = ma_slots(new_node, type);
+>> +	request = mas_data_end(mas) + 1;
+>> +	count = mt_alloc_bulk(gfp, request, new_slots);
+>> +	if (unlikely(count < request)) {
+>> +		if (count)
+>> +			mt_free_bulk(count, new_slots);
+> 
+> The new_slots will still contain the addresses of the freed nodes.
+> Don't you need to clear it here to avoid a double free?  Is there a
+> test case for this in your testing?  Again, I may have missed how this
+> is not possible..
+It's impossible, because in mt_free_bulk(), the first thing to do with
+the incoming node is to go up. We free all child nodes at the parent
+node.
+
+We guarantee that the node passed to mas_dup_free() is "clean".
+mas_dup_free() also follows this so will not free children of this node.
+
+The child nodes of this node cannot be freed in mt_free_bulk() because
+the node is not completely constructed and data_end cannot be obtained.
+data_end cannot be set on this node because the number of successfully
+allocated child nodes can be 0.
+> 
+>> +		mas_set_err(mas, -ENOMEM);
+>> +		return;
+>> +	}
+>> +
+>> +	/* Restore node type information in slots. */
+>> +	slots = ma_slots(node, type);
+>> +	for (i = 0; i < count; i++)
+>> +		((unsigned long *)new_slots)[i] |=
+>> +			((unsigned long)mt_slot_locked(mas->tree, slots, i) &
+>> +			MAPLE_NODE_MASK);
+> 
+> Can you expand this to multiple lines to make it more clear what is
+> going on?
+I will try to do that.
+
+> 
+>> +}
+>> +
+>> +/*
+>> + * mas_dup_build() - Build a new maple tree from a source tree
+>> + * @mas: The maple state of source tree.
+>> + * @new_mas: The maple state of new tree.
+>> + * @gfp: The GFP_FLAGS to use for allocations.
+>> + *
+>> + * This function builds a new tree in DFS preorder. If the memory allocation
+>> + * fails, the error code -ENOMEM will be set in @mas, and @new_mas points to the
+>> + * last node. mas_dup_free() will free the half-constructed tree.
+>> + *
+>> + * Note that the attributes of the two trees must be exactly the same, and the
+>> + * new tree must be empty, otherwise -EINVAL will be returned.
+>> + */
+>> +static inline void mas_dup_build(struct ma_state *mas, struct ma_state *new_mas,
+>> +		gfp_t gfp)
+>> +{
+>> +	struct maple_node *node, *parent;
+> 
+> Could parent be struct maple_pnode?
+I'll rename it.
+
+> 
+>> +	struct maple_enode *root;
+>> +	enum maple_type type;
+>> +
+>> +	if (unlikely(mt_attr(mas->tree) != mt_attr(new_mas->tree)) ||
+>> +	    unlikely(!mtree_empty(new_mas->tree))) {
+>> +		mas_set_err(mas, -EINVAL);
+>> +		return;
+>> +	}
+>> +
+>> +	mas_start(mas);
+>> +	if (mas_is_ptr(mas) || mas_is_none(mas)) {
+>> +		/*
+>> +		 * The attributes of the two trees must be the same before this.
+>> +		 * The following assignment makes them the same height.
+>> +		 */
+>> +		new_mas->tree->ma_flags = mas->tree->ma_flags;
+>> +		rcu_assign_pointer(new_mas->tree->ma_root, mas->tree->ma_root);
+>> +		return;
+>> +	}
+>> +
+>> +	node = mt_alloc_one(gfp);
+>> +	if (!node) {
+>> +		new_mas->node = NULL;
+> 
+> We don't have checks around for node == NULL, MAS_NONE would be a safer
+> choice.  It is unlikely that someone would dup the tree and fail then
+> call something else, but I avoid setting node to NULL.
+I will set it to MAS_NONE in the next version.
+
+> 
+>> +		mas_set_err(mas, -ENOMEM);
+>> +		return;
+>> +	}
+>> +
+>> +	type = mte_node_type(mas->node);
+>> +	root = mt_mk_node(node, type);
+>> +	new_mas->node = root;
+>> +	new_mas->min = 0;
+>> +	new_mas->max = ULONG_MAX;
+>> +	parent = ma_mnode_ptr(new_mas->tree);
+>> +
+>> +	while (1) {
+>> +		mas_copy_node(mas, new_mas, parent, gfp);
+>> +
+>> +		if (unlikely(mas_is_err(mas)))
+>> +			return;
+>> +
+>> +		/* Once we reach a leaf, we need to ascend, or end the loop. */
+>> +		if (mte_is_leaf(mas->node)) {
+>> +			if (mas->max == ULONG_MAX) {
+>> +				new_mas->tree->ma_flags = mas->tree->ma_flags;
+>> +				rcu_assign_pointer(new_mas->tree->ma_root,
+>> +						   mte_mk_root(root));
+>> +				break;
+> 
+> If you move this to the end of the function, you can replace the same
+> block above with a goto.  That will avoid breaking the line up.
+I can do this, but it doesn't seem to make a difference.
+> 
+>> +			}
+>> +
+>> +			do {
+>> +				/*
+>> +				 * Must not at the root node, because we've
+>> +				 * already end the loop when we reach the last
+>> +				 * leaf.
+>> +				 */
+> 
+> I'm not sure what the comment above is trying to say.  Do you mean "This
+> won't reach the root node because the loop will break when the last leaf
+> is hit"?  I don't think that is accurate.. it will hit the root node but
+> not the end of the root node, right?  Anyways, the comment isn't clear
+> so please have a look.
+Yes, it will hit the root node but not the end of the root node. I'll
+fix this comment. Thanks.
+
+> 
+>> +				mas_ascend(mas);
+>> +				mas_ascend(new_mas);
+>> +			} while (mas->offset == mas_data_end(mas));
+>> +
+>> +			mas->offset++;
+>> +			new_mas->offset++;
+>> +		}
+>> +
+>> +		mas_descend(mas);
+>> +		parent = mte_to_node(new_mas->node);
+>> +		mas_descend(new_mas);
+>> +		mas->offset = 0;
+>> +		new_mas->offset = 0;
+>> +	}
+>> +}
+>> +
+>> +/**
+>> + * __mt_dup(): Duplicate a maple tree
+>> + * @mt: The source maple tree
+>> + * @new: The new maple tree
+>> + * @gfp: The GFP_FLAGS to use for allocations
+>> + *
+>> + * This function duplicates a maple tree using a faster method than traversing
+>> + * the source tree and inserting entries into the new tree one by one.
+> 
+> Can you make this comment more about what your code does instead of the
+> "one by one" description?
+> 
+>> + * The user needs to ensure that the attributes of the source tree and the new
+>> + * tree are the same, and the new tree needs to be an empty tree, otherwise
+>> + * -EINVAL will be returned.
+>> + * Note that the user needs to manually lock the source tree and the new tree.
+>> + *
+>> + * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
+>> + * the attributes of the two trees are different or the new tree is not an empty
+>> + * tree.
+>> + */
+>> +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
+>> +{
+>> +	int ret = 0;
+>> +	MA_STATE(mas, mt, 0, 0);
+>> +	MA_STATE(new_mas, new, 0, 0);
+>> +
+>> +	mas_dup_build(&mas, &new_mas, gfp);
+>> +
+>> +	if (unlikely(mas_is_err(&mas))) {
+>> +		ret = xa_err(mas.node);
+>> +		if (ret == -ENOMEM)
+>> +			mas_dup_free(&new_mas);
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(__mt_dup);
+>> +
+>> +/**
+>> + * mtree_dup(): Duplicate a maple tree
+>> + * @mt: The source maple tree
+>> + * @new: The new maple tree
+>> + * @gfp: The GFP_FLAGS to use for allocations
+>> + *
+>> + * This function duplicates a maple tree using a faster method than traversing
+>> + * the source tree and inserting entries into the new tree one by one.
+> 
+> Again, it's more interesting to state it uses the DFS preorder copy.
+> 
+> It is also worth mentioning the superior allocation behaviour since that
+> is a desirable trait for many.  In fact, you should add the allocation
+> behaviour in your cover letter.
+Okay, I will describe more in the next version.
+
+> 
+>> + * The user needs to ensure that the attributes of the source tree and the new
+>> + * tree are the same, and the new tree needs to be an empty tree, otherwise
+>> + * -EINVAL will be returned.
+>> + *
+>> + * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
+>> + * the attributes of the two trees are different or the new tree is not an empty
+>> + * tree.
+>> + */
+>> +int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
+>> +{
+>> +	int ret = 0;
+>> +	MA_STATE(mas, mt, 0, 0);
+>> +	MA_STATE(new_mas, new, 0, 0);
+>> +
+>> +	mas_lock(&new_mas);
+>> +	mas_lock(&mas);
+>> +
+>> +	mas_dup_build(&mas, &new_mas, gfp);
+>> +	mas_unlock(&mas);
+>> +
+>> +	if (unlikely(mas_is_err(&mas))) {
+>> +		ret = xa_err(mas.node);
+>> +		if (ret == -ENOMEM)
+>> +			mas_dup_free(&new_mas);
+>> +	}
+>> +
+>> +	mas_unlock(&new_mas);
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(mtree_dup);
+>> +
+>>   /**
+>>    * __mt_destroy() - Walk and free all nodes of a locked maple tree.
+>>    * @mt: The maple tree
+>> -- 
+>> 2.20.1
+>>
