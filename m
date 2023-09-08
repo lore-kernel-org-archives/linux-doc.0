@@ -2,292 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9211EE57ED
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 10:01:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47639EE57FD
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 11:44:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232599AbjIHKBd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 06:01:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37016 "EHLO
+        id S236769AbjIHLof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 07:44:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235176AbjIHKBc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 06:01:32 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B261FF1
-        for <linux-doc@vger.kernel.org>; Fri,  8 Sep 2023 03:00:24 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1bf57366ccdso21417595ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 08 Sep 2023 03:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1694167145; x=1694771945; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3bXTeQpdjQRua5NdbqlMCWj/ycDFicrMQeBdM0bMGMw=;
-        b=ZiFN1LLDL6sDVu4ON/wkI4bAEvJ2RNe5ShlKFp00uUyWiGgA+yu9ajYeZF5t2+K38G
-         DQEp0DNNu3/73r89a1SwU+rda0PnAHXnMW8IJ/8S4Bth5wwQieOra3OHsOqyV1ivvquw
-         G2jGHQLPbl6TaWRH+xJyxts5zLqAUiTSXS+SEVLZzphGRghgdViNZF/hFxKW+LlSX8u1
-         SoJ5uW8gvM/91C+Jl1iQPNdW4xhecY450a2TvjcyGzCRCo7yUflNNntDFlE3pq+slzD7
-         qVxNyHqB6b3sriliEeRE0F3ODcp/8WUmWi5x9SeFLkobcaZS6wvjoSiwYcUzi5gZ/LAs
-         Fung==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694167145; x=1694771945;
-        h=content-transfer-encoding:in-reply-to:from:references:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3bXTeQpdjQRua5NdbqlMCWj/ycDFicrMQeBdM0bMGMw=;
-        b=wL7wDFpnVpNJjFjK0sIApoQAFSwonj77oFMH+eSj3SRWSCJtDbsUkfLBcEnqXI2E/u
-         YYb5YiT1JHnsYuklL2RL/rgc4i5XwKIhswIsFRbw85jl7NOH5Jr/94ao17HaY1O/2Zij
-         bCOrL5/jzh1HTQU/kSgldtAqbbP4akFLFtA/nYgTscg+56bQ6EMmG/vTZST9GkYn20F8
-         721KNpoNszYXORYtuI4H2RsgPJ2IcFq75OZj+Lp77KPRR6WSADc+h8Brkx6gZ2nfDLe3
-         npmxoWM/9p7Dqr4j8vA969QF2RZT9x+cB4CnznTuqJRDQdUphTT1VutXdLP6EpTOsJDq
-         KjSw==
-X-Gm-Message-State: AOJu0YwJGJV2wqleK0KC3QVYg25V2ZyBYdgHNFshFfFNySQF+t5FDmWy
-        ff+IqkH5eRw1eKgMSV9L402mNg==
-X-Google-Smtp-Source: AGHT+IGedR76hVXK1WBcaqFuQUXJzaKlwoEvzzggHuGYxkzUO76lUrRz9GzNXg+wcSGY1vog4i33bg==
-X-Received: by 2002:a17:902:e54e:b0:1c0:bcbc:d67 with SMTP id n14-20020a170902e54e00b001c0bcbc0d67mr6761333plf.22.1694167144904;
-        Fri, 08 Sep 2023 02:59:04 -0700 (PDT)
-Received: from [10.254.232.87] ([139.177.225.246])
-        by smtp.gmail.com with ESMTPSA id bi4-20020a170902bf0400b001bc45408d26sm1199081plb.36.2023.09.08.02.58.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Sep 2023 02:59:04 -0700 (PDT)
-Message-ID: <ab29ca4d-a7dc-9115-930d-86c6425e2b9c@bytedance.com>
-Date:   Fri, 8 Sep 2023 17:58:56 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v2 6/6] fork: Use __mt_dup() to duplicate maple tree in
- dup_mmap()
-To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-        Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, willy@infradead.org, brauner@kernel.org,
-        surenb@google.com, michael.christie@oracle.com,
-        peterz@infradead.org, mathieu.desnoyers@efficios.com,
-        npiggin@gmail.com, avagin@gmail.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
- <20230830125654.21257-7-zhangpeng.00@bytedance.com>
- <20230907201414.dagnqxfnu7f7qzxd@revolver>
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <20230907201414.dagnqxfnu7f7qzxd@revolver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S234915AbjIHLof (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 07:44:35 -0400
+X-Greylist: delayed 300 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 08 Sep 2023 04:44:28 PDT
+Received: from aib29gb122.yyz1.oracleemaildelivery.com (aib29gb122.yyz1.oracleemaildelivery.com [192.29.72.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 946841BE7
+        for <linux-doc@vger.kernel.org>; Fri,  8 Sep 2023 04:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=oci-2023;
+ d=n8pjl.ca;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=QCXst9TnbvTydHtdRtk/wlOXkWWqj8Vu/QEOd9ujz9A=;
+ b=F+nSuANDr1wXoCgEVQ39pYOkQ7+uBWMFd0QtML/JbfBzByjbt0bJgQa4vzc8amC4Ye2NYenL2DNq
+   Kw3JbpK/FpvT8aaNvGQACqZEKXV7ICrq3Z90/A2+zvhccfDM9P/P0jCOkZCKYWDMe85XGl3U+lsf
+   hvwdfw0KrpqPrB4kKlNld66mD9NNC2QWsJh2z54guVBt6xv3aeXE84bmQ8Xletf5QhFFS2uXOHQw
+   rYrvF3LIkzrB0XA1kz27xhJh0YyqmrAnZFeFZccXQPEBNAnylhbeRw+l53BWgd925/uKtLAIsxv6
+   Zwu7+kNSwlC1jr0CfUONm4jWnL++OiCyoY0wyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-yyz-20200204;
+ d=yyz1.rp.oracleemaildelivery.com;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=QCXst9TnbvTydHtdRtk/wlOXkWWqj8Vu/QEOd9ujz9A=;
+ b=Ir+1t2M8TtsKyR6VRloBbEX6I76KNlNYgpXZqZYyvue/sCPcO3nvMFboIRurXudSLFxxgQjVC+k0
+   GUqjKF/84Ni6VWtlR4yUDkcFX6gI7oa7tHlh/wI/ag0TKAe07OEMTlBvhzGr9cIlrnYT/bIlxIi6
+   fjtfABgsbPit/UCGqS3zzDZ64ZDKffwGRk3QMdP2fJdHqNrqI4ikwjO8NFO2ZcuWidIVZ8LSf6O9
+   0fyWZrdwR5+UowGSZLQkxXjToE6DembqgI9MMTcO+7H8Xi6IbgsuxmrTdMpjZek7M8dHsGYL1Gsh
+   hddoJhjwal34xV/ZH/6rV2xnmxOj2z8mY2MCEQ==
+Received: by omta-ad1-fd1-401-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com
+ (Oracle Communications Messaging Server 8.1.0.1.20230808 64bit (built Aug  8
+ 2023))
+ with ESMTPS id <0S0O002OK0DRGN10@omta-ad1-fd1-401-ca-toronto-1.omtaad1.vcndpyyz.oraclevcn.com> for
+ linux-doc@vger.kernel.org; Fri, 08 Sep 2023 11:39:27 +0000 (GMT)
+From:   Peter Lafreniere <peter@n8pjl.ca>
+To:     linux-doc@vger.kernel.org
+Cc:     Peter Lafreniere <peter@n8pjl.ca>, corbet@lwn.org,
+        linux-hams@vger.kernel.org, ralf@linux-mips.org,
+        stable@vger.kernel.org
+Subject: [PATCH] Documentation: netdev: fix dead link in ax25.rst
+Date:   Fri,  8 Sep 2023 07:39:05 -0400
+Message-id: <20230908113907.25053-1-peter@n8pjl.ca>
+X-Mailer: git-send-email 2.42.0
+MIME-version: 1.0
+Content-transfer-encoding: 8bit
+Reporting-Meta: AAHcve5kvIsOR4vqKkWsaSBP3N1G/gfAjUvtuKuqNQtp/6VFrgItE6EOgXBaIpAs
+ I3f2DqqBpheuzF9+wzMJRSFoYIqGUUrqAt17j6IXlyL6Y3lveUKkoQck4cTrtzVb
+ HNNWYMBoXK/Ki/8dxQ7aBmzvpQTr0QDNATm+rzaJnMfYVVXqOQ515jk9dBGPp1mJ
+ T9eQKgndS8/Lc4CzeX/fqzCJkdJZuoLErdpvB5XkXg1U0YcWkVwVZp0n9dreCpnl
+ 49ib9cmKuh0sQwyjpkRYO0AGh/XDjTJjvtrPY4qnClOEYmLd1uxUHBRARQPs1+9E
+ 68lQMA50MscYxbyeLUiMkU7FSeljjf9YzKFuP54MmdZBQykZ1IzfKL6OYrUpN6xj
+ QV/+tCxZXEbMfIwaaPZEZWavL43YdkYtK+WNSvX5SWAeCzug8yZVXu6e9Vm48g==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+http://linux-ax25.org has been down for nearly a year. Its official
+replacement is https://linux-ax25.in-berlin.de.
 
+Update the documentation to point there instead. And acknowledge that
+while the linux-hams list isn't entirely dead, it isn't what most would
+call 'active'. Remove that word.
 
-在 2023/9/8 04:14, Liam R. Howlett 写道:
-> * Peng Zhang <zhangpeng.00@bytedance.com> [230830 08:58]:
->> Use __mt_dup() to duplicate the old maple tree in dup_mmap(), and then
->> directly modify the entries of VMAs in the new maple tree, which can
->> get better performance. The optimization effect is proportional to the
->> number of VMAs.
->>
->> There is a "spawn" in byte-unixbench[1], which can be used to test the
->> performance of fork(). I modified it slightly to make it work with
->> different number of VMAs.
->>
->> Below are the test numbers. There are 21 VMAs by default. The first row
->> indicates the number of added VMAs. The following two lines are the
->> number of fork() calls every 10 seconds. These numbers are different
->> from the test results in v1 because this time the benchmark is bound to
->> a CPU. This way the numbers are more stable.
->>
->>    Increment of VMAs: 0      100     200     400     800     1600    3200    6400
->> 6.5.0-next-20230829: 111878 75531   53683   35282   20741   11317   6110    3158
->> Apply this patchset: 114531 85420   64541   44592   28660   16371   9038    4831
->>                       +2.37% +13.09% +20.23% +26.39% +38.18% +44.66% +47.92% +52.98%
-> 
-> Thanks!
-> 
-> Can you include 21 in this table since it's the default?
-Maybe I didn't express clearly, "Increment of VMAs" means the number of
-VMAs added on the basis of 21 VMAs.
-> 
->>
->> [1] https://github.com/kdlucas/byte-unixbench/tree/master
->>
->> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
->> ---
->>   kernel/fork.c | 34 ++++++++++++++++++++++++++--------
->>   mm/mmap.c     | 14 ++++++++++++--
->>   2 files changed, 38 insertions(+), 10 deletions(-)
->>
->> diff --git a/kernel/fork.c b/kernel/fork.c
->> index 3b6d20dfb9a8..e6299adefbd8 100644
->> --- a/kernel/fork.c
->> +++ b/kernel/fork.c
->> @@ -650,7 +650,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   	int retval;
->>   	unsigned long charge = 0;
->>   	LIST_HEAD(uf);
->> -	VMA_ITERATOR(old_vmi, oldmm, 0);
->>   	VMA_ITERATOR(vmi, mm, 0);
->>   
->>   	uprobe_start_dup_mmap();
->> @@ -678,17 +677,39 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   		goto out;
->>   	khugepaged_fork(mm, oldmm);
->>   
->> -	retval = vma_iter_bulk_alloc(&vmi, oldmm->map_count);
->> -	if (retval)
->> +	/* Use __mt_dup() to efficiently build an identical maple tree. */
->> +	retval = __mt_dup(&oldmm->mm_mt, &mm->mm_mt, GFP_NOWAIT | __GFP_NOWARN);
-> 
-> Apparently the flags should be GFP_KERNEL here so that compaction can
-> run.
-OK, I'll change it to GFP_KERNEL.
-> 
->> +	if (unlikely(retval))
->>   		goto out;
->>   
->>   	mt_clear_in_rcu(vmi.mas.tree);
->> -	for_each_vma(old_vmi, mpnt) {
->> +	for_each_vma(vmi, mpnt) {
->>   		struct file *file;
->>   
->>   		vma_start_write(mpnt);
->>   		if (mpnt->vm_flags & VM_DONTCOPY) {
->>   			vm_stat_account(mm, mpnt->vm_flags, -vma_pages(mpnt));
->> +
->> +			/*
->> +			 * Since the new tree is exactly the same as the old one,
->> +			 * we need to remove the unneeded VMAs.
->> +			 */
->> +			mas_store(&vmi.mas, NULL);
->> +
->> +			/*
->> +			 * Even removing an entry may require memory allocation,
->> +			 * and if removal fails, we use XA_ZERO_ENTRY to mark
->> +			 * from which VMA it failed. The case of encountering
->> +			 * XA_ZERO_ENTRY will be handled in exit_mmap().
->> +			 */
->> +			if (unlikely(mas_is_err(&vmi.mas))) {
->> +				retval = xa_err(vmi.mas.node);
->> +				mas_reset(&vmi.mas);
->> +				if (mas_find(&vmi.mas, ULONG_MAX))
->> +					mas_store(&vmi.mas, XA_ZERO_ENTRY);
->> +				goto loop_out;
->> +			}
->> +
-> 
-> Storing NULL may need extra space as you noted, so we need to be careful
-> what happens if we don't have that space.  We should have a testcase to
-> test this scenario.
-> 
-> mas_store_gfp() should be used with GFP_KERNEL.  The VMAs use GFP_KERNEL
-> in this function, see vm_area_dup().
-> 
-> Don't use the exit_mmap() path to undo a failed fork.  You've added
-> checks and complications to the exit path for all tasks in the very
-> unlikely event that we run out of memory when we hit a very unlikely
-> VM_DONTCOPY flag.
-> 
-> I see the issue with having a portion of the tree with new VMAs that are
-> accounted and a portion of the tree that has old VMAs that should not be
-> looked at.  It was clever to use the XA_ZERO_ENTRY as a stop point, but
-> we cannot add that complication to the exit path and then there is the
-> OOM race to worry about (maybe, I am not sure since this MM isn't
-> active yet).
-> 
-> Using what is done in exit_mmap() and do_vmi_align_munmap() as a
-> prototype, we can do something like the *untested* code below:
-> 
-> if (unlikely(mas_is_err(&vmi.mas))) {
-> 	unsigned long max = vmi.index;
-> 
-> 	retval = xa_err(vmi.mas.node);
-> 	mas_set(&vmi.mas, 0);
-> 	tmp = mas_find(&vmi.mas, ULONG_MAX);
-> 	if (tmp) { /* Not the first VMA failed */
-> 		unsigned long nr_accounted = 0;
-> 
-> 		unmap_region(mm, &vmi.mas, vma, NULL, mpnt, 0, max, max,
-> 				true);
-> 		do {
-> 			if (vma->vm_flags & VM_ACCOUNT)
-> 				nr_accounted += vma_pages(vma);
-> 			remove_vma(vma, true);
-> 			cond_resched();
-> 			vma = mas_find(&vmi.mas, max - 1);
-> 		} while (vma != NULL);
-> 
-> 		vm_unacct_memory(nr_accounted);
-> 	}
-> 	__mt_destroy(&mm->mm_mt);
-> 	goto loop_out;
-> }
-> 
-> Once exit_mmap() is called, the check for OOM (no vma) will catch that
-> nothing is left to do.
-> 
-> It might be worth making an inline function to do this to keep the fork
-> code clean.  We should test this by detecting a specific task name and
-> returning a failure at a given interval:
-> 
-> if (!strcmp(current->comm, "fork_test") {
-> ...
-> }
+Link: https://marc.info/?m=166792551600315
+Cc: stable@vger.kernel.org
+Signed-off-by: Peter Lafreniere <peter@n8pjl.ca>
+---
+ Documentation/networking/ax25.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank you for your suggestion, I will do this in the next version.
-> 
-> 
->>   			continue;
->>   		}
->>   		charge = 0;
->> @@ -750,8 +771,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   			hugetlb_dup_vma_private(tmp);
->>   
->>   		/* Link the vma into the MT */
->> -		if (vma_iter_bulk_store(&vmi, tmp))
->> -			goto fail_nomem_vmi_store;
->> +		mas_store(&vmi.mas, tmp);
->>   
->>   		mm->map_count++;
->>   		if (!(tmp->vm_flags & VM_WIPEONFORK))
->> @@ -778,8 +798,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   	uprobe_end_dup_mmap();
->>   	return retval;
->>   
->> -fail_nomem_vmi_store:
->> -	unlink_anon_vmas(tmp);
->>   fail_nomem_anon_vma_fork:
->>   	mpol_put(vma_policy(tmp));
->>   fail_nomem_policy:
->> diff --git a/mm/mmap.c b/mm/mmap.c
->> index b56a7f0c9f85..dfc6881be81c 100644
->> --- a/mm/mmap.c
->> +++ b/mm/mmap.c
->> @@ -3196,7 +3196,11 @@ void exit_mmap(struct mm_struct *mm)
->>   	arch_exit_mmap(mm);
->>   
->>   	vma = mas_find(&mas, ULONG_MAX);
->> -	if (!vma) {
->> +	/*
->> +	 * If dup_mmap() fails to remove a VMA marked VM_DONTCOPY,
->> +	 * xa_is_zero(vma) may be true.
->> +	 */
->> +	if (!vma || xa_is_zero(vma)) {
->>   		/* Can happen if dup_mmap() received an OOM */
->>   		mmap_read_unlock(mm);
->>   		return;
->> @@ -3234,7 +3238,13 @@ void exit_mmap(struct mm_struct *mm)
->>   		remove_vma(vma, true);
->>   		count++;
->>   		cond_resched();
->> -	} while ((vma = mas_find(&mas, ULONG_MAX)) != NULL);
->> +		vma = mas_find(&mas, ULONG_MAX);
->> +		/*
->> +		 * If xa_is_zero(vma) is true, it means that subsequent VMAs
->> +		 * donot need to be removed. Can happen if dup_mmap() fails to
->> +		 * remove a VMA marked VM_DONTCOPY.
->> +		 */
->> +	} while (vma != NULL && !xa_is_zero(vma));
->>   
->>   	BUG_ON(count != mm->map_count);
->>   
->> -- 
->> 2.20.1
->>
-> 
+diff --git a/Documentation/networking/ax25.rst b/Documentation/networking/ax25.rst
+index f060cfb1445a..605e72c6c877 100644
+--- a/Documentation/networking/ax25.rst
++++ b/Documentation/networking/ax25.rst
+@@ -7,9 +7,9 @@ AX.25
+ To use the amateur radio protocols within Linux you will need to get a
+ suitable copy of the AX.25 Utilities. More detailed information about
+ AX.25, NET/ROM and ROSE, associated programs and utilities can be
+-found on http://www.linux-ax25.org.
++found on https://linux-ax25.in-berlin.de.
+ 
+-There is an active mailing list for discussing Linux amateur radio matters
++There is a mailing list for discussing Linux amateur radio matters
+ called linux-hams@vger.kernel.org. To subscribe to it, send a message to
+ majordomo@vger.kernel.org with the words "subscribe linux-hams" in the body
+ of the message, the subject field is ignored.  You don't need to be
+-- 
+2.42.0
+
