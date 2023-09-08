@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5E3EEB567
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 18:02:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC86EEB567
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 18:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245649AbjIHSCM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 14:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42394 "EHLO
+        id S243322AbjIHSC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 14:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245639AbjIHSCK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 14:02:10 -0400
+        with ESMTP id S1343496AbjIHSC6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 14:02:58 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF5C71FEB;
-        Fri,  8 Sep 2023 11:01:36 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C97C433C9;
-        Fri,  8 Sep 2023 18:01:28 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBC6268D;
+        Fri,  8 Sep 2023 11:02:29 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB99C07616;
+        Fri,  8 Sep 2023 18:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694196091;
-        bh=h6DCLfmCJseNQIBFWqXapAOnJ43AOKKZleAS1iuIk4M=;
+        s=k20201202; t=1694196149;
+        bh=5SpBgqkvrP/EK7qrYMqK1hL8zRG7pgW3w8tgmGr6CaE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QeVR/5VtdMrVcbipH4dKrxhPAQIefN3f7t0NO1xkp3mS938nvNIAfaToXepmy6kyv
-         ncYQp66n19+dtVvr2tuRVDNcq0J09qPinxh2U6VeI7iUkjDVxkKXcHTTZTGbj6DQ7Z
-         ZEVR2qu0YkqTR79IWzpkiGACI3fcWoLlbv6u04pBWnaIWJSB3eylqx0p1Li2XFvuK3
-         jg4wf/88Pf6DNJcbdI12Ax9Wdp8MAtTt4xdBU/Na5DWE1TPg2qzFmYJap+nHkgf8p/
-         fB63+OnqMqcobhV8ZTYgBGol3Ejp+NTNkdQTegYNIk1K4gsM6EpjYTZQBQqOl+eur5
-         A3oeQP2E1gNZQ==
+        b=d9QvbiTEDC1ZkQf/uGWNTYmgnbidTMYck2Mw22Ob84+HnCcgIV15+Le09S5VY5Rei
+         Qt5zHQBJV4U5SxmZi9d2zUwOpi1ovCdvVsM82ZRRs0diINRQhDU/9k4LFHcbelx/KZ
+         /VgHH2pqaBoY+i8JI+nmHdZ/0+zd0oIPTUvN8rNztkeS9tQLvH3V+LBlZv9sAIv7+e
+         X+Du+tuYHKQhKw6RezQ+ZVtSiJDlLdo6n4mkYkhfmikgoTwUQ5aBXCgvGUoMnK8Wta
+         33rhEk+xP1ce2EL31OOppVx1O5J6cPPlImRXwVwc8UuOQBOTArW2vVgVNmdwP2/tqc
+         /wE0uulNeqQ5Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yicong Yang <yangyicong@hisilicon.com>,
@@ -33,20 +33,20 @@ Cc:     Yicong Yang <yangyicong@hisilicon.com>,
         corbet@lwn.net, lpieralisi@kernel.org, guohanjun@huawei.com,
         sudeep.holla@arm.com, rafael@kernel.org, mark.rutland@arm.com,
         catalin.marinas@arm.com, maz@kernel.org, nicolinc@nvidia.com,
-        robin.murphy@arm.com, james.morse@arm.com,
-        anshuman.khandual@arm.com, zhengyan@asrmicro.com, arnd@arndb.de,
-        shahuang@redhat.com, linux-doc@vger.kernel.org,
+        robin.murphy@arm.com, anshuman.khandual@arm.com,
+        james.morse@arm.com, oliver.upton@linux.dev, zhengyan@asrmicro.com,
+        arnd@arndb.de, linux-doc@vger.kernel.org,
         linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.4 06/13] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
-Date:   Fri,  8 Sep 2023 14:00:52 -0400
-Message-Id: <20230908180100.3458151-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 06/10] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
+Date:   Fri,  8 Sep 2023 14:01:58 -0400
+Message-Id: <20230908180203.3458330-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230908180100.3458151-1-sashal@kernel.org>
-References: <20230908180100.3458151-1-sashal@kernel.org>
+In-Reply-To: <20230908180203.3458330-1-sashal@kernel.org>
+References: <20230908180203.3458330-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.15
+X-stable-base: Linux 6.1.52
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -78,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  4 files changed, 53 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 3ce6e4aebdef6..c34a11a1e400a 100644
+index b3c8ac6a2c385..9000640f7f7a0 100644
 --- a/Documentation/arm64/silicon-errata.rst
 +++ b/Documentation/arm64/silicon-errata.rst
-@@ -195,6 +195,9 @@ stable kernels.
+@@ -193,6 +193,9 @@ stable kernels.
  +----------------+-----------------+-----------------+-----------------------------+
  | Hisilicon      | Hip08 SMMU PMCG | #162001800      | N/A                         |
  +----------------+-----------------+-----------------+-----------------------------+
@@ -92,10 +92,10 @@ index 3ce6e4aebdef6..c34a11a1e400a 100644
  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
  +----------------+-----------------+-----------------+-----------------------------+
 diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index 8a384e6cfa132..85b3569d52a28 100644
+index 2e1cae53536f5..3a6cf5675e607 100644
 --- a/drivers/acpi/arm64/iort.c
 +++ b/drivers/acpi/arm64/iort.c
-@@ -1707,7 +1707,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
+@@ -1699,7 +1699,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
  static struct acpi_platform_list pmcg_plat_info[] __initdata = {
  	/* HiSilicon Hip08 Platform */
  	{"HISI  ", "HIP08   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
