@@ -2,153 +2,206 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06616EEB569
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 17:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A20EEB562
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 18:00:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245461AbjIHR6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 13:58:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40884 "EHLO
+        id S229634AbjIHSBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 14:01:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245262AbjIHR6K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 13:58:10 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD58A1FD9
-        for <linux-doc@vger.kernel.org>; Fri,  8 Sep 2023 10:58:05 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d7f00778bcfso2347163276.1
-        for <linux-doc@vger.kernel.org>; Fri, 08 Sep 2023 10:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1694195885; x=1694800685; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tNRAzZU/edQLTJw3qIY/o1dxHISQKnf/BXQhNzjVbbY=;
-        b=2qSjhcS0RK7HJABT1Le0Aj7tqR8nz/9wcSX3NJzL26yTMiYoFtqPnZ05T3ya+9GSMS
-         VDGhE8w6S6gPu6RB9e91do03PTw2mTij5Oh//DYubXC6S/w5HmMm3OqZM1WrDvS4dWXS
-         L6OGTauhNjnFJR7+2DarFhsrkRqMWimwuG1k6zkiLkgAzhMJR5JsE0MATkIPlY1qyDtw
-         Zpr2lQIdPEzcqGDYua+NI74QUjy16VLltzViM0AJhpxGnooaAitClfLc3hGq2ecZNrEd
-         YhcUzXf2bS1FdMugB3nc2y0+ocRn+NJ+SDMbnsHSnoyL7wyYSxA+CrsBpo+oC3QGHl2Y
-         +O5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694195885; x=1694800685;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tNRAzZU/edQLTJw3qIY/o1dxHISQKnf/BXQhNzjVbbY=;
-        b=h6191USiV+6urex4pINLivKmJf31BlI9fRRcO4AiF3nlsVWX2otD2lXJ6YSsU7Xisi
-         DI3gCuWENhtBHuXQYmOYacp07lTavZW25h9m5bSRomK3zY7WrtNkAj0+LgCBGmDdiIXc
-         6I7W2GcXoAMRoyhsMj0KW28UkRtg7Ycgyw23nZ1OXgHxA7BvonsKS7MNk+zoTPNCUM5e
-         oxcRYvGqoNA6QDZONfSSPqzA2vBjRxMBU7fjbmrx5Yjig4hVCB2IhQYl84wXqUPHb97P
-         iXSJFC6yL3UNvFQhscgSlALw62PXOuaXlW07INhyy+WVPcpJLGE9yY9ztBwaXPmHiDmf
-         S/DQ==
-X-Gm-Message-State: AOJu0Yw32gep9sel75HfoIMxfRYGV4k8BStKZAnm8psNlh0eBa5ZVsqN
-        W/YLEMAx9AKGcXUQ4Kqg8oMx2RuzkuBmfb7K
-X-Google-Smtp-Source: AGHT+IFoF1EiaUeA0+DU6tYzZsfsoi52XXqVRErttNtmBwyZirUf/VwWuA0433pCTHLt3+OeKv0sjSkOLMN7x+ON
-X-Received: from mclapinski.waw.corp.google.com ([2a00:79e0:9b:0:aa82:a90b:b76f:32b0])
- (user=mclapinski job=sendgmr) by 2002:a25:9208:0:b0:d7f:8774:dfd4 with SMTP
- id b8-20020a259208000000b00d7f8774dfd4mr62282ybo.12.1694195885073; Fri, 08
- Sep 2023 10:58:05 -0700 (PDT)
-Date:   Fri,  8 Sep 2023 19:57:38 +0200
-In-Reply-To: <20230908175738.41895-1-mclapinski@google.com>
-Mime-Version: 1.0
-References: <20230908175738.41895-1-mclapinski@google.com>
-X-Mailer: git-send-email 2.42.0.283.g2d96d420d3-goog
-Message-ID: <20230908175738.41895-3-mclapinski@google.com>
-Subject: [PATCH v2 2/2] selftests: test ioctl(MEMFD_CHECK_IF_ORIGINAL)
-From:   Michal Clapinski <mclapinski@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>, Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Yi Liu <yi.l.liu@intel.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Steve French <stfrench@microsoft.com>,
-        Simon Ser <contact@emersion.fr>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Luca Vizzarro <Luca.Vizzarro@arm.com>,
-        Jeff Xu <jeffxu@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Kees Cook <keescook@chromium.org>,
-        Daniel Verkamp <dverkamp@chromium.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Cc:     Michal Clapinski <mclapinski@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S236984AbjIHSBA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 14:01:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8A126A3;
+        Fri,  8 Sep 2023 11:00:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0304CC433C7;
+        Fri,  8 Sep 2023 18:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694196030;
+        bh=1R+5Og/r2Fwfd+SPWB3ePD/8CSMW5ILeMaZVxjmBYQg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CR2rJ8QzrERD1w1XfJZlPG99kRnt7ZtA9K4CeFoOABYpZp95EiNzqp9nNasOMSHut
+         iMpW6LhXc7HIfpqcz9e1GRQzvNODO9rlCNwyBQzJso4cHyPr8c3dGLDJ/UfUhHhpI2
+         5raqj7LhdEoqsmKZOMURAcDRLlCkULuPVDnSc/bwF8yvWHD+857bOm2Sd7yiRoG7Ud
+         os9uTHLE5mEjhpTJNsyyJVoZsRg0IDzop8dpXl/NhCjZ2FIvR1b512YLo8jOpVswqK
+         PbT6acn+niXRsPp3cjxhXmTdAS+nprKoZrpmmayZ/yiS2jOzVqCHVGt4hDRytc3ViJ
+         CgsBYYvDRP4OA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Yicong Yang <yangyicong@hisilicon.com>,
+        Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        catalin.marinas@arm.com, corbet@lwn.net, lpieralisi@kernel.org,
+        guohanjun@huawei.com, sudeep.holla@arm.com, rafael@kernel.org,
+        mark.rutland@arm.com, maz@kernel.org, shahuang@redhat.com,
+        arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.5 08/16] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
+Date:   Fri,  8 Sep 2023 13:59:45 -0400
+Message-Id: <20230908175953.3457942-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230908175953.3457942-1-sashal@kernel.org>
+References: <20230908175953.3457942-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.5.2
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Michal Clapinski <mclapinski@google.com>
----
- tools/testing/selftests/memfd/memfd_test.c | 32 ++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-diff --git a/tools/testing/selftests/memfd/memfd_test.c b/tools/testing/selftests/memfd/memfd_test.c
-index 3df008677239..1a702af6e01a 100644
---- a/tools/testing/selftests/memfd/memfd_test.c
-+++ b/tools/testing/selftests/memfd/memfd_test.c
-@@ -13,6 +13,7 @@
- #include <stdlib.h>
- #include <signal.h>
- #include <string.h>
-+#include <sys/ioctl.h>
- #include <sys/mman.h>
- #include <sys/stat.h>
- #include <sys/syscall.h>
-@@ -39,6 +40,10 @@
+[ Upstream commit 0242737dc4eb9f6e9a5ea594b3f93efa0b12f28d ]
+
+Some HiSilicon SMMU PMCG suffers the erratum 162001900 that the PMU
+disable control sometimes fail to disable the counters. This will lead
+to error or inaccurate data since before we enable the counters the
+counter's still counting for the event used in last perf session.
+
+This patch tries to fix this by hardening the global disable process.
+Before disable the PMU, writing an invalid event type (0xffff) to
+focibly stop the counters. Correspondingly restore each events on
+pmu::pmu_enable().
+
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+Link: https://lore.kernel.org/r/20230814124012.58013-1-yangyicong@huawei.com
+Signed-off-by: Will Deacon <will@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/arch/arm64/silicon-errata.rst |  3 ++
+ drivers/acpi/arm64/iort.c                   |  5 ++-
+ drivers/perf/arm_smmuv3_pmu.c               | 46 ++++++++++++++++++++-
+ include/linux/acpi_iort.h                   |  1 +
+ 4 files changed, 53 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index bedd3a1d7b423..0ac452333eb4f 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -198,6 +198,9 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Hisilicon      | Hip08 SMMU PMCG | #162001800      | N/A                         |
+ +----------------+-----------------+-----------------+-----------------------------+
++| Hisilicon      | Hip08 SMMU PMCG | #162001900      | N/A                         |
++|                | Hip09 SMMU PMCG |                 |                             |
+++----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+index 56d887323ae52..6496ff5a6ba20 100644
+--- a/drivers/acpi/arm64/iort.c
++++ b/drivers/acpi/arm64/iort.c
+@@ -1708,7 +1708,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
+ static struct acpi_platform_list pmcg_plat_info[] __initdata = {
+ 	/* HiSilicon Hip08 Platform */
+ 	{"HISI  ", "HIP08   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
+-	 "Erratum #162001800", IORT_SMMU_V3_PMCG_HISI_HIP08},
++	 "Erratum #162001800, Erratum #162001900", IORT_SMMU_V3_PMCG_HISI_HIP08},
++	/* HiSilicon Hip09 Platform */
++	{"HISI  ", "HIP09   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
++	 "Erratum #162001900", IORT_SMMU_V3_PMCG_HISI_HIP09},
+ 	{ }
+ };
  
- #define MFD_NOEXEC_SEAL	0x0008U
+diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
+index 25a269d431e45..0e17c57ddb876 100644
+--- a/drivers/perf/arm_smmuv3_pmu.c
++++ b/drivers/perf/arm_smmuv3_pmu.c
+@@ -115,6 +115,7 @@
+ #define SMMU_PMCG_PA_SHIFT              12
  
-+#ifndef MEMFD_CHECK_IF_ORIGINAL
-+#define MEMFD_CHECK_IF_ORIGINAL _IOR(0xB8, 0, int)
-+#endif
-+
- /*
-  * Default is not to test hugetlbfs
-  */
-@@ -1567,6 +1572,31 @@ static void test_share_fork(char *banner, char *b_suffix)
- 	close(fd);
+ #define SMMU_PMCG_EVCNTR_RDONLY         BIT(0)
++#define SMMU_PMCG_HARDEN_DISABLE        BIT(1)
+ 
+ static int cpuhp_state_num;
+ 
+@@ -159,6 +160,20 @@ static inline void smmu_pmu_enable(struct pmu *pmu)
+ 	writel(SMMU_PMCG_CR_ENABLE, smmu_pmu->reg_base + SMMU_PMCG_CR);
  }
  
-+static void test_ioctl_check_original(void)
++static int smmu_pmu_apply_event_filter(struct smmu_pmu *smmu_pmu,
++				       struct perf_event *event, int idx);
++
++static inline void smmu_pmu_enable_quirk_hip08_09(struct pmu *pmu)
 +{
-+	int fd, fd2;
++	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
++	unsigned int idx;
 +
-+	printf("%s IOCTL-CHECK-ORIGINAL\n", memfd_str);
-+	fd = sys_memfd_create("kern_memfd_check_original", 0);
-+	if (fd < 0) {
-+		printf("memfd_create failed: %m\n");
-+		abort();
-+	}
-+	if (ioctl(fd, MEMFD_CHECK_IF_ORIGINAL) != 1) {
-+		printf("ioctl(MEMFD_CHECK_IF_ORIGINAL) failed\n");
-+		abort();
-+	}
++	for_each_set_bit(idx, smmu_pmu->used_counters, smmu_pmu->num_counters)
++		smmu_pmu_apply_event_filter(smmu_pmu, smmu_pmu->events[idx], idx);
 +
-+	fd2 = mfd_assert_reopen_fd(fd);
-+	if (ioctl(fd2, MEMFD_CHECK_IF_ORIGINAL) != 0) {
-+		printf("ioctl(MEMFD_CHECK_IF_ORIGINAL) failed\n");
-+		abort();
-+	}
-+
-+	close(fd);
-+	close(fd2);
++	smmu_pmu_enable(pmu);
 +}
 +
- int main(int argc, char **argv)
+ static inline void smmu_pmu_disable(struct pmu *pmu)
  {
- 	pid_t pid;
-@@ -1609,6 +1639,8 @@ int main(int argc, char **argv)
- 	test_share_open("SHARE-OPEN", "");
- 	test_share_fork("SHARE-FORK", "");
+ 	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
+@@ -167,6 +182,22 @@ static inline void smmu_pmu_disable(struct pmu *pmu)
+ 	writel(0, smmu_pmu->reg_base + SMMU_PMCG_IRQ_CTRL);
+ }
  
-+	test_ioctl_check_original();
++static inline void smmu_pmu_disable_quirk_hip08_09(struct pmu *pmu)
++{
++	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
++	unsigned int idx;
 +
- 	/* Run test-suite in a multi-threaded environment with a shared
- 	 * file-table. */
- 	pid = spawn_idle_thread(CLONE_FILES | CLONE_FS | CLONE_VM);
++	/*
++	 * The global disable of PMU sometimes fail to stop the counting.
++	 * Harden this by writing an invalid event type to each used counter
++	 * to forcibly stop counting.
++	 */
++	for_each_set_bit(idx, smmu_pmu->used_counters, smmu_pmu->num_counters)
++		writel(0xffff, smmu_pmu->reg_base + SMMU_PMCG_EVTYPER(idx));
++
++	smmu_pmu_disable(pmu);
++}
++
+ static inline void smmu_pmu_counter_set_value(struct smmu_pmu *smmu_pmu,
+ 					      u32 idx, u64 value)
+ {
+@@ -765,7 +796,10 @@ static void smmu_pmu_get_acpi_options(struct smmu_pmu *smmu_pmu)
+ 	switch (model) {
+ 	case IORT_SMMU_V3_PMCG_HISI_HIP08:
+ 		/* HiSilicon Erratum 162001800 */
+-		smmu_pmu->options |= SMMU_PMCG_EVCNTR_RDONLY;
++		smmu_pmu->options |= SMMU_PMCG_EVCNTR_RDONLY | SMMU_PMCG_HARDEN_DISABLE;
++		break;
++	case IORT_SMMU_V3_PMCG_HISI_HIP09:
++		smmu_pmu->options |= SMMU_PMCG_HARDEN_DISABLE;
+ 		break;
+ 	}
+ 
+@@ -890,6 +924,16 @@ static int smmu_pmu_probe(struct platform_device *pdev)
+ 	if (!dev->of_node)
+ 		smmu_pmu_get_acpi_options(smmu_pmu);
+ 
++	/*
++	 * For platforms suffer this quirk, the PMU disable sometimes fails to
++	 * stop the counters. This will leads to inaccurate or error counting.
++	 * Forcibly disable the counters with these quirk handler.
++	 */
++	if (smmu_pmu->options & SMMU_PMCG_HARDEN_DISABLE) {
++		smmu_pmu->pmu.pmu_enable = smmu_pmu_enable_quirk_hip08_09;
++		smmu_pmu->pmu.pmu_disable = smmu_pmu_disable_quirk_hip08_09;
++	}
++
+ 	/* Pick one CPU to be the preferred one to use */
+ 	smmu_pmu->on_cpu = raw_smp_processor_id();
+ 	WARN_ON(irq_set_affinity(smmu_pmu->irq, cpumask_of(smmu_pmu->on_cpu)));
+diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
+index ee7cb6aaff718..1cb65592c95dd 100644
+--- a/include/linux/acpi_iort.h
++++ b/include/linux/acpi_iort.h
+@@ -21,6 +21,7 @@
+  */
+ #define IORT_SMMU_V3_PMCG_GENERIC        0x00000000 /* Generic SMMUv3 PMCG */
+ #define IORT_SMMU_V3_PMCG_HISI_HIP08     0x00000001 /* HiSilicon HIP08 PMCG */
++#define IORT_SMMU_V3_PMCG_HISI_HIP09     0x00000002 /* HiSilicon HIP09 PMCG */
+ 
+ int iort_register_domain_token(int trans_id, phys_addr_t base,
+ 			       struct fwnode_handle *fw_node);
 -- 
-2.42.0.283.g2d96d420d3-goog
+2.40.1
 
