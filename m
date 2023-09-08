@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE752EEB566
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 18:03:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E384BEEB562
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 18:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245740AbjIHSDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 14:03:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
+        id S232133AbjIHSFV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Sep 2023 14:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343504AbjIHSDm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 14:03:42 -0400
+        with ESMTP id S237308AbjIHSFT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 14:05:19 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAD12268E;
-        Fri,  8 Sep 2023 11:03:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41286C433B7;
-        Fri,  8 Sep 2023 18:03:06 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF62213A;
+        Fri,  8 Sep 2023 11:04:53 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B1BC4339A;
+        Fri,  8 Sep 2023 18:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694196188;
-        bh=/7xsq76zQg/0BrUX0hWLTj6AIHuCwYH2jkWowYv8ZUA=;
+        s=k20201202; t=1694196224;
+        bh=sFVKC6ZtU01nH+4NDc99qk06dtDHrlavBl1Ztc+0BzQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nZzYi43evKgGsGF9zHUnitQynybgEDOZpJhCKQG8UuGgGM1TdBHB0yuAtH4iTU2jQ
-         TMswi/aRrGjNa1rRT/lZHe638UkhX4QND+xbHj2jeid6IkKppPDvjB9dTpHRNMMVC/
-         zBD6rxKMoGcoPGk8zgnoh7lR8bCootHSiyo38f0hieW0msVfCzejv8ZYDvKOViJaeI
-         qxwXWeRHM0KvBCHRQRn9p7Tp7fSiEDScwvk1PFFkTC3AcoZV8OKf7ogQcbMJotpbTU
-         jaYKAjklJsZALEd6lZnaNQZFKSOVYs8IVi2MOFpqpMP2LdPQfOW4L1LLaCcrJ673aP
-         yvXTyTILTPl/w==
+        b=YVBxIZfRb1OFBHx0arlg4pOlMvqvGe5D/+MuZsiHO7QJFL0UsADzc/7CK3V8sQ95z
+         RCjS5Iq2uZqoKyto5cHbCd44VAfkFUDIsSabWbpnxiYFSHhXwYsK1TGFqFkGu45rO9
+         gVQX3+SZZXhYGOcA9n0SSGjYtmjWpSRVIvqzv82fMzrSHQLmNMgZgoqd/07gm0Ig9w
+         WgMOLZpoBtf1nWWtKqdW0C89EpDKQKQ4tVm44UpnD4ecEs4j4p9sbHUJGjGeqSwoKt
+         czPmfPtcL7RSDsS6XFYrfajbOUVfwjADmpK8UkRp6gYN6IMU40o4M3xrnZfJeNmVCI
+         FCcZAZL3tkmtw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yicong Yang <yangyicong@hisilicon.com>,
@@ -35,18 +35,19 @@ Cc:     Yicong Yang <yangyicong@hisilicon.com>,
         catalin.marinas@arm.com, maz@kernel.org, robin.murphy@arm.com,
         nicolinc@nvidia.com, anshuman.khandual@arm.com,
         james.morse@arm.com, sebastian.reichel@collabora.com,
-        zhengyan@asrmicro.com, arnd@arndb.de, linux-doc@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 6/9] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
-Date:   Fri,  8 Sep 2023 14:02:37 -0400
-Message-Id: <20230908180240.3458469-6-sashal@kernel.org>
+        zhengyan@asrmicro.com, shahuang@redhat.com, arnd@arndb.de,
+        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 6/8] perf/smmuv3: Enable HiSilicon Erratum 162001900 quirk for HIP08/09
+Date:   Fri,  8 Sep 2023 14:03:17 -0400
+Message-Id: <20230908180320.3458596-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230908180240.3458469-1-sashal@kernel.org>
-References: <20230908180240.3458469-1-sashal@kernel.org>
+In-Reply-To: <20230908180320.3458596-1-sashal@kernel.org>
+References: <20230908180320.3458596-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.131
+X-stable-base: Linux 5.10.194
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -78,10 +79,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  4 files changed, 53 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 83a75e16e54de..d2f90ecc426f9 100644
+index 4f3206495217c..10a26d44ef4a9 100644
 --- a/Documentation/arm64/silicon-errata.rst
 +++ b/Documentation/arm64/silicon-errata.rst
-@@ -172,6 +172,9 @@ stable kernels.
+@@ -149,6 +149,9 @@ stable kernels.
  +----------------+-----------------+-----------------+-----------------------------+
  | Hisilicon      | Hip08 SMMU PMCG | #162001800      | N/A                         |
  +----------------+-----------------+-----------------+-----------------------------+
@@ -92,10 +93,10 @@ index 83a75e16e54de..d2f90ecc426f9 100644
  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
  +----------------+-----------------+-----------------+-----------------------------+
 diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index f2f8f05662deb..3dd74ad95d01b 100644
+index 50ed949dc1449..554943be26984 100644
 --- a/drivers/acpi/arm64/iort.c
 +++ b/drivers/acpi/arm64/iort.c
-@@ -1381,7 +1381,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
+@@ -1474,7 +1474,10 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
  static struct acpi_platform_list pmcg_plat_info[] __initdata = {
  	/* HiSilicon Hip08 Platform */
  	{"HISI  ", "HIP08   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
@@ -108,10 +109,10 @@ index f2f8f05662deb..3dd74ad95d01b 100644
  };
  
 diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
-index 5933ad151f869..1ef683bb40b64 100644
+index f5a33dbe7acb9..6ebe72b862661 100644
 --- a/drivers/perf/arm_smmuv3_pmu.c
 +++ b/drivers/perf/arm_smmuv3_pmu.c
-@@ -96,6 +96,7 @@
+@@ -95,6 +95,7 @@
  #define SMMU_PMCG_PA_SHIFT              12
  
  #define SMMU_PMCG_EVCNTR_RDONLY         BIT(0)
@@ -119,7 +120,7 @@ index 5933ad151f869..1ef683bb40b64 100644
  
  static int cpuhp_state_num;
  
-@@ -140,6 +141,20 @@ static inline void smmu_pmu_enable(struct pmu *pmu)
+@@ -138,6 +139,20 @@ static inline void smmu_pmu_enable(struct pmu *pmu)
  	writel(SMMU_PMCG_CR_ENABLE, smmu_pmu->reg_base + SMMU_PMCG_CR);
  }
  
@@ -140,7 +141,7 @@ index 5933ad151f869..1ef683bb40b64 100644
  static inline void smmu_pmu_disable(struct pmu *pmu)
  {
  	struct smmu_pmu *smmu_pmu = to_smmu_pmu(pmu);
-@@ -148,6 +163,22 @@ static inline void smmu_pmu_disable(struct pmu *pmu)
+@@ -146,6 +161,22 @@ static inline void smmu_pmu_disable(struct pmu *pmu)
  	writel(0, smmu_pmu->reg_base + SMMU_PMCG_IRQ_CTRL);
  }
  
@@ -163,7 +164,7 @@ index 5933ad151f869..1ef683bb40b64 100644
  static inline void smmu_pmu_counter_set_value(struct smmu_pmu *smmu_pmu,
  					      u32 idx, u64 value)
  {
-@@ -747,7 +778,10 @@ static void smmu_pmu_get_acpi_options(struct smmu_pmu *smmu_pmu)
+@@ -719,7 +750,10 @@ static void smmu_pmu_get_acpi_options(struct smmu_pmu *smmu_pmu)
  	switch (model) {
  	case IORT_SMMU_V3_PMCG_HISI_HIP08:
  		/* HiSilicon Erratum 162001800 */
@@ -175,7 +176,7 @@ index 5933ad151f869..1ef683bb40b64 100644
  		break;
  	}
  
-@@ -836,6 +870,16 @@ static int smmu_pmu_probe(struct platform_device *pdev)
+@@ -806,6 +840,16 @@ static int smmu_pmu_probe(struct platform_device *pdev)
  
  	smmu_pmu_get_acpi_options(smmu_pmu);
  
@@ -191,9 +192,9 @@ index 5933ad151f869..1ef683bb40b64 100644
 +
  	/* Pick one CPU to be the preferred one to use */
  	smmu_pmu->on_cpu = raw_smp_processor_id();
- 	WARN_ON(irq_set_affinity(smmu_pmu->irq, cpumask_of(smmu_pmu->on_cpu)));
+ 	WARN_ON(irq_set_affinity_hint(smmu_pmu->irq,
 diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
-index f1f0842a2cb2b..43082bd44a999 100644
+index 1a12baa58e409..136dba94c646f 100644
 --- a/include/linux/acpi_iort.h
 +++ b/include/linux/acpi_iort.h
 @@ -21,6 +21,7 @@
