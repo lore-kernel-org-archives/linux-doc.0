@@ -2,89 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B21E1EEB56E
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Sep 2023 22:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B75CEEB572
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Sep 2023 13:34:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239391AbjIHWHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Sep 2023 18:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49490 "EHLO
+        id S235822AbjIINeC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Sep 2023 09:34:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234277AbjIHWHG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Sep 2023 18:07:06 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C7019B4;
-        Fri,  8 Sep 2023 15:07:01 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1F552732;
-        Fri,  8 Sep 2023 22:07:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1F552732
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1694210821; bh=TzgHmaKz25GaV9E+TB8GN+i6D/XaAru3PQjEw55fRDw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=jbfKXfK0mE9O3f5dMY3E4dVKm5jEKviPm3oJiS/gqHdTHREyIh+YUPuPXL72lLNqS
-         qv6lR4nMb2tNem1jeiCHP60PTjurfc4Kkb4ybGEFDOcJybT0jNRotx+KtIURUK7hMx
-         e8pKFsN3Ml2gc0P8UrrNG/Ff3N4kmnDWrqXWZirAEUeRCLoXqB2nE6nz/flhtm5ytw
-         +kABmsUcQJNp+z7TePeUJI3hEVstmyGsVafoOoKy0j/uN2KcxJZRwvdtpIor09m53o
-         dC1ddPZ03jJ7lhKjadb0ByajF8+STLOQc6rac31L3IPJyObUjVTVYsvpwaji5ZuV0n
-         hbPucduHDXx9w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     =?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>, Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Yi Liu <yi.l.liu@intel.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Steve French <stfrench@microsoft.com>,
-        Simon Ser <contact@emersion.fr>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Luca Vizzarro <Luca.Vizzarro@arm.com>,
-        Jeff Xu <jeffxu@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Kees Cook <keescook@chromium.org>,
-        Daniel Verkamp <dverkamp@chromium.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] mm/memfd: add ioctl(MEMFD_CHECK_IF_ORIGINAL)
-In-Reply-To: <CAAi7L5f1f3gHGr_8cCv2jW2Q5pjL9bpDD_4zrpXjXkoRmu95fg@mail.gmail.com>
-References: <20230908175738.41895-1-mclapinski@google.com>
- <87tts4z9nu.fsf@meer.lwn.net>
- <CAAi7L5f1f3gHGr_8cCv2jW2Q5pjL9bpDD_4zrpXjXkoRmu95fg@mail.gmail.com>
-Date:   Fri, 08 Sep 2023 16:07:00 -0600
-Message-ID: <87h6o4z5dn.fsf@meer.lwn.net>
+        with ESMTP id S233349AbjIINeC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Sep 2023 09:34:02 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4901A12B;
+        Sat,  9 Sep 2023 06:33:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=HLK9WSdvnIOm43j0Wk61tr1UBJcZPuI7msFKk865x3I=; b=xI
+        6HeIEcC3jghYxgGvxB6sryYMu4YuUAjB+2aQKD+nvfLkOswmx3jiK7T+DaQ/3y23knOIo9dtk7uyn
+        2OyqfSX7sqz6Q4/Ij/V59Fw2adbEznZdjoztrSnhBPvABn++MsbdSY5ODLfjaPlv3FvQa7HZvfLS2
+        WFrtr9wMXFajq/c=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1qey5k-0063t4-7T; Sat, 09 Sep 2023 15:33:40 +0200
+Date:   Sat, 9 Sep 2023 15:33:40 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, steen.hegelund@microchip.com,
+        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+        Thorsten.Kummermehr@microchip.com
+Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
+ control transaction interface
+Message-ID: <74a6cd9c-fb30-46eb-a50f-861d9ff5bf37@lunn.ch>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Micha=C5=82 C=C5=82api=C5=84ski <mclapinski@google.com> writes:
+On Fri, Sep 08, 2023 at 07:59:14PM +0530, Parthiban Veerasooran wrote:
+> Implement register read/write interface according to the control
+> communication specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
+> Interface document. Control transactions consist of one or more control
+> commands. Control commands are used by the SPI host to read and write
+> registers within the MAC-PHY. Each control commands are composed of a
+> 32-bit control command header followed by register data.
+> 
+> Control write commands can write either a single register or multiple
+> consecutive registers. When multiple consecutive registers are written,
+> the address is automatically post-incremented by the MAC-PHY. The write
+> command and data is also echoed from the MAC-PHY back to the SPI host to
+> enable the SPI host to identify which register write failed in the case
+> of any bus errors.
+> 
+> Control read commands can read either a single register or multiple
+> consecutive registers. When multiple consecutive registers are read, the
+> address is automatically post-incremented by the MAC-PHY.
+> 
+> The register data being read or written can be protected against simple
+> bit errors. When enabled by setting the Protection Enable (PROTE) bit in
+> the CONFIG0 register, protection is accomplished by duplication of each
+> 32-bit word containing register data with its ones’ complement. Errors
+> are detected at the receiver by performing a simple exclusive-OR (XOR) of
+> each received 32-bit word containing register data with its received
+> complement and detecting if there are any zeros in the result.
+> 
+> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+> ---
+>  Documentation/networking/oa-tc6-framework.rst | 231 ++++++++++++++++++
+>  MAINTAINERS                                   |   8 +
+>  drivers/net/ethernet/oa_tc6.c                 | 222 +++++++++++++++++
+>  include/linux/oa_tc6.h                        |  31 +++
 
-> On Fri, Sep 8, 2023 at 10:34=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> =
-wrote:
->> Given that the two file descriptors are otherwise indistinguishable,
->> might a better fix be to make them indistinguishable in this regard as
->> well?  Is there a good reason why the second fd doesn't become
->> exec()able in this scenario and, if not, perhaps that behavior could be
->> changed instead?
->
-> It probably could be changed, yes. But I'm worried that would be
-> broadening the bug that is the exec()ability of memfds. AFAIK no other
-> fd that is opened as writable can be exec()ed. If maintainers would
-> prefer this, I could do this.
+I'm surprised there is no kconfig and Makefile changes here. I would
+expect this is compiled as a module, which the vendor code can then
+make use of. 
 
-I'm not convinced that perpetuating the behavior and adding an ioctl()
-workaround would be better than that; it seems to me that consistency
-would be better.  But I don't have any real say in that matter, of
-course; I'm curious what others think.
-
-Thanks,
-
-jon
+     Andrew
