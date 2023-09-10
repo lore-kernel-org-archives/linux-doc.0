@@ -2,53 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1959CEE7FF4
-	for <linux-doc@archiver.kernel.org>; Sun, 10 Sep 2023 04:19:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A8CEE7FF4
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Sep 2023 04:37:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343564AbjIJETH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 Sep 2023 00:19:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41276 "EHLO
+        id S238403AbjIJEho (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Sep 2023 00:37:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239833AbjIJETH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 00:19:07 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6F812C;
-        Sat,  9 Sep 2023 21:19:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=V/BzzRnx08kcKDhgPWB1jV4Zqn/q6RfLFanHuS+1wCc=; b=Aj/ujZTVRTrvMwakgrb6/UYHSZ
-        WEsm6jgosX0GSOy7PNd6Mhxxzfpv5Lm2thoz37HVcIuP0+DoxSBl/aRJ3VuU0OkcjtbZCEXEXD78y
-        2OAr67ITppTIbS0fkyQKhxnSzrkKAufDS2qFmmjFHqnCxxvSkIUdfI+gABEQYibUD8lVnu8FXbVOj
-        tsP44/SIcI3sOB4JS+hxp6AeiFLATm5O9asbUyWT6ytm0bZaO1bbDHU610LRDk6T5htukFmm99JJM
-        bbc+LPTHO8ZFRPqKwTKUaui1LbmuvzIerb86HbXGX/lq0tZMO8Lim9h8SIBavm47bu/GccK7UX5ao
-        Ndyis9yQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qfBuT-00AI9z-Jl; Sun, 10 Sep 2023 04:18:57 +0000
-Date:   Sun, 10 Sep 2023 05:18:57 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Oliver Faso <erer1243@gmail.com>
+        with ESMTP id S1346161AbjIJEho (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 00:37:44 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEC47195;
+        Sat,  9 Sep 2023 21:37:38 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1d4e0c2901bso2392179fac.0;
+        Sat, 09 Sep 2023 21:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694320658; x=1694925458; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=28TDwagANbm8HIbTFyx3CBMn7Zz+dpCIZxzUcErrG5s=;
+        b=m1WpsjztrNH8peo0rxuhh9CYykqUTvvKq+PZnE5LAhSm2Q39l/5m2RX2QDFdBuV4IZ
+         xyl/eSAFZQCbNslK9r0yfC1HkbBn55TzAmmQhItWr8E8+bujrwBrevQZrYXe9VeeyFOQ
+         54cFhNR805zTVFusk30MLKZ/4+nSfby8hBJizBL4MhA+IZGAbl8nXjMZNltTtL26RdR9
+         H4KhCDuUDVvRlGIpK+uOaBCPwnx400CKFul76WnLPhEVpZQfcUk8yAFpfoBIJWsSE3B7
+         qfFQjNZ5BjNLW5wZn+LFrx2icxpEqM+iH4h05wJlPy1ucvYj2Fp0OpJfNGVXTY87djTH
+         9+6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694320658; x=1694925458;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=28TDwagANbm8HIbTFyx3CBMn7Zz+dpCIZxzUcErrG5s=;
+        b=hDf1lr3P2DlG7ZlbCKi3A47pyma3wCR1X7ytlOBOXZK3u/krvnVtISWVhC8hZ6N25Q
+         vrsJeznbluCYjHCCqCiKI3uoljOXjbf6Nunfb1znor0o+THFyN6taV1elxxEHvWbAxqC
+         s0jm3UPkmVEDOc+iiI7dzDSAT1/24VY1vNG3+RxEYQs/9V6xik+awPK/hmKY2kTbCzmM
+         HutyfxwfgxbVXjIfn1eYQU4C+fQcY+dv9ReDDREIH0DJg1YyjIAKTJSFkosqBwI2/p0k
+         VrOL1Z66BiXPhbjfgCiN/SERbM1Wet9Ocy7xPw7y8r+VdrcZxSYU/EunJyrJds9nguVW
+         srxA==
+X-Gm-Message-State: AOJu0Yy0uvfQF7/jQpFS8HWvdfL9+ALUyHbbfNgSIR6GTMqhNAh5+Hgt
+        UAhtHN45uHGBAa3Sh25Agh57dMfl9njL+z951GooCSVWzcY=
+X-Google-Smtp-Source: AGHT+IFp5zFknvSKDmGFWesaph1tNcTKmNY5gmPbhFPx4wUKtcAyiXJnWBq1XpvXecYQlxYJj3e2qPsd6JZB0TUcnY0=
+X-Received: by 2002:a05:6870:51c7:b0:1be:f8d9:7bdd with SMTP id
+ b7-20020a05687051c700b001bef8d97bddmr8159153oaj.6.1694320658018; Sat, 09 Sep
+ 2023 21:37:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230910040811.53046-1-erer1243@gmail.com> <ZP1DsYlG+R/Y9fjr@casper.infradead.org>
+In-Reply-To: <ZP1DsYlG+R/Y9fjr@casper.infradead.org>
+From:   Oliver F <erer1243@gmail.com>
+Date:   Sun, 10 Sep 2023 00:37:27 -0400
+Message-ID: <CAHhkmma2uKdnDCCidRVd0pF-xJRPDL_f5qfYos5vpcUE6cXdJA@mail.gmail.com>
+Subject: Re: [PATCH] docs/sphinx: Explicitly convert Sphinx paths to str
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/sphinx: Explicitly convert Sphinx paths to str
-Message-ID: <ZP1DsYlG+R/Y9fjr@casper.infradead.org>
-References: <20230910040811.53046-1-erer1243@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230910040811.53046-1-erer1243@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 10, 2023 at 12:08:06AM -0400, Oliver Faso wrote:
->                  else:
-> -                    doc = env.srcdir + "/" + env.docname + ":" + str(self.lineno)
-> +                    doc = str(env.srcdir) + "/" + env.docname + ":" + str(self.lineno)
+On Sun, Sep 10, 2023 at 12:19=E2=80=AFAM Matthew Wilcox <willy@infradead.or=
+g> wrote:
+>
+> On Sun, Sep 10, 2023 at 12:08:06AM -0400, Oliver Faso wrote:
+> >                  else:
+> > -                    doc =3D env.srcdir + "/" + env.docname + ":" + str=
+(self.lineno)
+> > +                    doc =3D str(env.srcdir) + "/" + env.docname + ":" =
++ str(self.lineno)
+>
+> Would we be better off doing the path manipulation in Path, then converti=
+ng
+> to string?  ie:
+>
+>                         doc =3D str(env.srcdir / env.docname) + ":" + str=
+(self.lineno)
+>
 
-Would we be better off doing the path manipulation in Path, then converting
-to string?  ie:
+That would be incompatible with earlier Sphinx versions, which most
+people are probably using.
+The benefits would be supporting non-'/' separators, and invalid uft8 in pa=
+ths.
+But, I think those things don't matter here.
 
-			doc = str(env.srcdir / env.docname) + ":" + str(self.lineno)
-
+(sorry Matthew for double mail, I hit the wrong reply button)
