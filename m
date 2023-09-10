@@ -2,104 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B69EEB57B
-	for <linux-doc@archiver.kernel.org>; Sun, 10 Sep 2023 04:08:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1959CEE7FF4
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Sep 2023 04:19:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233235AbjIJEIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 Sep 2023 00:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33048 "EHLO
+        id S1343564AbjIJETH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Sep 2023 00:19:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232538AbjIJEIW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 00:08:22 -0400
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AE43CC;
-        Sat,  9 Sep 2023 21:08:18 -0700 (PDT)
-Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-6493389c56fso19875826d6.2;
-        Sat, 09 Sep 2023 21:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694318897; x=1694923697; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R3+2PGmoiy9X+KnZrSJrk+Ytx7sq+T9gDzRcG6umpdA=;
-        b=f0D7mIr9naX6IZ7qkD8Okxb5UsuxzQsjjYl18TBzEY3w1h7yHkju18pBYJL5Z8C0TH
-         TRi2/CcWvQx+ifGZRV5nNu/gkyX9AKe9FO4UMuB2wPTI/GkwnGdloXxQhc5HistfsKZw
-         kyOm3LUI40XARcRyG0oke5G01bPcyDnY6NMsBw4sy5Fdlm+PQElvaXI/FhrJ+fu4wxwS
-         f6rHCotWFo3nHyeAVsKEmgPpBYPp/FV5ljn+3pvRIf+37j3+4SshAGC9XBnkaWuSCJJ0
-         Nui6p5aa3sp8C8oSRC6WP1Xlh2NQcuYklxhQTnXQZA8pj1BGeKXsUIAgiMRXifY3JM4H
-         PlbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694318897; x=1694923697;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R3+2PGmoiy9X+KnZrSJrk+Ytx7sq+T9gDzRcG6umpdA=;
-        b=uJ3nruH8UAXgmIJ5pAGCJXVR1J1HDqJlJp7wSEp6lpTgONVczCrxq488eO8G37ObI2
-         sntwP6NoKInit0mDW+oCdfmiVoAr4LyEcZ+kbLjjGfO/eCUwNGtzsr+aBLR+H2edFm9n
-         d/QGL7zr4C7eDYoCSaKzsuedD23CFjODVOyNH4UYtLW758nVJ/F1K95+4UVOEM364CPO
-         MPO8qWNYMcwOp0gbzK71MF8V4nrdVk/q+u8LbwVGGXAk9uNEQhrBvxhM6MJujdOJ0Mwj
-         CC7GdpCisBbPNTpgDqPXyhm5hs2pPETPIUSQk5ocqutrnWwFEN6iNqrhgq4BWoB8l1zq
-         nGJw==
-X-Gm-Message-State: AOJu0YxaOcjHCD+kwwpR74aQdNbzA+WVLChPxxsiRbotZr4XyfGUBRMC
-        jvBE68IWlzzKnd6Ew2ReUbEpLGIfvDU=
-X-Google-Smtp-Source: AGHT+IFpRN/w+o7kLwf6EV95mD6p0bWBb0dzBu0qj07J07d9NCzY08A2Dfe9A2S9ERAtVmPUvUUCvw==
-X-Received: by 2002:a05:620a:2551:b0:76f:e93:eb0 with SMTP id s17-20020a05620a255100b0076f0e930eb0mr7610796qko.52.1694318897213;
-        Sat, 09 Sep 2023 21:08:17 -0700 (PDT)
-Received: from computinator.cable.rcn.com (146-115-147-29.s4891.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.147.29])
-        by smtp.gmail.com with ESMTPSA id q17-20020a05620a039100b0076c9cc1e107sm1631364qkm.54.2023.09.09.21.08.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Sep 2023 21:08:16 -0700 (PDT)
-From:   Oliver Faso <erer1243@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Oliver Faso <erer1243@gmail.com>, linux-doc@vger.kernel.org,
+        with ESMTP id S239833AbjIJETH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 00:19:07 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6F812C;
+        Sat,  9 Sep 2023 21:19:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=V/BzzRnx08kcKDhgPWB1jV4Zqn/q6RfLFanHuS+1wCc=; b=Aj/ujZTVRTrvMwakgrb6/UYHSZ
+        WEsm6jgosX0GSOy7PNd6Mhxxzfpv5Lm2thoz37HVcIuP0+DoxSBl/aRJ3VuU0OkcjtbZCEXEXD78y
+        2OAr67ITppTIbS0fkyQKhxnSzrkKAufDS2qFmmjFHqnCxxvSkIUdfI+gABEQYibUD8lVnu8FXbVOj
+        tsP44/SIcI3sOB4JS+hxp6AeiFLATm5O9asbUyWT6ytm0bZaO1bbDHU610LRDk6T5htukFmm99JJM
+        bbc+LPTHO8ZFRPqKwTKUaui1LbmuvzIerb86HbXGX/lq0tZMO8Lim9h8SIBavm47bu/GccK7UX5ao
+        Ndyis9yQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qfBuT-00AI9z-Jl; Sun, 10 Sep 2023 04:18:57 +0000
+Date:   Sun, 10 Sep 2023 05:18:57 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Oliver Faso <erer1243@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/sphinx: Explicitly convert Sphinx paths to str
-Date:   Sun, 10 Sep 2023 00:08:06 -0400
-Message-ID: <20230910040811.53046-1-erer1243@gmail.com>
-X-Mailer: git-send-email 2.42.0
+Subject: Re: [PATCH] docs/sphinx: Explicitly convert Sphinx paths to str
+Message-ID: <ZP1DsYlG+R/Y9fjr@casper.infradead.org>
+References: <20230910040811.53046-1-erer1243@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230910040811.53046-1-erer1243@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx 7.2+ is switching to using pathlib.Path
-instead of str to represent paths. This fixes the
-current deprecation warnings and eventual breakage.
-This conversion will be a no-op when using older
-Sphinx versions.
+On Sun, Sep 10, 2023 at 12:08:06AM -0400, Oliver Faso wrote:
+>                  else:
+> -                    doc = env.srcdir + "/" + env.docname + ":" + str(self.lineno)
+> +                    doc = str(env.srcdir) + "/" + env.docname + ":" + str(self.lineno)
 
-Signed-off-by: Oliver Faso <erer1243@gmail.com>
----
- Documentation/sphinx/kerneldoc.py | 2 +-
- Documentation/sphinx/kfigure.py   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Would we be better off doing the path manipulation in Path, then converting
+to string?  ie:
 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index 9395892c7ba3..d26155990ec3 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -138,7 +138,7 @@ class KernelDocDirective(Directive):
-                     lineoffset = int(match.group(1)) - 1
-                     # we must eat our comments since the upset the markup
-                 else:
--                    doc = env.srcdir + "/" + env.docname + ":" + str(self.lineno)
-+                    doc = str(env.srcdir) + "/" + env.docname + ":" + str(self.lineno)
-                     result.append(line, doc + ": " + filename, lineoffset)
-                     lineoffset += 1
- 
-diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
-index cefdbb7e7523..13e885bbd499 100644
---- a/Documentation/sphinx/kfigure.py
-+++ b/Documentation/sphinx/kfigure.py
-@@ -309,7 +309,7 @@ def convert_image(img_node, translator, src_fname=None):
-     if dst_fname:
-         # the builder needs not to copy one more time, so pop it if exists.
-         translator.builder.images.pop(img_node['uri'], None)
--        _name = dst_fname[len(translator.builder.outdir) + 1:]
-+        _name = dst_fname[len(str(translator.builder.outdir)) + 1:]
- 
-         if isNewer(dst_fname, src_fname):
-             kernellog.verbose(app,
--- 
-2.42.0
+			doc = str(env.srcdir / env.docname) + ":" + str(self.lineno)
 
