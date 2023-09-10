@@ -2,122 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D3C7EE57CD
-	for <linux-doc@archiver.kernel.org>; Sun, 10 Sep 2023 09:49:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C804CEE14D8
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Sep 2023 10:55:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236169AbjIJJtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 Sep 2023 05:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41850 "EHLO
+        id S1344887AbjIJKzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Sep 2023 06:55:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbjIJJte (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 05:49:34 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B31CC9;
-        Sun, 10 Sep 2023 02:49:29 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72FEAC433CD;
-        Sun, 10 Sep 2023 09:49:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694339368;
-        bh=FVbTyTYGkD/2rsb+c2iBU+8LpogWn5/bcs1vtUZzC7Y=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tw6Ow9U9eAMf7zSrY4eHJYZFLjv/NM3x5a6xUPB6TMtCX5j2kABX+QWf5LeEe0K5c
-         V396CGEwQpyEvtyhFLKzwgdgCHaDNPMGZ2LkqnHCaEdvfeWcBF3XueZ5KPmnGRFRGq
-         SqW9U+CZGvlcQCAP/NV1WuGDnjrFcw0wlpSRFp2k2sQlYAlT2qAoCyvS6xjcxPw07D
-         6XNuNWZkotT5oNEjHdrix6YUxqW/6hOlb4v4A7fvgCe6bnMYv17dFEi4UQm+EPMGW/
-         haQJOOMNPP8QxBhc2c0yT2jO4cQrBvBRtYyts3LexZNDGZsBRYSLLbEoXrD+QeE0sR
-         STdZBogqJkqGA==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-99bdcade7fbso425591566b.1;
-        Sun, 10 Sep 2023 02:49:28 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzP3phoEOqw6bcpZcerEuZ9Y51cOqGJBInzZxVHSYeogMKvMPcQ
-        1pPfgoqDm0WoExnNAzBJ2BfpJjeadOIVD6HJjvw=
-X-Google-Smtp-Source: AGHT+IFebFcltTIfF/6OhHnfq0bf8TerZi1uxhJIuc+47iS1v4AmYwXI87kynct8S8UjRMHcgJiImK3yZpjbw08MGbc=
-X-Received: by 2002:a17:906:10cf:b0:9a9:e41c:bcb3 with SMTP id
- v15-20020a17090610cf00b009a9e41cbcb3mr5498515ejv.59.1694339366810; Sun, 10
- Sep 2023 02:49:26 -0700 (PDT)
+        with ESMTP id S234093AbjIJKzW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 06:55:22 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66C0CCC
+        for <linux-doc@vger.kernel.org>; Sun, 10 Sep 2023 03:55:17 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-52c88a03f99so4268339a12.2
+        for <linux-doc@vger.kernel.org>; Sun, 10 Sep 2023 03:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694343316; x=1694948116; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=puTyiF7lSO91f2hx49Y8uu9bTlDZQ2heMks8xKH0qYk=;
+        b=JlBgVMIode+Sh1KsqhI1qHSaK3enqKRveA//ohv30Q5fPEevcBCP6HXmIdTGiDFx1T
+         AXP/HUuUwhVIn2K2dXQ2EwYPju0/xf8FN2cPfrDvWJgXcQ67A5GTmR+cMkp4WXyrxhq+
+         kHhZCpDntsLPGSyJ4OiDo5wndeZ1nFFspLogSThe8tqW5nOR2mMBbNryADvZB3dm6aNq
+         tEnuEpiOnSftigX2THx6Plfs7P2+PDrR6rg116A4Dai76zXvRinoknzpL4Ed4geKUbL4
+         FTaTRK0A4rO8Bv2WNEazf7eLjFoHsoWoOXRfOjn0kT65zBIDkoIjThR54XGwFDm1h7NH
+         SdZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694343316; x=1694948116;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=puTyiF7lSO91f2hx49Y8uu9bTlDZQ2heMks8xKH0qYk=;
+        b=b56Z7CudqTP3GJNbr0dFBdViIZWL/OMFHgf/La87T4+91ClnMOcJp4U/V/5XtvLx2B
+         6ysSnC9K6H5six/EGzAbukbZa+nX+AYBJAbrx/obDJFKFEYcKmUYDvYtq/G4l1ICXw/8
+         mpgYhsnXc3q0aCX0wOn29gzYMnaKsIFDA0l9yUGSV5hPn4+gs/MnWLSDQeKFQwgT5cQu
+         h3ca+kti86dBS87WXkmzfWVct9RDb5t9H4/RNF5X6gvb35L1h3nEZhCK2yHYUWQedRWa
+         N0B4KyW4bzcJASGuht3LpZJMMTOuN2WoCEjbGEIWQIVo7wu684DwLNWIjDnxyLB+OO6F
+         BGWg==
+X-Gm-Message-State: AOJu0YyFxtwT/6GgQsc8AsDr9G/ZkK/JlgSAXVVpy6rrMThuBtjmVhpE
+        3wvPcoKuwifEI0ibIk89n1BYZA==
+X-Google-Smtp-Source: AGHT+IHM0sRwrwHDiGd+MkKBFN1EjjQ3cC0NYWTn5BzqqBklD9R01Xykug8EJN7zERNVsImMivnFUQ==
+X-Received: by 2002:a50:ee89:0:b0:529:fa63:ef7d with SMTP id f9-20020a50ee89000000b00529fa63ef7dmr5063892edr.7.1694343315732;
+        Sun, 10 Sep 2023 03:55:15 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id j8-20020aa7c0c8000000b00525503fac84sm3240460edp.25.2023.09.10.03.55.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Sep 2023 03:55:15 -0700 (PDT)
+Message-ID: <feb8eaeb-954c-416d-6e30-acb4b92764e0@linaro.org>
+Date:   Sun, 10 Sep 2023 12:55:12 +0200
 MIME-Version: 1.0
-References: <20230910082911.3378782-1-guoren@kernel.org> <20230910-esteemed-exodus-706aaae940b1@spud>
- <CAJF2gTRQd_dNuZHNwfg3SwD0XERaYXYUdFUFQiarym40kpxFRQ@mail.gmail.com> <20230910-baggage-accent-ec5331b58c8e@spud>
-In-Reply-To: <20230910-baggage-accent-ec5331b58c8e@spud>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Sun, 10 Sep 2023 17:49:13 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTS8Vh5XdMUcgLA_GJzW6Nm3JKHxuMN9jYSNe_YCEjgCXA@mail.gmail.com>
-Message-ID: <CAJF2gTS8Vh5XdMUcgLA_GJzW6Nm3JKHxuMN9jYSNe_YCEjgCXA@mail.gmail.com>
-Subject: Re: [PATCH V11 00/17] riscv: Add Native/Paravirt qspinlock support
-To:     Conor Dooley <conor@kernel.org>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        leobras@redhat.com, linux-arch@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [RFC PATCH net-next 6/6] microchip: lan865x: add device-tree
+ support for Microchip's LAN865X MACPHY
+Content-Language: en-US
+To:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, steen.hegelund@microchip.com,
+        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+        andrew@lunn.ch
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+        Thorsten.Kummermehr@microchip.com
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-7-Parthiban.Veerasooran@microchip.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230908142919.14849-7-Parthiban.Veerasooran@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 10, 2023 at 5:32=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Sun, Sep 10, 2023 at 05:16:46PM +0800, Guo Ren wrote:
-> > On Sun, Sep 10, 2023 at 4:58=E2=80=AFPM Conor Dooley <conor@kernel.org>=
- wrote:
-> > >
-> > > On Sun, Sep 10, 2023 at 04:28:54AM -0400, guoren@kernel.org wrote:
-> > >
-> > > > Changlog:
-> > > > V11:
-> > > >  - Based on Leonardo Bras's cmpxchg_small patches v5.
-> > > >  - Based on Guo Ren's Optimize arch_spin_value_unlocked patch v3.
-> > > >  - Remove abusing alternative framework and use jump_label instead.
-> > >
-> > > btw, I didn't say that using alternatives was the problem, it was
-> > > abusing the errata framework to perform feature detection that I had
-> > > a problem with. That's not changed in v11.
-> > I've removed errata feature detection. The only related patches are:
-> >  - riscv: qspinlock: errata: Add ERRATA_THEAD_WRITE_ONCE fixup
-> >  - riscv: qspinlock: errata: Enable qspinlock for T-HEAD processors
-> >
-> > Which one is your concern? Could you reply on the exact patch thread? T=
-hx.
->
-> riscv: qspinlock: errata: Enable qspinlock for T-HEAD processors
->
-> Please go back and re-read the comments I left on v11 about using the
-> errata code for feature detection.
->
-> > > A stronger forward progress guarantee is not an erratum, AFAICT.
->
-> > Sorry, there is no erratum of "stronger forward progress guarantee" in =
-the V11.
->
-> "riscv: qspinlock: errata: Enable qspinlock for T-HEAD processors" still
-> uses the errata framework to detect the presence of the stronger forward
-> progress guarantee in v11.
-Oh, thx for pointing it out. I could replace it with this:
+On 08/09/2023 16:29, Parthiban Veerasooran wrote:
+> Add device-tree support for Microchip's LAN865X MACPHY for configuring
+> the OPEN Alliance 10BASE-T1x MACPHY Serial Interface parameters.
 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index 88690751f2ee..4be92766d3e3 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -310,7 +310,8 @@ static void __init riscv_spinlock_init(void)
- {
- #ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-        if (!enable_qspinlock_key &&
--           (sbi_get_firmware_id() !=3D SBI_EXT_BASE_IMPL_ID_KVM)) {
-+           (sbi_get_firmware_id() !=3D SBI_EXT_BASE_IMPL_ID_KVM) &&
-+           (sbi_get_mvendorid() !=3D THEAD_VENDOR_ID)) {
-                static_branch_disable(&combo_qspinlock_key);
-                pr_info("Ticket spinlock: enabled\n");
-        } else {
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching.
 
---=20
-Best Regards
- Guo Ren
+> 
+> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+> ---
+>  .../bindings/net/microchip,lan865x.yaml       | 54 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 55 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/microchip,lan865x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/net/microchip,lan865x.yaml b/Documentation/devicetree/bindings/net/microchip,lan865x.yaml
+> new file mode 100644
+> index 000000000000..3465b2c97690
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/microchip,lan865x.yaml
+> @@ -0,0 +1,54 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/microchip,lan865x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Microchip LAN8650/1 10BASE-T1S MACPHY Ethernet Controllers
+> +
+> +maintainers:
+> +  - Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+> +
+> +description: |
+> +  Device tree properties for LAN8650/1 10BASE-T1S MACPHY Ethernet
+
+Drop "Device tree properties for" and instead describe the hardware.
+
+> +  controller.
+> +
+> +allOf:
+> +  - $ref: ethernet-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+
+No need for items. Just enum.
+
+
+> +      - enum:
+> +          - microchip,lan865x
+
+No wildcards in compatibles.
+
+Missing blank line.
+
+
+
+> +  reg:
+> +    maxItems: 1
+> +
+> +  local-mac-address: true
+> +  oa-chunk-size: true
+> +  oa-tx-cut-through: true
+> +  oa-rx-cut-through: true
+> +  oa-protected: true
+
+What are all these? Where are they defined that you skip description,
+type and vendor prefix?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ethernet@1{
+
+Missing space
+
+> +            compatible = "microchip,lan865x";
+> +            reg = <1>; /* CE0 */
+
+CE0? chip-select? What does this comment mean in this context?
+
+> +            local-mac-address = [04 05 06 01 02 03];
+> +            oa-chunk-size = <64>;
+> +            oa-tx-cut-through;
+> +            oa-rx-cut-through;
+> +            oa-protected;
+
+
+
+Best regards,
+Krzysztof
+
