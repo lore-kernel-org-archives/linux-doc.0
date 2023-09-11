@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AAAFCA0EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 01:47:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63C77CA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 01:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232388AbjILBrv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 21:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
+        id S232274AbjILBsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 21:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjILBra (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 21:47:30 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE201140E8C;
-        Mon, 11 Sep 2023 16:44:43 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-56a8794b5adso3746442a12.2;
-        Mon, 11 Sep 2023 16:44:43 -0700 (PDT)
+        with ESMTP id S231940AbjILBsK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 21:48:10 -0400
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09C313CC1C;
+        Mon, 11 Sep 2023 16:43:48 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-59b9b47e35dso10281477b3.0;
+        Mon, 11 Sep 2023 16:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694475812; x=1695080612; darn=vger.kernel.org;
+        d=gmail.com; s=20221208; t=1694475697; x=1695080497; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8XrchSCMiBfDcdDfNQlv8At+eGFJmxlivKt7lhA3WVs=;
-        b=f2tP2fhsGNYNbFghIDn7ogQJsY+lBvUW+hhOORlpZEX1mFzAkkjV8PzKetG0eYIz4P
-         V4iMZkmcfEBdyj/7E0kfSUdQj4g2DxIZlw9BNyqCn+9pH/X83aqozZQ0ic23bn5d1+8n
-         4nIkMBnsT4KFKZxZNOrOkVWq4scfWSm+8tCYMbX5Mw792SzB0POhiD+OgbGMUjcSSSON
-         1wS4OHo1UrmLBbIL4yJiusFtRufNN4/F8ds/dLM1hv4tiuv//Hstpk4iEhIhP9U8jGHI
-         Y3DpoC6pZnDvYbAGTD2bkkaH8ip7UXJHbL+bHD00jv+j4Y5HanZ7wngHwAlvh+AQEnH1
-         /OTw==
+        bh=sg6cE/x2UUPlr07T7fY2WapJd57AiLvtF5oOk9nL6T4=;
+        b=SXmW67e9cMPdC2V8L5WjgsumE1phAVoof/0bWoQfpQmDJl2iVex6gOlFoNdwVZHXhb
+         M+3+BBULcVwzkNEeD0epU6jz7wmfsNLFoVR1QV/voKLjIuWDtUPha5HUqeyEJto8s5nK
+         1lMUEyK0N2LGS2NGhh/dcjURInvnRQ5BwdORzKfXLyhS+KBQWIIN7tx0qhhICvVoYshy
+         w3Awmw25zOPH+QKi+aq8gmu0nX4iGJ5M+ppDUQunN2UBcut3Vf8XRizxKwE6eiXjV1qN
+         Qzb6rv8jMQvxikJ7KWeSuDpMUBOfq72+mpMAfEk0t01RBlgOuU/DEWlIxI859BNYc8VT
+         K07w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694475812; x=1695080612;
+        d=1e100.net; s=20230601; t=1694475697; x=1695080497;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8XrchSCMiBfDcdDfNQlv8At+eGFJmxlivKt7lhA3WVs=;
-        b=eCoH15cIZXDJcxTw6rjhNb3+s3bZlTUi6vaGrrtqNatOIaH4PcIJ4iyqZh1joIVHoy
-         +zZ8MBFufvXQ8txJ9h5sEAlpjfza6PPZA1guba2UOezq0oUF0riymfyIV3TQspFkZIvp
-         JVq55eut5XlKgu1wQUJG4DyhzKo8TrErRGqe/M+bpwTbWAiEgeA37+/6/u7M7ZFOCd1Z
-         30gHR/s1VHZxBeajd4kK3p/eVv5jyXuLTgP0NG6Ge8XSU+QUM6t1fftiSgpzPDI8bz5B
-         unLZR3nDFuoxfRLDCJ5J81+Z8QbcVy1M365pnN3VulCjwJDicfUj4ipvSHxDg44lTfib
-         4Org==
-X-Gm-Message-State: AOJu0Yz1PlbvUKYHO7LMVJ8AjERQe3uiK7O/z34u7u3OFSuT4WLHj6bB
-        55lPa3YrVdnh//XTT8ALDc71ouVx5Q43Pg==
-X-Google-Smtp-Source: AGHT+IFKzHEYx4KAVeVJ735FfnDykwRs6Gp3mr7oskaB5XgkICwg7t63Zs9Skn6AnQv2Br6qeI2/OQ==
-X-Received: by 2002:a92:1e08:0:b0:34c:a532:615e with SMTP id e8-20020a921e08000000b0034ca532615emr12713121ile.17.1694473730939;
-        Mon, 11 Sep 2023 16:08:50 -0700 (PDT)
+        bh=sg6cE/x2UUPlr07T7fY2WapJd57AiLvtF5oOk9nL6T4=;
+        b=pPcw3JGxV7EvcXxSbJcns6/opOC/acbjIERAPclHMvraGRfhbggpmv0ALvW82Dgn2C
+         PMxa21NYb/OTYUo1xIYCA+4erD5dsXoVZ5yPwIQItn+J/28rXes1xOuzNdCDD+vsAg2h
+         kj9pRzWfWgA3PkwdgEPV+pNM/gznTrD6+3DA+L4lZqEZXvzquciiCBsaO/vhfoBMF84G
+         PusjWQCJ1WwCkINKu1Wzo1/y185WfjTu9fblsMWXErhFnCnvq5Q04QwUGq20RPg+bADS
+         GdkeVzIKeEI2mTdK5uKllC4vuJMJgScnEqK/oFEhlfK7Mj9lbpPYZxBQCNlk/qfD7fgj
+         V9NA==
+X-Gm-Message-State: AOJu0YwRycRGRO+I0iplhsCmGAgtq/jYKWJzR/yPGUD2Z4BA+IIAgawU
+        gXZXP97IkFfbTPgoiS29o1esokzJWsyT7A==
+X-Google-Smtp-Source: AGHT+IGZBso+YJhrY7t/VYPk/2yLAsPpkHexYrSGfYFJHFWMcssIeOmFtlcZJ94GnWtgRM+asWeoAw==
+X-Received: by 2002:a6b:5c18:0:b0:785:5917:a35f with SMTP id z24-20020a6b5c18000000b007855917a35fmr13374513ioh.8.1694473750661;
+        Mon, 11 Sep 2023 16:09:10 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.08.50
+        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 16:08:50 -0700 (PDT)
+        Mon, 11 Sep 2023 16:09:10 -0700 (PDT)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
         daniel.vetter@ffwll.ch
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         ville.syrjala@linux.intel.com, seanpaul@chromium.org,
         robdclark@gmail.com, linux-doc@vger.kernel.org,
         Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 07/22] dyndbg: reduce verbose/debug clutter
-Date:   Mon, 11 Sep 2023 17:08:23 -0600
-Message-ID: <20230911230838.14461-8-jim.cromie@gmail.com>
+Subject: [PATCH v6 22/22] drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+Date:   Mon, 11 Sep 2023 17:08:38 -0600
+Message-ID: <20230911230838.14461-23-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
 References: <20230911230838.14461-1-jim.cromie@gmail.com>
@@ -70,91 +70,142 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-currently, for verbose=3, these are logged (blank lines for clarity):
+Add a DRM_CLASSMAP_USE declaration to 2nd batch of helpers and *_drv.c
+files.  For drivers, add the decl just above the module's PARAMs,
+since it identifies the "inherited" drm.debug param.
 
- dyndbg: query 0: "class DRM_UT_CORE +p" mod:*
- dyndbg: split into words: "class" "DRM_UT_CORE" "+p"
+Note: with CONFIG_DRM_USE_DYNAMIC_DEBUG=y, a module not also declaring
+DRM_CLASSMAP_USE will have its class'd prdbgs stuck in the initial
+(disabled, but for DEBUG) state.
 
- dyndbg: op='+'
- dyndbg: flags=0x1
- dyndbg: *flagsp=0x1 *maskp=0xffffffff
+The stuck sites are evident in /proc/dynamic_debug/control as:
 
- dyndbg: parsed: func="" file="" module="" format="" lineno=0-0 class=...
- dyndbg: no matches for query
- dyndbg: no-match: func="" file="" module="" format="" lineno=0-0 class=...
- dyndbg: processed 1 queries, with 0 matches, 0 errs
+   class unknown, _id:N		# control's last column
 
-That is excessive, so this patch:
- - shrinks 3 lines of 2nd stanza to single line
- - drops 1st 2 lines of 3rd stanza
-   3rd is like 1st, with result, not procedure.
-   2nd is just status, retold in 4th, with more info.
+rather than a proper "enumeration":
+
+   class:DRM_UT_CORE
+
+This set of updates was found by choosing M for all DRM-config items I
+found (not allmodconfig), building & modprobing them, and grepping
+"class unknown," control.  There may yet be others.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 2 ++
+ drivers/gpu/drm/gud/gud_drv.c          | 2 ++
+ drivers/gpu/drm/mgag200/mgag200_drv.c  | 2 ++
+ drivers/gpu/drm/qxl/qxl_drv.c          | 2 ++
+ drivers/gpu/drm/radeon/radeon_drv.c    | 2 ++
+ drivers/gpu/drm/udl/udl_main.c         | 2 ++
+ drivers/gpu/drm/vkms/vkms_drv.c        | 2 ++
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c    | 2 ++
+ 8 files changed, 16 insertions(+)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 153e02c3af45..f64d55d191ad 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -266,9 +266,6 @@ static int ddebug_change(const struct ddebug_query *query,
- 	}
- 	mutex_unlock(&ddebug_lock);
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index baaf0e0feb06..097d87f1ad74 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -23,6 +23,8 @@
+ #include <drm/drm_prime.h>
+ #include <drm/drm_print.h>
  
--	if (!nfound && verbose)
--		pr_info("no matches for query\n");
--
- 	return nfound;
- }
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ MODULE_IMPORT_NS(DMA_BUF);
  
-@@ -497,7 +494,6 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
- 		pr_err("bad flag-op %c, at start of %s\n", *str, str);
- 		return -EINVAL;
- 	}
--	v3pr_info("op='%c'\n", op);
+ /**
+diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
+index 9d7bf8ee45f1..5b555045fce4 100644
+--- a/drivers/gpu/drm/gud/gud_drv.c
++++ b/drivers/gpu/drm/gud/gud_drv.c
+@@ -31,6 +31,8 @@
  
- 	for (; *str ; ++str) {
- 		for (i = ARRAY_SIZE(opt_array) - 1; i >= 0; i--) {
-@@ -511,7 +507,6 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
- 			return -EINVAL;
- 		}
- 	}
--	v3pr_info("flags=0x%x\n", modifiers->flags);
+ #include "gud_internal.h"
  
- 	/* calculate final flags, mask based upon op */
- 	switch (op) {
-@@ -527,7 +522,7 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
- 		modifiers->flags = 0;
- 		break;
- 	}
--	v3pr_info("*flagsp=0x%x *maskp=0x%x\n", modifiers->flags, modifiers->mask);
-+	v3pr_info("op='%c' flags=0x%x maskp=0x%x\n", op, modifiers->flags, modifiers->mask);
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ /* Only used internally */
+ static const struct drm_format_info gud_drm_format_r1 = {
+ 	.format = GUD_DRM_FORMAT_R1,
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index 976f0ab2006b..a1b2be1c27f6 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -24,6 +24,8 @@ int mgag200_modeset = -1;
+ MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+ module_param_named(modeset, mgag200_modeset, int, 0400);
  
- 	return 0;
- }
-@@ -537,7 +532,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
- 	struct flag_settings modifiers = {};
- 	struct ddebug_query query = {};
- #define MAXWORDS 9
--	int nwords, nfound;
-+	int nwords;
- 	char *words[MAXWORDS];
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2)
+ {
+ 	struct device *dev = &pdev->dev;
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index a3b83f89e061..12600f557c23 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -65,6 +65,8 @@ module_param_named(modeset, qxl_modeset, int, 0400);
+ MODULE_PARM_DESC(num_heads, "Number of virtual crtcs to expose (default 4)");
+ module_param_named(num_heads, qxl_num_crtc, int, 0400);
  
- 	nwords = ddebug_tokenize(query_string, words, MAXWORDS);
-@@ -555,10 +550,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
- 		return -EINVAL;
- 	}
- 	/* actually go and implement the change */
--	nfound = ddebug_change(&query, &modifiers);
--	vpr_info_dq(&query, nfound ? "applied" : "no-match");
--
--	return nfound;
-+	return ddebug_change(&query, &modifiers);
- }
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ static struct drm_driver qxl_driver;
+ static struct pci_driver qxl_pci_driver;
  
- /* handle multiple queries in query string, continue on error, return
+diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+index e4374814f0ef..4219276ade6a 100644
+--- a/drivers/gpu/drm/radeon/radeon_drv.c
++++ b/drivers/gpu/drm/radeon/radeon_drv.c
+@@ -274,6 +274,8 @@ int radeon_cik_support = 1;
+ MODULE_PARM_DESC(cik_support, "CIK support (1 = enabled (default), 0 = disabled)");
+ module_param_named(cik_support, radeon_cik_support, int, 0444);
+ 
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ static struct pci_device_id pciidlist[] = {
+ 	radeon_PCI_IDS
+ };
+diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+index 3ebe2ce55dfd..ba57c14454e5 100644
+--- a/drivers/gpu/drm/udl/udl_main.c
++++ b/drivers/gpu/drm/udl/udl_main.c
+@@ -19,6 +19,8 @@
+ 
+ #define NR_USB_REQUEST_CHANNEL 0x12
+ 
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ #define MAX_TRANSFER (PAGE_SIZE*16 - BULK_SIZE)
+ #define WRITES_IN_FLIGHT (20)
+ #define MAX_VENDOR_DESCRIPTOR_SIZE 256
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index e3c9c9571c8d..38252f29f983 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -39,6 +39,8 @@
+ 
+ static struct vkms_config *default_config;
+ 
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ static bool enable_cursor = true;
+ module_param_named(enable_cursor, enable_cursor, bool, 0444);
+ MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 8b24ecf60e3e..9cb6be422621 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -275,6 +275,8 @@ static int vmw_probe(struct pci_dev *, const struct pci_device_id *);
+ static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
+ 			      void *ptr);
+ 
++DRM_CLASSMAP_USE(drm_debug_classes);
++
+ MODULE_PARM_DESC(restrict_iommu, "Try to limit IOMMU usage for TTM pages");
+ module_param_named(restrict_iommu, vmw_restrict_iommu, int, 0600);
+ MODULE_PARM_DESC(force_coherent, "Force coherent TTM pages");
 -- 
 2.41.0
 
