@@ -2,134 +2,353 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FABCA0ED1
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEB3CA0EC6
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343576AbjIKVLy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34492 "EHLO
+        id S1343597AbjIKVMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:12:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242185AbjIKPYc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 11:24:32 -0400
-Received: from BL0PR02CU006.outbound.protection.outlook.com (mail-eastusazon11013013.outbound.protection.outlook.com [52.101.54.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D5CDB;
-        Mon, 11 Sep 2023 08:24:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PG2ClOyLslR0YB/x10KVS5yt+ATOhWLDRCBMagrIZQ5zdEnVfcOIVJvGghWwgX1NKtP/BaZR5IP+J0WP/1uTSXAmcrli0kwdlNlbPFxSmRsfVts5l0qJTSwQODB1K/YvANdzQGOYN94yv4bP62fvIibIeq8H/Cj1ABCbI33IJmFXF/Q5eyjhwktrr3zAgS6Gh/y/rhfijnhbIXgYdlx9xMvEqYV1o9T0rRrPUCPX6nwiVMjGLJ9EgxnWUxPMbpsli3uqsDv1WPiTa9mdU+jIb0+4KPgf69/Iw1GYVOPSPmxQXZTybEaxqjutICd74WU8RPtam90BRKD6Qg2io+K0QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=508VqeKw0d3cXoSx6QdUk6l9KVeXr5M4PoUFURqX9Ew=;
- b=Fab2MBGyNscljjcrJ6/B+wj1PZAOIjUCWkuzcEsyCd8eyqocblxgplPSjb2aHhek1jL4WSJ2bhteQbCtWFa8vvzdZpf8NMpgZAg55SbcApDj9grtK73EfGSsQ7xrg4N7sQkblPSefT4PGvna2BJPo74x88GR3ziwvesA4gwdQJKBHZ+J/D7hRcwu1GfsDlOlQX5GdYMLk638XBmRMHl7JuG9MaE0pFwI5f0d3MMtS0V/ed+Z4k+CsbE7Y/EOJH7FB38r3xvFNpnc2GzLR6YBQ1By8q3xiOtuF6Mmc7rX7vGOTNwLUMsJi25P5DumJO1WvDeLGicham9aEJ962+OrOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=508VqeKw0d3cXoSx6QdUk6l9KVeXr5M4PoUFURqX9Ew=;
- b=ymvWfeaDCP6sxph1LC606TFbkQcKKQgAFtAGpp5VoOZMyz5cFtHuSbtBoqavVpvUPP8w63AxK6ndb1SOQJsjaWxH/4M80iNH9i5cu1kBvRagn9oTuVvrYFF/phP/nh9RdZnW+jom9A0hzQABZMmZBBmyD4UTHNfIjjtQori9xAs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-Received: from BYAPR05MB4982.namprd05.prod.outlook.com (2603:10b6:a03:a3::31)
- by IA1PR05MB9406.namprd05.prod.outlook.com (2603:10b6:208:41a::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Mon, 11 Sep
- 2023 15:24:23 +0000
-Received: from BYAPR05MB4982.namprd05.prod.outlook.com
- ([fe80::c1f7:4ed:2680:f088]) by BYAPR05MB4982.namprd05.prod.outlook.com
- ([fe80::c1f7:4ed:2680:f088%4]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 15:24:23 +0000
-From:   Quan Tian <qtian@vmware.com>
-To:     bpf@vger.kernel.org
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, Quan Tian <qtian@vmware.com>
-Subject: [PATCH bpf] docs/bpf: update out-of-date doc in BPF flow dissector
-Date:   Mon, 11 Sep 2023 15:23:53 +0000
-Message-ID: <20230911152353.8280-1-qtian@vmware.com>
-X-Mailer: git-send-email 2.42.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR07CA0076.namprd07.prod.outlook.com
- (2603:10b6:a03:12b::17) To BYAPR05MB4982.namprd05.prod.outlook.com
- (2603:10b6:a03:a3::31)
+        with ESMTP id S236533AbjIKKzc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 06:55:32 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3EAF3;
+        Mon, 11 Sep 2023 03:55:27 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B8LamS000578;
+        Mon, 11 Sep 2023 10:55:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=79Abphj1CKQUA2KFHY92lJArficWoTb5EsDuE5M72Ho=;
+ b=ND0gyuSsJHkj27EE8/ok/c4MQCSGTzP84gF5h5aYc3BI+k1XoB5OyJ+cyDBg1SacMLZ5
+ suSe8rxOkApfixM8UE4+P0a+iBmhBdh9w5GQ5fynlkax11gWorgdsbKBG5+ys0zo7WTV
+ Zm/lwDvj9jSfBzJdEjaeU5gsh66PIInlMpZeup0flWJaHyT46zZoK2al99Pn2S2cPWgG
+ wUR3+JTL6Y/+C3efiA4QRBuAPMSAP2KyB4W/j7QQSBx+FyxW8uxK5mU6t5AsVf0+Q8Q3
+ 3yl3qOiPmaOB10s5la4Yw3ALvQ7cQIQg3ELedMzr/A4zWDNIb4igLXA58tgeXmACiROf Ww== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1yac8bns-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:55:02 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BAt1uM032425
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:55:01 GMT
+Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Mon, 11 Sep 2023 03:54:27 -0700
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+To:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
+        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
+        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>,
+        <quic_mojha@quicinc.com>
+Subject: [REBASE PATCH v5 02/17] soc: qcom: Add qcom_rproc_minidump module
+Date:   Mon, 11 Sep 2023 16:23:44 +0530
+Message-ID: <1694429639-21484-3-git-send-email-quic_mojha@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR05MB4982:EE_|IA1PR05MB9406:EE_
-X-MS-Office365-Filtering-Correlation-Id: 246c7c58-dc7e-4ce1-fd09-08dbb2db2d56
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: i3pixWk5FTwCTmttd79TULQqc9Fw5Y6tTY7t3UMdKAe9GWJOS8ZujTfQqGSySm3Z0WWxw7CigFdz5ErEJPSmDLznuIHerSiKnV1SoMKTQSTO+fVxkZWgZO2raqoWjes2GVoIKdTBL7Tbu52q6hnW7glgXEOFrjPDmwnE/GYX8UHafnpN6N2r647CFV5MsEQRumycAUZ8AXTlaEA2+0zBLHJ9bqP34mfXHXniJdl8eJMTUnMghMjxOFARBHyeQs2NMSKjGmfGBjXOR3qDZGCyWEKqQ/6EdhG7A9Ro/TcL431YhNqIIdbNvB+2z2ZOiGrXE5MBUcx6DayPxnxW4wqbNFa33Vfb+rnEi21xjjIHOjeNleKAUHiTvUS8F6zqJ8vGNWCX014hdJfGHFbz01e1Wa+aEHDn1C8JYt3ZXr6xKdAx7FICS/4QfD247Avz1GGsNh4IZ3w9tR2DYwXzpwmdkuo9DnhbQHCces4CZKhXX8u42pQ5W7Kycf2yRU7Kzokc7YyRPPiDip1sRbtNa27iKGlKxJh8xfUtP5RSa0H1bY0BokJF5eLiav2lC73Gqwkott5B6B4xcYPPxr6n/Xa6wCTl5ZffOqQ3yx5MR+PINXm5yR+g6cv//Tf0y42tbzDyBdColIWAMreSzNw3YzyB+4emH9mKHR3XLr8PnV17tng=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR05MB4982.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(366004)(39860400002)(346002)(451199024)(186009)(1800799009)(8936002)(4326008)(66946007)(478600001)(66476007)(66556008)(83380400001)(7416002)(5660300002)(41300700001)(2906002)(6916009)(6666004)(8676002)(316002)(86362001)(6486002)(6506007)(52116002)(6512007)(2616005)(36756003)(38100700002)(1076003)(107886003)(26005)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u98vrr5DMtyy+lmGmvw7kU0HWhuxcAjSX0rgBtdSVe/bno0GESqtooOKc7fm?=
- =?us-ascii?Q?hkx55ffr6XJcQX6gOQTrhcdzs3WQp8BtIQxgYY75UZ5HR3leoL6WaSWAHAGM?=
- =?us-ascii?Q?Rsguh3DNJmHH1dt7+Il5K3NFYvC7kFr6lA4Oa02n7oITNnRa2m1yWT7fkOj1?=
- =?us-ascii?Q?DlP+/pHfj3IWpLnaNAh5DwJkVq9/1m12E9dAvcDIITNKFZQqXuFtKcZSMrwZ?=
- =?us-ascii?Q?2EVbUDuy5qlnJAXw4sLRBv/85TnR7ZBECevQYBlnQG8hIJwVZX1jYRXvoAwp?=
- =?us-ascii?Q?LE13fz/SpRz+4slPDhJlo3oMXbFg1vtm4Qi/I7GeE4e3WclXun5YPk3UpgIf?=
- =?us-ascii?Q?raM3U7Tit6EcG0j05JUAjS+AFJpSa8y9MhbFdE+eYMlICXTIrnrcRnJ7rHnm?=
- =?us-ascii?Q?mmU72l43OzMv905wp3/678i1cY83RTCNn0t4yvg4vFv6huHiMhj9dZAQUGbR?=
- =?us-ascii?Q?FnJdi3YtBRUEHaFsvdOWEZjSBSE9Va+NIbYnLF/mylXIEDlRi1uT86AhCcqx?=
- =?us-ascii?Q?z0WaHZODiYeXyMJO5EeuItYOjk+qrO7NZTv1YCkLhwkUK78JxyNzV13id5CU?=
- =?us-ascii?Q?Dc2s9TDfTVQk3ZKwL8yDkqZk1mWrDB/xIq4bpkToa523TWbISd8TL3A5lt5B?=
- =?us-ascii?Q?tT+V2WegvqAcldUrsFtBAzbtqS8ps/Fg8p+fgaR7nRfbT9f6ju96XPJ6mfEn?=
- =?us-ascii?Q?5bVKbpnY8Wn5mRiCWacjbDvxJRtzKmPQXoA8hhakw1NomWtn51x8iZx6ZQLl?=
- =?us-ascii?Q?SOi21OZ9i7B2YdMFkZWf9hRkNn5chi0QbsyJVNjvTnLujKmIioBqDenIpva6?=
- =?us-ascii?Q?n5G4xl1RMxcWHZ030SAFMivEqVgGayXMBRNOKqHjSHbdwdVpTXqTWagp+aG2?=
- =?us-ascii?Q?W/Vr3Kwwrfw+JBmUvz0ip04jFgrv1h3ZbZX7RCWYEaGfFGzZVEcf7QlM+ORi?=
- =?us-ascii?Q?kMS8Gl4Bx9gzzA/CI0NmTKdQcFQlY2WtotIT6Hmo7VdBscxR8yYsodO7CknT?=
- =?us-ascii?Q?DrY9T0PtyZ1SGueuNdRPSkZnEPUSnozo+5NQucDirj8kijdbVTEAubZXaEgD?=
- =?us-ascii?Q?Hwv3Za+6X+1SbxyvM5748vdSJ5v0CMEHXwCGVhc+TmuKmJnAAuc9S0vh+NdA?=
- =?us-ascii?Q?WDjsSyV/Ll4sOZuVnTlPHgzWJdbw7iWVTS6V/eDYIp/noF6OTWlvdqRQhjV0?=
- =?us-ascii?Q?CQB0saRaZ25lZBoj340bPWRnI1yZR4bQ6SPJOrj7eBa7v2mbJZWOX5764rhv?=
- =?us-ascii?Q?4KOyHXDXKBYiqrQswmrs5K43hpqcev08Dux+Y5oNbu37rmrwadfaVN1IFVxr?=
- =?us-ascii?Q?ckp/yxG5A5ycHA3nmHiiUIr4s8/KzOLjGGhmD4PR3jlhddmAneOvHZ9VZfTD?=
- =?us-ascii?Q?0bGFPxMFdaW1lgViq99HHtcU4Z1P1bPoaOARXk1ZMw88RP0MuPyGS+Kl2KiH?=
- =?us-ascii?Q?CG/zSioRC5EmeSb1MiOquHIqFr0m/GK9IqNl7otiC3KG1+xIsX1Isj2P0y1E?=
- =?us-ascii?Q?LHX52nSN29NjmrHO3Tq9Vid0d5y0GBMq5bcLPtebAD1o6D4/+pzWIB5OAuka?=
- =?us-ascii?Q?xH67G6/faVUS+MyrbfMzxvWSWoLeN6MG/ceolpPB?=
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 246c7c58-dc7e-4ce1-fd09-08dbb2db2d56
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR05MB4982.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 15:24:23.2903
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v27Hnxc5ow571XHwKiQmkvOtRLl0XyeW0Q0bXmjr9IsVCngMUlnwTEE8zd7e/mWuZRASQI1jzqhBi4rVFYs4hQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR05MB9406
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: aTnp-dqfQzyRqJT6j2XQugil-EU68YU2
+X-Proofpoint-GUID: aTnp-dqfQzyRqJT6j2XQugil-EU68YU2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 priorityscore=1501 bulkscore=0 suspectscore=0
+ clxscore=1015 adultscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309110099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit a5e2151ff9d5 ("net/ipv6: SKB symmetric hash should incorporate
-transport ports") removed the use of FLOW_DISSECTOR_F_STOP_AT_FLOW_LABEL
-in __skb_get_hash_symmetric(), making the doc out-of-date.
+Add qcom_rproc_minidump module in a preparation to remove
+minidump specific code from driver/remoteproc/qcom_common.c
+and provide needed exported API, this as well helps to
+abstract minidump specific data layout from qualcomm's
+remoteproc driver.
 
-Signed-off-by: Quan Tian <qtian@vmware.com>
+It is just a copying of qcom_minidump() functionality from
+driver/remoteproc/qcom_common.c into a separate file under
+qcom_rproc_minidump().
+
+Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
 ---
- Documentation/bpf/prog_flow_dissector.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soc/qcom/Kconfig                  |  10 +++
+ drivers/soc/qcom/Makefile                 |   1 +
+ drivers/soc/qcom/qcom_minidump_internal.h |  64 +++++++++++++++++
+ drivers/soc/qcom/qcom_rproc_minidump.c    | 111 ++++++++++++++++++++++++++++++
+ include/soc/qcom/qcom_minidump.h          |  23 +++++++
+ 5 files changed, 209 insertions(+)
+ create mode 100644 drivers/soc/qcom/qcom_minidump_internal.h
+ create mode 100644 drivers/soc/qcom/qcom_rproc_minidump.c
+ create mode 100644 include/soc/qcom/qcom_minidump.h
 
-diff --git a/Documentation/bpf/prog_flow_dissector.rst b/Documentation/bpf/prog_flow_dissector.rst
-index 4d86780ab0f1..f24270b8b034 100644
---- a/Documentation/bpf/prog_flow_dissector.rst
-+++ b/Documentation/bpf/prog_flow_dissector.rst
-@@ -113,7 +113,7 @@ Flags
-   used by ``eth_get_headlen`` to estimate length of all headers for GRO.
- * ``BPF_FLOW_DISSECTOR_F_STOP_AT_FLOW_LABEL`` - tells BPF flow dissector to
-   stop parsing as soon as it reaches IPv6 flow label; used by
--  ``___skb_get_hash`` and ``__skb_get_hash_symmetric`` to get flow hash.
-+  ``___skb_get_hash`` to get flow hash.
- * ``BPF_FLOW_DISSECTOR_F_STOP_AT_ENCAP`` - tells BPF flow dissector to stop
-   parsing as soon as it reaches encapsulated headers; used by routing
-   infrastructure.
+diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+index 715348869d04..ceca58eaa445 100644
+--- a/drivers/soc/qcom/Kconfig
++++ b/drivers/soc/qcom/Kconfig
+@@ -291,4 +291,14 @@ config QCOM_INLINE_CRYPTO_ENGINE
+ 	tristate
+ 	select QCOM_SCM
+ 
++config QCOM_RPROC_MINIDUMP
++	tristate "QCOM Remoteproc Minidump Support"
++	depends on ARCH_QCOM || COMPILE_TEST
++	depends on QCOM_SMEM
++	help
++	  Enablement of core minidump feature is controlled from boot firmware
++	  side, so if it is enabled from firmware, this config allow linux to
++	  query predefined minidump segments associated with the remote processor
++	  and check its validity and end up collecting the dump on remote processor
++	  crash during its recovery.
+ endmenu
+diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+index bbca2e1e55bb..838528e7e30a 100644
+--- a/drivers/soc/qcom/Makefile
++++ b/drivers/soc/qcom/Makefile
+@@ -32,3 +32,4 @@ obj-$(CONFIG_QCOM_KRYO_L2_ACCESSORS) +=	kryo-l2-accessors.o
+ obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
+ qcom_ice-objs			+= ice.o
+ obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= qcom_ice.o
++obj-$(CONFIG_QCOM_RPROC_MINIDUMP)	+= qcom_rproc_minidump.o
+diff --git a/drivers/soc/qcom/qcom_minidump_internal.h b/drivers/soc/qcom/qcom_minidump_internal.h
+new file mode 100644
+index 000000000000..71709235b196
+--- /dev/null
++++ b/drivers/soc/qcom/qcom_minidump_internal.h
+@@ -0,0 +1,64 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef _QCOM_MINIDUMP_INTERNAL_H_
++#define _QCOM_MINIDUMP_INTERNAL_H_
++
++#define MAX_NUM_OF_SS           10
++#define MAX_REGION_NAME_LENGTH  16
++#define SBL_MINIDUMP_SMEM_ID	602
++#define MINIDUMP_REGION_VALID	   ('V' << 24 | 'A' << 16 | 'L' << 8 | 'I' << 0)
++#define MINIDUMP_SS_ENCR_DONE	   ('D' << 24 | 'O' << 16 | 'N' << 8 | 'E' << 0)
++#define MINIDUMP_SS_ENABLED	   ('E' << 24 | 'N' << 16 | 'B' << 8 | 'L' << 0)
++
++/**
++ * struct minidump_region - Minidump region
++ * @name		: Name of the region to be dumped
++ * @seq_num:		: Use to differentiate regions with same name.
++ * @valid		: This entry to be dumped (if set to 1)
++ * @address		: Physical address of region to be dumped
++ * @size		: Size of the region
++ */
++struct minidump_region {
++	char	name[MAX_REGION_NAME_LENGTH];
++	__le32	seq_num;
++	__le32	valid;
++	__le64	address;
++	__le64	size;
++};
++
++/**
++ * struct minidump_subsystem - Subsystem's SMEM Table of content
++ * @status : Subsystem toc init status
++ * @enabled : if set to 1, this region would be copied during coredump
++ * @encryption_status: Encryption status for this subsystem
++ * @encryption_required : Decides to encrypt the subsystem regions or not
++ * @region_count : Number of regions added in this subsystem toc
++ * @regions_baseptr : regions base pointer of the subsystem
++ */
++struct minidump_subsystem {
++	__le32	status;
++	__le32	enabled;
++	__le32	encryption_status;
++	__le32	encryption_required;
++	__le32	region_count;
++	__le64	regions_baseptr;
++};
++
++/**
++ * struct minidump_global_toc - Global Table of Content
++ * @status : Global Minidump init status
++ * @md_revision : Minidump revision
++ * @enabled : Minidump enable status
++ * @subsystems : Array of subsystems toc
++ */
++struct minidump_global_toc {
++	__le32				status;
++	__le32				md_revision;
++	__le32				enabled;
++	struct minidump_subsystem	subsystems[MAX_NUM_OF_SS];
++};
++
++#endif /* _QCOM_MINIDUMP_INTERNAL_H_ */
+diff --git a/drivers/soc/qcom/qcom_rproc_minidump.c b/drivers/soc/qcom/qcom_rproc_minidump.c
+new file mode 100644
+index 000000000000..9bc84cc2536f
+--- /dev/null
++++ b/drivers/soc/qcom/qcom_rproc_minidump.c
+@@ -0,0 +1,111 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/remoteproc.h>
++#include <linux/soc/qcom/smem.h>
++#include <linux/string.h>
++#include <soc/qcom/qcom_minidump.h>
++
++#include "qcom_minidump_internal.h"
++
++static void qcom_minidump_cleanup(struct rproc *rproc)
++{
++	struct rproc_dump_segment *entry, *tmp;
++
++	list_for_each_entry_safe(entry, tmp, &rproc->dump_segments, node) {
++		list_del(&entry->node);
++		kfree(entry->priv);
++		kfree(entry);
++	}
++}
++
++static int qcom_add_minidump_segments(struct rproc *rproc, struct minidump_subsystem *subsystem,
++			void (*rproc_dumpfn_t)(struct rproc *rproc, struct rproc_dump_segment *segment,
++				void *dest, size_t offset, size_t size))
++{
++	struct minidump_region __iomem *ptr;
++	struct minidump_region region;
++	int seg_cnt, i;
++	dma_addr_t da;
++	size_t size;
++	char *name;
++
++	if (WARN_ON(!list_empty(&rproc->dump_segments))) {
++		dev_err(&rproc->dev, "dump segment list already populated\n");
++		return -EUCLEAN;
++	}
++
++	seg_cnt = le32_to_cpu(subsystem->region_count);
++	ptr = ioremap((unsigned long)le64_to_cpu(subsystem->regions_baseptr),
++		      seg_cnt * sizeof(struct minidump_region));
++	if (!ptr)
++		return -EFAULT;
++
++	for (i = 0; i < seg_cnt; i++) {
++		memcpy_fromio(&region, ptr + i, sizeof(region));
++		if (le32_to_cpu(region.valid) == MINIDUMP_REGION_VALID) {
++			name = kstrndup(region.name, MAX_REGION_NAME_LENGTH - 1, GFP_KERNEL);
++			if (!name) {
++				iounmap(ptr);
++				return -ENOMEM;
++			}
++			da = le64_to_cpu(region.address);
++			size = le64_to_cpu(region.size);
++			rproc_coredump_add_custom_segment(rproc, da, size, rproc_dumpfn_t, name);
++		}
++	}
++
++	iounmap(ptr);
++	return 0;
++}
++
++void qcom_rproc_minidump(struct rproc *rproc, unsigned int minidump_id,
++		void (*rproc_dumpfn_t)(struct rproc *rproc,
++		struct rproc_dump_segment *segment, void *dest, size_t offset,
++		size_t size))
++{
++	int ret;
++	struct minidump_subsystem *subsystem;
++	struct minidump_global_toc *toc;
++
++	/* Get Global minidump ToC*/
++	toc = qcom_smem_get(QCOM_SMEM_HOST_ANY, SBL_MINIDUMP_SMEM_ID, NULL);
++
++	/* check if global table pointer exists and init is set */
++	if (IS_ERR(toc) || !toc->status) {
++		dev_err(&rproc->dev, "Minidump TOC not found in SMEM\n");
++		return;
++	}
++
++	/* Get subsystem table of contents using the minidump id */
++	subsystem = &toc->subsystems[minidump_id];
++
++	/**
++	 * Collect minidump if SS ToC is valid and segment table
++	 * is initialized in memory and encryption status is set.
++	 */
++	if (subsystem->regions_baseptr == 0 ||
++	    le32_to_cpu(subsystem->status) != 1 ||
++	    le32_to_cpu(subsystem->enabled) != MINIDUMP_SS_ENABLED ||
++	    le32_to_cpu(subsystem->encryption_status) != MINIDUMP_SS_ENCR_DONE) {
++		dev_err(&rproc->dev, "Minidump not ready, skipping\n");
++		return;
++	}
++
++	ret = qcom_add_minidump_segments(rproc, subsystem, rproc_dumpfn_t);
++	if (ret) {
++		dev_err(&rproc->dev, "Failed with error: %d while adding minidump entries\n", ret);
++		goto clean_minidump;
++	}
++	rproc_coredump_using_sections(rproc);
++clean_minidump:
++	qcom_minidump_cleanup(rproc);
++}
++EXPORT_SYMBOL_GPL(qcom_rproc_minidump);
++
++MODULE_DESCRIPTION("Qualcomm remoteproc minidump(smem) helper module");
++MODULE_LICENSE("GPL");
+diff --git a/include/soc/qcom/qcom_minidump.h b/include/soc/qcom/qcom_minidump.h
+new file mode 100644
+index 000000000000..cd87caef919d
+--- /dev/null
++++ b/include/soc/qcom/qcom_minidump.h
+@@ -0,0 +1,23 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef _QCOM_MINIDUMP_H_
++#define _QCOM_MINIDUMP_H_
++
++struct rproc;
++struct rproc_dump_segment;
++
++#if IS_ENABLED(CONFIG_QCOM_RPROC_MINIDUMP)
++void qcom_rproc_minidump(struct rproc *rproc, unsigned int minidump_id,
++		   void (*rproc_dumpfn_t)(struct rproc *rproc,
++		   struct rproc_dump_segment *segment, void *dest, size_t offset,
++		   size_t size));
++#else
++static inline void qcom_rproc_minidump(struct rproc *rproc, unsigned int minidump_id,
++		   void (*rproc_dumpfn_t)(struct rproc *rproc,
++		   struct rproc_dump_segment *segment, void *dest, size_t offset,
++		   size_t size)) { }
++#endif /* CONFIG_QCOM_RPROC_MINIDUMP */
++#endif /* _QCOM_MINIDUMP_H_ */
 -- 
-2.42.0
+2.7.4
 
