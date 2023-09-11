@@ -2,294 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D970CA0ECC
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:18:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FABCA0ED1
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343559AbjIKVLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59244 "EHLO
+        id S1343576AbjIKVLy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:11:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237452AbjIKMvv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 08:51:51 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F9ACEB;
-        Mon, 11 Sep 2023 05:51:44 -0700 (PDT)
-Received: from canpemm500006.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RkmjD48PWzMlH2;
-        Mon, 11 Sep 2023 20:48:16 +0800 (CST)
-Received: from [10.174.179.200] (10.174.179.200) by
- canpemm500006.china.huawei.com (7.192.105.130) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Mon, 11 Sep 2023 20:51:41 +0800
-Subject: Re: [RFC PATCH net-next 2/6] net: ethernet: add mac-phy interrupt
- support with reset complete handling
-To:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <steen.hegelund@microchip.com>,
-        <rdunlap@infradead.org>, <horms@kernel.org>,
-        <casper.casan@gmail.com>, <andrew@lunn.ch>
-CC:     <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <horatiu.vultur@microchip.com>, <Woojung.Huh@microchip.com>,
-        <Nicolas.Ferre@microchip.com>, <UNGLinuxDriver@microchip.com>,
-        <Thorsten.Kummermehr@microchip.com>
-References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
- <20230908142919.14849-3-Parthiban.Veerasooran@microchip.com>
-From:   "Ziyang Xuan (William)" <william.xuanziyang@huawei.com>
-Message-ID: <5f434392-0e87-ecbc-9c9a-ad08a809206a@huawei.com>
-Date:   Mon, 11 Sep 2023 20:51:40 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        with ESMTP id S242185AbjIKPYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 11:24:32 -0400
+Received: from BL0PR02CU006.outbound.protection.outlook.com (mail-eastusazon11013013.outbound.protection.outlook.com [52.101.54.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D5CDB;
+        Mon, 11 Sep 2023 08:24:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PG2ClOyLslR0YB/x10KVS5yt+ATOhWLDRCBMagrIZQ5zdEnVfcOIVJvGghWwgX1NKtP/BaZR5IP+J0WP/1uTSXAmcrli0kwdlNlbPFxSmRsfVts5l0qJTSwQODB1K/YvANdzQGOYN94yv4bP62fvIibIeq8H/Cj1ABCbI33IJmFXF/Q5eyjhwktrr3zAgS6Gh/y/rhfijnhbIXgYdlx9xMvEqYV1o9T0rRrPUCPX6nwiVMjGLJ9EgxnWUxPMbpsli3uqsDv1WPiTa9mdU+jIb0+4KPgf69/Iw1GYVOPSPmxQXZTybEaxqjutICd74WU8RPtam90BRKD6Qg2io+K0QQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=508VqeKw0d3cXoSx6QdUk6l9KVeXr5M4PoUFURqX9Ew=;
+ b=Fab2MBGyNscljjcrJ6/B+wj1PZAOIjUCWkuzcEsyCd8eyqocblxgplPSjb2aHhek1jL4WSJ2bhteQbCtWFa8vvzdZpf8NMpgZAg55SbcApDj9grtK73EfGSsQ7xrg4N7sQkblPSefT4PGvna2BJPo74x88GR3ziwvesA4gwdQJKBHZ+J/D7hRcwu1GfsDlOlQX5GdYMLk638XBmRMHl7JuG9MaE0pFwI5f0d3MMtS0V/ed+Z4k+CsbE7Y/EOJH7FB38r3xvFNpnc2GzLR6YBQ1By8q3xiOtuF6Mmc7rX7vGOTNwLUMsJi25P5DumJO1WvDeLGicham9aEJ962+OrOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=508VqeKw0d3cXoSx6QdUk6l9KVeXr5M4PoUFURqX9Ew=;
+ b=ymvWfeaDCP6sxph1LC606TFbkQcKKQgAFtAGpp5VoOZMyz5cFtHuSbtBoqavVpvUPP8w63AxK6ndb1SOQJsjaWxH/4M80iNH9i5cu1kBvRagn9oTuVvrYFF/phP/nh9RdZnW+jom9A0hzQABZMmZBBmyD4UTHNfIjjtQori9xAs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+Received: from BYAPR05MB4982.namprd05.prod.outlook.com (2603:10b6:a03:a3::31)
+ by IA1PR05MB9406.namprd05.prod.outlook.com (2603:10b6:208:41a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Mon, 11 Sep
+ 2023 15:24:23 +0000
+Received: from BYAPR05MB4982.namprd05.prod.outlook.com
+ ([fe80::c1f7:4ed:2680:f088]) by BYAPR05MB4982.namprd05.prod.outlook.com
+ ([fe80::c1f7:4ed:2680:f088%4]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
+ 15:24:23 +0000
+From:   Quan Tian <qtian@vmware.com>
+To:     bpf@vger.kernel.org
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, Quan Tian <qtian@vmware.com>
+Subject: [PATCH bpf] docs/bpf: update out-of-date doc in BPF flow dissector
+Date:   Mon, 11 Sep 2023 15:23:53 +0000
+Message-ID: <20230911152353.8280-1-qtian@vmware.com>
+X-Mailer: git-send-email 2.42.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR07CA0076.namprd07.prod.outlook.com
+ (2603:10b6:a03:12b::17) To BYAPR05MB4982.namprd05.prod.outlook.com
+ (2603:10b6:a03:a3::31)
 MIME-Version: 1.0
-In-Reply-To: <20230908142919.14849-3-Parthiban.Veerasooran@microchip.com>
-Content-Type: text/plain; charset="gbk"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.179.200]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500006.china.huawei.com (7.192.105.130)
-X-CFilter-Loop: Reflected
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR05MB4982:EE_|IA1PR05MB9406:EE_
+X-MS-Office365-Filtering-Correlation-Id: 246c7c58-dc7e-4ce1-fd09-08dbb2db2d56
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: i3pixWk5FTwCTmttd79TULQqc9Fw5Y6tTY7t3UMdKAe9GWJOS8ZujTfQqGSySm3Z0WWxw7CigFdz5ErEJPSmDLznuIHerSiKnV1SoMKTQSTO+fVxkZWgZO2raqoWjes2GVoIKdTBL7Tbu52q6hnW7glgXEOFrjPDmwnE/GYX8UHafnpN6N2r647CFV5MsEQRumycAUZ8AXTlaEA2+0zBLHJ9bqP34mfXHXniJdl8eJMTUnMghMjxOFARBHyeQs2NMSKjGmfGBjXOR3qDZGCyWEKqQ/6EdhG7A9Ro/TcL431YhNqIIdbNvB+2z2ZOiGrXE5MBUcx6DayPxnxW4wqbNFa33Vfb+rnEi21xjjIHOjeNleKAUHiTvUS8F6zqJ8vGNWCX014hdJfGHFbz01e1Wa+aEHDn1C8JYt3ZXr6xKdAx7FICS/4QfD247Avz1GGsNh4IZ3w9tR2DYwXzpwmdkuo9DnhbQHCces4CZKhXX8u42pQ5W7Kycf2yRU7Kzokc7YyRPPiDip1sRbtNa27iKGlKxJh8xfUtP5RSa0H1bY0BokJF5eLiav2lC73Gqwkott5B6B4xcYPPxr6n/Xa6wCTl5ZffOqQ3yx5MR+PINXm5yR+g6cv//Tf0y42tbzDyBdColIWAMreSzNw3YzyB+4emH9mKHR3XLr8PnV17tng=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR05MB4982.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(366004)(39860400002)(346002)(451199024)(186009)(1800799009)(8936002)(4326008)(66946007)(478600001)(66476007)(66556008)(83380400001)(7416002)(5660300002)(41300700001)(2906002)(6916009)(6666004)(8676002)(316002)(86362001)(6486002)(6506007)(52116002)(6512007)(2616005)(36756003)(38100700002)(1076003)(107886003)(26005)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u98vrr5DMtyy+lmGmvw7kU0HWhuxcAjSX0rgBtdSVe/bno0GESqtooOKc7fm?=
+ =?us-ascii?Q?hkx55ffr6XJcQX6gOQTrhcdzs3WQp8BtIQxgYY75UZ5HR3leoL6WaSWAHAGM?=
+ =?us-ascii?Q?Rsguh3DNJmHH1dt7+Il5K3NFYvC7kFr6lA4Oa02n7oITNnRa2m1yWT7fkOj1?=
+ =?us-ascii?Q?DlP+/pHfj3IWpLnaNAh5DwJkVq9/1m12E9dAvcDIITNKFZQqXuFtKcZSMrwZ?=
+ =?us-ascii?Q?2EVbUDuy5qlnJAXw4sLRBv/85TnR7ZBECevQYBlnQG8hIJwVZX1jYRXvoAwp?=
+ =?us-ascii?Q?LE13fz/SpRz+4slPDhJlo3oMXbFg1vtm4Qi/I7GeE4e3WclXun5YPk3UpgIf?=
+ =?us-ascii?Q?raM3U7Tit6EcG0j05JUAjS+AFJpSa8y9MhbFdE+eYMlICXTIrnrcRnJ7rHnm?=
+ =?us-ascii?Q?mmU72l43OzMv905wp3/678i1cY83RTCNn0t4yvg4vFv6huHiMhj9dZAQUGbR?=
+ =?us-ascii?Q?FnJdi3YtBRUEHaFsvdOWEZjSBSE9Va+NIbYnLF/mylXIEDlRi1uT86AhCcqx?=
+ =?us-ascii?Q?z0WaHZODiYeXyMJO5EeuItYOjk+qrO7NZTv1YCkLhwkUK78JxyNzV13id5CU?=
+ =?us-ascii?Q?Dc2s9TDfTVQk3ZKwL8yDkqZk1mWrDB/xIq4bpkToa523TWbISd8TL3A5lt5B?=
+ =?us-ascii?Q?tT+V2WegvqAcldUrsFtBAzbtqS8ps/Fg8p+fgaR7nRfbT9f6ju96XPJ6mfEn?=
+ =?us-ascii?Q?5bVKbpnY8Wn5mRiCWacjbDvxJRtzKmPQXoA8hhakw1NomWtn51x8iZx6ZQLl?=
+ =?us-ascii?Q?SOi21OZ9i7B2YdMFkZWf9hRkNn5chi0QbsyJVNjvTnLujKmIioBqDenIpva6?=
+ =?us-ascii?Q?n5G4xl1RMxcWHZ030SAFMivEqVgGayXMBRNOKqHjSHbdwdVpTXqTWagp+aG2?=
+ =?us-ascii?Q?W/Vr3Kwwrfw+JBmUvz0ip04jFgrv1h3ZbZX7RCWYEaGfFGzZVEcf7QlM+ORi?=
+ =?us-ascii?Q?kMS8Gl4Bx9gzzA/CI0NmTKdQcFQlY2WtotIT6Hmo7VdBscxR8yYsodO7CknT?=
+ =?us-ascii?Q?DrY9T0PtyZ1SGueuNdRPSkZnEPUSnozo+5NQucDirj8kijdbVTEAubZXaEgD?=
+ =?us-ascii?Q?Hwv3Za+6X+1SbxyvM5748vdSJ5v0CMEHXwCGVhc+TmuKmJnAAuc9S0vh+NdA?=
+ =?us-ascii?Q?WDjsSyV/Ll4sOZuVnTlPHgzWJdbw7iWVTS6V/eDYIp/noF6OTWlvdqRQhjV0?=
+ =?us-ascii?Q?CQB0saRaZ25lZBoj340bPWRnI1yZR4bQ6SPJOrj7eBa7v2mbJZWOX5764rhv?=
+ =?us-ascii?Q?4KOyHXDXKBYiqrQswmrs5K43hpqcev08Dux+Y5oNbu37rmrwadfaVN1IFVxr?=
+ =?us-ascii?Q?ckp/yxG5A5ycHA3nmHiiUIr4s8/KzOLjGGhmD4PR3jlhddmAneOvHZ9VZfTD?=
+ =?us-ascii?Q?0bGFPxMFdaW1lgViq99HHtcU4Z1P1bPoaOARXk1ZMw88RP0MuPyGS+Kl2KiH?=
+ =?us-ascii?Q?CG/zSioRC5EmeSb1MiOquHIqFr0m/GK9IqNl7otiC3KG1+xIsX1Isj2P0y1E?=
+ =?us-ascii?Q?LHX52nSN29NjmrHO3Tq9Vid0d5y0GBMq5bcLPtebAD1o6D4/+pzWIB5OAuka?=
+ =?us-ascii?Q?xH67G6/faVUS+MyrbfMzxvWSWoLeN6MG/ceolpPB?=
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 246c7c58-dc7e-4ce1-fd09-08dbb2db2d56
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR05MB4982.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 15:24:23.2903
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v27Hnxc5ow571XHwKiQmkvOtRLl0XyeW0Q0bXmjr9IsVCngMUlnwTEE8zd7e/mWuZRASQI1jzqhBi4rVFYs4hQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR05MB9406
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Register MAC-PHY interrupt and handle reset complete interrupt. Reset
-> complete bit is set when the MAC-PHY reset complete and ready for
-> configuration. When it is set, it will generate a non-maskable interrupt
-> to alert the SPI host. Additionally reset complete bit in the STS0
-> register has to be written by one upon reset complete to clear the
-> interrupt.
-> 
-> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-> ---
->  drivers/net/ethernet/oa_tc6.c | 141 ++++++++++++++++++++++++++++++++--
->  include/linux/oa_tc6.h        |  16 +++-
->  2 files changed, 150 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-> index 613cf034430a..0019f70345b6 100644
-> --- a/drivers/net/ethernet/oa_tc6.c
-> +++ b/drivers/net/ethernet/oa_tc6.c
-> @@ -6,6 +6,7 @@
->   */
->  
->  #include <linux/bitfield.h>
-> +#include <linux/interrupt.h>
->  #include <linux/oa_tc6.h>
->  
->  static int oa_tc6_spi_transfer(struct spi_device *spi, u8 *ptx, u8 *prx,
-> @@ -160,10 +161,16 @@ int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len,
->  	if (ret)
->  		goto err_ctrl;
->  
-> -	/* Check echoed/received control reply */
-> -	ret = oa_tc6_check_control(tc6, tx_buf, rx_buf, len, wnr, ctrl_prot);
-> -	if (ret)
-> -		goto err_ctrl;
-> +	/* In case of reset write, the echoed control command doesn't have any
-> +	 * valid data. So no need to check for error.
-> +	 */
-> +	if (addr != OA_TC6_RESET) {
-> +		/* Check echoed/received control reply */
-> +		ret = oa_tc6_check_control(tc6, tx_buf, rx_buf, len, wnr,
-> +					   ctrl_prot);
-> +		if (ret)
-> +			goto err_ctrl;
-> +	}
->  
->  	if (!wnr) {
->  		/* Copy read data from the rx data in case of ctrl read */
-> @@ -186,6 +193,88 @@ int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len,
->  	return ret;
->  }
->  
-> +static int oa_tc6_handler(void *data)
-> +{
-> +	struct oa_tc6 *tc6 = data;
-> +	u32 regval;
-> +	int ret;
-> +
-> +	while (likely(!kthread_should_stop())) {
-> +		wait_event_interruptible(tc6->tc6_wq, tc6->int_flag ||
-> +					 kthread_should_stop());
-> +		if (tc6->int_flag) {
-> +			tc6->int_flag = false;
-> +			ret = oa_tc6_perform_ctrl(tc6, OA_TC6_STS0, &regval, 1,
-> +						  false, false);
-> +			if (ret) {
-> +				dev_err(&tc6->spi->dev, "Failed to read STS0\n");
-> +				continue;
-> +			}
-> +			/* Check for reset complete interrupt status */
-> +			if (regval & RESETC) {
-> +				regval = RESETC;
-> +				/* SPI host should write RESETC bit with one to
-> +				 * clear the reset interrupt status.
-> +				 */
-> +				ret = oa_tc6_perform_ctrl(tc6, OA_TC6_STS0,
-> +							  &regval, 1, true,
-> +							  false);
-> +				if (ret) {
-> +					dev_err(&tc6->spi->dev,
-> +						"Failed to write STS0\n");
-> +					continue;
-> +				}
-> +				complete(&tc6->rst_complete);
-> +			}
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t macphy_irq(int irq, void *dev_id)
-> +{
-> +	struct oa_tc6 *tc6 = dev_id;
-> +
-> +	/* Wake tc6 task to perform interrupt action */
-> +	tc6->int_flag = true;
-> +	wake_up_interruptible(&tc6->tc6_wq);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int oa_tc6_sw_reset(struct oa_tc6 *tc6)
-> +{
-> +	long timeleft;
-> +	u32 regval;
-> +	int ret;
-> +
-> +	/* Perform software reset with both protected and unprotected control
-> +	 * commands because the driver doesn't know the current status of the
-> +	 * MAC-PHY.
-> +	 */
-> +	regval = SW_RESET;
-> +	reinit_completion(&tc6->rst_complete);
-> +	ret = oa_tc6_perform_ctrl(tc6, OA_TC6_RESET, &regval, 1, true, false);
-> +	if (ret) {
-> +		dev_err(&tc6->spi->dev, "RESET register write failed\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = oa_tc6_perform_ctrl(tc6, OA_TC6_RESET, &regval, 1, true, true);
-> +	if (ret) {
-> +		dev_err(&tc6->spi->dev, "RESET register write failed\n");
-> +		return ret;
-> +	}
-> +	timeleft = wait_for_completion_interruptible_timeout(&tc6->rst_complete,
-> +							     msecs_to_jiffies(1));
-> +	if (timeleft <= 0) {
-> +		dev_err(&tc6->spi->dev, "MAC-PHY reset failed\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int oa_tc6_write_register(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len)
->  {
->  	return oa_tc6_perform_ctrl(tc6, addr, val, len, true, tc6->ctrl_prot);
-> @@ -201,6 +290,7 @@ EXPORT_SYMBOL_GPL(oa_tc6_read_register);
->  struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
->  {
->  	struct oa_tc6 *tc6;
-> +	int ret;
->  
->  	if (!spi)
->  		return NULL;
-> @@ -211,12 +301,51 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
->  
->  	tc6->spi = spi;
->  
-> +	/* Used for triggering the OA TC6 task */
-> +	init_waitqueue_head(&tc6->tc6_wq);
-> +
-> +	init_completion(&tc6->rst_complete);
-> +
-> +	/* This task performs the SPI transfer */
-> +	tc6->tc6_task = kthread_run(oa_tc6_handler, tc6, "OA TC6 Task");
-> +	if (IS_ERR(tc6->tc6_task))
-> +		goto err_tc6_task;
-> +
-> +	/* Set the highest priority to the tc6 task as it is time critical */
-> +	sched_set_fifo(tc6->tc6_task);
-> +
-> +	/* Register MAC-PHY interrupt service routine */
-> +	ret = devm_request_irq(&spi->dev, spi->irq, macphy_irq, 0, "macphy int",
-> +			       tc6);
-> +	if ((ret != -ENOTCONN) && ret < 0) {
-> +		dev_err(&spi->dev, "Error attaching macphy irq %d\n", ret);
-> +		goto err_macphy_irq;
-> +	}
-> +
-> +	/* Perform MAC-PHY software reset */
-> +	if (oa_tc6_sw_reset(tc6))
-> +		goto err_macphy_reset;
-> +
->  	return tc6;
-> +
-> +err_macphy_reset:
-> +	devm_free_irq(&tc6->spi->dev, tc6->spi->irq, tc6);
-> +err_macphy_irq:
-> +	kthread_stop(tc6->tc6_task);
-> +err_tc6_task:
-> +	kfree(tc6);
-> +	return NULL;
->  }
->  EXPORT_SYMBOL_GPL(oa_tc6_init);
->  
-> -void oa_tc6_deinit(struct oa_tc6 *tc6)
-> +int oa_tc6_deinit(struct oa_tc6 *tc6)
->  {
-> -	kfree(tc6);
-> +	int ret;
-> +
-> +	devm_free_irq(&tc6->spi->dev, tc6->spi->irq, tc6);
-> +	ret = kthread_stop(tc6->tc6_task);
+Commit a5e2151ff9d5 ("net/ipv6: SKB symmetric hash should incorporate
+transport ports") removed the use of FLOW_DISSECTOR_F_STOP_AT_FLOW_LABEL
+in __skb_get_hash_symmetric(), making the doc out-of-date.
 
-kthread_stop() will the result of threadfn(). Here mean that if threadfn()
-return non-zero, deinit() will fail. But the KTHREAD_SHOULD_STOP already be set.
-And oa_tc6_handler() will end. Please check it is what you want.
+Signed-off-by: Quan Tian <qtian@vmware.com>
+---
+ Documentation/bpf/prog_flow_dissector.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +	if (!ret)
-> +		kfree(tc6);
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(oa_tc6_deinit);
-> diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
-> index 5e0a58ab1dcd..315f061c2dfe 100644
-> --- a/include/linux/oa_tc6.h
-> +++ b/include/linux/oa_tc6.h
-> @@ -17,15 +17,29 @@
->  #define CTRL_HDR_LEN	GENMASK(7, 1)	/* Length */
->  #define CTRL_HDR_P	BIT(0)		/* Parity Bit */
->  
-> +/* Open Alliance TC6 Standard Control and Status Registers */
-> +#define OA_TC6_RESET	0x0003		/* Reset Control and Status Register */
-> +#define OA_TC6_STS0	0x0008		/* Status Register #0 */
-> +
-> +/* RESET register field */
-> +#define SW_RESET	BIT(0)		/* Software Reset */
-> +
-> +/* STATUS0 register field */
-> +#define RESETC		BIT(6)		/* Reset Complete */
-> +
->  #define TC6_HDR_SIZE	4		/* Ctrl command header size as per OA */
->  #define TC6_FTR_SIZE	4		/* Ctrl command footer size ss per OA */
->  
->  struct oa_tc6 {
->  	struct spi_device *spi;
->  	bool ctrl_prot;
-> +	struct task_struct *tc6_task;
-> +	wait_queue_head_t tc6_wq;
-> +	bool int_flag;
-> +	struct completion rst_complete;
->  };
->  
->  struct oa_tc6 *oa_tc6_init(struct spi_device *spi);
-> -void oa_tc6_deinit(struct oa_tc6 *tc6);
-> +int oa_tc6_deinit(struct oa_tc6 *tc6);
->  int oa_tc6_write_register(struct oa_tc6 *tc6, u32 addr, u32 value[], u8 len);
->  int oa_tc6_read_register(struct oa_tc6 *tc6, u32 addr, u32 value[], u8 len);
-> 
+diff --git a/Documentation/bpf/prog_flow_dissector.rst b/Documentation/bpf/prog_flow_dissector.rst
+index 4d86780ab0f1..f24270b8b034 100644
+--- a/Documentation/bpf/prog_flow_dissector.rst
++++ b/Documentation/bpf/prog_flow_dissector.rst
+@@ -113,7 +113,7 @@ Flags
+   used by ``eth_get_headlen`` to estimate length of all headers for GRO.
+ * ``BPF_FLOW_DISSECTOR_F_STOP_AT_FLOW_LABEL`` - tells BPF flow dissector to
+   stop parsing as soon as it reaches IPv6 flow label; used by
+-  ``___skb_get_hash`` and ``__skb_get_hash_symmetric`` to get flow hash.
++  ``___skb_get_hash`` to get flow hash.
+ * ``BPF_FLOW_DISSECTOR_F_STOP_AT_ENCAP`` - tells BPF flow dissector to stop
+   parsing as soon as it reaches encapsulated headers; used by routing
+   infrastructure.
+-- 
+2.42.0
+
