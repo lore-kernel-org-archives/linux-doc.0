@@ -2,207 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBA6CA0EC3
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 03:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A91A9CA0ECA
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 04:06:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237625AbjILDwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 23:52:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51274 "EHLO
+        id S230521AbjILEGZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 00:06:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238599AbjILDv4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 23:51:56 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EADB76A61;
-        Mon, 11 Sep 2023 19:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694487059; x=1726023059;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=tY4JUlg2r2lu1h3nC1/B+Fp0VecmvVPIjnVU/dDc3B8=;
-  b=C47ySIIKKkbX77d/muhr7vLRc+63Bub5by4yMMWxHp0p+zJYutToPGmy
-   2Tp8ERVrPgXZBitsxeeBrBEWa13Ny6os6MNNDzBw1Hx+YZeUowEm4Byid
-   bViluL1IdxwJtIYkdh7u3MoAjYDgF+caUrjw/KvnQgOo5FlVcw403DYEI
-   ecXVw/siLTFt6PTjecKba9rfwy9g6PoLxsZHV9Ob3szE0qbQOZ6f/m+TQ
-   PO2jscVcEVLCF47qvFgl0yAFOTr2LueXu+E7bXT6JwfPgSIZSBzWOyVut
-   oIlID5EElB6/ycRh8HJsioIzTeuNIBI0WxjuS2wtZpV9mPB4NBSJAjL3R
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="363294919"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="363294919"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 19:50:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="809049491"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="809049491"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 19:50:56 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 19:50:55 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 19:50:55 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 19:50:55 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 11 Sep 2023 19:50:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=agWRwSxRz29sgf0OVrYXNp35fN2gka7mEi9Q4QECVvmZMNZW2aq++jZSebnJ++ghwDtGO0s8LugZyXdI257lQrGp4myRXWk9johB4i/QEyIZpcsp/P+roiulSLF9duC2hV1gTrCoU2AM1AlfBWPwfDo/3cWIytqcVZkFPrgRq4/pc/nw4tljckzEjtl7Yy1yjMnyDatB1a1bso8P5dEVSAnMhSGJgDpm0q//Cf1bmdRWBQY18IIUj1iq3clGdSsRP1UKrCfhmbmwmqSSy/7BIslK/dsO8Xq2YgEgDAZkAPqGloDHfKyJwKCup9h8fDyIpE+nK5Kh8641Wfe7OGIs3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8GNYWHjFfRiaaLqkeup9ppmIGXgb0RaxP4iaw8u0+/I=;
- b=L67L3IDJ+j2ntwKXIbl4HA1bvCVCfXiOQHpFhvttaXroXiXSlyEaKRTc50894I+bfODN4GPzP8N18l8bPtsPmxK85RWQEZDgW8VzipjNxEWb98EMOjLSJdZKnZaXvzT6wo2+Q1hATKGrlfTvCeKNfh06acPz4+tSO3z2z5c7n/GYfTBgrIXdwU0xBXf7X3OtDxVoQdwTXlNUjB0uSPZ2ElOdy3HP1FzjmnEQMaKUGpLqffSHUQH9xyQcnQegT5OFDOhFpywn/stufup8H0/T5F2dOihF2lDYCy7gCjhJRG7w+Q3knWiCm30svrmKbGIdRRlLoCHtOqjrTvFugSlJ0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB6780.namprd11.prod.outlook.com (2603:10b6:510:1cb::11)
- by DS0PR11MB6421.namprd11.prod.outlook.com (2603:10b6:8:c7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.37; Tue, 12 Sep
- 2023 02:50:52 +0000
-Received: from PH8PR11MB6780.namprd11.prod.outlook.com
- ([fe80::5d9f:7e54:4218:159f]) by PH8PR11MB6780.namprd11.prod.outlook.com
- ([fe80::5d9f:7e54:4218:159f%7]) with mapi id 15.20.6768.029; Tue, 12 Sep 2023
- 02:50:52 +0000
-Date:   Tue, 12 Sep 2023 10:50:41 +0800
-From:   Chao Gao <chao.gao@intel.com>
-To:     Manali Shukla <manali.shukla@amd.com>
-CC:     <kvm@vger.kernel.org>, <seanjc@google.com>,
-        <linux-doc@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <x86@kernel.org>, <pbonzini@redhat.com>, <peterz@infradead.org>,
-        <bp@alien8.de>, <santosh.shukla@amd.com>, <ravi.bangoria@amd.com>,
-        <thomas.lendacky@amd.com>, <nikunj@amd.com>
-Subject: Re: [PATCH 07/13] KVM: SVM: Extend VMCB area for virtualized IBS
- registers
-Message-ID: <ZP/SAfoc97oS2Dqn@chao-email>
-References: <20230904095347.14994-1-manali.shukla@amd.com>
- <20230904095347.14994-8-manali.shukla@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230904095347.14994-8-manali.shukla@amd.com>
-X-ClientProxiedBy: SI1PR02CA0046.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::14) To PH8PR11MB6780.namprd11.prod.outlook.com
- (2603:10b6:510:1cb::11)
+        with ESMTP id S234013AbjILEGX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 00:06:23 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54A94109E4B;
+        Mon, 11 Sep 2023 16:26:52 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-6c0f4ad9eb1so631144a34.1;
+        Mon, 11 Sep 2023 16:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694474718; x=1695079518; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fjU+yrhR2TAHVdG0q6RnBANC6+aiaYiRIqaMqsgmjjY=;
+        b=kFEXeqRN5Ct0UVzT7ErHUa1i86Bt0rI5tXgXamGZWmrT5DEUcsxpNsuVjj+aTaEur6
+         ZlTvXo+sE3tgAY0HQ1jUMJqHqDlP0+XAE2uYAqaRwIhywqS+m1/RP/MTECqxEaJ4z3JQ
+         aElWEUCLqqqnLyveRkaLaSXa76dTGlK53K4evD+zmf/uXviXQ7L1f+XrcKQk36IRpUuP
+         JS0X5lXDCHFciZ2rSjPQfHnulyc2e75YONRE4OVdPQCbSHNSUs4/RUiS2FDUo8jAt+BW
+         UXTCau+7jDhAQKmftgLLNc+aMtzw+nyAIo6Ak8MuiUGttKh1jBRXuQeKO5VoJDOMZ8uO
+         Y/Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694474718; x=1695079518;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fjU+yrhR2TAHVdG0q6RnBANC6+aiaYiRIqaMqsgmjjY=;
+        b=X8LUDH0/5dHfezSLwsW8QDYyfvyLR44OEOt6ZPKp7+2fetLDvHy9Ji6RdSZ53rwuNM
+         IFEVk4i6PaPHO8yh3I50QRxVZNDP7n6w9a5BEbkWc9nyG6yZfgdfU2CjMBseDkj+Tpiu
+         9zcSe45szo6UYc9iZdAf65BhXzXZsquNjK2WH51i+jO5E/GxXg493FBJwKJDR/Q3jF26
+         5c2tQyFm2iaSfLP6TyTmgMWfXcOxxpS6HkFsNgd/70Yz800r2/gy36lNw8f7WWKijM/X
+         JGZTt5udx8wzaxFvLg9EWjf5jRnJw1pSa5PT06keHFPcUWx8cQ6iomXJQekA1uf2PzoY
+         CFSw==
+X-Gm-Message-State: AOJu0YxTs7o/LpBOEJAelu4sgtYFJY0FJUNMrTwtnxv1yr6BlA8Trv+a
+        o2zlqsABAi7RZJGRgj5mrwQ4cWcDUDanGQ==
+X-Google-Smtp-Source: AGHT+IHVMIL7oYmmkHbnwRvyhhKkW24G/hg+6cDPwpDjFBjd/UXHDYiLYSR+5YIP1tXudZg82PYFig==
+X-Received: by 2002:a05:6e02:2163:b0:34f:6f29:cb81 with SMTP id s3-20020a056e02216300b0034f6f29cb81mr7039060ilv.18.1694473733918;
+        Mon, 11 Sep 2023 16:08:53 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.08.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 16:08:53 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
+        daniel.vetter@ffwll.ch
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
+        ville.syrjala@linux.intel.com, seanpaul@chromium.org,
+        robdclark@gmail.com, linux-doc@vger.kernel.org,
+        Jim Cromie <jim.cromie@gmail.com>
+Subject: [PATCH v6 10/22] dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
+Date:   Mon, 11 Sep 2023 17:08:26 -0600
+Message-ID: <20230911230838.14461-11-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
+References: <20230911230838.14461-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB6780:EE_|DS0PR11MB6421:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99c8dc98-24c4-4f26-3ec2-08dbb33b13d0
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Epx+LFs36R3N433KuT3yH3SOoVEVDBmsES3rejqrByZPZBp90vptbYLETEHuRiueWqor9jId+ijj8W6pe/EWa88RCUadXpm9hO8A+hgMOKuW20M4QCx7odTMntlWBcp2AjnMMjLcb5g2R6iRhLHtG9EOY3NNJpSVmW5+OBPmPwYGHeYr0dG5/L8Blqqh1CZ/PpdUe68A9wN0YUYVM1qsrkqnZNnTxNk9BzAGE4D4pSLjbEZsCHc8dNZxufNnyNzU2tG99QkDmLhtT15UVqzdmdmXrJRi7xP0JP3uN0B0E3xI0FXwv1fA3fTuYIrkjFMxKA2T6jZ6Fr5vDAJmWPGIhuB4c3NwOZUlbOykFxB7N0FVcz08RMEqPa5pAJJrQzCT+7eQxMcKfrqs0udZOCYshkSR99ow+tzuTkuAw+Pjmbe9MHLitRRyWrECfbaKO1hUefSyRB9igzzZzT6k/kzuUNpm4HcTuYYzGQD4lFwWEXNic9YP4UxxV89+b/QZKuAs/rcwTy9mMfzlFv2CdnzuSGCLZQYk3fafvfoVaizc/4MDWIXubWdrIrOwdwyqVvlF
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB6780.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(39860400002)(136003)(396003)(366004)(376002)(186009)(1800799009)(451199024)(5660300002)(316002)(66946007)(66476007)(6916009)(66556008)(8936002)(4326008)(44832011)(8676002)(41300700001)(26005)(6506007)(9686003)(6512007)(6486002)(38100700002)(82960400001)(6666004)(33716001)(7416002)(478600001)(83380400001)(86362001)(2906002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qOf/Rh6Dwzwx/WQFfdMpMTbPqUXBqrPT7UQALLfMA1EpSuOMOniei93EneR1?=
- =?us-ascii?Q?4jWJseBQbqVbxmyd7k7fXcCHzsdahp0+Q5oPvz7AsKAtkAG1LVhE1Y/MYMEH?=
- =?us-ascii?Q?OYUsKu5iBvpyMx/czdbs7SCzstWJ+wjv+ZnX7fk3TgiXCawujKUUVAbui5V4?=
- =?us-ascii?Q?v3fnJdy8g4wYwz30y0vPzKh/F27kdvJMiQ5KJNiwEzVU3+o3wuSsE4bDwLeq?=
- =?us-ascii?Q?J2L9UNCqqnJg7GsRWkUqqghf2n1s045E8yypdCFleWIMlMUuB5aak98LvCjD?=
- =?us-ascii?Q?ghqmtHDrLdBkOFU23q75XUx4mClai7AprePssYkgORQ9WzBOcn7gF1uQOcFb?=
- =?us-ascii?Q?AXfaGkNhImzpt3xP9qSIpLvA2BigpLtIyROSKxqJpyuIY+Q8YA+/G6Mf/LYY?=
- =?us-ascii?Q?Kdf6AIosBWu0Cl/zLqSk/Sn346ankZLvhBxsqpAj54RiHxWB9ia1hKrLCkFj?=
- =?us-ascii?Q?UL5twg/dYpeXeRExweuMO8zbQxtViP+neX7BO9+JzT6T8CvxsUizaQAHm2nK?=
- =?us-ascii?Q?QvtZbchhiL4U69eo0sx83dP1yjsph6x0MujjCq+Kok/qe5ZM4xfNYKv/Arcy?=
- =?us-ascii?Q?U9BVIBEowMkW0+zPBJgGiWkVsWN0fHAf8obNpTmCIXwMEajBplmjJIgpY0ic?=
- =?us-ascii?Q?ufVfBDCkaQ1tOwy3U9mNfovvjhle7Go+JSP6xjm1DdP1vCrFnp1L3F4dn181?=
- =?us-ascii?Q?xvUdyMCCXxbd5jZJMftvGEEIPpItbUgum99fp6YEn+H1SRC/zMuMUbSMUtiz?=
- =?us-ascii?Q?9PCIjxC6+V/mJAJZKpyvYuoggu/pCXAXrd3s4DaOKVRWQgSyyceji5yxwGd5?=
- =?us-ascii?Q?B4GzPMHm7fcrNPcbZUwtdFW6N5hv/IyBhTL2Gf13jm0ZjcM7qRHnMUyMr6Fc?=
- =?us-ascii?Q?8pmm4ngQ8bANsA/aeIpxA7NQ06jWKm5yKSQ1lwzPUGq8YCDBBbu6iI1YXa6I?=
- =?us-ascii?Q?dnZIx7mmEwc7B2UMN4AHTD2CRp7UzEVVdkF+ZK+QhdobhD/bHZ55+kVItWY3?=
- =?us-ascii?Q?T2FDwScmhCUnE3kODzZLtu08tC5lDBLbPJ7Pqutq+GAdHI1084ohcHfePX/Z?=
- =?us-ascii?Q?lXFzRBx4KxCjb+Wu2K0HjtCMmavirIuJKOfIlMoBThYVPywR5IDs16hzy6zJ?=
- =?us-ascii?Q?OTOgCao4yP7nVl9RC5YU4Z9yLPQFiRIf/sTw3khUpUJh4+Wy77vSHSYb+kxR?=
- =?us-ascii?Q?vIuu14Tbeb/JPmcZeYXfIYY8CKUAh5lJHjRqqbimRsufWvF/40bXUPmy11CA?=
- =?us-ascii?Q?nbzMVylyFa5tJBIIIjwOm8PGQMgg57OfgQrQN5rv2kN5rE5qQeoLGKs/o2+m?=
- =?us-ascii?Q?HIETP14240YzJ4Kd56v29j1OkGHI2mDHN10w4J2o8UdcRhdFnPSLWQhl6Vj2?=
- =?us-ascii?Q?mvWjWunkNho+u1OuHF3dSGLpbTYxe0+j17KOGn6y9Sr0LqSzHG2drlM8mVru?=
- =?us-ascii?Q?/RmZifQYN0HbydzuV3fferoRsX3zh4GFp+Zcom5iJM+19jyE/qQkVCtaBqEV?=
- =?us-ascii?Q?HVzeLW1RBZog305hcZ0UuhGO2H+sdauzBPKC2KZ+6nJff+jGm+mhhCvA6rw0?=
- =?us-ascii?Q?vIF3PIMSLF9HDA1M+bM1PD9pdSanGoSfB0oHy1Nm?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99c8dc98-24c4-4f26-3ec2-08dbb33b13d0
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6780.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2023 02:50:52.3118
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9XeuY8R4VgGuONRPumpp76JL5kcT+j/cS1pu3TnrR1yR4SSPqg3d8uLX8uzMRbjUYLum/xdWMooonN5+D0A9nA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6421
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 04, 2023 at 09:53:41AM +0000, Manali Shukla wrote:
->From: Santosh Shukla <santosh.shukla@amd.com>
->
->VMCB state save is extended to hold guest values of the fetch and op
->IBS registers.
->
->Signed-off-by: Santosh Shukla <santosh.shukla@amd.com>
->Signed-off-by: Manali Shukla <manali.shukla@amd.com>
->---
-> arch/x86/include/asm/svm.h | 16 +++++++++++++++-
-> 1 file changed, 15 insertions(+), 1 deletion(-)
->
->diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
->index dee9fa91120b..4096d2f68770 100644
->--- a/arch/x86/include/asm/svm.h
->+++ b/arch/x86/include/asm/svm.h
->@@ -346,6 +346,19 @@ struct vmcb_save_area {
-> 	u64 last_excp_to;
-> 	u8 reserved_0x298[72];
-> 	u64 spec_ctrl;		/* Guest version of SPEC_CTRL at 0x2E0 */
->+	u8 reserved_0x2e8[904];
->+	u8 lbr_stack_from_to[256];
->+	u64 lbr_select;
+old_bits arg is currently a pointer to the input bits, but this could
+allow inadvertent changes to the input by the fn.  Disallow this.
+And constify new_bits while here.
 
-Shouldn't these lbr fields be added by a separate patch/series?
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ lib/dynamic_debug.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
->+	u64 ibs_fetch_ctl;
->+	u64 ibs_fetch_linear_addr;
->+	u64 ibs_op_ctl;
->+	u64 ibs_op_rip;
->+	u64 ibs_op_data;
->+	u64 ibs_op_data2;
->+	u64 ibs_op_data3;
->+	u64 ibs_dc_linear_addr;
->+	u64 ibs_br_target;
->+	u64 ibs_fetch_extd_ctl;
-> } __packed;
-> 
-> /* Save area definition for SEV-ES and SEV-SNP guests */
->@@ -512,7 +525,7 @@ struct ghcb {
-> } __packed;
-> 
-> 
->-#define EXPECTED_VMCB_SAVE_AREA_SIZE		744
->+#define EXPECTED_VMCB_SAVE_AREA_SIZE		1992
-> #define EXPECTED_GHCB_SAVE_AREA_SIZE		1032
-> #define EXPECTED_SEV_ES_SAVE_AREA_SIZE		1648
-> #define EXPECTED_VMCB_CONTROL_AREA_SIZE		1024
->@@ -537,6 +550,7 @@ static inline void __unused_size_checks(void)
-> 	BUILD_BUG_RESERVED_OFFSET(vmcb_save_area, 0x180);
-> 	BUILD_BUG_RESERVED_OFFSET(vmcb_save_area, 0x248);
-> 	BUILD_BUG_RESERVED_OFFSET(vmcb_save_area, 0x298);
->+	BUILD_BUG_RESERVED_OFFSET(vmcb_save_area, 0x2e8);
-> 
-> 	BUILD_BUG_RESERVED_OFFSET(sev_es_save_area, 0xc8);
-> 	BUILD_BUG_RESERVED_OFFSET(sev_es_save_area, 0xcc);
->-- 
->2.34.1
->
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index e8bade6c6c06..13cab20029e6 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -593,7 +593,8 @@ static int ddebug_exec_queries(char *query, const char *modname)
+ 
+ /* apply a new class-param setting */
+ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
+-				     unsigned long *new_bits, unsigned long *old_bits,
++				     const unsigned long *new_bits,
++				     const unsigned long old_bits,
+ 				     const char *query_modname)
+ {
+ #define QUERY_SIZE 128
+@@ -602,12 +603,12 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
+ 	int matches = 0;
+ 	int bi, ct;
+ 
+-	if (*new_bits != *old_bits)
++	if (*new_bits != old_bits)
+ 		v2pr_info("apply bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
+-			  *old_bits, query_modname ?: "'*'");
++			  old_bits, query_modname ?: "'*'");
+ 
+ 	for (bi = 0; bi < map->length; bi++) {
+-		if (test_bit(bi, new_bits) == test_bit(bi, old_bits))
++		if (test_bit(bi, new_bits) == test_bit(bi, &old_bits))
+ 			continue;
+ 
+ 		snprintf(query, QUERY_SIZE, "class %s %c%s", map->class_names[bi],
+@@ -619,9 +620,9 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
+ 		v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
+ 			  ct, map->class_names[bi], *new_bits);
+ 	}
+-	if (*new_bits != *old_bits)
++	if (*new_bits != old_bits)
+ 		v2pr_info("applied bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
+-			  *old_bits, query_modname ?: "'*'");
++			  old_bits, query_modname ?: "'*'");
+ 
+ 	return matches;
+ }
+@@ -678,7 +679,7 @@ static int param_set_dyndbg_classnames(const char *instr, const struct kernel_pa
+ 				continue;
+ 			}
+ 			curr_bits ^= BIT(cls_id);
+-			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, dcp->bits, NULL);
++			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, *dcp->bits, NULL);
+ 			*dcp->bits = curr_bits;
+ 			v2pr_info("%s: changed bit %d:%s\n", KP_NAME(kp), cls_id,
+ 				  map->class_names[cls_id]);
+@@ -688,7 +689,7 @@ static int param_set_dyndbg_classnames(const char *instr, const struct kernel_pa
+ 			old_bits = CLASSMAP_BITMASK(*dcp->lvl);
+ 			curr_bits = CLASSMAP_BITMASK(cls_id + (wanted ? 1 : 0 ));
+ 
+-			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, &old_bits, NULL);
++			totct += ddebug_apply_class_bitmap(dcp, &curr_bits, old_bits, NULL);
+ 			*dcp->lvl = (cls_id + (wanted ? 1 : 0));
+ 			v2pr_info("%s: changed bit-%d: \"%s\" %lx->%lx\n", KP_NAME(kp), cls_id,
+ 				  map->class_names[cls_id], old_bits, curr_bits);
+@@ -742,7 +743,7 @@ static int param_set_dyndbg_module_classes(const char *instr,
+ 			inrep &= CLASSMAP_BITMASK(map->length);
+ 		}
+ 		v2pr_info("bits:0x%lx > %s.%s\n", inrep, modnm ?: "*", KP_NAME(kp));
+-		totct += ddebug_apply_class_bitmap(dcp, &inrep, dcp->bits, modnm);
++		totct += ddebug_apply_class_bitmap(dcp, &inrep, *dcp->bits, modnm);
+ 		*dcp->bits = inrep;
+ 		break;
+ 	case DD_CLASS_TYPE_LEVEL_NUM:
+@@ -755,7 +756,7 @@ static int param_set_dyndbg_module_classes(const char *instr,
+ 		old_bits = CLASSMAP_BITMASK(*dcp->lvl);
+ 		new_bits = CLASSMAP_BITMASK(inrep);
+ 		v2pr_info("lvl:%ld bits:0x%lx > %s\n", inrep, new_bits, KP_NAME(kp));
+-		totct += ddebug_apply_class_bitmap(dcp, &new_bits, &old_bits, modnm);
++		totct += ddebug_apply_class_bitmap(dcp, &new_bits, old_bits, modnm);
+ 		*dcp->lvl = inrep;
+ 		break;
+ 	default:
+-- 
+2.41.0
+
