@@ -2,304 +2,619 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7539DCA0EC6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A9BCA0EC7
 	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:18:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245753AbjIKVLe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:11:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51654 "EHLO
+        id S1343499AbjIKVLf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235532AbjIKIwX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 04:52:23 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD57A1A1;
-        Mon, 11 Sep 2023 01:52:18 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-68fb2e9ebcdso764353b3a.2;
-        Mon, 11 Sep 2023 01:52:18 -0700 (PDT)
+        with ESMTP id S238182AbjIKNpi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 09:45:38 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21EEBCD7;
+        Mon, 11 Sep 2023 06:45:33 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-68faf930054so1485031b3a.0;
+        Mon, 11 Sep 2023 06:45:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694422338; x=1695027138; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6ojjoj528580DYzIEP6XgoOL7aePsN/TYuceJeg3YE=;
-        b=EWaL/fbzRC/P2JYWjsEpRPKHxsQBmEY9Ngt0JJqQlk5pDLT1BV7yHK8vPK9OyZ3sUe
-         IQTxNYBFAWspBt9liEkRI+iS3C0EXtTrkCYI9g9Kora9pyayplcAHf5l4mJYYRWzrbWv
-         jBVnc8ouj5vqymrbVucyxuehWqSdckBcIWTZX0FyJtbPLZoJDK2lmln26v7euDbLY7xl
-         YkclZAlBsEs0aEZghbzAbhXF1WcWMIbk1DzQTYReQCYXlp2ySErgoAJtc/e+Z/V4y1kT
-         BLXKd2/ou/qXQUSLTYpzWMv5PSsWbXwyhEShiUvSmCPS9lPJIEaJAWLskdObP91SuBAj
-         E/6g==
+        d=gmail.com; s=20221208; t=1694439932; x=1695044732; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xKJwEN0Dy86pNFLq9byT1XW/Xw47waFHpHmeiDZLDec=;
+        b=Zh0p+gBiJwd/xnu/hxGJ+LNbw3lybcX/ofKbQ6Udp/vzpTh2BrfSKs112cfqVtovqt
+         /oEJUPsbuIuEyLTEdjftCAXRePFnvZi5aBNIkckpR5Vy0iwqp6k2B3LjUJ6+jwy/cbeg
+         FMxJwpje5G9VS4qMfbOgswI38ylXR3jGXTm5AT0JnSw2oaAzVB0PqHfo9yPjRTHzAR/S
+         G7exmovAqKeHWdfWwnkv/vfsaN/D2Sx5luXhwEqkH0T+cePl0taBW9LbDw6qMOgq3IF1
+         bsO/2w5ESNGR4wiBPKGNW/2+V3bUnWontGCeqv9xPDmBvC4IbNPk7ys8N+UvfZiQTtRI
+         Ncgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694422338; x=1695027138;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b6ojjoj528580DYzIEP6XgoOL7aePsN/TYuceJeg3YE=;
-        b=wz+gtZt6B1kMuJMa4I3H9GeAzLbtqEs4e7MO2Uh2hI15z1Mauty7Po+2MSW2b0YFa0
-         gZG5kUoYo1NILBz2k8lpSgjSVaX+lk+Vzliur+4fW+/krF7ZtxoPD37KzHfmBLi69H1O
-         zxoNWUGq6OKwbBETzBojPDYv1atD2b6rrjwrC40xBTxTkzJHWsC7U1dASBOr6CyoGQ53
-         OzCIKpP2ZmH/A19FWKpDuzxW2j80Ve3oA2c0xs2x5Byv1/DjpPt/eWr3/EIW1n+N5RhH
-         Z5OXEs1I7kgI/EObiLx8k2PCZEQUUtCdxneReRLwNEVU40xfRaZu67GyazIA4hqlCkCM
-         7Q8w==
-X-Gm-Message-State: AOJu0YyyCG0bWnPyVgSlZcfTiNqRvq1mnwEjfYHHL0rm+RSt07BtNIdj
-        qptkLJaRrPAxosqzSrAGAoo=
-X-Google-Smtp-Source: AGHT+IGhmEWHLAYl0FOfBIxHzSVzPNiLLqpuyRPizVofbJudX36mjRJtfMF93gr9pzcoQUhJS9Y29Q==
-X-Received: by 2002:a05:6300:8005:b0:14b:f9e2:e16c with SMTP id an5-20020a056300800500b0014bf9e2e16cmr6459218pzc.62.1694422338167;
-        Mon, 11 Sep 2023 01:52:18 -0700 (PDT)
-Received: from debian.me ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id 5-20020a170902e9c500b001bb04755212sm5853976plk.228.2023.09.11.01.52.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 01:52:17 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id D1703830618D; Mon, 11 Sep 2023 15:52:13 +0700 (WIB)
-Date:   Mon, 11 Sep 2023 15:52:13 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, <corbet@lwn.net>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
-        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
-        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
-        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
-Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
-Subject: Re: [PATCH v5 00/17] Add Qualcomm Minidump kernel driver related
- support
-Message-ID: <ZP7VPfVtvbmB5aQf@debian.me>
-References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
+        d=1e100.net; s=20230601; t=1694439932; x=1695044732;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xKJwEN0Dy86pNFLq9byT1XW/Xw47waFHpHmeiDZLDec=;
+        b=irSeLEmrT2JO81mpamf9duJtkBMgYPhVOFVfMjlAjAnGZ7ZF9cSMYDrgF1Z8L2IsXr
+         JoucWg7vY9kqaInhfje9cXLLKBfAYhScsjIkcF1ZfPYWqCtrGWHacYoMQ/SerkDwTUzY
+         x2bjb0DrU9+MW7RQ2HBvhnXEa3P8vVURPLEV09Fuk9VEQT8Tyaat0zZXAGXeNDeX8qoJ
+         LnBsCICEzVjcGjl6XH9dQ4aGxVzj345Mk4NjlmUnrfs1lVinEphpWtRB1cjBfIus5V9k
+         canrTn+d49QezYRw9bXjbUV7LrPsd4UD19HAik5HxuiqbbLi6wAR31jZ3xJ5PtxHuM7/
+         RflQ==
+X-Gm-Message-State: AOJu0YxG7sQ6qcp2/TmeBxzW2ljYiqXDdsirbClbhqYSATdvvoCeXzNi
+        FMEoFX4RjZ0h/RhrkROG8N8=
+X-Google-Smtp-Source: AGHT+IHPUmJFFBMzEXX/iaqAP/rP4wR95WVsaLY1NQ3O8AaXhg3AUOqurvk/ju49JPlt1ptnFpU50g==
+X-Received: by 2002:a05:6a00:1496:b0:68c:69c8:e0f0 with SMTP id v22-20020a056a00149600b0068c69c8e0f0mr11646291pfu.18.1694439932348;
+        Mon, 11 Sep 2023 06:45:32 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id cl10-20020a056a0032ca00b0068fd026b496sm1155551pfb.46.2023.09.11.06.45.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 06:45:31 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <27bc5a74-531d-696e-f218-a755172af9e9@roeck-us.net>
+Date:   Mon, 11 Sep 2023 06:45:30 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ypI1W5o4Aub9n7jF"
-Content-Disposition: inline
-In-Reply-To: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Content-Language: en-US
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230911083735.11795-1-daniel.matyas@analog.com>
+ <20230911083735.11795-2-daniel.matyas@analog.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 2/2] hwmon: max31827: Functional enhancement of the driver
+In-Reply-To: <20230911083735.11795-2-daniel.matyas@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 9/11/23 01:37, Daniel Matyas wrote:
+> Modify some bits depending on the device tree.
+> 
 
---ypI1W5o4Aub9n7jF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The subject and the above sentence are meaningless. Please improve.
 
-On Sun, Sep 10, 2023 at 01:46:01AM +0530, Mukesh Ojha wrote:
-> Hi All,
->=20
-> This is to continuation from the conversation happened at v4
->=20
-> https://lore.kernel.org/lkml/632c5b97-4a91-c3e8-1e6c-33d6c4f6454f@quicinc=
-=2Ecom/
->=20
-> https://lore.kernel.org/lkml/695133e6-105f-de2a-5559-555cea0a0462@quicinc=
-=2Ecom/
->=20
-> We have put abstract on LPC on this topic as well as initiated a mail thr=
-ead
-> with other SoC vendors but did not get much traction on it.
->=20
-> https://lore.kernel.org/lkml/0199db00-1b1d-0c63-58ff-03efae02cb21@quicinc=
-=2Ecom/
->=20
-> We explored most of possiblity present in kernel to address this issue[1]=
- but
-> solution like kdump/fadump does not seems safe/secure/performant from our
-> perspective.
->=20
-> Hence, with this series we tried to make the minidump kernel driver, simp=
-le
-> and tied with pstore frontends, so that it collects the present available
-> frontends data like dmesg, ftrace, pmsg, ftrace., Also, we will be working
-> towards enhancing generic pstore to capture more debug data which will be
-> helpful for first hand of debugging that can benefit both other pstore us=
-ers
-> as well as us as minidump users.
->=20
-> One of the proposal made here,
-> https://lore.kernel.org/lkml/1683561060-2197-1-git-send-email-quic_mojha@=
-quicinc.com/
->=20
-> Looking forward for your comments.
->=20
-> Thanks,
-> Mukesh
->=20
-> [1]
-> Minidump is a best effort mechanism to collect useful and predefined data
-> for first level of debugging on end user devices running on Qualcomm SoCs.
-> It is built on the premise that System on Chip (SoC) or subsystem part of
-> SoC crashes, due to a range of hardware and software bugs. Hence, the
-> ability to collect accurate data is only a best-effort. The data collected
-> could be invalid or corrupted, data collection itself could fail, and so =
-on.
->=20
-> Qualcomm devices in engineering mode provides a mechanism for generating
-> full system ramdumps for post mortem debugging. But in some cases it's
-> however not feasible to capture the entire content of RAM. The minidump
-> mechanism provides the means for selecting which snippets should be
-> included in the ramdump.
->=20
-> The core of SMEM based minidump feature is part of Qualcomm's boot
-> firmware code. It initializes shared memory (SMEM), which is a part of
-> DDR and allocates a small section of SMEM to minidump table i.e also
-> called global table of content (G-ToC). Each subsystem (APSS, ADSP, ...)
-> has their own table of segments to be included in the minidump and all
-> get their reference from G-ToC. Each segment/region has some details
-> like name, physical address and it's size etc. and it could be anywhere
-> scattered in the DDR.
->=20
-> Existing upstream Qualcomm remoteproc driver[1] already supports SMEM
-> based minidump feature for remoteproc instances like ADSP, MODEM, ...
-> where predefined selective segments of subsystem region can be dumped
-> as part of coredump collection which generates smaller size artifacts
-> compared to complete coredump of subsystem on crash.
->=20
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/dri=
-vers/remoteproc/qcom_common.c#n142
->=20
-> In addition to managing and querying the APSS minidump description,
-> the Linux driver maintains a ELF header in a segment. This segment
-> gets updated with section/program header whenever a new entry gets
-> registered.
->=20
-> Changes in v5:
->  - On suggestion from Pavan.k, to have single function call for minidump =
-collection
->    from remoteproc driver, separated the logic to have separate minidump =
-file called
->    qcom_rproc_minidump.c and also renamed the function from qcom_minidump=
-() to=20
->    qcom_rproc_minidump(); however, dropped his suggestion about rework on=
- lazy deletion
->    during region unregister in this series, will pursue it in next series.
->=20
->  - To simplify the minidump driver, removed the complication for frontend=
- and different
->    backend from Greg suggestion, will pursue this once main driver gets m=
-ainlined.
->=20
->  - Move the dynamic ramoops region allocation from Device tree approach t=
-o command line
->    approch with the introduction command line parsing and memblock reserv=
-ation during
->    early boot up; Not added documentation about it yet, will add if it ge=
-ts positive
->    response.
->=20
->  - Exporting linux banner from kernel to make minidump build also as modu=
-le, however,
->    minidump is a debug module and should be kernel built to get most debu=
-g information
->    from kernel.
->=20
->  - Tried to address comments given on dload patch series.=20
->=20
-> Changes in v4: https://lore.kernel.org/lkml/1687955688-20809-1-git-send-e=
-mail-quic_mojha@quicinc.com/
->  - Redesigned the driver and divided the driver into front end and backen=
-d (smem) so
->    that any new backend can be attached easily to avoid code duplication.
->  - Patch reordering as per the driver and subsystem to easier review of t=
-he code.
->  - Removed minidump specific code from remoteproc to minidump smem based =
-driver.
->  - Enabled the all the driver as modules.
->  - Address comments made on documentation and yaml and Device tree file [=
-Krzysztof/Konrad]
->  - Address comments made qcom_pstore_minidump driver and given its Device=
- tree
->    same set of properties as ramoops. [Luca/Kees]
->  - Added patch for MAINTAINER file.
->  - Include defconfig change as one patch as per [Krzysztof] suggestion.
->  - Tried to remove the redundant file scope variables from the module as =
-per [Krzysztof] suggestion.
->  - Addressed comments made on dload mode patch v6 version
->    https://lore.kernel.org/lkml/1680076012-10785-1-git-send-email-quic_mo=
-jha@quicinc.com/
->=20
-> Changes in v3: https://lore.kernel.org/lkml/1683133352-10046-1-git-send-e=
-mail-quic_mojha@quicinc.com/
->  - Addressed most of the comments by Srini on v2 and refactored the minid=
-ump driver.
->     - Added platform device support
->     - Unregister region support.
->  - Added update region for clients.
->  - Added pending region support.
->  - Modified the documentation guide accordingly.
->  - Added qcom_pstore_ramdump client driver which happen to add ramoops pl=
-atform
->    device and also registers ramoops region with minidump.
->  - Added download mode patch series with this minidump series.
->     https://lore.kernel.org/lkml/1680076012-10785-1-git-send-email-quic_m=
-ojha@quicinc.com/
->=20
-> Changes in v2: https://lore.kernel.org/lkml/1679491817-2498-1-git-send-em=
-ail-quic_mojha@quicinc.com/
->  - Addressed review comment made by [quic_tsoni/bmasney] to add documenta=
-tion.
->  - Addressed comments made by [srinivas.kandagatla]
->  - Dropped pstore 6/6 from the last series, till i get conclusion to get =
-pstore
->    region in minidump.
->  - Fixed issue reported by kernel test robot.
->=20
-> Changes in v1: https://lore.kernel.org/lkml/1676978713-7394-1-git-send-em=
-ail-quic_mojha@quicinc.com/
->=20
-> Testing of the patches has been done on sm8450 target after enabling conf=
-ig like
-> CONFIG_PSTORE_RAM and CONFIG_PSTORE_CONSOLE and once the device boots up.
->=20
->  echo mini > /sys/module/qcom_scm/parameters/download_mode
->=20
-> Try crashing it via devmem2 0xf11c000(this is known to create xpu violati=
-on and
-> and put the device in download mode) on command prompt.
->=20
-> Default storage type is set to via USB, so minidump would be downloaded w=
-ith the
-> help of x86_64 machine (running PCAT tool) attached to Qualcomm device wh=
-ich has
-> backed minidump boot firmware support.
->=20
-> This will make the device go to download mode and collect the minidump on=
- to the
-> attached x86 machine running the Qualcomm PCAT tool(This comes as part Qu=
-alcomm
-> package manager kit).
->=20
-> After that we will see a bunch of predefined registered region as binary =
-blobs files
-> starts with md_* downloaded on the x86 machine on given location in PCAT =
-tool from
-> the target device, more about this can be found in qualcomm minidump guid=
-e patch.
->=20
+> Added custom device attributes for resolution and timeout. The wait time
+> for a conversion in one-shot mode (enable = 0) depends on the
+> resolution.
+> 
+> Used enums and static const arrays in order to remove nested switch
+> blocks.
+> 
 
-I tried to apply this series on top of 535a265d7f0dd50 (as suggested by
-`b4 am -l -g`), but it conflicts on patch [04/17]. Please specify the
-exact base commit or another series for which this series is based on.
+One logical change per patch, please. Do not mix no-trivial cleanups
+with functional changes.
 
-Thanks.
+> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> ---
+>   Documentation/hwmon/max31827.rst |  65 ++++--
+>   drivers/hwmon/max31827.c         | 326 ++++++++++++++++++++++++-------
+>   2 files changed, 306 insertions(+), 85 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
+> index b0971d05b8a4..ae884e9e6085 100644
+> --- a/Documentation/hwmon/max31827.rst
+> +++ b/Documentation/hwmon/max31827.rst
+> @@ -52,13 +52,21 @@ MAX31827 has low and over temperature alarms with an effective value and a
+>   hysteresis value: -40 and -30 degrees for under temperature alarm and +100 and
+>   +90 degrees for over temperature alarm.
+>   
+> -The alarm can be configured in comparator and interrupt mode. Currently only
+> -comparator mode is implemented. In Comparator mode, the OT/UT status bits have a
+> -value of 1 when the temperature rises above the TH value or falls below TL,
+> -which is also subject to the Fault Queue selection. OT status returns to 0 when
+> -the temperature drops below the TH_HYST value or when shutdown mode is entered.
+> -Similarly, UT status returns to 0 when the temperature rises above TL_HYST value
+> -or when shutdown mode is entered.
+> +The alarm can be configured in comparator and interrupt mode from the
+> +devicetree. In Comparator mode, the OT/UT status bits have a value of 1 when the
+> +temperature rises above the TH value or falls below TL, which is also subject to
+> +the Fault Queue selection. OT status returns to 0 when the temperature drops
+> +below the TH_HYST value or when shutdown mode is entered. Similarly, UT status
+> +returns to 0 when the temperature rises above TL_HYST value or when shutdown
+> +mode is entered.
+> +
+> +In interrupt mode exceeding TH also sets OT status to 1, which remains set until
+> +a read operation is performed on the configuration/status register (max or min
+> +attribute); at this point, it returns to 0. Once OT status is set to 1 from
+> +exceeding TH and reset, it is set to 1 again only when the temperature drops
+> +below TH_HYST. The output remains asserted until it is reset by a read. It is
+> +set again if the temperature rises above TH, and so on. The same logic applies
+> +to the operation of the UT status bit.
+>   
+>   Putting the MAX31827 into shutdown mode also resets the OT/UT status bits. Note
+>   that if the mode is changed while OT/UT status bits are set, an OT/UT status
+> @@ -68,13 +76,32 @@ clear the status bits before changing the operating mode.
+>   
+>   The conversions can be manual with the one-shot functionality and automatic with
+>   a set frequency. When powered on, the chip measures temperatures with 1 conv/s.
+> +The conversion rate can be modified with update_interval attribute of the chip.
+> +Conversion/second = 1/update_interval. Thus, the available options according to
+> +the data sheet are:
+> +	- 64000 (ms) = 1 conv/64 sec
+> +	- 32000 (ms) = 1 conv/32 sec
+> +	- 16000 (ms) = 1 conv/16 sec
+> +	- 4000 (ms) = 1 conv/4 sec
+> +	- 1000 (ms) = 1 conv/sec (default)
+> +	- 250 (ms) = 4 conv/sec
+> +	- 125 (ms) = 8 conv/sec
+> +
+>   Enabling the device when it is already enabled has the side effect of setting
+>   the conversion frequency to 1 conv/s. The conversion time varies depending on
+> -the resolution. The conversion time doubles with every bit of increased
+> -resolution. For 10 bit resolution 35ms are needed, while for 12 bit resolution
+> -(default) 140ms. When chip is in shutdown mode and a read operation is
+> -requested, one-shot is triggered, the device waits for 140 (conversion time) + 1
+> -(error) ms, and only after that is the temperature value register read.
+> +the resolution.
+> +
+> +The conversion time doubles with every bit of increased resolution. The
+> +available resolutions are:
+> +	- 8 bit -> 8.75 ms conversion time
+> +	- 9 bit -> 17.5 ms conversion time
+> +	- 10 bit -> 35 ms conversion time
+> +	- 12 bit (default) -> 140 ms conversion time
+> +
+> +When chip is in shutdown mode and a read operation is requested, one-shot is
+> +triggered, the device waits for <conversion time> ms, and only after that is
+> +the temperature value register read. Note that the conversion times are rounded
+> +up to the nearest possible integer.
+>   
+>   The LSB of the temperature values is 0.0625 degrees Celsius, but the values of
+>   the temperatures are displayed in milli-degrees. This means, that some data is
+> @@ -83,8 +110,18 @@ in the writing of alarm values too. For positive numbers the user-input value
+>   will always be rounded down to the nearest possible value, for negative numbers
+>   the user-input will always be rounded up to the nearest possible value.
+>   
+> +Bus timeout resets the I2C-compatible interface when SCL is low for more than
+> +30ms (nominal).
+> +
+> +Alarm polarity determines if the active state of the alarm is low or high. The
+> +behavior for both settings is dependent on the Fault Queue setting. The ALARM
+> +pin is an open-drain output and requires a pullup resistor to operate.
+> +
+> +The Fault Queue bits select how many consecutive temperature faults must occur
+> +before overtemperature or undertemperature faults are indicated in the
+> +corresponding status bits.
+> +
+>   Notes
+>   -----
+>   
+> -Currently fault queue, alarm polarity and resolution cannot be modified.
+> -PEC is not implemented either.
+> +PEC is not implemented.
+> diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
+> index 66f5fcf937ff..9f48dec99b7f 100644
+> --- a/drivers/hwmon/max31827.c
+> +++ b/drivers/hwmon/max31827.c
+> @@ -12,6 +12,18 @@
+>   #include <linux/i2c.h>
+>   #include <linux/mutex.h>
+>   #include <linux/regmap.h>
+> +#include <linux/hwmon-sysfs.h>
+> +
+> +/*
+> + * gcc turns __builtin_ffsll() into a call to __ffsdi2(), which is not provided
+> + * by every architecture. __ffs64() is available on all architectures, but the
+> + * result is not defined if no bits are set.
+> + */
+> +#define max31827__bf_shf(x)			 \
+> +	({					 \
+> +		typeof(x) x_ = (x);		 \
+> +		((x_) != 0) ? __ffs64(x_) : 0x0; \
+> +	})
+>   
+>   #define MAX31827_T_REG	0x0
+>   #define MAX31827_CONFIGURATION_REG	0x2
+> @@ -22,22 +34,120 @@
+>   
+>   #define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
+>   #define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
+> +#define MAX31827_CONFIGURATION_TIMEOUT_MASK	BIT(5)
+> +#define MAX31827_CONFIGURATION_RESOLUTION_MASK	GENMASK(7, 6)
+> +#define MAX31827_CONFIGURATION_ALRM_POL_MASK	BIT(8)
+> +#define MAX31827_CONFIGURATION_COMP_INT_MASK	BIT(9)
+> +#define MAX31827_CONFIGURATION_FLT_Q_MASK	GENMASK(11, 10)
+>   #define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK BIT(14)
+>   #define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK BIT(15)
+>   
+> -#define MAX31827_12_BIT_CNV_TIME	141
+> -
+> -#define MAX31827_CNV_1_DIV_64_HZ	0x1
+> -#define MAX31827_CNV_1_DIV_32_HZ	0x2
+> -#define MAX31827_CNV_1_DIV_16_HZ	0x3
+> -#define MAX31827_CNV_1_DIV_4_HZ		0x4
+> -#define MAX31827_CNV_1_HZ	0x5
+> -#define MAX31827_CNV_4_HZ	0x6
+> -#define MAX31827_CNV_8_HZ	0x7
+> +#define MAX31827_8_BIT_CNV_TIME		9
+> +#define MAX31827_9_BIT_CNV_TIME		18
+> +#define MAX31827_10_BIT_CNV_TIME	35
+> +#define MAX31827_12_BIT_CNV_TIME	140
+>   
+>   #define MAX31827_16_BIT_TO_M_DGR(x)	(sign_extend32(x, 15) * 1000 / 16)
+>   #define MAX31827_M_DGR_TO_16_BIT(x)	(((x) << 4) / 1000)
+>   #define MAX31827_DEVICE_ENABLE(x)	((x) ? 0xA : 0x0)
+> +#define MAX31827_FLT_Q
+> +
+> +enum max31827_cnv {
+> +	MAX31827_CNV_1_DIV_64_HZ = 1,
+> +	MAX31827_CNV_1_DIV_32_HZ,
+> +	MAX31827_CNV_1_DIV_16_HZ,
+> +	MAX31827_CNV_1_DIV_4_HZ,
+> +	MAX31827_CNV_1_HZ,
+> +	MAX31827_CNV_4_HZ,
+> +	MAX31827_CNV_8_HZ,
+> +};
+> +
+> +static const u16 max31827_conversions[] = {
+> +	[MAX31827_CNV_1_DIV_64_HZ] = 64000,
+> +	[MAX31827_CNV_1_DIV_32_HZ] = 32000,
+> +	[MAX31827_CNV_1_DIV_16_HZ] = 16000,
+> +	[MAX31827_CNV_1_DIV_4_HZ] = 4000,
+> +	[MAX31827_CNV_1_HZ] = 1000,
+> +	[MAX31827_CNV_4_HZ] = 250,
+> +	[MAX31827_CNV_8_HZ] = 125,
+> +};
+> +
+> +enum max31827_resolution {
+> +	MAX31827_RES_8_BIT = 0,
+> +	MAX31827_RES_9_BIT,
+> +	MAX31827_RES_10_BIT,
+> +	MAX31827_RES_12_BIT,
+> +};
+> +
+> +static const u16 max31827_resolutions[] = {
+> +	[MAX31827_RES_8_BIT] = 8,
+> +	[MAX31827_RES_9_BIT] = 9,
+> +	[MAX31827_RES_10_BIT] = 10,
+> +	[MAX31827_RES_12_BIT] = 12,
+> +};
+> +
+> +enum cfg_index {
+> +	cfg_timeout_idx = 0,
+> +	cfg_res_idx,
+> +	cfg_num
+> +};
+> +
+> +static const unsigned int cfg_masks[cfg_num] = {
+> +	[cfg_timeout_idx] = MAX31827_CONFIGURATION_TIMEOUT_MASK,
+> +	[cfg_res_idx] = MAX31827_CONFIGURATION_RESOLUTION_MASK,
+> +};
+> +
+> +enum max31827_cnv {
+> +	MAX31827_CNV_1_DIV_64_HZ = 1,
+> +	MAX31827_CNV_1_DIV_32_HZ,
+> +	MAX31827_CNV_1_DIV_16_HZ,
+> +	MAX31827_CNV_1_DIV_4_HZ,
+> +	MAX31827_CNV_1_HZ,
+> +	MAX31827_CNV_4_HZ,
+> +	MAX31827_CNV_8_HZ,
+> +};
+> +
+> +static const u16 max31827_conversions[] = {
+> +	[MAX31827_CNV_1_DIV_64_HZ] = 64000,
+> +	[MAX31827_CNV_1_DIV_32_HZ] = 32000,
+> +	[MAX31827_CNV_1_DIV_16_HZ] = 16000,
+> +	[MAX31827_CNV_1_DIV_4_HZ] = 4000,
+> +	[MAX31827_CNV_1_HZ] = 1000,
+> +	[MAX31827_CNV_4_HZ] = 250,
+> +	[MAX31827_CNV_8_HZ] = 125,
+> +};
+> +
+> +enum max31827_resolution {
+> +	MAX31827_RES_8_BIT = 0,
+> +	MAX31827_RES_9_BIT,
+> +	MAX31827_RES_10_BIT,
+> +	MAX31827_RES_12_BIT,
+> +};
+> +
+> +static const u16 max31827_resolutions[] = {
+> +	[MAX31827_RES_8_BIT] = 8,
+> +	[MAX31827_RES_9_BIT] = 9,
+> +	[MAX31827_RES_10_BIT] = 10,
+> +	[MAX31827_RES_12_BIT] = 12,
+> +};
+> +
+> +static const u16 max31827_conv_times[] = {
+> +	[MAX31827_RES_8_BIT] = MAX31827_8_BIT_CNV_TIME,
+> +	[MAX31827_RES_9_BIT] = MAX31827_9_BIT_CNV_TIME,
+> +	[MAX31827_RES_10_BIT] = MAX31827_10_BIT_CNV_TIME,
+> +	[MAX31827_RES_12_BIT] = MAX31827_12_BIT_CNV_TIME,
+> +};
+> +
+> +enum cfg_index {
+> +	cfg_timeout_idx = 0,
+> +	cfg_res_idx,
+> +	cfg_num
+> +};
+> +
+> +static const unsigned int cfg_masks[cfg_num] = {
+> +	[cfg_timeout_idx] = MAX31827_CONFIGURATION_TIMEOUT_MASK,
+> +	[cfg_res_idx] = MAX31827_CONFIGURATION_RESOLUTION_MASK,
+> +};
+>   
+>   struct max31827_state {
+>   	/*
+> @@ -46,6 +156,7 @@ struct max31827_state {
+>   	struct mutex lock;
+>   	struct regmap *regmap;
+>   	bool enable;
+> +	unsigned int resolution;
+>   };
+>   
+>   static const struct regmap_config max31827_regmap = {
+> @@ -166,8 +277,7 @@ static int max31827_read(struct device *dev, enum hwmon_sensor_types type,
+>   					mutex_unlock(&st->lock);
+>   					return ret;
+>   				}
+> -
+> -				msleep(MAX31827_12_BIT_CNV_TIME);
+> +				msleep(max31827_conv_times[st->resolution]);
+>   			}
+>   			ret = regmap_read(st->regmap, MAX31827_T_REG, &uval);
+>   
+> @@ -243,32 +353,7 @@ static int max31827_read(struct device *dev, enum hwmon_sensor_types type,
+>   
+>   			uval = FIELD_GET(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+>   					 uval);
+> -			switch (uval) {
+> -			case MAX31827_CNV_1_DIV_64_HZ:
+> -				*val = 64000;
+> -				break;
+> -			case MAX31827_CNV_1_DIV_32_HZ:
+> -				*val = 32000;
+> -				break;
+> -			case MAX31827_CNV_1_DIV_16_HZ:
+> -				*val = 16000;
+> -				break;
+> -			case MAX31827_CNV_1_DIV_4_HZ:
+> -				*val = 4000;
+> -				break;
+> -			case MAX31827_CNV_1_HZ:
+> -				*val = 1000;
+> -				break;
+> -			case MAX31827_CNV_4_HZ:
+> -				*val = 250;
+> -				break;
+> -			case MAX31827_CNV_8_HZ:
+> -				*val = 125;
+> -				break;
+> -			default:
+> -				*val = 0;
+> -				break;
+> -			}
+> +			*val = max31827_conversions[uval];
+>   		}
+>   		break;
+>   
+> @@ -284,6 +369,7 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
+>   			  u32 attr, int channel, long val)
+>   {
+>   	struct max31827_state *st = dev_get_drvdata(dev);
+> +	int res = 1;
+>   	int ret;
+>   
+>   	switch (type) {
+> @@ -333,39 +419,27 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
+>   			if (!st->enable)
+>   				return -EOPNOTSUPP;
+>   
+> -			switch (val) {
+> -			case 125:
+> -				val = MAX31827_CNV_8_HZ;
+> -				break;
+> -			case 250:
+> -				val = MAX31827_CNV_4_HZ;
+> -				break;
+> -			case 1000:
+> -				val = MAX31827_CNV_1_HZ;
+> -				break;
+> -			case 4000:
+> -				val = MAX31827_CNV_1_DIV_4_HZ;
+> -				break;
+> -			case 16000:
+> -				val = MAX31827_CNV_1_DIV_16_HZ;
+> -				break;
+> -			case 32000:
+> -				val = MAX31827_CNV_1_DIV_32_HZ;
+> -				break;
+> -			case 64000:
+> -				val = MAX31827_CNV_1_DIV_64_HZ;
+> -				break;
+> -			default:
+> +			/*
+> +			 * Convert the desired conversion rate into register
+> +			 * bits. res is already initialized with 1.
+> +			 *
+> +			 * This was inspired by lm73 driver.
+> +			 */
+> +			while (res < ARRAY_SIZE(max31827_conversions) &&
+> +			       val < max31827_conversions[res])
+> +				res++;
+> +
+> +			if (res == ARRAY_SIZE(max31827_conversions) ||
+> +			    val != max31827_conversions[res])
+>   				return -EOPNOTSUPP;
+> -			}
+>   
+> -			val = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> -					 val);
+> +			res = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> +					 res);
+>   
+>   			return regmap_update_bits(st->regmap,
+>   						  MAX31827_CONFIGURATION_REG,
+>   						  MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> -						  val);
+> +						  res);
+>   		}
+>   		break;
+>   
+> @@ -376,14 +450,121 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
+>   	return -EOPNOTSUPP;
+>   }
+>   
+> -static int max31827_init_client(struct max31827_state *st)
+> +static ssize_t cfg_show(struct device *dev, struct device_attribute *devattr,
+> +			char *buf)
+>   {
+> +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+> +	struct max31827_state *st = dev_get_drvdata(dev);
+> +	const unsigned int mask = cfg_masks[attr->index];
+> +	unsigned int val, res;
+> +	int ret;
+> +
+> +	ret = regmap_read(st->regmap, MAX31827_CONFIGURATION_REG, &val);
+> +	/*
+> +	 * FIELD_GET did not work because mask is not a compile time constant.
+> +	 * There is no bitfield check now.
+> +	 */
+> +	val = (val & mask) >> max31827__bf_shf(mask);
+> +
+> +	if (attr->index == cfg_res_idx)
+> +		res = max31827_resolutions[val];
+> +	else
+> +		res = !val;
+> +
+> +	return scnprintf(buf, PAGE_SIZE, "%u\n", res);
+> +}
+> +
+> +static ssize_t cfg_store(struct device *dev, struct device_attribute *devattr,
+> +			 const char *buf, size_t count)
+> +{
+> +	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
+> +	struct max31827_state *st = dev_get_drvdata(dev);
+> +	const unsigned int mask = cfg_masks[attr->index];
+> +	unsigned int res = 0;
+> +	unsigned int val;
+> +	int ret;
+> +
+> +	ret = kstrtouint(buf, 10, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (attr->index == cfg_res_idx) {
+> +		/*
+> +		 * Convert the desired conversion rate into register
+> +		 * bits. res is already initialized with 1.
+> +		 *
+> +		 * This was inspired by lm73 driver.
+> +		 */
+> +		while (res < ARRAY_SIZE(max31827_resolutions) &&
+> +		       val > max31827_resolutions[res])
+> +			res++;
+> +
+> +		if (res == ARRAY_SIZE(max31827_resolutions) ||
+> +		    val != max31827_resolutions[res])
+> +			return -EOPNOTSUPP;
+> +
+> +		st->resolution = res;
+> +	} else {
+> +		res = !val;
+> +	}
+> +
+> +	/*
+> +	 * FIELD_PREP did not work because mask is not a compile time constant.
+> +	 * There is no bitfield check now.
+> +	 */
+> +	res = (res << max31827__bf_shf(mask)) & mask;
+> +	ret = regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
+> +				 cfg_masks[attr->index], res);
+> +
+> +	return (ret) ? ret : count;
+> +}
+> +
+> +static SENSOR_DEVICE_ATTR_RW(cfg_resolution, cfg, cfg_res_idx);
+> +static SENSOR_DEVICE_ATTR_RW(cfg_timeout, cfg, cfg_timeout_idx);
+> +
+> +static struct attribute *max31827_attrs[] = {
+> +	&sensor_dev_attr_cfg_resolution.dev_attr.attr,
+> +	&sensor_dev_attr_cfg_timeout.dev_attr.attr,
 
---=20
-An old man doll... just what I always wanted! - Clara
 
---ypI1W5o4Aub9n7jF
-Content-Type: application/pgp-signature; name="signature.asc"
+Those attributes are not acceptable. First of all, the cfg_ prefix is useless.
+The timeout is system related and should be a devicetree property.
+The resolution maps into the number of conversions per second,
+and therefore the standard update_interval property can be used.
 
------BEGIN PGP SIGNATURE-----
+Guenter
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZP7VOQAKCRD2uYlJVVFO
-o7CQAP9vjj875+yfOt9mTMP/2aP+Bk2gV8aoKpSZbVrr0OHt+wEAsUPrYs7dB28e
-9vo5VB+FpC5Y8n97acr+wNXUrD6klAk=
-=WCfb
------END PGP SIGNATURE-----
+> +	NULL
+> +};
+> +ATTRIBUTE_GROUPS(max31827);
+> +
+> +static int max31827_init_client(struct max31827_state *st,
+> +				struct fwnode_handle *fwnode)
+> +{
+> +	bool comp_int, alrm_pol;
+> +	u32 flt_q, lsb_idx;
+> +	unsigned int res = 0;
+> +	int ret;
+> +
+>   	st->enable = true;
+> +	res |= MAX31827_DEVICE_ENABLE(1);
+> +
+> +	st->resolution = MAX31827_RES_12_BIT;
+> +	res |= MAX31827_CONFIGURATION_RESOLUTION_MASK;
+>   
+> -	return regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
+> -				  MAX31827_CONFIGURATION_1SHOT_MASK |
+> -					  MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> -				  MAX31827_DEVICE_ENABLE(1));
+> +	comp_int = fwnode_property_read_bool(fwnode, "adi,comp-int");
+> +	res |= FIELD_PREP(MAX31827_CONFIGURATION_COMP_INT_MASK, comp_int);
+> +
+> +	alrm_pol = fwnode_property_read_bool(fwnode, "adi,alrm-pol");
+> +	res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK, alrm_pol);
+> +
+> +	ret = fwnode_property_read_u32(fwnode, "adi,flt-q", &flt_q);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * Convert the desired fault queue into register bits.
+> +	 */
+> +	lsb_idx = max31827__bf_shf(flt_q);
+> +	if (lsb_idx > 3 || flt_q != BIT(lsb_idx)) {
+> +		pr_err("max31827: Invalid data in fault queue\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK, lsb_idx);
+> +
+> +	return regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, res);
+>   }
+>   
+>   static const struct hwmon_channel_info *max31827_info[] = {
+> @@ -411,6 +592,7 @@ static int max31827_probe(struct i2c_client *client)
+>   	struct device *dev = &client->dev;
+>   	struct device *hwmon_dev;
+>   	struct max31827_state *st;
+> +	struct fwnode_handle *fwnode;
+>   	int err;
+>   
+>   	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_WORD_DATA))
+> @@ -427,13 +609,15 @@ static int max31827_probe(struct i2c_client *client)
+>   		return dev_err_probe(dev, PTR_ERR(st->regmap),
+>   				     "Failed to allocate regmap.\n");
+>   
+> -	err = max31827_init_client(st);
+> +	fwnode = dev_fwnode(dev);
+> +
+> +	err = max31827_init_client(st, fwnode);
+>   	if (err)
+>   		return err;
+>   
+>   	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, st,
+>   							 &max31827_chip_info,
+> -							 NULL);
+> +							 max31827_groups);
+>   
+>   	return PTR_ERR_OR_ZERO(hwmon_dev);
+>   }
 
---ypI1W5o4Aub9n7jF--
