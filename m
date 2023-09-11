@@ -2,203 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38107CA0ECB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD921CA0EC1
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344091AbjIKVNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:13:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54702 "EHLO
+        id S1344099AbjIKVNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236673AbjIKLNK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 07:13:10 -0400
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EFC7CE5
-        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:13:04 -0700 (PDT)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230911111301epoutp0111bcdecacc00daa39431b1a7de171f98~D09GEVUFB1067810678epoutp01P
-        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 11:13:01 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230911111301epoutp0111bcdecacc00daa39431b1a7de171f98~D09GEVUFB1067810678epoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1694430781;
-        bh=D7RBEh7nV1S0rVx+M93psp96QfuSer88Ud6SLkBPMCo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Hr1HvrOvgGOoSyxx2n6bY9NNgKcTqT3jTJuPsHMM4JFyH0gRqfU1+3e9Un4TBXf9Q
-         tx01JwLS9nzkdA3SO1fIEGr+Bv3QG9F4Syu6QH01ZKOhI9OIzaKEPcyzwY3EnisVnv
-         zfJtozvAcB1OiHYHhDMKJiCdCd+OWzJ1ABDFbSZU=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-        20230911111301epcas5p1051fd04e6eaa20056ab0a6d1098f1299~D09FfFYzh0749607496epcas5p1m;
-        Mon, 11 Sep 2023 11:13:01 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 4RkkbG2NSNz4x9Px; Mon, 11 Sep
-        2023 11:12:58 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        A5.5E.09635.A36FEF46; Mon, 11 Sep 2023 20:12:58 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-        20230911102615epcas5p15b9cfa2c6817ea714cc133bf4ef010c1~D0URCYF2b2326023260epcas5p1K;
-        Mon, 11 Sep 2023 10:26:15 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20230911102615epsmtrp1ac75e977eb94c081885a477796d7e0d6~D0URBTKhF2477824778epsmtrp1S;
-        Mon, 11 Sep 2023 10:26:15 +0000 (GMT)
-X-AuditID: b6c32a4b-563fd700000025a3-77-64fef63a36bd
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        19.BB.08649.74BEEF46; Mon, 11 Sep 2023 19:26:15 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20230911102612epsmtip23a32d0526f1beeef4865e18f2fd80bbf~D0UOL6Nzl0239702397epsmtip2Z;
-        Mon, 11 Sep 2023 10:26:12 +0000 (GMT)
-Date:   Mon, 11 Sep 2023 15:50:10 +0530
-From:   Nitesh Shetty <nj.shetty@samsung.com>
-To:     Hannes Reinecke <hare@suse.de>
-Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        martin.petersen@oracle.com, mcgrof@kernel.org,
-        gost.dev@samsung.com, Vincent Fu <vincent.fu@samsung.com>,
-        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v15 04/12] block: add emulation for copy
-Message-ID: <20230911102010.nr5tvrcc754vo73r@green245>
+        with ESMTP id S237312AbjIKMch (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 08:32:37 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A67D1B9;
+        Mon, 11 Sep 2023 05:32:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ARBd5cpM8HN4OHAb4nFFpuoCWiLLM1DUO9QlaGVBNeK00Z7OZaG99LleyXdoa9jk4J3uyWP6j1KXX5JuqkBWZrvWJkDAYu695vz4Q7IP3f3CWCXcs+8JwE3fccRoAbI5PkcKv2/mU+eWnS+6HKOuWWWd0PT5JtrMK3aT4Q+vfMaJnrxdNppup7cJWO7Y0VfhbGW18hn6uM6oEnrMau+XxV7a+3pQH3f1WTqMZEPBubczeKNe6mbYu7drI7gUjKdh3ogcnWtOjS8r/RTqAdOr2wNfZ6zNXZsHeUv/Nqfbn+q9b1uMwehIQp8RJwFUNjePuXl9qokIB/CBYh7YbcgvNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0IqaO0oI05QFVkd12zKfaf+VAzNIBB6KQ/s1ycUrvtY=;
+ b=MPuG4686ahSQo0A8h927gBCiZutUYuj3+1W1v+67UNDu6pUZ+nI4O6T6Y6xMtOKg+qc9b6JrnZ9O6mAkqA48nxRGOIfjhIygKDnFUtyYkmapC+XvsDep9a2cWMsxGqLmBuXuAMJJq7rz7sKLvlRchBwv0Zuvt0ZIycQ8tBPSaz276GNa9zLvUuoIN0tP7ywrNU1XydSsW7tyxJRZtKU74aNejMbuVJqoKZxIIGdgQKdqEHzlpySTJjP0sMiijXdqkQKriQU0CmUxcQqPOyptLBCK0VF8M1hEHFkITQ5k9aHO4X8vFTZ9kQply1HzSvQfjzmzG8mwNN1V1bPwyjxhDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0IqaO0oI05QFVkd12zKfaf+VAzNIBB6KQ/s1ycUrvtY=;
+ b=F886aNKjfQeTRvYjtGCEhdDamMd3RHnOx7Sep/oz38yloW7mSZeIBVsiyHjuQAk481KGXsL0mH0YRcTO0guCaIQ6Oegv5pLCe2egTnrPteWl8mXKyXUKidsRXx8HN/xdEdsKMxI4w8boHAitAzTizhu3Gwp6/xqXwcgoKCP3Y78=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6214.namprd12.prod.outlook.com (2603:10b6:8:96::13) by
+ PH7PR12MB9067.namprd12.prod.outlook.com (2603:10b6:510:1f5::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.30; Mon, 11 Sep 2023 12:32:28 +0000
+Received: from DS7PR12MB6214.namprd12.prod.outlook.com
+ ([fe80::6f26:6cea:cd82:df23]) by DS7PR12MB6214.namprd12.prod.outlook.com
+ ([fe80::6f26:6cea:cd82:df23%3]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
+ 12:32:28 +0000
+Message-ID: <f98687e0-1fee-8208-261f-d93152871f00@amd.com>
+Date:   Mon, 11 Sep 2023 18:02:13 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 00/13] Implement support for IBS virtualization
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     kvm@vger.kernel.org, seanjc@google.com, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, x86@kernel.org,
+        pbonzini@redhat.com, bp@alien8.de, santosh.shukla@amd.com,
+        ravi.bangoria@amd.com, thomas.lendacky@amd.com, nikunj@amd.com
+References: <20230904095347.14994-1-manali.shukla@amd.com>
+ <20230905154744.GB28379@noisy.programming.kicks-ass.net>
+ <012c9897-51d7-87d3-e0e5-3856fa9644e5@amd.com>
+ <20230906195619.GD28278@noisy.programming.kicks-ass.net>
+ <188f7a79-ad47-eddd-a185-174e0970ad22@amd.com>
+ <20230908133114.GK19320@noisy.programming.kicks-ass.net>
+From:   Manali Shukla <manali.shukla@amd.com>
+In-Reply-To: <20230908133114.GK19320@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0230.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:eb::15) To DS7PR12MB6214.namprd12.prod.outlook.com
+ (2603:10b6:8:96::13)
 MIME-Version: 1.0
-In-Reply-To: <ec35111d-ba31-497b-ab01-b198d3feb814@suse.de>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH/d0+wXW7Kw9/4IsUTQQCtrOUC8Jgg7lrZAmZwyjGQEdvgFDa
-        pg+dM0bkoaPKYzw2qALiOhAQ2IBVBAqsyEAc4OSlbAWEwhCkPAyMhQCjtCz+9/mdc77n/M45
-        OXQSU0lzpMeI5IRUxBeyqNZkTauLq7vP8rqAPfaAgVV1/kbCEjLWSFi5Pp2KzbQuAszQch1g
-        WuMtCvai5SGCNd7NRLDS8jYEy9QNAGyiX4Vg2iE3rOiamow1ah+Tsd7621SssHiChpW0ryPY
-        84wJgFXOzJGxjqHd2PiNbwDWs9ZOCbDHe4Z/JuO9XQq8uiyFiteor+ANL+Kp+A9pWRQ8NdFI
-        xRcmhsj4XFM/FU+rLQN4zZNL+JvqfXi1YRYJYYTF+kYTfAEhdSJEkWJBjCjKj3XiZHhguCeP
-        zXHneGNeLCcRP47wYwUFh7gfixFuNs1yOs8XKjZNIXyZjHX4Q1+pWCEnnKLFMrkfi5AIhBKu
-        xEPGj5MpRFEeIkLuw2GzP/DcDIyIjU4x6igSvcNXN26uIPEg304JrOgQ5cLK1A6aEljTmWgD
-        gOuJBprJwUQXAdQ++8TsWAbwnvo+sq3ofWCwKLQA3s7rpJgfkwBmDWeTTFFk9CD89VUTVQno
-        dCrqBp9s0E1mW5QFF67rtsQktIwC9YnDW+VsUF84O/k71cQMlAcrCo00M78PH+cZyCa2Qo/C
-        7tHSrfx26B6Y++MSyZQIooVWsCiti2z+XhD8fkFDM7MNnG6vtbAjfJV+zcIXYGn2PapZnASg
-        alAFzA5/mNyZvlWBhEbD4poaS897YU5nJWK2vwtTVw0WOwPWFWyzM7xfdYdqZgc48M9VC+Ow
-        wfCcYh5qGwJH1OcywH7VW82p3ipnZh+YMp9AUW0Oj4TuhiXrdDO6wKr6w3cApQw4EBJZXBQh
-        85QcEREX/t94pDiuGmwdheuJOjA2Ou+hAwgd6ACkk1i2DLluTcBkCPgXvyak4nCpQkjIdMBz
-        c1nfkhztIsWbVyWSh3O43mwuj8fjeh/hcVi7GDPJ+QImGsWXE7EEISGk2zqEbuUYjwwWT+b+
-        cSC3Y7zEmFshc/S4/Lr19Ud1tO8Cgn3K9Tncff6hvjlBAQbntG7bi18++iJ/5/HmkTfkwLaG
-        7hj+ed2ZlQI39vC/1jdFYR0vL2Vx9ElTeZr3eh4F9IVNpe44cDauKHCwaWopLGQloKT+jN54
-        2mu699jTq6fO/XJllz3tlvOfjcxngcLPDk2HRkTYz/Ysbpz+u+qpIF7x+R6bow8DU3dq/IaW
-        Cro0cyFeWrayghh6+Wnt1PFTA/F9exPU6/VdPzFPEmCi+S9S16hm5Oz8x+9sHAqSNve1JK72
-        Z4+P4ZJM5V3gH5wtXVVoXcZ6gpJdQpOW1Y2zB3VY2v7LeuOOxalVFlkWzee4kqQy/n9j1eHb
-        nQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02RWUwTURSGc2emMwNaHQrqRQjGJiYIYWk0eFXcTRzUuMQ1YtRqR7a2YFtc
-        MEFQAUUttRhUaqkiQoAoWogLCEIRKy7FpAGVCIJ2RNMA7jtFCxp9+3O+7z/n4dC46AExno5T
-        ajiVUioXk57E1UbxhJBFTpcs3Jgehiru3cHRft0Ajso7ckjkbHwPkKM+C6DaPoMAPa2/gaGb
-        hXoMlZY3YUhvaQOIb83HUG17MDqXWUSgm7XNBLJXnyGRqZinUInVhaEnOh6gS85+At1t90Mv
-        jxwCqGXAKpg7lm3pvEKw9ofJrLnsMMlWFu1ja56mkex5ba6APXagj2Tf8e0E21/XSrLaqjLA
-        Vt7fy34wB7BmRy+2QrjBM1LGyeN2cqqw2Vs8Y7tKq6iknHG7c8oq8DTwRpQNPGjITIX2aw4q
-        G3jSIqYGwOqOEmoY+MLigdv4cPaGpa6eP5IDwIK8XOAGBDMJNrypI7MBTZNMMLw/SLvHPowY
-        vsuyDPk4c0kAB3UNAjfwZiJh76sHpDsLmQh40dT3Z2kTBi+nv8aHgRdsPu0g3Bn/LRVUduPu
-        AzjjB0tcQwc8mJnQ1lU6pI9h/OGpC59wHfDK/6+d/187/1/7LMDLgC+XpFbEKLZJkiRKbleo
-        WqpQJytjQrclKsxg6OFBgddBp8kVagEYDSwA0rjYR6ixDMhEQpl0TwqnStysSpZzagvwownx
-        OKHklEEmYmKkGi6B45I41V+K0R7j07DZ4mXPLcXA6JwyNZvpXzJrYnzeW76tudtnZE/ll31d
-        ZzdvzZqZ0bIycAfenUC9aPpco92wsbDx1iyZ0tU32phLRa2ztr36HhE5bY7Nf7XBltoSd9yx
-        MGKj/E5diHLPAfOVvJEd33jKNFlf85g3hhNjlmodH+dNX5wh6rY160TRxAg9pLzTVzun26ob
-        okZ5b59XfzzXEJ6RGr0s6PkZZ0ja3rknq/iU2MHEBWGJ2hMhXvMlHWvsnRojxUuL/DJPhOuj
-        U7Fycm1/j6+C+pnydZc99Pwmg391b7JTvmq9ZvnBwosBwZ1g4dcf8QFNj6gKynoatQpMFsMz
-        s/WTfkbDUTGhjpVKgnCVWvoLo9a+hF8DAAA=
-X-CMS-MailID: 20230911102615epcas5p15b9cfa2c6817ea714cc133bf4ef010c1
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-        boundary="----ooWIhDQPe4iZ41CGDouWrWpJ8fGFR_EcoxWGaJuqOMoSQ.xs=_4ba1b_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230906164321epcas5p4dad5b1c64fcf85e2c4f9fc7ddb855ea7
-References: <20230906163844.18754-1-nj.shetty@samsung.com>
-        <CGME20230906164321epcas5p4dad5b1c64fcf85e2c4f9fc7ddb855ea7@epcas5p4.samsung.com>
-        <20230906163844.18754-5-nj.shetty@samsung.com>
-        <e6fc7e65-ad31-4ca2-8b1b-4d97ba32926e@suse.de>
-        <20230911070937.GB28177@green245>
-        <ec35111d-ba31-497b-ab01-b198d3feb814@suse.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6214:EE_|PH7PR12MB9067:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80262a78-36d3-4f54-ba9b-08dbb2c3290e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GNs/fXMyq7JDra8bTEdwYovkdcC3PE5KdP/mdBzQltp5cBq9+2WFY5+9YqOmw8WBcX8CluTjuaHCmp4EjzbQg9O3LBJs1snBxV8G7Gdw68JEKeueBTumAQ/7MamSdhmpQ74RWuBxWL8oINg9hHkIBv7Rncj3c/4nYvJyfqkoaNCFALohquYDckti+TS5ka7jyiyAtLDnR/6TbCohDYMzspwJ70FIpBVmrM984rqtfdpNeC7QmS9s/GiSVj3JEREp0FQjPe3kjakgl6Jk4vMVVKDFToVVZ1MABlnfCHNe25MlF+33TLUmfslDIwXvycRvq/NF7LayhhM1uMDCdxaLI0GbH2WiG7b5xQCaUhGbmMb42QyAJfaPXD6QBKcRKZQVEsMvp4pSC52VdR1qOBvYUeZ7KVQowD/Vz8VA9bwRKTrGxilwEgdq6nj+L73CVqcqIn5O06AG4aD56GgtE8KZjnnd5C5TgatOR+V8vHsNeDLSoAkZ1ubjDa7J54ZETDowbUjo//F17oByjsh9n2fB1HbBEi5lWED+l7bHCJOzLWyWfUM9WYf3lOPeabyfEjHQA5QNMm6FlDPft3te8UUkxySXzqgkAQfmVFJTMPQXXGiPe9ZTaHXIImmKEo4DOXUL2iEUf4MXBFJqfHzNJ35v8Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6214.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(136003)(366004)(346002)(39860400002)(451199024)(186009)(1800799009)(31686004)(53546011)(6666004)(6486002)(6506007)(36756003)(86362001)(38100700002)(26005)(6512007)(31696002)(2616005)(41300700001)(2906002)(83380400001)(478600001)(8936002)(4326008)(5660300002)(316002)(6916009)(8676002)(66556008)(44832011)(66476007)(66946007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bU5va3RkYXhsbkZMeFE3ZDJUR0dIVXNwNk94RXU3R2JhS0ZCT3pxUWVPUDlm?=
+ =?utf-8?B?NVA5T0hrdVV2SGFNT21BQ2JYdk5jbkRoSlNUU1Y3QVBJMWM3M1Y1ZlN4OEN0?=
+ =?utf-8?B?ajQybU9Sdm5FM1hsSEJYY25wb21zM0djNlMwTlA3dDU1bGVjUW1iazhmWFJ4?=
+ =?utf-8?B?am43cWJTaWQvWHpBNUpPdGt3dERmcnE4Q09TS2h3ZDVLNDJtQVE4SmlCUnNL?=
+ =?utf-8?B?VUdUK1o3dVZLTTF0cHIyMEtJMjJHMEt4bHk2N0N5QjdWYlVnTmtDbDNEeXYv?=
+ =?utf-8?B?RDRuYXJzcXNUbTIyUnlUVnVRbU9lbHZlbTlPdmNteDRIQXhKbituNjl5Yy85?=
+ =?utf-8?B?WnlvZDl4OGFCdStlUWVidU53V1d3dFdMYTRxdldENzJDN1d2eGZ6OTBJTk1W?=
+ =?utf-8?B?aGtVVHBvTHZiVUJ5TkpVNzdsOTI2L3oyTmxuUndralIxRjNpSjZLRUMyMGk2?=
+ =?utf-8?B?cjFQS1BZU1Y5QU1HUHZoV250ZHlGbHoxTlE0V3hJZmNwc0Z5UHJHL0VVeEpz?=
+ =?utf-8?B?dlZwOGlqOWgyYkJnZFNha3JuaVZIY3pvZzV3M2YwMlFtaHpidlNnRExjSlFC?=
+ =?utf-8?B?RlhQc3h6MmZiV3hobjFaZ3Q2dGRvNzRrVkVRdUNMOU9tSU5JZFdJdURIT0pG?=
+ =?utf-8?B?UUh1eFBtTXl4WGtsTXg0V1ZiL3VlYTBNM0FGTXFIelZtYjFyRW9IN1RCaUth?=
+ =?utf-8?B?UkVTQVBiVkViTnZiaTQxNmlVZTNlQ0x1aGp3aEhleE5BLzBITFZnVy9rdElt?=
+ =?utf-8?B?YkcvZ2l2aytzaGlrcmkxYVlYaFpDa3A3dG5HOEJvamY3cjZUTzZsUDNOT0RL?=
+ =?utf-8?B?a3p1RkY0K2ErK000N1hwMXl6SGp0Rys2T2ZIajdZd2pTajFoRjhyQm9kVnBv?=
+ =?utf-8?B?NEpXanAyWmR1djgzMUtHenJVS1VNM3N3NnFDTE0zbmsydlZxZy9KeWVVUWcr?=
+ =?utf-8?B?V0RNMkRnQkFNYnVFKzhqSEludzVyS1lQaXV4eUw2Qm1BdUxoMTZPRURKVXRM?=
+ =?utf-8?B?RkR4TnM4ZWpHbGhXY2pNdXphQnFvZjJkdVphd0JYOUNaeWxrK0tNcjJ6SWFi?=
+ =?utf-8?B?dkJTTmZqYXVRbzByWWFxUVhrdk1BWk14Z0tTMHVrZFBKMHpCdjlMRjN4N1Iy?=
+ =?utf-8?B?V1hsUlMwL1AzenF5MXNLc3ZCbkgzZE1GV2QzSW1QeGhXWmkyeU1sczdFdHJa?=
+ =?utf-8?B?bTFGdExRR0RNazh0M3I2YWtRd3ZNSmZYSVcwMG1nTzJwWDkydG1oRTlrNU95?=
+ =?utf-8?B?dlpnL09ISWsxcTNZam5lL2hheUhhZmtpZHRkSEhCM3c2QlJ4ZE5weWVPbGZI?=
+ =?utf-8?B?bUoxWTU1QzhOTjl2Q3N1a2VhV2ZmVWw5SUVFelhvU1hJQmRINlFDdG9tNXQz?=
+ =?utf-8?B?S0huc044elRUd0pEa2RPMTdpcE9FZndsdk9lMXJpa3N6ZDcrY2d1UzZERzRS?=
+ =?utf-8?B?Z0ZmaW9YS1dxYmRqNUc1OTB3UTlpVFFyZ3RDbklxREZIZGJ6REhkQzNWRkZv?=
+ =?utf-8?B?VEpyWmpLTVF2cVhoaUxWVXJub0kyeWJVajdiV0R5akhCNUNIZ3ZsT3RxL01J?=
+ =?utf-8?B?OFN3VlY3b0hzbnBadUVDNjNja1A3M29uYnRidkJzcjJYaVJFZC9pdGtic3U2?=
+ =?utf-8?B?dzRPWUV3TmJRRUo5YVdzWWF3YzRjS09PeXJDb2svRW0zNG55QkFoUG5YNjdl?=
+ =?utf-8?B?Yng0dGhQYXNpRkNiY2poTnRFdEtMTTJLcTZyS3ZxZHk4OWFHNlBCVkJGa1FS?=
+ =?utf-8?B?a21ZNkdBMW5kWjZQVzlPWVE0bFZJU3I5bVdQdGVQR29hciszNlp5VzF0VkZk?=
+ =?utf-8?B?U2pDZW9saDZRNjJUb3NtMXBjODRGa3AzcnJhd2wvdHFnZXBZTGFYd0xzUytM?=
+ =?utf-8?B?T1ltTTFpRXVnQ3dtQm0zeXVyVVZUbU0vYThMdEg1MWFzVmhPNUhFbWJLOSs4?=
+ =?utf-8?B?bzFNMG1rS2s5NFJ0UUdxNUdUVkloajBQWkpHS1grVXk3bzNkcFlVWjNMTkNI?=
+ =?utf-8?B?QmNhZU9wUTZ5UFFudndXQXVlbzJpZXlFVU91aEtVc3d2T3Y3c3pZb20xNWsy?=
+ =?utf-8?B?bkJnTEZ0MGZHNXlTcWJIcFYwZGdRcEpHWkZsd21Pbk0zdWQ2SjkwV0NCY0to?=
+ =?utf-8?Q?5bzEyGGZyHr3tUDoiG4KEeFkf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80262a78-36d3-4f54-ba9b-08dbb2c3290e
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6214.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 12:32:28.5190
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DmCZ9+eOw/YtZOfEVzgqV2Z2IaXBdENFpzXQ2ZfprYsY8mt4HR8cyHTTqonrEX6Hy366IuAC5n6Djmnigebviw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9067
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-------ooWIhDQPe4iZ41CGDouWrWpJ8fGFR_EcoxWGaJuqOMoSQ.xs=_4ba1b_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-
-On 11/09/23 09:39AM, Hannes Reinecke wrote:
->On 9/11/23 09:09, Nitesh Shetty wrote:
->>On Fri, Sep 08, 2023 at 08:06:38AM +0200, Hannes Reinecke wrote:
->>>On 9/6/23 18:38, Nitesh Shetty wrote:
->>>>For the devices which does not support copy, copy emulation is added.
->>>>It is required for in-kernel users like fabrics, where file descriptor is
->>>>not available and hence they can't use copy_file_range.
->>>>Copy-emulation is implemented by reading from source into memory and
->>>>writing to the corresponding destination.
->>>>Also emulation can be used, if copy offload fails or partially completes.
->>>>At present in kernel user of emulation is NVMe fabrics.
->>>>
->>>Leave out the last sentence; I really would like to see it enabled for SCSI,
->>>too (we do have copy offload commands for SCSI ...).
+On 9/8/2023 7:01 PM, Peter Zijlstra wrote:
+> On Thu, Sep 07, 2023 at 09:19:51PM +0530, Manali Shukla wrote:
+> 
+>>> I'm not sure I'm fluent in virt speak (in fact, I'm sure I'm not). Is
+>>> the above saying that a host can never IBS profile a guest?
+>>
+>> Host can profile a guest with IBS if VIBS is disabled for the guest. This is
+>> the default behavior. Host can not profile guest if VIBS is enabled for guest.
+>>
 >>>
->>Sure, will do that
+>>> Does the current IBS thing assert perf_event_attr::exclude_guest is set?
 >>
->>>And it raises all the questions which have bogged us down right from the
->>>start: where is the point in calling copy offload if copy offload is not
->>>implemented or slower than copying it by hand?
->>>And how can the caller differentiate whether copy offload bring a benefit to
->>>him?
->>>
->>>IOW: wouldn't it be better to return -EOPNOTSUPP if copy offload is not
->>>available?
->>
->>Present approach treats copy as a background operation and the idea is to
->>maximize the chances of achieving copy by falling back to emulation.
->>Having said that, it should be possible to return -EOPNOTSUPP,
->>in case of offload IO failure or device not supporting offload.
->>We will update this in next version.
->>
->That is also what I meant with my comments to patch 09/12: I don't see 
->it as a benefit to _always_ fall back to a generic copy-offload 
->emulation. After all, that hardly brings any benefit.
+>> Unlike AMD core pmu, IBS doesn't have Host/Guest filtering capability, thus
+>> perf_event_open() fails if exclude_guest is set for an IBS event.
+> 
+> Then you must not allow VIBS if a host cpu-wide IBS counter exists.
+> 
+> Also, VIBS reads like it can be (ab)used as a filter.
 
-Agreed, we will correct this by returning error to user in case copy offload
-fails, instead of falling back to block layer emulation.
+I think I get your point: If host IBS with exclude_guest=0 doesn't capture
+guest samples because of VIBS, it is an unintended behavior.
 
-We do need block layer emulation for fabrics, where we call emulation
-if target doesn't support offload. In fabrics scenarios sending
-offload command from host and achieve copy using block layer
-emulation on target is better than sending read+write from host.
+But if a guest cannot use IBS because a host is using it, that is also
+unacceptable behavior.
 
->Where I do see a benefit is to tie in the generic copy-offload 
->_infrastructure_ to existing mechanisms (like dm-kcopyd).
->But if there is no copy-offload infrastructure available then we 
->really should return -EOPNOTSUPP as it really is not supported.
->
-Agreed, we will add this in next phase, once present series gets merged.
+Let me think over it and come back.
 
->In the end, copy offload is not a command which 'always works'.
->It's a command which _might_ deliver benefits (ie better performance) 
->if dedicated implementations are available and certain parameters are 
->met. If not then copy offload is not the best choice, and applications 
->will need to be made aware of that.
-
-Agreed. We will leave the choice to user, to use either block layer offload
-or emulation.
-
-
-Thank you,
-Nitesh Shetty
-
-------ooWIhDQPe4iZ41CGDouWrWpJ8fGFR_EcoxWGaJuqOMoSQ.xs=_4ba1b_
-Content-Type: text/plain; charset="utf-8"
-
-
-------ooWIhDQPe4iZ41CGDouWrWpJ8fGFR_EcoxWGaJuqOMoSQ.xs=_4ba1b_--
+- Manali
