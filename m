@@ -2,249 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A51CA0EC6
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C153CA0ECE
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343887AbjIKVMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:12:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
+        id S1343834AbjIKVMt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:12:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244121AbjIKTGT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 15:06:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D89D6DB
-        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 12:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694459132;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yukk2f6oqMsdHKjhoJE1WmcLNdeEJDKH4QDEs4EiGPg=;
-        b=eiqOF50i/lmwmJIDWEXUR+2ejww8QGoU6mDXkqsVftXY9YEi+wRsX3Znlfz3hjY16/RlbW
-        l1+R7feB51Xc/MZpcn1ymMpqBjcE9Wr/FN80AZFPs5SQbpKQqwzITEnxwxNRPnp10csGP5
-        Wps7NkBz3RqEJHnyTbWfI9RrPJWBDp8=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-589-ijrNaxG3ORulYMMu8t1o6w-1; Mon, 11 Sep 2023 15:05:30 -0400
-X-MC-Unique: ijrNaxG3ORulYMMu8t1o6w-1
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3a78c2cdd77so5316721b6e.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 12:05:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694459130; x=1695063930;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yukk2f6oqMsdHKjhoJE1WmcLNdeEJDKH4QDEs4EiGPg=;
-        b=jK/jodan4HNpQQlgWWE1ip84MCw15LfbCX2eUuuF6xEj23ChpqN6ZvCd3VZWPPUPwl
-         ZQJCVOU7iHkE01ZP3lzFE302n3/7Rsn43Va2vj7voSftBnTsiGaHU7HhT9qadmQ003Ia
-         8bcf0S/MH5Rw5Svbjxr0uIQl9O7HiFZk6GAlPE821y1zr2V4wum+j4sUTd17ShFQ4x/X
-         fv77NjymiaHmlEpbY9IM0/CdaFiITMY79Z0yBhfqBDtaD6MrcpNSx5sLrzknVicXBh6g
-         +2YAKuJ75D5qLDTCC/zT6ZpL3IqfD6Wl5eD90ixSF8c6BopAAz5yIzyfPxiWgK9Qn8UL
-         x9vQ==
-X-Gm-Message-State: AOJu0YwNDYZ1HCE6AVcUyd9iU2eqY+W7iciitUsveSjQdILrmji7QR2H
-        +F0Emi623eQHzKs5g1Cwm4E44hkuMGUr68LNTiculBkvNJWA+vWeoOS7nv7G3yVg5LGEP5cZxRJ
-        /tP2NyOLr4vkbG9uKWLjB
-X-Received: by 2002:a9d:4e90:0:b0:6c0:abdd:a875 with SMTP id v16-20020a9d4e90000000b006c0abdda875mr11713407otk.18.1694459129880;
-        Mon, 11 Sep 2023 12:05:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGStsqh389BzmE57cp5mD7HYmxQywTAlI0LrMmQ6OTXG7DZOO3hPQDzK0WcE6xAB/YEW7bphA==
-X-Received: by 2002:a9d:4e90:0:b0:6c0:abdd:a875 with SMTP id v16-20020a9d4e90000000b006c0abdda875mr11713377otk.18.1694459129611;
-        Mon, 11 Sep 2023 12:05:29 -0700 (PDT)
-Received: from ?IPv6:2804:1b3:a803:c91:da45:7fbc:86c3:920a? ([2804:1b3:a803:c91:da45:7fbc:86c3:920a])
-        by smtp.gmail.com with ESMTPSA id l17-20020a05683016d100b006b95392cf09sm3318989otr.33.2023.09.11.12.05.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 12:05:28 -0700 (PDT)
-Message-ID: <5c082cb1fd306cb75abbcaa80229d791260f8756.camel@redhat.com>
-Subject: Re: [PATCH V11 01/17] asm-generic: ticket-lock: Reuse
- arch_spinlock_t of qspinlock
-From:   Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-To:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn
-Cc:     linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Date:   Mon, 11 Sep 2023 16:05:20 -0300
-In-Reply-To: <20230910082911.3378782-2-guoren@kernel.org>
-References: <20230910082911.3378782-1-guoren@kernel.org>
-         <20230910082911.3378782-2-guoren@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+        with ESMTP id S236528AbjIKKz3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 06:55:29 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C1AF1;
+        Mon, 11 Sep 2023 03:55:25 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B8NSYd004164;
+        Mon, 11 Sep 2023 10:55:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=49o9zucSKuGQ1AiOje8qadCYI8PAiPmeE9VJvkYewfc=;
+ b=diCrvxhhkzSOrFnfwTOgd6nKzMkmwFG1QQTBt3tKxxxGFnHQRwuTEgiJhBn1faWxpjPF
+ p4UNpYQKUg4yCDuZAwCkC+xIRbCOn/C/PYjgEHRXl6USTjvtqBP3ZMFN2ubECA9g5JhK
+ ngviTPUtKeq7xmzbE5Ie3Etfr2jplXRDI5iEjDNHzKyITIEgyVnY79Ul7gyZISKoCfId
+ 7W4CMTHvD69MWk9kTq4OE9XGB/C7dI58G+nqB+gAC0BykspZ8SgwfViZawUt35wmulqs
+ nvYga555KR8UxvMqYAW2FqfNr/e0fiVdJ0tLgpprVSLREnAtcuZsm+NQC8hiGF6XjLRd 6Q== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1yac8bnt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:55:02 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BAt1uN032425
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:55:01 GMT
+Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Mon, 11 Sep 2023 03:54:36 -0700
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+To:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
+        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
+        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>,
+        <quic_mojha@quicinc.com>
+Subject: [REBASE PATCH v5 03/17] remoteproc: qcom_q6v5_pas: Use qcom_rproc_minidump()
+Date:   Mon, 11 Sep 2023 16:23:45 +0530
+Message-ID: <1694429639-21484-4-git-send-email-quic_mojha@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: wBFDccvzK8YbGiq6XWn6dnRXqce4h34I
+X-Proofpoint-GUID: wBFDccvzK8YbGiq6XWn6dnRXqce4h34I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 priorityscore=1501 bulkscore=0 suspectscore=0
+ clxscore=1015 adultscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309110099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 2023-09-10 at 04:28 -0400, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
->=20
-> The arch_spinlock_t of qspinlock has contained the atomic_t val, which
-> satisfies the ticket-lock requirement. Thus, unify the arch_spinlock_t
-> into qspinlock_types.h. This is the preparation for the next combo
-> spinlock.
->=20
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> ---
->  include/asm-generic/spinlock.h       | 14 +++++++-------
->  include/asm-generic/spinlock_types.h | 12 ++----------
->  2 files changed, 9 insertions(+), 17 deletions(-)
->=20
-> diff --git a/include/asm-generic/spinlock.h b/include/asm-generic/spinloc=
-k.h
-> index 90803a826ba0..4773334ee638 100644
-> --- a/include/asm-generic/spinlock.h
-> +++ b/include/asm-generic/spinlock.h
-> @@ -32,7 +32,7 @@
-> =20
->  static __always_inline void arch_spin_lock(arch_spinlock_t *lock)
->  {
-> -	u32 val =3D atomic_fetch_add(1<<16, lock);
-> +	u32 val =3D atomic_fetch_add(1<<16, &lock->val);
->  	u16 ticket =3D val >> 16;
-> =20
->  	if (ticket =3D=3D (u16)val)
-> @@ -46,31 +46,31 @@ static __always_inline void arch_spin_lock(arch_spinl=
-ock_t *lock)
->  	 * have no outstanding writes due to the atomic_fetch_add() the extra
->  	 * orderings are free.
->  	 */
-> -	atomic_cond_read_acquire(lock, ticket =3D=3D (u16)VAL);
-> +	atomic_cond_read_acquire(&lock->val, ticket =3D=3D (u16)VAL);
->  	smp_mb();
->  }
-> =20
->  static __always_inline bool arch_spin_trylock(arch_spinlock_t *lock)
->  {
-> -	u32 old =3D atomic_read(lock);
-> +	u32 old =3D atomic_read(&lock->val);
-> =20
->  	if ((old >> 16) !=3D (old & 0xffff))
->  		return false;
-> =20
-> -	return atomic_try_cmpxchg(lock, &old, old + (1<<16)); /* SC, for RCsc *=
-/
-> +	return atomic_try_cmpxchg(&lock->val, &old, old + (1<<16)); /* SC, for =
-RCsc */
->  }
-> =20
->  static __always_inline void arch_spin_unlock(arch_spinlock_t *lock)
->  {
->  	u16 *ptr =3D (u16 *)lock + IS_ENABLED(CONFIG_CPU_BIG_ENDIAN);
-> -	u32 val =3D atomic_read(lock);
-> +	u32 val =3D atomic_read(&lock->val);
-> =20
->  	smp_store_release(ptr, (u16)val + 1);
->  }
-> =20
->  static __always_inline int arch_spin_value_unlocked(arch_spinlock_t lock=
-)
->  {
-> -	u32 val =3D lock.counter;
-> +	u32 val =3D lock.val.counter;
-> =20
->  	return ((val >> 16) =3D=3D (val & 0xffff));
->  }
+Now, as all the minidump specific data structure is moved to
+minidump specific files and implementation wise qcom_rproc_minidump()
+and qcom_minidump() exactly same and the name qcom_rproc_minidump
+make more sense as it happen to collect the minidump for the
+remoteproc processors. So, let's use qcom_rproc_minidump() and
+we will be removing qcom_minidump() and minidump related stuff
+from driver/remoteproc/qcom_common.c .
 
-This one seems to be different in torvalds/master, but I suppose it's becau=
-se of
-the requirement patches I have not merged.
+Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+---
+ drivers/remoteproc/Kconfig         | 1 +
+ drivers/remoteproc/qcom_q6v5_pas.c | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-> @@ -84,7 +84,7 @@ static __always_inline int arch_spin_is_locked(arch_spi=
-nlock_t *lock)
-> =20
->  static __always_inline int arch_spin_is_contended(arch_spinlock_t *lock)
->  {
-> -	u32 val =3D atomic_read(lock);
-> +	u32 val =3D atomic_read(&lock->val);
-> =20
->  	return (s16)((val >> 16) - (val & 0xffff)) > 1;
->  }
-> diff --git a/include/asm-generic/spinlock_types.h b/include/asm-generic/s=
-pinlock_types.h
-> index 8962bb730945..f534aa5de394 100644
-> --- a/include/asm-generic/spinlock_types.h
-> +++ b/include/asm-generic/spinlock_types.h
-> @@ -3,15 +3,7 @@
->  #ifndef __ASM_GENERIC_SPINLOCK_TYPES_H
->  #define __ASM_GENERIC_SPINLOCK_TYPES_H
-> =20
-> -#include <linux/types.h>
-> -typedef atomic_t arch_spinlock_t;
-> -
-> -/*
-> - * qrwlock_types depends on arch_spinlock_t, so we must typedef that bef=
-ore the
-> - * include.
-> - */
-> -#include <asm/qrwlock_types.h>
-> -
-> -#define __ARCH_SPIN_LOCK_UNLOCKED	ATOMIC_INIT(0)
-> +#include <asm-generic/qspinlock_types.h>
-> +#include <asm-generic/qrwlock_types.h>
-> =20
->  #endif /* __ASM_GENERIC_SPINLOCK_TYPES_H */
-
-FWIW, LGTM:
-
-Reviewed-by: Leonardo Bras <leobras@redhat.com>
-
-
-Just a suggestion: In this patch I could see a lot of usage changes to
-arch_spinlock_t, and only at the end I could see the actual change in the .=
-h
-file.
-
-In cases like this, it looks nicer to see the .h file first.
-
-I recently found out about this git diff.orderFile option, which helps to
-achieve exactly this.
-
-I use the following git.orderfile, adapted from qemu:
-
-###########################################################################=
-#
-#
-# order file for git, to produce patches which are easier to review
-# by diffing the important stuff like interface changes first.
-#
-# one-off usage:
-#   git diff -O scripts/git.orderfile ...
-#
-# add to git config:
-#   git config diff.orderFile scripts/git.orderfile
-#
-
-MAINTAINERS
-
-# Documentation
-Documentation/*
-*.rst
-*.rst.inc
-
-# build system
-Kbuild
-Makefile*
-*.mak
-
-# semantic patches
-*.cocci
-
-# headers
-*.h
-*.h.inc
-
-# code
-*.c
-*.c.inc
-
+diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
+index 48845dc8fa85..cea960749e2c 100644
+--- a/drivers/remoteproc/Kconfig
++++ b/drivers/remoteproc/Kconfig
+@@ -166,6 +166,7 @@ config QCOM_PIL_INFO
+ 
+ config QCOM_RPROC_COMMON
+ 	tristate
++	select QCOM_RPROC_MINIDUMP
+ 
+ config QCOM_Q6V5_COMMON
+ 	tristate
+diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+index b5447dd2dd35..b0c766870524 100644
+--- a/drivers/remoteproc/qcom_q6v5_pas.c
++++ b/drivers/remoteproc/qcom_q6v5_pas.c
+@@ -25,6 +25,7 @@
+ #include <linux/soc/qcom/mdt_loader.h>
+ #include <linux/soc/qcom/smem.h>
+ #include <linux/soc/qcom/smem_state.h>
++#include <soc/qcom/qcom_minidump.h>
+ 
+ #include "qcom_common.h"
+ #include "qcom_pil_info.h"
+@@ -131,7 +132,7 @@ static void adsp_minidump(struct rproc *rproc)
+ 	if (rproc->dump_conf == RPROC_COREDUMP_DISABLED)
+ 		return;
+ 
+-	qcom_minidump(rproc, adsp->minidump_id, adsp_segment_dump);
++	qcom_rproc_minidump(rproc, adsp->minidump_id, adsp_segment_dump);
+ }
+ 
+ static int adsp_pds_enable(struct qcom_adsp *adsp, struct device **pds,
+-- 
+2.7.4
 
