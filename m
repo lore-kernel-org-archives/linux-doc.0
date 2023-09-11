@@ -2,317 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FAFCA0EC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D017CA0EC5
 	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245701AbjIKVL3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
+        id S245714AbjIKVLb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:11:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236544AbjIKK4w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 06:56:52 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4B518D;
-        Mon, 11 Sep 2023 03:56:47 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BAfZvh020901;
-        Mon, 11 Sep 2023 10:56:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=tz8rKdVo2TshdvaxQGBb5GEOXGLShJh7mmZE7uPCmnA=;
- b=dgyBpGDzCCjhyp1QzhTJnh+KHQ0iaRJSKBLN0ugMzV7AJ5eF1lL32RVOz422QphpOjSW
- 1kUExDz5mjCAeKr4OvBjIPTNLbcuFW+gF9ihol/nPNo8m+duJCG4bf2P6R3cMhB5uuUE
- +L7jAXCp7ID48jgAL3j7FzmdFTcRmgVk4byfYNdT9K3GW7+LK+gCIeMrKJCtotx1HPRv
- xkNXYH/Q69dnWYucpGHzXjfWpiCOfmtjmfW48y6q0wmGcqP6XP751HlQ6stfpY8MhZ40
- Itawazlw24eAc1yPlqZ0NEk0AQb9IjqUNI4pM1vEMRBE+KgTRiFPLuHPPcrMXoGfWD4k vw== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1whx8mkp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 10:56:13 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BAuCVq006051
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 10:56:12 GMT
-Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 11 Sep 2023 03:55:10 -0700
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-To:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
-        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
-        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
-        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>,
-        <quic_mojha@quicinc.com>
-Subject: [REBASE PATCH v5 07/17] soc: qcom: minidump: Add pending region registration
-Date:   Mon, 11 Sep 2023 16:23:49 +0530
-Message-ID: <1694429639-21484-8-git-send-email-quic_mojha@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
-References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+        with ESMTP id S242444AbjIKPfI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 11:35:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 542D7F2
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 08:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694446458;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=H0hlG5FAGp8RmPoZ3E3s3/+3No0cdG4KvSkd6VNEwic=;
+        b=h3xC7sF5fp9uDg1JKTg66YoVNDdiNUh6S+9yKQ99/KGuh6pWyrND92FAsPEyqun6wKZS34
+        h85GdUhfChT0OAMooeAFIHX3EfrcKTmiqcpHnabYz7rCX8gbg5d/hnMJsDni6tsln0+FJ6
+        QfCVNEbILwl0WS0sm545FEezk2hL8pE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-196-7swe91uhPdmELgDadpzMYA-1; Mon, 11 Sep 2023 11:34:13 -0400
+X-MC-Unique: 7swe91uhPdmELgDadpzMYA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D615183689B;
+        Mon, 11 Sep 2023 15:34:11 +0000 (UTC)
+Received: from [10.22.32.237] (unknown [10.22.32.237])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D391140C6EBF;
+        Mon, 11 Sep 2023 15:34:09 +0000 (UTC)
+Message-ID: <5ba0b8f3-f8f5-3a25-e9b7-f29a1abe654a@redhat.com>
+Date:   Mon, 11 Sep 2023 11:34:09 -0400
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: CAjt0WKIBtWJDk56gxZfH8CjV2n3Yoo_
-X-Proofpoint-ORIG-GUID: CAjt0WKIBtWJDk56gxZfH8CjV2n3Yoo_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=999
- bulkscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110099
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH V11 07/17] riscv: qspinlock: Introduce qspinlock param for
+ command line
+Content-Language: en-US
+To:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
+        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
+        catalin.marinas@arm.com, conor.dooley@microchip.com,
+        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
+        alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        leobras@redhat.com
+Cc:     linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910082911.3378782-8-guoren@kernel.org>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20230910082911.3378782-8-guoren@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pending regions are those apss minidump regions which came for
-registration before minidump was initialized or ready to do
-register the region.
+On 9/10/23 04:29, guoren@kernel.org wrote:
+> From: Guo Ren <guoren@linux.alibaba.com>
+>
+> Allow cmdline to force the kernel to use queued_spinlock when
+> CONFIG_RISCV_COMBO_SPINLOCKS=y.
+>
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Signed-off-by: Guo Ren <guoren@kernel.org>
+> ---
+>   Documentation/admin-guide/kernel-parameters.txt |  2 ++
+>   arch/riscv/kernel/setup.c                       | 16 +++++++++++++++-
+>   2 files changed, 17 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 7dfb540c4f6c..61cacb8dfd0e 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4693,6 +4693,8 @@
+>   			[KNL] Number of legacy pty's. Overwrites compiled-in
+>   			default number.
+>   
+> +	qspinlock	[RISCV] Force to use qspinlock or auto-detect spinlock.
+> +
+>   	qspinlock.numa_spinlock_threshold_ns=	[NUMA, PV_OPS]
+>   			Set the time threshold in nanoseconds for the
+>   			number of intra-node lock hand-offs before the
+> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> index a447cf360a18..0f084f037651 100644
+> --- a/arch/riscv/kernel/setup.c
+> +++ b/arch/riscv/kernel/setup.c
+> @@ -270,6 +270,15 @@ static void __init parse_dtb(void)
+>   }
+>   
+>   #ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> +bool enable_qspinlock_key = false;
 
-We can add regions to pending region list and register all of
-them from apss minidump driver probe in one go.
+You can use __ro_after_init qualifier for enable_qspinlock_key. BTW, 
+this is not a static key, just a simple flag. So what is the point of 
+the _key suffix?
 
-Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
----
- drivers/soc/qcom/qcom_minidump.c | 140 ++++++++++++++++++++++++++++++++++++---
- 1 file changed, 130 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/soc/qcom/qcom_minidump.c b/drivers/soc/qcom/qcom_minidump.c
-index 86f4d09a7b4e..4ce36f154e89 100644
---- a/drivers/soc/qcom/qcom_minidump.c
-+++ b/drivers/soc/qcom/qcom_minidump.c
-@@ -13,6 +13,7 @@
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/list.h>
- #include <linux/mutex.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-@@ -63,6 +64,33 @@ struct minidump {
- 	struct mutex			md_lock;
- };
- 
-+/**
-+ * struct minidump_pregion - Minidump pending region
-+ * @list       : Pending region list pointer
-+ * @region     : APSS minidump client region
-+ */
-+struct minidump_pregion {
-+	struct list_head	     list;
-+	struct qcom_minidump_region  region;
-+};
-+
-+/**
-+ * struct minidump_plist - Minidump pending region list
-+ * @plist	: List of pending region to be registered
-+ * @pregion_cnt	: Count of the pending region to be registered
-+ */
-+struct minidump_plist {
-+	struct list_head  plist;
-+	int 		  pregion_cnt;
-+	struct mutex	  plock;
-+};
-+
-+static struct minidump_plist md_plist = {
-+	.plist = LIST_HEAD_INIT(md_plist.plist),
-+	.pregion_cnt = 0,
-+	.plock = __MUTEX_INITIALIZER(md_plist.plock),
-+};
-+
- /*
-  * In some of the Old Qualcomm devices, boot firmware statically allocates 300
-  * as total number of supported region (including all co-processors) in
-@@ -336,6 +364,26 @@ static bool qcom_minidump_valid_region(const struct qcom_minidump_region *region
- 		IS_ALIGNED(region->size, 4);
- }
- 
-+static struct minidump_pregion *
-+check_region_in_plist(const struct qcom_minidump_region *region)
-+{
-+	struct minidump_pregion *md_pregion;
-+	struct minidump_pregion *tmp;
-+	bool found = false;
-+
-+	list_for_each_entry_safe(md_pregion, tmp, &md_plist.plist, list) {
-+		struct qcom_minidump_region *md_region;
-+
-+		md_region = &md_pregion->region;
-+		if (!strcmp(md_region->name, region->name)) {
-+			found = true;
-+			break;
-+		}
-+	}
-+
-+	return found ? md_pregion : NULL;
-+}
-+
- /**
-  * qcom_minidump_region_register() - Register region in APSS Minidump table.
-  * @region: minidump region.
-@@ -344,16 +392,44 @@ static bool qcom_minidump_valid_region(const struct qcom_minidump_region *region
-  */
- int qcom_minidump_region_register(const struct qcom_minidump_region *region)
- {
-+	struct minidump_pregion *md_pregion;
- 	struct minidump *md;
--	int ret;
--
--	md = qcom_smem_minidump_ready();
--	if (!md)
--		return -EPROBE_DEFER;
-+	int ret = 0;
- 
- 	if (!qcom_minidump_valid_region(region))
- 		return -EINVAL;
- 
-+	mutex_lock(&md_plist.plock);
-+	md = qcom_smem_minidump_ready();
-+	if (!md) {
-+		if (md_plist.pregion_cnt >= MAX_NUM_ENTRIES - 1) {
-+			pr_err("maximum region limit %u reached\n", md_plist.pregion_cnt);
-+			ret = -ENOSPC;
-+			goto unlock_plock;
-+		}
-+
-+		md_pregion = check_region_in_plist(region);
-+		if (md_pregion) {
-+			pr_info("%s region is already exist\n", region->name);
-+			ret = -EEXIST;
-+			goto unlock_plock;
-+		}
-+		/*
-+		 * Maintain a list of client regions which came before
-+		 * minidump driver was ready and once it is ready,
-+		 * register them in one go from minidump probe function.
-+		 */
-+		md_pregion = kzalloc(sizeof(*md_pregion), GFP_KERNEL);
-+		if (!md_pregion) {
-+			ret = -ENOMEM;
-+			goto unlock_plock;
-+		}
-+		md_pregion->region = *region;
-+		list_add_tail(&md_pregion->list, &md_plist.plist);
-+		md_plist.pregion_cnt++;
-+		goto unlock_plock;
-+	}
-+
- 	mutex_lock(&md->md_lock);
- 	ret = qcom_md_region_register(md, region);
- 	if (ret)
-@@ -362,6 +438,10 @@ int qcom_minidump_region_register(const struct qcom_minidump_region *region)
- 	qcom_md_update_elfheader(md, region);
- unlock:
- 	mutex_unlock(&md->md_lock);
-+	return 0;
-+
-+unlock_plock:
-+	mutex_unlock(&md_plist.plock);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(qcom_minidump_region_register);
-@@ -374,16 +454,28 @@ EXPORT_SYMBOL_GPL(qcom_minidump_region_register);
-  */
- int qcom_minidump_region_unregister(const struct qcom_minidump_region *region)
- {
-+	struct minidump_pregion *md_pregion;
- 	struct minidump *md;
--	int ret;
--
--	md = qcom_smem_minidump_ready();
--	if (!md)
--		return -EPROBE_DEFER;
-+	int ret = 0;
- 
- 	if (!qcom_minidump_valid_region(region))
- 		return -EINVAL;
- 
-+	mutex_lock(&md_plist.plock);
-+	md = qcom_smem_minidump_ready();
-+	if (!md) {
-+		md_pregion = check_region_in_plist(region);
-+		if (!md_pregion) {
-+			ret = -ENOENT;
-+			goto unlock_plock;
-+		}
-+
-+		list_del(&md_pregion->list);
-+		kfree(md_pregion);
-+		md_plist.pregion_cnt--;
-+		goto unlock_plock;
-+	}
-+
- 	mutex_lock(&md->md_lock);
- 	ret = qcom_md_region_unregister(md, region);
- 	if (ret)
-@@ -393,6 +485,10 @@ int qcom_minidump_region_unregister(const struct qcom_minidump_region *region)
- unlock:
- 	mutex_unlock(&md->md_lock);
- 	return ret;
-+
-+unlock_plock:
-+	mutex_unlock(&md_plist.plock);
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(qcom_minidump_region_unregister);
- 
-@@ -532,6 +628,27 @@ static int qcom_apss_md_table_init(struct minidump *md,
- 	return 0;
- }
- 
-+void qcom_apss_register_pending_regions(struct minidump *md)
-+{
-+	struct minidump_ss_data *mdss_data = md->apss_data;
-+	struct minidump_pregion *md_pregion;
-+	struct minidump_pregion *tmp;
-+
-+	list_for_each_entry_safe(md_pregion, tmp, &md_plist.plist, list) {
-+		struct qcom_minidump_region *region;
-+
-+		region = &md_pregion->region;
-+		mutex_lock(&md->md_lock);
-+		qcom_md_add_region(mdss_data, region);
-+		qcom_md_update_elfheader(md, region);
-+		mutex_unlock(&md->md_lock);
-+
-+		list_del(&md_pregion->list);
-+		kfree(md_pregion);
-+		md_plist.pregion_cnt--;
-+	}
-+}
-+
- static int qcom_apss_minidump_probe(struct platform_device *pdev)
- {
- 	struct minidump_global_toc *mdgtoc;
-@@ -571,7 +688,10 @@ static int qcom_apss_minidump_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	mutex_lock(&md_plist.plock);
- 	platform_set_drvdata(pdev, md);
-+	qcom_apss_register_pending_regions(md);
-+	mutex_unlock(&md_plist.plock);
- 
- 	return ret;
- }
--- 
-2.7.4
+Cheers,
+Longman
 
