@@ -2,201 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01ABDCA0ED3
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED74CA0EC4
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343775AbjIKVMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50702 "EHLO
+        id S1343799AbjIKVMg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237175AbjIKMLS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 08:11:18 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8AB193;
-        Mon, 11 Sep 2023 05:11:13 -0700 (PDT)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBcf8k020281;
-        Mon, 11 Sep 2023 12:09:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=HGXHlyuW7tI3KkroRX3EwubPO1mf8HTAk2ndjhHoNFs=;
- b=PWIIEP2lmDUfa1mp9pmw/oaZwzdtcpnlqzQ75hk9+FpJGvJYDU60r9trS5Z/VtLyDHft
- 9WX+n5snuJJ5jbu5vUpOHlKrmCud7gkjCafXw2JlLlwDtpuM9LO25/9hM4ZNnK9/vKhf
- l1qU1LZtGDxzxdwXmQxEa86eJVFAmwBgVfDVbQFx2Nm1Almhe4faCXCK8QzNT1ejl8yF
- QR+nEvWye7K6HENvui0bkEIhPwedV8GX8xMoeAVJHxAzGF7xr7/nFp13TH8Xj3KOQHcr
- h7xH4BM63pjFCbfz/lLveE+A3kojVUwJbk8xCa7Q1WSyEsQ7FXyRLhW42+3i3S8xCX16 Ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t1wuq0aj0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 12:09:50 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38BBedp6028128;
-        Mon, 11 Sep 2023 12:07:02 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t1wuq08ya-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 12:07:02 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBOZ8H002318;
-        Mon, 11 Sep 2023 12:06:36 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3t158jsvr1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 12:06:35 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38BC6XqU66978064
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 11 Sep 2023 12:06:33 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E64F02004B;
-        Mon, 11 Sep 2023 12:06:32 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1D9F220043;
-        Mon, 11 Sep 2023 12:06:30 +0000 (GMT)
-Received: from [9.171.58.134] (unknown [9.171.58.134])
-        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 11 Sep 2023 12:06:30 +0000 (GMT)
-Message-ID: <c5ac1459d2967c17e472d1c51d5017beb39e4714.camel@linux.ibm.com>
-Subject: Re: [PATCH v12 5/6] iommu/dma: Allow a single FQ in addition to
- per-CPU FQs
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Joerg Roedel <joro@8bytes.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Date:   Mon, 11 Sep 2023 14:06:29 +0200
-In-Reply-To: <20230825-dma_iommu-v12-5-4134455994a7@linux.ibm.com>
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
-         <20230825-dma_iommu-v12-5-4134455994a7@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 36tUcYWsI3-kwg7TjwTB82g2_ly-u1Zp
-X-Proofpoint-ORIG-GUID: CMa4t0Ot4oG8TuboxO12mxpMT2o-4HQO
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S243839AbjIKR6b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 13:58:31 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A57ADE0;
+        Mon, 11 Sep 2023 10:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694455106; x=1725991106;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=kC/vBkk3eTWW5McEjiiuPdirLljZAi6W1e8KlhZbA0o=;
+  b=H20z29iRVe0IaC+6Hl8RPsRyTZout1gkEoDZOF/lPwxfrRYBxW/SHl1z
+   Ng04qiIp9M3rTD+Fo8/LAAZtPVIioA5n5naaq5y0YmiGreIqOvTo2M+iO
+   ukwl9WSbqq+qlV6TM4Qe9OM/I1tWUwriPSE0Upk4eWw9pqU7kdOCVgrHj
+   SNEboUTW+Ltyv1Jr8zUQFGwmTBPzoP57w/6hfeMH+Mjc+SQgd+P2jxntu
+   vr8y4eGO34kadqg64matzD0cL7hM/WPseS8Y0aDe/+YL6Pi/00b7FByW5
+   mt3WPreABHtPgrV3R/ay2vDP9m72cNQ7KOLXZ/q2wUOVtomj2SkPE0wV7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378070731"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="378070731"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 10:58:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990198940"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="990198940"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 10:58:19 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 11 Sep 2023 10:58:19 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 11 Sep 2023 10:58:18 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 10:58:18 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 11 Sep 2023 10:58:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T/i/7UniAK36Y4yic1Y6J2L1N8KEpxJABAZ21op08hsbSBkqenc/UigSFJMXlA5vdimU7uEIedjlLLZclksk4JsEd2DwLHsFrz6a/WdR0qEVAujEvGQsGXR/kqyhUZbZ7lvP+Ryb/hEZnJ8bGVhVdeh2n+UuXgS8mOdwvYaOuvANv+PkVlfhTJ6EXCXtP4UzeeJ3Fn66ETij/OdJjYkYox1bFjeGtpct4IxmO6NrZ1jKixLP9tn+8md0MvUM0FoLYt9gGZo9TJJRGmKsN9RZlIRkn3mAYsd3eeFTEJ5nkX4aLHxyIhH0h2kb6ZwZftUpAHCj2akLF2bD4rNxmLtC7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GSrNFS0FqM9N8SfnAsCFZ6eyE685aq4iZWrqfA4LGdk=;
+ b=HKu02+2Y2mXhpADb0DhkuEiE5S98G6jzU3Gh3/2GqxiV77bhg2SJCeMfNEjNhIQDFfH0yETqtUdOdupsqOEDHa//151Aq9muBhUiIjnEJvmsu7MKD9sNwPG+YDb4teB+FB24bLb1EA7s96Xp+X7t8eW0jQzEGA7rXiGFTmajUTxaKwaRHB89B17OSzYDItNxD5o5SPSwQcXS7iZg2d6Z0yLxcaje5Ysn6sH2Sck+aJV88YE+F7n0wtPUBgk1JS19ye86Y7WniTxEeEZUrYiMOAx9+KhzO7jMuF4F+2WXTKy10pV9yX9PzIQjq4lxLU42qfO3PXRRmTHm/Os+gn8L+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA1PR11MB6097.namprd11.prod.outlook.com (2603:10b6:208:3d7::17)
+ by CO1PR11MB4834.namprd11.prod.outlook.com (2603:10b6:303:90::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.35; Mon, 11 Sep
+ 2023 17:58:16 +0000
+Received: from IA1PR11MB6097.namprd11.prod.outlook.com
+ ([fe80::7109:4aa5:6a6d:c3d4]) by IA1PR11MB6097.namprd11.prod.outlook.com
+ ([fe80::7109:4aa5:6a6d:c3d4%5]) with mapi id 15.20.6768.036; Mon, 11 Sep 2023
+ 17:58:16 +0000
+Message-ID: <84f04d1e-0715-d765-4bb7-e1a1d8616fce@intel.com>
+Date:   Mon, 11 Sep 2023 10:58:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v9 6/9] x86/resctrl: Move default group file creation to
+ mount
+Content-Language: en-US
+To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
+        <reinette.chatre@intel.com>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>
+CC:     <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <paulmck@kernel.org>, <akpm@linux-foundation.org>,
+        <quic_neeraju@quicinc.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <songmuchun@bytedance.com>,
+        <peterz@infradead.org>, <jpoimboe@kernel.org>,
+        <pbonzini@redhat.com>, <chang.seok.bae@intel.com>,
+        <pawan.kumar.gupta@linux.intel.com>, <jmattson@google.com>,
+        <daniel.sneddon@linux.intel.com>, <sandipan.das@amd.com>,
+        <tony.luck@intel.com>, <james.morse@arm.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <bagasdotme@gmail.com>, <eranian@google.com>,
+        <christophe.leroy@csgroup.eu>, <jarkko@kernel.org>,
+        <adrian.hunter@intel.com>, <quic_jiles@quicinc.com>,
+        <peternewman@google.com>
+References: <20230907235128.19120-1-babu.moger@amd.com>
+ <20230907235128.19120-7-babu.moger@amd.com>
+From:   Fenghua Yu <fenghua.yu@intel.com>
+In-Reply-To: <20230907235128.19120-7-babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY5PR13CA0027.namprd13.prod.outlook.com
+ (2603:10b6:a03:180::40) To IA1PR11MB6097.namprd11.prod.outlook.com
+ (2603:10b6:208:3d7::17)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- priorityscore=1501 clxscore=1011 impostorscore=0 suspectscore=0
- adultscore=0 phishscore=0 bulkscore=0 malwarescore=0 mlxlogscore=957
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110110
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR11MB6097:EE_|CO1PR11MB4834:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61103eda-e925-4f71-b5e1-08dbb2f0ac64
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BJaACevxzBva9vfa2bY9r52PD2qM6+sR53FJRiZwitKpitQsGIC4bo2+Z5QXt7QfbGKxfUzc7LcFC34xt1F2xiJ9gBLv9Yr8kO+GeK609O65bz17DHzfRVAyQ62hQsTTtdi52ZzPfT3N+w5q4fXnG0NfPMFjA9HM3zZ0uUAfMmBAP2Pr5EipoM8DxesnLg4WP2FvAT2WxEg4sYGrkcXVAux4UigRCyEIOkv7QyQj22icMSnQbwaVqgx75MWMjkNnnOLBejbuoyzReOIZOG94gujuTjyAvJFhUBEx0eda/6SYuLQK0L3ToUnF6YVgzLPDbTlv7UpG1K8yOtU2t1IItdehLNFn1QqQdZbq+IcUEFjIJWxzTWXl3Jr2gkeEE3qqJJ59tXkZbWb4fdbGx+y+8Cvyf/FlFFiBQBfBo0RUtw+2fLKotutY/TGIUGimrXvyx4mpExJP9cKNy5H4E+Kmu8RMEmO+6o8ot+Nr9OKyzCEfpIZulYbCgptHXK6YjtTcIS0Vy/RvitMrDqoB9wE1huxDj9e/d7iX/oY3enm5e3Bfl+lxYlOXem3GQhsvoNtEQdep/SarYMN9g/MR59A9SRCjep6ArBCp8KY1Bw9X1UtdKOErArDS/XADZ5D9sS9zpRhKiXIvrRY/CLQ/mmaw9A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6097.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(136003)(366004)(376002)(396003)(451199024)(1800799009)(186009)(5660300002)(4326008)(41300700001)(66946007)(316002)(66476007)(44832011)(31686004)(8676002)(8936002)(66556008)(31696002)(36756003)(478600001)(53546011)(7406005)(6486002)(7416002)(4744005)(2906002)(86362001)(2616005)(83380400001)(6506007)(26005)(38100700002)(6512007)(82960400001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUovVFhpS0Q4UFNCSEVTQ0FUTEdFc0RtYmpMQW9qL09KdUF3VDZkeDlwdzlZ?=
+ =?utf-8?B?SzhHclpKS2JGWFdXTmxZU0I1MGg4ZGc5cy9PamlKK1d4dTNoZUh5Yk5uNld2?=
+ =?utf-8?B?bzdueWNMZnQ3UEJMZ1lxNnhWeHExUkNCeENNbWVXNGRDYzZkdGxlaEtMY1VO?=
+ =?utf-8?B?OG13enAvNkM3YUxiOWQyTEN2MEpIeTdjZkJwN0U3K1hXdmNCdkhpRktvMVZa?=
+ =?utf-8?B?ZWdiZ0RlR1ZDSFIyY1RkY0pUQTYyMGlvY0tIbEJ3YjRKalhyUEZLdnE3S2hm?=
+ =?utf-8?B?S1Z2bEZhcWhMclh2TVIydFlCSDZkam44K05pb2pVWFlmcEYyd1VPTGZqaHVo?=
+ =?utf-8?B?TnNpdXJCVDJBVVZIekxrbzY1SzNBUEFQVEdoUjNaenVaMHd6ei9hemxZSU1V?=
+ =?utf-8?B?V0ZzV1RxV3Y4QzNhZlgrb1BHdWFPdTJxRVNoQUxXdHVXemJSNUJTQVFuZ1Rt?=
+ =?utf-8?B?ZXErblQxVWZNL3pmNm1LR255dzBlUk51UGlCZFNsZ2tyWTlrd3dwRXF5ODB0?=
+ =?utf-8?B?clpPcFp4V255NXAwREZaYllUUmNNOEJGZGt0SHNzTTUwb2JCQko4TC8wUGVk?=
+ =?utf-8?B?cjhyaGJFdXpvQmROY2k5bDBhNzZwQ3cwd1pFV3ppYVRYNzN6Q3dmT09OUlVG?=
+ =?utf-8?B?Nnh4Q1NYaFQxOHN3TEVCU1VKQ0IyK2wwTjR2MHdCSXVFUFRzVjZQcDl1djdh?=
+ =?utf-8?B?YjQ5QzN3c3ZzeEJwa1huN3JESkZQWFhQdmExMG9tYWpBaEVaZzhsM2VmUzB4?=
+ =?utf-8?B?RCtkSW52Zm5YKzNpczdreDNGYVQ5dlVjUVIrU09UYUNpNjF6eDMzMzROalFV?=
+ =?utf-8?B?SEhMbkVlNCtTNjN2MTAvQjlqTkxxSVdNcndvblBnZHBsaDlDbllyQjRxZ3FL?=
+ =?utf-8?B?cndFblI5WUhZdmVtVnVJcGlQbHR1UEdoWExDYXVycEFZaDE3OVZXbTRWK05u?=
+ =?utf-8?B?UlFxS3ZkbWlnVnFabHpieG5yWW1sejZnOFY1WnRqbHJyMWZQRDV6bWZoVm8y?=
+ =?utf-8?B?eFRDRTJac3NJTGJqMzNIaHNnWUMxZFNBVFQwbmNZK25OTStZc2dPS0dSakpk?=
+ =?utf-8?B?Y0JBUlBTUVAvL0FOOTNZTjdia290bGJOam1OZDdhZlFMQlNQcU5wQW1qVlF5?=
+ =?utf-8?B?YXdsME9lUThOQmVwbDlubnFmbklMeXNPRGlUTEdYNEhuRURlZDc4aFZJeXIx?=
+ =?utf-8?B?ZnMvWEtNNmdVNTZQZWlETVZZVElMbTk0ZHlFclVtVzlPZHJjRnNiTEhnR3FG?=
+ =?utf-8?B?Snh2NWQrb0NPQ2Vmdzg2NzFRNnJoZityQ3Y1aGpJMWFMSTF4RTVhZkQwR1ZF?=
+ =?utf-8?B?M3E2NmRhTlZvOFF2QU1kenRvTkxFeHJNMGk4ZXlMb0tnajMwaWpVVUlBRy9X?=
+ =?utf-8?B?VEtod09NaCtsd3NGbEpVYzVNSUtGWXVRenBSQXdEVUszUWtFRVdld3pyd1Aw?=
+ =?utf-8?B?VmwxcjdvaEpUM2xkdzdZenI3aGJJUjIrVnJkek5uU3BIK280Z0Z0VVFOWWZF?=
+ =?utf-8?B?OXE0TFB2NURsSDR4Vmxuc2N3aE53UXN0bGF0dVVtWmhHZWpQNFc2R1BjVkhh?=
+ =?utf-8?B?c1BucGhrK1Jiem1uaTdteDhIc0hmanVtaFdLLzd4U1RFd1NlY3RXRFJOVm9q?=
+ =?utf-8?B?UXpZOURna2Q0aEhOQ2U3clVneWFDcC90OUFISlBxQUY5ak5mSnUzRFMwdXZF?=
+ =?utf-8?B?UTlHNFR3elBlb0FvYXZDL3VDQktDampyV3Y2MDFsSkVNaXdobEROWjhWRVZ0?=
+ =?utf-8?B?MS9CV053UnEzTW9EWmYvYUk5RGVzc0JKb2tuT1hmcmVTeS9VdTB5b3VnRFV6?=
+ =?utf-8?B?WHhKMTdXdmkwdXJOZmVMTy9qUTFZZ2d1TERNQjE4UC9qRitXczFTWFBrcHE4?=
+ =?utf-8?B?THpVQ3E1QUFGVngybTlLNmwrbE1NR3ZqN01FSGozVjIxT1VpNU9EQys1ZmNT?=
+ =?utf-8?B?azVuT2ovdkFENkhsemlQYlZmN1BBQmZXODFnS2lJMzNSZ2RwNXZQOEo0VTdB?=
+ =?utf-8?B?YWFSK3BrTkRrNGZPRHpFdDB3MWlBSHhjYzd4bklMUVFwdzhVMGJNYTdvc1pw?=
+ =?utf-8?B?RERKK0V2Nm5Id0tBVHB2ZSswMDBkNUFacC9oN0NkM1h0UUpEcVJ0Z0NWVlVr?=
+ =?utf-8?Q?35ik94mzT9Fltd+xu31W90AAK?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61103eda-e925-4f71-b5e1-08dbb2f0ac64
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6097.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 17:58:15.9536
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zd1PCRqh8OP9AZjGji9Kxrf7H/09sfc6sRkBIvjLbT/Yp31h7qToF85egCngcb8km57289Vqrd2Bq7MyctpxMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4834
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2023-08-25 at 12:11 +0200, Niklas Schnelle wrote:
-> In some virtualized environments, including s390 paged memory guests,
-> IOTLB flushes are used to update IOMMU shadow tables. Due to this, they
-> are much more expensive than in typical bare metal environments or
-> non-paged s390 guests. In addition they may parallelize poorly in
-> virtualized environments. This changes the trade off for flushing IOVAs
-> such that minimizing the number of IOTLB flushes trumps any benefit of
-> cheaper queuing operations or increased paralellism.
->=20
-> In this scenario per-CPU flush queues pose several problems. Firstly
-> per-CPU memory is often quite limited prohibiting larger queues.
-> Secondly collecting IOVAs per-CPU but flushing via a global timeout
-> reduces the number of IOVAs flushed for each timeout especially on s390
-> where PCI interrupts may not be bound to a specific CPU.
->=20
-> Let's introduce a single flush queue mode that reuses the same queue
-> logic but only allocates a single global queue. This mode is selected by
-> dma-iommu if a newly introduced .shadow_on_flush flag is set in struct
-> dev_iommu. As a first user the s390 IOMMU driver sets this flag during
-> probe_device. With the unchanged small FQ size and timeouts this setting
-> is worse than per-CPU queues but a follow up patch will make the FQ size
-> and timeout variable. Together this allows the common IOVA flushing code
-> to more closely resemble the global flush behavior used on s390's
-> previous internal DMA API implementation.
->=20
-> Link: https://lore.kernel.org/all/9a466109-01c5-96b0-bf03-304123f435ee@ar=
-m.com/
-> Acked-by: Robin Murphy <robin.murphy@arm.com>
-> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com> #s390
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
->  drivers/iommu/dma-iommu.c  | 168 ++++++++++++++++++++++++++++++++++-----=
-------
->  drivers/iommu/s390-iommu.c |   3 +
->  include/linux/iommu.h      |   2 +
->  3 files changed, 134 insertions(+), 39 deletions(-)
->=20
->=20
----8<---
->=20=20
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index 182cc4c71e62..c3687e066ed7 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -409,6 +409,7 @@ struct iommu_fault_param {
->   * @priv:	 IOMMU Driver private data
->   * @max_pasids:  number of PASIDs this device can consume
->   * @attach_deferred: the dma domain attachment is deferred
-> + * @shadow_on_flush: IOTLB flushes are used to sync shadow tables
->   *
->   * TODO: migrate other per device data pointers under iommu_dev_data, e.=
-g.
->   *	struct iommu_group	*iommu_group;
-> @@ -422,6 +423,7 @@ struct dev_iommu {
->  	void				*priv;
->  	u32				max_pasids;
->  	u32				attach_deferred:1;
-> +	u32				shadow_on_flush:1;
 
-This causes a merge conflict with a48ce36e2786f ("iommu: Prevent
-RESV_DIRECT devices from blocking domains"), The resolution is trivial
-though in that shadow_on_flush:1 can just be added after (or before)
-require_direct:1. @Joro do you want me to sent a version with this
-resolution regardless or will you resolve this when applying?
 
->  };
->=20=20
->  int iommu_device_register(struct iommu_device *iommu,
->=20
+On 9/7/23 16:51, Babu Moger wrote:
+> The default resource group and its files are created during kernel
+> init time. Upcoming changes will make some resctrl files optional
+> based on a mount parameter. If optional files are to be added to the
+> default group based on the mount option, then each new file needs to
+> be created separately and call kernfs_activate() again.
+> 
+> Create all files of the default resource group during resctrl
+> mount, destroyed during unmount, to avoid scattering resctrl
+> file addition across two separate code flows.
+> 
+> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 
+Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
+
+Thanks.
+
+-Fenghua
