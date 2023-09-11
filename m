@@ -2,209 +2,482 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9B3CA0EC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7839CA0EC8
 	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343692AbjIKVMR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41510 "EHLO
+        id S1343716AbjIKVMV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236549AbjIKK4x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 06:56:53 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D4BF3;
-        Mon, 11 Sep 2023 03:56:49 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BAmZOB029187;
-        Mon, 11 Sep 2023 10:56:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=4gOSVhCipTQhqe7KQujCKS59XbGovpmGhKA4BrqGRG4=;
- b=EoobLeUT13AVt3PTwJqXJwFoFY711k/p9kBdt8sNyDx2SYQiL2+AlkP3xxwlsm4ADRKL
- +CzLEZHmHgE2tbzMTwJIg01wXHipHedMIRBYX64gw0cpiwnoQ0m8KJZ+30IWYBj7ls68
- O4B6FJ6tr5X16QUK15HuMSBPqsZyVw+PPXXXx6cjegZDhcGpXAU4QQc+yJDv9VxJVABk
- uHmq+CbUt6d/izNUgnDhZT4krttKpKCPF18dXXSMYOK9dEqV1UCY1RdxDgpFJh4tWW5v
- csaOh3NHadUqNs2Wdu7Rg2hP7Q3vXSKunSAhJqi/948dEUQt0c7M/c9lIo0ipGPJSY7i lQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0j0fkfm0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 10:56:13 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BAuCVt006051
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 10:56:13 GMT
-Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 11 Sep 2023 03:55:37 -0700
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-To:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
-        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
-        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
-        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>,
-        <quic_mojha@quicinc.com>
-Subject: [REBASE PATCH v5 10/17] pstore: Add pstore_region_defined() helper and export it
-Date:   Mon, 11 Sep 2023 16:23:52 +0530
-Message-ID: <1694429639-21484-11-git-send-email-quic_mojha@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
-References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+        with ESMTP id S237597AbjIKNAE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 09:00:04 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC42E4B
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 05:59:37 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1c397ed8681so13149985ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 05:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1694437177; x=1695041977; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M9K9PV8rCUk+B/IC15F5p4JTJ+5tMZARiqrSac1yaAY=;
+        b=cvKetsLBva9j2NCTgC84iEPcynqNMGv3GC1OmMtPJ3rRrTD3A7i7crbt7BiCiB9UJR
+         wvWYw4qDFjvQPJDr+l7t5Sa1EtJDrt2k5NZQ3M8fDRZT2H1cwe3I2aEkuBmvnvLROGcO
+         q3e8EZIdqx+DjNzNIeStmLklD8qNnYPNwG9oW+47GiHIK2kK39AoM9TkPhzMSEryNNLa
+         PY3tC86a20Y0FIcjqXZmibbrfwrarVyXcsUczBPp+Dpz+jwOCqLZtYLemKOdW0mognx7
+         guO3OhD3yqqyDzbJQMEqeQRdHmhr4PMJKmU0TFs7kR1o3DqVZx/I+shcJn8Ab1K22+U9
+         nC1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694437177; x=1695041977;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=M9K9PV8rCUk+B/IC15F5p4JTJ+5tMZARiqrSac1yaAY=;
+        b=hh/EAa1qd1f17EGVWpODdyyojHlcnRhrqWhJHiBldq9h24k+wyNtm4ZUBZ/Muumcfd
+         4Y7IRQ5mW5aV2BBLwoQ2vWoIikyNyWE2qdFpQETK2J+6wsr4yv4BkPbG4zMmc6I/GE39
+         BsJxxtZM2LGuONl9bDO3LOwKstF2B78FRi8Twn0P427n8pcKNutyBCkQxwUQzf5YoMwH
+         5wbpvlxvJhvm5B0mF/u3Q4GsQObL3u/p73isV07DbXxBBtr7sNw1EC6C45W+akSYNAIh
+         yjdG/YA+0bPjhtp0Vc9Aho7r8H4MldMjyOW55kmeiL8rsQy6dHWipjxYqto1o5kORxP7
+         CTCg==
+X-Gm-Message-State: AOJu0YyX3J1ACBcSvAnFHcFz5CvDad+4d/mFwbOEwKS2hpT5U7S4MPNX
+        PPEZxb/BRfyYwg00OuTag0EVhQ==
+X-Google-Smtp-Source: AGHT+IF0oOYT6OYBqZ+NhEZ/u0pJPEqP5WDyQnKZHqRlsJf7LY3KaXHXMZJ7AMyMKhj/KCQHODv8Xg==
+X-Received: by 2002:a17:903:2291:b0:1c0:8bf3:eb15 with SMTP id b17-20020a170903229100b001c08bf3eb15mr9519352plh.30.1694437176737;
+        Mon, 11 Sep 2023 05:59:36 -0700 (PDT)
+Received: from [10.84.144.104] ([203.208.167.146])
+        by smtp.gmail.com with ESMTPSA id o10-20020a170902778a00b001b53953f306sm6436614pll.178.2023.09.11.05.59.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 05:59:36 -0700 (PDT)
+Message-ID: <d388a9e5-560a-72c2-4db5-1f39827740c9@bytedance.com>
+Date:   Mon, 11 Sep 2023 20:59:27 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: XyQCjwjHOG0scL4SF1euCldLbQ6NjV_y
-X-Proofpoint-GUID: XyQCjwjHOG0scL4SF1euCldLbQ6NjV_y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- malwarescore=0 clxscore=1015 impostorscore=0 mlxlogscore=999 bulkscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2309110099
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v2 2/6] maple_tree: Introduce interfaces __mt_dup() and
+ mtree_dup()
+To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+        Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, willy@infradead.org, brauner@kernel.org,
+        surenb@google.com, michael.christie@oracle.com,
+        peterz@infradead.org, mathieu.desnoyers@efficios.com,
+        npiggin@gmail.com, avagin@gmail.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+ <20230830125654.21257-3-zhangpeng.00@bytedance.com>
+ <20230907201333.nyydilmlbbf2wzf7@revolver>
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+In-Reply-To: <20230907201333.nyydilmlbbf2wzf7@revolver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are users like Qualcomm minidump which is interested in
-knowing the pstore frontend addresses and sizes from the backend
-(ram) to be able to register it with firmware to finally collect
-them during crash for debugging.
 
-Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
----
- fs/pstore/platform.c   | 15 +++++++++++++++
- fs/pstore/ram.c        | 42 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/pstore.h |  6 ++++++
- 3 files changed, 63 insertions(+)
 
-diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
-index e5bca9a004cc..fdac951059c1 100644
---- a/fs/pstore/platform.c
-+++ b/fs/pstore/platform.c
-@@ -139,6 +139,21 @@ enum pstore_type_id pstore_name_to_type(const char *name)
- }
- EXPORT_SYMBOL_GPL(pstore_name_to_type);
- 
-+int pstore_region_defined(struct pstore_record *record,
-+			  void **virt, phys_addr_t *phys,
-+			  size_t *size, unsigned int *max_dump_cnt)
-+{
-+	if (!psinfo)
-+		return -EINVAL;
-+
-+	record->psi = psinfo;
-+
-+	return psinfo->region_info ?
-+	       psinfo->region_info(record, virt, phys, size, max_dump_cnt) :
-+	       -EINVAL;
-+}
-+EXPORT_SYMBOL_GPL(pstore_region_defined);
-+
- static void pstore_timer_kick(void)
- {
- 	if (pstore_update_ms < 0)
-diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
-index ab551caa1d2a..62202f3ddf63 100644
---- a/fs/pstore/ram.c
-+++ b/fs/pstore/ram.c
-@@ -437,6 +437,47 @@ static int ramoops_pstore_erase(struct pstore_record *record)
- 	return 0;
- }
- 
-+static int ramoops_region_info(struct pstore_record *record,
-+			       void **virt, phys_addr_t *phys,
-+			       size_t *size, unsigned int *max_dump_cnt)
-+{
-+	struct ramoops_context *cxt = record->psi->data;
-+	struct persistent_ram_zone *prz;
-+
-+	switch (record->type) {
-+	case PSTORE_TYPE_DMESG:
-+		if (record->id >= cxt->max_dump_cnt)
-+			return -EINVAL;
-+		prz = cxt->dprzs[record->id];
-+		*max_dump_cnt = cxt->max_dump_cnt;
-+		break;
-+	case PSTORE_TYPE_CONSOLE:
-+		if (!cxt->console_size)
-+			return -EINVAL;
-+		prz = cxt->cprz;
-+		break;
-+	case PSTORE_TYPE_FTRACE:
-+		if (record->id >= cxt->max_ftrace_cnt)
-+			return -EINVAL;
-+		prz = cxt->fprzs[record->id];
-+		*max_dump_cnt = cxt->max_ftrace_cnt;
-+		break;
-+	case PSTORE_TYPE_PMSG:
-+		if (!cxt->pmsg_size)
-+			return -EINVAL;
-+		prz = cxt->mprz;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	*virt = prz->vaddr;
-+	*phys = prz->paddr;
-+	*size = prz->size;
-+
-+	return 0;
-+}
-+
- static struct ramoops_context oops_cxt = {
- 	.pstore = {
- 		.owner	= THIS_MODULE,
-@@ -446,6 +487,7 @@ static struct ramoops_context oops_cxt = {
- 		.write	= ramoops_pstore_write,
- 		.write_user	= ramoops_pstore_write_user,
- 		.erase	= ramoops_pstore_erase,
-+		.region_info = ramoops_region_info,
- 	},
- };
- 
-diff --git a/include/linux/pstore.h b/include/linux/pstore.h
-index 638507a3c8ff..a64d866e8711 100644
---- a/include/linux/pstore.h
-+++ b/include/linux/pstore.h
-@@ -199,6 +199,9 @@ struct pstore_info {
- 	int		(*write_user)(struct pstore_record *record,
- 				      const char __user *buf);
- 	int		(*erase)(struct pstore_record *record);
-+	int		(*region_info)(struct pstore_record *record,
-+				       void **virt, phys_addr_t *phys,
-+				       size_t *size, unsigned int *max_dump_cnt);
- };
- 
- /* Supported frontends */
-@@ -230,6 +233,9 @@ struct pstore_ftrace_record {
- #define TS_CPU_SHIFT 8
- #define TS_CPU_MASK (BIT(TS_CPU_SHIFT) - 1)
- 
-+int pstore_region_defined(struct pstore_record *record,
-+			  void **virt, phys_addr_t *phys,
-+			  size_t *size, unsigned int *max_dump_cnt);
- /*
-  * If CPU number can be stored in IP, store it there, otherwise store it in
-  * the time stamp. This means more timestamp resolution is available when
--- 
-2.7.4
+在 2023/9/8 04:13, Liam R. Howlett 写道:
+> * Peng Zhang <zhangpeng.00@bytedance.com> [230830 08:57]:
+>> Introduce interfaces __mt_dup() and mtree_dup(), which are used to
+>> duplicate a maple tree. Compared with traversing the source tree and
+>> reinserting entry by entry in the new tree, it has better performance.
+>> The difference between __mt_dup() and mtree_dup() is that mtree_dup()
+>> handles locks internally.
+> 
+> __mt_dup() should be called mas_dup() to indicate the advanced interface
+> which requires users to handle their own locks.
+Changing to the mas_dup() interface may look like this:
+mas_dup(mas_old, mas_new)
 
+This still encounters the problem we discussed before. You expect both
+mas_old and mas_new to point to the first element after the function
+returns, but for_each_vma(vmi, mpnt) in dup_mmap() does not support
+this, and will skip the first element.
+
+Unless we have an iterator similar to "do {} while()", we have to reset 
+mas_new. There is still additional overhead in making both mas_old and
+mas_new point to the first element, because mas will point to the last
+node after dfs order traversal.
+
+In fact, I think mtree_dup() and __mt_dup() are enough. They seem to
+match mtree_destroy() and __mt_destroy() very well. Underlines indicate
+that users need to handle the lock themselves.
+> 
+>>
+>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+>> ---
+>>   include/linux/maple_tree.h |   3 +
+>>   lib/maple_tree.c           | 265 +++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 268 insertions(+)
+>>
+>> diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+>> index e41c70ac7744..44fe8a57ecbd 100644
+>> --- a/include/linux/maple_tree.h
+>> +++ b/include/linux/maple_tree.h
+>> @@ -327,6 +327,9 @@ int mtree_store(struct maple_tree *mt, unsigned long index,
+>>   		void *entry, gfp_t gfp);
+>>   void *mtree_erase(struct maple_tree *mt, unsigned long index);
+>>   
+>> +int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
+>> +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
+>> +
+>>   void mtree_destroy(struct maple_tree *mt);
+>>   void __mt_destroy(struct maple_tree *mt);
+>>   
+>> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
+>> index ef234cf02e3e..8f841682269c 100644
+>> --- a/lib/maple_tree.c
+>> +++ b/lib/maple_tree.c
+>> @@ -6370,6 +6370,271 @@ void *mtree_erase(struct maple_tree *mt, unsigned long index)
+>>   }
+>>   EXPORT_SYMBOL(mtree_erase);
+>>   
+>> +/*
+>> + * mas_dup_free() - Free a half-constructed tree.
+> 
+> Maybe "Free an incomplete duplication of a tree" ?
+> 
+>> + * @mas: Points to the last node of the half-constructed tree.
+> 
+> Your use of "Points to" seems to indicate someone knows you are talking
+> about a "maple state that has a node pointing to".  Can this be made
+> more clear?
+> @mas: The maple state of a incomplete tree.
+> 
+> Then add a note that @mas->node points to the last successfully
+> allocated node?
+> 
+> Or something along those lines.
+> 
+>> + *
+>> + * This function frees all nodes starting from @mas->node in the reverse order
+>> + * of mas_dup_build(). There is no need to hold the source tree lock at this
+>> + * time.
+>> + */
+>> +static void mas_dup_free(struct ma_state *mas)
+>> +{
+>> +	struct maple_node *node;
+>> +	enum maple_type type;
+>> +	void __rcu **slots;
+>> +	unsigned char count, i;
+>> +
+>> +	/* Maybe the first node allocation failed. */
+>> +	if (!mas->node)
+>> +		return;
+>> +
+>> +	while (!mte_is_root(mas->node)) {
+>> +		mas_ascend(mas);
+>> +
+>> +		if (mas->offset) {
+>> +			mas->offset--;
+>> +			do {
+>> +				mas_descend(mas);
+>> +				mas->offset = mas_data_end(mas);
+>> +			} while (!mte_is_leaf(mas->node));
+> 
+> Can you blindly descend and check !mte_is_leaf()?  What happens when the
+> tree duplication fails at random internal nodes?  Maybe I missed how
+> this cannot happen?
+> 
+>> +
+>> +			mas_ascend(mas);
+>> +		}
+>> +
+>> +		node = mte_to_node(mas->node);
+>> +		type = mte_node_type(mas->node);
+>> +		slots = (void **)ma_slots(node, type);
+>> +		count = mas_data_end(mas) + 1;
+>> +		for (i = 0; i < count; i++)
+>> +			((unsigned long *)slots)[i] &= ~MAPLE_NODE_MASK;
+>> +
+>> +		mt_free_bulk(count, slots);
+>> +	}
+> 
+> 
+>> +
+>> +	node = mte_to_node(mas->node);
+>> +	mt_free_one(node);
+>> +}
+>> +
+>> +/*
+>> + * mas_copy_node() - Copy a maple node and allocate child nodes.
+> 
+> if required. "..and allocate child nodes if required."
+> 
+>> + * @mas: Points to the source node.
+>> + * @new_mas: Points to the new node.
+>> + * @parent: The parent node of the new node.
+>> + * @gfp: The GFP_FLAGS to use for allocations.
+>> + *
+>> + * Copy @mas->node to @new_mas->node, set @parent to be the parent of
+>> + * @new_mas->node and allocate new child nodes for @new_mas->node.
+>> + * If memory allocation fails, @mas is set to -ENOMEM.
+>> + */
+>> +static inline void mas_copy_node(struct ma_state *mas, struct ma_state *new_mas,
+>> +		struct maple_node *parent, gfp_t gfp)
+>> +{
+>> +	struct maple_node *node = mte_to_node(mas->node);
+>> +	struct maple_node *new_node = mte_to_node(new_mas->node);
+>> +	enum maple_type type;
+>> +	unsigned long val;
+>> +	unsigned char request, count, i;
+>> +	void __rcu **slots;
+>> +	void __rcu **new_slots;
+>> +
+>> +	/* Copy the node completely. */
+>> +	memcpy(new_node, node, sizeof(struct maple_node));
+>> +
+>> +	/* Update the parent node pointer. */
+>> +	if (unlikely(ma_is_root(node)))
+>> +		val = MA_ROOT_PARENT;
+>> +	else
+>> +		val = (unsigned long)node->parent & MAPLE_NODE_MASK;
+> 
+> If you treat the root as special and outside the loop, then you can
+> avoid the check for root for every non-root node.  For root, you just
+> need to copy and do this special parent thing before the main loop in
+> mas_dup_build().  This will avoid an extra branch for each VMA over 14,
+> so that would add up to a lot of instructions.
+> 
+>> +
+>> +	new_node->parent = ma_parent_ptr(val | (unsigned long)parent);
+>> +
+>> +	if (mte_is_leaf(mas->node))
+>> +		return;
+> 
+> You are checking here and in mas_dup_build() for the leaf, splitting the
+> function into parent assignment and allocate would allow you to check
+> once. Copy could be moved to the main loop or with the parent setting,
+> depending on how you handle the root suggestion above.
+> 
+>> +
+>> +	/* Allocate memory for child nodes. */
+>> +	type = mte_node_type(mas->node);
+>> +	new_slots = ma_slots(new_node, type);
+>> +	request = mas_data_end(mas) + 1;
+>> +	count = mt_alloc_bulk(gfp, request, new_slots);
+>> +	if (unlikely(count < request)) {
+>> +		if (count)
+>> +			mt_free_bulk(count, new_slots);
+> 
+> The new_slots will still contain the addresses of the freed nodes.
+> Don't you need to clear it here to avoid a double free?  Is there a
+> test case for this in your testing?  Again, I may have missed how this
+> is not possible..
+> 
+>> +		mas_set_err(mas, -ENOMEM);
+>> +		return;
+>> +	}
+>> +
+>> +	/* Restore node type information in slots. */
+>> +	slots = ma_slots(node, type);
+>> +	for (i = 0; i < count; i++)
+>> +		((unsigned long *)new_slots)[i] |=
+>> +			((unsigned long)mt_slot_locked(mas->tree, slots, i) &
+>> +			MAPLE_NODE_MASK);
+> 
+> Can you expand this to multiple lines to make it more clear what is
+> going on?
+> 
+>> +}
+>> +
+>> +/*
+>> + * mas_dup_build() - Build a new maple tree from a source tree
+>> + * @mas: The maple state of source tree.
+>> + * @new_mas: The maple state of new tree.
+>> + * @gfp: The GFP_FLAGS to use for allocations.
+>> + *
+>> + * This function builds a new tree in DFS preorder. If the memory allocation
+>> + * fails, the error code -ENOMEM will be set in @mas, and @new_mas points to the
+>> + * last node. mas_dup_free() will free the half-constructed tree.
+>> + *
+>> + * Note that the attributes of the two trees must be exactly the same, and the
+>> + * new tree must be empty, otherwise -EINVAL will be returned.
+>> + */
+>> +static inline void mas_dup_build(struct ma_state *mas, struct ma_state *new_mas,
+>> +		gfp_t gfp)
+>> +{
+>> +	struct maple_node *node, *parent;
+> 
+> Could parent be struct maple_pnode?
+> 
+>> +	struct maple_enode *root;
+>> +	enum maple_type type;
+>> +
+>> +	if (unlikely(mt_attr(mas->tree) != mt_attr(new_mas->tree)) ||
+>> +	    unlikely(!mtree_empty(new_mas->tree))) {
+>> +		mas_set_err(mas, -EINVAL);
+>> +		return;
+>> +	}
+>> +
+>> +	mas_start(mas);
+>> +	if (mas_is_ptr(mas) || mas_is_none(mas)) {
+>> +		/*
+>> +		 * The attributes of the two trees must be the same before this.
+>> +		 * The following assignment makes them the same height.
+>> +		 */
+>> +		new_mas->tree->ma_flags = mas->tree->ma_flags;
+>> +		rcu_assign_pointer(new_mas->tree->ma_root, mas->tree->ma_root);
+>> +		return;
+>> +	}
+>> +
+>> +	node = mt_alloc_one(gfp);
+>> +	if (!node) {
+>> +		new_mas->node = NULL;
+> 
+> We don't have checks around for node == NULL, MAS_NONE would be a safer
+> choice.  It is unlikely that someone would dup the tree and fail then
+> call something else, but I avoid setting node to NULL.
+> 
+>> +		mas_set_err(mas, -ENOMEM);
+>> +		return;
+>> +	}
+>> +
+>> +	type = mte_node_type(mas->node);
+>> +	root = mt_mk_node(node, type);
+>> +	new_mas->node = root;
+>> +	new_mas->min = 0;
+>> +	new_mas->max = ULONG_MAX;
+>> +	parent = ma_mnode_ptr(new_mas->tree);
+>> +
+>> +	while (1) {
+>> +		mas_copy_node(mas, new_mas, parent, gfp);
+>> +
+>> +		if (unlikely(mas_is_err(mas)))
+>> +			return;
+>> +
+>> +		/* Once we reach a leaf, we need to ascend, or end the loop. */
+>> +		if (mte_is_leaf(mas->node)) {
+>> +			if (mas->max == ULONG_MAX) {
+>> +				new_mas->tree->ma_flags = mas->tree->ma_flags;
+>> +				rcu_assign_pointer(new_mas->tree->ma_root,
+>> +						   mte_mk_root(root));
+>> +				break;
+> 
+> If you move this to the end of the function, you can replace the same
+> block above with a goto.  That will avoid breaking the line up.
+> 
+>> +			}
+>> +
+>> +			do {
+>> +				/*
+>> +				 * Must not at the root node, because we've
+>> +				 * already end the loop when we reach the last
+>> +				 * leaf.
+>> +				 */
+> 
+> I'm not sure what the comment above is trying to say.  Do you mean "This
+> won't reach the root node because the loop will break when the last leaf
+> is hit"?  I don't think that is accurate.. it will hit the root node but
+> not the end of the root node, right?  Anyways, the comment isn't clear
+> so please have a look.
+> 
+>> +				mas_ascend(mas);
+>> +				mas_ascend(new_mas);
+>> +			} while (mas->offset == mas_data_end(mas));
+>> +
+>> +			mas->offset++;
+>> +			new_mas->offset++;
+>> +		}
+>> +
+>> +		mas_descend(mas);
+>> +		parent = mte_to_node(new_mas->node);
+>> +		mas_descend(new_mas);
+>> +		mas->offset = 0;
+>> +		new_mas->offset = 0;
+>> +	}
+>> +}
+>> +
+>> +/**
+>> + * __mt_dup(): Duplicate a maple tree
+>> + * @mt: The source maple tree
+>> + * @new: The new maple tree
+>> + * @gfp: The GFP_FLAGS to use for allocations
+>> + *
+>> + * This function duplicates a maple tree using a faster method than traversing
+>> + * the source tree and inserting entries into the new tree one by one.
+> 
+> Can you make this comment more about what your code does instead of the
+> "one by one" description?
+> 
+>> + * The user needs to ensure that the attributes of the source tree and the new
+>> + * tree are the same, and the new tree needs to be an empty tree, otherwise
+>> + * -EINVAL will be returned.
+>> + * Note that the user needs to manually lock the source tree and the new tree.
+>> + *
+>> + * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
+>> + * the attributes of the two trees are different or the new tree is not an empty
+>> + * tree.
+>> + */
+>> +int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
+>> +{
+>> +	int ret = 0;
+>> +	MA_STATE(mas, mt, 0, 0);
+>> +	MA_STATE(new_mas, new, 0, 0);
+>> +
+>> +	mas_dup_build(&mas, &new_mas, gfp);
+>> +
+>> +	if (unlikely(mas_is_err(&mas))) {
+>> +		ret = xa_err(mas.node);
+>> +		if (ret == -ENOMEM)
+>> +			mas_dup_free(&new_mas);
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(__mt_dup);
+>> +
+>> +/**
+>> + * mtree_dup(): Duplicate a maple tree
+>> + * @mt: The source maple tree
+>> + * @new: The new maple tree
+>> + * @gfp: The GFP_FLAGS to use for allocations
+>> + *
+>> + * This function duplicates a maple tree using a faster method than traversing
+>> + * the source tree and inserting entries into the new tree one by one.
+> 
+> Again, it's more interesting to state it uses the DFS preorder copy.
+> 
+> It is also worth mentioning the superior allocation behaviour since that
+> is a desirable trait for many.  In fact, you should add the allocation
+> behaviour in your cover letter.
+> 
+>> + * The user needs to ensure that the attributes of the source tree and the new
+>> + * tree are the same, and the new tree needs to be an empty tree, otherwise
+>> + * -EINVAL will be returned.
+>> + *
+>> + * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
+>> + * the attributes of the two trees are different or the new tree is not an empty
+>> + * tree.
+>> + */
+>> +int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
+>> +{
+>> +	int ret = 0;
+>> +	MA_STATE(mas, mt, 0, 0);
+>> +	MA_STATE(new_mas, new, 0, 0);
+>> +
+>> +	mas_lock(&new_mas);
+>> +	mas_lock(&mas);
+>> +
+>> +	mas_dup_build(&mas, &new_mas, gfp);
+>> +	mas_unlock(&mas);
+>> +
+>> +	if (unlikely(mas_is_err(&mas))) {
+>> +		ret = xa_err(mas.node);
+>> +		if (ret == -ENOMEM)
+>> +			mas_dup_free(&new_mas);
+>> +	}
+>> +
+>> +	mas_unlock(&new_mas);
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(mtree_dup);
+>> +
+>>   /**
+>>    * __mt_destroy() - Walk and free all nodes of a locked maple tree.
+>>    * @mt: The maple tree
+>> -- 
+>> 2.20.1
+>>
