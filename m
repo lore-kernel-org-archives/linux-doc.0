@@ -2,256 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B30FCA0ECF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E919CA0EC5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344006AbjIKVNE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:13:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50338 "EHLO
+        id S1344048AbjIKVNI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237450AbjIKMve (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 08:51:34 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1234E40;
-        Mon, 11 Sep 2023 05:51:29 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D13C433C7;
-        Mon, 11 Sep 2023 12:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694436689;
-        bh=9DJeaj3B139313EIsW2RLAfPQHEz2WLHa8uXitypr/w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pAr1OVlxK3PK3lgFjYkEFyAMnXJtexo8o2qubI2+kyk/WaVpal4z6T51Lq/q07Vm9
-         CRciu4DEBqykxIj29fOzrGP2ezcZCuL0qKaiUZM7XUWqWk4qZzwJVPzN99+zrpRhKZ
-         GjIXkoec18XEpFUKlkkTgbPsyICHBj3I8ndB65TzJ5hz74Kk87RG8+CaBu49nnxomD
-         g+UsNIahsB2TsRons4G5PefjXM5rWE2ERYPYOIiIQ72vf+YkKfKgv83y/h5VTpv/U5
-         z7904mm8BI1xnahWWiMHvrYWRxBhpBTuPvgciMTeL7AW5r8utuyzilNz8rmbMgldQM
-         LenC8lkXUuHaQ==
-Date:   Mon, 11 Sep 2023 14:51:26 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc:     Daniel Stone <daniels@collabora.com>, emma@anholt.net,
-        linux-doc@vger.kernel.org, vignesh.raman@collabora.com,
-        dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io,
-        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
-        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
-        david.heidelberg@collabora.com, linux-rockchip@lists.infradead.org,
-        tzimmermann@suse.de, martin.blumenstingl@googlemail.com,
-        robclark@freedesktop.org, Helen Koike <helen.koike@collabora.com>,
-        anholt@google.com, linux-mediatek@lists.infradead.org,
-        matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org,
-        gustavo.padovan@collabora.com,
-        linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
-Message-ID: <5ejq3hjpoy3gxft2jbmoa5m656usetuxcs7g3ezyyiitj67rav@r5jhdz27foat>
-References: <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
- <87bkeo23vs.fsf@intel.com>
- <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
- <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
- <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
- <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com>
- <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
- <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
- <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
- <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
+        with ESMTP id S236535AbjIKK4u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 06:56:50 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2857F3;
+        Mon, 11 Sep 2023 03:56:45 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BAHUGk005010;
+        Mon, 11 Sep 2023 10:56:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=Ulb6ivCBYfJxHUM4YBEtsEJoOnSrk2SMWeoI7ndeucs=;
+ b=PMVy+DkuMntEMbC6E3AaypPc6J9MF6sKEejS5SF4eIQSNVSFrmhXAPTRcddOmNDRtS+y
+ XBwgCr78Vw0oH9FlMM2ELswZh7cIbka+q5Un9HtRgSz61u0g8J9xtSCG3Maflg4du5XG
+ QN/OQN6J0dZ5gE4stSdDACe+nNVNVC18By+VvtxgZxyGcPB2Ehq/8NhkSoMnTTADQ03A
+ H/TqrLJl25Amd8ejof0lM4LyGMqfKv/PY2D3S0UCBc+0isIpJk4tI3yGmOlOtvQeR/MU
+ oqIg5cY+vJy/WEj16vLShRAANt6ILj4pEcYIC5J3bMu0/vzx02WPiHPBXXyXx3NN0bkE 5g== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0hfqkenc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:56:13 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BAuCVs006051
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:56:12 GMT
+Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Mon, 11 Sep 2023 03:55:28 -0700
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+To:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
+        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
+        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>,
+        <quic_mojha@quicinc.com>
+Subject: [REBASE PATCH v5 09/17] pstore/ram: Use dynamic ramoops reserve resource
+Date:   Mon, 11 Sep 2023 16:23:51 +0530
+Message-ID: <1694429639-21484-10-git-send-email-quic_mojha@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5ilbap4gkrsqltiz"
-Content-Disposition: inline
-In-Reply-To: <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: VlpMUntWdgjbfQBbSQt02UT2ECOTiSRG
+X-Proofpoint-GUID: VlpMUntWdgjbfQBbSQt02UT2ECOTiSRG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 clxscore=1015
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+As dynamic ramoops command line parsing is now added, so
+lets add the support in ramoops driver to get the resource
+structure and add it during platform device registration.
 
---5ilbap4gkrsqltiz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+---
+ fs/pstore/ram.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-On Mon, Sep 11, 2023 at 02:13:43PM +0200, Michel D=E4nzer wrote:
-> On 9/11/23 11:34, Maxime Ripard wrote:
-> > On Thu, Sep 07, 2023 at 01:40:02PM +0200, Daniel Stone wrote:
-> >> Yeah, this is what our experience with Mesa (in particular) has taught=
- us.
-> >>
-> >> Having 100% of the tests pass 100% of the time on 100% of the platform=
-s is a
-> >> great goal that everyone should aim for. But it will also never happen.
-> >>
-> >> Firstly, we're just not there yet today. Every single GPU-side DRM dri=
-ver
-> >> has userspace-triggerable faults which cause occasional errors in GL/V=
-ulkan
-> >> tests. Every single one. We deal with these in Mesa by retrying; if we
-> >> didn't retry, across the breadth of hardware we test, I'd expect 99% of
-> >> should-succeed merges to fail because of these intermittent bugs in th=
-e DRM
-> >> drivers.
-> >=20
-> > So the plan is only to ever test rendering devices? It should have been
-> > made clearer then.
-> >=20
-> >> We don't have the same figure for KMS - because we don't test it - but
-> >> I'd be willing to bet no driver is 100% if you run tests often enough.
-> >=20
-> > And I would still consider that a bug that we ought to fix, and
-> > certainly not something we should sweep under the rug. If half the tests
-> > are not running on a driver, then fine, they aren't. I'm not really
-> > against having failing tests, I'm against not flagging unreliable tests
-> > on a given hardware as failing tests.
->=20
-> A flaky test will by definition give a "pass" result at least some of the=
- time, which would be considered a failure by the CI if the test is marked =
-as failing.
->=20
->=20
-> >> Secondly, we will never be there. If we could pause for five years and=
- sit
-> >> down making all the current usecases for all the current hardware on t=
-he
-> >> current kernel run perfectly, we'd probably get there. But we can't: t=
-here's
-> >> new hardware, new userspace, and hundreds of new kernel trees.
-> >=20
-> > Not with that attitude :)
->=20
-> Attitude is not the issue, the complexity of the multiple systems
-> involved is.
+diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
+index d36702c7ab3c..ab551caa1d2a 100644
+--- a/fs/pstore/ram.c
++++ b/fs/pstore/ram.c
+@@ -914,13 +914,17 @@ static void __init ramoops_register_dummy(void)
+ 
+ 	/*
+ 	 * Prepare a dummy platform data structure to carry the module
+-	 * parameters. If mem_size isn't set, then there are no module
+-	 * parameters, and we can skip this.
++	 * parameters. If mem_size isn't set, check for dynamic ramoops
++	 * size and extract the information if it is set.
+ 	 */
+-	if (!mem_size)
++	if (!mem_size && !dyn_ramoops_res.end)
+ 		return;
+ 
+ 	pr_info("using module parameters\n");
++	if (dyn_ramoops_res.end) {
++		mem_size = resource_size(&dyn_ramoops_res);
++		mem_address = dyn_ramoops_res.start;
++	}
+ 
+ 	memset(&pdata, 0, sizeof(pdata));
+ 	pdata.mem_size = mem_size;
+-- 
+2.7.4
 
-FTR, that was a meme/joke.
-
-> > I'm not sure it's actually an argument, really. 10 years ago, we would
-> > never have been at "every GPU on the market has an open-source driver"
-> > here. 5 years ago, we would never have been at this-series-here. That
-> > didn't stop anyone making progress, everyone involved in that thread
-> > included.
->=20
-> Even assuming perfection is achievable at all (which is very doubtful,
-> given the experience from the last few years of CI in Mesa and other
-> projects), if you demand perfection before even taking the first step,
-> it will never get off the ground.
-
-Perfection and scale from the get-go isn't reasonable, yes. Building a
-small, "perfect" (your words, not mine) system that you can later expand
-is doable. And that's very much a design choice.
-
-> > How are we even supposed to detect those failures in the first
-> > place if tests are flagged as unreliable?
->=20
-> Based on experience with Mesa, only a relatively small minority of
-> tests should need to be marked as flaky / not run at all. The majority
-> of tests are reliable and can catch regressions even while some tests
-> are not yet.
-
-I understand and acknowledge that it worked with Mesa. That's great for
-Mesa. That still doesn't mean that it's the panacea and is for every
-project.
-
-> > No matter what we do here, what you describe will always happen. Like,
-> > if we do flag those tests as unreliable, what exactly prevents another
-> > issue to come on top undetected, and what will happen when we re-enable
-> > testing?
->=20
-> Any issues affecting a test will need to be fixed before (re-)enabling
-> the test for CI.
-
-If that underlying issue is never fixed, at which point do we consider
-that it's a failure and should never be re-enabled? Who has that role?
-
-> > On top of that, you kind of hinted at that yourself, but what set of
-> > tests will pass is a property linked to a single commit. Having that
-> > list within the kernel already alters that: you'll need to merge a new
-> > branch, add a bunch of fixes and then change the test list state. You
-> > won't have the same tree you originally tested (and defined the test
-> > state list for).
->=20
-> Ideally, the test state lists should be changed in the same commits
-> which affect the test results. It'll probably take a while yet to get
-> there for the kernel.
->=20
-> > It might or might not be an issue for Linus' release, but I can
-> > definitely see the trouble already for stable releases where fixes will
-> > be backported, but the test state list certainly won't be updated.
->=20
-> If the stable branch maintainers want to take advantage of CI for the
-> stable branches, they may need to hunt for corresponding state list
-> commits sometimes. They'll need to take that into account for their
-> decision.
-
-So we just expect the stable maintainers to track each and every patches
-involved in a test run, make sure that they are in a stable tree, and
-then update the test list? Without having consulted them at all?
-
-> >> By keeping those sets of expectations, we've been able to keep Mesa pr=
-etty
-> >> clear of regressions, whilst having a very clear set of things that sh=
-ould
-> >> be fixed to point to. It would be great if those set of things were ze=
-ro,
-> >> but it just isn't. Having that is far better than the two alternatives:
-> >> either not testing at all (obviously bad), or having the test always b=
-e red
-> >> so it's always ignored (might as well just not test).
-> >=20
-> > Isn't that what happens with flaky tests anyway?
->=20
-> For a small minority of tests. Daniel was referring to whole test suites.
->=20
-> > Even more so since we have 0 context when updating that list.
->=20
-> The commit log can provide whatever context is needed.
-
-Sure, I've yet to see that though.
-
-There's in 6.6-rc1 around 240 reported flaky tests. None of them have
-any context. That new series hads a few dozens too, without any context
-either. And there's no mention about that being a plan, or a patch
-adding a new policy for all tests going forward.
-
-So I'm still fairly doubtful it will ever happen.
-
-> > I've asked a couple of times, I'll ask again. In that other series, on
-> > the MT8173, kms_hdmi_inject@inject-4k is setup as flaky (which is a KMS
-> > test btw).
-> >=20
-> > I'm a maintainer for that part of the kernel, I'd like to look into it,
-> > because it's seriously something that shouldn't fail, ever, the hardware
-> > isn't involved.
-> >=20
-> > How can I figure out now (or worse, let's say in a year) how to
-> > reproduce it? What kernel version was affected? With what board? After
-> > how many occurences?
-> >=20
-> > Basically, how can I see that the bug is indeed there (or got fixed
-> > since), and how to start fixing it?
->=20
-> Many of those things should be documented in the commit log of the
-> state list change.
->=20
-> How the CI works in general should be documented in some appropriate
-> place in tree.
-
-I think I'll stop the discussion there. It was merged anyway so I'm not
-quite sure why I was asked to give my feedback on this. Any concern I
-raised were met with a giant "it worked on Mesa" handwave or "someone
-will probably work on it at some point".
-
-And fine, guess I'm wrong.
-
-Thanks
-Maxime
-
---5ilbap4gkrsqltiz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZP8NTgAKCRDj7w1vZxhR
-xUbwAP9xYajr1SxGqefYgkw1nJmhEpNrjvSqTUadaIowcFfU3QEAgaTNSIYR6g6D
-U5DBLLVerPzwDKnQS9sCtYt9xh2WWQ8=
-=4ACD
------END PGP SIGNATURE-----
-
---5ilbap4gkrsqltiz--
