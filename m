@@ -2,146 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C28B9CA0EC1
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94426CA0EC6
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343644AbjIKVMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:12:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34670 "EHLO
+        id S1343658AbjIKVMN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:12:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240542AbjIKOq6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 10:46:58 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676BC106;
-        Mon, 11 Sep 2023 07:46:53 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E72C433C8;
-        Mon, 11 Sep 2023 14:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694443613;
-        bh=GajsJSo2epB55/QXlHa/vb50gsyMmkBm0dq/dBU22L0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p5mC1L6tFXnJ3XqZxh9lRAwUouQwGfHGue4LGkWDhnduL1VU6VZD3Tq60Xhm5Af+M
-         w1sPRi8BL2meLINNTko9B91ikEGFc6P3AETxVrohj5BlgO2Yi3EuSjqTnynyKjxxCV
-         6fL18lMOmQFgpsZqnVnOMfyDDgwXZ9iACQ8hKYR27JvtjdXQYYMmLZRUg1EsRhwHIo
-         yKjnxS3BNYy0JX9PurDrL38poPpk7Ia7oP/Q1S6uoI1mFNZ+daJ6HVlg4ua/saJZ1V
-         xSPw7Wjab/NW+2VYUGEA9g4ABOGf7eE/2OtvOPN3zDUzbnLoC/K+8FHbBSr8YzJqox
-         hyWwCrhU//CNQ==
-Date:   Mon, 11 Sep 2023 16:46:50 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc:     emma@anholt.net, linux-doc@vger.kernel.org,
-        vignesh.raman@collabora.com, dri-devel@lists.freedesktop.org,
-        alyssa@rosenzweig.io, jbrunet@baylibre.com, robdclark@google.com,
-        corbet@lwn.net, khilman@baylibre.com,
-        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
-        linux-rockchip@lists.infradead.org,
-        Daniel Stone <daniels@collabora.com>,
-        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
-        Helen Koike <helen.koike@collabora.com>, anholt@google.com,
-        linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
-        linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
-        linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
-        tzimmermann@suse.de
-Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
-Message-ID: <os2wvkangif2nwewfbzkuyjm7njp4g3sqj5td3ogbhhjwsrbbd@3jpf6g5hd3z4>
-References: <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
- <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
- <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
- <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com>
- <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
- <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
- <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
- <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
- <5ejq3hjpoy3gxft2jbmoa5m656usetuxcs7g3ezyyiitj67rav@r5jhdz27foat>
- <550454b8-2e2c-c947-92c5-37f0367661c2@mailbox.org>
+        with ESMTP id S236658AbjIKLJ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 07:09:58 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EAF2CEB
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:09:51 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2b962c226ceso71483291fa.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:09:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694430590; x=1695035390; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ItV/PafZYbRtZG+3EH6sRu97i9Pet4QO+NBJ8/y2iuI=;
+        b=tg4h2AL9gT7/qUV0jFTrvkPJl9a/skFZyfbwb9lpcls46kdOpKy/0zULUF05nAJKrw
+         ITd7nMPZiaS5PsZzg1uTs9LpnOIGc5IQoXbM6B0QK8XpMLmTWz7Uvoa0s4ZTgz5Jq9t4
+         v0U5o8trLtrjzW4IH2vQo4mpKEbOiin4b62jWutcLNlCqZmZsOvN5+FxgDlk21bHCJDq
+         AGy8mFU5AJj5nVJ+LxeMb8183iNYaxF1hzP/jM4wDcZfI50R1cg8CQ5wa0RSetIfcJDN
+         Epx6SgrPMDqtOePCk98hrz6ZZ1pRWPxrXpWGXqxYXtz71fRYbYppSVB44eXGFYlNXoj4
+         UTNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694430590; x=1695035390;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ItV/PafZYbRtZG+3EH6sRu97i9Pet4QO+NBJ8/y2iuI=;
+        b=AlUekgZWm6au7hMK2qqqxHtCW3Px6ewPtgUM2vOjEZUHyfvCOc0rqqr/Yu4U5TN/8X
+         /f1iVTL4l/UpmRcYtY1RQbW8velMkZWNMHQaH6ELyWaA1ffbBODRV1BS/DGfSdfscnkf
+         WYsRlmJrmsGVYy/PwKWifO2jDzukpHT1dmU9uRaoRLotnXZpqRKlUCuAIBgocvt8Dz7L
+         6WueLrTGHTnl+juRHsSXXNkRFD3fPv5RSjxSeZOfr9oDR0NN8UVMFjNjXjsA66x0BW1j
+         0lgZRW+bteWhGyNbkqH/4L03KYrWXxkuWkypJo5eHsktTYPFiTlXPGebltOdYCkcRRu/
+         /y8g==
+X-Gm-Message-State: AOJu0YxK9wTQLrXHtYeNVQFmbH9Mx+aYvGdGWf92dqMcWL3PCULtLeS+
+        xExuHHKUPppm8aL1CQFqkzVVuQ==
+X-Google-Smtp-Source: AGHT+IEA9FyfM8rXa+3k+u+doQWaGigDrU1zuRRVi1v3E2XELPt5LPr2HsZJRl0XxMdT23XFarwUrQ==
+X-Received: by 2002:a2e:8543:0:b0:2bd:180d:67b7 with SMTP id u3-20020a2e8543000000b002bd180d67b7mr6601812ljj.40.1694430589764;
+        Mon, 11 Sep 2023 04:09:49 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id lw7-20020a170906bcc700b009a168ab6ee2sm5129780ejb.164.2023.09.11.04.09.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 04:09:48 -0700 (PDT)
+Message-ID: <0041a391-12ba-2e1b-0954-fbc0e00be631@linaro.org>
+Date:   Mon, 11 Sep 2023 13:09:46 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="uuq5zmkty6dwz5s2"
-Content-Disposition: inline
-In-Reply-To: <550454b8-2e2c-c947-92c5-37f0367661c2@mailbox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v5 11/17] qcom_minidump: Register ramoops region with
+ minidump
+Content-Language: en-US
+To:     Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
+        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, vigneshr@ti.com, nm@ti.com,
+        matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
+        bmasney@redhat.com, quic_tsoni@quicinc.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
+ <1694290578-17733-12-git-send-email-quic_mojha@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1694290578-17733-12-git-send-email-quic_mojha@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 09/09/2023 22:16, Mukesh Ojha wrote:
+> Register all the pstore frontend with minidump, so that they can
+> be dumped as default Linux minidump region to be collected on
+> SoC where minidump is enabled.
+> 
 
---uuq5zmkty6dwz5s2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-Replying one more time, because I certainly don't want to create any
-hard feeling here.
+> +
+> +	record.type = type;
+> +	record.id = 0;
+> +	max_dump_cnt = 0;
+> +	name = pstore_type_to_name(record.type);
+> +	do {
+> +		ret = pstore_region_defined(&record, &virt, &phys, &size, &max_dump_cnt);
+> +		if (ret < 0)
+> +			break;
+> +
+> +		mdr_list = devm_kzalloc(dev, sizeof(struct md_region_list), GFP_KERNEL);
 
-On Mon, Sep 11, 2023 at 03:30:55PM +0200, Michel D=E4nzer wrote:
-> >>>> By keeping those sets of expectations, we've been able to keep Mesa =
-pretty
-> >>>> clear of regressions, whilst having a very clear set of things that =
-should
-> >>>> be fixed to point to. It would be great if those set of things were =
-zero,
-> >>>> but it just isn't. Having that is far better than the two alternativ=
-es:
-> >>>> either not testing at all (obviously bad), or having the test always=
- be red
-> >>>> so it's always ignored (might as well just not test).
-> >>>
-> >>> Isn't that what happens with flaky tests anyway?
-> >>
-> >> For a small minority of tests. Daniel was referring to whole test suit=
-es.
-> >>
-> >>> Even more so since we have 0 context when updating that list.
-> >>
-> >> The commit log can provide whatever context is needed.
-> >=20
-> > Sure, I've yet to see that though.
-> >=20
-> > There's in 6.6-rc1 around 240 reported flaky tests. None of them have
-> > any context. That new series hads a few dozens too, without any context
-> > either. And there's no mention about that being a plan, or a patch
-> > adding a new policy for all tests going forward.
->=20
-> That does sound bad, would need to be raised in review.
->
-> > Any concern I raised were met with a giant "it worked on Mesa" handwave
->=20
-> Lessons learned from years of experience with big real-world CI
-> systems like this are hardly "handwaving".
+sizeof(*)
 
-Your (and others) experience certainly isn't. It is valuable, welcome,
-and very much appreciated.
+Please fix it everywhere in your code.
 
-However, my questions and concerns being ignored time and time again
-about things like what is the process is going to be like, what is going
-to be tested, who is going to be maintaining that test list, how that
-interacts with stable, how we can possibly audit the flaky tests list,
-etc. have felt like they were being handwaived away.
+> +		if (!mdr_list)
+> +			return -ENOMEM;
+> +
+> +		md_region = &mdr_list->md_region;
+> +		scnprintf(md_region->name, sizeof(md_region->name) - 1, "K%s%llu", name, record.id);
+> +		md_region->virt_addr = virt;
+> +		md_region->phys_addr = phys;
+> +		md_region->size = size;
+> +		ret = qcom_minidump_region_register(md_region);
+> +		if (ret) {
+> +			pr_err("failed to register minidump region\n");
+> +			break;
+> +		}
+> +
+> +		list_add(&mdr_list->list, &ramoops_region_list);
+> +	} while (record.id < max_dump_cnt && ++record.id);
+> +
+> +	return ret;
+> +}
 
-I'm not saying that because I disagree, I still do on some, but that's
-fine to some extent. However, most of these issues are not so much an
-infrastructure issue, but a community issue. And I don't even expect a
-perfect solution right now, unlike what you seem to think. But I do
-expect some kind of plan instead of just ignoring that problem.
 
-Like, I had to ask the MT8173 question 3 times in order to get an
-answer, and I'm still not sure what is going to be done to address that
-particular issue.
+Best regards,
+Krzysztof
 
-So, I'm sorry, but I certainly feel like it here.
-
-Maxime
-
---uuq5zmkty6dwz5s2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZP8oWgAKCRDj7w1vZxhR
-xeoaAQCel+s1l4ON0RwLsGGIhWRQkRm3rOPEl1s1oAgC7ibXSwEAp4V+2IAQRlWC
-JJT0CY046wasZ7fQ6QP2X7LhxQsGdgA=
-=uxXU
------END PGP SIGNATURE-----
-
---uuq5zmkty6dwz5s2--
