@@ -2,130 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B49CEE57DF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 07:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 408A9EE7FF4
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 08:00:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230451AbjIKHrh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 03:47:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43308 "EHLO
+        id S233001AbjIKIAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 04:00:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231694AbjIKHrh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 03:47:37 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4602A10EC;
-        Mon, 11 Sep 2023 00:46:57 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 4788D218DF;
-        Mon, 11 Sep 2023 07:45:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1694418320; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MJNZv4oXxKfQte9TmKBOGgbcbZkRHW4Xw8D72ufYQcU=;
-        b=FXLMifnFPT7Hb2E+ShASn04gLJntaLjHbkNCb5FIgVq+TQHG4ji0js9e+MaxWqd87JMUtf
-        aYYWObtWLVLBQyYCcSY88Q0nU7ydYBIuobf0nFnW053ZEronfsYxdSi8uUodVfUF6LNfnb
-        iyv3X0jfskigaZ0/y2JzFgdHqO763vw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1694418320;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MJNZv4oXxKfQte9TmKBOGgbcbZkRHW4Xw8D72ufYQcU=;
-        b=4sbFVSbW7T87o/hysAf1k2UEqWUhYOWt8vEOal8rAj0tiWDlPuyYtl68yTIiyJojt7nuia
-        t0DOtzliX3u6XTAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DF5C9139CC;
-        Mon, 11 Sep 2023 07:45:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id mrbHNY/F/mTKbAAAMHmgww
-        (envelope-from <hare@suse.de>); Mon, 11 Sep 2023 07:45:19 +0000
-Message-ID: <19be4f1f-dc2a-47e7-a7d0-94f3a18778d3@suse.de>
-Date:   Mon, 11 Sep 2023 09:45:19 +0200
+        with ESMTP id S231214AbjIKIAC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 04:00:02 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61A3BB;
+        Mon, 11 Sep 2023 00:59:57 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B6JXTn018071;
+        Mon, 11 Sep 2023 07:59:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=j4P0iwKezHc+FaJKHNn7RJ5R8SdPoiUvrT3JIUc3ZIA=;
+ b=l8a9IpdojD2+5RiZ1IcIYDZhFCQ3OpZplNSmZimlmnObkbMIf7fjFRjXTZMZMphZ2gEN
+ 1Blku+OSFS0FM3mwxZPK3X5GbsCtSSAnSS8BJVeDftGGyDYxQrx4fNKlnTEc0f1S74NI
+ KepQv6v43udG3wD+5dvcQd8n97w26GncMhSg4h4y1KLDhiSNhhu+EjVbQHX59errn2tz
+ xaiYEm2Ddue0ld6/242FjTOBfYyela6k4PRh/s3Y7KoQekILXiTtO3XX/zdT/QPe0b8L
+ 3XByQnVMCyQQfdCVwA52ZsCRc/7KpId7sISQZ4suX1LDdKek2vjAK3Pf8YsjMftQ93WL jg== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0hfqk0xv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 07:59:19 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38B7xI2W027340
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 07:59:18 GMT
+Received: from [10.214.66.81] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
+ 2023 00:59:07 -0700
+Message-ID: <0f7a24a6-bcc5-54d5-0b6a-884f8a0fe8d7@quicinc.com>
+Date:   Mon, 11 Sep 2023 13:28:57 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 09/12] dm: Add support for copy offload
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 11/17] qcom_minidump: Register ramoops region with
+ minidump
+To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
+CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
+        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
+        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
+References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
+ <1694290578-17733-12-git-send-email-quic_mojha@quicinc.com>
+ <3119f3f6-92a5-4db1-85cf-bd16e31ae5a0@quicinc.com>
 Content-Language: en-US
-To:     Nitesh Shetty <nj.shetty@samsung.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        martin.petersen@oracle.com, mcgrof@kernel.org,
-        gost.dev@samsung.com, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <20230906163844.18754-1-nj.shetty@samsung.com>
- <CGME20230906164407epcas5p3f9e9f33e15d7648fd1381cdfb97d11f2@epcas5p3.samsung.com>
- <20230906163844.18754-10-nj.shetty@samsung.com>
- <cb767dc9-1732-4e31-bcc6-51c187750d66@suse.de>
- <20230911070724.GA28177@green245>
-From:   Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230911070724.GA28177@green245>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <3119f3f6-92a5-4db1-85cf-bd16e31ae5a0@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: vr9xvYvA760iWL4_izSZwApqXxVLD0G_
+X-Proofpoint-GUID: vr9xvYvA760iWL4_izSZwApqXxVLD0G_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_05,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=822 malwarescore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 clxscore=1015
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110072
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/11/23 09:07, Nitesh Shetty wrote:
-> On Fri, Sep 08, 2023 at 08:13:37AM +0200, Hannes Reinecke wrote:
->> On 9/6/23 18:38, Nitesh Shetty wrote:
->>> Before enabling copy for dm target, check if underlying devices and
->>> dm target support copy. Avoid split happening inside dm target.
->>> Fail early if the request needs split, currently splitting copy
->>> request is not supported.
->>>
->> And here is where I would have expected the emulation to take place;
->> didn't you have it in one of the earlier iterations?
-> 
-> No, but it was the other way round.
-> In dm-kcopyd we used device offload, if that was possible, before using default
-> dm-mapper copy. It was dropped in the current series,
-> to streamline the patches and make the series easier to review.
-> 
->> After all, device-mapper already has the infrastructure for copying
->> data between devices, so adding a copy-offload emulation for device-mapper
->> should be trivial.
-> I did not understand this, can you please elaborate ?
-> 
-Please see my comments to patch 04.
-We should only implement copy-offload if there is a dedicated 
-infrastructure in place. But we should not have a 'generic' copy-offload 
-emulation.
-Problem is that 'real' copy-offload functionalities (ie for NVMe or 
-SCSI) are riddled with corner-cases where copy-offload does _not_ work,
-and where commands might fail if particular conditions are not met.
-Falling back to a generic implementation will cause applications to 
-assume that copy-offload worked, and that it gained performance as
-the application just had to issue a single command.
-Whereas in fact the opposite is true; it wasn't a single command, and 
-the application might have performed better by issuing the commands
-itself.
-Returning -EOPNOTSUPP in these cases will inform the application that 
-the attempt didn't work, and that it will have to fall back to the
-'normal' copy.
 
-Cheers,
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+On 9/11/2023 11:31 AM, Pavan Kondeti wrote:
+> On Sun, Sep 10, 2023 at 01:46:12AM +0530, Mukesh Ojha wrote:
+>> Register all the pstore frontend with minidump, so that they can
+>> be dumped as default Linux minidump region to be collected on
+>> SoC where minidump is enabled.
+>>
+>> Helper functions is written in separate file and built along with
+>> the minidump driver, since it is client of minidump and also call
+>> it at appropriate place from minidump probe so that they always
+>> get registered.
+>>
+>> While at it also rename the out minidump module object name during
+>> build as qcom_apss_minidump which basically depicts as Qualcomm
+>> Application processor subsystem minidump.
+>>
+>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>> ---
+>>   drivers/soc/qcom/Kconfig                 |  1 +
+>>   drivers/soc/qcom/Makefile                |  3 +-
+>>   drivers/soc/qcom/qcom_minidump.c         |  4 ++
+>>   drivers/soc/qcom/qcom_ramoops_minidump.c | 88 ++++++++++++++++++++++++++++++++
+>>   drivers/soc/qcom/qcom_ramoops_minidump.h | 10 ++++
+>>   5 files changed, 105 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/soc/qcom/qcom_ramoops_minidump.c
+>>   create mode 100644 drivers/soc/qcom/qcom_ramoops_minidump.h
+>>
+>> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+>> index 4b36d46807bc..b3977f1687d8 100644
+>> --- a/drivers/soc/qcom/Kconfig
+>> +++ b/drivers/soc/qcom/Kconfig
+>> @@ -305,6 +305,7 @@ config QCOM_MINIDUMP
+>>   	tristate "QCOM APSS Minidump driver"
+>>   	depends on ARCH_QCOM || COMPILE_TEST
+>>   	depends on QCOM_SMEM
+>> +	depends on PSTORE
+> 
+> Can't we make QC minidump available without PSTORE? PSTORE is another
+> cllient for minidump, so other clients can still use minidump right?
+> Where is this hard dependency coming from?
 
+Thanks for asking this question, this was intentionally put here to
+continue the discussion forward about minidump existence in kernel tree
+and how community want to see it in kernel tree.
+
+Actually, there is no hard dependency of minidump on pstore and  as i 
+have said in cover-letter about minidump is going to collect what 
+ramoops is offering now or going to offer in future as a default
+regions.
+
+So, main minidump driver does not depends on pstore since, i have 
+integrated even the minidump client with this
+qcom_ramoops_minidump_{register|unregister}()
+
+I may guard this entire qcom_ramoops_minidump_{register|unregister}()
+function under CONFIG_PSTORE_RAM, if everyone agree ?
+
+-Mukesh
+> 
+> Thanks,
+> Pavan
