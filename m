@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9724CCA0EC3
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:42:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8417CA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:46:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239764AbjILCmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 22:42:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42248 "EHLO
+        id S240448AbjILCqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 22:46:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239726AbjILCmF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:42:05 -0400
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1F01E5B15;
-        Mon, 11 Sep 2023 16:11:17 -0700 (PDT)
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-34e202a9cc9so16177705ab.2;
-        Mon, 11 Sep 2023 16:11:17 -0700 (PDT)
+        with ESMTP id S232972AbjILCqi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:46:38 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4E5810DBE9;
+        Mon, 11 Sep 2023 16:27:48 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-57756115f08so1535725a12.3;
+        Mon, 11 Sep 2023 16:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694473747; x=1695078547; darn=vger.kernel.org;
+        d=gmail.com; s=20221208; t=1694474777; x=1695079577; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fcAgeVHnxNNRvfl+2uM1osGvKKovW40vicb6K15Ndz8=;
-        b=b7rVmnS9T2aQg3o2AMKyW8JM0sAfC7g3uZR+9zk+WYr+FmzAR1qZHWThmg1cJGEN7I
-         MoRELaXROKoZKKXMIei0VQ1XVB1i51m3iLSQp7hs4vfYZ0JD2z8yT5OEhooFVLKzLNdp
-         9J2wQUfGv3mZKgCf1ST3EC93stRjqwBN9kBQ6c4aVxs5f8gndoLNxzLM5+5wrP+Baj/f
-         OXEawUVMX8Nfzo/83S/AaRGB9aTnweFyK1Cst6MkrPcNlTVv2m+KPWPumIheQv1b7R0X
-         J/t3r4CWBQTtPWqGOztAghW011W6vhTAcMgyaWaNHB+wdBAalaJgQ1XrBxmV89L1IIn1
-         K0CA==
+        bh=Mmy4CQw8YdfUBsoDy2sZHYo8FTokxGCRVZcEnly2Jnk=;
+        b=lwre9pJUZcQTXRB60c0sEd2Vb0tYVOdpzPfRdUqw0I+GX0dA3rvrYXzSZBHvpiPZCA
+         UiT4ewBCOrfd06QG0wEsrptT9XE3kPSCFfXolJYe/gIRxGucNHpFOXQMiLpB2Mj/GcT5
+         aAV1QvK20neqZrPrwlCmvMxIUZMXqetvcDB3DyF9m4fEEeoAxN/nkVOpk8Lf8Sa6faN+
+         YJ1En3kUjGuJYYLqeObDEuR7+6MoR19rF3ZToV/cNsLO5IjcJFm5n5TuACOBpw6fZgqQ
+         6VsJsgFovikYrUyiHPNqBlYFNbgrIz1IPtHD+ADGmiR0q+xhROKQn0Bk0RoG4bMLKWR9
+         1uDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694473747; x=1695078547;
+        d=1e100.net; s=20230601; t=1694474777; x=1695079577;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fcAgeVHnxNNRvfl+2uM1osGvKKovW40vicb6K15Ndz8=;
-        b=Os1ooQGMtjx0G8t19xaarmAbi1Npkk7HtGf9w9wNvA6w6snMgJJZCaK2X1eY0Y5jnJ
-         c8ezqJlQQXJLrxjK1iCtNs3hqzRCrwMg9ckjq7iahi6wJ3uOSDyodP/dnK12qulAIGY+
-         Go+oK95FRrQ26lYC7ARpFuzuxgnm1dHJ2wgF+Ad7+fqlXl2AaCNtOhnI1y49aO9i54Eq
-         J96GFLLvLtHQ9xQI9iCpv7pUZDoYP4smWl6ckJwQltzKm0/5ojoi2fQbLa3g9alcg7lf
-         am+zdkNneuurL3zSn7zbrOqtSgyGQU4Z/3WgQVydbqYKLuQOLu6vVAMIg8gY7+p2jOxP
-         rBRw==
-X-Gm-Message-State: AOJu0YxbZlsvX9xK0AZDVxrQg7Q0ftHK5NTrGNVbZpQLlDpyNXyXKJgo
-        agF/go/aZ5MOHwYFh7s4bPU=
-X-Google-Smtp-Source: AGHT+IGm8XJJjgEBdcXS6iFzgL2wU9gzTG524paxkBRkx7pWMbgnsFowJbau/w+sUivI5RVDg02BfA==
-X-Received: by 2002:a05:6e02:1a85:b0:34f:49cb:40a9 with SMTP id k5-20020a056e021a8500b0034f49cb40a9mr12781961ilv.4.1694473747663;
-        Mon, 11 Sep 2023 16:09:07 -0700 (PDT)
+        bh=Mmy4CQw8YdfUBsoDy2sZHYo8FTokxGCRVZcEnly2Jnk=;
+        b=Y1HQgNMbpSahLiDINmhEaPjd9SUOw2rA27GV3+0Cm0NIU6hDCU2OZqzGkByr9PiRqc
+         VigpcI2tBSfDu2i3WH/iuab6NQHFFJDGCkKuNSL2eJy6NEr+Un8/TJvDOtqo9Nvap7w3
+         /re8G+UipZEKCKZxTresyj0hVuNwBUWmhray65tCq+EAeqoNBZkwHyUyzocGwbMzJyXS
+         1HxkBb3+Yr1KZ8ttiD4eLNXH0xDtskOC+bAhsp9a9coRJhQzfxqwaYcjjcaYGTrp+gpG
+         YUPZs0y5FGUSc5wyTAbTsrwT844ujQB5mNqRk1JlJV3UOgNaYAomF7mScY6m4i0s3xtC
+         Mqcw==
+X-Gm-Message-State: AOJu0YwdkeLUAv+bPIskUNjTDoOjL8CBRTdbPNvwl9MlUIkUyqiBR5Cs
+        5m4hNGrv1cKNLmKachwVaKt/Aj7Er4ZhuQ==
+X-Google-Smtp-Source: AGHT+IHLAdJUICDJlpY2SLsUaMJZhDgX9mAPnhl1PjVBKn7g0kArqTJLgGWW4MmaywrbY9ZEQTsn9Q==
+X-Received: by 2002:a05:6602:197:b0:791:1b1c:b758 with SMTP id m23-20020a056602019700b007911b1cb758mr13933894ioo.19.1694473725817;
+        Mon, 11 Sep 2023 16:08:45 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.06
+        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.08.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 16:09:07 -0700 (PDT)
+        Mon, 11 Sep 2023 16:08:45 -0700 (PDT)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
         daniel.vetter@ffwll.ch
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         ville.syrjala@linux.intel.com, seanpaul@chromium.org,
         robdclark@gmail.com, linux-doc@vger.kernel.org,
         Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 20/22] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-Date:   Mon, 11 Sep 2023 17:08:36 -0600
-Message-ID: <20230911230838.14461-21-jim.cromie@gmail.com>
+Subject: [PATCH v6 02/22] dyndbg: make ddebug_class_param union members same size
+Date:   Mon, 11 Sep 2023 17:08:18 -0600
+Message-ID: <20230911230838.14461-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
 References: <20230911230838.14461-1-jim.cromie@gmail.com>
@@ -70,30 +70,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lots of burn-in testing needed before signing, upstreaming.
-
-NOTE: I set default Y to maximize testing by default.
-Is there a better way to do this ?
+struct ddebug_class_param keeps a ref to the state-storage of the
+param, make both flavors use the same unsigned long under-type.
+ISTM this is simpler and safer.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/Kconfig | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/dynamic_debug.h | 2 +-
+ lib/dynamic_debug.c           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index afb3b2f5f425..27bbb03e84dd 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -52,8 +52,7 @@ config DRM_DEBUG_MM
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 4fcbf4d4fd0a..5231aaf361c4 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -124,7 +124,7 @@ struct _ddebug_info {
+ struct ddebug_class_param {
+ 	union {
+ 		unsigned long *bits;
+-		unsigned int *lvl;
++		unsigned long *lvl;
+ 	};
+ 	char flags[8];
+ 	const struct ddebug_class_map *map;
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index fea732db7323..6fee76fcddd1 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -796,7 +796,7 @@ int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
  
- config DRM_USE_DYNAMIC_DEBUG
- 	bool "use dynamic debug to implement drm.debug"
--	default n
--	depends on BROKEN
-+	default y
- 	depends on DRM
- 	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
- 	depends on JUMP_LABEL
+ 	case DD_CLASS_TYPE_LEVEL_NAMES:
+ 	case DD_CLASS_TYPE_LEVEL_NUM:
+-		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl);
++		return scnprintf(buffer, PAGE_SIZE, "%ld\n", *dcp->lvl);
+ 	default:
+ 		return -1;
+ 	}
 -- 
 2.41.0
 
