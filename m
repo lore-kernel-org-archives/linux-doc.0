@@ -2,133 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A46CCA0ED0
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:42:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9724CCA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:42:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238207AbjILCmN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 22:42:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
+        id S239764AbjILCmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 22:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239562AbjILCmB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:42:01 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C031DECDBF;
-        Mon, 11 Sep 2023 19:07:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91DFC433B7;
-        Mon, 11 Sep 2023 21:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694466732;
-        bh=kfFJiK11CgqnTMgWoMWBupbFPFhRWMiQL21d/DKb1us=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=eBtzp/W9ZhHr3ggf7b3a4tayeR2b2ppfOPgNyldC1EQRjOl823JaStktZnuABYkZg
-         V6t0WFNQSA3wTHiS6h8RdR9doxnuZMfSCDVp9jzCoKS+OwzdTVO7qUhhbgJDmbabxv
-         rw2J2kTXNiSmH+CkFzWUKShn8Ir+V5/MmFtjbPJ80w2OIks1LFvFHmcRyKH2QMgLyN
-         6zw/HOwkgTqCW0tDKD1Wk8ytzUQ2iO+RQACJ5B6/3baDV6YLVc62WaRmPeIVJ5DRkz
-         PPQyAjP35khnrV1k6rYGjRZH0QrKt9O8tBTEhRQJB/CBp7aUlvTIdojeeCzYmsvox2
-         DYhs0iasqyUVg==
-Received: (nullmailer pid 2121880 invoked by uid 1000);
-        Mon, 11 Sep 2023 21:12:10 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S239726AbjILCmF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:42:05 -0400
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1F01E5B15;
+        Mon, 11 Sep 2023 16:11:17 -0700 (PDT)
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-34e202a9cc9so16177705ab.2;
+        Mon, 11 Sep 2023 16:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694473747; x=1695078547; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fcAgeVHnxNNRvfl+2uM1osGvKKovW40vicb6K15Ndz8=;
+        b=b7rVmnS9T2aQg3o2AMKyW8JM0sAfC7g3uZR+9zk+WYr+FmzAR1qZHWThmg1cJGEN7I
+         MoRELaXROKoZKKXMIei0VQ1XVB1i51m3iLSQp7hs4vfYZ0JD2z8yT5OEhooFVLKzLNdp
+         9J2wQUfGv3mZKgCf1ST3EC93stRjqwBN9kBQ6c4aVxs5f8gndoLNxzLM5+5wrP+Baj/f
+         OXEawUVMX8Nfzo/83S/AaRGB9aTnweFyK1Cst6MkrPcNlTVv2m+KPWPumIheQv1b7R0X
+         J/t3r4CWBQTtPWqGOztAghW011W6vhTAcMgyaWaNHB+wdBAalaJgQ1XrBxmV89L1IIn1
+         K0CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694473747; x=1695078547;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fcAgeVHnxNNRvfl+2uM1osGvKKovW40vicb6K15Ndz8=;
+        b=Os1ooQGMtjx0G8t19xaarmAbi1Npkk7HtGf9w9wNvA6w6snMgJJZCaK2X1eY0Y5jnJ
+         c8ezqJlQQXJLrxjK1iCtNs3hqzRCrwMg9ckjq7iahi6wJ3uOSDyodP/dnK12qulAIGY+
+         Go+oK95FRrQ26lYC7ARpFuzuxgnm1dHJ2wgF+Ad7+fqlXl2AaCNtOhnI1y49aO9i54Eq
+         J96GFLLvLtHQ9xQI9iCpv7pUZDoYP4smWl6ckJwQltzKm0/5ojoi2fQbLa3g9alcg7lf
+         am+zdkNneuurL3zSn7zbrOqtSgyGQU4Z/3WgQVydbqYKLuQOLu6vVAMIg8gY7+p2jOxP
+         rBRw==
+X-Gm-Message-State: AOJu0YxbZlsvX9xK0AZDVxrQg7Q0ftHK5NTrGNVbZpQLlDpyNXyXKJgo
+        agF/go/aZ5MOHwYFh7s4bPU=
+X-Google-Smtp-Source: AGHT+IGm8XJJjgEBdcXS6iFzgL2wU9gzTG524paxkBRkx7pWMbgnsFowJbau/w+sUivI5RVDg02BfA==
+X-Received: by 2002:a05:6e02:1a85:b0:34f:49cb:40a9 with SMTP id k5-20020a056e021a8500b0034f49cb40a9mr12781961ilv.4.1694473747663;
+        Mon, 11 Sep 2023 16:09:07 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 16:09:07 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
+        daniel.vetter@ffwll.ch
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
+        ville.syrjala@linux.intel.com, seanpaul@chromium.org,
+        robdclark@gmail.com, linux-doc@vger.kernel.org,
+        Jim Cromie <jim.cromie@gmail.com>
+Subject: [PATCH v6 20/22] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+Date:   Mon, 11 Sep 2023 17:08:36 -0600
+Message-ID: <20230911230838.14461-21-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
+References: <20230911230838.14461-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Daniel Matyas <daniel.matyas@analog.com>
-Cc:     linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-In-Reply-To: <20230911083735.11795-1-daniel.matyas@analog.com>
-References: <20230911083735.11795-1-daniel.matyas@analog.com>
-Message-Id: <169446673046.2121732.14000050385044553124.robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Describe changes to the device
- tree
-Date:   Mon, 11 Sep 2023 16:12:10 -0500
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Lots of burn-in testing needed before signing, upstreaming.
 
-On Mon, 11 Sep 2023 11:37:34 +0300, Daniel Matyas wrote:
-> Added new attributes to the device tree:
-> 	- adi,comp-int
-> 	- adi,alrm-pol
-> 	- adi,flt-q
-> 
-> These modify the corresponding bits in the configuration register.
-> 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
-> ---
->  .../bindings/hwmon/adi,max31827.yaml          | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
+NOTE: I set default Y to maximize testing by default.
+Is there a better way to do this ?
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ drivers/gpu/drm/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,alrm-pol: 'oneOf' conditional failed, one must be fixed:
-	'type' is a required property
-		hint: A vendor boolean property can use "type: boolean"
-	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,alrm-pol: 'oneOf' conditional failed, one must be fixed:
-		'enum' is a required property
-		'const' is a required property
-		hint: A vendor string property with exact values has an implicit type
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,alrm-pol: 'oneOf' conditional failed, one must be fixed:
-		'$ref' is a required property
-		'allOf' is a required property
-		hint: A vendor property needs a $ref to types.yaml
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
-	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,flt-q: 'oneOf' conditional failed, one must be fixed:
-	'type' is a required property
-		hint: A vendor boolean property can use "type: boolean"
-	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,flt-q: 'oneOf' conditional failed, one must be fixed:
-		'enum' is a required property
-		'const' is a required property
-		hint: A vendor string property with exact values has an implicit type
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,flt-q: 'oneOf' conditional failed, one must be fixed:
-		'$ref' is a required property
-		'allOf' is a required property
-		hint: A vendor property needs a $ref to types.yaml
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
-	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,comp-int: 'oneOf' conditional failed, one must be fixed:
-	'type' is a required property
-		hint: A vendor boolean property can use "type: boolean"
-	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,comp-int: 'oneOf' conditional failed, one must be fixed:
-		'enum' is a required property
-		'const' is a required property
-		hint: A vendor string property with exact values has an implicit type
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,comp-int: 'oneOf' conditional failed, one must be fixed:
-		'$ref' is a required property
-		'allOf' is a required property
-		hint: A vendor property needs a $ref to types.yaml
-		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
-	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230911083735.11795-1-daniel.matyas@analog.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index afb3b2f5f425..27bbb03e84dd 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -52,8 +52,7 @@ config DRM_DEBUG_MM
+ 
+ config DRM_USE_DYNAMIC_DEBUG
+ 	bool "use dynamic debug to implement drm.debug"
+-	default n
+-	depends on BROKEN
++	default y
+ 	depends on DRM
+ 	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+ 	depends on JUMP_LABEL
+-- 
+2.41.0
 
