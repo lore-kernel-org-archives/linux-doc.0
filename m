@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAFB4CA0EC8
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:12:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64CE2CA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234062AbjILCMT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 22:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
+        id S235599AbjILCM3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 22:12:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233358AbjILCMD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:12:03 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088BAE931A;
-        Mon, 11 Sep 2023 16:19:06 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-76dc7b0da9fso266740285a.1;
-        Mon, 11 Sep 2023 16:19:05 -0700 (PDT)
+        with ESMTP id S235775AbjILCMM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:12:12 -0400
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E9CDE9D8D;
+        Mon, 11 Sep 2023 16:19:37 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d7cbcfdf137so4361902276.2;
+        Mon, 11 Sep 2023 16:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694474234; x=1695079034; darn=vger.kernel.org;
+        d=gmail.com; s=20221208; t=1694474244; x=1695079044; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pRKwABwSVQ1OTkJFIkg8SfKEtpKioqDF4/CYpQb4P2w=;
-        b=rPmx/yw+z3Wt61pNz3DrzOGFnTSOwPqxeEbE4T01P9dKyLxYYzsq3TmONHmv/GwSrF
-         VAMq2f1kyk3zXpRoSUhrS/6Tq8WardHGPYJjYV701+2tOe3op1si3N+sr6PRnJ00nrdb
-         XpBgx/kOugQvYDfCptiv3OtGDCTzHVpBfGilCpkNalTYL8tcadSpxFZGIxSN1Qd8Jgto
-         nGX78HKhM+jTY8N5HY9HBjfFvMUto37zC6wuP0HK5W7n/POKJL64ajpjMSC9WEn5Xww9
-         fALQ+kIo3H6SIIxj6Dp6tbi2IpTDl20f0wdf3LHdrIIzkkF2/GCjr6VKcQCuwBwzMTAu
-         UCaA==
+        bh=dPgMplOaghCKoaw6KVIn3I1GwgTSwBS4ON0Ej0Rg2ww=;
+        b=jc7BIF6NZU8mIj2C313YafIAlP1V7KMkKA671ff3rlJy/gC6vfzRfXeiPyKFuEUb5j
+         lx1Y1xJntmBmyoV41xefDnuBWSWYiSlWdrY9I8J02ZRby4cNxELseEaNpTok8ejPMlTX
+         LrE0jTANl2Jmu+iUW/B0JF2E/nHGifwf6eHZ/nZ441/8WT5d7vdZX+pf4r3YwK+HQCwM
+         bQSGjYSxpv15M3166EtLbr84J691yw6nbYFPnN6JN2YYXK77jmDGuji4XUYn6x5RvyhC
+         qGbCK1zvsbMGi3WGdrvnx7pdRl0UgnzaiQTR/zNT8HYxDsaw+EgqI4kA0LNV0mgASuN4
+         aejA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694474234; x=1695079034;
+        d=1e100.net; s=20230601; t=1694474244; x=1695079044;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pRKwABwSVQ1OTkJFIkg8SfKEtpKioqDF4/CYpQb4P2w=;
-        b=MjjIjDef8Ys2aQzy+7GvpJRsx2fkb1JKWGrNPqjL/7ZWD5SzCuNcEURW6TYrHhvyNW
-         Mxv6POKrD0N++/Hem8qaCUJ7I5DB3LhoKfbz7d3uBzpFGfHhXHSP0tGh06Wf01cS6Xwi
-         j25yDauKaT91xyTCDDzkN1zqDIC/68viFg5+f6WHegvY/4Luhd6Q0GYkt0DGI0Aq4CQN
-         gVG8RTjR273hzT+kXwTNQQ8GipKHsDNMS9WLiLoUqDdmnn/bhPdRp3rVh61I4FYaRHQP
-         kief0xo1Wfk5h06qTwzzq7IiRIyqQiF7/ygg896kZ9NkOe4rwGduTwh9A5DVKYFYbXmx
-         Y2mA==
-X-Gm-Message-State: AOJu0YwK+Mn8fm1OImORwPwsn8XIXk9Eey2gfnS5xaJkU4NhcFAnA/EE
-        F5Bs2aDncZiwFwBaNMn4JYB3MmorUS4vwQ==
-X-Google-Smtp-Source: AGHT+IGnBiv6UbJsu+sBM5Hhx9sTk4Vk8peUvrBdp3UqCNKfl/LsZspNoj46K2gBb3H7JdLQgmF4mw==
-X-Received: by 2002:a5e:8912:0:b0:792:9a3e:2dd with SMTP id k18-20020a5e8912000000b007929a3e02ddmr13540344ioj.3.1694473737580;
-        Mon, 11 Sep 2023 16:08:57 -0700 (PDT)
+        bh=dPgMplOaghCKoaw6KVIn3I1GwgTSwBS4ON0Ej0Rg2ww=;
+        b=ewmGvTXJJt1aQHE0JhAMqKH2i6iU11RL6sJc0fggrpBfXTwGa2mU6y12SS/UF4Ojtp
+         h2JPdPFEJ2SGwPebKoxQXNb6ZcPPZ9ZntTLoGOpPxZm/ibsFiw6K0pubVQlsW9SVHtDN
+         KYMXmfT9bDj6FCfEcwiyCAxcgoi9lrg7z3w3tZDgKll1cqiVzpFPpPzBR3DJV7BgHtls
+         GaCdAw4o0X78D9yodNH4vDh5xAGDl9rHih2yy4egNO1cvtwE2gayIaOEDizaksZxsrqG
+         /MjAr+VD9W5V++Hz0V9AqyvrBHAfFAVwiN2BR1fVAfj+mmlDfSRDRTQ2mVsq5ad5jjoU
+         WQuw==
+X-Gm-Message-State: AOJu0YzWzCwj4kmEjQyKh1AYClVrrwcguV7WH241ysQ8lWDDsvRmyxw3
+        GFAroiiD1pf50BUtWIOkBgryz4Fjv9UKig==
+X-Google-Smtp-Source: AGHT+IHX0TSt+caD80mtO3zdFhx13hIWLdOMsQp29S6Hbbwm3vaZvIW2jLmwTNt0GjAv/TclECpUsQ==
+X-Received: by 2002:a05:6602:2776:b0:790:9f0c:3069 with SMTP id l22-20020a056602277600b007909f0c3069mr13263726ioe.9.1694473749038;
+        Mon, 11 Sep 2023 16:09:09 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.08.56
+        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 16:08:57 -0700 (PDT)
+        Mon, 11 Sep 2023 16:09:08 -0700 (PDT)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
         daniel.vetter@ffwll.ch
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         ville.syrjala@linux.intel.com, seanpaul@chromium.org,
         robdclark@gmail.com, linux-doc@vger.kernel.org,
         Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 13/22] dyndbg: add for_each_boxed_vector
-Date:   Mon, 11 Sep 2023 17:08:29 -0600
-Message-ID: <20230911230838.14461-14-jim.cromie@gmail.com>
+Subject: [PATCH v6 21/22] drm: use correct ccflags-y spelling
+Date:   Mon, 11 Sep 2023 17:08:37 -0600
+Message-ID: <20230911230838.14461-22-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
 References: <20230911230838.14461-1-jim.cromie@gmail.com>
@@ -70,99 +70,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a for_each iterator to walk a counted vector member in a struct
-(ie the box), and use it to replace 8 open-coded loops.
+Incorrectly spelled CFLAGS- failed to add -DDYNAMIC_DEBUG_MODULE,
+which broke builds with:
 
+CONFIG_DRM_USE_DYNAMIC_DEBUG=y
+CONFIG_DYNAMIC_DEBUG_CORE=y
+CONFIG_DYNAMIC_DEBUG=n
+
+Also add subdir-ccflags so that all drivers pick up the addition.
+
+Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro")
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
-v5- parens-on-box-force-precedence
----
- lib/dynamic_debug.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 018578923897..851e7f9de085 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -158,6 +158,9 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
- 		  _dt->num_class_users);				\
- 	})
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 7a09a89b493b..013cde886326 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -3,7 +3,8 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
-+#define for_each_boxed_vector(_box, _vec, _len, _ct, _curs)		\
-+	for (_ct = 0, _curs = (_box)->_vec; _ct < (_box)->_len; _ct++, _curs++)
-+
- #define __outvar /* filled by callee */
- static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
- 							const char *class_string,
-@@ -167,7 +170,7 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
- 	struct ddebug_class_user *cli;
- 	int i, idx;
+-CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
++ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)		+= -DDYNAMIC_DEBUG_MODULE
++subdir-ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
  
--	for (i = 0, map = dt->classes; i < dt->num_classes; i++, map++) {
-+	for_each_boxed_vector(dt, classes, num_classes, i, map) {
- 		idx = match_string(map->class_names, map->length, class_string);
- 		if (idx >= 0) {
- 			*class_id = idx + map->base;
-@@ -175,7 +178,7 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
- 			return map;
- 		}
- 	}
--	for (i = 0, cli = dt->class_users; i < dt->num_class_users; i++, cli++) {
-+	for_each_boxed_vector(dt, class_users, num_class_users, i, cli) {
- 		idx = match_string(cli->map->class_names, cli->map->length, class_string);
- 		if (idx >= 0) {
- 			*class_id = idx + cli->map->base;
-@@ -1058,11 +1061,11 @@ static const char *ddebug_class_name(struct ddebug_table *dt, struct _ddebug *dp
- 	struct ddebug_class_user *cli = dt->class_users;
- 	int i;
- 
--	for (i = 0; i < dt->num_classes; i++, map++)
-+	for_each_boxed_vector(dt, classes, num_classes, i, map)
- 		if (class_in_range(dp->class_id, map))
- 			return map->class_names[dp->class_id - map->base];
- 
--	for (i = 0; i < dt->num_class_users; i++, cli++)
-+	for_each_boxed_vector(dt, class_users, num_class_users, i, cli)
- 		if (class_in_range(dp->class_id, cli->map))
- 			return cli->map->class_names[dp->class_id - cli->map->base];
- 
-@@ -1216,7 +1219,7 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
- 	struct ddebug_class_map *cm;
- 	int i, nc = 0;
- 
--	for (i = 0, cm = di->classes; i < di->num_classes; i++, cm++) {
-+	for_each_boxed_vector(di, classes, num_classes, i, cm) {
- 
- 		if (!strcmp(cm->mod_name, dt->mod_name)) {
- 			vpr_cm_info(cm, "classes[%d]:", i);
-@@ -1229,7 +1232,7 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
- 		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
- 
- 	/* now iterate dt */
--	for (i = 0, cm = dt->classes; i < dt->num_classes; i++, cm++)
-+	for_each_boxed_vector(di, classes, num_classes, i, cm)
- 		ddebug_apply_params(cm, cm->mod_name);
- }
- 
-@@ -1249,7 +1252,7 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
- 	 * module's refs, save to dt.  For loadables, this is the
- 	 * whole array.
- 	 */
--	for (i = 0, cli = di->class_users; i < di->num_class_users; i++, cli++) {
-+	for_each_boxed_vector(di, class_users, num_class_users, i, cli) {
- 
- 		if (WARN_ON(!cli || !cli->map || !cli->user_mod_name))
- 			continue;
-@@ -1264,8 +1267,7 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
- 	}
- 	dt->num_class_users = nc;
- 
--	/* now iterate dt */
--	for (i = 0, cli = dt->class_users; i < dt->num_class_users; i++, cli++)
-+	for_each_boxed_vector(di, class_users, num_class_users, i, cli)
- 		ddebug_apply_params(cli->map, cli->user_mod_name);
- 
- 	vpr_dt_info(dt, "attach-client-module: ");
+ drm-y := \
+ 	drm_aperture.o \
 -- 
 2.41.0
 
