@@ -2,141 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A191CA0EDD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2618FCA0EDA
 	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:18:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237984AbjIKVLF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
+        id S240429AbjIKVLE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238103AbjIKNig (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 09:38:36 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF05CC3;
-        Mon, 11 Sep 2023 06:38:31 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id 46e09a7af769-6c07e122a78so3188369a34.2;
-        Mon, 11 Sep 2023 06:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694439510; x=1695044310; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=kNts3nBCiBbgFg05HO7ID3JWxHyrpiDmYPSohjswiR0=;
-        b=SHzaBJ+H+R1Sf9Ehly4Qa9d5TTYwn0R3hQMGOgz+C/s0JRx1hzJZElngRg2mBdKjN+
-         HBSs2PYW9VSrR+v/BJBgWiIuhJ482iXQanLzoiz2KQK1c5N6LjZ2jcV8nh1jaUaNYJs0
-         QFobeOaacdZdMYq0izdZ6Q2IPiswmIiOH0peATo4PCyMgxQqp6xGG/JjBOdemv3p6Gfy
-         euQ88Hll9Iy4shnxFarjuT7bJ8ZlslFBf5VsOXcO3untnnRbDQNgyGlzOqnqgS87tdn3
-         nW4m5r78uRwS9TGe+5ieHsG1EIvL26XI2jzGw2PqFtDivhaAyTgHF4fO7kx90J0+Fe0e
-         yVhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694439510; x=1695044310;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kNts3nBCiBbgFg05HO7ID3JWxHyrpiDmYPSohjswiR0=;
-        b=Pjj3E/n5j4yBN3jp7a/BJuG9iJTVNRp2ALAebi6b5nAIipDhkfTsJ+6PNibcsa4zp8
-         ieboNf+PTb1MdzmX7Nui4J0dfi3eQFuWM7gkr249jcoHyHC+AjO/yy/Ato3n+qhrrKr/
-         KJVkmYMKzKdsXGZdaBaeXCg+heIYbxxPhmJE2pMSQQatFWbEAXY2DtBsc+6nqurUfbo0
-         Xn9a6+9mDzrmT3U9XtYXFjb1xmAzMigdkdJGEyJwayRHqfKFefhlaUFyPliDgF1mzr9G
-         IIfmE2u+TB2gJ5Kcb0zamGPRZe6efO9ZKizkyD2IfKnTqJ+DaU2regzBEnNv0+AUtWMK
-         AtIw==
-X-Gm-Message-State: AOJu0Yyl+1AjsNhojEgis77r63cQ2YYEz3+2VqxFUqjenKjL0o+Vx/Ry
-        8VQWKmpVhXmXI2AJ6Bxvncc=
-X-Google-Smtp-Source: AGHT+IH06fgh3eCFYb7Hs326KKpRnBBuqO3sQ8dOBSCi4IqLaceAR/Zmj8GWxsH6vhh/T1tOTzu4Pg==
-X-Received: by 2002:a9d:65d7:0:b0:6bf:3f4:3edc with SMTP id z23-20020a9d65d7000000b006bf03f43edcmr10362123oth.22.1694439510448;
-        Mon, 11 Sep 2023 06:38:30 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id z11-20020a6552cb000000b00570132a022csm4905208pgp.79.2023.09.11.06.38.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 06:38:29 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <55b4b084-5b92-9e0d-9fa8-28a4062fb249@roeck-us.net>
-Date:   Mon, 11 Sep 2023 06:38:27 -0700
+        with ESMTP id S237196AbjIKMOC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 08:14:02 -0400
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050:0:465::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCFC2CEB;
+        Mon, 11 Sep 2023 05:13:55 -0700 (PDT)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4RklxS0gY7z9sqm;
+        Mon, 11 Sep 2023 14:13:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1694434428;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EG47cdFKJCzGjz8BT6HLdIq6G6HHROaavD+7fvm6pRA=;
+        b=gk/WPBL/AeACiFu13DVcyVgLkskOoCAH52EePYIAkLR/yZHSovN0zCc4IQtSSJgEOfm1N7
+        AMu2PcpH6mVf7lRUXFyL8dKl2WG0P5jVzg7xgLVXGOgeqr4G30a6sNRf/teOmSBgl1Qt2/
+        P33mCkIAWDp2yL4mBFIRC+rpcHyn8MKPifBqDhsYy+R5BkHFSfwgX8/7gtZjw43jHbD4bE
+        4S84wiL3owYxagam6VNGz17C1kVw/u+zVnqElckoGWIIXCc0vnB1FPAAfCooK8Y3aE6lNA
+        kWNU+EkQZ6R40yusQNWo10kXZteR/QKRGP2qmFQKKI0GZZl0luz9MUtoZFaOcw==
+Message-ID: <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
+Date:   Mon, 11 Sep 2023 14:13:43 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Describe changes to the device
- tree
-Content-Language: en-US
-To:     Daniel Matyas <daniel.matyas@analog.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230911083735.11795-1-daniel.matyas@analog.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20230911083735.11795-1-daniel.matyas@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+To:     Maxime Ripard <mripard@kernel.org>,
+        Daniel Stone <daniels@collabora.com>
+Cc:     emma@anholt.net, linux-doc@vger.kernel.org,
+        vignesh.raman@collabora.com, dri-devel@lists.freedesktop.org,
+        alyssa@rosenzweig.io, jbrunet@baylibre.com, robdclark@google.com,
+        corbet@lwn.net, khilman@baylibre.com,
+        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+        linux-rockchip@lists.infradead.org, tzimmermann@suse.de,
+        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
+        Helen Koike <helen.koike@collabora.com>, anholt@google.com,
+        linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+        linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+        linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org
+References: <20230811171953.176431-1-helen.koike@collabora.com>
+ <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
+ <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
+ <87bkeo23vs.fsf@intel.com>
+ <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+ <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
+ <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
+ <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com>
+ <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
+ <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
+ <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
+Content-Language: en-CA
+From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: ehasp3x5p4ksus1eoywnq1ujg96e9qzj
+X-MBO-RS-ID: 28267585246936505e8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/11/23 01:37, Daniel Matyas wrote:
-> Added new attributes to the device tree:
-> 	- adi,comp-int
-> 	- adi,alrm-pol
-> 	- adi,flt-q
+On 9/11/23 11:34, Maxime Ripard wrote:
+> On Thu, Sep 07, 2023 at 01:40:02PM +0200, Daniel Stone wrote:
+>> Yeah, this is what our experience with Mesa (in particular) has taught us.
+>>
+>> Having 100% of the tests pass 100% of the time on 100% of the platforms is a
+>> great goal that everyone should aim for. But it will also never happen.
+>>
+>> Firstly, we're just not there yet today. Every single GPU-side DRM driver
+>> has userspace-triggerable faults which cause occasional errors in GL/Vulkan
+>> tests. Every single one. We deal with these in Mesa by retrying; if we
+>> didn't retry, across the breadth of hardware we test, I'd expect 99% of
+>> should-succeed merges to fail because of these intermittent bugs in the DRM
+>> drivers.
 > 
-> These modify the corresponding bits in the configuration register.
+> So the plan is only to ever test rendering devices? It should have been
+> made clearer then.
 > 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
-> ---
->   .../bindings/hwmon/adi,max31827.yaml          | 21 +++++++++++++++++++
->   1 file changed, 21 insertions(+)
+>> We don't have the same figure for KMS - because we don't test it - but
+>> I'd be willing to bet no driver is 100% if you run tests often enough.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> index 2dc8b07b4d3b..b10878c4a05d 100644
-> --- a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> @@ -32,10 +32,28 @@ properties:
->         Must have values in the interval (1.6V; 3.6V) in order for the device to
->         function correctly.
->   
-> +  adi,comp-int:
-> +    description:
-> +      A boolean property. If present interrupt mode is used. If not present
-> +      comparator mode is used (default).
-> +
-> +  adi,alrm-pol:
-> +    description:
-> +      A boolean propert. If present, alarm is active on high. If not present,
+> And I would still consider that a bug that we ought to fix, and
+> certainly not something we should sweep under the rug. If half the tests
+> are not running on a driver, then fine, they aren't. I'm not really
+> against having failing tests, I'm against not flagging unreliable tests
+> on a given hardware as failing tests.
 
-property
+A flaky test will by definition give a "pass" result at least some of the time, which would be considered a failure by the CI if the test is marked as failing.
 
-> +      alarm is active on low.
 
-Is this the chip default ? That might be worth mentioning.
+>> Secondly, we will never be there. If we could pause for five years and sit
+>> down making all the current usecases for all the current hardware on the
+>> current kernel run perfectly, we'd probably get there. But we can't: there's
+>> new hardware, new userspace, and hundreds of new kernel trees.
+> 
+> Not with that attitude :)
 
-> +
-> +  adi,flt-q:
-> +    description:
-> +      Select how many consecutive temperature faults must occur before
-> +      overtemperature or undertemperature faults are indicated in the
-> +      corresponding status bits.
-> +            - can be 1, 2, 4 or 8
-> +
->   required:
->     - compatible
->     - reg
->     - vref-supply
-> +  - adi,flt-q
+Attitude is not the issue, the complexity of the multiple systems involved is.
 
-I do not see a need to make this mandatory. Default can and should be the chip
-default.
 
->   
->   additionalProperties: false
->   
-> @@ -49,6 +67,9 @@ examples:
->               compatible = "adi,max31827";
->               reg = <0x42>;
->               vref-supply = <&reg_vdd>;
-> +            adi,comp-int;
-> +            adi,alrm-pol;
-> +            adi,flt-q = <1>;
->           };
->       };
->   ...
+> I'm not sure it's actually an argument, really. 10 years ago, we would
+> never have been at "every GPU on the market has an open-source driver"
+> here. 5 years ago, we would never have been at this-series-here. That
+> didn't stop anyone making progress, everyone involved in that thread
+> included.
+
+Even assuming perfection is achievable at all (which is very doubtful, given the experience from the last few years of CI in Mesa and other projects), if you demand perfection before even taking the first step, it will never get off the ground.
+
+
+> How are we even supposed to detect those failures in the first
+> place if tests are flagged as unreliable?
+
+Based on experience with Mesa, only a relatively small minority of tests should need to be marked as flaky / not run at all. The majority of tests are reliable and can catch regressions even while some tests are not yet.
+
+
+> No matter what we do here, what you describe will always happen. Like,
+> if we do flag those tests as unreliable, what exactly prevents another
+> issue to come on top undetected, and what will happen when we re-enable
+> testing?
+
+Any issues affecting a test will need to be fixed before (re-)enabling the test for CI.
+
+
+> On top of that, you kind of hinted at that yourself, but what set of
+> tests will pass is a property linked to a single commit. Having that
+> list within the kernel already alters that: you'll need to merge a new
+> branch, add a bunch of fixes and then change the test list state. You
+> won't have the same tree you originally tested (and defined the test
+> state list for).
+
+Ideally, the test state lists should be changed in the same commits which affect the test results. It'll probably take a while yet to get there for the kernel.
+
+> It might or might not be an issue for Linus' release, but I can
+> definitely see the trouble already for stable releases where fixes will
+> be backported, but the test state list certainly won't be updated.
+
+If the stable branch maintainers want to take advantage of CI for the stable branches, they may need to hunt for corresponding state list commits sometimes. They'll need to take that into account for their decision.
+
+
+>> By keeping those sets of expectations, we've been able to keep Mesa pretty
+>> clear of regressions, whilst having a very clear set of things that should
+>> be fixed to point to. It would be great if those set of things were zero,
+>> but it just isn't. Having that is far better than the two alternatives:
+>> either not testing at all (obviously bad), or having the test always be red
+>> so it's always ignored (might as well just not test).
+> 
+> Isn't that what happens with flaky tests anyway?
+
+For a small minority of tests. Daniel was referring to whole test suites.
+
+> Even more so since we have 0 context when updating that list.
+
+The commit log can provide whatever context is needed.
+
+
+> I've asked a couple of times, I'll ask again. In that other series, on
+> the MT8173, kms_hdmi_inject@inject-4k is setup as flaky (which is a KMS
+> test btw).
+> 
+> I'm a maintainer for that part of the kernel, I'd like to look into it,
+> because it's seriously something that shouldn't fail, ever, the hardware
+> isn't involved.
+> 
+> How can I figure out now (or worse, let's say in a year) how to
+> reproduce it? What kernel version was affected? With what board? After
+> how many occurences?
+> 
+> Basically, how can I see that the bug is indeed there (or got fixed
+> since), and how to start fixing it?
+
+Many of those things should be documented in the commit log of the state list change.
+
+How the CI works in general should be documented in some appropriate place in tree.
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
