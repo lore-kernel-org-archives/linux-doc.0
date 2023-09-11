@@ -2,70 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1FCFEE801F
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 04:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF272EE7FF4
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 04:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233550AbjIKE7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 00:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40752 "EHLO
+        id S233774AbjIKE7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 00:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231184AbjIKE7Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 00:59:16 -0400
+        with ESMTP id S233756AbjIKE7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 00:59:18 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2E3138;
-        Sun, 10 Sep 2023 21:59:12 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8414DC433C7;
-        Mon, 11 Sep 2023 04:59:11 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D68A138;
+        Sun, 10 Sep 2023 21:59:14 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29486C433CB;
+        Mon, 11 Sep 2023 04:59:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694408352;
-        bh=1sKqWrxuZZ/FU8NiZPNr1J2lRE5UCnUUAPwMbQ5ieAo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UMGDw9r37FVQoS5uJYfNjzGi1EpPlHfX1xuzY1CeE5zzVELAk5UtS1n1cPtFBZpqX
-         QVcHNooVzNrbuMSAE2ygWmVIEr+qAFxx5XuqJsjriRp2zkQ04EXAZvf6fpmp9uesa0
-         BC0qJXy9fBzlVM6Mec8GlZ0ybZdpPn04N3qbGInNi5CMMnRyQyPx2ZtYaxWRhArc4B
-         7gOAmoj1uL5iyvITgICR7bFb6jCL3iCEynmOfErNMwFOovowCywu/7oyo0FFyObUwn
-         ZyRIwu0nKmT3z9RA1A+cQjH1EiGmzY5KZdbmq3lpbGW8sy9SW9Bsyi9am+7cu8vcUu
-         ZkgINsxEYw/kA==
+        s=k20201202; t=1694408353;
+        bh=yCdyENSSr2jBoqcU5uuhQp9Eg5ZiZzpyIfgAEWQFG08=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IqHzNhQypANFa8iW43c8T+CdTyJNbZILeHGR5vSckO9OyBoFNScts3NkhNUB0hUdK
+         Rx5bC7TPP6c1kPbTEQm4UdifFD22iGQnZOYHwLiu6/w9NW3rAlGLD3u3xc2w32aOoi
+         Nwc02GNkWg4NlNb9IM0GaoGG0vBlM1yRLDmB0t9ggDMobW8Qees4i9hw4wfPsBX+rL
+         9ReNouLD2afycjPERmYjFbmeVk/RljkfbhU+Oj9GNhovKG9UKWU0/PnHfb8K6FMVBK
+         gyc0JMX3jmy2dgaPh5Fktf3uJRTXqchjoXp1EoKv+dZhBQwxh5fiW9XEZVHusV6w5j
+         ZNfpLBdyi3K5g==
 From:   SeongJae Park <sj@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>, damon@lists.linux.dev,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] mm/damon: add a tracepoint for damos apply target regions
-Date:   Mon, 11 Sep 2023 04:59:06 +0000
-Message-Id: <20230911045908.97649-1-sj@kernel.org>
+        damon@lists.linux.dev, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] Docs/admin-guide/mm/damon/usage: document damos_before_apply tracepoint
+Date:   Mon, 11 Sep 2023 04:59:08 +0000
+Message-Id: <20230911045908.97649-3-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230911045908.97649-1-sj@kernel.org>
+References: <20230911045908.97649-1-sj@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changes from RFC
-(https://lore.kernel.org/damon/20230827004045.49516-1-sj@kernel.org/)
-- Fix the 4 byte hole (Steven Rostedt)
-- Add documentation
+Document damos_before_apply tracepoint on the usage document.
 
-DAMON provides damon_aggregated tracepoint to let users record full monitoring
-results.  Sometimes, users need to record monitoring results of specific
-pattern.  DAMOS tried regions directory of DAMON sysfs interface allows it, but
-the interface is mainly designed for snapshots and therefore would be
-inefficient for such recording.  Implement yet another tracepoint for efficient
-support of the usecase.
-
-SeongJae Park (2):
-  mm/damon/core: add a tracepoint for damos apply target regions
-  Docs/admin-guide/mm/damon/usage: document damos_before_apply
-    tracepoint
-
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
  Documentation/admin-guide/mm/damon/usage.rst | 37 ++++++++++++++++----
- include/trace/events/damon.h                 | 37 ++++++++++++++++++++
- mm/damon/core.c                              | 27 +++++++++++++-
- 3 files changed, 93 insertions(+), 8 deletions(-)
+ 1 file changed, 30 insertions(+), 7 deletions(-)
 
-
-base-commit: b4c5d592acb5a939aa4f6c08543daf6e2b435343
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 282062b6f134..6272cd36590a 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -496,15 +496,24 @@ the files as above.  Above is only for an example.
+ 
+ .. _tracepoint:
+ 
+-Tracepoint for Monitoring Results
+-=================================
++Tracepoints for Monitoring Results
++==================================
+ 
+ Users can get the monitoring results via the :ref:`tried_regions
+-<sysfs_schemes_tried_regions>` or a tracepoint, ``damon:damon_aggregated``.
+-While the tried regions directory is useful for getting a snapshot, the
+-tracepoint is useful for getting a full record of the results.  While the
+-monitoring is turned on, you could record the tracepoint events and show
+-results using tracepoint supporting tools like ``perf``.  For example::
++<sysfs_schemes_tried_regions>`.  The interface is useful for getting a
++snapshot, but it could be inefficient for fully recording all the monitoring
++results.  For the purpose, two trace points, namely ``damon:damon_aggregated``
++and ``damon:damos_before_apply``, are provided.  ``damon:damon_aggregated``
++provides the whole monitoring results, while ``damon:damos_before_apply``
++provides the monitoring results for regions that each DAMON-based Operation
++Scheme (:ref:`DAMOS <damon_design_damos>`) is gonna be applied.  Hence,
++``damon:damos_before_apply`` is more useful for recording internal behavior of
++DAMOS, or DAMOS target access
++:ref:`pattern <damon_design_damos_access_pattern>` based query-like efficient
++monitoring results recording.
++
++While the monitoring is turned on, you could record the tracepoint events and
++show results using tracepoint supporting tools like ``perf``.  For example::
+ 
+     # echo on > monitor_on
+     # perf record -e damon:damon_aggregated &
+@@ -527,6 +536,20 @@ counter).  Finally the tenth field (``X``) shows the ``age`` of the region
+ (refer to :ref:`design <damon_design_age_tracking>` for more details of the
+ counter).
+ 
++If the event was ``damon:damos_beofre_apply``, the ``perf script`` output would
++be somewhat like below::
++
++    kdamond.0 47293 [000] 80801.060214: damon:damos_before_apply: ctx_idx=0 scheme_idx=0 target_idx=0 nr_regions=11 121932607488-135128711168: 0 136
++    [...]
++
++Each line of the output represents each monitoring region that each DAMON-based
++Operation Scheme was about to be applied at the traced time.  The first five
++fields are as usual.  It shows the index of the DAMON context (``ctx_idx=X``)
++of the scheme in the list of the contexts of the context's kdamond, the index
++of the scheme (``scheme_idx=X``) in the list of the schemes of the context, in
++addition to the output of ``damon_aggregated`` tracepoint.
++
++
+ .. _debugfs_interface:
+ 
+ debugfs Interface (DEPRECATED!)
 -- 
 2.25.1
 
