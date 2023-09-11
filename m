@@ -2,166 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BD7C71153
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 02:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8909AEEB57D
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 02:36:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbjIKCd7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 Sep 2023 22:33:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
+        id S231451AbjIKCgr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Sep 2023 22:36:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbjIKCd6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 22:33:58 -0400
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5511BF4;
-        Sun, 10 Sep 2023 19:33:22 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VrjjD3D_1694399569;
-Received: from 30.221.149.162(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VrjjD3D_1694399569)
-          by smtp.aliyun-inc.com;
-          Mon, 11 Sep 2023 10:32:51 +0800
-Message-ID: <8bab7404-8e24-8606-558c-db3495429f2f@linux.alibaba.com>
-Date:   Mon, 11 Sep 2023 10:32:45 +0800
+        with ESMTP id S231245AbjIKCgq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Sep 2023 22:36:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E00101
+        for <linux-doc@vger.kernel.org>; Sun, 10 Sep 2023 19:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694399725;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1JiEAacOPpZr8Csa8+TL/orlrtaJ6UeA2+KsyYOTzfY=;
+        b=QBtfVPVPSNzVrUcnRzIPfkeOulHGSNHJoyKmBaXemcGUUTzvZ91vSJb/djwa7a/+RyrMrh
+        Ji1NjbQqjkgdAKCC/poyC/1wV+y9a4wxALwFr2/Yh31eK2hsf2PZuypIKNOjNUgZTPLxdx
+        nfLpQMuo8v88tlrZqnDVh6CHbcReEyY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-97-azuA0cncMTqSkMKdZMqhhg-1; Sun, 10 Sep 2023 22:35:22 -0400
+X-MC-Unique: azuA0cncMTqSkMKdZMqhhg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90084101FAA8;
+        Mon, 11 Sep 2023 02:35:21 +0000 (UTC)
+Received: from [10.22.8.52] (unknown [10.22.8.52])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5531549310E;
+        Mon, 11 Sep 2023 02:35:19 +0000 (UTC)
+Message-ID: <f091ead0-99b9-b30a-a295-730ce321ac60@redhat.com>
+Date:   Sun, 10 Sep 2023 22:35:19 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH v8 1/8] perf pmu: "Compat" supports matching multiple
- identifiers
-To:     Ian Rogers <irogers@google.com>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1694087913-46144-2-git-send-email-renyu.zj@linux.alibaba.com>
- <CAP-5=fVWcQrqLeuc-k4HRNrNdb_=9CbqTSOAX=HDR7f=j8b0Hg@mail.gmail.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <CAP-5=fVWcQrqLeuc-k4HRNrNdb_=9CbqTSOAX=HDR7f=j8b0Hg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH V11 04/17] locking/qspinlock: Improve xchg_tail for number
+ of cpus >= 16k
+Content-Language: en-US
+To:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
+        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
+        catalin.marinas@arm.com, conor.dooley@microchip.com,
+        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
+        alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        leobras@redhat.com
+Cc:     linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910082911.3378782-5-guoren@kernel.org>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20230910082911.3378782-5-guoren@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+On 9/10/23 04:28, guoren@kernel.org wrote:
+> From: Guo Ren <guoren@linux.alibaba.com>
+>
+> The target of xchg_tail is to write the tail to the lock value, so
+> adding prefetchw could help the next cmpxchg step, which may
+> decrease the cmpxchg retry loops of xchg_tail. Some processors may
+> utilize this feature to give a forward guarantee, e.g., RISC-V
+> XuanTie processors would block the snoop channel & irq for several
+> cycles when prefetch.w instruction (from Zicbop extension) retired,
+> which guarantees the next cmpxchg succeeds.
+>
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Signed-off-by: Guo Ren <guoren@kernel.org>
+> ---
+>   kernel/locking/qspinlock.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/locking/qspinlock.c b/kernel/locking/qspinlock.c
+> index d3f99060b60f..96b54e2ade86 100644
+> --- a/kernel/locking/qspinlock.c
+> +++ b/kernel/locking/qspinlock.c
+> @@ -223,7 +223,10 @@ static __always_inline void clear_pending_set_locked(struct qspinlock *lock)
+>    */
+>   static __always_inline u32 xchg_tail(struct qspinlock *lock, u32 tail)
+>   {
+> -	u32 old, new, val = atomic_read(&lock->val);
+> +	u32 old, new, val;
+> +
+> +	prefetchw(&lock->val);
+> +	val = atomic_read(&lock->val);
+>   
+>   	for (;;) {
+>   		new = (val & _Q_LOCKED_PENDING_MASK) | tail;
 
-在 2023/9/9 上午5:33, Ian Rogers 写道:
-> On Thu, Sep 7, 2023 at 4:58 AM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>
->> The jevent "Compat" is used for uncore PMU alias or metric definitions.
->>
->> The same PMU driver has different PMU identifiers due to different
->> hardware versions and types, but they may have some common PMU event.
->> Since a Compat value can only match one identifier, when adding the
->> same event alias to PMUs with different identifiers, each identifier
->> needs to be defined once, which is not streamlined enough.
->>
->> So let "Compat" supports matching multiple identifiers for uncore PMU
->> alias. For example, the Compat value {43401;436*} can match the PMU
->> identifier "43401", that is, CMN600_r0p0, and the PMU identifier with
->> the prefix "436", that is, all CMN650, where "*" is a wildcard.
->> Tokens in Unit field are delimited by ';' with no spaces.
->>
->> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
->> Reviewed-by: John Garry <john.g.garry@oracle.com>
->> ---
->>  tools/perf/util/pmu.c | 28 ++++++++++++++++++++++++++--
->>  tools/perf/util/pmu.h |  1 +
->>  2 files changed, 27 insertions(+), 2 deletions(-)
->>
->> diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
->> index e215985..c3c3818 100644
->> --- a/tools/perf/util/pmu.c
->> +++ b/tools/perf/util/pmu.c
->> @@ -875,6 +875,30 @@ static bool pmu_uncore_alias_match(const char *pmu_name, const char *name)
->>         return res;
->>  }
->>
->> +bool pmu_uncore_identifier_match(const char *id, const char *compat)
->> +{
->> +       char *tmp = NULL, *tok, *str;
->> +       bool res = false;
->> +
->> +       /*
->> +        * The strdup() call is necessary here because "compat" is a const str*
->> +        * type and cannot be used as an argument to strtok_r().
->> +        */
->> +       str = strdup(compat);
->> +       if (!str)
->> +               return false;
->> +
->> +       tok = strtok_r(str, ";", &tmp);
-> 
-> Did the comma vs semicolon difference get explained? It seems to add
-> inconsistency to use a semicolon.
-> 
+That looks a bit weird. You pre-fetch and then immediately read it. How 
+much performance gain you get by this change alone?
 
-Hi Ian,
+Maybe you can define an arch specific primitive that default back to 
+atomic_read() if not defined.
 
-Yes, I explained the reason for using semicolons instead of commas in v7.
+Cheers,
+Longman
 
-I use a semicolon instead of a comma because I want to distinguish it from the function
-of the comma in "Unit" and avoid confusion between the use of commas in "Unit" and "Compat".
-Because in Unit, commas act as wildcards, and in “Compat”, the semicolon means “or”. So
-I think semicolons are more appropriate.
-
-John also raised this issue earlier, and we finally agreed to use semicolons.
-What do you think?
-
-
-Thanks,
-Jing
-
-> Thanks,
-> Ian
-> 
->> +       for (; tok; tok = strtok_r(NULL, ";", &tmp)) {
->> +               if (!fnmatch(tok, id, FNM_CASEFOLD)) {
->> +                       res = true;
->> +                       break;
->> +               }
->> +       }
->> +       free(str);
->> +       return res;
->> +}
->> +
->>  static int pmu_add_cpu_aliases_map_callback(const struct pmu_event *pe,
->>                                         const struct pmu_events_table *table __maybe_unused,
->>                                         void *vdata)
->> @@ -915,8 +939,8 @@ static int pmu_add_sys_aliases_iter_fn(const struct pmu_event *pe,
->>         if (!pe->compat || !pe->pmu)
->>                 return 0;
->>
->> -       if (!strcmp(pmu->id, pe->compat) &&
->> -           pmu_uncore_alias_match(pe->pmu, pmu->name)) {
->> +       if (pmu_uncore_alias_match(pe->pmu, pmu->name) &&
->> +                       pmu_uncore_identifier_match(pmu->id, pe->compat)) {
->>                 perf_pmu__new_alias(pmu,
->>                                 pe->name,
->>                                 pe->desc,
->> diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
->> index bd5d804..1bf5cf1 100644
->> --- a/tools/perf/util/pmu.h
->> +++ b/tools/perf/util/pmu.h
->> @@ -240,6 +240,7 @@ void pmu_add_cpu_aliases_table(struct perf_pmu *pmu,
->>  char *perf_pmu__getcpuid(struct perf_pmu *pmu);
->>  const struct pmu_events_table *pmu_events_table__find(void);
->>  const struct pmu_metrics_table *pmu_metrics_table__find(void);
->> +bool pmu_uncore_identifier_match(const char *id, const char *compat);
->>
->>  int perf_pmu__convert_scale(const char *scale, char **end, double *sval);
->>
->> --
->> 1.8.3.1
->>
