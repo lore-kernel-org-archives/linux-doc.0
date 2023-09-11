@@ -2,135 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA0CCA0EC8
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A46CCA0ED0
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:42:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239128AbjILCeU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 22:34:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41916 "EHLO
+        id S238207AbjILCmN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 22:42:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239323AbjILCeG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:34:06 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506C989A96;
-        Mon, 11 Sep 2023 16:10:44 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-79536bc6697so181327839f.1;
-        Mon, 11 Sep 2023 16:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694473746; x=1695078546; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ESkE1bZNfU1HWAKelmlyxfVO/PhQytfAXhWjbkh3sXk=;
-        b=Lcjj5t0jnyL1eJYPppc/vIAmycCSJaxf2llQpcpyHfWJ94OcmpNlA6vCAdW3rWj4za
-         H6ql6yiPFYV0tF+aKqeJCuJaynXZs7Uca+2Hy5rbiW/t5s3ECXygnkiRKEFurUtXYJ+H
-         3ltRwRTp/ZBHYbsd2wG5OxmJvxOUz850ef7Vj9Zm54Nk1ybtgaecHGb/ERr76Ai8HZfe
-         3BntSBWn7IugX8H6yvMttDV9Qy+kCe8+0Rj2NhpxS5kJr3bsp+MOsvc5mzWSM0QzijT5
-         oy3bQGrnq4AcdOb+3XXBGKBpEc4Jh61YP4idJkNEIKbCqV4vxU94UCELLKOxnrzm0IuT
-         AlcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694473746; x=1695078546;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ESkE1bZNfU1HWAKelmlyxfVO/PhQytfAXhWjbkh3sXk=;
-        b=gdrR4WU/24L3gJ94tQOEV3tSX8rKFNxRhIPnHt8o7JmoXITY5kWba5v5opz4ixTyxJ
-         5PUu5W9fdjrXP3mEmdEQJg9xz8VBzyi5K7lxnkqygoGuGDhTyGL8HW6tJZ08QvpkhmN0
-         AF6zGfdSBWBBZRo3e+c/V150Q4XtorlC2suL59FVZWZ1hJ8cb7Nv31ZCDtpMoiDkN00i
-         2w9gAOJwmIuM0CaFOvtq0qAWVoqZCPJ0z7KGOnDcWRioY8a3JyIaxMb2auSKwjDxKuYG
-         ZJTOCarwMVZGKENojw5MsD6F2bS8ZzSwRjQuB6jG54R24SgnzXM+kLB2gVf8cyGg2HID
-         Nq+Q==
-X-Gm-Message-State: AOJu0Yzmp6yna0yNr6gf2iH/foCer524FjFBzwouOxzJ0sMY7E4W3VDj
-        uCe4PiB6D3zzkCe+9i7DTPw=
-X-Google-Smtp-Source: AGHT+IHNuCLf8PX+N8HFzY2KIxhpLtrrXX7XbHvVmw+f5uCzl6ZDWoiAWyY7Py4er03hU5zXqdzM6g==
-X-Received: by 2002:a05:6e02:1bae:b0:34c:c8e8:ca87 with SMTP id n14-20020a056e021bae00b0034cc8e8ca87mr14120307ili.20.1694473746384;
-        Mon, 11 Sep 2023 16:09:06 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 16:09:06 -0700 (PDT)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
-        daniel.vetter@ffwll.ch
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
-        ville.syrjala@linux.intel.com, seanpaul@chromium.org,
-        robdclark@gmail.com, linux-doc@vger.kernel.org,
-        Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 19/22] dyndbg: add _DPRINTK_FLAGS_INCL_LOOKUP
-Date:   Mon, 11 Sep 2023 17:08:35 -0600
-Message-ID: <20230911230838.14461-20-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
-References: <20230911230838.14461-1-jim.cromie@gmail.com>
-MIME-Version: 1.0
+        with ESMTP id S239562AbjILCmB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:42:01 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C031DECDBF;
+        Mon, 11 Sep 2023 19:07:26 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91DFC433B7;
+        Mon, 11 Sep 2023 21:12:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694466732;
+        bh=kfFJiK11CgqnTMgWoMWBupbFPFhRWMiQL21d/DKb1us=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=eBtzp/W9ZhHr3ggf7b3a4tayeR2b2ppfOPgNyldC1EQRjOl823JaStktZnuABYkZg
+         V6t0WFNQSA3wTHiS6h8RdR9doxnuZMfSCDVp9jzCoKS+OwzdTVO7qUhhbgJDmbabxv
+         rw2J2kTXNiSmH+CkFzWUKShn8Ir+V5/MmFtjbPJ80w2OIks1LFvFHmcRyKH2QMgLyN
+         6zw/HOwkgTqCW0tDKD1Wk8ytzUQ2iO+RQACJ5B6/3baDV6YLVc62WaRmPeIVJ5DRkz
+         PPQyAjP35khnrV1k6rYGjRZH0QrKt9O8tBTEhRQJB/CBp7aUlvTIdojeeCzYmsvox2
+         DYhs0iasqyUVg==
+Received: (nullmailer pid 2121880 invoked by uid 1000);
+        Mon, 11 Sep 2023 21:12:10 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <20230911083735.11795-1-daniel.matyas@analog.com>
+References: <20230911083735.11795-1-daniel.matyas@analog.com>
+Message-Id: <169446673046.2121732.14000050385044553124.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Describe changes to the device
+ tree
+Date:   Mon, 11 Sep 2023 16:12:10 -0500
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-dyndbg's dynamic prefixing (by +tmfsl flags) is needlessly expensive.
 
-When an enabled (with +p) pr_debug is called, _DPRINTK_FLAGS_INCL_ANY
-prefix decorations are sprintf'd into stack-mem for every call.
+On Mon, 11 Sep 2023 11:37:34 +0300, Daniel Matyas wrote:
+> Added new attributes to the device tree:
+> 	- adi,comp-int
+> 	- adi,alrm-pol
+> 	- adi,flt-q
+> 
+> These modify the corresponding bits in the configuration register.
+> 
+> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> ---
+>  .../bindings/hwmon/adi,max31827.yaml          | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
 
-This string (or part of it) could be cached once its 1st generated,
-and retreived thereafter, as long as its deleted any time the
-callsite's flags are changed afterwards.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-So consider the prefix/decoration flags: 'tmfsl', and what should be
-in the cache:
+yamllint warnings/errors:
 
--t  thread-id. not part of the "callsite" info, derived from current.
-    doesnt belong in the cache. it would be wrong.
-    can be done in outer: dynamic_emit_prefix()
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,alrm-pol: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,alrm-pol: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+		hint: A vendor string property with exact values has an implicit type
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,alrm-pol: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,flt-q: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,flt-q: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+		hint: A vendor string property with exact values has an implicit type
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,flt-q: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,comp-int: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,comp-int: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+		hint: A vendor string property with exact values has an implicit type
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml: properties:adi,comp-int: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
 
--l  line number
-    this could be part of the prefix, but would bloat the cache
-    can also be done in outer: dynamic_emit_prefix()
+doc reference errors (make refcheckdocs):
 
--mfs  module, function, source-file
-    we cache these, composed into a sub-string.
-    they are "lookups", currently to descriptor fields,
-    could be accessor macros to "compressed" tables.
-    cache saves more access work.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230911083735.11795-1-daniel.matyas@analog.com
 
-All enabled together, they compose a prefix string like:
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-  # outer   -----inner----------   outer
-  "[tid] module:function:sourcfile:line: "
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-So this patch extracts _DPRINTK_FLAGS_INCL_LOOKUP macro out of
-_DPRINTK_FLAGS_INCL_ANY macro, then redefs latter.
+pip3 install dtschema --upgrade
 
-Next re-refactor dynamic_emit_prefix inner/outer fns accordingly.
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- include/linux/dynamic_debug.h | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index bdb0d12b13ec..c5609560ca1b 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -40,10 +40,12 @@ struct _ddebug {
- #define _DPRINTK_FLAGS_INCL_SOURCENAME	(1<<5)
- #define _DPRINTK_FLAGS_PREFIX_CACHED	(1<<7)
- 
--#define _DPRINTK_FLAGS_INCL_ANY		\
--	(_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |\
--	 _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID |\
-+#define _DPRINTK_FLAGS_INCL_LOOKUP					\
-+	(_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |	\
- 	 _DPRINTK_FLAGS_INCL_SOURCENAME)
-+#define _DPRINTK_FLAGS_INCL_ANY						\
-+	(_DPRINTK_FLAGS_INCL_LINENO | _DPRINTK_FLAGS_INCL_TID |		\
-+	 _DPRINTK_FLAGS_INCL_LOOKUP)
- 
- #if defined DEBUG
- #define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
--- 
-2.41.0
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
