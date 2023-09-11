@@ -2,241 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D55CA0EC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B873BCA0EC3
 	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343582AbjIKVL4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:11:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51046 "EHLO
+        id S1343588AbjIKVL6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:11:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236539AbjIKK4v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 06:56:51 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA09127;
-        Mon, 11 Sep 2023 03:56:46 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B8eBlD007844;
-        Mon, 11 Sep 2023 10:56:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=NKMHFIzgNDvTMejnjOR6kwDOnmpfUj34ZTlTQsO29Hg=;
- b=KoVO7sdBJS0she7hPmr4/t1yUhTGgxueqxfq0T1eZxgraPLGrp0cActMnGTzUDg99Jtk
- BxnOLzKd3EVlQ2z03YbA8feoytur2YXujEFaTdZmoal0WVWbv52OH2LbKvp+AS8KZj7a
- rpDrftwtIr4JdSfrBdxbqz9/izdj3rzMu1bCkLJgFi+CTrFbgawnwRLWxo4mOc9EPof/
- qB3+SfFUntkO0IRr4Sa5Pb0c2SwbwKeSjkXgtlthAAUmTXcyXj2CYP4N/WDuWJ0djdSp
- jsmUvadwxlrd/Mj1SqEYo1oH/iN/nhl8FfpJWyl8yc4peCIScbj3FacS+f2NkoA8z0Yk ZQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0hvyke07-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 10:56:13 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BAuCVr006051
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 10:56:12 GMT
-Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 11 Sep 2023 03:55:19 -0700
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-To:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
-        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
-        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
-        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>,
-        <quic_mojha@quicinc.com>
-Subject: [REBASE PATCH v5 08/17] arm64: mm: Add dynamic ramoops region support through command line
-Date:   Mon, 11 Sep 2023 16:23:50 +0530
-Message-ID: <1694429639-21484-9-git-send-email-quic_mojha@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
-References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+        with ESMTP id S244194AbjIKTdz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 15:33:55 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C291BB
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 12:33:49 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-307d20548adso4888909f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 12:33:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694460828; x=1695065628; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=inHsDNknLIsreaH/7mQ9fcoY03dG1phB2IV/CbQwYHw=;
+        b=mFEOtuiSTTU+v/GlQI4WyjnX39mrkym+osx8DihRHVm9cshQBluEk5F60ZGeJLOe1Y
+         v8h+2VTRaghV8CJFrGyPxL+UMGq9iThi3Oe5b/2p+iS6vu2aBb1sKHO5tj6zxEAFEY2m
+         JZJr9Ji3kazXz6Y6ZRFu8U3Mf1+tUzLP2j+1ZlsxyvG2lnPbmJRkK5YGyI+f/bS45Vi6
+         i/0s30bWI5hEeImXhPDlSX+bgJ/mIcnVTO5I/JIDu0RDB3grV+sYDUR9KLWf4J5dcZbv
+         qT/e3AUPWUaS82DsUwBmzhIWEpLMxQmdVSEVtDOTlmzvL7Ade1/8hN0A04Zq/joiVsL4
+         CY4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694460828; x=1695065628;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=inHsDNknLIsreaH/7mQ9fcoY03dG1phB2IV/CbQwYHw=;
+        b=bu586TEShuKzbCxygR4dK7gtOL+C1+6lPHebMUTzcOhs/YaUVqvxrqDfvgVneD0KVS
+         Vi1AiC3TxNyGjR84FDJ86uOi+Hz4F+zLnv12hxTN7k8xGDJQX3BFCu87KCnDOQTooyaw
+         yI2pB+tTy6hHuLYNwCJG7m4dZ4P6QgYZHeOtKUFVvBYadDynIqBWIlrRPiDdhlKBNbJz
+         zXrPhXFZ4gaBEUP3qMSnV7cawMeDKB03feIybJaWifMzK1l7Vd3c1yRNBxfezhx5rPss
+         xr9Mbmi57ThNdIe0KmjMG+rSDR5XjYvOHyFyNStJ+u5P28CTut7CQ61JB3aBmJ3LnS0W
+         uIcA==
+X-Gm-Message-State: AOJu0Yx01bz/NTQqJU7Az1KB7XWqwDAKq5/QwDV+bed1hdvpzgJWmdLF
+        16GBfaBCfaxPRQT1ayk8PjY2NA==
+X-Google-Smtp-Source: AGHT+IHPh4+mNCvhlbAWncPBV2Sm+011b3XyySb0xj15kRO2fiVHvavlbXLcuAA8FfPzM2ZflHLaHA==
+X-Received: by 2002:a5d:560d:0:b0:31d:cd33:b30e with SMTP id l13-20020a5d560d000000b0031dcd33b30emr8891759wrv.4.1694460827797;
+        Mon, 11 Sep 2023 12:33:47 -0700 (PDT)
+Received: from [192.168.37.137] (178235177248.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.248])
+        by smtp.gmail.com with ESMTPSA id e24-20020a056402089800b0052565298bedsm5043464edy.34.2023.09.11.12.33.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 12:33:47 -0700 (PDT)
+Message-ID: <ee8cc664-e698-4b0c-886d-ac33eb23b51e@linaro.org>
+Date:   Mon, 11 Sep 2023 21:33:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: D7aQZe1nCAe-0oMdraPzGcnkv8bF0XPZ
-X-Proofpoint-GUID: D7aQZe1nCAe-0oMdraPzGcnkv8bF0XPZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- clxscore=1015 mlxscore=0 malwarescore=0 impostorscore=0 adultscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 lowpriorityscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110099
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/17] soc: qcom: Add Qualcomm APSS minidump kernel
+ driver
+Content-Language: en-US
+To:     Jeff Johnson <quic_jjohnson@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, vigneshr@ti.com, nm@ti.com,
+        matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
+        bmasney@redhat.com, quic_tsoni@quicinc.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
+ <1694290578-17733-7-git-send-email-quic_mojha@quicinc.com>
+ <e35a8b4f-ba1a-514e-9c59-a74442f0cb1f@linaro.org>
+ <36d9bd32-7ea4-4d84-b1e9-3cfcc3bec85c@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <36d9bd32-7ea4-4d84-b1e9-3cfcc3bec85c@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reserved memory region for ramoops is assumed to be at a fixed
-and known location when read from the devicetree. This may not be
-required for something like Qualcomm's minidump which is interested
-in knowing addresses of ramoops region but it does not put hard
-requirement of address being fixed as most of it's SoC does not
-support warm reset and does not use pstorefs at all instead it has
-firmware way of collecting ramoops region if it gets to know the
-address and register it with apss minidump table which is sitting
-in shared memory region in DDR and firmware will have access to
-these table during reset and collects it on crash of SoC.
+On 11.09.2023 21:09, Jeff Johnson wrote:
+> On 9/11/2023 4:07 AM, Krzysztof Kozlowski wrote:
+>> On 09/09/2023 22:16, Mukesh Ojha wrote:
+>>> +/**
+>>> + * qcom_minidump_region_register() - Register region in APSS Minidump table.
+>>> + * @region: minidump region.
+>>> + *
+>>> + * Return: On success, it returns 0 and negative error value on failure.
+>>> + */
+>>> +int qcom_minidump_region_register(const struct qcom_minidump_region *region)
+>>> +{
+>>> +    struct minidump *md;
+>>> +    int ret;
+>>> +
+>>> +    md = qcom_smem_minidump_ready();
+>>> +    if (!md)
+>>> +        return -EPROBE_DEFER;
+>>> +
+>>> +    if (!qcom_minidump_valid_region(region))
+>>> +        return -EINVAL;
+>>> +
+>>> +    mutex_lock(&md->md_lock);
+>>> +    ret = qcom_md_region_register(md, region);
+>>> +    if (ret)
+>>> +        goto unlock;
+>>> +
+>>> +    qcom_md_update_elfheader(md, region);
+>>> +unlock:
+>>> +    mutex_unlock(&md->md_lock);
+>>> +    return ret;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(qcom_minidump_region_register);
+>>
+>> NAK, there is no user for this.
+>>
+>> Drop all exports from minidump drivers. Your upstream driver *must not*
+>> expose stuff to your vendor drivers.
+> 
+> Do we not expect that upstream drivers would want to register?
+> Mind you, in the downstream code the following was a bad limitation:
+> #define MAX_NUM_OF_SS           10
+No, Krzysztof meant that you are not allowed to export symbols
+without immediately providing a user for them - meaning if the
+functions are not going to be used upstream, this change will
+not be accepted.
 
-So, add the support of reserving ramoops region to be dynamically
-allocated early during boot if it is request through command line
-via 'dyn_ramoops_size=' and fill up reserved resource structure and
-export the structure, so that it can be read by ramoops driver.
-
-Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
----
- arch/arm64/mm/init.c       | 94 ++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/pstore_ram.h |  2 +
- 2 files changed, 96 insertions(+)
-
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 8a0f8604348b..680c1ce18fbe 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -31,6 +31,7 @@
- #include <linux/hugetlb.h>
- #include <linux/acpi_iort.h>
- #include <linux/kmemleak.h>
-+#include <linux/pstore_ram.h>
- 
- #include <asm/boot.h>
- #include <asm/fixmap.h>
-@@ -100,6 +101,93 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit;
- #define ARM64_MEMSTART_ALIGN	(1UL << ARM64_MEMSTART_SHIFT)
- #endif
- 
-+#define RAMOOPS_ADDR_HIGH_MAX		(PHYS_MASK + 1)
-+
-+/* Location of the reserved area for the dynamic ramoops */
-+struct resource dyn_ramoops_res = {
-+	.name  = "ramoops",
-+	.start = 0,
-+	.end   = 0,
-+	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
-+	.desc  = IORES_DESC_NONE,
-+};
-+EXPORT_SYMBOL(dyn_ramoops_res);
-+
-+static int __init parse_dynamic_ramoops(char *cmdline, unsigned long long *size)
-+{
-+	const char *name = "dyn_ramoops_size=";
-+	char *p = NULL;
-+	char *q = NULL;
-+	char *tmp;
-+
-+	if (!cmdline)
-+		return -ENOENT;
-+
-+	/* Check for "dyn_ramoops_size" and use the later if there are more */
-+	p = strstr(cmdline, name);
-+	while (p) {
-+		q = p;
-+		p = strchr(p, ' ');
-+		if (!p)
-+			break;
-+
-+		p = strstr(p + 1, name);
-+	}
-+
-+	if (!q) {
-+		pr_err("ramoops: No entry found for %s\n", name);
-+		return -ENOENT;
-+	}
-+
-+	p = q + strlen(name);
-+	*size = memparse(p, &tmp);
-+	if (p == tmp) {
-+		pr_err("ramoops: memory value expected\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __init parse_dyn_ramoops_size_dummy(char *arg)
-+{
-+	return 0;
-+}
-+early_param("dyn_ramoops_size", parse_dyn_ramoops_size_dummy);
-+
-+/*
-+ * reserve_dynamic_ramoops() - reserves memory for dynamic ramoops
-+ *
-+ * This enable dynamic reserve memory support for ramoops through
-+ * command line.
-+ */
-+static void __init reserve_dynamic_ramoops(void)
-+{
-+	char *cmdline = boot_command_line;
-+	unsigned long long ramoops_base;
-+	unsigned long long ramoops_size;
-+
-+	if (!IS_ENABLED(CONFIG_PSTORE_RAM))
-+		return;
-+
-+	if (parse_dynamic_ramoops(cmdline, &ramoops_size))
-+		return;
-+
-+	ramoops_base = memblock_phys_alloc_range(ramoops_size, SMP_CACHE_BYTES,
-+						 0, RAMOOPS_ADDR_HIGH_MAX);
-+	if (!ramoops_base) {
-+		pr_err("cannot allocate ramoops dynamic memory (size:0x%llx).\n",
-+			ramoops_size);
-+		return;
-+	}
-+
-+	kmemleak_ignore_phys(ramoops_base);
-+
-+	dyn_ramoops_res.start = ramoops_base;
-+	dyn_ramoops_res.end = ramoops_base + ramoops_size - 1;
-+	insert_resource(&iomem_resource, &dyn_ramoops_res);
-+}
-+
- static int __init reserve_crashkernel_low(unsigned long long low_size)
- {
- 	unsigned long long low_base;
-@@ -481,6 +569,12 @@ void __init bootmem_init(void)
- 	 */
- 	reserve_crashkernel();
- 
-+	/*
-+	 * Reserving ramoops region resource dynamically in case it is
-+	 * requested from command line.
-+	 */
-+	reserve_dynamic_ramoops();
-+
- 	memblock_dump_all();
- }
- 
-diff --git a/include/linux/pstore_ram.h b/include/linux/pstore_ram.h
-index 9d65ff94e216..07d700b7649d 100644
---- a/include/linux/pstore_ram.h
-+++ b/include/linux/pstore_ram.h
-@@ -10,6 +10,8 @@
- 
- #include <linux/pstore.h>
- 
-+extern struct resource dyn_ramoops_res;
-+
- struct persistent_ram_ecc_info {
- 	int block_size;
- 	int ecc_size;
--- 
-2.7.4
-
+Konrad
