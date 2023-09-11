@@ -2,122 +2,236 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31FBDCA0ED5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62313CA0ED7
 	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:18:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244956AbjIKVK6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:10:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33816 "EHLO
+        id S241548AbjIKVLA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236626AbjIKLHN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 07:07:13 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC433CE5
-        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:07:07 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2bf924f39f1so10565301fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694430426; x=1695035226; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qmyHVYJDP9hmCywHRnsdxnvZ1q0Z/z3sEq/O/fzkRmM=;
-        b=hE0UzNOildrc4RtjQlC+RP8Kk8xdx6Ya+Ekn5wJ/mahURugJQ378ozWVwxwNvye0ph
-         n92OzvajmrHal2Bn5EWHx+95chi40L9o3jccAVeRv0cWfirw9o2FReWCjrqyQDPaQsL2
-         kL35iYvgHu2HQic9ztnDQNByUaZh/NcvITlULH8CTBJRhweieQxtH23b2TLKg4Y+jM7v
-         SF3seT8EA/gqrFfcrQLBm0BZuVwjMXfKewd/h0Fbh8HIh1pgftR85XVP5n6/bFl9iWiK
-         qALytUgT8moTF5mvDYaQ6tSZXqrXDBYb7NY8KVlEXa4Az+fhGxlY1QchZMBnD5QIdm0o
-         qBFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694430426; x=1695035226;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qmyHVYJDP9hmCywHRnsdxnvZ1q0Z/z3sEq/O/fzkRmM=;
-        b=tBwbJlDzSF1fWPuBMa14NUYF/sj3pyE+SZ4KzgQgcYn7rD+NN4+iwIHlcWNqft9+2H
-         0PThECRq4VSZdPwb4Ai0SoiW21lt5CqlNb7OoB0ZuwdtZ9dcIxbO4nofbBevHxnqdjbr
-         kkFcAGJ4evgopgg4yjW+HZy9yUYYJHHVluS03BmCoGyyI5ouBrmHSN+1CaLZZqbtAYj7
-         Jpi9b6oaTMbU4FFx9OqrwJ6RgTjptSMolBeLJnSsKIsaFaOdzjgHxH637EYKAiTnbY/x
-         6pTjx9UPALnNYQ1CpyECpi1SidBSitnJAZ/oIe8g8jyZCER9V7NDMt9knU/jplG+aOWs
-         Hhsw==
-X-Gm-Message-State: AOJu0YylAAE9OigHJleB4W7cpU0we0FN3Li9LUaM/gW9Gq6AMqIlRvrF
-        f7G+Qj0ZT72cWvFizArqNbiYHA==
-X-Google-Smtp-Source: AGHT+IFR8IFxIJ7reSkaYfAFLu1yRY1oO/AEBb0QIMYpht4GuEFk0sZxNE+qAxMWLhq3G4SDtzJ7xQ==
-X-Received: by 2002:a2e:9ed7:0:b0:2bd:124a:23d5 with SMTP id h23-20020a2e9ed7000000b002bd124a23d5mr8252127ljk.11.1694430425888;
-        Mon, 11 Sep 2023 04:07:05 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id qn6-20020a170907210600b0099d9b50d786sm5219726ejb.199.2023.09.11.04.07.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 04:07:04 -0700 (PDT)
-Message-ID: <e35a8b4f-ba1a-514e-9c59-a74442f0cb1f@linaro.org>
-Date:   Mon, 11 Sep 2023 13:07:01 +0200
+        with ESMTP id S238163AbjIKNo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 09:44:28 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFA1CD7
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 06:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694439863; x=1725975863;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=8WP2bwf3rQmZ3hGBIkoXiXblb3vnwxn8d7ivwF9XR2M=;
+  b=Yd3pCGxo+jqbgRBoxS0MTZMrEMkSv2NLinN3W5ENoRG2tF+ucoU6HAK0
+   KatKWBmgmkWaJZz+3JpXCwWthtfQ+HM2oM+RzAtjv7cGtrL8MFfkqLgHP
+   q636cwBmTyM8IoGsV3ynb2YoeSc4YmiWsbrNTbxntS771vWZexZO6pniM
+   HhaQom107LkZkurD/lZcE86+ckCa2ozww4ur2IWZ9X/lCFuS/gE+6SmPq
+   wZ5mGkSWbaoEgWpGo6c8t0KmnzLUyiIfWIqC4t5LyJA9vPo8g80ShkApg
+   lkE/R8qOMmi1elHLeyj0AedE6T5z+yy3+kB53jd0RbsxOZN9AZlKtMxXu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="380782099"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="380782099"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 06:44:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="736775309"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="736775309"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 06:44:22 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 11 Sep 2023 06:44:22 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 06:44:22 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 11 Sep 2023 06:44:22 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RPbVic4/DsPGxsrdZthQEaU0YufgzJhVTvOL3CtX8RXeB8q6XcRTAA6cVZBZe4p/+27IiTw1DzlS9sqoRFF9hJgVdaS2gYqvJjuLvm+Yfs1crDVV8Jg4JRWEjK541JaGE0HfgWB9sM4gtLzxjTAYua3vn4iayQzTM9w3iTEBBV5gRsFy71iOwiUnWJsyujZSeglH4kqdAQNFRM/aKKWcIJ6AvdQXXckTs6mJODyuIa6+n/oqXPqS1b1xqbHQa/MSQuNq0p+XToMiP7O00nxE7uOSIB0xdgKxczWY2TivrM8vWWZmhizcwPq72IbDfiXtiUPQM2O0rr1cuKRt3b+Fyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=556B8uDWe17APHWaEAThTV4Rr5Z4PnOgcExqKW17Cdo=;
+ b=lMKFOLHTKlckrYaPRm8tFAg1XyZZ+AbvdoOjMtr7Pp4Ve1wxaPnh+z0r24/Wo7IlfPqNumKdh0YCpsLGSSTmQhxxeig0s41NphcA/mXg63mqq4Dw966tFaKNb2nsMllJ8U7PNIIUiHDmSHP54LNVpMPUwjwNkZvJDqDhUWWzULFOpVm3zDOGXfGCJ7sC7HgwWy2/YernDZDLLcgSTzIR9OZMNDVP7I6z2gcSVewXNzGMOqBSfGW9e7K05n4yFfbXckLDfSLfCi8vxMag7ALNiZCMF8p9aw9bdfyztqLQecAWem1Lc3HJ7CQz/HmHnf/80DfyJhdNVZb2GCcJeLBDHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN6PR11MB3006.namprd11.prod.outlook.com (2603:10b6:805:d1::24)
+ by BN9PR11MB5243.namprd11.prod.outlook.com (2603:10b6:408:134::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.34; Mon, 11 Sep
+ 2023 13:44:20 +0000
+Received: from SN6PR11MB3006.namprd11.prod.outlook.com
+ ([fe80::b2f6:ff19:be0b:362d]) by SN6PR11MB3006.namprd11.prod.outlook.com
+ ([fe80::b2f6:ff19:be0b:362d%7]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
+ 13:44:19 +0000
+Date:   Mon, 11 Sep 2023 21:44:09 +0800
+From:   Philip Li <philip.li@intel.com>
+To:     Daniel Borkmann <daniel@iogearbox.net>
+CC:     Eduard Zingerman <eddyz87@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        <oe-kbuild-all@lists.linux.dev>, <linux-doc@vger.kernel.org>
+Subject: Re: [bpf:master 6/15] htmldocs: Warning: Documentation/bpf/btf.rst
+ references a file that doesn't exist: Documentation/bpf/llvm_reloc
+Message-ID: <ZP8ZqUjWHSowCYlJ@rli9-mobl>
+References: <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
+ <a62b47218f1852d09b243b8fb1741c2baca4d336.camel@gmail.com>
+ <5009129a873cf20adacd679d5073c799f79672d2.camel@gmail.com>
+ <5ce81342-c565-f7fb-1c93-ec4eac8944c9@iogearbox.net>
+ <86cd932cd5a6ecf44b3d4dfd2b9446bd721d9e78.camel@gmail.com>
+ <ZPHXqAUX6aLXp9Dy@rli9-mobl>
+ <d4c9c399724d2465945d432ce658ff2d9baa296f.camel@gmail.com>
+ <ZPHaBGXnnNI5AX3y@rli9-mobl>
+ <43eb35e8-c00a-22e9-b4a4-dd54b1fbd63c@iogearbox.net>
+ <ZPHftmH4tvcYObbc@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZPHftmH4tvcYObbc@rli9-mobl>
+X-ClientProxiedBy: SG2PR04CA0168.apcprd04.prod.outlook.com (2603:1096:4::30)
+ To SN6PR11MB3006.namprd11.prod.outlook.com (2603:10b6:805:d1::24)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v5 06/17] soc: qcom: Add Qualcomm APSS minidump kernel
- driver
-Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
-        andy.shevchenko@gmail.com, vigneshr@ti.com, nm@ti.com,
-        matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
-        bmasney@redhat.com, quic_tsoni@quicinc.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
-References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
- <1694290578-17733-7-git-send-email-quic_mojha@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1694290578-17733-7-git-send-email-quic_mojha@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR11MB3006:EE_|BN9PR11MB5243:EE_
+X-MS-Office365-Filtering-Correlation-Id: 06f53722-98af-4145-c141-08dbb2cd329c
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EFY86zaUr4pTSF3wrPTMr7W8ELoE/10hV7eoVpZXi6tsPXGTki72JHUILTGbb6URMvTlHsc53wONERk2i0JgLUb6eW6HgxPvXD0Q4Ry4ICqtah+1nOA9BKcVLNn+onzHbYX2LyR+8ZpdQkBbrR+1TAz3OJp/MZq78ipJjwj8H3pH+gphDYoqUZTLUaS5u54zoEOhVTwroclFeiO4TkCBajLMyeQkXlZxQqRjU8ZhBldhFi/sSDWiQjBqKttRDbo2RbUtNEf/6iTKc3yO9Sse8mT9KanWwBRiQqnv8kNNZAHDOShB8kLOYkDQrZ0+ev/m9hMZgwA/1T69jJaAAjD6G40/kkggIVM75mEeXnIwnJxaJfnTjjqTusrDBiWNB+epjFnvX9ZfVcG+iIbzp89jVoqUKG2WQuWIoBqm5Y+Jlx/dXsmbC7vY6Dhku8tLllrBECo0jsgZedjJQgmrKhMC97vcFFCGCgrxkXRugWr3fIveW0cewSgII65YxKwHGNWJXKq4c9otlVZxTfLN6JdGeIXGMow9ANkDZmdKXx9iQxEl9/EU/i8IcYbRH6hapxn8Y3qEwKJFpY43GVIE18oCsg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(346002)(366004)(376002)(396003)(136003)(451199024)(1800799009)(186009)(6506007)(53546011)(6486002)(6666004)(966005)(6512007)(9686003)(478600001)(83380400001)(26005)(54906003)(33716001)(44832011)(66476007)(66556008)(66946007)(6916009)(4326008)(316002)(2906002)(41300700001)(5660300002)(8676002)(8936002)(82960400001)(86362001)(38100700002)(66899024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L1kFy+Sd9ncWG7i98vhG01AkmZWfcSBJOga55Cb6dD68qm++/j3JJ24Ma5FP?=
+ =?us-ascii?Q?gbwhDW2rToUvGppLoVZGhlGfMAqA387dnPJDZiwoNJjZnGQzQ/WmUkfXQ18e?=
+ =?us-ascii?Q?gXw7ZKxJi11nFKn1lDQqknI/YUh5XI2sbU1Oin96T+4RcpYsEUsDt8BGFhmQ?=
+ =?us-ascii?Q?Wlgx2WrMkqSYXOYhdFcJwVXHlTip1y6WHjtbEC15r5Azi/l3BGyzbwLd5ddm?=
+ =?us-ascii?Q?IdoTFsP2TIyOGuJ/h7MVYdONunVvrpwByyx4ptvHLTR501ZujBmzYXLR89bS?=
+ =?us-ascii?Q?RGgjBOjAId7cz7jlib0LK5SyxnXyoKy2m+gu84gAHc8jMYu+v3Ia6YlDepXR?=
+ =?us-ascii?Q?y13msH4lZBk6Zujw4mp2ZMkjR1d5wT35QXLgaEB/BCYRnDI2uG4jJO4aZNQ8?=
+ =?us-ascii?Q?LWmO1AvrwzClo6tT/UjyjYLQWJeEFLF5WOfzqxVxhkbqMxeIdjb+xY83FRIT?=
+ =?us-ascii?Q?vKuF7srKK0NOqB9OxxNI+kLXRb9s20WfZVVCRFibXmDiIZ2HLzTC73K2a8PH?=
+ =?us-ascii?Q?Qhr5gv5HooDZR4Gp15/vqKMP87OAXKVlhfHqh8d1syjFlP4DyoQNWZNna80c?=
+ =?us-ascii?Q?dHjZKu/Z9+C9Ia4J+oiaNTg5ZtwpQm5raxoSoO1qhMcv6OdcHgnXICfi/KRC?=
+ =?us-ascii?Q?VfTOG7bHrAl0lUfwU4qpHAeftUiEhmiNkpnjKj7/BV4nCg/gpDaP6kgl2xss?=
+ =?us-ascii?Q?Tshn5mDtsjCJQWl1LKyig+d6Q4OWrysncj+eIPKOl34LWAmKS7kZAJt2GXxQ?=
+ =?us-ascii?Q?TZBpxaHI+jGLkPFMcZ3mkWKbSGay9TwibtwF3GIElWuxCGeNl6mhyGwrjuJL?=
+ =?us-ascii?Q?b0m2GqIMOw627BoOts1tarZORh00z6ZEnuRzYO+c4W205/5Kw4cL8Wv9qPAS?=
+ =?us-ascii?Q?TlEgbYPIpVCm5H1bEYRZ5cehiw5wC8ScIuySrpOyE9nX7utLcwmFEjJYouxx?=
+ =?us-ascii?Q?iiBBalwE+YR5rePV0c8BALaaN4DzH5tjgUH/ypJy3JvNmVnuz9Fr3ra48uLG?=
+ =?us-ascii?Q?LUebAF6qbCDmDAayyAjkYZKWENpOrzknVXzxa7dwXs2kzbdbxdmTLqf4pwZG?=
+ =?us-ascii?Q?a6vLqPSrNrycn8pgOBVvSfPkwFU/dqsl+0ZzOd/P6eM07dt6xMwjp+9H1rLZ?=
+ =?us-ascii?Q?Q5t+dLFrZ3hBqIsPgbGnefvak1f/JezDHFibjZkX4nXFOfcv7Y6c37NuZgvK?=
+ =?us-ascii?Q?uwjrXcAlLf1UECPAv2+NJIfXyofEspJqcfWxt4TBECcm+tEjqfkkIiB42Ylk?=
+ =?us-ascii?Q?hDaoFKawiRzm8AhE/ZXvC7zsx9CDgZ9cAXA97ikEBgq8h6lWxSlZveWwimsl?=
+ =?us-ascii?Q?HsvFxXGw5BEmHtILRHwGIhCMjlpadUuVQyQoRJq638QrXqf9xNTgaYyCrv/s?=
+ =?us-ascii?Q?hYD7lkAYmROyrtrl/pw/TGSDEbk3k0zxSYwDkcy0b2Kkp4/Az+mnGr9ecd0x?=
+ =?us-ascii?Q?ywPyVuCShgfTIIMUimLZDe2TveDW6S97dN+VNJvGejxFpbw4orXVWZ7E1fs1?=
+ =?us-ascii?Q?8rSK1Z5B/5P3WqZ2Hi6/NX9Cpx9GOaBfogBuWIfhYH8U/becjoaFFlZ760YC?=
+ =?us-ascii?Q?5tSLHqQLmfSSQjnuaSFVTZ2G6WDjtM8LiDa2+F/T?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06f53722-98af-4145-c141-08dbb2cd329c
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3006.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 13:44:19.6275
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yMREJqgZCBXQ4H3xXgasSGEmm4H3WS4yzNZnCwqjMlDgXX3DMJyOYVsZ2KrEsYejjzWlHHRzdybeSDdz7C3ajA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5243
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/09/2023 22:16, Mukesh Ojha wrote:
-> +/**
-> + * qcom_minidump_region_register() - Register region in APSS Minidump table.
-> + * @region: minidump region.
-> + *
-> + * Return: On success, it returns 0 and negative error value on failure.
-> + */
-> +int qcom_minidump_region_register(const struct qcom_minidump_region *region)
-> +{
-> +	struct minidump *md;
-> +	int ret;
-> +
-> +	md = qcom_smem_minidump_ready();
-> +	if (!md)
-> +		return -EPROBE_DEFER;
-> +
-> +	if (!qcom_minidump_valid_region(region))
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&md->md_lock);
-> +	ret = qcom_md_region_register(md, region);
-> +	if (ret)
-> +		goto unlock;
-> +
-> +	qcom_md_update_elfheader(md, region);
-> +unlock:
-> +	mutex_unlock(&md->md_lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_minidump_region_register);
+On Fri, Sep 01, 2023 at 08:57:26PM +0800, Philip Li wrote:
+> On Fri, Sep 01, 2023 at 02:49:32PM +0200, Daniel Borkmann wrote:
+> > On 9/1/23 2:33 PM, Philip Li wrote:
+> > > On Fri, Sep 01, 2023 at 03:27:19PM +0300, Eduard Zingerman wrote:
+> > > > On Fri, 2023-09-01 at 20:23 +0800, Philip Li wrote:
+> > > > > On Fri, Sep 01, 2023 at 02:48:26PM +0300, Eduard Zingerman wrote:
+> > > > > > On Fri, 2023-09-01 at 13:22 +0200, Daniel Borkmann wrote:
+> > > > > > > On 9/1/23 1:18 PM, Eduard Zingerman wrote:
+> > > > > > > > On Fri, 2023-09-01 at 12:26 +0300, Eduard Zingerman wrote:
+> > > > > > > > > On Fri, 2023-09-01 at 08:29 +0200, Daniel Borkmann wrote:
+> > > > > > > > > > Hi Eduard,
+> > > > > > > > > > 
+> > > > > > > > > > On 9/1/23 2:05 AM, kernel test robot wrote:
+> > > > > > > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+> > > > > > > > > > > head:   be8e754cbfac698d6304bb8382c8d18ac74424d3
+> > > > > > > > > > > commit: be4033d36070e44fba766a21ef2d0c24fa04c377 [6/15] docs/bpf: Add description for CO-RE relocations
+> > > > > > > > > > > reproduce: (https://download.01.org/0day-ci/archive/20230901/202309010804.G3MpXo59-lkp@intel.com/reproduce)
+> > > > > > > > > > > 
+> > > > > > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > > > > > > > > the same patch/commit), kindly add following tags
+> > > > > > > > > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > > > > > > > Closes: https://lore.kernel.org/oe-kbuild-all/202309010804.G3MpXo59-lkp@intel.com/
+> > > > > > > > > > > 
+> > > > > > > > > > > All warnings (new ones prefixed by >>):
+> > > > > > > > > > > 
+> > > > > > > > > > > > > Warning: Documentation/bpf/btf.rst references a file that doesn't exist: Documentation/bpf/llvm_reloc
+> > > > > > > > > > > > > Warning: Documentation/bpf/llvm_reloc.rst references a file that doesn't exist: Documentation/bpf/btf
+> > > > > > > > > > 
+> > > > > > > > > > Could you send a follow-up fix for bpf tree?
+> > > > > > > > > 
+> > > > > > > > > Hi Daniel,
+> > > > > > > > > 
+> > > > > > > > > Will send the fix shortly. Strangely, I did check this syntax locally
+> > > > > > > > > before sending the original patch, and had no warnings reported.
+> > > > > > > > 
+> > > > > > > > I followed reproducing instructions but can't trigger this warning,
+> > > > > > > > tried several sphinx versions:
+> > > > > > > > - 1.7.9
+> > > > > > > > - 2.4.4
+> > > > > > > > - 4.3.2
+> > > > > > > > 
+> > > > > > > > I'll remove 'Documentation/bpf/llvm_reloc' and 'Documentation/bpf/btf'
+> > > > > > > > labels from the documents (and these are link labels, not actual
+> > > > > > > > links), but it looks like I don't have a way to check the results in a
+> > > > > > > > way compatible with test robot.
+> > > > > > > 
+> > > > > > > Strange, perhaps LKP folks could chime in and provide some more guidance e.g.
+> > > > > > > wrt Sphinx version.
+> > > > > 
+> > > > > sorry for late info, this one is using 2.4.4 sphinx, the full make command is
+> > > > > like
+> > > > > 
+> > > > > 	make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 SPHINXOPTS=-j1 htmldocs	
+> > > > 
+> > > > Hi Philip,
+> > > > 
+> > > > Thanks for info, I'll keep 2.4.4 locally to be in sync with test robot.
+> > > 
+> > > You are welcome. For the robot side, we actually read the version from
+> > > Documentation/sphinx/requirements.txt of the test commit.
+> > > 
+> > > For this series, it is 2.4.4. And we also support other versions like
+> > > 1.4.9, 1.7.9.
+> > 
+> > Side-note: @Philip, if it's not too much effort, would it be possible to add
+> > version info into the reproduce file as a # comment in future?
+> 
+> Sure, we will implement this early next week.
 
-NAK, there is no user for this.
+Just FYI: the latest report with version info can be found at
 
-Drop all exports from minidump drivers. Your upstream driver *must not*
-expose stuff to your vendor drivers.
+https://download.01.org/0day-ci/archive/20230910/202309102306.O46hkAzJ-lkp@intel.com/reproduce
 
-Best regards,
-Krzysztof
+reproduce:
+        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
+        git fetch --no-tags hverkuil-media-tree hdmi-dbg
+        git checkout 1eb159538ab221d1ffb1002a0cf8585906e75ca0
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        # install Sphinx 2.4.4
+        make htmldocs
 
+> 
+> > 
+> > https://download.01.org/0day-ci/archive/20230901/202309010804.G3MpXo59-lkp@intel.com/reproduce
+> > 
+> > Anyway, thanks everyone!
