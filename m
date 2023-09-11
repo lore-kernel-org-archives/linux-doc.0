@@ -2,112 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10292CA0ECD
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 01:49:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E48CCA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:00:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234593AbjILBtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 21:49:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51428 "EHLO
+        id S234376AbjILCAZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 22:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235405AbjILBs7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 21:48:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 371C8130FB8;
-        Mon, 11 Sep 2023 18:22:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB896C4AF6B;
-        Tue, 12 Sep 2023 01:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694480802;
-        bh=l4+CNsWaJdhkXR0vkKkAiHJ2iQogyvfkUk7FzvHK3AU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rDRIA4d6KAD5REBFXHv8wxLdpkWXtR/ABreMbVOKR1Z842Q1IY2CrC1HXeIj0ZugJ
-         EXDPGPvX9IibEzN74L3a7ldtnF3uqIFhLY7YoHImX5G41brZSb+8Ej/ioxIieDNPE7
-         EOSb67RxTTZtlrcliGrquXC8rYsE5WpXHQev4fbvySjhS/6HhV5WZ/4mm+aJUgLxW3
-         QXsM2P+8thLUgQT6KsFyjlf/KYxk4TUJYoBN4JMhyT9/CdlMi+EYcYEe0apCG2FJGs
-         1kQYlRKXTPINHgKX2v2fYG7Fa+vLY2ZFsBH1NySCgMULXNb6V3rjSA3wobObxXvv4X
-         meLNkytj/8PFw==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-52a5c0d949eso6377282a12.0;
-        Mon, 11 Sep 2023 18:06:42 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yx0a/UHX3JXqFSrobU/M6cB+j/o3+em6OPq0WuKg0ta0BHrQFBR
-        BsYipR0Ew3KC6wklropm7zW8PBZRC2cQDQNJO4s=
-X-Google-Smtp-Source: AGHT+IH4FhF/kTxPNgAVFbni63ODW/AwqSUOKFR7sTv2qzDRT5kLd8ExzVW67eg6HZD7guqGdyMOiuukWtzDSS5Upc0=
-X-Received: by 2002:a17:907:2c67:b0:99d:e617:abeb with SMTP id
- ib7-20020a1709072c6700b0099de617abebmr8061187ejc.23.1694480801055; Mon, 11
- Sep 2023 18:06:41 -0700 (PDT)
+        with ESMTP id S236125AbjILCAN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:00:13 -0400
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EA051018BE;
+        Mon, 11 Sep 2023 16:37:59 -0700 (PDT)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-59205f26e47so47963397b3.2;
+        Mon, 11 Sep 2023 16:37:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694475414; x=1695080214; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vxV5EwVeeWXpJX0Hrevj96jd4dTd0GlqOcLeKugsmAo=;
+        b=d7JHKPl3cpptRvP4X2nMFPNsAE0q85jy8pDy0/BQvofrlf8jbt4mlxqCdN+5qa3FFj
+         oF9MDflDb8lYrelq+mMcGCmP5Lto0h9NPEIsPcOQIFSJUEPEiYjLBDD3TchlqYISwRIc
+         skMiQc1k9zzXVwdzTCzwdPz069Y5dkes9nn5t6hANFrnsDfWpFYLb3mE93F1d1a9BjE0
+         UcfKIZnLDmqsMHuDFGYyNWjxV2G3vDVpFokrLfLki2tun8HgNwIHPiJXDImAtlnonIy5
+         t7uN8uqw9GDZkaLIUlVYHHlyPjy2JceQ56/F4zOvGrsrBlxTUqSDPvoR3SBLSIGF9a2B
+         c2Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694475414; x=1695080214;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vxV5EwVeeWXpJX0Hrevj96jd4dTd0GlqOcLeKugsmAo=;
+        b=EdEJUj3c/bp5VB8nAfbuDqJwF9AOuboIVPYrbaJ9YCP3R7mtcaTDZCGWGsYle5nfBy
+         lDB79X5hiKiZ1e0ZtmVNOmlirKotnIKPU0e1WcEmtz0QRs95ZKK2Zhp6/iIqV6H3zUkd
+         eKS9XT4hjoSzp1dwhqfsKdkBqCO66uHis1wvUoQ6QPTTeYKDKpn5HF86YTCs2tI3wcLP
+         7FQYfnzTdFRmnydMCcsSjM1ROnKqCcgWKSvSE3iihBIv18vj3ns/nXsTMLP9RzEeAgGT
+         nZjq26fxaP1qJCqHluAvgJ9MAsU6W1pTgzO/DJWcuA7lSLfi9u9Z2ABIW//6WSHYEEbi
+         JlYw==
+X-Gm-Message-State: AOJu0YyeobI1X2jDxAlw1jw8dtUHXJk+SV6p62bx8MnmwiDZxu514B/E
+        oLpumsR5LxdEcja8wu5la8yIpBO3Ntjffw==
+X-Google-Smtp-Source: AGHT+IGToB+JhZTwISt0CgVORoAeQuEFbPe5m0BPaNkuKCYxWUyirqBpKKg2RS9ogJTYNrxKH1TaXw==
+X-Received: by 2002:a05:6602:3352:b0:787:8fc:75d8 with SMTP id c18-20020a056602335200b0078708fc75d8mr13398981ioz.9.1694473743182;
+        Mon, 11 Sep 2023 16:09:03 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 16:09:02 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
+        daniel.vetter@ffwll.ch
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
+        ville.syrjala@linux.intel.com, seanpaul@chromium.org,
+        robdclark@gmail.com, linux-doc@vger.kernel.org,
+        Jim Cromie <jim.cromie@gmail.com>
+Subject: [PATCH v6 17/22] dyndbg-doc: add classmap info to howto
+Date:   Mon, 11 Sep 2023 17:08:33 -0600
+Message-ID: <20230911230838.14461-18-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
+References: <20230911230838.14461-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-References: <20230910082911.3378782-1-guoren@kernel.org> <20230910082911.3378782-8-guoren@kernel.org>
- <11f2a7a5-5219-a46e-5d16-4bdd400f5d9b@redhat.com>
-In-Reply-To: <11f2a7a5-5219-a46e-5d16-4bdd400f5d9b@redhat.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Tue, 12 Sep 2023 09:06:28 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTFhcwprGoBvrS7bw1pBUWSPPZxsujjpgheQ4L80wBnXg@mail.gmail.com>
-Message-ID: <CAJF2gTTFhcwprGoBvrS7bw1pBUWSPPZxsujjpgheQ4L80wBnXg@mail.gmail.com>
-Subject: Re: [PATCH V11 07/17] riscv: qspinlock: Introduce qspinlock param for
- command line
-To:     Waiman Long <longman@redhat.com>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
-        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
-        catalin.marinas@arm.com, conor.dooley@microchip.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        leobras@redhat.com, linux-arch@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 11:22=E2=80=AFPM Waiman Long <longman@redhat.com> w=
-rote:
->
-> On 9/10/23 04:29, guoren@kernel.org wrote:
-> > From: Guo Ren <guoren@linux.alibaba.com>
-> >
-> > Allow cmdline to force the kernel to use queued_spinlock when
-> > CONFIG_RISCV_COMBO_SPINLOCKS=3Dy.
-> >
-> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > ---
-> >   Documentation/admin-guide/kernel-parameters.txt |  2 ++
-> >   arch/riscv/kernel/setup.c                       | 16 +++++++++++++++-
-> >   2 files changed, 17 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
-ation/admin-guide/kernel-parameters.txt
-> > index 7dfb540c4f6c..61cacb8dfd0e 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -4693,6 +4693,8 @@
-> >                       [KNL] Number of legacy pty's. Overwrites compiled=
--in
-> >                       default number.
-> >
-> > +     qspinlock       [RISCV] Force to use qspinlock or auto-detect spi=
-nlock.
-> > +
-> >       qspinlock.numa_spinlock_threshold_ns=3D   [NUMA, PV_OPS]
-> >                       Set the time threshold in nanoseconds for the
-> >                       number of intra-node lock hand-offs before the
->
-> Your patch series is still based on top of numa-aware qspinlock patchset
-> which isn't upstream yet. Please rebase it without that as that will
-> cause merge conflict during upstream merge.
-Okay, thx for pointing it out.
+Add some basic info on classmap usage and api
 
->
-> Cheers,
-> Longman
->
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+v5- adjustments per Randy Dunlap, me
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 60 ++++++++++++++++++-
+ 1 file changed, 59 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 0b3d39c610d9..4ad7d184ed9f 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored.
+ Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
+ To clear all flags at once, use ``=_`` or ``-fslmpt``.
+ 
+-
+ Debug messages during Boot Process
+ ==================================
+ 
+@@ -375,3 +374,62 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
+ For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
+ its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+ in case ``prefix_str`` is built dynamically.
++
++Dynamic Debug classmaps
++=======================
++
++Dyndbg allows selection/grouping of *prdbg* callsites using structural
++info: module, file, function, line.  Classes allow authors to add
++their own domain-oriented groupings using class-names.  Classes span
++the kernel, so DRM can define DRM_UT_<*> classes, and helpers &
++drivers can use those definitions.
++
++  # enable classes individually
++  :#> ddcmd class DRM_UT_CORE +p
++  :#> ddcmd class DRM_UT_KMS +p
++  # or more selectively
++  :#> ddcmd class DRM_UT_CORE module drm +p
++
++The "class FOO" syntax protects class'd prdbgs from generic overwrite::
++
++  # IOW this doesn't wipe any DRM.debug settings
++  :#> ddcmd -p
++
++To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
++classes in a classmap, mapping param-bits 0..N onto the classes:
++DRM_UT_<*> for the DRM use-case.
++
++Dynamic Debug Classmap API
++==========================
++
++DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
++each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
++type, and mapping the class-names to consecutive _class_ids.
++
++By doing so, modules tell dyndbg that they are have prdbgs with those
++class_ids, and they authorize dyndbg to accept "class FOO" for modules
++which declare that classname with the DEFINE macro.
++
++There are 2 types of classmaps:
++
++ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
++ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
++
++DYNDBG_CLASSMAP_PARAM - refers to a DEFINEd classmap, exposing the set
++of defined classes to manipulation as a group.  This interface
++enforces the relatedness of classes of DD_CLASS_TYPE_LEVEL_NUM typed
++classmaps; all classes are independent in the >control parser itself.
++
++DYNDBG_CLASSMAP_USE - drm drivers use the CLASSMAP that drm DEFINEs.
++This shares the classmap definition, authorizes coordinated changes
++amongst the CLASSMAP DEFINEr and multiple USErs, and tells dyndbg
++how to initialize the user's prdbgs at modprobe.
++
++Modules or module-groups (drm & drivers) can define multiple
++classmaps, as long as they share the limited 0..62 per-module-group
++_class_id range, without overlap.
++
++``#define DEBUG`` will enable all pr_debugs in scope, including any
++class'd ones (__pr_debug_cls(id,fmt..)).  This won't be reflected in
++the PARAM readback value, but the pr_debug callsites can be toggled
++into agreement with the param.
+-- 
+2.41.0
 
---=20
-Best Regards
- Guo Ren
