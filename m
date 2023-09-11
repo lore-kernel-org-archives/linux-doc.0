@@ -2,199 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1605DCA0ED0
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED6D2CA0EC4
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:21:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344118AbjIKVNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:13:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53226 "EHLO
+        id S1343917AbjIKVMx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:12:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243819AbjIKRwG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 13:52:06 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B24FDD;
-        Mon, 11 Sep 2023 10:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694454720; x=1725990720;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=HnHMoAvGhIaazHVX1zNSqOZTtaUvrWQ7x3StzdIHA6o=;
-  b=X4DkHyD5cNROhDv7UQsNUU3Fmv0FvTJOSyj8NQr5l5RyVCAJt2MNMFSm
-   h7MqnBmf1kwTFebLA+mw/zBhVY9/f4yZMnP+Qvha7aPSHcWv4VBpWAJbs
-   14O/ekEzS1lY+hJsD692FtfqJrd5fugGAeLwtsSx+Rk9hmVZwOKPkWOr2
-   DL46jlj853gY3HTFSTpJxf4fZh8gZJgcJmctmo5pHid7dNC1mykdhs6wr
-   uEmrQWc8KsZxgmIlwGFsldHt3GUW4CuxHOc3fZL9Jc0zIl7kh12NVyYb3
-   WCLG95fwmop/B7nYYw2t2aU85gHBBext6r/HmQZguCgo9BWIr3i+bcVTM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409119836"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="409119836"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 10:51:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="720067790"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="720067790"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 10:51:59 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 10:51:59 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 10:51:58 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 10:51:58 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.44) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 11 Sep 2023 10:51:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UF4nPDvPSt6g31SU7ZUy0IAHUTeElUeg+PLoO0PRCuHio5mJIURRbjhhok2NCJkLlTQO6CT+cyB0JnI7hRJcl/DZyPx8m84sCZ1MMVABDd4OR4wbsgMyrSrJmN2z8X5XBKSakCAtcQmlVcAw0qybDK8khcuMzZ0lOgfw1dchHfT8qjSzxBF0KI08tWo7b4r+o4gYv4C3ohxMdbXBUPjaQrbNWetpmpCvd1mrzO54vwuD0h7VwP5NIr5elHHgGQqZ/4rY9WDemt+qrIj5ZxT7AoYPMe6a+jWeNCLmk1jrITAiRf4UL0dTAHkUKOewBA6sv8Ux8vcbqd6sjNp7jDk+Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T8CAvgCl01jlOYlYMBiADKF0MCchDovrTXnA8oQx/nM=;
- b=f51Xxf8Q+PkZgac15zRXwNeO3Igb6ZcBD//lGiAr3CN3wr4mQoR8to79f/3t1zTl2GX+Sue7rdFihXwdePnGd9p/LvjB7MWLkPfjb8gTryu9vfHbwf+FLBa+TtZ9zMEUh4zKrNhXbhI9STpo3qB70qbv/P9U5JYpVsGc9bW+dKVsaTmSPrm0+SxjtgepZtmVrS9dVpkYa/RGfwthGu0yqcIlnim50MuFNwh6PgpcD436ZmkFQvecbcteuKoGfAbSGHU61J1a9neyld8oxZ2M17zSOA1tQDc8vzV8uXkVYz3EplQng0jvSx9zb/moLJQkqedAAJKlmSuJu1ymai/qmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com (2603:10b6:208:3d7::17)
- by DM4PR11MB5567.namprd11.prod.outlook.com (2603:10b6:5:39a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.34; Mon, 11 Sep
- 2023 17:51:53 +0000
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::7109:4aa5:6a6d:c3d4]) by IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::7109:4aa5:6a6d:c3d4%5]) with mapi id 15.20.6768.036; Mon, 11 Sep 2023
- 17:51:53 +0000
-Message-ID: <643c5a52-451e-2f0d-5238-7611a632e4ba@intel.com>
-Date:   Mon, 11 Sep 2023 10:51:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v9 1/9] x86/resctrl: Add multiple tasks to the resctrl
- group at once
-Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-        <reinette.chatre@intel.com>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>
-CC:     <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <paulmck@kernel.org>, <akpm@linux-foundation.org>,
-        <quic_neeraju@quicinc.com>, <rdunlap@infradead.org>,
-        <damien.lemoal@opensource.wdc.com>, <songmuchun@bytedance.com>,
-        <peterz@infradead.org>, <jpoimboe@kernel.org>,
-        <pbonzini@redhat.com>, <chang.seok.bae@intel.com>,
-        <pawan.kumar.gupta@linux.intel.com>, <jmattson@google.com>,
-        <daniel.sneddon@linux.intel.com>, <sandipan.das@amd.com>,
-        <tony.luck@intel.com>, <james.morse@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bagasdotme@gmail.com>, <eranian@google.com>,
-        <christophe.leroy@csgroup.eu>, <jarkko@kernel.org>,
-        <adrian.hunter@intel.com>, <quic_jiles@quicinc.com>,
-        <peternewman@google.com>
-References: <20230907235128.19120-1-babu.moger@amd.com>
- <20230907235128.19120-2-babu.moger@amd.com>
-From:   Fenghua Yu <fenghua.yu@intel.com>
-In-Reply-To: <20230907235128.19120-2-babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR16CA0016.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::29) To IA1PR11MB6097.namprd11.prod.outlook.com
- (2603:10b6:208:3d7::17)
+        with ESMTP id S236643AbjIKLI7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 07:08:59 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67280CC3
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:08:54 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2bf66a32f25so49424871fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694430532; x=1695035332; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2r1pG42saIT1hQx+TELlhxvqJ0mmluvD/XCTWLDnio4=;
+        b=wiqYEoqFcRjvUJ+brPwmPIQsX601vW9w8Tsnu1Wq2ODfoOBinAdHwM3udjpT3NfpEK
+         zLbJBfRuKP+MLBUMAZiCe99wJxw+X2fQ+VR5yT1EBUSGY8AabfTWSoysZYMpfXQyc9Du
+         JrVYOLgEK9BfgDRt7NmU0QIVpWCeIAPrR7CgOhNasQf94iOBsDOvQNXcXZeoo8hdosBD
+         GeXkBMRu2nGTISH60Aytf/E/4KtaK8E3go5IWxtzr4bUnt5hao6xA8gkHo0WPp3c5F1H
+         Lm+XJ1OnEGwCw4FIdj0HoZtu9/RtexxM4UGAmSMmV730x5eC3PaZXJVp5MklhADw4O3o
+         r/Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694430532; x=1695035332;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2r1pG42saIT1hQx+TELlhxvqJ0mmluvD/XCTWLDnio4=;
+        b=sTziipNP7207xZ3mMyp1PNXedUmgSeMqKL/u0pF9PBApQNmt19vlgIMjSJmt4wMa9n
+         onqtpmVapakCN3RhV4F8sOl+LC3ZVD+/AgSc8MzHj/rLofvTj1SCDOKSSKNtHxq0iYBv
+         5c+VxYigGDzHOuCLLQ+Z5og8NXVvErgnX8cHeEaifNpSKtm9L2PLdpNHzfRQw9b9kMsW
+         WH1v37cGpBeajqJbVaSs8z3EfBzEgY0R/RVRtn/00YPV9Yg4/hJbQkIGTGFr/XHa2zQD
+         +/o19aes6845k8fx+eDUBxK6lAUCqVdrthv+kFGr3TDEOOWa3pYJmAnJRJIZk6pGKgks
+         LQWA==
+X-Gm-Message-State: AOJu0YxGUwGaBg3lbPrmW3b2VAfqu1YSFFGYdAPfXpC8qllppvFZyen/
+        5BoU6dEDqjKWrdK6Vo+G2iZXdg==
+X-Google-Smtp-Source: AGHT+IFhJr6aCH0nOA8CkPBUhMy540nMaAY+Mvm7js3Wpv0+d0W8u8lZbEJt3lbAgLcQPiDqKMNL3g==
+X-Received: by 2002:a05:651c:1994:b0:2bf:789e:b5dd with SMTP id bx20-20020a05651c199400b002bf789eb5ddmr5800990ljb.53.1694430532675;
+        Mon, 11 Sep 2023 04:08:52 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id si28-20020a170906cedc00b009786c8249d6sm5244877ejb.175.2023.09.11.04.08.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 04:08:52 -0700 (PDT)
+Message-ID: <75466db4-3d19-33f6-b2de-db714186a96b@linaro.org>
+Date:   Mon, 11 Sep 2023 13:08:48 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB6097:EE_|DM4PR11MB5567:EE_
-X-MS-Office365-Filtering-Correlation-Id: 908f20c4-a44b-4b72-c374-08dbb2efc87b
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JzOLYnezJgbrEiqpIHy5vnVPgLVxAuVlv+GgHwLfsolM/Ev/4mXZhB0TCrUMBjrIfikTG6CIlV2Q3etYWd92wsCcu7hEfAqDjf0WWqEcpbKmCyXaoDRBdI0DrW/xShFJ0ZLvBdjl+1y4xjp/g+FSVIboRhiLYkvWm+41SKqLXwrzeqpmEO0+cHCNXl8iOvb8yCa1orUxaCIa5ClY4aN2yW90hVyqejwjhO9iDOBufzm+fBLvraBp9LWmpvIouQPy7Z+cz7wI4pXD5PS0ze9AdZJya6itxt5NtesgwT46q2zRWSHuUCnvIOBTPrbsSA4abwrOjSgc7lVlUDO48opm3Ic924eE41gAEWffhtBJwY43hdGlKgvd0MwXFcpt5Mky/IdlkbG7L05jQF9k2K5uuk/Vgh3ygVUnW8TgLm7ep7+G1rVSwyRyyVEdJyBXYD9HdPDMLuIaEDuEIQLHwkcvuwOceHYNc/9w81avkGS5uc/pGNMj69Ta7ax6P53ReD8TZpdS3hoRObY2h6MPykMA2B9nr8Lqz1eY8mcxJ022sGsX+WpArTDddn0LwAcOBa6TJ9lHYGRYdyI+lAJI5hPGnMIbojkWTJTnggj7WOqLexEEGa6+Zfnche4UR3xl0LzZBm6Hn2Lpy7PiCeEq2ovNNA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6097.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(39860400002)(366004)(376002)(396003)(186009)(1800799009)(451199024)(53546011)(6506007)(6486002)(6512007)(478600001)(26005)(2616005)(4744005)(7406005)(7416002)(44832011)(66476007)(66946007)(66556008)(316002)(4326008)(2906002)(41300700001)(8676002)(5660300002)(8936002)(31696002)(82960400001)(36756003)(86362001)(38100700002)(31686004)(66899024)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bitrdmdnaTBhYmdhT0pSUENiZ3E5NVRERS83Q25QYzI2WVZkV0lsMTZacjl3?=
- =?utf-8?B?bGN4SnFBYUh1Wk93YmFFZnU2YVd2WDZybGFSL3I1SUp5WEZqUlgwWmZadjRs?=
- =?utf-8?B?eTRvNFI0OTJndVc3bnQvekwvV3NhYXgvWXhFclFCaEV6SFg2T0l6cTIrNGVp?=
- =?utf-8?B?eVJaQnZaMmZjOEVkckZLYSszeGtjVGlXNlBPeURTNzBUK3NRSUlEcmlkcVc5?=
- =?utf-8?B?cGhBTWhXNk4wWmVBQkdHQ0pnOHc4a3QvR3JNWWtWNCt4K0VGeHBTMXVES3ll?=
- =?utf-8?B?Z2RTWUJ3cmFVUk9oUW91OUJRZDlpZkw0U1hMUjFXeXB2eC8vVHJMcnJvVks4?=
- =?utf-8?B?YTFkbWM2NWFEUFNrK0xhK0poRU0rVjJXZ1A1THdVVDkxb2pab0UzK1NLZWJp?=
- =?utf-8?B?dzJDRmNSdXdDdEw1VjJqd3huMEdPWTJVSzlQL1lsdy9SM3d6Z0hsSkZJTGVK?=
- =?utf-8?B?OTcyUDZibFAwV004ZXZHL1Y0L3EvcXMwanhiSlhRL2Yvb3dlYk9UZE16RVdL?=
- =?utf-8?B?NEZnaHZhNHl3Z0RWSnFoVmw2Y24yNXh1eW85KzJpS083endjQmZqc29iMFZN?=
- =?utf-8?B?c3o1dktvb1NGS0lNdEVPYWl6cjhBY05tdTZLNWxnT1MvVllQZGVJdUNjVEN3?=
- =?utf-8?B?Z29INk5RcElYTHJUSFo5REtPWVl5MC9zS2Yxc0dHcFZjaVh4a2hYOVdyMjFq?=
- =?utf-8?B?OG1nVURrLzMrM0tHeWdXNmQvakZSYldtQ0xOTTdBNGhKcmJubmRzK3JvQ2Jn?=
- =?utf-8?B?VHhoanMxRDhaWnFhUFJoODRZSWt0VHNVNVlZdHlDY0o1T1FWMW53SThoVlE3?=
- =?utf-8?B?WVlFSnd0Znp4RmNZVnFZVHN4RmxSZ1FwWXRTTldQcGxKMW1TNTkxWm51YXI5?=
- =?utf-8?B?QmhQN1FkRGVEdXc4QnVxMnZkc2liY04xWXlEV1BzcGdSMm41Ry9RRzRHU29M?=
- =?utf-8?B?bDFZVVBiUzRLTzVrMkhBVklQN3FhblQ4emh0MmVOVTE2d3FNQ3NybG5yejZp?=
- =?utf-8?B?K0s4d0FiZ3l4RHhaQ1gzV25SS1BtZU5LMWlLU2pmUU44TE92ckhKVUVzaDFh?=
- =?utf-8?B?YVZKa1NUQjd3ZDY0N1NIbFBxTVNKK1dZTGc2WktrdDNSOXJFQnF1REsvdkpK?=
- =?utf-8?B?b2ZEQTRmVzQyRUZIY3N2QjRtaTkwYUYxTElXM3ZKeGhadTM0SHBlN3ladGQr?=
- =?utf-8?B?TmhsNVdTZ0ducGJYWUpwN2F2VFNmVTdZMVVFbU1ZZHhvR1NpZmpSZk5JM2Vs?=
- =?utf-8?B?WU5oRFhaN1dabWZXUU95d1dWd05WQndCNTNmM1NOUlZKc2lLR1c5bGlkbGsw?=
- =?utf-8?B?bkdBMzVtUTFjM3gwRk5NQmlHVjBvQm1DZ1dBL3FGbmFpM0YxS21WYUZoTVZt?=
- =?utf-8?B?dk4ydW5QRzZUQUR6RWptV2VSckh6RGlHQXl0YXRGVTRpbEgvSWZlUSswcTAr?=
- =?utf-8?B?YmVJZWFLOFBEM3lhcjFwVmVaYzZ3bXpSZjE2bUNYdkdIUlBkV2QzNGRDWmth?=
- =?utf-8?B?d3hudnpuQmszaDBFYnpLZDh1RTk5VTBGM1EyWEtwS0JzQWM4ZEVnSEhPU2Ix?=
- =?utf-8?B?TTB2cjlSSXRyL3JDUGl5VHI4eDhTM2tLQmVReDhaTndLU3RUYmR0QklwRFhE?=
- =?utf-8?B?UURlN3pqN1lpWWU5WDExWTR5VHZSSENzNThSanhtR3NreW93RjYyb0I5R05J?=
- =?utf-8?B?NUxuci9BaERqN2M5K2t2R1kvZ3MzdmRabHVaUm1NRmFvckUzVWhndGt6b1pF?=
- =?utf-8?B?cElIK1FodGF0U3pyN0s3ci9XaUNwUDlBSitVMTBORHRHMXN2aWFYWnNMT0R4?=
- =?utf-8?B?Y3BrcUVYRzZja0lFcEx6bzZFZ0xOUHRsNjdwR3JxVGZ0SzRuL2JsYWlxbVp2?=
- =?utf-8?B?Q0V6Z0c0cTlPSlphVk9xeEdWZDNKd3o2OXQzOUJPQjNTTjhlRUd3Z3ZzWkp1?=
- =?utf-8?B?OGlTVFgvblNpaXFBUnhaTHpPQTB2d0M4YVBlRmEvY3BiVzJVb3d1L3FlczVS?=
- =?utf-8?B?MnFEVUphN2NTaCtpdlJXMFBjcEJYZEl6T1d1V2Y2cTBDZ0NCakxWWERHNW95?=
- =?utf-8?B?TDEyaklUR0JKTkZwWSthbXU3elUxenh3US9lSEdxK3A2cTc2WFp4YW1lWW0r?=
- =?utf-8?Q?VVJcvWI9lpeK4KMxw8bL7P3h8?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 908f20c4-a44b-4b72-c374-08dbb2efc87b
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6097.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 17:51:53.6883
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ifTfKBZHDaiQAsO4ETo836qbj/5Zhz7F7qwyJYIcVHtHFYMtqQiMW6AaOJzil3LsFhuJAqcLtELb2bj2x9eRjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5567
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v5 07/17] soc: qcom: minidump: Add pending region
+ registration
+Content-Language: en-US
+To:     Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
+        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, vigneshr@ti.com, nm@ti.com,
+        matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
+        bmasney@redhat.com, quic_tsoni@quicinc.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
+ <1694290578-17733-8-git-send-email-quic_mojha@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1694290578-17733-8-git-send-email-quic_mojha@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 09/09/2023 22:16, Mukesh Ojha wrote:
+>  static int qcom_apss_minidump_probe(struct platform_device *pdev)
+>  {
+>  	struct minidump_global_toc *mdgtoc;
+> @@ -571,7 +688,10 @@ static int qcom_apss_minidump_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> +	mutex_lock(&md_plist.plock);
+>  	platform_set_drvdata(pdev, md);
+
+Why this is locked?
+
+> +	qcom_apss_register_pending_regions(md);
+
+Why this one is locked? It seems ordering of your operations is not
+correct if you need to lock the providers probe().
+
+> +	mutex_unlock(&md_plist.plock);
 
 
-On 9/7/23 16:51, Babu Moger wrote:
-> The resctrl task assignment for monitor or control group needs to be
-> done one at a time. For example:
-> 
->    $mount -t resctrl resctrl /sys/fs/resctrl/
->    $mkdir /sys/fs/resctrl/ctrl_grp1
->    $echo 123 > /sys/fs/resctrl/ctrl_grp1/tasks
->    $echo 456 > /sys/fs/resctrl/ctrl_grp1/tasks
->    $echo 789 > /sys/fs/resctrl/ctrl_grp1/tasks
-> 
-> This is not user-friendly when dealing with hundreds of tasks.
-> 
-> Support multiple task assignment in one command with tasks ids separated
-> by commas. For example:
->    $echo 123,456,789 > /sys/fs/resctrl/ctrl_grp1/tasks
-> 
-> Reviewed-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
-> Tested-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
-> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
+Best regards,
+Krzysztof
 
-Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
-
-Thanks.
-
--Fenghua
