@@ -2,251 +2,218 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33177CA0EC6
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:18:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC079CA0EC5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:18:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245689AbjIKVL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55492 "EHLO
+        id S245666AbjIKVLW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237854AbjIKNPV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 09:15:21 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C268AE9;
-        Mon, 11 Sep 2023 06:15:16 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1c35ee3b0d2so28295345ad.2;
-        Mon, 11 Sep 2023 06:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694438116; x=1695042916; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=T2yRSNijSEry1q3t5KG0YspbSUTWaMB7q8b9zVPDgfQ=;
-        b=HVCnvGufcw2atJ/kBHS5BNiOeCCZoMiP+ih2eU8wEazPc6nGyd/581cSd/nNyKHoNw
-         EMBoLq7rH5QC0598H9O49HoJcvvZzpfeFPRciXRQRWfgrYRfbtMOgpbxPjXFRkUQKlgG
-         Fizzgd7U0sM9dO0Qlzf6sHI2ETnXPiwuRkOV+vvaXyI2eccZvD/1lZCxWILPk+9zrOan
-         JD6A5VsQOo95whgRNcO9fqyz+p9Kx3Lfn2KMH35dXu0C47m+oG2OZzrKa12kKkBsOr+r
-         F84zn/dI8gTpvjWy5BeKohSfcQGRbh+thchaq7QZ8qOXZm72r6TquGl1pgA45ykyE5av
-         CCIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694438116; x=1695042916;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T2yRSNijSEry1q3t5KG0YspbSUTWaMB7q8b9zVPDgfQ=;
-        b=iD/YlYViUZJE9bfZVjtltOqU9WRLdNcSygQRS7/QroMy8Yo8nrhnEf4hb/SxI8d/Tv
-         He0OT7xp9HouyD3PUla0MX0Mej8xuiA5y64vyqdcgozinoze9YfGA3FfgJtbqrMRM5Qu
-         vLAyvgC9g2rzxiDTyhTrDgJh/tfii9p6jcOHPIGywaF/ASlL4sWOmrl5d+VhaMKfAE5a
-         kxaau1YGkIoVKt1GkemWyJER5rXO7Ed38NUTlAWzOHmbRPCV7Qx50Qxrp3FE95aFdDKx
-         g30QIuW7kVFgTw51vK7hlbP1yCCNWm167QIn9M95/0Vo3xswqobdUdZzsPkNc57xF3xv
-         oq/Q==
-X-Gm-Message-State: AOJu0YxNzRTCxxsPN3EsHOvlAMrj0kQ1jPl1OlIgAXGMGwD1vsC2ltcY
-        CyoPhY7FJf3dAQ8d8LS3zFM=
-X-Google-Smtp-Source: AGHT+IELjlMzUCNKicXbgrdGNOE2IUiNXf+0+gLijFTkFHG5fABBFoZEs1wFcY4YX7BmQrH9l7MLTA==
-X-Received: by 2002:a17:903:41c8:b0:1c0:c86a:5425 with SMTP id u8-20020a17090341c800b001c0c86a5425mr10229624ple.19.1694438116095;
-        Mon, 11 Sep 2023 06:15:16 -0700 (PDT)
-Received: from [192.168.0.106] ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id c5-20020a170902d90500b001b9ecee459csm6372378plz.34.2023.09.11.06.14.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 06:15:15 -0700 (PDT)
-Message-ID: <d3c32833-72c3-f10c-bdb1-52de90eb90c7@gmail.com>
-Date:   Mon, 11 Sep 2023 20:14:55 +0700
+        with ESMTP id S237489AbjIKMxm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 08:53:42 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5167ACEB;
+        Mon, 11 Sep 2023 05:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1694436818; x=1725972818;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F18RZdFWM4GMQROAAbnXFN2k3b4JLezGGc1Iq3gZ/zs=;
+  b=Qof1Tn7Drz2q5pJBs19D48KXqtndp0XKgs3tlMDifP76PS338MECL1dh
+   WAHlq0xoY3413x9Ban2Nz06RWbaUnazYlREVnPkuBmtj1XKmChE9bgUO/
+   1qKK+RKn5M6v6RiuoxrUBr45xcjSm0pgbL5P3aoOzKMQW9X0Vc4LY5wIs
+   alLHvVcJ7epXnzlDZzBDE5eowV9oDvRZx9VFc4sRm/n1U0h0ZCh0wvmKN
+   AYNlxz6QqdgDcbFHFnpb7ym6k0CXbBo7aatj6c+g8BcbjrzPCiaQut6Wf
+   mUyNOChpsyMtz9EqSSWL0V/8fxR2hJ87nCpUURCYcLOA4q9/UidAVnyzp
+   A==;
+X-CSE-ConnectionGUID: rGMnXp3/ScCh2he0ZE8W7g==
+X-CSE-MsgGUID: +aT+43DkQw6jnFnRFXnEkQ==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="asc'?scan'208";a="3979966"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Sep 2023 05:53:37 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 11 Sep 2023 05:53:19 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Mon, 11 Sep 2023 05:53:14 -0700
+Date:   Mon, 11 Sep 2023 13:52:59 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Guo Ren <guoren@kernel.org>
+CC:     Conor Dooley <conor@kernel.org>, <paul.walmsley@sifive.com>,
+        <anup@brainfault.org>, <peterz@infradead.org>, <mingo@redhat.com>,
+        <will@kernel.org>, <palmer@rivosinc.com>, <longman@redhat.com>,
+        <boqun.feng@gmail.com>, <tglx@linutronix.de>, <paulmck@kernel.org>,
+        <rostedt@goodmis.org>, <rdunlap@infradead.org>,
+        <catalin.marinas@arm.com>, <xiaoguang.xing@sophgo.com>,
+        <bjorn@rivosinc.com>, <alexghiti@rivosinc.com>,
+        <keescook@chromium.org>, <greentime.hu@sifive.com>,
+        <ajones@ventanamicro.com>, <jszhang@kernel.org>, <wefu@redhat.com>,
+        <wuwei2016@iscas.ac.cn>, <leobras@redhat.com>,
+        <linux-arch@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>,
+        <linux-csky@vger.kernel.org>, Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V11 00/17] riscv: Add Native/Paravirt qspinlock support
+Message-ID: <20230911-nimbly-outcome-496efae7adc6@wendy>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910-esteemed-exodus-706aaae940b1@spud>
+ <CAJF2gTRQd_dNuZHNwfg3SwD0XERaYXYUdFUFQiarym40kpxFRQ@mail.gmail.com>
+ <20230910-baggage-accent-ec5331b58c8e@spud>
+ <CAJF2gTS8Vh5XdMUcgLA_GJzW6Nm3JKHxuMN9jYSNe_YCEjgCXA@mail.gmail.com>
+ <20230910-facsimile-answering-60d1452b8c10@spud>
+ <CAJF2gTSP1rxVhuwOKyWiE2vFFijJFc2aKRU2=0rTK9nDc8AbsQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v5 00/17] Add Qualcomm Minidump kernel driver related
- support
-Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
-        andy.shevchenko@gmail.com, vigneshr@ti.com, nm@ti.com,
-        matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
-        bmasney@redhat.com, quic_tsoni@quicinc.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
-References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
- <ZP7VPfVtvbmB5aQf@debian.me>
- <c52e90e4-cab0-13b7-9658-1f730de6cf64@quicinc.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <c52e90e4-cab0-13b7-9658-1f730de6cf64@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="GbfQjpg1lIhwJuEz"
+Content-Disposition: inline
+In-Reply-To: <CAJF2gTSP1rxVhuwOKyWiE2vFFijJFc2aKRU2=0rTK9nDc8AbsQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/09/2023 17:39, Mukesh Ojha wrote:
-> 
-> 
-> On 9/11/2023 2:22 PM, Bagas Sanjaya wrote:
->> On Sun, Sep 10, 2023 at 01:46:01AM +0530, Mukesh Ojha wrote:
->>> Hi All,
->>>
->>> This is to continuation from the conversation happened at v4
->>>
->>> https://lore.kernel.org/lkml/632c5b97-4a91-c3e8-1e6c-33d6c4f6454f@quicinc.com/
->>>
->>> https://lore.kernel.org/lkml/695133e6-105f-de2a-5559-555cea0a0462@quicinc.com/
->>>
->>> We have put abstract on LPC on this topic as well as initiated a mail thread
->>> with other SoC vendors but did not get much traction on it.
->>>
->>> https://lore.kernel.org/lkml/0199db00-1b1d-0c63-58ff-03efae02cb21@quicinc.com/
->>>
->>> We explored most of possiblity present in kernel to address this issue[1] but
->>> solution like kdump/fadump does not seems safe/secure/performant from our
->>> perspective.
->>>
->>> Hence, with this series we tried to make the minidump kernel driver, simple
->>> and tied with pstore frontends, so that it collects the present available
->>> frontends data like dmesg, ftrace, pmsg, ftrace., Also, we will be working
->>> towards enhancing generic pstore to capture more debug data which will be
->>> helpful for first hand of debugging that can benefit both other pstore users
->>> as well as us as minidump users.
->>>
->>> One of the proposal made here,
->>> https://lore.kernel.org/lkml/1683561060-2197-1-git-send-email-quic_mojha@quicinc.com/
->>>
->>> Looking forward for your comments.
->>>
->>> Thanks,
->>> Mukesh
->>>
->>> [1]
->>> Minidump is a best effort mechanism to collect useful and predefined data
->>> for first level of debugging on end user devices running on Qualcomm SoCs.
->>> It is built on the premise that System on Chip (SoC) or subsystem part of
->>> SoC crashes, due to a range of hardware and software bugs. Hence, the
->>> ability to collect accurate data is only a best-effort. The data collected
->>> could be invalid or corrupted, data collection itself could fail, and so on.
->>>
->>> Qualcomm devices in engineering mode provides a mechanism for generating
->>> full system ramdumps for post mortem debugging. But in some cases it's
->>> however not feasible to capture the entire content of RAM. The minidump
->>> mechanism provides the means for selecting which snippets should be
->>> included in the ramdump.
->>>
->>> The core of SMEM based minidump feature is part of Qualcomm's boot
->>> firmware code. It initializes shared memory (SMEM), which is a part of
->>> DDR and allocates a small section of SMEM to minidump table i.e also
->>> called global table of content (G-ToC). Each subsystem (APSS, ADSP, ...)
->>> has their own table of segments to be included in the minidump and all
->>> get their reference from G-ToC. Each segment/region has some details
->>> like name, physical address and it's size etc. and it could be anywhere
->>> scattered in the DDR.
->>>
->>> Existing upstream Qualcomm remoteproc driver[1] already supports SMEM
->>> based minidump feature for remoteproc instances like ADSP, MODEM, ...
->>> where predefined selective segments of subsystem region can be dumped
->>> as part of coredump collection which generates smaller size artifacts
->>> compared to complete coredump of subsystem on crash.
->>>
->>> [1]
->>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/remoteproc/qcom_common.c#n142
->>>
->>> In addition to managing and querying the APSS minidump description,
->>> the Linux driver maintains a ELF header in a segment. This segment
->>> gets updated with section/program header whenever a new entry gets
->>> registered.
->>>
->>> Changes in v5:
->>>   - On suggestion from Pavan.k, to have single function call for minidump collection
->>>     from remoteproc driver, separated the logic to have separate minidump file called
->>>     qcom_rproc_minidump.c and also renamed the function from qcom_minidump() to
->>>     qcom_rproc_minidump(); however, dropped his suggestion about rework on lazy deletion
->>>     during region unregister in this series, will pursue it in next series.
->>>
->>>   - To simplify the minidump driver, removed the complication for frontend and different
->>>     backend from Greg suggestion, will pursue this once main driver gets mainlined.
->>>
->>>   - Move the dynamic ramoops region allocation from Device tree approach to command line
->>>     approch with the introduction command line parsing and memblock reservation during
->>>     early boot up; Not added documentation about it yet, will add if it gets positive
->>>     response.
->>>
->>>   - Exporting linux banner from kernel to make minidump build also as module, however,
->>>     minidump is a debug module and should be kernel built to get most debug information
->>>     from kernel.
->>>
->>>   - Tried to address comments given on dload patch series.
->>>
->>> Changes in v4: https://lore.kernel.org/lkml/1687955688-20809-1-git-send-email-quic_mojha@quicinc.com/
->>>   - Redesigned the driver and divided the driver into front end and backend (smem) so
->>>     that any new backend can be attached easily to avoid code duplication.
->>>   - Patch reordering as per the driver and subsystem to easier review of the code.
->>>   - Removed minidump specific code from remoteproc to minidump smem based driver.
->>>   - Enabled the all the driver as modules.
->>>   - Address comments made on documentation and yaml and Device tree file [Krzysztof/Konrad]
->>>   - Address comments made qcom_pstore_minidump driver and given its Device tree
->>>     same set of properties as ramoops. [Luca/Kees]
->>>   - Added patch for MAINTAINER file.
->>>   - Include defconfig change as one patch as per [Krzysztof] suggestion.
->>>   - Tried to remove the redundant file scope variables from the module as per [Krzysztof] suggestion.
->>>   - Addressed comments made on dload mode patch v6 version
->>>     https://lore.kernel.org/lkml/1680076012-10785-1-git-send-email-quic_mojha@quicinc.com/
->>>
->>> Changes in v3: https://lore.kernel.org/lkml/1683133352-10046-1-git-send-email-quic_mojha@quicinc.com/
->>>   - Addressed most of the comments by Srini on v2 and refactored the minidump driver.
->>>      - Added platform device support
->>>      - Unregister region support.
->>>   - Added update region for clients.
->>>   - Added pending region support.
->>>   - Modified the documentation guide accordingly.
->>>   - Added qcom_pstore_ramdump client driver which happen to add ramoops platform
->>>     device and also registers ramoops region with minidump.
->>>   - Added download mode patch series with this minidump series.
->>>      https://lore.kernel.org/lkml/1680076012-10785-1-git-send-email-quic_mojha@quicinc.com/
->>>
->>> Changes in v2: https://lore.kernel.org/lkml/1679491817-2498-1-git-send-email-quic_mojha@quicinc.com/
->>>   - Addressed review comment made by [quic_tsoni/bmasney] to add documentation.
->>>   - Addressed comments made by [srinivas.kandagatla]
->>>   - Dropped pstore 6/6 from the last series, till i get conclusion to get pstore
->>>     region in minidump.
->>>   - Fixed issue reported by kernel test robot.
->>>
->>> Changes in v1: https://lore.kernel.org/lkml/1676978713-7394-1-git-send-email-quic_mojha@quicinc.com/
->>>
->>> Testing of the patches has been done on sm8450 target after enabling config like
->>> CONFIG_PSTORE_RAM and CONFIG_PSTORE_CONSOLE and once the device boots up.
->>>
->>>   echo mini > /sys/module/qcom_scm/parameters/download_mode
->>>
->>> Try crashing it via devmem2 0xf11c000(this is known to create xpu violation and
->>> and put the device in download mode) on command prompt.
->>>
->>> Default storage type is set to via USB, so minidump would be downloaded with the
->>> help of x86_64 machine (running PCAT tool) attached to Qualcomm device which has
->>> backed minidump boot firmware support.
->>>
->>> This will make the device go to download mode and collect the minidump on to the
->>> attached x86 machine running the Qualcomm PCAT tool(This comes as part Qualcomm
->>> package manager kit).
->>>
->>> After that we will see a bunch of predefined registered region as binary blobs files
->>> starts with md_* downloaded on the x86 machine on given location in PCAT tool from
->>> the target device, more about this can be found in qualcomm minidump guide patch.
->>>
->>
->> I tried to apply this series on top of 535a265d7f0dd50 (as suggested by
->> `b4 am -l -g`), but it conflicts on patch [04/17]. Please specify the
->> exact base commit or another series for which this series is based on.
-> 
-> Apologies !
-> I just realized, it was 6.5-rc7, but let me rebase version of the series;
-> 
-> Sorry, for all the reviewed done so far, i will definitely take care of them or reply.
-> 
+--GbfQjpg1lIhwJuEz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK, see you in v6!
+On Mon, Sep 11, 2023 at 11:36:27AM +0800, Guo Ren wrote:
+> On Mon, Sep 11, 2023 at 3:45=E2=80=AFAM Conor Dooley <conor@kernel.org> w=
+rote:
+> >
+> > On Sun, Sep 10, 2023 at 05:49:13PM +0800, Guo Ren wrote:
+> > > On Sun, Sep 10, 2023 at 5:32=E2=80=AFPM Conor Dooley <conor@kernel.or=
+g> wrote:
+> > > >
+> > > > On Sun, Sep 10, 2023 at 05:16:46PM +0800, Guo Ren wrote:
+> > > > > On Sun, Sep 10, 2023 at 4:58=E2=80=AFPM Conor Dooley <conor@kerne=
+l.org> wrote:
+> > > > > >
+> > > > > > On Sun, Sep 10, 2023 at 04:28:54AM -0400, guoren@kernel.org wro=
+te:
+> > > > > >
+> > > > > > > Changlog:
+> > > > > > > V11:
+> > > > > > >  - Based on Leonardo Bras's cmpxchg_small patches v5.
+> > > > > > >  - Based on Guo Ren's Optimize arch_spin_value_unlocked patch=
+ v3.
+> > > > > > >  - Remove abusing alternative framework and use jump_label in=
+stead.
+> > > > > >
+> > > > > > btw, I didn't say that using alternatives was the problem, it w=
+as
+> > > > > > abusing the errata framework to perform feature detection that =
+I had
+> > > > > > a problem with. That's not changed in v11.
+> > > > > I've removed errata feature detection. The only related patches a=
+re:
+> > > > >  - riscv: qspinlock: errata: Add ERRATA_THEAD_WRITE_ONCE fixup
+> > > > >  - riscv: qspinlock: errata: Enable qspinlock for T-HEAD processo=
+rs
+> > > > >
+> > > > > Which one is your concern? Could you reply on the exact patch thr=
+ead? Thx.
+> > > >
+> > > > riscv: qspinlock: errata: Enable qspinlock for T-HEAD processors
+> > > >
+> > > > Please go back and re-read the comments I left on v11 about using t=
+he
+> > > > errata code for feature detection.
+> > > >
+> > > > > > A stronger forward progress guarantee is not an erratum, AFAICT.
+> > > >
+> > > > > Sorry, there is no erratum of "stronger forward progress guarante=
+e" in the V11.
+> > > >
+> > > > "riscv: qspinlock: errata: Enable qspinlock for T-HEAD processors" =
+still
+> > > > uses the errata framework to detect the presence of the stronger fo=
+rward
+> > > > progress guarantee in v11.
+> > > Oh, thx for pointing it out. I could replace it with this:
+> > >
+> > > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> > > index 88690751f2ee..4be92766d3e3 100644
+> > > --- a/arch/riscv/kernel/setup.c
+> > > +++ b/arch/riscv/kernel/setup.c
+> > > @@ -310,7 +310,8 @@ static void __init riscv_spinlock_init(void)
+> > >  {
+> > >  #ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> > >         if (!enable_qspinlock_key &&
+> > > -           (sbi_get_firmware_id() !=3D SBI_EXT_BASE_IMPL_ID_KVM)) {
+> > > +           (sbi_get_firmware_id() !=3D SBI_EXT_BASE_IMPL_ID_KVM) &&
+> > > +           (sbi_get_mvendorid() !=3D THEAD_VENDOR_ID)) {
+> > >                 static_branch_disable(&combo_qspinlock_key);
+> > >                 pr_info("Ticket spinlock: enabled\n");
+> > >         } else {
+> >
+> > As I said on v11, I am opposed to feature probing using mvendorid & Co,
+> > partially due to the exact sort of check here to see if the kernel is
+> > running as a KVM guest. IMO, whether a platform has this stronger
 
--- 
-An old man doll... just what I always wanted! - Clara
+> KVM can't use any fairness lock, so forcing it using a Test-Set lock
+> or paravirt qspinlock is the right way. KVM is not a vendor platform.
 
+My point is that KVM should be telling the guest what additional features
+it is capable of using, rather than the kernel making some assumptions
+based on$vendorid etc that are invalid when the kernel is running as a
+KVM guest.
+If the mvendorid etc related assumptions were dropped, the kernel would
+then default away from your qspinlock & there'd not be a need to
+special-case KVM AFAICT.
+
+> > guarantee needs to be communicated by firmware, using ACPI or DT.
+> > I made some comments on v11, referring similar discussion about the
+> > thead vector stuff. Please go take a look at that.
+> I prefer forcing T-HEAD processors using qspinlock, but if all people
+> thought it must be in the ACPI or DT, I would compromise. Then, I
+> would delete the qspinlock cmdline param patch and move it into DT.
+>=20
+> By the way, what's the kind of DT format? How about:
+
+I added the new "riscv,isa-extensions" property in part to make
+communicating vendor extensions like this easier. Please try to use
+that. "qspinlock" is software configuration though, the vendor extension
+should focus on the guarantee of strong forward progress, since that is
+the non-standard aspect of your IP.
+
+A commandline property may still be desirable, to control the locking
+method used, since the DT should be a description of the hardware, not
+for configuring software policy in your operating system.
+
+Thanks,
+Conor.
+
+>         cpus {
+>                 #address-cells =3D <1>;
+>                 #size-cells =3D <0>;
+> +              qspinlock;
+>                 cpu0: cpu@0 {
+>                         compatible =3D "sifive,bullet0", "riscv";
+>                         device_type =3D "cpu";
+>                         i-cache-block-size =3D <64>;
+>                         i-cache-sets =3D <128>;
+>=20
+> --
+> Best Regards
+>  Guo Ren
+
+--GbfQjpg1lIhwJuEz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZP8NqwAKCRB4tDGHoIJi
+0ldAAP9GGcetHG7gYZ4HG1QKhxMohQaaxgboYx7iHBroM1TWOQD/ZjZA5Wijf1OK
+1IInfX9naDCgcUU+DJfxo1FhU6ifVAA=
+=zWg1
+-----END PGP SIGNATURE-----
+
+--GbfQjpg1lIhwJuEz--
