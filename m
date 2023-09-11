@@ -2,192 +2,276 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED74CA0EC4
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDAA2CA0ECA
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Sep 2023 21:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343799AbjIKVMg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39774 "EHLO
+        id S1343930AbjIKVM6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:12:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243839AbjIKR6b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 13:58:31 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A57ADE0;
-        Mon, 11 Sep 2023 10:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694455106; x=1725991106;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=kC/vBkk3eTWW5McEjiiuPdirLljZAi6W1e8KlhZbA0o=;
-  b=H20z29iRVe0IaC+6Hl8RPsRyTZout1gkEoDZOF/lPwxfrRYBxW/SHl1z
-   Ng04qiIp9M3rTD+Fo8/LAAZtPVIioA5n5naaq5y0YmiGreIqOvTo2M+iO
-   ukwl9WSbqq+qlV6TM4Qe9OM/I1tWUwriPSE0Upk4eWw9pqU7kdOCVgrHj
-   SNEboUTW+Ltyv1Jr8zUQFGwmTBPzoP57w/6hfeMH+Mjc+SQgd+P2jxntu
-   vr8y4eGO34kadqg64matzD0cL7hM/WPseS8Y0aDe/+YL6Pi/00b7FByW5
-   mt3WPreABHtPgrV3R/ay2vDP9m72cNQ7KOLXZ/q2wUOVtomj2SkPE0wV7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378070731"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="378070731"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 10:58:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990198940"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="990198940"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 10:58:19 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 10:58:19 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 10:58:18 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 10:58:18 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 11 Sep 2023 10:58:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T/i/7UniAK36Y4yic1Y6J2L1N8KEpxJABAZ21op08hsbSBkqenc/UigSFJMXlA5vdimU7uEIedjlLLZclksk4JsEd2DwLHsFrz6a/WdR0qEVAujEvGQsGXR/kqyhUZbZ7lvP+Ryb/hEZnJ8bGVhVdeh2n+UuXgS8mOdwvYaOuvANv+PkVlfhTJ6EXCXtP4UzeeJ3Fn66ETij/OdJjYkYox1bFjeGtpct4IxmO6NrZ1jKixLP9tn+8md0MvUM0FoLYt9gGZo9TJJRGmKsN9RZlIRkn3mAYsd3eeFTEJ5nkX4aLHxyIhH0h2kb6ZwZftUpAHCj2akLF2bD4rNxmLtC7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GSrNFS0FqM9N8SfnAsCFZ6eyE685aq4iZWrqfA4LGdk=;
- b=HKu02+2Y2mXhpADb0DhkuEiE5S98G6jzU3Gh3/2GqxiV77bhg2SJCeMfNEjNhIQDFfH0yETqtUdOdupsqOEDHa//151Aq9muBhUiIjnEJvmsu7MKD9sNwPG+YDb4teB+FB24bLb1EA7s96Xp+X7t8eW0jQzEGA7rXiGFTmajUTxaKwaRHB89B17OSzYDItNxD5o5SPSwQcXS7iZg2d6Z0yLxcaje5Ysn6sH2Sck+aJV88YE+F7n0wtPUBgk1JS19ye86Y7WniTxEeEZUrYiMOAx9+KhzO7jMuF4F+2WXTKy10pV9yX9PzIQjq4lxLU42qfO3PXRRmTHm/Os+gn8L+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com (2603:10b6:208:3d7::17)
- by CO1PR11MB4834.namprd11.prod.outlook.com (2603:10b6:303:90::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.35; Mon, 11 Sep
- 2023 17:58:16 +0000
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::7109:4aa5:6a6d:c3d4]) by IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::7109:4aa5:6a6d:c3d4%5]) with mapi id 15.20.6768.036; Mon, 11 Sep 2023
- 17:58:16 +0000
-Message-ID: <84f04d1e-0715-d765-4bb7-e1a1d8616fce@intel.com>
-Date:   Mon, 11 Sep 2023 10:58:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v9 6/9] x86/resctrl: Move default group file creation to
- mount
-Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-        <reinette.chatre@intel.com>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>
-CC:     <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <paulmck@kernel.org>, <akpm@linux-foundation.org>,
-        <quic_neeraju@quicinc.com>, <rdunlap@infradead.org>,
-        <damien.lemoal@opensource.wdc.com>, <songmuchun@bytedance.com>,
-        <peterz@infradead.org>, <jpoimboe@kernel.org>,
-        <pbonzini@redhat.com>, <chang.seok.bae@intel.com>,
-        <pawan.kumar.gupta@linux.intel.com>, <jmattson@google.com>,
-        <daniel.sneddon@linux.intel.com>, <sandipan.das@amd.com>,
-        <tony.luck@intel.com>, <james.morse@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bagasdotme@gmail.com>, <eranian@google.com>,
-        <christophe.leroy@csgroup.eu>, <jarkko@kernel.org>,
-        <adrian.hunter@intel.com>, <quic_jiles@quicinc.com>,
-        <peternewman@google.com>
-References: <20230907235128.19120-1-babu.moger@amd.com>
- <20230907235128.19120-7-babu.moger@amd.com>
-From:   Fenghua Yu <fenghua.yu@intel.com>
-In-Reply-To: <20230907235128.19120-7-babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR13CA0027.namprd13.prod.outlook.com
- (2603:10b6:a03:180::40) To IA1PR11MB6097.namprd11.prod.outlook.com
- (2603:10b6:208:3d7::17)
+        with ESMTP id S236640AbjIKLHh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 07:07:37 -0400
+X-Greylist: delayed 379 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Sep 2023 04:07:31 PDT
+Received: from out-213.mta0.migadu.com (out-213.mta0.migadu.com [IPv6:2001:41d0:1004:224b::d5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC488CDC
+        for <linux-doc@vger.kernel.org>; Mon, 11 Sep 2023 04:07:31 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1694430069;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=E5yHKp0OcXp3JHJgg+0qOrM4VXGsFKESg9vuY4j64KM=;
+        b=RFgJBw48EPZafs2msT138v8SXX3p9xUpN/mvU6RgMl44mFl5tuNwYlwSB0mKtJRoeAdXUJ
+        C1g5Lk5GblE6HBE93nzpeDZldouoYN22NM8R+3AHXm+4Q85V5H++AgcpRZ8xxh5kYJFzwH
+        SMsGTEyx07SRu2mkQtSXMN2LZfpAFAE=
+From:   Yajun Deng <yajun.deng@linux.dev>
+To:     corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        mhiramat@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org,
+        Yajun Deng <yajun.deng@linux.dev>
+Subject: [PATCH] sched: Change the name of preempt mode from full to low_latency
+Date:   Mon, 11 Sep 2023 19:00:46 +0800
+Message-Id: <20230911110046.3877123-1-yajun.deng@linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB6097:EE_|CO1PR11MB4834:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61103eda-e925-4f71-b5e1-08dbb2f0ac64
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BJaACevxzBva9vfa2bY9r52PD2qM6+sR53FJRiZwitKpitQsGIC4bo2+Z5QXt7QfbGKxfUzc7LcFC34xt1F2xiJ9gBLv9Yr8kO+GeK609O65bz17DHzfRVAyQ62hQsTTtdi52ZzPfT3N+w5q4fXnG0NfPMFjA9HM3zZ0uUAfMmBAP2Pr5EipoM8DxesnLg4WP2FvAT2WxEg4sYGrkcXVAux4UigRCyEIOkv7QyQj22icMSnQbwaVqgx75MWMjkNnnOLBejbuoyzReOIZOG94gujuTjyAvJFhUBEx0eda/6SYuLQK0L3ToUnF6YVgzLPDbTlv7UpG1K8yOtU2t1IItdehLNFn1QqQdZbq+IcUEFjIJWxzTWXl3Jr2gkeEE3qqJJ59tXkZbWb4fdbGx+y+8Cvyf/FlFFiBQBfBo0RUtw+2fLKotutY/TGIUGimrXvyx4mpExJP9cKNy5H4E+Kmu8RMEmO+6o8ot+Nr9OKyzCEfpIZulYbCgptHXK6YjtTcIS0Vy/RvitMrDqoB9wE1huxDj9e/d7iX/oY3enm5e3Bfl+lxYlOXem3GQhsvoNtEQdep/SarYMN9g/MR59A9SRCjep6ArBCp8KY1Bw9X1UtdKOErArDS/XADZ5D9sS9zpRhKiXIvrRY/CLQ/mmaw9A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6097.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(136003)(366004)(376002)(396003)(451199024)(1800799009)(186009)(5660300002)(4326008)(41300700001)(66946007)(316002)(66476007)(44832011)(31686004)(8676002)(8936002)(66556008)(31696002)(36756003)(478600001)(53546011)(7406005)(6486002)(7416002)(4744005)(2906002)(86362001)(2616005)(83380400001)(6506007)(26005)(38100700002)(6512007)(82960400001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUovVFhpS0Q4UFNCSEVTQ0FUTEdFc0RtYmpMQW9qL09KdUF3VDZkeDlwdzlZ?=
- =?utf-8?B?SzhHclpKS2JGWFdXTmxZU0I1MGg4ZGc5cy9PamlKK1d4dTNoZUh5Yk5uNld2?=
- =?utf-8?B?bzdueWNMZnQ3UEJMZ1lxNnhWeHExUkNCeENNbWVXNGRDYzZkdGxlaEtMY1VO?=
- =?utf-8?B?OG13enAvNkM3YUxiOWQyTEN2MEpIeTdjZkJwN0U3K1hXdmNCdkhpRktvMVZa?=
- =?utf-8?B?ZWdiZ0RlR1ZDSFIyY1RkY0pUQTYyMGlvY0tIbEJ3YjRKalhyUEZLdnE3S2hm?=
- =?utf-8?B?S1Z2bEZhcWhMclh2TVIydFlCSDZkam44K05pb2pVWFlmcEYyd1VPTGZqaHVo?=
- =?utf-8?B?TnNpdXJCVDJBVVZIekxrbzY1SzNBUEFQVEdoUjNaenVaMHd6ei9hemxZSU1V?=
- =?utf-8?B?V0ZzV1RxV3Y4QzNhZlgrb1BHdWFPdTJxRVNoQUxXdHVXemJSNUJTQVFuZ1Rt?=
- =?utf-8?B?ZXErblQxVWZNL3pmNm1LR255dzBlUk51UGlCZFNsZ2tyWTlrd3dwRXF5ODB0?=
- =?utf-8?B?clpPcFp4V255NXAwREZaYllUUmNNOEJGZGt0SHNzTTUwb2JCQko4TC8wUGVk?=
- =?utf-8?B?cjhyaGJFdXpvQmROY2k5bDBhNzZwQ3cwd1pFV3ppYVRYNzN6Q3dmT09OUlVG?=
- =?utf-8?B?Nnh4Q1NYaFQxOHN3TEVCU1VKQ0IyK2wwTjR2MHdCSXVFUFRzVjZQcDl1djdh?=
- =?utf-8?B?YjQ5QzN3c3ZzeEJwa1huN3JESkZQWFhQdmExMG9tYWpBaEVaZzhsM2VmUzB4?=
- =?utf-8?B?RCtkSW52Zm5YKzNpczdreDNGYVQ5dlVjUVIrU09UYUNpNjF6eDMzMzROalFV?=
- =?utf-8?B?SEhMbkVlNCtTNjN2MTAvQjlqTkxxSVdNcndvblBnZHBsaDlDbllyQjRxZ3FL?=
- =?utf-8?B?cndFblI5WUhZdmVtVnVJcGlQbHR1UEdoWExDYXVycEFZaDE3OVZXbTRWK05u?=
- =?utf-8?B?UlFxS3ZkbWlnVnFabHpieG5yWW1sejZnOFY1WnRqbHJyMWZQRDV6bWZoVm8y?=
- =?utf-8?B?eFRDRTJac3NJTGJqMzNIaHNnWUMxZFNBVFQwbmNZK25OTStZc2dPS0dSakpk?=
- =?utf-8?B?Y0JBUlBTUVAvL0FOOTNZTjdia290bGJOam1OZDdhZlFMQlNQcU5wQW1qVlF5?=
- =?utf-8?B?YXdsME9lUThOQmVwbDlubnFmbklMeXNPRGlUTEdYNEhuRURlZDc4aFZJeXIx?=
- =?utf-8?B?ZnMvWEtNNmdVNTZQZWlETVZZVElMbTk0ZHlFclVtVzlPZHJjRnNiTEhnR3FG?=
- =?utf-8?B?Snh2NWQrb0NPQ2Vmdzg2NzFRNnJoZityQ3Y1aGpJMWFMSTF4RTVhZkQwR1ZF?=
- =?utf-8?B?M3E2NmRhTlZvOFF2QU1kenRvTkxFeHJNMGk4ZXlMb0tnajMwaWpVVUlBRy9X?=
- =?utf-8?B?VEtod09NaCtsd3NGbEpVYzVNSUtGWXVRenBSQXdEVUszUWtFRVdld3pyd1Aw?=
- =?utf-8?B?VmwxcjdvaEpUM2xkdzdZenI3aGJJUjIrVnJkek5uU3BIK280Z0Z0VVFOWWZF?=
- =?utf-8?B?OXE0TFB2NURsSDR4Vmxuc2N3aE53UXN0bGF0dVVtWmhHZWpQNFc2R1BjVkhh?=
- =?utf-8?B?c1BucGhrK1Jiem1uaTdteDhIc0hmanVtaFdLLzd4U1RFd1NlY3RXRFJOVm9q?=
- =?utf-8?B?UXpZOURna2Q0aEhOQ2U3clVneWFDcC90OUFISlBxQUY5ak5mSnUzRFMwdXZF?=
- =?utf-8?B?UTlHNFR3elBlb0FvYXZDL3VDQktDampyV3Y2MDFsSkVNaXdobEROWjhWRVZ0?=
- =?utf-8?B?MS9CV053UnEzTW9EWmYvYUk5RGVzc0JKb2tuT1hmcmVTeS9VdTB5b3VnRFV6?=
- =?utf-8?B?WHhKMTdXdmkwdXJOZmVMTy9qUTFZZ2d1TERNQjE4UC9qRitXczFTWFBrcHE4?=
- =?utf-8?B?THpVQ3E1QUFGVngybTlLNmwrbE1NR3ZqN01FSGozVjIxT1VpNU9EQys1ZmNT?=
- =?utf-8?B?azVuT2ovdkFENkhsemlQYlZmN1BBQmZXODFnS2lJMzNSZ2RwNXZQOEo0VTdB?=
- =?utf-8?B?YWFSK3BrTkRrNGZPRHpFdDB3MWlBSHhjYzd4bklMUVFwdzhVMGJNYTdvc1pw?=
- =?utf-8?B?RERKK0V2Nm5Id0tBVHB2ZSswMDBkNUFacC9oN0NkM1h0UUpEcVJ0Z0NWVlVr?=
- =?utf-8?Q?35ik94mzT9Fltd+xu31W90AAK?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61103eda-e925-4f71-b5e1-08dbb2f0ac64
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6097.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 17:58:15.9536
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zd1PCRqh8OP9AZjGji9Kxrf7H/09sfc6sRkBIvjLbT/Yp31h7qToF85egCngcb8km57289Vqrd2Bq7MyctpxMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4834
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+There is a similar name fully in Kconfig.preempt, but it corresponds to
+PREEMPT_RT. In order to distinguish them, change the name of preempt mode
+from full to low_latency.
 
+Also, define a global array and variable that used to save preempt mode
+name and size.
 
-On 9/7/23 16:51, Babu Moger wrote:
-> The default resource group and its files are created during kernel
-> init time. Upcoming changes will make some resctrl files optional
-> based on a mount parameter. If optional files are to be added to the
-> default group based on the mount option, then each new file needs to
-> be created separately and call kernfs_activate() again.
-> 
-> Create all files of the default resource group during resctrl
-> mount, destroyed during unmount, to avoid scattering resctrl
-> file addition across two separate code flows.
-> 
-> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
+Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
+---
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ include/linux/sched.h                         |  8 ++--
+ kernel/sched/core.c                           | 43 ++++++++++---------
+ kernel/sched/debug.c                          |  5 +--
+ kernel/sched/sched.h                          |  2 +
+ kernel/trace/trace.c                          |  4 +-
+ 6 files changed, 32 insertions(+), 32 deletions(-)
 
-Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0a1731a0f0ef..9284fd7999d7 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4581,7 +4581,7 @@
+ 			Select preemption mode if you have CONFIG_PREEMPT_DYNAMIC
+ 			none - Limited to cond_resched() calls
+ 			voluntary - Limited to cond_resched() and might_sleep() calls
+-			full - Any section that isn't explicitly preempt disabled
++			low_latency - Any section that isn't explicitly preempt disabled
+ 			       can be preempted anytime.
+ 
+ 	print-fatal-signals=
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 6d1341b1673f..ea607a0ce6f6 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -2181,7 +2181,7 @@ static inline void cond_resched_rcu(void)
+ 
+ extern bool preempt_model_none(void);
+ extern bool preempt_model_voluntary(void);
+-extern bool preempt_model_full(void);
++extern bool preempt_model_low_latency(void);
+ 
+ #else
+ 
+@@ -2193,14 +2193,14 @@ static inline bool preempt_model_voluntary(void)
+ {
+ 	return IS_ENABLED(CONFIG_PREEMPT_VOLUNTARY);
+ }
+-static inline bool preempt_model_full(void)
++static inline bool preempt_model_low_latency(void)
+ {
+ 	return IS_ENABLED(CONFIG_PREEMPT);
+ }
+ 
+ #endif
+ 
+-static inline bool preempt_model_rt(void)
++static inline bool preempt_model_fully(void)
+ {
+ 	return IS_ENABLED(CONFIG_PREEMPT_RT);
+ }
+@@ -2215,7 +2215,7 @@ static inline bool preempt_model_rt(void)
+  */
+ static inline bool preempt_model_preemptible(void)
+ {
+-	return preempt_model_full() || preempt_model_rt();
++	return preempt_model_low_latency() || preempt_model_fully();
+ }
+ 
+ /*
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 2299a5cfbfb9..2abbc0baaae7 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -8705,7 +8705,7 @@ EXPORT_SYMBOL(__cond_resched_rwlock_write);
+  *   preempt_schedule_notrace   <- NOP
+  *   irqentry_exit_cond_resched <- NOP
+  *
+- * FULL:
++ * LOW_LATENCY:
+  *   cond_resched               <- RET0
+  *   might_resched              <- RET0
+  *   preempt_schedule           <- preempt_schedule
+@@ -8717,21 +8717,25 @@ enum {
+ 	preempt_dynamic_undefined = -1,
+ 	preempt_dynamic_none,
+ 	preempt_dynamic_voluntary,
+-	preempt_dynamic_full,
++	preempt_dynamic_low_latency,
+ };
+-
+ int preempt_dynamic_mode = preempt_dynamic_undefined;
+ 
++const char *preempt_modes[] = {
++	[preempt_dynamic_none]        = "none",
++	[preempt_dynamic_voluntary]   = "voluntary",
++	[preempt_dynamic_low_latency] = "low_latency",
++};
++int preempt_modes_size = ARRAY_SIZE(preempt_modes);
++
+ int sched_dynamic_mode(const char *str)
+ {
+-	if (!strcmp(str, "none"))
+-		return preempt_dynamic_none;
+-
+-	if (!strcmp(str, "voluntary"))
+-		return preempt_dynamic_voluntary;
++	int i;
+ 
+-	if (!strcmp(str, "full"))
+-		return preempt_dynamic_full;
++	for (i = 0; i < preempt_modes_size; i++) {
++		if (!strcmp(str, preempt_modes[i]))
++			return i;
++	}
+ 
+ 	return -EINVAL;
+ }
+@@ -8752,7 +8756,7 @@ static bool klp_override;
+ static void __sched_dynamic_update(int mode)
+ {
+ 	/*
+-	 * Avoid {NONE,VOLUNTARY} -> FULL transitions from ever ending up in
++	 * Avoid {NONE,VOLUNTARY} -> LOW_LATENCY transitions from ever ending up in
+ 	 * the ZERO state, which is invalid.
+ 	 */
+ 	if (!klp_override)
+@@ -8770,8 +8774,6 @@ static void __sched_dynamic_update(int mode)
+ 		preempt_dynamic_disable(preempt_schedule);
+ 		preempt_dynamic_disable(preempt_schedule_notrace);
+ 		preempt_dynamic_disable(irqentry_exit_cond_resched);
+-		if (mode != preempt_dynamic_mode)
+-			pr_info("Dynamic Preempt: none\n");
+ 		break;
+ 
+ 	case preempt_dynamic_voluntary:
+@@ -8781,22 +8783,21 @@ static void __sched_dynamic_update(int mode)
+ 		preempt_dynamic_disable(preempt_schedule);
+ 		preempt_dynamic_disable(preempt_schedule_notrace);
+ 		preempt_dynamic_disable(irqentry_exit_cond_resched);
+-		if (mode != preempt_dynamic_mode)
+-			pr_info("Dynamic Preempt: voluntary\n");
+ 		break;
+ 
+-	case preempt_dynamic_full:
++	case preempt_dynamic_low_latency:
+ 		if (!klp_override)
+ 			preempt_dynamic_disable(cond_resched);
+ 		preempt_dynamic_disable(might_resched);
+ 		preempt_dynamic_enable(preempt_schedule);
+ 		preempt_dynamic_enable(preempt_schedule_notrace);
+ 		preempt_dynamic_enable(irqentry_exit_cond_resched);
+-		if (mode != preempt_dynamic_mode)
+-			pr_info("Dynamic Preempt: full\n");
+ 		break;
+ 	}
+ 
++	if (mode != preempt_dynamic_mode)
++		pr_info("Dynamic Preempt: %s\n", preempt_modes[mode]);
++
+ 	preempt_dynamic_mode = mode;
+ }
+ 
+@@ -8860,8 +8861,8 @@ static void __init preempt_dynamic_init(void)
+ 		} else {
+ 			/* Default static call setting, nothing to do */
+ 			WARN_ON_ONCE(!IS_ENABLED(CONFIG_PREEMPT));
+-			preempt_dynamic_mode = preempt_dynamic_full;
+-			pr_info("Dynamic Preempt: full\n");
++			preempt_dynamic_mode = preempt_dynamic_low_latency;
++			pr_info("Dynamic Preempt: %s\n", preempt_modes[preempt_dynamic_mode]);
+ 		}
+ 	}
+ }
+@@ -8876,7 +8877,7 @@ static void __init preempt_dynamic_init(void)
+ 
+ PREEMPT_MODEL_ACCESSOR(none);
+ PREEMPT_MODEL_ACCESSOR(voluntary);
+-PREEMPT_MODEL_ACCESSOR(full);
++PREEMPT_MODEL_ACCESSOR(low_latency);
+ 
+ #else /* !CONFIG_PREEMPT_DYNAMIC */
+ 
+diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
+index 4c3d0d9f3db6..fd516dcff988 100644
+--- a/kernel/sched/debug.c
++++ b/kernel/sched/debug.c
+@@ -244,12 +244,9 @@ static ssize_t sched_dynamic_write(struct file *filp, const char __user *ubuf,
+ 
+ static int sched_dynamic_show(struct seq_file *m, void *v)
+ {
+-	static const char * preempt_modes[] = {
+-		"none", "voluntary", "full"
+-	};
+ 	int i;
+ 
+-	for (i = 0; i < ARRAY_SIZE(preempt_modes); i++) {
++	for (i = 0; i < preempt_modes_size; i++) {
+ 		if (preempt_dynamic_mode == i)
+ 			seq_puts(m, "(");
+ 		seq_puts(m, preempt_modes[i]);
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 04846272409c..6210c40f35da 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -3276,6 +3276,8 @@ extern int try_to_wake_up(struct task_struct *tsk, unsigned int state, int wake_
+ 
+ #ifdef CONFIG_PREEMPT_DYNAMIC
+ extern int preempt_dynamic_mode;
++extern const char *preempt_modes[];
++extern int preempt_modes_size;
+ extern int sched_dynamic_mode(const char *str);
+ extern void sched_dynamic_update(int mode);
+ #endif
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 2b4ded753367..3d731b4fea65 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -4394,8 +4394,8 @@ print_trace_header(struct seq_file *m, struct trace_iterator *iter)
+ 		   buf->cpu,
+ 		   preempt_model_none()      ? "server" :
+ 		   preempt_model_voluntary() ? "desktop" :
+-		   preempt_model_full()      ? "preempt" :
+-		   preempt_model_rt()        ? "preempt_rt" :
++		   preempt_model_low_latency() ? "preempt" :
++		   preempt_model_fully()     ? "preempt_rt" :
+ 		   "unknown",
+ 		   /* These are reserved for later use */
+ 		   0, 0, 0, 0);
+-- 
+2.25.1
 
-Thanks.
-
--Fenghua
