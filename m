@@ -2,129 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0283ACA0ECF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 08:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6BDCA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 08:24:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232450AbjILIIY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 04:08:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39104 "EHLO
+        id S232571AbjILIYN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 04:24:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232531AbjILIIE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 04:08:04 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8741C1738;
-        Tue, 12 Sep 2023 01:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1694506078; x=1726042078;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4dV0kV+KXW7UJb+9tqUaPdb1gu1yn8BbHk8/t4Bxq1g=;
-  b=XNWSAaWJ2RwihAcsy0YobrK6ODitNIqzKgtAQ11uX1FMUz/dlykasZpT
-   DcJJyLQAduPeJ/V4sGZ+jk1RAm43P0kYe4OrwyynshWrRzMdiQ8rElFCL
-   dC1jN9d11Hk7LD1hW50pgm29vmM8SxkahsyJrT5dwHsovie85wDAI+Z8H
-   JArGmhFE3H/3zgQM2joXNVCzp7juUqFjXtDB3kmBYk+03jLv5xpmiOnwv
-   l7Mqt72GVHMY88meIyXeWNSNpOk8EBv2Lv0GkmMnxN2W5MzCTwY66HS0+
-   cvSSeVyXcN4M3E5kgZvuUVTWLeU/ij1nXAGdfSAkasxzv8deHwnIoFAqn
-   Q==;
-X-CSE-ConnectionGUID: 7hms3/EVQU6kwoNgywT1gw==
-X-CSE-MsgGUID: Wxbwhb0NT0acycYnDfqITw==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="asc'?scan'208";a="4155476"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 Sep 2023 01:07:57 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 12 Sep 2023 01:07:49 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Tue, 12 Sep 2023 01:07:44 -0700
-Date:   Tue, 12 Sep 2023 09:07:28 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Guo Ren <guoren@kernel.org>
-CC:     Conor Dooley <conor@kernel.org>, <paul.walmsley@sifive.com>,
-        <anup@brainfault.org>, <peterz@infradead.org>, <mingo@redhat.com>,
-        <will@kernel.org>, <palmer@rivosinc.com>, <longman@redhat.com>,
-        <boqun.feng@gmail.com>, <tglx@linutronix.de>, <paulmck@kernel.org>,
-        <rostedt@goodmis.org>, <rdunlap@infradead.org>,
-        <catalin.marinas@arm.com>, <xiaoguang.xing@sophgo.com>,
-        <bjorn@rivosinc.com>, <alexghiti@rivosinc.com>,
-        <keescook@chromium.org>, <greentime.hu@sifive.com>,
-        <ajones@ventanamicro.com>, <jszhang@kernel.org>, <wefu@redhat.com>,
-        <wuwei2016@iscas.ac.cn>, <leobras@redhat.com>,
-        <linux-arch@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>,
-        <linux-csky@vger.kernel.org>, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 00/17] riscv: Add Native/Paravirt qspinlock support
-Message-ID: <20230912-snitch-astronaut-41e1b694d24f@wendy>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910-esteemed-exodus-706aaae940b1@spud>
- <CAJF2gTRQd_dNuZHNwfg3SwD0XERaYXYUdFUFQiarym40kpxFRQ@mail.gmail.com>
- <20230910-baggage-accent-ec5331b58c8e@spud>
- <CAJF2gTS8Vh5XdMUcgLA_GJzW6Nm3JKHxuMN9jYSNe_YCEjgCXA@mail.gmail.com>
- <20230910-facsimile-answering-60d1452b8c10@spud>
- <CAJF2gTSP1rxVhuwOKyWiE2vFFijJFc2aKRU2=0rTK9nDc8AbsQ@mail.gmail.com>
- <20230911-nimbly-outcome-496efae7adc6@wendy>
- <CAJF2gTTSDtnc7WRAZ0eLjiwZHZFbOcPZaQ_c8LiLcctBNsKCaA@mail.gmail.com>
+        with ESMTP id S232637AbjILIYJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 04:24:09 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBC210CA
+        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 01:24:05 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id 3f1490d57ef6-d7eed15ad69so5020527276.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 01:24:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694507044; x=1695111844; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JTDlvFYbsx79XjnXV/v1eS2oK868sA5+g3OCAFf6938=;
+        b=FBhB4z6HcF6EizL+/lwxRnvBPsnUBCZNCJdmUZqMhF2t8tNtnTGFF+JCUzlHUG9Exo
+         EggToZqBJppvlFyjEBigx34yWBARuEWqMz4yka52D9EM9UM1QrISxBRPtWDZ29WUYe9q
+         d2krkdkVjxK27mY+IVp4h5OuRfx8EOC24+q01oOZ9zVKap5Gn+pmjs1tgIAXdxIMWl2s
+         hlUypNi+ZXFlGreD6ZHACbQH+jnwcETJOh0eM2WKZkO86QxIoS8ndf9uFvCult8qmb5z
+         WmJNShM2s+Z914AefMurd58mLEBMQpCYyRNyQgzLfOJXMC6Jyztx8eDTmu+++2h4nbhP
+         glxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694507044; x=1695111844;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JTDlvFYbsx79XjnXV/v1eS2oK868sA5+g3OCAFf6938=;
+        b=Q4+gYov8qrHWzYDMmJZ8CQPIx0qjIJb4apneWCYMP5OoeK7+0CiZBbl9xos3jbsdHX
+         uJcC2/UjdED0zu7QXDISlL0mL47oEBnbiYK1iA4U656b9TnXQ6M7U7nXB2qmyPFzt2qb
+         6EExiLXamGQgYnbpycVgHthBZzcuDDOSqi3cRv8bcMEdnSliZvn7nv5+jntxjNvEqAUI
+         15LHOYGR2NjOEycCrBZ4w7O6B/IencMeKLqfd6Q3eWysXwKCxoJv98uu7bZWkEuR1WbT
+         nzbmjY2wFDIPbnsyBsZnJLRhiITuY7anD1Qutyv/BDWz8eE38++ZB4RYtBVxgG+OMz6C
+         T5JA==
+X-Gm-Message-State: AOJu0YwOSPYsyExeJWhisHOu2AGImo7NfKu+fqjOWqR2BeGbq2l8LypV
+        h/5fCfEx8kLwKOfHVybv9/9+qT09H+3cZBMEHvDRdQ==
+X-Google-Smtp-Source: AGHT+IFd+7FzVpzIXwF6eF0XM98eCqwGR8vQyKfh9Y2GKm2qYYnTSN7eR9A+5PvS2Qu/0xw3IHJQEnNJumvhS4CTpxY=
+X-Received: by 2002:a25:d4c6:0:b0:d7b:95ff:14f with SMTP id
+ m189-20020a25d4c6000000b00d7b95ff014fmr13092370ybf.61.1694507044304; Tue, 12
+ Sep 2023 01:24:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="j7Df9CobqEwFv6J/"
-Content-Disposition: inline
-In-Reply-To: <CAJF2gTTSDtnc7WRAZ0eLjiwZHZFbOcPZaQ_c8LiLcctBNsKCaA@mail.gmail.com>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com> <1694429639-21484-15-git-send-email-quic_mojha@quicinc.com>
+In-Reply-To: <1694429639-21484-15-git-send-email-quic_mojha@quicinc.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 12 Sep 2023 10:23:53 +0200
+Message-ID: <CACRpkdYBH09emydQPaRUgEJuHdV0tk3=xeMXxD9UVP0GH2XZEw@mail.gmail.com>
+Subject: Re: [REBASE PATCH v5 14/17] pinctrl: qcom: Use qcom_scm_io_update_field()
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, andy.shevchenko@gmail.com, vigneshr@ti.com,
+        nm@ti.com, matthias.bgg@gmail.com, kgene@kernel.org,
+        alim.akhtar@samsung.com, bmasney@redhat.com,
+        quic_tsoni@quicinc.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---j7Df9CobqEwFv6J/
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Sep 11, 2023 at 12:56=E2=80=AFPM Mukesh Ojha <quic_mojha@quicinc.co=
+m> wrote:
 
-On Tue, Sep 12, 2023 at 09:33:57AM +0800, Guo Ren wrote:
-> On Mon, Sep 11, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor.dooley@microc=
-hip.com> wrote:
+> Use qcom_scm_io_update_field() exported function in
+> pinctrl-msm driver.
+>
+> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
 
-> > I added the new "riscv,isa-extensions" property in part to make
-> > communicating vendor extensions like this easier. Please try to use
-> > that. "qspinlock" is software configuration though, the vendor extension
-> > should focus on the guarantee of strong forward progress, since that is
-> > the non-standard aspect of your IP.
->=20
-> The qspinlock contains three paths:
->  - Native qspinlock, this is your strong forward progress.
->  - virt_spin_lock, for KVM guest when paravirt qspinlock disabled.
->    https://lore.kernel.org/linux-riscv/20230910082911.3378782-9-guoren@ke=
-rnel.org/
->  - paravirt qspinlock, for KVM guest
->=20
-> So, we need a software configuration here, "riscv,isa-extensions" is
-> all about vendor extension.
+As long as the qcom maintainers agree on the rest of the patches:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Ah right, yes it would only be able to be used to determine whether or
-not the platform is capable of supporting these spinlocks, not whether or
-not the kernel is a guest. I think I misinterpreted that snippet you posted,
-thinking you were trying to disable your new spinlock for KVM, sorry.
-On that note though, what about other sorts of guests? Will non-KVM
-guests not also want to use this virt spinlock?
-
-Thanks,
-Conor.
-
---j7Df9CobqEwFv6J/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQAcMgAKCRB4tDGHoIJi
-0qK3AQDulJZGiGgA+E47R8Ud6R5oEN/4EtWOAnkckiastVsR5QEA6lHxhL+c0RXG
-ffHqBpd4a2z2HVNcuw9EEcI8bR26oQE=
-=j90q
------END PGP SIGNATURE-----
-
---j7Df9CobqEwFv6J/--
+Yours,
+Linus Walleij
