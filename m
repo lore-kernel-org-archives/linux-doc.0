@@ -2,190 +2,363 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98BDCCA0ECB
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 02:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8806CA0ECB
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 03:04:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241338AbjILDAB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 23:00:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53458 "EHLO
+        id S241015AbjILDEn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 23:04:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241334AbjILC7r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 22:59:47 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7AE649D2;
-        Mon, 11 Sep 2023 17:47:38 -0700 (PDT)
+        with ESMTP id S241085AbjILDEd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 23:04:33 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FA102484F;
+        Mon, 11 Sep 2023 19:36:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694479660; x=1726015660;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=jyRHiFiNogjeIY0fzNoFl/X6bONEhijt7e2y7QA9UMM=;
-  b=mA3L4mM3xyN+t6XcKqg40IkBKnL27hmrnsGc50jM+2bsZ1jpBW8NapmM
-   pCN41g2gjaY+2Sea8EuIncv+9ChOJFZ8MXzH5oZ1tatyCAl8/pTTR39xt
-   gSxx7Ab7tm71fKYnmR1lekjdiet4osGrZqy/q8CctNm78nkQYKZljndl0
-   w2YVBEPPeY1xGQ9iSBIyEBzjLjdL+IiQ0ifDVZ4fnss9i1f6d/xJIrL/3
-   HSmYOtf2QYW3Kzzj1v8e6JyED2KQG2vJsMIY8gEEJCp77figpMXn6zZWw
-   N+gEmel+9ribua2bJ6gNViBYmroqQPRTyLYq5Rtx436eunJeTWhZayEAq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="358509485"
+  t=1694486208; x=1726022208;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=j8WU7CIx0A9coWIQlmMRM4wy5VpCgf1zqjAwmi6aDNc=;
+  b=ZhcOXrfQZLjVJYQkjjZBU4kDrYl4g4Fxz3lK6mOgRixy4FjPg0lkZjjA
+   c2Z2DIjSzQhp9xlQckpl0yzX+bR3qaRDdHhb8TAfZEm3ATyE4esXq7gYv
+   3qRhModlDWXrzF3zQmli9f8W7qmjwUcEFpQyyUJIU8zK97v6XQjQtHY91
+   NuuZ3S6R/870nLOackvecxuMR0506Crk8zgOcfq0I5kXJVKA78+CZWxB3
+   cho1MDnU0AkPUCsCaEV8jeCwoiHikKYS/YR5Lpg3JzJEIoRT3Lu+F54qI
+   eIagSpRSHrDpvmZfnVxIfFl2orsNqNrzkoKQ/ZcmiFbadSkJMYuZd4ECv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="363292886"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="358509485"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 16:08:16 -0700
+   d="scan'208";a="363292886"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 19:36:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="917209507"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="809046776"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="917209507"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 16:08:15 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 16:08:14 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+   d="scan'208";a="809046776"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 19:36:47 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
  fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 16:08:14 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.32; Mon, 11 Sep 2023 19:36:46 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 11 Sep 2023 19:36:46 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 19:36:46 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 11 Sep 2023 16:08:14 -0700
+ 15.1.2507.32; Mon, 11 Sep 2023 19:36:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nozZo56+jSW8sVg5Jd0PSGtkLrAKSMx0GwLq++NUQ/Cc1OnyziCPRYJ73/6NCy/2Ku/FmL6swfuYWVjtU8GEeivgg1edx+g4Fya+0UpcdzvDhROMGO/jbwWUcKbgn3p3V1TgokedcLhG3BhY32K3t5tJdFxwgNv3BRJS280ANVrgo/ms8vO74TWvz4AlKh5++rB9RoJIyv8IqRVOE7AXPv4CXUhFSmzZwOZK9LOM/Hx13hkbp7Pm14TBWuNvVi6WVQr91ameZfcnFx7L3uyyVj1EsHPjZ5Fvgp1IC4J52+Jid0cEymTXb4rYvelbtwTTijJi2R6domJk1/CUgofy0g==
+ b=ncieXwRb9cDWnPWCDFzBev3MbJwBgzO2GukmKesrpBqwo+Cy27hcP3WchoxC4xlwyATENNavb0YsvlyzKT1xUKamnmE5V4rlr96fFjBOJSi7+rCCqxfb88kN2GMxqmDX86SBhZGKOMRS0VllmtwMIilHGcheCdDl0jDzQoOaDMYr4EzrKkbzJcLETWB3amM/5bFNoZtrJ9GC08bhRUNK4HdzqDFfEM0u7EcZaQASCztEfvirk0glc3boMxLPsSj38YAgEsmVfA51Zsu6UdIH2jIUUps91Fns8zxF4XmPoD/6LIfF+o2psHA2HPVFqaPuJh4EKh8mOifMeb5yQfDSCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7Rkx5CZ/0hAgkE6A518yVZvbIJLRpFWm3dCOTZwWO7I=;
- b=YMgQrRo2CQPy78fAyEwv19cm6KVast7OI3zLMj3glhlmMEerpl7e4u59l1shKwcXFYn5igAsrYd+nBgSzzAbHjpCHVTljuaYJEHGG3PjQ8KcFkESnF/TrsVaFT6LiL8H/dhDyf6xo5lILsuUZ5W3+nqAur8CbcI+H4SB5nSbetoo7o3dGY09QHrgMISpFZRaHTr0IYYVGOf49Sx9i172VkbnF42zv1BnJuwTRSsuS25B//AO1YkOsBU9baH8z70cQjTTR2BQx2224bOn46VI/YViY+ZKT+LBtS+BWetDL39iUZHT+s7S4x8NSQApiSqrGWxo9Tc7asz3bbp6wp19sA==
+ bh=6Y2IW2gGA6+RkRb/e7gayzNf0HuctXl1HdndLJxAbm0=;
+ b=Im9pr9pb3LPVutkLeM+EfmnMHeNSV0VzKkYE1J/1mj7wfbHRrlvgSnswzPmY6mobPBptvCnawmww3SbcvuyEXt5qo+sXLlAHwY8V1eIZ3+0VSP8lrnH15D44kGAO2Nry9SBLwB7/yFEGOZmnD5no+N5uzlZuGzxsy4exPBgofkmhYbtF7fd2NIJjIUHc7Ip7s5h/UE6a3i38kjSxVsQ2P5rKidMr4oYMNMXlQlD+54gHEJF4nSm0nea/saiGg6447iXyt/hl8HnXbuTTrWIJkWcvRl0CWtlVHf2l7OnaTeZ7UNjOH8TM+A/Uj+hYv8DlayfcmEocM0SGCzH/lX7hgA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by BN9PR11MB5516.namprd11.prod.outlook.com (2603:10b6:408:105::13) with
+Received: from PH8PR11MB6780.namprd11.prod.outlook.com (2603:10b6:510:1cb::11)
+ by BL1PR11MB5527.namprd11.prod.outlook.com (2603:10b6:208:317::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.34; Mon, 11 Sep
- 2023 23:08:12 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::afd6:ce92:6244:7203]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::afd6:ce92:6244:7203%5]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 23:08:11 +0000
-Message-ID: <fbf1f7e5-1a82-303c-3802-2f246505c8a4@intel.com>
-Date:   Mon, 11 Sep 2023 16:08:07 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.15.0
-Subject: Re: [PATCH v9 9/9] x86/resctrl: Display RMID of resource group
-Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
-        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
-        <quic_jiles@quicinc.com>, <peternewman@google.com>
-References: <20230907235128.19120-1-babu.moger@amd.com>
- <20230907235128.19120-10-babu.moger@amd.com>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20230907235128.19120-10-babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0358.namprd03.prod.outlook.com
- (2603:10b6:303:dc::33) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.35; Tue, 12 Sep
+ 2023 02:36:43 +0000
+Received: from PH8PR11MB6780.namprd11.prod.outlook.com
+ ([fe80::5d9f:7e54:4218:159f]) by PH8PR11MB6780.namprd11.prod.outlook.com
+ ([fe80::5d9f:7e54:4218:159f%7]) with mapi id 15.20.6768.029; Tue, 12 Sep 2023
+ 02:36:43 +0000
+Date:   Tue, 12 Sep 2023 10:36:31 +0800
+From:   Chao Gao <chao.gao@intel.com>
+To:     Manali Shukla <manali.shukla@amd.com>
+CC:     <kvm@vger.kernel.org>, <seanjc@google.com>,
+        <linux-doc@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+        <x86@kernel.org>, <pbonzini@redhat.com>, <peterz@infradead.org>,
+        <bp@alien8.de>, <santosh.shukla@amd.com>, <ravi.bangoria@amd.com>,
+        <thomas.lendacky@amd.com>, <nikunj@amd.com>
+Subject: Re: [PATCH 03/13] KVM: x86: Add emulation support for Extented LVT
+ registers
+Message-ID: <ZP/Or2UqdA/EIzE7@chao-email>
+References: <20230904095347.14994-1-manali.shukla@amd.com>
+ <20230904095347.14994-4-manali.shukla@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230904095347.14994-4-manali.shukla@amd.com>
+X-ClientProxiedBy: SI1PR02CA0029.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::20) To PH8PR11MB6780.namprd11.prod.outlook.com
+ (2603:10b6:510:1cb::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|BN9PR11MB5516:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b181fef-af2e-434d-f942-08dbb31bf875
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6780:EE_|BL1PR11MB5527:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2451751d-3b2b-445c-8212-08dbb33919b6
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VwZYNCNtXJdRYLzNrYBZ9ll35r+J89zaQiy6632qoho+9sQnzU6Xa8IzLbaPsX1B+/oOs0k9MhADrH14RbM/qle568rrJpVbI+hXCib66DgTZHBEaIrUmf9FziYtohXOewC4MCGWmTTcNKzXQzlnCkwMD3nhgf4yZPDiTconrIrEK1o4XKFU7eNfKeaufMGNwRdSrLrutAIIyq4KDcMO8jA5sGBDfGskHrbgkNizR2mo2Xoeu55XmuT4Kw0KAmYRv7x95cAW2Zf14RPfEQumUI+cTn06euE+WB+PotHCEy/RTptwzvrOWLVXicmS4rgz5hpRDTOI8WYx2Wf/QW1kwO6MNuI5aTbrJnX621pQ3tw/3yIP92x19M3OzOc3rSu1QfrnOsA5sVPxtUaxeZjyV649Q1YJDarWEf65DGSkuuF+bsqX6EZHam9S0bhquY6QnEqP02KD8IC8uXJuoTr4Uy2xntJ39cKF+ON9hLiGOdMYlVQXlrzbFLThyByX7Yp0TQk/MbbwIqzMoILM7V2d26zuTLDwp7dYq3c13e47Ik5Qs1psQTZazy+34RSsmXmxW6fTHhLJWzW/cZ152ygH2cOL490hfbI4gbZT5dXib9VdBEw4/0kCM+BMWuG6cAPMKmPTP03V1G9NvqpTsxfQRg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(136003)(366004)(396003)(346002)(451199024)(1800799009)(186009)(31686004)(6506007)(53546011)(6486002)(6666004)(5660300002)(41300700001)(36756003)(86362001)(38100700002)(82960400001)(31696002)(2616005)(4744005)(6512007)(2906002)(966005)(478600001)(8936002)(7406005)(8676002)(4326008)(26005)(7416002)(316002)(44832011)(66556008)(66476007)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: cnibbsaVlAH/sJHcK1G8sOUHjj/Nxd78GKa5MewGGscEDHjSpzCUIE9Gy3NtWsFlqAJe2pIVguchULepCLSSo23ikxBF4bX8FUJmuRO9X1IKrcapNg+jU1parT/RnbnFI3QYpi8iK9eOA+ghXyy0UKyEyp0KNI0K6FzT0vXDPan5ciIgaLsyISBVSE18Qedg57RudGdHpbJUx4fSAvoVvipTJaW6cgn50x98cGxWDQWNZLipm/uWEEGe3XTG4HvV2BIsBMhDWUaesk7vUAH817lyf8ReGwQlPTCYLq3LReTXgG4s5PltjbcUKu2BSrSwild4/3yR5+zIYv2se9sZ5deXuuOlIPl+/Bhv7mChtHCvx26QxJmhwLVRm2VvPJmIj5IvjkdLVtAixDCa4XEVrkXoQvBxE/Tlbe8dI/ylSW4N+p17wnXl6Byem5WsKm4kUZll/HIGU7cO9kZTIa9g9e71nqWMNytpLLZgOxrgi5AUZhV/AvCYkjbGaCUVEWy+Rs7U0X5RIvScLKtvMQ+EQn83p22ha2i1vt9SxU5yj3U=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB6780.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(366004)(346002)(396003)(376002)(39860400002)(1800799009)(451199024)(186009)(5660300002)(44832011)(66946007)(6916009)(316002)(41300700001)(4326008)(8676002)(8936002)(66556008)(66476007)(33716001)(478600001)(38100700002)(6506007)(6486002)(9686003)(7416002)(6666004)(86362001)(26005)(2906002)(83380400001)(6512007)(82960400001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RUgyUnRiRGUyNkVGcEdBOXdScVhpdHg2M0Rjb3kvMkpVRzVaREhEQVRyZmZP?=
- =?utf-8?B?TXp2c3ZDdll3WlNCVW1LZVg5UDhsWkNWbzYvSlRxelpLcjZsdER5QlJSR2l2?=
- =?utf-8?B?ZnBWWVpmTzZHdHhleitYNk9xN2JneEx3Rk41Yk5kZWZXU29yZ3hpM1pxMVVU?=
- =?utf-8?B?dEk5cjhkS1NWb0tTQ1JHL3p3RGxxOFZxV1RmOVViaGxTYjJST1FRL1k5TE9T?=
- =?utf-8?B?QWp2c01RZlpQenN2MzZvSDNEWTlKZE5ySVRrZlM2UWVFTStDckk1Sko3Q3c5?=
- =?utf-8?B?djhmM0l4NnVxWXFvNWhRalZzcGZSQ0ZWa21ndEV0d2xOZFR6NCtwdWdXRHZr?=
- =?utf-8?B?S1JhMGdmT0FYRFdvalEwdEpSaG5wak1mMUVEcm8yMkRmSC9SSEF1cFIyejZ6?=
- =?utf-8?B?L2NkMFZVMXNpcDRRT0NuQ3FHOTg3clBvcEtQZGM3TWJCcHNIN2U3YkZUOUdF?=
- =?utf-8?B?eEJ5V21oNmMvMnc3eWZHMk53ZjNualFHRStqZk1IZWMySDd3b042WnFyOWVV?=
- =?utf-8?B?emU2Vmozdkx3c3dOZWlwTGhxTDkvY2VNUldJdTJoVW5RN01MTVRYOGhwTWdx?=
- =?utf-8?B?WWFWeklPL3QvVDFhaEF2QXdIeVlkYU9kd0hQcHlDOEJ1MlRGSE16QnNxSWdB?=
- =?utf-8?B?MmJFb1Z0alBCY3lrZU5JOUtrQXFFc3NjWWJvTThwaGpIZFI2WDV6MXl6WGxX?=
- =?utf-8?B?RUZEbmdPQWZvakRJbE82U0E2bWpXK1ltYkpCY1ZHZmFXOHRPTzNRUCs5WWVW?=
- =?utf-8?B?Y29QeVFBM1R0VVN4VHB0bXdMMjJDdm04eHljVHBMT1dRSnAyTUZ2TEUvNXYy?=
- =?utf-8?B?elExV0VBSjJNWTdYdGYvSGxyVDNPQlpLYzk0eXhYSkVNT3I2Nk11emRQV0NM?=
- =?utf-8?B?VTM2TWRXbnBiMUp2YkZIejhQQkxkY3FtK1ROSWZLNEg3UDFvemVnL2RLcy90?=
- =?utf-8?B?WmF0NC9ZUkovMHVVWnhMYmpoWHphUFdCYldKWE9Va1NjS2xERGV2QXpOR2s3?=
- =?utf-8?B?R2g2UGpweW9WTkVmaGFza3Bnc3BnQVR5UVoreHJsWmIza293QXB0azAwM29w?=
- =?utf-8?B?SExncTRJb012WHRVVG5pdnZBRm5mejRKSjFQamhmeDVmem9Rck9lODVHSmUy?=
- =?utf-8?B?K3lFRE5meWxWbVpPYkdUZmVUNkZOODNtV3VqZkxaSE5nYzdYVnpqZU5PSHRu?=
- =?utf-8?B?TEh2eU01ZVJQWVoxVXdWMHYwNG5Ib016djR2UXh6K0VXUlRIUDc2VWhITGEz?=
- =?utf-8?B?UFhqc1F3cTMyQzdnNFlNNVduQUE0M1cxUnpaUmp2ZG9PVC9kUExnc1RQQ1Z0?=
- =?utf-8?B?SW1aQUdMbDh5anNGUHRFZDF0d000Q1gwcnJZTUY5Qm5xTHhmWU5IRldoWlVC?=
- =?utf-8?B?dlZUekJRWm1hZWthSkx4Q1BQMTdxOGk0TllFbHB2bC9UcmxRaW1FMWxDcXl5?=
- =?utf-8?B?R1pxY1ZyTnl6T1VZSllYVWVCL0dUUGZjcHZqSFh6TklueElvUUdiY0JHOVRs?=
- =?utf-8?B?VkpLS21GMyszMndNbXJRRFJRK0dsbU91dzZ2VG5DWEFpVU1GUmprZFM2NXlq?=
- =?utf-8?B?MWk2VXlDNEJRZjhTMXRvaGluZzlpeDh5RllyMjJUVHFrL0ZmWThxVWJFaEVp?=
- =?utf-8?B?c09KSGJOSlJEenVUK09OVWJBVnJtb0hoUXJXUUtnVjJ0YVpNU1FmZUJWM20x?=
- =?utf-8?B?TThWQzBOUVg1VTNqSHFoWlYvN2I2aDcrREMwZzJYYXBieFRxb3RiNjhtZ0tq?=
- =?utf-8?B?aUcydjNVc3Q0dituOUplOTN3OTlEbmtORXM0bUxQeU5WVUd5STJianY5K2dC?=
- =?utf-8?B?R0IrdEN2eUVEU2RaK0QxNUlWOWZRbG9pa01ncUxBNytDMTJVdE5jWFI5ekJr?=
- =?utf-8?B?c0lUNnhiMkk5ckdVay9xcXB4L2o3MS8rSjJLZVdic2gwMUYvWlVGV0h4Tm5C?=
- =?utf-8?B?dW1FLy80YUk1VDBVMm4vb0pjSVp5c3VKWEFUREV5OUl6NHFCRUZzbzlObmJa?=
- =?utf-8?B?VUV2cUx0MmhLRHhPb0pLMExPTFNieTFkSXM0SzRzb09jTlhwK0xpYlJyNUp6?=
- =?utf-8?B?T2o5SlA5bWxGcDkxMy9qMEM0S3NVcFgzVlBwMkpsaHdIZG5FdGwydGRaaDFE?=
- =?utf-8?B?dlAyQVgwN3BON2RNaVJoREVyWFFUM0dzdzJQQkZmOWoxa0VTNzhWc21YZjNm?=
- =?utf-8?B?clE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b181fef-af2e-434d-f942-08dbb31bf875
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?o6uhJCkP0xI8yG+3y9L04ceRmLz0WxscQndLmMVwtoXczI3IABn+/Bqn0n2n?=
+ =?us-ascii?Q?C+W0CwVC1Bvtbrqivezrgf+iVQokDCHsWq/TfMsvdO5AGH5ftCKEs/usXCRf?=
+ =?us-ascii?Q?N/awYNYq9m5pyuTAqEBaAc6jSDu3vxd1aoR2UZGyNdEiM0jIggXmnBVylfmv?=
+ =?us-ascii?Q?16/O31Xs3MTGB2q5jCk7wYpmr4AqQLwk1zyGXma6j6HeaDT5bi27upobaSjl?=
+ =?us-ascii?Q?56jAjUMPboir+G6IJsJ+svWKSEiUX3YXIQEOZzR0y49eJjWUkTcN29EhC+u7?=
+ =?us-ascii?Q?kpYMJjUVPYGUC59F2q7/OED+rnXXWWnwdt+LWJpZ83J6zulw29DNFvdtuwDB?=
+ =?us-ascii?Q?2izWgeP4KyDAiAruXiLdZMUBBPXiBRtUs3PE7jz8ejDGjUh6Yo6KfzBsKWdX?=
+ =?us-ascii?Q?eCEEvCNrN26Qx3lcMwHcykABnKwxUiHTS433EWye3Foz6bxosiQxF5+r14T5?=
+ =?us-ascii?Q?4SY7+/55tpe6NrM9YtPUb8nvHMrqIqzS1XH1HBXLWtqV8IarFmWT86GIm7mp?=
+ =?us-ascii?Q?3NpHpK90JSzQ+kVPm2sMJe28BEbR5PGvx1zLRVl88gOnkX/7rBX7L5rGNKTy?=
+ =?us-ascii?Q?ccVoemcug4CDDmMbpSLQKIsUA0TbQrWEWdiWCDIKKsH3VfZS1ZohhrDR8+hu?=
+ =?us-ascii?Q?c7MVpObDI8IoSfccBxnE+bHrB+uYmyklU9PTihzyJdTJ6WyRiZL2p1S6dRTt?=
+ =?us-ascii?Q?AzbDDX3Iqq6ZhEASskvLvTkqqGf5fYLb51iXQvIF1rIvCPp0qHDJG8s4Yn1i?=
+ =?us-ascii?Q?1cGUDx+GMQm8aS28k6tr7FRts2wZ/odY0W4qNG9HGAV+FwTyGobWou5Pbdn5?=
+ =?us-ascii?Q?UGo6QGfjNix6HXRlrgkdn+F6gkWpGAej7qNWi+jZJiD+NJ2MYNs6ERRtQx4m?=
+ =?us-ascii?Q?5Q5TDhtLxlludJA1ahS70ybPihPhZMFE/tSiJwiISSAhgfhcHDH2Ly5v4Bk2?=
+ =?us-ascii?Q?IfaufkuTYI0ltQhjnxYUkm16EZl4xDIqjBHosEmkT6jnvTRgIPYDBkKSTvgS?=
+ =?us-ascii?Q?CGxkLBToMeSXDOrTxRBtuKiSYzDeO1zaPja+d5Vf3BYr9u+Mnc3phgKyYXxe?=
+ =?us-ascii?Q?eiVQseLqP21Veo0Zjw0GBmN/QYxHxvHkb1xtrSS+ud/tC7dWAVnbBZpavVSk?=
+ =?us-ascii?Q?rv5wWaz5jQ2YcQpr5TxSlTepJvWnaBg7AfWUTW+w0jlmwWFpEgdTWBW/IwS0?=
+ =?us-ascii?Q?GlnKPMyTdcURh3AQZ1snFGBFlFTfUdpRR0gmXj5AsJk7XayG6KZT8UFXOmhh?=
+ =?us-ascii?Q?MaQRMtWA8ysMje1iK3BmE7pSudQP95Cl7XDTAtueHPd26NUX5zkFF4U3EB2Y?=
+ =?us-ascii?Q?SeylTpnJ+mUJGQlKFooRG8etvvau6iZcnsMWIts1LLQsc8hzbda+she+BPYe?=
+ =?us-ascii?Q?DpQsLdfmBurJNYeZpDdGeWA+7hOiJc9qzMcZj7PBARCdhjn6qJBN/2qRRptx?=
+ =?us-ascii?Q?jioweufV212WS6ZwNhdWV9XoLmfwU+VBrJwDzatGGmot7nWnxbUXiCIEH/4r?=
+ =?us-ascii?Q?0UGsMJ1jSuqLlfm4F74wsuGyGnTvXdJkpmVD9/5Kv8TTltfSDvtOqcEa0kXg?=
+ =?us-ascii?Q?WSacmLxtTJXOqc6eb4dKPUM9W/RpSeCMhneDSvT9?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2451751d-3b2b-445c-8212-08dbb33919b6
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6780.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 23:08:11.8534
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2023 02:36:43.2048
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HF9CYAhIFDAHKxTprlBYq0WzwfIOVR2wD84+3Rlam7/qbS7oHRoUlupZR3WrNRNI0DtjTwUPFa+KzAv9l0dYqeIqCNxfi+m2wGrXw0X2EOM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5516
+X-MS-Exchange-CrossTenant-UserPrincipalName: jnZK2YgZu1C2yJfNEPAj4U4hn+CWMveusUfjT6b6eANJ9s9PCG2Q4pnlOxd+eMWTsDDNVi6RU4v9AF3nof6ZRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5527
 X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
-
-On 9/7/2023 4:51 PM, Babu Moger wrote:
-> In x86, hardware uses RMID to identify a a monitoring group. When a
-> user creates a monitor group these details are not visible. These details
-> can help resctrl debugging.
+On Mon, Sep 04, 2023 at 09:53:37AM +0000, Manali Shukla wrote:
+>From: Santosh Shukla <santosh.shukla@amd.com>
+>
+>The local interrupts are extended to include more LVT registers in
+>order to allow additional interrupt sources, like Instruction Based
+>Sampling (IBS) and many more.
+>
+>Currently there are four additional LVT registers defined and they are
+>located at APIC offsets 500h-530h.
+>
+>AMD IBS driver is designed to use EXTLVT (Extended interrupt local
+>vector table) by default for driver initialization.
+>
+>Extended LVT registers are required to be emulated to initialize the
+>guest IBS driver successfully.
+>
+>Please refer to Section 16.4.5 in AMD Programmer's Manual Volume 2 at
+>https://bugzilla.kernel.org/attachment.cgi?id=304653 for more details
+>on EXTLVT.
+>
+>Signed-off-by: Santosh Shukla <santosh.shukla@amd.com>
+>Co-developed-by: Manali Shukla <manali.shukla@amd.com>
+>Signed-off-by: Manali Shukla <manali.shukla@amd.com>
+>---
+> arch/x86/include/asm/apicdef.h | 14 ++++++++
+> arch/x86/kvm/lapic.c           | 66 ++++++++++++++++++++++++++++++++--
+> arch/x86/kvm/lapic.h           |  1 +
+> arch/x86/kvm/svm/avic.c        |  4 +++
+> 4 files changed, 83 insertions(+), 2 deletions(-)
+>
+>diff --git a/arch/x86/include/asm/apicdef.h b/arch/x86/include/asm/apicdef.h
+>index 4b125e5b3187..ac50919d10be 100644
+>--- a/arch/x86/include/asm/apicdef.h
+>+++ b/arch/x86/include/asm/apicdef.h
+>@@ -139,6 +139,20 @@
+> #define		APIC_EILVT_MSG_EXT	0x7
+> #define		APIC_EILVT_MASKED	(1 << 16)
 > 
-> Add RMID(mon_hw_id) to the monitor groups display in resctrl interface.
-> Users can see these details when resctrl is mounted with "-o debug" option.
+>+/*
+>+ * Initialize extended APIC registers to the default value when guest is started
+>+ * and EXTAPIC feature is enabled on the guest.
+>+ *
+>+ * APIC_EFEAT is a read only Extended APIC feature register, whose default value
+>+ * is 0x00040007.
+
+bits 0/1/2 indicate other features. If KVM sets them to 1s, KVM needs to
+enumerate the corresponding features.
+
+>+ *
+>+ * APIC_ECTRL is a read-write Extended APIC control register, whose default value
+>+ * is 0x0.
+>+ */
+>+
+>+#define		APIC_EFEAT_DEFAULT	0x00040007
+>+#define		APIC_ECTRL_DEFAULT	0x0
+>+
+> #define APIC_BASE (fix_to_virt(FIX_APIC_BASE))
+> #define APIC_BASE_MSR		0x800
+> #define APIC_X2APIC_ID_MSR	0x802
+>diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+>index 7c1bd8594f1b..88985c481fe8 100644
+>--- a/arch/x86/kvm/lapic.c
+>+++ b/arch/x86/kvm/lapic.c
+>@@ -1599,9 +1599,13 @@ static inline struct kvm_lapic *to_lapic(struct kvm_io_device *dev)
+> }
 > 
-> Other architectures do not use "RMID". Use the name mon_hw_id to refer
-> to "RMID" in an effort to keep the naming generic.
+> #define APIC_REG_MASK(reg)	(1ull << ((reg) >> 4))
+>+#define APIC_REG_EXT_MASK(reg)	(1ull << (((reg) >> 4) - 0x40))
+> #define APIC_REGS_MASK(first, count) \
+> 	(APIC_REG_MASK(first) * ((1ull << (count)) - 1))
 > 
-> Add the flag RFTYPE_MON_BASE, which contains the files required only
-> for the MON group.
+>+#define APIC_LAST_REG_OFFSET		0x3f0
+>+#define APIC_EXT_LAST_REG_OFFSET	0x530
+>+
+> u64 kvm_lapic_readable_reg_mask(struct kvm_lapic *apic)
+> {
+> 	/* Leave bits '0' for reserved and write-only registers. */
+>@@ -1643,6 +1647,8 @@ EXPORT_SYMBOL_GPL(kvm_lapic_readable_reg_mask);
+> static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+> 			      void *data)
+> {
+>+	u64 valid_reg_ext_mask = 0;
+>+	unsigned int last_reg = APIC_LAST_REG_OFFSET;
+> 	unsigned char alignment = offset & 0xf;
+> 	u32 result;
+> 
+>@@ -1652,13 +1658,44 @@ static int kvm_lapic_reg_read(struct kvm_lapic *apic, u32 offset, int len,
+> 	 */
+> 	WARN_ON_ONCE(apic_x2apic_mode(apic) && offset == APIC_ICR);
+> 
+>+	/*
+>+	 * The local interrupts are extended to include LVT registers to allow
+>+	 * additional interrupt sources when the EXTAPIC feature bit is enabled.
+>+	 * The Extended Interrupt LVT registers are located at APIC offsets 400-530h.
+>+	 */
+>+	if (guest_cpuid_has(apic->vcpu, X86_FEATURE_EXTAPIC)) {
+>+		valid_reg_ext_mask =
+>+			APIC_REG_EXT_MASK(APIC_EFEAT) |
+>+			APIC_REG_EXT_MASK(APIC_ECTRL) |
+>+			APIC_REG_EXT_MASK(APIC_EILVTn(0)) |
+>+			APIC_REG_EXT_MASK(APIC_EILVTn(1)) |
+>+			APIC_REG_EXT_MASK(APIC_EILVTn(2)) |
+>+			APIC_REG_EXT_MASK(APIC_EILVTn(3));
+>+		last_reg = APIC_EXT_LAST_REG_OFFSET;
+>+	}
+>+
+> 	if (alignment + len > 4)
+> 		return 1;
+> 
+>-	if (offset > 0x3f0 ||
+>-	    !(kvm_lapic_readable_reg_mask(apic) & APIC_REG_MASK(offset)))
+>+	if (offset > last_reg)
+> 		return 1;
+> 
+>+	switch (offset) {
+>+	/*
+>+	 * Section 16.3.2 in the AMD Programmer's Manual Volume 2 states:
+>+	 * "APIC registers are aligned to 16-byte offsets and must be accessed
+>+	 * using naturally-aligned DWORD size read and writes."
+>+	 */
+>+	case KVM_APIC_REG_SIZE ... KVM_APIC_EXT_REG_SIZE - 16:
+>+		if (!(valid_reg_ext_mask & APIC_REG_EXT_MASK(offset)))
+>+			return 1;
+>+		break;
+>+	default:
+>+		if (!(kvm_lapic_readable_reg_mask(apic) & APIC_REG_MASK(offset)))
+>+			return 1;
+>+
+>+	}
+>+
+> 	result = __apic_read(apic, offset & ~0xf);
+> 
+> 	trace_kvm_apic_read(offset, result);
+>@@ -2386,6 +2423,12 @@ static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+> 		else
+> 			kvm_apic_send_ipi(apic, APIC_DEST_SELF | val, 0);
+> 		break;
+>+	case APIC_EILVTn(0):
+>+	case APIC_EILVTn(1):
+>+	case APIC_EILVTn(2):
+>+	case APIC_EILVTn(3):
+>+		kvm_lapic_set_reg(apic, reg, val);
+>+		break;
 
-As I mentioned in [1] I believe adding support for files with RFTYPE_MON flag
-to resctrl needs to be in a separate patch. With the core support added a file
-with this flag can be introduced separately. 
+APIC_ECTRL is writable, so, I think it should be handled here.
 
-Reinette
+> 	default:
+> 		ret = 1;
+> 		break;
+>@@ -2664,6 +2707,25 @@ void kvm_inhibit_apic_access_page(struct kvm_vcpu *vcpu)
+> 	kvm_vcpu_srcu_read_lock(vcpu);
+> }
+> 
+>+/*
+>+ * Initialize extended APIC registers to the default value when guest is
+>+ * started. The extended APIC registers should only be initialized when the
+>+ * EXTAPIC feature is enabled on the guest.
+>+ */
+>+void kvm_apic_init_eilvt_regs(struct kvm_vcpu *vcpu)
+>+{
+>+	struct kvm_lapic *apic = vcpu->arch.apic;
+>+	int i;
+>+
+>+	if (guest_cpuid_has(vcpu, X86_FEATURE_EXTAPIC)) {
 
-[1] https://lore.kernel.org/lkml/2feb3e01-96c7-fdde-a0d2-509fa1527243@intel.com/
+Do you need to check hardware support here?
 
+>+		kvm_lapic_set_reg(apic, APIC_EFEAT, APIC_EFEAT_DEFAULT);
+>+		kvm_lapic_set_reg(apic, APIC_ECTRL, APIC_ECTRL_DEFAULT);
+>+		for (i = 0; i < APIC_EILVT_NR_MAX; i++)
+>+			kvm_lapic_set_reg(apic, APIC_EILVTn(i), APIC_EILVT_MASKED);
+>+	}
+>+}
+>+EXPORT_SYMBOL_GPL(kvm_apic_init_eilvt_regs);
+
+looks Extended APIC space is generic to x86. Can you just call this function
+from kvm_vcpu_after_set_cpuid()?  then there is no need to expose this function.
+
+>+
+> void kvm_lapic_reset(struct kvm_vcpu *vcpu, bool init_event)
+
+The extended APIC space should be re-initialized on reset. Right?
+
+> {
+> 	struct kvm_lapic *apic = vcpu->arch.apic;
+>diff --git a/arch/x86/kvm/lapic.h b/arch/x86/kvm/lapic.h
+>index ad6c48938733..b0c7393cd6af 100644
+>--- a/arch/x86/kvm/lapic.h
+>+++ b/arch/x86/kvm/lapic.h
+>@@ -93,6 +93,7 @@ int kvm_apic_accept_pic_intr(struct kvm_vcpu *vcpu);
+> int kvm_get_apic_interrupt(struct kvm_vcpu *vcpu);
+> int kvm_apic_accept_events(struct kvm_vcpu *vcpu);
+> void kvm_lapic_reset(struct kvm_vcpu *vcpu, bool init_event);
+>+void kvm_apic_init_eilvt_regs(struct kvm_vcpu *vcpu);
+> u64 kvm_lapic_get_cr8(struct kvm_vcpu *vcpu);
+> void kvm_lapic_set_tpr(struct kvm_vcpu *vcpu, unsigned long cr8);
+> void kvm_lapic_set_eoi(struct kvm_vcpu *vcpu);
+>diff --git a/arch/x86/kvm/svm/avic.c b/arch/x86/kvm/svm/avic.c
+>index cfc8ab773025..081075674b1d 100644
+>--- a/arch/x86/kvm/svm/avic.c
+>+++ b/arch/x86/kvm/svm/avic.c
+>@@ -679,6 +679,10 @@ static bool is_avic_unaccelerated_access_trap(u32 offset)
+> 	case APIC_LVTERR:
+> 	case APIC_TMICT:
+> 	case APIC_TDCR:
+>+	case APIC_EILVTn(0):
+>+	case APIC_EILVTn(1):
+>+	case APIC_EILVTn(2):
+>+	case APIC_EILVTn(3):
+> 		ret = true;
+> 		break;
+> 	default:
+>-- 
+>2.34.1
+>
