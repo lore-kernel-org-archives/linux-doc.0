@@ -2,111 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51365EE3F0E
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 18:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBFDAEE3F0C
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 18:38:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237493AbjILSgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 14:36:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
+        id S232689AbjILSiD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 14:38:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237484AbjILSgJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 14:36:09 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F6AA10E9;
-        Tue, 12 Sep 2023 11:36:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0063C433CB;
-        Tue, 12 Sep 2023 18:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694543764;
-        bh=yCdyENSSr2jBoqcU5uuhQp9Eg5ZiZzpyIfgAEWQFG08=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s5JuUHrpz8KMHLkg8aMJ3PtViMENNhZOAtLD6nysZlBWl+uyrhv3zSqqpvNWONwQv
-         QIYEUB0E3w2F8W8SuVnlt4LiU46fzpWpTcGR1gDv0470uUcu68m82Tfb5IOmyGa66v
-         Hgdbt+Em7BmjNyVFjcxWVozqsAVTzx7b/rjX+alJW6jVjsuZIgNTXpXgyaW3GKKxeK
-         PMHGe7U7hSnxaxc51DtQj/mkPe9NSLEC3QTWMD00ClWL2m6C6AGJPKSvg3hCYdOnHn
-         jzuAi2lVeOsQD4elxE82Ev28fTLi035QaPSuhabGm/E8Y0dak2rqeJ+VYu3WK1UTlm
-         /p3a8NJIx8bow==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] Docs/admin-guide/mm/damon/usage: document damos_before_apply tracepoint
-Date:   Tue, 12 Sep 2023 18:35:59 +0000
-Message-Id: <20230912183559.4733-3-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230912183559.4733-1-sj@kernel.org>
-References: <20230912183559.4733-1-sj@kernel.org>
+        with ESMTP id S232470AbjILSiC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 14:38:02 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7498310EF
+        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 11:37:58 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-68fb2e9ebbfso2335957b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 11:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1694543878; x=1695148678; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wy5n43SLh7KcjSaJVYVzVDg3MnFdzm1gNQS0TTXtUR4=;
+        b=h5puBHtKj0adr1b3YQzUHSxeHSLsQRuriquzsKliOWX1fQR/Bm2/QGldD0I2RxdpLd
+         KbSXhjwfQMdsR8nGYyWoebFBi2dIB5EMVvqwCqbxQ/kOAapAr9NHSm6lfIn8vbxn1fAR
+         m9PtWcR2Wp56WQlA11/jGkW2nmgP5jaT7jCDLIrwXs/aouxEoggernOIn/HemlEiaeK0
+         zzmsPSCMOnjcIkpCoVu2j+mLqNFApTyMaTVWEbnepI1vCxd5cYITayA0Bu5GzrDNi3az
+         76qAyrKA+2n1mDGvJgifoalFzNTc2TReWTUJjqIH5KcE3GWEPD/CS4M9inx2tgM0tbaN
+         X5hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694543878; x=1695148678;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wy5n43SLh7KcjSaJVYVzVDg3MnFdzm1gNQS0TTXtUR4=;
+        b=GL3fLV6neILqPqMON3gVK5s2iWivr6TRCnFpgjWULDDNH0DQ37H9PDlcDqI8emRnNu
+         Yb1u98Z7n9s24497PUG4p5OXfGAyFC/yCZ3Z0Bk5YbzPehTa8xRM+owYxy25x1cQxk4U
+         y1qv2R6wWSlDGLAX7R7bM3MlwzNTNzurhYdEAaN7AeW7FtVKsyfyeKEv7YRH8kfqtuaN
+         WEbwdtrpkoKgVmuGiIEqyMtIXJz2cPfkxznUM8fCXfKPyzdHsJTWeIFr7ojLQGFmacZ3
+         DZ6kos3zgT68dRrbzWzPJXnofNP3UN+GwTIwy1l8yp6HvNgJoAGtj9qjrOVScTTh42Al
+         1POg==
+X-Gm-Message-State: AOJu0YyGJD70X1IQFdyqkuHpPP5JgHWBSAZhdyiFxVakEGL5B/b11pHw
+        4S+vde0W+tKBYSqGB1nUuKCjWg==
+X-Google-Smtp-Source: AGHT+IErGHsRSrFJvKHefg2NAmQCNrlFHjl+ciy1JtJ0nTYwIV/1H9rX5PxkYX9lsT1GFBHM0HI/Bg==
+X-Received: by 2002:a05:6a00:847:b0:68f:cb69:8e78 with SMTP id q7-20020a056a00084700b0068fcb698e78mr664621pfk.5.1694543877695;
+        Tue, 12 Sep 2023 11:37:57 -0700 (PDT)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id y24-20020a056a001c9800b0068fb996503esm4624790pfw.100.2023.09.12.11.37.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Sep 2023 11:37:57 -0700 (PDT)
+Date:   Tue, 12 Sep 2023 18:37:53 +0000
+From:   Mingwei Zhang <mizhang@google.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kai Huang <kai.huang@intel.com>,
+        Jim Mattson <jmattson@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
+        Zhi Wang <zhi.wang.linux@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 5/6] KVM: Documentation: Add the missing description
+ for mmu_valid_gen into kvm_mmu_page
+Message-ID: <ZQCwASSh0ssWYH4I@google.com>
+References: <20230801002127.534020-1-mizhang@google.com>
+ <20230801002127.534020-6-mizhang@google.com>
+ <ZN1QYGfFuzlyjECm@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZN1QYGfFuzlyjECm@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document damos_before_apply tracepoint on the usage document.
+On Wed, Aug 16, 2023, Sean Christopherson wrote:
+> On Tue, Aug 01, 2023, Mingwei Zhang wrote:
+> > Add the description for mmu_valid_gen into kvm_mmu_page description.
+> > mmu_valid_gen is used in shadow MMU for fast zapping. Update the doc to
+> > reflect that.
+> > 
+> > Signed-off-by: Mingwei Zhang <mizhang@google.com>
+> > Reviewed-by: Kai Huang <kai.huang@intel.com>
+> > ---
+> >  Documentation/virt/kvm/x86/mmu.rst | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
+> > index 40daf8beb9b1..581e53fa00a2 100644
+> > --- a/Documentation/virt/kvm/x86/mmu.rst
+> > +++ b/Documentation/virt/kvm/x86/mmu.rst
+> > @@ -208,6 +208,16 @@ Shadow pages contain the following information:
+> >      The page is not backed by a guest page table, but its first entry
+> >      points to one.  This is set if NPT uses 5-level page tables (host
+> >      CR4.LA57=1) and is shadowing L1's 4-level NPT (L1 CR4.LA57=1).
+> > +  mmu_valid_gen:
+> > +    The MMU generation of this page, used to fast zap of all MMU pages within a
+> > +    VM without blocking vCPUs.
+> 
+> KVM still blocks vCPUs, just for far less time.  How about this?
+> 
+>      The MMU generation of this page, used to determine whether or not a shadow
+>      page is obsolete, i.e. belongs to a previous MMU generation.  KVM changes
+>      the MMU generation when all shadow pages need to be invalidated, e.g. if a
+>      memslot is deleted, and so effectively marks all shadow pages as obsolete
+>      without having to touch each page.  Marking shadow pages obsolete allows
+>      KVM to zap them in the background, i.e. so that vCPUs can run while the
+>      zap is ongoing (using a root from the new generation).  The MMU generation
+>      is only ever '0' or '1' (slots_lock must be held until all pages from the
+>      previous generation are zapped).
+> 
+>      Note, the TDP MMU...
+> 
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 37 ++++++++++++++++----
- 1 file changed, 30 insertions(+), 7 deletions(-)
+Got you. I think instead of elaborating this, I would simply put this
+way: "... without blocking vCPUs for too long". The subsequent description
+basically tells how it works and naturally explains how it does not
+blocks vCPUs for too long.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 282062b6f134..6272cd36590a 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -496,15 +496,24 @@ the files as above.  Above is only for an example.
- 
- .. _tracepoint:
- 
--Tracepoint for Monitoring Results
--=================================
-+Tracepoints for Monitoring Results
-+==================================
- 
- Users can get the monitoring results via the :ref:`tried_regions
--<sysfs_schemes_tried_regions>` or a tracepoint, ``damon:damon_aggregated``.
--While the tried regions directory is useful for getting a snapshot, the
--tracepoint is useful for getting a full record of the results.  While the
--monitoring is turned on, you could record the tracepoint events and show
--results using tracepoint supporting tools like ``perf``.  For example::
-+<sysfs_schemes_tried_regions>`.  The interface is useful for getting a
-+snapshot, but it could be inefficient for fully recording all the monitoring
-+results.  For the purpose, two trace points, namely ``damon:damon_aggregated``
-+and ``damon:damos_before_apply``, are provided.  ``damon:damon_aggregated``
-+provides the whole monitoring results, while ``damon:damos_before_apply``
-+provides the monitoring results for regions that each DAMON-based Operation
-+Scheme (:ref:`DAMOS <damon_design_damos>`) is gonna be applied.  Hence,
-+``damon:damos_before_apply`` is more useful for recording internal behavior of
-+DAMOS, or DAMOS target access
-+:ref:`pattern <damon_design_damos_access_pattern>` based query-like efficient
-+monitoring results recording.
-+
-+While the monitoring is turned on, you could record the tracepoint events and
-+show results using tracepoint supporting tools like ``perf``.  For example::
- 
-     # echo on > monitor_on
-     # perf record -e damon:damon_aggregated &
-@@ -527,6 +536,20 @@ counter).  Finally the tenth field (``X``) shows the ``age`` of the region
- (refer to :ref:`design <damon_design_age_tracking>` for more details of the
- counter).
- 
-+If the event was ``damon:damos_beofre_apply``, the ``perf script`` output would
-+be somewhat like below::
-+
-+    kdamond.0 47293 [000] 80801.060214: damon:damos_before_apply: ctx_idx=0 scheme_idx=0 target_idx=0 nr_regions=11 121932607488-135128711168: 0 136
-+    [...]
-+
-+Each line of the output represents each monitoring region that each DAMON-based
-+Operation Scheme was about to be applied at the traced time.  The first five
-+fields are as usual.  It shows the index of the DAMON context (``ctx_idx=X``)
-+of the scheme in the list of the contexts of the context's kdamond, the index
-+of the scheme (``scheme_idx=X``) in the list of the schemes of the context, in
-+addition to the output of ``damon_aggregated`` tracepoint.
-+
-+
- .. _debugfs_interface:
- 
- debugfs Interface (DEPRECATED!)
--- 
-2.25.1
+> > Specifically, KVM updates the per-VM valid MMU
+> > +    generation which causes the mismatch of mmu_valid_gen for each mmu page.
+> > +    This makes all existing MMU pages obsolete. Obsolete pages can't be used.
+> > +    Therefore, vCPUs must load a new, valid root before re-entering the guest.
+> > +    The MMU generation is only ever '0' or '1'.  
 
