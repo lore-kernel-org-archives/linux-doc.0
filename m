@@ -2,88 +2,219 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6BDCA0EC3
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 08:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A36F4CA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 08:35:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232571AbjILIYN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 04:24:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53276 "EHLO
+        id S232781AbjILIfB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 04:35:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232637AbjILIYJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 04:24:09 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBC210CA
-        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 01:24:05 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id 3f1490d57ef6-d7eed15ad69so5020527276.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 01:24:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694507044; x=1695111844; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JTDlvFYbsx79XjnXV/v1eS2oK868sA5+g3OCAFf6938=;
-        b=FBhB4z6HcF6EizL+/lwxRnvBPsnUBCZNCJdmUZqMhF2t8tNtnTGFF+JCUzlHUG9Exo
-         EggToZqBJppvlFyjEBigx34yWBARuEWqMz4yka52D9EM9UM1QrISxBRPtWDZ29WUYe9q
-         d2krkdkVjxK27mY+IVp4h5OuRfx8EOC24+q01oOZ9zVKap5Gn+pmjs1tgIAXdxIMWl2s
-         hlUypNi+ZXFlGreD6ZHACbQH+jnwcETJOh0eM2WKZkO86QxIoS8ndf9uFvCult8qmb5z
-         WmJNShM2s+Z914AefMurd58mLEBMQpCYyRNyQgzLfOJXMC6Jyztx8eDTmu+++2h4nbhP
-         glxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694507044; x=1695111844;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JTDlvFYbsx79XjnXV/v1eS2oK868sA5+g3OCAFf6938=;
-        b=Q4+gYov8qrHWzYDMmJZ8CQPIx0qjIJb4apneWCYMP5OoeK7+0CiZBbl9xos3jbsdHX
-         uJcC2/UjdED0zu7QXDISlL0mL47oEBnbiYK1iA4U656b9TnXQ6M7U7nXB2qmyPFzt2qb
-         6EExiLXamGQgYnbpycVgHthBZzcuDDOSqi3cRv8bcMEdnSliZvn7nv5+jntxjNvEqAUI
-         15LHOYGR2NjOEycCrBZ4w7O6B/IencMeKLqfd6Q3eWysXwKCxoJv98uu7bZWkEuR1WbT
-         nzbmjY2wFDIPbnsyBsZnJLRhiITuY7anD1Qutyv/BDWz8eE38++ZB4RYtBVxgG+OMz6C
-         T5JA==
-X-Gm-Message-State: AOJu0YwOSPYsyExeJWhisHOu2AGImo7NfKu+fqjOWqR2BeGbq2l8LypV
-        h/5fCfEx8kLwKOfHVybv9/9+qT09H+3cZBMEHvDRdQ==
-X-Google-Smtp-Source: AGHT+IFd+7FzVpzIXwF6eF0XM98eCqwGR8vQyKfh9Y2GKm2qYYnTSN7eR9A+5PvS2Qu/0xw3IHJQEnNJumvhS4CTpxY=
-X-Received: by 2002:a25:d4c6:0:b0:d7b:95ff:14f with SMTP id
- m189-20020a25d4c6000000b00d7b95ff014fmr13092370ybf.61.1694507044304; Tue, 12
- Sep 2023 01:24:04 -0700 (PDT)
+        with ESMTP id S232740AbjILIe7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 04:34:59 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BCC010D7;
+        Tue, 12 Sep 2023 01:34:52 -0700 (PDT)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.53])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RlGyN0vstzMlJy;
+        Tue, 12 Sep 2023 16:31:24 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Tue, 12 Sep 2023 16:34:50 +0800
+From:   Yunsheng Lin <linyunsheng@huawei.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Yunsheng Lin <linyunsheng@huawei.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Alexander Duyck <alexander.duyck@gmail.com>,
+        Liang Chen <liangchen.linux@gmail.com>,
+        Alexander Lobakin <aleksander.lobakin@intel.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        John Fastabend <john.fastabend@gmail.com>,
+        <linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
+Subject: [PATCH net-next v8 5/6] page_pool: update document about frag API
+Date:   Tue, 12 Sep 2023 16:31:24 +0800
+Message-ID: <20230912083126.65484-6-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20230912083126.65484-1-linyunsheng@huawei.com>
+References: <20230912083126.65484-1-linyunsheng@huawei.com>
 MIME-Version: 1.0
-References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com> <1694429639-21484-15-git-send-email-quic_mojha@quicinc.com>
-In-Reply-To: <1694429639-21484-15-git-send-email-quic_mojha@quicinc.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 12 Sep 2023 10:23:53 +0200
-Message-ID: <CACRpkdYBH09emydQPaRUgEJuHdV0tk3=xeMXxD9UVP0GH2XZEw@mail.gmail.com>
-Subject: Re: [REBASE PATCH v5 14/17] pinctrl: qcom: Use qcom_scm_io_update_field()
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
-        will@kernel.org, andy.shevchenko@gmail.com, vigneshr@ti.com,
-        nm@ti.com, matthias.bgg@gmail.com, kgene@kernel.org,
-        alim.akhtar@samsung.com, bmasney@redhat.com,
-        quic_tsoni@quicinc.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 12:56=E2=80=AFPM Mukesh Ojha <quic_mojha@quicinc.co=
-m> wrote:
+As more drivers begin to use the frag API, update the
+document about how to decide which API to use for the
+driver author.
 
-> Use qcom_scm_io_update_field() exported function in
-> pinctrl-msm driver.
->
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+CC: Liang Chen <liangchen.linux@gmail.com>
+CC: Alexander Lobakin <aleksander.lobakin@intel.com>
+---
+ Documentation/networking/page_pool.rst |  4 +-
+ include/net/page_pool/helpers.h        | 88 ++++++++++++++++++++++----
+ 2 files changed, 79 insertions(+), 13 deletions(-)
 
-As long as the qcom maintainers agree on the rest of the patches:
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 215ebc92752c..0c0705994f51 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -58,7 +58,9 @@ a page will cause no race conditions is enough.
+ 
+ .. kernel-doc:: include/net/page_pool/helpers.h
+    :identifiers: page_pool_put_page page_pool_put_full_page
+-		 page_pool_recycle_direct page_pool_dev_alloc_pages
++		 page_pool_recycle_direct page_pool_cache_free
++		 page_pool_dev_alloc_pages page_pool_dev_alloc_frag
++		 page_pool_dev_alloc page_pool_dev_cache_alloc
+ 		 page_pool_get_dma_addr page_pool_get_dma_dir
+ 
+ .. kernel-doc:: net/core/page_pool.c
+diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+index c0e6c7d1b219..b20afe22c17d 100644
+--- a/include/net/page_pool/helpers.h
++++ b/include/net/page_pool/helpers.h
+@@ -8,23 +8,47 @@
+ /**
+  * DOC: page_pool allocator
+  *
+- * The page_pool allocator is optimized for the XDP mode that
+- * uses one frame per-page, but it can fallback on the
+- * regular page allocator APIs.
++ * The page_pool allocator is optimized for recycling page or page frag used by
++ * skb packet and xdp frame.
+  *
+- * Basic use involves replacing alloc_pages() calls with the
+- * page_pool_alloc_pages() call.  Drivers should use
+- * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
++ * Basic use involves replacing napi_alloc_frag() and alloc_pages() calls with
++ * page_pool_cache_alloc() and page_pool_alloc(), which allocate memory with or
++ * without page splitting depending on the requested memory size.
+  *
+- * API keeps track of in-flight pages, in order to let API user know
+- * when it is safe to free a page_pool object.  Thus, API users
+- * must call page_pool_put_page() to free the page, or attach
+- * the page to a page_pool-aware objects like skbs marked with
++ * If the driver knows that it always requires full pages or its allocations are
++ * always smaller than half a page, it can use one of the more specific API
++ * calls:
++ *
++ * 1. page_pool_alloc_pages(): allocate memory without page splitting when
++ * driver knows that the memory it need is always bigger than half of the page
++ * allocated from page pool. There is no cache line dirtying for 'struct page'
++ * when a page is recycled back to the page pool.
++ *
++ * 2. page_pool_alloc_frag(): allocate memory with page splitting when driver
++ * knows that the memory it need is always smaller than or equal to half of the
++ * page allocated from page pool. Page splitting enables memory saving and thus
++ * avoids TLB/cache miss for data access, but there also is some cost to
++ * implement page splitting, mainly some cache line dirtying/bouncing for
++ * 'struct page' and atomic operation for page->pp_frag_count.
++ *
++ * API keeps track of in-flight pages, in order to let API user know when it is
++ * safe to free a page_pool object, the API users must call page_pool_put_page()
++ * or page_pool_cache_free() to free the pp page or the pp buffer, or attach the
++ * pp page or the pp buffer to a page_pool-aware objects like skbs marked with
+  * skb_mark_for_recycle().
+  *
+- * API user must call page_pool_put_page() once on a page, as it
+- * will either recycle the page, or in case of refcnt > 1, it will
++ * page_pool_put_page() may be called multi times on the same page if a page is
++ * split into multi frags. For the last frag, see page_pool_is_last_frag(), it
++ * will either recycle the page, or in case of page->_refcount > 1, it will
+  * release the DMA mapping and in-flight state accounting.
++ *
++ * dma_sync_single_range_for_device() is only called for the last pp page user
++ * when page_pool is created with PP_FLAG_DMA_SYNC_DEV flag, so it depend on the
++ * last freed frag to do the sync_for_device operation for all frags in the same
++ * page when a page is split, the API user must setup pool->p.max_len and
++ * pool->p.offset correctly and ensure that page_pool_put_page() is called with
++ * dma_sync_size being -1 for page_pool_alloc(), page_pool_cache_alloc() and
++ * page_pool_alloc_frag() API.
+  */
+ #ifndef _NET_PAGE_POOL_HELPERS_H
+ #define _NET_PAGE_POOL_HELPERS_H
+@@ -73,6 +97,17 @@ static inline struct page *page_pool_dev_alloc_pages(struct page_pool *pool)
+ 	return page_pool_alloc_pages(pool, gfp);
+ }
+ 
++/**
++ * page_pool_dev_alloc_frag() - allocate a page frag.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: requested size
++ *
++ * Get a page frag from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Returns allocated page frag, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc_frag(struct page_pool *pool,
+ 						    unsigned int *offset,
+ 						    unsigned int size)
+@@ -111,6 +146,17 @@ static inline struct page *page_pool_alloc(struct page_pool *pool,
+ 	return page;
+ }
+ 
++/**
++ * page_pool_dev_alloc() - allocate a page or a page frag.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: in as the requested size, out as the allocated size
++ *
++ * Get a page or a page frag from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Returns a page or a page frag, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
+ 					       unsigned int *offset,
+ 					       unsigned int *size)
+@@ -133,6 +179,16 @@ static inline void *page_pool_cache_alloc(struct page_pool *pool,
+ 	return page_address(page) + offset;
+ }
+ 
++/**
++ * page_pool_dev_cache_alloc() - allocate a cache.
++ * @pool: pool from which to allocate
++ * @size: in as the requested size, out as the allocated size
++ *
++ * Get a cache from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Returns the addr for the allocated cache, otherwise return NULL.
++ */
+ static inline void *page_pool_dev_cache_alloc(struct page_pool *pool,
+ 					      unsigned int *size)
+ {
+@@ -281,6 +337,14 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
+ #define PAGE_POOL_32BIT_ARCH_WITH_64BIT_DMA	\
+ 		(sizeof(dma_addr_t) > sizeof(unsigned long))
+ 
++/**
++ * page_pool_cache_free() - free a cache into the page_pool
++ * @pool: pool from which cache was allocated
++ * @data: addr of cache to be free
++ * @allow_direct: freed by the consumer, allow lockless caching
++ *
++ * Free a cache allocated from page_pool_dev_cache_alloc().
++ */
+ static inline void page_pool_cache_free(struct page_pool *pool, void *data,
+ 					bool allow_direct)
+ {
+-- 
+2.33.0
 
-Yours,
-Linus Walleij
