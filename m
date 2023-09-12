@@ -2,159 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65FF1CA0ED4
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 10:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED36CA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 10:59:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231196AbjILK5P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 06:57:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60158 "EHLO
+        id S234342AbjILK7Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 06:59:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233901AbjILK5O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 06:57:14 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25E9ABE;
-        Tue, 12 Sep 2023 03:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694516230; x=1726052230;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=gmV0KiwKba1PSNl2UVCdi3U5WkDZQcsXPrzZ4xrOoOg=;
-  b=MUD7owgCZQplNWfJz3SfzqVxNsAdEQVXqBBa5T/p5rMRDNekD++JlCGg
-   fmrmRKM1hLL+3JZ2SttH3PPmdjoFZkQ2n/35ziEpNed1sQf/x4pWPKmzH
-   x3cCrHzlNm0qk3efDaSt/5qDpgcFN5wq8fU7uAsdGkwS+lNsxV4h5NtbQ
-   lsMxJjWBE4sLEL6/E3El7xWKYdGIqVch4Z6fwah4DGmHcpX8COz7G58iD
-   /zmsAvVBmmZqeW/SjJBfuOPSm6ZvpaKhjZkasVSYduKTmbqnJcNFqDS+T
-   ebWXzmb2Ypo9s1YML0s2/I3Ga4bvm1A5/G/qgoNLuQOcCru+AJbOuUxgt
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378251081"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="378251081"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 03:57:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="1074510354"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="1074510354"
-Received: from ahunter6-mobl1.ger.corp.intel.com (HELO [10.0.2.15]) ([10.249.45.152])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 03:57:01 -0700
-Message-ID: <340eae90-d270-5e52-4982-a67459bc46dd@intel.com>
-Date:   Tue, 12 Sep 2023 13:56:57 +0300
+        with ESMTP id S234182AbjILK6r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 06:58:47 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 316BF118;
+        Tue, 12 Sep 2023 03:58:38 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC31BC433B6;
+        Tue, 12 Sep 2023 10:58:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694516317;
+        bh=bMazgWjiUns7bxIOW7iDcJXKsG8+oY7C1L0a2QPDtNQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=N5amLBUeuaQQfQrkRGbMQPohZMxyrm/E+1U8aGzLmQkBBe1SjxaKm3mBIDG1j3MB7
+         mEelEBPOX/CgAHNU5OpXYjmkc9An28zQLE48MZaqrAk2d1j2J6LiO4u10zUyVtPwxI
+         0dD7Os9rGlNUQy5YIVpQnMAFAXwIEfKHXjBzrypBIE/g+a4kKPKv2jy3wWCHQcfED4
+         +soa92eXj4Bwepl+2a0I2nUKXZIa/VuBhP0LjZ1cT4PMwY+lVBfLdL/YoYKX+I07iT
+         TzenYk+RO9bhdZaKU2TuaZjIPxWPmKt/+hiSYduBOx7DeXFqVWzBVWLz79ChMaiSsn
+         YgpE96OaS9lrg==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-52a5c0d949eso6913759a12.0;
+        Tue, 12 Sep 2023 03:58:37 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxJb1/SHXe2i1qXhrcvdJYqe9/txwPJ/iftQ0KF5SmlAs/z37Za
+        h0+DnKY7z9Nu1Tsp00ouMI8VGlBIzsDU2l7wEL4=
+X-Google-Smtp-Source: AGHT+IFlJTroWUzDrpNmu1jFhrEOedb4AZCufJm4Yw5gh0F+6q7MG2VcUbiSngUFjwNHEEx8rscVSAFajHlgNpUUEAg=
+X-Received: by 2002:a17:906:2d1:b0:9ad:7d5b:ba68 with SMTP id
+ 17-20020a17090602d100b009ad7d5bba68mr1879773ejk.32.1694516316048; Tue, 12 Sep
+ 2023 03:58:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.15.0
-Subject: Re: [PATCH v2 5/7] tools/perf: fix Python string escapes
-Content-Language: en-US
-To:     Benjamin Gray <bgray@linux.ibm.com>, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        llvm@lists.linux.dev, linux-pm@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Jan Kiszka <jan.kiszka@siemens.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        linux-perf-users@vger.kernel.org,
-        Todd E Brandt <todd.e.brandt@linux.intel.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>
-References: <20230912060801.95533-1-bgray@linux.ibm.com>
- <20230912060801.95533-6-bgray@linux.ibm.com>
-From:   Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-In-Reply-To: <20230912060801.95533-6-bgray@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230910082911.3378782-1-guoren@kernel.org> <20230910-esteemed-exodus-706aaae940b1@spud>
+ <CAJF2gTRQd_dNuZHNwfg3SwD0XERaYXYUdFUFQiarym40kpxFRQ@mail.gmail.com>
+ <20230910-baggage-accent-ec5331b58c8e@spud> <CAJF2gTS8Vh5XdMUcgLA_GJzW6Nm3JKHxuMN9jYSNe_YCEjgCXA@mail.gmail.com>
+ <20230910-facsimile-answering-60d1452b8c10@spud> <CAJF2gTSP1rxVhuwOKyWiE2vFFijJFc2aKRU2=0rTK9nDc8AbsQ@mail.gmail.com>
+ <20230911-nimbly-outcome-496efae7adc6@wendy> <CAJF2gTTSDtnc7WRAZ0eLjiwZHZFbOcPZaQ_c8LiLcctBNsKCaA@mail.gmail.com>
+ <20230912-snitch-astronaut-41e1b694d24f@wendy>
+In-Reply-To: <20230912-snitch-astronaut-41e1b694d24f@wendy>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Tue, 12 Sep 2023 18:58:22 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQXhjvP3WRDKOJ67Bv+KSB-Dh2LAuSsf0kv12HJCmSL7Q@mail.gmail.com>
+Message-ID: <CAJF2gTQXhjvP3WRDKOJ67Bv+KSB-Dh2LAuSsf0kv12HJCmSL7Q@mail.gmail.com>
+Subject: Re: [PATCH V11 00/17] riscv: Add Native/Paravirt qspinlock support
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     Conor Dooley <conor@kernel.org>, paul.walmsley@sifive.com,
+        anup@brainfault.org, peterz@infradead.org, mingo@redhat.com,
+        will@kernel.org, palmer@rivosinc.com, longman@redhat.com,
+        boqun.feng@gmail.com, tglx@linutronix.de, paulmck@kernel.org,
+        rostedt@goodmis.org, rdunlap@infradead.org,
+        catalin.marinas@arm.com, xiaoguang.xing@sophgo.com,
+        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        leobras@redhat.com, linux-arch@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/09/23 09:07, Benjamin Gray wrote:
-> Python 3.6 introduced a DeprecationWarning for invalid escape sequences.
-> This is upgraded to a SyntaxWarning in Python 3.12, and will eventually
-> be a syntax error.
-> 
-> Fix these now to get ahead of it before it's an error.
-> 
-> Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
-> ---
->  tools/perf/pmu-events/jevents.py                 | 2 +-
->  tools/perf/scripts/python/arm-cs-trace-disasm.py | 4 ++--
->  tools/perf/scripts/python/compaction-times.py    | 2 +-
->  tools/perf/scripts/python/exported-sql-viewer.py | 4 ++--
->  4 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
-> index a7e88332276d..980f080a5a2c 100755
-> --- a/tools/perf/pmu-events/jevents.py
-> +++ b/tools/perf/pmu-events/jevents.py
-> @@ -83,7 +83,7 @@ def c_len(s: str) -> int:
->    """Return the length of s a C string
->  
->    This doesn't handle all escape characters properly. It first assumes
-> -  all \ are for escaping, it then adjusts as it will have over counted
-> +  all \\ are for escaping, it then adjusts as it will have over counted
+On Tue, Sep 12, 2023 at 4:08=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
+p.com> wrote:
+>
+> On Tue, Sep 12, 2023 at 09:33:57AM +0800, Guo Ren wrote:
+> > On Mon, Sep 11, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor.dooley@micr=
+ochip.com> wrote:
+>
+> > > I added the new "riscv,isa-extensions" property in part to make
+> > > communicating vendor extensions like this easier. Please try to use
+> > > that. "qspinlock" is software configuration though, the vendor extens=
+ion
+> > > should focus on the guarantee of strong forward progress, since that =
+is
+> > > the non-standard aspect of your IP.
+> >
+> > The qspinlock contains three paths:
+> >  - Native qspinlock, this is your strong forward progress.
+> >  - virt_spin_lock, for KVM guest when paravirt qspinlock disabled.
+> >    https://lore.kernel.org/linux-riscv/20230910082911.3378782-9-guoren@=
+kernel.org/
+> >  - paravirt qspinlock, for KVM guest
+> >
+> > So, we need a software configuration here, "riscv,isa-extensions" is
+> > all about vendor extension.
+>
+> Ah right, yes it would only be able to be used to determine whether or
+> not the platform is capable of supporting these spinlocks, not whether or
+> not the kernel is a guest. I think I misinterpreted that snippet you post=
+ed,
+> thinking you were trying to disable your new spinlock for KVM, sorry.
+> On that note though, what about other sorts of guests? Will non-KVM
+> guests not also want to use this virt spinlock?
+I only put KVM guests here, and I can't answer other hypervisor that
+is another topic.
 
-It looks like the whole string should be a raw string
+>
+> Thanks,
+> Conor.
 
->    \\. The code uses \000 rather than \0 as a terminator as an adjacent
->    number would be folded into a string of \0 (ie. "\0" + "5" doesn't
->    equal a terminator followed by the number 5 but the escape of
-> diff --git a/tools/perf/scripts/python/arm-cs-trace-disasm.py b/tools/perf/scripts/python/arm-cs-trace-disasm.py
-> index d59ff53f1d94..de58991c78bb 100755
-> --- a/tools/perf/scripts/python/arm-cs-trace-disasm.py
-> +++ b/tools/perf/scripts/python/arm-cs-trace-disasm.py
-> @@ -45,8 +45,8 @@ parser = OptionParser(option_list=option_list)
->  # Initialize global dicts and regular expression
->  disasm_cache = dict()
->  cpu_data = dict()
-> -disasm_re = re.compile("^\s*([0-9a-fA-F]+):")
-> -disasm_func_re = re.compile("^\s*([0-9a-fA-F]+)\s.*:")
-> +disasm_re = re.compile(r"^\s*([0-9a-fA-F]+):")
-> +disasm_func_re = re.compile(r"^\s*([0-9a-fA-F]+)\s.*:")
->  cache_size = 64*1024
->  
->  glb_source_file_name	= None
-> diff --git a/tools/perf/scripts/python/compaction-times.py b/tools/perf/scripts/python/compaction-times.py
-> index 2560a042dc6f..9401f7c14747 100644
-> --- a/tools/perf/scripts/python/compaction-times.py
-> +++ b/tools/perf/scripts/python/compaction-times.py
-> @@ -260,7 +260,7 @@ def pr_help():
->  
->  comm_re = None
->  pid_re = None
-> -pid_regex = "^(\d*)-(\d*)$|^(\d*)$"
-> +pid_regex = r"^(\d*)-(\d*)$|^(\d*)$"
->  
->  opt_proc = popt.DISP_DFL
->  opt_disp = topt.DISP_ALL
-> diff --git a/tools/perf/scripts/python/exported-sql-viewer.py b/tools/perf/scripts/python/exported-sql-viewer.py
-> index 13f2d8a81610..121cf61ba1b3 100755
-> --- a/tools/perf/scripts/python/exported-sql-viewer.py
-> +++ b/tools/perf/scripts/python/exported-sql-viewer.py
-> @@ -677,8 +677,8 @@ class CallGraphModelBase(TreeModel):
->  			#   sqlite supports GLOB (text only) which uses * and ? and is case sensitive
->  			if not self.glb.dbref.is_sqlite3:
->  				# Escape % and _
-> -				s = value.replace("%", "\%")
-> -				s = s.replace("_", "\_")
-> +				s = value.replace("%", "\\%")
-> +				s = s.replace("_", "\\_")
 
-Raw strings seem more readable, so could be
-used here too
 
->  				# Translate * and ? into SQL LIKE pattern characters % and _
->  				trans = string.maketrans("*?", "%_")
->  				match = " LIKE '" + str(s).translate(trans) + "'"
-
+--=20
+Best Regards
+ Guo Ren
