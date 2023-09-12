@@ -2,210 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63C77CA0EC3
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 01:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2355CA0EC3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 01:49:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbjILBsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Sep 2023 21:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40736 "EHLO
+        id S233511AbjILBtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Sep 2023 21:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231940AbjILBsK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 21:48:10 -0400
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09C313CC1C;
-        Mon, 11 Sep 2023 16:43:48 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-59b9b47e35dso10281477b3.0;
-        Mon, 11 Sep 2023 16:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694475697; x=1695080497; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sg6cE/x2UUPlr07T7fY2WapJd57AiLvtF5oOk9nL6T4=;
-        b=SXmW67e9cMPdC2V8L5WjgsumE1phAVoof/0bWoQfpQmDJl2iVex6gOlFoNdwVZHXhb
-         M+3+BBULcVwzkNEeD0epU6jz7wmfsNLFoVR1QV/voKLjIuWDtUPha5HUqeyEJto8s5nK
-         1lMUEyK0N2LGS2NGhh/dcjURInvnRQ5BwdORzKfXLyhS+KBQWIIN7tx0qhhICvVoYshy
-         w3Awmw25zOPH+QKi+aq8gmu0nX4iGJ5M+ppDUQunN2UBcut3Vf8XRizxKwE6eiXjV1qN
-         Qzb6rv8jMQvxikJ7KWeSuDpMUBOfq72+mpMAfEk0t01RBlgOuU/DEWlIxI859BNYc8VT
-         K07w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694475697; x=1695080497;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sg6cE/x2UUPlr07T7fY2WapJd57AiLvtF5oOk9nL6T4=;
-        b=pPcw3JGxV7EvcXxSbJcns6/opOC/acbjIERAPclHMvraGRfhbggpmv0ALvW82Dgn2C
-         PMxa21NYb/OTYUo1xIYCA+4erD5dsXoVZ5yPwIQItn+J/28rXes1xOuzNdCDD+vsAg2h
-         kj9pRzWfWgA3PkwdgEPV+pNM/gznTrD6+3DA+L4lZqEZXvzquciiCBsaO/vhfoBMF84G
-         PusjWQCJ1WwCkINKu1Wzo1/y185WfjTu9fblsMWXErhFnCnvq5Q04QwUGq20RPg+bADS
-         GdkeVzIKeEI2mTdK5uKllC4vuJMJgScnEqK/oFEhlfK7Mj9lbpPYZxBQCNlk/qfD7fgj
-         V9NA==
-X-Gm-Message-State: AOJu0YwRycRGRO+I0iplhsCmGAgtq/jYKWJzR/yPGUD2Z4BA+IIAgawU
-        gXZXP97IkFfbTPgoiS29o1esokzJWsyT7A==
-X-Google-Smtp-Source: AGHT+IGZBso+YJhrY7t/VYPk/2yLAsPpkHexYrSGfYFJHFWMcssIeOmFtlcZJ94GnWtgRM+asWeoAw==
-X-Received: by 2002:a6b:5c18:0:b0:785:5917:a35f with SMTP id z24-20020a6b5c18000000b007855917a35fmr13374513ioh.8.1694473750661;
-        Mon, 11 Sep 2023 16:09:10 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 16:09:10 -0700 (PDT)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
-        daniel.vetter@ffwll.ch
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
-        ville.syrjala@linux.intel.com, seanpaul@chromium.org,
-        robdclark@gmail.com, linux-doc@vger.kernel.org,
-        Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 22/22] drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
-Date:   Mon, 11 Sep 2023 17:08:38 -0600
-Message-ID: <20230911230838.14461-23-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
-References: <20230911230838.14461-1-jim.cromie@gmail.com>
+        with ESMTP id S233871AbjILBs4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Sep 2023 21:48:56 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C85118D55;
+        Mon, 11 Sep 2023 18:22:25 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76F34C4AF5E;
+        Tue, 12 Sep 2023 01:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694480928;
+        bh=vPBtjeXZPsX8uMaq9qwgKEv+1PCvHrRzIWtKBohUeVk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HV8j/1foh3iKGbddE+oh/8T8Agp46qlTjejJvqAwChtOJSpPVYuFV1tIAkYIVaYUA
+         K4VgsVQPAVuVrQbVcVH0V0nHGhHHEHid4URTR6QIroK4Grv/vZ3pi7ECsy6miD5o/j
+         67sMuCUxb2Zj6K4VKYIMQXxexoSR0LRCxxDoEDxhCJOVeTweA+gdxTzNDod00CWWOi
+         fBS6cM+HGI6TlOc4N6MApsSoe0nAFK8q1+YyipDrraZ/SR3gNGsEB606x9Vx7qtFTt
+         mli0gr9Qci1MvwbF16IdaiVBymPD9QKkT/GPPmJQgALVyypYaYclHn98c9EOYuk9mM
+         h7+2P4jrntJ+A==
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9a63b2793ecso642675666b.2;
+        Mon, 11 Sep 2023 18:08:48 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxNCNkkpjG4zyh+kmHBF/KBMGWei3dvMJlwWg1GJMMCg1fmYCSR
+        tMv2AY+vYIBHT4VwNY6iHf3IoH86pXOKBUTXz7E=
+X-Google-Smtp-Source: AGHT+IGzCHN4mbb9AV6M5P3xYllprNXyZ+f6yZI8Aqw1YDdEyhI15mU09G08slBaULRW+BgPstHqnFZshoO7b1fogcM=
+X-Received: by 2002:a17:907:2c77:b0:9a2:185b:5376 with SMTP id
+ ib23-20020a1709072c7700b009a2185b5376mr8328061ejc.49.1694480926903; Mon, 11
+ Sep 2023 18:08:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230910082911.3378782-1-guoren@kernel.org> <20230910082911.3378782-8-guoren@kernel.org>
+ <5ba0b8f3-f8f5-3a25-e9b7-f29a1abe654a@redhat.com>
+In-Reply-To: <5ba0b8f3-f8f5-3a25-e9b7-f29a1abe654a@redhat.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Tue, 12 Sep 2023 09:08:34 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTT2hRxgnQt+WJ9P0YBWnUaZJ1-9g3ZE9tOz_MiLSsUjwQ@mail.gmail.com>
+Message-ID: <CAJF2gTT2hRxgnQt+WJ9P0YBWnUaZJ1-9g3ZE9tOz_MiLSsUjwQ@mail.gmail.com>
+Subject: Re: [PATCH V11 07/17] riscv: qspinlock: Introduce qspinlock param for
+ command line
+To:     Waiman Long <longman@redhat.com>
+Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
+        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
+        catalin.marinas@arm.com, conor.dooley@microchip.com,
+        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
+        alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        leobras@redhat.com, linux-arch@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a DRM_CLASSMAP_USE declaration to 2nd batch of helpers and *_drv.c
-files.  For drivers, add the decl just above the module's PARAMs,
-since it identifies the "inherited" drm.debug param.
+On Mon, Sep 11, 2023 at 11:34=E2=80=AFPM Waiman Long <longman@redhat.com> w=
+rote:
+>
+> On 9/10/23 04:29, guoren@kernel.org wrote:
+> > From: Guo Ren <guoren@linux.alibaba.com>
+> >
+> > Allow cmdline to force the kernel to use queued_spinlock when
+> > CONFIG_RISCV_COMBO_SPINLOCKS=3Dy.
+> >
+> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > Signed-off-by: Guo Ren <guoren@kernel.org>
+> > ---
+> >   Documentation/admin-guide/kernel-parameters.txt |  2 ++
+> >   arch/riscv/kernel/setup.c                       | 16 +++++++++++++++-
+> >   2 files changed, 17 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
+ation/admin-guide/kernel-parameters.txt
+> > index 7dfb540c4f6c..61cacb8dfd0e 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -4693,6 +4693,8 @@
+> >                       [KNL] Number of legacy pty's. Overwrites compiled=
+-in
+> >                       default number.
+> >
+> > +     qspinlock       [RISCV] Force to use qspinlock or auto-detect spi=
+nlock.
+> > +
+> >       qspinlock.numa_spinlock_threshold_ns=3D   [NUMA, PV_OPS]
+> >                       Set the time threshold in nanoseconds for the
+> >                       number of intra-node lock hand-offs before the
+> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> > index a447cf360a18..0f084f037651 100644
+> > --- a/arch/riscv/kernel/setup.c
+> > +++ b/arch/riscv/kernel/setup.c
+> > @@ -270,6 +270,15 @@ static void __init parse_dtb(void)
+> >   }
+> >
+> >   #ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> > +bool enable_qspinlock_key =3D false;
+>
+> You can use __ro_after_init qualifier for enable_qspinlock_key. BTW,
+> this is not a static key, just a simple flag. So what is the point of
+> the _key suffix?
+Okay, I would change it to:
+bool enable_qspinlock_flag __ro_after_init =3D false;
 
-Note: with CONFIG_DRM_USE_DYNAMIC_DEBUG=y, a module not also declaring
-DRM_CLASSMAP_USE will have its class'd prdbgs stuck in the initial
-(disabled, but for DEBUG) state.
+>
+> Cheers,
+> Longman
+>
 
-The stuck sites are evident in /proc/dynamic_debug/control as:
 
-   class unknown, _id:N		# control's last column
-
-rather than a proper "enumeration":
-
-   class:DRM_UT_CORE
-
-This set of updates was found by choosing M for all DRM-config items I
-found (not allmodconfig), building & modprobing them, and grepping
-"class unknown," control.  There may yet be others.
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c | 2 ++
- drivers/gpu/drm/gud/gud_drv.c          | 2 ++
- drivers/gpu/drm/mgag200/mgag200_drv.c  | 2 ++
- drivers/gpu/drm/qxl/qxl_drv.c          | 2 ++
- drivers/gpu/drm/radeon/radeon_drv.c    | 2 ++
- drivers/gpu/drm/udl/udl_main.c         | 2 ++
- drivers/gpu/drm/vkms/vkms_drv.c        | 2 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c    | 2 ++
- 8 files changed, 16 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index baaf0e0feb06..097d87f1ad74 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -23,6 +23,8 @@
- #include <drm/drm_prime.h>
- #include <drm/drm_print.h>
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- MODULE_IMPORT_NS(DMA_BUF);
- 
- /**
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index 9d7bf8ee45f1..5b555045fce4 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -31,6 +31,8 @@
- 
- #include "gud_internal.h"
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- /* Only used internally */
- static const struct drm_format_info gud_drm_format_r1 = {
- 	.format = GUD_DRM_FORMAT_R1,
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 976f0ab2006b..a1b2be1c27f6 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -24,6 +24,8 @@ int mgag200_modeset = -1;
- MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
- module_param_named(modeset, mgag200_modeset, int, 0400);
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2)
- {
- 	struct device *dev = &pdev->dev;
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-index a3b83f89e061..12600f557c23 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.c
-+++ b/drivers/gpu/drm/qxl/qxl_drv.c
-@@ -65,6 +65,8 @@ module_param_named(modeset, qxl_modeset, int, 0400);
- MODULE_PARM_DESC(num_heads, "Number of virtual crtcs to expose (default 4)");
- module_param_named(num_heads, qxl_num_crtc, int, 0400);
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- static struct drm_driver qxl_driver;
- static struct pci_driver qxl_pci_driver;
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index e4374814f0ef..4219276ade6a 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -274,6 +274,8 @@ int radeon_cik_support = 1;
- MODULE_PARM_DESC(cik_support, "CIK support (1 = enabled (default), 0 = disabled)");
- module_param_named(cik_support, radeon_cik_support, int, 0444);
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- static struct pci_device_id pciidlist[] = {
- 	radeon_PCI_IDS
- };
-diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index 3ebe2ce55dfd..ba57c14454e5 100644
---- a/drivers/gpu/drm/udl/udl_main.c
-+++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -19,6 +19,8 @@
- 
- #define NR_USB_REQUEST_CHANNEL 0x12
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- #define MAX_TRANSFER (PAGE_SIZE*16 - BULK_SIZE)
- #define WRITES_IN_FLIGHT (20)
- #define MAX_VENDOR_DESCRIPTOR_SIZE 256
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index e3c9c9571c8d..38252f29f983 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -39,6 +39,8 @@
- 
- static struct vkms_config *default_config;
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- static bool enable_cursor = true;
- module_param_named(enable_cursor, enable_cursor, bool, 0444);
- MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 8b24ecf60e3e..9cb6be422621 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -275,6 +275,8 @@ static int vmw_probe(struct pci_dev *, const struct pci_device_id *);
- static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
- 			      void *ptr);
- 
-+DRM_CLASSMAP_USE(drm_debug_classes);
-+
- MODULE_PARM_DESC(restrict_iommu, "Try to limit IOMMU usage for TTM pages");
- module_param_named(restrict_iommu, vmw_restrict_iommu, int, 0600);
- MODULE_PARM_DESC(force_coherent, "Force coherent TTM pages");
--- 
-2.41.0
-
+--=20
+Best Regards
+ Guo Ren
