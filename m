@@ -2,76 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 242CFCA0ED2
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 10:17:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5752CA0ED2
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 10:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234259AbjILKRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 06:17:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36076 "EHLO
+        id S233981AbjILKSf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 06:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234260AbjILKRO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 06:17:14 -0400
+        with ESMTP id S233902AbjILKSe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 06:18:34 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E29E272E;
-        Tue, 12 Sep 2023 03:16:50 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A395C433C8;
-        Tue, 12 Sep 2023 10:16:47 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB491726;
+        Tue, 12 Sep 2023 03:18:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C03C433B9;
+        Tue, 12 Sep 2023 10:18:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694513809;
-        bh=WSr9qSl2S1ubmYIrZpcXmHxSn6EHq34MSINK8cbXato=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=DjpOBF8QYlMldwfuCfivS8FDAipLd8nz0g0k8U617/n0FwUiYh76S4/JyMVDC+rxM
-         pD+JOX+mpH/G4vU6ZDawXaCgtiqlWlkWJWY47vX6cS/ZM43M53ZtMz/OQ5uRVUI1aS
-         83O7dFEyD+VZ60uSh+Tphkx1fxJ+G5kBP33y8CQAXAyvKyPl5IPd69JvzxjztXG62h
-         Tf/+28qObCekHDgZ88E5aNaHzBCYrLwf41vhXBO17ufRCOyUyQt4YJbzAsg15/Qn0C
-         1cNvt2p0FuNr2TYL5lgU2+F2jm/ts56CDdAWUa87JZaOucBMUXMYZchy/Ciz4+Gqrh
-         Af2FCuEdmf02g==
-Message-ID: <351927e6-2ddf-186c-78ae-1b0d639b9ea7@kernel.org>
-Date:   Tue, 12 Sep 2023 12:16:43 +0200
+        s=k20201202; t=1694513909;
+        bh=uKvPIfnxCoZtHrrIPaG9nNRcDJHXgQGDDHfQe/MWQZY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AQYFILSsh4WNbTikyKtzLokfkY+RYdnG+CMwUDOF4KBxYbpQhedujXf88J52hQ7aF
+         LXdcFlB8e4yXzo/E1ZbP7gDQtTpVc9e3uNGD5t5AtILSNFV+dbdpLboAIf/QHuBeLz
+         JiQraaMpvFZr2mErtyQgWb9r0muXGjyqtOz2zoGnOThZlJw2epVIxJHTSlwPl03P17
+         NromokDPjkkgDl0Js/Aeksn6886MU//9WG5coE3g1sT9569WQKU4lMr4OPhtEOviKI
+         LMcRZ9OWgtXWG3+vpdMNGDuSb4bV6yKGvsYlTSKdz8lMnVUrEpt5WmB5XqBVdrcUSq
+         zcq5/G+WvKQDw==
+Date:   Tue, 12 Sep 2023 11:18:20 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        linus.walleij@linaro.org, andy.shevchenko@gmail.com,
+        vigneshr@ti.com, nm@ti.com, matthias.bgg@gmail.com,
+        kgene@kernel.org, alim.akhtar@samsung.com, bmasney@redhat.com,
+        quic_tsoni@quicinc.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+Subject: Re: [REBASE PATCH v5 08/17] arm64: mm: Add dynamic ramoops region
+ support through command line
+Message-ID: <20230912101820.GA10884@willie-the-truck>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+ <1694429639-21484-9-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Describe changes to the device
- tree
-Content-Language: en-US
-To:     Daniel Matyas <daniel.matyas@analog.com>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230911083735.11795-1-daniel.matyas@analog.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20230911083735.11795-1-daniel.matyas@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1694429639-21484-9-git-send-email-quic_mojha@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/09/2023 10:37, Daniel Matyas wrote:
-> Added new attributes to the device tree:
-
-Subject: it's meaningless. You said there absolutely nothing. Instead
-saying "Describe changes to the device tree" please describe the changes
-you are making.
-
-> 	- adi,comp-int
-> 	- adi,alrm-pol
-> 	- adi,flt-q
+On Mon, Sep 11, 2023 at 04:23:50PM +0530, Mukesh Ojha wrote:
+> The reserved memory region for ramoops is assumed to be at a fixed
+> and known location when read from the devicetree. This may not be
+> required for something like Qualcomm's minidump which is interested
+> in knowing addresses of ramoops region but it does not put hard
+> requirement of address being fixed as most of it's SoC does not
+> support warm reset and does not use pstorefs at all instead it has
+> firmware way of collecting ramoops region if it gets to know the
+> address and register it with apss minidump table which is sitting
+> in shared memory region in DDR and firmware will have access to
+> these table during reset and collects it on crash of SoC.
 > 
-> These modify the corresponding bits in the configuration register.
+> So, add the support of reserving ramoops region to be dynamically
+> allocated early during boot if it is request through command line
+> via 'dyn_ramoops_size=' and fill up reserved resource structure and
+> export the structure, so that it can be read by ramoops driver.
 > 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
 > ---
->  .../bindings/hwmon/adi,max31827.yaml          | 21 +++++++++++++++++++
+>  arch/arm64/mm/init.c       | 94 ++++++++++++++++++++++++++++++++++++++++++++++
 
-Please work on latest upstream, not some old vendor code. This means
-that you should checkout latest mainline tree (or linux-next or
-maintainer's tree) and make your edits there. Once you do it, you use
-get_maintainers.pl on that tree, not on that ancient vendor's stuff.
+Why does this need to be in the arch code? There's absolutely nothing
+arm64-specific here.
 
-Best regards,
-Krzysztof
-
+Will
