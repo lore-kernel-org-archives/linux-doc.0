@@ -2,112 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED36CA0EC3
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 10:59:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 689A3CA0ED3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 11:12:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234342AbjILK7Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 06:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33434 "EHLO
+        id S234560AbjILLMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 07:12:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234182AbjILK6r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 06:58:47 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 316BF118;
-        Tue, 12 Sep 2023 03:58:38 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC31BC433B6;
-        Tue, 12 Sep 2023 10:58:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694516317;
-        bh=bMazgWjiUns7bxIOW7iDcJXKsG8+oY7C1L0a2QPDtNQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=N5amLBUeuaQQfQrkRGbMQPohZMxyrm/E+1U8aGzLmQkBBe1SjxaKm3mBIDG1j3MB7
-         mEelEBPOX/CgAHNU5OpXYjmkc9An28zQLE48MZaqrAk2d1j2J6LiO4u10zUyVtPwxI
-         0dD7Os9rGlNUQy5YIVpQnMAFAXwIEfKHXjBzrypBIE/g+a4kKPKv2jy3wWCHQcfED4
-         +soa92eXj4Bwepl+2a0I2nUKXZIa/VuBhP0LjZ1cT4PMwY+lVBfLdL/YoYKX+I07iT
-         TzenYk+RO9bhdZaKU2TuaZjIPxWPmKt/+hiSYduBOx7DeXFqVWzBVWLz79ChMaiSsn
-         YgpE96OaS9lrg==
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-52a5c0d949eso6913759a12.0;
-        Tue, 12 Sep 2023 03:58:37 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxJb1/SHXe2i1qXhrcvdJYqe9/txwPJ/iftQ0KF5SmlAs/z37Za
-        h0+DnKY7z9Nu1Tsp00ouMI8VGlBIzsDU2l7wEL4=
-X-Google-Smtp-Source: AGHT+IFlJTroWUzDrpNmu1jFhrEOedb4AZCufJm4Yw5gh0F+6q7MG2VcUbiSngUFjwNHEEx8rscVSAFajHlgNpUUEAg=
-X-Received: by 2002:a17:906:2d1:b0:9ad:7d5b:ba68 with SMTP id
- 17-20020a17090602d100b009ad7d5bba68mr1879773ejk.32.1694516316048; Tue, 12 Sep
- 2023 03:58:36 -0700 (PDT)
+        with ESMTP id S234888AbjILLLs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 07:11:48 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 599081715
+        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 04:11:42 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-991c786369cso728778866b.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 Sep 2023 04:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sigma-star.at; s=google; t=1694517101; x=1695121901; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WMxyxYMtu219LMB4VQwtAfAzEA7xWrv4p6+B3IeeMCg=;
+        b=RB9Md7NlopPy6qhyoTLIEklGGL7AteMsFTzJ2pObAafH1jAv3ApAAoF98dEr+Z8inr
+         ZGB7RqZB1AL9mlKGNDnB4Zivw/+qBj4ENDjiR5ZEo+P2t3SzOKv8uJrVruwcz6BIWz3p
+         +Li9EQB958qRO1g4km5Esobef25kpP13b1aemfcY2bqDbjGG4NIGK3kQuFqvcU/iUu0H
+         1FIf6sesuYNfMHKgn6pxFasSCPdeCR7/1TtVqOwgTfGcfAdku1QdjWNUBVLochlfwGlw
+         6ssTQRfLmCf1f1+nBJvXw2ZoFRQ3AhF3hbu3/tGGe87CM4dx3trmP9uEQC0pFxDpMUd6
+         TZuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694517101; x=1695121901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WMxyxYMtu219LMB4VQwtAfAzEA7xWrv4p6+B3IeeMCg=;
+        b=ag2ajKSBVUFd4zgl/Nbkc3D+/jFhDhXVKQyFsDTyM5NicW3TWM2mejrJNrLIfrN1M5
+         xVkqYitK6J5Plo6ESUtbYssvO0+3nBsieBCECm1aUxsGupYl09Alt//q9aR+KEPbqQ4J
+         0uoYQvgeAoXHESs+hkAKUPd2PQin9UOGEsfdPtHJWk7cSLXzfCooutjeGVaZMWbVA0PJ
+         qqa2o5xtrfQHrWQ4GUESUdWWyLvb7W2dEwHMcQ1+xdOUK4D9LZ20Q+Xx18ey9pw59Ucj
+         CruDeOmWbbsL/DmpvMQBNYIPohlwi4P/t8OzWjRXi6SU3zh8G1ZnElxa/x4mIa8Gk5eA
+         STXQ==
+X-Gm-Message-State: AOJu0YwA12uZapQX68CRgseWrabsxCWZil/AWq9oEFNuLb6NJFTWa+Er
+        Qzm11rUfHP3Sani5BGVHt4FE7A==
+X-Google-Smtp-Source: AGHT+IGVIXpipGIV3RcKzH1lIoBGyC+f3uy72Hr8eeCBPxmUGKKb6/6xig/ZZuHGDB1u6QZuTruK9g==
+X-Received: by 2002:a17:906:2895:b0:9a1:b967:aca9 with SMTP id o21-20020a170906289500b009a1b967aca9mr9945956ejd.63.1694517100748;
+        Tue, 12 Sep 2023 04:11:40 -0700 (PDT)
+Received: from localhost ([82.150.214.1])
+        by smtp.gmail.com with UTF8SMTPSA id rp6-20020a170907888600b009a9fbeb15f2sm6393915ejc.62.2023.09.12.04.11.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Sep 2023 04:11:40 -0700 (PDT)
+From:   David Gstir <david@sigma-star.at>
+To:     Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     David Gstir <david@sigma-star.at>, Shawn Guo <shawnguo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        sigma star Kernel Team <upstream+dcp@sigma-star.at>,
+        David Howells <dhowells@redhat.com>,
+        Li Yang <leoyang.li@nxp.com>, Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Tejun Heo <tj@kernel.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v2 0/3] DCP as trusted keys backend
+Date:   Tue, 12 Sep 2023 13:11:11 +0200
+Message-ID: <20230912111115.24274-1-david@sigma-star.at>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20230910082911.3378782-1-guoren@kernel.org> <20230910-esteemed-exodus-706aaae940b1@spud>
- <CAJF2gTRQd_dNuZHNwfg3SwD0XERaYXYUdFUFQiarym40kpxFRQ@mail.gmail.com>
- <20230910-baggage-accent-ec5331b58c8e@spud> <CAJF2gTS8Vh5XdMUcgLA_GJzW6Nm3JKHxuMN9jYSNe_YCEjgCXA@mail.gmail.com>
- <20230910-facsimile-answering-60d1452b8c10@spud> <CAJF2gTSP1rxVhuwOKyWiE2vFFijJFc2aKRU2=0rTK9nDc8AbsQ@mail.gmail.com>
- <20230911-nimbly-outcome-496efae7adc6@wendy> <CAJF2gTTSDtnc7WRAZ0eLjiwZHZFbOcPZaQ_c8LiLcctBNsKCaA@mail.gmail.com>
- <20230912-snitch-astronaut-41e1b694d24f@wendy>
-In-Reply-To: <20230912-snitch-astronaut-41e1b694d24f@wendy>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Tue, 12 Sep 2023 18:58:22 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQXhjvP3WRDKOJ67Bv+KSB-Dh2LAuSsf0kv12HJCmSL7Q@mail.gmail.com>
-Message-ID: <CAJF2gTQXhjvP3WRDKOJ67Bv+KSB-Dh2LAuSsf0kv12HJCmSL7Q@mail.gmail.com>
-Subject: Re: [PATCH V11 00/17] riscv: Add Native/Paravirt qspinlock support
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Conor Dooley <conor@kernel.org>, paul.walmsley@sifive.com,
-        anup@brainfault.org, peterz@infradead.org, mingo@redhat.com,
-        will@kernel.org, palmer@rivosinc.com, longman@redhat.com,
-        boqun.feng@gmail.com, tglx@linutronix.de, paulmck@kernel.org,
-        rostedt@goodmis.org, rdunlap@infradead.org,
-        catalin.marinas@arm.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        leobras@redhat.com, linux-arch@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 4:08=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
-p.com> wrote:
->
-> On Tue, Sep 12, 2023 at 09:33:57AM +0800, Guo Ren wrote:
-> > On Mon, Sep 11, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor.dooley@micr=
-ochip.com> wrote:
->
-> > > I added the new "riscv,isa-extensions" property in part to make
-> > > communicating vendor extensions like this easier. Please try to use
-> > > that. "qspinlock" is software configuration though, the vendor extens=
-ion
-> > > should focus on the guarantee of strong forward progress, since that =
-is
-> > > the non-standard aspect of your IP.
-> >
-> > The qspinlock contains three paths:
-> >  - Native qspinlock, this is your strong forward progress.
-> >  - virt_spin_lock, for KVM guest when paravirt qspinlock disabled.
-> >    https://lore.kernel.org/linux-riscv/20230910082911.3378782-9-guoren@=
-kernel.org/
-> >  - paravirt qspinlock, for KVM guest
-> >
-> > So, we need a software configuration here, "riscv,isa-extensions" is
-> > all about vendor extension.
->
-> Ah right, yes it would only be able to be used to determine whether or
-> not the platform is capable of supporting these spinlocks, not whether or
-> not the kernel is a guest. I think I misinterpreted that snippet you post=
-ed,
-> thinking you were trying to disable your new spinlock for KVM, sorry.
-> On that note though, what about other sorts of guests? Will non-KVM
-> guests not also want to use this virt spinlock?
-I only put KVM guests here, and I can't answer other hypervisor that
-is another topic.
+This is a revival of the previous patch set submitted by Richard Weinberger:
+https://lore.kernel.org/linux-integrity/20210614201620.30451-1-richard@nod.at/
 
->
-> Thanks,
-> Conor.
+v1 -> v2:
+- Revive and rebase to latest version
+- Include review comments from Ahmad Fatoum
 
+The Data CoProcessor (DCP) is an IP core built into many NXP SoCs such
+as i.mx6ull.
 
+Similar to the CAAM engine used in more powerful SoCs, DCP can AES-
+encrypt/decrypt user data using a unique, never-disclosed,
+device-specific key. Unlike CAAM though, it cannot directly wrap and
+unwrap blobs in hardware. As DCP offers only the bare minimum feature
+set and a blob mechanism needs aid from software. A blob in this case
+is a piece of sensitive data (e.g. a key) that is encrypted and
+authenticated using the device-specific key so that unwrapping can only
+be done on the hardware where the blob was wrapped.
 
---=20
-Best Regards
- Guo Ren
+This patch series adds a DCP based, trusted-key backend and is similar
+in spirit to the one by Ahmad Fatoum [0] that does the same for CAAM.
+It is of interest for similar use cases as the CAAM patch set, but for
+lower end devices, where CAAM is not available.
+
+Because constructing and parsing the blob has to happen in software,
+we needed to decide on a blob format and chose the following:
+
+struct dcp_blob_fmt {
+	__u8 fmt_version;
+	__u8 blob_key[AES_KEYSIZE_128];
+	__u8 nonce[AES_KEYSIZE_128];
+	__le32 payload_len;
+	__u8 payload[];
+} __packed;
+
+The `fmt_version` is currently 1.
+
+The encrypted key is stored in the payload area. It is AES-128-GCM
+encrypted using `blob_key` and `nonce`, GCM auth tag is attached at
+the end of the payload (`payload_len` does not include the size of
+the auth tag).
+
+The `blob_key` itself is encrypted in AES-128-ECB mode by DCP using
+the OTP or UNIQUE device key. A new `blob_key` and `nonce` are generated
+randomly, when sealing/exporting the DCP blob.
+
+This patchset was tested with dm-crypt on an i.MX6ULL board.
+
+[0] https://lore.kernel.org/keyrings/20220513145705.2080323-1-a.fatoum@pengutronix.de/
+
+David Gstir (3):
+  crypto: mxs-dcp: Add support for hardware provided keys
+  KEYS: trusted: Introduce support for NXP DCP-based trusted keys
+  doc: trusted-encrypted: add DCP as new trust source
+
+ .../admin-guide/kernel-parameters.txt         |  13 +
+ .../security/keys/trusted-encrypted.rst       |  85 +++++
+ MAINTAINERS                                   |   9 +
+ drivers/crypto/mxs-dcp.c                      | 107 +++++-
+ include/keys/trusted_dcp.h                    |  13 +
+ include/soc/fsl/dcp.h                         |  19 ++
+ security/keys/trusted-keys/Kconfig            |   9 +-
+ security/keys/trusted-keys/Makefile           |   2 +
+ security/keys/trusted-keys/trusted_core.c     |   6 +-
+ security/keys/trusted-keys/trusted_dcp.c      | 313 ++++++++++++++++++
+ 10 files changed, 563 insertions(+), 13 deletions(-)
+ create mode 100644 include/keys/trusted_dcp.h
+ create mode 100644 include/soc/fsl/dcp.h
+ create mode 100644 security/keys/trusted-keys/trusted_dcp.c
+
+-- 
+2.35.3
+
