@@ -2,73 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99FFECA0ECA
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 12:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5AF7CA0ED3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 12:11:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234672AbjILMLF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 08:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55170 "EHLO
+        id S234981AbjILMLo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 08:11:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234656AbjILMLE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 08:11:04 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7FC310DF;
-        Tue, 12 Sep 2023 05:11:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=hUL28D01nERK2lfT4r829XFQpOyVQVst5T8T6Qa+ny8=; b=ZaE8e076/wjzs/CKz7w/+ayioi
-        I9YQhHBM2Obnc8uiRVWmFbQonn9X/lJqB6o4mCXsHX075x7/aVPeHf0uZRrACmvHhKhoCTC8qjZSt
-        tZuLkDs/DU8r6wN/Awhn2AeqE9Y4BgFQvfh+D5Hi4AkS34qdWF97C2vcW3UMSL+2Jf60=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1qg2E6-006Dtv-Ab; Tue, 12 Sep 2023 14:10:42 +0200
-Date:   Tue, 12 Sep 2023 14:10:42 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     "Ziyang Xuan (William)" <william.xuanziyang@huawei.com>
-Cc:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        corbet@lwn.net, steen.hegelund@microchip.com,
-        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
-        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
-        Thorsten.Kummermehr@microchip.com
-Subject: Re: [RFC PATCH net-next 2/6] net: ethernet: add mac-phy interrupt
- support with reset complete handling
-Message-ID: <66aafc68-3bf9-4242-8f04-a4f3988129c4@lunn.ch>
-References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
- <20230908142919.14849-3-Parthiban.Veerasooran@microchip.com>
- <5f434392-0e87-ecbc-9c9a-ad08a809206a@huawei.com>
+        with ESMTP id S234958AbjILMLm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 08:11:42 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8107610D7;
+        Tue, 12 Sep 2023 05:11:38 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB3CC433C8;
+        Tue, 12 Sep 2023 12:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694520698;
+        bh=UnP676PHVFmD+xd/rrOcUM5eKwT8h7XsEaGKrA6BnPM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UPbOrAEYk47sY4lofsMhaoB2INy9+JzCY4RFhlRNtN1j3ifspkYV7HUY/WyqamW1K
+         gHTC8N0P1/qUYxjnme9h3ajz6+wuLlDAI9R40WQNFHzXp9lJhKKNcciCj/pBFv4KE5
+         I6i9GSFRoFHOLwVMW89I0TyRiGQad3+QCvpBgemNfjNYWHgTuiI5Cqssm9Ysq+UfBZ
+         qbDh+vDK68ivhnmFBH+WkZI+WCIxtxpqrRQiellM4HK5lV0EweGGA8zpjEQgHArtxw
+         85+/Dvh5RKY48wLJh+hpaCyYlBL5oXidSBk0uC85Y5MS3Ia8GLwzf/E8D3xJ19AQoA
+         pScfClbopmdrA==
+Received: (nullmailer pid 381617 invoked by uid 1000);
+        Tue, 12 Sep 2023 12:11:36 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     James Morse <james.morse@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 2/2] arm64: errata: Add Cortex-A520 speculative unprivileged load workaround
+Date:   Tue, 12 Sep 2023 07:11:15 -0500
+Message-Id: <20230912121120.380420-2-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230912121120.380420-1-robh@kernel.org>
+References: <20230912121120.380420-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5f434392-0e87-ecbc-9c9a-ad08a809206a@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > +int oa_tc6_deinit(struct oa_tc6 *tc6)
-> >  {
-> > -	kfree(tc6);
-> > +	int ret;
-> > +
-> > +	devm_free_irq(&tc6->spi->dev, tc6->spi->irq, tc6);
-> > +	ret = kthread_stop(tc6->tc6_task);
-> 
-> kthread_stop() will the result of threadfn(). Here mean that if threadfn()
-> return non-zero, deinit() will fail. But the KTHREAD_SHOULD_STOP already be set.
-> And oa_tc6_handler() will end. Please check it is what you want.
+Implement the workaround for ARM Cortex-A520 erratum 2966298. On an
+affected Cortex-A520 core, a speculatively executed unprivileged load
+might leak data from a privileged level via a cache side channel.
 
-Hi Ziyang
+The workaround is to execute a TLBI before returning to EL0. A
+non-shareable TLBI to any address is sufficient.
 
-Please trim emails when replying to just the relevant text. Otherwise
-you need to page down, page down, page down again and again and might
-miss parts of your reply.
+The workaround isn't necessary if page table isolation (KPTI) is
+enabled, but for simplicity it will be. Page table isolation should
+normally be disabled for Cortex-A520 as it supports the CSV3 feature
+and the E0PD feature (used when KASLR is enabled).
 
-     Andrew
+Cc: stable@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/arch/arm64/silicon-errata.rst |  2 ++
+ arch/arm64/Kconfig                          | 13 +++++++++++++
+ arch/arm64/kernel/cpu_errata.c              |  8 ++++++++
+ arch/arm64/kernel/entry.S                   |  4 ++++
+ arch/arm64/tools/cpucaps                    |  1 +
+ 5 files changed, 28 insertions(+)
+
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index e96f057ea2a0..f47f63bcf67c 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -71,6 +71,8 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A510     | #2658417        | ARM64_ERRATUM_2658417       |
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | Cortex-A520     | #2966298        | ARM64_ERRATUM_2966298       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #826319         | ARM64_ERRATUM_826319        |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #827319         | ARM64_ERRATUM_827319        |
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index b10515c0200b..78f20e632712 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1037,6 +1037,19 @@ config ARM64_ERRATUM_2645198
+ 
+ 	  If unsure, say Y.
+ 
++config ARM64_ERRATUM_2966298
++	bool "Cortex-A520: 2966298: workaround for speculatively executed unprivileged load"
++	default y
++	help
++	  This option adds the workaround for ARM Cortex-A520 erratum 2966298.
++
++	  On an affected Cortex-A520 core, a speculatively executed unprivileged
++	  load might leak data from a privileged level via a cache side channel.
++
++	  Work around this problem by executing a TLBI before returning to EL0.
++
++	  If unsure, say Y.
++
+ config CAVIUM_ERRATUM_22375
+ 	bool "Cavium erratum 22375, 24313"
+ 	default y
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index be66e94a21bd..5706e74c5578 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -730,6 +730,14 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		.cpu_enable = cpu_clear_bf16_from_user_emulation,
+ 	},
+ #endif
++#ifdef CONFIG_ARM64_ERRATUM_2966298
++	{
++		.desc = "ARM erratum 2966298",
++		.capability = ARM64_WORKAROUND_2966298,
++		/* Cortex-A520 r0p0 - r0p1 */
++		ERRATA_MIDR_REV_RANGE(MIDR_CORTEX_A520, 0, 0, 1),
++	},
++#endif
+ #ifdef CONFIG_AMPERE_ERRATUM_AC03_CPU_38
+ 	{
+ 		.desc = "AmpereOne erratum AC03_CPU_38",
+diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+index 6ad61de03d0a..a6030913cd58 100644
+--- a/arch/arm64/kernel/entry.S
++++ b/arch/arm64/kernel/entry.S
+@@ -428,6 +428,10 @@ alternative_else_nop_endif
+ 	ldp	x28, x29, [sp, #16 * 14]
+ 
+ 	.if	\el == 0
++alternative_if ARM64_WORKAROUND_2966298
++	tlbi	vale1, xzr
++	dsb	nsh
++alternative_else_nop_endif
+ alternative_if_not ARM64_UNMAP_KERNEL_AT_EL0
+ 	ldr	lr, [sp, #S_LR]
+ 	add	sp, sp, #PT_REGS_SIZE		// restore sp
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index c3f06fdef609..dea3dc89234b 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -84,6 +84,7 @@ WORKAROUND_2077057
+ WORKAROUND_2457168
+ WORKAROUND_2645198
+ WORKAROUND_2658417
++WORKAROUND_2966298
+ WORKAROUND_AMPERE_AC03_CPU_38
+ WORKAROUND_TRBE_OVERWRITE_FILL_MODE
+ WORKAROUND_TSB_FLUSH_FAILURE
+-- 
+2.40.1
+
