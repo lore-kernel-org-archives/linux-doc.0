@@ -2,307 +2,384 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C660CA0EF8
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 17:18:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B504EEE3F0A
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 17:32:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237024AbjILRSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 13:18:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43612 "EHLO
+        id S234884AbjILRc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 13:32:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237034AbjILRS2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 13:18:28 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819401705;
-        Tue, 12 Sep 2023 10:18:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qg79ylRdmuHgd03hvztvr3jBo4wFMU5fD73hZlR5DUPU6Ae7ereaAbh36RlUpd6X3ov/W3qcwQQzSYij4Ye5RFBCtZp7QZMXW9Gt/AUuUxDwKoQQuD/42sc+yXwvAc2QHsZW5QcFGBHMRpauBLwS5LcZvNrrLJtWvVbHbvvohbtrp7eko5ko5zvaRhYqc/10ctmPcj8DxHAzQnmref/lJpyh6CxUhR95vvpCmWUeyYM+X8Cm56vAy6llXbs1QeJIQ/NfrF7QB+c2fvPWleoCGBRVQFEZr4hIeH8WzZKgk5D5OnUcfqUeZ+zA69ez164oZv4BauRHwpez1DlTMKArKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PFk0l2iupUpaXsP/H2zTKA2iSxWKJ3kHZEYZL42wDtk=;
- b=drAEyWZ6vPoRjc9QvLG+ZUJ8JRGNT/bohsoPjL8jDOzIJPN13fvnOrboPYQX2Zt30R3DYnVfHng78kmYdisp1gxMUCp1KJwumMd4ae+fGtzm01AjoONz38Eq07PRHsFoNadpTVYPMcsFOpSlhRE9YcJtXgA7zddGe257yV5wnGc5LomR2+uPJjtrgkqWOk6x8JT7gLGBE8lA+T3bE++n56uDJHboHDVQEDRrL2l3z/67kM2ObdITHg4oHIxNUPS4pL/I8zoNaKaTyISOgBrOORlobvRUOfsjP0V073gDIS+Epkd/ZmdYnaTC2FO4xwHSyMb95VcZjrtkREf8bH3MPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PFk0l2iupUpaXsP/H2zTKA2iSxWKJ3kHZEYZL42wDtk=;
- b=Huqvsr4WrjlLgy5ZyMer9kwyvdsstcMGxLMZrboCj39wyVMtqtnVu3bGz9PFVD7JVRu6fkcZeSmgbSmb3PUpkBIWPxkKTt2LZWVsV7L0BNCxe87JNrPwPEUrArty+hUc8lJtymRVR6TtUZ0DroepnVLObE4d1tp1JWWuoX+Nql8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SA3PR12MB7973.namprd12.prod.outlook.com (2603:10b6:806:305::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.34; Tue, 12 Sep
- 2023 17:18:22 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e%5]) with mapi id 15.20.6768.036; Tue, 12 Sep 2023
- 17:18:22 +0000
-Message-ID: <fa4c4cad-cc21-fe55-fafa-4afe12bd195d@amd.com>
-Date:   Tue, 12 Sep 2023 12:18:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v9 9/9] x86/resctrl: Display RMID of resource group
-Content-Language: en-US
-To:     Fenghua Yu <fenghua.yu@intel.com>, corbet@lwn.net,
-        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de
-Cc:     dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-References: <20230907235128.19120-1-babu.moger@amd.com>
- <20230907235128.19120-10-babu.moger@amd.com>
- <f4458988-1b3c-92a6-d628-4154a15bbb74@intel.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <f4458988-1b3c-92a6-d628-4154a15bbb74@intel.com>
+        with ESMTP id S231778AbjILRc1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 13:32:27 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F88C10D9;
+        Tue, 12 Sep 2023 10:32:23 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9482FC433C7;
+        Tue, 12 Sep 2023 17:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694539942;
+        bh=9ZfPG+orToERpZBcmHd5T+RLHzRPrTBdinpB23NfTGA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mt8VWOQ2SwEDLLhTMPMGRRxgsdchCHTcsZ8ztnaOG8AoX/lBGRwDgr56irXzn15hN
+         FRrI0LWlzTUKFNEwOI3kxwSgDY/7Zke0f13Bruy+z92MGowQkD16MPccDTft2LJnZv
+         Xo3Aj8nMVnbkfT24ppSmBuYQ5qjzRx9bVaPvTlUxV/BonhkGcNN6hpXhHbHePGlpa2
+         1M2JJOpc8rHOFaOSMs0OXSDy5AWwbv7wYTiQVrZhKYkjfI4MTJRuM6DNJNBdyyALKC
+         /zjDGHCNC8mWNldwhKyAD2M1ksApIdH/eI6hUPRNlD8r8QncUsbqm+4CMRc2X6MFed
+         kr5Tb75rMQp3A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7PR04CA0114.namprd04.prod.outlook.com
- (2603:10b6:806:122::29) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA3PR12MB7973:EE_
-X-MS-Office365-Filtering-Correlation-Id: a200b885-1126-4917-5c40-08dbb3b443db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: obHnFTuIWBlo+cJwGlhIQxcFbltFxjFjCZmMhOW0YmU6WUzrDIu4YgNm8NImOvLK4z5jmheSESUX5/zSISVmsy7p4ogoPYst+vcq/M5C/do0UrO/aeUFkplktHuK7O07gsPdf+WYg2tyNoYOLottQw5SlQwx/kkl7eMwy2gMudOBmmP4P1DiuqzoGRcd3DHLHkmWsZ8lVbZGgHIy6ATWI43zbgisUFxxRJZbZhO9wyqyfQJzorogdnRyNgIxiYlD5aprgoECJth6bnGWMooxhgy1FNvk0Bu9d1V/vxragVk8Ib2zuqExKcqWky0SmBMwJbTGuLfEPXfnOSqBu4O07KCLtxUzO/1ka2M8mwAM8YvaJqe/HDMnELb2xuXjneL3xm3vf9Vz1qtx0eZcFnQNObW5/LDG/d1OVl27yFeI4buxmsFZahGB3oGi9Vl8ovirFaSVO3qpZw+4uhHF5DPunrtZF3mtS0CQQU+IX4kTjlPpT38uaj+OEb9BvfrCRB0UcbjHTml+AABndF+W2rpVPZyeJ3QbA8p2CDQjsxROtoZHKlvpdAdQGnjEWqZ0Sdm2pChxW2OSzwmvJjq250k8JVgBuHOnxOVxGSPH8YB40hHQ/+6Sc0kJQBlI9s1CSkKtPeKxrSzz+30mEu9V2wAh2g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(39860400002)(366004)(396003)(186009)(1800799009)(451199024)(6486002)(53546011)(6506007)(6512007)(6666004)(83380400001)(86362001)(36756003)(38100700002)(31696002)(2616005)(316002)(26005)(3450700001)(66556008)(66476007)(7416002)(41300700001)(7406005)(66946007)(2906002)(8676002)(8936002)(31686004)(4326008)(5660300002)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZU9TSDNzNk5FMWdNaW40bCtUTTllOUpBU3ZGNGIzSXMyVk00RUc5RXVCYzNW?=
- =?utf-8?B?MFE4SVdVUVEyRHpvOE9xbEpkQjNhaFlEcHZuYzdpVWd1S1NwRjdHRUlHd0tm?=
- =?utf-8?B?dGJOYVlRVnhlM0R2bVFtZnl2MDZhTnBUZ0FPMm8zbk55WFpDU1BBdE1TTTcz?=
- =?utf-8?B?VnBsQUNkQ2U5VlNjTnYzUDBka0UxdFllM3h2d3pTUkdkTmVZVUZtbDM2ZVI0?=
- =?utf-8?B?RFNWdWJLQUsycStuRVZISFJsQVMrQUZjdGRGN21CZlg4ZS9RWFRwRVVQVFFY?=
- =?utf-8?B?b0xYRXNDZWw1eTI1MjExdllRNEpzOWs3NUZ4dFRlakZEZnVqMjBMdDl2TkdX?=
- =?utf-8?B?Qmd1SjlJZ1lscnpVWHhKc05lclhHNkRybjc5MmFYbDBuTlV4OVZ2S016NDUr?=
- =?utf-8?B?VlBaY3hwekdhZzBicnhxOEgrSkliOGdoRW9xODFMS3pUb1JGaE1Kcy9CRXRH?=
- =?utf-8?B?dkVIdHFPNGhURTh3WG50ODBDWFRrUzRSU3FXUDNXWmllTFY1Qnd4bGorTlJ2?=
- =?utf-8?B?TGFBc294c205Vm9jaU5jUERZTlVNLzRKa1ZYdDNEMjBjOTJjVGY5TGt4MkRQ?=
- =?utf-8?B?a0gveDBmQ3RFUy9MRWJ2a0V2M003V1ZtclJUR2FsUXJUMG15SkI0M1pCdi9K?=
- =?utf-8?B?ajFOSTVGMW54RVJlWXhjWTlVK21acFZWSU42TnR2QUJkakxUNHQ2R0lKRU1t?=
- =?utf-8?B?Zmd0UXI2RzdZOXlrbzM2SzJtSStUYmVkeldqTHM5c0dZK2owYnJaR2xSb3Rk?=
- =?utf-8?B?cGVJanBibFhWaHFCc3cvM1pscWQySWZUMkNtVkR5cFRHdTJ4ZWYzeTdkSHFj?=
- =?utf-8?B?c05vaDh2dTgrUndDVGs2TlRzZ21KMkgyemIzWnVQVldqK3NqU0VsY093bnU5?=
- =?utf-8?B?Q0hMSGtvYkJlZ213d3loaHIxQU9qWUJDM2pYTDVoQVNFMnlDTC9QY3NhQjl2?=
- =?utf-8?B?TG1URGd5Vkg1bDBIcWIvTElreVQySFh2cjZQZ0FJbzZ4YUZZMUVDREU0cG45?=
- =?utf-8?B?TSsrQk8vV0ttNWFWbEtYcithZEFhTmF3RUMydmg5azJrQmJTdHFISCtqd3c4?=
- =?utf-8?B?YUhDL3NiVTJsVzBYUFhzU3plNEFZU0RUcDBBVi94aEs3c3pZMnNSbm1BelpI?=
- =?utf-8?B?elpBemZQdjU0MVJiSnhiV1hKNGNZRWNaeFhEWVp4SE5Qa25zN1BIOFVuM09s?=
- =?utf-8?B?SjRSSXpuVVcyRm9LM1BML2oxcE90M1FWUVJFK0twZmtLcEM0a2NpbVFwdWhE?=
- =?utf-8?B?ZHB6RTZoWHVvb2pGUXNITW5hK2RpZmZTNlFBb0RDNFVIbHdOR0pBZ05VVTRm?=
- =?utf-8?B?dGJFNlFBMmZNSTVXUVdtUDI4TmpnZGhKZVgyOHV4QXhyVzRZMzFjajZFNFI1?=
- =?utf-8?B?ditoeWY3NC83c05QbExQMXU3S29uMFZTNWVwVEVKUjFoS0ticVh0eHE2cEpQ?=
- =?utf-8?B?dmJKTlFGa0oySmpGdDYzRGlOTFVZTG9BelU0L215OXJ1NTE5ckdZUzBuUk5s?=
- =?utf-8?B?Skc0SHVuUGpmdit6Y1k4WVpLZUU5Z1ZiUVpwaEFkQnhSYWhnd3hicFNuZ25Z?=
- =?utf-8?B?T0p4aHFqSnoyK3puMndEYnErbVBWVkZDZjVsNzRlZ1EvMGlsOXQ4YU45bCtz?=
- =?utf-8?B?UG5XcmEwUkN6VUFsdEtHWnlxSFFZVWdDVWFjVkk4NnZqc08yUXkwMXRsV0xn?=
- =?utf-8?B?RDNjdXZrTWdaVm9PWWpIQVFaWEQ1akV0Q0xCYkdJTEhJLzZZNUUvOGUvRlNN?=
- =?utf-8?B?dVY5MExtUmo5VVJDUmQwbUNIdVhuZUYzcmgyaGpkTWJjRjBrZjFSb2Q3UkI4?=
- =?utf-8?B?eGNZNEdVZTd4UEtWZWY3bENMUXdFTHpMRVkyd2R0cERMZUttY0tJYlNBSjFz?=
- =?utf-8?B?VGlRUitJRmlCeVhTSXhPcnRubDh3eStLZm45WURnWUw1WFY3KzZHMmFNMHVU?=
- =?utf-8?B?a0dYK1BPWWJySkQ1L3RyZUVULy9TZ1ZoRnA5SkdMZmlkS1JCa3V5YWJEQ3N4?=
- =?utf-8?B?Zld6UUJiUVVraHpJLzlhOUdkV2Z4RXZlQmJtK0tMcGtaM0Q3MWdBemNyd3li?=
- =?utf-8?B?MWhlVUx2dmtmb3MybGpybjRSNi83MG1NZ1o2Zmo0dkFiMkdFUWM4cnl3Y2tE?=
- =?utf-8?Q?hyjY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a200b885-1126-4917-5c40-08dbb3b443db
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2023 17:18:21.9048
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8YPkHNb6HPFYf7yxyjC5TLU9cfZD0uz6i7giuVi/UiKc3BpAy7/nDIPoS172PAqq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7973
+Date:   Tue, 12 Sep 2023 20:32:14 +0300
+Message-Id: <CVH49V57VE6R.2488KOQMR5AKQ@suppilovahvero>
+From:   "Jarkko Sakkinen" <jarkko@kernel.org>
+To:     "David Gstir" <david@sigma-star.at>,
+        "Mimi Zohar" <zohar@linux.ibm.com>,
+        "James Bottomley" <jejb@linux.ibm.com>,
+        "Herbert Xu" <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     "Shawn Guo" <shawnguo@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        "Ahmad Fatoum" <a.fatoum@pengutronix.de>,
+        "sigma star Kernel Team" <upstream+dcp@sigma-star.at>,
+        "David Howells" <dhowells@redhat.com>,
+        "Li Yang" <leoyang.li@nxp.com>, "Paul Moore" <paul@paul-moore.com>,
+        "James Morris" <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        "Tejun Heo" <tj@kernel.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <keyrings@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linuxppc-dev@lists.ozlabs.org>,
+        <linux-security-module@vger.kernel.org>,
+        "Richard Weinberger" <richard@nod.at>,
+        "David Oberhollenzer" <david.oberhollenzer@sigma-star.at>
+Subject: Re: [PATCH v2 1/3] crypto: mxs-dcp: Add support for hardware
+ provided keys
+X-Mailer: aerc 0.14.0
+References: <20230912111115.24274-1-david@sigma-star.at>
+ <20230912111115.24274-2-david@sigma-star.at>
+In-Reply-To: <20230912111115.24274-2-david@sigma-star.at>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Fenghua,
+On Tue Sep 12, 2023 at 2:11 PM EEST, David Gstir wrote:
+> DCP is capable to performing AES with hardware-bound keys.
+> These keys are not stored in main memory and are therefore not directly
+> accessible by the operating system.
+>
+> So instead of feeding the key into DCP, we need to place a
+> reference to such a key before initiating the crypto operation.
+> Keys are referenced by a one byte identifiers.
+>
+> DCP supports 6 different keys: 4 slots in the secure memory area,
+> a one time programmable key which can be burnt via on-chip fuses
+> and an unique device key.
+>
+> Using these keys is restricted to in-kernel users that use them as buildi=
+ng
+> block for other crypto tools such as trusted keys. Allowing userspace
+> (e.g. via AF_ALG) to use these keys to crypt or decrypt data is a securit=
+y
+> risk, because there is no access control mechanism.
+>
+> Co-developed-by: Richard Weinberger <richard@nod.at>
+> Signed-off-by: Richard Weinberger <richard@nod.at>
+> Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+> Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+> Signed-off-by: David Gstir <david@sigma-star.at>
+> ---
+>  drivers/crypto/mxs-dcp.c | 107 +++++++++++++++++++++++++++++++++++----
+>  include/soc/fsl/dcp.h    |  19 +++++++
+>  2 files changed, 115 insertions(+), 11 deletions(-)
+>  create mode 100644 include/soc/fsl/dcp.h
+>
+> diff --git a/drivers/crypto/mxs-dcp.c b/drivers/crypto/mxs-dcp.c
+> index f6b7bce0e656..d525cb41f2ca 100644
+> --- a/drivers/crypto/mxs-dcp.c
+> +++ b/drivers/crypto/mxs-dcp.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/stmp_device.h>
+>  #include <linux/clk.h>
+> +#include <soc/fsl/dcp.h>
+> =20
+>  #include <crypto/aes.h>
+>  #include <crypto/sha1.h>
+> @@ -101,6 +102,7 @@ struct dcp_async_ctx {
+>  	struct crypto_skcipher		*fallback;
+>  	unsigned int			key_len;
+>  	uint8_t				key[AES_KEYSIZE_128];
+> +	bool				refkey;
+>  };
+> =20
+>  struct dcp_aes_req_ctx {
+> @@ -155,6 +157,7 @@ static struct dcp *global_sdcp;
+>  #define MXS_DCP_CONTROL0_HASH_TERM		(1 << 13)
+>  #define MXS_DCP_CONTROL0_HASH_INIT		(1 << 12)
+>  #define MXS_DCP_CONTROL0_PAYLOAD_KEY		(1 << 11)
+> +#define MXS_DCP_CONTROL0_OTP_KEY		(1 << 10)
+>  #define MXS_DCP_CONTROL0_CIPHER_ENCRYPT		(1 << 8)
+>  #define MXS_DCP_CONTROL0_CIPHER_INIT		(1 << 9)
+>  #define MXS_DCP_CONTROL0_ENABLE_HASH		(1 << 6)
+> @@ -168,6 +171,8 @@ static struct dcp *global_sdcp;
+>  #define MXS_DCP_CONTROL1_CIPHER_MODE_ECB	(0 << 4)
+>  #define MXS_DCP_CONTROL1_CIPHER_SELECT_AES128	(0 << 0)
+> =20
+> +#define MXS_DCP_CONTROL1_KEY_SELECT_SHIFT	8
+> +
+>  static int mxs_dcp_start_dma(struct dcp_async_ctx *actx)
+>  {
+>  	int dma_err;
+> @@ -224,13 +229,16 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *ac=
+tx,
+>  	struct dcp *sdcp =3D global_sdcp;
+>  	struct dcp_dma_desc *desc =3D &sdcp->coh->desc[actx->chan];
+>  	struct dcp_aes_req_ctx *rctx =3D skcipher_request_ctx(req);
+> +	bool key_referenced =3D actx->refkey;
+>  	int ret;
+> =20
+> -	key_phys =3D dma_map_single(sdcp->dev, sdcp->coh->aes_key,
+> -				  2 * AES_KEYSIZE_128, DMA_TO_DEVICE);
+> -	ret =3D dma_mapping_error(sdcp->dev, key_phys);
+> -	if (ret)
+> -		return ret;
+> +	if (!key_referenced) {
+> +		key_phys =3D dma_map_single(sdcp->dev, sdcp->coh->aes_key,
+> +					  2 * AES_KEYSIZE_128, DMA_TO_DEVICE);
+> +		ret =3D dma_mapping_error(sdcp->dev, key_phys);
+> +		if (ret)
+> +			return ret;
+> +	}
+> =20
+>  	src_phys =3D dma_map_single(sdcp->dev, sdcp->coh->aes_in_buf,
+>  				  DCP_BUF_SZ, DMA_TO_DEVICE);
+> @@ -255,8 +263,13 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *act=
+x,
+>  		    MXS_DCP_CONTROL0_INTERRUPT |
+>  		    MXS_DCP_CONTROL0_ENABLE_CIPHER;
+> =20
+> -	/* Payload contains the key. */
+> -	desc->control0 |=3D MXS_DCP_CONTROL0_PAYLOAD_KEY;
+> +	if (key_referenced) {
+> +		/* Set OTP key bit to select the key via KEY_SELECT. */
+> +		desc->control0 |=3D MXS_DCP_CONTROL0_OTP_KEY;
+> +	} else {
+> +		/* Payload contains the key. */
+> +		desc->control0 |=3D MXS_DCP_CONTROL0_PAYLOAD_KEY;
+> +	}
 
-On 9/11/23 13:14, Fenghua Yu wrote:
-> Hi, Babu,
-> 
-> On 9/7/23 16:51, Babu Moger wrote:
->> In x86, hardware uses RMID to identify a a monitoring group. When a
-> 
-> s/a a/a/
+Remove curly braces (coding style).
 
-Sure.
-Thanks for the review. Reinette has already addressed other comments.
-Thanks
-Babu
+> =20
+>  	if (rctx->enc)
+>  		desc->control0 |=3D MXS_DCP_CONTROL0_CIPHER_ENCRYPT;
+> @@ -270,6 +283,9 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *actx=
+,
+>  	else
+>  		desc->control1 |=3D MXS_DCP_CONTROL1_CIPHER_MODE_CBC;
+> =20
+> +	if (key_referenced)
+> +		desc->control1 |=3D sdcp->coh->aes_key[0] << MXS_DCP_CONTROL1_KEY_SELE=
+CT_SHIFT;
+> +
+>  	desc->next_cmd_addr =3D 0;
+>  	desc->source =3D src_phys;
+>  	desc->destination =3D dst_phys;
+> @@ -284,9 +300,10 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *act=
+x,
+>  err_dst:
+>  	dma_unmap_single(sdcp->dev, src_phys, DCP_BUF_SZ, DMA_TO_DEVICE);
+>  err_src:
+> -	dma_unmap_single(sdcp->dev, key_phys, 2 * AES_KEYSIZE_128,
+> -			 DMA_TO_DEVICE);
+> -
+> +	if (!key_referenced) {
+> +		dma_unmap_single(sdcp->dev, key_phys, 2 * AES_KEYSIZE_128,
+> +				 DMA_TO_DEVICE);
+> +	}
 
-> 
->> user creates a monitor group these details are not visible. These details
->> can help resctrl debugging.
->>
->> Add RMID(mon_hw_id) to the monitor groups display in resctrl interface.
->> Users can see these details when resctrl is mounted with "-o debug" option.
->>
->> Other architectures do not use "RMID". Use the name mon_hw_id to refer
->> to "RMID" in an effort to keep the naming generic.
->>
->> Add the flag RFTYPE_MON_BASE, which contains the files required only
->> for the MON group.
->>
->> For example:
->>   $cat /sys/fs/resctrl/mon_groups/mon_grp1/mon_hw_id
->>   3
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->>   Documentation/arch/x86/resctrl.rst     |  4 +++
->>   arch/x86/kernel/cpu/resctrl/internal.h |  6 ++++
->>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 38 +++++++++++++++++++++++---
->>   3 files changed, 44 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/arch/x86/resctrl.rst
->> b/Documentation/arch/x86/resctrl.rst
->> index 54691c8b832d..98b0eb509ed4 100644
->> --- a/Documentation/arch/x86/resctrl.rst
->> +++ b/Documentation/arch/x86/resctrl.rst
->> @@ -369,6 +369,10 @@ When monitoring is enabled all MON groups will also
->> contain:
->>       the sum for all tasks in the CTRL_MON group and all tasks in
->>       MON groups. Please see example section for more details on usage.
->>   +"mon_hw_id":
->> +    Available only with debug option. The identifier used by hardware
->> +    for the monitor group. On x86 this is the RMID.
->> +
->>   Resource allocation rules
->>   -------------------------
->>   diff --git a/arch/x86/kernel/cpu/resctrl/internal.h
->> b/arch/x86/kernel/cpu/resctrl/internal.h
->> index ccdbed615d41..b4910892b0a6 100644
->> --- a/arch/x86/kernel/cpu/resctrl/internal.h
->> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
->> @@ -296,6 +296,11 @@ struct rdtgroup {
->>    *    --> RFTYPE_BASE (Files common for both MON and CTRL groups)
->>    *        Files: cpus, cpus_list, tasks
->>    *
->> + *        --> RFTYPE_MON (Files only for MON group)
->> + *
->> + *            --> RFTYPE_DEBUG (Files to help resctrl debugging)
->> + *                File: mon_hw_id
->> + *
->>    *        --> RFTYPE_CTRL (Files only for CTRL group)
->>    *            Files: mode, schemata, size
->>    *
->> @@ -315,6 +320,7 @@ struct rdtgroup {
->>   #define RFTYPE_MON_INFO            (RFTYPE_INFO | RFTYPE_MON)
->>   #define RFTYPE_TOP_INFO            (RFTYPE_INFO | RFTYPE_TOP)
->>   #define RFTYPE_CTRL_BASE        (RFTYPE_BASE | RFTYPE_CTRL)
->> +#define RFTYPE_MON_BASE            (RFTYPE_BASE | RFTYPE_MON)
->>     /* List of all resource groups */
->>   extern struct list_head rdt_all_groups;
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index 8be0fb323ad3..fc830ffce82a 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -795,6 +795,22 @@ static int rdtgroup_closid_show(struct
->> kernfs_open_file *of,
->>       return ret;
->>   }
->>   +static int rdtgroup_rmid_show(struct kernfs_open_file *of,
->> +                  struct seq_file *s, void *v)
->> +{
->> +    struct rdtgroup *rdtgrp;
->> +    int ret = 0;
->> +
->> +    rdtgrp = rdtgroup_kn_lock_live(of->kn);
->> +    if (rdtgrp)
->> +        seq_printf(s, "%u\n", rdtgrp->mon.rmid);
->> +    else
->> +        ret = -ENOENT;
->> +    rdtgroup_kn_unlock(of->kn);
->> +
->> +    return ret;
->> +}
->> +
->>   #ifdef CONFIG_PROC_CPU_RESCTRL
->>     /*
->> @@ -1856,6 +1872,13 @@ static struct rftype res_common_files[] = {
->>           .seq_show    = rdtgroup_tasks_show,
->>           .fflags        = RFTYPE_BASE,
->>       },
->> +    {
->> +        .name        = "mon_hw_id",
->> +        .mode        = 0444,
->> +        .kf_ops        = &rdtgroup_kf_single_ops,
->> +        .seq_show    = rdtgroup_rmid_show,
-> 
-> Similar to showing ctrl_hw_id, is it better to rename "rdtgroup_rmid_show"
-> as "rdtgroup_mon_hw_id_show" for arch neutral naming?
-> 
->> +        .fflags        = RFTYPE_MON_BASE | RFTYPE_DEBUG,
->> +    },
->>       {
->>           .name        = "schemata",
->>           .mode        = 0644,
->> @@ -2535,6 +2558,7 @@ static void schemata_list_destroy(void)
->>   static int rdt_get_tree(struct fs_context *fc)
->>   {
->>       struct rdt_fs_context *ctx = rdt_fc2context(fc);
->> +    unsigned long flags = RFTYPE_CTRL_BASE;
->>       struct rdt_domain *dom;
->>       struct rdt_resource *r;
->>       int ret;
->> @@ -2565,7 +2589,10 @@ static int rdt_get_tree(struct fs_context *fc)
->>         closid_init();
->>   -    ret = rdtgroup_add_files(rdtgroup_default.kn, RFTYPE_CTRL_BASE);
->> +    if (rdt_mon_capable)
->> +        flags |= RFTYPE_MON;
->> +
->> +    ret = rdtgroup_add_files(rdtgroup_default.kn, flags);
->>       if (ret)
->>           goto out_schemata_free;
->>   @@ -3255,8 +3282,8 @@ static int mkdir_rdt_prepare(struct kernfs_node
->> *parent_kn,
->>                    enum rdt_group_type rtype, struct rdtgroup **r)
->>   {
->>       struct rdtgroup *prdtgrp, *rdtgrp;
->> +    unsigned long files = 0;
->>       struct kernfs_node *kn;
->> -    uint files = 0;
->>       int ret;
->>         prdtgrp = rdtgroup_kn_lock_live(parent_kn);
->> @@ -3308,10 +3335,13 @@ static int mkdir_rdt_prepare(struct kernfs_node
->> *parent_kn,
->>           goto out_destroy;
->>       }
->>   -    if (rtype == RDTCTRL_GROUP)
->> +    if (rtype == RDTCTRL_GROUP) {
->>           files = RFTYPE_BASE | RFTYPE_CTRL;
->> -    else
->> +        if (rdt_mon_capable)
->> +            files |= RFTYPE_MON;
->> +    } else {
->>           files = RFTYPE_BASE | RFTYPE_MON;
->> +    }
->>         ret = rdtgroup_add_files(kn, files);
->>       if (ret) {
-> 
-> Thanks.
-> 
-> -Fenghua
+Ditto.
 
--- 
-Thanks
-Babu Moger
+>  	return ret;
+>  }
+> =20
+> @@ -453,7 +470,7 @@ static int mxs_dcp_aes_enqueue(struct skcipher_reques=
+t *req, int enc, int ecb)
+>  	struct dcp_aes_req_ctx *rctx =3D skcipher_request_ctx(req);
+>  	int ret;
+> =20
+> -	if (unlikely(actx->key_len !=3D AES_KEYSIZE_128))
+> +	if (unlikely(actx->key_len !=3D AES_KEYSIZE_128 && !actx->refkey))
+>  		return mxs_dcp_block_fallback(req, enc);
+> =20
+>  	rctx->enc =3D enc;
+> @@ -500,6 +517,7 @@ static int mxs_dcp_aes_setkey(struct crypto_skcipher =
+*tfm, const u8 *key,
+>  	 * there can still be an operation in progress.
+>  	 */
+>  	actx->key_len =3D len;
+> +	actx->refkey =3D false;
+>  	if (len =3D=3D AES_KEYSIZE_128) {
+>  		memcpy(actx->key, key, len);
+>  		return 0;
+> @@ -516,6 +534,33 @@ static int mxs_dcp_aes_setkey(struct crypto_skcipher=
+ *tfm, const u8 *key,
+>  	return crypto_skcipher_setkey(actx->fallback, key, len);
+>  }
+> =20
+> +static int mxs_dcp_aes_setrefkey(struct crypto_skcipher *tfm, const u8 *=
+key,
+> +				 unsigned int len)
+> +{
+> +	struct dcp_async_ctx *actx =3D crypto_skcipher_ctx(tfm);
+> +
+> +	if (len !=3D DCP_PAES_KEYSIZE)
+> +		return -EINVAL;
+> +
+> +	switch (key[0]) {
+> +	case DCP_PAES_KEY_SLOT0:
+> +	case DCP_PAES_KEY_SLOT1:
+> +	case DCP_PAES_KEY_SLOT2:
+> +	case DCP_PAES_KEY_SLOT3:
+> +	case DCP_PAES_KEY_UNIQUE:
+> +	case DCP_PAES_KEY_OTP:
+> +		memcpy(actx->key, key, len);
+> +		break;
+
+I don't understand why the "commit" is split into two parts
+(memcpy and assignments in different code blocks). You should
+probably rather:
+
+	switch (key[0]) {
+	case DCP_PAES_KEY_SLOT0:
+	case DCP_PAES_KEY_SLOT1:
+	case DCP_PAES_KEY_SLOT2:
+	case DCP_PAES_KEY_SLOT3:
+	case DCP_PAES_KEY_UNIQUE:
+	case DCP_PAES_KEY_OTP:
+		memcpy(actx->key, key, len);
+		actx->key_len =3D len;
+		actx->refkey =3D true;
+		return 0;
+
+	default:
+		return -EINVAL;
+	}
+}
+
+Or alternatively you can move all operations after the switch-case
+statement. IMHO, any state change is better to put into a singular
+location.
+
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	actx->key_len =3D len;
+> +	actx->refkey =3D true;
+> +
+> +	return 0;
+> +}
+> +
+>  static int mxs_dcp_aes_fallback_init_tfm(struct crypto_skcipher *tfm)
+>  {
+>  	const char *name =3D crypto_tfm_alg_name(crypto_skcipher_tfm(tfm));
+> @@ -539,6 +584,13 @@ static void mxs_dcp_aes_fallback_exit_tfm(struct cry=
+pto_skcipher *tfm)
+>  	crypto_free_skcipher(actx->fallback);
+>  }
+> =20
+> +static int mxs_dcp_paes_init_tfm(struct crypto_skcipher *tfm)
+> +{
+> +	crypto_skcipher_set_reqsize(tfm, sizeof(struct dcp_aes_req_ctx));
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Hashing (SHA1/SHA256)
+>   */
+> @@ -889,6 +941,39 @@ static struct skcipher_alg dcp_aes_algs[] =3D {
+>  		.ivsize			=3D AES_BLOCK_SIZE,
+>  		.init			=3D mxs_dcp_aes_fallback_init_tfm,
+>  		.exit			=3D mxs_dcp_aes_fallback_exit_tfm,
+> +	}, {
+> +		.base.cra_name		=3D "ecb(paes)",
+> +		.base.cra_driver_name	=3D "ecb-paes-dcp",
+> +		.base.cra_priority	=3D 401,
+> +		.base.cra_alignmask	=3D 15,
+> +		.base.cra_flags		=3D CRYPTO_ALG_ASYNC | CRYPTO_ALG_INTERNAL,
+> +		.base.cra_blocksize	=3D AES_BLOCK_SIZE,
+> +		.base.cra_ctxsize	=3D sizeof(struct dcp_async_ctx),
+> +		.base.cra_module	=3D THIS_MODULE,
+> +
+> +		.min_keysize		=3D DCP_PAES_KEYSIZE,
+> +		.max_keysize		=3D DCP_PAES_KEYSIZE,
+> +		.setkey			=3D mxs_dcp_aes_setrefkey,
+> +		.encrypt		=3D mxs_dcp_aes_ecb_encrypt,
+> +		.decrypt		=3D mxs_dcp_aes_ecb_decrypt,
+> +		.init			=3D mxs_dcp_paes_init_tfm,
+> +	}, {
+> +		.base.cra_name		=3D "cbc(paes)",
+> +		.base.cra_driver_name	=3D "cbc-paes-dcp",
+> +		.base.cra_priority	=3D 401,
+> +		.base.cra_alignmask	=3D 15,
+> +		.base.cra_flags		=3D CRYPTO_ALG_ASYNC | CRYPTO_ALG_INTERNAL,
+> +		.base.cra_blocksize	=3D AES_BLOCK_SIZE,
+> +		.base.cra_ctxsize	=3D sizeof(struct dcp_async_ctx),
+> +		.base.cra_module	=3D THIS_MODULE,
+> +
+> +		.min_keysize		=3D DCP_PAES_KEYSIZE,
+> +		.max_keysize		=3D DCP_PAES_KEYSIZE,
+> +		.setkey			=3D mxs_dcp_aes_setrefkey,
+> +		.encrypt		=3D mxs_dcp_aes_cbc_encrypt,
+> +		.decrypt		=3D mxs_dcp_aes_cbc_decrypt,
+> +		.ivsize			=3D AES_BLOCK_SIZE,
+> +		.init			=3D mxs_dcp_paes_init_tfm,
+>  	},
+>  };
+> =20
+> diff --git a/include/soc/fsl/dcp.h b/include/soc/fsl/dcp.h
+> new file mode 100644
+> index 000000000000..df6678ee10a1
+> --- /dev/null
+> +++ b/include/soc/fsl/dcp.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2021 sigma star gmbh
+> + * Authors: David Gstir <david@sigma-star.at>
+> + *          Richard Weinberger <richard@sigma-star.at>
+
+Git already has author-field and commit can have co-developed-by so
+this is totally obsolete.
+
+> + */
+> +
+> +#ifndef MXS_DCP_H
+> +#define MXS_DCP_H
+> +
+> +#define DCP_PAES_KEYSIZE 1
+> +#define DCP_PAES_KEY_SLOT0 0x00
+> +#define DCP_PAES_KEY_SLOT1 0x01
+> +#define DCP_PAES_KEY_SLOT2 0x02
+> +#define DCP_PAES_KEY_SLOT3 0x03
+> +#define DCP_PAES_KEY_UNIQUE 0xfe
+> +#define DCP_PAES_KEY_OTP 0xff
+> +
+> +#endif /* MXS_DCP_H */
+> --=20
+> 2.35.3
+
+BR, Jarkko
