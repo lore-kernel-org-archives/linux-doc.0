@@ -2,106 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D302CD5BD3
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 15:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB57EE3F0D
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Sep 2023 18:36:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232542AbjISPNq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 11:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34858 "EHLO
+        id S232470AbjILSgJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 14:36:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232490AbjISPNq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 11:13:46 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ABC394;
-        Tue, 19 Sep 2023 08:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=XYVo0DIlVrsGyb15YB580Gp7jA08wMao19ef99+f2co=; b=51K66dbVjhEQD1mTpJSuIag79U
-        zndzKI2iEruUJ/3n8QYNfH8NLcaB8qykpb/y9TnDc2CPLOIFbcM9gHjvIFzuejWZVJ8GNGgdaspv2
-        xepuIuKyu8Adx9j15wU8aJtu46n9h2wm1I0aXrO2v5nRVxXspBk2+2qESEJcHhctlerk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1qicPn-006vKZ-CJ; Tue, 19 Sep 2023 17:13:27 +0200
-Date:   Tue, 19 Sep 2023 17:13:27 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Parthiban.Veerasooran@microchip.com
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        corbet@lwn.net, Steen.Hegelund@microchip.com,
-        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Horatiu.Vultur@microchip.com, Woojung.Huh@microchip.com,
-        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
-        Thorsten.Kummermehr@microchip.com
-Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
- control transaction interface
-Message-ID: <deff3e64-a10f-4d07-9651-502442a86987@lunn.ch>
-References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
- <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
- <f23997c1-7507-41c6-8bb3-47d6a353beb8@lunn.ch>
- <14c089d7-4d34-9cd5-7f77-55c80815e003@microchip.com>
+        with ESMTP id S237477AbjILSgI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 14:36:08 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301E510FF;
+        Tue, 12 Sep 2023 11:36:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ADCBC433C7;
+        Tue, 12 Sep 2023 18:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694543762;
+        bh=sIE7XusR8HEiVTTAGJWiBafgMfTjtTZ475tcPsexnh8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FczWdyocMbir8+14OTgsluwARC/tF+bagortZhA8weYxUN5RLjbo0l7GWzqGpQ5iD
+         VZ5reLr3U9U45keAY4HJmnadnkyywAFDaCAJ6dTI34FtuqUAs4eY5LYpLQsFukH0gR
+         RfIxDwnQfr2tixWuf0rpwfR+Ix+op/0OWqUwxSaBt1zxbIwnF47QITEoNv1crbSTGA
+         UMXyQ3wQ6eqsHu48oV5Z/LvPHIlYgbYIcrxdkmTXq4N+OLYEObngAxCSFu7L+eq7Cj
+         OhVs5LZIz1aJ7bk+uKnSDQsG9lZpSjIeTY0Dhb2GOCJ/+7Juyi1grMymJXGQg0UPl2
+         ErQ9xzS/EfK/Q==
+From:   SeongJae Park <sj@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>, damon@lists.linux.dev,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: 
+Date:   Tue, 12 Sep 2023 18:35:57 +0000
+Message-Id: <20230912183559.4733-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14c089d7-4d34-9cd5-7f77-55c80815e003@microchip.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> >> +static void oa_tc6_prepare_ctrl_buf(struct oa_tc6 *tc6, u32 addr, u32 val[],
-> >> +                                 u8 len, bool wnr, u8 *buf, bool ctrl_prot)
-> >> +{
-> >> +     u32 hdr;
-> >> +
-> >> +     /* Prepare the control header with the required details */
-> >> +     hdr = FIELD_PREP(CTRL_HDR_DNC, 0) |
-> >> +           FIELD_PREP(CTRL_HDR_WNR, wnr) |
-> >> +           FIELD_PREP(CTRL_HDR_AID, 0) |
-> >> +           FIELD_PREP(CTRL_HDR_MMS, addr >> 16) |
-> >> +           FIELD_PREP(CTRL_HDR_ADDR, addr) |
-> >> +           FIELD_PREP(CTRL_HDR_LEN, len - 1);
-> >> +     hdr |= FIELD_PREP(CTRL_HDR_P, oa_tc6_get_parity(hdr));
-> >> +     *(u32 *)buf = cpu_to_be32(hdr);
-> >> +
-> >> +     if (wnr) {
-> > 
-> > What does wnr mean? Maybe give it a more meaningful name, unless it is
-> > actually something in the standard. Kerneldoc would also help.
-> Ah, it is "write not read". Shall I name it as "write_not_read" ?
+Date: Tue, 12 Sep 2023 02:24:11 +0000
+Subject: [PATCH v2 0/2] mm/damon: add a tracepoint for damos apply target regions
 
-You might want to describe the high level concept as well in this
-file. What i _think_ this is about is that SPI is sort of a full
-duplex bus. While you are sending data to the SPI device, the device
-could also be sending a data to the CPU? And 'write not read' here
-means ignore what we receive from the device?
+Changlog
+--------
 
-> Ok, as per OA spec, up to 128 consecutive registers read or write can be 
-> possible. So the maximum possible size would be 1032. As you suggested 
-> will allocate this size of memory in the startup.
+From v1
+(https://lore.kernel.org/damon/20230911045908.97649-1-sj@kernel.org/)
+- Get scheme/target indices only when the trace is enabled (Steven Rostedt)
 
-Yes, 1032 bytes it not huge, so allocate it once and keep it for the
-lifetime of the device.
+From RFC
+(https://lore.kernel.org/damon/20230827004045.49516-1-sj@kernel.org/)
+- Fix the 4 byte hole (Steven Rostedt)
+- Add documentation
 
-> >> +void oa_tc6_deinit(struct oa_tc6 *tc6)
-> >> +{
-> >> +     kfree(tc6);
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(oa_tc6_deinit);
-> > 
-> > Maybe consider a devm_ API to make the MAC driver simpler.
-> Sorry I don't get your point. Could you please explain bit more?
+Description
+-----------
 
-At least at this stage in the patch series, all you are doing is
-allocating memory. You add more code later, which might invalidate my
-point. But if all you are doing is allocating memory, you could use
-devm_kmalloc(). The driver core will then take care of releasing the
-memory when the driver is unloaded, or probe fails. That makes cleanup
-simpler and memory leaks less likely. There are a lot of devm_
-helpers, see if you can use them.
+DAMON provides damon_aggregated tracepoint to let users record full monitoring
+results.  Sometimes, users need to record monitoring results of specific
+pattern.  DAMOS tried regions directory of DAMON sysfs interface allows it, but
+the interface is mainly designed for snapshots and therefore would be
+inefficient for such recording.  Implement yet another tracepoint for efficient
+support of the usecase.
 
-	Andrew
+
+SeongJae Park (2):
+  mm/damon/core: add a tracepoint for damos apply target regions
+  Docs/admin-guide/mm/damon/usage: document damos_before_apply
+    tracepoint
+
+ Documentation/admin-guide/mm/damon/usage.rst | 37 +++++++++++++++----
+ include/trace/events/damon.h                 | 39 ++++++++++++++++++++
+ mm/damon/core.c                              | 32 +++++++++++++++-
+ 3 files changed, 100 insertions(+), 8 deletions(-)
+
+
+base-commit: b67dc18d1406be3598248d2cc78904a81176fa13
+-- 
+2.25.1
+
