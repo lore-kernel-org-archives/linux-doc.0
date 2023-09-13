@@ -2,104 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB54CEDEC5A
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 14:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 816E8EDEC70
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 14:57:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234306AbjIMO0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 10:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50598 "EHLO
+        id S241527AbjIMO5O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 10:57:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232025AbjIMO0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 10:26:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E3AD692
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 07:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694615120;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=i1FsUnDJXEh3xrup97UKPyi5G29wmRkoOl4jHD/nSRg=;
-        b=GRLeFy6QR8zRIaWKGQsqePXOP/hjLrK2E90YGZ9KKvQSWjFO1OA/d4qTaKRcC9nvGpIC+Q
-        2quOvTUhZYTZc1VfH/iuuXVrQw6h1Wt2c+COlf3AHkPTyl+Ps4rFRLHIJ35VefsIF9NKOD
-        XfD+MAI8h9wCHnL++RvHoCAjnBb9450=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-398-g2ap1SrAOTarUJ69EoSbtQ-1; Wed, 13 Sep 2023 10:25:17 -0400
-X-MC-Unique: g2ap1SrAOTarUJ69EoSbtQ-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f5df65f9f4so51901005e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 07:25:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615115; x=1695219915;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i1FsUnDJXEh3xrup97UKPyi5G29wmRkoOl4jHD/nSRg=;
-        b=lSy5FV+d3zM+NDw9lTxgq8Pwv6xQ0ktc1RxQB3vwhgrfFit7i1NvmTMCu440bA9Su/
-         TQGYq3Gz8mUvBGP5ftX13jpvwaESlgiLSW2ovXnfnrsVWOhlBaorv7By2m2+u1EXinBt
-         KfF60nJQHuPYMB/SKfCDvqZmtnRwBZ2wIKQ5jgx8Fz3MO1f08dNKif32NC4/hRxhV5Vs
-         Tvh+2+HY8gyexX9aTtAJz715PE2v4ZVdXm9YuPJYoGAFAR9T27ogYl6SQgilG1kqUPVt
-         PlxOrwxnplBkSxV8Q3UgnPraYsRvsMgf/fpuBj28ankQeorAuGkHY//xHFOaWqO4FvGg
-         XBrg==
-X-Gm-Message-State: AOJu0YzepIz0h4z4B62ihB9pSNmb7y68kclhYfTp5LqPAhyyPDodKelM
-        QYg/yHWjkaKMIgl7dw1F3M1z5SxQPp+pFPzVn4OK8B9QAAn4iUBqywD8jJxOxWSnf3VqwxOikwG
-        zTlEYXg1nYLJio1AeLyLk
-X-Received: by 2002:a05:600c:3b10:b0:402:eab6:e704 with SMTP id m16-20020a05600c3b1000b00402eab6e704mr2127411wms.29.1694615115679;
-        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGN0t8yz3+zH7LDMFjVxmF3tnVkdjJhcoCATJjm6CztmjCnnjLfigAOYlLj+//qxaHPIO3cjg==
-X-Received: by 2002:a05:600c:3b10:b0:402:eab6:e704 with SMTP id m16-20020a05600c3b1000b00402eab6e704mr2127388wms.29.1694615115372;
-        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id l14-20020a1c790e000000b003fe4ca8decdsm2186260wme.31.2023.09.13.07.25.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
- dependencies
-In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
-References: <20230913113801.1901152-1-arnd@kernel.org>
-Date:   Wed, 13 Sep 2023 16:25:14 +0200
-Message-ID: <878r9a1779.fsf@minerva.mail-host-address-is-not-set>
+        with ESMTP id S241462AbjIMO5O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 10:57:14 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A214AC;
+        Wed, 13 Sep 2023 07:57:10 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7CF6C433C7;
+        Wed, 13 Sep 2023 14:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694617030;
+        bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
+        h=From:Date:Subject:To:Cc:From;
+        b=b33vD0ESdeN6ammU7Dx4578slT6MXU6jFf7csmnvP14DnIXjjwfahBTJow25SkFky
+         NKj1IXoj4JgduRvT5GOC4i6ezwQVHH+pi77zjhYrdUplC2RupegXos4obhVE7rTu+X
+         zo/B1A0DDO1X006G4VyKt2TOuibMar7kaKqY3p/+lLRd3PHSbNTw79XJI4jHuOaAVE
+         cMAC27432bPo/pDZABk1v09FRYB8wYcrBVY5RZhsow7xXIYRxGlimYQL4CujdAIyWJ
+         GYNOljfn9kufYJCXpgt4D84J0AiEqAU4asWIu0gzFa+vhJdFutXLymaH6y9juaTrDi
+         i60XbvZw+pKTg==
+From:   Mark Brown <broonie@kernel.org>
+Date:   Wed, 13 Sep 2023 15:56:27 +0100
+Subject: [PATCH] docs: submitting-patches: Suggest a longer expected time
+ for responses
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAJrNAWUC/x3MQQqDQAxA0atI1gY0Cq1eRVxkxlQDdZTJWCri3
+ Tt0+Rb/X2ASVQz64oIoHzXdQkZdFuAXDrOgTtlAFTVVVxPa4VZNScOMOye/iOEkbz6RO6LWMbn
+ Hs4Wc71Fe+v2vh/G+f0SYsJhqAAAA
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-034f2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1768; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlAc3DDvS2E/2DB7QDbpWSPlIEsW2nLvundEuS/vZ+
+ sE9JOVKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZQHNwwAKCRAk1otyXVSH0JEoB/
+ 4xru4ddDRvEyGfznPTLPx2e7tTRp20E/1t/7wcn3lgtpqHY+/tKTmuJnA/t/PmOLmq/gKFGxMotBcp
+ RiCA3y/GLoRPU/cavNsSyge9rt41YtbsZf1xbKGfGWa1nzIz8Pc86Gkg4W6UgcVokEAxzWNVk34d4Q
+ k+P3VNG9TlSWqz7QBDFYcRl8gE3qZJzk73cLYfhsBO3m0P+NXAY6tPXdZIchEx8e+HzQ3k4xntcA3+
+ nNKOGyZaXZUmlXp6NGx+q7DNtANubCVXBVvqDy2HvEiingZ5eNXolq7D/BiWksQOrLj8av7a8C7/Ms
+ cGTRV9P2f86eioP+HwkJKiN1faIFms
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Arnd Bergmann <arnd@kernel.org> writes:
+While some subsystems do typically have very fast turnaround times on
+review this is far from standard over the kernel and is likely to set
+unrealistic expectations for submitters.  Tell submitters to expect 2-3
+weeks instead, this will cover more of the kernel.
 
-Hello Arnd,
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ Documentation/process/submitting-patches.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> This problem frequently comes up in randconfig testing, with
-> drivers failing to link because of a dependency on an optional
-> feature.
->
-> The Kconfig language for this is very confusing, so try to
-> document it in "Kconfig hints" section.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index efac910e2659..3fcfa029c9b3 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -366,10 +366,10 @@ busy people and may not get to your patch right away.
+ 
+ Once upon a time, patches used to disappear into the void without comment,
+ but the development process works more smoothly than that now.  You should
+-receive comments within a week or so; if that does not happen, make sure
+-that you have sent your patches to the right place.  Wait for a minimum of
+-one week before resubmitting or pinging reviewers - possibly longer during
+-busy times like merge windows.
++receive comments within a few weeks (typically 2-3); if that does not
++happen, make sure that you have sent your patches to the right place.
++Wait for a minimum of one week before resubmitting or pinging reviewers
++- possibly longer during busy times like merge windows.
+ 
+ It's also ok to resend the patch or the patch series after a couple of
+ weeks with the word "RESEND" added to the subject line::
 
-Thanks for writing this since as you mention that Kconfig idiom is not
-intuitive. The docs looks great to me!
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230912-submitting-patches-delay-a9224ba2b784
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-- 
+Mark Brown <broonie@kernel.org>
 
