@@ -2,180 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F33EDEC4D
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 12:36:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F309BEDEC4F
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 12:52:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbjIMMgr convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 08:36:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43906 "EHLO
+        id S240803AbjIMMwx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 08:52:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240625AbjIMMgp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 08:36:45 -0400
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 836FC19AD;
-        Wed, 13 Sep 2023 05:36:41 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-59bdb3d03b1so3248407b3.3;
-        Wed, 13 Sep 2023 05:36:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694608600; x=1695213400;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UwtaANT9Ahfm5hnU8wwR0DNxicByDj4BLG+WrQta//U=;
-        b=lMDM5zADeUOlTQ7h5pObDFnGbpUYl/qrEkw+eS8k2HQwXHYQd5oYg5QjXiZK9O4m/Z
-         wMM1RJ+a+z8/pKiEsJi7MO+MrUAulOI2KQCpyCyyIHAQuT+8eKUEEI5yAyAwecSIpPKs
-         7yYm9ZfZ1we3awZeshVrsZYf0Ckx/x9tv/UP0rl+IzfsSniOnvtZ/Mv3mbK/JNGs+6Fh
-         C9NuS0TT5zv0GEmQQn79rVIT+jdwqWX+kn8dsqY/LpQ5W3Ppp7Ns7E8nvwQVtEkKOqqe
-         6F68Q3lgsWSsxOhUjwWm+YHIaiRZZzpcAL+MBSYJww7NqhJ0MfCVWRuSAkyI9IjLStIk
-         fwlw==
-X-Gm-Message-State: AOJu0YylodeLT1LiiuE2FEU6GB1RhM3pLI4JdPsFGzzEz3+g/zfpL0k0
-        E5cRV+Si2hbCaeSQrWoUZMgneERWtNlgng==
-X-Google-Smtp-Source: AGHT+IG+oI4JIBl1jocufW6N1ceXNJ+C+OeNL/6hea+Hoo1f1LarJTCUx6/koBKOdhMNqVFkq2ctWg==
-X-Received: by 2002:a81:6c87:0:b0:59b:5456:a9bb with SMTP id h129-20020a816c87000000b0059b5456a9bbmr2469645ywc.42.1694608600302;
-        Wed, 13 Sep 2023 05:36:40 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id d206-20020a814fd7000000b00598d67585d7sm3131612ywb.117.2023.09.13.05.36.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 05:36:39 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d7225259f52so6145186276.0;
-        Wed, 13 Sep 2023 05:36:39 -0700 (PDT)
-X-Received: by 2002:a25:7449:0:b0:d77:fc5c:cc0 with SMTP id
- p70-20020a257449000000b00d77fc5c0cc0mr2293089ybc.12.1694608599727; Wed, 13
- Sep 2023 05:36:39 -0700 (PDT)
+        with ESMTP id S240805AbjIMMwj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 08:52:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7842211C;
+        Wed, 13 Sep 2023 05:52:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E4D5C433AB;
+        Wed, 13 Sep 2023 12:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694609551;
+        bh=D2yTmI5mmzTW+iHmuYtFAVHVgFprFMquzoJG0XHk9mY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jLbYg9+lvwvF9g6Gzkp32rLzFct1AYEvyFblrgfdogy3rFxqbyRNys4dniNEV2uY5
+         nOe5Uz3nolhE3FN39BV/UqGkWDbU4ziXFzFWK6u3xLWpElf/wkqfKZg75txI3/Xdl1
+         u2aVr3lYI5QcjC8PEEAnMVH/i2l25qtLPa5KssBR/umBr395+GeU1u7dgSHF4+nMld
+         Jc6iurwNwapx7fV0M4ByfPLNdLGNpswYYe8Gol96hkHCT7wu3X1mV56n9E+C+hEXq0
+         0BYlIzcAxZJt0l8+Urs6wHHPXm5OAVzYdAoC9xpvcxlU1+jpgItMkzmY7R7ICI6TC/
+         9rSlusN9Qdzag==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2bf66a32f25so89752011fa.2;
+        Wed, 13 Sep 2023 05:52:31 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yzvmi0iv4E+6Vd/CXrdkB8xadPCfdxypGYDXoPMgMJkiNPhcJAM
+        OAE3YXDyhKd/+gskXs8bUMp43KP49DCWyvPGjZ0=
+X-Google-Smtp-Source: AGHT+IGLa36Mv9VZMwcFAm7pr5KGpJYN8bFmsK6RHp2UXPGlGeRTY2NMaKQac0gjfg8fITbp0O+QfICTV/S409jzbrQ=
+X-Received: by 2002:a2e:9f06:0:b0:2bd:beb:4aca with SMTP id
+ u6-20020a2e9f06000000b002bd0beb4acamr2237707ljk.13.1694609549439; Wed, 13 Sep
+ 2023 05:52:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
-In-Reply-To: <20230818194136.4084400-2-evan@rivosinc.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Sep 2023 14:36:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
-Message-ID: <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-kernel@vger.kernel.org,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        David Laight <David.Laight@aculab.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Andy Chiu <andy.chiu@sifive.com>
+References: <20230910082911.3378782-1-guoren@kernel.org> <20230910082911.3378782-5-guoren@kernel.org>
+ <f091ead0-99b9-b30a-a295-730ce321ac60@redhat.com> <CAJF2gTSbUUdLhN8PFdFzQd0M1T2MVOL1cdZn46WKq1S8MuQYHw@mail.gmail.com>
+ <06714da1-d566-766f-7a13-a3c93b5953c4@redhat.com> <CAJF2gTQ3Q7f+FGorVTR66c6TGWsSeeKVvLF+LH1_m3kSHrm0yA@mail.gmail.com>
+ <ZQF49GIZoFceUGYH@redhat.com>
+In-Reply-To: <ZQF49GIZoFceUGYH@redhat.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Wed, 13 Sep 2023 20:52:16 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTHdCr-FQVSGUc+LapkJPmDiEYYa_1P6T86uCjRujgnTg@mail.gmail.com>
+Message-ID: <CAJF2gTTHdCr-FQVSGUc+LapkJPmDiEYYa_1P6T86uCjRujgnTg@mail.gmail.com>
+Subject: Re: [PATCH V11 04/17] locking/qspinlock: Improve xchg_tail for number
+ of cpus >= 16k
+To:     Leonardo Bras <leobras@redhat.com>
+Cc:     Waiman Long <longman@redhat.com>, paul.walmsley@sifive.com,
+        anup@brainfault.org, peterz@infradead.org, mingo@redhat.com,
+        will@kernel.org, palmer@rivosinc.com, boqun.feng@gmail.com,
+        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
+        rdunlap@infradead.org, catalin.marinas@arm.com,
+        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
+        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Evan,
-
-On Fri, Aug 18, 2023 at 9:44 PM Evan Green <evan@rivosinc.com> wrote:
-> Rather than deferring unaligned access speed determinations to a vendor
-> function, let's probe them and find out how fast they are. If we
-> determine that an unaligned word access is faster than N byte accesses,
-> mark the hardware's unaligned access as "fast". Otherwise, we mark
-> accesses as slow.
+On Wed, Sep 13, 2023 at 4:55=E2=80=AFPM Leonardo Bras <leobras@redhat.com> =
+wrote:
 >
-> The algorithm itself runs for a fixed amount of jiffies. Within each
-> iteration it attempts to time a single loop, and then keeps only the best
-> (fastest) loop it saw. This algorithm was found to have lower variance from
-> run to run than my first attempt, which counted the total number of
-> iterations that could be done in that fixed amount of jiffies. By taking
-> only the best iteration in the loop, assuming at least one loop wasn't
-> perturbed by an interrupt, we eliminate the effects of interrupts and
-> other "warm up" factors like branch prediction. The only downside is it
-> depends on having an rdtime granular and accurate enough to measure a
-> single copy. If we ever manage to complete a loop in 0 rdtime ticks, we
-> leave the unaligned setting at UNKNOWN.
+> On Tue, Sep 12, 2023 at 09:10:08AM +0800, Guo Ren wrote:
+> > On Mon, Sep 11, 2023 at 9:03=E2=80=AFPM Waiman Long <longman@redhat.com=
+> wrote:
+> > >
+> > > On 9/10/23 23:09, Guo Ren wrote:
+> > > > On Mon, Sep 11, 2023 at 10:35=E2=80=AFAM Waiman Long <longman@redha=
+t.com> wrote:
+> > > >>
+> > > >> On 9/10/23 04:28, guoren@kernel.org wrote:
+> > > >>> From: Guo Ren <guoren@linux.alibaba.com>
+> > > >>>
+> > > >>> The target of xchg_tail is to write the tail to the lock value, s=
+o
+> > > >>> adding prefetchw could help the next cmpxchg step, which may
+> > > >>> decrease the cmpxchg retry loops of xchg_tail. Some processors ma=
+y
+> > > >>> utilize this feature to give a forward guarantee, e.g., RISC-V
+> > > >>> XuanTie processors would block the snoop channel & irq for severa=
+l
+> > > >>> cycles when prefetch.w instruction (from Zicbop extension) retire=
+d,
+> > > >>> which guarantees the next cmpxchg succeeds.
+> > > >>>
+> > > >>> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > > >>> Signed-off-by: Guo Ren <guoren@kernel.org>
+> > > >>> ---
+> > > >>>    kernel/locking/qspinlock.c | 5 ++++-
+> > > >>>    1 file changed, 4 insertions(+), 1 deletion(-)
+> > > >>>
+> > > >>> diff --git a/kernel/locking/qspinlock.c b/kernel/locking/qspinloc=
+k.c
+> > > >>> index d3f99060b60f..96b54e2ade86 100644
+> > > >>> --- a/kernel/locking/qspinlock.c
+> > > >>> +++ b/kernel/locking/qspinlock.c
+> > > >>> @@ -223,7 +223,10 @@ static __always_inline void clear_pending_se=
+t_locked(struct qspinlock *lock)
+> > > >>>     */
+> > > >>>    static __always_inline u32 xchg_tail(struct qspinlock *lock, u=
+32 tail)
+> > > >>>    {
+> > > >>> -     u32 old, new, val =3D atomic_read(&lock->val);
+> > > >>> +     u32 old, new, val;
+> > > >>> +
+> > > >>> +     prefetchw(&lock->val);
+> > > >>> +     val =3D atomic_read(&lock->val);
+> > > >>>
+> > > >>>        for (;;) {
+> > > >>>                new =3D (val & _Q_LOCKED_PENDING_MASK) | tail;
+> > > >> That looks a bit weird. You pre-fetch and then immediately read it=
+. How
+> > > >> much performance gain you get by this change alone?
+> > > >>
+> > > >> Maybe you can define an arch specific primitive that default back =
+to
+> > > >> atomic_read() if not defined.
+> > > > Thx for the reply. This is a generic optimization point I would lik=
+e
+> > > > to talk about with you.
+> > > >
+> > > > First, prefetchw() makes cacheline an exclusive state and serves fo=
+r
+> > > > the next cmpxchg loop semantic, which writes the idx_tail part of
+> > > > arch_spin_lock. The atomic_read only makes cacheline in the shared
+> > > > state, which couldn't give any guarantee for the next cmpxchg loop
+> > > > semantic. Micro-architecture could utilize prefetchw() to provide a
+> > > > strong forward progress guarantee for the xchg_tail, e.g., the T-HE=
+AD
+> > > > XuanTie processor would hold the exclusive cacheline state until th=
+e
+> > > > next cmpxchg write success.
+> > > >
+> > > > In the end, Let's go back to the principle: the xchg_tail is an ato=
+mic
+> > > > swap operation that contains write eventually, so giving a prefetch=
+w()
+> > > > at the beginning is acceptable for all architectures..
+> > > > =E2=80=A2=E2=80=A2=E2=80=A2=E2=80=A2=E2=80=A2=E2=80=A2=E2=80=A2=E2=
+=80=A2=E2=80=A2=E2=80=A2=E2=80=A2=E2=80=A2
+> > >
+> > > I did realize afterward that prefetchw gets the cacheline in exclusiv=
+e
+> > > state. I will suggest you mention that in your commit log as well as
+> > > adding a comment about its purpose in the code.
+> > Okay, I would do that in v12, thx.
 >
-> There is a slight change in user-visible behavior here. Previously, all
-> boards except the THead C906 reported misaligned access speed of
-> UNKNOWN. C906 reported FAST. With this change, since we're now measuring
-> misaligned access speed on each hart, all RISC-V systems will have this
-> key set as either FAST or SLOW.
+> I would suggest adding a snippet from the ISA Extenstion doc:
 >
-> Currently, we don't have a way to confidently measure the difference between
-> SLOW and EMULATED, so we label anything not fast as SLOW. This will
-> mislabel some systems that are actually EMULATED as SLOW. When we get
-> support for delegating misaligned access traps to the kernel (as opposed
-> to the firmware quietly handling it), we can explicitly test in Linux to
-> see if unaligned accesses trap. Those systems will start to report
-> EMULATED, though older (today's) systems without that new SBI mechanism
-> will continue to report SLOW.
+> "A prefetch.w instruction indicates to hardware that the cache block whos=
+e
+> effective address is the sum of the base address specified in rs1 and the
+> sign-extended offset encoded in imm[11:0], where imm[4:0] equals 0b00000,
+> is likely to be accessed by a data write (i.e. store) in the near future.=
+"
+Good point, thx.
+
 >
-> I've updated the documentation for those hwprobe values to reflect
-> this, specifically: SLOW may or may not be emulated by software, and FAST
-> represents means being faster than equivalent byte accesses. The change
-> in documentation is accurate with respect to both the former and current
-> behavior.
+> Other than that,
+> Reviewed-by: Leonardo Bras <leobras@redhat.com>
 >
-> Signed-off-by: Evan Green <evan@rivosinc.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> >
+> > >
+> > > Thanks,
+> > > Longman
+> > >
+> > > >> Cheers,
+> > > >> Longman
+> > > >>
+> > > >
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> >  Guo Ren
+> >
+>
 
-Thanks for your patch, which is now commit 584ea6564bcaead2 ("RISC-V:
-Probe for unaligned access speed") in v6.6-rc1.
 
-On the boards I have, I get:
-
-    rzfive:
-        cpu0: Ratio of byte access time to unaligned word access is
-1.05, unaligned accesses are fast
-
-    icicle:
-
-        cpu1: Ratio of byte access time to unaligned word access is
-0.00, unaligned accesses are slow
-        cpu2: Ratio of byte access time to unaligned word access is
-0.00, unaligned accesses are slow
-        cpu3: Ratio of byte access time to unaligned word access is
-0.00, unaligned accesses are slow
-
-        cpu0: Ratio of byte access time to unaligned word access is
-0.00, unaligned accesses are slow
-
-    k210:
-
-        cpu1: Ratio of byte access time to unaligned word access is
-0.02, unaligned accesses are slow
-        cpu0: Ratio of byte access time to unaligned word access is
-0.02, unaligned accesses are slow
-
-    starlight:
-
-        cpu1: Ratio of byte access time to unaligned word access is
-0.01, unaligned accesses are slow
-        cpu0: Ratio of byte access time to unaligned word access is
-0.02, unaligned accesses are slow
-
-    vexriscv/orangecrab:
-
-        cpu0: Ratio of byte access time to unaligned word access is
-0.00, unaligned accesses are slow
-
-I am a bit surprised by the near-zero values.  Are these expected?
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+Best Regards
+ Guo Ren
