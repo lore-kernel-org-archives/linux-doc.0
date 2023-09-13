@@ -2,87 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC448CA5512
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 09:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86247CA551B
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 09:25:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233674AbjIMJR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 05:17:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45594 "EHLO
+        id S239282AbjIMJZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 05:25:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231828AbjIMJR4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 05:17:56 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D443E199B
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 02:17:51 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-401b0d97850so72447975e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 02:17:51 -0700 (PDT)
+        with ESMTP id S239264AbjIMJZT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 05:25:19 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063A21999;
+        Wed, 13 Sep 2023 02:25:16 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68fb70fca9fso2843405b3a.2;
+        Wed, 13 Sep 2023 02:25:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1694596670; x=1695201470; darn=vger.kernel.org;
+        d=gmail.com; s=20221208; t=1694597115; x=1695201915; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pAjwj3vFJAui/OGA0IHuJXUUcCG/qk5wDLNVjB5au/s=;
-        b=18+d0PIpCYfc4xrPlb6/2mgS+3+jK2Ue8dFX6/LDI5x17PaCpmMvi9N2UJ0s+g7kAC
-         XuhCMqKbzFqelftL9VT8dSYNxaH8Ec/nL02krxzI1Y2g8vw3oVvOhUOf4Bn/25ttbNka
-         CUgn6eQP71Ib9NiYSE6Bfhj87SP0PuTBfZgPrKOXf1h3GhWSdJBj42CSCFmTFAcvN94F
-         naQKNFECoQbWglKsjDBveMr2cDmL2rV6AQcwwKKf6SvgHchr7Io85wAtD3YhkJSGVXLu
-         n/g7TfX4SsRv9TWUjV2EfvHdVpRTEOtV1STIA4c8d2oPA+dMGIal6fJQVSSglqZZSVnn
-         c5HQ==
+        bh=NpFYAXnOqxjLWxlwZ45c7Msf6OlbS0bhBMJrCMsl3zg=;
+        b=nSnCf0cK4xpn5q4uEWbi4jgNyj0YzEsrtBBZ271rYq2sgh5We1k0YxkCtQ4fazBZos
+         ePABUdjDWp3xK7NGi+9pyFeYQ+QTnstMkVdat7uZJ5NbLR9n8dbjmW8xRKh/+ntPtm/t
+         oUGiR4lOAqjyCbO8F7DNfmFHHourggWUIRInKRKcg5U2dqbbjcVD+ZqM93L6n0T8nLsO
+         XMX8CsWd79cvTgVmZ7TgOcknUcS0XNVwiJ7feFCfM3xcVou08AeFHBLCddNMP+i935Bc
+         yKIfxiEyRC8B60TNfKYiBx4wnKx+/K3gLTEHH2+Q7etVfYAqgw/G544/zGAdvKpsDqwO
+         JXHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694596670; x=1695201470;
+        d=1e100.net; s=20230601; t=1694597115; x=1695201915;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pAjwj3vFJAui/OGA0IHuJXUUcCG/qk5wDLNVjB5au/s=;
-        b=M1pl4gMmTKhbH28LJfHis8Ht74TKXoTg2uOOLV/WWpdFBogpBn+FukA0GFX987QKTt
-         PJb4ozcQKxGUTRnR1QxtrnauhZpDvbaaGtVuXIQK0ZCJJVk5b/lMP76yFc40rzl82n7z
-         oV4qlZKZ9n6qmuata08OV8LlQent+juHh90wEnq5G+vJzpyU5YoW02HoOC7qSd/Cu/Ur
-         r7+4TnYRjHKOm0Fo3q+wHelH+WRISmA2bw/21lp+2+E8akrnzH4V/7n9tK5r43KTQYea
-         r1kmAHRQ8Ewata6zBY70058ye3lcAkVc1sqKFX1yIKtpq2WHRT4lrNznYc9YvEl/W5HQ
-         M/Ng==
-X-Gm-Message-State: AOJu0YxF0p/Clq3fK+5r487dElLonVVF6t/36pjmnDHnofA2FnUMBe2T
-        U/qN+kGZdN3OfV9J8Utj4jQ1ng==
-X-Google-Smtp-Source: AGHT+IGYrZIoH7RVHwDTt7jAikBWmHKVtRJY8VFrQZWdVrpcxA9ztB//ZndOBHoEMjiTRYDolro5tw==
-X-Received: by 2002:a05:600c:2212:b0:401:b2c7:349b with SMTP id z18-20020a05600c221200b00401b2c7349bmr1553594wml.7.1694596670178;
-        Wed, 13 Sep 2023 02:17:50 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id m13-20020a7bca4d000000b003fe4548188bsm1450437wml.48.2023.09.13.02.17.49
+        bh=NpFYAXnOqxjLWxlwZ45c7Msf6OlbS0bhBMJrCMsl3zg=;
+        b=AIAkg9YnxQsQyiVbRqg5n1xUNLOyholxgx3Vu+bHGBI9x+wTDYBDKenAOFvotQJ90E
+         q34z4mzNhzLFtBFErH5UcizFWYzfXw+xv6MUoLPqzEruIez3z24qfkhmW8uBPfVuUsrI
+         Ic/yC2lctMPuDp9R6Wk0bwq61Qt8WTN/9oGEzmzja0XYalSglKYQ/sOcB+Az2gj7sVpi
+         fos8mUV+SRAe0qQU0nH7bktWS1CSAo44sPTvLXKvSunJkU6xAG4OQT3/Bg8Vq1xLxldA
+         wEbbVS5qx8lADAwmvchVdn9TQwnc7dpENfJIgR2yAz1NeB/n/vm1SMbnaw2zy6Gx6WRG
+         vVVg==
+X-Gm-Message-State: AOJu0Yxf/9b3naYXtLDUcMuj/0suPI5XXpl4TQQ0+GUKlt1Q+W2d3eQ0
+        SYGJeyE5PeKBdTZM1oZ3SXI=
+X-Google-Smtp-Source: AGHT+IG/3WIzQMbIKyGZtuuCHIWrLbl2lrCKitCBZEZyOjDkgyQfkCiMeKwYbJrLvyEtH8At6O8gvQ==
+X-Received: by 2002:a05:6a20:8f1f:b0:13f:c40c:379 with SMTP id b31-20020a056a208f1f00b0013fc40c0379mr2117577pzk.13.1694597115404;
+        Wed, 13 Sep 2023 02:25:15 -0700 (PDT)
+Received: from debian.me ([103.124.138.83])
+        by smtp.gmail.com with ESMTPSA id i4-20020a170902eb4400b001b8b26fa6c1sm9914334pli.115.2023.09.13.02.25.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 02:17:49 -0700 (PDT)
-Date:   Wed, 13 Sep 2023 11:17:48 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Jinjian Song <songjinjian@hotmail.com>
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
-        ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
-        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
-        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-        m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nmarupaka@google.com,
-        vsankar@lenovo.com, danielwinkler@google.com
-Subject: Re: [net-next v4 0/5] net: wwan: t7xx: fw flashing & coredump support
-Message-ID: <ZQF+PHTYDZRX1gql@nanopsycho>
-References: <ME3P282MB270323F98B97A1A98A50F8F7BBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
+        Wed, 13 Sep 2023 02:25:14 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9D86780666AA; Wed, 13 Sep 2023 16:25:11 +0700 (WIB)
+Date:   Wed, 13 Sep 2023 16:25:11 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>, <corbet@lwn.net>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
+        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
+        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
+Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
+Subject: Re: [REBASE PATCH v5 01/17] docs: qcom: Add qualcomm minidump guide
+Message-ID: <ZQF_9-nX47QUCycO@debian.me>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+ <1694429639-21484-2-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ME3P282MB270323F98B97A1A98A50F8F7BBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <1694429639-21484-2-git-send-email-quic_mojha@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tue, Sep 12, 2023 at 11:48:40AM CEST, songjinjian@hotmail.com wrote:
->Adds support for t7xx wwan device firmware flashing & coredump collection
->using devlink.
+On Mon, Sep 11, 2023 at 04:23:43PM +0530, Mukesh Ojha wrote:
+> +Qualcomm APSS Minidump kernel driver concept
+> +--------------------------------------------
+> +::
+> +
+> <snipped>...
+> +Dump collection
+> +---------------
+> +
+> +	+-----------+
+> +	|           |
+> +	|           |         +------+
+> +	|           |         |      |
+> +	|           |         +--+---+ Product(Qualcomm SoC)
+> +	+-----------+             |
+> +	|+++++++++++|<------------+
+> +	|+++++++++++|    usb cable
+> +	+-----------+
+> +            x86_64 PC
+> +
 
-I don't believe that use of devlink is correct here. It seems like a
-misfit. IIUC, what you need is to communicate with the modem. Basically
-a communication channel to modem. The other wwan drivers implement these
-channels in _ctrl.c files, using multiple protocols. Why can't you do
-something similar and let devlink out of this please?
+Sphinx reports htmldocs warnings:
 
-Until you put in arguments why you really need devlink and why is it a
-good fit, I'm against this. Please don't send any other versions of this
-patchset that use devlink.
+/home/bagas/repo/linux-kernel/Documentation/admin-guide/qcom_minidump.rst:100: WARNING: Literal block expected; none found.
+/home/bagas/repo/linux-kernel/Documentation/admin-guide/qcom_minidump.rst:243: WARNING: Unexpected indentation.
+/home/bagas/repo/linux-kernel/Documentation/admin-guide/qcom_minidump.rst:234: WARNING: Malformed table.
 
-NACK.
++-----------+
+|           |
+|           |         +------+
+|           |         |      |
+|           |         +--+---+ Product(Qualcomm SoC)
++-----------+             |
+|+++++++++++|<------------+
+|+++++++++++|    usb cable
++-----------+
+/home/bagas/repo/linux-kernel/Documentation/admin-guide/qcom_minidump.rst:243: WARNING: Blank line required after table.
+
+I have to apply the fixup:
+
+---- >8 ----
+diff --git a/Documentation/admin-guide/qcom_minidump.rst b/Documentation/admin-guide/qcom_minidump.rst
+index 20202da8ca40b9..5709a3853ae7ea 100644
+--- a/Documentation/admin-guide/qcom_minidump.rst
++++ b/Documentation/admin-guide/qcom_minidump.rst
+@@ -95,7 +95,6 @@ could be anywhere scattered in the DDR.
+ 
+ Qualcomm APSS Minidump kernel driver concept
+ --------------------------------------------
+-::
+ 
+ Qualcomm APSS minidump kernel driver adds the capability to add Linux
+ region to be dumped as part of RAM dump collection. At the moment,
+@@ -231,6 +230,8 @@ respective dump as per set download mode.
+ Dump collection
+ ---------------
+ 
++::
++
+ 	+-----------+
+ 	|           |
+ 	|           |         +------+
+
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
