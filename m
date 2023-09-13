@@ -2,214 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D827EEB581
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 03:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE7CCEEB595
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 05:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233304AbjIMDMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 23:12:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57452 "EHLO
+        id S231809AbjIMFxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 01:53:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229948AbjIMDMj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 23:12:39 -0400
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1AD1719;
-        Tue, 12 Sep 2023 20:12:34 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VrymIl3_1694574747;
-Received: from 30.221.149.124(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VrymIl3_1694574747)
-          by smtp.aliyun-inc.com;
-          Wed, 13 Sep 2023 11:12:29 +0800
-Message-ID: <f044563b-2a32-c617-df60-dcd14be73265@linux.alibaba.com>
-Date:   Wed, 13 Sep 2023 11:12:24 +0800
+        with ESMTP id S230188AbjIMFxn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 01:53:43 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BFA9172D;
+        Tue, 12 Sep 2023 22:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694584419; x=1726120419;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=FfUA0UJfdB5sO+CbLAWUBiXpBV0138FnSY1bREzj/FU=;
+  b=QV8jGdSjLEz5e8Rs40VJFqPJokTyfYRb5bBS6zollkQie6chUQq0llmP
+   K2bcMRKuf5cilPQAV0G2lD8CkNbsWIbfET6XYPueghB2ns9XyHiDezx0U
+   WvmzVm79eCcOkQR1aSkg/IOAOQn1fdnPUKX2OfoezwG1Ws22hJA16BS6o
+   0LTEsuyIyxhMI/b5GRICyJacAPU+w5rxJLcZfRCFhbu/bBbPneg16CPUp
+   BpjUzXWC/1pZeGrGbxfPXspj8j35QKEOvXpPWdC2ng2zrGmjb2NhNnBW6
+   WBVtH9gG5gnMAy8d1F+6eBAyDlVQPISuYePCUZ3+KBSQuTjJ39b2RULCh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="464941613"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="464941613"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 22:53:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="990784456"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="990784456"
+Received: from ahunter6-mobl1.ger.corp.intel.com (HELO [10.0.2.15]) ([10.249.45.177])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 22:53:31 -0700
+Message-ID: <592b8fd2-bfe3-0f8d-2814-d8340bbc75ee@intel.com>
+Date:   Wed, 13 Sep 2023 08:53:26 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH v8 1/8] perf pmu: "Compat" supports matching multiple
- identifiers
-To:     Ian Rogers <irogers@google.com>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.15.0
+Subject: Re: [PATCH v2 5/7] tools/perf: fix Python string escapes
+To:     Benjamin Gray <bgray@linux.ibm.com>, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        llvm@lists.linux.dev, linux-pm@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ian Abbott <abbotti@mev.co.uk>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, Jan Kiszka <jan.kiszka@siemens.com>,
+        Kieran Bingham <kbingham@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1694087913-46144-2-git-send-email-renyu.zj@linux.alibaba.com>
- <CAP-5=fVWcQrqLeuc-k4HRNrNdb_=9CbqTSOAX=HDR7f=j8b0Hg@mail.gmail.com>
- <8bab7404-8e24-8606-558c-db3495429f2f@linux.alibaba.com>
- <CAP-5=fU4jWHnbt8BirMZHa7cuLhkAAMAfD28AdRc23zx-e3EyQ@mail.gmail.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <CAP-5=fU4jWHnbt8BirMZHa7cuLhkAAMAfD28AdRc23zx-e3EyQ@mail.gmail.com>
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        linux-perf-users@vger.kernel.org,
+        Todd E Brandt <todd.e.brandt@linux.intel.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>
+References: <20230912060801.95533-1-bgray@linux.ibm.com>
+ <20230912060801.95533-6-bgray@linux.ibm.com>
+ <340eae90-d270-5e52-4982-a67459bc46dd@intel.com>
+ <d603d3b3-7563-d1c9-5086-c5bb78ea2e52@linux.ibm.com>
+Content-Language: en-US
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+In-Reply-To: <d603d3b3-7563-d1c9-5086-c5bb78ea2e52@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 13/09/23 03:26, Benjamin Gray wrote:
+> On 12/9/23 8:56 pm, Adrian Hunter wrote:
+>> On 12/09/23 09:07, Benjamin Gray wrote:
+>>> diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
+>>> index a7e88332276d..980f080a5a2c 100755
+>>> --- a/tools/perf/pmu-events/jevents.py
+>>> +++ b/tools/perf/pmu-events/jevents.py
+>>> @@ -83,7 +83,7 @@ def c_len(s: str) -> int:
+>>>     """Return the length of s a C string
+>>>       This doesn't handle all escape characters properly. It first assumes
+>>> -  all \ are for escaping, it then adjusts as it will have over counted
+>>> +  all \\ are for escaping, it then adjusts as it will have over counted
+>>
+>> It looks like the whole string should be a raw string
+>>
+> ...
+>>> -                s = value.replace("%", "\%")
+>>> -                s = s.replace("_", "\_")
+>>> +                s = value.replace("%", "\\%")
+>>> +                s = s.replace("_", "\\_")
+>>
+>> Raw strings seem more readable, so could be
+>> used here too
+> 
+> Yeah, sounds good. I normally use r strings only for regex, but there shouldn't be any ambiguity here (it might have been misleading if the search argument to replace looked like a regex).
+> 
+> Having the docstring be an r string is a good catch. There's probably a few like that in the kernel, but finding them is a little more complicated because they might be 'valid' syntax (e.g., the '\000' just becomes a null byte. This series is focused on the syntax errors though, so I'll just leave it be.
+> 
+> How is the following?
+> ---
+> Subject: [PATCH] tools/perf: fix Python string escapes
+> 
+> Python 3.6 introduced a DeprecationWarning for invalid escape sequences.
+> This is upgraded to a SyntaxWarning in Python 3.12, and will eventually
+> be a syntax error.
+> 
+> Fix these now to get ahead of it before it's an error.
+> 
+> Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
 
+Acked-by: Adrian Hunter <adrian.hunter@intel.com>
 
-在 2023/9/12 上午1:32, Ian Rogers 写道:
-> On Sun, Sep 10, 2023 at 7:32 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>
->>
->>
->> 在 2023/9/9 上午5:33, Ian Rogers 写道:
->>> On Thu, Sep 7, 2023 at 4:58 AM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>>>
->>>> The jevent "Compat" is used for uncore PMU alias or metric definitions.
->>>>
->>>> The same PMU driver has different PMU identifiers due to different
->>>> hardware versions and types, but they may have some common PMU event.
->>>> Since a Compat value can only match one identifier, when adding the
->>>> same event alias to PMUs with different identifiers, each identifier
->>>> needs to be defined once, which is not streamlined enough.
->>>>
->>>> So let "Compat" supports matching multiple identifiers for uncore PMU
->>>> alias. For example, the Compat value {43401;436*} can match the PMU
->>>> identifier "43401", that is, CMN600_r0p0, and the PMU identifier with
->>>> the prefix "436", that is, all CMN650, where "*" is a wildcard.
->>>> Tokens in Unit field are delimited by ';' with no spaces.
->>>>
->>>> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
->>>> Reviewed-by: John Garry <john.g.garry@oracle.com>
->>>> ---
->>>>  tools/perf/util/pmu.c | 28 ++++++++++++++++++++++++++--
->>>>  tools/perf/util/pmu.h |  1 +
->>>>  2 files changed, 27 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
->>>> index e215985..c3c3818 100644
->>>> --- a/tools/perf/util/pmu.c
->>>> +++ b/tools/perf/util/pmu.c
->>>> @@ -875,6 +875,30 @@ static bool pmu_uncore_alias_match(const char *pmu_name, const char *name)
->>>>         return res;
->>>>  }
->>>>
->>>> +bool pmu_uncore_identifier_match(const char *id, const char *compat)
->>>> +{
->>>> +       char *tmp = NULL, *tok, *str;
->>>> +       bool res = false;
->>>> +
->>>> +       /*
->>>> +        * The strdup() call is necessary here because "compat" is a const str*
->>>> +        * type and cannot be used as an argument to strtok_r().
->>>> +        */
->>>> +       str = strdup(compat);
->>>> +       if (!str)
->>>> +               return false;
->>>> +
->>>> +       tok = strtok_r(str, ";", &tmp);
->>>
->>> Did the comma vs semicolon difference get explained? It seems to add
->>> inconsistency to use a semicolon.
->>>
->>
->> Hi Ian,
->>
->> Yes, I explained the reason for using semicolons instead of commas in v7.
->>
->> I use a semicolon instead of a comma because I want to distinguish it from the function
->> of the comma in "Unit" and avoid confusion between the use of commas in "Unit" and "Compat".
->> Because in Unit, commas act as wildcards, and in “Compat”, the semicolon means “or”. So
->> I think semicolons are more appropriate.
->>
->> John also raised this issue earlier, and we finally agreed to use semicolons.
->> What do you think?
+> ---
+>  tools/perf/pmu-events/jevents.py                 | 2 +-
+>  tools/perf/scripts/python/arm-cs-trace-disasm.py | 4 ++--
+>  tools/perf/scripts/python/compaction-times.py    | 2 +-
+>  tools/perf/scripts/python/exported-sql-viewer.py | 4 ++--
+>  4 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> I'm okay with it, but thanks for capturing the why of this. I'd like
-> at some point to make the wildcarding of things less ad hoc. For
-> example, on x86 we use regular expressions to match cpuid:
-> https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tree/tools/perf/pmu-events/arch/x86/mapfile.csv?h=perf-tools-next
+> diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
+> index a7e88332276d..1b4519333a28 100755
+> --- a/tools/perf/pmu-events/jevents.py
+> +++ b/tools/perf/pmu-events/jevents.py
+> @@ -80,7 +80,7 @@ def file_name_to_table_name(prefix: str, parents: Sequence[str],
+> 
+> 
+>  def c_len(s: str) -> int:
+> -  """Return the length of s a C string
+> +  r"""Return the length of s a C string
+> 
+>    This doesn't handle all escape characters properly. It first assumes
+>    all \ are for escaping, it then adjusts as it will have over counted
+> diff --git a/tools/perf/scripts/python/arm-cs-trace-disasm.py b/tools/perf/scripts/python/arm-cs-trace-disasm.py
+> index d59ff53f1d94..de58991c78bb 100755
+> --- a/tools/perf/scripts/python/arm-cs-trace-disasm.py
+> +++ b/tools/perf/scripts/python/arm-cs-trace-disasm.py
+> @@ -45,8 +45,8 @@ parser = OptionParser(option_list=option_list)
+>  # Initialize global dicts and regular expression
+>  disasm_cache = dict()
+>  cpu_data = dict()
+> -disasm_re = re.compile("^\s*([0-9a-fA-F]+):")
+> -disasm_func_re = re.compile("^\s*([0-9a-fA-F]+)\s.*:")
+> +disasm_re = re.compile(r"^\s*([0-9a-fA-F]+):")
+> +disasm_func_re = re.compile(r"^\s*([0-9a-fA-F]+)\s.*:")
+>  cache_size = 64*1024
+> 
+>  glb_source_file_name    = None
+> diff --git a/tools/perf/scripts/python/compaction-times.py b/tools/perf/scripts/python/compaction-times.py
+> index 2560a042dc6f..9401f7c14747 100644
+> --- a/tools/perf/scripts/python/compaction-times.py
+> +++ b/tools/perf/scripts/python/compaction-times.py
+> @@ -260,7 +260,7 @@ def pr_help():
+> 
+>  comm_re = None
+>  pid_re = None
+> -pid_regex = "^(\d*)-(\d*)$|^(\d*)$"
+> +pid_regex = r"^(\d*)-(\d*)$|^(\d*)$"
+> 
+>  opt_proc = popt.DISP_DFL
+>  opt_disp = topt.DISP_ALL
+> diff --git a/tools/perf/scripts/python/exported-sql-viewer.py b/tools/perf/scripts/python/exported-sql-viewer.py
+> index 13f2d8a81610..78763531fe5a 100755
+> --- a/tools/perf/scripts/python/exported-sql-viewer.py
+> +++ b/tools/perf/scripts/python/exported-sql-viewer.py
+> @@ -677,8 +677,8 @@ class CallGraphModelBase(TreeModel):
+>              #   sqlite supports GLOB (text only) which uses * and ? and is case sensitive
+>              if not self.glb.dbref.is_sqlite3:
+>                  # Escape % and _
+> -                s = value.replace("%", "\%")
+> -                s = s.replace("_", "\_")
+> +                s = value.replace("%", r"\%")
+> +                s = s.replace("_", r"\_")
+>                  # Translate * and ? into SQL LIKE pattern characters % and _
+>                  trans = string.maketrans("*?", "%_")
+>                  match = " LIKE '" + str(s).translate(trans) + "'"
 
-Thank you for the example. I was not aware that regular expressions were
-already being used for matching in tools/perf.
-
-> but file name style matching for pmus:
-> https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/tree/tools/perf/util/pmu.c?h=perf-tools-next#n1974
-> Given that we're okay with regular expressions then I don't see why
-> everything shouldn't be a regular expression. This could, for example,
-> make matching PMUs more specific than just adding a star and doing a
-> file name match. For an example of why this is weird, on my laptop:
-> ```
-> $ perf stat -e i/actual-frequency/ true
-> 
-> Performance counter stats for 'system wide':
-> 
->                 0      i/actual-frequency/
-> 
->       0.001168195 seconds time elapsed
-> ```
-> The PMU I used here as 'i' is /sys/devices/i915 as we allow arbitrary
-> numbers after a PMU name for cases of multiple uncore PMUs.
-> 
-> My feeling longer term is that the matching distinction of Unit and
-> Compat, comma and semi-colon, would be better captured with regular
-> expressions as I think they show the intent in the matching more
-> clearly.
-> 
-
-Yes, using regular expressions is indeed a better choice for consistency and clarity,
-and I will try using regular expressions for Compat matching in the next version.
-
-Thanks,
-Jing
-
-> Thanks,
-> Ian
-> 
-> 
->> Thanks,
->> Jing
->>
->>> Thanks,
->>> Ian
->>>
->>>> +       for (; tok; tok = strtok_r(NULL, ";", &tmp)) {
->>>> +               if (!fnmatch(tok, id, FNM_CASEFOLD)) {
->>>> +                       res = true;
->>>> +                       break;
->>>> +               }
->>>> +       }
->>>> +       free(str);
->>>> +       return res;
->>>> +}
->>>> +
->>>>  static int pmu_add_cpu_aliases_map_callback(const struct pmu_event *pe,
->>>>                                         const struct pmu_events_table *table __maybe_unused,
->>>>                                         void *vdata)
->>>> @@ -915,8 +939,8 @@ static int pmu_add_sys_aliases_iter_fn(const struct pmu_event *pe,
->>>>         if (!pe->compat || !pe->pmu)
->>>>                 return 0;
->>>>
->>>> -       if (!strcmp(pmu->id, pe->compat) &&
->>>> -           pmu_uncore_alias_match(pe->pmu, pmu->name)) {
->>>> +       if (pmu_uncore_alias_match(pe->pmu, pmu->name) &&
->>>> +                       pmu_uncore_identifier_match(pmu->id, pe->compat)) {
->>>>                 perf_pmu__new_alias(pmu,
->>>>                                 pe->name,
->>>>                                 pe->desc,
->>>> diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
->>>> index bd5d804..1bf5cf1 100644
->>>> --- a/tools/perf/util/pmu.h
->>>> +++ b/tools/perf/util/pmu.h
->>>> @@ -240,6 +240,7 @@ void pmu_add_cpu_aliases_table(struct perf_pmu *pmu,
->>>>  char *perf_pmu__getcpuid(struct perf_pmu *pmu);
->>>>  const struct pmu_events_table *pmu_events_table__find(void);
->>>>  const struct pmu_metrics_table *pmu_metrics_table__find(void);
->>>> +bool pmu_uncore_identifier_match(const char *id, const char *compat);
->>>>
->>>>  int perf_pmu__convert_scale(const char *scale, char **end, double *sval);
->>>>
->>>> --
->>>> 1.8.3.1
->>>>
