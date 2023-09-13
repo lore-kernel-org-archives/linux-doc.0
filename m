@@ -2,178 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBCA1EE020B
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 19:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF94CEE020B
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 20:09:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230424AbjIMT4G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 15:56:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47434 "EHLO
+        id S231195AbjIMUJO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 16:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbjIMT4G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 15:56:06 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 443749E;
-        Wed, 13 Sep 2023 12:56:02 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id C58285C00B9;
-        Wed, 13 Sep 2023 15:55:59 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 13 Sep 2023 15:55:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1694634959; x=1694721359; bh=Au
-        7S+bvrJ+d82vNO8PIJNGeQjEr+YOnnXolYnyp87ig=; b=vf8n/0qzqaslYWD9Vb
-        6zNsurOT7DroUO9m7Jq5tAM/GigHtH+prTFOGjDSsTbBuVqdLk0egPJ6o+w0FHjI
-        RjaT/sp2jJFlWDUzpXjYyiz5huGcB/yTDnUZfPQPrGzIabWI1cpOi0O877Xt6Ts3
-        6PLBpImePKmOmnCVzBt5KK29at/q9RzQJolZ/mTH1V86fmRcXx5/TWiFggKmFCXD
-        JCVaEFEKhTpI0v5HU28dZyHuMiIWLIVETal1ag7K+b4uvuLsg2VEUQSXDQGlh4BM
-        SeDHcfXvs/aBjehs6CuW9v84eRME+k+HiglcZg3FmzKE14eX67NDtYf73dZtPXCf
-        u6vA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1694634959; x=1694721359; bh=Au7S+bvrJ+d82
-        vNO8PIJNGeQjEr+YOnnXolYnyp87ig=; b=BtNjaCcIv+UHLvC69+cXZP27nTpn1
-        FnS9Q6ca3vnZrGquga7rh+07xJZtsfhcrjwvU6P0KoffhIDa/xjRPh4KKePkIaze
-        dcgG5/jzk7svTHHECmB9WoSLuisz0lLFFOkwTxIFSP6CGc5G9rrt37BeO2Q9STD9
-        WROJQNa9QrL3LaNk2tOiVRnB2uYlpbkuGgmk+E3bBKUqNFGGU+tPxnC1WZq+/DUZ
-        +S6eiBq9JJq3eC0PN+F/HF8HNAbZmFuSyvCLkI1C5Fn8NGIYOHtCJEVtuP5+Yrnu
-        WcJ3iR8KsjoAqvDi0+ZtMScKeT0y8XSNWQA6cZf5Q+A0BJhkIXlYZEo+w==
-X-ME-Sender: <xms:zhMCZSHYdNdTHJo7y2It8_tS7yEE51cPfW43WrSwygLUETNVhhSPRw>
-    <xme:zhMCZTXIT9sGL-k0ygf9epOzqUKQJNrVhOAddQJ1B66vp5F2-SAnKqR0l15FqSJez
-    wqDgIDXpNSW1WtpQ2E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeikedgudegvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:zhMCZcI0FI25NjPGne0n_A5_BOzFAm_0wj2U6geaVsBjXx-NHaBjHg>
-    <xmx:zhMCZcEuvFxaH1r6seUzp9TpsD7GEJnAMCYY8HeRmR_iO89gWo_Pyg>
-    <xmx:zhMCZYUSUUJqepWmZibFTGhbObxzSY_6wBSzDjTqi3y77ZvpNvutoQ>
-    <xmx:zxMCZcrRIdr9vEbpVQLQBbePJZvV1e-Z5cFFM4-cw512zYJ2Hhi3XQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 58DBBB60089; Wed, 13 Sep 2023 15:55:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
-Mime-Version: 1.0
-Message-Id: <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
-In-Reply-To: <ZQISGujwlH00B8KJ@fjasle.eu>
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <ZQISGujwlH00B8KJ@fjasle.eu>
-Date:   Wed, 13 Sep 2023 21:55:36 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Nicolas Schier" <nicolas@fjasle.eu>,
-        "Arnd Bergmann" <arnd@kernel.org>
-Cc:     "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Sakari Ailus" <sakari.ailus@iki.fi>,
-        "Javier Martinez Canillas" <javierm@redhat.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional dependencies
-Content-Type: text/plain
+        with ESMTP id S229642AbjIMUJO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 16:09:14 -0400
+Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93CD319AC;
+        Wed, 13 Sep 2023 13:09:09 -0700 (PDT)
+Received: from [192.168.10.7] (unknown [10.0.12.132])
+        by kozue.soulik.info (Postfix) with ESMTPSA id A549D300219;
+        Thu, 14 Sep 2023 05:08:56 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info A549D300219
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
+        t=1694635737; bh=8LpVTPUsCPQXr1wiITeRmr4X6XXYzbnyOzSEdKAjgqk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ttd6MdBo3xG/+DtOGGfYck1YuM4HBVhWOleDEu+59FeyRZpaA86Zb4vw5cOiIgreB
+         Uidv7Gl+GevqpR4vQdE+sXGfLIJUw2Wzt1vDHRCWqyLjLi9FyJ5HF4tk183MwhrdRi
+         5EUpJJMm0mtk495jt7KDh7ZaCM2aDTKSPKEaWb0U=
+Message-ID: <c0f75cbb-4d5d-0954-4bb6-20a82cfe5e2f@soulik.info>
+Date:   Thu, 14 Sep 2023 04:09:06 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: USB: DMA: mapping existing buffer is not supported?
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+References: <1e783efe-8659-8be1-82b7-15186302e88c@soulik.info>
+ <2023091323-trombone-storeroom-cbd3@gregkh>
+From:   Randy Li <ayaka@soulik.info>
+In-Reply-To: <2023091323-trombone-storeroom-cbd3@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 13, 2023, at 21:48, Nicolas Schier wrote:
-> On Wed, Sep 13, 2023 at 01:37:52PM +0200 Arnd Bergmann wrote:
+
+On 2023/9/14 03:19, Greg KH wrote:
+> On Thu, Sep 14, 2023 at 03:06:58AM +0800, Randy Li wrote:
+>> Hello
+>>
+>> I was trying to understand why USB webcams (UVC) have to copy video data
+>> through the CPU (uvc_video_complete() schedules uvc_video_copy_data_work()
+>> for this purpose). During my investigation, I noticed that functions
+>> like|usb_sg_*() and |usb_buffer_*() are not available since kernel version
+>> 2.6.12.
+> What do you mean by "not available"?  I see them in the tree today, why
+> do you think they are not present?
 >
->>  Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
->>  1 file changed, 26 insertions(+)
->> 
->> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
->> index 858ed5d80defe..89dea587a469a 100644
->> --- a/Documentation/kbuild/kconfig-language.rst
->> +++ b/Documentation/kbuild/kconfig-language.rst
->> @@ -573,6 +573,32 @@ above, leading to:
->>  	bool "Support for foo hardware"
->>  	depends on ARCH_FOO_VENDOR || COMPILE_TEST
->>  
->> +Optional dependencies
->> +~~~~~~~~~~~~~~~~~~~~~
->> +
->> +Some drivers are able to optionally use a feature from another module
->> +or build cleanly with that module disabled, but cause a link failure
->> +when trying to use that loadable module from a built-in driver.
->> +
->> +The most common way to express this optional dependency in Kconfig logic
->> +uses the slighly counterintuitive
+usb_buffer_dmasync_sg(), usb_buffer_map(), usb_buffer_dmasync() and usb_buffer_unmap() are all disabled
+by #if 0 in include/usb/usb.h
+
+usb_buffer_map_sg() and usb_buffer_unmap_sg() are just declaration without definition.
+
+>> I can comprehend that USB host controllers such as xHCI, commonly found in
+>> embedded implementations like dwc3, do not support IOMMU. However, this
+>> should not prevent them from operating on a contiguous buffer.
+> Are you sure that the protocol for these devices allow this?
+I thought that is what hcd_buffer_alloc() does.
 >
-> slighly -> slightly
-
-Fixed, thanks
-
-> For better RST compliance: could you explicitly start the code block e.g. by
-> appending '::' as in "... counterintuitive::"?
-
-Ok, done.
-
->> +
->> +  config FOO
->> +	bool "Support for foo hardware"
->> +	depends on BAR || !BAR
+>> If the USB subsystem can no longer work with existing buffers, I propose
+>> that we consider removing the remaining documentation in the "Working with
+>> existing buffers" section of Documentation/driver-api/usb/dma.rst.
+> I don't understand, what is wrong with the information there exactly?
+> Have you tried following the suggestions there?
+Besides my answer to first question, I found no code use them today.
 >
-> are you sure that this is enough?  While testing, I needed to explicitly use
-> =y|=n:
+> thanks,
 >
->     depends on BAR=y || BAR=n
->
-> to prevent FOO to be selectable iff BAR=m.
-
-I see my problem, I made a different mistake here. Your version
-is correct for a 'bool' symbol as I had here, but the intention
-of this was to make it work for tristate symbols, which are the
-interesting case. I've fixed it up this way now, hope it now makes
-sense to you:
-
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -581,19 +581,19 @@ or build cleanly with that module disabled, but cause a link failure
- when trying to use that loadable module from a built-in driver.
- 
- The most common way to express this optional dependency in Kconfig logic
--uses the slighly counterintuitive
-+uses the slightly counterintuitive::
- 
-   config FOO
--       bool "Support for foo hardware"
-+       tristate "Support for foo hardware"
-        depends on BAR || !BAR
- 
- This means that there is either a dependency on BAR that disallows
- the combination of FOO=y with BAR=m, or BAR is completely disabled.
- For a more formalized approach if there are multiple drivers that have
--the same dependency, a helper symbol can be used, like
-+the same dependency, a helper symbol can be used, like::
- 
-   config FOO
--       bool "Support for foo hardware"
-+       tristate "Support for foo hardware"
-        depends on BAR_OPTIONAL
- 
-   config BAR_OPTIONAL
-
->> +This means that there is either a dependency on BAR that disallows
->> +the combination of FOO=y with BAR=m, or BAR is completely disabled.
->
-> For me, this sentence is hard to parse (but I am not a native speaker); what
-> about something like this:
->
-> This means that FOO can only be enabled, iff BAR is either built-in or
-> completely disabled.  If BAR is built as a module, FOO cannot be enabled.
-
-That would describe the version you suggested, but that's a
-different issue. Let me know if you still think it needs
-clarification after fixing the example.
-
-      Arnd
+> greg k-h
