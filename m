@@ -2,82 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E2CCA5537
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 10:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A4AEDEC46
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 11:38:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239774AbjIMKzf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 06:55:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50600 "EHLO
+        id S240280AbjIMLiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 07:38:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236595AbjIMKze (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 06:55:34 -0400
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3CD1726;
-        Wed, 13 Sep 2023 03:55:30 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-76f0807acb6so419101985a.1;
-        Wed, 13 Sep 2023 03:55:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694602530; x=1695207330;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HseJUOixWLxiX/GtlrIAvJAEnfu8kx8mRj8kJhsQL/k=;
-        b=rFQGzLSK8+MU8TfVv0oWnEti0K7naNAtNX+EsgiyB5gRM/5cJUMI4GxUtWxe9vptDy
-         QRjwHbh/IAUVnBRGmAYvgnYCdeuobt74cfjvRyx9ZB0hQ5Me+dMHvw1EoeijCDX09tdO
-         HiW9AnBPpMnljVG+svXniqX0bBrZFByuwn8I6iRukPpdlJuf5cUKBqQTJqo5LxQ+Hfds
-         Bve1BYTfRjBMds9wfUmjhJYpo05reY/o88kS7uUtSD4vRAK3AZ6W0rNuiUFcbKsmntSu
-         YQXO2rMZZf7IUTxqnFrSyKXrfW7U/n8KTWWoTj+7UvjFx7DsN7tbZF5LcuJzD/OZOPMW
-         dVZg==
-X-Gm-Message-State: AOJu0Yzb70YSnQqYul9i3Lyc8DDGORL1/T44QucdVHvjdaPuqJAAQ73q
-        Wcuwxmp45cAbmCwKu9gBl+M=
-X-Google-Smtp-Source: AGHT+IEggUoDJy/CLhavcac41098wRydbSBa6L3K7VJOdlQ590WtSzyCpIk2nUY7/4Dy7Pp4cRJPyg==
-X-Received: by 2002:a05:620a:eca:b0:76f:1846:2f44 with SMTP id x10-20020a05620a0eca00b0076f18462f44mr1687467qkm.0.1694602529791;
-        Wed, 13 Sep 2023 03:55:29 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a040:1a3:cb84:45fc:12dc:6d10:9889])
-        by smtp.gmail.com with ESMTPSA id d2-20020a05620a166200b0076825e43d98sm3841068qko.125.2023.09.13.03.55.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 03:55:29 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        with ESMTP id S237669AbjIMLiN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 07:38:13 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F4200173E;
+        Wed, 13 Sep 2023 04:38:09 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F97FC433C7;
+        Wed, 13 Sep 2023 11:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694605089;
+        bh=NjwWLoIbmcBjw9qBYI11QfNE6lfJieDTK6MDYKZZGNE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gZFTatLF1uEsqurqOmmsA3CNkNaxJ0Zw84AnKKp0Lrc864Z/PUFoh0Ngvx5V4G0b4
+         V2BLSg7cbESyA9rSQmqum8mFtbLKnIv/F+l4pICNh8DEmr2RjeAcCO1QyRjhKmOF8+
+         wb5RBUhl6bqGOBLyihYqygeQLm1JYJ5DnNqlmH0th6wKpU5WIxiE4TLvW+4yBA56z1
+         xTU1GKqAbPMKyBtO+vNh5hmQA4Quqbw69FEjrhkJj/uswOEKCnLqMyF+3Ml8zW1vh7
+         fJBjlqnca0EpQ1pRZsG77TESna82DFx9gCdOBc+MFHTct2AQy4h+3IrceCKtLge7wx
+         /wB+YDct+56Jg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH] docs: move leds under section Human interfaces
-Date:   Wed, 13 Sep 2023 13:55:18 +0300
-Message-ID: <20230913105519.675183-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Subject: [PATCH] Documentation: kbuild: explain handling optional dependencies
+Date:   Wed, 13 Sep 2023 13:37:52 +0200
+Message-Id: <20230913113801.1901152-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-from uncategorized list
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+This problem frequently comes up in randconfig testing, with
+drivers failing to link because of a dependency on an optional
+feature.
+
+The Kconfig language for this is very confusing, so try to
+document it in "Kconfig hints" section.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- Documentation/subsystem-apis.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-index 90a0535a932a..930dc23998a0 100644
---- a/Documentation/subsystem-apis.rst
-+++ b/Documentation/subsystem-apis.rst
-@@ -35,6 +35,7 @@ Human interfaces
-    sound/index
-    gpu/index
-    fb/index
-+   leds/index
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 858ed5d80defe..89dea587a469a 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -573,6 +573,32 @@ above, leading to:
+ 	bool "Support for foo hardware"
+ 	depends on ARCH_FOO_VENDOR || COMPILE_TEST
  
- Networking interfaces
- ---------------------
-@@ -70,7 +71,6 @@ Storage interfaces
-    fpga/index
-    i2c/index
-    iio/index
--   leds/index
-    pcmcia/index
-    spi/index
-    w1/index
++Optional dependencies
++~~~~~~~~~~~~~~~~~~~~~
++
++Some drivers are able to optionally use a feature from another module
++or build cleanly with that module disabled, but cause a link failure
++when trying to use that loadable module from a built-in driver.
++
++The most common way to express this optional dependency in Kconfig logic
++uses the slighly counterintuitive
++
++  config FOO
++	bool "Support for foo hardware"
++	depends on BAR || !BAR
++
++This means that there is either a dependency on BAR that disallows
++the combination of FOO=y with BAR=m, or BAR is completely disabled.
++For a more formalized approach if there are multiple drivers that have
++the same dependency, a helper symbol can be used, like
++
++  config FOO
++	bool "Support for foo hardware"
++	depends on BAR_OPTIONAL
++
++  config BAR_OPTIONAL
++	def_tristate BAR || !BAR
++
+ Kconfig recursive dependency limitations
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
 -- 
-2.41.0
+2.39.2
 
