@@ -2,184 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA21CA5511
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 08:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC448CA5512
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 09:17:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239142AbjIMI4X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 04:56:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44370 "EHLO
+        id S233674AbjIMJR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 05:17:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239164AbjIMI4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 04:56:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A520CE73
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 01:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694595328;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7IDrq/ZjwAliy/cuqJYdam/hL0PUOvTA7Mi9bsbloig=;
-        b=caxjCmskNBOux9IjaT14OV9MMmP2Aflw0stDJpoULQk0VwdtHkIu1U+iTRFEDn/l8O/075
-        d0JHoFA+ct41TiVgjXqu7alvBMQSYdVcJaIVCwXtOj3o7k6Q7XIooyEfDEb6VyjkfBCL5m
-        AiUZ+ww55m+Qwseb3M43skeX61AjbCs=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-rJrOcGSlNumeVkFNn6yOTg-1; Wed, 13 Sep 2023 04:55:27 -0400
-X-MC-Unique: rJrOcGSlNumeVkFNn6yOTg-1
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-3ab29aedbcbso7717012b6e.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 01:55:27 -0700 (PDT)
+        with ESMTP id S231828AbjIMJR4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 05:17:56 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D443E199B
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 02:17:51 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-401b0d97850so72447975e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 02:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1694596670; x=1695201470; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pAjwj3vFJAui/OGA0IHuJXUUcCG/qk5wDLNVjB5au/s=;
+        b=18+d0PIpCYfc4xrPlb6/2mgS+3+jK2Ue8dFX6/LDI5x17PaCpmMvi9N2UJ0s+g7kAC
+         XuhCMqKbzFqelftL9VT8dSYNxaH8Ec/nL02krxzI1Y2g8vw3oVvOhUOf4Bn/25ttbNka
+         CUgn6eQP71Ib9NiYSE6Bfhj87SP0PuTBfZgPrKOXf1h3GhWSdJBj42CSCFmTFAcvN94F
+         naQKNFECoQbWglKsjDBveMr2cDmL2rV6AQcwwKKf6SvgHchr7Io85wAtD3YhkJSGVXLu
+         n/g7TfX4SsRv9TWUjV2EfvHdVpRTEOtV1STIA4c8d2oPA+dMGIal6fJQVSSglqZZSVnn
+         c5HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694595326; x=1695200126;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7IDrq/ZjwAliy/cuqJYdam/hL0PUOvTA7Mi9bsbloig=;
-        b=Jz9BcPXa5T81QyUtjbWNWTJZyZu6ZDmgHwL5bthMZhGEmMR9XAS4Z/XXlScQ56BkXS
-         6unC4BYWpdEQQbv0ykUfiIItvJFyr3lSProLi3V+48Lo+ieot02/UKjVi1yGusyM0Ej2
-         8Jf/B3TApCrC8f7WW3pNbSU7SEvcQ1Yj1ut8pl0kCCa4BIbjaZXJzJt12jGN0I1upGyX
-         t8aavGkStEZjjCSxmksCdf4siHphQq92d+hYG00f5ae11H+Mmmw33MRzdbetcs7B0eWb
-         zSIZSyKu/FVOk3wQBI94kVstHv+vmx3fZ57pPF09L3xhXUIMA5HLKHlcmlkFW1h+I5gp
-         1VkA==
-X-Gm-Message-State: AOJu0YyW4GIhdiw7fVyU4+N+rNnoyOHcYvg/UmykcBO/FV23NAd4Pu2U
-        lgwlZls0xNlfFimseIHe/sZU8NahWBAZaO2p7hkll27RFC3kcljhNXklsDHdwU5I+7Yg9qgq1C7
-        V5xZ7iSkBiDDqvcA/g2A8
-X-Received: by 2002:a05:6808:616:b0:3a8:83df:d5a4 with SMTP id y22-20020a056808061600b003a883dfd5a4mr1851081oih.59.1694595326803;
-        Wed, 13 Sep 2023 01:55:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGKPVssIlImig5nXmhpkcsDQ7KpqCHiahCisjz+0XwI28OTqJEh/HnL6zXhYAXW7+m311Y1Pw==
-X-Received: by 2002:a05:6808:616:b0:3a8:83df:d5a4 with SMTP id y22-20020a056808061600b003a883dfd5a4mr1851051oih.59.1694595326594;
-        Wed, 13 Sep 2023 01:55:26 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id az19-20020a056830459300b006c21f11dcecsm647356otb.49.2023.09.13.01.55.19
+        d=1e100.net; s=20230601; t=1694596670; x=1695201470;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pAjwj3vFJAui/OGA0IHuJXUUcCG/qk5wDLNVjB5au/s=;
+        b=M1pl4gMmTKhbH28LJfHis8Ht74TKXoTg2uOOLV/WWpdFBogpBn+FukA0GFX987QKTt
+         PJb4ozcQKxGUTRnR1QxtrnauhZpDvbaaGtVuXIQK0ZCJJVk5b/lMP76yFc40rzl82n7z
+         oV4qlZKZ9n6qmuata08OV8LlQent+juHh90wEnq5G+vJzpyU5YoW02HoOC7qSd/Cu/Ur
+         r7+4TnYRjHKOm0Fo3q+wHelH+WRISmA2bw/21lp+2+E8akrnzH4V/7n9tK5r43KTQYea
+         r1kmAHRQ8Ewata6zBY70058ye3lcAkVc1sqKFX1yIKtpq2WHRT4lrNznYc9YvEl/W5HQ
+         M/Ng==
+X-Gm-Message-State: AOJu0YxF0p/Clq3fK+5r487dElLonVVF6t/36pjmnDHnofA2FnUMBe2T
+        U/qN+kGZdN3OfV9J8Utj4jQ1ng==
+X-Google-Smtp-Source: AGHT+IGYrZIoH7RVHwDTt7jAikBWmHKVtRJY8VFrQZWdVrpcxA9ztB//ZndOBHoEMjiTRYDolro5tw==
+X-Received: by 2002:a05:600c:2212:b0:401:b2c7:349b with SMTP id z18-20020a05600c221200b00401b2c7349bmr1553594wml.7.1694596670178;
+        Wed, 13 Sep 2023 02:17:50 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id m13-20020a7bca4d000000b003fe4548188bsm1450437wml.48.2023.09.13.02.17.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 01:55:26 -0700 (PDT)
-Date:   Wed, 13 Sep 2023 05:55:16 -0300
-From:   Leonardo Bras <leobras@redhat.com>
-To:     Guo Ren <guoren@kernel.org>
-Cc:     Waiman Long <longman@redhat.com>, paul.walmsley@sifive.com,
-        anup@brainfault.org, peterz@infradead.org, mingo@redhat.com,
-        will@kernel.org, palmer@rivosinc.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 04/17] locking/qspinlock: Improve xchg_tail for
- number of cpus >= 16k
-Message-ID: <ZQF49GIZoFceUGYH@redhat.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-5-guoren@kernel.org>
- <f091ead0-99b9-b30a-a295-730ce321ac60@redhat.com>
- <CAJF2gTSbUUdLhN8PFdFzQd0M1T2MVOL1cdZn46WKq1S8MuQYHw@mail.gmail.com>
- <06714da1-d566-766f-7a13-a3c93b5953c4@redhat.com>
- <CAJF2gTQ3Q7f+FGorVTR66c6TGWsSeeKVvLF+LH1_m3kSHrm0yA@mail.gmail.com>
+        Wed, 13 Sep 2023 02:17:49 -0700 (PDT)
+Date:   Wed, 13 Sep 2023 11:17:48 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Jinjian Song <songjinjian@hotmail.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
+        ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
+        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
+        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+        m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, nmarupaka@google.com,
+        vsankar@lenovo.com, danielwinkler@google.com
+Subject: Re: [net-next v4 0/5] net: wwan: t7xx: fw flashing & coredump support
+Message-ID: <ZQF+PHTYDZRX1gql@nanopsycho>
+References: <ME3P282MB270323F98B97A1A98A50F8F7BBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJF2gTQ3Q7f+FGorVTR66c6TGWsSeeKVvLF+LH1_m3kSHrm0yA@mail.gmail.com>
+In-Reply-To: <ME3P282MB270323F98B97A1A98A50F8F7BBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 09:10:08AM +0800, Guo Ren wrote:
-> On Mon, Sep 11, 2023 at 9:03 PM Waiman Long <longman@redhat.com> wrote:
-> >
-> > On 9/10/23 23:09, Guo Ren wrote:
-> > > On Mon, Sep 11, 2023 at 10:35 AM Waiman Long <longman@redhat.com> wrote:
-> > >>
-> > >> On 9/10/23 04:28, guoren@kernel.org wrote:
-> > >>> From: Guo Ren <guoren@linux.alibaba.com>
-> > >>>
-> > >>> The target of xchg_tail is to write the tail to the lock value, so
-> > >>> adding prefetchw could help the next cmpxchg step, which may
-> > >>> decrease the cmpxchg retry loops of xchg_tail. Some processors may
-> > >>> utilize this feature to give a forward guarantee, e.g., RISC-V
-> > >>> XuanTie processors would block the snoop channel & irq for several
-> > >>> cycles when prefetch.w instruction (from Zicbop extension) retired,
-> > >>> which guarantees the next cmpxchg succeeds.
-> > >>>
-> > >>> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > >>> Signed-off-by: Guo Ren <guoren@kernel.org>
-> > >>> ---
-> > >>>    kernel/locking/qspinlock.c | 5 ++++-
-> > >>>    1 file changed, 4 insertions(+), 1 deletion(-)
-> > >>>
-> > >>> diff --git a/kernel/locking/qspinlock.c b/kernel/locking/qspinlock.c
-> > >>> index d3f99060b60f..96b54e2ade86 100644
-> > >>> --- a/kernel/locking/qspinlock.c
-> > >>> +++ b/kernel/locking/qspinlock.c
-> > >>> @@ -223,7 +223,10 @@ static __always_inline void clear_pending_set_locked(struct qspinlock *lock)
-> > >>>     */
-> > >>>    static __always_inline u32 xchg_tail(struct qspinlock *lock, u32 tail)
-> > >>>    {
-> > >>> -     u32 old, new, val = atomic_read(&lock->val);
-> > >>> +     u32 old, new, val;
-> > >>> +
-> > >>> +     prefetchw(&lock->val);
-> > >>> +     val = atomic_read(&lock->val);
-> > >>>
-> > >>>        for (;;) {
-> > >>>                new = (val & _Q_LOCKED_PENDING_MASK) | tail;
-> > >> That looks a bit weird. You pre-fetch and then immediately read it. How
-> > >> much performance gain you get by this change alone?
-> > >>
-> > >> Maybe you can define an arch specific primitive that default back to
-> > >> atomic_read() if not defined.
-> > > Thx for the reply. This is a generic optimization point I would like
-> > > to talk about with you.
-> > >
-> > > First, prefetchw() makes cacheline an exclusive state and serves for
-> > > the next cmpxchg loop semantic, which writes the idx_tail part of
-> > > arch_spin_lock. The atomic_read only makes cacheline in the shared
-> > > state, which couldn't give any guarantee for the next cmpxchg loop
-> > > semantic. Micro-architecture could utilize prefetchw() to provide a
-> > > strong forward progress guarantee for the xchg_tail, e.g., the T-HEAD
-> > > XuanTie processor would hold the exclusive cacheline state until the
-> > > next cmpxchg write success.
-> > >
-> > > In the end, Let's go back to the principle: the xchg_tail is an atomic
-> > > swap operation that contains write eventually, so giving a prefetchw()
-> > > at the beginning is acceptable for all architectures..
-> > > ••••••••••••
-> >
-> > I did realize afterward that prefetchw gets the cacheline in exclusive
-> > state. I will suggest you mention that in your commit log as well as
-> > adding a comment about its purpose in the code.
-> Okay, I would do that in v12, thx.
+Tue, Sep 12, 2023 at 11:48:40AM CEST, songjinjian@hotmail.com wrote:
+>Adds support for t7xx wwan device firmware flashing & coredump collection
+>using devlink.
 
-I would suggest adding a snippet from the ISA Extenstion doc:
+I don't believe that use of devlink is correct here. It seems like a
+misfit. IIUC, what you need is to communicate with the modem. Basically
+a communication channel to modem. The other wwan drivers implement these
+channels in _ctrl.c files, using multiple protocols. Why can't you do
+something similar and let devlink out of this please?
 
-"A prefetch.w instruction indicates to hardware that the cache block whose 
-effective address is the sum of the base address specified in rs1 and the  
-sign-extended offset encoded in imm[11:0], where imm[4:0] equals 0b00000, 
-is likely to be accessed by a data write (i.e. store) in the near future."
+Until you put in arguments why you really need devlink and why is it a
+good fit, I'm against this. Please don't send any other versions of this
+patchset that use devlink.
 
-Other than that,
-Reviewed-by: Leonardo Bras <leobras@redhat.com>
-
-
-> 
-> >
-> > Thanks,
-> > Longman
-> >
-> > >> Cheers,
-> > >> Longman
-> > >>
-> > >
-> >
-> 
-> 
-> -- 
-> Best Regards
->  Guo Ren
-> 
-
+NACK.
