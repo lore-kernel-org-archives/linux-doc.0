@@ -2,373 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17856EE01E0
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 16:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0B7EE01F4
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 17:30:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231247AbjIMQro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 12:47:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40812 "EHLO
+        id S230311AbjIMRaI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 13:30:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231285AbjIMQr2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 12:47:28 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F46272E;
-        Wed, 13 Sep 2023 09:44:54 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bf7a6509deso49690715ad.3;
-        Wed, 13 Sep 2023 09:44:54 -0700 (PDT)
+        with ESMTP id S229744AbjIMRaH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 13:30:07 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3679EC1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 10:30:03 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-58d9e327d3aso634087b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 10:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694623494; x=1695228294; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=LJE7+qXCJmoTi/omoFna3Xr7ZtHmLFPfam+faJSi/V8=;
-        b=VWQVpyAKd+Zq4iKhgRbEpWXhKK6jXpFDLqqiy6gwbvayDlPKoaqbBoFxi/MzzXoLuA
-         xHEGsWdARLWkfEwqYAYz+V9QgGzxl0XLe2IfRc/iuYlo6gHs7woFzjxilKIYpuc9LnBj
-         THe5dLqRo3VDX/+jMfr6oBSUENFzqLYhh2PCfKFAwxV+qrSHV41n5fPF+sKZ3TJYHU9k
-         ONR0lY9QMTx/ZlE+39yU9vfTQmlNPX4clfwNA6OZ/xDjrSlixBcFuReZYwSPbIGUZbRC
-         EXtGPKUYghdVCqxwDH3pqbE0smpF7XmmhBA8X/DWgkOlrnKxgCb3eo5+1N5E0Ah5kjTy
-         wJoA==
+        d=google.com; s=20230601; t=1694626202; x=1695231002; darn=vger.kernel.org;
+        h=to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nQYKtEx2Ahg/EgiBcTyeql1DXcav92WH1KFkTagbIIU=;
+        b=QcZGQlJFPD7rOD8ukzyNgU4IKqt4aKsgMSJHXOPq0kzX2xLz8OeX5oHGHvOzZlCvID
+         +weXoFNpjn8TKNRouilDr2s0covfCzgMXwabba0Dw3WZJQuK47MWwafZavej3GrK4Rwv
+         aisp03OFpxns1K+GnZ8NI54KZJX66yoiEIjxJVpJvkLOlkV8rCWlAvXZihIia/kuAJGL
+         txHZldYGrijNylL5LtyKgIwPKB4yCSeTmuj13EoCVCEJc/SIBgvMGJJ8AK/UMV/K0VBR
+         68FKRV+QkUKIYmfB0IUlfn02vnV4Npr9124pdet16QX5+rly28snLHE3GosYLx3968b+
+         6lFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694623494; x=1695228294;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LJE7+qXCJmoTi/omoFna3Xr7ZtHmLFPfam+faJSi/V8=;
-        b=aeYaGkqViaOX3O/nn0nzkNT4lWsrUgHrlXCv+q/zrcli046fepMUNeKn2u0gi8ERdF
-         l5dk1zP2m68yTDYPhvbyf2AcHjkuTTpOZ4Ju41cXkyLBhu+4M1srPttIwhrpmFdRfPXd
-         Afo2xS4Qs29sg70h0B/siuvydqrSHpbSm2DC441qBDEotGJX/yzne7YUMSxtzqgB1rGm
-         KNKCEEEGcyvqpFtsHEZ5KjWdzHes34PDa/P03bY/Hv1mixvl6dcWJHCkOaLxz+0RTSpn
-         9X8q/r//aun/V40SksCoOGxQnzUUPUGT6MdvsQnYRcVAW4P1md4gOyURXh7Kuivuj3BU
-         +zLA==
-X-Gm-Message-State: AOJu0YyaTxkj6vo1drciDj3Clo0XY5U4v2cq7UiQlTL/iieLGle+ewdZ
-        2m2VpYc9r/ZzTEmDlhQjpTI=
-X-Google-Smtp-Source: AGHT+IEAz9RhM/emxZRTy2Gcteoqak54PMBtzTJhoyzg9o0xek1stFp6NFGUDnCjF7p30mICUIT/AQ==
-X-Received: by 2002:a17:902:c081:b0:1c0:c3cc:d12a with SMTP id j1-20020a170902c08100b001c0c3ccd12amr3415022pld.20.1694623493710;
-        Wed, 13 Sep 2023 09:44:53 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t11-20020a170902a5cb00b001c20c608373sm10672178plq.296.2023.09.13.09.44.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 09:44:53 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b01ee87b-2a17-f556-c24b-3b07dbb97e97@roeck-us.net>
-Date:   Wed, 13 Sep 2023 09:44:52 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 3/4] hwmon: max31827: Handle new properties from the
- devicetree
-Content-Language: en-US
-To:     Daniel Matyas <daniel.matyas@analog.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230913152135.457892-1-daniel.matyas@analog.com>
- <20230913152135.457892-4-daniel.matyas@analog.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20230913152135.457892-4-daniel.matyas@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        d=1e100.net; s=20230601; t=1694626202; x=1695231002;
+        h=to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nQYKtEx2Ahg/EgiBcTyeql1DXcav92WH1KFkTagbIIU=;
+        b=MDCTccfcUpbRvB9uNq/KuxeC7yxUGosqQLIbVU/Y8xpF1v/C5ykcmpOdWjHTxsTT8b
+         0zo70Q9BFSMHspGu9RvoBCUFko1lAg0yDarjr2N3Rirt/QftAA9fM4YhorRv2uXLsMrx
+         UQwAjD80q1+r1DzK2+XbOeDM7jJxiQwTj+nBga+1323/1sfRDwWJKDddpbcQq2dkN6tt
+         0y7WcDd3qjNTqUDvdcI6SWXX+677c9XjcOtuKQt1RJDJDt8aI9PSWJRY+Gw7ke+Xxzup
+         1oQITLVnKbnRTe+busbqmtSy5V2k2SZ9WnlfVxuGofyc0hNphYgYizg9ThUUCQBS4O2J
+         25fg==
+X-Gm-Message-State: AOJu0YxZoQ29rpjfQfQHfDySPvue1fp93dxvKqs41RKhTnAHdGPyWotf
+        /1JIGerVl+a3p0Sg4nEgFxjPFUXEs0h+dXBNng==
+X-Google-Smtp-Source: AGHT+IE5cLs10j5eM7g1XBTKf4J/Tj20JYHER+8VUILJlyo+8XOTakwpxeH8VGHFwpoyBFxAjTheI7UpMFKI+r/eiQ==
+X-Received: from souravpanda.svl.corp.google.com ([2620:15c:2a3:200:2718:5cf5:d91:d21d])
+ (user=souravpanda job=sendgmr) by 2002:a05:690c:4703:b0:59b:e86f:ed2d with
+ SMTP id gz3-20020a05690c470300b0059be86fed2dmr3605ywb.5.1694626202437; Wed,
+ 13 Sep 2023 10:30:02 -0700 (PDT)
+Date:   Wed, 13 Sep 2023 10:29:59 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.42.0.459.ge4e396fd5e-goog
+Message-ID: <20230913173000.4016218-1-souravpanda@google.com>
+Subject: [PATCH v1 0/1] Report perpage metadata information.
+From:   Sourav Panda <souravpanda@google.com>
+To:     corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
+        akpm@linux-foundation.org, mike.kravetz@oracle.com,
+        muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
+        rdunlap@infradead.org, chenlinxuan@uniontech.com,
+        yang.yang29@zte.com.cn, souravpanda@google.com,
+        tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com,
+        pasha.tatashin@soleen.com, yosryahmed@google.com,
+        hannes@cmpxchg.org, shakeelb@google.com,
+        kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
+        adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@Oracle.com,
+        surenb@google.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/13/23 08:21, Daniel Matyas wrote:
-> Used fwnode to retrieve data from the devicetree in the init_client
-> function.
-> 
-> Added support for devices max31828 and max31829. For these devices, when
-> adi,flt-q and/or adi,alrm-pol are not mentioned, the default
-> configuration is loaded.
-> 
+Hi!
 
-Still more than one logical change in a single patch.
+This patch adds a new per-node PageMetadata field to
+/sys/devices/system/node/nodeN/meminfo and a global PageMetadata field
+to /proc/meminfo. This information can be used by users to see how much
+memory is being used by per-page metadata, which can vary depending on
+build configuration, machine architecture, and system use.
 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
-> ---
->   Documentation/hwmon/max31827.rst |  47 ++++++++--
->   drivers/hwmon/max31827.c         | 142 +++++++++++++++++++++++++++----
->   2 files changed, 165 insertions(+), 24 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-> index 9a1055a007cf..e0eca1eb5c06 100644
-> --- a/Documentation/hwmon/max31827.rst
-> +++ b/Documentation/hwmon/max31827.rst
-> @@ -52,13 +52,21 @@ MAX31827 has low and over temperature alarms with an effective value and a
->   hysteresis value: -40 and -30 degrees for under temperature alarm and +100 and
->   +90 degrees for over temperature alarm.
->   
-> -The alarm can be configured in comparator and interrupt mode. Currently only
-> -comparator mode is implemented. In Comparator mode, the OT/UT status bits have a
-> -value of 1 when the temperature rises above the TH value or falls below TL,
-> -which is also subject to the Fault Queue selection. OT status returns to 0 when
-> -the temperature drops below the TH_HYST value or when shutdown mode is entered.
-> -Similarly, UT status returns to 0 when the temperature rises above TL_HYST value
-> -or when shutdown mode is entered.
-> +The alarm can be configured in comparator and interrupt mode from the
-> +devicetree. In Comparator mode, the OT/UT status bits have a value of 1 when the
-> +temperature rises above the TH value or falls below TL, which is also subject to
-> +the Fault Queue selection. OT status returns to 0 when the temperature drops
-> +below the TH_HYST value or when shutdown mode is entered. Similarly, UT status
-> +returns to 0 when the temperature rises above TL_HYST value or when shutdown
-> +mode is entered.
-> +
-> +In interrupt mode exceeding TH also sets OT status to 1, which remains set until
-> +a read operation is performed on the configuration/status register (max or min
-> +attribute); at this point, it returns to 0. Once OT status is set to 1 from
-> +exceeding TH and reset, it is set to 1 again only when the temperature drops
-> +below TH_HYST. The output remains asserted until it is reset by a read. It is
-> +set again if the temperature rises above TH, and so on. The same logic applies
-> +to the operation of the UT status bit.
->   
->   Putting the MAX31827 into shutdown mode also resets the OT/UT status bits. Note
->   that if the mode is changed while OT/UT status bits are set, an OT/UT status
-> @@ -68,6 +76,17 @@ clear the status bits before changing the operating mode.
->   
->   The conversions can be manual with the one-shot functionality and automatic with
->   a set frequency. When powered on, the chip measures temperatures with 1 conv/s.
-> +The conversion rate can be modified with update_interval attribute of the chip.
-> +Conversion/second = 1/update_interval. Thus, the available options according to
-> +the data sheet are:
-> +	- 64000 (ms) = 1 conv/64 sec
-> +	- 32000 (ms) = 1 conv/32 sec
-> +	- 16000 (ms) = 1 conv/16 sec
-> +	- 4000 (ms) = 1 conv/4 sec
-> +	- 1000 (ms) = 1 conv/sec (default)
-> +	- 250 (ms) = 4 conv/sec
-> +	- 125 (ms) = 8 conv/sec
-> +
->   Enabling the device when it is already enabled has the side effect of setting
->   the conversion frequency to 1 conv/s. The conversion time varies depending on
->   the resolution. The conversion time doubles with every bit of increased
-> @@ -83,8 +102,18 @@ in the writing of alarm values too. For positive numbers the user-input value
->   will always be rounded down to the nearest possible value, for negative numbers
->   the user-input will always be rounded up to the nearest possible value.
->   
-> +Bus timeout resets the I2C-compatible interface when SCL is low for more than
-> +30ms (nominal).
-> +
-> +Alarm polarity determines if the active state of the alarm is low or high. The
-> +behavior for both settings is dependent on the Fault Queue setting. The ALARM
-> +pin is an open-drain output and requires a pullup resistor to operate.
-> +
-> +The Fault Queue bits select how many consecutive temperature faults must occur
-> +before overtemperature or undertemperature faults are indicated in the
-> +corresponding status bits.
-> +
->   Notes
->   -----
->   
-> -Currently fault queue, alarm polarity and resolution cannot be modified.
-> -PEC is not implemented either.
-> +PEC and resolution are not implemented.
-> diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
-> index f05762219995..4dc14642775a 100644
-> --- a/drivers/hwmon/max31827.c
-> +++ b/drivers/hwmon/max31827.c
-> @@ -12,6 +12,19 @@
->   #include <linux/i2c.h>
->   #include <linux/mutex.h>
->   #include <linux/regmap.h>
-> +#include <linux/hwmon-sysfs.h>
-> +#include <linux/of_device.h>
-> +
-> +/*
-> + * gcc turns __builtin_ffsll() into a call to __ffsdi2(), which is not provided
-> + * by every architecture. __ffs64() is available on all architectures, but the
-> + * result is not defined if no bits are set.
-> + */
-> +#define max31827__bf_shf(x)			 \
-> +	({					 \
-> +		typeof(x) x_ = (x);		 \
-> +		((x_) != 0) ? __ffs64(x_) : 0x0; \
-> +	})
->   
->   #define MAX31827_T_REG			0x0
->   #define MAX31827_CONFIGURATION_REG	0x2
-> @@ -22,15 +35,25 @@
->   
->   #define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
->   #define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
-> -#define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK	BIT(14)
-> -#define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK	BIT(15)
-> +#define MAX31827_CONFIGURATION_TIMEOUT_MASK	BIT(5)
-> +#define MAX31827_CONFIGURATION_RESOLUTION_MASK	GENMASK(7, 6)
-> +#define MAX31827_CONFIGURATION_ALRM_POL_MASK	BIT(8)
-> +#define MAX31827_CONFIGURATION_COMP_INT_MASK	BIT(9)
-> +#define MAX31827_CONFIGURATION_FLT_Q_MASK	GENMASK(11, 10)
-> +#define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK BIT(14)
-> +#define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK BIT(15)
->   
->   #define MAX31827_12_BIT_CNV_TIME	140
->   
-> +#define MAX31827_FLT_Q_1	0x0
-> +#define MAX31827_FLT_Q_4	0x2
-> +
->   #define MAX31827_16_BIT_TO_M_DGR(x)	(sign_extend32(x, 15) * 1000 / 16)
->   #define MAX31827_M_DGR_TO_16_BIT(x)	(((x) << 4) / 1000)
->   #define MAX31827_DEVICE_ENABLE(x)	((x) ? 0xA : 0x0)
->   
-> +enum chips { max31827, max31828, max31829 };
-> +
->   enum max31827_cnv {
->   	MAX31827_CNV_1_DIV_64_HZ = 1,
->   	MAX31827_CNV_1_DIV_32_HZ,
-> @@ -58,6 +81,7 @@ struct max31827_state {
->   	struct mutex lock;
->   	struct regmap *regmap;
->   	bool enable;
-> +	struct i2c_client *client;
->   };
->   
->   static const struct regmap_config max31827_regmap = {
-> @@ -361,14 +385,93 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
->   	return -EOPNOTSUPP;
->   }
->   
-> -static int max31827_init_client(struct max31827_state *st)
-> +static const struct i2c_device_id max31827_i2c_ids[] = {
-> +       { "max31827", max31827 },
-> +       { "max31828", max31828 },
-> +       { "max31829", max31829 },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, max31827_i2c_ids);
-> +
-> +static int max31827_init_client(struct max31827_state *st,
-> +				struct fwnode_handle *fwnode)
->   {
-> +	bool prop;
-> +	u32 data, lsb_idx;
-> +	unsigned int res = 0;
-> +	enum chips type;
-> +	int ret;
-> +
->   	st->enable = true;
-> +	res |= MAX31827_DEVICE_ENABLE(1);
-> +
-> +	res |= MAX31827_CONFIGURATION_RESOLUTION_MASK;
->   
-> -	return regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
-> -				  MAX31827_CONFIGURATION_1SHOT_MASK |
-> -					  MAX31827_CONFIGURATION_CNV_RATE_MASK,
-> -				  MAX31827_DEVICE_ENABLE(1));
-> +	prop = fwnode_property_read_bool(fwnode, "adi,comp-int");
-> +	res |= FIELD_PREP(MAX31827_CONFIGURATION_COMP_INT_MASK, prop);
-> +
-> +	prop = fwnode_property_read_bool(fwnode, "adi,timeout-enable");
-> +	res |= FIELD_PREP(MAX31827_CONFIGURATION_TIMEOUT_MASK, !prop);
-> +
-> +	if (st->client->dev.of_node)
-> +		type = (enum chips)of_device_get_match_data(&st->client->dev);
-> +	else
-> +		type = i2c_match_id(max31827_i2c_ids, st->client)->driver_data;
-> +
-> +	if (fwnode_property_present(fwnode, "adi,alrm-pol")) {
-> +		ret = fwnode_property_read_u32(fwnode, "adi,alrm-pol", &data);
-> +		if (ret)
-> +			return ret;
-> +
-> +		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK, !!data);
-> +	} else {
-> +		switch (type) {
-> +		case max31827:
-> +		case max31828:
-> +			res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK,
-> +					  0x0);
-> +			break;
-> +		case max31829:
-> +			res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK,
-> +					  0x1);
-> +			break;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	}
-> +
-> +	if (fwnode_property_present(fwnode, "adi,flt-q")) {
-> +		ret = fwnode_property_read_u32(fwnode, "adi,flt-q", &data);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/*
-> +		 * Convert the desired fault queue into register bits.
-> +		 */
-> +		lsb_idx = max31827__bf_shf(data);
-> +		if (lsb_idx > 3 || data != BIT(lsb_idx)) {
-> +			dev_err(&st->client->dev, "Invalid data in fault queue\n");
-> +			return -EOPNOTSUPP;
-> +		}
-> +
-> +		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK, lsb_idx);
-> +	} else {
-> +		switch (type) {
-> +		case max31827:
-> +			res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK,
-> +					  MAX31827_FLT_Q_1);
-> +			break;
-> +		case max31828:
-> +		case max31829:
-> +			res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK,
-> +					  MAX31827_FLT_Q_4);
-> +			break;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	}
-> +
-> +	return regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, res);
->   }
->   
->   static const struct hwmon_channel_info *max31827_info[] = {
-> @@ -396,6 +499,7 @@ static int max31827_probe(struct i2c_client *client)
->   	struct device *dev = &client->dev;
->   	struct device *hwmon_dev;
->   	struct max31827_state *st;
-> +	struct fwnode_handle *fwnode;
->   	int err;
->   
->   	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_WORD_DATA))
-> @@ -412,7 +516,10 @@ static int max31827_probe(struct i2c_client *client)
->   		return dev_err_probe(dev, PTR_ERR(st->regmap),
->   				     "Failed to allocate regmap.\n");
->   
-> -	err = max31827_init_client(st);
-> +	st->client = client;
-> +	fwnode = dev_fwnode(dev);
-> +
-> +	err = max31827_init_client(st, fwnode);
->   	if (err)
->   		return err;
->   
-> @@ -423,14 +530,19 @@ static int max31827_probe(struct i2c_client *client)
->   	return PTR_ERR_OR_ZERO(hwmon_dev);
->   }
->   
-> -static const struct i2c_device_id max31827_i2c_ids[] = {
-> -	{ "max31827", 0 },
-> -	{ }
-> -};
-> -MODULE_DEVICE_TABLE(i2c, max31827_i2c_ids);
-> -
->   static const struct of_device_id max31827_of_match[] = {
-> -	{ .compatible = "adi,max31827" },
-> +	{
-> +		.compatible = "adi,max31827",
-> +		.data = (void *)max31827
-> +	},
-> +	{
-> +		.compatible = "adi,max31828",
-> +		.data = (void *)max31828
-> +	},
-> +	{
-> +		.compatible = "adi,max31829",
-> +		.data = (void *)max31829
-> +	},
->   	{ }
->   };
->   MODULE_DEVICE_TABLE(of, max31827_of_match);
+Per-page metadata is the amount of memory that Linux needs in order to
+manage memory at the page granularity. The majority of such memory is
+used by "struct page" and "page_ext" data structures.
+
+
+Background
+----------
+
+Kernel overhead observability is missing some of the largest
+allocations during runtime, including vmemmap (struct pages) and
+page_ext. This patch aims to address this problem by exporting a
+new metric PageMetadata.
+
+On the contrary, the kernel does provide observibility for boot memory
+allocations. For example, the metric reserved_pages depicts the pages
+allocated by the bootmem allocator. This can be simply calculated as
+present_pages - managed_pages, which are both exported in /proc/zoneinfo.
+The metric reserved_pages is primarily composed of struct pages and
+page_ext.
+
+What about the struct pages (allocated by bootmem allocator) that are
+free'd during hugetlbfs allocations and then allocated by buddy-allocator
+once hugtlbfs pages are free'd?
+
+/proc/meminfo MemTotal changes: MemTotal does not include memblock
+allocations but includes buddy allocations. However, during runtime
+memblock allocations can be shifted into buddy allocations, and therefore
+become part of MemTotal.
+
+Once the struct pages get allocated by buddy allocator, we lose track of
+these struct page allocations overhead accounting. Therefore, we must
+export a new metric that we shall refer to as PageMetadata (exported by
+node). This shall also comprise the struct page and page_ext allocations
+made during runtime.
+
+Results and analysis
+--------------------
+
+Memory model: Sparsemem-vmemmap
+$ echo 1 > /proc/sys/vm/hugetlb_optimize_vmemmap
+
+$ cat /proc/meminfo | grep MemTotal
+	MemTotal:       32918196 kB
+$ cat /proc/meminfo | grep Meta
+	PageMetadata:     589824 kB
+$ cat /sys/devices/system/node/node0/meminfo | grep Meta
+	Node 0 PageMetadata:     294912 kB
+$ cat /sys/devices/system/node/node1/meminfo | grep Meta
+	Node 1 PageMetadata:     294912 kB
+
+
+AFTER HUGTLBFS RESERVATION
+$ echo 512 > /proc/sys/vm/nr_hugepages
+
+$ cat /proc/meminfo | grep MemTotal
+
+MemTotal:       32934580 kB
+$ cat /proc/meminfo | grep Meta
+PageMetadata:     575488 kB
+$ cat /sys/devices/system/node/node0/meminfo | grep Meta
+Node 0 PageMetadata:     287744 kB
+$ cat /sys/devices/system/node/node1/meminfo | grep Meta
+Node 1 PageMetadata:     287744 kB
+
+AFTER FREEING HUGTLBFS RESERVATION
+$ echo 0 > /proc/sys/vm/nr_hugepages
+$ cat /proc/meminfo | grep MemTotal
+MemTotal:       32934580 kB
+$ cat /proc/meminfo | grep Meta
+PageMetadata:    589824 kB
+$ cat /sys/devices/system/node/node0/meminfo | grep Meta
+Node 0 PageMetadata:       294912 kB
+$ cat /sys/devices/system/node/node1/meminfo | grep Meta
+Node 1 PageMetadata:       294912 kB
+
+Sourav Panda (1):
+  mm: report per-page metadata information
+
+ Documentation/filesystems/proc.rst |  3 +++
+ drivers/base/node.c                |  2 ++
+ fs/proc/meminfo.c                  |  7 +++++++
+ include/linux/mmzone.h             |  3 +++
+ include/linux/vmstat.h             |  4 ++++
+ mm/hugetlb.c                       |  8 +++++++-
+ mm/hugetlb_vmemmap.c               |  9 ++++++++-
+ mm/mm_init.c                       |  3 +++
+ mm/page_alloc.c                    |  1 +
+ mm/page_ext.c                      | 17 +++++++++++++----
+ mm/sparse-vmemmap.c                |  3 +++
+ mm/sparse.c                        |  7 ++++++-
+ mm/vmstat.c                        | 21 +++++++++++++++++++++
+ 13 files changed, 81 insertions(+), 7 deletions(-)
+
+-- 
+2.42.0.283.g2d96d420d3-goog
 
