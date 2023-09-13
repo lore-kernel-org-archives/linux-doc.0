@@ -2,100 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B581CA5537
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 16:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F61EE01E8
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 16:46:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbjIMQLb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 12:11:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51188 "EHLO
+        id S230491AbjIMQqJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 12:46:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjIMQLb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 12:11:31 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D293EE54;
-        Wed, 13 Sep 2023 09:11:26 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Rm56g4ffDz49Q8K;
-        Wed, 13 Sep 2023 19:11:23 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1694621484;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=h7a8ucP8OlgMP9E+mR6T6bGim5pEzo2GJ/i2Eh3LWM0=;
-        b=dvuZb93e7L3oxNJKpK86FYe3Xqe7STvJcUGiX+Igo/U8tYiTgjBA0Y+F2dkMxFXsWo/URB
-        kmPiKE51biJGIjoBc72Kfs5FCZaGA+jnxXJ3ZgrleyLMIw4+nZsIQcxQFKv6d/wJFRlw8l
-        8nrWr7ikzP0xxUhOQ9k05xtKjNSc3Hcneb8GK+Dt6ESBSK6nGp6G8J4SoRwdfiAn1q62eS
-        B0UUrfp2s1EafjsWJIQpwUz+ySkgZIk2qssn2Mp/mxgfvkGwQ0SG514L6tEvD4v7jGifG6
-        sdGZvmdnE+yH/TO78TD/pJ/2MGgMED9soYro+53O0+cA/dF47/Q280kZcLu0CA==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1694621484; a=rsa-sha256;
-        cv=none;
-        b=jw3c6YFGnkevAnDThOYIu3Zo0N4jiwrMZcjTHHYhmsPxLdLkGHLebwr1O/GYMZq1TUcUgw
-        DUK0U31dCqX9DLRlnFIzr4zL1aho/6JERXKNlXAHLWfArktmZ2T1tE0bk7v2CB9Np1ICRf
-        KePK2sFvnIE7auSMApr8LanjjCjvg3yFbjUmeLAq09Zo4R3yDXw6kslWu/U04q8YI5Pefo
-        Hk6XSGs3R04kCtgHTIbGsAwVRq6GljZA6riiSBZA0EaoYmCmOtNnM94fjR9E/LG1cNDrs1
-        ZCL0CDyW3FSKN+IP3wifDnCD9NcupJlgIqkJ24F+++undg4ZZr0wssO93Cg/2g==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1694621484;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=h7a8ucP8OlgMP9E+mR6T6bGim5pEzo2GJ/i2Eh3LWM0=;
-        b=P90duSPX7iW+S1/qtb3uibnavvblmKeGv0mI0Gy8iTFO0jNYtubY8STk4RTdjdFs7Lwuwk
-        GsEz7ukF7u/o5za9pxkN5tFG8UeUYnB5r6Epr7y3bvveeJXn0CTjeOkg6lrXJ4t65MlqJY
-        Po3DS9yUDRKwszN9dRW3cJiAfqUv55Ogxs2pmI26+7V1VHkXsy4TfWKovK92GofXmMlvTf
-        D0ICv/qSy76MI/1dyIUFWmWNVaCaABlvWwUuFPESddK1EW0r8ZxSRHDPPRL2pe1spuhGj3
-        ToZfWIMbzVqNsXQlr7Fxu6AvcdMePHRfdMUEzozkEI5Gu7B71sJZI0cU3M3Hkw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1805A634C93;
-        Wed, 13 Sep 2023 19:11:23 +0300 (EEST)
-Date:   Wed, 13 Sep 2023 16:11:22 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
- dependencies
-Message-ID: <ZQHfKuGcX07/xW2k@valkosipuli.retiisi.eu>
-References: <20230913113801.1901152-1-arnd@kernel.org>
+        with ESMTP id S230497AbjIMQp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 12:45:59 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9FCF2682;
+        Wed, 13 Sep 2023 09:43:22 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1c1e128135aso58935085ad.3;
+        Wed, 13 Sep 2023 09:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694623402; x=1695228202; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UVgnaOWsMuI4Gn/SXs85X2e0CNMfL8OIn3v82IsRbno=;
+        b=O2fU9FpBaHAFJAX+VITgPyNBHPKXVEaTzN8I4zaCGpUxo5/kpI4LqgYHbB5SZy7PuU
+         v4u8yzhRzHKaqKJiqsEmJhdubPT4e4ZCDY2e+J4qQ/XAZ1BZ5r0wXQ4U48bwKQgq5L9H
+         C8P70+eUf9fxfvNNg0kjPcH73IZFiAiI5wLoBiR8ILlESwhjyjnH1M48MCCckOUdeBQG
+         KhOp08eZYQdRSPceL0L5YD2iWUZB97lfihe24HrprEO8Y+GUr2czGEXDmoiEB3HYegA8
+         6lOleRfj1UOvz5MIATLFNJpG7hdj/kVR7quxld2vSV7MZw/Gh6kOzh2p5TWeQonSxFy2
+         QoOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694623402; x=1695228202;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UVgnaOWsMuI4Gn/SXs85X2e0CNMfL8OIn3v82IsRbno=;
+        b=I5fH8H7XkXi6M4me7Y65lPtcPFCzl6spde++S59db/JrWtQ7dBNMF+tvZoAsbfxSGC
+         aQe+SJqwpq2Me5yQ1Ho6xCj5hukzPUo0a31jCzwuOFHnrjgus1SSEoRr3a9iU8su1Ruv
+         TDypOkflXvQ8c63aNY2w1ZuIbgKSt4XVOfkSWX2851+3/li7pDfNZwKKsP2a0c6N4Ysf
+         mLnTeFAc33E2k9BzEZzloONGdpuXczBs3/lx9WG4B9zG8IAFd/FIuJCGRGk8lpJcFT+U
+         mm6ueOfo/74wr0480+cJY1OQ0iUJcohAPWaVz3afTLtd0GBM2x9pJn4CKW6xItOJY9vU
+         ZNhw==
+X-Gm-Message-State: AOJu0Yycg8FZ0afLXynumPxAf/kFG5QNgidTKQ/5ZNTT/m5TPb+rneBQ
+        Jp5LazdzMpZlo78bdZ8uqvtclZt0igg=
+X-Google-Smtp-Source: AGHT+IESHKzQ+zFrLqODyTIrVOnHrIwl/UkSo4Sjmh5JoJQkTIOZ69KakqmfgF++348R4TDEK5zJZQ==
+X-Received: by 2002:a17:902:ecc5:b0:1bc:2c79:c6b6 with SMTP id a5-20020a170902ecc500b001bc2c79c6b6mr3820569plh.28.1694623402117;
+        Wed, 13 Sep 2023 09:43:22 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id iw7-20020a170903044700b001c3a7fbf96fsm7362748plb.216.2023.09.13.09.43.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Sep 2023 09:43:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <823b9820-9225-fc24-ff86-1056a1a43cc3@roeck-us.net>
+Date:   Wed, 13 Sep 2023 09:43:19 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230913152135.457892-1-daniel.matyas@analog.com>
+ <20230913152135.457892-3-daniel.matyas@analog.com>
+ <177ef05b-0cca-be25-afad-ac518d9f6473@linaro.org>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 2/4] dt-bindings: hwmon: Added new properties to the
+ devicetree
+In-Reply-To: <177ef05b-0cca-be25-afad-ac518d9f6473@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 13, 2023 at 01:37:52PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 9/13/23 08:40, Krzysztof Kozlowski wrote:
+> On 13/09/2023 17:21, Daniel Matyas wrote:
 > 
-> This problem frequently comes up in randconfig testing, with
-> drivers failing to link because of a dependency on an optional
-> feature.
+> Subject: not much improved. I am sorry, but you are not adding new
+> properties to entire devicetree of entire world. You are actually not
+> adding anything to any devicetree, because these are bindings (which is
+> obvious, as said by prefix).
 > 
-> The Kconfig language for this is very confusing, so try to
-> document it in "Kconfig hints" section.
+> You got comments on this.
 > 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> These attributes are:
+>> 	- adi,comp-int - boolean property
+>> 	- adi,alrm-pol - can be 0, 1 (if not present, default value)
+>> 	- adi,flt-q - can be 1, 2, 4, 8 (if not present, default value)
+>> 	- adi,timeout-enable - boolean property
+> 
+> Don't repeat what the code does. Explain why you are adding it, what is
+> the purpose.
+> 
+>>
+>> These modify the corresponding bits in the configuration register.
+>>
+>> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+>> ---
+>>   .../bindings/hwmon/adi,max31827.yaml          | 35 +++++++++++++++++++
+>>   1 file changed, 35 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+>> index 2dc8b07b4d3b..6bde71bdb8dd 100644
+>> --- a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+>> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+>> @@ -32,6 +32,37 @@ properties:
+>>         Must have values in the interval (1.6V; 3.6V) in order for the device to
+>>         function correctly.
+>>   
+>> +  adi,comp-int:
+>> +    description:
+>> +      If present interrupt mode is used. If not present comparator mode is used
+>> +      (default).
+> 
+> Why this is a property of hardware?
+> 
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Because it affects the behavior of the interrupt signal and whatever
+it is connected to. For example, it could be connected to an interrupt
+controller (interupt mode), or it could be connected to a fan which is
+enabled while the signal is active (comparator mode).
 
--- 
-Sakari Ailus
+>> +    type: boolean
+>> +
+>> +  adi,alrm-pol:
+>> +    description:
+>> +      Sets the alarms active state.
+>> +            - 0 = active low
+>> +            - 1 = active high
+>> +      For max31827 and max31828 the default alarm polarity is low. For max31829
+>> +      it is high.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    enum: [0, 1]
+>> +
+>> +  adi,flt-q:
+>> +    description:
+>> +      Select how many consecutive temperature faults must occur before
+>> +      overtemperature or undertemperature faults are indicated in the
+>> +      corresponding status bits.
+>> +      For max31827 default fault queue is 1. For max31828 and max31829 it is 4.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    enum: [1, 2, 4, 8]
+>> +
+>> +  adi,timeout-enable:
+>> +    description:
+>> +      Enables timeout. Bus timeout resets the I2C-compatible interface when SCL
+>> +      is low for more than 30ms (nominal).
+> 
+> Why this is a property of hardware?
+> 
+
+Because it affects i2c bus operation.
+
+I am not sure I understand what you are trying to say here.
+This is a much a "hardware" property as the i2c bus speed
+and many similar properties, and the need for it is system
+dependent (for example, a system with many devices on the
+i2c bus or with a less than perfect i2c controller may need
+it because the bus tends to get stuck).
+
+Those are not properties where one would, at runtime,
+decide to enable bus timeout or the interrupt mode or
+the bus speed. Typically that kind of functionality
+has to be configured early when the system is started.
+If devicetree must not or no longer be used to describe the
+system to a point where it can be configured to get it
+to a working state, what is the suggested alternative ?
+
+Guenter
+
