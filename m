@@ -2,111 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94270EE49B7
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 02:21:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8050EE49B7
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 02:40:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238165AbjIMCVF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 22:21:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
+        id S231406AbjIMCkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 22:40:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238166AbjIMCVF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 22:21:05 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1242E1716;
-        Tue, 12 Sep 2023 19:21:01 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2810DC433C8;
-        Wed, 13 Sep 2023 02:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694571660;
-        bh=yCdyENSSr2jBoqcU5uuhQp9Eg5ZiZzpyIfgAEWQFG08=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G+l4nTmJpLTnnS7zeMq7sUR0wx9A3+mSu7hZCG0AI8qsphhiKn/LA+9HqEahsbJkW
-         0VIYo5N/jkiNWdz5mJ70XL49dQ1xejMgCB+uYW73vVraKzDPiM3zegf5Y/bgvYN7IZ
-         GFK1gmEqs8YH7k18ckYgFZfPa9qs/iuxvztNwWFzkudCTmJxoaqxbL2/lTf1DP9WWV
-         H5iXINSUW0dB57rg3MTW4mQnxqtXQMBWidwbBIrWXua4awmxZq9qLDfCQrCqK3P3wK
-         uKb+G+s+SL95eFpdJuOuJMiT5S4CRPUVwuI/bAZipHgcHpNPnNf8KjGOw7iRv3DTw1
-         rjAKkU//Pz6RA==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v2 2/2] Docs/admin-guide/mm/damon/usage: document damos_before_apply tracepoint
-Date:   Wed, 13 Sep 2023 02:20:50 +0000
-Message-Id: <20230913022050.2109-3-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230913022050.2109-1-sj@kernel.org>
-References: <20230913022050.2109-1-sj@kernel.org>
+        with ESMTP id S229557AbjIMCkP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 22:40:15 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E0371713;
+        Tue, 12 Sep 2023 19:40:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=BXJm/TiqH4AAPAwfc/Qy2jYjA5r7iu+40UTmJpL7FD8=; b=YOctBJGu7AFO85kb3gkWsFXT5l
+        6Hb1ei68Q/4Sosm4kuzQ3VBJi9uFgKjj7ugOoHCxlS/dfY7Ay67gXOYwx/jEsuH66ct79qdvE5lz5
+        CLhHt5WyVcoeM9J3IOVQzgT9cb6p7+xoYbF92JlsBZSZb/YsnxuaIcuZbHDw1IO8Usss=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1qgFn3-006H2p-GA; Wed, 13 Sep 2023 04:39:41 +0200
+Date:   Wed, 13 Sep 2023 04:39:41 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, steen.hegelund@microchip.com,
+        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+        Thorsten.Kummermehr@microchip.com
+Subject: Re: [RFC PATCH net-next 2/6] net: ethernet: add mac-phy interrupt
+ support with reset complete handling
+Message-ID: <027d8f7b-6932-4d9d-b2f9-5369806a79a3@lunn.ch>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-3-Parthiban.Veerasooran@microchip.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230908142919.14849-3-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document damos_before_apply tracepoint on the usage document.
+> +static int oa_tc6_sw_reset(struct oa_tc6 *tc6)
+> +{
+> +	long timeleft;
+> +	u32 regval;
+> +	int ret;
+> +
+> +	/* Perform software reset with both protected and unprotected control
+> +	 * commands because the driver doesn't know the current status of the
+> +	 * MAC-PHY.
+> +	 */
+> +	regval = SW_RESET;
+> +	reinit_completion(&tc6->rst_complete);
+> +	ret = oa_tc6_perform_ctrl(tc6, OA_TC6_RESET, &regval, 1, true, false);
+> +	if (ret) {
+> +		dev_err(&tc6->spi->dev, "RESET register write failed\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = oa_tc6_perform_ctrl(tc6, OA_TC6_RESET, &regval, 1, true, true);
+> +	if (ret) {
+> +		dev_err(&tc6->spi->dev, "RESET register write failed\n");
+> +		return ret;
+> +	}
+> +	timeleft = wait_for_completion_interruptible_timeout(&tc6->rst_complete,
+> +							     msecs_to_jiffies(1));
+> +	if (timeleft <= 0) {
+> +		dev_err(&tc6->spi->dev, "MAC-PHY reset failed\n");
+> +		return -ENODEV;
+> +	}
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 37 ++++++++++++++++----
- 1 file changed, 30 insertions(+), 7 deletions(-)
+This seems a bit messy and complex. I assume reset is performed once
+during probe, and never again? So i wonder if it would be cleaner to
+actually just poll for the reset to complete? You can then remove all
+this completion code, and the interrupt handler gets simpler?
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 282062b6f134..6272cd36590a 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -496,15 +496,24 @@ the files as above.  Above is only for an example.
- 
- .. _tracepoint:
- 
--Tracepoint for Monitoring Results
--=================================
-+Tracepoints for Monitoring Results
-+==================================
- 
- Users can get the monitoring results via the :ref:`tried_regions
--<sysfs_schemes_tried_regions>` or a tracepoint, ``damon:damon_aggregated``.
--While the tried regions directory is useful for getting a snapshot, the
--tracepoint is useful for getting a full record of the results.  While the
--monitoring is turned on, you could record the tracepoint events and show
--results using tracepoint supporting tools like ``perf``.  For example::
-+<sysfs_schemes_tried_regions>`.  The interface is useful for getting a
-+snapshot, but it could be inefficient for fully recording all the monitoring
-+results.  For the purpose, two trace points, namely ``damon:damon_aggregated``
-+and ``damon:damos_before_apply``, are provided.  ``damon:damon_aggregated``
-+provides the whole monitoring results, while ``damon:damos_before_apply``
-+provides the monitoring results for regions that each DAMON-based Operation
-+Scheme (:ref:`DAMOS <damon_design_damos>`) is gonna be applied.  Hence,
-+``damon:damos_before_apply`` is more useful for recording internal behavior of
-+DAMOS, or DAMOS target access
-+:ref:`pattern <damon_design_damos_access_pattern>` based query-like efficient
-+monitoring results recording.
-+
-+While the monitoring is turned on, you could record the tracepoint events and
-+show results using tracepoint supporting tools like ``perf``.  For example::
- 
-     # echo on > monitor_on
-     # perf record -e damon:damon_aggregated &
-@@ -527,6 +536,20 @@ counter).  Finally the tenth field (``X``) shows the ``age`` of the region
- (refer to :ref:`design <damon_design_age_tracking>` for more details of the
- counter).
- 
-+If the event was ``damon:damos_beofre_apply``, the ``perf script`` output would
-+be somewhat like below::
-+
-+    kdamond.0 47293 [000] 80801.060214: damon:damos_before_apply: ctx_idx=0 scheme_idx=0 target_idx=0 nr_regions=11 121932607488-135128711168: 0 136
-+    [...]
-+
-+Each line of the output represents each monitoring region that each DAMON-based
-+Operation Scheme was about to be applied at the traced time.  The first five
-+fields are as usual.  It shows the index of the DAMON context (``ctx_idx=X``)
-+of the scheme in the list of the contexts of the context's kdamond, the index
-+of the scheme (``scheme_idx=X``) in the list of the schemes of the context, in
-+addition to the output of ``damon_aggregated`` tracepoint.
-+
-+
- .. _debugfs_interface:
- 
- debugfs Interface (DEPRECATED!)
--- 
-2.25.1
+> +	/* Register MAC-PHY interrupt service routine */
+> +	ret = devm_request_irq(&spi->dev, spi->irq, macphy_irq, 0, "macphy int",
+> +			       tc6);
+> +	if ((ret != -ENOTCONN) && ret < 0) {
+> +		dev_err(&spi->dev, "Error attaching macphy irq %d\n", ret);
+> +		goto err_macphy_irq;
+> +	}
 
+Why is -ENOTCONN special? A comment would be good here.
+
+> -void oa_tc6_deinit(struct oa_tc6 *tc6)
+> +int oa_tc6_deinit(struct oa_tc6 *tc6)
+>  {
+> -	kfree(tc6);
+> +	int ret;
+> +
+> +	devm_free_irq(&tc6->spi->dev, tc6->spi->irq, tc6);
+> +	ret = kthread_stop(tc6->tc6_task);
+> +	if (!ret)
+> +		kfree(tc6);
+> +	return ret;
+>  }
+
+What is the MAC driver supposed to do if this fails?
+
+But this problem probably goes away once you use a threaded interrupt
+handler.
+
+w> +/* Open Alliance TC6 Standard Control and Status Registers */
+> +#define OA_TC6_RESET	0x0003		/* Reset Control and Status Register */
+> +#define OA_TC6_STS0	0x0008		/* Status Register #0 */
+
+Please use the same name as the standard. It use STATUS0, so
+OA_TC6_STATUS0. Please make sure all your defines follow the standard.
+
+> +
+> +/* RESET register field */
+> +#define SW_RESET	BIT(0)		/* Software Reset */
+
+It is pretty normal to put #defines for a register members after the
+#define for the register itself:
+
+#define OA_TC6_RESET	0x0003		/* Reset Control and Status Register */
+#define OA_TC6_RESET_SWRESET	BIT(0)
+
+#define OA_TC6_STATUS0	0x0008		/* Status Register #0 */
+#define OA_TC6_STATUS0_RESETC		BIT(6)		/* Reset Complete */
+
+The naming like this also helps avoid mixups.
+
+    Andrew
