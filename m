@@ -2,134 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 140D0EE020B
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 19:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1EACEE020A
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 19:35:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232406AbjIMTd0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 15:33:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49304 "EHLO
+        id S232334AbjIMTfO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 15:35:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232417AbjIMTdX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 15:33:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 61FD783
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 12:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694633550;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Hr0iocCjf//0RhyjTv2/Yc2Az/JEnnVmtYVPY2/RBDU=;
-        b=aLSH4bclwxxQznSyueRBs+IwstsW1xgFFyaolWRV2Zbq0OZYVk8780R8TwG2dSXRgnAAel
-        Wtes0GevJRuQerbFwHT7Eix4L40mz7oNFHYBjzn3P0ZyZHCt7XESTcYu9b0hCHB8Te8qKA
-        AqQLAKGJP8Nh0KpaJVEOncKOaQ4yu8I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-rrV5uf9TM-OJdx_9e_fpbg-1; Wed, 13 Sep 2023 15:32:27 -0400
-X-MC-Unique: rrV5uf9TM-OJdx_9e_fpbg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78504801FA0;
-        Wed, 13 Sep 2023 19:32:25 +0000 (UTC)
-Received: from [10.18.17.156] (dhcp-17-156.bos.redhat.com [10.18.17.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4016140C6EBF;
-        Wed, 13 Sep 2023 19:32:23 +0000 (UTC)
-Message-ID: <1f02232b-2ffc-797c-2331-a164322594d2@redhat.com>
-Date:   Wed, 13 Sep 2023 15:32:23 -0400
+        with ESMTP id S230475AbjIMTfN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 15:35:13 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95DF891;
+        Wed, 13 Sep 2023 12:35:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694633709; x=1726169709;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BKdDmwR0ImqwcCwZEvaS7Oi5BImbBc0gOTOmvoBXyPg=;
+  b=OPyfkHEYEUeGhdNlbRgM63qM1r/alXclHMPSuc2w9ZwsxKGOrqJ54jXR
+   dpx+Iz5H1TLjw0V+l7U0xCYtGYIW82t79Th1T1DYDb5HJgwirtpoKqRo7
+   ZMDofrcY9PNYXJcllL9pdFkqvxeputxrHME+hyE62y2gF3aI2GLEljBN1
+   CqaIR6e+2Uw9Hb2e6mhD0+NcEskKcGyTdZXGuKLudIq15mn4ARxJHU5m3
+   AQxmP6XKCvSYT207bJIzB5LPa2OarYSHX0ZxtkL/aEWmAOCiUIzM4BlIu
+   DOYXyZn9a7Ha2OirHJTUJOeS2d8qT/PokVPj1PGTsVauOU7S5ZWpXQe4Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="376102134"
+X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
+   d="scan'208";a="376102134"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:35:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="737650919"
+X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
+   d="scan'208";a="737650919"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 13 Sep 2023 12:34:59 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qgVdZ-0000Wr-1B;
+        Wed, 13 Sep 2023 19:34:57 +0000
+Date:   Thu, 14 Sep 2023 03:34:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sourav Panda <souravpanda@google.com>, corbet@lwn.net,
+        gregkh@linuxfoundation.org, rafael@kernel.org,
+        akpm@linux-foundation.org, mike.kravetz@oracle.com,
+        muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
+        rdunlap@infradead.org, chenlinxuan@uniontech.com,
+        yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
+        bhelgaas@google.com, ivan@cloudflare.com,
+        pasha.tatashin@soleen.com, yosryahmed@google.com,
+        hannes@cmpxchg.org, shakeelb@google.com,
+        kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
+        adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
+        surenb@google.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/1] mm: report per-page metadata information
+Message-ID: <202309140322.cF62Kywb-lkp@intel.com>
+References: <20230913173000.4016218-2-souravpanda@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH V10 07/19] riscv: qspinlock: errata: Introduce
- ERRATA_THEAD_QSPINLOCK
-Content-Language: en-US
-To:     Palmer Dabbelt <palmer@rivosinc.com>, sorear@fastmail.com
-Cc:     guoren@kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
-        anup@brainfault.org, peterz@infradead.org, mingo@redhat.com,
-        Will Deacon <will@kernel.org>, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, Catalin Marinas <catalin.marinas@arm.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        xiaoguang.xing@sophgo.com, Bjorn Topel <bjorn@rivosinc.com>,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, guoren@linux.alibaba.com
-References: <mhng-ee184bd2-7666-402d-b0df-d484ed6d8236@palmer-ri-x1c9>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <mhng-ee184bd2-7666-402d-b0df-d484ed6d8236@palmer-ri-x1c9>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230913173000.4016218-2-souravpanda@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/13/23 14:54, Palmer Dabbelt wrote:
-> On Sun, 06 Aug 2023 22:23:34 PDT (-0700), sorear@fastmail.com wrote:
->> On Wed, Aug 2, 2023, at 12:46 PM, guoren@kernel.org wrote:
->>> From: Guo Ren <guoren@linux.alibaba.com>
->>>
->>> According to qspinlock requirements, RISC-V gives out a weak LR/SC
->>> forward progress guarantee which does not satisfy qspinlock. But
->>> many vendors could produce stronger forward guarantee LR/SC to
->>> ensure the xchg_tail could be finished in time on any kind of
->>> hart. T-HEAD is the vendor which implements strong forward
->>> guarantee LR/SC instruction pairs, so enable qspinlock for T-HEAD
->>> with errata help.
->>>
->>> T-HEAD early version of processors has the merge buffer delay
->>> problem, so we need ERRATA_WRITEONCE to support qspinlock.
->>>
->>> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
->>> Signed-off-by: Guo Ren <guoren@kernel.org>
->>> ---
->>>  arch/riscv/Kconfig.errata              | 13 +++++++++++++
->>>  arch/riscv/errata/thead/errata.c       | 24 ++++++++++++++++++++++++
->>>  arch/riscv/include/asm/errata_list.h   | 20 ++++++++++++++++++++
->>>  arch/riscv/include/asm/vendorid_list.h |  3 ++-
->>>  arch/riscv/kernel/cpufeature.c         |  3 ++-
->>>  5 files changed, 61 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
->>> index 4745a5c57e7c..eb43677b13cc 100644
->>> --- a/arch/riscv/Kconfig.errata
->>> +++ b/arch/riscv/Kconfig.errata
->>> @@ -96,4 +96,17 @@ config ERRATA_THEAD_WRITE_ONCE
->>>
->>>        If you don't know what to do here, say "Y".
->>>
->>> +config ERRATA_THEAD_QSPINLOCK
->>> +    bool "Apply T-Head queued spinlock errata"
->>> +    depends on ERRATA_THEAD
->>> +    default y
->>> +    help
->>> +      The T-HEAD C9xx processors implement strong fwd guarantee 
->>> LR/SC to
->>> +      match the xchg_tail requirement of qspinlock.
->>> +
->>> +      This will apply the QSPINLOCK errata to handle the non-standard
->>> +      behavior via using qspinlock instead of ticket_lock.
->>> +
->>> +      If you don't know what to do here, say "Y".
->>
->> If this is to be applied, I would like to see a detailed explanation 
->> somewhere,
->> preferably with citations, of:
->>
->> (a) The memory model requirements for qspinlock
+Hi Sourav,
 
-The part of qspinlock that causes problem with many RISC architectures 
-is its use of a 16-bit xchg() function call which many RISC 
-architectures cannot do it natively and have to be emulated with 
-hopefully some forward progress guarantee. Except that one call, the 
-other atomic operations are all 32 bit in size.
+kernel test robot noticed the following build errors:
 
-Cheers,
-Longman
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc1 next-20230913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Sourav-Panda/mm-report-per-page-metadata-information/20230914-013201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230913173000.4016218-2-souravpanda%40google.com
+patch subject: [PATCH v1 1/1] mm: report per-page metadata information
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230914/202309140322.cF62Kywb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140322.cF62Kywb-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140322.cF62Kywb-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: mm/mm_init.o: in function `free_area_init':
+>> mm_init.c:(.init.text+0x842): undefined reference to `mod_node_early_perpage_metadata'
+   ld: mm/page_alloc.o: in function `setup_per_cpu_pageset':
+>> page_alloc.c:(.init.text+0x60): undefined reference to `writeout_early_perpage_metadata'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
