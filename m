@@ -2,241 +2,300 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A32CFEE020E
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 20:34:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7883EE0207
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 20:38:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232101AbjIMUex (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 16:34:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
+        id S232646AbjIMUiF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 16:38:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjIMUew (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 16:34:52 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49A8C1BCC;
-        Wed, 13 Sep 2023 13:34:47 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.99.40]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MxV4T-1reNP838Bd-00xsvc; Wed, 13 Sep 2023 22:34:03 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id B10AD3E92A; Wed, 13 Sep 2023 22:34:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1694637242; bh=FHAimLrZHHhF8N3CgKs14v93vknjgjW6r5VMGiBKQDI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LbRZAR9kjYJe9nfyWG3dyToRiphnpjx5s7w9vZ/whCu2VqWXtbPjgnQVa8XO4zHwv
-         u96SLZ4CJZmy0AOg+vCjjOZEt9r+aSKhhasw0eeX7amyLVTPtuOCBE+EmHN6waH8eP
-         LhmtkQwZTrVeyIpYKhbjsMWH8vWw5/aqyU0qBMdI=
-Date:   Wed, 13 Sep 2023 22:34:01 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
- dependencies
-Message-ID: <ZQIcuVgaDmA+VdV0@fjasle.eu>
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <ZQISGujwlH00B8KJ@fjasle.eu>
- <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
+        with ESMTP id S232611AbjIMUiF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 16:38:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 468E21BC8
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 13:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694637433;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GzO7JoG9d7rzk1ZQbsRXJk0CmxtcDOHuRPLOsu4wKSo=;
+        b=dTPGKFeg0lzz/c7PpK7mU/Q2ZjGZGJupvmD97aNlYRjXYeDm2U1xPXr2qJOyH1txcwlWAO
+        kHpVKbh+AS6OjRCde7//0LoD6lg0Ubq48VmXvbozUaI84rxcM130DXonw7PChhK/9Ixh3H
+        tabJ3fSWVbASdISVI9OVoLjY2ANUHdw=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-147-wZVNzjH-MaSRqRzBUaIdig-1; Wed, 13 Sep 2023 16:37:12 -0400
+X-MC-Unique: wZVNzjH-MaSRqRzBUaIdig-1
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3a9f2f6d356so286052b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 13:37:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694637431; x=1695242231;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GzO7JoG9d7rzk1ZQbsRXJk0CmxtcDOHuRPLOsu4wKSo=;
+        b=EIciprTZNPN7vaFYVQEJ+ohsETv5VoTjww/IC61TmngRR4AaanCw22tY/qRIRD0Ho8
+         i360T4m2Zl3qUwCWiAJrBUAXcU1ofy+ypX4lUVSn9aOZyE5S60v3Dm7TTR77YWW1FnAF
+         iqoanHTiwhkgONO1yw9uTCTCOmr3+zfjsL7uPDlc5Nkyi9WBdZLjsdsyMTTcC9NxnOP9
+         TPo3J9Z/7vMLu/C6DrSp9FGmrW2Du6LhrW7IWlbpsItt9LHpMp8QUS2hAjEA2B4aMjyK
+         ytRt9OcaDl0lbz7JIF7B5q7MWtsjfmHOZ2aDGYB/9E0f8rOVmi7ouiDU2LwYxn18NNP2
+         C3vQ==
+X-Gm-Message-State: AOJu0YxkS6aptbDxoloF6J4BxNK3BSzJoI3B9rWsJuSijvy3Um1miyNV
+        0Y9gChibjkgdg0bWcvS7I+RuTF3xiGI2CwKOH+6nRAbRyW4nBedcFTfu+vtyZbtCKV47Ap4flgN
+        fpRamjI+xTYDjS3B1XPMN
+X-Received: by 2002:a05:6871:68e:b0:1d5:34ea:6b88 with SMTP id l14-20020a056871068e00b001d534ea6b88mr3855853oao.28.1694637431368;
+        Wed, 13 Sep 2023 13:37:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+NxYOt4vtNopoboCZRBzDBEQOJwF/RPhm/x98vXERhSjXt5vzFsmCSLqntMNcl3QhDT5hPA==
+X-Received: by 2002:a05:6871:68e:b0:1d5:34ea:6b88 with SMTP id l14-20020a056871068e00b001d534ea6b88mr3855824oao.28.1694637431065;
+        Wed, 13 Sep 2023 13:37:11 -0700 (PDT)
+Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
+        by smtp.gmail.com with ESMTPSA id eb49-20020a056870a8b100b001d5552ca014sm64894oab.2.2023.09.13.13.37.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 13:37:10 -0700 (PDT)
+Date:   Wed, 13 Sep 2023 17:37:01 -0300
+From:   Leonardo Bras <leobras@redhat.com>
+To:     Guo Ren <guoren@kernel.org>
+Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
+        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
+        rdunlap@infradead.org, catalin.marinas@arm.com,
+        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
+        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V11 06/17] riscv: qspinlock: Introduce combo spinlock
+Message-ID: <ZQIdbbzW79s5tfiI@redhat.com>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910082911.3378782-7-guoren@kernel.org>
+ <ZP2jL06TYGYVBhTN@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ezqQzNRmwLErRa0+"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
-X-Provags-ID: V03:K1:j9GB8B2tR4Q6PQoLV76ATtVYxSr2KY/fdMjUyxiRCGWzFqEFuE1
- 9CIchkO+T3CyJZFS1/G+mQAgIJXJJbbaODbryLuOyCWtctBf7ScQ0PgmEYZMwTCOp7AIZMW
- 5J3ELoh9ZzWSUjc9iVgUyHJwnDQaNk4UiLZBAVAhfiDhUSIiGzHGWD/31BFO6WP2aNz47mL
- bZifS72wCzmlOwo8RcGlw==
-UI-OutboundReport: notjunk:1;M01:P0:dT5CMpyfMSQ=;Yp5OtP6hXheT5kTFOkbZ+fJQj4x
- tGqcsWGFfHvfb4PrUZ+cMmkgZVXCYpio64YtLgsFQbhdFtGOtfX7TT6bVrMCsyV6nrAkCcdm3
- 8s2hQq0BYSGPFsBztu0dfEDw9agA/wSdsmVMjPzf1rWeEe+W12puUUc1OkF9CDwqQb9kzS8JB
- vB3LW8/lYyeY7cJ3hm42BDBnCgGX+X40Jupt+slwvELmk8tznQyKU1y5R21K+ylG0bxi4ry+o
- iGuSUcJ0IrzrmACoxbKEi/whOYSMKDfS2JTJcH7ogZPU6EZkzbTJUE5ti8bEt9Z1ApFd86NWz
- XSQNasj/gAFDYi0jgK7Y4H0rw5IOF95ub0JI52uiC/BzHq35Jt0qc4i+fq3W56kfBuPJYjAkr
- NirNik2rEScNPzdLMpuElpfTtCN5h4Q1rR3inE811+DBoCSBK8cBnUgaWY9Qvv52jZZhGYuNW
- U7xzXOlWZTY7PZbqdt4C9s+t7CeoZHDEpMOduRsFiqVjKiz3olsTasqolhxeWuU1g42N8K3Ea
- vTFyeGoeG7aNycW/q7tFHIP+IAdUxzP4X4I2t39cB6uCg/ROENyLVSWSmi5tXK4IgtOOKtHu9
- ffZ2sQ2EK20hVqAPYoCNrPf5k9i/YdYehaLqk414pfk5xsD6Mg3iVZ0WK4A+d/P382zhe755a
- ZG5pTAqZMnz4G14otAb9/o2Ak4+XfuNipzufTPB+bC7uT8T0X9emOKKn1F1UfsekqX0uxhyk2
- gvzFM/wRGF2WRit6exoTfGXULQyXdbyvmHEOYouWCpa94IkKagTtpXuqkHceLSR7j/wPDVQNi
- NhxE8ClHUMAvGWgIa9XMmVhEbnJerh4MkMyQzUh1+W3BMR6fRPlBE8Vs9C0JAgrZNQMsmWsGZ
- sd7n28EYiPILT2A==
+In-Reply-To: <ZP2jL06TYGYVBhTN@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, Sep 10, 2023 at 07:06:23AM -0400, Guo Ren wrote:
+> On Sun, Sep 10, 2023 at 04:29:00AM -0400, guoren@kernel.org wrote:
+> > From: Guo Ren <guoren@linux.alibaba.com>
+> > 
+> > Combo spinlock could support queued and ticket in one Linux Image and
+> > select them during boot time via errata mechanism. Here is the func
+> > size (Bytes) comparison table below:
+> > 
+> > TYPE			: COMBO | TICKET | QUEUED
+> > arch_spin_lock		: 106	| 60     | 50
+> > arch_spin_unlock	: 54    | 36     | 26
+> > arch_spin_trylock	: 110   | 72     | 54
+> > arch_spin_is_locked	: 48    | 34     | 20
+> > arch_spin_is_contended	: 56    | 40     | 24
+> > rch_spin_value_unlocked	: 48    | 34     | 24
+> > 
+> > One example of disassemble combo arch_spin_unlock:
+> >    0xffffffff8000409c <+14>:    nop                # detour slot
+> >    0xffffffff800040a0 <+18>:    fence   rw,w       # queued spinlock start
+> >    0xffffffff800040a4 <+22>:    sb      zero,0(a4) # queued spinlock end
+> >    0xffffffff800040a8 <+26>:    ld      s0,8(sp)
+> >    0xffffffff800040aa <+28>:    addi    sp,sp,16
+> >    0xffffffff800040ac <+30>:    ret
+> >    0xffffffff800040ae <+32>:    lw      a5,0(a4)   # ticket spinlock start
+> >    0xffffffff800040b0 <+34>:    sext.w  a5,a5
+> >    0xffffffff800040b2 <+36>:    fence   rw,w
+> >    0xffffffff800040b6 <+40>:    addiw   a5,a5,1
+> >    0xffffffff800040b8 <+42>:    slli    a5,a5,0x30
+> >    0xffffffff800040ba <+44>:    srli    a5,a5,0x30
+> >    0xffffffff800040bc <+46>:    sh      a5,0(a4)   # ticket spinlock end
+> >    0xffffffff800040c0 <+50>:    ld      s0,8(sp)
+> >    0xffffffff800040c2 <+52>:    addi    sp,sp,16
+> >    0xffffffff800040c4 <+54>:    ret
+> > 
+> > The qspinlock is smaller and faster than ticket-lock when all are in
+> > fast-path, and combo spinlock could provide a compatible Linux Image
+> > for different micro-arch design (weak/strict fwd guarantee LR/SC)
+> > processors.
+> > 
+> > Signed-off-by: Guo Ren <guoren@kernel.org>
+> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > ---
+> >  arch/riscv/Kconfig                |  9 +++-
+> >  arch/riscv/include/asm/spinlock.h | 78 ++++++++++++++++++++++++++++++-
+> >  arch/riscv/kernel/setup.c         | 14 ++++++
+> >  3 files changed, 98 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index 7f39bfc75744..4bcff2860f48 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -473,7 +473,7 @@ config NODES_SHIFT
+> >  
+> >  choice
+> >  	prompt "RISC-V spinlock type"
+> > -	default RISCV_TICKET_SPINLOCKS
+> > +	default RISCV_COMBO_SPINLOCKS
+> >  
+> >  config RISCV_TICKET_SPINLOCKS
+> >  	bool "Using ticket spinlock"
+> > @@ -485,6 +485,13 @@ config RISCV_QUEUED_SPINLOCKS
+> >  	help
+> >  	  Make sure your micro arch LL/SC has a strong forward progress guarantee.
+> >  	  Otherwise, stay at ticket-lock.
+> > +
+> > +config RISCV_COMBO_SPINLOCKS
+> > +	bool "Using combo spinlock"
+> > +	depends on SMP && MMU
+> > +	select ARCH_USE_QUEUED_SPINLOCKS
+> > +	help
+> > +	  Select queued spinlock or ticket-lock via errata.
+> >  endchoice
+> >  
+> >  config RISCV_ALTERNATIVE
+> > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
+> > index c644a92d4548..8ea0fee80652 100644
+> > --- a/arch/riscv/include/asm/spinlock.h
+> > +++ b/arch/riscv/include/asm/spinlock.h
+> > @@ -7,11 +7,85 @@
+> >  #define _Q_PENDING_LOOPS	(1 << 9)
+> >  #endif
+> >  
+> > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> > +#include <asm-generic/ticket_spinlock.h>
+> > +
+> > +#undef arch_spin_is_locked
+> > +#undef arch_spin_is_contended
+> > +#undef arch_spin_value_unlocked
+> > +#undef arch_spin_lock
+> > +#undef arch_spin_trylock
+> > +#undef arch_spin_unlock
+> > +
+> > +#include <asm-generic/qspinlock.h>
+> > +#include <linux/jump_label.h>
+> > +
+> > +#undef arch_spin_is_locked
+> > +#undef arch_spin_is_contended
+> > +#undef arch_spin_value_unlocked
+> > +#undef arch_spin_lock
+> > +#undef arch_spin_trylock
+> > +#undef arch_spin_unlock
+> Sorry, I forgot __no_arch_spinlock_redefine advice here. I would add it in v12.
+> https://lore.kernel.org/linux-riscv/4cc7113a-0e4e-763a-cba2-7963bcd26c7a@redhat.com/
+> 
 
---ezqQzNRmwLErRa0+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please check a reply to a previous patch I sent earlier: I think these 
+#undef can be avoided.
+ 
+> > +
+> > +DECLARE_STATIC_KEY_TRUE(combo_qspinlock_key);
+> > +
+> > +static __always_inline void arch_spin_lock(arch_spinlock_t *lock)
+> > +{
+> > +	if (static_branch_likely(&combo_qspinlock_key))
+> > +		queued_spin_lock(lock);
+> > +	else
+> > +		ticket_spin_lock(lock);
+> > +}
+> > +
+> > +static __always_inline bool arch_spin_trylock(arch_spinlock_t *lock)
+> > +{
+> > +	if (static_branch_likely(&combo_qspinlock_key))
+> > +		return queued_spin_trylock(lock);
+> > +	else
+> > +		return ticket_spin_trylock(lock);
+> > +}
+> > +
+> > +static __always_inline void arch_spin_unlock(arch_spinlock_t *lock)
+> > +{
+> > +	if (static_branch_likely(&combo_qspinlock_key))
+> > +		queued_spin_unlock(lock);
+> > +	else
+> > +		ticket_spin_unlock(lock);
+> > +}
+> > +
+> > +static __always_inline int arch_spin_value_unlocked(arch_spinlock_t lock)
+> > +{
+> > +	if (static_branch_likely(&combo_qspinlock_key))
+> > +		return queued_spin_value_unlocked(lock);
+> > +	else
+> > +		return ticket_spin_value_unlocked(lock);
+> > +}
+> > +
+> > +static __always_inline int arch_spin_is_locked(arch_spinlock_t *lock)
+> > +{
+> > +	if (static_branch_likely(&combo_qspinlock_key))
+> > +		return queued_spin_is_locked(lock);
+> > +	else
+> > +		return ticket_spin_is_locked(lock);
+> > +}
+> > +
+> > +static __always_inline int arch_spin_is_contended(arch_spinlock_t *lock)
+> > +{
+> > +	if (static_branch_likely(&combo_qspinlock_key))
+> > +		return queued_spin_is_contended(lock);
+> > +	else
+> > +		return ticket_spin_is_contended(lock);
+> > +}
+> > +#else /* CONFIG_RISCV_COMBO_SPINLOCKS */
+> > +
+> >  #ifdef CONFIG_QUEUED_SPINLOCKS
+> >  #include <asm/qspinlock.h>
+> > -#include <asm/qrwlock.h>
+> >  #else
+> > -#include <asm-generic/spinlock.h>
+> > +#include <asm-generic/ticket_spinlock.h>
+> >  #endif
+> >  
+> > +#endif /* CONFIG_RISCV_COMBO_SPINLOCKS */
+> > +
+> > +#include <asm/qrwlock.h>
+> > +
+> >  #endif /* __ASM_RISCV_SPINLOCK_H */
+> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> > index 32c2e1eb71bd..a447cf360a18 100644
+> > --- a/arch/riscv/kernel/setup.c
+> > +++ b/arch/riscv/kernel/setup.c
+> > @@ -269,6 +269,18 @@ static void __init parse_dtb(void)
+> >  #endif
+> >  }
+> >  
+> > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> > +DEFINE_STATIC_KEY_TRUE(combo_qspinlock_key);
+> > +EXPORT_SYMBOL(combo_qspinlock_key);
+> > +#endif
+> > +
+> > +static void __init riscv_spinlock_init(void)
+> > +{
+> > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> > +	static_branch_disable(&combo_qspinlock_key);
+> > +#endif
+> > +}
+> > +
+> >  extern void __init init_rt_signal_env(void);
+> >  
+> >  void __init setup_arch(char **cmdline_p)
+> > @@ -317,6 +329,8 @@ void __init setup_arch(char **cmdline_p)
+> >  	    riscv_isa_extension_available(NULL, ZICBOM))
+> >  		riscv_noncoherent_supported();
+> >  	riscv_set_dma_cache_alignment();
+> > +
+> > +	riscv_spinlock_init();
+> >  }
+> >  
+> >  static int __init topology_init(void)
+> > -- 
+> > 2.36.1
+> > 
+> > 
+> > _______________________________________________
+> > linux-riscv mailing list
+> > linux-riscv@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-riscv
+> > 
+> 
 
-On Wed, Sep 13, 2023 at 09:55:36PM +0200 Arnd Bergmann wrote:
-> On Wed, Sep 13, 2023, at 21:48, Nicolas Schier wrote:
-> > On Wed, Sep 13, 2023 at 01:37:52PM +0200 Arnd Bergmann wrote:
-> >
-> >>  Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
-> >>  1 file changed, 26 insertions(+)
-> >>=20
-> >> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation=
-/kbuild/kconfig-language.rst
-> >> index 858ed5d80defe..89dea587a469a 100644
-> >> --- a/Documentation/kbuild/kconfig-language.rst
-> >> +++ b/Documentation/kbuild/kconfig-language.rst
-> >> @@ -573,6 +573,32 @@ above, leading to:
-> >>  	bool "Support for foo hardware"
-> >>  	depends on ARCH_FOO_VENDOR || COMPILE_TEST
-> >> =20
-> >> +Optional dependencies
-> >> +~~~~~~~~~~~~~~~~~~~~~
-> >> +
-> >> +Some drivers are able to optionally use a feature from another module
-> >> +or build cleanly with that module disabled, but cause a link failure
-> >> +when trying to use that loadable module from a built-in driver.
-> >> +
-> >> +The most common way to express this optional dependency in Kconfig lo=
-gic
-> >> +uses the slighly counterintuitive
-> >
-> > slighly -> slightly
->=20
-> Fixed, thanks
->=20
-> > For better RST compliance: could you explicitly start the code block e.=
-g. by
-> > appending '::' as in "... counterintuitive::"?
->=20
-> Ok, done.
->=20
-> >> +
-> >> +  config FOO
-> >> +	bool "Support for foo hardware"
-> >> +	depends on BAR || !BAR
-> >
-> > are you sure that this is enough?  While testing, I needed to explicitl=
-y use
-> > =3Dy|=3Dn:
-> >
-> >     depends on BAR=3Dy || BAR=3Dn
-> >
-> > to prevent FOO to be selectable iff BAR=3Dm.
->=20
-> I see my problem, I made a different mistake here. Your version
-> is correct for a 'bool' symbol as I had here, but the intention
-> of this was to make it work for tristate symbols, which are the
-> interesting case. I've fixed it up this way now, hope it now makes
-> sense to you:
->=20
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -581,19 +581,19 @@ or build cleanly with that module disabled, but cau=
-se a link failure
->  when trying to use that loadable module from a built-in driver.
-> =20
->  The most common way to express this optional dependency in Kconfig logic
-> -uses the slighly counterintuitive
-> +uses the slightly counterintuitive::
-> =20
->    config FOO
-> -       bool "Support for foo hardware"
-> +       tristate "Support for foo hardware"
->         depends on BAR || !BAR
-
-ah, thanks, tristate kconfig symbols are really more interesting.  But I am
-still not sure, whether this works as proposed:
-
-With the 'config FOO' above and
-
-  config BAR
-  	tristate "Support for bar feature"
-
-kconfig allows me to choose between these:
-
-BAR=3Dy  =3D> FOO=3D{N/m/y}
-BAR=3Dm  =3D> FOO=3D{N/m}
-BAR=3Dn  =3D> FOO=3D{N/m/y}
-
-But with
-
-  config FOO
-  	tristate "Support for foo hardware"
-  	depends on !BAR=3Dm
-
-I can choose between:
-
-BAR=3Dy  =3D> FOO=3D{N/m/y}
-BAR=3Dm  =3D> FOO is not selectable
-BAR=3Dn  =3D> FOO=3D{N/m/y}
-
-(Re-checked with BAR=3DIPV6 and FOO=3DWIREGUARD; CONFIG_WIREGUARD as 'depen=
-ds on
-IPV6 || !IPV6' in its kconfig definition, and both are tristate kconfig
-symbols.)
-
-Thus, it seems to me, that the intuitive way is the way forward (and several
-Kconfigs are out-of-date with regard to 'depends on !X=3Dm'.  Or do I still=
- miss
-your point?
-
-Kind regards,
-Nicolas
-
-
-
->  This means that there is either a dependency on BAR that disallows
->  the combination of FOO=3Dy with BAR=3Dm, or BAR is completely disabled.
->  For a more formalized approach if there are multiple drivers that have
-> -the same dependency, a helper symbol can be used, like
-> +the same dependency, a helper symbol can be used, like::
-> =20
->    config FOO
-> -       bool "Support for foo hardware"
-> +       tristate "Support for foo hardware"
->         depends on BAR_OPTIONAL
-> =20
->    config BAR_OPTIONAL
->=20
-> >> +This means that there is either a dependency on BAR that disallows
-> >> +the combination of FOO=3Dy with BAR=3Dm, or BAR is completely disable=
-d.
-> >
-> > For me, this sentence is hard to parse (but I am not a native speaker);=
- what
-> > about something like this:
-> >
-> > This means that FOO can only be enabled, iff BAR is either built-in or
-> > completely disabled.  If BAR is built as a module, FOO cannot be enable=
-d.
->=20
-> That would describe the version you suggested, but that's a
-> different issue. Let me know if you still think it needs
-> clarification after fixing the example.
->=20
->       Arnd
-
---ezqQzNRmwLErRa0+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmUCHLgACgkQB1IKcBYm
-Emm6+xAApymEDDCvENlFvxMQcBo2GI1/j6oVgzZ5TPFA81a4Xq8zOv18mvyqd4DS
-ywuq9vex449OaAcREnDSyQNgfBzrvax/MkcGlewGEjvDaY6wsQ7yQK4VlqwbrTRY
-w6gvDRhfvFtv6KXo3g9T2kEJkpfGweKTrnmKRDoz94yZqoyFvWpD1hJuD6mBcx05
-b7Y1DWcekIFxF9JxrctQQ3cxE4361G9mmRcwdjVox4jypsUXwqteDj5Fs0Ubh0FR
-mi18xOKZ416w0nZOudwNGQV39Lgkcryr/y74PxJuKOI0pxze75ytG9S41UqauWBn
-Kex+MT/p6C205IBJv3SVssxhHwycfl/gwwGxaKPaEXVKVvXFNT2OiOulP2ov4AiZ
-j7ZuKbE1iCvU1Fh1QE19pWdDrSZrl+u/OOwtaqiytwrqLg2l4zxUEwrWQTZy9nBq
-o4mlU47MPYviZnj4/ottshFt52CgA/m4WIK8WlelNxHS8JQr6/R5Ibzv89GapSDC
-nm8Y1u+3uFJ3FxoxTqb2e92LpSPMZYBYhi/ZhqO1dZCX4VRN2a1pECU5eHlEHso7
-7cY1v7NDoGbTIw5EAcUrxNpNvpCOnyiVxLVhLGKP/6aTTZJqRuObKeLHe4fcuRc7
-hp7GH9P5SKt6vmWxMqcx/YeHurNeragRt8WseKJuEWybT5ncNAM=
-=NdDD
------END PGP SIGNATURE-----
-
---ezqQzNRmwLErRa0+--
