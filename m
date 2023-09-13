@@ -2,97 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E5CAEE3F3F
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 02:02:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14678EE3F3F
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 02:11:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238110AbjIMCCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Sep 2023 22:02:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47362 "EHLO
+        id S231138AbjIMCLv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Sep 2023 22:11:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233016AbjIMCCt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 22:02:49 -0400
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA95510FE;
-        Tue, 12 Sep 2023 19:02:44 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VryYWRC_1694570559;
-Received: from 30.221.149.124(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VryYWRC_1694570559)
-          by smtp.aliyun-inc.com;
-          Wed, 13 Sep 2023 10:02:40 +0800
-Message-ID: <c6405ce1-7f93-f30e-7d00-a85890e80214@linux.alibaba.com>
-Date:   Wed, 13 Sep 2023 10:02:37 +0800
+        with ESMTP id S229543AbjIMCLu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Sep 2023 22:11:50 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B100170A;
+        Tue, 12 Sep 2023 19:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=avV8r0nWUil3JyzNjobwvIx5+PrmCt2ojoqlM6AoX1U=; b=x7FdjNYPEkJKo97s/bmhx0P/GH
+        X0xqTp+5vEv5bd0Zq1b7VH5bC2IXyH3YioVH778LQM0yglXHxKNSYff7xjM2LuqxiD4DpAtEN/DTF
+        gRJ3bBkvUoGKzhzbIbSTkAnz59JZClEAEvirHmIngpp2J+h1Bxv88iccQmV9V7+cIEL4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1qgFLr-006Gxb-Ah; Wed, 13 Sep 2023 04:11:35 +0200
+Date:   Wed, 13 Sep 2023 04:11:35 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, steen.hegelund@microchip.com,
+        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+        Thorsten.Kummermehr@microchip.com
+Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
+ control transaction interface
+Message-ID: <f23997c1-7507-41c6-8bb3-47d6a353beb8@lunn.ch>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH v8 3/8] perf vendor events: Supplement the omitted
- EventCode
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc:     Ian Rogers <irogers@google.com>,
-        John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1694087913-46144-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1694087913-46144-4-git-send-email-renyu.zj@linux.alibaba.com>
- <CAP-5=fUyj_Xkkbx5W2Kr88BwZLF1QQ9XcBsbnumnHZM_P+0t2g@mail.gmail.com>
- <01eecef3-a918-a6d0-6f9f-d3b99c9680a8@linux.alibaba.com>
- <ZQDLbBqWY6foLgB+@kernel.org>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <ZQDLbBqWY6foLgB+@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> +static bool oa_tc6_get_parity(u32 p)
+> +{
+> +	bool parity = true;
+> +
+> +	/* This function returns an odd parity bit */
+> +	while (p) {
+> +		parity = !parity;
+> +		p = p & (p - 1);
+> +	}
+> +	return parity;
 
+Please take a look around and see if you can find another
+implementation in the kernel which can be used. If not, you could copy/paste:
 
-在 2023/9/13 上午4:34, Arnaldo Carvalho de Melo 写道:
-> Em Mon, Sep 11, 2023 at 10:41:16AM +0800, Jing Zhang escreveu:
->>
->> 在 2023/9/9 上午5:18, Ian Rogers 写道:
->>> On Thu, Sep 7, 2023 at 4:58 AM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>>> If there is an "event=0" in the event description, the EventCode can
->>>> be omitted in the JSON file, and jevent.py will automatically fill in
->>>> "event=0" during parsing.
->>>>
->>>> However, for some events where EventCode and ConfigCode are missing,
->>>> it is not necessary to automatically fill in "event=0", such as the
->>>> CMN event description which is typically "type=xxx, eventid=xxx".
->>>>
->>>> Therefore, before modifying jevent.py to prevent it from automatically
->>>> adding "event=0" by default, it is necessary to fill in all omitted
->>>> EventCodes first.
->>>>
->>>> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
->>> I thought you were going to change the behavior in jevents.py so this
->>> change would be unnecessary. The next time the json is generated by
->>> the script:
->>> https://github.com/intel/perfmon/blob/main/scripts/create_perf_json.py
->>> then this will break. It seems easier to workaround the issue in jevents.py.
->>>
->> Okay, I will workaround the issue in jevents.py. Thank you!
-> So this means you will resubmit the whole 8-patches long series or
-> should we merge this one and then get a followup patch?
-> 
+https://elixir.bootlin.com/linux/latest/source/lib/bch.c#L348
 
-Please wait for v9 as there are still some unresolved issues in this series.
+which is probably more efficient.
 
-Thanks,
-Jing
+> +static void oa_tc6_prepare_ctrl_buf(struct oa_tc6 *tc6, u32 addr, u32 val[],
+> +				    u8 len, bool wnr, u8 *buf, bool ctrl_prot)
+> +{
+> +	u32 hdr;
+> +
+> +	/* Prepare the control header with the required details */
+> +	hdr = FIELD_PREP(CTRL_HDR_DNC, 0) |
+> +	      FIELD_PREP(CTRL_HDR_WNR, wnr) |
+> +	      FIELD_PREP(CTRL_HDR_AID, 0) |
+> +	      FIELD_PREP(CTRL_HDR_MMS, addr >> 16) |
+> +	      FIELD_PREP(CTRL_HDR_ADDR, addr) |
+> +	      FIELD_PREP(CTRL_HDR_LEN, len - 1);
+> +	hdr |= FIELD_PREP(CTRL_HDR_P, oa_tc6_get_parity(hdr));
+> +	*(u32 *)buf = cpu_to_be32(hdr);
+> +
+> +	if (wnr) {
 
-> - Arnaldo
->  
->>> Thanks,
->>> Ian
+What does wnr mean? Maybe give it a more meaningful name, unless it is
+actually something in the standard. Kerneldoc would also help.
+
+> +static int oa_tc6_check_control(struct oa_tc6 *tc6, u8 *ptx, u8 *prx, u8 len,
+> +				bool wnr, bool ctrl_prot)
+> +{
+> +	/* 1st 4 bytes of rx chunk data can be discarded */
+> +	u32 rx_hdr = *(u32 *)&prx[TC6_HDR_SIZE];
+> +	u32 tx_hdr = *(u32 *)ptx;
+> +	u32 rx_data_complement;
+> +	u32 tx_data;
+> +	u32 rx_data;
+> +	u16 pos1;
+> +	u16 pos2;
+> +
+> +	/* If tx hdr and echoed hdr are not equal then there might be an issue
+> +	 * with the connection between SPI host and MAC-PHY. Here this case is
+> +	 * considered as MAC-PHY is not connected.
+
+I could understand ENODEV on the first transaction during probe. But
+after that -EIO seems more appropriate. I've also seen USB use -EPROTO
+to indicate a protocol error, which a corrupt message would be.
+
+> +int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len,
+> +			bool wnr, bool ctrl_prot)
+> +{
+> +	u8 *tx_buf;
+> +	u8 *rx_buf;
+> +	u16 size;
+> +	u16 pos;
+> +	int ret;
+> +
+> +	if (ctrl_prot)
+> +		size = (TC6_HDR_SIZE * 2) + (len * (TC6_HDR_SIZE * 2));
+> +	else
+> +		size = (TC6_HDR_SIZE * 2) + (len * TC6_HDR_SIZE);
+
+Do you have an idea how big the biggest control message is? Rather
+than allocate these buffers for every transaction, maybe allocate
+maximum size buffers one at startup and keep them in tc6? That will
+reduce overhead and simplify the code.
+
+> +struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
+> +{
+> +	struct oa_tc6 *tc6;
+> +
+> +	if (!spi)
+> +		return NULL;
+
+This is defensive programming which is generally not liked. You cannot
+do anything without an SPI device, so just assume it is passed, and if
+not, let is explode later and the driver write will quickly fix there
+broken code.
+
+> +
+> +	tc6 = kzalloc(sizeof(*tc6), GFP_KERNEL);
+> +	if (!tc6)
+> +		return NULL;
+> +
+> +	tc6->spi = spi;
+> +
+> +	return tc6;
+> +}
+> +EXPORT_SYMBOL_GPL(oa_tc6_init);
+> +
+> +void oa_tc6_deinit(struct oa_tc6 *tc6)
+> +{
+> +	kfree(tc6);
+> +}
+> +EXPORT_SYMBOL_GPL(oa_tc6_deinit);
+
+Maybe consider a devm_ API to make the MAC driver simpler.
+
+      Andrew
