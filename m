@@ -2,96 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 816E8EDEC70
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 14:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92437EDEC72
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 15:20:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241527AbjIMO5O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 10:57:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45262 "EHLO
+        id S233087AbjIMPUF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 11:20:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241462AbjIMO5O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 10:57:14 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A214AC;
-        Wed, 13 Sep 2023 07:57:10 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7CF6C433C7;
-        Wed, 13 Sep 2023 14:57:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694617030;
-        bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
-        h=From:Date:Subject:To:Cc:From;
-        b=b33vD0ESdeN6ammU7Dx4578slT6MXU6jFf7csmnvP14DnIXjjwfahBTJow25SkFky
-         NKj1IXoj4JgduRvT5GOC4i6ezwQVHH+pi77zjhYrdUplC2RupegXos4obhVE7rTu+X
-         zo/B1A0DDO1X006G4VyKt2TOuibMar7kaKqY3p/+lLRd3PHSbNTw79XJI4jHuOaAVE
-         cMAC27432bPo/pDZABk1v09FRYB8wYcrBVY5RZhsow7xXIYRxGlimYQL4CujdAIyWJ
-         GYNOljfn9kufYJCXpgt4D84J0AiEqAU4asWIu0gzFa+vhJdFutXLymaH6y9juaTrDi
-         i60XbvZw+pKTg==
-From:   Mark Brown <broonie@kernel.org>
-Date:   Wed, 13 Sep 2023 15:56:27 +0100
-Subject: [PATCH] docs: submitting-patches: Suggest a longer expected time
- for responses
+        with ESMTP id S233184AbjIMPTf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 11:19:35 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4412BD;
+        Wed, 13 Sep 2023 08:19:30 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38DEnsnh019322;
+        Wed, 13 Sep 2023 15:18:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=DMmTuX4BUuWS71fg2UcymHdYuzTLXzic08tXaQHFJkE=;
+ b=WKJFL+yVdMYVyWo+0mT5jzwKC14sNMa8xFF3QB8uIZkVOTAGBV+pYc+IHz4T4Ajr+s9R
+ E9qSIkMrLyFXn860cgrx2nqnUJlKlg+UXGukFB7EZQsSYx56AmrdqoB7OKaJC5UPrmcR
+ FVRVPYtVn3uv/34PIPn6qi6tSnZDv++gJnxThPAyw1UAghSI2Qn/VkH9UjK6Gu1CPsFf
+ nRmM9XrE178nMeybkQmS17kclJ4soqJItMluEuit8poP2DsU6xjm9BdD2I1mJNqsyACE
+ EA/kKAkXO6KAYZDhCAu2pi42eC9AEa1IGCoudSHHHEyKrtPozIlWXp16fCbVQucJUyCu PQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t2y8q1xfp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 13 Sep 2023 15:18:48 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38DFIlhM025985
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 13 Sep 2023 15:18:47 GMT
+Received: from [10.216.62.56] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 13 Sep
+ 2023 08:18:34 -0700
+Message-ID: <5e5359d0-6f32-7312-b344-2d84be63d03d@quicinc.com>
+Date:   Wed, 13 Sep 2023 20:48:30 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAJrNAWUC/x3MQQqDQAxA0atI1gY0Cq1eRVxkxlQDdZTJWCri3
- Tt0+Rb/X2ASVQz64oIoHzXdQkZdFuAXDrOgTtlAFTVVVxPa4VZNScOMOye/iOEkbz6RO6LWMbn
- Hs4Wc71Fe+v2vh/G+f0SYsJhqAAAA
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-034f2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1768; i=broonie@kernel.org;
- h=from:subject:message-id; bh=b+BCOH6t1rTcaGA2JrOlmpGV1UIgp43vRNpFdldrGEA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlAc3DDvS2E/2DB7QDbpWSPlIEsW2nLvundEuS/vZ+
- sE9JOVKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZQHNwwAKCRAk1otyXVSH0JEoB/
- 4xru4ddDRvEyGfznPTLPx2e7tTRp20E/1t/7wcn3lgtpqHY+/tKTmuJnA/t/PmOLmq/gKFGxMotBcp
- RiCA3y/GLoRPU/cavNsSyge9rt41YtbsZf1xbKGfGWa1nzIz8Pc86Gkg4W6UgcVokEAxzWNVk34d4Q
- k+P3VNG9TlSWqz7QBDFYcRl8gE3qZJzk73cLYfhsBO3m0P+NXAY6tPXdZIchEx8e+HzQ3k4xntcA3+
- nNKOGyZaXZUmlXp6NGx+q7DNtANubCVXBVvqDy2HvEiingZ5eNXolq7D/BiWksQOrLj8av7a8C7/Ms
- cGTRV9P2f86eioP+HwkJKiN1faIFms
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 06/17] soc: qcom: Add Qualcomm APSS minidump kernel
+ driver
+Content-Language: en-US
+To:     Jeff Johnson <quic_jjohnson@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
+        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
+        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
+References: <1694290578-17733-1-git-send-email-quic_mojha@quicinc.com>
+ <1694290578-17733-7-git-send-email-quic_mojha@quicinc.com>
+ <e35a8b4f-ba1a-514e-9c59-a74442f0cb1f@linaro.org>
+ <36d9bd32-7ea4-4d84-b1e9-3cfcc3bec85c@quicinc.com>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <36d9bd32-7ea4-4d84-b1e9-3cfcc3bec85c@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: fZxGkFPM9RluezOm5Frm40HM8FUFEa5k
+X-Proofpoint-GUID: fZxGkFPM9RluezOm5Frm40HM8FUFEa5k
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-13_08,2023-09-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ adultscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
+ spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309130124
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While some subsystems do typically have very fast turnaround times on
-review this is far from standard over the kernel and is likely to set
-unrealistic expectations for submitters.  Tell submitters to expect 2-3
-weeks instead, this will cover more of the kernel.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/process/submitting-patches.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index efac910e2659..3fcfa029c9b3 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -366,10 +366,10 @@ busy people and may not get to your patch right away.
- 
- Once upon a time, patches used to disappear into the void without comment,
- but the development process works more smoothly than that now.  You should
--receive comments within a week or so; if that does not happen, make sure
--that you have sent your patches to the right place.  Wait for a minimum of
--one week before resubmitting or pinging reviewers - possibly longer during
--busy times like merge windows.
-+receive comments within a few weeks (typically 2-3); if that does not
-+happen, make sure that you have sent your patches to the right place.
-+Wait for a minimum of one week before resubmitting or pinging reviewers
-+- possibly longer during busy times like merge windows.
- 
- It's also ok to resend the patch or the patch series after a couple of
- weeks with the word "RESEND" added to the subject line::
+On 9/12/2023 12:39 AM, Jeff Johnson wrote:
+> On 9/11/2023 4:07 AM, Krzysztof Kozlowski wrote:
+>> On 09/09/2023 22:16, Mukesh Ojha wrote:
+>>> +/**
+>>> + * qcom_minidump_region_register() - Register region in APSS 
+>>> Minidump table.
+>>> + * @region: minidump region.
+>>> + *
+>>> + * Return: On success, it returns 0 and negative error value on 
+>>> failure.
+>>> + */
+>>> +int qcom_minidump_region_register(const struct qcom_minidump_region 
+>>> *region)
+>>> +{
+>>> +    struct minidump *md;
+>>> +    int ret;
+>>> +
+>>> +    md = qcom_smem_minidump_ready();
+>>> +    if (!md)
+>>> +        return -EPROBE_DEFER;
+>>> +
+>>> +    if (!qcom_minidump_valid_region(region))
+>>> +        return -EINVAL;
+>>> +
+>>> +    mutex_lock(&md->md_lock);
+>>> +    ret = qcom_md_region_register(md, region);
+>>> +    if (ret)
+>>> +        goto unlock;
+>>> +
+>>> +    qcom_md_update_elfheader(md, region);
+>>> +unlock:
+>>> +    mutex_unlock(&md->md_lock);
+>>> +    return ret;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(qcom_minidump_region_register);
+>>
+>> NAK, there is no user for this.
+>>
+>> Drop all exports from minidump drivers. Your upstream driver *must not*
+>> expose stuff to your vendor drivers.
+> 
+> Do we not expect that upstream drivers would want to register?
 
----
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-change-id: 20230912-submitting-patches-delay-a9224ba2b784
+As of current version of patch, there is no user. Let's avoid till
+any upstream QCOM driver uses it .
 
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
 
+> Mind you, in the downstream code the following was a bad limitation:
+> #define MAX_NUM_OF_SS           10
+
+I don't think, there is any problem with above macro, instead there is
+restriction on total number of APSS region can be registered.
+
+#define MAX_NUM_ENTRIES	  201
+
+-Mukesh
+> 
+> 
