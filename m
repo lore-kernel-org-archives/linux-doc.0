@@ -2,96 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC78CA5534
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 10:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E2CCA5537
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 10:55:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239536AbjIMK0A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 06:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
+        id S239774AbjIMKzf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 06:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236362AbjIMKZ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 06:25:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF223D3;
-        Wed, 13 Sep 2023 03:25:55 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 040C1C433C8;
-        Wed, 13 Sep 2023 10:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694600755;
-        bh=4k2IeW5H9cEqbLtJFKkr6gJFeGtpZv+ntg6InyehTu4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MsMiX7Bq3wu/ubrt9go4Zl2qtpZZZdKThoIZMlsHjdv+fHu2fusSjJfXcdrTL0+1h
-         7c1jVIQcD03WR5z9RerPkcDNylNLW5Wq3XcKZ5bQYWy1wXrd9cTvRWfIPl3MwXFskV
-         XPH3kH0v1uj9MuRwolV+w+vLF0LjVfOEoRv4JRCNrGQpP+Jxjf6cG7TlggmqUuLepJ
-         Vat7PzDJUQrphDZ733Kkrcn9wU4VLMBBeNki+N7/G53aZI9TMUHiPzXSVDuhsMMjz9
-         Dmy5ALThLPMKpNRjZyQfJhkygiiY63lqSxswU6AkAvbbdNCesDQtNF2bRM3DaEuEmo
-         sHH75LxTD4r6w==
-Date:   Wed, 13 Sep 2023 11:25:46 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
-        linus.walleij@linaro.org, andy.shevchenko@gmail.com,
-        vigneshr@ti.com, nm@ti.com, matthias.bgg@gmail.com,
-        kgene@kernel.org, alim.akhtar@samsung.com, bmasney@redhat.com,
-        quic_tsoni@quicinc.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
-Subject: Re: [REBASE PATCH v5 08/17] arm64: mm: Add dynamic ramoops region
- support through command line
-Message-ID: <20230913102545.GA12021@willie-the-truck>
-References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
- <1694429639-21484-9-git-send-email-quic_mojha@quicinc.com>
- <20230912101820.GA10884@willie-the-truck>
- <14bf3fca-f031-d000-6fd6-d82f4de9b255@quicinc.com>
+        with ESMTP id S236595AbjIMKze (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 06:55:34 -0400
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3CD1726;
+        Wed, 13 Sep 2023 03:55:30 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-76f0807acb6so419101985a.1;
+        Wed, 13 Sep 2023 03:55:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694602530; x=1695207330;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HseJUOixWLxiX/GtlrIAvJAEnfu8kx8mRj8kJhsQL/k=;
+        b=rFQGzLSK8+MU8TfVv0oWnEti0K7naNAtNX+EsgiyB5gRM/5cJUMI4GxUtWxe9vptDy
+         QRjwHbh/IAUVnBRGmAYvgnYCdeuobt74cfjvRyx9ZB0hQ5Me+dMHvw1EoeijCDX09tdO
+         HiW9AnBPpMnljVG+svXniqX0bBrZFByuwn8I6iRukPpdlJuf5cUKBqQTJqo5LxQ+Hfds
+         Bve1BYTfRjBMds9wfUmjhJYpo05reY/o88kS7uUtSD4vRAK3AZ6W0rNuiUFcbKsmntSu
+         YQXO2rMZZf7IUTxqnFrSyKXrfW7U/n8KTWWoTj+7UvjFx7DsN7tbZF5LcuJzD/OZOPMW
+         dVZg==
+X-Gm-Message-State: AOJu0Yzb70YSnQqYul9i3Lyc8DDGORL1/T44QucdVHvjdaPuqJAAQ73q
+        Wcuwxmp45cAbmCwKu9gBl+M=
+X-Google-Smtp-Source: AGHT+IEggUoDJy/CLhavcac41098wRydbSBa6L3K7VJOdlQ590WtSzyCpIk2nUY7/4Dy7Pp4cRJPyg==
+X-Received: by 2002:a05:620a:eca:b0:76f:1846:2f44 with SMTP id x10-20020a05620a0eca00b0076f18462f44mr1687467qkm.0.1694602529791;
+        Wed, 13 Sep 2023 03:55:29 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:1a3:cb84:45fc:12dc:6d10:9889])
+        by smtp.gmail.com with ESMTPSA id d2-20020a05620a166200b0076825e43d98sm3841068qko.125.2023.09.13.03.55.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 03:55:29 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>
+Subject: [PATCH] docs: move leds under section Human interfaces
+Date:   Wed, 13 Sep 2023 13:55:18 +0300
+Message-ID: <20230913105519.675183-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14bf3fca-f031-d000-6fd6-d82f4de9b255@quicinc.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 13, 2023 at 12:32:54PM +0530, Mukesh Ojha wrote:
-> Thanks for the response.
-> 
-> On 9/12/2023 3:48 PM, Will Deacon wrote:
-> > On Mon, Sep 11, 2023 at 04:23:50PM +0530, Mukesh Ojha wrote:
-> > > The reserved memory region for ramoops is assumed to be at a fixed
-> > > and known location when read from the devicetree. This may not be
-> > > required for something like Qualcomm's minidump which is interested
-> > > in knowing addresses of ramoops region but it does not put hard
-> > > requirement of address being fixed as most of it's SoC does not
-> > > support warm reset and does not use pstorefs at all instead it has
-> > > firmware way of collecting ramoops region if it gets to know the
-> > > address and register it with apss minidump table which is sitting
-> > > in shared memory region in DDR and firmware will have access to
-> > > these table during reset and collects it on crash of SoC.
-> > > 
-> > > So, add the support of reserving ramoops region to be dynamically
-> > > allocated early during boot if it is request through command line
-> > > via 'dyn_ramoops_size=' and fill up reserved resource structure and
-> > > export the structure, so that it can be read by ramoops driver.
-> > > 
-> > > Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> > > ---
-> > >   arch/arm64/mm/init.c       | 94 ++++++++++++++++++++++++++++++++++++++++++++++
-> > 
-> > Why does this need to be in the arch code? There's absolutely nothing
-> > arm64-specific here.
-> 
-> Current clients of this cmdline would be only arm64, and that is the
-> reason of putting this here.
+from uncategorized list
 
-I don't think that's a strong enough justification, tbh. We should at
-least be able to compile this for other architectures using TEST_COMPILE
-and so somewhere under drivers/ makes more sense to me.
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/subsystem-apis.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Will
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index 90a0535a932a..930dc23998a0 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -35,6 +35,7 @@ Human interfaces
+    sound/index
+    gpu/index
+    fb/index
++   leds/index
+ 
+ Networking interfaces
+ ---------------------
+@@ -70,7 +71,6 @@ Storage interfaces
+    fpga/index
+    i2c/index
+    iio/index
+-   leds/index
+    pcmcia/index
+    spi/index
+    w1/index
+-- 
+2.41.0
+
