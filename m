@@ -2,440 +2,224 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75AADEE01F4
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 17:30:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77573EE01FC
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 17:46:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbjIMRaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 13:30:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34538 "EHLO
+        id S231370AbjIMRq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 13:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231140AbjIMRaJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 13:30:09 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51ED1CE
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 10:30:05 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d81503de9c9so93025276.3
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 10:30:05 -0700 (PDT)
+        with ESMTP id S231452AbjIMRqz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 13:46:55 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AE5319B1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 10:46:51 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-500c37d479aso60290e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 10:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694626204; x=1695231004; darn=vger.kernel.org;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZythF5qJnF0wFfPZY5fIiXts+Lu4h1VVptJJPd7woHw=;
-        b=pLvwF8YIzkaKcMENglsEmaE0IkF/HJzw7U+3NMRl/mpytFJ2wtP3H4IwIEZ0Gu58Q9
-         4X+2VzpvePHcnIt3KuFlzzKFIKg9j4YI1Kh31NTZIoTxeTdfQCD/9wZrLtb96xhUXIFq
-         QY/b7QNXe1Xnp9hYmOUuhowmQXbfSkKifGVM5B9Kmfdnu6q9mrYidg4EQBr1fDpnavGa
-         L6OaC8re59Njh902cvSLeBO+NuIAuAHz9t7PiR5DNwC1lUeLmesQUnwnUf+1Adsv2Pha
-         UtXtjmDzbQMRXpQ1YSlaf8iWt8075bGzhFZVIw1usrbUOq+aXJH32uZNhOapEAtckrhB
-         uFwg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1694627209; x=1695232009; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GaTGM+r0T4ix55Ks/rV8r7oM4itiRsvvp6UH3VlxOdQ=;
+        b=nLNYT44B2Hmz5KRFu6b/7oFMIkxs6cpiAJOUCwiB5bgI3Fn6IOEU5hBc11IbhnzNNM
+         hP/1EppfpsYGdLS7IWWm/7gQyzQY8gMJkDAy/yLbdOvnFj70EJD4Xjw/xnwKxCa/0ZEz
+         AZjQR4YQEnovO2UtMQ2FyxVN4Y0dUpgtDc0vE7C68mlw0m61dYY2cUL6SFCfpgRcbPZV
+         /PvQZejQJezoB/6QvbnJUKazk8gQr8G4TBvHrjosHt9Ts7GEjG4TxzdvwpwL80bMCXOG
+         /2M4Qy18VF+oe+/zVsY87g177JveQm9zMunSJoEwIfgQATnH4IYHCzp6uM/8aESvQIBt
+         xsVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694626204; x=1695231004;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZythF5qJnF0wFfPZY5fIiXts+Lu4h1VVptJJPd7woHw=;
-        b=REHdbFtlTPDWqL6K1Cp9PrlwifQfLo8f9dZCWrT0eP+dchC2UFkJJ4Bo+AvhE1Sno1
-         /0xOivekrtHbsk8bHFOP4mIbegECV+exVw5ttN8EJm7yZz9WaL6Id3aWNe8MzSnZX2SD
-         FtKlz51YI60r3IdSPFrp+mWqPq0E+bByAVhDgWp5tYtuEDyv1+fl+oqBFg8puqi6uDDt
-         WMfYCIRCEoHSYzqOyByVf2zNqTZaBgsCL+gkYZhyccqf85xZo4UcCLqHW4pWAaeicVsq
-         jxk6ZqPBwJC83ZidjCJ25ga8N59h5yIk28+tSSczujHpL3T9+zukYN4UvonVxQyJY72k
-         YXNQ==
-X-Gm-Message-State: AOJu0YzZniOSKh0bg8HUZB8nGjvgBvOQ3ake/b6nx980FCtFkPaGus13
-        RS5EnSq5o2pYsy9u5VGK+yI/AjTaZMYgJECIWA==
-X-Google-Smtp-Source: AGHT+IE8oEUWL2avrPVtB0a1//kd5SsQQm0oounKKJMx5HfRSTj+6eo2tXR3os30UdPJ4OtY05sIoJ1tl9LY+fsJzQ==
-X-Received: from souravpanda.svl.corp.google.com ([2620:15c:2a3:200:2718:5cf5:d91:d21d])
- (user=souravpanda job=sendgmr) by 2002:a05:6902:1816:b0:d0e:e780:81b3 with
- SMTP id cf22-20020a056902181600b00d0ee78081b3mr75185ybb.2.1694626204504; Wed,
- 13 Sep 2023 10:30:04 -0700 (PDT)
-Date:   Wed, 13 Sep 2023 10:30:00 -0700
-In-Reply-To: <20230913173000.4016218-1-souravpanda@google.com>
-Mime-Version: 1.0
-References: <20230913173000.4016218-1-souravpanda@google.com>
-X-Mailer: git-send-email 2.42.0.459.ge4e396fd5e-goog
-Message-ID: <20230913173000.4016218-2-souravpanda@google.com>
-Subject: [PATCH v1 1/1] mm: report per-page metadata information
-From:   Sourav Panda <souravpanda@google.com>
-To:     corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
-        akpm@linux-foundation.org, mike.kravetz@oracle.com,
-        muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
-        rdunlap@infradead.org, chenlinxuan@uniontech.com,
-        yang.yang29@zte.com.cn, souravpanda@google.com,
-        tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        hannes@cmpxchg.org, shakeelb@google.com,
-        kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
-        adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@Oracle.com,
-        surenb@google.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
+        d=1e100.net; s=20230601; t=1694627209; x=1695232009;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GaTGM+r0T4ix55Ks/rV8r7oM4itiRsvvp6UH3VlxOdQ=;
+        b=mbjI3eoQqH7CWpxdQV1MwWgPpXAhm4Zk2I9JsTV+5HtCRCAaUJjbwTAYto2LVSfay/
+         VOtLS3mJwAowJ+STIGNKCw+Ihlru9R4QE/VfYNAEmzA+xO5Xid2LQ6fzqbuQXregvVvZ
+         l7dZQEsUwTcYDBAbuwUdkNqj/4mbLqyNzUwQs7PdbUgz5DnQTBRQhzRk19YWRBrDbaZR
+         dEZDKkks3iaWiDXS8OGJ+wTPzx8/cTUq94IZ/QJP8gw3KO3LUT03wkmqW5GINOs2fw9I
+         w/uRR065O7QeJJU48LHxqlwnPJ3jlDgzJXzc8hsxQZ3YmEqLrBhrlTQbci5i2PfennYJ
+         MuqA==
+X-Gm-Message-State: AOJu0YxGsEwgs/VRxfnrjfTij4eM4r7uEsNkejnFJgIjK5B6abS34G7e
+        UhxlR7gvb+lb0F/SRLCP42fowzakJRL4fs+TSp9eWw==
+X-Google-Smtp-Source: AGHT+IE8E3aGdajd07Jo/Ih9J3B6jb58k/6rIP3DKaSrxVurSVnQGYrTxs5UZkMcis8uKeqpgsLkQQJT1GTPpmQeX2Q=
+X-Received: by 2002:a05:6512:3e26:b0:4fd:ddbc:1577 with SMTP id
+ i38-20020a0565123e2600b004fdddbc1577mr3100760lfv.2.1694627209317; Wed, 13 Sep
+ 2023 10:46:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
+ <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Wed, 13 Sep 2023 10:46:13 -0700
+Message-ID: <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Simon Hosie <shosie@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-kernel@vger.kernel.org,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        David Laight <David.Laight@aculab.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Andy Chiu <andy.chiu@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds a new per-node PageMetadata field to
-/sys/devices/system/node/nodeN/meminfo
-and a global PageMetadata field to /proc/meminfo. This information can
-be used by users to see how much memory is being used by per-page
-metadata, which can vary depending on build configuration, machine
-architecture, and system use.
+On Wed, Sep 13, 2023 at 5:36=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Evan,
+>
+> On Fri, Aug 18, 2023 at 9:44=E2=80=AFPM Evan Green <evan@rivosinc.com> wr=
+ote:
+> > Rather than deferring unaligned access speed determinations to a vendor
+> > function, let's probe them and find out how fast they are. If we
+> > determine that an unaligned word access is faster than N byte accesses,
+> > mark the hardware's unaligned access as "fast". Otherwise, we mark
+> > accesses as slow.
+> >
+> > The algorithm itself runs for a fixed amount of jiffies. Within each
+> > iteration it attempts to time a single loop, and then keeps only the be=
+st
+> > (fastest) loop it saw. This algorithm was found to have lower variance =
+from
+> > run to run than my first attempt, which counted the total number of
+> > iterations that could be done in that fixed amount of jiffies. By takin=
+g
+> > only the best iteration in the loop, assuming at least one loop wasn't
+> > perturbed by an interrupt, we eliminate the effects of interrupts and
+> > other "warm up" factors like branch prediction. The only downside is it
+> > depends on having an rdtime granular and accurate enough to measure a
+> > single copy. If we ever manage to complete a loop in 0 rdtime ticks, we
+> > leave the unaligned setting at UNKNOWN.
+> >
+> > There is a slight change in user-visible behavior here. Previously, all
+> > boards except the THead C906 reported misaligned access speed of
+> > UNKNOWN. C906 reported FAST. With this change, since we're now measurin=
+g
+> > misaligned access speed on each hart, all RISC-V systems will have this
+> > key set as either FAST or SLOW.
+> >
+> > Currently, we don't have a way to confidently measure the difference be=
+tween
+> > SLOW and EMULATED, so we label anything not fast as SLOW. This will
+> > mislabel some systems that are actually EMULATED as SLOW. When we get
+> > support for delegating misaligned access traps to the kernel (as oppose=
+d
+> > to the firmware quietly handling it), we can explicitly test in Linux t=
+o
+> > see if unaligned accesses trap. Those systems will start to report
+> > EMULATED, though older (today's) systems without that new SBI mechanism
+> > will continue to report SLOW.
+> >
+> > I've updated the documentation for those hwprobe values to reflect
+> > this, specifically: SLOW may or may not be emulated by software, and FA=
+ST
+> > represents means being faster than equivalent byte accesses. The change
+> > in documentation is accurate with respect to both the former and curren=
+t
+> > behavior.
+> >
+> > Signed-off-by: Evan Green <evan@rivosinc.com>
+> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> Thanks for your patch, which is now commit 584ea6564bcaead2 ("RISC-V:
+> Probe for unaligned access speed") in v6.6-rc1.
+>
+> On the boards I have, I get:
+>
+>     rzfive:
+>         cpu0: Ratio of byte access time to unaligned word access is
+> 1.05, unaligned accesses are fast
 
-Per-page metadata is the amount of memory that Linux needs in order to
-manage memory at the page granularity. The majority of such memory is
-used by "struct page" and "page_ext" data structures.
+Hrm, I'm a little surprised to be seeing this number come out so close
+to 1. If you reboot a few times, what kind of variance do you get on
+this?
 
-This memory depends on build configurations, machine architectures, and
-the way system is used:
+>
+>     icicle:
+>
+>         cpu1: Ratio of byte access time to unaligned word access is
+> 0.00, unaligned accesses are slow
+>         cpu2: Ratio of byte access time to unaligned word access is
+> 0.00, unaligned accesses are slow
+>         cpu3: Ratio of byte access time to unaligned word access is
+> 0.00, unaligned accesses are slow
+>
+>         cpu0: Ratio of byte access time to unaligned word access is
+> 0.00, unaligned accesses are slow
+>
+>     k210:
+>
+>         cpu1: Ratio of byte access time to unaligned word access is
+> 0.02, unaligned accesses are slow
+>         cpu0: Ratio of byte access time to unaligned word access is
+> 0.02, unaligned accesses are slow
+>
+>     starlight:
+>
+>         cpu1: Ratio of byte access time to unaligned word access is
+> 0.01, unaligned accesses are slow
+>         cpu0: Ratio of byte access time to unaligned word access is
+> 0.02, unaligned accesses are slow
+>
+>     vexriscv/orangecrab:
+>
+>         cpu0: Ratio of byte access time to unaligned word access is
+> 0.00, unaligned accesses are slow
+>
+> I am a bit surprised by the near-zero values.  Are these expected?
+> Thanks!
 
-Build configuration may include extra fields into "struct page",
-and enable / disable "page_ext"
-Machine architecture defines base page sizes. For example 4K x86,
-8K SPARC, 64K ARM64 (optionally), etc. The per-page metadata
-overhead is smaller on machines with larger page sizes.
-System use can change per-page overhead by using vmemmap
-optimizations with hugetlb pages, and emulated pmem devdax pages.
-Also, boot parameters can determine whether page_ext is needed
-to be allocated. This memory can be part of MemTotal or be outside
-MemTotal depending on whether the memory was hot-plugged, booted with,
-or hugetlb memory was returned back to the system.
+This could be expected, if firmware is trapping the unaligned accesses
+and coming out >100x slower than a native access. If you're interested
+in getting a little more resolution, you could try to print a few more
+decimal places with something like (sorry gmail mangles the whitespace
+on this):
 
-Suggested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Signed-off-by: Sourav Panda <souravpanda@google.com>
----
- Documentation/filesystems/proc.rst |  3 +++
- drivers/base/node.c                |  2 ++
- fs/proc/meminfo.c                  |  7 +++++++
- include/linux/mmzone.h             |  3 +++
- include/linux/vmstat.h             |  4 ++++
- mm/hugetlb.c                       |  8 +++++++-
- mm/hugetlb_vmemmap.c               |  9 ++++++++-
- mm/mm_init.c                       |  3 +++
- mm/page_alloc.c                    |  1 +
- mm/page_ext.c                      | 17 +++++++++++++----
- mm/sparse-vmemmap.c                |  3 +++
- mm/sparse.c                        |  7 ++++++-
- mm/vmstat.c                        | 21 +++++++++++++++++++++
- 13 files changed, 81 insertions(+), 7 deletions(-)
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.=
+c
+index 1cfbba65d11a..2c094037658a 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -632,11 +632,11 @@ void check_unaligned_access(int cpu)
+        if (word_cycles < byte_cycles)
+                speed =3D RISCV_HWPROBE_MISALIGNED_FAST;
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2b59cff8be17..c121f2ef9432 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -987,6 +987,7 @@ Example output. You may not have all of these fields.
-     AnonPages:       4654780 kB
-     Mapped:           266244 kB
-     Shmem:              9976 kB
-+    PageMetadata:     513419 kB
-     KReclaimable:     517708 kB
-     Slab:             660044 kB
-     SReclaimable:     517708 kB
-@@ -1089,6 +1090,8 @@ Mapped
-               files which have been mmapped, such as libraries
- Shmem
-               Total memory used by shared memory (shmem) and tmpfs
-+PageMetadata
-+              Memory used for per-page metadata
- KReclaimable
-               Kernel allocations that the kernel will attempt to reclaim
-               under memory pressure. Includes SReclaimable (below), and other
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 493d533f8375..da728542265f 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -428,6 +428,7 @@ static ssize_t node_read_meminfo(struct device *dev,
- 			     "Node %d Mapped:         %8lu kB\n"
- 			     "Node %d AnonPages:      %8lu kB\n"
- 			     "Node %d Shmem:          %8lu kB\n"
-+			     "Node %d PageMetadata:   %8lu kB\n"
- 			     "Node %d KernelStack:    %8lu kB\n"
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			     "Node %d ShadowCallStack:%8lu kB\n"
-@@ -458,6 +459,7 @@ static ssize_t node_read_meminfo(struct device *dev,
- 			     nid, K(node_page_state(pgdat, NR_FILE_MAPPED)),
- 			     nid, K(node_page_state(pgdat, NR_ANON_MAPPED)),
- 			     nid, K(i.sharedram),
-+			     nid, K(node_page_state(pgdat, NR_PAGE_METADATA)),
- 			     nid, node_page_state(pgdat, NR_KERNEL_STACK_KB),
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			     nid, node_page_state(pgdat, NR_KERNEL_SCS_KB),
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 45af9a989d40..f141bb2a550d 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -39,7 +39,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	long available;
- 	unsigned long pages[NR_LRU_LISTS];
- 	unsigned long sreclaimable, sunreclaim;
-+	unsigned long nr_page_metadata;
- 	int lru;
-+	int nid;
- 
- 	si_meminfo(&i);
- 	si_swapinfo(&i);
-@@ -57,6 +59,10 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	sreclaimable = global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B);
- 	sunreclaim = global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B);
- 
-+	nr_page_metadata = 0;
-+	for_each_online_node(nid)
-+		nr_page_metadata += node_page_state(NODE_DATA(nid), NR_PAGE_METADATA);
-+
- 	show_val_kb(m, "MemTotal:       ", i.totalram);
- 	show_val_kb(m, "MemFree:        ", i.freeram);
- 	show_val_kb(m, "MemAvailable:   ", available);
-@@ -104,6 +110,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	show_val_kb(m, "Mapped:         ",
- 		    global_node_page_state(NR_FILE_MAPPED));
- 	show_val_kb(m, "Shmem:          ", i.sharedram);
-+	show_val_kb(m, "PageMetadata:   ", nr_page_metadata);
- 	show_val_kb(m, "KReclaimable:   ", sreclaimable +
- 		    global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE));
- 	show_val_kb(m, "Slab:           ", sreclaimable + sunreclaim);
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 4106fbc5b4b3..dda1ad522324 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -207,6 +207,9 @@ enum node_stat_item {
- 	PGPROMOTE_SUCCESS,	/* promote successfully */
- 	PGPROMOTE_CANDIDATE,	/* candidate pages to promote */
- #endif
-+	NR_PAGE_METADATA,	/* Page metadata size (struct page and page_ext)
-+				 * in pages
-+				 */
- 	NR_VM_NODE_STAT_ITEMS
- };
- 
-diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
-index fed855bae6d8..b5c292560f37 100644
---- a/include/linux/vmstat.h
-+++ b/include/linux/vmstat.h
-@@ -656,4 +656,8 @@ static inline void lruvec_stat_sub_folio(struct folio *folio,
- {
- 	lruvec_stat_mod_folio(folio, idx, -folio_nr_pages(folio));
- }
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta);
-+void __init writeout_early_perpage_metadata(void);
-+
- #endif /* _LINUX_VMSTAT_H */
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index ba6d39b71cb1..ca36751be50e 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1758,6 +1758,10 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
- 		destroy_compound_gigantic_folio(folio, huge_page_order(h));
- 		free_gigantic_folio(folio, huge_page_order(h));
- 	} else {
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+		__mod_node_page_state(NODE_DATA(page_to_nid(&folio->page)),
-+				      NR_PAGE_METADATA, -huge_page_order(h));
-+#endif
- 		__free_pages(&folio->page, huge_page_order(h));
- 	}
- }
-@@ -2143,7 +2147,9 @@ static struct folio *alloc_buddy_hugetlb_folio(struct hstate *h,
- 		__count_vm_event(HTLB_BUDDY_PGALLOC_FAIL);
- 		return NULL;
- 	}
--
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, huge_page_order(h));
-+#endif
- 	__count_vm_event(HTLB_BUDDY_PGALLOC);
- 	return page_folio(page);
- }
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 4b9734777f69..7f920bfa8e79 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -214,6 +214,8 @@ static inline void free_vmemmap_page(struct page *page)
- 		free_bootmem_page(page);
- 	else
- 		__free_page(page);
-+	__mod_node_page_state(NODE_DATA(page_to_nid(page)),
-+			      NR_PAGE_METADATA, -1);
- }
- 
- /* Free a list of the vmemmap pages */
-@@ -336,6 +338,7 @@ static int vmemmap_remap_free(unsigned long start, unsigned long end,
- 			  (void *)walk.reuse_addr);
- 		list_add(&walk.reuse_page->lru, &vmemmap_pages);
- 	}
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, 1);
- 
- 	/*
- 	 * In order to make remapping routine most efficient for the huge pages,
-@@ -387,8 +390,12 @@ static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
- 
- 	while (nr_pages--) {
- 		page = alloc_pages_node(nid, gfp_mask, 0);
--		if (!page)
-+		if (!page) {
- 			goto out;
-+		} else {
-+			__mod_node_page_state(NODE_DATA(page_to_nid(page)),
-+					      NR_PAGE_METADATA, 1);
-+		}
- 		list_add_tail(&page->lru, list);
- 	}
- 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 50f2f34745af..e02dce7e2e9a 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -26,6 +26,7 @@
- #include <linux/pgtable.h>
- #include <linux/swap.h>
- #include <linux/cma.h>
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include "slab.h"
- #include "shuffle.h"
-@@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
- 			panic("Failed to allocate %ld bytes for node %d memory map\n",
- 			      size, pgdat->node_id);
- 		pgdat->node_mem_map = map + offset;
-+		mod_node_early_perpage_metadata(pgdat->node_id,
-+						PAGE_ALIGN(size) >> PAGE_SHIFT);
- 	}
- 	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
- 				__func__, pgdat->node_id, (unsigned long)pgdat,
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 0c5be12f9336..4e295d5087f4 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5443,6 +5443,7 @@ void __init setup_per_cpu_pageset(void)
- 	for_each_online_pgdat(pgdat)
- 		pgdat->per_cpu_nodestats =
- 			alloc_percpu(struct per_cpu_nodestat);
-+	writeout_early_perpage_metadata();
- }
- 
- __meminit void zone_pcp_init(struct zone *zone)
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 4548fcc66d74..b5b9d3079e20 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -201,6 +201,8 @@ static int __init alloc_node_page_ext(int nid)
- 		return -ENOMEM;
- 	NODE_DATA(nid)->node_page_ext = base;
- 	total_usage += table_size;
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+			      PAGE_ALIGN(table_size) >> PAGE_SHIFT);
- 	return 0;
- }
- 
-@@ -255,12 +257,15 @@ static void *__meminit alloc_page_ext(size_t size, int nid)
- 	void *addr = NULL;
- 
- 	addr = alloc_pages_exact_nid(nid, size, flags);
--	if (addr) {
-+	if (addr)
- 		kmemleak_alloc(addr, size, 1, flags);
--		return addr;
--	}
-+	else
-+		addr = vzalloc_node(size, nid);
- 
--	addr = vzalloc_node(size, nid);
-+	if (addr) {
-+		__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				      PAGE_ALIGN(size) >> PAGE_SHIFT);
-+	}
- 
- 	return addr;
- }
-@@ -314,6 +319,10 @@ static void free_page_ext(void *addr)
- 		BUG_ON(PageReserved(page));
- 		kmemleak_free(addr);
- 		free_pages_exact(addr, table_size);
-+
-+		__mod_node_page_state(NODE_DATA(page_to_nid(page)), NR_PAGE_METADATA,
-+				      (long)-1 * (PAGE_ALIGN(table_size) >> PAGE_SHIFT));
-+
- 	}
- }
- 
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index a2cbe44c48e1..e33f302db7c6 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -469,5 +469,8 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
- 	if (r < 0)
- 		return NULL;
- 
-+	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+			      PAGE_ALIGN(end - start) >> PAGE_SHIFT);
-+
- 	return pfn_to_page(pfn);
- }
-diff --git a/mm/sparse.c b/mm/sparse.c
-index 77d91e565045..db78233a85ef 100644
---- a/mm/sparse.c
-+++ b/mm/sparse.c
-@@ -14,7 +14,7 @@
- #include <linux/swap.h>
- #include <linux/swapops.h>
- #include <linux/bootmem_info.h>
--
-+#include <linux/vmstat.h>
- #include "internal.h"
- #include <asm/dma.h>
- 
-@@ -465,6 +465,9 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
- 	 */
- 	sparsemap_buf = memmap_alloc(size, section_map_size(), addr, nid, true);
- 	sparsemap_buf_end = sparsemap_buf + size;
-+#ifndef CONFIG_SPARSEMEM_VMEMMAP
-+	mod_node_early_perpage_metadata(nid, PAGE_ALIGN(size) >> PAGE_SHIFT);
-+#endif
- }
- 
- static void __init sparse_buffer_fini(void)
-@@ -641,6 +644,8 @@ static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_pages,
- 	unsigned long start = (unsigned long) pfn_to_page(pfn);
- 	unsigned long end = start + nr_pages * sizeof(struct page);
- 
-+	__mod_node_page_state(NODE_DATA(page_to_nid(pfn_to_page(pfn))), NR_PAGE_METADATA,
-+			      (long)-1 * (PAGE_ALIGN(end - start) >> PAGE_SHIFT));
- 	vmemmap_free(start, end, altmap);
- }
- static void free_map_bootmem(struct page *memmap)
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 00e81e99c6ee..731eb5264b49 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1245,6 +1245,7 @@ const char * const vmstat_text[] = {
- 	"pgpromote_success",
- 	"pgpromote_candidate",
- #endif
-+	"nr_page_metadata",
- 
- 	/* enum writeback_stat_item counters */
- 	"nr_dirty_threshold",
-@@ -2274,4 +2275,24 @@ static int __init extfrag_debug_init(void)
- }
- 
- module_init(extfrag_debug_init);
-+
-+// Page metadata size (struct page and page_ext) in pages
-+unsigned long early_perpage_metadata[MAX_NUMNODES] __initdata;
-+
-+void __init mod_node_early_perpage_metadata(int nid, long delta)
-+{
-+	early_perpage_metadata[nid] += delta;
-+}
-+
-+void __init writeout_early_perpage_metadata(void)
-+{
-+	int nid;
-+	struct pglist_data *pgdat;
-+
-+	for_each_online_pgdat(pgdat) {
-+		nid = pgdat->node_id;
-+		__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-+				      early_perpage_metadata[nid]);
-+	}
-+}
- #endif
--- 
-2.42.0.283.g2d96d420d3-goog
+-       ratio =3D div_u64((byte_cycles * 100), word_cycles);
+-       pr_info("cpu%d: Ratio of byte access time to unaligned word
+access is %d.%02d, unaligned accesses are %s\n",
++       ratio =3D div_u64((byte_cycles * 100000), word_cycles);
++       pr_info("cpu%d: Ratio of byte access time to unaligned word
+access is %d.%05d, unaligned accesses are %s\n",
+                cpu,
+-               ratio / 100,
+-               ratio % 100,
++               ratio / 100000,
++               ratio % 100000,
+                (speed =3D=3D RISCV_HWPROBE_MISALIGNED_FAST) ? "fast" : "sl=
+ow");
 
+        per_cpu(misaligned_access_speed, cpu) =3D speed;
+
+If you did, I'd be interested to see the results.
+-Evan
