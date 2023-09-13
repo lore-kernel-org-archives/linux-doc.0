@@ -2,156 +2,217 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CADC1EDEC51
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 13:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25086EDEC50
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 13:26:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234593AbjIMNHl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 09:07:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58184 "EHLO
+        id S240915AbjIMN0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 09:26:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240814AbjIMNHd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 09:07:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BD4FB19B9
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 06:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694610407;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1N8nXpfMCNYLFwc5DqM2IQ2ttQ6FxXsVgYdelfbJc5Y=;
-        b=T9eY3mODb/4Jr7k0DOfaEKR0YP+59bxDxTVLT9rdri9zvh0GZdUPHyLOGr0Z+9ksgXCuXh
-        eXIQTQcxrse1G/0U0CO6ho7entgPHDCmBQmQJtquQsdowuaQ0Y0BaNqOtLwFIGkzflEw14
-        lW60X+9MkzYFsZOZZENFNyjmv6kvMYs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-QRcYUWmXNfChTXcc_wePhw-1; Wed, 13 Sep 2023 09:06:42 -0400
-X-MC-Unique: QRcYUWmXNfChTXcc_wePhw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S240925AbjIMN0j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 09:26:39 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F7319BF;
+        Wed, 13 Sep 2023 06:26:34 -0700 (PDT)
+Received: from wsk (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B7A2101FAA1;
-        Wed, 13 Sep 2023 13:06:41 +0000 (UTC)
-Received: from [10.22.32.174] (unknown [10.22.32.174])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A80792904;
-        Wed, 13 Sep 2023 13:06:37 +0000 (UTC)
-Message-ID: <0ea8d0e7-6447-3a60-8cf4-d6a4e89fa8be@redhat.com>
-Date:   Wed, 13 Sep 2023 09:06:37 -0400
+        (Authenticated sender: lukma@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id E17D686CF0;
+        Wed, 13 Sep 2023 15:26:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1694611592;
+        bh=ZoRncom13+1SucH+6e/ihE+z4HAqO3ZXwNnLkiQPJG0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eYeiKT1OSjO2Lc0EddsbgS0RUWNQcHHNn3WiyvEqfZxYavWSQtc2osral0T8A+9KB
+         YDs9heCykYo0oW2CV2i2aNGNie+qSROc4KLqoCpoxHPzPk1Jn4oQuLVgCxM/E7/y5B
+         BjPeumUd4bIPh1MsRc/x2k/GzgpfUvAt7LS3HDUAibed7WeXNutNZImDnV9/FnZQHO
+         wNqNSf4uilGAzzYfnu+dWBKyx76N6pLPcBW98D6rA/be7JLKz3kb9VsKqD/Abs26I6
+         M9DrMITJOseHmesv9oHZ3V0e1wtldQY659Z91jMQLk1fr5RmvqoNVD+jlXZl3kpqnC
+         5wGFxKxW4Agzw==
+Date:   Wed, 13 Sep 2023 15:26:25 +0200
+From:   Lukasz Majewski <lukma@denx.de>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, steen.hegelund@microchip.com,
+        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+        Thorsten.Kummermehr@microchip.com
+Subject: Re: [RFC PATCH net-next 2/6] net: ethernet: add mac-phy interrupt
+ support with reset complete handling
+Message-ID: <20230913152625.73e32789@wsk>
+In-Reply-To: <61a58960-f2f3-4772-8f12-0d1f9cfec2c5@lunn.ch>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+        <20230908142919.14849-3-Parthiban.Veerasooran@microchip.com>
+        <20230913104458.1d4cdd51@wsk>
+        <61a58960-f2f3-4772-8f12-0d1f9cfec2c5@lunn.ch>
+Organization: denx.de
+X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH V11 04/17] locking/qspinlock: Improve xchg_tail for number
- of cpus >= 16k
-Content-Language: en-US
-To:     Guo Ren <guoren@kernel.org>, Leonardo Bras <leobras@redhat.com>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
-        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
-        catalin.marinas@arm.com, conor.dooley@microchip.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-5-guoren@kernel.org>
- <f091ead0-99b9-b30a-a295-730ce321ac60@redhat.com>
- <CAJF2gTSbUUdLhN8PFdFzQd0M1T2MVOL1cdZn46WKq1S8MuQYHw@mail.gmail.com>
- <06714da1-d566-766f-7a13-a3c93b5953c4@redhat.com>
- <CAJF2gTQ3Q7f+FGorVTR66c6TGWsSeeKVvLF+LH1_m3kSHrm0yA@mail.gmail.com>
- <ZQF49GIZoFceUGYH@redhat.com>
- <CAJF2gTTHdCr-FQVSGUc+LapkJPmDiEYYa_1P6T86uCjRujgnTg@mail.gmail.com>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <CAJF2gTTHdCr-FQVSGUc+LapkJPmDiEYYa_1P6T86uCjRujgnTg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Content-Type: multipart/signed; boundary="Sig_/ge1Ec=QvMDcE9ShpkKDmwRV";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/13/23 08:52, Guo Ren wrote:
-> On Wed, Sep 13, 2023 at 4:55 PM Leonardo Bras <leobras@redhat.com> wrote:
->> On Tue, Sep 12, 2023 at 09:10:08AM +0800, Guo Ren wrote:
->>> On Mon, Sep 11, 2023 at 9:03 PM Waiman Long <longman@redhat.com> wrote:
->>>> On 9/10/23 23:09, Guo Ren wrote:
->>>>> On Mon, Sep 11, 2023 at 10:35 AM Waiman Long <longman@redhat.com> wrote:
->>>>>> On 9/10/23 04:28, guoren@kernel.org wrote:
->>>>>>> From: Guo Ren <guoren@linux.alibaba.com>
->>>>>>>
->>>>>>> The target of xchg_tail is to write the tail to the lock value, so
->>>>>>> adding prefetchw could help the next cmpxchg step, which may
->>>>>>> decrease the cmpxchg retry loops of xchg_tail. Some processors may
->>>>>>> utilize this feature to give a forward guarantee, e.g., RISC-V
->>>>>>> XuanTie processors would block the snoop channel & irq for several
->>>>>>> cycles when prefetch.w instruction (from Zicbop extension) retired,
->>>>>>> which guarantees the next cmpxchg succeeds.
->>>>>>>
->>>>>>> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
->>>>>>> Signed-off-by: Guo Ren <guoren@kernel.org>
->>>>>>> ---
->>>>>>>     kernel/locking/qspinlock.c | 5 ++++-
->>>>>>>     1 file changed, 4 insertions(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/kernel/locking/qspinlock.c b/kernel/locking/qspinlock.c
->>>>>>> index d3f99060b60f..96b54e2ade86 100644
->>>>>>> --- a/kernel/locking/qspinlock.c
->>>>>>> +++ b/kernel/locking/qspinlock.c
->>>>>>> @@ -223,7 +223,10 @@ static __always_inline void clear_pending_set_locked(struct qspinlock *lock)
->>>>>>>      */
->>>>>>>     static __always_inline u32 xchg_tail(struct qspinlock *lock, u32 tail)
->>>>>>>     {
->>>>>>> -     u32 old, new, val = atomic_read(&lock->val);
->>>>>>> +     u32 old, new, val;
->>>>>>> +
->>>>>>> +     prefetchw(&lock->val);
->>>>>>> +     val = atomic_read(&lock->val);
->>>>>>>
->>>>>>>         for (;;) {
->>>>>>>                 new = (val & _Q_LOCKED_PENDING_MASK) | tail;
->>>>>> That looks a bit weird. You pre-fetch and then immediately read it. How
->>>>>> much performance gain you get by this change alone?
->>>>>>
->>>>>> Maybe you can define an arch specific primitive that default back to
->>>>>> atomic_read() if not defined.
->>>>> Thx for the reply. This is a generic optimization point I would like
->>>>> to talk about with you.
->>>>>
->>>>> First, prefetchw() makes cacheline an exclusive state and serves for
->>>>> the next cmpxchg loop semantic, which writes the idx_tail part of
->>>>> arch_spin_lock. The atomic_read only makes cacheline in the shared
->>>>> state, which couldn't give any guarantee for the next cmpxchg loop
->>>>> semantic. Micro-architecture could utilize prefetchw() to provide a
->>>>> strong forward progress guarantee for the xchg_tail, e.g., the T-HEAD
->>>>> XuanTie processor would hold the exclusive cacheline state until the
->>>>> next cmpxchg write success.
->>>>>
->>>>> In the end, Let's go back to the principle: the xchg_tail is an atomic
->>>>> swap operation that contains write eventually, so giving a prefetchw()
->>>>> at the beginning is acceptable for all architectures..
->>>>> ••••••••••••
->>>> I did realize afterward that prefetchw gets the cacheline in exclusive
->>>> state. I will suggest you mention that in your commit log as well as
->>>> adding a comment about its purpose in the code.
->>> Okay, I would do that in v12, thx.
->> I would suggest adding a snippet from the ISA Extenstion doc:
->>
->> "A prefetch.w instruction indicates to hardware that the cache block whose
->> effective address is the sum of the base address specified in rs1 and the
->> sign-extended offset encoded in imm[11:0], where imm[4:0] equals 0b00000,
->> is likely to be accessed by a data write (i.e. store) in the near future."
-> Good point, thx.
+--Sig_/ge1Ec=QvMDcE9ShpkKDmwRV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-qspinlock is generic code. I suppose this is for the RISCV architecture. 
-You can mention that in the commit log as an example, but I prefer more 
-generic comment especially in the code.
+Hi Andrew,
 
-Cheers,
-Longman
+> > Just maybe mine small remark. IMHO the reset shall not pollute the
+> > IRQ hander. The RESETC is just set on the initialization phase and
+> > only then shall be served. Please correct me if I'm wrong, but it
+> > will not be handled during "normal" operation. =20
+>=20
+> This is something i also wondered. Maybe if the firmware in the
+> MAC-PHY crashes, burns, and a watchdog reset it, could it assert
+> RESETC? I think maybe a WARN_ON_ONCE() for RESETC in the interrupt
+> handler would be useful, but otherwise ignore it. Probe can then poll
+> during its reset.
+>=20
+> > > +				regval =3D RESETC;
+> > > +				/* SPI host should write RESETC
+> > > bit with one to
+> > > +				 * clear the reset interrupt
+> > > status.
+> > > +				 */
+> > > +				ret =3D oa_tc6_perform_ctrl(tc6,
+> > > OA_TC6_STS0,
+> > > +
+> > > &regval, 1, true,
+> > > +
+> > > false); =20
+> >=20
+> > Is this enough to have the IRQ_N deasserted (i.e. pulled HIGH)?
+> >=20
+> > The documentation states it clearly that one also needs to set SYNC
+> > bit (BIT(15)) in the OA_CONFIG0 register (which would have the
+> > 0x8006 value).
+> >=20
+> > Mine problem is that even after writing 0x40 to OA_STATUS0 and
+> > 0x8006 to OA_CONFIG0 the IRQ_N is still LOW (it is pulled up via
+> > 10K resistor).
+> >=20
+> > (I'm able to read those registers and those show expected values) =20
+>=20
+> What does STATUS0 and STATUS1 contain?
 
+STATUS0 =3D> 0x40, which is expected.
+
+Then I do write 0x40 to STATUS0 -> bit6 (RESETC) is R/W1C
+
+After reading the same register - I do receive 0x00 (it has been
+cleared).
+
+Then I write 0x8006 to OA_CONFIG0.
+
+(Those two steps are regarded as "configuration" of LAN865x device in
+the documentation)
+
+In this patch set -> the OA_COFIG0 also has the 0x6 added to indicate
+the SPI transfer chunk.
+
+Dump of OA registers:
+{0x11, 0x7c1b3, 0x5e5, 0x0, 0x8006, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+0x3000, 0x1fbf, 0x3ffe0003, 0x0, 0x0}
+
+Status 0 (0x8) -> 0x0
+Status 1 (0x9) -> 0x0
+
+> That might be a dumb question,
+> i've not read the details for interrupt handling yet, but maybe there
+> is another interrupt pending? Or the interrupt mask needs writing?
+
+All the interrupts on MASK{01} are masked.=20
+
+Changing it to:
+sts &=3D ~(OA_IMASK0_TXPEM | OA_IMASK0_TXBOEM | OA_IMASK0_TXBUEM |
+OA_IMASK0_RXBOEM | OA_IMASK0_LOFEM | OA_IMASK0_HDREM
+
+doesn't fix this problem.
+
+>=20
+> > Was it on purpose to not use the RST_N pin to perform GPIO based
+> > reset?
+> >=20
+> > When I generate reset pulse (and keep it for low for > 5us) the
+> > IRQ_N gets high. After some time it gets low (as expected). But
+> > then it doesn't get high any more. =20
+>=20
+> Does the standard say RST_N is mandatory to be controlled by software?
+> I could imagine RST_N is tied to the board global reset when the power
+> supply is stable.
+
+It can be GPIO controlled. However, it is not required. I've tied it to
+3V3 and also left NC, but no change.
+
+> Software reset is then used at probe time.
+
+I've reconfigured the board to use only SW based reset (i.e. set bit0
+in OA_RESET - 0x3).
+
+>=20
+> So this could be a board design decision. I can see this code getting
+> extended in the future, an optional gpiod passed to the core for it to
+> use.
+
+I can omit the RST_N control. I'd just expect the IRQ_N to be high
+after reset.
+
+>=20
+> > > msecs_to_jiffies(1)); =20
+> >=20
+> > Please also clarify - does the LAN8651 require up to 1ms "settle
+> > down" (after reset) time before it gets operational again? =20
+>=20
+> If this is not part of the standard, it really should be in the MAC
+> driver, or configurable, since different devices might need different
+> delays. But ideally, if the status bit says it is good to go, i would
+> really expect it to be good to go. So this probably should be a
+> LAN8651 quirk.
+
+The documentation is silent about the "settle down time". The only
+requirements is for RST_N assertion > 5us. However, when the IRQ_N goes
+low, and the interrupt is served - it happens that I cannot read ID
+from the chip via SPI.
+
+>=20
+> 	Andrew
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/ge1Ec=QvMDcE9ShpkKDmwRV
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmUBuIEACgkQAR8vZIA0
+zr0LmwgAriZRZHrUZYrvUO6mWWYXT+EjQutiLaLgNI0EQune4tI0ckUgCrvmRtJ0
+qz7QWwjXwK7dn9qVfNfeaIq0BpAo7+x1a7P0w/gZU1T8iJB4GvK/VMx5lYia56Ty
+72KLh5hX49NZBvLe6bijejeNlb5WTFSV9oTxjtEUdyMQJByD8DLfZKzPRwVHbbAE
+5TJIUWsZ0dZA9b4DOndba9sOPpBE1SDClmA8lSZfBtSlTC/3ZXyMo76DGqHfMXxU
+zx5ldUIBKOBmrinUcakiyLRfjU/FKwM0queR5E5Jk/MfLcDvKW4IGe6G6p2iAL4t
+zuKaHXG9uaVWfX15Jng+/MDMVnv+GQ==
+=IB3L
+-----END PGP SIGNATURE-----
+
+--Sig_/ge1Ec=QvMDcE9ShpkKDmwRV--
