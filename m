@@ -2,75 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29839CA551A
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 09:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC78CA5534
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 10:25:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234921AbjIMJ1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 05:27:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33498 "EHLO
+        id S239536AbjIMK0A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 06:26:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbjIMJ1G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 05:27:06 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 993FD199D
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 02:27:02 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-501cef42bc9so10822053e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 02:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1694597221; x=1695202021; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QGfCIQ2uXeaGjAP1vJHhSYENJ4MSWSNEKMncc6vme3A=;
-        b=XyT+y+VvcEVYjk5tgqdG90zYV580vel1Tmj/WyF/7nZjk67DQsvcAVss9WQrjs6KM7
-         2nt4HLxAqupqZC37fVMxStjDf77Zz2Eq/3AHP0LPpL7CNIP2VVLozaH/XHJqXBVmHLr9
-         EGabpQbAdYjmdKmKAicw7DJPI2uumzDq10pWtVGlRMK+gtOCAunghRP8mVmDG6VLC4HX
-         4f5NWlkQ53CIig/1dgjXPprOTM4yG9phKiaNdnfTfIvsWE0bvabOlWqMMizTcXJo11kA
-         bjcoeOwukuVnea6MbaaaBzeyR6MWlzdfhq5N8vkoPGJ6H7RqnOgVkJCMI+WnN4vxfNmi
-         yLzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694597221; x=1695202021;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QGfCIQ2uXeaGjAP1vJHhSYENJ4MSWSNEKMncc6vme3A=;
-        b=BLFFc+ZERiY77si+1IitXIQOXtI7NmXzlbEID7KcqCw9mTXGTPeDr2lJvmbx+Qsxnz
-         ZugVRvO1miiaUBQGh2Zo7MoP1HUUJ5zVAY6+aCF2OLn42RPSREIk0J5t5ksl4IVudz3h
-         xCSzMQ7ROn/rQ7yu/YiGjkdTnWkjNM9S7Fgaxvo7dumQLru1W5nurKn91JBOCPA5drTo
-         O09rcOH1B0vkcJqiGvh8KzwPkF8FBJPXQ7qHW3iOenQuTsXQArakqTri6mlyIrJEl1g6
-         uvoRYMjE2f3P3VhsSY4Q8PoNo+qA06WXYUhxiiNwOpq8Cg+AmMNR+Yn+5VkxAnTCXzkj
-         SLwA==
-X-Gm-Message-State: AOJu0YzYdbCeduIFbRsvRnY/IPXZuvWdtXQuV9fwmDSA1fG3cSZ14Iw5
-        rwuk1GesHso6VC0Vv8/4NHTjRr8FsWT4E789Y6o=
-X-Google-Smtp-Source: AGHT+IECKPCiYRZXbmWqtRPtTFo/PY54Z5r0OM1fAoe4cIDECnaByX4QUdoEQokQtY4OTXuIq41+8w==
-X-Received: by 2002:a05:6512:3196:b0:500:b5db:990b with SMTP id i22-20020a056512319600b00500b5db990bmr1845665lfe.47.1694597220264;
-        Wed, 13 Sep 2023 02:27:00 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id az34-20020a05600c602200b00402e942561fsm1489986wmb.38.2023.09.13.02.26.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 02:26:59 -0700 (PDT)
-Date:   Wed, 13 Sep 2023 11:26:58 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Jinjian Song <songjinjian@hotmail.com>
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
-        ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
-        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
-        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-        m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nmarupaka@google.com,
-        vsankar@lenovo.com, danielwinkler@google.com
-Subject: Re: [net-next v4 0/5] net: wwan: t7xx: fw flashing & coredump support
-Message-ID: <ZQGAYiuOYnI/gvXl@nanopsycho>
-References: <ME3P282MB270323F98B97A1A98A50F8F7BBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
+        with ESMTP id S236362AbjIMKZ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 06:25:59 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF223D3;
+        Wed, 13 Sep 2023 03:25:55 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 040C1C433C8;
+        Wed, 13 Sep 2023 10:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694600755;
+        bh=4k2IeW5H9cEqbLtJFKkr6gJFeGtpZv+ntg6InyehTu4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MsMiX7Bq3wu/ubrt9go4Zl2qtpZZZdKThoIZMlsHjdv+fHu2fusSjJfXcdrTL0+1h
+         7c1jVIQcD03WR5z9RerPkcDNylNLW5Wq3XcKZ5bQYWy1wXrd9cTvRWfIPl3MwXFskV
+         XPH3kH0v1uj9MuRwolV+w+vLF0LjVfOEoRv4JRCNrGQpP+Jxjf6cG7TlggmqUuLepJ
+         Vat7PzDJUQrphDZ733Kkrcn9wU4VLMBBeNki+N7/G53aZI9TMUHiPzXSVDuhsMMjz9
+         Dmy5ALThLPMKpNRjZyQfJhkygiiY63lqSxswU6AkAvbbdNCesDQtNF2bRM3DaEuEmo
+         sHH75LxTD4r6w==
+Date:   Wed, 13 Sep 2023 11:25:46 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        linus.walleij@linaro.org, andy.shevchenko@gmail.com,
+        vigneshr@ti.com, nm@ti.com, matthias.bgg@gmail.com,
+        kgene@kernel.org, alim.akhtar@samsung.com, bmasney@redhat.com,
+        quic_tsoni@quicinc.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+Subject: Re: [REBASE PATCH v5 08/17] arm64: mm: Add dynamic ramoops region
+ support through command line
+Message-ID: <20230913102545.GA12021@willie-the-truck>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+ <1694429639-21484-9-git-send-email-quic_mojha@quicinc.com>
+ <20230912101820.GA10884@willie-the-truck>
+ <14bf3fca-f031-d000-6fd6-d82f4de9b255@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ME3P282MB270323F98B97A1A98A50F8F7BBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <14bf3fca-f031-d000-6fd6-d82f4de9b255@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tue, Sep 12, 2023 at 11:48:40AM CEST, songjinjian@hotmail.com wrote:
+On Wed, Sep 13, 2023 at 12:32:54PM +0530, Mukesh Ojha wrote:
+> Thanks for the response.
+> 
+> On 9/12/2023 3:48 PM, Will Deacon wrote:
+> > On Mon, Sep 11, 2023 at 04:23:50PM +0530, Mukesh Ojha wrote:
+> > > The reserved memory region for ramoops is assumed to be at a fixed
+> > > and known location when read from the devicetree. This may not be
+> > > required for something like Qualcomm's minidump which is interested
+> > > in knowing addresses of ramoops region but it does not put hard
+> > > requirement of address being fixed as most of it's SoC does not
+> > > support warm reset and does not use pstorefs at all instead it has
+> > > firmware way of collecting ramoops region if it gets to know the
+> > > address and register it with apss minidump table which is sitting
+> > > in shared memory region in DDR and firmware will have access to
+> > > these table during reset and collects it on crash of SoC.
+> > > 
+> > > So, add the support of reserving ramoops region to be dynamically
+> > > allocated early during boot if it is request through command line
+> > > via 'dyn_ramoops_size=' and fill up reserved resource structure and
+> > > export the structure, so that it can be read by ramoops driver.
+> > > 
+> > > Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> > > ---
+> > >   arch/arm64/mm/init.c       | 94 ++++++++++++++++++++++++++++++++++++++++++++++
+> > 
+> > Why does this need to be in the arch code? There's absolutely nothing
+> > arm64-specific here.
+> 
+> Current clients of this cmdline would be only arm64, and that is the
+> reason of putting this here.
 
-pw-bot: changes-requested
+I don't think that's a strong enough justification, tbh. We should at
+least be able to compile this for other architectures using TEST_COMPILE
+and so somewhere under drivers/ makes more sense to me.
+
+Will
