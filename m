@@ -2,328 +2,448 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29020EE020D
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 20:50:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A1FEE020F
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 20:52:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232101AbjIMUuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 16:50:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45196 "EHLO
+        id S232530AbjIMUwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 16:52:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231724AbjIMUuR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 16:50:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E7FDB1BD1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 13:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694638171;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/K21jwxId8D0lQ2knOWRxHDSmddes531KCnM7eoUC1c=;
-        b=ERH6XQj2x0p3b5DoLG72u3QdJIO5ZC1zG5Dfk5PM+hNs1fsL26ABq0WH9ceEXUBa7RaJnM
-        aL2utE/pYvQH8xONlLl36hakUzo3DaQqAXeRsbMgrH3W+kel3ieSgjZl0kqsVTxzsjMFgQ
-        LzF3NCfzRaBknr72HZZsv3eI1S5BT58=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-237-cPzfxWc2PH-VLGw26v04vw-1; Wed, 13 Sep 2023 16:49:29 -0400
-X-MC-Unique: cPzfxWc2PH-VLGw26v04vw-1
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3aa1254fb00so326446b6e.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 13:49:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694638169; x=1695242969;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/K21jwxId8D0lQ2knOWRxHDSmddes531KCnM7eoUC1c=;
-        b=PXy1+4lxnUW5h2N2422wEBkpDzrDLRkG7NrWuMTqeK7lfb1PsHFVyO1/j2gkYFYPNL
-         NeD16MweMzzDGOU2LZMVffh5MtwtGaRk4silmT0lo576K3TEC/EkRge4PMyd1fKUiHtj
-         EGdUtQ3PnjeayOGzWXhCiCVFYy9EKedUrvHbVe2FpKRCkhdKp+4P8uzG3KGZtt6IUbpW
-         951KrVc4r0achIYT3bHAfD/EZaqQwnh4tRKw3HfR6IsYl7Xu3+gBftg7OP5B5K8k5I4e
-         jxOWBADkNUhg28yXZ7P62vmBCJ3K770b6W3AffwLgqVqZTcTAEU+pTsEIvBorrVsLYb9
-         NW1w==
-X-Gm-Message-State: AOJu0YxBBTfw1hs+wfgcnEXaPTX9m6oXt38VACSkJkVB8N/+K+FxTLKv
-        ais1ZI6VLstaEw41uudOHHLZgt+YpM/G5ND+D75Dkbn9MHwa6XWTAAXIeiJWiDBP5fy/jMnV5AI
-        VOR5fGpbBBZ++L+KdD563
-X-Received: by 2002:aca:210b:0:b0:3a0:3144:dd3a with SMTP id 11-20020aca210b000000b003a03144dd3amr3604641oiz.37.1694638169019;
-        Wed, 13 Sep 2023 13:49:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHjgh8VwtlDT+reZHsvHdeB+OgFkx5z4m+auF4qh9Tci12rJnar+lp/sd3pIX4aPhUEv+e16A==
-X-Received: by 2002:aca:210b:0:b0:3a0:3144:dd3a with SMTP id 11-20020aca210b000000b003a03144dd3amr3604618oiz.37.1694638168751;
-        Wed, 13 Sep 2023 13:49:28 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id b6-20020aca2206000000b003a7a422cb6asm5568258oic.37.2023.09.13.13.49.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 13:49:28 -0700 (PDT)
-Date:   Wed, 13 Sep 2023 17:49:19 -0300
-From:   Leonardo Bras <leobras@redhat.com>
-To:     Guo Ren <guoren@kernel.org>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 06/17] riscv: qspinlock: Introduce combo spinlock
-Message-ID: <ZQIgTyJ-DETrK8k3@redhat.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-7-guoren@kernel.org>
- <ZP2jL06TYGYVBhTN@gmail.com>
- <ZQIdbbzW79s5tfiI@redhat.com>
+        with ESMTP id S231559AbjIMUwL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 16:52:11 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B8B1998;
+        Wed, 13 Sep 2023 13:52:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6F74C433C8;
+        Wed, 13 Sep 2023 20:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694638326;
+        bh=0Ve/DUghFGp+XcMhWN+O1z3yiMVn2W/ga0YXkyPCU2k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UVd/q2LpdOfG2KEdwqj1EjFIHe5fRJLc8x67U/67tdybl51lJhkDK73rR/9N8kBFk
+         caaWRHab/8d1/NBMPdSgY5i/pVTJ21BRlxeJMwdpUxg3RzVA7pgaYWs1eSM9Yl/ma7
+         FOLBWrGcKqNCOuo7aUmZqbRRu+FwmF+3rnf4qc0z4BPxSwvoPfERLkfZVeZHwJjw+y
+         kYkK5OGukVJaog16ticRR83z7YDys3keGjujNguubmHWXOqyxF21hn5PRrjrHYH5G2
+         6+I8NihRUYRP8yKuApChFq2UfLnP55AMccQUw//DIXzCoHNQGOcZAWTAI2ZRtn3nQq
+         945+JJrL/aHhw==
+Date:   Wed, 13 Sep 2023 23:51:25 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Sourav Panda <souravpanda@google.com>
+Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
+        akpm@linux-foundation.org, mike.kravetz@oracle.com,
+        muchun.song@linux.dev, david@redhat.com, rdunlap@infradead.org,
+        chenlinxuan@uniontech.com, yang.yang29@zte.com.cn,
+        tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com,
+        pasha.tatashin@soleen.com, yosryahmed@google.com,
+        hannes@cmpxchg.org, shakeelb@google.com,
+        kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
+        adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@Oracle.com,
+        surenb@google.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v1 1/1] mm: report per-page metadata information
+Message-ID: <20230913205125.GA3303@kernel.org>
+References: <20230913173000.4016218-1-souravpanda@google.com>
+ <20230913173000.4016218-2-souravpanda@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZQIdbbzW79s5tfiI@redhat.com>
+In-Reply-To: <20230913173000.4016218-2-souravpanda@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 13, 2023 at 05:37:01PM -0300, Leonardo Bras wrote:
-> On Sun, Sep 10, 2023 at 07:06:23AM -0400, Guo Ren wrote:
-> > On Sun, Sep 10, 2023 at 04:29:00AM -0400, guoren@kernel.org wrote:
-> > > From: Guo Ren <guoren@linux.alibaba.com>
-> > > 
-> > > Combo spinlock could support queued and ticket in one Linux Image and
-> > > select them during boot time via errata mechanism. Here is the func
-> > > size (Bytes) comparison table below:
-> > > 
-> > > TYPE			: COMBO | TICKET | QUEUED
-> > > arch_spin_lock		: 106	| 60     | 50
-> > > arch_spin_unlock	: 54    | 36     | 26
-> > > arch_spin_trylock	: 110   | 72     | 54
-> > > arch_spin_is_locked	: 48    | 34     | 20
-> > > arch_spin_is_contended	: 56    | 40     | 24
-> > > rch_spin_value_unlocked	: 48    | 34     | 24
-> > > 
-> > > One example of disassemble combo arch_spin_unlock:
-> > >    0xffffffff8000409c <+14>:    nop                # detour slot
-> > >    0xffffffff800040a0 <+18>:    fence   rw,w       # queued spinlock start
-> > >    0xffffffff800040a4 <+22>:    sb      zero,0(a4) # queued spinlock end
-> > >    0xffffffff800040a8 <+26>:    ld      s0,8(sp)
-> > >    0xffffffff800040aa <+28>:    addi    sp,sp,16
-> > >    0xffffffff800040ac <+30>:    ret
-> > >    0xffffffff800040ae <+32>:    lw      a5,0(a4)   # ticket spinlock start
-> > >    0xffffffff800040b0 <+34>:    sext.w  a5,a5
-> > >    0xffffffff800040b2 <+36>:    fence   rw,w
-> > >    0xffffffff800040b6 <+40>:    addiw   a5,a5,1
-> > >    0xffffffff800040b8 <+42>:    slli    a5,a5,0x30
-> > >    0xffffffff800040ba <+44>:    srli    a5,a5,0x30
-> > >    0xffffffff800040bc <+46>:    sh      a5,0(a4)   # ticket spinlock end
-> > >    0xffffffff800040c0 <+50>:    ld      s0,8(sp)
-> > >    0xffffffff800040c2 <+52>:    addi    sp,sp,16
-> > >    0xffffffff800040c4 <+54>:    ret
-> > > 
-> > > The qspinlock is smaller and faster than ticket-lock when all are in
-> > > fast-path, and combo spinlock could provide a compatible Linux Image
-> > > for different micro-arch design (weak/strict fwd guarantee LR/SC)
-> > > processors.
-> > > 
-> > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > > ---
-> > >  arch/riscv/Kconfig                |  9 +++-
-> > >  arch/riscv/include/asm/spinlock.h | 78 ++++++++++++++++++++++++++++++-
-> > >  arch/riscv/kernel/setup.c         | 14 ++++++
-> > >  3 files changed, 98 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > > index 7f39bfc75744..4bcff2860f48 100644
-> > > --- a/arch/riscv/Kconfig
-> > > +++ b/arch/riscv/Kconfig
-> > > @@ -473,7 +473,7 @@ config NODES_SHIFT
-> > >  
-> > >  choice
-> > >  	prompt "RISC-V spinlock type"
-> > > -	default RISCV_TICKET_SPINLOCKS
-> > > +	default RISCV_COMBO_SPINLOCKS
-> > >  
-> > >  config RISCV_TICKET_SPINLOCKS
-> > >  	bool "Using ticket spinlock"
-> > > @@ -485,6 +485,13 @@ config RISCV_QUEUED_SPINLOCKS
-> > >  	help
-> > >  	  Make sure your micro arch LL/SC has a strong forward progress guarantee.
-> > >  	  Otherwise, stay at ticket-lock.
-> > > +
-> > > +config RISCV_COMBO_SPINLOCKS
-> > > +	bool "Using combo spinlock"
-> > > +	depends on SMP && MMU
-> > > +	select ARCH_USE_QUEUED_SPINLOCKS
-> > > +	help
-> > > +	  Select queued spinlock or ticket-lock via errata.
-> > >  endchoice
-> > >  
-> > >  config RISCV_ALTERNATIVE
-> > > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
-> > > index c644a92d4548..8ea0fee80652 100644
-> > > --- a/arch/riscv/include/asm/spinlock.h
-> > > +++ b/arch/riscv/include/asm/spinlock.h
-> > > @@ -7,11 +7,85 @@
-> > >  #define _Q_PENDING_LOOPS	(1 << 9)
-> > >  #endif
-> > >  
-> > > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> > > +#include <asm-generic/ticket_spinlock.h>
-> > > +
-> > > +#undef arch_spin_is_locked
-> > > +#undef arch_spin_is_contended
-> > > +#undef arch_spin_value_unlocked
-> > > +#undef arch_spin_lock
-> > > +#undef arch_spin_trylock
-> > > +#undef arch_spin_unlock
-> > > +
-> > > +#include <asm-generic/qspinlock.h>
-> > > +#include <linux/jump_label.h>
-> > > +
-> > > +#undef arch_spin_is_locked
-> > > +#undef arch_spin_is_contended
-> > > +#undef arch_spin_value_unlocked
-> > > +#undef arch_spin_lock
-> > > +#undef arch_spin_trylock
-> > > +#undef arch_spin_unlock
-> > Sorry, I forgot __no_arch_spinlock_redefine advice here. I would add it in v12.
-> > https://lore.kernel.org/linux-riscv/4cc7113a-0e4e-763a-cba2-7963bcd26c7a@redhat.com/
-> > 
+On Wed, Sep 13, 2023 at 10:30:00AM -0700, Sourav Panda wrote:
+> Adds a new per-node PageMetadata field to
+> /sys/devices/system/node/nodeN/meminfo
+> and a global PageMetadata field to /proc/meminfo. This information can
+> be used by users to see how much memory is being used by per-page
+> metadata, which can vary depending on build configuration, machine
+> architecture, and system use.
 > 
-> Please check a reply to a previous patch I sent earlier: I think these 
-> #undef can be avoided.
+> Per-page metadata is the amount of memory that Linux needs in order to
+> manage memory at the page granularity. The majority of such memory is
+> used by "struct page" and "page_ext" data structures.
+> 
+> This memory depends on build configurations, machine architectures, and
+> the way system is used:
+> 
+> Build configuration may include extra fields into "struct page",
+> and enable / disable "page_ext"
+> Machine architecture defines base page sizes. For example 4K x86,
+> 8K SPARC, 64K ARM64 (optionally), etc. The per-page metadata
+> overhead is smaller on machines with larger page sizes.
+> System use can change per-page overhead by using vmemmap
+> optimizations with hugetlb pages, and emulated pmem devdax pages.
+> Also, boot parameters can determine whether page_ext is needed
+> to be allocated. This memory can be part of MemTotal or be outside
+> MemTotal depending on whether the memory was hot-plugged, booted with,
+> or hugetlb memory was returned back to the system.
+> 
+> Suggested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: Sourav Panda <souravpanda@google.com>
+> ---
+>  Documentation/filesystems/proc.rst |  3 +++
+>  drivers/base/node.c                |  2 ++
+>  fs/proc/meminfo.c                  |  7 +++++++
+>  include/linux/mmzone.h             |  3 +++
+>  include/linux/vmstat.h             |  4 ++++
+>  mm/hugetlb.c                       |  8 +++++++-
+>  mm/hugetlb_vmemmap.c               |  9 ++++++++-
+>  mm/mm_init.c                       |  3 +++
+>  mm/page_alloc.c                    |  1 +
+>  mm/page_ext.c                      | 17 +++++++++++++----
+>  mm/sparse-vmemmap.c                |  3 +++
+>  mm/sparse.c                        |  7 ++++++-
+>  mm/vmstat.c                        | 21 +++++++++++++++++++++
+>  13 files changed, 81 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 2b59cff8be17..c121f2ef9432 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -987,6 +987,7 @@ Example output. You may not have all of these fields.
+>      AnonPages:       4654780 kB
+>      Mapped:           266244 kB
+>      Shmem:              9976 kB
+> +    PageMetadata:     513419 kB
+>      KReclaimable:     517708 kB
+>      Slab:             660044 kB
+>      SReclaimable:     517708 kB
+> @@ -1089,6 +1090,8 @@ Mapped
+>                files which have been mmapped, such as libraries
+>  Shmem
+>                Total memory used by shared memory (shmem) and tmpfs
+> +PageMetadata
+> +              Memory used for per-page metadata
+>  KReclaimable
+>                Kernel allocations that the kernel will attempt to reclaim
+>                under memory pressure. Includes SReclaimable (below), and other
+> diff --git a/drivers/base/node.c b/drivers/base/node.c
+> index 493d533f8375..da728542265f 100644
+> --- a/drivers/base/node.c
+> +++ b/drivers/base/node.c
+> @@ -428,6 +428,7 @@ static ssize_t node_read_meminfo(struct device *dev,
+>  			     "Node %d Mapped:         %8lu kB\n"
+>  			     "Node %d AnonPages:      %8lu kB\n"
+>  			     "Node %d Shmem:          %8lu kB\n"
+> +			     "Node %d PageMetadata:   %8lu kB\n"
+>  			     "Node %d KernelStack:    %8lu kB\n"
+>  #ifdef CONFIG_SHADOW_CALL_STACK
+>  			     "Node %d ShadowCallStack:%8lu kB\n"
+> @@ -458,6 +459,7 @@ static ssize_t node_read_meminfo(struct device *dev,
+>  			     nid, K(node_page_state(pgdat, NR_FILE_MAPPED)),
+>  			     nid, K(node_page_state(pgdat, NR_ANON_MAPPED)),
+>  			     nid, K(i.sharedram),
+> +			     nid, K(node_page_state(pgdat, NR_PAGE_METADATA)),
+>  			     nid, node_page_state(pgdat, NR_KERNEL_STACK_KB),
+>  #ifdef CONFIG_SHADOW_CALL_STACK
+>  			     nid, node_page_state(pgdat, NR_KERNEL_SCS_KB),
+> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+> index 45af9a989d40..f141bb2a550d 100644
+> --- a/fs/proc/meminfo.c
+> +++ b/fs/proc/meminfo.c
+> @@ -39,7 +39,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+>  	long available;
+>  	unsigned long pages[NR_LRU_LISTS];
+>  	unsigned long sreclaimable, sunreclaim;
+> +	unsigned long nr_page_metadata;
+>  	int lru;
+> +	int nid;
 >  
-> > > +
-> > > +DECLARE_STATIC_KEY_TRUE(combo_qspinlock_key);
-> > > +
-> > > +static __always_inline void arch_spin_lock(arch_spinlock_t *lock)
-> > > +{
-> > > +	if (static_branch_likely(&combo_qspinlock_key))
-> > > +		queued_spin_lock(lock);
-> > > +	else
-> > > +		ticket_spin_lock(lock);
-> > > +}
-> > > +
-> > > +static __always_inline bool arch_spin_trylock(arch_spinlock_t *lock)
-> > > +{
-> > > +	if (static_branch_likely(&combo_qspinlock_key))
-> > > +		return queued_spin_trylock(lock);
-> > > +	else
-> > > +		return ticket_spin_trylock(lock);
-> > > +}
-> > > +
-> > > +static __always_inline void arch_spin_unlock(arch_spinlock_t *lock)
-> > > +{
-> > > +	if (static_branch_likely(&combo_qspinlock_key))
-> > > +		queued_spin_unlock(lock);
-> > > +	else
-> > > +		ticket_spin_unlock(lock);
-> > > +}
-> > > +
-> > > +static __always_inline int arch_spin_value_unlocked(arch_spinlock_t lock)
-> > > +{
-> > > +	if (static_branch_likely(&combo_qspinlock_key))
-> > > +		return queued_spin_value_unlocked(lock);
-> > > +	else
-> > > +		return ticket_spin_value_unlocked(lock);
-> > > +}
-> > > +
-> > > +static __always_inline int arch_spin_is_locked(arch_spinlock_t *lock)
-> > > +{
-> > > +	if (static_branch_likely(&combo_qspinlock_key))
-> > > +		return queued_spin_is_locked(lock);
-> > > +	else
-> > > +		return ticket_spin_is_locked(lock);
-> > > +}
-> > > +
-> > > +static __always_inline int arch_spin_is_contended(arch_spinlock_t *lock)
-> > > +{
-> > > +	if (static_branch_likely(&combo_qspinlock_key))
-> > > +		return queued_spin_is_contended(lock);
-> > > +	else
-> > > +		return ticket_spin_is_contended(lock);
-> > > +}
-> > > +#else /* CONFIG_RISCV_COMBO_SPINLOCKS */
-> > > +
+>  	si_meminfo(&i);
+>  	si_swapinfo(&i);
+> @@ -57,6 +59,10 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+>  	sreclaimable = global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B);
+>  	sunreclaim = global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B);
+>  
+> +	nr_page_metadata = 0;
+> +	for_each_online_node(nid)
+> +		nr_page_metadata += node_page_state(NODE_DATA(nid), NR_PAGE_METADATA);
+> +
+>  	show_val_kb(m, "MemTotal:       ", i.totalram);
+>  	show_val_kb(m, "MemFree:        ", i.freeram);
+>  	show_val_kb(m, "MemAvailable:   ", available);
+> @@ -104,6 +110,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+>  	show_val_kb(m, "Mapped:         ",
+>  		    global_node_page_state(NR_FILE_MAPPED));
+>  	show_val_kb(m, "Shmem:          ", i.sharedram);
+> +	show_val_kb(m, "PageMetadata:   ", nr_page_metadata);
+>  	show_val_kb(m, "KReclaimable:   ", sreclaimable +
+>  		    global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE));
+>  	show_val_kb(m, "Slab:           ", sreclaimable + sunreclaim);
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 4106fbc5b4b3..dda1ad522324 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -207,6 +207,9 @@ enum node_stat_item {
+>  	PGPROMOTE_SUCCESS,	/* promote successfully */
+>  	PGPROMOTE_CANDIDATE,	/* candidate pages to promote */
+>  #endif
+> +	NR_PAGE_METADATA,	/* Page metadata size (struct page and page_ext)
+> +				 * in pages
+> +				 */
+>  	NR_VM_NODE_STAT_ITEMS
+>  };
+>  
+> diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+> index fed855bae6d8..b5c292560f37 100644
+> --- a/include/linux/vmstat.h
+> +++ b/include/linux/vmstat.h
+> @@ -656,4 +656,8 @@ static inline void lruvec_stat_sub_folio(struct folio *folio,
+>  {
+>  	lruvec_stat_mod_folio(folio, idx, -folio_nr_pages(folio));
+>  }
+> +
+> +void __init mod_node_early_perpage_metadata(int nid, long delta);
+> +void __init writeout_early_perpage_metadata(void);
+> +
+>  #endif /* _LINUX_VMSTAT_H */
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index ba6d39b71cb1..ca36751be50e 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1758,6 +1758,10 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
+>  		destroy_compound_gigantic_folio(folio, huge_page_order(h));
+>  		free_gigantic_folio(folio, huge_page_order(h));
+>  	} else {
+> +#ifndef CONFIG_SPARSEMEM_VMEMMAP
+> +		__mod_node_page_state(NODE_DATA(page_to_nid(&folio->page)),
+> +				      NR_PAGE_METADATA, -huge_page_order(h));
 
-Also, those functions all reproduce the same behavior, so maybe it would be 
-better to keep that behavior in a macro such as:
+I don't think memory map will change here with classic SPARSEMEM
 
-#define COMBO_SPINLOCK_DECLARE(f) 					\
-static __always_inline int arch_spin_ ## f(arch_spinlock_t *lock) 	\
-{									\
-	if (static_branch_likely(&combo_qspinlock_key))			\
-		return queued_spin_ ## f(lock);				\
-	else								\
-		return ticket_spin_ ## f(lock);				\
-}
+> +#endif
+>  		__free_pages(&folio->page, huge_page_order(h));
+>  	}
+>  }
+> @@ -2143,7 +2147,9 @@ static struct folio *alloc_buddy_hugetlb_folio(struct hstate *h,
+>  		__count_vm_event(HTLB_BUDDY_PGALLOC_FAIL);
+>  		return NULL;
+>  	}
+> -
+> +#ifndef CONFIG_SPARSEMEM_VMEMMAP
+> +	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, huge_page_order(h));
+> +#endif
+>  	__count_vm_event(HTLB_BUDDY_PGALLOC);
+>  	return page_folio(page);
+>  }
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index 4b9734777f69..7f920bfa8e79 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -214,6 +214,8 @@ static inline void free_vmemmap_page(struct page *page)
+>  		free_bootmem_page(page);
+>  	else
+>  		__free_page(page);
+> +	__mod_node_page_state(NODE_DATA(page_to_nid(page)),
+> +			      NR_PAGE_METADATA, -1);
+>  }
+>  
+>  /* Free a list of the vmemmap pages */
+> @@ -336,6 +338,7 @@ static int vmemmap_remap_free(unsigned long start, unsigned long end,
+>  			  (void *)walk.reuse_addr);
+>  		list_add(&walk.reuse_page->lru, &vmemmap_pages);
+>  	}
+> +	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, 1);
+>  
+>  	/*
+>  	 * In order to make remapping routine most efficient for the huge pages,
+> @@ -387,8 +390,12 @@ static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
+>  
+>  	while (nr_pages--) {
+>  		page = alloc_pages_node(nid, gfp_mask, 0);
+> -		if (!page)
+> +		if (!page) {
+>  			goto out;
+> +		} else {
+> +			__mod_node_page_state(NODE_DATA(page_to_nid(page)),
+> +					      NR_PAGE_METADATA, 1);
 
-COMBO_SPINLOCK_DECLARE(lock)
-COMBO_SPINLOCK_DECLARE(trylock)
-COMBO_SPINLOCK_DECLARE(unlock)
-COMBO_SPINLOCK_DECLARE(value_unlocked)
-COMBO_SPINLOCK_DECLARE(is_locked)
-COMBO_SPINLOCK_DECLARE(is_contended)
+We can update this once for nr_pages outside the loop, cannot we?
 
-Does that make sense?
+> +		}
+>  		list_add_tail(&page->lru, list);
+>  	}
+>  
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index 50f2f34745af..e02dce7e2e9a 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/pgtable.h>
+>  #include <linux/swap.h>
+>  #include <linux/cma.h>
+> +#include <linux/vmstat.h>
+>  #include "internal.h"
+>  #include "slab.h"
+>  #include "shuffle.h"
+> @@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
+>  			panic("Failed to allocate %ld bytes for node %d memory map\n",
+>  			      size, pgdat->node_id);
+>  		pgdat->node_mem_map = map + offset;
+> +		mod_node_early_perpage_metadata(pgdat->node_id,
+> +						PAGE_ALIGN(size) >> PAGE_SHIFT);
+>  	}
+>  	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
+>  				__func__, pgdat->node_id, (unsigned long)pgdat,
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 0c5be12f9336..4e295d5087f4 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -5443,6 +5443,7 @@ void __init setup_per_cpu_pageset(void)
+>  	for_each_online_pgdat(pgdat)
+>  		pgdat->per_cpu_nodestats =
+>  			alloc_percpu(struct per_cpu_nodestat);
+> +	writeout_early_perpage_metadata();
 
-Thanks!
-Leo
+Why it's called here?
+You can copy early stats to actual node stats as soon as the nodes and page
+allocator are initialized.
 
+>  }
+>  
+>  __meminit void zone_pcp_init(struct zone *zone)
+> diff --git a/mm/page_ext.c b/mm/page_ext.c
+> index 4548fcc66d74..b5b9d3079e20 100644
+> --- a/mm/page_ext.c
+> +++ b/mm/page_ext.c
+> @@ -201,6 +201,8 @@ static int __init alloc_node_page_ext(int nid)
+>  		return -ENOMEM;
+>  	NODE_DATA(nid)->node_page_ext = base;
+>  	total_usage += table_size;
+> +	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
+> +			      PAGE_ALIGN(table_size) >> PAGE_SHIFT);
+>  	return 0;
+>  }
+>  
+> @@ -255,12 +257,15 @@ static void *__meminit alloc_page_ext(size_t size, int nid)
+>  	void *addr = NULL;
+>  
+>  	addr = alloc_pages_exact_nid(nid, size, flags);
+> -	if (addr) {
+> +	if (addr)
+>  		kmemleak_alloc(addr, size, 1, flags);
+> -		return addr;
+> -	}
+> +	else
+> +		addr = vzalloc_node(size, nid);
+>  
+> -	addr = vzalloc_node(size, nid);
+> +	if (addr) {
+> +		__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
+> +				      PAGE_ALIGN(size) >> PAGE_SHIFT);
+> +	}
+>  
+>  	return addr;
+>  }
+> @@ -314,6 +319,10 @@ static void free_page_ext(void *addr)
+>  		BUG_ON(PageReserved(page));
+>  		kmemleak_free(addr);
+>  		free_pages_exact(addr, table_size);
+> +
+> +		__mod_node_page_state(NODE_DATA(page_to_nid(page)), NR_PAGE_METADATA,
+> +				      (long)-1 * (PAGE_ALIGN(table_size) >> PAGE_SHIFT));
+> +
 
-> > >  #ifdef CONFIG_QUEUED_SPINLOCKS
-> > >  #include <asm/qspinlock.h>
-> > > -#include <asm/qrwlock.h>
-> > >  #else
-> > > -#include <asm-generic/spinlock.h>
-> > > +#include <asm-generic/ticket_spinlock.h>
-> > >  #endif
-> > >  
-> > > +#endif /* CONFIG_RISCV_COMBO_SPINLOCKS */
-> > > +
-> > > +#include <asm/qrwlock.h>
-> > > +
-> > >  #endif /* __ASM_RISCV_SPINLOCK_H */
-> > > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > > index 32c2e1eb71bd..a447cf360a18 100644
-> > > --- a/arch/riscv/kernel/setup.c
-> > > +++ b/arch/riscv/kernel/setup.c
-> > > @@ -269,6 +269,18 @@ static void __init parse_dtb(void)
-> > >  #endif
-> > >  }
-> > >  
-> > > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> > > +DEFINE_STATIC_KEY_TRUE(combo_qspinlock_key);
-> > > +EXPORT_SYMBOL(combo_qspinlock_key);
-> > > +#endif
-> > > +
-> > > +static void __init riscv_spinlock_init(void)
-> > > +{
-> > > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> > > +	static_branch_disable(&combo_qspinlock_key);
-> > > +#endif
-> > > +}
-> > > +
-> > >  extern void __init init_rt_signal_env(void);
-> > >  
-> > >  void __init setup_arch(char **cmdline_p)
-> > > @@ -317,6 +329,8 @@ void __init setup_arch(char **cmdline_p)
-> > >  	    riscv_isa_extension_available(NULL, ZICBOM))
-> > >  		riscv_noncoherent_supported();
-> > >  	riscv_set_dma_cache_alignment();
-> > > +
-> > > +	riscv_spinlock_init();
-> > >  }
-> > >  
-> > >  static int __init topology_init(void)
-> > > -- 
-> > > 2.36.1
-> > > 
-> > > 
-> > > _______________________________________________
-> > > linux-riscv mailing list
-> > > linux-riscv@lists.infradead.org
-> > > http://lists.infradead.org/mailman/listinfo/linux-riscv
-> > > 
-> > 
+what happens with vmalloc()ed page_ext?
 
+>  	}
+>  }
+>  
+> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> index a2cbe44c48e1..e33f302db7c6 100644
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+> @@ -469,5 +469,8 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
+>  	if (r < 0)
+>  		return NULL;
+>  
+> +	__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
+> +			      PAGE_ALIGN(end - start) >> PAGE_SHIFT);
+> +
+>  	return pfn_to_page(pfn);
+>  }
+> diff --git a/mm/sparse.c b/mm/sparse.c
+> index 77d91e565045..db78233a85ef 100644
+> --- a/mm/sparse.c
+> +++ b/mm/sparse.c
+> @@ -14,7 +14,7 @@
+>  #include <linux/swap.h>
+>  #include <linux/swapops.h>
+>  #include <linux/bootmem_info.h>
+> -
+> +#include <linux/vmstat.h>
+>  #include "internal.h"
+>  #include <asm/dma.h>
+>  
+> @@ -465,6 +465,9 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
+>  	 */
+>  	sparsemap_buf = memmap_alloc(size, section_map_size(), addr, nid, true);
+>  	sparsemap_buf_end = sparsemap_buf + size;
+> +#ifndef CONFIG_SPARSEMEM_VMEMMAP
+> +	mod_node_early_perpage_metadata(nid, PAGE_ALIGN(size) >> PAGE_SHIFT);
+
+All early struct pages are allocated in memmap_alloc(). It'd make sense to update
+the counter there.
+
+> +#endif
+>  }
+>  
+>  static void __init sparse_buffer_fini(void)
+> @@ -641,6 +644,8 @@ static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_pages,
+>  	unsigned long start = (unsigned long) pfn_to_page(pfn);
+>  	unsigned long end = start + nr_pages * sizeof(struct page);
+>  
+> +	__mod_node_page_state(NODE_DATA(page_to_nid(pfn_to_page(pfn))), NR_PAGE_METADATA,
+> +			      (long)-1 * (PAGE_ALIGN(end - start) >> PAGE_SHIFT));
+>  	vmemmap_free(start, end, altmap);
+>  }
+>  static void free_map_bootmem(struct page *memmap)
+> diff --git a/mm/vmstat.c b/mm/vmstat.c
+> index 00e81e99c6ee..731eb5264b49 100644
+> --- a/mm/vmstat.c
+> +++ b/mm/vmstat.c
+> @@ -1245,6 +1245,7 @@ const char * const vmstat_text[] = {
+>  	"pgpromote_success",
+>  	"pgpromote_candidate",
+>  #endif
+> +	"nr_page_metadata",
+>  
+>  	/* enum writeback_stat_item counters */
+>  	"nr_dirty_threshold",
+> @@ -2274,4 +2275,24 @@ static int __init extfrag_debug_init(void)
+>  }
+>  
+>  module_init(extfrag_debug_init);
+> +
+> +// Page metadata size (struct page and page_ext) in pages
+> +unsigned long early_perpage_metadata[MAX_NUMNODES] __initdata;
+
+static?
+
+> +
+> +void __init mod_node_early_perpage_metadata(int nid, long delta)
+> +{
+> +	early_perpage_metadata[nid] += delta;
+> +}
+> +
+> +void __init writeout_early_perpage_metadata(void)
+> +{
+> +	int nid;
+> +	struct pglist_data *pgdat;
+> +
+> +	for_each_online_pgdat(pgdat) {
+> +		nid = pgdat->node_id;
+> +		__mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
+> +				      early_perpage_metadata[nid]);
+> +	}
+> +}
+>  #endif
+> -- 
+> 2.42.0.283.g2d96d420d3-goog
+> 
+
+-- 
+Sincerely yours,
+Mike.
