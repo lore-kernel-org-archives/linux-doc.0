@@ -2,507 +2,246 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 916F9EE0212
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 23:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CF6EE0213
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 23:42:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233301AbjIMXlY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 19:41:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42988 "EHLO
+        id S233262AbjIMXmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 19:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233172AbjIMXlU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 19:41:20 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2102.outbound.protection.outlook.com [40.107.223.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236FD10C3;
-        Wed, 13 Sep 2023 16:41:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GCc7pM4g2Q2dW3MjEOdvbj1WnScBY6tu7irbE04A8Yvuu0AGwEtSp6hwsf2BVzyzLOmIPZ5MlxdMgOJCO2yl8QF4kuvhdqydPBtouBZUkq/xZ1fzOUdRZNADD0nG0dzayBctH5yapf7XieeJBWwqvmvVPLqureAC7LE4HqjS0PE6sFxWkCwPqJFW+JaUUIFIgLHC1vPYhNZRwkPz9x8jJibFuGunjwVmEipBxqq2HEqmCo8Ktn7us+yXArJAsE5e0rixytxiQ4HceiC+JlNz005qDXArPbSyfklnEr5eb+Sl8N/Bp5vsDvgvtRuHCHjiyEDqgKkAxYmzow+B2rjTTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kr2hAVYAfczEQ9flj6cyX5xctyinyV8zWgmA6aK30FE=;
- b=jJbf/SV5IGqdTWMK7omxiNPzQ+/ayWDIgpD/cB1YZZpIRr4qw2fWRdHEfyBOVyE4QpeBl8YrqYo9L+D/dt1NuaLJiQx/Hi2TZv0TsLWemGsY0h1d8leihkjBQ1ID+YFs97CWAnbjlBi88zqPm2Stfqedenuhi5MnnYNnlTI8ZvFaM3hZUYc3PqUT/NmlPEvCbLGBphhOic5P8dDM0fH24jL24MS3di79uomlNxBdJ7C5YT40MsVU3q3nehr1MBGZSiNHY38TGZsHPdzXp+FBBMBrTWjWY/utVyWIKFnCicVLSjYDK/KG3FDZNJO1uq4spvKNoyehBUg7iwynSgCccw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+        with ESMTP id S233255AbjIMXmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 19:42:14 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7314E41
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 16:42:09 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-68fbbb953cfso265425b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 16:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kr2hAVYAfczEQ9flj6cyX5xctyinyV8zWgmA6aK30FE=;
- b=NI9vMi++j53IxDFqT/2F0EJM1Wwg0pAWvGvI/cq6FiY/KhVCNWVGK21DFpXmw6Xs6lknp85ndDYq5Usghcl0L1B+JbW7KIL/gGdF3f6yp4AYou7Ug1hKVVwk6GyMQRHY97blfkyCP6pFytBVrD0oJ8KlV934S6rlI5vLJ3Og2L4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from DM5PR0102MB3590.prod.exchangelabs.com (2603:10b6:4:a4::25) by
- MW4PR01MB6241.prod.exchangelabs.com (2603:10b6:303:64::7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.19; Wed, 13 Sep 2023 23:41:12 +0000
-Received: from DM5PR0102MB3590.prod.exchangelabs.com
- ([fe80::bfa4:8250:f526:5015]) by DM5PR0102MB3590.prod.exchangelabs.com
- ([fe80::bfa4:8250:f526:5015%6]) with mapi id 15.20.6792.019; Wed, 13 Sep 2023
- 23:41:12 +0000
-From:   Ilkka Koskinen <ilkka@os.amperecomputing.com>
-To:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Besar Wicaksono <bwicaksono@nvidia.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v7 4/4] perf: arm_cspmu: ampere_cspmu: Add support for Ampere SoC PMU
-Date:   Wed, 13 Sep 2023 16:39:41 -0700
-Message-Id: <20230913233941.9814-5-ilkka@os.amperecomputing.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230913233941.9814-1-ilkka@os.amperecomputing.com>
-References: <20230913233941.9814-1-ilkka@os.amperecomputing.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH2PR18CA0040.namprd18.prod.outlook.com
- (2603:10b6:610:55::20) To DM5PR0102MB3590.prod.exchangelabs.com
- (2603:10b6:4:a4::25)
+        d=chromium.org; s=google; t=1694648529; x=1695253329; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qhJToYTNQgE0Hp2zNwcVoJ6UineNQbf397W3Yx/XnQM=;
+        b=XIvDZc7Bh8u1mm86VX/zcCV1n59N+zXmBuqf7vjj7a78yLHYUYSX4TeWRaA0MjHIRG
+         VDiGpBU6iNP9zw5ffRYsww/Vld1qCoDx4lymkPqhJvpzhKfDf0vBkRgSBFjCu3Sn8uL1
+         WrsK/hnCW7NLTlD1ZquHIZY8xtVxg4bRE6WHs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694648529; x=1695253329;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qhJToYTNQgE0Hp2zNwcVoJ6UineNQbf397W3Yx/XnQM=;
+        b=H15lQ0ZDy6i5stZFaP7A4l15UxbLRKTfZMctC2tTx2X9z8UMgTWWn0HB88nv4Pw89D
+         Ma3qbj5gRtBl/Vzu0CAgyx7GAnjlMOQ3V/5a65cSNPHnBJc27lBAtXeE/OQhRZo+9X5r
+         sqcPYscssVhnm4420v2WkbW+NW2rUdVabQ51mH6HqqMSlE9UpMdw3J58W6eJ79gCMNV0
+         NXCnrkmypvC2e+bgFfFXa3SZ6iK+ZugBX7COS7vgIs2HWdqAqrQXMJy+qC0hYLulVxwM
+         saoSq5plhgAW6LhErHnNCci1phYCs9IhihX63d5H60YTQsEzvEDbHOrsTSABA06aojEM
+         q/+w==
+X-Gm-Message-State: AOJu0Yxl0cLNX8EXzVL0P3+ryNP20BDyRqSYlqkR89wJyYrRaYLHWzuR
+        8CargGESaRp9WjrCQlxLqa3ENQ==
+X-Google-Smtp-Source: AGHT+IEb+U0u0xKyw5shUYDu9+LXf06vqwRCVkTois8kAxcLarz4lxMuR+oS1Pa4m67fU85hFGCeBQ==
+X-Received: by 2002:a05:6a20:4403:b0:14c:512c:60d9 with SMTP id ce3-20020a056a20440300b0014c512c60d9mr4576906pzb.27.1694648529242;
+        Wed, 13 Sep 2023 16:42:09 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id j12-20020a170902c3cc00b001b9e9edbf43sm169157plj.171.2023.09.13.16.42.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 16:42:08 -0700 (PDT)
+Date:   Wed, 13 Sep 2023 16:42:07 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, vigneshr@ti.com, nm@ti.com,
+        matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
+        bmasney@redhat.com, quic_tsoni@quicinc.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, kernel@quicinc.com
+Subject: Re: [REBASE PATCH v5 11/17] qcom_minidump: Register ramoops region
+ with minidump
+Message-ID: <202309131632.736914C0A3@keescook>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+ <1694429639-21484-12-git-send-email-quic_mojha@quicinc.com>
+ <202309131624.0371D7E@keescook>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR0102MB3590:EE_|MW4PR01MB6241:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a426b49-e515-4145-c8be-08dbb4b2e99b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RATTDo++RE6lNJRP9ilYH9k2rubkSrjTLYwKztpiLnJW4vOMQ4pFTcGHgBDjZ0/wqJ/TU0WZDjJVFVAVqr9y7FkH1xBngsLiHdddRHwjFJ8ou0tFKT6cqY59kKjUgHuyfbvKXt91ARNDhKa32lmcLD1oyhb0xTIC2y0XdxiuUUvqwo8rTT3XBhLAdSlFGEaQD9+i3EUI0CA4mMkUIidng2wOsNhBvDHClqdTYEbwVjl9eLOZ+FUOjE5AoV6DJbr7AMM+TLl5dupUBcrbBgBfM5MmSY3B6H33pnB/Sqhl5Udab0SyiXl5JxTpAZl8WCTrcb1HZ915Ny1bzc5doFeGBwUl7AxqLEs38XMF0gJ8HCFd+T9iTfFqaskwV5kLPATfiLdmnoEJc2VkELHwNGMalYQn9FjaKzWRJqDuHygSHPhIu/CpsBo2DVnE1CucKNXx0ITrdI1bwE5mmBKgJghsXqSEVgAaz9Yvg3WbhtqY67Lapz6sDagFdt6gGF9w2UXlXzx8au3nk5bCSKC24zFO2jNsjiI0fQi/wiupK1cdI9y+m+Y+rvoPL6ej++pEVASZIBDR06owrxp8bXqG7ZulFoxzgvT2wNoSUdo7+EKvwGW+TgKe7awFkBt+ogKE4+aK
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0102MB3590.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(39850400004)(136003)(376002)(1800799009)(451199024)(186009)(7049001)(52116002)(6486002)(6512007)(6506007)(6666004)(478600001)(38100700002)(38350700002)(2906002)(2616005)(1076003)(7416002)(316002)(83380400001)(26005)(86362001)(66946007)(66476007)(66556008)(30864003)(110136005)(41300700001)(8936002)(4326008)(5660300002)(8676002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G1HFV0WzWjqj64sZk9Q17B4ocmS2h62WdD2nnieS+PpUKLNf+fJoWz+nIxJc?=
- =?us-ascii?Q?bNZMbMOqLrtGalb42frZ7V07jF6qnGAvw+62kEeYIpb93yC7fEKulMe/W37j?=
- =?us-ascii?Q?X3w8I/zn2bcbmjXcZIHaWtiMj/XcIOz3lCWtYaQg7i0tQ+WCbOJMHKj6pC/V?=
- =?us-ascii?Q?zDZ++oxFUVxiXTHewKcttkMZmAad8zHLpEmyPG98OWHk6Rvlxii/tXyvcutt?=
- =?us-ascii?Q?si0R7XCWoh5s1c2bbk97OstZJTqRjX51e1AXcQFUy7O9uCfByfOxr7v1KV52?=
- =?us-ascii?Q?V7HM29/IY3fcYstvIgKoOmRkXTJWD3+FjH0inqstIxs9sVRHAs5x5WR7YGVA?=
- =?us-ascii?Q?dGaff50VIsXb0T72jaS4I6bE2+NCSZ9li0vpu9uq2IyGRvxVwCHl7/2cqmfl?=
- =?us-ascii?Q?3D8NGSM0fCQJiI/Sa30P+TeS1lmnZPRz3QXnN7/+yLBlm7ktAC9FErrrx2lh?=
- =?us-ascii?Q?bTmke/S+Jn57ENsqnYZE75isOk5YcrBzzGAaF8QPugGMc7tWwzZV7P9TbRHR?=
- =?us-ascii?Q?pVv/NNFaWQlrSPyK1wsZRBIzUwu63zbvRb/RlZOVjQgiZL0MPNbUIWStNQqP?=
- =?us-ascii?Q?AOXZSkoD7THOQFdcKvDXCdPGeg88ls1wAiNvXntxOrqRUNNFa7NCEGfT/+5j?=
- =?us-ascii?Q?s+ZDdY1sGck7hYdc/nhkp78zNST87AF9B1rsQOeBdt/YtUHcALoVQXdZc8zQ?=
- =?us-ascii?Q?ajSM80v5/Eea1XnfVuLhPHq5OgMGYLfI9BcnjO49pvXsfVYw4TbXQA0rz3XK?=
- =?us-ascii?Q?1YphbxbXqvXH4+0V+oocjH8/uWLTpNZY14IOyRL/syBaVVy0nZVKBd7OF8NX?=
- =?us-ascii?Q?F/vt1f4yCWz+Ybap7t1PueVlOTzvr7JUronUU1jQsJMcbYBm/BXOdKTqQf16?=
- =?us-ascii?Q?oI7w/0FIhr/eAotXzNQvLjf84egS6JA7QC8RZIz81s3bpmdOtQcQFIZzctMN?=
- =?us-ascii?Q?VS7HZodQkpG+sZ9/KexLC/jrxrewMRR3XEUlJvebVMZLJogV5TKW3W9dl+Ms?=
- =?us-ascii?Q?LO20K5iZFR81yU7Z7V9PoihXjcw+lOvV0t0C2Q2bc3+0xHOHR8fXO3yWKNh9?=
- =?us-ascii?Q?BR7cKyYFa4snwbYIPcdkZR4f3oUsCo8jzwiK8MpBA0sZYiYvxTRgzMq3fm9Z?=
- =?us-ascii?Q?PHouB/+1p0F/Jkn3ksWzPSqCnpDW+O0r0U1SLz/ieBOwBuIHBx4JWW8tY0F0?=
- =?us-ascii?Q?E6PSwZlxLZMeCcKaSMSKjnwf7jEAPYFey1KdfdJZtrPPUayOWU75i2pmZl0g?=
- =?us-ascii?Q?AWTW4QJLOps1wC5sOJyMj5ernW0ODvkf5UOlQJgkLoq28nxbrU/0e7a2y6PT?=
- =?us-ascii?Q?TVtNim8NDImOKPKUfSrb5dqJGoMzROh/KpshC+EZV2oMpj7sVAngMzTdSNlh?=
- =?us-ascii?Q?QahNQ1syysrJJDnDIOH40MErcA/ebnNjm4UUL08/BACIBL2MpOVoOasvh7uz?=
- =?us-ascii?Q?OIDxf25W3PBDyZTUHLdX63y+tLF5Ah7hKea+RDtuI62l+eZpHbFyjwtX6k0I?=
- =?us-ascii?Q?9kZIKd/lkEHfsM5Sq4XGjFubPTBu9qkFJPfRB5F3Dync2nkVOdAdTgF/GA/m?=
- =?us-ascii?Q?kt3Cm4FDxxyqfj4Qd4meqtNM8erDN9fcFQLqfTx8G/A0GMgAICLazCPvWDQ7?=
- =?us-ascii?Q?a+9AQvCaIG30HmBnrvzsUqM=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a426b49-e515-4145-c8be-08dbb4b2e99b
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR0102MB3590.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2023 23:41:12.0712
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mvLAy8koh6fej0rwpV3EZhwWNe0uo8iLQ2ag3J9Yw8OhBAPxzCr7rR5f7uzcu5b5Jn1YiAhxQBIp7jG3UKeEobzuymI7W3BwSxi5k80YMv1DGPNfcGgi95LeN4v0sjJs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6241
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202309131624.0371D7E@keescook>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ampere SoC PMU follows CoreSight PMU architecture. It uses implementation
-specific registers to filter events rather than PMEVFILTnR registers.
+On Wed, Sep 13, 2023 at 04:30:04PM -0700, Kees Cook wrote:
+> On Mon, Sep 11, 2023 at 04:23:53PM +0530, Mukesh Ojha wrote:
+> > Register all the pstore frontend with minidump, so that they can
+> > be dumped as default Linux minidump region to be collected on
+> > SoC where minidump is enabled.
+> > 
+> > Helper functions is written in separate file and built along with
+> > the minidump driver, since it is client of minidump and also call
+> > it at appropriate place from minidump probe so that they always
+> > get registered.
+> > 
+> > While at it also rename the out minidump module object name during
+> > build as qcom_apss_minidump which basically depicts as Qualcomm
+> > Application processor subsystem minidump.
+> > 
+> > Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> > ---
+> >  drivers/soc/qcom/Kconfig                 |  1 +
+> >  drivers/soc/qcom/Makefile                |  3 +-
+> >  drivers/soc/qcom/qcom_minidump.c         |  4 ++
+> >  drivers/soc/qcom/qcom_ramoops_minidump.c | 88 ++++++++++++++++++++++++++++++++
+> >  drivers/soc/qcom/qcom_ramoops_minidump.h | 10 ++++
+> >  5 files changed, 105 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/soc/qcom/qcom_ramoops_minidump.c
+> >  create mode 100644 drivers/soc/qcom/qcom_ramoops_minidump.h
+> > 
+> > diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+> > index 0ac7afc2c67d..9f1a1e128fef 100644
+> > --- a/drivers/soc/qcom/Kconfig
+> > +++ b/drivers/soc/qcom/Kconfig
+> > @@ -306,6 +306,7 @@ config QCOM_MINIDUMP
+> >  	tristate "QCOM APSS Minidump driver"
+> >  	depends on ARCH_QCOM || COMPILE_TEST
+> >  	depends on QCOM_SMEM
+> > +	depends on PSTORE
+> >  	help
+> >  	  This config enables linux core infrastructure for Application
+> >  	  processor subsystem (APSS) minidump collection i.e, it enables
+> > diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+> > index 4b5f72f78d3c..69df41aba7a9 100644
+> > --- a/drivers/soc/qcom/Makefile
+> > +++ b/drivers/soc/qcom/Makefile
+> > @@ -33,4 +33,5 @@ obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
+> >  qcom_ice-objs			+= ice.o
+> >  obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= qcom_ice.o
+> >  obj-$(CONFIG_QCOM_RPROC_MINIDUMP)	+= qcom_rproc_minidump.o
+> > -obj-$(CONFIG_QCOM_MINIDUMP)		+= qcom_minidump.o
+> > +obj-$(CONFIG_QCOM_MINIDUMP)		+= qcom_apss_minidump.o
+> > +qcom_apss_minidump-objs			+= qcom_minidump.o qcom_ramoops_minidump.o
+> > diff --git a/drivers/soc/qcom/qcom_minidump.c b/drivers/soc/qcom/qcom_minidump.c
+> > index 4ce36f154e89..7930a80b9100 100644
+> > --- a/drivers/soc/qcom/qcom_minidump.c
+> > +++ b/drivers/soc/qcom/qcom_minidump.c
+> > @@ -23,6 +23,7 @@
+> >  #include <soc/qcom/qcom_minidump.h>
+> >  
+> >  #include "qcom_minidump_internal.h"
+> > +#include "qcom_ramoops_minidump.h"
+> >  
+> >  /**
+> >   * struct minidump_ss_data - Minidump subsystem private data
+> > @@ -688,6 +689,8 @@ static int qcom_apss_minidump_probe(struct platform_device *pdev)
+> >  		return ret;
+> >  	}
+> >  
+> > +	qcom_ramoops_minidump_register(md->dev);
+> > +
+> >  	mutex_lock(&md_plist.plock);
+> >  	platform_set_drvdata(pdev, md);
+> >  	qcom_apss_register_pending_regions(md);
+> > @@ -701,6 +704,7 @@ static int qcom_apss_minidump_remove(struct platform_device *pdev)
+> >  	struct minidump *md = platform_get_drvdata(pdev);
+> >  	struct minidump_ss_data *mdss_data;
+> >  
+> > +	qcom_ramoops_minidump_unregister();
+> >  	mdss_data = md->apss_data;
+> >  	memset(mdss_data->md_ss_toc, cpu_to_le32(0), sizeof(struct minidump_subsystem));
+> >  	md = NULL;
+> > diff --git a/drivers/soc/qcom/qcom_ramoops_minidump.c b/drivers/soc/qcom/qcom_ramoops_minidump.c
+> > new file mode 100644
+> > index 000000000000..eb97310e3858
+> > --- /dev/null
+> > +++ b/drivers/soc/qcom/qcom_ramoops_minidump.c
+> > @@ -0,0 +1,88 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> > + */
+> > +
+> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/pstore.h>
+> > +#include <linux/slab.h>
+> > +#include <soc/qcom/qcom_minidump.h>
+> > +
+> > +#include "qcom_ramoops_minidump.h"
+> > +
+> > +static LIST_HEAD(ramoops_region_list);
+> > +
+> > +struct md_region_list {
+> > +	struct qcom_minidump_region md_region;
+> > +	struct list_head list;
+> > +};
+> > +
+> > +static int qcom_ramoops_region_register(struct device *dev, int type)
+> > +{
+> > +	struct qcom_minidump_region *md_region;
+> > +	struct md_region_list *mdr_list;
+> > +	struct pstore_record record;
+> > +	unsigned int max_dump_cnt;
+> > +	phys_addr_t phys;
+> > +	const char *name;
+> > +	void *virt;
+> > +	size_t size;
+> > +	int ret;
+> > +
+> > +	record.type = type;
+> > +	record.id = 0;
+> > +	max_dump_cnt = 0;
+> > +	name = pstore_type_to_name(record.type);
+> > +	do {
+> > +		ret = pstore_region_defined(&record, &virt, &phys, &size, &max_dump_cnt);
+> 
+> I really don't want this happening: you're building your own pstore_record
+> (which has a common initializer that isn't used here) and manually
+> scraping the ramoops regions.
+> 
+> It looks to me like you just want a way to talk all the records in
+> pstore and then export their location to minidump. The record walker
+> needs to be in the pstore core, and likely should be shared with
+> fs/pstore/inode.c which does the same thing.
+> 
+> Then, in this code, you can just do something like:
+> 
+> 	for (record = pstore_get_record(NULL); record; record = pstore_get_record(record)) {
 
-Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
----
- .../admin-guide/perf/ampere_cspmu.rst         |  29 ++
- drivers/perf/arm_cspmu/Kconfig                |  10 +
- drivers/perf/arm_cspmu/Makefile               |   2 +
- drivers/perf/arm_cspmu/ampere_cspmu.c         | 271 ++++++++++++++++++
- drivers/perf/arm_cspmu/arm_cspmu.c            |   8 +
- drivers/perf/arm_cspmu/arm_cspmu.h            |   1 +
- 6 files changed, 321 insertions(+)
- create mode 100644 Documentation/admin-guide/perf/ampere_cspmu.rst
- create mode 100644 drivers/perf/arm_cspmu/ampere_cspmu.c
+I just took another look at how records are stored, and I think the best
+API here is going to be something like registering a callback so that
+pstore can call into minidump for each record. (i.e. it can do this when
+reading the records into the pstore filesystem);
 
-diff --git a/Documentation/admin-guide/perf/ampere_cspmu.rst b/Documentation/admin-guide/perf/ampere_cspmu.rst
-new file mode 100644
-index 000000000000..94f93f5aee6c
---- /dev/null
-+++ b/Documentation/admin-guide/perf/ampere_cspmu.rst
-@@ -0,0 +1,29 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================================
-+Ampere SoC Performance Monitoring Unit (PMU)
-+============================================
-+
-+Ampere SoC PMU is a generic PMU IP that follows Arm CoreSight PMU architecture.
-+Therefore, the driver is implemented as a submodule of arm_cspmu driver. At the
-+first phase it's used for counting MCU events on AmpereOne.
-+
-+
-+MCU PMU events
-+--------------
-+
-+The PMU driver supports setting filters for "rank", "bank", and "threshold".
-+Note, that the filters are per PMU instance rather than per event.
-+
-+
-+Example for perf tool use::
-+
-+  / # perf list ampere
-+
-+    ampere_mcu_pmu_0/act_sent/                         [Kernel PMU event]
-+    <...>
-+    ampere_mcu_pmu_1/rd_sent/                          [Kernel PMU event]
-+    <...>
-+
-+  / # perf stat -a -e ampere_mcu_pmu_0/act_sent,bank=5,rank=3,threshold=2/,ampere_mcu_pmu_1/rd_sent/ \
-+        sleep 1
-diff --git a/drivers/perf/arm_cspmu/Kconfig b/drivers/perf/arm_cspmu/Kconfig
-index d5f787d22234..6f4e28fc84a2 100644
---- a/drivers/perf/arm_cspmu/Kconfig
-+++ b/drivers/perf/arm_cspmu/Kconfig
-@@ -17,3 +17,13 @@ config NVIDIA_CORESIGHT_PMU_ARCH_SYSTEM_PMU
- 	help
- 	  Provides NVIDIA specific attributes for performance monitoring unit
- 	  (PMU) devices based on ARM CoreSight PMU architecture.
-+
-+config AMPERE_CORESIGHT_PMU_ARCH_SYSTEM_PMU
-+       tristate "Ampere Coresight Architecture PMU"
-+       depends on  ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU
-+	help
-+	  Provides Ampere specific attributes for performance monitoring unit
-+	  (PMU) devices based on ARM CoreSight PMU architecture.
-+
-+	  In the first phase, the driver enables support on MCU PMU used in
-+	  AmpereOne SoC family.
-diff --git a/drivers/perf/arm_cspmu/Makefile b/drivers/perf/arm_cspmu/Makefile
-index 0309d2ff264a..220a734efd54 100644
---- a/drivers/perf/arm_cspmu/Makefile
-+++ b/drivers/perf/arm_cspmu/Makefile
-@@ -3,6 +3,8 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- obj-$(CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU) += arm_cspmu_module.o
-+
- arm_cspmu_module-y := arm_cspmu.o
- 
- obj-$(CONFIG_NVIDIA_CORESIGHT_PMU_ARCH_SYSTEM_PMU) += nvidia_cspmu.o
-+obj-$(CONFIG_AMPERE_CORESIGHT_PMU_ARCH_SYSTEM_PMU) += ampere_cspmu.o
-diff --git a/drivers/perf/arm_cspmu/ampere_cspmu.c b/drivers/perf/arm_cspmu/ampere_cspmu.c
-new file mode 100644
-index 000000000000..992c61d79518
---- /dev/null
-+++ b/drivers/perf/arm_cspmu/ampere_cspmu.c
-@@ -0,0 +1,271 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Ampere SoC PMU (Performance Monitor Unit)
-+ *
-+ * Copyright (c) 2023, Ampere Computing LLC
-+ */
-+#include <linux/module.h>
-+#include <linux/topology.h>
-+
-+#include "arm_cspmu.h"
-+
-+#define PMAUXR0		0xD80
-+#define PMAUXR1		0xD84
-+#define PMAUXR2		0xD88
-+#define PMAUXR3		0xD8C
-+
-+#define to_ampere_cspmu_ctx(cspmu)	((struct ampere_cspmu_ctx *)(cspmu->impl.ctx))
-+
-+struct ampere_cspmu_ctx {
-+	const char *name;
-+	struct attribute **event_attr;
-+	struct attribute **format_attr;
-+};
-+
-+static DEFINE_IDA(mcu_pmu_ida);
-+
-+#define SOC_PMU_EVENT_ATTR_EXTRACTOR(_name, _config, _start, _end)        \
-+	static inline u32 get_##_name(const struct perf_event *event)     \
-+	{                                                                 \
-+		return FIELD_GET(GENMASK_ULL(_end, _start),               \
-+				 event->attr._config);                    \
-+	}                                                                 \
-+
-+SOC_PMU_EVENT_ATTR_EXTRACTOR(event, config, 0, 8);
-+SOC_PMU_EVENT_ATTR_EXTRACTOR(threshold, config1, 0, 7);
-+SOC_PMU_EVENT_ATTR_EXTRACTOR(rank, config1, 8, 23);
-+SOC_PMU_EVENT_ATTR_EXTRACTOR(bank, config1, 24, 55);
-+
-+static struct attribute *ampereone_mcu_pmu_event_attrs[] = {
-+	ARM_CSPMU_EVENT_ATTR(cycle_count,		0x00),
-+	ARM_CSPMU_EVENT_ATTR(act_sent,			0x01),
-+	ARM_CSPMU_EVENT_ATTR(pre_sent,			0x02),
-+	ARM_CSPMU_EVENT_ATTR(rd_sent,			0x03),
-+	ARM_CSPMU_EVENT_ATTR(rda_sent,			0x04),
-+	ARM_CSPMU_EVENT_ATTR(wr_sent,			0x05),
-+	ARM_CSPMU_EVENT_ATTR(wra_sent,			0x06),
-+	ARM_CSPMU_EVENT_ATTR(pd_entry_vld,		0x07),
-+	ARM_CSPMU_EVENT_ATTR(sref_entry_vld,		0x08),
-+	ARM_CSPMU_EVENT_ATTR(prea_sent,			0x09),
-+	ARM_CSPMU_EVENT_ATTR(pre_sb_sent,		0x0a),
-+	ARM_CSPMU_EVENT_ATTR(ref_sent,			0x0b),
-+	ARM_CSPMU_EVENT_ATTR(rfm_sent,			0x0c),
-+	ARM_CSPMU_EVENT_ATTR(ref_sb_sent,		0x0d),
-+	ARM_CSPMU_EVENT_ATTR(rfm_sb_sent,		0x0e),
-+	ARM_CSPMU_EVENT_ATTR(rd_rda_sent,		0x0f),
-+	ARM_CSPMU_EVENT_ATTR(wr_wra_sent,		0x10),
-+	ARM_CSPMU_EVENT_ATTR(raw_hazard,		0x11),
-+	ARM_CSPMU_EVENT_ATTR(war_hazard,		0x12),
-+	ARM_CSPMU_EVENT_ATTR(waw_hazard,		0x13),
-+	ARM_CSPMU_EVENT_ATTR(rar_hazard,		0x14),
-+	ARM_CSPMU_EVENT_ATTR(raw_war_waw_hazard,	0x15),
-+	ARM_CSPMU_EVENT_ATTR(hprd_lprd_wr_req_vld,	0x16),
-+	ARM_CSPMU_EVENT_ATTR(lprd_req_vld,		0x17),
-+	ARM_CSPMU_EVENT_ATTR(hprd_req_vld,		0x18),
-+	ARM_CSPMU_EVENT_ATTR(hprd_lprd_req_vld,		0x19),
-+	ARM_CSPMU_EVENT_ATTR(prefetch_tgt,		0x1a),
-+	ARM_CSPMU_EVENT_ATTR(wr_req_vld,		0x1b),
-+	ARM_CSPMU_EVENT_ATTR(partial_wr_req_vld,	0x1c),
-+	ARM_CSPMU_EVENT_ATTR(rd_retry,			0x1d),
-+	ARM_CSPMU_EVENT_ATTR(wr_retry,			0x1e),
-+	ARM_CSPMU_EVENT_ATTR(retry_gnt,			0x1f),
-+	ARM_CSPMU_EVENT_ATTR(rank_change,		0x20),
-+	ARM_CSPMU_EVENT_ATTR(dir_change,		0x21),
-+	ARM_CSPMU_EVENT_ATTR(rank_dir_change,		0x22),
-+	ARM_CSPMU_EVENT_ATTR(rank_active,		0x23),
-+	ARM_CSPMU_EVENT_ATTR(rank_idle,			0x24),
-+	ARM_CSPMU_EVENT_ATTR(rank_pd,			0x25),
-+	ARM_CSPMU_EVENT_ATTR(rank_sref,			0x26),
-+	ARM_CSPMU_EVENT_ATTR(queue_fill_gt_thresh,	0x27),
-+	ARM_CSPMU_EVENT_ATTR(queue_rds_gt_thresh,	0x28),
-+	ARM_CSPMU_EVENT_ATTR(queue_wrs_gt_thresh,	0x29),
-+	ARM_CSPMU_EVENT_ATTR(phy_updt_complt,		0x2a),
-+	ARM_CSPMU_EVENT_ATTR(tz_fail,			0x2b),
-+	ARM_CSPMU_EVENT_ATTR(dram_errc,			0x2c),
-+	ARM_CSPMU_EVENT_ATTR(dram_errd,			0x2d),
-+	ARM_CSPMU_EVENT_ATTR(read_data_return,		0x32),
-+	ARM_CSPMU_EVENT_ATTR(chi_wr_data_delta,		0x33),
-+	ARM_CSPMU_EVENT_ATTR(zq_start,			0x34),
-+	ARM_CSPMU_EVENT_ATTR(zq_latch,			0x35),
-+	ARM_CSPMU_EVENT_ATTR(wr_fifo_full,		0x36),
-+	ARM_CSPMU_EVENT_ATTR(info_fifo_full,		0x37),
-+	ARM_CSPMU_EVENT_ATTR(cmd_fifo_full,		0x38),
-+	ARM_CSPMU_EVENT_ATTR(dfi_nop,			0x39),
-+	ARM_CSPMU_EVENT_ATTR(dfi_cmd,			0x3a),
-+	ARM_CSPMU_EVENT_ATTR(rd_run_len,		0x3b),
-+	ARM_CSPMU_EVENT_ATTR(wr_run_len,		0x3c),
-+
-+	ARM_CSPMU_EVENT_ATTR(cycles, ARM_CSPMU_EVT_CYCLES_DEFAULT),
-+	NULL,
-+};
-+
-+static struct attribute *ampereone_mcu_format_attrs[] = {
-+	ARM_CSPMU_FORMAT_EVENT_ATTR,
-+	ARM_CSPMU_FORMAT_ATTR(threshold, "config1:0-7"),
-+	ARM_CSPMU_FORMAT_ATTR(rank, "config1:8-23"),
-+	ARM_CSPMU_FORMAT_ATTR(bank, "config1:24-55"),
-+	NULL,
-+};
-+
-+static struct attribute **
-+ampere_cspmu_get_event_attrs(const struct arm_cspmu *cspmu)
-+{
-+	const struct ampere_cspmu_ctx *ctx = to_ampere_cspmu_ctx(cspmu);
-+
-+	return ctx->event_attr;
-+}
-+
-+static struct attribute **
-+ampere_cspmu_get_format_attrs(const struct arm_cspmu *cspmu)
-+{
-+	const struct ampere_cspmu_ctx *ctx = to_ampere_cspmu_ctx(cspmu);
-+
-+	return ctx->format_attr;
-+}
-+
-+static const char *
-+ampere_cspmu_get_name(const struct arm_cspmu *cspmu)
-+{
-+	const struct ampere_cspmu_ctx *ctx = to_ampere_cspmu_ctx(cspmu);
-+
-+	return ctx->name;
-+}
-+
-+static u32 ampere_cspmu_event_filter(const struct perf_event *event)
-+{
-+	/*
-+	 * PMEVFILTR or PMCCFILTR aren't used in Ampere SoC PMU but are marked
-+	 * as RES0. Make sure, PMCCFILTR is written zero.
-+	 */
-+	return 0;
-+}
-+
-+static void ampere_cspmu_set_ev_filter(struct arm_cspmu *cspmu,
-+				       struct hw_perf_event *hwc,
-+				       u32 filter)
-+{
-+	struct perf_event *event;
-+	unsigned int idx;
-+	u32 threshold, rank, bank;
-+
-+	/*
-+	 * At this point, all the events have the same filter settings.
-+	 * Therefore, take the first event and use its configuration.
-+	 */
-+	idx = find_first_bit(cspmu->hw_events.used_ctrs,
-+			     cspmu->cycle_counter_logical_idx);
-+
-+	event = cspmu->hw_events.events[idx];
-+
-+	threshold	= get_threshold(event);
-+	rank		= get_rank(event);
-+	bank		= get_bank(event);
-+
-+	writel(threshold, cspmu->base0 + PMAUXR0);
-+	writel(rank, cspmu->base0 + PMAUXR1);
-+	writel(bank, cspmu->base0 + PMAUXR2);
-+}
-+
-+static int ampere_cspmu_validate_configs(struct perf_event *event,
-+					 struct perf_event *event2)
-+{
-+	if (get_threshold(event) != get_threshold(event2) ||
-+	    get_rank(event) != get_rank(event2) ||
-+	    get_bank(event) != get_bank(event2))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int ampere_cspmu_validate_event(struct arm_cspmu *cspmu,
-+				       struct perf_event *new)
-+{
-+	struct perf_event *curr, *leader = new->group_leader;
-+	unsigned int idx;
-+	int ret;
-+
-+	ret = ampere_cspmu_validate_configs(new, leader);
-+	if (ret)
-+		return ret;
-+
-+	/* We compare the global filter settings to the existing events */
-+	idx = find_first_bit(cspmu->hw_events.used_ctrs,
-+			     cspmu->cycle_counter_logical_idx);
-+
-+	/* This is the first event, thus any configuration is fine */
-+	if (idx == cspmu->cycle_counter_logical_idx)
-+		return 0;
-+
-+	curr = cspmu->hw_events.events[idx];
-+
-+	return ampere_cspmu_validate_configs(curr, new);
-+}
-+
-+static char *ampere_cspmu_format_name(const struct arm_cspmu *cspmu,
-+				      const char *name_pattern)
-+{
-+	struct device *dev = cspmu->dev;
-+	int id;
-+
-+	id = ida_alloc(&mcu_pmu_ida, GFP_KERNEL);
-+	if (id < 0)
-+		return ERR_PTR(id);
-+
-+	return devm_kasprintf(dev, GFP_KERNEL, name_pattern, id);
-+}
-+
-+static int ampere_cspmu_init_ops(struct arm_cspmu *cspmu)
-+{
-+	struct device *dev = cspmu->dev;
-+	struct ampere_cspmu_ctx *ctx;
-+	struct arm_cspmu_impl_ops *impl_ops = &cspmu->impl.ops;
-+
-+	ctx = devm_kzalloc(dev, sizeof(struct ampere_cspmu_ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->event_attr	= ampereone_mcu_pmu_event_attrs;
-+	ctx->format_attr = ampereone_mcu_format_attrs;
-+	ctx->name = ampere_cspmu_format_name(cspmu, "ampere_mcu_pmu_%d");
-+	if (IS_ERR_OR_NULL(ctx->name))
-+		return ctx->name ? PTR_ERR(ctx->name) : -ENOMEM;
-+
-+	cspmu->impl.ctx = ctx;
-+
-+	impl_ops->event_filter		= ampere_cspmu_event_filter;
-+	impl_ops->set_ev_filter		= ampere_cspmu_set_ev_filter;
-+	impl_ops->validate_event	= ampere_cspmu_validate_event;
-+	impl_ops->get_name		= ampere_cspmu_get_name;
-+	impl_ops->get_event_attrs	= ampere_cspmu_get_event_attrs;
-+	impl_ops->get_format_attrs	= ampere_cspmu_get_format_attrs;
-+
-+	return 0;
-+}
-+
-+/* Match all Ampere Coresight PMU devices */
-+static const struct arm_cspmu_impl_match ampere_cspmu_param = {
-+	.pmiidr_val	= ARM_CSPMU_IMPL_ID_AMPERE,
-+	.module		= THIS_MODULE,
-+	.impl_init_ops	= ampere_cspmu_init_ops
-+};
-+
-+static int __init ampere_cspmu_init(void)
-+{
-+	int ret;
-+
-+	ret = arm_cspmu_impl_register(&ampere_cspmu_param);
-+	if (ret)
-+		pr_err("ampere_cspmu backend registration error: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static void __exit ampere_cspmu_exit(void)
-+{
-+	arm_cspmu_impl_unregister(&ampere_cspmu_param);
-+}
-+
-+module_init(ampere_cspmu_init);
-+module_exit(ampere_cspmu_exit);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
-index 1ba00d640352..0e3fe00d741d 100644
---- a/drivers/perf/arm_cspmu/arm_cspmu.c
-+++ b/drivers/perf/arm_cspmu/arm_cspmu.c
-@@ -383,6 +383,14 @@ static struct arm_cspmu_impl_match impl_match[] = {
- 		.module		= NULL,
- 		.impl_init_ops	= NULL,
- 	},
-+	{
-+		.module_name	= "ampere_cspmu",
-+		.pmiidr_val	= ARM_CSPMU_IMPL_ID_AMPERE,
-+		.pmiidr_mask	= ARM_CSPMU_PMIIDR_IMPLEMENTER,
-+		.module		= NULL,
-+		.impl_init_ops	= NULL,
-+	},
-+
- 	{0}
- };
- 
-diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
-index a30c8372214c..2fe723555a6b 100644
---- a/drivers/perf/arm_cspmu/arm_cspmu.h
-+++ b/drivers/perf/arm_cspmu/arm_cspmu.h
-@@ -71,6 +71,7 @@
- 
- /* JEDEC-assigned JEP106 identification code */
- #define ARM_CSPMU_IMPL_ID_NVIDIA	0x36B
-+#define ARM_CSPMU_IMPL_ID_AMPERE	0xA16
- 
- struct arm_cspmu;
- 
+	pstore_register_record_watcher(minidump_pstore_record)
+
+Then pstore can make the calls if one is registered, in the middle of
+pstore_mkfile(), with all the correct locks held, etc:
+
+	if (psi->record_watcher)
+		psi->record_watcher(record);
+
+And then minidump_pstore_record() can do this part:
+
+
+> 		if (ramoops_get_record_details(record, &virt, &phys) < 0)
+> 			continue
+> 		...
+> 		md_region->virt_addr = virt;
+> 		md_region->phys_addr = phys;
+> 		md_region->size = record->size;
+> 
+> 		ret = qcom_minidump_region_register(md_region);
+
+-Kees
+
 -- 
-2.40.1
-
+Kees Cook
