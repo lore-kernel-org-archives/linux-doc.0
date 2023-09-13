@@ -2,102 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A4AEDEC46
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 11:38:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6200EDEC49
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 12:36:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240280AbjIMLiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 07:38:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60494 "EHLO
+        id S240550AbjIMMgm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 08:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237669AbjIMLiN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 07:38:13 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F4200173E;
-        Wed, 13 Sep 2023 04:38:09 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F97FC433C7;
-        Wed, 13 Sep 2023 11:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694605089;
-        bh=NjwWLoIbmcBjw9qBYI11QfNE6lfJieDTK6MDYKZZGNE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gZFTatLF1uEsqurqOmmsA3CNkNaxJ0Zw84AnKKp0Lrc864Z/PUFoh0Ngvx5V4G0b4
-         V2BLSg7cbESyA9rSQmqum8mFtbLKnIv/F+l4pICNh8DEmr2RjeAcCO1QyRjhKmOF8+
-         wb5RBUhl6bqGOBLyihYqygeQLm1JYJ5DnNqlmH0th6wKpU5WIxiE4TLvW+4yBA56z1
-         xTU1GKqAbPMKyBtO+vNh5hmQA4Quqbw69FEjrhkJj/uswOEKCnLqMyF+3Ml8zW1vh7
-         fJBjlqnca0EpQ1pRZsG77TESna82DFx9gCdOBc+MFHTct2AQy4h+3IrceCKtLge7wx
-         /wB+YDct+56Jg==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: kbuild: explain handling optional dependencies
-Date:   Wed, 13 Sep 2023 13:37:52 +0200
-Message-Id: <20230913113801.1901152-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S232519AbjIMMgm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 08:36:42 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EF2B19A6;
+        Wed, 13 Sep 2023 05:36:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=Znl3NLuXYp7P/vugDRSybZxt9vQVGXDZ3zZmS+2t90I=; b=2AHv4vQxAGFpG5nS4mY2BzHTk7
+        o3x8sq4nCEV5EOqXykpo5L1ynfZ9ecym/SZxjOnxroFNUm7p1DhUndMhl87gAXr4UhTMjGc5EI52Y
+        Au3VeWaYFT0LItEi9zyxD50rWvs+2x+Y/qgILlDEqEvKvZBiLjCxA9gTzADMdLDhpEts=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1qgP6Y-006Iyp-G8; Wed, 13 Sep 2023 14:36:26 +0200
+Date:   Wed, 13 Sep 2023 14:36:26 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Lukasz Majewski <lukma@denx.de>
+Cc:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, steen.hegelund@microchip.com,
+        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+        Thorsten.Kummermehr@microchip.com
+Subject: Re: [RFC PATCH net-next 2/6] net: ethernet: add mac-phy interrupt
+ support with reset complete handling
+Message-ID: <61a58960-f2f3-4772-8f12-0d1f9cfec2c5@lunn.ch>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-3-Parthiban.Veerasooran@microchip.com>
+ <20230913104458.1d4cdd51@wsk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230913104458.1d4cdd51@wsk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+> Just maybe mine small remark. IMHO the reset shall not pollute the IRQ
+> hander. The RESETC is just set on the initialization phase and only
+> then shall be served. Please correct me if I'm wrong, but it will not
+> be handled during "normal" operation.
 
-This problem frequently comes up in randconfig testing, with
-drivers failing to link because of a dependency on an optional
-feature.
+This is something i also wondered. Maybe if the firmware in the
+MAC-PHY crashes, burns, and a watchdog reset it, could it assert
+RESETC? I think maybe a WARN_ON_ONCE() for RESETC in the interrupt
+handler would be useful, but otherwise ignore it. Probe can then poll
+during its reset.
 
-The Kconfig language for this is very confusing, so try to
-document it in "Kconfig hints" section.
+> > +				regval = RESETC;
+> > +				/* SPI host should write RESETC bit
+> > with one to
+> > +				 * clear the reset interrupt status.
+> > +				 */
+> > +				ret = oa_tc6_perform_ctrl(tc6,
+> > OA_TC6_STS0,
+> > +							  &regval,
+> > 1, true,
+> > +							  false);
+> 
+> Is this enough to have the IRQ_N deasserted (i.e. pulled HIGH)?
+> 
+> The documentation states it clearly that one also needs to set SYNC bit
+> (BIT(15)) in the OA_CONFIG0 register (which would have the 0x8006 value).
+> 
+> Mine problem is that even after writing 0x40 to OA_STATUS0 and 0x8006
+> to OA_CONFIG0 the IRQ_N is still LOW (it is pulled up via 10K resistor).
+> 
+> (I'm able to read those registers and those show expected values)
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+What does STATUS0 and STATUS1 contain? That might be a dumb question,
+i've not read the details for interrupt handling yet, but maybe there
+is another interrupt pending? Or the interrupt mask needs writing?
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 858ed5d80defe..89dea587a469a 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -573,6 +573,32 @@ above, leading to:
- 	bool "Support for foo hardware"
- 	depends on ARCH_FOO_VENDOR || COMPILE_TEST
- 
-+Optional dependencies
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+Some drivers are able to optionally use a feature from another module
-+or build cleanly with that module disabled, but cause a link failure
-+when trying to use that loadable module from a built-in driver.
-+
-+The most common way to express this optional dependency in Kconfig logic
-+uses the slighly counterintuitive
-+
-+  config FOO
-+	bool "Support for foo hardware"
-+	depends on BAR || !BAR
-+
-+This means that there is either a dependency on BAR that disallows
-+the combination of FOO=y with BAR=m, or BAR is completely disabled.
-+For a more formalized approach if there are multiple drivers that have
-+the same dependency, a helper symbol can be used, like
-+
-+  config FOO
-+	bool "Support for foo hardware"
-+	depends on BAR_OPTIONAL
-+
-+  config BAR_OPTIONAL
-+	def_tristate BAR || !BAR
-+
- Kconfig recursive dependency limitations
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- 
-2.39.2
+> Was it on purpose to not use the RST_N pin to perform GPIO based reset?
+> 
+> When I generate reset pulse (and keep it for low for > 5us) the IRQ_N
+> gets high. After some time it gets low (as expected). But then it
+> doesn't get high any more.
 
+Does the standard say RST_N is mandatory to be controlled by software?
+I could imagine RST_N is tied to the board global reset when the power
+supply is stable. Software reset is then used at probe time.
+
+So this could be a board design decision. I can see this code getting
+extended in the future, an optional gpiod passed to the core for it to
+use.
+
+> > msecs_to_jiffies(1));
+> 
+> Please also clarify - does the LAN8651 require up to 1ms "settle down"
+> (after reset) time before it gets operational again?
+
+If this is not part of the standard, it really should be in the MAC
+driver, or configurable, since different devices might need different
+delays. But ideally, if the status bit says it is good to go, i would
+really expect it to be good to go. So this probably should be a
+LAN8651 quirk.
+
+	Andrew
