@@ -2,104 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1EACEE020A
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 19:35:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8C8EE020A
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 19:55:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232334AbjIMTfO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 15:35:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39996 "EHLO
+        id S230146AbjIMTzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 15:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230475AbjIMTfN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 15:35:13 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95DF891;
-        Wed, 13 Sep 2023 12:35:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694633709; x=1726169709;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BKdDmwR0ImqwcCwZEvaS7Oi5BImbBc0gOTOmvoBXyPg=;
-  b=OPyfkHEYEUeGhdNlbRgM63qM1r/alXclHMPSuc2w9ZwsxKGOrqJ54jXR
-   dpx+Iz5H1TLjw0V+l7U0xCYtGYIW82t79Th1T1DYDb5HJgwirtpoKqRo7
-   ZMDofrcY9PNYXJcllL9pdFkqvxeputxrHME+hyE62y2gF3aI2GLEljBN1
-   CqaIR6e+2Uw9Hb2e6mhD0+NcEskKcGyTdZXGuKLudIq15mn4ARxJHU5m3
-   AQxmP6XKCvSYT207bJIzB5LPa2OarYSHX0ZxtkL/aEWmAOCiUIzM4BlIu
-   DOYXyZn9a7Ha2OirHJTUJOeS2d8qT/PokVPj1PGTsVauOU7S5ZWpXQe4Q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="376102134"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="376102134"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:35:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="737650919"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="737650919"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 13 Sep 2023 12:34:59 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qgVdZ-0000Wr-1B;
-        Wed, 13 Sep 2023 19:34:57 +0000
-Date:   Thu, 14 Sep 2023 03:34:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sourav Panda <souravpanda@google.com>, corbet@lwn.net,
-        gregkh@linuxfoundation.org, rafael@kernel.org,
-        akpm@linux-foundation.org, mike.kravetz@oracle.com,
-        muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
-        rdunlap@infradead.org, chenlinxuan@uniontech.com,
-        yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
-        bhelgaas@google.com, ivan@cloudflare.com,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        hannes@cmpxchg.org, shakeelb@google.com,
-        kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
-        adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
-        surenb@google.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-Cc:     oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 1/1] mm: report per-page metadata information
-Message-ID: <202309140322.cF62Kywb-lkp@intel.com>
-References: <20230913173000.4016218-2-souravpanda@google.com>
+        with ESMTP id S229642AbjIMTzs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 15:55:48 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20DC29E
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 12:55:42 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.99.40]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N4yuK-1rhSFF1ufU-010y5j; Wed, 13 Sep 2023 21:48:45 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 96B483E928; Wed, 13 Sep 2023 21:48:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1694634522; bh=dNCzMB7kZKbtu0SVV6D5vezQPGOeLJzdXPIlY9nn0HY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=geeh/i7seOFMHSGVnQ+Sj/uRyKKjwcvJl5CNhOXyrSrFDp6gwJvkdktKjxdM1rF6b
+         X7smwIJYI2wKSqnwC9zKw/vql8yLkMlXw1WEr6FhD3NTpbxsrtPqt7orN/y5DktjwA
+         3AEXv8Dw7URUCG3krehbxcFdeomCZq3ShPrvM4jQ=
+Date:   Wed, 13 Sep 2023 21:48:42 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
+ dependencies
+Message-ID: <ZQISGujwlH00B8KJ@fjasle.eu>
+References: <20230913113801.1901152-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qj5NqfuKdfJbnsCm"
 Content-Disposition: inline
-In-Reply-To: <20230913173000.4016218-2-souravpanda@google.com>
+In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
+X-Provags-ID: V03:K1:iov+urfCVmemenuqZraQFTvmuNIwec5MwwsVygNgb5VgPZRcRFa
+ QM7bFZWPE2qmRpIDd0eXsnnlb0iTv65I3DihInST+a7rHu/LeYuiHMMEwa0F8tszNYw4nP2
+ ZO8hNBGZ/ApwY2MFMNkWF3pWdG0/SEZvHWo2PjPA5F7uQETqlzVhEuLTMB9MZmWXvRUk0nZ
+ 1+aq6jXzluTS8bI2UHYfA==
+UI-OutboundReport: notjunk:1;M01:P0:zwMMSgXROPg=;hgaNmeCrlAM1JebQt4AH3BQdSoB
+ BgxEfRsZyCVJyWtHRXc2OK3vKoWxFLKdlqDY8jGi8iwFksNZupkXshSoBjBO/IK5BvDQ42bNn
+ j7F5QFbi0uQQYAMxoDEvPFNVa9iV+QpYnZu44dcnJYg9K5OanA0OabrO4HY/eRjwXtPtFJAiw
+ vubw9FrVs/7EO5IBXQfI+YjPsQvewpicNWprLYa90u6JtsyOlbsHOXgz17ovKHTimzIUEJz+O
+ 6R0scKC2SXPUBx4pVW+0fGcP9HAba5WzC1aH2kOygkrHKUC41UBbKywcAhrCHEHyHrkcqI4qB
+ AmTLSAs3NeCFP2Kz8Vm4mj5qpFvo8J9bQBhCDpt0oB1rN2IGchfR/lfkaUGL+EegRg7m5HDIU
+ Mq40kdaR1rthzqwknkbCdUK82AvnY328w0Jvr9li9/zkEXW98u4h9xQYYeeY5Pve4W4YfgDEa
+ XmHxiHs/hieEFppkx+9MSaNGgeczY7vEskwsdadHXSBJJJVd9kP3FFdNe/A7ITdX/UFTWvplh
+ fpP11zfchy7ICOgkukisJYmEj/GQohV25AOJZCYR5muDeRsQzn9IrzWBJk1Xwnbv93GGKnxji
+ Nb67o5+0bWzwWp1Sb75Na4Akcjjx/xpan6CLWHp+VHf2VoEQVSiyaoJ7csEWLeeGs0mAiJYzc
+ QQaW6DqKKraGP9/DVPcdZXqu49pdrllsTauIxzVSCrOuDNINCiYL547wlYvrICdqtPWthhzc+
+ ItxKkeIu93hhS8dO7IDUqyD0MgXVBY+cvzLY8Wb/YP5UvXye77TsJmOK/8NsDkWJOHi92c5Dd
+ x+B9feXenEHUXqe42fwul0w6hcPXQt/WZHkUhXWD9m3lzSIwSTqzaV42fp8LFOLOR0uGzpIC4
+ lsWTo8FLBEtOFKQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sourav,
 
-kernel test robot noticed the following build errors:
+--qj5NqfuKdfJbnsCm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc1 next-20230913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Wed, Sep 13, 2023 at 01:37:52PM +0200 Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> This problem frequently comes up in randconfig testing, with
+> drivers failing to link because of a dependency on an optional
+> feature.
+>=20
+> The Kconfig language for this is very confusing, so try to
+> document it in "Kconfig hints" section.
+>=20
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sourav-Panda/mm-report-per-page-metadata-information/20230914-013201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230913173000.4016218-2-souravpanda%40google.com
-patch subject: [PATCH v1 1/1] mm: report per-page metadata information
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230914/202309140322.cF62Kywb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140322.cF62Kywb-lkp@intel.com/reproduce)
+Hi Arnd,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140322.cF62Kywb-lkp@intel.com/
+thanks for documenting this!  Three questions below:
 
-All errors (new ones prefixed by >>):
+>  Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>=20
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kb=
+uild/kconfig-language.rst
+> index 858ed5d80defe..89dea587a469a 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -573,6 +573,32 @@ above, leading to:
+>  	bool "Support for foo hardware"
+>  	depends on ARCH_FOO_VENDOR || COMPILE_TEST
+> =20
+> +Optional dependencies
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Some drivers are able to optionally use a feature from another module
+> +or build cleanly with that module disabled, but cause a link failure
+> +when trying to use that loadable module from a built-in driver.
+> +
+> +The most common way to express this optional dependency in Kconfig logic
+> +uses the slighly counterintuitive
 
-   ld: mm/mm_init.o: in function `free_area_init':
->> mm_init.c:(.init.text+0x842): undefined reference to `mod_node_early_perpage_metadata'
-   ld: mm/page_alloc.o: in function `setup_per_cpu_pageset':
->> page_alloc.c:(.init.text+0x60): undefined reference to `writeout_early_perpage_metadata'
+slighly -> slightly
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+For better RST compliance: could you explicitly start the code block e.g. by
+appending '::' as in "... counterintuitive::"?
+
+> +
+> +  config FOO
+> +	bool "Support for foo hardware"
+> +	depends on BAR || !BAR
+
+are you sure that this is enough?  While testing, I needed to explicitly use
+=3Dy|=3Dn:
+
+    depends on BAR=3Dy || BAR=3Dn
+
+to prevent FOO to be selectable iff BAR=3Dm.
+
+> +
+> +This means that there is either a dependency on BAR that disallows
+> +the combination of FOO=3Dy with BAR=3Dm, or BAR is completely disabled.
+
+For me, this sentence is hard to parse (but I am not a native speaker); what
+about something like this:
+
+This means that FOO can only be enabled, iff BAR is either built-in or
+completely disabled.  If BAR is built as a module, FOO cannot be enabled.
+
+Kind regards,
+Nicolas
+
+--qj5NqfuKdfJbnsCm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmUCEhkACgkQB1IKcBYm
+EmmgJA/+Juye9CK9p1ddXxiVaMgnc0h6bNPW2duYWRcI3EvdQmVnb6RO0Obvf62D
+fp/lSkg4z6DIGnW3/LKEcx/3AAi6bjSF/TLgrURxUY6gHnRwgkj0NWR067iAXLkJ
+vXlzAOk6eNLk6NvewHxeLtsBK32lInNbHfg3hw3GpP20DY9HFevVVe/painn/a9r
+9TM9XVjwdxMsWLgTvc5s7JicyDMk/PdW2ByZVFINZ7Q/86E9z1eeS5SvUszxsgX5
+gZp2C8nKx90/nuT4Sif9EOMvqjRZvtXuQew8TYVh195J0Fry+zPMjcOyKOSv8Fub
+SRKsPg8hheICkmD3tHFxprKbRash+TgUGEo1+Vzi1p/NhASH5kzLGxKadvy+54Z/
+DJWPlMr6ZSj9vUJngeyqFxvwTVnts2i9oJpRpkQs9qcpmxyg84k5IDlCZxTAnNmp
+1wmAtNH/F2LfQaybnFHshNDDgK+0b6Vz6cSyj2V3godwdsB4Ecq7wqpbKdE6ioeH
+x78t0sWS7eeYcZmduJKxbspuAJ2KwUFZZjMPPwaFXvwNeetM8BsDwZ9Dqyv5owZI
+DTCagFieqmdvIg+jy8KVkAk2BoR0+STsTTFpf5wDtvXYFZIk2/0aq02moN7snAbm
+k23lPOWs9h/sRhXxXW+Hg5D10Jhh5zSqf1Fk0ba3SZb+nZbIT10=
+=N9EP
+-----END PGP SIGNATURE-----
+
+--qj5NqfuKdfJbnsCm--
