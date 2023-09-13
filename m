@@ -2,112 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E3BFEDEC5B
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 14:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB54CEDEC5A
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Sep 2023 14:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241002AbjIMORK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 10:17:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42782 "EHLO
+        id S234306AbjIMO0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 10:26:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241292AbjIMORI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 10:17:08 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0D9E64;
-        Wed, 13 Sep 2023 07:17:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C816C433CA;
-        Wed, 13 Sep 2023 14:17:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694614624;
-        bh=/rNYMfmPg+JGRzNdRuWzEsyg8yvemb1m47ESpOOafwY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g2uI7QNFhk6zUFRfrqsp17vuk306nqCbi1llBnDYOLVTtrliQ/6/ZwRYO2+Sfd8dI
-         4YO8yO1WYcDralnrpJOr0S0tMlBVyM1UhkQaNOzyxMsa1wq+rb4a6RSRbf/+F3n2mE
-         Fuz2gEUz/ChF5Ovx3MwHuiGcEmBFiKjCQJiRrSBHiMjA5mArn2IptGVJ2D+q5UqJ46
-         Wbj1wUHByl1bRy9D3W+m21+zRz9t7xTEcFLZx0BIzDX0UpvnFmL5F2+uj/98ynr7X9
-         y+UWsgniWcFR6vVMV/CuZ03JeFhxRhbSxqrnAua2l4SZSKWy347zlVnVZF58Acl3EO
-         gc01oA5q58odA==
-Date:   Wed, 13 Sep 2023 16:16:58 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Jinjian Song <songjinjian@hotmail.com>
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, loic.poulain@linaro.org,
-        ryazanov.s.a@gmail.com, jiri@resnulli.us,
-        johannes@sipsolutions.net, chandrashekar.devegowda@intel.com,
-        linuxwwan@intel.com, chiranjeevi.rapolu@linux.intel.com,
-        haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
-        ricardo.martinez@linux.intel.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nmarupaka@google.com, vsankar@lenovo.com, danielwinkler@google.com,
-        Jinjian Song <jinjian.song@fibocom.com>
-Subject: Re: [net-next v4 4/5] net: wwan: t7xx: Adds sysfs attribute of modem
- event
-Message-ID: <20230913141658.GV401982@kernel.org>
-References: <20230912094845.11233-1-songjinjian@hotmail.com>
- <ME3P282MB27032EB049D5135D68ADE09FBBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
+        with ESMTP id S232025AbjIMO0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 10:26:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E3AD692
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 07:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694615120;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=i1FsUnDJXEh3xrup97UKPyi5G29wmRkoOl4jHD/nSRg=;
+        b=GRLeFy6QR8zRIaWKGQsqePXOP/hjLrK2E90YGZ9KKvQSWjFO1OA/d4qTaKRcC9nvGpIC+Q
+        2quOvTUhZYTZc1VfH/iuuXVrQw6h1Wt2c+COlf3AHkPTyl+Ps4rFRLHIJ35VefsIF9NKOD
+        XfD+MAI8h9wCHnL++RvHoCAjnBb9450=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-398-g2ap1SrAOTarUJ69EoSbtQ-1; Wed, 13 Sep 2023 10:25:17 -0400
+X-MC-Unique: g2ap1SrAOTarUJ69EoSbtQ-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f5df65f9f4so51901005e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 07:25:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694615115; x=1695219915;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i1FsUnDJXEh3xrup97UKPyi5G29wmRkoOl4jHD/nSRg=;
+        b=lSy5FV+d3zM+NDw9lTxgq8Pwv6xQ0ktc1RxQB3vwhgrfFit7i1NvmTMCu440bA9Su/
+         TQGYq3Gz8mUvBGP5ftX13jpvwaESlgiLSW2ovXnfnrsVWOhlBaorv7By2m2+u1EXinBt
+         KfF60nJQHuPYMB/SKfCDvqZmtnRwBZ2wIKQ5jgx8Fz3MO1f08dNKif32NC4/hRxhV5Vs
+         Tvh+2+HY8gyexX9aTtAJz715PE2v4ZVdXm9YuPJYoGAFAR9T27ogYl6SQgilG1kqUPVt
+         PlxOrwxnplBkSxV8Q3UgnPraYsRvsMgf/fpuBj28ankQeorAuGkHY//xHFOaWqO4FvGg
+         XBrg==
+X-Gm-Message-State: AOJu0YzepIz0h4z4B62ihB9pSNmb7y68kclhYfTp5LqPAhyyPDodKelM
+        QYg/yHWjkaKMIgl7dw1F3M1z5SxQPp+pFPzVn4OK8B9QAAn4iUBqywD8jJxOxWSnf3VqwxOikwG
+        zTlEYXg1nYLJio1AeLyLk
+X-Received: by 2002:a05:600c:3b10:b0:402:eab6:e704 with SMTP id m16-20020a05600c3b1000b00402eab6e704mr2127411wms.29.1694615115679;
+        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGN0t8yz3+zH7LDMFjVxmF3tnVkdjJhcoCATJjm6CztmjCnnjLfigAOYlLj+//qxaHPIO3cjg==
+X-Received: by 2002:a05:600c:3b10:b0:402:eab6:e704 with SMTP id m16-20020a05600c3b1000b00402eab6e704mr2127388wms.29.1694615115372;
+        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id l14-20020a1c790e000000b003fe4ca8decdsm2186260wme.31.2023.09.13.07.25.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
+ dependencies
+In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
+References: <20230913113801.1901152-1-arnd@kernel.org>
+Date:   Wed, 13 Sep 2023 16:25:14 +0200
+Message-ID: <878r9a1779.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ME3P282MB27032EB049D5135D68ADE09FBBF1A@ME3P282MB2703.AUSP282.PROD.OUTLOOK.COM>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 05:48:44PM +0800, Jinjian Song wrote:
-> From: Jinjian Song <jinjian.song@fibocom.com>
-> 
-> Adds support for t7xx wwan device firmware flashing & coredump collection
-> using devlink.
-> 
-> Provides sysfs attribute on user space to query the event from modem
-> about flashing/coredump/reset.
-> 
-> Base on the v5 patch version of follow series:
-> 'net: wwan: t7xx: fw flashing & coredump support'
-> (https://patchwork.kernel.org/project/netdevbpf/patch/fc8bbb0b66a5ff3a489ea9857d79b374508090ef.1674307425.git.m.chetan.kumar@linux.intel.com/)
-> 
-> Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+Arnd Bergmann <arnd@kernel.org> writes:
 
-Hi Jinjian Song,
+Hello Arnd,
 
-some minor feedback from my side.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> This problem frequently comes up in randconfig testing, with
+> drivers failing to link because of a dependency on an optional
+> feature.
+>
+> The Kconfig language for this is very confusing, so try to
+> document it in "Kconfig hints" section.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-...
+Thanks for writing this since as you mention that Kconfig idiom is not
+intuitive. The docs looks great to me!
 
-> diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/t7xx/t7xx_pci.c
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-...
+-- 
+Best regards,
 
-> +static ssize_t t7xx_event_show(struct device *dev, struct device_attribute *attr,
-> +			       char *buf)
-> +{
-> +	enum t7xx_event event = T7XX_UNKNOWN;
-> +	struct pci_dev *pdev;
-> +	struct t7xx_pci_dev *t7xx_dev;
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-Please arrange local variables in networking code in reverse xmas tree
-order - longest line to shortest.
-
-https://github.com/ecree-solarflare/xmastree can be helpful here.
-
-...
-
-> diff --git a/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c b/drivers/net/wwan/t7xx/t7xx_port_flash_dump.c
-
-...
-
-> @@ -361,6 +367,10 @@ static int t7xx_devlink_flash_update(struct devlink *devlink,
->  	clear_bit(T7XX_FLASH_STATUS, &flash_dump->status);
->  
->  err_out:
-> +	if (ret)
-> +		atomic_set(&port->t7xx_dev->event, T7XX_FLASH_FAILURE);
-> +	else
-> +		atomic_set(&port->t7xx_dev->event, T7XX_FLASH_SUCCESS);
-
-If the lines immediately above are reached as the result of jumping
-to err_out, then port is not initialised.
-
->  	return ret;
->  }
-
-...
