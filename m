@@ -2,138 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C803AEEAA44
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 13:59:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3570EEAA40
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 14:05:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233205AbjINN7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 09:59:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38368 "EHLO
+        id S239626AbjINOFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 10:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231720AbjINN7j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 09:59:39 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9461BE;
-        Thu, 14 Sep 2023 06:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694699975; x=1726235975;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=M9/pjtPgrCPB3pKfZPcjSZj8sNqVAWupOs4Vq63aUF0=;
-  b=dK3Ka0Bt8SpiQICGk+guBf++P+yNwT0g8WiZ1Qnn5KKj8XQvNzztz5xq
-   lojyMZnGLPt8RRVcNb2weSdIkea6mQzMsEDSkZVd/boK9oCpfEcFF7Qy+
-   BQ77PH/rnfNPZVGHTXqdp3dUGXM5zG60VHbZxHiuegd/BUBwhT0iq/yJU
-   AqsmGqwXxlSj4e+wQNQLVIO6p8DH2XGKgfoTVamhICquJmnn5qZ1nkrbV
-   EDS4qhhNv8G0MgbxQqZBCyQY+d6SGmm8LnZN0clAez5g/vo/bYa46Orbl
-   3eLRYiaeBMIQJnXJ8o109fXZY0xX3nbaaGbq0aTHZRPyEjB3/pgW31Gh6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="364002912"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="364002912"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:43:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991391112"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="991391112"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:42:58 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
- dependencies
-In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230913113801.1901152-1-arnd@kernel.org>
-Date:   Thu, 14 Sep 2023 16:42:55 +0300
-Message-ID: <874jjwx44g.fsf@intel.com>
+        with ESMTP id S239491AbjINOFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 10:05:48 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F9F31FC8
+        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 07:05:44 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-403004a96a4so10876665e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 07:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citrix.com; s=google; t=1694700343; x=1695305143; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=4vYOPKXU60d+VwTOR7zcpHoS7EW3RwNwXYL0thebH04=;
+        b=BP6Wcb2AOM+ZA1fjpijwFsP3sdHAJoKEYJJcOiEAuw9Bv5822B60aaTu/r1wMLw38r
+         2QIMywqGQDP5+byc5UXoS/bedwfxn27igOXZukvL3E96JQI+CJ4/JdA+eludBI2x8sDH
+         LkYwexu+hF0RruyxCEybcA2ChsTCmNRU56SmQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694700343; x=1695305143;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4vYOPKXU60d+VwTOR7zcpHoS7EW3RwNwXYL0thebH04=;
+        b=ZmPkL9Vg7uoJLjIX1PLaYXSzzXQ4hOLRgPocrPaRJYCZ5MM+ifbIC2dOufo/oiLKZl
+         VXzI+50pe77fcszxW7x+PgVz5rtxPSeYAaaRl6T9u6/IcTGujePFBoMNcgCA1NHfzJka
+         hVHnSPSIUdnXedueGUM3m58gDq63e/uvxfjfF4ijYe4anCaFiFqzBPTl3yWgBDG40GmE
+         IB6J2mU3ISCVzkFZcMLxnAeBAZIHJLrfPob3dRGEZ9RRuRrqzUq0tFh+VLSNZClrIvAH
+         uztowlRgBqI5MpZxwN1CdJds9wO8DHRqxHTvxk3PEGcuDKR3D9xxOirBgNZVfLGZVRLp
+         1nDA==
+X-Gm-Message-State: AOJu0YxxwcoB3Fs6XL/qPHm5iEy2zbK0pzh03voBiI9Us07YFKlCniWF
+        akhYcWpxErU1AmkzATndfnwRz09MNmbF//a8YI47lA==
+X-Google-Smtp-Source: AGHT+IEyocHSn+uMmNECVz8ii8zQMuIDZmm28KTVIUinAogCrqYkG9ProhxotsEPQjJrSGm8ruhh3w==
+X-Received: by 2002:a7b:c44b:0:b0:3f7:f2d0:b904 with SMTP id l11-20020a7bc44b000000b003f7f2d0b904mr4542256wmi.8.1694700342824;
+        Thu, 14 Sep 2023 07:05:42 -0700 (PDT)
+Received: from [10.80.67.28] (default-46-102-197-194.interdsl.co.uk. [46.102.197.194])
+        by smtp.gmail.com with ESMTPSA id z16-20020adfe550000000b0031980294e9fsm1839303wrm.116.2023.09.14.07.05.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Sep 2023 07:05:42 -0700 (PDT)
+Message-ID: <6f5678ff-f8b1-9ada-c8c7-f32cfb77263a@citrix.com>
+Date:   Thu, 14 Sep 2023 15:05:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+From:   andrew.cooper3@citrix.com
+Subject: Re: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
+Content-Language: en-GB
+To:     Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
+        mhiramat@kernel.org, jiangshanlai@gmail.com
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-4-xin3.li@intel.com>
+In-Reply-To: <20230914044805.301390-4-xin3.li@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Sep 2023, Arnd Bergmann <arnd@kernel.org> wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 14/09/2023 5:47 am, Xin Li wrote:
+> Add an always inline API __wrmsrns() to embed the WRMSRNS instruction
+> into the code.
 >
-> This problem frequently comes up in randconfig testing, with
-> drivers failing to link because of a dependency on an optional
-> feature.
->
-> The Kconfig language for this is very confusing, so try to
-> document it in "Kconfig hints" section.
-
-Thanks for doing this.
-
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> Signed-off-by: Xin Li <xin3.li@intel.com>
 > ---
->  Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+>  arch/x86/include/asm/msr.h | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 >
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 858ed5d80defe..89dea587a469a 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -573,6 +573,32 @@ above, leading to:
->  	bool "Support for foo hardware"
->  	depends on ARCH_FOO_VENDOR || COMPILE_TEST
+> diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
+> index 65ec1965cd28..c284ff9ebe67 100644
+> --- a/arch/x86/include/asm/msr.h
+> +++ b/arch/x86/include/asm/msr.h
+> @@ -97,6 +97,19 @@ static __always_inline void __wrmsr(unsigned int msr, u32 low, u32 high)
+>  		     : : "c" (msr), "a"(low), "d" (high) : "memory");
+>  }
 >  
-> +Optional dependencies
-> +~~~~~~~~~~~~~~~~~~~~~
+> +/*
+> + * WRMSRNS behaves exactly like WRMSR with the only difference being
+> + * that it is not a serializing instruction by default.
+> + */
+> +static __always_inline void __wrmsrns(u32 msr, u32 low, u32 high)
+> +{
+> +	/* Instruction opcode for WRMSRNS; supported in binutils >= 2.40. */
+> +	asm volatile("1: .byte 0x0f,0x01,0xc6\n"
+> +		     "2:\n"
+> +		     _ASM_EXTABLE_TYPE(1b, 2b, EX_TYPE_WRMSR)
+> +		     : : "c" (msr), "a"(low), "d" (high));
+> +}
 > +
-> +Some drivers are able to optionally use a feature from another module
-> +or build cleanly with that module disabled, but cause a link failure
-> +when trying to use that loadable module from a built-in driver.
-> +
-> +The most common way to express this optional dependency in Kconfig logic
-> +uses the slighly counterintuitive
-> +
-> +  config FOO
-> +	bool "Support for foo hardware"
-> +	depends on BAR || !BAR
+>  #define native_rdmsr(msr, val1, val2)			\
+>  do {							\
+>  	u64 __val = __rdmsr((msr));			\
+> @@ -297,6 +310,11 @@ do {							\
+>  
+>  #endif	/* !CONFIG_PARAVIRT_XXL */
+>  
+> +static __always_inline void wrmsrns(u32 msr, u64 val)
+> +{
+> +	__wrmsrns(msr, val, val >> 32);
+> +}
 
-	depends on BAR || BAR=n
+This API works in terms of this series where every WRMSRNS is hidden
+behind a FRED check, but it's an awkward interface to use anywhere else
+in the kernel.
 
-seems to be an alternative that's about as common:
+I fully understand that you expect all FRED capable systems to have
+WRMSRNS, but it is not a hard requirement and you will end up with
+simpler (and therefore better) logic by deleting the dependency.
 
-$ git grep "depends on \([A-Z0-9_]\+\) || \!\1" | wc -l
-109
-$ git grep "depends on \([A-Z0-9_]\+\) || \1=n" | wc -l
-107
+As a "normal" user of the WRMSR APIs, the programmer only cares about:
 
-Maybe worth mentioning both?
-
-
-BR,
-Jani.
+1) wrmsr() -> needs to be serialising
+2) wrmsr_ns() -> safe to be non-serialising
 
 
-> +
-> +This means that there is either a dependency on BAR that disallows
-> +the combination of FOO=y with BAR=m, or BAR is completely disabled.
-> +For a more formalized approach if there are multiple drivers that have
-> +the same dependency, a helper symbol can be used, like
-> +
-> +  config FOO
-> +	bool "Support for foo hardware"
-> +	depends on BAR_OPTIONAL
-> +
-> +  config BAR_OPTIONAL
-> +	def_tristate BAR || !BAR
-> +
->  Kconfig recursive dependency limitations
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In Xen, I added something of the form:
 
--- 
-Jani Nikula, Intel
+/* Non-serialising WRMSR, when available.  Falls back to a serialising
+WRMSR. */
+static inline void wrmsr_ns(uint32_t msr, uint32_t lo, uint32_t hi)
+{
+    /*
+     * WRMSR is 2 bytes.  WRMSRNS is 3 bytes.  Pad WRMSR with a redundant CS
+     * prefix to avoid a trailing NOP.
+     */
+    alternative_input(".byte 0x2e; wrmsr",
+                      ".byte 0x0f,0x01,0xc6", X86_FEATURE_WRMSRNS,
+                      "c" (msr), "a" (lo), "d" (hi));
+}
+
+and despite what Juergen said, I'm going to recommend that you do wire
+this through the paravirt infrastructure, for the benefit of regular
+users having a nice API, not because XenPV is expecting to do something
+wildly different here.
+
+
+I'd actually go as far as suggesting that you break patches 1-3 into
+different series and e.g. update the regular context switch path to use
+the WRMSRNS-falling-back-to-WRMSR helpers, just to get started.
+
+~Andrew
