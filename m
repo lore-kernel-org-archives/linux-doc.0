@@ -2,257 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D019CEEAA40
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 13:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE1DEEAA40
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 13:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239126AbjINNsN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 09:48:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60762 "EHLO
+        id S239148AbjINNxy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 09:53:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239107AbjINNsM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 09:48:12 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21DE61BF8
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 06:48:08 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-403012f27e3so10941735e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 06:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1694699286; x=1695304086; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0NpRZDPmcHDBEDq/PN5VoK+B/Io2/pklU+DrUKVj/Uk=;
-        b=WFdrX/nmC3pAZx8nGdgY4DHxSy424LSJqU37nUa7W5HxpsXBY+pKkdzxwUjtrKPgZ8
-         GRvHkeyg5LaA+uTM8dm1Q7Ys3Ggr1kFPqahLghMEHowrp3kwyZk92+1tXo+83Hjxpqiw
-         NiXVukpxkNiROreKn2sgCW3pDBA4JpdANf244HkGANjb5142Lh0fmMUDxi/70dywpX2h
-         uVZWi9hkbDlIE0mkQDx2QqMd1XgS/8Qf3EJg9ck+uIGccaJBOUdSqoRJOHvcMRzQnk2m
-         GEEvWVCqvlS4p15dsu6tELeCgVJ905uo0JBmGieU4CCL05dOfLZ86z7s7PAVX7iztRYU
-         SUog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694699286; x=1695304086;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0NpRZDPmcHDBEDq/PN5VoK+B/Io2/pklU+DrUKVj/Uk=;
-        b=MobnVDr+L6eRbyrfsB64nDwbVEEhCO9aug4xGVLYx7Hv5vQLDnX3G5ZpsF52ioQ5l0
-         f7DbzTS1j3MCFV/s9JpondsZBaeTp4N5p++fW0i/XATnGawMU6BpsuDE3DAls+5hARb+
-         HdTtaLpVNUqleDxTK5JovjIELvR46NJe6129EQ0t0Bb4x8iiFCK5ysSR7rkqAicTaP4Q
-         Ze1t5qd8SvRUd2eM3oJQp7VqtLD+GIxaopeJdw/Xi8IhWtT6bFFuo3h1q5cVPIguO0o9
-         5KFFpU0PBjrK6dGQtQMZ0hwofBJ+SWHRFii264dnJ8ZGH7ChbfxIqDj4dHK0IyDexZed
-         6KfQ==
-X-Gm-Message-State: AOJu0YyhfdJvj+X20JuY3Aubl3St/8+Q4HlwSzM9mav/XP0OQtLtDWUW
-        rWnbEdlPIwXuiS2ectXG4YuFyw==
-X-Google-Smtp-Source: AGHT+IFwoMiGuvOYU6N8bNee+qhZal97C+SbTYI2CWIdEfiJfY+KPo0K14ss0u/3IPRnH7VdRnRmEg==
-X-Received: by 2002:a1c:4b16:0:b0:402:ff8d:609b with SMTP id y22-20020a1c4b16000000b00402ff8d609bmr4491570wma.33.1694699285794;
-        Thu, 14 Sep 2023 06:48:05 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id p14-20020a1c740e000000b003fe407ca05bsm4953494wmc.37.2023.09.14.06.48.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 06:48:05 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 15:47:59 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     guoren@kernel.org
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, jszhang@kernel.org, wefu@redhat.com,
-        wuwei2016@iscas.ac.cn, leobras@redhat.com,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 03/17] riscv: Use Zicbop in arch_xchg when available
-Message-ID: <20230914-1ce4f391a14e56b456d88188@orel>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-4-guoren@kernel.org>
+        with ESMTP id S239107AbjINNxy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 09:53:54 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C98B1AE;
+        Thu, 14 Sep 2023 06:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694699630; x=1726235630;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NEKocQoGfcfZKQftz4/7uTx3WA4f8EK2S6Mq45SyuhI=;
+  b=MCAlWSpQxmUGpvKeDHE6KwFPz5yOyjByNV7iHxaFenZV4R0GybF3bktc
+   js8q9/eqxQXv3JmNzdXYIEaIu3PEi8RNrZQd/ZG0gULpncEIfd0XfbYbs
+   9pyEQDfrHp8lp18WFi3eIWLBDddejWR0O9+3NKm9ITVq72P+QzN/4ocbU
+   V4T7Uznyrrfb7VfB1PZZ2uYmoEWOWuwg3JtexDOmJ08ZH/94RaG6ZqzmK
+   uOSkVidtP7RRr4N5QxbhuWBC1eYlY5G6LdgzOe8KSF3Si4kjSWzUhsBmr
+   g+1oF4os88mSCQg599EDdPjbMsQWoqbmGzicNveAiX6EmEBRIfHnarVaS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="364000235"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
+   d="scan'208";a="364000235"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:36:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991389372"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
+   d="scan'208";a="991389372"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Sep 2023 06:36:02 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qgmVO-0001dF-0q;
+        Thu, 14 Sep 2023 13:36:00 +0000
+Date:   Thu, 14 Sep 2023 21:34:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Daniel Matyas <daniel.matyas@analog.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 4/4] hwmon: max31827: Add custom attribute for resolution
+Message-ID: <202309142140.qvHsiLc3-lkp@intel.com>
+References: <20230913152135.457892-5-daniel.matyas@analog.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230910082911.3378782-4-guoren@kernel.org>
+In-Reply-To: <20230913152135.457892-5-daniel.matyas@analog.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 10, 2023 at 04:28:57AM -0400, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
-> 
-> Cache-block prefetch instructions are HINTs to the hardware to
-> indicate that software intends to perform a particular type of
-> memory access in the near future. Enable ARCH_HAS_PREFETCHW and
-> improve the arch_xchg for qspinlock xchg_tail.
-> 
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> ---
->  arch/riscv/Kconfig                 | 15 +++++++++++++++
->  arch/riscv/include/asm/cmpxchg.h   |  4 +++-
->  arch/riscv/include/asm/hwcap.h     |  1 +
->  arch/riscv/include/asm/insn-def.h  |  5 +++++
->  arch/riscv/include/asm/processor.h | 13 +++++++++++++
->  arch/riscv/kernel/cpufeature.c     |  1 +
->  6 files changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index e9ae6fa232c3..2c346fe169c1 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -617,6 +617,21 @@ config RISCV_ISA_ZICBOZ
->  
->  	   If you don't know what to do here, say Y.
->  
-> +config RISCV_ISA_ZICBOP
-> +	bool "Zicbop extension support for cache block prefetch"
-> +	depends on MMU
-> +	depends on RISCV_ALTERNATIVE
-> +	default y
-> +	help
-> +	   Adds support to dynamically detect the presence of the ZICBOP
-> +	   extension (Cache Block Prefetch Operations) and enable its
-> +	   usage.
-> +
-> +	   The Zicbop extension can be used to prefetch cache block for
-> +	   read/write/instruction fetch.
-> +
-> +	   If you don't know what to do here, say Y.
-> +
->  config TOOLCHAIN_HAS_ZIHINTPAUSE
->  	bool
->  	default y
-> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-> index 702725727671..56eff7a9d2d2 100644
-> --- a/arch/riscv/include/asm/cmpxchg.h
-> +++ b/arch/riscv/include/asm/cmpxchg.h
-> @@ -11,6 +11,7 @@
->  
->  #include <asm/barrier.h>
->  #include <asm/fence.h>
-> +#include <asm/processor.h>
->  
->  #define __arch_xchg_masked(prepend, append, r, p, n)			\
->  ({									\
-> @@ -25,6 +26,7 @@
->  									\
->  	__asm__ __volatile__ (						\
->  	       prepend							\
-> +	       PREFETCHW_ASM(%5)					\
->  	       "0:	lr.w %0, %2\n"					\
->  	       "	and  %1, %0, %z4\n"				\
->  	       "	or   %1, %1, %z3\n"				\
-> @@ -32,7 +34,7 @@
->  	       "	bnez %1, 0b\n"					\
->  	       append							\
->  	       : "=&r" (__retx), "=&r" (__rc), "+A" (*(__ptr32b))	\
-> -	       : "rJ" (__newx), "rJ" (~__mask)				\
-> +	       : "rJ" (__newx), "rJ" (~__mask), "rJ" (__ptr32b)		\
->  	       : "memory");						\
->  									\
->  	r = (__typeof__(*(p)))((__retx & __mask) >> __s);		\
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> index b7b58258f6c7..78b7b8b53778 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -58,6 +58,7 @@
->  #define RISCV_ISA_EXT_ZICSR		40
->  #define RISCV_ISA_EXT_ZIFENCEI		41
->  #define RISCV_ISA_EXT_ZIHPM		42
-> +#define RISCV_ISA_EXT_ZICBOP		43
->  
->  #define RISCV_ISA_EXT_MAX		64
->  
-> diff --git a/arch/riscv/include/asm/insn-def.h b/arch/riscv/include/asm/insn-def.h
-> index 6960beb75f32..dc590d331894 100644
-> --- a/arch/riscv/include/asm/insn-def.h
-> +++ b/arch/riscv/include/asm/insn-def.h
-> @@ -134,6 +134,7 @@
->  
->  #define RV_OPCODE_MISC_MEM	RV_OPCODE(15)
->  #define RV_OPCODE_SYSTEM	RV_OPCODE(115)
-> +#define RV_OPCODE_PREFETCH	RV_OPCODE(19)
+Hi Daniel,
 
-This should be named RV_OPCODE_OP_IMM and be placed in
-numerical order with the others, i.e. above SYSTEM.
+kernel test robot noticed the following build warnings:
 
->  
->  #define HFENCE_VVMA(vaddr, asid)				\
->  	INSN_R(OPCODE_SYSTEM, FUNC3(0), FUNC7(17),		\
-> @@ -196,4 +197,8 @@
->  	INSN_I(OPCODE_MISC_MEM, FUNC3(2), __RD(0),		\
->  	       RS1(base), SIMM12(4))
->  
-> +#define CBO_prefetchw(base)					\
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.6-rc1 next-20230914]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Please name this 'PREFETCH_w' and it should take an immediate parameter,
-even if we intend to pass 0 for it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Matyas/hwmon-max31827-Make-code-cleaner/20230913-232729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230913152135.457892-5-daniel.matyas%40analog.com
+patch subject: [PATCH 4/4] hwmon: max31827: Add custom attribute for resolution
+reproduce: (https://download.01.org/0day-ci/archive/20230914/202309142140.qvHsiLc3-lkp@intel.com/reproduce)
 
-> +	INSN_R(OPCODE_PREFETCH, FUNC3(6), FUNC7(0),		\
-> +	       RD(x0), RS1(base), RS2(x0))
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309142140.qvHsiLc3-lkp@intel.com/
 
-prefetch.w is not an R-type instruction, it's an S-type. While the bit
-shifts are the same, the names are different. We need to add S-type
-names while defining this instruction. Then, this define would be
+All warnings (new ones prefixed by >>):
 
- #define PREFETCH_w(base, imm) \
-     INSN_S(OPCODE_OP_IMM, FUNC3(6), IMM_11_5(imm), __IMM_4_0(0), \
-            RS1(base), __RS2(3))
+>> Documentation/hwmon/max31827.rst:107: WARNING: Bullet list ends without a blank line; unexpected unindent.
 
-When the assembler as insn_r I hope it will validate that
-(imm & 0xfe0) == imm
+vim +107 Documentation/hwmon/max31827.rst
 
-> +
->  #endif /* __ASM_INSN_DEF_H */
-> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> index de9da852f78d..7ad3a24212e8 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -12,6 +12,8 @@
->  #include <vdso/processor.h>
->  
->  #include <asm/ptrace.h>
-> +#include <asm/insn-def.h>
-> +#include <asm/hwcap.h>
->  
->  #ifdef CONFIG_64BIT
->  #define DEFAULT_MAP_WINDOW	(UL(1) << (MMAP_VA_BITS - 1))
-> @@ -103,6 +105,17 @@ static inline void arch_thread_struct_whitelist(unsigned long *offset,
->  #define KSTK_EIP(tsk)		(ulong)(task_pt_regs(tsk)->epc)
->  #define KSTK_ESP(tsk)		(ulong)(task_pt_regs(tsk)->sp)
->  
-> +#define ARCH_HAS_PREFETCHW
-> +#define PREFETCHW_ASM(base)	ALTERNATIVE(__nops(1), \
-> +					    CBO_prefetchw(base), \
-> +					    0, \
-> +					    RISCV_ISA_EXT_ZICBOP, \
-> +					    CONFIG_RISCV_ISA_ZICBOP)
-> +static inline void prefetchw(const void *ptr)
-> +{
-> +	asm volatile(PREFETCHW_ASM(%0)
-> +		: : "r" (ptr) : "memory");
-> +}
->  
->  /* Do necessary setup to start up a newly executed thread. */
->  extern void start_thread(struct pt_regs *regs,
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index ef7b4fd9e876..e0b897db0b97 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -159,6 +159,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->  	__RISCV_ISA_EXT_DATA(h, RISCV_ISA_EXT_h),
->  	__RISCV_ISA_EXT_DATA(zicbom, RISCV_ISA_EXT_ZICBOM),
->  	__RISCV_ISA_EXT_DATA(zicboz, RISCV_ISA_EXT_ZICBOZ),
-> +	__RISCV_ISA_EXT_DATA(zicbop, RISCV_ISA_EXT_ZICBOP),
+    93	
+    94	The conversion time doubles with every bit of increased resolution. The
+    95	available resolutions are:
+    96		- 8 bit -> 8.75 ms conversion time
+    97		- 9 bit -> 17.5 ms conversion time
+    98		- 10 bit -> 35 ms conversion time
+    99		- 12 bit (default) -> 140 ms conversion time
+   100	
+   101	There is a temp1_resolution attribute which indicates the unit change in the
+   102	input temperature in milli-degrees C.
+   103		- 1000 mC -> 8 bit
+   104		- 500 mC -> 9 bit
+   105		- 250 mC -> 10 bit
+   106		- 62 mC -> 12 bit (default) - actually this is 62.5, but the file
+ > 107		returns 62
+   108	
 
-zicbop should be above zicboz (extensions alphabetical within their
-category).
-
->  	__RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
->  	__RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
->  	__RISCV_ISA_EXT_DATA(zifencei, RISCV_ISA_EXT_ZIFENCEI),
-> -- 
-> 2.36.1
->
-
-Thanks,
-drew
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
