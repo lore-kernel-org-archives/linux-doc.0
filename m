@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0ED6EE0203
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 01:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1614DEE0203
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 01:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233492AbjINBSy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 21:18:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40592 "EHLO
+        id S233219AbjINBwX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Sep 2023 21:52:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233481AbjINBSx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 21:18:53 -0400
+        with ESMTP id S232970AbjINBwX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 21:52:23 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36DA1724;
-        Wed, 13 Sep 2023 18:18:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A981BCB;
+        Wed, 13 Sep 2023 18:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=eHIQuT6UlrAMV8LSR515DTq2wIcqJxO0YuYeb28K3lY=; b=Wjv7sm3DNC7tMRxgXrWbtjkyt1
-        hfskufYENJkJvGnSvOYswn9dAvkeVBSICVfLXWbC3/bZUPS07mOxzrmfrTjjLi4+s7m+wG4FuLWjS
-        yqPz0mdSf0iYA8nPlmeGlSzlSjgT2Zc5/t4UZ4l1ihc6++rxA+40r81XRRlukHnQLmyQ=;
+        bh=HNvqcEWlMU3EPaKK9ImgwxBsLqZDc2lFEhBU3jjKaNs=; b=Jk+V0B3fVUj1DzTHB8GqgsLNGO
+        QHWD2H9fADWe9PyD5AaXhtkIJ1LpwbrU1YKIAFPBzsBGu/8Lmh5yWWX8l7X7IwrAs2/zoWxHRzYwA
+        1fOaiIUNkS/nReSjls2qeM5/ohTblXhJj3gKb/pTk+nUPyoTWH1ZsPqUthfZa29ydHiI=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1qgb09-006Lwq-D4; Thu, 14 Sep 2023 03:18:37 +0200
-Date:   Thu, 14 Sep 2023 03:18:37 +0200
+        id 1qgbWL-006M6V-NN; Thu, 14 Sep 2023 03:51:53 +0200
+Date:   Thu, 14 Sep 2023 03:51:53 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -38,362 +38,313 @@ Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
         Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
         Thorsten.Kummermehr@microchip.com
-Subject: Re: [RFC PATCH net-next 4/6] net: ethernet: implement data
- transaction interface
-Message-ID: <e874dab4-e701-44f8-bbe0-ce66784ecf5c@lunn.ch>
+Subject: Re: [RFC PATCH net-next 5/6] microchip: lan865x: add driver support
+ for Microchip's LAN865X MACPHY
+Message-ID: <d1ffe3b1-d078-4f39-a263-c09dec6c4169@lunn.ch>
 References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
- <20230908142919.14849-5-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-6-Parthiban.Veerasooran@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230908142919.14849-5-Parthiban.Veerasooran@microchip.com>
+In-Reply-To: <20230908142919.14849-6-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static void oa_tc6_rx_eth_ready(struct oa_tc6 *tc6)
+> +#define DRV_VERSION		"0.1"
+
+This is pointless. The ethtool code will fill in the git hash which is
+a much more useful value to have.
+
+> +static void lan865x_handle_link_change(struct net_device *netdev)
 > +{
-> +	struct sk_buff *skb = NULL;
+> +	struct lan865x_priv *priv = netdev_priv(netdev);
 > +
-> +	/* Send the received ethernet packet to network layer */
-> +	skb = netdev_alloc_skb(tc6->netdev, tc6->rxd_bytes + NET_IP_ALIGN);
-> +	if (!skb) {
-> +		tc6->netdev->stats.rx_dropped++;
-> +		netdev_err(tc6->netdev, "Out of memory for rx'd frame");
-
-Being out of memory is not likely to go away quickly. So i can see
-this spamming the kernel log. At minimum make it rate limited, or just
-rely on the counter and do not print anything.
-
-> +static int oa_tc6_process_exst(struct oa_tc6 *tc6)
+> +	phy_print_status(priv->phydev);
+> +}
+> +
+> +static int lan865x_mdiobus_read(struct mii_bus *bus, int phy_id, int idx)
 > +{
+> +	struct lan865x_priv *priv = bus->priv;
 > +	u32 regval;
+> +	bool ret;
+> +
+> +	ret = oa_tc6_read_register(priv->tc6, 0xFF00 | (idx & 0xFF), &regval, 1);
+> +	if (ret)
+> +		return -ENODEV;
+> +
+> +	return regval;
+> +}
+> +
+> +static int lan865x_mdiobus_write(struct mii_bus *bus, int phy_id, int idx,
+> +				 u16 regval)
+> +{
+> +	struct lan865x_priv *priv = bus->priv;
+> +	u32 value = regval;
+> +	bool ret;
+> +
+> +	ret = oa_tc6_write_register(priv->tc6, 0xFF00 | (idx & 0xFF), &value, 1);
+> +	if (ret)
+> +		return -ENODEV;
+> +
+> +	return 0;
+> +}
+> +
+> +static int lan865x_phy_init(struct lan865x_priv *priv)
+> +{
 > +	int ret;
 > +
-> +	ret = oa_tc6_read_register(tc6, OA_TC6_STS0, &regval, 1);
+> +	priv->mdiobus = mdiobus_alloc();
+> +	if (!priv->mdiobus) {
+> +		netdev_err(priv->netdev, "MDIO bus alloc failed\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	priv->mdiobus->phy_mask = ~(u32)BIT(1);
+> +	priv->mdiobus->priv = priv;
+> +	priv->mdiobus->read = lan865x_mdiobus_read;
+> +	priv->mdiobus->write = lan865x_mdiobus_write;
+
+The MDIO bus is part of the standard. So i would expect this to be in
+the library. From what i remember, there are two different ways to
+implement MDIO, either via the PHY registers being directly mapped
+into the register space, or indirect like this. And i think there is a
+status bit somewhere which tells you which is implemented? So please
+move this code into the library, but check the status bit and return
+ENODEV if the silicon does not actually implement this access method.
+
+> +static int
+> +lan865x_set_link_ksettings(struct net_device *netdev,
+> +			   const struct ethtool_link_ksettings *cmd)
+> +{
+> +	struct lan865x_priv *priv = netdev_priv(netdev);
+> +	int ret = 0;
+> +
+> +	if (cmd->base.autoneg != AUTONEG_DISABLE ||
+> +	    cmd->base.speed != SPEED_10 || cmd->base.duplex != DUPLEX_HALF) {
+> +		if (netif_msg_link(priv))
+> +			netdev_warn(netdev, "Unsupported link setting");
+> +		ret = -EOPNOTSUPP;
+> +	} else {
+> +		if (netif_msg_link(priv))
+> +			netdev_warn(netdev, "Hardware must be disabled to set link mode");
+> +		ret = -EBUSY;
+> +	}
+> +	return ret;
+
+I would expect to see a call to phy_ethtool_ksettings_set()
+here. phylib should be able to do some of the validation.
+
+> +}
+> +
+> +static int
+> +lan865x_get_link_ksettings(struct net_device *netdev,
+> +			   struct ethtool_link_ksettings *cmd)
+> +{
+> +	ethtool_link_ksettings_zero_link_mode(cmd, supported);
+> +	ethtool_link_ksettings_add_link_mode(cmd, supported, 10baseT_Half);
+> +	ethtool_link_ksettings_add_link_mode(cmd, supported, TP);
+> +
+> +	cmd->base.speed = SPEED_10;
+> +	cmd->base.duplex = DUPLEX_HALF;
+> +	cmd->base.port	= PORT_TP;
+> +	cmd->base.autoneg = AUTONEG_DISABLE;
+> +
+> +	return 0;
+
+phy_ethtool_ksettings_get().
+
+I also think this can be moved along with the MDIO bus and PHY
+handling into the library.
+
+> +static int lan865x_set_mac_address(struct net_device *netdev, void *addr)
+> +{
+> +	struct sockaddr *address = addr;
+> +
+> +	if (netif_running(netdev))
+> +		return -EBUSY;
+> +	if (!is_valid_ether_addr(address->sa_data))
+> +		return -EADDRNOTAVAIL;
+
+Does the core allow an invalid MAC address be passed to the driver?
+
+> +
+> +	eth_hw_addr_set(netdev, address->sa_data);
+> +	return lan865x_set_hw_macaddr(netdev);
+> +}
+> +
+> +static u32 lan865x_hash(u8 addr[ETH_ALEN])
+> +{
+> +	return (ether_crc(ETH_ALEN, addr) >> 26) & 0x3f;
+> +}
+> +
+> +static void lan865x_set_multicast_list(struct net_device *netdev)
+> +{
+> +	struct lan865x_priv *priv = netdev_priv(netdev);
+> +	u32 regval = 0;
+> +
+> +	if (netdev->flags & IFF_PROMISC) {
+> +		/* Enabling promiscuous mode */
+> +		regval |= MAC_PROMISCUOUS_MODE;
+> +		regval &= (~MAC_MULTICAST_MODE);
+> +		regval &= (~MAC_UNICAST_MODE);
+> +	} else if (netdev->flags & IFF_ALLMULTI) {
+> +		/* Enabling all multicast mode */
+> +		regval &= (~MAC_PROMISCUOUS_MODE);
+> +		regval |= MAC_MULTICAST_MODE;
+> +		regval &= (~MAC_UNICAST_MODE);
+> +	} else if (!netdev_mc_empty(netdev)) {
+> +		/* Enabling specific multicast addresses */
+> +		struct netdev_hw_addr *ha;
+> +		u32 hash_lo = 0;
+> +		u32 hash_hi = 0;
+> +
+> +		netdev_for_each_mc_addr(ha, netdev) {
+> +			u32 bit_num = lan865x_hash(ha->addr);
+> +			u32 mask = 1 << (bit_num & 0x1f);
+> +
+> +			if (bit_num & 0x20)
+> +				hash_hi |= mask;
+> +			else
+> +				hash_lo |= mask;
+> +		}
+> +		if (oa_tc6_write_register(priv->tc6, REG_MAC_HASHH, &hash_hi, 1)) {
+> +			if (netif_msg_timer(priv))
+> +				netdev_err(netdev, "Failed to write reg_hashh");
+> +			return;
+> +		}
+> +		if (oa_tc6_write_register(priv->tc6, REG_MAC_HASHL, &hash_lo, 1)) {
+> +			if (netif_msg_timer(priv))
+> +				netdev_err(netdev, "Failed to write reg_hashl");
+> +			return;
+> +		}
+> +		regval &= (~MAC_PROMISCUOUS_MODE);
+> +		regval &= (~MAC_MULTICAST_MODE);
+> +		regval |= MAC_UNICAST_MODE;
+> +	} else {
+> +		/* enabling local mac address only */
+> +		if (oa_tc6_write_register(priv->tc6, REG_MAC_HASHH, &regval, 1)) {
+> +			if (netif_msg_timer(priv))
+> +				netdev_err(netdev, "Failed to write reg_hashh");
+> +			return;
+> +		}
+> +		if (oa_tc6_write_register(priv->tc6, REG_MAC_HASHL, &regval, 1)) {
+> +			if (netif_msg_timer(priv))
+> +				netdev_err(netdev, "Failed to write reg_hashl");
+> +			return;
+> +		}
+> +	}
+> +	if (oa_tc6_write_register(priv->tc6, REG_MAC_NW_CONFIG, &regval, 1)) {
+> +		if (netif_msg_timer(priv))
+> +			netdev_err(netdev, "Failed to enable promiscuous mode");
+> +	}
+> +}
+> +
+> +static netdev_tx_t lan865x_send_packet(struct sk_buff *skb,
+> +				       struct net_device *netdev)
+> +{
+> +	struct lan865x_priv *priv = netdev_priv(netdev);
+> +
+> +	return oa_tc6_send_eth_pkt(priv->tc6, skb);
+> +}
+> +
+> +static int lan865x_hw_disable(struct lan865x_priv *priv)
+> +{
+> +	u32 regval = NW_DISABLE;
+> +
+> +	if (oa_tc6_write_register(priv->tc6, REG_MAC_NW_CTRL, &regval, 1))
+> +		return -ENODEV;
+> +
+> +	return 0;
+> +}
+> +
+> +static int lan865x_net_close(struct net_device *netdev)
+> +{
+> +	struct lan865x_priv *priv = netdev_priv(netdev);
+> +	int ret;
+> +
+> +	netif_stop_queue(netdev);
+> +	ret = lan865x_hw_disable(priv);
 > +	if (ret) {
-> +		netdev_err(tc6->netdev, "STS0 register read failed.\n");
+> +		if (netif_msg_ifup(priv))
+> +			netdev_err(netdev, "Failed to disable the hardware\n");
 > +		return ret;
 > +	}
-> +	if (regval & TXPE)
-> +		netdev_err(tc6->netdev, "Transmit protocol error\n");
-> +	if (regval & TXBOE)
-> +		netdev_err(tc6->netdev, "Transmit buffer overflow\n");
-> +	if (regval & TXBUE)
-> +		netdev_err(tc6->netdev, "Transmit buffer underflow\n");
-> +	if (regval & RXBOE)
-> +		netdev_err(tc6->netdev, "Receive buffer overflow\n");
-> +	if (regval & LOFE)
-> +		netdev_err(tc6->netdev, "Loss of frame\n");
-> +	if (regval & HDRE)
-> +		netdev_err(tc6->netdev, "Header error\n");
-> +	if (regval & TXFCSE)
-> +		netdev_err(tc6->netdev, "Transmit Frame Check Sequence Error\n");
-
-Do you expect these problems to magically fix themselves, or is this
-going to spam the kernel log until the machine is rebooted?
-
-It seems a counter would be more appropriate, and maybe one rate
-limited message if the problem persists.
-
-Please look at all your netdev_err() calls and consider if they are
-really needed, should they be netdev_dbg(), or statistics counters.
-
-> +static int oa_tc6_process_rx_chunks(struct oa_tc6 *tc6, u8 *buf, u16 len)
-> +{
-> +	u8 cp_count;
-> +	u8 *payload;
-> +	u32 ftr;
-> +	u16 ebo;
-> +	u16 sbo;
 > +
-> +	/* Calculate the number of chunks received */
-> +	cp_count = len / (tc6->cps + TC6_FTR_SIZE);
-> +
-> +	for (u8 i = 0; i < cp_count; i++) {
-> +		/* Get the footer and payload */
-> +		ftr = *(u32 *)&buf[tc6->cps + (i * (tc6->cps + TC6_FTR_SIZE))];
-> +		ftr = be32_to_cpu(ftr);
-> +		payload = &buf[(i * (tc6->cps + TC6_FTR_SIZE))];
-> +		/* Check for footer parity error */
-> +		if (oa_tc6_get_parity(ftr)) {
-> +			netdev_err(tc6->netdev, "Footer: Parity error\n");
-> +			goto err_exit;
-> +		}
-> +		/* If EXST set in the footer then read STS0 register to get the
-> +		 * status information.
-> +		 */
-> +		if (FIELD_GET(DATA_FTR_EXST, ftr)) {
-> +			if (oa_tc6_process_exst(tc6))
-> +				netdev_err(tc6->netdev, "Failed to process EXST\n");
-> +			goto err_exit;
-> +		}
-> +		if (FIELD_GET(DATA_FTR_HDRB, ftr)) {
-> +			netdev_err(tc6->netdev, "Footer: Received header bad\n");
-> +			goto err_exit;
-> +		}
-> +		if (!FIELD_GET(DATA_FTR_SYNC, ftr)) {
-> +			netdev_err(tc6->netdev, "Footer: Configuration unsync\n");
-> +			goto err_exit;
-> +		}
-> +		/* If Frame Drop is set, indicates that the MAC has detected a
-> +		 * condition for which the SPI host should drop the received
-> +		 * ethernet frame.
-> +		 */
-> +		if (FIELD_GET(DATA_FTR_FD, ftr) && FIELD_GET(DATA_FTR_EV, ftr)) {
-> +			netdev_warn(tc6->netdev, "Footer: Frame drop\n");
-> +			if (FIELD_GET(DATA_FTR_SV, ftr)) {
-> +				goto start_new_frame;
-> +			} else {
-> +				if (tc6->rx_eth_started) {
-> +					tc6->rxd_bytes = 0;
-> +					tc6->rx_eth_started = false;
-> +					tc6->netdev->stats.rx_dropped++;
-> +				}
-> +				continue;
-> +			}
-> +		}
-> +		/* Check for data valid */
-> +		if (FIELD_GET(DATA_FTR_DV, ftr)) {
-> +			/* Check whether both start valid and end valid are in a
-> +			 * single chunk payload means a single chunk payload may
-> +			 * contain an entire ethernet frame.
-> +			 */
-> +			if (FIELD_GET(DATA_FTR_SV, ftr) &&
-> +			    FIELD_GET(DATA_FTR_EV, ftr)) {
-> +				sbo = FIELD_GET(DATA_FTR_SWO, ftr) * 4;
-> +				ebo = FIELD_GET(DATA_FTR_EBO, ftr) + 1;
-> +				if (ebo <= sbo) {
-> +					memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes],
-> +					       &payload[0], ebo);
-> +					tc6->rxd_bytes += ebo;
-> +					oa_tc6_rx_eth_ready(tc6);
-> +					tc6->rxd_bytes = 0;
-> +					memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes],
-> +					       &payload[sbo], tc6->cps - sbo);
-> +					tc6->rxd_bytes += (tc6->cps - sbo);
-> +					goto exit;
-> +				} else {
-> +					memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes],
-> +					       &payload[sbo], ebo - sbo);
-> +					tc6->rxd_bytes += (ebo - sbo);
-> +					oa_tc6_rx_eth_ready(tc6);
-> +					tc6->rxd_bytes = 0;
-> +					goto exit;
-> +				}
-> +			}
-> +start_new_frame:
-> +			/* Check for start valid to start capturing the incoming
-> +			 * ethernet frame.
-> +			 */
-> +			if (FIELD_GET(DATA_FTR_SV, ftr) && !tc6->rx_eth_started) {
-> +				tc6->rxd_bytes = 0;
-> +				tc6->rx_eth_started = true;
-> +				sbo = FIELD_GET(DATA_FTR_SWO, ftr) * 4;
-> +				memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes],
-> +				       &payload[sbo], tc6->cps - sbo);
-> +				tc6->rxd_bytes += (tc6->cps - sbo);
-> +				goto exit;
-> +			}
-> +
-> +			/* Check for end valid and calculate the copy length */
-> +			if (tc6->rx_eth_started) {
-> +				if (FIELD_GET(DATA_FTR_EV, ftr))
-> +					ebo = FIELD_GET(DATA_FTR_EBO, ftr) + 1;
-> +				else
-> +					ebo = tc6->cps;
-> +
-> +				memcpy(&tc6->eth_rx_buf[tc6->rxd_bytes],
-> +				       &payload[0], ebo);
-> +				tc6->rxd_bytes += ebo;
-> +				if (FIELD_GET(DATA_FTR_EV, ftr)) {
-> +					/* If End Valid set then send the
-> +					 * received ethernet frame to n/w.
-> +					 */
-> +					oa_tc6_rx_eth_ready(tc6);
-> +					tc6->rxd_bytes = 0;
-> +					tc6->rx_eth_started = false;
-> +				}
-> +			}
-> +		}
-> +
-> +exit:
-> +		tc6->txc = FIELD_GET(DATA_FTR_TXC, ftr);
-> +		tc6->rca = FIELD_GET(DATA_FTR_RCA, ftr);
-> +	}
-> +	return FTR_OK;
-> +
-> +err_exit:
-> +	if (tc6->rx_eth_started) {
-> +		tc6->rxd_bytes = 0;
-> +		tc6->rx_eth_started = false;
-> +		tc6->netdev->stats.rx_dropped++;
-> +	}
-> +	return FTR_ERR;
+> +	return 0;
 > +}
+> +
+> +static int lan865x_hw_enable(struct lan865x_priv *priv)
+> +{
+> +	u32 regval = NW_TX_STATUS | NW_RX_STATUS;
+> +
+> +	if (oa_tc6_write_register(priv->tc6, REG_MAC_NW_CTRL, &regval, 1))
+> +		return -ENODEV;
+> +
+> +	return 0;
+> +}
+> +
+> +static int lan865x_net_open(struct net_device *netdev)
+> +{
+> +	struct lan865x_priv *priv = netdev_priv(netdev);
+> +	int ret;
+> +
+> +	if (!is_valid_ether_addr(netdev->dev_addr)) {
+> +		if (netif_msg_ifup(priv))
+> +			netdev_err(netdev, "Invalid MAC address %pm", netdev->dev_addr);
+> +		return -EADDRNOTAVAIL;
 
-This is quite a complex function, with a lot of gotos. Please try to
-split it up into helpers.
+Using a random MAC address is the normal workaround for not having a
+valid MAC address via OTP flash etc.
+
+
+> +static int lan865x_get_dt_data(struct lan865x_priv *priv)
+> +{
+> +	struct spi_device *spi = priv->spi;
+> +	int ret;
+> +
+> +	if (of_property_present(spi->dev.of_node, "oa-chunk-size")) {
+> +		ret = of_property_read_u32(spi->dev.of_node, "oa-chunk-size",
+> +					   &priv->cps);
+> +		if (ret < 0)
+> +			return ret;
+> +	} else {
+> +		priv->cps = 64;
+> +		dev_info(&spi->dev, "Property oa-chunk-size is not found in dt and proceeding with the size 64\n");
+> +	}
+> +
+> +	if (of_property_present(spi->dev.of_node, "oa-tx-cut-through"))
+> +		priv->txcte = true;
+> +	else
+> +		dev_info(&spi->dev, "Property oa-tx-cut-through is not found in dt and proceeding with tx store and forward mode\n");
+
+Please remove all these dev_info() prints. The device tree binding
+should make it clear what the defaults are when not specified in DT.
 
 > +
->  static int oa_tc6_handler(void *data)
->  {
->  	struct oa_tc6 *tc6 = data;
-> +	bool txc_wait = false;
-> +	u16 tx_pos = 0;
->  	u32 regval;
-> +	u16 len;
->  	int ret;
->  
->  	while (likely(!kthread_should_stop())) {
-> -		wait_event_interruptible(tc6->tc6_wq, tc6->int_flag ||
-> +		wait_event_interruptible(tc6->tc6_wq, tc6->tx_flag ||
-> +					 tc6->int_flag || tc6->rca ||
->  					 kthread_should_stop());
-> -		if (tc6->int_flag) {
-> +		if (tc6->int_flag && !tc6->reset) {
->  			tc6->int_flag = false;
-> +			tc6->reset = true;
->  			ret = oa_tc6_perform_ctrl(tc6, OA_TC6_STS0, &regval, 1,
->  						  false, false);
->  			if (ret) {
-> @@ -227,10 +435,170 @@ static int oa_tc6_handler(void *data)
->  				complete(&tc6->rst_complete);
->  			}
->  		}
+> +	if (of_property_present(spi->dev.of_node, "oa-rx-cut-through"))
+> +		priv->rxcte = true;
+> +	else
+> +		dev_info(&spi->dev, "Property oa-rx-cut-through is not found in dt and proceeding with rx store and forward mode\n");
 > +
-> +		if (tc6->int_flag || tc6->rca) {
-> +			/* If rca is updated from the previous footer then
-> +			 * prepare the empty chunks equal to rca and perform
-> +			 * SPI transfer to receive the ethernet frame.
-> +			 */
-> +			if (tc6->rca) {
-> +				len = oa_tc6_prepare_empty_chunk(tc6,
-> +								 tc6->spi_tx_buf,
-> +								 tc6->rca);
-> +			} else {
-> +				/* If there is an interrupt then perform a SPI
-> +				 * transfer with a empty chunk to get the
-> +				 * details.
-> +				 */
-> +				tc6->int_flag = false;
-> +				len = oa_tc6_prepare_empty_chunk(tc6,
-> +								 tc6->spi_tx_buf,
-> +								 1);
-> +			}
-> +			/* Perform SPI transfer */
-> +			ret = oa_tc6_spi_transfer(tc6->spi, tc6->spi_tx_buf,
-> +						  tc6->spi_rx_buf, len);
-> +			if (ret) {
-> +				netdev_err(tc6->netdev, "SPI transfer failed\n");
-> +				continue;
-> +			}
-> +			/* Process the received chunks to get the ethernet frame
-> +			 * or interrupt details.
-> +			 */
-> +			if (oa_tc6_process_rx_chunks(tc6, tc6->spi_rx_buf, len))
-> +				continue;
-> +		}
+> +	if (of_property_present(spi->dev.of_node, "oa-protected"))
+> +		priv->protected = true;
+> +	else
+> +		dev_info(&spi->dev, "Property oa-protected is not found in dt and proceeding with protection enabled\n");
+
+Which of these are proprietary properties, and which are part of the
+standard? Please move parsing all the standard properties into the
+library.
+
+> +static int lan865x_probe(struct spi_device *spi)
+> +{
+
+...
+
 > +
-> +		/* If there is a tx ethernet frame available */
-> +		if (tc6->tx_flag || txc_wait) {
-> +			tc6->tx_flag = false;
-> +			txc_wait = false;
-> +			len = 0;
-> +			if (!tc6->txc) {
-> +				/* If there is no txc available to transport the
-> +				 * tx ethernet frames then wait for the MAC-PHY
-> +				 * interrupt to get the txc availability.
-> +				 */
-> +				txc_wait = true;
-> +				continue;
-> +			} else if (tc6->txc >= tc6->txc_needed) {
-> +				len = tc6->txc_needed * (tc6->cps + TC6_HDR_SIZE);
-> +			} else {
-> +				len = tc6->txc * (tc6->cps + TC6_HDR_SIZE);
-> +			}
-> +			memcpy(&tc6->spi_tx_buf[0], &tc6->eth_tx_buf[tx_pos],
-> +			       len);
-> +			ret = oa_tc6_spi_transfer(tc6->spi, tc6->spi_tx_buf,
-> +						  tc6->spi_rx_buf, len);
-> +			if (ret) {
-> +				netdev_err(tc6->netdev, "SPI transfer failed\n");
-> +				continue;
-> +			}
-> +			/* Process the received chunks to get the ethernet frame
-> +			 * or status.
-> +			 */
-> +			if (oa_tc6_process_rx_chunks(tc6, tc6->spi_rx_buf,
-> +						     len)) {
-> +				/* In case of error while processing rx chunks
-> +				 * discard the incomplete tx ethernet frame and
-> +				 * resend it.
-> +				 */
-> +				tx_pos = 0;
-> +				tc6->txc_needed = tc6->total_txc_needed;
-> +			} else {
-> +				tx_pos += len;
-> +				tc6->txc_needed = tc6->txc_needed -
-> +						  (len / (tc6->cps + TC6_HDR_SIZE));
-> +				/* If the complete ethernet frame is transmitted
-> +				 * then return the skb and update the details to
-> +				 * n/w layer.
-> +				 */
-> +				if (!tc6->txc_needed) {
-> +					tc6->netdev->stats.tx_packets++;
-> +					tc6->netdev->stats.tx_bytes += tc6->tx_skb->len;
-> +					dev_kfree_skb(tc6->tx_skb);
-> +					tx_pos = 0;
-> +					tc6->tx_skb = NULL;
-> +					if (netif_queue_stopped(tc6->netdev))
-> +						netif_wake_queue(tc6->netdev);
-> +				} else if (tc6->txc) {
-> +					/* If txc is available again and updated
-> +					 * from the previous footer then perform
-> +					 * tx again.
-> +					 */
-> +					tc6->tx_flag = true;
-> +				} else {
-> +					/* If there is no txc then wait for the
-> +					 * interrupt to indicate txc
-> +					 * availability.
-> +					 */
-> +					txc_wait = true;
-> +				}
-> +			}
-> +		}
->  	}
->  	return 0;
->  }
+> +	phy_start(priv->phydev);
+> +	return 0;
 
-This is also a huge function. The Linux coding style says:
+phy_start() is normally done in open, not probe.
 
-     Functions should be short and sweet, and do just one thing. They
-     should fit on one or two screenfuls of text (the ISO/ANSI screen
-     size is 80x24, as we all know), and do one thing and do that
-     well.
-
-Please break this up into lots of smaller functions which do just one
-thing.
-
-> -struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
-> +struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev)
->  {
->  	struct oa_tc6 *tc6;
->  	int ret;
-> @@ -334,11 +710,39 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
->  	if (!spi)
->  		return NULL;
->  
-> +	if (!netdev)
-> +		return NULL;
-
-Hos can this happen? Let is explode if some developer is dumb enough
-to pass a NULL.
-
-> +#define MAX_ETH_LEN	1536
-
-Where do 1536 come from? Maybe this needs an OA_TC6 prefix to make it
-clear this is specific to this protocol?
-
-      Andrew
+	    Andrew
