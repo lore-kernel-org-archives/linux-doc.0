@@ -2,347 +2,219 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D671EDE983
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 07:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF54DEDE98C
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 07:32:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232903AbjINHSx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 03:18:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39788 "EHLO
+        id S234355AbjINHc4 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 03:32:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232772AbjINHSs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 03:18:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 875C4CF3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 00:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694675874;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eEyUVXw0mWMHoikQx5FXX/6OXRLTpxgiWnfiglWGV8E=;
-        b=M9Nuf+OuEZbsEEiwAef+d9dmar2CI9bEITwpbK5f2C0gMlXqUhGT4D27GEO1fQjYJeZXs8
-        sfB27GS7bbK6BKQWIBRCw6cCFZsnnxiw1h5s3Yo4o+6POtl72HjZrVMDLPz3Zj3r9c0mS3
-        ndIeTiEUcmRsJxPcSDXy2saGSh1HgfY=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-171-jWl-bW_MO4K1VqkIE9YABQ-1; Thu, 14 Sep 2023 03:17:53 -0400
-X-MC-Unique: jWl-bW_MO4K1VqkIE9YABQ-1
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-6b9cf208fb5so819100a34.3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 00:17:53 -0700 (PDT)
+        with ESMTP id S230120AbjINHc4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 03:32:56 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E15BCFA;
+        Thu, 14 Sep 2023 00:32:52 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-59b50b4556eso7064237b3.1;
+        Thu, 14 Sep 2023 00:32:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694675872; x=1695280672;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eEyUVXw0mWMHoikQx5FXX/6OXRLTpxgiWnfiglWGV8E=;
-        b=U370SHT+Z11eHqTCz1vF+LUDVaT9QJB26rf9fscf8seJLJT9Zic2kAPsOyQoOCh9FI
-         iq4t4GUqEb+rg1mHCxTFvW6YPKxObdXvj2wdsziw5Sed6mPGpY+6hUfAgPrj5JVcXTig
-         fFY46tN7rZcC25csjomDcpc0pIJ5a7ctBRfuMBrtkIsk8MWE8/2xYq6slHCd6OSUPVVt
-         GmmlC8JQuwmbhS157Jwtq1duzy2XvBDhVsKcOt3IsdYa7KV8XAecPD86M8APx7Y8NsFB
-         +1oU9EqrmRMulSNrnwCl4Y4nEh+ppQlYz6vNWBr51OGNqZAJ+1tmFBOvzfADrc0kWDYl
-         nOEQ==
-X-Gm-Message-State: AOJu0Yw9/s9R7qPgn0/xTXza/lTPajFImAjfzaXiiw1ssVuMUrc4nFlS
-        7vSej4uJp7AyBVMVZALsrGaJfc5oDT/w8gkH8qLvr58Pfps84yB2KZNX5NO4bt/qqslo5R28Bv1
-        aJg1DXL/brM4VGGgNmI6k
-X-Received: by 2002:a9d:4b15:0:b0:6b9:ed64:1423 with SMTP id q21-20020a9d4b15000000b006b9ed641423mr5620084otf.2.1694675872308;
-        Thu, 14 Sep 2023 00:17:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGOAdtS3UbOt9zvLXyyE0sF8G5QOYDAkMf+vwqDvXVMptC9CKtp58xa3OrQHXJOdPOz3qvAzA==
-X-Received: by 2002:a9d:4b15:0:b0:6b9:ed64:1423 with SMTP id q21-20020a9d4b15000000b006b9ed641423mr5620068otf.2.1694675871980;
-        Thu, 14 Sep 2023 00:17:51 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id s189-20020a4a51c6000000b0056e67f2f92asm380519ooa.22.2023.09.14.00.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 00:17:51 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 04:17:41 -0300
-From:   Leonardo Bras <leobras@redhat.com>
-To:     Guo Ren <guoren@kernel.org>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 06/17] riscv: qspinlock: Introduce combo spinlock
-Message-ID: <ZQKzlZ69M4nwqJt_@redhat.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-7-guoren@kernel.org>
- <ZP2jL06TYGYVBhTN@gmail.com>
- <ZQIdbbzW79s5tfiI@redhat.com>
- <ZQIgTyJ-DETrK8k3@redhat.com>
- <CAJF2gTQ=K_2km_AUZj1Vg8q2XgWB49-+nxViAa1mSAfppp6dnA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1694676771; x=1695281571;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2n2ubhZrp/XvWyr+KX+wmdWC0Ev8ICvzidMCC6Gicsk=;
+        b=VrJUkUpZw8NvUgnvwhp9BYfJVrXve93Jx/Ov9SacXfE4+KkkSbg/Z8jKEVad42pBKz
+         QSTp7rEFVzIDC22qzQmeoZrEwK9zuMfjNIaA5BGgK0g4M0OAOMQzgspGKPzaPy1IWWaB
+         aBTDRaeBVqrZvFtdnP6MikDeOubT75aUJGpwI1UF8MpM73gUi/KB3qvz2BuPd86Ghje6
+         cgASYv3V+aYyljAB6HoqV7SrXGaCdYVqMBQcJaVtsoIr9LCuDC1DaxQ+z+7x8fWuRlHO
+         EoABK1DiFWM3NpKQpGi7spGImITjcIFguY14bWKpx6nzntqIUCsCQev6hRgSCmCMjztp
+         Io1A==
+X-Gm-Message-State: AOJu0YxnZPwSyGguZxdW/Gm9tTMPTPOElRo3Nr1pYOTV6OYK8Zzhg0xc
+        45x+JtJPILX1BxZ7exSUXuvpGN0DKovCSw==
+X-Google-Smtp-Source: AGHT+IEFNdWyBLY7RNU2MSK3PcN77mDzil3ng2zV0dBmD2qepN+MyyO1UB8oKBx/4/8AKHn3vFiv6g==
+X-Received: by 2002:a81:8244:0:b0:577:21ff:4d47 with SMTP id s65-20020a818244000000b0057721ff4d47mr5325018ywf.7.1694676771046;
+        Thu, 14 Sep 2023 00:32:51 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id s68-20020a0dd047000000b0059bdac3fd08sm203676ywd.48.2023.09.14.00.32.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Sep 2023 00:32:49 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-d7eccc1b8c6so743008276.0;
+        Thu, 14 Sep 2023 00:32:49 -0700 (PDT)
+X-Received: by 2002:a25:ea05:0:b0:d7a:d923:4493 with SMTP id
+ p5-20020a25ea05000000b00d7ad9234493mr5250742ybd.64.1694676769523; Thu, 14 Sep
+ 2023 00:32:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJF2gTQ=K_2km_AUZj1Vg8q2XgWB49-+nxViAa1mSAfppp6dnA@mail.gmail.com>
+References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
+ <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com> <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com>
+In-Reply-To: <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 14 Sep 2023 09:32:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
+Message-ID: <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
+To:     Evan Green <evan@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Simon Hosie <shosie@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-kernel@vger.kernel.org,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        David Laight <David.Laight@aculab.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Andy Chiu <andy.chiu@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 14, 2023 at 12:49:45PM +0800, Guo Ren wrote:
-> On Thu, Sep 14, 2023 at 4:49 AM Leonardo Bras <leobras@redhat.com> wrote:
-> >
-> > On Wed, Sep 13, 2023 at 05:37:01PM -0300, Leonardo Bras wrote:
-> > > On Sun, Sep 10, 2023 at 07:06:23AM -0400, Guo Ren wrote:
-> > > > On Sun, Sep 10, 2023 at 04:29:00AM -0400, guoren@kernel.org wrote:
-> > > > > From: Guo Ren <guoren@linux.alibaba.com>
-> > > > >
-> > > > > Combo spinlock could support queued and ticket in one Linux Image and
-> > > > > select them during boot time via errata mechanism. Here is the func
-> > > > > size (Bytes) comparison table below:
-> > > > >
-> > > > > TYPE                      : COMBO | TICKET | QUEUED
-> > > > > arch_spin_lock            : 106   | 60     | 50
-> > > > > arch_spin_unlock  : 54    | 36     | 26
-> > > > > arch_spin_trylock : 110   | 72     | 54
-> > > > > arch_spin_is_locked       : 48    | 34     | 20
-> > > > > arch_spin_is_contended    : 56    | 40     | 24
-> > > > > rch_spin_value_unlocked   : 48    | 34     | 24
-> > > > >
-> > > > > One example of disassemble combo arch_spin_unlock:
-> > > > >    0xffffffff8000409c <+14>:    nop                # detour slot
-> > > > >    0xffffffff800040a0 <+18>:    fence   rw,w       # queued spinlock start
-> > > > >    0xffffffff800040a4 <+22>:    sb      zero,0(a4) # queued spinlock end
-> > > > >    0xffffffff800040a8 <+26>:    ld      s0,8(sp)
-> > > > >    0xffffffff800040aa <+28>:    addi    sp,sp,16
-> > > > >    0xffffffff800040ac <+30>:    ret
-> > > > >    0xffffffff800040ae <+32>:    lw      a5,0(a4)   # ticket spinlock start
-> > > > >    0xffffffff800040b0 <+34>:    sext.w  a5,a5
-> > > > >    0xffffffff800040b2 <+36>:    fence   rw,w
-> > > > >    0xffffffff800040b6 <+40>:    addiw   a5,a5,1
-> > > > >    0xffffffff800040b8 <+42>:    slli    a5,a5,0x30
-> > > > >    0xffffffff800040ba <+44>:    srli    a5,a5,0x30
-> > > > >    0xffffffff800040bc <+46>:    sh      a5,0(a4)   # ticket spinlock end
-> > > > >    0xffffffff800040c0 <+50>:    ld      s0,8(sp)
-> > > > >    0xffffffff800040c2 <+52>:    addi    sp,sp,16
-> > > > >    0xffffffff800040c4 <+54>:    ret
-> > > > >
-> > > > > The qspinlock is smaller and faster than ticket-lock when all are in
-> > > > > fast-path, and combo spinlock could provide a compatible Linux Image
-> > > > > for different micro-arch design (weak/strict fwd guarantee LR/SC)
-> > > > > processors.
-> > > > >
-> > > > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > > > > ---
-> > > > >  arch/riscv/Kconfig                |  9 +++-
-> > > > >  arch/riscv/include/asm/spinlock.h | 78 ++++++++++++++++++++++++++++++-
-> > > > >  arch/riscv/kernel/setup.c         | 14 ++++++
-> > > > >  3 files changed, 98 insertions(+), 3 deletions(-)
-> > > > >
-> > > > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > > > > index 7f39bfc75744..4bcff2860f48 100644
-> > > > > --- a/arch/riscv/Kconfig
-> > > > > +++ b/arch/riscv/Kconfig
-> > > > > @@ -473,7 +473,7 @@ config NODES_SHIFT
-> > > > >
-> > > > >  choice
-> > > > >   prompt "RISC-V spinlock type"
-> > > > > - default RISCV_TICKET_SPINLOCKS
-> > > > > + default RISCV_COMBO_SPINLOCKS
-> > > > >
-> > > > >  config RISCV_TICKET_SPINLOCKS
-> > > > >   bool "Using ticket spinlock"
-> > > > > @@ -485,6 +485,13 @@ config RISCV_QUEUED_SPINLOCKS
-> > > > >   help
-> > > > >     Make sure your micro arch LL/SC has a strong forward progress guarantee.
-> > > > >     Otherwise, stay at ticket-lock.
-> > > > > +
-> > > > > +config RISCV_COMBO_SPINLOCKS
-> > > > > + bool "Using combo spinlock"
-> > > > > + depends on SMP && MMU
-> > > > > + select ARCH_USE_QUEUED_SPINLOCKS
-> > > > > + help
-> > > > > +   Select queued spinlock or ticket-lock via errata.
-> > > > >  endchoice
-> > > > >
-> > > > >  config RISCV_ALTERNATIVE
-> > > > > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
-> > > > > index c644a92d4548..8ea0fee80652 100644
-> > > > > --- a/arch/riscv/include/asm/spinlock.h
-> > > > > +++ b/arch/riscv/include/asm/spinlock.h
-> > > > > @@ -7,11 +7,85 @@
-> > > > >  #define _Q_PENDING_LOOPS (1 << 9)
-> > > > >  #endif
-> > > > >
-> > > > > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> > > > > +#include <asm-generic/ticket_spinlock.h>
-> > > > > +
-> > > > > +#undef arch_spin_is_locked
-> > > > > +#undef arch_spin_is_contended
-> > > > > +#undef arch_spin_value_unlocked
-> > > > > +#undef arch_spin_lock
-> > > > > +#undef arch_spin_trylock
-> > > > > +#undef arch_spin_unlock
-> > > > > +
-> > > > > +#include <asm-generic/qspinlock.h>
-> > > > > +#include <linux/jump_label.h>
-> > > > > +
-> > > > > +#undef arch_spin_is_locked
-> > > > > +#undef arch_spin_is_contended
-> > > > > +#undef arch_spin_value_unlocked
-> > > > > +#undef arch_spin_lock
-> > > > > +#undef arch_spin_trylock
-> > > > > +#undef arch_spin_unlock
-> > > > Sorry, I forgot __no_arch_spinlock_redefine advice here. I would add it in v12.
-> > > > https://lore.kernel.org/linux-riscv/4cc7113a-0e4e-763a-cba2-7963bcd26c7a@redhat.com/
-> > > >
+Hi Evan,
+
+On Wed, Sep 13, 2023 at 7:46 PM Evan Green <evan@rivosinc.com> wrote:
+> On Wed, Sep 13, 2023 at 5:36 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, Aug 18, 2023 at 9:44 PM Evan Green <evan@rivosinc.com> wrote:
+> > > Rather than deferring unaligned access speed determinations to a vendor
+> > > function, let's probe them and find out how fast they are. If we
+> > > determine that an unaligned word access is faster than N byte accesses,
+> > > mark the hardware's unaligned access as "fast". Otherwise, we mark
+> > > accesses as slow.
 > > >
-> > > Please check a reply to a previous patch I sent earlier: I think these
-> > > #undef can be avoided.
+> > > The algorithm itself runs for a fixed amount of jiffies. Within each
+> > > iteration it attempts to time a single loop, and then keeps only the best
+> > > (fastest) loop it saw. This algorithm was found to have lower variance from
+> > > run to run than my first attempt, which counted the total number of
+> > > iterations that could be done in that fixed amount of jiffies. By taking
+> > > only the best iteration in the loop, assuming at least one loop wasn't
+> > > perturbed by an interrupt, we eliminate the effects of interrupts and
+> > > other "warm up" factors like branch prediction. The only downside is it
+> > > depends on having an rdtime granular and accurate enough to measure a
+> > > single copy. If we ever manage to complete a loop in 0 rdtime ticks, we
+> > > leave the unaligned setting at UNKNOWN.
 > > >
-> > > > > +
-> > > > > +DECLARE_STATIC_KEY_TRUE(combo_qspinlock_key);
-> > > > > +
-> > > > > +static __always_inline void arch_spin_lock(arch_spinlock_t *lock)
-> > > > > +{
-> > > > > + if (static_branch_likely(&combo_qspinlock_key))
-> > > > > +         queued_spin_lock(lock);
-> > > > > + else
-> > > > > +         ticket_spin_lock(lock);
-> > > > > +}
-> > > > > +
-> > > > > +static __always_inline bool arch_spin_trylock(arch_spinlock_t *lock)
-> > > > > +{
-> > > > > + if (static_branch_likely(&combo_qspinlock_key))
-> > > > > +         return queued_spin_trylock(lock);
-> > > > > + else
-> > > > > +         return ticket_spin_trylock(lock);
-> > > > > +}
-> > > > > +
-> > > > > +static __always_inline void arch_spin_unlock(arch_spinlock_t *lock)
-> > > > > +{
-> > > > > + if (static_branch_likely(&combo_qspinlock_key))
-> > > > > +         queued_spin_unlock(lock);
-> > > > > + else
-> > > > > +         ticket_spin_unlock(lock);
-> > > > > +}
-> > > > > +
-> > > > > +static __always_inline int arch_spin_value_unlocked(arch_spinlock_t lock)
-> > > > > +{
-> > > > > + if (static_branch_likely(&combo_qspinlock_key))
-> > > > > +         return queued_spin_value_unlocked(lock);
-> > > > > + else
-> > > > > +         return ticket_spin_value_unlocked(lock);
-> > > > > +}
-> > > > > +
-> > > > > +static __always_inline int arch_spin_is_locked(arch_spinlock_t *lock)
-> > > > > +{
-> > > > > + if (static_branch_likely(&combo_qspinlock_key))
-> > > > > +         return queued_spin_is_locked(lock);
-> > > > > + else
-> > > > > +         return ticket_spin_is_locked(lock);
-> > > > > +}
-> > > > > +
-> > > > > +static __always_inline int arch_spin_is_contended(arch_spinlock_t *lock)
-> > > > > +{
-> > > > > + if (static_branch_likely(&combo_qspinlock_key))
-> > > > > +         return queued_spin_is_contended(lock);
-> > > > > + else
-> > > > > +         return ticket_spin_is_contended(lock);
-> > > > > +}
-> > > > > +#else /* CONFIG_RISCV_COMBO_SPINLOCKS */
-> > > > > +
+> > > There is a slight change in user-visible behavior here. Previously, all
+> > > boards except the THead C906 reported misaligned access speed of
+> > > UNKNOWN. C906 reported FAST. With this change, since we're now measuring
+> > > misaligned access speed on each hart, all RISC-V systems will have this
+> > > key set as either FAST or SLOW.
+> > >
+> > > Currently, we don't have a way to confidently measure the difference between
+> > > SLOW and EMULATED, so we label anything not fast as SLOW. This will
+> > > mislabel some systems that are actually EMULATED as SLOW. When we get
+> > > support for delegating misaligned access traps to the kernel (as opposed
+> > > to the firmware quietly handling it), we can explicitly test in Linux to
+> > > see if unaligned accesses trap. Those systems will start to report
+> > > EMULATED, though older (today's) systems without that new SBI mechanism
+> > > will continue to report SLOW.
+> > >
+> > > I've updated the documentation for those hwprobe values to reflect
+> > > this, specifically: SLOW may or may not be emulated by software, and FAST
+> > > represents means being faster than equivalent byte accesses. The change
+> > > in documentation is accurate with respect to both the former and current
+> > > behavior.
+> > >
+> > > Signed-off-by: Evan Green <evan@rivosinc.com>
+> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > >
-> > Also, those functions all reproduce the same behavior, so maybe it would be
-> > better to keep that behavior in a macro such as:
+> > Thanks for your patch, which is now commit 584ea6564bcaead2 ("RISC-V:
+> > Probe for unaligned access speed") in v6.6-rc1.
 > >
-> > #define COMBO_SPINLOCK_DECLARE(f)                                       \
-> > static __always_inline int arch_spin_ ## f(arch_spinlock_t *lock)       \
-> > {                                                                       \
-> >         if (static_branch_likely(&combo_qspinlock_key))                 \
-> >                 return queued_spin_ ## f(lock);                         \
-> >         else                                                            \
-> >                 return ticket_spin_ ## f(lock);                         \
-> > }
+> > On the boards I have, I get:
 > >
-> > COMBO_SPINLOCK_DECLARE(lock)
-> > COMBO_SPINLOCK_DECLARE(trylock)
-> > COMBO_SPINLOCK_DECLARE(unlock)
-> > COMBO_SPINLOCK_DECLARE(value_unlocked)
-> > COMBO_SPINLOCK_DECLARE(is_locked)
-> > COMBO_SPINLOCK_DECLARE(is_contended)
-> >
-> > Does that make sense?
-> Yeah, thanks. I would try. You improved my macro skills. :)
+> >     rzfive:
+> >         cpu0: Ratio of byte access time to unaligned word access is
+> > 1.05, unaligned accesses are fast
+>
+> Hrm, I'm a little surprised to be seeing this number come out so close
+> to 1. If you reboot a few times, what kind of variance do you get on
+> this?
 
-Glad to be of any help :)
+Rock-solid at 1.05 (even with increased resolution: 1.05853 on 3 tries)
 
-> 
+> >     icicle:
 > >
-> > Thanks!
-> > Leo
+> >         cpu1: Ratio of byte access time to unaligned word access is
+> > 0.00, unaligned accesses are slow
+> >         cpu2: Ratio of byte access time to unaligned word access is
+> > 0.00, unaligned accesses are slow
+> >         cpu3: Ratio of byte access time to unaligned word access is
+> > 0.00, unaligned accesses are slow
 > >
-> >
-> > > > >  #ifdef CONFIG_QUEUED_SPINLOCKS
-> > > > >  #include <asm/qspinlock.h>
-> > > > > -#include <asm/qrwlock.h>
-> > > > >  #else
-> > > > > -#include <asm-generic/spinlock.h>
-> > > > > +#include <asm-generic/ticket_spinlock.h>
-> > > > >  #endif
-> > > > >
-> > > > > +#endif /* CONFIG_RISCV_COMBO_SPINLOCKS */
-> > > > > +
-> > > > > +#include <asm/qrwlock.h>
-> > > > > +
-> > > > >  #endif /* __ASM_RISCV_SPINLOCK_H */
-> > > > > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > > > > index 32c2e1eb71bd..a447cf360a18 100644
-> > > > > --- a/arch/riscv/kernel/setup.c
-> > > > > +++ b/arch/riscv/kernel/setup.c
-> > > > > @@ -269,6 +269,18 @@ static void __init parse_dtb(void)
-> > > > >  #endif
-> > > > >  }
-> > > > >
-> > > > > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> > > > > +DEFINE_STATIC_KEY_TRUE(combo_qspinlock_key);
-> > > > > +EXPORT_SYMBOL(combo_qspinlock_key);
-> > > > > +#endif
-> > > > > +
-> > > > > +static void __init riscv_spinlock_init(void)
-> > > > > +{
-> > > > > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> > > > > + static_branch_disable(&combo_qspinlock_key);
-> > > > > +#endif
-> > > > > +}
-> > > > > +
-> > > > >  extern void __init init_rt_signal_env(void);
-> > > > >
-> > > > >  void __init setup_arch(char **cmdline_p)
-> > > > > @@ -317,6 +329,8 @@ void __init setup_arch(char **cmdline_p)
-> > > > >       riscv_isa_extension_available(NULL, ZICBOM))
-> > > > >           riscv_noncoherent_supported();
-> > > > >   riscv_set_dma_cache_alignment();
-> > > > > +
-> > > > > + riscv_spinlock_init();
-> > > > >  }
-> > > > >
-> > > > >  static int __init topology_init(void)
-> > > > > --
-> > > > > 2.36.1
-> > > > >
-> > > > >
-> > > > > _______________________________________________
-> > > > > linux-riscv mailing list
-> > > > > linux-riscv@lists.infradead.org
-> > > > > http://lists.infradead.org/mailman/listinfo/linux-riscv
-> > > > >
-> > > >
-> >
-> 
-> 
-> -- 
-> Best Regards
->  Guo Ren
-> 
+> >         cpu0: Ratio of byte access time to unaligned word access is
+> > 0.00, unaligned accesses are slow
 
+cpu1: Ratio of byte access time to unaligned word access is 0.00344,
+unaligned accesses are slow
+cpu2: Ratio of byte access time to unaligned word access is 0.00343,
+unaligned accesses are slow
+cpu3: Ratio of byte access time to unaligned word access is 0.00343,
+unaligned accesses are slow
+cpu0: Ratio of byte access time to unaligned word access is 0.00340,
+unaligned accesses are slow
+
+> >     k210:
+> >
+> >         cpu1: Ratio of byte access time to unaligned word access is
+> > 0.02, unaligned accesses are slow
+> >         cpu0: Ratio of byte access time to unaligned word access is
+> > 0.02, unaligned accesses are slow
+
+cpu1: Ratio of byte access time to unaligned word access is 0.02392,
+unaligned accesses are slow
+cpu0: Ratio of byte access time to unaligned word access is 0.02084,
+unaligned accesses are slow
+
+> >     starlight:
+> >
+> >         cpu1: Ratio of byte access time to unaligned word access is
+> > 0.01, unaligned accesses are slow
+> >         cpu0: Ratio of byte access time to unaligned word access is
+> > 0.02, unaligned accesses are slow
+
+cpu1: Ratio of byte access time to unaligned word access is 0.01872,
+unaligned accesses are slow
+cpu0: Ratio of byte access time to unaligned word access is 0.01930,
+unaligned accesses are slow
+
+> >     vexriscv/orangecrab:
+> >
+> >         cpu0: Ratio of byte access time to unaligned word access is
+> > 0.00, unaligned accesses are slow
+
+cpu0: Ratio of byte access time to unaligned word access is 0.00417,
+unaligned accesses are slow
+
+> > I am a bit surprised by the near-zero values.  Are these expected?
+>
+> This could be expected, if firmware is trapping the unaligned accesses
+> and coming out >100x slower than a native access. If you're interested
+> in getting a little more resolution, you could try to print a few more
+> decimal places with something like (sorry gmail mangles the whitespace
+> on this):
+
+Looks like you need to add one digit to get anything useful on half of the
+systems.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
