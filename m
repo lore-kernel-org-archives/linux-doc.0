@@ -2,78 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD170EEAA77
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 21:04:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 129C9EEAA71
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 21:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbjINVE5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 17:04:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42008 "EHLO
+        id S229547AbjINVIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 17:08:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjINVE4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 17:04:56 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DB0269D
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 14:04:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694725492; x=1726261492;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1HFqFpn6qRMJmPH5QN0s5azNTELpxThwJWafI5yh5K0=;
-  b=cWNEaBW1kzbHB0OAQQ1BfaKxP3lsfugtaV4uxw6sU1XegnmFKY0pu/2v
-   Ole8qBVTjW0s6C2ndLJoGwVC1kM17HYTBdGvIYZBzmBJzs019GNip/Uxl
-   Iw9EmM3QO2fXHOc+BbQ3OlFlT9l0Ui0sXawSgVfz/SWwb2ayzakqsnLb4
-   4QQB4PswKFsBCsZBXtQaW2dq7tOo9wtXl9k2SJIguINUgNCi7frw1ey3J
-   R6SkJGIQPMRFzGwgcZfpmNhtI4O9ADrGDpVYfPPks5foQaSmpT0M0n1LM
-   953OmPwtyoYSFtYeWbQgXSEP8qTGobJsemGXkQmpRny6r3ppp6BnIIca+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378996056"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="378996056"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 14:04:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="918379557"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="918379557"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Sep 2023 14:04:49 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qgtW3-00024N-1I;
-        Thu, 14 Sep 2023 21:04:47 +0000
-Date:   Fri, 15 Sep 2023 05:04:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        with ESMTP id S229493AbjINVId (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 17:08:33 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8273D269D
+        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 14:08:29 -0700 (PDT)
+Received: from localhost (cm-staticip-85-152-42-27.telecable.es [85.152.42.27])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 92F5160A;
+        Thu, 14 Sep 2023 21:08:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 92F5160A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1694725709; bh=kR9e4S/RNB8zocHUioWuHoToYEzeErosm4K3eciMUAA=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=PpIfeG0wdk9SQQdg7VyYJcHHIS0BjhhjwQ9s4NgBh3bvDz+JAMPqPi14PjTuEppS+
+         p+trVLd8Ing1fC8UBCW35BDF0aEgsqzf8vsZ+FP3BeqsIIq5mRaIZxJTtxGrHAm8ly
+         QiavMlRPkeRre8xOqnCrZ0FQygdffpaOux3gd8yPREUjLFM3XQIdZRY54kSYdXJKIX
+         qOtv01NDzKRiTp2vfYz8BmD0sUNL1Jru/4ElZlnuFWIgYZSL4GAFf+HooO9adqIO17
+         9Ttha/GZbZLbGnsyCVArNsn9GAOTOa6rW5ZNUgg3Q8NFzk0nbBK7RKhhsMqxc2q57q
+         UYhPx08ByprIw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     =?utf-8?Q?Ren=C3=A9?= Nyffenegger <mail@renenyffenegger.ch>,
         linux-doc@vger.kernel.org
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 83/152] htmldocs: Warning:
- Documentation/devicetree/bindings/power/wakeup-source.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-Message-ID: <202309150511.kJuaaDOi-lkp@intel.com>
+Subject: Re: [PATCH] Documentation: Reference kernel-doc for container_of
+In-Reply-To: <3e593638-fdaa-4f68-86b4-a4c8dae412dc@renenyffenegger.ch>
+References: <20230901070728.28400-1-mail@renenyffenegger.ch>
+ <87ledqm0qs.fsf@meer.lwn.net>
+ <3e593638-fdaa-4f68-86b4-a4c8dae412dc@renenyffenegger.ch>
+Date:   Thu, 14 Sep 2023 15:08:26 -0600
+Message-ID: <87edj0fool.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   e510c064ef4961248313eb1adca5b08cec056708
-commit: e2618ab264c9d17bb4c1909d9805341d800ddc02 [83/152] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
-reproduce: (https://download.01.org/0day-ci/archive/20230915/202309150511.kJuaaDOi-lkp@intel.com/reproduce)
+Ren=C3=A9 Nyffenegger <mail@renenyffenegger.ch> writes:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150511.kJuaaDOi-lkp@intel.com/
+> On 9/1/23 16:22, Jonathan Corbet wrote:
+>> Ren=C3=A9 Nyffenegger <mail@renenyffenegger.ch> writes:
+>>
+>>> The file include/linux/container_of.h contained kernel-doc but was not
+>>> referenced in any .rst file. In addition, the file
+>>> Documentation/core-api/kobject.rst wrongly located the definition
+>>> of the macro `container_of` in linux/kernel.h while in reality
+>>> it is defined in linux/container_of.h
+>>>
+>>> This patch adds a new .rst file that includes the kernel-doc of
+>>> container_of.h and rectifies the wrong reference of the header
+>>> file.
+>>>
+>>> Signed-off-by: Ren=C3=A9 Nyffenegger <mail@renenyffenegger.ch>
+>> Thank you for working to improve the kernel documentation!
+>>
+>> There are, though, a few problems with this patch that will need to be
+>> addressed before it can be accepted.  To start, please cc the maintainer
+>> (i.e. me) on documentation changes.
+>>
+> Thanks for looking at my attempt to patch the documentations.
+>
+> I tried to create an improved patch:
+> https://lore.kernel.org/linux-doc/20230902210422.8092-1-mail@renenyffeneg=
+ger.ch/T/
+>
+> However, I did not receive any feedback. So, I am wondering if I am
+> still making mistakes. In order to improve, I'd appreciate a feedback
+> what I need to change to create the patch.
 
-All warnings (new ones prefixed by >>):
+Sorry, I do have feedback, but between the merge window and travel I've
+fallen behind on things.  I'll get there, honest.
 
->> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+Thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+jon
