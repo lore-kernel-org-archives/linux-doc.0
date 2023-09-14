@@ -2,116 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 469D9EEAA40
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 14:26:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 722AEEEAA4F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 14:42:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239899AbjINO0G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 10:26:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34850 "EHLO
+        id S240099AbjINOmK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 10:42:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239945AbjINO0G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 10:26:06 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2ADE1A2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 07:26:01 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-401b5516104so10726625e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 07:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1694701560; x=1695306360; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YG4jj4GnceKWHFc9CDsOyyvWCOlMS/zle7Y09KSgtKI=;
-        b=g9aO+D0A7Vn87/QKbx6OjNyzvS41oJJljAbyt1gOMP0HFE/p0xVhJfDJyruCGJezsL
-         0Xp8U7T7SpVCoNljpptT6C8MQ3S8eOsCAMOBtX1wFniGrHDubaDjs++2PM9seSsFmVRv
-         i6pcY7ZcBzDbA+T4cOZtjvJYJPtWouq5DCINtoEMPlJYoUYS/7JstacfGZVNa56xbnxY
-         x9YkPFKN26qHx9kqXWnJ4aq4rvwAbRCYuKu3warY8gcutISNPKUNITeesF+LbvuReeVl
-         CA6RDVqiLMVMZaDVFD66wIuI5kGF2FlxSL1GXMa4JshALqWLyijVeJp3axBBWcHyd9kP
-         urcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694701560; x=1695306360;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YG4jj4GnceKWHFc9CDsOyyvWCOlMS/zle7Y09KSgtKI=;
-        b=ctPlj5TKN7M2TamZ8flsAjoWVmx5yKUVm/PgOSSYM1zXttrIZxLMgyGDhqyD3F6Ucc
-         qxmNLdZIsf45RFeCz5lmPjVaFUgCJpj63Dz75SSPKsad+nOUfBJJPrU5nKSaEIfcOKZn
-         aOAZZFoTYUNyq46XDQ0u27qgGV8Xv4dq+oi1WFqHfFampI7PjUwHml9kWNlm5S1hTnXD
-         26bpci2Q5oy7G7Kg+XOWexqXZ6pSeGPsLXYwAKm0mSyyB8ijJ4lK2BTuyTpcRqqapfoE
-         4UH+dYt7jzFtIWEPw5AITj3eh/UgNcCn94ELin6Cu4P227IZSrGKZxIl8+h6Q+YjOWTq
-         ih+A==
-X-Gm-Message-State: AOJu0YwE97kBcvxx8NgO1MvPZE0V1koYsZmjuR6Nu/W/NqziQa+YyrLW
-        Suz7aQW9o2VK9lBGJTkHIDCqpQ==
-X-Google-Smtp-Source: AGHT+IFWc50omqudDyR0Nh+pUUfbse+nkODV23h/mlFUP8m4u/vojRIjASaeifFA7VSOhcKfy6pcrw==
-X-Received: by 2002:a05:600c:c8:b0:402:f5c2:c6d9 with SMTP id u8-20020a05600c00c800b00402f5c2c6d9mr5110748wmm.37.1694701559948;
-        Thu, 14 Sep 2023 07:25:59 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id f7-20020adff987000000b0031c8a43712asm1914525wrr.69.2023.09.14.07.25.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 07:25:59 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 16:25:53 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     guoren@kernel.org
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, jszhang@kernel.org, wefu@redhat.com,
-        wuwei2016@iscas.ac.cn, leobras@redhat.com,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 03/17] riscv: Use Zicbop in arch_xchg when available
-Message-ID: <20230914-892327a75b4b86badac5de02@orel>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-4-guoren@kernel.org>
+        with ESMTP id S234071AbjINOmK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 10:42:10 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 228E71BE1;
+        Thu, 14 Sep 2023 07:42:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801DBC433C7;
+        Thu, 14 Sep 2023 14:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694702525;
+        bh=O9w4R0Iu6/XNvjfu2aj/DjJkGOobrTu4cV0g3uZvCyc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ed497R3ieIebv7g5fw/xSOgE3pjwdUxNHnBc/LRisrd3WOhjfXkVlP1xUfG6GZ1dh
+         yhMvzh0fLaKCjCh9EIfdwFf5u+um7WgmHDVhRcKGUU8HNwl3JZqr4ynQ08IuGfWizT
+         TK+ihlUxtec6fRDNTjfobbb5uPVC+wIxfXiOsu0rKFDCdIsGCjMC8v5JkXv0uWl9Q+
+         kPvHCkw3F4uvq3l8umHhUpVRUnhHc646iJA50d96tmNV8KJ3Mrgf74hC0AkTtpa1cy
+         AXDOAs05ebD2GTWCm/eg+6nwKZXz5cn0jjAxYqNt1bcv43PD4BVh4C7CVkkXZUq4mr
+         7UI9/X2DP/L+Q==
+Date:   Thu, 14 Sep 2023 15:42:01 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] dt-bindings: hwmon: Add possible new properties
+ to max31827 bindings
+Message-ID: <20230914-qualify-ragweed-b06b7b7923c9@spud>
+References: <20230914075948.208046-1-daniel.matyas@analog.com>
+ <20230914075948.208046-2-daniel.matyas@analog.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="71snxAjsMqH/MtRQ"
 Content-Disposition: inline
-In-Reply-To: <20230910082911.3378782-4-guoren@kernel.org>
+In-Reply-To: <20230914075948.208046-2-daniel.matyas@analog.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 10, 2023 at 04:28:57AM -0400, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
-> 
-> Cache-block prefetch instructions are HINTs to the hardware to
-> indicate that software intends to perform a particular type of
-> memory access in the near future. Enable ARCH_HAS_PREFETCHW and
-> improve the arch_xchg for qspinlock xchg_tail.
-> 
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> ---
->  arch/riscv/Kconfig                 | 15 +++++++++++++++
->  arch/riscv/include/asm/cmpxchg.h   |  4 +++-
->  arch/riscv/include/asm/hwcap.h     |  1 +
->  arch/riscv/include/asm/insn-def.h  |  5 +++++
->  arch/riscv/include/asm/processor.h | 13 +++++++++++++
->  arch/riscv/kernel/cpufeature.c     |  1 +
->  6 files changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index e9ae6fa232c3..2c346fe169c1 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -617,6 +617,21 @@ config RISCV_ISA_ZICBOZ
->  
->  	   If you don't know what to do here, say Y.
->  
-> +config RISCV_ISA_ZICBOP
 
-Even if we're not concerned with looping over blocks yet, I think we
-should introduce zicbop block size DT parsing at the same time we bring
-zicbop support to the kernel (it's just more copy+paste from zicbom and
-zicboz). It's a bit annoying that the CMO spec doesn't state that block
-sizes should be the same for m/z/p. And, the fact that m/z/p are all
-separate extensions leads us to needing to parse block sizes for all
-three, despite the fact that in practice they'll probably be the same.
+--71snxAjsMqH/MtRQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Sep 14, 2023 at 10:59:45AM +0300, Daniel Matyas wrote:
+> These modify the corresponding bits in the configuration register.
+>=20
+> adi,comp-int is a hardware property, because it affects the behavior
+> of the interrupt signal and whatever it is connected to.
+>=20
+> adi,timeout-enable is a hardware property, because it affects i2c
+> bus operation.
+>=20
+> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> ---
+>=20
+> v2 -> v3: Changed commit subject and message
+>=20
+> v1 -> v2: Added adi,timeout-enable property to binding. Fixed
+> dt_binding_check errors.
+>=20
+>  .../bindings/hwmon/adi,max31827.yaml          | 35 +++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/=
+Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> index 2dc8b07b4d3b..6bde71bdb8dd 100644
+> --- a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> @@ -32,6 +32,37 @@ properties:
+>        Must have values in the interval (1.6V; 3.6V) in order for the dev=
+ice to
+>        function correctly.
+> =20
+> +  adi,comp-int:
+> +    description:
+> +      If present interrupt mode is used. If not present comparator mode =
+is used
+> +      (default).
+> +    type: boolean
+> +
+> +  adi,alrm-pol:
+
+Characters are not at a premium, is there a reason not to use the full
+words? "flt-q" in particular would be quite cryptic if I saw it in a
+dts.
+
+> +    description:
+> +      Sets the alarms active state.
+> +            - 0 =3D active low
+> +            - 1 =3D active high
+> +      For max31827 and max31828 the default alarm polarity is low. For m=
+ax31829
+> +      it is high.
+
+This constraint can be expressed in the binding, rather than in free
+form text like done here. Ditto below.
 
 Thanks,
-drew
+Conor.
+
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1]
+> +
+> +  adi,flt-q:
+> +    description:
+> +      Select how many consecutive temperature faults must occur before
+> +      overtemperature or undertemperature faults are indicated in the
+> +      corresponding status bits.
+> +      For max31827 default fault queue is 1. For max31828 and max31829 i=
+t is 4.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [1, 2, 4, 8]
+> +
+> +  adi,timeout-enable:
+> +    description:
+> +      Enables timeout. Bus timeout resets the I2C-compatible interface w=
+hen SCL
+> +      is low for more than 30ms (nominal).
+> +    type: boolean
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -49,6 +80,10 @@ examples:
+>              compatible =3D "adi,max31827";
+>              reg =3D <0x42>;
+>              vref-supply =3D <&reg_vdd>;
+> +            adi,comp-int;
+> +            adi,alrm-pol =3D <0>;
+> +            adi,flt-q =3D <1>;
+> +            adi,timeout-enable;
+>          };
+>      };
+>  ...
+> --=20
+> 2.34.1
+>=20
+
+--71snxAjsMqH/MtRQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQMbuQAKCRB4tDGHoIJi
+0gqiAQDbZmcqv2uLoYCOMuAvkhjjcMC3XJyStjoO3fVxrPd9BQEA4h/jctruYGgi
+yrh/mEKmKTQtA3z6WR3RqxXxaJ2mowA=
+=RMiX
+-----END PGP SIGNATURE-----
+
+--71snxAjsMqH/MtRQ--
