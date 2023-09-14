@@ -2,272 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CCA4EEAA7C
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 22:46:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC440EEAA7B
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 23:00:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbjINWqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 18:46:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47958 "EHLO
+        id S230041AbjINXAs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 19:00:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbjINWqH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 18:46:07 -0400
-X-Greylist: delayed 364 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Sep 2023 15:46:02 PDT
-Received: from raptorengineering.com (mail.raptorengineering.com [23.155.224.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88F326B7;
-        Thu, 14 Sep 2023 15:46:02 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.rptsys.com (Postfix) with ESMTP id 2E848828548A;
-        Thu, 14 Sep 2023 17:39:57 -0500 (CDT)
-Received: from mail.rptsys.com ([127.0.0.1])
-        by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id NSBzXeeNdZnd; Thu, 14 Sep 2023 17:39:56 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.rptsys.com (Postfix) with ESMTP id DDAF582855BB;
-        Thu, 14 Sep 2023 17:39:55 -0500 (CDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rptsys.com DDAF582855BB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raptorengineering.com; s=B8E824E6-0BE2-11E6-931D-288C65937AAD;
-        t=1694731195; bh=4wWmRk9vKnyCrbEIxInvXUMcBh4lG6WiQHGocKH4Sis=;
-        h=From:To:Date:Message-Id:MIME-Version;
-        b=mumuRQ+Z+P+pn/JRSjSlfVfVffAHGssB17QTsDkNPQI8bQ3c4xgpRgHddmPagJ1Gx
-         qbK3DHZ5M0wMaQuqGZVzgx8IyTZLMvhh38K4B5z0VsJomqUEXMrupDVpI9QaIwEWPq
-         /sT2Mg5Bz6Ib3mnzqp7OVJG3QHqfGFhGYedTuP/g=
-X-Virus-Scanned: amavisd-new at rptsys.com
-Received: from mail.rptsys.com ([127.0.0.1])
-        by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id CY7GKcQXnydf; Thu, 14 Sep 2023 17:39:55 -0500 (CDT)
-Received: from raptor-ewks-026.rptsys.com (5.edge.rptsys.com [23.155.224.38])
-        by mail.rptsys.com (Postfix) with ESMTPSA id 65CB1828548A;
-        Thu, 14 Sep 2023 17:39:55 -0500 (CDT)
-From:   Timothy Pearson <tpearson@raptorengineering.com>
-To:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Timothy Pearson <tpearson@raptorengineering.com>,
-        Shawn Anastasio <sanastasio@raptorengineering.com>
-Subject: [PATCH] hwmon: (adt7475) Add support for Imon readout on ADT7490
-Date:   Thu, 14 Sep 2023 17:39:47 -0500
-Message-Id: <20230914223947.829025-1-tpearson@raptorengineering.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229818AbjINXAr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 19:00:47 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA63E6A;
+        Thu, 14 Sep 2023 16:00:43 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1694732439;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y9UPmbkXZRNuioCyvMTxakQr1LFj1kbpXONIFu2xSbU=;
+        b=lg2xYIiFHmDQ94KTGhglBSA6Z0t67NpbKHOIiF7u/MK/QNmaP++hoHuiLV+K+pCpRbvrny
+        3/iljaw4BlgVWi/Axp6VS4fmMqKGyXg21eMc5ZV4tP/U4RlYANeOwmzU8va1MEOljqy3TT
+        btUeGlhB3sh0EMaUYvltsYDxwKSXnXEylIIdoo/fFFa9bHszzToBmfF7mWfvAeUCCTtYF7
+        dLVR6DZAro2zzE9j6g8fxSwh1UCUDJaHZwjyB+5Hh3UOpHfdYzQSP58MDIwDkxgh0AroPW
+        ApRPA6r3z/oN2U1ADa5bw8cimXbGYP6+gkTTb8YmUICXl2qp0JQtDGwblbFK+A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1694732439;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y9UPmbkXZRNuioCyvMTxakQr1LFj1kbpXONIFu2xSbU=;
+        b=48C9u5FtSr/8YhitFLfTJzZIuTnlSrzcd0C4TaCewwtRO7Oehv/gGi/6/V2pnG6aVMDDrx
+        +xZpy5dDgM7R8iDQ==
+To:     andrew.cooper3@citrix.com, Xin Li <xin3.li@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
+Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+        pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
+        jgross@suse.com, ravi.v.shankar@intel.com, mhiramat@kernel.org,
+        jiangshanlai@gmail.com
+Subject: Re: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
+In-Reply-To: <6f5678ff-f8b1-9ada-c8c7-f32cfb77263a@citrix.com>
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-4-xin3.li@intel.com>
+ <6f5678ff-f8b1-9ada-c8c7-f32cfb77263a@citrix.com>
+Date:   Fri, 15 Sep 2023 01:00:39 +0200
+Message-ID: <87y1h81ht4.ffs@tglx>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for the ADT7490's Imon voltage readout. It is handled
-largely the same way as the existing Vtt readout.
+Andrew!
 
-Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
-Co-developed-by: Shawn Anastasio <sanastasio@raptorengineering.com>
-Signed-off-by: Shawn Anastasio <sanastasio@raptorengineering.com>
----
- Documentation/hwmon/adt7475.rst |  3 +-
- drivers/hwmon/adt7475.c         | 68 ++++++++++++++++++++++++++++++---
- 2 files changed, 64 insertions(+), 7 deletions(-)
+On Thu, Sep 14 2023 at 15:05, andrew wrote:
+> On 14/09/2023 5:47 am, Xin Li wrote:
+>> +static __always_inline void wrmsrns(u32 msr, u64 val)
+>> +{
+>> +	__wrmsrns(msr, val, val >> 32);
+>> +}
+>
+> This API works in terms of this series where every WRMSRNS is hidden
+> behind a FRED check, but it's an awkward interface to use anywhere else
+> in the kernel.
 
-diff --git a/Documentation/hwmon/adt7475.rst b/Documentation/hwmon/adt7475.rst
-index ef3ea1ea9bc1..f90f769d82d6 100644
---- a/Documentation/hwmon/adt7475.rst
-+++ b/Documentation/hwmon/adt7475.rst
-@@ -90,7 +90,7 @@ ADT7476:
- 
- ADT7490:
-   * 6 voltage inputs
--  * 1 Imon input (not implemented)
-+  * 1 Imon input
-   * PECI support (not implemented)
-   * 2 GPIO pins (not implemented)
-   * system acoustics optimizations (not implemented)
-@@ -107,6 +107,7 @@ in2  VCC    (4)  VCC    (4)  VCC  (4)  VCC  (3)
- in3  5VIN   (20) 5VIN   (20)
- in4  12VIN  (21) 12VIN  (21)
- in5  VTT    (8)
-+in6  Imon   (19)
- ==== =========== =========== ========= ==========
- 
- Special Features
-diff --git a/drivers/hwmon/adt7475.c b/drivers/hwmon/adt7475.c
-index 03acadc3a6cb..4224ffb30483 100644
---- a/drivers/hwmon/adt7475.c
-+++ b/drivers/hwmon/adt7475.c
-@@ -43,6 +43,7 @@
- /* 7475 Common Registers */
- 
- #define REG_DEVREV2		0x12	/* ADT7490 only */
-+#define REG_IMON		0x1D	/* ADT7490 only */
- 
- #define REG_VTT			0x1E	/* ADT7490 only */
- #define REG_EXTEND3		0x1F	/* ADT7490 only */
-@@ -103,6 +104,9 @@
- #define REG_VTT_MIN		0x84	/* ADT7490 only */
- #define REG_VTT_MAX		0x86	/* ADT7490 only */
- 
-+#define REG_IMON_MIN		0x85	/* ADT7490 only */
-+#define REG_IMON_MAX		0x87	/* ADT7490 only */
-+
- #define VID_VIDSEL		0x80	/* ADT7476 only */
- 
- #define CONFIG2_ATTN		0x20
-@@ -123,7 +127,7 @@
- 
- /* ADT7475 Settings */
- 
--#define ADT7475_VOLTAGE_COUNT	5	/* Not counting Vtt */
-+#define ADT7475_VOLTAGE_COUNT	5	/* Not counting Vtt or Imon */
- #define ADT7475_TEMP_COUNT	3
- #define ADT7475_TACH_COUNT	4
- #define ADT7475_PWM_COUNT	3
-@@ -204,7 +208,7 @@ struct adt7475_data {
- 	u8 has_fan4:1;
- 	u8 has_vid:1;
- 	u32 alarms;
--	u16 voltage[3][6];
-+	u16 voltage[3][7];
- 	u16 temp[7][3];
- 	u16 tach[2][4];
- 	u8 pwm[4][3];
-@@ -215,7 +219,7 @@ struct adt7475_data {
- 
- 	u8 vid;
- 	u8 vrm;
--	const struct attribute_group *groups[9];
-+	const struct attribute_group *groups[10];
- };
- 
- static struct i2c_driver adt7475_driver;
-@@ -273,13 +277,14 @@ static inline u16 rpm2tach(unsigned long rpm)
- }
- 
- /* Scaling factors for voltage inputs, taken from the ADT7490 datasheet */
--static const int adt7473_in_scaling[ADT7475_VOLTAGE_COUNT + 1][2] = {
-+static const int adt7473_in_scaling[ADT7475_VOLTAGE_COUNT + 2][2] = {
- 	{ 45, 94 },	/* +2.5V */
- 	{ 175, 525 },	/* Vccp */
- 	{ 68, 71 },	/* Vcc */
- 	{ 93, 47 },	/* +5V */
- 	{ 120, 20 },	/* +12V */
- 	{ 45, 45 },	/* Vtt */
-+	{ 45, 45 },	/* Imon */
- };
- 
- static inline int reg2volt(int channel, u16 reg, u8 bypass_attn)
-@@ -369,11 +374,16 @@ static ssize_t voltage_store(struct device *dev,
- 			reg = VOLTAGE_MIN_REG(sattr->index);
- 		else
- 			reg = VOLTAGE_MAX_REG(sattr->index);
--	} else {
-+	} else if (sattr->index == 5) {
- 		if (sattr->nr == MIN)
- 			reg = REG_VTT_MIN;
- 		else
- 			reg = REG_VTT_MAX;
-+	} else {
-+		if (sattr->nr == MIN)
-+			reg = REG_IMON_MIN;
-+		else
-+			reg = REG_IMON_MAX;
- 	}
- 
- 	i2c_smbus_write_byte_data(client, reg,
-@@ -1104,6 +1114,10 @@ static SENSOR_DEVICE_ATTR_2_RO(in5_input, voltage, INPUT, 5);
- static SENSOR_DEVICE_ATTR_2_RW(in5_max, voltage, MAX, 5);
- static SENSOR_DEVICE_ATTR_2_RW(in5_min, voltage, MIN, 5);
- static SENSOR_DEVICE_ATTR_2_RO(in5_alarm, voltage, ALARM, 31);
-+static SENSOR_DEVICE_ATTR_2_RO(in6_input, voltage, INPUT, 6);
-+static SENSOR_DEVICE_ATTR_2_RW(in6_max, voltage, MAX, 6);
-+static SENSOR_DEVICE_ATTR_2_RW(in6_min, voltage, MIN, 6);
-+static SENSOR_DEVICE_ATTR_2_RO(in6_alarm, voltage, ALARM, 30);
- static SENSOR_DEVICE_ATTR_2_RO(temp1_input, temp, INPUT, 0);
- static SENSOR_DEVICE_ATTR_2_RO(temp1_alarm, temp, ALARM, 0);
- static SENSOR_DEVICE_ATTR_2_RO(temp1_fault, temp, FAULT, 0);
-@@ -1294,6 +1308,14 @@ static struct attribute *in5_attrs[] = {
- 	NULL
- };
- 
-+static struct attribute *in6_attrs[] = {
-+	&sensor_dev_attr_in6_input.dev_attr.attr,
-+	&sensor_dev_attr_in6_max.dev_attr.attr,
-+	&sensor_dev_attr_in6_min.dev_attr.attr,
-+	&sensor_dev_attr_in6_alarm.dev_attr.attr,
-+	NULL
-+};
-+
- static struct attribute *vid_attrs[] = {
- 	&dev_attr_cpu0_vid.attr,
- 	&dev_attr_vrm.attr,
-@@ -1307,6 +1329,7 @@ static const struct attribute_group in0_attr_group = { .attrs = in0_attrs };
- static const struct attribute_group in3_attr_group = { .attrs = in3_attrs };
- static const struct attribute_group in4_attr_group = { .attrs = in4_attrs };
- static const struct attribute_group in5_attr_group = { .attrs = in5_attrs };
-+static const struct attribute_group in6_attr_group = { .attrs = in6_attrs };
- static const struct attribute_group vid_attr_group = { .attrs = vid_attrs };
- 
- static int adt7475_detect(struct i2c_client *client,
-@@ -1389,6 +1412,18 @@ static int adt7475_update_limits(struct i2c_client *client)
- 		data->voltage[MAX][5] = ret << 2;
- 	}
- 
-+	if (data->has_voltage & (1 << 6)) {
-+		ret = adt7475_read(REG_IMON_MIN);
-+		if (ret < 0)
-+			return ret;
-+		data->voltage[MIN][6] = ret << 2;
-+
-+		ret = adt7475_read(REG_IMON_MAX);
-+		if (ret < 0)
-+			return ret;
-+		data->voltage[MAX][6] = ret << 2;
-+	}
-+
- 	for (i = 0; i < ADT7475_TEMP_COUNT; i++) {
- 		/* Adjust values so they match the input precision */
- 		ret = adt7475_read(TEMP_MIN_REG(i));
-@@ -1663,7 +1698,7 @@ static int adt7475_probe(struct i2c_client *client)
- 		revision = adt7475_read(REG_DEVID2) & 0x07;
- 		break;
- 	case adt7490:
--		data->has_voltage = 0x3e;	/* in1 to in5 */
-+		data->has_voltage = 0x7e;	/* in1 to in6 */
- 		revision = adt7475_read(REG_DEVID2) & 0x03;
- 		if (revision == 0x03)
- 			revision += adt7475_read(REG_DEVREV2);
-@@ -1775,6 +1810,9 @@ static int adt7475_probe(struct i2c_client *client)
- 	if (data->has_voltage & (1 << 5)) {
- 		data->groups[group_num++] = &in5_attr_group;
- 	}
-+	if (data->has_voltage & (1 << 6)) {
-+		data->groups[group_num++] = &in6_attr_group;
-+	}
- 	if (data->has_vid) {
- 		data->vrm = vid_which_vrm();
- 		data->groups[group_num] = &vid_attr_group;
-@@ -1960,6 +1998,24 @@ static int adt7475_update_measure(struct device *dev)
- 			((ext >> 4) & 3);
- 	}
- 
-+	if (data->has_voltage & (1 << 6)) {
-+		ret = adt7475_read(REG_STATUS4);
-+		if (ret < 0)
-+			return ret;
-+		data->alarms |= ret << 24;
-+
-+		ret = adt7475_read(REG_EXTEND3);
-+		if (ret < 0)
-+			return ret;
-+		ext = ret;
-+
-+		ret = adt7475_read(REG_IMON);
-+		if (ret < 0)
-+			return ret;
-+		data->voltage[INPUT][6] = ret << 2 |
-+			((ext >> 6) & 3);
-+	}
-+
- 	for (i = 0; i < ADT7475_TACH_COUNT; i++) {
- 		if (i == 3 && !data->has_fan4)
- 			continue;
--- 
-2.30.2
+Agreed.
 
+> I fully understand that you expect all FRED capable systems to have
+> WRMSRNS, but it is not a hard requirement and you will end up with
+> simpler (and therefore better) logic by deleting the dependency.
+
+According to the CPU folks FRED systems are guaranteed to have WRMSRNS -
+I asked for that :). It's just not yet documented.
+
+But that I aside, I agree that we should opt for the safe side with a
+fallback like the one you have in XEN even for the places which are
+strictly FRED dependent.
+
+> As a "normal" user of the WRMSR APIs, the programmer only cares about:
+>
+> 1) wrmsr() -> needs to be serialising
+> 2) wrmsr_ns() -> safe to be non-serialising
+
+Correct.
+
+> In Xen, I added something of the form:
+>
+> /* Non-serialising WRMSR, when available.=C2=A0 Falls back to a serialisi=
+ng
+> WRMSR. */
+> static inline void wrmsr_ns(uint32_t msr, uint32_t lo, uint32_t hi)
+> {
+> =C2=A0=C2=A0=C2=A0 /*
+> =C2=A0=C2=A0=C2=A0=C2=A0 * WRMSR is 2 bytes.=C2=A0 WRMSRNS is 3 bytes.=C2=
+=A0 Pad WRMSR with a redundant CS
+> =C2=A0=C2=A0=C2=A0=C2=A0 * prefix to avoid a trailing NOP.
+> =C2=A0=C2=A0=C2=A0=C2=A0 */
+> =C2=A0=C2=A0=C2=A0 alternative_input(".byte 0x2e; wrmsr",
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ".byte 0x0f,0x01,0xc=
+6", X86_FEATURE_WRMSRNS,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "c" (msr), "a" (lo),=
+ "d" (hi));
+> }
+>
+> and despite what Juergen said, I'm going to recommend that you do wire
+> this through the paravirt infrastructure, for the benefit of regular
+> users having a nice API, not because XenPV is expecting to do something
+> wildly different here.
+
+I fundamentaly hate adding this to the PV infrastructure. We don't want
+more PV ops, quite the contrary.
+
+For the initial use case at hand, there is an explicit FRED dependency
+and the code in question really wants to use WRMSRNS directly and not
+through a PV function call.
+
+I agree with your reasoning for the more generic use case where we can
+gain performance independent of FRED by using WRMSRNS for cases where
+the write has no serialization requirements.
+
+But this made me look into PV ops some more. For actual performance
+relevant code the current PV ops mechanics are a horrorshow when the op
+defaults to the native instruction.
+
+Let's look at wrmsrl():
+
+wrmsrl(msr, val
+ wrmsr(msr, (u32)val, (u32)val >> 32))
+  paravirt_write_msr(msr, low, high)
+    PVOP_VCALL3(cpu.write_msr, msr, low, high)
+
+Which results in
+
+	mov	$msr, %edi
+	mov	$val, %rdx
+	mov	%edx, %esi
+	shr	$0x20, %rdx
+	call	native_write_msr
+
+and native_write_msr() does at minimum:
+
+	mov    %edi,%ecx
+	mov    %esi,%eax
+	wrmsr
+        ret
+
+In the worst case 'ret' is going through the return thunk. Not to talk
+about function prologues and whatever.
+
+This becomes even more silly for trivial instructions like STI/CLI or in
+the worst case paravirt_nop().
+
+The call makes only sense, when the native default is an actual
+function, but for the trivial cases it's a blatant engineering
+trainwreck.
+
+I wouldn't care at all if CONFIG_PARAVIRT_XXL would be the esoteric use
+case, but AFAICT it's default enabled on all major distros.
+
+So no. I'm fundamentally disagreeing with your recommendation. The way
+forward is:
+
+  1) Provide the native variant for wrmsrns(), i.e. rename the proposed
+     wrmsrns() to native_wrmsr_ns() and have the X86_FEATURE_WRMSRNS
+     safety net as you pointed out.
+
+     That function can be used in code which is guaranteed to be not
+     affected by the PV_XXL madness.
+
+  2) Come up with a sensible solution for the PV_XXL horrorshow
+
+  3) Implement a sane general variant of wrmsr_ns() which handles
+     both X86_FEATURE_WRMSRNS and X86_MISFEATURE_PV_XXL
+
+  4) Convert other code which benefits from the non-serializing variant
+     to wrmsr_ns()
+
+Thanks,
+
+        tglx
