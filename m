@@ -2,115 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3DCCA0ECD
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 05:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B74CA5506
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233796AbjINFF6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 01:05:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59726 "EHLO
+        id S234685AbjINFTQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:19:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233781AbjINFF5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 01:05:57 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A50A798;
-        Wed, 13 Sep 2023 22:05:53 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id DFAAA5C0261;
-        Thu, 14 Sep 2023 01:05:52 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 14 Sep 2023 01:05:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1694667952; x=1694754352; bh=r+
-        8a9VVUj2+14lVyHMEam/cUuRe70jim+0p47BeFLEo=; b=Z+7/WfF47uX4rMiGTP
-        BKb5hgzeV8oSsQZXaP9YScBOcQQSRMJU5zaMimcqYwGFzGYSOhUo0UNIpR4IDdic
-        DU7vdcKaGttl7h3PVaZGUvlS1s9pgoMiKaeeeHue20FuaBbPV2kyFIWdYGMf5S6s
-        zZ/2TIB+wZqdlEsv9PrRq3iUQanKCcnHUOdpzbkW4AFi8z8GtID5J+A1GQjd8int
-        owBpw09EKPYQ3FpgV+/B7JpVq18h4l6zBg1CUf0M+bBR7AaJzk1kwFCilk4b/DnY
-        DnYHmdF6qMdOI3BWSEPKB+2lT2Fb+wJvXRrcFXhI44JkImI6GRaAJb4dEaXkAGw4
-        Nymg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1694667952; x=1694754352; bh=r+8a9VVUj2+14
-        lVyHMEam/cUuRe70jim+0p47BeFLEo=; b=Tqvu/v3f27xMzAX2a3I635BaKPhVm
-        XxB0STDguy2nwdAKjrj6PC4bTMsDnWwJGOnBZIZFfZhpP4+AeRN1ZuGm1lS5KU5A
-        5i7Gv0R1g6NDtsMiqMNduPN5XlvhBq7t9lJ7JK8BBGN4BkvEYefL4GD2luuWgHAB
-        hZwG4C3lGXKVUDZoK2BTKyFnwWfFUcrWx0JIAUxI1hBTItpes8ZslN8ElI2k13ph
-        f4BSB/rp3s0eX2wvZteO1KxiP2asuwWCnI6IdnXeVH6KDl4OEYNEHTUU2QXwkpGM
-        1DGe7FDdCCEt/X7+0V1t9UIGv8NN57UCrd2bl7T0/OUZWAA2erQshbd0w==
-X-ME-Sender: <xms:sJQCZbVjdHvnk_y5ZhCNzItfpRkrlaRFR7juq1dVnIekICAOcn5Ulg>
-    <xme:sJQCZTku9Up6M9Xy8VuMzF8L9JSEhMeG8Cxu4JM-5tcKmq4-3tsp0VrqdyHlZhmit
-    mvkVjYpnYyViWsysFM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeiledgkeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:sJQCZXY82DOye0Fvun6cebJSaGPrTcRqlFXXy1wy0BNxwjANoAyY9A>
-    <xmx:sJQCZWUuD6-If8jHENHwGXPz9681UYFjnEo4GUH0ThBWrZB90kP1_A>
-    <xmx:sJQCZVlDhcS3p7JtF8sxq55vZniiP9tCeGcr1IHMFMFcWv55SiOUyQ>
-    <xmx:sJQCZX4uh7fgGWKnss4HJWk2Xy-hUQSRBm5eSW5h_lqjY_0jDj1DFg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 09712B60089; Thu, 14 Sep 2023 01:05:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
-Mime-Version: 1.0
-Message-Id: <82dfa2eb-1867-4cdc-b7b8-918d426575ed@app.fastmail.com>
-In-Reply-To: <ZQKDRANlIWGqTA/9@bergen.fjasle.eu>
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <ZQISGujwlH00B8KJ@fjasle.eu>
- <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
- <ZQIcuVgaDmA+VdV0@fjasle.eu>
- <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
- <ZQKDRANlIWGqTA/9@bergen.fjasle.eu>
-Date:   Thu, 14 Sep 2023 07:05:31 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Nicolas Schier" <nicolas@fjasle.eu>
-Cc:     "Arnd Bergmann" <arnd@kernel.org>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Sakari Ailus" <sakari.ailus@iki.fi>,
-        "Javier Martinez Canillas" <javierm@redhat.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional dependencies
-Content-Type: text/plain
+        with ESMTP id S234655AbjINFTQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 01:19:16 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F071BD0;
+        Wed, 13 Sep 2023 22:19:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694668752; x=1726204752;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=5bEJT87B98JS6iQ6LlrNVmLBQuK2BkIiNY3V5ZdVNuo=;
+  b=NvRI9X19L5Srs533HXrl8oZ193+s7XrFmm7Z/SLhyqtN2AWg/jtcTdmh
+   zVm+kbUJGNyX+xPrvBfnASNFTL9TSf2oJt7UhFEHGH7SlKISn+Uv4XjJG
+   V8Idv+jhqjphOoUiL+sRN2ngsAiuvqfR8soY/TiDWJNbJstQfympMi68Y
+   aLtOTiCvyjzlC7cV25cx8PU1+CCC05MgSWg1m8a47gtk23pexRPvQeaxF
+   TM8w82HkepOrjqHQKI9Uh9qXg0gVuiVE5xkTjKb6qiuAKYHuizVeyvNzw
+   5z/9TfcWr4rFB7SaI/iBtNkYT3TAV1QQ6tANp6o+/UQyAvIGWyi/azc1k
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661078"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="382661078"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488736"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="779488736"
+Received: from unknown (HELO fred..) ([172.25.112.68])
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:28 -0700
+From:   Xin Li <xin3.li@intel.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
+        mhiramat@kernel.org, andrew.cooper3@citrix.com,
+        jiangshanlai@gmail.com
+Subject: [PATCH v10 01/38] x86/cpufeatures: Add the cpu feature bit for WRMSRNS
+Date:   Wed, 13 Sep 2023 21:47:28 -0700
+Message-Id: <20230914044805.301390-2-xin3.li@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
+References: <20230914044805.301390-1-xin3.li@intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 14, 2023, at 05:51, Nicolas Schier wrote:
-> On Wed 13 Sep 2023 23:16:47 GMT, Arnd Bergmann wrote:
->> On Wed, Sep 13, 2023, at 22:34, Nicolas Schier wrote:
->> >
->> > BAR=y  => FOO={N/m/y}
->> > BAR=m  => FOO is not selectable
->> > BAR=n  => FOO={N/m/y}
->> 
->> That is indeed the point: if BAR=m, we want to be able to pick FOO=m
->> here, otherwise it is impossible to enabled everything as modules.
->
-> oh, I misinterpreted your very first sentence; thanks for clarifying it to me
-> and sorry for the noise.
-> With the minor fixes:
->
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
->
+WRMSRNS is an instruction that behaves exactly like WRMSR, with
+the only difference being that it is not a serializing instruction
+by default. Under certain conditions, WRMSRNS may replace WRMSR to
+improve performance.
 
-Ok, thanks!
+Add the CPU feature bit for WRMSRNS.
 
-I understand that the text is still confusing, so if anyone has an
-idea for how to improve it further, let me know, otherwise
-I'll send what I have now with type fixes as v2.
+Tested-by: Shan Kang <shan.kang@intel.com>
+Signed-off-by: Xin Li <xin3.li@intel.com>
+---
+ arch/x86/include/asm/cpufeatures.h       | 1 +
+ tools/arch/x86/include/asm/cpufeatures.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-     Arnd
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 58cb9495e40f..330876d34b68 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -322,6 +322,7 @@
+ #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
+ #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
+ #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
++#define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-Serializing Write to Model Specific Register instruction */
+ #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
+ #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
+ #define X86_FEATURE_LAM			(12*32+26) /* Linear Address Masking */
+diff --git a/tools/arch/x86/include/asm/cpufeatures.h b/tools/arch/x86/include/asm/cpufeatures.h
+index 798e60b5454b..1b9d86ba5bc2 100644
+--- a/tools/arch/x86/include/asm/cpufeatures.h
++++ b/tools/arch/x86/include/asm/cpufeatures.h
+@@ -318,6 +318,7 @@
+ #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
+ #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
+ #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
++#define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-Serializing Write to Model Specific Register instruction */
+ #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
+ #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
+ #define X86_FEATURE_LAM			(12*32+26) /* Linear Address Masking */
+-- 
+2.34.1
+
