@@ -2,225 +2,185 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AB1FEDE98B
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 05:20:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E631EDE982
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 05:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235968AbjINFVB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 01:21:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44572 "EHLO
+        id S234805AbjINFlt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:41:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235668AbjINFUK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 01:20:10 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F052681;
-        Wed, 13 Sep 2023 22:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694668768; x=1726204768;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=oAURox5d3DpugMW7F8/nDRZuIjZAXrI53V5n3V05JaY=;
-  b=R5bbsZAMbaSVWWfaY8eQtTCgn2QRM6lA9doXlheyDlTRT8Mgtg74tAgl
-   3/fS47hLSvJia6NBuJOh9T+QDKYjCHbLprlvD01csojLNLZWZYrTgM8cq
-   4fRlRwuVbvi16AxU2daRdn5c/fkj/h/OXyAnD8dDxWk+EygOIHR5OLBEb
-   u9yKW3SnLCIXdFH6Lcl96ikRq6jMu6g9Yx5GV6E4gRdS6Fplcjx6D37jY
-   GsBQaKY3j0ZhINVMi9ltD8bAXU1oAuXdqm2BZV0sf8OY0hkA8YMhNe2Lt
-   86afIAHXNq1/s+M/JE7X9YIJx797xoDQyPP2/rQm3tXAfr7DRZmfEvCrt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661549"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="382661549"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488850"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="779488850"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:48 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
-        mhiramat@kernel.org, andrew.cooper3@citrix.com,
-        jiangshanlai@gmail.com
-Subject: [PATCH v10 37/38] x86/fred: Add FRED initialization functions
-Date:   Wed, 13 Sep 2023 21:48:04 -0700
-Message-Id: <20230914044805.301390-38-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
-References: <20230914044805.301390-1-xin3.li@intel.com>
+        with ESMTP id S233128AbjINFls (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 01:41:48 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6694EAC
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 22:41:44 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-501ce655fcbso862633e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 22:41:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694670102; x=1695274902; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=huUBd8tQVsMhRFKqU4ZhJpKNvIZIXJ92rzk44rhrTS8=;
+        b=jRsb83ZcG5gOnDLu7hrkA5U20GflFqz2EJmVTv4XDKnUu2xoRL1vCcjE3zOvFUv4HG
+         Q41updvaziX+ZD/hUpc3xYQ/5MtI/RPjU7iasxPSohQmJ7Z2jtkVWv5O6Bf1JbiQFWDU
+         fX926tX3VgJ0qjY82pZu+WK/BeCpSfGlpW4Cr/viRWnCQCTobGEh0OVsgh2OTpo/hS0N
+         Dy6O7CPsdc+OlwKYW6Z60supCxKp4hF6tk+7GaLlsZuoepjhupd72SoXB1mTAGfnsx1M
+         7dRlp4OtucJZgrGqN8BwpyQJ14oD1pDZc4i0Y9rH9dqLmImPJit1OnABu6sfUXuCVVng
+         ay3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694670102; x=1695274902;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=huUBd8tQVsMhRFKqU4ZhJpKNvIZIXJ92rzk44rhrTS8=;
+        b=FaQCpqIRBEFL6uFbHtVoJVi1m4n5QQSJp3YzcV20ZvfxX/DhYD98KLos5BU0gu9e4u
+         6lHHYi/VJ8ek2V7kpcYRv7igtKhO6AYvAbJ0g5Sg3YDEMwiwRc5PPuvc9n7s0sYF115X
+         34A7+GK3IOCeZwV5gvyf+u6AvRXu3s5NuXkRbr30RccLpxh8pyYoQ0cUW8WsG0W8Rerm
+         oAeCRwmrONQTGc7kRtS12neFLsu+XFIEu8Inr5QGZJZc1zF1gP1bWMRF5mPj02gQ7UFX
+         NBH4uQ4IlB47JUqDyKgXAQsYXFqJnuCM8cdCwfNNR+UWAUq/qafHSPdHWQ+FpwIFca90
+         5Q+g==
+X-Gm-Message-State: AOJu0Yy4ZNZCkKvX7XDlzsCg3QohFn81W0wqRUE8QhHAFHRenVXGRgFc
+        K9aZUZu/LYeI7ZZGcoqEloFLaA==
+X-Google-Smtp-Source: AGHT+IEUyqt8XXNqwYTXme8n7SieB1SWAc04i/9uNyoTn9HJVc61ES/WbZXXSGCxqZrBoy31xUYWnA==
+X-Received: by 2002:a19:5e57:0:b0:4ff:7e1e:b4b4 with SMTP id z23-20020a195e57000000b004ff7e1eb4b4mr3961063lfi.39.1694670102547;
+        Wed, 13 Sep 2023 22:41:42 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id b1-20020aa7df81000000b0052c4dacf54csm435287edy.44.2023.09.13.22.41.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Sep 2023 22:41:41 -0700 (PDT)
+Message-ID: <c05d0ae9-1711-867e-2595-d5e542d4fa18@linaro.org>
+Date:   Thu, 14 Sep 2023 07:41:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 2/4] dt-bindings: hwmon: Added new properties to the
+ devicetree
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230913152135.457892-1-daniel.matyas@analog.com>
+ <20230913152135.457892-3-daniel.matyas@analog.com>
+ <177ef05b-0cca-be25-afad-ac518d9f6473@linaro.org>
+ <823b9820-9225-fc24-ff86-1056a1a43cc3@roeck-us.net>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <823b9820-9225-fc24-ff86-1056a1a43cc3@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
+On 13/09/2023 18:43, Guenter Roeck wrote:
+> On 9/13/23 08:40, Krzysztof Kozlowski wrote:
+>> On 13/09/2023 17:21, Daniel Matyas wrote:
+>>
+>> Subject: not much improved. I am sorry, but you are not adding new
+>> properties to entire devicetree of entire world. You are actually not
+>> adding anything to any devicetree, because these are bindings (which is
+>> obvious, as said by prefix).
+>>
+>> You got comments on this.
+>>
+>>> These attributes are:
+>>> 	- adi,comp-int - boolean property
+>>> 	- adi,alrm-pol - can be 0, 1 (if not present, default value)
+>>> 	- adi,flt-q - can be 1, 2, 4, 8 (if not present, default value)
+>>> 	- adi,timeout-enable - boolean property
+>>
+>> Don't repeat what the code does. Explain why you are adding it, what is
+>> the purpose.
+>>
+>>>
+>>> These modify the corresponding bits in the configuration register.
+>>>
+>>> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+>>> ---
+>>>   .../bindings/hwmon/adi,max31827.yaml          | 35 +++++++++++++++++++
+>>>   1 file changed, 35 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+>>> index 2dc8b07b4d3b..6bde71bdb8dd 100644
+>>> --- a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+>>> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+>>> @@ -32,6 +32,37 @@ properties:
+>>>         Must have values in the interval (1.6V; 3.6V) in order for the device to
+>>>         function correctly.
+>>>   
+>>> +  adi,comp-int:
+>>> +    description:
+>>> +      If present interrupt mode is used. If not present comparator mode is used
+>>> +      (default).
+>>
+>> Why this is a property of hardware?
+>>
+> 
+> Because it affects the behavior of the interrupt signal and whatever
+> it is connected to. For example, it could be connected to an interrupt
+> controller (interupt mode), or it could be connected to a fan which is
+> enabled while the signal is active (comparator mode).
 
-Add cpu_init_fred_exceptions() to:
-  - Set FRED entrypoints for events happening in ring 0 and 3.
-  - Specify the stack level for IRQs occurred ring 0.
-  - Specify dedicated event stacks for #DB/NMI/#MCE/#DF.
-  - Enable FRED and invalidtes IDT.
-  - Force 32-bit system calls to use "int $0x80" only.
+That makes sense. Pardon my naive questions, I just could not figure out
+use case out of the field description. Based on this very short
+description itself, I could imagine sysfs entry.
 
-Add fred_complete_exception_setup() to:
-  - Initialize system_vectors as done for IDT systems.
-  - Set unused sysvec_table entries to fred_handle_spurious_interrupt().
+> 
+>>> +    type: boolean
+>>> +
+>>> +  adi,alrm-pol:
+>>> +    description:
+>>> +      Sets the alarms active state.
+>>> +            - 0 = active low
+>>> +            - 1 = active high
+>>> +      For max31827 and max31828 the default alarm polarity is low. For max31829
+>>> +      it is high.
+>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>> +    enum: [0, 1]
+>>> +
+>>> +  adi,flt-q:
+>>> +    description:
+>>> +      Select how many consecutive temperature faults must occur before
+>>> +      overtemperature or undertemperature faults are indicated in the
+>>> +      corresponding status bits.
+>>> +      For max31827 default fault queue is 1. For max31828 and max31829 it is 4.
+>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>> +    enum: [1, 2, 4, 8]
+>>> +
+>>> +  adi,timeout-enable:
+>>> +    description:
+>>> +      Enables timeout. Bus timeout resets the I2C-compatible interface when SCL
+>>> +      is low for more than 30ms (nominal).
+>>
+>> Why this is a property of hardware?
+>>
+> 
+> Because it affects i2c bus operation.
+> 
+> I am not sure I understand what you are trying to say here.
+> This is a much a "hardware" property as the i2c bus speed
+> and many similar properties, and the need for it is system
+> dependent (for example, a system with many devices on the
+> i2c bus or with a less than perfect i2c controller may need
+> it because the bus tends to get stuck).
+> 
+> Those are not properties where one would, at runtime,
+> decide to enable bus timeout or the interrupt mode or
+> the bus speed. Typically that kind of functionality
+> has to be configured early when the system is started.
+> If devicetree must not or no longer be used to describe the
+> system to a point where it can be configured to get it
+> to a working state, what is the suggested alternative ?
 
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-Co-developed-by: Xin Li <xin3.li@intel.com>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
+I could imagine enabling it always, unconditionally. I wanted to
+understand why different boards with this chip will have it enabled or
+disabled.
 
-Changes since v9:
-* Set unused sysvec table entries to fred_handle_spurious_interrupt()
-  in fred_complete_exception_setup() (Thomas Gleixner).
-
-Changes since v5:
-* Add a comment for FRED stack level settings (Lai Jiangshan).
-* Define NMI/#DB/#MCE/#DF stack levels using macros.
----
- arch/x86/entry/entry_fred.c | 21 +++++++++++++
- arch/x86/include/asm/fred.h |  5 ++++
- arch/x86/kernel/Makefile    |  1 +
- arch/x86/kernel/fred.c      | 59 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 86 insertions(+)
- create mode 100644 arch/x86/kernel/fred.c
-
-diff --git a/arch/x86/entry/entry_fred.c b/arch/x86/entry/entry_fred.c
-index f8774611af80..7d507f59315d 100644
---- a/arch/x86/entry/entry_fred.c
-+++ b/arch/x86/entry/entry_fred.c
-@@ -140,6 +140,27 @@ void __init fred_install_sysvec(unsigned int sysvec, idtentry_t handler)
- 		 sysvec_table[sysvec - FIRST_SYSTEM_VECTOR] = handler;
- }
- 
-+static noinstr void fred_handle_spurious_interrupt(struct pt_regs *regs)
-+{
-+	spurious_interrupt(regs, regs->fred_ss.vector);
-+}
-+
-+void __init fred_complete_exception_setup(void)
-+{
-+	unsigned int vector;
-+
-+	for (vector = 0; vector < FIRST_EXTERNAL_VECTOR; vector++)
-+		set_bit(vector, system_vectors);
-+
-+	for (vector = 0; vector < NR_SYSTEM_VECTORS; vector++) {
-+		if (sysvec_table[vector])
-+			set_bit(vector + FIRST_SYSTEM_VECTOR, system_vectors);
-+		else
-+			sysvec_table[vector] = fred_handle_spurious_interrupt;
-+	}
-+	fred_setup_done = true;
-+}
-+
- static noinstr void fred_extint(struct pt_regs *regs)
- {
- 	unsigned int vector = regs->fred_ss.vector;
-diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
-index 2fa9f34e5c95..e86c7ba32435 100644
---- a/arch/x86/include/asm/fred.h
-+++ b/arch/x86/include/asm/fred.h
-@@ -83,8 +83,13 @@ static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int
- 	asm_fred_entry_from_kvm(ss);
- }
- 
-+void cpu_init_fred_exceptions(void);
-+void fred_complete_exception_setup(void);
-+
- #else /* CONFIG_X86_FRED */
- static __always_inline unsigned long fred_event_data(struct pt_regs *regs) { return 0; }
-+static inline void cpu_init_fred_exceptions(void) { }
-+static inline void fred_complete_exception_setup(void) { }
- static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int vector) { }
- #endif /* CONFIG_X86_FRED */
- #endif /* !__ASSEMBLY__ */
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index 3269a0e23d3a..8dfdae4111bb 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -47,6 +47,7 @@ obj-y			+= platform-quirks.o
- obj-y			+= process_$(BITS).o signal.o signal_$(BITS).o
- obj-y			+= traps.o idt.o irq.o irq_$(BITS).o dumpstack_$(BITS).o
- obj-y			+= time.o ioport.o dumpstack.o nmi.o
-+obj-$(CONFIG_X86_FRED)	+= fred.o
- obj-$(CONFIG_MODIFY_LDT_SYSCALL)	+= ldt.o
- obj-$(CONFIG_X86_KERNEL_IBT)		+= ibt_selftest.o
- obj-y			+= setup.o x86_init.o i8259.o irqinit.o
-diff --git a/arch/x86/kernel/fred.c b/arch/x86/kernel/fred.c
-new file mode 100644
-index 000000000000..4bcd8791ad96
---- /dev/null
-+++ b/arch/x86/kernel/fred.c
-@@ -0,0 +1,59 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#include <linux/kernel.h>
-+
-+#include <asm/desc.h>
-+#include <asm/fred.h>
-+#include <asm/tlbflush.h>
-+#include <asm/traps.h>
-+
-+/* #DB in the kernel would imply the use of a kernel debugger. */
-+#define FRED_DB_STACK_LEVEL		1UL
-+#define FRED_NMI_STACK_LEVEL		2UL
-+#define FRED_MC_STACK_LEVEL		2UL
-+/*
-+ * #DF is the highest level because a #DF means "something went wrong
-+ * *while delivering an exception*." The number of cases for which that
-+ * can happen with FRED is drastically reduced and basically amounts to
-+ * "the stack you pointed me to is broken." Thus, always change stacks
-+ * on #DF, which means it should be at the highest level.
-+ */
-+#define FRED_DF_STACK_LEVEL		3UL
-+
-+#define FRED_STKLVL(vector, lvl)	((lvl) << (2 * (vector)))
-+
-+void cpu_init_fred_exceptions(void)
-+{
-+	/* When FRED is enabled by default, remove this log message */
-+	pr_info("Initialize FRED on CPU%d\n", smp_processor_id());
-+
-+	wrmsrl(MSR_IA32_FRED_CONFIG,
-+	       /* Reserve for CALL emulation */
-+	       FRED_CONFIG_REDZONE |
-+	       FRED_CONFIG_INT_STKLVL(0) |
-+	       FRED_CONFIG_ENTRYPOINT(asm_fred_entrypoint_user));
-+
-+	/*
-+	 * The purpose of separate stacks for NMI, #DB and #MC *in the kernel*
-+	 * (remember that user space faults are always taken on stack level 0)
-+	 * is to avoid overflowing the kernel stack.
-+	 */
-+	wrmsrl(MSR_IA32_FRED_STKLVLS,
-+	       FRED_STKLVL(X86_TRAP_DB,  FRED_DB_STACK_LEVEL) |
-+	       FRED_STKLVL(X86_TRAP_NMI, FRED_NMI_STACK_LEVEL) |
-+	       FRED_STKLVL(X86_TRAP_MC,  FRED_MC_STACK_LEVEL) |
-+	       FRED_STKLVL(X86_TRAP_DF,  FRED_DF_STACK_LEVEL));
-+
-+	/* The FRED equivalents to IST stacks... */
-+	wrmsrl(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(DB));
-+	wrmsrl(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(NMI));
-+	wrmsrl(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(DF));
-+
-+	/* Enable FRED */
-+	cr4_set_bits(X86_CR4_FRED);
-+	/* Any further IDT use is a bug */
-+	idt_invalidate();
-+
-+	/* Use int $0x80 for 32-bit system calls in FRED mode */
-+	setup_clear_cpu_cap(X86_FEATURE_SYSENTER32);
-+	setup_clear_cpu_cap(X86_FEATURE_SYSCALL32);
-+}
--- 
-2.34.1
+Best regards,
+Krzysztof
 
