@@ -2,308 +2,284 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB8DEDE995
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 08:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2140EDE990
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 08:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236237AbjINIBI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 04:01:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52770 "EHLO
+        id S235931AbjINIDA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 04:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236171AbjINIBG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 04:01:06 -0400
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D941FC6;
-        Thu, 14 Sep 2023 01:00:59 -0700 (PDT)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38E5aPK8016860;
-        Thu, 14 Sep 2023 04:00:34 -0400
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3t2y8k26nj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Sep 2023 04:00:33 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 38E80WXf031691
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 14 Sep 2023 04:00:32 -0400
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Thu, 14 Sep 2023 04:00:31 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Thu, 14 Sep 2023 04:00:31 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Thu, 14 Sep 2023 04:00:30 -0400
-Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.230])
-        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 38E7xpmX002387;
-        Thu, 14 Sep 2023 04:00:22 -0400
-From:   Daniel Matyas <daniel.matyas@analog.com>
-CC:     Daniel Matyas <daniel.matyas@analog.com>,
-        kernel test robot <lkp@intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v3 3/5] hwmon: max31827: Handle new properties from the devicetree
-Date:   Thu, 14 Sep 2023 10:59:46 +0300
-Message-ID: <20230914075948.208046-3-daniel.matyas@analog.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230914075948.208046-1-daniel.matyas@analog.com>
-References: <20230914075948.208046-1-daniel.matyas@analog.com>
+        with ESMTP id S236048AbjINIC7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 04:02:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0C1F61BF6
+        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 01:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694678534;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HiAk3bKOlav/oFfLlqTgtje3RXVlrppDZ8NfAR80XpM=;
+        b=F5p1TBTAl2lu4wJZEUQLgihIpQInffc1Cn18P8RPGpJCBCYchL7NtsrZIR8kewUI5ue/Mr
+        ZYrj5877uT1WRkesQidXSaWkBWXRyzbWvntGJfXF9uSuLYM4CG/9Tc3a3Sppbd41pPx2cm
+        Ek44Ey82RW+pwQrTpcalqxxP5fn6Whk=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-610-riRqdqKWMK2zL-r-E4U6-w-1; Thu, 14 Sep 2023 04:02:12 -0400
+X-MC-Unique: riRqdqKWMK2zL-r-E4U6-w-1
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-1c8e1617d96so1071263fac.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 01:02:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694678532; x=1695283332;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HiAk3bKOlav/oFfLlqTgtje3RXVlrppDZ8NfAR80XpM=;
+        b=ZXMjAfx90IAR0HfpjXruqZCZaS+6wlSoPNtRZU7S8nGL4vZDAo3eyEAer51eoN4lac
+         NP97TJDj+RbyE6b6ECLcmVoRg5NArl9tcavhUKdX/vOAsKTTCdBN9gKjt3OX3IqQLI1A
+         ELTNbDQYSSc3MTn/P2VivkFNOtbEMF6g773KPTyM8L2dy069UTafrSamhRhNOn7hNEKA
+         DgM5jxQl898M0ZHtID0E56Qe4XE/7teHFMIMigH0IJlNu8QWS581tq/8wvDJZigYS0LP
+         EDvJLejWvgKZRFzmWP76JLc4CapsmdyraoFYcT5cTAXA9JLYfFq0ZYr2R5wCiietguFN
+         zeSA==
+X-Gm-Message-State: AOJu0YydEasa+vH3V8vObYWn//qBBtYt8BNrDzbx+T48MVtORzcOmYJs
+        0sX3XtfLKpcfX+IUw479Tazs9MgT0LBltxlB+8htBvP839ZynqiNnHagf8AQVLqg0kY5d4daYL7
+        SH30vyLiubW0EZjWh3O4f
+X-Received: by 2002:a05:6870:35d3:b0:1b3:f1f7:999e with SMTP id c19-20020a05687035d300b001b3f1f7999emr5781394oak.45.1694678531978;
+        Thu, 14 Sep 2023 01:02:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHjL5jH2q/nmHiozebZyY/fKINysNQaR6CzFyALeT3Qe+deBNOrapEDdrbheaETCUL++womdw==
+X-Received: by 2002:a05:6870:35d3:b0:1b3:f1f7:999e with SMTP id c19-20020a05687035d300b001b3f1f7999emr5781382oak.45.1694678531699;
+        Thu, 14 Sep 2023 01:02:11 -0700 (PDT)
+Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
+        by smtp.gmail.com with ESMTPSA id h22-20020a056870a3d600b001ccab369c09sm515214oak.42.2023.09.14.01.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Sep 2023 01:02:11 -0700 (PDT)
+Date:   Thu, 14 Sep 2023 05:02:02 -0300
+From:   Leonardo Bras <leobras@redhat.com>
+To:     guoren@kernel.org
+Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
+        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
+        rdunlap@infradead.org, catalin.marinas@arm.com,
+        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
+        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V11 08/17] riscv: qspinlock: Add virt_spin_lock() support
+ for KVM guest
+Message-ID: <ZQK9-tn2MepXlY1u@redhat.com>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910082911.3378782-9-guoren@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: l0P6wITDAbwVSTbCfERn5Kwq3750l6M6
-X-Proofpoint-GUID: l0P6wITDAbwVSTbCfERn5Kwq3750l6M6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-14_05,2023-09-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- clxscore=1011 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2308100000
- definitions=main-2309140069
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230910082911.3378782-9-guoren@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Used fwnode to retrieve data from the devicetree in the init_client
-function.
+On Sun, Sep 10, 2023 at 04:29:02AM -0400, guoren@kernel.org wrote:
+> From: Guo Ren <guoren@linux.alibaba.com>
+> 
+> Add a static key controlling whether virt_spin_lock() should be
+> called or not. When running on bare metal set the new key to
+> false.
+> 
+> The KVM guests fall back to a Test-and-Set spinlock, because fair
+> locks have horrible lock 'holder' preemption issues. The
+> virt_spin_lock_key would shortcut for the
+> queued_spin_lock_slowpath() function that allow virt_spin_lock to
+> hijack it.
+> 
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Signed-off-by: Guo Ren <guoren@kernel.org>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  4 +++
+>  arch/riscv/include/asm/sbi.h                  |  8 +++++
+>  arch/riscv/include/asm/spinlock.h             | 22 ++++++++++++++
+>  arch/riscv/kernel/sbi.c                       |  2 +-
+>  arch/riscv/kernel/setup.c                     | 30 ++++++++++++++++++-
+>  5 files changed, 64 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 61cacb8dfd0e..f75bedc50e00 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3927,6 +3927,10 @@
+>  	no_uaccess_flush
+>  	                [PPC] Don't flush the L1-D cache after accessing user data.
+>  
+> +	no_virt_spin	[RISC-V] Disable virt_spin_lock in KVM guest to use
+> +			native_queued_spinlock when the nopvspin option is enabled.
+> +			This would help vcpu=pcpu scenarios.
+> +
+>  	novmcoredd	[KNL,KDUMP]
+>  			Disable device dump. Device dump allows drivers to
+>  			append dump data to vmcore so you can collect driver
+> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
+> index 501e06e52078..e0233b3d7a5f 100644
+> --- a/arch/riscv/include/asm/sbi.h
+> +++ b/arch/riscv/include/asm/sbi.h
+> @@ -50,6 +50,13 @@ enum sbi_ext_base_fid {
+>  	SBI_EXT_BASE_GET_MIMPID,
+>  };
+>  
+> +enum sbi_ext_base_impl_id {
+> +	SBI_EXT_BASE_IMPL_ID_BBL = 0,
+> +	SBI_EXT_BASE_IMPL_ID_OPENSBI,
+> +	SBI_EXT_BASE_IMPL_ID_XVISOR,
+> +	SBI_EXT_BASE_IMPL_ID_KVM,
+> +};
+> +
+>  enum sbi_ext_time_fid {
+>  	SBI_EXT_TIME_SET_TIMER = 0,
+>  };
+> @@ -269,6 +276,7 @@ int sbi_console_getchar(void);
+>  long sbi_get_mvendorid(void);
+>  long sbi_get_marchid(void);
+>  long sbi_get_mimpid(void);
+> +long sbi_get_firmware_id(void);
+>  void sbi_set_timer(uint64_t stime_value);
+>  void sbi_shutdown(void);
+>  void sbi_send_ipi(unsigned int cpu);
+> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
+> index 8ea0fee80652..6b38d6616f14 100644
+> --- a/arch/riscv/include/asm/spinlock.h
+> +++ b/arch/riscv/include/asm/spinlock.h
+> @@ -4,6 +4,28 @@
+>  #define __ASM_RISCV_SPINLOCK_H
+>  
+>  #ifdef CONFIG_QUEUED_SPINLOCKS
+> +/*
+> + * The KVM guests fall back to a Test-and-Set spinlock, because fair locks
+> + * have horrible lock 'holder' preemption issues. The virt_spin_lock_key
+> + * would shortcut for the queued_spin_lock_slowpath() function that allow
+> + * virt_spin_lock to hijack it.
+> + */
+> +DECLARE_STATIC_KEY_TRUE(virt_spin_lock_key);
+> +
+> +#define virt_spin_lock virt_spin_lock
+> +static inline bool virt_spin_lock(struct qspinlock *lock)
+> +{
+> +	if (!static_branch_likely(&virt_spin_lock_key))
+> +		return false;
+> +
+> +	do {
+> +		while (atomic_read(&lock->val) != 0)
+> +			cpu_relax();
+> +	} while (atomic_cmpxchg(&lock->val, 0, _Q_LOCKED_VAL) != 0);
+> +
+> +	return true;
+> +}
+> +
+>  #define _Q_PENDING_LOOPS	(1 << 9)
+>  #endif
+>  
+> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
+> index 88eea3a99ee0..cdd45edc8db4 100644
+> --- a/arch/riscv/kernel/sbi.c
+> +++ b/arch/riscv/kernel/sbi.c
+> @@ -555,7 +555,7 @@ static inline long sbi_get_spec_version(void)
+>  	return __sbi_base_ecall(SBI_EXT_BASE_GET_SPEC_VERSION);
+>  }
+>  
+> -static inline long sbi_get_firmware_id(void)
+> +long sbi_get_firmware_id(void)
+>  {
+>  	return __sbi_base_ecall(SBI_EXT_BASE_GET_IMP_ID);
+>  }
+> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> index 0f084f037651..c57d15b05160 100644
+> --- a/arch/riscv/kernel/setup.c
+> +++ b/arch/riscv/kernel/setup.c
+> @@ -26,6 +26,7 @@
+>  #include <asm/alternative.h>
+>  #include <asm/cacheflush.h>
+>  #include <asm/cpu_ops.h>
+> +#include <asm/cpufeature.h>
+>  #include <asm/early_ioremap.h>
+>  #include <asm/pgtable.h>
+>  #include <asm/setup.h>
+> @@ -283,16 +284,43 @@ DEFINE_STATIC_KEY_TRUE(combo_qspinlock_key);
+>  EXPORT_SYMBOL(combo_qspinlock_key);
+>  #endif
+>  
+> +#ifdef CONFIG_QUEUED_SPINLOCKS
+> +static bool no_virt_spin_key = false;
 
-If the uint32 properties are not present, the default values are used
-for max31827 chip.
+I suggest no _key, also there is no need for "= false".
+To be consistent with enable_qspinlock, I also suggest
+adding __ro_after_init:
 
-Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
----
+static bool no_virt_spin __ro_after_init; 
 
-v2 -> v3: Separated patch into 2. Fixed 'WARNING: Unexpected
-indentation.'
-Reported-by: kernel test robot <lkp@intel.com>
 
-v2: Added patch
 
- Documentation/hwmon/max31827.rst | 48 ++++++++++++++----
- drivers/hwmon/max31827.c         | 85 +++++++++++++++++++++++++++++---
- 2 files changed, 116 insertions(+), 17 deletions(-)
+> +DEFINE_STATIC_KEY_TRUE(virt_spin_lock_key);
+> +
+> +static int __init no_virt_spin_setup(char *p)
+> +{
+> +	no_virt_spin_key = true;
+> +
+> +	return 0;
+> +}
+> +early_param("no_virt_spin", no_virt_spin_setup);
+> +
+> +static void __init virt_spin_lock_init(void)
+> +{
+> +	if (sbi_get_firmware_id() != SBI_EXT_BASE_IMPL_ID_KVM ||
+> +	    no_virt_spin_key)
+> +		static_branch_disable(&virt_spin_lock_key);
+> +	else
+> +		pr_info("Enable virt_spin_lock\n");
+> +}
+> +#endif
+> +
 
-diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-index 9a1055a007cf..a8bbfb85dd02 100644
---- a/Documentation/hwmon/max31827.rst
-+++ b/Documentation/hwmon/max31827.rst
-@@ -52,13 +52,21 @@ MAX31827 has low and over temperature alarms with an effective value and a
- hysteresis value: -40 and -30 degrees for under temperature alarm and +100 and
- +90 degrees for over temperature alarm.
- 
--The alarm can be configured in comparator and interrupt mode. Currently only
--comparator mode is implemented. In Comparator mode, the OT/UT status bits have a
--value of 1 when the temperature rises above the TH value or falls below TL,
--which is also subject to the Fault Queue selection. OT status returns to 0 when
--the temperature drops below the TH_HYST value or when shutdown mode is entered.
--Similarly, UT status returns to 0 when the temperature rises above TL_HYST value
--or when shutdown mode is entered.
-+The alarm can be configured in comparator and interrupt mode from the
-+devicetree. In Comparator mode, the OT/UT status bits have a value of 1 when the
-+temperature rises above the TH value or falls below TL, which is also subject to
-+the Fault Queue selection. OT status returns to 0 when the temperature drops
-+below the TH_HYST value or when shutdown mode is entered. Similarly, UT status
-+returns to 0 when the temperature rises above TL_HYST value or when shutdown
-+mode is entered.
-+
-+In interrupt mode exceeding TH also sets OT status to 1, which remains set until
-+a read operation is performed on the configuration/status register (max or min
-+attribute); at this point, it returns to 0. Once OT status is set to 1 from
-+exceeding TH and reset, it is set to 1 again only when the temperature drops
-+below TH_HYST. The output remains asserted until it is reset by a read. It is
-+set again if the temperature rises above TH, and so on. The same logic applies
-+to the operation of the UT status bit.
- 
- Putting the MAX31827 into shutdown mode also resets the OT/UT status bits. Note
- that if the mode is changed while OT/UT status bits are set, an OT/UT status
-@@ -68,6 +76,18 @@ clear the status bits before changing the operating mode.
- 
- The conversions can be manual with the one-shot functionality and automatic with
- a set frequency. When powered on, the chip measures temperatures with 1 conv/s.
-+The conversion rate can be modified with update_interval attribute of the chip.
-+Conversion/second = 1/update_interval. Thus, the available options according to
-+the data sheet are:
-+
-+- 64000 (ms) = 1 conv/64 sec
-+- 32000 (ms) = 1 conv/32 sec
-+- 16000 (ms) = 1 conv/16 sec
-+- 4000 (ms) = 1 conv/4 sec
-+- 1000 (ms) = 1 conv/sec (default)
-+- 250 (ms) = 4 conv/sec
-+- 125 (ms) = 8 conv/sec
-+
- Enabling the device when it is already enabled has the side effect of setting
- the conversion frequency to 1 conv/s. The conversion time varies depending on
- the resolution. The conversion time doubles with every bit of increased
-@@ -83,8 +103,18 @@ in the writing of alarm values too. For positive numbers the user-input value
- will always be rounded down to the nearest possible value, for negative numbers
- the user-input will always be rounded up to the nearest possible value.
- 
-+Bus timeout resets the I2C-compatible interface when SCL is low for more than
-+30ms (nominal).
-+
-+Alarm polarity determines if the active state of the alarm is low or high. The
-+behavior for both settings is dependent on the Fault Queue setting. The ALARM
-+pin is an open-drain output and requires a pullup resistor to operate.
-+
-+The Fault Queue bits select how many consecutive temperature faults must occur
-+before overtemperature or undertemperature faults are indicated in the
-+corresponding status bits.
-+
- Notes
- -----
- 
--Currently fault queue, alarm polarity and resolution cannot be modified.
--PEC is not implemented either.
-+PEC and resolution are not implemented.
-diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
-index f05762219995..41c440b8a474 100644
---- a/drivers/hwmon/max31827.c
-+++ b/drivers/hwmon/max31827.c
-@@ -12,6 +12,19 @@
- #include <linux/i2c.h>
- #include <linux/mutex.h>
- #include <linux/regmap.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/of_device.h>
-+
-+/*
-+ * gcc turns __builtin_ffsll() into a call to __ffsdi2(), which is not provided
-+ * by every architecture. __ffs64() is available on all architectures, but the
-+ * result is not defined if no bits are set.
-+ */
-+#define max31827__bf_shf(x)			 \
-+	({					 \
-+		typeof(x) x_ = (x);		 \
-+		((x_) != 0) ? __ffs64(x_) : 0x0; \
-+	})
- 
- #define MAX31827_T_REG			0x0
- #define MAX31827_CONFIGURATION_REG	0x2
-@@ -22,11 +35,19 @@
- 
- #define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
- #define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
--#define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK	BIT(14)
--#define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK	BIT(15)
-+#define MAX31827_CONFIGURATION_TIMEOUT_MASK	BIT(5)
-+#define MAX31827_CONFIGURATION_RESOLUTION_MASK	GENMASK(7, 6)
-+#define MAX31827_CONFIGURATION_ALRM_POL_MASK	BIT(8)
-+#define MAX31827_CONFIGURATION_COMP_INT_MASK	BIT(9)
-+#define MAX31827_CONFIGURATION_FLT_Q_MASK	GENMASK(11, 10)
-+#define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK BIT(14)
-+#define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK BIT(15)
- 
- #define MAX31827_12_BIT_CNV_TIME	140
- 
-+#define MAX31827_ALRM_POL_LOW	0x0
-+#define MAX31827_FLT_Q_1	0x0
-+
- #define MAX31827_16_BIT_TO_M_DGR(x)	(sign_extend32(x, 15) * 1000 / 16)
- #define MAX31827_M_DGR_TO_16_BIT(x)	(((x) << 4) / 1000)
- #define MAX31827_DEVICE_ENABLE(x)	((x) ? 0xA : 0x0)
-@@ -58,6 +79,7 @@ struct max31827_state {
- 	struct mutex lock;
- 	struct regmap *regmap;
- 	bool enable;
-+	struct i2c_client *client;
- };
- 
- static const struct regmap_config max31827_regmap = {
-@@ -361,14 +383,57 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
- 	return -EOPNOTSUPP;
- }
- 
--static int max31827_init_client(struct max31827_state *st)
-+static int max31827_init_client(struct max31827_state *st,
-+				struct fwnode_handle *fwnode)
- {
-+	bool prop;
-+	u32 data, lsb_idx;
-+	unsigned int res = 0;
-+	int ret;
-+
- 	st->enable = true;
-+	res |= MAX31827_DEVICE_ENABLE(1);
-+
-+	res |= MAX31827_CONFIGURATION_RESOLUTION_MASK;
-+
-+	prop = fwnode_property_read_bool(fwnode, "adi,comp-int");
-+	res |= FIELD_PREP(MAX31827_CONFIGURATION_COMP_INT_MASK, prop);
-+
-+	prop = fwnode_property_read_bool(fwnode, "adi,timeout-enable");
-+	res |= FIELD_PREP(MAX31827_CONFIGURATION_TIMEOUT_MASK, !prop);
-+
-+	if (fwnode_property_present(fwnode, "adi,alrm-pol")) {
-+		ret = fwnode_property_read_u32(fwnode, "adi,alrm-pol", &data);
-+		if (ret)
-+			return ret;
- 
--	return regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
--				  MAX31827_CONFIGURATION_1SHOT_MASK |
--					  MAX31827_CONFIGURATION_CNV_RATE_MASK,
--				  MAX31827_DEVICE_ENABLE(1));
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK, !!data);
-+	} else {
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK,
-+				  MAX31827_ALRM_POL_LOW);
-+	}
-+
-+	if (fwnode_property_present(fwnode, "adi,flt-q")) {
-+		ret = fwnode_property_read_u32(fwnode, "adi,flt-q", &data);
-+		if (ret)
-+			return ret;
-+
-+		/*
-+		 * Convert the desired fault queue into register bits.
-+		 */
-+		lsb_idx = max31827__bf_shf(data);
-+		if (lsb_idx > 3 || data != BIT(lsb_idx)) {
-+			dev_err(&st->client->dev, "Invalid data in fault queue\n");
-+			return -EOPNOTSUPP;
-+		}
-+
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK, lsb_idx);
-+	} else {
-+		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK,
-+				  MAX31827_FLT_Q_1);
-+	}
-+
-+	return regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, res);
- }
- 
- static const struct hwmon_channel_info *max31827_info[] = {
-@@ -396,6 +461,7 @@ static int max31827_probe(struct i2c_client *client)
- 	struct device *dev = &client->dev;
- 	struct device *hwmon_dev;
- 	struct max31827_state *st;
-+	struct fwnode_handle *fwnode;
- 	int err;
- 
- 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_WORD_DATA))
-@@ -412,7 +478,10 @@ static int max31827_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, PTR_ERR(st->regmap),
- 				     "Failed to allocate regmap.\n");
- 
--	err = max31827_init_client(st);
-+	st->client = client;
-+	fwnode = dev_fwnode(dev);
-+
-+	err = max31827_init_client(st, fwnode);
- 	if (err)
- 		return err;
- 
--- 
-2.34.1
+A new virt_no_spin kernel parameter was introduced, but without 
+CONFIG_QUEUED_SPINLOCKS it will silently fail.
+
+I would suggest an #else clause here with a function to print an error / 
+warning message about no_virt_spin being invalid in this scenario.
+It will probably help future debugging.
+
+
+>  static void __init riscv_spinlock_init(void)
+>  {
+>  #ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> -	if (!enable_qspinlock_key) {
+> +	if (!enable_qspinlock_key &&
+> +	    (sbi_get_firmware_id() != SBI_EXT_BASE_IMPL_ID_KVM)) {
+>  		static_branch_disable(&combo_qspinlock_key);
+>  		pr_info("Ticket spinlock: enabled\n");
+>  	} else {
+>  		pr_info("Queued spinlock: enabled\n");
+>  	}
+>  #endif
+> +
+> +#ifdef CONFIG_QUEUED_SPINLOCKS
+> +	virt_spin_lock_init();
+> +#endif
+>  }
+>  
+>  extern void __init init_rt_signal_env(void);
+> -- 
+> 2.36.1
+> 
+
+I am probably missing something out, but it looks to me that this patch is 
+causing 2 different changes:
+1 - Enabling no_virt_spin parameter
+2 - Disabling queued spinlocks for some firmware_id
+
+Wouldn't be better to split those changes in multiple patches? 
+Or am I missing the point on why they need to be together?
+
+Thanks!
+Leo
 
