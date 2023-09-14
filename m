@@ -2,156 +2,313 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 491EAEDE98A
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 07:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F03E3EDE98C
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 08:00:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234521AbjINHdI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 03:33:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42082 "EHLO
+        id S231274AbjINIAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 04:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235889AbjINHdF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 03:33:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 20399198
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 00:32:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694676742;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zeXUZmzA2R78d6Tnnb+ykDeaJ41fYcPMQRTIom5IJuI=;
-        b=cFb6vDL+ApN7noAzsa7WIFLy2qbIRvBWUfrDzh1FmYQrfOVDDpjedAII5vV6Lm5w1gxgCP
-        qVm1Lwv2/hr4rBW3lPSuxcARMgOaSgJGEsunwBClS+zkkjrOicWjfxHzTtkC+PShKHo9pq
-        zCkTvHDuxfueKey00mnDfP9gU3Pfq+s=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-531-A9IS_SQ0PbK9ekZU033mmg-1; Thu, 14 Sep 2023 03:32:20 -0400
-X-MC-Unique: A9IS_SQ0PbK9ekZU033mmg-1
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-6bb31a92b44so946746a34.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 00:32:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694676740; x=1695281540;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zeXUZmzA2R78d6Tnnb+ykDeaJ41fYcPMQRTIom5IJuI=;
-        b=ZOBxvPE0muVooCI6DuUVoFufZBB7dje0BxkgiD3jtYj8JwDNED0FsFNmt5fa8RHcQ2
-         B5ZDhyiHWn5885T1XVgm5LF3JnbCeaIp1wEO7wdsvCVf0PejIwg6k8C6AhaI/YSTg2wn
-         RswX7nubXgaxeu04/zAdCg0x+WidXZvJEYEzobNx5eCZ7ifg6iIuBbpFr4+YEXYNZ21v
-         kqaeAVJ2kGujycV+i3WxLuIHjh5g7yA8o9jh6Z1XnYW/Ius/9yC6V58apjnUELIcmrCX
-         kZz7bL6Ub5h7IwZMdVHg3N1X4lQey++cUuzGD2zqgmX/dxHJKITwYgBi6F0wLoLEO0BL
-         qoOw==
-X-Gm-Message-State: AOJu0Yw3bt2TAJKUDIkqFVtKJMLiUkTaauRoKSRycB12cDK2we7Xk3gb
-        I+InnzJGVeROc0laXtNRWKkN9mxoQ+shRHgKpiY8HDoVY5eNYvAXXZ6i87cLasVYKheALdup6zE
-        W9WITn0g+EQpQqh8N299c
-X-Received: by 2002:a9d:7748:0:b0:6b7:6e07:4951 with SMTP id t8-20020a9d7748000000b006b76e074951mr5156973otl.25.1694676740037;
-        Thu, 14 Sep 2023 00:32:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEr6lIrxX3lHcIWXsLn8H+SAhlSeGClLIiE+FDMDpEhnhKKTf67DlStq8kfOI9KIS1JIF/G5A==
-X-Received: by 2002:a9d:7748:0:b0:6b7:6e07:4951 with SMTP id t8-20020a9d7748000000b006b76e074951mr5156960otl.25.1694676739790;
-        Thu, 14 Sep 2023 00:32:19 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id v25-20020a9d69d9000000b006b83a36c08bsm421777oto.53.2023.09.14.00.32.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 00:32:19 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 04:32:08 -0300
-From:   Leonardo Bras <leobras@redhat.com>
-To:     Guo Ren <guoren@kernel.org>
-Cc:     Waiman Long <longman@redhat.com>, paul.walmsley@sifive.com,
-        anup@brainfault.org, peterz@infradead.org, mingo@redhat.com,
-        will@kernel.org, palmer@rivosinc.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 07/17] riscv: qspinlock: Introduce qspinlock param
- for command line
-Message-ID: <ZQK2-CIL9U_QdMjh@redhat.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-8-guoren@kernel.org>
- <5ba0b8f3-f8f5-3a25-e9b7-f29a1abe654a@redhat.com>
- <CAJF2gTT2hRxgnQt+WJ9P0YBWnUaZJ1-9g3ZE9tOz_MiLSsUjwQ@mail.gmail.com>
+        with ESMTP id S231164AbjINIAb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 04:00:31 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9D11BF6;
+        Thu, 14 Sep 2023 01:00:27 -0700 (PDT)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38E7axtd017011;
+        Thu, 14 Sep 2023 04:00:07 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3t2y8k26k3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Sep 2023 04:00:07 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 38E805i2031634
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 14 Sep 2023 04:00:05 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Thu, 14 Sep 2023 04:00:04 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Thu, 14 Sep 2023 04:00:04 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Thu, 14 Sep 2023 04:00:04 -0400
+Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.230])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 38E7xpmV002387;
+        Thu, 14 Sep 2023 03:59:53 -0400
+From:   Daniel Matyas <daniel.matyas@analog.com>
+CC:     Daniel Matyas <daniel.matyas@analog.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v3 1/5] hwmon: max31827: Make code cleaner
+Date:   Thu, 14 Sep 2023 10:59:44 +0300
+Message-ID: <20230914075948.208046-1-daniel.matyas@analog.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJF2gTT2hRxgnQt+WJ9P0YBWnUaZJ1-9g3ZE9tOz_MiLSsUjwQ@mail.gmail.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: yRDiSLmABIivtSvja8G3D6qCR2IKfmb7
+X-Proofpoint-GUID: yRDiSLmABIivtSvja8G3D6qCR2IKfmb7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-14_05,2023-09-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
+ suspectscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2308100000
+ definitions=main-2309140069
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 09:08:34AM +0800, Guo Ren wrote:
-> On Mon, Sep 11, 2023 at 11:34 PM Waiman Long <longman@redhat.com> wrote:
-> >
-> > On 9/10/23 04:29, guoren@kernel.org wrote:
-> > > From: Guo Ren <guoren@linux.alibaba.com>
-> > >
-> > > Allow cmdline to force the kernel to use queued_spinlock when
-> > > CONFIG_RISCV_COMBO_SPINLOCKS=y.
-> > >
-> > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > ---
-> > >   Documentation/admin-guide/kernel-parameters.txt |  2 ++
-> > >   arch/riscv/kernel/setup.c                       | 16 +++++++++++++++-
-> > >   2 files changed, 17 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index 7dfb540c4f6c..61cacb8dfd0e 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -4693,6 +4693,8 @@
-> > >                       [KNL] Number of legacy pty's. Overwrites compiled-in
-> > >                       default number.
-> > >
-> > > +     qspinlock       [RISCV] Force to use qspinlock or auto-detect spinlock.
-> > > +
-> > >       qspinlock.numa_spinlock_threshold_ns=   [NUMA, PV_OPS]
-> > >                       Set the time threshold in nanoseconds for the
-> > >                       number of intra-node lock hand-offs before the
-> > > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > > index a447cf360a18..0f084f037651 100644
-> > > --- a/arch/riscv/kernel/setup.c
-> > > +++ b/arch/riscv/kernel/setup.c
-> > > @@ -270,6 +270,15 @@ static void __init parse_dtb(void)
-> > >   }
-> > >
-> > >   #ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> > > +bool enable_qspinlock_key = false;
-> >
-> > You can use __ro_after_init qualifier for enable_qspinlock_key. BTW,
-> > this is not a static key, just a simple flag. So what is the point of
-> > the _key suffix?
-> Okay, I would change it to:
-> bool enable_qspinlock_flag __ro_after_init = false;
+Now the wait time for one-shot is 140ms, instead of the old 141
+(removed the 1ms error).
 
-IIUC, this bool / flag is used in a single file, so it makes sense for it 
-to be static. Being static means it does not need to be initialized to 
-false, as it's standard to zero-fill this areas.
+Used enums and while loops to replace switch for selecting and getting
+update interval from conversion rate bits.
 
-Also, since it's a bool, it does not need to be called _flag.
+Divided the write_alarm_val function into 2 functions. The new function
+is more generic: it can be used not only for alarm writes, but for any
+kind of writes which require the device to be in shutdown mode.
 
-I would go with:
+Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+---
 
-static bool enable_qspinlock __ro_after_init;
+v2 -> v3: No change.
 
+v2: Added patch.
 
-> 
-> >
-> > Cheers,
-> > Longman
-> >
-> 
-> 
-> -- 
-> Best Regards
->  Guo Ren
-> 
+ Documentation/hwmon/max31827.rst |   4 +-
+ drivers/hwmon/max31827.c         | 127 ++++++++++++++-----------------
+ 2 files changed, 58 insertions(+), 73 deletions(-)
+
+diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
+index b0971d05b8a4..9a1055a007cf 100644
+--- a/Documentation/hwmon/max31827.rst
++++ b/Documentation/hwmon/max31827.rst
+@@ -73,8 +73,8 @@ the conversion frequency to 1 conv/s. The conversion time varies depending on
+ the resolution. The conversion time doubles with every bit of increased
+ resolution. For 10 bit resolution 35ms are needed, while for 12 bit resolution
+ (default) 140ms. When chip is in shutdown mode and a read operation is
+-requested, one-shot is triggered, the device waits for 140 (conversion time) + 1
+-(error) ms, and only after that is the temperature value register read.
++requested, one-shot is triggered, the device waits for 140 (conversion time) ms,
++and only after that is the temperature value register read.
+ 
+ The LSB of the temperature values is 0.0625 degrees Celsius, but the values of
+ the temperatures are displayed in milli-degrees. This means, that some data is
+diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
+index 602f4e4f81ff..f05762219995 100644
+--- a/drivers/hwmon/max31827.c
++++ b/drivers/hwmon/max31827.c
+@@ -25,20 +25,32 @@
+ #define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK	BIT(14)
+ #define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK	BIT(15)
+ 
+-#define MAX31827_12_BIT_CNV_TIME	141
+-
+-#define MAX31827_CNV_1_DIV_64_HZ	0x1
+-#define MAX31827_CNV_1_DIV_32_HZ	0x2
+-#define MAX31827_CNV_1_DIV_16_HZ	0x3
+-#define MAX31827_CNV_1_DIV_4_HZ		0x4
+-#define MAX31827_CNV_1_HZ		0x5
+-#define MAX31827_CNV_4_HZ		0x6
+-#define MAX31827_CNV_8_HZ		0x7
++#define MAX31827_12_BIT_CNV_TIME	140
+ 
+ #define MAX31827_16_BIT_TO_M_DGR(x)	(sign_extend32(x, 15) * 1000 / 16)
+ #define MAX31827_M_DGR_TO_16_BIT(x)	(((x) << 4) / 1000)
+ #define MAX31827_DEVICE_ENABLE(x)	((x) ? 0xA : 0x0)
+ 
++enum max31827_cnv {
++	MAX31827_CNV_1_DIV_64_HZ = 1,
++	MAX31827_CNV_1_DIV_32_HZ,
++	MAX31827_CNV_1_DIV_16_HZ,
++	MAX31827_CNV_1_DIV_4_HZ,
++	MAX31827_CNV_1_HZ,
++	MAX31827_CNV_4_HZ,
++	MAX31827_CNV_8_HZ,
++};
++
++static const u16 max31827_conversions[] = {
++	[MAX31827_CNV_1_DIV_64_HZ] = 64000,
++	[MAX31827_CNV_1_DIV_32_HZ] = 32000,
++	[MAX31827_CNV_1_DIV_16_HZ] = 16000,
++	[MAX31827_CNV_1_DIV_4_HZ] = 4000,
++	[MAX31827_CNV_1_HZ] = 1000,
++	[MAX31827_CNV_4_HZ] = 250,
++	[MAX31827_CNV_8_HZ] = 125,
++};
++
+ struct max31827_state {
+ 	/*
+ 	 * Prevent simultaneous access to the i2c client.
+@@ -54,15 +66,13 @@ static const struct regmap_config max31827_regmap = {
+ 	.max_register = 0xA,
+ };
+ 
+-static int write_alarm_val(struct max31827_state *st, unsigned int reg,
+-			   long val)
++static int shutdown_write(struct max31827_state *st, unsigned int reg,
++			  unsigned int val)
+ {
+ 	unsigned int cfg;
+-	unsigned int tmp;
++	unsigned int cnv_rate;
+ 	int ret;
+ 
+-	val = MAX31827_M_DGR_TO_16_BIT(val);
+-
+ 	/*
+ 	 * Before the Temperature Threshold Alarm and Alarm Hysteresis Threshold
+ 	 * register values are changed over I2C, the part must be in shutdown
+@@ -82,9 +92,10 @@ static int write_alarm_val(struct max31827_state *st, unsigned int reg,
+ 	if (ret)
+ 		goto unlock;
+ 
+-	tmp = cfg & ~(MAX31827_CONFIGURATION_1SHOT_MASK |
++	cnv_rate = MAX31827_CONFIGURATION_CNV_RATE_MASK & cfg;
++	cfg = cfg & ~(MAX31827_CONFIGURATION_1SHOT_MASK |
+ 		      MAX31827_CONFIGURATION_CNV_RATE_MASK);
+-	ret = regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, tmp);
++	ret = regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, cfg);
+ 	if (ret)
+ 		goto unlock;
+ 
+@@ -92,13 +103,23 @@ static int write_alarm_val(struct max31827_state *st, unsigned int reg,
+ 	if (ret)
+ 		goto unlock;
+ 
+-	ret = regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, cfg);
++	ret = regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
++				 MAX31827_CONFIGURATION_CNV_RATE_MASK,
++				 cnv_rate);
+ 
+ unlock:
+ 	mutex_unlock(&st->lock);
+ 	return ret;
+ }
+ 
++static int write_alarm_val(struct max31827_state *st, unsigned int reg,
++			   long val)
++{
++	val = MAX31827_M_DGR_TO_16_BIT(val);
++
++	return shutdown_write(st, reg, val);
++}
++
+ static umode_t max31827_is_visible(const void *state,
+ 				   enum hwmon_sensor_types type, u32 attr,
+ 				   int channel)
+@@ -243,32 +264,7 @@ static int max31827_read(struct device *dev, enum hwmon_sensor_types type,
+ 
+ 			uval = FIELD_GET(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+ 					 uval);
+-			switch (uval) {
+-			case MAX31827_CNV_1_DIV_64_HZ:
+-				*val = 64000;
+-				break;
+-			case MAX31827_CNV_1_DIV_32_HZ:
+-				*val = 32000;
+-				break;
+-			case MAX31827_CNV_1_DIV_16_HZ:
+-				*val = 16000;
+-				break;
+-			case MAX31827_CNV_1_DIV_4_HZ:
+-				*val = 4000;
+-				break;
+-			case MAX31827_CNV_1_HZ:
+-				*val = 1000;
+-				break;
+-			case MAX31827_CNV_4_HZ:
+-				*val = 250;
+-				break;
+-			case MAX31827_CNV_8_HZ:
+-				*val = 125;
+-				break;
+-			default:
+-				*val = 0;
+-				break;
+-			}
++			*val = max31827_conversions[uval];
+ 		}
+ 		break;
+ 
+@@ -284,6 +280,7 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
+ 			  u32 attr, int channel, long val)
+ {
+ 	struct max31827_state *st = dev_get_drvdata(dev);
++	int res = 1;
+ 	int ret;
+ 
+ 	switch (type) {
+@@ -333,39 +330,27 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
+ 			if (!st->enable)
+ 				return -EINVAL;
+ 
+-			switch (val) {
+-			case 125:
+-				val = MAX31827_CNV_8_HZ;
+-				break;
+-			case 250:
+-				val = MAX31827_CNV_4_HZ;
+-				break;
+-			case 1000:
+-				val = MAX31827_CNV_1_HZ;
+-				break;
+-			case 4000:
+-				val = MAX31827_CNV_1_DIV_4_HZ;
+-				break;
+-			case 16000:
+-				val = MAX31827_CNV_1_DIV_16_HZ;
+-				break;
+-			case 32000:
+-				val = MAX31827_CNV_1_DIV_32_HZ;
+-				break;
+-			case 64000:
+-				val = MAX31827_CNV_1_DIV_64_HZ;
+-				break;
+-			default:
+-				return -EINVAL;
+-			}
++			/*
++			 * Convert the desired conversion rate into register
++			 * bits. res is already initialized with 1.
++			 *
++			 * This was inspired by lm73 driver.
++			 */
++			while (res < ARRAY_SIZE(max31827_conversions) &&
++			       val < max31827_conversions[res])
++				res++;
++
++			if (res == ARRAY_SIZE(max31827_conversions) ||
++			    val != max31827_conversions[res])
++				return -EOPNOTSUPP;
+ 
+-			val = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+-					 val);
++			res = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
++					 res);
+ 
+ 			return regmap_update_bits(st->regmap,
+ 						  MAX31827_CONFIGURATION_REG,
+ 						  MAX31827_CONFIGURATION_CNV_RATE_MASK,
+-						  val);
++						  res);
+ 		}
+ 		break;
+ 
+-- 
+2.34.1
 
