@@ -2,135 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 462DEEEAA5D
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 17:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F79EEAA5F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 17:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241738AbjINR01 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 13:26:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47656 "EHLO
+        id S239639AbjINRsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 13:48:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240284AbjINR0H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 13:26:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8EB6F30EB
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 10:24:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694712245;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=N0ikbkJVQghcPjJgsQrA+sUTUrPSvE6Jh+YB8KXgR/g=;
-        b=LxL+JCMoq+wsN2L8GhWUCwWLcS7s4cupfTunPzkyk3Iz8u5lQsG1HxGSOVBRHZLQq/s5XL
-        Ivm71M2V8OaiAI3GtEHehjN5h0CmUrG0MSNqYteTiuF4/Ff6M7FNZts6OPnO6Sh8keg+zU
-        i4+u6NFdjV17sbVESFblka4Htvr1ej8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-mt1uKXGTNm6m770irEEv9Q-1; Thu, 14 Sep 2023 13:24:02 -0400
-X-MC-Unique: mt1uKXGTNm6m770irEEv9Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1F4684ACAA;
-        Thu, 14 Sep 2023 17:24:00 +0000 (UTC)
-Received: from [10.22.34.133] (unknown [10.22.34.133])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5003640C2070;
-        Thu, 14 Sep 2023 17:23:57 +0000 (UTC)
-Message-ID: <fb7d6e67-f396-dfe7-1461-8790bdeaad01@redhat.com>
-Date:   Thu, 14 Sep 2023 13:23:57 -0400
+        with ESMTP id S239124AbjINRsH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 13:48:07 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2041.outbound.protection.outlook.com [40.107.95.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8BC21FF5;
+        Thu, 14 Sep 2023 10:48:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q27bdCOkERVWYMJlGLm3+RSRk8s/j7ScDT5ORWKw6cPgyJ7EMyfSCGWU0BZBeCCn5MBOY2p576iwJ+u/LolrvF1+D+jr1Fx1c2Z8t4cSiSfzo9qCplox4okxsnQCUrEbTYhqkEfDS4JKQuPraTnFmp0bx96paKBcybzE1ggwxymaW6ljqdDsd8QQqMAAYEOullvLhwWSaAJBSV5bMfz7vblhM3DPuHYxqQR7iY0Hm90mOG2+7XX2QyN2SiidX9Ki7WCgXqOxOh+uMfuJj67YfS8cc2p0k7PdqVTenIBRhpdSh5w6+qJt7qb3E4IfwiAbMVgZlCgK/2B84+FllD2S/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jzbNOomNNBZ5CqIvwlDBtIRYpGdY8cX5qkdO4//fdFc=;
+ b=jmy7qxowkul1JwEgs2Y5475at13dJZeaNIfr2Z94NzqYvm9pQYWSuRiEOhRsID6j1c0c2HMymZJnEClpXTZbCppctZ/nO22fpoX/WKsQDOXSk4+BHy2f1/8YNXarJ9Wu1eimWcgqr3UVCoUVZkTjtNfOHeutbmbPppa1gVkaPz75aW1j9FzwGbR+9VC/N0V9LoRlhosCHVuInLlrJuH30rSinG3LmZjLOLI5GECBEcCD7kLBrIR1q7KydhLIsAc3LtZ2mCs38qLxPNr6XGfmwM+AktAWWY7BSuWBi+dKOHPcQiLbU5EgyO9VXDj+rpgyyY7i1q5mAhP/3IXP3zwQYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jzbNOomNNBZ5CqIvwlDBtIRYpGdY8cX5qkdO4//fdFc=;
+ b=d3z0MVKheKVkWEGeyaLefjwMbcVV8zZ7yqXy2zRNgYazakfAr5AOIiBXZtMP5NkuV7bCHGtjk6sgQz3r9liaDQvHFC8G7wewEXWTEEy3PkPLDo/iqi1Oq455UbpPzJI2onCCFZiE4upFvjNg4zeS+Jwphr2I6bAZWdyDBvya70I=
+Received: from BL0PR02CA0143.namprd02.prod.outlook.com (2603:10b6:208:35::48)
+ by MN2PR12MB4317.namprd12.prod.outlook.com (2603:10b6:208:1d0::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.19; Thu, 14 Sep
+ 2023 17:48:00 +0000
+Received: from BL02EPF0001A0FF.namprd03.prod.outlook.com
+ (2603:10b6:208:35:cafe::66) by BL0PR02CA0143.outlook.office365.com
+ (2603:10b6:208:35::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.20 via Frontend
+ Transport; Thu, 14 Sep 2023 17:48:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0001A0FF.mail.protection.outlook.com (10.167.242.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6792.20 via Frontend Transport; Thu, 14 Sep 2023 17:48:00 +0000
+Received: from titanite-d354host.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 14 Sep 2023 12:47:59 -0500
+From:   Avadhut Naik <avadhut.naik@amd.com>
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <carlos.bilbao@amd.com>,
+        <linux-kernel@vger.kernel.org>, <avadnaik@amd.com>
+Subject: [PATCH 0/2] Spanish translation of security-bugs and embargoed-hardware-issues
+Date:   Thu, 14 Sep 2023 12:47:50 -0500
+Message-ID: <20230914174752.3091407-1-avadhut.naik@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH V11 07/17] riscv: qspinlock: Introduce qspinlock param for
- command line
-Content-Language: en-US
-To:     Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, boqun.feng@gmail.com, tglx@linutronix.de,
-        paulmck@kernel.org, rostedt@goodmis.org, rdunlap@infradead.org,
-        catalin.marinas@arm.com, conor.dooley@microchip.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-8-guoren@kernel.org>
- <5ba0b8f3-f8f5-3a25-e9b7-f29a1abe654a@redhat.com>
- <CAJF2gTT2hRxgnQt+WJ9P0YBWnUaZJ1-9g3ZE9tOz_MiLSsUjwQ@mail.gmail.com>
- <ZQK2-CIL9U_QdMjh@redhat.com>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <ZQK2-CIL9U_QdMjh@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FF:EE_|MN2PR12MB4317:EE_
+X-MS-Office365-Filtering-Correlation-Id: cdf9b4a1-ae5a-4e4b-1fb7-08dbb54abcee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YrKd+SpPVj4H71TGVbOdE/Cp6LjQ60ikzZZhJSCm+mg/dKlCrTeRTzvOCK8RxD5vZZKcWvXwqwzKyL3HGnpSYHeiQCB2c6wcwHY30pNTtpi0pOX4kba8aq/ZtW039QsgH0CX4ZG8eXX1zu5fXMiSrfXJxhA7njn7/GTwqsj/2Y6hQQaauelvw41ZeXb1IWjODWFURl+8GmshEWI1GldRbjksXjP1OX1LbO7uGMt5gBG/8+WAdQneHBeSab0Zxk0wiRW+pswOBZIFUoZqGm3eAvP9MqTtGqzMu3xoC6uKmeXZC9RKzp8LnRu1NTeFU4vgbOO6jc4ve6XyXRqdJPkTs5AGsFnif62wSd9xajv/7AO4QfKzHqVYQLLJkzHHr45qmKbH2IS0GBS21RYtwFHNfU9iAIJChvVn3i2HaOTfz7zX37koC/ua8C+E4xScx4uEMDr04G8c3PRh8Vog4x5Az0vujWhUo9DJdf2Ikf8aDlC/LdWXOUluwwIBGnbuXLL3HvnnwZbATTD/P4lNIrmGMlPDhF7u9O9bdqMokLMK4f3tVal0aXNEfdNw98kvB9Sggx/FcA1jjwpwHMriBoARjlhagaV268zUsncPtFgfMZPYBq8gRhld2DIUf1Dlpp7LGwMSPiJsOMUTnLAxLvjtiJEb4awEOq85MtHPEIWgqyDa3t48N0RYAVS6Ql5G2T25Wsc69qo2lBQi4/l6sSd0TT+l6D520RRr/1CnBhQqInmrGjzDrMNZ446FgMzfaEoO0wMp0FnJMDiDAFrcNcKJig==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(376002)(136003)(396003)(346002)(1800799009)(451199024)(186009)(82310400011)(36840700001)(46966006)(40470700004)(7696005)(6666004)(478600001)(82740400003)(86362001)(36756003)(40460700003)(356005)(81166007)(40480700001)(36860700001)(16526019)(1076003)(426003)(4744005)(83380400001)(15650500001)(2906002)(44832011)(2616005)(26005)(4326008)(5660300002)(47076005)(8676002)(41300700001)(8936002)(336012)(316002)(70206006)(6916009)(70586007)(54906003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 17:48:00.4518
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdf9b4a1-ae5a-4e4b-1fb7-08dbb54abcee
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4317
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/14/23 03:32, Leonardo Bras wrote:
-> On Tue, Sep 12, 2023 at 09:08:34AM +0800, Guo Ren wrote:
->> On Mon, Sep 11, 2023 at 11:34 PM Waiman Long <longman@redhat.com> wrote:
->>> On 9/10/23 04:29, guoren@kernel.org wrote:
->>>> From: Guo Ren <guoren@linux.alibaba.com>
->>>>
->>>> Allow cmdline to force the kernel to use queued_spinlock when
->>>> CONFIG_RISCV_COMBO_SPINLOCKS=y.
->>>>
->>>> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
->>>> Signed-off-by: Guo Ren <guoren@kernel.org>
->>>> ---
->>>>    Documentation/admin-guide/kernel-parameters.txt |  2 ++
->>>>    arch/riscv/kernel/setup.c                       | 16 +++++++++++++++-
->>>>    2 files changed, 17 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->>>> index 7dfb540c4f6c..61cacb8dfd0e 100644
->>>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>>> @@ -4693,6 +4693,8 @@
->>>>                        [KNL] Number of legacy pty's. Overwrites compiled-in
->>>>                        default number.
->>>>
->>>> +     qspinlock       [RISCV] Force to use qspinlock or auto-detect spinlock.
->>>> +
->>>>        qspinlock.numa_spinlock_threshold_ns=   [NUMA, PV_OPS]
->>>>                        Set the time threshold in nanoseconds for the
->>>>                        number of intra-node lock hand-offs before the
->>>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
->>>> index a447cf360a18..0f084f037651 100644
->>>> --- a/arch/riscv/kernel/setup.c
->>>> +++ b/arch/riscv/kernel/setup.c
->>>> @@ -270,6 +270,15 @@ static void __init parse_dtb(void)
->>>>    }
->>>>
->>>>    #ifdef CONFIG_RISCV_COMBO_SPINLOCKS
->>>> +bool enable_qspinlock_key = false;
->>> You can use __ro_after_init qualifier for enable_qspinlock_key. BTW,
->>> this is not a static key, just a simple flag. So what is the point of
->>> the _key suffix?
->> Okay, I would change it to:
->> bool enable_qspinlock_flag __ro_after_init = false;
-> IIUC, this bool / flag is used in a single file, so it makes sense for it
-> to be static. Being static means it does not need to be initialized to
-> false, as it's standard to zero-fill this areas.
->
-> Also, since it's a bool, it does not need to be called _flag.
->
-> I would go with:
->
-> static bool enable_qspinlock __ro_after_init;
+This patchset translates process/security-bugs and
+process/embargoed-hardware-issues into Spanish
 
-I actually was thinking about the same suggestion to add static. Then I 
-realized that the flag was also used in another file in a later patch. 
-Of course, if it turns out that this flag is no longer needed outside of 
-this file, it should be static.
+The first patch translates Documentation/process/security-bugs.rst into
+Spanish
 
-Cheers,
-Longman
+The second patch translates Documentation/process/embargoed-hardware-issues.rst
+into Spanish
+
+Avadhut Naik (2):
+  docs/sp_SP: Add translation of process/security-bugs
+  docs/sp_SP: Add translation of process/embargoed-hardware-issues
+
+ .../process/embargoed-hardware-issues.rst     | 341 ++++++++++++++++++
+ .../translations/sp_SP/process/index.rst      |   2 +
+ .../sp_SP/process/security-bugs.rst           | 103 ++++++
+ 3 files changed, 446 insertions(+)
+ create mode 100644 Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
+ create mode 100644 Documentation/translations/sp_SP/process/security-bugs.rst
+
+-- 
+2.34.1
 
