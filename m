@@ -2,143 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 177B1CA0ED0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 03:57:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4D5CA0ECD
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 04:11:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234394AbjIND5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Sep 2023 23:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47750 "EHLO
+        id S234613AbjINELE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 00:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234257AbjIND5Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Sep 2023 23:57:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1BCDE1BDA
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 20:56:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694663785;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=63bCgZyJPHacFd5KYq5Eqq1cMFHgnlGhz4az2hRkdwo=;
-        b=T+Er4ggfSw7IiZxRi0ucFtMbOQ7AwSDgbG1mgamrTPn/jkHxF+d3HSS/O6EQFMzZi1lr+6
-        88T9vzU8KAf25T3EzL2k+0SQENgRiPsyRQu2+OwiMnXnF9hH9EcEUh2Z+JDfY8xDGdbu9o
-        TUn7HVzd3ANmj4j8raHsHNhRq1kz41g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-458-yCRQTPdYOeW4asSAfTUyCA-1; Wed, 13 Sep 2023 23:56:23 -0400
-X-MC-Unique: yCRQTPdYOeW4asSAfTUyCA-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-402493650c6so6732555e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 20:56:23 -0700 (PDT)
+        with ESMTP id S234661AbjINELC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 00:11:02 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBBDEC
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 21:10:57 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so3544050a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Sep 2023 21:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dowhile0-org.20230601.gappssmtp.com; s=20230601; t=1694664656; x=1695269456; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aufe5J8vU+SctNgmT1W1/mq3RGiP8XjApWBecp6gONY=;
+        b=ImRwRd6b/zFAX4YmIppIskNk6Jwzcmx7YL+FTacGwAvYnCrNJRX0yKmaMhmCZ2B+nQ
+         Z0hvQnKO/+d4R+T5zPDCzXqVijeV7lPjUgT52LPLoIEwcXwjWICndpZmo5cvepOghKRu
+         nMrMH4br6I+JX4xqkTFJnVA1TjYa1dpF9ciPzEh2VeWKVM67h5b/yXRUyCFgFSqpfeqy
+         hIfcXxm4uHBwfR0pvgeyucgUAnzPeek4IwHtIobEoYl4JH+ZPOQkqfqMTBw/z3TWG1N2
+         Omb/f1GYTAHZENLFi8VnpUx4o5RRa93XM5gAqLk8mK835rPdoZLhLLtCsWvcXVxYg+xY
+         evyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694663782; x=1695268582;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=63bCgZyJPHacFd5KYq5Eqq1cMFHgnlGhz4az2hRkdwo=;
-        b=MNEhJTiiDNP8EHUXSscvpjJvsL6j13KDnYh8GunWgfUltDGg22QfwLesS4W4zhCEi9
-         DmXM7TkQ0E6v9/HAGdf9VixvewCCYTTsF+xQ0tAfk8DwBBrZ8vNppmaGFi/Ydk3J+1ix
-         22NTDQWyG8PH4rTeNaBXKo+NBYQz/YbpQzgcdCOthyC0pC2JPFRMnUQFHITzthJaNd4t
-         5wVHgtadfytxifGWM4tiOKD87FffiMHEes/RV1qZd6bmikiaWYHYDdZfRlZjOIV24wUj
-         9smknwHTRZDM0OFWcPT+mgrbWZh+sp+2zTtDGuQiPVKBUyjj4nvunnhOXdIcox02GlZr
-         ALUA==
-X-Gm-Message-State: AOJu0YyGs8RZBMJ2gtZp1WuD+dT9Naz6mi7E6cHptAH0L5Je+FlJ2Jcf
-        y48CbaErk+NvDA3KFd2wtUofVbawvz0bZQTl84q/HvjCrW/f9SVqrFejd8y3aIkoJ4y+cIb8ZWr
-        h9hPeV2RWPQHezAlVUpuA
-X-Received: by 2002:a5d:4d48:0:b0:317:59a6:6f68 with SMTP id a8-20020a5d4d48000000b0031759a66f68mr368717wru.0.1694663782438;
-        Wed, 13 Sep 2023 20:56:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG5SPDX1hcn5laq1RA9p9XOS8/g3DnQpW7eGWgRtECgwIvYuRxdyOibR3jv6pK73OtAV++HJw==
-X-Received: by 2002:a5d:4d48:0:b0:317:59a6:6f68 with SMTP id a8-20020a5d4d48000000b0031759a66f68mr368709wru.0.1694663782027;
-        Wed, 13 Sep 2023 20:56:22 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id s1-20020a5d4ec1000000b0031fbbe347e1sm529465wrv.65.2023.09.13.20.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 20:56:21 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nicolas@fjasle.eu>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
- dependencies
-In-Reply-To: <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <ZQISGujwlH00B8KJ@fjasle.eu>
- <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
- <ZQIcuVgaDmA+VdV0@fjasle.eu>
- <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
-Date:   Thu, 14 Sep 2023 05:56:20 +0200
-Message-ID: <874jjx1k7v.fsf@minerva.mail-host-address-is-not-set>
+        d=1e100.net; s=20230601; t=1694664656; x=1695269456;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aufe5J8vU+SctNgmT1W1/mq3RGiP8XjApWBecp6gONY=;
+        b=MWszQTZMNewqeZt5IiEGWuzP09lnseo4F7lZez3bD8/c1V+wt6WdjU4U4Lq+/55C77
+         1y/eKm/0x9Pd8YBbm2c1w3iKw32aIXClD9seRfaYXR0Ps+Eo9hGD3JFTjTM8ZUvi3Pjt
+         rNbPeQzhs2snU4Az2+uMn3DlsHwtVWvZejOvGl+GFWPiVdBOwtThWD7/qapv+hX1mdhG
+         p/6CbiI5wSwsGfTgrYTQ8VsaMVAZHBBHGW+TonD1K6dgcc8S/vNRC33PyTa+St9JjMax
+         UY7nO1ORZsmf1MRyxsxBYnxb/5F0gL1o5TYrenvA6KV+MjTISIhuiQogD1PAnw7E0mxp
+         FBZQ==
+X-Gm-Message-State: AOJu0YwGyMvySkEUA1SmxW4TyLe0n4CtdJDXvs1yce+uA01xFBmCuzSy
+        pIRE4PQbhilgMPrkffKrX3lJCDtAltHDCXayRAC4mw==
+X-Google-Smtp-Source: AGHT+IFtsvUmPS4Noz40u6zbY6fpqmr+96j8eujD/00V5cBzXdC4gU7MPilZUrybMC4DFXO6Yn+sO+DlY8NEeebB66I=
+X-Received: by 2002:a17:906:5399:b0:9a1:b528:d0f6 with SMTP id
+ g25-20020a170906539900b009a1b528d0f6mr839462ejo.27.1694664655307; Wed, 13 Sep
+ 2023 21:10:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+In-Reply-To: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+From:   Javier Martinez Canillas <javier@dowhile0.org>
+Date:   Thu, 14 Sep 2023 06:10:43 +0200
+Message-ID: <CABxcv==jJvujerZNmN8PXF1-YYXy4Ra1WAHcmX4YUJRbRPUPzw@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Suggest a longer expected time
+ for responses
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
+Hello Mark,
 
-Hello Nicolas,
-
-> On Wed, Sep 13, 2023, at 22:34, Nicolas Schier wrote:
->> On Wed, Sep 13, 2023 at 09:55:36PM +0200 Arnd Bergmann wrote:
+On Wed, Sep 13, 2023 at 4:57=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> While some subsystems do typically have very fast turnaround times on
+> review this is far from standard over the kernel and is likely to set
+> unrealistic expectations for submitters.  Tell submitters to expect 2-3
+> weeks instead, this will cover more of the kernel.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+> Mark Brown <broonie@kernel.org>
 >
 
-[...]
+Agreed that 2-3 weeks is more realistic.
 
->> I can choose between:
->>
->> BAR=y  => FOO={N/m/y}
->> BAR=m  => FOO is not selectable
->> BAR=n  => FOO={N/m/y}
->
-> That is indeed the point: if BAR=m, we want to be able to pick FOO=m
-> here, otherwise it is impossible to enabled everything as modules.
->
-> Another correct way to express the same thing as the first would
-> be 
->
-> config FOO
->       tristate "Support for foo hardware"
->       depends on !BAR=m || m
->
-> which I find even more confusing than the 'BAR || !BAR'
-> convention, though we have that in a couple of places.
->
-> I just found another variant that I had not seen before:
->
->> (Re-checked with BAR=IPV6 and FOO=WIREGUARD; CONFIG_WIREGUARD as 'depends on
->> IPV6 || !IPV6' in its kconfig definition, and both are tristate kconfig
->> symbols.)
->>
-
-Which is correct because WIREGUARD can be built with IPV6 disabled, but
-if both options are enabled then WIREGUARD can only be built-in if the
-IPV6 option is also built-in.
-
-WIREGUARD must be a module if IPV6 is also a module, but can still be a
-module if IPV6 is built-in.
-
-In other words, what this idiom express is that the following configs
-are possible:
-
- IPV6=n => WIREGUARD=y
- IPV6=n => WIREGUARD=m
- IPV6=y => WIREGUARD=y
- IPV6=y => WIREGUARD=m
- IPV6=m => WIREGUARD=m
-
-but the following option is not possible:
-
- IPV6=m => WIREGUARD=y
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
