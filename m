@@ -2,231 +2,167 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C4B7EEAA56
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 16:37:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11016EEAA59
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 17:07:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231588AbjINQh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 12:37:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56306 "EHLO
+        id S238865AbjINRHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 13:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjINQh2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 12:37:28 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70991FDF
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 09:37:23 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b974031aeaso19308271fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 09:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1694709442; x=1695314242; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=INzY5mzDJkNITQ5vOtkJ6OyVulyDxlKzw3k+lMybVJM=;
-        b=guAlihucWu1zM4rFx9cXRd2Y0cikYetfxeCc7beCXaHTgQc5vSYzUi9zTL5XWBLrkh
-         LOualqFxGKP9ZUBF/xBhCXb2pJbFw1LCpBHNGMbeSoHUcrF4NacXpG9NhG69n/L8u1ut
-         uHJEHLW0TBvW4Js6Cb4Uj3FPpcIxYrYzlZwkDUChUKYlkRJzVAt3J53fdRJ49Xb2Q+L/
-         R6O7IhJoB6LzLfsjkTjWxbdQHETXzf5/lqJqRmKb1A+wA1wERxQsXAsLiHixhy03WL7J
-         lWwORo0YZEwEeg4VDgC3jazrMrrhdVMuRcv+b5EqbfKBARIL1orYNm35VSa7o3/IWIyS
-         2EuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694709442; x=1695314242;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=INzY5mzDJkNITQ5vOtkJ6OyVulyDxlKzw3k+lMybVJM=;
-        b=bJb/94da0ZQcUSEnwPjEHgpPfIDNzap/M1jIgdBLymdBKX+ELIIJu6+hHVZS2UpYOu
-         rRABqQQczgdgK/eCKf+HTHlPk4a0e9dgF/npfzM/vGShO1dDi4Xv/aayD2Y1KV2ABeLb
-         WnAoFQ40KT5PoFW+Y9UfoNrYPt/e4duoE2J8fHyDWmJyPh+JZO23fCmty8gp2aghdkjy
-         bamKZgavxbHV8bNRBGFRVuorbE/BPXayZjZaGubLE47qhYaywozewveCsAF6BB5uKgw/
-         gMQBdWkcjGRHgW9gcape8AsTM9ZhEsfBgibSGqbU80JeaudRlAXahUQ9Bkxu8thcMPby
-         HHbg==
-X-Gm-Message-State: AOJu0Yy5Fk/j+wWYMYa7uCbuOPZkIP3+RpetZEtLOe+leOw2ywLYrrow
-        NEXHmWEfo3krAxuufrw2ZXk/xCyzXIwzxzFt2i/KrA==
-X-Google-Smtp-Source: AGHT+IGXhAInxFKQbKfHLY9/qgI04l1AFAvp7t0z7LIBOucUx5X+JWNDSTLpNWQ3GuOUiWNkbDCKY1C8vRn4pJDvDqg=
-X-Received: by 2002:a2e:9455:0:b0:2bc:c11c:4471 with SMTP id
- o21-20020a2e9455000000b002bcc11c4471mr5726081ljh.21.1694709441979; Thu, 14
- Sep 2023 09:37:21 -0700 (PDT)
+        with ESMTP id S232000AbjINRHv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 13:07:51 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009E11FE1;
+        Thu, 14 Sep 2023 10:07:46 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BAEC433C9;
+        Thu, 14 Sep 2023 17:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694711266;
+        bh=1r0+Zdvf3wZUhOn2z8iQ20YUkXarqeZelKafGh0Vb5A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=dgOuqOeceJAGBoDw1c6Co4XoM8soxD7wU2eq/W6C+XZJf8V9pPkWgPUrUlgMqdE3b
+         7xYGmNx7ifAr7G46/C+o5KAoAvIJ4MI02+388TPgweqM9yyb2nb7yh5f5l2NV928nf
+         HzKsuBT45z22NndhQwRtqYlkQRwcL59p4AL6dcWrniocC5KhzYaAYr5W+KWH5R4SjY
+         /XWnkWCC05FLEdCJ0xRIQIj/qbAcnkutGUaP4kvMC4UGWSzao6GMj9aQAUiHnnBESq
+         vVnlhnJJave+UwMBOmYSqUrX9799zP1LRPBuB+sZtdYGRRK0lnWt4FYN4xQA72hY7A
+         LNgnq+suizjiQ==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1c4c5375329so654198fac.2;
+        Thu, 14 Sep 2023 10:07:46 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzkINIjBLZakX2ZPYndHH1n3qGrsnqeB5lQxKBZEUn3fQ1z6wd/
+        BWdZKwzTf2JIFR7KCi2Mp6TEW3dpnTKzTGXVnFQ=
+X-Google-Smtp-Source: AGHT+IET219ycfzqvgCfxsTzJ4o9BjENQN4pkEP9AJb/FkgP6cvm9VXtjdpkuI/I118jM3aYOVxfCXNlOBWd9cwQOT4=
+X-Received: by 2002:a05:6871:60e:b0:1d5:a905:5681 with SMTP id
+ w14-20020a056871060e00b001d5a9055681mr6469325oan.26.1694711265804; Thu, 14
+ Sep 2023 10:07:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
- <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
- <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com>
- <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
- <de95229a14614198894a8ce421c30d94@AcuMS.aculab.com> <CALs-Hstcz3OAxUi80nm+U0R56VBUUPQT=+XMOLpVJsn2ZOcM1A@mail.gmail.com>
- <172bc43cc2ac45239ec40477d53d263a@AcuMS.aculab.com>
-In-Reply-To: <172bc43cc2ac45239ec40477d53d263a@AcuMS.aculab.com>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Thu, 14 Sep 2023 09:36:45 -0700
-Message-ID: <CALs-HsvMfrsPsG2b9imLNOJFH6Xk45G0=UPWGtExePiMKV6+1Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+References: <20230913113801.1901152-1-arnd@kernel.org> <ZQISGujwlH00B8KJ@fjasle.eu>
+ <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com> <ZQIcuVgaDmA+VdV0@fjasle.eu>
+In-Reply-To: <ZQIcuVgaDmA+VdV0@fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 15 Sep 2023 02:07:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT9kO0RnNai5CuNgP3wgG+XQ2RqcSb2uAqP85P0PMN2tg@mail.gmail.com>
+Message-ID: <CAK7LNAT9kO0RnNai5CuNgP3wgG+XQ2RqcSb2uAqP85P0PMN2tg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional dependencies
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Andy Chiu <andy.chiu@sifive.com>
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 14, 2023 at 8:55=E2=80=AFAM David Laight <David.Laight@aculab.c=
-om> wrote:
+On Thu, Sep 14, 2023 at 5:34=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu> =
+wrote:
 >
-> From: Evan Green
-> > Sent: 14 September 2023 16:01
+> On Wed, Sep 13, 2023 at 09:55:36PM +0200 Arnd Bergmann wrote:
+> > On Wed, Sep 13, 2023, at 21:48, Nicolas Schier wrote:
+> > > On Wed, Sep 13, 2023 at 01:37:52PM +0200 Arnd Bergmann wrote:
+> > >
+> > >>  Documentation/kbuild/kconfig-language.rst | 26 ++++++++++++++++++++=
++++
+> > >>  1 file changed, 26 insertions(+)
+> > >>
+> > >> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentati=
+on/kbuild/kconfig-language.rst
+> > >> index 858ed5d80defe..89dea587a469a 100644
+> > >> --- a/Documentation/kbuild/kconfig-language.rst
+> > >> +++ b/Documentation/kbuild/kconfig-language.rst
+> > >> @@ -573,6 +573,32 @@ above, leading to:
+> > >>    bool "Support for foo hardware"
+> > >>    depends on ARCH_FOO_VENDOR || COMPILE_TEST
+> > >>
+> > >> +Optional dependencies
+> > >> +~~~~~~~~~~~~~~~~~~~~~
+> > >> +
+> > >> +Some drivers are able to optionally use a feature from another modu=
+le
+> > >> +or build cleanly with that module disabled, but cause a link failur=
+e
+> > >> +when trying to use that loadable module from a built-in driver.
+> > >> +
+> > >> +The most common way to express this optional dependency in Kconfig =
+logic
+> > >> +uses the slighly counterintuitive
+> > >
+> > > slighly -> slightly
 > >
-> > On Thu, Sep 14, 2023 at 1:47=E2=80=AFAM David Laight <David.Laight@acul=
-ab.com> wrote:
-> > >
-> > > From: Geert Uytterhoeven
-> > > > Sent: 14 September 2023 08:33
-> > > ...
-> > > > > >     rzfive:
-> > > > > >         cpu0: Ratio of byte access time to unaligned word acces=
-s is
-> > > > > > 1.05, unaligned accesses are fast
-> > > > >
-> > > > > Hrm, I'm a little surprised to be seeing this number come out so =
-close
-> > > > > to 1. If you reboot a few times, what kind of variance do you get=
- on
-> > > > > this?
-> > > >
-> > > > Rock-solid at 1.05 (even with increased resolution: 1.05853 on 3 tr=
-ies)
-> > >
-> > > Would that match zero overhead unless the access crosses a
-> > > cache line boundary?
-> > > (I can't remember whether the test is using increasing addresses.)
+> > Fixed, thanks
 > >
-> > Yes, the test does use increasing addresses, it copies across 4 pages.
-> > We start with a warmup, so caching effects beyond L1 are largely not
-> > taken into account.
->
-> That seems entirely excessive.
-> If you want to avoid data cache issues (which probably do)
-> then just repeating a single access would almost certainly
-> suffice.
-> Repeatedly using a short buffer (say 256 bytes) won't add
-> much loop overhead.
-> Although you may want to do a test that avoids transfers
-> that cross cache line and especially page boundaries.
-> Either of those could easily be much slower than a read
-> that is entirely within a cache line.
-
-We won't be faulting on any of these pages, and they should remain in
-the TLB, so I don't expect many page boundary specific effects. If
-there is a steep penalty for misaligned loads across a cache line,
-such that it's worse than doing byte accesses, I want the test results
-to be dinged for that.
-
->
-> ...
-> > > > > >     vexriscv/orangecrab:
-> > > > > >
-> > > > > >         cpu0: Ratio of byte access time to unaligned word acces=
-s is
-> > > > > > 0.00, unaligned accesses are slow
-> > > >
-> > > > cpu0: Ratio of byte access time to unaligned word access is 0.00417=
-,
-> > > > unaligned accesses are slow
-> > > >
-> > > > > > I am a bit surprised by the near-zero values.  Are these expect=
-ed?
-> > > > >
-> > > > > This could be expected, if firmware is trapping the unaligned acc=
-esses
-> > > > > and coming out >100x slower than a native access. If you're inter=
-ested
-> > > > > in getting a little more resolution, you could try to print a few=
- more
-> > > > > decimal places with something like (sorry gmail mangles the white=
-space
-> > > > > on this):
-> > >
-> > > I'd expect one of three possible values:
-> > > - 1.0x: Basically zero cost except for cache line/page boundaries.
-> > > - ~2: Hardware does two reads and merges the values.
-> > > - >100: Trap fixed up in software.
-> > >
-> > > I'd think the '2' case could be considered fast.
-> > > You only need to time one access to see if it was a fault.
+> > > For better RST compliance: could you explicitly start the code block =
+e.g. by
+> > > appending '::' as in "... counterintuitive::"?
 > >
-> > We're comparing misaligned word accesses with byte accesses of the
-> > same total size. So 1.0 means a misaligned load is basically no
-> > different from 8 byte loads. The goal was to help people that are
-> > forced to do odd loads and stores decide whether they are better off
-> > moving by bytes or by misaligned words. (In contrast, the answer to
-> > "should I do a misaligned word load or an aligned word load" is
-> > generally always "do the aligned one if you can", so comparing those
-> > two things didn't seem as useful).
+> > Ok, done.
+> >
+> > >> +
+> > >> +  config FOO
+> > >> +  bool "Support for foo hardware"
+> > >> +  depends on BAR || !BAR
+> > >
+> > > are you sure that this is enough?  While testing, I needed to explici=
+tly use
+> > > =3Dy|=3Dn:
+> > >
+> > >     depends on BAR=3Dy || BAR=3Dn
+> > >
+> > > to prevent FOO to be selectable iff BAR=3Dm.
+> >
+> > I see my problem, I made a different mistake here. Your version
+> > is correct for a 'bool' symbol as I had here, but the intention
+> > of this was to make it work for tristate symbols, which are the
+> > interesting case. I've fixed it up this way now, hope it now makes
+> > sense to you:
+> >
+> > --- a/Documentation/kbuild/kconfig-language.rst
+> > +++ b/Documentation/kbuild/kconfig-language.rst
+> > @@ -581,19 +581,19 @@ or build cleanly with that module disabled, but c=
+ause a link failure
+> >  when trying to use that loadable module from a built-in driver.
+> >
+> >  The most common way to express this optional dependency in Kconfig log=
+ic
+> > -uses the slighly counterintuitive
+> > +uses the slightly counterintuitive::
+> >
+> >    config FOO
+> > -       bool "Support for foo hardware"
+> > +       tristate "Support for foo hardware"
+> >         depends on BAR || !BAR
 >
-> Ah, I'd have compared the cost of aligned accesses with misaligned ones.
-> That would tell you whether you really need to avoid them.
-> The cost of byte and aligned word accesses should be much the same
-> (for each access that is) - if not you've got a real bottleneck.
->
-> If a misaligned access is 8 times slower than an aligned one
-> it is still 'quite slow'.
-> I'd definitely call that 8 not 1 - even if you treat it as 'fast'.
+> ah, thanks, tristate kconfig symbols are really more interesting.
 
-The number itself isn't exported or saved anywhere, it's just printed
-as diagnostic explanation into the final fast/slow designation.
 
-Misaligned word loads are never going to be faster than aligned ones,
-and aren't really going to be equal either. It's also generally not
-something that causes software a lot of angst: we align most of our
-buffers and structures with help from the compiler, and generally do
-an aligned access whenever possible. It's the times when we're forced
-to do odd sizes or accesses we know are already misaligned that this
-hwprobe bit was designed to help. In those cases, users are forced to
-decide if they should do a misaligned word access or byte accesses, so
-we aim to provide that result.
+Both FOO and BAR MUST be tristate
+to make this documentation sensible.
 
-If there's a use case for knowing "misaligned accesses are exactly as
-fast as aligned ones", we could detect this threshold in the same
-test, and add another hwprobe bit for it.
 
--Evan
+If FOO is bool type, "depends on BAR || !BAR"
+becomes a no-op.
 
->
-> For comparison you (well I) can write x64-64 asm for the ip-checksum
-> loop that will execute 1 memory read every clock (8 bytes/clock).
-> It is very slightly slower for misaligned buffers, but by less
-> than 1 clock per cache line.
-> That's what I'd call 1.0 :-)
->
-> I'd expect even simple hardware to do misaligned reads as two
-> reads and then merge the data - so should really be no slower
-> than two separate aligned reads.
-> Since you'd expect a cpu to do an L1 data cache read every clock
-> (probably pipelined) the misaligned read should just add 1 clock.
->
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1=
- 1PT, UK
-> Registration No: 1397386 (Wales)
+As you notice, FOO and BAR become independent of
+each other.
+
+
+You may wonder why.
+
+Here, another unclear rule applies:
+
+'depends on m' for a bool option is promoted to
+'depends on y'.
+
+https://github.com/torvalds/linux/blob/v6.5/scripts/kconfig/symbol.c#L214
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
