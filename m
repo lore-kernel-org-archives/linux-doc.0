@@ -2,61 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0B5EDE99C
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 09:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A741DEDE99C
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 09:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236069AbjINJhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 05:37:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45840 "EHLO
+        id S231668AbjINJvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 05:51:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235604AbjINJhp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 05:37:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 782991BF9
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 02:37:02 -0700 (PDT)
+        with ESMTP id S237299AbjINJvl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 05:51:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 99A8D272B
+        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 02:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694684221;
+        s=mimecast20190719; t=1694684598;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8vQlQADn2LNqOGAlsXmaezeqHZMFdsyRwPKTLWRd854=;
-        b=TDAGFleMZDXaox0b9O9cR/KjF6jDxgxfKQ8tnSDBwtsTEH+ol2xb9fbv6qDM+eIhDk26G/
-        XFaCM4IcZp/UXEj6HDkSR76S5iFceNolN+w3h+mCACiyw+kjohQJCw39GFIlOT5zqv2+YD
-        /sXjroxZJTlLnMJLrGtE3oWA7z7BunQ=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=DbbV7zUbHyFOQqG5sX6JcaC8bYUMhWeBa5xwVhmrkEQ=;
+        b=LpWzndZUvIzeCPs4X5Vu634TWKVOiOFE2IGMrWqYD23v4pBykAsbU9twX6ScmW7vapQkRL
+        4L+zK3Ah7xgulckbMH7WwN63bhiCsU0d4PAb63Ls9o0tZxP7W7WkRasKWRsa+OtA7JV8Xp
+        f6hqY6QbBx18HsjP/1bYuykCvU24DXo=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-256-FX-zR43GNhObcJb-3MROdg-1; Thu, 14 Sep 2023 05:37:00 -0400
-X-MC-Unique: FX-zR43GNhObcJb-3MROdg-1
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-3aa1254fb00so1059309b6e.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 02:36:59 -0700 (PDT)
+ us-mta-323-dccd1V-JOFmINOiSFl4vWw-1; Thu, 14 Sep 2023 05:43:17 -0400
+X-MC-Unique: dccd1V-JOFmINOiSFl4vWw-1
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-6bc7afd0498so890456a34.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 02:43:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694684219; x=1695289019;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8vQlQADn2LNqOGAlsXmaezeqHZMFdsyRwPKTLWRd854=;
-        b=R6jzLmRpcuzMq+hjBWNjxbuCKkmf8P7KApE9B6TQn84PKUwEuG70KKz1ss4k4/hEce
-         58ez+GH51nb6z6cRjHstafOk7SW2wfkf4KzDM0AyJBbjAeZrKm+iuiwkPcAAjwN1hAc3
-         xgqfyVBvI2M5LFG+qWAIG1gZHY5Gs9+cggAMkeQGA7oXWORGlAFv6j9HmDaj59PoKO65
-         Fi8LHmvPbC+Fh5hsEr6/uuSxVTNaBCbwHgoBimzY0IXFX4t0KxvyUs6ICw/iyeUAZw0V
-         hGpr2y6lAYyshg8NEqh1HAoiEqMgfXvvyHeFFQt5vgwLE6twdTtExsS6wIdAZeJr9AaB
-         raaw==
-X-Gm-Message-State: AOJu0Yy86iiKkRHAagUpJh0KYuzDm8cFbYs/m96gr6Zj+dxreUw0tVxs
-        iV55zOLI5JgBBm5GNHGIqKIA1il3DDk5r/ZIcSCrzZndSYff0o35w7ia0Dxb3D2Pv1nD7AdsU7m
-        ogZJs6PCrxcI4i8f2JI2K
-X-Received: by 2002:a05:6808:bd4:b0:3a3:7a28:f841 with SMTP id o20-20020a0568080bd400b003a37a28f841mr6256021oik.41.1694684219295;
-        Thu, 14 Sep 2023 02:36:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEOYB9XBC6PVpc7f+a0f60gNl1NFed8atTc8/uEab+FTz4RvHJ//hpWsS4nDqiqEtsGdQd5ag==
-X-Received: by 2002:a05:6808:bd4:b0:3a3:7a28:f841 with SMTP id o20-20020a0568080bd400b003a37a28f841mr6255987oik.41.1694684219072;
-        Thu, 14 Sep 2023 02:36:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694684596; x=1695289396;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DbbV7zUbHyFOQqG5sX6JcaC8bYUMhWeBa5xwVhmrkEQ=;
+        b=uDg0wD8YGMxb4UVQbsEjG2R4s/IG5PoJOhT7FECEuxj9hKD9tJNYa2RkGzMLqUDrVX
+         Ez2YIkE9fqmlfnb8YbB482n1PUIopFnALONFxyxmk+H+L89QyJoE5VpeRdERmXNDGNvk
+         TcKCVsjbwdwlTbxgUR4RnlWMzDf57rmORe98lBKzJT619j0yo2JAgIKFhtM+zfnngQKr
+         uj1Lxr5CXqDKKUFmgLm52lnY7LgfQmwe+PItsaXpBjOR55B4m90Rt2LJrbJ1irULvvri
+         OGVxJK/0xMBSmfsiRc8JMO9VAwIhRunp0ym9ZzlCbgBfgfmgpk88Hs56OOMmEAqeNHF3
+         4qxw==
+X-Gm-Message-State: AOJu0Yz51YhkSxUnaw/2zuwGm7YeLPSu8qX4EzXSc30LSKBOS6hju/Iu
+        tIw/mOC7k/GgO5n+jHjTuqGQ00Lp5aP5/nZs58P3r9UGluMQFixUsWlWUqR6PX1gDjwqkE5P6yc
+        ySQk04idEkkHZGuG7NHfh
+X-Received: by 2002:a9d:6d8e:0:b0:6b9:b0f6:eab8 with SMTP id x14-20020a9d6d8e000000b006b9b0f6eab8mr6134259otp.5.1694684596498;
+        Thu, 14 Sep 2023 02:43:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE3QnDlKzJBDRQlqNhyCyRRuZPKH26ygpP6UVo5h9yyQNDkmSeGchz3nt5E9QfIuxm29/peHg==
+X-Received: by 2002:a9d:6d8e:0:b0:6b9:b0f6:eab8 with SMTP id x14-20020a9d6d8e000000b006b9b0f6eab8mr6134245otp.5.1694684596151;
+        Thu, 14 Sep 2023 02:43:16 -0700 (PDT)
 Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id n11-20020a9d4d0b000000b006b96a4287d4sm495055otf.5.2023.09.14.02.36.51
+        by smtp.gmail.com with ESMTPSA id v22-20020a05683018d600b006b87f593877sm499860ote.37.2023.09.14.02.43.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 02:36:58 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 06:36:49 -0300
+        Thu, 14 Sep 2023 02:43:15 -0700 (PDT)
+Date:   Thu, 14 Sep 2023 06:43:06 -0300
 From:   Leonardo Bras <leobras@redhat.com>
-To:     guoren@kernel.org
+To:     Guo Ren <guoren@kernel.org>
 Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
         peterz@infradead.org, mingo@redhat.com, will@kernel.org,
         palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
@@ -70,78 +71,229 @@ Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
         linux-doc@vger.kernel.org, kvm@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
         linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 10/17] riscv: qspinlock: errata: Enable qspinlock for
- T-HEAD processors
-Message-ID: <ZQLUMbDKMgDzptPw@redhat.com>
+Subject: Re: [PATCH V11 05/17] riscv: qspinlock: Add basic queued_spinlock
+ support
+Message-ID: <ZQLVqoCGJ1ExMU3e@redhat.com>
 References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-11-guoren@kernel.org>
+ <20230910082911.3378782-6-guoren@kernel.org>
+ <ZQIbejhIev5tx6vl@redhat.com>
+ <CAJF2gTSdjgUaUqhkfTPmJg6Mph+8Ej4j8MeDmfBOmFY5gkTpBQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230910082911.3378782-11-guoren@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJF2gTSdjgUaUqhkfTPmJg6Mph+8Ej4j8MeDmfBOmFY5gkTpBQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 10, 2023 at 04:29:04AM -0400, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
+On Thu, Sep 14, 2023 at 12:46:56PM +0800, Guo Ren wrote:
+> On Thu, Sep 14, 2023 at 4:29 AM Leonardo Bras <leobras@redhat.com> wrote:
+> >
+> > On Sun, Sep 10, 2023 at 04:28:59AM -0400, guoren@kernel.org wrote:
+> > > From: Guo Ren <guoren@linux.alibaba.com>
+> > >
+> > > The requirements of qspinlock have been documented by commit:
+> > > a8ad07e5240c ("asm-generic: qspinlock: Indicate the use of mixed-size
+> > > atomics").
+> > >
+> > > Although RISC-V ISA gives out a weaker forward guarantee LR/SC, which
+> > > doesn't satisfy the requirements of qspinlock above, it won't prevent
+> > > some riscv vendors from implementing a strong fwd guarantee LR/SC in
+> > > microarchitecture to match xchg_tail requirement. T-HEAD C9xx processor
+> > > is the one.
+> > >
+> > > We've tested the patch on SOPHGO sg2042 & th1520 and passed the stress
+> > > test on Fedora & Ubuntu & OpenEuler ... Here is the performance
+> > > comparison between qspinlock and ticket_lock on sg2042 (64 cores):
+> > >
+> > > sysbench test=threads threads=32 yields=100 lock=8 (+13.8%):
+> > >   queued_spinlock 0.5109/0.00
+> > >   ticket_spinlock 0.5814/0.00
+> > >
+> > > perf futex/hash (+6.7%):
+> > >   queued_spinlock 1444393 operations/sec (+- 0.09%)
+> > >   ticket_spinlock 1353215 operations/sec (+- 0.15%)
+> > >
+> > > perf futex/wake-parallel (+8.6%):
+> > >   queued_spinlock (waking 1/64 threads) in 0.0253 ms (+-2.90%)
+> > >   ticket_spinlock (waking 1/64 threads) in 0.0275 ms (+-3.12%)
+> > >
+> > > perf futex/requeue (+4.2%):
+> > >   queued_spinlock Requeued 64 of 64 threads in 0.0785 ms (+-0.55%)
+> > >   ticket_spinlock Requeued 64 of 64 threads in 0.0818 ms (+-4.12%)
+> > >
+> > > System Benchmarks (+6.4%)
+> > >   queued_spinlock:
+> > >     System Benchmarks Index Values               BASELINE       RESULT    INDEX
+> > >     Dhrystone 2 using register variables         116700.0  628613745.4  53865.8
+> > >     Double-Precision Whetstone                       55.0     182422.8  33167.8
+> > >     Execl Throughput                                 43.0      13116.6   3050.4
+> > >     File Copy 1024 bufsize 2000 maxblocks          3960.0    7762306.2  19601.8
+> > >     File Copy 256 bufsize 500 maxblocks            1655.0    3417556.8  20649.9
+> > >     File Copy 4096 bufsize 8000 maxblocks          5800.0    7427995.7  12806.9
+> > >     Pipe Throughput                               12440.0   23058600.5  18535.9
+> > >     Pipe-based Context Switching                   4000.0    2835617.7   7089.0
+> > >     Process Creation                                126.0      12537.3    995.0
+> > >     Shell Scripts (1 concurrent)                     42.4      57057.4  13456.9
+> > >     Shell Scripts (8 concurrent)                      6.0       7367.1  12278.5
+> > >     System Call Overhead                          15000.0   33308301.3  22205.5
+> > >                                                                        ========
+> > >     System Benchmarks Index Score                                       12426.1
+> > >
+> > >   ticket_spinlock:
+> > >     System Benchmarks Index Values               BASELINE       RESULT    INDEX
+> > >     Dhrystone 2 using register variables         116700.0  626541701.9  53688.2
+> > >     Double-Precision Whetstone                       55.0     181921.0  33076.5
+> > >     Execl Throughput                                 43.0      12625.1   2936.1
+> > >     File Copy 1024 bufsize 2000 maxblocks          3960.0    6553792.9  16550.0
+> > >     File Copy 256 bufsize 500 maxblocks            1655.0    3189231.6  19270.3
+> > >     File Copy 4096 bufsize 8000 maxblocks          5800.0    7221277.0  12450.5
+> > >     Pipe Throughput                               12440.0   20594018.7  16554.7
+> > >     Pipe-based Context Switching                   4000.0    2571117.7   6427.8
+> > >     Process Creation                                126.0      10798.4    857.0
+> > >     Shell Scripts (1 concurrent)                     42.4      57227.5  13497.1
+> > >     Shell Scripts (8 concurrent)                      6.0       7329.2  12215.3
+> > >     System Call Overhead                          15000.0   30766778.4  20511.2
+> > >                                                                        ========
+> > >     System Benchmarks Index Score                                       11670.7
+> > >
+> > > The qspinlock has a significant improvement on SOPHGO SG2042 64
+> > > cores platform than the ticket_lock.
+> > >
+> > > Signed-off-by: Guo Ren <guoren@kernel.org>
+> > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > > ---
+> > >  arch/riscv/Kconfig                | 16 ++++++++++++++++
+> > >  arch/riscv/include/asm/Kbuild     |  3 ++-
+> > >  arch/riscv/include/asm/spinlock.h | 17 +++++++++++++++++
+> > >  3 files changed, 35 insertions(+), 1 deletion(-)
+> > >  create mode 100644 arch/riscv/include/asm/spinlock.h
+> > >
+> > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > > index 2c346fe169c1..7f39bfc75744 100644
+> > > --- a/arch/riscv/Kconfig
+> > > +++ b/arch/riscv/Kconfig
+> > > @@ -471,6 +471,22 @@ config NODES_SHIFT
+> > >         Specify the maximum number of NUMA Nodes available on the target
+> > >         system.  Increases memory reserved to accommodate various tables.
+> > >
+> > > +choice
+> > > +     prompt "RISC-V spinlock type"
+> > > +     default RISCV_TICKET_SPINLOCKS
+> > > +
+> > > +config RISCV_TICKET_SPINLOCKS
+> > > +     bool "Using ticket spinlock"
+> > > +
+> > > +config RISCV_QUEUED_SPINLOCKS
+> > > +     bool "Using queued spinlock"
+> > > +     depends on SMP && MMU
+> > > +     select ARCH_USE_QUEUED_SPINLOCKS
+> > > +     help
+> > > +       Make sure your micro arch LL/SC has a strong forward progress guarantee.
+> > > +       Otherwise, stay at ticket-lock.
+> > > +endchoice
+> > > +
+> > >  config RISCV_ALTERNATIVE
+> > >       bool
+> > >       depends on !XIP_KERNEL
+> > > diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
+> > > index 504f8b7e72d4..a0dc85e4a754 100644
+> > > --- a/arch/riscv/include/asm/Kbuild
+> > > +++ b/arch/riscv/include/asm/Kbuild
+> > > @@ -2,10 +2,11 @@
+> > >  generic-y += early_ioremap.h
+> > >  generic-y += flat.h
+> > >  generic-y += kvm_para.h
+> > > +generic-y += mcs_spinlock.h
+> > >  generic-y += parport.h
+> > > -generic-y += spinlock.h
+> >
+> > IIUC here you take the asm-generic/spinlock.h (which defines arch_spin_*())
+> > and include the asm-generic headers of mcs_spinlock and qspinlock.
+> >
+> > In this case, the qspinlock.h will provide the arch_spin_*() interfaces,
+> > which seems the oposite of the above description (ticket spinlocks being
+> > the standard).
+> >
+> > Shouldn't ticket-spinlock.h also get included here?
+> > (Also, I am probably missing something, as I dont' see the use of
+> > mcs_spinlock here.)
+> No, because asm-generic/spinlock.h:
+> ...
+> #include <asm-generic/ticket_spinlock.h>
+> ...
 > 
-> According to qspinlock requirements, RISC-V gives out a weak LR/SC
-> forward progress guarantee which does not satisfy qspinlock. But
-> many vendors could produce stronger forward guarantee LR/SC to
-> ensure the xchg_tail could be finished in time on any kind of
-> hart. T-HEAD is the vendor
 
-nit: "a vendor"
+But aren't you removing asm-generic/spinlock.h below ?
+-generic-y += spinlock.h
 
-> which implements strong forward
-> guarantee LR/SC instruction pairs, so enable qspinlock for T-HEAD
-> with errata init help.
+> >
+> > >  generic-y += spinlock_types.h
+> > >  generic-y += qrwlock.h
+> > >  generic-y += qrwlock_types.h
+> > > +generic-y += qspinlock.h
+> > >  generic-y += user.h
+> > >  generic-y += vmlinux.lds.h
+> > > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
+> > > new file mode 100644
+> > > index 000000000000..c644a92d4548
+> > > --- /dev/null
+> > > +++ b/arch/riscv/include/asm/spinlock.h
+> > > @@ -0,0 +1,17 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +
+> > > +#ifndef __ASM_RISCV_SPINLOCK_H
+> > > +#define __ASM_RISCV_SPINLOCK_H
+> > > +
+> > > +#ifdef CONFIG_QUEUED_SPINLOCKS
+> > > +#define _Q_PENDING_LOOPS     (1 << 9)
+> > > +#endif
+> >
+> > Any reason the above define couldn't be merged on the ifdef below?
+> Easy for the next patch to modify. See Waiman's comment:
 > 
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> ---
->  arch/riscv/errata/thead/errata.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> https://lore.kernel.org/linux-riscv/4cc7113a-0e4e-763a-cba2-7963bcd26c7a@redhat.com/
 > 
-> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/errata.c
-> index 751eb5a7f614..0df6a67302c0 100644
-> --- a/arch/riscv/errata/thead/errata.c
-> +++ b/arch/riscv/errata/thead/errata.c
-> @@ -86,6 +86,13 @@ static bool errata_probe_write_once(unsigned int stage,
->  	return false;
->  }
->  
-> +extern bool enable_qspinlock_key;
+> > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
+> > index c644a92d4548..9eb3ad31e564 100644
+> > --- a/arch/riscv/include/asm/spinlock.h
+> > +++ b/arch/riscv/include/asm/spinlock.h
+> > @@ -7,11 +7,94 @@
+> >   #define _Q_PENDING_LOOPS (1 << 9)
+> >   #endif
+> >
+> 
+> I see why you separated the _Q_PENDING_LOOPS out.
+> 
 
-Oh, now I understand why it was not static before. :)
+I see, should be fine then.
 
+Thanks!
+Leo
 
-> +static void errata_probe_qspinlock(unsigned int stage)
-> +{
-> +	if (stage == RISCV_ALTERNATIVES_BOOT)
-> +		enable_qspinlock_key = true;
-> +}
-> +
->  static u32 thead_errata_probe(unsigned int stage,
->  			      unsigned long archid, unsigned long impid)
->  {
-> @@ -103,6 +110,8 @@ static u32 thead_errata_probe(unsigned int stage,
->  	if (errata_probe_write_once(stage, archid, impid))
->  		cpu_req_errata |= BIT(ERRATA_THEAD_WRITE_ONCE);
->  
-> +	errata_probe_qspinlock(stage);
-> +
->  	return cpu_req_errata;
->  }
->  
-
-So, if THEAD then enable qspinlock().
-
-LGTM:
-Reviewed-by: Leonardo Bras <leobras@redhat.com>
-
+> 
+> >
+> > > +
+> > > +#ifdef CONFIG_QUEUED_SPINLOCKS
+> > > +#include <asm/qspinlock.h>
+> > > +#include <asm/qrwlock.h>
+> > > +#else
+> > > +#include <asm-generic/spinlock.h>
+> > > +#endif
+> > > +
+> > > +#endif /* __ASM_RISCV_SPINLOCK_H */
+> > > --
+> > > 2.36.1
+> > >
+> >
+> > Thanks!
+> > Leo
+> >
+> 
+> 
 > -- 
-> 2.36.1
+> Best Regards
+>  Guo Ren
 > 
 
