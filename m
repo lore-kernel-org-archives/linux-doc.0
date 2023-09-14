@@ -2,298 +2,302 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A741DEDE99C
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 09:51:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96A4CEDE99C
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Sep 2023 09:54:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231668AbjINJvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Sep 2023 05:51:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33410 "EHLO
+        id S231668AbjINJyg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Sep 2023 05:54:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237299AbjINJvl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 05:51:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 99A8D272B
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 02:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694684598;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DbbV7zUbHyFOQqG5sX6JcaC8bYUMhWeBa5xwVhmrkEQ=;
-        b=LpWzndZUvIzeCPs4X5Vu634TWKVOiOFE2IGMrWqYD23v4pBykAsbU9twX6ScmW7vapQkRL
-        4L+zK3Ah7xgulckbMH7WwN63bhiCsU0d4PAb63Ls9o0tZxP7W7WkRasKWRsa+OtA7JV8Xp
-        f6hqY6QbBx18HsjP/1bYuykCvU24DXo=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-323-dccd1V-JOFmINOiSFl4vWw-1; Thu, 14 Sep 2023 05:43:17 -0400
-X-MC-Unique: dccd1V-JOFmINOiSFl4vWw-1
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-6bc7afd0498so890456a34.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 02:43:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694684596; x=1695289396;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DbbV7zUbHyFOQqG5sX6JcaC8bYUMhWeBa5xwVhmrkEQ=;
-        b=uDg0wD8YGMxb4UVQbsEjG2R4s/IG5PoJOhT7FECEuxj9hKD9tJNYa2RkGzMLqUDrVX
-         Ez2YIkE9fqmlfnb8YbB482n1PUIopFnALONFxyxmk+H+L89QyJoE5VpeRdERmXNDGNvk
-         TcKCVsjbwdwlTbxgUR4RnlWMzDf57rmORe98lBKzJT619j0yo2JAgIKFhtM+zfnngQKr
-         uj1Lxr5CXqDKKUFmgLm52lnY7LgfQmwe+PItsaXpBjOR55B4m90Rt2LJrbJ1irULvvri
-         OGVxJK/0xMBSmfsiRc8JMO9VAwIhRunp0ym9ZzlCbgBfgfmgpk88Hs56OOMmEAqeNHF3
-         4qxw==
-X-Gm-Message-State: AOJu0Yz51YhkSxUnaw/2zuwGm7YeLPSu8qX4EzXSc30LSKBOS6hju/Iu
-        tIw/mOC7k/GgO5n+jHjTuqGQ00Lp5aP5/nZs58P3r9UGluMQFixUsWlWUqR6PX1gDjwqkE5P6yc
-        ySQk04idEkkHZGuG7NHfh
-X-Received: by 2002:a9d:6d8e:0:b0:6b9:b0f6:eab8 with SMTP id x14-20020a9d6d8e000000b006b9b0f6eab8mr6134259otp.5.1694684596498;
-        Thu, 14 Sep 2023 02:43:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE3QnDlKzJBDRQlqNhyCyRRuZPKH26ygpP6UVo5h9yyQNDkmSeGchz3nt5E9QfIuxm29/peHg==
-X-Received: by 2002:a9d:6d8e:0:b0:6b9:b0f6:eab8 with SMTP id x14-20020a9d6d8e000000b006b9b0f6eab8mr6134245otp.5.1694684596151;
-        Thu, 14 Sep 2023 02:43:16 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id v22-20020a05683018d600b006b87f593877sm499860ote.37.2023.09.14.02.43.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 02:43:15 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 06:43:06 -0300
-From:   Leonardo Bras <leobras@redhat.com>
-To:     Guo Ren <guoren@kernel.org>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 05/17] riscv: qspinlock: Add basic queued_spinlock
- support
-Message-ID: <ZQLVqoCGJ1ExMU3e@redhat.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-6-guoren@kernel.org>
- <ZQIbejhIev5tx6vl@redhat.com>
- <CAJF2gTSdjgUaUqhkfTPmJg6Mph+8Ej4j8MeDmfBOmFY5gkTpBQ@mail.gmail.com>
+        with ESMTP id S237276AbjINJyf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Sep 2023 05:54:35 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D32EA83;
+        Thu, 14 Sep 2023 02:54:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2639C433C8;
+        Thu, 14 Sep 2023 09:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694685271;
+        bh=lR+yRGJKoSTyQFNUNag0BMxUiV3pza9vdEDrK6nb8Zg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W0fdktTAB4gCjqO27jQmbg6pGkHa6Q4nAah6LWyGco6f6D0trAIOKtnfvvArkteZT
+         SBVZ2GEG8+UBZaVOs4RLmiYX9BzCR9UaY4aM2OmTxjJKujpMZXMlayKUDdkZZ2utBb
+         0jm1hUE/y/uX3coQYg6ppnoh3D1lbCWOcsY84xlKOOAYcBb8K59owvmn+Ksb3jXs8x
+         lRAIrelmD8PptYdgfpSgDvw/6325fTERGOWuVeaXaAVXYn/kgsujdMorW77nZcnjGo
+         79LRwOT6zafDQLNgY4qzPBF88cu6tA3hoyJZiIX8rjmpEosD+twAWgwy7l2NEQjxEu
+         2qRt1YOP5TkyA==
+Date:   Thu, 14 Sep 2023 11:54:28 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Daniel Stone <daniel@fooishbar.org>
+Cc:     Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+        emma@anholt.net, linux-doc@vger.kernel.org,
+        vignesh.raman@collabora.com, dri-devel@lists.freedesktop.org,
+        alyssa@rosenzweig.io, jbrunet@baylibre.com, robdclark@google.com,
+        corbet@lwn.net, khilman@baylibre.com,
+        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+        linux-rockchip@lists.infradead.org,
+        Daniel Stone <daniels@collabora.com>,
+        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
+        Helen Koike <helen.koike@collabora.com>, anholt@google.com,
+        linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+        linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+        linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+Message-ID: <krhnfc4os5nqwi3iixgxwads3jbcgtdcvn7ygxpvd62uaejvsk@mx6tmser7jti>
+References: <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
+ <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com>
+ <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
+ <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
+ <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
+ <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
+ <5ejq3hjpoy3gxft2jbmoa5m656usetuxcs7g3ezyyiitj67rav@r5jhdz27foat>
+ <550454b8-2e2c-c947-92c5-37f0367661c2@mailbox.org>
+ <os2wvkangif2nwewfbzkuyjm7njp4g3sqj5td3ogbhhjwsrbbd@3jpf6g5hd3z4>
+ <CAPj87rP1sw49Z0HdPhUa-=kDp166RqiuhC9rL+Ef9hpwPD5+JA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="sweft2f6sgmxlij7"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJF2gTSdjgUaUqhkfTPmJg6Mph+8Ej4j8MeDmfBOmFY5gkTpBQ@mail.gmail.com>
+In-Reply-To: <CAPj87rP1sw49Z0HdPhUa-=kDp166RqiuhC9rL+Ef9hpwPD5+JA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 14, 2023 at 12:46:56PM +0800, Guo Ren wrote:
-> On Thu, Sep 14, 2023 at 4:29 AM Leonardo Bras <leobras@redhat.com> wrote:
-> >
-> > On Sun, Sep 10, 2023 at 04:28:59AM -0400, guoren@kernel.org wrote:
-> > > From: Guo Ren <guoren@linux.alibaba.com>
-> > >
-> > > The requirements of qspinlock have been documented by commit:
-> > > a8ad07e5240c ("asm-generic: qspinlock: Indicate the use of mixed-size
-> > > atomics").
-> > >
-> > > Although RISC-V ISA gives out a weaker forward guarantee LR/SC, which
-> > > doesn't satisfy the requirements of qspinlock above, it won't prevent
-> > > some riscv vendors from implementing a strong fwd guarantee LR/SC in
-> > > microarchitecture to match xchg_tail requirement. T-HEAD C9xx processor
-> > > is the one.
-> > >
-> > > We've tested the patch on SOPHGO sg2042 & th1520 and passed the stress
-> > > test on Fedora & Ubuntu & OpenEuler ... Here is the performance
-> > > comparison between qspinlock and ticket_lock on sg2042 (64 cores):
-> > >
-> > > sysbench test=threads threads=32 yields=100 lock=8 (+13.8%):
-> > >   queued_spinlock 0.5109/0.00
-> > >   ticket_spinlock 0.5814/0.00
-> > >
-> > > perf futex/hash (+6.7%):
-> > >   queued_spinlock 1444393 operations/sec (+- 0.09%)
-> > >   ticket_spinlock 1353215 operations/sec (+- 0.15%)
-> > >
-> > > perf futex/wake-parallel (+8.6%):
-> > >   queued_spinlock (waking 1/64 threads) in 0.0253 ms (+-2.90%)
-> > >   ticket_spinlock (waking 1/64 threads) in 0.0275 ms (+-3.12%)
-> > >
-> > > perf futex/requeue (+4.2%):
-> > >   queued_spinlock Requeued 64 of 64 threads in 0.0785 ms (+-0.55%)
-> > >   ticket_spinlock Requeued 64 of 64 threads in 0.0818 ms (+-4.12%)
-> > >
-> > > System Benchmarks (+6.4%)
-> > >   queued_spinlock:
-> > >     System Benchmarks Index Values               BASELINE       RESULT    INDEX
-> > >     Dhrystone 2 using register variables         116700.0  628613745.4  53865.8
-> > >     Double-Precision Whetstone                       55.0     182422.8  33167.8
-> > >     Execl Throughput                                 43.0      13116.6   3050.4
-> > >     File Copy 1024 bufsize 2000 maxblocks          3960.0    7762306.2  19601.8
-> > >     File Copy 256 bufsize 500 maxblocks            1655.0    3417556.8  20649.9
-> > >     File Copy 4096 bufsize 8000 maxblocks          5800.0    7427995.7  12806.9
-> > >     Pipe Throughput                               12440.0   23058600.5  18535.9
-> > >     Pipe-based Context Switching                   4000.0    2835617.7   7089.0
-> > >     Process Creation                                126.0      12537.3    995.0
-> > >     Shell Scripts (1 concurrent)                     42.4      57057.4  13456.9
-> > >     Shell Scripts (8 concurrent)                      6.0       7367.1  12278.5
-> > >     System Call Overhead                          15000.0   33308301.3  22205.5
-> > >                                                                        ========
-> > >     System Benchmarks Index Score                                       12426.1
-> > >
-> > >   ticket_spinlock:
-> > >     System Benchmarks Index Values               BASELINE       RESULT    INDEX
-> > >     Dhrystone 2 using register variables         116700.0  626541701.9  53688.2
-> > >     Double-Precision Whetstone                       55.0     181921.0  33076.5
-> > >     Execl Throughput                                 43.0      12625.1   2936.1
-> > >     File Copy 1024 bufsize 2000 maxblocks          3960.0    6553792.9  16550.0
-> > >     File Copy 256 bufsize 500 maxblocks            1655.0    3189231.6  19270.3
-> > >     File Copy 4096 bufsize 8000 maxblocks          5800.0    7221277.0  12450.5
-> > >     Pipe Throughput                               12440.0   20594018.7  16554.7
-> > >     Pipe-based Context Switching                   4000.0    2571117.7   6427.8
-> > >     Process Creation                                126.0      10798.4    857.0
-> > >     Shell Scripts (1 concurrent)                     42.4      57227.5  13497.1
-> > >     Shell Scripts (8 concurrent)                      6.0       7329.2  12215.3
-> > >     System Call Overhead                          15000.0   30766778.4  20511.2
-> > >                                                                        ========
-> > >     System Benchmarks Index Score                                       11670.7
-> > >
-> > > The qspinlock has a significant improvement on SOPHGO SG2042 64
-> > > cores platform than the ticket_lock.
-> > >
-> > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > > ---
-> > >  arch/riscv/Kconfig                | 16 ++++++++++++++++
-> > >  arch/riscv/include/asm/Kbuild     |  3 ++-
-> > >  arch/riscv/include/asm/spinlock.h | 17 +++++++++++++++++
-> > >  3 files changed, 35 insertions(+), 1 deletion(-)
-> > >  create mode 100644 arch/riscv/include/asm/spinlock.h
-> > >
-> > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > > index 2c346fe169c1..7f39bfc75744 100644
-> > > --- a/arch/riscv/Kconfig
-> > > +++ b/arch/riscv/Kconfig
-> > > @@ -471,6 +471,22 @@ config NODES_SHIFT
-> > >         Specify the maximum number of NUMA Nodes available on the target
-> > >         system.  Increases memory reserved to accommodate various tables.
-> > >
-> > > +choice
-> > > +     prompt "RISC-V spinlock type"
-> > > +     default RISCV_TICKET_SPINLOCKS
-> > > +
-> > > +config RISCV_TICKET_SPINLOCKS
-> > > +     bool "Using ticket spinlock"
-> > > +
-> > > +config RISCV_QUEUED_SPINLOCKS
-> > > +     bool "Using queued spinlock"
-> > > +     depends on SMP && MMU
-> > > +     select ARCH_USE_QUEUED_SPINLOCKS
-> > > +     help
-> > > +       Make sure your micro arch LL/SC has a strong forward progress guarantee.
-> > > +       Otherwise, stay at ticket-lock.
-> > > +endchoice
-> > > +
-> > >  config RISCV_ALTERNATIVE
-> > >       bool
-> > >       depends on !XIP_KERNEL
-> > > diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-> > > index 504f8b7e72d4..a0dc85e4a754 100644
-> > > --- a/arch/riscv/include/asm/Kbuild
-> > > +++ b/arch/riscv/include/asm/Kbuild
-> > > @@ -2,10 +2,11 @@
-> > >  generic-y += early_ioremap.h
-> > >  generic-y += flat.h
-> > >  generic-y += kvm_para.h
-> > > +generic-y += mcs_spinlock.h
-> > >  generic-y += parport.h
-> > > -generic-y += spinlock.h
-> >
-> > IIUC here you take the asm-generic/spinlock.h (which defines arch_spin_*())
-> > and include the asm-generic headers of mcs_spinlock and qspinlock.
-> >
-> > In this case, the qspinlock.h will provide the arch_spin_*() interfaces,
-> > which seems the oposite of the above description (ticket spinlocks being
-> > the standard).
-> >
-> > Shouldn't ticket-spinlock.h also get included here?
-> > (Also, I am probably missing something, as I dont' see the use of
-> > mcs_spinlock here.)
-> No, because asm-generic/spinlock.h:
-> ...
-> #include <asm-generic/ticket_spinlock.h>
-> ...
-> 
 
-But aren't you removing asm-generic/spinlock.h below ?
--generic-y += spinlock.h
+--sweft2f6sgmxlij7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > >  generic-y += spinlock_types.h
-> > >  generic-y += qrwlock.h
-> > >  generic-y += qrwlock_types.h
-> > > +generic-y += qspinlock.h
-> > >  generic-y += user.h
-> > >  generic-y += vmlinux.lds.h
-> > > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
-> > > new file mode 100644
-> > > index 000000000000..c644a92d4548
-> > > --- /dev/null
-> > > +++ b/arch/riscv/include/asm/spinlock.h
-> > > @@ -0,0 +1,17 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +
-> > > +#ifndef __ASM_RISCV_SPINLOCK_H
-> > > +#define __ASM_RISCV_SPINLOCK_H
-> > > +
-> > > +#ifdef CONFIG_QUEUED_SPINLOCKS
-> > > +#define _Q_PENDING_LOOPS     (1 << 9)
-> > > +#endif
-> >
-> > Any reason the above define couldn't be merged on the ifdef below?
-> Easy for the next patch to modify. See Waiman's comment:
-> 
-> https://lore.kernel.org/linux-riscv/4cc7113a-0e4e-763a-cba2-7963bcd26c7a@redhat.com/
-> 
-> > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
-> > index c644a92d4548..9eb3ad31e564 100644
-> > --- a/arch/riscv/include/asm/spinlock.h
-> > +++ b/arch/riscv/include/asm/spinlock.h
-> > @@ -7,11 +7,94 @@
-> >   #define _Q_PENDING_LOOPS (1 << 9)
-> >   #endif
-> >
-> 
-> I see why you separated the _Q_PENDING_LOOPS out.
-> 
+Hi,
 
-I see, should be fine then.
+On Tue, Sep 12, 2023 at 02:16:41PM +0100, Daniel Stone wrote:
+> Hopefully less mangled formatting this time: turns out Thunderbird +
+> plain text is utterly unreadable, so that's one less MUA that is
+> actually usable to send email to kernel lists without getting shouted
+> at.
 
-Thanks!
-Leo
+Sorry if it felt that way, it definitely wasn't my intention to shout at
+you. Email is indeed kind of a pain to deal with, and I wanted to keep
+the discussion going.
 
-> 
-> >
-> > > +
-> > > +#ifdef CONFIG_QUEUED_SPINLOCKS
-> > > +#include <asm/qspinlock.h>
-> > > +#include <asm/qrwlock.h>
-> > > +#else
-> > > +#include <asm-generic/spinlock.h>
-> > > +#endif
-> > > +
-> > > +#endif /* __ASM_RISCV_SPINLOCK_H */
-> > > --
-> > > 2.36.1
+> On Mon, 11 Sept 2023 at 15:46, Maxime Ripard <mripard@kernel.org> wrote:
+> > On Mon, Sep 11, 2023 at 03:30:55PM +0200, Michel D=E4nzer wrote:
+> > > > There's in 6.6-rc1 around 240 reported flaky tests. None of them ha=
+ve
+> > > > any context. That new series hads a few dozens too, without any con=
+text
+> > > > either. And there's no mention about that being a plan, or a patch
+> > > > adding a new policy for all tests going forward.
 > > >
+> > > That does sound bad, would need to be raised in review.
+> > >
+> > > > Any concern I raised were met with a giant "it worked on Mesa" hand=
+wave
+> > >
+> > > Lessons learned from years of experience with big real-world CI
+> > > systems like this are hardly "handwaving".
 > >
-> > Thanks!
-> > Leo
+> > Your (and others) experience certainly isn't. It is valuable, welcome,
+> > and very much appreciated.
 > >
-> 
-> 
-> -- 
-> Best Regards
->  Guo Ren
-> 
+> > However, my questions and concerns being ignored time and time again
+> > about things like what is the process is going to be like, what is going
+> > to be tested, who is going to be maintaining that test list, how that
+> > interacts with stable, how we can possibly audit the flaky tests list,
+> > etc. have felt like they were being handwaived away.
+>=20
+> Sorry it ended up coming across like that. It wasn't the intent.
+>=20
+> > I'm not saying that because I disagree, I still do on some, but that's
+> > fine to some extent. However, most of these issues are not so much an
+> > infrastructure issue, but a community issue. And I don't even expect a
+> > perfect solution right now, unlike what you seem to think. But I do
+> > expect some kind of plan instead of just ignoring that problem.
+> >
+> > Like, I had to ask the MT8173 question 3 times in order to get an
+> > answer, and I'm still not sure what is going to be done to address that
+> > particular issue.
+> >
+> > So, I'm sorry, but I certainly feel like it here.
+>=20
+> I don't quite see the same picture from your side though. For example,
+> my reading of what you've said is that flaky tests are utterly
+> unacceptable, as are partial runs, and we shouldn't pretend otherwise.
+> With your concrete example (which is really helpful, so thanks), what
+> happens to the MT8173 hdmi-inject test? Do we skip all MT8173 testing
+> until it's perfect, or does MT8173 testing always fail because that
+> test does?
 
+It's not clear to me why that test is even running in the first place?
+There's been some confusion on my side here about what we're going to
+test with this. You've mentioned Mesa and GPUs before, but that's a KMS
+test so there must be more to it.
+
+Either way, it's a relevant test so I guess why not. It turns out that
+the test is indeed flaky, I guess we could add it to the flaky tests
+list.
+
+BUT
+
+I want to have every opportunity to fix whatever that failure is.
+
+So:
+
+  - Is the test broken? If so, we should report it to IGT dev and remove
+    it from the test suite.
+  - If not, is that test failure have been reported to the driver author?
+  - If no answer/fix, we can add it to the flaky tests list, but do we
+    have some way to reproduce the test failure?
+
+The last part is especially critical. Looking at the list itself, I have
+no idea what board, kernel version, configuration, or what the failure
+rate was. Assuming I spend some time looking at the infra to find the
+board and configuration, how many times do I have to run the tests to
+expect to reproduce the failure (and thus consider it fixed if it
+doesn't occur anymore).
+
+Like, with that board and test, if my first 100 runs of the test work
+fine, is it reasonable for me to consider it fixed, or is it only
+supposed to happen once every 1000 runs?
+
+So, ideally, having some (mandatory) metadata in the test lists with a
+link to the bug report, the board (DT name?) it happened with, the
+version and configuration it was first seen with, and an approximation
+of the failure rate for every flaky test list.
+
+I understand that it's probably difficult to get that after the fact on
+the tests that were already merged, but I'd really like to get that
+enforced for every new test going forward.
+
+That should hopefully get us in a much better position to fix some of
+those tests issues. And failing that, I can't see how that's
+sustainable.
+
+And Mesa does show what I'm talking about:
+
+$ find -name *-flakes.txt | xargs git diff --stat  e58a10af640ba58b6001f5c5=
+ad750b782547da76
+ src/amd/ci/deqp-radv-stoney-aco-flakes.txt                        |  18 ++=
++++
+ src/broadcom/ci/deqp-v3d-rpi4-flakes.txt                          |   2 +
+ src/broadcom/ci/deqp-v3dv-rpi4-flakes.txt                         |  15 ++=
+++
+ src/broadcom/ci/deqp-vc4-rpi3-flakes.txt                          |  30 ++=
+++++++
+ src/broadcom/ci/piglit-v3d-rpi4-flakes.txt                        |  14 ++=
+++
+ src/broadcom/ci/piglit-vc4-rpi3-flakes.txt                        |   5 ++
+ src/freedreno/ci/deqp-freedreno-a307-flakes.txt                   |   6 ++
+ src/freedreno/ci/deqp-freedreno-a530-flakes.txt                   |  31 ++=
++++++++
+ src/freedreno/ci/deqp-freedreno-a630-bypass-flakes.txt            |  11 +++
+ src/freedreno/ci/deqp-freedreno-a630-flakes.txt                   | 109 ++=
+++++++++++++++++++++++++++++
+ src/gallium/drivers/freedreno/ci/piglit-freedreno-a530-flakes.txt |  21 ++=
+++++
+ src/gallium/drivers/freedreno/ci/piglit-freedreno-a630-flakes.txt |  31 ++=
++++++++
+ src/gallium/drivers/llvmpipe/ci/deqp-llvmpipe-flakes.txt          |   4 ++
+ src/gallium/drivers/panfrost/ci/deqp-panfrost-g52-flakes.txt      |   6 ++
+ src/gallium/drivers/panfrost/ci/deqp-panfrost-t720-flakes.txt     |   4 ++
+ src/gallium/drivers/panfrost/ci/deqp-panfrost-t760-flakes.txt     |   1 +
+ src/gallium/drivers/panfrost/ci/deqp-panfrost-t860-flakes.txt     |   1 +
+ src/gallium/drivers/radeonsi/ci/piglit-radeonsi-stoney-flakes.txt |   1 +
+ src/gallium/drivers/softpipe/ci/deqp-softpipe-flakes.txt          |   2 +
+ src/gallium/drivers/virgl/ci/deqp-virgl-gl-flakes.txt             |   3 +
+ src/gallium/drivers/zink/ci/deqp-zink-lvp-flakes.txt              |   0
+ src/gallium/drivers/zink/ci/piglit-zink-lvp-flakes.txt            |   0
+ src/gallium/frontends/lavapipe/ci/deqp-lvp-flakes.txt             |   1 +
+ 23 files changed, 316 insertions(+)
+
+In the history of Mesa, there's never been a single test removed from a
+flaky test list.
+
+> Both have their downsides. Not doing any testing has the obvious
+> downside, and means that the driver can get worse until it gets
+> perfect. Always marking the test as failed means that the test results
+> are useless: if failure is expected, then red is good. I mean, say
+> you're contributing a patch to fix some documentation or add a helper
+> to common code which only v3d uses. The test results come back, and
+> your branch is failing tests on MT8173, specifically the
+> hdmi-inject@4k test. What then? Either as a senior contributor you
+> 'know' that's the case, or as a casual contributor you get told 'oh
+> yeah, don't worry about the test results, they always fail'. Both lead
+> to the same outcome, which is that no-one pays any attention to the
+> results, and they get worse.
+
+I believe the above would achieve a better result for us kernel folks,
+while still providing enough flexibility for you.
+
+> What we do agree on is that yes, those tests should absolutely be
+> fixed, and not just swept under the rug. Part of this is having
+> maintainers actually meaningfully own their test results. For example,
+> I'm looking at the expectation lists for the Intel gen in my laptop,
+> and I'm seeing a lot of breakage in blending tests, as well as
+> dual-display fails which include the resolution of my external
+> display.
+
+I just bought a 7900XT and I'm pretty much in the same situation, so I
+definitely feel what you're saying :)
+
+However...
+
+> I'd expect the Intel driver maintainers to look at them, get them
+> fixed, and gradually prune those xfails/flakes down towards zero.
+>=20
+> If the maintainers don't own it though, then it's not going to get
+> fixed. And we are exactly where we are today: broken plane blending
+> and 1440p on KBL, broken EDID injection on MT8173, and broken atomic
+> commits on stoney. Without stronger action from the maintainers (e.g.
+> throwing i915 out of the tree until it has 100% pass 100% of the
+> time), adding testing isn't making the situation better or worse in
+> and of itself. What it _is_ doing though, is giving really clear
+> documentation of the status of each driver, and backing that up by
+> verifying it.
+
+=2E.. I haven't reported any of the failures yet so I don't really expect
+them to be fixed by themselves. That's on me.
+
+> Only maintainers can actually fix the drivers (or the tests tbf). But
+> doing the testing does let us be really clear to everyone what the
+> actual state is, and that way people can make informed decisions too.
+> And the only way we're going to drive the test rate down is by the
+> subsystem maintainers enforcing it.
+
+Just FYI, I'm not on the other side of the fence there, I'd really like
+to have some kind of validation. I talked about it at XDC some years
+ago, and discussed it several people at length over the years. So I'm
+definitely not in the CI-is-bad camp.
+
+> Does that make sense on where I'm (and I think a lot of others are)
+> coming from?
+
+That makes sense from your perspective, but it's not clear to me how you
+can expect maintainers to own the tests if they were never involved in
+the process.
+
+They are not in Cc of the flaky tests patches, they are not reported
+that the bug is failing, how can they own that process if we never
+reached out and involved them?
+
+We're all overworked, you can't expect them to just look at the flaky
+test list every now and then and figure it out.
+
+Maxime
+
+--sweft2f6sgmxlij7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQLYVAAKCRDj7w1vZxhR
+xcR/AQCjGVSTcMmlQRRKe7TUhLtmNBu++DrSH4M1M1QBgzTdCgEAtO8C8UIAzgQs
+MAoJyRzhO/NlNhWdl+hgIZZcIXzwWgA=
+=pFK3
+-----END PGP SIGNATURE-----
+
+--sweft2f6sgmxlij7--
