@@ -2,594 +2,265 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C051EED610
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 15:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3D1DEED604
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 15:09:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235915AbjIOPDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 11:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48890 "EHLO
+        id S235996AbjIOPJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 11:09:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235495AbjIOPDv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 11:03:51 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554F4211E;
-        Fri, 15 Sep 2023 08:03:45 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-59bdad64411so23909317b3.3;
-        Fri, 15 Sep 2023 08:03:45 -0700 (PDT)
+        with ESMTP id S236003AbjIOPJs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 11:09:48 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D026358C
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 08:08:56 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-99c93638322so487256466b.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 08:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694790224; x=1695395024; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qxlmDKhX/vwddWYDS1OilmowN1W0iaI9KLv2XvNed6A=;
-        b=QPfpXAxTcIlwByB6iNXJC3Ufpn3FzceZIkSoHzJKh1rYpIh8ZK4FTkMG31wSg+1ZJC
-         uCrvL9kUt3hGXjbQdQUpOVCewyTeYCUZBAW0H1lNh0a7smdLJNjUBk1MY5Sj5WE9JO/T
-         uVlLZgXknLljPFZGH6YvcdhwSLXkUqQb76y83jVWLUGXU0Bvh146RMuz9MG8HxBq4VIb
-         1MdXhkhXEilR7eRYTD3qdda5ZLf/PMQ0H4ySnyQvUEzfDUt+4qu9nxyZbmxZk3oRsd9y
-         uJTDD5zQSmzsgXrnOUMHuqpBgeVlgPSpxHDar7MJmLv3uek7Jnailf+twn/YTtQS2tfO
-         jI5g==
+        d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1694790535; x=1695395335; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VYR6ep7rDCBduLCC6ALZ438i46Wvlrmilzt/WzHCta4=;
+        b=McS20yfVDz1gxpj8R7DrqOTYRyBS8x5oxHXNGHT4U8OgCy6Mco617iiPb/Ovpb+cTv
+         pEGBcXZn1FFV6s0/KYwIUDCPHPgUCY8B7+T90zIsr0D6OTLK/6yNKCPKSEKgxZaqT+K9
+         FAtpJG6CXM3L/UdXztBbXjx+yTg2M9PCbfnaMcIAIFwpD636AZ7nkCRSvtGpiXqio/BM
+         zgFkwvG82fI/9pUExiN6RxFSWz8TkUa9yI4vl5QPvpjKNJblk8w6pL4ZbV7pLog9v0pX
+         yR6zI4Rc1T0vbVEYPATHnazNLP7mlr2HUqbYCp50TReQg/REtCBlOKuKPHgLspl1PfiS
+         nm0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694790224; x=1695395024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1694790535; x=1695395335;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qxlmDKhX/vwddWYDS1OilmowN1W0iaI9KLv2XvNed6A=;
-        b=OWmgITnPbnzCqa8h//IAfrufSDu4wa90HIVnQZmtEgiJkg6MxQZ7z/r9yDpx89v2xI
-         lM6RwbcGRAq5AkTz1mU5UEOsMnnFg3q1+Lv17n3luLz1ORCs/fzdD6WCDrpxYrPj+2wK
-         el+ZDpimArI8whVa+bWgG0LFK5P2HQ05NJxRnHE7d2O9OrvEJrctsQjaXebWtpvDkGH+
-         7F79myNvR178H/O/NdWroYawxDJeFN5Fa9Og80px4PR8fSRS2Ynr01LiXFbjePTsitC9
-         K17CT27cNLKJOwGMCP8fWcoMfqCIu/NhhHVZkZhKZ/X5d1xtFBNsiH4R5A4QlJswwtnq
-         nVkQ==
-X-Gm-Message-State: AOJu0YwzINyt6iX8EaRwyeswLfc+v93/Y/rK4YEEn2kdoVPvBh1GyEcH
-        +7k02U0Rqb70OBaMeYMrbUpbu1RGx1XALA==
-X-Google-Smtp-Source: AGHT+IF3lI2lL6AvjT8vF4t6V6HHLJ9uFvDBYCI1r+v0beO4H42ak/r8sJTnBSIdvwYTea2wW8PcMw==
-X-Received: by 2002:a81:8345:0:b0:58f:af0f:1dcd with SMTP id t66-20020a818345000000b0058faf0f1dcdmr1937929ywf.17.1694790224127;
-        Fri, 15 Sep 2023 08:03:44 -0700 (PDT)
-Received: from z-Lenovo-Product.. ([2605:59c8:6244:7600::ece])
-        by smtp.gmail.com with ESMTPSA id m17-20020a819c11000000b005707fb5110bsm888968ywa.58.2023.09.15.08.03.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 08:03:43 -0700 (PDT)
-From:   David Ober <dober6023@gmail.com>
-To:     linux-hwmon@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
-        dober@lenovo.com, mpearson@lenovo.com,
-        David Ober <dober6023@gmail.com>
-Subject: [PATCH] hwmon:Add MEC172x Micro Chip driver for Lenovo motherboards
-Date:   Fri, 15 Sep 2023 11:03:40 -0400
-Message-Id: <20230915150340.301067-1-dober6023@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=VYR6ep7rDCBduLCC6ALZ438i46Wvlrmilzt/WzHCta4=;
+        b=GPmtiw4FVSDWA0Y6JmFJWvViwU44r05Ftx0RKmM3GZnVRu9w6qiz27FMEpxCwGiQHs
+         bTqbrI5cBlwMfgq8rOQW0/3/yWjMuldfwO3cj5iLFrLtCAc9UH26Sk3uiWO03C3zmc5D
+         k06tDxZ8Gny41lSjcv1rEHyIztDOrlMWta82zbTQyl6XvAskQ7nxPqFD0Dee7hrIctsU
+         QWsWxmHtNBulV+UCcu3b4Kbpurx4lnw/MFvxYdjIZ2s11NeEl9xaNSlovIIKPcXBqtlP
+         xLL73yhpzz0Z0SOm6lDzaxz6FtiBhQaN2qKD4hRmH1JNVD7Xw5+46fG2IbgkIu2BnSYq
+         8O8A==
+X-Gm-Message-State: AOJu0YwW1pP6+VvYkJnzmwMJXSxbrE7ZHeSAgFYVoynB2sbWzIIZNmzD
+        pkUduCr4r5LKQ+YuFjjpwN0WvNGm453hf4N08AieLw==
+X-Google-Smtp-Source: AGHT+IEEHNihECXlS9m2KxMTthStG6cUD6LJ/Hd8lIz/DRYEz/AvRC/0+Anai8PcEGa/vlcPrsf7QjRzAeDT/NZHgLw=
+X-Received: by 2002:a17:907:1c8b:b0:9a9:f6e7:43fe with SMTP id
+ nb11-20020a1709071c8b00b009a9f6e743femr7782839ejc.24.1694790534612; Fri, 15
+ Sep 2023 08:08:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
+ <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com> <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
+ <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com> <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
+ <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org> <5ejq3hjpoy3gxft2jbmoa5m656usetuxcs7g3ezyyiitj67rav@r5jhdz27foat>
+ <550454b8-2e2c-c947-92c5-37f0367661c2@mailbox.org> <os2wvkangif2nwewfbzkuyjm7njp4g3sqj5td3ogbhhjwsrbbd@3jpf6g5hd3z4>
+ <CAPj87rP1sw49Z0HdPhUa-=kDp166RqiuhC9rL+Ef9hpwPD5+JA@mail.gmail.com> <krhnfc4os5nqwi3iixgxwads3jbcgtdcvn7ygxpvd62uaejvsk@mx6tmser7jti>
+In-Reply-To: <krhnfc4os5nqwi3iixgxwads3jbcgtdcvn7ygxpvd62uaejvsk@mx6tmser7jti>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Fri, 15 Sep 2023 16:08:42 +0100
+Message-ID: <CAPj87rPbJ1V1-R7WMTHkDat2A4nwSd61Df9mdGH2PR=ZzxaU=Q@mail.gmail.com>
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+        emma@anholt.net, linux-doc@vger.kernel.org,
+        vignesh.raman@collabora.com, dri-devel@lists.freedesktop.org,
+        alyssa@rosenzweig.io, jbrunet@baylibre.com, robdclark@google.com,
+        corbet@lwn.net, khilman@baylibre.com,
+        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+        linux-rockchip@lists.infradead.org,
+        Daniel Stone <daniels@collabora.com>,
+        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
+        Helen Koike <helen.koike@collabora.com>, anholt@google.com,
+        linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+        linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+        linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This addition adds in the ability for the system to scan the
-MEC172x EC chip in Lenovo ThinkStation systems to get the
-current fan RPM speeds and the Maximum speed value for each
-fan also provides the current CPU and DIMM thermal status
+Hey,
 
-Signed-off-by: David Ober <dober6023@gmail.com>
+On Thu, 14 Sept 2023 at 10:54, Maxime Ripard <mripard@kernel.org> wrote:
+> On Tue, Sep 12, 2023 at 02:16:41PM +0100, Daniel Stone wrote:
+> > Hopefully less mangled formatting this time: turns out Thunderbird +
+> > plain text is utterly unreadable, so that's one less MUA that is
+> > actually usable to send email to kernel lists without getting shouted
+> > at.
+>
+> Sorry if it felt that way, it definitely wasn't my intention to shout at
+> you. Email is indeed kind of a pain to deal with, and I wanted to keep
+> the discussion going.
 
-Written by David Ober from Lenovo using this gmail address since
-my corporate email address does not comply with git email
----
- drivers/hwmon/Kconfig             |  10 +
- drivers/hwmon/Makefile            |   1 +
- drivers/hwmon/lenovo-ec-sensors.c | 471 ++++++++++++++++++++++++++++++
- 3 files changed, 482 insertions(+)
- create mode 100644 drivers/hwmon/lenovo-ec-sensors.c
+My bad - I didn't mean you _at all_. I was thinking of other, much
+less pleasant, kernel maintainers, and the ongoing struggle of
+attempting to actually send well-formatted email to kernel lists in
+2023.
 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 307477b8a371..565fc957a900 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -852,6 +852,16 @@ config SENSORS_LAN966X
- 	  This driver can also be built as a module. If so, the module
- 	  will be called lan966x-hwmon.
- 
-+config SENSORS_LENOVO_EC
-+        tristate "Microchip MEC172X Chip for Lenovo ThinkStation"
-+        depends on I2C
-+        help
-+          If you say yes here you get support for LENOVO
-+          EC Sensors on newer ThinkStation systems
-+
-+          This driver can also be built as a module. If so, the module
-+          will be called lenovo_ec_sensors.
-+
- config SENSORS_LINEAGE
- 	tristate "Lineage Compact Power Line Power Entry Module"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 3f4b0fda0998..ac7855b48bd5 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -103,6 +103,7 @@ obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
- obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
- obj-$(CONFIG_SENSORS_K10TEMP)	+= k10temp.o
- obj-$(CONFIG_SENSORS_LAN966X)	+= lan966x-hwmon.o
-+obj-$(CONFIG_SENSORS_LENOVO_EC)	+= lenovo-ec-sensors.o
- obj-$(CONFIG_SENSORS_LINEAGE)	+= lineage-pem.o
- obj-$(CONFIG_SENSORS_LOCHNAGAR)	+= lochnagar-hwmon.o
- obj-$(CONFIG_SENSORS_LM63)	+= lm63.o
-diff --git a/drivers/hwmon/lenovo-ec-sensors.c b/drivers/hwmon/lenovo-ec-sensors.c
-new file mode 100644
-index 000000000000..acf26ed4c96b
---- /dev/null
-+++ b/drivers/hwmon/lenovo-ec-sensors.c
-@@ -0,0 +1,471 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * HWMON driver for MEC172x chip that publishes some sensor values
-+ * via the embedded controller registers specific to Lenovo Systems.
-+ *
-+ * Copyright (C) 2023 David Ober (Lenovo) <dober@lenovo.com>
-+ *
-+ * EC provides:
-+ * - CPU temperature
-+ * - DIMM temperature
-+ * - Chassis zone temperatures
-+ * - CPU fan RPM
-+ * - DIMM fan RPM
-+ * - Chassis fans RPM
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/delay.h>
-+#include <linux/hwmon.h>
-+#include <linux/ioport.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/units.h>
-+
-+#define MCHP_SING_IDX			0x0000
-+#define MCHP_EMI0_APPLICATION_ID	0x090C
-+#define MCHP_EMI0_EC_ADDRESS_LSB	0x0902
-+#define MCHP_EMI0_EC_ADDRESS_MSB	0x0903
-+#define MCHP_EMI0_EC_DATA_BYTE0		0x0904
-+#define MCHP_EMI0_EC_DATA_BYTE1		0x0905
-+#define MCHP_EMI0_EC_DATA_BYTE2		0x0906
-+#define MCHP_EMI0_EC_DATA_BYTE3		0x0907
-+
-+#define IoWrite8(a, b)	outb_p(b, a)
-+#define IoRead8(a)	inb_p(a)
-+
-+static inline uint8_t
-+get_ec_reg(unsigned char page, unsigned char index)
-+{
-+	u8 onebyte;
-+	unsigned short m_index;
-+	unsigned short phy_index = page * 256 + index;
-+
-+	if (IoRead8(MCHP_EMI0_APPLICATION_ID) != 0) /* EMI access locked */
-+		return false;
-+
-+	IoWrite8(MCHP_EMI0_APPLICATION_ID, 0x01);
-+
-+	m_index = phy_index & 0x7FFC;
-+	IoWrite8(MCHP_EMI0_EC_ADDRESS_LSB, m_index);
-+	IoWrite8(MCHP_EMI0_EC_ADDRESS_MSB, m_index >> 8);
-+
-+	switch (phy_index & 0x0003) {
-+	case 0:
-+		onebyte = IoRead8(MCHP_EMI0_EC_DATA_BYTE0);
-+		break;
-+	case 1:
-+		onebyte = IoRead8(MCHP_EMI0_EC_DATA_BYTE1);
-+		break;
-+	case 2:
-+		onebyte = IoRead8(MCHP_EMI0_EC_DATA_BYTE2);
-+		break;
-+	case 3:
-+		onebyte = IoRead8(MCHP_EMI0_EC_DATA_BYTE3);
-+		break;
-+	}
-+
-+	IoWrite8(MCHP_EMI0_APPLICATION_ID, 0x01);  /* write same data to clean */
-+	return onebyte;
-+}
-+
-+static const char * const systems[] = {
-+	"Tomcat",
-+	"Hornet",
-+	"Falcon",
-+	"Manta_",
-+};
-+
-+static const char * const lenovo_px_ec_temp_label[] = {
-+	"CPU1",
-+	"CPU2",
-+	"R_DIMM1",
-+	"L_DIMM1",
-+	"R_DIMM2",
-+	"L_DIMM2",
-+	"PCH",
-+	"M2_R",
-+	"M2_Z1R",
-+	"M2_Z2R",
-+	"PCI_Z1",
-+	"PCI_Z2",
-+	"PCI_Z3",
-+	"PCI_Z4",
-+	"AMB",
-+};
-+
-+static const char * const lenovo_gen_ec_temp_label[] = {
-+	"CPU1",
-+	"",
-+	"R_DIMM",
-+	"L_DIMM",
-+	"",
-+	"",
-+	"PCH",
-+	"M2_R",
-+	"M2_Z1R",
-+	"M2_Z2R",
-+	"PCI_Z1",
-+	"PCI_Z2",
-+	"PCI_Z3",
-+	"PCI_Z4",
-+	"AMB",
-+};
-+
-+static const char * const px_ec_fan_label[] = {
-+	"CPU1_Fan",
-+	"CPU2_Fan",
-+	"Front_Fan1-1",
-+	"Front_Fan1-2",
-+	"Front_Fan2",
-+	"Front_Fan3",
-+	"MEM_Fan1",
-+	"MEM_Fan2",
-+	"Rear_Fan1",
-+	"Rear_Fan2",
-+	"Flex_Bay_Fan1",
-+	"Flex_Bay_Fan2",
-+	"Flex_Bay_Fan2",
-+	"PSU_HDD_Fan",
-+	"PSU1_Fan",
-+	"PSU2_Fan",
-+};
-+
-+static const char * const p7_ec_fan_label[] = {
-+	"CPU1_Fan",
-+	"",
-+	"HP_CPU_Fan1",
-+	"HP_CPU_Fan2",
-+	"PCIE1_4_Fan",
-+	"PCIE5_7_Fan",
-+	"MEM_Fan1",
-+	"MEM_Fan2",
-+	"Rear_Fan1",
-+	"",
-+	"BCB_Fan",
-+	"Flex_Bay_Fan",
-+	"",
-+	"",
-+	"PSU_Fan",
-+	"",
-+};
-+
-+static const char * const p5_ec_fan_label[] = {
-+	"CPU_Fan",
-+	"",
-+	"",
-+	"",
-+	"",
-+	"HDD_Fan",
-+	"Duct_Fan1",
-+	"MEM_Fan",
-+	"Rear_Fan",
-+	"",
-+	"Front_Fan",
-+	"Flex_Bay_Fan",
-+	"",
-+	"",
-+	"PSU_Fan",
-+	"",
-+};
-+
-+static const char * const p7_amd_ec_fan_label[] = {
-+	"CPU1_Fan",
-+	"CPU2_Fan",
-+	"HP_CPU_Fan1",
-+	"HP_CPU_Fan2",
-+	"PCIE1_4_Fan",
-+	"PCIE5_7_Fan",
-+	"DIMM1_Fan1",
-+	"DIMM1_Fan2",
-+	"DIMM2_Fan1",
-+	"DIMM2_Fan2",
-+	"Rear_Fan",
-+	"HDD_Bay_Fan",
-+	"Flex_Bay_Fan",
-+	"",
-+	"PSU_Fan",
-+	"",
-+};
-+
-+struct ec_sensors_data {
-+	u8 platform_id;
-+	const char *const *fan_labels;
-+	const char *const *temp_labels;
-+};
-+
-+static int
-+lenovo_ec_do_read_temp(u32 attr, int channel, long *val)
-+{
-+	u8   LSB;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		LSB = get_ec_reg(2, 0x81 + channel);
-+		if (LSB > 0x40) {
-+			*val = (LSB - 0x40) * 1000;
-+		} else {
-+			*val = 0;
-+			return -1;
-+		}
-+		return 0;
-+	default:
-+		break;
-+	}
-+	return -EOPNOTSUPP;
-+}
-+
-+static int
-+lenovo_ec_do_read_fan(u32 attr, int channel, long *val)
-+{
-+	u8    LSB, MSB;
-+
-+	channel *= 2;
-+	switch (attr) {
-+	case hwmon_fan_input:
-+		LSB = get_ec_reg(4, 0x60 + channel);
-+		MSB = get_ec_reg(4, 0x61 + channel);
-+		if ((MSB << 8) + LSB != 0) {
-+			LSB = get_ec_reg(4, 0x20 + channel);
-+			MSB = get_ec_reg(4, 0x21 + channel);
-+			*val = (MSB << 8) + LSB;
-+			return 0;
-+		}
-+		return -1;
-+	case hwmon_fan_max:
-+		LSB = get_ec_reg(4, 0x60 + channel);
-+		MSB = get_ec_reg(4, 0x61 + channel);
-+		if ((MSB << 8) + LSB != 0) {
-+			LSB = get_ec_reg(4, 0x40 + channel);
-+			MSB = get_ec_reg(4, 0x41 + channel);
-+			*val = (MSB << 8) + LSB;
-+		} else {
-+			*val = 0;
-+		}
-+		return 0;
-+	case hwmon_fan_min:
-+	case hwmon_fan_div:
-+	case hwmon_fan_alarm:
-+		break;
-+	default:
-+		break;
-+	}
-+	return -EOPNOTSUPP;
-+}
-+
-+static int get_platform(void)
-+{
-+	char system_type[6];
-+	int ret = -1;
-+	int idx;
-+
-+	for (idx = 0 ; idx < 6 ; idx++)
-+		system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
-+
-+	for (idx = 0 ; idx < 4 ; idx++) {
-+		if (strcmp(systems[idx], system_type) == 0) {
-+			ret = idx;
-+			break;
-+		}
-+	}
-+	return ret;
-+}
-+
-+static int
-+lenovo_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			    u32 attr, int channel, const char **str)
-+{
-+	struct ec_sensors_data *state = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		*str = state->temp_labels[channel];
-+		break;
-+
-+	case hwmon_fan:
-+		*str = state->fan_labels[channel];
-+		break;
-+	default:
-+		return -EOPNOTSUPP; /* unreachable */
-+	}
-+	return 0;
-+}
-+
-+static int
-+lenovo_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-+		     u32 attr, int channel, long *val)
-+{
-+	switch (type) {
-+	case hwmon_temp:
-+		return lenovo_ec_do_read_temp(attr, channel, val);
-+	case hwmon_fan:
-+		return lenovo_ec_do_read_fan(attr, channel, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static umode_t
-+lenovo_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
-+			   u32 attr, int channel)
-+{
-+	//if (type != hwmon_fan)
-+//		return 0;
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		if (attr == hwmon_temp_input || attr == hwmon_temp_label)
-+			return 0444;
-+		break;
-+	case hwmon_fan:
-+		if (attr == hwmon_fan_input || attr == hwmon_fan_max || attr == hwmon_fan_label)
-+			return 0444;
-+		break;
-+	default:
-+		return 0;
-+	}
-+	return 0;
-+}
-+
-+static const struct hwmon_channel_info *lenovo_ec_hwmon_info[] = {
-+	HWMON_CHANNEL_INFO(temp,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL),
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX),
-+	NULL
-+};
-+
-+static const struct hwmon_ops lenovo_ec_hwmon_ops = {
-+	.is_visible = lenovo_ec_hwmon_is_visible,
-+	.read = lenovo_ec_hwmon_read,
-+	.read_string = lenovo_ec_hwmon_read_string,
-+};
-+
-+static struct hwmon_chip_info lenovo_ec_chip_info = {
-+	.ops = &lenovo_ec_hwmon_ops,
-+	.info = lenovo_ec_hwmon_info,
-+};
-+
-+static int lenovo_ec_probe(struct platform_device *pdev)
-+{
-+	struct device *hwdev;
-+	struct ec_sensors_data *ec_data;
-+	const struct hwmon_chip_info *chip_info;
-+	struct device *dev = &pdev->dev;
-+
-+	ec_data = devm_kzalloc(dev, sizeof(struct ec_sensors_data), GFP_KERNEL);
-+	if (!ec_data)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(dev, ec_data);
-+
-+	chip_info = &lenovo_ec_chip_info;
-+
-+	if (IoRead8(0x90C) != 0) {               /* check EMI Application BIT */
-+		IoWrite8(0x90C, IoRead8(0x90C)); /* set EMI Application BIT to 0 */
-+	}
-+	IoWrite8(MCHP_EMI0_EC_ADDRESS_LSB, MCHP_SING_IDX);
-+	IoWrite8(MCHP_EMI0_EC_ADDRESS_MSB, MCHP_SING_IDX >> 8);
-+
-+	if ((IoRead8(MCHP_EMI0_EC_DATA_BYTE0) == 'M') &&
-+	    (IoRead8(MCHP_EMI0_EC_DATA_BYTE1) == 'C') &&
-+	    (IoRead8(MCHP_EMI0_EC_DATA_BYTE2) == 'H') &&
-+	    (IoRead8(MCHP_EMI0_EC_DATA_BYTE3) == 'P')) {
-+		ec_data->platform_id = get_platform();
-+		switch (ec_data->platform_id) {
-+		case 0:
-+			ec_data->fan_labels = px_ec_fan_label;
-+			ec_data->temp_labels = lenovo_px_ec_temp_label;
-+			break;
-+		case 1:
-+			ec_data->fan_labels = p7_ec_fan_label;
-+			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-+			break;
-+		case 2:
-+			ec_data->fan_labels = p5_ec_fan_label;
-+			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-+			break;
-+		case 3:
-+			ec_data->fan_labels = p7_amd_ec_fan_label;
-+			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-+			break;
-+		default:
-+			dev_err(dev, "Unknown ThinkStation Model");
-+			return -EINVAL;
-+		}
-+
-+		hwdev = devm_hwmon_device_register_with_info(dev, "lenovo_ec",
-+							     ec_data,
-+							     chip_info, NULL);
-+
-+		return PTR_ERR_OR_ZERO(hwdev);
-+	} else {
-+		return -ENODEV;
-+	}
-+}
-+
-+static struct platform_driver lenovo_ec_sensors_platform_driver = {
-+	.driver = {
-+		.name	= "lenovo-ec-sensors",
-+	},
-+	.probe = lenovo_ec_probe,
-+};
-+
-+static struct platform_device *lenovo_ec_sensors_platform_device;
-+
-+static int __init lenovo_ec_init(void)
-+{
-+	lenovo_ec_sensors_platform_device =
-+		platform_create_bundle(&lenovo_ec_sensors_platform_driver,
-+				       lenovo_ec_probe, NULL, 0, NULL, 0);
-+
-+	if (IS_ERR(lenovo_ec_sensors_platform_device))
-+		return PTR_ERR(lenovo_ec_sensors_platform_device);
-+
-+	return 0;
-+}
-+
-+static void __exit lenovo_ec_exit(void)
-+{
-+	platform_device_unregister(lenovo_ec_sensors_platform_device);
-+	platform_driver_unregister(&lenovo_ec_sensors_platform_driver);
-+}
-+
-+module_init(lenovo_ec_init);
-+module_exit(lenovo_ec_exit);
-+
-+MODULE_AUTHOR("David Ober <dober@lenovo.com>");
-+MODULE_DESCRIPTION("HWMON driver for MEC172x EC sensors accessible via ACPI on LENOVO motherboards");
-+MODULE_LICENSE("GPL");
--- 
-2.34.1
+> > I don't quite see the same picture from your side though. For example,
+> > my reading of what you've said is that flaky tests are utterly
+> > unacceptable, as are partial runs, and we shouldn't pretend otherwise.
+> > With your concrete example (which is really helpful, so thanks), what
+> > happens to the MT8173 hdmi-inject test? Do we skip all MT8173 testing
+> > until it's perfect, or does MT8173 testing always fail because that
+> > test does?
+>
+> It's not clear to me why that test is even running in the first place?
+> There's been some confusion on my side here about what we're going to
+> test with this. You've mentioned Mesa and GPUs before, but that's a KMS
+> test so there must be more to it.
+>
+> Either way, it's a relevant test so I guess why not. It turns out that
+> the test is indeed flaky, I guess we could add it to the flaky tests
+> list.
+>
+> BUT
+>
+> I want to have every opportunity to fix whatever that failure is.
 
+Agreed so far!
+
+> So:
+>
+>   - Is the test broken? If so, we should report it to IGT dev and remove
+>     it from the test suite.
+>   - If not, is that test failure have been reported to the driver author?
+>   - If no answer/fix, we can add it to the flaky tests list, but do we
+>     have some way to reproduce the test failure?
+>
+> The last part is especially critical. Looking at the list itself, I have
+> no idea what board, kernel version, configuration, or what the failure
+> rate was. Assuming I spend some time looking at the infra to find the
+> board and configuration, how many times do I have to run the tests to
+> expect to reproduce the failure (and thus consider it fixed if it
+> doesn't occur anymore).
+>
+> Like, with that board and test, if my first 100 runs of the test work
+> fine, is it reasonable for me to consider it fixed, or is it only
+> supposed to happen once every 1000 runs?
+>
+> So, ideally, having some (mandatory) metadata in the test lists with a
+> link to the bug report, the board (DT name?) it happened with, the
+> version and configuration it was first seen with, and an approximation
+> of the failure rate for every flaky test list.
+>
+> I understand that it's probably difficult to get that after the fact on
+> the tests that were already merged, but I'd really like to get that
+> enforced for every new test going forward.
+>
+> That should hopefully get us in a much better position to fix some of
+> those tests issues. And failing that, I can't see how that's
+> sustainable.
+
+OK yeah, and we're still agreed here. That is definitely the standard
+we should be aiming for.  It is there for some - see
+drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt, but should be
+there for the rest, it's true. (The specific board/DT it was observed
+on can be easily retconned because we only run on one specific board
+type per driver, again to make things more predictable; we could go
+back and retrospectively add those in a header comment?)
+
+For flakes, it can be hard to pin them down, because, well, they're
+flaky. Usually when we add things in Mesa (sorry to keep coming back
+to Mesa - it's not to say that it's the objective best thing that
+everything should follow, only that it's the thing we have the most
+experience with that we know works well), we do a manual bisect and
+try to pin the blame on a specific merge request which looks like the
+most likely culprit. If nothing obvious jumps out, we just note when
+it was first observed and provide some sample job logs. But yeah, it
+should be more verbose.
+
+FWIW, the reason it wasn't done here - not to say that it shouldn't
+have been done better, but here we are - is that we just hammered a
+load of test runs, vacuumed up the results with a script, and that's
+what generated those files. Given the number of tests and devices, it
+was hard to narrow each down individually, but yeah, it is something
+which really wants further analysis and drilling into. It's a good
+to-do, and I agree it should be the standard going forward.
+
+> And Mesa does show what I'm talking about:
+>
+> $ find -name *-flakes.txt | xargs git diff --stat  e58a10af640ba58b6001f5c5ad750b782547da76
+> [...]
+>
+> In the history of Mesa, there's never been a single test removed from a
+> flaky test list.
+
+As Rob says, that's definitely wrong. But there is a good point in
+there: how do you know a test isn't flaky anymore? 100 runs is a
+reasonable benchmark, but 1000 is ideal. At a 1% failure rate, with 20
+devices, that's just too many spurious false-fails to have a usable
+workflow.
+
+We do have some tools to make stress testing easier, but those need to
+be better documented. We'll fix that. The tools we have which also
+pull out the metadata etc also need documenting - right now they
+aren't because they're under _extremely_ heavy development, but they
+can be further enhanced to e.g. pull out the igt results automatically
+and point very clearly to the cause. Also on the to-do.
+
+> > Only maintainers can actually fix the drivers (or the tests tbf). But
+> > doing the testing does let us be really clear to everyone what the
+> > actual state is, and that way people can make informed decisions too.
+> > And the only way we're going to drive the test rate down is by the
+> > subsystem maintainers enforcing it.
+>
+> Just FYI, I'm not on the other side of the fence there, I'd really like
+> to have some kind of validation. I talked about it at XDC some years
+> ago, and discussed it several people at length over the years. So I'm
+> definitely not in the CI-is-bad camp.
+>
+> > Does that make sense on where I'm (and I think a lot of others are)
+> > coming from?
+>
+> That makes sense from your perspective, but it's not clear to me how you
+> can expect maintainers to own the tests if they were never involved in
+> the process.
+>
+> They are not in Cc of the flaky tests patches, they are not reported
+> that the bug is failing, how can they own that process if we never
+> reached out and involved them?
+>
+> We're all overworked, you can't expect them to just look at the flaky
+> test list every now and then and figure it out.
+
+Absolutely. We got acks (or at least not-nacks) from the driver
+developers, but yeah, they should absolutely be part of the loop for
+those updates. I don't think we can necessarily block on them though.
+Say we add vc4 KMS tests, then after a backmerge we start to see a
+bunch of flakes on it, but you're sitting on a beach for a couple of
+weeks. If we wait for you to get back, see it, and merge it, then
+that's two weeks of people submitting Rockchip driver changes and
+getting told that their changes failed CI. That's exactly what we want
+to avoid, because it erodes confidence and usefulness of CI when
+people expect failures and ignore them by default.
+
+So I would say that it's reasonable for expectations to be updated
+according to what actually happens in practice, but also to make sure
+that the maintainers are explicitly informed and kept in the loop, and
+not just surprised when they look at the lists and see a bunch of
+stuff happened without their knowledge.
+
+Again there's much more to be done on the tooling here. Part of it is
+CLI tools and automation, part of it is dashboards and
+easily-digestible reporting, and then there's integration with things
+like KernelCI. KCI(DB) is actually quite high up on the list, but
+we're mostly waiting until a lot of the KCI rework happens so we can
+actually properly integrate with the new system.
+
+Right now a lot of the tooling we have is pretty involved - for
+example, we do have ci-collate as a Python library which can inspect a
+number of pipelines, pull out detailed status and logs, etc, but it
+mostly needs to be used as a library with bespoke scripts, rather than
+a ready-made tool. Work on that is ongoing to make it way more clear
+and accessible though.
+
+So I think it sounds like we're on the same page and going exactly in
+the same direction, just that this is a starting point rather than the
+desired end state. And the main point is that having a set of
+xfails/flakes parachuted in with little to no context is trying to get
+an MVP bootstrapped, rather than how we expect things to go in future.
+Does that sound about right?
+
+Cheers,
+Daniel
