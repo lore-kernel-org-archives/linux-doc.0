@@ -2,144 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C52FEE645B
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 12:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4603EE6457
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 13:02:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234651AbjIOMxq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 08:53:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46754 "EHLO
+        id S235190AbjIONCl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 09:02:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235074AbjIOMxq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 08:53:46 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140201BEB;
-        Fri, 15 Sep 2023 05:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1694782416; x=1726318416;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fy5E7iactUuOk/E7Asavn2wfTbB47hTdkHiZ8f3/+lM=;
-  b=yGTldwrVe87bDZX4RJ7DkycD7q9Mt7nsN8ILBQrUsz4L0lHZrS+xbkKK
-   CGc6fOVu+8h4L5ACxJfz4Z3JunTxbcTJ0Wr8/AnPGnGhm1CszU7GS2pqm
-   8WYW36uQVd0XoSM4SxP2bqvKIQmhTBq8LFIGHrLgjvwrwxRASIYRBr9al
-   C7DTeyZhHd24VvmKRxvxX7aHu+2mIX+RwqW1d/9Xb6z7TIgm8wne1EWBj
-   0LQ95mnV2CFX9Ri+aQJwFTrtKNbWoIyVyL5vL6TH/7lCXDktYYyexLDyo
-   TkM5BOzGZLNG4e4NqHarDpGi6KWoyd3NrsCKeuZSX90ZBOqw7VdGh+HuL
-   Q==;
-X-CSE-ConnectionGUID: 3TZVR8qTTNydN499RGxjdA==
-X-CSE-MsgGUID: bgKT2ZCwQAaHMVFXG3kIKw==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
-   d="asc'?scan'208";a="4859799"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 15 Sep 2023 05:53:30 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 15 Sep 2023 05:53:25 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Fri, 15 Sep 2023 05:53:17 -0700
-Date:   Fri, 15 Sep 2023 13:53:00 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Andrew Jones <ajones@ventanamicro.com>
-CC:     <guoren@kernel.org>, <paul.walmsley@sifive.com>,
-        <anup@brainfault.org>, <peterz@infradead.org>, <mingo@redhat.com>,
-        <will@kernel.org>, <palmer@rivosinc.com>, <longman@redhat.com>,
-        <boqun.feng@gmail.com>, <tglx@linutronix.de>, <paulmck@kernel.org>,
-        <rostedt@goodmis.org>, <rdunlap@infradead.org>,
-        <catalin.marinas@arm.com>, <xiaoguang.xing@sophgo.com>,
-        <bjorn@rivosinc.com>, <alexghiti@rivosinc.com>,
-        <keescook@chromium.org>, <greentime.hu@sifive.com>,
-        <jszhang@kernel.org>, <wefu@redhat.com>, <wuwei2016@iscas.ac.cn>,
-        <leobras@redhat.com>, <linux-arch@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <kvm@vger.kernel.org>, <virtualization@lists.linux-foundation.org>,
-        <linux-csky@vger.kernel.org>, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 03/17] riscv: Use Zicbop in arch_xchg when available
-Message-ID: <20230915-unseated-runway-7f519a57034f@wendy>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-4-guoren@kernel.org>
- <20230914-892327a75b4b86badac5de02@orel>
- <20230914-74d0cf00633c199758ee3450@orel>
- <20230915-removing-flaky-44c66da669ae@wendy>
- <20230915-ff4bd6cd721ed9bc4c4eb101@orel>
+        with ESMTP id S235127AbjIONCk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 09:02:40 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A64241AC
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 06:02:34 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-502f3a06dc0so1117374e87.2
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 06:02:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ferroamp-se.20230601.gappssmtp.com; s=20230601; t=1694782953; x=1695387753; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W6UZffakOMwph92nd+kWC1xMQkck4fFTNUb9ro2z14A=;
+        b=Vav1nPGbT5GhyD7PHAGcSdmn+Hk0wFrIqM26hEPGFzQIxajzAo0BhikBve48ZtTpd5
+         yIU3iUu6mWSKp/4Ifk/seAfMBqLE1VXcRMuLRrYWfoLuxfUOdYgowhdej2c9zp+UGno+
+         LTn8Iibwa62xFDoHy0WE98HFPtldmgP8eH8GReW4TdOLru3nRjZ8SK0r7WHwlYT7fttv
+         lWRL+QLbksfz7o4Ta2TpnRaQRe6SJtY+bBvJr9/+bSjmq73zWc+V2LVGLfrP1L+IXb3S
+         xRh8+YL7h8R06YOIm8esWJKWPOR4dy3ckTr+Qz/r3YDXNZGBgnO1THIa7c2RZdlNMtuS
+         23/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694782953; x=1695387753;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W6UZffakOMwph92nd+kWC1xMQkck4fFTNUb9ro2z14A=;
+        b=dvKaginsQtlGcFNPavQ0f0MXyQX7DdOV/iVGJHSdrUKJ9M8G8VZjljeEDEHyg6SGHM
+         8LdEAfcQg9O0BV7csGSPcREmjEjG7kmxT+gR0DLm+kMXT5MYilS+pifj9yCbNUFgP/P/
+         z1ARKwhk/q4D8b0cUG2YSBbjcvOuU3esHOKugwjHWT2AkdwD2sU0vW4extii8kKWD1ox
+         g/9QnDd5NfiFKfgAxfX8h3NudFGDQH4LJ3KR6JdUD45KujVDuHY3q7SH8dKsMT3hl2a1
+         V1qhgA4LvEQPi9TTHTLrXHLPMXKryyf5rchOIOnj6K5DVs/SavYddCzsvxTHUh4bN6rS
+         cOZA==
+X-Gm-Message-State: AOJu0YzVw/jAP/oP4Yq/P39HXiyYaEF8plzHfS68cNUjO1hqylrPIVil
+        Cbz+poylGs+B2iUvRmVG8I4d6w==
+X-Google-Smtp-Source: AGHT+IGjPyu7jb40b9QIC9voQV7XmcSDtVJwj9b+6ctkxoJV4zNkFeT6teRxdaReR4z9TzYi2xuDwA==
+X-Received: by 2002:a05:6512:3b21:b0:4fe:a2c:24b0 with SMTP id f33-20020a0565123b2100b004fe0a2c24b0mr1776729lfv.26.1694782952704;
+        Fri, 15 Sep 2023 06:02:32 -0700 (PDT)
+Received: from dwr-latitude-5400.. ([185.117.107.42])
+        by smtp.gmail.com with ESMTPSA id a15-20020a19f80f000000b004fe37339f8esm634600lff.149.2023.09.15.06.02.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 06:02:32 -0700 (PDT)
+From:   David Wretman <david.wretman@ferroamp.se>
+To:     parthiban.veerasooran@microchip.com
+Cc:     Nicolas.Ferre@microchip.com, Thorsten.Kummermehr@microchip.com,
+        UNGLinuxDriver@microchip.com, Woojung.Huh@microchip.com,
+        andrew@lunn.ch, casper.casan@gmail.com, conor+dt@kernel.org,
+        corbet@lwn.net, davem@davemloft.net, devicetree@vger.kernel.org,
+        edumazet@google.com, horatiu.vultur@microchip.com,
+        horms@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        kuba@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        pabeni@redhat.com, rdunlap@infradead.org, robh+dt@kernel.org,
+        steen.hegelund@microchip.com,
+        David Wretman <david.wretman@ferroamp.se>
+Subject: [RFC PATCH net-next 5/6] microchip: lan865x: add driver support for Microchip's LAN865X MACPHY
+Date:   Fri, 15 Sep 2023 15:01:19 +0200
+Message-Id: <20230915130118.927821-1-david.wretman@ferroamp.se>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230908142919.14849-6-Parthiban.Veerasooran@microchip.com>
+References: <20230908142919.14849-6-Parthiban.Veerasooran@microchip.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="AHl5K11HRR7A6/jr"
-Content-Disposition: inline
-In-Reply-To: <20230915-ff4bd6cd721ed9bc4c4eb101@orel>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---AHl5K11HRR7A6/jr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+---
+On Fri, Sep 08, 2023 at 07:59:18PM +0530, Parthiban Veerasooran wrote:
+> The LAN8650/1 is designed to conform to the OPEN Alliance 10BASE‑T1x
+> MAC‑PHY Serial Interface specification, Version 1.1. The IEEE Clause 4
+> MAC integration provides the low pin count standard SPI interface to any
+> microcontroller therefore providing Ethernet functionality without
+> requiring MAC integration within the microcontroller. The LAN8650/1
+> operates as an SPI client supporting SCLK clock rates up to a maximum of
+> 25 MHz. This SPI interface supports the transfer of both data (Ethernet
+> frames) and control (register access).
+> 
+> By default, the chunk data payload is 64 bytes in size. A smaller payload
+> data size of 32 bytes is also supported and may be configured in the
+> Chunk Payload Size (CPS) field of the Configuration 0 (OA_CONFIG0)
+> register. Changing the chunk payload size requires the LAN8650/1 be reset
+> and shall not be done during normal operation.
+> 
+> The Ethernet Media Access Controller (MAC) module implements a 10 Mbps
+> half duplex Ethernet MAC, compatible with the IEEE 802.3 standard.
+> 10BASE-T1S physical layer transceiver integrated into the LAN8650/1. The
+> PHY and MAC are connected via an internal Media Independent Interface
+> (MII).
+> 
+> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 
-On Fri, Sep 15, 2023 at 02:14:40PM +0200, Andrew Jones wrote:
-> On Fri, Sep 15, 2023 at 12:37:50PM +0100, Conor Dooley wrote:
-> > On Thu, Sep 14, 2023 at 04:47:18PM +0200, Andrew Jones wrote:
-> > > On Thu, Sep 14, 2023 at 04:25:53PM +0200, Andrew Jones wrote:
-> > > > On Sun, Sep 10, 2023 at 04:28:57AM -0400, guoren@kernel.org wrote:
-> > > > > From: Guo Ren <guoren@linux.alibaba.com>
+Hi Parthiban,
 
-> > > So, we could maybe proceed with assuming we
-> > > can use zicbom_block_size for prefetch, for now. If a platform comes =
-along
-> > > that interpreted the spec differently, requiring prefetch block size =
-to
-> > > be specified separately, then we'll cross that bridge when we get the=
-re.
-> >=20
-> > That said, I think I suggested originally having the zicboz stuff defau=
-lt
-> > to the zicbom size too, so I'd be happy with prefetch stuff working
-> > exclusively that way until someone comes along looking for different si=
-zes.
-> > The binding should be updated though since
-> >=20
-> >   riscv,cbom-block-size:
-> >     $ref: /schemas/types.yaml#/definitions/uint32
-> >     description:
-> >       The blocksize in bytes for the Zicbom cache operations.
-> >=20
-> > would no longer be a complete description.
-> >=20
-> > While thinking about new wording though, it feels really clunky to desc=
-ribe
-> > it like:
-> > 	The block size in bytes for the Zicbom cache operations, Zicbop
-> > 	cache operations will default to this block size where not
-> > 	explicitly defined.
-> >=20
-> > since there's then no way to actually define the block size if it is
-> > different. Unless you've got some magic wording, I'd rather document
-> > riscv,cbop-block-size, even if we are going to use riscv,cbom-block-size
-> > as the default.
-> >
->=20
-> Sounds good to me, but if it's documented, then we should probably
-> implement its parsing. Then, at that point, I wonder if it makes sense to
-> have the fallback at all, or if it's not better just to require all the
-> DTs to be explicit (even if redundant).
+Thanks for these patches.
 
-Sure, why not I guess.
+One thing I am missing is settings for PLCA parameters. I feel that the
+driver is a bit lacking as long as this is missing.
 
---AHl5K11HRR7A6/jr
-Content-Type: application/pgp-signature; name="signature.asc"
+Adding support for the ethtool plca options would make this much more
+complete.
 
------BEGIN PGP SIGNATURE-----
+Regards,
+David
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQRTrAAKCRB4tDGHoIJi
-0jC/AP4yIa3GuPAqy1hpoYpYwpy0ZYwvAT8Pxx/ZnbMaKl8GOAEAx6w8VycBziq2
-ENX9YTMH8AbfihyqNUkRC963e+VggwY=
-=kCxr
------END PGP SIGNATURE-----
-
---AHl5K11HRR7A6/jr--
