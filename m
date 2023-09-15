@@ -2,137 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 748E2EE3F01
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 05:27:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47BCFEE021D
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 05:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbjIOF1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 01:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57686 "EHLO
+        id S231949AbjIOF1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 01:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbjIOF1b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 01:27:31 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D9C2703;
-        Thu, 14 Sep 2023 22:27:26 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 44C215C00E5;
-        Fri, 15 Sep 2023 01:27:23 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 15 Sep 2023 01:27:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1694755643; x=1694842043; bh=uk+zZQK32Ze8zRmWK4g24/QPhrsLc5fFOPu
-        w49X6jUI=; b=wOoItRBszXtVLD9L/kCOxDSff282pNjsOD89SWRXTbkgvY+1OKJ
-        mF+bWkoTTaVg7YwSoLYVZCf7UaWMceAAEwmEHGpZI1IFh8n61Ar/xoZg+8hBI6aS
-        Wz+sH+HRBjCj5faM5ClRT5jT5mxnKIhwraQB4RPPpMsqGjcxfApsSc9+l1PMOd2q
-        75mEtliBlaEBq9rjwF7AkddPDZHSrQjvwuWJCDObhLG807UeSakLsULaaXHJlSDi
-        Qocpi6sEYCclItgy1xX/YD8dw1fZv6NdObag4RboYDF3PhXSJh7zYqYW1UFaB71m
-        n3GDTsMdNDedLPkqtIYZs9N/66g9y+fb4sg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1694755643; x=1694842043; bh=uk+zZQK32Ze8zRmWK4g24/QPhrsLc5fFOPu
-        w49X6jUI=; b=SCC+1ZmD3VI9gvTFjGGgbfTmVdz73pHYdpLFjJzh08zOKCNgYh8
-        kq31+VnfevkcUsx9cuFdWnYdnqjykKkFxdtJImg+8nKMh5FsHm6Cz4exgq2R61oB
-        TZbR1f9D1khugXPg00pYDVTo35BKiBnUVK2sYY9UD45bsrsoV05teyWhN1yc+Shh
-        IZJRhorG3EYzMbmKIwsQneUpG6NEQcnpJQDbUqcSvkaCP62XFh0+56TvOxp8Cf5M
-        wvvAJkUDCvM0S62LUCiPcrDjtNV5OtQoog1lx5YFvral9bGQ211xIPso/PtW04XZ
-        ItuN3bvLUlFrDkduNy49zM8jg9ICRG87A3Q==
-X-ME-Sender: <xms:OesDZTqFi0gTMDBTIWyhL_VVSHYZQRapDCADLZL6p1lFq4aHrW5mXQ>
-    <xme:OesDZdrxh6I7k94qnu0WCuBy2x_g7ss1BK1KHYnpS3lkPaL5U86kAqBdo2AtLzVtt
-    JMzh_oudhKVeCjTz6c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudejuddgleegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:OesDZQMuhE_gU3KYarGZCfoeF5rZQmTAUS8m35B1Qf53F4uor2dO5A>
-    <xmx:OesDZW61ReYh80Ej4m-o70mLgB2AtTlTijvHzQdoFnHGqLsi0JU-gw>
-    <xmx:OesDZS7YWo69zkeAjnV50mlZGEbqO8why3itOLGWa-Rors8X36rr7A>
-    <xmx:O-sDZbENC5ZN6-oLcSe17Px6xBzwBl5vFMYhaz7W3aK9vLJKOL1qSg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id C439BB60089; Fri, 15 Sep 2023 01:27:21 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
-Mime-Version: 1.0
-Message-Id: <763b1599-06b7-490e-9cbf-eb07f1deedb3@app.fastmail.com>
-In-Reply-To: <CAK7LNAR9Jt0FQNRidcxY-OxMh7N238Xs33Tyj+dpTZ5wGow0wQ@mail.gmail.com>
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <874jjwx44g.fsf@intel.com>
- <b2723c56-e2b0-4871-afbc-73cf6335ddca@app.fastmail.com>
- <CAK7LNAR9Jt0FQNRidcxY-OxMh7N238Xs33Tyj+dpTZ5wGow0wQ@mail.gmail.com>
-Date:   Fri, 15 Sep 2023 07:26:59 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Masahiro Yamada" <masahiroy@kernel.org>
-Cc:     "Jani Nikula" <jani.nikula@linux.intel.com>,
-        "Arnd Bergmann" <arnd@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Sakari Ailus" <sakari.ailus@iki.fi>,
-        "Javier Martinez Canillas" <javierm@redhat.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional dependencies
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229554AbjIOF1h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 01:27:37 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DDE52703;
+        Thu, 14 Sep 2023 22:27:30 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 983C01F38C;
+        Fri, 15 Sep 2023 05:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1694755648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=QU8myV3ur4X5421f1/iCCeH3dClVFgzG1eLkkZQpaSE=;
+        b=NtKM/H7jhZhi6WVeOgIIjPD3lWAFrjAaJmVRY1uX3CKXpNBPqle4T/CnIYXShURolHHb6P
+        p+oO7hLblgc9P9h0no2Cwk8ea9Gl4cXJ5YrfpyYrWVLekSpRAD+FCGr/2gVGFeCmjCv5aj
+        hx/RjNMAZ6jQwJZp+d9t0XSaoGde3vA=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 053D313479;
+        Fri, 15 Sep 2023 05:27:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id m4dhOz/rA2VrYwAAMHmgww
+        (envelope-from <jgross@suse.com>); Fri, 15 Sep 2023 05:27:27 +0000
+Message-ID: <76fe3edb-cc84-46f1-80f6-00ea36fbad16@suse.com>
+Date:   Fri, 15 Sep 2023 07:27:27 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 08/38] x86/cpufeatures: Add the cpu feature bit for
+ FRED
+Content-Language: en-US
+To:     Thomas Gleixner <tglx@linutronix.de>, andrew.cooper3@citrix.com,
+        Jan Beulich <jbeulich@suse.com>
+Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+        pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
+        ravi.v.shankar@intel.com, mhiramat@kernel.org,
+        jiangshanlai@gmail.com, Xin Li <xin3.li@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-9-xin3.li@intel.com>
+ <d98a362d-d806-4458-9473-be5bea254db7@suse.com>
+ <77ca8680-02e2-cdaa-a919-61058e2d5245@suse.com>
+ <7d907488-d626-0801-3d4b-af42d00a5537@citrix.com> <87o7i41bya.ffs@tglx>
+From:   Juergen Gross <jgross@suse.com>
+Autocrypt: addr=jgross@suse.com; keydata=
+ xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
+ ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
+ dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
+ NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
+ XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
+ AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
+ CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
+ mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
+ G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
+ kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
+ Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
+ RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
+ vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
+ sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
+ aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
+ w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
+ auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
+ 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
+ fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
+ HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
+ QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
+ ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
+In-Reply-To: <87o7i41bya.ffs@tglx>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0DJc54CgcwM0KkGine9Y86ek"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 14, 2023, at 19:23, Masahiro Yamada wrote:
-> On Thu, Sep 14, 2023 at 11:57=E2=80=AFPM Arnd Bergmann <arnd@arndb.de>=
- wrote:
->> On Thu, Sep 14, 2023, at 15:42, Jani Nikula wrote:
->
-> It is unclear why WIREGUARD must be entirely disabled
-> just because of the optional feature being modular.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0DJc54CgcwM0KkGine9Y86ek
+Content-Type: multipart/mixed; boundary="------------FxBkvOSsZsO036jILYJ06LWo";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Thomas Gleixner <tglx@linutronix.de>, andrew.cooper3@citrix.com,
+ Jan Beulich <jbeulich@suse.com>
+Cc: mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org, pbonzini@redhat.com,
+ seanjc@google.com, peterz@infradead.org, ravi.v.shankar@intel.com,
+ mhiramat@kernel.org, jiangshanlai@gmail.com, Xin Li <xin3.li@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ kvm@vger.kernel.org, xen-devel@lists.xenproject.org
+Message-ID: <76fe3edb-cc84-46f1-80f6-00ea36fbad16@suse.com>
+Subject: Re: [PATCH v10 08/38] x86/cpufeatures: Add the cpu feature bit for
+ FRED
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-9-xin3.li@intel.com>
+ <d98a362d-d806-4458-9473-be5bea254db7@suse.com>
+ <77ca8680-02e2-cdaa-a919-61058e2d5245@suse.com>
+ <7d907488-d626-0801-3d4b-af42d00a5537@citrix.com> <87o7i41bya.ffs@tglx>
+In-Reply-To: <87o7i41bya.ffs@tglx>
 
-I don't think anyone is asking for that, and the current
-"depends on IPV6 || !IPV6" seems fine here, and is consistent
-with dozens of other symbols.
+--------------FxBkvOSsZsO036jILYJ06LWo
+Content-Type: multipart/mixed; boundary="------------FKBb0HfIKq5W00Hh1Q7xjNPA"
 
-> My preference is to use IS_REACHABLE(CONFIG_IPV6)
-> instead of IS_ENABLED(CONFIG_IPV6)
-> under drivers/net/wireguard, then
-> get rid of "depends on IPV6 || !IPV6)
+--------------FKBb0HfIKq5W00Hh1Q7xjNPA
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-My feeling is that this would be significantly worse from a
-usability point of view even if it made it a little easier
-for maintainers:
+T24gMTUuMDkuMjMgMDM6MDcsIFRob21hcyBHbGVpeG5lciB3cm90ZToNCj4gT24gVGh1LCBT
+ZXAgMTQgMjAyMyBhdCAxNDoxNSwgYW5kcmV3IHdyb3RlOg0KPj4gUFYgZ3Vlc3RzIGFyZSBu
+ZXZlciBnb2luZyB0byBzZWUgRlJFRCAob3IgTEtHUyBmb3IgdGhhdCBtYXR0ZXIpIGJlY2F1
+c2UNCj4+IGl0IGFkdmVydGlzZXMgdG9vIG11Y2ggc3R1ZmYgd2hpY2ggc2ltcGx5IHRyYXBz
+IGJlY2F1c2UgdGhlIGtlcm5lbCBpcyBpbg0KPj4gQ1BMMy4NCj4+DQo+PiBUaGF0IHNhaWQs
+IHRoZSA2NGJpdCBQViBBQkkgaXMgYSB3aG9sZSBsb3QgY2xvc2VyIHRvIEZSRUQgdGhhbiBp
+dCBpcyB0bw0KPj4gSURUIGRlbGl2ZXJ5LsKgIChBbG1vc3QgYXMgaWYgd2UgZGVjaWRlZCAx
+NSB5ZWFycyBhZ28gdGhhdCBnaXZpbmcgdGhlIFBWDQo+PiBndWVzdCBrZXJuZWwgYSBnb29k
+IHN0YWNrIGFuZCBHU2Jhc2Ugd2FzIHRoZSByaWdodCB0aGluZyB0byBkby4uLikNCj4gDQo+
+IE5vIGFyZ3VtZW50IGFib3V0IHRoYXQuDQo+IA0KPj4gSW4gc29tZSBjb3Bpb3VzIGZyZWUg
+dGltZSwgSSB0aGluayB3ZSBvdWdodCB0byBwcm92aWRlIGENCj4+IG1pbm9ybHktcGFyYXZp
+cnQgRlJFRCB0byBQViBndWVzdHMgYmVjYXVzZSB0aGVyZSBhcmUgc3RpbGwgc29tZQ0KPj4g
+aW1wcm92ZW1lbnRzIGF2YWlsYWJsZSBhcyBsb3cgaGFuZ2luZyBmcnVpdC4NCj4+DQo+PiBN
+eSBwbGFuIHdhcyB0byBoYXZlIGEgUFYgaHlwZXJ2aXNvciBsZWFmIGFkdmVydGlzaW5nIHBh
+cmF2aXJ0IHZlcnNpb25zDQo+PiBvZiBoYXJkd2FyZSBmZWF0dXJlcywgc28gYSBndWVzdCBj
+b3VsZCBzZWUgIkkgZG9uJ3QgaGF2ZSBhcmNoaXRlY3R1cmFsDQo+PiBGUkVELCBidXQgSSBk
+byBoYXZlIHBhcmF2aXJ0LUZSRUQgd2hpY2ggaXMgYXMgc2ltaWxhciBhcyB3ZSBjYW4NCj4+
+IHJlYXNvbmFibHkgbWFrZSBpdCIuwqAgVGhlIHNhbWUgZ29lcyBmb3IgYSB3aG9sZSBidW5j
+aCBvZiBvdGhlciBmZWF0dXJlcy4NCj4gDQo+ICpHUk9BTioNCj4gDQo+IEkgdG9sZCB5b3Ug
+YmVmb3JlIHRoYXQgd2Ugd2FudCBsZXNzIHBhcmF2aXJ0IG5vbnNlbnNlIGFuZCBub3QgbW9y
+ZS4NCg0KSSBhZ3JlZS4NCg0KV2Ugd2lsbCBzdGlsbCBoYXZlIHRvIHN1cHBvcnQgdGhlIFBW
+IHN0dWZmIGZvciBub24tRlJFRCBoeXBlcnZpc29ycyBldmVuIHdpdGgNCnB2LUZSRUQgYmVp
+bmcgYXZhaWxhYmxlIG9uIG5ldyBYZW4uIFNvIGFkZGluZyBwdi1GUkVEIHdvdWxkIGp1c3Qg
+YWRkIG1vcmUgUFYNCmludGVyZmFjZXMgd2l0aG91dCB0aGUgYWJpbGl0eSB0byByZW1vdmUg
+b2xkIHN0dWZmLg0KDQoNCkp1ZXJnZW4NCg0K
+--------------FKBb0HfIKq5W00Hh1Q7xjNPA
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-When a user selects both IPV6 and WIREGUARD, they expect
-to be able to use them together, and a normal user setting
-WIREGUARD=3Dy would have a hard time figuring out why that
-leads it becoming IPv4-only.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-> If you want to make it clearer on the Kconfig level,
-> perhaps the following is also possible.
->
->
-> config WIREGUARD
->        tristate "WireGuard"
->
-> config WIREGUARD_IPV6
->        def_bool y
->        depends on WIREGUARD
->        depends on IPV6 >=3D WIREGUARD
->
-> config IPV6
->        tristate "IPV6"
+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
+jR/i1DG86lem3iBDXzXsZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
 
-That has the same downside, with the added problem
-of also confusing kernel developers with the '>=3D'
-Kconfig syntax, which IMHO makes no sense unless one
-knows way too much about Kconfig internals.
+--------------FKBb0HfIKq5W00Hh1Q7xjNPA--
 
-      Arnd
+--------------FxBkvOSsZsO036jILYJ06LWo--
+
+--------------0DJc54CgcwM0KkGine9Y86ek
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmUD6z8FAwAAAAAACgkQsN6d1ii/Ey9P
+4gf/aBMi3KQPER3qnsza7bJcPa30yR8O4Wf7AA5RDD14BujhuYLFNBNKD79hG/g36bQXKFhJrB+M
+Q4VMVlTDJUjk1kiCriaIUsP60e9f7a7jrnqjVyts6qJs4ykLfNbY9RALxJ29UTIS77HB/524y9U/
+LLFQbDMI9/wMcx7x8IttNv8vTwHIaFdAqL8ThInV47Q6U2w1fJ+EBEQbGQkmKR7yE7R5HuXsLPgm
+xNofJdtZFYteoGDwQ2wBdk1EwcrSVahKJ5AED175u96yZkl6+OclIFvUdT3CViu+8U9BzxwmcZbE
+NUFYACRcGmot95W4xgjmdbd5HpZ8yqLhc4jLfVOm7A==
+=E+ek
+-----END PGP SIGNATURE-----
+
+--------------0DJc54CgcwM0KkGine9Y86ek--
