@@ -2,195 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B18EE6455
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 11:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9931EE6458
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 11:07:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231341AbjIOLCa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 07:02:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51848 "EHLO
+        id S234109AbjIOLHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 07:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233589AbjIOLCa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 07:02:30 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B2D10C9
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:00:15 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-59bee08c13aso21400637b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:00:14 -0700 (PDT)
+        with ESMTP id S231309AbjIOLHu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 07:07:50 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D02E196
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:07:43 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-52bcd4db4e6so2396633a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694775614; x=1695380414; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/kdjtZjOl0pG1Y8OuH7SH0XgMhsH4ZDWKrdEtcTG86U=;
-        b=3ndptF9yE0L023Xk0WgZY1aIs2w8tVLrrV0WwCIQAni/dKRZByoLnrT4Lu1rqRxp4f
-         3aE2B70ZTkvS/LjcxEI6kN/ibdqHpR4C0ru2VUsEkAnV8zATtSXLvuNoLPr0cfTii1DQ
-         crghhB/Xk/og2ZfPvknCkfOpKwNz8M04i8MHtgefFYZKRTjvZdFXYHTrs6xR8KkJmPWg
-         i95HteKNtPwzhxRjoPS0s85gf4CWtjHzloF9Irb4BKNgiq+MdlPNvUkgApzudF4r/Bo7
-         jtEl/yrmZCLqEUeC8CNGp9VFPm3KBg9kur28tfqVBmd6tzAQFCS0tJvvB0BVA4li4xl2
-         HHBg==
+        d=ventanamicro.com; s=google; t=1694776061; x=1695380861; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wSTaAUWNZeJ+ndvekCOCXTKsKtVD+1FflqQrKtE2spY=;
+        b=Tkt824TVhinfIutCsU7q+wl421ltfQFaBRc0FDXVbeNdxBbUcitLk2HIyLn6RucCDt
+         Wk5FaFLeqMmqL3WWSZN2mVb9Nk9oAF6eu2QcvywZpx3Jkg0NvxhTUT8R0izfVvIDc0Lz
+         YkEcjl9G/UxFsf/I1u+e53SMDwxchTlHN5kUyCnsjX3tE4sJWSr5BQF1spBMIvgHp1qm
+         NzvGqJNNqOOViyaTLiuAfRS9gCrirVw/bCjYTbJIDC2zWpH/2dhT6bmu3SKO6Y4SA9lY
+         k/QAAN1pBVQESI5+SJLa29zgq28u74awl8IgU1iAZEhYXQxGcHvvqmSZcXJFoOy2Wvbb
+         txwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694775614; x=1695380414;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/kdjtZjOl0pG1Y8OuH7SH0XgMhsH4ZDWKrdEtcTG86U=;
-        b=tqsrUPQ5KI4mF4RVoyxqJaBzUOjfTF3ohqklc6Ns+4H3ukLzOH+DeV8KJ4jLND0KmY
-         gnhfWbiI8Y2JF5+sYAr5xbg8QwPSh5FxerZxqiMGbmjw2QJVXZWyeAsyBUydQwqKl6kS
-         Gce9wN5uPY5ViLImLU4BTwlV2/JeEYgC4dmW/4txfvpyQ1dcsZJf/rf/wGFDJ9VMwXJO
-         io5oAz9z5ux7Wu47GCDcGpck70Z4TcWoXRZSrcjiuNDQQSam1og7IJEWXNbdJkCXLcdH
-         icxm0FYA012US7HmePXFNHRGJpyGCn/sFEYIzkiwIY1XfRTHZxYd9Bhje50kbI70jNtD
-         P/EQ==
-X-Gm-Message-State: AOJu0Yy74I1sMiMUGefQ306Sy74efp36ylB1yoqjIumkwatrpoBFRdyJ
-        YmHkJTQIvGGiwlLT1fg24ydLpk0bSad8ohJrnQ==
-X-Google-Smtp-Source: AGHT+IH3LIX5OX5bZq/S9d+gFcO+JqbLY4Sep9fDWrOQHGQEzWkq5gu7AdHBA2+dfu8HpxR++S9aMZH+wQ9NGJ4UEA==
-X-Received: from mr-cloudtop2.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:2a6])
- (user=matteorizzo job=sendgmr) by 2002:a81:b643:0:b0:59b:f863:6f60 with SMTP
- id h3-20020a81b643000000b0059bf8636f60mr37260ywk.4.1694775614195; Fri, 15 Sep
- 2023 04:00:14 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 10:59:33 +0000
-In-Reply-To: <20230915105933.495735-1-matteorizzo@google.com>
-Mime-Version: 1.0
-References: <20230915105933.495735-1-matteorizzo@google.com>
-X-Mailer: git-send-email 2.42.0.459.ge4e396fd5e-goog
-Message-ID: <20230915105933.495735-15-matteorizzo@google.com>
-Subject: [RFC PATCH 14/14] security: add documentation for SLAB_VIRTUAL
-From:   Matteo Rizzo <matteorizzo@google.com>
-To:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
-        iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        keescook@chromium.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-hardening@vger.kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net, luto@kernel.org,
-        peterz@infradead.org
-Cc:     jannh@google.com, matteorizzo@google.com, evn@google.com,
-        poprdi@google.com, jordyzomer@google.com
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20230601; t=1694776061; x=1695380861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wSTaAUWNZeJ+ndvekCOCXTKsKtVD+1FflqQrKtE2spY=;
+        b=ID41mtAbVdjk9HDFVxLhItBvJX+v+j12Xqwgu/rjn3EXDdHc49R10HnGgRvHeDpA4P
+         kRM4JpQmqVgaCyi9k+W0Jr7w55AJmw2tnk2e2R2ej2DncsDl/7tQ5QT9SinNQq69Vu/M
+         Yo/sJuKSZAaf2FsUhRlQpijGv9fbc+mPnGMmyO+xCe8gFFepkl0G/nF02rwiF5JkarvG
+         AlFzcVUscvI+l4l0ydI3p0CiEcvWKxhSyoGpBzN+OCVHDZR4Bge3Mjm/YuUfCUyy/s0o
+         t2XlByd1SOelUMR2RJ8gq/foZ0C4f+GuHxC2OauHJcOOmmIMKRw9lUSth0muV/pNzoma
+         ma4Q==
+X-Gm-Message-State: AOJu0YyL51OwRDhKKYOh/AFV7w10iEvih8ToA7tyCZTYnX6Duvq9L7LO
+        7L7semgP/DgO0OY6r7mlAIHyhQ==
+X-Google-Smtp-Source: AGHT+IGiV2IqFyocnUwP0Im2AbML69a4y/CuwGmjKXzDT8nO6Dk8Ye+9+SetD4JmUqgKSsACAavsSQ==
+X-Received: by 2002:aa7:c2cb:0:b0:523:33d7:e324 with SMTP id m11-20020aa7c2cb000000b0052333d7e324mr1234271edp.38.1694776061469;
+        Fri, 15 Sep 2023 04:07:41 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id z10-20020aa7c64a000000b0052c11951f4asm2075997edr.82.2023.09.15.04.07.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 04:07:40 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 13:07:40 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Leonardo Bras <leobras@redhat.com>
+Cc:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
+        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
+        rdunlap@infradead.org, catalin.marinas@arm.com,
+        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
+        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, jszhang@kernel.org, wefu@redhat.com,
+        wuwei2016@iscas.ac.cn, linux-arch@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V11 03/17] riscv: Use Zicbop in arch_xchg when available
+Message-ID: <20230915-85238ac7734cf543bff3ddad@orel>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910082911.3378782-4-guoren@kernel.org>
+ <20230914-1ce4f391a14e56b456d88188@orel>
+ <ZQQUQjOaAIc95GXP@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZQQUQjOaAIc95GXP@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jann Horn <jannh@google.com>
+On Fri, Sep 15, 2023 at 05:22:26AM -0300, Leonardo Bras wrote:
+> On Thu, Sep 14, 2023 at 03:47:59PM +0200, Andrew Jones wrote:
+> > On Sun, Sep 10, 2023 at 04:28:57AM -0400, guoren@kernel.org wrote:
+> > > From: Guo Ren <guoren@linux.alibaba.com>
+...
+> > > diff --git a/arch/riscv/include/asm/insn-def.h b/arch/riscv/include/asm/insn-def.h
+> > > index 6960beb75f32..dc590d331894 100644
+> > > --- a/arch/riscv/include/asm/insn-def.h
+> > > +++ b/arch/riscv/include/asm/insn-def.h
+> > > @@ -134,6 +134,7 @@
+> > >  
+> > >  #define RV_OPCODE_MISC_MEM	RV_OPCODE(15)
+> > >  #define RV_OPCODE_SYSTEM	RV_OPCODE(115)
+> > > +#define RV_OPCODE_PREFETCH	RV_OPCODE(19)
+> > 
+> > This should be named RV_OPCODE_OP_IMM and be placed in
+> > numerical order with the others, i.e. above SYSTEM.
+> > 
+> > >  
+> > >  #define HFENCE_VVMA(vaddr, asid)				\
+> > >  	INSN_R(OPCODE_SYSTEM, FUNC3(0), FUNC7(17),		\
+> > > @@ -196,4 +197,8 @@
+> > >  	INSN_I(OPCODE_MISC_MEM, FUNC3(2), __RD(0),		\
+> > >  	       RS1(base), SIMM12(4))
+> > >  
+> > > +#define CBO_prefetchw(base)					\
+> > 
+> > Please name this 'PREFETCH_w' and it should take an immediate parameter,
+> > even if we intend to pass 0 for it.
+> 
+> It makes sense.
+> 
+> The mnemonic in the previously mentioned documentation is:
+> 
+> prefetch.w offset(base)
+> 
+> So yeah, makes sense to have both offset and base as parameters for 
+> CBO_prefetchw (or PREFETCH_w, I have no strong preference).
 
-Document what SLAB_VIRTUAL is trying to do, how it's implemented, and
-why.
+I have a strong preference :-)
 
-Signed-off-by: Jann Horn <jannh@google.com>
-Co-developed-by: Matteo Rizzo <matteorizzo@google.com>
-Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
----
- Documentation/security/self-protection.rst | 102 +++++++++++++++++++++
- 1 file changed, 102 insertions(+)
+PREFETCH_w is consistent with the naming we already have for e.g.
+cbo.clean, which is CBO_clean. The instruction we're picking a name
+for now is prefetch.w, not cbo.prefetchw.
 
-diff --git a/Documentation/security/self-protection.rst b/Documentation/security/self-protection.rst
-index 910668e665cb..5a5e99e3f244 100644
---- a/Documentation/security/self-protection.rst
-+++ b/Documentation/security/self-protection.rst
-@@ -314,3 +314,105 @@ To help kill classes of bugs that result in kernel addresses being
- written to userspace, the destination of writes needs to be tracked. If
- the buffer is destined for userspace (e.g. seq_file backed ``/proc`` files),
- it should automatically censor sensitive values.
-+
-+
-+Memory Allocator Mitigations
-+============================
-+
-+Protection against cross-cache attacks (SLAB_VIRTUAL)
-+-----------------------------------------------------
-+
-+SLAB_VIRTUAL is a mitigation that deterministically prevents cross-cache
-+attacks.
-+
-+Linux Kernel use-after-free vulnerabilities are commonly exploited by turning
-+them into an object type confusion (having two active pointers of different
-+types to the same memory location) using one of the following techniques:
-+
-+1. Direct object reuse: make the kernel give the victim object back to the slab
-+   allocator, then allocate the object again from the same slab cache as a
-+   different type. This is only possible if the victim object resides in a slab
-+   cache which can contain objects of different types - for example one of the
-+   kmalloc caches.
-+2. "Cross-cache attack": make the kernel give the victim object back to the slab
-+   allocator, then make the slab allocator give the page containing the object
-+   back to the page allocator, then either allocate the page directly as some
-+   other type of page or make the slab allocator allocate it again for a
-+   different slab cache and allocate an object from there.
-+
-+In either case, the important part is that the same virtual address is reused
-+for two objects of different types.
-+
-+The first case can be addressed by separating objects of different types
-+into different slab caches. If a slab cache only contains objects of the
-+same type then directly turning an use-after-free into a type confusion is
-+impossible as long as the slab page that contains the victim object remains
-+assigned to that slab cache. This type of mitigation is easily bypassable
-+by cross-cache attacks: if the attacker can make the slab allocator return
-+the page containing the victim object to the page allocator and then make
-+it use the same page for a different slab cache, type confusion becomes
-+possible again. Addressing the first case is therefore only worthwhile if
-+cross-cache attacks are also addressed. AUTOSLAB uses a combination of
-+probabilistic mitigations for this. SLAB_VIRTUAL addresses the second case
-+deterministically by changing the way the slab allocator allocates memory.
-+
-+Preventing slab virtual address reuse
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+In theory there is an easy fix against cross-cache attacks: modify the slab
-+allocator so that it never gives memory back to the page allocator. In practice
-+this would be problematic because physical memory remains permanently assigned
-+to a slab cache even if it doesn't contain any active objects. A viable
-+cross-cache mitigation must allow the system to reclaim unused physical memory.
-+In the current design of the slab allocator there is no way
-+to keep a region of virtual memory permanently assigned to a slab cache without
-+also permanently reserving physical memory. That is because the virtual
-+addresses that the slab allocator uses come from the linear map region, where
-+there is a 1:1 correspondence between virtual and physical addresses.
-+
-+SLAB_VIRTUAL's solution is to create a dedicated virtual memory region that is
-+only used for slab memory, and to enforce that once a range of virtual addresses
-+is used for a slab cache, it is never reused for any other caches. Using a
-+dedicated region of virtual memory lets us reserve ranges of virtual addresses
-+to prevent cross-cache attacks and at the same time release physical memory back
-+to the system when it's no longer needed. This is what Chromium's PartitionAlloc
-+does in userspace
-+(https://chromium.googlesource.com/chromium/src/+/354da2514b31df2aa14291199a567e10a7671621/base/allocator/partition_allocator/PartitionAlloc.md).
-+
-+Implementation
-+~~~~~~~~~~~~~~
-+
-+SLAB_VIRTUAL reserves a region of virtual memory for the slab allocator. All
-+pointers returned by the slab allocator point to this region. The region is
-+statically partitioned in two sub-regions: the metadata region and the data
-+region. The data region is where the actual objects are allocated from. The
-+metadata region is an array of struct slab objects, one for each PAGE_SIZE bytes
-+in the data region.
-+Without SLAB_VIRTUAL, struct slab is overlaid on top of the struct page/struct
-+folio that corresponds to the physical memory page backing the slab instead of
-+using a dedicated memory region. This doesn't work for SLAB_VIRTUAL, which needs
-+to store metadata for slabs even when no physical memory is allocated to them.
-+Having an array of struct slab lets us implement virt_to_slab efficiently purely
-+with arithmetic. In order to support high-order slabs, the struct slabs
-+corresponding to tail pages contain a pointer to the head slab, which
-+corresponds to the slab's head page.
-+
-+TLB flushing
-+~~~~~~~~~~~~
-+
-+Before it can release a page of physical memory back to the page allocator, the
-+slab allocator must flush the TLB entries for that page on all CPUs. This is not
-+only necessary for the mitigation to work reliably but it's also required for
-+correctness. Without a TLB flush some CPUs might continue using the old mapping
-+if the virtual address range is reused for a new slab and cause memory
-+corruption even in the absence of other bugs. The slab allocator can release
-+pages in contexts where TLB flushes can't be performed (e.g. in hardware
-+interrupt handlers). Pages to free are not freed directly, and instead they are
-+put on a queue and freed from a workqueue context which also flushes the TLB.
-+
-+Performance
-+~~~~~~~~~~~
-+
-+SLAB_VIRTUAL's performance impact depends on the workload. On kernel compilation
-+(kernbench) the slowdown is about 1-2% depending on the machine type and is
-+slightly worse on machines with more cores.
--- 
-2.42.0.459.ge4e396fd5e-goog
+> 
+> > 
+> > > +	INSN_R(OPCODE_PREFETCH, FUNC3(6), FUNC7(0),		\
+> > > +	       RD(x0), RS1(base), RS2(x0))
+> > 
+> > prefetch.w is not an R-type instruction, it's an S-type. While the bit
+> > shifts are the same, the names are different. We need to add S-type
+> > names while defining this instruction. 
+> 
+> That is correct, it is supposed to look like a store instruction (S-type), 
+> even though documentation don't explicitly state that.
+> 
+> Even though it works fine with the R-type definition, code documentation 
+> would be wrong, and future changes could break it.
+> 
+> > Then, this define would be
+> > 
+> >  #define PREFETCH_w(base, imm) \
 
+I should have suggested 'offset' instead of 'imm' for the second parameter
+name.
+
+> >      INSN_S(OPCODE_OP_IMM, FUNC3(6), IMM_11_5(imm), __IMM_4_0(0), \
+> >             RS1(base), __RS2(3))
+> 
+> s/OPCODE_OP_IMM/OPCODE_PREFETCH
+> 0x4 vs 0x13
+
+There's no major opcode named "PREFETCH" and the spec says that the major
+opcode used for prefetch instructions is OP-IMM. That's why we want to
+name this OPCODE_OP_IMM. I'm not sure where the 0x4 you're referring to
+comes from. A 32-bit instruction has the lowest two bits set (figure 1.1
+of the unpriv spec) and table 27.1 of the unpriv spec shows OP-IMM is
+0b00100xx, so we have 0b0010011. Keeping the naming of the opcode macros
+consistent with the spec also keeps them consistent with the .insn
+directive where we could even use the names directly, i.e.
+
+ .insn s OP_IMM, 6, x3, 0(a0)
+
+> > 
+> > When the assembler as insn_r I hope it will validate that
+
+I meant insn_s here, which would be the macro for '.insn s'
+
+> > (imm & 0xfe0) == imm
+
+I played with it. It won't do what we want for prefetch, only
+what works for s-type instructions in general, i.e. it allows
++/-2047 offsets and fails for everything else. That's good enough.
+We can just mask off the low 5 bits here in our macro
+
+ #define PREFETCH_w(base, offset) \
+    INSN_S(OPCODE_OP_IMM, FUNC3(6), IMM_11_5((offset) & ~0x1f), \
+           __IMM_4_0(0), RS1(base), __RS2(3))
+
+Thanks,
+drew
