@@ -2,90 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 583E1EED617
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 15:48:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15058EED61A
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 15:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236156AbjIOPtA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 11:49:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44190 "EHLO
+        id S236326AbjIOP6g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 11:58:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236457AbjIOPs7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 11:48:59 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFDDC2710;
-        Fri, 15 Sep 2023 08:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=leftU7vnx6ubtSCIPio+hyF+23cQ6uL5tDPuDZIs4dk=; b=YYqjIA6Phg4gWr7cpr90C7AQMG
-        JPBckC5Gp1gat/6r+oY6tjpgDW2+MFCpZSMEDW3nt665gO51B+Du/Mg+YnEcWoAb7R3hkyhcBF0cT
-        PiGlO3s6ZnHcXbXKr9QsStIrRq0KhTZYMPGQ7jfzMdzS2VGcoau6RYdsgxnbVP072afdAkyhPatLG
-        T7R4OmlL1OWfWdfFPXGK0eifZ+B1dEwoWLHTAJiq6rYRw+hlrr5G9jZkOw2q3TFKN0+WiYKPfUx5q
-        n1WOC1qIBz9/wzIHSnpi6BegyzrRyOFcNMFftrs34uJ4iHR5x9pAKQsQnbWWnlbkq1dVk4OtR1B/P
-        BhPoA3uQ==;
-Received: from [2601:1c2:980:9ec0:e65e:37ff:febd:ee53]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qhB3C-00B13L-1W;
-        Fri, 15 Sep 2023 15:48:10 +0000
-Message-ID: <6b507126-c4e6-40f2-9574-fe1abb0463ee@infradead.org>
-Date:   Fri, 15 Sep 2023 08:48:08 -0700
+        with ESMTP id S236309AbjIOP6X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 11:58:23 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A0C10CC;
+        Fri, 15 Sep 2023 08:58:17 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B89EC433C7;
+        Fri, 15 Sep 2023 15:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694793497;
+        bh=rHPOWSi7ajq/kQXPUpK+1+DizBbjV6FvUrJCRMYwJxQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rkgZXP7EvoPYQ//HjY99w5xFtAmxtvjMDOeP1+7oGYQd3hC+DDUm+/G/yDr0LJPFq
+         7pMN4plHAvsLMhWTooH/VAfydyrzfRHOdEpsfk1BsB6wILO9WQRhqg012ZdhCSSjHo
+         XbEx5O3/1oLDKu52PWRNkTv627AlJYCbzya81B7Lf+1l/ve9Jj06wgp4PH7zbH9LfK
+         tYwt/K4Tvmwf2l5mTTZG0F43RTIcMlEqlG4h2hsJYOlyKNKMVvhoDmmsjTKt9TbWiS
+         CxN6BMmYnkAUphrNPZfMYhNLW+Lcjo+SDinkWaGiSh9GjnO1zPmrtfOfNq8YKrGywg
+         9RfwfOU3An2yA==
+Date:   Fri, 15 Sep 2023 16:58:12 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     "Matyas, Daniel" <Daniel.Matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/5] dt-bindings: hwmon: Add possible new properties
+ to max31827 bindings
+Message-ID: <20230915-battle-shrouded-9d7e9e3cd6c0@spud>
+References: <20230914075948.208046-1-daniel.matyas@analog.com>
+ <20230914075948.208046-2-daniel.matyas@analog.com>
+ <20230914-qualify-ragweed-b06b7b7923c9@spud>
+ <PH0PR03MB677168B3D2689B4D553443E089F6A@PH0PR03MB6771.namprd03.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
- dependencies
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <874jjwx44g.fsf@intel.com>
- <b2723c56-e2b0-4871-afbc-73cf6335ddca@app.fastmail.com>
- <CAK7LNAR9Jt0FQNRidcxY-OxMh7N238Xs33Tyj+dpTZ5wGow0wQ@mail.gmail.com>
- <763b1599-06b7-490e-9cbf-eb07f1deedb3@app.fastmail.com>
- <87sf7fvqiz.fsf@intel.com>
- <bc27450a-74cd-49f5-bc88-f102b0edb345@app.fastmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <bc27450a-74cd-49f5-bc88-f102b0edb345@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fu/FZ+WQJsjjwQ/a"
+Content-Disposition: inline
+In-Reply-To: <PH0PR03MB677168B3D2689B4D553443E089F6A@PH0PR03MB6771.namprd03.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--fu/FZ+WQJsjjwQ/a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/15/23 00:44, Arnd Bergmann wrote:
-> On Fri, Sep 15, 2023, at 09:34, Jani Nikula wrote:
->>
->> IS_REACHABLE() considered harmful.
-> 
+On Fri, Sep 15, 2023 at 03:31:13PM +0000, Matyas, Daniel wrote:
+> > -----Original Message-----
+> > From: Conor Dooley <conor@kernel.org>
+> > On Thu, Sep 14, 2023 at 10:59:45AM +0300, Daniel Matyas wrote:
 
-+1 absolutely.
+> > > +  adi,alrm-pol:
+> >=20
+> > Characters are not at a premium, is there a reason not to use the full
+> > words? "flt-q" in particular would be quite cryptic if I saw it in a dt=
+s.
+> >=20
+> > > +    description:
+> > > +      Sets the alarms active state.
+> > > +            - 0 =3D active low
+> > > +            - 1 =3D active high
+> > > +      For max31827 and max31828 the default alarm polarity is low. F=
+or
+> > max31829
+> > > +      it is high.
+> >=20
+> > This constraint can be expressed in the binding, rather than in free fo=
+rm
+> > text like done here. Ditto below.
 
-> Absolutely agreed, and I'm sorry I introduced it in the
-> first place in commit 9b174527e7b75 ("[media] Add and use
-> IS_REACHABLE macro").
-> 
-> At the time, it was only used by drivers/media, which used
-> to have a lot of open-coded instances of it and a lot of
-> wrong checks.
-> 
-> Having a formal syntax for it was an improvement for
-> drivers/media since it was more broken before, but it's
-> usually a mistake to use it when there is another solution,
-> and we probably should have tried harder to fix the
-> dependencies in drivers/media at the time.
-> 
->       Arnd
+> Ok, but how? The default values are different depending on the compatible=
+ string. I searched for similar examples, but I found nothing...
+>=20
+> Some bindings use 'default: ' to declare the default values, but this is =
+the default for every chip.
 
--- 
-~Randy
+Something like
+allOf:
+  - if:
+      properties:
+        compatible:
+          contains:
+            const: adi,max31829
+    then:
+      properties:
+        adi,alrm-pol:
+          default: 1
+    else:
+      properties:
+        adi,alrm-pol:
+          default: 0
+
+Cheers,
+Conor.
+
+--fu/FZ+WQJsjjwQ/a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQR/FAAKCRB4tDGHoIJi
+0jsgAP4jkMxSLKa4saLHIsoqeAjgLQaDQ1jseRxF06yoFniMZAEA8vhX/6PTOojt
++Hlpg9H2JENwURZ0ZmJL1RBWpL5nUQ8=
+=MgnR
+-----END PGP SIGNATURE-----
+
+--fu/FZ+WQJsjjwQ/a--
