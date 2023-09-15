@@ -2,145 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E2B5EE6420
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 06:53:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CEFEE642E
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 07:35:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232440AbjIOGxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 02:53:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41402 "EHLO
+        id S232537AbjIOHfU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 03:35:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232242AbjIOGxS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 02:53:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0EB782729
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 23:52:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694760733;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mil5Lpt/AWqT9ucliicGrw0zms2aJ9EQRoMaWTOR9i0=;
-        b=EUeTH67i0TtyMi8QUppAELzxnrX2qWySIXW/3ToGThYJK8XTUQgtvPqw3rHZkgYpVNvx76
-        74H377yfUXpjvsKi8Yx/2hNCcny1a/ocyHLW57piN7PACi+DfxQld03bKR86amrmqtTTet
-        v7JKjsnBOqP1qK+yMaEcKE5mpuim3CI=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-277-Ykn5JLlxOt6-K3dpvxWqjw-1; Fri, 15 Sep 2023 02:52:11 -0400
-X-MC-Unique: Ykn5JLlxOt6-K3dpvxWqjw-1
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-6bf0c48641cso2246129a34.3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Sep 2023 23:52:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694760730; x=1695365530;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mil5Lpt/AWqT9ucliicGrw0zms2aJ9EQRoMaWTOR9i0=;
-        b=UoXkP0PQ6bz2cQooimDDYtSjTshl+IMjReKAngnZH4EF4mW/b44qWCaZ0mFJH1Uzhs
-         UxqmbxcMX3OA2V8EoQzygNjShcmsS6iLynPBGbM8SUuUNs3qWeteX+JE3cbk/P9TacM4
-         6HxBnfxtvJ0weOq7wAkKwJsE3woBpZo/ngEV4/3yzuv8k4E/qUSej8bSLwDmWF3tOQp0
-         gS/f1aNtPw7NNIwcjoR4VuPpBvnpc5+Z/5npb+UAUtMfQMd6hLMFlVyH3bd7/TGz7BkK
-         QFTY4LOZY2g2kndgXnKmVn1BDavsvpdPCVZJgUKrm4X/oT1RxyVZvCbtZO6wrkh4M8Qg
-         4+6A==
-X-Gm-Message-State: AOJu0YxdnAEXFDdLF3hRpM4Z2cCUiM2b9ITi4txZlyGjWPdjGBSw4N9Z
-        2yZDaJgF0PxPbiyJeA+AzPkAfPPzQUmmemHsk3AZt8qeel58uLGptBTpyJGyQPAZf0kV5szKYJy
-        gV3ROfr8fSMN0c1tjgYMy
-X-Received: by 2002:a9d:61d2:0:b0:6b8:691e:ec53 with SMTP id h18-20020a9d61d2000000b006b8691eec53mr692098otk.11.1694760730713;
-        Thu, 14 Sep 2023 23:52:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF5XKtDZPdccOWeAcP3oR13oWpgp0h0NQCTbBcXsI+ozwyS91W+C45E6K0TtmaCpK+EoMojSA==
-X-Received: by 2002:a9d:61d2:0:b0:6b8:691e:ec53 with SMTP id h18-20020a9d61d2000000b006b8691eec53mr692067otk.11.1694760730535;
-        Thu, 14 Sep 2023 23:52:10 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id a9-20020a056830008900b006b9b6aea237sm1367919oto.80.2023.09.14.23.52.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 23:52:10 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 03:52:00 -0300
-From:   Leonardo Bras <leobras@redhat.com>
-To:     guoren@kernel.org
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 17/17] RISC-V: paravirt: pvqspinlock: KVM: Implement
- kvm_sbi_ext_pvlock_kick_cpu()
-Message-ID: <ZQP_ELqR7y5recdD@redhat.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-18-guoren@kernel.org>
+        with ESMTP id S232198AbjIOHfT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 03:35:19 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05323A1;
+        Fri, 15 Sep 2023 00:35:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694763315; x=1726299315;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=qHIrlzrycle/SJ7JMaIX9e41cVUBla4ANbL4ssaQyrs=;
+  b=WTEITUCC17gD2q5M4bdv6PHJur+JlCjRHf/nv6wiv6X4F0pmrV03yzlh
+   J60n4EhNz5Dc8Nwpatv2/AkOk1ZcsZi0Hb3d8oVrcldXKQ8qeeJsbNGiU
+   dC5TH6kMhIPpItmYjCOEGo61jhis2MZpYPC8QwxxMsq1vhF3uimUL/GGf
+   VxbIy8YQG16yTNCDfku6Hb/9GXlMXsrAeP/8E0U57Y7mmVPPG3+NNk4UJ
+   Mu9vqVqHZdjiGgvr4Kyakjq/qM4BrwPru5xlPJU1C0a0EOXHlnwKts6Ly
+   hE0e7kmVPPnrp2oTvEbxs0lLwQthwNvjODHDQ+A0w6QJyY0ExIGm3AWfc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="465550485"
+X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
+   d="scan'208";a="465550485"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 00:35:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="888139889"
+X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
+   d="scan'208";a="888139889"
+Received: from azafrani-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.48.177])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 00:33:43 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
+ dependencies
+In-Reply-To: <763b1599-06b7-490e-9cbf-eb07f1deedb3@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230913113801.1901152-1-arnd@kernel.org>
+ <874jjwx44g.fsf@intel.com>
+ <b2723c56-e2b0-4871-afbc-73cf6335ddca@app.fastmail.com>
+ <CAK7LNAR9Jt0FQNRidcxY-OxMh7N238Xs33Tyj+dpTZ5wGow0wQ@mail.gmail.com>
+ <763b1599-06b7-490e-9cbf-eb07f1deedb3@app.fastmail.com>
+Date:   Fri, 15 Sep 2023 10:34:12 +0300
+Message-ID: <87sf7fvqiz.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230910082911.3378782-18-guoren@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 10, 2023 at 04:29:11AM -0400, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
-> 
-> We only need to call the kvm_vcpu_kick() and bring target_vcpu
-> from the halt state. No irq raised, no other request, just a pure
-> vcpu_kick.
-> 
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> ---
->  arch/riscv/kvm/vcpu_sbi_pvlock.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/arch/riscv/kvm/vcpu_sbi_pvlock.c b/arch/riscv/kvm/vcpu_sbi_pvlock.c
-> index 544a456c5041..914fc58aedfe 100644
-> --- a/arch/riscv/kvm/vcpu_sbi_pvlock.c
-> +++ b/arch/riscv/kvm/vcpu_sbi_pvlock.c
-> @@ -12,6 +12,24 @@
->  #include <asm/sbi.h>
->  #include <asm/kvm_vcpu_sbi.h>
->  
-> +static int kvm_sbi_ext_pvlock_kick_cpu(struct kvm_vcpu *vcpu)
-> +{
-> +	struct kvm_cpu_context *cp = &vcpu->arch.guest_context;
-> +	struct kvm *kvm = vcpu->kvm;
-> +	struct kvm_vcpu *target;
-> +
-> +	target = kvm_get_vcpu_by_id(kvm, cp->a0);
-> +	if (!target)
-> +		return SBI_ERR_INVALID_PARAM;
-> +
-> +	kvm_vcpu_kick(target);
-> +
-> +	if (READ_ONCE(target->ready))
-> +		kvm_vcpu_yield_to(target);
-> +
-> +	return SBI_SUCCESS;
-> +}
-> +
->  static int kvm_sbi_ext_pvlock_handler(struct kvm_vcpu *vcpu, struct kvm_run *run,
->  				      struct kvm_vcpu_sbi_return *retdata)
->  {
-> @@ -21,6 +39,7 @@ static int kvm_sbi_ext_pvlock_handler(struct kvm_vcpu *vcpu, struct kvm_run *run
->  
->  	switch (funcid) {
->  	case SBI_EXT_PVLOCK_KICK_CPU:
-> +		ret = kvm_sbi_ext_pvlock_kick_cpu(vcpu);
->  		break;
->  	default:
->  		ret = SBI_ERR_NOT_SUPPORTED;
-> -- 
-> 2.36.1
-> 
+On Fri, 15 Sep 2023, "Arnd Bergmann" <arnd@arndb.de> wrote:
+> On Thu, Sep 14, 2023, at 19:23, Masahiro Yamada wrote:
+>> On Thu, Sep 14, 2023 at 11:57=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
+rote:
+>>> On Thu, Sep 14, 2023, at 15:42, Jani Nikula wrote:
+>>
+>> It is unclear why WIREGUARD must be entirely disabled
+>> just because of the optional feature being modular.
+>
+> I don't think anyone is asking for that, and the current
+> "depends on IPV6 || !IPV6" seems fine here, and is consistent
+> with dozens of other symbols.
+>
+>> My preference is to use IS_REACHABLE(CONFIG_IPV6)
+>> instead of IS_ENABLED(CONFIG_IPV6)
+>> under drivers/net/wireguard, then
+>> get rid of "depends on IPV6 || !IPV6)
+>
+> My feeling is that this would be significantly worse from a
+> usability point of view even if it made it a little easier
+> for maintainers:
+>
+> When a user selects both IPV6 and WIREGUARD, they expect
+> to be able to use them together, and a normal user setting
+> WIREGUARD=3Dy would have a hard time figuring out why that
+> leads it becoming IPv4-only.
+
+I think IS_REACHABLE() is in most cases just plain wrong, and should
+only be used as the last resort.
+
+I think the kconfig should express what the dependencies are, and you
+should get kconfig or build errors if you get it wrong, and not paper
+over them with IS_REACHABLE().
+
+Configuring the kernel is hard enough, and IS_REACHABLE() silences the
+issues with no messages to the user at any point. If the user gets it
+wrong, it just doesn't work like they expect, they have no clues why,
+and they have to peruse the kernel source to figure it out. (Or, more
+likely, file a bug and waste the kernel developer/maintainer time to get
+the configuration right.)
+
+IS_REACHABLE() considered harmful.
 
 
-LGTM:
-Reviewed-by: Leonardo Bras <leobras@redhat.com>
+BR,
+Jani.
 
-Thanks!
-Leo
 
+>
+>> If you want to make it clearer on the Kconfig level,
+>> perhaps the following is also possible.
+>>
+>>
+>> config WIREGUARD
+>>        tristate "WireGuard"
+>>
+>> config WIREGUARD_IPV6
+>>        def_bool y
+>>        depends on WIREGUARD
+>>        depends on IPV6 >=3D WIREGUARD
+>>
+>> config IPV6
+>>        tristate "IPV6"
+>
+> That has the same downside, with the added problem
+> of also confusing kernel developers with the '>=3D'
+> Kconfig syntax, which IMHO makes no sense unless one
+> knows way too much about Kconfig internals.
+>
+>       Arnd
+
+--=20
+Jani Nikula, Intel
