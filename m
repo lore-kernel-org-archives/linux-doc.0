@@ -2,197 +2,343 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 791F1EED61A
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 16:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FBFEED61A
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 17:39:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234608AbjIOQs6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 12:48:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54670 "EHLO
+        id S233285AbjIORjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 13:39:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235275AbjIOQsp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 12:48:45 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA679E6E
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 09:48:28 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2b703a0453fso39262811fa.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 09:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1694796507; x=1695401307; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f48oEfgEOe9ogBfu1uEucT841SwYN2NFGrQaThSx3KU=;
-        b=2cQE2YjAEOZC3zlxhZEtqig0zLQ6M/KpXeJYz3Gq/El+6mTuWGutpCGlU68whKelL3
-         4dn2qXOtD17CgJ1TUeg/W1onVvzm5a7isLkQ8CZ/E0l+C1H8H8A6e1rhPb9Jy/5VoBlu
-         f6+89BSI/MxmqtUAIL8kwlZWZae9LoJQ+OB9f78+M4X2D2M9gh68P0APrsZpAwZHXkPK
-         5hw7CXTAzchSnsmfvaYhQPhPLvsd7BkYOQaIZqtIJ7VN4xypRDhl5wLopX+NrQIFwF14
-         hKaen+dEr5AMAKdnY01RPG6bw9FCMFJfN+yjGKJyO+XBcVmkLNFKkpd0MgWUFmu2yuDm
-         Ufmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694796507; x=1695401307;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f48oEfgEOe9ogBfu1uEucT841SwYN2NFGrQaThSx3KU=;
-        b=cGnqpf1zpoSnmYYz17nb1uAZKpXLumSTL4n5bUggMPGWjQEgCbaiecA8/eVlN4SgiC
-         67UmsWH+3VyPOOB3c9PxrCuobmgdyf61a8BWO1nloiqWA9n7KAKI/CGmq7vkTa+r6dGu
-         hzO674TnrgckI+tMPUf8F179lfqqwreUsTK5M5scFVRhMCwB/3boFmwsq2j5+HMyV+zy
-         TurMddlaEU3UtYYOzzpAPGZCj3ctFcbxBqVsAGBdGrsWusyusD9BPnDa73yqg1nTmnMt
-         rExIMjw1EcFNjrJSuOTP6qtF9UaGIXMM2F085tvKCczHLyrDAeewkhkhf0wtiNA1Fi1x
-         cDPg==
-X-Gm-Message-State: AOJu0Yxhnpa91GTANzeWS9XhhJW8ve2h3WslGI3WevzQ2eP9CqFVInTx
-        VOlU4mVgW3RYuVTkWll0MkSV6zfJ4Brr/xtGp5GMrlQj9YKpbVObQtc=
-X-Google-Smtp-Source: AGHT+IFyBsKuU+fIikkzmfTWGb2MylxPkm9jEpWf6DwpqcUh3gp60JfTnhUQk8RrjTtyx+LcVvhzhU7p33OTxZwfnXA=
-X-Received: by 2002:a05:651c:116:b0:2bd:102c:4161 with SMTP id
- a22-20020a05651c011600b002bd102c4161mr1948688ljb.43.1694796507080; Fri, 15
- Sep 2023 09:48:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
- <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
- <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com>
- <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
- <de95229a14614198894a8ce421c30d94@AcuMS.aculab.com> <CALs-Hstcz3OAxUi80nm+U0R56VBUUPQT=+XMOLpVJsn2ZOcM1A@mail.gmail.com>
- <172bc43cc2ac45239ec40477d53d263a@AcuMS.aculab.com> <CALs-HsvMfrsPsG2b9imLNOJFH6Xk45G0=UPWGtExePiMKV6+1Q@mail.gmail.com>
- <abdde70ac5b947508c8c71d72ec4f294@AcuMS.aculab.com>
-In-Reply-To: <abdde70ac5b947508c8c71d72ec4f294@AcuMS.aculab.com>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Fri, 15 Sep 2023 09:47:51 -0700
-Message-ID: <CALs-HssjGFjRsQTx5TrjS5TXDY+qFcGuctoP6xM-__P98hB9Bg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Heiko Stuebner <heiko@sntech.de>,
+        with ESMTP id S236321AbjIORjD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 13:39:03 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2137.outbound.protection.outlook.com [40.107.244.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BADF3AF;
+        Fri, 15 Sep 2023 10:37:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jKNVbWmaj8Hl03cNmYdWTkcmYT2g2RZx4k2QuZnQ6ZE1KjPFZ9x6WZF5kB+4gJzREDoiQ9ksJR3kAtB3hqqmFl0Q8J0krR+vqRhi3vaR3rlmaB8YTz61Ln2p75pawz1A3t7KvVBo6y3rVlnyBWgZXV8sP1v3cUlgQFg8Btk2ShlUpOgDpEW02qxc1ij0u0Ob8cQ6wggPZHlQfFyiwnw3Wiyl57YyIidl4TFnihy3zwEzMLDh6X10a9CiWJR1apNWGISewfNAF0idiim28L+/evGMPhHIwi2DnoY0PIOfHFNdfjsYKkfUymzFImGM+C0Zxa6zSo59ZJ5UfotqietiBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ad69eWqebGzoZ/XhXSofnWmCNj9Rw6K1G48Iwv7/QN0=;
+ b=afc24yOQOCMBMh31vQivR/iG/2ImWXN7gvlDpfls5fdSmdti65SehqvnbItmVPgFyAXDKwmtFhMuYNs+6AFj4wrbWMMGWJ4ZmGsBjdOVqxJwdmU9Fk+CEr7SbfAQza8XXzv1AWdUrIVJb+kiTWacPtgMuoUS6YJEqh6g56oA72q8l738adXeY7UU5wFVskjOw3/QLLBI39o3rE8o2xvpUj17qnRFzmUGeh+lsEdIhX376MzPGCNGm7YIMosPHhRnv49+D9SKZurKg1ujb926fIzFtv4yZh/Ufo+Va1oCKXcqrD7Cqwq385C9L2FTB+dEa5oBCBVviF0ukTDCDWeedQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ipt.br; dmarc=pass action=none header.from=ipt.br; dkim=pass
+ header.d=ipt.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipt.br; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ad69eWqebGzoZ/XhXSofnWmCNj9Rw6K1G48Iwv7/QN0=;
+ b=nSAkLzxuqxB408TWUagMQvBcoF4OI6frCk1JRCnP4JFrf9eqLKIy9jiOUm2tRXs6daBwANFGbc8MucUFtD1v1bUioJ18+XPJ/vQ6z8iggqUc8q6Thgc6zyRZ6dlIdOVxIJzWqbuHIZFSOGe5nunaLR1n/Iw/Q5NGxXUNOViukcc=
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:1a4::6)
+ by CPTP152MB4021.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:fb::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21; Fri, 15 Sep
+ 2023 17:37:07 +0000
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::d973:8d11:70bb:7900]) by CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::d973:8d11:70bb:7900%5]) with mapi id 15.20.6792.022; Fri, 15 Sep 2023
+ 17:37:07 +0000
+From:   "Fernando Eckhardt Valle (FIPT)" <fevalle@ipt.br>
+To:     =?iso-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+CC:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "hmh@hmh.eng.br" <hmh@hmh.eng.br>,
+        "markgross@kernel.org" <markgross@kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Andy Chiu <andy.chiu@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+        LKML <linux-kernel@vger.kernel.org>,
+        "ibm-acpi-devel@lists.sourceforge.net" 
+        <ibm-acpi-devel@lists.sourceforge.net>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+Subject: Re: [PATCH v2] platform/x86: thinkpad_acpi: sysfs interface to auxmac
+Thread-Topic: [PATCH v2] platform/x86: thinkpad_acpi: sysfs interface to
+ auxmac
+Thread-Index: AQHZ59CaSQnXyzGu5kOvVCsmuGo3R7AcEOeAgAAVh/U=
+Date:   Fri, 15 Sep 2023 17:37:07 +0000
+Message-ID: <CPVP152MB5053F04E4D2525CC339EA80CD8F6A@CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM>
+References: <20230915123136.4286-1-fevalle@ipt.br>
+ <97ac516a-5d9f-f58d-2313-d7d3453f58cb@linux.intel.com>
+In-Reply-To: <97ac516a-5d9f-f58d-2313-d7d3453f58cb@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ipt.br;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CPVP152MB5053:EE_|CPTP152MB4021:EE_
+x-ms-office365-filtering-correlation-id: 64613ca3-f140-41ab-b1bb-08dbb61261de
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XTnKwOiZiLxMhSLpabN2gMJ0ogDcWum8K6rp9yE6ihrHSeWXIIVWWoZlX1obshX5B4AWtc+E+Agw4m4m5AFJU4BRtl/NKtx1HZQuX+trVh+5nbR53yMjXcpK633F8CdZ+Jw9IHJi+SIn60HMhF/wCpRQ6fQDBfqItjFqsMICaA0OwtrOA5zdaJy/+wuC/8/Dw5ExmLgFGOJk44GY3uoF3zJ3f9EsnJsFQwkFU8MhemqmXSV4FSiSWQU2bGEovvoDM7N9rirqy5tcw5U+B9C5sLZn+b4Pa01TmwfVoABSI6HHlAllLur4LT1YyPbQcPM+X1LKzj4YToaVRkS2xcxRniGWknFMJe0h8TN+GgRMB0GrXVCFTV5Dz/+w0XHniaOn4t9QrG5H8NNljYKd/E1OzrVM9TVgD0bdTn2U4uPMU+08AaUdIeNfFddP/DwiwSKib6aMHDxrpHkTKcbeRKkHrIIdlo4Efi5btQ83pPymyiEgncNBoaPbevi/ycALKFmydmUVPU6Z9K6BYjNG3BRbfH9jzegWjsOW/Qrt/6lE0wD3vt88Wb5qyjyohfTZuwQZlIdBIcqt84HRIinghdVi9h1p3b/ziJqI9nKkms2Lz+s=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(346002)(376002)(366004)(39850400004)(451199024)(186009)(1800799009)(6506007)(7696005)(71200400001)(53546011)(122000001)(86362001)(66946007)(9686003)(2906002)(76116006)(66556008)(83380400001)(38100700002)(38070700005)(66574015)(33656002)(966005)(478600001)(7416002)(41320700001)(5660300002)(52536014)(54906003)(66476007)(64756008)(66446008)(6916009)(786003)(4326008)(316002)(8936002)(8676002)(55016003)(41300700001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?5oYqETnYdlm4th0jNzgpp2vUvUuRnLZZeT4urVP6k916Kk7zHGbmcxA9Xn?=
+ =?iso-8859-1?Q?N3sw5xGrZb1ZdWIdViQ/qbWZN3y9gfBp4Zttqx4uxi2GKVcxUMXkiNf5so?=
+ =?iso-8859-1?Q?5aexMAT6qR1F8zmcUuan7mYdcMjn3gquQIyW/E8DYFGimUnZSep/+LLZbL?=
+ =?iso-8859-1?Q?nEo5qjlnijhZpJl/vec5IxHYg4B82YMhlNrRpQs3RW/1B/Sj5G48i4BsQl?=
+ =?iso-8859-1?Q?qkckH66P1tyZXczHYvwU/0rJ0eob83DAzANPVlN7kZ2x2VirHv9MD4/jP9?=
+ =?iso-8859-1?Q?h4XD8w15S2AVtXjYzG8oc5mhaaPkObwdJ/UuTtrTbH3MfL3pKceQ+OLPB0?=
+ =?iso-8859-1?Q?9yG/wrobh0vH6Af7ulX7x/jodQ2AMaxej7E+SDX4lWCA3MZiPv3XSt4okI?=
+ =?iso-8859-1?Q?iLUDtTHgnqecOYlz3eYswQDyDr34Dc0uhTm0ENmI4NEunpuTLtq2UJL+5I?=
+ =?iso-8859-1?Q?LYiF88IWxwGfuSjlcnfol/s2m2A9gCJm8h8rQ3OoDixT1SIOxqy7JDjsYB?=
+ =?iso-8859-1?Q?q0KA/Mh9bZ68YLAEbH15VpKnNcRZjWKBAivUY71NEW+c5nhg+H7yMKeL1Z?=
+ =?iso-8859-1?Q?aNz4XFEd9VWGnt2syrI9HOzvEmYNT+V05WCtuUZLynyZdDEFR9EbT+cT7H?=
+ =?iso-8859-1?Q?cIWDyuvwyr+pMDmUnn5Ca0zkgW9zHILKDQtOKhC+e6RK5buRMViDhPX7AR?=
+ =?iso-8859-1?Q?9nfe+2YnYHwUDkOjXuA52FlhIyeCS8amAkww8gPJVdkzXIezpwBRJEav8w?=
+ =?iso-8859-1?Q?IVK0UUJ8vArC9Zx9sbZvIm6rAZUAyqMUS7HKT8kDBuQe3OUONBdz5LqSqo?=
+ =?iso-8859-1?Q?L6gdNQzT9nrzx0nR+MajTZDu/ZCycsPbPiDhEprdIR/bunUWp6nw/eExGv?=
+ =?iso-8859-1?Q?9Uob5ulbAHnXC+JWx+DYv4nipCAOSgzQKB9/FinaOBs6jHxfpmEE6rq47M?=
+ =?iso-8859-1?Q?qM9q2ypZJ8ynRYjuR0LH4bjLJczl0Dg6hFnzm+VqIxmGEwraIJN2EXY4Lv?=
+ =?iso-8859-1?Q?DKNE99/JovhTXuIHLTKiCmf/GxFkUCi6zY5uRHf8+o0JunPxeRqaKEWgGT?=
+ =?iso-8859-1?Q?T7f50C4iOXBLi5tMKnv2ZMShn+ry09MF1JjEGvKDU3F3uLSnqJCNxbgFns?=
+ =?iso-8859-1?Q?u35j0EgBodKXXwg6YfLr6onE+YczKoXH+iB0VwJSyXnYLiG2xwLt/6PWZw?=
+ =?iso-8859-1?Q?VQVCwaKMrEJEFPeo5FSsQebV4Q0RNJId1VhDtb7VcxOF5NpRF3ZIrxqELI?=
+ =?iso-8859-1?Q?qjsecSLiti1PelwajDtdkbaZLuxdwrYb/ktmVHnGRTZ+zJ+qakpHuu2ndg?=
+ =?iso-8859-1?Q?I0eGpEE5jv2rngivV3ZQoR/sDl7Zwo7WFmfVj7zlKIafOlbt/ES4pemS5k?=
+ =?iso-8859-1?Q?aruEheCEJ0AkqT1thYnr88WOhfv6Axy94TZzqaGnef75p53EtmdivtYFjb?=
+ =?iso-8859-1?Q?fZwwYrqupUAWejAZYG1yEKyKbpw5IRZz+fgkHF+nc7crniQdopMbkkKTA7?=
+ =?iso-8859-1?Q?PqhXDUU727w4lw81oztzq6zyY0/zf2vnoWxILdKPOo9CEp1KOcoLJkU4hs?=
+ =?iso-8859-1?Q?i/+V0r6KiLaMSZz/8tJoaeA2+/UossNtTnRclWcE2D2SdTDVwGW6sheSgV?=
+ =?iso-8859-1?Q?M8r6MANF5HwvccicPLRzqe3+2BDJYk4vdx2ps6CcHR9zuyDyII+/P7ZJRO?=
+ =?iso-8859-1?Q?5s7C6HxipLbgrBaSNkU=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: ipt.br
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64613ca3-f140-41ab-b1bb-08dbb61261de
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Sep 2023 17:37:07.0204
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: aab57f47-5b85-4924-8047-691190100bd7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fNQt6b8BIFb8J+HDJpv2sNrlR0Cd318dn79WgQPHOaedDbIgac1H8pF534NkIbgG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPTP152MB4021
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 12:57=E2=80=AFAM David Laight <David.Laight@aculab.=
-com> wrote:
+Thanks for the review Ilpo, I will do a v3 with your feedback.
+
+Regards,
+Fernando.
+
+________________________________________
+From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+Sent: Friday, September 15, 2023 1:18 PM
+To: Fernando Eckhardt Valle (FIPT)
+Cc: Hans de Goede; Mark Pearson; corbet@lwn.net; hmh@hmh.eng.br; markgross@=
+kernel.org; linux-doc@vger.kernel.org; LKML; ibm-acpi-devel@lists.sourcefor=
+ge.net; platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2] platform/x86: thinkpad_acpi: sysfs interface to aux=
+mac
+
+On Fri, 15 Sep 2023, Fernando Eckhardt Valle wrote:
+
+> Newer Thinkpads have a feature called Mac Address Passthrough.
+> This patch provides a sysfs interface that userspace can use
+> to get this auxiliary mac address.
 >
-> From: Evan Green
-> > Sent: 14 September 2023 17:37
-> >
-> > On Thu, Sep 14, 2023 at 8:55=E2=80=AFAM David Laight <David.Laight@acul=
-ab.com> wrote:
-> > >
-> > > From: Evan Green
-> > > > Sent: 14 September 2023 16:01
-> > > >
-> > > > On Thu, Sep 14, 2023 at 1:47=E2=80=AFAM David Laight <David.Laight@=
-aculab.com> wrote:
-> > > > >
-> > > > > From: Geert Uytterhoeven
-> > > > > > Sent: 14 September 2023 08:33
-> > > > > ...
-> > > > > > > >     rzfive:
-> > > > > > > >         cpu0: Ratio of byte access time to unaligned word a=
-ccess is
-> > > > > > > > 1.05, unaligned accesses are fast
-> > > > > > >
-> > > > > > > Hrm, I'm a little surprised to be seeing this number come out=
- so close
-> > > > > > > to 1. If you reboot a few times, what kind of variance do you=
- get on
-> > > > > > > this?
-> > > > > >
-> > > > > > Rock-solid at 1.05 (even with increased resolution: 1.05853 on =
-3 tries)
-> > > > >
-> > > > > Would that match zero overhead unless the access crosses a
-> > > > > cache line boundary?
-> > > > > (I can't remember whether the test is using increasing addresses.=
-)
-> > > >
-> > > > Yes, the test does use increasing addresses, it copies across 4 pag=
-es.
-> > > > We start with a warmup, so caching effects beyond L1 are largely no=
-t
-> > > > taken into account.
-> > >
-> > > That seems entirely excessive.
-> > > If you want to avoid data cache issues (which probably do)
-> > > then just repeating a single access would almost certainly
-> > > suffice.
-> > > Repeatedly using a short buffer (say 256 bytes) won't add
-> > > much loop overhead.
-> > > Although you may want to do a test that avoids transfers
-> > > that cross cache line and especially page boundaries.
-> > > Either of those could easily be much slower than a read
-> > > that is entirely within a cache line.
-> >
-> > We won't be faulting on any of these pages, and they should remain in
-> > the TLB, so I don't expect many page boundary specific effects. If
-> > there is a steep penalty for misaligned loads across a cache line,
-> > such that it's worse than doing byte accesses, I want the test results
-> > to be dinged for that.
+> Changes in v2:
+> - Added documentation
+> - All handling of the auxmac value is done in the _init function.
 >
-> That is an entirely different issue.
+> Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
+> ---
+>  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+>  drivers/platform/x86/thinkpad_acpi.c          | 78 +++++++++++++++++++
+>  2 files changed, 98 insertions(+)
 >
-> Are you absolutely certain that the reason 8 byte loads take
-> as long as a 64-bit mis-aligned load isn't because the entire
-> test is limited by L1 cache fills?
+> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Docume=
+ntation/admin-guide/laptops/thinkpad-acpi.rst
+> index e27a1c3f6..6207c363f 100644
+> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> @@ -53,6 +53,7 @@ detailed description):
+>       - Lap mode sensor
+>       - Setting keyboard language
+>       - WWAN Antenna type
+> +     - Auxmac
+>
+>  A compatibility table by model and feature is maintained on the web
+>  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+> @@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mention=
+ed below:
+>  The property is read-only. If the platform doesn't have support the sysf=
+s
+>  class is not created.
+>
+> +Auxmac
+> +------
+> +
+> +sysfs: auxmac
+> +
+> +Some newer Thinkpads have a feature called MAC Address Passthrough. This
+> +feature is implemented by the system firmware to provide a system unique=
+ MAC,
+> +that can override a dock or USB ethernet dongle MAC, when connected to a
+> +network. This property enables user-space to easily determine the MAC ad=
+dress
+> +if the feature is enabled.
+> +
+> +The values of this auxiliary MAC are:
+> +
+> +        cat /sys/devices/platform/thinkpad_acpi/auxmac
+> +
+> +If the feature is disabled, the value will be 'disabled'.
+> +
+> +This property is read-only.
+> +
+>  Adaptive keyboard
+>  -----------------
+>
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/=
+thinkpad_acpi.c
+> index d70c89d32..05cc3a1e2 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -10785,6 +10785,79 @@ static struct ibm_struct dprc_driver_data =3D {
+>       .name =3D "dprc",
+>  };
+>
+> +/*
+> + * Auxmac
+> + *
+> + * This auxiliary mac address is enabled in the bios through the
+> + * Mac Address Passthrough feature. In most cases, there are three
+> + * possibilities: Internal Mac, Second Mac, and disabled.
+> + *
+> + */
+> +
+> +#define AUXMAC_LEN 12
+> +#define AUXMAC_START 9
+> +#define AUXMAC_STRLEN 22
+> +static char auxmac[AUXMAC_LEN];
+> +
+> +static int auxmac_init(struct ibm_init_struct *iibm)
+> +{
+> +     acpi_status status;
+> +     struct acpi_buffer buffer =3D { ACPI_ALLOCATE_BUFFER, NULL };
+> +     union acpi_object *obj;
+> +
+> +     status =3D acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
+> +
+> +     if (ACPI_FAILURE(status))
+> +             return -ENODEV;
+> +
+> +     obj =3D (union acpi_object *)buffer.pointer;
+> +
+> +     if (obj->type !=3D ACPI_TYPE_STRING || obj->string.length !=3D AUXM=
+AC_STRLEN) {
+> +             pr_info("Invalid buffer for mac addr passthrough.\n");
 
-Fair question. I hacked up a little code [1] to retry the test at
-several different sizes, as well as printing out the best and worst
-times. I only have one piece of real hardware, the THead C906, which
-has a 32KB L1 D-cache.
+MAC address
 
-Here are the results at various sizes, starting with the original:
-[    0.047556] cpu0: Ratio of byte access time to unaligned word
-access is 4.35, unaligned accesses are fast
-[    0.047578] EVAN size 0x1f80 word cycles best 69 worst 29e, byte
-cycles best 1c9 worst 3b7
-[    0.071549] cpu0: Ratio of byte access time to unaligned word
-access is 4.29, unaligned accesses are fast
-[    0.071566] EVAN size 0x1000 word cycles best 36 worst 210, byte
-cycles best e8 worst 2b2
-[    0.095540] cpu0: Ratio of byte access time to unaligned word
-access is 4.14, unaligned accesses are fast
-[    0.095556] EVAN size 0x200 word cycles best 7 worst 1d9, byte
-cycles best 1d worst 1d5
-[    0.119539] cpu0: Ratio of byte access time to unaligned word
-access is 5.00, unaligned accesses are fast
-[    0.119555] EVAN size 0x100 word cycles best 3 worst 1a8, byte
-cycles best f worst 1b5
-[    0.143538] cpu0: Ratio of byte access time to unaligned word
-access is 3.50, unaligned accesses are fast
-[    0.143556] EVAN size 0x80 word cycles best 2 worst 1a5, byte
-cycles best 7 worst 1aa
+> +             goto auxmacinvalid;
+> +     }
+> +
+> +     if (strncmp(obj->string.pointer + 0x8, "#", 1) !=3D 0 ||
+> +         strncmp(obj->string.pointer + 0x15, "#", 1) !=3D 0) {
 
-[1] https://pastebin.com/uwwU2CVn
+Why use strncmp with (..., 1)? These offsets should defines above and not
+use literals.
 
-I don't see any cliffs as the numbers get smaller, so it seems to me
-there are no working set issues. Geert, it might be interesting to see
-these same results on the rzfive. The thing that made me uncomfortable
-with the smaller buffer sizes is it starts to bump up against the
-resolution of the timer. Another option would have been to time
-several iterations, but I went with the larger buffer instead as I'd
-hoped it would minimize other overhead like the function calls, branch
-prediction, C loop management, etc.
+> +             pr_info("Invalid header for mac addr passthrough.\n");
 
--Evan
+MAC address
+
+> +             goto auxmacinvalid;
+> +     }
+> +
+> +     if (strncmp(obj->string.pointer + 0x9, "XXXXXXXXXXXX", AUXMAC_LEN) =
+=3D=3D 0)
+
+Why you're not using AUXMAC_START here?
+
+It's also bit confusing that some of the offset are hex and some non-hex
+numbers.
+
+> +             memcpy(auxmac, "disabled", 9);
+
+Don't use memcpy() for copying a string.
+
+> +     else
+> +             memcpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_L=
+EN);
+
+What about the termination of auxmac? It's given
+
+> +
+> +     kfree(obj);
+> +     return 0;
+> +
+> +auxmacinvalid:
+> +     kfree(obj);
+> +     memcpy(auxmac, "unavailable", 11);
+
+Again, don't use memcpy() to copy a string. You even got it wrong here
+compared with the other case where you copied also the zero terminator.
+
+> +     return 0;
+> +}
+> +
+> +static struct ibm_struct auxmac_data =3D {
+> +     .name =3D "auxmac",
+> +};
+> +
+> +static ssize_t auxmac_show(struct device *dev,
+> +                        struct device_attribute *attr,
+> +                        char *buf)
+> +{
+> +     return sysfs_emit(buf, "%s\n", auxmac);
+
+This requires proper termination for the string but you didn't ensure it
+above.
+
+--
+ i.
+
+> +}
+> +static DEVICE_ATTR_RO(auxmac);
+> +
+> +static struct attribute *auxmac_attributes[] =3D {
+> +     &dev_attr_auxmac.attr,
+> +     NULL
+> +};
+> +
+> +static const struct attribute_group auxmac_attr_group =3D {
+> +     .attrs =3D auxmac_attributes,
+> +};
+> +
+>  /* ---------------------------------------------------------------------=
+ */
+>
+>  static struct attribute *tpacpi_driver_attributes[] =3D {
+> @@ -10843,6 +10916,7 @@ static const struct attribute_group *tpacpi_group=
+s[] =3D {
+>       &proxsensor_attr_group,
+>       &kbdlang_attr_group,
+>       &dprc_attr_group,
+> +     &auxmac_attr_group,
+>       NULL,
+>  };
+>
+> @@ -11414,6 +11488,10 @@ static struct ibm_init_struct ibms_init[] __init=
+data =3D {
+>               .init =3D tpacpi_dprc_init,
+>               .data =3D &dprc_driver_data,
+>       },
+> +     {
+> +             .init =3D auxmac_init,
+> +             .data =3D &auxmac_data,
+> +     },
+>  };
+>
+>  static int __init set_ibm_param(const char *val, const struct kernel_par=
+am *kp)
+>
+
