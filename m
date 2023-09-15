@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64FD6EE6456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F854EE6458
 	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 11:00:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234065AbjIOLBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 07:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59598 "EHLO
+        id S234369AbjIOLBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 07:01:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234325AbjIOLA7 (ORCPT
+        with ESMTP id S234305AbjIOLA7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 07:00:59 -0400
-Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com [IPv6:2a00:1450:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51E7B2736
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:00:11 -0700 (PDT)
-Received: by mail-ej1-x649.google.com with SMTP id a640c23a62f3a-94a355c9028so141573466b.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:00:11 -0700 (PDT)
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DE42D41
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:00:12 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d8027f9dfefso2373352276.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 04:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694775609; x=1695380409; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1694775612; x=1695380412; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xv8bl1gghcslEiMH0/FhgvPpwPOagI6elAD3nLRWX2k=;
-        b=S2p93F7A0wqiuJDV2GRyCDi4nQ/GWf5rYiMWy293ffMZgTknAV9VtkFjanCFblpjeZ
-         Vz8riOrDUxMru8/Xd+jpL+9x03lPexD3tetyF6nW+ZLbmerLobIp+mZKD17m9CNfUpsE
-         MOqVfSqBBVEwpWiGN4oAFbfSgW2oDtnN6GHD4WjvkPcaimIqVdD4ytihCT2228jmRTAH
-         4jruLV64m/j0Dw4HwPpSfLEXH1kKv5/XByh5i9fjp1NAjcewXlYamwpJh3hR/KRt2IZJ
-         WL363SQmgT7XUMl8Xni4TtoUSQoQYLnnhqDNxZLxAbv/ueK4lNbA92kVd7zi0iRu4Gm1
-         YX5g==
+        bh=C4pEChVXRU6sm004Zu1IJnbwIsY1yXPwkOtMip47RAc=;
+        b=caER2+GTwQV0Eb9KjW9LgnO5MO+4bH08gvZvDYLwhRzAj6vxyz9Kx4oIWpM2gnGD2r
+         iv1hfpc35TbryyXHFB3fNa4MQ9qx/OVRnmd5ENOT+vwdBYQ173BABw0om86QdNTmPAcV
+         WlPYBxZpLu/EJTw1MVq2Nj5buHDgztP2ChREUy1a6eoQQT48nPtCneIDyxYu3CEv3VnV
+         GdG/BYmTZyu9toFczoU4gQUY2H7pyZNWjZa2/QeCLrhz/mqxd+hwaHhkvpCi0vZ5HkQB
+         JgQ7s0FDXRt2U08+93YHyKMUOAQEa8dT04K2Z7mHKYrRa0YtjndYwTXJz5JcCYbiRA/f
+         0asw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694775609; x=1695380409;
+        d=1e100.net; s=20230601; t=1694775612; x=1695380412;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xv8bl1gghcslEiMH0/FhgvPpwPOagI6elAD3nLRWX2k=;
-        b=BOuBjdmKeEQT3SWd8jryUp96wkUCj1dvhQfNzPZR+nswc3vIfYsb/yxOwKalVhX9av
-         vNqcRQTrUUxBt1jX2RXcn27Ne0F2/Vv5If5S1/GJuI1KwylPvsXOgZE3uyJy3cPdILxS
-         iaNF7U5C4GWc6R4G6gfF/7FSnzPSRwNtP6bzn9KLwOkfIlLgDsuiE07v5n46aF6hGf5f
-         C05QU0T4EQvKt1v4lcRSecoanhVacbb7HnlQD0/1v7ZaV9ZdDtIi+yuLmk6/xcgmklUI
-         ++iG8DjHE/cA+4a2Vqc6Oc0F+fO9uP2WBOx9LfLx2wj8VWA6bD9YFZp7fOyPaGCJuLyu
-         OHLQ==
-X-Gm-Message-State: AOJu0Yzr6HgfuAAiRRornLvW5A2jK1wMWEBqhRG6BgyOKBx0EjrPdb6E
-        Vjo74qkF6gu0/XYThXV4UuX5hJR7lg4H7zA/TA==
-X-Google-Smtp-Source: AGHT+IEynAr2SnY1fMJiDuLoEg0/d2a8kjbFH3ONSC9J81629RSdKiVLHnan7ER1f/DyQsRkv3eYGMXRY5zwIxc8BQ==
+        bh=C4pEChVXRU6sm004Zu1IJnbwIsY1yXPwkOtMip47RAc=;
+        b=mFOTo5mJAt455p3WRHeWMvIoPuqXhSAObUOJQUIb1YXBAmKv81jAetpDtK+71uK1Q9
+         6amGsmzR9p2S1ylxCDLCcqKcpLgC3DaJ9prAlRQlSDVCvkzwjX/CPDr9/oEkNPIOuGqa
+         3aazYaqP9oeJZjqTnr5d8xKCyrRaDd4n3OTQdryPgRL5/JX3sIp7Ixh15qtWaKvVPolC
+         uK8YUzT5TUuHjXkBXKif0NSxu2JlpTi5iQANaL6DCgY51qXObJGCThNEmXIWWZ//Shp4
+         U6CXNp5vl388KuWmFoLyu3y2Bb6YaeI81XHpf7Yhf9uUZKuYwxXem72+0dlPhPgD1Z3W
+         aOJA==
+X-Gm-Message-State: AOJu0YzaJtP5zJfo4oSR6oJuPG5pxDaUse39BY61ly6wiNoVHMcOHx0k
+        gkuFgtkex665QGV0QRaTVTXD6aQ9DqcY6tLA5g==
+X-Google-Smtp-Source: AGHT+IHt9z6QcITgpugvtEYL0lGwEogSA+C1s55ADVWGOnuIpG1JocMIlh+GBo6p7lHOr6nsErM2osN2OLhU91MuRQ==
 X-Received: from mr-cloudtop2.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:2a6])
- (user=matteorizzo job=sendgmr) by 2002:a17:907:71d7:b0:9ad:c478:586b with
- SMTP id zw23-20020a17090771d700b009adc478586bmr6329ejb.13.1694775609336; Fri,
- 15 Sep 2023 04:00:09 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 10:59:31 +0000
+ (user=matteorizzo job=sendgmr) by 2002:a05:6902:118a:b0:d80:183c:92b9 with
+ SMTP id m10-20020a056902118a00b00d80183c92b9mr29633ybu.4.1694775611854; Fri,
+ 15 Sep 2023 04:00:11 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 10:59:32 +0000
 In-Reply-To: <20230915105933.495735-1-matteorizzo@google.com>
 Mime-Version: 1.0
 References: <20230915105933.495735-1-matteorizzo@google.com>
 X-Mailer: git-send-email 2.42.0.459.ge4e396fd5e-goog
-Message-ID: <20230915105933.495735-13-matteorizzo@google.com>
-Subject: [RFC PATCH 12/14] mm/slub: introduce the deallocated_pages sysfs attribute
+Message-ID: <20230915105933.495735-14-matteorizzo@google.com>
+Subject: [RFC PATCH 13/14] mm/slub: sanity-check freepointers
 From:   Matteo Rizzo <matteorizzo@google.com>
 To:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
         iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz,
@@ -71,104 +71,135 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Jann Horn <jannh@google.com>
 
-When SLAB_VIRTUAL is enabled this new sysfs attribute tracks the number
-of slab pages whose physical memory has been reclaimed but whose virtual
-memory is still allocated to a kmem_cache.
+Sanity-check that:
+ - non-NULL freepointers point into the slab
+ - freepointers look plausibly aligned
 
 Signed-off-by: Jann Horn <jannh@google.com>
 Co-developed-by: Matteo Rizzo <matteorizzo@google.com>
 Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
 ---
- include/linux/slub_def.h |  4 +++-
- mm/slub.c                | 18 ++++++++++++++++++
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ lib/slub_kunit.c |  4 ++++
+ mm/slab.h        |  8 +++++++
+ mm/slub.c        | 57 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 69 insertions(+)
 
-diff --git a/include/linux/slub_def.h b/include/linux/slub_def.h
-index 693e9bb34edc..eea402d849da 100644
---- a/include/linux/slub_def.h
-+++ b/include/linux/slub_def.h
-@@ -88,7 +88,7 @@ struct kmem_cache_cpu {
-  */
- struct kmem_cache_virtual {
- #ifdef CONFIG_SLAB_VIRTUAL
--	/* Protects freed_slabs and freed_slabs_min */
-+	/* Protects freed_slabs, freed_slabs_min, and nr_free_pages */
- 	spinlock_t freed_slabs_lock;
- 	/*
- 	 * Slabs on this list have virtual memory of size oo allocated to them
-@@ -97,6 +97,8 @@ struct kmem_cache_virtual {
- 	struct list_head freed_slabs;
- 	/* Same as freed_slabs but with memory of size min */
- 	struct list_head freed_slabs_min;
-+	/* Number of slab pages which got freed */
-+	unsigned long nr_freed_pages;
- #endif
- };
+diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
+index d4a3730b08fa..acf8600bd1fd 100644
+--- a/lib/slub_kunit.c
++++ b/lib/slub_kunit.c
+@@ -45,6 +45,10 @@ static void test_clobber_zone(struct kunit *test)
+ #ifndef CONFIG_KASAN
+ static void test_next_pointer(struct kunit *test)
+ {
++	if (IS_ENABLED(CONFIG_SLAB_VIRTUAL))
++		kunit_skip(test,
++			"incompatible with freepointer corruption detection in CONFIG_SLAB_VIRTUAL");
++
+ 	struct kmem_cache *s = test_kmem_cache_create("TestSlub_next_ptr_free",
+ 							64, SLAB_POISON);
+ 	u8 *p = kmem_cache_alloc(s, GFP_KERNEL);
+diff --git a/mm/slab.h b/mm/slab.h
+index 460c802924bd..8d10a011bdf0 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -79,6 +79,14 @@ struct slab {
+ 
+ 	struct list_head flush_list_elem;
+ 
++	/*
++	 * Not in kmem_cache because it depends on whether the allocation is
++	 * normal order or fallback order.
++	 * an alternative might be to over-allocate virtual memory for
++	 * fallback-order pages.
++	 */
++	unsigned long align_mask;
++
+ 	/* Replaces the page lock */
+ 	spinlock_t slab_lock;
  
 diff --git a/mm/slub.c b/mm/slub.c
-index 66ae60cdadaf..0f7f5bf0b174 100644
+index 0f7f5bf0b174..57474c8a6569 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -2110,6 +2110,8 @@ static struct slab *get_free_slab(struct kmem_cache *s,
- 
- 	if (likely(slab)) {
- 		list_del(&slab->slab_list);
-+		WRITE_ONCE(s->virtual.nr_freed_pages,
-+			s->virtual.nr_freed_pages - (1UL << slab_order(slab)));
- 
- 		spin_unlock_irqrestore(&s->virtual.freed_slabs_lock, flags);
- 		return slab;
-@@ -2158,6 +2160,8 @@ static struct slab *alloc_slab_page(struct kmem_cache *s,
- 		/* Rollback: put the struct slab back. */
- 		spin_lock_irqsave(&s->virtual.freed_slabs_lock, flags);
- 		list_add(&slab->slab_list, freed_slabs);
-+		WRITE_ONCE(s->virtual.nr_freed_pages,
-+			s->virtual.nr_freed_pages + (1UL << slab_order(slab)));
- 		spin_unlock_irqrestore(&s->virtual.freed_slabs_lock, flags);
- 
- 		return NULL;
-@@ -2438,6 +2442,8 @@ static void slub_tlbflush_worker(struct kthread_work *work)
- 			WARN_ON(oo_order(slab->oo) != oo_order(s->min));
- 			list_add(&slab->slab_list, &s->virtual.freed_slabs_min);
- 		}
-+		WRITE_ONCE(s->virtual.nr_freed_pages, s->virtual.nr_freed_pages +
-+			(1UL << slab_order(slab)));
- 		spin_unlock(&s->virtual.freed_slabs_lock);
- 	}
- 	spin_unlock_irqrestore(&slub_kworker_lock, irq_flags);
-@@ -4924,6 +4930,7 @@ static inline void slab_virtual_open(struct kmem_cache *s)
- 	spin_lock_init(&s->virtual.freed_slabs_lock);
- 	INIT_LIST_HEAD(&s->virtual.freed_slabs);
- 	INIT_LIST_HEAD(&s->virtual.freed_slabs_min);
-+	s->virtual.nr_freed_pages = 0;
- #endif
+@@ -392,6 +392,44 @@ static inline freeptr_t freelist_ptr_encode(const struct kmem_cache *s,
+ 	return (freeptr_t){.v = encoded};
  }
  
-@@ -6098,6 +6105,14 @@ static ssize_t objects_partial_show(struct kmem_cache *s, char *buf)
- }
- SLAB_ATTR_RO(objects_partial);
- 
-+#ifdef CONFIG_SLAB_VIRTUAL
-+static ssize_t deallocated_pages_show(struct kmem_cache *s, char *buf)
++/*
++ * Does some validation of freelist pointers. Without SLAB_VIRTUAL this is
++ * currently a no-op.
++ */
++static inline bool freelist_pointer_corrupted(struct slab *slab, freeptr_t ptr,
++	void *decoded)
 +{
-+	return sysfs_emit(buf, "%lu\n", READ_ONCE(s->virtual.nr_freed_pages));
-+}
-+SLAB_ATTR_RO(deallocated_pages);
-+#endif /* CONFIG_SLAB_VIRTUAL */
-+
- static ssize_t slabs_cpu_partial_show(struct kmem_cache *s, char *buf)
- {
- 	int objects = 0;
-@@ -6424,6 +6439,9 @@ static struct attribute *slab_attrs[] = {
- 	&min_partial_attr.attr,
- 	&cpu_partial_attr.attr,
- 	&objects_partial_attr.attr,
 +#ifdef CONFIG_SLAB_VIRTUAL
-+	&deallocated_pages_attr.attr,
++	/*
++	 * If the freepointer decodes to 0, use 0 as the slab_base so that
++	 * the check below always passes (0 & slab->align_mask == 0).
++	 */
++	unsigned long slab_base = decoded ? (unsigned long)slab_to_virt(slab)
++		: 0;
++
++	/*
++	 * This verifies that the SLUB freepointer does not point outside the
++	 * slab. Since at that point we can basically do it for free, it also
++	 * checks that the pointer alignment looks vaguely sane.
++	 * However, we probably don't want the cost of a proper division here,
++	 * so instead we just do a cheap check whether the bottom bits that are
++	 * clear in the size are also clear in the pointer.
++	 * So for kmalloc-32, it does a perfect alignment check, but for
++	 * kmalloc-192, it just checks that the pointer is a multiple of 32.
++	 * This should probably be reconsidered - is this a good tradeoff, or
++	 * should that part be thrown out, or do we want a proper accurate
++	 * alignment check (and can we make it work with acceptable performance
++	 * cost compared to the security improvement - probably not)?
++	 */
++	return CHECK_DATA_CORRUPTION(
++		((unsigned long)decoded & slab->align_mask) != slab_base,
++		"bad freeptr (encoded %lx, ptr %p, base %lx, mask %lx",
++		ptr.v, decoded, slab_base, slab->align_mask);
++#else
++	return false;
 +#endif
- 	&partial_attr.attr,
- 	&cpu_slabs_attr.attr,
- 	&ctor_attr.attr,
++}
++
+ static inline void *freelist_ptr_decode(const struct kmem_cache *s,
+ 					freeptr_t ptr, unsigned long ptr_addr,
+ 					struct slab *slab)
+@@ -403,6 +441,10 @@ static inline void *freelist_ptr_decode(const struct kmem_cache *s,
+ #else
+ 	decoded = (void *)ptr.v;
+ #endif
++
++	if (unlikely(freelist_pointer_corrupted(slab, ptr, decoded)))
++		return NULL;
++
+ 	return decoded;
+ }
+ 
+@@ -2122,6 +2164,21 @@ static struct slab *get_free_slab(struct kmem_cache *s,
+ 	if (slab == NULL)
+ 		return NULL;
+ 
++	/*
++	 * Bits that must be equal to start-of-slab address for all
++	 * objects inside the slab.
++	 * For compatibility with pointer tagging (like in HWASAN), this would
++	 * need to clear the pointer tag bits from the mask.
++	 */
++	slab->align_mask = ~((PAGE_SIZE << oo_order(oo)) - 1);
++
++	/*
++	 * Object alignment bits (must be zero, which is equal to the bits in
++	 * the start-of-slab address)
++	 */
++	if (s->red_left_pad == 0)
++		slab->align_mask |= (1 << (ffs(s->size) - 1)) - 1;
++
+ 	return slab;
+ }
+ 
 -- 
 2.42.0.459.ge4e396fd5e-goog
 
