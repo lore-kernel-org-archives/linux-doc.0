@@ -2,112 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A311EE645A
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 12:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A58EE645C
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 12:14:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234508AbjIOMCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 08:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50772 "EHLO
+        id S234636AbjIOMOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 08:14:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232836AbjIOMCJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 08:02:09 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72492134;
-        Fri, 15 Sep 2023 05:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694779321; x=1726315321;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hHkykAT64KFeDdyczTYQ6xW3x+LfVkMtEWBZ1a9eYwk=;
-  b=GZ7yyH1HgVIK3RHsqYypMx3fYqnlzZWF+YHSwildnzX4+bLiXFhBWQvT
-   sur5YhuL/jZtSlKrFX0TzUVXqg8jjaogGW93pRL0M0ZPUOT7XyPMoJaJ5
-   eE5KDSJwgDIq24YubWqHGOfUAVVD0EqUGxFpV2by8nNList4ZMjEbiHI0
-   ugtZJLfVct9tUgaDfxuk8VyV54KDKsGsC06QWoY58Wyx0d9Q5QGO/SGcW
-   A8VD900j12xMnpaulrl1aHacD1CbP6/037p/3bJWVD9ARLPHC2YqW/Sgn
-   glvHFGrMpt2JDUK8tST7WT+mqCmV3IBi5xT5HHGvhQkMZSi2Mu586BDZ4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378145932"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
-   d="scan'208";a="378145932"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 05:02:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="774292741"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
-   d="scan'208";a="774292741"
-Received: from srdoo-mobl1.ger.corp.intel.com (HELO ijarvine-mobl2.ger.corp.intel.com) ([10.252.38.99])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 05:01:55 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alex Deucher <alexdeucher@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2 01/10] PCI: Protect Link Control 2 Register with RMW locking
-Date:   Fri, 15 Sep 2023 15:01:33 +0300
-Message-Id: <20230915120142.32987-2-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230915120142.32987-1-ilpo.jarvinen@linux.intel.com>
-References: <20230915120142.32987-1-ilpo.jarvinen@linux.intel.com>
+        with ESMTP id S234554AbjIOMOt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 08:14:49 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C69F22120
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 05:14:43 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-52a4737a08fso2356911a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 05:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1694780082; x=1695384882; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=szs0z99Qb90KUWcFs/6Ik8kAwcoyMXLC77ZFiHuCf3w=;
+        b=PN/DFbN3DgFGIFvxXPGLIPBydhha7d+JZ/+dkvCkANB/401vidWXEa51pmtLhFzZEK
+         drYOmTx7iO5Xw4XSmDFlGHZ3/aqgnitOTIwElnq8nskdDZieTy0aj5eUlWz1cKc5BNkZ
+         S5C0OXxJyPCfkJJsdG5LxUB6w1sogjM/+zpdA3E0ErL5HG+hsOW9cmZ3/h88YsjMeIZr
+         +M1g9UTUKlVrsHOCV7EcAZpDZwOTI2Wmd8f0UVQ7xOwSRH+YFeJY/LY54bml0I2M12YZ
+         BsiTrX8+ys808Oa4N+n4WhWCu4RS5NKbxvPPqtqDFqe6+RjyyEbf4x1G/0szm0l5Li/0
+         EvFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694780082; x=1695384882;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=szs0z99Qb90KUWcFs/6Ik8kAwcoyMXLC77ZFiHuCf3w=;
+        b=PppiIseSF0a0ofSNNBXeIvwVlSqaWm4zXHWmQWxf8fw3YcWs7HT2HcRQN87UdRBB17
+         U0xD+1bxhS2y+2Q+biwrxP1SiHHkBRsHv4csQ56tvnSVPGc12xNxu0WEwP+ThfJea8oN
+         P0NPvHz4Zm9oLMcb7lOxFF9z0RbUFzx6iLfJcnokUfrwNnHU+BFhHgNmsFleHuRk1BhN
+         19jJc/uZnRqnFJhVaXjx18PDqBolnJdlNMUTSkgPLeE38ydY64UOnVpgc54eWn1+gKC3
+         aRQT+9zyjNBpYru0a8YnH0wgH7ItmvEek0X/IA8JiDE9JI90SMojfplybIj5YqwpIKKI
+         vM+Q==
+X-Gm-Message-State: AOJu0YzaIuLxeThV7qXlZ5w/cfLaA5CsPhwF3or4Bx/h2dXRppJXS/q2
+        dgb7kmPPKm/gxVYt/or0F53J6g==
+X-Google-Smtp-Source: AGHT+IGJZenyDQYnb3LjVAUFoWcYxvrgK5cLrtdOozPVvSraBAlkkM7GZOO5BDI5gIu6HsXU6mBNpQ==
+X-Received: by 2002:aa7:d699:0:b0:522:30cc:a1f4 with SMTP id d25-20020aa7d699000000b0052230cca1f4mr1309802edr.0.1694780082187;
+        Fri, 15 Sep 2023 05:14:42 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id o7-20020aa7d3c7000000b005233deb30aesm2196718edr.10.2023.09.15.05.14.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 05:14:41 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 14:14:40 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     guoren@kernel.org, paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
+        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
+        rdunlap@infradead.org, catalin.marinas@arm.com,
+        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
+        alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, jszhang@kernel.org, wefu@redhat.com,
+        wuwei2016@iscas.ac.cn, leobras@redhat.com,
+        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V11 03/17] riscv: Use Zicbop in arch_xchg when available
+Message-ID: <20230915-ff4bd6cd721ed9bc4c4eb101@orel>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910082911.3378782-4-guoren@kernel.org>
+ <20230914-892327a75b4b86badac5de02@orel>
+ <20230914-74d0cf00633c199758ee3450@orel>
+ <20230915-removing-flaky-44c66da669ae@wendy>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230915-removing-flaky-44c66da669ae@wendy>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PCIe Bandwidth Controller performs RMW accesses the Link Control 2
-Register which can occur concurrently to other sources of Link Control
-2 Register writes. Therefore, add Link Control 2 Register among the PCI
-Express Capability Registers that need RMW locking.
+On Fri, Sep 15, 2023 at 12:37:50PM +0100, Conor Dooley wrote:
+> Yo,
+> 
+> On Thu, Sep 14, 2023 at 04:47:18PM +0200, Andrew Jones wrote:
+> > On Thu, Sep 14, 2023 at 04:25:53PM +0200, Andrew Jones wrote:
+> > > On Sun, Sep 10, 2023 at 04:28:57AM -0400, guoren@kernel.org wrote:
+> > > > From: Guo Ren <guoren@linux.alibaba.com>
+> > > > 
+> > > > Cache-block prefetch instructions are HINTs to the hardware to
+> > > > indicate that software intends to perform a particular type of
+> > > > memory access in the near future. Enable ARCH_HAS_PREFETCHW and
+> > > > improve the arch_xchg for qspinlock xchg_tail.
+> > > > 
+> > > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > > > Signed-off-by: Guo Ren <guoren@kernel.org>
+> > > > ---
+> > > >  arch/riscv/Kconfig                 | 15 +++++++++++++++
+> > > >  arch/riscv/include/asm/cmpxchg.h   |  4 +++-
+> > > >  arch/riscv/include/asm/hwcap.h     |  1 +
+> > > >  arch/riscv/include/asm/insn-def.h  |  5 +++++
+> > > >  arch/riscv/include/asm/processor.h | 13 +++++++++++++
+> > > >  arch/riscv/kernel/cpufeature.c     |  1 +
+> > > >  6 files changed, 38 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > > > index e9ae6fa232c3..2c346fe169c1 100644
+> > > > --- a/arch/riscv/Kconfig
+> > > > +++ b/arch/riscv/Kconfig
+> > > > @@ -617,6 +617,21 @@ config RISCV_ISA_ZICBOZ
+> > > >  
+> > > >  	   If you don't know what to do here, say Y.
+> > > >  
+> > > > +config RISCV_ISA_ZICBOP
+> > > 
+> > > Even if we're not concerned with looping over blocks yet, I think we
+> > > should introduce zicbop block size DT parsing at the same time we bring
+> > > zicbop support to the kernel (it's just more copy+paste from zicbom and
+> > > zicboz). It's a bit annoying that the CMO spec doesn't state that block
+> > > sizes should be the same for m/z/p. And, the fact that m/z/p are all
+> > > separate extensions leads us to needing to parse block sizes for all
+> > > three, despite the fact that in practice they'll probably be the same.
+> > 
+> > Although, I saw on a different mailing list that Andrei Warkentin
+> > interpreted section 2.7 "Software Discovery" of the spec, which states
+> > 
+> > """
+> > The initial set of CMO extensions requires the following information to be
+> > discovered by software:
+> > 
+> > * The size of the cache block for management and prefetch instructions
+> > * The size of the cache block for zero instructions
+> > * CBIE support at each privilege level
+> > 
+> > Other general cache characteristics may also be specified in the discovery
+> > mechanism.
+> > """
+> > 
+> > as management and prefetch having the same block size and only zero
+> > potentially having a different size. That looks like a reasonable
+> > interpretation to me, too.
+> 
+> TBH, I don't really care what ambiguous wording the spec has used, we
+> have the opportunity to make better decisions if we please. I hate the
+> fact that the specs are often not abundantly clear about things like this.
+> 
+> > So, we could maybe proceed with assuming we
+> > can use zicbom_block_size for prefetch, for now. If a platform comes along
+> > that interpreted the spec differently, requiring prefetch block size to
+> > be specified separately, then we'll cross that bridge when we get there.
+> 
+> That said, I think I suggested originally having the zicboz stuff default
+> to the zicbom size too, so I'd be happy with prefetch stuff working
+> exclusively that way until someone comes along looking for different sizes.
+> The binding should be updated though since
+> 
+>   riscv,cbom-block-size:
+>     $ref: /schemas/types.yaml#/definitions/uint32
+>     description:
+>       The blocksize in bytes for the Zicbom cache operations.
+> 
+> would no longer be a complete description.
+> 
+> While thinking about new wording though, it feels really clunky to describe
+> it like:
+> 	The block size in bytes for the Zicbom cache operations, Zicbop
+> 	cache operations will default to this block size where not
+> 	explicitly defined.
+> 
+> since there's then no way to actually define the block size if it is
+> different. Unless you've got some magic wording, I'd rather document
+> riscv,cbop-block-size, even if we are going to use riscv,cbom-block-size
+> as the default.
+>
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- Documentation/PCI/pciebus-howto.rst | 8 ++++----
- include/linux/pci.h                 | 1 +
- 2 files changed, 5 insertions(+), 4 deletions(-)
+Sounds good to me, but if it's documented, then we should probably
+implement its parsing. Then, at that point, I wonder if it makes sense to
+have the fallback at all, or if it's not better just to require all the
+DTs to be explicit (even if redundant).
 
-diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
-index a0027e8fb0d0..3ba322ca1ce1 100644
---- a/Documentation/PCI/pciebus-howto.rst
-+++ b/Documentation/PCI/pciebus-howto.rst
-@@ -218,7 +218,7 @@ that is shared between many drivers including the service drivers.
- RMW Capability accessors (pcie_capability_clear_and_set_word(),
- pcie_capability_set_word(), and pcie_capability_clear_word()) protect
- a selected set of PCI Express Capability Registers (Link Control
--Register and Root Control Register). Any change to those registers
--should be performed using RMW accessors to avoid problems due to
--concurrent updates. For the up-to-date list of protected registers,
--see pcie_capability_clear_and_set_word().
-+Register, Root Control Register, and Link Control 2 Register). Any
-+change to those registers should be performed using RMW accessors to
-+avoid problems due to concurrent updates. For the up-to-date list of
-+protected registers, see pcie_capability_clear_and_set_word().
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 8c7c2c3c6c65..16db80f8b15c 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1243,6 +1243,7 @@ static inline int pcie_capability_clear_and_set_word(struct pci_dev *dev,
- {
- 	switch (pos) {
- 	case PCI_EXP_LNKCTL:
-+	case PCI_EXP_LNKCTL2:
- 	case PCI_EXP_RTCTL:
- 		return pcie_capability_clear_and_set_word_locked(dev, pos,
- 								 clear, set);
--- 
-2.30.2
-
+Thanks,
+drew
