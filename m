@@ -2,91 +2,251 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B69FFEED615
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 15:59:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46048EED618
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 16:23:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236277AbjIOP7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 11:59:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58130 "EHLO
+        id S234132AbjIOQXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 12:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236474AbjIOP7Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 11:59:24 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B85D273D;
-        Fri, 15 Sep 2023 08:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=SgsTNp3aBQfli6YIFCFMhJWlwcdQKsSE9wrATDvvIN8=; b=ZVMSwci4C8wywN9ZDPExFz2FO7
-        LcPpHRMfW1ni3545nsbTpOeec5tgsLoYedy2ACetkzOPdktuzCoWU2lVxUN3fCaICXsREVYmnkGU8
-        20qg0ZwsHZMU4gtZ6NWw6bzQ8/+tksTS4o9dV42v9QzZShPCcGfUFnhlPMvK/vKKus2ClzV6n//Vp
-        yEl8V0DgSXCNgFNvl3kVpSI74AdDOPGv9teNcVofjmRUu9SFBjQFdIuFuNSCM936gCsPeN7nSZcgr
-        StdpAZGC8StrLZqkqDNRH1obtHQ2I6i8xt2wNAkngv1WeKy/PaMIeZ7psHsCSuTlBtF6IPkHVyZYI
-        XNAAaG+Q==;
-Received: from [2601:1c2:980:9ec0:e65e:37ff:febd:ee53]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qhBDw-00B1cZ-2y;
-        Fri, 15 Sep 2023 15:59:16 +0000
-Message-ID: <287b3755-59a6-40e9-b6cc-f6336f69dd57@infradead.org>
-Date:   Fri, 15 Sep 2023 08:59:16 -0700
+        with ESMTP id S234332AbjIOQWv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 12:22:51 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACDFAC;
+        Fri, 15 Sep 2023 09:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694794966; x=1726330966;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=pg5Qfsfw4EoHhGK5PwUoF4RZdbDdImVbr3P2mO/lLhU=;
+  b=XDLYtxnNHb8sI4DP4dOSrp7voPG6MSUQtqvMrcAIH7nh1fjCcuQ277ng
+   X+b3Kxgka//bbk7VUVjmGVVimoIk9MyNBFPHTYPMNup21poSY+5vuke3g
+   2SazdlB8TItkjujLId9k/K83fPaiI18QkuZNJpG58PoGk9p8Mtxaqymgw
+   tvn0vRDW5H3wIOsYgAMWC/VIVmSDhosvoEnIWEHni8o9II4zIarUBxWPm
+   UEbCPSg+ihNDj6e7/LWgDz16Iqgjda9eiuXcF3FZJqmvceBXvZ84XW+dE
+   iKzyDrw+lwML75ufM5PhJ5JFz3K521FqhlTVwSqthR7h8RY0q6aeWYvcy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="383111975"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
+   d="scan'208";a="383111975"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 09:18:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="991892255"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
+   d="scan'208";a="991892255"
+Received: from srdoo-mobl1.ger.corp.intel.com ([10.252.38.99])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 09:18:34 -0700
+Date:   Fri, 15 Sep 2023 19:18:31 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Fernando Eckhardt Valle <fevalle@ipt.br>
+cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>, corbet@lwn.net,
+        hmh@hmh.eng.br, markgross@kernel.org, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2] platform/x86: thinkpad_acpi: sysfs interface to
+ auxmac
+In-Reply-To: <20230915123136.4286-1-fevalle@ipt.br>
+Message-ID: <97ac516a-5d9f-f58d-2313-d7d3453f58cb@linux.intel.com>
+References: <20230915123136.4286-1-fevalle@ipt.br>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/2] docs: Update kernel-parameters.txt for signature
- verification enhancement
-Content-Language: en-US
-To:     "Alessandro Carminati (Red Hat)" <alessandro.carminati@gmail.com>,
-        linux-modules@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20230914112739.112729-1-alessandro.carminati@gmail.com>
- <20230914112739.112729-3-alessandro.carminati@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230914112739.112729-3-alessandro.carminati@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 15 Sep 2023, Fernando Eckhardt Valle wrote:
 
-
-On 9/14/23 04:27, Alessandro Carminati (Red Hat) wrote:
-> Update kernel-parameters.txt to reflect new deferred signature
-> verification.
-> Enhances boot speed by allowing unsigned modules in initrd after
-> bootloader check.
+> Newer Thinkpads have a feature called Mac Address Passthrough.
+> This patch provides a sysfs interface that userspace can use
+> to get this auxiliary mac address.
 > 
-> Signed-off-by: Alessandro Carminati (Red Hat) <alessandro.carminati@gmail.com>
+> Changes in v2:
+> - Added documentation
+> - All handling of the auxmac value is done in the _init function.
+> 
+> Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+>  drivers/platform/x86/thinkpad_acpi.c          | 78 +++++++++++++++++++
+>  2 files changed, 98 insertions(+)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 0c38a8af95ce..beec86f0dd05 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3410,6 +3410,15 @@
->  			Note that if CONFIG_MODULE_SIG_FORCE is set, that
->  			is always true, so this option does nothing.
+> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> index e27a1c3f6..6207c363f 100644
+> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> @@ -53,6 +53,7 @@ detailed description):
+>  	- Lap mode sensor
+>  	- Setting keyboard language
+>  	- WWAN Antenna type
+> +	- Auxmac
 >  
-> +	module_sig_check_wait=
-> +			This parameter enables delayed activation of module
-> +			signature checks, deferring the process until userspace
-> +			triggers it. Once activated, this setting becomes
-> +			permanent and cannot be reversed. This feature proves
-> +			valuable for incorporating unsigned modules within
-> +			initrd, especially after bootloader verification.
-> +			By employing this option, boot times can be quicker.
+>  A compatibility table by model and feature is maintained on the web
+>  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+> @@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mentioned below:
+>  The property is read-only. If the platform doesn't have support the sysfs
+>  class is not created.
+>  
+> +Auxmac
+> +------
 > +
-
-Please keep the entries here in alphabetical order.
-This new entry should be after module_blacklist, not before it.
-Thanks.
-
->  	module_blacklist=  [KNL] Do not load a comma-separated list of
->  			modules.  Useful for debugging problem modules.
+> +sysfs: auxmac
+> +
+> +Some newer Thinkpads have a feature called MAC Address Passthrough. This
+> +feature is implemented by the system firmware to provide a system unique MAC,
+> +that can override a dock or USB ethernet dongle MAC, when connected to a
+> +network. This property enables user-space to easily determine the MAC address
+> +if the feature is enabled.
+> +
+> +The values of this auxiliary MAC are:
+> +
+> +        cat /sys/devices/platform/thinkpad_acpi/auxmac
+> +
+> +If the feature is disabled, the value will be 'disabled'.
+> +
+> +This property is read-only.
+> +
+>  Adaptive keyboard
+>  -----------------
 >  
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index d70c89d32..05cc3a1e2 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -10785,6 +10785,79 @@ static struct ibm_struct dprc_driver_data = {
+>  	.name = "dprc",
+>  };
+>  
+> +/*
+> + * Auxmac
+> + *
+> + * This auxiliary mac address is enabled in the bios through the
+> + * Mac Address Passthrough feature. In most cases, there are three
+> + * possibilities: Internal Mac, Second Mac, and disabled.
+> + *
+> + */
+> +
+> +#define AUXMAC_LEN 12
+> +#define AUXMAC_START 9
+> +#define AUXMAC_STRLEN 22
+> +static char auxmac[AUXMAC_LEN];
+> +
+> +static int auxmac_init(struct ibm_init_struct *iibm)
+> +{
+> +	acpi_status status;
+> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	union acpi_object *obj;
+> +
+> +	status = acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
+> +
+> +	if (ACPI_FAILURE(status))
+> +		return -ENODEV;
+> +
+> +	obj = (union acpi_object *)buffer.pointer;
+> +
+> +	if (obj->type != ACPI_TYPE_STRING || obj->string.length != AUXMAC_STRLEN) {
+> +		pr_info("Invalid buffer for mac addr passthrough.\n");
+
+MAC address
+
+> +		goto auxmacinvalid;
+> +	}
+> +
+> +	if (strncmp(obj->string.pointer + 0x8, "#", 1) != 0 ||
+> +	    strncmp(obj->string.pointer + 0x15, "#", 1) != 0) {
+
+Why use strncmp with (..., 1)? These offsets should defines above and not 
+use literals.
+
+> +		pr_info("Invalid header for mac addr passthrough.\n");
+
+MAC address
+
+> +		goto auxmacinvalid;
+> +	}
+> +
+> +	if (strncmp(obj->string.pointer + 0x9, "XXXXXXXXXXXX", AUXMAC_LEN) == 0)
+
+Why you're not using AUXMAC_START here?
+
+It's also bit confusing that some of the offset are hex and some non-hex 
+numbers. 
+
+> +		memcpy(auxmac, "disabled", 9);
+
+Don't use memcpy() for copying a string.
+
+> +	else
+> +		memcpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_LEN);
+
+What about the termination of auxmac? It's given 
+
+> +
+> +	kfree(obj);
+> +	return 0;
+> +
+> +auxmacinvalid:
+> +	kfree(obj);
+> +	memcpy(auxmac, "unavailable", 11);
+
+Again, don't use memcpy() to copy a string. You even got it wrong here 
+compared with the other case where you copied also the zero terminator.
+
+> +	return 0;
+> +}
+> +
+> +static struct ibm_struct auxmac_data = {
+> +	.name = "auxmac",
+> +};
+> +
+> +static ssize_t auxmac_show(struct device *dev,
+> +			   struct device_attribute *attr,
+> +			   char *buf)
+> +{
+> +	return sysfs_emit(buf, "%s\n", auxmac);
+
+This requires proper termination for the string but you didn't ensure it 
+above.
 
 -- 
-~Randy
+ i.
+
+> +}
+> +static DEVICE_ATTR_RO(auxmac);
+> +
+> +static struct attribute *auxmac_attributes[] = {
+> +	&dev_attr_auxmac.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group auxmac_attr_group = {
+> +	.attrs = auxmac_attributes,
+> +};
+> +
+>  /* --------------------------------------------------------------------- */
+>  
+>  static struct attribute *tpacpi_driver_attributes[] = {
+> @@ -10843,6 +10916,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+>  	&proxsensor_attr_group,
+>  	&kbdlang_attr_group,
+>  	&dprc_attr_group,
+> +	&auxmac_attr_group,
+>  	NULL,
+>  };
+>  
+> @@ -11414,6 +11488,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+>  		.init = tpacpi_dprc_init,
+>  		.data = &dprc_driver_data,
+>  	},
+> +	{
+> +		.init = auxmac_init,
+> +		.data = &auxmac_data,
+> +	},
+>  };
+>  
+>  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+> 
+
