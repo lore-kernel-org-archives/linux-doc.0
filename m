@@ -2,109 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CA52EE6433
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 07:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2148EEE6433
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 07:57:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232315AbjIOHoi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 03:44:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60354 "EHLO
+        id S229943AbjIOH5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 03:57:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232462AbjIOHoh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 03:44:37 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F21C898;
-        Fri, 15 Sep 2023 00:44:32 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 6A51D5C01B2;
-        Fri, 15 Sep 2023 03:44:32 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 15 Sep 2023 03:44:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1694763872; x=1694850272; bh=t1
-        TmiRsmiqzGQ86IPASUaWxEPOm0MoyVw2BuHDcx1xw=; b=r8mv8zbFk6D6NxtTWI
-        5mrt+5aqlY9VERclZBOqynYlvQFmz5g0VRZo1yQtWxu22/tCGM3RsYXzS+IDI+Nx
-        FcvUBpqQtWHAhJyIeXwCD4wOE695pcAiHGwi2SrKMQ197aH5+A8sh0rCA5UuNnhP
-        wU5GfJ8EZX1DQ1vfHNGuaYRId1AVnZW9Ggddi+Js4rZKmYwnDFNqBzs1hCPueP9V
-        ssEqWtyH1LMJVA37Sk2SazF/+slcyLe0zB3lES4rMk4I+F7Jra0AmvZlF2fHvFoP
-        ZEUPF1f4zKa1V1YbeuxdR4z3Bprd+dn+WJwLWDmVZFyfnzCYIF4egnQ2HF1+0raT
-        wM/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1694763872; x=1694850272; bh=t1TmiRsmiqzGQ
-        86IPASUaWxEPOm0MoyVw2BuHDcx1xw=; b=fv/Q9eaOSWkOsYmE3FHcAmRB+LB5F
-        U83bqXTW6iJuNsmj2rkJj34MREv+3fcBw0S3ZyBxx4Lu+VbGOhBrkPTPHcQhzUkP
-        pa24usN37PmVaErVKFLKydJlifoXjFY15ET4pMpILu/IPb9kW3tTAxZd0qAWmZzV
-        kYRr7rMY4l4x/Jrn8+jqS1lK7cPu4mTonig6+VBvypJmmrKFkbT310hXDrrgkTIu
-        44NIzymrx+Q3nuaSIXsW2t42zcvywND/jlM6x0CmmJkprpioJDT/Ag5vniwk+HME
-        +lgEvEBrlbVgY85gM8/ay029ekva1WRWvM3D4mCUlGl04DrGKVPuW5yTQ==
-X-ME-Sender: <xms:XgsEZbbmNwlr1ogpQPtnEPtRawXKaMsBvyLGx0-GY5hn5FC09_8qwA>
-    <xme:XgsEZabb0vGSCHXB8EZgzGjSEuF6AMiIEYFoYLer-Xf_Qhty1OZasCi8Y05bPDbiX
-    I7qZeovW8nWKFVQw1E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudejuddguddvudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:XgsEZd8Bh9B9KdCSbvwZ2Z_8bM3jhztBkPIKbODyIFDyNU7powaqtQ>
-    <xmx:XgsEZRqSoXXBE5u8JpIsOERz1JHsmJ2D21fST2-sB7dYMd6ALowwtw>
-    <xmx:XgsEZWpVSrcvXREUjU9Tq1n1EJ9_6JXI5AAJvtuAIS2l_rH50Iw54w>
-    <xmx:YAsEZV1tBzIWo1lPwfryXJruaD56VNLgM_Sy1U9mE7q2zl3wlwuxqA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 4D769B60089; Fri, 15 Sep 2023 03:44:30 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
-Mime-Version: 1.0
-Message-Id: <bc27450a-74cd-49f5-bc88-f102b0edb345@app.fastmail.com>
-In-Reply-To: <87sf7fvqiz.fsf@intel.com>
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <874jjwx44g.fsf@intel.com>
- <b2723c56-e2b0-4871-afbc-73cf6335ddca@app.fastmail.com>
- <CAK7LNAR9Jt0FQNRidcxY-OxMh7N238Xs33Tyj+dpTZ5wGow0wQ@mail.gmail.com>
- <763b1599-06b7-490e-9cbf-eb07f1deedb3@app.fastmail.com>
- <87sf7fvqiz.fsf@intel.com>
-Date:   Fri, 15 Sep 2023 09:44:08 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Jani Nikula" <jani.nikula@linux.intel.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>
-Cc:     "Arnd Bergmann" <arnd@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Sakari Ailus" <sakari.ailus@iki.fi>,
-        "Javier Martinez Canillas" <javierm@redhat.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional dependencies
-Content-Type: text/plain
+        with ESMTP id S232262AbjIOH5o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 03:57:44 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ABEE0AC
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 00:57:38 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-319-ooYdAIyBNp-dk--bK--xgg-1; Fri, 15 Sep 2023 08:57:26 +0100
+X-MC-Unique: ooYdAIyBNp-dk--bK--xgg-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 15 Sep
+ 2023 08:57:22 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 15 Sep 2023 08:57:22 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Evan Green' <evan@rivosinc.com>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Sia Jee Heng" <jeeheng.sia@starfivetech.com>,
+        Marc Zyngier <maz@kernel.org>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        "Simon Hosie" <shosie@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        "Ley Foon Tan" <leyfoon.tan@starfivetech.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        "Andy Chiu" <andy.chiu@sifive.com>
+Subject: RE: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
+Thread-Topic: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
+Thread-Index: AQHZ5t2uDoI3R+Ee30ay/cEMVFilT7AaADQQgABZ2YCAABclwIAAA5uAgAEQ8sA=
+Date:   Fri, 15 Sep 2023 07:57:22 +0000
+Message-ID: <abdde70ac5b947508c8c71d72ec4f294@AcuMS.aculab.com>
+References: <20230818194136.4084400-1-evan@rivosinc.com>
+ <20230818194136.4084400-2-evan@rivosinc.com>
+ <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
+ <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com>
+ <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
+ <de95229a14614198894a8ce421c30d94@AcuMS.aculab.com>
+ <CALs-Hstcz3OAxUi80nm+U0R56VBUUPQT=+XMOLpVJsn2ZOcM1A@mail.gmail.com>
+ <172bc43cc2ac45239ec40477d53d263a@AcuMS.aculab.com>
+ <CALs-HsvMfrsPsG2b9imLNOJFH6Xk45G0=UPWGtExePiMKV6+1Q@mail.gmail.com>
+In-Reply-To: <CALs-HsvMfrsPsG2b9imLNOJFH6Xk45G0=UPWGtExePiMKV6+1Q@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 15, 2023, at 09:34, Jani Nikula wrote:
->
-> IS_REACHABLE() considered harmful.
+RnJvbTogRXZhbiBHcmVlbg0KPiBTZW50OiAxNCBTZXB0ZW1iZXIgMjAyMyAxNzozNw0KPiANCj4g
+T24gVGh1LCBTZXAgMTQsIDIwMjMgYXQgODo1NeKAr0FNIERhdmlkIExhaWdodCA8RGF2aWQuTGFp
+Z2h0QGFjdWxhYi5jb20+IHdyb3RlOg0KPiA+DQo+ID4gRnJvbTogRXZhbiBHcmVlbg0KPiA+ID4g
+U2VudDogMTQgU2VwdGVtYmVyIDIwMjMgMTY6MDENCj4gPiA+DQo+ID4gPiBPbiBUaHUsIFNlcCAx
+NCwgMjAyMyBhdCAxOjQ34oCvQU0gRGF2aWQgTGFpZ2h0IDxEYXZpZC5MYWlnaHRAYWN1bGFiLmNv
+bT4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbg0KPiA+
+ID4gPiA+IFNlbnQ6IDE0IFNlcHRlbWJlciAyMDIzIDA4OjMzDQo+ID4gPiA+IC4uLg0KPiA+ID4g
+PiA+ID4gPiAgICAgcnpmaXZlOg0KPiA+ID4gPiA+ID4gPiAgICAgICAgIGNwdTA6IFJhdGlvIG9m
+IGJ5dGUgYWNjZXNzIHRpbWUgdG8gdW5hbGlnbmVkIHdvcmQgYWNjZXNzIGlzDQo+ID4gPiA+ID4g
+PiA+IDEuMDUsIHVuYWxpZ25lZCBhY2Nlc3NlcyBhcmUgZmFzdA0KPiA+ID4gPiA+ID4NCj4gPiA+
+ID4gPiA+IEhybSwgSSdtIGEgbGl0dGxlIHN1cnByaXNlZCB0byBiZSBzZWVpbmcgdGhpcyBudW1i
+ZXIgY29tZSBvdXQgc28gY2xvc2UNCj4gPiA+ID4gPiA+IHRvIDEuIElmIHlvdSByZWJvb3QgYSBm
+ZXcgdGltZXMsIHdoYXQga2luZCBvZiB2YXJpYW5jZSBkbyB5b3UgZ2V0IG9uDQo+ID4gPiA+ID4g
+PiB0aGlzPw0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gUm9jay1zb2xpZCBhdCAxLjA1IChldmVuIHdp
+dGggaW5jcmVhc2VkIHJlc29sdXRpb246IDEuMDU4NTMgb24gMyB0cmllcykNCj4gPiA+ID4NCj4g
+PiA+ID4gV291bGQgdGhhdCBtYXRjaCB6ZXJvIG92ZXJoZWFkIHVubGVzcyB0aGUgYWNjZXNzIGNy
+b3NzZXMgYQ0KPiA+ID4gPiBjYWNoZSBsaW5lIGJvdW5kYXJ5Pw0KPiA+ID4gPiAoSSBjYW4ndCBy
+ZW1lbWJlciB3aGV0aGVyIHRoZSB0ZXN0IGlzIHVzaW5nIGluY3JlYXNpbmcgYWRkcmVzc2VzLikN
+Cj4gPiA+DQo+ID4gPiBZZXMsIHRoZSB0ZXN0IGRvZXMgdXNlIGluY3JlYXNpbmcgYWRkcmVzc2Vz
+LCBpdCBjb3BpZXMgYWNyb3NzIDQgcGFnZXMuDQo+ID4gPiBXZSBzdGFydCB3aXRoIGEgd2FybXVw
+LCBzbyBjYWNoaW5nIGVmZmVjdHMgYmV5b25kIEwxIGFyZSBsYXJnZWx5IG5vdA0KPiA+ID4gdGFr
+ZW4gaW50byBhY2NvdW50Lg0KPiA+DQo+ID4gVGhhdCBzZWVtcyBlbnRpcmVseSBleGNlc3NpdmUu
+DQo+ID4gSWYgeW91IHdhbnQgdG8gYXZvaWQgZGF0YSBjYWNoZSBpc3N1ZXMgKHdoaWNoIHByb2Jh
+Ymx5IGRvKQ0KPiA+IHRoZW4ganVzdCByZXBlYXRpbmcgYSBzaW5nbGUgYWNjZXNzIHdvdWxkIGFs
+bW9zdCBjZXJ0YWlubHkNCj4gPiBzdWZmaWNlLg0KPiA+IFJlcGVhdGVkbHkgdXNpbmcgYSBzaG9y
+dCBidWZmZXIgKHNheSAyNTYgYnl0ZXMpIHdvbid0IGFkZA0KPiA+IG11Y2ggbG9vcCBvdmVyaGVh
+ZC4NCj4gPiBBbHRob3VnaCB5b3UgbWF5IHdhbnQgdG8gZG8gYSB0ZXN0IHRoYXQgYXZvaWRzIHRy
+YW5zZmVycw0KPiA+IHRoYXQgY3Jvc3MgY2FjaGUgbGluZSBhbmQgZXNwZWNpYWxseSBwYWdlIGJv
+dW5kYXJpZXMuDQo+ID4gRWl0aGVyIG9mIHRob3NlIGNvdWxkIGVhc2lseSBiZSBtdWNoIHNsb3dl
+ciB0aGFuIGEgcmVhZA0KPiA+IHRoYXQgaXMgZW50aXJlbHkgd2l0aGluIGEgY2FjaGUgbGluZS4N
+Cj4gDQo+IFdlIHdvbid0IGJlIGZhdWx0aW5nIG9uIGFueSBvZiB0aGVzZSBwYWdlcywgYW5kIHRo
+ZXkgc2hvdWxkIHJlbWFpbiBpbg0KPiB0aGUgVExCLCBzbyBJIGRvbid0IGV4cGVjdCBtYW55IHBh
+Z2UgYm91bmRhcnkgc3BlY2lmaWMgZWZmZWN0cy4gSWYNCj4gdGhlcmUgaXMgYSBzdGVlcCBwZW5h
+bHR5IGZvciBtaXNhbGlnbmVkIGxvYWRzIGFjcm9zcyBhIGNhY2hlIGxpbmUsDQo+IHN1Y2ggdGhh
+dCBpdCdzIHdvcnNlIHRoYW4gZG9pbmcgYnl0ZSBhY2Nlc3NlcywgSSB3YW50IHRoZSB0ZXN0IHJl
+c3VsdHMNCj4gdG8gYmUgZGluZ2VkIGZvciB0aGF0Lg0KDQpUaGF0IGlzIGFuIGVudGlyZWx5IGRp
+ZmZlcmVudCBpc3N1ZS4NCg0KQXJlIHlvdSBhYnNvbHV0ZWx5IGNlcnRhaW4gdGhhdCB0aGUgcmVh
+c29uIDggYnl0ZSBsb2FkcyB0YWtlDQphcyBsb25nIGFzIGEgNjQtYml0IG1pcy1hbGlnbmVkIGxv
+YWQgaXNuJ3QgYmVjYXVzZSB0aGUgZW50aXJlDQp0ZXN0IGlzIGxpbWl0ZWQgYnkgTDEgY2FjaGUg
+ZmlsbHM/DQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1s
+ZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJh
+dGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
-Absolutely agreed, and I'm sorry I introduced it in the
-first place in commit 9b174527e7b75 ("[media] Add and use
-IS_REACHABLE macro").
-
-At the time, it was only used by drivers/media, which used
-to have a lot of open-coded instances of it and a lot of
-wrong checks.
-
-Having a formal syntax for it was an improvement for
-drivers/media since it was more broken before, but it's
-usually a mistake to use it when there is another solution,
-and we probably should have tried harder to fix the
-dependencies in drivers/media at the time.
-
-      Arnd
