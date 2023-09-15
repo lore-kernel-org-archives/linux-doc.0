@@ -2,155 +2,197 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B68EED618
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 16:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 791F1EED61A
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 16:49:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234904AbjIOQau (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 12:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46714 "EHLO
+        id S234608AbjIOQs6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 12:48:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234780AbjIOQak (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 12:30:40 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2130.outbound.protection.outlook.com [40.107.244.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCDD199;
-        Fri, 15 Sep 2023 09:30:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X/urbbwp8lGtXs3s/1AEv3sx6+y9WtxvunYiAVtGekgSxPLAvugPeYr+qizC0GWuCtx8K1m9Ps19dbXcuOm9F4wLSPUs/NPa2nRgI/qjL/JBe3GSP++ZejTpmjfiSOkyuVD4RJLU237AuzQIaVBT6yhKzDgILg0PJOWvd+03hiZfuNGqB+dsZbDCcibf/k8EiycAyZZLmjwP+D3drHNFsVxqbxwqfMjrf4DSzfhNwJfiROxBA9qfblaSdLP5mG/OI2dNXq4xZcTmkRAwd9fvqmoVQVJUDeIdbrwgVgY0ApHpUzQBKBEdG+Hse8biTa0ZzxrPr8C6RdPw0QQ0gfqY8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bjREtO9mVWZXJMBzL9FOV6grTzcrSR6wzQ33piVUmoU=;
- b=cD5rloLF+TCo0MtHUZkKkr50RmYHe+2/tIFWIcZIoArW34Hr89AgwlfLUN0zfSzTGNKHOyUTcyBJzt/2u/7++tK8NYbg7jfa00ul7+Mk9p1HiFQrcu+yhZs69mriATMJZ8CtXlJgVjUwRo0+cpPZ4uMbKI7fAUSgmNVPdm4n3k9m3xQ6OOpfSVE4UCL+d9Ip4T34EaWrwg2OeWWpWKoT0gxD+Spzd0eAfpLa2bm5bS/bfcGtmXthK6/uKAt3Yqb4E5CcXckHMRq++E7MyiT8nKB6vUi3D/R6iQa8wHcMRB422ipr4C1n+rT68yZ9Y0rAZ5ePrNiHw61bHYDdYZ2ibQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+        with ESMTP id S235275AbjIOQsp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 12:48:45 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA679E6E
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 09:48:28 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2b703a0453fso39262811fa.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 09:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bjREtO9mVWZXJMBzL9FOV6grTzcrSR6wzQ33piVUmoU=;
- b=jj5H8kBvA7BN2v36qjR1zmqWppPKflAvccrRzg6jIQwP+1jfcgT2KsKRQeFyok7vZ+mlFZjPv+MFT435bzz8OXtozk0rizXPxI21To/aI7zHvcR2HU966S8kDfRoY0YEtIs27jpRMk8m97CLZy0dEw7bqCPTWKgMxziByAJ/v10=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from DM6PR01MB5259.prod.exchangelabs.com (2603:10b6:5:68::27) by
- BL1PR01MB7579.prod.exchangelabs.com (2603:10b6:208:387::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.20; Fri, 15 Sep 2023 16:30:31 +0000
-Received: from DM6PR01MB5259.prod.exchangelabs.com
- ([fe80::66e5:a568:4a5b:c19a]) by DM6PR01MB5259.prod.exchangelabs.com
- ([fe80::66e5:a568:4a5b:c19a%6]) with mapi id 15.20.6792.021; Fri, 15 Sep 2023
- 16:30:31 +0000
-Date:   Fri, 15 Sep 2023 09:30:26 -0700 (PDT)
-From:   "Lameter, Christopher" <cl@os.amperecomputing.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-cc:     Matteo Rizzo <matteorizzo@google.com>, penberg@kernel.org,
-        rientjes@google.com, iamjoonsoo.kim@lge.com,
-        akpm@linux-foundation.org, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        keescook@chromium.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-hardening@vger.kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net, luto@kernel.org,
-        peterz@infradead.org, jannh@google.com, evn@google.com,
-        poprdi@google.com, jordyzomer@google.com
-Subject: Re: [RFC PATCH 00/14] Prevent cross-cache attacks in the SLUB
- allocator
-In-Reply-To: <7a4f5128-28fd-3c5f-34c2-1c34f4448174@intel.com>
-Message-ID: <1d7573c0-ebbc-6ed2-f152-1045eb0542f9@os.amperecomputing.com>
-References: <20230915105933.495735-1-matteorizzo@google.com> <7a4f5128-28fd-3c5f-34c2-1c34f4448174@intel.com>
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-ClientProxiedBy: CH0PR07CA0023.namprd07.prod.outlook.com
- (2603:10b6:610:32::28) To DM6PR01MB5259.prod.exchangelabs.com
- (2603:10b6:5:68::27)
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1694796507; x=1695401307; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f48oEfgEOe9ogBfu1uEucT841SwYN2NFGrQaThSx3KU=;
+        b=2cQE2YjAEOZC3zlxhZEtqig0zLQ6M/KpXeJYz3Gq/El+6mTuWGutpCGlU68whKelL3
+         4dn2qXOtD17CgJ1TUeg/W1onVvzm5a7isLkQ8CZ/E0l+C1H8H8A6e1rhPb9Jy/5VoBlu
+         f6+89BSI/MxmqtUAIL8kwlZWZae9LoJQ+OB9f78+M4X2D2M9gh68P0APrsZpAwZHXkPK
+         5hw7CXTAzchSnsmfvaYhQPhPLvsd7BkYOQaIZqtIJ7VN4xypRDhl5wLopX+NrQIFwF14
+         hKaen+dEr5AMAKdnY01RPG6bw9FCMFJfN+yjGKJyO+XBcVmkLNFKkpd0MgWUFmu2yuDm
+         Ufmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694796507; x=1695401307;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f48oEfgEOe9ogBfu1uEucT841SwYN2NFGrQaThSx3KU=;
+        b=cGnqpf1zpoSnmYYz17nb1uAZKpXLumSTL4n5bUggMPGWjQEgCbaiecA8/eVlN4SgiC
+         67UmsWH+3VyPOOB3c9PxrCuobmgdyf61a8BWO1nloiqWA9n7KAKI/CGmq7vkTa+r6dGu
+         hzO674TnrgckI+tMPUf8F179lfqqwreUsTK5M5scFVRhMCwB/3boFmwsq2j5+HMyV+zy
+         TurMddlaEU3UtYYOzzpAPGZCj3ctFcbxBqVsAGBdGrsWusyusD9BPnDa73yqg1nTmnMt
+         rExIMjw1EcFNjrJSuOTP6qtF9UaGIXMM2F085tvKCczHLyrDAeewkhkhf0wtiNA1Fi1x
+         cDPg==
+X-Gm-Message-State: AOJu0Yxhnpa91GTANzeWS9XhhJW8ve2h3WslGI3WevzQ2eP9CqFVInTx
+        VOlU4mVgW3RYuVTkWll0MkSV6zfJ4Brr/xtGp5GMrlQj9YKpbVObQtc=
+X-Google-Smtp-Source: AGHT+IFyBsKuU+fIikkzmfTWGb2MylxPkm9jEpWf6DwpqcUh3gp60JfTnhUQk8RrjTtyx+LcVvhzhU7p33OTxZwfnXA=
+X-Received: by 2002:a05:651c:116:b0:2bd:102c:4161 with SMTP id
+ a22-20020a05651c011600b002bd102c4161mr1948688ljb.43.1694796507080; Fri, 15
+ Sep 2023 09:48:27 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR01MB5259:EE_|BL1PR01MB7579:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5eaed984-0eab-4a57-35d4-08dbb609140a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RA8W6Mn8UCgIjYrkvfYOukYuEdxErnYmYPZIECmUUzaj4c6MBueheDhO+Lv6ubW1Igs1dxc6dVtAhHcnXAyNE/NtPan09TfBqR6q4YlnqjeRyCFVTjF1JfykOP33hRkzT68OoWMagPO96uJkP5gQzXn93y4hT9cc5rwSLX8MhshyvY4o4yfkU6LmtbOW3PU9S2V57R1OeELH66+oSqtq+mBU7GbRSt9yobS/kJR2votNbrnMXah0g//gu1UgUiyUQAT0Li0D02D9ivMfFMGtW0bKEW6dLpVoUOTLz9nm175h0B+rYRztzMRTz1EvJk8fwTtESNmE39oA/XQwE9lwlrw43MLR7OeaoR5A+R91pevQyh4uz7rEQdW+B7QHToJo8BE27Zyx7byPTAlBRdxLJb+klzjxI3al/ZYTy5zKa2X1FTAikoDzdFSZPFjx4f1LVBWaHRJxcWEsUB11T0Fdf7yGAvY7hyoubjFzUXo6hwe5/ii5SkcRO7OlXBARCPNhqwLIJ1RNvlfzrdVAK0U0y0fXQRkjr3yKgtMjeNA1WAbhzCAoYH9cfTorz4iSjfc0
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR01MB5259.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39850400004)(366004)(136003)(376002)(186009)(451199024)(1800799009)(8676002)(31686004)(316002)(86362001)(41300700001)(66476007)(66946007)(66556008)(4326008)(5660300002)(31696002)(38100700002)(8936002)(6916009)(83380400001)(478600001)(26005)(2616005)(2906002)(6666004)(6512007)(7416002)(6486002)(53546011)(6506007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G2r7lrgpm/CI6m+x++qxCM9zlHemjeqnOG1/9ra/jEusXScgKRlkE7dmjfsJ?=
- =?us-ascii?Q?y8Dgoq92sM0WWXLUy9HP9ER58Z4OKbQHhcrzJ9rSLCcLfESOqFPw41jB6g/a?=
- =?us-ascii?Q?F/IjsQc0I4RebWC3Rh0O7VK/m6g2NFdOn/3UJF/jUEKQWIoiCVk/rUoQh7Pp?=
- =?us-ascii?Q?DS+jnlar1D9bkZCnXxC6Z20ZWewUOjTQ7NTvbTk5krhOlNHMxjMOgexdh4WT?=
- =?us-ascii?Q?5H5oiVH+QVnEeQlB4oQ0frx61SYxEB0pDZV5gVdNePU6J7Ja4VwuGIVNpW/7?=
- =?us-ascii?Q?iNbt03pw6uOSm8BA/uzaBKNdSx743aY+lQa6vdjd8xA2Q/Sn083AGVqkgYmP?=
- =?us-ascii?Q?loZ+IF3WN6S3AKo6MlhFZTVu3ImLwjoGx9uH1QsY3UMHd1nR09jUejEndjLz?=
- =?us-ascii?Q?fMh2D2QcidU1/zkbZJ3eAHQ2qJyZTAoGODBgtO0vlPb5b38XvhW+KcPgkKUl?=
- =?us-ascii?Q?I2N2HOsDBCdm0VNxvSvnPzmseys/SOCcFdiHyShqNYZ55+VWY6G37L7o7sc/?=
- =?us-ascii?Q?Hu3lgFpP5hpWSu0WW9TuVmmWHnbsElVI5YV2V3fVctwyf0yShlcjMUHN87ot?=
- =?us-ascii?Q?prvvVZQNzYAdLmHZvzLP3OVynvys8LkkZ/z5SnagC9EdKp2x9CgXGC+n+s3Q?=
- =?us-ascii?Q?g7ZenPHzPzPmNLr72o+ZtYwTIk2K8hxz6XbP7X8ywfRJXwEiYDxrBi99YX4X?=
- =?us-ascii?Q?stNpE+qa0LCsG0VEPWdtstfTXUcgRT5SxoJ1YrgNonT+8YRM6v09mCLwCnJi?=
- =?us-ascii?Q?8T4cZLh135OzK5I4h5TlRAk4c97mfeqZa7dpJbfgLnT16xs1fRsGJMWa0D0j?=
- =?us-ascii?Q?LWZr8N7VKIE6J59KWESDfhAUfLTti9UoVokGMS/L9XpcQgvnIpQb78TcXlxF?=
- =?us-ascii?Q?uRNE01rqla6GVlgXzxUwHiBQuR0w/pSPe8ZkEl7NAs5g00sfEQAfWRf3E9Y9?=
- =?us-ascii?Q?edJtiK3co7yPISPzJtIoU8HOYyAVGl2nVq0kpQLBjoRlzUl8KaXkR6cka85Y?=
- =?us-ascii?Q?prTfOGVakJhZInULyPI9Me1oypevXU8lAkSHhfKzMm1XmDAdm0/84Ra53Gk2?=
- =?us-ascii?Q?jstd+DMstFEBExMVT/zL7FKGER+UyyqXikuLTWYtk/MF2C5qa1CXkLwrbw+3?=
- =?us-ascii?Q?AqxDTuZRItJw2veXmoOXXcTHjWZPv2Gr63rNDRVHr9Bkhc3Be5FUUsdEJJwy?=
- =?us-ascii?Q?3zsnw+Ty90/pDslin35m2xfHLnM7AazeIOuMh8/24GXNtOkwARkJWLEULWW4?=
- =?us-ascii?Q?lAKYfLe1ULZu1duPcaDNqr0pokxSOMseAMEybMXfpm/OMJlUKbsXfhrfUrYU?=
- =?us-ascii?Q?0o+SsUC1jQn3G0e6G7k1Wokm8a+9bUH5mwOo6MFh3RkvFC3nDR/AzpNJZgQl?=
- =?us-ascii?Q?0zeQRRhQkedHXcCFoMENbAqNlNcmOLX8xyxW6Bb20CgCVsoADdEXEnVY1T6O?=
- =?us-ascii?Q?eWJerBMST+YKk2MYkWxbf6/PykFsZe9Z7tTZrNxG38KKfNrCLEZkshFJpK/t?=
- =?us-ascii?Q?dKwhSgl22Loec4b0n0ob+ThJuZnpzSxxxXsJCWKGepPkVqhxJqOB1c+RnohP?=
- =?us-ascii?Q?2L+/ysMa6ZvBnHhmhkxn5Ra7nYhlLIgge6eQzNw7G5svDDtF4ftDJhrpL1ss?=
- =?us-ascii?Q?xzY8LIDnAZytZ968asKL7GY=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5eaed984-0eab-4a57-35d4-08dbb609140a
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR01MB5259.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2023 16:30:31.1406
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y2jBadSYONd9qD6viJlyt3RWp9/Da+a7d/2j1gPB/CHOgwkwtH6fDjeM5GfjVNdLymwg71xOlf35uQfgIoYkGLIgiQFf1xnmvOrIrJaxJ9g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR01MB7579
+References: <20230818194136.4084400-1-evan@rivosinc.com> <20230818194136.4084400-2-evan@rivosinc.com>
+ <CAMuHMdVtXGjP8VFMiv-7OMFz1XvfU1cz=Fw4jL3fcp4wO1etzQ@mail.gmail.com>
+ <CALs-Hsvu7BsK8P0+xeuLmKEqg-q=kQANbf8FkiPGPhwhnSXpmA@mail.gmail.com>
+ <CAMuHMdV594xA1UoTeVixpXm3i5LDFO5cT=dd_iRwWLwvxQctZg@mail.gmail.com>
+ <de95229a14614198894a8ce421c30d94@AcuMS.aculab.com> <CALs-Hstcz3OAxUi80nm+U0R56VBUUPQT=+XMOLpVJsn2ZOcM1A@mail.gmail.com>
+ <172bc43cc2ac45239ec40477d53d263a@AcuMS.aculab.com> <CALs-HsvMfrsPsG2b9imLNOJFH6Xk45G0=UPWGtExePiMKV6+1Q@mail.gmail.com>
+ <abdde70ac5b947508c8c71d72ec4f294@AcuMS.aculab.com>
+In-Reply-To: <abdde70ac5b947508c8c71d72ec4f294@AcuMS.aculab.com>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Fri, 15 Sep 2023 09:47:51 -0700
+Message-ID: <CALs-HssjGFjRsQTx5TrjS5TXDY+qFcGuctoP6xM-__P98hB9Bg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] RISC-V: Probe for unaligned access speed
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Simon Hosie <shosie@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Andy Chiu <andy.chiu@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Sep 2023, Dave Hansen wrote:
-
-> On 9/15/23 03:59, Matteo Rizzo wrote:
->> The goal of this patch series is to deterministically prevent cross-cache
->> attacks in the SLUB allocator.
+On Fri, Sep 15, 2023 at 12:57=E2=80=AFAM David Laight <David.Laight@aculab.=
+com> wrote:
 >
-> What's the cost?
+> From: Evan Green
+> > Sent: 14 September 2023 17:37
+> >
+> > On Thu, Sep 14, 2023 at 8:55=E2=80=AFAM David Laight <David.Laight@acul=
+ab.com> wrote:
+> > >
+> > > From: Evan Green
+> > > > Sent: 14 September 2023 16:01
+> > > >
+> > > > On Thu, Sep 14, 2023 at 1:47=E2=80=AFAM David Laight <David.Laight@=
+aculab.com> wrote:
+> > > > >
+> > > > > From: Geert Uytterhoeven
+> > > > > > Sent: 14 September 2023 08:33
+> > > > > ...
+> > > > > > > >     rzfive:
+> > > > > > > >         cpu0: Ratio of byte access time to unaligned word a=
+ccess is
+> > > > > > > > 1.05, unaligned accesses are fast
+> > > > > > >
+> > > > > > > Hrm, I'm a little surprised to be seeing this number come out=
+ so close
+> > > > > > > to 1. If you reboot a few times, what kind of variance do you=
+ get on
+> > > > > > > this?
+> > > > > >
+> > > > > > Rock-solid at 1.05 (even with increased resolution: 1.05853 on =
+3 tries)
+> > > > >
+> > > > > Would that match zero overhead unless the access crosses a
+> > > > > cache line boundary?
+> > > > > (I can't remember whether the test is using increasing addresses.=
+)
+> > > >
+> > > > Yes, the test does use increasing addresses, it copies across 4 pag=
+es.
+> > > > We start with a warmup, so caching effects beyond L1 are largely no=
+t
+> > > > taken into account.
+> > >
+> > > That seems entirely excessive.
+> > > If you want to avoid data cache issues (which probably do)
+> > > then just repeating a single access would almost certainly
+> > > suffice.
+> > > Repeatedly using a short buffer (say 256 bytes) won't add
+> > > much loop overhead.
+> > > Although you may want to do a test that avoids transfers
+> > > that cross cache line and especially page boundaries.
+> > > Either of those could easily be much slower than a read
+> > > that is entirely within a cache line.
+> >
+> > We won't be faulting on any of these pages, and they should remain in
+> > the TLB, so I don't expect many page boundary specific effects. If
+> > there is a steep penalty for misaligned loads across a cache line,
+> > such that it's worse than doing byte accesses, I want the test results
+> > to be dinged for that.
+>
+> That is an entirely different issue.
+>
+> Are you absolutely certain that the reason 8 byte loads take
+> as long as a 64-bit mis-aligned load isn't because the entire
+> test is limited by L1 cache fills?
 
-The only thing that I see is 1-2% on kernel compilations (and "more on 
-machines with lots of cores")?
+Fair question. I hacked up a little code [1] to retry the test at
+several different sizes, as well as printing out the best and worst
+times. I only have one piece of real hardware, the THead C906, which
+has a 32KB L1 D-cache.
 
-Having a virtualized slab subsystem could enable other things:
+Here are the results at various sizes, starting with the original:
+[    0.047556] cpu0: Ratio of byte access time to unaligned word
+access is 4.35, unaligned accesses are fast
+[    0.047578] EVAN size 0x1f80 word cycles best 69 worst 29e, byte
+cycles best 1c9 worst 3b7
+[    0.071549] cpu0: Ratio of byte access time to unaligned word
+access is 4.29, unaligned accesses are fast
+[    0.071566] EVAN size 0x1000 word cycles best 36 worst 210, byte
+cycles best e8 worst 2b2
+[    0.095540] cpu0: Ratio of byte access time to unaligned word
+access is 4.14, unaligned accesses are fast
+[    0.095556] EVAN size 0x200 word cycles best 7 worst 1d9, byte
+cycles best 1d worst 1d5
+[    0.119539] cpu0: Ratio of byte access time to unaligned word
+access is 5.00, unaligned accesses are fast
+[    0.119555] EVAN size 0x100 word cycles best 3 worst 1a8, byte
+cycles best f worst 1b5
+[    0.143538] cpu0: Ratio of byte access time to unaligned word
+access is 3.50, unaligned accesses are fast
+[    0.143556] EVAN size 0x80 word cycles best 2 worst 1a5, byte
+cycles best 7 worst 1aa
 
-- The page order calculation could be simplified since vmalloc can stitch 
-arbitrary base pages together to form larger contiguous virtual segments. 
-So just use f.e. order 5 or so for all slabs to reduce contention?
+[1] https://pastebin.com/uwwU2CVn
 
-- Maybe we could make slab pages movable (if we can ensure that slab 
-objects are not touched somehow. At least stop_machine run could be used 
-to move batches of slab memory)
+I don't see any cliffs as the numbers get smaller, so it seems to me
+there are no working set issues. Geert, it might be interesting to see
+these same results on the rzfive. The thing that made me uncomfortable
+with the smaller buffer sizes is it starts to bump up against the
+resolution of the timer. Another option would have been to time
+several iterations, but I went with the larger buffer instead as I'd
+hoped it would minimize other overhead like the function calls, branch
+prediction, C loop management, etc.
 
-- Maybe we can avoid allocating page structs somehow for slab memory? 
-Looks like this is taking a step into that direction. The metadata storage 
-of the slab allocator could be reworked and optimized better.
-
-Problems:
-
-- Overhead due to more TLB lookups
-
-- Larger amounts of TLBs are used for the OS. Currently we are trying to 
-use the maximum mappable TLBs to reduce their numbers. This presumably 
-means using 4K TLBs for all slab access.
-
-- Memory may not be physically contiguous which may be required by 
-some drivers doing DMA.
-
-
-
+-Evan
