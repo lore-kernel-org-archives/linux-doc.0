@@ -2,333 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B75C2BA1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFAADC2BA12
 	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 22:44:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237913AbjIOWnM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 18:43:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60126 "EHLO
+        id S237819AbjIOWnl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 18:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237890AbjIOWmu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 18:42:50 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79A8115;
-        Fri, 15 Sep 2023 15:42:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=POVLPl0upIRFB/aupXnTFGNzcp9T2LTO+8OzL+UNYct8Ikrf+5GO1OsDbchrmbbT/xHWZ86YcRv5WS3h17OFUXe4978AdVgzK+2wjob7+V7pfYAFTmv1KB10h9yNGbjxD0dkdjpVALzvxYc9hgmRegnOEq007LD0qtg+pkIyAHvyXIT+Kocc+TUvLxPXgz86eiPMWapBXU1UT3AJ7c/YVD1WDaVphuNqjHixtx9dAIRGhVbpLLRqNh4CY/Pm5S4Lh3+RePdBtKdt4J7KeYh0WwgaBuTdlCReKaxUtf/hm0OxLDmHll+cyd3+aWykdNjIuVYPkRWplg5dTK/YRnfJew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vIbfI4sxiMNAJf/gypx5Aa/s9Utzz6vT3FparEXkxUM=;
- b=Dq5C8in+RRAIlydg9dcsfWpnwgYd2xe0Lwj1HWkTnbzCentxPMf4AOnuwFaJFWpOU28ohwZEA6LTT5E5COwxDmAl6zTsEewO4hmWrL96PH7wbrS33N9l5k8GjiPZW91jn3gYYXhWvGM3/pO+10fF+/Fgh1KOUV3FtOmGhlndMKCRE6RnKN37y94/eRQaKSow0cBTuOwuAGA5C8EEL2GK/dvEK//MepFQCV0pLoLEfuDlKtv8zt49QIV/S4mVXcKZBg9jx9qDRA9INQBMAGp1JByzcrvhhRZuzYMB8+gvpqjthe2H0Go1tg2tdgZ3gPJXCIKybUitdF899WmkDhPrbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vIbfI4sxiMNAJf/gypx5Aa/s9Utzz6vT3FparEXkxUM=;
- b=yPM5pyIngf0IJ/vh1iSveJRHIcZS/hWlhvvxbyIZWJ+Ng4sk4aBGPpkSU9GBzdfWVbOyJOlriiKCiB82P3zuS4+Zt4wSbklVmFu81+I7mJodxc/xiPQBZSqUIFNLnsL26Wqaoj+jhMv8gl7ZM6i3cccCmLvwz/AUX0/TEtim/UY=
-Received: from CY5P221CA0099.NAMP221.PROD.OUTLOOK.COM (2603:10b6:930:9::44) by
- PH8PR12MB7133.namprd12.prod.outlook.com (2603:10b6:510:22e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21; Fri, 15 Sep
- 2023 22:42:40 +0000
-Received: from CY4PEPF0000E9CD.namprd03.prod.outlook.com
- (2603:10b6:930:9:cafe::55) by CY5P221CA0099.outlook.office365.com
- (2603:10b6:930:9::44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21 via Frontend
- Transport; Fri, 15 Sep 2023 22:42:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9CD.mail.protection.outlook.com (10.167.241.140) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6792.20 via Frontend Transport; Fri, 15 Sep 2023 22:42:40 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 15 Sep
- 2023 17:42:38 -0500
-From:   Babu Moger <babu.moger@amd.com>
-To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>, <babu.moger@amd.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
-        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
-        <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v10 03/10] x86/resctrl: Rename rftype flags for consistency
-Date:   Fri, 15 Sep 2023 17:42:20 -0500
-Message-ID: <20230915224227.1336967-4-babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230915224227.1336967-1-babu.moger@amd.com>
-References: <20230915224227.1336967-1-babu.moger@amd.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S238076AbjIOWnd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 18:43:33 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45DCC186;
+        Fri, 15 Sep 2023 15:43:25 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id C24763200922;
+        Fri, 15 Sep 2023 18:43:23 -0400 (EDT)
+Received: from imap52 ([10.202.2.102])
+  by compute5.internal (MEProxy); Fri, 15 Sep 2023 18:43:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1694817803; x=1694904203; bh=Ku
+        i5QVN27wxtbs/ixxjjjs2s5xbRk56ecBUu+WNHfQg=; b=SeN1C1l1ZuMKL89FAv
+        Ed5MSg1+B6eZdAENvQGOZRXgJI4JR1SZ0PaBpaJ6UEPTop8/IzQEEqZIXIAe1Kyz
+        lHCoSryx2O7QbxZQFFNhcQDmHAef/2kCBqijXq1ayOGJWJgpOOS0OOiHwKCyTxUJ
+        PcgOCT5hQfZHtpO0LyHtQpl8ZxLQCnEZo+lLXGuPfXY3UQzkm7fsGIJSnUqm9wky
+        TijNyYmKFyRRiv0SAKMmEYcEU2S7UV3zsm1U57/k024+t4bZ2z7/xUecWa+anGXO
+        doSfFF2FYWEBFvxz/7h6GG9NhzVmTh9RARW6sRiiYr/vcjU0c4ITBU6HLnA2UImA
+        vmvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1694817803; x=1694904203; bh=Kui5QVN27wxtb
+        s/ixxjjjs2s5xbRk56ecBUu+WNHfQg=; b=ewcEXmDu9UAI774oJHEjZlYI5Xbq3
+        9JoLPxTgQ0iCM2+5PWVFlrIEiH3647O99D5rwIlF+pVsIZb3whOSTZsaRRqPucyj
+        BSqqGbHr/0gDm0PBW8l76hDN29EPfTO8p6qUg47t9EXSuxisYwOGwrqg2tItdeZZ
+        XZgeVgz3dXol8e5TfdwxO2xBf1NDdDBX2oRTkqwfE+0OAbQrH+Gn2xvvfiAMrJSD
+        Qg5cyBp4FV8IkyxSHa9+E0aZlC+d+ldyws/TBtERWObHn2mkQY1IgZjLRk7aOwew
+        dI7kcNTI0d9vdPbvHnwcfgBpDXpE3jdAuKnnxw38L3YWjpwdUmPig/hXQ==
+X-ME-Sender: <xms:Ct4EZT0q3C8eyKIEPQkpyY-Gr-nMWQUWjfl2wfLmv2eXEirRsMBhsw>
+    <xme:Ct4EZSHm4kygmT7MRWYqfByfk0Ygw6J0WRRR_h1YYn_sedOQ-sMETEqUPk4NI2Vjv
+    P6D-SY2G_A3MA5L74g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudejfedgudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfofgr
+    rhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssg
+    drtggrqeenucggtffrrghtthgvrhhnpeeiueefjeeiveetuddvkeetfeeltdevffevudeh
+    ffefjedufedvieejgedugeekhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggr
+X-ME-Proxy: <xmx:C94EZT76KVOce790oX6KaoN3S3kF5BoTu9bFGVGHNIac7884iavlOw>
+    <xmx:C94EZY2svtl5hQA0Gv8N7g3O3-Zh7P0AsLHgI_O33O35MxGrPpoVSg>
+    <xmx:C94EZWHqdZlON820NcNWUkx9k61sqdAHlPFBrXAHLXZ_PHDTXpioGA>
+    <xmx:C94EZTMIISpvv1FkM27yhL_1bX0jc_MKY8y0-0XlE-kJQ1u6vxb7qQ>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id DD7B7C6008B; Fri, 15 Sep 2023 18:43:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
+Mime-Version: 1.0
+Message-Id: <55f22980-b47a-4a22-8f19-2b0a5b4e6a1a@app.fastmail.com>
+In-Reply-To: <TYZPR03MB59949F797738F5B1B8638278BDF6A@TYZPR03MB5994.apcprd03.prod.outlook.com>
+References: <20230915150340.301067-1-dober6023@gmail.com>
+ <8a566102-5ea6-4449-9083-8feebe711065@roeck-us.net>
+ <TYZPR03MB59949F797738F5B1B8638278BDF6A@TYZPR03MB5994.apcprd03.prod.outlook.com>
+Date:   Fri, 15 Sep 2023 18:43:02 -0400
+From:   "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To:     "Guenter Roeck" <groeck7@gmail.com>
+Cc:     "David Ober" <dober6023@gmail.com>, linux-hwmon@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jdelvare@suse.com, corbet@lwn.net,
+        "David Ober" <dober@lenovo.com>
+Subject: Re: [PATCH] hwmon:Add MEC172x Micro Chip driver for Lenovo motherboards
 Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9CD:EE_|PH8PR12MB7133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7eab1029-4812-43ad-fd91-08dbb63d1181
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k5mlkz4q0cM+oOPO1YeuBpFMrVvzcs70l9COWCB7l1SrUpOZapFxsUXTYSkV4rGKvcGYhAQegpWw11B7gZELdax/miGOehaTXQNp4M5cpq6PwYS7Ofck8Dn4GnZqPNOLxxx5asnxHsLApqVX0VBNWd6EKlrgBSXJ3jj6WAtXHGrTSHbp4qF5jN0TNklgVCY/8EYdvYrmlTQWtAnU7+wmq0KiS4WwcBhCiBv4pGAlAzsiMmssbToD8Hp1YUT77iaMiMYm6J1nXgFUiAdKmL3B3QA0cQ9t/jKkbe/Dyk/ZX/SihT/wfo+4YYRDnMHCUhHOMbPzTTDCg+xKg3cFXmHyNphbDLaebj3fONMs1wC/ij/camFOT2qoEEbi5qPFXz5+lvQZPzwoUeQVxQIXAL7934MxlmI9OdwxS4tIbCQdGQqA65aKKsyxg8rKb8R0aDYElHDmSN+Xo0/8/sAKXc1+28JNXrtfkDn/4uOiVZIU3/iU2rnK1morFhGlHvUoo9kyymICXTsc+KHXc9xqUOZh6KDpJSLj7oG4gJS6VZZyR6LjxUYYerEhNXvp6doxq3EZdnUdn4tBXlCBwn1MivmNAblMohcdZ73/IY24vLzbbViVjB0g8rrS/trMyjIvpjBG5Brg7SblPEYlwoJT7xJcGTUTT0r3mPfRBXaRhy//DPamoIh9zst1Oyy4xomwaG6tznN/wUoDMOVxNlYqUshGRReNhu12gpxNSXi9F9B7mqfakta0QUDAl0ZSX0ym6NjNOLJmqa2ihKWocG3HmyyygQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(376002)(396003)(136003)(346002)(451199024)(186009)(1800799009)(82310400011)(36840700001)(40470700004)(46966006)(82740400003)(7416002)(7406005)(2616005)(16526019)(2906002)(26005)(86362001)(1076003)(426003)(336012)(356005)(81166007)(8676002)(4326008)(44832011)(8936002)(5660300002)(70586007)(36756003)(41300700001)(54906003)(316002)(70206006)(110136005)(83380400001)(6666004)(7696005)(36860700001)(47076005)(40460700003)(478600001)(40480700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2023 22:42:40.5111
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7eab1029-4812-43ad-fd91-08dbb63d1181
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9CD.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7133
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-resctrl associates rftype flags with its files so that files can be chosen
-based on the resource, whether it is info or base, and if it is control
-or monitor type file. These flags use the RF_ as well as RFTYPE_ prefixes.
+Hi Guenter,
 
-Change the prefix to RFTYPE_ for all these flags to be consistent.
+> From: Guenter Roeck <groeck7@gmail.com> on behalf of Guenter Roeck 
+> On Fri, Sep 15, 2023 at 11:03:40AM -0400, David Ober wrote:
+>> This addition adds in the ability for the system to scan the
+>> MEC172x EC chip in Lenovo ThinkStation systems to get the
+>> current fan RPM speeds and the Maximum speed value for each
+>> fan also provides the current CPU and DIMM thermal status
+>>
+>> Signed-off-by: David Ober <dober6023@gmail.com>
+>>
+>> Written by David Ober from Lenovo using this gmail address since
+>> my corporate email address does not comply with git email
+>
+> FWIW, this needs to be after '---'
+>
+> Anyway, thinking about this submission makes me even more concerned.
+>
+> This isn't really a driver for MEC172x; it is simply a driver
+> accessing an EC on a set of PCs and/or laptops from Lenovo
+> which uses a vertain API for communication between EC and main
+> CPU.
+>
+> Such ECs are typically accessed through ACPI. Yet, in this driver
+> there is no mention of ACPI, much less any protection against
+> parallel use by ACPI code (that access lock in get_ec_reg() doesn't
+> even protect against parallel access from userspace, much less
+> against parallel access from other drivers or ACPI, for example
+> by using request_region() to reserve the used memory ranges).
+>
+> There needs to be explanations and clarifications
+> - Why this driver will only be used for communication with MEC172X
+>   based chips, and why the exact EC chip is relevant in the first place
+>   to be mentioned as much as it is.
+> - How it is guaranteed that the EC is not and will never be accessed
+>   through ACPI.
+> - How it is guaranteed that there will never be any other kernel drivers
+>   accessing the chip.
+>
+I assume for this we just need confirmation from the BIOS team that this is how it will be handled and it's intentional by design?
 
-Also add the flag RFTYPE_MON_BASE, which contains the files required for
-MON group only.
+Agreed this is normally done by ACPI, but my understanding is that it's not the case on these particular workstation platforms. FWIW Windows is also doing access by a separate driver. 
+I'm not sure why the design is done this way but will confirm to make sure.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
- arch/x86/kernel/cpu/resctrl/internal.h | 11 ++++---
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 42 +++++++++++++-------------
- 2 files changed, 27 insertions(+), 26 deletions(-)
+With regards to guaranteeing that no other kernel drivers access the chip - I'm not sure how we can ensure that. Or do you mean if another vendor is using this chip but with different platform IDs and want to use a similar driver? 
+For this case we can make the driver generic (rename it mec172x.c) so others could add their platform support in the future (the platform IDs will be unique). Either that or I can confirm with Microchip if this particular chip is Lenovo specific.
 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 62767774810d..f71bc82c882f 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -248,10 +248,11 @@ struct rdtgroup {
- #define RFTYPE_TOP			BIT(6)
- #define RFTYPE_RES_CACHE		BIT(8)
- #define RFTYPE_RES_MB			BIT(9)
--#define RF_CTRL_INFO			(RFTYPE_INFO | RFTYPE_CTRL)
--#define RF_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
--#define RF_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
--#define RF_CTRL_BASE			(RFTYPE_BASE | RFTYPE_CTRL)
-+#define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
-+#define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
-+#define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
-+#define RFTYPE_CTRL_BASE		(RFTYPE_BASE | RFTYPE_CTRL)
-+#define RFTYPE_MON_BASE			(RFTYPE_BASE | RFTYPE_MON)
- 
- /* List of all resource groups */
- extern struct list_head rdt_all_groups;
-@@ -267,7 +268,7 @@ void __exit rdtgroup_exit(void);
-  * @mode:	Access mode
-  * @kf_ops:	File operations
-  * @flags:	File specific RFTYPE_FLAGS_* flags
-- * @fflags:	File specific RF_* or RFTYPE_* flags
-+ * @fflags:	File specific RFTYPE_* flags
-  * @seq_show:	Show content of the file
-  * @write:	Write to the file
-  */
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 7ddfa4b470e6..35945b4bf196 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1705,77 +1705,77 @@ static struct rftype res_common_files[] = {
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_last_cmd_status_show,
--		.fflags		= RF_TOP_INFO,
-+		.fflags		= RFTYPE_TOP_INFO,
- 	},
- 	{
- 		.name		= "num_closids",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_num_closids_show,
--		.fflags		= RF_CTRL_INFO,
-+		.fflags		= RFTYPE_CTRL_INFO,
- 	},
- 	{
- 		.name		= "mon_features",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_mon_features_show,
--		.fflags		= RF_MON_INFO,
-+		.fflags		= RFTYPE_MON_INFO,
- 	},
- 	{
- 		.name		= "num_rmids",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_num_rmids_show,
--		.fflags		= RF_MON_INFO,
-+		.fflags		= RFTYPE_MON_INFO,
- 	},
- 	{
- 		.name		= "cbm_mask",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_default_ctrl_show,
--		.fflags		= RF_CTRL_INFO | RFTYPE_RES_CACHE,
-+		.fflags		= RFTYPE_CTRL_INFO | RFTYPE_RES_CACHE,
- 	},
- 	{
- 		.name		= "min_cbm_bits",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_min_cbm_bits_show,
--		.fflags		= RF_CTRL_INFO | RFTYPE_RES_CACHE,
-+		.fflags		= RFTYPE_CTRL_INFO | RFTYPE_RES_CACHE,
- 	},
- 	{
- 		.name		= "shareable_bits",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_shareable_bits_show,
--		.fflags		= RF_CTRL_INFO | RFTYPE_RES_CACHE,
-+		.fflags		= RFTYPE_CTRL_INFO | RFTYPE_RES_CACHE,
- 	},
- 	{
- 		.name		= "bit_usage",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_bit_usage_show,
--		.fflags		= RF_CTRL_INFO | RFTYPE_RES_CACHE,
-+		.fflags		= RFTYPE_CTRL_INFO | RFTYPE_RES_CACHE,
- 	},
- 	{
- 		.name		= "min_bandwidth",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_min_bw_show,
--		.fflags		= RF_CTRL_INFO | RFTYPE_RES_MB,
-+		.fflags		= RFTYPE_CTRL_INFO | RFTYPE_RES_MB,
- 	},
- 	{
- 		.name		= "bandwidth_gran",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_bw_gran_show,
--		.fflags		= RF_CTRL_INFO | RFTYPE_RES_MB,
-+		.fflags		= RFTYPE_CTRL_INFO | RFTYPE_RES_MB,
- 	},
- 	{
- 		.name		= "delay_linear",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdt_delay_linear_show,
--		.fflags		= RF_CTRL_INFO | RFTYPE_RES_MB,
-+		.fflags		= RFTYPE_CTRL_INFO | RFTYPE_RES_MB,
- 	},
- 	/*
- 	 * Platform specific which (if any) capabilities are provided by
-@@ -1794,7 +1794,7 @@ static struct rftype res_common_files[] = {
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.write		= max_threshold_occ_write,
- 		.seq_show	= max_threshold_occ_show,
--		.fflags		= RF_MON_INFO | RFTYPE_RES_CACHE,
-+		.fflags		= RFTYPE_MON_INFO | RFTYPE_RES_CACHE,
- 	},
- 	{
- 		.name		= "mbm_total_bytes_config",
-@@ -1841,7 +1841,7 @@ static struct rftype res_common_files[] = {
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.write		= rdtgroup_schemata_write,
- 		.seq_show	= rdtgroup_schemata_show,
--		.fflags		= RF_CTRL_BASE,
-+		.fflags		= RFTYPE_CTRL_BASE,
- 	},
- 	{
- 		.name		= "mode",
-@@ -1849,14 +1849,14 @@ static struct rftype res_common_files[] = {
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.write		= rdtgroup_mode_write,
- 		.seq_show	= rdtgroup_mode_show,
--		.fflags		= RF_CTRL_BASE,
-+		.fflags		= RFTYPE_CTRL_BASE,
- 	},
- 	{
- 		.name		= "size",
- 		.mode		= 0444,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= rdtgroup_size_show,
--		.fflags		= RF_CTRL_BASE,
-+		.fflags		= RFTYPE_CTRL_BASE,
- 	},
- 
- };
-@@ -1913,7 +1913,7 @@ void __init thread_throttle_mode_init(void)
- 	if (!rft)
- 		return;
- 
--	rft->fflags = RF_CTRL_INFO | RFTYPE_RES_MB;
-+	rft->fflags = RFTYPE_CTRL_INFO | RFTYPE_RES_MB;
- }
- 
- void __init mbm_config_rftype_init(const char *config)
-@@ -1922,7 +1922,7 @@ void __init mbm_config_rftype_init(const char *config)
- 
- 	rft = rdtgroup_get_rftype_by_name(config);
- 	if (rft)
--		rft->fflags = RF_MON_INFO | RFTYPE_RES_CACHE;
-+		rft->fflags = RFTYPE_MON_INFO | RFTYPE_RES_CACHE;
- }
- 
- /**
-@@ -2057,21 +2057,21 @@ static int rdtgroup_create_info_dir(struct kernfs_node *parent_kn)
- 	if (IS_ERR(kn_info))
- 		return PTR_ERR(kn_info);
- 
--	ret = rdtgroup_add_files(kn_info, RF_TOP_INFO);
-+	ret = rdtgroup_add_files(kn_info, RFTYPE_TOP_INFO);
- 	if (ret)
- 		goto out_destroy;
- 
- 	/* loop over enabled controls, these are all alloc_capable */
- 	list_for_each_entry(s, &resctrl_schema_all, list) {
- 		r = s->res;
--		fflags =  r->fflags | RF_CTRL_INFO;
-+		fflags = r->fflags | RFTYPE_CTRL_INFO;
- 		ret = rdtgroup_mkdir_info_resdir(s, s->name, fflags);
- 		if (ret)
- 			goto out_destroy;
- 	}
- 
- 	for_each_mon_capable_rdt_resource(r) {
--		fflags =  r->fflags | RF_MON_INFO;
-+		fflags = r->fflags | RFTYPE_MON_INFO;
- 		sprintf(name, "%s_MON", r->name);
- 		ret = rdtgroup_mkdir_info_resdir(r, name, fflags);
- 		if (ret)
-@@ -3709,7 +3709,7 @@ static int __init rdtgroup_setup_root(void)
- 
- 	list_add(&rdtgroup_default.rdtgroup_list, &rdt_all_groups);
- 
--	ret = rdtgroup_add_files(kernfs_root_to_node(rdt_root), RF_CTRL_BASE);
-+	ret = rdtgroup_add_files(kernfs_root_to_node(rdt_root), RFTYPE_CTRL_BASE);
- 	if (ret) {
- 		kernfs_destroy_root(rdt_root);
- 		goto out;
--- 
-2.34.1
+Let me know if I'm misunderstanding or missing something obvious here. Ack on reserving the region.
 
+>> ---
+>>  drivers/hwmon/Kconfig             |  10 +
+>>  drivers/hwmon/Makefile            |   1 +
+>>  drivers/hwmon/lenovo-ec-sensors.c | 471 ++++++++++++++++++++++++++++++
+>
+> Documentation missing.
+Ack. I assume under Documentation/hwmon
+
+Thanks for the review
+Mark
