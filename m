@@ -2,77 +2,305 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 282AFEE644D
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 09:37:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5066EE6456
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 10:52:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233742AbjIOJh0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 05:37:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50044 "EHLO
+        id S234290AbjIOKwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 06:52:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233707AbjIOJhZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 05:37:25 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 00EB82126;
-        Fri, 15 Sep 2023 02:37:19 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0EBCEC15;
-        Fri, 15 Sep 2023 02:37:57 -0700 (PDT)
-Received: from a077893.arm.com (unknown [10.163.62.147])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 980DF3F67D;
-        Fri, 15 Sep 2023 02:37:15 -0700 (PDT)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V5 - RESEND 3/3] Documentation: coresight: Add cc_threshold tunable
-Date:   Fri, 15 Sep 2023 15:06:49 +0530
-Message-Id: <20230915093649.435163-4-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230915093649.435163-1-anshuman.khandual@arm.com>
-References: <20230915093649.435163-1-anshuman.khandual@arm.com>
+        with ESMTP id S234024AbjIOKwM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 06:52:12 -0400
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89AAC1724
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 03:51:14 -0700 (PDT)
+Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3aca1543608so1291485b6e.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 03:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1694775074; x=1695379874; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FMemAtij3QQ2cXjoF+WzKzZ8e+4oePAFLp1g/05J6tM=;
+        b=fJ+K494JExu3lMQiadnjjuT8H5rlkqAZvtkh++h8iRWoL+aG95T4jFzUCILVXoO+XD
+         iAW62cUycuWR5IGJiFkGzjJ9QdGqIAAflvNMRcCEOQxzUd9Le1SIG4dxEsIETRl8czi3
+         ktAbmTR98mz4qkLdcAeMyiO5UlmuB7nrGs2L0gZcXygQfGhgFVCkXqGasUPPZE0dkncO
+         YfRzbfsPZZIZRJs5UUhf9Lrgrq2KMftrxtSAQ9kfqU3jdqc6HEAnLtgSasrSdURxfLty
+         RGHJRCovra0SI+NWOgW2lLRJht0JJK9nNiHTlfYiT+Fr05IKRe/BMYG6k4pd9zMgxfWl
+         eoLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694775074; x=1695379874;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FMemAtij3QQ2cXjoF+WzKzZ8e+4oePAFLp1g/05J6tM=;
+        b=uXj9IfH/5OLYnIM/djOACFmOLOf/fu2JdaUOVOdfnkOk3vVmnqex494H2xbBGeqiMN
+         ZgBMFB+pi9OeCO3GudZC7RwywT2/W07VhzZY9Zmz8wveT9Bm2mE4Cm0scebr7um24Zbi
+         YggRTI8xLX4L+Ng4P8DHKK2F0PoBChY6ZHxAxCzC7WuyQx+1aqNGlL3aaucQ1kfw25yC
+         WR9MJC5kNVNH/c7UDJRCs4oAstbx3F+w9YCOUKL8NYgHB1lhndxELW77H+bIuQ/9KMUH
+         Oi4SL5PvPjoUvtzcTs1mR3BFqY3AtPulxqWsu3m7Ulh2qsOj6O6O9cw3AFQutupxHEDJ
+         nG8g==
+X-Gm-Message-State: AOJu0Yy9yazR5DMYZvUzORrwWUDH2nLlvtZRVAPlbIY5kdo7IXtAQLrF
+        5KEhsrm83p3pONRTwicauXlo/g==
+X-Google-Smtp-Source: AGHT+IE8hoOsQCR8UcTdFU89pxisuTMaAPXw+AksO/nfKr2adb7Bh7PbfzrJejxqE39Bhf5wqZsPkA==
+X-Received: by 2002:aca:1319:0:b0:3ab:8431:8037 with SMTP id e25-20020aca1319000000b003ab84318037mr1265084oii.32.1694775073742;
+        Fri, 15 Sep 2023 03:51:13 -0700 (PDT)
+Received: from [10.254.225.85] ([139.177.225.243])
+        by smtp.gmail.com with ESMTPSA id v14-20020aa7850e000000b00682c864f35bsm2837978pfn.140.2023.09.15.03.51.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Sep 2023 03:51:13 -0700 (PDT)
+Message-ID: <2868f2d5-1abe-7af6-4196-ee53cfae76a9@bytedance.com>
+Date:   Fri, 15 Sep 2023 18:51:04 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.1
+Subject: Re: [PATCH v2 6/6] fork: Use __mt_dup() to duplicate maple tree in
+ dup_mmap()
+To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+        Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, willy@infradead.org, brauner@kernel.org,
+        surenb@google.com, michael.christie@oracle.com,
+        peterz@infradead.org, mathieu.desnoyers@efficios.com,
+        npiggin@gmail.com, avagin@gmail.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20230830125654.21257-1-zhangpeng.00@bytedance.com>
+ <20230830125654.21257-7-zhangpeng.00@bytedance.com>
+ <20230907201414.dagnqxfnu7f7qzxd@revolver>
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+In-Reply-To: <20230907201414.dagnqxfnu7f7qzxd@revolver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This updates config option to include 'cc_threshold' tunable value.
 
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: Mike Leach <mike.leach@linaro.org>
-Cc: James Clark <james.clark@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: coresight@lists.linaro.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Reviewed by: Mike Leach <mike.leach@linaro.org>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- Documentation/trace/coresight/coresight.rst | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 4a71ea6cb390..ce55adb80b82 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -624,6 +624,10 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
-    * - timestamp
-      - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
-        <coresight-timestamp>`
-+   * - cc_threshold
-+     - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
-+       default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
-+       value, as indicated via TRCIDR3.CCITMIN, then the minimum value will be used instead.
- 
- How to use the STM module
- -------------------------
--- 
-2.25.1
+在 2023/9/8 04:14, Liam R. Howlett 写道:
+> * Peng Zhang <zhangpeng.00@bytedance.com> [230830 08:58]:
+>> Use __mt_dup() to duplicate the old maple tree in dup_mmap(), and then
+>> directly modify the entries of VMAs in the new maple tree, which can
+>> get better performance. The optimization effect is proportional to the
+>> number of VMAs.
+>>
+>> There is a "spawn" in byte-unixbench[1], which can be used to test the
+>> performance of fork(). I modified it slightly to make it work with
+>> different number of VMAs.
+>>
+>> Below are the test numbers. There are 21 VMAs by default. The first row
+>> indicates the number of added VMAs. The following two lines are the
+>> number of fork() calls every 10 seconds. These numbers are different
+>> from the test results in v1 because this time the benchmark is bound to
+>> a CPU. This way the numbers are more stable.
+>>
+>>    Increment of VMAs: 0      100     200     400     800     1600    3200    6400
+>> 6.5.0-next-20230829: 111878 75531   53683   35282   20741   11317   6110    3158
+>> Apply this patchset: 114531 85420   64541   44592   28660   16371   9038    4831
+>>                       +2.37% +13.09% +20.23% +26.39% +38.18% +44.66% +47.92% +52.98%
+> 
+> Thanks!
+> 
+> Can you include 21 in this table since it's the default?
+> 
+>>
+>> [1] https://github.com/kdlucas/byte-unixbench/tree/master
+>>
+>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+>> ---
+>>   kernel/fork.c | 34 ++++++++++++++++++++++++++--------
+>>   mm/mmap.c     | 14 ++++++++++++--
+>>   2 files changed, 38 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/kernel/fork.c b/kernel/fork.c
+>> index 3b6d20dfb9a8..e6299adefbd8 100644
+>> --- a/kernel/fork.c
+>> +++ b/kernel/fork.c
+>> @@ -650,7 +650,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>>   	int retval;
+>>   	unsigned long charge = 0;
+>>   	LIST_HEAD(uf);
+>> -	VMA_ITERATOR(old_vmi, oldmm, 0);
+>>   	VMA_ITERATOR(vmi, mm, 0);
+>>   
+>>   	uprobe_start_dup_mmap();
+>> @@ -678,17 +677,39 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>>   		goto out;
+>>   	khugepaged_fork(mm, oldmm);
+>>   
+>> -	retval = vma_iter_bulk_alloc(&vmi, oldmm->map_count);
+>> -	if (retval)
+>> +	/* Use __mt_dup() to efficiently build an identical maple tree. */
+>> +	retval = __mt_dup(&oldmm->mm_mt, &mm->mm_mt, GFP_NOWAIT | __GFP_NOWARN);
+> 
+> Apparently the flags should be GFP_KERNEL here so that compaction can
+> run.
+> 
+>> +	if (unlikely(retval))
+>>   		goto out;
+>>   
+>>   	mt_clear_in_rcu(vmi.mas.tree);
+>> -	for_each_vma(old_vmi, mpnt) {
+>> +	for_each_vma(vmi, mpnt) {
+>>   		struct file *file;
+>>   
+>>   		vma_start_write(mpnt);
+>>   		if (mpnt->vm_flags & VM_DONTCOPY) {
+>>   			vm_stat_account(mm, mpnt->vm_flags, -vma_pages(mpnt));
+>> +
+>> +			/*
+>> +			 * Since the new tree is exactly the same as the old one,
+>> +			 * we need to remove the unneeded VMAs.
+>> +			 */
+>> +			mas_store(&vmi.mas, NULL);
+>> +
+>> +			/*
+>> +			 * Even removing an entry may require memory allocation,
+>> +			 * and if removal fails, we use XA_ZERO_ENTRY to mark
+>> +			 * from which VMA it failed. The case of encountering
+>> +			 * XA_ZERO_ENTRY will be handled in exit_mmap().
+>> +			 */
+>> +			if (unlikely(mas_is_err(&vmi.mas))) {
+>> +				retval = xa_err(vmi.mas.node);
+>> +				mas_reset(&vmi.mas);
+>> +				if (mas_find(&vmi.mas, ULONG_MAX))
+>> +					mas_store(&vmi.mas, XA_ZERO_ENTRY);
+>> +				goto loop_out;
+>> +			}
+>> +
+> 
+> Storing NULL may need extra space as you noted, so we need to be careful
+> what happens if we don't have that space.  We should have a testcase to
+> test this scenario.
+> 
+> mas_store_gfp() should be used with GFP_KERNEL.  The VMAs use GFP_KERNEL
+> in this function, see vm_area_dup().
+> 
+> Don't use the exit_mmap() path to undo a failed fork.  You've added
+> checks and complications to the exit path for all tasks in the very
+> unlikely event that we run out of memory when we hit a very unlikely
+> VM_DONTCOPY flag.
+> 
+> I see the issue with having a portion of the tree with new VMAs that are
+> accounted and a portion of the tree that has old VMAs that should not be
+> looked at.  It was clever to use the XA_ZERO_ENTRY as a stop point, but
+> we cannot add that complication to the exit path and then there is the
+> OOM race to worry about (maybe, I am not sure since this MM isn't
+> active yet).
+I encountered some errors after implementing the scheme you mentioned
+below. This would also clutter fork.c and mmap.c, as some internal
+functions would need to be made global.
 
+I thought of another way to put everything into maple tree. In non-RCU
+mode, we can remove the last half of the tree without allocating any
+memory. This requires modifications to the internal implementation of
+mas_store().
+Then remove the second half of the tree like this:
+
+mas.index = 0;
+mas.last = ULONGN_MAX;
+mas_store(&mas, NULL).
+
+At least in non-RCU mode, we can do this, since we only need to merge
+some nodes, or move some items to adjacent nodes.
+However, this will increase the workload significantly.
+
+> 
+> Using what is done in exit_mmap() and do_vmi_align_munmap() as a
+> prototype, we can do something like the *untested* code below:
+> 
+> if (unlikely(mas_is_err(&vmi.mas))) {
+> 	unsigned long max = vmi.index;
+> 
+> 	retval = xa_err(vmi.mas.node);
+> 	mas_set(&vmi.mas, 0);
+> 	tmp = mas_find(&vmi.mas, ULONG_MAX);
+> 	if (tmp) { /* Not the first VMA failed */
+> 		unsigned long nr_accounted = 0;
+> 
+> 		unmap_region(mm, &vmi.mas, vma, NULL, mpnt, 0, max, max,
+> 				true);
+> 		do {
+> 			if (vma->vm_flags & VM_ACCOUNT)
+> 				nr_accounted += vma_pages(vma);
+> 			remove_vma(vma, true);
+> 			cond_resched();
+> 			vma = mas_find(&vmi.mas, max - 1);
+> 		} while (vma != NULL);
+> 
+> 		vm_unacct_memory(nr_accounted);
+> 	}
+> 	__mt_destroy(&mm->mm_mt);
+> 	goto loop_out;
+> }
+> 
+> Once exit_mmap() is called, the check for OOM (no vma) will catch that
+> nothing is left to do.
+> 
+> It might be worth making an inline function to do this to keep the fork
+> code clean.  We should test this by detecting a specific task name and
+> returning a failure at a given interval:
+> 
+> if (!strcmp(current->comm, "fork_test") {
+> ...
+> }
+> 
+> 
+>>   			continue;
+>>   		}
+>>   		charge = 0;
+>> @@ -750,8 +771,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>>   			hugetlb_dup_vma_private(tmp);
+>>   
+>>   		/* Link the vma into the MT */
+>> -		if (vma_iter_bulk_store(&vmi, tmp))
+>> -			goto fail_nomem_vmi_store;
+>> +		mas_store(&vmi.mas, tmp);
+>>   
+>>   		mm->map_count++;
+>>   		if (!(tmp->vm_flags & VM_WIPEONFORK))
+>> @@ -778,8 +798,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>>   	uprobe_end_dup_mmap();
+>>   	return retval;
+>>   
+>> -fail_nomem_vmi_store:
+>> -	unlink_anon_vmas(tmp);
+>>   fail_nomem_anon_vma_fork:
+>>   	mpol_put(vma_policy(tmp));
+>>   fail_nomem_policy:
+>> diff --git a/mm/mmap.c b/mm/mmap.c
+>> index b56a7f0c9f85..dfc6881be81c 100644
+>> --- a/mm/mmap.c
+>> +++ b/mm/mmap.c
+>> @@ -3196,7 +3196,11 @@ void exit_mmap(struct mm_struct *mm)
+>>   	arch_exit_mmap(mm);
+>>   
+>>   	vma = mas_find(&mas, ULONG_MAX);
+>> -	if (!vma) {
+>> +	/*
+>> +	 * If dup_mmap() fails to remove a VMA marked VM_DONTCOPY,
+>> +	 * xa_is_zero(vma) may be true.
+>> +	 */
+>> +	if (!vma || xa_is_zero(vma)) {
+>>   		/* Can happen if dup_mmap() received an OOM */
+>>   		mmap_read_unlock(mm);
+>>   		return;
+>> @@ -3234,7 +3238,13 @@ void exit_mmap(struct mm_struct *mm)
+>>   		remove_vma(vma, true);
+>>   		count++;
+>>   		cond_resched();
+>> -	} while ((vma = mas_find(&mas, ULONG_MAX)) != NULL);
+>> +		vma = mas_find(&mas, ULONG_MAX);
+>> +		/*
+>> +		 * If xa_is_zero(vma) is true, it means that subsequent VMAs
+>> +		 * donot need to be removed. Can happen if dup_mmap() fails to
+>> +		 * remove a VMA marked VM_DONTCOPY.
+>> +		 */
+>> +	} while (vma != NULL && !xa_is_zero(vma));
+>>   
+>>   	BUG_ON(count != mm->map_count);
+>>   
+>> -- 
+>> 2.20.1
+>>
+> 
