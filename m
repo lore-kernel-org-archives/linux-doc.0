@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25FFECD37AC
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 21:04:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B2B8CD37AA
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 21:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237464AbjIOVED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 17:04:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41772 "EHLO
+        id S237514AbjIOVGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 17:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237742AbjIOVDj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 17:03:39 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B3419F
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:03:23 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-68fba57030fso2451426b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:03:23 -0700 (PDT)
+        with ESMTP id S237932AbjIOVGm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 17:06:42 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08D4CC4
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:06:26 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-68fb79ef55eso2378791b3a.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694811803; x=1695416603; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1694811986; x=1695416786; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=APHJKdyAi/Un1XPHZn1Z1pQZW4vCCHalitDLmyiouTQ=;
-        b=dx8DPTvbuSlh9TpzZol3/Gyx4GRxRBcPwEjUuOrFdZrrcIkqYUyXgAfBmgY4WsF03M
-         hPSwrZPbIXM6+8W2CTfEJ/r3EcWQ8DnB2VTdZ8+5HDZ62Fj5w4nHKOruLoJ9uNXREkya
-         nkJnIDPHkznSwrax0w/JCkGyXb1kCiTaYYts4=
+        bh=sWYMfZmYzixMw5Wj94BXAnknUexxKUO9Nr6vnuKcqis=;
+        b=I7+jUhH84RZRrwHTCcuFDibxcZyLsCd1RjJOZFopdLECQWpuBM6Chy5quuvOpjY4YM
+         V44WDEVWhzGGNO5K29fIKLbB4YA5dqgiPZNSnMSCf7rvsWzkNFk6zH1oZleX01OVRvXX
+         c5DbfPgaLI549587Fb+IXfQz+CZmkO/x7IOog=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694811803; x=1695416603;
+        d=1e100.net; s=20230601; t=1694811986; x=1695416786;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=APHJKdyAi/Un1XPHZn1Z1pQZW4vCCHalitDLmyiouTQ=;
-        b=b3cuDcY5e+pbI2YXt/YGyKeAJu7Um18nJgT6kh8qUr2D9edYhKRbuHx9SQDVvZ0Ulp
-         OzSG3YsFQH0Rg7urOShDt7I72MBgn7jJJnyXGSsBpn3tohR1qdWxMdMOWqZKGaUn9hYc
-         rJcASLSNK6XvcuOxz8mxbbLQ4fC11dyGkdJPk9zPZkI5TlgBV+Fp/JCJRIMq1HPQOn8z
-         e97Gcnj0/V5bTQzGevHczYX3CmFtAEA4j/bbgFJOQxN8Or+TN0qKvMa7eUENuWLJjll5
-         b7plbKKhlW5ixfEgDA8U8CZ5gZarPRvcYgXGTW0KmqlTxH33tUETBZSov5H5TTPkfAMW
-         tPbw==
-X-Gm-Message-State: AOJu0Yw0h4qg91EorpwX+5RlH8j54pxE2yqbfpYwzkAxkTIweJ+zVers
-        dr7w0rg0mZK7YwqJhFBpyVNCBQ==
-X-Google-Smtp-Source: AGHT+IH9giN0oiNJip6NSPrpp8FYJe9UYAjCNYEhPQYuBGuLm0ngXdsbwkHYQMIrzQrQbvKrNld2xQ==
-X-Received: by 2002:a05:6a20:320d:b0:14b:8023:33c8 with SMTP id hl13-20020a056a20320d00b0014b802333c8mr2834160pzc.2.1694811803227;
-        Fri, 15 Sep 2023 14:03:23 -0700 (PDT)
+        bh=sWYMfZmYzixMw5Wj94BXAnknUexxKUO9Nr6vnuKcqis=;
+        b=SQ/M3tZsanT49/r1r6r41DDROm1X6ZkhaQpdROFr8gsAtA8GzruPf2HPqyTiCWdda4
+         Wwuo2tBkfv/eaNkJcbG5fs4AKrkamnpdH7T58VNrFxcKIVMauI+j/YLtLfn7F2tB3Tkv
+         gprLxi+YHItE61HlMJT5jUApo3ZnpSXaKrzpUJaHr/NZie66BF3BpgWp0bBtt8r4jtzR
+         MIFUcnivn8Eg+uTjPGVutk2Di7sbqLXirMqFfvzOgrPPRAfuWgieSktXgw6y1hngfOdC
+         SzXeZ2QS3m/7/GM4Curg4N+wNTbMdEICOsFVBsY7qfJ6GDxtY61CQmCC9BdxnUOwkEvB
+         rLeA==
+X-Gm-Message-State: AOJu0YxT+cMPg8pfNcFr86nNq2O8SYRN+pgLe2ZHVgos9hMc/06em9Lf
+        toZU1zRZbrPvmv87IQaJEMTuqw==
+X-Google-Smtp-Source: AGHT+IEqb9glFqR0LSiulXgUW5CKMVUOPBjgUHY3VfZDvGmOAuYzOtvUasxUFHUypis7+bgW99YIsQ==
+X-Received: by 2002:a05:6a21:6da2:b0:153:b245:50ff with SMTP id wl34-20020a056a216da200b00153b24550ffmr3685579pzb.40.1694811986264;
+        Fri, 15 Sep 2023 14:06:26 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id bv6-20020a632e06000000b0056001f43726sm3098867pgb.92.2023.09.15.14.03.22
+        by smtp.gmail.com with ESMTPSA id l2-20020a17090aaa8200b00262ca945cecsm5149986pjq.54.2023.09.15.14.06.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 14:03:22 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 14:03:22 -0700
+        Fri, 15 Sep 2023 14:06:25 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 14:06:25 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Matteo Rizzo <matteorizzo@google.com>
 Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
@@ -58,35 +58,221 @@ Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
         corbet@lwn.net, luto@kernel.org, peterz@infradead.org,
         jannh@google.com, evn@google.com, poprdi@google.com,
         jordyzomer@google.com
-Subject: Re: [RFC PATCH 06/14] mm/slub: pass additional args to
- alloc_slab_page
-Message-ID: <202309151403.49D5C3CB@keescook>
+Subject: Re: [RFC PATCH 07/14] mm/slub: pass slab pointer to the freeptr
+ decode helper
+Message-ID: <202309151404.B24C17C@keescook>
 References: <20230915105933.495735-1-matteorizzo@google.com>
- <20230915105933.495735-7-matteorizzo@google.com>
+ <20230915105933.495735-8-matteorizzo@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230915105933.495735-7-matteorizzo@google.com>
+In-Reply-To: <20230915105933.495735-8-matteorizzo@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 10:59:25AM +0000, Matteo Rizzo wrote:
+On Fri, Sep 15, 2023 at 10:59:26AM +0000, Matteo Rizzo wrote:
 > From: Jann Horn <jannh@google.com>
 > 
-> This is refactoring in preparation for SLAB_VIRTUAL.
-> 
-> The implementation of SLAB_VIRTUAL needs access to struct kmem_cache in
-> alloc_slab_page in order to take unused slabs from the slab freelist,
-> which is per-cache.
-> 
-> In addition to that it passes two different sets of GFP flags.
-> meta_gfp_flags is used for the memory backing the metadata region and
-> page tables, and gfp_flags for the data memory.
+> This is refactoring in preparation for checking freeptrs for corruption
+> inside freelist_ptr_decode().
 > 
 > Signed-off-by: Jann Horn <jannh@google.com>
+> Co-developed-by: Matteo Rizzo <matteorizzo@google.com>
+> Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
+> ---
+>  mm/slub.c | 43 +++++++++++++++++++++++--------------------
+>  1 file changed, 23 insertions(+), 20 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index eaa1256aff89..42e7cc0b4452 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -383,7 +383,8 @@ static inline freeptr_t freelist_ptr_encode(const struct kmem_cache *s,
+>  }
+>  
+>  static inline void *freelist_ptr_decode(const struct kmem_cache *s,
+> -					freeptr_t ptr, unsigned long ptr_addr)
+> +					freeptr_t ptr, unsigned long ptr_addr,
+> +					struct slab *slab)
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Can't "s" be dropped in these cases, since "s" should be
+"slab->kmem_cache"?
+
+>  {
+>  	void *decoded;
+>  
+> @@ -395,7 +396,8 @@ static inline void *freelist_ptr_decode(const struct kmem_cache *s,
+>  	return decoded;
+>  }
+>  
+> -static inline void *get_freepointer(struct kmem_cache *s, void *object)
+> +static inline void *get_freepointer(struct kmem_cache *s, void *object,
+> +				    struct slab *slab)
+>  {
+>  	unsigned long ptr_addr;
+>  	freeptr_t p;
+> @@ -403,7 +405,7 @@ static inline void *get_freepointer(struct kmem_cache *s, void *object)
+>  	object = kasan_reset_tag(object);
+>  	ptr_addr = (unsigned long)object + s->offset;
+>  	p = *(freeptr_t *)(ptr_addr);
+> -	return freelist_ptr_decode(s, p, ptr_addr);
+> +	return freelist_ptr_decode(s, p, ptr_addr, slab);
+>  }
+>  
+>  #ifndef CONFIG_SLUB_TINY
+> @@ -424,18 +426,19 @@ static void prefetch_freepointer(const struct kmem_cache *s, void *object)
+>   * get_freepointer_safe() returns initialized memory.
+>   */
+>  __no_kmsan_checks
+> -static inline void *get_freepointer_safe(struct kmem_cache *s, void *object)
+> +static inline void *get_freepointer_safe(struct kmem_cache *s, void *object,
+> +					     struct slab *slab)
+>  {
+>  	unsigned long freepointer_addr;
+>  	freeptr_t p;
+>  
+>  	if (!debug_pagealloc_enabled_static())
+> -		return get_freepointer(s, object);
+> +		return get_freepointer(s, object, slab);
+>  
+>  	object = kasan_reset_tag(object);
+>  	freepointer_addr = (unsigned long)object + s->offset;
+>  	copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
+> -	return freelist_ptr_decode(s, p, freepointer_addr);
+> +	return freelist_ptr_decode(s, p, freepointer_addr, slab);
+>  }
+>  
+>  static inline void set_freepointer(struct kmem_cache *s, void *object, void *fp)
+> @@ -627,7 +630,7 @@ static void __fill_map(unsigned long *obj_map, struct kmem_cache *s,
+>  
+>  	bitmap_zero(obj_map, slab->objects);
+>  
+> -	for (p = slab->freelist; p; p = get_freepointer(s, p))
+> +	for (p = slab->freelist; p; p = get_freepointer(s, p, slab))
+>  		set_bit(__obj_to_index(s, addr, p), obj_map);
+>  }
+>  
+> @@ -937,7 +940,7 @@ static void print_trailer(struct kmem_cache *s, struct slab *slab, u8 *p)
+>  	print_slab_info(slab);
+>  
+>  	pr_err("Object 0x%p @offset=%tu fp=0x%p\n\n",
+> -	       p, p - addr, get_freepointer(s, p));
+> +	       p, p - addr, get_freepointer(s, p, slab));
+>  
+>  	if (s->flags & SLAB_RED_ZONE)
+>  		print_section(KERN_ERR, "Redzone  ", p - s->red_left_pad,
+> @@ -1230,7 +1233,7 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
+>  		return 1;
+>  
+>  	/* Check free pointer validity */
+> -	if (!check_valid_pointer(s, slab, get_freepointer(s, p))) {
+> +	if (!check_valid_pointer(s, slab, get_freepointer(s, p, slab))) {
+>  		object_err(s, slab, p, "Freepointer corrupt");
+>  		/*
+>  		 * No choice but to zap it and thus lose the remainder
+> @@ -1298,7 +1301,7 @@ static int on_freelist(struct kmem_cache *s, struct slab *slab, void *search)
+>  			break;
+>  		}
+>  		object = fp;
+> -		fp = get_freepointer(s, object);
+> +		fp = get_freepointer(s, object, slab);
+>  		nr++;
+>  	}
+>  
+> @@ -1810,7 +1813,7 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+>  		object = next;
+>  		/* Single objects don't actually contain a freepointer */
+>  		if (object != old_tail)
+> -			next = get_freepointer(s, object);
+> +			next = get_freepointer(s, object, virt_to_slab(object));
+>  
+>  		/* If object's reuse doesn't have to be delayed */
+>  		if (!slab_free_hook(s, object, slab_want_init_on_free(s))) {
+> @@ -2161,7 +2164,7 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
+>  	lockdep_assert_held(&n->list_lock);
+>  
+>  	object = slab->freelist;
+> -	slab->freelist = get_freepointer(s, object);
+> +	slab->freelist = get_freepointer(s, object, slab);
+>  	slab->inuse++;
+>  
+>  	if (!alloc_debug_processing(s, slab, object, orig_size)) {
+> @@ -2192,7 +2195,7 @@ static void *alloc_single_from_new_slab(struct kmem_cache *s,
+>  
+>  
+>  	object = slab->freelist;
+> -	slab->freelist = get_freepointer(s, object);
+> +	slab->freelist = get_freepointer(s, object, slab);
+>  	slab->inuse = 1;
+>  
+>  	if (!alloc_debug_processing(s, slab, object, orig_size))
+> @@ -2517,7 +2520,7 @@ static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
+>  	freelist_tail = NULL;
+>  	freelist_iter = freelist;
+>  	while (freelist_iter) {
+> -		nextfree = get_freepointer(s, freelist_iter);
+> +		nextfree = get_freepointer(s, freelist_iter, slab);
+>  
+>  		/*
+>  		 * If 'nextfree' is invalid, it is possible that the object at
+> @@ -2944,7 +2947,7 @@ static inline bool free_debug_processing(struct kmem_cache *s,
+>  
+>  	/* Reached end of constructed freelist yet? */
+>  	if (object != tail) {
+> -		object = get_freepointer(s, object);
+> +		object = get_freepointer(s, object, slab);
+>  		goto next_object;
+>  	}
+>  	checks_ok = true;
+> @@ -3173,7 +3176,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+>  	 * That slab must be frozen for per cpu allocations to work.
+>  	 */
+>  	VM_BUG_ON(!c->slab->frozen);
+> -	c->freelist = get_freepointer(s, freelist);
+> +	c->freelist = get_freepointer(s, freelist, c->slab);
+>  	c->tid = next_tid(c->tid);
+>  	local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+>  	return freelist;
+> @@ -3275,7 +3278,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+>  		 * For !pfmemalloc_match() case we don't load freelist so that
+>  		 * we don't make further mismatched allocations easier.
+>  		 */
+> -		deactivate_slab(s, slab, get_freepointer(s, freelist));
+> +		deactivate_slab(s, slab, get_freepointer(s, freelist, slab));
+>  		return freelist;
+>  	}
+>  
+> @@ -3377,7 +3380,7 @@ static __always_inline void *__slab_alloc_node(struct kmem_cache *s,
+>  	    unlikely(!object || !slab || !node_match(slab, node))) {
+>  		object = __slab_alloc(s, gfpflags, node, addr, c, orig_size);
+>  	} else {
+> -		void *next_object = get_freepointer_safe(s, object);
+> +		void *next_object = get_freepointer_safe(s, object, slab);
+>  
+>  		/*
+>  		 * The cmpxchg will only match if there was no additional
+> @@ -3984,7 +3987,7 @@ static inline int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
+>  
+>  			continue; /* goto for-loop */
+>  		}
+> -		c->freelist = get_freepointer(s, object);
+> +		c->freelist = get_freepointer(s, object, c->slab);
+>  		p[i] = object;
+>  		maybe_wipe_obj_freeptr(s, p[i]);
+>  	}
+> @@ -4275,7 +4278,7 @@ static void early_kmem_cache_node_alloc(int node)
+>  	init_tracking(kmem_cache_node, n);
+>  #endif
+>  	n = kasan_slab_alloc(kmem_cache_node, n, GFP_KERNEL, false);
+> -	slab->freelist = get_freepointer(kmem_cache_node, n);
+> +	slab->freelist = get_freepointer(kmem_cache_node, n, slab);
+>  	slab->inuse = 1;
+>  	kmem_cache_node->node[node] = n;
+>  	init_kmem_cache_node(n);
+> -- 
+> 2.42.0.459.ge4e396fd5e-goog
+> 
 
 -- 
 Kees Cook
