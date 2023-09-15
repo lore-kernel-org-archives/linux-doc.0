@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E82C46CA1
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 20:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15935CD37AF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 20:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237486AbjIOUwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 16:52:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
+        id S237547AbjIOU5e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 16:57:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237792AbjIOUwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 16:52:24 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB47735BD
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 13:50:02 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1bf7a6509deso20538115ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 13:50:02 -0700 (PDT)
+        with ESMTP id S237651AbjIOU5H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 16:57:07 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BDB63C39
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 13:55:45 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-68fe2470d81so2342199b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 13:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694811001; x=1695415801; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1694811344; x=1695416144; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pixcN5Y1AubjMBamu4r0/OjVDhrvJd2jJgNFr0zPGBA=;
-        b=HuODhYelyacRY9HlytTsIm4B7wz8OazwsD1/3T8eipUeYOw7pRmK87nYD+La4M2ERL
-         c+7i0KKd0WStxwghrx1gk/tXpFGLX6oCJQ8XsXYFkD4z/28YqyucPyx/EH8c5tVvxeQ4
-         l6Cr7hN2AKgTyDnzeP4hXi1kaJYFNVGjzbZTA=
+        bh=FkxHnFcmMcOMVwxYBLP2mYBTJKUa1NHaUTZS5wLWw3k=;
+        b=a+/gfJngVdry1Be16KTvMeO7mVaGXI4sKn86YgZm607cYAUesifA4/kfIf6SBIJB3w
+         Elr5VH7IesYXY1R7eYiOr0vuc0ULiZbuSDHKuPjc/2GliQRYGDS/Ck6lTauCuUfHcnJf
+         QQzS6XIeZyzel4v2IDmm0VVXZ7FiRf0vlKQaQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694811001; x=1695415801;
+        d=1e100.net; s=20230601; t=1694811345; x=1695416145;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pixcN5Y1AubjMBamu4r0/OjVDhrvJd2jJgNFr0zPGBA=;
-        b=J92MTPgGSi7j3FtaEFbrhmDXx2NP8Y4mTJaR1jq0wfuZaNf1EiyLnaJ8UKdazodptA
-         +xogSukKejEc3xDUj3NXKS35+4fc+RP3qh3kcB7+XBWrYBCWMuQF1DX/U84qVATUL4ls
-         9ym34rE1uLc4sgFRYJfT4k5FP1kHraujZWAq49SRM22PcHKW7EOrOmp2zBXfWE/WKous
-         Px+GwkmCdZ9cGj66gvLCzRObzTVLM47wPpNUb+BQ1h25u76QIYYq/Gx9NqfHWLrQISN5
-         Y+F5PTi+kYS3YLuLFZDFly34N/7uWZQ0zssC0Lu2r3QNooJvMbGgCuxO+eTvD6f0eULI
-         ZUKA==
-X-Gm-Message-State: AOJu0YzEC0UmHRNhaAALN0pvftVi19+huRJ/J/3/sB5kA9hvIqQHCGnr
-        ujGyu98tJqTq+kUvVWnfKEx8SA==
-X-Google-Smtp-Source: AGHT+IFG5RbkUmAUyhtbRZ65uLoK2tgVIeCtTHS/dvTIeIuGjUg4Cs9dHFp2ggbnq+0cI4RujnJy7g==
-X-Received: by 2002:a17:902:d4c7:b0:1c1:e52e:49e3 with SMTP id o7-20020a170902d4c700b001c1e52e49e3mr2611409plg.36.1694811001209;
-        Fri, 15 Sep 2023 13:50:01 -0700 (PDT)
+        bh=FkxHnFcmMcOMVwxYBLP2mYBTJKUa1NHaUTZS5wLWw3k=;
+        b=hXblkS/a7jHCA4iHOJSzMxYb4TRT2VXYl7aX7wsbtgFSvo4AbOyiPLC8bvjlywPWVu
+         V/X7n9X9iunUgOiDMlwADyLbQcNHZeVv6sTHkvd5KS+V7X4cBawZzl1Hs5bNtdLcFQGk
+         +xp7Gnl1RcEOHDMfaCBv1Ee+T7uDDCsHrIDKWTGxuTuwTjky2ZTtla5N3/TWem7vEYh3
+         TXTS9dFolNWXbKTCwEBFAWJItig5X1efJQUuSyXLJgAywdwxT0zvAMX45Kh7DHBlLPiM
+         nc3HjcmGv2oMSlZesiD7t8ubSbMlxZLxaI9lsELb9Mi0EPCT3+mAeFhnzR5AyqkY01e5
+         RvxA==
+X-Gm-Message-State: AOJu0YymaPPxJ2qrfEZYo0vR/d4te/v1U6EQi9WD3DVYe8g9lMoU0Tkh
+        b4sq8Q9NTzPuWoUQGmdocO8Yvg==
+X-Google-Smtp-Source: AGHT+IEWf+tiuaN2sB9BwwhWDVl5qRolxLbhhN34fVp1i+GI+ZpJ7Ao1dY1bFuryOX1Ec+j32p2RgQ==
+X-Received: by 2002:a05:6a00:1996:b0:68f:dfea:9100 with SMTP id d22-20020a056a00199600b0068fdfea9100mr3137209pfl.21.1694811344659;
+        Fri, 15 Sep 2023 13:55:44 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id q22-20020a170902bd9600b001bb9f104328sm3876566pls.146.2023.09.15.13.50.00
+        by smtp.gmail.com with ESMTPSA id i2-20020a63bf42000000b0056368adf5e2sm2768520pgo.87.2023.09.15.13.55.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 13:50:00 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 13:50:00 -0700
+        Fri, 15 Sep 2023 13:55:44 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 13:55:43 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Matteo Rizzo <matteorizzo@google.com>
 Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
@@ -58,49 +58,150 @@ Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
         corbet@lwn.net, luto@kernel.org, peterz@infradead.org,
         jannh@google.com, evn@google.com, poprdi@google.com,
         jordyzomer@google.com
-Subject: Re: [RFC PATCH 01/14] mm/slub: don't try to dereference invalid
- freepointers
-Message-ID: <202309151349.BEBA203D@keescook>
+Subject: Re: [RFC PATCH 02/14] mm/slub: add is_slab_addr/is_slab_page helpers
+Message-ID: <202309151352.9803BA1@keescook>
 References: <20230915105933.495735-1-matteorizzo@google.com>
- <20230915105933.495735-2-matteorizzo@google.com>
+ <20230915105933.495735-3-matteorizzo@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230915105933.495735-2-matteorizzo@google.com>
+In-Reply-To: <20230915105933.495735-3-matteorizzo@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 10:59:20AM +0000, Matteo Rizzo wrote:
-> slab_free_freelist_hook tries to read a freelist pointer from the
-> current object even when freeing a single object. This is invalid
-> because single objects don't actually contain a freelist pointer when
-> they're freed and the memory contains other data. This causes problems
-> for checking the integrity of freelist in get_freepointer.
+On Fri, Sep 15, 2023 at 10:59:21AM +0000, Matteo Rizzo wrote:
+> From: Jann Horn <jannh@google.com>
 > 
+> This is refactoring in preparation for adding two different
+> implementations (for SLAB_VIRTUAL enabled and disabled).
+> 
+> virt_to_folio(x) expands to _compound_head(virt_to_page(x)) and
+> virt_to_head_page(x) also expands to _compound_head(virt_to_page(x))
+> 
+> so PageSlab(virt_to_head_page(res)) should be equivalent to
+> is_slab_addr(res).
+
+Perhaps add a note that redundant calls to virt_to_folio() will be
+removed in following patches?
+
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
+> Co-developed-by: Matteo Rizzo <matteorizzo@google.com>
 > Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
 > ---
->  mm/slub.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  include/linux/slab.h | 1 +
+>  kernel/resource.c    | 2 +-
+>  mm/slab.h            | 9 +++++++++
+>  mm/slab_common.c     | 5 ++---
+>  mm/slub.c            | 6 +++---
+>  5 files changed, 16 insertions(+), 7 deletions(-)
 > 
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index 8228d1276a2f..a2d82010d269 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -793,4 +793,5 @@ int slab_dead_cpu(unsigned int cpu);
+>  #define slab_dead_cpu		NULL
+>  #endif
+>  
+> +#define is_slab_addr(addr) folio_test_slab(virt_to_folio(addr))
+>  #endif	/* _LINUX_SLAB_H */
+> diff --git a/kernel/resource.c b/kernel/resource.c
+> index b1763b2fd7ef..c829e5f97292 100644
+> --- a/kernel/resource.c
+> +++ b/kernel/resource.c
+> @@ -158,7 +158,7 @@ static void free_resource(struct resource *res)
+>  	 * buddy and trying to be smart and reusing them eventually in
+>  	 * alloc_resource() overcomplicates resource handling.
+>  	 */
+> -	if (res && PageSlab(virt_to_head_page(res)))
+> +	if (res && is_slab_addr(res))
+>  		kfree(res);
+>  }
+>  
+> diff --git a/mm/slab.h b/mm/slab.h
+> index 799a315695c6..25e41dd6087e 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -169,6 +169,15 @@ static_assert(IS_ALIGNED(offsetof(struct slab, freelist), sizeof(freelist_aba_t)
+>   */
+>  #define slab_page(s) folio_page(slab_folio(s), 0)
+>  
+> +/**
+> + * is_slab_page - Checks if a page is really a slab page
+> + * @s: The slab
+> + *
+> + * Checks if s points to a slab page.
+> + *
+> + * Return: true if s points to a slab and false otherwise.
+> + */
+> +#define is_slab_page(s) folio_test_slab(slab_folio(s))
+>  /*
+>   * If network-based swap is enabled, sl*b must keep track of whether pages
+>   * were allocated from pfmemalloc reserves.
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index e99e821065c3..79102d24f099 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -1063,7 +1063,7 @@ void kfree(const void *object)
+>  		return;
+>  
+>  	folio = virt_to_folio(object);
+> -	if (unlikely(!folio_test_slab(folio))) {
+> +	if (unlikely(!is_slab_addr(object))) {
+>  		free_large_kmalloc(folio, (void *)object);
+>  		return;
+>  	}
+> @@ -1094,8 +1094,7 @@ size_t __ksize(const void *object)
+>  		return 0;
+>  
+>  	folio = virt_to_folio(object);
+> -
+> -	if (unlikely(!folio_test_slab(folio))) {
+> +	if (unlikely(!is_slab_addr(object))) {
+>  		if (WARN_ON(folio_size(folio) <= KMALLOC_MAX_CACHE_SIZE))
+>  			return 0;
+>  		if (WARN_ON(object != folio_address(folio)))
+
+In the above 2 hunks we're doing virt_to_folio() twice, but I see in
+patch 4 that these go away.
+
 > diff --git a/mm/slub.c b/mm/slub.c
-> index f7940048138c..a7dae207c2d2 100644
+> index a7dae207c2d2..b69916ab7aa8 100644
 > --- a/mm/slub.c
 > +++ b/mm/slub.c
-> @@ -1820,7 +1820,9 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+> @@ -1259,7 +1259,7 @@ static int check_slab(struct kmem_cache *s, struct slab *slab)
+>  {
+>  	int maxobj;
 >  
->  	do {
->  		object = next;
-> -		next = get_freepointer(s, object);
-> +		/* Single objects don't actually contain a freepointer */
-> +		if (object != old_tail)
-> +			next = get_freepointer(s, object);
+> -	if (!folio_test_slab(slab_folio(slab))) {
+> +	if (!is_slab_page(slab)) {
+>  		slab_err(s, slab, "Not a valid slab page");
+>  		return 0;
+>  	}
+> @@ -1454,7 +1454,7 @@ static noinline bool alloc_debug_processing(struct kmem_cache *s,
+>  	return true;
 >  
->  		/* If object's reuse doesn't have to be delayed */
->  		if (!slab_free_hook(s, object, slab_want_init_on_free(s))) {
+>  bad:
+> -	if (folio_test_slab(slab_folio(slab))) {
+> +	if (is_slab_page(slab)) {
+>  		/*
+>  		 * If this is a slab page then lets do the best we can
+>  		 * to avoid issues in the future. Marking all objects
+> @@ -1484,7 +1484,7 @@ static inline int free_consistency_checks(struct kmem_cache *s,
+>  		return 0;
+>  
+>  	if (unlikely(s != slab->slab_cache)) {
+> -		if (!folio_test_slab(slab_folio(slab))) {
+> +		if (!is_slab_page(slab)) {
+>  			slab_err(s, slab, "Attempt to free object(0x%p) outside of slab",
+>  				 object);
+>  		} else if (!slab->slab_cache) {
+> -- 
+> 2.42.0.459.ge4e396fd5e-goog
 
-I find this loop's logic a bit weird, but, yes, this ends up being
-correct and avoids needless work.
+This all looks nice and mechanical. :P
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
