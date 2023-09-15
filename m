@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B886BCD37AE
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 21:23:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43058CD37AA
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 21:23:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236136AbjIOVWr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 17:22:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33252 "EHLO
+        id S237390AbjIOVXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 17:23:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237341AbjIOVW2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 17:22:28 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00278E6
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:22:21 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-690471b5889so964175b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:22:21 -0700 (PDT)
+        with ESMTP id S237464AbjIOVXK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 17:23:10 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3367EE6
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:23:05 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1bf5c314a57so21911395ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 14:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694812941; x=1695417741; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1694812984; x=1695417784; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D0kMZ8d93qRdQCVI6CVDzaa2b8htk/6nsTOwdqxIFLQ=;
-        b=b6lXrWlps4mn56h2ROI/iAVf6IvmDLttDzn4BAlLtmgM9hu12XZTKM4SGLqFvqsK76
-         s9yZsIVFRRPcuDxFf3qfCvERivDJyiV68mUkpDWLEJPgHtdyi7JCvYKmuB7ooiGJhVBt
-         fV9yzcTudsN9MmLfVvN21kXU3fA0MXp+qID8c=
+        bh=yiVyFYFD+iY/+Ocrmo3l32JHL4fUNs4RLt/6Kj3cZUw=;
+        b=d3U4W1LFavFPht1x25ls6ivrIShNxB9NmTtrc2L7xOhNutXS+EOV/8W4eeI/IjPuSV
+         qqFEGdNm5/fgGOsC1s/P8IPLd5uUpabi8gSbxMI+8FZmm0SCIp8dl8XFjqMV5DStF6V8
+         DShYduPlVlIt87KTFEQ4h8/uvTxdxBBwqgF0M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694812941; x=1695417741;
+        d=1e100.net; s=20230601; t=1694812984; x=1695417784;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D0kMZ8d93qRdQCVI6CVDzaa2b8htk/6nsTOwdqxIFLQ=;
-        b=GOVDAwi8soI3cIgZ5PkKnEtWNnzP973BY4HPEE03PEVVss2AF6dQGXZuWLO1c0kQm+
-         CNA2Y+3Y3xm1Tsq1i44NeD+uNMLdcNbZs2kxa9+pSHFUaWPFxvkZeHj+ifzL2lJfI2KD
-         jVz3yKd21DN61PqrAbmKU+0plpYdkyVzfPU8BHZ5HeqLNGvWqJMV3bylCjMchgk40+vD
-         kD4zHanEHpErMTV7vRpK5aiVYn2MyCFaUWXMeEC8m62L5jeIpsZgGY0NkVJnDB93RKAf
-         G7jgoHw9axLqNk6RHxhl8BmSJoFR9AOSnlwFzji4uu9muMPPV+7iIr8kp/pwrws+JyB+
-         QTJw==
-X-Gm-Message-State: AOJu0YwqQsZoJ4gRk4LcY0+/jVd601HRh6S2BVDyMD4qV3+BwKuS0BaA
-        fLUj4hRN2IRl15BVM2RVRQtSyg==
-X-Google-Smtp-Source: AGHT+IFXhYnUgA00/Q6g5wBduIWHI2eXNBUpE7oWPl1Z19J8jTpjt+T/QZNudB9t3IWA9FQ6aC/fsg==
-X-Received: by 2002:a05:6a00:2344:b0:68e:43ed:d30b with SMTP id j4-20020a056a00234400b0068e43edd30bmr2745959pfj.21.1694812941429;
-        Fri, 15 Sep 2023 14:22:21 -0700 (PDT)
+        bh=yiVyFYFD+iY/+Ocrmo3l32JHL4fUNs4RLt/6Kj3cZUw=;
+        b=P2Vy9kv7OuxWJyGyYjsoj8mfW8S+0H6CfOpcdRdWTV3qwUxrN5PDS2g2bq7fXO9uuq
+         xpGXzIlG2exwsCOXBySR3w5kfL+VNaj4d63wmtnNuuGnvPqZ/29rKWgV01YW2pa+CXG8
+         c35x3phdjpfjuoxoqtl4NIqKxDoewSf9RS8IRIVk/rMeR6EHagvZwnLM9Gk1GAka5MvU
+         yMb/c9F8fNUYaMy7gN5TV9V6fLfEjFdCYmMPptheDI2KXRdgG2HcTNiNApdXJsqwJ8+C
+         fNeUAJUlDDloaTl/vTTXLMzh05VJEfZ8El6nnDcolDXY0Yg1CaPlyJBlXLSN+E61+WiD
+         Lgyw==
+X-Gm-Message-State: AOJu0Yy95YMyDt014PZsWzBuiaxwIdItA0KUe9wC8xCLBai9SWXfPlt7
+        p2D76rq//GbGzsMEgKzUSxzZvg==
+X-Google-Smtp-Source: AGHT+IGK3s7+1sbLHNP+MzY1eBho88i+hlkIlJpvOqkzeAkzu9GD01LibMXuB4ThZYh7TqDkMF9xFw==
+X-Received: by 2002:a17:902:dac5:b0:1b5:64a4:bea0 with SMTP id q5-20020a170902dac500b001b564a4bea0mr3329386plx.10.1694812984632;
+        Fri, 15 Sep 2023 14:23:04 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id 15-20020aa7910f000000b006877b0b31c2sm3486022pfh.147.2023.09.15.14.22.20
+        by smtp.gmail.com with ESMTPSA id y6-20020a17090322c600b001bc5dc0cd75sm3904512plg.180.2023.09.15.14.23.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 14:22:20 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 14:22:20 -0700
+        Fri, 15 Sep 2023 14:23:04 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 14:23:03 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Matteo Rizzo <matteorizzo@google.com>
 Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
@@ -58,74 +58,31 @@ Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
         corbet@lwn.net, luto@kernel.org, peterz@infradead.org,
         jannh@google.com, evn@google.com, poprdi@google.com,
         jordyzomer@google.com
-Subject: Re: [RFC PATCH 11/14] mm/slub: allocate slabs from virtual memory
-Message-ID: <202309151413.A1166F314A@keescook>
+Subject: Re: [RFC PATCH 12/14] mm/slub: introduce the deallocated_pages sysfs
+ attribute
+Message-ID: <202309151422.C3F39B8D8E@keescook>
 References: <20230915105933.495735-1-matteorizzo@google.com>
- <20230915105933.495735-12-matteorizzo@google.com>
+ <20230915105933.495735-13-matteorizzo@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230915105933.495735-12-matteorizzo@google.com>
+In-Reply-To: <20230915105933.495735-13-matteorizzo@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 10:59:30AM +0000, Matteo Rizzo wrote:
+On Fri, Sep 15, 2023 at 10:59:31AM +0000, Matteo Rizzo wrote:
 > From: Jann Horn <jannh@google.com>
 > 
-> This is the main implementation of SLAB_VIRTUAL. With SLAB_VIRTUAL
-> enabled, slab memory is not allocated from the linear map but from a
-> dedicated region of virtual memory. The code ensures that once a range
-> of virtual addresses is assigned to a slab cache, that virtual memory is
-> never reused again except for other slabs in that same cache. This lets
-> us mitigate some exploits for use-after-free vulnerabilities where the
-> attacker makes SLUB release a slab page to the page allocator and then
-> makes it reuse that same page for a different slab cache ("cross-cache
-> attacks").
-> 
-> With SLAB_VIRTUAL enabled struct slab no longer overlaps struct page but
-> instead it is allocated from a dedicated region of virtual memory. This
-> makes it possible to have references to slabs whose physical memory has
-> been freed.
-> 
-> SLAB_VIRTUAL has a small performance overhead, about 1-2% on kernel
-> compilation time. We are using 4 KiB pages to map slab pages and slab
-> metadata area, instead of the 2 MiB pages that the kernel uses to map
-> the physmap. We experimented with a version of the patch that uses 2 MiB
-> pages and we did see some performance improvement but the code also
-> became much more complicated and ugly because we would need to allocate
-> and free multiple slabs at once.
-
-I think these hints about performance should be also noted in the
-Kconfig help.
-
-> In addition to the TLB contention, SLAB_VIRTUAL also adds new locks to
-> the slow path of the allocator. Lock contention also contributes to the
-> performance penalty to some extent, and this is more visible on machines
-> with many CPUs.
+> When SLAB_VIRTUAL is enabled this new sysfs attribute tracks the number
+> of slab pages whose physical memory has been reclaimed but whose virtual
+> memory is still allocated to a kmem_cache.
 > 
 > Signed-off-by: Jann Horn <jannh@google.com>
-> Co-developed-by: Matteo Rizzo <matteorizzo@google.com>
-> Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
-> ---
->  arch/x86/include/asm/page_64.h          |  10 +
->  arch/x86/include/asm/pgtable_64_types.h |   5 +
->  arch/x86/mm/physaddr.c                  |  10 +
->  include/linux/slab.h                    |   7 +
->  init/main.c                             |   1 +
->  mm/slab.h                               | 106 ++++++
->  mm/slab_common.c                        |   4 +
->  mm/slub.c                               | 439 +++++++++++++++++++++++-
->  mm/usercopy.c                           |  12 +-
->  9 files changed, 587 insertions(+), 7 deletions(-)
 
-Much of this needs review by MM people -- I can't speak well to the
-specifics of the implementation. On coding style, I wonder if we can get
-away with reducing the amount of #ifdef code by either using "if
-(IS_ENABLED(...)) { ... }" style code, or, in the case of the allocation
-function, splitting it out into two separate files, one for standard
-page allocator, and one for the new virt allocator. But, again, MM
-preferences reign. :)
+Yay stats. :)
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
 Kees Cook
