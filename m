@@ -2,151 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FECDEE6457
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 12:23:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5253EE6457
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Sep 2023 12:23:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234751AbjIOMXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Sep 2023 08:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54718 "EHLO
+        id S234823AbjIOMXR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Sep 2023 08:23:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234741AbjIOMXF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 08:23:05 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE2A2D4E
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 05:22:24 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-53087f0e18bso768151a12.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Sep 2023 05:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1694780542; x=1695385342; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+sgd0SQIzfDYqArl7ZJk837xYiiqp8Hlxo1eN43ivow=;
-        b=ZXOHvqtR054spzQNdNa/BAv+K24FNOLN/bn869LKR2wEx/Q6epI1snO/JSpoiBYkjO
-         9m8XbmaHxmJzW6grrqp2mP+EAxsYo42p8sH9yyGQusaIc9nfHdgTJoqekzrJhBJs6TPA
-         v3reJRdlzchVQZnhOodlcyWH/at2Vaj5Uyyb59bW1fjTWYWUD7CNAKRMr2li1HlOBB9I
-         2d+FdhBd5Hh9y8zkwLFY2vqmBZVYrMMSwl1AWEyZytvB7WWUdUwNGBn6S/CrfjRZXzdw
-         5Z/BX08ZsXGFPw2VrSYoG6zdbfqvqT5NID/eReOHbGs1RyjDezTT7/vC4PIziJIKS2qw
-         9ehw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694780542; x=1695385342;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+sgd0SQIzfDYqArl7ZJk837xYiiqp8Hlxo1eN43ivow=;
-        b=ERyUQrMYlIekMcCcaYFUvyhyyY618vTrbyycB0b0N0S92F707Dh2gGgTCnZZof8NLE
-         bJvmZVbomF16wJmEgKd8s5d8qAtvdn1OvhglhAk6os+soQtxVZhhAvnUeKImIvwR+w57
-         DgNJy7dX373E3ygmDP0n88K+vQPdDKGWJbYGYCiUcDfMHeudjB+aBrlaXsginzR3SMaM
-         y098RE8lPmFENczq78Eg+UVvC9XKr8J9dVdehtRVXKsfhFKiXjig8X3BD9twVq//DrJp
-         SZx78D8LRvMQNnhKATD2d9bTFeX1zh1kbmIbjQPcsRX3fY0+1xgdv/dU5G0XdOUYYWMh
-         ovhw==
-X-Gm-Message-State: AOJu0YxdRPgIlxOemyFdxKYMJ5sbFt8TccQ9wgFWdsssjQvHb8YF25ZU
-        zz9A6xiKYSoo/gkS8P43x/1fow==
-X-Google-Smtp-Source: AGHT+IGQDixv4KWDUPWov7KbIiiYnnPGZejnzWBzk+C5wrXNyJ/XJxdD3iWD4oGpKAVkYFj5R24yJw==
-X-Received: by 2002:a17:906:31d6:b0:9a1:c447:3c62 with SMTP id f22-20020a17090631d600b009a1c4473c62mr1220416ejf.49.1694780542706;
-        Fri, 15 Sep 2023 05:22:22 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id z13-20020a1709067e4d00b009829dc0f2a0sm2330135ejr.111.2023.09.15.05.22.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 05:22:22 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 14:22:21 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Leonardo Bras <leobras@redhat.com>, guoren@kernel.org,
-        paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        xiaoguang.xing@sophgo.com, bjorn@rivosinc.com,
-        alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, jszhang@kernel.org, wefu@redhat.com,
-        wuwei2016@iscas.ac.cn, linux-arch@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 03/17] riscv: Use Zicbop in arch_xchg when available
-Message-ID: <20230915-1c2b122672642e2cbcbaaaef@orel>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-4-guoren@kernel.org>
- <20230914-1ce4f391a14e56b456d88188@orel>
- <ZQQUQjOaAIc95GXP@redhat.com>
- <20230915-85238ac7734cf543bff3ddad@orel>
- <20230915-take-virus-1245c5dfed0a@wendy>
+        with ESMTP id S234776AbjIOMXQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 08:23:16 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983D8271F;
+        Fri, 15 Sep 2023 05:23:01 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BCC8C433C8;
+        Fri, 15 Sep 2023 12:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694780581;
+        bh=ErW/YFbwxN2J3CUnXkc0WWVMAtkcRHHwxqYmA0qC0ao=;
+        h=From:Subject:Date:To:Cc:From;
+        b=dlQuQ9rT05Y8NXQI7Mc5lvH1kS6/wcf7PhTOCelm27zrCyBd9Yn7G/pnZo4Dn+O9X
+         9EcSnpUXZ1OwiLiA0Hivou7tFix8Uyd8Zt7PBOGu/0IDr05+sgTMrNpKzXW/0ImFoi
+         +7r7Nkq/bFMgNGuh2w4v2kE0phlGnV0Xn3tZQ4r8SrItNSHVbw1BSlYpaN49cw0AW1
+         JPYDC4NyikN/6qMkm8Are8wpwTpwJWXnh4i89Rrh4un09eIpbIcOl5lqfETo1lmQp8
+         gE55tPlN5E5WO/UCHPUB5+Ip59qSjsWBwqu8xJSGsjC9Phz7dIDNMcMzV+tF44HBG4
+         HElO+HIfK4oag==
+From:   Mark Brown <broonie@kernel.org>
+Subject: [PATCH 0/2] Report FEAT_SVE_B16B16 to userspace
+Date:   Fri, 15 Sep 2023 13:18:05 +0100
+Message-Id: <20230915-arm64-zfr-b16b16-el0-v1-0-f9aba807bdb5@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230915-take-virus-1245c5dfed0a@wendy>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH1LBGUC/x2MSQqAQAzAviI9W2hV3L4iHlw6WnCjAyKKf3cQc
+ skhecCLqXioowdMTvW6b0E4jmCYu20S1DE4JJSkVHGKna15hrcz7DkPoCyEVDK7oSDHWQEhPUy
+ cXv+2ad/3A3KZY5JmAAAA
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>,
+        Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: b4 0.13-dev-034f2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1084; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ErW/YFbwxN2J3CUnXkc0WWVMAtkcRHHwxqYmA0qC0ao=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlBEyfr1fhPm8VZAq8TG7GL4gyOzJd0HP5ZOzOgsUg
+ Ws7Vl76JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZQRMnwAKCRAk1otyXVSH0PlyB/
+ 99UB9CQmWgDVtt8gHOulMKEyEKnkcOEhxaeNCqrfxrCtov+yx3F5SW1QlbAdDOJq+A5dHFZIeXq/y5
+ v//IJRXRX32eb5IEILJ3tAPObNVxWHZStTs7VGstM7qpmAUou8QbZIyI6662M95i+3nfIA3nrQGM1K
+ k+5Hd9cGcXaaUICLXL1z/zkCG1Op5PpzLXdS9nBgiN7OQXREQ/3KQQIK4JEiZPqoG/JlOGTGm1QuLR
+ /b6kBCht6Ym4wY6JwZaipAIThsPEoJ68p5BVUvjNueFrnjuIxrA2kOI1QfCskY0a85d/xmQynj0Hqq
+ 1qsJgy/7fdX0RAtoN5b5BCe1ICu5Ia
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 12:26:20PM +0100, Conor Dooley wrote:
-> On Fri, Sep 15, 2023 at 01:07:40PM +0200, Andrew Jones wrote:
-> > On Fri, Sep 15, 2023 at 05:22:26AM -0300, Leonardo Bras wrote:
-> > > On Thu, Sep 14, 2023 at 03:47:59PM +0200, Andrew Jones wrote:
-> > > > On Sun, Sep 10, 2023 at 04:28:57AM -0400, guoren@kernel.org wrote:
-> > > > > From: Guo Ren <guoren@linux.alibaba.com>
-> > ...
-> > > > > diff --git a/arch/riscv/include/asm/insn-def.h b/arch/riscv/include/asm/insn-def.h
-> > > > > index 6960beb75f32..dc590d331894 100644
-> > > > > --- a/arch/riscv/include/asm/insn-def.h
-> > > > > +++ b/arch/riscv/include/asm/insn-def.h
-> > > > > @@ -134,6 +134,7 @@
-> > > > >  
-> > > > >  #define RV_OPCODE_MISC_MEM	RV_OPCODE(15)
-> > > > >  #define RV_OPCODE_SYSTEM	RV_OPCODE(115)
-> > > > > +#define RV_OPCODE_PREFETCH	RV_OPCODE(19)
-> > > > 
-> > > > This should be named RV_OPCODE_OP_IMM and be placed in
-> > > > numerical order with the others, i.e. above SYSTEM.
-> > > > 
-> > > > >  
-> > > > >  #define HFENCE_VVMA(vaddr, asid)				\
-> > > > >  	INSN_R(OPCODE_SYSTEM, FUNC3(0), FUNC7(17),		\
-> > > > > @@ -196,4 +197,8 @@
-> > > > >  	INSN_I(OPCODE_MISC_MEM, FUNC3(2), __RD(0),		\
-> > > > >  	       RS1(base), SIMM12(4))
-> > > > >  
-> > > > > +#define CBO_prefetchw(base)					\
-> > > > 
-> > > > Please name this 'PREFETCH_w' and it should take an immediate parameter,
-> > > > even if we intend to pass 0 for it.
-> > > 
-> > > It makes sense.
-> > > 
-> > > The mnemonic in the previously mentioned documentation is:
-> > > 
-> > > prefetch.w offset(base)
-> > > 
-> > > So yeah, makes sense to have both offset and base as parameters for 
-> > > CBO_prefetchw (or PREFETCH_w, I have no strong preference).
-> > 
-> > I have a strong preference :-)
-> > 
-> > PREFETCH_w is consistent with the naming we already have for e.g.
-> > cbo.clean, which is CBO_clean. The instruction we're picking a name
-> > for now is prefetch.w, not cbo.prefetchw.
-> 
-> btw, the CBO_foo stuff was named that way as we were using them in
-> alternatives originally as an argument, that manifested as:
-> "cbo." __stringify(_op) " (a0)\n\t"
-> That was later changed to
-> CBO_##_op(a0)
-> but the then un-needed (AFAICT) capitalisation was kept to avoid
-> touching the callsites of the alternative. Maybe you remember better
-> than I do drew, since the idea was yours & I forgot I even wrote that
-> pattch.
+SVE 2.1 introduced a new feature FEAT_SVE_B16B16 which adds instructions
+supporting the BFloat16 floating point format. Report this to userspace
+through the ID registers and hwcap.
 
-And I forgot anything I may have suggested about it :-)
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Mark Brown (2):
+      arm64/sve: Report FEAT_SVE_B16B16 to userspace
+      kselftest/arm64: Verify HWCAP2_SVE_B16B16
 
-> If this isn't being used in a similar manner, then the w has no reason
-> to be in the odd lowercase form.
+ Documentation/arch/arm64/cpu-feature-registers.rst |  2 ++
+ Documentation/arch/arm64/elf_hwcaps.rst            |  3 +++
+ arch/arm64/include/asm/hwcap.h                     |  1 +
+ arch/arm64/include/uapi/asm/hwcap.h                |  1 +
+ arch/arm64/kernel/cpufeature.c                     |  3 +++
+ arch/arm64/kernel/cpuinfo.c                        |  1 +
+ arch/arm64/tools/sysreg                            |  6 +++++-
+ tools/testing/selftests/arm64/abi/hwcap.c          | 13 +++++++++++++
+ 8 files changed, 29 insertions(+), 1 deletion(-)
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230913-arm64-zfr-b16b16-el0-0811fc70f147
 
-Other than to be consistent... However, the CBO_* instructions are not
-consistent with the rest of macros. If we don't need lowercase for any
-reason, then my preference would be to bite the bullet and change all the
-callsites of CBO_* macros and then introduce this new instruction as
-PREFETCH_W
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
-Thanks,
-drew
