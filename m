@@ -2,129 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DFFECD37B1
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Sep 2023 02:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CFFDCD37B5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Sep 2023 02:10:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236867AbjIPCKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S238122AbjIPCKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 15 Sep 2023 22:10:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57264 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235502AbjIPCJ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 22:09:59 -0400
+        with ESMTP id S237655AbjIPCKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Sep 2023 22:10:11 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 069F6173C;
-        Fri, 15 Sep 2023 19:09:54 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF77EC433C7;
-        Sat, 16 Sep 2023 02:09:52 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA771FD6;
+        Fri, 15 Sep 2023 19:10:05 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 382ABC433CA;
+        Sat, 16 Sep 2023 02:10:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694830193;
-        bh=T68zS6krvg2xS5agV4Sw7lJICBfEHCuQmhqbi4p759U=;
-        h=From:To:Cc:Subject:Date:From;
-        b=o21TOvmnXJWR0ZzRfYrNfPxWcxyX7XTsYcOhCNZ7kpkZsb9OoFYsoMtMTSNJQCbbf
-         vT3cnFGCf38LP9gif6XwOTN1aWukbcQLpqIG7/s62R/T2w1pF//R0b1A+YHPYRG1ev
-         lxC/jXDe7eqZuOysU+FpuJWH0Gv8D2e0TmzlF/dwhz6skYbOQ5lzGSDMdXFrJjiDfr
-         mrdtJLd7UOzXL+U6AkO7XrxmvOGuhq1fopSCdrtJuC49EC/cYHaJCAUKDv0bYxVnWB
-         wqSkM1fCwK7Hiet2MiL9yKEwSdv3vnR/Yk3v6gO99dVrxtMiocrFj+JcoppKTEuif+
-         VsKIprlQX+HWQ==
+        s=k20201202; t=1694830204;
+        bh=nsy3XKNul10yj7Y4C7UdRuVcXMAYGZfrN5/ruA9B7bY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=D5fwDD0thq/Rt72hGYBK0NcXdn7gIm9hhCVt0E9COGIdJlZlT5diQNJHgrqlRm2/w
+         /hJeRDI7YMNSa34674k2tuFz1TEtFUrS112DzxcXapnvRWe7lRkVkVGzUcP4Q6Mn1S
+         RpaUPA/u6e+cUlUNhbCsmnNL8YEvnugttaxfg5Eu55gGGazyO5netSuj1JvK/y7F1I
+         jvU2m8i4d4PyQ79MLBzTW0/6LiTw7gsPVE9Ca7ZMS7lGESQDY3HJxS9Z7YfMVuCJuP
+         eXOAdloC1XbqCLlzqjd+bAxppTZqzXuG+XazVEwVZw+8OGlmGvK9EkXfP830RlrvVI
+         IRF8dNOB4kzZA==
 From:   SeongJae Park <sj@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>, damon@lists.linux.dev,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/9] mm/damon: implement DAMOS apply intervals
-Date:   Sat, 16 Sep 2023 02:09:36 +0000
-Message-Id: <20230916020945.47296-1-sj@kernel.org>
+        damon@lists.linux.dev, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 5/9] Docs/mm/damon/design: document DAMOS apply intervals
+Date:   Sat, 16 Sep 2023 02:09:41 +0000
+Message-Id: <20230916020945.47296-6-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230916020945.47296-1-sj@kernel.org>
+References: <20230916020945.47296-1-sj@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changes from RFC
-(https://lore.kernel.org/damon/20230910034048.59191-1-sj@kernel.org/)
-- Add kselftest for damos_apply_interval_us sysfs file
-- Rebase on latest mm-unstable
+Update DAMON design doc to explain about DAMOS apply intervals.
 
-DAMON-based operation schemes are applied for every aggregation
-interval.  That is mainly because schemes are using nr_accesses, which
-be complete to be used for every aggregation interval.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This makes some DAMOS use cases be tricky.  Quota setting under long
-aggregation interval is one such example.  Suppose the aggregation
-interval is ten seconds, and there is a scheme having CPU quota 100ms
-per 1s.  The scheme will actually uses 100ms per ten seconds, since it
-cannobe be applied before next aggregation interval.  The feature is
-working as intended, but the results might not that intuitive for some
-users.  This could be fixed by updating the quota to 1s per 10s.  But,
-in the case, the CPU usage of DAMOS could look like spikes, and actually
-make a bad effect to other CPU-sensitive workloads.
-
-Also, with such huge aggregation interval, users may want schemes to be
-applied more frequently.
-
-DAMON provides nr_accesses_bp, which is updated for each sampling
-interval in a way that reasonable to be used.  By using that instead of
-nr_accesses, DAMOS can have its own time interval and mitigate abovely
-mentioned issues.
-
-This patchset makes DAMOS schemes to use nr_accesses_bp instead of
-nr_accesses, and have their own timing intervals.  Also update DAMOS
-tried regions sysfs files and DAMOS before_apply tracepoint to use the
-new data as their source.  Note that the interval is zero by default,
-and it is interpreted to use the aggregation interval instead.  This
-avoids making user-visible behavioral changes.
-
-
-Patches Seuqeunce
------------------
-
-The first patch (patch 1/9) makes DAMOS uses nr_accesses_bp instead of
-nr_accesses, and following two patches (patches 2/9 and 3/9) updates
-DAMON sysfs interface for DAMOS tried regions and the DAMOS before_apply
-tracespoint to use nr_accesses_bp instead of nr_accesses, respectively.
-
-The following two patches (patches 4/9 and 5/9) implements the
-scheme-specific apply interval for DAMON kernel API users and update the
-design document for the new feature.
-
-Finally, the following four patches (patches 6/9, 7/9, 8/9 and 9/9) add
-support of the feature in DAMON sysfs interface, add a simple selftest
-test case, and document the new file on the usage and the ABI documents,
-repsectively.
-
-
-SeongJae Park (9):
-  mm/damon/core: make DAMOS uses nr_accesses_bp instead of nr_accesses
-  mm/damon/sysfs-schemes: use nr_accesses_bp as the source of
-    tried_regions/<N>/nr_accesses
-  mm/damon/core: use nr_accesses_bp as a source of damos_before_apply
-    tracepoint
-  mm/damon/core: implement scheme-specific apply interval
-  Docs/mm/damon/design: document DAMOS apply intervals
-  mm/damon/sysfs-schemes: support DAMOS apply interval
-  selftests/damon/sysfs: test DAMOS apply intervals
-  Docs/admin-guide/mm/damon/usage: update for DAMOS apply intervals
-  Docs/ABI/damon: update for DAMOS apply intervals
-
- .../ABI/testing/sysfs-kernel-mm-damon         |  7 ++
- Documentation/admin-guide/mm/damon/usage.rst  |  9 ++-
- Documentation/mm/damon/design.rst             |  3 +-
- include/linux/damon.h                         | 17 +++-
- include/trace/events/damon.h                  |  2 +-
- mm/damon/core.c                               | 77 ++++++++++++++++---
- mm/damon/dbgfs.c                              |  3 +-
- mm/damon/lru_sort.c                           |  2 +
- mm/damon/reclaim.c                            |  2 +
- mm/damon/sysfs-schemes.c                      | 40 ++++++++--
- tools/testing/selftests/damon/sysfs.sh        |  1 +
- 11 files changed, 141 insertions(+), 22 deletions(-)
-
-
-base-commit: abf99d088da21843246382c7a95f21e886193c31
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 18e9b42673f8..1f7e0586b5fa 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -259,7 +259,8 @@ works, DAMON provides a feature called Data Access Monitoring-based Operation
+ Schemes (DAMOS).  It lets users specify their desired schemes at a high
+ level.  For such specifications, DAMON starts monitoring, finds regions having
+ the access pattern of interest, and applies the user-desired operation actions
+-to the regions as soon as found.
++to the regions, for every user-specified time interval called
++``apply_interval``.
+ 
+ 
+ .. _damon_design_damos_action:
 -- 
 2.25.1
 
