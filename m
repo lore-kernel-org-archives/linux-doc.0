@@ -2,107 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B37DCD13D3
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Sep 2023 19:20:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF02CD13CF
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Sep 2023 20:52:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbjIQTUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Sep 2023 15:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35518 "EHLO
+        id S238857AbjIQUwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Sep 2023 16:52:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231801AbjIQTUW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Sep 2023 15:20:22 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201A8115;
-        Sun, 17 Sep 2023 12:20:17 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66821C433C9;
-        Sun, 17 Sep 2023 19:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694978416;
-        bh=zlezv61pkEtIb39QJV+KksqxpQMU0fbcIUj51bSEwrY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oIzJcm+yqSjU0N+/nDHU6W2dBiG4y1dTlpVyxYVZl0TvEkebI5Rsm40kS+rbblFIW
-         J9xYHqsfQSEGE/hrzWSnkCdsJc14eqkd2Z6cYnhuD2DqR3KVwaVBv1ceygvjxD7mp0
-         uSsZ9ztBuXxelRCElu1PTfkmN1VXpCVK1alE09zCaD6Ea3nwiJToHlkkSga0AmfxZF
-         kJgY8RZB3FIxnaemnt6Qai0L4mOWctRk2BrqAUoNF6zQgCQJGZ894J/ExJ4LauKIxE
-         23CBrwm9tnAbGXXh1B2eSPvGstmkbum93JCxt3rbGQriU32RhBdOPt18egKTEpabXP
-         kIIlN/4gJDHQQ==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] Documentation: kbuild: explain handling optional dependencies
-Date:   Sun, 17 Sep 2023 21:19:59 +0200
-Message-Id: <20230917192009.254979-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S241302AbjIQUvv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Sep 2023 16:51:51 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61576131;
+        Sun, 17 Sep 2023 13:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694983906; x=1726519906;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=paznUEp5GxW/Ux7AJ7asXSl9DWPKdN6uyysmYb20O+E=;
+  b=gw5pRvvFAD8Do1CzoE5ufdwYaPBd8sgP+Fv0HshxM0YvbxfgS84/1YYD
+   +8ycOfCrPWRqLs8Y5hhlu2pv6zrT1OLcGT60tAaAd0K1e5auAD/KemB/E
+   ngB3aT4j/ag5SvBigaonXqobotcZAxMFOkvEpTEA2nwHggsep0K6DBn+z
+   X5v3EApHb2zWsH7X6D0+bIx+CE3kZ6jF0cu022h3/1JJ+yqFfocdIOJ+x
+   bj548k7siI8ADJQKF76wwYxPr7wA5TG+q+huQmJNqyNW4+erY9lw89eKk
+   gNjzbAdsn41UZSlYHnCzA/RPG5P02s0VTDOO0bpih8LyLzMOWtTTsuzWS
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="359780755"
+X-IronPort-AV: E=Sophos;i="6.02,155,1688454000"; 
+   d="scan'208";a="359780755"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2023 13:51:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="815798331"
+X-IronPort-AV: E=Sophos;i="6.02,155,1688454000"; 
+   d="scan'208";a="815798331"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Sep 2023 13:51:43 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qhyk1-0005Sa-2g;
+        Sun, 17 Sep 2023 20:51:41 +0000
+Date:   Mon, 18 Sep 2023 04:50:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc:     oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        Jiri Pirko <jiri@nvidia.com>, linux-doc@vger.kernel.org
+Subject: [net-next:main 2/43] htmldocs:
+ Documentation/driver-api/dpll.rst:427: WARNING: Error in "code-block"
+ directive:
+Message-ID: <202309180456.lOhxy9gS-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
+head:   d692873cbe861a870cdc9cbfb120eefd113c3dfd
+commit: dbb291f19393b628a1d15b94a78d471b9d94e532 [2/43] dpll: documentation on DPLL subsystem interface
+reproduce: (https://download.01.org/0day-ci/archive/20230918/202309180456.lOhxy9gS-lkp@intel.com/reproduce)
 
-This problem frequently comes up in randconfig testing, with
-drivers failing to link because of a dependency on an optional
-feature.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309180456.lOhxy9gS-lkp@intel.com/
 
-The Kconfig language for this is very confusing, so try to
-document it in "Kconfig hints" section.
+All warnings (new ones prefixed by >>):
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v2: fix typos pointed out by Nicolas Schier
----
- Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+>> Documentation/driver-api/dpll.rst:427: WARNING: Error in "code-block" directive:
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 858ed5d80defe..0135905c0aa35 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -573,6 +573,32 @@ above, leading to:
- 	bool "Support for foo hardware"
- 	depends on ARCH_FOO_VENDOR || COMPILE_TEST
- 
-+Optional dependencies
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+Some drivers are able to optionally use a feature from another module
-+or build cleanly with that module disabled, but cause a link failure
-+when trying to use that loadable module from a built-in driver.
-+
-+The most common way to express this optional dependency in Kconfig logic
-+uses the slightly counterintuitive::
-+
-+  config FOO
-+	tristate "Support for foo hardware"
-+	depends on BAR || !BAR
-+
-+This means that there is either a dependency on BAR that disallows
-+the combination of FOO=y with BAR=m, or BAR is completely disabled.
-+For a more formalized approach if there are multiple drivers that have
-+the same dependency, a helper symbol can be used, like::
-+
-+  config FOO
-+	tristate "Support for foo hardware"
-+	depends on BAR_OPTIONAL
-+
-+  config BAR_OPTIONAL
-+	def_tristate BAR || !BAR
-+
- Kconfig recursive dependency limitations
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
+vim +427 Documentation/driver-api/dpll.rst
+
+   426	
+ > 427	.. code-block:: c
+   428		static const struct dpll_device_ops dpll_ops = {
+   429			.lock_status_get = ptp_ocp_dpll_lock_status_get,
+   430			.mode_get = ptp_ocp_dpll_mode_get,
+   431			.mode_supported = ptp_ocp_dpll_mode_supported,
+   432		};
+   433	
+   434		static const struct dpll_pin_ops dpll_pins_ops = {
+   435			.frequency_get = ptp_ocp_dpll_frequency_get,
+   436			.frequency_set = ptp_ocp_dpll_frequency_set,
+   437			.direction_get = ptp_ocp_dpll_direction_get,
+   438			.direction_set = ptp_ocp_dpll_direction_set,
+   439			.state_on_dpll_get = ptp_ocp_dpll_state_get,
+   440		};
+   441	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
