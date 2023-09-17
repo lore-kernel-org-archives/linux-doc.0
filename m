@@ -2,67 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9596DCD3425
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Sep 2023 15:32:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B37DCD13D3
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Sep 2023 19:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235690AbjIQPbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Sep 2023 11:31:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48820 "EHLO
+        id S229949AbjIQTUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Sep 2023 15:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237492AbjIQPbY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Sep 2023 11:31:24 -0400
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BCF730EA;
-        Sun, 17 Sep 2023 08:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=n8pjl.ca;
-        s=protonmail2; t=1694964602; x=1695223802;
-        bh=xCV78BUZ8wWHYIMMcO4tVeNrAYJwIdS9yFfArGxbUqA=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=SlYa5y0afeSTQ5KzBpULSlj2qXsKFgdjTpp1DG0YPGM4HMdCUYVv4dP0OvGEYP5RA
-         yohGBk3IXf1bbJbS9t2hPRn83JJYrRT87gPT/NcU/lJJ48SvJ4PTcU8eCwpWs8XgVS
-         XAqtGOtHdI6AEgHp2/DIADoUFw9mhE6Kg5hRZtqGB9eOcz+pKDU2DuZM3OC+ob73nI
-         ArOJAmIq2vawDVdTXqzJEGL1hTILJWo0+UU2bREmvch4jsKArc5e6TcELRiw7JCJ/F
-         mYkJBtz+a3BNI31VIjzPLTqTZf3rwGOPBarfAy7qdj3deHDavwmi+rhLTRy3LhUOE2
-         r9JFxlfirtlBw==
-Date:   Sun, 17 Sep 2023 15:29:44 +0000
-To:     linux-hams@vger.kernel.org
-From:   Peter Lafreniere <peter@n8pjl.ca>
-Cc:     Peter Lafreniere <peter@n8pjl.ca>, thomas@osterried.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        ralf@linux-mips.org, linux-doc@vger.kernel.org, corbet@lwn.net
-Subject: [PATCH 0/3] ax25: Update link for linux-ax25.org
-Message-ID: <20230917152938.8231-1-peter@n8pjl.ca>
-In-Reply-To: <20230908113907.25053-1-peter@n8pjl.ca>
-References: <20230908113907.25053-1-peter@n8pjl.ca>
-Feedback-ID: 53133685:user:proton
+        with ESMTP id S231801AbjIQTUW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Sep 2023 15:20:22 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201A8115;
+        Sun, 17 Sep 2023 12:20:17 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66821C433C9;
+        Sun, 17 Sep 2023 19:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694978416;
+        bh=zlezv61pkEtIb39QJV+KksqxpQMU0fbcIUj51bSEwrY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oIzJcm+yqSjU0N+/nDHU6W2dBiG4y1dTlpVyxYVZl0TvEkebI5Rsm40kS+rbblFIW
+         J9xYHqsfQSEGE/hrzWSnkCdsJc14eqkd2Z6cYnhuD2DqR3KVwaVBv1ceygvjxD7mp0
+         uSsZ9ztBuXxelRCElu1PTfkmN1VXpCVK1alE09zCaD6Ea3nwiJToHlkkSga0AmfxZF
+         kJgY8RZB3FIxnaemnt6Qai0L4mOWctRk2BrqAUoNF6zQgCQJGZ894J/ExJ4LauKIxE
+         23CBrwm9tnAbGXXh1B2eSPvGstmkbum93JCxt3rbGQriU32RhBdOPt18egKTEpabXP
+         kIIlN/4gJDHQQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] Documentation: kbuild: explain handling optional dependencies
+Date:   Sun, 17 Sep 2023 21:19:59 +0200
+Message-Id: <20230917192009.254979-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-http://linux-ax25.org has been down for nearly a year. Its official
-replacement is https://linux-ax25.in-berlin.de.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Update all references to the dead link to its replacement.
+This problem frequently comes up in randconfig testing, with
+drivers failing to link because of a dependency on an optional
+feature.
 
-As the three touched files are in different areas of the tree, this is
-being sent with one patch per file.
+The Kconfig language for this is very confusing, so try to
+document it in "Kconfig hints" section.
 
-Peter Lafreniere (3):
-  Documentation: netdev: fix dead link in ax25.rst
-  MAINTAINERS: Update link for linux-ax25.org
-  ax25: Kconfig: Update link for linux-ax25.org
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v2: fix typos pointed out by Nicolas Schier
+---
+ Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
- Documentation/networking/ax25.rst |  4 ++--
- MAINTAINERS                       |  6 +++---
- net/ax25/Kconfig                  | 16 ++++++++--------
- 3 files changed, 13 insertions(+), 13 deletions(-)
-
---=20
-2.42.0
-
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 858ed5d80defe..0135905c0aa35 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -573,6 +573,32 @@ above, leading to:
+ 	bool "Support for foo hardware"
+ 	depends on ARCH_FOO_VENDOR || COMPILE_TEST
+ 
++Optional dependencies
++~~~~~~~~~~~~~~~~~~~~~
++
++Some drivers are able to optionally use a feature from another module
++or build cleanly with that module disabled, but cause a link failure
++when trying to use that loadable module from a built-in driver.
++
++The most common way to express this optional dependency in Kconfig logic
++uses the slightly counterintuitive::
++
++  config FOO
++	tristate "Support for foo hardware"
++	depends on BAR || !BAR
++
++This means that there is either a dependency on BAR that disallows
++the combination of FOO=y with BAR=m, or BAR is completely disabled.
++For a more formalized approach if there are multiple drivers that have
++the same dependency, a helper symbol can be used, like::
++
++  config FOO
++	tristate "Support for foo hardware"
++	depends on BAR_OPTIONAL
++
++  config BAR_OPTIONAL
++	def_tristate BAR || !BAR
++
+ Kconfig recursive dependency limitations
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-- 
+2.39.2
 
