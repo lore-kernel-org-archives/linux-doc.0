@@ -2,116 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00327C46CA1
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 07:35:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6D53CD13D3
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 07:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240112AbjIRHeg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Sep 2023 03:34:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34980 "EHLO
+        id S240270AbjIRHo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Sep 2023 03:44:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240525AbjIRHeX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Sep 2023 03:34:23 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7566B13E;
-        Mon, 18 Sep 2023 00:33:49 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1c3cbfa40d6so37526375ad.1;
-        Mon, 18 Sep 2023 00:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695022429; x=1695627229; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z9axyicU382Wx57Axqhzn+OpOnJ8J96M6SztAroiYJ4=;
-        b=iDmLc/LVeWcOJZSo1eeUblrgVfoCgSnIiTI7BpJe2Cgxl93Mazw3wtenohNOsEC0MK
-         5HknrHE00ZVU5V481D1nOSNMyfpH0ASYoFwWmcndG3YLV9gH4R3AhHZof2m+e1eT1xuZ
-         om5J5fShI+RSK2LYRAqMfjlsFbqgSESG4HctEx7yOuzdmCMa+qgYOl6jSFivQDMuHlT7
-         7T5nHjoMBeM4LzYOB2owwRj2e982Bjh2l7DmVtR/lILww4nIP2Mi9ZbKYJ93Hob8FmoZ
-         uLFpUzSKEz31borDc/WFEsjcacyIV1TUV3ayLTTn716OHIeGnEInclFg0I2gbTq5oxEg
-         bMtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695022429; x=1695627229;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z9axyicU382Wx57Axqhzn+OpOnJ8J96M6SztAroiYJ4=;
-        b=LZkzemFNOCLdfiUQLu3cknck27l0OQa/R53Uq1Cd/41kZJCmi5XHwUf67TlFvaaTPI
-         yFk6lgHqj64OydVcP/ngMf1YpivKtlqlzaLqSTjmuFtJxeISvDwB/p96uTEhJgCVNt02
-         6TYR6A5mexrOEJSEVtv6ohuh4TGmNCGvBDdmbKrbNLpJiM2BX1d/6nFoTWFhzxthTsBq
-         mlutGL8Elq5W9PrwB2XNZKLT59pvF001or4HGpCUIU0HJSXU1rR1sTALnEm2pmtSqvC3
-         0T3xTWRebDdKKpl/6z0ogtbULFq7CZAu4cddOyJ4Wa7xHSDchIr19C3T+hOCLPL7Lk1N
-         neXw==
-X-Gm-Message-State: AOJu0Yz0OSiD7dzz7RdaviuP5HHPn1twbEDt2BxPsF/FCmX0gHf2Dxyu
-        y5F6yIxT7Gqn++oJtSGtOMA=
-X-Google-Smtp-Source: AGHT+IHCvr0c0V4kcGq2yVg4a3uADaAMj0rHY9u126lIOA4UJdIeTedksYARQrYi0Z+KRSTjVSprew==
-X-Received: by 2002:a17:903:234e:b0:1c3:d864:d6a8 with SMTP id c14-20020a170903234e00b001c3d864d6a8mr10237307plh.23.1695022428741;
-        Mon, 18 Sep 2023 00:33:48 -0700 (PDT)
-Received: from debian.me ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id b6-20020a170902ed0600b001b9ecee459csm2290542pld.34.2023.09.18.00.33.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Sep 2023 00:33:48 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id ED56980D9E27; Mon, 18 Sep 2023 14:33:43 +0700 (WIB)
-Date:   Mon, 18 Sep 2023 14:33:43 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Charles Han <hanchunchao@inspur.com>, <corbet@lwn.net>,
-        <djwong@kernel.org>, <dchinner@redhat.com>,
+        with ESMTP id S240576AbjIRHor (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Sep 2023 03:44:47 -0400
+X-Greylist: delayed 128 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Sep 2023 00:43:12 PDT
+Received: from unicom145.biz-email.net (unicom145.biz-email.net [210.51.26.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B143B1AB;
+        Mon, 18 Sep 2023 00:43:11 -0700 (PDT)
+Received: from unicom145.biz-email.net
+        by unicom145.biz-email.net ((D)) with ASMTP (SSL) id NGG00157;
+        Mon, 18 Sep 2023 15:40:57 +0800
+Received: from localhost.localdomain.com (10.73.42.143) by
+ jtjnmail201604.home.langchao.com (10.100.2.4) with Microsoft SMTP Server id
+ 15.1.2507.32; Mon, 18 Sep 2023 15:40:56 +0800
+From:   Charles Han <hanchunchao@inspur.com>
+To:     <corbet@lwn.net>, <djwong@kernel.org>, <dchinner@redhat.com>,
         <allison.henderson@oracle.com>, <bhelgaas@google.com>
-Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: xfs: Remove repeated word in comments
-Message-ID: <ZQf9V5fz5NItte_i@debian.me>
-References: <20230918071905.296081-1-hanchunchao@inspur.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH v2 1/1] Documentation: xfs: Remove duplicate 'the' in transaction sequence process
+Date:   Mon, 18 Sep 2023 15:40:54 +0800
+Message-ID: <20230918074054.313204-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nGYxsMAcG22j/Khb"
-Content-Disposition: inline
-In-Reply-To: <20230918071905.296081-1-hanchunchao@inspur.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.73.42.143]
+tUid:   2023918154057640eaf18f255fa527821e0d728988d24
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Remove the repeated word "the" in comments.
 
---nGYxsMAcG22j/Khb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
+---
+ Documentation/filesystems/xfs-online-fsck-design.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Mon, Sep 18, 2023 at 03:19:05PM +0800, Charles Han wrote:
-> diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Docum=
-entation/filesystems/xfs-online-fsck-design.rst
-> index 1625d1131093..a0678101a7d0 100644
-> --- a/Documentation/filesystems/xfs-online-fsck-design.rst
-> +++ b/Documentation/filesystems/xfs-online-fsck-design.rst
-> @@ -1585,7 +1585,7 @@ The transaction sequence looks like this:
->  2. The second transaction contains a physical update to the free space b=
-trees
->     of AG 3 to release the former BMBT block and a second physical update=
- to the
->     free space btrees of AG 7 to release the unmapped file space.
-> -   Observe that the the physical updates are resequenced in the correct =
-order
-> +   Observe that the physical updates are resequenced in the correct order
->     when possible.
->     Attached to the transaction is a an extent free done (EFD) log item.
->     The EFD contains a pointer to the EFI logged in transaction #1 so tha=
-t log
+diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs-online-fsck-design.rst
+index 1625d1131093..a0678101a7d0 100644
+--- a/Documentation/filesystems/xfs-online-fsck-design.rst
++++ b/Documentation/filesystems/xfs-online-fsck-design.rst
+@@ -1585,7 +1585,7 @@ The transaction sequence looks like this:
+ 2. The second transaction contains a physical update to the free space btrees
+    of AG 3 to release the former BMBT block and a second physical update to the
+    free space btrees of AG 7 to release the unmapped file space.
+-   Observe that the the physical updates are resequenced in the correct order
++   Observe that the physical updates are resequenced in the correct order
+    when possible.
+    Attached to the transaction is a an extent free done (EFD) log item.
+    The EFD contains a pointer to the EFI logged in transaction #1 so that log
+-- 
+2.31.1
 
-I don't see any code comments in that doc. The patch title should have been
-"Documentation: xfs: Remove duplicate 'the' in transaction sequence process=
-".
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---nGYxsMAcG22j/Khb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZQf9UQAKCRD2uYlJVVFO
-o5IwAQDHbUekcN12IVObhYxj7ZNBAapn0riFXPkSi8MV+sXE8AEA00EC05unU4u0
-HNj0trC03PZGMlKVAAlR96xtaOPZuw8=
-=iVTH
------END PGP SIGNATURE-----
-
---nGYxsMAcG22j/Khb--
