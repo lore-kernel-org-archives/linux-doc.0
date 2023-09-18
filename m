@@ -2,67 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACF4CD37B4
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 03:15:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 470F2CD13D3
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 05:52:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239556AbjIRDPG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Sep 2023 23:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
+        id S239732AbjIRFvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Sep 2023 01:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239215AbjIRDOm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Sep 2023 23:14:42 -0400
-X-Greylist: delayed 65 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 17 Sep 2023 20:14:21 PDT
-Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F75129;
-        Sun, 17 Sep 2023 20:14:20 -0700 (PDT)
-Received: from ssh248.corpemail.net
-        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id NCF00111;
-        Mon, 18 Sep 2023 11:13:11 +0800
-Received: from localhost.localdomain.com (10.73.42.143) by
- jtjnmail201604.home.langchao.com (10.100.2.4) with Microsoft SMTP Server id
- 15.1.2507.32; Mon, 18 Sep 2023 11:13:11 +0800
-From:   Charles Han <hanchunchao@inspur.com>
-To:     <dave@stgolabs.net>, <paulmck@kernel.org>, <josh@joshtriplett.org>,
-        <corbet@lwn.net>
-CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Charles Han <hanchunchao@inspur.com>
-Subject: [PATCH] Documentation: RCU: Remove repeated word in comments
-Date:   Mon, 18 Sep 2023 11:13:09 +0800
-Message-ID: <20230918031309.142170-1-hanchunchao@inspur.com>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S235056AbjIRFvU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Sep 2023 01:51:20 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91AC5A3;
+        Sun, 17 Sep 2023 22:51:15 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB0DDC433C8;
+        Mon, 18 Sep 2023 05:51:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695016275;
+        bh=JfOWIt+obf76s+1uVLbbOkwuyYHQs3sah4CV1tI8N78=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=bjVywE1vRCCmIvADzHZlgW06bbzuIEiWHOy4fNTHae3zudLd7PTBZdvz9LSAQNazc
+         0RqItXqcGRWyrZwKsnHwSpzlTbL6/fJN5ItZpYwasR8C/m8Ukz0wq2qA90UgaJksYo
+         EOcT/YnUZR/vcuh+XWxq/QjkTs7oTikrZUhxfJ140Px5EsVXgzHiKtbfHlpiaRRF2t
+         AoNuKFJq80lo4xxD96KHRX9nc4gS2NTXgW1N+bumGAqojFbpsDqWGqZBL12iCQxE7s
+         JqEf0O8fv4izP/Vx4Wwh6saVMu8g4BWOZHMjcC1pAropK7Y3VgTegrH0XNtDwRAtRA
+         bQLkjSwlFoSnQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 8729CCE093C; Sun, 17 Sep 2023 22:51:11 -0700 (PDT)
+Date:   Sun, 17 Sep 2023 22:51:11 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Charles Han <hanchunchao@inspur.com>
+Cc:     dave@stgolabs.net, josh@joshtriplett.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: RCU: Remove repeated word in comments
+Message-ID: <6f30a570-670d-4fb3-bddb-5cb129dc7af6@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230918031309.142170-1-hanchunchao@inspur.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.73.42.143]
-tUid:   2023918111311a8c6fb8e0ab35c7a4292873417f89671
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918031309.142170-1-hanchunchao@inspur.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove the repeated word "of" in comments.
+On Mon, Sep 18, 2023 at 11:13:09AM +0800, Charles Han wrote:
+> Remove the repeated word "of" in comments.
+> 
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
 
-Signed-off-by: Charles Han <hanchunchao@inspur.com>
----
- Documentation/RCU/torture.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Good eyes!  Queued and pushed, thank you!
 
-diff --git a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
-index b3b6dfa85248..49e7beea6ae1 100644
---- a/Documentation/RCU/torture.rst
-+++ b/Documentation/RCU/torture.rst
-@@ -185,7 +185,7 @@ argument.
- Not all changes require that all scenarios be run.  For example, a change
- to Tree SRCU might run only the SRCU-N and SRCU-P scenarios using the
- --configs argument to kvm.sh as follows:  "--configs 'SRCU-N SRCU-P'".
--Large systems can run multiple copies of of the full set of scenarios,
-+Large systems can run multiple copies of the full set of scenarios,
- for example, a system with 448 hardware threads can run five instances
- of the full set concurrently.  To make this happen::
- 
--- 
-2.31.1
+							Thanx, Paul
 
+> ---
+>  Documentation/RCU/torture.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
+> index b3b6dfa85248..49e7beea6ae1 100644
+> --- a/Documentation/RCU/torture.rst
+> +++ b/Documentation/RCU/torture.rst
+> @@ -185,7 +185,7 @@ argument.
+>  Not all changes require that all scenarios be run.  For example, a change
+>  to Tree SRCU might run only the SRCU-N and SRCU-P scenarios using the
+>  --configs argument to kvm.sh as follows:  "--configs 'SRCU-N SRCU-P'".
+> -Large systems can run multiple copies of of the full set of scenarios,
+> +Large systems can run multiple copies of the full set of scenarios,
+>  for example, a system with 448 hardware threads can run five instances
+>  of the full set concurrently.  To make this happen::
+>  
+> -- 
+> 2.31.1
+> 
