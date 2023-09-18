@@ -2,96 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF02CD13CF
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Sep 2023 20:52:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACF4CD37B4
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 03:15:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238857AbjIQUwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Sep 2023 16:52:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44548 "EHLO
+        id S239556AbjIRDPG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Sep 2023 23:15:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241302AbjIQUvv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Sep 2023 16:51:51 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61576131;
-        Sun, 17 Sep 2023 13:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694983906; x=1726519906;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=paznUEp5GxW/Ux7AJ7asXSl9DWPKdN6uyysmYb20O+E=;
-  b=gw5pRvvFAD8Do1CzoE5ufdwYaPBd8sgP+Fv0HshxM0YvbxfgS84/1YYD
-   +8ycOfCrPWRqLs8Y5hhlu2pv6zrT1OLcGT60tAaAd0K1e5auAD/KemB/E
-   ngB3aT4j/ag5SvBigaonXqobotcZAxMFOkvEpTEA2nwHggsep0K6DBn+z
-   X5v3EApHb2zWsH7X6D0+bIx+CE3kZ6jF0cu022h3/1JJ+yqFfocdIOJ+x
-   bj548k7siI8ADJQKF76wwYxPr7wA5TG+q+huQmJNqyNW4+erY9lw89eKk
-   gNjzbAdsn41UZSlYHnCzA/RPG5P02s0VTDOO0bpih8LyLzMOWtTTsuzWS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="359780755"
-X-IronPort-AV: E=Sophos;i="6.02,155,1688454000"; 
-   d="scan'208";a="359780755"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2023 13:51:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="815798331"
-X-IronPort-AV: E=Sophos;i="6.02,155,1688454000"; 
-   d="scan'208";a="815798331"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Sep 2023 13:51:43 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qhyk1-0005Sa-2g;
-        Sun, 17 Sep 2023 20:51:41 +0000
-Date:   Mon, 18 Sep 2023 04:50:59 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc:     oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        Jiri Pirko <jiri@nvidia.com>, linux-doc@vger.kernel.org
-Subject: [net-next:main 2/43] htmldocs:
- Documentation/driver-api/dpll.rst:427: WARNING: Error in "code-block"
- directive:
-Message-ID: <202309180456.lOhxy9gS-lkp@intel.com>
+        with ESMTP id S239215AbjIRDOm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Sep 2023 23:14:42 -0400
+X-Greylist: delayed 65 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 17 Sep 2023 20:14:21 PDT
+Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F75129;
+        Sun, 17 Sep 2023 20:14:20 -0700 (PDT)
+Received: from ssh248.corpemail.net
+        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id NCF00111;
+        Mon, 18 Sep 2023 11:13:11 +0800
+Received: from localhost.localdomain.com (10.73.42.143) by
+ jtjnmail201604.home.langchao.com (10.100.2.4) with Microsoft SMTP Server id
+ 15.1.2507.32; Mon, 18 Sep 2023 11:13:11 +0800
+From:   Charles Han <hanchunchao@inspur.com>
+To:     <dave@stgolabs.net>, <paulmck@kernel.org>, <josh@joshtriplett.org>,
+        <corbet@lwn.net>
+CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH] Documentation: RCU: Remove repeated word in comments
+Date:   Mon, 18 Sep 2023 11:13:09 +0800
+Message-ID: <20230918031309.142170-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.73.42.143]
+tUid:   2023918111311a8c6fb8e0ab35c7a4292873417f89671
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   d692873cbe861a870cdc9cbfb120eefd113c3dfd
-commit: dbb291f19393b628a1d15b94a78d471b9d94e532 [2/43] dpll: documentation on DPLL subsystem interface
-reproduce: (https://download.01.org/0day-ci/archive/20230918/202309180456.lOhxy9gS-lkp@intel.com/reproduce)
+Remove the repeated word "of" in comments.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309180456.lOhxy9gS-lkp@intel.com/
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
+---
+ Documentation/RCU/torture.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/driver-api/dpll.rst:427: WARNING: Error in "code-block" directive:
-
-vim +427 Documentation/driver-api/dpll.rst
-
-   426	
- > 427	.. code-block:: c
-   428		static const struct dpll_device_ops dpll_ops = {
-   429			.lock_status_get = ptp_ocp_dpll_lock_status_get,
-   430			.mode_get = ptp_ocp_dpll_mode_get,
-   431			.mode_supported = ptp_ocp_dpll_mode_supported,
-   432		};
-   433	
-   434		static const struct dpll_pin_ops dpll_pins_ops = {
-   435			.frequency_get = ptp_ocp_dpll_frequency_get,
-   436			.frequency_set = ptp_ocp_dpll_frequency_set,
-   437			.direction_get = ptp_ocp_dpll_direction_get,
-   438			.direction_set = ptp_ocp_dpll_direction_set,
-   439			.state_on_dpll_get = ptp_ocp_dpll_state_get,
-   440		};
-   441	
-
+diff --git a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
+index b3b6dfa85248..49e7beea6ae1 100644
+--- a/Documentation/RCU/torture.rst
++++ b/Documentation/RCU/torture.rst
+@@ -185,7 +185,7 @@ argument.
+ Not all changes require that all scenarios be run.  For example, a change
+ to Tree SRCU might run only the SRCU-N and SRCU-P scenarios using the
+ --configs argument to kvm.sh as follows:  "--configs 'SRCU-N SRCU-P'".
+-Large systems can run multiple copies of of the full set of scenarios,
++Large systems can run multiple copies of the full set of scenarios,
+ for example, a system with 448 hardware threads can run five instances
+ of the full set concurrently.  To make this happen::
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.31.1
+
