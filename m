@@ -2,166 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0A5ACD37B0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 15:38:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E664C46CA1
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 15:57:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229546AbjIRPiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Sep 2023 11:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41834 "EHLO
+        id S229757AbjIRP5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Sep 2023 11:57:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjIRPiI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Sep 2023 11:38:08 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D182716
-        for <linux-doc@vger.kernel.org>; Mon, 18 Sep 2023 08:34:16 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-50309daf971so2698435e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Sep 2023 08:34:16 -0700 (PDT)
+        with ESMTP id S229819AbjIRP5p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Sep 2023 11:57:45 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A72FF;
+        Mon, 18 Sep 2023 08:54:34 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-773a0f36b4bso275343385a.0;
+        Mon, 18 Sep 2023 08:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sigma-star.at; s=google; t=1695051055; x=1695655855; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VFchyKYZaSrX7EMCsBGCn2uZcmTzjow+NxNlenZjDxg=;
-        b=vcmtBKryn2TMw1j3XDInZj0hBz/m/MomjOm7rMNMkVmAWEbxyCgweAJjWLYSPpB55L
-         QygHEF0aqp5kDhGh2CKWz//AMH6OYUX5m/9FWBes9JLurigS6vdVLCgK4+wvLoxADfem
-         Tw3CQod+bjPRanqG/WGLLWQ/c54cTlxixMdmkq+LK/5IzaXNbtQyFvLkyQhw3pmK2O3x
-         UIisMt1kPSy2OTnJ2FRE9XAfEibuj+gkr5EwhdwZVmQkspRFAiUAfo6gu+eMCKZ6DubH
-         Kj908TbuZZm8Ait5V8kw63iiw3hdqjcKTz9J32V04OgM6t7XzUX6DI2PWX+gu2qx2ImM
-         3L6w==
+        d=gmail.com; s=20230601; t=1695052236; x=1695657036; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=D1Fje60QNx1BvdDO0QihprgGJ7xlaD1JNybZmw5Nq/w=;
+        b=hxGqmPGpADFPAT3rEgNcAaeoN3wgTDLB1Tgd5sI1v5MMo2A7vHRrfUzAgqZIfDwLWx
+         96rfgWJEKJHIuCKgsAS/6xrjEUXaU8H2suCZBTuYY76ko9SDlVaf/u7Szt5V6PxBL1Ny
+         +EZOqnpINUHitNlwUbwlft+z7niF3FEquJxi5medjkh6NLQCzoqzIi6EYNPm9WekSLWn
+         FbFj9GTub83R+5c9Nxk+vwBW3GIB2FVTQWWYE8Gc2TfDSLcnEWYWW3fBfAE0Gj2nQMj9
+         r/Nr9GX7Y+05vIDFI6/oly5qy2grOxB2uxpBRX4/uEfMChoBUqYN2pbN6mi/q56H+pal
+         OEwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695051055; x=1695655855;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1695052236; x=1695657036;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VFchyKYZaSrX7EMCsBGCn2uZcmTzjow+NxNlenZjDxg=;
-        b=llrlDC/dROMim3Zf9Hk4RQVEdK2/4spVX59thR3cuQmsR33VJSI4a/QSu3xCR31QBB
-         I/xNro6Xyoi86D6E/7K4Vyzd+kJHtnAV+NAvgZnQDskDgn3cH0O7lHNB97unVCdPF2wB
-         b7nqLgGrQC1uhZt2CFzhPznqyqrV44jztxrckFDHV7f6/d3HnaLkXp3pFpYhJvn4ImxR
-         w6Hz8+NYGNSKOul2VnwMBk5tX6wYSIHIiaur3xbHPDZvdcrMI49W6WXdKSzyQ4QfCM4P
-         H00SmiKi3KEaAFOm/XfVhzlocNzjkpfkFaBGNUiTl9K5sAYWZPc6Qe9iSoEBTpBCGdQw
-         bmUw==
-X-Gm-Message-State: AOJu0YysNDGGl+jEICKXluYa6RImiYtUO/zU8upoi+B2f/dCsCL1gB2x
-        APB0DDbfFM0dNwEhQo0dyNvgrPOR5OXn7XFJOr2dyA==
-X-Google-Smtp-Source: AGHT+IGZY9EAv9fq5jtqbWievBVWv5LiwqHR3LyOgh3sgu5FxK83H5apmVz53SdQ15aJu5RB2fhOsg==
-X-Received: by 2002:a05:6402:28ac:b0:530:8d55:9c69 with SMTP id eg44-20020a05640228ac00b005308d559c69mr8040854edb.11.1695046714597;
-        Mon, 18 Sep 2023 07:18:34 -0700 (PDT)
-Received: from localhost ([82.150.214.1])
-        by smtp.gmail.com with UTF8SMTPSA id f23-20020a056402161700b00525503fac84sm6031869edv.25.2023.09.18.07.18.32
+        bh=D1Fje60QNx1BvdDO0QihprgGJ7xlaD1JNybZmw5Nq/w=;
+        b=c6NjqNmUUB3A2Cpk7zTCZKOolyzlYj9FNe786w2236MZrgCqOBP9jQlbiDZGpXaGp7
+         9nY504ys+HXxDXn5cytJ4iIgTtCU6ZHZHO8BFbMENlXvrrTbf7lf0lsz56PtBvYuIuzN
+         fCWthtRZqDL/4U8x9l7GCnB1whAu2AD/jUe7y+fQ/QPE0nmMSBtbac+4+L7QIOOZXyf5
+         6j6h/sADePvK9rV+dZxYoAhSKrCfVZS/wrlcZ4qMsH9r/RSdRcq3K4qE9L1pPKz6+gGP
+         tt2NDbvX9EPacB496B+3r+x0IiMsXVLFaq2gf75laT5Wdt1Mg/C/4JDIWc10JsyrfuuA
+         KY0w==
+X-Gm-Message-State: AOJu0YwjnYBa1XlFQ6RcupRJFrRTj3ZMUCvZ7POZFPDUuvUQHLfxB043
+        EoPS5LCvqIADBd8FInSQQbf0vH5WGOQ=
+X-Google-Smtp-Source: AGHT+IFQdbSe5j8h3gcfqs7w0EAAODxRBkZUnrWEIijpJmeUgC/SN2QMLHB4QM8ogfl6uR8Vgjbgsw==
+X-Received: by 2002:a17:902:82c3:b0:1c4:749e:e725 with SMTP id u3-20020a17090282c300b001c4749ee725mr3135869plz.0.1695046148422;
+        Mon, 18 Sep 2023 07:09:08 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id jk15-20020a170903330f00b001b9fef7f454sm5910990plb.73.2023.09.18.07.09.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 07:18:34 -0700 (PDT)
-From:   David Gstir <david@sigma-star.at>
-To:     Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>
-Cc:     David Gstir <david@sigma-star.at>, Shawn Guo <shawnguo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        sigma star Kernel Team <upstream+dcp@sigma-star.at>,
-        David Howells <dhowells@redhat.com>,
-        Li Yang <leoyang.li@nxp.com>, Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Tejun Heo <tj@kernel.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v3 0/3] DCP as trusted keys backend
-Date:   Mon, 18 Sep 2023 16:18:22 +0200
-Message-ID: <20230918141826.8139-1-david@sigma-star.at>
-X-Mailer: git-send-email 2.42.0
+        Mon, 18 Sep 2023 07:09:06 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <34b6d4b8-b0a4-ea7a-923a-4e4ed365cb70@roeck-us.net>
+Date:   Mon, 18 Sep 2023 07:08:41 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 1/5] hwmon: max31827: Make code cleaner
+Content-Language: en-US
+To:     "Matyas, Daniel" <Daniel.Matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20230914075948.208046-1-daniel.matyas@analog.com>
+ <44e84cb8-b573-0e1a-91e5-cdee0441d0f9@roeck-us.net>
+ <PH0PR03MB6771F345901A22603B60508289FBA@PH0PR03MB6771.namprd03.prod.outlook.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <PH0PR03MB6771F345901A22603B60508289FBA@PH0PR03MB6771.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a revival of the previous patch set submitted by Richard Weinberger:
-https://lore.kernel.org/linux-integrity/20210614201620.30451-1-richard@nod.at/
+On 9/18/23 02:25, Matyas, Daniel wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>> Sent: Saturday, September 16, 2023 2:26 AM
+>> To: Matyas, Daniel <Daniel.Matyas@analog.com>
+>> Cc: Jean Delvare <jdelvare@suse.com>; Rob Herring
+>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
+>> <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; linux-
+>> hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; linux-doc@vger.kernel.org
+>> Subject: Re: [PATCH v3 1/5] hwmon: max31827: Make code cleaner
+>>
+>> [External]
+>>
+>> On 9/14/23 00:59, Daniel Matyas wrote:
+>>> Now the wait time for one-shot is 140ms, instead of the old 141
+>>> (removed the 1ms error).
+>>>
+>>
+>> It was explicitly documented that the wait time was 140 + 1 milli-seconds,
+>> presumably to be sure that the conversion is really complete.
+>>
+>> Why was this an error ? It was _documented_ that way.
+>>
+>> Guenter
+>>
+> 
+> Well... actually I developed the driver initially and I wrote the documentation, so I know. I decided to remove the error milli-second, because I realized, it isn't really needed. There is no reference about it in the documentation of the chip, and frankly, I didn’t actually encounter any error which would need the 1 milli-second.
+> 
+> This way, the wait time is more exact and the correspondence with the chip documentation becomes quite straightforward.
+> 
 
-v2 is here:
-https://lore.kernel.org/keyrings/20230912111115.24274-1-david@sigma-star.at/
+This is all fine, but it is yet another example of more than one logical
+change in a single patch, and it has nothing to do with the subject. It
+is not a cleanup, but a functional change.
 
-v2 -> v3:
-- Addressed review comments from Jarkko Sakkinen
-v1 -> v2:
-- Revive and rebase to latest version
-- Include review comments from Ahmad Fatoum
+Please split _all_ logical changes into separate patches.
 
-The Data CoProcessor (DCP) is an IP core built into many NXP SoCs such
-as i.mx6ull.
-
-Similar to the CAAM engine used in more powerful SoCs, DCP can AES-
-encrypt/decrypt user data using a unique, never-disclosed,
-device-specific key. Unlike CAAM though, it cannot directly wrap and
-unwrap blobs in hardware. As DCP offers only the bare minimum feature
-set and a blob mechanism needs aid from software. A blob in this case
-is a piece of sensitive data (e.g. a key) that is encrypted and
-authenticated using the device-specific key so that unwrapping can only
-be done on the hardware where the blob was wrapped.
-
-This patch series adds a DCP based, trusted-key backend and is similar
-in spirit to the one by Ahmad Fatoum [0] that does the same for CAAM.
-It is of interest for similar use cases as the CAAM patch set, but for
-lower end devices, where CAAM is not available.
-
-Because constructing and parsing the blob has to happen in software,
-we needed to decide on a blob format and chose the following:
-
-struct dcp_blob_fmt {
-	__u8 fmt_version;
-	__u8 blob_key[AES_KEYSIZE_128];
-	__u8 nonce[AES_KEYSIZE_128];
-	__le32 payload_len;
-	__u8 payload[];
-} __packed;
-
-The `fmt_version` is currently 1.
-
-The encrypted key is stored in the payload area. It is AES-128-GCM
-encrypted using `blob_key` and `nonce`, GCM auth tag is attached at
-the end of the payload (`payload_len` does not include the size of
-the auth tag).
-
-The `blob_key` itself is encrypted in AES-128-ECB mode by DCP using
-the OTP or UNIQUE device key. A new `blob_key` and `nonce` are generated
-randomly, when sealing/exporting the DCP blob.
-
-This patchset was tested with dm-crypt on an i.MX6ULL board.
-
-[0] https://lore.kernel.org/keyrings/20220513145705.2080323-1-a.fatoum@pengutronix.de/
-
-David Gstir (3):
-  crypto: mxs-dcp: Add support for hardware provided keys
-  KEYS: trusted: Introduce support for NXP DCP-based trusted keys
-  doc: trusted-encrypted: add DCP as new trust source
-
- .../admin-guide/kernel-parameters.txt         |  13 +
- .../security/keys/trusted-encrypted.rst       |  85 +++++
- MAINTAINERS                                   |   9 +
- drivers/crypto/mxs-dcp.c                      | 104 +++++-
- include/keys/trusted_dcp.h                    |  11 +
- include/soc/fsl/dcp.h                         |  17 +
- security/keys/trusted-keys/Kconfig            |   9 +-
- security/keys/trusted-keys/Makefile           |   2 +
- security/keys/trusted-keys/trusted_core.c     |   6 +-
- security/keys/trusted-keys/trusted_dcp.c      | 311 ++++++++++++++++++
- 10 files changed, 554 insertions(+), 13 deletions(-)
- create mode 100644 include/keys/trusted_dcp.h
- create mode 100644 include/soc/fsl/dcp.h
- create mode 100644 security/keys/trusted-keys/trusted_dcp.c
-
--- 
-2.35.3
+Guenter
 
