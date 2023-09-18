@@ -2,77 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F10FAC46CA1
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 12:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23AACC46CA1
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Sep 2023 12:09:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240208AbjIRMBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Sep 2023 08:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50390 "EHLO
+        id S241890AbjIRMJK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Sep 2023 08:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241934AbjIRMBY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Sep 2023 08:01:24 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA08CDB;
-        Mon, 18 Sep 2023 05:00:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D1FDDC433C9;
-        Mon, 18 Sep 2023 12:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695038423;
-        bh=Ni0eR8OTKOtQebhcs2oSdkQO4hfRNZ1h4rEUJWi0vE8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=eiiuTscW2dccO8+TpLHSgnSNMxZ0JiqNSAMjd8Wos/kboeacJemeHDVTu5FwFp6rn
-         iHRFUM1L2lxUJBB0AKk5moSdADBuijcZ3Q0vr5pnjiF1R4NxmXbCHhcLo8nEfv0hkj
-         2J73kOE64DXdvNEcz/TBn4aLHhdTsA2L9szhhAxm1uof1o4KG1ABABg1Fj64RH3oZ/
-         vceplLqR6Uf5LzH8Re9erFPqGi0uXqFuge2qcp1iOXqSt7jTtedMIiH5m+orgtLLKs
-         Kk/NTlCX8MUZoni2puvw8h6zVgTh5L/xcD9ITzICuScGD78mJK27m2sCP5Q1gnOrIQ
-         5TFfpZ7VdF1qQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B7B0CE11F41;
-        Mon, 18 Sep 2023 12:00:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S241987AbjIRMJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Sep 2023 08:09:01 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90064BF
+        for <linux-doc@vger.kernel.org>; Mon, 18 Sep 2023 05:08:55 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-6561c09ead6so23965266d6.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 Sep 2023 05:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695038934; x=1695643734; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ziZvMGLK6JgmUUboWqZiWtfE7gVK2DDQAWWdwk2gDB8=;
+        b=p61uxtX0s6QXhc4OmvJvspTqCcs2jz3xrCH+J4noLOoD1mjKzM0525uRVmVJyeilS4
+         hITA3Njo9vEato1lC05/6upCAPiyHpNEzm6+vkejZDLfpWZ6Uq06/XKDJO3TGRZEA4x3
+         Li+i7BI+ooan++z/FQ3wS/cQEFl7WbpG2KWcv4tMOcFu2VlGfcWsC+8Ag5Ragp5O6xcn
+         X8dJ/T4Fn6/bakka1UpaJFJIn0TTf9o/MOx1bsZOPfs/9CSHOSD4wjPBOBqMRyAE2ywV
+         QJfivMQjREm23VomDYxMjvNdlh3+lTK+F8rX2XcD0/bMlTtHu2D0t6vAsuN0Lwt53HK5
+         ZBUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695038934; x=1695643734;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ziZvMGLK6JgmUUboWqZiWtfE7gVK2DDQAWWdwk2gDB8=;
+        b=iPlc8sfg0R0DGTHt6jJ3oPAUfLeChaxBdlNZkepeEYJDp+SJZMnKiyJ99ZcXABANGo
+         CX1GhdDwYCxgM4u/MtK7/cHenm3Iv3kunRPTp563x/qqhH0B5Ur8JrHGLt0rFeJpcY91
+         hW49SACPUkQ0iN2PmAMWXMDL4LTeH4CNafOZNZCf6No5kKX2SiROGcVJR+iqyp1vsIWF
+         o4jAp4aqtw0WU+2L3VoiXry7Wh0KjR1L8bxmAZqyhCKBnpH+D0ZLysAu2Yss1/3pLx18
+         ATKl+bE+Y6rZwDB5TXH9rScn18A4N9mp0suGcl58AA92ZqbCSP4IRb96hH9Pcx0ohRkG
+         cJ0w==
+X-Gm-Message-State: AOJu0Yy9gdrgIjUVL/GZ/t4ghuLEV0Wgjv6Z0pEhcG5giv1R9yvy3Fwh
+        iODjajSrlpPPSP4hBum5FiPJS2IQGd0N0sA5OliDUA==
+X-Google-Smtp-Source: AGHT+IGe6eycPkCnJorto9OJHO+hQCundE/h1zKNUGuoGj4gpWrDhAWQ0sCOlXxSU9kbzdmJ9bi8fQ6B0MF4HXGsu54=
+X-Received: by 2002:a0c:cc82:0:b0:656:5337:e7bd with SMTP id
+ f2-20020a0ccc82000000b006565337e7bdmr4263366qvl.3.1695038934426; Mon, 18 Sep
+ 2023 05:08:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/3] ax25: Update link for linux-ax25.org
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169503842374.7731.4777712739974344012.git-patchwork-notify@kernel.org>
-Date:   Mon, 18 Sep 2023 12:00:23 +0000
-References: <20230917152938.8231-1-peter@n8pjl.ca>
-In-Reply-To: <20230917152938.8231-1-peter@n8pjl.ca>
-To:     Peter Lafreniere <peter@n8pjl.ca>
-Cc:     linux-hams@vger.kernel.org, thomas@osterried.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        ralf@linux-mips.org, linux-doc@vger.kernel.org, corbet@lwn.net
+References: <20230915105933.495735-1-matteorizzo@google.com>
+ <7a4f5128-28fd-3c5f-34c2-1c34f4448174@intel.com> <1d7573c0-ebbc-6ed2-f152-1045eb0542f9@os.amperecomputing.com>
+In-Reply-To: <1d7573c0-ebbc-6ed2-f152-1045eb0542f9@os.amperecomputing.com>
+From:   Matteo Rizzo <matteorizzo@google.com>
+Date:   Mon, 18 Sep 2023 14:08:43 +0200
+Message-ID: <CAHKB1w+rVyww0UrHhzeGfPA7FM482Z-7ApzXvekVqLHvTDAV3Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/14] Prevent cross-cache attacks in the SLUB allocator
+To:     "Lameter, Christopher" <cl@os.amperecomputing.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>, penberg@kernel.org,
+        rientjes@google.com, iamjoonsoo.kim@lge.com,
+        akpm@linux-foundation.org, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        keescook@chromium.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-hardening@vger.kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, corbet@lwn.net, luto@kernel.org,
+        peterz@infradead.org, jannh@google.com, evn@google.com,
+        poprdi@google.com, jordyzomer@google.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Fri, 15 Sept 2023 at 18:30, Lameter, Christopher
+<cl@os.amperecomputing.com> wrote:
+>
+> On Fri, 15 Sep 2023, Dave Hansen wrote:
+>
+> > What's the cost?
+>
+> The only thing that I see is 1-2% on kernel compilations (and "more on
+> machines with lots of cores")?
 
-This series was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+I used kernel compilation time (wall clock time) as a benchmark while
+preparing the series. Lower is better.
 
-On Sun, 17 Sep 2023 15:29:44 +0000 you wrote:
-> http://linux-ax25.org has been down for nearly a year. Its official
-> replacement is https://linux-ax25.in-berlin.de.
-> 
-> Update all references to the dead link to its replacement.
-> 
-> As the three touched files are in different areas of the tree, this is
-> being sent with one patch per file.
-> 
-> [...]
+Intel Skylake, 112 cores:
 
-Here is the summary with links:
-  - [1/3] Documentation: netdev: fix dead link in ax25.rst
-    https://git.kernel.org/netdev/net/c/418f438a2db6
-  - [2/3] MAINTAINERS: Update link for linux-ax25.org
-    https://git.kernel.org/netdev/net/c/1943f2b0ac5a
-  - [3/3] ax25: Kconfig: Update link for linux-ax25.org
-    https://git.kernel.org/netdev/net/c/71273c46a348
+      LABEL    | COUNT |   MIN   |   MAX   |   MEAN  |  MEDIAN | STDDEV
+---------------+-------+---------+---------+---------+---------+--------
+SLAB_VIRTUAL=n | 150   | 49.700s | 51.320s | 50.449s | 50.430s | 0.29959
+SLAB_VIRTUAL=y | 150   | 50.020s | 51.660s | 50.880s | 50.880s | 0.30495
+               |       | +0.64%  | +0.66%  | +0.85%  | +0.89%  | +1.79%
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+AMD Milan, 256 cores:
 
+    LABEL      | COUNT |   MIN   |   MAX   |   MEAN  |  MEDIAN | STDDEV
+---------------+-------+---------+---------+---------+---------+--------
+SLAB_VIRTUAL=n | 150   | 25.480s | 26.550s | 26.065s | 26.055s | 0.23495
+SLAB_VIRTUAL=y | 150   | 25.820s | 27.080s | 26.531s | 26.540s | 0.25974
+               |       | +1.33%  | +2.00%  | +1.79%  | +1.86%  | +10.55%
 
+Are there any specific benchmarks that you would be interested in seeing or
+that are usually used for SLUB?
+
+> Problems:
+>
+> - Overhead due to more TLB lookups
+>
+> - Larger amounts of TLBs are used for the OS. Currently we are trying to
+> use the maximum mappable TLBs to reduce their numbers. This presumably
+> means using 4K TLBs for all slab access.
+
+Yes, we are using 4K pages for the slab mappings which is going to increase
+TLB pressure. I also tried writing a version of the patch that uses 2M
+pages which had slightly better performance, but that had its own problems.
+For example most slabs are much smaller than 2M, so we would need to create
+and map multiple slabs at once and we wouldn't be able to release the
+physical memory until all slabs in the 2M page are unused which increases
+fragmentation.
+
+> - Memory may not be physically contiguous which may be required by some
+> drivers doing DMA.
+
+In the current implementation each slab is backed by physically contiguous
+memory, but different slabs that are adjacent in virtual memory might not
+be physically contiguous. Treating objects allocated from two different
+slabs as one contiguous chunk of memory is probably wrong anyway, right?
+
+--
+Matteo
