@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A752FCD5BB4
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 12:54:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F210CD5BB3
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 12:58:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbjISMzD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 08:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40322 "EHLO
+        id S232282AbjISM64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 08:58:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232080AbjISMzC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 08:55:02 -0400
+        with ESMTP id S232274AbjISM6p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 08:58:45 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D441DF3;
-        Tue, 19 Sep 2023 05:54:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9413F3;
+        Tue, 19 Sep 2023 05:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=1Npvrzyz+/TZN9YuhYrSAlYVBkFpFs1Wg2sTP1rKTzM=; b=XXl0VR2tj8IyKUOHxyeVKdBQ12
-        QbqTt8W+/Un78rkZaHzfMrIOQfiPRpMR423vSz4l8tSzehXttY60c+iOpNCet9ysn7EAbYhBdUPyT
-        KKUq+vcVhFuT4suCzdVfZvc1mfP7pWTaeatTbcKuDD3L4r1sYPzuYMaYJzyhP0c7UuQo=;
+        bh=6pJg57Rcm0bmG3CDzyP2i9I6PKCyoCY99pTc1UrpBC8=; b=bZh8QSHyXJjGveMP/Dkg4hr+hR
+        KOM1GS26Sr/9iplc+88NCDHXRHqKbCRO6pbQPLx2EGjjgycmX8CDMoo7Zf9wZ1DDABIu2TeGYOByQ
+        f0JEpxvknIcw6dPbKvpLgPdC0W7+fSGaOZU9X/Jwu/c55ONcBRBSdWyqOb9TciWeZTC8=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1qiaFb-006uYS-1A; Tue, 19 Sep 2023 14:54:47 +0200
-Date:   Tue, 19 Sep 2023 14:54:47 +0200
+        id 1qiaJB-006uaR-El; Tue, 19 Sep 2023 14:58:29 +0200
+Date:   Tue, 19 Sep 2023 14:58:29 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Parthiban.Veerasooran@microchip.com
 Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -38,35 +38,39 @@ Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         Horatiu.Vultur@microchip.com, Woojung.Huh@microchip.com,
         Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
         Thorsten.Kummermehr@microchip.com
-Subject: Re: [RFC PATCH net-next 3/6] net: ethernet: implement OA TC6
- configuration function
-Message-ID: <d2d26c6c-0345-46cf-b806-15834ba8b40f@lunn.ch>
+Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
+ control transaction interface
+Message-ID: <4c1d0d38-c459-4722-bead-7660d85f4925@lunn.ch>
 References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
- <20230908142919.14849-4-Parthiban.Veerasooran@microchip.com>
- <dd0a6cd5-91e5-4e13-8025-d6c88bdab5a2@lunn.ch>
- <46fab729-4c5a-1a6e-37d0-fea62c0717f7@microchip.com>
+ <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
+ <8d53ca8d-bcf6-4673-a8ff-b621d700576e@lunn.ch>
+ <9615b403-52c1-f24f-382f-8eea3ddfcf04@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <46fab729-4c5a-1a6e-37d0-fea62c0717f7@microchip.com>
+In-Reply-To: <9615b403-52c1-f24f-382f-8eea3ddfcf04@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> >> +/* Unmasking interrupt fields in IMASK0 */
-> >> +#define HDREM                ~BIT(5)         /* Header Error Mask */
-> >> +#define LOFEM                ~BIT(4)         /* Loss of Framing Error Mask */
-> >> +#define RXBOEM               ~BIT(3)         /* Rx Buffer Overflow Error Mask */
-> >> +#define TXBUEM               ~BIT(2)         /* Tx Buffer Underflow Error Mask */
-> >> +#define TXBOEM               ~BIT(1)         /* Tx Buffer Overflow Error Mask */
-> >> +#define TXPEM                ~BIT(0)         /* Tx Protocol Error Mask */
+On Tue, Sep 19, 2023 at 11:13:13AM +0000, Parthiban.Veerasooran@microchip.com wrote:
+> Hi Andrew,
+> 
+> On 13/09/23 7:46 am, Andrew Lunn wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
 > > 
-> > Using ~BIT(X) is very usual. I would not do this, Principle of Least
-> > Surprise.
-> Sorry, I don't get your point. Could you please explain bit more?
+> >> +struct oa_tc6 {
+> >> +     struct spi_device *spi;
+> >> +     bool ctrl_prot;
+> >> +};
+> > 
+> > Should this be considered an opaque structure which the MAC driver
+> > should not access the members?
 
-Look around kernel header files. How often do you see ~BIT(5)?  My
-guess it is approximately 0. So i'm suggesting you remove the ~ and
-have the user of the #define assemble the mask and then do the ~ .
+Opaque vs not opaque is an important design decision. If the MAC
+driver is allowed to directly access this structure, you should
+document the locking concept. If the MAC is not supposed to access it
+directly, only uses getters/setters, that also needs documenting, and
+maybe even make it a void * in the MAC driver.
 
-     Andrew
+      Andrew
