@@ -2,75 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1487CD54A8
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 08:29:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A89CD54A4
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 08:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbjISI3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 04:29:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55180 "EHLO
+        id S229772AbjISIb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 04:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbjISI24 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 04:28:56 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7989D13E;
-        Tue, 19 Sep 2023 01:28:50 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1695112128;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=g/J3RiWKdg8c3IzdjWmLh9zLCv7VF76fYepXRQtkHb0=;
-        b=U3ecSGCa3F2gvLLwz1Ij5s049fnE+mB8KhUG/kINpG9gVGfyTRvYvyyxoFnM0is9mqZ0Um
-        RSFc8r37Ueg5axCqiQW0rdvc8RErKGb7CCXtfrEA+F38yE/AwhQCiw6v622RKTttoTvTCz
-        RTJsf6jx1UlOXNAoqOTC/hQxrmZqNEgjEcZByd3DjNjh5CD9r/CIe13PTRRCK31Q+Tjkgd
-        HZeL25W9eVSai+S77A3weyQcehuhDyUfqHcTht0GIWMmWmyLC8mi+I7+W8KgGxNCqcw46D
-        Q1jY8vAZtTR3H02IWJgTCCmosSGbuL+SzPWJ3XPqStgVHKCRxUiHTGzMUMrnUA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1695112128;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=g/J3RiWKdg8c3IzdjWmLh9zLCv7VF76fYepXRQtkHb0=;
-        b=Sl2Ncxcrp84n8qOLd17+QPVSsnJWwjTJhHEW5C5C3dyLrVSuoCsaT/WfyM/4UuDdWtvOxm
-        EdqWbhFdtlEDc9Bg==
-To:     Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, luto@kernel.org,
-        pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
-        jgross@suse.com, ravi.v.shankar@intel.com, mhiramat@kernel.org,
-        andrew.cooper3@citrix.com, jiangshanlai@gmail.com
-Subject: Re: [PATCH v10 36/38] x86/fred: Add fred_syscall_init()
-In-Reply-To: <20230914044805.301390-37-xin3.li@intel.com>
-References: <20230914044805.301390-1-xin3.li@intel.com>
- <20230914044805.301390-37-xin3.li@intel.com>
-Date:   Tue, 19 Sep 2023 10:28:47 +0200
-Message-ID: <87v8c6woqo.ffs@tglx>
+        with ESMTP id S229641AbjISIb1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 04:31:27 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9DFE6;
+        Tue, 19 Sep 2023 01:31:22 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9EE0C433C8;
+        Tue, 19 Sep 2023 08:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1695112281;
+        bh=5ZQxCL05xgbLE+Hqu9vgbWaedv9zDSuUhLTMmtFM1uc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2a5mY6//2a+36b6b3fKJ6tdg/hf75MoC6RGeUzk+NcaezDnH0wGRO02zk1ru2sDtC
+         m1cuoSDmJW/dWsgxlvB1KJZvYBD/ULW2jXVFwQkdYjCTTHsleWNHLcgy0hNHMsQ1Dk
+         GpPmONhtiufiCCx9Si0NM1mukcA1qxnJjDU6tJqs=
+Date:   Tue, 19 Sep 2023 10:03:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc:     perex@perex.cz, tiwai@suse.com, corbet@lwn.net,
+        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ALSA: docs: Add Marian M2 driver documentation
+Message-ID: <2023091924-snowfield-armchair-47d3@gregkh>
+References: <20230918181044.7257-1-ivan.orlov0322@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918181044.7257-1-ivan.orlov0322@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 13 2023 at 21:48, Xin Li wrote:
-> +static inline void fred_syscall_init(void)
-> +{
-> +	/*
-> +	 * Per FRED spec 5.0, FRED uses the ring 3 FRED entrypoint for SYSCALL
-> +	 * and SYSENTER, and ERETU is the only legit instruction to return to
-> +	 * ring 3, as a result there is _no_ need to setup the SYSCALL and
-> +	 * SYSENTER MSRs.
-> +	 *
-> +	 * Note, both sysexit and sysret cause #UD when FRED is enabled.
-> +	 */
-> +	wrmsrl(MSR_LSTAR, 0ULL);
-> +	wrmsrl_cstar(0ULL);
+On Mon, Sep 18, 2023 at 10:10:43PM +0400, Ivan Orlov wrote:
+> Add documentation for the new MARIAN Seraph M2 sound card. It covers
+> current development status, available controls of the card and
+> information about the integrated loopback.
+> 
+> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+> ---
+> V1 -> V2:
+> - Remove redundant documentation fix from the next patch in the series
+> 
+>  Documentation/sound/cards/index.rst     |   1 +
+>  Documentation/sound/cards/marian-m2.rst | 104 ++++++++++++++++++++++++
+>  2 files changed, 105 insertions(+)
+>  create mode 100644 Documentation/sound/cards/marian-m2.rst
+> 
+> diff --git a/Documentation/sound/cards/index.rst b/Documentation/sound/cards/index.rst
+> index e68bbb13c384..e873592d8d00 100644
+> --- a/Documentation/sound/cards/index.rst
+> +++ b/Documentation/sound/cards/index.rst
+> @@ -19,3 +19,4 @@ Card-Specific Information
+>     serial-u16550
+>     img-spdif-in
+>     pcmtest
+> +   marian-m2
+> diff --git a/Documentation/sound/cards/marian-m2.rst b/Documentation/sound/cards/marian-m2.rst
+> new file mode 100644
+> index 000000000000..bf12445e20d7
+> --- /dev/null
+> +++ b/Documentation/sound/cards/marian-m2.rst
+> @@ -0,0 +1,104 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=======================
+> +MARIAN Seraph M2 Driver
+> +=======================
+> +
+> +Sep 18, 2023
+> +
+> +Ivan Orlov <ivan.orlov0322@gmail.com>
+> +
+> +STATE OF DEVELOPMENT
+> +====================
+> +
+> +This driver is based on the driver written by Florian Faber in 2012, which seemed to work fine.
+> +However, the initial code contained multiple issues, which had to be solved before sending the
+> +driver upstream.
 
-That write is pointless. See the comment in wrmsrl_cstar().
+Minor nit, shouldn't these lines be wrapped a bit shorter as it's a text
+file?  80 columns?  The other files in this directory seem to all do
+that so maybe do the same here as well?
 
-Thanks,
+thanks,
 
-        tglx
+greg k-h
