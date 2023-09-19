@@ -2,328 +2,295 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCEAFCD54AC
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 09:36:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4BA6CD54AB
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 09:48:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231450AbjISJgR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 05:36:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40638 "EHLO
+        id S230132AbjISJsR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 05:48:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231618AbjISJgL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 05:36:11 -0400
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABADF9;
-        Tue, 19 Sep 2023 02:35:59 -0700 (PDT)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38J7eWmn008728;
-        Tue, 19 Sep 2023 05:35:40 -0400
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3t5s7kn4ja-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 19 Sep 2023 05:35:40 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-        by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 38J9ZdAP007733
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 19 Sep 2023 05:35:39 -0400
-Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Tue, 19 Sep 2023 05:35:38 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Tue, 19 Sep 2023 05:35:38 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Tue, 19 Sep 2023 05:35:37 -0400
-Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.230])
-        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 38J9Z1dC030605;
-        Tue, 19 Sep 2023 05:35:28 -0400
-From:   Daniel Matyas <daniel.matyas@analog.com>
-CC:     Daniel Matyas <daniel.matyas@analog.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v4 7/7] hwmon: max31827: Add custom attribute for resolution
-Date:   Tue, 19 Sep 2023 12:34:55 +0300
-Message-ID: <20230919093456.10592-7-daniel.matyas@analog.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230919093456.10592-1-daniel.matyas@analog.com>
-References: <20230919093456.10592-1-daniel.matyas@analog.com>
+        with ESMTP id S229522AbjISJsR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 05:48:17 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CE5BEA;
+        Tue, 19 Sep 2023 02:48:11 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28990C433C8;
+        Tue, 19 Sep 2023 09:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695116890;
+        bh=ClUnVtWUvKdRLOl8X1CodtVltez9xXmineCsN1YQ+f8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UmszoMlYDUrVeWfZ/pxS9QsA++dilt8mT7Sk1RRIvEMvdSNMSngW42lKt+25ajl5c
+         RLjeo2mPt6aN0UTGVkAoF11lgiezl7+hLGHPC2qajRK9dC/KxRAh7yyJfWvILqgpTX
+         L6Lzh322y40cNS8+FmNoPuEOm9RVhQ2zCZzT4zeeMgNMkGKvZR94UarLs4slX/S54w
+         rhzZie+tOyNCBeZC+5mv6pPpeWiKskuJsOShusPed75k7ahe7FplFggwupejCtcFB8
+         nLi07SjWcKIlzHUUjGGaz1XTgIfvA37IgTHdGprbNUAk+WgKjv5QH2ZKTFYmVT7Vau
+         VW35NydawjDMA==
+Date:   Tue, 19 Sep 2023 11:48:08 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Daniel Stone <daniel@fooishbar.org>
+Cc:     Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+        emma@anholt.net, linux-doc@vger.kernel.org,
+        vignesh.raman@collabora.com, dri-devel@lists.freedesktop.org,
+        alyssa@rosenzweig.io, jbrunet@baylibre.com, robdclark@google.com,
+        corbet@lwn.net, khilman@baylibre.com,
+        sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+        linux-rockchip@lists.infradead.org,
+        Daniel Stone <daniels@collabora.com>,
+        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
+        Helen Koike <helen.koike@collabora.com>, anholt@google.com,
+        linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+        linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+        linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+        guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+        tzimmermann@suse.de
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+Message-ID: <ax6tspeffujmk2vpvh6rwclqkkavpezvcubra25vs2ev7f5njs@2rpnycg2rgnj>
+References: <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
+ <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
+ <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
+ <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
+ <5ejq3hjpoy3gxft2jbmoa5m656usetuxcs7g3ezyyiitj67rav@r5jhdz27foat>
+ <550454b8-2e2c-c947-92c5-37f0367661c2@mailbox.org>
+ <os2wvkangif2nwewfbzkuyjm7njp4g3sqj5td3ogbhhjwsrbbd@3jpf6g5hd3z4>
+ <CAPj87rP1sw49Z0HdPhUa-=kDp166RqiuhC9rL+Ef9hpwPD5+JA@mail.gmail.com>
+ <krhnfc4os5nqwi3iixgxwads3jbcgtdcvn7ygxpvd62uaejvsk@mx6tmser7jti>
+ <CAPj87rPbJ1V1-R7WMTHkDat2A4nwSd61Df9mdGH2PR=ZzxaU=Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: 8VYtBQ9XMnxyQEq9A-NJ5ZzTmxKvA4Hd
-X-Proofpoint-ORIG-GUID: 8VYtBQ9XMnxyQEq9A-NJ5ZzTmxKvA4Hd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-19_04,2023-09-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- mlxscore=0 clxscore=1015 bulkscore=0 priorityscore=1501 impostorscore=0
- mlxlogscore=999 spamscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2308100000
- definitions=main-2309190080
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="eic3ovvs3ifmbbpq"
+Content-Disposition: inline
+In-Reply-To: <CAPj87rPbJ1V1-R7WMTHkDat2A4nwSd61Df9mdGH2PR=ZzxaU=Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added custom channel-specific (temp1) attribute for resolution. The wait
-time for a conversion in one-shot mode (enable = 0) depends on the
-resolution.
 
-When resolution is 12-bit, the conversion time is 140ms, but the minimum
-update_interval is 125ms. Handled this problem by waiting an additional
-15ms (125ms + 15ms = 140ms).
+--eic3ovvs3ifmbbpq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
----
+On Fri, Sep 15, 2023 at 04:08:42PM +0100, Daniel Stone wrote:
+> > > I don't quite see the same picture from your side though. For example,
+> > > my reading of what you've said is that flaky tests are utterly
+> > > unacceptable, as are partial runs, and we shouldn't pretend otherwise.
+> > > With your concrete example (which is really helpful, so thanks), what
+> > > happens to the MT8173 hdmi-inject test? Do we skip all MT8173 testing
+> > > until it's perfect, or does MT8173 testing always fail because that
+> > > test does?
+> >
+> > It's not clear to me why that test is even running in the first place?
+> > There's been some confusion on my side here about what we're going to
+> > test with this. You've mentioned Mesa and GPUs before, but that's a KMS
+> > test so there must be more to it.
+> >
+> > Either way, it's a relevant test so I guess why not. It turns out that
+> > the test is indeed flaky, I guess we could add it to the flaky tests
+> > list.
+> >
+> > BUT
+> >
+> > I want to have every opportunity to fix whatever that failure is.
+>=20
+> Agreed so far!
+>=20
+> > So:
+> >
+> >   - Is the test broken? If so, we should report it to IGT dev and remove
+> >     it from the test suite.
+> >   - If not, is that test failure have been reported to the driver autho=
+r?
+> >   - If no answer/fix, we can add it to the flaky tests list, but do we
+> >     have some way to reproduce the test failure?
+> >
+> > The last part is especially critical. Looking at the list itself, I have
+> > no idea what board, kernel version, configuration, or what the failure
+> > rate was. Assuming I spend some time looking at the infra to find the
+> > board and configuration, how many times do I have to run the tests to
+> > expect to reproduce the failure (and thus consider it fixed if it
+> > doesn't occur anymore).
+> >
+> > Like, with that board and test, if my first 100 runs of the test work
+> > fine, is it reasonable for me to consider it fixed, or is it only
+> > supposed to happen once every 1000 runs?
+> >
+> > So, ideally, having some (mandatory) metadata in the test lists with a
+> > link to the bug report, the board (DT name?) it happened with, the
+> > version and configuration it was first seen with, and an approximation
+> > of the failure rate for every flaky test list.
+> >
+> > I understand that it's probably difficult to get that after the fact on
+> > the tests that were already merged, but I'd really like to get that
+> > enforced for every new test going forward.
+> >
+> > That should hopefully get us in a much better position to fix some of
+> > those tests issues. And failing that, I can't see how that's
+> > sustainable.
+>=20
+> OK yeah, and we're still agreed here. That is definitely the standard
+> we should be aiming for.  It is there for some - see
+> drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt, but should be
+> there for the rest, it's true. (The specific board/DT it was observed
+> on can be easily retconned because we only run on one specific board
+> type per driver, again to make things more predictable; we could go
+> back and retrospectively add those in a header comment?)
 
-v3 -> v4: No change.
+Yeah, metadata was meant to sound professional, but putting all that in
+a somewhat parseable comment is good enough for me :)
 
-v2 -> v3: Fixed indentation problems in .rst.
+> For flakes, it can be hard to pin them down, because, well, they're
+> flaky. Usually when we add things in Mesa (sorry to keep coming back
+> to Mesa - it's not to say that it's the objective best thing that
+> everything should follow, only that it's the thing we have the most
+> experience with that we know works well), we do a manual bisect and
+> try to pin the blame on a specific merge request which looks like the
+> most likely culprit. If nothing obvious jumps out, we just note when
+> it was first observed and provide some sample job logs. But yeah, it
+> should be more verbose.
 
-v1 -> v2: Changed subject. Separated patch. Removed timeout sysfs
-attribute and kept only resolution. Added temp1_ prefix to resolution.
-Changed value of resolution from bits to milli-degrees Celsius. Added
-appropriate documentation.
- 
- Documentation/hwmon/max31827.rst |  29 ++++++--
- drivers/hwmon/max31827.c         | 121 ++++++++++++++++++++++++++++---
- 2 files changed, 134 insertions(+), 16 deletions(-)
+Sure, I guess we should document that for flakes, it's not meant as a
+precise indication. Still it provides some kind of "time anchor". If it
+was first observed 10 years ago and I can't reproduce it, chances are
+it's been fixed one way or the other since. If it was observed last
+month, it's more likely something's up with my setup.
 
-diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-index a8bbfb85dd02..44ab9dc064cb 100644
---- a/Documentation/hwmon/max31827.rst
-+++ b/Documentation/hwmon/max31827.rst
-@@ -90,11 +90,28 @@ the data sheet are:
- 
- Enabling the device when it is already enabled has the side effect of setting
- the conversion frequency to 1 conv/s. The conversion time varies depending on
--the resolution. The conversion time doubles with every bit of increased
--resolution. For 10 bit resolution 35ms are needed, while for 12 bit resolution
--(default) 140ms. When chip is in shutdown mode and a read operation is
--requested, one-shot is triggered, the device waits for 140 (conversion time) ms,
--and only after that is the temperature value register read.
-+the resolution.
-+
-+The conversion time doubles with every bit of increased resolution. The
-+available resolutions are:
-+
-+- 8 bit -> 8.75 ms conversion time
-+- 9 bit -> 17.5 ms conversion time
-+- 10 bit -> 35 ms conversion time
-+- 12 bit (default) -> 140 ms conversion time
-+
-+There is a temp1_resolution attribute which indicates the unit change in the
-+input temperature in milli-degrees C.
-+
-+- 1000 mC -> 8 bit
-+- 500 mC -> 9 bit
-+- 250 mC -> 10 bit
-+- 62 mC -> 12 bit (default) - actually this is 62.5, but the fil returns 62
-+
-+When chip is in shutdown mode and a read operation is requested, one-shot is
-+triggered, the device waits for <conversion time> ms, and only after that is
-+the temperature value register read. Note that the conversion times are rounded
-+up to the nearest possible integer.
- 
- The LSB of the temperature values is 0.0625 degrees Celsius, but the values of
- the temperatures are displayed in milli-degrees. This means, that some data is
-@@ -117,4 +134,4 @@ corresponding status bits.
- Notes
- -----
- 
--PEC and resolution are not implemented.
-+PEC is not implemented.
-diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
-index 957d898978fb..0c2964cf4ba1 100644
---- a/drivers/hwmon/max31827.c
-+++ b/drivers/hwmon/max31827.c
-@@ -43,6 +43,9 @@
- #define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK BIT(14)
- #define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK BIT(15)
- 
-+#define MAX31827_8_BIT_CNV_TIME		9
-+#define MAX31827_9_BIT_CNV_TIME		18
-+#define MAX31827_10_BIT_CNV_TIME	35
- #define MAX31827_12_BIT_CNV_TIME	140
- 
- #define MAX31827_ALRM_POL_LOW	0x0
-@@ -77,6 +80,27 @@ static const u16 max31827_conversions[] = {
- 	[MAX31827_CNV_8_HZ] = 125,
- };
- 
-+enum max31827_resolution {
-+	MAX31827_RES_8_BIT = 0,
-+	MAX31827_RES_9_BIT,
-+	MAX31827_RES_10_BIT,
-+	MAX31827_RES_12_BIT,
-+};
-+
-+static const u16 max31827_resolutions[] = {
-+	[MAX31827_RES_8_BIT] = 1000,
-+	[MAX31827_RES_9_BIT] = 500,
-+	[MAX31827_RES_10_BIT] = 250,
-+	[MAX31827_RES_12_BIT] = 62,
-+};
-+
-+static const u16 max31827_conv_times[] = {
-+	[MAX31827_RES_8_BIT] = MAX31827_8_BIT_CNV_TIME,
-+	[MAX31827_RES_9_BIT] = MAX31827_9_BIT_CNV_TIME,
-+	[MAX31827_RES_10_BIT] = MAX31827_10_BIT_CNV_TIME,
-+	[MAX31827_RES_12_BIT] = MAX31827_12_BIT_CNV_TIME,
-+};
-+
- struct max31827_state {
- 	/*
- 	 * Prevent simultaneous access to the i2c client.
-@@ -84,6 +108,8 @@ struct max31827_state {
- 	struct mutex lock;
- 	struct regmap *regmap;
- 	bool enable;
-+	unsigned int resolution;
-+	unsigned int update_interval;
- 	struct i2c_client *client;
- };
- 
-@@ -101,9 +127,9 @@ static int shutdown_write(struct max31827_state *st, unsigned int reg,
- 	int ret;
- 
- 	/*
--	 * Before the Temperature Threshold Alarm and Alarm Hysteresis Threshold
--	 * register values are changed over I2C, the part must be in shutdown
--	 * mode.
-+	 * Before the Temperature Threshold Alarm, Alarm Hysteresis Threshold
-+	 * and Resolution bits from Configuration register are changed over I2C,
-+	 * the part must be in shutdown mode.
- 	 *
- 	 * Mutex is used to ensure, that some other process doesn't change the
- 	 * configuration register.
-@@ -221,9 +247,18 @@ static int max31827_read(struct device *dev, enum hwmon_sensor_types type,
- 					mutex_unlock(&st->lock);
- 					return ret;
- 				}
--
--				msleep(MAX31827_12_BIT_CNV_TIME);
-+				msleep(max31827_conv_times[st->resolution]);
- 			}
-+
-+			/*
-+			 * For 12-bit resolution the conversion time is 140 ms,
-+			 * thus an additional 15 ms is needed to complete the
-+			 * conversion: 125 ms + 15 ms = 140 ms
-+			 */
-+			if (max31827_resolutions[st->resolution] == 12 &&
-+			    st->update_interval == 125)
-+				usleep_range(15000, 20000);
-+
- 			ret = regmap_read(st->regmap, MAX31827_T_REG, &uval);
- 
- 			mutex_unlock(&st->lock);
-@@ -381,10 +416,14 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
- 			res = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
- 					 res);
- 
--			return regmap_update_bits(st->regmap,
--						  MAX31827_CONFIGURATION_REG,
--						  MAX31827_CONFIGURATION_CNV_RATE_MASK,
--						  res);
-+			ret = regmap_update_bits(st->regmap,
-+						 MAX31827_CONFIGURATION_REG,
-+						 MAX31827_CONFIGURATION_CNV_RATE_MASK,
-+						 res);
-+			if (ret)
-+				return ret;
-+
-+			st->update_interval = val;
- 		}
- 		break;
- 
-@@ -395,6 +434,68 @@ static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
- 	return -EOPNOTSUPP;
- }
- 
-+static ssize_t temp1_resolution_show(struct device *dev,
-+				     struct device_attribute *devattr,
-+				     char *buf)
-+{
-+	struct max31827_state *st = dev_get_drvdata(dev);
-+	unsigned int val;
-+	int ret;
-+
-+	ret = regmap_read(st->regmap, MAX31827_CONFIGURATION_REG, &val);
-+	if (ret)
-+		return ret;
-+
-+	val = FIELD_GET(MAX31827_CONFIGURATION_RESOLUTION_MASK, val);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%u\n", max31827_resolutions[val]);
-+}
-+
-+static ssize_t temp1_resolution_store(struct device *dev,
-+				      struct device_attribute *devattr,
-+				      const char *buf, size_t count)
-+{
-+	struct max31827_state *st = dev_get_drvdata(dev);
-+	unsigned int idx = 0;
-+	unsigned int val;
-+	int ret;
-+
-+	ret = kstrtouint(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Convert the desired resolution into register
-+	 * bits. idx is already initialized with 0.
-+	 *
-+	 * This was inspired by lm73 driver.
-+	 */
-+	while (idx < ARRAY_SIZE(max31827_resolutions) &&
-+	       val < max31827_resolutions[idx])
-+		idx++;
-+
-+	if (idx == ARRAY_SIZE(max31827_resolutions) ||
-+	    val != max31827_resolutions[idx])
-+		return -EOPNOTSUPP;
-+
-+	st->resolution = idx;
-+
-+	ret = shutdown_write(st, MAX31827_CONFIGURATION_REG,
-+			     MAX31827_CONFIGURATION_RESOLUTION_MASK,
-+			     FIELD_PREP(MAX31827_CONFIGURATION_RESOLUTION_MASK,
-+					idx));
-+
-+	return (ret) ? ret : count;
-+}
-+
-+static DEVICE_ATTR_RW(temp1_resolution);
-+
-+static struct attribute *max31827_attrs[] = {
-+	&dev_attr_temp1_resolution.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(max31827);
-+
- static const struct i2c_device_id max31827_i2c_ids[] = {
- 	{ "max31827", max31827 },
- 	{ "max31828", max31828 },
-@@ -535,7 +636,7 @@ static int max31827_probe(struct i2c_client *client)
- 
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, st,
- 							 &max31827_chip_info,
--							 NULL);
-+							 max31827_groups);
- 
- 	return PTR_ERR_OR_ZERO(hwmon_dev);
- }
--- 
-2.34.1
+It's not definitive, but it provides some hints.
 
+> FWIW, the reason it wasn't done here - not to say that it shouldn't
+> have been done better, but here we are - is that we just hammered a
+> load of test runs, vacuumed up the results with a script, and that's
+> what generated those files. Given the number of tests and devices, it
+> was hard to narrow each down individually, but yeah, it is something
+> which really wants further analysis and drilling into. It's a good
+> to-do, and I agree it should be the standard going forward.
+
+Awesome :)
+
+> > And Mesa does show what I'm talking about:
+> >
+> > $ find -name *-flakes.txt | xargs git diff --stat  e58a10af640ba58b6001=
+f5c5ad750b782547da76
+> > [...]
+> >
+> > In the history of Mesa, there's never been a single test removed from a
+> > flaky test list.
+>=20
+> As Rob says, that's definitely wrong.
+
+Yeah, that was a dumb metric, sorry.
+
+> But there is a good point in there: how do you know a test isn't flaky
+> anymore? 100 runs is a reasonable benchmark, but 1000 is ideal. At a
+> 1% failure rate, with 20 devices, that's just too many spurious
+> false-fails to have a usable workflow.
+>=20
+> We do have some tools to make stress testing easier, but those need to
+> be better documented. We'll fix that. The tools we have which also
+> pull out the metadata etc also need documenting - right now they
+> aren't because they're under _extremely_ heavy development, but they
+> can be further enhanced to e.g. pull out the igt results automatically
+> and point very clearly to the cause. Also on the to-do.
+
+Thanks :)
+
+> > > Only maintainers can actually fix the drivers (or the tests tbf). But
+> > > doing the testing does let us be really clear to everyone what the
+> > > actual state is, and that way people can make informed decisions too.
+> > > And the only way we're going to drive the test rate down is by the
+> > > subsystem maintainers enforcing it.
+> >
+> > Just FYI, I'm not on the other side of the fence there, I'd really like
+> > to have some kind of validation. I talked about it at XDC some years
+> > ago, and discussed it several people at length over the years. So I'm
+> > definitely not in the CI-is-bad camp.
+> >
+> > > Does that make sense on where I'm (and I think a lot of others are)
+> > > coming from?
+> >
+> > That makes sense from your perspective, but it's not clear to me how you
+> > can expect maintainers to own the tests if they were never involved in
+> > the process.
+> >
+> > They are not in Cc of the flaky tests patches, they are not reported
+> > that the bug is failing, how can they own that process if we never
+> > reached out and involved them?
+> >
+> > We're all overworked, you can't expect them to just look at the flaky
+> > test list every now and then and figure it out.
+>=20
+> Absolutely. We got acks (or at least not-nacks) from the driver
+> developers, but yeah, they should absolutely be part of the loop for
+> those updates. I don't think we can necessarily block on them though.
+> Say we add vc4 KMS tests, then after a backmerge we start to see a
+> bunch of flakes on it, but you're sitting on a beach for a couple of
+> weeks.
+
+I really like where this is going :)
+
+> If we wait for you to get back
+
+=2E.. Oh :(
+
+> see it, and merge it, then that's two weeks of people submitting
+> Rockchip driver changes and getting told that their changes failed CI.
+> That's exactly what we want to avoid, because it erodes confidence and
+> usefulness of CI when people expect failures and ignore them by
+> default.
+
+Yeah, sure. That's why I mentioned earlier that we should merge it if
+there wasn't any fix or answer. Of course I don't expect the entire CI
+system to wait for my return, but when I get back I still want to have
+some trace that it happened and it still could be a good idea to look
+into it.
+
+> So I would say that it's reasonable for expectations to be updated
+> according to what actually happens in practice, but also to make sure
+> that the maintainers are explicitly informed and kept in the loop, and
+> not just surprised when they look at the lists and see a bunch of
+> stuff happened without their knowledge.
+>=20
+> Again there's much more to be done on the tooling here. Part of it is
+> CLI tools and automation, part of it is dashboards and
+> easily-digestible reporting, and then there's integration with things
+> like KernelCI. KCI(DB) is actually quite high up on the list, but
+> we're mostly waiting until a lot of the KCI rework happens so we can
+> actually properly integrate with the new system.
+>=20
+> Right now a lot of the tooling we have is pretty involved - for
+> example, we do have ci-collate as a Python library which can inspect a
+> number of pipelines, pull out detailed status and logs, etc, but it
+> mostly needs to be used as a library with bespoke scripts, rather than
+> a ready-made tool. Work on that is ongoing to make it way more clear
+> and accessible though.
+
+I think at the moment, putting the flake list under the driver
+MAINTAINERS entry would be enough. We can probably improve it further,
+but that should give a reasonably reliable heads-up which can work
+pretty much today.
+
+> So I think it sounds like we're on the same page and going exactly in
+> the same direction, just that this is a starting point rather than the
+> desired end state. And the main point is that having a set of
+> xfails/flakes parachuted in with little to no context is trying to get
+> an MVP bootstrapped, rather than how we expect things to go in future.
+> Does that sound about right?
+
+That sounds perfect :)
+
+Thanks a lot
+Maxime
+
+--eic3ovvs3ifmbbpq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQluWAAKCRDj7w1vZxhR
+xQn1AP4u3f/f9O3I5KarU0+Mlkbk6ItSV6yhTAtHzjL7YAkIKAD/Y/SFejpZ7W5K
+pTa04pwZyBGglrBVPGs+di5KDBVXPgA=
+=Eh0n
+-----END PGP SIGNATURE-----
+
+--eic3ovvs3ifmbbpq--
