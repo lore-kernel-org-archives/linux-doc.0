@@ -2,396 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C44CD54B5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 11:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDB70CD54B2
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 11:15:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232003AbjISLNN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 07:13:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42532 "EHLO
+        id S232089AbjISLPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 07:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbjISLND (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 07:13:03 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E7A118;
-        Tue, 19 Sep 2023 04:12:54 -0700 (PDT)
-X-UUID: 743a7b5256dd11ee8051498923ad61e6-20230919
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=DUcoGtAYHoFI1ruAGw3mT00nT3wQL/qjXv5AAFn7SOs=;
-        b=Ju9SvvvcdSn/4CyodrrSJZHUXR7ZVyIn1nNyoYN7F1qbhNizyf4l+aqinYhHRWyaT0BP4P6A93RAIAW6tgQwHLV+w44EzBPH48AQv2j/F8alJmmKYd+k2kIBPeqkimyKrBj7nznJdj+ivvBSEZuLUu/S4r74PGO6xxQuhtVE20k=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32,REQID:c709b901-a9b7-4534-8b1a-3bd3f11c1f67,IP:0,U
-        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:-25
-X-CID-META: VersionHash:5f78ec9,CLOUDID:372604bf-14cc-44ca-b657-2d2783296e72,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-        NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 743a7b5256dd11ee8051498923ad61e6-20230919
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
-        (envelope-from <yi-de.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1034992928; Tue, 19 Sep 2023 19:12:43 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 19 Sep 2023 19:12:42 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 19 Sep 2023 19:12:41 +0800
-From:   Yi-De Wu <yi-de.wu@mediatek.com>
-To:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-        Yi-De Wu <yi-de.wu@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-CC:     Arnd Bergmann <arnd@arndb.de>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        David Bradil <dbrazdil@google.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Jade Shih <jades.shih@mediatek.com>,
-        Ivan Tseng <ivan.tseng@mediatek.com>,
-        My Chuang <my.chuang@mediatek.com>,
-        Kevenny Hsieh <kevenny.hsieh@mediatek.com>,
-        Willix Yeh <chi-shen.yeh@mediatek.com>,
-        Liju Chen <liju-clr.chen@mediatek.com>
-Subject: [PATCH v6 14/15] virt: geniezone: Add memory pin/unpin support
-Date:   Tue, 19 Sep 2023 19:12:09 +0800
-Message-ID: <20230919111210.19615-15-yi-de.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230919111210.19615-1-yi-de.wu@mediatek.com>
-References: <20230919111210.19615-1-yi-de.wu@mediatek.com>
+        with ESMTP id S232431AbjISLOx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 07:14:53 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8582D7E;
+        Tue, 19 Sep 2023 04:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1695122036; x=1726658036;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=nvYREegptLbLU9C96sEDqoWc7+it5HIqTU+CP//ycYQ=;
+  b=DzmPqGceN/IFX37im1hNjFpCO4uOZ3S/WDkVU/Xs+MdlIw6Y0COigyEs
+   s/B5yVF9cmSEiTsrV/PBJtDgFd6fRBWqfMjsmdFEJUXmOrD5SAk9cK7re
+   XnIgi/coflj6xOcCCan+JrkJ1OyQHgNo3/3X+IWcJ8Yii40EZTlYqLOTb
+   QB35VasKaQ5ZzeHwbG05GnIZWl+2/yJ8m/IrImXJtof0ZkPHPN6aP00kV
+   L5Wcj2Rj0E2MuWMvvsD6Drjc2EcSVvubtHLwnxaeq0TxoSGhdTxkWYIrN
+   t+xtJ+nAQORPcUjwdJ0pDNGYKYE903xFOLhK9jhQtBAE3nF4nY2nz/NkP
+   w==;
+X-CSE-ConnectionGUID: fFPnucd/SCK8IEWNYATfjg==
+X-CSE-MsgGUID: flZEG7qAQNisRDmsLPDaAA==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="172412939"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Sep 2023 04:13:49 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 19 Sep 2023 04:13:18 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Tue, 19 Sep 2023 04:13:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TltWFwo7esIzrf2DxnUElG84t8nm10wuazsoxw+BnSymmJNq6lxwfgIdtwmDp82MQgiRFp9/WqyIIbaSzjDZXhBziGV6tCrBgYoXQShHkIdmjV4G0k3mh8pQmSu5dvAAD7tmcq7xm4C/AAVnfVyv8ypAkwayOlhmsBOqL4FxZ47Y8pFHXUeupZLWHzQzolkmH5wzhUAAHtiAWGhWBYa/W15isnxQuqiR6pHIbOb+3Rky/Grff7dVcTIInIh5P2CLX7Dhls0/RiWOE4qGN7QNV7Z/YGRQFfd1ERyCcjssZJTX/8i5zCqYALHvZaaHesk4jdO5u9DlZUu5/uopwSK/eA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nvYREegptLbLU9C96sEDqoWc7+it5HIqTU+CP//ycYQ=;
+ b=AYdkOKJiPDLacQCIk1ww2UdfhC4Aj2/v4M2LalPisScSJs5mw26x8iLorscl3sMryWGeX69LMC7Vociv7lbrX0MaCCIRQLZaV7oZczQbyw6wh7GGcNpkatJdmreLoI3l+sbsaoQNw7IOdw7VruRwboNChNiy+/HZuo0gN6b6Eh8J4U9In8e6cAkYLbdFkCwsynJr2yHLXrc2bzdyB4bDh41K9ul59in5uzXcAdCFIUUj0wFIXqO72fizbCU7U5MNb4B+WWb+cQU3VRwwhY1YVLPv3Ofh+yVZXpouKRuSRIe6VudgjdAJLN7GKpLrxQyB5ZGxu7TT1CmBOkKe5fXU+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nvYREegptLbLU9C96sEDqoWc7+it5HIqTU+CP//ycYQ=;
+ b=Ab3wBtdcGYKR2U6kxBg4Pp7xloK1JPuFovNp8wCF67Ls+YdtAehQqk28U3iJaT1VVKUAMcIf3tGNa/kRZ8f2mXvxTRn5P6gdZtlNzmk8RVCegSe18NkxtT8PZC4945gSgW35ScWIe3xvOIXDzHLymBD5lykcUmGAyxsZBhOy9pg=
+Received: from DM6PR11MB3532.namprd11.prod.outlook.com (2603:10b6:5:70::25) by
+ PH8PR11MB6610.namprd11.prod.outlook.com (2603:10b6:510:1cd::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31; Tue, 19 Sep
+ 2023 11:13:13 +0000
+Received: from DM6PR11MB3532.namprd11.prod.outlook.com
+ ([fe80::6352:54f7:6c42:69ef]) by DM6PR11MB3532.namprd11.prod.outlook.com
+ ([fe80::6352:54f7:6c42:69ef%6]) with mapi id 15.20.6792.026; Tue, 19 Sep 2023
+ 11:13:13 +0000
+From:   <Parthiban.Veerasooran@microchip.com>
+To:     <andrew@lunn.ch>
+CC:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <Steen.Hegelund@microchip.com>,
+        <rdunlap@infradead.org>, <horms@kernel.org>,
+        <casper.casan@gmail.com>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
+        <Woojung.Huh@microchip.com>, <Nicolas.Ferre@microchip.com>,
+        <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>
+Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
+ control transaction interface
+Thread-Topic: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
+ control transaction interface
+Thread-Index: AQHZ4mEB+nwP90vbvEyYqcmk7ntkibAYC/aAgAoD1gA=
+Date:   Tue, 19 Sep 2023 11:13:13 +0000
+Message-ID: <9615b403-52c1-f24f-382f-8eea3ddfcf04@microchip.com>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
+ <8d53ca8d-bcf6-4673-a8ff-b621d700576e@lunn.ch>
+In-Reply-To: <8d53ca8d-bcf6-4673-a8ff-b621d700576e@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB3532:EE_|PH8PR11MB6610:EE_
+x-ms-office365-filtering-correlation-id: b3d1db76-f967-4051-a637-08dbb9016a55
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /LOrD6N/HE6zFYkRVdPinKP21L3B2BAAk7P3CW+eRI49e27+hS4qvzxbt7AF2GKKbK9lvOvhtXMCsig+XPFERv9p4tMaUfqn9IiYERx94bteSI9W8lBU9SD9/K6DJ/INKqW0qwQ3xi0sJHEkACqOif0Whd/qKKb5zYP2Mk7lRJdNvtA8MQ2riMm7Gv3PL7Dr0iu8m2UWp0NdVpme9j/sQhuuK2gOLrHt93mk1+fwyOkPnPASqN42BhIqtzsG7IddQexS3dr9welFpNeybAWQBderV8Z+Doo7xQe2Ijhfe2GIsK6qroxYprRb/swQgfqWPpUs4CdN2RUBbOg7AasceiCCJqDyMqiIyCSOziR6ikbgZuAEN0Nyo/o8p4V9JAozyiNRR7kxy8IDteMlfHq8Gt5MYB9qtZBIJG+2jUMXRJPvalkqkb40aCXQLIIIgHjRFzw7RGoRP4IT5C1SlF8hmx+aMLhgwVwKnHPPpBK3/+KGNatq+/rlc1h9Chd1RRSmH03rwyBslI8qUUVT9epDYtP+QCBpgFt/h5Cjcjfiwp4amjfPTHb9xs2mHvmEN9Irxvuri1XDq/2rqYjXe/Gj+b5U4vmLgJT1RP5J9kd7tfcNuBHR7O9q4gjxtofjrlnWw6xqqM9Ou88K2OJg8FLd9p/prEBLcmGb1UhwJi095DfpkrBMCPGLUd0BO+clQwqJ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3532.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(136003)(376002)(396003)(346002)(451199024)(186009)(1800799009)(53546011)(31686004)(4744005)(2906002)(7416002)(8936002)(4326008)(41300700001)(5660300002)(66446008)(54906003)(76116006)(91956017)(66556008)(36756003)(64756008)(107886003)(66946007)(8676002)(66476007)(6916009)(316002)(122000001)(478600001)(71200400001)(6486002)(26005)(38100700002)(6506007)(83380400001)(31696002)(38070700005)(2616005)(6512007)(86362001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YXd5MUpjN3B1cXowUzdzK1AzTTlrd05IOVA4clVKZ01nUEdnL3p3MXlwTG96?=
+ =?utf-8?B?K1FyL3hDVklXbkpmNEZTa0RiT3lDUDZ1eHU5V0s2UGtYR0RoZVNUNTV0SUJ5?=
+ =?utf-8?B?ZG5IcWlUUmMxY1kzRi9XWTJ2WnBVbng5Y3dHV0RlZmlsSDhRbDJZdVpEdDBX?=
+ =?utf-8?B?TW1sTkZQNzdyVElMZjJhN0VBS1NzaTc2VUJ3d3B0cU1kWnNvdUhxVU81MC9o?=
+ =?utf-8?B?YjdXeUMxYXJlZ2hRdHo2RzFUV3gwbFM4aldpVjFmM1JQYVpPdUNmUGxIL0or?=
+ =?utf-8?B?SVo4b3hTOWRCMUhSNVo2VklxYUlKekt3OSt5NVNDOWV4MDVoMGMxTHRnenIy?=
+ =?utf-8?B?anNyNlRtL0tsY055V3gzSmsrR1E1VDRwQXZCQzJ4aTUrVjZIODIwaHVFMmlG?=
+ =?utf-8?B?THYxcExUaWdLSVIxVFZCV0ExbEo0TTg5bU1uS0N5L0JwY3pDYlY2azRmMmo1?=
+ =?utf-8?B?YU9pcFdFUlpYdVlGZmd1MlFmc0xib1k3ZFQ0azJTbGRjcEJyeC9DWmVWQXNL?=
+ =?utf-8?B?bVFpR3JwM1VlQkhrZ1VpM1JDa2NTMmM2UTFUNmRmczNsU0pXdWNoaFRoVnRD?=
+ =?utf-8?B?cUZNQjhCZy9CY1E2YytabWVvV291SlNjUkdyNDRnS1dUaytrV2RhZDh5blJD?=
+ =?utf-8?B?SCt3Y2htUEZVejF2c1RzNkcxKy9UdjFmaXlybnd6cnRUMndYeXRhaEE0Rkpm?=
+ =?utf-8?B?V2Uzd080TFkvb3paKzFGNnk1SXVVODUvNkhVTXBGSXpXWExSY1JDT3BlNGsw?=
+ =?utf-8?B?OHlTVzhTL3Q0cmxHRXpEaThrRzVCdnpvZEk5K2dKSG1hNFNQTFVFNWhXSmZH?=
+ =?utf-8?B?UlBDRVltbXRPdllkOVBINFNZT0h6N0o5OGp6c0pMTUltQzNGb1U5Uk5PZFFy?=
+ =?utf-8?B?d1dmcEJURWtabVZ4enFRQjRMWkFXQ0ZhbDNLWGpSakp5OU9YTVN1YVRnaVd6?=
+ =?utf-8?B?aUVTVE1jN080UlZVTm5GRi92ZmtLa2lFTGkxYTY3c28vWmxmVXNVTHhRZmFN?=
+ =?utf-8?B?S2VwZFE4cllucndlTnNDNVNPL3ZKMnZ3K2ZwMDd2NjR0amFLdDRXY3puN0pR?=
+ =?utf-8?B?a1dNZjZweDZRdnpsSFNmQ0o4V0d0Ty9lVWlGY2J0L3JyMFZjZHBTNXVFZWJL?=
+ =?utf-8?B?TnNiU1lTMGZtb0dHY201YTA2cEVLWU95bkJwME5sQUg3SzVETVE5aXNyTXBu?=
+ =?utf-8?B?ZjZUb2g2aUppMWVGRkxEd0FOVDVlQ2w4UlVneVNsalRoMkhQSlFXR0lhbFFr?=
+ =?utf-8?B?SDh3MkZvV0tmeXp3VWxzczA4ZUNnUHRXa1N5akp4Um1rVHJtYXdoSDViWFp3?=
+ =?utf-8?B?ZldCTVdUelIwTTkwQWdwQ3M4Zit2TFhFWk1mL2d4WGZVeW8vUWpoa0tkYzNs?=
+ =?utf-8?B?K3F6OXpwODV4Y2kwVmFIaWR3dWl2eThLNU1EdVZ5MUZsZDZPWUNwclNoWTBw?=
+ =?utf-8?B?UjltZHBONFdYV0d5ZWYyTWg5SlIycmN3K0pZWDlmZHpQUjkzMDdjUHh5UHE0?=
+ =?utf-8?B?QSttU3lxa2lVTFJiNEFBR1BCbFV2R0FUTWtrRUllQ0NWeUgrb0JhUUhsbnh1?=
+ =?utf-8?B?SHlFNi8xNnk2b2xlYm5DZkVsdzJ1d1BPTnl4Q0RkVEMvaXd1MmU3TUx3dVN0?=
+ =?utf-8?B?bUd2c0NjZDFsdnE4cDhMOTR6OWFMa2tNSWdFL2VGNGlubjJ6dzhBQ2FhaXFl?=
+ =?utf-8?B?aTdZNHowN0hObHBidWNSYzZPaUc1NlVCZHErdHRta3hSdUlBZG5qc0xQL1Vi?=
+ =?utf-8?B?Qzd5b3hUdVJhazZubFJoQ2hqb241QXltUnNtVlRPaWdlaHhlMS9xQU1McWJP?=
+ =?utf-8?B?N3lEbHFNRW1RMm9PYkwrRFJGRG1Tdm1WS0xhRGJVWlhCSVRFY2dpY0pKWGhv?=
+ =?utf-8?B?eWdlRXpEMGdVMWlkc1o2UlhtdzlGOHpVdS9xWVJtMFBXMTNVRDd6c3hFeExB?=
+ =?utf-8?B?d0FSS2wzajR0ejU1V3JIYVlybkNaMk91UkxUMU0rTzBoTzY3YWwwOEZ5eEZp?=
+ =?utf-8?B?N2dmaFJCMFZpUVBMVmFpTUN6cGRQUitrSXV5eUJKSEdzWGFQWTBBY25vemMz?=
+ =?utf-8?B?bUEzbWh5WnpNUURjbHc2RE9UWWFtcHBhVGdFNW9QQjN1b092eHE3a0RhQVFU?=
+ =?utf-8?B?eUlVLzE2Z3pFd1ZLeDlwQnBYOHdRK2g1TDE3TW5LTUhrc3JFUEZIdm14Q1Qr?=
+ =?utf-8?B?WXc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D67B64EA4A16E34BA54D786030351F0D@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-MTK:  N
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3532.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3d1db76-f967-4051-a637-08dbb9016a55
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2023 11:13:13.2819
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6Zm47iGeyvjiA3w6z0q9vA/y5me6oHTZhX/d751BmpxWnUe7ZYEeamj3DFJK21IYUa3FU668vZqMz9N70VLuTShD6ZjgXTIMZ1Xh00WMW3m8gN5Ji3p5dERobquc8Pu7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6610
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Jerry Wang" <ze-yu.wang@mediatek.com>
-
-Protected VM's memory cannot be swapped out because the memory pages are
-protected from host access.
-
-Once host accesses to those protected pages, the hardware exception is
-triggered and may crash the host. So, we have to make those protected
-pages be ineligible for swapping or merging by the host kernel to avoid
-host access. To do so, we pin the page when it is assigned (donated) to
-VM and unpin when VM relinquish the pages or is destroyed. Besides, the
-protected VM’s memory requires hypervisor to clear the content before
-returning to host, but VMM may free those memory before clearing, it
-will result in those memory pages are reclaimed and reused before
-totally clearing. Using pin/unpin can also avoid the above problems.
-
-The implementation is described as follows.
-- Use rb_tree to store pinned memory pages.
-- Pin the page when handling page fault.
-- Unpin the pages when VM relinquish the pages or is destroyed.
-
-Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
-Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
-Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
----
- drivers/virt/geniezone/gzvm_exception.c | 28 ++++++++
- drivers/virt/geniezone/gzvm_mmu.c       | 89 +++++++++++++++++++++++++
- drivers/virt/geniezone/gzvm_vcpu.c      |  7 +-
- drivers/virt/geniezone/gzvm_vm.c        | 18 +++++
- include/linux/gzvm_drv.h                | 13 ++++
- include/uapi/linux/gzvm.h               |  5 ++
- 6 files changed, 157 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/virt/geniezone/gzvm_exception.c b/drivers/virt/geniezone/gzvm_exception.c
-index 31fdb4ae8db4..58d1ce305cf7 100644
---- a/drivers/virt/geniezone/gzvm_exception.c
-+++ b/drivers/virt/geniezone/gzvm_exception.c
-@@ -37,3 +37,31 @@ bool gzvm_handle_guest_exception(struct gzvm_vcpu *vcpu)
- 	else
- 		return false;
- }
-+
-+/**
-+ * gzvm_handle_guest_hvc() - Handle guest hvc
-+ * @vcpu: Pointer to struct gzvm_vcpu_run in userspace
-+ * Return:
-+ * * true - This hvc has been processed, no need to back to VMM.
-+ * * false - This hvc has not been processed, require userspace.
-+ */
-+bool gzvm_handle_guest_hvc(struct gzvm_vcpu *vcpu)
-+{
-+	unsigned long ipa;
-+	int ret;
-+
-+	switch (vcpu->run->hypercall.args[0]) {
-+	case GZVM_HVC_MEM_RELINQUISH:
-+		ipa = vcpu->run->hypercall.args[1];
-+		ret = gzvm_handle_relinquish(vcpu, ipa);
-+		break;
-+	default:
-+		ret = false;
-+		break;
-+	}
-+
-+	if (!ret)
-+		return true;
-+	else
-+		return false;
-+}
-diff --git a/drivers/virt/geniezone/gzvm_mmu.c b/drivers/virt/geniezone/gzvm_mmu.c
-index 4fdbdd8e809d..542599f104db 100644
---- a/drivers/virt/geniezone/gzvm_mmu.c
-+++ b/drivers/virt/geniezone/gzvm_mmu.c
-@@ -107,6 +107,78 @@ int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64 gfn,
- 	return 0;
- }
- 
-+static int cmp_ppages(struct rb_node *node, const struct rb_node *parent)
-+{
-+	struct gzvm_pinned_page *a = container_of(node,
-+						  struct gzvm_pinned_page,
-+						  node);
-+	struct gzvm_pinned_page *b = container_of(parent,
-+						  struct gzvm_pinned_page,
-+						  node);
-+
-+	if (a->ipa < b->ipa)
-+		return -1;
-+	if (a->ipa > b->ipa)
-+		return 1;
-+	return 0;
-+}
-+
-+static int rb_ppage_cmp(const void *key, const struct rb_node *node)
-+{
-+	struct gzvm_pinned_page *p = container_of(node,
-+						  struct gzvm_pinned_page,
-+						  node);
-+	phys_addr_t ipa = (phys_addr_t)key;
-+
-+	return (ipa < p->ipa) ? -1 : (ipa > p->ipa);
-+}
-+
-+static int gzvm_insert_ppage(struct gzvm *vm, struct gzvm_pinned_page *ppage)
-+{
-+	if (rb_find_add(&ppage->node, &vm->pinned_pages, cmp_ppages))
-+		return -EEXIST;
-+	return 0;
-+}
-+
-+static int pin_one_page(unsigned long hva, struct page **page)
-+{
-+	struct mm_struct *mm = current->mm;
-+	unsigned int flags = FOLL_HWPOISON | FOLL_LONGTERM | FOLL_WRITE;
-+
-+	mmap_read_lock(mm);
-+	pin_user_pages(hva, 1, flags, page);
-+	mmap_read_unlock(mm);
-+
-+	return 0;
-+}
-+
-+/**
-+ * gzvm_handle_relinquish() - Handle memory relinquish request from hypervisor
-+ *
-+ * @vcpu: Pointer to struct gzvm_vcpu_run in userspace
-+ * @ipa: Start address(gpa) of a reclaimed page
-+ *
-+ * Return: Always return 0 because there are no cases of failure
-+ */
-+int gzvm_handle_relinquish(struct gzvm_vcpu *vcpu, phys_addr_t ipa)
-+{
-+	struct gzvm_pinned_page *ppage;
-+	struct rb_node *node;
-+	struct gzvm *vm = vcpu->gzvm;
-+
-+	node = rb_find((void *)ipa, &vm->pinned_pages, rb_ppage_cmp);
-+
-+	if (node)
-+		rb_erase(node, &vm->pinned_pages);
-+	else
-+		return 0;
-+
-+	ppage = container_of(node, struct gzvm_pinned_page, node);
-+	unpin_user_pages_dirty_lock(&ppage->page, 1, true);
-+	kfree(ppage);
-+	return 0;
-+}
-+
- /**
-  * gzvm_handle_page_fault() - Handle guest page fault, find corresponding page
-  *                            for the faulting gpa
-@@ -118,7 +190,10 @@ int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64 gfn,
-  */
- int gzvm_handle_page_fault(struct gzvm_vcpu *vcpu)
- {
-+	struct gzvm_pinned_page *ppage = NULL;
- 	struct gzvm *vm = vcpu->gzvm;
-+	struct page *page = NULL;
-+	unsigned long hva;
- 	u64 pfn, gfn;
- 	int memslot_id;
- 	int ret;
-@@ -136,5 +211,19 @@ int gzvm_handle_page_fault(struct gzvm_vcpu *vcpu)
- 	if (unlikely(ret))
- 		return -EFAULT;
- 
-+	hva = gzvm_gfn_to_hva_memslot(&vm->memslot[memslot_id], gfn);
-+	pin_one_page(hva, &page);
-+
-+	if (!page)
-+		return -EFAULT;
-+
-+	ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-+	if (!ppage)
-+		return -ENOMEM;
-+
-+	ppage->page = page;
-+	ppage->ipa = vcpu->run->exception.fault_gpa;
-+	gzvm_insert_ppage(vm, ppage);
-+
- 	return 0;
- }
-diff --git a/drivers/virt/geniezone/gzvm_vcpu.c b/drivers/virt/geniezone/gzvm_vcpu.c
-index 0c62fe7f2c37..c3d84644c3eb 100644
---- a/drivers/virt/geniezone/gzvm_vcpu.c
-+++ b/drivers/virt/geniezone/gzvm_vcpu.c
-@@ -36,8 +36,7 @@ static long gzvm_vcpu_update_one_reg(struct gzvm_vcpu *vcpu,
- 		return -EINVAL;
- 
- 	if (is_write) {
--		if (vcpu->vcpuid > 0)
--			return -EPERM;
-+		/* GZ hypervisor would filter out invalid vcpu register access */
- 		if (copy_from_user(&data, reg_addr, reg_size))
- 			return -EFAULT;
- 	} else {
-@@ -119,7 +118,9 @@ static long gzvm_vcpu_run(struct gzvm_vcpu *vcpu, void * __user argp)
- 				need_userspace = true;
- 			break;
- 		case GZVM_EXIT_HYPERCALL:
--			fallthrough;
-+			if (!gzvm_handle_guest_hvc(vcpu))
-+				need_userspace = true;
-+			break;
- 		case GZVM_EXIT_DEBUG:
- 			fallthrough;
- 		case GZVM_EXIT_FAIL_ENTRY:
-diff --git a/drivers/virt/geniezone/gzvm_vm.c b/drivers/virt/geniezone/gzvm_vm.c
-index 9f7e44521de5..747e5cf523bf 100644
---- a/drivers/virt/geniezone/gzvm_vm.c
-+++ b/drivers/virt/geniezone/gzvm_vm.c
-@@ -292,6 +292,21 @@ static long gzvm_vm_ioctl(struct file *filp, unsigned int ioctl,
- 	return ret;
- }
- 
-+static void gzvm_destroy_ppage(struct gzvm *gzvm)
-+{
-+	struct gzvm_pinned_page *ppage;
-+	struct rb_node *node;
-+
-+	node = rb_first(&gzvm->pinned_pages);
-+	while (node) {
-+		ppage = rb_entry(node, struct gzvm_pinned_page, node);
-+		unpin_user_pages_dirty_lock(&ppage->page, 1, true);
-+		node = rb_next(node);
-+		rb_erase(&ppage->node, &gzvm->pinned_pages);
-+		kfree(ppage);
-+	}
-+}
-+
- static void gzvm_destroy_vm(struct gzvm *gzvm)
- {
- 	pr_debug("VM-%u is going to be destroyed\n", gzvm->vm_id);
-@@ -308,6 +323,8 @@ static void gzvm_destroy_vm(struct gzvm *gzvm)
- 
- 	mutex_unlock(&gzvm->lock);
- 
-+	gzvm_destroy_ppage(gzvm);
-+
- 	kfree(gzvm);
- }
- 
-@@ -343,6 +360,7 @@ static struct gzvm *gzvm_create_vm(unsigned long vm_type)
- 	gzvm->vm_id = ret;
- 	gzvm->mm = current->mm;
- 	mutex_init(&gzvm->lock);
-+	gzvm->pinned_pages = RB_ROOT;
- 
- 	ret = gzvm_vm_irqfd_init(gzvm);
- 	if (ret) {
-diff --git a/include/linux/gzvm_drv.h b/include/linux/gzvm_drv.h
-index b9e60fe5dcde..77c839c02b17 100644
---- a/include/linux/gzvm_drv.h
-+++ b/include/linux/gzvm_drv.h
-@@ -12,6 +12,8 @@
- #include <linux/mutex.h>
- #include <linux/gzvm.h>
- #include <linux/srcu.h>
-+#include <linux/rbtree.h>
-+#include <linux/mm.h>
- 
- /*
-  * For the normal physical address, the highest 12 bits should be zero, so we
-@@ -80,6 +82,12 @@ struct gzvm_vcpu {
- 	struct gzvm_vcpu_hwstate *hwstate;
- };
- 
-+struct gzvm_pinned_page {
-+	struct rb_node node;
-+	struct page *page;
-+	u64 ipa;
-+};
-+
- struct gzvm {
- 	struct gzvm_vcpu *vcpus[GZVM_MAX_VCPUS];
- 	/* userspace tied to this vm */
-@@ -106,6 +114,9 @@ struct gzvm {
- 	struct srcu_struct irq_srcu;
- 	/* lock for irq injection */
- 	struct mutex irq_lock;
-+
-+	/* Use rb-tree to record pin/unpin page */
-+	struct rb_root pinned_pages;
- };
- 
- long gzvm_dev_ioctl_check_extension(struct gzvm *gzvm, unsigned long args);
-@@ -147,6 +158,8 @@ int gzvm_arch_inform_exit(u16 vm_id);
- int gzvm_find_memslot(struct gzvm *vm, u64 gpa);
- int gzvm_handle_page_fault(struct gzvm_vcpu *vcpu);
- bool gzvm_handle_guest_exception(struct gzvm_vcpu *vcpu);
-+bool gzvm_handle_guest_hvc(struct gzvm_vcpu *vcpu);
-+int gzvm_handle_relinquish(struct gzvm_vcpu *vcpu, phys_addr_t ipa);
- 
- int gzvm_arch_create_device(u16 vm_id, struct gzvm_create_device *gzvm_dev);
- int gzvm_arch_inject_irq(struct gzvm *gzvm, unsigned int vcpu_idx,
-diff --git a/include/uapi/linux/gzvm.h b/include/uapi/linux/gzvm.h
-index 1f134c55ac2a..edac8e3ae790 100644
---- a/include/uapi/linux/gzvm.h
-+++ b/include/uapi/linux/gzvm.h
-@@ -191,6 +191,11 @@ enum {
- 	GZVM_EXCEPTION_PAGE_FAULT = 0x1,
- };
- 
-+/* hypercall definitions of GZVM_EXIT_HYPERCALL */
-+enum {
-+	GZVM_HVC_MEM_RELINQUISH = 0xc6000009,
-+};
-+
- /**
-  * struct gzvm_vcpu_run: Same purpose as kvm_run, this struct is
-  *			shared between userspace, kernel and
--- 
-2.18.0
-
+SGkgQW5kcmV3LA0KDQpPbiAxMy8wOS8yMyA3OjQ2IGFtLCBBbmRyZXcgTHVubiB3cm90ZToNCj4g
+RVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVu
+bGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPj4gK3N0cnVjdCBvYV90YzYg
+ew0KPj4gKyAgICAgc3RydWN0IHNwaV9kZXZpY2UgKnNwaTsNCj4+ICsgICAgIGJvb2wgY3RybF9w
+cm90Ow0KPj4gK307DQo+IA0KPiBTaG91bGQgdGhpcyBiZSBjb25zaWRlcmVkIGFuIG9wYXF1ZSBz
+dHJ1Y3R1cmUgd2hpY2ggdGhlIE1BQyBkcml2ZXINCj4gc2hvdWxkIG5vdCBhY2Nlc3MgdGhlIG1l
+bWJlcnM/DQo+IA0KPiBJIGRvbid0IHNlZSBhbnl0aGluZyBzZXR0aW5nIGN0cmxfcHJvdCBoZXJl
+LiBEb2VzIGl0IG5lZWQgYSBzZXR0ZXIgYW5kDQo+IGEgZ2V0dGVyPw0KQWggb2ssIGl0IGlzIHN1
+cHBvc2VkIHRvIGJlIGRvbmUgaW4gdGhlIG9hX3RjNl9pbml0KCkgZnVuY3Rpb24uIFNvbWVob3cg
+DQptaXNzZWQgaXQuIFdpbGwgY29ycmVjdCBpdCBpbiB0aGUgbmV4dCB2ZXJzaW9uLg0KDQpCZXN0
+IFJlZ2FyZHMsDQpQYXJ0aGliYW4gVg0KPiANCj4gICAgICAgICAgQW5kcmV3DQoNCg==
