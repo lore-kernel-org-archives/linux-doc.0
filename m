@@ -2,279 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC5CCD54A9
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 09:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B752CD54AF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 10:14:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231781AbjISJzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 05:55:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40738 "EHLO
+        id S230029AbjISKOF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 06:14:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231806AbjISJzD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 05:55:03 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB1F170F;
-        Tue, 19 Sep 2023 02:53:55 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF0BC433C9;
-        Tue, 19 Sep 2023 09:53:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695117234;
-        bh=jM06oldMyl65bSUdYLjPqkp6JGq8OZNw9wg+7ieMKJI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XS25igy10ljp+IXCrZXM88eUqd9TyrMew/EetWxspCNiiRJXbYIdyTx85HNdmln6z
-         R9HAZhkem4c6jyzM8A+TwQxwxTAMNINsFvXraC3713+VCc8XIOHDZej2apV5+gF5GS
-         umvYzdgW+dhh3P2SIlbjwKN1Tuie+01VMUXONooaxSQwlV2cDaF3m2eJCrqn0CvBjM
-         q1ENRQu5uVqtlcaFx1SwdCyyKfwpg4uRaildRS29aXEhUbCXuM5hZqBB5wPU9tgmAQ
-         lGTBliMgGF3SelnOUxxAWUNX8QfdYUdyMouoL46FFfh2FvSdJrwIEkYMMTtoesXhvm
-         emaXkXf+nMeAg==
-Date:   Tue, 19 Sep 2023 11:53:52 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Daniel Stone <daniel@fooishbar.org>, emma@anholt.net,
-        linux-doc@vger.kernel.org, vignesh.raman@collabora.com,
-        dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io,
-        jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
-        khilman@baylibre.com, sergi.blanch.torne@collabora.com,
-        david.heidelberg@collabora.com, linux-rockchip@lists.infradead.org,
-        Daniel Stone <daniels@collabora.com>,
-        martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
-        anholt@google.com, linux-mediatek@lists.infradead.org,
-        matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org,
-        gustavo.padovan@collabora.com,
-        linux-arm-kernel@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
-        guilherme.gallo@collabora.com,
-        Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
-        linux-kernel@vger.kernel.org, tzimmermann@suse.de
-Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
-Message-ID: <wnqnhvv2poy3alr5uiegunc7wk6fpt6opmeckdzxhc7tr4fbdm@sena7vlfh4t6>
-References: <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
- <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
- <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
- <5ejq3hjpoy3gxft2jbmoa5m656usetuxcs7g3ezyyiitj67rav@r5jhdz27foat>
- <550454b8-2e2c-c947-92c5-37f0367661c2@mailbox.org>
- <os2wvkangif2nwewfbzkuyjm7njp4g3sqj5td3ogbhhjwsrbbd@3jpf6g5hd3z4>
- <CAPj87rP1sw49Z0HdPhUa-=kDp166RqiuhC9rL+Ef9hpwPD5+JA@mail.gmail.com>
- <krhnfc4os5nqwi3iixgxwads3jbcgtdcvn7ygxpvd62uaejvsk@mx6tmser7jti>
- <CAPj87rPbJ1V1-R7WMTHkDat2A4nwSd61Df9mdGH2PR=ZzxaU=Q@mail.gmail.com>
- <8c5d6bf2-f034-c702-5e99-6daea6d56443@collabora.com>
+        with ESMTP id S229988AbjISKOD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 06:14:03 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C538210EB;
+        Tue, 19 Sep 2023 03:13:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1695118391; x=1726654391;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=MwMnbkdw+YpnrP7+Ou8vkPxtQZQ22QbVdmyIC7spa/I=;
+  b=UpTI0o4QB9yjKQ+ifDIYH035Gn2YeU5M0LTLMmiUfqClGVxIfbRrFSX/
+   8khOQFeGM4BqE/4nr+1TXxqh1Hom369R/CljFJVb/HnXCeBDd3ckgXei0
+   CBuBz8F3Tl9Wo5iSsk3v5XRnmoHZjbOiCW9cM53lH+PWFPHcr++PwHxUy
+   QqptXjbTNeRUNSC2RN6vUJnp3sAgepeS2T7QihALwe/H5Zed9JE/bgMT0
+   0822QWbV1IBNQcuht8/vL9opINpkFV5KrwcIWri0lXrWDcb4ZRs4dU6B3
+   DIRQfz7Cr90w6hQlCxc8w/klnASclkQyDEvHxtRyWVd5SNTHjPc9uTdR5
+   A==;
+X-CSE-ConnectionGUID: 1rHT1gDfT/eevXzGUcMbJw==
+X-CSE-MsgGUID: 0nGjeDu9Qg+TO1nkOGyqpg==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="235938809"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Sep 2023 03:13:02 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 19 Sep 2023 03:12:57 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 19 Sep 2023 03:12:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=To39EnKiawmDjKWVHlGHmg9T0H7EyGrpbMg9WqVq3JH2fZh2D6ExDGjVzUOeLVz9S2oH8HcY9JVlCP6aTOf1/1Z0pj9+BXzI2NiSgjzzPWN7LPf04Aqs6gYAfzIYyUona30taBdmBv0Hcf6lE3FJVj5hDDBlzsjbrzEXy/jdRgD/8I9Wgv7yPPDqTrUelOmjeI2I32CZCAp+O/90Vk2qDzvMZjzO8+1UbuwW2UrT0UNwPT1wwSuj1F/8kIyfhFYOrzSrC5SbcHZ8BeIecdxbEV99zJ3UOHz+yByBBijlfl0dqMnkGoJW6pBpwfk0fuctv1G/XVsqsSpguVBjps1ItQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MwMnbkdw+YpnrP7+Ou8vkPxtQZQ22QbVdmyIC7spa/I=;
+ b=QqTP/TtOxphFUeC9VkbcrAB9uqbGPHr/x5pE2H+hESaDDgp5JHs4bRo+1l1wu58X4YUPlPzX0LOB49AFo9tVm1RxLUEjDti5ZZFmug+zymZTu3jBi2Z18AuJtQco2NYNAhGXT2vqO939S5jQ2ALnJdBiwDHEzhPshYFYmImS+iFMtskXSDzdWgBNYl5vy91wXF8T8M8/PpCYKRgLHzt9HI+JaJLxw2hixLQjq++cC5oLsTGpEF/LlKzk5PJi2be7kiJR1KkTMNX/4/DpDIbqNtF9UjRxm63oN6bbeO/vDwkriuUGqBzipCcUzI0GgBViZjT2TRio8hcTo6Pdf5Toow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MwMnbkdw+YpnrP7+Ou8vkPxtQZQ22QbVdmyIC7spa/I=;
+ b=Q8R+G73ZgXZcfqSNJSJmdFmC3Dy197EjGY1Z2IYoTzdjXoJ/WX651VafREA0uSQUwsX2OB42fqNEYf7S+mkG9ufMKn0KW4c9jEyigWdVOXeIXz0/0BFscrU8jJvbvE5DHNv5KK5JejnPeYlH+eLVgrEgfeVXG/8wXltjERrFm88=
+Received: from DM6PR11MB3532.namprd11.prod.outlook.com (2603:10b6:5:70::25) by
+ DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.31; Tue, 19 Sep 2023 10:12:55 +0000
+Received: from DM6PR11MB3532.namprd11.prod.outlook.com
+ ([fe80::6352:54f7:6c42:69ef]) by DM6PR11MB3532.namprd11.prod.outlook.com
+ ([fe80::6352:54f7:6c42:69ef%6]) with mapi id 15.20.6792.026; Tue, 19 Sep 2023
+ 10:12:55 +0000
+From:   <Parthiban.Veerasooran@microchip.com>
+To:     <andrew@lunn.ch>
+CC:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <Steen.Hegelund@microchip.com>,
+        <rdunlap@infradead.org>, <horms@kernel.org>,
+        <casper.casan@gmail.com>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
+        <Woojung.Huh@microchip.com>, <Nicolas.Ferre@microchip.com>,
+        <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>
+Subject: Re: [RFC PATCH net-next 4/6] net: ethernet: implement data
+ transaction interface
+Thread-Topic: [RFC PATCH net-next 4/6] net: ethernet: implement data
+ transaction interface
+Thread-Index: AQHZ4mEwIcqRhP4AnUasVDHVhRaf3rAZjgOAgAbbhICAADI2AIABYzaA
+Date:   Tue, 19 Sep 2023 10:12:55 +0000
+Message-ID: <0601c914-a84d-c525-861e-b14dd8c45fda@microchip.com>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-5-Parthiban.Veerasooran@microchip.com>
+ <e874dab4-e701-44f8-bbe0-ce66784ecf5c@lunn.ch>
+ <3900f818-9ff1-cc19-f545-fbb3e2db4d52@microchip.com>
+ <51d1565f-e43e-4906-af65-2ae672309b89@lunn.ch>
+In-Reply-To: <51d1565f-e43e-4906-af65-2ae672309b89@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB3532:EE_|DS7PR11MB7859:EE_
+x-ms-office365-filtering-correlation-id: 812ffeb2-1e18-4118-f858-08dbb8f8fe0d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yonFrZ/MRnxSBWF7k3ffkZ22jtXsuguVvTy7ycyZ1VRmrR/neF1HZLArVSjaFUQfxtY6+H4Z96LYbTo7xt1alZ7oJK4OCAj1fQFnHEdf9BxjbWaLwPcXn8ZLZrYTwbuyIbgZL676qN1xmzs2yfDYy0RHBpdL6nx01aevmH28lJbjN1b1/11BNi11IISIH8TdvoXF/iDPqE153fLSfWlRUdRFOHAPsrXDt3O5tkA9X0SzL2BXfL57yXW4m55bBmKDP5KXkABWSVVB0PTdgx5SfcGynAXl4fVWFKgQDG4Dy9rwkGHYeJkjkRu/AE8n76h8NEu8E8a1lFY7aeSy4JBGgJ0NzPREKjgfvbZiQB1C3fPvcIKeU/2ZfH3J++GtPCi/D5EA7/EaQ8YC/PWe8tkxvA82Zoe17VcqNcPGJiz1KcglqaVOY1Ov3LZ5GpSMyTAEUxblkFtqffGQFpZ3xulskIcWAaJtz+s+MzgJwVu5y8MOK52ocgE7R8EeaTG82XQcGARwTLER9NrUCnNwN25hGdozHhU+i2t8jtXzpyFAcKLnaEeh6IILQ+4oU5Qt6TfsSXAhInyCIjbKCvMpuJbzarxDJg9mNlN/uIaBhOEKoh70zQcdq8pOOckYS+A5drh9qSavPtsoGzXBM0ys2OmOXVy1ewPV1HuvshFgrO4a/Dl7uV6YaT+Qe3fk9Gvr1353
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3532.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(396003)(39860400002)(376002)(136003)(1800799009)(451199024)(186009)(26005)(107886003)(4326008)(8676002)(8936002)(2616005)(2906002)(4744005)(7416002)(5660300002)(36756003)(86362001)(31686004)(6512007)(71200400001)(6506007)(6486002)(53546011)(122000001)(31696002)(38070700005)(38100700002)(41300700001)(76116006)(66946007)(91956017)(66556008)(316002)(478600001)(64756008)(6916009)(54906003)(66446008)(66476007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TXZxSU9wQ2oxTkJveGswQjRpcytkU3BzdGc2VWNvNDFYeFZ2bjViY0k4UHp2?=
+ =?utf-8?B?SVpuWnUwNHZFNzNiaitKVHFhMXlwWjUvUWpadkd4MERQei9PVFFNMGRnY0JS?=
+ =?utf-8?B?bzhsU0EyeDNWVWlTcmNoMVNrbWVuSkl3cWN1VytVQTI2UlhQcEhUQmUwZ0Ur?=
+ =?utf-8?B?aEJSZG5Kb1lPczdmSmJSbElYZzBRQUI2UHk2eTVPdjlYUENLVDZHamtVSktR?=
+ =?utf-8?B?bG5tTVpldFg4S1Juc1lPdDFiZkw3M3dzSzJJL2Q1ZXQvZldTOUtCTFVYT0JQ?=
+ =?utf-8?B?ekErcWdLZ3dZZ204b3h3aDU0ZCs5OE1zak9TeEtmUXEveDFMbFZpOUMyNXVs?=
+ =?utf-8?B?dnl0UkxNMXlqWkNVN2ZnS3d6aWhuMURGb3NTVkdmTnNOTTA4ZGN3WnY5L0dJ?=
+ =?utf-8?B?ZGhYUVg3b25TU1Fjd0tYajIraFBVMWMzZWxPUTZWS01uTkt4UWVBZFlzT2Fi?=
+ =?utf-8?B?TWZWRThXaER2ZkZtVWVGTlhzUllxNk5OZjlMWWxsZGxCK2lyTTZyQjdBM3Mr?=
+ =?utf-8?B?YXpyU1lzUkZucndEL01PZ25IL0JRckxhSUpFaXU3U0RwOGJLSDBGZUtMMXRq?=
+ =?utf-8?B?SlR4QmZBT3JoTUg4RCtEbGJRYng0RkVHQXJDMUZ1dUt5bkxOb2k0cTc2cGlD?=
+ =?utf-8?B?Skx6NjRaai9QNlU0VzRGRmR5ZU91ZG1QVFZYa2xBcE0xN0JoN1NVK0d1TjRO?=
+ =?utf-8?B?VmxLQStTUnJla0VKZU1PRmhkOG84QVVOcnZKWnluaDdjeDdBdWZPZG1veSt3?=
+ =?utf-8?B?dWlsL3lZZHR4WnRnVUI0Q1E1RGFDNlhsS1ptRTRDTGNtQXNOcm03T2pLNmdR?=
+ =?utf-8?B?bkFSWkNFQmlIRVQySVFoMTZ0czRTUDBhdVpnTS9reVd2NnpodEpZZzNlaHFR?=
+ =?utf-8?B?TlRtM2hCR1RJNndjTm5lWjJ0T3h6cE9rMWM2S3ZxSEFSK3MxMlVoNEJEekk0?=
+ =?utf-8?B?T3dWY203Q00rQjZMalJva3hzYUZYWXcyaWE5RWhrWUM0NG1EcE1aU2FLSTlq?=
+ =?utf-8?B?N0xnS0NVSy95ZFlxWksrU3B6d3dpcjlOSS9nSFUyaWlmaVFGMlpCd0ZlNTgw?=
+ =?utf-8?B?eDAxWjdpcFBBSXN0d29OSk9lcUEyVFJXYjhzQ0NmOVpYUHl0SExTcnRhTEUx?=
+ =?utf-8?B?MmFOVUp1MHN1b3RBRTlEUVRyZ2ZmU2VQMytnNGF4cGFWcmJrbFRVNXR6cVhV?=
+ =?utf-8?B?RnNVd3dlSHIvVllVMjg4cWZud1pmdkdGaWo5TzlvTmxvMVJKMlJRMkdEWVUx?=
+ =?utf-8?B?dDlCdnFZTDFsczhFek9IVWpJSjVvTW9RbmxxeEd5ZVdxYlNTbWI4Q0xyR0Ft?=
+ =?utf-8?B?VUdadU1YTnBIYUtLWnAxZEZ3MXM3ZUNuS3BUa0V3ODRvUjBER3lGL2grc29G?=
+ =?utf-8?B?ek9ITG5uMzhkUmIzNzVKeUxJK1FZcmNlcXJYYjhXTEVaSnF6TVBpWmdyZGk4?=
+ =?utf-8?B?UFJHaUM2Yk5OVTI4bWt0d0FUVHprQXVUZ0YvRG4xK2dsOTJLOXlQOCtxTDVC?=
+ =?utf-8?B?RTZvdWVHb1N2NnB2T0h4UERWQzhibEFuYU5QWkdYOHBkUlovRllNMGJCOFd4?=
+ =?utf-8?B?b1g1VWMya3ZkRU1OL2cwMkxFVjIrSDlEaVdPWnlEMzNnZW1zZ3Vuay9MUE4w?=
+ =?utf-8?B?aUlLZkZySXlXa0VXUTJ1ZW1SajZJZ3ZwWkRvWk9YRTk5b3pUa0MyemdqSStV?=
+ =?utf-8?B?aTdHLzV1bnBoWkNZVG9KSmZ1dVc0ZytCLy9wdFR2dU0yWUhjR29PSmlmZVVj?=
+ =?utf-8?B?TWNUQ1JxY29JbFQ5c0UvWjZnZ3B2MnBsVkdid0tiL2V6Wk9yNnNWMUtOR1Ay?=
+ =?utf-8?B?Qlo1Y2VYZHhLRk41KzROd3pjVlJQcVE4OW1UZk80WXpSNThQRWdrU3NEa0I5?=
+ =?utf-8?B?SEFMdlE4TTFUYlZNMldnaFpYN2tvWXlZZ0p4ZVNLVnpQZlBaZS9FU3I2bXRr?=
+ =?utf-8?B?YkZwcHVpd21YL3VKSHAwMytiaVo0MnFLczY4RjdaS2h1dnpNZklURkpXVmtX?=
+ =?utf-8?B?cCtJb290U2ZsbnBvVHhLb2VaMmhaUm1LOXhvelFVQVlpdUlUNDFjZzVXTzVC?=
+ =?utf-8?B?dlZTNDVKd0d5UEI5aWtaRHpFai94ZDJKd2t0dHE4Vys2NVg0czFGcnZ4VGxp?=
+ =?utf-8?B?cWJmSnJzMjA0NlZDNy90TzMwcUIveU95cUtDaDN1UTZCYkQ2MzJndW4vcEZB?=
+ =?utf-8?B?Vmc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FE0EBE985B25144F8A40B1BFE450C497@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="qzi5si6i7asvr3sl"
-Content-Disposition: inline
-In-Reply-To: <8c5d6bf2-f034-c702-5e99-6daea6d56443@collabora.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3532.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 812ffeb2-1e18-4118-f858-08dbb8f8fe0d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2023 10:12:55.6341
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ScnsQdT7AWPZfsBv6My2cvuxBnoVLeZIsSsCazlSU+zi46u7cYuZ9+3NG8Q95mQg2hjajzW6PIX7uj2fIkFk/L3qDiLFg29Xl8SiKnRRWwvx0Zr8K0xkICroFB+HWpDv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7859
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---qzi5si6i7asvr3sl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Sep 18, 2023 at 06:35:13PM -0300, Helen Koike wrote:
-> > > > I don't quite see the same picture from your side though. For examp=
-le,
-> > > > my reading of what you've said is that flaky tests are utterly
-> > > > unacceptable, as are partial runs, and we shouldn't pretend otherwi=
-se.
-> > > > With your concrete example (which is really helpful, so thanks), wh=
-at
-> > > > happens to the MT8173 hdmi-inject test? Do we skip all MT8173 testi=
-ng
-> > > > until it's perfect, or does MT8173 testing always fail because that
-> > > > test does?
-> > >=20
-> > > It's not clear to me why that test is even running in the first place?
-> > > There's been some confusion on my side here about what we're going to
-> > > test with this. You've mentioned Mesa and GPUs before, but that's a K=
-MS
-> > > test so there must be more to it.
-> > >=20
-> > > Either way, it's a relevant test so I guess why not. It turns out that
-> > > the test is indeed flaky, I guess we could add it to the flaky tests
-> > > list.
-> > >=20
-> > > BUT
-> > >=20
-> > > I want to have every opportunity to fix whatever that failure is.
-> >=20
-> > Agreed so far!
-> >=20
-> > > So:
-> > >=20
-> > >    - Is the test broken? If so, we should report it to IGT dev and re=
-move
-> > >      it from the test suite.
-> > >    - If not, is that test failure have been reported to the driver au=
-thor?
-> > >    - If no answer/fix, we can add it to the flaky tests list, but do =
-we
-> > >      have some way to reproduce the test failure?
-> > >=20
-> > > The last part is especially critical. Looking at the list itself, I h=
-ave
-> > > no idea what board, kernel version, configuration, or what the failure
-> > > rate was. Assuming I spend some time looking at the infra to find the
-> > > board and configuration, how many times do I have to run the tests to
-> > > expect to reproduce the failure (and thus consider it fixed if it
-> > > doesn't occur anymore).
-> > >=20
-> > > Like, with that board and test, if my first 100 runs of the test work
-> > > fine, is it reasonable for me to consider it fixed, or is it only
-> > > supposed to happen once every 1000 runs?
->=20
-> I wonder if this should be an overall policy or just let the maintainer to
-> decide.
->=20
-> In any case these stress tests must be run from time to time to verify if
-> flakes are still flakes. We could do it automatically but we need to
-> evaluate how to do it properly so it doesn't overload the infra.
-
-That would be a great thing to do, but we can also reasonably expect
-that we will have other farms that may not run those tests on a regular
-basis, and we will have some manual testing too so I think it's still
-valuable.
-
-> > > So, ideally, having some (mandatory) metadata in the test lists with a
-> > > link to the bug report, the board (DT name?) it happened with, the
-> > > version and configuration it was first seen with, and an approximation
-> > > of the failure rate for every flaky test list.
-> > >=20
-> > > I understand that it's probably difficult to get that after the fact =
-on
-> > > the tests that were already merged, but I'd really like to get that
-> > > enforced for every new test going forward.
-> > >=20
-> > > That should hopefully get us in a much better position to fix some of
-> > > those tests issues. And failing that, I can't see how that's
-> > > sustainable.
-> >=20
-> > OK yeah, and we're still agreed here. That is definitely the standard
-> > we should be aiming for.  It is there for some - see
-> > drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt, but should be
-> > there for the rest, it's true. (The specific board/DT it was observed
-> > on can be easily retconned because we only run on one specific board
-> > type per driver, again to make things more predictable; we could go
-> > back and retrospectively add those in a header comment?)
-> >=20
-> > For flakes, it can be hard to pin them down, because, well, they're
-> > flaky. Usually when we add things in Mesa (sorry to keep coming back
-> > to Mesa - it's not to say that it's the objective best thing that
-> > everything should follow, only that it's the thing we have the most
-> > experience with that we know works well), we do a manual bisect and
-> > try to pin the blame on a specific merge request which looks like the
-> > most likely culprit. If nothing obvious jumps out, we just note when
-> > it was first observed and provide some sample job logs. But yeah, it
-> > should be more verbose.
-> >=20
-> > FWIW, the reason it wasn't done here - not to say that it shouldn't
-> > have been done better, but here we are - is that we just hammered a
-> > load of test runs, vacuumed up the results with a script, and that's
-> > what generated those files. Given the number of tests and devices, it
-> > was hard to narrow each down individually, but yeah, it is something
-> > which really wants further analysis and drilling into. It's a good
-> > to-do, and I agree it should be the standard going forward.
->=20
-> Yes, during development I was just worried about to get a pipeline that
-> would succeed most of the time (otherwise people would start ignoring when
-> it fails), so they just got run a couple of times and a script filled the
-> flakes list.
-> For me the idea was "let's get a starting point" first, but yeah, we need=
- to
-> improve how we deal with it from now on.
-
-Yeah, like I said, there's not much we can do for those 250-ish flakes
-we currently have in tree at the moment. I'd prefer to stay at 250 tests
-with not enough context than keep expanding that list :)
-
-> > > And Mesa does show what I'm talking about:
-> > >=20
-> > > $ find -name *-flakes.txt | xargs git diff --stat  e58a10af640ba58b60=
-01f5c5ad750b782547da76
-> > > [...]
-> > >=20
-> > > In the history of Mesa, there's never been a single test removed from=
- a
-> > > flaky test list.
-> >=20
-> > As Rob says, that's definitely wrong. But there is a good point in
-> > there: how do you know a test isn't flaky anymore? 100 runs is a
-> > reasonable benchmark, but 1000 is ideal. At a 1% failure rate, with 20
-> > devices, that's just too many spurious false-fails to have a usable
-> > workflow.
-> >=20
-> > We do have some tools to make stress testing easier, but those need to
-> > be better documented. We'll fix that. The tools we have which also
-> > pull out the metadata etc also need documenting - right now they
-> > aren't because they're under _extremely_ heavy development, but they
-> > can be further enhanced to e.g. pull out the igt results automatically
-> > and point very clearly to the cause. Also on the to-do.
-> >=20
-> > > > Only maintainers can actually fix the drivers (or the tests tbf). B=
-ut
-> > > > doing the testing does let us be really clear to everyone what the
-> > > > actual state is, and that way people can make informed decisions to=
-o.
-> > > > And the only way we're going to drive the test rate down is by the
-> > > > subsystem maintainers enforcing it.
-> > >=20
-> > > Just FYI, I'm not on the other side of the fence there, I'd really li=
-ke
-> > > to have some kind of validation. I talked about it at XDC some years
-> > > ago, and discussed it several people at length over the years. So I'm
-> > > definitely not in the CI-is-bad camp.
-> > >=20
-> > > > Does that make sense on where I'm (and I think a lot of others are)
-> > > > coming from?
-> > >=20
-> > > That makes sense from your perspective, but it's not clear to me how =
-you
-> > > can expect maintainers to own the tests if they were never involved in
-> > > the process.
-> > >=20
-> > > They are not in Cc of the flaky tests patches, they are not reported
-> > > that the bug is failing, how can they own that process if we never
-> > > reached out and involved them?
-> > >=20
-> > > We're all overworked, you can't expect them to just look at the flaky
-> > > test list every now and then and figure it out.
-> >=20
-> > Absolutely. We got acks (or at least not-nacks) from the driver
-> > developers, but yeah, they should absolutely be part of the loop for
-> > those updates. I don't think we can necessarily block on them though.
-> > Say we add vc4 KMS tests, then after a backmerge we start to see a
-> > bunch of flakes on it, but you're sitting on a beach for a couple of
-> > weeks. If we wait for you to get back, see it, and merge it, then
-> > that's two weeks of people submitting Rockchip driver changes and
-> > getting told that their changes failed CI. That's exactly what we want
-> > to avoid, because it erodes confidence and usefulness of CI when
-> > people expect failures and ignore them by default.
-> >=20
-> > So I would say that it's reasonable for expectations to be updated
-> > according to what actually happens in practice, but also to make sure
-> > that the maintainers are explicitly informed and kept in the loop, and
-> > not just surprised when they look at the lists and see a bunch of
-> > stuff happened without their knowledge.
->=20
-> I was thinking in adding entries in MAINTAINERS file pointing to each
-> flake/skip/fails list file to their maintainers, so get_maintainers.pl can
-> return the right thing.
-
-Yeah, I think it's the best thing to do at the moment. It's cheap and
-will work ok.
-
-Maxime
-
---qzi5si6i7asvr3sl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQlvsAAKCRDj7w1vZxhR
-xdV4AQDKBqyhTbR670C0VpI7Y9MnnTOyZTdfSpRh6rNX6gW9tgD9EbT5t2EvmzeQ
-AfeMKWBNB/fZ7Zb5x0L/T2N5s/acZAQ=
-=cQU6
------END PGP SIGNATURE-----
-
---qzi5si6i7asvr3sl--
+SGkgQW5kcmV3LA0KDQpPbiAxOC8wOS8yMyA2OjMxIHBtLCBBbmRyZXcgTHVubiB3cm90ZToNCj4g
+RVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVu
+bGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPj4+PiArI2RlZmluZSBNQVhf
+RVRIX0xFTiAgMTUzNg0KPj4+DQo+Pj4gV2hlcmUgZG8gMTUzNiBjb21lIGZyb20/IE1heWJlIHRo
+aXMgbmVlZHMgYW4gT0FfVEM2IHByZWZpeCB0byBtYWtlIGl0DQo+Pj4gY2xlYXIgdGhpcyBpcyBz
+cGVjaWZpYyB0byB0aGlzIHByb3RvY29sPw0KPj4gQWggaXQgaXMgYSBtaXN0YWtlLiBJdCBpcyBz
+dXBwb3NlZCB0byBiZSBhbiBldGhlcm5ldCBwYWNrZXQgc2l6ZSB3aGljaA0KPj4gaXMgMTUxOCAo
+MTUwMCBieXRlcyBNVFUgc2l6ZSArIDE4IGJ5dGVzIG92ZXJoZWFkKSBhbmQgaXQgaXMgbm90IGZy
+b20gT0EuDQo+PiBJdCBpcyBhIG1pc3Rha2UgYW5kIHdpbGwgY29ycmVjdCBpdCBpbiB0aGUgbmV4
+dCB2ZXJzaW9uLg0KPiANCj4gUGxlYXNlIHRyeSB0byBleHByZXNzIHRoaXMgdXNpbmcgRVRIX0RB
+VEFfTEVOICsgc2l6ZW9mKHN0cnVjdA0KPiBvYV90YzZfb3ZlcmhlYWQpLiBEb2luZyBpdCBsaWtl
+IHRoaXMgd2lsbCBhdm9pZCBlcnJvcnMgbGlrZSB0aGlzIHNpbmNlDQo+IGl0IGlzIGFsc28gcGFy
+dCBkb2N1bWVudGF0aW9uLg0KT2ssIGluIG15IGNhc2UgdGhlIGRlZmluZSB3b3VsZCBiZSwNCg0K
+I2RlZmluZSBNQVhfRVRIX0xFTiAgICAgIChFVEhfREFUQV9MRU4gKyBFVEhfSExFTiArIEVUSF9G
+Q1NfTEVOKQ0KDQpCZXN0IFJlZ2FyZHMsDQpQYXJ0aGliYW4gVg0KDQo+IA0KPiAgICAgQW5kcmV3
+DQoNCg==
