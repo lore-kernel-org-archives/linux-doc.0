@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C76CD5BB2
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 12:51:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A752FCD5BB4
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 12:54:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232174AbjISMvG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 08:51:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52202 "EHLO
+        id S232192AbjISMzD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 08:55:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232209AbjISMvE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 08:51:04 -0400
+        with ESMTP id S232080AbjISMzC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 08:55:02 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D48D125;
-        Tue, 19 Sep 2023 05:50:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D441DF3;
+        Tue, 19 Sep 2023 05:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=afVsOPxUQuwVipVDHBVww60gV/G7DP0ocTjI/JcbAvY=; b=eoZrVw8hIptK6eIwOJZsrXb4xA
-        z4swNSl9KJZB2vyfzz1v99biL5m1wHUXV24zojrVfyj71x89GGDtUDQkAlKj/Ubgo/iyQSwTp8yaC
-        1sFWZeYloA0iX5J99zTDRColZ2uR295rsHQY+ei6yFZQBt+Gvg483ndB+AnXiMqgbPOE=;
+        bh=1Npvrzyz+/TZN9YuhYrSAlYVBkFpFs1Wg2sTP1rKTzM=; b=XXl0VR2tj8IyKUOHxyeVKdBQ12
+        QbqTt8W+/Un78rkZaHzfMrIOQfiPRpMR423vSz4l8tSzehXttY60c+iOpNCet9ysn7EAbYhBdUPyT
+        KKUq+vcVhFuT4suCzdVfZvc1mfP7pWTaeatTbcKuDD3L4r1sYPzuYMaYJzyhP0c7UuQo=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1qiaBf-006uWQ-NU; Tue, 19 Sep 2023 14:50:43 +0200
-Date:   Tue, 19 Sep 2023 14:50:43 +0200
+        id 1qiaFb-006uYS-1A; Tue, 19 Sep 2023 14:54:47 +0200
+Date:   Tue, 19 Sep 2023 14:54:47 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Parthiban.Veerasooran@microchip.com
 Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -38,65 +38,35 @@ Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         Horatiu.Vultur@microchip.com, Woojung.Huh@microchip.com,
         Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
         Thorsten.Kummermehr@microchip.com
-Subject: Re: [RFC PATCH net-next 5/6] microchip: lan865x: add driver support
- for Microchip's LAN865X MACPHY
-Message-ID: <8e9fecd4-f9bc-46d0-b7bf-fbf7ac83cc80@lunn.ch>
+Subject: Re: [RFC PATCH net-next 3/6] net: ethernet: implement OA TC6
+ configuration function
+Message-ID: <d2d26c6c-0345-46cf-b806-15834ba8b40f@lunn.ch>
 References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
- <20230908142919.14849-6-Parthiban.Veerasooran@microchip.com>
- <d1ffe3b1-d078-4f39-a263-c09dec6c4169@lunn.ch>
- <248dc5fd-f860-507b-6b3e-4be62cd91b2a@microchip.com>
+ <20230908142919.14849-4-Parthiban.Veerasooran@microchip.com>
+ <dd0a6cd5-91e5-4e13-8025-d6c88bdab5a2@lunn.ch>
+ <46fab729-4c5a-1a6e-37d0-fea62c0717f7@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <248dc5fd-f860-507b-6b3e-4be62cd91b2a@microchip.com>
+In-Reply-To: <46fab729-4c5a-1a6e-37d0-fea62c0717f7@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Sure, I can move this part to oa_tc6 lib. If I understand you correctly 
-> you are talking about the Standard Capabilities Register (0x0002) 
-> defined in the OPEN Alliance 10BASE-T1x MAC-PHY Serial Interface spec 
-> right? If so, the 9th bit of this register tells about Indirect PHY 
-> Register access Capability. Did you mean this bit? If so, this bit 
-> describes the below,
-> 
-> IPRAC - Indirect PHY Register Access Capability. Indicates if PHY 
-> registers are indirectly accessible through the MDIO/MDC registers MDIOACCn.
-
-Yes. If the core relies on any functionality which is optional in the
-standard, it should check if the capability bit is set, and do a
-dev_erro() and return -ENODEV if a device does not actually have
-it. That makes it clear the core needs extending to support a device.
-
-If you are only using mandatory parts of the spec, then no test is
-needed.
-
-> > I would expect to see a call to phy_ethtool_ksettings_set()
-> > here. phylib should be able to do some of the validation.
-> Ah ok, doing the below will make the life easier.
-> .set_link_ksettings	= phy_ethtool_set_link_ksettings,
-
-Please do some testing and check that phy_ethtool_set_link_ksettings
-doe actually reject all invalid setting. I cannot guarantee it does,
-and if it does not, it might actually be a PHY driver bug.
-
-> >> +static int lan865x_net_open(struct net_device *netdev)
-> >> +{
-> >> +     struct lan865x_priv *priv = netdev_priv(netdev);
-> >> +     int ret;
-> >> +
-> >> +     if (!is_valid_ether_addr(netdev->dev_addr)) {
-> >> +             if (netif_msg_ifup(priv))
-> >> +                     netdev_err(netdev, "Invalid MAC address %pm", netdev->dev_addr);
-> >> +             return -EADDRNOTAVAIL;
+> >> +/* Unmasking interrupt fields in IMASK0 */
+> >> +#define HDREM                ~BIT(5)         /* Header Error Mask */
+> >> +#define LOFEM                ~BIT(4)         /* Loss of Framing Error Mask */
+> >> +#define RXBOEM               ~BIT(3)         /* Rx Buffer Overflow Error Mask */
+> >> +#define TXBUEM               ~BIT(2)         /* Tx Buffer Underflow Error Mask */
+> >> +#define TXBOEM               ~BIT(1)         /* Tx Buffer Overflow Error Mask */
+> >> +#define TXPEM                ~BIT(0)         /* Tx Protocol Error Mask */
 > > 
-> > Using a random MAC address is the normal workaround for not having a
-> > valid MAC address via OTP flash etc.
-> Ah ok, you mean to use eth_hw_addr_random(netdev) instead of returning 
-> error.
+> > Using ~BIT(X) is very usual. I would not do this, Principle of Least
+> > Surprise.
+> Sorry, I don't get your point. Could you please explain bit more?
 
-Yes. And this is generally done earlier than open, as part of
-probe. You want to avoid surprising userspace when the MAC address
-suddenly changes at open time.
+Look around kernel header files. How often do you see ~BIT(5)?  My
+guess it is approximately 0. So i'm suggesting you remove the ~ and
+have the user of the #define assemble the mask and then do the ~ .
 
-	 Andrew
+     Andrew
