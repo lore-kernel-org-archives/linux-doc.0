@@ -2,193 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB1CCD3437
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 05:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8341CD3441
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 06:50:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbjISFqj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 01:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44216 "EHLO
+        id S230006AbjISGux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 02:50:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231259AbjISFqg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 01:46:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4696C18E
-        for <linux-doc@vger.kernel.org>; Mon, 18 Sep 2023 22:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695102350;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HiVEPo5eeRXHXivfzlf4pcDpdl4skr74vqWMfN6Le04=;
-        b=QjFMctCMTih3hJhzVi1Te3He754jLHbNGUQMTw5DQjGRyJhZeib5pJeJiZoKtqUwQZ2Wv8
-        mqQYHT/AENZxjqfCcHL3lZ/KGDGRmCI+n83Q5O1L8bA5hitNKnq6jr0v4Th8GW0OcEEbha
-        9efbmp+0rRrTHvtbI3Bv1vI97kIOPsg=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-98-Bsxo8gP4Ou-tkKtN9AtKEA-1; Tue, 19 Sep 2023 01:45:48 -0400
-X-MC-Unique: Bsxo8gP4Ou-tkKtN9AtKEA-1
-Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-1c8c1f34aadso8447891fac.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Sep 2023 22:45:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695102348; x=1695707148;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HiVEPo5eeRXHXivfzlf4pcDpdl4skr74vqWMfN6Le04=;
-        b=sSQ8T68hpREZnMMeIeXJq3IliZ6A96PU3rL47oblrrpx5B3M1T/e5dXC1MllZP+mqX
-         jOlUMN1w+puUmxurWjFb3d23FwJ1XASM6FuQ9pl6A28vlFJIPrQqt62ncDznRp05/dNC
-         apfvhQlPrBcWoqiXwIoHJgghSI5N0IY3YhseVuPC3vVyNuM/i67HAPzIP9nybFCiFC6r
-         wgT236HrZhHfSPKI91Z8UdAwYqYpGxb5yeWFmKhKC2AVEnTLb/KSF8zXcCJTICMqbWyi
-         wNXx+5q+/RklmiTJoNkYOlCfuOkQo10R7/pLhw5HI4KgkrmmGNZaJnk/fsJLAVLYabs0
-         +5bw==
-X-Gm-Message-State: AOJu0YwrKHYt9DRn0GdGJL0Z1S6/ErUcZb7lFsrel6YGK0rlSTF/SVN/
-        Jv5gx4dm784+dxX7D41HjUZtamV9eIJuhe+//mk4p2fIa5qkhyGW1B53KXc1/1PbAWvWxGLfsVd
-        VHxOLqqxpc4g5doSNjHfZ
-X-Received: by 2002:a05:6870:5690:b0:1bb:83e9:6277 with SMTP id p16-20020a056870569000b001bb83e96277mr13486636oao.33.1695102348009;
-        Mon, 18 Sep 2023 22:45:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHA7fVjpU09v/Q+0JN+fs3b+WtouB3O3IFXrPr3jgLPWef/tjcxoKLI0bNZO/4778Pfmzj0VA==
-X-Received: by 2002:a05:6870:5690:b0:1bb:83e9:6277 with SMTP id p16-20020a056870569000b001bb83e96277mr13486603oao.33.1695102347774;
-        Mon, 18 Sep 2023 22:45:47 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:677d:42e9:f426:9422:f020])
-        by smtp.gmail.com with ESMTPSA id cc6-20020a056871e18600b001b3d67934e9sm5733332oac.26.2023.09.18.22.45.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Sep 2023 22:45:47 -0700 (PDT)
-Date:   Tue, 19 Sep 2023 02:45:37 -0300
-From:   Leonardo Bras <leobras@redhat.com>
-To:     Guo Ren <guoren@kernel.org>
-Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
-        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
-        rdunlap@infradead.org, catalin.marinas@arm.com,
-        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
-        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
-        greentime.hu@sifive.com, ajones@ventanamicro.com,
-        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
-        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V11 13/17] RISC-V: paravirt: pvqspinlock: Add SBI
- implementation
-Message-ID: <ZQk1gTtXayK9BDfB@redhat.com>
-References: <20230910082911.3378782-1-guoren@kernel.org>
- <20230910082911.3378782-14-guoren@kernel.org>
- <ZQP4SXLf00IntVWd@redhat.com>
- <CAJF2gTTBwFKjVOovMHB171s+nymL88OANpS3O-uwKBLxto43mA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        with ESMTP id S231533AbjISGuw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 02:50:52 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA40D100;
+        Mon, 18 Sep 2023 23:50:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695106246; x=1726642246;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=manKITcYWwCB6LpTBHEbqmgFeC4oFXN3BBPxyxfYT0Q=;
+  b=Ka5zqrokbdlRSgi7PgVbAfrGUppLQZb/CSZ65Xt/eJWAlve79SIanUsU
+   2HFgb3KYMKI5N8nfcC4nhGWG5X7ul54O3WsntTAWAsblKf/z3dMJ+JYSr
+   PTkF95nG4gF2JINZcB5ps7kP0AmUd5a+lmXq0WZSZ0xdOTwxiRTZQn7qn
+   qdfD4bQRw8p2UdPywWjuDQdQEVZ96y4OGsuNyz46O33KSTCuauBBujJ57
+   OT9uy+zfthcdKSflaE8idgqg53mxQDMBkgej/NSpLv5FxrHEvuxSMHoQg
+   MlvbcSOxQcu8AEIC9jv2fLd4DQM2kcfiItmQgX+hzork927G8xZqum7px
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="359268018"
+X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
+   d="scan'208";a="359268018"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 23:50:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="919757365"
+X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
+   d="scan'208";a="919757365"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Sep 2023 23:50:45 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 18 Sep 2023 23:50:43 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 18 Sep 2023 23:50:43 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.42) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 18 Sep 2023 23:50:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UgmaE7Rkt0G/DBvDOOQT7yn7YcOWjN/XEYJ9oq9i0b9gyWamsybwdcwBdczRLLtFK9OPSz7upPWs1JRsJem0OYyVB8imJDJ5q8zKCZ4MPsRqKk0HpodpxVga8SaTMUJcHJFnP1qO/5qBwokE7hEfyDskllFj1gJRJPdP9305s/dYbocSvtUfK19//oG4ldwcsppTZFkv15sntKduAPWO0S382bAxPCTNNQCbjHnD2ktyjiCJbSB6AhjtOR4uDRUbpoXzxHZTfkJoqza+xcoGqCRu1IuwHQAIQgixDkk7E/t4yDaXkcwO/eY+VBLxs9bY1QeF+C1WXTXKJCseVStiSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sPF9o5ct8Xi8UQ8m94+zVIFS0vxKPf2mItmUAGrCzMM=;
+ b=hPQ9QPo4I1QPxTDbwVow8DBT97c2annxJ/QYs6swBv6+eVPpNE2+cO7fJyvOnKYtS307Hu19eoPurIDButKXOb1ge8MCKGIvDo0cgmV7QwW3C9TOhtvmEikoFk6mQHTp6uYgujesGNdNSeX8NV1EjI+bSSfvvQrPDQMU2JAh1hD9SoifSCKj3KS4onV5VarWYJiZzn2Y3+WpGmyisiI8bz3UB0IygHzw5fBG1zPoEHp4cPMmjejNkbHNaggrVtEegJx9ckKuaQGhJ7i9I1Cqn3kX3vyKohuijm5kmrNXA+eKtMTP1izlVgdWJ6A530Lxf4J6/jDx8xFavK5yJtTeWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
+ by CH3PR11MB7842.namprd11.prod.outlook.com (2603:10b6:610:128::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.38; Tue, 19 Sep
+ 2023 06:50:42 +0000
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::6ecb:9e9a:87e5:f342]) by MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::6ecb:9e9a:87e5:f342%4]) with mapi id 15.20.6792.026; Tue, 19 Sep 2023
+ 06:50:41 +0000
+Date:   Tue, 19 Sep 2023 08:50:33 +0200
+From:   Maciej =?utf-8?Q?Wiecz=C3=B3r-Retman?= 
+        <maciej.wieczor-retman@intel.com>
+To:     "Luck, Tony" <tony.luck@intel.com>
+CC:     "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "Peter Newman" <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: [PATCH v5 8/8] selftests/resctrl: Adjust effective L3 cache size
+ when SNC enabled
+Message-ID: <7gbxb6kxwa6anvcc4dquyuu7yronww6ztelazn2xllplorhbp5@i7o4fum5tjuf>
+References: <20230722190740.326190-1-tony.luck@intel.com>
+ <20230829234426.64421-1-tony.luck@intel.com>
+ <20230829234426.64421-9-tony.luck@intel.com>
+ <TYAPR01MB633033C489AAC0E514CBC6688BEEA@TYAPR01MB6330.jpnprd01.prod.outlook.com>
+ <SJ1PR11MB60839EB5CC3D172D864DF7A7FCEEA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJF2gTTBwFKjVOovMHB171s+nymL88OANpS3O-uwKBLxto43mA@mail.gmail.com>
+In-Reply-To: <SJ1PR11MB60839EB5CC3D172D864DF7A7FCEEA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+X-ClientProxiedBy: BE1P281CA0029.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:15::19) To MN0PR11MB6231.namprd11.prod.outlook.com
+ (2603:10b6:208:3c4::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|CH3PR11MB7842:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67402029-5f4c-4666-4a14-08dbb8dcbd30
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4wdAIPgNwohS2d5lsOON5dsujC9Z/8cWGx4zDapiLFUqlXABSTt9kAY2gzGdaQf2sJHoke8dRgqi2QbYzzhu+SzE9C+DYr2kJU4ZnA02+kyFdEYMGbwcfcapw5CxllwMR1xH18EiaMnDVYhm2h2ZeT8XYmxlTtAqOHIavgC7le4A8Bp3JaVq5CqLhZBhfRvyjjPNyNo4pZyqp8A9vob43uSEkVXep8RTO7ClouyMgileXMBJbYdSrLPWjzhdBUNJ/hqs9t5k4SPF+6qPjVTJdAnEFDQAb4oYxgrTdLqOx4gz+IBcPsV7Mh6pybVr+d/dwo84UC+81lIw8WSux7hDbdMTAlhXSOrmQ4VoKQta+xKyT3hPjE+uCmGIbK3cXlFJGgS2J/llmculfkVrEvUFXm1JbbhfUb9b/fy37irpYjBgoQhuSib9EpR3W5vNu58QBD8ppKQ31SEVvXHdRUHKWQfOlIRdqeb595cStCdx3k9xrXMTi2lI5iFNZML5vsWz9Q++J2/aQgxO94tIeUx4hjhDieUaV6bZJv7tHxyKbtkeMw2QW4YOlZQj661qlyha
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(136003)(346002)(376002)(366004)(39860400002)(1800799009)(451199024)(186009)(4326008)(8936002)(8676002)(6862004)(6636002)(316002)(38100700002)(66574015)(7416002)(26005)(5660300002)(2906002)(478600001)(41300700001)(6666004)(6486002)(82960400001)(9686003)(6506007)(33716001)(66476007)(66556008)(53546011)(86362001)(66946007)(6512007)(83380400001)(54906003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elg5NFRpMXNVZEhpYU1icWVqcVN4TTh0TWh1V2x5V1VMWmdKa3NaTEFKUnR5?=
+ =?utf-8?B?cVVoTVp6ZXh2a3RRdE5seStKck1PeTFyMnpTcnlpQW1PTHZ6UkhDUnYwZGRX?=
+ =?utf-8?B?OFhTc3N3VXFYcmc4VmtPM21xTTdzeWkvbDd1OThuUGFUM2cybWhFK0s2ZUJn?=
+ =?utf-8?B?UTQvQy8vcFR1TUFCdnEzUVJYU214VUpIdHFlOHdzLzJaTExDYkpNc2NRM2RL?=
+ =?utf-8?B?R2lseW5jMGYwMnFGTjlaeTREYnF2K1dWbWJaVkE3RjVFUGlsMTBndlJrQ012?=
+ =?utf-8?B?YnJ2c3U4YnhQcTFRelErTmdRWFYyYzhJYUVIZzBUb1lMaW5UUzg1MlFXdytE?=
+ =?utf-8?B?Vy85QVNRU1ZycnUwR1VNeUI5OTdFMU53NG1aVituNEsrMWFxd1grS25MU21p?=
+ =?utf-8?B?bGl5aWZJY00vbmRoZ0JLMVoxR2xhV2M5NWJ5ZjZ0YmtJVmNLUkJFakQ4RDBX?=
+ =?utf-8?B?K1dlOGR0M0Izd2VpeGlNR2ZOeDBVUzBZaEF3ZDE5QUw2U3A1bXBYMENtaisz?=
+ =?utf-8?B?Q29Vc1Q0Yjk5ZVFCdUtNbkhvVUthUC90UmFjbTZFV0MxK3lRSE80L1dCRU45?=
+ =?utf-8?B?NE45NUJoWnBGd1pWWkE2aXdCSjRZaWJ4UjcrcEZEL0ZFb2FCLzB4ZGZ1cUtE?=
+ =?utf-8?B?dzZyOHJwVWdZMGhyRy9td2g2YStRajB0Um45d0xYQTJVNFRSVkZVSENEMHZT?=
+ =?utf-8?B?Z1pmSFZaNlluUkFWWDIzZlY3VUNaWUduMVluZnNMY25TU20wampLOGVGUlZp?=
+ =?utf-8?B?a2Z5cGcwUWpTRFNhSzMrV0VmMXdySG9mL1VPQXNkbWR0ZlpVbHVieE11NHJu?=
+ =?utf-8?B?SkRSdVJwWjM3NEtQUTJQWDNqaTloOG1uUHhSVTR5azdQWjJYSWZVYThTK2ZC?=
+ =?utf-8?B?bjlLbU1NN3NWL0UvUFRwOWJyWmtjZVZKVGwxWHNrMGVtT3ZzQ1piZHJzdVN6?=
+ =?utf-8?B?MlRwSU1hejZxZEpRMVd4MTlCV3ZMUUJJTTNpTGQxblVaM2hvNnJIRDV5eTlE?=
+ =?utf-8?B?cW1EeDJXMjNTQndmUDNCUGxiNzFxek0yVmNla3RzT3pQMzd2bkRZalVOd050?=
+ =?utf-8?B?RkE3QW9CdEJpbWJta2tpdi9PREc3VlY5TUN3Zmp4eVQ2TVhZWm4wTGxxc2lC?=
+ =?utf-8?B?aEFMeG13MmFTdTRKcWhtRGxNMTN3UzMyeGhoS01Wb0hDV1FFTHNRaFM4VEI0?=
+ =?utf-8?B?RDlITi9mYkhRVVhwUEVxRjBzek1sMjdOUXVxM2QzNUpoaTNlVkpnRHRHMmlT?=
+ =?utf-8?B?S1VnUzFoL210enZFbjlDNUZhdkIrWGlTOWF2QXlKNnUrdzNBYlRWRDY3NHhn?=
+ =?utf-8?B?WW5kNzNxaHhudkl4OWtNdjFGb1cwaFlLRTdOV0h0RUZzajN0Rjc0Z3EvV1F3?=
+ =?utf-8?B?OGVobDVyRlUxaE1MbG4rTHd2UTU3c0oyT1B1enB4TmR2TGVWSldDZ3NMSkhB?=
+ =?utf-8?B?SW5YckVRa0N3MWdCalNQdkxqcEw1T2lhbDlGL0JVYU94OXJmVFJuNnBON0o5?=
+ =?utf-8?B?bmIxWUNNNkFnZWxBZi9pbmRrMXV1RnY0RzBBS2J4STJxMUxRWDBVbUgxTEZo?=
+ =?utf-8?B?KzRFWVNvakV0SE4zNjcydXpyQmM0akRtMWx6L3JkeFNidmJPWWtvQjMzRUZK?=
+ =?utf-8?B?cHlDRW1NVUhuNWN5L3BiNEh1aDRZUlJKY3lqYVcwc3pJR2xnWDcxcDZuRTFR?=
+ =?utf-8?B?MXluQWJHR2ROTDF0Vk5pWlpFSy8yVEdnOWpOZUFlc0FtOXpFdFRkZ2hFNytv?=
+ =?utf-8?B?K1d4Y01xdUcyd2RvVGZKK2RRWEZWeHlXNTYxaTJ2Z2J2d3BLTG0xRFpURXM5?=
+ =?utf-8?B?Nm43czdUN21JSHh4ZGhzaFJXSWxJVU5KaFV2dnlWTTBVVnlmWkpaeFV2ZXd0?=
+ =?utf-8?B?Q2tOdThlNEl5MWRLZEhCQjVTUHNzb3ZYK2gwQXZKZFRPRGprQXRLNlFyalM4?=
+ =?utf-8?B?cGp1b0ZRUmRPQ21jOUNTUm80NXQ3WXJudThkVWcveXhtQTg3Mkh1L05tSU9F?=
+ =?utf-8?B?M0dpNkxUMmJJamFUSUlEMnJHeGlWbTJqWHNuUFBXZmVNeXFVN1NuRFIxR3Jm?=
+ =?utf-8?B?M2xsTXo2ZG94ZmRGbXFyQTNIMllmai9xS040WTZsUzI2RWIxMlZFYi80ZkdF?=
+ =?utf-8?B?KzhJNVZKUkhYWHFJa1ZQTkNnQzRXS1JXUGc3cDlyc0ZnTEFSUUdINkFFS0Nl?=
+ =?utf-8?Q?leuwu9/euC1+jz3gkZQBM0A=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67402029-5f4c-4666-4a14-08dbb8dcbd30
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2023 06:50:41.1969
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: znWrT1CPvtsxverZtRw4jWUy+eI5a6ci52PJvUqLrMZ9+x/Y3hkPtrkP4Hy0BWAC4gT6Fw4KaQw341KOEsSPvgs3U4mhkWYZTJS2c17hFbk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7842
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 17, 2023 at 11:06:48PM +0800, Guo Ren wrote:
-> On Fri, Sep 15, 2023 at 2:23 PM Leonardo Bras <leobras@redhat.com> wrote:
-> >
-> > On Sun, Sep 10, 2023 at 04:29:07AM -0400, guoren@kernel.org wrote:
-> > > From: Guo Ren <guoren@linux.alibaba.com>
-> > >
-> > > Implement pv_kick with SBI implementation, and add SBI_EXT_PVLOCK
-> > > extension detection.
-> > >
-> > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > ---
-> > >  arch/riscv/include/asm/sbi.h           | 6 ++++++
-> > >  arch/riscv/kernel/qspinlock_paravirt.c | 7 ++++++-
-> > >  2 files changed, 12 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
-> > > index e0233b3d7a5f..3533f8d4f3e2 100644
-> > > --- a/arch/riscv/include/asm/sbi.h
-> > > +++ b/arch/riscv/include/asm/sbi.h
-> > > @@ -30,6 +30,7 @@ enum sbi_ext_id {
-> > >       SBI_EXT_HSM = 0x48534D,
-> > >       SBI_EXT_SRST = 0x53525354,
-> > >       SBI_EXT_PMU = 0x504D55,
-> > > +     SBI_EXT_PVLOCK = 0xAB0401,
-> > >
-> > >       /* Experimentals extensions must lie within this range */
-> > >       SBI_EXT_EXPERIMENTAL_START = 0x08000000,
-> > > @@ -243,6 +244,11 @@ enum sbi_pmu_ctr_type {
-> > >  /* Flags defined for counter stop function */
-> > >  #define SBI_PMU_STOP_FLAG_RESET (1 << 0)
-> > >
-> > > +/* SBI PVLOCK (kick cpu out of wfi) */
-> > > +enum sbi_ext_pvlock_fid {
-> > > +     SBI_EXT_PVLOCK_KICK_CPU = 0,
-> > > +};
-> > > +
-> > >  #define SBI_SPEC_VERSION_DEFAULT     0x1
-> > >  #define SBI_SPEC_VERSION_MAJOR_SHIFT 24
-> > >  #define SBI_SPEC_VERSION_MAJOR_MASK  0x7f
-> > > diff --git a/arch/riscv/kernel/qspinlock_paravirt.c b/arch/riscv/kernel/qspinlock_paravirt.c
-> > > index a0ad4657f437..571626f350be 100644
-> > > --- a/arch/riscv/kernel/qspinlock_paravirt.c
-> > > +++ b/arch/riscv/kernel/qspinlock_paravirt.c
-> > > @@ -11,6 +11,8 @@
-> > >
-> > >  void pv_kick(int cpu)
-> > >  {
-> > > +     sbi_ecall(SBI_EXT_PVLOCK, SBI_EXT_PVLOCK_KICK_CPU,
-> > > +               cpuid_to_hartid_map(cpu), 0, 0, 0, 0, 0);
-> > >       return;
-> > >  }
-> > >
-> > > @@ -25,7 +27,7 @@ void pv_wait(u8 *ptr, u8 val)
-> > >       if (READ_ONCE(*ptr) != val)
-> > >               goto out;
-> > >
-> > > -     /* wait_for_interrupt(); */
-> > > +     wait_for_interrupt();
-> > >  out:
-> > >       local_irq_restore(flags);
-> > >  }
-> > > @@ -62,6 +64,9 @@ void __init pv_qspinlock_init(void)
-> > >       if(sbi_get_firmware_id() != SBI_EXT_BASE_IMPL_ID_KVM)
-> > >               return;
-> > >
-> > > +     if (!sbi_probe_extension(SBI_EXT_PVLOCK))
-> > > +             return;
-> > > +
-> > >       pr_info("PV qspinlocks enabled\n");
-> > >       __pv_init_lock_hash();
-> > >
-> > > --
-> > > 2.36.1
-> > >
-> >
-> > IIUC this PVLOCK extension is now a requirement to use pv_qspinlock(), and
-> > it allows a cpu to use an instruction to wait for interrupt in pv_wait(),
-> > and kicks it out of this wait using a new sbi_ecall() on pv_kick().
-> Yes.
-> 
-> >
-> > Overall it LGTM, but would be nice to have the reference doc in the commit
-> > msg. I end up inferring some of the inner workings by your implementation,
-> > which is not ideal for reviewing.
-> I would improve the commit msg in the next version of patch.
+On 2023-09-07 at 16:19:37 +0000, Luck, Tony wrote:
+>> > +   if (4 * node_cpus >= cache_cpus)
+>> > +           return 4;
+>> > +   else if (2 * node_cpus >= cache_cpus)
+>> > +           return 2;
+>>
+>>
+>> If "4 * node_cpus >= cache_cpus " is not true，
+>> "2 * node_cpus >= cache_cpus" will never be true.
+>> Is it the following code?
+>>
+>> +     if (2 * node_cpus >= cache_cpus)
+>> +             return 2;
+>> +     else if (4 * node_cpus >= cache_cpus)
+>> +             return 4;
+>
+>
+>Shaopeng TAN,
+>
+>Good catch. Your solution is the correct one.
+>
+>Will fix in next post.
 
-Thx!
-Leo
+I played around with this code a little and I think the logical
+expressions are returning wrong values.
 
-> 
-> >
-> > If understanding above is right,
-> > Reviewed-by: Leonardo Bras <leobras@redhat.com>
-> >
-> > Thanks!
-> > Leo
-> >
-> 
-> 
-> -- 
-> Best Regards
->  Guo Ren
-> 
+On a system that has SNC disabled the function reports both "node_cpus"
+and "cache_cpus" equal to 56. In this case snc_ways() returns "2". It is
+the same on a system with SNC enabled that reports the previously mentioned
+variables to be different by a factor of two (36 and 72).
 
+Is it possible for node_cpus and cache_cpus to not be multiples of each
+other? (as in for example cache_cpus being 10 and node_cpus being 21?).
+If not I'd suggest using "==" instead of ">=".
+
+If yes then I guess something like this could work? :
+
++     if (node_cpus >= cache_cpus)
++             return 1;
++     else if (2 * node_cpus >= cache_cpus)
++             return 2;
++     else if (4 * node_cpus >= cache_cpus)
++             return 4;
+
+PS. I did my tests on two Intel Ice Lakes.
+
+-- 
+Kind regards
+Maciej Wieczór-Retman
