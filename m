@@ -2,203 +2,338 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2401ACD5BCA
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 14:36:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4869CD5BCA
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 14:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232850AbjISOgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 10:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57882 "EHLO
+        id S232871AbjISOj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 10:39:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232829AbjISOge (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 10:36:34 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FEABE;
-        Tue, 19 Sep 2023 07:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695134188; x=1726670188;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=OI/c3YpgOm9GdA6eymWMPF/UAEItTPfe9wWtBhqmXZ8=;
-  b=gipkjHlAPt2NQSh2jTxMM1/P2QbwfV2npm16RRuWTy2iBe+T4PXQr8jF
-   0DUVgXYWnjZ4cdm9abqaAjAso1EmGw4MmuSoFOD92JyBvb18E5gJ/9We/
-   3fSagvn1NjY4RzVYupRvDNjTkxQC+zQaKoxpcD0biTqMrMnX/KzelFkbH
-   adb5UssCCK8VhpfENDUsQdnH6N+hOb2r+MVgEJgZs8fcfsE+9hrGiYsJ6
-   iKFpoFUfkInVG7lrvaDMUXeadih70lU2koKyrIcV8x2Y9xec0QoBsIcUf
-   qSwoTWEpYTdmYrmFlbqZMTfE1r5UBq6UhbUbYlDYgRS3lMAu+tFv+klC6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="382709761"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="382709761"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 07:36:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746262825"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="746262825"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Sep 2023 07:36:09 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 19 Sep 2023 07:36:08 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Tue, 19 Sep 2023 07:36:08 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Tue, 19 Sep 2023 07:36:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KmtqiL7PGpGz7vxCf2ZE3CPUquLKGJ8T3rTamOG6nUpfQPxHhP1q8CQ4x5HwV+/YWY1hma/oSD76DPRipxlEDXBzm3jd42wq4f5Ew0GG6s1PXtFohLI1GHQQUc2/HYmJPc7wkKbLKmIxujakVm9t0c7y6LJ05oYcLxK2pR0lJ9MxyEirbeUJfnrCzOCIADWh0XMkr8YG0XNSIFNGN0BlGghlH/Xp1O3fWx9O+MbpHXadj5Gjo8f63MNx9pGrm/yw/4awgQtpPyXF5BIdSyS6+pTUolEt+EVBGE72bqc6wKxlkUMrGUmBa0WQZC7xYycFKk6vq+w5LNDKgXclJrsw4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OI/c3YpgOm9GdA6eymWMPF/UAEItTPfe9wWtBhqmXZ8=;
- b=hw/gFBWex81hTJPawnXp9fyGayw+0Vyemdv24oYRd65grr7RDZD70/RthTDo4FSi8KA1LnvbH+pwiaMIQrdKCwt2rh/GeyOQQutLMnBfCXIPaUHl5WKddq+tR8uzyMJuTTYD5BeGccDa0C7h4yZeBlaiKfw3F/62MKYF4fyCjhG9ueEOsNbBP67CL/Dlb/UbRJ8dUrTVsulU3QvZeSwJuDNetokGqLZJW4nxuW4kudcaFs5KC91p66HyAD42skj+GtyOz+qPgdFl/kUtsVHAxnJG/a3jzoji6ZTiLZiqcvMuq/VPlFFZ9lVTAI6NTaB40em9yqgxw7qop0q6Mb91ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by CY8PR11MB6867.namprd11.prod.outlook.com (2603:10b6:930:5d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Tue, 19 Sep
- 2023 14:36:07 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::bbd6:576b:132:74e4]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::bbd6:576b:132:74e4%7]) with mapi id 15.20.6792.026; Tue, 19 Sep 2023
- 14:36:07 +0000
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>
-CC:     "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        "Babu Moger" <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v5 8/8] selftests/resctrl: Adjust effective L3 cache size
- when SNC enabled
-Thread-Topic: [PATCH v5 8/8] selftests/resctrl: Adjust effective L3 cache size
- when SNC enabled
-Thread-Index: AQHZ2tLQzZViQZuDwEGXIVxBB0yNB7AO4J8AgAC3GnCAEj3NgIAAfdyA
-Date:   Tue, 19 Sep 2023 14:36:06 +0000
-Message-ID: <SJ1PR11MB608362BE12F47FFA54381FB9FCFAA@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20230722190740.326190-1-tony.luck@intel.com>
- <20230829234426.64421-1-tony.luck@intel.com>
- <20230829234426.64421-9-tony.luck@intel.com>
- <TYAPR01MB633033C489AAC0E514CBC6688BEEA@TYAPR01MB6330.jpnprd01.prod.outlook.com>
- <SJ1PR11MB60839EB5CC3D172D864DF7A7FCEEA@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <7gbxb6kxwa6anvcc4dquyuu7yronww6ztelazn2xllplorhbp5@i7o4fum5tjuf>
-In-Reply-To: <7gbxb6kxwa6anvcc4dquyuu7yronww6ztelazn2xllplorhbp5@i7o4fum5tjuf>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|CY8PR11MB6867:EE_
-x-ms-office365-filtering-correlation-id: 39fea4c7-aa40-480c-dfe2-08dbb91dc261
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: T/tEP3qhq8xGDRljW4UzxT2Bsm2rfJDT+x3EiD48QZyp68NfApy5dgMCucQsFpJSrTqZUJupF8LUsyZd9n8ZczRRSqBUllNKRqSYODm9+GOyM6CoUSfflwjgedr7SAr5wllIENh1ioiuP3rZ8JtFRL9/X+6udVDzcsouAZBBm89BncbA2mhfrhZxi9usWZQqvS2hKu5DkajDStd1vbN8GjkgvdF1IcjOVSi4G+b77YvdBDdl5GST/nFEMS5YsdVh855bLdixCJZv0nsdCJshL7CrmrOI8DMYDKTXAyeNz5vf7FA+0iUHhWsu81OqN0JxJIr9QbSjsAQjBh8Y4omy282e5xaoxOdVCXczGWL1JPfKIdr+NTGJ1+uBR+RPy8rqPNmZKpHModTewv0+wAt8aW+urNMfjFspPL0h33OYT3C828wjDtBG6BonMcZnH3N/djp5K8ftUUenL9mQxthpj87WQIaG/1dhAz6ZhESfkw1HRIuDbJxEkjcEpSlMs7aOW+kGSUcBl3fcN2O8aLQJcs/ZNntYv48EDbN9/79s0G7NYz/BLtBDMjVpnf0iFwEel2l6fxKuZGTh58qytzNdkZSZbnG+b2QJ6CQcXkTSRcsTPArXkvD9AN+6K0zjgwJO
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(366004)(39860400002)(376002)(451199024)(186009)(1800799009)(122000001)(38100700002)(82960400001)(38070700005)(55016003)(33656002)(86362001)(478600001)(66446008)(66946007)(6636002)(54906003)(64756008)(66556008)(66476007)(71200400001)(9686003)(2906002)(76116006)(6506007)(7696005)(8676002)(8936002)(5660300002)(4326008)(6862004)(52536014)(7416002)(41300700001)(316002)(26005)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q2U1NXRJc1pYbmUzZXJ2R01OQWRkdDN5d1U4a0ozMFhSSU9ERDJaU01qRVlW?=
- =?utf-8?B?UGtsTzlzSkg5eGpFcUEvbGJPK0lSRUVEMlJlWGRtYStQOWlBRjgrTGpQN2dZ?=
- =?utf-8?B?Y1VFSnZESmh2d1RTa1ppTTRnTlBnTHVYVXl5OVRseXJ1MmovdWJQeVBYWkhU?=
- =?utf-8?B?Nm02Yk15WFoxQUIwenc5NXNBM1BzNXhodW8yTDFFdDN0OXNLV3Jvc0N2Wk1j?=
- =?utf-8?B?SmlYZkdjdHlZTkdGN2pPd2NLTWhRUms4bjA0eU1wWkt3a0JBeW5kRkdTdG9I?=
- =?utf-8?B?VFZ2WkREMFE5VGl3SHc3azExVFdsVzFBeDlsMzU0d1VuZi91YmcwQ3JZQUtN?=
- =?utf-8?B?U1FmMjlxSy9qcWxwdjYwYjRoSkxRNU5jeEpWNjBoYlQ0YVAzUmdLeUJ2c0NB?=
- =?utf-8?B?bXhyaXZXQjlnM0xVeTgzY3J1SThZYll3MUZoU3RZKzNuZ3gzT2M1cHNOa2ZZ?=
- =?utf-8?B?R1JhTUhSczVoS05wSzU0bHlVelU1QXNWRUg2bnFtQjBULzRwMGQxaFoydk9B?=
- =?utf-8?B?Nk9rQi9Remo5eENFS2NNZGR3UHF0NHMyU25tZUlScEd4ZStYdjI4L1BZZldh?=
- =?utf-8?B?QVF6cWl0R084YW1OS09iUkV5MTEwK1BKRHN4QUJXb3U0ZnNuYnFrd296cnhj?=
- =?utf-8?B?elNMT1BSTjYxcjRWY05FTCtRYmpndDZobkk2Tzg1ZkxGekNOS3RnMzg4WjRv?=
- =?utf-8?B?UU1idXQ5V3J4VmpQeWVWbkdCMXBSeGhIblR3TGVUYlNzdHo3N3ArSVQyREFz?=
- =?utf-8?B?Zkw5c1NDWTdLb0h5WXljdHljeUV2em45NG12UlhCODdxZkw4bWpBWXpDNHNT?=
- =?utf-8?B?QVJxYm1pbU1rbXpaNXhRTkJNcllXTXlqMGIwZUxGNkNvVFBzemZ0Q3ZpWUQ4?=
- =?utf-8?B?RFFQLzZ5NXM2N0Y0NmpoY0M4MFVLWXB4T3NDR1BXNWZUK09IY1I5OFBlN3p4?=
- =?utf-8?B?YW9mWVR0eSt5eTBJY1dYN0RJajA4Wk0yU2gxUTJHa3RmZHRHLy9GZTZXVmxR?=
- =?utf-8?B?clZoY3ZEa3k5MWlSTVZ5MXVWNisxeExuRHVWRy9tMGE1QlEybGtYY2dPMW9q?=
- =?utf-8?B?SzlTZ2g2bjQ2TEtsdzlZMlNOTmZ6cVhHOFgwL3Y2TS9QaFR0Vi9aRElhMzhh?=
- =?utf-8?B?VGFiVzRZbkc1Z1lsN29NK2RUWWJJQzFEQmtObTRHc001Wi9Sd2lreWV5L2FE?=
- =?utf-8?B?OE5XTjFIc1l5VmVMbVc4UXNpVmQ2eERLRGYwR2U5Nmkwc2hhOGFBejBIZk5l?=
- =?utf-8?B?N2hnRnJwQnpEYzB1aUJ2T3FGZFhFZXVLRGdaYkVXSWxnL3l1dVgwR3JSWm1V?=
- =?utf-8?B?eDYwT2RNVVdRRU5pL0IyVGR4L2pBMG1BTUpkMFZ6b0JoUGk2cnZpUml6cVBX?=
- =?utf-8?B?MEFHVlpob2lHVFAzbGQvUndrZmFQdnh6dHhMQ3JqSVd5Z2xVaG1MMzFOT2Fm?=
- =?utf-8?B?ZHl5YW13MFdKeEFNMkRNMUJVTklQS2o1Y3Fxbm1xYVhRSGovZmVUMzJZVXdT?=
- =?utf-8?B?ekRiUzl4V1lqclYydnQrL0ZxZTVDZGtoRnFGbWplRGNWZ29weUkzRmhKSHV5?=
- =?utf-8?B?UlB4NWtrSTc4QU53WXVVazRDUC9qS0k0SFFkODc1amJhcFMwVUREWXk1cWI0?=
- =?utf-8?B?VHFpQU0zV1E5R0FtSmp0aklyalljQ1pJZnBWTVI2WDEyby84MFJYckRUeGdo?=
- =?utf-8?B?UHlYVld6eFJHTk91cjdiL3lTc0lKM3BvMWRyL0hvZ0dObUVYNTlEWW5KbG5P?=
- =?utf-8?B?c3pFbm53T1c3QkxCNFYveTFZN3BOam5nOUxXQ0xTaEF4ZFpMYkJlV1hCWXJ2?=
- =?utf-8?B?RG5aUEtWU2xrem4wSVF5bGIxZVBpM2N4MGJPNzV6RTJtK1ZQNmFjSVhPTXIv?=
- =?utf-8?B?clR5Tm5jWXp6dE9oejNFNG54NUI4WFpucXhmZytreXFmbWc2aGhyQ01rZWti?=
- =?utf-8?B?ZElRcTZEMTVpdkoydWxSVW5nYnJIVWxMY3krUFdRa2pHbFk3UXV6K2NyeGUz?=
- =?utf-8?B?c3hhaEpFd1dyeFNDbyt3djFTdlZsTGFDaTVzcVhBaGxPY3lLMjNheEQyUFVH?=
- =?utf-8?B?M2xoTThVakJwa3h3dThWS0l6Yk5DSGNVd2VjdytrbHh6eGlLTG9Va2ZwdTQx?=
- =?utf-8?Q?fEAAxph5+iXuLxow+m6nHZiIZ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S232846AbjISOj4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 10:39:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7F8EA
+        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 07:39:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1695134342;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8AFBj6O2dexyfgwENM9li8XfLnMidpE9cyKwL3I7ggw=;
+        b=FdOWM2CAjzVdB1tp4D3I68g62jFvVWb+EA36hcPazcRoG7QaxuX0eM4Kq07RkG3/ofarZ3
+        vl9HjLs/MrSvIcNS9OSbreK2neqGNLTDEiwyWwYxSeX8sd+mPcBieJpcMOehRcVzelz4eq
+        wm3LFGA196k7Lge2xRmHl4wc1uapAiY=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-426-5wK_pBloPP-4kyV3I2YECQ-1; Tue, 19 Sep 2023 10:39:01 -0400
+X-MC-Unique: 5wK_pBloPP-4kyV3I2YECQ-1
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-6c0cb43abc4so7317665a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 07:38:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695134337; x=1695739137;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8AFBj6O2dexyfgwENM9li8XfLnMidpE9cyKwL3I7ggw=;
+        b=DHIHAMuKt+zQ2tfaNyTc/6wx74N62PK5NW6N0wflksg8gCK2NnuAeQNFHvj+IxUhEb
+         51PgrwU3GKorUU2qAKDvL3frrQS4o26FPr9nmF+a+r0KvTuKnowTcyN1ER73BtUzN3gB
+         CcvzjY2ogOVRBWjO/qIBzpaD+/6GGzjlJKTEr4NpZNZzwqDcjZFPxw9bKOtdnUG2Vqa5
+         sUzTJh67r+UizgNOsjkpOKrsi5b+GZkvDutNR55ZESMkW4c2IVxWPAOs5AaqRzoH+mpW
+         8R9rnApMTcrapBpnVjkJjXjJgaP0z8b9gqN8Jw0HgTXv/XmHtJLNn0AW93UkjUFFtGxR
+         TEGw==
+X-Gm-Message-State: AOJu0YyOZvkLk8CMJPsoU/LaWKWeJUh/Utci6eMfUK7zMubxHzNdioGD
+        JEjjplpqG4VV2u5IbIeP0I9Te4ojakKv2IOdSxAkabfnQpfs7Scbgb9rIbT4Nkegp8VWIqghrsg
+        R47Uk3U81FwAWjTquFvVp
+X-Received: by 2002:a9d:758b:0:b0:6b7:4ffb:35c3 with SMTP id s11-20020a9d758b000000b006b74ffb35c3mr1671135otk.16.1695134337610;
+        Tue, 19 Sep 2023 07:38:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG0YRqdq68X0oQTgYebro1jmtMtzaujrkXDYVVp1Zy+kDS2txQ76xgPTSWVpzlittGyKI4+GA==
+X-Received: by 2002:a9d:758b:0:b0:6b7:4ffb:35c3 with SMTP id s11-20020a9d758b000000b006b74ffb35c3mr1671109otk.16.1695134337358;
+        Tue, 19 Sep 2023 07:38:57 -0700 (PDT)
+Received: from redhat.com ([2804:1b3:a803:677d:42e9:f426:9422:f020])
+        by smtp.gmail.com with ESMTPSA id n11-20020a0568301e8b00b006b8bf76174fsm5137118otr.21.2023.09.19.07.38.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Sep 2023 07:38:56 -0700 (PDT)
+Date:   Tue, 19 Sep 2023 11:38:47 -0300
+From:   Leonardo Bras <leobras@redhat.com>
+To:     Guo Ren <guoren@kernel.org>
+Cc:     paul.walmsley@sifive.com, anup@brainfault.org,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        palmer@rivosinc.com, longman@redhat.com, boqun.feng@gmail.com,
+        tglx@linutronix.de, paulmck@kernel.org, rostedt@goodmis.org,
+        rdunlap@infradead.org, catalin.marinas@arm.com,
+        conor.dooley@microchip.com, xiaoguang.xing@sophgo.com,
+        bjorn@rivosinc.com, alexghiti@rivosinc.com, keescook@chromium.org,
+        greentime.hu@sifive.com, ajones@ventanamicro.com,
+        jszhang@kernel.org, wefu@redhat.com, wuwei2016@iscas.ac.cn,
+        linux-arch@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-csky@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V11 03/17] riscv: Use Zicbop in arch_xchg when available
+Message-ID: <ZQmyd9_v4UwBP2mp@redhat.com>
+References: <20230910082911.3378782-1-guoren@kernel.org>
+ <20230910082911.3378782-4-guoren@kernel.org>
+ <ZQF3qS1KRYAt3coC@redhat.com>
+ <CAJF2gTT5s2-vhgrxnkE1EGqJMvXn8ftYrrwRMdJH1tjEqAv5kQ@mail.gmail.com>
+ <ZQUEEckIEbtxwLEG@redhat.com>
+ <CAJF2gTQLBNy9uS4AF+UgD+ew3BN1dLs0f0+z0jzpieR75kv_Dw@mail.gmail.com>
+ <ZQkuA7WloWIIteVR@redhat.com>
+ <CAJF2gTRnApmiwWhvKt0y43VKSy7_k=i3qjLkJcVX7Btjr--aNw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39fea4c7-aa40-480c-dfe2-08dbb91dc261
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2023 14:36:06.9189
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lOx9keliS4/h02KZicR3B+lvw5ZsKknSm35KsaU6YNzMKf3lYVbVMBLJ4I6/JqchwDLAUEBLD67RUYLJ901MXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6867
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJF2gTRnApmiwWhvKt0y43VKSy7_k=i3qjLkJcVX7Btjr--aNw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBPbiBhIHN5c3RlbSB0aGF0IGhhcyBTTkMgZGlzYWJsZWQgdGhlIGZ1bmN0aW9uIHJlcG9ydHMg
-Ym90aCAibm9kZV9jcHVzIg0KPiBhbmQgImNhY2hlX2NwdXMiIGVxdWFsIHRvIDU2LiBJbiB0aGlz
-IGNhc2Ugc25jX3dheXMoKSByZXR1cm5zICIyIi4gSXQgaXMNCj4gdGhlIHNhbWUgb24gYSBzeXN0
-ZW0gd2l0aCBTTkMgZW5hYmxlZCB0aGF0IHJlcG9ydHMgdGhlIHByZXZpb3VzbHkgbWVudGlvbmVk
-DQo+IHZhcmlhYmxlcyB0byBiZSBkaWZmZXJlbnQgYnkgYSBmYWN0b3Igb2YgdHdvICgzNiBhbmQg
-NzIpLg0KDQo+IElzIGl0IHBvc3NpYmxlIGZvciBub2RlX2NwdXMgYW5kIGNhY2hlX2NwdXMgdG8g
-bm90IGJlIG11bHRpcGxlcyBvZiBlYWNoDQo+IG90aGVyPyAoYXMgaW4gZm9yIGV4YW1wbGUgY2Fj
-aGVfY3B1cyBiZWluZyAxMCBhbmQgbm9kZV9jcHVzIGJlaW5nIDIxPykuDQo+IElmIG5vdCBJJ2Qg
-c3VnZ2VzdCB1c2luZyAiPT0iIGluc3RlYWQgb2YgIj49Ii4NCg0KU29tZSBDUFVzIG1heSBiZSBv
-ZmZsaW5lIHdoZW4gdGhlIHRlc3QgaXMgcnVuLiBFLmcuIHdpdGggb25lIENQVSBvZmZsaW5lIG9u
-IFNOQw0Kbm9kZSAwLCB5b3UnZCBzZWUgbm9kZV9jcHVzID0gMzUgYW5kIGNhY2hlX2NwdXMgPSA3
-MS4gQnV0IHdpdGggb25lIENQVSBvZmZsaW5lDQpvbiBub2RlIDEsIHlvdSdkIGhhdmUgbm9kZV9j
-cHVzID0gMzYsIGNhY2hlX2NwdXMgPSA3MS4NCg0KDQoNCj4gSWYgeWVzIHRoZW4gSSBndWVzcyBz
-b21ldGhpbmcgbGlrZSB0aGlzIGNvdWxkIHdvcms/IDoNCg0KKyAgICAgaWYgKG5vZGVfY3B1cyA+
-PSBjYWNoZV9jcHVzKQ0KKyAgICAgICAgICAgICByZXR1cm4gMTsNCisgICAgIGVsc2UgaWYgKDIg
-KiBub2RlX2NwdXMgPj0gY2FjaGVfY3B1cykNCisgICAgICAgICAgICAgcmV0dXJuIDI7DQorICAg
-ICBlbHNlIGlmICg0ICogbm9kZV9jcHVzID49IGNhY2hlX2NwdXMpDQorICAgICAgICAgICAgIHJl
-dHVybiA0Ow0KDQpUaGlzIHJldHVybnMgIjQiIGZvciB0aGUgMzYgNzEgY2FzZS4gQnV0IHNob3Vs
-ZCBzdGlsbCBiZSAiMiIuDQoNCj4+IFBTLiBJIGRpZCBteSB0ZXN0cyBvbiB0d28gSW50ZWwgSWNl
-IExha2VzLg0KDQpQZXJoYXBzIGVhc2llciB0byBwbGF5IHdpdGggdGhlIGFsZ29yaXRobSBpbiB1
-c2VyIGNvZGU/DQoNCiNpbmNsdWRlIDxzdGRpby5oPg0KI2luY2x1ZGUgPHN0ZGxpYi5oPg0KDQpz
-dGF0aWMgaW50IHNuYyhpbnQgbm9kZV9jcHVzLCBpbnQgY2FjaGVfY3B1cykNCnsNCiAgICAgaWYg
-KG5vZGVfY3B1cyA+PSBjYWNoZV9jcHVzKQ0KICAgICAgICAgICAgIHJldHVybiAxOw0KICAgICBl
-bHNlIGlmICgyICogbm9kZV9jcHVzID49IGNhY2hlX2NwdXMpDQogICAgICAgICAgICAgcmV0dXJu
-IDI7DQogICAgIGVsc2UgaWYgKDQgKiBub2RlX2NwdXMgPj0gY2FjaGVfY3B1cykNCiAgICAgICAg
-ICAgICByZXR1cm4gNDsNCiAgICAgcmV0dXJuIC0xOw0KfQ0KDQppbnQgbWFpbihpbnQgYXJnYywg
-Y2hhciAqKmFyZ3YpDQp7DQogICAgICAgIHByaW50ZigiJWRcbiIsIHNuYyhhdG9pKGFyZ3ZbMV0p
-LCBhdG9pKGFyZ3ZbMl0pKSk7DQoNCiAgICAgICAgcmV0dXJuIDA7DQp9DQoNCk4uQi4gaXQncyBw
-cm9iYWJseSBub3QgcG9zc2libGUgdG8gaGFuZGxlIHRoZSBjYXNlIHdoZXJlIHNvbWVib2R5IHRv
-b2sgQUxMIHRoZSBDUFVzIGluIFNOQw0Kbm9kZSAxIG9mZmxpbmUgKG9yIFNOQyBub2RlcyAxLDIs
-MyBmb3IgdGhlIFNOQyA0IGNhc2UpLg0KDQpJIHRoaW5rIGl0IHJlYXNvbmFibGUgdGhhdCB0aGUg
-Y29kZSBoYW5kbGUgc29tZSBzaW1wbGUgInNtYWxsIG51bWJlciBvZiBDUFVzIG9mZmxpbmUiIGNh
-c2VzLg0KQnV0IGRvbid0IHdvcnJ5IHRvbyBtdWNoIGFib3V0IGNhc2VzIHdoZXJlIHRoZSB1c2Vy
-IGhhcyBkb25lIHNvbWV0aGluZyBleHRyZW1lLg0KDQotVG9ueQ0KDQoNCg==
+On Tue, Sep 19, 2023 at 03:53:22PM +0800, Guo Ren wrote:
+> On Tue, Sep 19, 2023 at 1:13 PM Leonardo Bras <leobras@redhat.com> wrote:
+> >
+> > On Sun, Sep 17, 2023 at 10:34:36PM +0800, Guo Ren wrote:
+> > > On Sat, Sep 16, 2023 at 9:25 AM Leonardo Bras <leobras@redhat.com> wrote:
+> > > >
+> > > > On Fri, Sep 15, 2023 at 08:36:31PM +0800, Guo Ren wrote:
+> > > > > On Wed, Sep 13, 2023 at 4:50 PM Leonardo Bras <leobras@redhat.com> wrote:
+> > > > > >
+> > > > > > On Sun, Sep 10, 2023 at 04:28:57AM -0400, guoren@kernel.org wrote:
+> > > > > > > From: Guo Ren <guoren@linux.alibaba.com>
+> > > > > > >
+> > > > > > > Cache-block prefetch instructions are HINTs to the hardware to
+> > > > > > > indicate that software intends to perform a particular type of
+> > > > > > > memory access in the near future. Enable ARCH_HAS_PREFETCHW and
+> > > > > > > improve the arch_xchg for qspinlock xchg_tail.
+> > > > > > >
+> > > > > > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > > > > > > Signed-off-by: Guo Ren <guoren@kernel.org>
+> > > > > > > ---
+> > > > > > >  arch/riscv/Kconfig                 | 15 +++++++++++++++
+> > > > > > >  arch/riscv/include/asm/cmpxchg.h   |  4 +++-
+> > > > > > >  arch/riscv/include/asm/hwcap.h     |  1 +
+> > > > > > >  arch/riscv/include/asm/insn-def.h  |  5 +++++
+> > > > > > >  arch/riscv/include/asm/processor.h | 13 +++++++++++++
+> > > > > > >  arch/riscv/kernel/cpufeature.c     |  1 +
+> > > > > > >  6 files changed, 38 insertions(+), 1 deletion(-)
+> > > > > > >
+> > > > > > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > > > > > > index e9ae6fa232c3..2c346fe169c1 100644
+> > > > > > > --- a/arch/riscv/Kconfig
+> > > > > > > +++ b/arch/riscv/Kconfig
+> > > > > > > @@ -617,6 +617,21 @@ config RISCV_ISA_ZICBOZ
+> > > > > > >
+> > > > > > >          If you don't know what to do here, say Y.
+> > > > > > >
+> > > > > > > +config RISCV_ISA_ZICBOP
+> > > > > > > +     bool "Zicbop extension support for cache block prefetch"
+> > > > > > > +     depends on MMU
+> > > > > > > +     depends on RISCV_ALTERNATIVE
+> > > > > > > +     default y
+> > > > > > > +     help
+> > > > > > > +        Adds support to dynamically detect the presence of the ZICBOP
+> > > > > > > +        extension (Cache Block Prefetch Operations) and enable its
+> > > > > > > +        usage.
+> > > > > > > +
+> > > > > > > +        The Zicbop extension can be used to prefetch cache block for
+> > > > > > > +        read/write/instruction fetch.
+> > > > > > > +
+> > > > > > > +        If you don't know what to do here, say Y.
+> > > > > > > +
+> > > > > > >  config TOOLCHAIN_HAS_ZIHINTPAUSE
+> > > > > > >       bool
+> > > > > > >       default y
+> > > > > > > diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
+> > > > > > > index 702725727671..56eff7a9d2d2 100644
+> > > > > > > --- a/arch/riscv/include/asm/cmpxchg.h
+> > > > > > > +++ b/arch/riscv/include/asm/cmpxchg.h
+> > > > > > > @@ -11,6 +11,7 @@
+> > > > > > >
+> > > > > > >  #include <asm/barrier.h>
+> > > > > > >  #include <asm/fence.h>
+> > > > > > > +#include <asm/processor.h>
+> > > > > > >
+> > > > > > >  #define __arch_xchg_masked(prepend, append, r, p, n)                 \
+> > > > > > >  ({                                                                   \
+> > > > > > > @@ -25,6 +26,7 @@
+> > > > > > >                                                                       \
+> > > > > > >       __asm__ __volatile__ (                                          \
+> > > > > > >              prepend                                                  \
+> > > > > > > +            PREFETCHW_ASM(%5)                                        \
+> > > > > > >              "0:      lr.w %0, %2\n"                                  \
+> > > > > > >              "        and  %1, %0, %z4\n"                             \
+> > > > > > >              "        or   %1, %1, %z3\n"                             \
+> > > > > > > @@ -32,7 +34,7 @@
+> > > > > > >              "        bnez %1, 0b\n"                                  \
+> > > > > > >              append                                                   \
+> > > > > > >              : "=&r" (__retx), "=&r" (__rc), "+A" (*(__ptr32b))       \
+> > > > > > > -            : "rJ" (__newx), "rJ" (~__mask)                          \
+> > > > > > > +            : "rJ" (__newx), "rJ" (~__mask), "rJ" (__ptr32b)         \
+> > > > > > >              : "memory");                                             \
+> > > > > > >                                                                       \
+> > > > > > >       r = (__typeof__(*(p)))((__retx & __mask) >> __s);               \
+> > > > > > > diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+> > > > > > > index b7b58258f6c7..78b7b8b53778 100644
+> > > > > > > --- a/arch/riscv/include/asm/hwcap.h
+> > > > > > > +++ b/arch/riscv/include/asm/hwcap.h
+> > > > > > > @@ -58,6 +58,7 @@
+> > > > > > >  #define RISCV_ISA_EXT_ZICSR          40
+> > > > > > >  #define RISCV_ISA_EXT_ZIFENCEI               41
+> > > > > > >  #define RISCV_ISA_EXT_ZIHPM          42
+> > > > > > > +#define RISCV_ISA_EXT_ZICBOP         43
+> > > > > > >
+> > > > > > >  #define RISCV_ISA_EXT_MAX            64
+> > > > > > >
+> > > > > > > diff --git a/arch/riscv/include/asm/insn-def.h b/arch/riscv/include/asm/insn-def.h
+> > > > > > > index 6960beb75f32..dc590d331894 100644
+> > > > > > > --- a/arch/riscv/include/asm/insn-def.h
+> > > > > > > +++ b/arch/riscv/include/asm/insn-def.h
+> > > > > > > @@ -134,6 +134,7 @@
+> > > > > > >
+> > > > > > >  #define RV_OPCODE_MISC_MEM   RV_OPCODE(15)
+> > > > > > >  #define RV_OPCODE_SYSTEM     RV_OPCODE(115)
+> > > > > > > +#define RV_OPCODE_PREFETCH   RV_OPCODE(19)
+> > > > > > >
+> > > > > > >  #define HFENCE_VVMA(vaddr, asid)                             \
+> > > > > > >       INSN_R(OPCODE_SYSTEM, FUNC3(0), FUNC7(17),              \
+> > > > > > > @@ -196,4 +197,8 @@
+> > > > > > >       INSN_I(OPCODE_MISC_MEM, FUNC3(2), __RD(0),              \
+> > > > > > >              RS1(base), SIMM12(4))
+> > > > > > >
+> > > > > > > +#define CBO_prefetchw(base)                                  \
+> > > > > > > +     INSN_R(OPCODE_PREFETCH, FUNC3(6), FUNC7(0),             \
+> > > > > > > +            RD(x0), RS1(base), RS2(x0))
+> > > > > > > +
+> > > > > >
+> > > > > > I understand that here you create the instruction via bitfield, following
+> > > > > > the ISA, and this enables using instructions not available on the
+> > > > > > toolchain.
+> > > > > >
+> > > > > > It took me some time to find the document with this instruction, so please
+> > > > > > add this to the commit msg:
+> > > > > >
+> > > > > > https://github.com/riscv/riscv-CMOs/blob/master/specifications/cmobase-v1.0.pdf
+> > > > > > Page 23.
+> > > > > >
+> > > > > > IIUC, the instruction is "prefetch.w".
+> > > > > >
+> > > > > > Maybe I am missing something, but in the document the rs2 field
+> > > > > > (PREFETCH.W) contains a 0x3, while the above looks to have a 0 instead.
+> > > > > >
+> > > > > > rs2 field = 0x0 would be a prefetch.i (instruction prefetch) instead.
+> > > > > >
+> > > > > > Is the above correct, or am I missing something?
+> > > > > Oh, you are right. My fault, thx for pointing out. It should be:
+> > > > > +       INSN_R(OPCODE_PREFETCH, FUNC3(6), FUNC7(0),             \
+> > > > > +              RD(x0), RS1(base), RS2(x3))
+> > > >
+> > > > Now I am curious to check if / how will this impact performance. :)
+> > > > (Please let me know)
+> > > Ref:
+> > > commit 0ea366f5e1b6 ("arm64: atomics: prefetch the destination word
+> > > for write prior to stxr")
+> > > commit 86d231459d6d ("bpf: cpumap memory prefetchw optimizations for
+> > > struct page")
+> >
+> > Oh, I understand that prefetch.w is very useful for performance :)
+> >
+> > What I meant is that previously this patch was issuing a prefetch.i,
+> > and now it's issuing a prefetch.w (as intended).
+> >
+> > What got me curious is how much would it impact the performance to change
+> > the prefetch.i to prefetch.w. :)
+> The current SOPHO sg2042 hardware platform didn't support prefetch.w
+> instruction. So there is no performance result I could share with you.
+> 
+> Our next generation of processors would support ZICBOP.
+
+Oh, okay then.
+
+Thanks for sharing this info!
+Leo
+
+> 
+> >
+> > Thanks!
+> > Leo
+> >
+> >
+> > >
+> > > >
+> > > >
+> > > > >
+> > > > > >
+> > > > > >
+> > > > > > Thanks!
+> > > > > > Leo
+> > > > > >
+> > > > > > >  #endif /* __ASM_INSN_DEF_H */
+> > > > > > > diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+> > > > > > > index de9da852f78d..7ad3a24212e8 100644
+> > > > > > > --- a/arch/riscv/include/asm/processor.h
+> > > > > > > +++ b/arch/riscv/include/asm/processor.h
+> > > > > > > @@ -12,6 +12,8 @@
+> > > > > > >  #include <vdso/processor.h>
+> > > > > > >
+> > > > > > >  #include <asm/ptrace.h>
+> > > > > > > +#include <asm/insn-def.h>
+> > > > > > > +#include <asm/hwcap.h>
+> > > > > > >
+> > > > > > >  #ifdef CONFIG_64BIT
+> > > > > > >  #define DEFAULT_MAP_WINDOW   (UL(1) << (MMAP_VA_BITS - 1))
+> > > > > > > @@ -103,6 +105,17 @@ static inline void arch_thread_struct_whitelist(unsigned long *offset,
+> > > > > > >  #define KSTK_EIP(tsk)                (ulong)(task_pt_regs(tsk)->epc)
+> > > > > > >  #define KSTK_ESP(tsk)                (ulong)(task_pt_regs(tsk)->sp)
+> > > > > > >
+> > > > > > > +#define ARCH_HAS_PREFETCHW
+> > > > > > > +#define PREFETCHW_ASM(base)  ALTERNATIVE(__nops(1), \
+> > > > > > > +                                         CBO_prefetchw(base), \
+> > > > > > > +                                         0, \
+> > > > > > > +                                         RISCV_ISA_EXT_ZICBOP, \
+> > > > > > > +                                         CONFIG_RISCV_ISA_ZICBOP)
+> > > > > > > +static inline void prefetchw(const void *ptr)
+> > > > > > > +{
+> > > > > > > +     asm volatile(PREFETCHW_ASM(%0)
+> > > > > > > +             : : "r" (ptr) : "memory");
+> > > > > > > +}
+> > > > > > >
+> > > > > > >  /* Do necessary setup to start up a newly executed thread. */
+> > > > > > >  extern void start_thread(struct pt_regs *regs,
+> > > > > > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> > > > > > > index ef7b4fd9e876..e0b897db0b97 100644
+> > > > > > > --- a/arch/riscv/kernel/cpufeature.c
+> > > > > > > +++ b/arch/riscv/kernel/cpufeature.c
+> > > > > > > @@ -159,6 +159,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+> > > > > > >       __RISCV_ISA_EXT_DATA(h, RISCV_ISA_EXT_h),
+> > > > > > >       __RISCV_ISA_EXT_DATA(zicbom, RISCV_ISA_EXT_ZICBOM),
+> > > > > > >       __RISCV_ISA_EXT_DATA(zicboz, RISCV_ISA_EXT_ZICBOZ),
+> > > > > > > +     __RISCV_ISA_EXT_DATA(zicbop, RISCV_ISA_EXT_ZICBOP),
+> > > > > > >       __RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
+> > > > > > >       __RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
+> > > > > > >       __RISCV_ISA_EXT_DATA(zifencei, RISCV_ISA_EXT_ZIFENCEI),
+> > > > > > > --
+> > > > > > > 2.36.1
+> > > > > > >
+> > > > > >
+> > > > >
+> > > > >
+> > > > > --
+> > > > > Best Regards
+> > > > >  Guo Ren
+> > > > >
+> > > >
+> > >
+> > >
+> > > --
+> > > Best Regards
+> > >  Guo Ren
+> > >
+> >
+> 
+> 
+> -- 
+> Best Regards
+>  Guo Ren
+> 
+
