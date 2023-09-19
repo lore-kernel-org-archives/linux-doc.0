@@ -2,154 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90582CD54B2
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 11:08:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A32CD54B3
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 11:12:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232036AbjISLIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 07:08:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
+        id S231808AbjISLMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 07:12:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232187AbjISLHq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 07:07:46 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45880114
-        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 04:07:26 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-564b6276941so4593527a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 04:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695121646; x=1695726446; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hsdGjQZGnP/Hgbj+isSRCEfwtgkvdGEZgfqlQov6O6g=;
-        b=mOi0WJ/2QRv7JGjWYd1/CDX911VSXRR3wUBnJdDyWzNSICeyqxXDKCZ/vJGgf9H7zB
-         N04ePpX0pbuVoC29ADDNhEpj0AVi6HIi4/EzMLnnx2X4qA1ghub5lgKrUMjGTpUNYrR1
-         uSG6l6xUTWkwAoeC/6kMxNLsw49oPC8ADWTEuLPh6ES9MvYgxSyfMbvOtUCM+6x3fCW6
-         JS0BR+eO+bdUzVDjAtVSHp0RG32aHro3ZSDC3JDtxmVwhlZKhc+pdG63glR8ZbA7cWy9
-         LOIZK2wro13WClSAN/frxtCs7c934CcmN5VDv4zcRJeFa+09d87IJmMaCeO/EjdU0BUf
-         c0Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695121646; x=1695726446;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hsdGjQZGnP/Hgbj+isSRCEfwtgkvdGEZgfqlQov6O6g=;
-        b=aSfCg8fyhqrc30i1j39XggQ9plUcIsrAYCQIS6YFVsfib0tgvIgdgiAi0+1xqDxzb4
-         Oqoz3Idp78I5G4QQUXBKEraff/VE34cmlG1W8Pxui3voE95Go1gOXjEi5tmcqWh5OY9w
-         Z/v81AQTHPhXfqHum2FuTgugNH4QAiNz2/aUgJH6du3mZ/+H3WtnW4IlwaxnU7uMvTG+
-         jHbYXgSeI6kc0GrLk/Tzowb4zf0fGQgvYHWZJBtwxMdkQMuUEgmPNE2rVhmfezXny/o8
-         6lAGkDnOlEh9GXMb0IiVaxY8fp3ENBVAFAXAPVq+i2dgZttgSSAErHwqYF0jrR/+rgAa
-         BVcw==
-X-Gm-Message-State: AOJu0YxB+G723Y3MRuJDCeADpRk/QLZIe6Qo2hrF2SfNaMajBd6TtGb7
-        ZYVEOyggUTqfjtZycE9eviVg/s5CEk5F4HbeGMFsSw==
-X-Google-Smtp-Source: AGHT+IEqV3rAGeUMd9XYB//AVpAjXOCe2sj8rwL3pSAMvmQKe1yXtlqOvCzhfuPwDqzf2LTW/BEap8fm1SYbtT2vCrU=
-X-Received: by 2002:a17:90a:fd98:b0:274:686d:497b with SMTP id
- cx24-20020a17090afd9800b00274686d497bmr10019600pjb.27.1695121645629; Tue, 19
- Sep 2023 04:07:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230915093649.435163-1-anshuman.khandual@arm.com> <20230915093649.435163-3-anshuman.khandual@arm.com>
-In-Reply-To: <20230915093649.435163-3-anshuman.khandual@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Tue, 19 Sep 2023 12:07:14 +0100
-Message-ID: <CAJ9a7Vh_vJihzSx1zsK9Qv4iEv414WH245N3j2c3bhYNkm5SJQ@mail.gmail.com>
-Subject: Re: [PATCH V5 - RESEND 2/3] coresight: etm: Make cycle count
- threshold user configurable
-To:     Anshuman Khandual <anshuman.khandual@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com,
+        with ESMTP id S229988AbjISLMx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 07:12:53 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F358B8;
+        Tue, 19 Sep 2023 04:12:47 -0700 (PDT)
+X-UUID: 7310748e56dd11eea33bb35ae8d461a2-20230919
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=qGYLcZN9AxBneUTEoVZ/v6R4sf7Bl7qXYfgV6fGp/bA=;
+        b=VpWYnbhm6zgedimRKFzfX+RJgbTij6Wyr5PRY5qpz2bDIsuY3xbVTKvh7f44IhrGssDWb+u+qQ3YzyXPf4WpnnmQDPZLKv0WBM3KSS+fKkB9gSZeJhf7dva/1H6RM6Q067EHiwhvyvdCmdThUlzxrXJOilabY41j8Z4vtwlD4KM=;
+X-CID-P-RULE: Spam_GS6885AD
+X-CID-O-INFO: VERSION:1.1.32,REQID:11d376aa-a14f-4152-9429-75effa6177e7,IP:0,U
+        RL:25,TC:0,Content:100,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Spam_GS6885AD,AC
+        TION:quarantine,TS:125
+X-CID-META: VersionHash:5f78ec9,CLOUDID:587ce0ef-9a6e-4c39-b73e-f2bc08ca3dc5,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:801,TC:nil,Content:3,EDM:-3,IP:nil,U
+        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+        NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 7310748e56dd11eea33bb35ae8d461a2-20230919
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+        (envelope-from <yi-de.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1172579675; Tue, 19 Sep 2023 19:12:41 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 19 Sep 2023 19:12:39 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 19 Sep 2023 19:12:39 +0800
+From:   Yi-De Wu <yi-de.wu@mediatek.com>
+To:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Yi-De Wu <yi-de.wu@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+CC:     Arnd Bergmann <arnd@arndb.de>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        David Bradil <dbrazdil@google.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        "My Chuang" <my.chuang@mediatek.com>,
+        Kevenny Hsieh <kevenny.hsieh@mediatek.com>,
+        Willix Yeh <chi-shen.yeh@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>
+Subject: [PATCH v6 02/15] dt-bindings: hypervisor: Add MediaTek GenieZone hypervisor
+Date:   Tue, 19 Sep 2023 19:11:57 +0800
+Message-ID: <20230919111210.19615-3-yi-de.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20230919111210.19615-1-yi-de.wu@mediatek.com>
+References: <20230919111210.19615-1-yi-de.wu@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--15.030500-8.000000
+X-TMASE-MatchedRID: ZCn+RolpoOPHCChNBbZThW3NvezwBrVmUXlp1FHYSPVfSPKGP39Crmyl
+        vLYj9JVPj/FhJNDfkNX1yVmuJrne4OG5o3Ih4/5zjWe5HOFKvuMh/JA0dHadpopLrLRRhONvAEo
+        aRb3OefmmrYzVuXa+oNseKHBzEjWEJjR5Quw0FeXuykw7cfAoIMMdI0UcXEHz8QkGgrel/G4QIz
+        eIWm4OKOwDQ+g9PXEK+WKHUggjjURLa9v9GH70hY7Su3QulAZ5gDRlwc+wR6c//dDkNpyfu1tqL
+        KpXLjMw4vM1YF6AJbZT3DhdVcNYJgtuKBGekqUpPjKoPgsq7cA=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--15.030500-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: A4BE29090EFCE3CDD85F1C8AD7CA58ED4A1D78680AD3F8B204AC00230BE592532000:8
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Sept 2023 at 10:37, Anshuman Khandual
-<anshuman.khandual@arm.com> wrote:
->
-> Cycle counting is enabled, when requested and supported but with a default
-> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
-> representing the minimum interval between cycle count trace packets.
->
-> This makes cycle threshold user configurable, from the user space via perf
-> event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
-> in case no explicit request. As expected it creates a sysfs file as well.
->
-> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
->
-> New 'cc_threshold' uses 'event->attr.config3' as no more space is available
-> in 'event->attr.config1' or 'event->attr.config2'.
->
-> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Cc: Mike Leach <mike.leach@linaro.org>
-> Cc: James Clark <james.clark@arm.com>
-> Cc: Leo Yan <leo.yan@linaro.org>
-> Cc: coresight@lists.linaro.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Reviewed-by: Mike Leach <mike.leach@linaro.org>
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  drivers/hwtracing/coresight/coresight-etm-perf.c   | 2 ++
->  drivers/hwtracing/coresight/coresight-etm4x-core.c | 9 +++++++--
->  2 files changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> index 5ca6278baff4..09f75dffae60 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,               "config:0-3");
->  PMU_FORMAT_ATTR(sinkid,                "config2:0-31");
->  /* config ID - set if a system configuration is selected */
->  PMU_FORMAT_ATTR(configid,      "config2:32-63");
-> +PMU_FORMAT_ATTR(cc_threshold,  "config3:0-11");
->
->
->  /*
-> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
->         &format_attr_preset.attr,
->         &format_attr_configid.attr,
->         &format_attr_branch_broadcast.attr,
-> +       &format_attr_cc_threshold.attr,
->         NULL,
->  };
->
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index c01455bb1caf..044aed25979b 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->         struct etmv4_config *config = &drvdata->config;
->         struct perf_event_attr *attr = &event->attr;
->         unsigned long cfg_hash;
-> -       int preset;
-> +       int preset, cc_threshold;
->
->         /* Clear configuration from previous run */
->         memset(config, 0, sizeof(struct etmv4_config));
-> @@ -667,7 +667,12 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->         if (attr->config & BIT(ETM_OPT_CYCACC)) {
->                 config->cfg |= TRCCONFIGR_CCI;
->                 /* TRM: Must program this for cycacc to work */
-> -               config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
-> +               cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
-> +               if (!cc_threshold)
-> +                       cc_threshold = ETM_CYC_THRESHOLD_DEFAULT;
-> +               if (cc_threshold < drvdata->ccitmin)
-> +                       cc_threshold = drvdata->ccitmin;
-> +               config->ccctlr = cc_threshold;
->         }
->         if (attr->config & BIT(ETM_OPT_TS)) {
->                 /*
-> --
-> 2.25.1
->
+From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
 
-Reviewed-by: Mike Leach  <mike.leach@linaro.org>
+Add documentation for GenieZone(gzvm) node. This node informs gzvm
+driver to start probing if geniezone hypervisor is available and
+able to do virtual machine operations.
+
+[Detail]
+
+The debate of using dt or not remains intact, and gentle ping seems not
+working on this issue. We'll keep this patch for further discussion and move
+forward in order to rebase based on the latest rc release. For previous
+discussion, please kindly refer to the following link.
+
+https://lore.kernel.org/all/4b81b7fbd50c04958c27fbb6e620a15ae4fe0d54.camel@mediatek.com/
+
+Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
+Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+---
+ .../hypervisor/mediatek,geniezone-hyp.yaml    | 31 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hypervisor/mediatek,geniezone-hyp.yaml
+
+diff --git a/Documentation/devicetree/bindings/hypervisor/mediatek,geniezone-hyp.yaml b/Documentation/devicetree/bindings/hypervisor/mediatek,geniezone-hyp.yaml
+new file mode 100644
+index 000000000000..ab89a4c310cb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hypervisor/mediatek,geniezone-hyp.yaml
+@@ -0,0 +1,31 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hypervisor/mediatek,geniezone-hyp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek GenieZone hypervisor
++
++maintainers:
++  - Yingshiuan Pan <yingshiuan.pan@mediatek.com>
++
++description:
++  This interface is designed for integrating GenieZone hypervisor into Android
++  Virtualization Framework(AVF) along with Crosvm as a VMM.
++  It acts like a wrapper for every hypercall to GenieZone hypervisor in
++  order to control guest VM lifecycles and virtual interrupt injections.
++
++properties:
++  compatible:
++    const: mediatek,geniezone-hyp
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    hypervisor {
++        compatible = "mediatek,geniezone-hyp";
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a788e7da77c7..c4f7ed6228f2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8801,6 +8801,7 @@ GENIEZONE HYPERVISOR DRIVER
+ M:	Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+ M:	Ze-Yu Wang <ze-yu.wang@mediatek.com>
+ M:	Yi-De Wu <yi-de.wu@mediatek.com>
++F:	Documentation/devicetree/bindings/hypervisor/mediatek,geniezone-hyp.yaml
+ F:	Documentation/virt/geniezone/
+ 
+ GENWQE (IBM Generic Workqueue Card)
 -- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+2.18.0
+
