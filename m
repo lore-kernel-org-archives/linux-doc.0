@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 032C4CD54AF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 11:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90582CD54B2
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 11:08:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231920AbjISLHY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 07:07:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53814 "EHLO
+        id S232036AbjISLIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 07:08:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232122AbjISLHJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 07:07:09 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F241732
-        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 04:06:28 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-577fb90bb76so2974948a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 04:06:28 -0700 (PDT)
+        with ESMTP id S232187AbjISLHq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 07:07:46 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45880114
+        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 04:07:26 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-564b6276941so4593527a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 04:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695121587; x=1695726387; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1695121646; x=1695726446; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+z6CWyEuDsHy6cJM7H1wCDvrxtpnfWLUKRjtBTGVGLo=;
-        b=VhK12LbDhyE8s04x2ovGGPEeHntPRtCDComffpgx/8wdsZfGE1yjVZfrqpHZFMmMp7
-         mNJTThFMIaHikbbIoOGFK5lXyA6pk4QsKwtnksIaWrHh7YhPYF1zcmdNSgwdbTzN4nEN
-         T0mML78dllb4UUP7E8d5fOGtrvvx3ocFDNRjm/cO/MhUB0hykXZZYIgIaePcsq4MCdqt
-         vuKiSrB6hPl72I0ljAo0sClJlBIFpahpJhAejHnTrQy497J/wL/6UG+kJp2a8K6fJp+C
-         MvhluEAYNdGiV9ph7B2unwj/YOzpJVoSNZ5PItzmKJA+HfqoQhOTR+Dv5vIiTzjGULwY
-         qWAw==
+        bh=hsdGjQZGnP/Hgbj+isSRCEfwtgkvdGEZgfqlQov6O6g=;
+        b=mOi0WJ/2QRv7JGjWYd1/CDX911VSXRR3wUBnJdDyWzNSICeyqxXDKCZ/vJGgf9H7zB
+         N04ePpX0pbuVoC29ADDNhEpj0AVi6HIi4/EzMLnnx2X4qA1ghub5lgKrUMjGTpUNYrR1
+         uSG6l6xUTWkwAoeC/6kMxNLsw49oPC8ADWTEuLPh6ES9MvYgxSyfMbvOtUCM+6x3fCW6
+         JS0BR+eO+bdUzVDjAtVSHp0RG32aHro3ZSDC3JDtxmVwhlZKhc+pdG63glR8ZbA7cWy9
+         LOIZK2wro13WClSAN/frxtCs7c934CcmN5VDv4zcRJeFa+09d87IJmMaCeO/EjdU0BUf
+         c0Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695121587; x=1695726387;
+        d=1e100.net; s=20230601; t=1695121646; x=1695726446;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+z6CWyEuDsHy6cJM7H1wCDvrxtpnfWLUKRjtBTGVGLo=;
-        b=qFMuqQRGCf/3Tn5YwtszUyZQa+SoIp0Qn8zYb3hCjvVVjKQK7enE2cPNAg/DGitvfd
-         g3yMojsHnlIS6eEJNqv65SfmjVC3UQ1IgCrV0Eg6sRZVm4ZoL0Xh9gs2hZcmOSYnPxFo
-         FPTjIBKhbI/HY5oROpJfvA4zVIwpk2IxnUGG9Ump675pBmfoaBwSxlMDcHHDWtGvMQnF
-         B5lNW+CPhHxmqtn45/b3yLbXKzRKCAcm8J3uLePpQNmEgLMa3sm2riLNdLUuNNbzPa7g
-         t2p6dSjdHCHivvBpKVZskruU2LvP3yb3rQLVMfxlOz4TA/jmdQgvXd6ZfgVhhH80DbPf
-         gEBA==
-X-Gm-Message-State: AOJu0YxxALvUnnXE74WnO3TNmbkux45/RiM2z+//L3Kj+aLBtg3NcpNc
-        69vi0vd1N4s4RTYEALfmMq9SYM86SFgXYNxQQS0RPA==
-X-Google-Smtp-Source: AGHT+IG2D7JZA1DWvRmxU9hlS5CJknY/LEjAfyXMotOyYZKJglhQwJdsYGoGUFNM0tWY90fcJpgQLV48QRwPH1MuI2o=
-X-Received: by 2002:a17:90a:ba88:b0:276:7683:70f6 with SMTP id
- t8-20020a17090aba8800b00276768370f6mr3893003pjr.33.1695121587429; Tue, 19 Sep
- 2023 04:06:27 -0700 (PDT)
+        bh=hsdGjQZGnP/Hgbj+isSRCEfwtgkvdGEZgfqlQov6O6g=;
+        b=aSfCg8fyhqrc30i1j39XggQ9plUcIsrAYCQIS6YFVsfib0tgvIgdgiAi0+1xqDxzb4
+         Oqoz3Idp78I5G4QQUXBKEraff/VE34cmlG1W8Pxui3voE95Go1gOXjEi5tmcqWh5OY9w
+         Z/v81AQTHPhXfqHum2FuTgugNH4QAiNz2/aUgJH6du3mZ/+H3WtnW4IlwaxnU7uMvTG+
+         jHbYXgSeI6kc0GrLk/Tzowb4zf0fGQgvYHWZJBtwxMdkQMuUEgmPNE2rVhmfezXny/o8
+         6lAGkDnOlEh9GXMb0IiVaxY8fp3ENBVAFAXAPVq+i2dgZttgSSAErHwqYF0jrR/+rgAa
+         BVcw==
+X-Gm-Message-State: AOJu0YxB+G723Y3MRuJDCeADpRk/QLZIe6Qo2hrF2SfNaMajBd6TtGb7
+        ZYVEOyggUTqfjtZycE9eviVg/s5CEk5F4HbeGMFsSw==
+X-Google-Smtp-Source: AGHT+IEqV3rAGeUMd9XYB//AVpAjXOCe2sj8rwL3pSAMvmQKe1yXtlqOvCzhfuPwDqzf2LTW/BEap8fm1SYbtT2vCrU=
+X-Received: by 2002:a17:90a:fd98:b0:274:686d:497b with SMTP id
+ cx24-20020a17090afd9800b00274686d497bmr10019600pjb.27.1695121645629; Tue, 19
+ Sep 2023 04:07:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230915093649.435163-1-anshuman.khandual@arm.com> <20230915093649.435163-2-anshuman.khandual@arm.com>
-In-Reply-To: <20230915093649.435163-2-anshuman.khandual@arm.com>
+References: <20230915093649.435163-1-anshuman.khandual@arm.com> <20230915093649.435163-3-anshuman.khandual@arm.com>
+In-Reply-To: <20230915093649.435163-3-anshuman.khandual@arm.com>
 From:   Mike Leach <mike.leach@linaro.org>
-Date:   Tue, 19 Sep 2023 12:06:16 +0100
-Message-ID: <CAJ9a7VghAjdKU90NoR4VfAr+dr2GmzrwNCT23jzKMpdiwNzd-Q@mail.gmail.com>
-Subject: Re: [PATCH V5 - RESEND 1/3] coresight: etm: Override TRCIDR3.CCITMIN
- on errata affected cpus
+Date:   Tue, 19 Sep 2023 12:07:14 +0100
+Message-ID: <CAJ9a7Vh_vJihzSx1zsK9Qv4iEv414WH245N3j2c3bhYNkm5SJQ@mail.gmail.com>
+Subject: Re: [PATCH V5 - RESEND 2/3] coresight: etm: Make cycle count
+ threshold user configurable
 To:     Anshuman Khandual <anshuman.khandual@arm.com>
 Cc:     linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -69,146 +69,86 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Fri, 15 Sept 2023 at 10:37, Anshuman Khandual
 <anshuman.khandual@arm.com> wrote:
 >
-> This work arounds errata 1490853 on Cortex-A76, and Neoverse-N1, errata
-> 1491015 on Cortex-A77, errata 1502854 on Cortex-X1, and errata 1619801 on
-> Neoverse-V1, based affected cpus, where software read for TRCIDR3.CCITMIN
-> field in ETM gets an wrong value.
+> Cycle counting is enabled, when requested and supported but with a default
+> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
+> representing the minimum interval between cycle count trace packets.
 >
-> If software uses the value returned by the TRCIDR3.CCITMIN register field,
-> then it will limit the range which could be used for programming the ETM.
-> In reality, the ETM could be programmed with a much smaller value than what
-> is indicated by the TRCIDR3.CCITMIN field and still function correctly.
+> This makes cycle threshold user configurable, from the user space via perf
+> event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
+> in case no explicit request. As expected it creates a sysfs file as well.
 >
-> If software reads the TRCIDR3.CCITMIN register field, corresponding to the
-> instruction trace counting minimum threshold, observe the value 0x100 or a
-> minimum cycle count threshold of 256. The correct value should be 0x4 or a
-> minimum cycle count threshold of 4.
+> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
 >
-> This work arounds the problem via storing 4 in drvdata->ccitmin on affected
-> systems where the TRCIDR3.CCITMIN has been 256, thus preserving cycle count
-> threshold granularity.
+> New 'cc_threshold' uses 'event->attr.config3' as no more space is available
+> in 'event->attr.config1' or 'event->attr.config2'.
 >
-> These errata information has been updated in arch/arm64/silicon-errata.rst,
-> but without their corresponding configs because these have been implemented
-> directly in the driver.
->
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
 > Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
 > Cc: Mike Leach <mike.leach@linaro.org>
 > Cc: James Clark <james.clark@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> Cc: Leo Yan <leo.yan@linaro.org>
 > Cc: coresight@lists.linaro.org
 > Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
 > Cc: linux-kernel@vger.kernel.org
+> Reviewed-by: Mike Leach <mike.leach@linaro.org>
 > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 > ---
->  Documentation/arch/arm64/silicon-errata.rst   | 10 ++++++
->  .../coresight/coresight-etm4x-core.c          | 36 +++++++++++++++++++
->  2 files changed, 46 insertions(+)
+>  drivers/hwtracing/coresight/coresight-etm-perf.c   | 2 ++
+>  drivers/hwtracing/coresight/coresight-etm4x-core.c | 9 +++++++--
+>  2 files changed, 9 insertions(+), 2 deletions(-)
 >
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index e96f057ea2a0..8f1be5da68b7 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -115,6 +115,10 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Cortex-A76      | #1463225        | ARM64_ERRATUM_1463225       |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| ARM            | Cortex-A76      | #1490853        | N/A                         |
-> ++----------------+-----------------+-----------------+-----------------------------+
-> +| ARM            | Cortex-A77      | #1491015        | N/A                         |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Cortex-A77      | #1508412        | ARM64_ERRATUM_1508412       |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Cortex-A710     | #2119858        | ARM64_ERRATUM_2119858       |
-> @@ -125,6 +129,8 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Cortex-A715     | #2645198        | ARM64_ERRATUM_2645198       |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| ARM            | Cortex-X1       | #1502854        | N/A                         |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Cortex-X2       | #2119858        | ARM64_ERRATUM_2119858       |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Cortex-X2       | #2224489        | ARM64_ERRATUM_2224489       |
-> @@ -133,6 +139,8 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Neoverse-N1     | #1349291        | N/A                         |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| ARM            | Neoverse-N1     | #1490853        | N/A                         |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Neoverse-N1     | #1542419        | ARM64_ERRATUM_1542419       |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Neoverse-N2     | #2139208        | ARM64_ERRATUM_2139208       |
-> @@ -141,6 +149,8 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | Neoverse-N2     | #2253138        | ARM64_ERRATUM_2253138       |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| ARM            | Neoverse-V1     | #1619801        | N/A                         |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | MMU-500         | #841119,826419  | N/A                         |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | MMU-600         | #1076982,1209401| N/A                         |
+> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> index 5ca6278baff4..09f75dffae60 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> @@ -68,6 +68,7 @@ PMU_FORMAT_ATTR(preset,               "config:0-3");
+>  PMU_FORMAT_ATTR(sinkid,                "config2:0-31");
+>  /* config ID - set if a system configuration is selected */
+>  PMU_FORMAT_ATTR(configid,      "config2:32-63");
+> +PMU_FORMAT_ATTR(cc_threshold,  "config3:0-11");
+>
+>
+>  /*
+> @@ -101,6 +102,7 @@ static struct attribute *etm_config_formats_attr[] = {
+>         &format_attr_preset.attr,
+>         &format_attr_configid.attr,
+>         &format_attr_branch_broadcast.attr,
+> +       &format_attr_cc_threshold.attr,
+>         NULL,
+>  };
+>
 > diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 77b0271ce6eb..c01455bb1caf 100644
+> index c01455bb1caf..044aed25979b 100644
 > --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
 > +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -1150,6 +1150,39 @@ static void cpu_detect_trace_filtering(struct etmv4_drvdata *drvdata)
->         drvdata->trfcr = trfcr;
->  }
+> @@ -644,7 +644,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>         struct etmv4_config *config = &drvdata->config;
+>         struct perf_event_attr *attr = &event->attr;
+>         unsigned long cfg_hash;
+> -       int preset;
+> +       int preset, cc_threshold;
 >
-> +/*
-> + * The following errata on applicable cpu ranges, affect the CCITMIN filed
-> + * in TCRIDR3 register. Software read for the field returns 0x100 limiting
-> + * the cycle threshold granularity, whereas the right value should have
-> + * been 0x4, which is well supported in the hardware.
-> + */
-> +static struct midr_range etm_wrong_ccitmin_cpus[] = {
-> +       /* Erratum #1490853 - Cortex-A76 */
-> +       MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 4, 0),
-> +       /* Erratum #1490853 - Neoverse-N1 */
-> +       MIDR_RANGE(MIDR_NEOVERSE_N1, 0, 0, 4, 0),
-> +       /* Erratum #1491015 - Cortex-A77 */
-> +       MIDR_RANGE(MIDR_CORTEX_A77, 0, 0, 1, 0),
-> +       /* Erratum #1502854 - Cortex-X1 */
-> +       MIDR_REV(MIDR_CORTEX_X1, 0, 0),
-> +       /* Erratum #1619801 - Neoverse-V1 */
-> +       MIDR_REV(MIDR_NEOVERSE_V1, 0, 0),
-> +       {},
-> +};
-> +
-> +static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
-> +{
-> +       /*
-> +        * Erratum affected cpus will read 256 as the minimum
-> +        * instruction trace cycle counting threshold whereas
-> +        * the correct value should be 4 instead. Override the
-> +        * recorded value for 'drvdata->ccitmin' to workaround
-> +        * this problem.
-> +        */
-> +       return is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus) &&
-> +              (drvdata->ccitmin == 256);
-> +}
-> +
->  static void etm4_init_arch_data(void *info)
->  {
->         u32 etmidr0;
-> @@ -1214,6 +1247,9 @@ static void etm4_init_arch_data(void *info)
->         etmidr3 = etm4x_relaxed_read32(csa, TRCIDR3);
->         /* CCITMIN, bits[11:0] minimum threshold value that can be programmed */
->         drvdata->ccitmin = FIELD_GET(TRCIDR3_CCITMIN_MASK, etmidr3);
-> +       if (etm4_core_reads_wrong_ccitmin(drvdata))
-> +               drvdata->ccitmin = 4;
-> +
->         /* EXLEVEL_S, bits[19:16] Secure state instruction tracing */
->         drvdata->s_ex_level = FIELD_GET(TRCIDR3_EXLEVEL_S_MASK, etmidr3);
->         drvdata->config.s_ex_level = drvdata->s_ex_level;
+>         /* Clear configuration from previous run */
+>         memset(config, 0, sizeof(struct etmv4_config));
+> @@ -667,7 +667,12 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>         if (attr->config & BIT(ETM_OPT_CYCACC)) {
+>                 config->cfg |= TRCCONFIGR_CCI;
+>                 /* TRM: Must program this for cycacc to work */
+> -               config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
+> +               cc_threshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
+> +               if (!cc_threshold)
+> +                       cc_threshold = ETM_CYC_THRESHOLD_DEFAULT;
+> +               if (cc_threshold < drvdata->ccitmin)
+> +                       cc_threshold = drvdata->ccitmin;
+> +               config->ccctlr = cc_threshold;
+>         }
+>         if (attr->config & BIT(ETM_OPT_TS)) {
+>                 /*
 > --
 > 2.25.1
 >
-Reviewed by: Mike Leach <mike.leach@linaro.org>
 
+Reviewed-by: Mike Leach  <mike.leach@linaro.org>
 -- 
 Mike Leach
 Principal Engineer, ARM Ltd.
