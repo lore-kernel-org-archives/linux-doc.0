@@ -2,147 +2,307 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 929F6CE79A8
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 01:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D5D6CE79AC
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 04:01:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbjITBx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 21:53:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
+        id S232190AbjITEBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 00:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjITBx6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 21:53:58 -0400
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EDF3B3;
-        Tue, 19 Sep 2023 18:53:51 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 9D6743200961;
-        Tue, 19 Sep 2023 21:53:49 -0400 (EDT)
-Received: from imap52 ([10.202.2.102])
-  by compute5.internal (MEProxy); Tue, 19 Sep 2023 21:53:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1695174829; x=1695261229; bh=pf
-        3dqBAG8Fi2hvI1Z04qSxkshW+L8GPDkCLrFzofr/4=; b=YuP/CXWXJx3KqVqZDU
-        z+D4dcpoF9UKySgMt6mvJCoCTKTMgIu5HL7eL/J76cWAjx6AK7ihSdcHQWjSS/MZ
-        9BztnAfDrCk0g1cURcwWWbBMnKyVp23ubbT14pcG2vsNrAef7/gRrCZ4XwWvgZKR
-        dHerZP2+J2klR93Hr90Uu32038Z3AAbG7IbZjTSVBrMJLJy8cVPWdCIklWJJDjdd
-        rRzCq4ZIHY2OhJjbTMpqjIbqu9w0rH9FxLziIYxWq6fdL3Cm8QrVSRG6IpQn6DG5
-        59TNKueTQkYHKnPi/7Q74eAYwN/O0SXSBpjWjLHyDk3aOQS8ZtF2GJ1SocH3OUWN
-        C6ag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1695174829; x=1695261229; bh=pf3dqBAG8Fi2h
-        vI1Z04qSxkshW+L8GPDkCLrFzofr/4=; b=Ogc/eRYOXNM8cdNmidqZsCx9WI+Xy
-        4NviLeDXrKIu9Gm1VfDnce1U3FUCATBRl05iRo2khLsA8f290D9IG9aB36wl7h7y
-        Cp+5dno03ewWm0HXEFH4Lp7dgJZU/oo5ImuX0NDxD71YARU++3BJ6DcutyCMNu0g
-        PiFSX1p6l5esKop2Ngo6FAH3HRya0po+AEw+Nsnx648jLeoeFux9N/bgPUPGPxGv
-        hUl7/OHrK2VvbnhyEVxdvi9wOQzv/OvUe7/A9hpHJwo5y0Or4D10Qi8XeBgEdSpl
-        u3aoSFOJFicZAiE2O48wOXdgB38IiiRcky4Bw/QKXQzxNtr9sywMr0BAg==
-X-ME-Sender: <xms:rFAKZQNAzvPx62TD839x4YrK1j_SgHIMZ0Zt8UuQol9u6z6kC8PouQ>
-    <xme:rFAKZW8PDgHs87Y3u_bfSo7GshZz4KBlaAkecmpCXCeDGTTUiwnjb70puTA8JESay
-    s_4tg6Mt7UFP1PPbRw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudekvddghedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfofgr
-    rhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssg
-    drtggrqeenucggtffrrghtthgvrhhnpeeiueefjeeiveetuddvkeetfeeltdevffevudeh
-    ffefjedufedvieejgedugeekhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggr
-X-ME-Proxy: <xmx:rFAKZXSkjojpck9C8LthQfe7GJQ2i1rdbP02JSAdAtDPXD2C_nNwgQ>
-    <xmx:rFAKZYupT8Ry-NNtEHhclQyZhz27p-AOMtWOX0kHoH2a4vAxwrisgg>
-    <xmx:rFAKZYfWpTqmi4QdePw4PakJMUcsfAfDDbdOvx_jzErU9xRmR1yWew>
-    <xmx:rVAKZQSsp1CbE_hb-2YqnL33OUCTEWGgvtY67i1IWK2ZQeVerzuxxQ>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id A12F2C6008B; Tue, 19 Sep 2023 21:53:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-761-gece9e40c48-fm-20230913.001-gece9e40c
+        with ESMTP id S231948AbjITEBP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 00:01:15 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB529AC;
+        Tue, 19 Sep 2023 21:01:05 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c108e106f0so4493881fa.1;
+        Tue, 19 Sep 2023 21:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695182464; x=1695787264; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GyKYrjr913/Mxco2pUUA8tL3BYyOou9f2SmsCpkYGHE=;
+        b=jtMuw5xwK4NJRFih0YSwoU0kLX9KZORs5NlzyUgyG/3jVC+EXCouuWiYj6r3P4okOF
+         iYwWtjN74UC8PQGh0rSDxG4DAi8hQ80uuEToIO/YyuyiFLybKkGRatXJ6ht5EBagaHB5
+         GXWbUwMQK/RiN8tOh+0QkAX8GgZ0mpkDYnd7ZthCzBPqDYNCNt70n1h2DlgLbN7AU2xd
+         G0b10HW9imQ7I/veL6fS3MActd4UUWdCYXe2xuw01NWk+9iaCRCMunNgWhfAhsZVMB0J
+         IQxKSWnZ2XnIPHwcdAqtgO4NxjEKj2u8ODlBZIOzFaoMxnbZQnOsFCGnfIH/N8GmszgV
+         ITSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695182464; x=1695787264;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GyKYrjr913/Mxco2pUUA8tL3BYyOou9f2SmsCpkYGHE=;
+        b=Z2ti639Ti7T7UgFN1Dw4ZZA7cVa+M/WE6OPlQI/pg5rtaD6kYBerP0dRg0x4hmozhs
+         pIBXUDspdYhDU4ms592WNvVQvzwxS916ltsHkeDYE/JDT9Ef5vzHfsGvrrZshRrXuLAE
+         mgUOo5fofkTmAt/eSC/H/gsc38wSoNBYPeF8bDD6WxsK1Ap3bf3ZDGMV0RquD2zYf4XP
+         D5Xb4+dQKhSkQs8vMJhlx/lqAAc44bU7iZ1ooG0vAOkr+LP0bj5K83G6dZamzLqywP9L
+         1Fo18/W24KJkHd0yQbYdTARhZgNjkKegrdx6wXpUus2xGWqxbN/PXUZk/PsysqMwqO0f
+         P3DQ==
+X-Gm-Message-State: AOJu0Yy04zFkgUn2HlEnMZUa8VrAFXgDacRaVWDkCkfu3muFClXO0RZ1
+        EdY8roSsh8tvzj1kTLObGbBsfA8cFGCvy8T2Gqg=
+X-Google-Smtp-Source: AGHT+IGmu93zgplai1XsLqNBey4INMI8sChfYgKcLuu+o0njuikfwNzh9cWLULCc03wLA3fg4X/6qQZp9/+z+tPM0f4=
+X-Received: by 2002:a2e:81d3:0:b0:2bc:f523:c88a with SMTP id
+ s19-20020a2e81d3000000b002bcf523c88amr1062310ljg.1.1695182463657; Tue, 19 Sep
+ 2023 21:01:03 -0700 (PDT)
 MIME-Version: 1.0
-Message-Id: <b4ba5401-6604-4790-85cf-f8ae22f73543@app.fastmail.com>
-In-Reply-To: <68c6df3f-f83b-48da-9ee2-351995479915@roeck-us.net>
-References: <20230915150340.301067-1-dober6023@gmail.com>
- <8a566102-5ea6-4449-9083-8feebe711065@roeck-us.net>
- <TYZPR03MB59949F797738F5B1B8638278BDF6A@TYZPR03MB5994.apcprd03.prod.outlook.com>
- <55f22980-b47a-4a22-8f19-2b0a5b4e6a1a@app.fastmail.com>
- <68c6df3f-f83b-48da-9ee2-351995479915@roeck-us.net>
-Date:   Tue, 19 Sep 2023 21:53:23 -0400
-From:   "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To:     "Guenter Roeck" <linux@roeck-us.net>
-Cc:     "Guenter Roeck" <groeck7@gmail.com>,
-        "David Ober" <dober6023@gmail.com>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jdelvare@suse.com, corbet@lwn.net, "David Ober" <dober@lenovo.com>
-Subject: Re: [PATCH] hwmon:Add MEC172x Micro Chip driver for Lenovo motherboards
-Content-Type: text/plain
+References: <20230916132932.361875-1-liangchen.linux@gmail.com>
+ <20230916132932.361875-2-liangchen.linux@gmail.com> <ZQhdCHiqy2R6N3n0@d3>
+In-Reply-To: <ZQhdCHiqy2R6N3n0@d3>
+From:   Liang Chen <liangchen.linux@gmail.com>
+Date:   Wed, 20 Sep 2023 12:00:50 +0800
+Message-ID: <CAKhg4tLCivfktmuFBUkgzU0t4f7rRUa7vV45-jEBNvbjkbgOuQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 2/2] pktgen: Introducing 'SHARED' flag for
+ testing with non-shared skb
+To:     Benjamin Poirier <bpoirier@nvidia.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, netdev@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Yunsheng Lin <linyunsheng@huawei.com>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guenter,
-
-On Fri, Sep 15, 2023, at 6:56 PM, Guenter Roeck wrote:
-> On Fri, Sep 15, 2023 at 06:43:02PM -0400, Mark Pearson wrote:
->> Hi Guenter,
->> 
->> > From: Guenter Roeck <groeck7@gmail.com> on behalf of Guenter Roeck 
->> > On Fri, Sep 15, 2023 at 11:03:40AM -0400, David Ober wrote:
->> >> This addition adds in the ability for the system to scan the
->> >> MEC172x EC chip in Lenovo ThinkStation systems to get the
->> >> current fan RPM speeds and the Maximum speed value for each
->> >> fan also provides the current CPU and DIMM thermal status
->> >>
->> >> Signed-off-by: David Ober <dober6023@gmail.com>
->> >>
->> >> Written by David Ober from Lenovo using this gmail address since
->> >> my corporate email address does not comply with git email
->> >
->> > FWIW, this needs to be after '---'
->> >
->> > Anyway, thinking about this submission makes me even more concerned.
->> >
->> > This isn't really a driver for MEC172x; it is simply a driver
->> > accessing an EC on a set of PCs and/or laptops from Lenovo
->> > which uses a vertain API for communication between EC and main
->> > CPU.
->> >
->> > Such ECs are typically accessed through ACPI. Yet, in this driver
->> > there is no mention of ACPI, much less any protection against
->> > parallel use by ACPI code (that access lock in get_ec_reg() doesn't
->> > even protect against parallel access from userspace, much less
->> > against parallel access from other drivers or ACPI, for example
->> > by using request_region() to reserve the used memory ranges).
->> >
->> > There needs to be explanations and clarifications
->> > - Why this driver will only be used for communication with MEC172X
->> >   based chips, and why the exact EC chip is relevant in the first place
->> >   to be mentioned as much as it is.
->> > - How it is guaranteed that the EC is not and will never be accessed
->> >   through ACPI.
->> > - How it is guaranteed that there will never be any other kernel drivers
->> >   accessing the chip.
->> >
->> I assume for this we just need confirmation from the BIOS team that this is how it will be handled and it's intentional by design?
->> 
->> Agreed this is normally done by ACPI, but my understanding is that it's not the case on these particular workstation platforms. FWIW Windows is also doing access by a separate driver. 
->> I'm not sure why the design is done this way but will confirm to make sure.
->> 
->> With regards to guaranteeing that no other kernel drivers access the chip - I'm not sure how we can ensure that. Or do you mean if another vendor is using this chip but with different platform IDs and want to use a similar driver? 
->> For this case we can make the driver generic (rename it mec172x.c) so others could add their platform support in the future (the platform IDs will be unique). Either that or I can confirm with Microchip if this particular chip is Lenovo specific.
+On Mon, Sep 18, 2023 at 10:22=E2=80=AFPM Benjamin Poirier <bpoirier@nvidia.=
+com> wrote:
 >
-> This has nothing to do with the microcontroller you use as EC,
-> and you can not tell anyone that they must not use the same
-> microcontroller in their system.
+> On 2023-09-16 21:29 +0800, Liang Chen wrote:
+> > Currently, skbs generated by pktgen always have their reference count
+> > incremented before transmission, causing their reference count to be
+> > always greater than 1, leading to two issues:
+> >   1. Only the code paths for shared skbs can be tested.
+> >   2. In certain situations, skbs can only be released by pktgen.
+> > To enhance testing comprehensiveness, we are introducing the "SHARED"
+> > flag to indicate whether an SKB is shared. This flag is enabled by
+> > default, aligning with the current behavior. However, disabling this
+> > flag allows skbs with a reference count of 1 to be transmitted.
+> > So we can test non-shared skbs and code paths where skbs are released
+> > within the stack.
+> >
+> > Signed-off-by: Liang Chen <liangchen.linux@gmail.com>
+> > ---
 >
-> If the chip is not accessed from another driver, you can use
-> request_region() to reserve the memory space used by the chip.
+> In the future, please run scripts/get_maintainer.pl and cc the listed
+> addresses. I'm adding them now.
+
+Sure. Thanks!
+
 >
-Thanks - sounds good and we'll do that.
-
-I confirmed with the FW team that there is no plan for the BIOS to access this chip. On Windows it is done from the OS too.
-
-Mark
+> Reviewed-by: Benjamin Poirier <bpoirier@nvidia.com>
+>
+> >  Documentation/networking/pktgen.rst | 12 ++++++++
+> >  net/core/pktgen.c                   | 48 ++++++++++++++++++++++++-----
+> >  2 files changed, 52 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/Documentation/networking/pktgen.rst b/Documentation/networ=
+king/pktgen.rst
+> > index 1225f0f63ff0..c945218946e1 100644
+> > --- a/Documentation/networking/pktgen.rst
+> > +++ b/Documentation/networking/pktgen.rst
+> > @@ -178,6 +178,7 @@ Examples::
+> >                             IPSEC # IPsec encapsulation (needs CONFIG_X=
+FRM)
+> >                             NODE_ALLOC # node specific memory allocatio=
+n
+> >                             NO_TIMESTAMP # disable timestamping
+> > +                           SHARED # enable shared SKB
+> >   pgset 'flag ![name]'    Clear a flag to determine behaviour.
+> >                        Note that you might need to use single quote in
+> >                        interactive mode, so that your shell wouldn't ex=
+pand
+> > @@ -288,6 +289,16 @@ To avoid breaking existing testbed scripts for usi=
+ng AH type and tunnel mode,
+> >  you can use "pgset spi SPI_VALUE" to specify which transformation mode
+> >  to employ.
+> >
+> > +Disable shared SKB
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +By default, SKBs sent by pktgen are shared (user count > 1).
+> > +To test with non-shared SKBs, remove the "SHARED" flag by simply setti=
+ng::
+> > +
+> > +     pg_set "flag !SHARED"
+> > +
+> > +However, if the "clone_skb" or "burst" parameters are configured, the =
+skb
+> > +still needs to be held by pktgen for further access. Hence the skb mus=
+t be
+> > +shared.
+> >
+> >  Current commands and configuration options
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > @@ -357,6 +368,7 @@ Current commands and configuration options
+> >      IPSEC
+> >      NODE_ALLOC
+> >      NO_TIMESTAMP
+> > +    SHARED
+> >
+> >      spi (ipsec)
+> >
+> > diff --git a/net/core/pktgen.c b/net/core/pktgen.c
+> > index 48306a101fd9..c4e0814df325 100644
+> > --- a/net/core/pktgen.c
+> > +++ b/net/core/pktgen.c
+> > @@ -200,6 +200,7 @@
+> >       pf(VID_RND)             /* Random VLAN ID */                    \
+> >       pf(SVID_RND)            /* Random SVLAN ID */                   \
+> >       pf(NODE)                /* Node memory alloc*/                  \
+> > +     pf(SHARED)              /* Shared SKB */                        \
+> >
+> >  #define pf(flag)             flag##_SHIFT,
+> >  enum pkt_flags {
+> > @@ -1198,7 +1199,8 @@ static ssize_t pktgen_if_write(struct file *file,
+> >                   ((pkt_dev->xmit_mode =3D=3D M_NETIF_RECEIVE) ||
+> >                    !(pkt_dev->odev->priv_flags & IFF_TX_SKB_SHARING)))
+> >                       return -ENOTSUPP;
+> > -             if (value > 0 && pkt_dev->n_imix_entries > 0)
+> > +             if (value > 0 && (pkt_dev->n_imix_entries > 0 ||
+> > +                               !(pkt_dev->flags & F_SHARED)))
+> >                       return -EINVAL;
+> >
+> >               i +=3D len;
+> > @@ -1257,6 +1259,10 @@ static ssize_t pktgen_if_write(struct file *file=
+,
+> >                    ((pkt_dev->xmit_mode =3D=3D M_START_XMIT) &&
+> >                    (!(pkt_dev->odev->priv_flags & IFF_TX_SKB_SHARING)))=
+))
+> >                       return -ENOTSUPP;
+> > +
+> > +             if (value > 1 && !(pkt_dev->flags & F_SHARED))
+> > +                     return -EINVAL;
+> > +
+> >               pkt_dev->burst =3D value < 1 ? 1 : value;
+> >               sprintf(pg_result, "OK: burst=3D%u", pkt_dev->burst);
+> >               return count;
+> > @@ -1334,10 +1340,19 @@ static ssize_t pktgen_if_write(struct file *fil=
+e,
+> >
+> >               flag =3D pktgen_read_flag(f, &disable);
+> >               if (flag) {
+> > -                     if (disable)
+> > +                     if (disable) {
+> > +                             /* If "clone_skb", or "burst" parameters =
+are
+> > +                              * configured, it means that the skb stil=
+l
+> > +                              * needs to be referenced by the pktgen, =
+so
+> > +                              * the skb must be shared.
+> > +                              */
+> > +                             if (flag =3D=3D F_SHARED && (pkt_dev->clo=
+ne_skb ||
+> > +                                                      pkt_dev->burst >=
+ 1))
+> > +                                     return -EINVAL;
+> >                               pkt_dev->flags &=3D ~flag;
+> > -                     else
+> > +                     } else {
+> >                               pkt_dev->flags |=3D flag;
+> > +                     }
+> >
+> >                       sprintf(pg_result, "OK: flags=3D0x%x", pkt_dev->f=
+lags);
+> >                       return count;
+> > @@ -3489,7 +3504,8 @@ static void pktgen_xmit(struct pktgen_dev *pkt_de=
+v)
+> >       if (pkt_dev->xmit_mode =3D=3D M_NETIF_RECEIVE) {
+> >               skb =3D pkt_dev->skb;
+> >               skb->protocol =3D eth_type_trans(skb, skb->dev);
+> > -             refcount_add(burst, &skb->users);
+> > +             if (pkt_dev->flags & F_SHARED)
+> > +                     refcount_add(burst, &skb->users);
+> >               local_bh_disable();
+> >               do {
+> >                       ret =3D netif_receive_skb(skb);
+> > @@ -3497,6 +3513,10 @@ static void pktgen_xmit(struct pktgen_dev *pkt_d=
+ev)
+> >                               pkt_dev->errors++;
+> >                       pkt_dev->sofar++;
+> >                       pkt_dev->seq_num++;
+> > +                     if (unlikely(!(pkt_dev->flags & F_SHARED))) {
+> > +                             pkt_dev->skb =3D NULL;
+> > +                             break;
+> > +                     }
+> >                       if (refcount_read(&skb->users) !=3D burst) {
+> >                               /* skb was queued by rps/rfs or taps,
+> >                                * so cannot reuse this skb
+> > @@ -3515,9 +3535,14 @@ static void pktgen_xmit(struct pktgen_dev *pkt_d=
+ev)
+> >               goto out; /* Skips xmit_mode M_START_XMIT */
+> >       } else if (pkt_dev->xmit_mode =3D=3D M_QUEUE_XMIT) {
+> >               local_bh_disable();
+> > -             refcount_inc(&pkt_dev->skb->users);
+> > +             if (pkt_dev->flags & F_SHARED)
+> > +                     refcount_inc(&pkt_dev->skb->users);
+> >
+> >               ret =3D dev_queue_xmit(pkt_dev->skb);
+> > +
+> > +             if (!(pkt_dev->flags & F_SHARED) && dev_xmit_complete(ret=
+))
+> > +                     pkt_dev->skb =3D NULL;
+> > +
+> >               switch (ret) {
+> >               case NET_XMIT_SUCCESS:
+> >                       pkt_dev->sofar++;
+> > @@ -3555,11 +3580,15 @@ static void pktgen_xmit(struct pktgen_dev *pkt_=
+dev)
+> >               pkt_dev->last_ok =3D 0;
+> >               goto unlock;
+> >       }
+> > -     refcount_add(burst, &pkt_dev->skb->users);
+> > +     if (pkt_dev->flags & F_SHARED)
+> > +             refcount_add(burst, &pkt_dev->skb->users);
+> >
+> >  xmit_more:
+> >       ret =3D netdev_start_xmit(pkt_dev->skb, odev, txq, --burst > 0);
+> >
+> > +     if (!(pkt_dev->flags & F_SHARED) && dev_xmit_complete(ret))
+> > +             pkt_dev->skb =3D NULL;
+> > +
+> >       switch (ret) {
+> >       case NETDEV_TX_OK:
+> >               pkt_dev->last_ok =3D 1;
+> > @@ -3581,7 +3610,8 @@ static void pktgen_xmit(struct pktgen_dev *pkt_de=
+v)
+> >               fallthrough;
+> >       case NETDEV_TX_BUSY:
+> >               /* Retry it next time */
+> > -             refcount_dec(&(pkt_dev->skb->users));
+> > +             if (pkt_dev->flags & F_SHARED)
+> > +                     refcount_dec(&pkt_dev->skb->users);
+> >               pkt_dev->last_ok =3D 0;
+> >       }
+> >       if (unlikely(burst))
+> > @@ -3594,7 +3624,8 @@ static void pktgen_xmit(struct pktgen_dev *pkt_de=
+v)
+> >
+> >       /* If pkt_dev->count is zero, then run forever */
+> >       if ((pkt_dev->count !=3D 0) && (pkt_dev->sofar >=3D pkt_dev->coun=
+t)) {
+> > -             pktgen_wait_for_skb(pkt_dev);
+> > +             if (pkt_dev->skb)
+> > +                     pktgen_wait_for_skb(pkt_dev);
+> >
+> >               /* Done with this */
+> >               pktgen_stop_device(pkt_dev);
+> > @@ -3777,6 +3808,7 @@ static int pktgen_add_device(struct pktgen_thread=
+ *t, const char *ifname)
+> >       pkt_dev->svlan_id =3D 0xffff;
+> >       pkt_dev->burst =3D 1;
+> >       pkt_dev->node =3D NUMA_NO_NODE;
+> > +     pkt_dev->flags =3D F_SHARED;      /* SKB shared by default */
+> >
+> >       err =3D pktgen_setup_dev(t->net, pkt_dev, ifname);
+> >       if (err)
+> > --
+> > 2.40.1
+> >
