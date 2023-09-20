@@ -2,140 +2,362 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A96B6C04E30
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 17:55:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7481EC04EB5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 18:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbjITRz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 13:55:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36864 "EHLO
+        id S229519AbjITSD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 14:03:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjITRz5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 13:55:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA3594
-        for <linux-doc@vger.kernel.org>; Wed, 20 Sep 2023 10:55:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695232508;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NnqOeIozWLoSx9J0xtQeCKdqhemo3EjzKycC15MNaXI=;
-        b=Yqat0eTc3JErZWfRDcfgpEcEA19otBGx6G+7BqFPHRAlmtaBeEDusxg2wf42YnqX3rGAQ+
-        qDABX1qvOw4J6xz7g0TA1bxEd7QI5t3jJf1oWhV5dfXWL0QrP+U+0QkYFk/zr9hX2arahh
-        caJwR76n8yBluSF3IIjNSoXNwy4qOjc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-592-YL3q1rz6PjyRRs1Xj3B0jg-1; Wed, 20 Sep 2023 13:55:06 -0400
-X-MC-Unique: YL3q1rz6PjyRRs1Xj3B0jg-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-31ff9e40977so57411f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 Sep 2023 10:55:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695232504; x=1695837304;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NnqOeIozWLoSx9J0xtQeCKdqhemo3EjzKycC15MNaXI=;
-        b=vQq5uY9uKJM98ijQ1bQyDqdDBdrDzUVL/PPdhHcXtIR750W27rFZh2BvOi53KA3A4c
-         nrQD7icKaf5fNbfYg+1pUxTHJOhSTZwdQcdy9MZ/QJT4CLN1dyTXIpJrrKc0GUF9yZxI
-         dFFOiy27c52JgmdbYSvbfYmN3bIocSw2CiHL9P91CTA6jQ2h05eAhsU+JuUw4rzGpc8d
-         +pGxfvSJ542QFrf+NewyXYkhjLY+MRjOmR30Oi6KnVmjfraKAAn1bYtZNqmgdcATXVsK
-         7Y35uog4/Nt+3gsMpmDVTB7i3TtKBnAyJmAKJw3vh6K62Qipq+ifwC1CvUsyIjpEWJe3
-         VhHg==
-X-Gm-Message-State: AOJu0Yx9d6njkRmSskaBPphG1ycqxJhYqFe0Qb0Rck7a6F5RdF+UVRL2
-        I5xYTxOEA5FhptpvXR7KXfQrEXvrSIa26N2JNbGyXSb3wfxZwRZMGpYRpOkwqkD6qIl7mL6590c
-        E6Nzb9eTLi+g5tq4GLe2W
-X-Received: by 2002:adf:ee88:0:b0:313:ecd3:7167 with SMTP id b8-20020adfee88000000b00313ecd37167mr2737760wro.42.1695232504614;
-        Wed, 20 Sep 2023 10:55:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0pIzmkmEwrfJkDIWYrHXNUyhISLDh7IqFEh0BjNiUe37zgzv0CZuijHzQCZR9e7yYqC6CoA==
-X-Received: by 2002:adf:ee88:0:b0:313:ecd3:7167 with SMTP id b8-20020adfee88000000b00313ecd37167mr2737745wro.42.1695232504286;
-        Wed, 20 Sep 2023 10:55:04 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89? ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
-        by smtp.googlemail.com with ESMTPSA id w11-20020a5d608b000000b0031ad5fb5a0fsm10876963wrt.58.2023.09.20.10.55.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Sep 2023 10:55:03 -0700 (PDT)
-Message-ID: <26b92bbb-0519-8b94-07fc-75d900fde600@redhat.com>
-Date:   Wed, 20 Sep 2023 19:54:59 +0200
+        with ESMTP id S229481AbjITSDZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 14:03:25 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96FA5C6;
+        Wed, 20 Sep 2023 11:03:17 -0700 (PDT)
+Received: from [192.168.68.123] (unknown [177.98.21.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C55EB66071EF;
+        Wed, 20 Sep 2023 19:03:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1695232995;
+        bh=uhO6IttlYAj/yo5egvC4YtDuaO5w616IbV33O4PUKrA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=djBLZIQj9bZUYXB/HL8DhBfnmC6Zz5EM+aa0PPgailiNE5qvhOkymJegKZyBU/RE6
+         BSS8YEJKGpW2t7+MQkScLOjwNgv1gsedUfSqOtgqU5Y6Cy9NjTrLNyFEGqTlCDj5sX
+         0R0rQBrXo/gDPOmeXr7dbIyf9OFHQxIMx2yVA1VWNpKf9FSqC0lFrb4ZQhZez0inf/
+         ggI4sLNlVN7FYenfT4vHjqyXlHM+ZX12zifTl11CJ8d0iwqBh3SmjkcJKb+5MnkRUh
+         TJvxFaOGotp9hboR5qBFsoCgIqk4dX4FgN/QABKtLjcUvp+gVlSE/4lCCZST7kkXAK
+         zYpUinJKpsP8g==
+Message-ID: <393d65d0-8886-6663-5521-ba495d711750@collabora.com>
+Date:   Wed, 20 Sep 2023 15:03:05 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v10 34/38] KVM: VMX: Call fred_entry_from_kvm() for
- IRQ/NMI handling
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v6 7/7] drm/vkms Add hotplug support via configfs to VKMS.
 Content-Language: en-US
-To:     Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, seanjc@google.com, peterz@infradead.org,
-        jgross@suse.com, ravi.v.shankar@intel.com, mhiramat@kernel.org,
-        andrew.cooper3@citrix.com, jiangshanlai@gmail.com
-References: <20230914044805.301390-1-xin3.li@intel.com>
- <20230914044805.301390-35-xin3.li@intel.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230914044805.301390-35-xin3.li@intel.com>
+To:     Brandon Pollack <brpol@chromium.org>, marius.vlad@collabora.com,
+        mairacanal@riseup.net, jshargo@chromium.org
+Cc:     hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+        linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
+        tzimmermann@suse.de
+References: <20230829053201.423261-1-brpol@chromium.org>
+ <20230829053201.423261-8-brpol@chromium.org>
+From:   Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20230829053201.423261-8-brpol@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/14/23 06:48, Xin Li wrote:
-> When FRED is enabled, call fred_entry_from_kvm() to handle IRQ/NMI in
-> IRQ/NMI induced VM exits.
+Hello!
+
+Thanks for the patch.
+
+On 29/08/2023 02:30, Brandon Pollack wrote:
+> This change adds the ability to read or write a "1" or a "0" to the
+> newly added "connected" attribute of a connector in the vkms entry in
+> configfs.
 > 
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> Signed-off-by: Xin Li <xin3.li@intel.com>
+> A write will trigger a call to drm_kms_helper_hotplug_event, causing a
+> hotplug uevent.
+> 
+> With this we can write virtualized multidisplay tests that involve
+> hotplugging displays (eg recompositing windows when a monitor is turned
+> off).
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Are these tests going to be added in igt?
 
+I was just wondering if it requires any special thing for drm ci:
+
+https://lists.freedesktop.org/archives/dri-devel/2023-September/423719.html
+
+(btw, it would be awesome of you could test your changes with drm ci :)
+
+Regards,
+Helen
+
+> 
+> Signed-off-by: Brandon Pollack <brpol@chromium.org>
 > ---
->   arch/x86/kvm/vmx/vmx.c | 12 +++++++++---
->   1 file changed, 9 insertions(+), 3 deletions(-)
+>   Documentation/gpu/vkms.rst           |  2 +-
+>   drivers/gpu/drm/vkms/vkms_configfs.c | 68 ++++++++++++++++++++++++++--
+>   drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++
+>   drivers/gpu/drm/vkms/vkms_output.c   | 47 ++++++++++++++++++-
+>   4 files changed, 123 insertions(+), 5 deletions(-)
 > 
-> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index 72e3943f3693..db55b8418fa3 100644
-> --- a/arch/x86/kvm/vmx/vmx.c
-> +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -38,6 +38,7 @@
->   #include <asm/desc.h>
->   #include <asm/fpu/api.h>
->   #include <asm/fpu/xstate.h>
-> +#include <asm/fred.h>
->   #include <asm/idtentry.h>
->   #include <asm/io.h>
->   #include <asm/irq_remapping.h>
-> @@ -6962,14 +6963,16 @@ static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)
->   {
->   	u32 intr_info = vmx_get_intr_info(vcpu);
->   	unsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;
-> -	gate_desc *desc = (gate_desc *)host_idt_base + vector;
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index c3875bf66dba..7f715097539c 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -145,7 +145,7 @@ We want to be able to manipulate vkms instances without having to reload the
+>   module. Such configuration can be added as extensions to vkms's ConfigFS
+>   support. Use-cases:
 >   
->   	if (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,
->   	    "unexpected VM-Exit interrupt info: 0x%x", intr_info))
->   		return;
+> -- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
+> +- Hotremove connectors on the fly (to be able to test DP MST handling
+>     of compositors).
 >   
->   	kvm_before_interrupt(vcpu, KVM_HANDLING_IRQ);
-> -	vmx_do_interrupt_irqoff(gate_offset(desc));
-> +	if (cpu_feature_enabled(X86_FEATURE_FRED))
-> +		fred_entry_from_kvm(EVENT_TYPE_EXTINT, vector);
-> +	else
-> +		vmx_do_interrupt_irqoff(gate_offset((gate_desc *)host_idt_base + vector));
->   	kvm_after_interrupt(vcpu);
+>   - Change output configuration: Plug/unplug screens, change EDID, allow changing
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> index bc35dcc47585..d231e28101ae 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -1,5 +1,6 @@
+>   // SPDX-License-Identifier: GPL-2.0+
 >   
->   	vcpu->arch.at_instruction_boundary = true;
-> @@ -7262,7 +7265,10 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
->   	if ((u16)vmx->exit_reason.basic == EXIT_REASON_EXCEPTION_NMI &&
->   	    is_nmi(vmx_get_intr_info(vcpu))) {
->   		kvm_before_interrupt(vcpu, KVM_HANDLING_NMI);
-> -		vmx_do_nmi_irqoff();
-> +		if (cpu_feature_enabled(X86_FEATURE_FRED))
-> +			fred_entry_from_kvm(EVENT_TYPE_NMI, NMI_VECTOR);
-> +		else
-> +			vmx_do_nmi_irqoff();
->   		kvm_after_interrupt(vcpu);
->   	}
+> +#include "drm/drm_probe_helper.h"
+>   #include <linux/configfs.h>
+>   #include <linux/mutex.h>
+>   #include <linux/platform_device.h>
+> @@ -40,6 +41,7 @@
+>    *   `-- vkms
+>    *       `-- test
+>    *           |-- connectors
+> + *                `-- connected
+>    *           |-- crtcs
+>    *           |-- encoders
+>    *           |-- planes
+> @@ -89,6 +91,14 @@
+>    *
+>    *   echo 1 > /config/vkms/test/enabled
+>    *
+> + * By default no display is "connected" so to connect a connector you'll also
+> + * have to write 1 to a connectors "connected" attribute::
+> + *
+> + *   echo 1 > /config/vkms/test/connectors/connector/connected
+> + *
+> + * One can verify that this is worked using the `modetest` utility or the
+> + * equivalent for your platform.
+> + *
+>    * When you're done with the virtual device, you can clean up the device like
+>    * so::
+>    *
+> @@ -236,7 +246,58 @@ static void add_possible_encoders(struct config_group *parent,
 >   
-
+>   /*  Connector item, e.g. /config/vkms/device/connectors/ID */
+>   
+> +static ssize_t connector_connected_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_config_connector *connector =
+> +		item_to_config_connector(item);
+> +	struct vkms_configfs *configfs = connector_item_to_configfs(item);
+> +	bool connected = false;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	connected = connector->connected;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%d\n", connected);
+> +}
+> +
+> +static ssize_t connector_connected_store(struct config_item *item,
+> +					 const char *buf, size_t len)
+> +{
+> +	struct vkms_config_connector *connector =
+> +		item_to_config_connector(item);
+> +	struct vkms_configfs *configfs = connector_item_to_configfs(item);
+> +	int val, ret;
+> +
+> +	ret = kstrtouint(buf, 10, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val != 1 && val != 0)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	connector->connected = val;
+> +	if (!connector->connector) {
+> +		pr_info("VKMS Device %s is not yet enabled, connector will be enabled on start",
+> +			configfs->device_group.cg_item.ci_name);
+> +	}
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	if (connector->connector)
+> +		drm_kms_helper_hotplug_event(connector->connector->dev);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(connector_, connected);
+> +
+> +static struct configfs_attribute *connector_attrs[] = {
+> +	&connector_attr_connected,
+> +	NULL,
+> +};
+> +
+>   static struct config_item_type connector_type = {
+> +	.ct_attrs = connector_attrs,
+>   	.ct_owner = THIS_MODULE,
+>   };
+>   
+> @@ -264,7 +325,7 @@ static ssize_t plane_type_show(struct config_item *item, char *buf)
+>   	plane_type = plane->type;
+>   	mutex_unlock(&configfs->lock);
+>   
+> -	return sprintf(buf, "%u", plane_type);
+> +	return sprintf(buf, "%u\n", plane_type);
+>   }
+>   
+>   static ssize_t plane_type_store(struct config_item *item, const char *buf,
+> @@ -319,6 +380,7 @@ static struct config_group *connectors_group_make(struct config_group *group,
+>   				    &connector_type);
+>   	add_possible_encoders(&connector->config_group,
+>   			      &connector->possible_encoders.group);
+> +	connector->connected = false;
+>   
+>   	return &connector->config_group;
+>   }
+> @@ -500,7 +562,7 @@ static ssize_t device_enabled_show(struct config_item *item, char *buf)
+>   	is_enabled = configfs->vkms_device != NULL;
+>   	mutex_unlock(&configfs->lock);
+>   
+> -	return sprintf(buf, "%d", is_enabled);
+> +	return sprintf(buf, "%d\n", is_enabled);
+>   }
+>   
+>   static ssize_t device_enabled_store(struct config_item *item, const char *buf,
+> @@ -557,7 +619,7 @@ static ssize_t device_id_show(struct config_item *item, char *buf)
+>   
+>   	mutex_unlock(&configfs->lock);
+>   
+> -	return sprintf(buf, "%d", id);
+> +	return sprintf(buf, "%d\n", id);
+>   }
+>   
+>   CONFIGFS_ATTR_RO(device_, id);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 2b9545ada9c2..5336281f397e 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -3,6 +3,7 @@
+>   #ifndef _VKMS_DRV_H_
+>   #define _VKMS_DRV_H_
+>   
+> +#include "drm/drm_connector.h"
+>   #include <linux/configfs.h>
+>   #include <linux/hrtimer.h>
+>   
+> @@ -147,7 +148,9 @@ struct vkms_config_links {
+>   
+>   struct vkms_config_connector {
+>   	struct config_group config_group;
+> +	struct drm_connector *connector;
+>   	struct vkms_config_links possible_encoders;
+> +	bool connected;
+>   };
+>   
+>   struct vkms_config_crtc {
+> @@ -220,6 +223,10 @@ struct vkms_device {
+>   #define item_to_configfs(item) \
+>   	container_of(to_config_group(item), struct vkms_configfs, device_group)
+>   
+> +#define connector_item_to_configfs(item)                                     \
+> +	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
+> +		     connectors_group)
+> +
+>   #define item_to_config_connector(item)                                    \
+>   	container_of(to_config_group(item), struct vkms_config_connector, \
+>   		     config_group)
+> @@ -279,4 +286,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>   int vkms_init_configfs(void);
+>   void vkms_unregister_configfs(void);
+>   
+> +/* Connector hotplugging */
+> +enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
+> +						bool force);
+> +
+>   #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 0ee1f3f4a305..1a1cd0202c5f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -1,5 +1,6 @@
+>   // SPDX-License-Identifier: GPL-2.0+
+>   
+> +#include <drm/drm_print.h>
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_connector.h>
+>   #include <drm/drm_crtc.h>
+> @@ -8,10 +9,12 @@
+>   #include <drm/drm_plane.h>
+>   #include <drm/drm_probe_helper.h>
+>   #include <drm/drm_simple_kms_helper.h>
+> +#include <linux/printk.h>
+>   
+>   #include "vkms_drv.h"
+>   
+>   static const struct drm_connector_funcs vkms_connector_funcs = {
+> +	.detect = vkms_connector_detect,
+>   	.fill_modes = drm_helper_probe_single_connector_modes,
+>   	.destroy = drm_connector_cleanup,
+>   	.reset = drm_atomic_helper_connector_reset,
+> @@ -19,6 +22,48 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
+>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>   };
+>   
+> +static const struct vkms_config_connector *
+> +find_config_for_connector(struct drm_connector *connector)
+> +{
+> +	struct vkms_device *vkms = drm_device_to_vkms_device(connector->dev);
+> +	struct vkms_configfs *configfs = vkms->configfs;
+> +	struct config_item *item;
+> +
+> +	if (!configfs) {
+> +		pr_info("Default connector has no configfs entry");
+> +		return NULL;
+> +	}
+> +
+> +	list_for_each_entry(item, &configfs->connectors_group.cg_children,
+> +			    ci_entry) {
+> +		struct vkms_config_connector *config_connector =
+> +			item_to_config_connector(item);
+> +		if (config_connector->connector == connector)
+> +			return config_connector;
+> +	}
+> +
+> +	pr_warn("Could not find config to match connector %s, but configfs was initialized",
+> +		connector->name);
+> +
+> +	return NULL;
+> +}
+> +
+> +enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
+> +						bool force)
+> +{
+> +	enum drm_connector_status status = connector_status_connected;
+> +	const struct vkms_config_connector *config_connector =
+> +		find_config_for_connector(connector);
+> +
+> +	if (!config_connector)
+> +		return connector_status_connected;
+> +
+> +	if (!config_connector->connected)
+> +		status = connector_status_disconnected;
+> +
+> +	return status;
+> +}
+> +
+>   static const struct drm_encoder_funcs vkms_encoder_funcs = {
+>   	.destroy = drm_encoder_cleanup,
+>   };
+> @@ -280,12 +325,12 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   		struct vkms_config_connector *config_connector =
+>   			item_to_config_connector(item);
+>   		struct drm_connector *connector = vkms_connector_init(vkmsdev);
+> -
+>   		if (IS_ERR(connector)) {
+>   			DRM_ERROR("Failed to init connector from config: %s",
+>   				  item->ci_name);
+>   			return PTR_ERR(connector);
+>   		}
+> +		config_connector->connector = connector;
+>   
+>   		for (int j = 0; j < output->num_encoders; j++) {
+>   			struct encoder_map *encoder = &encoder_map[j];
