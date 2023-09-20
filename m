@@ -2,233 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42883CE79AD
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 06:40:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCDCCE79AD
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 07:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233328AbjITGkz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 02:40:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
+        id S233891AbjITHoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 03:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233196AbjITGky (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 02:40:54 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6C519B0;
-        Tue, 19 Sep 2023 23:40:47 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B8B91FB;
-        Tue, 19 Sep 2023 23:41:24 -0700 (PDT)
-Received: from [10.163.60.65] (unknown [10.163.60.65])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48CB73F67D;
-        Tue, 19 Sep 2023 23:40:43 -0700 (PDT)
-Message-ID: <ca5728fb-87fb-0088-4769-3087060182e2@arm.com>
-Date:   Wed, 20 Sep 2023 12:10:40 +0530
+        with ESMTP id S233983AbjITHop (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 03:44:45 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAFC1E8;
+        Wed, 20 Sep 2023 00:44:38 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso68845785e9.2;
+        Wed, 20 Sep 2023 00:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695195877; x=1695800677; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XzT+Xiw8JySJKyD7hHrg/jFpbzpL9ozxt4Lqd8Kjts4=;
+        b=bA3jdgYNN8fGAyxxIZrFC+df4Ag5Sr/1FxNbfFI3uDzU6DdyR/Jk2aFVWECaP7+f2Z
+         7iMoRrG2xe10GRY3OoU8+m9jFnU5Yj3iUaJsunTJmsMF2mIEQybQBbxnfomKOgrOZ9LL
+         c9dbc7fU6yC93Bjcpikgf6lIu416z+KPrxLWAjPd2xMCopd8FNnqS4dljakybQT2qlS6
+         3UdG2gZ7MpCd36zg9o4NBOAK3uoVDHb5kDTrjjZ430Hl+KQUatUI462JmhZnoRaI4zsm
+         Sv74pe7Wy3ocyfkUSWS8cayXfmna/N7Xp47zbSOj+n+5erfy8MDC9WnM/jIZNmrawxdU
+         fnbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695195877; x=1695800677;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XzT+Xiw8JySJKyD7hHrg/jFpbzpL9ozxt4Lqd8Kjts4=;
+        b=dTtAs54f2DXqdZB1OPFHNV9HPzAfsA6J6MTsOAzpNvCgW5MzsK0H7x+3R1hO9OnQ7o
+         ZTkk/GJwzDSdfJ9YtkryTS0H8k1ObSaTeR+mbOFe7xO+9VQCmIRmPYxDgI0dO0aOVyXW
+         hHoIXK+c5euNP96MjAo8G6mmJzKR4NT4YUp+sZFbHQ27OAdUqB5vaMb0tp0vMX3Tu0ev
+         5Dc1mLJ9msgI4BjZ07asgEvDNq/UiaP/cn4VhEwEW2mNP/ry78/jqp1Bz4HjBs6vmR48
+         MiwgRhWk7afCzjjBmK/8RMTRvZiHmAZQscUY8CA0NqY/B7qyKMgJM5Z13gICd0vAT6F2
+         J4Mg==
+X-Gm-Message-State: AOJu0YwESKQvDZULTVJ78e36dSQl5+lHSnTCk1rKTGMhiD+cPLVMfM6r
+        hcvyUaBojimXdexpfXzCrXs=
+X-Google-Smtp-Source: AGHT+IGGJqNN92cz5c7adAH7+BYpcEYHIa0hDUrWov+ACoikEcq6k5usOPuqM5OZepDWyc7c5KEP/w==
+X-Received: by 2002:a1c:ed08:0:b0:405:1bbd:aa9c with SMTP id l8-20020a1ced08000000b004051bbdaa9cmr1709320wmh.34.1695195876972;
+        Wed, 20 Sep 2023 00:44:36 -0700 (PDT)
+Received: from gmail.com (1F2EF265.nat.pool.telekom.hu. [31.46.242.101])
+        by smtp.gmail.com with ESMTPSA id f7-20020adff987000000b0031c8a43712asm17606651wrr.69.2023.09.20.00.44.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Sep 2023 00:44:36 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Wed, 20 Sep 2023 09:44:33 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Matteo Rizzo <matteorizzo@google.com>
+Cc:     "Lameter, Christopher" <cl@os.amperecomputing.com>,
+        Dave Hansen <dave.hansen@intel.com>, penberg@kernel.org,
+        rientjes@google.com, iamjoonsoo.kim@lge.com,
+        akpm@linux-foundation.org, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        keescook@chromium.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-hardening@vger.kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, corbet@lwn.net, luto@kernel.org,
+        peterz@infradead.org, jannh@google.com, evn@google.com,
+        poprdi@google.com, jordyzomer@google.com,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [RFC PATCH 00/14] Prevent cross-cache attacks in the SLUB
+ allocator
+Message-ID: <ZQqi4RqpEM7PRGkF@gmail.com>
+References: <20230915105933.495735-1-matteorizzo@google.com>
+ <7a4f5128-28fd-3c5f-34c2-1c34f4448174@intel.com>
+ <1d7573c0-ebbc-6ed2-f152-1045eb0542f9@os.amperecomputing.com>
+ <CAHKB1w+rVyww0UrHhzeGfPA7FM482Z-7ApzXvekVqLHvTDAV3Q@mail.gmail.com>
+ <ZQiLX0W2Tcr+wdJT@gmail.com>
+ <CAHKB1wKneke-dyvMY0JtW-xwW8m=GaUdafoAqdCE0B9csY7_bw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH V5 - RESEND 1/3] coresight: etm: Override TRCIDR3.CCITMIN
- on errata affected cpus
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mike Leach <mike.leach@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-References: <20230915093649.435163-1-anshuman.khandual@arm.com>
- <20230915093649.435163-2-anshuman.khandual@arm.com>
- <3cd57606-5a82-8978-b057-8b3cfea8c62d@arm.com>
-Content-Language: en-US
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <3cd57606-5a82-8978-b057-8b3cfea8c62d@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHKB1wKneke-dyvMY0JtW-xwW8m=GaUdafoAqdCE0B9csY7_bw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+* Matteo Rizzo <matteorizzo@google.com> wrote:
 
-On 9/19/23 16:56, Suzuki K Poulose wrote:
-> Hi Anshuman
+> On Mon, 18 Sept 2023 at 19:39, Ingo Molnar <mingo@kernel.org> wrote:
+> >
+> > What's the split of the increase in overhead due to SLAB_VIRTUAL=y, between
+> > user-space execution and kernel-space execution?
+> >
 > 
-> On 15/09/2023 10:36, Anshuman Khandual wrote:
->> This work arounds errata 1490853 on Cortex-A76, and Neoverse-N1, errata
->> 1491015 on Cortex-A77, errata 1502854 on Cortex-X1, and errata 1619801 on
->> Neoverse-V1, based affected cpus, where software read for TRCIDR3.CCITMIN
->> field in ETM gets an wrong value.
->>
->> If software uses the value returned by the TRCIDR3.CCITMIN register field,
->> then it will limit the range which could be used for programming the ETM.
->> In reality, the ETM could be programmed with a much smaller value than what
->> is indicated by the TRCIDR3.CCITMIN field and still function correctly.
->>
->> If software reads the TRCIDR3.CCITMIN register field, corresponding to the
->> instruction trace counting minimum threshold, observe the value 0x100 or a
->> minimum cycle count threshold of 256. The correct value should be 0x4 or a
->> minimum cycle count threshold of 4.
->>
->> This work arounds the problem via storing 4 in drvdata->ccitmin on affected
->> systems where the TRCIDR3.CCITMIN has been 256, thus preserving cycle count
->> threshold granularity.
->>
+> Same benchmark as before (compiling a kernel on a system running the patched
+> kernel):
 > 
-> The patch looks good to me, please find a minor change below.
+> Intel Skylake:
 > 
->> These errata information has been updated in arch/arm64/silicon-errata.rst,
->> but without their corresponding configs because these have been implemented
->> directly in the driver.
->>
->> Cc: Catalin Marinas <catalin.marinas@arm.com>
->> Cc: Will Deacon <will@kernel.org>
->> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
->> Cc: Mike Leach <mike.leach@linaro.org>
->> Cc: James Clark <james.clark@arm.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: coresight@lists.linaro.org
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-kernel@vger.kernel.org
->> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
->> ---
->>   Documentation/arch/arm64/silicon-errata.rst   | 10 ++++++
->>   .../coresight/coresight-etm4x-core.c          | 36 +++++++++++++++++++
->>   2 files changed, 46 insertions(+)
->>
->> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
->> index e96f057ea2a0..8f1be5da68b7 100644
->> --- a/Documentation/arch/arm64/silicon-errata.rst
->> +++ b/Documentation/arch/arm64/silicon-errata.rst
->> @@ -115,6 +115,10 @@ stable kernels.
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Cortex-A76      | #1463225        | ARM64_ERRATUM_1463225       |
->>   +----------------+-----------------+-----------------+-----------------------------+
->> +| ARM            | Cortex-A76      | #1490853        | N/A                         |
->> ++----------------+-----------------+-----------------+-----------------------------+
->> +| ARM            | Cortex-A77      | #1491015        | N/A                         |
->> ++----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Cortex-A77      | #1508412        | ARM64_ERRATUM_1508412       |
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Cortex-A710     | #2119858        | ARM64_ERRATUM_2119858       |
->> @@ -125,6 +129,8 @@ stable kernels.
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Cortex-A715     | #2645198        | ARM64_ERRATUM_2645198       |
->>   +----------------+-----------------+-----------------+-----------------------------+
->> +| ARM            | Cortex-X1       | #1502854        | N/A                         |
->> ++----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Cortex-X2       | #2119858        | ARM64_ERRATUM_2119858       |
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Cortex-X2       | #2224489        | ARM64_ERRATUM_2224489       |
->> @@ -133,6 +139,8 @@ stable kernels.
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Neoverse-N1     | #1349291        | N/A                         |
->>   +----------------+-----------------+-----------------+-----------------------------+
->> +| ARM            | Neoverse-N1     | #1490853        | N/A                         |
->> ++----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Neoverse-N1     | #1542419        | ARM64_ERRATUM_1542419       |
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Neoverse-N2     | #2139208        | ARM64_ERRATUM_2139208       |
->> @@ -141,6 +149,8 @@ stable kernels.
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | Neoverse-N2     | #2253138        | ARM64_ERRATUM_2253138       |
->>   +----------------+-----------------+-----------------+-----------------------------+
->> +| ARM            | Neoverse-V1     | #1619801        | N/A                         |
->> ++----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | MMU-500         | #841119,826419  | N/A                         |
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | ARM            | MMU-600         | #1076982,1209401| N/A                         |
->> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> index 77b0271ce6eb..c01455bb1caf 100644
->> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
->> @@ -1150,6 +1150,39 @@ static void cpu_detect_trace_filtering(struct etmv4_drvdata *drvdata)
->>       drvdata->trfcr = trfcr;
->>   }
->>   +/*
->> + * The following errata on applicable cpu ranges, affect the CCITMIN filed
->> + * in TCRIDR3 register. Software read for the field returns 0x100 limiting
->> + * the cycle threshold granularity, whereas the right value should have
->> + * been 0x4, which is well supported in the hardware.
->> + */
->> +static struct midr_range etm_wrong_ccitmin_cpus[] = {
->> +    /* Erratum #1490853 - Cortex-A76 */
->> +    MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 4, 0),
->> +    /* Erratum #1490853 - Neoverse-N1 */
->> +    MIDR_RANGE(MIDR_NEOVERSE_N1, 0, 0, 4, 0),
->> +    /* Erratum #1491015 - Cortex-A77 */
->> +    MIDR_RANGE(MIDR_CORTEX_A77, 0, 0, 1, 0),
->> +    /* Erratum #1502854 - Cortex-X1 */
->> +    MIDR_REV(MIDR_CORTEX_X1, 0, 0),
->> +    /* Erratum #1619801 - Neoverse-V1 */
->> +    MIDR_REV(MIDR_NEOVERSE_V1, 0, 0),
->> +    {},
->> +};
->> +
->> +static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
->> +{
->> +    /*
->> +     * Erratum affected cpus will read 256 as the minimum
->> +     * instruction trace cycle counting threshold whereas
->> +     * the correct value should be 4 instead. Override the
->> +     * recorded value for 'drvdata->ccitmin' to workaround
->> +     * this problem.
->> +     */
->> +    return is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus) &&
->> +           (drvdata->ccitmin == 256);
-> 
-> minor nit: Having looked at this, it feels like, fixing the ccitmin
-> value to 4, could be moved into this function. Otherwise,  we have all
-> the required information about the erratum and the real application of
-> work around is left in the caller, which kind of feels disconnected.
-> 
-> So, please could we rename the above function to:
-> 
-> static void etm4_fixup_wrong_ccitmin(str..)
-> {
->   /* Comment as above */
->    if (....)
->     drvdata->ccitmin = 4;
-> }
+>       LABEL    | COUNT |   MIN    |   MAX    |   MEAN   |  MEDIAN  | STDDEV
+> ---------------+-------+----------+----------+----------+----------+--------
+> wall clock     |       |          |          |          |          |
+> SLAB_VIRTUAL=n | 150   | 49.700   | 51.320   | 50.449   | 50.430   | 0.29959
+> SLAB_VIRTUAL=y | 150   | 50.020   | 51.660   | 50.880   | 50.880   | 0.30495
+>                |       | +0.64%   | +0.66%   | +0.85%   | +0.89%   | +1.79%
+> system time    |       |          |          |          |          |
+> SLAB_VIRTUAL=n | 150   | 358.560  | 362.900  | 360.922  | 360.985  | 0.91761
+> SLAB_VIRTUAL=y | 150   | 362.970  | 367.970  | 366.062  | 366.115  | 1.015
+>                |       | +1.23%   | +1.40%   | +1.42%   | +1.42%   | +10.60%
+> user time      |       |          |          |          |          |
+> SLAB_VIRTUAL=n | 150   | 3110.000 | 3124.520 | 3118.143 | 3118.120 | 2.466
+> SLAB_VIRTUAL=y | 150   | 3115.070 | 3127.070 | 3120.762 | 3120.925 | 2.654
+>                |       | +0.16%   | +0.08%   | +0.08%   | +0.09%   | +7.63%
 
-I will fold in the following change for the patch. Please do let me
-know if this reflects your suggestions accurately. Also planning to
-carry Mike's tag after the change.
+These Skylake figures are a bit counter-intuitive: how does an increase of 
+only +0.08% user-time - which dominates 89.5% of execution, combined with a 
++1.42% increase in system time that consumes only 10.5% of CPU capacity, 
+result in a +0.85% increase in wall-clock time?
 
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-index 044aed25979b..5b6a878a2ac5 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-@@ -1175,7 +1175,7 @@ static struct midr_range etm_wrong_ccitmin_cpus[] = {
-        {},
- };
- 
--static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
-+static void etm4_fixup_wrong_ccitmin(struct etmv4_drvdata *drvdata)
- {
-        /*
-         * Erratum affected cpus will read 256 as the minimum
-@@ -1184,8 +1184,10 @@ static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
-         * recorded value for 'drvdata->ccitmin' to workaround
-         * this problem.
-         */
--       return is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus) &&
--              (drvdata->ccitmin == 256);
-+       if (is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus)) {
-+               if (drvdata->ccitmin == 256)
-+                       drvdata->ccitmin = 4;
-+       }
- }
- 
- static void etm4_init_arch_data(void *info)
-@@ -1252,8 +1254,7 @@ static void etm4_init_arch_data(void *info)
-        etmidr3 = etm4x_relaxed_read32(csa, TRCIDR3);
-        /* CCITMIN, bits[11:0] minimum threshold value that can be programmed */
-        drvdata->ccitmin = FIELD_GET(TRCIDR3_CCITMIN_MASK, etmidr3);
--       if (etm4_core_reads_wrong_ccitmin(drvdata))
--               drvdata->ccitmin = 4;
-+       etm4_fixup_wrong_ccitmin(drvdata);
- 
-        /* EXLEVEL_S, bits[19:16] Secure state instruction tracing */
-        drvdata->s_ex_level = FIELD_GET(TRCIDR3_EXLEVEL_S_MASK, etmidr3);
+There might be hidden factors at work in the DMA space, as Linus suggested?
 
+Or perhaps wall-clock time is dominated by the single-threaded final link 
+time of the kernel, which phase might be disproportionately hurt by these 
+changes?
+
+(Stddev seems low enough for this not to be a measurement artifact.)
+
+The AMD Milan figures are more intuitive:
+
+> AMD Milan:
+> 
+>       LABEL    | COUNT |   MIN    |   MAX    |   MEAN   |  MEDIAN  | STDDEV
+> ---------------+-------+----------+----------+----------+----------+--------
+> wall clock     |       |          |          |          |          |
+> SLAB_VIRTUAL=n | 150   | 25.480   | 26.550   | 26.065   | 26.055   | 0.23495
+> SLAB_VIRTUAL=y | 150   | 25.820   | 27.080   | 26.531   | 26.540   | 0.25974
+>                |       | +1.33%   | +2.00%   | +1.79%   | +1.86%   | +10.55%
+> system time    |       |          |          |          |          |
+> SLAB_VIRTUAL=n | 150   | 478.530  | 540.420  | 520.803  | 521.485  | 9.166
+> SLAB_VIRTUAL=y | 150   | 530.520  | 572.460  | 552.825  | 552.985  | 7.161
+>                |       | +10.86%  | +5.93%   | +6.15%   | +6.04%   | -21.88%
+> user time      |       |          |          |          |          |
+> SLAB_VIRTUAL=n | 150   | 2373.540 | 2403.800 | 2386.343 | 2385.840 | 5.325
+> SLAB_VIRTUAL=y | 150   | 2388.690 | 2426.290 | 2408.325 | 2408.895 | 6.667
+>                |       | +0.64%   | +0.94%   | +0.92%   | +0.97%   | +25.20%
+>
+> 
+> I'm not exactly sure why user time increases by almost 1% on Milan, it 
+> could be TLB contention.
+
+The other worrying aspect is the increase of +6.15% of system time ... 
+which is roughly in line with what we'd expect from a +1.79% increase in 
+wall-clock time.
+
+Thanks,
+
+	Ingo
