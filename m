@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 000F9CE79BF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 10:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BBACE79BE
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 10:15:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233866AbjITKPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 06:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50720 "EHLO
+        id S233999AbjITKPl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 06:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233864AbjITKPi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 06:15:38 -0400
+        with ESMTP id S234061AbjITKPk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 06:15:40 -0400
 Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2040.outbound.protection.outlook.com [40.107.14.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2686BAC;
-        Wed, 20 Sep 2023 03:15:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89643AF;
+        Wed, 20 Sep 2023 03:15:34 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MLeDRHo2Qdddjc70EjCC0db+Z3mHCoFPBssvTAQ8bsaRO4wqGXxHUdN1frE9+0tc+LrnWP6gpybw7ogPF9UO0aEBCJ68r9Iy8Dx220/8QtneefY7HnS49BL7K/+dzS61E6QtYW3mJ4iqHnxE6i/in5jx2igKxb2lDBzUe55b8SQQZ/dMeK+NpEoPeMfiBinn3hy9OE8zjSkTDDFAJj/eiTVxO/5uawiy2K8X3IZFSDwfWmwtBcqAiyeidU2DLYF7nd/FrKncap33k9kY1E5RaYyNiQr0OJUi2O7aRx46Aa5CJUJ3NIIpQLLxTQxrddKisaKpY5nkh2lvipj0FMl4HQ==
+ b=J6MNocRNmb6qmCDeRsYnjXyNKqSZSNSqvPlBbHWRr6lOxlt/CnuGK4VWsS61cx+EbRhVLe0mtXvL1iFUX+mguKA3RPap/hbJ5Y50GCDYl3PgwaXFc5M3PNfxbmE/m+YcsfGmOGTvK96xhHvktyekeNTuX0PWZl8cAn7LyFdIqU+rvuLdaonnP+w4/VYMvCrG/QJhJ54nb5xFPa3kQyjagqCfv5EyoNm3ie4X97q+ELhrNk0qvvz6sh3wavn8UhSmGBUNyZN/pHsVCXT3rqWW6sy/0inKN716auajAi657xpTKWq/BzV/59q0c9Ophn5+0G/E7vMjLjK0h1/pAaziPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7J9M1PC14xk4unh+o7AV/qfg3AMRkZ0H3oTYHGmDodQ=;
- b=OX7l3TKocNoAhh+hjtX5M6ZM712qyBQGQ6M+YHURRDc1R+lXt0kobuhT7Zp7xKWC7tFJ9gzrtOO12DDxJTvr2T57D9hhAZD9wCn4qO4q/Sq46JquF7x7rhvu/76oVRfObwkcJaEmfFXn+EmRFIgdetKdsyH1PuCFFPxgJS/EpB+3PnPwgzIlLpte89vj3LzPFw+lecFEh18YyiGn1lqqImenc4NOCeRSCuiMb/QZd4d08wmxcsTlpsogO89MKKe5nTbu41ztrRgMOlTXxjhEKhC5QSrpO8YB9Y/3Wm0GOnHjYskvda5NUW67RYh3GFhoOPL28tCt56KVV9Qy8pTwdw==
+ bh=hwu71Zz2ykWhznt8j3pisZXAwsxTlI8QPA0LnDHXhb0=;
+ b=EaMUrGYXQxYVPTHD6T/Swp10yNFBXIRE03byUjT3DmGsYvXUpJ8Avmfw4djSfHjvbezlt37Qqq5fjvo3le7y6BakTMkquCeDiu0HCr/Nqmxvn9/WN8H3ZM5FPeveGkoGGXXXvI+nIFLOCK/o6hFI+j8RqPM6PLDElu9KIiDE3YAB4sLxDKU0Chs9+13rTduNjZsMvGIoY2MhvaKFKwS1J1gfQkajE5ptQtyfmDaXuNPWyAhRtWY9G14n2QYstoLCxcw6dGkYR+ZYPL6+5//4XhXWdTcJzSoLjYy0qh41UdEA5rNS4T3/UqDrqrEpHv7VTAtWiRqcTLl3w5e+vqr5bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7J9M1PC14xk4unh+o7AV/qfg3AMRkZ0H3oTYHGmDodQ=;
- b=FF8PYA8Jh8x+OzjG37E2f5rpjzXrYkuMVB/AFbALt/U1i6i7ZBrUP4bPAkDbuFDMd8tbcsiViqlBIFmQpst6OV7kVkWdiNCmNdK8lKd79JAwSH3/wgOUQtdBOJLHm+PAqnfcvs6dA+HWKpMp8V+pftWB5WlyHrlW59JJrz0hAcA=
+ bh=hwu71Zz2ykWhznt8j3pisZXAwsxTlI8QPA0LnDHXhb0=;
+ b=Qgi1Lrdm7TpZjmq2xR9b5EQK83RPAeHLs5VKsCAtmB5/YCWrw7mqU+ZhxAwXh1oRANUe9igjTEfjgdwQ6OTJLS0VdMG4snk+hQPRqqCQ3cQ2UCHyv8q5V/ABdOilL/8+av0w4hAxgAo8FiXlfsaeKCZOg2ayT2kBqFGfG8U2Y2Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DB7PR04MB4505.eurprd04.prod.outlook.com (2603:10a6:5:39::26) by
  PAXPR04MB8375.eurprd04.prod.outlook.com (2603:10a6:102:1be::5) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.27; Wed, 20 Sep 2023 10:15:28 +0000
+ 15.20.6792.27; Wed, 20 Sep 2023 10:15:32 +0000
 Received: from DB7PR04MB4505.eurprd04.prod.outlook.com
  ([fe80::6444:e07a:e7f7:3923]) by DB7PR04MB4505.eurprd04.prod.outlook.com
  ([fe80::6444:e07a:e7f7:3923%7]) with mapi id 15.20.6792.026; Wed, 20 Sep 2023
- 10:15:27 +0000
+ 10:15:32 +0000
 From:   Xu Yang <xu.yang_2@nxp.com>
 To:     Frank.li@nxp.com, corbet@lwn.net, shawnguo@kernel.org,
         s.hauer@pengutronix.de, kernel@pengutronix.de, will@kernel.org,
@@ -46,10 +46,12 @@ To:     Frank.li@nxp.com, corbet@lwn.net, shawnguo@kernel.org,
 Cc:     festevam@gmail.com, conor+dt@kernel.org, linux-imx@nxp.com,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         devicetree@vger.kernel.org, xu.yang_2@nxp.com
-Subject: [PATCH 1/5] perf: fsl_imx8_ddr: Add AXI ID PORT CHANNEL filter support
-Date:   Wed, 20 Sep 2023 18:20:00 +0800
-Message-Id: <20230920102004.886599-1-xu.yang_2@nxp.com>
+Subject: [PATCH 2/5] docs/perf: Add explanation for DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER quirk
+Date:   Wed, 20 Sep 2023 18:20:01 +0800
+Message-Id: <20230920102004.886599-2-xu.yang_2@nxp.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230920102004.886599-1-xu.yang_2@nxp.com>
+References: <20230920102004.886599-1-xu.yang_2@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SI2P153CA0031.APCP153.PROD.OUTLOOK.COM (2603:1096:4:190::7)
@@ -57,191 +59,133 @@ X-ClientProxiedBy: SI2P153CA0031.APCP153.PROD.OUTLOOK.COM (2603:1096:4:190::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB7PR04MB4505:EE_|PAXPR04MB8375:EE_
-X-MS-Office365-Filtering-Correlation-Id: f348397e-ddfe-404e-71d3-08dbb9c282c3
+X-MS-Office365-Filtering-Correlation-Id: 6e8be107-d13c-4e25-b85a-08dbb9c285a1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: brq+VFjYE9zGmsx/BlkciszLKhng00+5pC+GW1VFcQgEyemMJiZvNtudoqnXLia4b6BALKRc67uvpb/8KypOClB+MA+N8cg9ra9Sp+3jjXZ8Wl5VQJaICy3EXMVCfkMlOh9mSjYK3iCjjHRCTbNEuVTyXOj3Vu+PdJCajgxws6jdvRNGY/0IRQZHy1H+pQpEQ5XyRr6RO2Os9q4sOzq4HbGjyyK694qc1/pMsj4x/LlgpvafBIDrmLC6yFG8mBp8e0m5XD7m/trUsVgJi1TrZwiHJrmwj39rgswQ4xKhQZLDtDX/a/7pWbqEcDDTHskC+UZPiIu+W61LpVxdqgB31I7chbZVabdT86e65X9UK5kZEvttZCoJnk2/9503YluAe4IM51MZ04MIZ9b2ZK4n9DbCzev9rSJ0PSif76aAQRS6TwXywl9xC5Fb4Lzk39+sOFgeuTnazXt8XeafjixAObwbElkWelqzvuL75M44odSV2MXeoDC0ZUcC92uCu1MhX1LxAXvKrVkOpqnHFOqRDEp5ZHm6luXcc5BiEPcOT2rQ1bt/nnzC81IuYmiYsie+JlY6wtEV9hX8l/+zrNCFlswvQj20XMYjLvhTiYY0ZBJ0BffO69rGe7GqZxsOSwHm
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4505.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(366004)(136003)(39860400002)(376002)(1800799009)(186009)(451199024)(316002)(41300700001)(66476007)(66556008)(66946007)(478600001)(6666004)(38100700002)(38350700002)(2906002)(36756003)(86362001)(7416002)(8676002)(4326008)(5660300002)(8936002)(2616005)(26005)(1076003)(6506007)(6486002)(52116002)(6512007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: /15QNMmP5IHmxOOXrKn2JZhyqgRSMC2Pz+77ZPJqe1EDVkrAX1I7MAm6Rv/FbgRXIi0fucQbUzhIrCpuguRXMuRLgZfg9xyJ2+bxE6DypGDryamUAvOrFd01i6jm6RtQtJu9AOZkJYngC+Z1gB9XfLsNvmOttDrOOgPehXIsa//kOZ38QDB9i2OHlXjfhgzEMmm5/e630SiVfpfafB+j5eqzWlbAh5zelE46H5LxJ5pL/9+9JqzbzjXe+OwSGO5PFlbhZd5g4ZE1A3Nabc+90o26mjkFj0wm8GeWN+jzP2RNXeVSrCf2flfUfR9kSHVllP5xtjNYgGQyowKmCdVF8fUqnUWVjx2hn31otE0KaZkd1cIAhMoNhnGylzgAaY031wGAICcMadTfigMcVXneCZHVJE32qyrCXQepMTxoUCIkYurY1AUydRnNup1AbmKXzzXyR9a+lTiOf0TBfrTNPrmmDGtJ1iEMO+4B1Y96y6CYgLAArQ0R+VsavCBZI/nfMoGuPwGDBvk2lvcpF7zs3OsIdVbSUCa5P3f4ARvZ5EPKAZGqugxDmtrRrDc71OjvNAa/CqZDbZk5ZGGwJ46oVjfHUQugqZjhlWw71UdgKPZfMeAvf2Jp9xh3QavNO4FO
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4505.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(366004)(136003)(39860400002)(376002)(1800799009)(186009)(451199024)(316002)(41300700001)(66476007)(66556008)(66946007)(478600001)(6666004)(38100700002)(38350700002)(2906002)(36756003)(86362001)(7416002)(8676002)(4326008)(5660300002)(8936002)(2616005)(26005)(1076003)(6506007)(83380400001)(6486002)(52116002)(6512007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tZnAMgi+1QoAfI7u8fThbr/im9SkHyVZZAt2Ggv56VX2UQIz7kGNvFGwHdAu?=
- =?us-ascii?Q?1ia/3h0hlH9NsOkN0EZrVkDiAdzk0qtylKgyGRUZwnXSBDzSZgRTjAbBwZVg?=
- =?us-ascii?Q?nHVwXfAuVZgxR99fDwyHMhpjyWwqQYkm62Qf3BR/tcNFM5I2YBjAjuaA5P+X?=
- =?us-ascii?Q?3MO537QztcIIxW1IgloC+G2mnVl/9eDt/dIKM+Iv64v8ylbvFaK36ez6x0PX?=
- =?us-ascii?Q?dvWYOEI2231Uaxpt2izQZ38fYBBJAADc6QJIXkkYpgtbZeqS/KTO/iMVqi5q?=
- =?us-ascii?Q?5mwgSvZBqNZd2lkifCjpQc8EU/tDGTmvKVVWWL1Jk7ikgPpMm625nAjytAyK?=
- =?us-ascii?Q?YGHD7XiQTxXDaN5/m0ohA0j4Qmw3VJ2s5Z6GTe6gng8k3RVMBoKV5UdrLJzd?=
- =?us-ascii?Q?rPvuoZ+5rP+lgLyWJZgrYDLb22UoUgeQK7O6UQD3JglWilm0NdRTlwML1gaP?=
- =?us-ascii?Q?wIaQFusTMouGmfDmOaIgQJVG1T5R+Zj/ZUFQvQG0zQJdEpb5iXFgUn+zi5wb?=
- =?us-ascii?Q?zUfv14pSX6VWMl1xYA+9rDYhh0QdO7IwryayzQFN4yROl1igw37LcitxGTRb?=
- =?us-ascii?Q?BJsSAZ6aqSi9vZL7L7Lysrq5Qqhtu7oStD0g+SicO8Gg1hsFEQTRgygv7CPb?=
- =?us-ascii?Q?pUbe3IegPpNYr8M5bbnRNLWuT+RmlO789IMdW5FvjWZme7yPe+fDDU7uZ6iy?=
- =?us-ascii?Q?/Qv+vnfmhpz5Fi89sTeOQPX1wVjWfA5Wr/J+ZLBEk6++0+wmhQS/soviYVDg?=
- =?us-ascii?Q?K+yCNRoLefxj5xNktX244ps7tw9nP0+F9r4l3plGfn86iGi5/x+foDbWGnGn?=
- =?us-ascii?Q?w8ho6eNbPYcOLsULU4RPi2BLK3Ka8EtNRNqZmtlIptVK6/c6TYyKZGa6A1lO?=
- =?us-ascii?Q?ASMfO4BCzzc/tGOpEcKqfm/coft0pYxjVJfgaDNRqHX7WXNcSEEI0tKBN9yq?=
- =?us-ascii?Q?NAIcpbvVWd4t6j7cEwo2Wa5vObXyyhC/sZ259RH4J4tVqkFR9s9nzzj4Tium?=
- =?us-ascii?Q?ss1U8cHAxNkFe7vGM7CmuelWmaRrYcaEkzGjVjf/y2P69pgOFzNNY0l18zWN?=
- =?us-ascii?Q?UUJtF8QzN6uEEVXJwIBBeOwrVf2eaJ8tv/z/bZfzXg0SIsxXdQC9mu908zk8?=
- =?us-ascii?Q?26ND/8zR8w7xvlyGvQcaqtcs6V1URLJqPVpfONnCjcr0lvu9qKNeWjuxohB+?=
- =?us-ascii?Q?/w/b2MptpkI82NARmn9ZUpUkCB0to7HHkk54loLUYWrDkrb/sONPvoh82pJb?=
- =?us-ascii?Q?Zthk3+xdMOuBWrN3297jFmnLaLjw7ySEf8sUkYsepIRx8pTx4wmmevwbBX6R?=
- =?us-ascii?Q?cUTOG78bvlOJ1Z+Q4V9kv6SsB/kDa93AGTdrdfFpMTYjVXuM+QU79LyJhh5d?=
- =?us-ascii?Q?p0jslLeqoErGw6adufEVZEMQvTPpYR3SADOaiTJd9R0n5XNPKm6ldDe0KxgY?=
- =?us-ascii?Q?jJVEAbmGAZiephh19WWM1Z2QqRAiGcv9u0ZdoWQK7UvFZdfnMwXKN+Eb7NDH?=
- =?us-ascii?Q?IWfvJS1I/cS3UykiHLa+5wxxBTj7ZFXPaoe4tGZhu8XGelaX4ri3dtbHPzwZ?=
- =?us-ascii?Q?tpizotoG7jij/7+Jmt8sPAxXlJZeuv0NRpHET+VX?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FCMX3b6ofUV5O55iuX+6qxKF5joaJFHw3hySIOByF7cyH5ZVfUXJFDt/PJso?=
+ =?us-ascii?Q?qUyiXUcuaHpc/RFBvmLPWm8COxT1BJfqobb+06LeVVRrsSscCkPc1tBwjcP3?=
+ =?us-ascii?Q?aEYJYklauHs7aNCkoogs8H2ONz7WaWYwZD8bpt1uA7Zm27oxab2EogesuzVQ?=
+ =?us-ascii?Q?RQn3Ckn5FPfIZzVr2156wD2fJZj5zaz3wQT5m2GnBFF/7CnUFLUMvBeHbGye?=
+ =?us-ascii?Q?uGl3FO1CwGiuyr+M1O9QHP+F7BgulqA91LOu3SpBqptdj1hxPiclnZXeoQzf?=
+ =?us-ascii?Q?W/0r8uM+dxXXbYwjLyUb+r+K+R8EjiebeL828QxVHpAYUG6h9vc3F9yQvmtu?=
+ =?us-ascii?Q?BMwwOLWRaV6C/Qk1TqwRWX+voOwDjr/ZCXyMBaMt5ImsOl/BbElhQvlxzysy?=
+ =?us-ascii?Q?SNMtba4FBNsvuj24/wMPrmlSBZRPDK8pxUvoqJU0N1qPIiI6rB0o+m3MqJP1?=
+ =?us-ascii?Q?oLHeCLRWVv6ceVGE6iwaOB7YNcOPFwsu4QvoqVZjootMySHciZfBzWSQYqtI?=
+ =?us-ascii?Q?nk/eCybd0bYv7cBT+tTWKsCkDs/+bYrQn4i3ehWtX7IRuRumyxOcELAF11+/?=
+ =?us-ascii?Q?wroLjT77xOoYqI/aDDB5H5OfUEyLokXfD8/FuVqe4F9P3XWHLm8qm+F1bGjd?=
+ =?us-ascii?Q?QRfdFUbKRIXh4OqqNz0zK+kateJgsshtNfNmDbzH+tGj+z/cOLm7WAJUPBQm?=
+ =?us-ascii?Q?OdLdwCIQiDbGVDF/WW3KjAwLVguNVeOIbcY/WSbYAU/r/1p4uUyW/NVlekcy?=
+ =?us-ascii?Q?XDxYewkX5CFJ+YyIxJluKgspbCn4J/IHZjzsf/qC5VlcmAJLVorQHW0JWS9A?=
+ =?us-ascii?Q?ag15REVHJAMFw4SX5HNXCd8rjxKSem0dIqG6MDsQjjNYsTvzV8YT7hJTHjP6?=
+ =?us-ascii?Q?daRkUeaEJ1zceR1ioBcgOPqfrc8AAtYMHBjcqZTfzhvcZ/uEUtif8SMXHJGX?=
+ =?us-ascii?Q?BkReeLN++4E+i6603fIZ1XjKxtTBItWszib1GLoK937cGKqC89pmMHIC4kdL?=
+ =?us-ascii?Q?xAwxd0OVOBVLUprLCMnS5hcUsCH0GtvFiR8J1IQ+IFL+zlm194s8rwu3mcQ1?=
+ =?us-ascii?Q?3p2YU9h1uyLubRk7h69ZGoRNhHmwsN2+rUCvU41N2tSl4Wa1hZgVx+ENCuKU?=
+ =?us-ascii?Q?kpjgsfHyU+Ugnu55ys98X8U7gYSz9rQMA/AC4YcVmIaaC37V//7syf6my9b/?=
+ =?us-ascii?Q?GftJLcu/HGNzMI6RhH29PTavp2YSvQ16n8e6Zmu8tmpB2qRRDnwtWCgPTkZm?=
+ =?us-ascii?Q?ugAUvPwYllNjJPyHmQAHQ6qJ+5Mrn2W7MRuLfhjiga3pj4VIsQIArtnE3H80?=
+ =?us-ascii?Q?r0jecNevE7GfbnqZDb0JI9tcllX7o1dFNPvHYh8lS6IkFFGujSbptpqp9wSv?=
+ =?us-ascii?Q?uOv8J1a/2snsMQVCnljjr7J+WvOUHHCR80bF5nKlU+CkM1H5fJ2wiVjkApfl?=
+ =?us-ascii?Q?ZqpZbvpUHPQNQaY2OWzbfx1g5I0bMEG6Oota9jhpNe1W7nSLA9yzIoloY6Ic?=
+ =?us-ascii?Q?lTdJYfewntDrvxILq1Uweb5UXxZjruSgG5Jc6sftpkT0lhSSH7vBCipVuVxI?=
+ =?us-ascii?Q?Otfjx2LEKBHwOvYjBqENsIohiI5GYoH3Qw2fAmBY?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f348397e-ddfe-404e-71d3-08dbb9c282c3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e8be107-d13c-4e25-b85a-08dbb9c285a1
 X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4505.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 10:15:27.4074
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 10:15:32.1577
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FqtrvDONS3zeJdmLXZJmH4VW5xj/+gQGTTZi9h7U7vANUZBG/6g/jO5Em9xguOoTycFjVZ2b4vCImOBqqgq1rA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: W93bPVif5SdCQIdl4nvRSFyaijLzU2cTFJE3NBjPia23L7fkI+CDU9fnUyKGWLjV5lzeSLC8XYc5DRrz9k9vZw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8375
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the extension of AXI ID filter.
-
-Filter is defined with 2 configuration registers per counter 1-3 (counter
-0 is not used for filtering and lacks these registers).
-* Counter N MASK COMP register - AXI_ID and AXI_MASKING.
-* Counter N MUX CNTL register - AXI CHANNEL and AXI PORT.
-  -- 0: address channel
-  -- 1: data channel
-
-This filter is exposed to userspace as an additional (channel, port) pair.
-The definition of axi_channel is inverted in userspace, and it will be
-reverted in driver automatically.
-
-AXI filter of Perf Monitor in DDR Subsystem, only a single port0 exist, so
-axi_port is reserved which should be 0.
-
-e.g.
-perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD,axi_channel=0xH/ cmd
-perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD,axi_channel=0xH/ cmd
+Add explanation for DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER quirk.
 
 Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 ---
- drivers/perf/fsl_imx8_ddr_perf.c | 39 ++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ Documentation/admin-guide/perf/imx-ddr.rst | 45 ++++++++++++++++++----
+ 1 file changed, 37 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/perf/fsl_imx8_ddr_perf.c b/drivers/perf/fsl_imx8_ddr_perf.c
-index 92611c98120f..d0eae2d7e64b 100644
---- a/drivers/perf/fsl_imx8_ddr_perf.c
-+++ b/drivers/perf/fsl_imx8_ddr_perf.c
-@@ -19,6 +19,8 @@
- #define COUNTER_READ		0x20
+diff --git a/Documentation/admin-guide/perf/imx-ddr.rst b/Documentation/admin-guide/perf/imx-ddr.rst
+index 90926d0fb8ec..77418ae5a290 100644
+--- a/Documentation/admin-guide/perf/imx-ddr.rst
++++ b/Documentation/admin-guide/perf/imx-ddr.rst
+@@ -13,8 +13,8 @@ is one register for each counter. Counter 0 is special in that it always counts
+ interrupt is raised. If any other counter overflows, it continues counting, and
+ no interrupt is raised.
  
- #define COUNTER_DPCR1		0x30
-+#define COUNTER_MUX_CNTL	0x50
-+#define COUNTER_MASK_COMP	0x54
+-The "format" directory describes format of the config (event ID) and config1
+-(AXI filtering) fields of the perf_event_attr structure, see /sys/bus/event_source/
++The "format" directory describes format of the config (event ID) and config1/2
++(AXI filter setting) fields of the perf_event_attr structure, see /sys/bus/event_source/
+ devices/imx8_ddr0/format/. The "events" directory describes the events types
+ hardware supported that can be used with perf tool, see /sys/bus/event_source/
+ devices/imx8_ddr0/events/. The "caps" directory describes filter features implemented
+@@ -28,12 +28,11 @@ in DDR PMU, see /sys/bus/events_source/devices/imx8_ddr0/caps/.
+ AXI filtering is only used by CSV modes 0x41 (axid-read) and 0x42 (axid-write)
+ to count reading or writing matches filter setting. Filter setting is various
+ from different DRAM controller implementations, which is distinguished by quirks
+-in the driver. You also can dump info from userspace, filter in "caps" directory
+-indicates whether PMU supports AXI ID filter or not; enhanced_filter indicates
+-whether PMU supports enhanced AXI ID filter or not. Value 0 for un-supported, and
+-value 1 for supported.
++in the driver. You also can dump info from userspace, "caps" directory show the
++type of AXI filter (filter, enhanced_filter and super_filter). Value 0 for
++un-supported, and value 1 for supported.
  
- #define CNTL_OVER		0x1
- #define CNTL_CLEAR		0x2
-@@ -32,6 +34,13 @@
- #define CNTL_CSV_SHIFT		24
- #define CNTL_CSV_MASK		(0xFFU << CNTL_CSV_SHIFT)
+-* With DDR_CAP_AXI_ID_FILTER quirk(filter: 1, enhanced_filter: 0).
++* With DDR_CAP_AXI_ID_FILTER quirk(filter: 1, enhanced_filter: 0, super_filter: 0).
+   Filter is defined with two configuration parts:
+   --AXI_ID defines AxID matching value.
+   --AXI_MASKING defines which bits of AxID are meaningful for the matching.
+@@ -65,7 +64,37 @@ value 1 for supported.
  
-+#define READ_PORT_SHIFT		0
-+#define READ_PORT_MASK		(0x7 << READ_PORT_SHIFT)
-+#define READ_CHANNEL_REVERT	0x00000008	/* bit 3 for read channel select */
-+#define WRITE_PORT_SHIFT	8
-+#define WRITE_PORT_MASK		(0x7 << WRITE_PORT_SHIFT)
-+#define WRITE_CHANNEL_REVERT	0x00000800	/* bit 11 for write channel select */
+         perf stat -a -e imx8_ddr0/axid-read,axi_id=0x12/ cmd, which will monitor ARID=0x12
+ 
+-* With DDR_CAP_AXI_ID_FILTER_ENHANCED quirk(filter: 1, enhanced_filter: 1).
++* With DDR_CAP_AXI_ID_FILTER_ENHANCED quirk(filter: 1, enhanced_filter: 1, super_filter: 0).
+   This is an extension to the DDR_CAP_AXI_ID_FILTER quirk which permits
+   counting the number of bytes (as opposed to the number of bursts) from DDR
+   read and write transactions concurrently with another set of data counters.
 +
- #define EVENT_CYCLES_ID		0
- #define EVENT_CYCLES_COUNTER	0
- #define NUM_COUNTERS		4
-@@ -50,6 +59,7 @@ static DEFINE_IDA(ddr_ida);
- /* DDR Perf hardware feature */
- #define DDR_CAP_AXI_ID_FILTER			0x1     /* support AXI ID filter */
- #define DDR_CAP_AXI_ID_FILTER_ENHANCED		0x3     /* support enhanced AXI ID filter */
-+#define DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER	0x4	/* support AXI ID PORT CHANNEL filter */
- 
- struct fsl_ddr_devtype_data {
- 	unsigned int quirks;    /* quirks needed for different DDR Perf core */
-@@ -144,6 +154,7 @@ static const struct attribute_group ddr_perf_identifier_attr_group = {
- enum ddr_perf_filter_capabilities {
- 	PERF_CAP_AXI_ID_FILTER = 0,
- 	PERF_CAP_AXI_ID_FILTER_ENHANCED,
-+	PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER,
- 	PERF_CAP_AXI_ID_FEAT_MAX,
- };
- 
-@@ -157,6 +168,8 @@ static u32 ddr_perf_filter_cap_get(struct ddr_pmu *pmu, int cap)
- 	case PERF_CAP_AXI_ID_FILTER_ENHANCED:
- 		quirks &= DDR_CAP_AXI_ID_FILTER_ENHANCED;
- 		return quirks == DDR_CAP_AXI_ID_FILTER_ENHANCED;
-+	case PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER:
-+		return !!(quirks & DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER);
- 	default:
- 		WARN(1, "unknown filter cap %d\n", cap);
- 	}
-@@ -187,6 +200,7 @@ static ssize_t ddr_perf_filter_cap_show(struct device *dev,
- static struct attribute *ddr_perf_filter_cap_attr[] = {
- 	PERF_FILTER_EXT_ATTR_ENTRY(filter, PERF_CAP_AXI_ID_FILTER),
- 	PERF_FILTER_EXT_ATTR_ENTRY(enhanced_filter, PERF_CAP_AXI_ID_FILTER_ENHANCED),
-+	PERF_FILTER_EXT_ATTR_ENTRY(super_filter, PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER),
- 	NULL,
- };
- 
-@@ -272,11 +286,15 @@ static const struct attribute_group ddr_perf_events_attr_group = {
- PMU_FORMAT_ATTR(event, "config:0-7");
- PMU_FORMAT_ATTR(axi_id, "config1:0-15");
- PMU_FORMAT_ATTR(axi_mask, "config1:16-31");
-+PMU_FORMAT_ATTR(axi_port, "config2:0-2");
-+PMU_FORMAT_ATTR(axi_channel, "config2:3-3");
- 
- static struct attribute *ddr_perf_format_attrs[] = {
- 	&format_attr_event.attr,
- 	&format_attr_axi_id.attr,
- 	&format_attr_axi_mask.attr,
-+	&format_attr_axi_port.attr,
-+	&format_attr_axi_channel.attr,
- 	NULL,
- };
- 
-@@ -530,6 +548,7 @@ static int ddr_perf_event_add(struct perf_event *event, int flags)
- 	int counter;
- 	int cfg = event->attr.config;
- 	int cfg1 = event->attr.config1;
-+	int cfg2 = event->attr.config2;
- 
- 	if (pmu->devtype_data->quirks & DDR_CAP_AXI_ID_FILTER) {
- 		int i;
-@@ -553,6 +572,26 @@ static int ddr_perf_event_add(struct perf_event *event, int flags)
- 		return -EOPNOTSUPP;
- 	}
- 
-+	if (pmu->devtype_data->quirks & DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER) {
-+		if (ddr_perf_is_filtered(event)) {
-+			/* revert axi id masking(axi_mask) value */
-+			cfg1 ^= AXI_MASKING_REVERT;
-+			writel(cfg1, pmu->base + COUNTER_MASK_COMP + ((counter - 1) << 4));
++* With DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER quirk(filter: 0, enhanced_filter: 0, super_filter: 1).
++  There is a limitation in previous AXI filter, it cannot filter different IDs
++  at the same time as the filter is shared between counters. This quirk is the
++  extension of AXI ID filter. One improvement is that counter 1-3 has their own
++  filter, means that it supports concurrently filter various IDs. Another
++  improvement is that counter 1-3 supports AXI PORT and CHANNEL selection. Support
++  selecting address channel or data channel.
 +
-+			if (cfg == 0x41) {
-+				/* revert axi read channel(axi_channel) value */
-+				cfg2 ^= READ_CHANNEL_REVERT;
-+				cfg2 |= FIELD_PREP(READ_PORT_MASK, cfg2);
-+			} else {
-+				/* revert axi write channel(axi_channel) value */
-+				cfg2 ^= WRITE_CHANNEL_REVERT;
-+				cfg2 |= FIELD_PREP(WRITE_PORT_MASK, cfg2);
-+			}
++  Filter is defined with 2 configuration registers per counter 1-3.
++  --Counter N MASK COMP register - including AXI_ID and AXI_MASKING.
++  --Counter N MUX CNTL register - including AXI CHANNEL and AXI PORT.
 +
-+			writel(cfg2, pmu->base + COUNTER_MUX_CNTL + ((counter - 1) << 4));
-+		}
-+	}
++      - 0: address channel
++      - 1: data channel
 +
- 	pmu->events[counter] = event;
- 	hwc->idx = counter;
- 
++  PMU in DDR subsystem, only one single port0 exists, so axi_port is reserved
++  which should be 0.
++
++  .. code-block:: bash
++
++      perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD,axi_channel=0xH/ cmd
++      perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD,axi_channel=0xH/ cmd
++
++  .. note::
++
++      axi_channel is inverted in userspace, and it will be reverted in driver
++      automatically. So that users do not need specify axi_channel if want to
++      monitor data channel from DDR transactions, since data channel is more
++      meaningful.
 -- 
 2.34.1
 
