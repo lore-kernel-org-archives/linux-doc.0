@@ -2,183 +2,267 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA50CE79AB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 08:19:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAA7CE79AC
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 08:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233313AbjITITR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 04:19:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47748 "EHLO
+        id S233771AbjITItz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 04:49:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233352AbjITITK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 04:19:10 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58620E6;
-        Wed, 20 Sep 2023 01:19:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695197941; x=1726733941;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZhWMOChsCZxUb6si/Tzng9Pk/ALO9A+UEzdgmdBxZi8=;
-  b=ZGxxypDpKFj9HtoGXCRucd8ZuNZuy/YxCfM9YJUtsXefWu+MH+/xE7qU
-   NSvJKU3pdx2U1GShXFjyTVbKoqJVMf0tjQ2i6oEWLUx194cJe/eDddS/X
-   eUR8ZUXCmJjAhENR8d2MVdkoHZLYo74fReeZUQVfjKQwOti9dcYsFgKaI
-   JhpJmQMqR9Ecsxr5tqcl7OUm3t0hWDRkvFj3Y9NfziR9KAXTL7UV9/Naj
-   egFJlcQbp0e871wI79nK8FlDMl/xdtDXkZtYxt9tYA0vYmyn7C5jc+ArK
-   h8CtbRk0RVBlqmwVmUFjPhORMjVNAlYKhe9OtWc2IyNe8ZwGMA6pWmP5n
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="380064541"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="380064541"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 01:18:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749800944"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="749800944"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Sep 2023 01:18:47 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 20 Sep 2023 01:18:46 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 20 Sep 2023 01:18:46 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Wed, 20 Sep 2023 01:18:46 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Wed, 20 Sep 2023 01:18:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BnoQFKx4vtu/hDKNKuqIXj2lhzX0H6QDCe+LV422t4w43U1Fe7rbTGv0Jy9JA8ZlxQEqCeEcSgPGLWOrdToG0p24BlwfRpwqtoWs88gF3EiJLn91xJJnfjkDMoEflDblyP2tHky+s/H21Wqokg1gychx+tZbYvSyFJ7zxYEsPrGv7SxbdfpxSWYaj9qJCA0l6uMoKJK4je94HXYkMR8NMAeqkk22whsLSd/6NUhzeb0ybvJuDGJ42z7PVpwlXo6CHgK/lsKKOIeU1lzAiFUnZvOxmW3ehQsEG3w5hkuTGl8LSj9q+arsAze3QCQq3MdMO95Xa2ZN+93Ph922EKy+iQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZhWMOChsCZxUb6si/Tzng9Pk/ALO9A+UEzdgmdBxZi8=;
- b=aR5lCQSDh5KQ6H3L5+wnl478BdMM/Rlkdi8qlTMTlyh/OCeZgEKw6nDQxitaIlYxfxXNmATCg6GHvFROzl4IGWwUpfVzxae9YkGNtCnHrRIlmHsj3ZNvRw7q6nw2S4Fy+oKmB0U0AHuW+hhCJL2XqgHhm0FsyxPV3V/aXS8l5RGoFeQFrPxSodxvNjClKlvwUG7wZxfuxsDHfYPOFtMIQu8KOdEVnXeuKPL870cgm2HJtXzLMt7wj0zJgSikMBddXKUj2+YfO5i2xvIh+vxAsIUwVCgj9CPCc9W1EUhHJ8H/+EXC4rmVK/QJ9jAfLVzshK2kjVuuZf227P1QR9xVjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22)
- by PH0PR11MB5659.namprd11.prod.outlook.com (2603:10b6:510:ea::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.28; Wed, 20 Sep
- 2023 08:18:44 +0000
-Received: from SA1PR11MB6734.namprd11.prod.outlook.com
- ([fe80::922f:ec7c:601b:7f61]) by SA1PR11MB6734.namprd11.prod.outlook.com
- ([fe80::922f:ec7c:601b:7f61%5]) with mapi id 15.20.6792.026; Wed, 20 Sep 2023
- 08:18:44 +0000
-From:   "Li, Xin3" <xin3.li@intel.com>
-To:     Nikolay Borisov <nik.borisov@suse.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Christopherson,, Sean" <seanjc@google.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "Gross, Jurgen" <jgross@suse.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "jiangshanlai@gmail.com" <jiangshanlai@gmail.com>
-Subject: RE: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
-Thread-Topic: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
-Thread-Index: AQHZ5ssSXb894LHEBkqZUWtDh9samLAjYtKAgAADDuA=
-Date:   Wed, 20 Sep 2023 08:18:44 +0000
-Message-ID: <SA1PR11MB6734F205C2171425415E4F00A8F9A@SA1PR11MB6734.namprd11.prod.outlook.com>
-References: <20230914044805.301390-1-xin3.li@intel.com>
- <20230914044805.301390-4-xin3.li@intel.com>
- <dda01248-f456-d8d7-5021-ef6b2e7ade2c@suse.com>
-In-Reply-To: <dda01248-f456-d8d7-5021-ef6b2e7ade2c@suse.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB6734:EE_|PH0PR11MB5659:EE_
-x-ms-office365-filtering-correlation-id: c5cfb639-8560-47d4-801b-08dbb9b23499
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Kj++hWDUjB1kERo6XUk7wmzS/0+HA2vnsL9f0LradaEmCvTZkosNoNTBm55tU1kxGglrFClquIRjFCD185l6yBZc1cbhz6MCiHRMzTTH5iYNsk4NcvYlrkQOxbne8Q7lpopPc9yDroTCdV3pqO54ABa6MP6DCwEU7S467fGNdaPoTq6/Um9vVy4CXwvayVEtt/eS2i9v/YF7KljEYvfYWWEcqpqW0WtejZhk5nrMeu++rHyUCFWLytnMNJfGi/mbMe/FDe/CSGAKveUrO7t0MPqTbZwI4VoP1Hr7sk4j5b/0mP+ef/RbWh1B/i2DAF72PWrIMmM7xL8z42Nt2Q9UUPcmctZ+m3bN/XXA2UXDPpnt+gSbfF036m1RE8Wmy1sUKgH/AM19cANDg4yEwxxsEO3qDFFwDvAUrNRzkL11JZfQZe23yx52OvAAIVjGfDZYp0crD2gWKWi51iL2IbCMIzN6CeIiKUjQfpyzZqNKALnWIi/X/tQnNGHV1qH0IdO8Qs5xyKbFj1YD8ObZ1y5XmdLMHPEd2TDgJQnyuBXE8eINDugjMrO+Ga/p7dpIzO4a7kNhfZTbZatXPr8211+0cuK20LS501JHU5siobdAWAjhKvHDkf2M1lw6j0h5gfIu4oaE/TJbTK/5YJ+zDgU9mw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6734.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(39860400002)(136003)(376002)(451199024)(1800799009)(186009)(316002)(4326008)(5660300002)(6506007)(9686003)(7696005)(41300700001)(110136005)(2906002)(64756008)(8676002)(8936002)(54906003)(66446008)(66556008)(66476007)(66946007)(76116006)(4744005)(52536014)(7416002)(478600001)(33656002)(55016003)(86362001)(122000001)(71200400001)(26005)(38100700002)(38070700005)(82960400001)(133343001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NjhVVHB3aUpiU0huVk1oMXJwWll3dHFvenRDYmZqWW5waEpGeG5CUC94WGNF?=
- =?utf-8?B?aWdhOU8vUldrRzJibW0vZk9TWXVrNjkwZnVmbU50ZFVyQmNjbEZaWDVDMnlw?=
- =?utf-8?B?cktDeEIxaUcvVWVxZ3RWWjBBWGNLN05lSWhuOFJzaytYallrSDlDQWRaY1Zq?=
- =?utf-8?B?TjB1bHlQRXQ0VlpBcW9iVjloMzZna09RVmdWSUNQRnF1aXllWUlZMkk5SHlq?=
- =?utf-8?B?dHdHa0tTL1lhSCt5V0xmUENNb2xEbmMvUS9QU08yZTl1YUR2MTdHWGN0cllZ?=
- =?utf-8?B?YVdnUElmTVJSMmhBVHZncGU4T0hwSFo5ajlsT2tVU01ORExGaEdsYzdlNkh4?=
- =?utf-8?B?UUNleFRMQ1RSYkVndnhxa0lRK1FTU0s2Y1puMGw0bmFxdU8wZEQrY1dtSnBK?=
- =?utf-8?B?Y2dZU2Rhd1pNM25aSVBQUFlmSFBla0dqN2tYSlgvazlmN0dicHhYb0lhOTF5?=
- =?utf-8?B?VGorUjNjZldVY0M5aGJYYlpDVnRQKzBFQkcrN05nelhYd29JeFRQNng3NkMx?=
- =?utf-8?B?ckxIUjNORFNCZ1IvRDRoSzltcXhPL0hwaUg5T1Qvd0ZxNFdDbExyZGRybkVu?=
- =?utf-8?B?dnhFWGNrTnZXNzB5UnN2bDNnY05zeENBZFlvNHplcEdnUDlUZTFrckRBWlRh?=
- =?utf-8?B?Q2dhWG4xbFNwNGFGMWk1WENIV1RRWGJmNzBzYU5nVmpXWEFOaHNSMVROMXZn?=
- =?utf-8?B?a05DMGY5UkVTakxQNGxQdjcwaHVFYWprK3lmTHNtUHY0VHN4VUs1cnhIMW81?=
- =?utf-8?B?VnJpNDU1b3EwOWozK2tzMW9YLzMxT0s4V3JCMWN5OGxNTldIT3oyLzFxcERo?=
- =?utf-8?B?YjNPckpBZlFSb3hBL0hEM3dNSUNkSWRPN1ZkVEV5QTZJRHl0UnMrZGJqSTdj?=
- =?utf-8?B?NTRBRlgxbHpFNE4wdkJuUUt5dzBQNmk1MlFwL3o3QVBJUVhRcXFOZHB5ZnBx?=
- =?utf-8?B?MzZFNXBZbFN1M2NRZXl6ZWk1RHEzaXg5TGlKbnFiVHZJMzFXSk9uSlhDUkdS?=
- =?utf-8?B?ZEwvdHI5dEVYc2dNUG04bm1ubWh4dWZTRzBzSHVUNUFGaFFIMGhJWGsvQ3JN?=
- =?utf-8?B?NW8rNERsM01zOTJKdk1SdHB1U1Vka0pVTXZrTG1YQWVXTm9CK1dyQXRQQ2NC?=
- =?utf-8?B?NmhycUVxZTdQZXhjK0gxRVF2MTBZV0Q5K3EvUG1ISkxXWkZmSG5XZVV1amFE?=
- =?utf-8?B?NSt3UzNmdnhYbUZ3eVZmU3VSTnNmVVFVNlFoSHd2UHJaMGM4c000ZHUvWU1v?=
- =?utf-8?B?MkdkdTJQVHZIQzloaWNXbm9Dc1hOcXV6bGFmVVVUNjdqWEZsOWI4ajlSTWV3?=
- =?utf-8?B?aFpERkFKc3hvcEFqSWtuSTJkUmFibkpXK2tYSmdzWjVGYWdMTnZoZGU3YzNp?=
- =?utf-8?B?SDgxR3lMTzd5TGlzOVFmOFV6WVZSUFJUMHdZcm1rS0NaU3ZuSUh4SnJkQWc0?=
- =?utf-8?B?ZGtFdC9mRHJ6SzFtUWtoL2dNN3pETW5BbnhIUW5rMWozSGlTUVMyR0I0VHFQ?=
- =?utf-8?B?VUc4cE1zbWNld3ZhVFRZWGRyVWJPVVlpVXdoeXpIUmwvb2hGOWkySmtGZTJX?=
- =?utf-8?B?Z01GZ1BrOCtXZ2t2NWYyTDNaNGtxOTFrcVJxM0VyNCtKQU5OeWZ1T3RRRVdq?=
- =?utf-8?B?ZG1vb2d4ODlFd2NRcmtObDVQaWdTM1hXUU5EZVI3TUZCWVd1d3Y0bDUvcE1a?=
- =?utf-8?B?MHRkL1Y5YzI3aUZ2RUdmaThOdjNCUy9udWw4c0RBVUhMZWFvRGFNaEZybms2?=
- =?utf-8?B?R2ExQmgvMmo4Q3JMNENFNDdIZlNoeitBdFViUERuVHVmakZBQjJOQ1FHL3hu?=
- =?utf-8?B?a0xkaG0weVp3cms2Ulc1dzlrRlk4ZHNCVG9KZVJodlpheDIra1Rxa09ZY01z?=
- =?utf-8?B?enBrcHZpYm1aL2xjeEw4VVpmak9aTTkrZ1RrNk0rWjB0cG9SbGs3TnJROEo1?=
- =?utf-8?B?SkI1Q1RPUmJVcFl6T3prbGc0WXUyODNhMXBaVnBpeFgyVXVSaGxteTdxVGhw?=
- =?utf-8?B?VVVrWkxCOFl6ejVqRnY4U282RG04Z0Q0Y1VyT0o5ZlRQeWhBYWJLNDNqTVA4?=
- =?utf-8?B?NmFlakNLTU51Y1RzRjdicWVxRHN0WWxrTzBlWlU3d0RnRk5SK0ZCOVR6L3FS?=
- =?utf-8?Q?UWubnnhQrK7EkXs4bODhpyjbF?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S233831AbjITIty (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 04:49:54 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51843CE
+        for <linux-doc@vger.kernel.org>; Wed, 20 Sep 2023 01:49:48 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1c44c0f9138so33248015ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 20 Sep 2023 01:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695199788; x=1695804588; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sIoijCx6rkpyZ1+1/kEfoWcLDXx0pEQYHV/MpqTrqlI=;
+        b=PVwulDxCPauwV7NEJjppUmqFxfkh8we59u9hw8llPMjYQbT/q6LgDRZwFHkBwklYv4
+         q9/ikRJos5rH84M8dSCCu9FB2hQ4tufbxxfVEMBoYHLE2oU9+uiHDQA4TSGovWydYLbd
+         WncridU5lIh2iVB2M/i5P7jZwFlpQd9QuFjlS9Adn5v7FsKL1LQTrEjJkYRFCY27/UVm
+         Jj8JHk1x017/orG/7YyMQiKm1WvqCYHTNEN8OWq+DEB5hA2wPzsEGS8DUalNw4tbRE+X
+         uTCSBMkjD+bMcOeMMskF+50cv6rf4iki6AYKZJx8ld72wqI6CEnZcGV2KVDWF5MdLpck
+         Zyxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695199788; x=1695804588;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sIoijCx6rkpyZ1+1/kEfoWcLDXx0pEQYHV/MpqTrqlI=;
+        b=IUhaPh1jLDZg/gsUKhCNVxT6c+MNEjz7sZZljn5GdBARO0KnsqGsVgRYk4VxrTioka
+         iLvBwdKs3ZxQCBFE4rpvPsuFlVqtPt3tHtekvRvJdd++leZ2wHaAPYWBR4FfQyo81pO0
+         O+xY+cpNQxaxUK52WOR9eyijEulUaJEq9OMANOSWIqWL61yV4zXzkAnsDVyyfP71ph+n
+         2rvlNdk1HlmkvU8HtfK4SliBYJ4MwHYzXspNUl00wx+eXD0fuLb6C4mxpra+J+9vTg9V
+         HNLYtvrcezdq4KyFlkhXg7jWeROb4fnYude1UUT/eyj5KLzWhu/RasrJLKUI1B02cR2X
+         qtAA==
+X-Gm-Message-State: AOJu0Yynj8qZP0hfgs6ye5YhLQOUicbPM7cidmOW+h53t0IqNtC1QM4S
+        1+A36HQbUcfOsu/KRdEOnlkfEk6N1bwXV6bvUsJHsQ==
+X-Google-Smtp-Source: AGHT+IF2nwl5i5fn1VY65q5N8BI0kqYSqVMg/lSvjB307L4JRc3CfC+HJHLQR3YbIUCiYQT39pwWwSYA1J/Wf9FrhaQ=
+X-Received: by 2002:a17:90a:c206:b0:267:eeee:ab17 with SMTP id
+ e6-20020a17090ac20600b00267eeeeab17mr1895900pjt.45.1695199787742; Wed, 20 Sep
+ 2023 01:49:47 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6734.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5cfb639-8560-47d4-801b-08dbb9b23499
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2023 08:18:44.0368
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wWT6le60h0yJoVf/hI2kPwb+KN8e3Tczz+1WKb9BSIm/CXNBdBXjgCcrsV+R9F4aI+QS0GNR5pdDw7HTmC/vyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5659
-X-OriginatorOrg: intel.com
+References: <20230915093649.435163-1-anshuman.khandual@arm.com>
+ <20230915093649.435163-2-anshuman.khandual@arm.com> <3cd57606-5a82-8978-b057-8b3cfea8c62d@arm.com>
+ <ca5728fb-87fb-0088-4769-3087060182e2@arm.com>
+In-Reply-To: <ca5728fb-87fb-0088-4769-3087060182e2@arm.com>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Wed, 20 Sep 2023 09:49:35 +0100
+Message-ID: <CAJ9a7VhyKjLtRfg09GWKs5k0QfQK7mix8H8MB5ObF5ADB=RC-w@mail.gmail.com>
+Subject: Re: [PATCH V5 - RESEND 1/3] coresight: etm: Override TRCIDR3.CCITMIN
+ on errata affected cpus
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiA+ICtzdGF0aWMgX19hbHdheXNfaW5saW5lIHZvaWQgX193cm1zcm5zKHUzMiBtc3IsIHUzMiBs
-b3csIHUzMiBoaWdoKQ0KPiANCj4gU2hvdWxkbid0IHRoaXMgYmUgbmFtZWQgd3Jtc3Juc19zYWZl
-IHNpbmNlIGl0IGhhcyBleGNlcHRpb24gaGFuZGxpbmcsIHNpbWlsYXIgdG8NCj4gdGhlIGN1cnJl
-bnQgd3Jtc3JsX3NhZmUuDQo+IA0KDQpCb3RoIHNhZmUgYW5kIHVuc2FmZSB2ZXJzaW9ucyBoYXZl
-IGV4Y2VwdGlvbiBoYW5kbGluZywgd2hpbGUgdGhlIHNhZmUNCnZlcnNpb24gcmV0dXJucyBhbiBp
-bnRlZ2VyIHRvIGl0cyBjYWxsZXIgdG8gaW5kaWNhdGUgYW4gZXhjZXB0aW9uIGRpZA0KaGFwcGVu
-IG9yIG5vdC4NCg0KRXhjZXB0aW9uIGhhbmRsaW5nIGlzIGEgbXVzdCBmb3IgV1JNU1IvUkRNU1Ig
-YW5kIHJlbGF0ZWQgaW5zdHJ1Y3Rpb25zLg0KDQpUaGFua3MhDQogICAgWGluDQo=
+On Wed, 20 Sept 2023 at 07:40, Anshuman Khandual
+<anshuman.khandual@arm.com> wrote:
+>
+>
+>
+> On 9/19/23 16:56, Suzuki K Poulose wrote:
+> > Hi Anshuman
+> >
+> > On 15/09/2023 10:36, Anshuman Khandual wrote:
+> >> This work arounds errata 1490853 on Cortex-A76, and Neoverse-N1, errata
+> >> 1491015 on Cortex-A77, errata 1502854 on Cortex-X1, and errata 1619801 on
+> >> Neoverse-V1, based affected cpus, where software read for TRCIDR3.CCITMIN
+> >> field in ETM gets an wrong value.
+> >>
+> >> If software uses the value returned by the TRCIDR3.CCITMIN register field,
+> >> then it will limit the range which could be used for programming the ETM.
+> >> In reality, the ETM could be programmed with a much smaller value than what
+> >> is indicated by the TRCIDR3.CCITMIN field and still function correctly.
+> >>
+> >> If software reads the TRCIDR3.CCITMIN register field, corresponding to the
+> >> instruction trace counting minimum threshold, observe the value 0x100 or a
+> >> minimum cycle count threshold of 256. The correct value should be 0x4 or a
+> >> minimum cycle count threshold of 4.
+> >>
+> >> This work arounds the problem via storing 4 in drvdata->ccitmin on affected
+> >> systems where the TRCIDR3.CCITMIN has been 256, thus preserving cycle count
+> >> threshold granularity.
+> >>
+> >
+> > The patch looks good to me, please find a minor change below.
+> >
+> >> These errata information has been updated in arch/arm64/silicon-errata.rst,
+> >> but without their corresponding configs because these have been implemented
+> >> directly in the driver.
+> >>
+> >> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> >> Cc: Will Deacon <will@kernel.org>
+> >> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> >> Cc: Mike Leach <mike.leach@linaro.org>
+> >> Cc: James Clark <james.clark@arm.com>
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >> Cc: linux-doc@vger.kernel.org
+> >> Cc: coresight@lists.linaro.org
+> >> Cc: linux-arm-kernel@lists.infradead.org
+> >> Cc: linux-kernel@vger.kernel.org
+> >> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> >> ---
+> >>   Documentation/arch/arm64/silicon-errata.rst   | 10 ++++++
+> >>   .../coresight/coresight-etm4x-core.c          | 36 +++++++++++++++++++
+> >>   2 files changed, 46 insertions(+)
+> >>
+> >> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> >> index e96f057ea2a0..8f1be5da68b7 100644
+> >> --- a/Documentation/arch/arm64/silicon-errata.rst
+> >> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> >> @@ -115,6 +115,10 @@ stable kernels.
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Cortex-A76      | #1463225        | ARM64_ERRATUM_1463225       |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >> +| ARM            | Cortex-A76      | #1490853        | N/A                         |
+> >> ++----------------+-----------------+-----------------+-----------------------------+
+> >> +| ARM            | Cortex-A77      | #1491015        | N/A                         |
+> >> ++----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Cortex-A77      | #1508412        | ARM64_ERRATUM_1508412       |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Cortex-A710     | #2119858        | ARM64_ERRATUM_2119858       |
+> >> @@ -125,6 +129,8 @@ stable kernels.
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Cortex-A715     | #2645198        | ARM64_ERRATUM_2645198       |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >> +| ARM            | Cortex-X1       | #1502854        | N/A                         |
+> >> ++----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Cortex-X2       | #2119858        | ARM64_ERRATUM_2119858       |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Cortex-X2       | #2224489        | ARM64_ERRATUM_2224489       |
+> >> @@ -133,6 +139,8 @@ stable kernels.
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Neoverse-N1     | #1349291        | N/A                         |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >> +| ARM            | Neoverse-N1     | #1490853        | N/A                         |
+> >> ++----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Neoverse-N1     | #1542419        | ARM64_ERRATUM_1542419       |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Neoverse-N2     | #2139208        | ARM64_ERRATUM_2139208       |
+> >> @@ -141,6 +149,8 @@ stable kernels.
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | Neoverse-N2     | #2253138        | ARM64_ERRATUM_2253138       |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >> +| ARM            | Neoverse-V1     | #1619801        | N/A                         |
+> >> ++----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | MMU-500         | #841119,826419  | N/A                         |
+> >>   +----------------+-----------------+-----------------+-----------------------------+
+> >>   | ARM            | MMU-600         | #1076982,1209401| N/A                         |
+> >> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> >> index 77b0271ce6eb..c01455bb1caf 100644
+> >> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> >> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> >> @@ -1150,6 +1150,39 @@ static void cpu_detect_trace_filtering(struct etmv4_drvdata *drvdata)
+> >>       drvdata->trfcr = trfcr;
+> >>   }
+> >>   +/*
+> >> + * The following errata on applicable cpu ranges, affect the CCITMIN filed
+> >> + * in TCRIDR3 register. Software read for the field returns 0x100 limiting
+> >> + * the cycle threshold granularity, whereas the right value should have
+> >> + * been 0x4, which is well supported in the hardware.
+> >> + */
+> >> +static struct midr_range etm_wrong_ccitmin_cpus[] = {
+> >> +    /* Erratum #1490853 - Cortex-A76 */
+> >> +    MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 4, 0),
+> >> +    /* Erratum #1490853 - Neoverse-N1 */
+> >> +    MIDR_RANGE(MIDR_NEOVERSE_N1, 0, 0, 4, 0),
+> >> +    /* Erratum #1491015 - Cortex-A77 */
+> >> +    MIDR_RANGE(MIDR_CORTEX_A77, 0, 0, 1, 0),
+> >> +    /* Erratum #1502854 - Cortex-X1 */
+> >> +    MIDR_REV(MIDR_CORTEX_X1, 0, 0),
+> >> +    /* Erratum #1619801 - Neoverse-V1 */
+> >> +    MIDR_REV(MIDR_NEOVERSE_V1, 0, 0),
+> >> +    {},
+> >> +};
+> >> +
+> >> +static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
+> >> +{
+> >> +    /*
+> >> +     * Erratum affected cpus will read 256 as the minimum
+> >> +     * instruction trace cycle counting threshold whereas
+> >> +     * the correct value should be 4 instead. Override the
+> >> +     * recorded value for 'drvdata->ccitmin' to workaround
+> >> +     * this problem.
+> >> +     */
+> >> +    return is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus) &&
+> >> +           (drvdata->ccitmin == 256);
+> >
+> > minor nit: Having looked at this, it feels like, fixing the ccitmin
+> > value to 4, could be moved into this function. Otherwise,  we have all
+> > the required information about the erratum and the real application of
+> > work around is left in the caller, which kind of feels disconnected.
+> >
+> > So, please could we rename the above function to:
+> >
+> > static void etm4_fixup_wrong_ccitmin(str..)
+> > {
+> >   /* Comment as above */
+> >    if (....)
+> >     drvdata->ccitmin = 4;
+> > }
+>
+> I will fold in the following change for the patch. Please do let me
+> know if this reflects your suggestions accurately. Also planning to
+> carry Mike's tag after the change.
+>
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 044aed25979b..5b6a878a2ac5 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -1175,7 +1175,7 @@ static struct midr_range etm_wrong_ccitmin_cpus[] = {
+>         {},
+>  };
+>
+> -static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
+> +static void etm4_fixup_wrong_ccitmin(struct etmv4_drvdata *drvdata)
+>  {
+>         /*
+>          * Erratum affected cpus will read 256 as the minimum
+> @@ -1184,8 +1184,10 @@ static bool etm4_core_reads_wrong_ccitmin(struct etmv4_drvdata *drvdata)
+>          * recorded value for 'drvdata->ccitmin' to workaround
+>          * this problem.
+>          */
+> -       return is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus) &&
+> -              (drvdata->ccitmin == 256);
+> +       if (is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus)) {
+> +               if (drvdata->ccitmin == 256)
+> +                       drvdata->ccitmin = 4;
+> +       }
+>  }
+>
+Looks good to me
+
+Mike
+
+>  static void etm4_init_arch_data(void *info)
+> @@ -1252,8 +1254,7 @@ static void etm4_init_arch_data(void *info)
+>         etmidr3 = etm4x_relaxed_read32(csa, TRCIDR3);
+>         /* CCITMIN, bits[11:0] minimum threshold value that can be programmed */
+>         drvdata->ccitmin = FIELD_GET(TRCIDR3_CCITMIN_MASK, etmidr3);
+> -       if (etm4_core_reads_wrong_ccitmin(drvdata))
+> -               drvdata->ccitmin = 4;
+> +       etm4_fixup_wrong_ccitmin(drvdata);
+>
+>         /* EXLEVEL_S, bits[19:16] Secure state instruction tracing */
+>         drvdata->s_ex_level = FIELD_GET(TRCIDR3_EXLEVEL_S_MASK, etmidr3);
+>
+
+
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
