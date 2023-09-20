@@ -2,31 +2,31 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A3CCE79AE
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 09:22:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8469CE79AC
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 09:26:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233747AbjITJWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 05:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41444 "EHLO
+        id S234022AbjITJ0F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 05:26:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233556AbjITJWm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 05:22:42 -0400
+        with ESMTP id S234046AbjITJZ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 05:25:59 -0400
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 65BCC83;
-        Wed, 20 Sep 2023 02:22:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7655810D1;
+        Wed, 20 Sep 2023 02:25:23 -0700 (PDT)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 756B91FB;
-        Wed, 20 Sep 2023 02:23:13 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22BA1C15;
+        Wed, 20 Sep 2023 02:26:00 -0700 (PDT)
 Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CDD123F5A1;
-        Wed, 20 Sep 2023 02:22:34 -0700 (PDT)
-Message-ID: <e29f83cc-6a00-0e5a-20ca-55d39dc2e3a3@arm.com>
-Date:   Wed, 20 Sep 2023 10:22:33 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8048A3F5A1;
+        Wed, 20 Sep 2023 02:25:21 -0700 (PDT)
+Message-ID: <cd4e78fb-7385-6db4-b558-4599b0cdcbff@arm.com>
+Date:   Wed, 20 Sep 2023 10:25:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH V5 - RESEND 2/3] coresight: etm: Make cycle count
- threshold user configurable
+Subject: Re: [PATCH V5 - RESEND 3/3] Documentation: coresight: Add
+ cc_threshold tunable
 Content-Language: en-US
 To:     Anshuman Khandual <anshuman.khandual@arm.com>,
         linux-arm-kernel@lists.infradead.org
@@ -38,9 +38,9 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         linux-doc@vger.kernel.org, coresight@lists.linaro.org,
         linux-kernel@vger.kernel.org
 References: <20230915093649.435163-1-anshuman.khandual@arm.com>
- <20230915093649.435163-3-anshuman.khandual@arm.com>
+ <20230915093649.435163-4-anshuman.khandual@arm.com>
 From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20230915093649.435163-3-anshuman.khandual@arm.com>
+In-Reply-To: <20230915093649.435163-4-anshuman.khandual@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -48,41 +48,39 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 15/09/2023 10:36, Anshuman Khandual wrote:
-> Cycle counting is enabled, when requested and supported but with a default
-> threshold value ETM_CYC_THRESHOLD_DEFAULT i.e 0x100 getting into TRCCCCTLR,
-> representing the minimum interval between cycle count trace packets.
-
-minor nit:
-
-When Cycle counting is enabled, we use a default threshold value (0x100) 
-for the instruction trace cycle counting.
+> This updates config option to include 'cc_threshold' tunable value.
 > 
-> This makes cycle threshold user configurable, from the user space via perf
-> event attributes. Although it falls back using ETM_CYC_THRESHOLD_DEFAULT,
-> in case no explicit request.
-
-Minor nit:
-
-This patch makes the cycle threshold user configurable via perf event
-attributes( 'cc_threshold' => event->attr.config3[11:0] ), falling back
-to the the current default if unspecified.
-
-
-
-> As expected it creates a sysfs file as well.
-
-
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: Mike Leach <mike.leach@linaro.org>
+> Cc: James Clark <james.clark@arm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Reviewed by: Mike Leach <mike.leach@linaro.org>
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ---
+>   Documentation/trace/coresight/coresight.rst | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> /sys/bus/event_source/devices/cs_etm/format/cc_threshold
-> 
-> New 'cc_threshold' uses 'event->attr.config3' as no more space is available
-> in 'event->attr.config1' or 'event->attr.config2'.
+> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+> index 4a71ea6cb390..ce55adb80b82 100644
+> --- a/Documentation/trace/coresight/coresight.rst
+> +++ b/Documentation/trace/coresight/coresight.rst
+> @@ -624,6 +624,10 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
+>      * - timestamp
+>        - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
+>          <coresight-timestamp>`
+> +   * - cc_threshold
+> +     - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
+> +       default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
+> +       value, as indicated via TRCIDR3.CCITMIN, then the minimum value will be used instead.
+>   
+>   How to use the STM module
+>   -------------------------
 
-Trim the above part.
-
-
-Rest looks fine to me.
+The patch as such looks good to me. If possible, could you fold this 
+into the previous patch ?
 
 Suzuki
-
-
