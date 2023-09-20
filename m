@@ -2,78 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA81C0032E
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 15:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 784B6C04AAF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 16:47:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235426AbjITP43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 11:56:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36412 "EHLO
+        id S234556AbjITQr4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 12:47:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235018AbjITP42 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 11:56:28 -0400
+        with ESMTP id S234502AbjITQrz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 12:47:55 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57F8B9
-        for <linux-doc@vger.kernel.org>; Wed, 20 Sep 2023 08:56:22 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DACFCC433C8;
-        Wed, 20 Sep 2023 15:56:20 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27D01AD;
+        Wed, 20 Sep 2023 09:47:50 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6308C433C8;
+        Wed, 20 Sep 2023 16:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695225382;
-        bh=v8EP6rd+e0JXFgWJJVTrshogxYhGsEaW990one0qWt0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XSZiiQ7VZUyu4W/luWKAihXbJpGdMRVAMteyZ308XcIEzqFe4h1dgSulqL+buOcHK
-         h3SNeKtSUCIwhPjeHMkE7E6OZhInfY+9b7G75zdiiqak3w/9oVW/3/4iYQ5USKLhEq
-         ST/I0I8gqT3geaK2aMpi0D9vNeyKfKM5FKxiCqBw31Ok6pDptduCigvu4OdLyNbcv9
-         e1IfDg3rLGMSLQtfcSxnp0qi45OpDbQAMUXJNqtQDtyi/d/3foUr9lWI1zxlOvER5t
-         oHPIZmzn1PWr5/fLa4Agui3Lv/t8voaHNj9Y+7zJ6xYiMf5q57EnUyzbmnSqxwZP+l
-         A5iq2+ugQm5aA==
-Received: (nullmailer pid 2424113 invoked by uid 1000);
-        Wed, 20 Sep 2023 15:56:19 -0000
-Date:   Wed, 20 Sep 2023 10:56:19 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Xu Yang <xu.yang_2@nxp.com>
-Cc:     linux-arm-kernel@lists.infradead.org, Frank.li@nxp.com,
-        devicetree@vger.kernel.org, s.hauer@pengutronix.de,
-        mark.rutland@arm.com, corbet@lwn.net, kernel@pengutronix.de,
-        festevam@gmail.com, krzysztof.kozlowski+dt@linaro.org,
-        linux-imx@nxp.com, will@kernel.org, linux-doc@vger.kernel.org,
-        shawnguo@kernel.org, conor+dt@kernel.org
-Subject: Re: [PATCH 3/5] dt-bindings: perf: fsl-imx-ddr: Add i.MX8DXL
- compatible
-Message-ID: <20230920155619.GA2422686-robh@kernel.org>
-References: <20230920102004.886599-1-xu.yang_2@nxp.com>
- <20230920102004.886599-3-xu.yang_2@nxp.com>
- <169521103427.1930124.5864996786068746858.robh@kernel.org>
+        s=k20201202; t=1695228469;
+        bh=r30aIpQQhCZ4Z6suXNj6hTQWuZkVh/YVJ+fHWZJ6sQk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fF8JZ9ACKhwCgLuGteyztXl/KlDWOzEfe2T3hkxdt9bYqiwgnokNcFdKhEi+menH8
+         tULXp1XABocr2Xl+qPXnN/lZGHenoZL8k+yovjEwHb1+8AK8wlJSL7z4jPcyiOrC2J
+         NTd+ZjSjfzeZplDBAFSzpTQNUuTXvBB5PFvCuhsyvgIdBcYc+AAS3J0v075JtyagtN
+         nBI3jiTId2CBc+Jls9/aDqTBHOyRo1FvpkJ7hjCqHHniUuvLcTQ5mcJl+ZVpgRurb3
+         yRFgY1+N+jWl2N8hEvlk/B9WxwRqt5YV8Vie72zpq21foU70HPf/nV3mqkAiqocv/K
+         Qxyu2HLJB+Dug==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50335f6b48dso83983e87.3;
+        Wed, 20 Sep 2023 09:47:49 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwXPQkhys82Kh2Q5wOd6c1azMamqwBI/bJQf02u53usV5pjxBdm
+        ALZ8FvgSo2GZH/95bIc89rrt3SN/KAESigjnpQ==
+X-Google-Smtp-Source: AGHT+IGiTh+zc7qYXjKUQyoPg3HpMv3+MHhqTU1tl3azptdXxTWh6ldrFFQPGAtHCvEawv+9b+rjj03MynaXJqtGaiI=
+X-Received: by 2002:a05:6512:329c:b0:503:3781:ac32 with SMTP id
+ p28-20020a056512329c00b005033781ac32mr3030609lfe.41.1695228468007; Wed, 20
+ Sep 2023 09:47:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <169521103427.1930124.5864996786068746858.robh@kernel.org>
+References: <20230912121120.380420-1-robh@kernel.org> <20230912121120.380420-2-robh@kernel.org>
+ <20230918100102.GA17472@willie-the-truck> <dcb12b18edc02634be3ac9909fa70602@misterjones.org>
+ <CAL_JsqLXBDaAUKDjRCyiuZeR4khxKzN5Q2_LhUPg34YDGpjmGg@mail.gmail.com> <86zg1icop8.wl-maz@kernel.org>
+In-Reply-To: <86zg1icop8.wl-maz@kernel.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 20 Sep 2023 11:47:35 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJsQaA4N6xGenzZ=P2r+PR=x=bcB8ikrJzrJOn1FgKYmA@mail.gmail.com>
+Message-ID: <CAL_JsqJsQaA4N6xGenzZ=P2r+PR=x=bcB8ikrJzrJOn1FgKYmA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: errata: Add Cortex-A520 speculative
+ unprivileged load workaround
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morse <james.morse@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 20, 2023 at 06:57:14AM -0500, Rob Herring wrote:
-> 
-> On Wed, 20 Sep 2023 18:20:02 +0800, Xu Yang wrote:
-> > Add a compatible for i.MX8DXL which is compatile with "fsl,imx8-ddr-pmu".
-> > 
-> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> > ---
-> >  Documentation/devicetree/bindings/perf/fsl-imx-ddr.yaml | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> 
-> 
-> doc reference errors (make refcheckdocs):
-> 
+On Tue, Sep 19, 2023 at 7:50=E2=80=AFAM Marc Zyngier <maz@kernel.org> wrote=
+:
+>
+> On Tue, 19 Sep 2023 13:29:07 +0100,
+> Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Mon, Sep 18, 2023 at 5:18=E2=80=AFAM Marc Zyngier <maz@misterjones.o=
+rg> wrote:
+> > >
+> > > On 2023-09-18 11:01, Will Deacon wrote:
+> > > > On Tue, Sep 12, 2023 at 07:11:15AM -0500, Rob Herring wrote:
+> > > >> Implement the workaround for ARM Cortex-A520 erratum 2966298. On a=
+n
+> > > >> affected Cortex-A520 core, a speculatively executed unprivileged l=
+oad
+> > > >> might leak data from a privileged level via a cache side channel.
+> > > >>
+> > > >> The workaround is to execute a TLBI before returning to EL0. A
+> > > >> non-shareable TLBI to any address is sufficient.
+> > > >
+> > > > Can you elaborate at all on how this works, please? A TLBI addressi=
+ng a
+> > > > cache side channel feels weird (or is "cache" referring to some TLB
+> > > > structures rather than e.g. the data cache here?).
+> > > >
+> > > > Assuming there's some vulnerable window between the speculative
+> > > > unprivileged load and the completion of the TLBI, what prevents ano=
+ther
+> > > > CPU from observing the side-channel during that time? Also, does th=
+e
+> > > > TLBI need to be using the same ASID as the unprivileged load? If so=
+,
+> > > > then
+> > > > a context-switch could widen the vulnerable window quite significan=
+tly.
+> > >
+> > > Another 'interesting' case is the KVM world switch. If EL0 is
+> > > affected, what about EL1? Can such a data leak exist cross-EL1,
+> > > or from EL2 to El1? Asking for a friend...
+> >
+> > I'm checking for a definitive answer, but page table isolation also
+> > avoids the issue. Wouldn't these scenarios all be similar to page
+> > table isolation in that the EL2 or prior EL1 context is unmapped?
+>
+> No, EL2 is always mapped, and we don't have anything like KPTI there.
+>
+> Maybe the saving grace is that EL2 and EL2&0 are different translation
+> regimes from EL1&0, but there's nothing in the commit message that
+> indicates it. As for EL1-to-EL1 leaks, it again completely depends on
+> how the TLBs are tagged.
 
-This can be ignored. Looks like some transcient issue with dtschema not 
-being able to run and the version check failed.
+Different translation regimes are not affected. It must be the same
+regime and same translation.
+
+> You'd hope that having different VMIDs would save the bacon, but if
+> you can leak EL1 translations into EL0, it means that the associated
+> permission and/or tags do not contain all the required information...
+
+The VMID is part of the equation. See here[1].
 
 Rob
+
+[1] https://developer.arm.com/documentation/102517/0001/Memory-management/T=
+ranslation-Lookaside-Buffer-match-process?lang=3Den
