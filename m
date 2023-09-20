@@ -2,78 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2A9CE79A9
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Sep 2023 23:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F365CCE79A8
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 00:17:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233554AbjISXlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Sep 2023 19:41:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54658 "EHLO
+        id S229534AbjITARo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Sep 2023 20:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233527AbjISXlj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 19:41:39 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081A69D
-        for <linux-doc@vger.kernel.org>; Tue, 19 Sep 2023 16:41:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695166894; x=1726702894;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zNBWr9foiNfXhebnoHHh6GT05WQjH4UOl5viBJ9NIic=;
-  b=PwaHur22Efp8TeBloOy3KpGu4RP2zxzuiLTtWLqr+v5mhPfpTKKU76fX
-   PEg86tnk2UGiPKDrJnZEjcELSEOsoC5aAjS+ehunf+vdkSI2O7krQtYFH
-   kiPiH0mjS08I0wNtiSQropqy/MWdH9hpVpF9HnJdi4781v9Gcn3snIzCT
-   X3td0lsAqleK2imp4gSNR6McxO5diX2lPIQ3vvKHPYdy2zLQRU3Xa9bhw
-   LEKOD6u7fA+Nvfms/S8K/R7a2wwBcVECCJgBDLkEqlOZhjywJwsrUhKMs
-   reGBVfdqbuHYZ4Se7e4hNaQj9bMr8djh9QhsrvsAraP4igK43EIa4bli5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359467956"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="359467956"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 16:41:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749668991"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="749668991"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2023 16:41:32 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qikLS-00084S-1i;
-        Tue, 19 Sep 2023 23:41:30 +0000
-Date:   Wed, 20 Sep 2023 07:41:04 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Isaku Yamahata <isaku.yamahata@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream-next 213/323] htmldocs:
- Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected
- indentation.
-Message-ID: <202309200746.BuqC05iz-lkp@intel.com>
+        with ESMTP id S230010AbjITARn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Sep 2023 20:17:43 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF8CAF;
+        Tue, 19 Sep 2023 17:17:36 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-690bd8f89baso1553804b3a.2;
+        Tue, 19 Sep 2023 17:17:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695169056; x=1695773856; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5GxdpHi3q0CHa12EPny+xqE489Qgh1zELK2uRy2oNZ4=;
+        b=kX2JAo3vHo80oj2FSmYCTv/mzmvD1X8NjGNAGgyWtuVb8LTw2XUGvcUGiwOQR9Tx0Y
+         wk+9p7EbPF/C1LA2aW4nLZDjORWz8vdhxqB/yMCv33asBsnnnP+VPwwKa4cES6WntnxO
+         2oLMbfnOj+/LPhWpQXaB9cP0tzE4BDmZ2HU4a8k+0e7rsIGdGVGlQVFac8aMAkch7+9J
+         59mCgTguKBvBzCdv6ix1t7K57s+hcin5mVYF0Fp6itVXQPYvoGQsWKRm6Kn3b1yFuPiN
+         7mmWJo4Z7lfZCKKDQPXkpdda8iVZSB1yyqARl3JeHNXhXapznB5Wn2S320IqwAGD9keT
+         vbwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695169056; x=1695773856;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5GxdpHi3q0CHa12EPny+xqE489Qgh1zELK2uRy2oNZ4=;
+        b=KooXdkpJMe0Swp9qiGM078T1Wh3YumWgTqQVQT9MKQ0ZRYoTyk7BG3TdCuEVQQWPIx
+         QqoF9MOhiTXC/HaMti6EHZ/s5/PQ1ChwAfq7tcZ+cC7ex+D9Z2FCj+ed3cVv41mN6cQf
+         fTEQAP2w7dyWL05ypdC6iXlfOL9I5ECrKlLMtAfWzUFUSVmZjICkSHvahdlMU8wcsWnF
+         +R726zmhH0T7MELKZAikb1PXbU4urqyfoOh27skBWOYuEmGhyaXgUoPeXe42oDgWFOZF
+         ai0XzUcx6Pmzgs3HJurM+MvtaWwBaKUUHCV3Ryniy1GsGwwUFGdKXbFIS+u3XlT/Bwms
+         QiAw==
+X-Gm-Message-State: AOJu0Yw0l6/yQx+Fbxd3eNeFBLQlRYAHwlDbJXwcPZEPYP1mZ+yArCDv
+        B9qkoQk3o7ScLFE7l4HJCy4=
+X-Google-Smtp-Source: AGHT+IGH8hEfdOhQEhyWIhoiv+3C1v4+rACphz7fI6edJm1RgY/m7G23pjshzuaWIBz4ZKb4jorJXA==
+X-Received: by 2002:a05:6a00:2389:b0:68b:fb93:5b4e with SMTP id f9-20020a056a00238900b0068bfb935b4emr1330871pfc.26.1695169056076;
+        Tue, 19 Sep 2023 17:17:36 -0700 (PDT)
+Received: from debian.me ([103.124.138.83])
+        by smtp.gmail.com with ESMTPSA id y4-20020a63ad44000000b005777a911342sm2571677pgo.59.2023.09.19.17.17.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Sep 2023 17:17:35 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 4017281A82C8; Wed, 20 Sep 2023 07:17:32 +0700 (WIB)
+Date:   Wed, 20 Sep 2023 07:17:31 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Charles Han <hanchunchao@inspur.com>, <corbet@lwn.net>,
+        <djwong@kernel.org>, <dchinner@redhat.com>,
+        <allison.henderson@oracle.com>, <bhelgaas@google.com>
+Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: xfs: Remove repeated word in comments
+Message-ID: <ZQo6G5Z2v1Tk6ShQ@debian.me>
+References: <20230918071905.296081-1-hanchunchao@inspur.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="kduWLGSWSb2kmx57"
 Content-Disposition: inline
+In-Reply-To: <20230918071905.296081-1-hanchunchao@inspur.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-next
-head:   f879e04c0619fde5c8eecb51a64da52a5ad4908e
-commit: 3ace9076b7188b245eaad0691ea5d8efcbcaae9a [213/323] x86/virt/tdx: Export TD config params of TDX module via sysfs
-reproduce: (https://download.01.org/0day-ci/archive/20230920/202309200746.BuqC05iz-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200746.BuqC05iz-lkp@intel.com/
+--kduWLGSWSb2kmx57
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-All warnings (new ones prefixed by >>):
+On Mon, Sep 18, 2023 at 03:19:05PM +0800, Charles Han wrote:
+> diff --git a/Documentation/filesystems/xfs-online-fsck-design.rst b/Docum=
+entation/filesystems/xfs-online-fsck-design.rst
+> index 1625d1131093..a0678101a7d0 100644
+> --- a/Documentation/filesystems/xfs-online-fsck-design.rst
+> +++ b/Documentation/filesystems/xfs-online-fsck-design.rst
+> @@ -1585,7 +1585,7 @@ The transaction sequence looks like this:
+>  2. The second transaction contains a physical update to the free space b=
+trees
+>     of AG 3 to release the former BMBT block and a second physical update=
+ to the
+>     free space btrees of AG 7 to release the unmapped file space.
+> -   Observe that the the physical updates are resequenced in the correct =
+order
+> +   Observe that the physical updates are resequenced in the correct order
+>     when possible.
+>     Attached to the transaction is a an extent free done (EFD) log item.
+>     The EFD contains a pointer to the EFI logged in transaction #1 so tha=
+t log
 
->> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected indentation.
+I feel guilty here. Only considering the diff,
 
-vim +2 Documentation/ABI/testing/sysfs-firmware-tdx
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-   > 2	Date:           March 2023
+Not sure if jon pick this or v2, though.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sorry for inconvenience.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--kduWLGSWSb2kmx57
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZQo6FAAKCRD2uYlJVVFO
+o2jXAQDvbVwFBbhBP6n5B+AS5f2BFQ4jllPxTMyuSN+++PhfUAD/YNgagSNZbSoE
+KJhXB/XMmdMhcLvXPW3T2I7oLiEl3AQ=
+=j0q+
+-----END PGP SIGNATURE-----
+
+--kduWLGSWSb2kmx57--
