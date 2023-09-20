@@ -2,250 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D3FFCE79C3
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 10:51:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B80CE79B0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 10:55:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233615AbjITKvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 06:51:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54648 "EHLO
+        id S233727AbjITKzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 06:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233999AbjITKvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 06:51:11 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D2F0E6;
-        Wed, 20 Sep 2023 03:51:05 -0700 (PDT)
+        with ESMTP id S233615AbjITKzk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 06:55:40 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCC983;
+        Wed, 20 Sep 2023 03:55:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695207065; x=1726743065;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Xf+UZEfn7rC+Qte0CL3CXZpBR9LRbgEa0lssvdc8chs=;
-  b=fuJXOOFqYHczGBzY9QQoUECs7ImY2NF2BZwuL40cvhnzT4ImW3c4xQ13
-   I3yDXwRKLGM/bxrrrwYth0ug0K5gXxIstNQafU2u9zPoWkt7XIvOznnDx
-   SzqcbKqLABX5XReryrzIhPM6kWU6ZRAIs7t8AV6JYnQNxkXfabSRnQWFI
-   fjAXoxk4sBTae9syyJfzCO59YzupTT7VG2Le8q/YdrOMJ4INjTDBgz9K2
-   BYqhumnXRDptg+yX50R+OB7EWb64bDGpO6Elq5lcT4W237BOjsfIWqdDQ
-   PYjT2dZQxWY6Lg+kcoObJhVquG8RHz4+guUaZZ45+q0DgYvzHXkKu5WUB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="466501487"
+  t=1695207334; x=1726743334;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LVfQr+3NYOJBB85Xy9NQj00gO9lfxtO7rH9xEOTjYvQ=;
+  b=eV02gQPSP0kbcSpp/RsZe5aiUatwTGpWzlIdwkkLzjwMbLItKipbSV4d
+   kzA3DDEy9rOGzNaeScGro9PTrcaeitYB08SAKvwbg0L+0dNzZArRLSGzn
+   yPTVQhnX9RWCOFHJY0N0AwPNf4UTwe284zhk3XcmyjasPMQcjZcvHfTNM
+   E9F7uI+Z7vuPk37SdDK/qMIZxI13TSbALjxdq/8SAfstwNmtHq1NYuCvk
+   bYYKuC1ddQBuZYbFk0N6RbNy1wbnFfvq2sJWEBEdEkWpsNYFEgWqiEEwT
+   JEckPT8bj6HY+5S7h1Wos8ohgMkG0ZK1PqZI3IBB/SFXI5APeXWJiLNI4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365238749"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="466501487"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 03:51:04 -0700
+   d="scan'208";a="365238749"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 03:55:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746596854"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="781647988"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="746596854"
-Received: from swegrzyn-mobl.ger.corp.intel.com ([10.252.52.91])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 03:51:01 -0700
-Date:   Wed, 20 Sep 2023 13:50:58 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Fernando Eckhardt Valle <fevalle@ipt.br>
-cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Pearson <mpearson-lenovo@squebb.ca>, corbet@lwn.net,
-        hmh@hmh.eng.br, markgross@kernel.org, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86: thinkpad_acpi: sysfs interface to
- auxmac
-In-Reply-To: <20230919201136.63736-1-fevalle@ipt.br>
-Message-ID: <965b4ab5-3526-c7c-58ab-2252734e3ad6@linux.intel.com>
-References: <20230919201136.63736-1-fevalle@ipt.br>
+   d="scan'208";a="781647988"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 20 Sep 2023 03:55:27 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qiurd-0008fM-16;
+        Wed, 20 Sep 2023 10:55:25 +0000
+Date:   Wed, 20 Sep 2023 18:54:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nitesh Shetty <nj.shetty@samsung.com>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
+        linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
+        anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
+        Nitesh Shetty <nj.shetty@samsung.com>,
+        Hannes Reinecke <hare@suse.de>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Anuj Gupta <anuj20.g@samsung.com>,
+        Vincent Fu <vincent.fu@samsung.com>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v16 12/12] null_blk: add support for copy offload
+Message-ID: <202309201836.c2wRnper-lkp@intel.com>
+References: <20230920080756.11919-13-nj.shetty@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230920080756.11919-13-nj.shetty@samsung.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Sep 2023, Fernando Eckhardt Valle wrote:
+Hi Nitesh,
 
-> Newer Thinkpads have a feature called MAC Address Pass-through.
-> This patch provides a sysfs interface that userspace can use
-> to get this auxiliary mac address.
-> 
-> Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
+kernel test robot noticed the following build warnings:
 
-Thanks for the update, in general this looks much better already. A few 
-further comments below.
+[auto build test WARNING on 7fc7222d9680366edeecc219c21ca96310bdbc10]
 
-> ---
-> Changes in v3:
-> - Added null terminator to auxmac string when copying auxiliary
-> mac address value.
-> Changes in v2:
-> - Added documentation
-> - All handling of the auxmac value is done in the _init function.
-> ---
->  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
->  drivers/platform/x86/thinkpad_acpi.c          | 81 +++++++++++++++++++
->  2 files changed, 101 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> index e27a1c3f6..98d304010 100644
-> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> @@ -53,6 +53,7 @@ detailed description):
->  	- Lap mode sensor
->  	- Setting keyboard language
->  	- WWAN Antenna type
-> +	- Auxmac
->  
->  A compatibility table by model and feature is maintained on the web
->  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
-> @@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mentioned below:
->  The property is read-only. If the platform doesn't have support the sysfs
->  class is not created.
->  
-> +Auxmac
-> +------
-> +
-> +sysfs: auxmac
-> +
-> +Some newer Thinkpads have a feature called MAC Address Pass-through. This
-> +feature is implemented by the system firmware to provide a system unique MAC,
-> +that can override a dock or USB ethernet dongle MAC, when connected to a
-> +network. This property enables user-space to easily determine the MAC address
-> +if the feature is enabled.
-> +
-> +The values of this auxiliary MAC are:
-> +
-> +        cat /sys/devices/platform/thinkpad_acpi/auxmac
-> +
-> +If the feature is disabled, the value will be 'disabled'.
-> +
-> +This property is read-only.
-> +
->  Adaptive keyboard
->  -----------------
->  
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index d70c89d32..ccb4969ac 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -10785,6 +10785,82 @@ static struct ibm_struct dprc_driver_data = {
->  	.name = "dprc",
->  };
->  
-> +/*
-> + * Auxmac
-> + *
-> + * This auxiliary mac address is enabled in the bios through the
-> + * MAC Address Pass-through feature. In most cases, there are three
-> + * possibilities: Internal Mac, Second Mac, and disabled.
-> + *
-> + */
-> +
-> +#define AUXMAC_LEN 12
-> +#define AUXMAC_START 9
-> +#define AUXMAC_STRLEN 22
-> +#define AUXMAC_BEGIN_MARKER 8
-> +#define AUXMAC_END_MARKER 21
-> +static char auxmac[AUXMAC_LEN + 1];
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230920-170132
+base:   7fc7222d9680366edeecc219c21ca96310bdbc10
+patch link:    https://lore.kernel.org/r/20230920080756.11919-13-nj.shetty%40samsung.com
+patch subject: [PATCH v16 12/12] null_blk: add support for copy offload
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201836.c2wRnper-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201836.c2wRnper-lkp@intel.com/reproduce)
 
-Add a newline between the defines and the declaration.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201836.c2wRnper-lkp@intel.com/
 
-> +
-> +static int auxmac_init(struct ibm_init_struct *iibm)
-> +{
-> +	acpi_status status;
-> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-> +	union acpi_object *obj;
-> +
-> +	status = acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
-> +
-> +	if (ACPI_FAILURE(status))
-> +		return -ENODEV;
-> +
-> +	obj = (union acpi_object *)buffer.pointer;
+All warnings (new ones prefixed by >>):
 
-Assigment from void * does not need explicit casting.
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/block/null_blk/trace.h:104,
+                    from drivers/block/null_blk/main.c:15:
+   drivers/block/null_blk/./trace.h: In function 'trace_raw_output_nullb_copy_op':
+>> drivers/block/null_blk/./trace.h:91:27: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   drivers/block/null_blk/./trace.h:73:1: note: in expansion of macro 'TRACE_EVENT'
+      73 | TRACE_EVENT(nullb_copy_op,
+         | ^~~~~~~~~~~
+   drivers/block/null_blk/./trace.h:91:17: note: in expansion of macro 'TP_printk'
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                 ^~~~~~~~~
+   In file included from include/trace/trace_events.h:237:
+   drivers/block/null_blk/./trace.h:91:68: note: format string is defined here
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                                                                  ~~^
+         |                                                                    |
+         |                                                                    long unsigned int
+         |                                                                  %u
 
-> +
-> +	if (obj->type != ACPI_TYPE_STRING || obj->string.length != AUXMAC_STRLEN) {
-> +		pr_info("Invalid buffer for MAC address pass-through.\n");
-> +		goto auxmacinvalid;
-> +	}
-> +
-> +	if (obj->string.pointer[AUXMAC_BEGIN_MARKER] != '#' ||
-> +	    obj->string.pointer[AUXMAC_END_MARKER] != '#') {
-> +		pr_info("Invalid header for MAC address pass-through.\n");
-> +		goto auxmacinvalid;
-> +	}
-> +
-> +	if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUXMAC_LEN) != 0) {
-> +		memcpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_LEN);
-> +		auxmac[AUXMAC_LEN] = '\0';
-> +	} else
-> +		strcpy(auxmac, "disabled");
 
-strcpy() is deprecated, please use strscpy().
+vim +91 drivers/block/null_blk/./trace.h
 
-https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy
-
-Btw, the usual coding style requires braces to be balanced so the else 
-should have braces on both sides if either side requires them.
-
-> +	kfree(obj);
-> +	return 0;
-> +
-> +auxmacinvalid:
-> +	kfree(obj);
-> +	strcpy(auxmac, "unavailable");
-
-strscpy().
-
-Can't you do this strscpy() before you goto here? Then you can share the 
-return path with the normal return path since only kfree() remains here.
+    72	
+    73	TRACE_EVENT(nullb_copy_op,
+    74			TP_PROTO(struct request *req,
+    75				 sector_t dst, sector_t src, size_t len),
+    76			TP_ARGS(req, dst, src, len),
+    77			TP_STRUCT__entry(
+    78					 __array(char, disk, DISK_NAME_LEN)
+    79					 __field(enum req_op, op)
+    80					 __field(sector_t, dst)
+    81					 __field(sector_t, src)
+    82					 __field(size_t, len)
+    83			),
+    84			TP_fast_assign(
+    85				       __entry->op = req_op(req);
+    86				       __assign_disk_name(__entry->disk, req->q->disk);
+    87				       __entry->dst = dst;
+    88				       __entry->src = src;
+    89				       __entry->len = len;
+    90			),
+  > 91			TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+    92				  __print_disk_name(__entry->disk),
+    93				  blk_op_str(__entry->op),
+    94				  __entry->dst, __entry->src, __entry->len)
+    95	);
+    96	#endif /* _TRACE_NULLB_H */
+    97	
 
 -- 
- i.
-
-
-> +	return 0;
-> +}
-> +
-> +static struct ibm_struct auxmac_data = {
-> +	.name = "auxmac",
-> +};
-> +
-> +static ssize_t auxmac_show(struct device *dev,
-> +			   struct device_attribute *attr,
-> +			   char *buf)
-> +{
-> +	return sysfs_emit(buf, "%s\n", auxmac);
-> +}
-> +static DEVICE_ATTR_RO(auxmac);
-> +
-> +static struct attribute *auxmac_attributes[] = {
-> +	&dev_attr_auxmac.attr,
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group auxmac_attr_group = {
-> +	.attrs = auxmac_attributes,
-> +};
-> +
->  /* --------------------------------------------------------------------- */
->  
->  static struct attribute *tpacpi_driver_attributes[] = {
-> @@ -10843,6 +10919,7 @@ static const struct attribute_group *tpacpi_groups[] = {
->  	&proxsensor_attr_group,
->  	&kbdlang_attr_group,
->  	&dprc_attr_group,
-> +	&auxmac_attr_group,
->  	NULL,
->  };
->  
-> @@ -11414,6 +11491,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
->  		.init = tpacpi_dprc_init,
->  		.data = &dprc_driver_data,
->  	},
-> +	{
-> +		.init = auxmac_init,
-> +		.data = &auxmac_data,
-> +	},
->  };
->  
->  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
-> 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
