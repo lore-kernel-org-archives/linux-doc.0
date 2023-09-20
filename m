@@ -2,362 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7481EC04EB5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 18:03:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECCD2C04FE5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 18:37:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbjITSD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 14:03:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58304 "EHLO
+        id S229672AbjITShO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 14:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjITSDZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 14:03:25 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96FA5C6;
-        Wed, 20 Sep 2023 11:03:17 -0700 (PDT)
-Received: from [192.168.68.123] (unknown [177.98.21.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C55EB66071EF;
-        Wed, 20 Sep 2023 19:03:10 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695232995;
-        bh=uhO6IttlYAj/yo5egvC4YtDuaO5w616IbV33O4PUKrA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=djBLZIQj9bZUYXB/HL8DhBfnmC6Zz5EM+aa0PPgailiNE5qvhOkymJegKZyBU/RE6
-         BSS8YEJKGpW2t7+MQkScLOjwNgv1gsedUfSqOtgqU5Y6Cy9NjTrLNyFEGqTlCDj5sX
-         0R0rQBrXo/gDPOmeXr7dbIyf9OFHQxIMx2yVA1VWNpKf9FSqC0lFrb4ZQhZez0inf/
-         ggI4sLNlVN7FYenfT4vHjqyXlHM+ZX12zifTl11CJ8d0iwqBh3SmjkcJKb+5MnkRUh
-         TJvxFaOGotp9hboR5qBFsoCgIqk4dX4FgN/QABKtLjcUvp+gVlSE/4lCCZST7kkXAK
-         zYpUinJKpsP8g==
-Message-ID: <393d65d0-8886-6663-5521-ba495d711750@collabora.com>
-Date:   Wed, 20 Sep 2023 15:03:05 -0300
+        with ESMTP id S229643AbjITShN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 14:37:13 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA55EC9
+        for <linux-doc@vger.kernel.org>; Wed, 20 Sep 2023 11:37:07 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-41513d2cca7so65741cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 Sep 2023 11:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695235027; x=1695839827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0O+D8ee7zVjlDA63SdSMbPU/xhmCnjuF2y/9Wte3IZU=;
+        b=NQJOdJ8WxdL54Ou233drNw7O9zKHOOoHyyW6zSoT/ZS08d2yM70cmDN+pncETN+dwe
+         b4wWDGIaPwHx2Dh5p/m9z7mQmHxRZ6nsLELHK7+R2NozymYYfX74airpiEkj9xc/afvr
+         SXwtqySL/KV1AsMsxSJ6FT9gOr9Tr9eL1kglQL8uI9BtAKxP57f/7/bjLZZ7qUPwyovw
+         IUzQrn+YCrlSrPIeLMraAPUuakiOTyhPLjXoeVJ5srGkYJllT2ed8ZUom/RZ9YP8o2cT
+         uQNjJAb9UjZqkEaVDJCdZR9fBiRzGoR2EBmfmyeXdSZtEr/Zq0Z7KYPc0oc4O/sWklo5
+         8bHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695235027; x=1695839827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0O+D8ee7zVjlDA63SdSMbPU/xhmCnjuF2y/9Wte3IZU=;
+        b=BxXqcKC8XO1eiuM9Onv4VjV0bJDdOgwW0+9gGI1H2LsxwdVrWor3Mc7n9TNas5JOJg
+         haoftIgCp2evkOF8NaET+MpUsCfOx9flyMW5mE3qwmRb2qMLZ2xD88ImuL7NU0/h6qew
+         JqGu/lNOuKOJQozzYa4c2puPs2Mq27CE8qV0WzUDHqyEPkQ5ysySHnPMIfDpAAYdHt5y
+         DJQ4YIWRaYQ3qYWUmWN+jU1qnHb9quJKqyG/Uu1TPVLk0dCTKUgnEZTe+g53Ab1/SMbc
+         8CukPm+MwarRLsIIYzq2kaFKVElQlTnEtFgUNuwbsy7VvUbLPdj9d+eceT0fGxJrHUx6
+         yesQ==
+X-Gm-Message-State: AOJu0YwL+XDjy8xSliK+0s2zQZA5KBAq4KKc8aR6wJC6rRnPAPznp1vO
+        m7lfW79UzMB6v2u6DZKnssbrJJKUFoLEuavIV3Xsiw==
+X-Google-Smtp-Source: AGHT+IHH8trGn6FixfU9iGVDAVjtavlrf27fE86uW31DiR0c3+ziEee+4De0deb9fORimQ1w5hztZnp/3gkgd72l680=
+X-Received: by 2002:ac8:4e4a:0:b0:416:ea40:6e8c with SMTP id
+ e10-20020ac84e4a000000b00416ea406e8cmr21592qtw.6.1695235026683; Wed, 20 Sep
+ 2023 11:37:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v6 7/7] drm/vkms Add hotplug support via configfs to VKMS.
-Content-Language: en-US
-To:     Brandon Pollack <brpol@chromium.org>, marius.vlad@collabora.com,
-        mairacanal@riseup.net, jshargo@chromium.org
-Cc:     hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
-        linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
-        tzimmermann@suse.de
-References: <20230829053201.423261-1-brpol@chromium.org>
- <20230829053201.423261-8-brpol@chromium.org>
-From:   Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20230829053201.423261-8-brpol@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <1695037955-107983-1-git-send-email-renyu.zj@linux.alibaba.com> <1695037955-107983-2-git-send-email-renyu.zj@linux.alibaba.com>
+In-Reply-To: <1695037955-107983-2-git-send-email-renyu.zj@linux.alibaba.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Wed, 20 Sep 2023 11:36:55 -0700
+Message-ID: <CAP-5=fUxfJT-gxKB+Ls3drUeQ0sy55uydi8Y36gumUnaFSYeqA@mail.gmail.com>
+Subject: Re: [PATCH v9 1/7] perf pmu: "Compat" supports regular expression
+ matching identifiers
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello!
-
-Thanks for the patch.
-
-On 29/08/2023 02:30, Brandon Pollack wrote:
-> This change adds the ability to read or write a "1" or a "0" to the
-> newly added "connected" attribute of a connector in the vkms entry in
-> configfs.
-> 
-> A write will trigger a call to drm_kms_helper_hotplug_event, causing a
-> hotplug uevent.
-> 
-> With this we can write virtualized multidisplay tests that involve
-> hotplugging displays (eg recompositing windows when a monitor is turned
-> off).
-
-Are these tests going to be added in igt?
-
-I was just wondering if it requires any special thing for drm ci:
-
-https://lists.freedesktop.org/archives/dri-devel/2023-September/423719.html
-
-(btw, it would be awesome of you could test your changes with drm ci :)
-
-Regards,
-Helen
-
-> 
-> Signed-off-by: Brandon Pollack <brpol@chromium.org>
+On Mon, Sep 18, 2023 at 4:52=E2=80=AFAM Jing Zhang <renyu.zj@linux.alibaba.=
+com> wrote:
+>
+> The jevent "Compat" is used for uncore PMU alias or metric definitions.
+>
+> The same PMU driver has different PMU identifiers due to different
+> hardware versions and types, but they may have some common PMU event.
+> Since a Compat value can only match one identifier, when adding the
+> same event alias to PMUs with different identifiers, each identifier
+> needs to be defined once, which is not streamlined enough.
+>
+> So let "Compat" support using regular expression to match identifiers
+> for uncore PMU alias. For example, if the "Compat" value is set to
+> "43401|43c01", it would be able to match PMU identifiers such as "43401"
+> or "43c01", which correspond to CMN600_r0p0 or CMN700_r0p0.
+>
+> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
 > ---
->   Documentation/gpu/vkms.rst           |  2 +-
->   drivers/gpu/drm/vkms/vkms_configfs.c | 68 ++++++++++++++++++++++++++--
->   drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++
->   drivers/gpu/drm/vkms/vkms_output.c   | 47 ++++++++++++++++++-
->   4 files changed, 123 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index c3875bf66dba..7f715097539c 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -145,7 +145,7 @@ We want to be able to manipulate vkms instances without having to reload the
->   module. Such configuration can be added as extensions to vkms's ConfigFS
->   support. Use-cases:
->   
-> -- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
-> +- Hotremove connectors on the fly (to be able to test DP MST handling
->     of compositors).
->   
->   - Change output configuration: Plug/unplug screens, change EDID, allow changing
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index bc35dcc47585..d231e28101ae 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -1,5 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0+
->   
-> +#include "drm/drm_probe_helper.h"
->   #include <linux/configfs.h>
->   #include <linux/mutex.h>
->   #include <linux/platform_device.h>
-> @@ -40,6 +41,7 @@
->    *   `-- vkms
->    *       `-- test
->    *           |-- connectors
-> + *                `-- connected
->    *           |-- crtcs
->    *           |-- encoders
->    *           |-- planes
-> @@ -89,6 +91,14 @@
->    *
->    *   echo 1 > /config/vkms/test/enabled
->    *
-> + * By default no display is "connected" so to connect a connector you'll also
-> + * have to write 1 to a connectors "connected" attribute::
-> + *
-> + *   echo 1 > /config/vkms/test/connectors/connector/connected
-> + *
-> + * One can verify that this is worked using the `modetest` utility or the
-> + * equivalent for your platform.
-> + *
->    * When you're done with the virtual device, you can clean up the device like
->    * so::
->    *
-> @@ -236,7 +246,58 @@ static void add_possible_encoders(struct config_group *parent,
->   
->   /*  Connector item, e.g. /config/vkms/device/connectors/ID */
->   
-> +static ssize_t connector_connected_show(struct config_item *item, char *buf)
+>  tools/perf/util/pmu.c | 23 +++++++++++++++++++++--
+>  tools/perf/util/pmu.h |  1 +
+>  2 files changed, 22 insertions(+), 2 deletions(-)
+>
+> diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
+> index e215985..7e2242f 100644
+> --- a/tools/perf/util/pmu.c
+> +++ b/tools/perf/util/pmu.c
+> @@ -28,6 +28,7 @@
+>  #include "strbuf.h"
+>  #include "fncache.h"
+>  #include "util/evsel_config.h"
+> +#include <regex.h>
+>
+>  struct perf_pmu perf_pmu__fake =3D {
+>         .name =3D "fake",
+> @@ -875,6 +876,24 @@ static bool pmu_uncore_alias_match(const char *pmu_n=
+ame, const char *name)
+>         return res;
+>  }
+>
+> +bool pmu_uncore_identifier_match(const char *compat, const char *id)
 > +{
-> +	struct vkms_config_connector *connector =
-> +		item_to_config_connector(item);
-> +	struct vkms_configfs *configfs = connector_item_to_configfs(item);
-> +	bool connected = false;
+> +       regex_t re;
+> +       regmatch_t pmatch[1];
+> +       int match;
 > +
-> +	mutex_lock(&configfs->lock);
-> +	connected = connector->connected;
-> +	mutex_unlock(&configfs->lock);
+> +       if (regcomp(&re, compat, REG_EXTENDED) !=3D 0) {
+> +               /* Warn unable to generate match particular string. */
+> +               pr_info("Invalid regular expression %s\n", compat);
+> +               return false;
+> +       }
 > +
-> +	return sprintf(buf, "%d\n", connected);
+> +       match =3D !regexec(&re, id, 1, pmatch, 0);
+
+I wonder if we can make the regular expressions like
+"^(434|436|43c|43a)" more like "(434|436|43c|43a).*", so that we fully
+match the id string, by here doing:
+
+if (match) {
+  /* Ensure a full match. */
+  match =3D pmatch[0].rm_so =3D=3D 0 && pmatch[0].rm_eo =3D=3D strlen(id);
+}
+
+I think longer term we can use jevents.py to generate a pmu-events.l,
+which would have a contents something like:
+
+(434|436|43c|43a).*  { return PMU_....;}
+
+That should make the matching faster but may add some restrictions
+onto the regular expression.
+
+Thanks,
+Ian
+
+> +       regfree(&re);
+> +
+> +       return match;
 > +}
 > +
-> +static ssize_t connector_connected_store(struct config_item *item,
-> +					 const char *buf, size_t len)
-> +{
-> +	struct vkms_config_connector *connector =
-> +		item_to_config_connector(item);
-> +	struct vkms_configfs *configfs = connector_item_to_configfs(item);
-> +	int val, ret;
-> +
-> +	ret = kstrtouint(buf, 10, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val != 1 && val != 0)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&configfs->lock);
-> +	connector->connected = val;
-> +	if (!connector->connector) {
-> +		pr_info("VKMS Device %s is not yet enabled, connector will be enabled on start",
-> +			configfs->device_group.cg_item.ci_name);
-> +	}
-> +	mutex_unlock(&configfs->lock);
-> +
-> +	if (connector->connector)
-> +		drm_kms_helper_hotplug_event(connector->connector->dev);
-> +
-> +	return len;
-> +}
-> +
-> +CONFIGFS_ATTR(connector_, connected);
-> +
-> +static struct configfs_attribute *connector_attrs[] = {
-> +	&connector_attr_connected,
-> +	NULL,
-> +};
-> +
->   static struct config_item_type connector_type = {
-> +	.ct_attrs = connector_attrs,
->   	.ct_owner = THIS_MODULE,
->   };
->   
-> @@ -264,7 +325,7 @@ static ssize_t plane_type_show(struct config_item *item, char *buf)
->   	plane_type = plane->type;
->   	mutex_unlock(&configfs->lock);
->   
-> -	return sprintf(buf, "%u", plane_type);
-> +	return sprintf(buf, "%u\n", plane_type);
->   }
->   
->   static ssize_t plane_type_store(struct config_item *item, const char *buf,
-> @@ -319,6 +380,7 @@ static struct config_group *connectors_group_make(struct config_group *group,
->   				    &connector_type);
->   	add_possible_encoders(&connector->config_group,
->   			      &connector->possible_encoders.group);
-> +	connector->connected = false;
->   
->   	return &connector->config_group;
->   }
-> @@ -500,7 +562,7 @@ static ssize_t device_enabled_show(struct config_item *item, char *buf)
->   	is_enabled = configfs->vkms_device != NULL;
->   	mutex_unlock(&configfs->lock);
->   
-> -	return sprintf(buf, "%d", is_enabled);
-> +	return sprintf(buf, "%d\n", is_enabled);
->   }
->   
->   static ssize_t device_enabled_store(struct config_item *item, const char *buf,
-> @@ -557,7 +619,7 @@ static ssize_t device_id_show(struct config_item *item, char *buf)
->   
->   	mutex_unlock(&configfs->lock);
->   
-> -	return sprintf(buf, "%d", id);
-> +	return sprintf(buf, "%d\n", id);
->   }
->   
->   CONFIGFS_ATTR_RO(device_, id);
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 2b9545ada9c2..5336281f397e 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -3,6 +3,7 @@
->   #ifndef _VKMS_DRV_H_
->   #define _VKMS_DRV_H_
->   
-> +#include "drm/drm_connector.h"
->   #include <linux/configfs.h>
->   #include <linux/hrtimer.h>
->   
-> @@ -147,7 +148,9 @@ struct vkms_config_links {
->   
->   struct vkms_config_connector {
->   	struct config_group config_group;
-> +	struct drm_connector *connector;
->   	struct vkms_config_links possible_encoders;
-> +	bool connected;
->   };
->   
->   struct vkms_config_crtc {
-> @@ -220,6 +223,10 @@ struct vkms_device {
->   #define item_to_configfs(item) \
->   	container_of(to_config_group(item), struct vkms_configfs, device_group)
->   
-> +#define connector_item_to_configfs(item)                                     \
-> +	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
-> +		     connectors_group)
-> +
->   #define item_to_config_connector(item)                                    \
->   	container_of(to_config_group(item), struct vkms_config_connector, \
->   		     config_group)
-> @@ -279,4 +286,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
->   int vkms_init_configfs(void);
->   void vkms_unregister_configfs(void);
->   
-> +/* Connector hotplugging */
-> +enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
-> +						bool force);
-> +
->   #endif /* _VKMS_DRV_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 0ee1f3f4a305..1a1cd0202c5f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -1,5 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0+
->   
-> +#include <drm/drm_print.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_crtc.h>
-> @@ -8,10 +9,12 @@
->   #include <drm/drm_plane.h>
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_simple_kms_helper.h>
-> +#include <linux/printk.h>
->   
->   #include "vkms_drv.h"
->   
->   static const struct drm_connector_funcs vkms_connector_funcs = {
-> +	.detect = vkms_connector_detect,
->   	.fill_modes = drm_helper_probe_single_connector_modes,
->   	.destroy = drm_connector_cleanup,
->   	.reset = drm_atomic_helper_connector_reset,
-> @@ -19,6 +22,48 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
->   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->   };
->   
-> +static const struct vkms_config_connector *
-> +find_config_for_connector(struct drm_connector *connector)
-> +{
-> +	struct vkms_device *vkms = drm_device_to_vkms_device(connector->dev);
-> +	struct vkms_configfs *configfs = vkms->configfs;
-> +	struct config_item *item;
-> +
-> +	if (!configfs) {
-> +		pr_info("Default connector has no configfs entry");
-> +		return NULL;
-> +	}
-> +
-> +	list_for_each_entry(item, &configfs->connectors_group.cg_children,
-> +			    ci_entry) {
-> +		struct vkms_config_connector *config_connector =
-> +			item_to_config_connector(item);
-> +		if (config_connector->connector == connector)
-> +			return config_connector;
-> +	}
-> +
-> +	pr_warn("Could not find config to match connector %s, but configfs was initialized",
-> +		connector->name);
-> +
-> +	return NULL;
-> +}
-> +
-> +enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
-> +						bool force)
-> +{
-> +	enum drm_connector_status status = connector_status_connected;
-> +	const struct vkms_config_connector *config_connector =
-> +		find_config_for_connector(connector);
-> +
-> +	if (!config_connector)
-> +		return connector_status_connected;
-> +
-> +	if (!config_connector->connected)
-> +		status = connector_status_disconnected;
-> +
-> +	return status;
-> +}
-> +
->   static const struct drm_encoder_funcs vkms_encoder_funcs = {
->   	.destroy = drm_encoder_cleanup,
->   };
-> @@ -280,12 +325,12 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->   		struct vkms_config_connector *config_connector =
->   			item_to_config_connector(item);
->   		struct drm_connector *connector = vkms_connector_init(vkmsdev);
-> -
->   		if (IS_ERR(connector)) {
->   			DRM_ERROR("Failed to init connector from config: %s",
->   				  item->ci_name);
->   			return PTR_ERR(connector);
->   		}
-> +		config_connector->connector = connector;
->   
->   		for (int j = 0; j < output->num_encoders; j++) {
->   			struct encoder_map *encoder = &encoder_map[j];
+>  static int pmu_add_cpu_aliases_map_callback(const struct pmu_event *pe,
+>                                         const struct pmu_events_table *ta=
+ble __maybe_unused,
+>                                         void *vdata)
+> @@ -915,8 +934,8 @@ static int pmu_add_sys_aliases_iter_fn(const struct p=
+mu_event *pe,
+>         if (!pe->compat || !pe->pmu)
+>                 return 0;
+>
+> -       if (!strcmp(pmu->id, pe->compat) &&
+> -           pmu_uncore_alias_match(pe->pmu, pmu->name)) {
+> +       if (pmu_uncore_alias_match(pe->pmu, pmu->name) &&
+> +                       pmu_uncore_identifier_match(pe->compat, pmu->id))=
+ {
+>                 perf_pmu__new_alias(pmu,
+>                                 pe->name,
+>                                 pe->desc,
+> diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
+> index bd5d804..fc155ce 100644
+> --- a/tools/perf/util/pmu.h
+> +++ b/tools/perf/util/pmu.h
+> @@ -240,6 +240,7 @@ void pmu_add_cpu_aliases_table(struct perf_pmu *pmu,
+>  char *perf_pmu__getcpuid(struct perf_pmu *pmu);
+>  const struct pmu_events_table *pmu_events_table__find(void);
+>  const struct pmu_metrics_table *pmu_metrics_table__find(void);
+> +bool pmu_uncore_identifier_match(const char *compat, const char *id);
+>
+>  int perf_pmu__convert_scale(const char *scale, char **end, double *sval)=
+;
+>
+> --
+> 1.8.3.1
+>
