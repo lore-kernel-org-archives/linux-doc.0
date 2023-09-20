@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 908E3C00E86
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 14:36:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78DE3CE79DE
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 14:36:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236664AbjITOg4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 10:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
+        id S236642AbjITOg6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 10:36:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236458AbjITOgg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 10:36:36 -0400
+        with ESMTP id S236645AbjITOg3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 10:36:29 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067D3183;
-        Wed, 20 Sep 2023 07:36:28 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15DDBC433C8;
-        Wed, 20 Sep 2023 14:36:27 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903A0F5;
+        Wed, 20 Sep 2023 07:36:20 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C65CC433CA;
+        Wed, 20 Sep 2023 14:36:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695220588;
-        bh=hjO1thsBtNWKgoDt95oSE/97xbheY9O5MXtc459uiLk=;
+        s=k20201202; t=1695220579;
+        bh=3urbyxJOhBJnxOpaqPUf/XFZGd3bz5XAd4Th75mEdek=;
         h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=PX5gKdOtc3ImRq9gdiJmKV1zUjMxyWERJvCJIpkdDt/Z4BenT/GBymHELaMrgddY6
-         65h5od0OpXVWyzu+5eUCtkTwLz5lcsz4PM2iMCpWCyfaMMvjcDTcE2o40D2o6C9oWu
-         WVgHPvUcebEjBeZo+d1xMzoutUZbgY3KudhtBoYJ0hkyqTUOOiLuezigwfA61GXIUi
-         dNW51Px3RzdyvoHC/FoCN77bFB1CPTEYNl5N5ohIWY9fhv/XvthDwpQcg9j02OSFqh
-         MwpuLT6XkIzDGTpWG19i/ErO5Ry2HrS1OXI864hTalAGqkZsBIDS06PGsdR9o7jtXl
-         +3sYUoMrOUPGw==
+        b=QA6dcO5hgsrhvaSYtc6Acv+WH5nkWa12uDeImfMIESGkgKHy2cz/t15gXiZRccQ5W
+         hrs8neU8UHn4sURyJ+Oewb+xFVgmRn8LODsAUzdOWhIKsVNZaIn1ehicdGfR2AP6OE
+         L3miUDE14h/lhKViOQz647nMHgQa/WHQmT74kVC4fJME+VFCbsvwv9T7xIKSeFHCeJ
+         A4rM5zlyDYqmNFFdfmVNcNxn+6I1HJdMdLWIP2eVvneeGXrZfx/Sn1hN+xT2bKQQ+V
+         1SXMhVYK/zdRp5AlBfLyflagcpedUQit867jtsmg2dAff0Tymm0v8gY+LylUDSZkEA
+         18EY+NFBg7Ocw==
 From:   Maxime Ripard <mripard@kernel.org>
-Date:   Wed, 20 Sep 2023 16:35:31 +0200
-Subject: [PATCH RFC v2 16/37] drm/rockchip: inno_hdmi: Remove useless copy
- of drm_display_mode
+Date:   Wed, 20 Sep 2023 16:35:28 +0200
+Subject: [PATCH RFC v2 13/37] drm/vc4: hdmi: Create destroy state
+ implementation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230920-kms-hdmi-connector-state-v2-16-17932daddd7d@kernel.org>
+Message-Id: <20230920-kms-hdmi-connector-state-v2-13-17932daddd7d@kernel.org>
 References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 In-Reply-To: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -52,48 +52,58 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
         linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
         Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1075; i=mripard@kernel.org;
- h=from:subject:message-id; bh=hjO1thsBtNWKgoDt95oSE/97xbheY9O5MXtc459uiLk=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczJbLWT4+/Wj02NHni/PmlZ+e2wWraZ613iH44n9x3
- KQz0x+EdpSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiu7IZGX5tD3f7Y/MznZlB
- dPLjbrWlz44dYGuJ3P1OTKEi47Bu0wFGhu03b0qFc88uF5yRGmQpZJD/iNv74bIepXsl7qbsf3P
- rOQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1640; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=3urbyxJOhBJnxOpaqPUf/XFZGd3bz5XAd4Th75mEdek=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczJa/qjR2Xoo1rDJ82BJhdHSik+fxIisW7dKW88Wqi
+ 68e8vzaUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgInIdDD8U+Q3qJ1p9DP8+cvT
+ y282V/zgXql2cGuUT8eur+/uyKX+XsjwP/6b4Icb4Ve5brvnHT5wcMaW22HVdyad3qx9JfJK2rm
+ p4kwA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The driver maintains a copy of the adjusted mode but doesn't use it
-anywhere. Remove it.
+Even though we were rolling our own custom state for the vc4 HDMI
+controller driver, we were still using the generic helper to destroy
+that state.
+
+It was mostly working since the underlying state is the first member of
+our state so the pointers are probably equal in all relevant cases, but
+it's still fragile so let's fix this properly.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index cc48cbf85f31..4f5844fc115a 100644
---- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -62,7 +62,6 @@ struct inno_hdmi {
- 	unsigned int tmds_rate;
- 
- 	struct hdmi_data_info	hdmi_data;
--	struct drm_display_mode previous_mode;
- };
- 
- static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
-@@ -498,9 +497,6 @@ static void inno_hdmi_encoder_mode_set(struct drm_encoder *encoder,
- 	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
- 
- 	inno_hdmi_setup(hdmi, adj_mode);
--
--	/* Store the display mode for plugin/DPMS poweron events */
--	drm_mode_copy(&hdmi->previous_mode, adj_mode);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 25c9c71256d3..f05e2c95a60d 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -672,11 +672,21 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
+ 	return &new_state->base;
  }
  
- static void inno_hdmi_encoder_enable(struct drm_encoder *encoder)
++static void vc4_hdmi_connector_destroy_state(struct drm_connector *connector,
++					     struct drm_connector_state *state)
++{
++	struct vc4_hdmi_connector_state *vc4_state =
++		conn_state_to_vc4_hdmi_conn_state(state);
++
++	__drm_atomic_helper_connector_destroy_state(state);
++	kfree(vc4_state);
++}
++
+ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.reset = vc4_hdmi_connector_reset,
+ 	.atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++	.atomic_destroy_state = vc4_hdmi_connector_destroy_state,
+ 	.atomic_get_property = vc4_hdmi_connector_get_property,
+ 	.atomic_set_property = vc4_hdmi_connector_set_property,
+ };
 
 -- 
 2.41.0
