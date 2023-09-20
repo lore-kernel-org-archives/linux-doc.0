@@ -2,156 +2,167 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCDCCE79AD
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 07:44:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC558CE79AC
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Sep 2023 07:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233891AbjITHoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Sep 2023 03:44:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45544 "EHLO
+        id S233798AbjITH6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Sep 2023 03:58:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233983AbjITHop (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 03:44:45 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAFC1E8;
-        Wed, 20 Sep 2023 00:44:38 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso68845785e9.2;
-        Wed, 20 Sep 2023 00:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695195877; x=1695800677; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XzT+Xiw8JySJKyD7hHrg/jFpbzpL9ozxt4Lqd8Kjts4=;
-        b=bA3jdgYNN8fGAyxxIZrFC+df4Ag5Sr/1FxNbfFI3uDzU6DdyR/Jk2aFVWECaP7+f2Z
-         7iMoRrG2xe10GRY3OoU8+m9jFnU5Yj3iUaJsunTJmsMF2mIEQybQBbxnfomKOgrOZ9LL
-         c9dbc7fU6yC93Bjcpikgf6lIu416z+KPrxLWAjPd2xMCopd8FNnqS4dljakybQT2qlS6
-         3UdG2gZ7MpCd36zg9o4NBOAK3uoVDHb5kDTrjjZ430Hl+KQUatUI462JmhZnoRaI4zsm
-         Sv74pe7Wy3ocyfkUSWS8cayXfmna/N7Xp47zbSOj+n+5erfy8MDC9WnM/jIZNmrawxdU
-         fnbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695195877; x=1695800677;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XzT+Xiw8JySJKyD7hHrg/jFpbzpL9ozxt4Lqd8Kjts4=;
-        b=dTtAs54f2DXqdZB1OPFHNV9HPzAfsA6J6MTsOAzpNvCgW5MzsK0H7x+3R1hO9OnQ7o
-         ZTkk/GJwzDSdfJ9YtkryTS0H8k1ObSaTeR+mbOFe7xO+9VQCmIRmPYxDgI0dO0aOVyXW
-         hHoIXK+c5euNP96MjAo8G6mmJzKR4NT4YUp+sZFbHQ27OAdUqB5vaMb0tp0vMX3Tu0ev
-         5Dc1mLJ9msgI4BjZ07asgEvDNq/UiaP/cn4VhEwEW2mNP/ry78/jqp1Bz4HjBs6vmR48
-         MiwgRhWk7afCzjjBmK/8RMTRvZiHmAZQscUY8CA0NqY/B7qyKMgJM5Z13gICd0vAT6F2
-         J4Mg==
-X-Gm-Message-State: AOJu0YwESKQvDZULTVJ78e36dSQl5+lHSnTCk1rKTGMhiD+cPLVMfM6r
-        hcvyUaBojimXdexpfXzCrXs=
-X-Google-Smtp-Source: AGHT+IGGJqNN92cz5c7adAH7+BYpcEYHIa0hDUrWov+ACoikEcq6k5usOPuqM5OZepDWyc7c5KEP/w==
-X-Received: by 2002:a1c:ed08:0:b0:405:1bbd:aa9c with SMTP id l8-20020a1ced08000000b004051bbdaa9cmr1709320wmh.34.1695195876972;
-        Wed, 20 Sep 2023 00:44:36 -0700 (PDT)
-Received: from gmail.com (1F2EF265.nat.pool.telekom.hu. [31.46.242.101])
-        by smtp.gmail.com with ESMTPSA id f7-20020adff987000000b0031c8a43712asm17606651wrr.69.2023.09.20.00.44.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 00:44:36 -0700 (PDT)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Wed, 20 Sep 2023 09:44:33 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Matteo Rizzo <matteorizzo@google.com>
-Cc:     "Lameter, Christopher" <cl@os.amperecomputing.com>,
-        Dave Hansen <dave.hansen@intel.com>, penberg@kernel.org,
-        rientjes@google.com, iamjoonsoo.kim@lge.com,
-        akpm@linux-foundation.org, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        keescook@chromium.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-hardening@vger.kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net, luto@kernel.org,
-        peterz@infradead.org, jannh@google.com, evn@google.com,
-        poprdi@google.com, jordyzomer@google.com,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [RFC PATCH 00/14] Prevent cross-cache attacks in the SLUB
- allocator
-Message-ID: <ZQqi4RqpEM7PRGkF@gmail.com>
-References: <20230915105933.495735-1-matteorizzo@google.com>
- <7a4f5128-28fd-3c5f-34c2-1c34f4448174@intel.com>
- <1d7573c0-ebbc-6ed2-f152-1045eb0542f9@os.amperecomputing.com>
- <CAHKB1w+rVyww0UrHhzeGfPA7FM482Z-7ApzXvekVqLHvTDAV3Q@mail.gmail.com>
- <ZQiLX0W2Tcr+wdJT@gmail.com>
- <CAHKB1wKneke-dyvMY0JtW-xwW8m=GaUdafoAqdCE0B9csY7_bw@mail.gmail.com>
+        with ESMTP id S233646AbjITH63 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Sep 2023 03:58:29 -0400
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2068.outbound.protection.outlook.com [40.107.241.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0D5D6;
+        Wed, 20 Sep 2023 00:58:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WxQxgMpahAsdJhjj6Zpzme7qltUysMHyyhQWSxF07SEm4SOdtHUlG0eIS3LyYhbbPAHsjMHvvNvhUkMtxKl8hSEMrp4fA46kJnHvD9p56K75ryTK79K/HW3KfkkJFyiMgcg51r3iFsJ4ZbHWSVMrBbELnxoqllWrUCO6dwdOXwiOLisIcujhiAh59LR54zpQwXi5R2l0mtcXkPl3xVVZcr/xAZZzM6CTXdAWuX21vOHWiYqC9F3OC8WChd9UBqIr4H5yOuZ30B0PSdSJerD7Ml9AmDkWoDqBoktOZ+2OQW/z4CTHxad+0BxNw0LS4TnTg9UkciQBYgv9v3cIq/hcXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gqzAt/nNndS6ciIZ4al8oV2o0FAUsbEZseqb83RuJbY=;
+ b=ZzpV7venmCETmrcC575+F8ProTW9iWSXvq/Kg18MDOfoopLDFZvQY3NIuoUezA3bTCOXa1x/x3l3KbpUYsEd04xi9vZRqTH8FqO++y05XyYvDmJaFBzvJ7JB9Wiy1mNaoFiSkWVUiCaj9G6bcGT/QiPkC1qfnfVL4s+8OXT3XzXlv90g/NTzaoPOUBB7f4HjAlVsZn9UyXnXOh2e0r0CoGwP1NJJnbcDZ6bGOKgj4c1gZuZXBl90j4p/RSDmTCmndlFku7GmmbqHCXkd6Czq0UQqonSOToajCUXBpCyNBJ0AVv1estUOKzkUeom+qdaGF0eZFCEjdWUYEW5QOLLXMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gqzAt/nNndS6ciIZ4al8oV2o0FAUsbEZseqb83RuJbY=;
+ b=Z6K5PspWofMMzxJjTH29VNThvPJV4VMJaZHvn0dadR4lKWftTVS45g53vitPdJf9OGByVmN8EP4CWCZL2+Ydo5mprLhfFn9puFyP1gZ69GS5J8vm2XsiYc9nOk61VIHW8rIqL0UjYZr1vwHXtWue01hPMrLBMfi6GdM/u49eC2qoGR9wCkctxePoBT8KWppAF9ByHYm/eeMHBBlncitdYO07jIFC9LJ/SrI4jUf+7aVHsu9QhTmDOubm3Qvb4aUsP8IACYCTOz/Ebx01YQmlmxN4f82jpCb4n2aqM+0JGXwGYpv2mvolJc89deuLG/CLZmZ2M3MibghesFcIoBRbWg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from DBBPR04MB7788.eurprd04.prod.outlook.com (2603:10a6:10:1e4::15)
+ by GV1PR04MB9119.eurprd04.prod.outlook.com (2603:10a6:150:26::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Wed, 20 Sep
+ 2023 07:58:17 +0000
+Received: from DBBPR04MB7788.eurprd04.prod.outlook.com
+ ([fe80::5b25:12c8:9f51:9b31]) by DBBPR04MB7788.eurprd04.prod.outlook.com
+ ([fe80::5b25:12c8:9f51:9b31%4]) with mapi id 15.20.6792.026; Wed, 20 Sep 2023
+ 07:58:17 +0000
+Message-ID: <dda01248-f456-d8d7-5021-ef6b2e7ade2c@suse.com>
+Date:   Wed, 20 Sep 2023 10:58:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
+Content-Language: en-US
+To:     Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
+        mhiramat@kernel.org, andrew.cooper3@citrix.com,
+        jiangshanlai@gmail.com
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-4-xin3.li@intel.com>
+From:   Nikolay Borisov <nik.borisov@suse.com>
+In-Reply-To: <20230914044805.301390-4-xin3.li@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0135.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b9::20) To DBBPR04MB7788.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e4::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHKB1wKneke-dyvMY0JtW-xwW8m=GaUdafoAqdCE0B9csY7_bw@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7788:EE_|GV1PR04MB9119:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80bc802f-28ef-4998-92a9-08dbb9af5916
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1TwKv3hP2KwjHU2HAp8pXPgTzzxfoEMMnje/TPsKF40rw3SNrcbP/GoeeNh5rZEW8td982q+7MmRUKwVgwbaMXMewPp2mxuYOEVQCvBNdyuAyLxFn+u2uWE/4ytW8iQlOY6OY+mVIE7TYIKsC65axnfniyRILU4TJaf2bfYWOmtElxbQ9KFr0smdYmdRUciNVkX2TrpDvTlbnbrN/zMcRGQFyD6iE0uJvRAJsNUGoVooLqdojviExyE5zSPd2V82jtvKIS/k2LCun6lj5Fwe8KjV1p73lcs0uC1/vUbVjfBMI+7OOTkRM42zr6fKz+1VUMiJw6kH2vIx/Qflt+u5Df6ava+T9FqfT0NS+8sWnZ8139c7fV8Sj/4KPBs7ozcjx7BjyxXZq8iB8VLTZix16DA/nFXJeYDdlKN9yzjWrNZVnLRn8QKIvSts/nF9goMiky5hlzxqv5zhoCAVTWHwCBq1FMLBX8iTS6pWO1ti6z44D99PFTyO0eH//8AZ07uBiE7koBX39Qy5S2RJgaTY1PjB7zlvVRvRxvyaLw4qSRsCspUGawuMpJ2sQbHgSQMmS+fdgm/RrVcDpZI0HYxjfbVyOr7XP70IVW0MlvNrQZxbMAXKVy4YZbRrbBN00jkY/CH8I3kMqAoGO+Jl10smieb+Fnx13Yc4I6T7KoFh2iGADdjMeY6StkXfAi1UHxOC
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7788.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(39860400002)(346002)(366004)(396003)(451199024)(186009)(1800799009)(36756003)(38100700002)(31696002)(86362001)(31686004)(8676002)(66946007)(6486002)(2906002)(5660300002)(66476007)(66556008)(8936002)(478600001)(6666004)(4326008)(6512007)(316002)(7416002)(41300700001)(26005)(2616005)(6506007)(133343001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFB2K1NlQTg3UFRaVzN2a3J1WmpqMEJETVV5aC9yMlkwWTJiZjJhK1AzQ0xB?=
+ =?utf-8?B?NGZEYkw2UXhEQ2tVRlBSUEJvdzdTMUNQNlpVcU5xSzlGK2dZUlhuTDVWOS8x?=
+ =?utf-8?B?em5EQXlMaVQwbVJiSDVvSmZTWlBPaTFjSkw1NjNyUy83RUl1MmNLeGJTNkty?=
+ =?utf-8?B?OWJBWmNRSUlOZzN0TS9PdHBEVVBNL0VNYVFLbFhGSVFNNXFZVGRROVBPSDEv?=
+ =?utf-8?B?ajA2UXhTUXNaWWJMem9waDBQV3RHNzZGaVdpZ3JwTlRxandhelhvdFlFKzE5?=
+ =?utf-8?B?K292TGYzc3RVZ0ZtZGlNQVM4aTlEeE1jazA3d3N5RHgzVkR3UjQ3b0ZOSzdS?=
+ =?utf-8?B?eElpdHRSWDVsZWZhWjM3MUxOYnJQcEdyL1ByK01tSXVxdC9GZitTV3VwUnV4?=
+ =?utf-8?B?STJSUVFZSnpPTDBZc3BFQnB0QWhGTXI4Mnl0R1J0SHlJUTBHVlBpWUVOeTlZ?=
+ =?utf-8?B?Z3paZUhXYmtpWmxWbnFZRWh2R05EQ2VlSTZRRG1zUFdqNDdadTlmR1VFd1Rr?=
+ =?utf-8?B?WVNsRFRYd2hrK1NYZUozRjZVZzFvMEdoQjRkOUM3K0pCTTFrR3FYaGpyYzJZ?=
+ =?utf-8?B?WU81M2R5VSt1VG5zRC9vWHdKVWZhd3lUaUpSODJuVnZXZkgzWnZ3THNQRk00?=
+ =?utf-8?B?ZlJwUkcyZExwNm9yU25MVXQwT21sUWYzUERBQktwbkk1MTdHdnJDQ1pKYjhm?=
+ =?utf-8?B?ZG9sUEh3dWluT0tYRkpsbWxUT3BoZkk4T0FPNGtnbnBRQVVkZXBlckhrZlNn?=
+ =?utf-8?B?aFgwNHBKS1NFcDF4UDNhaXpLbExoM1czelBXbThNakRLSklVR0EvdE55ZW5x?=
+ =?utf-8?B?N1JRbHRWTmk5dVNmbXlxQXM4UncvVXNkR2N5Q01xWXRrL1Q4bEZJUXdrYlJq?=
+ =?utf-8?B?M2pTT213K1JaR2RsNUc3MW9GU2NqYVQ4cEdDNEczQWg3bHZ5MnZKalAxNGUw?=
+ =?utf-8?B?b2svNjVnU3RGU2MvVU94TExWWlRWdXQ3Vzg3Um9XcjBra1JmNjVkSjAvaUwx?=
+ =?utf-8?B?bThMNTV6a1hQWjFrRXpXcTRTYnhYOUt6cTY5c2NCYnF3azR5aEJQODQxZVJJ?=
+ =?utf-8?B?ekh0Y0R4R29yR0lneHpNRzZVVnJmcnRPTlpOZFJNN20zci8yRkdJd2ZEUGM0?=
+ =?utf-8?B?Qm5YTExYaGN2RlRGRVRpVXMyb1k0TFB1OW5lY3UwVFpOanRsSzhsSEw5UzRP?=
+ =?utf-8?B?VUk1M25nWSt4N1l2Z2pMY2dTNWhPbzVrSHlQYkNlZ2dTQURDVGlpKzEwWm1h?=
+ =?utf-8?B?RG82cHNLVmd5eGlQTHJVcjdoVkRaSFpQZzB4Z3lheW5ZcTFrUktXRk9nME9n?=
+ =?utf-8?B?MXUyZUdNWGFNaW9YcmdjdFBJZTVoNWM2akw1WlRwRWtFdEg5cXQwNFcxWTVo?=
+ =?utf-8?B?VUpGcVA4dTM3K21nVXA2SFBGdHhOWkVqbnRHVHl4djlJUWw3SXQ5aGlkSFNs?=
+ =?utf-8?B?M0FURmZ5TXVjS01FSmdEalQ1Q2tzMHVOdFh6bVJlait4NndiUUdHZ20wT24w?=
+ =?utf-8?B?ZXk2aXZKYVJqT3JEUWdSbDRPT2Joa1l1Y1M5aERXUE9tSm5YUkhFeGZ5YUFN?=
+ =?utf-8?B?eUt6OTRGUjZaK241Y1RBV2UxM0ozNEdKUVR6aUNjZlpoSENsdmVCcmdLVjF1?=
+ =?utf-8?B?cmlEZkpVdEVUbmJDcllBdUFzWDRrcEdTVjJTM1ZBSXJaY1dyMG0xZ3ZqbUs2?=
+ =?utf-8?B?R2I3N01pMEFGRk1XeDRwL0VuQ1cvZGxta0k4ZFpGci9YYlAzWDNFN3RETm4v?=
+ =?utf-8?B?VVBSdDlrQk5VcldlL1k0OXVONkVpa1NmL2lPMkpacUFDTStCK0ZHallTRU9G?=
+ =?utf-8?B?Y0xUWUpaVlUrVEYvUHBnKzg4cVRtK1JrTVllRUxwTklPT1c1VEMyd0xVSXU5?=
+ =?utf-8?B?QnQvYjRKMjArNEpSdTcrOG1nZ2t3b0lRUkdvWWY5Ulp2WDA3aW1DR3l0NXB4?=
+ =?utf-8?B?b1VFdVpWUUJQaURMQjQzcFVZTnZGanRKTWRueTNJK0VCWngwb0xZVUhKeldW?=
+ =?utf-8?B?dlFydVV3cEl0TEV5UkdacWJaQjBiRW1VVlowVVJkYXEvWExsNUlaM0x5Nlhq?=
+ =?utf-8?B?RWc1bTZJMFJHT1R3L1orQ0VVSWZ5UkZSR0tPaTVXUm0xM2d6dmRmN1V3RnY2?=
+ =?utf-8?Q?9gThm3uUYxbFA8RsK86lryaBt?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80bc802f-28ef-4998-92a9-08dbb9af5916
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7788.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 07:58:16.9751
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IYzkTC0I3XnKs4KQJ5OEe+Q2UhWjQUVM1QgyLdI0Aacy3lDhSCgCYPGMZWZxdgC1q3dHv4M+7HUs2kgPqEJaMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9119
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-* Matteo Rizzo <matteorizzo@google.com> wrote:
 
-> On Mon, 18 Sept 2023 at 19:39, Ingo Molnar <mingo@kernel.org> wrote:
-> >
-> > What's the split of the increase in overhead due to SLAB_VIRTUAL=y, between
-> > user-space execution and kernel-space execution?
-> >
+On 14.09.23 г. 7:47 ч., Xin Li wrote:
+> Add an always inline API __wrmsrns() to embed the WRMSRNS instruction
+> into the code.
 > 
-> Same benchmark as before (compiling a kernel on a system running the patched
-> kernel):
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> Signed-off-by: Xin Li <xin3.li@intel.com>
+> ---
+>   arch/x86/include/asm/msr.h | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
 > 
-> Intel Skylake:
-> 
->       LABEL    | COUNT |   MIN    |   MAX    |   MEAN   |  MEDIAN  | STDDEV
-> ---------------+-------+----------+----------+----------+----------+--------
-> wall clock     |       |          |          |          |          |
-> SLAB_VIRTUAL=n | 150   | 49.700   | 51.320   | 50.449   | 50.430   | 0.29959
-> SLAB_VIRTUAL=y | 150   | 50.020   | 51.660   | 50.880   | 50.880   | 0.30495
->                |       | +0.64%   | +0.66%   | +0.85%   | +0.89%   | +1.79%
-> system time    |       |          |          |          |          |
-> SLAB_VIRTUAL=n | 150   | 358.560  | 362.900  | 360.922  | 360.985  | 0.91761
-> SLAB_VIRTUAL=y | 150   | 362.970  | 367.970  | 366.062  | 366.115  | 1.015
->                |       | +1.23%   | +1.40%   | +1.42%   | +1.42%   | +10.60%
-> user time      |       |          |          |          |          |
-> SLAB_VIRTUAL=n | 150   | 3110.000 | 3124.520 | 3118.143 | 3118.120 | 2.466
-> SLAB_VIRTUAL=y | 150   | 3115.070 | 3127.070 | 3120.762 | 3120.925 | 2.654
->                |       | +0.16%   | +0.08%   | +0.08%   | +0.09%   | +7.63%
+> diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
+> index 65ec1965cd28..c284ff9ebe67 100644
+> --- a/arch/x86/include/asm/msr.h
+> +++ b/arch/x86/include/asm/msr.h
+> @@ -97,6 +97,19 @@ static __always_inline void __wrmsr(unsigned int msr, u32 low, u32 high)
+>   		     : : "c" (msr), "a"(low), "d" (high) : "memory");
+>   }
+>   
+> +/*
+> + * WRMSRNS behaves exactly like WRMSR with the only difference being
+> + * that it is not a serializing instruction by default.
+> + */
+> +static __always_inline void __wrmsrns(u32 msr, u32 low, u32 high)
 
-These Skylake figures are a bit counter-intuitive: how does an increase of 
-only +0.08% user-time - which dominates 89.5% of execution, combined with a 
-+1.42% increase in system time that consumes only 10.5% of CPU capacity, 
-result in a +0.85% increase in wall-clock time?
+Shouldn't this be named wrmsrns_safe since it has exception handling, 
+similar to the current wrmsrl_safe.
 
-There might be hidden factors at work in the DMA space, as Linus suggested?
+> +{
+> +	/* Instruction opcode for WRMSRNS; supported in binutils >= 2.40. */
+> +	asm volatile("1: .byte 0x0f,0x01,0xc6\n"
+> +		     "2:\n"
+> +		     _ASM_EXTABLE_TYPE(1b, 2b, EX_TYPE_WRMSR)
+> +		     : : "c" (msr), "a"(low), "d" (high));
+> +}
+> +
 
-Or perhaps wall-clock time is dominated by the single-threaded final link 
-time of the kernel, which phase might be disproportionately hurt by these 
-changes?
 
-(Stddev seems low enough for this not to be a measurement artifact.)
-
-The AMD Milan figures are more intuitive:
-
-> AMD Milan:
-> 
->       LABEL    | COUNT |   MIN    |   MAX    |   MEAN   |  MEDIAN  | STDDEV
-> ---------------+-------+----------+----------+----------+----------+--------
-> wall clock     |       |          |          |          |          |
-> SLAB_VIRTUAL=n | 150   | 25.480   | 26.550   | 26.065   | 26.055   | 0.23495
-> SLAB_VIRTUAL=y | 150   | 25.820   | 27.080   | 26.531   | 26.540   | 0.25974
->                |       | +1.33%   | +2.00%   | +1.79%   | +1.86%   | +10.55%
-> system time    |       |          |          |          |          |
-> SLAB_VIRTUAL=n | 150   | 478.530  | 540.420  | 520.803  | 521.485  | 9.166
-> SLAB_VIRTUAL=y | 150   | 530.520  | 572.460  | 552.825  | 552.985  | 7.161
->                |       | +10.86%  | +5.93%   | +6.15%   | +6.04%   | -21.88%
-> user time      |       |          |          |          |          |
-> SLAB_VIRTUAL=n | 150   | 2373.540 | 2403.800 | 2386.343 | 2385.840 | 5.325
-> SLAB_VIRTUAL=y | 150   | 2388.690 | 2426.290 | 2408.325 | 2408.895 | 6.667
->                |       | +0.64%   | +0.94%   | +0.92%   | +0.97%   | +25.20%
->
-> 
-> I'm not exactly sure why user time increases by almost 1% on Milan, it 
-> could be TLB contention.
-
-The other worrying aspect is the increase of +6.15% of system time ... 
-which is roughly in line with what we'd expect from a +1.79% increase in 
-wall-clock time.
-
-Thanks,
-
-	Ingo
+<snip>
