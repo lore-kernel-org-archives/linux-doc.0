@@ -2,234 +2,206 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9123BE7D0B4
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 21:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C02E7D0AD
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 21:34:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232810AbjIUVU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Sep 2023 17:20:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46142 "EHLO
+        id S231237AbjIUVeO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Sep 2023 17:34:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232828AbjIUVO4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 17:14:56 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69AAA1520;
-        Thu, 21 Sep 2023 10:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695319047; x=1726855047;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ocUYw9eVkqBv2VFvJPDH0psgHV0OVSpDbQGqlku3wz4=;
-  b=WkQucGi8oEVndLZUd9yAq/IAMVl6Az2io+NQo5pn3l0PuEhYH7ZFbtvv
-   NeTSmbkooEp5U4qfohYrAD5A34UGaRVlmD6E8UNFiR1YgY7Hkw+XMHuOa
-   oVrObz0v6c65gS+ADTfQzKlZQrf7mDeVahzN7sQv4UoC+NglY3DAkH8R3
-   McSJUJSJFu8/ohUmNa1FbKzg7SSRWzmfzARE+nOBdVdjymizD66YPaCQb
-   gQcjVsUStpjKabYKH2qtI5MNfCOqfO9+8VT6IFH1ipbfEeYP2fk7s3c76
-   6JxiEK3Lv94YrVVJ6JyFo8Zxbv/2qGFrPCgHZZKm7ZJbS4OWIvi0idXwf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="383203442"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="383203442"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 01:56:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="723666415"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="723666415"
-Received: from idubinov-mobl1.ccr.corp.intel.com (HELO localhost) ([10.252.52.72])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 01:56:11 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Pekka Paalanen <ppaalanen@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
-        Emma Anholt <emma@anholt.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Samuel Holland <samuel@sholland.org>,
+        with ESMTP id S231359AbjIUVd6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 17:33:58 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B50355AD7;
+        Thu, 21 Sep 2023 10:17:28 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A439C611A5;
+        Thu, 21 Sep 2023 16:48:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695314908;
+        bh=ZbMXdzw0c6h6S382Eseu0JWC3SsTXULfTbe1Huhp5BM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D2YWMMMQiBTC5mxrk+SG24U9NwIaq8dJU0Qw9abr55Q84220BN00grlowP+mIyJ9X
+         Due81h4X6s9m6SpzErNcepsukUfq5XGjMjTYHIysoBms4ojX/ilMzZGW7t6tdLOH9g
+         Q10WJPqeiYnEYz3xd0jJyE0qNhj9YJ3urQlGTvaqdFDOWz94iiDE/WRL9by3g/VgOb
+         NK+SFUA4pA8acwVjMHwKK2hPAx1dn4GuI//4CZzzUM9MxuP8c3Ypp9lXqViDXp6SzB
+         e6BsQW5Rqm4XNeo4k86JIqffTyyrZYc0GomPiLHiieFizLyldl4ngBJFXIoghmw/i5
+         5k13QgGKHqYRA==
+Date:   Thu, 21 Sep 2023 18:48:26 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+        Jonathan Corbet <corbet@lwn.net>,
         Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RFC v2 05/37] drm/connector: hdmi: Add output BPC to the
- connector state
-In-Reply-To: <20230921114845.7edb1d37@eldfell>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        Samuel Holland <samuel@sholland.org>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH RFC v2 00/37] drm/connector: Create HDMI Connector
+ infrastructure
+Message-ID: <cbbovd3t7ssstvk22qmhwl7hgfo74jdwy77harjh3wwyaml3hh@qfsoqtqaw26x>
 References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
- <20230920-kms-hdmi-connector-state-v2-5-17932daddd7d@kernel.org>
- <20230921114845.7edb1d37@eldfell>
-Date:   Thu, 21 Sep 2023 11:56:08 +0300
-Message-ID: <87zg1fq507.fsf@intel.com>
+ <f6bf0ef2-7a2a-4456-825f-a34ba8c8886f@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tqheb5u3s3lx5xmw"
+Content-Disposition: inline
+In-Reply-To: <f6bf0ef2-7a2a-4456-825f-a34ba8c8886f@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Sep 2023, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> On Wed, 20 Sep 2023 16:35:20 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->
->> We'll add automatic selection of the output BPC in a following patch,
->> but let's add it to the HDMI connector state already.
->> 
->> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->> ---
->>  drivers/gpu/drm/drm_atomic.c              |  4 +++-
->>  drivers/gpu/drm/drm_atomic_state_helper.c |  6 +++++-
->>  drivers/gpu/drm/drm_connector.c           | 13 ++++++++++++-
->>  include/drm/drm_connector.h               | 13 ++++++++++++-
->>  4 files changed, 32 insertions(+), 4 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
->> index b1b56dcaa76b..8dce0a2f2ac3 100644
->> --- a/drivers/gpu/drm/drm_atomic.c
->> +++ b/drivers/gpu/drm/drm_atomic.c
->> @@ -1143,9 +1143,11 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
->>  	drm_printf(p, "\tcolorspace=%s\n", drm_get_colorspace_name(state->colorspace));
->>  
->>  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->> -	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB)
->> +	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
->>  		drm_printf(p, "\tbroadcast_rgb=%s\n",
->>  			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
->> +		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
->> +	}
->>  
->>  	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
->>  		if (state->writeback_job && state->writeback_job->fb)
->> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
->> index 0f7e5ba555b8..2c9b52ae1b56 100644
->> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
->> @@ -569,6 +569,9 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
->>  void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
->>  					      struct drm_connector_state *new_state)
->>  {
->> +	new_state->max_bpc = 8;
->> +	new_state->max_requested_bpc = 8;
->> +	new_state->hdmi.output_bpc = 8;
->
-> Hi,
->
-> will this be forcing all drivers using these helpers to default to max bpc = 8?
->
-> I believe at least amdgpu would disagree. The defaults were changed in
-> the recent years, IIRC to avoid extra modesets during boot-up when
-> desktops prefer highest possible bpc for a mode.
->
-> The 'max bpc' property itself is a manual workaround for faulty
-> hardware that does not correctly indicate the max bpc it can handle. It
-> should not default to be a limiting factor.
->
->>  	new_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_AUTO;
->>  }
->>  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
->> @@ -651,7 +654,8 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->>  	struct drm_connector_state *new_state =
->>  		drm_atomic_get_new_connector_state(state, connector);
->>  
->> -	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb) {
->> +	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb ||
->> +	    old_state->hdmi.output_bpc != new_state->hdmi.output_bpc) {
->>  		struct drm_crtc *crtc = new_state->crtc;
->>  		struct drm_crtc_state *crtc_state;
->>  
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index b45471d540ac..f55f5918411c 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -459,6 +459,7 @@ EXPORT_SYMBOL(drmm_connector_init);
->>   * @funcs: callbacks for this connector
->>   * @connector_type: user visible type of the connector
->>   * @ddc: optional pointer to the associated ddc adapter
->> + * @max_bpc: Maximum bits per char the HDMI connector supports
->>   *
->>   * Initialises a preallocated HDMI connector. Connectors can be
->>   * subclassed as part of driver connector objects.
->> @@ -475,7 +476,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->>  			     struct drm_connector *connector,
->>  			     const struct drm_connector_funcs *funcs,
->>  			     int connector_type,
->> -			     struct i2c_adapter *ddc)
->> +			     struct i2c_adapter *ddc,
->> +			     unsigned int max_bpc)
->>  {
->>  	int ret;
->>  
->> @@ -487,6 +489,15 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->>  	if (ret)
->>  		return ret;
->>  
->> +	if (max_bpc) {
->> +		if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
->> +			return -EINVAL;
->> +
->> +		drm_connector_attach_hdr_output_metadata_property(connector);
->> +		drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
->> +		connector->max_bpc = max_bpc;
->> +	}
->> +
->>  	return 0;
->>  }
->>  EXPORT_SYMBOL(drmm_connector_hdmi_init);
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index fdcf64ab91a9..d0bcb835c857 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -1056,6 +1056,11 @@ struct drm_connector_state {
->>  		 * Broadcast RGB selection value.
->>  		 */
->>  		enum drm_hdmi_broadcast_rgb broadcast_rgb;
->> +
->> +		/**
->> +		 * @output_bpc: Bits per character to output.
->
-> Is it not bits per channel?
 
-Or component. Or color. Or color channel. ;)
+--tqheb5u3s3lx5xmw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But character I've never heard.
+Hi Hans,
 
+On Thu, Sep 21, 2023 at 06:29:29PM +0200, Hans Verkuil wrote:
+> On 20/09/2023 16:35, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > Here's a series that creates a subclass of drm_connector specifically
+> > targeted at HDMI controllers.
+> >=20
+> > The idea behind this series came from a recent discussion on IRC during
+> > which we discussed infoframes generation of i915 vs everything else.=20
+> >=20
+> > Infoframes generation code still requires some decent boilerplate, with
+> > each driver doing some variation of it.
+> >=20
+> > In parallel, while working on vc4, we ended up converting a lot of i915
+> > logic (mostly around format / bpc selection, and scrambler setup) to
+> > apply on top of a driver that relies only on helpers.
+> >=20
+> > While currently sitting in the vc4 driver, none of that logic actually
+> > relies on any driver or hardware-specific behaviour.
+> >=20
+> > The only missing piece to make it shareable are a bunch of extra
+> > variables stored in a state (current bpc, format, RGB range selection,
+> > etc.).
+> >=20
+> > The initial implementation was relying on some generic subclass of
+> > drm_connector to address HDMI connectors, with a bunch of helpers that
+> > will take care of all the "HDMI Spec" related code. Scrambler setup is
+> > missing at the moment but can easily be plugged in.
+> >=20
+> > The feedback was that creating a connector subclass like was done for
+> > writeback would prevent the adoption of those helpers since it couldn't
+> > be used in all situations (like when the connector driver can implement
+> > multiple output) and required more churn to cast between the
+> > drm_connector and its subclass. The decision was thus to provide a set
+> > of helper and to store the required variables in drm_connector and
+> > drm_connector_state. This what has been implemented now.
+> >=20
+> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+> > to retrieve infoframes from HDMI receiver and implementing an
+> > infoframe-decode tool.
+>=20
+> I'd love to get started on that, but...
+>=20
+> >=20
+> > This series thus leverages the infoframe generation code to expose it
+> > through debugfs.
+> >=20
+> > This entire series is only build-tested at the moment. Let me know what
+> > you think,
+>=20
+> ...trying this series on my RPi4 gives me this during boot:
+>=20
+> [    2.361239] vc4-drm gpu: bound fe400000.hvs (ops 0xffff800080cac6f8)
+> [    2.367834] Unable to handle kernel NULL pointer dereference at virtua=
+l address 0000000000000090
+> [    2.376748] Mem abort info:
+> [    2.379570]   ESR =3D 0x0000000096000044
+> [    2.383367]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+> [    2.388748]   SET =3D 0, FnV =3D 0
+> [    2.391835]   EA =3D 0, S1PTW =3D 0
+> [    2.395011]   FSC =3D 0x04: level 0 translation fault
+> [    2.399951] Data abort info:
+> [    2.402864]   ISV =3D 0, ISS =3D 0x00000044, ISS2 =3D 0x00000000
+> [    2.408420]   CM =3D 0, WnR =3D 1, TnD =3D 0, TagAccess =3D 0
+> [    2.413536]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
+> [    2.418916] [0000000000000090] user address but active_mm is swapper
+> [    2.425353] Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
+> [    2.431700] Modules linked in:
+> [    2.434791] CPU: 2 PID: 55 Comm: kworker/u8:3 Not tainted 6.6.0-rc1-hd=
+mi-dbg #245
+> [    2.442372] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+> [    2.448278] Workqueue: events_unbound deferred_probe_work_func
+> [    2.454193] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYP=
+E=3D--)
+> [    2.461245] pc : drm_connector_attach_max_bpc_property+0x48/0x90
+> [    2.467332] lr : drm_connector_attach_max_bpc_property+0x3c/0x90
+> [    2.473415] sp : ffff800081d038b0
+> [    2.476766] x29: ffff800081d038b0 x28: 0000000000000000 x27: ffff00010=
+41968c0
+> [    2.483999] x26: 0000000000000000 x25: ffff00010339d558 x24: ffff00010=
+3399000
+> [    2.491231] x23: ffff800080caa3e8 x22: ffff800080e96a20 x21: 000000000=
+000000c
+> [    2.498463] x20: 000000000000000c x19: ffff00010339d558 x18: fffffffff=
+fffffff
+> [    2.505694] x17: ffff0001008e7650 x16: ffff800080d55500 x15: fffffffff=
+fffffff
+> [    2.512926] x14: ffff000105dda209 x13: 0000000000000006 x12: 000000000=
+0000001
+> [    2.520158] x11: 0101010101010101 x10: ffff00027effe219 x9 : 000000000=
+0000001
+> [    2.527389] x8 : ffff000105db8ad4 x7 : 00000000c0c0c0c0 x6 : 00000000c=
+0c0c0c0
+> [    2.534620] x5 : 0000000000000000 x4 : ffff00010339d728 x3 : ffff00010=
+339d728
+> [    2.541852] x2 : 000000000000000c x1 : 0000000000000000 x0 : 000000000=
+0000000
+> [    2.549083] Call trace:
+> [    2.551554]  drm_connector_attach_max_bpc_property+0x48/0x90
+> [    2.557285]  drmm_connector_hdmi_init+0x114/0x14c
+> [    2.562048]  vc4_hdmi_bind+0x320/0xa40
+> [    2.565842]  component_bind_all+0x114/0x23c
+> [    2.570077]  vc4_drm_bind+0x148/0x2c0
+> [    2.573784]  try_to_bring_up_aggregate_device+0x168/0x1d4
+> [    2.579253]  __component_add+0xa4/0x16c
+> [    2.583136]  component_add+0x14/0x20
+> [    2.586754]  vc4_hdmi_dev_probe+0x1c/0x28
+> [    2.590815]  platform_probe+0x68/0xc4
+> [    2.594522]  really_probe+0x148/0x2b0
+> [    2.598228]  __driver_probe_device+0x78/0x12c
+> [    2.602638]  driver_probe_device+0xd8/0x15c
+> [    2.606873]  __device_attach_driver+0xb8/0x134
+> [    2.611372]  bus_for_each_drv+0x80/0xdc
+> [    2.615254]  __device_attach+0x9c/0x188
+> [    2.619136]  device_initial_probe+0x14/0x20
+> [    2.623371]  bus_probe_device+0xac/0xb0
+> [    2.627253]  deferred_probe_work_func+0x88/0xc0
+> [    2.631839]  process_one_work+0x138/0x244
+> [    2.635899]  worker_thread+0x320/0x438
+> [    2.639692]  kthread+0x10c/0x110
+> [    2.642957]  ret_from_fork+0x10/0x20
+> [    2.646576] Code: 94005f8d 12001e94 f9427e61 52800000 (39024034)
+> [    2.652745] ---[ end trace 0000000000000000 ]---
 
-BR,
-Jani.
+Well, I guess I'll have to start testing what I'm doing then :)
 
->
->> +		 */
->> +		unsigned int output_bpc;
->>  	} hdmi;
->>  };
->>  
->> @@ -1700,6 +1705,11 @@ struct drm_connector {
->>  	 */
->>  	struct drm_property_blob *path_blob_ptr;
->>  
->> +	/**
->> +	 * @max_bpc: Maximum bits per character the connector supports.
->
-> channel?
->
->> +	 */
->> +	unsigned int max_bpc;
->> +
->>  	/**
->>  	 * @max_bpc_property: Default connector property for the max bpc to be
->>  	 * driven out of the connector.
->> @@ -1939,7 +1949,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->>  			     struct drm_connector *connector,
->>  			     const struct drm_connector_funcs *funcs,
->>  			     int connector_type,
->> -			     struct i2c_adapter *ddc);
->> +			     struct i2c_adapter *ddc,
->> +			     unsigned int max_bpc);
->>  void drm_connector_attach_edid_property(struct drm_connector *connector);
->>  int drm_connector_register(struct drm_connector *connector);
->>  void drm_connector_unregister(struct drm_connector *connector);
->> 
->
-> Thanks,
-> pq
+Maxime
 
--- 
-Jani Nikula, Intel
+--tqheb5u3s3lx5xmw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQxz2gAKCRDj7w1vZxhR
+xTmAAP9zoK2b+SdtpCJFGCX7o373ATzx/Z9LKZn8NsK54IxYDAEAqMqFpI0Xg1Kq
+iSTWfIp3pAvquRgXpVDtgkMv7+qbSAU=
+=vGpA
+-----END PGP SIGNATURE-----
+
+--tqheb5u3s3lx5xmw--
