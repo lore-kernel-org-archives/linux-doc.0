@@ -2,74 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91DC1E7D0B7
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 22:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C05E7D0B4
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 23:00:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjIUWkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Sep 2023 18:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55246 "EHLO
+        id S231916AbjIUXAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Sep 2023 19:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjIUWka (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 18:40:30 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB2199;
-        Thu, 21 Sep 2023 15:40:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 746EFC433C7;
-        Thu, 21 Sep 2023 22:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695336024;
-        bh=YJWf9LmGERCK01Hcj/TS3IGtBPmay9vgQw9uJoivTtA=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=gdxniGFlXCI4g5BAA/DqQq4X7YCYXqTO6RWkaeGX1ed0R7T5zY95g+nnA4VS5g/gL
-         puwMa+Za40IDdwr1dNiZKv3+wzCb0/VZ793+w8CI6EPB4nxXNJrHs5CCr01iKXzUVt
-         zRl+5tcNcpuTR2T/3JRY1tr0BJbPMTKDs7tsqpujlSl28Q02ByRSMCzcrKWKlCn8BP
-         wR8DRDeHiDOHaz5c97e5q218kZoz47pqJ4w74ZtXPXyyvMB7JvxM3thDIUP+NAurlV
-         YFPCpKHbMMzAMKpq8lZ6p2kJZrExJd/kZY8yP+RIFRA3C6FYrPYbdXQY/Gc60dxCYd
-         gEv0UKpFwIeyQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5B8C1E11F40;
-        Thu, 21 Sep 2023 22:40:24 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S230198AbjIUXAg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 19:00:36 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3217E8C63B;
+        Thu, 21 Sep 2023 10:42:37 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 613451FB;
+        Wed, 20 Sep 2023 20:37:17 -0700 (PDT)
+Received: from a077893.arm.com (unknown [10.163.32.120])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 730A73F59C;
+        Wed, 20 Sep 2023 20:36:36 -0700 (PDT)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mike Leach <mike.leach@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH V7 0/3] coresight: etm: Make cycle count threshold user configurable
+Date:   Thu, 21 Sep 2023 09:06:28 +0530
+Message-Id: <20230921033631.1298723-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v1] bpf,
- docs: Add loongarch64 as arch supporting BPF JIT
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169533602435.20538.12738329187307671554.git-patchwork-notify@kernel.org>
-Date:   Thu, 21 Sep 2023 22:40:24 +0000
-References: <1695111937-19697-1-git-send-email-yangtiezhu@loongson.cn>
-In-Reply-To: <1695111937-19697-1-git-send-email-yangtiezhu@loongson.cn>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     corbet@lwn.net, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, linux-kernel@vger.kernel.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+This series makes ETM TRCCCCTRL based 'cc_threshold' user configurable via
+the perf event attribute. But first, this implements an errata work around
+affecting ETM TRCIDR3.CCITMIN value on certain cpus, overriding the field.
 
-This patch was applied to bpf/bpf-next.git (master)
-by Martin KaFai Lau <martin.lau@kernel.org>:
+This series applies on coresight/for-next/queue.
 
-On Tue, 19 Sep 2023 16:25:37 +0800 you wrote:
-> As BPF JIT support for loongarch64 was added about one year ago
-> with commit 5dc615520c4d ("LoongArch: Add BPF JIT support"), it
-> is appropriate to add loongarch64 as arch supporting BPF JIT in
-> bpf and sysctl docs as well.
-> 
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> 
-> [...]
+Cc: Catalin Marinas <catalin.marinas@arm.com> 
+Cc: Will Deacon <will@kernel.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com> 
+Cc: Mike Leach <mike.leach@linaro.org>
+Cc: James Clark <james.clark@arm.com>
+Cc: Leo Yan <leo.yan@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: coresight@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
 
-Here is the summary with links:
-  - [bpf-next,v1] bpf, docs: Add loongarch64 as arch supporting BPF JIT
-    https://git.kernel.org/bpf/bpf-next/c/ac0691c75ab7
+Changes in V7:
 
-You are awesome, thank you!
+- Changed commit message for the second patch adding cc_threshold
+
+Changes in V6:
+
+https://lore.kernel.org/all/20230920095443.1126617-1-anshuman.khandual@arm.com/
+
+- Renamed etm4_core_reads_wrong_ccitmin() as etm4_fixup_wrong_ccitmin()
+- Moved drvdata->ccitmin fixup inside etm4_fixup_wrong_ccitmin()
+
+Changes in V5:
+
+https://lore.kernel.org/all/20230821045216.641499-1-anshuman.khandual@arm.com/
+https://lore.kernel.org/all/20230915093649.435163-1-anshuman.khandual@arm.com/
+
+- Replaced 'where as' with single word 'whereas'
+- Reworked 'cc_threshold' fallback to ETM_CYC_THRESHOLD_DEFAULT
+
+Changes in V4:
+
+https://lore.kernel.org/all/20230818112051.594986-1-anshuman.khandual@arm.com/
+
+- Fixed a typo s/rangess/ranges,
+- Renamed etm4_work_around_wrong_ccitmin() as etm4_core_reads_wrong_ccitmin()
+- Moved drvdata->ccitmin value check for 256 inside etm4_core_reads_wrong_ccitmin()
+- Moved the comment inside etm4_core_reads_wrong_ccitmin()
+
+Changes in V3:
+
+https://lore.kernel.org/all/20230811034600.944386-1-anshuman.khandual@arm.com/
+
+- Added errata work around affecting TRCIDR3.CCITMIN
+- Split the document update into a separate patch
+
+Changes in V2:
+
+https://lore.kernel.org/all/20230808074533.380537-1-anshuman.khandual@arm.com/
+
+- s/treshhold/threshold
+
+Changes in V1:
+
+https://lore.kernel.org/all/20230804044720.1478900-1-anshuman.khandual@arm.com/
+
+Anshuman Khandual (3):
+  coresight: etm: Override TRCIDR3.CCITMIN on errata affected cpus
+  coresight: etm: Make cycle count threshold user configurable
+  Documentation: coresight: Add cc_threshold tunable
+
+ Documentation/arch/arm64/silicon-errata.rst   | 10 ++++
+ Documentation/trace/coresight/coresight.rst   |  4 ++
+ .../hwtracing/coresight/coresight-etm-perf.c  |  2 +
+ .../coresight/coresight-etm4x-core.c          | 46 ++++++++++++++++++-
+ 4 files changed, 60 insertions(+), 2 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
