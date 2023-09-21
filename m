@@ -2,94 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3149EE7D0A6
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 20:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 324B3E7D0A6
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 20:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbjIUUCh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Sep 2023 16:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46618 "EHLO
+        id S230254AbjIUUMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Sep 2023 16:12:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231557AbjIUUCO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 16:02:14 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 46A1A72B9;
-        Thu, 21 Sep 2023 10:22:38 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23993176B;
-        Thu, 21 Sep 2023 09:29:10 -0700 (PDT)
-Received: from [10.1.34.154] (XHFQ2J9959.cambridge.arm.com [10.1.34.154])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3FD333F59C;
-        Thu, 21 Sep 2023 09:28:29 -0700 (PDT)
-Message-ID: <637361bb-dd56-4085-a427-86fd76480de5@arm.com>
-Date:   Thu, 21 Sep 2023 17:28:28 +0100
+        with ESMTP id S231286AbjIUUMI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 16:12:08 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C55100A41;
+        Thu, 21 Sep 2023 12:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=9qTM0K/yk5JdWUeLoP3oQpoZOY/3tRKxEVyXZngPDNQ=; b=CNkrTxxxCnxfM62tCw6pnjsbMW
+        DA9LLSCZIGZkABwGThi4P6y7G6dE4/OnpWKo7rut/nS3TbWdMmIN22oDDsh+9CNRKoIuoLehCIPMZ
+        TwDNnmnAKppB4qVcA6ZplqS1+JhjucYUMLDMJAUsmOCa9rQsA2FDofTxnxMvb+6ppMwU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1qjPAT-0077hs-Ck; Thu, 21 Sep 2023 21:16:53 +0200
+Date:   Thu, 21 Sep 2023 21:16:53 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Parthiban.Veerasooran@microchip.com
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, Steen.Hegelund@microchip.com,
+        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Horatiu.Vultur@microchip.com, Woojung.Huh@microchip.com,
+        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+        Thorsten.Kummermehr@microchip.com
+Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
+ control transaction interface
+Message-ID: <42031ac6-7f3d-4bc9-8cfa-d7eb61ed10d5@lunn.ch>
+References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
+ <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
+ <74a6cd9c-fb30-46eb-a50f-861d9ff5bf37@lunn.ch>
+ <6ecc8364-2bd7-a134-f334-2aff31f44498@microchip.com>
+ <2021acc6-bcf6-4dba-b7ce-ca1b3ca86088@lunn.ch>
+ <94e4a08b-005d-adc0-5852-85568ba5db72@microchip.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 8/8] selftests/mm: add uffd unit test for UFFDIO_POISON
-Content-Language: en-GB
-To:     Axel Rasmussen <axelrasmussen@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
-        Jiaqi Yan <jiaqiyan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "T.J. Alumbaugh" <talumbau@google.com>,
-        Yu Zhao <yuzhao@google.com>,
-        ZhangPeng <zhangpeng362@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-References: <20230707215540.2324998-1-axelrasmussen@google.com>
- <20230707215540.2324998-9-axelrasmussen@google.com>
-From:   Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <20230707215540.2324998-9-axelrasmussen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <94e4a08b-005d-adc0-5852-85568ba5db72@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/07/2023 22:55, Axel Rasmussen wrote:
-> The test is pretty basic, and exercises UFFDIO_POISON straightforwardly.
-> We register a region with userfaultfd, in missing fault mode. For each
-> fault, we either UFFDIO_COPY a zeroed page (odd pages) or UFFDIO_POISON
-> (even pages). We do this mix to test "something like a real use case",
-> where guest memory would be some mix of poisoned and non-poisoned pages.
+> So drivers/net/ethernet/Kconfig file should contain the below,
 > 
-> We read each page in the region, and assert that the odd pages are
-> zeroed as expected, and the even pages yield a SIGBUS as expected.
+> config OA_TC6
+>           tristate "OPEN Alliance TC6 10BASE-T1x MAC-PHY support"
+>           depends on SPI
+>           select PHYLIB 
 > 
-> Why UFFDIO_COPY instead of UFFDIO_ZEROPAGE? Because hugetlb doesn't
-> support UFFDIO_ZEROPAGE, and we don't want to have special case code.
+>           help
+>             This library implements OPEN Alliance TC6 10BASE-T1x MAC-PHY
+>             Serial Interface protocol for supporting 10BASE-T1x MAC-PHYs.
 > 
-> Acked-by: Peter Xu <peterx@redhat.com>
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> The drivers/net/ethernet/Makefile file should contain the below,
+> 
+> obj-$(CONFIG_OA_TC6) += oa_tc6.o
 
-Hi,
+That looks about right, but i'm not a kconfig expert.
 
-FYI, when running this test on arm64 it provokes a kernel panic. I've posted a
-fix along with a detailed explanation at [1].
+I would expect drivers using this to then have a
 
-[1]
-https://lore.kernel.org/linux-arm-kernel/20230921162007.1630149-1-ryan.roberts@arm.com/
+	depends on OA_TC6
 
-Thanks,
-Ryan
-
+	Andrew
