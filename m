@@ -2,78 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324B3E7D0A6
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 20:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE998E7D0A8
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 20:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbjIUUMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Sep 2023 16:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52172 "EHLO
+        id S231701AbjIUUVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Sep 2023 16:21:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231286AbjIUUMI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 16:12:08 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C55100A41;
-        Thu, 21 Sep 2023 12:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=9qTM0K/yk5JdWUeLoP3oQpoZOY/3tRKxEVyXZngPDNQ=; b=CNkrTxxxCnxfM62tCw6pnjsbMW
-        DA9LLSCZIGZkABwGThi4P6y7G6dE4/OnpWKo7rut/nS3TbWdMmIN22oDDsh+9CNRKoIuoLehCIPMZ
-        TwDNnmnAKppB4qVcA6ZplqS1+JhjucYUMLDMJAUsmOCa9rQsA2FDofTxnxMvb+6ppMwU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1qjPAT-0077hs-Ck; Thu, 21 Sep 2023 21:16:53 +0200
-Date:   Thu, 21 Sep 2023 21:16:53 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Parthiban.Veerasooran@microchip.com
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        corbet@lwn.net, Steen.Hegelund@microchip.com,
-        rdunlap@infradead.org, horms@kernel.org, casper.casan@gmail.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Horatiu.Vultur@microchip.com, Woojung.Huh@microchip.com,
-        Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
-        Thorsten.Kummermehr@microchip.com
-Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
- control transaction interface
-Message-ID: <42031ac6-7f3d-4bc9-8cfa-d7eb61ed10d5@lunn.ch>
-References: <20230908142919.14849-1-Parthiban.Veerasooran@microchip.com>
- <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
- <74a6cd9c-fb30-46eb-a50f-861d9ff5bf37@lunn.ch>
- <6ecc8364-2bd7-a134-f334-2aff31f44498@microchip.com>
- <2021acc6-bcf6-4dba-b7ce-ca1b3ca86088@lunn.ch>
- <94e4a08b-005d-adc0-5852-85568ba5db72@microchip.com>
+        with ESMTP id S231596AbjIUUUy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 16:20:54 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3BDB51018;
+        Thu, 21 Sep 2023 10:15:29 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1695290903;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MGuV725+A52UkxEuSgzeQeAhaGDz2ANft+qmFiacDG8=;
+        b=Uc1XkSaloHBlxYQ1zN6hh9geAvtQDrA6rzrrOm0XEDhASCCuiOJd0ZUQDVk5pu7smVlZfM
+        YcyVj5MIlW6dCw0gZAVps0Rws2yHAHtHT3yI0KmpTXMdgnz/3Z1IfNIMpPSXeG2C1xVIZa
+        RVC8GvYWzw2wNPbssRcVWZprhIJD5GCzDZQZel4mnlA7NNIdTJN8FZXnfD5refPia6Z4Ep
+        NvWaLlqsVp24Afci/BqY4B8bDTeZUFFOfG/ZbjsHOCaUcJSGcTEfuO29KH+o6OntuQsdt1
+        Yeu0DTomo1WSKteeMcOT97KH0jVECo7ht6Xx698kxrEZHO2MRgqhLwxglLtcag==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1695290903;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MGuV725+A52UkxEuSgzeQeAhaGDz2ANft+qmFiacDG8=;
+        b=YhxFLYB1hUEgCK9ZzqoixCOcdsJ9EkBa/RsLR3qBRdXVZTcXsEUrSFZvzIKcv5QclewR1g
+        FaT5gQjP7YRGAsBA==
+To:     Nikolay Borisov <nik.borisov@suse.com>, Xin Li <xin3.li@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
+Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+        pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
+        jgross@suse.com, ravi.v.shankar@intel.com, mhiramat@kernel.org,
+        andrew.cooper3@citrix.com, jiangshanlai@gmail.com
+Subject: Re: [PATCH v10 28/38] x86/fred: FRED entry/exit and dispatch code
+In-Reply-To: <22921663-0e5e-58c0-c6c8-c45f991790ea@suse.com>
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-29-xin3.li@intel.com>
+ <22921663-0e5e-58c0-c6c8-c45f991790ea@suse.com>
+Date:   Thu, 21 Sep 2023 12:08:23 +0200
+Message-ID: <871qerj0tk.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <94e4a08b-005d-adc0-5852-85568ba5db72@microchip.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> So drivers/net/ethernet/Kconfig file should contain the below,
-> 
-> config OA_TC6
->           tristate "OPEN Alliance TC6 10BASE-T1x MAC-PHY support"
->           depends on SPI
->           select PHYLIB 
-> 
->           help
->             This library implements OPEN Alliance TC6 10BASE-T1x MAC-PHY
->             Serial Interface protocol for supporting 10BASE-T1x MAC-PHYs.
-> 
-> The drivers/net/ethernet/Makefile file should contain the below,
-> 
-> obj-$(CONFIG_OA_TC6) += oa_tc6.o
+On Thu, Sep 21 2023 at 12:48, Nikolay Borisov wrote:
+> On 14.09.23 =D0=B3. 7:47 =D1=87., Xin Li wrote:
+>> +
+>> +	/* INT80 */
+>> +	case IA32_SYSCALL_VECTOR:
+>> +		if (likely(IS_ENABLED(CONFIG_IA32_EMULATION))) {
+>
+> Since future kernels will support boottime toggling of whether 32bit=20
+> syscall interface should be enabled or not as per:
+> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=3Dx=
+86/entry&id=3D1da5c9bc119d3a749b519596b93f9b2667e93c4a
+>
+> It will make more sense to replace this with ia32_enabled() invocation.=20
+> I guess this could be done as a follow-up patch based on when this is=20
+> merged as the ia32_enbaled changes are going to be merged in 6.7.
 
-That looks about right, but i'm not a kconfig expert.
-
-I would expect drivers using this to then have a
-
-	depends on OA_TC6
-
-	Andrew
+The simplest solution is to rebase the series to tip x86/entry and just
+do it right away :)
