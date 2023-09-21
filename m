@@ -2,139 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18315E71094
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 16:59:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 199C9E71094
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Sep 2023 17:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbjIUQ7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Sep 2023 12:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44120 "EHLO
+        id S229730AbjIURBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Sep 2023 13:01:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjIUQ72 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 12:59:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FA1C10D8
-        for <linux-doc@vger.kernel.org>; Thu, 21 Sep 2023 09:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695315441;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jkSn+PxPk9HUDFePBeJ+qJj/mQ3EC7rJPAPt5aKMVQM=;
-        b=F/DriBNlnakBpwiZkokr3z+a5AgR3B9wCCeWop/EVSzLMj7wS5E6zW5rJdGUvhRzSNG/+w
-        yCu2oTiHR78RFy5XWGRKTiGFLETjlkF3d2nrYF4hBvpyIVMVvJzbd9OThFQaTbCaLfxi7T
-        doxlcyShmKX3finXVctwZIOxHUYLWOg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-287-nyhvP-chMsKUmn90Kypqvg-1; Thu, 21 Sep 2023 08:38:52 -0400
-X-MC-Unique: nyhvP-chMsKUmn90Kypqvg-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f5df65fa35so6819645e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 21 Sep 2023 05:38:52 -0700 (PDT)
+        with ESMTP id S229658AbjIURAs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Sep 2023 13:00:48 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524E4AC
+        for <linux-doc@vger.kernel.org>; Thu, 21 Sep 2023 09:59:40 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-34fcc39fae1so3475ab.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 Sep 2023 09:59:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695315571; x=1695920371; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s2u6FN1SftgW++v8P+zRdQ8M7vk5MQi7XZAYI++8wbU=;
+        b=c2H/NCs2TszdloVAB+vYTc+ev5QGA5naUxumUpOp7nWQZNw96PdJo6LmYSJGDpQ4XK
+         W4HEK7yOyZ9lQ3g7Adfvz4EKisxrwqJRnO0yYr9pu+22zwC9mzObWAtt4zrLD+kqfNoO
+         wHecHCql4LlHFPEv/IfbHmXTvPRTO4Kx9ljc3b/Yyi4klr6sGqhryB8KEANRpaim+Kgw
+         AbzHFfdaBKAqBZSU+LFLKyOZBydakPAiclewhVASD0AEtbquueq6B8ALJbnvMJAfq4KT
+         8/3VtUVwI0+xV3BDb8/w8nr3xTHl2FDXs3PWfK7GKHwk15emIY8JtxL6kfEo/1UYPUeR
+         euhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695299931; x=1695904731;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jkSn+PxPk9HUDFePBeJ+qJj/mQ3EC7rJPAPt5aKMVQM=;
-        b=HOXOMV1enwxIn49qS2jtSIh9HfOjbdxxDjgZaktxMNelHL43/Ovn9tbwd3FLBUzlhr
-         /lzuHKKov9EY8pKDM0b6Ziw7UuQyHKYAvO8bsH1jLEN1rWCmNTawZLZTw5DBEu6GEPT/
-         EAaFK3sARbSOGggSd7UMwDzH5uvXB2cUYoE5egw3IrPS5UPALpwDUz1O9w6AwpGdtBg7
-         s3ntV9Re9k9SHZ9yaT03Uml3jX7n35dyRLgq2JGuNo1dr9LhCCiDihLzH0qB4RiwUnuS
-         KSb0idK+ektEN+6J/a1KvBkEOXe4kbr2uh/mJA0e3wDOUdL9qrmRRFtwBxPq/P1h1P/t
-         1oxw==
-X-Gm-Message-State: AOJu0YwUnSwvGr4vozREBje3qdRTvgSL1kajEdkkiV7dAI6bgFD0LZfs
-        GG6LxS3d2gh+cu8ywlreykp7OPeAI+6WN1xyiuN82aBvevXjIaoN8sCcTd0/c763as5qhriGIT3
-        EBCv9XekBevAUynvb46t2
-X-Received: by 2002:a05:600c:2218:b0:3fe:d7c8:e0d with SMTP id z24-20020a05600c221800b003fed7c80e0dmr5342823wml.34.1695299931203;
-        Thu, 21 Sep 2023 05:38:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFiI3gcW3I+u5Eo8SPNcaANg2683MWXN2khdedOCHDWhlltohFDz1lgyBkB4z+3k5LCX1UlHw==
-X-Received: by 2002:a05:600c:2218:b0:3fe:d7c8:e0d with SMTP id z24-20020a05600c221800b003fed7c80e0dmr5342805wml.34.1695299930876;
-        Thu, 21 Sep 2023 05:38:50 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89? ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
-        by smtp.googlemail.com with ESMTPSA id c12-20020adfed8c000000b0032179c4a46dsm1650846wro.100.2023.09.21.05.38.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Sep 2023 05:38:50 -0700 (PDT)
-Message-ID: <9d2cccad-16ee-abcf-5a34-7e513a050229@redhat.com>
-Date:   Thu, 21 Sep 2023 14:38:48 +0200
+        d=1e100.net; s=20230601; t=1695315571; x=1695920371;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s2u6FN1SftgW++v8P+zRdQ8M7vk5MQi7XZAYI++8wbU=;
+        b=OZB1tot3q0GJDtlCUDUj55NNv4is9Ra11fApfpanOvAT4S0GW9AZAPVPaK50njsgvX
+         Fh3/IssZ9L/X0t7NG30y+sBSbdQ+EPEOmpnILmiq/XDRHoq+13ZBUL0v0Ig3TGRo00LL
+         pzFvNt0qM5oY5GDxyadG420gOKtdlF6LCZhDWc/amE5O7stNqW52NAc7chtJNgrEvCRH
+         du5yug2n3CxbrYOzBO+O1GV3pq51qv3yY6G1YxBZG8p9+ysprIP1OhMmxMj6//Ut8muU
+         W/+I9x8PVDRpEhjvoZfecJ6A+Oswz1hnJUxZ2aqEuEcHqu5n+RhbFwBSPUALTAOFPEQA
+         ANcA==
+X-Gm-Message-State: AOJu0YwVRRpTIpoA/o4bm0R4KaNV3OHjy4XfJfvpBP6VsedEe9TA0o9A
+        h5fBO7xpJdxGdDQKkXbEBTs4jf6SASCjaMKR+gnvjpz5pozym1vzJzc=
+X-Google-Smtp-Source: AGHT+IFV3vDWa7KdA0yQL7JHzFNdXvAQ2asrdok6dafCPy1rMKmY7RBvf74useO0LezTQyngHc30DzRXhMIB/7XbWKw=
+X-Received: by 2002:a05:622a:290:b0:416:6784:bd60 with SMTP id
+ z16-20020a05622a029000b004166784bd60mr271347qtw.21.1695314980488; Thu, 21 Sep
+ 2023 09:49:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v10 33/38] x86/entry: Add fred_entry_from_kvm() for VMX to
- handle IRQ/NMI
-Content-Language: en-US
-To:     Nikolay Borisov <nik.borisov@suse.com>, Xin Li <xin3.li@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, seanjc@google.com, peterz@infradead.org,
-        jgross@suse.com, ravi.v.shankar@intel.com, mhiramat@kernel.org,
-        andrew.cooper3@citrix.com, jiangshanlai@gmail.com
-References: <20230914044805.301390-1-xin3.li@intel.com>
- <20230914044805.301390-34-xin3.li@intel.com>
- <8163cf98-8968-72a4-4193-1ca9f019d9ff@suse.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <8163cf98-8968-72a4-4193-1ca9f019d9ff@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230918190027.613430-1-dima@arista.com>
+In-Reply-To: <20230918190027.613430-1-dima@arista.com>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Thu, 21 Sep 2023 18:49:29 +0200
+Message-ID: <CANn89iKp4LnpQ6fpTYc==ixqTNQgndBmOzj7w-_GN0hOfZyppQ@mail.gmail.com>
+Subject: Re: [PATCH v12 net-next 00/23] net/tcp: Add TCP-AO support
+To:     Dmitry Safonov <dima@arista.com>
+Cc:     David Ahern <dsahern@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-kernel@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Bob Gilligan <gilligan@arista.com>,
+        Dan Carpenter <error27@gmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Donald Cassidy <dcassidy@redhat.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Francesco Ruggeri <fruggeri05@gmail.com>,
+        "Gaillardetz, Dominik" <dgaillar@ciena.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ivan Delalande <colona@arista.com>,
+        Leonard Crestez <cdleonard@gmail.com>,
+        "Nassiri, Mohammad" <mnassiri@ciena.com>,
+        Salam Noureddine <noureddine@arista.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        "Tetreault, Francois" <ftetreau@ciena.com>, netdev@vger.kernel.org,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/21/23 14:11, Nikolay Borisov wrote:
->>
->> +SYM_FUNC_START(asm_fred_entry_from_kvm)
->> +    push %rbp
->> +    mov %rsp, %rbp
-> 
-> use FRAME_BEGIN/FRAME_END macros to ommit this code if 
-> CONFIG_FRAME_POINTER is disabled.
+On Mon, Sep 18, 2023 at 9:00=E2=80=AFPM Dmitry Safonov <dima@arista.com> wr=
+ote:
+>
+> Hi,
+>
+> This is version 12 of TCP-AO support. The changes from v11 address
+> Eric's review comments. The biggest change was defining a common
+> (struct tcp_key) that merges tcp_ao_key with tcp_md5sig_key on TCP
+> fast-path, therefore in order to help reviewing I provide
+> the ranged-diff between the versions here:
+>
+>    https://gist.github.com/0x7f454c46/fe546b9cf323ca21acc3d0eabbd41236
+>
+> There's one Sparse warning introduced by tcp_sigpool_start():
+> __cond_acquires() seems to currently being broken. I've described
+> the reasoning for it on v9 cover letter. Also, checkpatch.pl warnings
+> were addressed, but yet I've left the ones that are more personal
+> preferences (i.e. 80 columns limit). Please, ping me if you have
+> a strong feeling about one of them.
+>
+> The following changes since commit a5ea26536e89d04485aa9e1c8f60ba11dfc546=
+9e:
+>
+>   Merge branch 'stmmac-devvm_stmmac_probe_config_dt-conversion' (2023-09-=
+18 12:44:36 +0100)
 
-No, the previous stack pointer is used below, so the code might as well 
-use %rbp for that; but it must do so unconditionally.
+Sorry for the delay, but I was looking at a bug in TCP MD5.
 
-Paolo
+I will ask you to fix it, before we change everything in the stack
+related to MD5 :/
 
->> +
->> +    UNWIND_HINT_SAVE
->> +
->> +    /*
->> +     * Don't check the FRED stack level, the call stack leading to this
->> +     * helper is effectively constant and shallow (relatively speaking).
->> +     *
->> +     * Emulate the FRED-defined redzone and stack alignment.
->> +     */
->> +    sub $(FRED_CONFIG_REDZONE_AMOUNT << 6), %rsp
->> +    and $FRED_STACK_FRAME_RSP_MASK, %rsp
->> +
->> +    /*
->> +     * Start to push a FRED stack frame, which is always 64 bytes:
->> +     *
->> +     * +--------+-----------------+
->> +     * | Bytes  | Usage           |
->> +     * +--------+-----------------+
->> +     * | 63:56  | Reserved        |
->> +     * | 55:48  | Event Data      |
->> +     * | 47:40  | SS + Event Info |
->> +     * | 39:32  | RSP             |
->> +     * | 31:24  | RFLAGS          |
->> +     * | 23:16  | CS + Aux Info   |
->> +     * |  15:8  | RIP             |
->> +     * |   7:0  | Error Code      |
->> +     * +--------+-----------------+
->> +     */
->> +    push $0                /* Reserved, must be 0 */
->> +    push $0                /* Event data, 0 for IRQ/NMI */
->> +    push %rdi            /* fred_ss handed in by the caller */
->> +    push %rbp
-
-^^ here
-
-Paolo
-
->> +    pushf
->> +    mov $__KERNEL_CS, %rax
->> +    push %rax 
-
+I am releasing a syzbot report right now, I will CC you on it.
