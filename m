@@ -2,227 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D73FE6FE46
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 14:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32127E6FE42
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 15:00:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbjIVO65 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Sep 2023 10:58:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39468 "EHLO
+        id S231833AbjIVPAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Sep 2023 11:00:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231912AbjIVO65 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 10:58:57 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2188F100
-        for <linux-doc@vger.kernel.org>; Fri, 22 Sep 2023 07:58:49 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-414ba610766so392611cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 Sep 2023 07:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695394728; x=1695999528; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zgDKgKLNOq5UPjSMrvVQpqlAFLCGyJRKW8sSQYfce5A=;
-        b=KW1foPL4LoxlqJ4kP58yEZ52r9JbHSW+br9xWL0P8bA3pyaY6C24K54rDUa4hN0kQ1
-         ifS3cPIxFkufgO4KP3Y9qj7Dzsy1DQl1JLeu3skymEQY35VW49riqe2mpxQmqmcm/yTg
-         UWZe/29O6v1OO8NsnSA+YPpxG+qIObk1Q2SNhUVNmUpFThrUVippYPqmpfC1rJjtRF+a
-         nzL21JcnODfpBreHCInR6BYywqOmcs5dJ5tFCL2lX1nNiL/WfGhkIY/gB/MdZ1u7ytIG
-         6BYU8+DRHNP/f1vFdA1lT+y7LK4uuilQOg+5PrIvWCLk2W0f9+lHiNP+mjQnw4x8RKs6
-         XN1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695394728; x=1695999528;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zgDKgKLNOq5UPjSMrvVQpqlAFLCGyJRKW8sSQYfce5A=;
-        b=qaXgtbwK8bUN6Duz3CwWTaJNMZy1p07CG052dy1Ape80MyyQB467HmroCZ38Ta9HYs
-         WEmSLY15ukDF05XyCZNicVCeoodzNdTAlFgZPBX6mrPBqEirM4Ha/Y284Fe8P0Y1I4ZY
-         A+CY0p7vFf57f0fUY6Gt3p/bN+Qz4/arN4kLTBQBMFyvC3P5vsvDGaClJrYk/4dPlva2
-         t98ZK/YGWH1Ri3NIsZvqucTYYfce7NI0E8OHzofpD6tyaQXXrqjIqgFQGla675z0jotJ
-         C5eMpiED8SnhJnr50hIl71xpuGA9yJcERdIUWIchZZnOz1BjK/vuqUQYwB026JhWpvfs
-         IGSw==
-X-Gm-Message-State: AOJu0YyCdwlv3l+z9stcuAh53TM5jTtisJKPch3qKzwdJMDN/W/J/vEt
-        bf83bwSwxZ0SezCSAkUUTE5a8Z0stV1Y1ykUoWQAHw==
-X-Google-Smtp-Source: AGHT+IESNWFRg+y2TuWvd89RoJ6GBBUMt3OgVqWMs842fYNtOygOfCHPUJtJDdiPRplbsgSlGB6en+tQOrS+AeANsys=
-X-Received: by 2002:a05:622a:1191:b0:403:eeb9:a76 with SMTP id
- m17-20020a05622a119100b00403eeb90a76mr181867qtk.17.1695394728023; Fri, 22 Sep
- 2023 07:58:48 -0700 (PDT)
+        with ESMTP id S232056AbjIVPAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 11:00:11 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1CE196;
+        Fri, 22 Sep 2023 08:00:04 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1695394802;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yymdn5Ib3vdedE1bKPjXhrIk07DP2toWMx0YBeOSCKc=;
+        b=JCA+KUnb692VWlx1fmj161S4ivDwYTrM1u8X2p5arIqoauHvahJMRyQgJNnCijDhvdZTN5
+        2vhPfci1iBhuF4Qy2zYMF8JGpNHrq0VAOBaIOZz4r3zSiAs1S0WjK2Y/a5ZLPZiRHiR72P
+        REbPguOF78kSQmQ7J0MndgAQ5u9+VLIa/hw1U5uaXSml+++MgocMsUUHEo8yUUBhh55/dy
+        QQw13O85IYkSyENm5eCNprEvBu0VGY6MYJBQev1Uj1n9rrZjN0zSSXrLOJq5WBnRYuLa3i
+        /YCovSEvga/R0iW5oDIVClJYgWEFtXfzNaoHbWAAyTqcD536K6Nb5/nqacqCUg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1695394802;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yymdn5Ib3vdedE1bKPjXhrIk07DP2toWMx0YBeOSCKc=;
+        b=CIDz5h5BcX/Bz/jkuzgX2qYw3Xx+SDJYkCZCT8rgToE1CkxZkoLWZYWz8rraUAqGtvF28b
+        64aTOX6aC7JwbuBQ==
+To:     "Li, Xin3" <xin3.li@intel.com>, "Li, Xin3" <xin3.li@intel.com>,
+        Nikolay Borisov <nik.borisov@suse.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
+Cc:     "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Christopherson,, Sean" <seanjc@google.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "Gross, Jurgen" <jgross@suse.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "mhiramat@kernel.org" <mhiramat@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "jiangshanlai@gmail.com" <jiangshanlai@gmail.com>
+Subject: RE: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
+In-Reply-To: <SA1PR11MB6734445986E951E686172419A8FFA@SA1PR11MB6734.namprd11.prod.outlook.com>
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-4-xin3.li@intel.com>
+ <dda01248-f456-d8d7-5021-ef6b2e7ade2c@suse.com>
+ <SA1PR11MB6734F205C2171425415E4F00A8F9A@SA1PR11MB6734.namprd11.prod.outlook.com>
+ <SA1PR11MB6734445986E951E686172419A8FFA@SA1PR11MB6734.namprd11.prod.outlook.com>
+Date:   Fri, 22 Sep 2023 17:00:02 +0200
+Message-ID: <87o7hugsnh.ffs@tglx>
 MIME-Version: 1.0
-References: <1695037955-107983-1-git-send-email-renyu.zj@linux.alibaba.com>
- <1695037955-107983-2-git-send-email-renyu.zj@linux.alibaba.com>
- <CAP-5=fUxfJT-gxKB+Ls3drUeQ0sy55uydi8Y36gumUnaFSYeqA@mail.gmail.com> <0f5bbe93-1875-ff9b-a1d8-8518a8cf3e84@linux.alibaba.com>
-In-Reply-To: <0f5bbe93-1875-ff9b-a1d8-8518a8cf3e84@linux.alibaba.com>
-From:   Ian Rogers <irogers@google.com>
-Date:   Fri, 22 Sep 2023 07:58:35 -0700
-Message-ID: <CAP-5=fW8HSuQ2kZDrMeyhpZbiqagANs=_W+RWNJw21u-UhixrQ@mail.gmail.com>
-Subject: Re: [PATCH v9 1/7] perf pmu: "Compat" supports regular expression
- matching identifiers
-To:     Jing Zhang <renyu.zj@linux.alibaba.com>
-Cc:     John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 22, 2023 at 1:19=E2=80=AFAM Jing Zhang <renyu.zj@linux.alibaba.=
-com> wrote:
+On Fri, Sep 22 2023 at 08:16, Xin3 Li wrote:
+>> > > +static __always_inline void __wrmsrns(u32 msr, u32 low, u32 high)
+>> >
+>> > Shouldn't this be named wrmsrns_safe since it has exception handling, similar
+>> to
+>> > the current wrmsrl_safe.
+>> >
+>> 
+>> Both safe and unsafe versions have exception handling, while the safe
+>> version returns an integer to its caller to indicate an exception did
+>> happen or not.
 >
->
->
-> =E5=9C=A8 2023/9/21 =E4=B8=8A=E5=8D=882:36, Ian Rogers =E5=86=99=E9=81=93=
-:
-> > On Mon, Sep 18, 2023 at 4:52=E2=80=AFAM Jing Zhang <renyu.zj@linux.alib=
-aba.com> wrote:
-> >>
-> >> The jevent "Compat" is used for uncore PMU alias or metric definitions=
-.
-> >>
-> >> The same PMU driver has different PMU identifiers due to different
-> >> hardware versions and types, but they may have some common PMU event.
-> >> Since a Compat value can only match one identifier, when adding the
-> >> same event alias to PMUs with different identifiers, each identifier
-> >> needs to be defined once, which is not streamlined enough.
-> >>
-> >> So let "Compat" support using regular expression to match identifiers
-> >> for uncore PMU alias. For example, if the "Compat" value is set to
-> >> "43401|43c01", it would be able to match PMU identifiers such as "4340=
-1"
-> >> or "43c01", which correspond to CMN600_r0p0 or CMN700_r0p0.
-> >>
-> >> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
-> >> ---
-> >>  tools/perf/util/pmu.c | 23 +++++++++++++++++++++--
-> >>  tools/perf/util/pmu.h |  1 +
-> >>  2 files changed, 22 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
-> >> index e215985..7e2242f 100644
-> >> --- a/tools/perf/util/pmu.c
-> >> +++ b/tools/perf/util/pmu.c
-> >> @@ -28,6 +28,7 @@
-> >>  #include "strbuf.h"
-> >>  #include "fncache.h"
-> >>  #include "util/evsel_config.h"
-> >> +#include <regex.h>
-> >>
-> >>  struct perf_pmu perf_pmu__fake =3D {
-> >>         .name =3D "fake",
-> >> @@ -875,6 +876,24 @@ static bool pmu_uncore_alias_match(const char *pm=
-u_name, const char *name)
-> >>         return res;
-> >>  }
-> >>
-> >> +bool pmu_uncore_identifier_match(const char *compat, const char *id)
-> >> +{
-> >> +       regex_t re;
-> >> +       regmatch_t pmatch[1];
-> >> +       int match;
-> >> +
-> >> +       if (regcomp(&re, compat, REG_EXTENDED) !=3D 0) {
-> >> +               /* Warn unable to generate match particular string. */
-> >> +               pr_info("Invalid regular expression %s\n", compat);
-> >> +               return false;
-> >> +       }
-> >> +
-> >> +       match =3D !regexec(&re, id, 1, pmatch, 0);
-> >
-> > I wonder if we can make the regular expressions like
-> > "^(434|436|43c|43a)" more like "(434|436|43c|43a).*", so that we fully
-> > match the id string, by here doing:
-> >
-> > if (match) {
-> >   /* Ensure a full match. */
-> >   match =3D pmatch[0].rm_so =3D=3D 0 && pmatch[0].rm_eo =3D=3D strlen(i=
-d);
-> > }
-> >
->
-> Ok, will do.
->
->
-> > I think longer term we can use jevents.py to generate a pmu-events.l,
-> > which would have a contents something like:
-> >
-> > (434|436|43c|43a).*  { return PMU_....;}
-> >
-> > That should make the matching faster but may add some restrictions
-> > onto the regular expression.
->
-> Could you please describe the function of pmu-event.l in more detail? I m=
-ay not fully understand it.
+> I notice there are several call sites using the safe version w/o
+> checking the return value, should the unsafe version be a better
+> choice in such cases?
 
-So for now there's no need for a pmu-event.l, I'm fine with the code
-as-is. The issue for using regular expressions is that we need to
-compile (regcomp) then use them (regexec), and in this new code the
-result of the parsing is discarded - perhaps we can save on some
-compiling with a 1 element cache, let's wait to see performance data
-saying it is an issue. If we were to compile the regular expressions
-at build time with flex then the runtime cost, any caching, etc. is
-unnecessary.
-
-Hope this makes sense. Thanks,
-Ian
-
-> Thanks,
-> Jing
->
-> >
-> > Thanks,
-> > Ian
-> >
-> >> +       regfree(&re);
-> >> +
-> >> +       return match;
-> >> +}
-> >> +
-> >>  static int pmu_add_cpu_aliases_map_callback(const struct pmu_event *p=
-e,
-> >>                                         const struct pmu_events_table =
-*table __maybe_unused,
-> >>                                         void *vdata)
-> >> @@ -915,8 +934,8 @@ static int pmu_add_sys_aliases_iter_fn(const struc=
-t pmu_event *pe,
-> >>         if (!pe->compat || !pe->pmu)
-> >>                 return 0;
-> >>
-> >> -       if (!strcmp(pmu->id, pe->compat) &&
-> >> -           pmu_uncore_alias_match(pe->pmu, pmu->name)) {
-> >> +       if (pmu_uncore_alias_match(pe->pmu, pmu->name) &&
-> >> +                       pmu_uncore_identifier_match(pe->compat, pmu->i=
-d)) {
-> >>                 perf_pmu__new_alias(pmu,
-> >>                                 pe->name,
-> >>                                 pe->desc,
-> >> diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
-> >> index bd5d804..fc155ce 100644
-> >> --- a/tools/perf/util/pmu.h
-> >> +++ b/tools/perf/util/pmu.h
-> >> @@ -240,6 +240,7 @@ void pmu_add_cpu_aliases_table(struct perf_pmu *pm=
-u,
-> >>  char *perf_pmu__getcpuid(struct perf_pmu *pmu);
-> >>  const struct pmu_events_table *pmu_events_table__find(void);
-> >>  const struct pmu_metrics_table *pmu_metrics_table__find(void);
-> >> +bool pmu_uncore_identifier_match(const char *compat, const char *id);
-> >>
-> >>  int perf_pmu__convert_scale(const char *scale, char **end, double *sv=
-al);
-> >>
-> >> --
-> >> 1.8.3.1
-> >>
+Depends. The safe version does not emit a warning on fail. So if the
+callsite truly does not care about the error it's fine.
