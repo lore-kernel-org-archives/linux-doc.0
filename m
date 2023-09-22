@@ -2,71 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81882CD4F5B
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 11:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 371DFCD4F5B
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 11:30:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233638AbjIVL3R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Sep 2023 07:29:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
+        id S233651AbjIVLam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Sep 2023 07:30:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233643AbjIVL3Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 07:29:16 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C702AC;
-        Fri, 22 Sep 2023 04:29:09 -0700 (PDT)
+        with ESMTP id S233679AbjIVLak (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 07:30:40 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2401CAF;
+        Fri, 22 Sep 2023 04:30:35 -0700 (PDT)
 Received: from localhost (unknown [195.89.33.213])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2FA152D6;
-        Fri, 22 Sep 2023 11:29:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2FA152D6
+        by ms.lwn.net (Postfix) with ESMTPSA id 5A57D2D6;
+        Fri, 22 Sep 2023 11:30:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5A57D2D6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1695382149; bh=u8Zhv7QCSsdruT43CaXY6QMt4g3f6bidDSIGHufPC+k=;
+        t=1695382234; bh=M8ePXROlueLlKm2yOIf4XihUtHyKAuFvrElWSy5QCdo=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=gqtcp2T42JGezpcF4td2CgO6+xOsSkuqOn9UO4AGOzspY3zIhmrpaWlnYtKS6D5Km
-         4f6n5ZGTi9OD/fIhEKCzb/B76AD+AcfsVqYNZ1oKz5nkUxE7SUcLHQ1UwgOdkgzmHu
-         F2cpiO1JfzkCqPpd8uze3XaHzaEEtPS8gUwuFNt+SN57Th0kgM4JTdvinTBsalkU5A
-         g7aBHxwPZzr815n3CbsaxKoXW4W1qX8stJ8tbIdJW15/f9NqvzdwuCxFOCi4tQuE0a
-         bJSIHrwNEaZTwxrvc0NfLrTxhQRrSNdbG/ch55//Uy/oau21K9sI4Xs3EOysmvq121
-         5jQsbqpoa73YQ==
+        b=DImpLmIKfEARs4VtYYfUCoycF+3xjXJz7fgqtt8oEzsrelHBZJljsfCxnNRTooX+i
+         5rekVyMtxqBVH3Mwc/bnv3EOUzpqIaXOjXktQvNi5OtdASLZXyq6GtsQQm3k1/gK+0
+         SZb5hBYaqVXILZBYdx9hJTwzVcJ3T43Vh7WsTFBocJc0AmFqS3580Hb5U6qhRj21iu
+         1aPDxSVv7ovAE7Z2+EAuq6CVxR+Fifz2/IqWeq8N2mHz1QPLM2lnKHuuQw/qfAMa0h
+         SfViHIr7p3XzhsoUsQGorw10u3DSdYgL1NgQktwlFAxpNw6tTWRQcecNjtXKydfh4b
+         5kTp0o3qH1g6A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     mikko.rapeli@linaro.org, linux-doc@vger.kernel.org
-Cc:     Mikko Rapeli <mikko.rapeli@linaro.org>,
-        Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org,
-        stable@kernel.org
-Subject: Re: [PATCH] Documentation efi-stub.rst: fix arm64 EFI source location
-In-Reply-To: <20230904113214.4147021-1-mikko.rapeli@linaro.org>
-References: <20230904113214.4147021-1-mikko.rapeli@linaro.org>
-Date:   Fri, 22 Sep 2023 05:29:07 -0600
-Message-ID: <87cyya78fw.fsf@meer.lwn.net>
+To:     Kuan-Wei Chiu <visitorckw@gmail.com>, axboe@kernel.dk
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kuan-Wei Chiu <visitorckw@gmail.com>
+Subject: Re: [PATCH] docs: block: blk-mq.rst: correct places -> place
+In-Reply-To: <20230902164121.2653109-1-visitorckw@gmail.com>
+References: <20230902164121.2653109-1-visitorckw@gmail.com>
+Date:   Fri, 22 Sep 2023 05:30:32 -0600
+Message-ID: <878r8y78dj.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mikko.rapeli@linaro.org writes:
+Kuan-Wei Chiu <visitorckw@gmail.com> writes:
 
-> From: Mikko Rapeli <mikko.rapeli@linaro.org>
+> Corrected a typo in the blk-mq.rst documentation where 'places' was
+> incorrectly used instead of 'place'.
 >
-> arch/arm64/kernel/efi-entry.S has been moved to
-> drivers/firmware/efi/libstub/arm64-entry.S by commit
-> v6.1-rc4-6-g4ef806096bdb and to
-> drivers/firmware/efi/libstub/arm64.c by commit
-> v6.2-rc3-6-g617861703830
->
-> Fixes: 4ef806096bdb (arm64: efi: Move efi-entry.S into the libstub source directory)
-> Fixes: 617861703830 (efi: arm64: enter with MMU and caches enabled)
->
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-efi@vger.kernel.org
-> Cc: stable@kernel.org
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 > ---
->  Documentation/admin-guide/efi-stub.rst | 2 +-
+>  Documentation/block/blk-mq.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks,
+Applied, thanks.
 
 jon
