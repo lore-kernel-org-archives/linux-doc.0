@@ -2,248 +2,223 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B86CD4F35
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 08:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 736EFCD4F33
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 09:15:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232134AbjIVIwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Sep 2023 04:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35864 "EHLO
+        id S232907AbjIVJP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Sep 2023 05:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231814AbjIVIwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 04:52:13 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4A9A9;
-        Fri, 22 Sep 2023 01:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695372727; x=1726908727;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=909qfSZJj9g30Z44iivYF+PQog17rbjHkc3mDJyIeVA=;
-  b=E5gr45hRlzMJEmrraVyRfT/yz9tH4lwuKirPsJ1qB30NsP3+E+0UNmlr
-   3A4lTKprTlDN1i8uUF8JWnzlnAPRzlDjtX9EuzoUMbD7mttr/2RakgYSa
-   Y2fBfJhLZsKA9VpMJETS8gPoKgD+itlejaGnS4koBLcnrr2uJnL2UH8fZ
-   Ouf1Mr2ylIzqQp3qcJphk5ZGXaMVG+4nW9BJSVO2sEVaRcZoQ2eAMtgo0
-   PHoIjU2pu5TV/aBMQq+M0ztBhXca0YzS0V1Jvpm1k0MLvxDqWYiRMbrWW
-   S5lYoUKvWHGwJVI/6Lc5IqPQK+qhuNaUgafnBxwiZOoYdmn3yJeXyAvAB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="447258904"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="447258904"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 01:52:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="837654871"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="837654871"
-Received: from rblanarx-mobl.ger.corp.intel.com ([10.252.52.48])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 01:52:00 -0700
-Date:   Fri, 22 Sep 2023 11:51:54 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Fernando Eckhardt Valle <fevalle@ipt.br>
-cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Pearson <mpearson-lenovo@squebb.ca>, corbet@lwn.net,
-        hmh@hmh.eng.br, markgross@kernel.org, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4] platform/x86: thinkpad_acpi: sysfs interface to
- auxmac
-In-Reply-To: <20230921143622.72387-1-fevalle@ipt.br>
-Message-ID: <946285e6-6064-4084-a1a7-f5ba7dea3e7d@linux.intel.com>
-References: <20230921143622.72387-1-fevalle@ipt.br>
+        with ESMTP id S232940AbjIVJPV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 05:15:21 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0454E196;
+        Fri, 22 Sep 2023 02:15:11 -0700 (PDT)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RsRPn0Hpbz15NRP;
+        Fri, 22 Sep 2023 17:13:01 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Fri, 22 Sep 2023 17:15:09 +0800
+From:   Yunsheng Lin <linyunsheng@huawei.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Yunsheng Lin <linyunsheng@huawei.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Alexander Duyck <alexander.duyck@gmail.com>,
+        Liang Chen <liangchen.linux@gmail.com>,
+        Alexander Lobakin <aleksander.lobakin@intel.com>,
+        Dima Tisnek <dimaqq@gmail.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        John Fastabend <john.fastabend@gmail.com>,
+        <linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
+Subject: [PATCH net-next v10 5/6] page_pool: update document about fragment API
+Date:   Fri, 22 Sep 2023 17:11:37 +0800
+Message-ID: <20230922091138.18014-6-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20230922091138.18014-1-linyunsheng@huawei.com>
+References: <20230922091138.18014-1-linyunsheng@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Sep 2023, Fernando Eckhardt Valle wrote:
+As more drivers begin to use the fragment API, update the
+document about how to decide which API to use for the
+driver author.
 
-> Newer Thinkpads have a feature called MAC Address Pass-through.
-> This patch provides a sysfs interface that userspace can use
-> to get this auxiliary mac address.
-> 
-> Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
-> ---
-> Changes in v4:
-> - strscpy() in all string copies.
-> Changes in v3:
-> - Added null terminator to auxmac string when copying auxiliary
-> mac address value.
-> Changes in v2:
-> - Added documentation.
-> - All handling of the auxmac value is done in the _init function.
-> ---
->  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
->  drivers/platform/x86/thinkpad_acpi.c          | 79 +++++++++++++++++++
->  2 files changed, 99 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> index e27a1c3f6..98d304010 100644
-> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> @@ -53,6 +53,7 @@ detailed description):
->  	- Lap mode sensor
->  	- Setting keyboard language
->  	- WWAN Antenna type
-> +	- Auxmac
->  
->  A compatibility table by model and feature is maintained on the web
->  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
-> @@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mentioned below:
->  The property is read-only. If the platform doesn't have support the sysfs
->  class is not created.
->  
-> +Auxmac
-> +------
-> +
-> +sysfs: auxmac
-> +
-> +Some newer Thinkpads have a feature called MAC Address Pass-through. This
-> +feature is implemented by the system firmware to provide a system unique MAC,
-> +that can override a dock or USB ethernet dongle MAC, when connected to a
-> +network. This property enables user-space to easily determine the MAC address
-> +if the feature is enabled.
-> +
-> +The values of this auxiliary MAC are:
-> +
-> +        cat /sys/devices/platform/thinkpad_acpi/auxmac
-> +
-> +If the feature is disabled, the value will be 'disabled'.
-> +
-> +This property is read-only.
-> +
->  Adaptive keyboard
->  -----------------
->  
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index d70c89d32..f430cc9ed 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -10785,6 +10785,80 @@ static struct ibm_struct dprc_driver_data = {
->  	.name = "dprc",
->  };
->  
-> +/*
-> + * Auxmac
-> + *
-> + * This auxiliary mac address is enabled in the bios through the
-> + * MAC Address Pass-through feature. In most cases, there are three
-> + * possibilities: Internal Mac, Second Mac, and disabled.
-> + *
-> + */
-> +
-> +#define AUXMAC_LEN 12
-> +#define AUXMAC_START 9
-> +#define AUXMAC_STRLEN 22
-> +#define AUXMAC_BEGIN_MARKER 8
-> +#define AUXMAC_END_MARKER 21
-> +
-> +static char auxmac[AUXMAC_LEN + 1];
-> +
-> +static int auxmac_init(struct ibm_init_struct *iibm)
-> +{
-> +	acpi_status status;
-> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-> +	union acpi_object *obj;
-> +
-> +	status = acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
-> +
-> +	if (ACPI_FAILURE(status))
-> +		return -ENODEV;
-> +
-> +	obj = buffer.pointer;
-> +
-> +	if (obj->type != ACPI_TYPE_STRING || obj->string.length != AUXMAC_STRLEN) {
-> +		pr_info("Invalid buffer for MAC address pass-through.\n");
-> +		strscpy(auxmac, "unavailable", AUXMAC_LEN);
-> +		goto auxmacinvalid;
-> +	}
-> +
-> +	if (obj->string.pointer[AUXMAC_BEGIN_MARKER] != '#' ||
-> +	    obj->string.pointer[AUXMAC_END_MARKER] != '#') {
-> +		pr_info("Invalid header for MAC address pass-through.\n");
-> +		strscpy(auxmac, "unavailable", AUXMAC_LEN);
-> +		goto auxmacinvalid;
-> +	}
-> +
-> +	if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUXMAC_LEN) != 0)
-> +		strscpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_LEN + 1);
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+CC: Liang Chen <liangchen.linux@gmail.com>
+CC: Alexander Lobakin <aleksander.lobakin@intel.com>
+CC: Dima Tisnek <dimaqq@gmail.com>
+---
+ Documentation/networking/page_pool.rst |  4 +-
+ include/net/page_pool/helpers.h        | 91 ++++++++++++++++++++++----
+ 2 files changed, 81 insertions(+), 14 deletions(-)
 
-Okay, I wasn't expecting this change as this relies on the nul termination 
-by strscpy() since the original buffer does not have one but the # 
-character there. But I guess it isn't harmful either.
-
-> +	else
-> +		strscpy(auxmac, "disabled", AUXMAC_START);
-
-AUXMAC_START is an offset ??? It should be AUXMAC_LEN.
-
-> +
-> +auxmacinvalid:
-> +	kfree(obj);
-> +	return 0;
-
-I only now realized there are two gotos to auxmacinvalid. Therefore, I'd 
-do this instead:
-
-free:
-	kfree(obj);
-	return 0;
-auxmacinvalid:
-	strscpy(auxmac, "unavailable", AUXMAC_LEN);
-	goto free;
-
-I'm sorry about my incorrect suggestion the last time.
-
-> +}
-> +
-> +static struct ibm_struct auxmac_data = {
-> +	.name = "auxmac",
-> +};
-> +
-> +static ssize_t auxmac_show(struct device *dev,
-> +			   struct device_attribute *attr,
-> +			   char *buf)
-> +{
-> +	return sysfs_emit(buf, "%s\n", auxmac);
-> +}
-> +static DEVICE_ATTR_RO(auxmac);
-> +
-> +static struct attribute *auxmac_attributes[] = {
-> +	&dev_attr_auxmac.attr,
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group auxmac_attr_group = {
-> +	.attrs = auxmac_attributes,
-> +};
-> +
->  /* --------------------------------------------------------------------- */
->  
->  static struct attribute *tpacpi_driver_attributes[] = {
-> @@ -10843,6 +10917,7 @@ static const struct attribute_group *tpacpi_groups[] = {
->  	&proxsensor_attr_group,
->  	&kbdlang_attr_group,
->  	&dprc_attr_group,
-> +	&auxmac_attr_group,
->  	NULL,
->  };
->  
-> @@ -11414,6 +11489,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
->  		.init = tpacpi_dprc_init,
->  		.data = &dprc_driver_data,
->  	},
-> +	{
-> +		.init = auxmac_init,
-> +		.data = &auxmac_data,
-> +	},
->  };
->  
->  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
-> 
-
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 215ebc92752c..0c0705994f51 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -58,7 +58,9 @@ a page will cause no race conditions is enough.
+ 
+ .. kernel-doc:: include/net/page_pool/helpers.h
+    :identifiers: page_pool_put_page page_pool_put_full_page
+-		 page_pool_recycle_direct page_pool_dev_alloc_pages
++		 page_pool_recycle_direct page_pool_cache_free
++		 page_pool_dev_alloc_pages page_pool_dev_alloc_frag
++		 page_pool_dev_alloc page_pool_dev_cache_alloc
+ 		 page_pool_get_dma_addr page_pool_get_dma_dir
+ 
+ .. kernel-doc:: net/core/page_pool.c
+diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+index 251c075084b8..017d1568af77 100644
+--- a/include/net/page_pool/helpers.h
++++ b/include/net/page_pool/helpers.h
+@@ -8,23 +8,46 @@
+ /**
+  * DOC: page_pool allocator
+  *
+- * The page_pool allocator is optimized for the XDP mode that
+- * uses one frame per-page, but it can fallback on the
+- * regular page allocator APIs.
++ * The page_pool allocator is optimized for recycling page or page fragment used
++ * by skb packet and xdp frame.
+  *
+- * Basic use involves replacing alloc_pages() calls with the
+- * page_pool_alloc_pages() call.  Drivers should use
+- * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
++ * Basic use involves replacing napi_alloc_frag() and alloc_pages() calls with
++ * page_pool_cache_alloc() and page_pool_alloc(), which allocate memory with or
++ * without page splitting depending on the requested memory size.
+  *
+- * API keeps track of in-flight pages, in order to let API user know
+- * when it is safe to free a page_pool object.  Thus, API users
+- * must call page_pool_put_page() to free the page, or attach
+- * the page to a page_pool-aware objects like skbs marked with
++ * If the driver knows that it always requires full pages or its allocations are
++ * always smaller than half a page, it can use one of the more specific API
++ * calls:
++ *
++ * 1. page_pool_alloc_pages(): allocate memory without page splitting when
++ * driver knows that the memory it need is always bigger than half of the page
++ * allocated from page pool. There is no cache line dirtying for 'struct page'
++ * when a page is recycled back to the page pool.
++ *
++ * 2. page_pool_alloc_frag(): allocate memory with page splitting when driver
++ * knows that the memory it need is always smaller than or equal to half of the
++ * page allocated from page pool. Page splitting enables memory saving and thus
++ * avoids TLB/cache miss for data access, but there also is some cost to
++ * implement page splitting, mainly some cache line dirtying/bouncing for
++ * 'struct page' and atomic operation for page->pp_frag_count.
++ *
++ * API keeps track of in-flight pages, in order to let API user know when it is
++ * safe to free a page_pool object, the API users must call page_pool_put_page()
++ * or page_pool_cache_free() to free the pp page or the pp buffer, or attach the
++ * pp page or the pp buffer to a page_pool-aware objects like skbs marked with
+  * skb_mark_for_recycle().
+  *
+- * API user must call page_pool_put_page() once on a page, as it
+- * will either recycle the page, or in case of refcnt > 1, it will
+- * release the DMA mapping and in-flight state accounting.
++ * page_pool_put_page() may be called multi times on the same page if a page is
++ * split into multi fragments. For the last fragment, it will either recycle the
++ * page, or in case of page->_refcount > 1, it will release the DMA mapping and
++ * in-flight state accounting.
++ *
++ * dma_sync_single_range_for_device() is only called for the last fragment when
++ * page_pool is created with PP_FLAG_DMA_SYNC_DEV flag, so it depends on the
++ * last freed fragment to do the sync_for_device operation for all fragments in
++ * the same page when a page is split, the API user must setup pool->p.max_len
++ * and pool->p.offset correctly and ensure that page_pool_put_page() is called
++ * with dma_sync_size being -1 for fragment API.
+  */
+ #ifndef _NET_PAGE_POOL_HELPERS_H
+ #define _NET_PAGE_POOL_HELPERS_H
+@@ -73,6 +96,17 @@ static inline struct page *page_pool_dev_alloc_pages(struct page_pool *pool)
+ 	return page_pool_alloc_pages(pool, gfp);
+ }
+ 
++/**
++ * page_pool_dev_alloc_frag() - allocate a page fragment.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: requested size
++ *
++ * Get a page fragment from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Return allocated page fragment, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc_frag(struct page_pool *pool,
+ 						    unsigned int *offset,
+ 						    unsigned int size)
+@@ -111,6 +145,19 @@ static inline struct page *page_pool_alloc(struct page_pool *pool,
+ 	return page;
+ }
+ 
++/**
++ * page_pool_dev_alloc() - allocate a page or a page fragment.
++ * @pool: pool from which to allocate
++ * @offset: offset to the allocated page
++ * @size: in as the requested size, out as the allocated size
++ *
++ * Get a page or a page fragment from the page allocator or page_pool caches
++ * depending on the requested size in order to allocate memory with least memory
++ * utilization and performance penalty.
++ *
++ * Return:
++ * Return allocated page or page fragment, otherwise return NULL.
++ */
+ static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
+ 					       unsigned int *offset,
+ 					       unsigned int *size)
+@@ -133,6 +180,16 @@ static inline void *page_pool_cache_alloc(struct page_pool *pool,
+ 	return page_address(page) + offset;
+ }
+ 
++/**
++ * page_pool_dev_cache_alloc() - allocate a cache.
++ * @pool: pool from which to allocate
++ * @size: in as the requested size, out as the allocated size
++ *
++ * Get a cache from the page allocator or page_pool caches.
++ *
++ * Return:
++ * Return the addr for the allocated cache, otherwise return NULL.
++ */
+ static inline void *page_pool_dev_cache_alloc(struct page_pool *pool,
+ 					      unsigned int *size)
+ {
+@@ -280,6 +337,14 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
+ #define PAGE_POOL_32BIT_ARCH_WITH_64BIT_DMA	\
+ 		(sizeof(dma_addr_t) > sizeof(unsigned long))
+ 
++/**
++ * page_pool_cache_free() - free a cache into the page_pool
++ * @pool: pool from which cache was allocated
++ * @data: addr of cache to be free
++ * @allow_direct: freed by the consumer, allow lockless caching
++ *
++ * Free a cache allocated from page_pool_dev_cache_alloc().
++ */
+ static inline void page_pool_cache_free(struct page_pool *pool, void *data,
+ 					bool allow_direct)
+ {
 -- 
- i.
+2.33.0
 
