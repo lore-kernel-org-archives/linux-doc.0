@@ -2,121 +2,227 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE74AE6FE3B
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 14:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D73FE6FE46
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Sep 2023 14:58:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbjIVOgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Sep 2023 10:36:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58740 "EHLO
+        id S230171AbjIVO65 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Sep 2023 10:58:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbjIVOgi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 10:36:38 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABB7CC6
-        for <linux-doc@vger.kernel.org>; Fri, 22 Sep 2023 07:36:32 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1c469ab6935so134805ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 22 Sep 2023 07:36:32 -0700 (PDT)
+        with ESMTP id S231912AbjIVO65 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Sep 2023 10:58:57 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2188F100
+        for <linux-doc@vger.kernel.org>; Fri, 22 Sep 2023 07:58:49 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-414ba610766so392611cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 22 Sep 2023 07:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695393392; x=1695998192; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695394728; x=1695999528; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4aUf2v6QvLVbT8m/zyw2bs6Z3ENgPEgB0H4K7IAot/U=;
-        b=MQvhpRVmzLcPK5ScYZQYCU4sQ2fCp/ehXRf/WPCVPGLtUVlCfoHg2aIZRR7kwKhkzE
-         5nk65Bfozn2kgWrt/2yZgciOOHP5HpObyLSDbScFMMZ02b4BpjWemv5GIeutJGu6Pdh6
-         9HyNBtxwOfgXmZ3GhASTkz76Fn34YpuGLTiJ9sdn8tv58ljEOVVscZMoC3i+hcwucS9t
-         uXXDJpVLv06hBjJjJXxGMMDAVwLYCC+XqzMVUbqEp/aUkIyVNZFhrUqYW30EI+OpUccI
-         0OwvLmUHCrdyI9A5QytOC7RqbOmfdT/1VyoBkc9mYGfy9IcpkLzw6xslKvPqTwO6wOqo
-         FC7w==
+        bh=zgDKgKLNOq5UPjSMrvVQpqlAFLCGyJRKW8sSQYfce5A=;
+        b=KW1foPL4LoxlqJ4kP58yEZ52r9JbHSW+br9xWL0P8bA3pyaY6C24K54rDUa4hN0kQ1
+         ifS3cPIxFkufgO4KP3Y9qj7Dzsy1DQl1JLeu3skymEQY35VW49riqe2mpxQmqmcm/yTg
+         UWZe/29O6v1OO8NsnSA+YPpxG+qIObk1Q2SNhUVNmUpFThrUVippYPqmpfC1rJjtRF+a
+         nzL21JcnODfpBreHCInR6BYywqOmcs5dJ5tFCL2lX1nNiL/WfGhkIY/gB/MdZ1u7ytIG
+         6BYU8+DRHNP/f1vFdA1lT+y7LK4uuilQOg+5PrIvWCLk2W0f9+lHiNP+mjQnw4x8RKs6
+         XN1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695393392; x=1695998192;
+        d=1e100.net; s=20230601; t=1695394728; x=1695999528;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4aUf2v6QvLVbT8m/zyw2bs6Z3ENgPEgB0H4K7IAot/U=;
-        b=QnZBuyTP6vHvmnBnAU7tf6fZYBsPaDNAk5STiYQENQviWe5SHInkSYIzFJjOIsl4Js
-         QTe47epqvKrylQkxITjO/exSCF4Sd93r5bLE0C/dqd9097WzJoqw4v+mazFuo0sM1X8k
-         Xqly2uodu2EQhj4gX3Mw6VFfXJvHYQs+3cB+2Ar5NreBvnI94V8F5FoUBOtVxgdU6G+k
-         okeATL6Q8IiYwij++iiw9/crKFQzsHKxuYuOgM0zD2lppCme+01IUcONyv29o/QlisKC
-         cac6pCbHTEZTEhZZS21/a2IBwNUzH5nQ6rsOvohoQNikevWjoZzR4HPdzEZa1KT9sTn4
-         YqMA==
-X-Gm-Message-State: AOJu0YzOFaEhUU65wHkQ66jKUmOy4n6P82qUcyt8s78SJ9uCcGtMc3Wn
-        gH+tFeh/qw/iAuBglCXp11xBIfnO47v3lTrdJdkJBQ==
-X-Google-Smtp-Source: AGHT+IH0jVRnmCGhVgl6h8vYBSPLpagiWf9oF1HtBxKdFKlHJ1yAkZcyn2pEdwwt1QQw369sBYUmL4obJSO65DXhJ9E=
-X-Received: by 2002:a17:902:c70a:b0:1c0:7dec:e5b2 with SMTP id
- p10-20020a170902c70a00b001c07dece5b2mr170349plp.4.1695393391893; Fri, 22 Sep
- 2023 07:36:31 -0700 (PDT)
+        bh=zgDKgKLNOq5UPjSMrvVQpqlAFLCGyJRKW8sSQYfce5A=;
+        b=qaXgtbwK8bUN6Duz3CwWTaJNMZy1p07CG052dy1Ape80MyyQB467HmroCZ38Ta9HYs
+         WEmSLY15ukDF05XyCZNicVCeoodzNdTAlFgZPBX6mrPBqEirM4Ha/Y284Fe8P0Y1I4ZY
+         A+CY0p7vFf57f0fUY6Gt3p/bN+Qz4/arN4kLTBQBMFyvC3P5vsvDGaClJrYk/4dPlva2
+         t98ZK/YGWH1Ri3NIsZvqucTYYfce7NI0E8OHzofpD6tyaQXXrqjIqgFQGla675z0jotJ
+         C5eMpiED8SnhJnr50hIl71xpuGA9yJcERdIUWIchZZnOz1BjK/vuqUQYwB026JhWpvfs
+         IGSw==
+X-Gm-Message-State: AOJu0YyCdwlv3l+z9stcuAh53TM5jTtisJKPch3qKzwdJMDN/W/J/vEt
+        bf83bwSwxZ0SezCSAkUUTE5a8Z0stV1Y1ykUoWQAHw==
+X-Google-Smtp-Source: AGHT+IESNWFRg+y2TuWvd89RoJ6GBBUMt3OgVqWMs842fYNtOygOfCHPUJtJDdiPRplbsgSlGB6en+tQOrS+AeANsys=
+X-Received: by 2002:a05:622a:1191:b0:403:eeb9:a76 with SMTP id
+ m17-20020a05622a119100b00403eeb90a76mr181867qtk.17.1695394728023; Fri, 22 Sep
+ 2023 07:58:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230915224227.1336967-1-babu.moger@amd.com> <20230915224227.1336967-11-babu.moger@amd.com>
-In-Reply-To: <20230915224227.1336967-11-babu.moger@amd.com>
-From:   Peter Newman <peternewman@google.com>
-Date:   Fri, 22 Sep 2023 16:36:20 +0200
-Message-ID: <CALPaoCj46dDCFruHW3EcqRQ90SZpOsKK2UVPzb+88rzs5aTTJg@mail.gmail.com>
-Subject: Re: [PATCH v10 10/10] x86/resctrl: Display RMID of resource group
-To:     Babu Moger <babu.moger@amd.com>
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com
+References: <1695037955-107983-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <1695037955-107983-2-git-send-email-renyu.zj@linux.alibaba.com>
+ <CAP-5=fUxfJT-gxKB+Ls3drUeQ0sy55uydi8Y36gumUnaFSYeqA@mail.gmail.com> <0f5bbe93-1875-ff9b-a1d8-8518a8cf3e84@linux.alibaba.com>
+In-Reply-To: <0f5bbe93-1875-ff9b-a1d8-8518a8cf3e84@linux.alibaba.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Fri, 22 Sep 2023 07:58:35 -0700
+Message-ID: <CAP-5=fW8HSuQ2kZDrMeyhpZbiqagANs=_W+RWNJw21u-UhixrQ@mail.gmail.com>
+Subject: Re: [PATCH v9 1/7] perf pmu: "Compat" supports regular expression
+ matching identifiers
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
-
-On Sat, Sep 16, 2023 at 12:42=E2=80=AFAM Babu Moger <babu.moger@amd.com> wr=
-ote:
+On Fri, Sep 22, 2023 at 1:19=E2=80=AFAM Jing Zhang <renyu.zj@linux.alibaba.=
+com> wrote:
 >
-> In x86, hardware uses RMID to identify a monitoring group. When a user
-> creates a monitor group these details are not visible. These details
-> can help resctrl debugging.
 >
-> Add RMID(mon_hw_id) to the monitor groups display in resctrl interface.
-> Users can see these details when resctrl is mounted with "-o debug" optio=
-n.
+>
+> =E5=9C=A8 2023/9/21 =E4=B8=8A=E5=8D=882:36, Ian Rogers =E5=86=99=E9=81=93=
+:
+> > On Mon, Sep 18, 2023 at 4:52=E2=80=AFAM Jing Zhang <renyu.zj@linux.alib=
+aba.com> wrote:
+> >>
+> >> The jevent "Compat" is used for uncore PMU alias or metric definitions=
+.
+> >>
+> >> The same PMU driver has different PMU identifiers due to different
+> >> hardware versions and types, but they may have some common PMU event.
+> >> Since a Compat value can only match one identifier, when adding the
+> >> same event alias to PMUs with different identifiers, each identifier
+> >> needs to be defined once, which is not streamlined enough.
+> >>
+> >> So let "Compat" support using regular expression to match identifiers
+> >> for uncore PMU alias. For example, if the "Compat" value is set to
+> >> "43401|43c01", it would be able to match PMU identifiers such as "4340=
+1"
+> >> or "43c01", which correspond to CMN600_r0p0 or CMN700_r0p0.
+> >>
+> >> Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+> >> ---
+> >>  tools/perf/util/pmu.c | 23 +++++++++++++++++++++--
+> >>  tools/perf/util/pmu.h |  1 +
+> >>  2 files changed, 22 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
+> >> index e215985..7e2242f 100644
+> >> --- a/tools/perf/util/pmu.c
+> >> +++ b/tools/perf/util/pmu.c
+> >> @@ -28,6 +28,7 @@
+> >>  #include "strbuf.h"
+> >>  #include "fncache.h"
+> >>  #include "util/evsel_config.h"
+> >> +#include <regex.h>
+> >>
+> >>  struct perf_pmu perf_pmu__fake =3D {
+> >>         .name =3D "fake",
+> >> @@ -875,6 +876,24 @@ static bool pmu_uncore_alias_match(const char *pm=
+u_name, const char *name)
+> >>         return res;
+> >>  }
+> >>
+> >> +bool pmu_uncore_identifier_match(const char *compat, const char *id)
+> >> +{
+> >> +       regex_t re;
+> >> +       regmatch_t pmatch[1];
+> >> +       int match;
+> >> +
+> >> +       if (regcomp(&re, compat, REG_EXTENDED) !=3D 0) {
+> >> +               /* Warn unable to generate match particular string. */
+> >> +               pr_info("Invalid regular expression %s\n", compat);
+> >> +               return false;
+> >> +       }
+> >> +
+> >> +       match =3D !regexec(&re, id, 1, pmatch, 0);
+> >
+> > I wonder if we can make the regular expressions like
+> > "^(434|436|43c|43a)" more like "(434|436|43c|43a).*", so that we fully
+> > match the id string, by here doing:
+> >
+> > if (match) {
+> >   /* Ensure a full match. */
+> >   match =3D pmatch[0].rm_so =3D=3D 0 && pmatch[0].rm_eo =3D=3D strlen(i=
+d);
+> > }
+> >
+>
+> Ok, will do.
+>
+>
+> > I think longer term we can use jevents.py to generate a pmu-events.l,
+> > which would have a contents something like:
+> >
+> > (434|436|43c|43a).*  { return PMU_....;}
+> >
+> > That should make the matching faster but may add some restrictions
+> > onto the regular expression.
+>
+> Could you please describe the function of pmu-event.l in more detail? I m=
+ay not fully understand it.
 
-When I reviewed this, I went through the whole series second-guessing
-the wording above and wondering whether "monitoring groups" applied to
-CTRL_MON groups.
+So for now there's no need for a pmu-event.l, I'm fine with the code
+as-is. The issue for using regular expressions is that we need to
+compile (regcomp) then use them (regexec), and in this new code the
+result of the parsing is discarded - perhaps we can save on some
+compiling with a 1 element cache, let's wait to see performance data
+saying it is an issue. If we were to compile the regular expressions
+at build time with flex then the runtime cost, any caching, etc. is
+unnecessary.
 
-I was able to confirm that mon_hw_id did appear and had a believable
-value in CTRL_MON groups which had allocated monitors. (and I added
-some comma-separated PID lists to the tasks node)
+Hope this makes sense. Thanks,
+Ian
 
-for the series:
-Tested-By: Peter Newman <peternewman@google.com>
-
-> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu=
-/resctrl/internal.h
-> index a07fa4329b65..b4910892b0a6 100644
-> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> @@ -296,6 +296,11 @@ struct rdtgroup {
->   *     --> RFTYPE_BASE (Files common for both MON and CTRL groups)
->   *         Files: cpus, cpus_list, tasks
->   *
-> + *             --> RFTYPE_MON (Files only for MON group)
-
-If monitoring is supported, all groups are MON groups. I think the
-"only" above caused me to second guess whether this takes into account
-CTRL_MON groups getting the RFTYPE_MON flag set dynamically.
-
-However, I think the documentation above is still technically accurate.
-
-for the series:
-Reviewed-By: Peter Newman <peternewman@google.com>
-
-Thanks!
--Peter
+> Thanks,
+> Jing
+>
+> >
+> > Thanks,
+> > Ian
+> >
+> >> +       regfree(&re);
+> >> +
+> >> +       return match;
+> >> +}
+> >> +
+> >>  static int pmu_add_cpu_aliases_map_callback(const struct pmu_event *p=
+e,
+> >>                                         const struct pmu_events_table =
+*table __maybe_unused,
+> >>                                         void *vdata)
+> >> @@ -915,8 +934,8 @@ static int pmu_add_sys_aliases_iter_fn(const struc=
+t pmu_event *pe,
+> >>         if (!pe->compat || !pe->pmu)
+> >>                 return 0;
+> >>
+> >> -       if (!strcmp(pmu->id, pe->compat) &&
+> >> -           pmu_uncore_alias_match(pe->pmu, pmu->name)) {
+> >> +       if (pmu_uncore_alias_match(pe->pmu, pmu->name) &&
+> >> +                       pmu_uncore_identifier_match(pe->compat, pmu->i=
+d)) {
+> >>                 perf_pmu__new_alias(pmu,
+> >>                                 pe->name,
+> >>                                 pe->desc,
+> >> diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
+> >> index bd5d804..fc155ce 100644
+> >> --- a/tools/perf/util/pmu.h
+> >> +++ b/tools/perf/util/pmu.h
+> >> @@ -240,6 +240,7 @@ void pmu_add_cpu_aliases_table(struct perf_pmu *pm=
+u,
+> >>  char *perf_pmu__getcpuid(struct perf_pmu *pmu);
+> >>  const struct pmu_events_table *pmu_events_table__find(void);
+> >>  const struct pmu_metrics_table *pmu_metrics_table__find(void);
+> >> +bool pmu_uncore_identifier_match(const char *compat, const char *id);
+> >>
+> >>  int perf_pmu__convert_scale(const char *scale, char **end, double *sv=
+al);
+> >>
+> >> --
+> >> 1.8.3.1
+> >>
