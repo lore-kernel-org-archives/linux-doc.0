@@ -2,117 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 503D1CE7A89
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Sep 2023 10:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7643BCE7A89
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Sep 2023 19:51:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231421AbjIWKPn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Sep 2023 06:15:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40822 "EHLO
+        id S229458AbjIWTvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Sep 2023 15:51:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231713AbjIWKPZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Sep 2023 06:15:25 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4114910C1;
-        Sat, 23 Sep 2023 03:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463920; x=1726999920;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=MZgokrEaX/IcaX3hD6O7bYEAIXqVjdzkrr/jdEXzfh8=;
-  b=cqZIw/GH/2210S2Zzg56rpU4JD+tvIVoft0VnGbzfvZj6nYlJbBnZsjb
-   EdECRi2YzccxaRkXbG5w0xYrZkWyHPDScax6AfFTk+YOkw0Le/jhcBVSR
-   dJnO2GVJ3jw5rcppjdwMfISE5+bUtm7dGC2n5Ji24YGiWoKIK1WDYKev9
-   mf7bPlSf1K0Gld7ZhUrXL3uYkJHK5ZejgdWBDMVtTVcjI7rwaXNrw/5nU
-   4a3K5oXI02LtAeYDegd74LHSwi6emEl+io1g23YJePz59ebxmI3MXn/Ei
-   S7Vi69C+VHo8fT0m5azS/EeN9Fv1CseT/OM1mdGlquCsG4RpWCPP+YKDc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492485"
-X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492485"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388225"
-X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388225"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:52 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
-        mhiramat@kernel.org, andrew.cooper3@citrix.com,
-        jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v11 34/37] KVM: VMX: Call fred_entry_from_kvm() for IRQ/NMI handling
-Date:   Sat, 23 Sep 2023 02:42:09 -0700
-Message-Id: <20230923094212.26520-35-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
-References: <20230923094212.26520-1-xin3.li@intel.com>
+        with ESMTP id S229493AbjIWTvy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Sep 2023 15:51:54 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B7DAB;
+        Sat, 23 Sep 2023 12:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=V8TjP83fX1t1uCCFMjF07+NfXsno1RWfHesTfIPCgz4=; b=nOdhIhQ2vQFZ8T+nshOQ6XbE+V
+        GYpo0CgkU954FFwbBWsJfFyXHslWVTv0D7aPvHaOFh2RvPlicq3XSGm9nwmY63hSgWVKCY32CVaHC
+        5g0d2nNDqzDiv9eYDYpafiZ+N1R3XYhT3DuSpBtg50146FSRLp6+KxME61t5iLlAnwz7B3+y9T6id
+        cFZqEQnU1nLniqjeENqGmczaDeXo2umK7yVfb/30chyokpCW3UPDKu0ePx40COfCyWn9AipyWjkdV
+        NR9sM3IpFC22Wl0bJeKXM95kESENKb/N0UbCxeRDfWAe9r3+DbE8vwd0U3SW28JYGo7EOEZrnmd97
+        tZIzJxJA==;
+Received: from [2601:1c2:980:9ec0::9fed] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qk8fK-00BPAS-02;
+        Sat, 23 Sep 2023 19:51:46 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Glauber Costa <glommer@openvz.org>
+Subject: [PATCH] docs: admin-guide: sysctl: fix details of struct dentry_stat_t
+Date:   Sat, 23 Sep 2023 12:51:44 -0700
+Message-ID: <20230923195144.26043-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When FRED is enabled, call fred_entry_from_kvm() to handle IRQ/NMI in
-IRQ/NMI induced VM exits.
+Commit c8c0c239d5ab moved struct dentry_stat_t to fs/dcache.c but
+did not update its location in Documentation, so update that now.
+Also change each struct member from int to long as done in
+commit 3942c07ccf98.
 
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Fixes: c8c0c239d5ab ("fs: move dcache sysctls to its own file")
+Fixes: 3942c07ccf98 ("fs: bump inode and dentry counters to long")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Glauber Costa <glommer@openvz.org>
 ---
- arch/x86/kvm/vmx/vmx.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/sysctl/fs.rst |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 72e3943f3693..db55b8418fa3 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -38,6 +38,7 @@
- #include <asm/desc.h>
- #include <asm/fpu/api.h>
- #include <asm/fpu/xstate.h>
-+#include <asm/fred.h>
- #include <asm/idtentry.h>
- #include <asm/io.h>
- #include <asm/irq_remapping.h>
-@@ -6962,14 +6963,16 @@ static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)
- {
- 	u32 intr_info = vmx_get_intr_info(vcpu);
- 	unsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;
--	gate_desc *desc = (gate_desc *)host_idt_base + vector;
+diff -- a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+--- a/Documentation/admin-guide/sysctl/fs.rst
++++ b/Documentation/admin-guide/sysctl/fs.rst
+@@ -42,16 +42,16 @@ pre-allocation or re-sizing of any kerne
+ dentry-state
+ ------------
  
- 	if (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,
- 	    "unexpected VM-Exit interrupt info: 0x%x", intr_info))
- 		return;
+-This file shows the values in ``struct dentry_stat``, as defined in
+-``linux/include/linux/dcache.h``::
++This file shows the values in ``struct dentry_stat_t``, as defined in
++``fs/dcache.c``::
  
- 	kvm_before_interrupt(vcpu, KVM_HANDLING_IRQ);
--	vmx_do_interrupt_irqoff(gate_offset(desc));
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		fred_entry_from_kvm(EVENT_TYPE_EXTINT, vector);
-+	else
-+		vmx_do_interrupt_irqoff(gate_offset((gate_desc *)host_idt_base + vector));
- 	kvm_after_interrupt(vcpu);
+   struct dentry_stat_t dentry_stat {
+-        int nr_dentry;
+-        int nr_unused;
+-        int age_limit;         /* age in seconds */
+-        int want_pages;        /* pages requested by system */
+-        int nr_negative;       /* # of unused negative dentries */
+-        int dummy;             /* Reserved for future use */
++        long nr_dentry;
++        long nr_unused;
++        long age_limit;         /* age in seconds */
++        long want_pages;        /* pages requested by system */
++        long nr_negative;       /* # of unused negative dentries */
++        long dummy;             /* Reserved for future use */
+   };
  
- 	vcpu->arch.at_instruction_boundary = true;
-@@ -7262,7 +7265,10 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
- 	if ((u16)vmx->exit_reason.basic == EXIT_REASON_EXCEPTION_NMI &&
- 	    is_nmi(vmx_get_intr_info(vcpu))) {
- 		kvm_before_interrupt(vcpu, KVM_HANDLING_NMI);
--		vmx_do_nmi_irqoff();
-+		if (cpu_feature_enabled(X86_FEATURE_FRED))
-+			fred_entry_from_kvm(EVENT_TYPE_NMI, NMI_VECTOR);
-+		else
-+			vmx_do_nmi_irqoff();
- 		kvm_after_interrupt(vcpu);
- 	}
- 
--- 
-2.34.1
-
+ Dentries are dynamically allocated and deallocated.
