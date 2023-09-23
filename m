@@ -2,89 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CFA9CE7A88
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Sep 2023 07:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE177CE7A89
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Sep 2023 07:57:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbjIWHOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Sep 2023 03:14:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48232 "EHLO
+        id S230193AbjIWH5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Sep 2023 03:57:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230013AbjIWHOI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Sep 2023 03:14:08 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6103519C;
-        Sat, 23 Sep 2023 00:14:01 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id 46e09a7af769-6bd04558784so2106654a34.3;
-        Sat, 23 Sep 2023 00:14:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695453240; x=1696058040; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5wNl5BJ8gcnnggkuY+vRKw97Vo+2bqxg83VB63bOWl8=;
-        b=bk6ppflbWAjsklN79HxmVFxASbupL4zewXKKvuwneg8voKj5aXjJ+hdMc2oHq4S9vj
-         6Z07oiE41zsbM8wY87N6YKR+3NZYAa7p6IZDliJAUholML2psP2B/HwndKNEjwo2pyJO
-         sopNySXj6AtNGLTq5KTewWlczjyl0VGZvFC8dISt/9TzOzUrls0TnKclgIjJHatlCZXJ
-         rpyrZ2R2oCRNwFZatM2Fr3bg3ghr2lYcJGGt5i7ieuHaeHsHTozND3JMGhELg+ArxlXO
-         ugoTFRxNdkmb6oB7PoiBbHh+iZiPTh9JvPuR88NQ0tQU+PzKtASeH0bt2jOPW2CeaXPK
-         yU9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695453240; x=1696058040;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5wNl5BJ8gcnnggkuY+vRKw97Vo+2bqxg83VB63bOWl8=;
-        b=rzn6Mn4H/7Tg8j2JyX5KbFNDvQUnH8ubZ34ei+PqBRWUFPrxHwbj5j03/piSCYbekN
-         0WACIbtIRnmAjhFpBIwge0VFw2uj+cx14CQDC5cZYDgrsanuWrOLgC2VDC6esUV57vol
-         95jH9j6H4O4vaxoLvqkzz7agGsNZhgruc5ytjiBn0yZ/akTU2crnK1O6EpojowR9GpOK
-         KVl8qRF5xzerHs16xmvRNVgzBWn9sPphouylVDculYln1ByAEIX+yLO5HBh+5GOM8rVU
-         V8mhLmEq1WVN0QwxVIS0onAQGmpkZH7OjL0Z1rvouUgra/lP02Zj44u/WsK7Giesuxgm
-         ETIg==
-X-Gm-Message-State: AOJu0YyTrd8gPuBTLYLDlVVkDQTs8nw8PVCUbZI0cQ+jhZyAi/jLTWwp
-        oVD0gCpAQforktn1HVHSizU=
-X-Google-Smtp-Source: AGHT+IHUfdoy7CjQbWdS9m+R0sBXBZv8WhO5L/m/psbBj4/P+EpfeZ4GF/16P6C2uWOtFeX24PF/ng==
-X-Received: by 2002:a05:6358:9222:b0:135:85ec:a080 with SMTP id d34-20020a056358922200b0013585eca080mr1678964rwb.32.1695453240497;
-        Sat, 23 Sep 2023 00:14:00 -0700 (PDT)
-Received: from localhost.localdomain ([140.112.90.93])
-        by smtp.gmail.com with ESMTPSA id x41-20020a056a000be900b006877ec47f82sm4315136pfu.66.2023.09.23.00.13.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Sep 2023 00:14:00 -0700 (PDT)
-From:   Jianlin Li <ljianlin99@gmail.com>
-To:     corbet@lwn.net
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jianlin Li <ljianlin99@gmail.com>
-Subject: [PATCH] docs: x86: Update spec URL in x86/iommu document
-Date:   Sat, 23 Sep 2023 15:13:45 +0800
-Message-Id: <20230923071344.540894-1-ljianlin99@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S230114AbjIWH5a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Sep 2023 03:57:30 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73575197;
+        Sat, 23 Sep 2023 00:57:24 -0700 (PDT)
+Received: from localhost (unknown [217.144.90.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 8CDA0383;
+        Sat, 23 Sep 2023 07:57:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8CDA0383
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1695455844; bh=mfkLM1mZ6patzZykKGGUczfcmlxw34HJH6wQWGJWhEI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ORgfQWMBvcaonPYu9FXssg1eETcs/C+oNsQNKobql3vJImfFeyEdqnjoPAOMydwEX
+         uUN7e6ob3s9xvarSqsvfLw48K+gDBY5u5LEGPp9koqipZy6HhAuk9NC61ks9G+lLuX
+         Hh6RYjbmVX4n3Wxkh65rhWu3tZmVvQ4l8L7NCCLBEsKG1MeNaI/+cs+hswnZT0TrZV
+         ntQMB6QubijYg+v6Sh5hE1VOR/dlO291XoaKR0zLh54iuR25gi6pO+y+NLWMEL+Nit
+         hs7lHfZmEGp7mmtbR5PnDI+N3hcqSX5+nUjpv/o4kZjJn8R2RLZu3SqxCSpXXnX7Rc
+         5UH9UaFD51BWQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ardb@kernel.org, kraxel@redhat.com, dovmurik@linux.ibm.com,
+        elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+        Dhaval.Giani@amd.com, michael.day@amd.com,
+        pavankumar.paluri@amd.com, David.Kaplan@amd.com,
+        Reshma.Lal@amd.com, Jeremy.Powell@amd.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com,
+        alexander.shishkin@linux.intel.com, thomas.lendacky@amd.com,
+        tglx@linutronix.de, dgilbert@redhat.com, dinechin@redhat.com,
+        linux-coco@lists.linux.dev, berrange@redhat.com, mst@redhat.com,
+        tytso@mit.edu, jikos@kernel.org, joro@8bytes.org, leon@kernel.org,
+        richard.weinberger@gmail.com, lukas@wunner.de, jejb@linux.ibm.com,
+        cdupontd@redhat.com, jasowang@redhat.com, sameo@rivosinc.com,
+        bp@alien8.de, seanjc@google.com, security@kernel.org,
+        Larry Dewey <larry.dewey@amd.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [RESEND PATCH v4] docs: security: Confidential computing intro
+ and threat model for x86 virtualization
+In-Reply-To: <98804f27-c2e7-74d6-d671-1eda927e19fe@amd.com>
+References: <20230905152656.1215119-1-carlos.bilbao@amd.com>
+ <2023090537-undesired-junction-b325@gregkh>
+ <4a25cfe8-39d7-1d0f-b89b-2d62bdb085c1@amd.com>
+ <bb5a6655-ebaa-2ddf-0c49-6f1027ccb839@amd.com>
+ <f7700d54-da02-3482-17c5-bbae36799fb5@amd.com>
+ <98804f27-c2e7-74d6-d671-1eda927e19fe@amd.com>
+Date:   Sat, 23 Sep 2023 01:57:20 -0600
+Message-ID: <87v8c15nkv.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous link to AMD IOMMU spec is no longer available,
-replace it with the new one.
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-Signed-off-by: Jianlin Li <ljianlin99@gmail.com>
----
- Documentation/arch/x86/iommu.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Kernel developers working on confidential computing for virtualized
+> environments in x86 operate under a set of assumptions regarding the Linux
+> kernel threat model that differs from the traditional view. Historically,
+> the Linux threat model acknowledges attackers residing in userspace, as
+> well as a limited set of external attackers that are able to interact with
+> the kernel through networking or limited HW-specific exposed interfaces
+> (e.g. USB, thunderbolt). The goal of this document is to explain additional
+> attack vectors that arise in the virtualized confidential computing space.
+>
+> Reviewed-by: Larry Dewey <larry.dewey@amd.com>
+> Reviewed-by: David Kaplan <david.kaplan@amd.com>
+> Co-developed-by: Elena Reshetova <elena.reshetova@intel.com>
+> Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 
-diff --git a/Documentation/arch/x86/iommu.rst b/Documentation/arch/x86/iommu.rst
-index 42c7a6faa39a..41fbadfe2221 100644
---- a/Documentation/arch/x86/iommu.rst
-+++ b/Documentation/arch/x86/iommu.rst
-@@ -5,7 +5,7 @@ x86 IOMMU Support
- The architecture specs can be obtained from the below locations.
- 
- - Intel: http://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/vt-directed-io-spec.pdf
--- AMD: https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
-+- AMD: https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_3_07_PUB.pdf
- 
- This guide gives a quick cheat sheet for some basic understanding.
- 
--- 
-2.25.1
+This patch was whitespace-corrupted (something wrapped the diff lines)
+making it hard to apply; I was able to fix it up and get git to swallow
+it.  So applied, thanks.
 
+jon
