@@ -2,87 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE177CE7A89
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Sep 2023 07:57:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13818CE7A88
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Sep 2023 08:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbjIWH5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Sep 2023 03:57:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33872 "EHLO
+        id S230114AbjIWIAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Sep 2023 04:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbjIWH5a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Sep 2023 03:57:30 -0400
+        with ESMTP id S230193AbjIWIAh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Sep 2023 04:00:37 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73575197;
-        Sat, 23 Sep 2023 00:57:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D60C180;
+        Sat, 23 Sep 2023 01:00:31 -0700 (PDT)
 Received: from localhost (unknown [217.144.90.202])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8CDA0383;
-        Sat, 23 Sep 2023 07:57:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8CDA0383
+        by ms.lwn.net (Postfix) with ESMTPSA id BE2A6735;
+        Sat, 23 Sep 2023 08:00:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE2A6735
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1695455844; bh=mfkLM1mZ6patzZykKGGUczfcmlxw34HJH6wQWGJWhEI=;
+        t=1695456031; bh=5CjtbACEHioF3rW7Wtbr9kbr8IpW0MXFY8yUPwlRWs4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ORgfQWMBvcaonPYu9FXssg1eETcs/C+oNsQNKobql3vJImfFeyEdqnjoPAOMydwEX
-         uUN7e6ob3s9xvarSqsvfLw48K+gDBY5u5LEGPp9koqipZy6HhAuk9NC61ks9G+lLuX
-         Hh6RYjbmVX4n3Wxkh65rhWu3tZmVvQ4l8L7NCCLBEsKG1MeNaI/+cs+hswnZT0TrZV
-         ntQMB6QubijYg+v6Sh5hE1VOR/dlO291XoaKR0zLh54iuR25gi6pO+y+NLWMEL+Nit
-         hs7lHfZmEGp7mmtbR5PnDI+N3hcqSX5+nUjpv/o4kZjJn8R2RLZu3SqxCSpXXnX7Rc
-         5UH9UaFD51BWQ==
+        b=NF2WeiM7zoXvMQdc1yqNeBIadZ+PB7IHE7R5ZEKP3iau9iYgJv3yiBADXAgut0Vq5
+         KVCDksozO/TiTXcflQ0RKVGzNEyeC2P3BL/9K1ufV5Y/PirtGeZWb1SFcT8CXQGLZ3
+         uHw/8kvMfpeCRWeqUf6YVWrdQELEMdpZ6xQZRpeTM+ryiGFBbE/2xQdoEJmO8y5OlQ
+         vYw3y3QgesRhVWuTS8WOoBBe1WQ8jOQMKO6GPNlEbgrHEYN/Aor69hUtBk2flpElMj
+         nCdegnVew9xjVrDNZM0BXFWIB8PEKIyzj6ymt73lOKrTCFF+002bU6NvPYxoxr0hsB
+         UlNvhzt+Pzn1A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ardb@kernel.org, kraxel@redhat.com, dovmurik@linux.ibm.com,
-        elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-        Dhaval.Giani@amd.com, michael.day@amd.com,
-        pavankumar.paluri@amd.com, David.Kaplan@amd.com,
-        Reshma.Lal@amd.com, Jeremy.Powell@amd.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com,
-        alexander.shishkin@linux.intel.com, thomas.lendacky@amd.com,
-        tglx@linutronix.de, dgilbert@redhat.com, dinechin@redhat.com,
-        linux-coco@lists.linux.dev, berrange@redhat.com, mst@redhat.com,
-        tytso@mit.edu, jikos@kernel.org, joro@8bytes.org, leon@kernel.org,
-        richard.weinberger@gmail.com, lukas@wunner.de, jejb@linux.ibm.com,
-        cdupontd@redhat.com, jasowang@redhat.com, sameo@rivosinc.com,
-        bp@alien8.de, seanjc@google.com, security@kernel.org,
-        Larry Dewey <larry.dewey@amd.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [RESEND PATCH v4] docs: security: Confidential computing intro
- and threat model for x86 virtualization
-In-Reply-To: <98804f27-c2e7-74d6-d671-1eda927e19fe@amd.com>
-References: <20230905152656.1215119-1-carlos.bilbao@amd.com>
- <2023090537-undesired-junction-b325@gregkh>
- <4a25cfe8-39d7-1d0f-b89b-2d62bdb085c1@amd.com>
- <bb5a6655-ebaa-2ddf-0c49-6f1027ccb839@amd.com>
- <f7700d54-da02-3482-17c5-bbae36799fb5@amd.com>
- <98804f27-c2e7-74d6-d671-1eda927e19fe@amd.com>
-Date:   Sat, 23 Sep 2023 01:57:20 -0600
-Message-ID: <87v8c15nkv.fsf@meer.lwn.net>
+To:     Hu Haowen <src.res.211@gmail.com>
+Cc:     Hu Haowen <src.res.211@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_TW: update contents for zh_TW
+In-Reply-To: <20230917084646.92319-1-src.res.211@gmail.com>
+References: <20230917084646.92319-1-src.res.211@gmail.com>
+Date:   Sat, 23 Sep 2023 02:00:28 -0600
+Message-ID: <87r0mp5nfn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+Hu Haowen <src.res.211@gmail.com> writes:
 
-> Kernel developers working on confidential computing for virtualized
-> environments in x86 operate under a set of assumptions regarding the Linux
-> kernel threat model that differs from the traditional view. Historically,
-> the Linux threat model acknowledges attackers residing in userspace, as
-> well as a limited set of external attackers that are able to interact with
-> the kernel through networking or limited HW-specific exposed interfaces
-> (e.g. USB, thunderbolt). The goal of this document is to explain additional
-> attack vectors that arise in the virtualized confidential computing space.
+> The content of zh_TW was too outdated comparing to the original files.
+> Consequently carry out improvements in order to both keep track of sources
+> and fix several grammatical mistakes in traditional Chinese.
 >
-> Reviewed-by: Larry Dewey <larry.dewey@amd.com>
-> Reviewed-by: David Kaplan <david.kaplan@amd.com>
-> Co-developed-by: Elena Reshetova <elena.reshetova@intel.com>
-> Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> This is a thorough rewrite of the previous patch:
+>     https://lore.kernel.org/linux-doc/20230807120006.6361-1-src.res.211@g=
+mail.com/
+> in order to get rid of text damage and merging errors, created based on
+> linux-next (date: Sept. 15, 2023).
+>
+> Signed-off-by: Hu Haowen <src.res.211@gmail.com>
 
-This patch was whitespace-corrupted (something wrapped the diff lines)
-making it hard to apply; I was able to fix it up and get git to swallow
-it.  So applied, thanks.
+So I get the usual sort of problem here:
+
+> WARNING: Message contains suspicious unicode control characters!
+>          Subject: [PATCH] docs/zh_TW: update contents for zh_TW
+>             Line:  =EF=BB=BF.. _tw_process_statement_kernel:
+>             -------^
+>             Char: ZERO WIDTH NO-BREAK SPACE (0xfeff)
+>          If you are sure about this, rerun with the right flag to allow.
+> AM FAILED
+
+*Please* try applying your patches before sending them so we can avoid
+this sort of difficulty.
 
 jon
