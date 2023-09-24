@@ -2,97 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7643BCE7A89
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Sep 2023 19:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8EF5CE7A88
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Sep 2023 18:47:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229458AbjIWTvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Sep 2023 15:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34972 "EHLO
+        id S230118AbjIXSry (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Sep 2023 14:47:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjIWTvy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Sep 2023 15:51:54 -0400
+        with ESMTP id S229930AbjIXSrx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Sep 2023 14:47:53 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B7DAB;
-        Sat, 23 Sep 2023 12:51:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CCC9CE;
+        Sun, 24 Sep 2023 11:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=V8TjP83fX1t1uCCFMjF07+NfXsno1RWfHesTfIPCgz4=; b=nOdhIhQ2vQFZ8T+nshOQ6XbE+V
-        GYpo0CgkU954FFwbBWsJfFyXHslWVTv0D7aPvHaOFh2RvPlicq3XSGm9nwmY63hSgWVKCY32CVaHC
-        5g0d2nNDqzDiv9eYDYpafiZ+N1R3XYhT3DuSpBtg50146FSRLp6+KxME61t5iLlAnwz7B3+y9T6id
-        cFZqEQnU1nLniqjeENqGmczaDeXo2umK7yVfb/30chyokpCW3UPDKu0ePx40COfCyWn9AipyWjkdV
-        NR9sM3IpFC22Wl0bJeKXM95kESENKb/N0UbCxeRDfWAe9r3+DbE8vwd0U3SW28JYGo7EOEZrnmd97
-        tZIzJxJA==;
-Received: from [2601:1c2:980:9ec0::9fed] (helo=bombadil.infradead.org)
+        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+        bh=BKloag/y3wObRwoHJ5YrsbKpoVh/LwWhJ9+J5Kji/kA=; b=Ep28kp7txgrei0cOh+31XEsElD
+        Uzwgq+koccxwXa1ObQO23d5sYB4Mph+b1oeOUNSb2h6RnIjDZIzDvvd7uPk7xDuudb8zVlt6bKMq1
+        DPKPtF06yTZoz5t7kgbR8zQJ8+eOjjD5zph9fkQM2VCSsisTEhUYdZasvccGWPNS9A6CZfaqZzqN/
+        luTLjZ5FjgSdAPDsGzlMlGlod+KZZmZcqd0gVrqdQVT8rGiFU9j2rEFZhbW0zbiey7J12WBgUZMFD
+        dEJRrFzEaWxHlmawN2s+VcEbRk7ce1rfJdw+FnlbMwiEFxa3IWyD2tfa1VWTl//5gKhkVFhGeMGU3
+        krnWPfrQ==;
+Received: from [2601:1c2:980:9ec0::9fed]
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qk8fK-00BPAS-02;
-        Sat, 23 Sep 2023 19:51:46 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Glauber Costa <glommer@openvz.org>
-Subject: [PATCH] docs: admin-guide: sysctl: fix details of struct dentry_stat_t
-Date:   Sat, 23 Sep 2023 12:51:44 -0700
-Message-ID: <20230923195144.26043-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.42.0
+        id 1qkU8r-00Cbfy-1j;
+        Sun, 24 Sep 2023 18:47:41 +0000
+Message-ID: <5fd1b5cd-ea6c-44a1-9cb5-8f692d32ec99@infradead.org>
+Date:   Sun, 24 Sep 2023 11:47:37 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Fix Sphinx 8 warning caused by paths represented
+ with strings
+Content-Language: en-US
+To:     Claudio Cambra <developer@claudiocambra.com>,
+        skhan@linuxfoundation.org, ivan.orlov0322@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20230924184057.91861-1-developer@claudiocambra.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230924184057.91861-1-developer@claudiocambra.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit c8c0c239d5ab moved struct dentry_stat_t to fs/dcache.c but
-did not update its location in Documentation, so update that now.
-Also change each struct member from int to long as done in
-commit 3942c07ccf98.
+Hi,
 
-Fixes: c8c0c239d5ab ("fs: move dcache sysctls to its own file")
-Fixes: 3942c07ccf98 ("fs: bump inode and dentry counters to long")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Glauber Costa <glommer@openvz.org>
----
- Documentation/admin-guide/sysctl/fs.rst |   16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+On 9/24/23 11:40, Claudio Cambra wrote:
+> Running "make htmldocs" generates several lines of this warning:
+> 
+> Documentation/sphinx/kerneldoc.py:141: RemovedInSphinx80Warning: Sphinx 8 will drop support for representing paths as strings. Use "pathlib.Path" or "os.fspath" instead.
+>   doc = (env.srcdir + "/" + env.docname + ":" + str(self.lineno))
+> 
+> Making "doc" an fspath type and creating a new variable with the
+> appended colon and lineno fixes this warning.
+> 
+> Signed-off-by: Claudio Cambra <developer@claudiocambra.com>
+> ---
+>  Documentation/sphinx/kerneldoc.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+> index 9395892c7ba3..e2c835e10dba 100644
+> --- a/Documentation/sphinx/kerneldoc.py
+> +++ b/Documentation/sphinx/kerneldoc.py
+> @@ -138,7 +138,8 @@ class KernelDocDirective(Directive):
+>                      lineoffset = int(match.group(1)) - 1
+>                      # we must eat our comments since the upset the markup
+>                  else:
+> -                    doc = env.srcdir + "/" + env.docname + ":" + str(self.lineno)
+> +                    doc = os.path.join(env.srcdir, env.docname)
+> +                    doc_with_line = (doc + ":" + str(self.lineno))
+>                      result.append(line, doc + ": " + filename, lineoffset)
+>                      lineoffset += 1
+>  
 
-diff -- a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -42,16 +42,16 @@ pre-allocation or re-sizing of any kerne
- dentry-state
- ------------
- 
--This file shows the values in ``struct dentry_stat``, as defined in
--``linux/include/linux/dcache.h``::
-+This file shows the values in ``struct dentry_stat_t``, as defined in
-+``fs/dcache.c``::
- 
-   struct dentry_stat_t dentry_stat {
--        int nr_dentry;
--        int nr_unused;
--        int age_limit;         /* age in seconds */
--        int want_pages;        /* pages requested by system */
--        int nr_negative;       /* # of unused negative dentries */
--        int dummy;             /* Reserved for future use */
-+        long nr_dentry;
-+        long nr_unused;
-+        long age_limit;         /* age in seconds */
-+        long want_pages;        /* pages requested by system */
-+        long nr_negative;       /* # of unused negative dentries */
-+        long dummy;             /* Reserved for future use */
-   };
- 
- Dentries are dynamically allocated and deallocated.
+This patch should be sent to the linux-doc@vger.kernel.org mailing list,
+with the Documentation maintainer copied on the patch.
+
+We also have this similar patch to consider:
+  https://lore.kernel.org/linux-doc/20230910040811.53046-1-erer1243@gmail.com/
+
+Thanks.
+-- 
+~Randy
