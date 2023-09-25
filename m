@@ -2,359 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4EBFCE7A95
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 05:58:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDE2CE7A89
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 07:07:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231992AbjIYF6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Sep 2023 01:58:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47916 "EHLO
+        id S232404AbjIYHH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Sep 2023 03:07:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231637AbjIYF6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 01:58:41 -0400
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B83D6E3;
-        Sun, 24 Sep 2023 22:58:33 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0Vsl7J3-_1695621509;
-Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vsl7J3-_1695621509)
-          by smtp.aliyun-inc.com;
-          Mon, 25 Sep 2023 13:58:29 +0800
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-To:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Jing Zhang <renyu.zj@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: [PATCH v10 6/7] perf jevents: Add support for Arm CMN PMU aliasing
-Date:   Mon, 25 Sep 2023 13:57:23 +0800
-Message-Id: <1695621444-56530-7-git-send-email-renyu.zj@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1695621444-56530-1-git-send-email-renyu.zj@linux.alibaba.com>
-References: <1695621444-56530-1-git-send-email-renyu.zj@linux.alibaba.com>
+        with ESMTP id S229619AbjIYHHY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 03:07:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A3EB8;
+        Mon, 25 Sep 2023 00:07:18 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EC2C433AB;
+        Mon, 25 Sep 2023 07:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695625637;
+        bh=N6mc0aHWFcgFpRtTDCT4En17AvKws6F8YqHYyIo0PVA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=EJg7YRnVisvyUzgHs4WBxIniT1IJDwEy6XObQxoKvCu57smDV/VI2w/4wvqXYb646
+         5HbENKBosu5cJNA8yuuQlmfvl/bDgpeDmTJ5kvlvlTEUHQm//dEAGkjdqNn5G/wYrO
+         b86cuv0u6SL1g4f20UEklBvwfTewc79tPkoGe4SQW7C3SsOo55AnWxkfuanyhzFNJG
+         QgV0jpbGzz+Mdz0Ig6rXmqaYBVHjt1aU63Lxew3TCiEy4n++110O1MO5WFSLguEgUL
+         ISw6WqBkWvXYjQ3PRrw0J0Y1asVuaxDJ1Tsu4HOiJU9okjR1t9rcYPCT9XL1MUs5rQ
+         G8ikFLRv3NPJw==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1dceaa7aeffso1392523fac.0;
+        Mon, 25 Sep 2023 00:07:17 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyCQ7TRFsjRELyg2hKJ7YD14yKwpUp6zl99nxRrnRfH/v2aghsV
+        W2JZoyWcCZ42/Hp//BAUirGtdAfrS3pJULx3lvE=
+X-Google-Smtp-Source: AGHT+IFOiFhdrZ+lis0uTmihuJ6U+6yVA37X3fAFpdu3ZIZOBY5MUlSCRDTCFZM//OsshohPaGi280ujFMXNeCI4jsw=
+X-Received: by 2002:a05:6870:2328:b0:1d5:cdf7:bdbc with SMTP id
+ w40-20020a056870232800b001d5cdf7bdbcmr3661140oao.2.1695625637184; Mon, 25 Sep
+ 2023 00:07:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230917192009.254979-1-arnd@kernel.org>
+In-Reply-To: <20230917192009.254979-1-arnd@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 25 Sep 2023 16:06:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
+Message-ID: <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Documentation: kbuild: explain handling optional dependencies
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently just add aliases for part of Arm CMN PMU events which
-are general and compatible for any SoC and CMN-ANY.
+On Mon, Sep 18, 2023 at 4:20=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
+te:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> This problem frequently comes up in randconfig testing, with
+> drivers failing to link because of a dependency on an optional
+> feature.
+>
+> The Kconfig language for this is very confusing, so try to
+> document it in "Kconfig hints" section.
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: fix typos pointed out by Nicolas Schier
 
-"Compat" value "(434|436|43c|43a).*" means it is compatible with
-all CMN600/CMN650/CMN700/Ci700, which can be obtained from
-commit 7819e05a0dce ("perf/arm-cmn: Revamp model detection").
 
-The arm-cmn PMU events got from:
-[0] https://developer.arm.com/documentation/100180/0302/?lang=en
-[1] https://developer.arm.com/documentation/101408/0100/?lang=en
-[2] https://developer.arm.com/documentation/102308/0302/?lang=en
-[3] https://developer.arm.com/documentation/101569/0300/?lang=en
+Applied to linux-kbuild. Thanks.
 
-Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
----
- .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
- tools/perf/pmu-events/jevents.py                   |   1 +
- 2 files changed, 267 insertions(+)
- create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
 
-diff --git a/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
-new file mode 100644
-index 0000000..428605c
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
-@@ -0,0 +1,266 @@
-+[
-+	{
-+		"EventName": "hnf_cache_miss",
-+		"EventidCode": "0x1",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts total cache misses in first lookup result (high priority).",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_slc_sf_cache_access",
-+		"EventidCode": "0x2",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of cache accesses in first access (high priority).",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_cache_fill",
-+		"EventidCode": "0x3",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts total allocations in HN SLC (all cache line allocations to SLC).",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_pocq_retry",
-+		"EventidCode": "0x4",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of retried requests.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_pocq_reqs_recvd",
-+		"EventidCode": "0x5",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of requests that HN receives.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_sf_hit",
-+		"EventidCode": "0x6",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of SF hits.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_sf_evictions",
-+		"EventidCode": "0x7",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of SF eviction cache invalidations initiated.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_dir_snoops_sent",
-+		"EventidCode": "0x8",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of directed snoops sent (not including SF back invalidation).",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_brd_snoops_sent",
-+		"EventidCode": "0x9",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of multicast snoops sent (not including SF back invalidation).",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_slc_eviction",
-+		"EventidCode": "0xa",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of SLC evictions (dirty only).",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_slc_fill_invalid_way",
-+		"EventidCode": "0xb",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of SLC fills to an invalid way.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_mc_retries",
-+		"EventidCode": "0xc",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of retried transactions by the MC.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_mc_reqs",
-+		"EventidCode": "0xd",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of requests that are sent to MC.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hnf_qos_hh_retry",
-+		"EventidCode": "0xe",
-+		"NodeType": "0x5",
-+		"BriefDescription": "Counts number of times a HighHigh priority request is protocolretried at the HN‑F.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "rnid_s0_rdata_beats",
-+		"EventidCode": "0x1",
-+		"NodeType": "0xa",
-+		"BriefDescription": "Number of RData beats (RVALID and RREADY) dispatched on port 0. This event measures the read bandwidth, including CMO responses.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "rnid_s1_rdata_beats",
-+		"EventidCode": "0x2",
-+		"NodeType": "0xa",
-+		"BriefDescription": "Number of RData beats (RVALID and RREADY) dispatched on port 1. This event measures the read bandwidth, including CMO responses.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "rnid_s2_rdata_beats",
-+		"EventidCode": "0x3",
-+		"NodeType": "0xa",
-+		"BriefDescription": "Number of RData beats (RVALID and RREADY) dispatched on port 2. This event measures the read bandwidth, including CMO responses.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "rnid_rxdat_flits",
-+		"EventidCode": "0x4",
-+		"NodeType": "0xa",
-+		"BriefDescription": "Number of RXDAT flits received. This event measures the true read data bandwidth, excluding CMOs.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "rnid_txdat_flits",
-+		"EventidCode": "0x5",
-+		"NodeType": "0xa",
-+		"BriefDescription": "Number of TXDAT flits dispatched. This event measures the write bandwidth.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "rnid_txreq_flits_total",
-+		"EventidCode": "0x6",
-+		"NodeType": "0xa",
-+		"BriefDescription": "Number of TXREQ flits dispatched. This event measures the total request bandwidth.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "rnid_txreq_flits_retried",
-+		"EventidCode": "0x7",
-+		"NodeType": "0xa",
-+		"BriefDescription": "Number of retried TXREQ flits dispatched. This event measures the retry rate.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "sbsx_txrsp_retryack",
-+		"EventidCode": "0x4",
-+		"NodeType": "0x7",
-+		"BriefDescription": "Number of RXREQ flits dispatched. This event is a measure of the retry rate.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "sbsx_txdat_flitv",
-+		"EventidCode": "0x5",
-+		"NodeType": "0x7",
-+		"BriefDescription": "Number of TXDAT flits dispatched from XP to SBSX. This event is a measure of the write bandwidth.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "sbsx_arvalid_no_arready",
-+		"EventidCode": "0x21",
-+		"NodeType": "0x7",
-+		"BriefDescription": "Number of cycles the SBSX bridge is stalled because of backpressure on AR channel.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "sbsx_awvalid_no_awready",
-+		"EventidCode": "0x22",
-+		"NodeType": "0x7",
-+		"BriefDescription": "Number of cycles the SBSX bridge is stalled because of backpressure on AW channel.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "sbsx_wvalid_no_wready",
-+		"EventidCode": "0x23",
-+		"NodeType": "0x7",
-+		"BriefDescription": "Number of cycles the SBSX bridge is stalled because of backpressure on W channel.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hni_txrsp_retryack",
-+		"EventidCode": "0x2a",
-+		"NodeType": "0x4",
-+		"BriefDescription": "Number of RXREQ flits dispatched. This event is a measure of the retry rate.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hni_arvalid_no_arready",
-+		"EventidCode": "0x2b",
-+		"NodeType": "0x4",
-+		"BriefDescription": "Number of cycles the HN-I bridge is stalled because of backpressure on AR channel.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hni_arready_no_arvalid",
-+		"EventidCode": "0x2c",
-+		"NodeType": "0x4",
-+		"BriefDescription": "Number of cycles the AR channel is waiting for new requests from HN-I bridge.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hni_awvalid_no_awready",
-+		"EventidCode": "0x2d",
-+		"NodeType": "0x4",
-+		"BriefDescription": "Number of cycles the HN-I bridge is stalled because of backpressure on AW channel.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hni_awready_no_awvalid",
-+		"EventidCode": "0x2e",
-+		"NodeType": "0x4",
-+		"BriefDescription": "Number of cycles the AW channel is waiting for new requests from HN-I bridge.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hni_wvalid_no_wready",
-+		"EventidCode": "0x2f",
-+		"NodeType": "0x4",
-+		"BriefDescription": "Number of cycles the HN-I bridge is stalled because of backpressure on W channel.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	},
-+	{
-+		"EventName": "hni_txdat_stall",
-+		"EventidCode": "0x30",
-+		"NodeType": "0x4",
-+		"BriefDescription": "TXDAT valid but no link credit available.",
-+		"Unit": "arm_cmn",
-+		"Compat": "(434|436|43c|43a).*"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
-index 057d51aa..b1ab412 100755
---- a/tools/perf/pmu-events/jevents.py
-+++ b/tools/perf/pmu-events/jevents.py
-@@ -289,6 +289,7 @@ class JsonEvent:
-           'cpu_core': 'cpu_core',
-           'cpu_atom': 'cpu_atom',
-           'ali_drw': 'ali_drw',
-+          'arm_cmn': 'arm_cmn',
-       }
-       return table[unit] if unit in table else f'uncore_{unit.lower()}'
- 
--- 
-1.8.3.1
 
+--=20
+Best Regards
+Masahiro Yamada
