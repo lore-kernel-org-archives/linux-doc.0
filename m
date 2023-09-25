@@ -2,100 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA592CE7A89
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 09:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDBCCE7A81
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 10:13:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbjIYJ7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Sep 2023 05:59:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54062 "EHLO
+        id S231608AbjIYKNt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Sep 2023 06:13:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231200AbjIYJ7A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 05:59:00 -0400
-Received: from mail.8bytes.org (mail.8bytes.org [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4116910C7;
-        Mon, 25 Sep 2023 02:56:08 -0700 (PDT)
-Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.8bytes.org (Postfix) with ESMTPSA id 27E6E1A1EA9;
-        Mon, 25 Sep 2023 11:56:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-        s=default; t=1695635766;
-        bh=9PqcnP0fBBXYm0nOdc0nJm0+qTAxRYNwHHGdJDVyqnY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=do7SoP/ej6m+DzfP4zanqVSPHmELmY4rQuPveywCzYUG9GioGs2VSc4FX38kVa6kt
-         wij9Buf7fttF4+WTjZNXOCViquEeFNwnQGeE+JJxIwZrJ6koxAZdyvOCsEQaGP2ztI
-         9hsYO5tXUSh/zasJgIHtxaYPZ4vmZS6RUmmVLuQSWX+5zZ1jz6PZlvBaTuMJkKm8sq
-         LZhnJzcpHy3eIAxEwxoAQU20Ap/BrMLgkVdi131b2HnLrigEVAYynHMUY3q/gfljoY
-         vhMDTuZpUhXdn6DgG3Bx19EPCc3Hf3w4DD7BlRsnrSUlwyA51GhnKacwD6kVdB4a9+
-         Y/BgwZcbGa0gA==
-Date:   Mon, 25 Sep 2023 11:56:05 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Niklas Schnelle <schnelle@linux.ibm.com>
-Cc:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Message-ID: <ZRFZNbR_3p9nhQEU@8bytes.org>
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+        with ESMTP id S231548AbjIYKNc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 06:13:32 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D76DC2697;
+        Mon, 25 Sep 2023 03:02:07 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C943ADA7;
+        Mon, 25 Sep 2023 03:02:45 -0700 (PDT)
+Received: from [10.57.36.242] (unknown [10.57.36.242])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C39193F59C;
+        Mon, 25 Sep 2023 03:02:06 -0700 (PDT)
+Message-ID: <cee6d5cd-e15b-3bb1-f867-de467d96d6b5@arm.com>
+Date:   Mon, 25 Sep 2023 11:02:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Content-Language: en-US
+To:     rostedt@goodmis.org, mhiramat@kernel.org,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, zhengyejian1@huawei.com
+From:   Christian Loehle <christian.loehle@arm.com>
+Subject: [PATCH] tracing: document buffer_size_kb more precisely
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 25, 2023 at 12:11:15PM +0200, Niklas Schnelle wrote:
-> Niklas Schnelle (6):
->       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
->       s390/pci: prepare is_passed_through() for dma-iommu
->       s390/pci: Use dma-iommu layer
->       iommu/s390: Disable deferred flush for ISM devices
->       iommu/dma: Allow a single FQ in addition to per-CPU FQs
->       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
+buffer_size_kb no longer shows the requested amount, but the one that
+is actually used internally for the ring buffer.
 
-Applied, thanks.
+commit 6d98a0f2ac3c ("tracing: Set actual size after ring buffer resize")
+changed the sysfs behavior such that value read will always show the
+actual size, while previously it showed the size that was requested
+through the sysfs interface, even if it was rounded up to fulfill
+the request.
+So the documentation can state that more precisely now.
+
+Signed-off-by: Christian Loehle <christian.loehle@arm.com>
+---
+ Documentation/trace/ftrace.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 23572f6697c0..2e066b3b6edc 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -191,7 +191,7 @@ of ftrace. Here is a list of some of the key files:
+ 	A few extra pages may be allocated to accommodate buffer management
+ 	meta-data. If the last page allocated has room for more bytes
+ 	than requested, the rest of the page will be used,
+-	making the actual allocation bigger than requested or shown.
++	making the actual allocation bigger than requested.
+ 	( Note, the size may not be a multiple of the page size
+ 	due to buffer management meta-data. )
+ 
+-- 
+2.34.1
