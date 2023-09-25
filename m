@@ -2,199 +2,276 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7AD6CE7AB4
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 17:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2132ECD548D
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 18:42:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231853AbjIYR46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Sep 2023 13:56:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44016 "EHLO
+        id S231805AbjIYSmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Sep 2023 14:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230319AbjIYR45 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 13:56:57 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B68A10F;
-        Mon, 25 Sep 2023 10:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695664610; x=1727200610;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=8OgWyGhH3+em0WoRMrkANjuXHhelVH3ySHtgV6HXZ3A=;
-  b=aysDQB/z+99l7lQH4ztRLAxe1qdIW47MJW0xtDSiKk4D3MFjsXVv0iPf
-   w7SXY/r8hrb293IpKNc+wnMFXw0eEqpolmXA6ERbduv8Q0qkiFkePXYSf
-   0VoB5Ikk+4t9Vj12QAzy1noD5mDY27HliwXnGbBksmGRfhfQBuM2nyqmK
-   8yy4uADFV9ORv0bboZPqy2GZHJ2r5+UNk4+yaZCWi8NcP+sZlmE8IwDbc
-   a9uXUSRj9wPfNyJvsdSluF2h8P1AjMb/eNn9hHwtnPtE/x8zPQeMLWVBI
-   gzSs8klfI7WtNZ0Oh5pfeLMU8KyD9rflliiiq0Nb7Uq2uIXinPBtQPeZf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="445438072"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="445438072"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 10:56:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="891781370"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="891781370"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Sep 2023 10:55:46 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 25 Sep 2023 10:56:48 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 25 Sep 2023 10:56:47 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 25 Sep 2023 10:56:47 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 25 Sep 2023 10:56:47 -0700
+        with ESMTP id S229742AbjIYSmX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 14:42:23 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2134.outbound.protection.outlook.com [40.107.244.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D55595;
+        Mon, 25 Sep 2023 11:42:15 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MmQDA+L+I2dioKL3EH0h07ZFQ8PDzlYAITAXcn0cqCcjaQCdd+hYJxIdPtQ1wj1LMzxPTaVVg/q4lKTzrn+o7D4ueZ02pKz2s0dVkKkMGk+W7Jv/1mO2igYK0V6ryjFX/kQfmhQ6+jzG6UVsgrP9IfYPW3u6QUisRmBivS9+1oWZfOOuH3lOY6KKLOsdbCmfji9prLKXJ1rEQakDcm7od0FC4STWnIM9Bs9Q0hQYBKy/JE/iEyqNnr3nZt9wd6XZoJSTh3x2vo6rYwkO/Vy5aQTiyhB6/4P4wBk2R3eLavOn/x3JpnELOdhQGrCtia0cs8++tqVJqgIrxk8IQ2RqrA==
+ b=hAYhOYNmXtF+CwvIS6i9H0Hj8eoEyqWw1fZi4Wz+fp5YUikaF7ZcLjYUI0efCa7B0bgdP6YMioBrL4EUCTZsR9NXC/RxS7ijLzr5uVXvDlvqbJq5PFIy1eZx0JDs730USRsjtKfKp6szMEcu0P/h9u+Bsl2ZO5wTDyRA0qYfX3loOUj06kBWeUk9ivssF5tJ4HuAEfqhhOOQgohx3FVRtddBkf31g2ayFLW+4TxHpg3rPFeQyz590ttJ0uMIIDghqI+N5jVEgwbwNcV+0SLVUv1KEc9VxMAKzbxxvOC5pbMnWR7reBLOxLOUa2CCTXr+IZxbcanOHimzPurCHB7YeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8OgWyGhH3+em0WoRMrkANjuXHhelVH3ySHtgV6HXZ3A=;
- b=Z602iOoN6UtlY1ik77riMhmyFhFXUqEPlBGE5KTqVR17jizqtT2I97XCWoLU4LEMx8RFmjUbJWZWrAMyLf3mOia3okqpNsq+9/zBveARMIaTQUEiysUB8Rer4tP2HO+0wzDTQqkvyYLytjMQHS3Z/izsazrE8iiraLuwNY2jpCR8pjsCu1Rk4ZGkgyH8NrjViWJPBh2w0WglZfTXRthBhP1BXMcdkmMTEMgnhCIntuYhTne6GbY8c653G+4raXvo4yvP24p9uwNxVIYSTOCyijeFBWc0TJSihdqRxlUB+qAKw/60eQ3y5a2LKSt7/r5LdWSh2pUeAd/tidXH0qtQmA==
+ bh=5aDJRdlWuHz+F7Mml48ESGQympOBtEKpcyOh4bdzkXA=;
+ b=kU+/X28vLfel3MSKM868JZzUsjdJ9u716q2+cj2yQwuwXZDX0TgDlpy97Un5YHtzEBG6pjMeXaBamKfoerdZFrj9kd08DBu7xBnyalUJDV8k/BRwyp1UJFiMrDFq889K87av1YI7Bw95RLNPzzX3Sp0KxisVCeLBczOZ3oDfj2bg1nRj0oQ9gCbXCPQDc9/LzrB/aujAYXEixxUlZ1tbBhUIvvzBDzKKvS7VzZxSBO37seGB8R9TeghN3WfNAuGK1HXmrUJpdR+DHBnXhUIvN7eyrwkbI0I51U5seY7VI7fWlBnn+aVYFEgLOsNPjcjNoF4qE0AmE2ZxQc6XGQdG3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22)
- by SA1PR11MB8349.namprd11.prod.outlook.com (2603:10b6:806:383::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Mon, 25 Sep
- 2023 17:56:44 +0000
-Received: from SA1PR11MB6734.namprd11.prod.outlook.com
- ([fe80::922f:ec7c:601b:7f61]) by SA1PR11MB6734.namprd11.prod.outlook.com
- ([fe80::922f:ec7c:601b:7f61%6]) with mapi id 15.20.6813.017; Mon, 25 Sep 2023
- 17:56:44 +0000
-From:   "Li, Xin3" <xin3.li@intel.com>
-To:     "H. Peter Anvin" <hpa@zytor.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Christopherson,, Sean" <seanjc@google.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "Gross, Jurgen" <jgross@suse.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "jiangshanlai@gmail.com" <jiangshanlai@gmail.com>,
-        "nik.borisov@suse.com" <nik.borisov@suse.com>
-Subject: RE: [PATCH v11 35/37] x86/syscall: Split IDT syscall setup code into
- idt_syscall_init()
-Thread-Topic: [PATCH v11 35/37] x86/syscall: Split IDT syscall setup code into
- idt_syscall_init()
-Thread-Index: AQHZ7gbj6LYYw3ax602r6dWz9pQ+t7AruMuAgAAdkCA=
-Date:   Mon, 25 Sep 2023 17:56:44 +0000
-Message-ID: <SA1PR11MB673481413BA6522B01218297A8FCA@SA1PR11MB6734.namprd11.prod.outlook.com>
-References: <20230923094212.26520-1-xin3.li@intel.com>
- <20230923094212.26520-36-xin3.li@intel.com>
- <D4167CD5-B619-448D-B660-24ABC0786E0A@zytor.com>
-In-Reply-To: <D4167CD5-B619-448D-B660-24ABC0786E0A@zytor.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB6734:EE_|SA1PR11MB8349:EE_
-x-ms-office365-filtering-correlation-id: 65b14c02-9d70-4712-8795-08dbbdf0c7ce
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: v16Em4V9b3GfQIZ7xcCNCZAGmHKtj+5azXCRtNMT0Gy1t6HSoJhx+CU7+GPXdDZaLsbU8XtGyU59VBN2ealS9TRs1pVXELnKZBIjaKWgTRTxNYgJaREBK9hE6drk+or7/h9rHikhrZfyO5FpEUCCpwjHqkFXFh9WKPcesSQ1CGwQaxRo5Y3Jw49ChXiySgXCWYLQOveuEDon/XK4zl9+3sc6WXKreNhSrUGrjPFtwsyLrQN0TvG3+aAaIELRb2ft1dbZHVNyPVwGsdc5gJ0GneLn+LPQol+TCxnYYdWRWTmRcyfjJIcwsVPVU8KEfUYhEEqHgNzj6fQZNS26FFjEquyb2mJndRqpRtHMbnedBlKt5TO0QKhyjcQj1TA9UB5J1Sji7fApR+tZgGaJeorL7nq1Ty24bQreA/84x1ICySxks458skEoD0GrMbMroycx4+Iw3Ax12V4iu8UgEcvZm+MEw5YtdxOtUA/fhCIUiqbwTn/LmXxeJt355Ruc+IlnHKKCjCbQvcDCZm0+yo+Nb4qvNUrc+l7kRKZZbtCOLYb9g6W3nbKiNp2A4HbuboPNdkHRCl8l1yUdqPWx7pqIb/34o5kEzKMEy5XHEaFKcswDE3ckXHgvEkSS6WrssnF3
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6734.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(39860400002)(396003)(346002)(366004)(230922051799003)(451199024)(186009)(1800799009)(52536014)(82960400001)(6506007)(7696005)(71200400001)(9686003)(110136005)(26005)(55016003)(478600001)(2906002)(83380400001)(66446008)(66556008)(5660300002)(66946007)(66476007)(7416002)(8676002)(54906003)(64756008)(8936002)(41300700001)(316002)(76116006)(4326008)(38100700002)(38070700005)(122000001)(86362001)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YWZBMUFQS2dWbDhnTVBGSlREWVIzWHNTMDQ4bE54QmxTeWt0dllneUc5bjdz?=
- =?utf-8?B?WDk4OVgrb2h0ZjloZUNwdDd2aWhVUXRabmpaRll1WERtWS9McitUejJZaHd3?=
- =?utf-8?B?Vndlc0ZpdTFsaEI3VEtycVhLWGpLWkhjVGlWZXdlNFNhMjl6NDZ1Mjk5QkU4?=
- =?utf-8?B?eFZ1TGJsRG5RU254Q3dzRVAzdmFPSEwwL2JJaFhuU2dJMUpXWTlNTzlXN2Zl?=
- =?utf-8?B?alFLelY0QUZXdldrak5SbVhucTBxZWxZR2VxN1pINDdMZE9zV1BHTWhiTHpj?=
- =?utf-8?B?ZDFkMXBta1FtK0htajBzZ2FsNTNaVVQ5UG9Tc1d0TUhHaXdCTDBCVGMrMzln?=
- =?utf-8?B?SHFIbUdndzVMenZJOHpxUnpyNnFMa2ZEWnVjWHFCQU1zNnBDaDVsSWNvR2Nx?=
- =?utf-8?B?L3BBYXpxb20vUFhyeEpkSzIrSXJmOFo4Wk5nMUJ2TFMvM010eUZXYnhLUUNW?=
- =?utf-8?B?T2F6WjFmVG5ESkNHdXoyYll0anRTeEhScm1Vcmo1Y20zU01ENk96UTVxTUVv?=
- =?utf-8?B?VkdzNkNkQkFYU1FMV01HSlRIWE05ZDVKOWZKbnBkNGNpV2hSRFMxdFlYUThk?=
- =?utf-8?B?bitXN1UwYmxDOGl6bnJvNloyUVlvUUI0QzA1dzR5SnVOdFMrc0hqa0xhOGRD?=
- =?utf-8?B?aWV0bEtYWWxRU012QWpqeDViTjA3V0thYmR2L3Q4dmhOdHJYMmlJZ2x4WVFj?=
- =?utf-8?B?NDdsSjBDNmtvc1dqYTQzTEx2ckRkbUlQbC9qL1d5bHVKOVNpWUtKMTk2d2hn?=
- =?utf-8?B?Q0VIYk11WUdXeTRNaTBReFh1VWxjSGxObGFhV3JEYTRJSVVzc1lUdkpUenp1?=
- =?utf-8?B?RmxOTmR0ai9CeTdRbk5sZm5aYnJUdy9YSE5QNEpkbkxPNXFYMEUyWU5wRno5?=
- =?utf-8?B?UnJqUzVYbnVMQkFaaHRNSnNXcDJpbk5VTzYzY0VhL2dwbG9mSVJtSTNySUFq?=
- =?utf-8?B?S2ZOQnZNRUI5emhOZk1JTEdsUW9nRHRsdVdoRy9DNzczaHBNQ0Nzc1FsbWZT?=
- =?utf-8?B?MEovd2FESC80TFZlY09sVEMyQ3NIQjUrcFg3Vk81SFNXWmpkUVFxTmRDSFYy?=
- =?utf-8?B?c3pocjZzQTVCWStTZ0JUcVREdytFcWJYTFVTNTJVRWxpVTNUVDRSM3Y4RGQ5?=
- =?utf-8?B?V0Fta2JYV2F6TVU5WUt3cUlFWEJVb3U4eXdkSVd5dHcvMmJTbXlScTlQOTJH?=
- =?utf-8?B?Nyt3OTY3eVg2NUhVQnpzblloYXhrZlBQeXV6K0V5d3ZVZmVLL1dTQ2tKWjJx?=
- =?utf-8?B?WGdvZERWY0Z4dFRnNWVaWVdIVW1zVHZKR05rMFVFSUptOFo5ajBqRGFNWFR1?=
- =?utf-8?B?T3o5ZGNBSXZDaDhRWHkyRnY3Vm1aL0pYd0cxMVI4UHU0akJheHNPY2pKdEg0?=
- =?utf-8?B?ckR4SkxXZTdGOFBhMkE3UVlubzRhbjRZQktrSjBDOGJRQzdqN2ZnVS9VRk1X?=
- =?utf-8?B?dlpHSUY3Z2xFT3hDbkdQZnpSSUs4bExCcGlJbEVxN2ZLRGY4dzZJeEZhczI5?=
- =?utf-8?B?djI2YWhNanRuTmJ6VzBqdlpFZkZPS1BOc3BhVWNJdmF0TG5sUktYTVo0cGVa?=
- =?utf-8?B?TkVNVEpRSjJnSW5ZLzREa1MrY2dPSFZTQ1kwaEFiVW9waWVVYmJjcXVLNzk1?=
- =?utf-8?B?Tzlham1ra2tpdkdPeE1NeXErRWhMNHVubys1ZW1nQnBIenRKSzBRU1N4WTBK?=
- =?utf-8?B?dTh6TmZQMDhkS3l2Mmszc3Q1VjNJWHp1UkR4SlNkRDZ2ZXkvcy8yT3JtcmJY?=
- =?utf-8?B?eWJjQW1vRHVpSnZqUjd6STBwQTRXbFZkWjdxdGdHZHMveUY5ZTcxZWVjWDhH?=
- =?utf-8?B?Zm9ZUWFrc0lsbWNWWUJ3NzFpZkRCLzdSWmxXL3F1eG54WXVYSWc5SDdNQmlx?=
- =?utf-8?B?RW9kQTVEYm80bkdDbm8wQUwraHpJNnFoV1FMY1JzQWVpZW5HWE9GVXpnVG1X?=
- =?utf-8?B?elhtSTZhakZwZWI3QUQ0NWtpUkw4eTN3MGtoeWtveEphdnVxSitscXNxYXdk?=
- =?utf-8?B?RjlMY2dpVHVadmpxUnBjaDVVb2hybEJwSUo5enQ2cVNsNFhadUJ1V3hSREZM?=
- =?utf-8?B?UFFjZlNjb3hyanVFdDFSUldwb1VJSUxWc3FFQjloUGxKa1pnU0Z5YVZZS25G?=
- =?utf-8?Q?8ZtM=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ smtp.mailfrom=ipt.br; dmarc=pass action=none header.from=ipt.br; dkim=pass
+ header.d=ipt.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipt.br; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5aDJRdlWuHz+F7Mml48ESGQympOBtEKpcyOh4bdzkXA=;
+ b=KcMwxlvX6kZyZJzw395Tn1uDrgKIiHSlcByjf/Uez8z1fxaSfV47Gp55DQwYrMPdVk8B9VZ9MY5AkM0kC9TJPi7P+P50J5BstWvnXBJ3/9gcQ0Fa3ApUqke4mjx+OUGEQjABEX96ZbNR937yVKFRlYxK5Xkq/ZnWE18KFWK5Bwo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ipt.br;
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:1a4::6)
+ by RO2P152MB4776.LAMP152.PROD.OUTLOOK.COM (2603:10d6:10:6f::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6813.28; Mon, 25 Sep 2023 18:42:11 +0000
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::7a85:9362:f3e7:ad3]) by CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::7a85:9362:f3e7:ad3%6]) with mapi id 15.20.6813.027; Mon, 25 Sep 2023
+ 18:42:11 +0000
+From:   Fernando Eckhardt Valle <fevalle@ipt.br>
+To:     ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
+        mpearson-lenovo@squebb.ca, corbet@lwn.net, hmh@hmh.eng.br,
+        markgross@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v5] platform/x86: thinkpad_acpi: sysfs interface to auxmac
+Date:   Mon, 25 Sep 2023 15:41:33 -0300
+Message-Id: <20230925184133.6735-1-fevalle@ipt.br>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CPYP284CA0045.BRAP284.PROD.OUTLOOK.COM
+ (2603:10d6:103:81::14) To CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ (2603:10d6:103:1a4::6)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CPVP152MB5053:EE_|RO2P152MB4776:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f0786bb-0195-4315-be64-08dbbdf720d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jkzsL4sv/Qze229UND8qh8nv07fOKhuQGx1NQ8LKIynJoxvQYz1eGooafoynZ3cxuzIHDYQP+b2nFdl4lFM0NUeb3mNpBvcrX4eiZx8UtJ8zc5AKr0bYV8r0pqkGrn/81KFnJ1/M+Qm3tpwWLWQDsh1FaoyZm4Wfso4n47MBACaojp6+LVGb1YelQa5dv4PWZyUPu3tkcqOuUjj78ACUDo8LpwqbgFZLxRY/GaE2XcENh+X6DkZ5sE7pMmNrLxCocALDxpPF1N+kUZaEI+VO9I1cFO3jd8VkjiYsruUe3Bi/cXmXTNWDtv6mzvKuceCagmMr3rCqC8tWLkjF46PBOB23DMsTPcmDtOvU/dZeIE1qhcRCcS5s2WSVkT9APBjF00tnQzO3ctmnbJiAjO1baTRGxk5G+pIz3IVnJppkjoAuqyRJcJui92UJhsWQ0haW798KlBUclC6Pa7bXdGcSYDsMVTSckYp5MTTeA93hvv7qMGUUt0V9Wx9PP6IXZsTD+om8gx7YxIOiDuPgeTxffUCi2emEWXu9GpmkyP4jvsnhk7aCMt/PwbHtNsxVBBCbwobikLIzhXO047JVJ13CRA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(39850400004)(346002)(376002)(366004)(396003)(230922051799003)(1800799009)(186009)(451199024)(6512007)(6486002)(6666004)(6506007)(52116002)(83380400001)(921005)(86362001)(38100700002)(41320700001)(36756003)(1076003)(2616005)(2906002)(8936002)(8676002)(41300700001)(7416002)(66556008)(66946007)(316002)(786003)(66476007)(5660300002)(478600001)(966005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oBYjt4i4clgI0FkVQhsCywU8Vd+/iXQYChWijX/CiBky8i386xS1tG5LIoY4?=
+ =?us-ascii?Q?1BQYyFaOskHNrO90qn5ctpUxYIIL52wbAuaE/t6UBT7VmspPRm5oHF4EPASc?=
+ =?us-ascii?Q?TTgGLa3Zpzil56oc1twRPNSfpBsgnCDxdZ1ENjjiGum+fBy8Apxb2hcNTHqm?=
+ =?us-ascii?Q?VLo6LFzpyCYutaod8cKn9yPQpkmNGyr0HO+p+IiiCGMEAPpnrTzGZftM6d+o?=
+ =?us-ascii?Q?xPlr9UfeYKqhGUL9LX6ClBfyOmvhcFcwt41JIHobaUP7zFX6VW9aK5TdDoPQ?=
+ =?us-ascii?Q?WDQX0z9BCIZ04oUmjjploAblB+6kMwHhOXcrHbPMpW4Z2SBh9TlNH/ycA/mw?=
+ =?us-ascii?Q?6xtlXErWpQUS+bcKb6hSbaVG62v7ggIUbhY2+TwNqhDdW2Z1A1PTumKx1mDs?=
+ =?us-ascii?Q?ZrEspZxelXafz+1fLiNN/4W74PHOXmTUy6gsALenN1on1FbWJgHKIfPKvQXb?=
+ =?us-ascii?Q?Mk8Vzs8KEcu5t2CVB+tfxenU+56y+8FcbRTnyJTuxFk1tJivQPQaMZJhNl6C?=
+ =?us-ascii?Q?KlnDKdJvZuz3ImTKuu6rujS00t0lO1J3Gqqs0ZvHkO8rhK6h7hY/YIdNrR24?=
+ =?us-ascii?Q?sNs1XtzRvU/0DhNYIWE7193GgVsjcaarxqrm9IZpuqKSR6NFgMDUA1NUBQB5?=
+ =?us-ascii?Q?U1CLN6W6YSCrGPJ4Ltwjzd3KvWKB4daLcuumT6x73O2tSFYhYrHPhwtfZjly?=
+ =?us-ascii?Q?l65Oe8zaFvLv0Fh1rL/iZpMO9NzJmAhjCGQqy97JdDWY4BiJEb4+aiYDZYV9?=
+ =?us-ascii?Q?VxLV8I4BjDlmUJFRWdoRbxxZegsWIJ2vIbDpnO5MK0qfxPteDrUU3EY5qG+t?=
+ =?us-ascii?Q?r6WsoqwCIZ65rESJUmPer3V5+ZHEjMYvaMe66ro8jRfzVd9tVlIATlApewLE?=
+ =?us-ascii?Q?gXMCy/dK0i1YFF5xtleWiPtCkXIRhyv75u/fZXhQMzeY8NyXFVSK021tEPb1?=
+ =?us-ascii?Q?iY61Q8ByCvcV+cyZXO4Jr5HVce0Pnevz96tUmVA2p5FasFoDu7JruIJ8TaHb?=
+ =?us-ascii?Q?jivYigLVb327S0K/hf9XAgdfaDz6MlkdECfAoFmCdQ/isapD7cR2Co6oWvGW?=
+ =?us-ascii?Q?YfXzquSA/kZlTYt53gcfO5h/3CpYP/E93rVynLORU92ZcLn4XQsuj6hogLfa?=
+ =?us-ascii?Q?Fj6YZfav/a0vRrZGq1xo6KXzNg8EN/PLqSTRPrelX6dUVmIhcHI0dMmIfM9J?=
+ =?us-ascii?Q?x2kBOO1wCr77pVNU/K3EZSZoIdNVW7w96SoKea2aEbum82L47E1Z4pLgw/JF?=
+ =?us-ascii?Q?NTUIwPBQpIX3CLEZapem4bCXZ98fSMsPA4X4SCOqX0hMeqZDCJrcpa2oGse8?=
+ =?us-ascii?Q?fovp/LjeScRZHuQ/FkTJpq4b32onxtV/Mq1M56W4LOTiFLNLIdAoltPzW3lk?=
+ =?us-ascii?Q?R1TylUza5iPUOUxoZD9e6hEqFwfyoJwQyJDj5ToPM5N7NJ/yV3CNy98+kgTu?=
+ =?us-ascii?Q?LL2zTET6KDAQFouF+8tomiMqXbmKHgMUnXfi2jYhPH4sExU4erWyE5YDPjF4?=
+ =?us-ascii?Q?upQVlU4fGRFQEb9dS49OL2RfOiPz7EcH4FLsVzIY0pejGVwGCqWZ2YhaPEqG?=
+ =?us-ascii?Q?pTP/hIavqCFgrE1ov0aB/wMCf/cBtO5+iuPsXno3G6i0aprJoxT4Z0ru+ZiG?=
+ =?us-ascii?Q?5EI8PrM56Es0HTQlkFsrYXSUnhollnth42WSI/lQjO5t?=
+X-OriginatorOrg: ipt.br
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f0786bb-0195-4315-be64-08dbbdf720d5
+X-MS-Exchange-CrossTenant-AuthSource: CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6734.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65b14c02-9d70-4712-8795-08dbbdf0c7ce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2023 17:56:44.4490
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2023 18:42:10.9877
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Atv4K+biwUDTmIagcFwHbcjUEstXcchp+WrcIwTGI6tmuM1zr2s59kcNWQ8cXoAdIGE74KHVop63wDnYONqBsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8349
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: aab57f47-5b85-4924-8047-691190100bd7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CDgbvU/8SfvjOb3l+fb3HjpzKJ2fTskqsAJl0NJS84y+Nw5iIGv0UpvM/kG3HO7z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: RO2P152MB4776
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiA+ZGlmZiAtLWdpdCBhL2FyY2gveDg2L2tlcm5lbC9jcHUvY29tbW9uLmMNCj4gPmIvYXJjaC94
-ODYva2VybmVsL2NwdS9jb21tb24uYyBpbmRleCAyMGJiZWRiZjZkY2IuLjJlZTRlN2I1OTdhMyAx
-MDA2NDQNCj4gPi0tLSBhL2FyY2gveDg2L2tlcm5lbC9jcHUvY29tbW9uLmMNCj4gPisrKyBiL2Fy
-Y2gveDg2L2tlcm5lbC9jcHUvY29tbW9uLmMNCj4gPkBAIC0yMDcxLDEwICsyMDcxLDggQEAgc3Rh
-dGljIHZvaWQgd3Jtc3JsX2NzdGFyKHVuc2lnbmVkIGxvbmcgdmFsKQ0KPiA+IAkJd3Jtc3JsKE1T
-Ul9DU1RBUiwgdmFsKTsNCj4gPiB9DQo+ID4NCj4gPi0vKiBNYXkgbm90IGJlIG1hcmtlZCBfX2lu
-aXQ6IHVzZWQgYnkgc29mdHdhcmUgc3VzcGVuZCAqLyAtdm9pZA0KPiA+c3lzY2FsbF9pbml0KHZv
-aWQpDQo+ID4rc3RhdGljIGlubGluZSB2b2lkIGlkdF9zeXNjYWxsX2luaXQodm9pZCkNCj4gPiB7
-DQo+ID4tCXdybXNyKE1TUl9TVEFSLCAwLCAoX19VU0VSMzJfQ1MgPDwgMTYpIHwgX19LRVJORUxf
-Q1MpOw0KPiA+IAl3cm1zcmwoTVNSX0xTVEFSLCAodW5zaWduZWQgbG9uZyllbnRyeV9TWVNDQUxM
-XzY0KTsNCj4gPg0KPiA+IAlpZiAoaWEzMl9lbmFibGVkKCkpIHsNCj4gPkBAIC0yMTA4LDYgKzIx
-MDYsMTUgQEAgdm9pZCBzeXNjYWxsX2luaXQodm9pZCkNCj4gPiAJICAgICAgIFg4Nl9FRkxBR1Nf
-QUN8WDg2X0VGTEFHU19JRCk7DQo+ID4gfQ0KPiA+DQo+ID4rLyogTWF5IG5vdCBiZSBtYXJrZWQg
-X19pbml0OiB1c2VkIGJ5IHNvZnR3YXJlIHN1c3BlbmQgKi8gdm9pZA0KPiA+K3N5c2NhbGxfaW5p
-dCh2b2lkKSB7DQo+ID4rCS8qIFRoZSBkZWZhdWx0IHVzZXIgYW5kIGtlcm5lbCBzZWdtZW50cyAq
-Lw0KPiA+Kwl3cm1zcihNU1JfU1RBUiwgMCwgKF9fVVNFUjMyX0NTIDw8IDE2KSB8IF9fS0VSTkVM
-X0NTKTsNCj4gPisNCj4gPisJaWR0X3N5c2NhbGxfaW5pdCgpOw0KPiA+K30NCj4gPisNCj4gPiAj
-ZWxzZQkvKiBDT05GSUdfWDg2XzY0ICovDQo+ID4NCj4gPiAjaWZkZWYgQ09ORklHX1NUQUNLUFJP
-VEVDVE9SDQo+IA0KPiBBbSBJIG1pc3Npbmcgc29tZXRoaW5nLCBvciBpcyB0aGlzIHBhdGNoIGEg
-bm9vcD8NCg0KWWVzLCB0aGlzIGlzIGEgbm9vcCwganVzdCBhIGNsZWFudXAgcGF0Y2ggdy9vIGZ1
-bmN0aW9uYWxpdHkgY2hhbmdlLg0KDQo=
+Newer Thinkpads have a feature called MAC Address Pass-through.
+This patch provides a sysfs interface that userspace can use
+to get this auxiliary mac address.
+
+Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
+---
+Changes in v5:
+- Repeated code deleted.
+- Adjusted offset of a strscpy().
+Changes in v4:
+- strscpy() in all string copies.
+Changes in v3:
+- Added null terminator to auxmac string when copying auxiliary
+mac address value.
+Changes in v2:
+- Added documentation.
+- All handling of the auxmac value is done in the _init function.
+---
+ .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+ drivers/platform/x86/thinkpad_acpi.c          | 81 +++++++++++++++++++
+ 2 files changed, 101 insertions(+)
+
+diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+index e27a1c3f6..98d304010 100644
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -53,6 +53,7 @@ detailed description):
+ 	- Lap mode sensor
+ 	- Setting keyboard language
+ 	- WWAN Antenna type
++	- Auxmac
+ 
+ A compatibility table by model and feature is maintained on the web
+ site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+@@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mentioned below:
+ The property is read-only. If the platform doesn't have support the sysfs
+ class is not created.
+ 
++Auxmac
++------
++
++sysfs: auxmac
++
++Some newer Thinkpads have a feature called MAC Address Pass-through. This
++feature is implemented by the system firmware to provide a system unique MAC,
++that can override a dock or USB ethernet dongle MAC, when connected to a
++network. This property enables user-space to easily determine the MAC address
++if the feature is enabled.
++
++The values of this auxiliary MAC are:
++
++        cat /sys/devices/platform/thinkpad_acpi/auxmac
++
++If the feature is disabled, the value will be 'disabled'.
++
++This property is read-only.
++
+ Adaptive keyboard
+ -----------------
+ 
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index d70c89d32..2324ebb46 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -10785,6 +10785,82 @@ static struct ibm_struct dprc_driver_data = {
+ 	.name = "dprc",
+ };
+ 
++/*
++ * Auxmac
++ *
++ * This auxiliary mac address is enabled in the bios through the
++ * MAC Address Pass-through feature. In most cases, there are three
++ * possibilities: Internal Mac, Second Mac, and disabled.
++ *
++ */
++
++#define AUXMAC_LEN 12
++#define AUXMAC_START 9
++#define AUXMAC_STRLEN 22
++#define AUXMAC_BEGIN_MARKER 8
++#define AUXMAC_END_MARKER 21
++
++static char auxmac[AUXMAC_LEN + 1];
++
++static int auxmac_init(struct ibm_init_struct *iibm)
++{
++	acpi_status status;
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
++	union acpi_object *obj;
++
++	status = acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
++
++	if (ACPI_FAILURE(status))
++		return -ENODEV;
++
++	obj = buffer.pointer;
++
++	if (obj->type != ACPI_TYPE_STRING || obj->string.length != AUXMAC_STRLEN) {
++		pr_info("Invalid buffer for MAC address pass-through.\n");
++		goto auxmacinvalid;
++	}
++
++	if (obj->string.pointer[AUXMAC_BEGIN_MARKER] != '#' ||
++	    obj->string.pointer[AUXMAC_END_MARKER] != '#') {
++		pr_info("Invalid header for MAC address pass-through.\n");
++		goto auxmacinvalid;
++	}
++
++	if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUXMAC_LEN) != 0)
++		strscpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_LEN + 1);
++	else
++		strscpy(auxmac, "disabled", AUXMAC_LEN);
++
++free:
++	kfree(obj);
++	return 0;
++
++auxmacinvalid:
++	strscpy(auxmac, "unavailable", AUXMAC_LEN);
++	goto free;
++}
++
++static struct ibm_struct auxmac_data = {
++	.name = "auxmac",
++};
++
++static ssize_t auxmac_show(struct device *dev,
++			   struct device_attribute *attr,
++			   char *buf)
++{
++	return sysfs_emit(buf, "%s\n", auxmac);
++}
++static DEVICE_ATTR_RO(auxmac);
++
++static struct attribute *auxmac_attributes[] = {
++	&dev_attr_auxmac.attr,
++	NULL
++};
++
++static const struct attribute_group auxmac_attr_group = {
++	.attrs = auxmac_attributes,
++};
++
+ /* --------------------------------------------------------------------- */
+ 
+ static struct attribute *tpacpi_driver_attributes[] = {
+@@ -10843,6 +10919,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+ 	&proxsensor_attr_group,
+ 	&kbdlang_attr_group,
+ 	&dprc_attr_group,
++	&auxmac_attr_group,
+ 	NULL,
+ };
+ 
+@@ -11414,6 +11491,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+ 		.init = tpacpi_dprc_init,
+ 		.data = &dprc_driver_data,
+ 	},
++	{
++		.init = auxmac_init,
++		.data = &auxmac_data,
++	},
+ };
+ 
+ static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+-- 
+2.25.1
+
