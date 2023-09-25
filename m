@@ -2,69 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F062ECE7A94
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 12:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF1D2CE7A95
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Sep 2023 15:22:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230510AbjIYMuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Sep 2023 08:50:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40640 "EHLO
+        id S232562AbjIYPWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Sep 2023 11:22:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbjIYMuO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 08:50:14 -0400
+        with ESMTP id S232287AbjIYPWh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Sep 2023 11:22:37 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6834B92;
-        Mon, 25 Sep 2023 05:50:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23089C433C8;
-        Mon, 25 Sep 2023 12:50:05 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 838BB9C;
+        Mon, 25 Sep 2023 08:22:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F12DC433C8;
+        Mon, 25 Sep 2023 15:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695646208;
-        bh=r1SYmSUarBUenaxk9oPJzkQomDGhy3tq1zUDGZ5RiQI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BrY6AbrY6tHSTn+Ap+2KvYjqSOfa+rVOWJ7hUlM0daPx8AkRSFKScuSuLIDEWCdRJ
-         /b4ETXxXoo7H5MazjEVis+niNT24IjaYPFPezHyTSjBf0v2G/DqcUlsvkQ2TR+nhs4
-         KxK3RCqLFq2RDxuEYfiPRpONKA/dYs+iKqun6u/zo+kKCHWd+cfkE6whluzvd/aDSx
-         ueRsnfwjQJso1WM+wXZfJpIGpjDRIbruBHL1LogXc+Gk47Iys+s9M+kAIQJw8D8VKG
-         LcWb/ROdbL5nV30XPoiTT0CiN2sxVWkNSNrP3w2MtkIynE9StT2PLv0GEMW4C91m59
-         rFw9TLloQsmSA==
-Date:   Mon, 25 Sep 2023 14:50:03 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Glauber Costa <glommer@openvz.org>
-Subject: Re: [PATCH] docs: admin-guide: sysctl: fix details of struct
- dentry_stat_t
-Message-ID: <20230925-beordern-garant-16db0ea033c5@brauner>
-References: <20230923195144.26043-1-rdunlap@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230923195144.26043-1-rdunlap@infradead.org>
+        s=k20201202; t=1695655351;
+        bh=OGt2FOw6lDFFBJRltNV7eb25Y3RCJfPYVc/8wsDj+lM=;
+        h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+        b=Kp0VVt1IVmvLWEfHcZ2kGDvXU/kqTSlU+zkPCXYtz6OOHZKhyu9V5NSp0G4CcW036
+         DQ9LCiRXD6Q490pl7u8169h7tTEUAz8V7ziRXZiOnxF5dDnpKDrQj68Gjg0adng4T5
+         EC3+inaGcrSbVlkKIJs09PWUwziCRokB4AboyUs2UgQ2pt7Zy2tOwb59ADnu4WpGap
+         yRdxENwoFnqspD1+SNBWaf1kvwgaAh2yycGM8qQMtVXclYdN2nIeGugErrwJvR4YEl
+         H9OHYREey3oOXKbuXZV2mFLTFooU8OLOf/hOR2Asgxbi05opItQVsGdjANQ69Zqjb3
+         L4QCoe2YqHFVQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Mon, 25 Sep 2023 18:22:22 +0300
+Message-Id: <CVS3NIJ8OO6Y.2C6GJ9OBR6COC@suppilovahvero>
+Cc:     "Shawn Guo" <shawnguo@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        "Ahmad Fatoum" <a.fatoum@pengutronix.de>,
+        "sigma star Kernel Team" <upstream+dcp@sigma-star.at>,
+        "David Howells" <dhowells@redhat.com>,
+        "Li Yang" <leoyang.li@nxp.com>, "Paul Moore" <paul@paul-moore.com>,
+        "James Morris" <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        "Tejun Heo" <tj@kernel.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <keyrings@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linuxppc-dev@lists.ozlabs.org>,
+        <linux-security-module@vger.kernel.org>,
+        "Richard Weinberger" <richard@nod.at>,
+        "David Oberhollenzer" <david.oberhollenzer@sigma-star.at>
+Subject: Re: [PATCH v3 1/3] crypto: mxs-dcp: Add support for hardware
+ provided keys
+From:   "Jarkko Sakkinen" <jarkko@kernel.org>
+To:     "David Gstir" <david@sigma-star.at>,
+        "Mimi Zohar" <zohar@linux.ibm.com>,
+        "James Bottomley" <jejb@linux.ibm.com>,
+        "Herbert Xu" <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>
+X-Mailer: aerc 0.14.0
+References: <20230918141826.8139-1-david@sigma-star.at>
+ <20230918141826.8139-2-david@sigma-star.at>
+In-Reply-To: <20230918141826.8139-2-david@sigma-star.at>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 23, 2023 at 12:51:44PM -0700, Randy Dunlap wrote:
-> Commit c8c0c239d5ab moved struct dentry_stat_t to fs/dcache.c but
-> did not update its location in Documentation, so update that now.
-> Also change each struct member from int to long as done in
-> commit 3942c07ccf98.
-> 
-> Fixes: c8c0c239d5ab ("fs: move dcache sysctls to its own file")
-> Fixes: 3942c07ccf98 ("fs: bump inode and dentry counters to long")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Glauber Costa <glommer@openvz.org>
-> ---
+On Mon Sep 18, 2023 at 5:18 PM EEST, David Gstir wrote:
+> DCP is capable to performing AES with hardware-bound keys.
+> These keys are not stored in main memory and are therefore not directly
+> accessible by the operating system.
+>
+> So instead of feeding the key into DCP, we need to place a
+> reference to such a key before initiating the crypto operation.
+> Keys are referenced by a one byte identifiers.
 
-Acked-by: Christian Brauner <brauner@kernel.org>
+Not sure what the action of feeding key into DCP even means if such
+action does not exists.
+
+What you probably would want to describe here is how keys get created
+and how they are referenced by the kernel.
+
+For the "use" part please try to avoid academic paper style long
+expression starting with "we" pronomine.
+
+So the above paragraph would normalize into "The keys inside DCP
+are referenced by one byte identifier". Here of course would be
+for the context nice to know what is this set of DCP keys. E.g.
+are total 256 keys or some subset?
+
+When using too much prose there can be surprsingly little digestable
+information, thus this nitpicking.
+
+> DCP supports 6 different keys: 4 slots in the secure memory area,
+> a one time programmable key which can be burnt via on-chip fuses
+> and an unique device key.
+>
+> Using these keys is restricted to in-kernel users that use them as buildi=
+ng
+> block for other crypto tools such as trusted keys. Allowing userspace
+> (e.g. via AF_ALG) to use these keys to crypt or decrypt data is a securit=
+y
+> risk, because there is no access control mechanism.
+
+Unless this patch has anything else than trusted keys this should not
+be an open-ended sentence. You want to say roughly that DCP hardware
+keys are implemented for the sake to implement trusted keys support,
+and exactly and only that.
+
+This description also lacks actions taken by the code changes below,
+which is really the beef of any commit description.
+
+BR, Jarkko
