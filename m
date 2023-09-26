@@ -2,372 +2,508 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4363EE7E657
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 18:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FDBBE7E65A
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 18:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235419AbjIZSmm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Sep 2023 14:42:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44072 "EHLO
+        id S235395AbjIZSqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Sep 2023 14:46:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235395AbjIZSml (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 14:42:41 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2095.outbound.protection.outlook.com [40.107.92.95])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E0AE5;
-        Tue, 26 Sep 2023 11:42:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mufl069ULE2w32obhr7mO0RG1oT6X2OF6U/VFEyZjlte++DbZcw01LibphNezrdZU35O9ScBkOB3W19XskJFMVQTSdS9tV0+BA1rVH4n+Lng3Kf1uOth4fZZrth0knGkBtmmaBTpkmdpuKbwxHXePgZ+gVLwJJVFV6+Xcppi5PDjBFGIn+Ccq7rC5u/jQdRtEZIphv5kU2tkezfxOaKiGQD3dAq0mFudUpGEPToguPKr4fymYOq7AL9BBcTCFCMTMxCHqW+Flfh4r1o9Mc6xuq47/Aa2FVRIrAR4dSCWmZwnWjQCWINVQNrHGRi/42zxeOPMlgh/UgU3BnfDqe1I3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a4e/XmDpJrT+WF9lKCJtLc/M4HMpURdN1BbcGTw1Cn8=;
- b=UuZiN0VcfavK2JU5Snw39AzBRyKAkhphJls8Ph/gjuxNwnwJuh1VXsUqPPsf1B7TGxCCGcdAeEsP9oFCyQ5ofhUaYiXY/ylGWA7bV2XBtCNZTLbwX/TJJx0nvpwT5KIDTcQTO7hMfLanpqUFKY60jcfUW+0BtGBEJL8ripkWDbuptKgixLXE/RMHpz40IJABUl/+R3U1eVRQs7KjMVCXcRvjwWJ1gXRvrnqKFqbew8XHyo3/R5/pkY5Z2nyZbmTN6HRJn8Z+ZUWoIjL4OJSKANGnWBISlSpAAWnE98ipM/P54bGgNNpV26Kx+G+14rK+71/iLsqDCQ00eVwcYTIU+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ipt.br; dmarc=pass action=none header.from=ipt.br; dkim=pass
- header.d=ipt.br; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipt.br; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a4e/XmDpJrT+WF9lKCJtLc/M4HMpURdN1BbcGTw1Cn8=;
- b=W7DK5u9Ysh+hSNv2Ygm4qw06OsVBiY3HHpHQ71YXulORwzfggDXozVjcG272VXVAQYapzAmnRiKSEHaw9OWZw6m9JFfValkVW5L97Ha2woURlcHtPv/SzKL3hV0iJ6es07FWcNuvge9wHI3N+y8/Su+DITWt83B8NJIum+SIysM=
-Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:1a4::6)
- by CPUP152MB4490.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:be::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Tue, 26 Sep
- 2023 18:42:30 +0000
-Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
- ([fe80::7a85:9362:f3e7:ad3]) by CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
- ([fe80::7a85:9362:f3e7:ad3%6]) with mapi id 15.20.6813.027; Tue, 26 Sep 2023
- 18:42:30 +0000
-From:   "Fernando Eckhardt Valle (FIPT)" <fevalle@ipt.br>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
-        "mpearson-lenovo@squebb.ca" <mpearson-lenovo@squebb.ca>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "hmh@hmh.eng.br" <hmh@hmh.eng.br>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ibm-acpi-devel@lists.sourceforge.net" 
-        <ibm-acpi-devel@lists.sourceforge.net>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH v5] platform/x86: thinkpad_acpi: sysfs interface to auxmac
-Thread-Topic: [PATCH v5] platform/x86: thinkpad_acpi: sysfs interface to
- auxmac
-Thread-Index: AQHZ79/+E+J0iJxDUkiNrl4nNsE1O7As5yuAgACJ0DI=
-Date:   Tue, 26 Sep 2023 18:42:30 +0000
-Message-ID: <CPVP152MB50532B5F8BBAC92243930842D8C3A@CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM>
-References: <20230925184133.6735-1-fevalle@ipt.br>
- <0efd719a-802d-1401-7cee-d3918b47441d@redhat.com>
-In-Reply-To: <0efd719a-802d-1401-7cee-d3918b47441d@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ipt.br;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CPVP152MB5053:EE_|CPUP152MB4490:EE_
-x-ms-office365-filtering-correlation-id: 1f9d175a-f6f6-4784-ef75-08dbbec056e2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kd+KlD9wAat09f+JAlzBe9cDNsCIp3l8Mmm6o0KV8mbEaEJgal5BV25I1QCX2ov6WCCm3CTZ3MJYClt9DEVUiefJyTAQ1/HMjEn5P5hobQ+yj7gYi3SprVZXg00nfh+EC1zToZMFTeKajHecA2zblyIpvlTNuENiBCNQjFpXzjjnQZX60H7C1LdMHnNfyXXtWiOG/dl9Bp7RBoh7URziOAt0Qdw04r31JSVa0LGeDtF6MxkrzF7GcMi9y/uhSvvc9q58zfROxXQvYk8+ksgqnmhLZhiBniXHNnricNCOnPe597AGHMF7V8aN50oQeYW1unHhSL8et5ihlVYiqOdndXZEidejeQI4+ZoZkezggDY/FALFDM6xGhmoZE9um89hA/4c8T02W6gTmfKOChcyIbgoFoyVjE1HTxgSfoE3WRKWjUVu0tphynHLl6uZiY8UNEensyMjBmDnGGAOWdinpxU6YKTynl4kJy6vaHYoJepByHnd0SWwC8+1QX0RURk8FHLzDyVhWbKK8uqRG+eyRvd2J5T0G6yx+x3HPEVhtfUwfSciiFq+5roETVgPSwBberDKqvVIB6134vukGZqeJXf/OinodZaTy1tEHJagEJE7XSiYnG4mxaGAEsvRivCY
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(136003)(396003)(39850400004)(230922051799003)(186009)(1800799009)(451199024)(8936002)(8676002)(966005)(2906002)(83380400001)(52536014)(7696005)(9686003)(55016003)(53546011)(66446008)(76116006)(64756008)(66946007)(786003)(316002)(66476007)(66556008)(86362001)(110136005)(38100700002)(38070700005)(26005)(122000001)(921005)(41300700001)(7416002)(5660300002)(41320700001)(478600001)(6506007)(71200400001)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Z4RZDyWgFJ6lf6liD6ySJEQK3KBRzW3u036t8nOJ8z1PHtM4paisbp2RaD0S?=
- =?us-ascii?Q?7i1Eu+MD83TUw2UN75gnYNjdwFk8/JbZ78PnM6ze7Nz7eIMcOkRDcBCXctb/?=
- =?us-ascii?Q?0Hbaz1iSNHoGdakJzHlvmzVqio6Dh9zR10nvH6DCt/b8E7NjMShUcUXmVCFI?=
- =?us-ascii?Q?oQL/iFAPCdp+JiPi/ZaJQMRQFgX+LVlCNiAU3tdXaBQewTQsZlTDvV39DOlB?=
- =?us-ascii?Q?Mj6C5j3/qG9PSnyA/W23CSNdd1bVAjhPQhL09v0YWw5b7leQKdRk4utgk+9S?=
- =?us-ascii?Q?GCpc6UXVMk+5TCZG5BPybMRD57OvGTc8YlnScnobUvVvvwe39JKMpfHXjTrd?=
- =?us-ascii?Q?sBodKauI3Jw1+FJNcp4mf/BGv7KQobpr18Fe5zrvs7vym0tP6WCoCmLWpjyc?=
- =?us-ascii?Q?a/1p4/aKrqTWWeWSpjrG+kfQzrdK1joBLXJr+MXICBUpX5AmSugt/IzbfbZq?=
- =?us-ascii?Q?fxWxDJjTVldgMzCp2jptd1qUDsOPvjmjAVGn+J5ibVpedNoddxlgQIBwaIYn?=
- =?us-ascii?Q?YGskLckaixoZUIofewpO20jqCP5U3IiL6DROPm+HD7tJ/WlFQXtzpknYyB9N?=
- =?us-ascii?Q?lGdaIvr3CDL1GAhOoET729goZesIQltlAR0prlKgKYoGOxcAlrRp1wHX6HVe?=
- =?us-ascii?Q?KmgFPT5G6DIrlyoXYFhVFAXPKoHQiYVnl+sjEZHvsnXFIwfZ99LOxQtl8r9k?=
- =?us-ascii?Q?Knc7NeFlY2uB4rMm22j1m/qctugCTTI8oK5xaAO1gKzaFmmTyOhyPuEP1QPA?=
- =?us-ascii?Q?aNpxIsXc0Yj9uAiAfzKMloCMHdGJV2hvYXp1ATqwOQd+UGXaIM4frOHc+MKK?=
- =?us-ascii?Q?xPOyQx2uEBgsQoNRD2usKKTu/EQJZNv0HSdqEes+kFgZBe7ztVp9yVdI6OZ7?=
- =?us-ascii?Q?dDeKsbaq3q3YHcu4o+jq4OaD9ADS56nZysynF3Z3wP6WXQheCYcOxKe91ydq?=
- =?us-ascii?Q?/eVGvcw+wobVdl+MlElFFx+oqGphwITktMZC9+myXV5SAZx8yQBYSiJiJyqo?=
- =?us-ascii?Q?f+4HlXUBNzNBjTCkbGqdf1kRBKxZT+opsz/B4i/C6Vmdn4F1w/X00Q2xyhZd?=
- =?us-ascii?Q?hYxxxPbXnX9ZLJhOgxw24sFTbEBqBBHLdWr+Bdgtsp3FcXsSjknBI5Y4LJnK?=
- =?us-ascii?Q?ymCpi7qJsePR8Ih+etQ5B5T3iZZoAOfmA0zvhFiR99qPjXaZgQJNTQ/89o+C?=
- =?us-ascii?Q?tgrOd7DAvH59qphNN+SY51NQfe6q8N70ZsdiWRxWMjKiY0jxCNK4GnmnUUrC?=
- =?us-ascii?Q?IooSzj9DVjQIFmrj01CBFTPl901rMGZp8CzPMlch5CrsxBdncBgeohLvQjH1?=
- =?us-ascii?Q?RyQ3VtG2o3XDJDug6OBODGHE0usAqp+Em9upXGNO1xpGbHkgVA1avZqNbxDi?=
- =?us-ascii?Q?5OCkESe75Mdf6oGNuwGYFxw4iMtQyMJseE3lTEXVs80keR4sLO55/i6h0MSf?=
- =?us-ascii?Q?4OqQIlFeSUEPJ8EwD13QjPdRQYeKFdeJ5DqRAU1mJTSnG1g1KWJPJdZrzDiB?=
- =?us-ascii?Q?IHU/2rEsrNls136aF9c6K2d35Z1EfgAAhBxJEo/UTLG0XjGKtj0K7EatzVBR?=
- =?us-ascii?Q?zsl7E67TAtmVv+WQBco=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S235451AbjIZSqp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 14:46:45 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD120197;
+        Tue, 26 Sep 2023 11:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695753995; x=1727289995;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bkdK/ufrIrvdIsgtbXADv2j8UhO0/EL2il7R8RrUpJk=;
+  b=UkjXydXN+g9d9t3RTeQUnap8JOMtTUFKUDClTHtA6HVksvtrwVEaSo5V
+   csxKBCjPXXuK04s75Uq443h2X94lxRDXSgus48Hxzgndbre/Zxqkk4OBE
+   qWBxe31hd0Y+sYr3CjlBZ9j91H1ntvBbtSiTAQvF58YjLT6mNyXBqa/L3
+   EOTbRg5kgwOeDlRpsaavjtEXNmqz0K/i6AnBnOqToMqp4863wnXJ4HnwJ
+   pTTUGcUedDHRAGeJAgW6E37kGhABvDy39dp1eAOaTHuvr0sNse/KHCSOt
+   oH5U6vS5KTN5tgN9Qho7c+Uq8hDfUg8uvXVr2F965E+6J/DrLL+YNX1fm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="448133539"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
+   d="scan'208";a="448133539"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 11:46:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="819131582"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
+   d="scan'208";a="819131582"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 11:46:33 -0700
+Date:   Tue, 26 Sep 2023 11:46:32 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Reinette Chatre <reinette.chatre@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev
+Subject: Re: [PATCH v5 3/8] x86/resctrl: Split the rdt_domain structure
+Message-ID: <ZRMnCFWzcxa6Qa4E@agluck-desk3>
+References: <20230722190740.326190-1-tony.luck@intel.com>
+ <20230829234426.64421-1-tony.luck@intel.com>
+ <20230829234426.64421-4-tony.luck@intel.com>
+ <5f1256d3-737e-a447-abbe-f541767b2c8f@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: ipt.br
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f9d175a-f6f6-4784-ef75-08dbbec056e2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2023 18:42:30.3701
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: aab57f47-5b85-4924-8047-691190100bd7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N14MFgdhthrayVtcj1UHug7xyGPTkGnSSSfYsDqYQYFUtoE0hAbaB5rNxWrcfqga
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPUP152MB4490
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5f1256d3-737e-a447-abbe-f541767b2c8f@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for the review Hans, I'll send a new version with some adjustments.
+On Mon, Sep 25, 2023 at 04:25:15PM -0700, Reinette Chatre wrote:
+> > +struct rdt_domain {
+> > +	// First three fields must match struct rdt_mondomain below.
+> 
+> Please avoid comments within declarations. Even so, could you please
+> elaborate what the above means? Why do the first three fields have to
+> match? I understand there is common code, for example, __rdt_find_domain()
+> that operated on the same members of the two structs but does that
+> require the members be in the same position in the struct?
+> I understand that a comment may be required if position in the struct
+> is important but I cannot see that it is.
 
-> Note this is just a preference you keen keep this as is
-> if you want,
-I liked the Ilpo suggestion, with two 'gotos' is eliminated repeated code. =
-If everything is ok, I prefer it this way.
+[Just replying to this one point in your message to get guidance. I'll
+address all the rest in other replies]
 
-Regards,
-Fernando Valle
+I'm wrong about the first *three* fields ... but the first *two* fields
+(the "list" and the "id") do need to be at the same offsets in different
+structures if a common routine is going to be used to access those
+fields.
 
-________________________________________
-From: Hans de Goede <hdegoede@redhat.com>
-Sent: Tuesday, September 26, 2023 7:23 AM
-To: Fernando Eckhardt Valle (FIPT); ilpo.jarvinen@linux.intel.com; mpearson=
--lenovo@squebb.ca; corbet@lwn.net; hmh@hmh.eng.br; markgross@kernel.org; li=
-nux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; ibm-acpi-devel@lists=
-.sourceforge.net; platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5] platform/x86: thinkpad_acpi: sysfs interface to aux=
-mac
+If the "id" were at offset 0x10 in the control version of the domain
+structure, and at offset 0x20 in the monitor version of the domain
+structure, there would be no hope for a common routine to access the
+"id" field when searching a list that could be either control or
+monitor domains.
 
-Hi,
+I'm looking at making this far more explicit with a new patch between
+0001 and 0002 that pulls the two fields into a common substructure that
+will be included in each of the control and monitor versions of the
+structure.
 
-It looks like I just reviewed an old version, reviewing this version now ..=
-.
+Patch included below.
 
-On 9/25/23 20:41, Fernando Eckhardt Valle wrote:
-> Newer Thinkpads have a feature called MAC Address Pass-through.
-> This patch provides a sysfs interface that userspace can use
-> to get this auxiliary mac address.
->
-> Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
-> ---
-> Changes in v5:
-> - Repeated code deleted.
-> - Adjusted offset of a strscpy().
-> Changes in v4:
-> - strscpy() in all string copies.
-> Changes in v3:
-> - Added null terminator to auxmac string when copying auxiliary
-> mac address value.
-> Changes in v2:
-> - Added documentation.
-> - All handling of the auxmac value is done in the _init function.
-> ---
->  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
->  drivers/platform/x86/thinkpad_acpi.c          | 81 +++++++++++++++++++
->  2 files changed, 101 insertions(+)
->
-> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Docume=
-ntation/admin-guide/laptops/thinkpad-acpi.rst
-> index e27a1c3f6..98d304010 100644
-> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> @@ -53,6 +53,7 @@ detailed description):
->       - Lap mode sensor
->       - Setting keyboard language
->       - WWAN Antenna type
-> +     - Auxmac
->
->  A compatibility table by model and feature is maintained on the web
->  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
-> @@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mention=
-ed below:
->  The property is read-only. If the platform doesn't have support the sysf=
-s
->  class is not created.
->
-> +Auxmac
-> +------
-> +
-> +sysfs: auxmac
-> +
-> +Some newer Thinkpads have a feature called MAC Address Pass-through. Thi=
-s
-> +feature is implemented by the system firmware to provide a system unique=
- MAC,
-> +that can override a dock or USB ethernet dongle MAC, when connected to a
-> +network. This property enables user-space to easily determine the MAC ad=
-dress
-> +if the feature is enabled.
-> +
-> +The values of this auxiliary MAC are:
-> +
-> +        cat /sys/devices/platform/thinkpad_acpi/auxmac
-> +
-> +If the feature is disabled, the value will be 'disabled'.
-> +
-> +This property is read-only.
-> +
->  Adaptive keyboard
->  -----------------
->
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/=
-thinkpad_acpi.c
-> index d70c89d32..2324ebb46 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -10785,6 +10785,82 @@ static struct ibm_struct dprc_driver_data =3D {
->       .name =3D "dprc",
->  };
->
-> +/*
-> + * Auxmac
-> + *
-> + * This auxiliary mac address is enabled in the bios through the
-> + * MAC Address Pass-through feature. In most cases, there are three
-> + * possibilities: Internal Mac, Second Mac, and disabled.
-> + *
-> + */
-> +
-> +#define AUXMAC_LEN 12
-> +#define AUXMAC_START 9
-> +#define AUXMAC_STRLEN 22
-> +#define AUXMAC_BEGIN_MARKER 8
-> +#define AUXMAC_END_MARKER 21
-> +
-> +static char auxmac[AUXMAC_LEN + 1];
-> +
-> +static int auxmac_init(struct ibm_init_struct *iibm)
-> +{
-> +     acpi_status status;
-> +     struct acpi_buffer buffer =3D { ACPI_ALLOCATE_BUFFER, NULL };
-> +     union acpi_object *obj;
-> +
-> +     status =3D acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
-> +
-> +     if (ACPI_FAILURE(status))
-> +             return -ENODEV;
+But this seems like it is a lot of churn to avoid having separate
+functions to search control and monitor lists. Each a clone of
+the existing ~24 line rdt_find_domain() with just the type changed
+for the return value and the list travsersal.
 
-In this code path you don't initialize the "auxmac" buffer at all,
-but your auxmac_attr_group does not have an is_visible callback,
-so the auxmax sysfs attr will still show up.
+What do you think?
 
-Please add an is_visible callback and retuern 0 (not visible)
-when auxmac[0] =3D=3D 0; See existing is_visible code for some
-examples.
+-Tony
 
-> +
-> +     obj =3D buffer.pointer;
-> +
-> +     if (obj->type !=3D ACPI_TYPE_STRING || obj->string.length !=3D AUXM=
-AC_STRLEN) {
-> +             pr_info("Invalid buffer for MAC address pass-through.\n");
-> +             goto auxmacinvalid;
-> +     }
-> +
-> +     if (obj->string.pointer[AUXMAC_BEGIN_MARKER] !=3D '#' ||
-> +         obj->string.pointer[AUXMAC_END_MARKER] !=3D '#') {
-> +             pr_info("Invalid header for MAC address pass-through.\n");
-> +             goto auxmacinvalid;
-> +     }
-> +
-> +     if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUX=
-MAC_LEN) !=3D 0)
-> +             strscpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_=
-LEN + 1);
+commit 08992b4be1f53a3144f8aadd821f815a40a05e75
+Author: Tony Luck <tony.luck@intel.com>
+Date:   Tue Sep 26 11:07:12 2023 -0700
 
-Please use sizeof(auxmac) as last parameter to strscpy() here.
+    x86/resctrl: Prepare to split rdt_domain structure
+    
+    The rdt_domain structure is used for both control and monitor features.
+    It is about to be split into separate structures for these two usages
+    because the scope for control and monitoring features for a resource
+    will be different for future resources.
+    
+    To allow for common code that scans a list of domains looking for a
+    specific domain id, move the "list" and "id" fields into their own
+    structure within the rdt_domain structure.
+    
+    Signed-off-by: Tony Luck <tony.luck@intel.com>
 
-> +     else
-> +             strscpy(auxmac, "disabled", AUXMAC_LEN);
-
-Please use sizeof(auxmac) as last parameter to strscpy() here.
-
-Also note how you pass 2 different dest-sizes for the same dest buffer befo=
-re,
-which looks weird ...
-
-
-> +
-> +free:
-> +     kfree(obj);
-> +     return 0;
-> +
-> +auxmacinvalid:
-> +     strscpy(auxmac, "unavailable", AUXMAC_LEN);
-> +     goto free;
-> +}
-
-I'm not liking the goto dance here, I would prefer:
-
-        kfree(obj);
-        return 0;
-
-auxmacinvalid:
-        strscpy(auxmac, "unavailable", AUXMAC_LEN);
-        kfree(obj);
-        return 0;
-
-It is quite normal for an error-exit path to repeat a kfree().
-
-Note this is just a preference you keen keep this as is
-if you want, but to me the goto free which jumps up looks
-pretty weird.
-
-Regards,
-
-Hans
-
-
-
-> +
-> +static struct ibm_struct auxmac_data =3D {
-> +     .name =3D "auxmac",
-> +};
-> +
-> +static ssize_t auxmac_show(struct device *dev,
-> +                        struct device_attribute *attr,
-> +                        char *buf)
-> +{
-> +     return sysfs_emit(buf, "%s\n", auxmac);
-> +}
-> +static DEVICE_ATTR_RO(auxmac);
-> +
-> +static struct attribute *auxmac_attributes[] =3D {
-> +     &dev_attr_auxmac.attr,
-> +     NULL
-> +};
-> +
-> +static const struct attribute_group auxmac_attr_group =3D {
-> +     .attrs =3D auxmac_attributes,
-> +};
-> +
->  /* ---------------------------------------------------------------------=
- */
->
->  static struct attribute *tpacpi_driver_attributes[] =3D {
-> @@ -10843,6 +10919,7 @@ static const struct attribute_group *tpacpi_group=
-s[] =3D {
->       &proxsensor_attr_group,
->       &kbdlang_attr_group,
->       &dprc_attr_group,
-> +     &auxmac_attr_group,
->       NULL,
->  };
->
-> @@ -11414,6 +11491,10 @@ static struct ibm_init_struct ibms_init[] __init=
-data =3D {
->               .init =3D tpacpi_dprc_init,
->               .data =3D &dprc_driver_data,
->       },
-> +     {
-> +             .init =3D auxmac_init,
-> +             .data =3D &auxmac_data,
-> +     },
->  };
->
->  static int __init set_ibm_param(const char *val, const struct kernel_par=
-am *kp)
-
-
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+index 618735e396cb..a583fa88ea5a 100644
+--- a/include/linux/resctrl.h
++++ b/include/linux/resctrl.h
+@@ -53,9 +53,18 @@ struct resctrl_staged_config {
+ };
+ 
+ /**
+- * struct rdt_domain - group of CPUs sharing a resctrl resource
++ * struct rdt_domain_hdr - common header for different domain types
+  * @list:		all instances of this resource
+  * @id:			unique id for this instance
++ */
++struct rdt_domain_hdr {
++	struct list_head		list;
++	int				id;
++};
++
++/**
++ * struct rdt_domain - group of CPUs sharing a resctrl resource
++ * @hdr:		common header for different domain types
+  * @cpu_mask:		which CPUs share this resource
+  * @rmid_busy_llc:	bitmap of which limbo RMIDs are above threshold
+  * @mbm_total:		saved state for MBM total bandwidth
+@@ -71,8 +80,7 @@ struct resctrl_staged_config {
+  *			by closid
+  */
+ struct rdt_domain {
+-	struct list_head		list;
+-	int				id;
++	struct rdt_domain_hdr		hdr;
+ 	struct cpumask			cpu_mask;
+ 	unsigned long			*rmid_busy_llc;
+ 	struct mbm_state		*mbm_total;
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index 3b1837e1fb6b..05369add4578 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -352,7 +352,7 @@ struct rdt_domain *get_domain_from_cpu(int cpu, struct rdt_resource *r)
+ {
+ 	struct rdt_domain *d;
+ 
+-	list_for_each_entry(d, &r->domains, list) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
+ 		/* Find the domain that contains this CPU */
+ 		if (cpumask_test_cpu(cpu, &d->cpu_mask))
+ 			return d;
+@@ -401,12 +401,12 @@ struct rdt_domain *rdt_find_domain(struct rdt_resource *r, int id,
+ 		return ERR_PTR(-ENODEV);
+ 
+ 	list_for_each(l, &r->domains) {
+-		d = list_entry(l, struct rdt_domain, list);
++		d = list_entry(l, struct rdt_domain, hdr.list);
+ 		/* When id is found, return its domain. */
+-		if (id == d->id)
++		if (id == d->hdr.id)
+ 			return d;
+ 		/* Stop searching when finding id's position in sorted list. */
+-		if (id < d->id)
++		if (id < d->hdr.id)
+ 			break;
+ 	}
+ 
+@@ -544,7 +544,7 @@ static void domain_add_cpu(int cpu, struct rdt_resource *r)
+ 		return;
+ 
+ 	d = &hw_dom->d_resctrl;
+-	d->id = id;
++	d->hdr.id = id;
+ 	cpumask_set_cpu(cpu, &d->cpu_mask);
+ 
+ 	rdt_domain_reconfigure_cdp(r);
+@@ -559,11 +559,11 @@ static void domain_add_cpu(int cpu, struct rdt_resource *r)
+ 		return;
+ 	}
+ 
+-	list_add_tail(&d->list, add_pos);
++	list_add_tail(&d->hdr.list, add_pos);
+ 
+ 	err = resctrl_online_domain(r, d);
+ 	if (err) {
+-		list_del(&d->list);
++		list_del(&d->hdr.list);
+ 		domain_free(hw_dom);
+ 	}
+ }
+@@ -587,7 +587,7 @@ static void domain_remove_cpu(int cpu, struct rdt_resource *r)
+ 	cpumask_clear_cpu(cpu, &d->cpu_mask);
+ 	if (cpumask_empty(&d->cpu_mask)) {
+ 		resctrl_offline_domain(r, d);
+-		list_del(&d->list);
++		list_del(&d->hdr.list);
+ 
+ 		/*
+ 		 * rdt_domain "d" is going to be freed below, so clear
+diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+index b44c487727d4..8bce591a1018 100644
+--- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
++++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+@@ -67,7 +67,7 @@ int parse_bw(struct rdt_parse_data *data, struct resctrl_schema *s,
+ 
+ 	cfg = &d->staged_config[s->conf_type];
+ 	if (cfg->have_new_ctrl) {
+-		rdt_last_cmd_printf("Duplicate domain %d\n", d->id);
++		rdt_last_cmd_printf("Duplicate domain %d\n", d->hdr.id);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -144,7 +144,7 @@ int parse_cbm(struct rdt_parse_data *data, struct resctrl_schema *s,
+ 
+ 	cfg = &d->staged_config[s->conf_type];
+ 	if (cfg->have_new_ctrl) {
+-		rdt_last_cmd_printf("Duplicate domain %d\n", d->id);
++		rdt_last_cmd_printf("Duplicate domain %d\n", d->hdr.id);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -224,8 +224,8 @@ static int parse_line(char *line, struct resctrl_schema *s,
+ 		return -EINVAL;
+ 	}
+ 	dom = strim(dom);
+-	list_for_each_entry(d, &r->domains, list) {
+-		if (d->id == dom_id) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
++		if (d->hdr.id == dom_id) {
+ 			data.buf = dom;
+ 			data.rdtgrp = rdtgrp;
+ 			if (r->parse_ctrlval(&data, s, d))
+@@ -316,7 +316,7 @@ int resctrl_arch_update_domains(struct rdt_resource *r, u32 closid)
+ 		return -ENOMEM;
+ 
+ 	msr_param.res = NULL;
+-	list_for_each_entry(d, &r->domains, list) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
+ 		hw_dom = resctrl_to_arch_dom(d);
+ 		for (t = 0; t < CDP_NUM_TYPES; t++) {
+ 			cfg = &hw_dom->d_resctrl.staged_config[t];
+@@ -464,7 +464,7 @@ static void show_doms(struct seq_file *s, struct resctrl_schema *schema, int clo
+ 	u32 ctrl_val;
+ 
+ 	seq_printf(s, "%*s:", max_name_width, schema->name);
+-	list_for_each_entry(dom, &r->domains, list) {
++	list_for_each_entry(dom, &r->domains, hdr.list) {
+ 		if (sep)
+ 			seq_puts(s, ";");
+ 
+@@ -474,7 +474,7 @@ static void show_doms(struct seq_file *s, struct resctrl_schema *schema, int clo
+ 			ctrl_val = resctrl_arch_get_config(r, dom, closid,
+ 							   schema->conf_type);
+ 
+-		seq_printf(s, r->format_str, dom->id, max_data_width,
++		seq_printf(s, r->format_str, dom->hdr.id, max_data_width,
+ 			   ctrl_val);
+ 		sep = true;
+ 	}
+@@ -503,7 +503,7 @@ int rdtgroup_schemata_show(struct kernfs_open_file *of,
+ 			} else {
+ 				seq_printf(s, "%s:%d=%x\n",
+ 					   rdtgrp->plr->s->res->name,
+-					   rdtgrp->plr->d->id,
++					   rdtgrp->plr->d->hdr.id,
+ 					   rdtgrp->plr->cbm);
+ 			}
+ 		} else {
+diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+index ded1fc7cb7cb..27cda5988d7f 100644
+--- a/arch/x86/kernel/cpu/resctrl/monitor.c
++++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+@@ -340,7 +340,7 @@ static void add_rmid_to_limbo(struct rmid_entry *entry)
+ 
+ 	entry->busy = 0;
+ 	cpu = get_cpu();
+-	list_for_each_entry(d, &r->domains, list) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
+ 		if (cpumask_test_cpu(cpu, &d->cpu_mask)) {
+ 			err = resctrl_arch_rmid_read(r, d, entry->rmid,
+ 						     QOS_L3_OCCUP_EVENT_ID,
+diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+index 8c5f932bc00b..18b6183a1b48 100644
+--- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
++++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+@@ -856,7 +856,7 @@ bool rdtgroup_pseudo_locked_in_hierarchy(struct rdt_domain *d)
+ 	 * associated with them.
+ 	 */
+ 	for_each_alloc_capable_rdt_resource(r) {
+-		list_for_each_entry(d_i, &r->domains, list) {
++		list_for_each_entry(d_i, &r->domains, hdr.list) {
+ 			if (d_i->plr)
+ 				cpumask_or(cpu_with_psl, cpu_with_psl,
+ 					   &d_i->cpu_mask);
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 1cf2b36f5bf8..42adf17ea6fa 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -86,7 +86,7 @@ void rdt_staged_configs_clear(void)
+ 	lockdep_assert_held(&rdtgroup_mutex);
+ 
+ 	for_each_alloc_capable_rdt_resource(r) {
+-		list_for_each_entry(dom, &r->domains, list)
++		list_for_each_entry(dom, &r->domains, hdr.list)
+ 			memset(dom->staged_config, 0, sizeof(dom->staged_config));
+ 	}
+ }
+@@ -928,12 +928,12 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
+ 
+ 	mutex_lock(&rdtgroup_mutex);
+ 	hw_shareable = r->cache.shareable_bits;
+-	list_for_each_entry(dom, &r->domains, list) {
++	list_for_each_entry(dom, &r->domains, hdr.list) {
+ 		if (sep)
+ 			seq_putc(seq, ';');
+ 		sw_shareable = 0;
+ 		exclusive = 0;
+-		seq_printf(seq, "%d=", dom->id);
++		seq_printf(seq, "%d=", dom->hdr.id);
+ 		for (i = 0; i < closids_supported(); i++) {
+ 			if (!closid_allocated(i))
+ 				continue;
+@@ -1233,7 +1233,7 @@ static bool rdtgroup_mode_test_exclusive(struct rdtgroup *rdtgrp)
+ 		if (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA)
+ 			continue;
+ 		has_cache = true;
+-		list_for_each_entry(d, &r->domains, list) {
++		list_for_each_entry(d, &r->domains, hdr.list) {
+ 			ctrl = resctrl_arch_get_config(r, d, closid,
+ 						       s->conf_type);
+ 			if (rdtgroup_cbm_overlaps(s, d, ctrl, closid, false)) {
+@@ -1398,7 +1398,7 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
+ 			size = rdtgroup_cbm_to_size(rdtgrp->plr->s->res,
+ 						    rdtgrp->plr->d,
+ 						    rdtgrp->plr->cbm);
+-			seq_printf(s, "%d=%u\n", rdtgrp->plr->d->id, size);
++			seq_printf(s, "%d=%u\n", rdtgrp->plr->d->hdr.id, size);
+ 		}
+ 		goto out;
+ 	}
+@@ -1410,7 +1410,7 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
+ 		type = schema->conf_type;
+ 		sep = false;
+ 		seq_printf(s, "%*s:", max_name_width, schema->name);
+-		list_for_each_entry(d, &r->domains, list) {
++		list_for_each_entry(d, &r->domains, hdr.list) {
+ 			if (sep)
+ 				seq_putc(s, ';');
+ 			if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
+@@ -1428,7 +1428,7 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
+ 				else
+ 					size = rdtgroup_cbm_to_size(r, d, ctrl);
+ 			}
+-			seq_printf(s, "%d=%u", d->id, size);
++			seq_printf(s, "%d=%u", d->hdr.id, size);
+ 			sep = true;
+ 		}
+ 		seq_putc(s, '\n');
+@@ -1499,7 +1499,7 @@ static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid
+ 
+ 	mutex_lock(&rdtgroup_mutex);
+ 
+-	list_for_each_entry(dom, &r->domains, list) {
++	list_for_each_entry(dom, &r->domains, hdr.list) {
+ 		if (sep)
+ 			seq_puts(s, ";");
+ 
+@@ -1507,7 +1507,7 @@ static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid
+ 		mon_info.evtid = evtid;
+ 		mondata_config_read(dom, &mon_info);
+ 
+-		seq_printf(s, "%d=0x%02x", dom->id, mon_info.mon_config);
++		seq_printf(s, "%d=0x%02x", dom->hdr.id, mon_info.mon_config);
+ 		sep = true;
+ 	}
+ 	seq_puts(s, "\n");
+@@ -1622,8 +1622,8 @@ static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
+ 		return -EINVAL;
+ 	}
+ 
+-	list_for_each_entry(d, &r->domains, list) {
+-		if (d->id == dom_id) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
++		if (d->hdr.id == dom_id) {
+ 			ret = mbm_config_write_domain(r, d, evtid, val);
+ 			if (ret)
+ 				return -EINVAL;
+@@ -2141,7 +2141,7 @@ static int set_cache_qos_cfg(int level, bool enable)
+ 		return -ENOMEM;
+ 
+ 	r_l = &rdt_resources_all[level].r_resctrl;
+-	list_for_each_entry(d, &r_l->domains, list) {
++	list_for_each_entry(d, &r_l->domains, hdr.list) {
+ 		if (r_l->cache.arch_has_per_cpu_cfg)
+ 			/* Pick all the CPUs in the domain instance */
+ 			for_each_cpu(cpu, &d->cpu_mask)
+@@ -2226,7 +2226,7 @@ static int set_mba_sc(bool mba_sc)
+ 
+ 	r->membw.mba_sc = mba_sc;
+ 
+-	list_for_each_entry(d, &r->domains, list) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
+ 		for (i = 0; i < num_closid; i++)
+ 			d->mbps_val[i] = MBA_MAX_MBPS;
+ 	}
+@@ -2528,7 +2528,7 @@ static int rdt_get_tree(struct fs_context *fc)
+ 
+ 	if (is_mbm_enabled()) {
+ 		r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+-		list_for_each_entry(dom, &r->domains, list)
++		list_for_each_entry(dom, &r->domains, hdr.list)
+ 			mbm_setup_overflow_handler(dom, MBM_OVERFLOW_INTERVAL);
+ 	}
+ 
+@@ -2652,7 +2652,7 @@ static int reset_all_ctrls(struct rdt_resource *r)
+ 	 * CBMs in all domains to the maximum mask value. Pick one CPU
+ 	 * from each domain to update the MSRs below.
+ 	 */
+-	list_for_each_entry(d, &r->domains, list) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
+ 		hw_dom = resctrl_to_arch_dom(d);
+ 		cpumask_set_cpu(cpumask_any(&d->cpu_mask), cpu_mask);
+ 
+@@ -2858,7 +2858,7 @@ static int mkdir_mondata_subdir(struct kernfs_node *parent_kn,
+ 	char name[32];
+ 	int ret;
+ 
+-	sprintf(name, "mon_%s_%02d", r->name, d->id);
++	sprintf(name, "mon_%s_%02d", r->name, d->hdr.id);
+ 	/* create the directory */
+ 	kn = kernfs_create_dir(parent_kn, name, parent_kn->mode, prgrp);
+ 	if (IS_ERR(kn))
+@@ -2874,7 +2874,7 @@ static int mkdir_mondata_subdir(struct kernfs_node *parent_kn,
+ 	}
+ 
+ 	priv.u.rid = r->rid;
+-	priv.u.domid = d->id;
++	priv.u.domid = d->hdr.id;
+ 	list_for_each_entry(mevt, &r->evt_list, list) {
+ 		priv.u.evtid = mevt->evtid;
+ 		ret = mon_addfile(kn, mevt->name, priv.priv);
+@@ -2922,7 +2922,7 @@ static int mkdir_mondata_subdir_alldom(struct kernfs_node *parent_kn,
+ 	struct rdt_domain *dom;
+ 	int ret;
+ 
+-	list_for_each_entry(dom, &r->domains, list) {
++	list_for_each_entry(dom, &r->domains, hdr.list) {
+ 		ret = mkdir_mondata_subdir(parent_kn, dom, r, prgrp);
+ 		if (ret)
+ 			return ret;
+@@ -3081,7 +3081,7 @@ static int __init_one_rdt_domain(struct rdt_domain *d, struct resctrl_schema *s,
+ 	 */
+ 	tmp_cbm = cfg->new_ctrl;
+ 	if (bitmap_weight(&tmp_cbm, r->cache.cbm_len) < r->cache.min_cbm_bits) {
+-		rdt_last_cmd_printf("No space on %s:%d\n", s->name, d->id);
++		rdt_last_cmd_printf("No space on %s:%d\n", s->name, d->hdr.id);
+ 		return -ENOSPC;
+ 	}
+ 	cfg->have_new_ctrl = true;
+@@ -3104,7 +3104,7 @@ static int rdtgroup_init_cat(struct resctrl_schema *s, u32 closid)
+ 	struct rdt_domain *d;
+ 	int ret;
+ 
+-	list_for_each_entry(d, &s->res->domains, list) {
++	list_for_each_entry(d, &s->res->domains, hdr.list) {
+ 		ret = __init_one_rdt_domain(d, s, closid);
+ 		if (ret < 0)
+ 			return ret;
+@@ -3119,7 +3119,7 @@ static void rdtgroup_init_mba(struct rdt_resource *r, u32 closid)
+ 	struct resctrl_staged_config *cfg;
+ 	struct rdt_domain *d;
+ 
+-	list_for_each_entry(d, &r->domains, list) {
++	list_for_each_entry(d, &r->domains, hdr.list) {
+ 		if (is_mba_sc(r)) {
+ 			d->mbps_val[closid] = MBA_MAX_MBPS;
+ 			continue;
+@@ -3726,7 +3726,7 @@ void resctrl_offline_domain(struct rdt_resource *r, struct rdt_domain *d)
+ 	 * per domain monitor data directories.
+ 	 */
+ 	if (static_branch_unlikely(&rdt_mon_enable_key))
+-		rmdir_mondata_subdir_allrdtgrp(r, d->id);
++		rmdir_mondata_subdir_allrdtgrp(r, d->hdr.id);
+ 
+ 	if (is_mbm_enabled())
+ 		cancel_delayed_work(&d->mbm_over);
