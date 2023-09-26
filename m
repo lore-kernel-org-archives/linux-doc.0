@@ -2,112 +2,263 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 266D0E7D26E
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 09:26:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C102E7D274
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 10:12:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234173AbjIZJ0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Sep 2023 05:26:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44508 "EHLO
+        id S234362AbjIZKMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Sep 2023 06:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234177AbjIZJ0m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 05:26:42 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4223611F
-        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 02:26:34 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3214cdb4b27so7798261f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 02:26:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1695720392; x=1696325192; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=kmbdPGVs/W/K0GplugB5QvWG9QUiEtGu9P+FlblHW9s=;
-        b=omASNCkvQh8ogDycK6NS67DjKJ9uzDzUSm5qj2PQ42ShbFSp0GjTT1kFT9G8h/y/NP
-         CmD6FuqIQ10+Z9raam3r4/NqUsq7eXuiu9uvf3msORuxNCoxvZ96rhuaJz3VgwGB4Vth
-         vUHV0Rs+bmjfVjEuTYRdZ6Py8lkOBcJCj+6iQ=
+        with ESMTP id S232671AbjIZKMg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 06:12:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA5FF3
+        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 03:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1695723084;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6HDo01TkaoeQ/nKb+m9TpBeIQ9htrGbC6iNDoVvDu3A=;
+        b=QMjzajggR8JybNiwE/jsqRoevLI4ltWm4j54JZL0CliuuM34VITqS/ZPjj2H/jDtN9iBEQ
+        bs3BrIRbWkf9+Ht9utaq1049p15sjg8gGaM1s+NcNuYrndwXCfknAjpThs5X/Goiha/7dG
+        /ic0QgkbEPiafMdVaDtGPKngKXR6VCU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-408-VELFAp9-N6S5U4R4M0TPlA-1; Tue, 26 Sep 2023 06:11:22 -0400
+X-MC-Unique: VELFAp9-N6S5U4R4M0TPlA-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-993c2d9e496so694589266b.0
+        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 03:11:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695720392; x=1696325192;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kmbdPGVs/W/K0GplugB5QvWG9QUiEtGu9P+FlblHW9s=;
-        b=QUuUzlWXq7MYf3m4lf0UKXrjijF3vNXxu16CMjFCb7roZ87eJzT0ILqDwhHgvqCUkL
-         jpUvYUr/L7qBxCw4TiYYIGX79LK0mS9QnNA8hC1Iyi1Bf0sDmvTMC/yspmz69dD2Q976
-         xE4dafXPfcEQybW/3cZQrzjpHLw4T+hW4ijWLotN2R/n9wpO0Eo37oaUdefinnNxRjM5
-         BLtfA3jfMBHB6+Uqmy6WfXyY8fIQfqakFIXNp2c1fRumQkZZ+tApM8s/wwnGQMA2Jb5M
-         yxEbNTZkHc508YRa2dj8XKHWefZod9K0H11jN0bi7FqrmzjFhi1sg2Kg7yEQOIXNnH18
-         BRsw==
-X-Gm-Message-State: AOJu0Yz877+PfZAtsW9q6Om0hWZRjxTABTLwF7x8dth4tNadVAmGxUfy
-        wc/Jv9z7wFR6GrKDbuSl7snKIQ==
-X-Google-Smtp-Source: AGHT+IGgfHuuM6+TDVmgDCR6/9jB/xVFtYMos7qI/oRqScsqgBiOvBrkuPDQ8QUbO3jvp1Bf0T5msA==
-X-Received: by 2002:a5d:44ca:0:b0:31f:fdd8:7d56 with SMTP id z10-20020a5d44ca000000b0031ffdd87d56mr8037098wrr.12.1695720392647;
-        Tue, 26 Sep 2023 02:26:32 -0700 (PDT)
-Received: from [10.80.67.28] (default-46-102-197-194.interdsl.co.uk. [46.102.197.194])
-        by smtp.gmail.com with ESMTPSA id o5-20020adfeac5000000b0031984b370f2sm14100219wrn.47.2023.09.26.02.26.31
+        d=1e100.net; s=20230601; t=1695723080; x=1696327880;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6HDo01TkaoeQ/nKb+m9TpBeIQ9htrGbC6iNDoVvDu3A=;
+        b=aRtqd9asauFc4eVfFW5YU+XPTDeHLJ6kG+ZI48AjgDSujLUujAeeCphMdfVzkjOaeb
+         QjFHGALn2MIgxRKelvmIeEN5+QEWbCQN3+6LRT5PuHGK/wLjl2f/Tjuti3Y6D44rKvTA
+         o3lwrv/VEVtlEfnc0rP2MGCJV8TEeggb6J+msjGaPRQaN79dmR/rN8uxxVVTIAdbzPcF
+         /caSI2T0PToRkvX1TverQWN/eAX5P5IEpvvuZBq41v0NZCxaJ9zyvoC9hW2FBDQB1QSv
+         sQhwCngYIiVS6MbdqICaA3mJ0KjK20OgXsJoeuYnYBjK6udZhVia9+LQcKlsh4nR9bq8
+         Zslw==
+X-Gm-Message-State: AOJu0YwNzCf5Uzn898xet/12qRM7OfFEFHKnbus4u43MK1+i/KawT91n
+        Hn/8f1rlooxV1VttDY8qpkTc4Iq05UWYbMx6zibxi0FfLdvtKyW+EzBf+gk8OVPzYQMxNNMCUXO
+        TIBFqLzA7MG8jTzpaF5Dv4iEu1iIH
+X-Received: by 2002:a17:907:2709:b0:9a1:f21e:cdff with SMTP id w9-20020a170907270900b009a1f21ecdffmr8325790ejk.23.1695723080528;
+        Tue, 26 Sep 2023 03:11:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEEbMgfypCifz4bZIXRkDJ/urgBdwhoZJZfcgXhgqJFOSEABIqgQsOcDN2+Bcmij0Vs1hAqug==
+X-Received: by 2002:a17:907:2709:b0:9a1:f21e:cdff with SMTP id w9-20020a170907270900b009a1f21ecdffmr8325775ejk.23.1695723080178;
+        Tue, 26 Sep 2023 03:11:20 -0700 (PDT)
+Received: from [192.168.1.217] ([109.37.154.108])
+        by smtp.gmail.com with ESMTPSA id kt22-20020a170906aad600b0099cf9bf4c98sm7520711ejb.8.2023.09.26.03.11.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Sep 2023 02:26:32 -0700 (PDT)
-Message-ID: <6e0064bc-65c1-24f5-c29d-c1d1c027e2d3@citrix.com>
-Date:   Tue, 26 Sep 2023 10:26:31 +0100
+        Tue, 26 Sep 2023 03:11:19 -0700 (PDT)
+Message-ID: <5755a77f-dc99-e297-b926-5651977b6525@redhat.com>
+Date:   Tue, 26 Sep 2023 12:11:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-From:   andrew.cooper3@citrix.com
-Subject: Re: [PATCH v11 05/37] x86/trapnr: Add event type macros to
- <asm/trapnr.h>
-Content-Language: en-GB
-To:     Nikolay Borisov <nik.borisov@suse.com>, Xin Li <xin3.li@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
-        mhiramat@kernel.org, jiangshanlai@gmail.com
-References: <20230923094212.26520-1-xin3.li@intel.com>
- <20230923094212.26520-6-xin3.li@intel.com>
- <7acd7bb3-0406-4fd9-8396-835bfd951d87@suse.com>
-In-Reply-To: <7acd7bb3-0406-4fd9-8396-835bfd951d87@suse.com>
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4] platform/x86: thinkpad_acpi: sysfs interface to auxmac
+Content-Language: en-US
+To:     Fernando Eckhardt Valle <fevalle@ipt.br>,
+        mpearson-lenovo@squebb.ca, corbet@lwn.net, hmh@hmh.eng.br,
+        markgross@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+References: <20230921143622.72387-1-fevalle@ipt.br>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230921143622.72387-1-fevalle@ipt.br>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26/09/2023 9:10 am, Nikolay Borisov wrote:
-> On 23.09.23 г. 12:41 ч., Xin Li wrote:
->> diff --git a/arch/x86/include/asm/trapnr.h
->> b/arch/x86/include/asm/trapnr.h
->> index f5d2325aa0b7..8d1154cdf787 100644
->> --- a/arch/x86/include/asm/trapnr.h
->> +++ b/arch/x86/include/asm/trapnr.h
->> @@ -2,6 +2,18 @@
->>   #ifndef _ASM_X86_TRAPNR_H
->>   #define _ASM_X86_TRAPNR_H
->>   +/*
->> + * Event type codes used by FRED, Intel VT-x and AMD SVM
->> + */
->> +#define EVENT_TYPE_EXTINT    0    // External interrupt
->> +#define EVENT_TYPE_RESERVED    1
->> +#define EVENT_TYPE_NMI        2    // NMI
->> +#define EVENT_TYPE_HWEXC    3    // Hardware originated traps,
->> exceptions
->> +#define EVENT_TYPE_SWINT    4    // INT n
->> +#define EVENT_TYPE_PRIV_SWEXC    5    // INT1
->> +#define EVENT_TYPE_SWEXC    6    // INTO, INT3
->
-> nit: This turned into INTO (Oh) rather than INT0( zero) in v11
+Hi,
 
-Yes, v11 corrected a bug in v10.
+On 9/21/23 16:36, Fernando Eckhardt Valle wrote:
+> Newer Thinkpads have a feature called MAC Address Pass-through.
+> This patch provides a sysfs interface that userspace can use
+> to get this auxiliary mac address.
+> 
+> Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
+> ---
+> Changes in v4:
+> - strscpy() in all string copies.
+> Changes in v3:
+> - Added null terminator to auxmac string when copying auxiliary
+> mac address value.
+> Changes in v2:
+> - Added documentation.
+> - All handling of the auxmac value is done in the _init function.
+> ---
+>  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+>  drivers/platform/x86/thinkpad_acpi.c          | 79 +++++++++++++++++++
+>  2 files changed, 99 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> index e27a1c3f6..98d304010 100644
+> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> @@ -53,6 +53,7 @@ detailed description):
+>  	- Lap mode sensor
+>  	- Setting keyboard language
+>  	- WWAN Antenna type
+> +	- Auxmac
+>  
+>  A compatibility table by model and feature is maintained on the web
+>  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+> @@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mentioned below:
+>  The property is read-only. If the platform doesn't have support the sysfs
+>  class is not created.
+>  
+> +Auxmac
+> +------
+> +
+> +sysfs: auxmac
+> +
+> +Some newer Thinkpads have a feature called MAC Address Pass-through. This
+> +feature is implemented by the system firmware to provide a system unique MAC,
+> +that can override a dock or USB ethernet dongle MAC, when connected to a
+> +network. This property enables user-space to easily determine the MAC address
+> +if the feature is enabled.
+> +
+> +The values of this auxiliary MAC are:
+> +
+> +        cat /sys/devices/platform/thinkpad_acpi/auxmac
+> +
+> +If the feature is disabled, the value will be 'disabled'.
+> +
+> +This property is read-only.
+> +
+>  Adaptive keyboard
+>  -----------------
+>  
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index d70c89d32..f430cc9ed 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -10785,6 +10785,80 @@ static struct ibm_struct dprc_driver_data = {
+>  	.name = "dprc",
+>  };
+>  
+> +/*
+> + * Auxmac
+> + *
+> + * This auxiliary mac address is enabled in the bios through the
+> + * MAC Address Pass-through feature. In most cases, there are three
+> + * possibilities: Internal Mac, Second Mac, and disabled.
+> + *
+> + */
+> +
+> +#define AUXMAC_LEN 12
+> +#define AUXMAC_START 9
+> +#define AUXMAC_STRLEN 22
+> +#define AUXMAC_BEGIN_MARKER 8
+> +#define AUXMAC_END_MARKER 21
+> +
+> +static char auxmac[AUXMAC_LEN + 1];
+> +
+> +static int auxmac_init(struct ibm_init_struct *iibm)
+> +{
+> +	acpi_status status;
+> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	union acpi_object *obj;
+> +
+> +	status = acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
+> +
+> +	if (ACPI_FAILURE(status))
+> +		return -ENODEV;
+> +
+> +	obj = buffer.pointer;
+> +
+> +	if (obj->type != ACPI_TYPE_STRING || obj->string.length != AUXMAC_STRLEN) {
+> +		pr_info("Invalid buffer for MAC address pass-through.\n");
+> +		strscpy(auxmac, "unavailable", AUXMAC_LEN);
 
-The INTO instruction is "INT on Overflow".  No zero involved.
+Please use sizeof(auxmac) as last parameter to strscpy() here.
 
-INT3 is thusly named because it generates vector 3.  Similarly for INT1
-although it had the unofficial name ICEBP long before INT1 got documented.
+> +		goto auxmacinvalid;
+> +	}
+> +
+> +	if (obj->string.pointer[AUXMAC_BEGIN_MARKER] != '#' ||
+> +	    obj->string.pointer[AUXMAC_END_MARKER] != '#') {
+> +		pr_info("Invalid header for MAC address pass-through.\n");
+> +		strscpy(auxmac, "unavailable", AUXMAC_LEN);
 
-If INTO were to have a number, it would need to be 4, but it's behaviour
-is conditional on the overflow flag, unlike INT3/1 which are
-unconditional exceptions.
+Please use sizeof(auxmac) as last parameter to strscpy() here.
 
-~Andrew
+
+> +		goto auxmacinvalid;
+> +	}
+> +
+> +	if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUXMAC_LEN) != 0)
+> +		strscpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_LEN + 1);
+
+Please use sizeof(auxmac) as last parameter to strscpy() here.
+
+> +	else
+> +		strscpy(auxmac, "disabled", AUXMAC_START);
+
+Please use sizeof(auxmac) as last parameter to strscpy() here.
+
+(using AUXMAC_START here really makes no sense at all)
+
+Regards,
+
+Hans
+
+
+
+> +
+> +auxmacinvalid:
+> +	kfree(obj);
+> +	return 0;
+> +}
+> +
+> +static struct ibm_struct auxmac_data = {
+> +	.name = "auxmac",
+> +};
+> +
+> +static ssize_t auxmac_show(struct device *dev,
+> +			   struct device_attribute *attr,
+> +			   char *buf)
+> +{
+> +	return sysfs_emit(buf, "%s\n", auxmac);
+> +}
+> +static DEVICE_ATTR_RO(auxmac);
+> +
+> +static struct attribute *auxmac_attributes[] = {
+> +	&dev_attr_auxmac.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group auxmac_attr_group = {
+> +	.attrs = auxmac_attributes,
+> +};
+> +
+>  /* --------------------------------------------------------------------- */
+>  
+>  static struct attribute *tpacpi_driver_attributes[] = {
+> @@ -10843,6 +10917,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+>  	&proxsensor_attr_group,
+>  	&kbdlang_attr_group,
+>  	&dprc_attr_group,
+> +	&auxmac_attr_group,
+>  	NULL,
+>  };
+>  
+> @@ -11414,6 +11489,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+>  		.init = tpacpi_dprc_init,
+>  		.data = &dprc_driver_data,
+>  	},
+> +	{
+> +		.init = auxmac_init,
+> +		.data = &auxmac_data,
+> +	},
+>  };
+>  
+>  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+
