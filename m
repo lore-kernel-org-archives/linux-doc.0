@@ -2,195 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B40E7D27F
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 10:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93DD2E7E62F
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 12:41:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234490AbjIZK6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Sep 2023 06:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32892 "EHLO
+        id S234661AbjIZMlh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Sep 2023 08:41:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234140AbjIZK6q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 06:58:46 -0400
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 503D8E9
-        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 03:58:38 -0700 (PDT)
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230926105834epoutp049f4aafe52f656029647f8c78e2ab084d~IbbwKn7QU2006320063epoutp04-
-        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 10:58:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230926105834epoutp049f4aafe52f656029647f8c78e2ab084d~IbbwKn7QU2006320063epoutp04-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1695725914;
-        bh=baHEKm/JhwHxKUMAHa2f809vp0ZdVYLW1aHpggC6chk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=H2TTfIRZsc+b2dflGjm3seBo1Tq8V35px32Q2Rm38YURo3VAxYyvWTQ843p9+v8oJ
-         kO7a783NEYLDE9Xfo69VAMP6kHAGjRTm/F9NqAdKjGUSa7MhwpT0J/vnZmLA00F0On
-         hAEv+o4l7OLIZkfiLJf35n3ceILMDWyG0hdDOzns=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-        20230926105833epcas5p39c4d5952102ceb27176b612d9882d254~Ibbvg8Iu21175911759epcas5p3X;
-        Tue, 26 Sep 2023 10:58:33 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.175]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4RvxYg4YLfz4x9Pp; Tue, 26 Sep
-        2023 10:58:31 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-        epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        EC.4A.09023.759B2156; Tue, 26 Sep 2023 19:58:31 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-        20230926101329epcas5p2008e3144f177f1c88aeb2302a22488e8~Ia0Y6vcOg1077010770epcas5p2Y;
-        Tue, 26 Sep 2023 10:13:29 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20230926101329epsmtrp25d97cb68c034b365e2834f3b78c445c2~Ia0Y5ebse0140601406epsmtrp2x;
-        Tue, 26 Sep 2023 10:13:29 +0000 (GMT)
-X-AuditID: b6c32a44-c7ffa7000000233f-4e-6512b957578e
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        7C.7E.18916.8CEA2156; Tue, 26 Sep 2023 19:13:28 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20230926101325epsmtip2cfcf64a0696d90208e1d465522eeae77~Ia0VrCoTp2661926619epsmtip2q;
-        Tue, 26 Sep 2023 10:13:25 +0000 (GMT)
-Date:   Tue, 26 Sep 2023 15:37:18 +0530
-From:   Nitesh Jagadeesh Shetty <nj.shetty@samsung.com>
-To:     Jinyoung Choi <j-young.choi@samsung.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "nitheshshetty@gmail.com" <nitheshshetty@gmail.com>,
-        "anuj1072538@gmail.com" <anuj1072538@gmail.com>,
-        SSDR Gost Dev <gost.dev@samsung.com>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        Vincent Kang Fu <vincent.fu@samsung.com>,
-        Anuj Gupta <anuj20.g@samsung.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        with ESMTP id S234687AbjIZMlf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 08:41:35 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BE9BD19F;
+        Tue, 26 Sep 2023 05:41:27 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+        id D890820B74C0; Tue, 26 Sep 2023 05:41:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D890820B74C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1695732086;
+        bh=bSYSPlQMrXXrmi4kI3zyUqJNcJHpggDF9TmyAeOoxL4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nAvPkYl1/cP7FGrTud/JeIWoRkrUWRU9mHZc5KaLpAcQLe8RBTDASvzTtDZG53CPr
+         9j2qq25sW2gE8tGP8z8Q3vf4AYfH26v70CAUMhsG61MuE5jAh0UDl+jbm8pKKvTNLI
+         H33MoKjfTYaruoPfeiwfAtHzDL9N2ONQM4pwRuxI=
+Date:   Tue, 26 Sep 2023 05:41:26 -0700
+From:   Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Saurabh Singh Sengar <ssengar@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        Dexuan Cui <decui@microsoft.com>,
+        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v16 04/12] block: add emulation for copy
-Message-ID: <20230926100718.wcptispc2zhfi5eh@green245>
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
+ devices
+Message-ID: <20230926124126.GA12048@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
+ <2023081215-canine-fragile-0a69@gregkh>
+ <PUZP153MB06350DAEA2384B996519E07EBE1EA@PUZP153MB0635.APCP153.PROD.OUTLOOK.COM>
+ <2023082246-lumping-rebate-4142@gregkh>
+ <20230906122307.GA5737@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 MIME-Version: 1.0
-In-Reply-To: <20230922130815epcms2p631fc5fc5ebe634cc948fef1992f83a38@epcms2p6>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xTVxTHvX2P18JWffJjXH5sNCUmw43SOlouBKYbiG9KGJuZJssWeNIX
-        SiiltEVk2SaUMX4NC4iIZRswfglO0CqGH5YREFGcA0P41YwtSqkGIiBCTEDYWgrG/z7nm+85
-        555z7+Vgzga2JydRoWFUClrOJ5zwG31+7/of73BmhHmjPqh18DaGnq2s4UhbvI6hS1M6As31
-        LQFk7skFyDhf6YAmezpYqOlSPwsV6doIVNo7BtDMqJ6FjKb3UM2PdTi6abyLo5HOnwlU1TDD
-        RoXj7QRqHNhgoYniGYDazVkAtcwt4OiOyQtNF+YBNLQ+4HDAg+rQT7GpoX+u4tTI/TTK0JxP
-        UNfqTlNdk5kEVXvmrANVlD1PUM9mTDi10D1KUGeuNwPqueEdymB+yorhfpkUKmNoKaPiMYr4
-        FGmiIiGMf+RobHisWCIU+YuCURCfp6CTmTB+RFSMf2Si3LoEPu8kLU+zSjG0Ws0P+DBUlZKm
-        YXiyFLUmjM8opXJloFKgppPVaYoEgYLRhIiEwn1iqzEuSfbkfBemnN916uG5HnYmWH2zADhy
-        IBkIH/3WiBcAJ44z2QXg3GMLYQ+WADw/u8p+FSzeXgDbKTOdVVuuDgC1SyNbgQXA6juTbJsL
-        J/fA5db/cBsTpBh2Xc22MofjSr4Pc5p9bX6MrObA7vHLm1V3kPuhYdCw6XchQ2Gb7ibb5ueS
-        Eph1y8Umc8nd8O4F86bFkYyGL2uLCBu7kd6won4Fs9WE5F+O0PTn5a2TRsDSyUmWnV3g7MB1
-        tp094fN5I2HndNhUdpGwJ/8AoH5cv5W8H+YM6jAbY6QMDuZpcbv+Njw32MKy6zth0Zp5qwEX
-        tv+6zb7w99bqrQYecOxFFmEbBpIUzL7ytX1ZLwBsWKwAxYCnf204/Wvt7BwC8xe1Dnb2gdlt
-        lZjeWgojvWDjBseOfrC1M6AaEM3Ag1GqkxOYeLFSpGDSX72E+JRkA9j8PHsj2sFE1YagF7A4
-        oBdADsZ35a5adjLOXCmd8Q2jSolVpckZdS8QW++wBPN0i0+x/j6FJlYUGCwMlEgkgcEfSER8
-        d+5czi9SZzKB1jBJDKNkVNt5LI6jZybLYjpUl1p6xPuCJFdOJziZSm598tgpIH1p2OfQk28/
-        DqYulrP27DTum1+WZXlMxVe6X5nr1ZoeYILhlZVOJmhAW3bYuHsy5DB6OEa/LAGP1u753+uv
-        r9Hsarj/hv5f43dnJZ7XnAbzYhOjDNEwKLTz0/b6qMVUS7NefkITzv+sKtK84C70WZeqvhju
-        T8gUYHGuT9mp47N9otMnE3O+51EbuqaDVMGJsgcDx8SkpU9mKTwA3JZrjFVffS7THfP33dES
-        R9JN/WErSx7mGMn6jQz3Cqib/kMQzB9am/b7W8nxrT0e/ZE0OfxUt69Xfu5PR2MmMiLdyrve
-        Chvz1rS0NZTzcbWMFu3FVGr6f5m9k7TFBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNIsWRmVeSWpSXmKPExsWy7bCSvO6JdUKpBj3PrCzWnzrGbPHx628W
-        i6YJf5ktVt/tZ7N4ffgTo8WTA+2MFnvfzWa1uHlgJ5PFytVHmSx6+7eyWUw6dI3R4unVWUwW
-        e29pWyxsW8JisWfvSRaLy7vmsFnMX/aU3aL7+g42i+XH/zFZ3JjwlNFix5NGRot1r9+zWJy4
-        JW3xuLuD0eL83+OsDpIeO2fdZfc4f28ji8fls6Uem1Z1snlsXlLvsftmA5vH4r7JrB69ze/Y
-        PD4+vcXi8X7fVTaPvi2rGD0+b5Lz2PTkLVMAbxSXTUpqTmZZapG+XQJXxpLDF5kK/vNU/Js1
-        h6mBcQVXFyMnh4SAicTTXfPZuhi5OIQEtjNKzHvUxgaRkJRY9vcIM4QtLLHy33N2iKInjBJn
-        /lxkBEmwCKhKfFn/nwXEZhMwldi9sRnI5uAQEdCRaF2lDFLPLLCCQ2Lhoh9gNQwC9hKbTm0C
-        s4UFbCS29u9hB6nnFTCTaDwiDDH/O6NEz8IlYDW8AoISJ2c+AbOZgWrmbX7IDFLPLCAtsfwf
-        B0RYXqJ562ywOzkF/CT+LO4Fu19UQEZixtKvzBMYhWchmTQLyaRZCJNmIZm0gJFlFaNoakFx
-        bnpucoGhXnFibnFpXrpecn7uJkZw+tAK2sG4bP1fvUOMTByMhxglOJiVRHh/PeNLFeJNSays
-        Si3Kjy8qzUktPsQozcGiJM6rnNOZIiSQnliSmp2aWpBaBJNl4uCUamByOCGwwpBBocPW5HPP
-        rjkiNfdviSx9vG158ucZaxwihD45Vhq6FMWntsiHxxrPYP6dZ/lJwvm0qXSuZEm9x0Opji+f
-        PrLUcoXv/nPi6/PibbWv4r1XvPy89M9WRb+JFV5PeasLqsNvvj2lzn7GaPrjfA/BZ9p23Bqc
-        FjM1Xew9zQPUDpifu//8WcrHDQGn5FLqlKy3nWKffaK1TtXhlG+2T7Ditkbpn7kVSVOeFwnG
-        P5q8xLUo0dD27YNQJ/mQ0723v85tO8HL5r84Yw1PYvUWRutlUkW6OoEr81aej+/mVwwI5biw
-        tY7haqqjSf3HGW/Uj/1OaC+Y+d7kQx3jxD/2WrcuZ3CUrfqlus2FSYmlOCPRUIu5qDgRAGGm
-        ZFGOAwAA
-X-CMS-MailID: 20230926101329epcas5p2008e3144f177f1c88aeb2302a22488e8
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-        boundary="----LAXCzQHOdZ.PJY8ISgkP8Kui-li3V03FA_f8OYW0UVQARYhI=_21324_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230920081458epcas5p3a3e12d8b5661b5d6f4420316630b02e1
-References: <20230920080756.11919-5-nj.shetty@samsung.com>
-        <20230920080756.11919-1-nj.shetty@samsung.com>
-        <CGME20230920081458epcas5p3a3e12d8b5661b5d6f4420316630b02e1@epcms2p6>
-        <20230922130815epcms2p631fc5fc5ebe634cc948fef1992f83a38@epcms2p6>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230906122307.GA5737@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-------LAXCzQHOdZ.PJY8ISgkP8Kui-li3V03FA_f8OYW0UVQARYhI=_21324_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+On Wed, Sep 06, 2023 at 05:23:07AM -0700, Saurabh Singh Sengar wrote:
+> On Tue, Aug 22, 2023 at 01:48:03PM +0200, Greg KH wrote:
+> > On Mon, Aug 21, 2023 at 07:36:18AM +0000, Saurabh Singh Sengar wrote:
+> > > 
+> > > 
+> > > > -----Original Message-----
+> > > > From: Greg KH <gregkh@linuxfoundation.org>
+> > > > Sent: Saturday, August 12, 2023 4:45 PM
+> > > > To: Saurabh Sengar <ssengar@linux.microsoft.com>
+> > > > Cc: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
+> > > > <haiyangz@microsoft.com>; wei.liu@kernel.org; Dexuan Cui
+> > > > <decui@microsoft.com>; Michael Kelley (LINUX) <mikelley@microsoft.com>;
+> > > > corbet@lwn.net; linux-kernel@vger.kernel.org; linux-hyperv@vger.kernel.org;
+> > > > linux-doc@vger.kernel.org
+> > > > Subject: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
+> > > > devices
+> > > > 
+> > > > On Fri, Aug 04, 2023 at 12:09:53AM -0700, Saurabh Sengar wrote:
+> > > > > Hyper-V is adding multiple low speed "speciality" synthetic devices.
+> > > > > Instead of writing a new kernel-level VMBus driver for each device,
+> > > > > make the devices accessible to user space through a UIO-based
+> > > > > hv_vmbus_client driver. Each device can then be supported by a user
+> > > > > space driver. This approach optimizes the development process and
+> > > > > provides flexibility to user space applications to control the key
+> > > > > interactions with the VMBus ring buffer.
+> > > > 
+> > > > Why is it faster to write userspace drivers here?  Where are those new drivers,
+> > > > and why can't they be proper kernel drivers?  Are all hyper-v drivers going to
+> > > > move to userspace now?
+> > > 
+> > > Hi Greg,
+> > > 
+> > > You are correct; it isn't faster. However, the developers working on these userspace
+> > > drivers can concentrate entirely on the business logic of these devices. The more
+> > > intricate aspects of the kernel, such as interrupt management and host communication,
+> > > can be encapsulated within the uio driver.
+> > 
+> > Yes, kernel drivers are hard, we all know that.
+> > 
+> > But if you do it right, it doesn't have to be, saying "it's too hard for
+> > our programmers to write good code for our platform" isn't exactly a
+> > good endorcement of either your programmers, or your platform :)
+> > 
+> > > The quantity of Hyper-V devices is substantial, and their numbers are consistently
+> > > increasing. Presently, all of these drivers are in a development/planning phase and
+> > > rely significantly on the acceptance of this UIO driver as a prerequisite.
+> > 
+> > Don't make my acceptance of something that you haven't submitted before
+> > a business decision that I need to make, that's disenginous.
+> > 
+> > > Not all hyper-v drivers will move to userspace, but many a new slow Hyperv-V
+> > > devices will use this framework and will avoid introducing a new kernel driver. We
+> > > will also plan to remove some of the existing drivers like kvp/vss.
+> > 
+> > Define "slow" please.
+> 
+> In the Hyper-V environment, most devices, with the exception of network and storage,
+> typically do not require extensive data read/write exchanges with the host. Such
+> devices are considered to be 'slow' devices.
+> 
+> > 
+> > > > > The new synthetic devices are low speed devices that don't support
+> > > > > VMBus monitor bits, and so they must use vmbus_setevent() to notify
+> > > > > the host of ring buffer updates. The new driver provides this
+> > > > > functionality along with a configurable ring buffer size.
+> > > > >
+> > > > > Moreover, this series of patches incorporates an update to the fcopy
+> > > > > application, enabling it to seamlessly utilize the new interface. The
+> > > > > older fcopy driver and application will be phased out gradually.
+> > > > > Development of other similar userspace drivers is still underway.
+> > > > >
+> > > > > Moreover, this patch series adds a new implementation of the fcopy
+> > > > > application that uses the new UIO driver. The older fcopy driver and
+> > > > > application will be phased out gradually. Development of other similar
+> > > > > userspace drivers is still underway.
+> > > > 
+> > > > You are adding a new user api with the "ring buffer" size api, which is odd for
+> > > > normal UIO drivers as that's not something that UIO was designed for.
+> > > > 
+> > > > Why not just make you own generic type uiofs type kernel api if you really
+> > > > want to do all of this type of thing in userspace instead of in the kernel?
+> > > 
+> > > Could you please elaborate more on this suggestion. I couldn't understand it
+> > > completely.
+> > 
+> > Why is uio the requirement here?  Why not make your own framework to
+> > write hv drivers in userspace that fits in better with the overall goal?
+> > Call it "hvfs" or something like that, much like we have usbfs for
+> > writing usb drivers in userspace.
+> > 
+> > Bolting on HV drivers to UIO seems very odd as that is not what this
+> > framework is supposed to be providing at all.  UIO was to enable "pass
+> > through" memory-mapped drivers that only wanted an interrupt and access
+> > to raw memory locations in the hardware.
+> > 
+> > Now you are adding ring buffer managment and all other sorts of things
+> > just for your platform.  So make it a real subsystem tuned exactly for
+> > what you need and NOT try to force it into the UIO interface (which
+> > should know nothing about ring buffers...)
+> 
+> Thank you for elaborating the details. I will drop the plan to introduce a
+> new UIO driver for this effort. However, I would like to know your thoughts
+> on enhancing existing 'uio_hv_generic' driver to achieve the same.  We
+> already have 'uio_hv_generic' driver in linux kernel, which is used for
+> developing userspace drivers for 'fast Hyper-V devices'.
+> 
+> Since these newly introduced synthetic devices operate at a lower speed,
+> they do not have the capability to support monitor bits. Instead, we must
+> utilize the 'vmbus_setevent()' method to enable interrupts from the host.
+> Earlier we made an attempt to support slow devices by uio_hv_generic :
+> https://lore.kernel.org/lkml/1665685754-13971-1-git-send-email-ssengar@linux.microsoft.com/.
+> At that time, the absence of userspace code (fcopy) hindered progress
+> in this direction.
+> 
+> Acknowledging your valid concerns about introducing a new UIO driver for
+> Hyper-V, I propose exploring the potential to enhance the existing
+> 'uio_hv_generic' driver to accommodate slower devices effectively. My
+> commitment to this endeavour includes ensuring the seamless operation of
+> the existing 'fcopy' functionality with the modified 'uio_hv_generic'
+> driver. Additionally, I will undertake the task of removing the current
+> 'fcopy' kernel driver and userspace daemon as part of this effort.
+> 
+> Please let me know your thoughts. I look forward to your feedback and
+> the opportunity to discuss this proposal further. 
 
->> +                write_bio->bi_iter.bi_size = chunk;
->> +                ret = submit_bio_wait(write_bio);
->> +                kfree(write_bio);
->
->blk_mq_map_bio_put(write_bio) ?
->or bio_uninit(write_bio); kfree(write_bio)?
->
->hmm...
->It continuously allocates and releases memory for bio,
->Why don't you just allocate and reuse bio outside the loop?
->
+Greg,
 
-Agree, we will update this in next version.
+May I know if enhancing uio_hv_generic.c to support 'slow devices' is
+an accptable approach ? I'm willing to undertake this task and propose
+the necessary modifications.
 
->> +                if (ret)
->> +                        break;
->> +
->> +                pos_in += chunk;
->> +                pos_out += chunk;
->> +        }
->> +        cio->status = ret;
->> +        kvfree(emulation_io->buf);
->> +        kfree(emulation_io);
->
->I have not usually seen an implementation that releases memory for
->itself while performing a worker. ( I don't know what's right. :) )
->
-The worker is already executing at this point.
-We think releasing the reference after it starts executing should not
-be an issue, and it didn't come-up in any of our testing too.
+- Saurabh
 
->Since blkdev_copy_emulation() allocates memory for the emulation
->and waits for it to be completed, wouldn't it be better to proceed
->with the memory release for it in the same context?
->
->That is, IMO, wouldn't it be better to free the memory related to
->emulation in blkdev_copy_wait_io_completion()?
->
-
-Above mentioned design works for synchronous IOs. But for asynchronous
-IOs emulation job is punted to worker and submitter task returns.
-Submitter doesn't wait for emulation to complete and memory is freed
-later by worker.
-
-Thank you,
-Nitesh Shetty
-
-------LAXCzQHOdZ.PJY8ISgkP8Kui-li3V03FA_f8OYW0UVQARYhI=_21324_
-Content-Type: text/plain; charset="utf-8"
-
-
-------LAXCzQHOdZ.PJY8ISgkP8Kui-li3V03FA_f8OYW0UVQARYhI=_21324_--
+> 
+> - Saurabh
