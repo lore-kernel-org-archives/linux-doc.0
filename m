@@ -2,182 +2,372 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC046E7E656
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 17:46:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4363EE7E657
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 18:42:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234104AbjIZRqJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Sep 2023 13:46:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47150 "EHLO
+        id S235419AbjIZSmm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Sep 2023 14:42:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbjIZRqI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 13:46:08 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A699F;
-        Tue, 26 Sep 2023 10:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695750362; x=1727286362;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=FZjlwzYS4FksiLyZGxoLQMWy8X6T4ER1C6B9V4chblI=;
-  b=PKSBJZrythv5bTZX+DSKYKmikefo35U00XoUR2OntP/82/utzWlhiLn1
-   JIUP7mCparFa117Y7IVhii9dtcO4GGjdIGXFMN2gIO9Q/5YB/Pza2lfcS
-   YcjAvQicdBfufnNKHgSy/JzRrbDAjnCJ2eb1lEiTN1g1vHjJ/1PWW1P9x
-   3nxIjMao3k5IFiugSrESCUwfNAuI//7WyGL9X99iLNchUQXube/VSj0/T
-   woSM/aRtI1kikfaD5QZAQlG+nZQ/ihBA/cDK0Z2u3YAVJ8aN73a2PNLMz
-   +jfmp9LFO1HkSfEJkRDoh1/9OfgWTIcxgDU/7mSV4xyZPhKUugo4LW1Zg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="371964205"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="371964205"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 10:46:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="892285991"
-X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="892285991"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Sep 2023 10:44:55 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 26 Sep 2023 10:45:52 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Tue, 26 Sep 2023 10:45:52 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Tue, 26 Sep 2023 10:45:52 -0700
+        with ESMTP id S235395AbjIZSml (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 14:42:41 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2095.outbound.protection.outlook.com [40.107.92.95])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E0AE5;
+        Tue, 26 Sep 2023 11:42:33 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RBIq9bL1n5U76bXrUuaReoW6O9hBULerxaygV3NBRRXfu4BZDn59Sily4+AZFgJ0RD8dMZSMLk3mTO2iN1G2dV9QSeKFTb/rfXPqd3DAGZ3mabWbv+90GvOCykOGr6KAM4isZV9qGrLDD+Esb6wgc8S+9kYw8hayab+nqPnh4x6YdNWpWOLvsMiGoWpaf+VkyqVqN44f79DixqhRk73fKTp6QbjAJyuc9CkzmMO8WqWQkkRFQZu38g85kS7BJVEp5Z03+KvRAVjlktB1nggq2CDk+xz9vsV9fIFXIRR1vInXfgB2Txctm0Utr7D6Ho/mVBm4WWyWG3QMZfmG39+4dg==
+ b=mufl069ULE2w32obhr7mO0RG1oT6X2OF6U/VFEyZjlte++DbZcw01LibphNezrdZU35O9ScBkOB3W19XskJFMVQTSdS9tV0+BA1rVH4n+Lng3Kf1uOth4fZZrth0knGkBtmmaBTpkmdpuKbwxHXePgZ+gVLwJJVFV6+Xcppi5PDjBFGIn+Ccq7rC5u/jQdRtEZIphv5kU2tkezfxOaKiGQD3dAq0mFudUpGEPToguPKr4fymYOq7AL9BBcTCFCMTMxCHqW+Flfh4r1o9Mc6xuq47/Aa2FVRIrAR4dSCWmZwnWjQCWINVQNrHGRi/42zxeOPMlgh/UgU3BnfDqe1I3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FZjlwzYS4FksiLyZGxoLQMWy8X6T4ER1C6B9V4chblI=;
- b=EX07nKzhvsvlnYAmpWnkExthekzvenCgVwqfRZAknsolledXnCkSxhVJuaJZozoan5dP2+IIXqlyXG48N6qMfI+K4uJNI+eTZfFq8UHWuuN5VRBbR6jOpIrRMbs/x+Yl+nz07z17IJPDmmqrt3buO20PxxskDTuTx3DhGLh3VmZWytv4eidDQhJdmE0KvY6JuqKB5R1IPSY7BSvLQCb6yrVPQw4Bb1eRBJhvCinEfJvDoS7GZuolLhwHi45LXfeS5NYyiVleY0QhImXLNTGwoMZcKiice7PNvCz9Y3n6Tvz9vzA8GIZ91jYF5XQkXtZ8nCTTf0D+WKCLZQGS1q0iAg==
+ bh=a4e/XmDpJrT+WF9lKCJtLc/M4HMpURdN1BbcGTw1Cn8=;
+ b=UuZiN0VcfavK2JU5Snw39AzBRyKAkhphJls8Ph/gjuxNwnwJuh1VXsUqPPsf1B7TGxCCGcdAeEsP9oFCyQ5ofhUaYiXY/ylGWA7bV2XBtCNZTLbwX/TJJx0nvpwT5KIDTcQTO7hMfLanpqUFKY60jcfUW+0BtGBEJL8ripkWDbuptKgixLXE/RMHpz40IJABUl/+R3U1eVRQs7KjMVCXcRvjwWJ1gXRvrnqKFqbew8XHyo3/R5/pkY5Z2nyZbmTN6HRJn8Z+ZUWoIjL4OJSKANGnWBISlSpAAWnE98ipM/P54bGgNNpV26Kx+G+14rK+71/iLsqDCQ00eVwcYTIU+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by SJ0PR11MB5215.namprd11.prod.outlook.com (2603:10b6:a03:2d9::9) with
+ smtp.mailfrom=ipt.br; dmarc=pass action=none header.from=ipt.br; dkim=pass
+ header.d=ipt.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipt.br; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a4e/XmDpJrT+WF9lKCJtLc/M4HMpURdN1BbcGTw1Cn8=;
+ b=W7DK5u9Ysh+hSNv2Ygm4qw06OsVBiY3HHpHQ71YXulORwzfggDXozVjcG272VXVAQYapzAmnRiKSEHaw9OWZw6m9JFfValkVW5L97Ha2woURlcHtPv/SzKL3hV0iJ6es07FWcNuvge9wHI3N+y8/Su+DITWt83B8NJIum+SIysM=
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:1a4::6)
+ by CPUP152MB4490.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:be::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Tue, 26 Sep
- 2023 17:45:50 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::bbd6:576b:132:74e4]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::bbd6:576b:132:74e4%7]) with mapi id 15.20.6792.026; Tue, 26 Sep 2023
- 17:45:50 +0000
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "babu.moger@amd.com" <babu.moger@amd.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "x86@kernel.org" <x86@kernel.org>
-CC:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Tue, 26 Sep
+ 2023 18:42:30 +0000
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::7a85:9362:f3e7:ad3]) by CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::7a85:9362:f3e7:ad3%6]) with mapi id 15.20.6813.027; Tue, 26 Sep 2023
+ 18:42:30 +0000
+From:   "Fernando Eckhardt Valle (FIPT)" <fevalle@ipt.br>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
+        "mpearson-lenovo@squebb.ca" <mpearson-lenovo@squebb.ca>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "hmh@hmh.eng.br" <hmh@hmh.eng.br>,
+        "markgross@kernel.org" <markgross@kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v5 2/8] x86/resctrl: Prepare for different scope for
- control/monitor operations
-Thread-Topic: [PATCH v5 2/8] x86/resctrl: Prepare for different scope for
- control/monitor operations
-Thread-Index: AQHZ2tLLm4WAqdn+YE6NPkv7LaqVMLAtfoaAgAANXaA=
-Date:   Tue, 26 Sep 2023 17:45:50 +0000
-Message-ID: <SJ1PR11MB608392F4682FE9EA0EC618C8FCC3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20230722190740.326190-1-tony.luck@intel.com>
- <20230829234426.64421-1-tony.luck@intel.com>
- <20230829234426.64421-3-tony.luck@intel.com>
- <ce890031-2478-ad40-a016-03657bc5f0e3@amd.com>
-In-Reply-To: <ce890031-2478-ad40-a016-03657bc5f0e3@amd.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "ibm-acpi-devel@lists.sourceforge.net" 
+        <ibm-acpi-devel@lists.sourceforge.net>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+Subject: Re: [PATCH v5] platform/x86: thinkpad_acpi: sysfs interface to auxmac
+Thread-Topic: [PATCH v5] platform/x86: thinkpad_acpi: sysfs interface to
+ auxmac
+Thread-Index: AQHZ79/+E+J0iJxDUkiNrl4nNsE1O7As5yuAgACJ0DI=
+Date:   Tue, 26 Sep 2023 18:42:30 +0000
+Message-ID: <CPVP152MB50532B5F8BBAC92243930842D8C3A@CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM>
+References: <20230925184133.6735-1-fevalle@ipt.br>
+ <0efd719a-802d-1401-7cee-d3918b47441d@redhat.com>
+In-Reply-To: <0efd719a-802d-1401-7cee-d3918b47441d@redhat.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+msip_labels: 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
+ header.d=none;dmarc=none action=none header.from=ipt.br;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|SJ0PR11MB5215:EE_
-x-ms-office365-filtering-correlation-id: b1a819f5-eec4-4a1c-9220-08dbbeb86c73
+x-ms-traffictypediagnostic: CPVP152MB5053:EE_|CPUP152MB4490:EE_
+x-ms-office365-filtering-correlation-id: 1f9d175a-f6f6-4784-ef75-08dbbec056e2
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pF9X5TxVbo5btjmiJuAsFIoj34+lC1wAY8tGlNiB9yFDYDhlvKs+zSuiNzaCiytVrfJHMLPvQTH0+PegC1+RzIwObYHfIvCTcAg/E4DHkd5EuXw72kPftxXiQHpHNPrR0jQzBmZpLsRQhCSeOxnclkR8buaxNGfJQHzAuI9dHx8ftrXG4peFNgc1BybwmfnGOXsspac14CHw6XshOFT09PXeXTz2x/sKFZ5yBSxWKa9H2YkMEGLpowIXHNTuD+F+8HY1R7aNSZC2AsKkyMPQh16M5Oz/BFQxBPEPXB5VwLm7koBPEYThEeYXZhfsDg3v1OgTeKPNL9+N5BDsxPMKt567l07qpHFfBCRtWmu2ucC53NK+6pZ/wMUPrGyYjl0UGgUPE+TOWM2Syy/CBq6yNjau5RFBp5CNJ7sGLA/g7Q2fxlbhTjvot0Zmn0dE/p9iLqVo20MT6IavjYURrVY2Sw0w4WzCEJNLICJYGhkGDCqueehjLQvn3JlrkidSAbyDIP3wdxJaNhbj+2eg7l4rOyM7NwbA9pNqTifFP1+k4GUMVcWkcRMMMd8USSH6JrLPbSJorO0stUOt3rkzysr/rytTg247YvE2VP5TcZKADkDcmsNC+MC+ozbxBIzjXb7L
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(346002)(376002)(39860400002)(230922051799003)(186009)(1800799009)(451199024)(33656002)(82960400001)(2906002)(86362001)(38070700005)(26005)(7696005)(71200400001)(6506007)(478600001)(122000001)(38100700002)(9686003)(4744005)(55016003)(41300700001)(5660300002)(7416002)(4326008)(52536014)(316002)(76116006)(110136005)(54906003)(66476007)(66946007)(66446008)(66556008)(8676002)(8936002)(64756008);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: kd+KlD9wAat09f+JAlzBe9cDNsCIp3l8Mmm6o0KV8mbEaEJgal5BV25I1QCX2ov6WCCm3CTZ3MJYClt9DEVUiefJyTAQ1/HMjEn5P5hobQ+yj7gYi3SprVZXg00nfh+EC1zToZMFTeKajHecA2zblyIpvlTNuENiBCNQjFpXzjjnQZX60H7C1LdMHnNfyXXtWiOG/dl9Bp7RBoh7URziOAt0Qdw04r31JSVa0LGeDtF6MxkrzF7GcMi9y/uhSvvc9q58zfROxXQvYk8+ksgqnmhLZhiBniXHNnricNCOnPe597AGHMF7V8aN50oQeYW1unHhSL8et5ihlVYiqOdndXZEidejeQI4+ZoZkezggDY/FALFDM6xGhmoZE9um89hA/4c8T02W6gTmfKOChcyIbgoFoyVjE1HTxgSfoE3WRKWjUVu0tphynHLl6uZiY8UNEensyMjBmDnGGAOWdinpxU6YKTynl4kJy6vaHYoJepByHnd0SWwC8+1QX0RURk8FHLzDyVhWbKK8uqRG+eyRvd2J5T0G6yx+x3HPEVhtfUwfSciiFq+5roETVgPSwBberDKqvVIB6134vukGZqeJXf/OinodZaTy1tEHJagEJE7XSiYnG4mxaGAEsvRivCY
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(136003)(396003)(39850400004)(230922051799003)(186009)(1800799009)(451199024)(8936002)(8676002)(966005)(2906002)(83380400001)(52536014)(7696005)(9686003)(55016003)(53546011)(66446008)(76116006)(64756008)(66946007)(786003)(316002)(66476007)(66556008)(86362001)(110136005)(38100700002)(38070700005)(26005)(122000001)(921005)(41300700001)(7416002)(5660300002)(41320700001)(478600001)(6506007)(71200400001)(33656002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bTllL1p1QW9uWFlmSi9oVDFsNDRDV2VndUZvZ0ZrZEVxalFjc1pSWlp5TFVR?=
- =?utf-8?B?UWcrc0VnRnJjRDNJV05ZL1k1VlNnQVpGaHV3eHpkTnZLR21FaEZ1c2Q5Njdh?=
- =?utf-8?B?TFI4b1JQQU9HcW5RL216YW9HSllFaDZ1aU9laHJVMnpVZzRkKzJOSytJcG4z?=
- =?utf-8?B?MVNRSnhBTWQzSm42ZEg3MGFtOGg5a2NqZ0RPOEt5OXdzTEhwZTYyaHRZc2RE?=
- =?utf-8?B?Yk05VjQ1SHBZS2Q4eVp0clFTRURLUDdGaFJiQjkzdVVXd3JyT1JIM0E3bTRq?=
- =?utf-8?B?akNSOXZwd0JQWDdlUE9MNTY3UCtIVE1wb3YwM2tsZjM2cGNhM0wxelNBQVFn?=
- =?utf-8?B?N1AwbWFUMDhJVVBXbUU3b0ZnSzV2MXZ6V2wvTS9veVJWeGIxT1dLNTdPdit0?=
- =?utf-8?B?UFJEdTNLYmdFRW1hMkhpOXF6VENzd0JHdVZQRFVmSkRBYVRKcGtwV1ZtTlA5?=
- =?utf-8?B?eHZJRmZRdWgvNis0RHh4TmpBc1JJTWVyZm9nRDNUK1BLS1NnQXFXZFpONzY0?=
- =?utf-8?B?VGFjdWpHV1pkUGtQUDE4R3JDMkRERjkzOG1ObHZxNkNBZ0lQbHVscS8wd3Zu?=
- =?utf-8?B?RVZqTmYvd3Nrd0x5YnlaRzgxamRUTXJ5L3pvQ0xGbEhsdHFVQ2RnckZsMTBQ?=
- =?utf-8?B?UHYvZUh3bzNOUFZXTld2czF4U0VTVVZheEc3a0VoRkVQa21hZXRJaXhBM0hz?=
- =?utf-8?B?bmNDZDBOM2Y4QmxKanR4dUZaSzNqT3ZpLys4ZGhNYlJzN3h1ZUxnWTY5dVNk?=
- =?utf-8?B?aDVwR1g2SUZ6TTNlK3pTTGVFYnZYeVQ2Zjl6cU1QR2xEWkpCOFdZb245NkJG?=
- =?utf-8?B?MlVnM2FZSURYSnlsekZNNmpDMmJTL0V1Q3lqTW1uS3RRRjRvY0RzWDlGK2Ri?=
- =?utf-8?B?TXBaTDduTFBWSWJ0TmhXSmtOT3NtN0wraERDNG1GTENwU0RIenBRMHBNVnUx?=
- =?utf-8?B?L2FsbndZS2pLWEtySWpiaSswVU9LbGdOMytwaWhoNlc5WmJ1OElUem5mNlJG?=
- =?utf-8?B?bDd5aXFnb2VvN256UHNSV2FlSXNhMTB1WDhWMFpYSjF0L2VpbW9pdXJibWhq?=
- =?utf-8?B?TlR3YjZsTHpZWXo2MTlIZFdFVVB2d1QrOXp5T3p1dEpxc3J4djBWYyswbUFm?=
- =?utf-8?B?VmlyNVU0YU1UemR2REplZDVjSW9hRm1jcnV5NldDWEJ2TmZOTGJ4WnErY1hq?=
- =?utf-8?B?YS9ZSzFXTTlBWi8ycmIrWmI4RUZqZkFvZmpzL0lUR0RuaGNlbnNwUXF3OHQ1?=
- =?utf-8?B?eCtEZVR6a29JeGhRdGMyQnNOamtXM2V1Qlc1NW5ZTUtyZk5lU2d1QWJzTm13?=
- =?utf-8?B?NWp0UWx0eEUyMmo5aVZvZVIzOUNLY2wybXRoWHR1MUxMQkJ5Qk80bFlrbUh1?=
- =?utf-8?B?OFlKYUZLRVVuTmYyTjBCblVlZms0dDhjeXVua21sK0xjSXpuNHMvdW9sMnY2?=
- =?utf-8?B?dzhLS2FaQjVxVzVTR0VSZE9lNUV0NTQvNDk0ZVdUOGVVR3BOSzAzVlZabkhJ?=
- =?utf-8?B?V1N6QUFNVTJ5YSswRnpWVXBMUFRDcDNWVS9GZm9qTDRoZUxVNmlva25ETXEz?=
- =?utf-8?B?TnF1UUlhRks4VndzbjhBZzE2Y2htVytrWEdORERjY0FnK0NubGdVazdudExO?=
- =?utf-8?B?SGNRWlRCVjRxMXBKOXNmT3dQclF6Z0JZY1piT2FjeFpWaFBZVjFMR3h6RmVy?=
- =?utf-8?B?ZXJJckpXVVBBRVdDUDhkbjVUWjdTZjZvN3dyNkQ3OFIvYTdvdkIzTWxqYzhX?=
- =?utf-8?B?QVcvOEpjYjRpTCtCNmg4STE5YWwwSUxhUjhRc2FhRXYyTXhEUWlVRDlIY3Rx?=
- =?utf-8?B?VmR6OXZFZWRBckdscTl1azJnTHVVZElTblNXalJDYnd5aXVxUE1LemRSUnVV?=
- =?utf-8?B?Qm5zZWlhUlpWNUkvTmZkS1FQOGRBTk01d3ZZa2JsYllsTFNaS1VTSk8wQkky?=
- =?utf-8?B?MkczSjg4ZnQzSXZrbU5DY01xaE95cm1Pc2FnZzk2NWJhRUtHTGdlbjVnWjhE?=
- =?utf-8?B?WmtYN1ZudGNYVEpFdjVDR2hwQndOOHNCTzM1QVhnWmdyOGsyaTVhM21UR2RI?=
- =?utf-8?B?WjBSa29nZWRHNjBraytlUTR3TnFDWmVJQjNCeVJEZjMxWTRNN3ZzRENEMFdh?=
- =?utf-8?Q?f/AKuVsZ//vwzPGrJIwwslncU?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Z4RZDyWgFJ6lf6liD6ySJEQK3KBRzW3u036t8nOJ8z1PHtM4paisbp2RaD0S?=
+ =?us-ascii?Q?7i1Eu+MD83TUw2UN75gnYNjdwFk8/JbZ78PnM6ze7Nz7eIMcOkRDcBCXctb/?=
+ =?us-ascii?Q?0Hbaz1iSNHoGdakJzHlvmzVqio6Dh9zR10nvH6DCt/b8E7NjMShUcUXmVCFI?=
+ =?us-ascii?Q?oQL/iFAPCdp+JiPi/ZaJQMRQFgX+LVlCNiAU3tdXaBQewTQsZlTDvV39DOlB?=
+ =?us-ascii?Q?Mj6C5j3/qG9PSnyA/W23CSNdd1bVAjhPQhL09v0YWw5b7leQKdRk4utgk+9S?=
+ =?us-ascii?Q?GCpc6UXVMk+5TCZG5BPybMRD57OvGTc8YlnScnobUvVvvwe39JKMpfHXjTrd?=
+ =?us-ascii?Q?sBodKauI3Jw1+FJNcp4mf/BGv7KQobpr18Fe5zrvs7vym0tP6WCoCmLWpjyc?=
+ =?us-ascii?Q?a/1p4/aKrqTWWeWSpjrG+kfQzrdK1joBLXJr+MXICBUpX5AmSugt/IzbfbZq?=
+ =?us-ascii?Q?fxWxDJjTVldgMzCp2jptd1qUDsOPvjmjAVGn+J5ibVpedNoddxlgQIBwaIYn?=
+ =?us-ascii?Q?YGskLckaixoZUIofewpO20jqCP5U3IiL6DROPm+HD7tJ/WlFQXtzpknYyB9N?=
+ =?us-ascii?Q?lGdaIvr3CDL1GAhOoET729goZesIQltlAR0prlKgKYoGOxcAlrRp1wHX6HVe?=
+ =?us-ascii?Q?KmgFPT5G6DIrlyoXYFhVFAXPKoHQiYVnl+sjEZHvsnXFIwfZ99LOxQtl8r9k?=
+ =?us-ascii?Q?Knc7NeFlY2uB4rMm22j1m/qctugCTTI8oK5xaAO1gKzaFmmTyOhyPuEP1QPA?=
+ =?us-ascii?Q?aNpxIsXc0Yj9uAiAfzKMloCMHdGJV2hvYXp1ATqwOQd+UGXaIM4frOHc+MKK?=
+ =?us-ascii?Q?xPOyQx2uEBgsQoNRD2usKKTu/EQJZNv0HSdqEes+kFgZBe7ztVp9yVdI6OZ7?=
+ =?us-ascii?Q?dDeKsbaq3q3YHcu4o+jq4OaD9ADS56nZysynF3Z3wP6WXQheCYcOxKe91ydq?=
+ =?us-ascii?Q?/eVGvcw+wobVdl+MlElFFx+oqGphwITktMZC9+myXV5SAZx8yQBYSiJiJyqo?=
+ =?us-ascii?Q?f+4HlXUBNzNBjTCkbGqdf1kRBKxZT+opsz/B4i/C6Vmdn4F1w/X00Q2xyhZd?=
+ =?us-ascii?Q?hYxxxPbXnX9ZLJhOgxw24sFTbEBqBBHLdWr+Bdgtsp3FcXsSjknBI5Y4LJnK?=
+ =?us-ascii?Q?ymCpi7qJsePR8Ih+etQ5B5T3iZZoAOfmA0zvhFiR99qPjXaZgQJNTQ/89o+C?=
+ =?us-ascii?Q?tgrOd7DAvH59qphNN+SY51NQfe6q8N70ZsdiWRxWMjKiY0jxCNK4GnmnUUrC?=
+ =?us-ascii?Q?IooSzj9DVjQIFmrj01CBFTPl901rMGZp8CzPMlch5CrsxBdncBgeohLvQjH1?=
+ =?us-ascii?Q?RyQ3VtG2o3XDJDug6OBODGHE0usAqp+Em9upXGNO1xpGbHkgVA1avZqNbxDi?=
+ =?us-ascii?Q?5OCkESe75Mdf6oGNuwGYFxw4iMtQyMJseE3lTEXVs80keR4sLO55/i6h0MSf?=
+ =?us-ascii?Q?4OqQIlFeSUEPJ8EwD13QjPdRQYeKFdeJ5DqRAU1mJTSnG1g1KWJPJdZrzDiB?=
+ =?us-ascii?Q?IHU/2rEsrNls136aF9c6K2d35Z1EfgAAhBxJEo/UTLG0XjGKtj0K7EatzVBR?=
+ =?us-ascii?Q?zsl7E67TAtmVv+WQBco=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
+X-OriginatorOrg: ipt.br
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1a819f5-eec4-4a1c-9220-08dbbeb86c73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2023 17:45:50.5741
+X-MS-Exchange-CrossTenant-AuthSource: CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f9d175a-f6f6-4784-ef75-08dbbec056e2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2023 18:42:30.3701
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: aab57f47-5b85-4924-8047-691190100bd7
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aARbI5HQsRYyHKLScyao41zUnVq44o97ecpdhaiFcisZ2EzBWu1HSC1bJmxe6aZx41IQI3Nb+VFp7kOo8ZNpSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5215
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: N14MFgdhthrayVtcj1UHug7xyGPTkGnSSSfYsDqYQYFUtoE0hAbaB5rNxWrcfqga
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPUP152MB4490
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pj4gQ3JlYXRlIHNlcGFyYXRlIGRvbWFpbiBsaXN0cyBmb3IgY29udHJvbCBhbmQgbW9uaXRvciBv
-cGVyYXRpb25zLg0KPj4gDQo+PiBObyBpbXBvcnRhbnQgZnVuY3Rpb25hbCBjaGFuZ2UuIEJ1dCBu
-b3RlIHRoYXQgZXJyb3JzIGR1cmluZw0KPg0KPiBJdHMgYmV0dGVyIHRvIHJlbW92ZSB0aGUgbGlu
-ZSAiTm8gaW1wb3J0YW50IGZ1bmN0aW9uYWwgY2hhbmdlLiINCg0KV2lsbCBkcm9wIGl0Lg0KDQo+
-PiAgCXN0cnVjdCBsaXN0X2hlYWQJZG9tYWluczsNCj4+ICsJc3RydWN0IGxpc3RfaGVhZAltb25k
-b21haW5zOw0KPg0KPiBGb3IgY29uc2lzdGFuY3ksIGl0cyBiZXR0ZXIgdG8gcmVuYW1lIGl0IHRv
-IG1vbl9kb21haW5zKHRvIGJlIGlubGluZSB3aXRoDQo+IG1vbl9zY29wZSwgbW9uX2NhcGFibGUp
-Lg0KDQpBZ2FpbiwgeW91IGFyZSB0aGlua2luZyBsaWtlIFJlaW5ldHRlISBZb3UnbGwgYmUgYSBy
-ZXNjdHJsIG1haW50YWluZXIgc29vbi4NCg0KPj4gK3N0cnVjdCByZHRfZG9tYWluICpyZHRfZmlu
-ZF9jdHJsZG9tYWluKHN0cnVjdCBsaXN0X2hlYWQgKmgsIGludCBpZCwNCj4+ICsJCQkJICAgICAg
-IHN0cnVjdCBsaXN0X2hlYWQgKipwb3MpOw0KPj4gK3N0cnVjdCByZHRfZG9tYWluICpyZHRfZmlu
-ZF9tb25kb21haW4oc3RydWN0IGxpc3RfaGVhZCAqaCwgaW50IGlkLA0KPj4gKwkJCQkgICAgICBz
-dHJ1Y3QgbGlzdF9oZWFkICoqcG9zKTsNCj4NCj4gRm9yIGNvbnNpc3RhbmN5LCBpdCBpcyBiZXR0
-ZXIgdG8gcmVuYW1lIHRvIHJkdF9maW5kX2N0cmxfZG9tYWluIGFuZA0KPiByZHRfZmluZF9tb25f
-ZG9tYWluIHJlc3BlY3RpdmVseS4NCg0KQWdyZWVkLg0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcu
-DQoNCi1Ub255DQo=
+Thanks for the review Hans, I'll send a new version with some adjustments.
+
+> Note this is just a preference you keen keep this as is
+> if you want,
+I liked the Ilpo suggestion, with two 'gotos' is eliminated repeated code. =
+If everything is ok, I prefer it this way.
+
+Regards,
+Fernando Valle
+
+________________________________________
+From: Hans de Goede <hdegoede@redhat.com>
+Sent: Tuesday, September 26, 2023 7:23 AM
+To: Fernando Eckhardt Valle (FIPT); ilpo.jarvinen@linux.intel.com; mpearson=
+-lenovo@squebb.ca; corbet@lwn.net; hmh@hmh.eng.br; markgross@kernel.org; li=
+nux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; ibm-acpi-devel@lists=
+.sourceforge.net; platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v5] platform/x86: thinkpad_acpi: sysfs interface to aux=
+mac
+
+Hi,
+
+It looks like I just reviewed an old version, reviewing this version now ..=
+.
+
+On 9/25/23 20:41, Fernando Eckhardt Valle wrote:
+> Newer Thinkpads have a feature called MAC Address Pass-through.
+> This patch provides a sysfs interface that userspace can use
+> to get this auxiliary mac address.
+>
+> Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
+> ---
+> Changes in v5:
+> - Repeated code deleted.
+> - Adjusted offset of a strscpy().
+> Changes in v4:
+> - strscpy() in all string copies.
+> Changes in v3:
+> - Added null terminator to auxmac string when copying auxiliary
+> mac address value.
+> Changes in v2:
+> - Added documentation.
+> - All handling of the auxmac value is done in the _init function.
+> ---
+>  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+>  drivers/platform/x86/thinkpad_acpi.c          | 81 +++++++++++++++++++
+>  2 files changed, 101 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Docume=
+ntation/admin-guide/laptops/thinkpad-acpi.rst
+> index e27a1c3f6..98d304010 100644
+> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> @@ -53,6 +53,7 @@ detailed description):
+>       - Lap mode sensor
+>       - Setting keyboard language
+>       - WWAN Antenna type
+> +     - Auxmac
+>
+>  A compatibility table by model and feature is maintained on the web
+>  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+> @@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mention=
+ed below:
+>  The property is read-only. If the platform doesn't have support the sysf=
+s
+>  class is not created.
+>
+> +Auxmac
+> +------
+> +
+> +sysfs: auxmac
+> +
+> +Some newer Thinkpads have a feature called MAC Address Pass-through. Thi=
+s
+> +feature is implemented by the system firmware to provide a system unique=
+ MAC,
+> +that can override a dock or USB ethernet dongle MAC, when connected to a
+> +network. This property enables user-space to easily determine the MAC ad=
+dress
+> +if the feature is enabled.
+> +
+> +The values of this auxiliary MAC are:
+> +
+> +        cat /sys/devices/platform/thinkpad_acpi/auxmac
+> +
+> +If the feature is disabled, the value will be 'disabled'.
+> +
+> +This property is read-only.
+> +
+>  Adaptive keyboard
+>  -----------------
+>
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/=
+thinkpad_acpi.c
+> index d70c89d32..2324ebb46 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -10785,6 +10785,82 @@ static struct ibm_struct dprc_driver_data =3D {
+>       .name =3D "dprc",
+>  };
+>
+> +/*
+> + * Auxmac
+> + *
+> + * This auxiliary mac address is enabled in the bios through the
+> + * MAC Address Pass-through feature. In most cases, there are three
+> + * possibilities: Internal Mac, Second Mac, and disabled.
+> + *
+> + */
+> +
+> +#define AUXMAC_LEN 12
+> +#define AUXMAC_START 9
+> +#define AUXMAC_STRLEN 22
+> +#define AUXMAC_BEGIN_MARKER 8
+> +#define AUXMAC_END_MARKER 21
+> +
+> +static char auxmac[AUXMAC_LEN + 1];
+> +
+> +static int auxmac_init(struct ibm_init_struct *iibm)
+> +{
+> +     acpi_status status;
+> +     struct acpi_buffer buffer =3D { ACPI_ALLOCATE_BUFFER, NULL };
+> +     union acpi_object *obj;
+> +
+> +     status =3D acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
+> +
+> +     if (ACPI_FAILURE(status))
+> +             return -ENODEV;
+
+In this code path you don't initialize the "auxmac" buffer at all,
+but your auxmac_attr_group does not have an is_visible callback,
+so the auxmax sysfs attr will still show up.
+
+Please add an is_visible callback and retuern 0 (not visible)
+when auxmac[0] =3D=3D 0; See existing is_visible code for some
+examples.
+
+> +
+> +     obj =3D buffer.pointer;
+> +
+> +     if (obj->type !=3D ACPI_TYPE_STRING || obj->string.length !=3D AUXM=
+AC_STRLEN) {
+> +             pr_info("Invalid buffer for MAC address pass-through.\n");
+> +             goto auxmacinvalid;
+> +     }
+> +
+> +     if (obj->string.pointer[AUXMAC_BEGIN_MARKER] !=3D '#' ||
+> +         obj->string.pointer[AUXMAC_END_MARKER] !=3D '#') {
+> +             pr_info("Invalid header for MAC address pass-through.\n");
+> +             goto auxmacinvalid;
+> +     }
+> +
+> +     if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUX=
+MAC_LEN) !=3D 0)
+> +             strscpy(auxmac, obj->string.pointer + AUXMAC_START, AUXMAC_=
+LEN + 1);
+
+Please use sizeof(auxmac) as last parameter to strscpy() here.
+
+> +     else
+> +             strscpy(auxmac, "disabled", AUXMAC_LEN);
+
+Please use sizeof(auxmac) as last parameter to strscpy() here.
+
+Also note how you pass 2 different dest-sizes for the same dest buffer befo=
+re,
+which looks weird ...
+
+
+> +
+> +free:
+> +     kfree(obj);
+> +     return 0;
+> +
+> +auxmacinvalid:
+> +     strscpy(auxmac, "unavailable", AUXMAC_LEN);
+> +     goto free;
+> +}
+
+I'm not liking the goto dance here, I would prefer:
+
+        kfree(obj);
+        return 0;
+
+auxmacinvalid:
+        strscpy(auxmac, "unavailable", AUXMAC_LEN);
+        kfree(obj);
+        return 0;
+
+It is quite normal for an error-exit path to repeat a kfree().
+
+Note this is just a preference you keen keep this as is
+if you want, but to me the goto free which jumps up looks
+pretty weird.
+
+Regards,
+
+Hans
+
+
+
+> +
+> +static struct ibm_struct auxmac_data =3D {
+> +     .name =3D "auxmac",
+> +};
+> +
+> +static ssize_t auxmac_show(struct device *dev,
+> +                        struct device_attribute *attr,
+> +                        char *buf)
+> +{
+> +     return sysfs_emit(buf, "%s\n", auxmac);
+> +}
+> +static DEVICE_ATTR_RO(auxmac);
+> +
+> +static struct attribute *auxmac_attributes[] =3D {
+> +     &dev_attr_auxmac.attr,
+> +     NULL
+> +};
+> +
+> +static const struct attribute_group auxmac_attr_group =3D {
+> +     .attrs =3D auxmac_attributes,
+> +};
+> +
+>  /* ---------------------------------------------------------------------=
+ */
+>
+>  static struct attribute *tpacpi_driver_attributes[] =3D {
+> @@ -10843,6 +10919,7 @@ static const struct attribute_group *tpacpi_group=
+s[] =3D {
+>       &proxsensor_attr_group,
+>       &kbdlang_attr_group,
+>       &dprc_attr_group,
+> +     &auxmac_attr_group,
+>       NULL,
+>  };
+>
+> @@ -11414,6 +11491,10 @@ static struct ibm_init_struct ibms_init[] __init=
+data =3D {
+>               .init =3D tpacpi_dprc_init,
+>               .data =3D &dprc_driver_data,
+>       },
+> +     {
+> +             .init =3D auxmac_init,
+> +             .data =3D &auxmac_data,
+> +     },
+>  };
+>
+>  static int __init set_ibm_param(const char *val, const struct kernel_par=
+am *kp)
+
+
