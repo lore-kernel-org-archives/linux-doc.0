@@ -2,175 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75B38E7D26A
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 08:59:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 266D0E7D26E
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 09:26:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234103AbjIZI7W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Sep 2023 04:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46500 "EHLO
+        id S234173AbjIZJ0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Sep 2023 05:26:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234085AbjIZI7U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 04:59:20 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C762F194;
-        Tue, 26 Sep 2023 01:59:07 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38Q8tN5V003425;
-        Tue, 26 Sep 2023 08:58:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=+FWEZmpVo670+zlkSCbGGZPPfcsX4EQ/S+LkbxUTsK0=;
- b=OY/L1oVFG1pUxJ1ef9POd/xPOSWNitwKOigd/Qt0LzDs+dyQRuxWvbUT0NRauuyNK3xi
- BABxcsLiNRIT/NfUFFQu3FJyvjURuqaJJhq5ewyxUun7LORnrN3lVQ4ZQfAEz+6z8eFG
- kGLvCdrGeZU7e9Wq6fovdvgqMwZ43t6c+v9d7+T9O09FZ75ifz4Mw3xkLwIMAzK6vtoA
- ZVkomR+W0MRZ/oTA8yFXldEj+em1QmjAoqdkahdC841FTn0qLVLPT5ILc5OydWwbru4t
- zNIwjTL9q173grusZxl6pJ4b0QsJGK/CVKGVrSKbyWJsLjJNNR+odMcfQ83TWS4Andvp IQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tbc79a1mg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 Sep 2023 08:58:53 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38Q8wpwx005141
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 Sep 2023 08:58:52 GMT
-Received: from hu-nprakash-blr.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Tue, 26 Sep 2023 01:58:45 -0700
-From:   Nikhil V <quic_nprakash@quicinc.com>
-To:     Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-CC:     Nikhil V <quic_nprakash@quicinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>, Tejun Heo <tj@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
-        <quic_kprasan@quicinc.com>, <quic_mpilaniy@quicinc.com>,
-        <quic_shrekk@quicinc.com>, <mpleshivenkov@google.com>,
-        <ericyin@google.com>
-Subject: [RFC PATCH 4/4] PM: hibernate: Support to select compression algorithm
-Date:   Tue, 26 Sep 2023 14:27:14 +0530
-Message-ID: <b49a7bdd957bf86913700220b6c1f8f12c753b52.1695711299.git.quic_nprakash@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1695711299.git.quic_nprakash@quicinc.com>
-References: <cover.1695711299.git.quic_nprakash@quicinc.com>
+        with ESMTP id S234177AbjIZJ0m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 05:26:42 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4223611F
+        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 02:26:34 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3214cdb4b27so7798261f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 02:26:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citrix.com; s=google; t=1695720392; x=1696325192; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=kmbdPGVs/W/K0GplugB5QvWG9QUiEtGu9P+FlblHW9s=;
+        b=omASNCkvQh8ogDycK6NS67DjKJ9uzDzUSm5qj2PQ42ShbFSp0GjTT1kFT9G8h/y/NP
+         CmD6FuqIQ10+Z9raam3r4/NqUsq7eXuiu9uvf3msORuxNCoxvZ96rhuaJz3VgwGB4Vth
+         vUHV0Rs+bmjfVjEuTYRdZ6Py8lkOBcJCj+6iQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695720392; x=1696325192;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kmbdPGVs/W/K0GplugB5QvWG9QUiEtGu9P+FlblHW9s=;
+        b=QUuUzlWXq7MYf3m4lf0UKXrjijF3vNXxu16CMjFCb7roZ87eJzT0ILqDwhHgvqCUkL
+         jpUvYUr/L7qBxCw4TiYYIGX79LK0mS9QnNA8hC1Iyi1Bf0sDmvTMC/yspmz69dD2Q976
+         xE4dafXPfcEQybW/3cZQrzjpHLw4T+hW4ijWLotN2R/n9wpO0Eo37oaUdefinnNxRjM5
+         BLtfA3jfMBHB6+Uqmy6WfXyY8fIQfqakFIXNp2c1fRumQkZZ+tApM8s/wwnGQMA2Jb5M
+         yxEbNTZkHc508YRa2dj8XKHWefZod9K0H11jN0bi7FqrmzjFhi1sg2Kg7yEQOIXNnH18
+         BRsw==
+X-Gm-Message-State: AOJu0Yz877+PfZAtsW9q6Om0hWZRjxTABTLwF7x8dth4tNadVAmGxUfy
+        wc/Jv9z7wFR6GrKDbuSl7snKIQ==
+X-Google-Smtp-Source: AGHT+IGgfHuuM6+TDVmgDCR6/9jB/xVFtYMos7qI/oRqScsqgBiOvBrkuPDQ8QUbO3jvp1Bf0T5msA==
+X-Received: by 2002:a5d:44ca:0:b0:31f:fdd8:7d56 with SMTP id z10-20020a5d44ca000000b0031ffdd87d56mr8037098wrr.12.1695720392647;
+        Tue, 26 Sep 2023 02:26:32 -0700 (PDT)
+Received: from [10.80.67.28] (default-46-102-197-194.interdsl.co.uk. [46.102.197.194])
+        by smtp.gmail.com with ESMTPSA id o5-20020adfeac5000000b0031984b370f2sm14100219wrn.47.2023.09.26.02.26.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Sep 2023 02:26:32 -0700 (PDT)
+Message-ID: <6e0064bc-65c1-24f5-c29d-c1d1c027e2d3@citrix.com>
+Date:   Tue, 26 Sep 2023 10:26:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 6MnlpxIwDHzkDSBHHuASkueym7gFWp6Z
-X-Proofpoint-GUID: 6MnlpxIwDHzkDSBHHuASkueym7gFWp6Z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-26_06,2023-09-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309260078
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+From:   andrew.cooper3@citrix.com
+Subject: Re: [PATCH v11 05/37] x86/trapnr: Add event type macros to
+ <asm/trapnr.h>
+Content-Language: en-GB
+To:     Nikolay Borisov <nik.borisov@suse.com>, Xin Li <xin3.li@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
+        mhiramat@kernel.org, jiangshanlai@gmail.com
+References: <20230923094212.26520-1-xin3.li@intel.com>
+ <20230923094212.26520-6-xin3.li@intel.com>
+ <7acd7bb3-0406-4fd9-8396-835bfd951d87@suse.com>
+In-Reply-To: <7acd7bb3-0406-4fd9-8396-835bfd951d87@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently the default compression algorithm is selected based on
-Kconfig. Introduce a kernel command line parameter "hib_compression" to
-override this behaviour.
+On 26/09/2023 9:10 am, Nikolay Borisov wrote:
+> On 23.09.23 г. 12:41 ч., Xin Li wrote:
+>> diff --git a/arch/x86/include/asm/trapnr.h
+>> b/arch/x86/include/asm/trapnr.h
+>> index f5d2325aa0b7..8d1154cdf787 100644
+>> --- a/arch/x86/include/asm/trapnr.h
+>> +++ b/arch/x86/include/asm/trapnr.h
+>> @@ -2,6 +2,18 @@
+>>   #ifndef _ASM_X86_TRAPNR_H
+>>   #define _ASM_X86_TRAPNR_H
+>>   +/*
+>> + * Event type codes used by FRED, Intel VT-x and AMD SVM
+>> + */
+>> +#define EVENT_TYPE_EXTINT    0    // External interrupt
+>> +#define EVENT_TYPE_RESERVED    1
+>> +#define EVENT_TYPE_NMI        2    // NMI
+>> +#define EVENT_TYPE_HWEXC    3    // Hardware originated traps,
+>> exceptions
+>> +#define EVENT_TYPE_SWINT    4    // INT n
+>> +#define EVENT_TYPE_PRIV_SWEXC    5    // INT1
+>> +#define EVENT_TYPE_SWEXC    6    // INTO, INT3
+>
+> nit: This turned into INTO (Oh) rather than INT0( zero) in v11
 
-Different compression algorithms have different characteristics and
-hibernation may benefit when it uses any of these algorithms, especially
-when a secondary algorithm offers better decompression speeds over a
-default algorithm, which in turn reduces hibernation image restore time.
+Yes, v11 corrected a bug in v10.
 
-Users can set "hib_compression" command line parameter to override the
-default algorithm. Currently LZO and LZ4 are the supported algorithms.
-Usage:
-    LZO: hib_compression=lzo
-    LZ4: hib_compression=lz4
+The INTO instruction is "INT on Overflow".  No zero involved.
 
-LZO is the default compression algorithm used with hibernation.
+INT3 is thusly named because it generates vector 3.  Similarly for INT1
+although it had the unofficial name ICEBP long before INT1 got documented.
 
-Signed-off-by: Nikhil V <quic_nprakash@quicinc.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 ++++
- kernel/power/hibernate.c                      | 29 ++++++++++++++++++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
+If INTO were to have a number, it would need to be 4, but it's behaviour
+is conditional on the overflow flag, unlike INT3/1 which are
+unconditional exceptions.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0a1731a0f0ef..3f5f3e453db1 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1734,6 +1734,12 @@
- 				(that will set all pages holding image data
- 				during restoration read-only).
- 
-+	hib_compression= [COMPRESSION ALGORITHM]
-+		lzo		Select LZO compression algorithm to compress/decompress
-+				hibernation images.
-+		lz4		Select LZ4 compression algorithm to compress/decompress
-+				hibernation images.
-+
- 	highmem=nn[KMG]	[KNL,BOOT] forces the highmem zone to have an exact
- 			size of <nn>. This works even on boxes that have no
- 			highmem otherwise. This also works to reduce highmem
-diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index 87be8cda9b9b..22296a7b640c 100644
---- a/kernel/power/hibernate.c
-+++ b/kernel/power/hibernate.c
-@@ -742,7 +742,8 @@ int hibernate(void)
- 	 * Query for the compression algorithm support if compression is enabled.
- 	 */
- 	if (!nocompress) {
--		strscpy(hib_comp_algo, default_compressor, sizeof(hib_comp_algo));
-+		if (!hib_comp_algo[0])
-+			strscpy(hib_comp_algo, default_compressor, sizeof(hib_comp_algo));
- 		if (crypto_has_comp(hib_comp_algo, 0, 0) != 1) {
- 			pr_err("%s compression is not available\n", hib_comp_algo);
- 			return -EOPNOTSUPP;
-@@ -1416,6 +1417,31 @@ static int __init nohibernate_setup(char *str)
- 	return 1;
- }
- 
-+static const char * const comp_alg_enabled[] = {
-+#if IS_ENABLED(CONFIG_CRYPTO_LZO)
-+	COMPRESSION_ALGO_LZO,
-+#endif
-+#if IS_ENABLED(CONFIG_CRYPTO_LZ4)
-+	COMPRESSION_ALGO_LZ4,
-+#endif
-+};
-+
-+static int __init compression_setup(char *str)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(comp_alg_enabled); i++) {
-+		if (!strcmp(str, comp_alg_enabled[i])) {
-+			strscpy(hib_comp_algo, str, sizeof(hib_comp_algo));
-+			goto setup_done;
-+		}
-+	}
-+	strscpy(hib_comp_algo, default_compressor, sizeof(hib_comp_algo));
-+
-+setup_done:
-+	return 1;
-+}
-+
- __setup("noresume", noresume_setup);
- __setup("resume_offset=", resume_offset_setup);
- __setup("resume=", resume_setup);
-@@ -1423,3 +1449,4 @@ __setup("hibernate=", hibernate_setup);
- __setup("resumewait", resumewait_setup);
- __setup("resumedelay=", resumedelay_setup);
- __setup("nohibernate", nohibernate_setup);
-+__setup("hib_compression=", compression_setup);
--- 
-2.17.1
-
+~Andrew
