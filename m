@@ -2,97 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E11B7E7D258
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 08:23:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7987CE7D26A
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 08:58:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbjIZIXg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Sep 2023 04:23:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42956 "EHLO
+        id S234018AbjIZI6s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Sep 2023 04:58:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232778AbjIZIXe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 04:23:34 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C1897
-        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 01:23:27 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9b2a3fd5764so80452866b.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 01:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695716606; x=1696321406; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j9tTw5sUAPOrchYqA3E5owwjKmHdzzHpZh+gEC9Bxy8=;
-        b=sIrkm5fnHq62gxdiLho0PUJxuyqiaaJhNCpRLVeRdyS3virxw6FMkSakOFNGstwHnS
-         IJPKspbKgEjUgDLxLHFXVYyiFL/JD7ZE2yYvv7Ibl8wXqFn5uhZBsESOhUXc4ABULXRk
-         1PFIQIPxPFZjjiWMloZICYiMEyArrl5WDO1WMb3G5tNUe3Eogh0p4bDqNqvIaarsa8Sb
-         tKf/UajuXwcYyjlO4N7Tm85kjCfeOJ/WDXs1+LWOD7a+p0IngBsXa0b0JX7jbS0qoHjA
-         OQw9rcWdDar/GyM9lN9X4vssT3B20Psu6yLOKtbZ9eS8g980fenMlTfo40+Ckbb3hC14
-         msrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695716606; x=1696321406;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j9tTw5sUAPOrchYqA3E5owwjKmHdzzHpZh+gEC9Bxy8=;
-        b=XHjxI1KmUcnz5Dy3hc8j81HHMIyOT4GPZ3pw1CGFEjM+QWcvwpz1nBbHlGVhfsELPM
-         PrnrVd2GfzAvElc+ciwygCk1Y6D7ldA05ZSROXhubMpryfcwkG5NCSkVf7cLi9TI9k2f
-         RlwDNksgQkvlhVW9HfVeT4supXKTG0rBwW1vbWQ6jDhSS4tOzXTHBZ5MCecLx7/1U1mn
-         Uetg0a9zPR1l9GlAXlBYRIdiwJJb1uknBOM3K788/CaNCk9ic2/FthQjQ09CiishbnlG
-         e0sDEcWE4rtw79pHhn4g2BQ3hNdaoqdo6R+NY+Eoy18MRrYNbycDvj7VsTaazrNsvF80
-         RD9g==
-X-Gm-Message-State: AOJu0YyrsFJkVhZDC0AhYDCONPks9g51yKbbVbNEtCFKbXk6934QyuTv
-        47/j2+lxCc7clC1vbj6HUFDyvd0GQnuPmoB5m3DPsA==
-X-Google-Smtp-Source: AGHT+IGkkx1U2rNgqDwWhUXXyiFqJYMFNsgfzF84t+MVL60Zor+PPsTYDtb+H0XGSTY7RJyc59zxkbbMgkgbUR0S9To=
-X-Received: by 2002:a17:906:9d1:b0:9ad:ad5a:939b with SMTP id
- r17-20020a17090609d100b009adad5a939bmr7710821eje.7.1695716606170; Tue, 26 Sep
- 2023 01:23:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230902100728.3850149-1-liushixin2@huawei.com> <ZRKIdTE+4cm0KDCI@infradead.org>
-In-Reply-To: <ZRKIdTE+4cm0KDCI@infradead.org>
-From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Tue, 26 Sep 2023 01:22:47 -0700
-Message-ID: <CAJD7tkYY7je3x-MRhayyrC0xCFvKZO8CuiEnQHanF5_ErZ2n6Q@mail.gmail.com>
-Subject: Re: [PATCH] mm, memcg: expose swapcache stat for memcg v1
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Liu Shixin <liushixin2@huawei.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S233904AbjIZI6q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 04:58:46 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D9FDE;
+        Tue, 26 Sep 2023 01:58:40 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38Q7LYfV031306;
+        Tue, 26 Sep 2023 08:58:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=7wYr2f7GR/gnOln58QFT1dBmpK5rOQQPXNbgSsX6x7A=;
+ b=VJYG7SqeMLFi0Wl6wJX7kQKkiiFFPHF7eibcUoSQUfLsd3o5EvWqe8VIh4Jp2YQlvT3h
+ 95Ny7kF5Ol4p5VN1468qV6Y5EkSJ4UjcnX2cHke5Kup21AxnF7vpWn+0VD8nrwZDi4Gn
+ Wv9Dwi+pMB6He1ibDxqvEVJmF+QqljEJcFX1epZaaot2r+E+RBkH8Vv3MHiQsFlZVyvo
+ TVhauB4Kycb2RMNNUNPb2qMbGEB2AvP6nBWiMsunLaDQkxn3Oy5bcO/VxfaaO7gtugMD
+ XVBmw/olIDBfnqG+qZyx/JkVo3ATFEfJ9gybqUfvTRjVisje0OkBu/fl5YVbSWdXKSTE EQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tb72sjs4u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 26 Sep 2023 08:58:19 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38Q8wIM4021387
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 26 Sep 2023 08:58:18 GMT
+Received: from hu-nprakash-blr.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Tue, 26 Sep 2023 01:58:11 -0700
+From:   Nikhil V <quic_nprakash@quicinc.com>
+To:     Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+CC:     Nikhil V <quic_nprakash@quicinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>, Tejun Heo <tj@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_kprasan@quicinc.com>, <quic_mpilaniy@quicinc.com>,
+        <quic_shrekk@quicinc.com>, <mpleshivenkov@google.com>,
+        <ericyin@google.com>
+Subject: [RFC PATCH 0/4] PM: hibernate: LZ4 compression support
+Date:   Tue, 26 Sep 2023 14:27:10 +0530
+Message-ID: <cover.1695711299.git.quic_nprakash@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 8WVn62nEL_LK_j0_t81CxRwApjZC6T-B
+X-Proofpoint-ORIG-GUID: 8WVn62nEL_LK_j0_t81CxRwApjZC6T-B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-26_07,2023-09-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ mlxscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1011
+ malwarescore=0 adultscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309260078
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 26, 2023 at 12:30=E2=80=AFAM Christoph Hellwig <hch@infradead.o=
-rg> wrote:
->
-> On Sat, Sep 02, 2023 at 06:07:28PM +0800, Liu Shixin wrote:
-> > Since commit b6038942480e ("mm: memcg: add swapcache stat for memcg v2"=
-)
-> > adds swapcache stat for the cgroup v2, it seems there is no reason to
-> > hide it in memcg v1. Conversely, with swapcached it is more accurate to
-> > evaluate the available memory for memcg.
->
-> Why are we adding new features to the long deprecated cgroup v1?
->
+This patch series covers the following:
+1. Renaming lzo* to generic names, except for lzo_xxx() APIs. This is
+used in the next patch where we move to crypto based APIs for
+compression. There are no functional changes introduced by this
+approach.
 
-Technically this is not a new feature, we are just exposing a stat
-that the kernel is already tracking (for both cgroup v1 and v2).
 
-The reason I suggested to expose this for cgroup v1 is because a
-recent series [1] started using this stat in the kernel to make some
-reclaim decisions, for both cgroup v1 and v2. Exposing the stat in v1
-will make sure no one assumes the stat is only useful for v2 and break
-the tracking for v1 (which might cause some reclaim regressions then).
+2. Replace LZO library calls with crypto generic APIs
 
-[1]https://lore.kernel.org/lkml/20230915083417.3190512-1-liushixin2@huawei.=
-com/
+Currently for hibernation, LZO is the only compression algorithm
+available and uses the existing LZO library calls. However, there
+is no flexibility to switch to other algorithms which provides better
+results. The main idea is that different compression algorithms have
+different characteristics and hibernation may benefit when it uses
+alternate algorithms.
+
+By moving to crypto based APIs, it lays a foundation to use other
+compression algorithms for hibernation.
+
+
+3. LZ4 compression
+Extend the support for LZ4 compression to be used with hibernation.
+The main idea is that different compression algorithms
+have different characteristics and hibernation may benefit when it uses
+any of these algorithms: a default algorithm, having higher
+compression rate but is slower(compression/decompression) and a
+secondary algorithm, that is faster(compression/decompression) but has
+lower compression rate.
+
+LZ4 algorithm has better decompression speeds over LZO. This reduces
+the hibernation image restore time.
+As per test results:
+                                    LZO             LZ4
+Size before Compression(bytes)   682696704       682393600
+Size after Compression(bytes)    146502402       155993547
+Decompression Rate               335.02 MB/s     501.05 MB/s
+Restore time                       4.4s             3.8s
+
+LZO is the default compression algorithm used for hibernation. Enable
+CONFIG_HIBERNATION_DEF_COMP_LZ4 to set the default compressor as LZ4.
+
+Compression Benchmarks: https://github.com/lz4/lz4
+
+4. Support to select compression algorithm
+
+Currently the default compression algorithm is selected based on Kconfig.
+Introduce a kernel command line parameter "hib_compression" to
+override this behaviour.
+
+Users can set "hib_compression" command line parameter to specify
+the algorithm.
+Usage:
+    LZO: hib_compression=lzo
+    LZ4: hib_compression=lz4
+LZO is the default compression algorithm used with hibernation.
+
+Nikhil V (4):
+  PM: hibernate: Rename lzo* to make it generic
+  PM: hibernate: Move to crypto APIs for LZO compression
+  PM: hibernate: Add support for LZ4 compression for hibernation
+  PM: hibernate: Support to select compression algorithm
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ kernel/power/Kconfig                          |  25 ++-
+ kernel/power/hibernate.c                      |  83 +++++++-
+ kernel/power/power.h                          |  19 ++
+ kernel/power/swap.c                           | 189 +++++++++++-------
+ 5 files changed, 248 insertions(+), 74 deletions(-)
+
+-- 
+2.17.1
+
