@@ -2,161 +2,287 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA94E7F126
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 20:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E2EE7F127
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Sep 2023 20:22:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235812AbjIZUSS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Sep 2023 16:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57638 "EHLO
+        id S229580AbjIZUWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Sep 2023 16:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233232AbjIZUSR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 16:18:17 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2085.outbound.protection.outlook.com [40.107.94.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F8D193;
-        Tue, 26 Sep 2023 13:18:10 -0700 (PDT)
+        with ESMTP id S235787AbjIZUWR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Sep 2023 16:22:17 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2109.outbound.protection.outlook.com [40.107.93.109])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55C1011D;
+        Tue, 26 Sep 2023 13:22:08 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JAPb4ddjouvb5d7HUqn9bNbFod/DbsWlyz0gYL7R8PWbAI/c4jS88Az9mZ4Ps9SWt9VluVMK5Pqn0hs+bP5vs+QrtGt0osPtIwA2zv3a/DHKJLqoBmbjO+dAW5On1aPoI3TjILG5ZMZPwLtjtKLtXZIupkDLXEAMRVUWg+5sFeST2v2ISghupUPay1cWTqYqgpOfvHnRdnsMqh/zCmZBw2m/CU7qY2otmZWsZMfsAzWwVnq09Q1LnwFLILAEKG2NaLt4/ZAL5c4IYJ2aP3WiimMjw76ATgTLtZnWBhiCBIJlSxkGUMwcJdz8mKfOcZ8tzWOCa2nK53nrixBaCxYZcQ==
+ b=AzbfrA9rSKoeMWBFry80AxEPtVlkA8r2P4PwHpZE1KFA9nm9qY6gCW8pt7J6ooc4YoClBXGarqu2333iHWUP3UuqFhDIr1SWej13u4unn8LL10k2xw9mXZ7Oh2eHiPV6KZDw5evbknpp0+v0H5iFxofBDO+oV0RpZ1k1l3ybu8l3JpmRgHcOkWUewjjcKgEm93W0AL3a9qeBBLLxzYim7tjwPbQ7Wd6Nq76If+JA+RGrKXJsIm41zySqnI5DwFl2JAgIfnz3LfmsJLRL0B3n7STMWWaJg9cI9PZrsO4CWvGS8lTFLYluiQS/JVi2Ceagdp7MpOnHdlMOaCUOZV3OSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rURzeWuaPmtLdQQhJUepyN3wKraV/Qi2F3fYGw0kO/s=;
- b=HYL8pVEGaJi+1+SdxiDnB1e2Kx0EeRcZl1F+BFXTud4tJDrCIGNTRjThrWB2VLrNqhvlKSdMVUtzC6qMEDtUZFxn741NIod0xi17yxkmqf5w6xsg9xeS+JlA0RvtvBzWj4RNxX1adz8T0CxgislEbOaBShhium+U4PjFlHkn6ql0w69OUW2VZKro3gbS7x7sK/S7+y9p7X3HVGvO3Q7VelYch8DddREYuULxX4kuOYAe/f7beju5b+wC5J7wc9E+EHDdAzzVez4p19cozXnAwUs4R7lvBFhu1KIvZ4do9WF5/XynrXR2sxeQiRDulAgFpKHIkhyhlmsNys+mczHlZw==
+ bh=+2zLDXad2lfw0jP+BSyPpo8jTVHif7L6nO7a9qtQ26M=;
+ b=YQyRLcIiUktLVP9Vm6+rWwDvDfYxD+pDvOdQy93BJgy3HcnmTPXPNvGo/xvcsIfwIqthmXPY7RB8aUBRdkB9Y+xo6c+hoyK0NFTCmWmwNhKV2lC+HFhv/sxT+sr7wcdHRMurBY0uZDjOPQQBjenE+jxjEkPGt5bDEcFy6x1yTVm7fJPMaiCv0X8a1XErfcBO/mkrWvowjD0qRlsWITPlCYaK3m/VwKwjACrgHDHe05yKBXos8XcaD/CyQcduWHSjYA6It4gsonNeA8fM3VGKiWpLxx/t76/4daCdi++3c5sf8Du+kRx0dr0soWLlbwTOAzMn0TiocKhuwCME9w1k9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=ipt.br; dmarc=pass action=none header.from=ipt.br; dkim=pass
+ header.d=ipt.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipt.br; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rURzeWuaPmtLdQQhJUepyN3wKraV/Qi2F3fYGw0kO/s=;
- b=GRC2UReoc4j5EXlXwflzTe2XzHmtcW70P/khU/KcaZtFCU09QIee7B8B0wXPnLIyr9vxaZ5vokYLvOAsLbzPBm04fLqdYJ8r66SUu5CHQEuGy7b2CcgqxSkMjsywOzS+aVQ6NHhABAY7CuuktLmYW+hhoMSGLx12kSW5lrFqKOw=
+ bh=+2zLDXad2lfw0jP+BSyPpo8jTVHif7L6nO7a9qtQ26M=;
+ b=f2oAgOZjqoHeJMZeSElOzOTZdWnDi0CA2jlVfzYfSLW8+IGaI4gFBaSxEf23r03e+9JSLe8infKh2i1iMRm53WbHS93uXoFRMP4eG1t3SwBDXnw1qmch7XM+BTWhxVeR8OqTLo5XXtkgfOY9W821cu68EWqN9n8OVWxCAT+7Yus=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by BN9PR12MB5035.namprd12.prod.outlook.com (2603:10b6:408:134::8) with
+ header.d=none;dmarc=none action=none header.from=ipt.br;
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:1a4::6)
+ by CPWP152MB4270.LAMP152.PROD.OUTLOOK.COM (2603:10d6:103:10b::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Tue, 26 Sep
- 2023 20:18:07 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::fbfe:ec9c:b106:437e%5]) with mapi id 15.20.6838.016; Tue, 26 Sep 2023
- 20:18:06 +0000
-Message-ID: <4b011314-aa9b-1a92-d15a-5baabc77f1d2@amd.com>
-Date:   Tue, 26 Sep 2023 15:18:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v5 6/8] x86/resctrl: Sub NUMA Cluster detection and enable
-Content-Language: en-US
-To:     "Luck, Tony" <tony.luck@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "x86@kernel.org" <x86@kernel.org>
-Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-References: <20230722190740.326190-1-tony.luck@intel.com>
- <20230829234426.64421-1-tony.luck@intel.com>
- <20230829234426.64421-7-tony.luck@intel.com>
- <ceff3d3a-92a2-2e67-76a1-da5639f91162@amd.com>
- <SJ1PR11MB60838A29873FAAA50C9E9536FCC3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <3d0b98e7-9aeb-3a97-9861-707ed7a1db69@amd.com>
- <SJ1PR11MB60836E94B5DC0A2D7B5ED2C3FCC3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <SJ1PR11MB60836E94B5DC0A2D7B5ED2C3FCC3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR03CA0083.namprd03.prod.outlook.com
- (2603:10b6:5:333::16) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
+ 2023 20:22:04 +0000
+Received: from CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::7a85:9362:f3e7:ad3]) by CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::7a85:9362:f3e7:ad3%6]) with mapi id 15.20.6813.027; Tue, 26 Sep 2023
+ 20:22:04 +0000
+From:   Fernando Eckhardt Valle <fevalle@ipt.br>
+To:     ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
+        mpearson-lenovo@squebb.ca, corbet@lwn.net, hmh@hmh.eng.br,
+        markgross@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v6] platform/x86: thinkpad_acpi: sysfs interface to auxmac
+Date:   Tue, 26 Sep 2023 17:21:44 -0300
+Message-Id: <20230926202144.5906-1-fevalle@ipt.br>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CP5P284CA0080.BRAP284.PROD.OUTLOOK.COM
+ (2603:10d6:103:93::13) To CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
+ (2603:10d6:103:1a4::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|BN9PR12MB5035:EE_
-X-MS-Office365-Filtering-Correlation-Id: d63493d4-85af-46c4-30a0-08dbbecdb1ee
+X-MS-TrafficTypeDiagnostic: CPVP152MB5053:EE_|CPWP152MB4270:EE_
+X-MS-Office365-Filtering-Correlation-Id: 709985b3-2364-4a1f-6aba-08dbbece3f9f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sK+xEdyXDfGnxDyXQsry5Rcw9hOErQHCqrl5ZaIwe9q968tIncNEp7r7HFWnFyWHWfQHuPbJetskiO0NNqfaar/lGLFzLp3gvd3FHE0AnqwPf05nC4vuRUMaOjHWt+9LNOc89MQ2SVu0wMlPnI20hqHjnFa4W35QxBVI4o0bJSTU/b5nlnRH/i4l5qrTWPVY4ynA4CYcsVYBCUtXxfCesLYydSeBKL9T2It8pDwG6O8rpoC2giWjMYQ1nh4XU8zTcPrkzecNef8+jzks1cwUi5b9QT5DenBQHm6n3kJ9NfMt0FOw4wTzeO/23Fm+cxmhe7Ktn9N0Vx0RDbADALUUUFNjn56OzyEF715Mwc4QEKUu0vHCK66DjP5V6g9bAa6V2x7s3kgi/KA3BS33vn8r0TlSqE1nvRdaIdBRWbu73qOuD3oW1VGTMuV6jLP8g7TaQEOKJA6sMCUccUhddKqGd+ctkCoiJOCeeRHwnTmCw6yYjUQC1meQ5kCGDQCNGGF8uMyuis+m1Bf2TekDK69GexEbcDrdY98ngXsXVyaUHbr2RgDnEI6n9l6c+Fgu7GvMWWKz7oU4y+TOzBAfnLQ+WIT8og1nUp9itpUkuJnobk8yBUUegMzR/+tbW/7aUjBTQ/xcDnpuFgBFD7HJIepieFFd099+70l1BizJgSAEnUg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(376002)(346002)(39860400002)(396003)(230922051799003)(451199024)(1800799009)(186009)(6506007)(3450700001)(6512007)(54906003)(2616005)(7416002)(316002)(26005)(53546011)(110136005)(4326008)(8936002)(66556008)(4744005)(6666004)(478600001)(66946007)(66476007)(6486002)(41300700001)(2906002)(8676002)(31696002)(86362001)(38100700002)(36756003)(5660300002)(921005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: v1Rz8EyMjQqz1nRX0O+D84SOBR+yWU3waJvNmp0IALq0J2JEGmlU9uNZR1J2RSn7TavA90I3P9pzVVRQlbNPB3JOGIU7YZtIzPgMaYH9igr4JYbc/Qj0M6k6IdmeMXtL3L4FukhhFMELDyy+/0LEwZ/u8wFCHW6/7IHDQMCDZqf1XmNLksqoz04QWIEvvr7+uuXJpEEW9huCJnvXM2cD7aCtXhSZZVh7LsZRnDRFqO4LylSrfMFJOzxNDS0BBWhJ5mPCedacHMvxtCUC1KoBXj7WK3SAdU6FmDWV16kMSm0m7asUJWkfwwa+XYyR71uTFWG1xgKnM8IezqpFFv4ILr58RsVZkC3H0b/n4VfXncHJTv+ch3oT9H7wiOuS3m+xLP2QJHu59RuQzHREG2gWnhjmZSqxltuAehTnc8r01tL/DGGI+wuNvVg27VIHLZnzhz8yJcQ7eMunVnTA4qMHbR/AvkM5V92dm/IzTHeAatKwr8DsxbHiVMv/hM15sxGYcIRE7wVy5Badsly/KnrXcdCEV37FwxCpgRmyHiUcs3MjI84Lo5Y2aQ85iItYLhi/CUBFC81nV97S3Sd3Qb5kag==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(39850400004)(366004)(396003)(376002)(230922051799003)(1800799009)(186009)(451199024)(6512007)(6666004)(6486002)(52116002)(6506007)(83380400001)(921005)(86362001)(41320700001)(38100700002)(36756003)(1076003)(2616005)(2906002)(8676002)(8936002)(41300700001)(7416002)(66556008)(786003)(66946007)(316002)(66476007)(5660300002)(966005)(478600001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVBUSi9OZVptc3IxNFI1K3pOaERxOXFJVE12dzIyaFFZQ3pNNHpZWkxPYnNj?=
- =?utf-8?B?YXRBT0w0d08ySldWa1Q2U1hqSUhRNE9YZy85a3hCaVovVGNOa2V2UDVQOEto?=
- =?utf-8?B?NS9QaDNqQXY4enZSMEU2bS96azc0K1E0RnhHYlRHdHBMaEF1ZUdmQUREL3hG?=
- =?utf-8?B?NTNOQXk3aVR5OW5JdGRDYngzWnA4c2lXUFBZdlBBK0ZYN1VmSi85S29pY2xZ?=
- =?utf-8?B?b01iTDN2ZWozSG1YT3B5RW9kb0dVZGJmS1VNNmxWejFmbFU0bHdQVFY5VnRC?=
- =?utf-8?B?NGlsYisyU096R0NwVEZ2T25NMHY3cFVXQXN3TUl4OEd3WlFxbGtKYjZEZkpr?=
- =?utf-8?B?dUdtTHZZSzUyL0VmTW0rZlFxL3Y3Qkg2L3pna0lnL0hPK2tYQnpPcXBmYWsw?=
- =?utf-8?B?UzMzMzkwemxtYXMrVnRCc3FZRzQ2RnJkbzFiYkRrUXhnWldVV0hiTUlsUzBM?=
- =?utf-8?B?YktEOXhKb1I5MmQ3K1d6aTlpaXFVZjVienVKTkxhQUpMTjdQNzZ0Y0paZXEz?=
- =?utf-8?B?dFV3a0FNWWVmRTlSNFU2ZDZSK2szcWVZMlI0OU1xV2JVU0ZhTjdPemRFM21s?=
- =?utf-8?B?T0xkcHFUVFZjbzE3ekVhTU50SGJ0bFc1TUw1MVhwckQ2MlZ2SnY4c2hnVkhE?=
- =?utf-8?B?YXZyYnVxVWdXWTltR1JvaWRHS2ZqRmEwM0RDNjF0Q2JZVDhPT2RoR0JhR2R1?=
- =?utf-8?B?VnN6ZUZvVHlYTS9oSHhkOE9IT2k5cUM4cGlvaHZSNEZQK2FTeFJmWldiREds?=
- =?utf-8?B?SnJtMFlpNDdNc3ltRkVHNEhGSDVyUm1sdFVvRHdEd0IyaDR1UG1mSyttVi9M?=
- =?utf-8?B?RWZvUU5Eb281MUk5aTQ3a21meDdnbHV5TmJ6RGZxZ2RKRld0K2pKSmNFcWc3?=
- =?utf-8?B?aFBiWXYwNXZwa2dEL25Sam5VT1FMc0V6TnF3cTV5UkJDazJEL3k5RnJWK1FJ?=
- =?utf-8?B?ZmhSMlVpcVJsYi8zanFRRWxRYUFoRWVpOEg0RkhWdi8rZUhTcVpKRDZiRjdD?=
- =?utf-8?B?c0pOdXk3MVVyT0t4MFd5dSs4VnZOQktWaG1ObHlUMUdvV1lDL2dIZS9WVlV2?=
- =?utf-8?B?VWZaNlVub0xGRUwrdDdqaWpJd003Y3k4S0tpUW9iUlc5TDNqc0dxdXBBRytB?=
- =?utf-8?B?Y3U2cFhYUnFwOWRiT00yTTE2bnVqYnUxZUZacEZXN2x4dkpYNkI1T25rZENI?=
- =?utf-8?B?WXVmcktIN1pibnl4dEI2bDdGcmtNQUFycVVKN3JaNmF3aDJZN1ZTMWphWW40?=
- =?utf-8?B?ajRzSFBOUjd3ZnQ1WmVFRVpiTkxXdFJ3c0pSWmxCSHFnMG15emxDa0hXYVlH?=
- =?utf-8?B?WERxRlVDWDJnR3ppYzYzUHNQVmhHWFF5b2RKbDBmYnhGTHFoWEhxdmo1NmdC?=
- =?utf-8?B?S3BFR2xQUE9URDhvdXZxSG54TWdwdW1QelZRUGVGSnY1b2NHNlVYOERsWG5P?=
- =?utf-8?B?dUR1ZDZqd2VVRnNrTkRHYUxmOUJyKytDbHV2L3g4a3BvLzVZTVlhMzBpWENU?=
- =?utf-8?B?ZEhuTVUxY3lRenVaeW4xengwY1UyZnpIaFBpQXIrODlXS2hUeGthaU9PVzJH?=
- =?utf-8?B?MENvelpJeXdEMnQyM0QvTnowK0F4UGpaZUg2M2pNcjNUbWwvVGwxU1N2Ly96?=
- =?utf-8?B?djdJOFIzR1pzTTlVa2o4S1ZwcmY0Vlc5cWVVQU5DblZGOVpGTklQV2YyNDFo?=
- =?utf-8?B?d2Z0cG94U3pCRFgwWGQyeTBuZjc2SUhtR2tOVElGdVovVE5aNzdWdUE3YkJR?=
- =?utf-8?B?ZlFtckRFZmV1cE5qYkVSUm1UQktiTzNGQUxsdWFVeUxOa3VoRk1qc2gyaUNC?=
- =?utf-8?B?c3MxT2JRZExBcDhieXVmR3Myb0o3SHUxRThKRVNnMHMxRXhudEVXYXhOWHNh?=
- =?utf-8?B?VkdRbjBJck1MN1VicG03eHhNa3cvc2xIUC9sakZYMHR6dXJ1c09XSE9sODlo?=
- =?utf-8?B?WG5yU3B6Z3JISmxkazJueXBTdmtqSndtKy9KUlpZUnRxUG1aVzl2Y2w0ZFZF?=
- =?utf-8?B?ci9rMWYvT0Q1SjRETENGWHplU3RDcE5UZFJ0Q3A5Y0JXRHl6VVh0eHk4UElX?=
- =?utf-8?B?TVB0Nm54M3FHb1VLd0hYVnB2WmMydWs1bWFYSDJkVmd5QisyOGxwSWdidE80?=
- =?utf-8?Q?Q1c+UuNhQBAraxur50Bco2S+X?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d63493d4-85af-46c4-30a0-08dbbecdb1ee
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lVPtLVhCa4WQ/ZbeFZYhFDLdJgwRghk2xmd9gEqfI0j6zEaVaU8RfbZSjsRu?=
+ =?us-ascii?Q?7PvVn9iOTmbplhae9zyE03L6BWDEpSeCzm1ePGqmWuLXK1m9p5nUcQ8vEsPc?=
+ =?us-ascii?Q?Sd5BOba4R0U5BLqV4Ir8TPlcRSavfO9aP9BCo2Csp3RVZwm6KxBmZKQVkumv?=
+ =?us-ascii?Q?+1BvRt0YWOdBSEESoPB9hlYXfZKwjdJS0PXOXwn+0gQEMpgISsghQ3QkmQ42?=
+ =?us-ascii?Q?RHpgQhxuY3pPZH7vjbVwNsDqogfRqmLH+FvpUKcQZN/cszzrn8m9cms3Yp85?=
+ =?us-ascii?Q?Aeyu9PaKlwpid7UguRWhjxpbGtdJlWfntplF+GkwPH8rDg5xs3XMT0ntpMjR?=
+ =?us-ascii?Q?OgQEe7RcBrZK/TuuFL4nksWWJ3UJ9NdP/kf5dNRWO0m3PMkxARQVqRBOJ1cx?=
+ =?us-ascii?Q?fs6fbDlHCA1TZJUyg64MdrxEbBCkj09X8EGXw5NRZpYR1z89A8BIqJqJx19F?=
+ =?us-ascii?Q?NjZ2/mTPTMJjZ0rPOcUeI1C9KNGroU+E3H0av3LyqpyPYygRA0wHVQbElysm?=
+ =?us-ascii?Q?4y8HNHeXquC/yqlLD+zk8QFFbAOdIZIiy1BTlOPKZ+fJB0arW+93S8KFM7CJ?=
+ =?us-ascii?Q?Tn3cNs8olOBO/tmz4IR8nBM43jeB6gEKmhAWRvPIeAKvPLgrnhhpCGMKfNj3?=
+ =?us-ascii?Q?iYhWAfaN2bC3a/+bf8vKHMQRHGRjKLndnl9B1Vluao0xUATs5E23mXDTydZ4?=
+ =?us-ascii?Q?MmJit5alNtOmysL0yWDDnW1cF1MOKFPcUiQtBZj5A9C8oGj7csQraJRI5ywH?=
+ =?us-ascii?Q?y6MTUTo0ExZ3FyuP3Fi40BmZRctX2eptZ8ZOGGvYlhX6HOPHPkqw1rUUaA8R?=
+ =?us-ascii?Q?Jhyd1/cgMewnj24OQzIHWCfqSwQQXrlYm1sghoE3PBbwrSqg+ObrWSA9Mavx?=
+ =?us-ascii?Q?cVioCJ0+ITKGKG2js5EgvNMORO44KoVMvT5Nx4IhWMumMA/HGMM3c3Uk/I6c?=
+ =?us-ascii?Q?s5ZmdeZkvIhN9AXinP9TTU8mPo/wRHd+kGg13UtVsMc5EmmxMEBm1MNISuTe?=
+ =?us-ascii?Q?ApLScTFujfcsrVFm8RUPqr36iRbqInp7+0IMGJbdC5oDolv3wR9eBaWUmDmL?=
+ =?us-ascii?Q?XkCCy2K9YSCInbkrzyJ60wPJ1mAvzeLqSAEUIr/KSya8ZG2pRkt1dgupcQ/h?=
+ =?us-ascii?Q?Cq07MfAb8WIwPUa1GLG819RqC4sqhZuTqpuxPQTbIxf902ZiaLQh9FGNDVno?=
+ =?us-ascii?Q?X7GUh3bFIfdFjV8o9ecM0zwoXBfoJ1U7IrjmkurHTQVtXT3/c9DHGbS6eCla?=
+ =?us-ascii?Q?Pm2YwVMJbtgm9+0A/7hFBJUkS62S+StYTs6PiPgXD8AE1L6JXxaZeTQeivR0?=
+ =?us-ascii?Q?YWAjDMJhCbR1jXbRPhgfLrKwtXXW1Veq7dyvHM3lwmmrdjumcnPTpUrRk2KA?=
+ =?us-ascii?Q?wx851lVEl7sdp0Ls4lqZvSijC+V5FxFQiDPQRRyJzz+pg9n9EyX5tEUZh8No?=
+ =?us-ascii?Q?l1byC8cU1xbnZvDYBvkl2RrdFMFXsp6S31FSzjhR59o5B89q8L/Qqa6uwrrc?=
+ =?us-ascii?Q?m+5iL5rA1xYUx19t6mkVBHIZhxnSdAxw6qzBcqdmzlNTVsLOhed51Tx4oGEo?=
+ =?us-ascii?Q?FXEUwGlnwmPU+yOx9rYplHjiyYjrWxGqLc6oK81XGEMnP1Xhb1fcrBYORkXN?=
+ =?us-ascii?Q?y9YeQhhJ2MyWXXK1jLjqlkBzwH/IV38FNVk8oWTjt0E3?=
+X-OriginatorOrg: ipt.br
+X-MS-Exchange-CrossTenant-Network-Message-Id: 709985b3-2364-4a1f-6aba-08dbbece3f9f
+X-MS-Exchange-CrossTenant-AuthSource: CPVP152MB5053.LAMP152.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 20:18:06.7082
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 20:22:04.4373
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: aab57f47-5b85-4924-8047-691190100bd7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dqb93Hx1o+kVgc+65XUyqm9im1AerFcudjKrJITqWK6e+gptGI/pD2dYVGuEYdM6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5035
+X-MS-Exchange-CrossTenant-UserPrincipalName: rELzkzwMakZaPpQb2wQCvYH+C5F06rPeQEFAciixg9oV28BvlphrcQ5LXgbmSOio
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPWP152MB4270
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Newer Thinkpads have a feature called MAC Address Pass-through.
+This patch provides a sysfs interface that userspace can use
+to get this auxiliary mac address.
 
+Signed-off-by: Fernando Eckhardt Valle <fevalle@ipt.br>
+---
+Changes in v6:
+- New adjustment to the strcpy() offset.
+- Added is_visible attribute.
+Changes in v5:
+- Repeated code deleted.
+- Adjusted offset of a strscpy().
+Changes in v4:
+- strscpy() in all string copies.
+Changes in v3:
+- Added null terminator to auxmac string when copying auxiliary
+mac address value.
+Changes in v2:
+- Added documentation.
+- All handling of the auxmac value is done in the _init function.
+---
+ .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+ drivers/platform/x86/thinkpad_acpi.c          | 88 +++++++++++++++++++
+ 2 files changed, 108 insertions(+)
 
-On 9/26/23 15:02, Luck, Tony wrote:
->>>>> +#include <linux/mod_devicetable.h>
->>>>
->>>> I didn't see the need for this include.
->>>
->>> struct x86_cpu_id is defined in this #include file.
->>
->> Actually, the file <asm/cpu_device_id.h> already includes the above file.
-> 
-> It does today. Will it include it next week when somebody has to
-> re-arrange things to resolve some #include dependency?
-> 
-> I thought there was a guideline somewhere that says to #include
-> the files that define the things you use. Not just rely on chains of
-> #includes. But some simple grep's haven't found that written in
-> Documentation/*
-
-Yea. correct. There is no guidelines. Lets keep the #include
-<linux/mod_devicetable.h>
-
+diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+index e27a1c3f6..98d304010 100644
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -53,6 +53,7 @@ detailed description):
+ 	- Lap mode sensor
+ 	- Setting keyboard language
+ 	- WWAN Antenna type
++	- Auxmac
+ 
+ A compatibility table by model and feature is maintained on the web
+ site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+@@ -1511,6 +1512,25 @@ Currently 2 antenna types are supported as mentioned below:
+ The property is read-only. If the platform doesn't have support the sysfs
+ class is not created.
+ 
++Auxmac
++------
++
++sysfs: auxmac
++
++Some newer Thinkpads have a feature called MAC Address Pass-through. This
++feature is implemented by the system firmware to provide a system unique MAC,
++that can override a dock or USB ethernet dongle MAC, when connected to a
++network. This property enables user-space to easily determine the MAC address
++if the feature is enabled.
++
++The values of this auxiliary MAC are:
++
++        cat /sys/devices/platform/thinkpad_acpi/auxmac
++
++If the feature is disabled, the value will be 'disabled'.
++
++This property is read-only.
++
+ Adaptive keyboard
+ -----------------
+ 
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index d70c89d32..9c19624a7 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -10785,6 +10785,89 @@ static struct ibm_struct dprc_driver_data = {
+ 	.name = "dprc",
+ };
+ 
++/*
++ * Auxmac
++ *
++ * This auxiliary mac address is enabled in the bios through the
++ * MAC Address Pass-through feature. In most cases, there are three
++ * possibilities: Internal Mac, Second Mac, and disabled.
++ *
++ */
++
++#define AUXMAC_LEN 12
++#define AUXMAC_START 9
++#define AUXMAC_STRLEN 22
++#define AUXMAC_BEGIN_MARKER 8
++#define AUXMAC_END_MARKER 21
++
++static char auxmac[AUXMAC_LEN + 1];
++
++static int auxmac_init(struct ibm_init_struct *iibm)
++{
++	acpi_status status;
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
++	union acpi_object *obj;
++
++	status = acpi_evaluate_object(NULL, "\\MACA", NULL, &buffer);
++
++	if (ACPI_FAILURE(status))
++		return -ENODEV;
++
++	obj = buffer.pointer;
++
++	if (obj->type != ACPI_TYPE_STRING || obj->string.length != AUXMAC_STRLEN) {
++		pr_info("Invalid buffer for MAC address pass-through.\n");
++		goto auxmacinvalid;
++	}
++
++	if (obj->string.pointer[AUXMAC_BEGIN_MARKER] != '#' ||
++	    obj->string.pointer[AUXMAC_END_MARKER] != '#') {
++		pr_info("Invalid header for MAC address pass-through.\n");
++		goto auxmacinvalid;
++	}
++
++	if (strncmp(obj->string.pointer + AUXMAC_START, "XXXXXXXXXXXX", AUXMAC_LEN) != 0)
++		strscpy(auxmac, obj->string.pointer + AUXMAC_START, sizeof(auxmac));
++	else
++		strscpy(auxmac, "disabled", sizeof(auxmac));
++
++free:
++	kfree(obj);
++	return 0;
++
++auxmacinvalid:
++	strscpy(auxmac, "unavailable", sizeof(auxmac));
++	goto free;
++}
++
++static struct ibm_struct auxmac_data = {
++	.name = "auxmac",
++};
++
++static ssize_t auxmac_show(struct device *dev,
++			   struct device_attribute *attr,
++			   char *buf)
++{
++	return sysfs_emit(buf, "%s\n", auxmac);
++}
++static DEVICE_ATTR_RO(auxmac);
++
++static umode_t auxmac_attr_is_visible(struct kobject *kobj,
++				      struct attribute *attr, int n)
++{
++	return auxmac[0] == 0 ? 0 : attr->mode;
++}
++
++static struct attribute *auxmac_attributes[] = {
++	&dev_attr_auxmac.attr,
++	NULL
++};
++
++static const struct attribute_group auxmac_attr_group = {
++	.is_visible = auxmac_attr_is_visible,
++	.attrs = auxmac_attributes,
++};
++
+ /* --------------------------------------------------------------------- */
+ 
+ static struct attribute *tpacpi_driver_attributes[] = {
+@@ -10843,6 +10926,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+ 	&proxsensor_attr_group,
+ 	&kbdlang_attr_group,
+ 	&dprc_attr_group,
++	&auxmac_attr_group,
+ 	NULL,
+ };
+ 
+@@ -11414,6 +11498,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+ 		.init = tpacpi_dprc_init,
+ 		.data = &dprc_driver_data,
+ 	},
++	{
++		.init = auxmac_init,
++		.data = &auxmac_data,
++	},
+ };
+ 
+ static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
 -- 
-Thanks
-Babu Moger
+2.25.1
+
