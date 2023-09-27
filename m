@@ -2,106 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAEBFE810B5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 09:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F0EAE810BF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 10:29:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbjI0Jz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Sep 2023 05:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44450 "EHLO
+        id S230345AbjI0K3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Sep 2023 06:29:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230461AbjI0Jz2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 05:55:28 -0400
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DCC0AEB;
-        Wed, 27 Sep 2023 02:55:25 -0700 (PDT)
-Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
+        with ESMTP id S230057AbjI0K3e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 06:29:34 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E58413A;
+        Wed, 27 Sep 2023 03:29:33 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mail.8bytes.org (Postfix) with ESMTPSA id 4F8C51A2317;
-        Wed, 27 Sep 2023 11:55:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-        s=default; t=1695808524;
-        bh=BDI7NuvcdVt/emhHi62PabcawiLywtBEcxLt+G847YM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bJ/0NZxxI8l619eMViTN7wFColaAK2C1MPyqL9FW/o8oWbcGgurcTymg7qYfnv2Za
-         8eFN6JofYvpBcVna5x6SdpHz5PZL8hmEwxDQgaep3/HiQgeUWy4U5YHirYA1sszR8J
-         e7ewyfn2eCMIYpUr+BrGwz67R3IjLc410DYmaJiPyv+1Fc53ag6teNCgufMzfRTaYd
-         X+RQSNMGK+8w3hxgWaYEpnjqVeyU+g+qhDc5yTY7Quvw9wkOxUIXHcLEN3aJmQIMvW
-         2RoCQvwl2aQDtZF06zge3qV3VdPsrkOYdzHaaS7L2KgRXAKDke4iUYkX7n/e0UMIYo
-         xLYhyuiRZPN8g==
-Date:   Wed, 27 Sep 2023 11:55:22 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Niklas Schnelle <schnelle@linux.ibm.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        by smtp-out2.suse.de (Postfix) with ESMTPS id F3A351F8BF;
+        Wed, 27 Sep 2023 10:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1695810572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=rP7S0ANGoMb7Uz5mjWZ/A4o8VAuP1EC/g6JTEYjPOt4=;
+        b=quIdHtqa2DXfk0tQV34H9Q6e3vypWHU0PlMiwAxsy3pWaE08Fjmb0PXabLQ2AJZZDuui0R
+        fmjHlbmZdlBbZAgvG4b1C7sNLswT7BZstO0zhayXFfRkluPxUwzm8XM1iTGMlohg5X3e6x
+        o1AI0ZZRGJBb95khkYktalpPpgQ5Wbc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1695810572;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=rP7S0ANGoMb7Uz5mjWZ/A4o8VAuP1EC/g6JTEYjPOt4=;
+        b=8e5VrNfUxbpzsKj9DcHYXMO70/tqhn7AfS98RrYlMfkpZY5gdyYLWVCu2St4PjnQZ+VPrm
+        e82eU5egmSIoiHCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9CA213479;
+        Wed, 27 Sep 2023 10:29:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 4DSONAsEFGWkMwAAMHmgww
+        (envelope-from <chrubis@suse.cz>); Wed, 27 Sep 2023 10:29:31 +0000
+From:   Cyril Hrubis <chrubis@suse.cz>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Message-ID: <ZRP8CiBui7suB5D6@8bytes.org>
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
- <ZRLy_AaJiXxZ2AfK@8bytes.org>
- <20230926160832.GM13795@ziepe.ca>
- <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
+Cc:     ltp@lists.linux.it, Cyril Hrubis <chrubis@suse.cz>
+Subject: [PATCH v2 0/2] Fix sched-rt sysctl files & update docs
+Date:   Wed, 27 Sep 2023 12:30:10 +0200
+Message-ID: <20230927103012.9587-1-chrubis@suse.cz>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Niklas,
+- First patch fixes sched-rt sysctl files to disallow writing invalid
+  values
 
-On Wed, Sep 27, 2023 at 10:55:23AM +0200, Niklas Schnelle wrote:
-> The problem is that something seems to  be broken in the iommu/core
-> branch. Regardless of whether I have my DMA API conversion on top or
-> with the base iommu/core branch I can not use ConnectX-4 VFs.
+- Second patch is new in v2 and clarifies and fixes the documentation
+  for these files and is actually independent of the first patch
 
-Have you already tried to bisect the issue in the iommu/core branch?
-The result might sched some light on the issue.
+Cyril Hrubis (2):
+  sched/rt: Disallow writing invalid values to sched_rt_period_us
+  docs: scheduler-rt: Clarify & fix sched_rt_* sysctl docs
 
-Regards,
+ Documentation/scheduler/sched-rt-group.rst | 14 ++++++++------
+ kernel/sched/rt.c                          |  9 +++++----
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-	Joerg
+-- 
+2.41.0
+
