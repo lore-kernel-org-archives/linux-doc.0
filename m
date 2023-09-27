@@ -2,96 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A38CBE82CA1
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 17:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB566E82CBB
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 18:16:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229450AbjI0Rjk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Sep 2023 13:39:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52566 "EHLO
+        id S229437AbjI0SQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Sep 2023 14:16:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjI0Rjk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 13:39:40 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EACCA1
-        for <linux-doc@vger.kernel.org>; Wed, 27 Sep 2023 10:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695836379; x=1727372379;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q4yaeR1nQ4U0v+XEYM1mG5MhTSyAq16ln08WXB6MYgM=;
-  b=W9BMFN+lY+OwO213h51zgzMIkQE6xStIkqF3bjeZdcos6Qdcnc5+Kc5D
-   kwgI5Ff/EpfWn03Ge8Sb7pS9XUq65+nTUleHkk6Xs1Iw7vz99IdZF70lr
-   H9Z0MwekaoaF8OHEsqYJRBzo/XcftalcUqc9JJcxszCDtkZZtNVXQjEhY
-   kiHbFgHjzJiEH1VCXnUIc+50PLqHfl6rlWR/67IPxcYyJIghcnexp2oZ0
-   aclQbWrU7B8O2di1MfDKUqXhmBWBUBMfuuTnOzWUrpVg6JPi0W42Bp3GS
-   vPKHd936TyZ5LIdXwo7C32iZc9hN0gMtw9Hv/+S6SvuzqSNQkMN/GLisv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="366946734"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="366946734"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 10:39:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="996241258"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="996241258"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Sep 2023 10:39:36 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qlYVa-0000Uy-0M;
-        Wed, 27 Sep 2023 17:39:34 +0000
-Date:   Thu, 28 Sep 2023 01:39:09 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Wendy Liang <wendy.liang@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
-        Michal Simek <monstr@monstr.eu>, linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 99/1370] dtbs_check:
- Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml:
- title: 'Xilinx R5 remote processor controller bindings' should not be valid
- under {'pattern': '([Bb]inding| [Ss]chema)'}
-Message-ID: <202309280102.voVpNtnO-lkp@intel.com>
+        with ESMTP id S229612AbjI0SQp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 14:16:45 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 Sep 2023 11:16:43 PDT
+Received: from out-204.mta1.migadu.com (out-204.mta1.migadu.com [IPv6:2001:41d0:203:375::cc])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB07E5
+        for <linux-doc@vger.kernel.org>; Wed, 27 Sep 2023 11:16:43 -0700 (PDT)
+Message-ID: <4018c0b0-b288-ff60-09be-7ded382f4a82@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1695838151;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=G57rpo1++Zl3if+NiAqrdipXpzXF4O8DuKQxu1acs6Y=;
+        b=UGSLpovy39IQoNTjV00vQzdXtByKcO1708I/wTtTwg0OrqG2knrgm8aQAaFR+aRxapBNZD
+        vxMcXn3hDzXXlL8hTEK+Mtk75UQDk6uk+QSSlqrcLOVdxsH9/Ntr3E0wWIfM7+LXPCVLDC
+        fFu9aRtEQyDi2wMZo8tyiSksRgcGiaA=
+Date:   Wed, 27 Sep 2023 19:09:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH net-next 3/4] dpll: netlink/core: add support for pin-dpll
+ signal phase offset/adjust
+Content-Language: en-US
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        netdev@vger.kernel.org
+Cc:     jiri@resnulli.us, corbet@lwn.net, davem@davemloft.net,
+        kuba@kernel.org, pabeni@redhat.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, linux-doc@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org
+References: <20230927092435.1565336-1-arkadiusz.kubalewski@intel.com>
+ <20230927092435.1565336-4-arkadiusz.kubalewski@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20230927092435.1565336-4-arkadiusz.kubalewski@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 4a9dac9504e729fa23e81c5c83edfeb9a8f91721 [99/1370] dt-binding: soc: xilinx: ai-engine: Add new AI engine binding
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230928/202309280102.voVpNtnO-lkp@intel.com/reproduce)
+On 27/09/2023 10:24, Arkadiusz Kubalewski wrote:
+> Add callback op (get) for pin-dpll phase-offset measurment.
+> Add callback ops (get/set) for pin signal phase adjustment.
+> Add min and max phase adjustment values to pin proprties.
+> Invoke get callbacks when filling up the pin details to provide user
+> with phase related attribute values.
+> Invoke phase-adjust set callback when phase-adjust value is provided for
+> pin-set request.
+> 
+> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309280102.voVpNtnO-lkp@intel.com/
+[...]
 
-dtcheck warnings: (new ones prefixed by >>)
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/power/fsl,scu-pd.yaml: title: 'i.MX SCU Client Device Node - Power domain bindings based on SCU Message Protocol' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/net/wireless/microchip,wilc1000.yaml: title: 'Microchip WILC wireless devicetree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/rng/ingenic,trng.yaml: title: 'Bindings for DTRNG in Ingenic SoCs' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml: title: 'Xilinx R5 remote processor controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/net/wireless/esp,esp8089.yaml: title: 'Espressif ESP8089 Device Tree Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/clock/qcom,camcc-sm8250.yaml: title: 'Qualcomm Camera Clock & Reset Controller Binding for SM8250' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/gpu/vivante,gc.yaml: title: 'Vivante GPU Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+> +static int
+> +dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr *phase_adj_attr,
+> +		       struct netlink_ext_ack *extack)
+> +{
+> +	struct dpll_pin_ref *ref;
+> +	unsigned long i;
+> +	s32 phase_adj;
+> +	int ret;
+> +
+> +	phase_adj = nla_get_s32(phase_adj_attr);
+> +	if (phase_adj > pin->prop->phase_range.max ||
+> +	    phase_adj < pin->prop->phase_range.min) {
+> +		NL_SET_ERR_MSG(extack, "phase adjust value not supported");
+> +		return -EINVAL;
+> +	}
+> +	xa_for_each(&pin->dpll_refs, i, ref) {
+> +		const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
+> +		struct dpll_device *dpll = ref->dpll;
+> +
+> +		if (!ops->phase_adjust_set)
+> +			return -EOPNOTSUPP;
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'm thinking about this part. We can potentially have dpll devices with
+different expectations on phase adjustments, right? And if one of them
+won't be able to adjust phase (or will fail in the next line), then
+netlink will return EOPNOTSUPP while _some_ of the devices will be
+adjusted. Doesn't look great. Can we think about different way to apply
+the change?
+
+
+> +		ret = ops->phase_adjust_set(pin,
+> +					    dpll_pin_on_dpll_priv(dpll, pin),
+> +					    dpll, dpll_priv(dpll), phase_adj,
+> +					    extack);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	__dpll_pin_change_ntf(pin);
+> +
+> +	return 0;
+> +}
+> +
