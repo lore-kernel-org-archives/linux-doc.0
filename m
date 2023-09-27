@@ -2,104 +2,233 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAE43E82CA3
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 14:52:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ABF6E82CA6
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 15:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232245AbjI0Ow5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Sep 2023 10:52:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
+        id S232398AbjI0PTe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Sep 2023 11:19:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232243AbjI0Owy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 10:52:54 -0400
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F7BF5;
-        Wed, 27 Sep 2023 07:52:52 -0700 (PDT)
-Received: from [127.0.0.1] ([98.35.210.218])
-        (authenticated bits=0)
-        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 38REpsBI2813248
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Wed, 27 Sep 2023 07:51:55 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 38REpsBI2813248
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2023091101; t=1695826316;
-        bh=MhJAHO9v2jzk2PvwqyNGETAyG1UpCoLntbh2yXQZUBo=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=aMHkj4DOv6DVKNQ2jE/JqTDv2qBKCKxAShqmzZ7y7C+Zw/OitN+OuLKpupSaDjwJz
-         vTeT5e4dp5j+0WoGrSNvIE+EYfKhq/Gbny4pLZzhEX0Z9E48d2Uo8zrv3W/biN0xWK
-         3nyBImm5pKOvKWPV+Qe000I/N5m43n7LNsOG2JUPA3iYHFO+sLliz82f5g/4SakiEz
-         OQR2CAx3IaHTxan5Pu6I1KGdyw27lHWo8cyikgm37DNdsPcruVzwRsapJKcnsJk9JW
-         I+g+vN1DXdpNzgIPOIV7Eu/zalBGDTREa5xWlPpQbACtoARZonM7Lecng3qmQMWZzr
-         eWmUR/REs6aOg==
-Date:   Wed, 27 Sep 2023 07:51:52 -0700
-From:   "H. Peter Anvin" <hpa@zytor.com>
-To:     Nikolay Borisov <nik.borisov@suse.com>, Xin Li <xin3.li@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-CC:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, luto@kernel.org,
-        pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
-        jgross@suse.com, ravi.v.shankar@intel.com, mhiramat@kernel.org,
-        andrew.cooper3@citrix.com, jiangshanlai@gmail.com
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v11_05/37=5D_x86/trapnr=3A_Ad?= =?US-ASCII?Q?d_event_type_macros_to_=3Casm/trapnr=2Eh=3E?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <7acd7bb3-0406-4fd9-8396-835bfd951d87@suse.com>
-References: <20230923094212.26520-1-xin3.li@intel.com> <20230923094212.26520-6-xin3.li@intel.com> <7acd7bb3-0406-4fd9-8396-835bfd951d87@suse.com>
-Message-ID: <22A5EA90-8B57-4376-BAE2-0FE982DF4E90@zytor.com>
+        with ESMTP id S230274AbjI0PTe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 11:19:34 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E1581AA;
+        Wed, 27 Sep 2023 08:19:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CEDFC433C7;
+        Wed, 27 Sep 2023 15:19:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695827970;
+        bh=KMukbBBeXV+l1cuq0Jp1Wo0ccigkbIimAikppeeUBdo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G89s4vfLyLbRHxXx784woGm8pxlfza/V2sFYJjv8+uizc/xzGdCPdbR3lMo4D1xFh
+         Zc1Mv0GuT0foHxGRV27J4PRopQVoQ2DR2QIuX4d0qQqkpYzwGzv0UVkc0lNa99D8Tp
+         /1zbmrvFTealguaZAdaE5va8auj5qpgGhXstXoz3yYxzCROEHE0nm/yPVtJs/I68pq
+         8YznlGWm8GV8bccFmcs2gCM+xWo2L1idm7fkLyN1BZW5UAo1iz8KMl0oAAIhw4ULHs
+         emrcjptFlj7UU/hf+TguuP4d2Que/MrSTMxhiLuekfgLhWcxUcqEmi/ToTHkb5n3Ln
+         tv4IaJVK+WKog==
+Date:   Wed, 27 Sep 2023 16:19:26 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: ltc2991: add bindings
+Message-ID: <20230927-curve-trodden-5f8f150aa738@spud>
+References: <20230926140544.80934-1-antoniu.miclaus@analog.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="iuF1VGb0w26bLJMI"
+Content-Disposition: inline
+In-Reply-To: <20230926140544.80934-1-antoniu.miclaus@analog.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On September 26, 2023 1:10:51 AM PDT, Nikolay Borisov <nik=2Eborisov@suse=
-=2Ecom> wrote:
->
->
->On 23=2E09=2E23 =D0=B3=2E 12:41 =D1=87=2E, Xin Li wrote:
->> Intel VT-x classifies events into eight different types, which is
->> inherited by FRED for event identification=2E As such, event type
->> becomes a common x86 concept, and should be defined in a common x86
->> header=2E
->>=20
->> Add event type macros to <asm/trapnr=2Eh>, and use it in <asm/vmx=2Eh>=
-=2E
->>=20
->> Suggested-by: H=2E Peter Anvin (Intel) <hpa@zytor=2Ecom>
->> Tested-by: Shan Kang <shan=2Ekang@intel=2Ecom>
->> Signed-off-by: Xin Li <xin3=2Eli@intel=2Ecom>
->> ---
->>=20
->> Changes since v10:
->> * A few comment fixes and improvements (Andrew Cooper)=2E
->> ---
->>   arch/x86/include/asm/trapnr=2Eh | 12 ++++++++++++
->>   arch/x86/include/asm/vmx=2Eh    | 17 +++++++++--------
->>   2 files changed, 21 insertions(+), 8 deletions(-)
->>=20
->> diff --git a/arch/x86/include/asm/trapnr=2Eh b/arch/x86/include/asm/tra=
-pnr=2Eh
->> index f5d2325aa0b7=2E=2E8d1154cdf787 100644
->> --- a/arch/x86/include/asm/trapnr=2Eh
->> +++ b/arch/x86/include/asm/trapnr=2Eh
->> @@ -2,6 +2,18 @@
->>   #ifndef _ASM_X86_TRAPNR_H
->>   #define _ASM_X86_TRAPNR_H
->>   +/*
->> + * Event type codes used by FRED, Intel VT-x and AMD SVM
->> + */
->> +#define EVENT_TYPE_EXTINT	0	// External interrupt
->> +#define EVENT_TYPE_RESERVED	1
->> +#define EVENT_TYPE_NMI		2	// NMI
->> +#define EVENT_TYPE_HWEXC	3	// Hardware originated traps, exceptions
->> +#define EVENT_TYPE_SWINT	4	// INT n
->> +#define EVENT_TYPE_PRIV_SWEXC	5	// INT1
->> +#define EVENT_TYPE_SWEXC	6	// INTO, INT3
->
->nit: This turned into INTO (Oh) rather than INT0( zero) in v11
->
-><nit>
 
-INTO (letter) is correct=2E
+--iuF1VGb0w26bLJMI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Tue, Sep 26, 2023 at 05:05:29PM +0300, Antoniu Miclaus wrote:
+> Add dt-bindings for ltc2991 octal i2c voltage, current and temperature
+> monitor.
+>=20
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> ---
+>  .../bindings/hwmon/adi,ltc2991.yaml           | 114 ++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2991.y=
+aml
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml b/D=
+ocumentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> new file mode 100644
+> index 000000000000..6174e0113ef8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> @@ -0,0 +1,114 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/adi,ltc2991.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices LTC2991 Octal I2C Voltage, Current and Temperature=
+ Monitor
+> +
+> +maintainers:
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +
+> +description: |
+> +  The LTC2991 is used to monitor system temperatures, voltages and curre=
+nts.
+> +  Through the I2C serial interface, the eight monitors can individually =
+measure
+> +  supply voltages and can be paired for differential measurements of cur=
+rent
+> +  sense resistors or temperature sensing transistors.
+> +
+> +  Datasheet:
+> +    https://www.analog.com/en/products/ltc2991.html
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ltc2991
+
+if you aren't expecting to add other devices that can share the binding,
+make this const: rather than enum:.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  vcc-supply: true
+> +
+> +patternProperties:
+> +  "^channel@[0-3]$":
+> +    type: object
+> +    description: |
+
+The |s are only needed when you have formatting to preserve.
+
+> +      Represents the differential/temperature channels.
+> +
+> +    properties:
+> +      reg:
+> +        description: |
+> +          The channel number. LTC2992 can monitor 4 currents/temperature=
+s.
+> +        items:
+> +          minimum: 0
+> +          maximum: 3
+> +
+> +      shunt-resistor-mili-ohms:
+
+The standard properties here are ohms and micro-ohms. Also, "milli" has
+2 ls.
+
+> +        description:
+> +          The value of curent sense resistor in miliohms. Enables differ=
+ential
+> +          input pair.
+> +
+> +      temperature-enable:
+
+This seems like a vendor property that should have a vendor prefix?
+
+> +        description:
+> +          Enables temperature readings for a input pair.
+
+TBH, this seems like it is used just to control software behaviour.
+Why would you want to actually disable this in DT?
+
+Cheers,
+Conor.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vcc-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        hwmon@48 {
+> +            compatible =3D "adi,ltc2991";
+> +            reg =3D <0x48>;
+> +            vcc-supply =3D <&vcc>;
+> +        };
+> +    };
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        hwmon@48 {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            compatible =3D "adi,ltc2991";
+> +            reg =3D <0x48>;
+> +            vcc-supply =3D <&vcc>;
+> +
+> +            channel@0 {
+> +                    reg =3D <0x0>;
+> +                    shunt-resistor-mili-ohms =3D <100>;
+> +            };
+> +
+> +            channel@1 {
+> +                    reg =3D <0x1>;
+> +                    shunt-resistor-mili-ohms =3D <100>;
+> +            };
+> +
+> +            channel@2 {
+> +                    reg =3D <0x2>;
+> +                    temperature-enable;
+> +            };
+> +
+> +            channel@3 {
+> +                    reg =3D <0x3>;
+> +                    temperature-enable;
+> +            };
+> +        };
+> +    };
+> +...
+> --=20
+> 2.42.0
+>=20
+
+--iuF1VGb0w26bLJMI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRRH/QAKCRB4tDGHoIJi
+0qHwAQCiWCU/Tlc8g1FHrSZV758HOtDVXDLRKZCW+A9AyAh69wEAuzrvI4A+tcmf
+x7zyh1FMSN2R7D9AznlAoNIKPIT60A8=
+=g7xt
+-----END PGP SIGNATURE-----
+
+--iuF1VGb0w26bLJMI--
