@@ -2,108 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 003B8E80A92
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 06:06:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1970BE80A96
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 06:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229543AbjI0GGf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Sep 2023 02:06:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45848 "EHLO
+        id S229650AbjI0GZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Sep 2023 02:25:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229703AbjI0GGe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 02:06:34 -0400
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5010DD;
-        Tue, 26 Sep 2023 23:06:31 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R631e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0VszD1U6_1695794786;
-Received: from 30.39.241.218(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0VszD1U6_1695794786)
-          by smtp.aliyun-inc.com;
-          Wed, 27 Sep 2023 14:06:29 +0800
-Message-ID: <3ce74666-7db9-f043-8004-b1cec050188a@linux.alibaba.com>
-Date:   Wed, 27 Sep 2023 14:06:23 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v10 0/7] Add metrics for Arm CMN
-To:     Namhyung Kim <namhyung@kernel.org>
-Cc:     Ian Rogers <irogers@google.com>,
-        John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-References: <1695621444-56530-1-git-send-email-renyu.zj@linux.alibaba.com>
- <CAP-5=fWuaii1rOOvN7rJDo3UoQvkEtiJv3QiBhLRhYk1_Se7ew@mail.gmail.com>
- <f4812cce-14d2-9771-233f-b0db5af449be@linux.alibaba.com>
- <CAM9d7cjjSJybJEbSdBkVH3qx7RDqriv4tqBCNw1Yi9bAeUf3Yw@mail.gmail.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <CAM9d7cjjSJybJEbSdBkVH3qx7RDqriv4tqBCNw1Yi9bAeUf3Yw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229679AbjI0GZr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 02:25:47 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DCBF9
+        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 23:25:39 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9a9d82d73f9so1264098866b.3
+        for <linux-doc@vger.kernel.org>; Tue, 26 Sep 2023 23:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sigma-star.at; s=google; t=1695795938; x=1696400738; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e/2T+kTv/JcuflJsGd2CXCzB7+oY7taYM7m20LJ70dY=;
+        b=VFohLm3h8u7dS+QaCKcE42bLOQ/JXYcZgbCLmSPA2AKaeJeuC0qbjbrpzY25wtEPlU
+         LsmHessL1mPfqJCozBlq21GBXroG4lOnvFulV+UbHlRCIR51TfOsXT2bcKVQbCw/fGRQ
+         o8nBmAS2zizgTzM+IKWSGNO6cSgRYstk7C2huu56I3A+r+AG+xH5twZpKPEJcTv/ZSER
+         9t5IqKPranxIkGfqQcjaHl8NtsmJoerix+U2rZtqWEyPBaFF9qy9YS1fyEjvH+yjOqVK
+         b/hcCb3oIHm4PG/xcw9/igv3krje/tVe5G7mkgN786PcZgayZKPcet4zXk+uwcgBsYj5
+         60dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695795938; x=1696400738;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e/2T+kTv/JcuflJsGd2CXCzB7+oY7taYM7m20LJ70dY=;
+        b=I/HSBxD4ICh9Rhhjp6umiVB92pslMwsHY473WtkV88RPQAOmJK11vbzj47yDWy6b22
+         aJKmY8AkATvBTxHhMwRgmuXWmK3r4Y92MVVCdTGocmHNXX4Y47O5jcOQM3YiSb90K8Xw
+         0gu53qtsijL7ayq7Z0SZI/1TIphR0tPPplrp04nxNqy4qU0uKV02vD7vIVYi054rPRU+
+         nn9lYCR36cNf1aNSPo5QjKI5LouHHS9NnPAJA6TiXirugNDryrrXT99gUHdfSIMjfUky
+         +m/gjaksl1zs2F8cvRTlQVO5YtPpXBt4teQ/YpaLC+gei2fOMvk32mMc49378099Ty12
+         2Jcw==
+X-Gm-Message-State: AOJu0YzlGGKDFwjQRe1IypGQ6dzqjS7TLB8rA2ZqVWI9orSnp2EKnjUY
+        +L0MZXcl5Ayrmt73H33iabWsCQ==
+X-Google-Smtp-Source: AGHT+IF+sh98cRJjLNIq8jQ2+ohMpgsb7FuT+Rgx8cnmOM61ikOsnrb8g2fLxxOWDkxmJbxpUUyb7A==
+X-Received: by 2002:a17:907:7858:b0:98e:26ae:9b07 with SMTP id lb24-20020a170907785800b0098e26ae9b07mr860495ejc.35.1695795937865;
+        Tue, 26 Sep 2023 23:25:37 -0700 (PDT)
+Received: from smtpclient.apple (213-225-13-130.nat.highway.a1.net. [213.225.13.130])
+        by smtp.gmail.com with ESMTPSA id rh27-20020a17090720fb00b009930c80b87csm8868973ejb.142.2023.09.26.23.25.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Sep 2023 23:25:37 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
+Subject: Re: [PATCH v3 1/3] crypto: mxs-dcp: Add support for hardware provided
+ keys
+From:   David Gstir <david@sigma-star.at>
+In-Reply-To: <CVS3NIJ8OO6Y.2C6GJ9OBR6COC@suppilovahvero>
+Date:   Wed, 27 Sep 2023 08:25:24 +0200
+Cc:     Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        sigma star Kernel Team <upstream+dcp@sigma-star.at>,
+        David Howells <dhowells@redhat.com>,
+        Li Yang <leoyang.li@nxp.com>, Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Tejun Heo <tj@kernel.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <88FFAB6B-10A8-4732-A901-50859E22352D@sigma-star.at>
+References: <20230918141826.8139-1-david@sigma-star.at>
+ <20230918141826.8139-2-david@sigma-star.at>
+ <CVS3NIJ8OO6Y.2C6GJ9OBR6COC@suppilovahvero>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+X-Mailer: Apple Mail (2.3731.700.6)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Jarkko,
+
+> On 25.09.2023, at 17:22, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>=20
+> On Mon Sep 18, 2023 at 5:18 PM EEST, David Gstir wrote:
+>> DCP is capable to performing AES with hardware-bound keys.
+>> These keys are not stored in main memory and are therefore not =
+directly
+>> accessible by the operating system.
+>>=20
+>> So instead of feeding the key into DCP, we need to place a
+>> reference to such a key before initiating the crypto operation.
+>> Keys are referenced by a one byte identifiers.
+>=20
+> Not sure what the action of feeding key into DCP even means if such
+> action does not exists.
+>=20
+> What you probably would want to describe here is how keys get created
+> and how they are referenced by the kernel.
+>=20
+> For the "use" part please try to avoid academic paper style long
+> expression starting with "we" pronomine.
+>=20
+> So the above paragraph would normalize into "The keys inside DCP
+> are referenced by one byte identifier". Here of course would be
+> for the context nice to know what is this set of DCP keys. E.g.
+> are total 256 keys or some subset?
+>=20
+> When using too much prose there can be surprsingly little digestable
+> information, thus this nitpicking.
+
+Thanks for reviewing that in detail! I=E2=80=99ll rephrase the commit
+messages on all patches to get rid of the academic paper style.
 
 
-在 2023/9/27 上午9:00, Namhyung Kim 写道:
-> Hello,
-> 
-> On Mon, Sep 25, 2023 at 8:15 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>
->>
->>
->> 在 2023/9/26 上午12:37, Ian Rogers 写道:
->>> On Sun, Sep 24, 2023 at 10:58 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>>>
->>>> Changes since v8:
->>>> - Add fully match identifier check as suggested by Ian.
->>>> - Link: https://lore.kernel.org/lkml/1695037955-107983-1-git-send-email-renyu.zj@linux.alibaba.com/
->>>>
->>>> Jing Zhang (7):
->>>>   perf pmu: "Compat" supports regular expression matching identifiers
->>>>   perf metric: "Compat" supports regular expression matching identifiers
->>>>   perf jevents: Support EventidCode and NodeType
->>>>   perf test: Make matching_pmu effective
->>>>   perf test: Add pmu-event test for "Compat" and new event_field.
->>>>   perf jevents: Add support for Arm CMN PMU aliasing
->>>>   perf vendor events: Add JSON metrics for Arm CMN
->>>
->>> Thanks for the patience with all the to and fro. I was able to test
->>> the series with "git am -3" to get around a merge issue on
->>> perf-tools-next.
->>>
->>> Reviewed-by: Ian Rogers <irogers@google.com>
->>> Tested-by: Ian Rogers <irogers@google.com>
->>>
->>
->> Thank you for following this series and providing many valuable suggestions.
-> 
-> It's not applied cleanly.  Can you please rebase onto the current
-> tmp.perf-tools-next branch in the following tree?
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git
-> 
+>=20
+>> DCP supports 6 different keys: 4 slots in the secure memory area,
+>> a one time programmable key which can be burnt via on-chip fuses
+>> and an unique device key.
+>>=20
+>> Using these keys is restricted to in-kernel users that use them as =
+building
+>> block for other crypto tools such as trusted keys. Allowing userspace
+>> (e.g. via AF_ALG) to use these keys to crypt or decrypt data is a =
+security
+>> risk, because there is no access control mechanism.
+>=20
+> Unless this patch has anything else than trusted keys this should not
+> be an open-ended sentence. You want to say roughly that DCP hardware
+> keys are implemented for the sake to implement trusted keys support,
+> and exactly and only that.
+>=20
+> This description also lacks actions taken by the code changes below,
+> which is really the beef of any commit description.
 
-Hi Namhyung,
-
-I have sent v11[1] which rebase onto latest tmp.perf-tools-next branch. Please help to apply it, thanks.
-
-[1] https://lore.kernel.org/all/1695794391-34817-1-git-send-email-renyu.zj@linux.alibaba.com/
-
+You=E2=80=99re right. I=E2=80=99ll add that.
 
 Thanks,
-Jing
+- David
 
-> Thanks,
-> Namhyung
