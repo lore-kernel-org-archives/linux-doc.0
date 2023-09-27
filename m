@@ -2,134 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B89E7F14F
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 13:17:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B51E80A95
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Sep 2023 13:21:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231872AbjI0NRu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Sep 2023 09:17:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35338 "EHLO
+        id S231889AbjI0NVC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Sep 2023 09:21:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231854AbjI0NRt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 09:17:49 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1575B121;
-        Wed, 27 Sep 2023 06:17:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695820667; x=1727356667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l+BpWTQS4cjrg0/4ItX5h1/FTVqglpHuksfECXMzkUU=;
-  b=KoSn5z7NHhMPC+LLlCnmh0J93hTcSFYizWGJR1+ApgtV7qik9JfG3gI4
-   Ug3dC8+zzTqMdvnKksJZv0K7TlvE0H7zY6JUDh92TROsp/qZAnA9auMGJ
-   3BFkTCUc5kbXfvDXDrGch1JG12V0m8MnyyvXHMJt7muLV6zY+T/lnmlyr
-   FizFrwIia0gy4pTLtXMzEQxZe4EMkW+nbu3siVzGrL4WANRFNiR1HhV2T
-   tKSSDYzeX25M9jyq2znk0YETZnEUwcGitGHepgnifM9LDlQTHce4hUmVM
-   GV3iw0TSGno1+jd8isg4zyhmbfIcPdjmwsI4L3DQyXWlSDbVt0LBJ3jaz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="445954377"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="445954377"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 06:17:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="749195792"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="749195792"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 27 Sep 2023 06:17:43 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qlUQ8-0000DT-0F;
-        Wed, 27 Sep 2023 13:17:40 +0000
-Date:   Wed, 27 Sep 2023 21:17:27 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        netdev@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, vadim.fedorenko@linux.dev,
-        jiri@resnulli.us, corbet@lwn.net, davem@davemloft.net,
-        kuba@kernel.org, pabeni@redhat.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, linux-doc@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Subject: Re: [PATCH net-next 4/4] ice: dpll: implement phase related callbacks
-Message-ID: <202309272113.rttl6e6s-lkp@intel.com>
-References: <20230927092435.1565336-5-arkadiusz.kubalewski@intel.com>
+        with ESMTP id S231825AbjI0NVB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Sep 2023 09:21:01 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE5A410A;
+        Wed, 27 Sep 2023 06:20:59 -0700 (PDT)
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38RCOdCv005069;
+        Wed, 27 Sep 2023 13:20:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=jv2J3s2T7OsfdnfP7xO+3G5kReH0lMyKgLkynJikBfI=;
+ b=tJIYGGNUI7x+MeeJeVOcBbjIZ9cgqX/dZ9HPkBeNoUFHx0zzCrPigTsA7KPeSNVc2TlV
+ aSZZAFNRXvLMnc9cKkp4H+TksK4oudv79qebAVsJSiesoktymHl8Qq4tGl1ObhMy105j
+ LUPVKX8r0gSe7KenI/NO6by0jBuTUr9CLpGc0CK/y2rGBtILhqBEPlwmn8hN8GE2v64I
+ VQ9BJzTe/t5LvFvuHmAdiXAHDXTPGfFyMtrMYYR+FDM33QxfGdFwNQqizZziKEZFNIZk
+ TrKWWuLLepClvqBEL3FNdMYrhZfE3mX2at15iULH9drm5/lGV3qIhionZ4DbSC9hC5DT 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tcmcgsw85-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 27 Sep 2023 13:20:14 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38RD5BuN028501;
+        Wed, 27 Sep 2023 13:20:13 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tcmcgsw6v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 27 Sep 2023 13:20:13 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+        by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38RB85s1011019;
+        Wed, 27 Sep 2023 13:20:11 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+        by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tabukkhhn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 27 Sep 2023 13:20:11 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38RDK8uR42861118
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Sep 2023 13:20:08 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3124720067;
+        Wed, 27 Sep 2023 13:20:08 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 30B3420040;
+        Wed, 27 Sep 2023 13:20:07 +0000 (GMT)
+Received: from [9.152.212.236] (unknown [9.152.212.236])
+        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Wed, 27 Sep 2023 13:20:07 +0000 (GMT)
+Message-ID: <e1efbbd827e34800bd7fb0ea687645cc6c65e1ab.camel@linux.ibm.com>
+Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and
+ optimized IOTLB flushing
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Joerg Roedel <joro@8bytes.org>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Wed, 27 Sep 2023 15:20:07 +0200
+In-Reply-To: <b06a14de270a63050b0d027c24b333dba25001a4.camel@linux.ibm.com>
+References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+         <ZRLy_AaJiXxZ2AfK@8bytes.org> <20230926160832.GM13795@ziepe.ca>
+         <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
+         <ZRP8CiBui7suB5D6@8bytes.org>
+         <b06a14de270a63050b0d027c24b333dba25001a4.camel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230927092435.1565336-5-arkadiusz.kubalewski@intel.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VXZxHUsIjNmP_Qb7Pwq1202Mna4hsBUK
+X-Proofpoint-ORIG-GUID: LYDctZpbLtyEpOclC1b66ehHlfvfc4KR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-27_07,2023-09-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 malwarescore=0 spamscore=0
+ suspectscore=0 clxscore=1015 impostorscore=0 mlxscore=0 adultscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309270110
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arkadiusz,
+On Wed, 2023-09-27 at 13:24 +0200, Niklas Schnelle wrote:
+> On Wed, 2023-09-27 at 11:55 +0200, Joerg Roedel wrote:
+> > Hi Niklas,
+> >=20
+> > On Wed, Sep 27, 2023 at 10:55:23AM +0200, Niklas Schnelle wrote:
+> > > The problem is that something seems to  be broken in the iommu/core
+> > > branch. Regardless of whether I have my DMA API conversion on top or
+> > > with the base iommu/core branch I can not use ConnectX-4 VFs.
+> >=20
+> > Have you already tried to bisect the issue in the iommu/core branch?
+> > The result might sched some light on the issue.
+> >=20
+> > Regards,
+> >=20
+> > 	Joerg
+>=20
+> Hi Joerg,
+>=20
+> Working on it, somehow I must have messed up earlier. It now looks like
+> it might in fact be caused by my DMA API conversion rebase and the
+> "s390/pci: Use dma-iommu layer" commit. Maybe there is some interaction
+> with Jason's patches that I haven't thought about. So sorry for any
+> wrong blame.
+>=20
+> Thanks,
+> Niklas
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on net-next/main]
+I tracked the problem=C2=A0down from mlx5_core's alloc_cmd_page() via
+dma_alloc_coherent(), ops->alloc, iommu_dma_alloc_remap(), and
+__iommu_dma_alloc_noncontiguous() to a failed iommu_dma_alloc_iova().
+The allocation here is for 4K so nothing crazy.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arkadiusz-Kubalewski/dpll-docs-add-support-for-pin-signal-phase-offset-adjust/20230927-172843
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230927092435.1565336-5-arkadiusz.kubalewski%40intel.com
-patch subject: [PATCH net-next 4/4] ice: dpll: implement phase related callbacks
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230927/202309272113.rttl6e6s-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309272113.rttl6e6s-lkp@intel.com/reproduce)
+On second look I also noticed:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309272113.rttl6e6s-lkp@intel.com/
+nvme 2007:00:00.0: Using 42-bit DMA addresses
 
-All warnings (new ones prefixed by >>):
+for the NVMe that is working. The problem here seems to be that we set
+iommu_dma_forcedac =3D true in s390_iommu_probe_finalize() because we
+have currently have a reserved region over the first 4 GiB anyway so
+will always use IOVAs larger than that. That however is too late since
+iommu_dma_set_pci_32bit_workaround() is already checked in
+__iommu_probe_device() which is called just before ops-
+>probe_finalize(). So I moved setting iommu_dma_forcedac =3D true to
+zpci_init_iommu() and that gets rid of the notice for the NVMe but I
+still get a failure of iommu_dma_alloc_iova() in
+__iommu_dma_alloc_noncontiguous(). So I'll keep digging.
 
->> drivers/net/ethernet/intel/ice/ice_dpll.c:1064: warning: Function parameter or member 'phase_offset' not described in 'ice_dpll_phase_offset_get'
->> drivers/net/ethernet/intel/ice/ice_dpll.c:1064: warning: Excess function parameter 'phase_adjust' description in 'ice_dpll_phase_offset_get'
-
-
-vim +1064 drivers/net/ethernet/intel/ice/ice_dpll.c
-
-  1039	
-  1040	#define ICE_DPLL_PHASE_OFFSET_DIVIDER	100
-  1041	#define ICE_DPLL_PHASE_OFFSET_FACTOR		\
-  1042		(DPLL_PHASE_OFFSET_DIVIDER / ICE_DPLL_PHASE_OFFSET_DIVIDER)
-  1043	/**
-  1044	 * ice_dpll_phase_offset_get - callback for get dpll phase shift value
-  1045	 * @pin: pointer to a pin
-  1046	 * @pin_priv: private data pointer passed on pin registration
-  1047	 * @dpll: registered dpll pointer
-  1048	 * @dpll_priv: private data pointer passed on dpll registration
-  1049	 * @phase_adjust: on success holds pin phase_adjust value
-  1050	 * @extack: error reporting
-  1051	 *
-  1052	 * Dpll subsystem callback. Handler for getting phase shift value between
-  1053	 * dpll's input and output.
-  1054	 *
-  1055	 * Context: Acquires pf->dplls.lock
-  1056	 * Return:
-  1057	 * * 0 - success
-  1058	 * * negative - error
-  1059	 */
-  1060	static int
-  1061	ice_dpll_phase_offset_get(const struct dpll_pin *pin, void *pin_priv,
-  1062				  const struct dpll_device *dpll, void *dpll_priv,
-  1063				  s64 *phase_offset, struct netlink_ext_ack *extack)
-> 1064	{
-  1065		struct ice_dpll *d = dpll_priv;
-  1066		struct ice_pf *pf = d->pf;
-  1067	
-  1068		mutex_lock(&pf->dplls.lock);
-  1069		if (d->active_input == pin)
-  1070			*phase_offset = d->phase_offset * ICE_DPLL_PHASE_OFFSET_FACTOR;
-  1071		else
-  1072			*phase_offset = 0;
-  1073		mutex_unlock(&pf->dplls.lock);
-  1074	
-  1075		return 0;
-  1076	}
-  1077	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Niklas
