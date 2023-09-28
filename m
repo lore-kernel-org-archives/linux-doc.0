@@ -2,55 +2,54 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDA0CCE7AF9
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 05:27:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9506CE7AF9
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 05:27:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbjI1F1R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Sep 2023 01:27:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40592 "EHLO
+        id S230184AbjI1F1T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Sep 2023 01:27:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjI1F1Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 01:27:16 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9599DBF;
-        Wed, 27 Sep 2023 22:27:15 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id af79cd13be357-77574dec71bso176575685a.2;
-        Wed, 27 Sep 2023 22:27:15 -0700 (PDT)
+        with ESMTP id S229445AbjI1F1S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 01:27:18 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425BF122;
+        Wed, 27 Sep 2023 22:27:17 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1a1fa977667so6756190fac.1;
+        Wed, 27 Sep 2023 22:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695878834; x=1696483634; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=91JYLBFnZKjwBEAu9U+5Q6DScQJFvzg48kgHznaCaic=;
-        b=Vxb3cF5oB8WYdgLpRGmn+rWMIdwnWtC0pROz4hiCWqX8ShrwzAZ4AXTxlJbFYrRCsE
-         epyK4JTs6xChbpLZprc1FcZMa1rRaCnPQiMryYEZLSi4KomdB54NkFrdcpWGND7PxOkV
-         81qNd8ELOySLKpD6p652XRDXlgnZEvbFp0+zBawEDCJwoQUNlD7uwMkyWWHzpTQXSMxi
-         GEdDsG0+fTfpzVhnua546ZDrESOQx2OhGBcGerJfpOnAP7nTFnW2fkPFdeF9HnrGw0FP
-         2trv7aHrdeUlXDRTcscgwSz3zXlcXrr6HSJqgRGhHoxhRHnQnRNC70oE6Hh0w9twlTyf
-         gxKA==
+        d=gmail.com; s=20230601; t=1695878836; x=1696483636; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wzesFe1jUNQkPNQFdz5fZZnHB3+mM1DdWesfa223dqw=;
+        b=BQ2ljgXrtuBJOjZC6tQxEBme5CHiwvVhgfp75Ex9YEYWt8Ai4EBFkLVAGn6JfCb+lf
+         nIH/1s4G7VIflbA1w00+qBobAd5UtWwAcOlmi1sYYymsr56z6DgDPb3RQKsid3TH+06c
+         qD0F9N9gn86q7IWov/QFeopSD+b09c2fYq650KMypfKRYQ2RNTxMke/3gTXMdje68mTa
+         rP5GUbqIhM+2jPm97GidPVWHZs9WlnBrdWWr91qGg1hxLb+EQpVYgstIaOk8J8ErQOVr
+         uVHucof8LcHXcED40KJOtxLhLtwHOFKCb7MHo7qJ27Jf6OWNZ77TLNQsY/A0O8I3MoKF
+         bz8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695878834; x=1696483634;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=91JYLBFnZKjwBEAu9U+5Q6DScQJFvzg48kgHznaCaic=;
-        b=vkDiDnlp5T0ofzOX3pz7SSTsKBTbIerSYe8+snJdUB2EK7JLxQqxY4QVmv6lFoew+g
-         zqvK3paRAH/CKraL0ZPbVrv/uskwSXsEZNXD2HeuGQty1vPb10kXNhGjHSTUnnIggFOF
-         n+1OqC5AtX++6RA4zS+IN8TOdcpVNeBon4vfiV1J5n9dXhVokt+qPgXZUxL6QE6RFtOW
-         nd27hHtptt8niH3XGUlT4SovqLu+o6ews/NSPM+dp9N9cr2Sb3dXuTwNs/b+Ru8CUgit
-         Rm6kpgZHhNaYLV1sEteC+F6X19/l/Hgzes1VBMyC1sfImTVAVw+EVM68wAkqGZT62eWj
-         1f1A==
-X-Gm-Message-State: AOJu0Yx6LUOinFoZ3/A9jXsgbMTG6zul1O/T87QqJLJkjGznpmx6Le4z
-        gKLJwTS9/1vYgQE3aRs77iG/WZgHhIsxnQ==
-X-Google-Smtp-Source: AGHT+IEkZPP3pv32NAgX/doGdGgAF10Jop4AHaQfOVU9lByCRXNOAzRIRQHyjL0lMc4c48BrH1lzNw==
-X-Received: by 2002:a05:620a:4550:b0:773:a9d4:e7f7 with SMTP id u16-20020a05620a455000b00773a9d4e7f7mr259770qkp.16.1695878834692;
-        Wed, 27 Sep 2023 22:27:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695878836; x=1696483636;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wzesFe1jUNQkPNQFdz5fZZnHB3+mM1DdWesfa223dqw=;
+        b=MvjwfzgbEykQI+HtihAVqhuAKveAJC8XEqsUOvvXDkrYXgShEsy20RBg+dyfCcxcyE
+         C3Nf2Cc63RRbHsdlVlAR3bHrvBD99/iAn1vVtszbtBOy1ohWGMtV9MG0HiV8wC5yvlhz
+         kHjHWpkULB6ubea4EekP+8r2Xyx0tw34gSI0jNgQeS1eADXf4Iq+rDs3cKNk21zNiH0K
+         pR9q6vFVBtVtgdv5ARB7miQm0u6/0RZaMNFzJT//OT280HnRv2ZLIDVEeD1bJj2108ZD
+         SMIvp0S+fS+AMBZwWW+K+lL9JEFORRHeekYHQnKrAFqtYWdQe3w0BqWDSNp2QOk9tSNm
+         Fi3Q==
+X-Gm-Message-State: AOJu0YxkOTN5BFjKf9Y3y70cwX3vJcVlR5EuPHJHQPSXr6YWnxKhC19Y
+        ZNfaGa9Ou5ZPYRC51NjZQTU=
+X-Google-Smtp-Source: AGHT+IFJXcHHA5X6azHZlNsxivV559BAGdYTUvTtxMNa7qEf5tC4yYwTjURVt2H1DdhShafl29eDig==
+X-Received: by 2002:a05:6870:a3d0:b0:1d6:53e6:7c8a with SMTP id h16-20020a056870a3d000b001d653e67c8amr275275oak.14.1695878835722;
+        Wed, 27 Sep 2023 22:27:15 -0700 (PDT)
 Received: from debian.me ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id br7-20020a056a00440700b00692cb1224casm8458108pfb.183.2023.09.27.22.27.13
+        by smtp.gmail.com with ESMTPSA id k17-20020a637b51000000b0056b27af8715sm12106368pgn.43.2023.09.27.22.27.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 27 Sep 2023 22:27:14 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 7135A819448E; Thu, 28 Sep 2023 12:27:09 +0700 (WIB)
+        id 1BF6281645D0; Thu, 28 Sep 2023 12:27:09 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Linux Networking <netdev@vger.kernel.org>,
         Linux Documentation <linux-doc@vger.kernel.org>,
@@ -61,65 +60,39 @@ Cc:     Vadim Fedorenko <vadim.fedorenko@linux.dev>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         "David S. Miller" <davem@davemloft.net>
-Subject: [PATCH net-next v2 2/2] Documentation: dpll: wrap DPLL_CMD_PIN_GET output in a code block
-Date:   Thu, 28 Sep 2023 12:27:08 +0700
-Message-ID: <20230928052708.44820-3-bagasdotme@gmail.com>
+Subject: [PATCH net-next v2 0/2] Documentation fixes for dpll subsystem
+Date:   Thu, 28 Sep 2023 12:27:06 +0700
+Message-ID: <20230928052708.44820-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230928052708.44820-1-bagasdotme@gmail.com>
-References: <20230928052708.44820-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1763; i=bagasdotme@gmail.com; h=from:subject; bh=NIK+r+umq9T+8ea3aOWEFkLVXITGU0Rtbys6y3sG4jM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKmivLH2p9yrmdK+RtUtN8wO2MRhOlH3D8/q59rHXYRdj 27LYyvqKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwESWfGdkaCtiPPyx8vvnjXuv HpLXN9go9nG+uuPVWXGLb6S90XeZUszIMFW27VESn4WocIZazMN3ytd+6K4S6Ky7dyJ8suMvhhN rOAE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=746; i=bagasdotme@gmail.com; h=from:subject; bh=OK23hv7Zwua1zwPy0Cj9i0AXbUnptkGgpi+7Mjq4dQw=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKmivF4PDRV3ffuQZH8ttTTxtaa5rNoJqbSHV2PCX5nr9 V+s+Pijo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABMRMWRkuHNm7c0ZOZfNo6JX mdplfPnmv3fyj70M702vPTh4jLFnWirD/6IN33wKrModZyV949r6QPBJIbtTfJOo10z9m/1c0Q6 HWAE=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DPLL_CMD_PIN_GET netlink command output for mux-type pins looks ugly
-with normal paragraph formatting. Format it as a code block instead.
+Here is a mini docs fixes for dpll subsystem. The fixes are all code
+block-related.
 
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/driver-api/dpll.rst | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+This series is triggered because I was emailed by kernel test robot,
+alerting htmldocs warnings (see patch [1/2]).
 
-diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
-index 01eb4de867036f..69670deb8c4e09 100644
---- a/Documentation/driver-api/dpll.rst
-+++ b/Documentation/driver-api/dpll.rst
-@@ -119,19 +119,19 @@ with.
- If a pin was registered with multiple parent pins, they behave like a
- multiple output multiplexer. In this case output of a
- ``DPLL_CMD_PIN_GET`` would contain multiple pin-parent nested
--attributes with current state related to each parent, like:
-+attributes with current state related to each parent, like::
- 
--'pin': [{{
--  'clock-id': 282574471561216,
--  'module-name': 'ice',
--  'capabilities': 4,
--  'id': 13,
--  'parent-pin': [
--  {'parent-id': 2, 'state': 'connected'},
--  {'parent-id': 3, 'state': 'disconnected'}
--  ],
--  'type': 'synce-eth-port'
--  }}]
-+        'pin': [{{
-+          'clock-id': 282574471561216,
-+          'module-name': 'ice',
-+          'capabilities': 4,
-+          'id': 13,
-+          'parent-pin': [
-+          {'parent-id': 2, 'state': 'connected'},
-+          {'parent-id': 3, 'state': 'disconnected'}
-+          ],
-+          'type': 'synce-eth-port'
-+          }}]
- 
- Only one child pin can provide its signal to the parent MUX-type pin at
- a time, the selection is done by requesting change of a child pin state
+Changes since v1 [1]:
+  * Collect Reviewed-by tags
+  * Rebase on current net-next
+
+[1]: https://lore.kernel.org/all/20230918093240.29824-1-bagasdotme@gmail.com/
+
+Bagas Sanjaya (2):
+  Documentation: dpll: Fix code blocks
+  Documentation: dpll: wrap DPLL_CMD_PIN_GET output in a code block
+
+ Documentation/driver-api/dpll.rst | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+
+base-commit: 5a1b322cb0b7d0d33a2d13462294dc0f46911172
 -- 
 An old man doll... just what I always wanted! - Clara
 
