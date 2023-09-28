@@ -2,93 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 009B6E80A98
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 18:01:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A0DE732FD
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 18:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232004AbjI1SB5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Sep 2023 14:01:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45222 "EHLO
+        id S231670AbjI1SNE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Sep 2023 14:13:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231467AbjI1SBx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 14:01:53 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD4B19D;
-        Thu, 28 Sep 2023 11:01:51 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1695924109;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qCBpASJoVOKX9VMMrGRtPeWsM1IggJ7ZK6sK+Vspaeo=;
-        b=qXsrR3/GF7IJihiwraCz8qKW8U2b68LXMY6UjZ3+IEZeLlUpwu8yBGJPZy408Azlz7lycz
-        Rj4kjTzZnybeQh46tlfV3i5eXQjbE+k3IssGRQ4iYbgsbCvt4dOIX9AKqFF9hqpsouLjx2
-        5dQumKoM/U8QfaT52MkqPCzA/3NncDElzueKLwl6yW7w9WdPutYT2GZt+BO2WQXIQNr16o
-        pb7RU8OwZ0GJUC6iDnIyj7Ozlo7Hw6pkxxHYXRzlQNA5gQN4cSz5tE0QLuBN4tFVR61d5h
-        0BA7cVC1H0gu2vmgG66P30S3HeoFV0NmX/Pu5uwdjaEwyQI7KG6IBTpFaFOfMA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1695924109;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qCBpASJoVOKX9VMMrGRtPeWsM1IggJ7ZK6sK+Vspaeo=;
-        b=ZggqpdKB9KJL/89VvpA8wkdGK0oIINIwb21C02kaTkeWIRIgr4OEOE1ZY9ScEBJVZYX9F2
-        /nS9HIbISQc7oGDA==
-To:     "H. Peter Anvin" <hpa@zytor.com>, Xin Li <xin3.li@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, luto@kernel.org, pbonzini@redhat.com,
-        seanjc@google.com, peterz@infradead.org, jgross@suse.com,
-        ravi.v.shankar@intel.com, mhiramat@kernel.org,
-        andrew.cooper3@citrix.com, jiangshanlai@gmail.com,
-        nik.borisov@suse.com
-Subject: Re: [PATCH v11 35/37] x86/syscall: Split IDT syscall setup code
- into idt_syscall_init()
-In-Reply-To: <D4167CD5-B619-448D-B660-24ABC0786E0A@zytor.com>
-References: <20230923094212.26520-1-xin3.li@intel.com>
- <20230923094212.26520-36-xin3.li@intel.com>
- <D4167CD5-B619-448D-B660-24ABC0786E0A@zytor.com>
-Date:   Thu, 28 Sep 2023 20:01:48 +0200
-Message-ID: <87y1gqdvn7.ffs@tglx>
+        with ESMTP id S230293AbjI1SND (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 14:13:03 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E3519F
+        for <linux-doc@vger.kernel.org>; Thu, 28 Sep 2023 11:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695924781; x=1727460781;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1tWAxgFFiMGcAesTfnzGfoWFY+0bGYF/ryx7d9One0Y=;
+  b=Aoek08ZbX0bkm5Cgfy+X+wexIkDNer7iQz618LKgduocU7aMOZALVYyA
+   E2KC5BnA5uayE3dotG8UWSc2EMpU4H4r/PI+lbDxDH5e1wYKukpvrlM++
+   NdFzEBc2tOvrkB3kHPsgBVUJ841bERoVi5uD8kqwCOhN+6cd9+xl1yaru
+   UEGvNZukvBpVhqTdzTdFo5Fiko7b1xcttZJTSa1dQ+Uon/rEMZqc4OY7l
+   uev0H660d4Lq4hUzmcfUAhgk/9o4k3CfG9z2G9T2ZhQl5BbzpIi5Mpl86
+   Y3DBhREN2TwEPGq1nudQKYXxNvK1psVvtWf118kA0S64uTc5glSFarths
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="384950872"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; 
+   d="scan'208";a="384950872"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 11:12:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="784801674"
+X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; 
+   d="scan'208";a="784801674"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 28 Sep 2023 11:12:20 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qlvUo-0001n5-14;
+        Thu, 28 Sep 2023 18:12:18 +0000
+Date:   Fri, 29 Sep 2023 02:11:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jeffrey Mouroux <jmouroux@xilinx.com>
+Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
+        Michal Simek <monstr@monstr.eu>,
+        Satish Kumar Nagireddy <satishna@xilinx.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 278/1370] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-pix-fmt-xbgr30 (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202309290251.y5eh9ClL-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 25 2023 at 09:07, H. Peter Anvin wrote:
-> On September 23, 2023 2:42:10 AM PDT, Xin Li <xin3.li@intel.com> wrote:
->>+/* May not be marked __init: used by software suspend */
->>+void syscall_init(void)
->>+{
->>+	/* The default user and kernel segments */
->>+	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
->>+
->>+	idt_syscall_init();
->>+}
->>+
->> #else	/* CONFIG_X86_64 */
->> 
->> #ifdef CONFIG_STACKPROTECTOR
->
-> Am I missing something, or is this patch a noop?
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: a7ba2f9bd3a85fe70c52c0bb4b0e791a540012e7 [278/1370] uapi: media: New fourcc codes needed by Xilinx Video IP
+reproduce: (https://download.01.org/0day-ci/archive/20230929/202309290251.y5eh9ClL-lkp@intel.com/reproduce)
 
-Yes. It's a noop at this point. Later on it gains a
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290251.y5eh9ClL-lkp@intel.com/
 
-     if (!fred)
-        idt_syscall_init();
+All warnings (new ones prefixed by >>):
 
-Sure we could do
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xbgr30 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xvuy32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-avuy32 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-vuy24 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xvuy10 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xv20 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xv15 (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xv20m (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xv15m (if the link has no caption the label must precede a section header)
 
-     if (!fred) {
-     	write_msr(foo...);
-        ...
-     }
+vim +6 Documentation/output/videodev2.h.rst
 
-too, but I prefer the separation. No strong opinion though.
-
-Thanks,
-
-        tglx
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
