@@ -2,96 +2,191 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A75E732D8
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 13:52:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC15AE732D0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 13:59:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232286AbjI1Nwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Sep 2023 09:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
+        id S232492AbjI1N7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Sep 2023 09:59:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231902AbjI1Nwc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 09:52:32 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94A495
-        for <linux-doc@vger.kernel.org>; Thu, 28 Sep 2023 06:52:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695909148; x=1727445148;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4US4cF/QGpAbLr9htCWoP6qqhOhpwvEAcb6whsWP2A0=;
-  b=eklPx8RGuj1C310wKjakGdBLUuJJnvBVWE5ESkECTDazPA3hkXHqY61P
-   u8QJlJZsKjt5uVcCiNSU9/VbS/curBs2DFMKFyBkzYiAbNreM7B6eISyj
-   l5RaJ+CyOeAqBvFKTfV3kWTIe0Va1hc8+EMUsCQiCIL+pRuZaix2KtxIG
-   IDggvWQbNbTFqRTvkOPqLv10tKkbrX81sO5fMFyQ9dNIp65wPoOrnJ/Jv
-   dZPiQg5kVfoGq+dTdYDs5Yfht9DCN3lqBBNZrF3eYlA1EsZP0TFveX+du
-   C0F+/StE+99Malb00zw1Egv/0/pM6k0ivH+SHM8oqsBbctJSgK+lFxw2s
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="468352279"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; 
-   d="scan'208";a="468352279"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 06:52:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="893034517"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; 
-   d="scan'208";a="893034517"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2023 06:51:17 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qlrRJ-0001Vv-1G;
-        Thu, 28 Sep 2023 13:52:25 +0000
-Date:   Thu, 28 Sep 2023 21:51:31 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [arnd-playground:randconfig-6.7-next 161/306]
- drivers/pci/hotplug/yenta_socket.c:2816: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202309282119.UoamFUFV-lkp@intel.com>
+        with ESMTP id S232488AbjI1N7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 09:59:47 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2054.outbound.protection.outlook.com [40.107.223.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A12621A7;
+        Thu, 28 Sep 2023 06:59:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F+CnnVCHc+3/iBeXs2NltiysTt/Yg5Qg3ALrzqsICzGct+nqDoXq5cNeljx1H4DZfa/fxMImbAjFzh5Gil0Ra/oLIWoex2WH+nNsI/7UGXxzN663rosVpf718XG4n2MSxgZtj6LqG5ah9VEFsn0BNTge9MNGGDAtp4Am3y2jKDpldKl1l4DSV8lFj4SfKsrc3UAqcNcxXEbby2vF1zD3oHYlsrjl0ztWDLpgYMdu8NJ560i1WYLNQ5M4Um4EZLby9yn51ZSjqiRlfjK7LWlkOSJmZEcwGkO+1xczSSZ+ObBk/lJlQPMyha7Nz+GfCZPrHuTcJMxMpLrAE2LSPQYScg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ov463LcqNc/BEbgBAvm/OrRzxf/aPV0jpulh8dD+unw=;
+ b=Ga7BZQ9hVVQ2fnQ9P7ctzNol4T3LOYAuZN/AxKmwbpsKlEdlNRJ0rrKMDI6xbNimch0ZefGcI9eCCl+urp69sPWNHhMjbtnUNo1xKjyRBedcTytuoAkKERwco69qiSVll5RJgKli8Y2dc06dsgKnyeFipxYZokDx2N3ZwfCRG7jCrMLn9HUQqt++6Kx97BHAcBkiz0w7ZXNOBn9IOG+oRbh0XexbLcae/g9+HPNmG28ZxzuerpqEyKXISXBfytkLLc9VsfNHjbaIS3/qjoiqBKDYBTw68Nki7KsGrA1zvtZu5XCzm3oU7Rz2sPNVQUhHEtSUSLlj4Fxuen6WUlsjyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ov463LcqNc/BEbgBAvm/OrRzxf/aPV0jpulh8dD+unw=;
+ b=jEkt3O9ntIpXJyRZ7sAjqBfPmizYb7B81QFCvoFAQZDqeiB6UoHcJYASaindhOiLqAkAEfZYmBD9befulSYLiIRFbjlXXUzTw4GYGSIxnV7InnTTZKfQC9He2i+cfk2hH6MZTghjnw5a3VOzme/w+TyjCXiZ0RmGx45MUKJqCBE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM4PR12MB6446.namprd12.prod.outlook.com (2603:10b6:8:be::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6813.23; Thu, 28 Sep 2023 13:59:42 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::fbfe:ec9c:b106:437e]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::fbfe:ec9c:b106:437e%5]) with mapi id 15.20.6838.024; Thu, 28 Sep 2023
+ 13:59:42 +0000
+Message-ID: <90303d4b-113d-9adc-14cb-d55c7a24f4af@amd.com>
+Date:   Thu, 28 Sep 2023 08:59:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v2 3/4] Documentation/x86: Document resctrl's new
+ sparse_masks
+Content-Language: en-US
+To:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1695371055.git.maciej.wieczor-retman@intel.com>
+ <308c92438288a45a12330af83aa0088a31f60343.1695371055.git.maciej.wieczor-retman@intel.com>
+ <17079b9e-4efd-4258-2b5f-afc6d3ae2c0f@amd.com>
+ <bced7bc7-c489-7a57-374f-62818cbfded6@intel.com>
+ <c5ddb511-cc14-34f8-dd80-6471a9a72a81@intel.com>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <c5ddb511-cc14-34f8-dd80-6471a9a72a81@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR11CA0202.namprd11.prod.outlook.com
+ (2603:10b6:806:1bc::27) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB6446:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28b59c2e-8b55-475f-e075-08dbc02b29cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BA2pjZpSTm4hfMY0U/MSf00apWlqgRNlZS9mR5VGVtRmW9mvHZf9i+j1hfiOlmd5ArCpnWNlQ2eRmPVMAJ+lgKFDHobmzckA4eu5/nBCzwAyKeb0jm8sPsItZNr1ZzfB+rwAWsZ5s5uz/me/N80N65sBGYA5jj/pPYXHsnFqyaRwDojnnImy+NIIsC8sqlCh13+Y57npB/1TCJWdo9U6goeEBhrMW6gLJzcIxYZFg4DHyP+gkeBNLn7EXWj6XTJjG+gt4ctXu1vknQX0SPN4TThOhN1sSlDr78TgwIrKEKccKUeMVXGZft0fxcaQ1Ebnx9Cr8yTApzJIW4XQ3fAWJ13f5GLPcsK7sNm3R3ttwiv4ZQhNmOCu5xlxRRZBG3ZvvoRmFAKePzMAS9Mgu9A2nJm8kPemdM+/Ir8qFO4BpZjE4hlg11CTTruvu6h3qfHnqnbtKp/E96+zqkbHg8Z6k2YFnJrxG0nl4SX/QZN9eyy67PYHvL/SlGXZwPAe5SN2ETUZRyLCDJelrJRsx6cM+ZOY6SYq8q2GUmypr1jQVFOgQl+p4WdSzxLTQbKW/n4+IoJrT/OfuA+qnDO6MQjw9sLBX4PTol5NH7LQbiQgCwjQYu9M7mXBXrXYfRgc2SbQXOp7VhKROrhawPLOh27uFrAp0WWkht+wa+iFaVYlI7A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(376002)(39860400002)(366004)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(31686004)(2906002)(921005)(3450700001)(86362001)(38100700002)(31696002)(5660300002)(6506007)(6486002)(7416002)(53546011)(478600001)(36756003)(83380400001)(6666004)(6512007)(26005)(4326008)(66946007)(66556008)(110136005)(66476007)(316002)(8936002)(8676002)(41300700001)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2RRS0w4NTQ5MnBCa2ZMYU53MzMxVzNPTnhEM3o3U2pyYU1jOGMyRG0walFt?=
+ =?utf-8?B?OFhpL25vYjlkNzZEazVvVmExTFI2SmYrZUs3ZENNZVIzMUR5RTZ6dWxnalRO?=
+ =?utf-8?B?MXF4OVVOKzlnRVkrcGRRRXcxWW5CSFp5Z2dXbjd4cE5tZzF0dVZlOVYwK2sw?=
+ =?utf-8?B?MjdxdXJGYjBWTm0vc2NmNjVuUXErSGZicGlyV1dveGVrblRjRGdjVkExZ2pZ?=
+ =?utf-8?B?eUpJaUlLbVBkTzNNNTA3dXB4bHUxcy9QWm1FZkFQSm1Qbk5OQkZzdnowVmFL?=
+ =?utf-8?B?TWpIUTE4OVBsLy9pY2phS1lEOFF3Qk1wb0c4dGZ4dVJER3kwY1F6QlpOQVQ2?=
+ =?utf-8?B?bXQ1RXhTeHVUOGhiWlgvQlRHOFNEY0hoUndsMDZ2aWxMRllSRzdoaVQrb3cy?=
+ =?utf-8?B?bWg1a2VnZEpQUDgzNmZSTml3REh2YXNDZUNVRkJpLzBoOEdsaHNOYUM1T3Rz?=
+ =?utf-8?B?VXBIaFNiektZZHM2b1dodEROTUMyT2hQeWEvL2IxbHdYdWxtQk5wMlB0c3Fs?=
+ =?utf-8?B?Wk5UajI1UVJITTJTSk1QMUg2Zmt1VXlmUHBBSDQyYVRpaWtYMUt6SFB6SHNp?=
+ =?utf-8?B?RXNnVTk3MzFET0txdGRsZ0xkYkxwclJMUHgyaS9Sa1YwU21GK3h4NEdYbjNp?=
+ =?utf-8?B?ZkFWVmhIQnRvbHB1YkZQa0liZmsxZGJ3MVB0RU1udFlDMUJheWd3TnQ1bG53?=
+ =?utf-8?B?Z1V0S3JsS3ZlTlhZWW9CeTQ4aXZmV3I2b013UzFocmM3c0kwTVZWSjdQTDdt?=
+ =?utf-8?B?SjJlQnB3UEhFaGs2cFZPVkRvdE5taFd4VG9FYTVialY0Z21scnJobU1VTSsy?=
+ =?utf-8?B?NWkrZ3ZrY1NtS3FCaFphU3ozaTdMbEQ0L3dSSTZLUURiSjVrSllZdjd5YlZC?=
+ =?utf-8?B?ekNGa1h5cW9TLzRWaGdzVlF6cFFyYzlVZ0FrRDJ5c0pHWmluYjBYZk1KZVV6?=
+ =?utf-8?B?bm9XN1NYYlI4K3lKZU5rdVlSS0NhS3BwNkc2NVUvV3Q5SVV0U2hYWDl2Mlp3?=
+ =?utf-8?B?cVNOalVkbzh5bllZd21sbnVpMWE1OVlnbktpYUE2Qk5tTDdqTk9FWEcrSEhh?=
+ =?utf-8?B?enZXenBtWTYrOUl1VEtSbzJFaWJjaUpxakZlMlNwZlBCQkFOeXNvVzZSSzhH?=
+ =?utf-8?B?T2hRaTFvMVNzV3NLL1VKdTV3VDRWK214NFhkcWRnVHRMMTFvNERlSmVvTTZB?=
+ =?utf-8?B?L2JyNGFsNFAzWDZLbkwwZDBLeDdpTnZqaGdmWWVWblZ4b0h4emQvbkZiek5S?=
+ =?utf-8?B?VjNLcnJPVU5nUW04K2trWXA5RGhjRGI0blpLTS9abklaM2ZoMXpOaG0vbVZz?=
+ =?utf-8?B?dXovbmNLZVM2Q1ArbHF0R2M2SFRZZGFiK1ZsSmRPRTcvejdtY0pjUDF0M1lJ?=
+ =?utf-8?B?WVR3MUdvVWxkNzVyQm0wbE5PSDVmSEFBUDdBVm5zUHU2WEVCYU1Kd0NQSGpi?=
+ =?utf-8?B?cnI3OUVxUkNsK3VzeTA1cTZuZ1J3bjY1c01IRzdDRytvQ1BoQnFDaVlERU8w?=
+ =?utf-8?B?aFpmbmRzZHZIY0tRUFF6ZkdkTnRkYkRhTmVrRGZ0UThEL29wemhEUlF2eitk?=
+ =?utf-8?B?dDNkZmh4aHo2alE2aVVmV2pCQy9ydmJIWkRkdjVvNnZFdU5GTEM2dlYwNW9r?=
+ =?utf-8?B?NHQzOVlXNEt2YmdVVm51bndJeCt5dm5zVHFBTUc3SzlmRWpkb2h3Wk9ucEZH?=
+ =?utf-8?B?WUtRbkQ1Q2RaelVWVjYwSURWWGV4ZVFqZFNVMU01Ti9yaWVFT1lQNmUyTllv?=
+ =?utf-8?B?bHNKOWovY212TTZCNy84L0l3eXlTMkQvSENNWmdFUWJSc2Yxand1YW1sUkFT?=
+ =?utf-8?B?SVZ3djhDR05ray9VMFRkdGdSaC9NZlc4VWJaTk9WUzI3TEV4bWgva3Urd213?=
+ =?utf-8?B?ak9yM0RlUWd6TXBBNXY1Yy9wS1pEaEF2Vm5MSlpSbWs2MkdjZnBqbXVWSXpG?=
+ =?utf-8?B?R1I2NExRZjZ6S0o5YnE1b3NCaFI1WE9iN2JoMjhRc0p1SWF1KzA3YkFUVTV6?=
+ =?utf-8?B?RU4zUHQ2SWNmTWxyQkI5OVFsZHFDZ241dkozM0paWFRaK0l5azl1c2M5elhk?=
+ =?utf-8?B?Z3FaUHJtdVN0RFpyOVpiTHd3ZG5qcHFCM0tBUTIyb1lYMXRMR2k3RGNTZUhx?=
+ =?utf-8?Q?yqMA=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28b59c2e-8b55-475f-e075-08dbc02b29cf
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2023 13:59:42.2305
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hX6ZgSJgEEX9ez+uxRoQLWI/zGXta5zF3Rlgm70h2v5rpcrfrivwjWY+wTeOHOT9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6446
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-6.7-next
-head:   a126cc9f2f87fe0931a7bf053665560587086082
-commit: efad45b3891cfcffef6767f1ec1ab16185787eb5 [161/306] pci: hotplug: move cardbus code from drivers/pcmcia
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309282119.UoamFUFV-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309282119.UoamFUFV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309282119.UoamFUFV-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/pci/hotplug/yenta_socket.c:2816: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * EnE specific part. EnE bridges are register compatible with TI bridges but
 
 
-vim +2816 drivers/pci/hotplug/yenta_socket.c
+On 9/27/23 18:02, Fenghua Yu wrote:
+> 
+> 
+> On 9/27/23 15:58, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 9/27/2023 3:47 PM, Moger, Babu wrote:
+>>> On 9/22/2023 3:48 AM, Maciej Wieczor-Retman wrote:
+>>>> From: Fenghua Yu <fenghua.yu@intel.com>
+>>>>
+>>>> The documentation mentions that non-contiguous bit masks are not
+>>>> supported in Intel Cache Allocation Technology (CAT).
+>>>>
+>>>> Update the documentation on how to determine if sparse bit masks are
+>>>> allowed in L2 and L3 CAT.
+>>>>
+>>>> Mention the file with feature support information is located in
+>>>> the /sys/fs/resctrl/info/{resource}/ directories and enumerate what
+>>>> are the possible outputs on file read operation.
+>>>>
+>>>> Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+>>>> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>>>> ---
+>>>> Changelog v2:
+>>>> - Change bitmap naming convention to bit mask. (Reinette)
+>>>>
+>>>>    Documentation/arch/x86/resctrl.rst | 16 ++++++++++++----
+>>>>    1 file changed, 12 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/arch/x86/resctrl.rst
+>>>> b/Documentation/arch/x86/resctrl.rst
+>>>> index cb05d90111b4..4c6421e2aa31 100644
+>>>> --- a/Documentation/arch/x86/resctrl.rst
+>>>> +++ b/Documentation/arch/x86/resctrl.rst
+>>>> @@ -124,6 +124,13 @@ related to allocation:
+>>>>                "P":
+>>>>                      Corresponding region is pseudo-locked. No
+>>>>                      sharing allowed.
+>>>> +"sparse_masks":
+>>>> +        Indicates if non-contiguous 1s value in CBM is supported.
+>>>> +
+>>>> +            "0":
+>>>> +                  Only contiguous 1s value in CBM is supported.
+>>>
+>>> This is little confusing. How about?
+>>>
+>>> Non-contiguous 1s value in CBM is not supported
+>>>
+>>
+>> It is not clear to me how changing it to a double
+>> negative reduces confusion.
+> Agree with Reinette.
+> 
+> The original statement is clearer and more direct to explicitly state what
+> is supported without introducing a negative assertion (not supported).
 
-eb0a90b4970d66 drivers/pcmcia/yenta_socket.c Dominik Brodowski 2005-07-12  2813  
-eb0a90b4970d66 drivers/pcmcia/yenta_socket.c Dominik Brodowski 2005-07-12  2814  
-6541da46604098 drivers/pcmcia/yenta_socket.c Arnd Bergmann     2023-02-23  2815  /**
-6541da46604098 drivers/pcmcia/yenta_socket.c Arnd Bergmann     2023-02-23 @2816   * EnE specific part. EnE bridges are register compatible with TI bridges but
-6541da46604098 drivers/pcmcia/yenta_socket.c Arnd Bergmann     2023-02-23  2817   * have their own test registers and more important their own little problems.
-6541da46604098 drivers/pcmcia/yenta_socket.c Arnd Bergmann     2023-02-23  2818   * Some fixup code to make everybody happy (TM).
-6541da46604098 drivers/pcmcia/yenta_socket.c Arnd Bergmann     2023-02-23  2819   */
-6541da46604098 drivers/pcmcia/yenta_socket.c Arnd Bergmann     2023-02-23  2820  
-
-:::::: The code at line 2816 was first introduced by commit
-:::::: 6541da46604098055a014521b08f183d90f2e546 yenta_socket: copy pccard core code into driver
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+Ok. If you all agree, fine with me as well.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Babu Moger
