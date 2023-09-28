@@ -2,123 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 829D0CE7AF8
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 04:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B96ACE7AF8
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Sep 2023 05:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229445AbjI1EBB convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Sep 2023 00:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59774 "EHLO
+        id S229955AbjI1F1Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Sep 2023 01:27:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjI1EBA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 00:01:00 -0400
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64FD7BF;
-        Wed, 27 Sep 2023 21:00:58 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-79545e141c7so345911739f.0;
-        Wed, 27 Sep 2023 21:00:58 -0700 (PDT)
+        with ESMTP id S229445AbjI1F1Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Sep 2023 01:27:16 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1863C98;
+        Wed, 27 Sep 2023 22:27:15 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-577fb90bb76so6789703a12.2;
+        Wed, 27 Sep 2023 22:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695878834; x=1696483634; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2p2z7A/m94fJlY/YCyPmolz6NyjAMwcybhIRjtSPtC8=;
+        b=CTFv2+/5jmmP6xMwZ9DfYbjz4VBH5T1lrpoOsvDrShujhn56M59UK3zT5/gTMnT1c8
+         GCBIq4ukdp2dRbMwL9aSk5iVSQuqnkYiJMxj4zD8WSPoWHQXPA3UUBVA/SwTbrLjbTG1
+         PGrd8/dkc3zcHrG1nSsQ3mZt3ZSC/drWvN2nMcyNOaBfouI4OurCzaidDHxaydW/Wgch
+         uXKMz2pZL7yedOAfeOXUGXTI1EAx2IZaOF16YkKema3f0/falXPyQmanKMERx8UJIrJ/
+         PnIpddA24KJoE3cgXcN5ZUm4sAVAnZM1ro0M94Ad4/lYK/PrVfr4ZbHnOLxuU3zqYa8d
+         gySQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695873657; x=1696478457;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1695878834; x=1696483634;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rQaJt77QAADp5dQVtAfvK8U5FuFyoZY42Sn71faXauA=;
-        b=mWa3psEUxTdn207GyD8H6Og0WEFO7BF5RWn7kWO5I7hw1uh8Ul/gnWYSlGKVCjrEfl
-         WppKUI4zHeyakX5CI1md53kjaHC0UhAsnUrjDCKkfCt43G/Vy5GRR/Hh1cUNefxRQmvR
-         PFKywhEXug2eJnyr+ZFyL7tnV5f9zEpoMk9KuQn77QAC89pbU3GmrR74affIu0d6wbzc
-         tQjIl/Jh8rTHBJSEUoJlLy6FEgs88zw4/g7rXND1oY5Stltwthr7LtmqWQYjKZqK8tgd
-         WTsM240h4GWQW8WUkI5UUNnjmP7OtbuaZ4lrjX/XPCVXUoaSmJdzW7s8U6HkL00z9y6I
-         mApQ==
-X-Gm-Message-State: AOJu0YxaAeJyUcrv7G/lBhA6yQNBT8U9FMqsQbAyAIChQGfypSbKCCzg
-        flZ01IWRwJ7J+msuGuLub6O/ZpKg5vDWsVHVEYg=
-X-Google-Smtp-Source: AGHT+IFQLclcMSCsqGSZHGFx75bmoyRnGsY+U0uITLMPXBXsHFwS64TQ4gJWotRnkNwF/ncF19Y7h8sPhs30A83qsjU=
-X-Received: by 2002:a5d:9c81:0:b0:785:d5d4:9f26 with SMTP id
- p1-20020a5d9c81000000b00785d5d49f26mr41560iop.9.1695873657615; Wed, 27 Sep
- 2023 21:00:57 -0700 (PDT)
+        bh=2p2z7A/m94fJlY/YCyPmolz6NyjAMwcybhIRjtSPtC8=;
+        b=TabTufuNKEb+rVWy1yMX9TELxI5Tld994/deFA6yhobcj/qWKGEo5C/OZyCoFyIpkY
+         U41RAmOHyLi8/KIYqCZIYCl/SFHOhVsqiYfI9Jctsps+MxotLcv9+B28BHErzrBkNf76
+         ucrxWw+4kyy6whvlqNOz3yIM2aDRGkHbQSx3yP9GygtH0ieuH/2YYYqbxiruqbXr7LvS
+         fsFWcUfZBIv4glxTghPjTBeH1dmaOxKp0OVbBFuEX9vy3cKrmny/7kbpZRTvbwRZ3yud
+         4uXmCWlKbHupEPDuBCKV0RwxZMZPLebk2memUPi8sHnSsRUox5hznmkgXW5Qo7Enyb9a
+         IfsA==
+X-Gm-Message-State: AOJu0YzaqXd0pkxoHotrnQuwrv/eenTo+zSUupae2MRuyoC0CSJMtJzL
+        VQgprUvZueH+AS7Ys71OG1o=
+X-Google-Smtp-Source: AGHT+IExjFDG5flDN+mT/u/PJm+C7/4MHZ1JI88VcmNeM6b5kZkmxAReYsCqgeFEUy7Ta/cf7UrgCQ==
+X-Received: by 2002:a17:90b:1009:b0:268:7ec:51ae with SMTP id gm9-20020a17090b100900b0026807ec51aemr186513pjb.41.1695878834452;
+        Wed, 27 Sep 2023 22:27:14 -0700 (PDT)
+Received: from debian.me ([103.124.138.83])
+        by smtp.gmail.com with ESMTPSA id t11-20020a17090a024b00b0026b70d2a8a2sm8997647pje.29.2023.09.27.22.27.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 22:27:14 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 5B8B3816018E; Thu, 28 Sep 2023 12:27:09 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux Networking <netdev@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        kernel test robot <lkp@intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH net-next v2 1/2] Documentation: dpll: Fix code blocks
+Date:   Thu, 28 Sep 2023 12:27:07 +0700
+Message-ID: <20230928052708.44820-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230928052708.44820-1-bagasdotme@gmail.com>
+References: <20230928052708.44820-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-References: <1695621444-56530-1-git-send-email-renyu.zj@linux.alibaba.com>
- <CAP-5=fWuaii1rOOvN7rJDo3UoQvkEtiJv3QiBhLRhYk1_Se7ew@mail.gmail.com>
- <f4812cce-14d2-9771-233f-b0db5af449be@linux.alibaba.com> <CAM9d7cjjSJybJEbSdBkVH3qx7RDqriv4tqBCNw1Yi9bAeUf3Yw@mail.gmail.com>
- <3ce74666-7db9-f043-8004-b1cec050188a@linux.alibaba.com>
-In-Reply-To: <3ce74666-7db9-f043-8004-b1cec050188a@linux.alibaba.com>
-From:   Namhyung Kim <namhyung@kernel.org>
-Date:   Wed, 27 Sep 2023 21:00:46 -0700
-Message-ID: <CAM9d7ch1YPTsmuXyaWiu-p-9B34tQC2sveQUbTPrtbpFVv5TUg@mail.gmail.com>
-Subject: Re: [PATCH v10 0/7] Add metrics for Arm CMN
-To:     Jing Zhang <renyu.zj@linux.alibaba.com>
-Cc:     Ian Rogers <irogers@google.com>,
-        John Garry <john.g.garry@oracle.com>,
-        Will Deacon <will@kernel.org>,
-        James Clark <james.clark@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2341; i=bagasdotme@gmail.com; h=from:subject; bh=mfk4yNlrSNx4x3xH+ptdTgkFQ+eyBO67TFNPT7C/BM4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKmivLHJq3KnLTgkbbbuW/hXoZcSPLJzShZdP/t7y7E2D 9UOrxlaHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZiI9FFGho8+TE46S5W/NFwr boxhebXP/nX8cfW9u1yTplzoM3l4U4ORYdPN03c7mfpvB9Q8+mSXXzntu+zTTYde9ByKiGL6vcH CggUA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 26, 2023 at 11:06 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->
->
->
-> 在 2023/9/27 上午9:00, Namhyung Kim 写道:
-> > Hello,
-> >
-> > On Mon, Sep 25, 2023 at 8:15 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
-> >>
-> >>
-> >>
-> >> 在 2023/9/26 上午12:37, Ian Rogers 写道:
-> >>> On Sun, Sep 24, 2023 at 10:58 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
-> >>>>
-> >>>> Changes since v8:
-> >>>> - Add fully match identifier check as suggested by Ian.
-> >>>> - Link: https://lore.kernel.org/lkml/1695037955-107983-1-git-send-email-renyu.zj@linux.alibaba.com/
-> >>>>
-> >>>> Jing Zhang (7):
-> >>>>   perf pmu: "Compat" supports regular expression matching identifiers
-> >>>>   perf metric: "Compat" supports regular expression matching identifiers
-> >>>>   perf jevents: Support EventidCode and NodeType
-> >>>>   perf test: Make matching_pmu effective
-> >>>>   perf test: Add pmu-event test for "Compat" and new event_field.
-> >>>>   perf jevents: Add support for Arm CMN PMU aliasing
-> >>>>   perf vendor events: Add JSON metrics for Arm CMN
-> >>>
-> >>> Thanks for the patience with all the to and fro. I was able to test
-> >>> the series with "git am -3" to get around a merge issue on
-> >>> perf-tools-next.
-> >>>
-> >>> Reviewed-by: Ian Rogers <irogers@google.com>
-> >>> Tested-by: Ian Rogers <irogers@google.com>
-> >>>
-> >>
-> >> Thank you for following this series and providing many valuable suggestions.
-> >
-> > It's not applied cleanly.  Can you please rebase onto the current
-> > tmp.perf-tools-next branch in the following tree?
-> >
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git
-> >
->
-> Hi Namhyung,
->
-> I have sent v11[1] which rebase onto latest tmp.perf-tools-next branch. Please help to apply it, thanks.
->
-> [1] https://lore.kernel.org/all/1695794391-34817-1-git-send-email-renyu.zj@linux.alibaba.com/
+kernel test robot and Stephen Rothwell report htmldocs warnings:
 
-Yep, it looks good... testing now.
+Documentation/driver-api/dpll.rst:427: WARNING: Error in "code-block" directive:
+maximum 1 argument(s) allowed, 18 supplied.
 
-Thanks,
-Namhyung
+.. code-block:: c
+	<snipped>...
+Documentation/driver-api/dpll.rst:444: WARNING: Error in "code-block" directive:
+maximum 1 argument(s) allowed, 21 supplied.
+
+.. code-block:: c
+	<snipped>...
+Documentation/driver-api/dpll.rst:474: WARNING: Error in "code-block" directive:
+maximum 1 argument(s) allowed, 12 supplied.
+
+.. code-block:: c
+	<snipped>...
+
+Fix these above by adding missing blank line separator after code-block
+directive.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202309180456.lOhxy9gS-lkp@intel.com/
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20230918131521.155e9e63@canb.auug.org.au/
+Fixes: dbb291f19393b6 ("dpll: documentation on DPLL subsystem interface")
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/driver-api/dpll.rst | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
+index bb52f1b8c0be31..01eb4de867036f 100644
+--- a/Documentation/driver-api/dpll.rst
++++ b/Documentation/driver-api/dpll.rst
+@@ -425,6 +425,7 @@ The simplest implementation is in the OCP TimeCard driver. The ops
+ structures are defined like this:
+ 
+ .. code-block:: c
++
+ 	static const struct dpll_device_ops dpll_ops = {
+ 		.lock_status_get = ptp_ocp_dpll_lock_status_get,
+ 		.mode_get = ptp_ocp_dpll_mode_get,
+@@ -442,6 +443,7 @@ structures are defined like this:
+ The registration part is then looks like this part:
+ 
+ .. code-block:: c
++
+         clkid = pci_get_dsn(pdev);
+         bp->dpll = dpll_device_get(clkid, 0, THIS_MODULE);
+         if (IS_ERR(bp->dpll)) {
+@@ -472,6 +474,7 @@ The registration part is then looks like this part:
+ In the error path we have to rewind every allocation in the reverse order:
+ 
+ .. code-block:: c
++
+         while (i) {
+                 --i;
+                 dpll_pin_unregister(bp->dpll, bp->sma[i].dpll_pin, &dpll_pins_ops, &bp->sma[i]);
+-- 
+An old man doll... just what I always wanted! - Clara
+
