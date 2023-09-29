@@ -2,58 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33294E71D3F
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 14:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE1B7E71D3D
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 14:34:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233750AbjI2Odz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 10:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59168 "EHLO
+        id S233675AbjI2Oeq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 10:34:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233604AbjI2Od0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 10:33:26 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910D210DE
-        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 07:32:41 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-4195fe5cf73so301341cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 07:32:41 -0700 (PDT)
+        with ESMTP id S233726AbjI2Oed (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 10:34:33 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 699B5CC2
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 07:33:29 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1c6052422acso151825ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 07:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695997960; x=1696602760; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695998009; x=1696602809; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MJFVcdWCqcDV6qycuab+i81ZPsWdTYGA5ipCa8aCpMg=;
-        b=CXraKciQQimxJy+UHkFRD4YD4ez/m6GoXPMka7oAOG5OQR+bQK6uOib1lbM44HZxCt
-         4YYnqtRIWU/ov7ZXAjBP0dxolTwls1iP97J6zIbIHL4prKxX+PhWeASqmFj3fdzvjCuS
-         S3zi+cdmmvIWuhTjhkiIWDBcskNo/rE5EOS9+GG19RLaChK6NCp1qnIsWaWawmFnooqj
-         OttyhwHGPLjSsePgyHu1VyNdDuWNd2eWuaO7mb1UElwmHP4ciQtUcK9JMJcYkiCBBCRK
-         1LMHlxFhLz0Lp7gNAilOnpE0eKnh8lz1vX/q3j5kM8kbYHPbKVfReUB19JTJZr4nOurb
-         nuLA==
+        bh=Crbf+k0hTPm5Cd8YaXbLKN5kqKGElW+L9hMz0P1lr6A=;
+        b=KqDaxZZQkYtX2yDE227tD0OJUJlVmIvXuzRmRzMSs8BHtHpQMWDm1gfyPeVDNjU4CO
+         /2RUSFi6dKBvzht3tY96U4PcU45uDvROvpmh77XE7MIn/JTOZm0h5L2l3gfG3w3+EmRV
+         /nQlido4whxVo4GT0Cr6bnwaaBSF9a6bYFkf17StisOD0ZtMC36Sqm+8hICCPytL6Csq
+         DIMfjOTerOvYjGjvm8isca2JJh+1Z9F7AoGz1gSlNKDwvlVHZWScsGMnfOoBr65YSYVw
+         sUJ1dHRt4rZtKoC+JY3l05ZeHtLOEzB7toYx/aRE2Y3GwOtGPCyaHrRd4m+se28fXvA/
+         xUXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695997960; x=1696602760;
+        d=1e100.net; s=20230601; t=1695998009; x=1696602809;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MJFVcdWCqcDV6qycuab+i81ZPsWdTYGA5ipCa8aCpMg=;
-        b=al88HmN2stEKpt+Ln+IBnAHbTDx2H/B8i8AKjsYHU4ycjjKMAddwKHKycvPbL3OSIV
-         dOTvJ1tdvsXhoJVqj0fYdnLteqgSLl3SN6GsC7OY7NbWFEoNnHN/WPv/S2Cp5GhnBl+a
-         /zEioAzoq1XDnwCPsUONh/S6dC3VhljgPpMN8jSpwlBB6VJFefGR1d3t8cEbmKpxolXr
-         yoaCGIV4j0XfNyU0vaJ1yJvGo/89KnEn7uwCx5wXApcsy+yCb4FPob/4UGelII7jmINK
-         3PFqwPkhyRbq7v2hSVCt+acyyfi9HGBP8Fo102/Y3jBlK+Dgy91Pp+zq7sBKOTlG7eg2
-         u4Tw==
-X-Gm-Message-State: AOJu0YwDDueX0XDGuuJd7crJRpdQ2ufwlpT0i0lqT6rrmjLxmw8IEbLV
-        Wv2vcqqcoOVXmXWGlZcziQo3XxV+dHN1o+R1M8htuA==
-X-Google-Smtp-Source: AGHT+IFAwQTjk3G75M/yQUuug/Yw85V4PBTHHuarGfbIzYyACFPixSdSwaUBRfdVtxsTVRDlGbcksaa4RTXqRz4Mdrs=
-X-Received: by 2002:ac8:5885:0:b0:404:8218:83da with SMTP id
- t5-20020ac85885000000b00404821883damr1154536qta.1.1695997960490; Fri, 29 Sep
- 2023 07:32:40 -0700 (PDT)
+        bh=Crbf+k0hTPm5Cd8YaXbLKN5kqKGElW+L9hMz0P1lr6A=;
+        b=R9A/NHYIKV7dZteWgn9xjsQrHkscAl2aeRqypkLpBUTOb/MPCtXsrApnBskq4Fj3DH
+         UhyZ5UOFXutfpTLBVsYOWqlDjeWJfYQTVGLDrj2TiVWh4uLDsCOf5eEpY4EFPWCqJt1Q
+         YWzzPWP+KrvrtgoIXnj3vBhRqEdmEkw3IiVZR8d4O8vGhVUSLrbue55Kl+LAC09VnztC
+         SrSdljWY/ggCDANibz1iGeZUDkXivDTrTACynLOohJwN5DOyLsLPU6Zets07uQxiIYB3
+         nYjpnTu1MizJAX0rjci1J6asUQGtLy6bMSenyUEuqQDBFgJtBnI1aB5QdshtfwcsIj+2
+         tc1Q==
+X-Gm-Message-State: AOJu0Yx/P1Iu04q6ebrWpQtpUxaDKh4LLFGNMvE1BwOHOryWvspCXzlA
+        HEXCzKLqyCiApcXukMiN20mzyM9kwpaYHwA5CAxvEw==
+X-Google-Smtp-Source: AGHT+IHK5XOUV9ZvRPOnrg1t3Tlxv5te4wCe9nvTwkQL4QGkdcFxDRQPTSRNERmG16ySaVP7JCn5kyb/vqlQyfZEcEw=
+X-Received: by 2002:a17:902:da91:b0:1c3:5df4:a778 with SMTP id
+ j17-20020a170902da9100b001c35df4a778mr923257plx.13.1695998008616; Fri, 29 Sep
+ 2023 07:33:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230829234426.64421-1-tony.luck@intel.com> <20230928191350.205703-1-tony.luck@intel.com>
- <20230928191350.205703-8-tony.luck@intel.com>
-In-Reply-To: <20230928191350.205703-8-tony.luck@intel.com>
+In-Reply-To: <20230928191350.205703-1-tony.luck@intel.com>
 From:   Peter Newman <peternewman@google.com>
-Date:   Fri, 29 Sep 2023 16:32:29 +0200
-Message-ID: <CALPaoCjegjOYvOK7a5mVONpm5G6Q-BK-n7-U3EP5mzyhTRL=yQ@mail.gmail.com>
-Subject: Re: [PATCH v6 7/8] x86/resctrl: Sub NUMA Cluster detection and enable
+Date:   Fri, 29 Sep 2023 16:33:17 +0200
+Message-ID: <CALPaoCjxW70h=rTNNiShEc8bmgwEaHpFnAHRB-m=ch47WdQsig@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] Add support for Sub-NUMA cluster (SNC) systems
 To:     Tony Luck <tony.luck@intel.com>
 Cc:     Fenghua Yu <fenghua.yu@intel.com>,
         Reinette Chatre <reinette.chatre@intel.com>,
@@ -76,61 +75,19 @@ Hi Tony,
 
 On Thu, Sep 28, 2023 at 9:14=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
 te:
-> +static __init int snc_get_config(void)
-> +{
-> +       unsigned long *node_caches;
-> +       int mem_only_nodes =3D 0;
-> +       int cpu, node, ret;
-> +       int num_l3_caches;
-> +
-> +       if (!x86_match_cpu(snc_cpu_ids))
-> +               return 1;
-> +
-> +       node_caches =3D bitmap_zalloc(nr_node_ids, GFP_KERNEL);
-> +       if (!node_caches)
-> +               return 1;
-> +
-> +       cpus_read_lock();
-> +       for_each_node(node) {
-> +               cpu =3D cpumask_first(cpumask_of_node(node));
-> +               if (cpu < nr_cpu_ids)
-> +                       set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches=
-);
-> +               else
-> +                       mem_only_nodes++;
-> +       }
-> +       cpus_read_unlock();
-> +
-> +       num_l3_caches =3D bitmap_weight(node_caches, nr_node_ids);
-> +       if (!num_l3_caches)
-> +               return 1;
-> +
-> +       ret =3D (nr_node_ids - mem_only_nodes) / num_l3_caches;
-> +       kfree(node_caches);
-
-It seems a little peculiar to free node_caches a couple of lines after
-you're actually done with it.
-
-> +
-> +       if (ret > 1)
-> +               rdt_resources_all[RDT_RESOURCE_L3].r_resctrl.mon_scope =
-=3D RESCTRL_NODE;
-> +
-> +       return ret;
-> +}
-> +
->  static __init void rdt_init_res_defs_intel(void)
->  {
->         struct rdt_hw_resource *hw_res;
->         struct rdt_resource *r;
 >
-> +       snc_nodes_per_l3_cache =3D snc_get_config();
-> +
->         for_each_rdt_resource(r) {
->                 hw_res =3D resctrl_to_arch_res(r);
+> The Sub-NUMA cluster feature on some Intel processors partitions
+> the CPUs that share an L3 cache into two or more sets. This plays
+> havoc with the Resource Director Technology (RDT) monitoring features.
+> Prior to this patch Intel has advised that SNC and RDT are incompatible.
 >
-> --
-> 2.41.0
->
+> Some of these CPU support an MSR that can partition the RMID
+> counters in the same way. This allows for monitoring features
+> to be used (with the caveat that memory accesses between different
+> SNC NUMA nodes may still not be counted accuratlely.
 
-Reviewed-by: Peter Newman <peternewman@google.com>
+Is an "SNC NUMA node" a "sub-NUMA node", or a NUMA node on which SNC
+has been enabled?
+
+Thanks!
+-Peter
