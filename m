@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA0DE728F3
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 20:43:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7ADE728F3
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 20:48:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233450AbjI2Uni (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 16:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60252 "EHLO
+        id S233887AbjI2UsZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 16:48:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233602AbjI2Unh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 16:43:37 -0400
+        with ESMTP id S233828AbjI2UsY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 16:48:24 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D6961B0;
-        Fri, 29 Sep 2023 13:43:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33FCE1AB;
+        Fri, 29 Sep 2023 13:48:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696020215; x=1727556215;
+  t=1696020499; x=1727556499;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=k35CTLxwYNMJbh/KVFe+2nbeQOog2WQUMF7Mb5YVfcw=;
-  b=MSTxC/8jy7Wx5WcqAW3dxFbwzZcElwJfPd/RAy3oYSshDHcM8G5UvPxm
-   CuCSdTFXOAxeqIqVRGRvp0Os4QZbTqLOBU5l5UIQWApE7PPlpv76BYRDS
-   bzzS6crDQkx2lE5khDScKii/JlWPO1Sr6XA79SrVySO+MVeWiIm3TEoeu
-   So6h89lKTdabRRkLLfUPYq/31fYkovfGd8J51gRA6LnsDj9fRrrLDJpgN
-   qUDopfVoJfKo4LDzJuEm9OiJRZDrZ+A/fN2lwF6tGb7KbCnZvoRsd5OSk
-   F7cJw7hcZ1N2m1Agx5i1fzHNg0Nf5i3Q1y2Qn+JS1YQwht4nJi1ZGO812
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386237611"
+  bh=tXfZaIVeQzhgci4D2hG+Kx5EgnvkGliDQ/EynlWJjdo=;
+  b=FOZTdSJa0BpiqhWLN0Vd46qxQ7pX8XkzUxhPnye+S+K2H56G8iP/8zt2
+   keKlHZ4tDggQ5q1y90FoIDVeNCvL8eQnYRgp4qsUCqHHCBmw6UczmmAvt
+   QXe4FPMqhQheJ2lXZiq58MLdHeoaNeOyYNaa4uWvcnRNU5f5jdOWI9uNv
+   hFsdoit4lSh8+WGhZawCh1LZraUn7+QceyBcqM6tz2Jfa4x1SGYcPkHfs
+   xPQgEdmfqb09o/IdeQ7RgSp0qLjmSNgbJ8QRODpfxS4RIRMb8JhasDQCB
+   Y/fsA59ZBm2krrhdzrhNk0f6ibtBtOLhiSKHCE1rcQccxBCzM4Bx4qulD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386239718"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="386237611"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:06:15 -0700
+   d="scan'208";a="386239718"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:18:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="815695986"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="779369649"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="815695986"
+   d="scan'208";a="779369649"
 Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:06:15 -0700
-Date:   Fri, 29 Sep 2023 13:06:13 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:18:02 -0700
+Date:   Fri, 29 Sep 2023 13:18:00 -0700
 From:   Tony Luck <tony.luck@intel.com>
 To:     Peter Newman <peternewman@google.com>
 Cc:     Fenghua Yu <fenghua.yu@intel.com>,
@@ -52,57 +52,100 @@ Cc:     Fenghua Yu <fenghua.yu@intel.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         patches@lists.linux.dev
-Subject: Re: [PATCH v6 4/8] x86/resctrl: Split the rdt_domain and
- rdt_hw_domain structures
-Message-ID: <ZRcuNbO4/GF2OiG5@agluck-desk3>
+Subject: Re: [PATCH v6 6/8] x86/resctrl: Introduce snc_nodes_per_l3_cache
+Message-ID: <ZRcw+OhDMelVq0D6@agluck-desk3>
 References: <20230829234426.64421-1-tony.luck@intel.com>
  <20230928191350.205703-1-tony.luck@intel.com>
- <20230928191350.205703-5-tony.luck@intel.com>
- <CALPaoCgN2PBQymAXK_f1ggs_JwyARBuWruP-sPA1QKJMxvv9ow@mail.gmail.com>
+ <20230928191350.205703-7-tony.luck@intel.com>
+ <CALPaoCh0dzx2T8-u5ZQXXM0XqaZgJbUAGnRVBmbzHmQiHjvWTA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALPaoCgN2PBQymAXK_f1ggs_JwyARBuWruP-sPA1QKJMxvv9ow@mail.gmail.com>
+In-Reply-To: <CALPaoCh0dzx2T8-u5ZQXXM0XqaZgJbUAGnRVBmbzHmQiHjvWTA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 29, 2023 at 03:44:54PM +0200, Peter Newman wrote:
+On Fri, Sep 29, 2023 at 04:21:54PM +0200, Peter Newman wrote:
 > Hi Tony,
 > 
 > On Thu, Sep 28, 2023 at 9:14 PM Tony Luck <tony.luck@intel.com> wrote:
+> >
+> > Intel Sub-NUMA Cluster (SNC) is a feature that subdivides the CPU cores
+> > and memory controllers on a socket into two or more groups. These are
+> > presented to the operating system as NUMA nodes.
+> >
+> > This may enable some workloads to have slightly lower latency to memory
+> > as the memory controller(s) in an SNC node are electrically closer to the
+> > CPU cores on that SNC node. This cost may be offset by lower bandwidth
+> > since the memory accesses for each core can only be interleaved between
+> > the memory controllers on the same SNC node.
+> >
+> > Resctrl monitoring on Intel system depends upon attaching RMIDs to tasks
+> > to track L3 cache occupancy and memory bandwidth. There is an MSR that
+> > controls how the RMIDs are shared between SNC nodes.
+> >
+> > The default mode divides them numerically. E.g. when there are two SNC
+> > nodes on a socket the lower number half of the RMIDs are given to the
+> > first node, the remainder to the second node. This would be difficult
+> > to use with the Linux resctrl interface as specific RMID values assigned
+> > to resctrl groups are not visible to users.
+> >
+> > The other mode divides the RMIDs and renumbers the ones on the second
+> > SNC node to start from zero.
+> >
+> > Even with this redumbering SNC mode requires several changes in resctrl
+> > behavior for correct operation.
+> 
+> redumbering? Harsh.
+
+Spell check didn't catch this. Implies that redumbering is a real word!
+Now I need to find an opportunity to use it :-)
+
+Changed to renumbering.
+> 
+> 
+> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > index b0901fb95aa9..a5404c412f53 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > @@ -1357,7 +1357,7 @@ unsigned int rdtgroup_cbm_to_size(struct rdt_resource *r,
+> >                 }
+> >         }
+> >
+> > -       return size;
+> > +       return size / snc_nodes_per_l3_cache;
+> 
+> To confirm, the size represented by a bit goes down rather than the
+> CBM mask shrinking in each sub-NUMA domain?
+
+Correct. The CBM mask keeps the same number of bits. Those bits are
+all available to control allocation in each SNC node. But the amount
+of cache you get per-bit is reduced in the ratio of the number of SNC
+ways.
+
+> 
+> I would maybe have expected the CBM mask to already be allocating at
+> the smallest granularity the hardware supports.
+> 
+> >  }
+> >
 > >  /**
-> > - * struct rdt_hw_domain - Arch private attributes of a set of CPUs that share
-> > - *                       a resource
-> > + * struct rdt_hw_ctrl_domain - Arch private attributes of a set of CPUs that share
-> > + *                       a resource for a control function
+> > @@ -2590,7 +2590,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
+> >                 ctx->enable_cdpl2 = true;
+> >                 return 0;
+> >         case Opt_mba_mbps:
+> > -               if (!supports_mba_mbps())
+> > +               if (!supports_mba_mbps() || snc_nodes_per_l3_cache > 1)
 > 
-> wrapped line not quite aligned anymore
+> Factor into supports_mba_mbps()?
 
-Fixed
-
+Agreed. That's a better place. Moved this test into supports_mba_mbps().
 > 
-> >   * @d_resctrl: Properties exposed to the resctrl file system
-> >   * @ctrl_val:  array of cache or mem ctrl values (indexed by CLOSID)
-> > + *
-> > + * Members of this structure are accessed via helpers that provide abstraction.
-> > + */
-> > +struct rdt_hw_ctrl_domain {
-> > +       struct rdt_ctrl_domain          d_resctrl;
-> > +       u32                             *ctrl_val;
-> > +};
-> > +
-> > +/**
-> > + * struct rdt_hw_mon_domain - Arch private attributes of a set of CPUs that share
-> > + *                       a resource for a monitor function
-> 
-> wrapped line not quite aligned anymore
-
-Fixed
-
-> 
-> 
+> >                         return -EINVAL;
+> >                 ctx->enable_mba_mbps = true;
+> >                 return 0;
 > > --
 > > 2.41.0
 > >
