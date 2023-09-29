@@ -2,156 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7ADE728F3
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 20:48:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 463D9CE7AF3
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 20:51:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233887AbjI2UsZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 16:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37548 "EHLO
+        id S233829AbjI2Uv3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 16:51:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233828AbjI2UsY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 16:48:24 -0400
+        with ESMTP id S233809AbjI2Uv3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 16:51:29 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33FCE1AB;
-        Fri, 29 Sep 2023 13:48:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E301A7
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 13:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696020499; x=1727556499;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=tXfZaIVeQzhgci4D2hG+Kx5EgnvkGliDQ/EynlWJjdo=;
-  b=FOZTdSJa0BpiqhWLN0Vd46qxQ7pX8XkzUxhPnye+S+K2H56G8iP/8zt2
-   keKlHZ4tDggQ5q1y90FoIDVeNCvL8eQnYRgp4qsUCqHHCBmw6UczmmAvt
-   QXe4FPMqhQheJ2lXZiq58MLdHeoaNeOyYNaa4uWvcnRNU5f5jdOWI9uNv
-   hFsdoit4lSh8+WGhZawCh1LZraUn7+QceyBcqM6tz2Jfa4x1SGYcPkHfs
-   xPQgEdmfqb09o/IdeQ7RgSp0qLjmSNgbJ8QRODpfxS4RIRMb8JhasDQCB
-   Y/fsA59ZBm2krrhdzrhNk0f6ibtBtOLhiSKHCE1rcQccxBCzM4Bx4qulD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386239718"
+  t=1696020687; x=1727556687;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A1Ct4rs5knPfD4LHPtaa58RjcEhTuopD4ohlNlps+94=;
+  b=AvLhRPsnm+ubb0Y4duAeg4ZvHhA+R/yDpDx6JxoJverj+dyqbHxDm1Qn
+   PGFD9DdDrGbNSdR46giQy4yEpuYBV84tuk4WG93QooBMsLqcz8ElMjTtk
+   XHDleTcYKmBu+Ad3irG1didwCD86d7D2Bh8ExUhBcPATBopGyM3jM6S0k
+   gX4cbpyyZtk7wvGMNsyFNg8AVxUb6d1sHuDKCOH8M6V/ZrxRF07itqWM3
+   wbggdxOZUzXKkrW0+hR+/901sc3bf9WHcHU3EWlAPtz4fGuRLiklYB5gO
+   7GW4lEg+w11yE8f4CcknFk30/fBKoA4b7+gmWwxYN7Kah3OefjDnpdwXr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386241292"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="386239718"
+   d="scan'208";a="386241292"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:18:03 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:28:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="779369649"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="779374251"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="779369649"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:18:02 -0700
-Date:   Fri, 29 Sep 2023 13:18:00 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Peter Newman <peternewman@google.com>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        patches@lists.linux.dev
-Subject: Re: [PATCH v6 6/8] x86/resctrl: Introduce snc_nodes_per_l3_cache
-Message-ID: <ZRcw+OhDMelVq0D6@agluck-desk3>
-References: <20230829234426.64421-1-tony.luck@intel.com>
- <20230928191350.205703-1-tony.luck@intel.com>
- <20230928191350.205703-7-tony.luck@intel.com>
- <CALPaoCh0dzx2T8-u5ZQXXM0XqaZgJbUAGnRVBmbzHmQiHjvWTA@mail.gmail.com>
+   d="scan'208";a="779374251"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 29 Sep 2023 13:28:45 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qmK6M-0003FN-2H;
+        Fri, 29 Sep 2023 20:28:42 +0000
+Date:   Sat, 30 Sep 2023 04:28:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Rohit Visavalia <rohit.visavalia@xilinx.com>
+Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
+        Michal Simek <monstr@monstr.eu>,
+        Devarsh Thakkar <devarsh.thakkar@xilinx.com>,
+        Vishal Sagar <vishal.sagar@xilinx.com>,
+        linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 307/1370] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-pix-fmt-yuv444p (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202309300457.ZoVGeCJY-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALPaoCh0dzx2T8-u5ZQXXM0XqaZgJbUAGnRVBmbzHmQiHjvWTA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 29, 2023 at 04:21:54PM +0200, Peter Newman wrote:
-> Hi Tony,
-> 
-> On Thu, Sep 28, 2023 at 9:14 PM Tony Luck <tony.luck@intel.com> wrote:
-> >
-> > Intel Sub-NUMA Cluster (SNC) is a feature that subdivides the CPU cores
-> > and memory controllers on a socket into two or more groups. These are
-> > presented to the operating system as NUMA nodes.
-> >
-> > This may enable some workloads to have slightly lower latency to memory
-> > as the memory controller(s) in an SNC node are electrically closer to the
-> > CPU cores on that SNC node. This cost may be offset by lower bandwidth
-> > since the memory accesses for each core can only be interleaved between
-> > the memory controllers on the same SNC node.
-> >
-> > Resctrl monitoring on Intel system depends upon attaching RMIDs to tasks
-> > to track L3 cache occupancy and memory bandwidth. There is an MSR that
-> > controls how the RMIDs are shared between SNC nodes.
-> >
-> > The default mode divides them numerically. E.g. when there are two SNC
-> > nodes on a socket the lower number half of the RMIDs are given to the
-> > first node, the remainder to the second node. This would be difficult
-> > to use with the Linux resctrl interface as specific RMID values assigned
-> > to resctrl groups are not visible to users.
-> >
-> > The other mode divides the RMIDs and renumbers the ones on the second
-> > SNC node to start from zero.
-> >
-> > Even with this redumbering SNC mode requires several changes in resctrl
-> > behavior for correct operation.
-> 
-> redumbering? Harsh.
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: 19837eedfc69d8bbd822ad14d6aa6f6b154b0198 [307/1370] media: v4l: Support 3 planar YUV444P 8bpc pixel format in contiguous memory
+reproduce: (https://download.01.org/0day-ci/archive/20230930/202309300457.ZoVGeCJY-lkp@intel.com/reproduce)
 
-Spell check didn't catch this. Implies that redumbering is a real word!
-Now I need to find an opportunity to use it :-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309300457.ZoVGeCJY-lkp@intel.com/
 
-Changed to renumbering.
-> 
-> 
-> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > index b0901fb95aa9..a5404c412f53 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > @@ -1357,7 +1357,7 @@ unsigned int rdtgroup_cbm_to_size(struct rdt_resource *r,
-> >                 }
-> >         }
-> >
-> > -       return size;
-> > +       return size / snc_nodes_per_l3_cache;
-> 
-> To confirm, the size represented by a bit goes down rather than the
-> CBM mask shrinking in each sub-NUMA domain?
+All warnings (new ones prefixed by >>):
 
-Correct. The CBM mask keeps the same number of bits. Those bits are
-all available to control allocation in each SNC node. But the amount
-of cache you get per-bit is reduced in the ratio of the number of SNC
-ways.
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-yuv444p (if the link has no caption the label must precede a section header)
 
-> 
-> I would maybe have expected the CBM mask to already be allocating at
-> the smallest granularity the hardware supports.
-> 
-> >  }
-> >
-> >  /**
-> > @@ -2590,7 +2590,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
-> >                 ctx->enable_cdpl2 = true;
-> >                 return 0;
-> >         case Opt_mba_mbps:
-> > -               if (!supports_mba_mbps())
-> > +               if (!supports_mba_mbps() || snc_nodes_per_l3_cache > 1)
-> 
-> Factor into supports_mba_mbps()?
+vim +6 Documentation/output/videodev2.h.rst
 
-Agreed. That's a better place. Moved this test into supports_mba_mbps().
-> 
-> >                         return -EINVAL;
-> >                 ctx->enable_mba_mbps = true;
-> >                 return 0;
-> > --
-> > 2.41.0
-> >
-> 
-> Reviewed-by: Peter Newman <peternewman@google.com>
-
-Thanks
-
--Tony
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
