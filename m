@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A28E728C3
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 15:57:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F540E728C3
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 15:59:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233274AbjI2P5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 11:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42212 "EHLO
+        id S233646AbjI2P7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 11:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233646AbjI2P5X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 11:57:23 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7FB3195;
-        Fri, 29 Sep 2023 08:57:20 -0700 (PDT)
+        with ESMTP id S233141AbjI2P7u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 11:59:50 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B35FB199;
+        Fri, 29 Sep 2023 08:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696003040; x=1727539040;
+  t=1696003187; x=1727539187;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=QuNwZ8GGaC1YVteAi2IZNrp5mEpQR8V4HvTYvdoFsDI=;
-  b=cq9f8kHNxsheRK5rI/AWRoYYv2SU/AlPY7SptZiZhY5N4223AFkFOq3S
-   0U/DrviyrMYb5aBZy6nZnxETYAW2GMBvqd9bg2Reb/5CFGogSZaArqAFI
-   S754bq0VuTeG23JhWV3k6Cz7yXscaHtlZsZ2cB9kGWxyCeozOu/owWGnp
-   aAXeDBQEhLKuSxbaw1BpsDG8DSppzjKZE4i1S41ypEaBdeyEu7JZFoRi3
-   4+1zRTq1uuX/X1ZN+98VnGrs6bhVX5c4+i6zzdhS/RdVG4D9JSM33+mvv
-   9roY+LgOPhhNUKIkZMuhH2cawHCRCj52GqIgRTuttWzuN2U3YS1N/KBhW
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="385149712"
+  bh=Je6EGKZMv+TsDqILwXjgiaxO2rBwrwYSjxArwTiyOh8=;
+  b=ljNQ7CB9uLJQSR3h9LrLSj00LVUiFWi3YNAeE5aYl/3AzQav6hw7bf+b
+   ze9pytBa1iqw3n6srX+oeFb8FA+HE706bkGIFh4A/eXHfpgPRdQsnMraQ
+   crbzk3xW24MdKpuTAHnrsrU34ojMBkCBVHlqvB3gwHs5zM+fAFLXK0whs
+   HrXwUhJ/FjqS6wQOPRHyPfbtMMJyx5HA0gA7JSvoSxtj02gNpDCXkGKE4
+   oKehC46WqVSjo734d2ukxXbsNAwM3g5DYsFmc9LlwqsEbfZZdKLzs+QjX
+   gMOrqM29MDC63z8KVMRAzCkS8fEInO04dS0XfIA0GIVwvosze+6QHu9O5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="367383373"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="385149712"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 08:56:48 -0700
+   d="scan'208";a="367383373"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 08:59:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="923633407"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="743474304"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="923633407"
+   d="scan'208";a="743474304"
 Received: from smorozov-mobl1.ger.corp.intel.com ([10.252.52.167])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 08:56:40 -0700
-Date:   Fri, 29 Sep 2023 18:56:37 +0300 (EEST)
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 08:59:38 -0700
+Date:   Fri, 29 Sep 2023 18:59:35 +0300 (EEST)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     Babu Moger <babu.moger@amd.com>
 cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
@@ -56,12 +56,13 @@ cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
         christophe.leroy@csgroup.eu, jarkko@kernel.org,
         adrian.hunter@intel.com, quic_jiles@quicinc.com,
         peternewman@google.com
-Subject: Re: [PATCH v10 10/10] x86/resctrl: Display RMID of resource group
-In-Reply-To: <20230915224227.1336967-11-babu.moger@amd.com>
-Message-ID: <0f97fcf-ee2e-f63f-1d98-8e11d30384c@linux.intel.com>
-References: <20230915224227.1336967-1-babu.moger@amd.com> <20230915224227.1336967-11-babu.moger@amd.com>
+Subject: Re: [PATCH v10 09/10] x86/resctrl: Add support for the files for
+ MON groups only
+In-Reply-To: <20230915224227.1336967-10-babu.moger@amd.com>
+Message-ID: <b0c837f8-de37-f25d-6e0-8bfc1fa894ae@linux.intel.com>
+References: <20230915224227.1336967-1-babu.moger@amd.com> <20230915224227.1336967-10-babu.moger@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-894282230-1696003007=:1989"
+Content-Type: multipart/mixed; boundary="8323329-822049506-1696003186=:1989"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -69,111 +70,80 @@ X-Mailing-List: linux-doc@vger.kernel.org
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-894282230-1696003007=:1989
+--8323329-822049506-1696003186=:1989
 Content-Type: text/plain; charset=ISO-8859-15
 Content-Transfer-Encoding: 8BIT
 
 On Fri, 15 Sep 2023, Babu Moger wrote:
 
-> In x86, hardware uses RMID to identify a monitoring group. When a user
-> creates a monitor group these details are not visible. These details
-> can help resctrl debugging.
+> There are 3 types resctrl root files.
+> 1. RFTYPE_BASE : Files common for both MON and CTRL groups
+> 2. RFTYPE_BASE | RFTYPE_CTRL : Files only for CTRL groups
+> 3. RFTYPE_BASE | RFTYPE_MON : Files only for MON groups
 > 
-> Add RMID(mon_hw_id) to the monitor groups display in resctrl interface.
-> Users can see these details when resctrl is mounted with "-o debug" option.
-> 
-> Other architectures do not use "RMID". Use the name mon_hw_id to refer
-> to "RMID" in an effort to keep the naming generic.
-> 
-> For example:
->  $cat /sys/fs/resctrl/mon_groups/mon_grp1/mon_hw_id
->  3
+> Files only for the MON groups are not supported now. Add the
+> support to create these files.
 > 
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
->  Documentation/arch/x86/resctrl.rst     |  4 ++++
->  arch/x86/kernel/cpu/resctrl/internal.h |  5 +++++
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 23 +++++++++++++++++++++++
->  3 files changed, 32 insertions(+)
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-> index 54691c8b832d..98b0eb509ed4 100644
-> --- a/Documentation/arch/x86/resctrl.rst
-> +++ b/Documentation/arch/x86/resctrl.rst
-> @@ -369,6 +369,10 @@ When monitoring is enabled all MON groups will also contain:
->  	the sum for all tasks in the CTRL_MON group and all tasks in
->  	MON groups. Please see example section for more details on usage.
->  
-> +"mon_hw_id":
-> +	Available only with debug option. The identifier used by hardware
-> +	for the monitor group. On x86 this is the RMID.
-> +
->  Resource allocation rules
->  -------------------------
->  
-> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-> index a07fa4329b65..b4910892b0a6 100644
-> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> @@ -296,6 +296,11 @@ struct rdtgroup {
->   *	--> RFTYPE_BASE (Files common for both MON and CTRL groups)
->   *	    Files: cpus, cpus_list, tasks
->   *
-> + *		--> RFTYPE_MON (Files only for MON group)
-> + *
-> + *			--> RFTYPE_DEBUG (Files to help resctrl debugging)
-> + *			    File: mon_hw_id
-> + *
->   *		--> RFTYPE_CTRL (Files only for CTRL group)
->   *		    Files: mode, schemata, size
->   *
 > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 55d1b90f460e..ef4b18091e5d 100644
+> index 953b082cec8a..55d1b90f460e 100644
 > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -795,6 +795,22 @@ static int rdtgroup_closid_show(struct kernfs_open_file *of,
->  	return ret;
->  }
+> @@ -2533,6 +2533,7 @@ static void schemata_list_destroy(void)
+>  static int rdt_get_tree(struct fs_context *fc)
+>  {
+>  	struct rdt_fs_context *ctx = rdt_fc2context(fc);
+> +	unsigned long flags = RFTYPE_CTRL_BASE;
+>  	struct rdt_domain *dom;
+>  	struct rdt_resource *r;
+>  	int ret;
+> @@ -2563,7 +2564,10 @@ static int rdt_get_tree(struct fs_context *fc)
 >  
-> +static int rdtgroup_rmid_show(struct kernfs_open_file *of,
-> +			      struct seq_file *s, void *v)
-> +{
-> +	struct rdtgroup *rdtgrp;
-> +	int ret = 0;
-> +
-> +	rdtgrp = rdtgroup_kn_lock_live(of->kn);
-> +	if (rdtgrp)
-> +		seq_printf(s, "%u\n", rdtgrp->mon.rmid);
-> +	else
-> +		ret = -ENOENT;
-> +	rdtgroup_kn_unlock(of->kn);
-> +
-> +	return ret;
-> +}
-> +
->  #ifdef CONFIG_PROC_CPU_RESCTRL
+>  	closid_init();
 >  
->  /*
-> @@ -1856,6 +1872,13 @@ static struct rftype res_common_files[] = {
->  		.seq_show	= rdtgroup_tasks_show,
->  		.fflags		= RFTYPE_BASE,
->  	},
-> +	{
-> +		.name		= "mon_hw_id",
-> +		.mode		= 0444,
-> +		.kf_ops		= &rdtgroup_kf_single_ops,
-> +		.seq_show	= rdtgroup_rmid_show,
-> +		.fflags		= RFTYPE_MON_BASE | RFTYPE_DEBUG,
-> +	},
->  	{
->  		.name		= "schemata",
->  		.mode		= 0644,
+> -	ret = rdtgroup_add_files(rdtgroup_default.kn, RFTYPE_CTRL_BASE);
+> +	if (rdt_mon_capable)
+> +		flags |= RFTYPE_MON;
+> +
+> +	ret = rdtgroup_add_files(rdtgroup_default.kn, flags);
+>  	if (ret)
+>  		goto out_schemata_free;
+>  
+> @@ -3253,8 +3257,8 @@ static int mkdir_rdt_prepare(struct kernfs_node *parent_kn,
+>  			     enum rdt_group_type rtype, struct rdtgroup **r)
+>  {
+>  	struct rdtgroup *prdtgrp, *rdtgrp;
+> +	unsigned long files = 0;
+>  	struct kernfs_node *kn;
+> -	uint files = 0;
+>  	int ret;
+>  
+>  	prdtgrp = rdtgroup_kn_lock_live(parent_kn);
+> @@ -3306,10 +3310,13 @@ static int mkdir_rdt_prepare(struct kernfs_node *parent_kn,
+>  		goto out_destroy;
+>  	}
+>  
+> -	if (rtype == RDTCTRL_GROUP)
+> +	if (rtype == RDTCTRL_GROUP) {
+>  		files = RFTYPE_BASE | RFTYPE_CTRL;
+> -	else
+> +		if (rdt_mon_capable)
+> +			files |= RFTYPE_MON;
+> +	} else {
+>  		files = RFTYPE_BASE | RFTYPE_MON;
+> +	}
+>  
+>  	ret = rdtgroup_add_files(kn, files);
+>  	if (ret) {
 > 
 
 Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-
 -- 
  i.
 
---8323329-894282230-1696003007=:1989--
+--8323329-822049506-1696003186=:1989--
