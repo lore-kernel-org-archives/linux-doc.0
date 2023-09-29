@@ -2,81 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463D9CE7AF3
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 20:51:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFDE6E728F3
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 20:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233829AbjI2Uv3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 16:51:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
+        id S229545AbjI2Uyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 16:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233809AbjI2Uv3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 16:51:29 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E301A7
-        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 13:51:27 -0700 (PDT)
+        with ESMTP id S229508AbjI2Uyv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 16:54:51 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2175B1AA;
+        Fri, 29 Sep 2023 13:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696020687; x=1727556687;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A1Ct4rs5knPfD4LHPtaa58RjcEhTuopD4ohlNlps+94=;
-  b=AvLhRPsnm+ubb0Y4duAeg4ZvHhA+R/yDpDx6JxoJverj+dyqbHxDm1Qn
-   PGFD9DdDrGbNSdR46giQy4yEpuYBV84tuk4WG93QooBMsLqcz8ElMjTtk
-   XHDleTcYKmBu+Ad3irG1didwCD86d7D2Bh8ExUhBcPATBopGyM3jM6S0k
-   gX4cbpyyZtk7wvGMNsyFNg8AVxUb6d1sHuDKCOH8M6V/ZrxRF07itqWM3
-   wbggdxOZUzXKkrW0+hR+/901sc3bf9WHcHU3EWlAPtz4fGuRLiklYB5gO
-   7GW4lEg+w11yE8f4CcknFk30/fBKoA4b7+gmWwxYN7Kah3OefjDnpdwXr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386241292"
+  t=1696020889; x=1727556889;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=oTbiNGIXHhUIMdMlWMW1h6e4WlB0GQpl6q76DSW/M+w=;
+  b=DDOwPuLTgn2eupuXJcbd2kJSP7oZuNMRZwoQSLvEZme+4uihVxZfxfIX
+   7AzmHuVW1KxwoijyY3haxsKqPBnO6y80dDMCM/AciVhOZ4EE5IeYEudK/
+   6m6gv3zZ9IzC8KaEX10LB7wQ8rKkBDNvyRLdkJn3rS9akOCSZaFxfiody
+   xiBLW4RILsALwl26/O+WnuDbaPakfN17Zs9xfmXGlCnAvG3acNmWXvH5V
+   hYJ/F+ff4mUVeE+5NZzCU320z422X3HKA3k3UgoRuAEyHonqEpvnhxmIp
+   9QivpovMvD4svbKdsf1PIMRZKQUA2LlgcojMrBR8xWkScxjtmq51vnWjx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="367433097"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="386241292"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:28:47 -0700
+   d="scan'208";a="367433097"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:51:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="779374251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="815704888"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="779374251"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 29 Sep 2023 13:28:45 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qmK6M-0003FN-2H;
-        Fri, 29 Sep 2023 20:28:42 +0000
-Date:   Sat, 30 Sep 2023 04:28:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Rohit Visavalia <rohit.visavalia@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
-        Michal Simek <monstr@monstr.eu>,
-        Devarsh Thakkar <devarsh.thakkar@xilinx.com>,
-        Vishal Sagar <vishal.sagar@xilinx.com>,
-        linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 307/1370] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-yuv444p (if the link has no caption the label must precede a
- section header)
-Message-ID: <202309300457.ZoVGeCJY-lkp@intel.com>
+   d="scan'208";a="815704888"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 13:51:39 -0700
+Date:   Fri, 29 Sep 2023 13:51:37 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Peter Newman <peternewman@google.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev
+Subject: Re: [PATCH v6 8/8] x86/resctrl: Update documentation with Sub-NUMA
+ cluster changes
+Message-ID: <ZRc42bU3urj5wqP/@agluck-desk3>
+References: <20230829234426.64421-1-tony.luck@intel.com>
+ <20230928191350.205703-1-tony.luck@intel.com>
+ <20230928191350.205703-9-tony.luck@intel.com>
+ <CALPaoCgPXPF_fn9fh15rW0JWUhxth5wOO51n+oHqibP+a6Qjfg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALPaoCgPXPF_fn9fh15rW0JWUhxth5wOO51n+oHqibP+a6Qjfg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 19837eedfc69d8bbd822ad14d6aa6f6b154b0198 [307/1370] media: v4l: Support 3 planar YUV444P 8bpc pixel format in contiguous memory
-reproduce: (https://download.01.org/0day-ci/archive/20230930/202309300457.ZoVGeCJY-lkp@intel.com/reproduce)
+On Fri, Sep 29, 2023 at 04:54:21PM +0200, Peter Newman wrote:
+> Hi Tony,
+> 
+> On Thu, Sep 28, 2023 at 9:14 PM Tony Luck <tony.luck@intel.com> wrote:
+> > diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+> > index cb05d90111b4..d6b6a4cfd967 100644
+> > --- a/Documentation/arch/x86/resctrl.rst
+> > +++ b/Documentation/arch/x86/resctrl.rst
+> > @@ -345,9 +345,15 @@ When control is enabled all CTRL_MON groups will also contain:
+> >  When monitoring is enabled all MON groups will also contain:
+> >
+> >  "mon_data":
+> > -       This contains a set of files organized by L3 domain and by
+> > -       RDT event. E.g. on a system with two L3 domains there will
+> > -       be subdirectories "mon_L3_00" and "mon_L3_01".  Each of these
+> > +       This contains a set of files organized by L3 domain or by NUMA
+> > +       node (depending on whether Sub-NUMA Cluster (SNC) mode is disabled
+> > +       or enabled respectively) and by RDT event. E.g. on a system with
+> > +       SNC mode disabled with two L3 domains there will be subdirectories
+> > +       "mon_L3_00" and "mon_L3_01". The numerical suffix refers to the
+> > +       L3 cache id.  With SNC enabled the directory names are the same,
+> > +       but the numerical suffix refers to the node id.
+> > +       Mappings from node ids to CPUs are available in the
+> > +       /sys/devices/system/node/node*/cpulist files. Each of these
+> 
+> The explanation of mon_data seems overwhelmingly SNC-centric now.
+> Maybe the SNC section should be responsible for explaining its impact
+> on the mon_data directory. Mainly by reminding the reader that domain
+> ids in the mon_data directory are node ids in SNC mode.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309300457.ZoVGeCJY-lkp@intel.com/
+I cut out all the examples and just note that the numerical suffices
+are nodes instead of cache instances.
 
-All warnings (new ones prefixed by >>):
+This bit of the git diff now reads:
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-yuv444p (if the link has no caption the label must precede a section header)
+-       This contains a set of files organized by L3 domain and by
+-       RDT event. E.g. on a system with two L3 domains there will
+-       be subdirectories "mon_L3_00" and "mon_L3_01".  Each of these
++       This contains a set of files organized by L3 domain or by NUMA
++       node (depending on whether Sub-NUMA Cluster (SNC) mode is disabled
++       or enabled respectively) and by RDT event.  Each of these
 
-vim +6 Documentation/output/videodev2.h.rst
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> >         directories have one file per event (e.g. "llc_occupancy",
+> >         "mbm_total_bytes", and "mbm_local_bytes"). In a MON group these
+> >         files provide a read out of the current value of the event for
+> > @@ -452,6 +458,28 @@ and 0xA are not.  On a system with a 20-bit mask each bit represents 5%
+> >  of the capacity of the cache. You could partition the cache into four
+> >  equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
+> >
+> > +Notes on Sub-NUMA Cluster mode
+> > +==============================
+> > +When SNC mode is enabled the "llc_occupancy", "mbm_total_bytes", and
+> > +"mbm_local_bytes" will only give meaningful results for well behaved NUMA
+> > +applications. I.e. those that perform the majority of memory accesses
+> > +to memory on the local NUMA node to the CPU where the task is executing.
+> 
+> Not being specific about why the results aren't meaningful, this
+> sounds vague and alarming.
+
+Removed the trigger word "meaningful" and re-worded to just explain
+the increased liklihood that tasks will migrate between nodes, so users
+must collect data from all nodes. Technically this has always been true
+on multi-socket systems. But since there is a much higher barrier to
+task migration between sockets, users may find that simple measurements
+that used to work now behave differently.
+
+New version:
+
++Notes on Sub-NUMA Cluster mode
++==============================
++When SNC mode is enabled Linux may load balance tasks between Sub-NUMA
++nodes much more readily than between regular NUMA nodes since the CPUs
++on Sub-NUMA nodes share the same L3 cache and the system may report
++the NUMA distance between Sub-NUMA nodes with a lower value than used
++for regular NUMA nodes.  Users who do not bind tasks to the CPUs of a
++specific Sub-NUMA node must read the "llc_occupancy", "mbm_total_bytes",
++and "mbm_local_bytes" for all Sub-NUMA nodes where the tasks may execute
++to get the full view of traffic for which the tasks were the source.
++
++The cache allocation feature still provides the same number of
++bits in a mask to control allocation into the L3 cache. But each
++of those ways has its capacity reduced because the cache is divided
++between the SNC nodes. The values reported in the resctrl
++"size" files are adjusted accordingly.
+
+
+> 
+> > +Note that Linux may load balance tasks between Sub-NUMA nodes much
+> > +more readily than between regular NUMA nodes since the CPUs on SNC
+> > +share the same L3 cache and the system may report the NUMA distance
+> > +between SNC nodes with a lower value than used for regular NUMA nodes.
+> > +Tasks that migrate between nodes will have their traffic recorded by the
+> > +counters in different SNC nodes so a user will need to read mon_data
+> > +files from each node on which the task executed to get the full
+> > +view of traffic for which the task was the source.
+> > +
+> > +
+> > +The cache allocation feature still provides the same number of
+> > +bits in a mask to control allocation into the L3 cache. But each
+> > +of those ways has its capacity reduced because the cache is divided
+> > +between the SNC nodes. The values reported in the resctrl
+> > +"size" files are adjusted accordingly.
+> > +
+> >  Memory bandwidth Allocation and monitoring
+> >  ==========================================
+> >
+> > --
+> > 2.41.0
+> >
+> 
+> Reviewed-by: Peter Newman <peternewman@google.com>
