@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8ABE71D2D
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 13:10:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 109C2E71D37
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 13:45:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232786AbjI2NKd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 09:10:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60684 "EHLO
+        id S233311AbjI2NpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 09:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232990AbjI2NKc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 09:10:32 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2423E1AC
-        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 06:10:30 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1c6193d6bb4so175845ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 06:10:30 -0700 (PDT)
+        with ESMTP id S232997AbjI2NpI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 09:45:08 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E113F1AA
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 06:45:06 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-41958410e5cso374411cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 06:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695993029; x=1696597829; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695995106; x=1696599906; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GqsUDvMrMOqqFL7m1YQGMK07qbU6YXfwUB/IfzIJHSc=;
-        b=uALQWr75WlH8dBHzgjwAckyzMtvJs48jR/Ul6XNWr7bOqTN8TjKSYNweboyF7FCYL9
-         X76SVWPAtSH9pNBR4/AXYJ7M+AH2CCh8+BfjSt8b2JyiJaQvqrqXnvmjztbnc8x3p0qw
-         otc772fXV/x9haeTZrkFjpcfHnVrptE+MfRSWpPKReG2yaCJAArrCXm3tHHLeLtTOSa0
-         L/HBRpxAPwGu4s98FeZhcLFHwJdvHPNL2xGb9IsE779bGqgPR+PvN49w6RV8U4wQS2QT
-         oUvmZfwCy4U4lWpOlqkH3KA2kc9Y7NcPbWTpXuLy1rVBPYKxHI6LjDpanJoWKWrrq3D8
-         xIAQ==
+        bh=qkcij4M4qFmfPBJh0ZXRR+rqodBxc/HEVEHdtcfIjHY=;
+        b=kyME0vumcYlwgpnwUWzLizAHRLZSEMBT1zd29YG+l+tv2me2gnb5XIWEBSI8FoGKGJ
+         IYbUAX8xSkGcN7HIhXAjAUSu8YT4Z3YfVcxLB8KnJcGyRprwm3/FUbJ0A8DxKMURCKpS
+         YL6SfFRHOD4a4SlSkuT+CnQ/gV5Ujb3AOdOFs7GE+su0BvtdZ26BQx7QRYej+5RGfjYz
+         4/7LjfwahbqZbFXy+yXgvb0yoOIz5PIWNbzKq4w24UA8s5KGRdi/mOqpsKc7QCB1+Gp1
+         JhBwzLcM1el64UxYl7RGzrdzKYkmW3SKSq8L0zBBtd1uWwb03Ot07FSYzoEipCoZ2TUz
+         S50w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695993029; x=1696597829;
+        d=1e100.net; s=20230601; t=1695995106; x=1696599906;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GqsUDvMrMOqqFL7m1YQGMK07qbU6YXfwUB/IfzIJHSc=;
-        b=tnK0m42RDghOTlr3rP0C9XmFQoTfcZMyEsVBH5HJz493/WRRBuI1kWpa+fX67uy92x
-         7RcyNODSy40IB+yAn0mxPmXIaczuV5xc79svhA3AvMBpv2Hba0Z32u1LC5muO1qy7x5v
-         YGY5+asNDjsbfIUnnqzCz4nzELP1pltodOZeMfq0bZz1/d4Kl2KTSaUnzhjWvp2f1d8K
-         MRWmVuLH0771NAOQruYa3KBFEJIJEeHh97BlSiRlXnN3Llf+mPZuapD5vqQZ1AiNplxi
-         jYesHZUa0y+xr1wieCfV304FPOP4Iui07ADM6a4fvS95ksEaygnsZcsUhHJWcLKUFlWO
-         gOoA==
-X-Gm-Message-State: AOJu0YyM3uivMFARn8vNNSIkPYEVOvc6zXrM/P8C9A5n+Bi9J7+TG0NT
-        ieVOJLACpHdu3DZXdRS/QDwU8tD7Tub8FyXXx19UyA==
-X-Google-Smtp-Source: AGHT+IGa8YbOF0A0sMykEjT9fwajbe4gFnID97FG5oUvq2FBzNkVBTg2g/J63Q35Ro7fybey1Btr2vmzoE31FXbTm+k=
-X-Received: by 2002:a17:903:32d0:b0:1bc:29c3:5895 with SMTP id
- i16-20020a17090332d000b001bc29c35895mr978436plr.0.1695993029313; Fri, 29 Sep
- 2023 06:10:29 -0700 (PDT)
+        bh=qkcij4M4qFmfPBJh0ZXRR+rqodBxc/HEVEHdtcfIjHY=;
+        b=oDAaVk3RM+3ajljinLF27VMmmT18SyvHaR8Tra5WFUf0BrdgZiqiuI4muIhLGb3Ax+
+         uddkFrD70N6kDZCCSm2Y9Z+iSQGwgV7ajV0fVYlwRZJVbVR0S31iFtaEG+S/agY3lITk
+         vLwmEsfRr1TrDg1fN9wbOGZWnW/7pnbWSRvGrbTfdZyqicSghXEdVyOsPe+2b2yvx/fq
+         BKppnZdrd7mqpibqMsczDOGhKpDqGhvHVQIM9u+kO1nZLZ8LbJxIOE2A7PZvgBXjYV9K
+         Av2bHfCGL0xEEUkhJykusrJYk97pP861CRCsf87mRb62erjhzop6+yU5mJCuM5opq8fd
+         01Kw==
+X-Gm-Message-State: AOJu0Yxs0UMJJYRNhvD/Mli6G5vx/ItE3AW/fzkrhpKjJxtXSYVpcVBV
+        kVnJgMnMSy6Myl56u752/imc8klTX1FH0LabF+C9fw==
+X-Google-Smtp-Source: AGHT+IGqb7C2qGPVFGGU6qDXPjDw5ijpk93eWWclX0RnNuF3jfCQccabAV91wG1NS0ht9vqWAX+tBaD/0xVtgS9Gg0E=
+X-Received: by 2002:a05:622a:46:b0:40f:d1f4:aa58 with SMTP id
+ y6-20020a05622a004600b0040fd1f4aa58mr1209455qtw.8.1695995105901; Fri, 29 Sep
+ 2023 06:45:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230829234426.64421-1-tony.luck@intel.com> <20230928191350.205703-1-tony.luck@intel.com>
- <20230928191350.205703-4-tony.luck@intel.com>
-In-Reply-To: <20230928191350.205703-4-tony.luck@intel.com>
+ <20230928191350.205703-5-tony.luck@intel.com>
+In-Reply-To: <20230928191350.205703-5-tony.luck@intel.com>
 From:   Peter Newman <peternewman@google.com>
-Date:   Fri, 29 Sep 2023 15:10:18 +0200
-Message-ID: <CALPaoCgb35dGiC87e_cqTOXKKZ-nQcokWou+u=mC7m2gR36G8w@mail.gmail.com>
-Subject: Re: [PATCH v6 3/8] x86/resctrl: Prepare for different scope for
- control/monitor operations
+Date:   Fri, 29 Sep 2023 15:44:54 +0200
+Message-ID: <CALPaoCgN2PBQymAXK_f1ggs_JwyARBuWruP-sPA1QKJMxvv9ow@mail.gmail.com>
+Subject: Re: [PATCH v6 4/8] x86/resctrl: Split the rdt_domain and
+ rdt_hw_domain structures
 To:     Tony Luck <tony.luck@intel.com>
 Cc:     Fenghua Yu <fenghua.yu@intel.com>,
         Reinette Chatre <reinette.chatre@intel.com>,
@@ -77,106 +77,37 @@ Hi Tony,
 
 On Thu, Sep 28, 2023 at 9:14=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
 te:
->
-> @@ -352,7 +355,7 @@ struct rdt_domain *get_domain_from_cpu(int cpu, struc=
-t rdt_resource *r)
->  {
->         struct rdt_domain *d;
->
-> -       list_for_each_entry(d, &r->domains, hdr.list) {
-> +       list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
+>  /**
+> - * struct rdt_hw_domain - Arch private attributes of a set of CPUs that =
+share
+> - *                       a resource
+> + * struct rdt_hw_ctrl_domain - Arch private attributes of a set of CPUs =
+that share
+> + *                       a resource for a control function
 
-If someone were to call get_domain_from_cpu() looking for a
-mon_domain, I don't think they'd be happy with the result.
+wrapped line not quite aligned anymore
 
-This problem seems adequately addressed by the next patch where a type
-mismatch on the return value would result.
-
-In any case, perhaps the name could be updated to set expectations better.
-
-
-> @@ -549,44 +552,101 @@ static void domain_add_cpu(int cpu, struct rdt_res=
-ource *r)
->
->         rdt_domain_reconfigure_cdp(r);
->
-> -       if (r->alloc_capable && domain_setup_ctrlval(r, d)) {
-> +       if (domain_setup_ctrlval(r, d)) {
->                 domain_free(hw_dom);
->                 return;
->         }
->
-> -       if (r->mon_capable && arch_domain_mbm_alloc(r->num_rmid, hw_dom))=
- {
-> +       list_add_tail(&d->hdr.list, add_pos);
+>   * @d_resctrl: Properties exposed to the resctrl file system
+>   * @ctrl_val:  array of cache or mem ctrl values (indexed by CLOSID)
+> + *
+> + * Members of this structure are accessed via helpers that provide abstr=
+action.
+> + */
+> +struct rdt_hw_ctrl_domain {
+> +       struct rdt_ctrl_domain          d_resctrl;
+> +       u32                             *ctrl_val;
+> +};
 > +
-> +       err =3D resctrl_online_ctrl_domain(r, d);
-> +       if (err) {
-> +               list_del(&d->hdr.list);
->                 domain_free(hw_dom);
-> +       }
-> +}
-> +
-> +static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
-> +{
-> +       int id =3D get_domain_id_from_scope(cpu, r->mon_scope);
-> +       struct list_head *add_pos =3D NULL;
-> +       struct rdt_hw_domain *hw_mondom;
+> +/**
+> + * struct rdt_hw_mon_domain - Arch private attributes of a set of CPUs t=
+hat share
+> + *                       a resource for a monitor function
 
-It's still hw_dom in domain_add_cpu_ctrl(), so why hw_mondom here?
-
-
-> @@ -3711,16 +3711,16 @@ static void domain_destroy_mon_state(struct rdt_d=
-omain *d)
->         kfree(d->mbm_local);
->  }
->
-> -void resctrl_offline_domain(struct rdt_resource *r, struct rdt_domain *d=
-)
-> +void resctrl_offline_ctrl_domain(struct rdt_resource *r, struct rdt_doma=
-in *d)
->  {
->         lockdep_assert_held(&rdtgroup_mutex);
->
->         if (supports_mba_mbps() && r->rid =3D=3D RDT_RESOURCE_MBA)
->                 mba_sc_domain_destroy(r, d);
-> +}
->
-> -       if (!r->mon_capable)
-> -               return;
-> -
-> +void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_domai=
-n *d)
-> +{
->         /*
->          * If resctrl is mounted, remove all the
->          * per domain monitor data directories.
-
-We did a lockdep_assert_held(&rdtgroup_mutex) for both types before.
-Should we continue to do so here?
+wrapped line not quite aligned anymore
 
 
 > --
 > 2.41.0
 >
 
-In the resctrl2 prototype I complained that resctrl_resource was
-awkwardly disjoint in its support for control and monitoring
-groups[1]. In this patch, you seem to have already done most of the
-hard work in separating the control and monitoring functionality, so
-taking the next step and using a different structure to represent
-control and monitoring resources would further improve the code by
-statically typing monitoring and control resources, which would be
-less error-prone than run-time checks on the alloc_capable and
-mon_capable fields, which seem easy to forget.
-
-I don't think this is necessary to complete SNC support, but it would
-give me confidence that there isn't a misplaced {alloc,mon}_capable
-check resulting in the wrong domain list being traversed. I will
-probably do this myself later if you don't.
-
-Thanks!
--Peter
-
-[1] https://lore.kernel.org/all/CALPaoCj_oa=3DnATvOO_uysYvu+PdTQtd0pvssvm9_=
-M1+fP-Z8JA@mail.gmail.com/
+Reviewed-by: Peter Newman <peternewman@google.com>
