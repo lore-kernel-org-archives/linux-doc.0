@@ -2,91 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A757E7F153
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 10:35:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A781E810D5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 11:57:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233254AbjI2KfE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 06:35:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56652 "EHLO
+        id S233115AbjI2L54 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 07:57:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233245AbjI2Kep (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 06:34:45 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8956410D8;
-        Fri, 29 Sep 2023 03:32:55 -0700 (PDT)
+        with ESMTP id S233125AbjI2L5z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 07:57:55 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0171ECC0;
+        Fri, 29 Sep 2023 04:57:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695983575; x=1727519575;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cJL8ueWuCjgHjD1foN++iV6srjQt5o/jr0dESBTCY6U=;
-  b=QZGsTkJyDQPOSSP2KZyERZvSmombqfw7mKzMnIbNs9Fy/ruHagfUxZXz
-   a+33yBzLXHtFmyx7W04C1A9Zb4RF558dQZx60lhUn3Lri2Ulczb31PEvX
-   lxPpRuVfDRlAnS9z//b/c081M+4FsbzDN3PIR42EZQZ5gonSsVft2sem1
-   8b7a5hgNKc03Jf5D66ffL0G004tnmpJrZwQJL6PSB4vwq666D6Yt/NiAH
-   KEQ0BNyDwj4qH06VLJq2M1wZCVSvnmz7npYuv/Q8SJAdqJQu9yFd21jrK
-   pOZubRE7HQyNEUC/3kjlqf3iVrzegiNwhMHhJ++Sn46/s2FnxITa/PK5c
+  t=1695988673; x=1727524673;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=hHkykAT64KFeDdyczTYQ6xW3x+LfVkMtEWBZ1a9eYwk=;
+  b=SeAWNw5+JpwyjyMMRUADm82ZBBoH2lA9EMGM/9NlRGC3CkW0pGsTHwxU
+   WJcbtqUl/PTJfzXiOTMyhRzz+ElAsizJ3yWD+u/gVhY6GRVml3WFrzzQy
+   oXOtAV4zXLKxXscmJlX3kbWlqqiaXVS/dMKWukppNBxEKYIWrQzUkpjpf
+   u+NSxnl/VLFBUC87Eb2uRAGaA0qB/UVWlNx48ttCEOG8i07gObNZDeFMy
+   xeATnAZpQkl9ogT9Wl8WSDJDOH8T/Yj9BZ+S+0aifd3GaAHIqpoC1dxMs
+   SnwpSdR2coeBHF2tGjC7lB8NROsU2IqZUmkE/V40z9xVy409KchVw7ZUR
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="386135525"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="413185323"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="386135525"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 03:31:02 -0700
+   d="scan'208";a="413185323"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 04:57:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="820177722"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="820177722"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Sep 2023 03:31:00 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qmAlt-0002k1-2z;
-        Fri, 29 Sep 2023 10:30:57 +0000
-Date:   Fri, 29 Sep 2023 18:30:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Costa Shulyupin <costa.shul@redhat.com>
-Subject: Re: [PATCH] docs: update link to powerpc/vmemmap_dedup.rst
-Message-ID: <202309291832.6j4oF2eE-lkp@intel.com>
-References: <20230927164319.2686237-1-costa.shul@redhat.com>
+   d="scan'208";a="838581"
+Received: from valeks2x-mobl.ger.corp.intel.com (HELO localhost) ([10.252.53.242])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 04:57:46 -0700
+From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+        Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Alex Deucher <alexdeucher@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v3 01/10] PCI: Protect Link Control 2 Register with RMW locking
+Date:   Fri, 29 Sep 2023 14:57:14 +0300
+Message-Id: <20230929115723.7864-2-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230929115723.7864-1-ilpo.jarvinen@linux.intel.com>
+References: <20230929115723.7864-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230927164319.2686237-1-costa.shul@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Costa,
+PCIe Bandwidth Controller performs RMW accesses the Link Control 2
+Register which can occur concurrently to other sources of Link Control
+2 Register writes. Therefore, add Link Control 2 Register among the PCI
+Express Capability Registers that need RMW locking.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ Documentation/PCI/pciebus-howto.rst | 8 ++++----
+ include/linux/pci.h                 | 1 +
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Costa-Shulyupin/docs-update-link-to-powerpc-vmemmap_dedup-rst/20230928-004508
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20230927164319.2686237-1-costa.shul%40redhat.com
-patch subject: [PATCH] docs: update link to powerpc/vmemmap_dedup.rst
-reproduce: (https://download.01.org/0day-ci/archive/20230929/202309291832.6j4oF2eE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309291832.6j4oF2eE-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/mm/vmemmap_dedup.rst references a file that doesn't exist: Documentation/arch/powerpc/vmemmap_dedup.rst
-
+diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+index a0027e8fb0d0..3ba322ca1ce1 100644
+--- a/Documentation/PCI/pciebus-howto.rst
++++ b/Documentation/PCI/pciebus-howto.rst
+@@ -218,7 +218,7 @@ that is shared between many drivers including the service drivers.
+ RMW Capability accessors (pcie_capability_clear_and_set_word(),
+ pcie_capability_set_word(), and pcie_capability_clear_word()) protect
+ a selected set of PCI Express Capability Registers (Link Control
+-Register and Root Control Register). Any change to those registers
+-should be performed using RMW accessors to avoid problems due to
+-concurrent updates. For the up-to-date list of protected registers,
+-see pcie_capability_clear_and_set_word().
++Register, Root Control Register, and Link Control 2 Register). Any
++change to those registers should be performed using RMW accessors to
++avoid problems due to concurrent updates. For the up-to-date list of
++protected registers, see pcie_capability_clear_and_set_word().
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 8c7c2c3c6c65..16db80f8b15c 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1243,6 +1243,7 @@ static inline int pcie_capability_clear_and_set_word(struct pci_dev *dev,
+ {
+ 	switch (pos) {
+ 	case PCI_EXP_LNKCTL:
++	case PCI_EXP_LNKCTL2:
+ 	case PCI_EXP_RTCTL:
+ 		return pcie_capability_clear_and_set_word_locked(dev, pos,
+ 								 clear, set);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.30.2
+
