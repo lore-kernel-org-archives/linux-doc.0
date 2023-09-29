@@ -2,80 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB9DE71D2A
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 13:00:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8ABE71D2D
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 13:10:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232990AbjI2NAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 09:00:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38978 "EHLO
+        id S232786AbjI2NKd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 09:10:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233105AbjI2NAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 09:00:16 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12E9B1B1
-        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 06:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695992413; x=1727528413;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1nKjcckU2/fUNIse7MyXfxQgTHsvL2qGDBAzXLJDEjc=;
-  b=Vpvy2n72U7uZRUt59LNeAPIxghktdNuPH5zOE0L7QLk+BwxWf9e76j9E
-   lXkpRM6tc9sn9CU8skv98lecxgMRmXxfZO02kcZaNWQe4A/1NynxtjAsN
-   Ch6miDoT3f7sacBsDVnRMr66nnr+kEo+D43D7udVMtkIZRJ5QqGDB0VBd
-   oLbmav7ApM5aAEAqfvyJDM5eKEwU+yfaf6BpVCfciqYT7j0YqxzylBATL
-   crpPfQ2PfmPYlinPzhovZtbzj1CwrRkfwT3SEnvEM+txhCFCCQDyeqWzV
-   NKSYQJgW8giNcfmcsgiON2FtycSKXyeh93Arb94Xg8tBusQ47pBn2ISBa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="361670551"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="361670551"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 05:59:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="785082594"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="785082594"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 29 Sep 2023 05:59:06 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qmD5E-0002rt-2T;
-        Fri, 29 Sep 2023 12:59:04 +0000
-Date:   Fri, 29 Sep 2023 20:58:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Rohit Visavalia <rohit.visavalia@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
-        Michal Simek <monstr@monstr.eu>,
-        Vishal Sagar <vishal.sagar@xilinx.com>,
-        linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 306/1370] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-x403 (if the link has no caption the label must precede a
- section header)
-Message-ID: <202309292034.zKKGoqzo-lkp@intel.com>
+        with ESMTP id S232990AbjI2NKc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 09:10:32 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2423E1AC
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 06:10:30 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1c6193d6bb4so175845ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 06:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695993029; x=1696597829; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GqsUDvMrMOqqFL7m1YQGMK07qbU6YXfwUB/IfzIJHSc=;
+        b=uALQWr75WlH8dBHzgjwAckyzMtvJs48jR/Ul6XNWr7bOqTN8TjKSYNweboyF7FCYL9
+         X76SVWPAtSH9pNBR4/AXYJ7M+AH2CCh8+BfjSt8b2JyiJaQvqrqXnvmjztbnc8x3p0qw
+         otc772fXV/x9haeTZrkFjpcfHnVrptE+MfRSWpPKReG2yaCJAArrCXm3tHHLeLtTOSa0
+         L/HBRpxAPwGu4s98FeZhcLFHwJdvHPNL2xGb9IsE779bGqgPR+PvN49w6RV8U4wQS2QT
+         oUvmZfwCy4U4lWpOlqkH3KA2kc9Y7NcPbWTpXuLy1rVBPYKxHI6LjDpanJoWKWrrq3D8
+         xIAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695993029; x=1696597829;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GqsUDvMrMOqqFL7m1YQGMK07qbU6YXfwUB/IfzIJHSc=;
+        b=tnK0m42RDghOTlr3rP0C9XmFQoTfcZMyEsVBH5HJz493/WRRBuI1kWpa+fX67uy92x
+         7RcyNODSy40IB+yAn0mxPmXIaczuV5xc79svhA3AvMBpv2Hba0Z32u1LC5muO1qy7x5v
+         YGY5+asNDjsbfIUnnqzCz4nzELP1pltodOZeMfq0bZz1/d4Kl2KTSaUnzhjWvp2f1d8K
+         MRWmVuLH0771NAOQruYa3KBFEJIJEeHh97BlSiRlXnN3Llf+mPZuapD5vqQZ1AiNplxi
+         jYesHZUa0y+xr1wieCfV304FPOP4Iui07ADM6a4fvS95ksEaygnsZcsUhHJWcLKUFlWO
+         gOoA==
+X-Gm-Message-State: AOJu0YyM3uivMFARn8vNNSIkPYEVOvc6zXrM/P8C9A5n+Bi9J7+TG0NT
+        ieVOJLACpHdu3DZXdRS/QDwU8tD7Tub8FyXXx19UyA==
+X-Google-Smtp-Source: AGHT+IGa8YbOF0A0sMykEjT9fwajbe4gFnID97FG5oUvq2FBzNkVBTg2g/J63Q35Ro7fybey1Btr2vmzoE31FXbTm+k=
+X-Received: by 2002:a17:903:32d0:b0:1bc:29c3:5895 with SMTP id
+ i16-20020a17090332d000b001bc29c35895mr978436plr.0.1695993029313; Fri, 29 Sep
+ 2023 06:10:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230829234426.64421-1-tony.luck@intel.com> <20230928191350.205703-1-tony.luck@intel.com>
+ <20230928191350.205703-4-tony.luck@intel.com>
+In-Reply-To: <20230928191350.205703-4-tony.luck@intel.com>
+From:   Peter Newman <peternewman@google.com>
+Date:   Fri, 29 Sep 2023 15:10:18 +0200
+Message-ID: <CALPaoCgb35dGiC87e_cqTOXKKZ-nQcokWou+u=mC7m2gR36G8w@mail.gmail.com>
+Subject: Re: [PATCH v6 3/8] x86/resctrl: Prepare for different scope for
+ control/monitor operations
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 00ea8c0b88977daedb8118d93fbba1d1f48e9350 [306/1370] media: v4l: Support 3 planar YUV 444 10bpc pixel format in contiguous memory
-reproduce: (https://download.01.org/0day-ci/archive/20230929/202309292034.zKKGoqzo-lkp@intel.com/reproduce)
+Hi Tony,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309292034.zKKGoqzo-lkp@intel.com/
+On Thu, Sep 28, 2023 at 9:14=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
+te:
+>
+> @@ -352,7 +355,7 @@ struct rdt_domain *get_domain_from_cpu(int cpu, struc=
+t rdt_resource *r)
+>  {
+>         struct rdt_domain *d;
+>
+> -       list_for_each_entry(d, &r->domains, hdr.list) {
+> +       list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
 
-All warnings (new ones prefixed by >>):
+If someone were to call get_domain_from_cpu() looking for a
+mon_domain, I don't think they'd be happy with the result.
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x403 (if the link has no caption the label must precede a section header)
+This problem seems adequately addressed by the next patch where a type
+mismatch on the return value would result.
 
-vim +6 Documentation/output/videodev2.h.rst
+In any case, perhaps the name could be updated to set expectations better.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+> @@ -549,44 +552,101 @@ static void domain_add_cpu(int cpu, struct rdt_res=
+ource *r)
+>
+>         rdt_domain_reconfigure_cdp(r);
+>
+> -       if (r->alloc_capable && domain_setup_ctrlval(r, d)) {
+> +       if (domain_setup_ctrlval(r, d)) {
+>                 domain_free(hw_dom);
+>                 return;
+>         }
+>
+> -       if (r->mon_capable && arch_domain_mbm_alloc(r->num_rmid, hw_dom))=
+ {
+> +       list_add_tail(&d->hdr.list, add_pos);
+> +
+> +       err =3D resctrl_online_ctrl_domain(r, d);
+> +       if (err) {
+> +               list_del(&d->hdr.list);
+>                 domain_free(hw_dom);
+> +       }
+> +}
+> +
+> +static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
+> +{
+> +       int id =3D get_domain_id_from_scope(cpu, r->mon_scope);
+> +       struct list_head *add_pos =3D NULL;
+> +       struct rdt_hw_domain *hw_mondom;
+
+It's still hw_dom in domain_add_cpu_ctrl(), so why hw_mondom here?
+
+
+> @@ -3711,16 +3711,16 @@ static void domain_destroy_mon_state(struct rdt_d=
+omain *d)
+>         kfree(d->mbm_local);
+>  }
+>
+> -void resctrl_offline_domain(struct rdt_resource *r, struct rdt_domain *d=
+)
+> +void resctrl_offline_ctrl_domain(struct rdt_resource *r, struct rdt_doma=
+in *d)
+>  {
+>         lockdep_assert_held(&rdtgroup_mutex);
+>
+>         if (supports_mba_mbps() && r->rid =3D=3D RDT_RESOURCE_MBA)
+>                 mba_sc_domain_destroy(r, d);
+> +}
+>
+> -       if (!r->mon_capable)
+> -               return;
+> -
+> +void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_domai=
+n *d)
+> +{
+>         /*
+>          * If resctrl is mounted, remove all the
+>          * per domain monitor data directories.
+
+We did a lockdep_assert_held(&rdtgroup_mutex) for both types before.
+Should we continue to do so here?
+
+
+> --
+> 2.41.0
+>
+
+In the resctrl2 prototype I complained that resctrl_resource was
+awkwardly disjoint in its support for control and monitoring
+groups[1]. In this patch, you seem to have already done most of the
+hard work in separating the control and monitoring functionality, so
+taking the next step and using a different structure to represent
+control and monitoring resources would further improve the code by
+statically typing monitoring and control resources, which would be
+less error-prone than run-time checks on the alloc_capable and
+mon_capable fields, which seem easy to forget.
+
+I don't think this is necessary to complete SNC support, but it would
+give me confidence that there isn't a misplaced {alloc,mon}_capable
+check resulting in the wrong domain list being traversed. I will
+probably do this myself later if you don't.
+
+Thanks!
+-Peter
+
+[1] https://lore.kernel.org/all/CALPaoCj_oa=3DnATvOO_uysYvu+PdTQtd0pvssvm9_=
+M1+fP-Z8JA@mail.gmail.com/
