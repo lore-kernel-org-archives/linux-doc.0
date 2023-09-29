@@ -2,255 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B41C9E728C0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 15:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C20E728C3
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 15:54:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233257AbjI2Pum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 11:50:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44726 "EHLO
+        id S233505AbjI2PyM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 11:54:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233141AbjI2Pul (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 11:50:41 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C71139;
-        Fri, 29 Sep 2023 08:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696002639; x=1727538639;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=7+SGseYhX5JNUFvBWvY7B8R/fPn7vX851ry7SYzAZZU=;
-  b=MpWPWPdx1rxWt1rIUp+nKHEDFeqRxqSR2+JMC1raj+G4j6PCjfb886AH
-   JLNSsfPTUknBsR16BjDzTM8ikzH3QrZ2FFkvu+3J7Qu1/xk/MLahIkrRl
-   DIjScRLWFau3SlBg97sM0VfP29Gr7xGbmwzzKum6J90RxUChkAVvo5Be6
-   U+IsZN3GO5M1Zio3+Dlsu+K2S4Ziy8UBr6Rx3HBs2aEnsMPyjxuto9xQm
-   odRE98nrac17d2SYBLK2+DrFjzZgsvhhzw1++IzzBe2bxlomVuiEcUn4S
-   y+dzED4CIwa5zAMdyU/eMfTsQsacVBy3o5NCtnpPcXJOUiJMQG9jjpMtu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="379599091"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="379599091"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 08:50:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="779322587"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="779322587"
-Received: from smorozov-mobl1.ger.corp.intel.com ([10.252.52.167])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 08:50:28 -0700
-Date:   Fri, 29 Sep 2023 18:50:25 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Babu Moger <babu.moger@amd.com>
-cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-Subject: Re: [PATCH v10 06/10] x86/resctrl: Move default group file creation
- to mount
-In-Reply-To: <20230915224227.1336967-7-babu.moger@amd.com>
-Message-ID: <98f0a397-bdc3-136b-e42a-bbcb169cff4@linux.intel.com>
-References: <20230915224227.1336967-1-babu.moger@amd.com> <20230915224227.1336967-7-babu.moger@amd.com>
+        with ESMTP id S233755AbjI2PyL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 11:54:11 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62475195;
+        Fri, 29 Sep 2023 08:54:09 -0700 (PDT)
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38TFaxEZ016531;
+        Fri, 29 Sep 2023 15:53:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=FpOS0CfhsyNwYKSlCFfHo6DyS8mMS3VqYkj6R6+zbTQ=;
+ b=AgX2AzaAjWN5x85X1wv/4//T/zgwc1gUt9AJkFXBU0Om8aPo9lfRJxUKWF2RSgqj5/q4
+ vwAhnu8cCUylUtbnSI32VanAHKHYprzBT99qxVqB1Bx1z3MSUwMttPA3lS7KyR4XjYMa
+ Qs9c57ni5KAuGVqw8XhrMosbJ5c9x1DrwGy5VEA8HK+C7w1auNUZARHdo5piwKt1BF7h
+ cv7M8LE6ROCvgZ21q6N/toFI+FiOM4IOfCKbygMR25dHCeXxljOIDRCBFEka6HonoLiO
+ FzrWDey3Jc7VJXfbpFh7a38XuoHOX6vRfjkXl0uXg3PdW+K/WoqGXvq3FQU9Y5zw4Q12 dA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3te0nya4kn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 29 Sep 2023 15:53:43 +0000
+Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38TFbUmb020204;
+        Fri, 29 Sep 2023 15:53:42 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3te0nya4jw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 29 Sep 2023 15:53:42 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+        by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38TEflEa008143;
+        Fri, 29 Sep 2023 15:53:40 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+        by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3taar05y23-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 29 Sep 2023 15:53:40 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38TFrc8r16974344
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 29 Sep 2023 15:53:38 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 179C020040;
+        Fri, 29 Sep 2023 15:53:38 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6CA7C20043;
+        Fri, 29 Sep 2023 15:53:33 +0000 (GMT)
+Received: from li-c1fdab4c-355a-11b2-a85c-ef242fe9efb4.ibm.com.com (unknown [9.171.6.110])
+        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Fri, 29 Sep 2023 15:53:33 +0000 (GMT)
+From:   Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
+To:     mingo@redhat.com, peterz@infradead.org, vincent.guittot@linaro.org,
+        vschneid@redhat.com
+Cc:     sshegde@linux.vnet.ibm.com, dietmar.eggemann@arm.com,
+        linux-kernel@vger.kernel.org, ionela.voinescu@arm.com,
+        qperret@google.com, srikar@linux.vnet.ibm.com,
+        mgorman@techsingularity.net, mingo@kernel.org,
+        pierre.gondois@arm.com, yu.c.chen@intel.com,
+        tim.c.chen@linux.intel.com, pauld@redhat.com, lukasz.luba@arm.com,
+        linux-doc@vger.kernel.org, bsegall@google.com, linux-eng@arm.com
+Subject: [PATCH v5 0/2] sched: EAS changes for EM complexity and sysctl
+Date:   Fri, 29 Sep 2023 21:22:07 +0530
+Message-Id: <20230929155209.667764-1-sshegde@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.39.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IodrdHRxQqRsP9EunSL7l4JS5J2Nr4xb
+X-Proofpoint-ORIG-GUID: 82YN9GrhRdThizGyjxPHgZA1qtzTO2JV
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1655808239-1696002637=:1989"
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-29_13,2023-09-28_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 clxscore=1011 lowpriorityscore=0 mlxlogscore=764
+ mlxscore=0 phishscore=0 adultscore=0 spamscore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309290134
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+In Brief:
+[PATCH v5 1/2] sched/topology: Remove EM_MAX_COMPLEXITY limit
+Since the EAS complexity was greatly reduced, bigger platforms can
+handle EAS. To reflect this improvement, remove the EAS complexity check.
 
---8323329-1655808239-1696002637=:1989
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
+[PATCH v5 2/2] sched/topology: change behaviour of sysctl sched_energy_aware
+based on the platform
+Depending on the platform sysctl will either enable/disable EAS and NOP
+in case if EAS is not supported.
 
-On Fri, 15 Sep 2023, Babu Moger wrote:
+Patchset contains these two patches. Second patch depends on the first
+patch to be applied first.
 
-> The default resource group and its files are created during kernel
-> init time. Upcoming changes will make some resctrl files optional
-> based on a mount parameter. If optional files are to be added to the
-> default group based on the mount option, then each new file needs to
-> be created separately and call kernfs_activate() again.
-> 
-> Create all files of the default resource group during resctrl
-> mount, destroyed during unmount, to avoid scattering resctrl
-> file addition across two separate code flows.
-> 
-> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-> Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
-> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 58 +++++++++++++++-----------
->  1 file changed, 34 insertions(+), 24 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 3ea874c80c22..a34657f0bd0c 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -54,6 +54,9 @@ static struct kernfs_node *kn_mondata;
->  static struct seq_buf last_cmd_status;
->  static char last_cmd_status_buf[512];
->  
-> +static int rdtgroup_setup_root(struct rdt_fs_context *ctx);
-> +static void rdtgroup_destroy_root(void);
-> +
->  struct dentry *debugfs_resctrl;
->  
->  void rdt_last_cmd_clear(void)
-> @@ -2511,10 +2514,14 @@ static int rdt_get_tree(struct fs_context *fc)
->  		goto out;
->  	}
->  
-> -	ret = rdt_enable_ctx(ctx);
-> +	ret = rdtgroup_setup_root(ctx);
->  	if (ret)
->  		goto out;
->  
-> +	ret = rdt_enable_ctx(ctx);
-> +	if (ret)
-> +		goto out_root;
-> +
->  	ret = schemata_list_create();
->  	if (ret) {
->  		schemata_list_destroy();
-> @@ -2523,6 +2530,12 @@ static int rdt_get_tree(struct fs_context *fc)
->  
->  	closid_init();
->  
-> +	ret = rdtgroup_add_files(rdtgroup_default.kn, RFTYPE_CTRL_BASE);
-> +	if (ret)
-> +		goto out_schemata_free;
-> +
-> +	kernfs_activate(rdtgroup_default.kn);
-> +
->  	ret = rdtgroup_create_info_dir(rdtgroup_default.kn);
->  	if (ret < 0)
->  		goto out_schemata_free;
-> @@ -2579,6 +2592,8 @@ static int rdt_get_tree(struct fs_context *fc)
->  	schemata_list_destroy();
->  out_ctx:
->  	rdt_disable_ctx();
-> +out_root:
-> +	rdtgroup_destroy_root();
->  out:
->  	rdt_last_cmd_clear();
->  	mutex_unlock(&rdtgroup_mutex);
-> @@ -2649,7 +2664,6 @@ static int rdt_init_fs_context(struct fs_context *fc)
->  	if (!ctx)
->  		return -ENOMEM;
->  
-> -	ctx->kfc.root = rdt_root;
->  	ctx->kfc.magic = RDTGROUP_SUPER_MAGIC;
->  	fc->fs_private = &ctx->kfc;
->  	fc->ops = &rdt_fs_context_ops;
-> @@ -2819,6 +2833,7 @@ static void rdt_kill_sb(struct super_block *sb)
->  	rdt_pseudo_lock_release();
->  	rdtgroup_default.mode = RDT_MODE_SHAREABLE;
->  	schemata_list_destroy();
-> +	rdtgroup_destroy_root();
->  	static_branch_disable_cpuslocked(&rdt_alloc_enable_key);
->  	static_branch_disable_cpuslocked(&rdt_mon_enable_key);
->  	static_branch_disable_cpuslocked(&rdt_enable_key);
-> @@ -3700,10 +3715,8 @@ static struct kernfs_syscall_ops rdtgroup_kf_syscall_ops = {
->  	.show_options	= rdtgroup_show_options,
->  };
->  
-> -static int __init rdtgroup_setup_root(void)
-> +static int rdtgroup_setup_root(struct rdt_fs_context *ctx)
->  {
-> -	int ret;
-> -
->  	rdt_root = kernfs_create_root(&rdtgroup_kf_syscall_ops,
->  				      KERNFS_ROOT_CREATE_DEACTIVATED |
->  				      KERNFS_ROOT_EXTRA_OPEN_PERM_CHECK,
-> @@ -3711,6 +3724,20 @@ static int __init rdtgroup_setup_root(void)
->  	if (IS_ERR(rdt_root))
->  		return PTR_ERR(rdt_root);
->  
-> +	ctx->kfc.root = rdt_root;
-> +	rdtgroup_default.kn = kernfs_root_to_node(rdt_root);
-> +
-> +	return 0;
-> +}
-> +
-> +static void rdtgroup_destroy_root(void)
-> +{
-> +	kernfs_destroy_root(rdt_root);
-> +	rdtgroup_default.kn = NULL;
-> +}
-> +
-> +static void __init rdtgroup_setup_default(void)
-> +{
->  	mutex_lock(&rdtgroup_mutex);
->  
->  	rdtgroup_default.closid = 0;
-> @@ -3720,19 +3747,7 @@ static int __init rdtgroup_setup_root(void)
->  
->  	list_add(&rdtgroup_default.rdtgroup_list, &rdt_all_groups);
->  
-> -	ret = rdtgroup_add_files(kernfs_root_to_node(rdt_root), RFTYPE_CTRL_BASE);
-> -	if (ret) {
-> -		kernfs_destroy_root(rdt_root);
-> -		goto out;
-> -	}
-> -
-> -	rdtgroup_default.kn = kernfs_root_to_node(rdt_root);
-> -	kernfs_activate(rdtgroup_default.kn);
-> -
-> -out:
->  	mutex_unlock(&rdtgroup_mutex);
-> -
-> -	return ret;
->  }
->  
->  static void domain_destroy_mon_state(struct rdt_domain *d)
-> @@ -3854,13 +3869,11 @@ int __init rdtgroup_init(void)
->  	seq_buf_init(&last_cmd_status, last_cmd_status_buf,
->  		     sizeof(last_cmd_status_buf));
->  
-> -	ret = rdtgroup_setup_root();
-> -	if (ret)
-> -		return ret;
-> +	rdtgroup_setup_default();
->  
->  	ret = sysfs_create_mount_point(fs_kobj, "resctrl");
->  	if (ret)
-> -		goto cleanup_root;
-> +		return ret;
->  
->  	ret = register_filesystem(&rdt_fs_type);
->  	if (ret)
-> @@ -3893,8 +3906,6 @@ int __init rdtgroup_init(void)
->  
->  cleanup_mountpoint:
->  	sysfs_remove_mount_point(fs_kobj, "resctrl");
-> -cleanup_root:
-> -	kernfs_destroy_root(rdt_root);
->  
->  	return ret;
->  }
-> @@ -3904,5 +3915,4 @@ void __exit rdtgroup_exit(void)
->  	debugfs_remove_recursive(debugfs_resctrl);
->  	unregister_filesystem(&rdt_fs_type);
->  	sysfs_remove_mount_point(fs_kobj, "resctrl");
-> -	kernfs_destroy_root(rdt_root);
->  }
-> 
+v4->v5:
+sched_is_eas_possible missed handling of case when EM complexity was high.
+Dietmar suggested that there was work done already which removes these
+checks. Since it makes sched_is_eas_possible cleaner, picked up that
+patch along with v4 and made it as a patchset.
+Instead of using first CPU in cpu_active_mask, doing a simple loop across
+all CPU in cpu_active_mask to check if there is any asymmetric CPU
+capacities since it was breaking EAS capabilities over CPUSET islands.
+v3->v4:
+valentin suggested it would be better to consider simpler approach that
+was mentioned in v2. It is a standard approach to keep the knob visible
+but change how read and write are handled. Did that and Refactored the
+code to use a common function in build_perf_domains and in sysctl handler.
+v2->v3:
+Chen Yu and Pierre Gondois both pointed out that if platform becomes
+capable of EAS later, this patch was not allowing that to happen.
+Addressed that by using a variable to indicate the sysctl change
+and re-worded the commit message with desired behaviour,
+v1->v2:
+Chen Yu had pointed out that this will not destroy the perf domains on
+architectures where EAS is supported by changing the sysctl.
+[v1] Link: https://lore.kernel.org/lkml/20230829065040.920629-1-sshegde@linux.vnet.ibm.com/
+[v2] Link: https://lore.kernel.org/lkml/20230901065249.137242-1-sshegde@linux.vnet.ibm.com/
+[v3] Link: https://lore.kernel.org/lkml/20230913114807.665094-1-sshegde@linux.vnet.ibm.com/
+[v4] Link: https://lore.kernel.org/lkml/20230926100046.405188-1-sshegde@linux.vnet.ibm.com/
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Pierre Gondois (1):
+  sched/topology: Remove EM_MAX_COMPLEXITY limit
 
--- 
- i.
+Shrikanth Hegde (1):
+  change behaviour of sysctl sched_energy_aware based on the platform
 
---8323329-1655808239-1696002637=:1989--
+ Documentation/admin-guide/sysctl/kernel.rst |   3 +-
+ Documentation/scheduler/sched-energy.rst    |  29 +---
+ kernel/sched/topology.c                     | 151 ++++++++++----------
+ 3 files changed, 82 insertions(+), 101 deletions(-)
+
+--
+2.39.3
+
