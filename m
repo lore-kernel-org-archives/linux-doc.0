@@ -2,111 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A781E810D5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 11:57:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF75E81810
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Sep 2023 12:09:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233115AbjI2L54 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 07:57:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45932 "EHLO
+        id S233165AbjI2MJ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Sep 2023 08:09:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233125AbjI2L5z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 07:57:55 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0171ECC0;
-        Fri, 29 Sep 2023 04:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695988673; x=1727524673;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hHkykAT64KFeDdyczTYQ6xW3x+LfVkMtEWBZ1a9eYwk=;
-  b=SeAWNw5+JpwyjyMMRUADm82ZBBoH2lA9EMGM/9NlRGC3CkW0pGsTHwxU
-   WJcbtqUl/PTJfzXiOTMyhRzz+ElAsizJ3yWD+u/gVhY6GRVml3WFrzzQy
-   oXOtAV4zXLKxXscmJlX3kbWlqqiaXVS/dMKWukppNBxEKYIWrQzUkpjpf
-   u+NSxnl/VLFBUC87Eb2uRAGaA0qB/UVWlNx48ttCEOG8i07gObNZDeFMy
-   xeATnAZpQkl9ogT9Wl8WSDJDOH8T/Yj9BZ+S+0aifd3GaAHIqpoC1dxMs
-   SnwpSdR2coeBHF2tGjC7lB8NROsU2IqZUmkE/V40z9xVy409KchVw7ZUR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="413185323"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="413185323"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 04:57:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="838581"
-Received: from valeks2x-mobl.ger.corp.intel.com (HELO localhost) ([10.252.53.242])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 04:57:46 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alex Deucher <alexdeucher@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v3 01/10] PCI: Protect Link Control 2 Register with RMW locking
-Date:   Fri, 29 Sep 2023 14:57:14 +0300
-Message-Id: <20230929115723.7864-2-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230929115723.7864-1-ilpo.jarvinen@linux.intel.com>
-References: <20230929115723.7864-1-ilpo.jarvinen@linux.intel.com>
+        with ESMTP id S232964AbjI2MJ5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 08:09:57 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA851AC
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 05:09:54 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1c6052422acso127005ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 05:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695989394; x=1696594194; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4tGzWMVpNkHmeXd9+StiHUNQluJqc763pD7utN+gAfM=;
+        b=lIZLGgc3FGBDEM3LvSQV6xR4q+MYJR68AW3/OBOG30NyaDgJLCeWn6MVASZ1/4oTgm
+         c+Uoaxfpz5qtMU+r9IV1WoFdGEv1HLzt7Q/MDNZXxeRzLzZfq5Z9nr4O4ofKPS3HP9DT
+         BUgR3dUfXS5C0tRY5sGaTFPr2cTOYLLf8PqQ4HX+iLc2+ua/cg7ecF28EdZ4Los9j4e1
+         SktCelYfHDU9ahA0PTV2cPEeIaujRLFGJUlaF0gDSDKvdxRwLshN5abNxdbpailfqOcb
+         eQem9aYEjWBzl38f/LSyP5OcIFf2DmrvJhnLqR2H0ochjdLivJB3NlLedu5wXKP0UqZh
+         6Y4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695989394; x=1696594194;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4tGzWMVpNkHmeXd9+StiHUNQluJqc763pD7utN+gAfM=;
+        b=NSjNO1NTMhcJBxp5ZUzltVTetHLXI0unRpO+DGntVcvO9r7d7uP1JzerEAUxQr5ScJ
+         MX4LAA4/AEbnVAPByTVLDervGE8bVuixQysBjoHKxNUWYXditPCisK71ymDQPhkUlGLB
+         voaoHSuEzR0ZCK+RrDb/nrGqH1IGHt4IrkeqAUvluT5NIcuZNIkud3WfTizytqKiX4kL
+         8/RzseI+F0UluuBH+jLKEw75li722FzCNf3m8ul5UmFWLajkYcb1qfY/ACr1V7H3a5k6
+         bI/DO2zpz4RzScNTRKS/OLaK/FsA672vewJo6yp1ji3OLbcrVGEHC43vq6wDZd+IK6us
+         fbCQ==
+X-Gm-Message-State: AOJu0YxFtBRzdAbwhSA6GpKsGz69VhdzPXcCq44eyrktoJw/3ysPnesL
+        Afs8FGgIusgX8ltZ5HeXj7i/qD9lN4s3fH/Wk4AIhw==
+X-Google-Smtp-Source: AGHT+IGAyzbcOgd6nPp6UOIxRKbhqiu2HpCgiw/uVXKwWYpgnvy9crMH7Z9DQ1+e2bfTSz/u+4JbsS+CF3ZpoGwSaFs=
+X-Received: by 2002:a17:903:2447:b0:1bc:66f2:4bb with SMTP id
+ l7-20020a170903244700b001bc66f204bbmr957738pls.8.1695989393847; Fri, 29 Sep
+ 2023 05:09:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230829234426.64421-1-tony.luck@intel.com> <20230928191350.205703-1-tony.luck@intel.com>
+ <20230928191350.205703-2-tony.luck@intel.com>
+In-Reply-To: <20230928191350.205703-2-tony.luck@intel.com>
+From:   Peter Newman <peternewman@google.com>
+Date:   Fri, 29 Sep 2023 14:09:42 +0200
+Message-ID: <CALPaoChB5ryT96ZZBQb6+3=xO+A0uR-ToN0TWqUjLJ7bgi==Rg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/8] x86/resctrl: Prepare for new domain scope
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PCIe Bandwidth Controller performs RMW accesses the Link Control 2
-Register which can occur concurrently to other sources of Link Control
-2 Register writes. Therefore, add Link Control 2 Register among the PCI
-Express Capability Registers that need RMW locking.
+Hi Tony,
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- Documentation/PCI/pciebus-howto.rst | 8 ++++----
- include/linux/pci.h                 | 1 +
- 2 files changed, 5 insertions(+), 4 deletions(-)
+On Thu, Sep 28, 2023 at 9:14=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
+te:
+>
+> Resctrl resources operate on subsets of CPUs in the system with the
+> defining attribute of each subset being an instance of a particular
+> level of cache. E.g. all CPUs sharing an L3 cache would be part of the
+> same domain.
+>
+> In preparation for features that are scoped at the NUMA node level
+> change the code from explicit references to "cache_level" to a more
+> generic scope. At this point the only options for this scope are groups
+> of CPUs that share an L2 cache or L3 cache.
+>
+> Provide a more detailed warning message if a domain id cannot be found
+> when adding a CPU. Just check and silent return if the domain id can't
+> be found when removing a CPU.
+>
+> No functional change.
 
-diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
-index a0027e8fb0d0..3ba322ca1ce1 100644
---- a/Documentation/PCI/pciebus-howto.rst
-+++ b/Documentation/PCI/pciebus-howto.rst
-@@ -218,7 +218,7 @@ that is shared between many drivers including the service drivers.
- RMW Capability accessors (pcie_capability_clear_and_set_word(),
- pcie_capability_set_word(), and pcie_capability_clear_word()) protect
- a selected set of PCI Express Capability Registers (Link Control
--Register and Root Control Register). Any change to those registers
--should be performed using RMW accessors to avoid problems due to
--concurrent updates. For the up-to-date list of protected registers,
--see pcie_capability_clear_and_set_word().
-+Register, Root Control Register, and Link Control 2 Register). Any
-+change to those registers should be performed using RMW accessors to
-+avoid problems due to concurrent updates. For the up-to-date list of
-+protected registers, see pcie_capability_clear_and_set_word().
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 8c7c2c3c6c65..16db80f8b15c 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1243,6 +1243,7 @@ static inline int pcie_capability_clear_and_set_word(struct pci_dev *dev,
- {
- 	switch (pos) {
- 	case PCI_EXP_LNKCTL:
-+	case PCI_EXP_LNKCTL2:
- 	case PCI_EXP_RTCTL:
- 		return pcie_capability_clear_and_set_word_locked(dev, pos,
- 								 clear, set);
--- 
-2.30.2
+I see a number of diagnostic checks added below. Are you sure there's
+no functional change?
 
+
+> diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/=
+cpu/resctrl/pseudo_lock.c
+> index 8f559eeae08e..8c5f932bc00b 100644
+> --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+> +++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+> @@ -292,10 +292,14 @@ static void pseudo_lock_region_clear(struct pseudo_=
+lock_region *plr)
+>   */
+>  static int pseudo_lock_region_init(struct pseudo_lock_region *plr)
+>  {
+> +       int scope =3D plr->s->res->scope;
+>         struct cpu_cacheinfo *ci;
+>         int ret;
+>         int i;
+>
+> +       if (WARN_ON_ONCE(scope !=3D RESCTRL_L2_CACHE && scope !=3D RESCTR=
+L_L3_CACHE))
+> +               return -ENODEV;
+
+Functional change?
+
+
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu=
+/resctrl/rdtgroup.c
+> index 725344048f85..1cf2b36f5bf8 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -1345,10 +1345,13 @@ unsigned int rdtgroup_cbm_to_size(struct rdt_reso=
+urce *r,
+>         unsigned int size =3D 0;
+>         int num_b, i;
+>
+> +       if (WARN_ON_ONCE(r->scope !=3D RESCTRL_L2_CACHE && r->scope !=3D =
+RESCTRL_L3_CACHE))
+> +               return -EINVAL;
+
+This function returns unsigned int. That's a huge region!
+
+-Peter
