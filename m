@@ -2,87 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6329EE7736A
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Sep 2023 10:33:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6190AE77370
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Sep 2023 11:04:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234146AbjI3Kdd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Sep 2023 06:33:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59682 "EHLO
+        id S234030AbjI3LEQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Sep 2023 07:04:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234142AbjI3Kdc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Sep 2023 06:33:32 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49C161B4
-        for <linux-doc@vger.kernel.org>; Sat, 30 Sep 2023 03:33:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696070009; x=1727606009;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v8kT7vAIQ02894rMai3kBLW+96DMbjoBs7oeNOxjXd8=;
-  b=a1hxHeq3fZm2PhvBSHuGUVFl9jKdOAM5CRNDcN5Fw3b2VlcdnxFdO6Wf
-   Wq357N8MN/WS/prf0iWFoWA0yRJCDcWQLC4d0PMvHQ44hF2jfkJ3dBWa3
-   6Uil0q+ov8Lm72IL46VR2kTACTRwZ8EUb33OGii7e6PqDK6TtU5vMTD/0
-   DvtPI2RzdKUZGButwE5VC84+UgpD+PA9qqWfqhMR1aZ3Y2NSmFMCIg7x4
-   bcO/4DcT9eUQsFEpCL7Pv+K65eUfnmp9M498HI9w+VgkFoYvm5wbHE+Fm
-   uKb6JF2JDvKMXG2OXsVOI5cLltvU7foPPRaYFwxZCcThigWxTrTL3NJ5x
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="367498280"
-X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="367498280"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 03:33:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="1081243"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 30 Sep 2023 03:32:51 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qmXHo-00042D-35;
-        Sat, 30 Sep 2023 10:33:24 +0000
-Date:   Sat, 30 Sep 2023 18:33:15 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Satish Kumar Nagireddy <satish.nagireddy.nagireddy@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
-        Michal Simek <monstr@monstr.eu>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 322/1370] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-xy10 (if the link has no caption the label must precede a
- section header)
-Message-ID: <202309301849.aZJfSf4X-lkp@intel.com>
+        with ESMTP id S233237AbjI3LEP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Sep 2023 07:04:15 -0400
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 723C0CA;
+        Sat, 30 Sep 2023 04:04:13 -0700 (PDT)
+Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-4526c6579afso1096302137.0;
+        Sat, 30 Sep 2023 04:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696071852; x=1696676652; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fJo83pwx4y7gaRZ8bey8OSQgDQ8Tv3HF9f55YMBadbY=;
+        b=aP39uq4xPESzyElD1xyo5SmtwAiJ1LP5/dqlMERS2bF7kLP/CTgoOYcUsR9EPFdmsZ
+         n0Huf8YvLlUJ6K/y0QC2sntpMWXgTExpZ8AEMCpleaGqwR89LxkQVLLcNZG8hfxr2jQo
+         N1SPm0CpvBcyk1pRCEfouwElfvgBnsQLsqbwMj17NHIMGXYNbCMSPVIVjUNmyIePiHS+
+         U+nTQowuoxjha4hRQEqSftHLx9D3ynspzNc5BvsNZ2nAMUpcUNiJC7mE9zUOAJ8ausGv
+         xIqqs5lDYKRqxjxPTR0Uca4SPlTNjtcDM8xAssurtN+8lRH7VCDMAMmt2FBK5bYn6lbo
+         GkAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696071852; x=1696676652;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fJo83pwx4y7gaRZ8bey8OSQgDQ8Tv3HF9f55YMBadbY=;
+        b=a7GlLy76iBo7tg+zuE5jaCFnmkO/FhFbPKLkrXYg9Dy3N9f+iYCA62zAXutPyx1zmw
+         E/jWj1fOviPoZmZIMs9eLMgmbvtV91qGbmewbuzB5pkNjcxuv7Zy460mpvt1/fr4PyIr
+         0BYVXXOEIqLGWkNXeovXuxvaRpWHGI+jI7oOxcps6Ht7UZUMJFUeipapBZAxQwrZAtmd
+         kJbQg/60sHGygMFWHJUMccbJ9k7Wfuvs1tVyRrksV2rDdgUfxJPA6pUR4Bg9mNzvL1RJ
+         5fVWvgYVXP7odKXpWToGI9HdW9DhRq4HPb1q0dHGDVniXbRalW/QXBT6KNKuMkU1HjWJ
+         /h+g==
+X-Gm-Message-State: AOJu0YzSbIBQKusMqRlqDEhyXGUu+DhLFzgaWOgO/tD+O1ANACLTDsnZ
+        7zHj18KE+gnQSAaEneWTvdt+Zt30mA1iX92U/Jw=
+X-Google-Smtp-Source: AGHT+IE2qF/n7ShtQDqO7HPLK5FDKy2SymdW2yn4PQByIVeeaU1qQHfQj8OmZG4uK+8n2mr3IzPZWyYWBbSRlWktX0A=
+X-Received: by 2002:a05:6102:5587:b0:452:6cea:89b7 with SMTP id
+ dc7-20020a056102558700b004526cea89b7mr3719924vsb.14.1696071852334; Sat, 30
+ Sep 2023 04:04:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230915105933.495735-1-matteorizzo@google.com> <20230915105933.495735-2-matteorizzo@google.com>
+In-Reply-To: <20230915105933.495735-2-matteorizzo@google.com>
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Date:   Sat, 30 Sep 2023 20:04:00 +0900
+Message-ID: <CAB=+i9RQiDWE6ignfKn2p+UiDF9W=jAuqsmYhHrO9h06+X-pKA@mail.gmail.com>
+Subject: Re: [RFC PATCH 01/14] mm/slub: don't try to dereference invalid freepointers
+To:     Matteo Rizzo <matteorizzo@google.com>
+Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
+        iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz,
+        roman.gushchin@linux.dev, keescook@chromium.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-hardening@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, luto@kernel.org, peterz@infradead.org,
+        jannh@google.com, evn@google.com, poprdi@google.com,
+        jordyzomer@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 4a53401bc0fadd5d8a27a7ce2af19559f7497ac0 [322/1370] media: v4l2-ioctl: Add YUV 12bit and 16bit pixel formats
-reproduce: (https://download.01.org/0day-ci/archive/20230930/202309301849.aZJfSf4X-lkp@intel.com/reproduce)
+On Fri, Sep 15, 2023 at 7:59=E2=80=AFPM Matteo Rizzo <matteorizzo@google.co=
+m> wrote:
+>
+> slab_free_freelist_hook tries to read a freelist pointer from the
+> current object even when freeing a single object. This is invalid
+> because single objects don't actually contain a freelist pointer when
+> they're freed and the memory contains other data. This causes problems
+> for checking the integrity of freelist in get_freepointer.
+>
+> Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
+> ---
+>  mm/slub.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/mm/slub.c b/mm/slub.c
+> index f7940048138c..a7dae207c2d2 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -1820,7 +1820,9 @@ static inline bool slab_free_freelist_hook(struct k=
+mem_cache *s,
+>
+>         do {
+>                 object =3D next;
+> -               next =3D get_freepointer(s, object);
+> +               /* Single objects don't actually contain a freepointer */
+> +               if (object !=3D old_tail)
+> +                       next =3D get_freepointer(s, object);
+>
+>                 /* If object's reuse doesn't have to be delayed */
+>                 if (!slab_free_hook(s, object, slab_want_init_on_free(s))=
+) {
+> --
+> 2.42.0.459.ge4e396fd5e-goog
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309301849.aZJfSf4X-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xy10 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xy12 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x012 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x212 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x016 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x216 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x012m (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x212m (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x016m (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x216m (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Looks good to me,
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
