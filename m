@@ -2,82 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6FECE7734F
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Sep 2023 03:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C93E77354
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Sep 2023 05:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233927AbjI3DYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Sep 2023 23:24:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45706 "EHLO
+        id S233996AbjI3FxC convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Sep 2023 01:53:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233069AbjI3DYd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Sep 2023 23:24:33 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3016B4
-        for <linux-doc@vger.kernel.org>; Fri, 29 Sep 2023 20:24:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696044271; x=1727580271;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W8HHYvT332j4l89t1ZkSX8h5kBDnzMGsRynZ+NRII9s=;
-  b=DApJ8vtjfY6cHwsOIGko2bHkDeYG7g1Q3zjz8xZSg0Sx/8pxVsoxF78G
-   6myS3tOgqyZMGwP2mVUaeiaxgrFsRg4Cq1JczdjdE+a2Sb9ybVElKFwWs
-   d3p1JkGRq95IhHd0qpJlSEHHQqeEoYrrdxrAw9pAkAXYyiV0qsu/9prRh
-   6MzJuTgw1Sn16Q1SKbfhSNdWZX1ILYxGsfxM2TiNy0MzUpqu3rfwSGyOU
-   gkDNBME4/TDFL+hjndKBl2Cyd8auIS6jZSUqOxZyE/pbvX/b2uf6Ecnvt
-   h0U0LjVFgcOlQkJ30K493142sOlb7tM7/LhAlGgVGLEZGutGwNgDn95Ll
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="3993163"
-X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="3993163"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 20:24:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="815778210"
-X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="815778210"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Sep 2023 20:24:28 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qmQag-0003e4-0z;
-        Sat, 30 Sep 2023 03:24:26 +0000
-Date:   Sat, 30 Sep 2023 11:23:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Vishal Sagar <vishal.sagar@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
-        Michal Simek <monstr@monstr.eu>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Satish Kumar Nagireddy <satish.nagireddy.nagireddy@xilinx.com>,
-        linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 321/1370] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-xbgr40 (if the link has no caption the label must precede a
- section header)
-Message-ID: <202309301129.rHZssS56-lkp@intel.com>
+        with ESMTP id S229929AbjI3FxC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Sep 2023 01:53:02 -0400
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303D6B3;
+        Fri, 29 Sep 2023 22:52:58 -0700 (PDT)
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-79fb78e297bso410726439f.0;
+        Fri, 29 Sep 2023 22:52:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696053178; x=1696657978;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OgL4mgIUCB3+3iorD5Xfn3R15O+SpyDpvRSN+ix3xsI=;
+        b=lZGL/YLTgPABwJvNRwg+U3AoU2Fk2YO14fQei2dUiW1Z/QMzt4WevQa2QoOOA6j7Ol
+         5gM2Hc4rRpIlHcaoSGbS1L9IDfrPgjUde+ZlMoW2/eWAxfl5pYp3GzLvk7+55MatYH34
+         vX2IRkRu4AyoAVC1dag2Qa15EgDspmQODU/Vaq56QAvO5IB15t7g28gvEqCPU7cBVuX5
+         /VX+Lz/yidGJUr+ZMBhg7EBNfdh4gpFnvy+WWjSpxo5A4JtzlvQ8ijsfPr0hJxBhjrvn
+         eCJuBsCTlCp3T5gqIgZ9VB3yPFYrcSFWAcTyo9JK0L757JOGNNIvxmwMUYac63zJdNEw
+         HUwg==
+X-Gm-Message-State: AOJu0Yw7I1fh3DbBTHgkW4IiMWIKJ83zE5w7PA8zlV0+B8RTBzT7vcxi
+        U9+Jl0w9bL22aHhQ8fhfvTUQgcVJA6M4HSxM/aw=
+X-Google-Smtp-Source: AGHT+IEWGh0PEJQMYm7c1DxqOI+Qgx/21NB+oD5KIoFL78pxtoMhWJQolIFXxa2+/NSxrZB5zyzJtqoRQ7ea00LyWg8=
+X-Received: by 2002:a5e:dc44:0:b0:78b:d0a9:34fb with SMTP id
+ s4-20020a5edc44000000b0078bd0a934fbmr6395308iop.20.1696053178067; Fri, 29 Sep
+ 2023 22:52:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <1695794391-34817-1-git-send-email-renyu.zj@linux.alibaba.com>
+In-Reply-To: <1695794391-34817-1-git-send-email-renyu.zj@linux.alibaba.com>
+From:   Namhyung Kim <namhyung@kernel.org>
+Date:   Fri, 29 Sep 2023 22:52:46 -0700
+Message-ID: <CAM9d7chjTuypUywbxfo9fKsJaDrJYE1YuLWdXX9AkFi58JBnew@mail.gmail.com>
+Subject: Re: [PATCH v11 0/7] Add metrics for Arm CMN
+To:     Jing Zhang <renyu.zj@linux.alibaba.com>
+Cc:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>, Will Deacon <will@kernel.org>,
+        James Clark <james.clark@arm.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: fb23910633505804236adb15bdcc2eecbca8d08a [321/1370] media: v4l2-ioctl: Add 12 and 16 bpc RGB pixel formats
-reproduce: (https://download.01.org/0day-ci/archive/20230930/202309301129.rHZssS56-lkp@intel.com/reproduce)
+On Tue, Sep 26, 2023 at 11:00 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
+>
+> Changes since v10:
+> - Fixed conflict.
+> - Add tags.
+> -Link: https://lore.kernel.org/all/1695621444-56530-1-git-send-email-renyu.zj@linux.alibaba.com/
+>
+> Jing Zhang (7):
+>   perf pmu: "Compat" supports regular expression matching identifiers
+>   perf metric: "Compat" supports regular expression matching identifiers
+>   perf jevents: Support EventidCode and NodeType
+>   perf test: Make matching_pmu effective
+>   perf test: Add pmu-event test for "Compat" and new event_field.
+>   perf jevents: Add support for Arm CMN PMU aliasing
+>   perf vendor events: Add JSON metrics for Arm CMN
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309301129.rHZssS56-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-xbgr40 (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-bgr48 (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Applied to perf-tools-next, thanks!
