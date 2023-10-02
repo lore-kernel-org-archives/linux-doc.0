@@ -2,169 +2,230 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA851E784AC
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 11:55:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D068E784B3
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 13:00:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236822AbjJBLzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Oct 2023 07:55:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35426 "EHLO
+        id S237263AbjJBNAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Oct 2023 09:00:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236818AbjJBLzV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 07:55:21 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27BCE0;
-        Mon,  2 Oct 2023 04:55:17 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 3EB2B2185F;
-        Mon,  2 Oct 2023 11:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1696247716; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=20h7KCpcQajnFp3w5doiMii1hEINmAwyPkgpAacIcrA=;
-        b=0XBgxH/3uEkxE5rwWYDJbxD2pnpq8xEDVD76JmxuUplNhbQCxus67Gd2HPME5sNaH1wKFm
-        EuFx+gtWVWY6vsZjJ2uKdjtxOUQ3I5C/9cpXAec6WUbE26GozoG/xqjnBTj96kl+mF1fh7
-        suOk9uESkButXiFCFLy68Z0S8VMzHYI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1696247716;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=20h7KCpcQajnFp3w5doiMii1hEINmAwyPkgpAacIcrA=;
-        b=eYmRgWqpmG+K3u8AaBXjk2wqUQci8T/zb85Zg0nyUDuFvL92prmlP0KqxKcI20NbPwylw8
-        VX3VNv6BV8z18pBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2777813434;
-        Mon,  2 Oct 2023 11:55:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id u2sxCKSvGmVBFAAAMHmgww
-        (envelope-from <chrubis@suse.cz>); Mon, 02 Oct 2023 11:55:16 +0000
-From:   Cyril Hrubis <chrubis@suse.cz>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S237226AbjJBNAp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 09:00:45 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B32199;
+        Mon,  2 Oct 2023 06:00:42 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0088AC433C8;
+        Mon,  2 Oct 2023 13:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696251642;
+        bh=HeArIM02Qnv4lwvTAbzTJtNzOGPD/ms1sGZR8dVdPZ0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=un6g0REdKqioq485uu78vWvDhqMLUyvRMuQyUp/Zcxw44DYckmgzNIhvn1qXxtRew
+         olsuG2AXkzRftazezlM7rYsZ51CYuWpPkZOhIADL72qkiPNPNESHCjCQZ4Q8PhwRBf
+         oEyTb7ufy3Yf4vpTkQ6slSLznxiVpyXoVz9NkxoRqhqM8Rzv3H77CZCNzzzwFO62Vb
+         3y3vK15aiP9AdkD0j1i5vXUgtMQ2wqXkxCyiCNSOiKhVZooeQiHbpPFq48Zugs37bH
+         61uIWW/HWNCfTHydeSRaa2+6HeGOD2fI+vJrKRhbtXsXom2elWVQouy4mG1QES/iS3
+         FZxC7Ilj75UaQ==
+Date:   Mon, 2 Oct 2023 14:00:37 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Cc:     ltp@lists.linux.it, Cyril Hrubis <chrubis@suse.cz>
-Subject: [PATCH v3 3/3] docs: scheduler-rt: Use real-time instead of realtime
-Date:   Mon,  2 Oct 2023 13:55:53 +0200
-Message-ID: <20231002115553.3007-4-chrubis@suse.cz>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231002115553.3007-1-chrubis@suse.cz>
-References: <20231002115553.3007-1-chrubis@suse.cz>
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: ltc2991: add bindings
+Message-ID: <20231002-babbling-justice-73d3601a71aa@spud>
+References: <20231002101835.39624-1-antoniu.miclaus@analog.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="4qGEe174rhPUIzeC"
+Content-Disposition: inline
+In-Reply-To: <20231002101835.39624-1-antoniu.miclaus@analog.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
----
- Documentation/scheduler/sched-rt-group.rst | 34 +++++++++++-----------
- 1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
-index a16bee8f74c2..d685609ed3d7 100644
---- a/Documentation/scheduler/sched-rt-group.rst
-+++ b/Documentation/scheduler/sched-rt-group.rst
-@@ -39,10 +39,10 @@ Most notable:
- 1.1 The problem
- ---------------
- 
--Realtime scheduling is all about determinism, a group has to be able to rely on
-+Real-time scheduling is all about determinism, a group has to be able to rely on
- the amount of bandwidth (eg. CPU time) being constant. In order to schedule
--multiple groups of realtime tasks, each group must be assigned a fixed portion
--of the CPU time available.  Without a minimum guarantee a realtime group can
-+multiple groups of real-time tasks, each group must be assigned a fixed portion
-+of the CPU time available.  Without a minimum guarantee a real-time group can
- obviously fall short. A fuzzy upper limit is of no use since it cannot be
- relied upon. Which leaves us with just the single fixed portion.
- 
-@@ -50,14 +50,14 @@ relied upon. Which leaves us with just the single fixed portion.
- ----------------
- 
- CPU time is divided by means of specifying how much time can be spent running
--in a given period. We allocate this "run time" for each realtime group which
--the other realtime groups will not be permitted to use.
-+in a given period. We allocate this "run time" for each real-time group which
-+the other real-time groups will not be permitted to use.
- 
--Any time not allocated to a realtime group will be used to run normal priority
-+Any time not allocated to a real-time group will be used to run normal priority
- tasks (SCHED_OTHER). Any allocated run time not used will also be picked up by
- SCHED_OTHER.
- 
--Let's consider an example: a frame fixed realtime renderer must deliver 25
-+Let's consider an example: a frame fixed real-time renderer must deliver 25
- frames a second, which yields a period of 0.04s per frame. Now say it will also
- have to play some music and respond to input, leaving it with around 80% CPU
- time dedicated for the graphics. We can then give this group a run time of 0.8
-@@ -70,7 +70,7 @@ needs only about 3% CPU time to do so, it can do with a 0.03 * 0.005s =
- of 0.00015s.
- 
- The remaining CPU time will be used for user input and other tasks. Because
--realtime tasks have explicitly allocated the CPU time they need to perform
-+real-time tasks have explicitly allocated the CPU time they need to perform
- their tasks, buffer underruns in the graphics or audio can be eliminated.
- 
- NOTE: the above example is not fully implemented yet. We still
-@@ -90,12 +90,12 @@ The system wide settings are configured under the /proc virtual file system:
-   The scheduling period that is equivalent to 100% CPU bandwidth.
- 
- /proc/sys/kernel/sched_rt_runtime_us:
--  A global limit on how much time realtime scheduling may use. This is always
-+  A global limit on how much time real-time scheduling may use. This is always
-   less or equal to the period_us, as it denotes the time allocated from the
--  period_us for the realtime tasks. Even without CONFIG_RT_GROUP_SCHED enabled,
--  this will limit time reserved to realtime processes. With
-+  period_us for the real-time tasks. Even without CONFIG_RT_GROUP_SCHED enabled,
-+  this will limit time reserved to real-time processes. With
-   CONFIG_RT_GROUP_SCHED=y it signifies the total bandwidth available to all
--  realtime groups.
-+  real-time groups.
- 
-   * Time is specified in us because the interface is s32. This gives an
-     operating range from 1us to about 35 minutes.
-@@ -110,7 +110,7 @@ The system wide settings are configured under the /proc virtual file system:
- The default values for sched_rt_period_us (1000000 or 1s) and
- sched_rt_runtime_us (950000 or 0.95s).  This gives 0.05s to be used by
- SCHED_OTHER (non-RT tasks). These defaults were chosen so that a run-away
--realtime tasks will not lock up the machine but leave a little time to recover
-+real-time tasks will not lock up the machine but leave a little time to recover
- it.  By setting runtime to -1 you'd get the old behaviour back.
- 
- By default all bandwidth is assigned to the root group and new groups get the
-@@ -118,10 +118,10 @@ period from /proc/sys/kernel/sched_rt_period_us and a run time of 0. If you
- want to assign bandwidth to another group, reduce the root group's bandwidth
- and assign some or all of the difference to another group.
- 
--Realtime group scheduling means you have to assign a portion of total CPU
--bandwidth to the group before it will accept realtime tasks. Therefore you will
--not be able to run realtime tasks as any user other than root until you have
--done that, even if the user has the rights to run processes with realtime
-+Real-time group scheduling means you have to assign a portion of total CPU
-+bandwidth to the group before it will accept real-time tasks. Therefore you will
-+not be able to run real-time tasks as any user other than root until you have
-+done that, even if the user has the rights to run processes with real-time
- priority!
- 
- 
--- 
-2.41.0
+--4qGEe174rhPUIzeC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hey,
+
+On Mon, Oct 02, 2023 at 01:18:14PM +0300, Antoniu Miclaus wrote:
+> Add dt-bindings for ltc2991 octal i2c voltage, current and temperature
+> monitor.
+>=20
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> ---
+> changes in v2:
+>  - make compatible const type
+>  - remove `|` where not necessary
+>  - switch to micro-ohms for the shunt resistor property
+>  - add vendor prefix for temperature-enable
+
+Thanks for the updates...
+
+>  .../bindings/hwmon/adi,ltc2991.yaml           | 114 ++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2991.y=
+aml
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml b/D=
+ocumentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> new file mode 100644
+> index 000000000000..3811ea07a04f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> @@ -0,0 +1,114 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/adi,ltc2991.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices LTC2991 Octal I2C Voltage, Current and Temperature=
+ Monitor
+> +
+> +maintainers:
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +
+> +description: |
+> +  The LTC2991 is used to monitor system temperatures, voltages and curre=
+nts.
+> +  Through the I2C serial interface, the eight monitors can individually =
+measure
+> +  supply voltages and can be paired for differential measurements of cur=
+rent
+> +  sense resistors or temperature sensing transistors.
+> +
+> +  Datasheet:
+> +    https://www.analog.com/en/products/ltc2991.html
+> +
+> +properties:
+> +  compatible:
+> +    const: adi,ltc2991
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  vcc-supply: true
+> +
+> +patternProperties:
+> +  "^channel@[0-3]$":
+> +    type: object
+> +    description:
+> +      Represents the differential/temperature channels.
+> +
+> +    properties:
+> +      reg:
+> +        description:
+> +          The channel number. LTC2991 can monitor 4 currents/temperature=
+s.
+> +        items:
+> +          minimum: 0
+> +          maximum: 3
+> +
+> +      shunt-resistor-micro-ohms:
+> +        description:
+> +          The value of curent sense resistor in miliohms. Enables differ=
+ential
+> +          input pair.
+> +
+> +      adi,temperature-enable:
+> +        description:
+> +          Enables temperature readings for a input pair.
+> +        type: boolean
+
+=2E..but I did not see an answer to my question on v1:
+	TBH, this seems like it is used just to control software behaviour.
+	Why would you want to actually disable this in DT?
+In other words, is there something in that hardware that precludes
+measuring temperature for channels that do not contain this property?
+
+Thanks,
+Conor.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vcc-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        hwmon@48 {
+> +            compatible =3D "adi,ltc2991";
+> +            reg =3D <0x48>;
+> +            vcc-supply =3D <&vcc>;
+> +        };
+> +    };
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        hwmon@48 {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            compatible =3D "adi,ltc2991";
+> +            reg =3D <0x48>;
+> +            vcc-supply =3D <&vcc>;
+> +
+> +            channel@0 {
+> +                    reg =3D <0x0>;
+> +                    shunt-resistor-micro-ohms =3D <100000>;
+> +            };
+> +
+> +            channel@1 {
+> +                    reg =3D <0x1>;
+> +                    shunt-resistor-micro-ohms =3D <100000>;
+> +            };
+> +
+> +            channel@2 {
+> +                    reg =3D <0x2>;
+> +                    temperature-enable;
+> +            };
+> +
+> +            channel@3 {
+> +                    reg =3D <0x3>;
+> +                    temperature-enable;
+> +            };
+> +        };
+> +    };
+> +...
+> --=20
+> 2.42.0
+>=20
+
+--4qGEe174rhPUIzeC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRq+9QAKCRB4tDGHoIJi
+0ueTAQDx05+Ro78ZLvC9iBZWPPBFodIfIuTafvjJsOC7s0x3+gEA7X0AM0o7Hrjo
+L0CXzkMCQDQOz309zfkOE0uTkrcVIwc=
+=EQhT
+-----END PGP SIGNATURE-----
+
+--4qGEe174rhPUIzeC--
