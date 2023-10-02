@@ -2,125 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1924AE784AC
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 13:15:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B11FBE7849A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 13:17:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237249AbjJBNPl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Oct 2023 09:15:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
+        id S237351AbjJBNRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Oct 2023 09:17:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236163AbjJBNPk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 09:15:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CF7FB0;
-        Mon,  2 Oct 2023 06:15:37 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E39C433C9;
-        Mon,  2 Oct 2023 13:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696252536;
-        bh=B6iYHIElwIzFfW1kEOYhbnZcXC5/SesXlHfl5FN/qhI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U19DuZT2axXDVYL44w3U/mnQqQeDTkk5uwSov3qWYRqWBeUuZ2PIEBUcxLrCGVPza
-         OVMA+5MelERKbT59UYSqHXY7Axomv9vVYasRrUoFKbXtWxtdsObS1lT8Vv2xiXMh3c
-         GD6l68zegUpbwTxzJaQgvPkcZJZVkNeSz+jvHQSMq2UhaOqWq8qlD3361hSkBd48TS
-         uIAvMuXbqwsL4jkLaBllPkP33HTTmMBwRd5lJ2wl5vsNBJgITEiG7/s8iBZCB6pT02
-         9IrstpOVn1W6SowOyCRaRNrgZwydRfX0qZhUGIAntotqul4if5GuLaSB66YLnU/J7X
-         HQYTMc5GcTeMA==
-Date:   Mon, 2 Oct 2023 14:15:28 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Evan Green <evan@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Anup Patel <anup@brainfault.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Charlie Jenkins <charlie@rivosinc.com>,
-        Vincent Chen <vincent.chen@sifive.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] docs: move riscv under arch
-Message-ID: <20231002-panoramic-submersed-7f5bfd8d1e76@spud>
-References: <20230928103134.2779459-1-costa.shul@redhat.com>
- <20230930-mauve-jargon-0f7760fd262d@spud>
- <87h6nbka8x.fsf@meer.lwn.net>
+        with ESMTP id S237263AbjJBNRy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 09:17:54 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABC1FB4;
+        Mon,  2 Oct 2023 06:17:51 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso2338149966b.1;
+        Mon, 02 Oct 2023 06:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696252670; x=1696857470; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KPqnJsqsKHIApUXBARSxKv3rNfiUrOevvN0MUpOGTZU=;
+        b=fFy5+PCv5+C6jf18KHrUKTj4I7sfOYLHv1pPKh3ebzEm8zOxq5xOpLIXhRm+f1Z9+x
+         h4cuA7duOPCBWFFQXW3lO0j2jX7+HXMQAwTNRZ0U2HRSILkcQXcL614oiBGhBwt8Wi9v
+         GiuwXGi5GUTgkv8drlLiBfbmXEHImlpUJ49KNbFqLfU1bUuZh5dj1eEGMPzoG/7FDCp3
+         rULItel+gLVbYF0ZIXV7C13O7jehU5OlDuKiIm/bR3kZa4JxSq3DyIKjwZyESlRii9MI
+         qQF6Z/ucC2ux2fIq++RTcJKGd1zayE7u+ntcocD9dVx1Oe3qJBLLQ083nmSjP/XYpNg2
+         Iksg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696252670; x=1696857470;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KPqnJsqsKHIApUXBARSxKv3rNfiUrOevvN0MUpOGTZU=;
+        b=ZIViqMmR4EZOY6RNVFzcPWVY0R/ude8Hec+7nlI8UvoWMmnt+/MMfK2U27zODzjx9S
+         uS9emzSgQQd4bIc4rNabXaLs3sLhwIP1BvfPyPNv62KWEJaHhArcfYi3BmIapW++GQvM
+         65GQj9FgFpyGY7lzYZmIETjAhYs8Hd2cGG2LMUciCY6IX6tDDtjz5AECOOLubo+NTx1/
+         73KnevyApclcr8D76n3mV4VFkNBUOvOc/tOD462X3YQ767+yuHXlUwFuWNBfd8vhOwl4
+         H3iWSZ5XFchs/ZbiMztYvNSKGbbcZgARCJAbQ+NpkE3atXa/tiM95bBlnNBfSzC1cXLs
+         z4Hg==
+X-Gm-Message-State: AOJu0YxS7yPC+jt0YImvVqzCbQ6B471fSGTWpMnlKBsn6Su0gnvvu0NN
+        3Nj7QaMuI/g4jVCU6OWHz9w=
+X-Google-Smtp-Source: AGHT+IFhl411eyi7vPLUepzMCi+w9fjzkBCacaDfBy64uzt59M6kokx4CDuSnFWWTJcKYypgmf7iuw==
+X-Received: by 2002:a17:907:77d9:b0:9ad:e669:ff30 with SMTP id kz25-20020a17090777d900b009ade669ff30mr10547957ejc.68.1696252669523;
+        Mon, 02 Oct 2023 06:17:49 -0700 (PDT)
+Received: from gmail.com (1F2EF530.nat.pool.telekom.hu. [31.46.245.48])
+        by smtp.gmail.com with ESMTPSA id lw3-20020a170906bcc300b009ade1a4f795sm16919304ejb.168.2023.10.02.06.17.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Oct 2023 06:17:48 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Mon, 2 Oct 2023 15:17:46 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Cyril Hrubis <chrubis@suse.cz>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, ltp@lists.linux.it
+Subject: Re: [PATCH v3 0/3] Fix sched-rt sysctl files & update docs
+Message-ID: <ZRrC+huyOi5Ow9s5@gmail.com>
+References: <20231002115553.3007-1-chrubis@suse.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="i+dS31zP9Nq/Ihv5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87h6nbka8x.fsf@meer.lwn.net>
+In-Reply-To: <20231002115553.3007-1-chrubis@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---i+dS31zP9Nq/Ihv5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* Cyril Hrubis <chrubis@suse.cz> wrote:
 
-On Sat, Sep 30, 2023 at 08:26:38AM -0600, Jonathan Corbet wrote:
-> Conor Dooley <conor@kernel.org> writes:
->=20
-> > On Thu, Sep 28, 2023 at 01:29:42PM +0300, Costa Shulyupin wrote:
-> >> and fix all in-tree references.
-> >>=20
-> >> Architecture-specific documentation is being moved into Documentation/=
-arch/
-> >> as a way of cleaning up the top-level documentation directory and maki=
-ng
-> >> the docs hierarchy more closely match the source hierarchy.
-> >>=20
-> >> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> >
-> > This doesn't apply to riscv/for-next or next/master, with git
-> > complaining about the sha1 being lacking or useless. What does this
-> > actually apply to?
->=20
-> docs-next, I would guess (though I haven't had a chance to try it).
+> New in v3:
+>  - Spelling fixes as requested by Ingo
+>  - added third patch that replaces all cases of realtime with real-time
+>    in the docs
+> 
+> Cyril Hrubis (3):
+>   sched/rt: Disallow writing invalid values to sched_rt_period_us
+>   docs: scheduler-rt: Clarify & fix sched_rt_* sysctl docs
+>   docs: scheduler-rt: Use real-time instead of realtime
+> 
+>  Documentation/scheduler/sched-rt-group.rst | 40 ++++++++++++----------
+>  kernel/sched/rt.c                          |  9 ++---
+>  2 files changed, 26 insertions(+), 23 deletions(-)
 
-I'm far from the world's best git-er, but doesn't the lacking or useless
-report from git while trying to apply the patches mean that this patch
-depended on commit that is not in next/master (which I assume includes
-docs-next).
+Applied to tip:sched/core for a v6.7 merge, thanks!
 
-> If
-> you would like to carry this through the riscv tree (which is probably
-> the most sensible option), I suspect Costa could be talked into
-> respinning it...?
-
-I'm not the maintainer of the riscv tree, so not my call.
-I was just going through the things that failed in our patchwork
-automation and trying to figure out why :)
-
---i+dS31zP9Nq/Ihv5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRrCcAAKCRB4tDGHoIJi
-0gjTAQDVMgVoBfsUh5hwUwlsYqi1M3NgobI07TRun4p/0YUQjwD+O3zHXBw+jdKb
-2nIxkjbyGVV4hPB7LuOvbrDj9IOsGgQ=
-=+wV3
------END PGP SIGNATURE-----
-
---i+dS31zP9Nq/Ihv5--
+	Ingo
