@@ -2,415 +2,361 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4028DE784AC
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 13:25:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE97E784AD
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 13:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237299AbjJBNZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Oct 2023 09:25:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43290 "EHLO
+        id S237476AbjJBNrZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Oct 2023 09:47:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235717AbjJBNZV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 09:25:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0459DC6;
-        Mon,  2 Oct 2023 06:25:18 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC0E2C433C8;
-        Mon,  2 Oct 2023 13:25:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696253117;
-        bh=yMKiAZh8Zi1IRLurrlmkJCC3ZtBt6u8921RF62mKwiA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ATTFpem79JBuSlV65H7DgvZGCj9e9VZO5bpbua2jGaJJsloz4yWNe4YgiS+6wNayG
-         rQEgXCWlRMulM13fhYzlXbYAwqONLzm/qUB0SaiJXCiA+Yy6lCXMWRVCVgf5bisGQu
-         lDhvgBWZc7iuYPaw1gmv6qN00GW/btCrvJ6n4Yp4hFy9rEoWOGRDj7HNaFukmL4xRP
-         jCS50V2El2LLMiQqRUvAzDJ8DsOFyiLbBWIjITnjJ9RyiJ6LJMNYHfpTCQmACQi6Fg
-         oyL4URChnP6XktZ8MRwUIx0VD+5mEPpJnvwozt1du0EMe33V34qcNcFUYE+NU9ijJt
-         5Z+qHR/n2lvsw==
-Date:   Mon, 2 Oct 2023 14:25:09 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Costa Shulyupin <costa.shul@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Evan Green <evan@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Charlie Jenkins <charlie@rivosinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v1] docs: move riscv under arch
-Message-ID: <20231002-exclusive-ebay-29cf9c449e2a@spud>
-References: <87h6nbka8x.fsf@meer.lwn.net>
- <20230930185354.3034118-1-costa.shul@redhat.com>
+        with ESMTP id S237278AbjJBNrY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 09:47:24 -0400
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDDA9E;
+        Mon,  2 Oct 2023 06:47:21 -0700 (PDT)
+Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
+        by mx0b-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 392D155w027436;
+        Mon, 2 Oct 2023 09:46:57 -0400
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
+        by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3tf173p1s3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Oct 2023 09:46:57 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GFsKxbTdSKc6NuFx7Ls2UMeJ264YTmAntoYvB5zzQPo7eVH238yXMFHIelh/6Y7Ih9jfHZGTqknN9HNajFL50on2ksxjvdAx9sJ2ARldXg3E3thFJvVBllOApA24KqkpoCfHaWctyvLNC7ae9c5NfIewlJc20dmfTiDPmEojN1lytSDiJSoPv0fST6L+MRplTTYD756AJxrgqRGLd78qyStw1KsyzGf8M5+ilMwlivjYK/KTBP/coYR4b23kivBfYimyekFdmFL/I8llMmIw8swiZ+5yQ2nCsJrIopqdh7rn9B0Z7t4bnm/DoQI2DdP6SUln7vu7C8wGQ78Y/38pvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J8aEZcv02SFjVt7ogqapx+RI7Xm8ZPWY1e7xx6Nli9E=;
+ b=L/QWzI/t70PBwA8vmx8txCWRZ3VFxeGmjJLOvYqjawq6ARVXMflSw2Y9KEEg6tO0tR1Ur5qWGGoRipHyGnchF4iUZgAUZoRNgNGbKlM8l67u9G/+XK5ojuYQcC6Z4GRD+CR3e1+i7f7s5m14+9HJTjj/KQowOzC0XDNaNPD9Sp35DeZzIGE8uBbfZSlsAmBKfxdYCaPmuExbkIv2PTrz4vtljQ5cKUsOJfj3SjFT2FkBm7bCBUsFgWNks1pClpxTyEuKhnOCmhfEg9vWuh8UjHvx7AQCYQfwcPkebW6W57XCfiZIGaD5UzHIeR+H/lE5KH4NGR6YgDKCmRymnFCKDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J8aEZcv02SFjVt7ogqapx+RI7Xm8ZPWY1e7xx6Nli9E=;
+ b=0dmlrWbwS4VOVYPWfDHM9rJbB36KBTG7JNg6hJ7WoofRTmnmIAKf+0brqCon2A+AyzfOhcwLxVfJeichj67pNgHSlA34kQJHou5I9pKzkmoEZkns65alpBmJf4nMyaaF/mzuV/pf7wUlCYU+ctT13+Rse0KAwsLAxlZBsv4SMKI=
+Received: from CY4PR03MB3399.namprd03.prod.outlook.com (2603:10b6:910:57::13)
+ by CH2PR03MB5206.namprd03.prod.outlook.com (2603:10b6:610:a3::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.30; Mon, 2 Oct
+ 2023 13:46:54 +0000
+Received: from CY4PR03MB3399.namprd03.prod.outlook.com
+ ([fe80::ed02:8279:265d:e00f]) by CY4PR03MB3399.namprd03.prod.outlook.com
+ ([fe80::ed02:8279:265d:e00f%4]) with mapi id 15.20.6813.027; Mon, 2 Oct 2023
+ 13:46:53 +0000
+From:   "Miclaus, Antoniu" <Antoniu.Miclaus@analog.com>
+To:     Conor Dooley <conor@kernel.org>
+CC:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v2 1/2] dt-bindings: hwmon: ltc2991: add bindings
+Thread-Topic: [PATCH v2 1/2] dt-bindings: hwmon: ltc2991: add bindings
+Thread-Index: AQHZ9RneaXApFz9wS0W13c9REV1TnrA2dqyAgAALTVA=
+Date:   Mon, 2 Oct 2023 13:46:53 +0000
+Message-ID: <CY4PR03MB33990FB22E1BB8686AC0CF509BC5A@CY4PR03MB3399.namprd03.prod.outlook.com>
+References: <20231002101835.39624-1-antoniu.miclaus@analog.com>
+ <20231002-babbling-justice-73d3601a71aa@spud>
+In-Reply-To: <20231002-babbling-justice-73d3601a71aa@spud>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?iso-8859-2?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYW1pY2xhdX?=
+ =?iso-8859-2?Q?NcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZi?=
+ =?iso-8859-2?Q?ODRiYTI5ZTM1Ylxtc2dzXG1zZy0yMzAyNzE3OS02MTJhLTExZWUtYWU1YS?=
+ =?iso-8859-2?Q?1kNDgxZDc1MDZkZGVcYW1lLXRlc3RcMjMwMjcxN2ItNjEyYS0xMWVlLWFl?=
+ =?iso-8859-2?Q?NWEtZDQ4MWQ3NTA2ZGRlYm9keS50eHQiIHN6PSI2MDA5IiB0PSIxMzM0MD?=
+ =?iso-8859-2?Q?cyODAxMDkyMjgxOTgiIGg9IlhJeFpUNS90ZlZHN3pEV1I1UENGMUJoYUIy?=
+ =?iso-8859-2?Q?QT0iIGlkPSIiIGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk?=
+ =?iso-8859-2?Q?5DZ1VBQUVvQ0FBQ21rRnpsTnZYWkFRaHUvZ1hKVVBrSENHNytCY2xRK1Fj?=
+ =?iso-8859-2?Q?REFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFIQUFBQURhQVFBQUFBQUFBQU?=
+ =?iso-8859-2?Q?FBQUFBQUFBQUFBQUFBQUFFQUFRQUJBQUFBRU9wbE9nQUFBQUFBQUFBQUFB?=
+ =?iso-8859-2?Q?QUFBSjRBQUFCaEFHUUFhUUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QU?=
+ =?iso-8859-2?Q?c4QWFnQmxBR01BZEFCekFGOEFaZ0JoQUd3QWN3QmxBRjhBWmdCdkFITUFh?=
+ =?iso-8859-2?Q?UUIwQUdrQWRnQmxBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-2?Q?FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-2?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQU?=
+ =?iso-8859-2?Q?FBR0VBWkFCcEFGOEFjd0JsQUdNQWRRQnlBR1VBWHdCd0FISUFid0JxQUdV?=
+ =?iso-8859-2?Q?QVl3QjBBSE1BWHdCMEFHa0FaUUJ5QURFQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-2?Q?FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-2?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-2?Q?FBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FBQUFBQUNlQUFBQVlRQmtB?=
+ =?iso-8859-2?Q?R2tBWHdCekFHVUFZd0IxQUhJQVpRQmZBSEFBY2dCdkFHb0FaUUJqQUhRQW?=
+ =?iso-8859-2?Q?N3QmZBSFFBYVFCbEFISUFNZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-2?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-2?Q?FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-2?Q?QUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFBPT0iLz48L21ldGE+?=
+x-dg-rorf: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY4PR03MB3399:EE_|CH2PR03MB5206:EE_
+x-ms-office365-filtering-correlation-id: 6704a007-650b-4005-a7c3-08dbc34e0999
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3oVCuqlKbNBzqUS+DaYnYee+ylJpjtBje40GomP84xGWtjCgFpxEfKPLKK7xe/VtpwHHf41M5AbC+FixlB+y47z9Sj1McpwAgqGUeUKOE0Pl+C1HLPBTuvnLasEpEvCHrOSqrirNIjDQKdNbUB44ChRsfOiaNV/QCUtgECEtGgnLlro3dQcq4EN5PdZhEAoea3nhZb/RgKSg/8yslKMkEMup2LEjOK5Q5tJiVSEGhInSVb8VfGbym8DX3dO8LQxW0tRT6/q5AZVTPrraRDTX7P+i3+CJZGPb6IjBPk2ZIOcVddyqw0swpiDhxbDYyL1MltYYMeQNSx4pUgMSHvWH6yYP/EMqyvBzvSX6gnnECq8S1SjlI4LjviyeKuQt2Q2RSv6dQABtTGKN5+/p1IQi/rVcIxP1X5APQU5q59/Wxx8N6b9HENPeaLBuHthwjuzVgRv1rPKo4qiLgCge8aeWMgOIsmRe2MTlqhDEvB7A5nGdkmMgA+eMGau2GeC4c2Ce7Zwtgn8k/MBbYR/Vk1V4k4avSWesGWanpe8ZxQGhLzSD5T/vjmVgFmzIvVdEZ8Qps0e7KhwwZVxX7HI5dphN8n7gBOWwHBbyzbHzyzmM/jY=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR03MB3399.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(136003)(39860400002)(346002)(396003)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(9686003)(26005)(38070700005)(122000001)(33656002)(86362001)(38100700002)(83380400001)(55016003)(66556008)(66446008)(66476007)(478600001)(7416002)(76116006)(316002)(6916009)(64756008)(54906003)(5660300002)(66946007)(52536014)(966005)(8676002)(8936002)(4326008)(7696005)(6506007)(41300700001)(53546011)(71200400001)(2906002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?BMWbaU77BOg2IXgD17ZwBLIHmMnVdiPbDTT/wm0JmixKq9jmhmEjy//hgI?=
+ =?iso-8859-2?Q?q9r3yb/qmY1PetBJqfpS7P21c3ZHp2Ksjld2h9oiXnzxA47KuQuByFUZaK?=
+ =?iso-8859-2?Q?8V2Ysxx1rz/sRw8GjVrD6STYSnwvWQBOWGxq3JMXFiKvcwdFCxdI8A4u/C?=
+ =?iso-8859-2?Q?AcbXQvQvmkUkjGPnK85Fx7dn8jhnyv2PEyyW02BfBNUXHZW6AKc28yw59P?=
+ =?iso-8859-2?Q?alE3qo7LVmDwQeggS0ATni3Y7PpiW7lY8HxNwRQdpoB9+KLxLgt2DMzRhm?=
+ =?iso-8859-2?Q?f44bxx7ziyxU+MIN4b7irgA8dujPheAcTOy+r1DpIzd7fQJC4hj2asT2Ia?=
+ =?iso-8859-2?Q?GDlOlq373sp1f/MB+vacdYwMAUWB3zmxJu9y+htca78tJu94KzV4RWxAbI?=
+ =?iso-8859-2?Q?BqLaJdu9+XhHPIwGg9cDRu+7wqUrEqPQlEr2zs/Ik2yeTvdhTEpsIfr3ET?=
+ =?iso-8859-2?Q?ZYawHWsf6v3sF0fQkZilYRIYVitMbclwH4QBdOxMpemEMRREJCsyjDs6gf?=
+ =?iso-8859-2?Q?me9CHw8elkpIKCj+6AqEB5FR8O/DtLi1b1vJrQMLIe2I44p4IXJqRmd9XR?=
+ =?iso-8859-2?Q?8RXv6c0X6zSBWzQ4YxEt+4eHrZuUWb/esEBpBfmdHjK4NgUxVnoERBqjzy?=
+ =?iso-8859-2?Q?yFayYsNzndbIj6OuE+mb8bcN+zC8sF7TNOufHRKADTejHLJgbn7YcevsyK?=
+ =?iso-8859-2?Q?lxclaHeR9G3800JRPU2/nbU6MPSwTAl4jxXj2ZKhhoEtsJ8GoE52cdzUnH?=
+ =?iso-8859-2?Q?BfiR77SJ0m4Uo4kbPjgOYgyYyjGM65BU8HoLLLxU5bC0TtKHpD7Oeqvv4T?=
+ =?iso-8859-2?Q?QMx5/ZT/MLjXd9/8EoU5YvgcSH+gSgRaaDBnAIbI3FqkfU6MQMEYxZw4u2?=
+ =?iso-8859-2?Q?P4K5YGAa4L9ZmKEz9nEm89jLrBtDJ67OPBp9cgfJlIOLyuwaKC9m8GHXud?=
+ =?iso-8859-2?Q?nQrqWoPShqPo0rOEH3DQcrPqMT3RKf8v2wfXoTIHr0NZ2hduMjVI2e+JXV?=
+ =?iso-8859-2?Q?Jukg+yyRTbeNBfjcC9YmOhfw/Nlsjj9XCGPrroHQQlTtcXAvGx9fTsSIE9?=
+ =?iso-8859-2?Q?lqYZlXSDiKl6dpcbFl4Uhqv+3lIXGtdzdb8HKWfOx5zspWKOZEpX871kLB?=
+ =?iso-8859-2?Q?El5fz/nxF89SjQmdNy3HsJNHF/46lAzKSSpdyvgbI5MZsChGY9QuCD1YWe?=
+ =?iso-8859-2?Q?BYvwu4Vg0aCvflNMd6GpA1Xi5NW5wc2ykUoyMQLLBsmts/r1G5eAs24Ln0?=
+ =?iso-8859-2?Q?Ipp8U9XicRDGcgZWu+mmckeitCsS86P4OJjWGcqxPFf1Zt9AilWXNsJGEf?=
+ =?iso-8859-2?Q?9QsDK3IBhXRA2Je02DPePzn+A7IBQU6dyafqYEk/mgck6vTWIo0Ya+7PiO?=
+ =?iso-8859-2?Q?CNUMWJKfLgSm0ic02yiqiNwEXByxZHuIwMcJlRM+LPib7XMjvgT+2TFiNS?=
+ =?iso-8859-2?Q?4oO8aB9btlL0pzD4Q7ZoEU/FL5LnPalXvy557VvPy5/86pNfSDxwGw1x1V?=
+ =?iso-8859-2?Q?ZyPmQ1AE9HdAB8lHGKtu59hAOVIedxc2my+C5LiOGwTshTjbQM2+ITJzQP?=
+ =?iso-8859-2?Q?1BYOTAhRf3ovXEomtax653WBmwIZ4moTZju23rDDxxDxpok5adJpgQ7xLo?=
+ =?iso-8859-2?Q?h+a2FxIu4yBRMIzbhB55/EW2ZXMdJIait4OqexNuckjQPIP32iadoyKw?=
+ =?iso-8859-2?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yyJILPRGEs0APJsw"
-Content-Disposition: inline
-In-Reply-To: <20230930185354.3034118-1-costa.shul@redhat.com>
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR03MB3399.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6704a007-650b-4005-a7c3-08dbc34e0999
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2023 13:46:53.8503
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FfiuSn2C9kGq55A1mrGnn8kviW0vtnxsWG6vbr0TnL+uvY85DL56amXZ5yrdZf+z+twkyo63bGfJ/rMHKatBhAbRu/Uqsv7pyJAXdj9LXMU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR03MB5206
+X-Proofpoint-GUID: JdjIp7aeAMsiqjV7Yht-YOCeq86yFVUB
+X-Proofpoint-ORIG-GUID: JdjIp7aeAMsiqjV7Yht-YOCeq86yFVUB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-02_08,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ clxscore=1011 suspectscore=0 adultscore=0 mlxscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2309180000 definitions=main-2310020104
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---yyJILPRGEs0APJsw
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hey,
+--
+Antoniu Micl=E3u=BA
 
-On Sat, Sep 30, 2023 at 09:52:00PM +0300, Costa Shulyupin wrote:
-> and fix all in-tree references.
+> -----Original Message-----
+> From: Conor Dooley <conor@kernel.org>
+> Sent: Monday, October 2, 2023 4:01 PM
+> To: Miclaus, Antoniu <Antoniu.Miclaus@analog.com>
+> Cc: Jean Delvare <jdelvare@suse.com>; Guenter Roeck <linux@roeck-
+> us.net>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
+> <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; linux-
+> hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-doc@vger.kernel.org
+> Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: ltc2991: add bindings
 >=20
-> Architecture-specific documentation is being moved into Documentation/arc=
-h/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.
+> [External]
 >=20
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-
-Firstly, $subject is not correct - this is now v2.
-Also, please do not send new versions as a response to old threads. It
-buries them in people's mailboxes that do things like sorting by
-threads. Clearly no resubmission should be required for either of those
-items though, so:
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
+> Hey,
 >=20
-> ---
-> Changes in v1: rebased on linux-next
+> On Mon, Oct 02, 2023 at 01:18:14PM +0300, Antoniu Miclaus wrote:
+> > Add dt-bindings for ltc2991 octal i2c voltage, current and temperature
+> > monitor.
+> >
+> > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > ---
+> > changes in v2:
+> >  - make compatible const type
+> >  - remove `|` where not necessary
+> >  - switch to micro-ohms for the shunt resistor property
+> >  - add vendor prefix for temperature-enable
 >=20
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> ---
->  Documentation/arch/index.rst                                  | 2 +-
->  Documentation/{ =3D> arch}/riscv/acpi.rst                       | 0
->  Documentation/{ =3D> arch}/riscv/boot-image-header.rst          | 0
->  Documentation/{ =3D> arch}/riscv/boot.rst                       | 0
->  Documentation/{ =3D> arch}/riscv/features.rst                   | 0
->  Documentation/{ =3D> arch}/riscv/hwprobe.rst                    | 0
->  Documentation/{ =3D> arch}/riscv/index.rst                      | 0
->  Documentation/{ =3D> arch}/riscv/patch-acceptance.rst           | 0
->  Documentation/{ =3D> arch}/riscv/uabi.rst                       | 0
->  Documentation/{ =3D> arch}/riscv/vector.rst                     | 0
->  Documentation/{ =3D> arch}/riscv/vm-layout.rst                  | 0
->  Documentation/maintainer/maintainer-entry-profile.rst         | 2 +-
->  Documentation/process/index.rst                               | 2 +-
->  Documentation/translations/it_IT/riscv/patch-acceptance.rst   | 2 +-
->  Documentation/translations/zh_CN/arch/index.rst               | 2 +-
->  .../translations/zh_CN/{ =3D> arch}/riscv/boot-image-header.rst | 4 ++--
->  Documentation/translations/zh_CN/{ =3D> arch}/riscv/index.rst   | 4 ++--
->  .../translations/zh_CN/{ =3D> arch}/riscv/patch-acceptance.rst  | 4 ++--
->  .../translations/zh_CN/{ =3D> arch}/riscv/vm-layout.rst         | 4 ++--
->  .../zh_CN/maintainer/maintainer-entry-profile.rst             | 2 +-
->  MAINTAINERS                                                   | 2 +-
->  arch/riscv/include/uapi/asm/hwprobe.h                         | 2 +-
->  arch/riscv/kernel/sys_riscv.c                                 | 2 +-
->  23 files changed, 17 insertions(+), 17 deletions(-)
->  rename Documentation/{ =3D> arch}/riscv/acpi.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/boot-image-header.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/boot.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/features.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/hwprobe.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/index.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/patch-acceptance.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/uabi.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/vector.rst (100%)
->  rename Documentation/{ =3D> arch}/riscv/vm-layout.rst (100%)
->  rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/boot-image-he=
-ader.rst (96%)
->  rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/index.rst (79=
-%)
->  rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/patch-accepta=
-nce.rst (93%)
->  rename Documentation/translations/zh_CN/{ =3D> arch}/riscv/vm-layout.rst=
- (98%)
+> Thanks for the updates...
 >=20
-> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-> index 194e7e797877..d27c360e0312 100644
-> --- a/Documentation/arch/index.rst
-> +++ b/Documentation/arch/index.rst
-> @@ -19,7 +19,7 @@ implementation.
->     openrisc/index
->     parisc/index
->     ../powerpc/index
-> -   ../riscv/index
-> +   riscv/index
->     s390/index
->     sh/index
->     sparc/index
-> diff --git a/Documentation/riscv/acpi.rst b/Documentation/arch/riscv/acpi=
-=2Erst
-> similarity index 100%
-> rename from Documentation/riscv/acpi.rst
-> rename to Documentation/arch/riscv/acpi.rst
-> diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/ar=
-ch/riscv/boot-image-header.rst
-> similarity index 100%
-> rename from Documentation/riscv/boot-image-header.rst
-> rename to Documentation/arch/riscv/boot-image-header.rst
-> diff --git a/Documentation/riscv/boot.rst b/Documentation/arch/riscv/boot=
-=2Erst
-> similarity index 100%
-> rename from Documentation/riscv/boot.rst
-> rename to Documentation/arch/riscv/boot.rst
-> diff --git a/Documentation/riscv/features.rst b/Documentation/arch/riscv/=
-features.rst
-> similarity index 100%
-> rename from Documentation/riscv/features.rst
-> rename to Documentation/arch/riscv/features.rst
-> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/arch/riscv/h=
-wprobe.rst
-> similarity index 100%
-> rename from Documentation/riscv/hwprobe.rst
-> rename to Documentation/arch/riscv/hwprobe.rst
-> diff --git a/Documentation/riscv/index.rst b/Documentation/arch/riscv/ind=
-ex.rst
-> similarity index 100%
-> rename from Documentation/riscv/index.rst
-> rename to Documentation/arch/riscv/index.rst
-> diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/arc=
-h/riscv/patch-acceptance.rst
-> similarity index 100%
-> rename from Documentation/riscv/patch-acceptance.rst
-> rename to Documentation/arch/riscv/patch-acceptance.rst
-> diff --git a/Documentation/riscv/uabi.rst b/Documentation/arch/riscv/uabi=
-=2Erst
-> similarity index 100%
-> rename from Documentation/riscv/uabi.rst
-> rename to Documentation/arch/riscv/uabi.rst
-> diff --git a/Documentation/riscv/vector.rst b/Documentation/arch/riscv/ve=
-ctor.rst
-> similarity index 100%
-> rename from Documentation/riscv/vector.rst
-> rename to Documentation/arch/riscv/vector.rst
-> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/arch/riscv=
-/vm-layout.rst
-> similarity index 100%
-> rename from Documentation/riscv/vm-layout.rst
-> rename to Documentation/arch/riscv/vm-layout.rst
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Docu=
-mentation/maintainer/maintainer-entry-profile.rst
-> index 6b64072d4bf2..7ad4bfc2cc03 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -101,7 +101,7 @@ to do something different in the near future.
-> =20
->     ../doc-guide/maintainer-profile
->     ../nvdimm/maintainer-entry-profile
-> -   ../riscv/patch-acceptance
-> +   ../arch/riscv/patch-acceptance
->     ../driver-api/media/maintainer-entry-profile
->     ../driver-api/vfio-pci-device-specific-driver-acceptance
->     ../nvme/feature-and-quirk-policy
-> diff --git a/Documentation/process/index.rst b/Documentation/process/inde=
-x.rst
-> index b501cd977053..db09a81d474b 100644
-> --- a/Documentation/process/index.rst
-> +++ b/Documentation/process/index.rst
-> @@ -71,7 +71,7 @@ lack of a better place.
->     volatile-considered-harmful
->     botching-up-ioctls
->     clang-format
-> -   ../riscv/patch-acceptance
-> +   ../arch/riscv/patch-acceptance
->     ../core-api/unaligned-memory-access
-> =20
->  .. only::  subproject and html
-> diff --git a/Documentation/translations/it_IT/riscv/patch-acceptance.rst =
-b/Documentation/translations/it_IT/riscv/patch-acceptance.rst
-> index edf67252b3fb..2d7afb1f6959 100644
-> --- a/Documentation/translations/it_IT/riscv/patch-acceptance.rst
-> +++ b/Documentation/translations/it_IT/riscv/patch-acceptance.rst
-> @@ -1,6 +1,6 @@
->  .. include:: ../disclaimer-ita.rst
-> =20
-> -:Original: :doc:`../../../riscv/patch-acceptance`
-> +:Original: :doc:`../../../arch/riscv/patch-acceptance`
->  :Translator: Federico Vaga <federico.vaga@vaga.pv.it>
-> =20
->  arch/riscv linee guida alla manutenzione per gli sviluppatori
-> diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentat=
-ion/translations/zh_CN/arch/index.rst
-> index 945b078168b0..71186d9df7c9 100644
-> --- a/Documentation/translations/zh_CN/arch/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/index.rst
-> @@ -10,7 +10,7 @@
-> =20
->     mips/index
->     arm64/index
-> -   ../riscv/index
-> +   ../arch/riscv/index
->     openrisc/index
->     parisc/index
->     loongarch/index
-> diff --git a/Documentation/translations/zh_CN/riscv/boot-image-header.rst=
- b/Documentation/translations/zh_CN/arch/riscv/boot-image-header.rst
-> similarity index 96%
-> rename from Documentation/translations/zh_CN/riscv/boot-image-header.rst
-> rename to Documentation/translations/zh_CN/arch/riscv/boot-image-header.r=
-st
-> index 0234c28a7114..779b5172fe24 100644
-> --- a/Documentation/translations/zh_CN/riscv/boot-image-header.rst
-> +++ b/Documentation/translations/zh_CN/arch/riscv/boot-image-header.rst
-> @@ -1,6 +1,6 @@
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
-> =20
-> -:Original: Documentation/riscv/boot-image-header.rst
-> +:Original: Documentation/arch/riscv/boot-image-header.rst
-> =20
->  :=E7=BF=BB=E8=AF=91:
-> =20
-> diff --git a/Documentation/translations/zh_CN/riscv/index.rst b/Documenta=
-tion/translations/zh_CN/arch/riscv/index.rst
-> similarity index 79%
-> rename from Documentation/translations/zh_CN/riscv/index.rst
-> rename to Documentation/translations/zh_CN/arch/riscv/index.rst
-> index 131e405aa857..3b041c116169 100644
-> --- a/Documentation/translations/zh_CN/riscv/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/riscv/index.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
-> =20
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
-> =20
-> -:Original: Documentation/riscv/index.rst
-> +:Original: Documentation/arch/riscv/index.rst
-> =20
->  :=E7=BF=BB=E8=AF=91:
-> =20
-> diff --git a/Documentation/translations/zh_CN/riscv/patch-acceptance.rst =
-b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-> similarity index 93%
-> rename from Documentation/translations/zh_CN/riscv/patch-acceptance.rst
-> rename to Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-> index d180d24717bf..c8eb230ca8ee 100644
-> --- a/Documentation/translations/zh_CN/riscv/patch-acceptance.rst
-> +++ b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
-> =20
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
-> =20
-> -:Original: Documentation/riscv/patch-acceptance.rst
-> +:Original: Documentation/arch/riscv/patch-acceptance.rst
-> =20
->  :=E7=BF=BB=E8=AF=91:
-> =20
-> diff --git a/Documentation/translations/zh_CN/riscv/vm-layout.rst b/Docum=
-entation/translations/zh_CN/arch/riscv/vm-layout.rst
-> similarity index 98%
-> rename from Documentation/translations/zh_CN/riscv/vm-layout.rst
-> rename to Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> index 91884e2dfff8..4b9f4dcf6c19 100644
-> --- a/Documentation/translations/zh_CN/riscv/vm-layout.rst
-> +++ b/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> @@ -1,7 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
-> =20
-> -:Original: Documentation/riscv/vm-layout.rst
-> +:Original: Documentation/arch/riscv/vm-layout.rst
-> =20
->  :=E7=BF=BB=E8=AF=91:
-> =20
-> diff --git a/Documentation/translations/zh_CN/maintainer/maintainer-entry=
--profile.rst b/Documentation/translations/zh_CN/maintainer/maintainer-entry=
--profile.rst
-> index a1ee99c4786e..0f5acfb1012e 100644
-> --- a/Documentation/translations/zh_CN/maintainer/maintainer-entry-profil=
-e.rst
-> +++ b/Documentation/translations/zh_CN/maintainer/maintainer-entry-profil=
-e.rst
-> @@ -89,4 +89,4 @@
-> =20
->     ../doc-guide/maintainer-profile
->     ../../../nvdimm/maintainer-entry-profile
-> -   ../../../riscv/patch-acceptance
-> +   ../../../arch/riscv/patch-acceptance
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 208cfcc1aee3..863ba7e0123c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18533,7 +18533,7 @@ L:	linux-riscv@lists.infradead.org
->  S:	Supported
->  Q:	https://patchwork.kernel.org/project/linux-riscv/list/
->  C:	irc://irc.libera.chat/riscv
-> -P:	Documentation/riscv/patch-acceptance.rst
-> +P:	Documentation/arch/riscv/patch-acceptance.rst
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
->  F:	arch/riscv/
->  N:	riscv
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
-api/asm/hwprobe.h
-> index 006bfb48343d..d43e306ce2f9 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -10,7 +10,7 @@
-> =20
->  /*
->   * Interface for probing hardware capabilities from userspace, see
-> - * Documentation/riscv/hwprobe.rst for more information.
-> + * Documentation/arch/riscv/hwprobe.rst for more information.
->   */
->  struct riscv_hwprobe {
->  	__s64 key;
-> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-> index 473159b5f303..b651ec698a91 100644
-> --- a/arch/riscv/kernel/sys_riscv.c
-> +++ b/arch/riscv/kernel/sys_riscv.c
-> @@ -79,7 +79,7 @@ SYSCALL_DEFINE3(riscv_flush_icache, uintptr_t, start, u=
-intptr_t, end,
-> =20
->  /*
->   * The hwprobe interface, for allowing userspace to probe to see which f=
-eatures
-> - * are supported by the hardware.  See Documentation/riscv/hwprobe.rst f=
-or more
-> + * are supported by the hardware.  See Documentation/arch/riscv/hwprobe.=
-rst for more
->   * details.
->   */
->  static void hwprobe_arch_id(struct riscv_hwprobe *pair,
-> --=20
-> 2.41.0
+> >  .../bindings/hwmon/adi,ltc2991.yaml           | 114 ++++++++++++++++++
+> >  1 file changed, 114 insertions(+)
+> >  create mode 100644
+> Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> > new file mode 100644
+> > index 000000000000..3811ea07a04f
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> > @@ -0,0 +1,114 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +
+> > +$id: http://devicetree.org/schemas/hwmon/adi,ltc2991.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Analog Devices LTC2991 Octal I2C Voltage, Current and Temperatu=
+re
+> Monitor
+> > +
+> > +maintainers:
+> > +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > +
+> > +description: |
+> > +  The LTC2991 is used to monitor system temperatures, voltages and
+> currents.
+> > +  Through the I2C serial interface, the eight monitors can individuall=
+y
+> measure
+> > +  supply voltages and can be paired for differential measurements of
+> current
+> > +  sense resistors or temperature sensing transistors.
+> > +
+> > +  Datasheet:
+> > +    https://www.analog.com/en/products/ltc2991.html
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: adi,ltc2991
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  '#address-cells':
+> > +    const: 1
+> > +
+> > +  '#size-cells':
+> > +    const: 0
+> > +
+> > +  vcc-supply: true
+> > +
+> > +patternProperties:
+> > +  "^channel@[0-3]$":
+> > +    type: object
+> > +    description:
+> > +      Represents the differential/temperature channels.
+> > +
+> > +    properties:
+> > +      reg:
+> > +        description:
+> > +          The channel number. LTC2991 can monitor 4 currents/temperatu=
+res.
+> > +        items:
+> > +          minimum: 0
+> > +          maximum: 3
+> > +
+> > +      shunt-resistor-micro-ohms:
+> > +        description:
+> > +          The value of curent sense resistor in miliohms. Enables diff=
+erential
+> > +          input pair.
+> > +
+> > +      adi,temperature-enable:
+> > +        description:
+> > +          Enables temperature readings for a input pair.
+> > +        type: boolean
 >=20
+> ...but I did not see an answer to my question on v1:
+> 	TBH, this seems like it is used just to control software behaviour.
+> 	Why would you want to actually disable this in DT?
+> In other words, is there something in that hardware that precludes
+> measuring temperature for channels that do not contain this property?
+>=20
+> Thanks,
+> Conor.
+>=20
+Sorry for missing that. I took in consideration this approach based on the =
+pin functions
+described in the datasheet (page 8 of 32). For example the V1 pin of the pa=
+rt can support
+3 different configurations: "V1 (Pin 1): First Monitor Input. This pin can =
+be configured
+as a single-ended input (0V to 4.9V) or the positive inputfor a differentia=
+l or remote diode
+temperature measurement (in combination with V2)."
+Moreover, looking at the multiple typical applications examples at the end =
+of the datasheet
+there is a specific adjacent hardware circuit connected to this part for th=
+e temperature
+measurements configurations.
 
---yyJILPRGEs0APJsw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRrEtQAKCRB4tDGHoIJi
-0nrbAQDt+tijrtXHvRrRVExbW8E394V2d3fuesA3s5gWsmMhTQD7BPgN+CDXM6L5
-JA9U4cUnXWiRYkikQn1VtlMF1oHF3Qk=
-=FMgc
------END PGP SIGNATURE-----
-
---yyJILPRGEs0APJsw--
+Thank you,
+Antoniu
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - vcc-supply
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        hwmon@48 {
+> > +            compatible =3D "adi,ltc2991";
+> > +            reg =3D <0x48>;
+> > +            vcc-supply =3D <&vcc>;
+> > +        };
+> > +    };
+> > +  - |
+> > +    i2c {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        hwmon@48 {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            compatible =3D "adi,ltc2991";
+> > +            reg =3D <0x48>;
+> > +            vcc-supply =3D <&vcc>;
+> > +
+> > +            channel@0 {
+> > +                    reg =3D <0x0>;
+> > +                    shunt-resistor-micro-ohms =3D <100000>;
+> > +            };
+> > +
+> > +            channel@1 {
+> > +                    reg =3D <0x1>;
+> > +                    shunt-resistor-micro-ohms =3D <100000>;
+> > +            };
+> > +
+> > +            channel@2 {
+> > +                    reg =3D <0x2>;
+> > +                    temperature-enable;
+> > +            };
+> > +
+> > +            channel@3 {
+> > +                    reg =3D <0x3>;
+> > +                    temperature-enable;
+> > +            };
+> > +        };
+> > +    };
+> > +...
+> > --
+> > 2.42.0
+> >
