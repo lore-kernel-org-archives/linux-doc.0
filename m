@@ -2,102 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C22C3E784A4
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 08:12:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F411E7849A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 08:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235821AbjJBIMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Oct 2023 04:12:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53538 "EHLO
+        id S235857AbjJBIuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Oct 2023 04:50:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235773AbjJBIMy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 04:12:54 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D2ABF
-        for <linux-doc@vger.kernel.org>; Mon,  2 Oct 2023 01:12:50 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-5046bf37ec1so15633457e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Oct 2023 01:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696234368; x=1696839168; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EGUYisSFuCVSXERDSMArhOminCdOTb9Vp2WMHo/RH4E=;
-        b=Dbt5BXt0HtfZftTC8007MeLuDQT6jbYUD87C3GiVicYIDFZLpbtFRJY7WV9TYsV7+K
-         vHhwUxm8plxE+g5CCahu1sFVHCWqvUb4d46KiNe0CSSwE/+28lzlgsq00IN1KcBx9yD+
-         eJvDYCEzv+GOR5PzD2FtRCxJLyEO2cXaYCwQ7M0J/qzuKjtwktr0jJ1V+G64A8jflPlg
-         Ze0Oeyh3YFNlS6FtlN527VEtxE9ZZHzbkHPgMgs/5PL0fPXf0/mGpjX5N/dYLclpzZ5h
-         lwxMuTOxFvjLP1ACEAt9XCRthl8bnXQXRxK5wDqzrQj8O6YMIVVRDzFLNLChyyxJKrhg
-         sSnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696234368; x=1696839168;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EGUYisSFuCVSXERDSMArhOminCdOTb9Vp2WMHo/RH4E=;
-        b=FSAzFV/A6E/JgrNsjC+80RcMG5i5TNB4vvObprqpWAeRbySoCkwc1jgVwHWPrtRI+Q
-         LFkdKw4O6007e5RxilVtAWPdEGhgC0c273LelBkGVAdINhNGpJQmo9rLDQV4ciPitGgr
-         l8YxKg6ILeVvpxzqTLPp6Nj+gPYEJbOftOqdbahTl6mBnb3kFV9cVZC/xpxOSnIu9bML
-         ZlXk/wZFEM5H4bQbs4aSfFMCtYOm/j4fBBW7P3sabyPmMKlmWhKei6I5wLjw66m3teT9
-         0NGCbAZ4Z0YYhMm1+apYiZVwYCYejXIFkPN8A1HF8vlCiiBazLN1K705OZU/PVXS60pX
-         4gWw==
-X-Gm-Message-State: AOJu0YyxJ7kqnHnl+6TzSLDHPSeAwjwrgdExpVWN05eXKfQW/aFKPOt6
-        Dsm/0z3hBLiHasrNw2AsamBpHGGta74Z3fsftmE=
-X-Google-Smtp-Source: AGHT+IFQnoc+9y60VYcF0TtnMOhJ9Clrfj/YiZsM8pd6waG3N+pD7MO20yEf9ouUtM9wNySw+AZBfw==
-X-Received: by 2002:a19:c504:0:b0:503:8fa:da21 with SMTP id w4-20020a19c504000000b0050308fada21mr9021707lfe.43.1696234368515;
-        Mon, 02 Oct 2023 01:12:48 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id r7-20020a19ac47000000b004fb7359ab83sm4631451lfc.80.2023.10.02.01.12.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 01:12:47 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 02 Oct 2023 10:12:47 +0200
-Subject: [PATCH] gpio: Further document optional GPIOLIB
+        with ESMTP id S235891AbjJBIuR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 04:50:17 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF592A4;
+        Mon,  2 Oct 2023 01:50:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=JvPqqja4TT+0DiPiuayTezJPxFas7IWcUxfob75N93Q=; b=j8q+pCOmMl9PBJYEFd31OtM6/B
+        Aia4gbdLMLjyJU+41olyFt7x30GOR9G++wJpc0o1y4BW6S2QYxRcw/yAI0+Ng5bHvmy7zqhjyDtpi
+        U0b2gHhfZhLrSVI/HrjMDZm+2HiB5hDV7QswuB3yvKpTqD5p80UaRqeSwoibl5Q2KOFmmRnlTHOnQ
+        Zu87S6VcpJUbFR5qo+XGMg2JUmO1agmbAvBEfCaRff/GGOFkLYK18jJhkJ0Vq/gJNW5vyqDOiP/s+
+        CmMOb3nYRPAOu3cIvNHJUHpouLZ1BLvtvQz0vm9CJlJuObis5sT3lF6x/tfHycVdcv4oLnyi1qjAk
+        MUvN5TSA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1qnEd1-00CA60-0m;
+        Mon, 02 Oct 2023 08:50:11 +0000
+Date:   Mon, 2 Oct 2023 01:50:11 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: encourage direct notifications
+ to reviewers
+Message-ID: <ZRqEQ2uxAlCyihS3@infradead.org>
+References: <20230927-docs-cc-reviewer-v1-1-2af46ceb2d3c@weissschuh.net>
+ <ZRVDv2fiFyW2S0z1@infradead.org>
+ <f4ce8205-93a6-4ef5-94c0-1fb8d261bcac@t-8ch.de>
+ <ZRpkWXMiQjUJPszZ@infradead.org>
+ <874jj9iihq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231002-gpiodoc-v1-1-a8ec8376bbf1@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAH57GmUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2NDAwMj3fSCzPyU/GTd5DRLE2MDMxPDJEtDJaDqgqLUtMwKsEnRsbW1AEq
- EgStZAAAA
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <874jj9iihq.fsf@intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Optional GPIOLIB as in not depended on or selected by a driver
-should NOT use any *_optional() calls, this becomes paradoxical.
+On Mon, Oct 02, 2023 at 10:36:01AM +0300, Jani Nikula wrote:
+> On Sun, 01 Oct 2023, Christoph Hellwig <hch@infradead.org> wrote:
+> > On Fri, Sep 29, 2023 at 09:24:57AM +0200, Thomas Weißschuh wrote:
+> >> > This does not scale.
+> >> 
+> >> Could you elaborate in which way it doesn't scale?
+> >
+> > If I send a modest cross-subsystem series it often touches 20+
+> > subsystems.  Between mailing lists and maintainers that's usually
+> > already 60+ recipients.  If you now add a another 2-3 maintainers
+> > we're just going to hit limits in mail servers.
+> 
+> I thought this was about adding people who have commented on previous
+> versions to Cc. That's usually a very limited number.
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- Documentation/driver-api/gpio/consumer.rst | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-index de6fc79ad6f0..3e588b9d678c 100644
---- a/Documentation/driver-api/gpio/consumer.rst
-+++ b/Documentation/driver-api/gpio/consumer.rst
-@@ -29,6 +29,10 @@ warnings. These stubs are used for two use cases:
-   will use it under other compile-time configurations. In this case the
-   consumer must make sure not to call into these functions, or the user will
-   be met with console warnings that may be perceived as intimidating.
-+  Combining truly optional GPIOLIB usage with calls to
-+  ``[devm_]gpiod_get_optional()`` is a *bad idea*, and will result in weird
-+  error messages. Use the ordinary getter functions with optional GPIOLIB:
-+  some open coding of error handling should be expected when you do this.
- 
- All the functions that work with the descriptor-based GPIO interface are
- prefixed with ``gpiod_``. The ``gpio_`` prefix is used for the legacy
-
----
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-change-id: 20231002-gpiodoc-cf9430641b91
-
-Best regards,
--- 
-Linus Walleij <linus.walleij@linaro.org>
+Oh, that absolutely makes sense.  But maybe we need to stop overloading
+the term reviewer :)
 
