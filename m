@@ -2,207 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 943FDE784B6
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 14:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B46E784B7
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 14:53:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237474AbjJBOci (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Oct 2023 10:32:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57984 "EHLO
+        id S237876AbjJBOxd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Oct 2023 10:53:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237652AbjJBOcg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 10:32:36 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69330AD;
-        Mon,  2 Oct 2023 07:32:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696257154; x=1727793154;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=DAt/clDwQ/abgQdJLpl7wv4dYDEV8jSvafUDn6V3VLc=;
-  b=IFfG1foiRAWtl6RjFq3SfEKy7pO8ROdarRTX/09vdjn+wpmeP/rRufrp
-   WfD2i9B7x4ULWqjmkw80lkNJPYtf4EspckVqWVw3M/wNzAfLwJre8QPHY
-   UU9nbedZHwBgyng9IW4yGSJ5HCpVxlA4yRECkGdacYstmOWwBXkgVx0RS
-   qchO9acK2ICdN373kGMdS7A+RyZKXvLkSHhqBflPMu7sVmNsP5eQdi95W
-   wyvQqCtN2uanVL/GQUk2RV4UoXgbf+3OMPZssDNzXD7vhFcmrkUfVyX6f
-   GJ3ftlrdymbXf7GA6KnKu+9crG09b2lEVIvJA9N63zPih8hr3TZP0K/IA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="381537135"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="381537135"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 07:32:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="866513949"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="866513949"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Oct 2023 07:32:33 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 2 Oct 2023 07:32:32 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 2 Oct 2023 07:32:32 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 2 Oct 2023 07:32:32 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 2 Oct 2023 07:32:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W/R7kpRLJ1Ja94hnJez7/qqCWenaKPuk7km/8DD37pCGnmNTwkS66gD9U2jFmBmfVOEOTXtNnbimvPXM5Iqpf8oBjsKne3fCNW8lQvXiD/HTbyZ5etWxWLv4ql032qaxN+8FrvQsYgN99xcNN9kxOI1s3e7BAgeAX0Cc3F6PmwBigy07dJBRAc8Hvfh7bRDpYBoNBU6ReSPuysBm5sv/P7Vf+XoOys7SwcT9+XP1c+a+e3I1oB8w1tl8l4andL+WVjnjo54BtZ06UwHQbRa5pX1VwnBZYBmN6QGsv6By9Mb00v4fIwnEGLGmZPct15eRwv6p9iuq5ZfRPtVci3IQHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DAt/clDwQ/abgQdJLpl7wv4dYDEV8jSvafUDn6V3VLc=;
- b=Fjn2wZrla2F8JNCTKouxrdVfUWvOYT81wcOTzx7VwGJKVfk4J4cZ5aoAUSpoFxWcaWnEvp9Udb1gNRf7v2ue0dD9Oy8FzY2OgqymGmd6mPVByAqQbrk6uD3NPuR20QTxIQ9fGAeny0cFwETBLGH2aZujqAutA9zpzmg5uq30kfDp0ka6FrUHqKMWrtKfTK6tuHUlQ8+pwGDxEvqmrxSEwqKJmKhDuAYbYi8ebeqHABQxrpWJz6ybXcZts4Nk7ozpiIv44Ohz+orqJDzeiOMvbDEE257TGDSSy1/t/qm8ebKM3oF1I8JVw0rtYo4G52W3N8hGX2k8JgB9yK/44rBqiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
- CY8PR11MB7827.namprd11.prod.outlook.com (2603:10b6:930:77::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6838.25; Mon, 2 Oct 2023 14:32:30 +0000
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::4c69:ab61:fea5:5a7f]) by DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::4c69:ab61:fea5:5a7f%3]) with mapi id 15.20.6813.035; Mon, 2 Oct 2023
- 14:32:30 +0000
-From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-To:     Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-CC:     "jiri@resnulli.us" <jiri@resnulli.us>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
-Subject: RE: [PATCH net-next 3/4] dpll: netlink/core: add support for pin-dpll
- signal phase offset/adjust
-Thread-Topic: [PATCH net-next 3/4] dpll: netlink/core: add support for
- pin-dpll signal phase offset/adjust
-Thread-Index: AQHZ8STYBdXle/Bxd0eyxPCX/7DD6LAu+R+AgAebAaA=
-Date:   Mon, 2 Oct 2023 14:32:30 +0000
-Message-ID: <DM6PR11MB4657AA79C0C44F868499A3129BC5A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        with ESMTP id S237894AbjJBOxc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 10:53:32 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC6AB7
+        for <linux-doc@vger.kernel.org>; Mon,  2 Oct 2023 07:53:27 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-53808d5b774so3860529a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Oct 2023 07:53:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1696258406; x=1696863206; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Io8DiXqjSfTqepUgkoeQXJPEkLkiVe5602Ih+UtiRhc=;
+        b=f/xLVPeBV+9eJvKYvh3WfL6mje4+7R8/p3/3FvEzCSDYjwHHn23aOgqS7x19LfyFit
+         JE4IyT3At1UpFCfbAT8eZv6z5WSotF+BWLC40ZGKTFj3t9xl1CTCjXajRoP2pMyJ41tV
+         iwy2MbC8AiwlhIjV1FARvA5R+/4vN1Vb5dbfgN4ickVpIvR/0tZ7SS+P2pxe7tFjARE5
+         Lua/pNojMpyH5zKqSBogqa+lSC2E9qmyjR6IJvYR4yjJhZKdV5xngyu+cbH4pBsxtvMw
+         A1EIqMMab/H/8W8GPxmULVybQgD2aLQ+PYwNOGQaD5tIMcuSeMsMhHsbu6VjKgo3I2Nc
+         00eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696258406; x=1696863206;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Io8DiXqjSfTqepUgkoeQXJPEkLkiVe5602Ih+UtiRhc=;
+        b=FFT5i3yCtDQtRBqAqgHzdCAedFVKMfKy3Tz4b4hErODSbPysOIbrx9T6FZ3T5dFOmO
+         fxTok1QKoHVgwDBhHbW1P517uctWdqEBINJL43RoyfIxUtO99Cy9RWFh1bU+xiOoQvqC
+         pLvA7i6JHIkG9fd3musR4h3l9qxhyxZMkYHe5iN+NXHsmSRQPqHc6c6egi/6xefg+ncU
+         ouvEk+5twtKURoOz5KEOxuaTpz16NUYAujkNsC9cSn+FE07YfcIUSvQTg4tNargjLq9q
+         cgWlrx2srn+svkF79pZ0L6Ed0+59xJQvSZ6Dd9pc7wrfg5GosnuHUStBnuh4kVlrJuGJ
+         eEjw==
+X-Gm-Message-State: AOJu0YwxJDhwmHS4CB8S1r5YqBMpmsoTtkNtRCbgjfgrddLuKyQpgHVF
+        PQYLWc2o/quHrvpdE50KzQ8pSA==
+X-Google-Smtp-Source: AGHT+IGLdofiABYnVTHaKEqx4FAGXdzNwFEC1xhDWk5ks3eDjq8Ai96j3n5CHrYeigrr56gl72n0Wg==
+X-Received: by 2002:a05:6402:1481:b0:530:5465:ad6d with SMTP id e1-20020a056402148100b005305465ad6dmr9956304edv.2.1696258406261;
+        Mon, 02 Oct 2023 07:53:26 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id cy23-20020a0564021c9700b005362c9905b2sm6638316edb.35.2023.10.02.07.53.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Oct 2023 07:53:25 -0700 (PDT)
+Date:   Mon, 2 Oct 2023 16:53:24 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     netdev@vger.kernel.org, vadim.fedorenko@linux.dev, corbet@lwn.net,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+        linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org
+Subject: Re: [PATCH net-next 2/4] dpll: spec: add support for pin-dpll signal
+ phase offset/adjust
+Message-ID: <ZRrZZDDvuifWhDeL@nanopsycho>
 References: <20230927092435.1565336-1-arkadiusz.kubalewski@intel.com>
- <20230927092435.1565336-4-arkadiusz.kubalewski@intel.com>
- <4018c0b0-b288-ff60-09be-7ded382f4a82@linux.dev>
-In-Reply-To: <4018c0b0-b288-ff60-09be-7ded382f4a82@linux.dev>
-Accept-Language: pl-PL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|CY8PR11MB7827:EE_
-x-ms-office365-filtering-correlation-id: 9979ad44-9e0a-4bbb-279f-08dbc35468d5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2kLDWa/z2bOyc9t2XGrExXPm/6b4zhRArHgAMD0b4Z376zza8Oj4cKwVG9jpAK+23FJjw0vToCGP1XJ1jnjfDUDiFMAE74IlDC9F8qHS9Begg7MmymbBATt8sNJ8QtAbHq/0GcvNLakBFTMRT2IspR3m04mWzDBYYwL6mSToNQrR39QJxk6dJeuXUIHFMS0mCBiSp6Ixp2oR7as8LQHVMFGfKA6O8hzx4gLVZAClTEKQrJkOLiWSE8MNy3+6OV3mbksudGzf5/NcGvOEN7mAWTC9pQtSg6N++/jVyj3rCKjY0V0ysFPFGrUL1COwr9rkZDoM9aJ96PjZCoRriOW91ODALu6odNtBC2Hb47fzd1Iaf266efZNStIipxxTCAmjQZoRzJq1uRGugNpQyDzCYpZRZucjFckCoZIlAhzOLEtTX5dl5vZJRqmXt9vMr+2p2CEeBDKpkVTKkPLroZ7IP2MM/HVaTZlXp4eScAlZnUlIr2nLo4weW6TcGxrsEAkCi7BuyBqtZtabY2MQ5R6fPYUkrTSxnvbmvg7qrL8FKTnHrAKBHNvUAML4oMztZJplHKnzgMF/Vg7KgpnJSQg/ruJI3kGGC+jrp4lNpNwHgDsrtcuKI7cIAFr5xhbHcq7T
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(366004)(136003)(376002)(39860400002)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(2906002)(83380400001)(86362001)(33656002)(38070700005)(38100700002)(82960400001)(55016003)(122000001)(110136005)(64756008)(66446008)(54906003)(76116006)(66946007)(66476007)(66556008)(9686003)(316002)(7696005)(6506007)(41300700001)(478600001)(71200400001)(52536014)(5660300002)(8676002)(8936002)(4326008)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z0ZpZmtwQkxxc3gzWEs0QWVJTm01allhS3plZ1R3N2x3YUhuQ1hYTTltMlhq?=
- =?utf-8?B?OFBWOFVLY3l6RDlvbWpmaFBobm4zWC95WXc5U2UyNDkrYUFWU0gxVGE3OUFl?=
- =?utf-8?B?N1lwTjB1MnRaZlMxL3JqMUdJaW93MGZXQ0ZRK1cvYTRlOW5Sa0pnSVlQdm56?=
- =?utf-8?B?QmRuNFc3dWZSRWNDWVpzWVV5cVdYRjlvWWVibnNiOFlZZUtNSzVJdGY0MG1V?=
- =?utf-8?B?em9IQmVBTGtyakIrSXYzL21NUzFjMDRlMWJtbXdDdzU3NUVrNldiUld1dkdL?=
- =?utf-8?B?R2N2MlN3bTd2V3hDcDRNV0k4dXFnR2YxcUprZm1jaEFsOWV2WGtrSjVWZFBl?=
- =?utf-8?B?anJoK0pmdnhtY1c2VDhqMlV6TmlEck1SSHk0NHRNSVpjNVRMU1pGYXlLSWZJ?=
- =?utf-8?B?Q2pKeEo5WlJhYnNmZ2JPTm4xbUhyT0N5QjNjYWo4cHNUYUhBYjFYbGd5OWZ4?=
- =?utf-8?B?MmhKTFFDRU03NkdVWUpzRmg2WE9pb1dIN250THBwa3BWd2YxVmdUM1dZekNX?=
- =?utf-8?B?TWNMMGNKQkcxN013MFR4bCtSNm5pQnhyM0pzaDdOb2t1bWoydEN1dEQ1L20v?=
- =?utf-8?B?bTd5RE9Vc2ZxQUVoSDBIZStJZ0xzekJ5Z0dSYjZqV0h5YW1tcncxMWpZYllu?=
- =?utf-8?B?aW4zUGNLREhPcWhnMlJFLzZPNnhGNUxjNnlGOUZEeWc2VUhKbXlsWDR0cnBs?=
- =?utf-8?B?bTJDT1FtM3I0dndjczBBRENvTEtpODMrN0JndEVjWkh0cExMazNqUG1nUkUx?=
- =?utf-8?B?NmplTWhaSzRaYWxtcSs0cGdrNmhzd0MveXQrYVRvVjk2TGRSeHJSVHhVN0xY?=
- =?utf-8?B?R3J5eVdYOTgwZWdTajBSK0UyUjJxeEhNREM1ZFdsNC8vdVFRV0VFY2tHR0xX?=
- =?utf-8?B?bVpZM3dsbVZXOFgyR2ZybDJNMWJvTmZaQXdVVnY5MDRxUE1Qam81VGorNUFh?=
- =?utf-8?B?eTZicTFacGkwK2E4UlhpRXNIVzRZV3pCKzJFQXdwZnNxODc2WWhLUjhENkVV?=
- =?utf-8?B?K290TndmWjhseGZNWk9VNEx1Uk1lS1RadVU5SzJaSzNWTGhITHVBSFhQMWQy?=
- =?utf-8?B?ektiRS9rNm5FV3h4am03WlQxMThnOS9uQlRyTUdJR1JxMkh3SGRJdDdlaTBn?=
- =?utf-8?B?T3g1dTQzdG8zRlBTSFdTRTVadmNnN3doREpZSnR6VjZGUVp1dVYyWlZZTEdE?=
- =?utf-8?B?MVprVWx0SmVFdXVXbklEQnFBaU9ob1Fhc0dNeDN4WGoyQUwwNWNUcENoUjB3?=
- =?utf-8?B?UDZJTHFVc2dOd1M2NXhuZWZkSzFlU2R4bnpYcUJ3amgrVWlsTFppd0RCQkdh?=
- =?utf-8?B?ajR1TGhKY01URml4K0Z1V0hpakhtUlJVc3hNK056RDRWci9tbVVIQVVTK1RF?=
- =?utf-8?B?dVRnaWkvdmRZMXd3WUlkUlluZVBIV0xUaWxrdXpwZ1A3T0hHSzl4VllhY21l?=
- =?utf-8?B?ZEJ2T1NlTklLVnZxeGZyOFg0RkdrVkhtaXI0c0hvV0V6UDNHM1hYWmdrdUxt?=
- =?utf-8?B?QjJCVDZxeis0WGJ1d3FyYVZnQmpQSUJWeTR1blJMQlNUZVlxbTVSaXdkQ3No?=
- =?utf-8?B?K3VpclVEUGROMmFsZ3VnQkhxaWl4b3UrZ2h2VVZTNFV6ZFZXUGw0TGtXNWdZ?=
- =?utf-8?B?WEkyNmo5eXRWNkNPTnRTbHJscEtLUXQ1TFdMZExxb1gzLzZ3MG1jb2FGSmJj?=
- =?utf-8?B?Z3QxQWlkR0l0ZlhxZDdDc1pWWDRuT282RWk0Vm1nTmZ0L29QZ2pOUTNMREw4?=
- =?utf-8?B?emEvOXF4anRDNThzcVlkVm02N3RnRGdZOFp5dkU5ODcrOGpSdHpXci9jcmtB?=
- =?utf-8?B?ai82c1cvS2I5MGlGY3h3YjRHZkpqNVNtMVBLZGxjMUJTaVdCT2taS1hPTEZQ?=
- =?utf-8?B?SkhyQ00zWnZzdTRTSVR3ZGlDaVV2c1V5RDNNSG5rZmw5Vnl2cThZNzQ1WmZk?=
- =?utf-8?B?VjMyM2FFbll0bEpKdTFEMWRzejNOR0x6dFJ3QkR5ODE5T1h6Q3BNbEdvNUtv?=
- =?utf-8?B?cnMwb2NnSWVBcWhWcTFqRFdWVmdHWVZYOElIcFBNSVZ1VFZvQ1pFYnNNVWFu?=
- =?utf-8?B?ZXZCSGljR0JYV0lnamVYSjBjdmJ6dER0a1hpdE1QanYwc09sdUJpK3hqMThQ?=
- =?utf-8?B?VzdqamdubnM1Y0xnS1YyMHYvbEVweHJiTVpzODV1cHRFcEUvaXluUDhUVUo5?=
- =?utf-8?B?NkE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <20230927092435.1565336-3-arkadiusz.kubalewski@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9979ad44-9e0a-4bbb-279f-08dbc35468d5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2023 14:32:30.5991
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FWDhj7YS0xmTROpVBSzUZOqAfWHrT2H2Xr0aYPh8xMhcJiHbm3sx+X1N1A/nvUvRhMDyYilsrmCS0YoGM52KrRzdbIFv9P3K9X5ziaIfCCc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7827
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230927092435.1565336-3-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PkZyb206IFZhZGltIEZlZG9yZW5rbyA8dmFkaW0uZmVkb3JlbmtvQGxpbnV4LmRldj4NCj5TZW50
-OiBXZWRuZXNkYXksIFNlcHRlbWJlciAyNywgMjAyMyA4OjA5IFBNDQo+DQo+T24gMjcvMDkvMjAy
-MyAxMDoyNCwgQXJrYWRpdXN6IEt1YmFsZXdza2kgd3JvdGU6DQo+PiBBZGQgY2FsbGJhY2sgb3Ag
-KGdldCkgZm9yIHBpbi1kcGxsIHBoYXNlLW9mZnNldCBtZWFzdXJtZW50Lg0KPj4gQWRkIGNhbGxi
-YWNrIG9wcyAoZ2V0L3NldCkgZm9yIHBpbiBzaWduYWwgcGhhc2UgYWRqdXN0bWVudC4NCj4+IEFk
-ZCBtaW4gYW5kIG1heCBwaGFzZSBhZGp1c3RtZW50IHZhbHVlcyB0byBwaW4gcHJvcHJ0aWVzLg0K
-Pj4gSW52b2tlIGdldCBjYWxsYmFja3Mgd2hlbiBmaWxsaW5nIHVwIHRoZSBwaW4gZGV0YWlscyB0
-byBwcm92aWRlIHVzZXINCj4+IHdpdGggcGhhc2UgcmVsYXRlZCBhdHRyaWJ1dGUgdmFsdWVzLg0K
-Pj4gSW52b2tlIHBoYXNlLWFkanVzdCBzZXQgY2FsbGJhY2sgd2hlbiBwaGFzZS1hZGp1c3QgdmFs
-dWUgaXMgcHJvdmlkZWQgZm9yDQo+PiBwaW4tc2V0IHJlcXVlc3QuDQo+Pg0KPj4gU2lnbmVkLW9m
-Zi1ieTogQXJrYWRpdXN6IEt1YmFsZXdza2kgPGFya2FkaXVzei5rdWJhbGV3c2tpQGludGVsLmNv
-bT4NCj4NCj5bLi4uXQ0KPg0KPj4gK3N0YXRpYyBpbnQNCj4+ICtkcGxsX3Bpbl9waGFzZV9hZGpf
-c2V0KHN0cnVjdCBkcGxsX3BpbiAqcGluLCBzdHJ1Y3QgbmxhdHRyDQo+PiAqcGhhc2VfYWRqX2F0
-dHIsDQo+PiArCQkgICAgICAgc3RydWN0IG5ldGxpbmtfZXh0X2FjayAqZXh0YWNrKQ0KPj4gK3sN
-Cj4+ICsJc3RydWN0IGRwbGxfcGluX3JlZiAqcmVmOw0KPj4gKwl1bnNpZ25lZCBsb25nIGk7DQo+
-PiArCXMzMiBwaGFzZV9hZGo7DQo+PiArCWludCByZXQ7DQo+PiArDQo+PiArCXBoYXNlX2FkaiA9
-IG5sYV9nZXRfczMyKHBoYXNlX2Fkal9hdHRyKTsNCj4+ICsJaWYgKHBoYXNlX2FkaiA+IHBpbi0+
-cHJvcC0+cGhhc2VfcmFuZ2UubWF4IHx8DQo+PiArCSAgICBwaGFzZV9hZGogPCBwaW4tPnByb3At
-PnBoYXNlX3JhbmdlLm1pbikgew0KPj4gKwkJTkxfU0VUX0VSUl9NU0coZXh0YWNrLCAicGhhc2Ug
-YWRqdXN0IHZhbHVlIG5vdCBzdXBwb3J0ZWQiKTsNCj4+ICsJCXJldHVybiAtRUlOVkFMOw0KPj4g
-Kwl9DQo+PiArCXhhX2Zvcl9lYWNoKCZwaW4tPmRwbGxfcmVmcywgaSwgcmVmKSB7DQo+PiArCQlj
-b25zdCBzdHJ1Y3QgZHBsbF9waW5fb3BzICpvcHMgPSBkcGxsX3Bpbl9vcHMocmVmKTsNCj4+ICsJ
-CXN0cnVjdCBkcGxsX2RldmljZSAqZHBsbCA9IHJlZi0+ZHBsbDsNCj4+ICsNCj4+ICsJCWlmICgh
-b3BzLT5waGFzZV9hZGp1c3Rfc2V0KQ0KPj4gKwkJCXJldHVybiAtRU9QTk9UU1VQUDsNCj4NCj5J
-J20gdGhpbmtpbmcgYWJvdXQgdGhpcyBwYXJ0LiBXZSBjYW4gcG90ZW50aWFsbHkgaGF2ZSBkcGxs
-IGRldmljZXMgd2l0aA0KPmRpZmZlcmVudCBleHBlY3RhdGlvbnMgb24gcGhhc2UgYWRqdXN0bWVu
-dHMsIHJpZ2h0PyBBbmQgaWYgb25lIG9mIHRoZW0NCj53b24ndCBiZSBhYmxlIHRvIGFkanVzdCBw
-aGFzZSAob3Igd2lsbCBmYWlsIGluIHRoZSBuZXh0IGxpbmUpLCB0aGVuDQo+bmV0bGluayB3aWxs
-IHJldHVybiBFT1BOT1RTVVBQIHdoaWxlIF9zb21lXyBvZiB0aGUgZGV2aWNlcyB3aWxsIGJlDQo+
-YWRqdXN0ZWQuIERvZXNuJ3QgbG9vayBncmVhdC4gQ2FuIHdlIHRoaW5rIGFib3V0IGRpZmZlcmVu
-dCB3YXkgdG8gYXBwbHkNCj50aGUgY2hhbmdlPw0KPg0KDQpXZWxsIG1ha2VzIHNlbnNlIHRvIG1l
-Lg0KDQpEb2VzIGZvbGxvd2luZyBtYWtlcyBzZW5zZSBhcyBhIGZpeD8NCldlIHdvdWxkIGNhbGwg
-b3AgZm9yIGFsbCBkZXZpY2VzIHdoaWNoIGhhcyBiZWVuIHByb3ZpZGVkIHdpdGggdGhlIG9wLg0K
-SWYgZGV2aWNlIGhhcyBubyBvcCAtPiBhZGQgZXh0YWNrIGVycm9yLCBjb250aW51ZQ0KSWYgZGV2
-aWNlIGZhaWxzIHRvIHNldCAtPiBhZGQgZXh0YWNrIGVycm9yLCBjb250aW51ZQ0KRnVuY3Rpb24g
-YWx3YXlzIHJldHVybnMgMC4NCg0KVGhhbmsgeW91IQ0KQXJrYWRpdXN6DQoNCj4NCj4+ICsJCXJl
-dCA9IG9wcy0+cGhhc2VfYWRqdXN0X3NldChwaW4sDQo+PiArCQkJCQkgICAgZHBsbF9waW5fb25f
-ZHBsbF9wcml2KGRwbGwsIHBpbiksDQo+PiArCQkJCQkgICAgZHBsbCwgZHBsbF9wcml2KGRwbGwp
-LCBwaGFzZV9hZGosDQo+PiArCQkJCQkgICAgZXh0YWNrKTsNCj4+ICsJCWlmIChyZXQpDQo+PiAr
-CQkJcmV0dXJuIHJldDsNCj4+ICsJfQ0KPj4gKwlfX2RwbGxfcGluX2NoYW5nZV9udGYocGluKTsN
-Cj4+ICsNCj4+ICsJcmV0dXJuIDA7DQo+PiArfQ0KPj4gKw0K
+Wed, Sep 27, 2023 at 11:24:33AM CEST, arkadiusz.kubalewski@intel.com wrote:
+>Add new pin's attributes to dpll netlink spec:
+>- phase-offset - measured difference between phase of signals on pin
+>  and dpll
+>- phase-adjust - adjustable value of pin's signal phase
+>- phase-adjust-min / phase-adjust-max - values for determining limits
+>  for phase-adjust
+>
+>Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>---
+> Documentation/netlink/specs/dpll.yaml | 33 ++++++++++++++++++++++++++-
+> drivers/dpll/dpll_nl.c                |  8 ++++---
+> drivers/dpll/dpll_nl.h                |  2 +-
+> include/uapi/linux/dpll.h             |  8 ++++++-
+> 4 files changed, 45 insertions(+), 6 deletions(-)
+>
+>diff --git a/Documentation/netlink/specs/dpll.yaml b/Documentation/netlink/specs/dpll.yaml
+>index 8b86b28b47a6..dc057494101f 100644
+>--- a/Documentation/netlink/specs/dpll.yaml
+>+++ b/Documentation/netlink/specs/dpll.yaml
+>@@ -1,7 +1,7 @@
+> # SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+> 
+> name: dpll
+>-
+>+version: 2
+
+How is this supposed to work. You bump the version with every uapi
+extension? First time I see this.
+
+[...]
+
+
+>diff --git a/include/uapi/linux/dpll.h b/include/uapi/linux/dpll.h
+>index 20ef0718f8dc..050f51b48ef8 100644
+>--- a/include/uapi/linux/dpll.h
+>+++ b/include/uapi/linux/dpll.h
+>@@ -7,7 +7,7 @@
+> #define _UAPI_LINUX_DPLL_H
+> 
+> #define DPLL_FAMILY_NAME	"dpll"
+>-#define DPLL_FAMILY_VERSION	1
+>+#define DPLL_FAMILY_VERSION	2
