@@ -2,190 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C833EE74919
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 19:38:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 317C0E77361
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Oct 2023 19:49:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbjJBTip (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Oct 2023 15:38:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57834 "EHLO
+        id S238891AbjJBTtm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Oct 2023 15:49:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbjJBTip (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 15:38:45 -0400
+        with ESMTP id S229750AbjJBTtl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Oct 2023 15:49:41 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406EFAC;
-        Mon,  2 Oct 2023 12:38:42 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F15A5C433C8;
-        Mon,  2 Oct 2023 19:38:37 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E85EB3;
+        Mon,  2 Oct 2023 12:49:38 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54401C433C8;
+        Mon,  2 Oct 2023 19:49:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696275521;
-        bh=3RlTZzQYaC/+oBacen75NhpiynitlSHubKdJ2Nak6tY=;
+        s=k20201202; t=1696276178;
+        bh=LSyryQpZ8HNgK9TYVlNlqsE7lc5WMeTA4wsbmFm3L9s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZWMakQzjBPIi8XauGl6bSkbTOR50c7ZX03Mm8TQ6dGqzdWCF5fyxj2DiowYBR/dcE
-         EAiYm3QcczaP2m9KSWbGn5TJFvBaT/ChZmDKhIjvrL0SZFgfvHmR91wiXphloE7AJy
-         QQRgBRqJFRkwlKIjr0acdh7NOAIAjNHS95u8ivuqUzXR+/2HavImNmufU0YeXkaA79
-         mCy1F3j70Q0S5WfmMRhZ19FLPsJKNp2frVyIqFaxe7r9x+TgDUTnCJUeU4Z0WsvTgo
-         nf40iiKGsEzAzBfwDOxaEOu6XX5/a2mi/uQ8SL6SMRx5jLOGsms5EH/QDidz/taiJh
-         7bLdV/cYCVTLQ==
-Received: (nullmailer pid 2400172 invoked by uid 1000);
-        Mon, 02 Oct 2023 19:38:35 -0000
-Date:   Mon, 2 Oct 2023 14:38:35 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     "Miclaus, Antoniu" <Antoniu.Miclaus@analog.com>
-Cc:     Conor Dooley <conor@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
+        b=kKXwOWMamRR/cwKFQzaeuZxYaQcA9pAOs++Wwik8ym5z22A7p3jNfV2rtHHzHNGC8
+         0lheJnqFSM7L6ZYmOforDPwwL/34IFYGrLkgotPsqeADaR3LXrKS8hbZ/2FUWkkJNw
+         LPB+4mw1S7AfYmbFrEOJSjjElJ1mJhnH1mh9IY7IFLod4E9pim8Rsyo+JVFASECtPU
+         7BJQzLgZfLui0jLmBNFFeGBb8GdQjLybPYSQZzcK78Be1ldmSWDG2t/IIul/GB9ivp
+         PcFV0VmXEr1/HmvuFQ9ZAmkhFvUg2DUTdbV6RN72AGy3lVH9mUOZ3mPBUhvBoTKNPk
+         Q6T67HS2ww7dA==
+Date:   Mon, 2 Oct 2023 20:49:29 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: ltc2991: add bindings
-Message-ID: <20231002193835.GA2386834-robh@kernel.org>
-References: <20231002101835.39624-1-antoniu.miclaus@analog.com>
- <20231002-babbling-justice-73d3601a71aa@spud>
- <CY4PR03MB33990FB22E1BB8686AC0CF509BC5A@CY4PR03MB3399.namprd03.prod.outlook.com>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 03/36] arm64/gcs: Document the ABI for Guarded Control
+ Stacks
+Message-ID: <38edb5c3-367e-4ab7-8cb7-aa1a5c0e330c@sirena.org.uk>
+References: <20230807-arm64-gcs-v4-3-68cfa37f9069@kernel.org>
+ <ZNOhjrYleGBR6Pbs@arm.com>
+ <f4cec4b3-c386-4873-aa1d-90528e062f2a@sirena.org.uk>
+ <ZN+qki9EaZ6f9XNi@arm.com>
+ <aaea542c-929c-4c9b-8caa-ca67e0eb9c1e@sirena.org.uk>
+ <ZOTnL1SDJWZjHPUW@arm.com>
+ <43ec219d-bf20-47b8-a5f8-32bc3b64d487@sirena.org.uk>
+ <ZOXa98SqwYPwxzNP@arm.com>
+ <ZOYFazB1gYjzDRdA@arm.com>
+ <ZRWw7aa3C0LlMPTH@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gCNrmYlrm9/empAg"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CY4PR03MB33990FB22E1BB8686AC0CF509BC5A@CY4PR03MB3399.namprd03.prod.outlook.com>
+In-Reply-To: <ZRWw7aa3C0LlMPTH@arm.com>
+X-Cookie: Postage will be paid by addressee.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 02, 2023 at 01:46:53PM +0000, Miclaus, Antoniu wrote:
-> 
-> 
-> --
-> Antoniu Miclăuş
-> 
-> > -----Original Message-----
-> > From: Conor Dooley <conor@kernel.org>
-> > Sent: Monday, October 2, 2023 4:01 PM
-> > To: Miclaus, Antoniu <Antoniu.Miclaus@analog.com>
-> > Cc: Jean Delvare <jdelvare@suse.com>; Guenter Roeck <linux@roeck-
-> > us.net>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
-> > <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; linux-
-> > hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-
-> > kernel@vger.kernel.org; linux-doc@vger.kernel.org
-> > Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: ltc2991: add bindings
-> > 
-> > [External]
-> > 
-> > Hey,
-> > 
-> > On Mon, Oct 02, 2023 at 01:18:14PM +0300, Antoniu Miclaus wrote:
-> > > Add dt-bindings for ltc2991 octal i2c voltage, current and temperature
-> > > monitor.
-> > >
-> > > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > > ---
-> > > changes in v2:
-> > >  - make compatible const type
-> > >  - remove `|` where not necessary
-> > >  - switch to micro-ohms for the shunt resistor property
-> > >  - add vendor prefix for temperature-enable
-> > 
-> > Thanks for the updates...
-> > 
-> > >  .../bindings/hwmon/adi,ltc2991.yaml           | 114 ++++++++++++++++++
-> > >  1 file changed, 114 insertions(+)
-> > >  create mode 100644
-> > Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
-> > b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
-> > > new file mode 100644
-> > > index 000000000000..3811ea07a04f
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
-> > > @@ -0,0 +1,114 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +
-> > > +$id: http://devicetree.org/schemas/hwmon/adi,ltc2991.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Analog Devices LTC2991 Octal I2C Voltage, Current and Temperature
-> > Monitor
-> > > +
-> > > +maintainers:
-> > > +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > > +
-> > > +description: |
-> > > +  The LTC2991 is used to monitor system temperatures, voltages and
-> > currents.
-> > > +  Through the I2C serial interface, the eight monitors can individually
-> > measure
-> > > +  supply voltages and can be paired for differential measurements of
-> > current
-> > > +  sense resistors or temperature sensing transistors.
-> > > +
-> > > +  Datasheet:
-> > > +    https://www.analog.com/en/products/ltc2991.html
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: adi,ltc2991
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  '#address-cells':
-> > > +    const: 1
-> > > +
-> > > +  '#size-cells':
-> > > +    const: 0
-> > > +
-> > > +  vcc-supply: true
-> > > +
-> > > +patternProperties:
-> > > +  "^channel@[0-3]$":
-> > > +    type: object
-> > > +    description:
-> > > +      Represents the differential/temperature channels.
-> > > +
-> > > +    properties:
-> > > +      reg:
-> > > +        description:
-> > > +          The channel number. LTC2991 can monitor 4 currents/temperatures.
-> > > +        items:
-> > > +          minimum: 0
-> > > +          maximum: 3
-> > > +
-> > > +      shunt-resistor-micro-ohms:
-> > > +        description:
-> > > +          The value of curent sense resistor in miliohms. Enables differential
-> > > +          input pair.
-> > > +
-> > > +      adi,temperature-enable:
-> > > +        description:
-> > > +          Enables temperature readings for a input pair.
-> > > +        type: boolean
-> > 
-> > ...but I did not see an answer to my question on v1:
-> > 	TBH, this seems like it is used just to control software behaviour.
-> > 	Why would you want to actually disable this in DT?
-> > In other words, is there something in that hardware that precludes
-> > measuring temperature for channels that do not contain this property?
-> > 
-> > Thanks,
-> > Conor.
-> > 
-> Sorry for missing that. I took in consideration this approach based on the pin functions
-> described in the datasheet (page 8 of 32). For example the V1 pin of the part can support
-> 3 different configurations: "V1 (Pin 1): First Monitor Input. This pin can be configured
-> as a single-ended input (0V to 4.9V) or the positive inputfor a differential or remote diode
-> temperature measurement (in combination with V2)."
-> Moreover, looking at the multiple typical applications examples at the end of the datasheet
-> there is a specific adjacent hardware circuit connected to this part for the temperature
-> measurements configurations.
 
-Makes sense. Please expand the description with some of this detail so 
-the purpose is clear. The description should answer when do I set this 
-property or not.
+--gCNrmYlrm9/empAg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Rob
+On Thu, Sep 28, 2023 at 05:59:25PM +0100, Szabolcs Nagy wrote:
+> The 08/23/2023 14:11, Catalin Marinas wrote:
+
+> > > and there is user code doing raw clone threads (such threads are
+> > > technically not allowed to call into libc) it's not immediately
+> > > clear to me if having gcs in those threads is better or worse.
+
+> i think raw clone / clone3 users may be relevant so we need a
+> solution such that they don't fail when gcs args are missing.
+
+Are we sure about that?  Old binaries shouldn't be affected since they
+won't turn GCS so we're just talking about new binaries here - are there
+really so many of them that we won't be able to get them all converted
+over to clone3() and GCS in the timescales we're talking about for GCS
+deployment?  I obviously don't particularly mind having the default size
+logic but if we allow clone() then that's keeping the existing behaviour
+and layering allocation via clone3() on top of it which Catalin didn't
+want.  Catalin?
+
+> userspace allocated gcs works for me, but maybe the alternative
+> with size only is more consistent (thread gcs is kernel mapped
+> with fallback size logic if gcs size is missing):
+
+If we have size only then the handling of GCS and normal stack in struct
+clone_args would be inconsistent.  Given that it seems better to have
+the field present, we can allow it to be NULL and do the allocation with
+the specified size but it should be there.
+
+> > An alternative would be for the clone3() to provide an address _hint_
+> > and size for GCS and it would still be the kernel doing the mmap (and
+> > munmap on clearing). But at least the user has some control over the
+> > placement of the GCS and its size (and maybe providing the address has
+> > MAP_FIXED semantics).
+
+> the main thread gcs is still special: the size is provided
+> via prctl (if at all).
+
+Either that or we have it do a map_shadow_stack() but that's an extra
+syscall during startup.
+
+--gCNrmYlrm9/empAg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUbHsgACgkQJNaLcl1U
+h9Dyngf9Hy8AfP5kC/6h6EPVo7EVDeJ1A4cbGRBtR61F+kO0Gknu6S0AxnHkfkgt
+cODaJDIw85fav0lGTTx8Rlr/77kzihHWSNLwnyAaR1gPYzRgqM/XBdwf9M6mnT7I
+907nXSNYnfB1pE+8Be1LmcXX8hbHhr6l3K+FT5vZQTcpEAGrxAv7xLNEZ7xMkqV0
+PPa+7hjf+9MpBcZQbqjK+KpoCWdTAZkTcnqpKQApUqiAbs5aeKuDfqulxl4eQ7IF
+4y3g5jbZpwsCSjlxNnQaT+K8cof3zDuHUV6Hf4rpNA4XfwybEbSPNYD8zZ8TYzbj
+1IGtDcFokNQ4Y0FbRpYBRx621claGQ==
+=f6SF
+-----END PGP SIGNATURE-----
+
+--gCNrmYlrm9/empAg--
