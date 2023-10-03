@@ -2,79 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D922E75428
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 07:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F74E75435
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 07:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239443AbjJCHA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 03:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58670 "EHLO
+        id S230515AbjJCHyJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 03:54:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239323AbjJCHAq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 03:00:46 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B9A43AAE
-        for <linux-doc@vger.kernel.org>; Mon,  2 Oct 2023 23:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696316364; x=1727852364;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HN4xSqNS0cx+dE5Q1u8rBM3waf4jA83+rCeWiG8Javs=;
-  b=eyj4+WH1h/Rjr6BJw8DDG9EuSfYNopzrF646NwZqa8OQRHhVuPtIjB6G
-   2q2dlw7YRAWNZt+TRF7txB6qcd1c84HDBXrZazdd2kk9Jmr3+V+TI5ftx
-   qdspxSQD4gO8TULWLNb+6giLmtik5vR36/9Pl3SDVxcnPENxnBd5NzaOu
-   GyqMcCnCohZ7JHEeWcO2YorlB3Y7Er5XhOLllq4Cs30QWPHkjEzqlzgnQ
-   GJVNfMaLrn0Kyjvi/ZDMK+pYCiM8fDZKjOD/Rv5Fy/6qp5OhcHIfyM7An
-   qO3bEEFqGyM1yKPVJ2AUoS9GOA22RXA08AvwfSEaZhYMla2bT20S1fgE1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858745"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367858745"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:56:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="841231870"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="841231870"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Oct 2023 23:56:47 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qnZKm-0006rB-1i;
-        Tue, 03 Oct 2023 06:56:44 +0000
-Date:   Tue, 3 Oct 2023 14:56:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dylan Yip <dylan.yip@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
-        Michal Simek <monstr@monstr.eu>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 327/1370] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-ctrl-type-hdr (if the link has no caption the label must precede a
- section header)
-Message-ID: <202310031449.v2qCCrkV-lkp@intel.com>
+        with ESMTP id S230237AbjJCHyI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 03:54:08 -0400
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03646B3;
+        Tue,  3 Oct 2023 00:54:01 -0700 (PDT)
+Received: by codeconstruct.com.au (Postfix, from userid 10001)
+        id 0876120239; Tue,  3 Oct 2023 15:54:00 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=codeconstruct.com.au; s=2022a; t=1696319640;
+        bh=vsBp77p7CDhHRULJIIRilyCY9D7df8p0W5nYzOmlxYk=;
+        h=From:To:Cc:Subject:Date;
+        b=dIb2/5uzvw6ksgomcS/2UUZ3ci7UKGcfHjSx3urC/mT6neS33iN3PVpajlxoKLVFT
+         zO9xv1n/2YhMYfUfiBTcFnksIBcaLJAbkrVqRt22hffdjm6LpUZUgw5OPMCOCJNY1+
+         WGcyb14aDdOeLKI0sX9WaK0xRQFbCxjUVgleH1BFSTxf5at4PPY7yO6sFAeMdzTiRW
+         /YRElUnBycEep4xzDzivLjYlRJ4aHqIPlLvC1csGgDUFU2fakHLWjWSI5vRzIYaRm1
+         P7jbrKRDbINMGIwCoN5oCAI0wzU6w/ZTKVZ/W+qgtCGZRKjZJoZUaeiFlKFwScsNzI
+         pKKJlIbVPSS6g==
+From:   Matt Johnston <matt@codeconstruct.com.au>
+To:     linux-i3c@lists.infradead.org
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Conor Culhane <conor.culhane@silvaco.com>,
+        linux-kernel@vger.kernel.org (open list),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH] i3c: Fix typo "Provisional ID" to "Provisioned ID"
+Date:   Tue,  3 Oct 2023 15:53:39 +0800
+Message-Id: <20231003075339.197099-1-matt@codeconstruct.com.au>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 069efbe2c5d8a75c562c2704167eb09ffe785d32 [327/1370] media: videodev2.h: Add control type for HDR
-reproduce: (https://download.01.org/0day-ci/archive/20231003/202310031449.v2qCCrkV-lkp@intel.com/reproduce)
+The MIPI I3C spec refers to a Provisioned ID, since it is (sometimes)
+provisioned at device manufacturing.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310031449.v2qCCrkV-lkp@intel.com/
+Signed-off-by: Matt Johnston <matt@codeconstruct.com.au>
+---
+ Documentation/ABI/testing/sysfs-bus-i3c        | 4 ++--
+ Documentation/devicetree/bindings/i3c/i3c.yaml | 4 ++--
+ Documentation/driver-api/i3c/protocol.rst      | 4 ++--
+ drivers/i3c/master/svc-i3c-master.c            | 2 +-
+ include/linux/i3c/device.h                     | 2 +-
+ include/linux/i3c/master.h                     | 2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-hdr (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
+diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
+index 1f4a2662335b..e5248fd67a56 100644
+--- a/Documentation/ABI/testing/sysfs-bus-i3c
++++ b/Documentation/ABI/testing/sysfs-bus-i3c
+@@ -67,7 +67,7 @@ What:		/sys/bus/i3c/devices/i3c-<bus-id>/pid
+ KernelVersion:  5.0
+ Contact:	linux-i3c@vger.kernel.org
+ Description:
+-		PID stands for Provisional ID and is used to uniquely identify
++		PID stands for Provisioned ID and is used to uniquely identify
+ 		a device on a bus. This PID contains information about the
+ 		vendor, the part and an instance ID so that several devices of
+ 		the same type can be connected on the same bus.
+@@ -123,7 +123,7 @@ What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/pid
+ KernelVersion:  5.0
+ Contact:	linux-i3c@vger.kernel.org
+ Description:
+-		PID stands for Provisional ID and is used to uniquely identify
++		PID stands for Provisioned ID and is used to uniquely identify
+ 		a device on a bus. This PID contains information about the
+ 		vendor, the part and an instance ID so that several devices of
+ 		the same type can be connected on the same bus.
+diff --git a/Documentation/devicetree/bindings/i3c/i3c.yaml b/Documentation/devicetree/bindings/i3c/i3c.yaml
+index ab69f4115de4..f8ac7a3e3123 100644
+--- a/Documentation/devicetree/bindings/i3c/i3c.yaml
++++ b/Documentation/devicetree/bindings/i3c/i3c.yaml
+@@ -119,12 +119,12 @@ patternProperties:
+                 minimum: 0
+                 maximum: 0x7f
+               - description: |
+-                  First half of the Provisional ID (following the PID
++                  First half of the Provisioned ID (following the PID
+                   definition provided by the I3C specification).
+ 
+                   Contains the manufacturer ID left-shifted by 1.
+               - description: |
+-                  Second half of the Provisional ID (following the PID
++                  Second half of the Provisioned ID (following the PID
+                   definition provided by the I3C specification).
+ 
+                   Contains the ORing of the part ID left-shifted by 16,
+diff --git a/Documentation/driver-api/i3c/protocol.rst b/Documentation/driver-api/i3c/protocol.rst
+index 02653defa011..23a0b93c62b1 100644
+--- a/Documentation/driver-api/i3c/protocol.rst
++++ b/Documentation/driver-api/i3c/protocol.rst
+@@ -71,8 +71,8 @@ During DAA, each I3C device reports 3 important things:
+   related capabilities
+ * DCR: Device Characteristic Register. This 8-bit register describes the
+   functionalities provided by the device
+-* Provisional ID: A 48-bit unique identifier. On a given bus there should be no
+-  Provisional ID collision, otherwise the discovery mechanism may fail.
++* Provisioned ID: A 48-bit unique identifier. On a given bus there should be no
++  Provisioned ID collision, otherwise the discovery mechanism may fail.
+ 
+ I3C slave events
+ ================
+diff --git a/drivers/i3c/master/svc-i3c-master.c b/drivers/i3c/master/svc-i3c-master.c
+index 32eca2d6caf0..e23d7900c5a1 100644
+--- a/drivers/i3c/master/svc-i3c-master.c
++++ b/drivers/i3c/master/svc-i3c-master.c
+@@ -765,7 +765,7 @@ static int svc_i3c_master_do_daa_locked(struct svc_i3c_master *master,
+ 			u8 data[6];
+ 
+ 			/*
+-			 * We only care about the 48-bit provisional ID yet to
++			 * We only care about the 48-bit provisioned ID yet to
+ 			 * be sure a device does not nack an address twice.
+ 			 * Otherwise, we would just need to flush the RX FIFO.
+ 			 */
+diff --git a/include/linux/i3c/device.h b/include/linux/i3c/device.h
+index 90fa83464f00..84ed77c04940 100644
+--- a/include/linux/i3c/device.h
++++ b/include/linux/i3c/device.h
+@@ -96,7 +96,7 @@ enum i3c_dcr {
+ 
+ /**
+  * struct i3c_device_info - I3C device information
+- * @pid: Provisional ID
++ * @pid: Provisioned ID
+  * @bcr: Bus Characteristic Register
+  * @dcr: Device Characteristic Register
+  * @static_addr: static/I2C address
+diff --git a/include/linux/i3c/master.h b/include/linux/i3c/master.h
+index 0b52da4f2346..4fd6a777150f 100644
+--- a/include/linux/i3c/master.h
++++ b/include/linux/i3c/master.h
+@@ -166,7 +166,7 @@ struct i3c_device_ibi_info {
+  *		 assigned a dynamic address by the master. Will be used during
+  *		 bus initialization to assign it a specific dynamic address
+  *		 before starting DAA (Dynamic Address Assignment)
+- * @pid: I3C Provisional ID exposed by the device. This is a unique identifier
++ * @pid: I3C Provisioned ID exposed by the device. This is a unique identifier
+  *	 that may be used to attach boardinfo to i3c_dev_desc when the device
+  *	 does not have a static address
+  * @of_node: optional DT node in case the device has been described in the DT
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
