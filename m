@@ -2,385 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF125E75452
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 12:27:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA49E7AD4C
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 13:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232131AbjJCM1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 08:27:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52526 "EHLO
+        id S235573AbjJCNiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 09:38:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230404AbjJCM1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 08:27:41 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47FFA6;
-        Tue,  3 Oct 2023 05:27:37 -0700 (PDT)
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 393CL64l007128;
-        Tue, 3 Oct 2023 12:27:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=MGsWi8Ih8paVpkodWIePt00I3slQOI/Ow4EltZmwhEA=;
- b=PvoFO8N/zRcNJpMboX6K9CEYi90CkM3IjIWvopdThzGZEqV3Fw9ktS2rTZcEFXeQK49V
- AlEW5GMfWfaYTofxpSBbd6LyelUswZC7SXApoXQ+dutvkPWsGbF4eT3mlHa2D4o6QZHf
- /xqK8aCZ4ec7iHcVOpyl16QO1SJ1IvGGgC4rE+QxscM0Anc/qvRAEIqfddU5ga+QQA+2
- X9/+XsC5ucKRhEhSrWUcPjye6fZ6gl2ZaDr5aQNE78egYxUgWkJWFpVNfjoKU2lTbFCY
- 0LXyYMjAc0sr33YzshDBZlcaK3U+G27WhMVp7JR57rO28ptCZ9itg2KYPLhomruww2Im 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tgjvu06b6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 03 Oct 2023 12:27:18 +0000
-Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 393CL7IP007183;
-        Tue, 3 Oct 2023 12:27:17 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tgjvu068b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 03 Oct 2023 12:27:17 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-        by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 393B3Rv4005870;
-        Tue, 3 Oct 2023 12:27:13 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-        by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3tex0sj0ky-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 03 Oct 2023 12:27:13 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-        by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 393CRDaf17629790
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 3 Oct 2023 12:27:13 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F289158077;
-        Tue,  3 Oct 2023 12:27:12 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 076AD5805C;
-        Tue,  3 Oct 2023 12:27:06 +0000 (GMT)
-Received: from [9.179.8.25] (unknown [9.179.8.25])
-        by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-        Tue,  3 Oct 2023 12:27:05 +0000 (GMT)
-Message-ID: <c6dcab69-b398-7bb8-03df-37688864de47@linux.vnet.ibm.com>
-Date:   Tue, 3 Oct 2023 17:57:04 +0530
+        with ESMTP id S232653AbjJCNiQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 09:38:16 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87F82A9;
+        Tue,  3 Oct 2023 06:38:13 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35ABC433C7;
+        Tue,  3 Oct 2023 13:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696340293;
+        bh=uwtqnUxTMKbAVfD+gZWXN+2nSoPSgsCGQxxJs5nbdeo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hmdjXMqXyZeGSvyuQRufMD+IbooZlHt4Fl+2QKKDFRxTKFWqLtibJL9fD2WNsXRqn
+         PpPdqOp7OhH7MsubfkpS6TMDyTKN/AeMfpIWAAhKiHBW6JEQ3eVUvzKQho+r0c73bq
+         uSoe4cVF/Qi/iaTEhllRcf5K1O5CZiHLBq7R6bewNsL3AMIX0hrDkyw4IamVbeEUVY
+         H7fYoWgMgUl9JjkhObUuvSdL4RBWAerpg148lOtgda7gOTMm7ojp6Djmbc+MxP93EK
+         lDx842uWlD4YM9qLneth2OoHkxGe3TPPF+PSAUpxItWZWQKpSHLSND54oimTw+6Bas
+         PVQHDSsJ52lWQ==
+Date:   Tue, 3 Oct 2023 14:38:02 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "ardb@kernel.org" <ardb@kernel.org>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "palmer@dabbelt.com" <palmer@dabbelt.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH v4 03/36] arm64/gcs: Document the ABI for Guarded Control
+ Stacks
+Message-ID: <3985b0d8-e35e-4cd5-a2bd-6a16d7c7e559@sirena.org.uk>
+References: <f4cec4b3-c386-4873-aa1d-90528e062f2a@sirena.org.uk>
+ <ZN+qki9EaZ6f9XNi@arm.com>
+ <aaea542c-929c-4c9b-8caa-ca67e0eb9c1e@sirena.org.uk>
+ <ZOTnL1SDJWZjHPUW@arm.com>
+ <43ec219d-bf20-47b8-a5f8-32bc3b64d487@sirena.org.uk>
+ <ZOXa98SqwYPwxzNP@arm.com>
+ <ZOYFazB1gYjzDRdA@arm.com>
+ <ZRWw7aa3C0LlMPTH@arm.com>
+ <38edb5c3-367e-4ab7-8cb7-aa1a5c0e330c@sirena.org.uk>
+ <add914d6ad943139cd4a8f23fea7167b083a53db.camel@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v5 2/2] sched/topology: change behaviour of sysctl
- sched_energy_aware based on the platform
-Content-Language: en-US
-To:     Pierre Gondois <pierre.gondois@arm.com>
-Cc:     linux-kernel@vger.kernel.org, ionela.voinescu@arm.com,
-        qperret@google.com, srikar@linux.vnet.ibm.com,
-        mgorman@techsingularity.net, mingo@kernel.org, yu.c.chen@intel.com,
-        tim.c.chen@linux.intel.com, pauld@redhat.com, lukasz.luba@arm.com,
-        linux-doc@vger.kernel.org, bsegall@google.com, mingo@redhat.com,
-        peterz@infradead.org, vincent.guittot@linaro.org,
-        vschneid@redhat.com, dietmar.eggemann@arm.com
-References: <20230929155209.667764-1-sshegde@linux.vnet.ibm.com>
- <20230929155209.667764-3-sshegde@linux.vnet.ibm.com>
- <69092c13-604c-74ec-b325-658527d069f4@arm.com>
-From:   Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
-In-Reply-To: <69092c13-604c-74ec-b325-658527d069f4@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: C6kGPOuSx4Tkv8_XWPC65jlKcG8OM-By
-X-Proofpoint-GUID: 4Q6mOHKHA4UTxj7mvzMCqU53MRjXFZgB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-03_08,2023-10-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 clxscore=1015 suspectscore=0 spamscore=0
- bulkscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310030087
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VOYoYIe/0D3GI3W0"
+Content-Disposition: inline
+In-Reply-To: <add914d6ad943139cd4a8f23fea7167b083a53db.camel@intel.com>
+X-Cookie: Oh Dad!  We're ALL Devo!
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--VOYoYIe/0D3GI3W0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/3/23 2:50 PM, Pierre Gondois wrote:
-> Hello Shrikanth,
-> Some NITs about the commit message:
-> 
+On Mon, Oct 02, 2023 at 09:43:25PM +0000, Edgecombe, Rick P wrote:
 
-Hi Pierre. 
+> If ARM is thinking of doing things differently than x86, you might
+> think about how you weight those tradeoffs. Like, it might be silly to
+> worry about clone() support if something else ends up breaking
+> compatibility majorly. But, it might be worthwhile it you end up going
+> to the proposed extremes around signal alt stacks, to maximize
+> compatibility
 
+Yeah, I think Catalin's thinking here was that we're quite a way out
+=66rom actual hardware so it's much more tractable to fix up callers than
+it is for x86 where the hardware is widely available.
 
-> On 9/29/23 17:52, Shrikanth Hegde wrote:
->> sysctl sched_energy_aware is available for the admin to disable/enable
->> energy aware scheduling(EAS). EAS is enabled only if few conditions are
->> met by the platform. They are, asymmetric CPU capacity, no SMT,
->> schedutil CPUfreq governor, frequency invariant load tracking etc.
->> A platform may boot without EAS capability, but could gain such
->> capability at runtime For example, changing/registering the CPUfreq
-> 
-> Missing dot I think: 'runtime. For example,'
+> Also then maybe x86 could copy the ARM ABI some day, if it ends up
+> chasing the tradeoff people prefer. It probably goes without saying
+> that the closer these features behave from the app developer
+> perspective, the better. So a different ABI than x86 that also targets
+> a mix would be a bit unfortunate. (not the end of the world though)
 
-ok.
+If nothing else even if we end up being stricter about things it would
+be extremely disappointing if we ended up with something where code for
+arm64 won't run when built for x86.
 
-> 
->> governor to schedutil.
->>
->> At present, though platform doesn't support EAS, this sysctl returns 1
->> and it ends up calling build_perf_domains on write to 1 and
->> NOP when writing to 0. That is confusing and un-necessary.
->
-This is current problematic behavior that patch 2/2 tries to address.
+--VOYoYIe/0D3GI3W0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> I'm not sure I fully understand the sentence:
-> - it sounds that the user is writing a value to either 1/0
->   (I think the user is writing 1/0 to the sysctl)
+-----BEGIN PGP SIGNATURE-----
 
-Yes, any user with root
-privileges can edit this file and perform read and write. 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUcGToACgkQJNaLcl1U
+h9DGrwf/e1Q1mca/c+Y8gjB9uTmkbz6UTxEP5Ie+SQ8OHE0DeQjg4wUgWFKyhONR
+Gja5KPwSLlu7n1otNu8P3ztqCLwd3+sa1yM4Tzhq965l/wqp1cmwh3OcRJwWNO/w
+TzGqD8fnAAZY6EyfMg6oP8IcWvD1ru5jttF18YdJdekWjBGQyWI+aZaN8ERdT1hG
+8G2Jz0DOJCCRuMo4JWQQ7wyKmgXsaCsO0UeTLsniZYatysygBlZPnxwG+kSlwwrP
+jJwDtljE9WONcZZttwNT0Rn/dFpXj4cO5L0RjHX/HPvHmSwOgdnO4fBD2HSL53xL
+WSStamx5uiW/Ch8ilcxeRdcT+rL/Jw==
+=Wyj+
+-----END PGP SIGNATURE-----
 
-> - aren't the sched domain rebuilt even when writing 0 to the sysctl ?
->   I'm not sure I understand to what the NOP is referring to exactly.
-> 
-
-Complete sched domains aren't built as this case goes to match1 and match2 statements. 
-
-> What about:
-> Platforms without EAS capability currently advertise this sysctl.
-> Its effects (i.e. rebuilding sched-domains) is unnecessary on
-> such platforms and its presence can be confusing.
-> 
-look ok. the changelog had described in detail IMHO
-
-
->>
->> Desired behavior would be to, have this sysctl to enable/disable the EAS
-> 
-> Unnecessary comma I think
-> 
->> on supported platform. On Non supported platform write to the sysctl
-> 
-> Non supported  -> non-supported
-
-ok for the above two nits.
-
-> 
->> would return not supported error and read of the sysctl would return
->> empty. So> sched_energy_aware returns empty - EAS is not possible at
->> this moment
->> This will include EAS capable platforms which have at least one EAS
->> condition false during startup, e.g. using a Performance CPUfreq governor
-> 
-> Just a remark, using the performance governor is not exactly a condition
-> disabling EAS, it is more 'not using the schedutil CPUfreq governor'
-> 
-
-ok.
-
->> sched_energy_aware returns 0 - EAS is supported but disabled by admin.
->> sched_energy_aware returns 1 - EAS is supported and enabled.
->>
->> User can find out the reason why EAS is not possible by checking
->> info messages. sched_is_eas_possible returns true if the platform
->> can do EAS at this moment.
->>
->> Depends on [PATCH v5 1/2] sched/topology: Remove EM_MAX_COMPLEXITY limit
->> to be applied first.
-> 
-> I think it's implied as the 2 patches are sent together.
-> 
-
-yes. Did mention it explicitly since b4 mbox can try apply 2/2 first. 
-had run into similar issues recently.
-
-> Otherwise:
-> Tested-by: Pierre Gondois <pierre.gondois@arm.com>
-> 
->>
-
-Thank you very much for the testing it and providing the tag.
-
->> Signed-off-by: Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
->> ---
->>   Documentation/admin-guide/sysctl/kernel.rst |   3 +-
->>   kernel/sched/topology.c                     | 112 +++++++++++++-------
->>   2 files changed, 76 insertions(+), 39 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/sysctl/kernel.rst
->> b/Documentation/admin-guide/sysctl/kernel.rst
->> index cf33de56da27..d89ac2bd8dc4 100644
->> --- a/Documentation/admin-guide/sysctl/kernel.rst
->> +++ b/Documentation/admin-guide/sysctl/kernel.rst
->> @@ -1182,7 +1182,8 @@ automatically on platforms where it can run
->> (that is,
->>   platforms with asymmetric CPU topologies and having an Energy
->>   Model available). If your platform happens to meet the
->>   requirements for EAS but you do not want to use it, change
->> -this value to 0.
->> +this value to 0. On Non-EAS platforms, write operation fails and
->> +read doesn't return anything.
->>
->>   task_delayacct
->>   ===============
->> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
->> index e0b9920e7e3e..a654d0186ac0 100644
->> --- a/kernel/sched/topology.c
->> +++ b/kernel/sched/topology.c
->> @@ -212,6 +212,70 @@ static unsigned int sysctl_sched_energy_aware = 1;
->>   static DEFINE_MUTEX(sched_energy_mutex);
->>   static bool sched_energy_update;
->>
->> +extern struct cpufreq_governor schedutil_gov;
->> +static bool sched_is_eas_possible(const struct cpumask *cpu_mask)
->> +{
->> +    bool any_asym_capacity = false;
->> +    struct cpufreq_policy *policy;
->> +    struct cpufreq_governor *gov;
->> +    int i;
->> +
->> +    /* EAS is enabled for asymmetric CPU capacity topologies. */
->> +    for_each_cpu(i, cpu_mask) {
->> +        if (per_cpu(sd_asym_cpucapacity, i)) {
->> +            any_asym_capacity = true;
->> +            break;
->> +        }
->> +    }
->> +    if (!any_asym_capacity) {
->> +        if (sched_debug()) {
->> +            pr_info("rd %*pbl: Checking EAS, CPUs do not have
->> asymmetric capacities\n",
->> +                cpumask_pr_args(cpu_mask));
->> +        }
->> +        return false;
->> +    }
->> +
->> +    /* EAS definitely does *not* handle SMT */
->> +    if (sched_smt_active()) {
->> +        if (sched_debug()) {
->> +            pr_info("rd %*pbl: Checking EAS, SMT is not supported\n",
->> +                cpumask_pr_args(cpu_mask));
->> +        }
->> +        return false;
->> +    }
->> +
->> +    if (!arch_scale_freq_invariant()) {
->> +        if (sched_debug()) {
->> +            pr_info("rd %*pbl: Checking EAS: frequency-invariant load
->> tracking not yet supported",
->> +                cpumask_pr_args(cpu_mask));
->> +        }
->> +        return false;
->> +    }
->> +
->> +    /* Do not attempt EAS if schedutil is not being used. */
->> +    for_each_cpu(i, cpu_mask) {
->> +        policy = cpufreq_cpu_get(i);
->> +        if (!policy) {
->> +            if (sched_debug()) {
->> +                pr_info("rd %*pbl: Checking EAS, cpufreq policy not
->> set for CPU: %d",
->> +                    cpumask_pr_args(cpu_mask), i);
->> +            }
->> +            return false;
->> +        }
->> +        gov = policy->governor;
->> +        cpufreq_cpu_put(policy);
->> +        if (gov != &schedutil_gov) {
->> +            if (sched_debug()) {
->> +                pr_info("rd %*pbl: Checking EAS, schedutil is
->> mandatory\n",
->> +                    cpumask_pr_args(cpu_mask));
->> +            }
->> +            return false;
->> +        }
->> +    }
->> +
->> +    return true;
->> +}
->> +
->>   void rebuild_sched_domains_energy(void)
->>   {
->>       mutex_lock(&sched_energy_mutex);
->> @@ -231,6 +295,15 @@ static int sched_energy_aware_handler(struct
->> ctl_table *table, int write,
->>           return -EPERM;
->>
->>       ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
->> +    if (!sched_is_eas_possible(cpu_active_mask)) {
->> +        if (write) {
->> +            return -EOPNOTSUPP;
->> +        } else {
->> +            *lenp = 0;
->> +            return 0;
->> +        }
->> +    }
->> +
->>       if (!ret && write) {
->>           state = static_branch_unlikely(&sched_energy_present);
->>           if (state != sysctl_sched_energy_aware)
->> @@ -351,61 +424,24 @@ static void sched_energy_set(bool has_eas)
->>    *    4. schedutil is driving the frequency of all CPUs of the rd;
->>    *    5. frequency invariance support is present;
->>    */
->> -extern struct cpufreq_governor schedutil_gov;
->>   static bool build_perf_domains(const struct cpumask *cpu_map)
->>   {
->>       int i;
->>       struct perf_domain *pd = NULL, *tmp;
->>       int cpu = cpumask_first(cpu_map);
->>       struct root_domain *rd = cpu_rq(cpu)->rd;
->> -    struct cpufreq_policy *policy;
->> -    struct cpufreq_governor *gov;
->>
->>       if (!sysctl_sched_energy_aware)
->>           goto free;
->>
->> -    /* EAS is enabled for asymmetric CPU capacity topologies. */
->> -    if (!per_cpu(sd_asym_cpucapacity, cpu)) {
->> -        if (sched_debug()) {
->> -            pr_info("rd %*pbl: CPUs do not have asymmetric
->> capacities\n",
->> -                    cpumask_pr_args(cpu_map));
->> -        }
->> -        goto free;
->> -    }
->> -
->> -    /* EAS definitely does *not* handle SMT */
->> -    if (sched_smt_active()) {
->> -        pr_warn("rd %*pbl: Disabling EAS, SMT is not supported\n",
->> -            cpumask_pr_args(cpu_map));
->> -        goto free;
->> -    }
->> -
->> -    if (!arch_scale_freq_invariant()) {
->> -        if (sched_debug()) {
->> -            pr_warn("rd %*pbl: Disabling EAS: frequency-invariant
->> load tracking not yet supported",
->> -                cpumask_pr_args(cpu_map));
->> -        }
->> +    if (!sched_is_eas_possible(cpu_map))
->>           goto free;
->> -    }
->>
->>       for_each_cpu(i, cpu_map) {
->>           /* Skip already covered CPUs. */
->>           if (find_pd(pd, i))
->>               continue;
->>
->> -        /* Do not attempt EAS if schedutil is not being used. */
->> -        policy = cpufreq_cpu_get(i);
->> -        if (!policy)
->> -            goto free;
->> -        gov = policy->governor;
->> -        cpufreq_cpu_put(policy);
->> -        if (gov != &schedutil_gov) {
->> -            if (rd->pd)
->> -                pr_warn("rd %*pbl: Disabling EAS, schedutil is
->> mandatory\n",
->> -                        cpumask_pr_args(cpu_map));
->> -            goto free;
->> -        }
->> -
->>           /* Create the new pd and add it to the local list. */
->>           tmp = pd_init(i);
->>           if (!tmp)
->> -- 
->> 2.39.3
->>
-
-will send out v6 with these changes to changelog and Tested-by tag. 
-will wait for a while to see if there are any concerns or comments. 
+--VOYoYIe/0D3GI3W0--
