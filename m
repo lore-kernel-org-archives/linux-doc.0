@@ -2,78 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE83E8FDBD
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 22:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46EDCE8FDC0
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 23:40:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232492AbjJCWKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 18:10:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47732 "EHLO
+        id S235111AbjJCXkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 19:40:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231634AbjJCWKh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 18:10:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16520A1;
-        Tue,  3 Oct 2023 15:10:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5B1EBC433C7;
-        Tue,  3 Oct 2023 22:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696371033;
-        bh=53KM6uXapouO/oBQrn7043YTKwS2I9MAaSMI9++lFxE=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=iDRbnNkNN4rcBmdSVqWCm1xDy7VwS9LtUEamUkTpHrvGpZM0TfQQtjLTiXNrmkYYK
-         8kMGtHDpCdtSbOAocIg28wg43wzcMSz0iVf9ES+1I1aE+YnTVZpzNfSRce08GMEjFV
-         ccMMUyZALwnbksPfL8lrlhsEA+1Yn1Zfm+Qohhl5g5AvdJbDm5KWqsnJ8Nuoi2+83y
-         jMFMUFeI5i1/R/iXsutAzxc6JSgkWhgJ45vYk6yJe5bqU31PIysV6/aAHw7IcUU2ME
-         NSM/WouPN9liZz47vxg+n/fpUh/7H0Iuyvm3OXizqAq7ArFcljFVAj5BNgMvo23RG8
-         3Zq2dfelrEY/A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3F919C595D2;
-        Tue,  3 Oct 2023 22:10:33 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S237373AbjJCXku (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 19:40:50 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00B8FAC;
+        Tue,  3 Oct 2023 16:40:46 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6934202b8bdso1191856b3a.1;
+        Tue, 03 Oct 2023 16:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696376446; x=1696981246; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J0fSEFVKmg/mrYWqi0FgqbjNYAcaKpEfdNhmmRTanwg=;
+        b=R3rlUyJ4drxMARhNOneOSR4WiFGrJhBIu2wIzJkXQp/alSQamHkEwOFW1OJ5+YnVCL
+         hBg+roRZ7lEb00aKqKdh1psJsRrc20Kxuktq8+76Nebs92LzfNH1mUyxaacQDwnDm5wD
+         z/3o3JNe6N7dpvTwppgy4X9ygATAThY7bHMqK4CiewmRTZdIVXwCfCTfdTvkpW27Whn4
+         H9wWZP50V//TwukE5mzrvdOb5ZlJyOvmI7IkR/Yd2z975HqGY0HJZr42y1M45WAcEGgr
+         mu4CNg621at/b4+U63+GBHc7mtVwcnfQuv/oLPDWy6NwhNQHjMaKXh9hT2iznb6KYxQ6
+         ybBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696376446; x=1696981246;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J0fSEFVKmg/mrYWqi0FgqbjNYAcaKpEfdNhmmRTanwg=;
+        b=WrlgEd1IxxuufiD58TB3W09LwTT8cJ6Wq97TIXYo+otbweuSsAKEpMfHFmslVFZqkP
+         SrlCiKCXO7NaCwuLBYno/YAB5VGCgRwLbU4O26/RBRBpTmJTnhDJPQOC1v09gPpfUzot
+         t69cudw9DYOdft2/HqtwcMj5EyPIM+1hnQpwYth6h9342QdPoTQC/gEqHQDS4ztSucok
+         o/fLTs3uAVxtCI16sXfwW7ccbmPyA0yzp1CFMNwmebhd3/eBT2RyJ91l65UmEjCjb41M
+         Fng39t2f+cOPThbvhEc3uY6mbACkbJOsWC4/BMPAAeGQtDzfKTR3fkUjPzWLHGHTc4ks
+         6eNA==
+X-Gm-Message-State: AOJu0Yx3xDIvsK2d/LWUQjV79QFhNvdhchkralybru8O9GiC4QU5nkJR
+        FkRnYwEScTCAPualvhtQYKk=
+X-Google-Smtp-Source: AGHT+IFyNlN9+Qc2HQr8gl9pLSzDW0Rt4y8um2j8dkfL5IcpKQOPiWy60gWhEpbfU9cmRSXbLy+kRQ==
+X-Received: by 2002:a05:6a00:3995:b0:68c:57c7:1eb0 with SMTP id fi21-20020a056a00399500b0068c57c71eb0mr1063616pfb.11.1696376446274;
+        Tue, 03 Oct 2023 16:40:46 -0700 (PDT)
+Received: from ubuntu777.domain.name (36-228-68-80.dynamic-ip.hinet.net. [36.228.68.80])
+        by smtp.gmail.com with ESMTPSA id j9-20020aa78d09000000b00690c2cd7e0esm1928519pfe.49.2023.10.03.16.40.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 16:40:45 -0700 (PDT)
+From:   Min-Hua Chen <minhuadotchen@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        minhuadotchen@gmail.com, rdunlap@infradead.org, src.res@email.cn
+Subject: Re: [PATCH v3 0/3] convert TW translation sparse.txt to RST
+Date:   Wed,  4 Oct 2023 07:40:41 +0800
+Message-Id: <20231003234041.3929-1-minhuadotchen@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <8734yrekon.fsf@meer.lwn.net>
+References: <8734yrekon.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 0/2] Documentation fixes for dpll subsystem
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169637103325.17710.5593789278603779444.git-patchwork-notify@kernel.org>
-Date:   Tue, 03 Oct 2023 22:10:33 +0000
-References: <20230928052708.44820-1-bagasdotme@gmail.com>
-In-Reply-To: <20230928052708.44820-1-bagasdotme@gmail.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, vadim.fedorenko@linux.dev,
-        arkadiusz.kubalewski@intel.com, jiri@resnulli.us, corbet@lwn.net,
-        davem@davemloft.net
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+>>   docs: sparse: move TW sparse.txt to TW dev-tools
+>>   docs: sparse: convert sparse.txt to RST
+>>   docs: sparse: add sparse.rst to toctree
+>>
+>>  .../translations/zh_TW/dev-tools/index.rst    | 40 +++++++++++++++++++
+>>  .../{sparse.txt =3D> dev-tools/sparse.rst}      |  2 +-
+>>  Documentation/translations/zh_TW/index.rst    |  2 +-
+>>  3 files changed, 42 insertions(+), 2 deletions(-)
+>>  create mode 100644 Documentation/translations/zh_TW/dev-tools/index.rst
+>>  rename Documentation/translations/zh_TW/{sparse.txt =3D> dev-tools/spars=
+>e.rst} (99%)
+>
+>So this series introduces a new warning:
+>
+>WARNING: Unparseable C cross-reference: 'int'
+>Invalid C declaration: Expected identifier in nested name, got keyword: int=
+> [error at 3]
+>  int
+>  ---^
+>
+>That is ... somewhat unhelpful.  I eventually tracked it down to this
+>piece in sparse.rst:
+>
+>> =E6=89=80=E4=BB=A5=E6=9B=B4=E7=B0=A1=E5=96=AE=E7=9A=84=E8=BE=A6=E6=B3=95=
+>=E5=8F=AA=E8=A6=81=E9=80=99=E6=A8=A3=E5=81=9A=EF=BC=9A
+>>=20
+>> 	typedef int __bitwise pm_request_t;
+>>=20
+>> 	#define PM_SUSPEND ((__force pm_request_t) 1)
+>> 	#define PM_RESUME ((__force pm_request_t) 2)
+>>=20
+>> =E7=8F=BE=E5=9C=A8=E4=BD=A0=E5=B0=B1=E6=9C=89=E4=BA=86=E5=9A=B4=E6=A0=BC=
+>=E7=9A=84=E9=A1=9E=E5=9E=8B=E6=AA=A2=E6=9F=A5=E6=89=80=E9=9C=80=E8=A6=81=E7=
+>=9A=84=E6=89=80=E6=9C=89=E5=9F=BA=E7=A4=8E=E6=9E=B6=E6=A7=8B=E3=80=82
+>
+>That needs to be a literal block to be parsed properly.  I have taken
+>the liberty of changing the first line above to:
+>
+>> =E6=89=80=E4=BB=A5=E6=9B=B4=E7=B0=A1=E5=96=AE=E7=9A=84=E8=BE=A6=E6=B3=95=
+>=E5=8F=AA=E8=A6=81=E9=80=99=E6=A8=A3=E5=81=9A::
+>
+>...and the warning is gone.
+>
+>Thus: series applied, but please properly build-test changes like this
+>in the future.
+>
+>Thanks,
+>
+>jon
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Got it, thank you for doing this.
+I will do build-test with care in the future.
 
-On Thu, 28 Sep 2023 12:27:06 +0700 you wrote:
-> Here is a mini docs fixes for dpll subsystem. The fixes are all code
-> block-related.
-> 
-> This series is triggered because I was emailed by kernel test robot,
-> alerting htmldocs warnings (see patch [1/2]).
-> 
-> Changes since v1 [1]:
->   * Collect Reviewed-by tags
->   * Rebase on current net-next
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v2,1/2] Documentation: dpll: Fix code blocks
-    https://git.kernel.org/netdev/net-next/c/92425d08a608
-  - [net-next,v2,2/2] Documentation: dpll: wrap DPLL_CMD_PIN_GET output in a code block
-    https://git.kernel.org/netdev/net-next/c/c8afdc018329
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Min-Hua
