@@ -2,68 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D883E7AD58
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 15:01:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA1AE7AD6E
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 15:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231916AbjJCPBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 11:01:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51474 "EHLO
+        id S230449AbjJCPTS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 11:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240363AbjJCPBb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 11:01:31 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A2F2FA7;
-        Tue,  3 Oct 2023 08:01:27 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA319C15;
-        Tue,  3 Oct 2023 08:02:05 -0700 (PDT)
-Received: from [10.57.38.63] (unknown [10.57.38.63])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED4C23F762;
-        Tue,  3 Oct 2023 08:01:25 -0700 (PDT)
-Message-ID: <e89de62e-e19a-1eeb-d180-a308cbf97c03@arm.com>
-Date:   Tue, 3 Oct 2023 16:01:30 +0100
+        with ESMTP id S229469AbjJCPTR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 11:19:17 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A1183;
+        Tue,  3 Oct 2023 08:19:13 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 4209F2B4;
+        Tue,  3 Oct 2023 15:19:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4209F2B4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1696346352; bh=VKedhyMIgkQjXvL+hZvItrCFqi/RzTxxfS8XYS7wSfQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ca7PDA0a4sWmOp9W17zjZ/0mH7IU4T6U9NYrx1gKDWUM6JxfQOCoWleWJtYCcDdu7
+         mrb7r+NLJoXF7/qJrfgeqmGSd3prExOfJCxSGXSKwtduSW7ntD+ickEEQqqGIPNTBe
+         3P+DXO904F5gfkckwGTpeRnwJY36vp8wml0z0TeSsZHGe5VEyP8M0kV6ZNYLNUhwFm
+         CaRq3zBHCpWSLG4Y+lKv+aVnC+m8yniFFPY1KGFrnDfcAurRAH4ZRfCdFX9+VevxDS
+         fgKgBr1qOethWdjN6ljNc6LmP/KF7ETVXn0wo8JxgmSSir26nEX0MYTMlzmEBWI8Sf
+         Au+HSozBeSI8A==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, backports@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH v2] docs: add backporting and conflict resolution document
+In-Reply-To: <20230824092325.1464227-1-vegard.nossum@oracle.com>
+References: <20230824092325.1464227-1-vegard.nossum@oracle.com>
+Date:   Tue, 03 Oct 2023 09:19:11 -0600
+Message-ID: <87bkdfg2ds.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] tracing: document buffer_size_kb more precisely
-Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Zheng Yejian <zhengyejian1@huawei.com>, mhiramat@kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <cee6d5cd-e15b-3bb1-f867-de467d96d6b5@arm.com>
- <a1ae1bc0-0677-8284-9f18-1171e1dcb175@huawei.com>
- <efe41cee-42dd-290f-9ec2-ac002e2ec34e@arm.com>
- <20231002110935.2fde6637@gandalf.local.home>
-From:   Christian Loehle <christian.loehle@arm.com>
-In-Reply-To: <20231002110935.2fde6637@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/10/2023 16:09, Steven Rostedt wrote:
-> On Tue, 26 Sep 2023 11:38:14 +0100
-> Christian Loehle <christian.loehle@arm.com> wrote:
-> 
->>>> @@ -191,7 +191,7 @@ of ftrace. Here is a list of some of the key files:
->>>>       A few extra pages may be allocated to accommodate buffer management
->>>>       meta-data. If the last page allocated has room for more bytes
->>>>       than requested, the rest of the page will be used,
->>>> -    making the actual allocation bigger than requested or shown.
->>>> +    making the actual allocation bigger than requested.  
->>>
->>> Hi, the actual allocation should still be bigger than shown due to the
->>> loss of accuracy when doing unit conversion from bytes to kilobytes (see
->>> tracing_entries_read()).
->>>   
->> Right, the sysfs obviously only allows for KB aligned setting, but you're right.
->> If set on the cmdline non-KB multiples are possible and accuracy is lost.
->> Nevermind then.
-> 
-> I'm assuming this patch can be dropped?
-> 
-> -- Steve
-Yes please drop it, there's probably still some room for improvement for clarity,
-but this patch is not correct.
+Vegard Nossum <vegard.nossum@oracle.com> writes:
+
+> This is a new document based on my 2022 blog post:
+>
+>   https://blogs.oracle.com/linux/post/backporting-patches-using-git
+>
+> Although this is aimed at stable contributors and distro maintainers,
+> it does also contain useful tips and tricks for anybody who needs to
+> resolve merge conflicts.
+>
+> By adding this to the kernel as documentation we can more easily point
+> to it e.g. from stable emails about failed backports, as well as allow
+> the community to modify it over time if necessary.
+>
+> I've added this under process/ since it also has
+> process/applying-patches.rst. Another interesting document is
+> maintainer/rebasing-and-merging.rst which maybe should eventually refer
+> to this one, but I'm leaving that as a future cleanup.
+>
+> Thanks to Harshit Mogalapalli for helping with the original blog post
+> as well as this updated document and Bagas Sanjaya for providing
+> thoughtful feedback.
+>
+> v2: fixed heading style, link style, placeholder style, other comments
+
+So this seems generally good and useful.  I have a few small comments,
+none of which necessarily block merging it in its current form:
+
+- I would like to see an ack/reviewed-by tag by others with experience
+  with this task if possible.  The lack of complaints is a good start,
+  but not always indicative of a lack of disagreement...:)
+
+- Might this be better placed in Documentation/maintainer?
+
+- Colordiff looks cool, but I'd at least drop in a mention of the Emacs
+  ediff mode, which offers (I believe) a lot of the same functionality.
+
+Thanks,
+
+jon
