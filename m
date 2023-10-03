@@ -2,79 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7280FE7AD77
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 16:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F31E7AD77
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 16:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240378AbjJCQfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 12:35:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60362 "EHLO
+        id S231243AbjJCQmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 12:42:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240430AbjJCQfi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 12:35:38 -0400
+        with ESMTP id S240447AbjJCQbS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 12:31:18 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 902D5A1;
-        Tue,  3 Oct 2023 09:35:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F64491;
+        Tue,  3 Oct 2023 09:31:12 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 32E43381;
-        Tue,  3 Oct 2023 16:35:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 32E43381
+        by ms.lwn.net (Postfix) with ESMTPSA id 93AEA2B4;
+        Tue,  3 Oct 2023 16:31:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93AEA2B4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696350935; bh=jAqvvOCzJH2c+YyzVSah3IL0PULsUKKmGQwGOAoaV4Q=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ekwc+JLMST6J76KfTLzeyc5VEy4eTwOlhkaqBPCNgAVdtoZwuGGooXs4XE2Wt7Kgq
-         BGZS0HW27CLzQZeah9RT2zK62QnBc1MSlvgSIGlmwez67kY2F2hOK9v/o/0NxIAqNY
-         zDppQoN79Mp5abki1Ix+3+YfvyCQOzi0uF7qRlwHvU5B6LEIUB1dsJpjMZosMMjIFF
-         dRSGN3X/mDOJfIRqmzUGAzAJusHZPDMK2PUIvUMbodFamE+Y9oaHvTPMcWb3ewFeUB
-         ZQ/Zwv6FYmN65Ul7uE+WvZuou8zcBDzpyCjrnQNRqIiICPaJR24dEuQ8dMsTZ9pz72
-         tU7/unFf85Tyw==
+        t=1696350671; bh=Gehdcdnf+A4CsEvU65+tetDAgnqQs9RkmnesjHWCM08=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=Ohzgz7htoFlZeGQCP6pIrq1QIAoIxUyNPAZ2Feb+Hi7yqoYx+aJikuJWnzMibvfSx
+         a9jMFb6bgTVBqyHPR4XipyfgQKbLhPzE2Vl4qia/GsE33wJv6hXwV41mSBbUkAjWbA
+         3ukODpRmXqZGps2T7zYq2XmCqxJhCMG6hQPWY3L7lsNYBt6gBJwwc+cvSepXPJhGbV
+         DbObOhDJkwdvzhghNBbIug1NACrIOVgjscJDDAVsHAAGq8o8sPa5MuTYSoUOOYk6ov
+         s26wC8rFb76KSS8iDEoKPxHaplQzqRKKpaOpBB5MooD5IGd/in/Y7SgtcALyyKe6gd
+         bjmcasDAeKFTg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Hu Haowen <src.res.211@gmail.com>
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/zh_TW: update contents for zh_TW
-In-Reply-To: <20230925052311.20992-1-src.res.211@gmail.com>
-References: <20230925052311.20992-1-src.res.211@gmail.com>
-Date:   Tue, 03 Oct 2023 10:35:34 -0600
-Message-ID: <87ttr7d5pl.fsf@meer.lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Claudio Cambra <developer@claudiocambra.com>,
+        skhan@linuxfoundation.org, ivan.orlov0322@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] docs: Fix Sphinx 8 warning caused by paths represented
+ with strings
+In-Reply-To: <5fd1b5cd-ea6c-44a1-9cb5-8f692d32ec99@infradead.org>
+References: <20230924184057.91861-1-developer@claudiocambra.com>
+ <5fd1b5cd-ea6c-44a1-9cb5-8f692d32ec99@infradead.org>
+Date:   Tue, 03 Oct 2023 10:31:10 -0600
+Message-ID: <87y1gjd5wx.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hu Haowen <src.res.211@gmail.com> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> The content of zh_TW was too outdated comparing to the original files.
-> Consequently carry out improvements in order to both keep track of sources
-> and fix several grammatical mistakes in traditional Chinese.
+> Hi,
 >
-> This is a thorough rewrite of the previous patch:
->     https://lore.kernel.org/linux-doc/20230807120006.6361-1-src.res.211@gmail.com/
-> in order to get rid of text damage and merging errors, created based on
-> linux-next (date: Sept. 15, 2023).
+> On 9/24/23 11:40, Claudio Cambra wrote:
+>> Running "make htmldocs" generates several lines of this warning:
+>> 
+>> Documentation/sphinx/kerneldoc.py:141: RemovedInSphinx80Warning: Sphinx 8 will drop support for representing paths as strings. Use "pathlib.Path" or "os.fspath" instead.
+>>   doc = (env.srcdir + "/" + env.docname + ":" + str(self.lineno))
+>> 
+>> Making "doc" an fspath type and creating a new variable with the
+>> appended colon and lineno fixes this warning.
+>> 
+>> Signed-off-by: Claudio Cambra <developer@claudiocambra.com>
+>> ---
+>>  Documentation/sphinx/kerneldoc.py | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+>> index 9395892c7ba3..e2c835e10dba 100644
+>> --- a/Documentation/sphinx/kerneldoc.py
+>> +++ b/Documentation/sphinx/kerneldoc.py
+>> @@ -138,7 +138,8 @@ class KernelDocDirective(Directive):
+>>                      lineoffset = int(match.group(1)) - 1
+>>                      # we must eat our comments since the upset the markup
+>>                  else:
+>> -                    doc = env.srcdir + "/" + env.docname + ":" + str(self.lineno)
+>> +                    doc = os.path.join(env.srcdir, env.docname)
+>> +                    doc_with_line = (doc + ":" + str(self.lineno))
+>>                      result.append(line, doc + ": " + filename, lineoffset)
+>>                      lineoffset += 1
+>>  
 >
-> Signed-off-by: Hu Haowen <src.res.211@gmail.com>
+> This patch should be sent to the linux-doc@vger.kernel.org mailing list,
+> with the Documentation maintainer copied on the patch.
+>
+> We also have this similar patch to consider:
+>   https://lore.kernel.org/linux-doc/20230910040811.53046-1-erer1243@gmail.com/
 
-This version does not apply either:
+I have, in fact, applied that other patch.
 
-Applying: docs/zh_TW: update contents for zh_TW
-.git/rebase-apply/patch:751: new blank line at EOF.
-+
-.git/rebase-apply/patch:1061: new blank line at EOF.
-+
-.git/rebase-apply/patch:1411: new blank line at EOF.
-+
-.git/rebase-apply/patch:1443: new blank line at EOF.
-+
-.git/rebase-apply/patch:1717: new blank line at EOF.
-+
-error: patch failed: Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst:1
-error: Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst: patch does not apply
-error: Did you hand edit your patch?
-
-It also apparently didn't make it into lore, for reasons unknown.  Try
-(yet) again?
+Thanks,
 
 jon
