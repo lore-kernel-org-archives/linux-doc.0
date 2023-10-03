@@ -2,78 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A2E0E7AD75
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 16:01:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C9B2E7AD75
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 16:05:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240254AbjJCQBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 12:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35192 "EHLO
+        id S240203AbjJCQFy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 12:05:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240359AbjJCQBW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 12:01:22 -0400
+        with ESMTP id S232066AbjJCQFx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 12:05:53 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D8CEC;
-        Tue,  3 Oct 2023 09:01:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B817A9;
+        Tue,  3 Oct 2023 09:05:50 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DBEDE381;
-        Tue,  3 Oct 2023 16:01:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DBEDE381
+        by ms.lwn.net (Postfix) with ESMTPSA id 922B1381;
+        Tue,  3 Oct 2023 16:05:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 922B1381
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696348870; bh=EpyLs4lsrZHJbC0qMYKz8v34Lo8wvUXgTn477O0Szvo=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=g3Vu4iGbl2cYpJma4oSsql3OoZDPYRrxvGVMg41VJjv+pQHYPKrrY1+ke9WKjJAXd
-         yPdLpHMN2ugzsFFyfL9Fvc+/mc/129l5gDnsYF1BXR3b5dQ2SIL2xoBrArhZ9LQsou
-         CaS5AYl7s5uddJ7hLRb3ZcM2pvncB4N8K42794Qg9joYFrp57GHkwDTkvHZF0sreyr
-         gJdcOKhJcCRJFsDQUNyGAz9oY9AUirRJpeF4uZ9PF8OFwCR5oDSWrcfqHQItcNPjo0
-         LKhQd3lz5T3kAccFmGWmOA+wN95QFQsBJjozpuDZFatcWkq1Ew3vl+TemPx/ulpgQr
-         NM8zujZjHcLHA==
+        t=1696349149; bh=FJ0ABpqZ404qDATR9ZjzfiRpFdQTFHY4H48kFkpDdqE=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=ByBmQehZ9ZDltSjH06Xz6yT1qgZkCx/jKFQq5vGQMNYnUNAsWw5VRiHo0PzccGksa
+         gqlixKWWEgNhp6Y5PHM0QnX8YDksC0utj3gRWXz7g24l5PqHLfDgZqX1bgpuQjlTd/
+         0eAlHSE25aHwkynWubyn7prY+ca8QdG0XmJEXgCE5hVajN3um9Jk3zfan25A4Svpqm
+         e6bckqM5chLcb6+taKdlZEhJgBgiFn1No0MF6iM38yUXkNKfuKtdbd4GWNnuTS/+dC
+         hPSI6U9PcqlFTty4GZa5eG+hfY0iUEGivaGcfpmBY2ezucGrZ5aDp10a6JQXeFMVL0
+         pgpGyDfqQB/2g==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@kernel.org>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3] Documentation/page_tables: Add info about MMU/TLB
- and Page Faults
-In-Reply-To: <20230904180111.GG3223@kernel.org>
-References: <20230818112726.6156-1-fmdefrancesco@gmail.com>
- <20230904180111.GG3223@kernel.org>
-Date:   Tue, 03 Oct 2023 10:01:09 -0600
-Message-ID: <87h6n7elve.fsf@meer.lwn.net>
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+        Oliver O'Halloran <oohall@gmail.com>,
+        Linas Vepstas <linasvepstas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        "Manoj N. Kumar" <manoj@linux.ibm.com>,
+        "Matthew R. Ochs" <mrochs@linux.ibm.com>,
+        Uma Krishnan <ukrishn@linux.ibm.com>,
+        Qiang Zhao <qiang.zhao@nxp.com>, Li Yang <leoyang.li@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+        Nicholas Miehlbradt <nicholas@linux.ibm.com>,
+        Benjamin Gray <bgray@linux.ibm.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Rohan McLure <rmclure@linux.ibm.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Sathvika Vasireddy <sv@linux.ibm.com>,
+        Laurent Dufour <laurent.dufour@fr.ibm.com>,
+        Nathan Lynch <nathanl@linux.ibm.com>,
+        Brian King <brking@linux.vnet.ibm.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, kvm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH] docs: move powerpc under arch
+In-Reply-To: <20230826165737.2101199-1-costa.shul@redhat.com>
+References: <169052340516.4355.10339828466636149348@legolas.ozlabs.org>
+ <20230826165737.2101199-1-costa.shul@redhat.com>
+Date:   Tue, 03 Oct 2023 10:05:48 -0600
+Message-ID: <87cyxvelnn.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mike Rapoport <rppt@kernel.org> writes:
+Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> On Fri, Aug 18, 2023 at 01:19:34PM +0200, Fabio M. De Francesco wrote:
->> Extend page_tables.rst by adding a section about the role of MMU and TLB
->> in translating between virtual addresses and physical page frames.
->> Furthermore explain the concept behind Page Faults and how the Linux
->> kernel handles TLB misses. Finally briefly explain how and why to disable
->> the page faults handler.
->> 
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: Ira Weiny <ira.weiny@intel.com>
->> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Linus Walleij <linus.walleij@linaro.org>
->> Cc: Matthew Wilcox <willy@infradead.org>
->> Cc: Mike Rapoport <rppt@kernel.org>
->> Cc: Randy Dunlap <rdunlap@infradead.org>
->> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> and fix all in-tree references.
 >
-> Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> Architecture-specific documentation is being moved into Documentation/arch/
+> as a way of cleaning up the top-level documentation directory and making
+> the docs hierarchy more closely match the source hierarchy.
+>
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 
-I've applied this, thanks; sorry for the delay,
+So this patch appears to have not been picked up, and to have received
+no comments.  I'll happily carry it in docs-next, but it would be nice
+to have an ack from the powerpc folks...?
+
+Thanks,
 
 jon
