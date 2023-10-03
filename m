@@ -2,110 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E956EE75428
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 06:58:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D922E75428
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 07:00:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239187AbjJCG64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 02:58:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
+        id S239443AbjJCHA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 03:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239485AbjJCG6m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 02:58:42 -0400
+        with ESMTP id S239323AbjJCHAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 03:00:46 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A2E2D4D;
-        Mon,  2 Oct 2023 23:55:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B9A43AAE
+        for <linux-doc@vger.kernel.org>; Mon,  2 Oct 2023 23:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696316150; x=1727852150;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=KVAH30AJVp6O2e8FLYlwUzaPcwlh2ELK9dDq37AIdDs=;
-  b=Z1LAqzi+Z3ye68zKOI2in3pIFKFY+Ay3dgi0OQrOWruDTJZoDjwpznfs
-   N91WrtwrvnoRypg0vwvp1JFD8CjGAKv6xhQ/4y7u8Y2hrKDxNAK/hR7HH
-   IOkNa0F13FTUIwYxHCxL45QrnTl3UtM8UC8A60bJwTQxu14i0aaeYAMm+
-   FmHM3gUN9V9NWWu7g1htpJzbBzg6nzS8suOkA0/9nz6WNFXtGsOF9kfJ5
-   ldjdyJEhSE+20+4JB6RTxLglKyiPpZ6leRrY+9zUvD+VU6PckhVpICGBY
-   vHn74pxuUGt3FcZxt97J++g9GbmA+fT+2kkW06KZMVlPmQ1rvw0uVYz2D
+  t=1696316364; x=1727852364;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HN4xSqNS0cx+dE5Q1u8rBM3waf4jA83+rCeWiG8Javs=;
+  b=eyj4+WH1h/Rjr6BJw8DDG9EuSfYNopzrF646NwZqa8OQRHhVuPtIjB6G
+   2q2dlw7YRAWNZt+TRF7txB6qcd1c84HDBXrZazdd2kk9Jmr3+V+TI5ftx
+   qdspxSQD4gO8TULWLNb+6giLmtik5vR36/9Pl3SDVxcnPENxnBd5NzaOu
+   GyqMcCnCohZ7JHEeWcO2YorlB3Y7Er5XhOLllq4Cs30QWPHkjEzqlzgnQ
+   GJVNfMaLrn0Kyjvi/ZDMK+pYCiM8fDZKjOD/Rv5Fy/6qp5OhcHIfyM7An
+   qO3bEEFqGyM1yKPVJ2AUoS9GOA22RXA08AvwfSEaZhYMla2bT20S1fgE1
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858350"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858745"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367858350"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:53 -0700
+   d="scan'208";a="367858745"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:56:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081901025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="841231870"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1081901025"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:52 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
-        mhiramat@kernel.org, andrew.cooper3@citrix.com,
-        jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v12 35/37] x86/syscall: Split IDT syscall setup code into idt_syscall_init()
-Date:   Mon,  2 Oct 2023 23:24:56 -0700
-Message-Id: <20231003062458.23552-36-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
-References: <20231003062458.23552-1-xin3.li@intel.com>
+   d="scan'208";a="841231870"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Oct 2023 23:56:47 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qnZKm-0006rB-1i;
+        Tue, 03 Oct 2023 06:56:44 +0000
+Date:   Tue, 3 Oct 2023 14:56:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dylan Yip <dylan.yip@xilinx.com>
+Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
+        Michal Simek <monstr@monstr.eu>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 327/1370] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-ctrl-type-hdr (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202310031449.v2qCCrkV-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because FRED uses the ring 3 FRED entrypoint for SYSCALL and SYSENTER and
-ERETU is the only legit instruction to return to ring 3, there is NO need
-to setup SYSCALL and SYSENTER MSRs for FRED, except the IA32_STAR MSR.
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: 069efbe2c5d8a75c562c2704167eb09ffe785d32 [327/1370] media: videodev2.h: Add control type for HDR
+reproduce: (https://download.01.org/0day-ci/archive/20231003/202310031449.v2qCCrkV-lkp@intel.com/reproduce)
 
-Split IDT syscall setup code into idt_syscall_init() to make it easy to
-skip syscall setup code when FRED is enabled.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310031449.v2qCCrkV-lkp@intel.com/
 
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
- arch/x86/kernel/cpu/common.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 9b1cb6c938c4..69f9bdab19a9 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -2078,10 +2078,8 @@ static void wrmsrl_cstar(unsigned long val)
- 		wrmsrl(MSR_CSTAR, val);
- }
- 
--/* May not be marked __init: used by software suspend */
--void syscall_init(void)
-+static inline void idt_syscall_init(void)
- {
--	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
- 	wrmsrl(MSR_LSTAR, (unsigned long)entry_SYSCALL_64);
- 
- 	if (ia32_enabled()) {
-@@ -2115,6 +2113,15 @@ void syscall_init(void)
- 	       X86_EFLAGS_AC|X86_EFLAGS_ID);
- }
- 
-+/* May not be marked __init: used by software suspend */
-+void syscall_init(void)
-+{
-+	/* The default user and kernel segments */
-+	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
-+
-+	idt_syscall_init();
-+}
-+
- #else	/* CONFIG_X86_64 */
- 
- #ifdef CONFIG_STACKPROTECTOR
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-hdr (if the link has no caption the label must precede a section header)
+
+vim +6 Documentation/output/videodev2.h.rst
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
