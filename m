@@ -2,77 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D3CE8FDB0
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 19:58:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A90E8FDBB
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 21:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231945AbjJCT6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 15:58:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43980 "EHLO
+        id S232288AbjJCVa4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 17:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230390AbjJCT6m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 15:58:42 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175B7A1
-        for <linux-doc@vger.kernel.org>; Tue,  3 Oct 2023 12:58:39 -0700 (PDT)
+        with ESMTP id S230251AbjJCVaz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 17:30:55 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A09E83;
+        Tue,  3 Oct 2023 14:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696363119; x=1727899119;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uRC/5rq8/zj+sKstARXJNaD/aKan099FJ5iKvqARQjc=;
-  b=V9WLfRGN4+xVCrgkLwUbKVXDNDlrOAoDKZ3M7OAPhGut3OqoDeBScPZx
-   tMARagpR2/V7pkTukI6RGoe3fYuUJtRPAYPlC84jxwksw8HRF00E37LEL
-   FPOKxpTgIp7YptwaHMr3tlp4OuiF4dA5iQTpY3VahhoJKLR9zcEt9/psH
-   mJrSZl2JwQZcLsh9OEfpOM9z75ylNE4Fvm4sEHcnIBmDXys9cbz91p5CT
-   Px9zSCiyfOgjXtQV+WGHB9tJnoFfe916YO5aGVAIaj3TF9uO2WiwIaPwY
-   2FG4/sNZM8wvviy22I7Wb8u2NYB0glH+MpFx0tSSCLp18iA5LVyURSUf6
+  t=1696368651; x=1727904651;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=wiY0eeufMNNk9jH1XIadte3o5RqKY1pTvxQYoyPVqyk=;
+  b=A9FC3s2fKzgUgwgplzVW5p2uaVCqBtf7vnnwrQBdRzwYTEzdcTYPcrlO
+   P8s0NIVQymbykh5hve9z68tt6U3V6x8NO6bgJYz6CsHSv1ckIvJ043dSe
+   Dek9+D59WOsPiaM2wmeRloTwJIYAFjmz4GAbX1N8L27oFmu+BqignHZkb
+   buXFbI296Sqknsc/VqjGJd9d9jfZD2iegyYRhR6KszU6JEG2avCZq5BrL
+   Xxv0cwTFU6fn8XRx7eu+fRyisapCL/AIkF5S45lboKzQhLZ8vAIcDT+Yo
+   KbYuO58guAj70DER5ulNduouS02dwnprLkyIog+eKO17m29z18gqmkxfy
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="413881730"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1580363"
 X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="413881730"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 12:58:38 -0700
+   d="scan'208";a="1580363"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 14:30:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1082142223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="924801966"
 X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="1082142223"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Oct 2023 12:58:37 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qnlXO-0008on-0U;
-        Tue, 03 Oct 2023 19:58:34 +0000
-Date:   Wed, 4 Oct 2023 03:57:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Srinivas Neeli <srinivas.neeli@amd.com>
-Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
-        Michal Simek <monstr@monstr.eu>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 762/1370] htmldocs: Warning:
- Documentation/devicetree/bindings/net/xilinx_axienet.txt references a file
- that doesn't exist: Documentation/devicetree/bindings/net/xilinx_tsn.txt
-Message-ID: <202310040315.ammtzHVV-lkp@intel.com>
+   d="scan'208";a="924801966"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 14:30:50 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org
+Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
+Subject: [PATCH v8 0/8] Add support for Sub-NUMA cluster (SNC) systems
+Date:   Tue,  3 Oct 2023 14:30:35 -0700
+Message-ID: <20231003213043.13565-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230928191350.205703-1-tony.luck@intel.com>
+References: <20230928191350.205703-1-tony.luck@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 7da30758791321c76827c0291adf3689e608dd2c [762/1370] dt-bindings: net: axienet: Add binding for 2.5G, 10G and usxgmii mac variants
-reproduce: (https://download.01.org/0day-ci/archive/20231004/202310040315.ammtzHVV-lkp@intel.com/reproduce)
+The Sub-NUMA cluster feature on some Intel processors partitions
+the CPUs that share an L3 cache into two or more sets. This plays
+havoc with the Resource Director Technology (RDT) monitoring features.
+Prior to this patch Intel has advised that SNC and RDT are incompatible.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310040315.ammtzHVV-lkp@intel.com/
+Some of these CPU support an MSR that can partition the RMID
+counters in the same way. This allows for monitoring features
+to be used (with the caveat that memory accesses between different
+SNC NUMA nodes may still not be counted accurately.
 
-All warnings (new ones prefixed by >>):
+Note that this patch series improves resctrl reporting considerably
+on systems with SNC enabled, but there will still be some anomalies
+for processes accessing memory from other sub-NUMA nodes.
 
->> Warning: Documentation/devicetree/bindings/net/xilinx_axienet.txt references a file that doesn't exist: Documentation/devicetree/bindings/net/xilinx_tsn.txt
+Signed-off-by: Tony Luck <tony.luck@intel.com>
 
+---
+Please ignore v7 posting. There was some glitch in how I created
+the patches with "git format-patch" that meant part 0004 would not
+apply.
+
+Changes since v6:
+
+* Fixed spelling of "accurately" in cover letter.
+
+* Applied changes from Peter Newman's review
+Link: https://lore.kernel.org/r/CALPaoChB5ryT96ZZBQb6+3=xO+A0uR-ToN0TWqUjLJ7bgi==Rg@mail.gmail.com
+(and follow-on posts against other patches in the v6 series).
+
+See comments in indivdual patches for specific details.
+
+Added Peter's "Reviewed-by" to parts 4-7.q
+
+Tony Luck (8):
+  x86/resctrl: Prepare for new domain scope
+  x86/resctrl: Prepare to split rdt_domain structure
+  x86/resctrl: Prepare for different scope for control/monitor
+    operations
+  x86/resctrl: Split the rdt_domain and rdt_hw_domain structures
+  x86/resctrl: Add node-scope to the options for feature scope
+  x86/resctrl: Introduce snc_nodes_per_l3_cache
+  x86/resctrl: Sub NUMA Cluster detection and enable
+  x86/resctrl: Update documentation with Sub-NUMA cluster changes
+
+ Documentation/arch/x86/resctrl.rst        |  23 +-
+ include/linux/resctrl.h                   |  85 +++--
+ arch/x86/include/asm/msr-index.h          |   1 +
+ arch/x86/kernel/cpu/resctrl/internal.h    |  66 ++--
+ arch/x86/kernel/cpu/resctrl/core.c        | 400 +++++++++++++++++-----
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  58 ++--
+ arch/x86/kernel/cpu/resctrl/monitor.c     |  58 ++--
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c |  14 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 132 +++----
+ 9 files changed, 591 insertions(+), 246 deletions(-)
+
+
+base-commit: 6465e260f48790807eef06b583b38ca9789b6072
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
