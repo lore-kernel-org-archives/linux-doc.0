@@ -2,101 +2,258 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD762E7AD78
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 17:04:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E93DBE7AD78
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 17:19:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbjJCRFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 13:05:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
+        id S240657AbjJCRTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 13:19:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231601AbjJCRE7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 13:04:59 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B77C6;
-        Tue,  3 Oct 2023 10:04:57 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D52552B4;
-        Tue,  3 Oct 2023 17:04:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D52552B4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696352697; bh=yfhmtqCCvv97Y2SWhdu1bHhleLPoOqHF30l72GJ9Ltk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=H/05ERPWSImHNqwm9Zq8R0utmS9epf+7PtA/NbNBp4uw/BxS+wjtzIi0PldP1COFh
-         MkFuhIiYlGzA58hMCRpnhYT5MUDBXHantIdnjEiplg+OBqAEsbXvvdgy4czrH+ws4p
-         YLDpwrBc1/Rvx1rEYKMJ56nADEEsKnSW1JZQb/PVzQZEJn3lTRoxWvyLNvAumh3cFm
-         KJyTT8cdpe34bWGRJEi1aah7eQR3VXKs6OV3qlkDqmUP4qyZigGvkn8xXUhGKAiDGP
-         F4fn3Jth6eje/gFxZlir+3YpF5isP2V7b0KhqOw/oxfmagBXBH3RDYsDfqU6Nwr3hO
-         j6nN5q8SIfUbQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Christian =?utf-8?Q?K?= =?utf-8?Q?=C3=B6nig?= 
-        <christian.koening@amd.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
-        Arthur Grillo <arthurgrillo@riseup.net>,
-        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@gmail.com>,
-        David Gow <davidgow@google.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm: add documentation for drm_buddy_test kUnit test
-In-Reply-To: <da7e150c65b85b414f2f9790e04442408678877d.1693550658.git.mchehab@kernel.org>
-References: <cover.1693550658.git.mchehab@kernel.org>
- <da7e150c65b85b414f2f9790e04442408678877d.1693550658.git.mchehab@kernel.org>
-Date:   Tue, 03 Oct 2023 11:04:56 -0600
-Message-ID: <87lecjd4cn.fsf@meer.lwn.net>
+        with ESMTP id S240672AbjJCRTL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 13:19:11 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAFB31A4
+        for <linux-doc@vger.kernel.org>; Tue,  3 Oct 2023 10:18:58 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9ad810be221so222769566b.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Oct 2023 10:18:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1696353537; x=1696958337; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5EnlzNRFWMQ7thQWMg/qT9DCbeAiLijmJLaD1WjKhQ4=;
+        b=PbsgRErK8SIzG8DK8L4BqFECdeegvxIauEJ06yxII0kvwI0N5370QnUGF5Df09DdxL
+         VSVivSqr3ba7iapJP+9ZCqO6tk5fAic0GzvfYHInhwieJXbwJm++jvVWZ4EsPrxwZ+9f
+         8ABWCC7HsYk4wfK0++yDBNAAM/musscuWsWmuUnOhEqK3mwYcBOKMmN27HhQHewnqmO+
+         IVx1JbV+gp8en+KNfSCpzCzuMLUg4qLBEO2y9O/9JlCF+0B2weusFaSorWPrZDpXduVU
+         Dq1IYnbbs5UL4o10vCS9Rz4KJsIFbrbB+nLVkswGUgg24gUwuQiGVhxIllRB0w2BVk7a
+         soEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696353537; x=1696958337;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5EnlzNRFWMQ7thQWMg/qT9DCbeAiLijmJLaD1WjKhQ4=;
+        b=WNm++1AVqxy46MK6IdDwMh5hstD4GsHjKPHFR+N36nifLUA3YOAOi/nN6n11xQFtJy
+         GfcIKg7QaA1BrA8DfjcPP5sg0Yvt2fJUSEveU6rCxFUmFSs79TWVqENnVBZR2TdHe3ml
+         p108EdWclZfiknvMFKi47QahccMnay++Xf3vdWU81iwa+ANcDhLGLJrNJiP6OCa7OHJk
+         2lrMW71eyQuveQltyv7m/uRvaBIb+Nx5LsKY0NdiI4qnBHmujgGOOjMXdDDbZIw6mYt6
+         MmhcHoAqF8Z3b14k034+daJ7DUNA8DqX5GdNDr3M0ATVaUfTIzU9H7I+xRHm7HtfwCTb
+         HsnQ==
+X-Gm-Message-State: AOJu0Yxr1MbD5M0gWsGm7U7EJeJoSoOCNwx+EYY9nm5sj7THgXwxdBxG
+        hBB9s4+sxIUR/3UzWnfS+CrZUw==
+X-Google-Smtp-Source: AGHT+IFZlMvMFeZ+OIrO7SCq93L8uRpsoOdhD5LXSPfy8mVx/wszOcWdFS9c324GMhaor8MVEZFISg==
+X-Received: by 2002:a17:906:3cb2:b0:9ad:df85:97ae with SMTP id b18-20020a1709063cb200b009addf8597aemr13771395ejh.66.1696353537104;
+        Tue, 03 Oct 2023 10:18:57 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id jw21-20020a17090776b500b009786c8249d6sm1389944ejc.175.2023.10.03.10.18.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 10:18:56 -0700 (PDT)
+Date:   Tue, 3 Oct 2023 19:18:55 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc:     Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "davem@davemloft.net" <davem@davemloft.net>
+Subject: Re: [Intel-wired-lan] [PATCH net-next 3/4] dpll: netlink/core: add
+ support for pin-dpll signal phase offset/adjust
+Message-ID: <ZRxM/+njiiu78b9p@nanopsycho>
+References: <20230927092435.1565336-1-arkadiusz.kubalewski@intel.com>
+ <20230927092435.1565336-4-arkadiusz.kubalewski@intel.com>
+ <4018c0b0-b288-ff60-09be-7ded382f4a82@linux.dev>
+ <DM6PR11MB4657AA79C0C44F868499A3129BC5A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <ZRrb87drG7aVrxsT@nanopsycho>
+ <eb019ccf-c50b-e9d7-e4e6-f6574f805b49@linux.dev>
+ <DM6PR11MB4657DB3C9BC3E1EFE6A2F3389BC5A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <ZRu0OlwKWSmXFOcV@nanopsycho>
+ <DM6PR11MB46573DF9081298B816A215329BC4A@DM6PR11MB4657.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6PR11MB46573DF9081298B816A215329BC4A@DM6PR11MB4657.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-One other little thing...
-
-Mauro Carvalho Chehab <mchehab@kernel.org> writes:
-
-> As an example for the new documentation tool, add a documentation
-> for drm_buddy_test.
+Tue, Oct 03, 2023 at 04:29:13PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>>From: Jiri Pirko <jiri@resnulli.us>
+>>Sent: Tuesday, October 3, 2023 8:27 AM
+>>To: Kubalewski, Arkadiusz <arkadiusz.kubalewski@intel.com>
+>>
+>>Tue, Oct 03, 2023 at 01:10:39AM CEST, arkadiusz.kubalewski@intel.com wrote:
+>>>>From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf Of
+>>>>Vadim Fedorenko
+>>>>Sent: Monday, October 2, 2023 5:09 PM
+>>>>
+>>>>On 02/10/2023 16:04, Jiri Pirko wrote:
+>>>>> Mon, Oct 02, 2023 at 04:32:30PM CEST, arkadiusz.kubalewski@intel.com
+>>>>> wrote:
+>>>>>>> From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>>>>>>> Sent: Wednesday, September 27, 2023 8:09 PM
+>>>>>>>
+>>>>>>> On 27/09/2023 10:24, Arkadiusz Kubalewski wrote:
+>>>>>>>> Add callback op (get) for pin-dpll phase-offset measurment.
+>>>>>>>> Add callback ops (get/set) for pin signal phase adjustment.
+>>>>>>>> Add min and max phase adjustment values to pin proprties.
+>>>>>>>> Invoke get callbacks when filling up the pin details to provide user
+>>>>>>>> with phase related attribute values.
+>>>>>>>> Invoke phase-adjust set callback when phase-adjust value is provided
+>>>>>>>> for
+>>>>>>>> pin-set request.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>>>>>>>
+>>>>>>> [...]
+>>>>>>>
+>>>>>>>> +static int
+>>>>>>>> +dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr
+>>>>>>>> *phase_adj_attr,
+>>>>>>>> +		       struct netlink_ext_ack *extack)
+>>>>>>>> +{
+>>>>>>>> +	struct dpll_pin_ref *ref;
+>>>>>>>> +	unsigned long i;
+>>>>>>>> +	s32 phase_adj;
+>>>>>>>> +	int ret;
+>>>>>>>> +
+>>>>>>>> +	phase_adj = nla_get_s32(phase_adj_attr);
+>>>>>>>> +	if (phase_adj > pin->prop->phase_range.max ||
+>>>>>>>> +	    phase_adj < pin->prop->phase_range.min) {
+>>>>>>>> +		NL_SET_ERR_MSG(extack, "phase adjust value not
+>>>>>>>> supported");
+>>>>>>>> +		return -EINVAL;
+>>>>>>>> +	}
+>>>>>>>> +	xa_for_each(&pin->dpll_refs, i, ref) {
+>>>>>>>> +		const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
+>>>>>>>> +		struct dpll_device *dpll = ref->dpll;
+>>>>>>>> +
+>>>>>>>> +		if (!ops->phase_adjust_set)
+>>>>>>>> +			return -EOPNOTSUPP;
+>>>>>>>
+>>>>>>> I'm thinking about this part. We can potentially have dpll devices
+>>>>>>> with
+>>>>>>> different expectations on phase adjustments, right? And if one of
+>>>>>>> them
+>>>>>>> won't be able to adjust phase (or will fail in the next line), then
+>>>>>>> netlink will return EOPNOTSUPP while _some_ of the devices will be
+>>>>>>> adjusted. Doesn't look great. Can we think about different way to
+>>>>>>> apply
+>>>>>>> the change?
+>>>>>>>
+>>>>>>
+>>>>>> Well makes sense to me.
+>>>>>>
+>>>>>> Does following makes sense as a fix?
+>>>>>> We would call op for all devices which has been provided with the op.
+>>>>>> If device has no op -> add extack error, continue
+>>>>>
+>>>>> Is it real to expect some of the device support this and others don't?
+>>>>> Is it true for ice?
+>>>>> If not, I would got for all-or-nothing here.
+>>>>>
+>>>>
+>>>>But nothing blocks vendors to provide such configuration. Should we
+>>>>rollback the configuration? Otherwise we can easily make it
+>>>>inconsistent.
+>>>
+>>>Good point, in such case rollback might be required.
+>>>
+>>>>
+>>>>I'm more thinking of checking if all the devices returned error (or
+>>>>absence of operation callback) and then return error instead of 0 with
+>>>>extack filled in.
+>>>>
+>>>
+>>>Well, what if different devices would return different errors?
+>>>In general we would have to keep track of the error values returned in
+>>>such case.. Assuming one is different than the other - still need to error
+>>>extack them out? I guess it would be easier to return common error if
+>>there
+>>
+>>In this case, it is common to return the first error hit and bail out,
+>>not trying the rest.
+>>
 >
-> I opted to place this on a completely different directory, in order
-> to make easier to test the feature with:
->
-> 	$ make SPHINXDIRS=3D"tests" htmldocs
->
-> Acked-by: Christian K=C3=B6nig <christian.koening@amd.com>
-> Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->  Documentation/index.rst                |  2 +-
->  Documentation/tests/index.rst          |  6 ++++++
->  Documentation/tests/kunit.rst          |  5 +++++
->  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
->  4 files changed, 24 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/tests/index.rst
->  create mode 100644 Documentation/tests/kunit.rst
->
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 9dfdc826618c..80a6ce14a61a 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -60,7 +60,7 @@ Various other manuals with useful information for all k=
-ernel developers.
->     fault-injection/index
->     livepatch/index
->     rust/index
-> -
-> +   test/index
+>OK, so now I see it like this:
+>-> check if all device implement callback, if not return EOPNOTSUPP;
+>-> get old phase_adjust
+>-> if new == old, return EINVAL
 
-Since you called the directory "tests", this generates a couple of
-warnings in the htmldocs build.
+0 would be better, no? User has what he desired.
 
-(but, again, I think it should be dev-tools/tests, and perhaps
-referenced from the selftest docs already there)
 
-jon
+>-> for each device: call phase_adjust_set, if fails, rollback all previous
+>   successful attempts and return the failure code
+
+That would work.
+
+
+>?
+>
+>Thank you!
+>Arkadiusz
+>
+>>
+>>>were only failures and let the driver fill the errors on extack, smt like:
+>>>
+>>>	int miss_cb_num = 0, dev_num = 0, err_num;
+>>>
+>>>	xa_for_each(&pin->dpll_refs, i, ref) {
+>>>		const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
+>>>		struct dpll_device *dpll = ref->dpll;
+>>>
+>>>		dev_num++;
+>>>		if (!ops->phase_adjust_set) {
+>>>			miss_cb_num++;
+>>>			continue;
+>>>		}
+>>>		ret = ops->phase_adjust_set(pin,
+>>>					dpll_pin_on_dpll_priv(dpll, pin),
+>>>					dpll, dpll_priv(dpll), phase_adj,
+>>>					extack);
+>>>		if (ret)
+>>>			err_num++;
+>>>	}
+>>>	if (dev_num == miss_cb_num)
+>>>		return -EOPNOTSUPP;
+>>>	if (dev_num == err_num)
+>>>		return -EINVAL;
+>>>	__dpll_pin_change_ntf(pin);
+>>>	return 0;
+>>>
+>>>??
+>>>
+>>>Thank you!
+>>>Arkadiusz
+>>>
+>>>>>
+>>>>>> If device fails to set -> add extack error, continue
+>>>>>> Function always returns 0.
+>>>>>>
+>>>>>> Thank you!
+>>>>>> Arkadiusz
+>>>>>>
+>>>>>>>
+>>>>>>>> +		ret = ops->phase_adjust_set(pin,
+>>>>>>>> +					    dpll_pin_on_dpll_priv(dpll, pin),
+>>>>>>>> +					    dpll, dpll_priv(dpll), phase_adj,
+>>>>>>>> +					    extack);
+>>>>>>>> +		if (ret)
+>>>>>>>> +			return ret;
+>>>>>>>> +	}
+>>>>>>>> +	__dpll_pin_change_ntf(pin);
+>>>>>>>> +
+>>>>>>>> +	return 0;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>
+>>>>_______________________________________________
+>>>>Intel-wired-lan mailing list
+>>>>Intel-wired-lan@osuosl.org
+>>>>https://lists.osuosl.org/mailman/listinfo/intel-wired-lan
+>
