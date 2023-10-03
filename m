@@ -2,84 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63619E7AD7A
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 17:00:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83854E7AD78
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 17:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbjJCRAZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 13:00:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57728 "EHLO
+        id S231601AbjJCRDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 13:03:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231620AbjJCRAZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 13:00:25 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A66195;
-        Tue,  3 Oct 2023 10:00:21 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3AF4C6E2;
-        Tue,  3 Oct 2023 17:00:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3AF4C6E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696352421; bh=90J31QEv8FGbWrRzoVwWZcTEzbXsi3Oh57o8nNW1+jU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Jv8wpMpY8gVh2mxKuopxJuPeE2oQ+5goX2MIa+p5pyooDgBitxunGJNmev59New5c
-         X1dUpnyswLMSeqG1tYa5ubuQrWBX4xfGOfxGeYk8rBE62UIZGYUMMXM4Rod4PHhdSL
-         yBzjtYL/zAoJCiDDia9BRgqDcm2D5gG15bYH2ixnbRGWeIplTynIFvGDotZMgQfm5F
-         oj6MVXdCt5fyGlcmFrIlbaDvMmbr+gqLiQAY5NjLvzSoDdOEeaQiEJpSBzl0wjuECe
-         rFHKA9AlXox3/bf0237lwnitDSge9UuZmQXN1+H8CJAd+sC/hBe6qSpv2l+R6T+AnY
-         yxaYoq1/b4KZA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@gmail.com>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 0/2] Add support for inlined documentation for kunit and
- kselftests
-In-Reply-To: <cover.1693550658.git.mchehab@kernel.org>
-References: <cover.1693550658.git.mchehab@kernel.org>
-Date:   Tue, 03 Oct 2023 11:00:20 -0600
-Message-ID: <87pm1vd4kb.fsf@meer.lwn.net>
+        with ESMTP id S231150AbjJCRDL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 13:03:11 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDA2AF;
+        Tue,  3 Oct 2023 10:03:08 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746A5C433C8;
+        Tue,  3 Oct 2023 17:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696352588;
+        bh=2CYnWvtXt90mgRwSHfw8tCk2sH07p2olXVL/VqC8WNE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y1hsbnL4fm7Bv7ZICc/2FMKW/20RphpnHCx/Tn5Ui54gN20adbO2TOvmk+RMmuLzM
+         N9UE1KGku3S8zV1O0OQRdM0Yfunb5tZIAofpsRhc5tJalERLTpKu52j30Nyr9Gnprr
+         RnHTqxyL/ptiiPPIaG3x0z+SZZimAvF0dT+ex/1pR8H+SEcEvDR9Q0FR1XKSCma831
+         lGCFYnhC6w8jeq0IZbWBEqFNQsRcL+d7NZN0cX0WPnBcwh9sxGxXHtCU9Pio9IxQbN
+         ppTPLz1XuHDxdsNzRDcC8LxVmHp1Vlv8jwzjvqoah1sJjyAXPZVdU1AAWS+MIS79PU
+         RE8Vwr9POl5hQ==
+Date:   Tue, 3 Oct 2023 18:03:02 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: Suggest a longer expected time
+ for responses
+Message-ID: <68a9bc07-07dc-4e97-ae0e-e0b29c808707@sirena.org.uk>
+References: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
+ <87y1gjen5d.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="9Jz4o80Rm23Rqhve"
+Content-Disposition: inline
+In-Reply-To: <87y1gjen5d.fsf@meer.lwn.net>
+X-Cookie: Oh Dad!  We're ALL Devo!
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-> This is a follow-up of the discussions taken here:
->
->    https://lore.kernel.org/linux-doc/20230704132812.02ba97ba@maurocar-mobl2/T/#t
->
-> I sent a previous version as RFC. This is basically what we had there, with some
-> improvements at test_list.py.
->
-> It adds a new extension that allows documenting tests using the same tool we're
-> using for DRM unit tests at IGT GPU tools: https://gitlab.freedesktop.org/drm/igt-gpu-tools.
->
-> While kernel-doc has provided documentation for in-lined functions/struct comments,
-> it was not meant to document tests.
->
-> Tests need to be grouped by the test functions. It should also be possible to produce
-> other outputs from the documentation, to integrate it with test suites. For instance, 
-> Internally at Intel, we use the comments to generate DOT files hierarchically grouped
-> per feature categories.
->
-> This is meant to be an initial series to start documenting kunit.
+--9Jz4o80Rm23Rqhve
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I've played with this a bit...a couple of quick impressions:
+On Tue, Oct 03, 2023 at 09:33:34AM -0600, Jonathan Corbet wrote:
 
-- That's quite a chunk of Python code to be adding.  I've not yet had
-  the chance to read it through properly, will hopefully be able to do
-  so soon.  A bit more commenting would not have gone amiss here...
+> I was hoping to see some more comments on this; it is a fairly
+> significant change in the expectations we put on our reviewers.  Oh
+> well, I've applied it.  I wonder if we should add a note saying to look
+> at the maintainer profile for the subsystem in question for more
+> specific guidance?  Of course, it would be good to have more of those...
 
-- I kind of think that this should go under dev-tools rather than being
-  a new top-level directory.  Is there a reason not to put it there?
+It's the sort of thing that's going to vary quite a lot with things like
+the point in the release cycle as well (as the existing text already
+gestures towards) plus the complexity of the change, I'm not sure that
+setting explicit QoS guarantees is going to work out well.  The list of
+variables gets long and complicated, and the more explicit things are
+the more likely someone is to be disappointed.
 
-Thanks,
+--9Jz4o80Rm23Rqhve
+Content-Type: application/pgp-signature; name="signature.asc"
 
-jon
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUcSUYACgkQJNaLcl1U
+h9Ag8gf9HduXLtJgMwI+3EeEQhIZIMvFNRa1kIyisAaAw/T2BBNHnujHGvh6Sp00
+2KQZ4+LiPMvmzzt10YXFTsK5L4E7HqrRIdcoRog8WVdQlQjKOgsMxPHUkP8V2E1l
+mOsC34R5VK8WDGp7BbhUWqWbFoqADUOGRwNs/gULaTap5tSsvHGQOKpqYzL+M/Lk
+iwaG8PQgAZ8urJVuf1aUH6AW4JIKG0s3hDn4PDV63lFMjIHuF0gnrZvJ6QvvUIdz
+0bocxGJkt+T+Smayrelvjr1eX3AxLKAUbNYUIuZXr682bXDOVTIRyQqG1geV0rmk
+rkc3V/GWC+geogdNu1Y27RKhbkmQmA==
+=VBdU
+-----END PGP SIGNATURE-----
+
+--9Jz4o80Rm23Rqhve--
