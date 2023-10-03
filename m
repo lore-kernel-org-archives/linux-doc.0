@@ -2,87 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B7AE7AD6E
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 15:28:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F195E7AD72
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 15:29:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231618AbjJCP2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 11:28:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
+        id S239387AbjJCP3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 11:29:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbjJCP2b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 11:28:31 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D20683;
-        Tue,  3 Oct 2023 08:28:29 -0700 (PDT)
+        with ESMTP id S238239AbjJCP3n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 11:29:43 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA03583;
+        Tue,  3 Oct 2023 08:29:39 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B2C0D381;
-        Tue,  3 Oct 2023 15:28:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B2C0D381
+        by ms.lwn.net (Postfix) with ESMTPSA id 584182B4;
+        Tue,  3 Oct 2023 15:29:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 584182B4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696346908; bh=RSy9yvL4W1Cu9T7AF0rbbsqRV+E7dse1w3wvltkALnE=;
+        t=1696346979; bh=oNUby9XoxXYW+ywghbCQz8OGhrcdvFoA3zgc0D1Xcyc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=OCKiwsmb1dMTalzna5izUhvcHzilXRzbdi5vIzb5ohHPZCUS01Zi73MZi/32CSpO7
-         MYBb0nh8Af8d0oG/MHr1bvybYYw+0Ul/YPsiij3Kdz36onaTBrMcSz2CCVcP77kpAn
-         3RO9h0qtKY49lx09pht44Pq70s2ZavjRt3QU2B+rVHRtpZnR6jDl2TZzgMDCmF7W9o
-         CZ/SPS1mgNCsASH6J03YQKUI3yGXtyC29N9NhrelrHJ1nvtT4JYlny5KZvdxijRkjD
-         gG7Q1iO0b6y/NASjENCXB+vB7QBlru98P15ZcdfOMfbqXMZ1pRpks9tWRRvq+swagT
-         RFFGFvTqJAN0Q==
+        b=lRCUJqTMidwGRV+lkM0cG4LmPCsWS0MIWym7YpiISEskhUvjFR1sbQ35gt3PH+Wo1
+         AsMzAtwpLQLlsgqTzrlcTpTIUv8I40lT+3YaYeplNiO6XH1oXBp/JFg1hs3rZE1rla
+         X5e/ZK+eBO+uAaQYfbjZ0U3QhjJpfRYTUkkaltgJhzaxQHaM2ai90SWKxwyLRi1DL5
+         BRGSAX6N9iPDlH56edUisNgqrAHSvY1p5bPBgck9UP36xL8akde3YO/+H7gXApKwPU
+         uzM2yOKOE1lHf7Z3Ja51jEDR3P3FMgdL6GLSnlrU9HeBt0DuoV6XSwv1JpwUT3ycrX
+         WP4fZVEp3RCHw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Glauber Costa <glommer@openvz.org>
-Subject: Re: [PATCH] docs: admin-guide: sysctl: fix details of struct
- dentry_stat_t
-In-Reply-To: <20230923195144.26043-1-rdunlap@infradead.org>
-References: <20230923195144.26043-1-rdunlap@infradead.org>
-Date:   Tue, 03 Oct 2023 09:28:27 -0600
-Message-ID: <877co3g1yc.fsf@meer.lwn.net>
+To:     Jianlin Li <ljianlin99@gmail.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jianlin Li <ljianlin99@gmail.com>
+Subject: Re: [PATCH] docs: x86: Update spec URL in x86/iommu document
+In-Reply-To: <20230923071344.540894-1-ljianlin99@gmail.com>
+References: <20230923071344.540894-1-ljianlin99@gmail.com>
+Date:   Tue, 03 Oct 2023 09:29:38 -0600
+Message-ID: <8734yrg1wd.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Jianlin Li <ljianlin99@gmail.com> writes:
 
-> Commit c8c0c239d5ab moved struct dentry_stat_t to fs/dcache.c but
-> did not update its location in Documentation, so update that now.
-> Also change each struct member from int to long as done in
-> commit 3942c07ccf98.
+> The previous link to AMD IOMMU spec is no longer available,
+> replace it with the new one.
 >
-> Fixes: c8c0c239d5ab ("fs: move dcache sysctls to its own file")
-> Fixes: 3942c07ccf98 ("fs: bump inode and dentry counters to long")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Glauber Costa <glommer@openvz.org>
+> Signed-off-by: Jianlin Li <ljianlin99@gmail.com>
 > ---
->  Documentation/admin-guide/sysctl/fs.rst |   16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  Documentation/arch/x86/iommu.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff -- a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-> --- a/Documentation/admin-guide/sysctl/fs.rst
-> +++ b/Documentation/admin-guide/sysctl/fs.rst
-> @@ -42,16 +42,16 @@ pre-allocation or re-sizing of any kerne
->  dentry-state
->  ------------
+> diff --git a/Documentation/arch/x86/iommu.rst b/Documentation/arch/x86/iommu.rst
+> index 42c7a6faa39a..41fbadfe2221 100644
+> --- a/Documentation/arch/x86/iommu.rst
+> +++ b/Documentation/arch/x86/iommu.rst
+> @@ -5,7 +5,7 @@ x86 IOMMU Support
+>  The architecture specs can be obtained from the below locations.
 >  
-> -This file shows the values in ``struct dentry_stat``, as defined in
-> -``linux/include/linux/dcache.h``::
-> +This file shows the values in ``struct dentry_stat_t``, as defined in
-> +``fs/dcache.c``::
+>  - Intel: http://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/vt-directed-io-spec.pdf
+> -- AMD: https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+> +- AMD: https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_3_07_PUB.pdf
+
+Sigh...how long until they move it again?
 
 Applied, thanks.
 
