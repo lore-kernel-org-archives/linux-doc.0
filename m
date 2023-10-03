@@ -2,84 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83854E7AD78
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 17:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD762E7AD78
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Oct 2023 17:04:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231601AbjJCRDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Oct 2023 13:03:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39544 "EHLO
+        id S230119AbjJCRFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Oct 2023 13:05:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231150AbjJCRDL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 13:03:11 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDA2AF;
-        Tue,  3 Oct 2023 10:03:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746A5C433C8;
-        Tue,  3 Oct 2023 17:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696352588;
-        bh=2CYnWvtXt90mgRwSHfw8tCk2sH07p2olXVL/VqC8WNE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y1hsbnL4fm7Bv7ZICc/2FMKW/20RphpnHCx/Tn5Ui54gN20adbO2TOvmk+RMmuLzM
-         N9UE1KGku3S8zV1O0OQRdM0Yfunb5tZIAofpsRhc5tJalERLTpKu52j30Nyr9Gnprr
-         RnHTqxyL/ptiiPPIaG3x0z+SZZimAvF0dT+ex/1pR8H+SEcEvDR9Q0FR1XKSCma831
-         lGCFYnhC6w8jeq0IZbWBEqFNQsRcL+d7NZN0cX0WPnBcwh9sxGxXHtCU9Pio9IxQbN
-         ppTPLz1XuHDxdsNzRDcC8LxVmHp1Vlv8jwzjvqoah1sJjyAXPZVdU1AAWS+MIS79PU
-         RE8Vwr9POl5hQ==
-Date:   Tue, 3 Oct 2023 18:03:02 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: Suggest a longer expected time
- for responses
-Message-ID: <68a9bc07-07dc-4e97-ae0e-e0b29c808707@sirena.org.uk>
-References: <20230913-submitting-patches-delay-v1-1-a2d48c5ca205@kernel.org>
- <87y1gjen5d.fsf@meer.lwn.net>
+        with ESMTP id S231601AbjJCRE7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Oct 2023 13:04:59 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B77C6;
+        Tue,  3 Oct 2023 10:04:57 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D52552B4;
+        Tue,  3 Oct 2023 17:04:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D52552B4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1696352697; bh=yfhmtqCCvv97Y2SWhdu1bHhleLPoOqHF30l72GJ9Ltk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=H/05ERPWSImHNqwm9Zq8R0utmS9epf+7PtA/NbNBp4uw/BxS+wjtzIi0PldP1COFh
+         MkFuhIiYlGzA58hMCRpnhYT5MUDBXHantIdnjEiplg+OBqAEsbXvvdgy4czrH+ws4p
+         YLDpwrBc1/Rvx1rEYKMJ56nADEEsKnSW1JZQb/PVzQZEJn3lTRoxWvyLNvAumh3cFm
+         KJyTT8cdpe34bWGRJEi1aah7eQR3VXKs6OV3qlkDqmUP4qyZigGvkn8xXUhGKAiDGP
+         F4fn3Jth6eje/gFxZlir+3YpF5isP2V7b0KhqOw/oxfmagBXBH3RDYsDfqU6Nwr3hO
+         j6nN5q8SIfUbQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Christian =?utf-8?Q?K?= =?utf-8?Q?=C3=B6nig?= 
+        <christian.koening@amd.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
+        Arthur Grillo <arthurgrillo@riseup.net>,
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        David Gow <davidgow@google.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] drm: add documentation for drm_buddy_test kUnit test
+In-Reply-To: <da7e150c65b85b414f2f9790e04442408678877d.1693550658.git.mchehab@kernel.org>
+References: <cover.1693550658.git.mchehab@kernel.org>
+ <da7e150c65b85b414f2f9790e04442408678877d.1693550658.git.mchehab@kernel.org>
+Date:   Tue, 03 Oct 2023 11:04:56 -0600
+Message-ID: <87lecjd4cn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="9Jz4o80Rm23Rqhve"
-Content-Disposition: inline
-In-Reply-To: <87y1gjen5d.fsf@meer.lwn.net>
-X-Cookie: Oh Dad!  We're ALL Devo!
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+One other little thing...
 
---9Jz4o80Rm23Rqhve
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-On Tue, Oct 03, 2023 at 09:33:34AM -0600, Jonathan Corbet wrote:
+> As an example for the new documentation tool, add a documentation
+> for drm_buddy_test.
+>
+> I opted to place this on a completely different directory, in order
+> to make easier to test the feature with:
+>
+> 	$ make SPHINXDIRS=3D"tests" htmldocs
+>
+> Acked-by: Christian K=C3=B6nig <christian.koening@amd.com>
+> Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>  Documentation/index.rst                |  2 +-
+>  Documentation/tests/index.rst          |  6 ++++++
+>  Documentation/tests/kunit.rst          |  5 +++++
+>  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+>  4 files changed, 24 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/tests/index.rst
+>  create mode 100644 Documentation/tests/kunit.rst
+>
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 9dfdc826618c..80a6ce14a61a 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -60,7 +60,7 @@ Various other manuals with useful information for all k=
+ernel developers.
+>     fault-injection/index
+>     livepatch/index
+>     rust/index
+> -
+> +   test/index
 
-> I was hoping to see some more comments on this; it is a fairly
-> significant change in the expectations we put on our reviewers.  Oh
-> well, I've applied it.  I wonder if we should add a note saying to look
-> at the maintainer profile for the subsystem in question for more
-> specific guidance?  Of course, it would be good to have more of those...
+Since you called the directory "tests", this generates a couple of
+warnings in the htmldocs build.
 
-It's the sort of thing that's going to vary quite a lot with things like
-the point in the release cycle as well (as the existing text already
-gestures towards) plus the complexity of the change, I'm not sure that
-setting explicit QoS guarantees is going to work out well.  The list of
-variables gets long and complicated, and the more explicit things are
-the more likely someone is to be disappointed.
+(but, again, I think it should be dev-tools/tests, and perhaps
+referenced from the selftest docs already there)
 
---9Jz4o80Rm23Rqhve
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUcSUYACgkQJNaLcl1U
-h9Ag8gf9HduXLtJgMwI+3EeEQhIZIMvFNRa1kIyisAaAw/T2BBNHnujHGvh6Sp00
-2KQZ4+LiPMvmzzt10YXFTsK5L4E7HqrRIdcoRog8WVdQlQjKOgsMxPHUkP8V2E1l
-mOsC34R5VK8WDGp7BbhUWqWbFoqADUOGRwNs/gULaTap5tSsvHGQOKpqYzL+M/Lk
-iwaG8PQgAZ8urJVuf1aUH6AW4JIKG0s3hDn4PDV63lFMjIHuF0gnrZvJ6QvvUIdz
-0bocxGJkt+T+Smayrelvjr1eX3AxLKAUbNYUIuZXr682bXDOVTIRyQqG1geV0rmk
-rkc3V/GWC+geogdNu1Y27RKhbkmQmA==
-=VBdU
------END PGP SIGNATURE-----
-
---9Jz4o80Rm23Rqhve--
+jon
