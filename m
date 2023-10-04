@@ -2,94 +2,221 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDA6FE7B5EA
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 10:41:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CDC8E7B5ED
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 11:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233052AbjJDKlr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 06:41:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45166 "EHLO
+        id S232814AbjJDLAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 07:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232982AbjJDKlq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 06:41:46 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B1EAC
-        for <linux-doc@vger.kernel.org>; Wed,  4 Oct 2023 03:41:41 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-53636f98538so3451873a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Oct 2023 03:41:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1696416100; x=1697020900; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UzXarj/dIrLAH4tPhBh7BzTA1z+2WH5X+IxGm0B65kk=;
-        b=T/zXgeT6z6FNVR/DpzhL5vkl53Fs6zDhInbzmklFqSVzlqvJtMfbpJRf2yuvOL41/h
-         aV13GoWIPIB/flXQLSBF+2tY6WFfi37t5CBzs4x18OZzR3p19KcKNWaMlvP/6EMeQgwt
-         batpT45rM0YprrV3jvhkBEy3yqsxaKQskMnMnxJtQcEjFxFXdYV761S/7HqioUW9GAC+
-         5oB+Ip46bLQ0Sq8bLVhiwwhRNNtsX+9C28cV5/XsmIc2GRiCARf7mGkEIkLSbxVHTiag
-         FRS+UTYedZGfR1/o4np00II2ah/9LWJqP7cToOxz9Y9mByJ2mFBXpA6i2GJ9l8hJ1Cvq
-         +MFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696416100; x=1697020900;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UzXarj/dIrLAH4tPhBh7BzTA1z+2WH5X+IxGm0B65kk=;
-        b=TUjOK0waqm3i4sjeRQ4BeURpiS4ogwDJMEa8c4TQS8HYZ7RU1iReh4EVTUtOt46du1
-         ds7H0jdvI4DofOaWVrJoCuwmLtNL7G4lBoW8VBLUXn4VxM3JzgjnbpCuKlbhkfWGkkeV
-         Vi7/S+sy9z2oqvROs+k2B2bwq8PsarZepYTWZrB4oKCGpHlvzowSCTRir8kQAyw8d4E8
-         MFgoPRLLRGpJdJ9NWtBHrTn1QNfzLc0vlKQ2tVfphPVbHxJyaT6/8DEk90bxSZSEzMh4
-         7TkPKFwBj/pfcFJWJ0pRoED2zTkXWFzcGq3cj2fIFyw+ESjYCY0Xip46Kxp11CDqyUxE
-         aM/g==
-X-Gm-Message-State: AOJu0YzQibiqqk2tTv4TOa2eTQMwuztzvaLC6jy/N5wFGbH4oGynd6ku
-        8puN1NcHmd52mlcN6WLOOc/a2Q==
-X-Google-Smtp-Source: AGHT+IHLpWQ5S4hZp+7IuOHxp4blL7eubhAEfZYoixgG+l4TPda7KJJaiRndD6JAp2v+zJQCW100Kg==
-X-Received: by 2002:a05:6402:1257:b0:530:c363:449c with SMTP id l23-20020a056402125700b00530c363449cmr1453487edw.40.1696416100316;
-        Wed, 04 Oct 2023 03:41:40 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id g13-20020a50ee0d000000b0051e1660a34esm2227535eds.51.2023.10.04.03.41.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 03:41:39 -0700 (PDT)
-Date:   Wed, 4 Oct 2023 12:41:37 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     netdev@vger.kernel.org, vadim.fedorenko@linux.dev, corbet@lwn.net,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
-        linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org
-Subject: Re: [PATCH net-next v2 2/5] dpll: spec: add support for pin-dpll
- signal phase offset/adjust
-Message-ID: <ZR1BYQuSfdMdDimH@nanopsycho>
-References: <20231004090547.1597844-1-arkadiusz.kubalewski@intel.com>
- <20231004090547.1597844-3-arkadiusz.kubalewski@intel.com>
+        with ESMTP id S233079AbjJDLAJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 07:00:09 -0400
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2087.outbound.protection.outlook.com [40.107.96.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC75A1;
+        Wed,  4 Oct 2023 04:00:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SKw+c04QgXMzDWuOOUuQK3ux2z0cbGFsI+5ClJl4jQjwP/Bv5CWKIm/ZKM3YhxypbTlRhy014PJGFBBoAv+IBaLETno18JjeCEXnlf/PK2yztu8qsX0TXjKCUPxhtRP5pOPzFATlbX1emBpYvFupS/2m9bHJwJWMfGvgJCJtf5GWUTNFvjbVNj5p0j340BP0eVXsZAKUYTCUCcjN66KIgjf/474hZaPdvwyf40gOmm80ha65zGX7qAq9NJByOJR3JXt2qkYI9Jt+jGxYuEHHKMhDFJ1a9DN/Ng9+0Oc3gvrK/ZiMv9zRcNXD/mlTRf76PdMgwMi4bg1IBmNiIG++wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OxBKnL0c6SykYylO1KpdCKzNA5lEjjGexgJ5j8gnrBc=;
+ b=WWwBpBoPKnnJ6DY+i6YyRZ8ED1/g6DQxTeXmXrWSlhpM8pKQ0ELEfelBpzHkcNCk4amVTxK+/SkL1YDcNDFqMFTQqhXYf+KjskXvUsig1dNJVz2PW7V30mCxo2nQf/7ipg4Rdo7RDfdmp1mi0ETbLpW7QuGVtlIs+7KrSTwKnO2MpUTZBoKYRVHlJws0Bb8VNuGyk2OyuPmpMAE7xKHRhccXSR0WMpDyDN1yIqgu0bqJGTgYLXG1zIHt2uqQOl1AIn3IRGcpwhwwvaLFdleE8ejiJ5ruVqvqODNqB9ofjyIKMpFgsq10LXDFVBl8Kn2wYCrxOQS7JghnGKyuYyPmhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OxBKnL0c6SykYylO1KpdCKzNA5lEjjGexgJ5j8gnrBc=;
+ b=kybHn4J0QzouoKBA+Q52jAwmp+M5FKrzvTgm+1MFBvL/HSaF7dHDq/YsP7WJXevTrYGfPwU8HIKHVlZMtom87WH4og4xVieIyJ2+Cxs50XOxbZRH0zY7QZbdbCWU6JWL4aKwQ/5KqwNjGd55dJcjz5daHvr2Jv2bUmhDEKpSYtY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH0PR12MB5346.namprd12.prod.outlook.com (2603:10b6:610:d5::24)
+ by PH7PR12MB9253.namprd12.prod.outlook.com (2603:10b6:510:30d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.35; Wed, 4 Oct
+ 2023 11:00:01 +0000
+Received: from CH0PR12MB5346.namprd12.prod.outlook.com
+ ([fe80::b009:6291:f87a:33b6]) by CH0PR12MB5346.namprd12.prod.outlook.com
+ ([fe80::b009:6291:f87a:33b6%4]) with mapi id 15.20.6838.033; Wed, 4 Oct 2023
+ 11:00:00 +0000
+Message-ID: <0ad21a06-7a64-7d71-16f6-0bded64b6921@amd.com>
+Date:   Wed, 4 Oct 2023 16:29:41 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 1/2] tee: amdtee: use page_alloc_exact() for memory
+ allocations
+Content-Language: en-US
+To:     Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        SivaSangeetha SK <SivaSangeetha.SK@amd.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ross Lagerwall <ross.lagerwall@citrix.com>,
+        Yuntao Wang <ytcoode@gmail.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        op-tee@lists.trustedfirmware.org
+Cc:     Mythri PK <Mythri.Pandeshwarakrishna@amd.com>,
+        Nimesh Easow <Nimesh.Easow@amd.com>
+References: <fe6fd7781d77ea32064e5b861f33150b28768278.1693340098.git.Devaraj.Rangasamy@amd.com>
+From:   Rijo Thomas <Rijo-john.Thomas@amd.com>
+In-Reply-To: <fe6fd7781d77ea32064e5b861f33150b28768278.1693340098.git.Devaraj.Rangasamy@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0012.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:80::11) To CH0PR12MB5346.namprd12.prod.outlook.com
+ (2603:10b6:610:d5::24)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231004090547.1597844-3-arkadiusz.kubalewski@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5346:EE_|PH7PR12MB9253:EE_
+X-MS-Office365-Filtering-Correlation-Id: 786d2901-a809-49c7-fc5e-08dbc4c90dfb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Kjbp1olyHPfospjvHSvRt7vPpXrs1qXCB0F84T/thF2Dfbo7Yzgi88tp2WUJq0zOomHGrMkelC4Wn0fmCFiVfvXiNWOKFK8Weh31/di94ACpLne8HNKRz7/eqWR9gbtv1siJaj3jjRoAzSSfHuPhGnnneIlDZPxK4NgVySlp5tXedXiAZxzpNKd5JSHQ6SvyTZXREp3q5zigBPgMj2tOJqXiDhwVxYfi2IWohLHxmf4K+PSX90QjBwcJUuhoGUSgQz21SKyFQgBYSilZO2oH3a/0OYlJQbVckjwvOuzECJ979TMbqT31XNQCOMhP4HXW6tdFPozo+byblorhsjlmboWNlEa83F/9/BT1nQ+EhjDmcbmOBMh0McQTnnSmBbKB3i0u4tS8BeWli4D0TJhRxAN+mPWfeyMrH7rScsxXDVBvWDrPI+IoIcEeCo+Xdx7ZIcs31N56Esb7CPumJfB1OzQKmLLh8h7esLM63DjVXrM0GphVKirm52cPwq02qMvS9sIZHwvqQEFtjQZxNQb/X3/zyuKvN1vSgXNCc51SGpA/G39rVHG8OccWa2oIOlh7/tnJg84xh7LTPnizB8N37pwd8lbFfaBuUuaxnxuSft0gnjxwOQOTc8jaj1xLhEtXAw6CjnhZUW+23R9TCNqZYZEKGo6dmzBmmIg1DlL2/vE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR12MB5346.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(346002)(396003)(39860400002)(376002)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(38100700002)(6486002)(8676002)(8936002)(4326008)(478600001)(86362001)(6506007)(6512007)(53546011)(6666004)(5660300002)(36756003)(41300700001)(316002)(31696002)(110136005)(54906003)(66556008)(66946007)(66476007)(2906002)(83380400001)(7416002)(31686004)(2616005)(921005)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TUhDRXBtUHpaZlkxVkNFbnRxckNPaGRrZ0trUzJxeDc3clJTOTExbThyUWhI?=
+ =?utf-8?B?WEcybU44a0FmUTQrOHpCOVRMZDJMclR0RTZFQ1l3K3RUcXh6L2hnc2RjM01m?=
+ =?utf-8?B?elNTZzlFY2Q5LzZOVVdHSVdWT3pVTFA5T3VzRyt6MUIvZ2g2UTBuZXpURElp?=
+ =?utf-8?B?STRkTktaaGllcG1kNmd0R0hYYWpGVW5MNzJrd3FiSEhvY0JIV0RzU3JTRjdD?=
+ =?utf-8?B?ZGhLTlJMbHE5OUFXMW9NNUxsZm1BSFg4aFdYN1dQTkZOQVhHNzdEMEF5WU13?=
+ =?utf-8?B?ekZBVGRhWjcwcFBXajg3elUwbVk1OUdqWkd6amdIWjJSWjNQZzBOR0JRYmd5?=
+ =?utf-8?B?b0NsaTdxK1pzSHE4Z082Z0c2QUF5QWVncjM1MUx6NWljaHdvc29hdkUreGpS?=
+ =?utf-8?B?b3NodUxNb3dQM3NaY2JXdURaZ0ZJSWN3K29XRmZhWW9JRU5Sdzd4UEtLT0Ix?=
+ =?utf-8?B?T0ZCWDF5WGs5dUluV2NBTG9adTVENGt0RmpXWWtVM0V1N084Sk1IcUtHcG5t?=
+ =?utf-8?B?RTE4SjdhK2FPSi9yQjNUM3RDSlJQcVZBVXp2RlJFTzNVR2VleWQrNWZ3RWM0?=
+ =?utf-8?B?NzJXalZpWHFia0JPTkxMdDc0WFJnUWZ0NU93dUlDVUh4ajVVYlB0MklEcUwy?=
+ =?utf-8?B?aGxTeXFxazRmQ3lWRmdOOWhsVW1sNjdMeTlOL3ZGbHRZQTU5ZzR4MUxkU1g3?=
+ =?utf-8?B?OGI4Q29VTzV0NkpDRHlZNGZ2QkdhQkxQSVMweFpDV1NTV0JZOHRpcUJlZmJj?=
+ =?utf-8?B?TVBTdExMQUhuSUtWMEtrTXNSZGc0N3krN2lHM0tOUDdnZ3N2cE5saEdMcEpX?=
+ =?utf-8?B?ano2b1B2aENrRVB6Um5aZWI3S1I2b2NibW9uM1R4c1M1TmpvWklaZCs0cVpj?=
+ =?utf-8?B?K1cxSWRCMkpzKzd1bkN4N1ErclQyL3J4ejkzb3U5QUJ6MUxpOFBRZG9KZWE2?=
+ =?utf-8?B?LzQ5T3JVTjlTQldtUWZUR1NJTlV5ZkplNWFTNlJoMkZlWTZmaitVVU5YK3BP?=
+ =?utf-8?B?bkFKVlNnSTI4dDJVQW10b1pXeTV4VzdXS2RZNEJFTm5weWQ3MXRaRm0xZUFD?=
+ =?utf-8?B?dUgzYjNBWUNtRVNFYmU5OE5vWDVoK2hXNjI3WkNSSC9lV3V5cVFqQUFUaGRn?=
+ =?utf-8?B?Mnh0ZklJOWZKQ2dWNkJKdVdzM05qem9aZ01CZUJYNFBjenA3QklzN3pHMUt4?=
+ =?utf-8?B?YjNPWHBRKzhjVFNIZE9uWGY2UkNHQWFzQk8vdUJubnduVFBrNkZZSW1LVFU4?=
+ =?utf-8?B?R25ySnhEa2RxMUdULzdoMXFRcnc2YXEwcmxSN0lRWG9GQk45bmlDSFFSa21G?=
+ =?utf-8?B?bnZPL3RmY2NsRjhCSFNFUi9xbmpiUmE2cFRQMmloRlo4ZXQvei9QSGtEMkJz?=
+ =?utf-8?B?K1FwQVpoWjFMR2d3K29WYXUyVzZpWGh2K1UrcWxRNzN6RXpBejBUVTFWbzVU?=
+ =?utf-8?B?T2QyWmtNWFdVTm5rQnVQTWtJWkx1V01DNkRBUEdzem1keU1odXFkRXlPWjNI?=
+ =?utf-8?B?Yko3OXVxTDFPNjFWaEJraytkYWNBeFp3OEh3cVRBMEsxZExHQjdQcHBUV2Y3?=
+ =?utf-8?B?SkhDNGRKcy8wREJVY09IK3pFbFcyRm5LalE2bktLOExxQ2RCb2lvV3hBeE01?=
+ =?utf-8?B?NG9UTEZSZWFScWVuRVZSNjd4cXJOdXlqVTk4OEhXZ05xUUtNZSt4dlUvM0h4?=
+ =?utf-8?B?allPQU1XbEwyV2I0M0tHK1VlQUt0eStodzFkUDRST09Pd0h4VFpUclM0ZVpn?=
+ =?utf-8?B?c1ZxbzdYMVJwcnp4V2F6MDRTcTFpa3pyL2Yya1R4dW1OTGovSnlzR3EzMEpl?=
+ =?utf-8?B?Y3I0eVMyS2VWQjM5V1lpOU51enA3ODgwQkdNUk1ST2VKeUZORHNkMlBHVDlK?=
+ =?utf-8?B?S2ZnVzk1QURSMUZyTWRwN05jMDhNTHY0ejhHakdUUlVyK201M2xCZlRMUXpH?=
+ =?utf-8?B?TzJqUmN1ZlozVWErdVhva2ZMUW5uK1ZLTmtoT0pSTTVjcjdjYmtkd09kdTFM?=
+ =?utf-8?B?L1pxTTV4Nk83RHR6MHJIS25Cd1pFZXNZRjliSktTamwybUlMZGhpbkFDNk1n?=
+ =?utf-8?B?SnFsdC9PQXNrb2duMGROejhyckdiU0VDRFFkZ3c3M0hiMjdEK3dZWExiR1Ry?=
+ =?utf-8?Q?zT/mNGVuOs9ynj2NicJ5KobUV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 786d2901-a809-49c7-fc5e-08dbc4c90dfb
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5346.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2023 11:00:00.8677
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cd4gwUFSqnEQeV2PtxFfiLY3BrdvnzBRW+iIwZeM15LQVA9GEyKKY51lnzbYV5dsAanpX0WbJG29Lo8QuyuDPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9253
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wed, Oct 04, 2023 at 11:05:44AM CEST, arkadiusz.kubalewski@intel.com wrote:
->Add attributes for providing the user with:
->- measurement of signals phase offset between pin and dpll
->- ability to adjust the phase of pin signal
->
->Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
->---
-> Documentation/netlink/specs/dpll.yaml | 33 ++++++++++++++++++++++++++-
-> drivers/dpll/dpll_nl.c                |  8 ++++---
-> drivers/dpll/dpll_nl.h                |  2 +-
-> include/uapi/linux/dpll.h             |  8 ++++++-
-> 4 files changed, 45 insertions(+), 6 deletions(-)
->
->diff --git a/Documentation/netlink/specs/dpll.yaml b/Documentation/netlink/specs/dpll.yaml
->index 8b86b28b47a6..dc057494101f 100644
->--- a/Documentation/netlink/specs/dpll.yaml
->+++ b/Documentation/netlink/specs/dpll.yaml
->@@ -1,7 +1,7 @@
-> # SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
-> 
-> name: dpll
->-
->+version: 2
 
-Could you reply to my comment about this in V1 please?
+
+On 8/30/2023 1:49 AM, Devaraj Rangasamy wrote:
+> Use page_alloc_exact() to get buffers, instead of
+> get_free_pages(), so as to avoid wastage of memory.
+> Currently get_free_pages() is allocating at next order,
+> while page_alloc_exact() will free the unused pages.
+> 
+> Signed-off-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
+> ---
+>  v2:
+>  * Replaced __get_free_pages() with alloc_pages_exact().
+> 
+
+Reviewed-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
+
+Thanks,
+Rijo
+
+>  drivers/tee/amdtee/shm_pool.c | 18 ++++++++----------
+>  1 file changed, 8 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/tee/amdtee/shm_pool.c b/drivers/tee/amdtee/shm_pool.c
+> index f0303126f199..156e8a6f631f 100644
+> --- a/drivers/tee/amdtee/shm_pool.c
+> +++ b/drivers/tee/amdtee/shm_pool.c
+> @@ -4,6 +4,7 @@
+>   */
+>  
+>  #include <linux/slab.h>
+> +#include <linux/mm.h>
+>  #include <linux/tee_drv.h>
+>  #include <linux/psp.h>
+>  #include "amdtee_private.h"
+> @@ -11,26 +12,23 @@
+>  static int pool_op_alloc(struct tee_shm_pool *pool, struct tee_shm *shm,
+>  			 size_t size, size_t align)
+>  {
+> -	unsigned int order = get_order(size);
+> -	unsigned long va;
+> +	void *va;
+>  	int rc;
+>  
+> -	/*
+> -	 * Ignore alignment since this is already going to be page aligned
+> -	 * and there's no need for any larger alignment.
+> -	 */
+> -	va = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
+> +	size = PAGE_ALIGN(size);
+> +
+> +	va = alloc_pages_exact(size, GFP_KERNEL | __GFP_ZERO);
+>  	if (!va)
+>  		return -ENOMEM;
+>  
+>  	shm->kaddr = (void *)va;
+>  	shm->paddr = __psp_pa((void *)va);
+> -	shm->size = PAGE_SIZE << order;
+> +	shm->size = size;
+>  
+>  	/* Map the allocated memory in to TEE */
+>  	rc = amdtee_map_shmem(shm);
+>  	if (rc) {
+> -		free_pages(va, order);
+> +		free_pages_exact(va, size);
+>  		shm->kaddr = NULL;
+>  		return rc;
+>  	}
+> @@ -42,7 +40,7 @@ static void pool_op_free(struct tee_shm_pool *pool, struct tee_shm *shm)
+>  {
+>  	/* Unmap the shared memory from TEE */
+>  	amdtee_unmap_shmem(shm);
+> -	free_pages((unsigned long)shm->kaddr, get_order(shm->size));
+> +	free_pages_exact(shm->kaddr, shm->size);
+>  	shm->kaddr = NULL;
+>  }
+>  
