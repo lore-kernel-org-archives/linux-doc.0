@@ -2,111 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65E9BE7B5F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 11:50:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 323CAE7B611
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 13:31:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242218AbjJDLu2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 07:50:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34090 "EHLO
+        id S242642AbjJDNbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 09:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbjJDLu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 07:50:27 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021B390;
-        Wed,  4 Oct 2023 04:50:23 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-533d31a8523so3790427a12.1;
-        Wed, 04 Oct 2023 04:50:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696420221; x=1697025021; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sxFN1579U8L5KSgdpnL27QtyaBIzDdnGagI0+P77qY8=;
-        b=k2wi6IpRh/En1tJ4zkWUJIec8VT3cu5hyzL7mrfS/CCEZDUTLfXSEjob1zJQ+5FiMb
-         PTIPl7GsBjCIrki+eJPOMYKvWqFVwdkMouWDpfhxdG4TVdWR+6ReVkQVgEpfI5KOO+7I
-         T+s0qWjHO/joQBSTz/orvVz6/3+vW/K60CgM/LWNcMGmEWl9ilLmSKBdr07d48PkcOqI
-         RRRFj5yRbeyME0cy05RYyw3/o7sZZ0LHfWQKTL99GFqaoFdv9kEj/MNTrEcGUq04vFAd
-         NMjVof3jhbSKhRa6BUNz0656PM93lg7NgyYHmUvDKKWlHIA/pnYyviVowegzoYHUrzwy
-         kNIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696420221; x=1697025021;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sxFN1579U8L5KSgdpnL27QtyaBIzDdnGagI0+P77qY8=;
-        b=UN6ozGoZMNc8h73z14RNiVQ8moR4xbJNJC2+DulAflx05PtbiaclA2DOf9o3U5zgj3
-         yw30sicaIPjhbT9tmEuehdjHzhoirtgtXYqDJ8NKQf/BqenLbnpjNNmnpsU04oB7UWwM
-         5NDBVuFQUbY4HJo0Jh1mFY+JmOYMqMYr3Fqh/4TKIKGYLSvOIRERS+H5nfmAS3+ZAhJT
-         pwbm+aS4Mz1USsLYUAN6T/LrR/EtJo4nfY62ByVVROJ6CGzQ/W+9lZKfTxiYDg7EHJEk
-         cSAuT59pE7i78kIOw/VYI7h/nsH2RYrwSVZHbq9SUaW9AkLadsJiH7/99R9LTY/Q0Bx0
-         17Ng==
-X-Gm-Message-State: AOJu0YzMQzWvQmHcu1sJhXo4CJHfaWq/2QRNityZBT/MAGIIVFs+cgKe
-        ivE8jadEDWCH80/cYOTE9x0yYsKchik=
-X-Google-Smtp-Source: AGHT+IH5apXuLQK1NmVSu/nMv7jihtF+iBMpQpy9TiewttB72QC1moRm3RYe5K2C7tpvO3najOrPFw==
-X-Received: by 2002:aa7:c508:0:b0:534:78a6:36c4 with SMTP id o8-20020aa7c508000000b0053478a636c4mr1867077edq.36.1696420221177;
-        Wed, 04 Oct 2023 04:50:21 -0700 (PDT)
-Received: from gmail.com (1F2EF530.nat.pool.telekom.hu. [31.46.245.48])
-        by smtp.gmail.com with ESMTPSA id g24-20020a056402115800b0053629f43083sm2321095edw.57.2023.10.04.04.50.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 04:50:19 -0700 (PDT)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Wed, 4 Oct 2023 13:50:16 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
+        with ESMTP id S242594AbjJDNbw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 09:31:52 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B111A1;
+        Wed,  4 Oct 2023 06:31:48 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1252D381;
+        Wed,  4 Oct 2023 13:31:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1252D381
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1696426307; bh=sC0LHUI2i/VOkBSihVVbnuIN3LRhiyHfuQI+/ge6LnQ=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=gPerOzCb2TxaxqtLNVmpTmHrfVXfZPgs4plx0KBo4VM5iu9HsCU/GD+XeDa1ZwifI
+         cMK/+tF5afJWcVsp30wR/qQ4S+xX4JUdwBZEHXTX+bTSAmZndhyaEYGuqTt6NKd1u/
+         gLDhgdTdcUToRJLrwQipPLu3/zmDx3FwRYpbVhA4/LGnAM45fkjbmJTTope5LetHfj
+         EbBIU+VJMyITt9JR9pw5Fl+JgY1D8p31zWpzocL4TyyHK1REr2cb6yKKRsOXkWq1AH
+         u3P4l6AiXH4xZpcFcyMArEqQP4U6aHLkUPXrWfAetx/VQ4AAcuQt0hzDfyFsAUlS+w
+         bgsKJhbxbWONQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Michael Ellerman <michael@ellerman.id.au>,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+        Oliver O'Halloran <oohall@gmail.com>,
+        Linas Vepstas <linasvepstas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        "Manoj N. Kumar" <manoj@linux.ibm.com>,
+        "Matthew R. Ochs" <mrochs@linux.ibm.com>,
+        Uma Krishnan <ukrishn@linux.ibm.com>,
+        Qiang Zhao <qiang.zhao@nxp.com>, Li Yang <leoyang.li@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v6 0/4] x86/speculation: Disable IBRS when idle
-Message-ID: <ZR1RePXx6/zZueI8@gmail.com>
-References: <20230727184600.26768-1-longman@redhat.com>
+        Yanteng Si <siyanteng@loongson.cn>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+        Nicholas Miehlbradt <nicholas@linux.ibm.com>,
+        Benjamin Gray <bgray@linux.ibm.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Rohan McLure <rmclure@linux.ibm.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Sathvika Vasireddy <sv@linux.ibm.com>,
+        Laurent Dufour <laurent.dufour@fr.ibm.com>,
+        Nathan Lynch <nathanl@linux.ibm.com>,
+        Brian King <brking@linux.vnet.ibm.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, kvm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH] docs: move powerpc under arch
+In-Reply-To: <46705070-17B2-4BDA-9524-1BB2F7BDBACA@ellerman.id.au>
+References: <169052340516.4355.10339828466636149348@legolas.ozlabs.org>
+ <20230826165737.2101199-1-costa.shul@redhat.com>
+ <87cyxvelnn.fsf@meer.lwn.net>
+ <46705070-17B2-4BDA-9524-1BB2F7BDBACA@ellerman.id.au>
+Date:   Wed, 04 Oct 2023 07:31:46 -0600
+Message-ID: <878r8i4ipp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230727184600.26768-1-longman@redhat.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Michael Ellerman <michael@ellerman.id.au> writes:
 
-* Waiman Long <longman@redhat.com> wrote:
+> On October 4, 2023 3:05:48 AM GMT+11:00, Jonathan Corbet <corbet@lwn.net> wrote:
+>>Costa Shulyupin <costa.shul@redhat.com> writes:
+>>
+>>> and fix all in-tree references.
+>>>
+>>> Architecture-specific documentation is being moved into Documentation/arch/
+>>> as a way of cleaning up the top-level documentation directory and making
+>>> the docs hierarchy more closely match the source hierarchy.
+>>>
+>>> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+>>
+>>So this patch appears to have not been picked up, and to have received
+>>no comments.  I'll happily carry it in docs-next, but it would be nice
+>>to have an ack from the powerpc folks...?
+>
+> I acked it a few months back, and said I assumed you were merging it:
+>
+> https://lore.kernel.org/linuxppc-dev/87bkfwem93.fsf@mail.lhotse/
+>
+> I don't mind who merges it, I figured you merging it would generate fewer conflicts, but I'm happy to take it if you think that would be better.
+>
+> Anyway here's another:
+>
+> Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-> For Intel processors that need to turn on IBRS to protect against
-> Spectre v2 and Retbleed, the IBRS bit in the SPEC_CTRL MSR affects
-> the performance of the whole core even if only one thread is turning
-> it on when running in the kernel. For user space heavy applications,
-> the performance impact of occasionally turning IBRS on during syscalls
-> shouldn't be significant. Unfortunately, that is not the case when the
-> sibling thread is idling in the kernel. In that case, the performance
-> impact can be significant.
-> 
-> When DPDK is running on an isolated CPU thread processing network packets
-> in user space while its sibling thread is idle. The performance of the
-> busy DPDK thread with IBRS on and off in the sibling idle thread are:
-> 
->                                 IBRS on         IBRS off
->                                 -------         --------
->   packets/second:                  7.8M           10.4M
->   avg tsc cycles/packet:         282.26          209.86
-> 
-> This is a 25% performance degradation. The test system is a Intel Xeon
-> 4114 CPU @ 2.20GHz.
+OK, sorry, somehow I missed that.  I'll apply it shortly.
 
-Ok, that's a solid improvement, and the feature has no obvious
-downsides, so I've applied your series to tip:sched/core with a few
-edits here and there.
+Thanks,
 
-Thanks!
-
-	Ingo
+jon
