@@ -2,103 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DFC5E7C4E0
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 16:12:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B8CE7C4E9
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 19:11:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243307AbjJDQM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 12:12:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44842 "EHLO
+        id S245250AbjJDTLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 15:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233125AbjJDQMX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 12:12:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 660B8FC
-        for <linux-doc@vger.kernel.org>; Wed,  4 Oct 2023 09:11:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1696435886;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XiFNZxESte6xiokxDPwUzmpBYy6wkjDyf6f7P3Qz3QU=;
-        b=ch4idYfFdc1ogNK0JbRzZRhPQtV0UOFYl5syEEVgddrPP+JylyjWwg9DeB7do3Ywmt0zN5
-        wtBBekjntciVftDORkjdpw2T+mHnLfe9ol3HBwVcwEseDOH0qHFzorz7d2LZFEokvWauhY
-        E+A0WXpI0jr7Q225/8BM327c20GadFs=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-117-Zq4VPg1SNhu54lA5yoBgFg-1; Wed, 04 Oct 2023 12:11:07 -0400
-X-MC-Unique: Zq4VPg1SNhu54lA5yoBgFg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8E1B3804068;
-        Wed,  4 Oct 2023 16:11:05 +0000 (UTC)
-Received: from [10.22.32.136] (unknown [10.22.32.136])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A52D51004042;
-        Wed,  4 Oct 2023 16:11:04 +0000 (UTC)
-Message-ID: <946e6723-9635-1db1-d636-0a7904c40d40@redhat.com>
-Date:   Wed, 4 Oct 2023 12:11:04 -0400
+        with ESMTP id S245382AbjJDTLE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 15:11:04 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091AC1FFA;
+        Wed,  4 Oct 2023 12:10:09 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 394IaBL3008139;
+        Wed, 4 Oct 2023 19:09:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=I56p0VYzN7IWNopjI2fcWoO2idpM2RTO92wRBOIXaDA=;
+ b=h3AqwleRCwZligPx/m+vZr3DUi+ahENv46k6jE2Oz++ffrv09aassLpPnbjbBzq3xkGF
+ 6oDJ2fCADotzQOd1gVwAeoaARE50clK822yS0JiAu14TOvJlYqsBNUNClcEHWXdoI2pL
+ MwzlR11gFLS4cYNSBqUNjifDURdJ5+WXx8LIQ3s88wSvCxKArSiaSan0ya198+tZfO7Z
+ BOHv4Wq7vBcVBGPvz2shhtfigz/N4OCnE4DLY6ePLIBDfkBexNwF6aN6ugHjJow2WdFY
+ w/rRsBh6Ljn0h0yZsJaf7YfRQaqMNxeTDnbR2OngrKyS/Zmquh7oDGUBg3O/dpYmyQ9M sg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3th8ck114y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 04 Oct 2023 19:09:06 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 394J9590012308
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 4 Oct 2023 19:09:05 GMT
+Received: from [10.111.179.185] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 4 Oct
+ 2023 12:09:04 -0700
+Message-ID: <f08778aa-0e50-40aa-a1be-9cc894b2e219@quicinc.com>
+Date:   Wed, 4 Oct 2023 12:09:02 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v6 0/4] x86/speculation: Disable IBRS when idle
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] tee: amdtee: use page_alloc_exact() for memory
+ allocations
 Content-Language: en-US
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
+To:     Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <20230727184600.26768-1-longman@redhat.com>
- <ZR1RePXx6/zZueI8@gmail.com>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <ZR1RePXx6/zZueI8@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Rijo Thomas <Rijo-john.Thomas@amd.com>,
+        SivaSangeetha SK <SivaSangeetha.SK@amd.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ross Lagerwall <ross.lagerwall@citrix.com>,
+        Yuntao Wang <ytcoode@gmail.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <op-tee@lists.trustedfirmware.org>
+CC:     Mythri PK <Mythri.Pandeshwarakrishna@amd.com>,
+        Nimesh Easow <Nimesh.Easow@amd.com>
+References: <fe6fd7781d77ea32064e5b861f33150b28768278.1693340098.git.Devaraj.Rangasamy@amd.com>
+From:   Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <fe6fd7781d77ea32064e5b861f33150b28768278.1693340098.git.Devaraj.Rangasamy@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: RCdCaBI3qUQfLKdPrsNEANnaxeQopRjk
+X-Proofpoint-ORIG-GUID: RCdCaBI3qUQfLKdPrsNEANnaxeQopRjk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-04_10,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ priorityscore=1501 mlxscore=0 impostorscore=0 malwarescore=0
+ mlxlogscore=690 adultscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
+ suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2309180000 definitions=main-2310040140
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/4/23 07:50, Ingo Molnar wrote:
-> * Waiman Long <longman@redhat.com> wrote:
->
->> For Intel processors that need to turn on IBRS to protect against
->> Spectre v2 and Retbleed, the IBRS bit in the SPEC_CTRL MSR affects
->> the performance of the whole core even if only one thread is turning
->> it on when running in the kernel. For user space heavy applications,
->> the performance impact of occasionally turning IBRS on during syscalls
->> shouldn't be significant. Unfortunately, that is not the case when the
->> sibling thread is idling in the kernel. In that case, the performance
->> impact can be significant.
->>
->> When DPDK is running on an isolated CPU thread processing network packets
->> in user space while its sibling thread is idle. The performance of the
->> busy DPDK thread with IBRS on and off in the sibling idle thread are:
->>
->>                                  IBRS on         IBRS off
->>                                  -------         --------
->>    packets/second:                  7.8M           10.4M
->>    avg tsc cycles/packet:         282.26          209.86
->>
->> This is a 25% performance degradation. The test system is a Intel Xeon
->> 4114 CPU @ 2.20GHz.
-> Ok, that's a solid improvement, and the feature has no obvious
-> downsides, so I've applied your series to tip:sched/core with a few
-> edits here and there.
+On 8/29/2023 1:19 PM, Devaraj Rangasamy wrote:> Use page_alloc_exact() 
+to get buffers, instead of
+> get_free_pages(), so as to avoid wastage of memory.
+> Currently get_free_pages() is allocating at next order,
+> while page_alloc_exact() will free the unused pages.
 
-Thanks!
-
--Longman
+s/page_alloc_exact()/alloc_pages_exact()/ everywhere including subject 
+to match the actual code change?
 
