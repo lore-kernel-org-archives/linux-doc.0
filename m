@@ -2,197 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C61DE7C4CB
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 15:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E56E7C4D0
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 15:15:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233695AbjJDPAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 11:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40644 "EHLO
+        id S243137AbjJDPPr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 11:15:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242870AbjJDPAL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 11:00:11 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460C4E5;
-        Wed,  4 Oct 2023 08:00:07 -0700 (PDT)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 394Eki7Y026565;
-        Wed, 4 Oct 2023 14:59:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=qQgILTW2wTzA1iiqVeB/cfzJOWsEmS8TF5Uj8zbtSv4=;
- b=OWyqYP7vdJZEe5WoSP5FIV1mnGYHd/A6mj0IgDmJj5RD2XJzxMNnaSx2RG0/OFtRFOpX
- ffMwZ/+4wdlHlUlacNT8FJ6xEr12ZX9nfh3R2WP2PnHB0565aQWPv02T0Ce90FpZSk9I
- EzAOfKZ1DYef/El/OzhtlyRj87LVLzmTT7HayipYQb3De9YFkfjMCOWq1ckdQuk83znS
- 6Fk0BaUEjordY9Uxn63jmenLBnCdmS8cecwJfwP95Xze3znNcJQM+RhJ/8dpxzPN114e
- 1hfSj0RYvJHg+2+3Ef8psR5RBmciWe3JzpD86RpjO/62EgxhXHaaUFoNmk28fZg6EjXk wA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3th9ax237j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 04 Oct 2023 14:59:46 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 394Em5xB031415;
-        Wed, 4 Oct 2023 14:59:46 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3th9ax236b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 04 Oct 2023 14:59:45 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-        by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 394EfnRH017637;
-        Wed, 4 Oct 2023 14:59:44 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-        by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tey0nebe4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 04 Oct 2023 14:59:44 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-        by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 394ExhNV3146480
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 4 Oct 2023 14:59:43 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8047C58060;
-        Wed,  4 Oct 2023 14:59:43 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E69BE5803F;
-        Wed,  4 Oct 2023 14:59:35 +0000 (GMT)
-Received: from [9.179.14.141] (unknown [9.179.14.141])
-        by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-        Wed,  4 Oct 2023 14:59:35 +0000 (GMT)
-Message-ID: <03cfbe39-da81-408e-6e61-3a1af6fabcac@linux.vnet.ibm.com>
-Date:   Wed, 4 Oct 2023 20:29:33 +0530
+        with ESMTP id S243139AbjJDPPr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 11:15:47 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BD3193
+        for <linux-doc@vger.kernel.org>; Wed,  4 Oct 2023 08:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696432543; x=1727968543;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=sHFHQfzYuB5Gq6ojcuSaxd9IGHWW0LYF8tdxY8NMiJ4=;
+  b=g69NraFgrPZm6bitw4706rCDiAMGGh3c8WhZMnpnfxTpAq/zyrXnBGbt
+   DTw5DiSSgil27LrD+hUKXIF/0MtPfHn4+PFopOfdK9dW2pA9Zd13Dv3jc
+   RRzBfjvJvRv4cf3upIXI5+nKlKAQrLqADEtgYA+iFOHljO1zVMd2ta/9c
+   +y9SmjXX2feNZsEhP4c80uGBgVp/by3Y9DZbMp5rG8KXXo5REUb/Hj1ih
+   7j4N2Qin9KIxErLIYLv24wNfPILZVfmJRviS8QytaaQbH5kMVR7BG5oMA
+   5PouAvSE16OwmlaDa7ScPXnWeynoR74okK8YBKfFwAXGDTa/fvAkslXEs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383100607"
+X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; 
+   d="scan'208";a="383100607"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 08:15:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="841905702"
+X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; 
+   d="scan'208";a="841905702"
+Received: from msterni-mobl.ger.corp.intel.com (HELO localhost) ([10.252.56.48])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 08:15:05 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] doc: Always check kernel-doc
+In-Reply-To: <87bkdf5z5w.fsf@meer.lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230817144142.903553-1-willy@infradead.org>
+ <87bkdf5z5w.fsf@meer.lwn.net>
+Date:   Wed, 04 Oct 2023 18:15:03 +0300
+Message-ID: <87lecie7wo.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v5 2/2] sched/topology: change behaviour of sysctl
- sched_energy_aware based on the platform
-Content-Language: en-US
-To:     Valentin Schneider <vschneid@redhat.com>
-Cc:     dietmar.eggemann@arm.com, linux-kernel@vger.kernel.org,
-        ionela.voinescu@arm.com, qperret@google.com,
-        srikar@linux.vnet.ibm.com, mgorman@techsingularity.net,
-        mingo@kernel.org, pierre.gondois@arm.com, yu.c.chen@intel.com,
-        tim.c.chen@linux.intel.com, pauld@redhat.com, lukasz.luba@arm.com,
-        linux-doc@vger.kernel.org, bsegall@google.com, linux-eng@arm.com,
-        mingo@redhat.com, peterz@infradead.org, vincent.guittot@linaro.org
-References: <20230929155209.667764-1-sshegde@linux.vnet.ibm.com>
- <20230929155209.667764-3-sshegde@linux.vnet.ibm.com>
- <xhsmhttr6oceh.mognet@vschneid.remote.csb>
-From:   Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
-In-Reply-To: <xhsmhttr6oceh.mognet@vschneid.remote.csb>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YpnK0TJkTEwoCjujP6_EQ1jbEFFaNC5j
-X-Proofpoint-ORIG-GUID: RFke6C4QVFPZNT9PZqyM3qeDzzEr9Uq9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-04_07,2023-10-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2310040105
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 10/4/23 4:57 PM, Valentin Schneider wrote:
-> On 29/09/23 21:22, Shrikanth Hegde wrote:
-
-Hi Valentin, Thanks for taking a look at this patchset.
-
->> +static bool sched_is_eas_possible(const struct cpumask *cpu_mask)
->> +{
->> +	bool any_asym_capacity = false;
->> +	struct cpufreq_policy *policy;
->> +	struct cpufreq_governor *gov;
->> +	int i;
->> +
->> +	/* EAS is enabled for asymmetric CPU capacity topologies. */
->> +	for_each_cpu(i, cpu_mask) {
->> +		if (per_cpu(sd_asym_cpucapacity, i)) {
-> 
-> Lockdep should complain here in the sysctl path - this is an RCU-protected
-> pointer.
-> 
-> rcu_access_pointer() should do since you're not dereferencing the pointer.
-
-Yes. I did miss to catch that since mostly copied the snippets from build_perf_domains.
- 
-> 
->> +			any_asym_capacity = true;
->> +			break;
->> +		}
->> +	}
-> 
->> @@ -231,6 +295,15 @@ static int sched_energy_aware_handler(struct ctl_table *table, int write,
->>               return -EPERM;
+On Tue, 03 Oct 2023, Jonathan Corbet <corbet@lwn.net> wrote:
+> "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
+>
+>> kernel-doc checks were initially enabled only for builds which had extra
+>> warnings enabled.  We have now eliminated enough kernel-doc warnings that
+>> we can enable kernel-doc checking by default.  This comes at a slight
+>> cost; for an allmodconfig build, make -j8 fs/ timings on my laptop
+>> increase by less than 5%:
 >>
->>       ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-> 
-> Shouldn't this happen after we check sched_is_eas_possible()? Otherwise
-> AFAICT a write can actually happen despite !sched_is_eas_possible().
+>> before real     4m7.456s        4m4.416s        4m6.663s
+>> after real      4m18.960s       4m21.566s       4m23.234s
+>> before user     29m35.370s      29m11.036s      29m30.092s
+>> after user      30m55.602s      31m10.918s      31m20.311s
+>> before sys      2m8.230s        2m6.392s        2m9.727s
+>> after sys       2m19.896        2m23.422s       2m25.762s
+>>
+>> This feels like a reasonable price to pay to force people to keep
+>> documentation up to date.
+>>
+>> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+>> Reviewed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>> ---
+>>  scripts/Makefile.build | 4 +---
+>>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> So I finally got around to actually giving this a try ...
+>
+> It adds 1,095 warnings to an allmodconfig build here.  If I merge that,
+> I suspect that next thing that happens will be One Of Those Emails from
+> Linus... and perhaps from others as well.
+>
+> If we had a series that drove the number to zero prior to this change,
+> it would be a different story.  I'm kind of thrashing and don't think I
+> can do that in the near future, as nice as it would be.  I suspect
+> there's not a lot of other folks just waiting for a chance to do this
+> either.
+>
+> As nice as it would be to have this, I don't think it would survive to a
+> mainline release if I tried to push it now.  But maybe others disagree?
 
-Yes. That's right. Will change that.
+I'll leave that decision up to the people who have to face the music.
 
-> 
->> +	if (!sched_is_eas_possible(cpu_active_mask)) {
->> +		if (write) {
->> +			return -EOPNOTSUPP;
->> +		} else {
->> +			*lenp = 0;
->> +			return 0;
->> +		}
->> +	}
-> 
-> But now this is making me wonder, why not bite the bullet and store
-> somewhere whether we ever managed to enable EAS? Something like so?
-> (I didn't bother making this yet another static key given this is not a hot
-> path at all)
+But an alternative would be to add more warning levels to kernel-doc,
+put the most verbose messages from the allmodconfig run behind some
+-Wall knob, always run kernel-doc without that, and make W=1 run with
+-Wall. It would be an iterative path forward.
 
-IIUC, Problem with this is, a platform which can do EAS now, may not be able to do EAS 
-sometime later. 
-for example, frequency governor is changed from performance to 
-schedutil, EAS can be enabled and sched_energy_once will be set, but later it can be 
-set to performance again. In that case saying it is EAS capable is wrong. 
+Now Someone(tm) just needs to implement that. ;)
 
-> ---
-> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-> index e0b9920e7e3e4..abd950f434206 100644
-> --- a/kernel/sched/topology.c
-> +++ b/kernel/sched/topology.c
-> @@ -209,6 +209,7 @@ sd_parent_degenerate(struct sched_domain *sd, struct sched_domain *parent)
->  #if defined(CONFIG_ENERGY_MODEL) && defined(CONFIG_CPU_FREQ_GOV_SCHEDUTIL)
->  DEFINE_STATIC_KEY_FALSE(sched_energy_present);
->  static unsigned int sysctl_sched_energy_aware = 1;
-> +static bool __read_mostly sched_energy_once;
->  static DEFINE_MUTEX(sched_energy_mutex);
->  static bool sched_energy_update;
-> 
-> @@ -230,6 +231,15 @@ static int sched_energy_aware_handler(struct ctl_table *table, int write,
->  	if (write && !capable(CAP_SYS_ADMIN))
->  		return -EPERM;
-> 
-> +	if (!sched_energy_once) {
-> +		if (write) {
-> +			return -EOPNOTSUPP;
-> +		} else {
-> +			*lenp = 0;
-> +			return 0;
-> +		}
-> +	}
-> +
->  	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
->  	if (!ret && write) {
->  		state = static_branch_unlikely(&sched_energy_present);
-> @@ -340,6 +350,8 @@ static void sched_energy_set(bool has_eas)
->  		if (sched_debug())
->  			pr_info("%s: starting EAS\n", __func__);
->  		static_branch_enable_cpuslocked(&sched_energy_present);
-> +		// Record that we managed to enable EAS at least once
-> +		sched_energy_once = true;
->  	}
->  }
-> 
-> 
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
