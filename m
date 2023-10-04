@@ -2,854 +2,251 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC33E7C4FA
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 22:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B950CE936EB
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 22:36:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232592AbjJDWKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 18:10:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36250 "EHLO
+        id S233587AbjJDWgn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 18:36:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232276AbjJDWJ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 18:09:56 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DA401D8;
-        Wed,  4 Oct 2023 15:09:50 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 3F86A20B74C4; Wed,  4 Oct 2023 15:09:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3F86A20B74C4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1696457390;
-        bh=lhXR0ch0tKCjw7RJS4YUEV2H1gHFyEUZBLJkufmbD2Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hJkr+8ZZRXGS1wZpNyWP9uEBf5UJg2mOgcdRIy1NjYzl2sUfP+fX0YhqnKeS/NnzY
-         688o/IDMpbLMdDDHDKYZmmTTDgggHZBKyTwpEd2q2rANd4Ueu2XcETAJCoDsLqtLPP
-         yVLBxE3XwMDJSVOYWIMMO6DZSq4KSuyThK8Oeq3Q=
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, paul@paul-moore.com
-Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Fan Wu <wufan@linux.microsoft.com>
-Subject: [RFC PATCH v11 02/19] ipe: add policy parser
-Date:   Wed,  4 Oct 2023 15:09:29 -0700
-Message-Id: <1696457386-3010-3-git-send-email-wufan@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1696457386-3010-1-git-send-email-wufan@linux.microsoft.com>
-References: <1696457386-3010-1-git-send-email-wufan@linux.microsoft.com>
+        with ESMTP id S229916AbjJDWgn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 18:36:43 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB18BC6
+        for <linux-doc@vger.kernel.org>; Wed,  4 Oct 2023 15:36:38 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-327be5fe4beso340750f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Oct 2023 15:36:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google; t=1696458997; x=1697063797; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MoFsOouNLsiRSc0IkOSoU7t8c12ZxAQ0uDmkn8wVHwA=;
+        b=Vz/Hwh4DDw+n+mCcBSIIWR6ZKjPTN1fvrLUAiH4cUudr4XlhQugAj9v+GwmYvBP6xJ
+         /AGGRCYiCK81b9pXCHuMDNp/+PlT88xH+nbxOwsQwesmgnyF2ON4SaxAG6S5bJc8BO4C
+         +RA7vaA/TlQGi4KZnbw3ESJLA24RoiYZJm6Pj8aTRL22SJPqom/dsuVLRJuQMZy/J/3y
+         +nFNeLihRoiQiDQL1LCK2sPUydPn0hFXfXqpCTr19ZA5Tj5nDQPvqqe1NSzzK+5eq1CH
+         Ppc4YaXJFO6BEiq/oRRLvu+8SdIZ39bWU/Uir/RYD8/H81Br3MPjTNEsMnpjYWRptBfl
+         8igw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696458997; x=1697063797;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MoFsOouNLsiRSc0IkOSoU7t8c12ZxAQ0uDmkn8wVHwA=;
+        b=XAeF7b841jN6gMBC8VsDtVbSBhBk6yFdX6HEfReGwBBfXTe+vxEiPUSqX2KzynmBfh
+         blEZTQ2Xa0HzSfmTjyYX1OV0OOs7sF/nPjtT7X84vE8qXWNjUeS6+OOU5A10bEVUYdR4
+         J+84MxcPKmyMiAc1FolXfBFxdL4H4UT6LIxla1GipQgqO33Is9yJbC2nrOPeaSIGWIQW
+         fvSGUEATmlfdZYN2ezpiyzD1zeGZaXU0JiRhfBe+S1oEUXCftS2vh1X7vncQ5BBnKoGo
+         B7pDmor/0SvFr0AxOrb7jxORXH9fSylGQH1fhmf+5ozxjLAInHcZsy9GIizKFJliFFYz
+         +w2w==
+X-Gm-Message-State: AOJu0Yxbbo5Vx5/s8OEiEXHZ6HHQgY7HzGvg6R2NEYFy7F+yHE0+vsOI
+        J3sMCRg2NxEW8BlKQuYOl8CTOw==
+X-Google-Smtp-Source: AGHT+IEF6vYXonOYIuVynNUE1iYf9OWkMIoM7prxPuwO6ilRIbVTyM0Wz8iWLnlBo/CG8BvCTx+M9A==
+X-Received: by 2002:adf:fac8:0:b0:320:9c8:40af with SMTP id a8-20020adffac8000000b0032009c840afmr2952477wrs.11.1696458997094;
+        Wed, 04 Oct 2023 15:36:37 -0700 (PDT)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id z11-20020a5d4d0b000000b0031ff89af0e4sm181412wrt.99.2023.10.04.15.36.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Oct 2023 15:36:36 -0700 (PDT)
+From:   Dmitry Safonov <dima@arista.com>
+To:     David Ahern <dsahern@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     linux-kernel@vger.kernel.org, Dmitry Safonov <dima@arista.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Bob Gilligan <gilligan@arista.com>,
+        Dan Carpenter <error27@gmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Donald Cassidy <dcassidy@redhat.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Francesco Ruggeri <fruggeri05@gmail.com>,
+        "Gaillardetz, Dominik" <dgaillar@ciena.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ivan Delalande <colona@arista.com>,
+        Leonard Crestez <cdleonard@gmail.com>,
+        "Nassiri, Mohammad" <mnassiri@ciena.com>,
+        Salam Noureddine <noureddine@arista.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        "Tetreault, Francois" <ftetreau@ciena.com>, netdev@vger.kernel.org,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v13 net-next 00/23] net/tcp: Add TCP-AO support
+Date:   Wed,  4 Oct 2023 23:36:04 +0100
+Message-ID: <20231004223629.166300-1-dima@arista.com>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Deven Bowers <deven.desai@linux.microsoft.com>
+Hi,
 
-IPE's interpretation of the what the user trusts is accomplished through
-its policy. IPE's design is to not provide support for a single trust
-provider, but to support multiple providers to enable the end-user to
-choose the best one to seek their needs.
+This is version 13 of TCP-AO support. It addresses Paolo's review
+comments and makes TCP simultaneous open work with AO. In order
+to check TCP-AO + simultaneous open, a new TCP self-connect
+selftest was written (to be sent later with tcp-ao-selftests
+separately).
 
-This requires the policy to be rather flexible and modular so that
-integrity providers, like fs-verity, dm-verity, dm-integrity, or
-some other system, can plug into the policy with minimal code changes.
+There's one Sparse warning introduced by tcp_sigpool_start():
+__cond_acquires() seems to currently being broken. I've described
+the reasoning for it on v9 cover letter. Also, checkpatch.pl warnings
+were addressed, but yet I've left the ones that are more personal
+preferences (i.e. 80 columns limit). Please, ping me if you have
+a strong feeling about one of them.
 
-Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+The following changes since commit 07cf7974a2236a66f989869c301aa0220f33905c:
 
----
-v2:
-  + Split evaluation loop, access control hooks,
-    and evaluation loop from policy parser and userspace
-    interface to pass mailing list character limit
+  Merge tag 'nf-next-23-09-28' of https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next (2023-10-04 14:25:37 -0700)
 
-v3:
-  + Move policy load and activation audit event to 03/12
-  + Fix a potential panic when a policy failed to load.
-  + use pr_warn for a failure to parse instead of an
-    audit record
-  + Remove comments from headers
-  + Add lockdep assertions to ipe_update_active_policy and
-    ipe_activate_policy
-  + Fix up warnings with checkpatch --strict
-  + Use file_ns_capable for CAP_MAC_ADMIN for securityfs
-    nodes.
-  + Use memdup_user instead of kzalloc+simple_write_to_buffer.
-  + Remove strict_parse command line parameter, as it is added
-    by the sysctl command line.
-  + Prefix extern variables with ipe_
+are available in the Git repository at:
 
-v4:
-  + Remove securityfs to reverse-dependency
-  + Add SHA1 reverse dependency.
-  + Add versioning scheme for IPE properties, and associated
-    interface to query the versioning scheme.
-  + Cause a parser to always return an error on unknown syntax.
-  + Remove strict_parse option
-  + Change active_policy interface from sysctl, to securityfs,
-    and change scheme.
+  git@github.com:0x7f454c46/linux.git tcp-ao-v13
 
-v5:
-  + Cause an error if a default action is not defined for each
-    operation.
-  + Minor function renames
+for you to fetch changes up to dfd8d1df4562cd7a3a94a5e813a902f66a312672:
 
-v6:
-  + No changes
+  Documentation/tcp: Add TCP-AO documentation (2023-10-04 23:00:34 +0100)
 
-v7:
-  + Further split parser and userspace interface into two
-    separate commits, for easier review.
-  + Refactor policy parser to make code cleaner via introducing a
-    more modular design, for easier extension of policy, and
-    easier review.
+----------------------------------------------------------------
 
-v8:
-  + remove unnecessary pr_info emission on parser loading
-  + add explicit newline to the pr_err emitted when a parser
-    fails to load.
+And another branch with selftests, that will be sent later separately:
+  git@github.com:0x7f454c46/linux.git tcp-ao-v13-with-selftests
 
-v9:
-  + switch to match table to parse policy
-  + remove quote syntax and KERNEL_READ operation
+Thanks for your time and reviews,
+         Dmitry
 
-v10:
-  + Fix memory leaks in parser
-  + Fix typos and change code styles
+--- Changelog ---
 
-v11:
-  + Fix code style issues
----
- security/ipe/Makefile        |   2 +
- security/ipe/policy.c        | 101 ++++++++
- security/ipe/policy.h        |  83 ++++++
- security/ipe/policy_parser.c | 487 +++++++++++++++++++++++++++++++++++
- security/ipe/policy_parser.h |  11 +
- 5 files changed, 684 insertions(+)
- create mode 100644 security/ipe/policy.c
- create mode 100644 security/ipe/policy.h
- create mode 100644 security/ipe/policy_parser.c
- create mode 100644 security/ipe/policy_parser.h
+Changes from v12:
+- Separate TCP-AO sign from __tcp_transmit_skb() into a separate
+  function for code locality and readability (Paolo)
+- Add TCP-AO self-connect selftest, which by its nature is a selftest
+  for TCP simultaneous open, use different keyids and check tcp repair
+- Fix simultaneous open: take correct ISNs for verification,
+  pre-calculate sending traffic key on SYN-ACK, calculate receiving
+  traffic key before going into TCP_ESTABLISHED
+- Use kfree_sensitive() for hardening purposes
+- Use READ_ONCE() on sk->sk_family when not under socket lock to prevent
+  any possible race with IPV6_ADDRFORM
 
-diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-index f7a80d0f18f8..c09aec4904f2 100644
---- a/security/ipe/Makefile
-+++ b/security/ipe/Makefile
-@@ -7,3 +7,5 @@
- 
- obj-$(CONFIG_SECURITY_IPE) += \
- 	ipe.o \
-+	policy.o \
-+	policy_parser.o \
-diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-new file mode 100644
-index 000000000000..3a529c7950a1
---- /dev/null
-+++ b/security/ipe/policy.c
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+
-+#include <linux/errno.h>
-+#include <linux/verification.h>
-+
-+#include "ipe.h"
-+#include "policy.h"
-+#include "policy_parser.h"
-+
-+/**
-+ * ipe_free_policy - Deallocate a given IPE policy.
-+ * @p: Supplies the policy to free.
-+ *
-+ * Safe to call on IS_ERR/NULL.
-+ */
-+void ipe_free_policy(struct ipe_policy *p)
-+{
-+	if (IS_ERR_OR_NULL(p))
-+		return;
-+
-+	free_parsed_policy(p->parsed);
-+	/*
-+	 * p->text is allocated only when p->pkcs7 is not NULL
-+	 * otherwise it points to the plaintext data inside the pkcs7
-+	 */
-+	if (!p->pkcs7)
-+		kfree(p->text);
-+	kfree(p->pkcs7);
-+	kfree(p);
-+}
-+
-+static int set_pkcs7_data(void *ctx, const void *data, size_t len,
-+			  size_t asn1hdrlen)
-+{
-+	struct ipe_policy *p = ctx;
-+
-+	p->text = (const char *)data;
-+	p->textlen = len;
-+
-+	return 0;
-+}
-+
-+/**
-+ * ipe_new_policy - Allocate and parse an ipe_policy structure.
-+ *
-+ * @text: Supplies a pointer to the plain-text policy to parse.
-+ * @textlen: Supplies the length of @text.
-+ * @pkcs7: Supplies a pointer to a pkcs7-signed IPE policy.
-+ * @pkcs7len: Supplies the length of @pkcs7.
-+ *
-+ * @text/@textlen Should be NULL/0 if @pkcs7/@pkcs7len is set.
-+ *
-+ * Return:
-+ * * !IS_ERR	- Success
-+ * * -EBADMSG	- Policy is invalid
-+ * * -ENOMEM	- Out of memory
-+ */
-+struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
-+				  const char *pkcs7, size_t pkcs7len)
-+{
-+	int rc = 0;
-+	struct ipe_policy *new = NULL;
-+
-+	new = kzalloc(sizeof(*new), GFP_KERNEL);
-+	if (!new)
-+		return ERR_PTR(-ENOMEM);
-+
-+	if (!text) {
-+		new->pkcs7len = pkcs7len;
-+		new->pkcs7 = kmemdup(pkcs7, pkcs7len, GFP_KERNEL);
-+		if (!new->pkcs7) {
-+			rc = -ENOMEM;
-+			goto err;
-+		}
-+
-+		rc = verify_pkcs7_signature(NULL, 0, new->pkcs7, pkcs7len, NULL,
-+					    VERIFYING_UNSPECIFIED_SIGNATURE,
-+					    set_pkcs7_data, new);
-+		if (rc)
-+			goto err;
-+	} else {
-+		new->textlen = textlen;
-+		new->text = kstrdup(text, GFP_KERNEL);
-+		if (!new->text) {
-+			rc = -ENOMEM;
-+			goto err;
-+		}
-+	}
-+
-+	rc = parse_policy(new);
-+	if (rc)
-+		goto err;
-+
-+	return new;
-+err:
-+	ipe_free_policy(new);
-+	return ERR_PTR(rc);
-+}
-diff --git a/security/ipe/policy.h b/security/ipe/policy.h
-new file mode 100644
-index 000000000000..77aa91f2b953
---- /dev/null
-+++ b/security/ipe/policy.h
-@@ -0,0 +1,83 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+#ifndef _IPE_POLICY_H
-+#define _IPE_POLICY_H
-+
-+#include <linux/list.h>
-+#include <linux/types.h>
-+
-+enum ipe_op_type {
-+	IPE_OP_EXEC = 0,
-+	IPE_OP_FIRMWARE,
-+	IPE_OP_KERNEL_MODULE,
-+	IPE_OP_KEXEC_IMAGE,
-+	IPE_OP_KEXEC_INITRAMFS,
-+	IPE_OP_IMA_POLICY,
-+	IPE_OP_IMA_X509,
-+	__IPE_OP_MAX
-+};
-+
-+#define IPE_OP_INVALID __IPE_OP_MAX
-+
-+enum ipe_action_type {
-+	IPE_ACTION_ALLOW = 0,
-+	IPE_ACTION_DENY,
-+	__IPE_ACTION_MAX
-+};
-+
-+#define IPE_ACTION_INVALID __IPE_ACTION_MAX
-+
-+enum ipe_prop_type {
-+	__IPE_PROP_MAX
-+};
-+
-+#define IPE_PROP_INVALID __IPE_PROP_MAX
-+
-+struct ipe_prop {
-+	struct list_head next;
-+	enum ipe_prop_type type;
-+	void *value;
-+};
-+
-+struct ipe_rule {
-+	enum ipe_op_type op;
-+	enum ipe_action_type action;
-+	struct list_head props;
-+	struct list_head next;
-+};
-+
-+struct ipe_op_table {
-+	struct list_head rules;
-+	enum ipe_action_type default_action;
-+};
-+
-+struct ipe_parsed_policy {
-+	const char *name;
-+	struct {
-+		u16 major;
-+		u16 minor;
-+		u16 rev;
-+	} version;
-+
-+	enum ipe_action_type global_default_action;
-+
-+	struct ipe_op_table rules[__IPE_OP_MAX];
-+};
-+
-+struct ipe_policy {
-+	const char *pkcs7;
-+	size_t pkcs7len;
-+
-+	const char *text;
-+	size_t textlen;
-+
-+	struct ipe_parsed_policy *parsed;
-+};
-+
-+struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
-+				  const char *pkcs7, size_t pkcs7len);
-+void ipe_free_policy(struct ipe_policy *pol);
-+
-+#endif /* _IPE_POLICY_H */
-diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
-new file mode 100644
-index 000000000000..c09458bd348d
---- /dev/null
-+++ b/security/ipe/policy_parser.c
-@@ -0,0 +1,487 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/slab.h>
-+#include <linux/parser.h>
-+#include <linux/types.h>
-+
-+#include "policy.h"
-+#include "policy_parser.h"
-+
-+#define START_COMMENT	'#'
-+#define IPE_POLICY_DELIM " \t"
-+#define IPE_LINE_DELIM "\n\r"
-+
-+/**
-+ * new_parsed_policy - Allocate and initialize a parsed policy.
-+ *
-+ * Return:
-+ * * !IS_ERR	- OK
-+ * * -ENOMEM	- Out of memory
-+ */
-+static struct ipe_parsed_policy *new_parsed_policy(void)
-+{
-+	size_t i = 0;
-+	struct ipe_parsed_policy *p = NULL;
-+	struct ipe_op_table *t = NULL;
-+
-+	p = kzalloc(sizeof(*p), GFP_KERNEL);
-+	if (!p)
-+		return ERR_PTR(-ENOMEM);
-+
-+	p->global_default_action = IPE_ACTION_INVALID;
-+
-+	for (i = 0; i < ARRAY_SIZE(p->rules); ++i) {
-+		t = &p->rules[i];
-+
-+		t->default_action = IPE_ACTION_INVALID;
-+		INIT_LIST_HEAD(&t->rules);
-+	}
-+
-+	return p;
-+}
-+
-+/**
-+ * remove_comment - Truncate all chars following START_COMMENT in a string.
-+ *
-+ * @line: Supplies a poilcy line string for preprocessing.
-+ */
-+static void remove_comment(char *line)
-+{
-+	line = strchr(line, START_COMMENT);
-+
-+	if (line)
-+		*line = '\0';
-+}
-+
-+/**
-+ * remove_trailing_spaces - Truncate all trailing spaces in a string.
-+ *
-+ * @line: Supplies a poilcy line string for preprocessing.
-+ *
-+ * Return: The length of truncated string.
-+ */
-+static size_t remove_trailing_spaces(char *line)
-+{
-+	size_t i = 0;
-+
-+	for (i = strlen(line); i > 0 && (line[i - 1] == ' ' || line[i - 1] == '\t'); --i)
-+		;
-+
-+	line[i] = '\0';
-+
-+	return i;
-+}
-+
-+/**
-+ * parse_version - Parse policy version.
-+ * @ver: Supplies a version string to be parsed.
-+ * @p: Supplies the partial parsed policy.
-+ *
-+ * Return:
-+ * * 0	- OK
-+ * * !0	- Standard errno
-+ */
-+static int parse_version(char *ver, struct ipe_parsed_policy *p)
-+{
-+	int rc = 0;
-+	size_t sep_count = 0;
-+	char *token;
-+	u16 *const cv[] = { &p->version.major, &p->version.minor, &p->version.rev };
-+
-+	while ((token = strsep(&ver, ".")) != NULL) {
-+		/* prevent overflow */
-+		if (sep_count >= ARRAY_SIZE(cv))
-+			return -EBADMSG;
-+
-+		rc = kstrtou16(token, 10, cv[sep_count]);
-+		if (rc)
-+			return rc;
-+
-+		++sep_count;
-+	}
-+
-+	/* prevent underflow */
-+	if (sep_count != ARRAY_SIZE(cv))
-+		rc = -EBADMSG;
-+
-+	return rc;
-+}
-+
-+enum header_opt {
-+	IPE_HEADER_POLICY_NAME = 0,
-+	IPE_HEADER_POLICY_VERSION,
-+	__IPE_HEADER_MAX
-+};
-+
-+static const match_table_t header_tokens = {
-+	{IPE_HEADER_POLICY_NAME,	"policy_name=%s"},
-+	{IPE_HEADER_POLICY_VERSION,	"policy_version=%s"},
-+	{__IPE_HEADER_MAX,		NULL}
-+};
-+
-+/**
-+ * parse_header - Parse policy header information.
-+ * @line: Supplies header line to be parsed.
-+ * @p: Supplies the partial parsed policy.
-+ *
-+ * Return:
-+ * * 0	- OK
-+ * * !0	- Standard errno
-+ */
-+static int parse_header(char *line, struct ipe_parsed_policy *p)
-+{
-+	int rc = 0;
-+	char *t, *ver = NULL;
-+	substring_t args[MAX_OPT_ARGS];
-+	size_t idx = 0;
-+
-+	while ((t = strsep(&line, IPE_POLICY_DELIM)) != NULL) {
-+		int token;
-+
-+		if (*t == '\0')
-+			continue;
-+		if (idx >= __IPE_HEADER_MAX) {
-+			rc = -EBADMSG;
-+			goto out;
-+		}
-+
-+		token = match_token(t, header_tokens, args);
-+		if (token != idx) {
-+			rc = -EBADMSG;
-+			goto out;
-+		}
-+
-+		switch (token) {
-+		case IPE_HEADER_POLICY_NAME:
-+			p->name = match_strdup(&args[0]);
-+			if (!p->name)
-+				rc = -ENOMEM;
-+			break;
-+		case IPE_HEADER_POLICY_VERSION:
-+			ver = match_strdup(&args[0]);
-+			if (!ver) {
-+				rc = -ENOMEM;
-+				break;
-+			}
-+			rc = parse_version(ver, p);
-+			break;
-+		default:
-+			rc = -EBADMSG;
-+		}
-+		if (rc)
-+			goto out;
-+		++idx;
-+	}
-+
-+	if (idx != __IPE_HEADER_MAX) {
-+		rc = -EBADMSG;
-+		goto out;
-+	}
-+
-+out:
-+	kfree(ver);
-+	return rc;
-+}
-+
-+/**
-+ * token_default - Determine if the given token is "DEFAULT".
-+ * @token: Supplies the token string to be compared.
-+ *
-+ * Return:
-+ * * 0	- The token is not "DEFAULT"
-+ * * !0	- The token is "DEFAULT"
-+ */
-+static bool token_default(char *token)
-+{
-+	return !strcmp(token, "DEFAULT");
-+}
-+
-+/**
-+ * free_rule - Free the supplied ipe_rule struct.
-+ * @r: Supplies the ipe_rule struct to be freed.
-+ *
-+ * Free a ipe_rule struct @r. Note @r must be removed from any lists before
-+ * calling this function.
-+ */
-+static void free_rule(struct ipe_rule *r)
-+{
-+	struct ipe_prop *p, *t;
-+
-+	if (IS_ERR_OR_NULL(r))
-+		return;
-+
-+	list_for_each_entry_safe(p, t, &r->props, next) {
-+		list_del(&p->next);
-+		kfree(p);
-+	}
-+
-+	kfree(r);
-+}
-+
-+static const match_table_t operation_tokens = {
-+	{IPE_OP_EXEC,			"op=EXECUTE"},
-+	{IPE_OP_FIRMWARE,		"op=FIRMWARE"},
-+	{IPE_OP_KERNEL_MODULE,	"op=KMODULE"},
-+	{IPE_OP_KEXEC_IMAGE,		"op=KEXEC_IMAGE"},
-+	{IPE_OP_KEXEC_INITRAMFS,	"op=KEXEC_INITRAMFS"},
-+	{IPE_OP_IMA_POLICY,		"op=IMA_POLICY"},
-+	{IPE_OP_IMA_X509,		"op=IMA_X509_CERT"},
-+	{IPE_OP_INVALID,		NULL}
-+};
-+
-+/**
-+ * parse_operation - Parse the operation type given a token string.
-+ * @t: Supplies the token string to be parsed.
-+ *
-+ * Return: The parsed operation type.
-+ */
-+static enum ipe_op_type parse_operation(char *t)
-+{
-+	substring_t args[MAX_OPT_ARGS];
-+
-+	return match_token(t, operation_tokens, args);
-+}
-+
-+static const match_table_t action_tokens = {
-+	{IPE_ACTION_ALLOW,	"action=ALLOW"},
-+	{IPE_ACTION_DENY,	"action=DENY"},
-+	{IPE_ACTION_INVALID,	NULL}
-+};
-+
-+/**
-+ * parse_action - Parse the action type given a token string.
-+ * @t: Supplies the token string to be parsed.
-+ *
-+ * Return: The parsed action type.
-+ */
-+static enum ipe_action_type parse_action(char *t)
-+{
-+	substring_t args[MAX_OPT_ARGS];
-+
-+	return match_token(t, action_tokens, args);
-+}
-+
-+/**
-+ * parse_property - Parse the property type given a token string.
-+ * @t: Supplies the token string to be parsed.
-+ * @r: Supplies the ipe_rule the parsed property will be associated with.
-+ *
-+ * Return:
-+ * * !IS_ERR	- OK
-+ * * -ENOMEM	- Out of memory
-+ * * -EBADMSG	- The supplied token cannot be parsed
-+ */
-+static int parse_property(char *t, struct ipe_rule *r)
-+{
-+	return -EBADMSG;
-+}
-+
-+/**
-+ * parse_rule - parse a policy rule line.
-+ * @line: Supplies rule line to be parsed.
-+ * @p: Supplies the partial parsed policy.
-+ *
-+ * Return:
-+ * * !IS_ERR	- OK
-+ * * -ENOMEM	- Out of memory
-+ * * -EBADMSG	- Policy syntax error
-+ */
-+static int parse_rule(char *line, struct ipe_parsed_policy *p)
-+{
-+	int rc = 0;
-+	bool first_token = true, is_default_rule = false;
-+	bool op_parsed = false;
-+	enum ipe_op_type op = IPE_OP_INVALID;
-+	enum ipe_action_type action = IPE_ACTION_INVALID;
-+	struct ipe_rule *r = NULL;
-+	char *t;
-+
-+	r = kzalloc(sizeof(*r), GFP_KERNEL);
-+	if (!r)
-+		return -ENOMEM;
-+
-+	INIT_LIST_HEAD(&r->next);
-+	INIT_LIST_HEAD(&r->props);
-+
-+	while (t = strsep(&line, IPE_POLICY_DELIM), line) {
-+		if (*t == '\0')
-+			continue;
-+		if (first_token && token_default(t)) {
-+			is_default_rule = true;
-+		} else {
-+			if (!op_parsed) {
-+				op = parse_operation(t);
-+				if (op == IPE_OP_INVALID)
-+					rc = -EBADMSG;
-+				else
-+					op_parsed = true;
-+			} else {
-+				rc = parse_property(t, r);
-+			}
-+		}
-+
-+		if (rc)
-+			goto err;
-+		first_token = false;
-+	}
-+
-+	action = parse_action(t);
-+	if (action == IPE_ACTION_INVALID) {
-+		rc = -EBADMSG;
-+		goto err;
-+	}
-+
-+	if (is_default_rule) {
-+		if (!list_empty(&r->props)) {
-+			rc = -EBADMSG;
-+		} else if (op == IPE_OP_INVALID) {
-+			if (p->global_default_action != IPE_ACTION_INVALID)
-+				rc = -EBADMSG;
-+			else
-+				p->global_default_action = action;
-+		} else {
-+			if (p->rules[op].default_action != IPE_ACTION_INVALID)
-+				rc = -EBADMSG;
-+			else
-+				p->rules[op].default_action = action;
-+		}
-+	} else if (op != IPE_OP_INVALID && action != IPE_ACTION_INVALID) {
-+		r->op = op;
-+		r->action = action;
-+	} else {
-+		rc = -EBADMSG;
-+	}
-+
-+	if (rc)
-+		goto err;
-+	if (!is_default_rule)
-+		list_add_tail(&r->next, &p->rules[op].rules);
-+	else
-+		free_rule(r);
-+
-+	return rc;
-+err:
-+	free_rule(r);
-+	return rc;
-+}
-+
-+/**
-+ * free_parsed_policy - free a parsed policy structure.
-+ * @p: Supplies the parsed policy.
-+ */
-+void free_parsed_policy(struct ipe_parsed_policy *p)
-+{
-+	size_t i = 0;
-+	struct ipe_rule *pp, *t;
-+
-+	if (IS_ERR_OR_NULL(p))
-+		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(p->rules); ++i)
-+		list_for_each_entry_safe(pp, t, &p->rules[i].rules, next) {
-+			list_del(&pp->next);
-+			free_rule(pp);
-+		}
-+
-+	kfree(p->name);
-+	kfree(p);
-+}
-+
-+/**
-+ * validate_policy - validate a parsed policy.
-+ * @p: Supplies the fully parsed policy.
-+ *
-+ * Given a policy structure that was just parsed, validate that all
-+ * necessary fields are present, initialized correctly.
-+ *
-+ * A parsed policy can be in an invalid state for use (a default was
-+ * undefined) by just parsing the policy.
-+ *
-+ * Return:
-+ * * 0		- OK
-+ * * -EBADMSG	- Policy is invalid
-+ */
-+static int validate_policy(const struct ipe_parsed_policy *p)
-+{
-+	size_t i = 0;
-+
-+	if (p->global_default_action != IPE_ACTION_INVALID)
-+		return 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(p->rules); ++i) {
-+		if (p->rules[i].default_action == IPE_ACTION_INVALID)
-+			return -EBADMSG;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * parse_policy - Given a string, parse the string into an IPE policy.
-+ * @p: partially filled ipe_policy structure to populate with the result.
-+ *     it must have text and textlen set.
-+ *
-+ * Return:
-+ * * 0		- OK
-+ * * -EBADMSG	- Policy is invalid
-+ * * -ENOMEM	- Out of Memory
-+ */
-+int parse_policy(struct ipe_policy *p)
-+{
-+	int rc = 0;
-+	size_t len;
-+	char *policy = NULL, *dup = NULL;
-+	char *line = NULL;
-+	bool header_parsed = false;
-+	struct ipe_parsed_policy *pp = NULL;
-+
-+	if (!p->textlen)
-+		return -EBADMSG;
-+
-+	policy = kmemdup_nul(p->text, p->textlen, GFP_KERNEL);
-+	if (!policy)
-+		return -ENOMEM;
-+	dup = policy;
-+
-+	pp = new_parsed_policy();
-+	if (IS_ERR(pp)) {
-+		rc = PTR_ERR(pp);
-+		goto out;
-+	}
-+
-+	while ((line = strsep(&policy, IPE_LINE_DELIM)) != NULL) {
-+		remove_comment(line);
-+		len = remove_trailing_spaces(line);
-+		if (!len)
-+			continue;
-+
-+		if (!header_parsed) {
-+			rc = parse_header(line, pp);
-+			if (rc)
-+				goto err;
-+			header_parsed = true;
-+		} else {
-+			rc = parse_rule(line, pp);
-+			if (rc)
-+				goto err;
-+		}
-+	}
-+
-+	if (!header_parsed || validate_policy(pp)) {
-+		rc = -EBADMSG;
-+		goto err;
-+	}
-+
-+	p->parsed = pp;
-+
-+out:
-+	kfree(dup);
-+	return rc;
-+err:
-+	free_parsed_policy(pp);
-+	goto out;
-+}
-diff --git a/security/ipe/policy_parser.h b/security/ipe/policy_parser.h
-new file mode 100644
-index 000000000000..2b744103d06a
---- /dev/null
-+++ b/security/ipe/policy_parser.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+#ifndef _IPE_POLICY_PARSER_H
-+#define _IPE_POLICY_PARSER_H
-+
-+int parse_policy(struct ipe_policy *p);
-+void free_parsed_policy(struct ipe_parsed_policy *p);
-+
-+#endif /* _IPE_POLICY_PARSER_H */
+Version 12: https://lore.kernel.org/all/20230918190027.613430-1-dima@arista.com/T/#u
+
+Changes from v11:
+- Define (struct tcp_key) for tcp-fast path and detect by type what key
+  was used. This also benefits from TCP-MD5/TCP-AO static branches (Eric)
+- Remove sk_gso_disable() from TCP-AO fast-path in __tcp_transmit_skb()
+  (Eric)
+- Don't leak skb on failed kmalloc() in __tcp_transmit_skb() (Eric)
+- skb_dst_drop() is not necessary as kfree_skb() calls it (Eric)
+- Don't dereference tcp_ao_key in net_warn_ratelimited(), outside of
+  rcu_read_lock() (Eric)
+
+Version 11: https://lore.kernel.org/all/20230911210346.301750-1-dima@arista.com/T/#u
+
+Changes from v10:
+- Make seq (u32) in tcp_ao_prepare_reset() and declare the argument
+  in "net/tcp: Add TCP-AO SNE support", where it gets used (Simon)
+- Fix rebase artifact in tcp_v6_reqsk_send_ack(), which adds
+  compile-error on a patch in the middle of series (Simon)
+- Another rebase artifact in tcp_v6_reqsk_send_ack() that makes
+  keyid, requested by peer on ipv6 reqsk ACKs not respected (Simon)
+
+Version 10: https://lore.kernel.org/all/20230815191455.1872316-1-dima@arista.com/T/#u
+
+The pre-v10 changelog is on version 10 cover-letter.
+
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Bob Gilligan <gilligan@arista.com>
+Cc: Dan Carpenter <error27@gmail.com>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: David Laight <David.Laight@aculab.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Dmitry Safonov <0x7f454c46@gmail.com>
+Cc: Donald Cassidy <dcassidy@redhat.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Francesco Ruggeri <fruggeri05@gmail.com>
+Cc: Gaillardetz, Dominik <dgaillar@ciena.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+Cc: Ivan Delalande <colona@arista.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Leonard Crestez <cdleonard@gmail.com>
+Cc: Nassiri, Mohammad <mnassiri@ciena.com>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Salam Noureddine <noureddine@arista.com>
+Cc: Simon Horman <simon.horman@corigine.com>
+Cc: Tetreault, Francois <ftetreau@ciena.com>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Dmitry Safonov (23):
+  net/tcp: Prepare tcp_md5sig_pool for TCP-AO
+  net/tcp: Add TCP-AO config and structures
+  net/tcp: Introduce TCP_AO setsockopt()s
+  net/tcp: Prevent TCP-MD5 with TCP-AO being set
+  net/tcp: Calculate TCP-AO traffic keys
+  net/tcp: Add TCP-AO sign to outgoing packets
+  net/tcp: Add tcp_parse_auth_options()
+  net/tcp: Add AO sign to RST packets
+  net/tcp: Add TCP-AO sign to twsk
+  net/tcp: Wire TCP-AO to request sockets
+  net/tcp: Sign SYN-ACK segments with TCP-AO
+  net/tcp: Verify inbound TCP-AO signed segments
+  net/tcp: Add TCP-AO segments counters
+  net/tcp: Add TCP-AO SNE support
+  net/tcp: Add tcp_hash_fail() ratelimited logs
+  net/tcp: Ignore specific ICMPs for TCP-AO connections
+  net/tcp: Add option for TCP-AO to (not) hash header
+  net/tcp: Add TCP-AO getsockopt()s
+  net/tcp: Allow asynchronous delete for TCP-AO keys (MKTs)
+  net/tcp: Add static_key for TCP-AO
+  net/tcp: Wire up l3index to TCP-AO
+  net/tcp: Add TCP_AO_REPAIR
+  Documentation/tcp: Add TCP-AO documentation
+
+ Documentation/networking/index.rst  |    1 +
+ Documentation/networking/tcp_ao.rst |  434 +++++
+ include/linux/sockptr.h             |   23 +
+ include/linux/tcp.h                 |   30 +-
+ include/net/dropreason-core.h       |   30 +
+ include/net/tcp.h                   |  288 +++-
+ include/net/tcp_ao.h                |  361 ++++
+ include/uapi/linux/snmp.h           |    5 +
+ include/uapi/linux/tcp.h            |  105 ++
+ net/ipv4/Kconfig                    |   17 +
+ net/ipv4/Makefile                   |    2 +
+ net/ipv4/proc.c                     |    5 +
+ net/ipv4/syncookies.c               |    4 +
+ net/ipv4/tcp.c                      |  246 +--
+ net/ipv4/tcp_ao.c                   | 2389 +++++++++++++++++++++++++++
+ net/ipv4/tcp_input.c                |   98 +-
+ net/ipv4/tcp_ipv4.c                 |  363 +++-
+ net/ipv4/tcp_minisocks.c            |   50 +-
+ net/ipv4/tcp_output.c               |  236 ++-
+ net/ipv4/tcp_sigpool.c              |  358 ++++
+ net/ipv6/Makefile                   |    1 +
+ net/ipv6/syncookies.c               |    5 +
+ net/ipv6/tcp_ao.c                   |  168 ++
+ net/ipv6/tcp_ipv6.c                 |  374 +++--
+ 24 files changed, 5158 insertions(+), 435 deletions(-)
+ create mode 100644 Documentation/networking/tcp_ao.rst
+ create mode 100644 include/net/tcp_ao.h
+ create mode 100644 net/ipv4/tcp_ao.c
+ create mode 100644 net/ipv4/tcp_sigpool.c
+ create mode 100644 net/ipv6/tcp_ao.c
+
+
+base-commit: 07cf7974a2236a66f989869c301aa0220f33905c
 -- 
-2.25.1
+2.42.0
 
