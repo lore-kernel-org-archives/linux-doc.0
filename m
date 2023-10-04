@@ -2,453 +2,331 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E5AAE8FDDD
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 09:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22520E8FDDB
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 09:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232862AbjJDJK4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 05:10:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
+        id S232913AbjJDJLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 05:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242007AbjJDJKw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 05:10:52 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E806AD
-        for <linux-doc@vger.kernel.org>; Wed,  4 Oct 2023 02:10:21 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1c5db4925f9so5651735ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Oct 2023 02:10:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1696410621; x=1697015421; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rKJAwIYAUhDqBrrCvu2WwShRLzJ5jUywMV1ELPZIW+U=;
-        b=CR32OaFHCNxRoGwUBrXsm7vvA6J2x+P4jOYlqIA9HbGFW96ZaG4BmYILSqGxvKZPtR
-         e7olA4vGs/H8/EDlPF0VUdGQYwtyV7nMpi/M3t2ONnEvaiw4B4YIomvexPqTUTJMnQgp
-         GPJGlfFHD+5z4UzSLGMWOZ+o3L/hZvZqSmxWfstOhKWnAiLyn5FF4QFxp3GCThUKMn6V
-         wJ1iXnsmtJo9kSwlllGIIu2F+iIKXPkVXgToyGPSPq+E/G22bGCRyCzbku5YwOv6dBGZ
-         zu3AChE12aqttcYhh13jucgqu5rFSRE6eG21a7O9e10tk0ABMjveZn9g8wXJpsjkGCZ9
-         Mp7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696410621; x=1697015421;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rKJAwIYAUhDqBrrCvu2WwShRLzJ5jUywMV1ELPZIW+U=;
-        b=qibNfpSm82cDZo73cjfu3rm3pLakjGKrrFJb/i26BWXf9rRZXLeTrlfssIENDLv/8w
-         NHdTqqr2rflGMn2uInxSGKIyyKM2J3LH/ISm0lzsnRrYzUqY5KqlZ+lbJflTVULBZ/tO
-         5zyTK1fhrCpexM3qzt2RybfuGYVN1Gb403Ugtlaxes7yk0R8wKoP+fQqhi+QAyk+Xxlt
-         O7NFZBLfvM6n7cTVY9e5wdSoJun8NBTYeRvWPyqr/M7dhPKEz7+dro1Z/gHyUpNPtHch
-         W17Bw5RAGVgBC6ydaU9MY/PQSq/63HLYsYUwgl0HfYqXqNwV/wfntPxN9j6KCmMp1337
-         X/JA==
-X-Gm-Message-State: AOJu0YzJTyU9H/+r6Fv1q+I6EJSjf72aiZphi5jFvh/tSdw0T6f/5k7F
-        xL9AjlbgA/SkL9HQxqVk+VhWSA==
-X-Google-Smtp-Source: AGHT+IH+2ztlmD8iaFNKs4yOGEQavd7SBWvqEEZakwnzE699TvF3bs7LYI7CQ0CZ36qHVaEX6KMesw==
-X-Received: by 2002:a17:902:c9c5:b0:1c3:b268:ecba with SMTP id q5-20020a170902c9c500b001c3b268ecbamr5890215pld.18.1696410620906;
-        Wed, 04 Oct 2023 02:10:20 -0700 (PDT)
-Received: from [10.254.225.239] ([139.177.225.225])
-        by smtp.gmail.com with ESMTPSA id p5-20020a170902bd0500b001b9f032bb3dsm3103724pls.3.2023.10.04.02.10.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Oct 2023 02:10:20 -0700 (PDT)
-Message-ID: <58ec7a15-6983-d199-bc1a-6161c3b75e0f@bytedance.com>
-Date:   Wed, 4 Oct 2023 17:10:13 +0800
+        with ESMTP id S241818AbjJDJLU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 05:11:20 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3904CB4;
+        Wed,  4 Oct 2023 02:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696410675; x=1727946675;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Eedc6uwunzox8Y6P05KAg6ccWk2F5YyI+s3GHWO3vas=;
+  b=ZQ/PI70+0BzaoWejnJ/Z+yyYtYWHu81yI9tLDn/ioS3HaVt+2f67eG1I
+   ArGou0x6Q5RbggY4w12QfK+x5eUzQ7A8BDd98Kla0tAJOQ4LD1rUB5Uqk
+   iWtv4sHVZdB64nSZ0Wye0JWvyZAbtfhqXCdQKOz+ITftsIWYrSaTAY2h/
+   aw+OyHp1Jkn8Y4yItRkEVt4/AcngsF3Q0NPCxihMlvxkpw3y9scuD3oRt
+   0Li9mwCZbhyw3CL5q+l2+pdKlWIGaKayB0K5RwvqSHMRSvH2FCJ+AoOKA
+   s9y054phoM0TzTFVRGar/W3szW9V/YcchK/uMHpKhewdSg9dSMD+1aBov
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="449604586"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="449604586"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 02:11:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="925025219"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="925025219"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Oct 2023 02:11:13 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 4 Oct 2023 02:11:13 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 4 Oct 2023 02:11:13 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 4 Oct 2023 02:11:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VvvPrsI2hc22CeFDM3FZf5UjiZAo4NccGxL6IbrdRCEEE01kZTf9lZWNsBcP5+U6z8liuO7pH6m+yItW4riHo/VySSCr2eAbDwnTBu9nbuCOTwH7g3VYPvaK8pWzn4niZ6eli20CDS2Rgn/xvRL9IWVXCv0gfGYIMWwsLKeOORV79B2r/CQ9HT/P0nrVNmZSnRuns8KCXPiugTIpI5mruDt/4LrngGeiCQohjhF3/lTqSQf1D6EvXgoVHGys5W8KgEefOxK0jVH/cdhMLw61yTyi8dlWc8jEk9f8qyRqoCD4bNSbnHRIPkVl/8AUwb5rmoHAsbfjHI58xlls11J32Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZkIyYmnqcw30jV/o1HRMaQLim3O2uskyFvwAqCO+f5k=;
+ b=BfQS7kiE3ovUM7EbKIjD7o8eLSElcdepwJVAbHe4G364wnFE7+6mtscSCfBanpBfcfDmxrXhRIxt9Rs01T+Dhkattv89ubYAM6sjFZYnzSHjIEhcxtSQNPd0KbGsf4ItaJlUKSApqqGqQFQw8DF3O90qdGRD3fabrpGgsxsxuDp0bz/GdZZSFFBcFxE2dBv4TjNQVL+y1oYtEVR5MjLtffZt2br7zp//co9wXUxLeMk93+DyHwLWkkl5/luoHUCcWnNoxpcoDXsJ7FSsb7Sn7lkx847cY9I2E4NXvbhNu7C8c7PJqrj8NOknJ2tWfgEw8irJxJerPouzVBp+lRaqhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
+ SJ1PR11MB6082.namprd11.prod.outlook.com (2603:10b6:a03:48b::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.31; Wed, 4 Oct 2023 09:11:11 +0000
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::4c69:ab61:fea5:5a7f]) by DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::4c69:ab61:fea5:5a7f%3]) with mapi id 15.20.6813.035; Wed, 4 Oct 2023
+ 09:11:11 +0000
+From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To:     Jiri Pirko <jiri@resnulli.us>
+CC:     Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
+Subject: RE: [PATCH net-next 3/4] dpll: netlink/core: add support for pin-dpll
+ signal phase offset/adjust
+Thread-Topic: [PATCH net-next 3/4] dpll: netlink/core: add support for
+ pin-dpll signal phase offset/adjust
+Thread-Index: AQHZ8STYBdXle/Bxd0eyxPCX/7DD6LAu+R+AgAebAaCAAA0FgIAAWKYAgACqnwCAAIO7gIAAMSsAgAEJTNA=
+Date:   Wed, 4 Oct 2023 09:11:11 +0000
+Message-ID: <DM6PR11MB465796999DA139FB1E2BEF4B9BCBA@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20230927092435.1565336-1-arkadiusz.kubalewski@intel.com>
+ <20230927092435.1565336-4-arkadiusz.kubalewski@intel.com>
+ <4018c0b0-b288-ff60-09be-7ded382f4a82@linux.dev>
+ <DM6PR11MB4657AA79C0C44F868499A3129BC5A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <ZRrb87drG7aVrxsT@nanopsycho>
+ <DM6PR11MB4657C61104280788DF49F0E59BC5A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <ZRu1cG2uglhmCdlI@nanopsycho>
+ <DM6PR11MB4657B52BD09700F49799ED8C9BC4A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <ZRxNML855TG7L5To@nanopsycho>
+In-Reply-To: <ZRxNML855TG7L5To@nanopsycho>
+Accept-Language: pl-PL, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|SJ1PR11MB6082:EE_
+x-ms-office365-filtering-correlation-id: 9cc7220b-0605-4403-8e1b-08dbc4b9da74
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: grUr/0EvDdBUQUWwr4i4Bo07t5bOFJ1KEUjcM4a57OBtyW5EFqKFY65Ib5tPJY/Seb6tFgXCCpTlVALco/GcyrGy0rsU8cmyOPwtY1QfQGSghgqUWuS9ZuoVNoZlS9ZhwBUjzt5J/QC5xQ9Wdls2O22EV4z43BBFxXLN6AlGS9ciEnpU6dq7v5sKyEalg1wYJbhpyGIOpPLY3SwMDRCIyzaWHsKzSNtHu3ifGTD5/XzK03YrFYbm0UW91S+Rku9u72M15SmqVKUnpDYtE4GvS9MlLkDTIfCTmCLxtw42i9qKfySrKFcYzltZB6rHXPfdNOraQoWTZkXeClCBiThtpm71CG0jiFVAT0qOAhsxzqQt368nQMC40YRRrXuCoiyI0EsIvuRx4a5XqRjdZ+pBW938tnS2P+5NbzlU7t2WA2tJv9a+IQbWOp+hazJkWUlucUd/ErzHb08p970qXWs2vx+c8KAqvU49maBmXom8/61qN6Xha4oJEPdAeiHtOIxciqsIA7AEXF5Ykn+fPhe9NNIJG6IXtFWh/hL2pLgioUzD4rBhpvih05Iu0rYJryrTSIlrsv0u2op6J9Bg63wJMlxPDQADQk5MJ53DljjOSUOOZMBL7GyLT+4Zctn2noex
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(346002)(396003)(136003)(366004)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(66899024)(38070700005)(82960400001)(33656002)(86362001)(26005)(9686003)(83380400001)(6506007)(7696005)(122000001)(38100700002)(478600001)(71200400001)(2906002)(8936002)(52536014)(8676002)(5660300002)(4326008)(6916009)(41300700001)(54906003)(76116006)(316002)(66476007)(66556008)(66946007)(55016003)(64756008)(66446008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?1AY38sq7rs1f7NqLOiJnbadvIV3w39cTsjnADgXYlfRdfAxIpPRTG1nzPMkN?=
+ =?us-ascii?Q?d1DWbwx65E0O5kItTJ1r6l3ePLrCzrUb+XhItDMStVAWPYY+tefb3BSB7IlN?=
+ =?us-ascii?Q?owbjVpOlg3YY8V1TPxuFJBpEueiODijpbHVoUlkyhqGxBxDvww5iSBBbuOpE?=
+ =?us-ascii?Q?ukZ9K7wAqn6O5oHVpcBjagS+y6ooFh99D0SpgXljomzLexSzf3aesmNz2ykw?=
+ =?us-ascii?Q?uOFeVw34qMmaVqjOHLatuiueVTZyOMvyhg38ratz416Q/uZsbYv/qQqC96TB?=
+ =?us-ascii?Q?dG1QuKmO901LHANEQDobrtJ+/KGQw8SuAo9GjFzOujB+ypwhckd+AWIxuAx5?=
+ =?us-ascii?Q?Czd5l2ULFYFwV7d2xe7stuUxnKyQcU6D9Jy1iV7J72xvek4Knno2tF3PxbvP?=
+ =?us-ascii?Q?BwXejvdEdCD1tTdu/s2+LhuX4HKdG025SN47bfYx+u4T2CGkwPk5YU/NUyRf?=
+ =?us-ascii?Q?bS1LmvVXd/tZiZTu2Gq5KaYw50fi1PBTkXPEZE0XqrnkavBAjMoCyqrLmTbv?=
+ =?us-ascii?Q?OugcuS9yNL8qkJ3XN0O8taSntMlZhj7WgaAQkgd62Dj5x8C8xd1SaIBJ5v7W?=
+ =?us-ascii?Q?wWP2waqdMA5Zun0A4x2ABf9gyXNgcxFUAYacTNEcA2ndZ7r87F9yhYK/1fIu?=
+ =?us-ascii?Q?jeuotn9w2A5LsOKKalufFYpCEeISxltwOxD6MrMjn6elK6CAiIqbpWd5LMcy?=
+ =?us-ascii?Q?RPzVQZVDv7WJsQO/ELfYyUHUrQtioiWmTmZfw4yncj0XqgBYl776SU25xiA2?=
+ =?us-ascii?Q?XzuIpJaQZ5EKtQvz6qUwRRlGSsOpv1ImopppEaij+AXJQRa5Xzr7HjMU2CYA?=
+ =?us-ascii?Q?UtRPcHKiEVYKMhRJTohldSHA4EbjQx8sMj4jzN9nIN1NhB4Mrx4C4aWC/K4G?=
+ =?us-ascii?Q?SvJ0owbWjmCR6p/BoRdDMorou09hITKKbHwFje6a1E8Xq8FGqVuytHpmM4i7?=
+ =?us-ascii?Q?FUt7foxFsk2iOJnBPApRszXSSJccb3YqC6xhFj30c/hJoKhuXU7SGFAyGI36?=
+ =?us-ascii?Q?VYaV3yGN0MoPMA20Y0/bBX+ydHh0YfTehQvEDtDPR7dMpsRTCEDyggs+hVZO?=
+ =?us-ascii?Q?6M6QrjdKO8CALg+jFyd34o/j30Wz5cCQOtJC3j5YtPlT+/uBzSbPBqCGF/ca?=
+ =?us-ascii?Q?A4VwYFqRLS+suKfU21PJ2YKruLWdlHtLuetvbuBQvNUsEqyzj780gMU6Np+K?=
+ =?us-ascii?Q?6qc0b7lUUFMTK610gI8XAsd6rsIjG6Sl2u3ZmyrvYLvCtxEN2yMDX1onXNc6?=
+ =?us-ascii?Q?qNvRen5dkybqos9bdIykH5C+LOaFgurqzZhOVsYHUkZxIaZzYp18FdWBF+mv?=
+ =?us-ascii?Q?0UPdvsYdeZL4Wp4Fv5RhH/XqNvsnzKK53WJ0eskICxCtONm1HsDS3z2mGQHk?=
+ =?us-ascii?Q?9qlmBL4wtQMJB/3rChviYJVLYXusKJ3x3s3CwNk/8s5PGEsG4HZMKA7RDKFe?=
+ =?us-ascii?Q?8SGgf/sh0R5k8PxbAm46SIAgpfjo1aGikq6HdQyJV66znAeTY71QiKzAt5rh?=
+ =?us-ascii?Q?Zac5sF1rF8j6nhuadzh2cqE3r25LRzRsCMSutiz+IYR+/zGNKT6xaZkGsAK/?=
+ =?us-ascii?Q?j6OGW9gAke4ByuqTeuK/NHTaqYx22ntqjHW5qg+Go8dYIgr+r2meSBW1LcZd?=
+ =?us-ascii?Q?bg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.1
-From:   Peng Zhang <zhangpeng.00@bytedance.com>
-Subject: Re: [PATCH v3 9/9] fork: Use __mt_dup() to duplicate maple tree in
- dup_mmap()
-To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, willy@infradead.org,
-        brauner@kernel.org, surenb@google.com, michael.christie@oracle.com,
-        mjguzik@gmail.com, mathieu.desnoyers@efficios.com,
-        npiggin@gmail.com, peterz@infradead.org, oliver.sang@intel.com,
-        maple-tree@lists.infradead.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Peng Zhang <zhangpeng.00@bytedance.com>
-References: <20230925035617.84767-1-zhangpeng.00@bytedance.com>
- <20230925035617.84767-10-zhangpeng.00@bytedance.com>
- <20231003184634.bbb5c5ezkvi6tkdv@revolver>
-In-Reply-To: <20231003184634.bbb5c5ezkvi6tkdv@revolver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cc7220b-0605-4403-8e1b-08dbc4b9da74
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2023 09:11:11.5691
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Jyfqzq7l9shJ+LWlMHEw0MxL3TLfX5xP+gIopcgthDshQMnM0VOrMPGs9n8S/qpT8BAkKpg7T7pYjUVjEajRUe7dORS2kF/TaRih7O9t0ec=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6082
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-在 2023/10/4 02:46, Liam R. Howlett 写道:
-> * Peng Zhang <zhangpeng.00@bytedance.com> [230924 23:58]:
->> In dup_mmap(), using __mt_dup() to duplicate the old maple tree and then
->> directly replacing the entries of VMAs in the new maple tree can result
->> in better performance. __mt_dup() uses DFS pre-order to duplicate the
->> maple tree, so it is very efficient. The average time complexity of
->> duplicating VMAs is reduced from O(n * log(n)) to O(n). The optimization
->> effect is proportional to the number of VMAs.
-> 
-> I am not confident in the big O calculations here.  Although the addition
-> of the tree is reduced, adding a VMA still needs to create the nodes
-> above it - which are a function of n.  How did you get O(n * log(n)) for
-> the existing fork?
-> 
-> I would think your new algorithm is n * log(n/16), while the
-> previous was n * log(n/16) * f(n).  Where f(n) would be something
-> to do with the decision to split/rebalance in bulk insert mode.
-> 
-> It's certainly a better algorithm to duplicate trees, but I don't think
-> it is O(n).  Can you please explain?
-
-The following is a non-professional analysis of the algorithm.
-
-Let's first analyze the average time complexity of the new algorithm, as
-it is relatively easy to analyze. The maximum number of branches for
-internal nodes in a maple tree in allocation mode is 10. However, to
-simplify the analysis, we will not consider this case and assume that
-all nodes have a maximum of 16 branches.
-
-The new algorithm assumes that there is no case where a VMA with the
-VM_DONTCOPY flag is deleted. If such a case exists, this analysis cannot
-be applied.
-
-The operations of the new algorithm consist of three parts:
-
-1. DFS traversal of each node in the source tree
-2. For each node in the source tree, create a copy and construct a new
-    node
-3. Traverse the new tree using mas_find() and replace each element
-
-If there are a total of n elements in the maple tree, we can conclude
-that there are n/16 leaf nodes. Regarding the second-to-last level, we
-can conclude that there are n/16^2 nodes. The total number of nodes in
-the entire tree is given by the sum of n/16 + n/16^2 + n/16^3 + ... + 1.
-This is a geometric progression with a total of log base 16 of n terms.
-According to the formula for the sum of a geometric progression, the sum
-is (n-1)/15. So, this tree has a total of (n-1)/15 nodes and
-(n-1)/15 - 1 edges.
-
-For the operations in the first part of this algorithm, since DFS
-traverses each edge twice, the time complexity would be
-2*((n-1)/15 - 1).
-
-For the second part, each operation involves copying a node and making
-necessary modifications. Therefore, the time complexity is
-16*(n-1)/15.
-
-For the third part, we use mas_find() to traverse and replace each
-element, which is essentially similar to the combination of the first
-and second parts. mas_find() traverses all nodes and within each node,
-it iterates over all elements and performs replacements. The time
-complexity of traversing the nodes is 2*((n-1)/15 - 1), and for all
-nodes, the time complexity of replacing all their elements is
-16*(n-1)/15.
-
-By ignoring all constant factors, each of the three parts of the
-algorithm has a time complexity of O(n). Therefore, this new algorithm
-is O(n).
-
-The exact time complexity of the old algorithm is difficult to analyze.
-I can only provide an upper bound estimation. There are two possible
-scenarios for each insertion:
-
-1. Appending at the end of a node.
-2. Splitting nodes multiple times.
-
-For the first scenario, the individual operation has a time complexity
-of O(1). As for the second scenario, it involves node splitting. The
-challenge lies in determining which insertions trigger splits and how
-many splits occur each time, which is difficult to calculate. In the
-worst-case scenario, each insertion requires splitting the tree's height
-log(n) times. Assuming every insertion is in the worst-case scenario,
-the time complexity would be n*log(n). However, not every insertion
-requires splitting, and the number of splits each time may not
-necessarily be log(n). Therefore, this is an estimation of the upper
-bound.
-> 
+>From: Jiri Pirko <jiri@resnulli.us>
+>Sent: Tuesday, October 3, 2023 7:20 PM
+>To: Kubalewski, Arkadiusz <arkadiusz.kubalewski@intel.com>
+>
+>Tue, Oct 03, 2023 at 04:29:43PM CEST, arkadiusz.kubalewski@intel.com wrote=
+:
+>>>From: Jiri Pirko <jiri@resnulli.us>
+>>>Sent: Tuesday, October 3, 2023 8:32 AM
+>>>
+>>>Tue, Oct 03, 2023 at 01:03:00AM CEST, arkadiusz.kubalewski@intel.com
+>>>wrote:
+>>>>>From: Jiri Pirko <jiri@resnulli.us>
+>>>>>Sent: Monday, October 2, 2023 5:04 PM
+>>>>>
+>>>>>Mon, Oct 02, 2023 at 04:32:30PM CEST, arkadiusz.kubalewski@intel.com
+>>>>>wrote:
+>>>>>>>From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>>>>>>>Sent: Wednesday, September 27, 2023 8:09 PM
+>>>>>>>
+>>>>>>>On 27/09/2023 10:24, Arkadiusz Kubalewski wrote:
+>>>>>>>> Add callback op (get) for pin-dpll phase-offset measurment.
+>>>>>>>> Add callback ops (get/set) for pin signal phase adjustment.
+>>>>>>>> Add min and max phase adjustment values to pin proprties.
+>>>>>>>> Invoke get callbacks when filling up the pin details to provide
+>>>>>>>> user
+>>>>>>>> with phase related attribute values.
+>>>>>>>> Invoke phase-adjust set callback when phase-adjust value is
+>>>>>>>> provided
+>>>>>>>> for
+>>>>>>>> pin-set request.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.co=
+m>
+>>>>>>>
+>>>>>>>[...]
+>>>>>>>
+>>>>>>>> +static int
+>>>>>>>> +dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr
+>>>>>>>> *phase_adj_attr,
+>>>>>>>> +		       struct netlink_ext_ack *extack)
+>>>>>>>> +{
+>>>>>>>> +	struct dpll_pin_ref *ref;
+>>>>>>>> +	unsigned long i;
+>>>>>>>> +	s32 phase_adj;
+>>>>>>>> +	int ret;
+>>>>>>>> +
+>>>>>>>> +	phase_adj =3D nla_get_s32(phase_adj_attr);
+>>>>>>>> +	if (phase_adj > pin->prop->phase_range.max ||
+>>>>>>>> +	    phase_adj < pin->prop->phase_range.min) {
+>>>>>>>> +		NL_SET_ERR_MSG(extack, "phase adjust value not
+>>>>>>>> supported");
+>>>>>>>> +		return -EINVAL;
+>>>>>>>> +	}
+>>>>>>>> +	xa_for_each(&pin->dpll_refs, i, ref) {
+>>>>>>>> +		const struct dpll_pin_ops *ops =3D dpll_pin_ops(ref);
+>>>>>>>> +		struct dpll_device *dpll =3D ref->dpll;
+>>>>>>>> +
+>>>>>>>> +		if (!ops->phase_adjust_set)
+>>>>>>>> +			return -EOPNOTSUPP;
+>>>>>>>
+>>>>>>>I'm thinking about this part. We can potentially have dpll devices
+>>>>>>>with
+>>>>>>>different expectations on phase adjustments, right? And if one of
+>>>>>>>them
+>>>>>>>won't be able to adjust phase (or will fail in the next line), then
+>>>>>>>netlink will return EOPNOTSUPP while _some_ of the devices will be
+>>>>>>>adjusted. Doesn't look great. Can we think about different way to
+>>>>>>>apply
+>>>>>>>the change?
+>>>>>>>
+>>>>>>
+>>>>>>Well makes sense to me.
+>>>>>>
+>>>>>>Does following makes sense as a fix?
+>>>>>>We would call op for all devices which has been provided with the op.
+>>>>>>If device has no op -> add extack error, continue
+>>>>>
+>>>>>Is it real to expect some of the device support this and others don't?
+>>>>>Is it true for ice?
+>>>>>If not, I would got for all-or-nothing here.
+>>>>>
+>>>>
+>>>>Let's step back a bit.
+>>>>The op itself is introduced as per pin-dpll tuple.. did this
+>>>>intentionally,
+>>>>to inform each dpll that the offset has been changed - in case dplls ar=
+e
+>>>>controlled by separated driver/firmware instances but still sharing the
+>>>>pin.
+>>>>Same way a pin frequency is being set, from user perspective on a pin, =
+but
+>>>>callback is called for each dpll the pin was registered with.
+>>>>Whatever we do here, it shall be probably done for frequency_set()
+>>>>callback as
+>>>>well.
+>>>>
+>>>>The answers:
+>>>>So far I don't know the device that might do it this way, it rather
+>>>>supports
+>>>>phase_adjust or not. In theory we allow such behavior to be implemented=
+,
+>>>>i.e.
+>>>>pin is registered with 2 dplls, one has the callback, second not.
+>>>
+>>>If there is only theoretical device like that now, implement
+>>>all-or-nothing. If such theoretical device appears in real, this could
+>>>be changed. The UAPI would not change, no problem.
+>>>
 >>
->> As the entire maple tree is duplicated using __mt_dup(), if dup_mmap()
->> fails, there will be a portion of VMAs that have not been duplicated in
->> the maple tree. This makes it impossible to unmap all VMAs in exit_mmap().
->> To solve this problem, undo_dup_mmap() is introduced to handle the failure
->> of dup_mmap(). I have carefully tested the failure path and so far it
->> seems there are no issues.
+>>I can live with it :)
 >>
->> There is a "spawn" in byte-unixbench[1], which can be used to test the
->> performance of fork(). I modified it slightly to make it work with
->> different number of VMAs.
+>>>
+>>>>Current hardware of ice sets phase offset for a pin no matter on which
+>>>>dpll
+>>>>device callback was invoked.
+>>>>"all-or-nothing" - do you mean to check all callback returns and then
+>>>>decide
+>>>>if it was successful?
+>>>
+>>>Check if all dplls have ops and only perform the action in such case. In
+>>>case one of the dplls does not have the op filled, return -EOPNOTSUPP.
+>>>
+>>>
+>>>Regarding the successful/failed op, I think you can just return. In
+>>>these cases, when user performs multiaction cmd, he should be prepared
+>>>to deal with consequences if part of this cmd fails. We don't have
+>>>rollback for any other multiaction cmd in dpll, I don't see why this
+>>>should be treated differently.
+>>>
 >>
->> Below are the test results. By default, there are 21 VMAs. The first row
->> shows the number of additional VMAs added on top of the default. The last
->> two rows show the number of fork() calls per ten seconds. The test results
->> were obtained with CPU binding to avoid scheduler load balancing that
->> could cause unstable results. There are still some fluctuations in the
->> test results, but at least they are better than the original performance.
->>
->> Increment of VMAs: 0      100     200     400     800     1600    3200    6400
->> next-20230921:     112326 75469   54529   34619   20750   11355   6115    3183
->> Apply this:        116505 85971   67121   46080   29722   16665   9050    4805
->>                     +3.72% +13.92% +23.09% +33.11% +43.24% +46.76% +48.00% +50.96%
->>
->> [1] https://github.com/kdlucas/byte-unixbench/tree/master
->>
->> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
->> ---
->>   include/linux/mm.h |  1 +
->>   kernel/fork.c      | 34 ++++++++++++++++++++----------
->>   mm/internal.h      |  3 ++-
->>   mm/memory.c        |  7 ++++---
->>   mm/mmap.c          | 52 ++++++++++++++++++++++++++++++++++++++++++++--
->>   5 files changed, 80 insertions(+), 17 deletions(-)
->>
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index 1f1d0d6b8f20..10c59dc7ffaa 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -3242,6 +3242,7 @@ extern void unlink_file_vma(struct vm_area_struct *);
->>   extern struct vm_area_struct *copy_vma(struct vm_area_struct **,
->>   	unsigned long addr, unsigned long len, pgoff_t pgoff,
->>   	bool *need_rmap_locks);
->> +extern void undo_dup_mmap(struct mm_struct *mm, struct vm_area_struct *vma_end);
->>   extern void exit_mmap(struct mm_struct *);
->>   
->>   static inline int check_data_rlimit(unsigned long rlim,
->> diff --git a/kernel/fork.c b/kernel/fork.c
->> index 7ae36c2e7290..2f3d83e89fe6 100644
->> --- a/kernel/fork.c
->> +++ b/kernel/fork.c
->> @@ -650,7 +650,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   	int retval;
->>   	unsigned long charge = 0;
->>   	LIST_HEAD(uf);
->> -	VMA_ITERATOR(old_vmi, oldmm, 0);
->>   	VMA_ITERATOR(vmi, mm, 0);
->>   
->>   	uprobe_start_dup_mmap();
->> @@ -678,16 +677,25 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   		goto out;
->>   	khugepaged_fork(mm, oldmm);
->>   
->> -	retval = vma_iter_bulk_alloc(&vmi, oldmm->map_count);
->> -	if (retval)
->> +	/* Use __mt_dup() to efficiently build an identical maple tree. */
->> +	retval = __mt_dup(&oldmm->mm_mt, &mm->mm_mt, GFP_KERNEL);
->> +	if (unlikely(retval))
->>   		goto out;
->>   
->>   	mt_clear_in_rcu(vmi.mas.tree);
->> -	for_each_vma(old_vmi, mpnt) {
->> +	for_each_vma(vmi, mpnt) {
->>   		struct file *file;
->>   
->>   		vma_start_write(mpnt);
->>   		if (mpnt->vm_flags & VM_DONTCOPY) {
->> +			mas_store_gfp(&vmi.mas, NULL, GFP_KERNEL);
->> +
->> +			/* If failed, undo all completed duplications. */
->> +			if (unlikely(mas_is_err(&vmi.mas))) {
->> +				retval = xa_err(vmi.mas.node);
->> +				goto loop_out;
->> +			}
->> +
->>   			vm_stat_account(mm, mpnt->vm_flags, -vma_pages(mpnt));
->>   			continue;
->>   		}
->> @@ -749,9 +757,11 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   		if (is_vm_hugetlb_page(tmp))
->>   			hugetlb_dup_vma_private(tmp);
->>   
->> -		/* Link the vma into the MT */
->> -		if (vma_iter_bulk_store(&vmi, tmp))
->> -			goto fail_nomem_vmi_store;
->> +		/*
->> +		 * Link the vma into the MT. After using __mt_dup(), memory
->> +		 * allocation is not necessary here, so it cannot fail.
->> +		 */
->> +		mas_store(&vmi.mas, tmp);
->>   
->>   		mm->map_count++;
->>   		if (!(tmp->vm_flags & VM_WIPEONFORK))
->> @@ -760,15 +770,19 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   		if (tmp->vm_ops && tmp->vm_ops->open)
->>   			tmp->vm_ops->open(tmp);
->>   
->> -		if (retval)
->> +		if (retval) {
->> +			mpnt = vma_next(&vmi);
->>   			goto loop_out;
->> +		}
->>   	}
->>   	/* a new mm has just been created */
->>   	retval = arch_dup_mmap(oldmm, mm);
->>   loop_out:
->>   	vma_iter_free(&vmi);
->> -	if (!retval)
->> +	if (likely(!retval))
->>   		mt_set_in_rcu(vmi.mas.tree);
->> +	else
->> +		undo_dup_mmap(mm, mpnt);
->>   out:
->>   	mmap_write_unlock(mm);
->>   	flush_tlb_mm(oldmm);
->> @@ -778,8 +792,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   	uprobe_end_dup_mmap();
->>   	return retval;
->>   
->> -fail_nomem_vmi_store:
->> -	unlink_anon_vmas(tmp);
->>   fail_nomem_anon_vma_fork:
->>   	mpol_put(vma_policy(tmp));
->>   fail_nomem_policy:
->> diff --git a/mm/internal.h b/mm/internal.h
->> index 7a961d12b088..288ec81770cb 100644
->> --- a/mm/internal.h
->> +++ b/mm/internal.h
->> @@ -111,7 +111,8 @@ void folio_activate(struct folio *folio);
->>   
->>   void free_pgtables(struct mmu_gather *tlb, struct ma_state *mas,
->>   		   struct vm_area_struct *start_vma, unsigned long floor,
->> -		   unsigned long ceiling, bool mm_wr_locked);
->> +		   unsigned long ceiling, unsigned long tree_end,
->> +		   bool mm_wr_locked);
->>   void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte);
->>   
->>   struct zap_details;
->> diff --git a/mm/memory.c b/mm/memory.c
->> index 983a40f8ee62..1fd66a0d5838 100644
->> --- a/mm/memory.c
->> +++ b/mm/memory.c
->> @@ -362,7 +362,8 @@ void free_pgd_range(struct mmu_gather *tlb,
->>   
->>   void free_pgtables(struct mmu_gather *tlb, struct ma_state *mas,
->>   		   struct vm_area_struct *vma, unsigned long floor,
->> -		   unsigned long ceiling, bool mm_wr_locked)
->> +		   unsigned long ceiling, unsigned long tree_end,
->> +		   bool mm_wr_locked)
->>   {
->>   	do {
->>   		unsigned long addr = vma->vm_start;
->> @@ -372,7 +373,7 @@ void free_pgtables(struct mmu_gather *tlb, struct ma_state *mas,
->>   		 * Note: USER_PGTABLES_CEILING may be passed as ceiling and may
->>   		 * be 0.  This will underflow and is okay.
->>   		 */
->> -		next = mas_find(mas, ceiling - 1);
->> +		next = mas_find(mas, tree_end - 1);
->>   
->>   		/*
->>   		 * Hide vma from rmap and truncate_pagecache before freeing
->> @@ -393,7 +394,7 @@ void free_pgtables(struct mmu_gather *tlb, struct ma_state *mas,
->>   			while (next && next->vm_start <= vma->vm_end + PMD_SIZE
->>   			       && !is_vm_hugetlb_page(next)) {
->>   				vma = next;
->> -				next = mas_find(mas, ceiling - 1);
->> +				next = mas_find(mas, tree_end - 1);
->>   				if (mm_wr_locked)
->>   					vma_start_write(vma);
->>   				unlink_anon_vmas(vma);
->> diff --git a/mm/mmap.c b/mm/mmap.c
->> index 2ad950f773e4..daed3b423124 100644
->> --- a/mm/mmap.c
->> +++ b/mm/mmap.c
->> @@ -2312,7 +2312,7 @@ static void unmap_region(struct mm_struct *mm, struct ma_state *mas,
->>   	mas_set(mas, mt_start);
->>   	free_pgtables(&tlb, mas, vma, prev ? prev->vm_end : FIRST_USER_ADDRESS,
->>   				 next ? next->vm_start : USER_PGTABLES_CEILING,
->> -				 mm_wr_locked);
->> +				 tree_end, mm_wr_locked);
->>   	tlb_finish_mmu(&tlb);
->>   }
->>   
->> @@ -3178,6 +3178,54 @@ int vm_brk(unsigned long addr, unsigned long len)
->>   }
->>   EXPORT_SYMBOL(vm_brk);
->>   
->> +void undo_dup_mmap(struct mm_struct *mm, struct vm_area_struct *vma_end)
->> +{
->> +	unsigned long tree_end;
->> +	VMA_ITERATOR(vmi, mm, 0);
->> +	struct vm_area_struct *vma;
->> +	unsigned long nr_accounted = 0;
->> +	int count = 0;
->> +
->> +	/*
->> +	 * vma_end points to the first VMA that has not been duplicated. We need
->> +	 * to unmap all VMAs before it.
->> +	 * If vma_end is NULL, it means that all VMAs in the maple tree have
->> +	 * been duplicated, so setting tree_end to 0 will overflow to ULONG_MAX
->> +	 * when using it.
->> +	 */
->> +	if (vma_end) {
->> +		tree_end = vma_end->vm_start;
->> +		if (tree_end == 0)
->> +			goto destroy;
->> +	} else
->> +		tree_end = 0;
->> +
->> +	vma = mas_find(&vmi.mas, tree_end - 1);
->> +
->> +	if (vma) {
->> +		arch_unmap(mm, vma->vm_start, tree_end);
->> +		unmap_region(mm, &vmi.mas, vma, NULL, NULL, 0, tree_end,
->> +			     tree_end, true);
-> 
-> next is vma_end, as per your comment above.  Using next = vma_end allows
-> you to avoid adding another argument to free_pgtables().
-Unfortunately, it cannot be done this way. I fell into this trap before,
-and it caused incomplete page table cleanup. To solve this problem, the
-only solution I can think of right now is to add an additional
-parameter.
+>>We don't have it because no one have spotted it on review,
+>>as mentioned the frequency_set behaves the same way,
+>>we need one approach for all of those cases.
+>>I am opting for having the rollback as suggested on the other thread.
+>
+>Okay, but let's do that consistently.
+>
 
-free_pgtables() will be called in unmap_region() to free the page table,
-like this:
+Sure, fixed in v2.
+Thanks!
+Arkadiusz
 
-free_pgtables(&tlb, mas, vma, prev ? prev->vm_end : FIRST_USER_ADDRESS,
-		next ? next->vm_start : USER_PGTABLES_CEILING,
-		mm_wr_locked);
-
-The problem is with 'next'. Our 'vma_end' does not exist in the actual
-mmap because it has not been duplicated and cannot be used as 'next'.
-If there is a real 'next', we can use 'next->vm_start' as the ceiling,
-which is not a problem. If there is no 'next' (next is 'vma_end'), we
-can only use 'USER_PGTABLES_CEILING' as the ceiling. Using
-'vma_end->vm_start' as the ceiling will cause the page table not to be
-fully freed, which may be related to alignment in 'free_pgd_range()'. To
-solve this problem, we have to introduce 'tree_end', and separating
-'tree_end' and 'ceiling' can solve this problem.
-
-> 
->> +
->> +		mas_set(&vmi.mas, vma->vm_end);
->> +		do {
->> +			if (vma->vm_flags & VM_ACCOUNT)
->> +				nr_accounted += vma_pages(vma);
->> +			remove_vma(vma, true);
->> +			count++;
->> +			cond_resched();
->> +			vma = mas_find(&vmi.mas, tree_end - 1);
->> +		} while (vma != NULL);
->> +
->> +		BUG_ON(count != mm->map_count);
->> +
->> +		vm_unacct_memory(nr_accounted);
->> +	}
->> +
->> +destroy:
->> +	__mt_destroy(&mm->mm_mt);
->> +}
->> +
->>   /* Release all mmaps. */
->>   void exit_mmap(struct mm_struct *mm)
->>   {
->> @@ -3217,7 +3265,7 @@ void exit_mmap(struct mm_struct *mm)
->>   	mt_clear_in_rcu(&mm->mm_mt);
->>   	mas_set(&mas, vma->vm_end);
->>   	free_pgtables(&tlb, &mas, vma, FIRST_USER_ADDRESS,
->> -		      USER_PGTABLES_CEILING, true);
->> +		      USER_PGTABLES_CEILING, USER_PGTABLES_CEILING, true);
->>   	tlb_finish_mmu(&tlb);
->>   
->>   	/*
->> -- 
->> 2.20.1
 >>
-> 
+>>Thank you!
+>>Arkadiusz
+>>
+>>>
+>>>>
+>>>>Thank you!
+>>>>Arkadiusz
+>>>>
+>>>>>
+>>>>>>If device fails to set -> add extack error, continue
+>>>>>>Function always returns 0.
+>>>>>>
+>>>>>>Thank you!
+>>>>>>Arkadiusz
+>>>>>>
+>>>>>>>
+>>>>>>>> +		ret =3D ops->phase_adjust_set(pin,
+>>>>>>>> +					    dpll_pin_on_dpll_priv(dpll, pin),
+>>>>>>>> +					    dpll, dpll_priv(dpll), phase_adj,
+>>>>>>>> +					    extack);
+>>>>>>>> +		if (ret)
+>>>>>>>> +			return ret;
+>>>>>>>> +	}
+>>>>>>>> +	__dpll_pin_change_ntf(pin);
+>>>>>>>> +
+>>>>>>>> +	return 0;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>
