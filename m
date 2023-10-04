@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 661F7E936EA
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 22:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC5FE936EA
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 22:10:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231874AbjJDWJz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 18:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36176 "EHLO
+        id S235456AbjJDWKA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 18:10:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231651AbjJDWJy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 18:09:54 -0400
+        with ESMTP id S233822AbjJDWJ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 18:09:58 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CC9CCC9;
-        Wed,  4 Oct 2023 15:09:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A74DCFB;
+        Wed,  4 Oct 2023 15:09:53 -0700 (PDT)
 Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 30FF620B74C2; Wed,  4 Oct 2023 15:09:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 30FF620B74C2
+        id A87EC20B74D2; Wed,  4 Oct 2023 15:09:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A87EC20B74D2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1696457390;
-        bh=oBYPhxhjQL5BN0Kiy8n4HfaBWKlzqDu9gGFuvxbs4W4=;
+        bh=3Nri8oDOekV6L4vSrwk6hrgqfGo/+ps3Zz2m4l0TszM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YlE6XpLZ+4/+yT20r/6R09Nc/lR/L+ItVzP+479faG/k3TjLT266PmJZQFNO6GW46
-         B2vIZ+VHlGUOqxvp+AWQl0MmJnSFwEf6asTMMPdsFPJ4eKACvglV+iC2rsWBJ/LuPy
-         XUUSlLY2kj5bhK/WqYQcQL5WVH3qOCeHK0+P2+LY=
+        b=iJymOh1bxlwp5gixbtHY+bnBz11JHVppmjyJIhT/CW1IpH0MWiKg8xg7EAyend2cq
+         5YaMeLBKNPBND3U/lal+63vPKTfk162FrTD241z8mCBCedUXV+YR8dlr9Wp8DW6v9R
+         9/J/eHQUm9eb6F3PAultRk2OkwmFqPJXcukDBzck=
 From:   Fan Wu <wufan@linux.microsoft.com>
 To:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
         serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
@@ -36,9 +36,9 @@ Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
         roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
         Deven Bowers <deven.desai@linux.microsoft.com>,
         Fan Wu <wufan@linux.microsoft.com>
-Subject: [RFC PATCH v11 01/19] security: add ipe lsm
-Date:   Wed,  4 Oct 2023 15:09:28 -0700
-Message-Id: <1696457386-3010-2-git-send-email-wufan@linux.microsoft.com>
+Subject: [RFC PATCH v11 09/19] ipe: add permissive toggle
+Date:   Wed,  4 Oct 2023 15:09:36 -0700
+Message-Id: <1696457386-3010-10-git-send-email-wufan@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1696457386-3010-1-git-send-email-wufan@linux.microsoft.com>
 References: <1696457386-3010-1-git-send-email-wufan@linux.microsoft.com>
@@ -48,20 +48,24 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Deven Bowers <deven.desai@linux.microsoft.com>
 
-Integrity Policy Enforcement (IPE) is an LSM that provides an
-complimentary approach to Mandatory Access Control than existing LSMs
-today.
+IPE, like SELinux, supports a permissive mode. This mode allows policy
+authors to test and evaluate IPE policy without it effecting their
+programs. When the mode is changed, a 1404 AUDIT_MAC_STATUS
+be reported.
 
-Existing LSMs have centered around the concept of access to a resource
-should be controlled by the current user's credentials. IPE's approach,
-is that access to a resource should be controlled by the system's trust
-of a current resource.
+This patch adds the following audit records:
 
-The basis of this approach is defining a global policy to specify which
-resource can be trusted.
+    audit: MAC_STATUS enforcing=0 old_enforcing=1 auid=4294967295
+      ses=4294967295 enabled=1 old-enabled=1 lsm=ipe res=1
+    audit: MAC_STATUS enforcing=1 old_enforcing=0 auid=4294967295
+      ses=4294967295 enabled=1 old-enabled=1 lsm=ipe res=1
+
+The audit record only emit when the value from the user input is
+different from the current enforce value.
 
 Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
 Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+
 ---
 v2:
   + Split evaluation loop, access control hooks,
@@ -100,198 +104,262 @@ v6:
 v7:
   + Further split lsm creation into a separate commit from the
     evaluation loop and audit system, for easier review.
-
-  + Introduce the concept of an ipe_context, a scoped way to
-    introduce execution policies, used initially for allowing for
-    kunit tests in isolation.
+  + Propagating changes to support the new ipe_context structure in the
+    evaluation loop.
+  + Split out permissive functionality into a separate patch for easier
+    review.
+  + Remove permissive switch compile-time configuration option - this
+    is trivial to add later.
 
 v8:
-  + Follow lsmname_hook_name convention for lsm hooks.
-  + Move LSM blob accessors to ipe.c and mark LSM blobs as static.
+  + Remove "IPE" prefix from permissive audit record
+  + align fields to the linux-audit field dictionary. This causes the
+    following fields to change:
+      enforce -> permissive
+
+  + Remove duplicated information correlated with syscall record, that
+    will always be present in the audit event.
+  + Change audit types:
+    + AUDIT_TRUST_STATUS -> AUDIT_MAC_STATUS
+      + There is no significant difference in meaning between
+        these types.
 
 v9:
-  + Remove ipe_context for simplification
+  + Clean up ipe_context related code
 
 v10:
-  + Add github url
+  + Change audit format to comform with the existing format selinux is
+    using
+  + Remove the audit record emission during init to align with selinux,
+    which does not perform this action.
 
 v11:
-  + Correct github url
-  + Move ipe before bpf
+  + Remove redundant code
 ---
- MAINTAINERS           |  7 +++++++
- security/Kconfig      | 11 ++++++-----
- security/Makefile     |  1 +
- security/ipe/Kconfig  | 17 +++++++++++++++++
- security/ipe/Makefile |  9 +++++++++
- security/ipe/ipe.c    | 35 +++++++++++++++++++++++++++++++++++
- security/ipe/ipe.h    | 16 ++++++++++++++++
- 7 files changed, 91 insertions(+), 5 deletions(-)
- create mode 100644 security/ipe/Kconfig
- create mode 100644 security/ipe/Makefile
- create mode 100644 security/ipe/ipe.c
- create mode 100644 security/ipe/ipe.h
+ security/ipe/audit.c | 22 ++++++++++++++
+ security/ipe/audit.h |  1 +
+ security/ipe/eval.c  | 14 +++++++--
+ security/ipe/eval.h  |  1 +
+ security/ipe/fs.c    | 68 ++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 104 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 35977b269d5e..b898f2f8f9c4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10389,6 +10389,13 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
- F:	security/integrity/
- F:	security/integrity/ima/
+diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+index e123701d5e3b..0dd5f10c318f 100644
+--- a/security/ipe/audit.c
++++ b/security/ipe/audit.c
+@@ -193,3 +193,25 @@ void ipe_audit_policy_load(const struct ipe_policy *const p)
  
-+INTEGRITY POLICY ENFORCEMENT (IPE)
-+M:	Fan Wu <wufan@linux.microsoft.com>
-+L:	linux-security-module@vger.kernel.org
-+S:	Supported
-+T:	git https://github.com/microsoft/ipe.git
-+F:	security/ipe/
-+
- INTEL 810/815 FRAMEBUFFER DRIVER
- M:	Antonino Daplas <adaplas@gmail.com>
- L:	linux-fbdev@vger.kernel.org
-diff --git a/security/Kconfig b/security/Kconfig
-index 52c9af08ad35..cc7adfbb6b96 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -194,6 +194,7 @@ source "security/yama/Kconfig"
- source "security/safesetid/Kconfig"
- source "security/lockdown/Kconfig"
- source "security/landlock/Kconfig"
-+source "security/ipe/Kconfig"
- 
- source "security/integrity/Kconfig"
- 
-@@ -233,11 +234,11 @@ endchoice
- 
- config LSM
- 	string "Ordered list of enabled LSMs"
--	default "landlock,lockdown,yama,loadpin,safesetid,smack,selinux,tomoyo,apparmor,bpf" if DEFAULT_SECURITY_SMACK
--	default "landlock,lockdown,yama,loadpin,safesetid,apparmor,selinux,smack,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
--	default "landlock,lockdown,yama,loadpin,safesetid,tomoyo,bpf" if DEFAULT_SECURITY_TOMOYO
--	default "landlock,lockdown,yama,loadpin,safesetid,bpf" if DEFAULT_SECURITY_DAC
--	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,bpf"
-+	default "landlock,lockdown,yama,loadpin,safesetid,smack,selinux,tomoyo,apparmor,ipe,bpf" if DEFAULT_SECURITY_SMACK
-+	default "landlock,lockdown,yama,loadpin,safesetid,apparmor,selinux,smack,tomoyo,ipe,bpf" if DEFAULT_SECURITY_APPARMOR
-+	default "landlock,lockdown,yama,loadpin,safesetid,tomoyo,ipe,bpf" if DEFAULT_SECURITY_TOMOYO
-+	default "landlock,lockdown,yama,loadpin,safesetid,ipe,bpf" if DEFAULT_SECURITY_DAC
-+	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,ipe,bpf"
- 	help
- 	  A comma-separated list of LSMs, in initialization order.
- 	  Any LSMs left off this list, except for those with order
-diff --git a/security/Makefile b/security/Makefile
-index 18121f8f85cd..527b1864d96c 100644
---- a/security/Makefile
-+++ b/security/Makefile
-@@ -24,6 +24,7 @@ obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown/
- obj-$(CONFIG_CGROUPS)			+= device_cgroup.o
- obj-$(CONFIG_BPF_LSM)			+= bpf/
- obj-$(CONFIG_SECURITY_LANDLOCK)		+= landlock/
-+obj-$(CONFIG_SECURITY_IPE)		+= ipe/
- 
- # Object integrity file lists
- obj-$(CONFIG_INTEGRITY)			+= integrity/
-diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-new file mode 100644
-index 000000000000..e4875fb04883
---- /dev/null
-+++ b/security/ipe/Kconfig
-@@ -0,0 +1,17 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Integrity Policy Enforcement (IPE) configuration
-+#
-+
-+menuconfig SECURITY_IPE
-+	bool "Integrity Policy Enforcement (IPE)"
-+	depends on SECURITY && SECURITYFS
-+	select PKCS7_MESSAGE_PARSER
-+	select SYSTEM_DATA_VERIFICATION
-+	help
-+	  This option enables the Integrity Policy Enforcement LSM
-+	  allowing users to define a policy to enforce a trust-based access
-+	  control. A key feature of IPE is a customizable policy to allow
-+	  admins to reconfigure trust requirements on the fly.
-+
-+	  If unsure, answer N.
-diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-new file mode 100644
-index 000000000000..f7a80d0f18f8
---- /dev/null
-+++ b/security/ipe/Makefile
-@@ -0,0 +1,9 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Copyright (C) Microsoft Corporation. All rights reserved.
-+#
-+# Makefile for building the IPE module as part of the kernel tree.
-+#
-+
-+obj-$(CONFIG_SECURITY_IPE) += \
-+	ipe.o \
-diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
-new file mode 100644
-index 000000000000..ba5526f9d527
---- /dev/null
-+++ b/security/ipe/ipe.c
-@@ -0,0 +1,35 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+
-+#include "ipe.h"
-+
-+static struct lsm_blob_sizes ipe_blobs __ro_after_init = {
-+};
-+
-+static struct security_hook_list ipe_hooks[] __ro_after_init = {
-+};
+ 	audit_log_end(ab);
+ }
 +
 +/**
-+ * ipe_init - Entry point of IPE.
-+ *
-+ * This is called at LSM init, which happens occurs early during kernel
-+ * start up. During this phase, IPE registers its hooks and loads the
-+ * builtin boot policy.
-+ * Return:
-+ * * 0		- OK
-+ * * -ENOMEM	- Out of memory
++ * ipe_audit_enforce - Audit a change in IPE's enforcement state.
++ * @new_enforce: The new value enforce to be set.
++ * @old_enforce: The old value currently in enforce.
 + */
-+static int __init ipe_init(void)
++void ipe_audit_enforce(bool new_enforce, bool old_enforce)
 +{
-+	security_add_hooks(ipe_hooks, ARRAY_SIZE(ipe_hooks), "ipe");
++	struct audit_buffer *ab;
 +
-+	return 0;
++	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_MAC_STATUS);
++	if (!ab)
++		return;
++
++	audit_log_format(ab, "enforcing=%d old_enforcing=%d auid=%u ses=%u"
++			 " enabled=1 old-enabled=1 lsm=ipe res=1",
++			 new_enforce, old_enforce,
++			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
++			 audit_get_sessionid(current));
++
++	audit_log_end(ab);
++}
+diff --git a/security/ipe/audit.h b/security/ipe/audit.h
+index 0ff5a06808de..914f001e5286 100644
+--- a/security/ipe/audit.h
++++ b/security/ipe/audit.h
+@@ -14,5 +14,6 @@ void ipe_audit_match(const struct ipe_eval_ctx *const ctx,
+ void ipe_audit_policy_load(const struct ipe_policy *const p);
+ void ipe_audit_policy_activation(const struct ipe_policy *const op,
+ 				 const struct ipe_policy *const np);
++void ipe_audit_enforce(bool new_enforce, bool old_enforce);
+ 
+ #endif /* _IPE_AUDIT_H */
+diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+index 499b6b3338f2..78c54ff1fdd3 100644
+--- a/security/ipe/eval.c
++++ b/security/ipe/eval.c
+@@ -19,6 +19,7 @@
+ 
+ struct ipe_policy __rcu *ipe_active_policy;
+ bool success_audit;
++bool enforce = true;
+ 
+ static const struct super_block *pinned_sb;
+ static DEFINE_SPINLOCK(pin_lock);
+@@ -114,12 +115,14 @@ static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
+ int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
+ {
+ 	bool match = false;
++	bool enforcing = true;
+ 	enum ipe_action_type action;
+ 	enum ipe_match match_type;
+ 	struct ipe_policy *pol = NULL;
+ 	const struct ipe_rule *rule = NULL;
+ 	const struct ipe_op_table *rules = NULL;
+ 	struct ipe_prop *prop = NULL;
++	int rc = 0;
+ 
+ 	rcu_read_lock();
+ 
+@@ -129,6 +132,8 @@ int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
+ 		return 0;
+ 	}
+ 
++	enforcing = READ_ONCE(enforce);
++
+ 	if (ctx->op == IPE_OP_INVALID) {
+ 		rcu_read_unlock();
+ 		action = pol->parsed->global_default_action;
+@@ -167,9 +172,12 @@ int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
+ 	ipe_audit_match(ctx, match_type, action, rule);
+ 
+ 	if (action == IPE_ACTION_DENY)
+-		return -EACCES;
++		rc = -EACCES;
++
++	if (!enforcing)
++		rc = 0;
+ 
+-	return 0;
++	return rc;
+ }
+ 
+ /**
+@@ -198,3 +206,5 @@ void ipe_invalidate_pinned_sb(const struct super_block *mnt_sb)
+ 
+ module_param(success_audit, bool, 0400);
+ MODULE_PARM_DESC(success_audit, "Start IPE with success auditing enabled");
++module_param(enforce, bool, 0400);
++MODULE_PARM_DESC(enforce, "Start IPE in enforce or permissive mode");
+diff --git a/security/ipe/eval.h b/security/ipe/eval.h
+index 5473f712566c..3f7f71452618 100644
+--- a/security/ipe/eval.h
++++ b/security/ipe/eval.h
+@@ -15,6 +15,7 @@
+ 
+ extern struct ipe_policy __rcu *ipe_active_policy;
+ extern bool success_audit;
++extern bool enforce;
+ 
+ struct ipe_eval_ctx {
+ 	enum ipe_op_type op;
+diff --git a/security/ipe/fs.c b/security/ipe/fs.c
+index dda7a5afc60c..0a1838432bd0 100644
+--- a/security/ipe/fs.c
++++ b/security/ipe/fs.c
+@@ -16,6 +16,7 @@ static struct dentry *np __ro_after_init;
+ static struct dentry *root __ro_after_init;
+ struct dentry *policy_root __ro_after_init;
+ static struct dentry *audit_node __ro_after_init;
++static struct dentry *enforce_node __ro_after_init;
+ 
+ /**
+  * setaudit - Write handler for the securityfs node, "ipe/success_audit"
+@@ -67,6 +68,60 @@ static ssize_t getaudit(struct file *f, char __user *data,
+ 	return simple_read_from_buffer(data, len, offset, result, 1);
+ }
+ 
++/**
++ * setenforce - Write handler for the securityfs node, "ipe/enforce"
++ * @f: Supplies a file structure representing the securityfs node.
++ * @data: Supplies a buffer passed to the write syscall.
++ * @len: Supplies the length of @data.
++ * @offset: unused.
++ *
++ * Return:
++ * * >0	- Success, Length of buffer written
++ * * <0	- Error
++ */
++static ssize_t setenforce(struct file *f, const char __user *data,
++			  size_t len, loff_t *offset)
++{
++	int rc = 0;
++	bool new_value, old_value;
++
++	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
++		return -EPERM;
++
++	old_value = READ_ONCE(enforce);
++	rc = kstrtobool_from_user(data, len, &new_value);
++	if (rc)
++		return rc;
++
++	if (new_value != old_value) {
++		ipe_audit_enforce(new_value, old_value);
++		WRITE_ONCE(enforce, new_value);
++	}
++
++	return len;
 +}
 +
-+DEFINE_LSM(ipe) = {
-+	.name = "ipe",
-+	.init = ipe_init,
-+	.blobs = &ipe_blobs,
-+};
-diff --git a/security/ipe/ipe.h b/security/ipe/ipe.h
-new file mode 100644
-index 000000000000..a1c68d0fc2e0
---- /dev/null
-+++ b/security/ipe/ipe.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
++/**
++ * getenforce - Read handler for the securityfs node, "ipe/enforce"
++ * @f: Supplies a file structure representing the securityfs node.
++ * @data: Supplies a buffer passed to the read syscall.
++ * @len: Supplies the length of @data.
++ * @offset: unused.
++ *
++ * Return:
++ * * >0	- Success, Length of buffer written
++ * * <0	- Error
 + */
++static ssize_t getenforce(struct file *f, char __user *data,
++			  size_t len, loff_t *offset)
++{
++	const char *result;
 +
-+#ifndef _IPE_H
-+#define _IPE_H
++	result = ((READ_ONCE(enforce)) ? "1" : "0");
 +
-+#ifdef pr_fmt
-+#undef pr_fmt
-+#endif
-+#define pr_fmt(fmt) "IPE: " fmt
++	return simple_read_from_buffer(data, len, offset, result, 1);
++}
 +
-+#include <linux/lsm_hooks.h>
+ /**
+  * new_policy - Write handler for the securityfs node, "ipe/new_policy".
+  * @f: Supplies a file structure representing the securityfs node.
+@@ -120,6 +175,11 @@ static const struct file_operations audit_fops = {
+ 	.read = getaudit,
+ };
+ 
++static const struct file_operations enforce_fops = {
++	.write = setenforce,
++	.read = getenforce,
++};
 +
-+#endif /* _IPE_H */
+ /**
+  * ipe_init_securityfs - Initialize IPE's securityfs tree at fsinit.
+  *
+@@ -147,6 +207,13 @@ static int __init ipe_init_securityfs(void)
+ 		goto err;
+ 	}
+ 
++	enforce_node = securityfs_create_file("enforce", 0600, root, NULL,
++					      &enforce_fops);
++	if (IS_ERR(enforce_node)) {
++		rc = PTR_ERR(enforce_node);
++		goto err;
++	}
++
+ 	policy_root = securityfs_create_dir("policies", root);
+ 	if (IS_ERR(policy_root)) {
+ 		rc = PTR_ERR(policy_root);
+@@ -163,6 +230,7 @@ static int __init ipe_init_securityfs(void)
+ err:
+ 	securityfs_remove(np);
+ 	securityfs_remove(policy_root);
++	securityfs_remove(enforce_node);
+ 	securityfs_remove(audit_node);
+ 	securityfs_remove(root);
+ 	return rc;
 -- 
 2.25.1
 
