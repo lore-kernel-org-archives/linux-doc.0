@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47915E8FDDB
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 09:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 845E3E8FDDF
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Oct 2023 09:08:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232862AbjJDJIf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Oct 2023 05:08:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43560 "EHLO
+        id S241879AbjJDJIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Oct 2023 05:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232881AbjJDJIe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 05:08:34 -0400
+        with ESMTP id S241828AbjJDJIj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Oct 2023 05:08:39 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8165CA7;
-        Wed,  4 Oct 2023 02:08:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755DEAD;
+        Wed,  4 Oct 2023 02:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696410511; x=1727946511;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Xnhts4jT97KTkayqzW35Jj64lW+7QSle6bpzAnpos0Q=;
-  b=NSoinBiDkSJkC7ii726n9wdS43Ut/CinupBKkc/Mwn2mlvcGYlB+kQYI
-   +/y6bAkajIey1CukpVTt25TNN3U3IlIIswVSLlChetz5IF52cLi1DO6va
-   ixpjeaWJTv383qvspJq501gtJxZbGE77lpRn9PtpnIatkEBEIvvA+4MP/
-   L7q64fQCfRqDy9aO67F3bsBO/5TZsduBNQjzD8pWG3dBYmcU8T/xOLAzf
-   Gdpc9Q1s5upjFz9Zz/U1ks/J4ZO3JejfXtTsLcrFXLwamnQ12gYAZAbnn
-   iUhEJZzP6ehAPaIGgfqGjiugotASEf5zl1S9vjS0E0qQixKPWLnMJuq3S
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="373448473"
+  t=1696410514; x=1727946514;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+9H/rvYK5o9whH9rNgHHfHAbgEAl1kqDx0MXJf1anMg=;
+  b=AX3msqAi+rlHlCs16fNcy1smfVRI1NE0jreNL2f8QrR21EjlhQG9B0sq
+   rjczRr5YugKG9LbIxI50eFxJJvCg9GN0ThSJ0AcwJCDC6FIY8qhLZ7OvQ
+   qPb40ULDTPqKlK5axfaiLRd3eaQzz6pQQkIldE9vlZIWk/VgDLUgwfQiL
+   HOEBIaLatsMriZKLE93Kr1JDFVjRl8it0yev9d6LclSKl1r2sJ3xpkm33
+   AUt12sMC82+mHbwg6R2T+koOhnIf+gKCfsSrqJya2Ortjfg9bj0P2wzkH
+   ulqLYUQtmtrNxr0fqbSVizfYzhZn/h10pCQ3LBrDQdYZMV2BLzV39KKtv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="373448492"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="373448473"
+   d="scan'208";a="373448492"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 02:08:30 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 02:08:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="780668465"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="780668469"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="780668465"
+   d="scan'208";a="780668469"
 Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
-  by orsmga008.jf.intel.com with ESMTP; 04 Oct 2023 02:08:28 -0700
+  by orsmga008.jf.intel.com with ESMTP; 04 Oct 2023 02:08:31 -0700
 From:   Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 To:     netdev@vger.kernel.org
 Cc:     vadim.fedorenko@linux.dev, jiri@resnulli.us, corbet@lwn.net,
@@ -45,47 +45,113 @@ Cc:     vadim.fedorenko@linux.dev, jiri@resnulli.us, corbet@lwn.net,
         jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
         linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Subject: [PATCH net-next v2 0/5] dpll: add phase-offset and phase-adjust
-Date:   Wed,  4 Oct 2023 11:05:42 +0200
-Message-Id: <20231004090547.1597844-1-arkadiusz.kubalewski@intel.com>
+Subject: [PATCH net-next v2 1/5] dpll: docs: add support for pin signal phase offset/adjust
+Date:   Wed,  4 Oct 2023 11:05:43 +0200
+Message-Id: <20231004090547.1597844-2-arkadiusz.kubalewski@intel.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20231004090547.1597844-1-arkadiusz.kubalewski@intel.com>
+References: <20231004090547.1597844-1-arkadiusz.kubalewski@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Improve monitoring and control over dpll devices.
-Allow user to receive measurement of phase difference between signals on
-pin and dpll (phase-offset).
-Allow user to receive and control adjustable value of pin's signal
-phase (phase-adjust).
+Add documentation on:
+- measurment of phase of signal between pin and dpll
+- adjustment of pin signal phase
 
+Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+---
+ Documentation/driver-api/dpll.rst | 53 ++++++++++++++++++++++++++++++-
+ 1 file changed, 52 insertions(+), 1 deletion(-)
 
-v1->v2:
-- improve handling for error case of requesting the phase adjust set
-- align handling for error case of frequency set request with the
-approach introduced for phase adjust
-
-Arkadiusz Kubalewski (5):
-  dpll: docs: add support for pin signal phase offset/adjust
-  dpll: spec: add support for pin-dpll signal phase offset/adjust
-  dpll: netlink/core: add support for pin-dpll signal phase
-    offset/adjust
-  ice: dpll: implement phase related callbacks
-  dpll: netlink/core: change pin frequency set behavior
-
- Documentation/driver-api/dpll.rst         |  53 ++++-
- Documentation/netlink/specs/dpll.yaml     |  33 +++-
- drivers/dpll/dpll_netlink.c               | 180 +++++++++++++++--
- drivers/dpll/dpll_nl.c                    |   8 +-
- drivers/dpll/dpll_nl.h                    |   2 +-
- drivers/net/ethernet/intel/ice/ice_dpll.c | 224 +++++++++++++++++++++-
- drivers/net/ethernet/intel/ice/ice_dpll.h |  10 +-
- include/linux/dpll.h                      |  18 ++
- include/uapi/linux/dpll.h                 |   8 +-
- 9 files changed, 514 insertions(+), 22 deletions(-)
-
+diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
+index 69670deb8c4e..564997373437 100644
+--- a/Documentation/driver-api/dpll.rst
++++ b/Documentation/driver-api/dpll.rst
+@@ -173,6 +173,47 @@ in order to configure active input of a MUX-type pin, the user needs to
+ request desired pin state of the child pin on the parent pin,
+ as described in the ``MUX-type pins`` chapter.
+ 
++Phase offset measurement and adjustment
++========================================
++
++Device may provide ability to measure a phase difference between signals
++on a pin and its parent dpll device. If pin-dpll phase offset measurement
++is supported, it shall be provided with ``DPLL_A_PIN_PHASE_OFFSET``
++attribute for each parent dpll device.
++
++Device may also provide ability to adjust a signal phase on a pin.
++If pin phase adjustment is supported, minimal and maximal values that pin
++handle shall be provide to the user on ``DPLL_CMD_PIN_GET`` respond
++with ``DPLL_A_PIN_PHASE_ADJUST_MIN`` and ``DPLL_A_PIN_PHASE_ADJUST_MAX``
++attributes. Configured phase adjust value is provided with
++``DPLL_A_PIN_PHASE_ADJUST`` attribute of a pin, and value change can be
++requested with the same attribute with ``DPLL_CMD_PIN_SET`` command.
++
++  =============================== ======================================
++  ``DPLL_A_PIN_ID``               configured pin id
++  ``DPLL_A_PIN_PHASE_ADJUST_MIN`` attr minimum value of phase adjustment
++  ``DPLL_A_PIN_PHASE_ADJUST_MAX`` attr maximum value of phase adjustment
++  ``DPLL_A_PIN_PHASE_ADJUST``     attr configured value of phase
++                                  adjustment on parent dpll device
++  ``DPLL_A_PIN_PARENT_DEVICE``    nested attribute for requesting
++                                  configuration on given parent dpll
++                                  device
++    ``DPLL_A_PIN_PARENT_ID``      parent dpll device id
++    ``DPLL_A_PIN_PHASE_OFFSET``   attr measured phase difference
++                                  between a pin and parent dpll device
++  =============================== ======================================
++
++All phase related values are provided in pico seconds, which represents
++time differnece between signals phase. The negative value means that
++phase of signal on pin is earlier in time than dpll's signal. Positive
++value means that phase of signal on pin is later in time than signal of
++a dpll.
++
++Phase adjust (also min and max) values are integers, but measured phase
++offset values are fractional with 3-digit decimal places and shell be
++divided with ``DPLL_PIN_PHASE_OFFSET_DIVIDER`` to get integer part and
++modulo divided to get fractional part.
++
+ Configuration commands group
+ ============================
+ 
+@@ -263,6 +304,12 @@ according to attribute purpose.
+                                        frequencies
+       ``DPLL_A_PIN_ANY_FREQUENCY_MIN`` attr minimum value of frequency
+       ``DPLL_A_PIN_ANY_FREQUENCY_MAX`` attr maximum value of frequency
++    ``DPLL_A_PIN_PHASE_ADJUST_MIN``    attr minimum value of phase
++                                       adjustment
++    ``DPLL_A_PIN_PHASE_ADJUST_MAX``    attr maximum value of phase
++                                       adjustment
++    ``DPLL_A_PIN_PHASE_ADJUST``        attr configured value of phase
++                                       adjustment on parent device
+     ``DPLL_A_PIN_PARENT_DEVICE``       nested attr for each parent device
+                                        the pin is connected with
+       ``DPLL_A_PIN_PARENT_ID``         attr parent dpll device id
+@@ -270,8 +317,10 @@ according to attribute purpose.
+                                        dpll device
+       ``DPLL_A_PIN_STATE``             attr state of pin on the parent
+                                        dpll device
+-     ``DPLL_A_PIN_DIRECTION``          attr direction of a pin on the
++      ``DPLL_A_PIN_DIRECTION``         attr direction of a pin on the
+                                        parent dpll device
++      ``DPLL_A_PIN_PHASE_OFFSET``      attr measured phase difference
++                                       between a pin and parent dpll
+     ``DPLL_A_PIN_PARENT_PIN``          nested attr for each parent pin
+                                        the pin is connected with
+       ``DPLL_A_PIN_PARENT_ID``         attr parent pin id
+@@ -284,6 +333,8 @@ according to attribute purpose.
+   ``DPLL_CMD_PIN_SET``                 command to set pins configuration
+     ``DPLL_A_PIN_ID``                  attr unique a pin ID
+     ``DPLL_A_PIN_FREQUENCY``           attr requested frequency of a pin
++    ``DPLL_A_PIN_PHASE_ADJUST``        attr requested value of phase
++                                       adjustment on parent device
+     ``DPLL_A_PIN_PARENT_DEVICE``       nested attr for each parent dpll
+                                        device configuration request
+       ``DPLL_A_PIN_PARENT_ID``         attr parent dpll device id
 -- 
 2.38.1
 
