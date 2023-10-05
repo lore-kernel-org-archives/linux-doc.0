@@ -2,133 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81569E92712
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 14:30:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0527AE9270A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 14:32:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233486AbjJEOaN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Oct 2023 10:30:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37148 "EHLO
+        id S234248AbjJEOcw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Oct 2023 10:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234145AbjJEO2c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 10:28:32 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5BE1BE3;
-        Thu,  5 Oct 2023 06:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696513800; x=1728049800;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=kBxCGjZW2FJhQ282tkABZbg5NvDP8ru8sP0OrIfFg3Y=;
-  b=CdRn38pa5y1n0KzSfqKaFrWdcFXryBYUef4pF+cadbHpWUu8uKGEvMOD
-   hubK03SK5r7tf6zZz8o98aXm91UkQ9WHQJvufajpJjUu2GTF1eNCrDeTO
-   2w4duqWTeyeKho1o0wJHBSfMjV7sDKU4MuKWUCF0s1o4RNetM3a3Mc2TO
-   BvKelDzRrsdpWH1K1ljVR1awE5denSGxPlMa2it7jeCxeZzOanvz/3mEG
-   A6pvzlFzeUzWpchbbLivOi+MZal3lzd8gX471/WQuIGda6Pj6gBvn7SNQ
-   BGiDfT/hNfsCSjN5eeOipFa7lFYQ4tEsGYsCb0JS9HTpObGkHCyoH66jy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383339485"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="383339485"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:16:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="875477082"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="875477082"
-Received: from lpopiela-mobl.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.213.13.229])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:16:27 -0700
-From:   Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To:     Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Peter Newman <peternewman@google.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v4 4/4] Documentation/x86: Document resctrl's new sparse_masks
-Date:   Thu,  5 Oct 2023 10:15:39 +0200
-Message-ID: <7bbdf55ac6f909a6701915d99d79c8f9977bd0b4.1696493034.git.maciej.wieczor-retman@intel.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1696493034.git.maciej.wieczor-retman@intel.com>
-References: <cover.1696493034.git.maciej.wieczor-retman@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S235115AbjJEOba (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 10:31:30 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on20626.outbound.protection.outlook.com [IPv6:2a01:111:f400:7d00::626])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E72C65AA;
+        Wed,  4 Oct 2023 23:19:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yv/kNufZmXcZxTGxRgZqNtctQV8VUPcVdEoY68FGu38JUA6BunUPcFTaaFFzBDhTctDpoS0J6byl/ymRN3TtrjyA71mCnROEP0LGvrCScz937jsq/g3+AIUTwcP4LpPo9UymGyTXdv837j4qP05fMC4kb8+uxB0TwDydb+cvpS4thDZtH1IrXCXV54vjDvhr8+runXsZw1HeACEcfT9l3G6XeB2CBqGKpDxSSV0YFftI/5BBOhRpYqv+FZW1FcgFhG73OdtkVvCSlGe+kKSd0NmGuJL3Lm290iBwND24aBDonL/tEva9UN8eMBMdZFnqWvJxN29WiyM5mwcCH+LZQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HLEQAnAtybvz4qYKw9pECyyfbHtkWTR7swM9+unnb8w=;
+ b=VGFWtWbgE4Ei8POy1/17zNWjfnHrMypEktUnT0587W77c6/T6PrjiyiEG/h1iXHddIxFlW85zSLzIjqyKyQkZgTHlDrmRIaaDdypVdc03n5uZHjiDzdxtvuraUPcR+GcfYSbwOJALlh6EapNW4hITO9EC2RfO7245Nf7xhh7tyHlqvJ1uRa2OhnZKpMG7dnku1o3fVpJjcWDdviflUFN751pTZ/+ClSaDA6S6sg3yaGIhiDfiR8CAWgfJMfIoTuMBWXW964hF8TxoVR0P0BbLunbguQ59+qSxWjz2ZUnKAgT6TN2eqWCiN1qg2/+G6b5cUrBMhL4Pi7L1G7ForO14w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HLEQAnAtybvz4qYKw9pECyyfbHtkWTR7swM9+unnb8w=;
+ b=W4MevTZ6YtluTwu+3auGo2SsmSLEaIEaTYJQtfgJTIfixytiH6jAuVZsaZ0fFqDqNxPBIisINJu12Dj7d5aZoYj6IxCCjRwjmJHk7BzVx8V6mQtEJ4BPKYEpE3NApWAAJA8u+HMCSjtVxQ/U6xE7SJ5h55BLoA5s38Nuh60Bk/C6vz6weAYiumimpZ+7qVdJ7oym4wNuNyPf0c1+FRivk/8qfnoEf2NqR8qyasUdI4qhUNBygZX3m5yfmLIJwfEj21OLTdpTuvKxDXVz8Tixcr1GmX/DHeLzWE9oYIJFWnvVYM21zn0cThHYzUROxTd+IT6rSwj37JNKe4Ygqy5tBA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from PA4PR04MB7790.eurprd04.prod.outlook.com (2603:10a6:102:cc::8)
+ by DUZPR04MB9728.eurprd04.prod.outlook.com (2603:10a6:10:4e3::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.26; Thu, 5 Oct
+ 2023 06:19:03 +0000
+Received: from PA4PR04MB7790.eurprd04.prod.outlook.com
+ ([fe80::edd3:f00:3088:6e61]) by PA4PR04MB7790.eurprd04.prod.outlook.com
+ ([fe80::edd3:f00:3088:6e61%4]) with mapi id 15.20.6838.033; Thu, 5 Oct 2023
+ 06:19:03 +0000
+Message-ID: <9b5ddb4e-12f1-4058-bcce-119d6ac4817c@suse.com>
+Date:   Thu, 5 Oct 2023 09:18:56 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 00/37] x86: enable FRED for x86-64
+To:     Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
+        mhiramat@kernel.org, andrew.cooper3@citrix.com,
+        jiangshanlai@gmail.com
+References: <20231003062458.23552-1-xin3.li@intel.com>
+Content-Language: en-US
+From:   Nikolay Borisov <nik.borisov@suse.com>
+In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR0102CA0028.eurprd01.prod.exchangelabs.com
+ (2603:10a6:802::41) To PA4PR04MB7790.eurprd04.prod.outlook.com
+ (2603:10a6:102:cc::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7790:EE_|DUZPR04MB9728:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fb8d531-04d1-43b5-d333-08dbc56af851
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TvB56ZyTvgf3qztSKR5fDlSPBaloYgo5RI0rfaw+srmCP8hiAlkGG82acncIGIA2Bw77GHMulFpENlNqV5QhkQ+k1Jb2e1WOXJm0X3KiF2dIgpqvX22/GnISdp0/HWvj6dBU0rKcAuAggiPwMtEw5ENwfR/i0vFuZYv4EkYyy/Bnqo5X37wC1Dvaa/J2amlwlLLpC9zZGpTXteyW/1l/rTyFgu+HRxrxjNWWtHZ0pfDgAEIlg44hdFw3PN0U+KwXHJuuAL9r2hClfBFwHe9+F6n5K4kCH4FwcKTzkGyJkjjOIBZmzPkwq5reiydc1rnPPlReS1Cs9D/zYnaOkqvrWJfLgtMO/DXS6T3Nu87JjZG0hOTyw9qG5tN1PaY/wdPixBMX2zFFb9IwmUVPtMqCQ9IPerWVBKpK3L9t/vPbnc20aVo6nZlHOn1AoHWPY8lQgD12oid3gkb4juX6WsnIblJP/fVnF/5tr4pdu0SyJNGnq51ZkpUJIwBRIJOQ9QGnTRUPVLiC4z6np4G5JwZGN48/XJ7gDll7R7bUyZJIEwrDHwPgbkNBALLIRKIQ2a1AF2FZk0ie36LX1KSgXGr1L+jmqTb4MJWSPftayfBR2rlSDF/qZ5VXyNOBWC6p9g9BZJfWJPnna/ALb14dN/bD3Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7790.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(396003)(39860400002)(366004)(376002)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(4744005)(7416002)(2906002)(4326008)(5660300002)(8936002)(8676002)(31686004)(41300700001)(316002)(66946007)(31696002)(66476007)(38100700002)(66556008)(6512007)(478600001)(86362001)(6486002)(6666004)(2616005)(36756003)(6506007)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eDJrWFNINWVqY2xhSVhPSGpRZlczSjdUdTZFclI0ZlYwZ3VUcWdGcmQ3RTIw?=
+ =?utf-8?B?azM4OSsxVXlyZnZkTDZBMktkWjVaQUwxZFY3dlI5dmFOSHU3RzFQbURYZCt1?=
+ =?utf-8?B?WTBJNno4QmtpQ3BDbmdmandHbmdSZFpvNVN4eWxTVEdud0k4dnpHcVJER1dv?=
+ =?utf-8?B?aW5jZU1PNWNjSmFtdktweW50dktkT1Zna2dyem1pYUV6c291aGVBYmJQVUNX?=
+ =?utf-8?B?bm9FeE92THF1WTF1aWFENWJTb0lSYStpOG5JVmcramNKZHFJUkc3VzVnT0Ni?=
+ =?utf-8?B?K3Bpd3ovelptOXZUTmM3RDFXanZSbDIvREtpRXVFRnRkcU9HZitZK0JJQ2hz?=
+ =?utf-8?B?VjQ4cFgvbUVROWhZZWVZNEFqNnpMWjYxUTdWMUdnbDJFU3p4VVVweTg2b3pE?=
+ =?utf-8?B?NWdmemNwWkhtMGlBQkxYeDlXeWdLK1pCVmJhaHg1ZlVDNmx2eEpkMHZlWjRu?=
+ =?utf-8?B?cC9kZjBTcHRvT2VWSFRBTm9xcE5POW9HMEJLTnRncEkrWnBaTGkwWGE2R3VY?=
+ =?utf-8?B?clc2N2ZibEpmL0dXcWoyR1hWb3k3aEkxOU92eDhjY3pIbnpkUWgwTVlGa2Vl?=
+ =?utf-8?B?QlBreEhIVDFKa0l3UFBUZkVnK2tmVitaRXN6eGprVHlOeDYvWVhqYjVvaXZ4?=
+ =?utf-8?B?a2NqRFJxUzZiaTU0ZUdtZjk0RnJJR1hEZEtmMGl5Z3NuYjBRNXdQeUhkMUdw?=
+ =?utf-8?B?aCt2eHNYam51RmZqRTBDTlZnSDhRYU1MVVVrT3BFVWJvNFRWelduREVWRE0z?=
+ =?utf-8?B?ckNGZGVMTEpLUWFxaU5qeE1aekQ4aWlXQ25IR3hrRjZzVHVPNkVxV1o5bzVM?=
+ =?utf-8?B?a2tkb2EycDhXQ0FnYUsxOHBOYWxXUlRoS0F1NWRhSi9LS1VnNE1wa1NkYllo?=
+ =?utf-8?B?VHcvdHltVCtYY0NiL3l5a2pHNjI2d3BsYW5GSlhnQWJ2c0dFNzR1clJtUXh5?=
+ =?utf-8?B?RUlhVDJOMW9JbGtnOUg3YitqRFkzZ1BiRFhxZVRmbmZwSXRqYTErdzQxcEdR?=
+ =?utf-8?B?UUN3amU1ZzMxY3Z0VmMzWEN1M3lzWURiY0FCNjd2cWNTZENTNHRMeXFscjJ6?=
+ =?utf-8?B?eTNybW00eE5pY0duOTJJaEtUUTBzZGlXZUJyUUVaQXl1dTErNXg5RlhZOEFH?=
+ =?utf-8?B?R1o1U3U4R0U4WTN0TlhIckp3dk9VVkh5bTRNa2J6NlZvVXYyN2x0djRUVVlo?=
+ =?utf-8?B?VFBjQm9QRDBhZlVFU0krUThtSXVobndJUDlIWnJDcGFFRm1jT2NtTmloa3VK?=
+ =?utf-8?B?YXpkRUZvNEI5aE1RNkJESzc0WEEwbjJzQXJKTU11cUdOdFROaGt4VmRwazBr?=
+ =?utf-8?B?OEtGZ0J6dmtSYUVSdVFuZnJPNDRaL3ArckkvRFhCVkFmMnQ2eGtaQlNNLzVI?=
+ =?utf-8?B?aVNHN2poR2tBeGZGZnpWQWZ0Vm01UnV5YXc2ZC9mYWkvS1Nad3NJRmlEMUpI?=
+ =?utf-8?B?RmdqSGwweDdyTC94UGM5MEVxUUw4elRDTjIvaGMrUnMyT2VtTzNVdTJkdW82?=
+ =?utf-8?B?MWZQL09vR0FRSE5HRHZXdTVNWG9lWFZUblk1ZkthN2dsNzJ3N0ZWRndqUmZt?=
+ =?utf-8?B?WjA3Rkl2MFRuSEdVNlFEU0U0RUZodlJwM2R1VGVnL25PZUFDcTNPek1heXY1?=
+ =?utf-8?B?a09UclVHTjl6SFY4ZHJTTnBMVlo5aVEvWHVNOU1SUFcwdkNoUUJWQTB6U3Fl?=
+ =?utf-8?B?WmF3cXYvQVBqQWptQ0hqWksrdU1zS1ZMemxNUmo5U1YraFNXZUxVMmFVUElI?=
+ =?utf-8?B?TVNKdzJ2QnduWm9hUE9CNU1UMHc2ZFhaTDdSeWJvRVZwQ2tEVnlDYnVTaHRp?=
+ =?utf-8?B?VzVLaXpoenlaUXN2V0hwSUoxOWl1aitaVlQwN2w4WUVpY3Zwc0JsNXdMZEZY?=
+ =?utf-8?B?dUkrbVFsSktKem9oNTRkQk9xU0pxdVZpdTJ6SHgvSkNLRTVqR3hmUUoxYWgw?=
+ =?utf-8?B?MW8wNk1FNkgxMkFHdkNTb3pVRHRkcXRzR013VWErTitRSU81VHZaZmZrN1pp?=
+ =?utf-8?B?L0hBZmg5amhYei9DUTZidWxhOEVZeDRDRVFQUzkzcUw5LzV4cy9QWkVaUFB3?=
+ =?utf-8?B?bXlSSzYyRVROa1NxVTZuMGlZZUdIcTRjbXNuTFNVV1dOVHdsL3NKTjNHZ0NH?=
+ =?utf-8?B?YURKaVVpYlJlOFM2TlZaaHdXMzRuQXFGekRhbGh4QW42aW85UXpRMVIxK095?=
+ =?utf-8?Q?0NgYcp/tjTFnH8wgk1jSYgXnGMKfIocAe2efW+ncX81R?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fb8d531-04d1-43b5-d333-08dbc56af851
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7790.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 06:19:03.4302
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NXcrgj4Wqi52/Gbs4JfTUBil1/wtGIPsCTvlqrdhrAqMjBDjJW1xND9HCJ9NS/CFpUzXhU633QGmKjtzzxs3rg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9728
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Fenghua Yu <fenghua.yu@intel.com>
 
-The documentation mentions that non-contiguous bit masks are not
-supported in Intel Cache Allocation Technology (CAT).
 
-Update the documentation on how to determine if sparse bit masks are
-allowed in L2 and L3 CAT.
+On 3.10.23 г. 9:24 ч., Xin Li wrote:
+> This patch set enables the Intel flexible return and event delivery
+> (FRED) architecture for x86-64.
+> 
 
-Mention the file with feature support information is located in
-the /sys/fs/resctrl/info/{resource}/ directories and enumerate what
-are the possible outputs on file read operation.
 
-Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Tested-by: Peter Newman <peternewman@google.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Reviewed-by: Peter Newman <peternewman@google.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
----
-Changelog v4:
-- Add Ilpo's reviewed-by tag.
-- Add Reinette's reviewed-by tag.
+Which tree is this based on now? I tried running 'b4 diff' but it 
+complains it can't find some context around arch/x86/kernel/cpu/common.c 
+. I have the tip tree updated.
 
-Changelog v3:
-- Add Peter's tested-by and reviewed-by tags.
 
-Changelog v2:
-- Change bitmap naming convention to bit mask. (Reinette)
-
- Documentation/arch/x86/resctrl.rst | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index cb05d90111b4..4c6421e2aa31 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -124,6 +124,13 @@ related to allocation:
- 			"P":
- 			      Corresponding region is pseudo-locked. No
- 			      sharing allowed.
-+"sparse_masks":
-+		Indicates if non-contiguous 1s value in CBM is supported.
-+
-+			"0":
-+			      Only contiguous 1s value in CBM is supported.
-+			"1":
-+			      Non-contiguous 1s value in CBM is supported.
- 
- Memory bandwidth(MB) subdirectory contains the following files
- with respect to allocation:
-@@ -445,12 +452,13 @@ For cache resources we describe the portion of the cache that is available
- for allocation using a bitmask. The maximum value of the mask is defined
- by each cpu model (and may be different for different cache levels). It
- is found using CPUID, but is also provided in the "info" directory of
--the resctrl file system in "info/{resource}/cbm_mask". Intel hardware
-+the resctrl file system in "info/{resource}/cbm_mask". Some Intel hardware
- requires that these masks have all the '1' bits in a contiguous block. So
- 0x3, 0x6 and 0xC are legal 4-bit masks with two bits set, but 0x5, 0x9
--and 0xA are not.  On a system with a 20-bit mask each bit represents 5%
--of the capacity of the cache. You could partition the cache into four
--equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
-+and 0xA are not. Check /sys/fs/resctrl/info/{resource}/sparse_masks
-+if non-contiguous 1s value is supported. On a system with a 20-bit mask
-+each bit represents 5% of the capacity of the cache. You could partition
-+the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
- 
- Memory bandwidth Allocation and monitoring
- ==========================================
--- 
-2.42.0
-
+> 
