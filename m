@@ -2,134 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FAA5E92735
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 14:43:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D9FE92712
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 15:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238255AbjJEOnM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Oct 2023 10:43:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33384 "EHLO
+        id S233709AbjJEPht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Oct 2023 11:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236986AbjJEOhh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 10:37:37 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42C34F6CF;
-        Thu,  5 Oct 2023 07:02:50 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3959mP2d016206;
-        Thu, 5 Oct 2023 11:23:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=AStgfaaTWIWjtJNJOJxciXIDBBRnSo68KvO+i7k27lU=;
- b=ggk4UX5n75YzD4YsFD4zLDhSuQydWWKsE4Qv8PgwqD+GoRRjC7toHCPS/mkyI4wW2CbW
- r0c/BMZzMWqhY1e4ft9nbPA47sNserFtmyue086NlFl++7Qnzcv9iHEWrsRQPtgdlxLR
- ibMgyI1+Nn/IaBjmkVm2g4ieaQysibX7v2QsQlRQCmP7BCbpV74rNqvUL1ZgVmE9g3Rf
- Zf2JzPDbHQizL88V6DlzQL2+S30y4n4YDUv4fPJlB/3sN912+gWQX5PaFsSiJOoWSKEQ
- T65rzenwyoApz9Vh42qef3YNXbz5tPZluzGDsSjn6/qPn/aXWFYeEkT+TSjEzKIANc/O Jg== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3th8ck2nn9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Oct 2023 11:23:56 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 395BNtw3002316
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 5 Oct 2023 11:23:55 GMT
-Received: from [10.216.26.22] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 5 Oct
- 2023 04:23:05 -0700
-Message-ID: <3273977a-be7d-85f6-6754-52a3dd9b784a@quicinc.com>
-Date:   Thu, 5 Oct 2023 16:52:20 +0530
+        with ESMTP id S232628AbjJEPhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 11:37:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E3A35C1B;
+        Thu,  5 Oct 2023 07:53:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5AC7C116B1;
+        Thu,  5 Oct 2023 08:57:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1696496221;
+        bh=pVrbjUBz8B4tQzXARceL2fDR5Lj64WmB0u1Zx7kMTpg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2wdIbPWHyAHClvpS9Kyn1G7hcCW1xtL5Cgatcdr8jg9vkdMAkhnpe1F/in0hczCdw
+         PzglEJZgEFQEjOws+30EQEUstsEDQelJlPlciv8h3E+D72sFoQ1U9ps6ZwPYyEiP9E
+         aWsWESqOXiZw6BC1ZW3OID0jsS/xQuZm07CTUwkQ=
+Date:   Thu, 5 Oct 2023 10:56:58 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: Clarify
+ prenotifaction
+Message-ID: <2023100546-unrelated-trekker-320b@gregkh>
+References: <20231004004959.work.258-kees@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [REBASE PATCH v5 08/17] arm64: mm: Add dynamic ramoops region
- support through command line
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>, Will Deacon <will@kernel.org>
-CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
-        <mathieu.poirier@linaro.org>, <catalin.marinas@arm.com>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
-        <vigneshr@ti.com>, <nm@ti.com>, <matthias.bgg@gmail.com>,
-        <kgene@kernel.org>, <alim.akhtar@samsung.com>,
-        <bmasney@redhat.com>, <quic_tsoni@quicinc.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
-References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
- <1694429639-21484-9-git-send-email-quic_mojha@quicinc.com>
- <20230912101820.GA10884@willie-the-truck> <202309131613.C0E12D0D14@keescook>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <202309131613.C0E12D0D14@keescook>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: tYP2aPd8wLHqCtbdfy0OmUbx-TMAVFMI
-X-Proofpoint-ORIG-GUID: tYP2aPd8wLHqCtbdfy0OmUbx-TMAVFMI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-05_08,2023-10-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 mlxscore=0 impostorscore=0 malwarescore=0
- mlxlogscore=999 adultscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2309180000 definitions=main-2310050088
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231004004959.work.258-kees@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry for the late reply, was on a long vacation.
+On Tue, Oct 03, 2023 at 05:50:03PM -0700, Kees Cook wrote:
+> There has been a repeated misunderstanding about what the hardware embargo
+> list is for. Clarify the language in the process so that it is clear
+> that only fixes are coordinated. There is explicitly no prenotification
+> process. The list members are also expected to keep total radio silence
+> during embargoes.
+> 
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: workflows@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  .../process/embargoed-hardware-issues.rst     | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+> index ac7c52f130c9..31000f075707 100644
+> --- a/Documentation/process/embargoed-hardware-issues.rst
+> +++ b/Documentation/process/embargoed-hardware-issues.rst
+> @@ -25,15 +25,15 @@ Contact
+>  The Linux kernel hardware security team is separate from the regular Linux
+>  kernel security team.
+>  
+> -The team only handles the coordination of embargoed hardware security
+> -issues.  Reports of pure software security bugs in the Linux kernel are not
+> +The team only handles developing fixes for embargoed hardware security
+> +issues. Reports of pure software security bugs in the Linux kernel are not
+>  handled by this team and the reporter will be guided to contact the regular
+>  Linux kernel security team (:ref:`Documentation/admin-guide/
+>  <securitybugs>`) instead.
+>  
+>  The team can be contacted by email at <hardware-security@kernel.org>. This
+> -is a private list of security officers who will help you to coordinate an
+> -issue according to our documented process.
+> +is a private list of security officers who will help you to coordinate a
+> +fix according to our documented process.
+>  
+>  The list is encrypted and email to the list can be sent by either PGP or
+>  S/MIME encrypted and must be signed with the reporter's PGP key or S/MIME
+> @@ -132,11 +132,11 @@ other hardware could be affected.
+>  
+>  The hardware security team will provide an incident-specific encrypted
+>  mailing-list which will be used for initial discussion with the reporter,
+> -further disclosure and coordination.
+> +further disclosure, and coordination of fixes.
+>  
+>  The hardware security team will provide the disclosing party a list of
+>  developers (domain experts) who should be informed initially about the
+> -issue after confirming with the developers  that they will adhere to this
+> +issue after confirming with the developers that they will adhere to this
 
-On 9/14/2023 4:47 AM, Kees Cook wrote:
-> On Tue, Sep 12, 2023 at 11:18:20AM +0100, Will Deacon wrote:
->> On Mon, Sep 11, 2023 at 04:23:50PM +0530, Mukesh Ojha wrote:
->>> The reserved memory region for ramoops is assumed to be at a fixed
->>> and known location when read from the devicetree. This may not be
->>> required for something like Qualcomm's minidump which is interested
->>> in knowing addresses of ramoops region but it does not put hard
->>> requirement of address being fixed as most of it's SoC does not
->>> support warm reset and does not use pstorefs at all instead it has
->>> firmware way of collecting ramoops region if it gets to know the
->>> address and register it with apss minidump table which is sitting
->>> in shared memory region in DDR and firmware will have access to
->>> these table during reset and collects it on crash of SoC.
->>>
->>> So, add the support of reserving ramoops region to be dynamically
->>> allocated early during boot if it is request through command line
->>> via 'dyn_ramoops_size=' and fill up reserved resource structure and
->>> export the structure, so that it can be read by ramoops driver.
->>>
->>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
->>> ---
->>>   arch/arm64/mm/init.c       | 94 ++++++++++++++++++++++++++++++++++++++++++++++
->>
->> Why does this need to be in the arch code? There's absolutely nothing
->> arm64-specific here.
-> 
-> I would agree: this needs to be in ramoops itself, IMO. It should be a
-> ramoops module argument, too.
-> 
-> It being unhelpful for systems that don't have an external consumer is
-> certainly true, but I think it would still make more sense for this
-> change to live entirely within ramoops. Specifically: you're
-> implementing a pstore backend behavioral change. In the same way that
-> patch 10 is putting the "output" side of this into pstore/, I'd expect
-> the "input" side also in pstore/
+Nit, whitespace change wasn't documented in the changelog :)
 
-How do we reserve memory? are you suggesting to use dma api's for
-dynamic ramoops ?
+Thanks for this, it matches up with the list rules now much better (that
+everyone gets when they join one of these lists), so I'll go apply it to
+my tree now.
 
--Mukesh
-> 
-> More comments there, though.
-> 
+greg k-h
