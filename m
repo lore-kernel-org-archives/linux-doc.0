@@ -2,101 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D9FE92712
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 15:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B2CE92717
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 15:48:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233709AbjJEPht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Oct 2023 11:37:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36546 "EHLO
+        id S234370AbjJEPsr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Oct 2023 11:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232628AbjJEPhb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 11:37:31 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E3A35C1B;
-        Thu,  5 Oct 2023 07:53:30 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5AC7C116B1;
-        Thu,  5 Oct 2023 08:57:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696496221;
-        bh=pVrbjUBz8B4tQzXARceL2fDR5Lj64WmB0u1Zx7kMTpg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2wdIbPWHyAHClvpS9Kyn1G7hcCW1xtL5Cgatcdr8jg9vkdMAkhnpe1F/in0hczCdw
-         PzglEJZgEFQEjOws+30EQEUstsEDQelJlPlciv8h3E+D72sFoQ1U9ps6ZwPYyEiP9E
-         aWsWESqOXiZw6BC1ZW3OID0jsS/xQuZm07CTUwkQ=
-Date:   Thu, 5 Oct 2023 10:56:58 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: Clarify
- prenotifaction
-Message-ID: <2023100546-unrelated-trekker-320b@gregkh>
-References: <20231004004959.work.258-kees@kernel.org>
+        with ESMTP id S234047AbjJEPsG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 11:48:06 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27E2F2D0F4
+        for <linux-doc@vger.kernel.org>; Thu,  5 Oct 2023 07:28:05 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-351367c1c24so85945ab.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Oct 2023 07:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696516084; x=1697120884; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ybf0NvxyfgOVHv/GEAtcS44ETu+aNcIhjMUXTQXq/oo=;
+        b=357qa53z+AAunQ8oS3QXRiObclCY2UhybS3AxEnWS74QqMf9qMduUuUhQnXT7QYlKC
+         gQ4DHE8YGflB1cSJ07i4vFdk6zbM1OKAyfrY+6RC+TeFK8yhboV8HONlvGGS44kOIMUP
+         34tnCc7cYnft3IQlPNXO3TZMHbHbTksOS0MDmnXRE43kSyHgd6QKCwJav4CKi6bseg/b
+         PR4YpK4puUMtQHxHAcjmzThNycNH4ItR1paTBejvJkXdH8M1SQwbnoEosJf7+ZOHuS/G
+         Vj/p724bFZ0bGMvCemUpjxzHu/hSz+DeqANCqBmN//ZwBATvtvTlwD6Uf4n5B7LY5oJJ
+         BQiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696516084; x=1697120884;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ybf0NvxyfgOVHv/GEAtcS44ETu+aNcIhjMUXTQXq/oo=;
+        b=EmFJPUVPmq/SMlEUG5h/xQN1lhhmqZwB/IuP6/2RTjHs+isqRVcJZKYmZLd72i3pQb
+         0qESHwmxKEaO8Z3MkFaKUJbrv4k+ag7P5jns4B/JS7nxuuZE1sEAgjz1D41IjOZSd8GL
+         5xOZSXOy+F58x1E8Wh8UbxJmnITm2BOvbn4ZzbqSgX0RzpseinKXZAU6TrtnAhTMDNJq
+         gpFwRVkXSNCuQU1bnQjUUO4e3gwrUVs5c2MCb1aVSdpCrrvwaUKefPbMTJBxYe9dKMAJ
+         4TPwEYiA9O63HWQG+a2/Bfyquc7jGQvdNpnkTzKgOS/xqmIf/kfldjvyPCm+e5o5HQqd
+         ZcSQ==
+X-Gm-Message-State: AOJu0YyZG/OZRBn/51d7Df8wu7BGOANnjbNlVoP3LrgLLx1WypVs/Kmv
+        AichYoeo6afUTXiL/bkOrJtal8lXKUL/qgsD8EJ7fw==
+X-Google-Smtp-Source: AGHT+IFvw6IhRVN0H3jLFsLkccwcXRU0R1gonoMQf+gJvBTEY0T903zokI27tID8lLZZIeAVp3qcWUQFrGbYz0QRbi4=
+X-Received: by 2002:a05:6e02:2141:b0:34d:f90f:d42a with SMTP id
+ d1-20020a056e02214100b0034df90fd42amr124815ilv.1.1696516084281; Thu, 05 Oct
+ 2023 07:28:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231004004959.work.258-kees@kernel.org>
+References: <20230928191350.205703-1-tony.luck@intel.com> <20231003213043.13565-1-tony.luck@intel.com>
+ <20231003213043.13565-2-tony.luck@intel.com>
+In-Reply-To: <20231003213043.13565-2-tony.luck@intel.com>
+From:   Peter Newman <peternewman@google.com>
+Date:   Thu, 5 Oct 2023 16:27:53 +0200
+Message-ID: <CALPaoCg7ov97uSKk8K4O5_GFKvnHSCSK79g-boPMQKhziS49hw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] x86/resctrl: Prepare for new domain scope
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 03, 2023 at 05:50:03PM -0700, Kees Cook wrote:
-> There has been a repeated misunderstanding about what the hardware embargo
-> list is for. Clarify the language in the process so that it is clear
-> that only fixes are coordinated. There is explicitly no prenotification
-> process. The list members are also expected to keep total radio silence
-> during embargoes.
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: workflows@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  .../process/embargoed-hardware-issues.rst     | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> index ac7c52f130c9..31000f075707 100644
-> --- a/Documentation/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/process/embargoed-hardware-issues.rst
-> @@ -25,15 +25,15 @@ Contact
->  The Linux kernel hardware security team is separate from the regular Linux
->  kernel security team.
->  
-> -The team only handles the coordination of embargoed hardware security
-> -issues.  Reports of pure software security bugs in the Linux kernel are not
-> +The team only handles developing fixes for embargoed hardware security
-> +issues. Reports of pure software security bugs in the Linux kernel are not
->  handled by this team and the reporter will be guided to contact the regular
->  Linux kernel security team (:ref:`Documentation/admin-guide/
->  <securitybugs>`) instead.
->  
->  The team can be contacted by email at <hardware-security@kernel.org>. This
-> -is a private list of security officers who will help you to coordinate an
-> -issue according to our documented process.
-> +is a private list of security officers who will help you to coordinate a
-> +fix according to our documented process.
->  
->  The list is encrypted and email to the list can be sent by either PGP or
->  S/MIME encrypted and must be signed with the reporter's PGP key or S/MIME
-> @@ -132,11 +132,11 @@ other hardware could be affected.
->  
->  The hardware security team will provide an incident-specific encrypted
->  mailing-list which will be used for initial discussion with the reporter,
-> -further disclosure and coordination.
-> +further disclosure, and coordination of fixes.
->  
->  The hardware security team will provide the disclosing party a list of
->  developers (domain experts) who should be informed initially about the
-> -issue after confirming with the developers  that they will adhere to this
-> +issue after confirming with the developers that they will adhere to this
+On Tue, Oct 3, 2023 at 11:30=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
+te:
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu=
+/resctrl/rdtgroup.c
+> index 725344048f85..04c164f6d39d 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -1345,10 +1345,13 @@ unsigned int rdtgroup_cbm_to_size(struct rdt_reso=
+urce *r,
+>         unsigned int size =3D 0;
+>         int num_b, i;
+>
+> +       if (WARN_ON_ONCE(r->scope !=3D RESCTRL_L2_CACHE && r->scope !=3D =
+RESCTRL_L3_CACHE))
+> +               return size;
 
-Nit, whitespace change wasn't documented in the changelog :)
+Thanks!
 
-Thanks for this, it matches up with the list rules now much better (that
-everyone gets when they join one of these lists), so I'll go apply it to
-my tree now.
-
-greg k-h
+Reviewed-by: Peter Newman <peternewman@google.com>
