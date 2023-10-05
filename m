@@ -2,83 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 824FAE92706
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 14:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81569E92712
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 14:30:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233943AbjJEO00 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Oct 2023 10:26:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52578 "EHLO
+        id S233486AbjJEOaN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Oct 2023 10:30:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234827AbjJEOYT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 10:24:19 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03A120E5C;
-        Thu,  5 Oct 2023 03:29:07 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99c3c8adb27so144559066b.1;
-        Thu, 05 Oct 2023 03:29:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696501744; x=1697106544;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jj5jafkJ0zIFP34snoPmFPYTg/PYDWh3uWvMOXmNhu8=;
-        b=KuA5gHnjgLh2WZyL+/uJF8GoN8lGooBYfdTywPTE1XQytWbqWxIWW/yGUvXymJFr5a
-         d6Fo7FueCYHEywo7K3xl0Mrt0kduPMMDJNrq9CbbJV0p7cinULZPlt2uwRmyvG0x435l
-         J6pQWrdKtnzqsnSNpahdjjD432MEX6a5V/lv5fmcFw6AJL/BzDcKPz0KmU+C6VK6W4zm
-         hEksRKG/JRgVxd2K1ZhMsEHJtYiW4cs9Vd5tM9g5PCXFE+e8Tv0diWQzPLDB+FhNvevv
-         87qv384rIhKr7pz9GQSdpTZPMObGbmVovXgVtnOSAQEnnyRYt+62WvwfkCxJf8f92Vxk
-         xKnw==
-X-Gm-Message-State: AOJu0YwFQTb/jEyBJIjUH/8hGviATDhetUDhXkBK0Dkq+HVVxwNL/tN8
-        ykecOEv/nxVqHB8bgsItEnA=
-X-Google-Smtp-Source: AGHT+IHydoezWpZnKJkj/HxjmRp/jJVxzTNzko/BbjcgxBRaXK5KRLbXhnAIexulQV8Y7S8zD1ac/g==
-X-Received: by 2002:a17:907:7603:b0:9b2:b633:ada2 with SMTP id jx3-20020a170907760300b009b2b633ada2mr4423288ejc.36.1696501744259;
-        Thu, 05 Oct 2023 03:29:04 -0700 (PDT)
-Received: from gmail.com (fwdproxy-cln-006.fbsv.net. [2a03:2880:31ff:6::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a11-20020a17090640cb00b00977eec7b7e8sm963021ejk.68.2023.10.05.03.29.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 03:29:03 -0700 (PDT)
-Date:   Thu, 5 Oct 2023 03:29:02 -0700
-From:   Breno Leitao <leitao@debian.org>
-To:     kuba@kernel.org, davem@davemloft.net, pabeni@redhat.com,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, hch@lst.de,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        horms@kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 3/3] Documentation: netconsole: add support for cmdline
- targets
-Message-ID: <ZR6P7isP8eEy9vdF@gmail.com>
-References: <20231002155349.2032826-1-leitao@debian.org>
- <20231002155349.2032826-4-leitao@debian.org>
- <ZR3GbHOyxx+J4FUn@google.com>
+        with ESMTP id S234145AbjJEO2c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 10:28:32 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5BE1BE3;
+        Thu,  5 Oct 2023 06:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696513800; x=1728049800;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=kBxCGjZW2FJhQ282tkABZbg5NvDP8ru8sP0OrIfFg3Y=;
+  b=CdRn38pa5y1n0KzSfqKaFrWdcFXryBYUef4pF+cadbHpWUu8uKGEvMOD
+   hubK03SK5r7tf6zZz8o98aXm91UkQ9WHQJvufajpJjUu2GTF1eNCrDeTO
+   2w4duqWTeyeKho1o0wJHBSfMjV7sDKU4MuKWUCF0s1o4RNetM3a3Mc2TO
+   BvKelDzRrsdpWH1K1ljVR1awE5denSGxPlMa2it7jeCxeZzOanvz/3mEG
+   A6pvzlFzeUzWpchbbLivOi+MZal3lzd8gX471/WQuIGda6Pj6gBvn7SNQ
+   BGiDfT/hNfsCSjN5eeOipFa7lFYQ4tEsGYsCb0JS9HTpObGkHCyoH66jy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383339485"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="383339485"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:16:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="875477082"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="875477082"
+Received: from lpopiela-mobl.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.213.13.229])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:16:27 -0700
+From:   Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+To:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Newman <peternewman@google.com>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v4 4/4] Documentation/x86: Document resctrl's new sparse_masks
+Date:   Thu,  5 Oct 2023 10:15:39 +0200
+Message-ID: <7bbdf55ac6f909a6701915d99d79c8f9977bd0b4.1696493034.git.maciej.wieczor-retman@intel.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <cover.1696493034.git.maciej.wieczor-retman@intel.com>
+References: <cover.1696493034.git.maciej.wieczor-retman@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZR3GbHOyxx+J4FUn@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 04, 2023 at 01:09:16PM -0700, Joel Becker wrote:
-> On Mon, Oct 02, 2023 at 08:53:49AM -0700, Breno Leitao wrote:
-> > @@ -155,6 +152,24 @@ You can also update the local interface dynamically. This is especially
-> >  useful if you want to use interfaces that have newly come up (and may not
-> >  have existed when netconsole was loaded / initialized).
-> >  
-> > +You can control and modify the targets defined at boot time (or module load
-> > +time) by creating special targets names. These special targets are named
-> > +`cmdline` concatenated to an integer, example: `cmdline0`.
-> 
-> The special names are already "created", so perhaps it's a little
-> clearer to say something like:
-> 
-> ```
-> +Netconsole targets defined at boot time (or module load time) with the
-> +`netconsole=` param are assigned the name `cmdline<index>`.  For
-> +example, the first target in the parameter is named `cmdline0`.  You
-> +can control and modify these targets by creating configfs directories
-> +with the matching name.
-> ```
+From: Fenghua Yu <fenghua.yu@intel.com>
 
-That is way better. Thanks for the review.
-I will send an updated version soon.
+The documentation mentions that non-contiguous bit masks are not
+supported in Intel Cache Allocation Technology (CAT).
+
+Update the documentation on how to determine if sparse bit masks are
+allowed in L2 and L3 CAT.
+
+Mention the file with feature support information is located in
+the /sys/fs/resctrl/info/{resource}/ directories and enumerate what
+are the possible outputs on file read operation.
+
+Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Tested-by: Peter Newman <peternewman@google.com>
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Reviewed-by: Peter Newman <peternewman@google.com>
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+---
+Changelog v4:
+- Add Ilpo's reviewed-by tag.
+- Add Reinette's reviewed-by tag.
+
+Changelog v3:
+- Add Peter's tested-by and reviewed-by tags.
+
+Changelog v2:
+- Change bitmap naming convention to bit mask. (Reinette)
+
+ Documentation/arch/x86/resctrl.rst | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+index cb05d90111b4..4c6421e2aa31 100644
+--- a/Documentation/arch/x86/resctrl.rst
++++ b/Documentation/arch/x86/resctrl.rst
+@@ -124,6 +124,13 @@ related to allocation:
+ 			"P":
+ 			      Corresponding region is pseudo-locked. No
+ 			      sharing allowed.
++"sparse_masks":
++		Indicates if non-contiguous 1s value in CBM is supported.
++
++			"0":
++			      Only contiguous 1s value in CBM is supported.
++			"1":
++			      Non-contiguous 1s value in CBM is supported.
+ 
+ Memory bandwidth(MB) subdirectory contains the following files
+ with respect to allocation:
+@@ -445,12 +452,13 @@ For cache resources we describe the portion of the cache that is available
+ for allocation using a bitmask. The maximum value of the mask is defined
+ by each cpu model (and may be different for different cache levels). It
+ is found using CPUID, but is also provided in the "info" directory of
+-the resctrl file system in "info/{resource}/cbm_mask". Intel hardware
++the resctrl file system in "info/{resource}/cbm_mask". Some Intel hardware
+ requires that these masks have all the '1' bits in a contiguous block. So
+ 0x3, 0x6 and 0xC are legal 4-bit masks with two bits set, but 0x5, 0x9
+-and 0xA are not.  On a system with a 20-bit mask each bit represents 5%
+-of the capacity of the cache. You could partition the cache into four
+-equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
++and 0xA are not. Check /sys/fs/resctrl/info/{resource}/sparse_masks
++if non-contiguous 1s value is supported. On a system with a 20-bit mask
++each bit represents 5% of the capacity of the cache. You could partition
++the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
+ 
+ Memory bandwidth Allocation and monitoring
+ ==========================================
+-- 
+2.42.0
+
