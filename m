@@ -2,200 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52986E9271C
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 17:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F198E9271C
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Oct 2023 17:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbjJERNO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Oct 2023 13:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49786 "EHLO
+        id S230081AbjJERSg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Oct 2023 13:18:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231178AbjJERMX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 13:12:23 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903AB207A;
-        Thu,  5 Oct 2023 10:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696525337; x=1728061337;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=muoN0/hYJseu8Rg/lQyISjLVDDYw3I+CtPRnBVU5RqY=;
-  b=IBk42G8jNaf8vxzAwXMVCDMaDQ6lacN716e9SDVpHuiMX1XlZmc5z4m1
-   Vr3E4ThJZcyxmI+ihjh47Y+LzpWhZH0w5D6oYG21DY25WV9SqXw+rjXXG
-   03QfCKfjrkZ5+Rwk4nb7O6iVjZWgpNVj8mh42SLDVd/TZDxejsUC0ckge
-   H79IcxIqdlO5Xi1lrNk8LQcACBge4ACxWMsvKXy6GiTtl3mQT6ovmrO72
-   XX7N9RpHeSQtK/HEtcORdy/9PNXZ8BRKgiI6qK7sfUeP+5yBwCPx+6PIN
-   300d1+gtTsW6gt9P8YQ0FzPcPTYV/BZmk3R4S/zWeU6ECF4DfC5dttqWP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="447747124"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="447747124"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 10:02:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="755537374"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="755537374"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Oct 2023 10:02:14 -0700
-From:   Tony Nguyen <anthony.l.nguyen@intel.com>
-To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, netdev@vger.kernel.org
-Cc:     Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-        anthony.l.nguyen@intel.com, jacob.e.keller@intel.com,
-        vaishnavi.tipireddy@intel.com, horms@kernel.org, leon@kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org, rdunlap@infradead.org
-Subject: [PATCH net-next v4 5/5] ice: add documentation for FW logging
-Date:   Thu,  5 Oct 2023 10:01:10 -0700
-Message-Id: <20231005170110.3221306-6-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20231005170110.3221306-1-anthony.l.nguyen@intel.com>
-References: <20231005170110.3221306-1-anthony.l.nguyen@intel.com>
+        with ESMTP id S230410AbjJERRr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Oct 2023 13:17:47 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0F34CF3
+        for <linux-doc@vger.kernel.org>; Thu,  5 Oct 2023 10:10:44 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-32157c8e4c7so1223482f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Oct 2023 10:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google; t=1696525843; x=1697130643; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hNrgw+yqYpdjuCEtrSz6iVPXz6l1oyQWLcHiTGD6UFI=;
+        b=hV/n75Soqg9Z6J8DDQXTj3SsHDayMUGV5UBSSO0ja4dLzCYqIwc/cXv4p4jSI/m/Y4
+         zphExXurQC+0pEChjmBREoQsDEyQqKVtf3kmPwvvc8K8sP02i4lyck/rwEw+ERUVMI/C
+         +BNQwQ+cib04c1oANkx6gH1chGe3tENGvsJOnCJCpezC5OQs/JkIvhR/7oH+2LWajyg2
+         13UVXPchS38/xmkfaNDEHK400K/bH4hUS5g5n14XVpqE6EELBzuHOVh8cloEjLi4L87Z
+         N6G7ySNRDPXgUeDtPxCHoiARwOGfADVgALNAf+St/H2DNPhTYuHFdQheJxcKjJshRj9X
+         Gv+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696525843; x=1697130643;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hNrgw+yqYpdjuCEtrSz6iVPXz6l1oyQWLcHiTGD6UFI=;
+        b=Yo8DDWTymPFAuCccsGoqrqj90oABD15JuZW6zIJyOhWbMMKnC8mVEpgo12d/lSUlaq
+         Mum6cXRybzyxl7vfej4FLZ9kLjOo7vQd0Qc9rLS/JR3eVGiX0BETFV+BwgIQksqGutCz
+         HNzt3mJKhFifx7oCwp0ThYJyAJlxBKqVJdWgqtaw4ZzkN7elm+YVu5ngKWmy81AoAP3p
+         ymz0JMO+5PgotZKs7RBShAY5RysK6mK8enBCNyg8QdKpW1NXKE8DB1djxG55WB9J5MXf
+         gwlF8doLvU9fBezzXhVu+oLb1jUbszDP4u2dmM6jJ14U1zGkEryL/6OYehAlt6Lg9tyy
+         bSpg==
+X-Gm-Message-State: AOJu0YwqCxX4jFib69O3leiqBww5vD2TcILM6AzLXrYL/+ctUYbo68lf
+        MoJoWAu/lXoPzCYeZIACLiQYjA==
+X-Google-Smtp-Source: AGHT+IFqvkrVzEF20ztaw/LQ53xt8fvGxgn7/DG6rZRMll52AtIpIyoMT19G8s4UykcFGhKaSeNtsg==
+X-Received: by 2002:a05:6000:14e:b0:324:8700:6421 with SMTP id r14-20020a056000014e00b0032487006421mr5444658wrx.3.1696525842261;
+        Thu, 05 Oct 2023 10:10:42 -0700 (PDT)
+Received: from ?IPV6:2a02:8084:2562:c100:228:f8ff:fe6f:83a8? ([2a02:8084:2562:c100:228:f8ff:fe6f:83a8])
+        by smtp.gmail.com with ESMTPSA id x13-20020a1c7c0d000000b00402f7b50517sm1935874wmc.40.2023.10.05.10.10.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Oct 2023 10:10:41 -0700 (PDT)
+Message-ID: <093805eb-2ea3-4745-bbd0-fef54040bd1f@arista.com>
+Date:   Thu, 5 Oct 2023 18:10:39 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 net-next 23/23] Documentation/tcp: Add TCP-AO
+ documentation
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     David Ahern <dsahern@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-kernel@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Bob Gilligan <gilligan@arista.com>,
+        Dan Carpenter <error27@gmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Donald Cassidy <dcassidy@redhat.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Francesco Ruggeri <fruggeri05@gmail.com>,
+        "Gaillardetz, Dominik" <dgaillar@ciena.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ivan Delalande <colona@arista.com>,
+        Leonard Crestez <cdleonard@gmail.com>,
+        "Nassiri, Mohammad" <mnassiri@ciena.com>,
+        Salam Noureddine <noureddine@arista.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        "Tetreault, Francois" <ftetreau@ciena.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20231004223629.166300-1-dima@arista.com>
+ <20231004223629.166300-24-dima@arista.com> <87jzs2yp2y.fsf@meer.lwn.net>
+From:   Dmitry Safonov <dima@arista.com>
+In-Reply-To: <87jzs2yp2y.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+Hi Jonathan,
 
-Add documentation for FW logging in
-Documentation/networking/device-drivers/ethernet/intel/ice.rst
+On 10/4/23 23:56, Jonathan Corbet wrote:
+> Dmitry Safonov <dima@arista.com> writes:
+> 
+>> It has Frequently Asked Questions (FAQ) on RFC 5925 - I found it very
+>> useful answering those before writing the actual code. It provides answers
+>> to common questions that arise on a quick read of the RFC, as well as how
+>> they were answered. There's also comparison to TCP-MD5 option,
+>> evaluation of per-socket vs in-kernel-DB approaches and description of
+>> uAPI provided.
+>>
+>> Hopefully, it will be as useful for reviewing the code as it was for writing.
+> 
+> It looks like useful information; I just have one request...
+> 
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> Signed-off-by: Dmitry Safonov <dima@arista.com>
+>> Acked-by: David Ahern <dsahern@kernel.org>
+[..]
+>> +1. Introduction
+>> +===============
+>> +
+>> +.. list-table:: Short and Limited Comparison of TCP-AO and TCP-MD5
+>> +
+>> +   * -
+>> +     - TCP-MD5
+>> +     - TCP-AO
+>> +   * - Supported hashing algorithms
+>> +     - MD5 (cryptographically weak).
+>> +     - Must support HMAC-SHA1 (chosen-prefix attacks) and CMAC-AES-128
+>> +       (only side-channel attacks). May support any hashing algorithm.
+> 
+> ...can you please avoid using list-table if possible?  It makes the
+> plain-text version nearly impossible to read.
 
-Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- .../device_drivers/ethernet/intel/ice.rst     | 117 ++++++++++++++++++
- 1 file changed, 117 insertions(+)
+Sure, I also find it unpleasant to look in plain-text.
+As long as you don't suggest something else, I'll go with plain table::
+for the next version - that seems to look a bit better.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index e4d065c55ea8..9042349f354a 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -895,6 +895,123 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
- refer to the hardware GNSS module documentation for configuration details.
- 
- 
-+Firmware (FW) logging
-+---------------------
-+The driver supports FW logging via the debugfs interface on PF 0 only. In order
-+for FW logging to work, the NVM must support it. The 'fwlog' file will only get
-+created in the ice debugfs directory if the NVM supports FW logging.
-+
-+Module configuration
-+~~~~~~~~~~~~~~~~~~~~
-+To see the status of FW logging, read the 'fwlog/modules' file like this::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+To configure FW logging, write to the 'fwlog/modules' file like this::
-+
-+  # echo <fwlog_event> <fwlog_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+where
-+
-+* fwlog_level is a name as described below. Each level includes the
-+  messages from the previous/lower level
-+
-+      *	NONE
-+      *	ERROR
-+      *	WARNING
-+      *	NORMAL
-+      *	VERBOSE
-+
-+* fwlog_event is a name that represents the module to receive events for. The
-+  module names are
-+
-+      *	GENERAL
-+      *	CTRL
-+      *	LINK
-+      *	LINK_TOPO
-+      *	DNL
-+      *	I2C
-+      *	SDP
-+      *	MDIO
-+      *	ADMINQ
-+      *	HDMA
-+      *	LLDP
-+      *	DCBX
-+      *	DCB
-+      *	XLR
-+      *	NVM
-+      *	AUTH
-+      *	VPD
-+      *	IOSF
-+      *	PARSER
-+      *	SW
-+      *	SCHEDULER
-+      *	TXQ
-+      *	RSVD
-+      *	POST
-+      *	WATCHDOG
-+      *	TASK_DISPATCH
-+      *	MNG
-+      *	SYNCE
-+      *	HEALTH
-+      *	TSDRV
-+      *	PFREG
-+      *	MDLVER
-+      *	ALL
-+
-+The name ALL is special and specifies setting all of the modules to the
-+specified fwlog_level.
-+
-+Example usage to configure the modules::
-+
-+  # echo LINK VERBOSE > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
-+
-+Enabling FW log
-+~~~~~~~~~~~~~~~
-+Once the desired modules are configured the user enables logging. To do
-+this the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An
-+example is::
-+
-+  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
-+
-+Retrieving FW log data
-+~~~~~~~~~~~~~~~~~~~~~~
-+The FW log data can be retrieved by reading from 'fwlog/data'. The user can
-+write to 'fwlog/data' to clear the data. The data can only be cleared when FW
-+logging is disabled. The FW log data is a binary file that is sent to Intel and
-+used to help debug user issues.
-+
-+An example to read the data is::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
-+
-+An example to clear the data is::
-+
-+  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
-+
-+Changing how often the log events are sent to the driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver receives FW log data from the Admin Receive Queue (ARQ). The
-+frequency that the FW sends the ARQ events can be configured by writing to
-+'fwlog/resolution'. The range is 1-128 (1 means push every log message, 128
-+means push only when the max AQ command buffer is full). The suggested value is
-+10. The user can see what the value is configured to by reading
-+'fwlog/resolution'. An example to set the value is::
-+
-+  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/resolution
-+
-+Configuring the number of buffers used to store FW log data
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver stores FW log data in a ring within the driver. The default size of
-+the ring is 256 4K buffers. Some use cases may require more or less data so
-+the user can change the number of buffers that are allocated for FW log data.
-+To change the number of buffers write to 'fwlog/nr_buffs'. The value must be one
-+of: 64, 128, 256, or 512. FW logging must be disabled to change the value. An
-+example of changing the value is::
-+
-+  # echo 128 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_buffs
-+
-+
- Performance Optimization
- ========================
- Driver defaults are meant to fit a wide variety of workloads, but if further
--- 
-2.38.1
+Originally I went with list-table as that seems quite spread over
+Documentation/, but probably worth avoiding another entry there:
+
+[dima@Mindolluin linux-master]$ git grep -ho '[^ ]*table::'
+Documentation/ | sort | uniq -c
+      4 acceptable::
+      4 csv-table::
+      1 executable::
+    594 flat-table::
+    133 list-table::
+     41 table::
+
+
+Thanks,
+           Dmitry
 
