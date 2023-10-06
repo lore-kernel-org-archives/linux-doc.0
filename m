@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F6D1E81DE8
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 11:43:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74910E81DEA
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 11:43:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231935AbjJFLn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 07:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46182 "EHLO
+        id S232133AbjJFLn6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 07:43:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232086AbjJFLnv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 07:43:51 -0400
+        with ESMTP id S232086AbjJFLn6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 07:43:58 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A74FCF;
-        Fri,  6 Oct 2023 04:43:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD373CA;
+        Fri,  6 Oct 2023 04:43:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696592630; x=1728128630;
+  t=1696592636; x=1728128636;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+9H/rvYK5o9whH9rNgHHfHAbgEAl1kqDx0MXJf1anMg=;
-  b=PhlsDhYwfwMz7kBB2Yy74nbPdUcfxA+l2knETpHNkTLt6dQnj5Gf3qre
-   ViCqk3TzladgUPHwf0X4YxN/fp/UNtQOdMdFV6hjI2z/8sc4vgw4IHWOl
-   HAfA+7ckWDqkpaXlA5szrPnvNkDy2WuXnCTkKsyb/2iD42FwVs38d2uMV
-   YPfrsBzS/SQ1VcopoQCoo67iJZ0AePswd1vhRRp0yfgw1+g9PoeSsJvhB
-   tlL+KzGzT+aMlw5XHTqqm+TiiTZkGfq6zR6V9achrfcYzLgP0CIGEvXNC
-   R4W9HxWEapTUB/3Dn/Mor0B3a+0fndxV2Vu+sC1ItgxQVsoIOy2LyRLXd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="470003229"
+  bh=j5zVEg/I+Gu2q4wK/C1xI3u6uGivmsKp9MuiUjz4V18=;
+  b=envmGYi/ZBEUXf+HRXN/6c7bIvBvdaqLGQj1W5Hi/BNxyZ6P6wN5jZhI
+   ZC7c23mU/CZHKXrMqZWSwVGbPm4h94uZQp40dZIX1yQ3K91U3KRXGwld+
+   JgEAC5+6wdl26kvgS4b6KV2dg3SI/wYnhsDrrob2xOkyQxB13dXsKOIaa
+   TzvLv9nxwrO8Ah7PRz2CRJ5fP9cpnU6sH9rcB1BnS0tmnYU2QW6mmycmf
+   Eq9c9YMe4MBCYROaUaXtGNao2QwQxSxQoGZe1vxNR4jq9Q1C8NeqpynSu
+   3COvExO5gW2rs44m+FDimZsCSD7rjogMGWQuNducoDQcyxt4trUbOd6BM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="470003257"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="470003229"
+   d="scan'208";a="470003257"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 04:43:50 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 04:43:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="925942705"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="925942718"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="925942705"
+   d="scan'208";a="925942718"
 Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
-  by orsmga005.jf.intel.com with ESMTP; 06 Oct 2023 04:43:47 -0700
+  by orsmga005.jf.intel.com with ESMTP; 06 Oct 2023 04:43:53 -0700
 From:   Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 To:     netdev@vger.kernel.org
 Cc:     vadim.fedorenko@linux.dev, jiri@resnulli.us, corbet@lwn.net,
@@ -45,9 +45,9 @@ Cc:     vadim.fedorenko@linux.dev, jiri@resnulli.us, corbet@lwn.net,
         jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
         linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
         Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Subject: [PATCH net-next v3 1/5] dpll: docs: add support for pin signal phase offset/adjust
-Date:   Fri,  6 Oct 2023 13:40:57 +0200
-Message-Id: <20231006114101.1608796-2-arkadiusz.kubalewski@intel.com>
+Subject: [PATCH net-next v3 3/5] dpll: netlink/core: add support for pin-dpll signal phase offset/adjust
+Date:   Fri,  6 Oct 2023 13:40:59 +0200
+Message-Id: <20231006114101.1608796-4-arkadiusz.kubalewski@intel.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20231006114101.1608796-1-arkadiusz.kubalewski@intel.com>
 References: <20231006114101.1608796-1-arkadiusz.kubalewski@intel.com>
@@ -57,101 +57,237 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation on:
-- measurment of phase of signal between pin and dpll
-- adjustment of pin signal phase
+Add callback ops for pin-dpll phase measurment.
+Add callback for pin signal phase adjustment.
+Add min and max phase adjustment values to pin proprties.
+Invoke callbacks in dpll_netlink.c when filling the pin details to
+provide user with phase related attribute values.
 
 Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 ---
- Documentation/driver-api/dpll.rst | 53 ++++++++++++++++++++++++++++++-
- 1 file changed, 52 insertions(+), 1 deletion(-)
+ drivers/dpll/dpll_netlink.c | 130 +++++++++++++++++++++++++++++++++++-
+ include/linux/dpll.h        |  18 +++++
+ 2 files changed, 147 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
-index 69670deb8c4e..564997373437 100644
---- a/Documentation/driver-api/dpll.rst
-+++ b/Documentation/driver-api/dpll.rst
-@@ -173,6 +173,47 @@ in order to configure active input of a MUX-type pin, the user needs to
- request desired pin state of the child pin on the parent pin,
- as described in the ``MUX-type pins`` chapter.
+diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
+index e20daba6896a..97319a9e4667 100644
+--- a/drivers/dpll/dpll_netlink.c
++++ b/drivers/dpll/dpll_netlink.c
+@@ -212,6 +212,53 @@ dpll_msg_add_pin_direction(struct sk_buff *msg, struct dpll_pin *pin,
+ 	return 0;
+ }
  
-+Phase offset measurement and adjustment
-+========================================
++static int
++dpll_msg_add_pin_phase_adjust(struct sk_buff *msg, struct dpll_pin *pin,
++			      struct dpll_pin_ref *ref,
++			      struct netlink_ext_ack *extack)
++{
++	const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
++	struct dpll_device *dpll = ref->dpll;
++	s32 phase_adjust;
++	int ret;
 +
-+Device may provide ability to measure a phase difference between signals
-+on a pin and its parent dpll device. If pin-dpll phase offset measurement
-+is supported, it shall be provided with ``DPLL_A_PIN_PHASE_OFFSET``
-+attribute for each parent dpll device.
++	if (!ops->phase_adjust_get)
++		return 0;
++	ret = ops->phase_adjust_get(pin, dpll_pin_on_dpll_priv(dpll, pin),
++				    dpll, dpll_priv(dpll),
++				    &phase_adjust, extack);
++	if (ret)
++		return ret;
++	if (nla_put_s32(msg, DPLL_A_PIN_PHASE_ADJUST, phase_adjust))
++		return -EMSGSIZE;
 +
-+Device may also provide ability to adjust a signal phase on a pin.
-+If pin phase adjustment is supported, minimal and maximal values that pin
-+handle shall be provide to the user on ``DPLL_CMD_PIN_GET`` respond
-+with ``DPLL_A_PIN_PHASE_ADJUST_MIN`` and ``DPLL_A_PIN_PHASE_ADJUST_MAX``
-+attributes. Configured phase adjust value is provided with
-+``DPLL_A_PIN_PHASE_ADJUST`` attribute of a pin, and value change can be
-+requested with the same attribute with ``DPLL_CMD_PIN_SET`` command.
++	return 0;
++}
 +
-+  =============================== ======================================
-+  ``DPLL_A_PIN_ID``               configured pin id
-+  ``DPLL_A_PIN_PHASE_ADJUST_MIN`` attr minimum value of phase adjustment
-+  ``DPLL_A_PIN_PHASE_ADJUST_MAX`` attr maximum value of phase adjustment
-+  ``DPLL_A_PIN_PHASE_ADJUST``     attr configured value of phase
-+                                  adjustment on parent dpll device
-+  ``DPLL_A_PIN_PARENT_DEVICE``    nested attribute for requesting
-+                                  configuration on given parent dpll
-+                                  device
-+    ``DPLL_A_PIN_PARENT_ID``      parent dpll device id
-+    ``DPLL_A_PIN_PHASE_OFFSET``   attr measured phase difference
-+                                  between a pin and parent dpll device
-+  =============================== ======================================
++static int
++dpll_msg_add_phase_offset(struct sk_buff *msg, struct dpll_pin *pin,
++			  struct dpll_pin_ref *ref,
++			  struct netlink_ext_ack *extack)
++{
++	const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
++	struct dpll_device *dpll = ref->dpll;
++	s64 phase_offset;
++	int ret;
 +
-+All phase related values are provided in pico seconds, which represents
-+time differnece between signals phase. The negative value means that
-+phase of signal on pin is earlier in time than dpll's signal. Positive
-+value means that phase of signal on pin is later in time than signal of
-+a dpll.
++	if (!ops->phase_offset_get)
++		return 0;
++	ret = ops->phase_offset_get(pin, dpll_pin_on_dpll_priv(dpll, pin),
++				    dpll, dpll_priv(dpll), &phase_offset,
++				    extack);
++	if (ret)
++		return ret;
++	if (nla_put_64bit(msg, DPLL_A_PIN_PHASE_OFFSET, sizeof(phase_offset),
++			  &phase_offset, DPLL_A_PIN_PAD))
++		return -EMSGSIZE;
 +
-+Phase adjust (also min and max) values are integers, but measured phase
-+offset values are fractional with 3-digit decimal places and shell be
-+divided with ``DPLL_PIN_PHASE_OFFSET_DIVIDER`` to get integer part and
-+modulo divided to get fractional part.
++	return 0;
++}
 +
- Configuration commands group
- ============================
+ static int
+ dpll_msg_add_pin_freq(struct sk_buff *msg, struct dpll_pin *pin,
+ 		      struct dpll_pin_ref *ref, struct netlink_ext_ack *extack)
+@@ -330,6 +377,9 @@ dpll_msg_add_pin_dplls(struct sk_buff *msg, struct dpll_pin *pin,
+ 		if (ret)
+ 			goto nest_cancel;
+ 		ret = dpll_msg_add_pin_direction(msg, pin, ref, extack);
++		if (ret)
++			goto nest_cancel;
++		ret = dpll_msg_add_phase_offset(msg, pin, ref, extack);
+ 		if (ret)
+ 			goto nest_cancel;
+ 		nla_nest_end(msg, attr);
+@@ -377,6 +427,15 @@ dpll_cmd_pin_get_one(struct sk_buff *msg, struct dpll_pin *pin,
+ 	if (nla_put_u32(msg, DPLL_A_PIN_CAPABILITIES, prop->capabilities))
+ 		return -EMSGSIZE;
+ 	ret = dpll_msg_add_pin_freq(msg, pin, ref, extack);
++	if (ret)
++		return ret;
++	if (nla_put_s32(msg, DPLL_A_PIN_PHASE_ADJUST_MIN,
++			prop->phase_range.min))
++		return -EMSGSIZE;
++	if (nla_put_s32(msg, DPLL_A_PIN_PHASE_ADJUST_MAX,
++			prop->phase_range.max))
++		return -EMSGSIZE;
++	ret = dpll_msg_add_pin_phase_adjust(msg, pin, ref, extack);
+ 	if (ret)
+ 		return ret;
+ 	if (xa_empty(&pin->parent_refs))
+@@ -416,7 +475,7 @@ dpll_device_get_one(struct dpll_device *dpll, struct sk_buff *msg,
+ 	if (nla_put_u32(msg, DPLL_A_TYPE, dpll->type))
+ 		return -EMSGSIZE;
  
-@@ -263,6 +304,12 @@ according to attribute purpose.
-                                        frequencies
-       ``DPLL_A_PIN_ANY_FREQUENCY_MIN`` attr minimum value of frequency
-       ``DPLL_A_PIN_ANY_FREQUENCY_MAX`` attr maximum value of frequency
-+    ``DPLL_A_PIN_PHASE_ADJUST_MIN``    attr minimum value of phase
-+                                       adjustment
-+    ``DPLL_A_PIN_PHASE_ADJUST_MAX``    attr maximum value of phase
-+                                       adjustment
-+    ``DPLL_A_PIN_PHASE_ADJUST``        attr configured value of phase
-+                                       adjustment on parent device
-     ``DPLL_A_PIN_PARENT_DEVICE``       nested attr for each parent device
-                                        the pin is connected with
-       ``DPLL_A_PIN_PARENT_ID``         attr parent dpll device id
-@@ -270,8 +317,10 @@ according to attribute purpose.
-                                        dpll device
-       ``DPLL_A_PIN_STATE``             attr state of pin on the parent
-                                        dpll device
--     ``DPLL_A_PIN_DIRECTION``          attr direction of a pin on the
-+      ``DPLL_A_PIN_DIRECTION``         attr direction of a pin on the
-                                        parent dpll device
-+      ``DPLL_A_PIN_PHASE_OFFSET``      attr measured phase difference
-+                                       between a pin and parent dpll
-     ``DPLL_A_PIN_PARENT_PIN``          nested attr for each parent pin
-                                        the pin is connected with
-       ``DPLL_A_PIN_PARENT_ID``         attr parent pin id
-@@ -284,6 +333,8 @@ according to attribute purpose.
-   ``DPLL_CMD_PIN_SET``                 command to set pins configuration
-     ``DPLL_A_PIN_ID``                  attr unique a pin ID
-     ``DPLL_A_PIN_FREQUENCY``           attr requested frequency of a pin
-+    ``DPLL_A_PIN_PHASE_ADJUST``        attr requested value of phase
-+                                       adjustment on parent device
-     ``DPLL_A_PIN_PARENT_DEVICE``       nested attr for each parent dpll
-                                        device configuration request
-       ``DPLL_A_PIN_PARENT_ID``         attr parent dpll device id
+-	return ret;
++	return 0;
+ }
+ 
+ static int
+@@ -705,6 +764,70 @@ dpll_pin_direction_set(struct dpll_pin *pin, struct dpll_device *dpll,
+ 	return 0;
+ }
+ 
++static int
++dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr *phase_adj_attr,
++		       struct netlink_ext_ack *extack)
++{
++	struct dpll_pin_ref *ref, *failed;
++	const struct dpll_pin_ops *ops;
++	s32 phase_adj, old_phase_adj;
++	struct dpll_device *dpll;
++	unsigned long i;
++	int ret;
++
++	phase_adj = nla_get_s32(phase_adj_attr);
++	if (phase_adj > pin->prop->phase_range.max ||
++	    phase_adj < pin->prop->phase_range.min) {
++		NL_SET_ERR_MSG(extack, "phase adjust value not supported");
++		return -EINVAL;
++	}
++	xa_for_each(&pin->dpll_refs, i, ref) {
++		ops = dpll_pin_ops(ref);
++		if (!ops->phase_adjust_set || !ops->phase_adjust_get)
++			return -EOPNOTSUPP;
++	}
++	ref = dpll_xa_ref_dpll_first(&pin->dpll_refs);
++	ops = dpll_pin_ops(ref);
++	dpll = ref->dpll;
++	ret = ops->phase_adjust_get(pin, dpll_pin_on_dpll_priv(dpll, pin),
++				    dpll, dpll_priv(dpll), &old_phase_adj,
++				    extack);
++	if (ret) {
++		NL_SET_ERR_MSG(extack, "unable to get old phase adjust value");
++		return ret;
++	}
++	if (phase_adj == old_phase_adj)
++		return 0;
++	xa_for_each(&pin->dpll_refs, i, ref) {
++		ops = dpll_pin_ops(ref);
++		dpll = ref->dpll;
++		ret = ops->phase_adjust_set(pin,
++					    dpll_pin_on_dpll_priv(dpll, pin),
++					    dpll, dpll_priv(dpll), phase_adj,
++					    extack);
++		if (ret) {
++			failed = ref;
++			goto rollback;
++		}
++	}
++	__dpll_pin_change_ntf(pin);
++
++	return 0;
++
++rollback:
++	xa_for_each(&pin->dpll_refs, i, ref) {
++		if (ref == failed)
++			break;
++		ops = dpll_pin_ops(ref);
++		dpll = ref->dpll;
++		if (ops->phase_adjust_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
++					  dpll, dpll_priv(dpll), old_phase_adj,
++					  extack))
++			NL_SET_ERR_MSG(extack, "set phase adjust rollback failed");
++	}
++	return ret;
++}
++
+ static int
+ dpll_pin_parent_device_set(struct dpll_pin *pin, struct nlattr *parent_nest,
+ 			   struct netlink_ext_ack *extack)
+@@ -793,6 +916,11 @@ dpll_pin_set_from_nlattr(struct dpll_pin *pin, struct genl_info *info)
+ 			if (ret)
+ 				return ret;
+ 			break;
++		case DPLL_A_PIN_PHASE_ADJUST:
++			ret = dpll_pin_phase_adj_set(pin, a, info->extack);
++			if (ret)
++				return ret;
++			break;
+ 		case DPLL_A_PIN_PARENT_DEVICE:
+ 			ret = dpll_pin_parent_device_set(pin, a, info->extack);
+ 			if (ret)
+diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+index bbc480cd2932..578fc5fa3750 100644
+--- a/include/linux/dpll.h
++++ b/include/linux/dpll.h
+@@ -68,6 +68,18 @@ struct dpll_pin_ops {
+ 	int (*prio_set)(const struct dpll_pin *pin, void *pin_priv,
+ 			const struct dpll_device *dpll, void *dpll_priv,
+ 			const u32 prio, struct netlink_ext_ack *extack);
++	int (*phase_offset_get)(const struct dpll_pin *pin, void *pin_priv,
++				const struct dpll_device *dpll, void *dpll_priv,
++				s64 *phase_offset,
++				struct netlink_ext_ack *extack);
++	int (*phase_adjust_get)(const struct dpll_pin *pin, void *pin_priv,
++				const struct dpll_device *dpll, void *dpll_priv,
++				s32 *phase_adjust,
++				struct netlink_ext_ack *extack);
++	int (*phase_adjust_set)(const struct dpll_pin *pin, void *pin_priv,
++				const struct dpll_device *dpll, void *dpll_priv,
++				const s32 phase_adjust,
++				struct netlink_ext_ack *extack);
+ };
+ 
+ struct dpll_pin_frequency {
+@@ -91,6 +103,11 @@ struct dpll_pin_frequency {
+ #define DPLL_PIN_FREQUENCY_DCF77 \
+ 	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_77_5_KHZ)
+ 
++struct dpll_pin_phase_adjust_range {
++	s32 min;
++	s32 max;
++};
++
+ struct dpll_pin_properties {
+ 	const char *board_label;
+ 	const char *panel_label;
+@@ -99,6 +116,7 @@ struct dpll_pin_properties {
+ 	unsigned long capabilities;
+ 	u32 freq_supported_num;
+ 	struct dpll_pin_frequency *freq_supported;
++	struct dpll_pin_phase_adjust_range phase_range;
+ };
+ 
+ #if IS_ENABLED(CONFIG_DPLL)
 -- 
 2.38.1
 
