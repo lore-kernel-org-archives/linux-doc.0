@@ -2,141 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 724D1E81E1A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 16:40:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDA1E81E1B
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 16:52:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232854AbjJFQj7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 12:39:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33168 "EHLO
+        id S232198AbjJFQwd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 12:52:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232807AbjJFQj7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 12:39:59 -0400
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81D14C2;
-        Fri,  6 Oct 2023 09:39:57 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.228])
-        by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4S2DNF5kL1z9ylcZ;
-        Sat,  7 Oct 2023 00:27:09 +0800 (CST)
-Received: from [10.45.145.231] (unknown [10.45.145.231])
-        by APP1 (Coremail) with SMTP id LxC2BwBHn5A4OCBlj9m1AQ--.6636S2;
-        Fri, 06 Oct 2023 17:39:32 +0100 (CET)
-Message-ID: <4110a58a-8db5-57c4-2f5a-e09ee054baaa@huaweicloud.com>
-Date:   Fri, 6 Oct 2023 18:39:18 +0200
+        with ESMTP id S230223AbjJFQwc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 12:52:32 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6EBEAD;
+        Fri,  6 Oct 2023 09:52:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DAEEC433C8;
+        Fri,  6 Oct 2023 16:52:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696611150;
+        bh=1/agTdIoDPH5KB+pV6NQO44zrxCRyNQUeJI7drOS5Ig=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=qMn2CbkwKErRdOowM3Ocy1kddkjyVCyEK2ZursCABQCNB/0S9dT0SBu/6poU8xsW7
+         HbKDn6iHiU+SpC2c5wZuD/92KeKcwxzUZQMoPL2E+kClr3tludjzbnlLerO5t/IjZv
+         RrgqoxXjyOVgcB0+a7dg8Idgc6YA6JLpNnDV+9CHYnxkLi2aoX1wkGyhRVxEULU4bh
+         aFWIrg5CJxZfIMYhJ9hXHxWD7iSfON50Z/PvPKTOU6RajLcLTF3d4FR8fxZ1invZhc
+         a58yV2tXI2a4LDntzqX0YDKdJ9jy16hYNjrtZ5tbcHBpczp9+Qngx9REKBDzAO9HGg
+         HkEsAUNNfiiSw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 18A1BCE0976; Fri,  6 Oct 2023 09:52:30 -0700 (PDT)
+Date:   Fri, 6 Oct 2023 09:52:30 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH bootconfig 2/3] fs/proc: Add boot loader arguments as
+ comment to /proc/bootconfig
+Message-ID: <55067c09-9ec6-452a-a6db-30b8a8d08485@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <6ea609a4-12e3-4266-8816-b9fca1f1f21c@paulmck-laptop>
+ <20231005171747.541123-2-paulmck@kernel.org>
+ <20231006175948.14df07948d8c6a4a46473c13@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH memory-model] docs: memory-barriers: Add note on compiler
- transformation and address deps
-To:     paulmck@kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <ceaeba0a-fc30-4635-802a-668c859a58b2@paulmck-laptop>
-From:   Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-In-Reply-To: <ceaeba0a-fc30-4635-802a-668c859a58b2@paulmck-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LxC2BwBHn5A4OCBlj9m1AQ--.6636S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWr15WF4fAryUKFWrAFWDArb_yoW5CF47pr
-        WfKr13tFZrJr12kw1UAw17AryjyFZ5CF43Gr9F9r1kurn09r1FyrnxKr48uFyDC395AryU
-        ZrZ0yws8Zw1DAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
-        07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-        WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
-        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-        7IU13rcDUUUUU==
-X-CM-SenderInfo: 5mrqt2oorev25kdx2v3u6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231006175948.14df07948d8c6a4a46473c13@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Paul,
+On Fri, Oct 06, 2023 at 05:59:48PM +0900, Masami Hiramatsu wrote:
+> On Thu,  5 Oct 2023 10:17:46 -0700
+> "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> 
+> > In kernels built with CONFIG_BOOT_CONFIG_FORCE=y, /proc/cmdline will
+> > show all kernel boot parameters, both those supplied by the boot loader
+> > and those embedded in the kernel image.  This works well for those who
+> > just want to see all of the kernel boot parameters, but is not helpful to
+> > those who need to see only those parameters supplied by the boot loader.
+> > This is especially important when these parameters are presented to the
+> > boot loader by automation that might gather them from diverse sources.
+> > It is also useful when booting the next kernel via kexec(), in which
+> > case it is necessary to supply only those kernel command-line arguments
+> > from the boot loader, and most definitely not those that were embedded
+> > into the current kernel.
+> > 
+> > Therefore, add comments to /proc/bootconfig of the form:
+> > 
+> > 	# Parameters from bootloader:
+> > 	# root=UUID=ac0f0548-a69d-43ca-a06b-7db01bcbd5ad ro quiet ...
+> > 
+> > The second added line shows only those kernel boot parameters supplied
+> > by the boot loader.
+> 
+> Thanks for update it.
+> 
+> This looks good to me.
+> 
+> Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> Thank you!
 
-The "more up-to-date information" makes it sound like (some of) the 
-information in this section is out-of-date/no longer valid.
+And thank you!  I take this as meaning that I should push these three
+commits for the upcoming v6.7 merge window.  Please let me know if I
+should be doing something else.
 
-But after reading the sections, it seems the information is valid, but 
-discusses mostly the history of address dependency barriers.
+							Thanx, Paul
 
-Given that the sepcond part  specifically already starts with a 
-disclaimer that this information is purely relevant to people interested 
-in history or working on alpha, I think it would make more sense to 
-modify things slightly differently.
-
-Firstly I'd remove the "historical" part in the first section, and add 
-two short paragraphs explaining that
-
-- every marked access implies a address dependency barrier
-
-- address dependencies considered by the model are *semantic* 
-dependencies, meaning that a *syntactic* dependency is not sufficient to 
-imply ordering; see the rcu file for some examples where compilers can 
-elide syntactic dependencies
-
-Secondly, I'd not add the disclaimer to the second section; there's 
-already a link to rcu_dereference in that section ( 
-https://github.com/torvalds/linux/blob/master/Documentation/memory-barriers.txt#L634 
-), and already a small text explaining that the section is historical.
-
-
-Best wishes,
-
-jonas
-
-
-Am 10/5/2023 um 6:53 PM schrieb Paul E. McKenney:
-> The compiler has the ability to cause misordering by destroying
-> address-dependency barriers if comparison operations are used. Add a
-> note about this to memory-barriers.txt in the beginning of both the
-> historical address-dependency sections and point to rcu-dereference.rst
-> for more information.
->
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
->
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index 06e14efd8662..d414e145f912 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -396,6 +396,10 @@ Memory barriers come in four basic varieties:
->   
->   
->    (2) Address-dependency barriers (historical).
-> +     [!] This section is marked as HISTORICAL: For more up-to-date
-> +     information, including how compiler transformations related to pointer
-> +     comparisons can sometimes cause problems, see
-> +     Documentation/RCU/rcu_dereference.rst.
->   
->        An address-dependency barrier is a weaker form of read barrier.  In the
->        case where two loads are performed such that the second depends on the
-> @@ -556,6 +560,9 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
->   
->   ADDRESS-DEPENDENCY BARRIERS (HISTORICAL)
->   ----------------------------------------
-> +[!] This section is marked as HISTORICAL: For more up-to-date information,
-> +including how compiler transformations related to pointer comparisons can
-> +sometimes cause problems, see Documentation/RCU/rcu_dereference.rst.
->   
->   As of v4.15 of the Linux kernel, an smp_mb() was added to READ_ONCE() for
->   DEC Alpha, which means that about the only people who need to pay attention
-
+> > Link: https://lore.kernel.org/all/CAHk-=wjpVAW3iRq_bfKnVfs0ZtASh_aT67bQBG11b4W6niYVUw@mail.gmail.com/
+> > Link: https://lore.kernel.org/all/20230731233130.424913-1-paulmck@kernel.org/
+> > Co-developed-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> > Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Cc: Arnd Bergmann <arnd@kernel.org>
+> > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > Cc: Alexey Dobriyan <adobriyan@gmail.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: <linux-trace-kernel@vger.kernel.org>
+> > Cc: <linux-fsdevel@vger.kernel.org>
+> > ---
+> >  fs/proc/bootconfig.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/fs/proc/bootconfig.c b/fs/proc/bootconfig.c
+> > index 2e244ada1f97..902b326e1e56 100644
+> > --- a/fs/proc/bootconfig.c
+> > +++ b/fs/proc/bootconfig.c
+> > @@ -62,6 +62,12 @@ static int __init copy_xbc_key_value_list(char *dst, size_t size)
+> >  				break;
+> >  			dst += ret;
+> >  		}
+> > +		if (ret >= 0 && boot_command_line[0]) {
+> > +			ret = snprintf(dst, rest(dst, end), "# Parameters from bootloader:\n# %s\n",
+> > +				       boot_command_line);
+> > +			if (ret > 0)
+> > +				dst += ret;
+> > +		}
+> >  	}
+> >  out:
+> >  	kfree(key);
+> > -- 
+> > 2.40.1
+> > 
+> 
+> 
+> -- 
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
