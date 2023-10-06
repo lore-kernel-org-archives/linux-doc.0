@@ -2,60 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34CC2E81E04
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 14:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B328BE81E06
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 15:06:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231418AbjJFOzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 10:55:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34878 "EHLO
+        id S230158AbjJFPGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 11:06:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbjJFOzi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 10:55:38 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB168F
-        for <linux-doc@vger.kernel.org>; Fri,  6 Oct 2023 07:55:37 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E078AC433C8;
-        Fri,  6 Oct 2023 14:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696604137;
-        bh=escjTaAkihSGCwsnxPhJNWcVLi3MOtJXB2WfVZLU/AI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Xjq91hMUaSUj8yHtoYoNfxZsXwJMtqvlTupffCdR2YqZrTI02mHmFywx6WT36rqAR
-         XrYQ8/ALEPGkvO0a61fV+WztHkKKKl+zgJrQxl7eIWRNgTE5c7XvFB/QQXK5jt0QYM
-         nf075SJZMFtTd4ckmPb9JIU+0EifqUWsTni/VUCtI2wT5a0NEGIPm993UgSnbD+Dzg
-         z9lfKhDs5GWxmz0AbJjzYDxDaMdW4ERn/eeRZPcH3Qr2QwXlBwAXN4otiY4K4TJ/DK
-         uEDxEvs+/GxE+LHO3vPhhAiTXbqmENV3cFz4on9f3Ry1BnyTQ7EcskuZQr5UUDa0c5
-         1XFU4+/wjFSAg==
-Date:   Fri, 6 Oct 2023 07:55:36 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jiri Pirko <jiri@resnulli.us>
-Cc:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        netdev@vger.kernel.org, vadim.fedorenko@linux.dev, corbet@lwn.net,
-        davem@davemloft.net, pabeni@redhat.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, linux-doc@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org
-Subject: Re: [PATCH net-next v3 2/5] dpll: spec: add support for pin-dpll
- signal phase offset/adjust
-Message-ID: <20231006075536.3b21582e@kernel.org>
-In-Reply-To: <ZR/9yCVakCrDbBww@nanopsycho>
-References: <20231006114101.1608796-1-arkadiusz.kubalewski@intel.com>
-        <20231006114101.1608796-3-arkadiusz.kubalewski@intel.com>
-        <ZR/9yCVakCrDbBww@nanopsycho>
+        with ESMTP id S232611AbjJFPGo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 11:06:44 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03868A6;
+        Fri,  6 Oct 2023 08:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696604803; x=1728140803;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gNgwqDPrxhz8wCl3Okr47BvVxVZ4M+5ATpm+bjH86Rc=;
+  b=WN7pWWPJDQpmmFMV+n52UU1g/oIKyq3EXbggq7Srn0vRvXezisd7Wlzr
+   bEyLSDM9K8wFCyVhQrE6uwf+oaJvUJ/DSWvRxponIRE1eUeMBBmjHwAfc
+   N/SWknu52lpS5BklsavYmPvcQy2mpIlOpGcrWloJPAeQx+rywkgLF1Ftd
+   mVRilQKqnzqlRj/QgQYRIMWdiXK83dPQmFE0diLZNKiBKAKsfJNUFW2Go
+   nKS35pV674RP/vvsRAUTFFNdZ6qNTR/IeM8Z9XvTK6NcmJHM8FSt9iUeH
+   aZYC52r35bD0+5dCIH/sZ/XYSUL3rTo0XhsICjzkFN/BVNibpWU12wS6G
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="470034212"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="470034212"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 08:06:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="702079788"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="702079788"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga003.jf.intel.com with ESMTP; 06 Oct 2023 08:06:41 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id B2831430; Fri,  6 Oct 2023 18:06:39 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: [resend, PATCH v1 1/1] PCI: Update the devres documentation regarding to pcim_*()
+Date:   Fri,  6 Oct 2023 18:06:34 +0300
+Message-Id: <20231006150634.3444251-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 6 Oct 2023 14:30:00 +0200 Jiri Pirko wrote:
-> >+version: 2  
-> 
-> I'm confused. Didn't you say you'll remove this? If not, my question
-> from v1 still stands.
+There were many changes to PCI core in scope of managed resources APIs.
+Update documentation to list the current state of affairs.
 
-Perhaps we should dis-allow setting version in non-genetlink-legacy
-specs? I thought it may be a useful thing to someone, at some point,
-but so far the scoreboard is: legit uses: 0, confused uses: 1 :S
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/driver-api/driver-model/devres.rst | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-Thoughts?
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index 8be086b3f829..c5f99d834ec5 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -322,10 +322,8 @@ IOMAP
+   devm_platform_ioremap_resource_byname()
+   devm_platform_get_and_ioremap_resource()
+   devm_iounmap()
+-  pcim_iomap()
+-  pcim_iomap_regions()	: do request_region() and iomap() on multiple BARs
+-  pcim_iomap_table()	: array of mapped addresses indexed by BAR
+-  pcim_iounmap()
++
++  Note: For the PCI devices the specific pcim_*() functions may be used, see below.
+ 
+ IRQ
+   devm_free_irq()
+@@ -392,8 +390,16 @@ PCI
+   devm_pci_alloc_host_bridge()  : managed PCI host bridge allocation
+   devm_pci_remap_cfgspace()	: ioremap PCI configuration space
+   devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
++
+   pcim_enable_device()		: after success, all PCI ops become managed
++  pcim_iomap()			: do iomap() on a single BAR
++  pcim_iomap_regions()		: do request_region() and iomap() on multiple BARs
++  pcim_iomap_regions_request_all() : do request_region() on all and iomap() on multiple BARs
++  pcim_iomap_table()		: array of mapped addresses indexed by BAR
++  pcim_iounmap()		: do iounmap() on a single BAR
++  pcim_iounmap_regions()	: do iounmap() and release_region() on multiple BARs
+   pcim_pin_device()		: keep PCI device enabled after release
++  pcim_set_mwi()		: enable Memory-Write-Invalidate PCI transaction
+ 
+ PHY
+   devm_usb_get_phy()
+-- 
+2.40.0.1.gaa8946217a0b
+
