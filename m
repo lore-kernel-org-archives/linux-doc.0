@@ -2,102 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D961FE81DE5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 11:27:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E5ADE81DE9
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 11:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbjJFL1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 07:27:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52370 "EHLO
+        id S232018AbjJFLnw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 07:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbjJFL1F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 07:27:05 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1999AC5;
-        Fri,  6 Oct 2023 04:27:04 -0700 (PDT)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-        by mailout.west.internal (Postfix) with ESMTP id 0AAFC3200ACB;
-        Fri,  6 Oct 2023 07:27:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Fri, 06 Oct 2023 07:27:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bearcove.net; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1696591622; x=1696678022; bh=DfsU3izUar
-        c3urIWoQV9VaCFxzhD45N7hVfrg6KIZDA=; b=Ow/1XNa7qmUGOzUPyN8DJX1sue
-        LeS9RBxVkUqsajMnSXnjYmneOUSLJ5p0ICeQGu8fEJ77CWHOLd9Ihsflgnz1X9rH
-        iePqNhT3tAZBI6axg40+tNBt9dOfQYIRs6j/7A1GUeFgXoWei7UiThaEPZJSpskh
-        ynlsN0cYqdud/2gpI2+PMBx4gbSW/bX5+ArdIRbrA0ekSycBB1HBl8SYML5+WP5w
-        XuJfirJM4CuFa17XmvcqjPhqw099xTCjYLFAoTN8e4/NdiS1IuHj155YC3UQZkNz
-        4lE4Bxtm9CJP2j9OTnK09glx/ggte+7sgMS8BSDqEf/1aTTOewCpNWp96n2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1696591622; x=1696678022; bh=DfsU3izUarc3u
-        rIWoQV9VaCFxzhD45N7hVfrg6KIZDA=; b=EA7xUKzREuuKfVjRlCk3yrhmvk/oX
-        3980WsyyeHXQQ45yL3lg4b0TsPD94bzPx4L0rl0ZoOvSsPSNiSmBB6q8C75hjIz/
-        jvOipKVvAhvqqe4PGvSVxes28W9MFkAVIbLH/KaeMlcsMUjSY2SRFktoMcXlCy+M
-        POMSqL3fx+FDf5hbz4I7R3Xw4j5tfIOUnhOVNCOkZvvuVDZUzlkVgy0HLTvZax/N
-        UCDkqk+mrg7wrDisO0uc+Q6O6vsocF3V4oNIhxjQvkWi428yI9njKtCEvs7/N0gn
-        kr9b9imJ4UYl/LKtFgTzuyMKHlpsKeiSVn1Qs/MsyzQ75t1W/LxgjEHAQ==
-X-ME-Sender: <xms:Bu8fZVEb_9g79KHPZgKGKE653JP5u0088lQzVQ49wkzt0MWUH8bgkQ>
-    <xme:Bu8fZaWDy0uhR2mfmLqeyR-CrGezB3Bs2z_3uoPsrEDPeRfPVCtwoDwBnHhe36waq
-    ef1cvc3KxpLTkP9AJg>
-X-ME-Received: <xmr:Bu8fZXKjaYftPKdobgq88Fq5p_22nonb4APhyiHHLHUBNSL__tr5D-iHdbu1LuH0dg0gyt4H8sA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrgeeigdefkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
-    etfedtuddqtdduucdludehmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddt
-    necuhfhrohhmpeetmhhoshcuhggvnhhgvghruceorghmohhssegsvggrrhgtohhvvgdrnh
-    gvtheqnecuggftrfgrthhtvghrnhepkeehfeefgefhheeuhfevgeelieegleehtdfffeef
-    veduveejieekveejgeevudfgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghmohhssegsvggrrhgtohhvvgdrnhgvth
-X-ME-Proxy: <xmx:Bu8fZbFvzl6LjssoRnBxPZoqqixaT4-uz1t6i4ET9jT-yv2HjlVnZw>
-    <xmx:Bu8fZbVYroe06MkoA3DfZ0qKhcy3DcrosMnDPwubgDKxIa57YtNeAA>
-    <xmx:Bu8fZWP_sKY0ouF84OFzYJIfpoKVjceCJDnToLU9zX7Aw6PX58fupA>
-    <xmx:Bu8fZRxY90iwdWrlT9YHg9kWu1lJ3rfY-pBO4dXzgVmDjnG8WJXcDg>
-Feedback-ID: i779946bd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Oct 2023 07:27:00 -0400 (EDT)
-From:   Amos Wenger <amos@bearcove.net>
-To:     amos@bearcove.net
-Cc:     David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-mm@kvack.org (open list:MEMORY HOT(UN)PLUG),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] mm/memory-hotplug: fix typo in documentation
-Date:   Fri,  6 Oct 2023 13:26:36 +0200
-Message-Id: <20231006112636.97128-1-amos@bearcove.net>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S231935AbjJFLnu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 07:43:50 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94C4C5;
+        Fri,  6 Oct 2023 04:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696592628; x=1728128628;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8+VFG3kqWXCncCIWSoHFiD83/KcC/DPAqlO1RUiJDcE=;
+  b=lNT1AJalA1oJAbvEGbd28ot1tkAgfuenAViTSeTAOzoAJ3bGdBEfwvo1
+   oOuz1uwbocLbfhOjGKnbOmxpsSB6UKLTYgXrwYq4nhVFM/hIaT27QHsiC
+   Jdtsh/Q8+e7LZDbUQXUw97BkIQjhU73D8D5bloXsHJVXNxO7ID/7/0zCN
+   E7GsVHlzDkrMWF6wWrCSSwENcrt2Zf1CvrYb93avIHDL55bt4cdjCnr3e
+   5kN4KNpj2I37yKc9M4ZZ8iVGQqdoGMvmPMpLEWoGqqbYLRUK+QSja4BVp
+   fMCpOqzO7q/b67FmIWaZmapWmoLj3nzTKQrtx76mdiDVbK5IlbXoYGKCR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="470003215"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="470003215"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 04:43:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="925942697"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="925942697"
+Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
+  by orsmga005.jf.intel.com with ESMTP; 06 Oct 2023 04:43:44 -0700
+From:   Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+To:     netdev@vger.kernel.org
+Cc:     vadim.fedorenko@linux.dev, jiri@resnulli.us, corbet@lwn.net,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+        linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Subject: [PATCH net-next v3 0/5] dpll: add phase-offset and phase-adjust
+Date:   Fri,  6 Oct 2023 13:40:56 +0200
+Message-Id: <20231006114101.1608796-1-arkadiusz.kubalewski@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I'm 90% sure memory hotunplugging doesn't involve a "fist" phase
+Improve monitoring and control over dpll devices.
+Allow user to receive measurement of phase difference between signals on
+pin and dpll (phase-offset).
+Allow user to receive and control adjustable value of pin's signal
+phase (phase-adjust).
 
-Signed-off-by: Amos Wenger <amos@bearcove.net>
----
- Documentation/admin-guide/mm/memory-hotplug.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2->v3:
+- do not increase do version of uAPI header as it is not needed
 
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index cfe034cf1e87..fbf2c22f890d 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -75,7 +75,7 @@ Memory hotunplug consists of two phases:
- (1) Offlining memory blocks
- (2) Removing the memory from Linux
- 
--In the fist phase, memory is "hidden" from the page allocator again, for
-+In the first phase, memory is "hidden" from the page allocator again, for
- example, by migrating busy memory to other memory locations and removing all
- relevant free pages from the page allocator After this phase, the memory is no
- longer visible in memory statistics of the system.
+v1->v2:
+- improve handling for error case of requesting the phase adjust set
+- align handling for error case of frequency set request with the
+approach introduced for phase adjust
+
+Arkadiusz Kubalewski (5):
+  dpll: docs: add support for pin signal phase offset/adjust
+  dpll: spec: add support for pin-dpll signal phase offset/adjust
+  dpll: netlink/core: add support for pin-dpll signal phase
+    offset/adjust
+  ice: dpll: implement phase related callbacks
+  dpll: netlink/core: change pin frequency set behavior
+
+ Documentation/driver-api/dpll.rst         |  53 ++++-
+ Documentation/netlink/specs/dpll.yaml     |  33 +++-
+ drivers/dpll/dpll_netlink.c               | 180 +++++++++++++++--
+ drivers/dpll/dpll_nl.c                    |   8 +-
+ drivers/dpll/dpll_nl.h                    |   2 +-
+ drivers/net/ethernet/intel/ice/ice_dpll.c | 224 +++++++++++++++++++++-
+ drivers/net/ethernet/intel/ice/ice_dpll.h |  10 +-
+ include/linux/dpll.h                      |  18 ++
+ include/uapi/linux/dpll.h                 |   8 +-
+ 9 files changed, 514 insertions(+), 22 deletions(-)
+
 -- 
-2.39.2
+2.38.1
 
