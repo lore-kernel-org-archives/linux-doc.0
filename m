@@ -2,206 +2,210 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73222E9413A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 22:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C4CE94139
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 23:46:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233850AbjJFWsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 18:48:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57564 "EHLO
+        id S233434AbjJFXq0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 19:46:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233854AbjJFWsN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 18:48:13 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A527AD;
-        Fri,  6 Oct 2023 15:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696632492; x=1728168492;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=V0oD1m7MvFUQ+AzSBLEPD+OD00w9gAK6X7Ab7JamBMo=;
-  b=XUfySpTMXGnL2zn5zxAtEpLdg6pXpg1lov0MuIhBQC81UMA5ZmX9u/w7
-   gUYN09XpqNSgE0CKp1/B1d9VJcy1UDrPZsbLGiqRP1JF5FzcV5tHgfqfD
-   bRj5mzfzu8WoUyaHfhjakvg3LBxJHqw6Do2VxafkSYSl7Rpsj9B2ie3We
-   jQmTsryX9x4Y9zY8XJmnEgf0EwTV5GEfZWiHmLjZD9qSeVN3CNFmRqwEa
-   cerdu8AIfaOtRU3W3fbpHH2cr79OOFaGppqnjKTEJl6y1mTv30X7LLKxz
-   VwhtXpRyzHe3ZFbtrcmd9yimPPu28Tx3s5QiBm58b4yPJBImSNt85NoyH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="448044429"
-X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="448044429"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 15:48:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="1083610647"
-X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="1083610647"
-Received: from dianaman-mobl1.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.249.35.113])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 15:48:07 -0700
-From:   Ahmed Zaki <ahmed.zaki@intel.com>
-To:     netdev@vger.kernel.org
-Cc:     intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
-        mkubecek@suse.cz, Ahmed Zaki <ahmed.zaki@intel.com>,
-        Madhu Chittim <madhu.chittim@intel.com>
-Subject: [PATCH net-next v2 6/6] iavf: enable symmetric RSS Toeplitz hash
-Date:   Fri,  6 Oct 2023 16:47:26 -0600
-Message-Id: <20231006224726.443836-7-ahmed.zaki@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231006224726.443836-1-ahmed.zaki@intel.com>
-References: <20231006224726.443836-1-ahmed.zaki@intel.com>
+        with ESMTP id S231381AbjJFXq0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 19:46:26 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D990BBD
+        for <linux-doc@vger.kernel.org>; Fri,  6 Oct 2023 16:46:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C5DC433C8;
+        Fri,  6 Oct 2023 23:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696635984;
+        bh=Pq01C981Zv06wLDwtBP59SVN9vwfDXqR3j48hP42BT0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CT5WxByus3kfykzYYiDVlt36aOjgwnRSUKS18z2eAKEUGpij3RCsJk/Si1msnegKC
+         5j9WNgYi0nPC9PIIsspd/2rrvMy/hp4AgWnUVYSiMH4krOb41WY69LaDkaKCQ5MdUm
+         cHioX4EbnSCX2iYwE1nlEXTsAfXEth837ehY71Xd7XNqxg96tKm84meq5PjKlzl+q3
+         0Yim3fPTxMlDeJkQ4msTiqAfycbQ2cTQE5I7/zyel1p21L4tuG6BkrzzF8m2i8HJ3l
+         ET0B5mihZPRbNnGKSQOsyz+oTbSlXtjZEkH4ulc0n5Y+QTMzdc4rukEDrXWd00YSn7
+         tAwYBXOd610dg==
+Date:   Fri, 6 Oct 2023 16:46:23 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc:     davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+        netdev@vger.kernel.org,
+        Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
+        jacob.e.keller@intel.com, vaishnavi.tipireddy@intel.com,
+        horms@kernel.org, leon@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, rdunlap@infradead.org
+Subject: Re: [PATCH net-next v4 5/5] ice: add documentation for FW logging
+Message-ID: <20231006164623.6c09c4e5@kernel.org>
+In-Reply-To: <20231005170110.3221306-6-anthony.l.nguyen@intel.com>
+References: <20231005170110.3221306-1-anthony.l.nguyen@intel.com>
+        <20231005170110.3221306-6-anthony.l.nguyen@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Allow the VFs to support symmetric RSS for any flow type. The symmetric
-RSS will not be supported on PFs not advertising the ADV RSS Offload
-flag (ADV_RSS_SUPPORT()), for example the E700 series (i40e).
+On Thu,  5 Oct 2023 10:01:10 -0700 Tony Nguyen wrote:
+> From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+> 
+> Add documentation for FW logging in
+> Documentation/networking/device-drivers/ethernet/intel/ice.rst
 
-Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
-Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
----
- .../net/ethernet/intel/iavf/iavf_adv_rss.c    |  8 +++++--
- .../net/ethernet/intel/iavf/iavf_adv_rss.h    |  3 ++-
- .../net/ethernet/intel/iavf/iavf_ethtool.c    | 22 +++++++++++++++----
- 3 files changed, 26 insertions(+), 7 deletions(-)
+Wrong spelling, I think, because no such file.
 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-index 6edbf134b73f..a9e1da35e248 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-@@ -95,17 +95,21 @@ iavf_fill_adv_rss_sctp_hdr(struct virtchnl_proto_hdr *hdr, u64 hash_flds)
-  * @rss_cfg: the virtchnl message to be filled with RSS configuration setting
-  * @packet_hdrs: the RSS configuration protocol header types
-  * @hash_flds: the RSS configuration protocol hash fields
-+ * @symm: if true, symmetric hash is required
-  *
-  * Returns 0 if the RSS configuration virtchnl message is filled successfully
-  */
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds)
-+			  u32 packet_hdrs, u64 hash_flds, bool symm)
- {
- 	struct virtchnl_proto_hdrs *proto_hdrs = &rss_cfg->proto_hdrs;
- 	struct virtchnl_proto_hdr *hdr;
- 
--	rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+	if (symm)
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+	else
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
- 
- 	proto_hdrs->tunnel_level = 0;	/* always outer layer */
- 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-index 4d3be11af7aa..e31eb2afebea 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-@@ -80,13 +80,14 @@ struct iavf_adv_rss {
- 
- 	u32 packet_hdrs;
- 	u64 hash_flds;
-+	bool symm;
- 
- 	struct virtchnl_rss_cfg cfg_msg;
- };
- 
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds);
-+			  u32 packet_hdrs, u64 hash_flds, bool symm);
- struct iavf_adv_rss *
- iavf_find_adv_rss_cfg_by_hdrs(struct iavf_adapter *adapter, u32 packet_hdrs);
- void
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-index 90397293525f..0eec30c390d6 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-@@ -1618,6 +1618,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	struct iavf_adv_rss *rss_old, *rss_new;
- 	bool rss_new_add = false;
- 	int count = 50, err = 0;
-+	bool symm = false;
- 	u64 hash_flds;
- 	u32 hdrs;
- 
-@@ -1632,11 +1633,15 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
- 		return -EINVAL;
- 
-+	if (cmd->data & RXH_SYMMETRIC)
-+		symm = true;
-+
- 	rss_new = kzalloc(sizeof(*rss_new), GFP_KERNEL);
- 	if (!rss_new)
- 		return -ENOMEM;
- 
--	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds)) {
-+	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds,
-+				      symm)) {
- 		kfree(rss_new);
- 		return -EINVAL;
- 	}
-@@ -1655,9 +1660,11 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (rss_old) {
- 		if (rss_old->state != IAVF_ADV_RSS_ACTIVE) {
- 			err = -EBUSY;
--		} else if (rss_old->hash_flds != hash_flds) {
-+		} else if (rss_old->hash_flds != hash_flds ||
-+			   rss_old->symm != symm) {
- 			rss_old->state = IAVF_ADV_RSS_ADD_REQUEST;
- 			rss_old->hash_flds = hash_flds;
-+			rss_old->symm = symm;
- 			memcpy(&rss_old->cfg_msg, &rss_new->cfg_msg,
- 			       sizeof(rss_new->cfg_msg));
- 			adapter->aq_required |= IAVF_FLAG_AQ_ADD_ADV_RSS_CFG;
-@@ -1669,6 +1676,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 		rss_new->state = IAVF_ADV_RSS_ADD_REQUEST;
- 		rss_new->packet_hdrs = hdrs;
- 		rss_new->hash_flds = hash_flds;
-+		rss_new->symm = symm;
- 		list_add_tail(&rss_new->list, &adapter->adv_rss_list_head);
- 		adapter->aq_required |= IAVF_FLAG_AQ_ADD_ADV_RSS_CFG;
- 	}
-@@ -1698,6 +1706,7 @@ iavf_get_adv_rss_hash_opt(struct iavf_adapter *adapter,
- {
- 	struct iavf_adv_rss *rss;
- 	u64 hash_flds;
-+	bool symm;
- 	u32 hdrs;
- 
- 	if (!ADV_RSS_SUPPORT(adapter))
-@@ -1711,10 +1720,12 @@ iavf_get_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 
- 	spin_lock_bh(&adapter->adv_rss_lock);
- 	rss = iavf_find_adv_rss_cfg_by_hdrs(adapter, hdrs);
--	if (rss)
-+	if (rss) {
- 		hash_flds = rss->hash_flds;
--	else
-+		symm = rss->symm;
-+	} else {
- 		hash_flds = IAVF_ADV_RSS_HASH_INVALID;
-+	}
- 	spin_unlock_bh(&adapter->adv_rss_lock);
- 
- 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
-@@ -1738,6 +1749,9 @@ iavf_get_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 			 IAVF_ADV_RSS_HASH_FLD_SCTP_DST_PORT))
- 		cmd->data |= (u64)RXH_L4_B_2_3;
- 
-+	if (symm)
-+		cmd->data |= (u64)RXH_SYMMETRIC;
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+> Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+> Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
 
+> +Firmware (FW) logging
+> +---------------------
+
+I think you need empty lines after the headers.
+Did you try to build this documentation and checked the warnings?
+
+> +The driver supports FW logging via the debugfs interface on PF 0 only. In order
+> +for FW logging to work, the NVM must support it. The 'fwlog' file will only get
+> +created in the ice debugfs directory if the NVM supports FW logging.
+
+Odd phrasing - "in order to work it needs to be supported"
+
+also NVM == non-volatile memory, you mean the logging goes into NVM
+or NVM as in FW in the NVM needs to support it?
+
+> +Module configuration
+> +~~~~~~~~~~~~~~~~~~~~
+> +To see the status of FW logging, read the 'fwlog/modules' file like this::
+> +
+> +  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
+> +
+> +To configure FW logging, write to the 'fwlog/modules' file like this::
+> +
+> +  # echo <fwlog_event> <fwlog_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
+> +
+> +where
+> +
+> +* fwlog_level is a name as described below. Each level includes the
+> +  messages from the previous/lower level
+> +
+> +      *	NONE
+> +      *	ERROR
+> +      *	WARNING
+> +      *	NORMAL
+> +      *	VERBOSE
+
+Is this going to give us a nice list when we render the docs?
+White space looks odd.
+
+> +* fwlog_event is a name that represents the module to receive events for. The
+> +  module names are
+> +
+> +      *	GENERAL
+> +      *	CTRL
+> +      *	LINK
+> +      *	LINK_TOPO
+> +      *	DNL
+> +      *	I2C
+> +      *	SDP
+> +      *	MDIO
+> +      *	ADMINQ
+> +      *	HDMA
+> +      *	LLDP
+> +      *	DCBX
+> +      *	DCB
+> +      *	XLR
+> +      *	NVM
+> +      *	AUTH
+> +      *	VPD
+> +      *	IOSF
+> +      *	PARSER
+> +      *	SW
+> +      *	SCHEDULER
+> +      *	TXQ
+> +      *	RSVD
+> +      *	POST
+> +      *	WATCHDOG
+> +      *	TASK_DISPATCH
+> +      *	MNG
+> +      *	SYNCE
+> +      *	HEALTH
+> +      *	TSDRV
+> +      *	PFREG
+> +      *	MDLVER
+> +      *	ALL
+> +
+> +The name ALL is special and specifies setting all of the modules to the
+> +specified fwlog_level.
+> +
+> +Example usage to configure the modules::
+> +
+> +  # echo LINK VERBOSE > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules
+> +
+> +Enabling FW log
+> +~~~~~~~~~~~~~~~
+> +Once the desired modules are configured the user enables logging. To do
+> +this the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An
+> +example is::
+> +
+> +  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
+
+Hm, so we "select" the module and then enable / disable?
+
+It'd feel more natural to steal the +/- thing from dynamic printing.
+To enable:
+
+ # echo '+LINK VERBOSE' > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/active
+
+To disable:
+
+ # echo '-LINK VERBOSE' > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/active
+
+No?
+
+> +Retrieving FW log data
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +The FW log data can be retrieved by reading from 'fwlog/data'. The user can
+> +write to 'fwlog/data' to clear the data. The data can only be cleared when FW
+> +logging is disabled.
+
+Oh, now it sounds like only one thing can be enabled at a time.
+Can you clarify?
+
+> The FW log data is a binary file that is sent to Intel and
+> +used to help debug user issues.
+> +
+> +An example to read the data is::
+> +
+> +  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
+> +
+> +An example to clear the data is::
+> +
+> +  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
+> +
+> +Changing how often the log events are sent to the driver
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The driver receives FW log data from the Admin Receive Queue (ARQ). The
+> +frequency that the FW sends the ARQ events can be configured by writing to
+> +'fwlog/resolution'. The range is 1-128 (1 means push every log message, 128
+> +means push only when the max AQ command buffer is full). The suggested value is
+> +10. The user can see what the value is configured to by reading
+> +'fwlog/resolution'. An example to set the value is::
+> +
+> +  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/resolution
+
+Resolution doesn't sound quite right, batch_size maybe? 
+
+> +Configuring the number of buffers used to store FW log data
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The driver stores FW log data in a ring within the driver. The default size of
+> +the ring is 256 4K buffers. Some use cases may require more or less data so
+> +the user can change the number of buffers that are allocated for FW log data.
+> +To change the number of buffers write to 'fwlog/nr_buffs'. The value must be one
+> +of: 64, 128, 256, or 512. FW logging must be disabled to change the value. An
+> +example of changing the value is::
+> +
+> +  # echo 128 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_buffs
+
+Why 4K? The number of buffers is irrelevant to the user, why not let
+the user configure the size in bytes (which his how much DRAM the
+driver will hold hostage)?
