@@ -2,195 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 386C8E92FCD
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 04:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8197AE92FF9
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Oct 2023 08:59:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbjJFE2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 00:28:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51466 "EHLO
+        id S231215AbjJFI75 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 04:59:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229953AbjJFE2J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 00:28:09 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AF053DB;
-        Thu,  5 Oct 2023 21:28:07 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
-        id 16F1220B74C0; Thu,  5 Oct 2023 21:28:07 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 16F1220B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1696566487;
-        bh=VBmYwvXPtMjKxp0JBBoGPP6lwV3PKu/EqwN3kEREnbw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iBmOLzLeSVS1UZvXtX6J/+6jaPe9RtlnV/ovwK3HQsua+ZuhN8XUo5YON91oE2J8+
-         1s2NdXVPGbzVByTuC1Q/rSCWoZRZlhuTH2U3P6c0LlzxdlwwglsZpNl1NwgFczYKBI
-         /8J+5EkkDNtZ+UhCpqt1aXY2H0gR2QLLfJkD5JiQ=
-Date:   Thu, 5 Oct 2023 21:28:07 -0700
-From:   Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Saurabh Singh Sengar <ssengar@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
- devices
-Message-ID: <20231006042807.GA22906@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
- <2023081215-canine-fragile-0a69@gregkh>
- <PUZP153MB06350DAEA2384B996519E07EBE1EA@PUZP153MB0635.APCP153.PROD.OUTLOOK.COM>
- <2023082246-lumping-rebate-4142@gregkh>
- <20230906122307.GA5737@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <20230926124126.GA12048@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230926124126.GA12048@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+        with ESMTP id S230358AbjJFI74 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 04:59:56 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB4793;
+        Fri,  6 Oct 2023 01:59:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E29AFC433C7;
+        Fri,  6 Oct 2023 08:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696582794;
+        bh=ZRZ4zoIUrHvuhR7yir1ccOBONWXMYWEbomq4C32pLnc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=VlgUW7LXE3NK3DFuR9GpzTXztcP+gwPt8hH0bcesUwEtCog5ycJc1rulxKq56T0Zn
+         uQNAMZxQsxFbWb/t254r8A7PdDde8ZvBqIni5WbsBICf2nJJLoHNC5Tahog+qcCSXK
+         FaAR1JipdGVB1eJ9GWN1ArOFEb4MTJsr9XMysesZkw0LneLQ3Qv80+J/P131yLxpo1
+         KKb678z/Hy7PBSBuRk8X9Li4fKQ/Ak0SlrxlAbD4LaJw6cEly6+gtChRpommr9uIGX
+         ASb9M+P8VgKLaEGKznXrgd69lHrfFjKwqjGpSvpBhZPlKIovSGV6Rr54yUk0au5bfH
+         5Kzo8LwbvZ5xw==
+Date:   Fri, 6 Oct 2023 17:59:48 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH bootconfig 2/3] fs/proc: Add boot loader arguments as
+ comment to /proc/bootconfig
+Message-Id: <20231006175948.14df07948d8c6a4a46473c13@kernel.org>
+In-Reply-To: <20231005171747.541123-2-paulmck@kernel.org>
+References: <6ea609a4-12e3-4266-8816-b9fca1f1f21c@paulmck-laptop>
+        <20231005171747.541123-2-paulmck@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 26, 2023 at 05:41:26AM -0700, Saurabh Singh Sengar wrote:
-> On Wed, Sep 06, 2023 at 05:23:07AM -0700, Saurabh Singh Sengar wrote:
-> > On Tue, Aug 22, 2023 at 01:48:03PM +0200, Greg KH wrote:
-> > > On Mon, Aug 21, 2023 at 07:36:18AM +0000, Saurabh Singh Sengar wrote:
-> > > > 
-> > > > 
-> > > > > -----Original Message-----
-> > > > > From: Greg KH <gregkh@linuxfoundation.org>
-> > > > > Sent: Saturday, August 12, 2023 4:45 PM
-> > > > > To: Saurabh Sengar <ssengar@linux.microsoft.com>
-> > > > > Cc: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
-> > > > > <haiyangz@microsoft.com>; wei.liu@kernel.org; Dexuan Cui
-> > > > > <decui@microsoft.com>; Michael Kelley (LINUX) <mikelley@microsoft.com>;
-> > > > > corbet@lwn.net; linux-kernel@vger.kernel.org; linux-hyperv@vger.kernel.org;
-> > > > > linux-doc@vger.kernel.org
-> > > > > Subject: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
-> > > > > devices
-> > > > > 
-> > > > > On Fri, Aug 04, 2023 at 12:09:53AM -0700, Saurabh Sengar wrote:
-> > > > > > Hyper-V is adding multiple low speed "speciality" synthetic devices.
-> > > > > > Instead of writing a new kernel-level VMBus driver for each device,
-> > > > > > make the devices accessible to user space through a UIO-based
-> > > > > > hv_vmbus_client driver. Each device can then be supported by a user
-> > > > > > space driver. This approach optimizes the development process and
-> > > > > > provides flexibility to user space applications to control the key
-> > > > > > interactions with the VMBus ring buffer.
-> > > > > 
-> > > > > Why is it faster to write userspace drivers here?  Where are those new drivers,
-> > > > > and why can't they be proper kernel drivers?  Are all hyper-v drivers going to
-> > > > > move to userspace now?
-> > > > 
-> > > > Hi Greg,
-> > > > 
-> > > > You are correct; it isn't faster. However, the developers working on these userspace
-> > > > drivers can concentrate entirely on the business logic of these devices. The more
-> > > > intricate aspects of the kernel, such as interrupt management and host communication,
-> > > > can be encapsulated within the uio driver.
-> > > 
-> > > Yes, kernel drivers are hard, we all know that.
-> > > 
-> > > But if you do it right, it doesn't have to be, saying "it's too hard for
-> > > our programmers to write good code for our platform" isn't exactly a
-> > > good endorcement of either your programmers, or your platform :)
-> > > 
-> > > > The quantity of Hyper-V devices is substantial, and their numbers are consistently
-> > > > increasing. Presently, all of these drivers are in a development/planning phase and
-> > > > rely significantly on the acceptance of this UIO driver as a prerequisite.
-> > > 
-> > > Don't make my acceptance of something that you haven't submitted before
-> > > a business decision that I need to make, that's disenginous.
-> > > 
-> > > > Not all hyper-v drivers will move to userspace, but many a new slow Hyperv-V
-> > > > devices will use this framework and will avoid introducing a new kernel driver. We
-> > > > will also plan to remove some of the existing drivers like kvp/vss.
-> > > 
-> > > Define "slow" please.
-> > 
-> > In the Hyper-V environment, most devices, with the exception of network and storage,
-> > typically do not require extensive data read/write exchanges with the host. Such
-> > devices are considered to be 'slow' devices.
-> > 
-> > > 
-> > > > > > The new synthetic devices are low speed devices that don't support
-> > > > > > VMBus monitor bits, and so they must use vmbus_setevent() to notify
-> > > > > > the host of ring buffer updates. The new driver provides this
-> > > > > > functionality along with a configurable ring buffer size.
-> > > > > >
-> > > > > > Moreover, this series of patches incorporates an update to the fcopy
-> > > > > > application, enabling it to seamlessly utilize the new interface. The
-> > > > > > older fcopy driver and application will be phased out gradually.
-> > > > > > Development of other similar userspace drivers is still underway.
-> > > > > >
-> > > > > > Moreover, this patch series adds a new implementation of the fcopy
-> > > > > > application that uses the new UIO driver. The older fcopy driver and
-> > > > > > application will be phased out gradually. Development of other similar
-> > > > > > userspace drivers is still underway.
-> > > > > 
-> > > > > You are adding a new user api with the "ring buffer" size api, which is odd for
-> > > > > normal UIO drivers as that's not something that UIO was designed for.
-> > > > > 
-> > > > > Why not just make you own generic type uiofs type kernel api if you really
-> > > > > want to do all of this type of thing in userspace instead of in the kernel?
-> > > > 
-> > > > Could you please elaborate more on this suggestion. I couldn't understand it
-> > > > completely.
-> > > 
-> > > Why is uio the requirement here?  Why not make your own framework to
-> > > write hv drivers in userspace that fits in better with the overall goal?
-> > > Call it "hvfs" or something like that, much like we have usbfs for
-> > > writing usb drivers in userspace.
-> > > 
-> > > Bolting on HV drivers to UIO seems very odd as that is not what this
-> > > framework is supposed to be providing at all.  UIO was to enable "pass
-> > > through" memory-mapped drivers that only wanted an interrupt and access
-> > > to raw memory locations in the hardware.
-> > > 
-> > > Now you are adding ring buffer managment and all other sorts of things
-> > > just for your platform.  So make it a real subsystem tuned exactly for
-> > > what you need and NOT try to force it into the UIO interface (which
-> > > should know nothing about ring buffers...)
-> > 
-> > Thank you for elaborating the details. I will drop the plan to introduce a
-> > new UIO driver for this effort. However, I would like to know your thoughts
-> > on enhancing existing 'uio_hv_generic' driver to achieve the same.  We
-> > already have 'uio_hv_generic' driver in linux kernel, which is used for
-> > developing userspace drivers for 'fast Hyper-V devices'.
-> > 
-> > Since these newly introduced synthetic devices operate at a lower speed,
-> > they do not have the capability to support monitor bits. Instead, we must
-> > utilize the 'vmbus_setevent()' method to enable interrupts from the host.
-> > Earlier we made an attempt to support slow devices by uio_hv_generic :
-> > https://lore.kernel.org/lkml/1665685754-13971-1-git-send-email-ssengar@linux.microsoft.com/.
-> > At that time, the absence of userspace code (fcopy) hindered progress
-> > in this direction.
-> > 
-> > Acknowledging your valid concerns about introducing a new UIO driver for
-> > Hyper-V, I propose exploring the potential to enhance the existing
-> > 'uio_hv_generic' driver to accommodate slower devices effectively. My
-> > commitment to this endeavour includes ensuring the seamless operation of
-> > the existing 'fcopy' functionality with the modified 'uio_hv_generic'
-> > driver. Additionally, I will undertake the task of removing the current
-> > 'fcopy' kernel driver and userspace daemon as part of this effort.
-> > 
-> > Please let me know your thoughts. I look forward to your feedback and
-> > the opportunity to discuss this proposal further. 
-> 
-> Greg,
-> 
-> May I know if enhancing uio_hv_generic.c to support 'slow devices' is
-> an accptable approach ? I'm willing to undertake this task and propose
-> the necessary modifications.
-> 
-> - Saurabh
+On Thu,  5 Oct 2023 10:17:46 -0700
+"Paul E. McKenney" <paulmck@kernel.org> wrote:
 
-ping
+> In kernels built with CONFIG_BOOT_CONFIG_FORCE=y, /proc/cmdline will
+> show all kernel boot parameters, both those supplied by the boot loader
+> and those embedded in the kernel image.  This works well for those who
+> just want to see all of the kernel boot parameters, but is not helpful to
+> those who need to see only those parameters supplied by the boot loader.
+> This is especially important when these parameters are presented to the
+> boot loader by automation that might gather them from diverse sources.
+> It is also useful when booting the next kernel via kexec(), in which
+> case it is necessary to supply only those kernel command-line arguments
+> from the boot loader, and most definitely not those that were embedded
+> into the current kernel.
+> 
+> Therefore, add comments to /proc/bootconfig of the form:
+> 
+> 	# Parameters from bootloader:
+> 	# root=UUID=ac0f0548-a69d-43ca-a06b-7db01bcbd5ad ro quiet ...
+> 
+> The second added line shows only those kernel boot parameters supplied
+> by the boot loader.
+
+Thanks for update it.
+
+This looks good to me.
+
+Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thank you!
 
 > 
-> > 
-> > - Saurabh
+> Link: https://lore.kernel.org/all/CAHk-=wjpVAW3iRq_bfKnVfs0ZtASh_aT67bQBG11b4W6niYVUw@mail.gmail.com/
+> Link: https://lore.kernel.org/all/20230731233130.424913-1-paulmck@kernel.org/
+> Co-developed-by: Masami Hiramatsu <mhiramat@kernel.org>
+> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: Arnd Bergmann <arnd@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Alexey Dobriyan <adobriyan@gmail.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: <linux-trace-kernel@vger.kernel.org>
+> Cc: <linux-fsdevel@vger.kernel.org>
+> ---
+>  fs/proc/bootconfig.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/fs/proc/bootconfig.c b/fs/proc/bootconfig.c
+> index 2e244ada1f97..902b326e1e56 100644
+> --- a/fs/proc/bootconfig.c
+> +++ b/fs/proc/bootconfig.c
+> @@ -62,6 +62,12 @@ static int __init copy_xbc_key_value_list(char *dst, size_t size)
+>  				break;
+>  			dst += ret;
+>  		}
+> +		if (ret >= 0 && boot_command_line[0]) {
+> +			ret = snprintf(dst, rest(dst, end), "# Parameters from bootloader:\n# %s\n",
+> +				       boot_command_line);
+> +			if (ret > 0)
+> +				dst += ret;
+> +		}
+>  	}
+>  out:
+>  	kfree(key);
+> -- 
+> 2.40.1
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
