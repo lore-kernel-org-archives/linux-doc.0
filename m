@@ -2,155 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49966E81E14
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Oct 2023 03:42:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D783E81E14
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Oct 2023 03:57:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234118AbjJGDmi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 23:42:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
+        id S234114AbjJGD5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 23:57:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234114AbjJGDmh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 23:42:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CF3BE;
-        Fri,  6 Oct 2023 20:42:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1C8C433C7;
-        Sat,  7 Oct 2023 03:42:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696650155;
-        bh=qYYmtyRXB1QvBQc5ba00QONAXBSOckRo54OymlP7Dk4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=CzrhKPk1lKjjJ7nIB4/Jgou7wEEAURYssXXGdC1e4jobIs2sc1fvZaQ9/Y7HVMvwU
-         1Xb7SFl/xAFG/qzPRKg4uJnWPbSmCkW97uDR3Vh607hK6wo0ZU5kezk9FFUnB+Iyka
-         xqvjbAkt6J+ayZTdF8lFYxssEEMXwhZ2RpTUkRYuu26NNzXPVCLPOPWxstZIoTDjqV
-         ZrLii9foDDRUGC5VFguz5Ja7uMVLoQRO9KdaTdF9QeSlVg79Fd9XaqN4nwKzytVPIt
-         sdt2IewTIjCP3o19FUb9rGkI4i/Od2iYQL3r9U7D6VX0GxXPN+ahUeOyJOvEKXKLaB
-         wmQeyzxWO9Jtw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id CC937CE0BAE; Fri,  6 Oct 2023 20:42:34 -0700 (PDT)
-Date:   Fri, 6 Oct 2023 20:42:34 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH bootconfig 2/3] fs/proc: Add boot loader arguments as
- comment to /proc/bootconfig
-Message-ID: <c262818e-52c7-456d-965c-b19606daf412@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <6ea609a4-12e3-4266-8816-b9fca1f1f21c@paulmck-laptop>
- <20231005171747.541123-2-paulmck@kernel.org>
- <20231006175948.14df07948d8c6a4a46473c13@kernel.org>
- <55067c09-9ec6-452a-a6db-30b8a8d08485@paulmck-laptop>
- <20231007104209.e6950a657f07831c95a0a1de@kernel.org>
+        with ESMTP id S234043AbjJGD5Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 23:57:24 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BBBBD
+        for <linux-doc@vger.kernel.org>; Fri,  6 Oct 2023 20:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=ZQog0NF2K+q/b/uy0DYX2KSFkpgsKJXWNkkr/ngs9AA=; b=UpdOng0r/oD2X1H14xI15wC4MK
+        mDrrSfxBhaaE62oD2AS5a53bLQQu9ZCMWM7IHZ8NjFYIqg3SNFbVJ7FhRJdf/EwYZepTCzDqVhKQH
+        tLRo+vqCecGlAxL7XiyNlPtiKBzW/WTZKv/gOJiNWc3Z1cRZT5AEfHNPE2hbXSrjr3gbbgsgj7caF
+        /KpHxMHqnPxQpp+26THr6FrG4TFdNlP+50C6YvbdBz8pCowNtOxdxIuzQN54ANG6uv9TDgdxN3xwJ
+        tKU2eP855qmw8gDkPcQUNYoeqb7wn6KGcBC2TmrrJOpQ04I4YtpVpybEah1zKz7Cd57pCjLn8JQlj
+        a0sAzRWQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qoyRG-001Xv1-RR; Sat, 07 Oct 2023 03:57:14 +0000
+Date:   Sat, 7 Oct 2023 04:57:14 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] doc: Always check kernel-doc
+Message-ID: <ZSDXGgofqj+9l16e@casper.infradead.org>
+References: <20230817144142.903553-1-willy@infradead.org>
+ <87cyzkmh26.fsf@meer.lwn.net>
+ <ZN+m9Bb7P+uH/TN8@casper.infradead.org>
+ <CAK7LNARKv_HGsF3r076u+G1ia645stimnoYc93CQ-9_3wvBe5w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231007104209.e6950a657f07831c95a0a1de@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARKv_HGsF3r076u+G1ia645stimnoYc93CQ-9_3wvBe5w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 07, 2023 at 10:42:09AM +0900, Masami Hiramatsu wrote:
-> On Fri, 6 Oct 2023 09:52:30 -0700
-> "Paul E. McKenney" <paulmck@kernel.org> wrote:
+On Sun, Aug 20, 2023 at 07:48:26AM +0900, Masahiro Yamada wrote:
+> On Sat, Aug 19, 2023 at 2:14 AM Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > On Fri, Aug 18, 2023 at 10:49:37AM -0600, Jonathan Corbet wrote:
+> > > "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
+> > > > kernel-doc checks were initially enabled only for builds which had extra
+> > > > warnings enabled.  We have now eliminated enough kernel-doc warnings that
+> > > > we can enable kernel-doc checking by default.  This comes at a slight
+> > > > cost; for an allmodconfig build, make -j8 fs/ timings on my laptop
+> > > > increase by less than 5%:
 > 
-> > On Fri, Oct 06, 2023 at 05:59:48PM +0900, Masami Hiramatsu wrote:
-> > > On Thu,  5 Oct 2023 10:17:46 -0700
-> > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > > 
-> > > > In kernels built with CONFIG_BOOT_CONFIG_FORCE=y, /proc/cmdline will
-> > > > show all kernel boot parameters, both those supplied by the boot loader
-> > > > and those embedded in the kernel image.  This works well for those who
-> > > > just want to see all of the kernel boot parameters, but is not helpful to
-> > > > those who need to see only those parameters supplied by the boot loader.
-> > > > This is especially important when these parameters are presented to the
-> > > > boot loader by automation that might gather them from diverse sources.
-> > > > It is also useful when booting the next kernel via kexec(), in which
-> > > > case it is necessary to supply only those kernel command-line arguments
-> > > > from the boot loader, and most definitely not those that were embedded
-> > > > into the current kernel.
-> > > > 
-> > > > Therefore, add comments to /proc/bootconfig of the form:
-> > > > 
-> > > > 	# Parameters from bootloader:
-> > > > 	# root=UUID=ac0f0548-a69d-43ca-a06b-7db01bcbd5ad ro quiet ...
-> > > > 
-> > > > The second added line shows only those kernel boot parameters supplied
-> > > > by the boot loader.
-> > > 
-> > > Thanks for update it.
-> > > 
-> > > This looks good to me.
-> > > 
-> > > Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > > 
-> > > Thank you!
-> > 
-> > And thank you!  I take this as meaning that I should push these three
-> > commits for the upcoming v6.7 merge window.  Please let me know if I
-> > should be doing something else.
+> Adding CONFIG_KDOC_CHECK or something
+> will allow people to avoid 5% build-time cost.
+> You can set "default y" or "default COMPILE_TEST".
+
+No, people won't set it.
+
+> > > So I'm not opposed to this and can carry it in docs-next (after the
+> > > merge window, though, for something like this).  But, it seems to me, we
+> > > should copy Masahiro (added) on a build patch of this type.
+> >
+> > Thanks!  I've got a small collection of doc fixup patches redy to go;
+> > I'm going to spray them at maintainers and see what lands in this
+> > merge window.  I'm focusing on mm/ and fs/ since I know those areas
+> > better than others.  net/ is in good shape; only 25 lines of errors
+> > (21 of them in ceph).
 > 
-> I have my bootconfig branch, so I think I should pick this and push it
-> to the next window. Does it work?
+> Any single instance of warning may result in a rejection by Linus.
+> Anyway, we will see.
 
-That works for me, and thank you!
-
-(And thank you for taking and fixing my whitespace errors in the
-other two patches!)
-
-							Thanx, Paul
-
-> > > > Link: https://lore.kernel.org/all/CAHk-=wjpVAW3iRq_bfKnVfs0ZtASh_aT67bQBG11b4W6niYVUw@mail.gmail.com/
-> > > > Link: https://lore.kernel.org/all/20230731233130.424913-1-paulmck@kernel.org/
-> > > > Co-developed-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > > Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > > > Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> > > > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > > Cc: Arnd Bergmann <arnd@kernel.org>
-> > > > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > > > Cc: Alexey Dobriyan <adobriyan@gmail.com>
-> > > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > > Cc: Kees Cook <keescook@chromium.org>
-> > > > Cc: <linux-trace-kernel@vger.kernel.org>
-> > > > Cc: <linux-fsdevel@vger.kernel.org>
-> > > > ---
-> > > >  fs/proc/bootconfig.c | 6 ++++++
-> > > >  1 file changed, 6 insertions(+)
-> > > > 
-> > > > diff --git a/fs/proc/bootconfig.c b/fs/proc/bootconfig.c
-> > > > index 2e244ada1f97..902b326e1e56 100644
-> > > > --- a/fs/proc/bootconfig.c
-> > > > +++ b/fs/proc/bootconfig.c
-> > > > @@ -62,6 +62,12 @@ static int __init copy_xbc_key_value_list(char *dst, size_t size)
-> > > >  				break;
-> > > >  			dst += ret;
-> > > >  		}
-> > > > +		if (ret >= 0 && boot_command_line[0]) {
-> > > > +			ret = snprintf(dst, rest(dst, end), "# Parameters from bootloader:\n# %s\n",
-> > > > +				       boot_command_line);
-> > > > +			if (ret > 0)
-> > > > +				dst += ret;
-> > > > +		}
-> > > >  	}
-> > > >  out:
-> > > >  	kfree(key);
-> > > > -- 
-> > > > 2.40.1
-> > > > 
-> > > 
-> > > 
-> > > -- 
-> > > Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> 
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Can we have a way to enable kernel-doc coverage on a per-directory basis?
+It will stop us from regressing.  I got mm/ down to zero warnings, and
+that promptly regressed.  If we force kernel-doc to run on files under
+mm/, developers will notice breakage quickly.
