@@ -2,78 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D46E94139
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Oct 2023 00:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FDD0E94139
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Oct 2023 00:44:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233729AbjJGAWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Oct 2023 20:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51762 "EHLO
+        id S233883AbjJGAn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Oct 2023 20:43:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233696AbjJGAWw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 20:22:52 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6028BE
-        for <linux-doc@vger.kernel.org>; Fri,  6 Oct 2023 17:22:50 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3D98C433C7;
-        Sat,  7 Oct 2023 00:22:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696638170;
-        bh=1BUaZMMqeVoMjxtWGj61G/fPUFnRdfmeq8RRHm9Afao=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tXBV49x9rKgM6epMxAqC8fscSz1He1fGGH+TQlQOP3lInkJgrxGQPxCV0iXAdzsIg
-         gjGnly/3owUlWuEvkYpfPdQ0lbfj0qm7WTEn/8RIlZuNjggB4Uy+vFnDLQnUIigCyc
-         /gtMtNyya3K29aEFAhOduPLa7Xc2svO/ZZRoNNjyw6ZWMa0oVOV+NJ5AEivmA476uY
-         J8V876MGA9t5r5/bE7iItYOk4CCwOFOVY4D1VsuGTWu3ly7Rnj2X7s9aG+zikDZdKX
-         EOSEYM/Yg+ii7/f/TkhX47i9yzYVftobwMhYfyomsK3SHf1Xhj8xdXVJkWNKzW6o7u
-         A65nmtO1Nj0aw==
-Date:   Fri, 6 Oct 2023 17:22:48 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Ahmed Zaki <ahmed.zaki@intel.com>
-Cc:     netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
-        mkubecek@suse.cz, Wojciech Drewek <wojciech.drewek@intel.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Subject: Re: [PATCH net-next v2 1/6] net: ethtool: allow symmetric RSS hash
- for any flow type
-Message-ID: <20231006172248.15c2e415@kernel.org>
-In-Reply-To: <20231006224726.443836-2-ahmed.zaki@intel.com>
-References: <20231006224726.443836-1-ahmed.zaki@intel.com>
-        <20231006224726.443836-2-ahmed.zaki@intel.com>
+        with ESMTP id S233929AbjJGAn6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Oct 2023 20:43:58 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7541CBF
+        for <linux-doc@vger.kernel.org>; Fri,  6 Oct 2023 17:43:56 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50307acd445so3365450e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Oct 2023 17:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696639434; x=1697244234; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2i7SU6EGyxqMylhMcqAeEXUl2esBxj9TVs6vu8xDfG0=;
+        b=At/Dx7MdddGdlgPSNutQU+s12hUeZKP/STbAZIBxMN/IjqyiaFcHwUshWwo20fy9PD
+         ZfAg/Z025d4IgJiU4bK14/hWZJTX6ZbSE95ijvzGHZTC/q2VRgdPA9ZWMk3AH48HHxzV
+         jBpRhNHN+g11R85J8bvca9KVNZri30ug2dwpv0nzEoQP7Rf8TiveoZHPeIBb3ALtelMJ
+         9MJslMHcTiZaiu4Kufp+YA4rLXKBzGCfyUq4tTjAhhpUzor3pp/zDU2XtGOR7QVUXYls
+         yqnjgsODIldV/8f522morKBQOeJE3vie3Ezgp2cQPMOz97Cyg240ewQMum/RvkP/ZpfQ
+         dlgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696639434; x=1697244234;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2i7SU6EGyxqMylhMcqAeEXUl2esBxj9TVs6vu8xDfG0=;
+        b=lk13cqAUEh8kAwdbWhxMrWn508t7q+Pwz54A81b2PlpEnYd0j9qLjpyVriN78agzc6
+         kjqeH912+opA+aqFS6HWpGvusO28BFRru9bD2Pz5JFPInnHfN7QOxdZdEujyedq2kxu+
+         5hHmlOFNkzwAOtGWSf+JgOkyI0YLE8BOjkcsrNhdshg74OPm7e0wSTqZL0bkKyKoJO97
+         8LeFe1hVWgqnbc6Ufw2A8NCk++n6Gkt5XECzE4s/l+P1UnoNeD5GStizNr9eCjQV7fap
+         Wp5PI/Y8J6JmIr6Er1rK907uk9krlk+aql93XUq0hXj49+cBCcm3VAqHL2Z5atNqPKSE
+         jlkA==
+X-Gm-Message-State: AOJu0YxtEtCFsYVJR8oWxiow6r64JKSa9DL10xxvilRy2Wt3v+kB2OwC
+        5bkNzaOdqGPjqMWqwgUR15ROl2uwltNlCPDGBIo=
+X-Google-Smtp-Source: AGHT+IFI9eOT8axsVoEo2tOZEhrDgFsGkI3OXuA9O7GPk8YuXtaSm/TMTj6vfU1QQttp17TT7pQ5/A==
+X-Received: by 2002:a05:6512:1285:b0:503:33ab:8126 with SMTP id u5-20020a056512128500b0050333ab8126mr10672999lfs.17.1696639434420;
+        Fri, 06 Oct 2023 17:43:54 -0700 (PDT)
+Received: from [10.167.154.1] (178235177147.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.147])
+        by smtp.gmail.com with ESMTPSA id 7-20020ac24847000000b004fb745fd22fsm492682lfy.32.2023.10.06.17.43.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Oct 2023 17:43:54 -0700 (PDT)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Date:   Sat, 07 Oct 2023 02:43:08 +0200
+Subject: [PATCH] docs: submitting-patches: Introduce Test: tag
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20231007-topic-test_tag-v1-1-513cd9e577ed@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAJupIGUC/x2N0QqDMAwAf0XyvEDbgWX7lTFGWqMGpEpTx0D89
+ wUf7+C4A5SrsMKzO6DyV1TWYuBvHeSZysQogzEEF+7euYht3SRjY22fRhPGkDL1ofdxfIBFiZQ
+ xVSp5tqzsy2JyqzzK77q83uf5B4mzpBd1AAAA
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Submitting Co-Author <sub@coauthor.example.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1696639433; l=2711;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=SIEVaHthR5Ve3brLeeJf9IytmM4E9WoIPQI8DGRS/3M=;
+ b=DOmjEF2R8rq8WZs6hM1z7rM2lY946gD/FywWsZB1OLCmP8rZ1a4ndfO2gtHwkBLCS397A7NYr
+ XJSmL/tqEOmC9XbUADRe24xxL1L7pXGNcQUniAXuA/3mUc/aoZj4LT/
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  6 Oct 2023 16:47:21 -0600 Ahmed Zaki wrote:
-> Symmetric RSS hash functions are beneficial in applications that monitor
-> both Tx and Rx packets of the same flow (IDS, software firewalls, ..etc).
-> Getting all traffic of the same flow on the same RX queue results in
-> higher CPU cache efficiency.
-> 
-> Only fields that has counterparts in the other direction can be
-> accepted; IP src/dst and L4 src/dst ports.
-> 
-> The user may request RSS hash symmetry for a specific flow type, via:
-> 
->     # ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n symmetric
-> 
-> or turn symmetry off (asymmetric) by:
-> 
->     # ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n
+Currently, we blindly trust the submitters that they both compiled their
+code at all, tested it on a relevant device, and have done so in a manner
+that made sense for a given changeset.
 
-Thanks for the changes, code looks good!
+If at least two of these three things were always true, the review
+workflow would be much more exciting.
 
-The question left unanswered is whether we should care about the exact
-implementation of the symmetry (xor, xor duplicate, sort fields).
-Toeplitz-based RSS is very precisely specified, so we may want to carry
-that precision into the symmetric behavior. I have a weak preference 
-to do so... but no willingness to argue with you, so let me put Willem
-on the spot and have him make a decision :)
+Introduce a new Test: tag to help submitters express the way the patch
+was tested, making it easier to understand for reviewers and maintainers
+whether it was tested, and if so, whether that test was sufficient.
 
-Please make sure to CC Willem and anyone else who commented on previous
-revisions on future versions!
+I originally found something like this on Google's Android kernel repos
+and loved the concept.
+
+Test: make htmldocs and manual examination
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+ Documentation/process/submitting-patches.rst | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 3fcfa029c9b3..c3fda5743ca7 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -522,7 +522,7 @@ Example of a patch submitted by a Co-developed-by: author::
+ 	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
+ 
+ 
+-Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
++Using informative tags:
+ ----------------------------------------------------------------------
+ 
+ The Reported-by tag gives credit to people who find bugs and report them and it
+@@ -600,6 +600,22 @@ process nor the requirement to Cc: stable@vger.kernel.org on all stable
+ patch candidates. For more information, please read
+ Documentation/process/stable-kernel-rules.rst.
+ 
++A Test: tag confirms that the patch was actually tested by the submitter and
++helps reviewers determine whether the testing procedure made sense for a given
++changeset. The latter in particular, may bring attention to errors in the
++testing procedure and prompt a more in-depth examination of a patch.
++
++Commonly, ``Test: Smoke test on [device name]`` may be used to signify that:
++
++	 (a) The kernel compiled successfully with the default defconfig.
++
++	 (b) The device has successfully booted the image from point (a), with
++	     no apparent loss in functionality compared to the state before this
++	     patch was applied.
++
++	 (c) The submitter believes in good faith, that such simple test is
++	     enough, given the scope of the patch.
++
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+
+---
+base-commit: 0f0fe5040de5e5fd9b040672e37725b046e312f0
+change-id: 20231007-topic-test_tag-72bca62617f9
+
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
+
