@@ -2,88 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CCACE95A67
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Oct 2023 16:40:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E523EE95A67
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Oct 2023 01:17:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344046AbjJGQka (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Oct 2023 12:40:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46994 "EHLO
+        id S229839AbjJHBRK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Oct 2023 21:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343956AbjJGQk3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Oct 2023 12:40:29 -0400
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3A02EBA;
-        Sat,  7 Oct 2023 09:40:23 -0700 (PDT)
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 397GdaTL026853;
-        Sat, 7 Oct 2023 18:39:36 +0200
-Date:   Sat, 7 Oct 2023 18:39:36 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Solar Designer <solar@openwall.com>
-Subject: Re: [RFC PATCH] Documentation: security-bugs.rst: linux-distros
- relaxed their rules
-Message-ID: <20231007163936.GA26837@1wt.eu>
-References: <20231007140454.25419-1-w@1wt.eu>
- <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com>
+        with ESMTP id S229634AbjJHBRJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Oct 2023 21:17:09 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF158F;
+        Sat,  7 Oct 2023 18:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696727828; x=1728263828;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=BObmF+e1EHfAcOcXWcw1IxrBQsQNIWGH7aR97cf+Zh4=;
+  b=Gyhe3xeAlVflBgX3cmPyUHIdQByb/faclzNH8gvbsIfZERAxGIlcwTJq
+   s14mJMl8/zYYjRLBYgBJ4YZ5EszMKUUDxwHCK4zx1ZXEOX7Sy4semLZNz
+   L8ps+rS4M21bhWR6z4AfTgJxzuRr9kJf0b1Lxb8e/usoTng8Ssj21xbYy
+   0ApCLZr2S88LPb/YQDwIkmeFdiK1RvMasYbKebITrEVMvK0Synsi1mAEP
+   uueBJGcJ6xlASRZWUBZjIz9tACu/dbGQTAWE9S16OTJAiXabM23agHEvX
+   o5Z7so/W4J2e/hrR7odac+3uRHablCc9StKnMivFhdfQSp525zdIbwN57
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="387834737"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
+   d="scan'208";a="387834737"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2023 18:17:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="729268794"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
+   d="scan'208";a="729268794"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2023 18:17:01 -0700
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Jianlin Lv <iecedge@gmail.com>
+Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev,
+        shakeelb@google.com, muchun.song@linux.dev,
+        akpm@linux-foundation.org, yosryahmed@google.com,
+        willy@infradead.org, linmiaohe@huawei.com,
+        wangkefeng.wang@huawei.com, laoar.shao@gmail.com,
+        yuzhao@google.com, wuyun.abel@bytedance.com, david@redhat.com,
+        peterx@redhat.com, vishal.moola@gmail.com, hughd@google.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, jianlv@ebay.com
+Subject: Re: [PATCH] memcg: add interface to force disable swap
+References: <20231007130905.78554-1-jianlv@ebay.com>
+Date:   Sun, 08 Oct 2023 09:14:54 +0800
+In-Reply-To: <20231007130905.78554-1-jianlv@ebay.com> (Jianlin Lv's message of
+        "Sat, 7 Oct 2023 21:09:05 +0800")
+Message-ID: <87mswtkj8x.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5ae47535-b6e0-8b48-4d59-a167e37c7fcc@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vegard,
+Jianlin Lv <iecedge@gmail.com> writes:
 
-On Sat, Oct 07, 2023 at 06:30:11PM +0200, Vegard Nossum wrote:
-> 
-> On 07/10/2023 16:04, Willy Tarreau wrote:
-> > +As such, the kernel security team strongly recommends that reporters of
-> > +potential security issues DO NOT contact the "linux-distros" mailing
-> > +list BEFORE a fix is accepted by the affected code's maintainers and you
-> 
-> is s/BEFORE/UNTIL/ clearer?
+> From: Jianlin Lv <iecedge@gmail.com>
+>
+> Global reclaim will swap even if swappiness is set to 0.
 
-Probably, yes.
+Why?  Can you elaborate the situation?
 
-> > +have read the linux-distros wiki page above and you fully understand the
-> > +requirements that doing so will impose on you and the kernel community.
-> > +This also means that in general it doesn't make sense to Cc: both lists
-> > +at once, except for coordination if a fix remains under embargo. And in
-> > +general, please do not Cc: the kernel security list about fixes that
-> > +have already been merged.
-> 
-> I was thinking about this Cc: thing and would it make sense to:
-> 
-> 1) have LKML and other public vger lists reject messages that include
-> s@k.o or (linux-)distros@ on Cc? The idea being that this is probably a
-> mistake -- I believe it has happened a few times recently by mistake.
-> 
-> 2) have (linux-)distros@ reject NEW threads (i.e. no In-Reply-To:) that
-> also include s@k.o on Cc? We could include a nice message explaining why
-> and to please resend when a patch has been developed and/or a disclosure
-> is planned in the next 7 days.
+> In particular
+> case, users wish to be able to completely disable swap for specific
+> processes. One scenario is that if JVM memory pages falls into swap,
+> the performance will noticeably reduce and the GC pauses tend to increase
+> to levels not tolerable by most applications.
+> If it's possible to only disable swap out for specific processes, it can
+> address the JVM GC pauses issues, and at the same time, memory reclaim
+> pressure is also manageable.
+>
+> This patch adds "memory.swap_force_disable" control file to support disable
+> swap for non-root cgroup. When process is associated with a cgroup,
+> 'echo 1 > memory.swap_force_disable' will forbid anon pages be swapped out.
+> This patch also adds read and write handler of the control file.
 
-I don't know, maybe it would add extra config burden, but on the other
-hand it could avoid the mistake from newcomers who have not read the
-docs first (which happened a few times already), but if l-d becomes a
-bit more flexible and tolerant to reporters' mistakes, as now documented,
-it should also be less of a problem.
-
-> I guess the problem with this would be if
-> somebody on s@k.o does a reply-all which would add distros right back in
-> the loop -OR- a patch has already been developed and included.
-
-Then this would be deliberate, there would an in-reply-to so that would
-not be a problem. I really doubt anyone from s@k.o would Cc linux-distros
-anyway since it would imply disclosing some details from a reporter, and
-we do not do that, it's up to the reporter to do it if they want.
-
-Thanks,
-Willy
+--
+Best Regards,
+Huang, Ying
