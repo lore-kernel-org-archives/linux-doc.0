@@ -2,151 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 851B3E95A8E
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 08:50:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4DEFE95A91
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 09:04:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345533AbjJIIuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 04:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60308 "EHLO
+        id S1345697AbjJIJEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 05:04:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345404AbjJIIt7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 04:49:59 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EEF9A3;
-        Mon,  9 Oct 2023 01:49:55 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2bffc55af02so50227961fa.2;
-        Mon, 09 Oct 2023 01:49:55 -0700 (PDT)
+        with ESMTP id S1345742AbjJIJD6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 05:03:58 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE22E97
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 02:03:55 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-69fc829d7b1so1386082b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 02:03:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696841393; x=1697446193; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=bytedance.com; s=google; t=1696842235; x=1697447035; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jo6aI4gZvvCpMFiUGs+gs/M6BlZphmb01wWlOsiDfrc=;
-        b=H2Bj2kSvgKP+CH3itFfqGsifKd06Vlmx1nCBRu+7c+3Br85nA77Uf8YcuQK0UC/qGu
-         /e1QfT2Go0qUee74IIhFCxouEAXf41nOLfFDihSq6o/XUPn/v2GiZWQ0nfSG9d7qRsPz
-         c+QAZNWIK/Ly+DIAWmmsE5SPvVIVXu/6INOXB/yG55/E3436sYuQXT4QQkwHfIdDvke2
-         To9BKT6cQs/TvBDswoCX07gf6HTkRHrlpm4AWEClcdb3NCNPUm/hKlykilXfEq2rZPV7
-         xCSRuBFw7P2LcClYDTe2C9wIsoAxWulvsYK6Bn1q/eBUdXqWDAS1Ki/TLHFRQws2qiip
-         h/PA==
+        bh=r3L72Q2C0A6XyhsC7UMGOLSZK5Azm/i+GpPRU3MZq4Q=;
+        b=C7Hhn80uXjSnkVDZ1Ws3hifc/LOJonaSh6QuNFixM3KbFXIIShUjX1FXHvr4qp494g
+         Pf1OB9PXbNrgoiQmcMFPSsZDlcKAecMaNgORk7VLrv22ECXQ69bprdKj2dA2d95aJDG/
+         nBQjmutWKUJBceGjFTcgYg/MBdFs8vJlUYR+yLu1qUrMIFCk7wqUFnyLt8ngW7ehnGQF
+         gXMlpxL5jzrS294j+OEvl24drugnFXsTfVYDdI53xTDxkawQrQSwXIcc3cjqP0Ef3zOK
+         aLSEDM7ItLVi0l6xJpneYvk8PnBsZu7ojtciIYMOv3YnZl9fJD2LVxboGPPl+1Wqp42n
+         dW+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696841393; x=1697446193;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jo6aI4gZvvCpMFiUGs+gs/M6BlZphmb01wWlOsiDfrc=;
-        b=m9EiB/RyXD/WA6llk3bwahLQE9BX6OkxPtEtpLMv3pLP3VYpzfNwKpAUZpJwDh6pDj
-         n6KoDZr+ENLg4Rhd/b1IL/pg3pGWAqdBXzx8KYTjCP4SPh2+ss9+BMMcd/8xbIHpuVwG
-         7xXGJuvesIfC+3JZxIKfg69bD8O90d8h2o5HIhVETdSDNe1cA0rQl8/HnivgG/MmN6jc
-         Vz2VvFwL276/ROFXin1tv5/t9UuJfxjvrsxCK2RvTw7YxMNAzLVXz2pszWVP872e2dtu
-         Az2raftOEfcBJObTV0b4VIbyZVFKCY6KDT1ZVBRyf590KkBvgGer3txIhwC1JJknEAeV
-         4XYw==
-X-Gm-Message-State: AOJu0YxhuiDZnLDD5NGqbwqK2cLLPiPtMgE8l+V58UvxizY5c61+03Xo
-        BbhtdWTNYjMReVifVfzf7LQ=
-X-Google-Smtp-Source: AGHT+IH1y1lLyCexGC0VNVkJhwZly2dg4RHXFhz+DgANrRNwfMwSA+OcjLwrQHPclRFcs+DB3BPN1g==
-X-Received: by 2002:a2e:97d2:0:b0:2bc:ed75:1ba with SMTP id m18-20020a2e97d2000000b002bced7501bamr12695953ljj.16.1696841393368;
-        Mon, 09 Oct 2023 01:49:53 -0700 (PDT)
-Received: from localhost ([146.70.182.19])
-        by smtp.gmail.com with ESMTPSA id u4-20020a2e9f04000000b002bcd94f9714sm1947547ljk.126.2023.10.09.01.49.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 01:49:53 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 09 Oct 2023 10:49:51 +0200
-Message-Id: <CW3S2LWWUVG7.2STK9HS3VBQFR@gmail.com>
-Cc:     "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
-        =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        "Benno Lossin" <benno.lossin@proton.me>,
-        "Andreas Hindborg" <a.hindborg@samsung.com>,
-        "Alice Ryhl" <aliceryhl@google.com>,
-        <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@lists.linux.dev>, "Jonathan Corbet" <corbet@lwn.net>,
-        <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 3/3] rust: upgrade to Rust 1.73.0
-From:   "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
-To:     "Miguel Ojeda" <ojeda@kernel.org>,
-        "Wedson Almeida Filho" <wedsonaf@gmail.com>,
-        "Alex Gaynor" <alex.gaynor@gmail.com>
-X-Mailer: aerc 0.15.2-211-g37d5fc691aff
-References: <20231005210556.466856-1-ojeda@kernel.org>
- <20231005210556.466856-4-ojeda@kernel.org>
-In-Reply-To: <20231005210556.466856-4-ojeda@kernel.org>
+        d=1e100.net; s=20230601; t=1696842235; x=1697447035;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r3L72Q2C0A6XyhsC7UMGOLSZK5Azm/i+GpPRU3MZq4Q=;
+        b=gN2bx1MjTNlebdxplAhe7xi3ihgLtiBxjmgqkK9QX+D0pdhLVSr8WArmUWACdgg6j2
+         pncqg/PfzyNSaqwGoDveR+QtWcl/8GAhiXvcTV837iPnnDi5Cn2LTGviN+qrrrou47Zl
+         qy0F5shWKY0y8vQe11eeMtlqRgK9WCKmD8OmzMnU84/aybhZW2WfodwJ4acoZVG4sR6D
+         ow8q1auWI/F8zsM3nE7ohTS2oJsVJ+LQjnkvtxPavxL0Ldl9VS24ODtC9RZ0X+LBStL7
+         jsbzvO5HF2O9oiwmqLjI7Hvqeh/hlg2dKhEALxfnr34zhigdOmOLF5OBwSbcDhItx1s1
+         3MOg==
+X-Gm-Message-State: AOJu0YzxB3iO/Ol0CVQXbbOOrOIT6pXsb8NOFek4I/XDIYjYcN4F98xv
+        psKANR+juaONYM3KMhCJnP6Q6g==
+X-Google-Smtp-Source: AGHT+IFTziVEGjqko/GY6Y/gf0kzFA12JYrUPiEPy+KRrwJBQ6QE4OFwPoL+CRZrpwt2i9F5PSccSA==
+X-Received: by 2002:a05:6a00:1255:b0:68a:5449:7436 with SMTP id u21-20020a056a00125500b0068a54497436mr16185349pfi.32.1696842235402;
+        Mon, 09 Oct 2023 02:03:55 -0700 (PDT)
+Received: from GL4FX4PXWL.bytedance.net ([139.177.225.243])
+        by smtp.gmail.com with ESMTPSA id fk3-20020a056a003a8300b00690ca4356f1sm5884847pfb.198.2023.10.09.02.03.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 09 Oct 2023 02:03:54 -0700 (PDT)
+From:   Peng Zhang <zhangpeng.00@bytedance.com>
+To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
+        willy@infradead.org, brauner@kernel.org, surenb@google.com,
+        michael.christie@oracle.com, mjguzik@gmail.com,
+        mathieu.desnoyers@efficios.com, npiggin@gmail.com,
+        peterz@infradead.org, oliver.sang@intel.com, mst@redhat.com
+Cc:     zhangpeng.00@bytedance.com, maple-tree@lists.infradead.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v4 02/10] maple_tree: Introduce {mtree,mas}_lock_nested()
+Date:   Mon,  9 Oct 2023 17:03:12 +0800
+Message-Id: <20231009090320.64565-3-zhangpeng.00@bytedance.com>
+X-Mailer: git-send-email 2.37.0 (Apple Git-136)
+In-Reply-To: <20231009090320.64565-1-zhangpeng.00@bytedance.com>
+References: <20231009090320.64565-1-zhangpeng.00@bytedance.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> The vast majority of changes are due to our `alloc` fork being upgraded
-> at once.
+In some cases, nested locks may be needed, so {mtree,mas}_lock_nested is
+introduced. For example, when duplicating maple tree, we need to hold
+the locks of two trees, in which case nested locks are needed.
 
-Ah this is annoying sometimes :/
+At the same time, add the definition of spin_lock_nested() in tools for
+testing.
 
->
-> There are two kinds of changes to be aware of: the ones coming from
-> upstream, which we should follow as closely as possible, and the updates
-> needed in our added fallible APIs to keep them matching the newer
-> infallible APIs coming from upstream.
->
-> Instead of taking a look at the diff of this patch, an alternative
-> approach is reviewing a diff of the changes between upstream `alloc` and
-> the kernel's. This allows to easily inspect the kernel additions only,
-> especially to check if the fallible methods we already have still match
-> the infallible ones in the new version coming from upstream.
->
-> Another approach is reviewing the changes introduced in the additions in
-> the kernel fork between the two versions. This is useful to spot
-> potentially unintended changes to our additions.
->
-> To apply these approaches, one may follow steps similar to the following
-> to generate a pair of patches that show the differences between upstream
-> Rust and the kernel (for the subset of `alloc` we use) before and after
-> applying this patch:
->
->     # Get the difference with respect to the old version.
->     git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
->     git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
->         cut -d/ -f3- |
->         grep -Fv README.md |
->         xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
->     git -C linux diff --patch-with-stat --summary -R > old.patch
->     git -C linux restore rust/alloc
->
->     # Apply this patch.
->     git -C linux am rust-upgrade.patch
->
->     # Get the difference with respect to the new version.
->     git -C rust checkout $(linux/scripts/min-tool-version.sh rustc)
->     git -C linux ls-tree -r --name-only HEAD -- rust/alloc |
->         cut -d/ -f3- |
->         grep -Fv README.md |
->         xargs -IPATH cp rust/library/alloc/src/PATH linux/rust/alloc/PATH
->     git -C linux diff --patch-with-stat --summary -R > new.patch
->     git -C linux restore rust/alloc
->
-> Now one may check the `new.patch` to take a look at the additions (first
-> approach) or at the difference between those two patches (second
-> approach). For the latter, a side-by-side tool is recommended.
->
-> Link: https://github.com/rust-lang/rust/blob/stable/RELEASES.md#version-1=
-730-2023-10-05 [1]
-> Link: https://rust-for-linux.com/rust-version-policy [2]
-> Link: https://github.com/Rust-for-Linux/linux/issues/2 [3]
-> Link: https://github.com/rust-lang/compiler-team/issues/596 [4]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  Documentation/process/changes.rst |  2 +-
->  rust/alloc/alloc.rs               | 22 --------------
->  rust/alloc/boxed.rs               | 48 ++++++++++++++++++++-----------
->  rust/alloc/lib.rs                 |  5 ++--
->  rust/alloc/raw_vec.rs             | 30 ++++++++++++-------
->  rust/alloc/vec/mod.rs             |  4 +--
->  rust/alloc/vec/spec_extend.rs     |  8 +++---
->  rust/compiler_builtins.rs         |  1 +
->  scripts/min-tool-version.sh       |  2 +-
->  9 files changed, 63 insertions(+), 59 deletions(-)
->
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
-anges.rst
-> index 731cc104c56f..bb96ca0f774b 100644
-> --- a/Documentation/process/changes.rst
+Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+---
+ include/linux/maple_tree.h     | 4 ++++
+ tools/include/linux/spinlock.h | 1 +
+ 2 files changed, 5 insertions(+)
 
-Reviewed-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+index d01e850b570f..f91dbc7fe091 100644
+--- a/include/linux/maple_tree.h
++++ b/include/linux/maple_tree.h
+@@ -256,6 +256,8 @@ struct maple_tree {
+ 	struct maple_tree name = MTREE_INIT(name, 0)
+ 
+ #define mtree_lock(mt)		spin_lock((&(mt)->ma_lock))
++#define mtree_lock_nested(mas, subclass) \
++		spin_lock_nested((&(mt)->ma_lock), subclass)
+ #define mtree_unlock(mt)	spin_unlock((&(mt)->ma_lock))
+ 
+ /*
+@@ -406,6 +408,8 @@ struct ma_wr_state {
+ };
+ 
+ #define mas_lock(mas)           spin_lock(&((mas)->tree->ma_lock))
++#define mas_lock_nested(mas, subclass) \
++		spin_lock_nested(&((mas)->tree->ma_lock), subclass)
+ #define mas_unlock(mas)         spin_unlock(&((mas)->tree->ma_lock))
+ 
+ 
+diff --git a/tools/include/linux/spinlock.h b/tools/include/linux/spinlock.h
+index 622266b197d0..a6cdf25b6b9d 100644
+--- a/tools/include/linux/spinlock.h
++++ b/tools/include/linux/spinlock.h
+@@ -11,6 +11,7 @@
+ #define spin_lock_init(x)	pthread_mutex_init(x, NULL)
+ 
+ #define spin_lock(x)			pthread_mutex_lock(x)
++#define spin_lock_nested(x, subclass)	pthread_mutex_lock(x)
+ #define spin_unlock(x)			pthread_mutex_unlock(x)
+ #define spin_lock_bh(x)			pthread_mutex_lock(x)
+ #define spin_unlock_bh(x)		pthread_mutex_unlock(x)
+-- 
+2.20.1
+
