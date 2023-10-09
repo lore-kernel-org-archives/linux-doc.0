@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C43E95A91
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 15:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3757E95A9E
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 15:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377788AbjJIPwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 11:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60164 "EHLO
+        id S1377806AbjJIPwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 11:52:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377697AbjJIPwI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 11:52:08 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A88D6;
-        Mon,  9 Oct 2023 08:52:04 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CFDBC1C0014;
-        Mon,  9 Oct 2023 15:51:58 +0000 (UTC)
+        with ESMTP id S1377716AbjJIPwR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 11:52:17 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E0BE125;
+        Mon,  9 Oct 2023 08:52:09 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 813401C0002;
+        Mon,  9 Oct 2023 15:52:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696866723;
+        t=1696866728;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Dwoe6lOlx1E2/77Mocwc9aHtLkZweaYfyFKWpCGQ1gQ=;
-        b=i+wsxQ6m1upWCYyo7u+e+YHrmJciyPcLnTSLp3AXxC5O/qfjJvoyHivghNry0Hg5lsJGhn
-        OeMCox2R+6ZYcD/SJe8U7ZUy4fsvchMdbFd2zkq5UDdVVvxEe9h2ZCyRAvEbAeFZDhARq+
-        6RZAourwHRPBrrqPuVJeKFIfaaB8nlI0J5QxyT73jQ1ibb+3jlHkBvsqX8gTZxqNA/BsBx
-        Kke6HnWtyeg63AcPh/XEHDYAevc/GQpiVGCh4PfY8n9vty4kdOmS/s6ERI3zPYvURANlw3
-        VBCOx3+DKO7oGk9GDqhhCr4zkaUYsZaZtcir1+Jzd4E+Bbcv5JL19cy8OHPD8w==
+        bh=a9F7BlsKWH7/jew3pkCvEwzC+iFPlgmNxIBdYB/M5ek=;
+        b=lg9DUJE9ubus5wrIC3pe2hFr91vs756EqASADzULyFowPfiMbq2S4435QUiT8hhJqNeKfy
+        3+hyzRJ8h1ZMKx5twtPj4RgODw/dGd5bOz+FfZnK5O2ON1CdtHsJ4oQIOe6CmFf1/qKPjh
+        51wxMQ2pAyLaN1yiX/JVuf6cHkE4hINWHe37Sf624PA9+W9rs1ybPIWwMzvlKdWwfLWYdv
+        du3NEm/lRqqAOfPGCOHFhDMvRHybGhQp3sAHFjDAVCpAeCVWRptgFEepJozHpTh44Po2WI
+        iVfkOVoIDLbH9v2MQWQwZLdS50JK56sMnQ6HMEudvfkczYK6z1XcHLZqv64vVQ==
 From:   =?UTF-8?q?K=C3=B6ry=20Maincent?= <kory.maincent@bootlin.com>
 To:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Jacob Keller <jacob.e.keller@intel.com>,
         Maxime Chevallier <maxime.chevallier@bootlin.com>,
         Kory Maincent <kory.maincent@bootlin.com>
-Subject: [PATCH net-next v5 05/16] net: Make dev_set_hwtstamp_phylib accessible
-Date:   Mon,  9 Oct 2023 17:51:27 +0200
-Message-Id: <20231009155138.86458-6-kory.maincent@bootlin.com>
+Subject: [PATCH net-next v5 06/16] net_tstamp: Add TIMESTAMPING SOFTWARE and HARDWARE mask
+Date:   Mon,  9 Oct 2023 17:51:28 +0200
+Message-Id: <20231009155138.86458-7-kory.maincent@bootlin.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231009155138.86458-1-kory.maincent@bootlin.com>
 References: <20231009155138.86458-1-kory.maincent@bootlin.com>
@@ -72,46 +72,36 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Kory Maincent <kory.maincent@bootlin.com>
 
-Make the dev_set_hwtstamp_phylib function accessible in prevision to use
-it from ethtool to reset the tstamp current configuration.
+Timestamping software or hardware flags are often used as a group,
+therefore adding these masks will easier future use.
+
+I did not use SOF_TIMESTAMPING_SYS_HARDWARE flag as it is deprecated and
+not use at all.
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
- include/linux/netdevice.h | 3 +++
- net/core/dev_ioctl.c      | 6 +++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ include/uapi/linux/net_tstamp.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index e070a4540fba..b9d0411836db 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3922,6 +3922,9 @@ int generic_hwtstamp_get_lower(struct net_device *dev,
- int generic_hwtstamp_set_lower(struct net_device *dev,
- 			       struct kernel_hwtstamp_config *kernel_cfg,
- 			       struct netlink_ext_ack *extack);
-+int dev_set_hwtstamp_phylib(struct net_device *dev,
-+			    struct kernel_hwtstamp_config *cfg,
-+			    struct netlink_ext_ack *extack);
- int dev_ethtool(struct net *net, struct ifreq *ifr, void __user *userdata);
- unsigned int dev_get_flags(const struct net_device *);
- int __dev_change_flags(struct net_device *dev, unsigned int flags,
-diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
-index b46aedc36939..342a667858ac 100644
---- a/net/core/dev_ioctl.c
-+++ b/net/core/dev_ioctl.c
-@@ -322,9 +322,9 @@ static int dev_get_hwtstamp(struct net_device *dev, struct ifreq *ifr)
-  * frames and not forward them), it must set IFF_SEE_ALL_HWTSTAMP_REQUESTS in
-  * dev->priv_flags.
-  */
--static int dev_set_hwtstamp_phylib(struct net_device *dev,
--				   struct kernel_hwtstamp_config *cfg,
--				   struct netlink_ext_ack *extack)
-+int dev_set_hwtstamp_phylib(struct net_device *dev,
-+			    struct kernel_hwtstamp_config *cfg,
-+			    struct netlink_ext_ack *extack)
- {
- 	const struct net_device_ops *ops = dev->netdev_ops;
- 	bool phy_ts = phy_has_hwtstamp(dev->phydev);
+diff --git a/include/uapi/linux/net_tstamp.h b/include/uapi/linux/net_tstamp.h
+index a2c66b3d7f0f..df8091998c8d 100644
+--- a/include/uapi/linux/net_tstamp.h
++++ b/include/uapi/linux/net_tstamp.h
+@@ -48,6 +48,14 @@ enum {
+ 					 SOF_TIMESTAMPING_TX_SCHED | \
+ 					 SOF_TIMESTAMPING_TX_ACK)
+ 
++#define SOF_TIMESTAMPING_SOFTWARE_MASK	(SOF_TIMESTAMPING_RX_SOFTWARE | \
++					 SOF_TIMESTAMPING_TX_SOFTWARE | \
++					 SOF_TIMESTAMPING_SOFTWARE)
++
++#define SOF_TIMESTAMPING_HARDWARE_MASK	(SOF_TIMESTAMPING_RX_HARDWARE | \
++					 SOF_TIMESTAMPING_TX_HARDWARE | \
++					 SOF_TIMESTAMPING_RAW_HARDWARE)
++
+ /**
+  * struct so_timestamping - SO_TIMESTAMPING parameter
+  *
 -- 
 2.25.1
 
