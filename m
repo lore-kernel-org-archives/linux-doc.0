@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A5AE95A96
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 09:04:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B8BE95A97
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 09:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345612AbjJIJEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 05:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55128 "EHLO
+        id S1345662AbjJIJEN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 05:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345573AbjJIJEF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 05:04:05 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2789DE
-        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 02:04:02 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-690bd59322dso3072074b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 02:04:02 -0700 (PDT)
+        with ESMTP id S1345698AbjJIJEM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 05:04:12 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E83FC6
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 02:03:49 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-3af608eb34bso3007628b6e.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 02:03:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1696842242; x=1697447042; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1696842228; x=1697447028; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rFybNnWQdSCKln+hJq4fbSMz/Y70Fetb8e2rQd0Bxg4=;
-        b=cUWc97/0Fp45ofVZN63jUiKyfWLOvnAQc3cC0OED+GFwzc0Bay3bvd3lNU1O8gflvN
-         d0/TihX1YZXaqj4Y+He9S6UKKzs5JhFleyOSB2tqahqme9MJG1q89Kd1wmEPzn31xDOP
-         Zi3odo5SqI2txya89wdWkYHZS+C8hNph0EB97BPHg0nEVi65tcpqaF/9bCxk2pCuNKsq
-         5AWB7OCZwprDHy0pHZQujyV3s3b3ZAUOhgcbWw0KGwi4aki/dqDrKr288ywqI1w38pI8
-         uVBt9vQzciZxl9YW3ZoGy/s+Fb4/0v6IFAcu91i9K7Hry9QleDJgikDG6X6Y1oGMuGZM
-         EzSw==
+        bh=Vn4VBWQzj5W1GGyecNOIEAPBueVPsjsImBXm9m9YoY4=;
+        b=QGiUB/KbptGKegNdzw8jChLi0LdKzrPR5ZDC3coGG31Ekd6yqIcSPF2Bw/5YncY7gC
+         BA+HBCOD/9r1P1KDF74CN2H3dyyJnwrYI7nGl+QVpwvRy68D5wNRhFK2XNnOAJugO8b2
+         Ea2s/x47W1IqtgvzL0GFk23kvipoabMy6VKpObL4fnH9Z3ANIQPn3crEmN+H2/3msl31
+         sN/0kZsbK0aGwWy9Es8byB3DPjTZYAOXd5uCCpi4HEulyRYk13RVN+YDyTCiTL4QH7Yl
+         9gzzPUnJFS9EUXEbM7X1I//YeFInsTwlnoRykGF1N8fHF9xKT0Dqvf+gXa+B1qTuLWzD
+         Blag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696842242; x=1697447042;
+        d=1e100.net; s=20230601; t=1696842228; x=1697447028;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rFybNnWQdSCKln+hJq4fbSMz/Y70Fetb8e2rQd0Bxg4=;
-        b=g/WCKiNYC3kDVKcmQnJOAXhhgzh03pXfIIppeeUavlOz9HVWpiCBndz6AGK9jJ/6sT
-         53rBHZNB76uZqHOiffA30tRft7GJUYfFmagFamE0fUDMgbGYZfV3K9R/DWYHpYCn7xdc
-         WHKlX8o+17z1QC4cVrFKaTOcG6LVQUda+EZQUZy2R4pzFV5uzQJYPTWfxbysQCUrh3Kk
-         GoRgf6zf11EWSVW6NQOn/RbOot+WiXKCpn0a3F4nX2iL3F2f1MZzTPY1eVaOpum/zkUO
-         SsNK1JVkVfqGthg4ZzRHxO0GXB+siy3bHRA5gaIOC7FKyJ7wDwNTidOS+htjp/4ZM/A5
-         WfSQ==
-X-Gm-Message-State: AOJu0Yz8GUg7FjRa10FKiXiMsE/dD657grgBqbbTcgdniuzVxCesi800
-        Ic3neL0tXFzGy3j/m4Mq2RR+jw==
-X-Google-Smtp-Source: AGHT+IGW2yzeIoL6Ijf2WG+uM4T/YOjJkHs9DS92BATvDQd3QNrHABPOnV3/n3Q1RgtwoWVo3K2adw==
-X-Received: by 2002:a05:6a21:a5aa:b0:15d:fc71:1b9e with SMTP id gd42-20020a056a21a5aa00b0015dfc711b9emr17661321pzc.49.1696842242202;
-        Mon, 09 Oct 2023 02:04:02 -0700 (PDT)
+        bh=Vn4VBWQzj5W1GGyecNOIEAPBueVPsjsImBXm9m9YoY4=;
+        b=fp77BuDWnbwZ8Ii1ezkrjfik80ag6K1AjKTLFMOFv7mX8GcnwBl/5x4LRsd3+9O0Nx
+         rargo59oOV6VKIDkxy6clqwWWzj1HyML23cA6Q0V9AsEXW38TEtEKYnhqv9Uf0dfH/jj
+         aAETipIHdhIyTXrV/UYoY3vE8KmO29DC0YM39prYr+ihKFey5HdZm1XaQ1KrTkw36GBN
+         fwqy/vCZMyllRWp3xzSbAF3O4ChKlh+84jfyAN4rM9epWcnG4ga34VXy92w++SuxRICn
+         Rxx+xyU4iBSvXFkNYitxkQP2lvJMHAFPjs2sjV+hwaEyHoOYCqZtdW/rpaCwqI7D/PNH
+         xQ7A==
+X-Gm-Message-State: AOJu0Yxf8rn8ir+elSsbcLtbJnzBDoydtKIUMIMum8xWZyV9cXofmsZJ
+        xLdfck+eMUVCm1kEJmTUbkCbng==
+X-Google-Smtp-Source: AGHT+IEWY+HaVY8fp64WuczHV3IZD4vZBL6+LkZqahkWHktgA14SlAu5iH/y7MbQI8ixDAn9dfnWUA==
+X-Received: by 2002:a05:6358:4408:b0:134:c37f:4b64 with SMTP id z8-20020a056358440800b00134c37f4b64mr14018761rwc.30.1696842228498;
+        Mon, 09 Oct 2023 02:03:48 -0700 (PDT)
 Received: from GL4FX4PXWL.bytedance.net ([139.177.225.243])
-        by smtp.gmail.com with ESMTPSA id fk3-20020a056a003a8300b00690ca4356f1sm5884847pfb.198.2023.10.09.02.03.55
+        by smtp.gmail.com with ESMTPSA id fk3-20020a056a003a8300b00690ca4356f1sm5884847pfb.198.2023.10.09.02.03.42
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Oct 2023 02:04:02 -0700 (PDT)
+        Mon, 09 Oct 2023 02:03:48 -0700 (PDT)
 From:   Peng Zhang <zhangpeng.00@bytedance.com>
 To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
         willy@infradead.org, brauner@kernel.org, surenb@google.com,
@@ -58,9 +58,9 @@ To:     Liam.Howlett@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
 Cc:     zhangpeng.00@bytedance.com, maple-tree@lists.infradead.org,
         linux-mm@kvack.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v4 03/10] maple_tree: Introduce interfaces __mt_dup() and mtree_dup()
-Date:   Mon,  9 Oct 2023 17:03:13 +0800
-Message-Id: <20231009090320.64565-4-zhangpeng.00@bytedance.com>
+Subject: [PATCH v4 01/10] maple_tree: Add mt_free_one() and mt_attr() helpers
+Date:   Mon,  9 Oct 2023 17:03:11 +0800
+Message-Id: <20231009090320.64565-2-zhangpeng.00@bytedance.com>
 X-Mailer: git-send-email 2.37.0 (Apple Git-136)
 In-Reply-To: <20231009090320.64565-1-zhangpeng.00@bytedance.com>
 References: <20231009090320.64565-1-zhangpeng.00@bytedance.com>
@@ -70,390 +70,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce interfaces __mt_dup() and mtree_dup(), which are used to
-duplicate a maple tree. They duplicate a maple tree in Depth-First
-Search (DFS) pre-order traversal. It uses memcopy() to copy nodes in the
-source tree and allocate new child nodes in non-leaf nodes. The new node
-is exactly the same as the source node except for all the addresses
-stored in it. It will be faster than traversing all elements in the
-source tree and inserting them one by one into the new tree. The time
-complexity of these two functions is O(n).
-
-The difference between __mt_dup() and mtree_dup() is that mtree_dup()
-handles locks internally.
-
-Analysis of the average time complexity of this algorithm:
-
-For simplicity, let's assume that the maximum branching factor of all
-non-leaf nodes is 16 (in allocation mode, it is 10), and the tree is a
-full tree.
-
-Under the given conditions, if there is a maple tree with n elements,
-the number of its leaves is n/16. From bottom to top, the number of
-nodes in each level is 1/16 of the number of nodes in the level below.
-So the total number of nodes in the entire tree is given by the sum of
-n/16 + n/16^2 + n/16^3 + ... + 1. This is a geometric series, and it has
-log(n) terms with base 16. According to the formula for the sum of a
-geometric series, the sum of this series can be calculated as (n-1)/15.
-Each node has only one parent node pointer, which can be considered as
-an edge. In total, there are (n-1)/15-1 edges.
-
-This algorithm consists of two operations:
-
-1. Traversing all nodes in DFS order.
-2. For each node, making a copy and performing necessary modifications
-   to create a new node.
-
-For the first part, DFS traversal will visit each edge twice. Let
-T(ascend) represent the cost of taking one step downwards, and
-T(descend) represent the cost of taking one step upwards. And both of
-them are constants (although mas_ascend() may not be, as it contains a
-loop, but here we ignore it and treat it as a constant). So the time
-spent on the first part can be represented as
-((n-1)/15-1) * (T(ascend) + T(descend)).
-
-For the second part, each node will be copied, and the cost of copying a
-node is denoted as T(copy_node). For each non-leaf node, it is necessary
-to reallocate all child nodes, and the cost of this operation is denoted
-as T(dup_alloc). The behavior behind memory allocation is complex and
-not specific to the maple tree operation. Here, we assume that the time
-required for a single allocation is constant. Since the size of a node
-is fixed, both of these symbols are also constants. We can calculate
-that the time spent on the second part is
-((n-1)/15) * T(copy_node) + ((n-1)/15 - n/16) * T(dup_alloc).
-
-Adding both parts together, the total time spent by the algorithm can be
-represented as:
-
-((n-1)/15) * (T(ascend) + T(descend) + T(copy_node) + T(dup_alloc)) -
-n/16 * T(dup_alloc) - (T(ascend) + T(descend))
-
-Let C1 = T(ascend) + T(descend) + T(copy_node) + T(dup_alloc)
-Let C2 = T(dup_alloc)
-Let C3 = T(ascend) + T(descend)
-
-Finally, the expression can be simplified as:
-((16 * C1 - 15 * C2) / (15 * 16)) * n - (C1 / 15 + C3).
-
-This is a linear function, so the average time complexity is O(n).
+Add two helpers:
+1. mt_free_one(), used to free a maple node.
+2. mt_attr(), used to obtain the attributes of maple tree.
 
 Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
 ---
- include/linux/maple_tree.h |   3 +
- lib/maple_tree.c           | 286 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 289 insertions(+)
+ lib/maple_tree.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
-index f91dbc7fe091..a452dd8a1e5c 100644
---- a/include/linux/maple_tree.h
-+++ b/include/linux/maple_tree.h
-@@ -329,6 +329,9 @@ int mtree_store(struct maple_tree *mt, unsigned long index,
- 		void *entry, gfp_t gfp);
- void *mtree_erase(struct maple_tree *mt, unsigned long index);
- 
-+int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
-+int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp);
-+
- void mtree_destroy(struct maple_tree *mt);
- void __mt_destroy(struct maple_tree *mt);
- 
 diff --git a/lib/maple_tree.c b/lib/maple_tree.c
-index 28d8959386e7..d5544382ff15 100644
+index 0e00a84e8e8f..28d8959386e7 100644
 --- a/lib/maple_tree.c
 +++ b/lib/maple_tree.c
-@@ -6475,6 +6475,292 @@ void *mtree_erase(struct maple_tree *mt, unsigned long index)
+@@ -165,6 +165,11 @@ static inline int mt_alloc_bulk(gfp_t gfp, size_t size, void **nodes)
+ 	return kmem_cache_alloc_bulk(maple_node_cache, gfp, size, nodes);
  }
- EXPORT_SYMBOL(mtree_erase);
  
-+/*
-+ * mas_dup_free() - Free an incomplete duplication of a tree.
-+ * @mas: The maple state of a incomplete tree.
-+ *
-+ * The parameter @mas->node passed in indicates that the allocation failed on
-+ * this node. This function frees all nodes starting from @mas->node in the
-+ * reverse order of mas_dup_build(). There is no need to hold the source tree
-+ * lock at this time.
-+ */
-+static void mas_dup_free(struct ma_state *mas)
++static inline void mt_free_one(struct maple_node *node)
 +{
-+	struct maple_node *node;
-+	enum maple_type type;
-+	void __rcu **slots;
-+	unsigned char count, i;
-+
-+	/* Maybe the first node allocation failed. */
-+	if (mas_is_none(mas))
-+		return;
-+
-+	while (!mte_is_root(mas->node)) {
-+		mas_ascend(mas);
-+
-+		if (mas->offset) {
-+			mas->offset--;
-+			do {
-+				mas_descend(mas);
-+				mas->offset = mas_data_end(mas);
-+			} while (!mte_is_leaf(mas->node));
-+
-+			mas_ascend(mas);
-+		}
-+
-+		node = mte_to_node(mas->node);
-+		type = mte_node_type(mas->node);
-+		slots = ma_slots(node, type);
-+		count = mas_data_end(mas) + 1;
-+		for (i = 0; i < count; i++)
-+			((unsigned long *)slots)[i] &= ~MAPLE_NODE_MASK;
-+
-+		mt_free_bulk(count, slots);
-+	}
-+
-+	node = mte_to_node(mas->node);
-+	mt_free_one(node);
++	kmem_cache_free(maple_node_cache, node);
 +}
 +
-+/*
-+ * mas_copy_node() - Copy a maple node and replace the parent.
-+ * @mas: The maple state of source tree.
-+ * @new_mas: The maple state of new tree.
-+ * @parent: The parent of the new node.
-+ *
-+ * Copy @mas->node to @new_mas->node, set @parent to be the parent of
-+ * @new_mas->node. If memory allocation fails, @mas is set to -ENOMEM.
-+ */
-+static inline void mas_copy_node(struct ma_state *mas, struct ma_state *new_mas,
-+		struct maple_pnode *parent)
+ static inline void mt_free_bulk(size_t size, void __rcu **nodes)
+ {
+ 	kmem_cache_free_bulk(maple_node_cache, size, (void **)nodes);
+@@ -205,6 +210,11 @@ static unsigned int mas_mt_height(struct ma_state *mas)
+ 	return mt_height(mas->tree);
+ }
+ 
++static inline unsigned int mt_attr(struct maple_tree *mt)
 +{
-+	struct maple_node *node = mte_to_node(mas->node);
-+	struct maple_node *new_node = mte_to_node(new_mas->node);
-+	unsigned long val;
-+
-+	/* Copy the node completely. */
-+	memcpy(new_node, node, sizeof(struct maple_node));
-+
-+	/* Update the parent node pointer. */
-+	val = (unsigned long)node->parent & MAPLE_NODE_MASK;
-+	new_node->parent = ma_parent_ptr(val | (unsigned long)parent);
++	return mt->ma_flags & ~MT_FLAGS_HEIGHT_MASK;
 +}
 +
-+/*
-+ * mas_dup_alloc() - Allocate child nodes for a maple node.
-+ * @mas: The maple state of source tree.
-+ * @new_mas: The maple state of new tree.
-+ * @gfp: The GFP_FLAGS to use for allocations.
-+ *
-+ * This function allocates child nodes for @new_mas->node during the duplication
-+ * process. If memory allocation fails, @mas is set to -ENOMEM.
-+ */
-+static inline void mas_dup_alloc(struct ma_state *mas, struct ma_state *new_mas,
-+		gfp_t gfp)
-+{
-+	struct maple_node *node = mte_to_node(mas->node);
-+	struct maple_node *new_node = mte_to_node(new_mas->node);
-+	enum maple_type type;
-+	unsigned char request, count, i;
-+	void __rcu **slots;
-+	void __rcu **new_slots;
-+	unsigned long val;
-+
-+	/* Allocate memory for child nodes. */
-+	type = mte_node_type(mas->node);
-+	new_slots = ma_slots(new_node, type);
-+	request = mas_data_end(mas) + 1;
-+	count = mt_alloc_bulk(gfp, request, (void **)new_slots);
-+	if (unlikely(count < request)) {
-+		if (count)
-+			mt_free_bulk(count, new_slots);
-+
-+		memset(new_slots, 0, request * sizeof(void *));
-+		mas_set_err(mas, -ENOMEM);
-+		return;
-+	}
-+
-+	/* Restore node type information in slots. */
-+	slots = ma_slots(node, type);
-+	for (i = 0; i < count; i++) {
-+		val = (unsigned long)mt_slot_locked(mas->tree, slots, i);
-+		val &= MAPLE_NODE_MASK;
-+		((unsigned long *)new_slots)[i] |= val;
-+	}
-+}
-+
-+/*
-+ * mas_dup_build() - Build a new maple tree from a source tree
-+ * @mas: The maple state of source tree, need to be in MAS_START state.
-+ * @new_mas: The maple state of new tree, need to be in MAS_START state.
-+ * @gfp: The GFP_FLAGS to use for allocations.
-+ *
-+ * This function builds a new tree in DFS preorder. If the memory allocation
-+ * fails, the error code -ENOMEM will be set in @mas, and @new_mas points to the
-+ * last node. mas_dup_free() will free the incomplete duplication of a tree.
-+ *
-+ * Note that the attributes of the two trees need to be exactly the same, and the
-+ * new tree needs to be empty, otherwise -EINVAL will be set in @mas.
-+ */
-+static inline void mas_dup_build(struct ma_state *mas, struct ma_state *new_mas,
-+		gfp_t gfp)
-+{
-+	struct maple_node *node;
-+	struct maple_pnode *parent = NULL;
-+	struct maple_enode *root;
-+	enum maple_type type;
-+
-+	if (unlikely(mt_attr(mas->tree) != mt_attr(new_mas->tree)) ||
-+	    unlikely(!mtree_empty(new_mas->tree))) {
-+		mas_set_err(mas, -EINVAL);
-+		return;
-+	}
-+
-+	mas_start(mas);
-+	if (mas_is_ptr(mas) || mas_is_none(mas)) {
-+		root = mt_root_locked(mas->tree);
-+		goto set_new_tree;
-+	}
-+
-+	node = mt_alloc_one(gfp);
-+	if (!node) {
-+		new_mas->node = MAS_NONE;
-+		mas_set_err(mas, -ENOMEM);
-+		return;
-+	}
-+
-+	type = mte_node_type(mas->node);
-+	root = mt_mk_node(node, type);
-+	new_mas->node = root;
-+	new_mas->min = 0;
-+	new_mas->max = ULONG_MAX;
-+	root = mte_mk_root(root);
-+
-+	while (1) {
-+		mas_copy_node(mas, new_mas, parent);
-+
-+		if (!mte_is_leaf(mas->node)) {
-+			/* Only allocate child nodes for non-leaf nodes. */
-+			mas_dup_alloc(mas, new_mas, gfp);
-+			if (unlikely(mas_is_err(mas)))
-+				return;
-+		} else {
-+			/*
-+			 * This is the last leaf node and duplication is
-+			 * completed.
-+			 */
-+			if (mas->max == ULONG_MAX)
-+				goto done;
-+
-+			/* This is not the last leaf node and needs to go up. */
-+			do {
-+				mas_ascend(mas);
-+				mas_ascend(new_mas);
-+			} while (mas->offset == mas_data_end(mas));
-+
-+			/* Move to the next subtree. */
-+			mas->offset++;
-+			new_mas->offset++;
-+		}
-+
-+		mas_descend(mas);
-+		parent = ma_parent_ptr(mte_to_node(new_mas->node));
-+		mas_descend(new_mas);
-+		mas->offset = 0;
-+		new_mas->offset = 0;
-+	}
-+done:
-+	/* Specially handle the parent of the root node. */
-+	mte_to_node(root)->parent = ma_parent_ptr(mas_tree_parent(new_mas));
-+set_new_tree:
-+	/* Make them the same height */
-+	new_mas->tree->ma_flags = mas->tree->ma_flags;
-+	rcu_assign_pointer(new_mas->tree->ma_root, root);
-+}
-+
-+/**
-+ * __mt_dup(): Duplicate an entire maple tree
-+ * @mt: The source maple tree
-+ * @new: The new maple tree
-+ * @gfp: The GFP_FLAGS to use for allocations
-+ *
-+ * This function duplicates a maple tree in Depth-First Search (DFS) pre-order
-+ * traversal. It uses memcopy() to copy nodes in the source tree and allocate
-+ * new child nodes in non-leaf nodes. The new node is exactly the same as the
-+ * source node except for all the addresses stored in it. It will be faster than
-+ * traversing all elements in the source tree and inserting them one by one into
-+ * the new tree.
-+ * The user needs to ensure that the attributes of the source tree and the new
-+ * tree are the same, and the new tree needs to be an empty tree, otherwise
-+ * -EINVAL will be returned.
-+ * Note that the user needs to manually lock the source tree and the new tree.
-+ *
-+ * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
-+ * the attributes of the two trees are different or the new tree is not an empty
-+ * tree.
-+ */
-+int __mt_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
-+{
-+	int ret = 0;
-+	MA_STATE(mas, mt, 0, 0);
-+	MA_STATE(new_mas, new, 0, 0);
-+
-+	mas_dup_build(&mas, &new_mas, gfp);
-+
-+	if (unlikely(mas_is_err(&mas))) {
-+		ret = xa_err(mas.node);
-+		if (ret == -ENOMEM)
-+			mas_dup_free(&new_mas);
-+	}
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(__mt_dup);
-+
-+/**
-+ * mtree_dup(): Duplicate an entire maple tree
-+ * @mt: The source maple tree
-+ * @new: The new maple tree
-+ * @gfp: The GFP_FLAGS to use for allocations
-+ *
-+ * This function duplicates a maple tree in Depth-First Search (DFS) pre-order
-+ * traversal. It uses memcopy() to copy nodes in the source tree and allocate
-+ * new child nodes in non-leaf nodes. The new node is exactly the same as the
-+ * source node except for all the addresses stored in it. It will be faster than
-+ * traversing all elements in the source tree and inserting them one by one into
-+ * the new tree.
-+ * The user needs to ensure that the attributes of the source tree and the new
-+ * tree are the same, and the new tree needs to be an empty tree, otherwise
-+ * -EINVAL will be returned.
-+ *
-+ * Return: 0 on success, -ENOMEM if memory could not be allocated, -EINVAL If
-+ * the attributes of the two trees are different or the new tree is not an empty
-+ * tree.
-+ */
-+int mtree_dup(struct maple_tree *mt, struct maple_tree *new, gfp_t gfp)
-+{
-+	int ret = 0;
-+	MA_STATE(mas, mt, 0, 0);
-+	MA_STATE(new_mas, new, 0, 0);
-+
-+	mas_lock(&new_mas);
-+	mas_lock_nested(&mas, SINGLE_DEPTH_NESTING);
-+
-+	mas_dup_build(&mas, &new_mas, gfp);
-+	mas_unlock(&mas);
-+
-+	if (unlikely(mas_is_err(&mas))) {
-+		ret = xa_err(mas.node);
-+		if (ret == -ENOMEM)
-+			mas_dup_free(&new_mas);
-+	}
-+
-+	mas_unlock(&new_mas);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(mtree_dup);
-+
- /**
-  * __mt_destroy() - Walk and free all nodes of a locked maple tree.
-  * @mt: The maple tree
+ static inline enum maple_type mte_node_type(const struct maple_enode *entry)
+ {
+ 	return ((unsigned long)entry >> MAPLE_NODE_TYPE_SHIFT) &
+@@ -5573,7 +5583,7 @@ void mas_destroy(struct ma_state *mas)
+ 			mt_free_bulk(count, (void __rcu **)&node->slot[1]);
+ 			total -= count;
+ 		}
+-		kmem_cache_free(maple_node_cache, node);
++		mt_free_one(ma_mnode_ptr(node));
+ 		total--;
+ 	}
+ 
 -- 
 2.20.1
 
