@@ -2,96 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 675CACD6107
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 16:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4714BCD610A
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 16:41:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377212AbjJIQjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 12:39:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55328 "EHLO
+        id S1377229AbjJIQlW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 12:41:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377684AbjJIQjM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 12:39:12 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7A009E;
-        Mon,  9 Oct 2023 09:39:11 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CB6C433C8;
-        Mon,  9 Oct 2023 16:39:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696869551;
-        bh=7z+60XSm3ueWD/Rb4nlz+Vx6kE/PtSD/zyuDb2uuKVA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=ZeVwvbsew4OBEZgXJbPtLKAoeYKvOgZkxARjbRxOkfq+0LfDHeRfil98CBH72p960
-         YjDTKW3IlcfIXN2oPpobCBvVx02vEu//3oNTujV5HUyFWGaN0EegpK5bp9nP4uB7ho
-         N+9qDwcb5sCjWAZxWLkLR2SQB/VB/6/1etaipdB03FIHyUi7vSFVUSdaSqXxO5KofO
-         TH7XD4fsOj2jSu9X47H9zI3NdtL4vS4XbezbTztgt/1sa0HjdX1hEhComZJnwzBN8J
-         PizzHSQ8phs9zxf3aR1/oVWYtePxjmax6lLe74PgEAHWAiaWo//cJxOoBWfTDbvzdW
-         Ikx1Wc5spCLHA==
-Date:   Mon, 9 Oct 2023 11:39:09 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Yang Yingliang <yangyingliang@huawei.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S1376275AbjJIQlV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 12:41:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA02B0
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 09:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1696869641;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+YpXHXo6RBy8CnTiTObZdU28mMjUq9Z4XmoNn8CdwOg=;
+        b=LLo4D7hwm/+U6MJgO7V9MHv388IkIHapHhOi3kWgTpDxX3a+VvtQIBiBH0epTTP9lEjPCr
+        wypmBcuNErTokw7IuAe8O0VRHVrqUUO55mhrAWZ32LoUxtLCquOu+RMAODIi6Xyd49TTBz
+        vkQaoVay1N/4O3ZICu93/9jz2MiRSqs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-608-TL37Mn3kP9qtJIg0N-ihuw-1; Mon, 09 Oct 2023 12:40:39 -0400
+X-MC-Unique: TL37Mn3kP9qtJIg0N-ihuw-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-406de77fb85so26602125e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 09:40:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696869638; x=1697474438;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+YpXHXo6RBy8CnTiTObZdU28mMjUq9Z4XmoNn8CdwOg=;
+        b=QQ8SrCglJ1RvVm814MTIeeE3H3tsCTBgv4fDefreDFBV/8snntwYYSDAciou2ZibuE
+         I/2rfZfq/Yy6D9VTE068cH3TD+vjxwdEzjx+Iqu3s99qbwlCG+RQZSKnoX17L9YEhHTA
+         BSb45kUrhirFwkEW3WSBaFRSdY1GBc/OUVMp1YslOwH1n42u4xZ+FDGOlX7CvrCxvMXJ
+         DSBW9QCV6PA8vfcM28n8mML2Q6Gu7V6drLnwoRjH3l+C4Y7BNN5sq7VWZTF4809AiJc7
+         dVfc/ku/R1a+xKVqFqBTK1PjwUKEmWLNvPDLAO9N9YNUj0yB0Kl/g31srmGeHSxzq8//
+         HI7g==
+X-Gm-Message-State: AOJu0Yxcvh3nq/jpaWC2WLK5f8vrn6Z3eqMgLujAkIIOTdqTwVlowfpd
+        JmvCpKvtghRDpm3GR5GJ0imaqST6mdrGUGhhWTZEXPiBKvqOUNyMORRXDPbHGSFLIDAmxtNG9GH
+        4qWyEM1evtcjqFKWb5RXM
+X-Received: by 2002:a05:600c:2949:b0:405:82c0:d9d9 with SMTP id n9-20020a05600c294900b0040582c0d9d9mr14896187wmd.41.1696869638573;
+        Mon, 09 Oct 2023 09:40:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEMgAs2OFs3TPKIXUcqwEYEgUj8NhgbOlPIyIMA79idAa9Hjf42+dP6kuPpgcF+X3v1F7p9tg==
+X-Received: by 2002:a05:600c:2949:b0:405:82c0:d9d9 with SMTP id n9-20020a05600c294900b0040582c0d9d9mr14896162wmd.41.1696869638060;
+        Mon, 09 Oct 2023 09:40:38 -0700 (PDT)
+Received: from starship ([89.237.100.246])
+        by smtp.gmail.com with ESMTPSA id bd5-20020a05600c1f0500b004030e8ff964sm14033430wmb.34.2023.10.09.09.40.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Oct 2023 09:40:37 -0700 (PDT)
+Message-ID: <907b351fee183609891a4d0cfb0a79bad85577a0.camel@redhat.com>
+Subject: Re: [RFC PATCH v2 14/20] x86/kvm: Make kvm_async_pf_enabled
+ __ro_after_init
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Valentin Schneider <vschneid@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [resend, PATCH v1 1/1] PCI: Update the devres documentation
- regarding to pcim_*()
-Message-ID: <20231009163909.GA939056@bhelgaas>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Date:   Mon, 09 Oct 2023 19:40:31 +0300
+In-Reply-To: <20230720163056.2564824-15-vschneid@redhat.com>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+         <20230720163056.2564824-15-vschneid@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231006150634.3444251-1-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 06, 2023 at 06:06:34PM +0300, Andy Shevchenko wrote:
-> There were many changes to PCI core in scope of managed resources APIs.
-> Update documentation to list the current state of affairs.
+У чт, 2023-07-20 у 17:30 +0100, Valentin Schneider пише:
+> objtool now warns about it:
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Looks good.
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
+>   vmlinux.o: warning: objtool: exc_page_fault+0x2a: Non __ro_after_init static key "kvm_async_pf_enabled" in .noinstr section
+> 
+> The key can only be enabled (and not disabled) in the __init function
+> kvm_guest_init(), so mark it as __ro_after_init.
+> 
+> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
 > ---
->  Documentation/driver-api/driver-model/devres.rst | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+>  arch/x86/kernel/kvm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index 8be086b3f829..c5f99d834ec5 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -322,10 +322,8 @@ IOMAP
->    devm_platform_ioremap_resource_byname()
->    devm_platform_get_and_ioremap_resource()
->    devm_iounmap()
-> -  pcim_iomap()
-> -  pcim_iomap_regions()	: do request_region() and iomap() on multiple BARs
-> -  pcim_iomap_table()	: array of mapped addresses indexed by BAR
-> -  pcim_iounmap()
-> +
-> +  Note: For the PCI devices the specific pcim_*() functions may be used, see below.
+> diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+> index 1cceac5984daa..319460090a836 100644
+> --- a/arch/x86/kernel/kvm.c
+> +++ b/arch/x86/kernel/kvm.c
+> @@ -44,7 +44,7 @@
+>  #include <asm/svm.h>
+>  #include <asm/e820/api.h>
 >  
->  IRQ
->    devm_free_irq()
-> @@ -392,8 +390,16 @@ PCI
->    devm_pci_alloc_host_bridge()  : managed PCI host bridge allocation
->    devm_pci_remap_cfgspace()	: ioremap PCI configuration space
->    devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
-> +
->    pcim_enable_device()		: after success, all PCI ops become managed
-> +  pcim_iomap()			: do iomap() on a single BAR
-> +  pcim_iomap_regions()		: do request_region() and iomap() on multiple BARs
-> +  pcim_iomap_regions_request_all() : do request_region() on all and iomap() on multiple BARs
-> +  pcim_iomap_table()		: array of mapped addresses indexed by BAR
-> +  pcim_iounmap()		: do iounmap() on a single BAR
-> +  pcim_iounmap_regions()	: do iounmap() and release_region() on multiple BARs
->    pcim_pin_device()		: keep PCI device enabled after release
-> +  pcim_set_mwi()		: enable Memory-Write-Invalidate PCI transaction
+> -DEFINE_STATIC_KEY_FALSE(kvm_async_pf_enabled);
+> +DEFINE_STATIC_KEY_FALSE_RO(kvm_async_pf_enabled);
 >  
->  PHY
->    devm_usb_get_phy()
-> -- 
-> 2.40.0.1.gaa8946217a0b
-> 
+>  static int kvmapf = 1;
+>  
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+
+Best regards,
+	Maxim Levitsky
+
