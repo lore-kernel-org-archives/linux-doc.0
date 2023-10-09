@@ -2,168 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1BB4CD6131
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 19:57:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85CEBCD612F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 19:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378482AbjJIT5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 15:57:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60532 "EHLO
+        id S1378507AbjJIT7H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 15:59:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377401AbjJIT5s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 15:57:48 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F37094;
-        Mon,  9 Oct 2023 12:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696881467; x=1728417467;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Js971sKS/1PzBLNic0V93M/o4QVtQcmRpD9RYFPgw/E=;
-  b=B9/M8mUy4MQ5s/u31HZT6BVcGIY8gk3bMQeRO0ILXN8GU9P2bcEP7KzB
-   VOr8FSEJkwX4O50QyXMgWNsl6eOPB94UWZy6Q6FxCyUmqNp4WuHumBPtg
-   x28ahg5rhFOlkESMSYAceSeTXxzYKgn5t0fd+zTKnJDoJAYrVihd8qdqm
-   +lwqGF1lBQxzgMNzS/fFOjs4TuFH3FFu9iBva7EglSHD0uwqUH5sJJvux
-   61TraCyPPwJzpxwOeGj/4yM3CwWy5mhZHmWpaufAJA/KCi0O+0wm9BQ8a
-   DNIzrqYkBv84OhklmdayaqRvIPZ+D036yMsLh2UQdjwJPnm45/rlTlRTi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="387067629"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="387067629"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 12:57:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1000342172"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="1000342172"
-Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Oct 2023 12:57:39 -0700
-Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qpwNk-0000bU-33;
-        Mon, 09 Oct 2023 19:57:36 +0000
-Date:   Tue, 10 Oct 2023 03:56:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Michael Walle <michael@walle.cc>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Kory Maincent <kory.maincent@bootlin.com>
-Subject: Re: [PATCH net-next v5 03/16] net: ethtool: Refactor identical
- get_ts_info implementations.
-Message-ID: <202310100344.QG4Jg301-lkp@intel.com>
-References: <20231009155138.86458-4-kory.maincent@bootlin.com>
+        with ESMTP id S1377401AbjJIT7G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 15:59:06 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C06C94;
+        Mon,  9 Oct 2023 12:59:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BsrenA5z+8Q1vmRP6UNqGUUh4+5NJdOuZlkhCSUp7LCIzIxIwYomynXOjI2gwh2okBOzS9N3YD42PDfaWT/tRKe+hYY9ayQeBfIKNFq+/s9kuC7uOkNmma4oGPd0vfHkoDDiZf/QJ3yj9PHSIIMEtM4i6VvnXgyU7ZV0fAjs9KL9NAzvfdBxopRpzRuM7qoA9k9+h4DeC15aCauBTNcIeolZAFVZx5Z8F+Gu3bcZPBYjMrSGFKV8JcS6xylXZJaAHJ3nO1bJDv/Vkl8ZTp0gVNXTrQbBvE9WnJ+Tn/3/oQPX9p5eJ2XZs2Woim5vubfQFbfUUNiu+rsdQy38tfWcdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z5M8EA2tP2tuVFb7Zah9WxZBn8q66CaymKcxtqKiFBg=;
+ b=Vk6f01hK9VeFomqbcSe3Wr6UcylV/Ksx+2U8mra9yHYBjIVdfYxDU6rAmSxNeVT5p0LdT1puzQWXYLXkhjuP7n98WFYgw0UQprr3I/UgZhXyt99Z8I4+9aFJBcgNnsdBQAbx2ssuqFN+x01nFHH2icnA/R4cXZGgdHQXyktMZ2F0jWwqZJ9KfqUb5RI6RpWRsuDcg8VilZWFihDwjxqyp5SAldzaHYReRhh4zwnnTycT7obQJE+NUIUgLJ7QN2d2VRED5k5M8X5MufyhCh2QH39FPQ2Shd6tVxl75gSI8v3Er3XP+u5m5rzhZE60e+EOHzxYvgmUtt3lPfj91puPRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z5M8EA2tP2tuVFb7Zah9WxZBn8q66CaymKcxtqKiFBg=;
+ b=2uZ8q9U61dZqLC/14cHYIl9VSK+8DZvRO6rQZwCGGzl4Gm014LcO63dYc1boEujYUFSUB/cvUJkZIFmc3MpyUEGWHM6i5687G80cx9TkxVO883umFvUz/LKcQQCwRST4N3PP0nhEFKE6u4K9pDoOLigdRUGcfMq7ADcMtaJrZ98=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS0PR12MB8317.namprd12.prod.outlook.com (2603:10b6:8:f4::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Mon, 9 Oct
+ 2023 19:59:01 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39%6]) with mapi id 15.20.6863.032; Mon, 9 Oct 2023
+ 19:59:01 +0000
+Message-ID: <3369d0f6-8da2-42f6-a579-c8219d13b0fc@amd.com>
+Date:   Mon, 9 Oct 2023 14:58:57 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v11 05/10] x86/resctrl: Unwind the errors inside
+ rdt_enable_ctx()
+Content-Language: en-US
+To:     Borislav Petkov <bp@alien8.de>,
+        Reinette Chatre <reinette.chatre@intel.com>
+Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
+        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+References: <20231003235430.1231238-1-babu.moger@amd.com>
+ <20231003235430.1231238-6-babu.moger@amd.com>
+ <20231009172517.GRZSQ3fT05LGgpcW35@fat_crate.local>
+ <51277249-2351-4933-98d5-2cb74a14c7dd@intel.com>
+ <20231009192340.GEZSRTPE9b9hOtu0JJ@fat_crate.local>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <20231009192340.GEZSRTPE9b9hOtu0JJ@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1PR02CA0011.namprd02.prod.outlook.com
+ (2603:10b6:806:2cf::28) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231009155138.86458-4-kory.maincent@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS0PR12MB8317:EE_
+X-MS-Office365-Filtering-Correlation-Id: bae8d280-af32-4b2b-38e5-08dbc9022eae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VWgMwYGkeaMBTCuqrwHFSNj3PxkJxx0ZR/TrgeC/k7GjjVTEVUqw2BKCA5e0+vStRBbDVdlb/C299w+fG3rWruNA3sv1OAdq4emOrHCAsDVg9x/hdECAwClRTPgHt+XJZqwH6o6bWPSdWq57h83ofZDRy/pFOixF/TwvovdPOg2yE/RRn78/AjfV17wd5GlaXlC9Bao02c+9kI3bEc4LyhwD+rFofQAtJw+yjzzjMfOF6lXYtlfQph9iqfSoExyuPC5tiMFkTU26vnQ6/+sx/zP+dLdD4tB7LF0sliXKjgExX5qmGSxlc10aFy3B0s3gVWbrobBrOSARCphllgz4xSPsfoMeu4UdP21j90kBisYVVYoay2givRTRncfvasko8paA2sOHoem40RnJS8Jh3TF5oIpMNBomrdwDix3Lg1IsPYZQd7yJhGxFetZiLQoax1p7zLvGz/Xf2TpqTNvnwwcze0l6xfOosGNZLtdTyi8YU2Cx6kwYFK5KdUbGbYx8jYQpeiRaRY6+G3evFrQv/3CjcvVQflZeXcGVdHLk8J2fCfEQRUxJ/tWzpRY5kwaSj27Ho4C2Qs3pOUODDcB1phc8xsPZtXzWAtBszlVe3KxblPhDxkhp8cB2WcgGGA8j2dkT+kyZmWsgOdhKAGraTQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(39860400002)(346002)(396003)(376002)(230922051799003)(186009)(64100799003)(451199024)(1800799009)(31686004)(26005)(2616005)(53546011)(31696002)(38100700002)(86362001)(36756003)(83380400001)(7416002)(7406005)(6506007)(2906002)(4326008)(3450700001)(478600001)(6512007)(8676002)(6666004)(5660300002)(6486002)(8936002)(316002)(41300700001)(110136005)(66556008)(66946007)(66476007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tmszd0NITW1SL1BTbzhGcHNPRm9TR1RWc2loWHZ5S1JZR1ZJbytRZTAya3JH?=
+ =?utf-8?B?WFFJc0RzZkpzREdFcnN6M1lsRmJINnkxWS9kTkU5QlRTaS9FZTg0UFZZN0ZW?=
+ =?utf-8?B?cVVGRENqcTNUeFZ0bWpkcERhWVpLSDd6MGl4M3VlTGQzdE5nUE05dyt1MFN4?=
+ =?utf-8?B?UlI3RFM1MXFmbGo3MXc5dXN5cldacDNhbXF6WWhBclF4MlF2Q0lQd0IrVXkx?=
+ =?utf-8?B?dVhVR2t5K0IvVEdHYnl0Yk8ybDVEK3RlSVRNTmZwcHczTTloNCtuZGxHTncx?=
+ =?utf-8?B?ZWdWamdiSmZpaGl6bW9DZ2VLcFpmc0ZPYnd4bE02TENzV3Y1VWdNazV3SmFC?=
+ =?utf-8?B?SnQyanZ3QVg5bHBSNTZEWktaMDFBSXdLTW1VbmVVRlBTSXBYcDNVWWlNQ3Fn?=
+ =?utf-8?B?bW5LMkFGRTlTZityMmptcm82WFVTdlc1U2cxT01ObjVHT0pxK0F3OUdsbGZi?=
+ =?utf-8?B?Y0NIbVlQa0VhQVltZEpkK2ZoVlorNVJBMWZYT1duRDZwZDBoeWFPdjFFcDB4?=
+ =?utf-8?B?V08vVkNxYmV4Zm5jdm9vcTZML3ZkdjNJcjJUUldQZFFCam5NSnNDYkNxV25V?=
+ =?utf-8?B?eG85VUVKZHNPRnV6Q1pUK21hTU9yM3JOc2FSTmJvcHo0eU1MNlFmc1ZHejhJ?=
+ =?utf-8?B?eWo4R0FFR3dpR3BMbjlZYTBnTTloTGN0dGZHSkRKODJKUGJua0U4Zm16ZXFm?=
+ =?utf-8?B?dTg0OTloZkFuVWJ3ZEJVTWVlZ3UzbmpPcjFGS29idnJ5anpwM2Y5YVo1aDFQ?=
+ =?utf-8?B?dlpvYVlTRWFKTHBqVjd5Umk3U21yTHpCczVFOGdpeFVGK0tlbzBtbXpKOWkz?=
+ =?utf-8?B?Rzd4dFZBMFl2djRPblR2b2xNdDB1RlNoN2VrcVU4RXN0amxoRkMvaEkrc0ll?=
+ =?utf-8?B?bEw5MWRuVlJLaWdlaTZYMHhHdHo3YW5FYUllYlJWdU51TWxrbnI1a1BiZFlS?=
+ =?utf-8?B?MnRRM3N0SUk3VVNsa3NXaVRwaGw3TzZSZHZLU3BzUDh5WXdrYVc1N0pxc0pX?=
+ =?utf-8?B?KzBHcDVpWGNOMkM3U3AxMkpzUnFvRmhWUXEzRldSUTFHZ0M4dlpNQmI0aHhX?=
+ =?utf-8?B?SmlmSkxrMGZTaExnQU1zM3NLZWdzWmJEaDFrQ3VyY0lHUGNvbnlJYjAwemxn?=
+ =?utf-8?B?NmN2TnlYQ1RLa1dCZmFwRlJFclNOMFcxYVBPaUV4a0taREhwZjN6ekg2K1lL?=
+ =?utf-8?B?QngrOEpCejMycW1YKzRNZitvWUVmSXJhN1VtTVlsYVpESUNuMUE2NFcrc2ds?=
+ =?utf-8?B?NFhaWmM4bkZoRlFBUE1RdlFaZEpxYWhxNFlZOUdzM2w5OWptUVJSU25KUmFv?=
+ =?utf-8?B?bjNmSmE1SVVUNXptbWFyY1k3QnZoaGpUUXpJMzNNS21ZZlBML1YrVG83VU9l?=
+ =?utf-8?B?UCswZ3J0TnBNSktNbitleTk1aDBrK0paV1QyRDljelFqVnRsajI5K3pBNmhX?=
+ =?utf-8?B?NXVYVHp1RXdsRnhRZXFaN0NldFZ5cWpmNGEyVmgwTGNoeVZzb0hkKzA3dkRY?=
+ =?utf-8?B?UHVLdjloV3JhdTRaZHNVUTNQclQvMmNpQ2tXZDAvdTJSWUpjY2JWUi96c0pI?=
+ =?utf-8?B?SEZlcUVudjJXc2R3NUhQcUtTRHBRcjdBN3Jtdm9lcEliMVZTMnQxY01yMnlB?=
+ =?utf-8?B?aC9QQWRJRlp0OWVTRTRyaWI0NEN6azA2Q3lBdUQrdEFtWk5UdXI5ZmJjWFAv?=
+ =?utf-8?B?Q3FmU29ZSWRkdzQrbmsvUWFmK2NLdXpsZmhtTXkrU0s0TGFzWklaZGhmVHpm?=
+ =?utf-8?B?dVQvaXNTV3p3SWpsbGVWWGlDeHJ6dW9pY0V2c3NpcW9Xb3g2K0pRS2dqV0FO?=
+ =?utf-8?B?UWlCcEJMZG10T1FvKzJEc054aThRNTNnMzl1N2M1MjF5K0xYUHBnaDNabUF4?=
+ =?utf-8?B?REZrcTVzUE5ZOS9vaGFCeHhIcmJTcVVraWN0eTlPQlo4dzVOZWsyT0t3Sjdt?=
+ =?utf-8?B?SGNIK3F5citjdmRtWmpBRCtOS2UvOUJoeVJIdGV1eml3S1BKVGFjdk95bkg2?=
+ =?utf-8?B?UHQ3MWhiRE1vTVRyQkFoMXpKSHdzaXlST3RnaGlYNFN5dDRvdXJxeERzTXZx?=
+ =?utf-8?B?bS9xaHNPZDFHY2JTa3pVUnh5dTRnWXJTY21rQ0lseTBwSW9HbG4zb3NNVk9i?=
+ =?utf-8?Q?dI3Q=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bae8d280-af32-4b2b-38e5-08dbc9022eae
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2023 19:59:01.4866
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8HxhP+BYhfi9gBeaqfBit7n/WpsDgZqp16Mx8Dl3v7fAq6orNYjK1kBe23XmzMvo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8317
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Köry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-Convert-PHYs-hwtstamp-callback-to-use-kernel_hwtstamp_config/20231009-235451
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231009155138.86458-4-kory.maincent%40bootlin.com
-patch subject: [PATCH net-next v5 03/16] net: ethtool: Refactor identical get_ts_info implementations.
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231010/202310100344.QG4Jg301-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100344.QG4Jg301-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310100344.QG4Jg301-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/bonding/bond_main.c: In function 'bond_ethtool_get_ts_info':
->> drivers/net/bonding/bond_main.c:5755:28: warning: unused variable 'phydev' [-Wunused-variable]
-    5755 |         struct phy_device *phydev;
-         |                            ^~~~~~
->> drivers/net/bonding/bond_main.c:5752:35: warning: unused variable 'ops' [-Wunused-variable]
-    5752 |         const struct ethtool_ops *ops;
-         |                                   ^~~
 
 
-vim +/phydev +5755 drivers/net/bonding/bond_main.c
+On 10/9/23 14:23, Borislav Petkov wrote:
+> On Mon, Oct 09, 2023 at 10:59:27AM -0700, Reinette Chatre wrote:
+>> Is it the fourth paragraph (mentioning cdp_disable_all()) that is annoying? I
+>> can see that it is redundant. Would it be more palatable if the fourth paragraph
+>> is just dropped?
+> 
+> Yes, basically you don't want to explain what a patch does as that
+> should be obvious from the diff. Rather, it should talk about why
+> a change is being done. Sure, sometimes, you need to talk about the
+> change in case you want to highlight certain aspects of why the code is
+> being changed in the first place but explaining in text what is already
+> visible in the diff is not very useful.
+> 
+> I always give the example about git archeology here: put enough info in
+> the commit message so that any future reader of it can understand why
+> the change was done. The "what" of a patch doesn't belong to that text.
+> 
+> I hope that makes more sense.
+> 
 
-217df670d9a4da Jay Vosburgh    2005-09-26  5746  
-94dd016ae538b1 Hangbin Liu     2021-11-30  5747  static int bond_ethtool_get_ts_info(struct net_device *bond_dev,
-94dd016ae538b1 Hangbin Liu     2021-11-30  5748  				    struct ethtool_ts_info *info)
-94dd016ae538b1 Hangbin Liu     2021-11-30  5749  {
-94dd016ae538b1 Hangbin Liu     2021-11-30  5750  	struct bonding *bond = netdev_priv(bond_dev);
-980f0799a15c75 Hangbin Liu     2023-04-18  5751  	struct ethtool_ts_info ts_info;
-94dd016ae538b1 Hangbin Liu     2021-11-30 @5752  	const struct ethtool_ops *ops;
-94dd016ae538b1 Hangbin Liu     2021-11-30  5753  	struct net_device *real_dev;
-980f0799a15c75 Hangbin Liu     2023-04-18  5754  	bool sw_tx_support = false;
-94dd016ae538b1 Hangbin Liu     2021-11-30 @5755  	struct phy_device *phydev;
-980f0799a15c75 Hangbin Liu     2023-04-18  5756  	struct list_head *iter;
-980f0799a15c75 Hangbin Liu     2023-04-18  5757  	struct slave *slave;
-9b80ccda233fa6 Hangbin Liu     2022-05-19  5758  	int ret = 0;
-94dd016ae538b1 Hangbin Liu     2021-11-30  5759  
-9b80ccda233fa6 Hangbin Liu     2022-05-19  5760  	rcu_read_lock();
-94dd016ae538b1 Hangbin Liu     2021-11-30  5761  	real_dev = bond_option_active_slave_get_rcu(bond);
-9b80ccda233fa6 Hangbin Liu     2022-05-19  5762  	dev_hold(real_dev);
-9b80ccda233fa6 Hangbin Liu     2022-05-19  5763  	rcu_read_unlock();
-9b80ccda233fa6 Hangbin Liu     2022-05-19  5764  
-94dd016ae538b1 Hangbin Liu     2021-11-30  5765  	if (real_dev) {
-59b068fe2f41f9 Richard Cochran 2023-10-09  5766  		ret = ethtool_get_ts_info_by_layer(real_dev, info);
-980f0799a15c75 Hangbin Liu     2023-04-18  5767  	} else {
-980f0799a15c75 Hangbin Liu     2023-04-18  5768  		/* Check if all slaves support software tx timestamping */
-980f0799a15c75 Hangbin Liu     2023-04-18  5769  		rcu_read_lock();
-980f0799a15c75 Hangbin Liu     2023-04-18  5770  		bond_for_each_slave_rcu(bond, slave, iter) {
-59b068fe2f41f9 Richard Cochran 2023-10-09  5771  			ret = ethtool_get_ts_info_by_layer(slave->dev, &ts_info);
-980f0799a15c75 Hangbin Liu     2023-04-18  5772  			if (!ret && (ts_info.so_timestamping & SOF_TIMESTAMPING_TX_SOFTWARE)) {
-980f0799a15c75 Hangbin Liu     2023-04-18  5773  				sw_tx_support = true;
-980f0799a15c75 Hangbin Liu     2023-04-18  5774  				continue;
-980f0799a15c75 Hangbin Liu     2023-04-18  5775  			}
-980f0799a15c75 Hangbin Liu     2023-04-18  5776  
-980f0799a15c75 Hangbin Liu     2023-04-18  5777  			sw_tx_support = false;
-980f0799a15c75 Hangbin Liu     2023-04-18  5778  			break;
-980f0799a15c75 Hangbin Liu     2023-04-18  5779  		}
-980f0799a15c75 Hangbin Liu     2023-04-18  5780  		rcu_read_unlock();
-94dd016ae538b1 Hangbin Liu     2021-11-30  5781  	}
-94dd016ae538b1 Hangbin Liu     2021-11-30  5782  
-980f0799a15c75 Hangbin Liu     2023-04-18  5783  	if (sw_tx_support)
-980f0799a15c75 Hangbin Liu     2023-04-18  5784  		info->so_timestamping |= SOF_TIMESTAMPING_TX_SOFTWARE;
-980f0799a15c75 Hangbin Liu     2023-04-18  5785  
-9b80ccda233fa6 Hangbin Liu     2022-05-19  5786  	dev_put(real_dev);
-9b80ccda233fa6 Hangbin Liu     2022-05-19  5787  	return ret;
-94dd016ae538b1 Hangbin Liu     2021-11-30  5788  }
-94dd016ae538b1 Hangbin Liu     2021-11-30  5789  
-
+Sure. Will drop the last paragraph in next revision.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Babu Moger
