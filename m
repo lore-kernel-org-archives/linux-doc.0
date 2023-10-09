@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D727CD6137
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 21:08:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 272B2CD6138
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 21:09:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378151AbjJIVIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 17:08:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50924 "EHLO
+        id S1378649AbjJIVJg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 17:09:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377975AbjJIVIi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 17:08:38 -0400
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E4592;
-        Mon,  9 Oct 2023 14:08:36 -0700 (PDT)
-Received: by mail-vk1-xa2a.google.com with SMTP id 71dfb90a1353d-49a99c43624so1748859e0c.2;
-        Mon, 09 Oct 2023 14:08:36 -0700 (PDT)
+        with ESMTP id S1378168AbjJIVJf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 17:09:35 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9E0A93;
+        Mon,  9 Oct 2023 14:09:33 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-77432add7caso284567585a.2;
+        Mon, 09 Oct 2023 14:09:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696885715; x=1697490515; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1696885773; x=1697490573; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=dUMJhM4RNaXfPkvZq6yA9TmBEqaoOVreSkZ7enRNpTE=;
-        b=I2CBSfQDUTF+ERw0z7ag3a9LnqSjQOqnGy4feUhG+3AJI2TIWFFLDPKJyWY+KNVAQN
-         sMZAvRMSS3jtYWUC5F11jDyj8DFyeBR6NB4b1aw8SfedRpE0G4UxoKQH1H6IfWNmEWH2
-         Cv6k/LN8jDSPNUiHspxeR+Uzy8Yl5OTJQvnjGHnSxdhjW+YzDcGExqSrfnIRoc5hO8Of
-         RGLZEZSDKrqqUmpPTatRiR3PQ0OgLZBXWDCrZNtZTo2mva+OxENg+UKEmngjBknYoOKA
-         CG/idjA5OU/oFAzgwSHXW9IlGs44HP6xS4ftWW/wZ4G/15BNyfU26+goeSxBrrec7rJk
-         mTVw==
+        bh=ouDqE5xqHuiZG4IdJK2v7hAXQoZnKygwFe+kQFd7jI4=;
+        b=j6VkUMYiuqTPFhoxsd8GuPhDp9I2aFWap6fTTFyBqC6xZXzOnCIpzNFJT0nw17j73+
+         8QaovckyTY3ba3cPcBnvT67UtY6RK367eXiqUAzBqabJH9xa53ws9MqjbsDQFeH7VXX2
+         CKVPmFl8Jm2oiaSlz80FM7bppA+q+Wucf9VD0RFXEbnfI6GZf6wEm34A5qYIViM59bq0
+         TmQ//fwx1GuuA9n3hj2tveu6NuWdis/sC7DKLiWVdd+t/FlORQZgd6IVervZ1rrGboby
+         vDM/WXCUTzwiEoLt0w1SYCls1x0SglesxyeKW5x5Wwnzp6p0Bir3Tt6+whhKVifo2c5R
+         b9Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696885715; x=1697490515;
+        d=1e100.net; s=20230601; t=1696885773; x=1697490573;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dUMJhM4RNaXfPkvZq6yA9TmBEqaoOVreSkZ7enRNpTE=;
-        b=CKpxeijz7KIq0735sQnFRgcWLJyn2eeWagmcTZhoK2ksbp5h4Oa4Koq3doSaf54kEM
-         0j9Gd5dxzpBzjx2V7EwPalj/LAEqEZyfZUwBjyUVEbHN275aaccPI3QX6cK0VknzNc9O
-         RjXirLqyjr2REDUbj3Dp/D5jV91eF8CIKc7C8CLOk53S0PdQ8UCuAu4hX4vcug3BKqYE
-         2iNIwUGuiuhq298mZA797ZJ60+6TkW/RjFQNW3czgBIkdTcZHAixaA7lwaKdCQR6G7K2
-         RxTSJp+MZMqBJ4xA7heqplAAM6kaCclS+RUjxxvgYMCc3VnLM8gfFc/cQ03/OYaytWIJ
-         1CnQ==
-X-Gm-Message-State: AOJu0YzywAmjMMvXOYEHVa0rWDbCgvYD9z7AACwx3f52S3kTlytqIcyZ
-        7kToOOrK987yxCtF83TF830=
-X-Google-Smtp-Source: AGHT+IH9NzacCFlYc2vSCsNGPWVwZUUarTYUyTpeXhV6VdGDCR5lAXn4XVW3hc4UFxvGLpGpgnDC9g==
-X-Received: by 2002:a1f:a9c9:0:b0:49e:1eca:f847 with SMTP id s192-20020a1fa9c9000000b0049e1ecaf847mr4917635vke.15.1696885715423;
-        Mon, 09 Oct 2023 14:08:35 -0700 (PDT)
+        bh=ouDqE5xqHuiZG4IdJK2v7hAXQoZnKygwFe+kQFd7jI4=;
+        b=bFeOCvx5n4r3D+8JiQvnukQE8/JvWYGQeIyKtHPISlGkL4lvV1ExakdKKZrUHZsgax
+         5uwfdaHqr2fKMmN4NbZhdRcydMOO2OLmqXkMBG7vGulSWWzXoevGoy7Yj//pLzaq/EjP
+         ZhVqIqHrhSJjSatRsxW3InhzdtKzkBnCl1VBNhVlm4+9+We3OzYRWMIXHZzBRxsHeoHL
+         JWVjNwCEsTKvbasvY7U61JFNTaxwL3Dsf/tgU/UQGi110G5xEcvTudrUKwM7SHvxGX4a
+         /yFk8GQiUyeWXhxo1cucr37GL8xlwY8LeHz+QhnviiOYU8Il8p5QZNDcdEaVyiT4gkFL
+         2XrA==
+X-Gm-Message-State: AOJu0Yy+VcigBCqOQ/2AwRfXAmnFybEtHXJlBfPGooLkNoU+yxbjeiPy
+        OhNw5cSvq2xotoeASciXne8=
+X-Google-Smtp-Source: AGHT+IFNpbLVvI8bkPaXK3gRdNxJnMA/nM6IOrgnUIwPs0AThT71A4bdGQwGwjblNT+oFghYGljXUA==
+X-Received: by 2002:a05:622a:1495:b0:417:b269:4689 with SMTP id t21-20020a05622a149500b00417b2694689mr17801086qtx.53.1696885772740;
+        Mon, 09 Oct 2023 14:09:32 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id k24-20020ac84758000000b004199f47ccdbsm3956048qtp.51.2023.10.09.14.08.31
+        by smtp.googlemail.com with ESMTPSA id k24-20020ac84758000000b004199f47ccdbsm3956048qtp.51.2023.10.09.14.09.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 14:08:34 -0700 (PDT)
-Message-ID: <3bc41449-1e95-446b-b590-c39429b9671b@gmail.com>
-Date:   Mon, 9 Oct 2023 14:08:30 -0700
+        Mon, 09 Oct 2023 14:09:31 -0700 (PDT)
+Message-ID: <57791a7d-04ce-4d02-815d-7f540ea15b89@gmail.com>
+Date:   Mon, 9 Oct 2023 14:09:29 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 04/16] net: macb: Convert to
- ndo_hwtstamp_get() and ndo_hwtstamp_set()
+Subject: Re: [PATCH net-next v5 05/16] net: Make dev_set_hwtstamp_phylib
+ accessible
 Content-Language: en-US
 To:     =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -85,9 +85,9 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Jacob Keller <jacob.e.keller@intel.com>,
         Maxime Chevallier <maxime.chevallier@bootlin.com>
 References: <20231009155138.86458-1-kory.maincent@bootlin.com>
- <20231009155138.86458-5-kory.maincent@bootlin.com>
+ <20231009155138.86458-6-kory.maincent@bootlin.com>
 From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20231009155138.86458-5-kory.maincent@bootlin.com>
+In-Reply-To: <20231009155138.86458-6-kory.maincent@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -97,12 +97,48 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On 10/9/23 08:51, Köry Maincent wrote:
 > From: Kory Maincent <kory.maincent@bootlin.com>
 > 
-> The hardware timestamping through ndo_eth_ioctl() is going away.
-> Convert the macb driver to the new API before that can be removed.
+> Make the dev_set_hwtstamp_phylib function accessible in prevision to use
+> it from ethtool to reset the tstamp current configuration.
 > 
 > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> ---
+>   include/linux/netdevice.h | 3 +++
+>   net/core/dev_ioctl.c      | 6 +++---
+>   2 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index e070a4540fba..b9d0411836db 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -3922,6 +3922,9 @@ int generic_hwtstamp_get_lower(struct net_device *dev,
+>   int generic_hwtstamp_set_lower(struct net_device *dev,
+>   			       struct kernel_hwtstamp_config *kernel_cfg,
+>   			       struct netlink_ext_ack *extack);
+> +int dev_set_hwtstamp_phylib(struct net_device *dev,
+> +			    struct kernel_hwtstamp_config *cfg,
+> +			    struct netlink_ext_ack *extack);
+>   int dev_ethtool(struct net *net, struct ifreq *ifr, void __user *userdata);
+>   unsigned int dev_get_flags(const struct net_device *);
+>   int __dev_change_flags(struct net_device *dev, unsigned int flags,
+> diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
+> index b46aedc36939..342a667858ac 100644
+> --- a/net/core/dev_ioctl.c
+> +++ b/net/core/dev_ioctl.c
+> @@ -322,9 +322,9 @@ static int dev_get_hwtstamp(struct net_device *dev, struct ifreq *ifr)
+>    * frames and not forward them), it must set IFF_SEE_ALL_HWTSTAMP_REQUESTS in
+>    * dev->priv_flags.
+>    */
+> -static int dev_set_hwtstamp_phylib(struct net_device *dev,
+> -				   struct kernel_hwtstamp_config *cfg,
+> -				   struct netlink_ext_ack *extack)
+> +int dev_set_hwtstamp_phylib(struct net_device *dev,
+> +			    struct kernel_hwtstamp_config *cfg,
+> +			    struct netlink_ext_ack *extack)
+>   {
+>   	const struct net_device_ops *ops = dev->netdev_ops;
+>   	bool phy_ts = phy_has_hwtstamp(dev->phydev);
 
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+Missing EXPORT_SYMBOL_GPL() here?
 -- 
 Florian
 
