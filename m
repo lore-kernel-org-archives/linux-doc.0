@@ -2,87 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FC0DCD6114
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 18:01:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5704CD611E
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 18:28:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377093AbjJISBD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 14:01:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46228 "EHLO
+        id S1376281AbjJIS2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 14:28:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376857AbjJISBC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 14:01:02 -0400
-Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA03599;
-        Mon,  9 Oct 2023 11:00:56 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F336C40E01A5;
-        Mon,  9 Oct 2023 18:00:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id l14zqUD_KWCT; Mon,  9 Oct 2023 18:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1696874452; bh=xFPuEx15C+gb30iLQTl5YTKox+P0I9H0nLjaW9Geitk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JZYF0PwZ23FZbpyqkAk5pzE8JonOQgygko5jlCm3z5q/wypKEPpIqo++W32TItEAJ
-         7Vt9zmjHAXRuzwv0Go+kdjNZBUzs6pbJ3YCaxUu6qHwRAGyrH1HBiV4Wayy++dPfW2
-         suIitgipdHIERm9wLhuLNKWMJsuQVdJV6Q+pU7g4jFG9ws/PuFsFid+ibEVs7jpXrT
-         UlO7G3zTkl3B9z7gUu/43YHlZxg6nntzNSsHVXNReiLp1NdVeX2zYHSIsqrgahc3BW
-         Zv7Dlxgx0VZJUPXfsyBCCCs+g1YrM2ML5y6WIB2+MQ/nar8aZ0B6UZDIOPuhHl5n6n
-         UHFRuFWR9FUE/Gi88pD1H3/Fnq5tryPBvjyXFg/PsCtD3euJ5oE+p1ZVZ9NCJ9yNI9
-         0gtQbPnuwpVujD3I+TawU8NonqVpxVaeC7yK3pZkZowQO7bKfFBOiCaCBbCjoki8wv
-         7x7qU2GPj2lUWzPLFb2VCHR/q8J8cITFY9OsYeh9p7xSjs/k9Jj4fFs4YjDyhaEEFq
-         SjMO0Gs2i5+Isc4f1oEkM83OXD44SL1s48mkgKuRDoCliEQP4NrM0/BOWeNQ/qfOIK
-         mBZz53RK9f29IKpRCIP0z4VNHwzSn8Pofc3oR2gfcFsVJyE53j1+zx9EcL2EZQ+HVG
-         vX1uESuv5l0N7XB6TMhgW1gY=
-Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-        (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E795F40E0187;
-        Mon,  9 Oct 2023 18:00:17 +0000 (UTC)
-Date:   Mon, 9 Oct 2023 20:00:17 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Babu Moger <babu.moger@amd.com>
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-Subject: Re: [PATCH v11 09/10] x86/resctrl: Add support for the files for MON
- groups only
-Message-ID: <20231009180017.GSZSQ/sWAwfaFr/G3w@fat_crate.local>
-References: <20231003235430.1231238-1-babu.moger@amd.com>
- <20231003235430.1231238-10-babu.moger@amd.com>
+        with ESMTP id S234583AbjJIS16 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 14:27:58 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC18BAF;
+        Mon,  9 Oct 2023 11:27:56 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 399F8L88001636;
+        Mon, 9 Oct 2023 18:27:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Q+cCkUzN9xrbsC8Pf+ICak/y+bLqYP4HVThQeuiAvuI=;
+ b=NIcP1acjmif1uakqbc+d+05R9lcRmlew/UP7J1IbSAhHucx8yV6OQ9cvklKM+XuM21mI
+ eRBctGtnmj6wo8T5s/eQuZWOrvDFkBcVDfBrglrNLh1KrxljwaCc5MnDkqpV3rj0TaWM
+ EZ/Av5U/VA6A1DnGgOEsiDOAfXclpeWBfoOnii/28BccOZwC/MUU71oSLsPKxkN8d+0/
+ SFKSUCR1d2lX5ZhPE2hp7WUxaJogQFnIiZDS/6suGbt3D1c6DUjo3FX76tlz2KCnRWs4
+ n4+r63UFoIh/3LmJmmenCYT1diAehp7Y21NgvK8RqzercRy70UKqyiYPVnBiF71cizZS EA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tkh6g38em-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 09 Oct 2023 18:27:53 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 399IRqri013329
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 9 Oct 2023 18:27:52 GMT
+Received: from [10.216.9.133] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 9 Oct
+ 2023 11:27:48 -0700
+Message-ID: <e361e3c0-069c-4e91-8f3a-d7ab2de8bdd4@quicinc.com>
+Date:   Mon, 9 Oct 2023 23:57:44 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231003235430.1231238-10-babu.moger@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
+ wMaxSegmentSize via configfs
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>,
+        onathan Corbet <corbet@lwn.net>,
+        Linyu Yuan <quic_linyyuan@quicinc.com>,
+        <linux-usb@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>,
+        <quic_wcheng@quicinc.com>, <quic_jackp@quicinc.com>
+References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
+ <20231009142005.21338-2-quic_kriskura@quicinc.com>
+ <2023100931-reward-justice-ed1c@gregkh>
+ <a9efdc23-0417-48dc-aa17-ef7b1459b85a@quicinc.com>
+ <2023100910-used-unruly-f750@gregkh>
+Content-Language: en-US
+From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+In-Reply-To: <2023100910-used-unruly-f750@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: p6mIrmFhuRgEFSCW21TOg7PthHAmRr8q
+X-Proofpoint-ORIG-GUID: p6mIrmFhuRgEFSCW21TOg7PthHAmRr8q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-09_16,2023-10-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=252 bulkscore=0 lowpriorityscore=0 phishscore=0
+ mlxscore=0 adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310090150
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 03, 2023 at 06:54:29PM -0500, Babu Moger wrote:
-> A later patch introduces the first monitoring specific (RFTYPE_MON)
-> file for resource groups. Ensure that files with the RFTYPE_MON
-> flag are created for CTRL_MON groups.
 
-You don't need that paragraph here. The "later patch" can talk about it.
 
--- 
-Regards/Gruss,
-    Boris.
+On 10/9/2023 11:24 PM, Greg Kroah-Hartman wrote:
+> On Mon, Oct 09, 2023 at 09:02:32PM +0530, Krishna Kurapati PSSNV wrote:
+>>
+>>
+>> On 10/9/2023 8:38 PM, Greg Kroah-Hartman wrote:
+>>> On Mon, Oct 09, 2023 at 07:50:05PM +0530, Krishna Kurapati wrote:
+>>>> Currently the NCM driver restricts wMaxSegmentSize that indicates
+>>>> the datagram size coming from network layer to 1514.
+>>>
+>>> I don't see that restriction in the existing driver, where does that
+>>> happen?
+>>
+>> Hi Greg,
+>>
+>>   In the ecm_desc, the following line restricts the value:
+>>
+>> .wMaxSegmentSize =      cpu_to_le16(ETH_FRAME_LEN),
+> 
+> Ok, so is that 1514?  I don't know as I don't know what ETH_FRAM_LEN is.
+> 
+Hi Greg,
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Yes, that is 1514.
+
+> So how about saying something to the affect of "the max segment size is
+> currently limited to the ethernet frame length of the kernel which
+> happens to be 1514 at this point in time."
+> 
+
+Sure. I will rephrase this in v2 with the suggestion provided.
+
+Regards,
+Krishna,
