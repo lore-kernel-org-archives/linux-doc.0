@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 403BDE95A9E
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 15:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B281E95A9E
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 15:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377872AbjJIPxO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 11:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44000 "EHLO
+        id S1377834AbjJIPxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 11:53:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377871AbjJIPwq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 11:52:46 -0400
+        with ESMTP id S1377950AbjJIPw5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 11:52:57 -0400
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A84D5B;
-        Mon,  9 Oct 2023 08:52:35 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C1AD31C0008;
-        Mon,  9 Oct 2023 15:52:30 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D170D6;
+        Mon,  9 Oct 2023 08:52:41 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B72A51C0002;
+        Mon,  9 Oct 2023 15:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696866754;
+        t=1696866760;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iQjM6ChqEsCv4tSv5WLWYJR8cO93SncXZdpKtRJANL0=;
-        b=hq9Z5SYqgIU+6U0H+Rc2V7reHCBYxcV+n+KzVYKVJE562HkjyqVAvvPqCnMj1MGWUIhmL7
-        /XAmFAEQskJ/EPKpb+z16k5pLcpFCQgJiKp7KH/3r3qOqpydiLGh4t/G3yfqm1MgzXW4rX
-        rQ/rXF+A0op8mP2dS9u5/npNjLHAkhnAhEO8zZtzAESPpIIQ0O5IXNanwn3SAC9qcyaKqC
-        uLrE1QjGqqo2Isq/QMCoyEtU8/P+b3chDfiQQWBR0qMZ5IzM4HZNzfJ9GkmuMSu4Id3eLL
-        ykTAZUOlm4UdpA6VpfdAIuS46SSNBhcEnmfDfbx6q1Nh2VeMgGVHs6WXwbhKVg==
+        bh=CgULFTUHlUTSGRTnQAcEagfNudUgdqfksLwVg++GkDw=;
+        b=JBjcLgs/U/sLIEF9UEPx1eGtTQOo6IURWrlVKph8fDu0PibLKiZnlJeCLcG1C7roHxaYgN
+        Y8JgSR0fq21bqCPB++gMRI+G6C9g4B/CPO35UsKA6ZM1BfmpOTyy/ovwluPLkX8Lf/eXNO
+        8rSNz9K0S7Lkpg+K2oGnIWXIlbWEYUFkjSYzkPLc/RffoG4BuzOm0Ue2ugIWwa+M653QNa
+        124HIdyHA761NfPE996VIk1Juq2s4ZEOGKa4DRchIkJVAXcrrw6diu+ieoXtosd479PsxH
+        jK2ncr0J0cm65nwENR4rKDnVVJ6bp/yani9Ts+zxU4YxCrUh+7cQIVqs/x0j5g==
 From:   =?UTF-8?q?K=C3=B6ry=20Maincent?= <kory.maincent@bootlin.com>
 To:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Jacob Keller <jacob.e.keller@intel.com>,
         Maxime Chevallier <maxime.chevallier@bootlin.com>,
         Kory Maincent <kory.maincent@bootlin.com>
-Subject: [PATCH net-next v5 13/16] net: Change the API of PHY default timestamp to MAC
-Date:   Mon,  9 Oct 2023 17:51:35 +0200
-Message-Id: <20231009155138.86458-14-kory.maincent@bootlin.com>
+Subject: [PATCH net-next v5 15/16] net ethtool: net: Let the active time stamping layer be selectable
+Date:   Mon,  9 Oct 2023 17:51:37 +0200
+Message-Id: <20231009155138.86458-16-kory.maincent@bootlin.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231009155138.86458-1-kory.maincent@bootlin.com>
 References: <20231009155138.86458-1-kory.maincent@bootlin.com>
@@ -72,345 +72,218 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Kory Maincent <kory.maincent@bootlin.com>
 
-Change the API to select MAC default time stamping instead of the PHY.
-Indeed the PHY is closer to the wire therefore theoretically it have less
-delay than the MAC timestamping but the reality is different. Due to lower
-time stamping clock frequency, latency in the MDIO bus and no PHC hardware
-synchronization between different PHY, the PHY PTP is often less precise
-than the MAC. The exception is for PHY designed specially for PTP case but
-these board are not very widespread. For not breaking the compatibility I
-introduce an allowlist to reference all current PHYs that support
-time stamping and let them keep the old API behavior.
-
-The phy_set_timestamp function is called at each call of phy_attach_direct.
-In case of MAC driver using phylink this function is called when the
-interface is turned up. Then if the interface goes down and up again the
-last choice of timestamp will be overwritten by the default choice.
-A solution could be to cache the timestamp status but it can bring other
-issues. In case of SFP, if we change the module, it doesn't make sense to
-blindly re-set the timestamp back to PHY, if the new module has a PHY with
-mediocre timestamping capabilities.
+Now that the current timestamp is saved in a variable lets add the
+ETHTOOL_MSG_TS_SET ethtool netlink socket to make it selectable.
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
 
-Changes in v5:
-- Extract the API change in this patch.
-- Rename whitelist to allowlist.
-- Set NETDEV_TIMESTAMPING in register_netdevice function.
-- Add software timestamping case description in ts_info.
----
- drivers/net/phy/phy_device.c | 68 ++++++++++++++++++++++++++++++++++++
- include/linux/netdevice.h    |  5 +++
- net/core/dev.c               |  3 ++
- net/core/dev_ioctl.c         | 36 +++++++++++--------
- net/core/timestamping.c      |  9 +++++
- net/ethtool/common.c         | 16 +++++++--
- 6 files changed, 121 insertions(+), 16 deletions(-)
+Changes in v2:
+- Move selected_timestamping_layer introduction in this patch.
+- Replace strmcmp by sysfs_streq.
+- Use the PHY timestamp only if available.
 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 2ce74593d6e4..2d5a6d57acb3 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -1411,6 +1411,68 @@ int phy_sfp_probe(struct phy_device *phydev,
- }
- EXPORT_SYMBOL(phy_sfp_probe);
+Changes in v3:
+- Add a devicetree binding to select the preferred timestamp
+- Replace the way to select timestamp through ethtool instead of sysfs
+You can test it with the ethtool source on branch feature_ptp of:
+https://github.com/kmaincent/ethtool
+
+Changes in v4:
+- Change the API to select MAC default time stamping instead of the PHY.
+- Add a whitelist to no break the old timestamp PHY default preferences
+  for current PHY.
+- Replace the ethtool ioctl by netlink.
+- Add a netdev notifier to allow network device to create trap on PTP
+  packets. Not tested as it need to change the lan966x driver that
+  implement packet traps. I will do after the hwtstamp management change
+  to NDOs.
+
+Changes in v5:
+- Remove the netdev notifier added in v4.
+- Extract the default timestamp API change in another patch.
+---
+ Documentation/networking/ethtool-netlink.rst | 17 +++++
+ include/uapi/linux/ethtool_netlink.h         |  1 +
+ net/ethtool/netlink.c                        |  8 +++
+ net/ethtool/netlink.h                        |  1 +
+ net/ethtool/ts.c                             | 66 ++++++++++++++++++++
+ 5 files changed, 93 insertions(+)
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index 963a5aacac8d..eb7f8592986b 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -227,6 +227,7 @@ Userspace to kernel:
+   ``ETHTOOL_MSG_MM_SET``                set MAC merge layer parameters
+   ``ETHTOOL_MSG_TS_GET``                get current timestamping
+   ``ETHTOOL_MSG_TS_LIST_GET``            list available timestampings
++  ``ETHTOOL_MSG_TS_SET``                set current timestamping
+   ===================================== =================================
  
-+/* An allowlist for PHYs selected as default timesetamping.
-+ * Its use is to keep compatibility with old PTP API which is selecting
-+ * these PHYs as default timestamping.
-+ * The new API is selecting the MAC as default timestamping.
-+ */
-+const char * const phy_timestamping_allowlist[] = {
-+	"Broadcom BCM5411",
-+	"Broadcom BCM5421",
-+	"Broadcom BCM54210E",
-+	"Broadcom BCM5461",
-+	"Broadcom BCM54612E",
-+	"Broadcom BCM5464",
-+	"Broadcom BCM5481",
-+	"Broadcom BCM54810",
-+	"Broadcom BCM54811",
-+	"Broadcom BCM5482",
-+	"Broadcom BCM50610",
-+	"Broadcom BCM50610M",
-+	"Broadcom BCM57780",
-+	"Broadcom BCM5395",
-+	"Broadcom BCM53125",
-+	"Broadcom BCM53128",
-+	"Broadcom BCM89610",
-+	"NatSemi DP83640",
-+	"Microchip LAN8841 Gigabit PHY",
-+	"Microchip INDY Gigabit Quad PHY",
-+	"Microsemi GE VSC856X SyncE",
-+	"Microsemi GE VSC8575 SyncE",
-+	"Microsemi GE VSC8582 SyncE",
-+	"Microsemi GE VSC8584 SyncE",
-+	"NXP C45 TJA1103",
-+	NULL,
+ Kernel to userspace:
+@@ -2038,6 +2039,21 @@ Kernel response contents:
+ 
+ This command lists all the possible timestamp layer available.
+ 
++TS_SET
++======
++
++Modify the selected timestamping.
++
++Request contents:
++
++  =======================  ======  ===================
++  ``ETHTOOL_A_TS_HEADER``  nested  reply header
++  ``ETHTOOL_A_TS_LAYER``   u32     timestamping
++  =======================  ======  ===================
++
++This command set the timestamping with one that should be listed by the
++TSLIST_GET command.
++
+ Request translation
+ ===================
+ 
+@@ -2146,4 +2162,5 @@ are netlink only.
+   n/a                                 ``ETHTOOL_MSG_MM_SET``
+   n/a                                 ``ETHTOOL_MSG_TSLIST_GET``
+   n/a                                 ``ETHTOOL_MSG_TS_GET``
++  n/a                                 ``ETHTOOL_MSG_TS_SET``
+   =================================== =====================================
+diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+index 62b885d44d06..df6c4fcc62c1 100644
+--- a/include/uapi/linux/ethtool_netlink.h
++++ b/include/uapi/linux/ethtool_netlink.h
+@@ -59,6 +59,7 @@ enum {
+ 	ETHTOOL_MSG_MM_SET,
+ 	ETHTOOL_MSG_TS_GET,
+ 	ETHTOOL_MSG_TS_LIST_GET,
++	ETHTOOL_MSG_TS_SET,
+ 
+ 	/* add new constants above here */
+ 	__ETHTOOL_MSG_USER_CNT,
+diff --git a/net/ethtool/netlink.c b/net/ethtool/netlink.c
+index 842c9db1531f..8322bf71f80d 100644
+--- a/net/ethtool/netlink.c
++++ b/net/ethtool/netlink.c
+@@ -308,6 +308,7 @@ ethnl_default_requests[__ETHTOOL_MSG_USER_CNT] = {
+ 	[ETHTOOL_MSG_MM_SET]		= &ethnl_mm_request_ops,
+ 	[ETHTOOL_MSG_TS_GET]		= &ethnl_ts_request_ops,
+ 	[ETHTOOL_MSG_TS_LIST_GET]	= &ethnl_ts_list_request_ops,
++	[ETHTOOL_MSG_TS_SET]		= &ethnl_ts_request_ops,
+ };
+ 
+ static struct ethnl_dump_ctx *ethnl_dump_context(struct netlink_callback *cb)
+@@ -1148,6 +1149,13 @@ static const struct genl_ops ethtool_genl_ops[] = {
+ 		.policy = ethnl_ts_get_policy,
+ 		.maxattr = ARRAY_SIZE(ethnl_ts_get_policy) - 1,
+ 	},
++	{
++		.cmd	= ETHTOOL_MSG_TS_SET,
++		.flags	= GENL_UNS_ADMIN_PERM,
++		.doit	= ethnl_default_set_doit,
++		.policy = ethnl_ts_set_policy,
++		.maxattr = ARRAY_SIZE(ethnl_ts_set_policy) - 1,
++	},
+ };
+ 
+ static const struct genl_multicast_group ethtool_nl_mcgrps[] = {
+diff --git a/net/ethtool/netlink.h b/net/ethtool/netlink.h
+index ea8c312db3af..8fedf234b824 100644
+--- a/net/ethtool/netlink.h
++++ b/net/ethtool/netlink.h
+@@ -444,6 +444,7 @@ extern const struct nla_policy ethnl_plca_get_status_policy[ETHTOOL_A_PLCA_HEADE
+ extern const struct nla_policy ethnl_mm_get_policy[ETHTOOL_A_MM_HEADER + 1];
+ extern const struct nla_policy ethnl_mm_set_policy[ETHTOOL_A_MM_MAX + 1];
+ extern const struct nla_policy ethnl_ts_get_policy[ETHTOOL_A_TS_HEADER + 1];
++extern const struct nla_policy ethnl_ts_set_policy[ETHTOOL_A_TS_MAX + 1];
+ 
+ int ethnl_set_features(struct sk_buff *skb, struct genl_info *info);
+ int ethnl_act_cable_test(struct sk_buff *skb, struct genl_info *info);
+diff --git a/net/ethtool/ts.c b/net/ethtool/ts.c
+index 11041a16de5b..f77297965e03 100644
+--- a/net/ethtool/ts.c
++++ b/net/ethtool/ts.c
+@@ -59,6 +59,69 @@ static int ts_fill_reply(struct sk_buff *skb,
+ 	return nla_put_u32(skb, ETHTOOL_A_TS_LAYER, data->ts_layer);
+ }
+ 
++/* TS_SET */
++const struct nla_policy ethnl_ts_set_policy[] = {
++	[ETHTOOL_A_TS_HEADER]	= NLA_POLICY_NESTED(ethnl_header_policy),
++	[ETHTOOL_A_TS_LAYER]	= NLA_POLICY_RANGE(NLA_U32, 0,
++						   __TIMESTAMPING_COUNT - 1)
 +};
 +
-+/**
-+ * phy_set_timestamp - set the default selected timestamping device
-+ * @dev: Pointer to net_device
-+ * @phydev: Pointer to phy_device
-+ *
-+ * This is used to set default timestamping device taking into account
-+ * the new API choice, which is selecting the timestamping from MAC by
-+ * default.
-+ */
-+static void phy_set_timestamp(struct net_device *dev, struct phy_device *phydev)
++static int ethnl_set_ts_validate(struct ethnl_req_info *req_info,
++				 struct genl_info *info)
 +{
-+	const struct ethtool_ops *ops = dev->ethtool_ops;
-+	int i;
++	struct nlattr **tb = info->attrs;
++	const struct net_device_ops *ops = req_info->dev->netdev_ops;
 +
-+	/* Backward compatibility to old timestamping API */
-+	for (i = 0; phy_timestamping_allowlist[i]; i++) {
-+		if (!strcmp(phy_timestamping_allowlist[i],
-+			    phydev->drv->name)) {
-+			if (phy_has_tsinfo(phydev))
-+				dev->ts_layer = PHYLIB_TIMESTAMPING;
-+			return;
-+		}
-+	}
++	if (!tb[ETHTOOL_A_TS_LAYER])
++		return 0;
 +
-+	if (phy_has_tsinfo(phydev) && !ops->get_ts_info)
-+		dev->ts_layer = PHYLIB_TIMESTAMPING;
++	if (!ops->ndo_hwtstamp_set)
++		return -EOPNOTSUPP;
++
++	return 1;
 +}
 +
- /**
-  * phy_attach_direct - attach a network device to a given PHY device pointer
-  * @dev: network device to attach
-@@ -1484,6 +1546,7 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
- 
- 	phydev->phy_link_change = phy_link_change;
- 	if (dev) {
-+		phy_set_timestamp(dev, phydev);
- 		phydev->attached_dev = dev;
- 		dev->phydev = phydev;
- 
-@@ -1794,6 +1857,7 @@ EXPORT_SYMBOL_GPL(devm_phy_package_join);
- void phy_detach(struct phy_device *phydev)
- {
- 	struct net_device *dev = phydev->attached_dev;
++static int ethnl_set_ts(struct ethnl_req_info *req_info, struct genl_info *info)
++{
++	struct net_device *dev = req_info->dev;
 +	const struct ethtool_ops *ops = dev->ethtool_ops;
- 	struct module *ndev_owner = NULL;
- 	struct mii_bus *bus;
- 
-@@ -1812,6 +1876,10 @@ void phy_detach(struct phy_device *phydev)
- 
- 	phy_suspend(phydev);
- 	if (dev) {
-+		if (ops->get_ts_info)
-+			dev->ts_layer = NETDEV_TIMESTAMPING;
-+		else
-+			dev->ts_layer = NO_TIMESTAMPING;
- 		phydev->attached_dev->phydev = NULL;
- 		phydev->attached_dev = NULL;
- 	}
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index b9d0411836db..4e1d01120511 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -47,6 +47,7 @@
- #include <uapi/linux/if_bonding.h>
- #include <uapi/linux/pkt_cls.h>
- #include <uapi/linux/netdev.h>
-+#include <uapi/linux/net_tstamp.h>
- #include <linux/hashtable.h>
- #include <linux/rbtree.h>
- #include <net/net_trackers.h>
-@@ -2054,6 +2055,8 @@ enum netdev_ml_priv_type {
-  *
-  *	@dpll_pin: Pointer to the SyncE source pin of a DPLL subsystem,
-  *		   where the clock is recovered.
-+ *	@ts_layer:	Tracks which network device
-+ *			performs packet	time stamping.
-  *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-@@ -2415,6 +2418,8 @@ struct net_device {
- #if IS_ENABLED(CONFIG_DPLL)
- 	struct dpll_pin		*dpll_pin;
- #endif
-+
-+	u32			ts_layer;
- };
- #define to_net_dev(d) container_of(d, struct net_device, dev)
- 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 606a366cc209..1d4890dee114 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -10204,6 +10204,9 @@ int register_netdevice(struct net_device *dev)
- 	    dev->rtnl_link_state == RTNL_LINK_INITIALIZED)
- 		rtmsg_ifinfo(RTM_NEWLINK, dev, ~0U, GFP_KERNEL, 0, NULL);
- 
-+	if (dev->ethtool_ops->get_ts_info)
-+		dev->ts_layer = NETDEV_TIMESTAMPING;
-+
- out:
- 	return ret;
- 
-diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
-index 45cc1ea9b195..20009462fa24 100644
---- a/net/core/dev_ioctl.c
-+++ b/net/core/dev_ioctl.c
-@@ -259,9 +259,7 @@ static int dev_eth_ioctl(struct net_device *dev,
-  * @dev: Network device
-  * @cfg: Timestamping configuration structure
-  *
-- * Helper for enforcing a common policy that phylib timestamping, if available,
-- * should take precedence in front of hardware timestamping provided by the
-- * netdev.
-+ * Helper for calling the selected hardware provider timestamping.
-  *
-  * Note: phy_mii_ioctl() only handles SIOCSHWTSTAMP (not SIOCGHWTSTAMP), and
-  * there only exists a phydev->mii_ts->hwtstamp() method. So this will return
-@@ -271,10 +269,14 @@ static int dev_eth_ioctl(struct net_device *dev,
- static int dev_get_hwtstamp_phylib(struct net_device *dev,
- 				   struct kernel_hwtstamp_config *cfg)
- {
--	if (phy_has_hwtstamp(dev->phydev))
-+	u32 ts_layer = dev->ts_layer;
-+
-+	if (ts_layer & PHYLIB_TIMESTAMPING)
- 		return phy_hwtstamp_get(dev->phydev, cfg);
-+	else if (ts_layer & NETDEV_TIMESTAMPING)
-+		return dev->netdev_ops->ndo_hwtstamp_get(dev, cfg);
- 
--	return dev->netdev_ops->ndo_hwtstamp_get(dev, cfg);
-+	return -EOPNOTSUPP;
- }
- 
- static int dev_get_hwtstamp(struct net_device *dev, struct ifreq *ifr)
-@@ -315,9 +317,8 @@ static int dev_get_hwtstamp(struct net_device *dev, struct ifreq *ifr)
-  * @cfg: Timestamping configuration structure
-  * @extack: Netlink extended ack message structure, for error reporting
-  *
-- * Helper for enforcing a common policy that phylib timestamping, if available,
-- * should take precedence in front of hardware timestamping provided by the
-- * netdev. If the netdev driver needs to perform specific actions even for PHY
-+ * Helper for calling the selected hardware provider timestamping.
-+ * If the netdev driver needs to perform specific actions even for PHY
-  * timestamping to work properly (a switch port must trap the timestamped
-  * frames and not forward them), it must set IFF_SEE_ALL_HWTSTAMP_REQUESTS in
-  * dev->priv_flags.
-@@ -327,20 +328,26 @@ int dev_set_hwtstamp_phylib(struct net_device *dev,
- 			    struct netlink_ext_ack *extack)
- {
- 	const struct net_device_ops *ops = dev->netdev_ops;
--	bool phy_ts = phy_has_hwtstamp(dev->phydev);
- 	struct kernel_hwtstamp_config old_cfg = {};
-+	u32 ts_layer = dev->ts_layer;
- 	bool changed = false;
- 	int err;
- 
--	cfg->source = phy_ts ? PHYLIB_TIMESTAMPING : NETDEV_TIMESTAMPING;
-+	cfg->source = ts_layer;
-+
-+	if (!(ts_layer & PHYLIB_TIMESTAMPING) &&
-+	    !(ts_layer & NETDEV_TIMESTAMPING))
-+		return -EOPNOTSUPP;
- 
--	if (phy_ts && (dev->priv_flags & IFF_SEE_ALL_HWTSTAMP_REQUESTS)) {
-+	if ((ts_layer & PHYLIB_TIMESTAMPING) &&
-+	    (dev->priv_flags & IFF_SEE_ALL_HWTSTAMP_REQUESTS)) {
- 		err = ops->ndo_hwtstamp_get(dev, &old_cfg);
- 		if (err)
- 			return err;
- 	}
- 
--	if (!phy_ts || (dev->priv_flags & IFF_SEE_ALL_HWTSTAMP_REQUESTS)) {
-+	if ((ts_layer & NETDEV_TIMESTAMPING) ||
-+	    (dev->priv_flags & IFF_SEE_ALL_HWTSTAMP_REQUESTS)) {
- 		err = ops->ndo_hwtstamp_set(dev, cfg, extack);
- 		if (err) {
- 			if (extack->_msg)
-@@ -349,10 +356,11 @@ int dev_set_hwtstamp_phylib(struct net_device *dev,
- 		}
- 	}
- 
--	if (phy_ts && (dev->priv_flags & IFF_SEE_ALL_HWTSTAMP_REQUESTS))
-+	if ((ts_layer & PHYLIB_TIMESTAMPING) &&
-+	    (dev->priv_flags & IFF_SEE_ALL_HWTSTAMP_REQUESTS))
- 		changed = kernel_hwtstamp_config_changed(&old_cfg, cfg);
- 
--	if (phy_ts) {
-+	if (ts_layer & PHYLIB_TIMESTAMPING) {
- 		err = phy_hwtstamp_set(dev->phydev, cfg, extack);
- 		if (err) {
- 			if (changed)
-diff --git a/net/core/timestamping.c b/net/core/timestamping.c
-index 04840697fe79..4638b2fb0dbc 100644
---- a/net/core/timestamping.c
-+++ b/net/core/timestamping.c
-@@ -21,6 +21,7 @@ static unsigned int classify(const struct sk_buff *skb)
- 
- void skb_clone_tx_timestamp(struct sk_buff *skb)
- {
-+	u32 ts_layer = skb->dev->ts_layer;
- 	struct mii_timestamper *mii_ts;
- 	struct sk_buff *clone;
- 	unsigned int type;
-@@ -28,6 +29,9 @@ void skb_clone_tx_timestamp(struct sk_buff *skb)
- 	if (!skb->sk)
- 		return;
- 
-+	if (!(ts_layer & PHYLIB_TIMESTAMPING))
-+		return;
-+
- 	type = classify(skb);
- 	if (type == PTP_CLASS_NONE)
- 		return;
-@@ -46,10 +50,15 @@ bool skb_defer_rx_timestamp(struct sk_buff *skb)
- {
- 	struct mii_timestamper *mii_ts;
- 	unsigned int type;
++	struct kernel_hwtstamp_config config = {0};
++	struct nlattr **tb = info->attrs;
++	bool mod = false;
 +	u32 ts_layer;
- 
- 	if (!skb->dev || !skb->dev->phydev || !skb->dev->phydev->mii_ts)
- 		return false;
- 
-+	ts_layer = skb->dev->ts_layer;
-+	if (!(ts_layer & PHYLIB_TIMESTAMPING))
-+		return false;
-+
- 	if (skb_headroom(skb) < ETH_HLEN)
- 		return false;
- 
-diff --git a/net/ethtool/common.c b/net/ethtool/common.c
-index e2315e24d695..54a2acc20af0 100644
---- a/net/ethtool/common.c
-+++ b/net/ethtool/common.c
-@@ -633,13 +633,25 @@ int __ethtool_get_ts_info(struct net_device *dev, struct ethtool_ts_info *info)
- {
- 	const struct ethtool_ops *ops = dev->ethtool_ops;
- 	struct phy_device *phydev = dev->phydev;
-+	u32 ts_layer = dev->ts_layer;
 +	int ret;
- 
- 	memset(info, 0, sizeof(*info));
- 	info->cmd = ETHTOOL_GET_TS_INFO;
- 
--	if (phy_has_tsinfo(phydev))
-+	if (ts_layer == SOFTWARE_TIMESTAMPING) {
-+		ret = ops->get_ts_info(dev, info);
-+		if (ret)
-+			return ret;
-+		info->so_timestamping &= ~SOF_TIMESTAMPING_HARDWARE_MASK;
-+		info->phc_index = -1;
-+		return ret;
++
++	ts_layer = dev->ts_layer;
++	ethnl_update_u32(&ts_layer, tb[ETHTOOL_A_TS_LAYER], &mod);
++
++	if (!mod)
++		return 0;
++
++	if (ts_layer & NETDEV_TIMESTAMPING && !ops->get_ts_info) {
++		NL_SET_ERR_MSG_ATTR(info->extack, tb[ETHTOOL_A_TS_LAYER],
++				    "this device cannot support timestamping");
++		return -EINVAL;
 +	}
 +
-+	if (ts_layer & PHYLIB_TIMESTAMPING)
- 		return phy_ts_info(phydev, info);
--	if (ops->get_ts_info)
++	if (ts_layer & PHYLIB_TIMESTAMPING && !phy_has_tsinfo(dev->phydev)) {
++		NL_SET_ERR_MSG_ATTR(info->extack, tb[ETHTOOL_A_TS_LAYER],
++				    "this device cannot support timestamping");
++		return -EINVAL;
++	}
 +
-+	if (ts_layer & NETDEV_TIMESTAMPING)
- 		return ops->get_ts_info(dev, info);
++	/* Disable time stamping in the current layer. */
++	if (netif_device_present(dev) &&
++	    dev->ts_layer & (PHYLIB_TIMESTAMPING | NETDEV_TIMESTAMPING)) {
++		ret = dev_set_hwtstamp_phylib(dev, &config, info->extack);
++		if (ret < 0)
++			return ret;
++	}
++
++	dev->ts_layer = ts_layer;
++
++	return 1;
++}
++
+ const struct ethnl_request_ops ethnl_ts_request_ops = {
+ 	.request_cmd		= ETHTOOL_MSG_TS_GET,
+ 	.reply_cmd		= ETHTOOL_MSG_TS_GET_REPLY,
+@@ -69,6 +132,9 @@ const struct ethnl_request_ops ethnl_ts_request_ops = {
+ 	.prepare_data		= ts_prepare_data,
+ 	.reply_size		= ts_reply_size,
+ 	.fill_reply		= ts_fill_reply,
++
++	.set_validate		= ethnl_set_ts_validate,
++	.set			= ethnl_set_ts,
+ };
  
- 	info->so_timestamping = SOF_TIMESTAMPING_RX_SOFTWARE |
+ /* TS_LIST_GET */
 -- 
 2.25.1
 
