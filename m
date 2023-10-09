@@ -2,154 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C950CD6136
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 20:37:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49D1CCD6137
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 21:03:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234593AbjJIUhI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 16:37:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60800 "EHLO
+        id S1378136AbjJIVDJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 17:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234540AbjJIUhG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 16:37:06 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2088.outbound.protection.outlook.com [40.107.223.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABD9C92;
-        Mon,  9 Oct 2023 13:37:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IO+5Prsc3qBFmk7TJj2fprzTTWqJk52QBnMleiv2f4toEXibROY3HtPkqArcfyrYQocg/Ztlk2J3LQKkl9FF50KwwgHo1DrQUbZ+m3i8Y0n7Bj5Z8N5nRF93m0Xsz4+Lmed7blv0OLBGh/RjWz49N7IXiwCM6pRGaSrUl/BWkgIjtq+Vap+iXA1Nf6jnn8FrTMKCvbEYDTm6NSrcR5Bago+tTzTIbck/nGahehtPo0RJbP8ckCv23g44f99ntPkx493gchQI++PUoa6oJ8a6vOayGiQZkUhuReg4zqS3wuH2PMPZ/FTnYtJkWzv3ug0MKcCkLaej5JL2jsvMT09MLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BRBcnQrZFFTbIdmvJNTTGUVjYCghxDN+Z4xKMnByDsk=;
- b=BRbYpAN+0v1bxJKM7B/jEpYZWY8HqO6d+UYx8DHulQeAbo2G71u2QLCwSQQFBmOt4DOGKg+amAy/BS09LDaR8aRjEt57dKU1IJvUsuGkoP8/+nGr2WDBNKx3q9KBLCBLdyr0fZHJ/QA5RTPCwoKmH5TXAu5HAqazSpBjx2mHGqjJrrw0w/Rffjrbo1jgsmSg6kF6NzdlEW2nFUJHK9FkHmz/E/ynCBNYlXIo67R8gJ23ZN3gycUON0++ZXfYqPBM2GkKRfQAL4eeHyNUuFnF6Tn+ipKQozQ846u+smoRO4NkbatHo+tI6a86gXDjr4RXdXHasJWs6sNnlYNAPyB0vA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BRBcnQrZFFTbIdmvJNTTGUVjYCghxDN+Z4xKMnByDsk=;
- b=wBgj4K8RylcMprMqSJrYfGYO2Fn2rBASwjcx7YJnF4A1VM0TrXClZ2L2TXI/tSvteCX/ToIM3WEWY0sa9dn7vLP6RzlEXIdFPxkbMe5n9hoc+i6W4pB2oDDVD2YMAQsUbuQcPMOSBIKJzPr0IaSZNARq48R9vuBQXsWRhfx04as=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA1PR12MB6113.namprd12.prod.outlook.com (2603:10b6:208:3eb::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.37; Mon, 9 Oct
- 2023 20:36:57 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b5d1:8b74:fe73:bd39]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b5d1:8b74:fe73:bd39%6]) with mapi id 15.20.6863.032; Mon, 9 Oct 2023
- 20:36:57 +0000
-Message-ID: <5a2b672a-a933-4909-b8c1-09b3bd92bd9b@amd.com>
-Date:   Mon, 9 Oct 2023 15:36:54 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v11 04/10] x86/resctrl: Add comments on RFTYPE flags
- hierarchy
-Content-Language: en-US
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-References: <20231003235430.1231238-1-babu.moger@amd.com>
- <20231003235430.1231238-5-babu.moger@amd.com>
- <20231009172207.GQZSQ2vyKLm660U5o6@fat_crate.local>
- <c794d06d-1954-470d-bd3f-b8c73a32dce0@amd.com>
- <20231009195150.GFZSRZ1pl+KFBao/lK@fat_crate.local>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <20231009195150.GFZSRZ1pl+KFBao/lK@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR04CA0104.namprd04.prod.outlook.com
- (2603:10b6:805:f2::45) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S1378151AbjJIVDI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 17:03:08 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F50EB;
+        Mon,  9 Oct 2023 14:03:04 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-584bfb14c59so3058625a12.0;
+        Mon, 09 Oct 2023 14:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696885383; x=1697490183; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=os7QhAKub4KIthm7Pb05vmG1pc3XAljYVBVgNXJPWvs=;
+        b=bwH7MeQHRw1XFbkokWtrNqX3zzyQ1eHixqM66/wVMpaE+apb29VZdCCn38ITlKSxmr
+         VPmRqXTHo3QTrrK67zJxtXQ5mopESqwzyKuYWSyiCcwUJkZNLs1neFQIJnNHS2gOndYr
+         wilrgzcerO0pgthQi7DrOmXhSn7LEpcZzcngXy7hjAc/D2JK8eq82AnkY277kEkHAfau
+         VnwdS3xHO+MukOlFPsUS2Mpv7XzOSsg9dbWkQZdtYsjnwQQWeVF/blvIiD/bPJ2yaa5s
+         Z3lG351t4/YWaUnV4YwrgNOs5jytNnVktO0OijqLrvVr8A0+IVMeg/Ro9ROZwSLYIyX7
+         SqJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696885383; x=1697490183;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=os7QhAKub4KIthm7Pb05vmG1pc3XAljYVBVgNXJPWvs=;
+        b=L2g5Et6IsYKNXHfdJELQXvj8/W66DxeV6VVg4KItb+m1qaY2528B8ypf9C1hwKqIvK
+         Re5BYZGWaggZU393+JS6H/f0/yAyvKfo1zfeOMDLPQtZ1BzfBo1K5E0vzpSKfuRx0UEz
+         avZL3mn5L5W1ZJW94bTIM2reVXtqmxubxJuDYL2zIzr46aX+mqY22Qz3jMzx6pYblt3A
+         X4bdufVJnHZKqpvNkJOgDFYccb8rZ0H68wcjYn1ZsP1QzL1pkoFQ9Y7ItUkAOMGJZPV1
+         FD7v8QsBVrmVCZRyQMySulv4NtLway8j+rM2SWmIXi30+TaK6lasfZvvQW9y49zQzp+x
+         yoHQ==
+X-Gm-Message-State: AOJu0YwfULdHclwXyuvmJx9eafGC+/oaXH70qEm71Y5bVRZQfZjcJFyh
+        CJgA0Q7stTD0p9OhTdl3wLk=
+X-Google-Smtp-Source: AGHT+IHF7rURm2cs2Pj6n58bXbvNQueqFggbxqwL5FDaqybnyUjNXbDI8sVnaoO91ppPmv3o7+BKcw==
+X-Received: by 2002:a17:90b:4f46:b0:267:f9c4:c0a8 with SMTP id pj6-20020a17090b4f4600b00267f9c4c0a8mr13248485pjb.4.1696885383485;
+        Mon, 09 Oct 2023 14:03:03 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id e2-20020a17090a630200b00277337818afsm6484585pjj.0.2023.10.09.14.03.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Oct 2023 14:03:02 -0700 (PDT)
+Message-ID: <c197f024-e504-470e-b4a9-ce6466a4a038@gmail.com>
+Date:   Mon, 9 Oct 2023 14:02:58 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA1PR12MB6113:EE_
-X-MS-Office365-Filtering-Correlation-Id: 45013eb5-182b-4fbf-4fa1-08dbc9077b70
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: buM7zWBt7MHYY4dy+QMjMduhRx92WDd5PvoW/FgoGgzc+OjojWtURWPo1rq8zdSLFO9Sk2Rnz9b+4im/ABT89LBVqOA+H/rHBuGAOAByk/YSrxhd1I6R5AsaajgUD3qNX1vwqXN/i0gjuE4spDnfGMxojakdDXn22xkSR+k1CeVpxH8bljyBWCKfir0wwB4SH9jNMh1e/WoJ1bnsGAanZ0EDIjWjXDxhTz3o/RkACtUwZA/NqexFT9vwwjKIOQeiMPE86WGldh/yi4ey1Pxa35WQ/THMTslrvoo89RMdgCzqYZpWJDTVoG6lYHiLgedIoNG2ogEsZfgmV0kabzMXRu5HI3XmNzFl086tjor+t7lsa02A0hlpb/k0yxbZi7oh3KITV1+4VGvRKh1anakDv/2x/Ou0GasJf+DFaWFObMGhyGh5FmSVAWKIL75tjKa99+crEl5H49BhvnfeB3GAIbpP9OADwutfpeq9CZutq9kwYzPbRUtKFUI2s6xBBITyRPr3phdJtLTY7z0H/u52J0TQU+2IZTTmJXT01ivfAFP/prPbizjB+0klrl03uJ0DZrCYZKIi1geQvdi9sST0Hz6csxMssje59mylONN9RlOPgHF5gdZjwp2GZ0T63fefu8Rq5bbWn8P+PY1w8KNYDw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(376002)(366004)(136003)(39860400002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(66946007)(83380400001)(2616005)(26005)(7406005)(66556008)(66476007)(316002)(6916009)(7416002)(4326008)(6666004)(8936002)(6512007)(8676002)(5660300002)(6506007)(41300700001)(6486002)(2906002)(478600001)(3450700001)(4744005)(53546011)(36756003)(38100700002)(86362001)(31696002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHN2d0xLcXNnOFBSdGJSa1lQTXpLM05GTWIzbGg3SU9RR3JpOWl6NUFUNXQz?=
- =?utf-8?B?UnlTTk9ZU3N3YW11NW1zdmZXczdWWXB3ZFlmaGFYT1l2c3RyR0ljVXV3WEEx?=
- =?utf-8?B?a2lUNlNBQ3FpY2tQeUY2RUI2Z094d2hCaktQK1JsNG83REFtd2dXZVVoQjVu?=
- =?utf-8?B?d3U1K2tSSVkxeS9jcHdiOS8rdDRGeE91S2dXaExCWU44UHhNWmJYUnZ0dE1h?=
- =?utf-8?B?Q25lOHRkK1hUeTR3VzU1eUZ4UFJQT3preWRNMkxHR3crdFhQcHAwV2xRU0lI?=
- =?utf-8?B?bnpNdWVPa2U4MGpNTjI1ajdGUXQ1cDJLN2JRM1JxUVVDQ3FoUlVmSnNrRTIy?=
- =?utf-8?B?REJDaEpvNkNkZjA1b1dEZUlITW9zeWVVL3ljZTBYd2ZzcEJ1dnJNTjNPaHNa?=
- =?utf-8?B?d0s3QWVDS2VTbTVmUmduSTFZclBYRmtZQlhvU25BeTdHWTdDbVVWOXpZaTNG?=
- =?utf-8?B?WmdVTmV1VHFQMFdRcTVXK2ozd016NkNObnJmaHRJN2d5b2FOZDE4SkZRd29V?=
- =?utf-8?B?WTNvQWFLQjZqQW9zQW5nYURBWEd1Y3RlYlkzOGNHZUhDaHhKOVJJajkrdkp3?=
- =?utf-8?B?b0xNNGJISEwzV0hRZklWcFhGUWgxQmJkSzdWbHUyVHFvbFU1aFh0STAvMkZq?=
- =?utf-8?B?cjNDSnJaNGVFeWtibnJ6OGlVS0hZbzFGYTZlSDdwQU9uN3RGOUNlVXhZTUZs?=
- =?utf-8?B?NkU5bTE3b1dDeFRqMEhjN21YVHU4SCtUVVhsOUpqYVpZejNwWmRrcjNkdHZs?=
- =?utf-8?B?Q3VzY2wzVDdFOGJFYjM1WFVadi95WDNRd2s1Vi9jNjIxYnJONFRTbFNuQVky?=
- =?utf-8?B?dVQxb3FOWU1tNkkrKzJyWXJHWnYyeHhrUnFKMFpsNFduSndhK1lpVy9rdVUv?=
- =?utf-8?B?dXI1TDgrNkw0c1ZlMVRNa0tLaGJjbHFESG1ic2ZTbE4zQ1NxaVlhNlJNVTJr?=
- =?utf-8?B?aHNCMXJMc2RSeEdJcG1uMW1lL2VoNUZrQm9uRlRHVkxiSURHTGdlZWgyNSsw?=
- =?utf-8?B?d2kzdGdxWmxFdnY4ajFrRVhJSnU4akkvbUZSOHJpbDNaZ3NiM1FXZGx3TFh4?=
- =?utf-8?B?RG1JRXdhU2dyNTV0Lzd5dEZZSzlGYUxQZVlnQ0Q5T1U3cGdBRlBZQUthN1Ay?=
- =?utf-8?B?Qng0WENDZjM5cGkydlRVN1E2SjRDUFBUK05ncWZPOHpCWmhpNWhvM3FaeFVn?=
- =?utf-8?B?YUxjaGZDdEhUS1dQRGI3UjRKVzR3enRmTXN6emlOeWlzRnNPQzkwd1dNOTN4?=
- =?utf-8?B?Z0JqOVZ4bU4ySEJjSmJ2cDBJRVdObnRhR3lZVGtWZ0FvV3RBZHdlYmgxaTRl?=
- =?utf-8?B?dGV5b3BoOU9FbFV3cXh0SWlXRFBpZHU4SVRFRFRrZ1lldW1RR0dGc2hTY20y?=
- =?utf-8?B?M01hRHd4WXFLaVdlTGNYVURITFVtdGV4VW0waFZ1UUY3LzNLeGJXdWdqNGZ5?=
- =?utf-8?B?YlRYTER0dmxpclh2c2VrQ1BCL1pJdzZVbWtIbzJLY3IrVWNiV3dkZk5xZHdm?=
- =?utf-8?B?dDFoRkovQXhDUzRvd0Z0bUk2N3V0d2QzUkhhUGtiVkdLNGEvQVErNjVHWXhN?=
- =?utf-8?B?RTk5WkJtT29rZk1xUStBalVQdCsxa1FhdGtDR3paV3FzMjYxL0E0dklhLysx?=
- =?utf-8?B?QUxQVC9oUTFxTVhFWUpyRUpDdWRnUFVKbHRkajlRQ3VpS2JOTlB5L3dBS3ln?=
- =?utf-8?B?Um9hKzVxQlhYbTI5NXAvVmo5djNKdXgvRWJDV0tJRmJQR0lKbG5nK2x2bjhF?=
- =?utf-8?B?NWNGUUpqa2hWN20yZzRtZEVEUHdDOEtBN3lySUV2elBpZXFzMzhXQXpUV1hx?=
- =?utf-8?B?ZTFMeDBubFpmbk5FV0N0cjBjR1gyT1dDS1lyekEzU1pXeU96ZG9aRVJ6N1pJ?=
- =?utf-8?B?Vk9TQjQ2ZlFBU3paYkNlMmd3VmFvR0s0UnlmZUVoOE5Mb2lTL0JIZ1ltR2xQ?=
- =?utf-8?B?WDZxb0tBUnlOMEtqelVzUHpiZFlRVCtlVGZ3OU9velU1MGhsbTk3WUxjSzZz?=
- =?utf-8?B?S0xTM1BDalVrT1lFMDd2ZFhzZUVManR3Wkl3TGZWb0hEd0F5VWZoS2QvT3F5?=
- =?utf-8?B?SGdIcHB6WXJ1T0d2Mlc3Y01yZDhFbHlxU2t3QmN2bUNsbUFDYjNlVTVwVlV6?=
- =?utf-8?Q?2cdk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45013eb5-182b-4fbf-4fa1-08dbc9077b70
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2023 20:36:57.7370
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gDWd9hLzaOcuXWbhZjMFzlMmRIXXlqEbar9GZahBgUojo3fDOBo0UW5ZYlgJl71Q
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6113
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 01/16] net: Convert PHYs hwtstamp callback to
+ use kernel_hwtstamp_config
+Content-Language: en-US
+To:     =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Michael Walle <michael@walle.cc>,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>
+References: <20231009155138.86458-1-kory.maincent@bootlin.com>
+ <20231009155138.86458-2-kory.maincent@bootlin.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20231009155138.86458-2-kory.maincent@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
-
-On 10/9/23 14:51, Borislav Petkov wrote:
-> On Mon, Oct 09, 2023 at 02:39:30PM -0500, Moger, Babu wrote:
->> User visible files are already documented in resctrl.rst file.
->>
->> Understanding of these flags are mostly required for programmers. Users
->> don't need to know all these internal flags. That is why it is listed in here.
+On 10/9/23 08:51, Köry Maincent wrote:
+> From: Kory Maincent <kory.maincent@bootlin.com>
 > 
-> You can have a section in resctrl.rst called "Implementation notes" or
-> so. This way you have it all in one file instead of having programmers
-> grep the whole tree for info.
+> The PHYs hwtstamp callback are still getting the timestamp config from
+> ifreq and using copy_from/to_user.
+> Get rid of these functions by using timestamp configuration in parameter.
+> This also allow to move on to kernel_hwtstamp_config and be similar to
+> net devices using the new ndo_hwstamp_get/set.
 > 
+> This adds the possibility to manipulate the timestamp configuration
+> from the kernel which was not possible with the copy_from/to_user.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-Will add new section in resctrl.rst to add these details. Will send v12 soon.
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
-Thanks
-Babu Moger
+Florian
+
