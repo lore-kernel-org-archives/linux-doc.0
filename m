@@ -2,100 +2,240 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 566DACD6114
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 17:26:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33F5ACD6115
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 17:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376794AbjJIR0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 13:26:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53380 "EHLO
+        id S1377428AbjJIRfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 13:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377369AbjJIR0A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 13:26:00 -0400
-X-Greylist: delayed 353 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 09 Oct 2023 10:25:58 PDT
-Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D71B0;
-        Mon,  9 Oct 2023 10:25:58 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 78F5540E01A5;
-        Mon,  9 Oct 2023 17:25:54 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id u7iDZ9zhtPck; Mon,  9 Oct 2023 17:25:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1696872352; bh=gijAMajM/qK5RS4HM86GXIGhtdXfDGU+FXlKqSNTHVM=;
+        with ESMTP id S1377385AbjJIRfH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 13:35:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A806E94;
+        Mon,  9 Oct 2023 10:35:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1366C433C8;
+        Mon,  9 Oct 2023 17:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696872906;
+        bh=1ZYVBGazHy2d4Xk2g9EBASgik4ghV3l90e5mT3K1Ytc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V+0v3jmxQwJVT49/4+GxxxtlEf0Fk1tZ8lEF3dYrq6PD8kg9noirQ/5TDRCm6D9NI
-         IUPVHHTQRXjhsCCBSJNPRHXp7Ima1Pc5oJX58xXtw9ePs/CW2DAl1KdAJQoVmrvH05
-         irwAn1Xrbcj6PGSSMizdaWfC3sPoy2LmgnD4MwR48k8phpveKdWGHVX8ybbdYCkKxj
-         10kEZ62hRY91hPc9tcKHKJLJRPq927ERUA4APnF8mVHVRvnxNVK2rWJrdRQL+AXUdC
-         UvbvyymUV5Xs2kCFQR5mwC9qX1RNcF7KMV99/ZJ1yZKAe9hm6ysJ/POwb3TJWaPry5
-         5z/GED9B6Ce5xWJneDXvPQUUGpIxh4DGrm8G4eUuN47rfavLsLZ9gzqMUP0m3g7nQ2
-         6Jdg8usZ/y+jJ4I53f8/GYLoRVtIRhLLfyYmrMmSrO6BJOMA+cPX0PqpXK4Wmtbkz9
-         hSu+kL4QMKBEvkTe3Ncqht5vsj5Ji4XZtt63qEyv7iVpkON0x64mVePRPFNzypj47Q
-         trNnwSyUKH1kshtSU9Q8H3Rk7uig2aeXjGUgu1GElm27XEYzkoFXGImzfobTkB4JKl
-         HxH7L1ISVnTqGj4FH7ZjTu1lhAAXvciDcvnZCJw0/Eosrnz5X3qVGmacl0EqMiPh0t
-         oH0Bs8T8P7I6HlhTl42kaWD8=
-Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-        (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 660BA40E0177;
-        Mon,  9 Oct 2023 17:25:18 +0000 (UTC)
-Date:   Mon, 9 Oct 2023 19:25:17 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Babu Moger <babu.moger@amd.com>
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-Subject: Re: [PATCH v11 05/10] x86/resctrl: Unwind the errors inside
- rdt_enable_ctx()
-Message-ID: <20231009172517.GRZSQ3fT05LGgpcW35@fat_crate.local>
-References: <20231003235430.1231238-1-babu.moger@amd.com>
- <20231003235430.1231238-6-babu.moger@amd.com>
+        b=RDr93PRPR2Q/aDAn5KZ/clRWHgfjNEsU4Sm9fe6ojAyybNu2a+vz/JFOL2gBgyem0
+         AviVkEuKu9pfF2QwsiUVUQjWBbosIgwB8QehsabJ0WrNFrsQmHkomYR5wfARuJcWvV
+         9lYEMe6yh0eq4kI766BIsvtm7SP1Bd8TtBNfTSXzJQx1+l+DcG7YwYGJHpHiXyhFF1
+         C40bo6oAG24vz3K9ABTdBjX5SH2NEz18pOdnrViwbuNXJk/7KASVBejSR5KhC3Kqn3
+         pTLkC/ruDcqrsZsVHZxUdLgzYgxlV4xDE8oECUV5qfVWyx2FFXYmjXBPTnw0N2Tuvm
+         2ZY/ZXS2vVDiw==
+Date:   Mon, 9 Oct 2023 18:35:01 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: ltc2991: add bindings
+Message-ID: <20231009-maimed-reenact-05c6e3b36ca9@spud>
+References: <20231003080059.8041-1-antoniu.miclaus@analog.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Sb32d3m8HlxF4rSL"
 Content-Disposition: inline
-In-Reply-To: <20231003235430.1231238-6-babu.moger@amd.com>
+In-Reply-To: <20231003080059.8041-1-antoniu.miclaus@analog.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 03, 2023 at 06:54:25PM -0500, Babu Moger wrote:
-> rdt_enable_ctx() enables the features provided during resctrl mount.
-> 
-> Additions to rdt_enable_ctx() are required to also modify error paths
-> of rdt_enable_ctx() callers to ensure correct unwinding if errors
-> are encountered after calling rdt_enable_ctx(). This is error prone.
-> 
-> Introduce rdt_disable_ctx() to refactor the error unwinding of
-> rdt_enable_ctx() to simplify future additions. This also simplifies
-> cleanup in rdt_kill_sb().
-> 
-> Remove cdp_disable_all() as it is not used anymore after the refactor.
 
-Do not talk about *what* the patch is doing in the commit message - that
-should be obvious from the diff itself. Rather, concentrate on the *why*
-it needs to be done.
+--Sb32d3m8HlxF4rSL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Check your whole series.
+On Tue, Oct 03, 2023 at 11:00:39AM +0300, Antoniu Miclaus wrote:
+> Add dt-bindings for ltc2991 octal i2c voltage, current and temperature
+> monitor.
+>=20
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> ---
+> changes in v3:
+>  - expand description for differential channels and temperature channels =
+by
+>    mentioning the pin configuration that is set via these properties.
+>  - add `additionalProperties: false` for the channel properties
+>  - make `reg` required for channel properties
+>  - make `adi,temperature-enable` and `shunt-resistor-micro-ohms` mutually
+>    exclusive following the approach suggested in review.
 
--- 
-Regards/Gruss,
-    Boris.
+Thanks for the updates.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Cheers,
+Conor.
+
+>  .../bindings/hwmon/adi,ltc2991.yaml           | 128 ++++++++++++++++++
+>  1 file changed, 128 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,ltc2991.y=
+aml
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml b/D=
+ocumentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> new file mode 100644
+> index 000000000000..011e5b65c79c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
+> @@ -0,0 +1,128 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/adi,ltc2991.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices LTC2991 Octal I2C Voltage, Current and Temperature=
+ Monitor
+> +
+> +maintainers:
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +
+> +description: |
+> +  The LTC2991 is used to monitor system temperatures, voltages and curre=
+nts.
+> +  Through the I2C serial interface, the eight monitors can individually =
+measure
+> +  supply voltages and can be paired for differential measurements of cur=
+rent
+> +  sense resistors or temperature sensing transistors.
+> +
+> +  Datasheet:
+> +    https://www.analog.com/en/products/ltc2991.html
+> +
+> +properties:
+> +  compatible:
+> +    const: adi,ltc2991
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  vcc-supply: true
+> +
+> +patternProperties:
+> +  "^channel@[0-3]$":
+> +    type: object
+> +    description:
+> +      Represents the differential/temperature channels.
+> +
+> +    properties:
+> +      reg:
+> +        description:
+> +          The channel number. LTC2991 can monitor 4 currents/temperature=
+s.
+> +        items:
+> +          minimum: 0
+> +          maximum: 3
+> +
+> +      shunt-resistor-micro-ohms:
+> +        description:
+> +          The value of curent sense resistor in micro ohms. Pin configur=
+ation is
+> +          set for differential input pair.
+> +
+> +      adi,temperature-enable:
+> +        description:
+> +          Enables temperature readings. Pin configuration is set for rem=
+ote
+> +          diode temperature measurement.
+> +        type: boolean
+> +
+> +    required:
+> +      - reg
+> +
+> +    allOf:
+> +      - if:
+> +          required:
+> +            - shunt-resistor-micro-ohms
+> +        then:
+> +          properties:
+> +            adi,temperature-enable: false
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vcc-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        hwmon@48 {
+> +            compatible =3D "adi,ltc2991";
+> +            reg =3D <0x48>;
+> +            vcc-supply =3D <&vcc>;
+> +        };
+> +    };
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        hwmon@48 {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            compatible =3D "adi,ltc2991";
+> +            reg =3D <0x48>;
+> +            vcc-supply =3D <&vcc>;
+> +
+> +            channel@0 {
+> +                    reg =3D <0x0>;
+> +                    shunt-resistor-micro-ohms =3D <100000>;
+> +            };
+> +
+> +            channel@1 {
+> +                    reg =3D <0x1>;
+> +                    shunt-resistor-micro-ohms =3D <100000>;
+> +            };
+> +
+> +            channel@2 {
+> +                    reg =3D <0x2>;
+> +                    adi,temperature-enable;
+> +            };
+> +
+> +            channel@3 {
+> +                    reg =3D <0x3>;
+> +                    adi,temperature-enable;
+> +            };
+> +        };
+> +    };
+> +...
+> --=20
+> 2.42.0
+>=20
+
+--Sb32d3m8HlxF4rSL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSQ5xQAKCRB4tDGHoIJi
+0g+SAP48zfjGLubhF083okMidLJzwi9GXWmdPgm2K/XEx2vJ4wEA0rwolj+tSDO4
+X8BeLlW4PVLEukU92W77hIo/kNPSAw0=
+=ymEK
+-----END PGP SIGNATURE-----
+
+--Sb32d3m8HlxF4rSL--
