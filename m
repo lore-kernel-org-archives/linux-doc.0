@@ -2,115 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0EBE95A67
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Oct 2023 17:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2765E95A95
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 00:52:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234220AbjJHRSW convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Oct 2023 13:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34620 "EHLO
+        id S231517AbjJIAwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Oct 2023 20:52:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232265AbjJHRSV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Oct 2023 13:18:21 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4379FA6;
-        Sun,  8 Oct 2023 10:18:20 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5a1ec43870cso46605637b3.0;
-        Sun, 08 Oct 2023 10:18:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696785499; x=1697390299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aXz1WAscNlXtreSjX4AVrNaeR1jQa7xTI02en+Fku0k=;
-        b=MIeFV2UyWpP/CyV27AalUD1KHuQUQK7VV1JNGlzv8B7tJzozeCcBJm3ZT1IoJHcJ+Z
-         9cnZL8o6Npwh4+P+p0r6C6NYZv6ZWVRCGHkn+cZl3CaHPCwlvC6XdbcWJOIbAphRbE5w
-         7EyI0x+c/971PUkRNu4bFta2adWCfVxsM6drE/gR+HXIGJzkpwD6r15JXuRJqziaRpy6
-         cs9GyU8XmhO9Apzj5OzSu4bXmQDhV8HCWsyo6w2XwxrmtSnYhtjeW4Uc26oXN9S27U1k
-         JZJXu5Qg498jdCoYDNpvxc2LWkYsaoiLhfT1sD+gADosMcZNoaULTwhCLVY190CMon+f
-         eg0g==
-X-Gm-Message-State: AOJu0YxGmRy8T3XiGBXdj7HFercU9KLzVItwAjQ8eL2LpKwT6yZHlPXb
-        tSclK2F6EYLbJW9SZRtpDD6OSx8Ixo006g==
-X-Google-Smtp-Source: AGHT+IE78dOpilgHkHrHLFheYJDxeTNdftneOBRzDJOTZOR7+p2WpYAcDOTxsQ7zEYdugyaKJGVfAw==
-X-Received: by 2002:a81:7b54:0:b0:595:e1b:b978 with SMTP id w81-20020a817b54000000b005950e1bb978mr14689697ywc.21.1696785499289;
-        Sun, 08 Oct 2023 10:18:19 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id r63-20020a0dcf42000000b0058e37788bf7sm2962674ywd.72.2023.10.08.10.18.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Oct 2023 10:18:18 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5a4e29928c3so46512387b3.1;
-        Sun, 08 Oct 2023 10:18:18 -0700 (PDT)
-X-Received: by 2002:a0d:db08:0:b0:59f:57ca:6e05 with SMTP id
- d8-20020a0ddb08000000b0059f57ca6e05mr13994780ywe.5.1696785498600; Sun, 08 Oct
- 2023 10:18:18 -0700 (PDT)
+        with ESMTP id S1344525AbjJIAwJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Oct 2023 20:52:09 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869A4CA;
+        Sun,  8 Oct 2023 17:52:07 -0700 (PDT)
+Received: from localhost.localdomain (unknown [179.221.49.143])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C84AB6607243;
+        Mon,  9 Oct 2023 01:52:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1696812726;
+        bh=mZ+luv2HSDAJDTYyO4KODM5DbzIowrR9R5Z4YfYNXXc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=lkwoVIdsokw32jVolK8n1/3bkwBBRcGGTSWMeQogZSTnEFOjERkVi/oht51soAxDd
+         6sYXMHeNVAC8sGxpwpVdM1o1TVFA+0AzgU8PZMIqNATCjY/LeUC9E+5oGKY5Nxipat
+         8Mh06K0HmD2KWA7q2BEr3ozQpnLK2z+tKo9l6TbYbaCh9s/ErH7cnv9s7P0yghLxjG
+         sk05509A0q6CvQxoXr8yNi6dSSK1aD5j2wVct4VvR7A4ycvLrIA/ARqse0uzFYhzq/
+         Mcw3heWk67Zn8yZjOJtYDFBWScN+rFNXtPQX/34kcuzzVmi/odNFPzT+Kp2TdwH0w5
+         hl/6ygtspkcyQ==
+From:   Helen Koike <helen.koike@collabora.com>
+To:     Helen Koike <helen.koike@collabora.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     robdclark@chromium.org, dmitry.baryshkov@linaro.org,
+        vignesh.raman@collabora.com, sergi.blanch.torne@collabora.com,
+        guilherme.gallo@collabora.com, david.heidelberg@collabora.com,
+        quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 9/9] drm/ci: docs: add step about how to request privileges
+Date:   Sun,  8 Oct 2023 21:49:54 -0300
+Message-Id: <20231009004953.203576-10-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231009004953.203576-1-helen.koike@collabora.com>
+References: <20231009004953.203576-1-helen.koike@collabora.com>
 MIME-Version: 1.0
-References: <20231007-topic-test_tag-v1-1-513cd9e577ed@linaro.org> <8734ymvbds.fsf@meer.lwn.net>
-In-Reply-To: <8734ymvbds.fsf@meer.lwn.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 8 Oct 2023 19:18:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVf+bVj8at_GsHhRzHuDFbYGMmutOofMz1Ekv3TTxP4Qg@mail.gmail.com>
-Message-ID: <CAMuHMdVf+bVj8at_GsHhRzHuDFbYGMmutOofMz1Ekv3TTxP4Qg@mail.gmail.com>
-Subject: Re: [PATCH] docs: submitting-patches: Introduce Test: tag
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Submitting Co-Author <sub@coauthor.example.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 7, 2023 at 2:57 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> Konrad Dybcio <konrad.dybcio@linaro.org> writes:
->
-> > Currently, we blindly trust the submitters that they both compiled their
-> > code at all, tested it on a relevant device, and have done so in a manner
-> > that made sense for a given changeset.
-> >
-> > If at least two of these three things were always true, the review
-> > workflow would be much more exciting.
-> >
-> > Introduce a new Test: tag to help submitters express the way the patch
-> > was tested, making it easier to understand for reviewers and maintainers
-> > whether it was tested, and if so, whether that test was sufficient.
-> >
-> > I originally found something like this on Google's Android kernel repos
-> > and loved the concept.
-> >
-> > Test: make htmldocs and manual examination
-> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > ---
-> >  Documentation/process/submitting-patches.rst | 18 +++++++++++++++++-
-> >  1 file changed, 17 insertions(+), 1 deletion(-)
->
-> Do we really want to do this?  To me, it almost seems like it codifies
-> the idea that sending *untested* patches is OK as long as you leave out
-> the tag.
+Clarify the procedure developer must follow to request privileges to
+run tests on Freedesktop gitlab CI.
 
-Exactly. We are already receiving too many untested patches.
+This measure was added to avoid untrusted people to misuse the
+infrastructure.
 
-> Others may disagree, but I don't think we need yet another tag for this.
-> Testing of patches before sending them should be the norm; if special
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+---
+ Documentation/gpu/automated_testing.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-+1
-
-> notes about testing are needed, they can go in or below the changelog,
-> as appropriate.
-
-+1
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
+index 469b6fb65c30..8ec1878b44ab 100644
+--- a/Documentation/gpu/automated_testing.rst
++++ b/Documentation/gpu/automated_testing.rst
+@@ -86,10 +86,13 @@ https://gitlab.freedesktop.org/janedoe/linux/-/settings/ci_cd), change the
+ CI/CD configuration file from .gitlab-ci.yml to
+ drivers/gpu/drm/ci/gitlab-ci.yml.
+ 
+-3. Next time you push to this repository, you will see a CI pipeline being
++3. Request to be added to the drm/ci-ok group so that your user has the
++necessary privileges to run the CI on https://gitlab.freedesktop.org/drm/ci-ok
++
++4. Next time you push to this repository, you will see a CI pipeline being
+ created (eg. https://gitlab.freedesktop.org/janedoe/linux/-/pipelines)
+ 
+-4. The various jobs will be run and when the pipeline is finished, all jobs
++5. The various jobs will be run and when the pipeline is finished, all jobs
+ should be green unless a regression has been found.
+ 
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
