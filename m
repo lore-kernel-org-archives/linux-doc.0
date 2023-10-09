@@ -2,106 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACC6CD6105
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 16:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53178CD6107
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 16:38:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377216AbjJIQb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 12:31:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52264 "EHLO
+        id S1377261AbjJIQh7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 12:37:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376996AbjJIQb1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 12:31:27 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E0A6B6;
-        Mon,  9 Oct 2023 09:31:25 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-5a7ad24b3aaso4990367b3.2;
-        Mon, 09 Oct 2023 09:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696869085; x=1697473885; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Eze8ie+K0Fy5Qmq0xuinAFfSz+bncxmLAfx+2FZzmLY=;
-        b=fh0Iwjkp3lUPfApI9wvmu3/DeF6vSshCH0DaX4/iIqQcje/GmQTbSkPRSQXrlesMhO
-         5Y2Mg++TwPyaZdO4EsNkplLTBHlzm7BZUA5lYYbWHHqaMEyPdiOzFGqS+88T5qvK8NXZ
-         YbA75pDu67NXLXU7YOlpBbiKjMDTwxZCSW0EYxhXQWL0ifl5IG1QYljbOcfSkqsgkNCw
-         CHxJ60iE23KYf7WfLnfrWtaBw/BjgjlQy3FJhVXuswCrajCTj382fGdD48Ocr3f0Sx9d
-         mctnpHNpfPSUH5UiV8AqBmpXvqMMGgBjFTnjLqXgUR0lrM7z5LQxNLDRYmkRTuQ9ntp/
-         XV2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696869085; x=1697473885;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Eze8ie+K0Fy5Qmq0xuinAFfSz+bncxmLAfx+2FZzmLY=;
-        b=aFvAtjPbppvg0hNd1YaVHoS3f2XU8Yg6rrfXwbWYBUcb5H6xT6znQ9+FgieagZXXF4
-         ZliKoB3G5MyWrNZScCCPZvrKrJLjcS5itbW/ebk4EwSABXH3NrJDRd9dIkoARlZSGMaE
-         YrdYJUeNpp9mhI3p0nh/fsLy+FZU5RQntfTK5gbbAbm0fn9H6QLP8v7SImsLner9QN1S
-         ZLZsHUlmD9pWNO2h0fxRZeuzm+jDalOhT6DFn3H4RyVXvPRixQ4/XFShTM+bUf8PU+Dn
-         DDAuwA31HTuG7HXUM7uVSL5ZOZjyFRF9341gOP0TBOzJW5ummLwEBb8GaR6bXBLZdkP3
-         cYsw==
-X-Gm-Message-State: AOJu0Yw+1NZxylhtr7SMZzjyBeu8Hs0GgtMQlQoxGGb+GojyT75Q3ZuK
-        2HpmPoUgrrMntReFvLoW5/1ea8xpfnlduKNuYro=
-X-Google-Smtp-Source: AGHT+IEhdF0N385lZK+iiOZdfMf/GK//ZQJ8Uqf3c6acgxf6nsox+0RfhDnEpvWZr4UyD76HUprix5445+z4ukZOq2A=
-X-Received: by 2002:a81:a1ca:0:b0:5a7:b516:6eab with SMTP id
- y193-20020a81a1ca000000b005a7b5166eabmr598674ywg.15.1696869084836; Mon, 09
- Oct 2023 09:31:24 -0700 (PDT)
+        with ESMTP id S1376759AbjJIQh6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 12:37:58 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CD4092
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 09:37:57 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B489DC433C8;
+        Mon,  9 Oct 2023 16:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696869477;
+        bh=qlRswpJRFpIH5Iy48M5LSdwCmWTl90kKMCV2ExLF/EQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jTDzFvnmUfShJHJDdWz4lW8h8tANOLQ6wB1tT/XTuNQdahE8Wo2p1rZtdVII1Czr0
+         oGGza2C7Y8cka2FZhZZKl7Epeg7kvxcIZfNZz0UhRwfy44uW0hEKDT809cB0saglQ0
+         UEa+8uoS4rTd5IqpriPgWvDkY2gbluW5/DOOkUT+hQ4lN6Vj4Gk7Wu/7EArtRu8C7t
+         0BBRa3K8Ywy08/RWW8nsjFOQrLCe5jexNiliCE8GozheWa/SvTi/vJuNjWzi9HGLLW
+         q2oL83ME5NYAc1bztvpFAOyceh4kbXBu1ykYc1rv7e+J8rCyVysAngspljKq563x5F
+         z6RCwUChQBjgg==
+Date:   Mon, 9 Oct 2023 09:37:55 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Ahmed Zaki <ahmed.zaki@intel.com>
+Cc:     netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
+        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        vladimir.oltean@nxp.com, andrew@lunn.ch, horms@kernel.org,
+        mkubecek@suse.cz, Wojciech Drewek <wojciech.drewek@intel.com>
+Subject: Re: [PATCH net-next v2 2/6] ice: fix ICE_AQ_VSI_Q_OPT_RSS_*
+ register values
+Message-ID: <20231009093755.19f9ec9c@kernel.org>
+In-Reply-To: <20231006224726.443836-3-ahmed.zaki@intel.com>
+References: <20231006224726.443836-1-ahmed.zaki@intel.com>
+        <20231006224726.443836-3-ahmed.zaki@intel.com>
 MIME-Version: 1.0
-References: <20220927131518.30000-1-ojeda@kernel.org> <20220927131518.30000-26-ojeda@kernel.org>
- <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net> <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
- <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
- <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
- <CANiq72khuwOrAGN=CrFUX85UmPdJiZ2yM7_9_su_Zp951BHMMA@mail.gmail.com> <CAGSQo00gJsE+mQObeK4NNGDYLpZDDAZsREr15JcjD8Fo0E4pkw@mail.gmail.com>
-In-Reply-To: <CAGSQo00gJsE+mQObeK4NNGDYLpZDDAZsREr15JcjD8Fo0E4pkw@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 9 Oct 2023 18:31:13 +0200
-Message-ID: <CANiq72kK6ppBE7j=z7uua1cJMKaLoR5U3NUAZXT5MrNEs9ZhfQ@mail.gmail.com>
-Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
-To:     Matthew Maurer <mmaurer@google.com>
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
-        Peter Zijlstra <peterz@infradead.org>, rcvalle@google.com,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        David Gow <davidgow@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 9, 2023 at 6:01=E2=80=AFPM Matthew Maurer <mmaurer@google.com> =
-wrote:
->
-> If the IBT part would be helpful by itself immediately, I can split
-> that out - it's only the KCFI portion that won't currently work.
+On Fri,  6 Oct 2023 16:47:22 -0600 Ahmed Zaki wrote:
+> Fixes: 7bd527aa174f ("ice: Adjust naming for inner VLAN operations")
 
-Thanks Matthew. I don't think we are in a rush, but if it is not too
-much work to split it, that would be great, instead of adding the
-restriction.
+If there is v3 please drop the Fixes tag.
 
-For retthunk, by the way, I forgot to mention to Greg above that (in
-the original discussion with PeterZ) that I did a quick test back then
-to hack the equivalent of `-mfunction-return=3Dthunk-extern` into
-`rustc` to show that the compiler could use it via LLVM (by passing
-the attribute in the IR). At least at a basic level it seemed to work:
-I got a userspace program to count the times that it went through the
-return thunk. I didn't try to do anything on the kernel side, but at
-least for the compiler side, it seemed OK. So it may be way easier (on
-the compiler side) than the CFI work?
-
-Cheers,
-Miguel
+If the mistake doesn't result in a triggerable bug there's no need 
+to backport this and therefore no need to annotate the source of 
+the problem. It will just confuse people into thinking it's a real
+issue.
