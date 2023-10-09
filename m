@@ -2,110 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E27E95A96
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 15:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D16E6E95A96
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 15:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376442AbjJIPVf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 11:21:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
+        id S1376927AbjJIPWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 11:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376366AbjJIPVe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 11:21:34 -0400
+        with ESMTP id S1376720AbjJIPWr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 11:22:47 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412C6AF;
-        Mon,  9 Oct 2023 08:21:33 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E6D2C433C8;
-        Mon,  9 Oct 2023 15:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696864892;
-        bh=5Zn+SnAc7d1l+xzGW8v2qeLCfoNLA3t6bLPCtNkBeHw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RVa363czG6pBOaxQ1rGQVbk2CzjzKweUYstHYsK5rD7POD1odipHd7bUmmY16Dhdj
-         v5hUg7N2uqiPGC7iVtX2J/S3IrTOt/m6NPo/X3m2fpLGNXovaAyP016egJA+37i45b
-         xwpFX1iBkULMbQH6SwjOhojLVsk7tQdOug+7/9vc=
-Date:   Mon, 9 Oct 2023 17:21:30 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-Cc:     Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
-        onathan Corbet <corbet@lwn.net>,
-        Linyu Yuan <quic_linyyuan@quicinc.com>,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_ppratap@quicinc.com,
-        quic_wcheng@quicinc.com, quic_jackp@quicinc.com
-Subject: Re: [PATCH 1/2] Documentation: usb: Update NCM configfs parameters
-Message-ID: <2023100954-steadier-discolor-084f@gregkh>
-References: <20231009142005.21338-1-quic_kriskura@quicinc.com>
- <2023100942-drop-down-abide-f8fe@gregkh>
- <e8a1cde2-0df1-4cc2-a6a1-e31a2a99dae3@quicinc.com>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79B2DCF
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 08:22:45 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B787CC433C7;
+        Mon,  9 Oct 2023 15:22:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696864965;
+        bh=90Nw7C1r5590JsH2IC90ojg36mM9j5xrkmofzz7IoGE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=p0HeAhKFk41isBvY6kT5E6FaB/5ZFJwCpTABsYgt5p2hJQAxqk/1ECkcIDeJv2MjP
+         yTM7tsO8Lj5+ho0w1xdD9s4jM6tS/SJA58YnPQ1cum7HoF8H70UExVNbPAWyjA0t8y
+         8h7mqzElVTIazDk57OYNNT4DgWRtKG9hAQ7sxm8iVQIUDILyPx76M9nlPcoNUL4kft
+         TyIKYqfIWWG1v1U+gjN8oMAp1+h8W6aLXxFnyDlBa2AoDMiYeIuIxQmm9mkNSG1RAX
+         xQtynLCfBZKHljxCOrMwwl0XDwjNJs10rgbfQtwkNRbGQMy+s6Tv5VGYaWINzHEa/B
+         gLbPTC9MQimvA==
+Date:   Mon, 9 Oct 2023 08:22:43 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jiri Pirko <jiri@resnulli.us>
+Cc:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        netdev@vger.kernel.org, vadim.fedorenko@linux.dev, corbet@lwn.net,
+        davem@davemloft.net, pabeni@redhat.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, linux-doc@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org
+Subject: Re: [PATCH net-next v3 2/5] dpll: spec: add support for pin-dpll
+ signal phase offset/adjust
+Message-ID: <20231009082243.6a195cc1@kernel.org>
+In-Reply-To: <ZSEzG0TpTI6W9+tL@nanopsycho>
+References: <20231006114101.1608796-1-arkadiusz.kubalewski@intel.com>
+        <20231006114101.1608796-3-arkadiusz.kubalewski@intel.com>
+        <ZR/9yCVakCrDbBww@nanopsycho>
+        <20231006075536.3b21582e@kernel.org>
+        <ZSA7cEEc5nKl07/z@nanopsycho>
+        <20231006124457.26417f37@kernel.org>
+        <ZSEzG0TpTI6W9+tL@nanopsycho>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e8a1cde2-0df1-4cc2-a6a1-e31a2a99dae3@quicinc.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 09, 2023 at 08:40:27PM +0530, Krishna Kurapati PSSNV wrote:
-> 
-> 
-> On 10/9/2023 8:35 PM, Greg Kroah-Hartman wrote:
-> > On Mon, Oct 09, 2023 at 07:50:04PM +0530, Krishna Kurapati wrote:
-> > > Updateed NCM configfs parameters by adding max_segment_size
-> > > property and describing its effect on MTU configuration of
-> > > NCM interface.
-> > 
-> > "Updated"?
-> 
-> My bad. Will fix it in v2.
-> > 
-> > > 
-> > > Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> > > ---
-> > >   Documentation/usb/gadget-testing.rst | 20 +++++++++++---------
-> > >   1 file changed, 11 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-> > > index 29072c166d23..6e5d96668e8e 100644
-> > > --- a/Documentation/usb/gadget-testing.rst
-> > > +++ b/Documentation/usb/gadget-testing.rst
-> > > @@ -448,15 +448,17 @@ Function-specific configfs interface
-> > >   The function name to use when creating the function directory is "ncm".
-> > >   The NCM function provides these attributes in its function directory:
-> > > -	=============== ==================================================
-> > > -	ifname		network device interface name associated with this
-> > > -			function instance
-> > > -	qmult		queue length multiplier for high and super speed
-> > > -	host_addr	MAC address of host's end of this
-> > > -			Ethernet over USB link
-> > > -	dev_addr	MAC address of device's end of this
-> > > -			Ethernet over USB link
-> > > -	=============== ==================================================
-> > > +	================= ====================================================
-> > > +	ifname		  network device interface name associated with this
-> > > +			  function instance
-> > > +	qmult		  queue length multiplier for high and super speed
-> > > +	host_addr	  MAC address of host's end of this
-> > > +			  Ethernet over USB link
-> > > +	dev_addr	  MAC address of device's end of this
-> > > +			  Ethernet over USB link
-> > > +	max_segment_size  Segment size required for P2P connections. This
-> > > +			  will inturn set MTU to (max_segment_size - 14 bytes)
-> > 
-> > "inturn"???
-> > 
-> > > +	================= ====================================================
-> > 
-> > What commit id does this fix?
-> > 
-> This is not a bug fix. It is just an addition of a new property. Does it
-> need a fixes tag ?
+On Sat, 7 Oct 2023 12:29:47 +0200 Jiri Pirko wrote:
+> But since by the policy we cannot break uapi compat, version should be
+> never bumped. I wonder howcome it is legit in the examples you listed
+> above...
 
-Where is the code for the new property?
+Yes, even it's the 0.0001% of the time when "breaking' uAPI is fine,
+the change in the family spec can these days be much more precisely
+detected using policy dump.
 
-Ah, it's in patch 2/2, that wasn't obvious, sorry.  Why is this a
-separate patch at all, shouldn't be part of the commit that adds the new
-property to the system?
+> Let's forbid that in genetlink.yaml. I have a patch ready, please ack
+> this approach.
 
-thanks,
-
-greg k-h
+Ack, please remember to move version into the # Start genetlink-legacy
+section in the genetlink-legacy schema.
