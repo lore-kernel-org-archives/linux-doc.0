@@ -2,92 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D09C5CD6132
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 19:52:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1BB4CD6131
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 19:57:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378492AbjJITwi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 15:52:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42936 "EHLO
+        id S1378482AbjJIT5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 15:57:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378488AbjJITwh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 15:52:37 -0400
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5DF0D6;
-        Mon,  9 Oct 2023 12:52:34 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1723640E01A5;
-        Mon,  9 Oct 2023 19:52:32 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 48amw1-2Wmql; Mon,  9 Oct 2023 19:52:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1696881150; bh=Y59MA/tIFAYhXTrbuM/NErWaLdzcC9gYjWL78eHvdYA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZFjQdihRCNUZROAw9sjNCRHG48o9vGPZV1KjjReOhO1vBiL2rQ20hnX6Jm1L6Epjz
-         FpFGKQl0+AZwbH6bE+Fo7RqcIX2EgHLdfxPW9/JiWogIsklcrRba3FakyZ+aoZJOpR
-         3/VhAt8XLp6XyHkWW1M15gs1IFtpi8plfuWETDKcZtNSaEYjBKlZzUpbY66lCPK9ew
-         jwAFacMVp9REyxMXzByoV/SmPyMDGMK5wVcXWdsMKEIs+TP/FJspC0xmUGVEpoE6kZ
-         VFJ8EYoRO7Zpv/pmyX7fqnEDBzeZuwA9nNfvtIsc9y4CfM/kZBTWHJYGst1WTIXAZZ
-         ptQcIj2fE4G3/pesrOnzZkazj+j8Pw/z8hFgQnbn3gJGehzJxQ3QrKb1uVRsWOKcKY
-         uogOOISnk/tNxULz6aX2CIC1B9MQjjDqLRX+s/o+jdVIRAQlZFM/5+SkryjM4GRaqB
-         ahvXW9/+bpozuR+2GGqTz68G0ONcTAEehfB5aVJ4nuLObkonRIjmuNlg5BBeUfCcnv
-         jFepZrjgtvn79PgkZWufiPByz6HjfilJr75sS6Zc0k8Wrv8zcu6wlQ0BbvRXt8MIOs
-         +B4f3T5oFwTrCYpS/aS8BPYPyg3Ay3dmYvzZc6jznrfk4iicLQNNnNpljtfBsgrhui
-         sj7qvE5/1edQxoA3Lw5r5iKE=
-Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-        (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EDEEC40E01AA;
-        Mon,  9 Oct 2023 19:51:55 +0000 (UTC)
-Date:   Mon, 9 Oct 2023 21:51:50 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <babu.moger@amd.com>
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-Subject: Re: [PATCH v11 04/10] x86/resctrl: Add comments on RFTYPE flags
- hierarchy
-Message-ID: <20231009195150.GFZSRZ1pl+KFBao/lK@fat_crate.local>
-References: <20231003235430.1231238-1-babu.moger@amd.com>
- <20231003235430.1231238-5-babu.moger@amd.com>
- <20231009172207.GQZSQ2vyKLm660U5o6@fat_crate.local>
- <c794d06d-1954-470d-bd3f-b8c73a32dce0@amd.com>
+        with ESMTP id S1377401AbjJIT5s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 15:57:48 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F37094;
+        Mon,  9 Oct 2023 12:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696881467; x=1728417467;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Js971sKS/1PzBLNic0V93M/o4QVtQcmRpD9RYFPgw/E=;
+  b=B9/M8mUy4MQ5s/u31HZT6BVcGIY8gk3bMQeRO0ILXN8GU9P2bcEP7KzB
+   VOr8FSEJkwX4O50QyXMgWNsl6eOPB94UWZy6Q6FxCyUmqNp4WuHumBPtg
+   x28ahg5rhFOlkESMSYAceSeTXxzYKgn5t0fd+zTKnJDoJAYrVihd8qdqm
+   +lwqGF1lBQxzgMNzS/fFOjs4TuFH3FFu9iBva7EglSHD0uwqUH5sJJvux
+   61TraCyPPwJzpxwOeGj/4yM3CwWy5mhZHmWpaufAJA/KCi0O+0wm9BQ8a
+   DNIzrqYkBv84OhklmdayaqRvIPZ+D036yMsLh2UQdjwJPnm45/rlTlRTi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="387067629"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="387067629"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 12:57:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1000342172"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="1000342172"
+Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 09 Oct 2023 12:57:39 -0700
+Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qpwNk-0000bU-33;
+        Mon, 09 Oct 2023 19:57:36 +0000
+Date:   Tue, 10 Oct 2023 03:56:47 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Michael Walle <michael@walle.cc>,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Kory Maincent <kory.maincent@bootlin.com>
+Subject: Re: [PATCH net-next v5 03/16] net: ethtool: Refactor identical
+ get_ts_info implementations.
+Message-ID: <202310100344.QG4Jg301-lkp@intel.com>
+References: <20231009155138.86458-4-kory.maincent@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <c794d06d-1954-470d-bd3f-b8c73a32dce0@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231009155138.86458-4-kory.maincent@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 09, 2023 at 02:39:30PM -0500, Moger, Babu wrote:
-> User visible files are already documented in resctrl.rst file.
-> 
-> Understanding of these flags are mostly required for programmers. Users
-> don't need to know all these internal flags. That is why it is listed in here.
+Hi Köry,
 
-You can have a section in resctrl.rst called "Implementation notes" or
-so. This way you have it all in one file instead of having programmers
-grep the whole tree for info.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-Convert-PHYs-hwtstamp-callback-to-use-kernel_hwtstamp_config/20231009-235451
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231009155138.86458-4-kory.maincent%40bootlin.com
+patch subject: [PATCH net-next v5 03/16] net: ethtool: Refactor identical get_ts_info implementations.
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231010/202310100344.QG4Jg301-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100344.QG4Jg301-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310100344.QG4Jg301-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/bonding/bond_main.c: In function 'bond_ethtool_get_ts_info':
+>> drivers/net/bonding/bond_main.c:5755:28: warning: unused variable 'phydev' [-Wunused-variable]
+    5755 |         struct phy_device *phydev;
+         |                            ^~~~~~
+>> drivers/net/bonding/bond_main.c:5752:35: warning: unused variable 'ops' [-Wunused-variable]
+    5752 |         const struct ethtool_ops *ops;
+         |                                   ^~~
+
+
+vim +/phydev +5755 drivers/net/bonding/bond_main.c
+
+217df670d9a4da Jay Vosburgh    2005-09-26  5746  
+94dd016ae538b1 Hangbin Liu     2021-11-30  5747  static int bond_ethtool_get_ts_info(struct net_device *bond_dev,
+94dd016ae538b1 Hangbin Liu     2021-11-30  5748  				    struct ethtool_ts_info *info)
+94dd016ae538b1 Hangbin Liu     2021-11-30  5749  {
+94dd016ae538b1 Hangbin Liu     2021-11-30  5750  	struct bonding *bond = netdev_priv(bond_dev);
+980f0799a15c75 Hangbin Liu     2023-04-18  5751  	struct ethtool_ts_info ts_info;
+94dd016ae538b1 Hangbin Liu     2021-11-30 @5752  	const struct ethtool_ops *ops;
+94dd016ae538b1 Hangbin Liu     2021-11-30  5753  	struct net_device *real_dev;
+980f0799a15c75 Hangbin Liu     2023-04-18  5754  	bool sw_tx_support = false;
+94dd016ae538b1 Hangbin Liu     2021-11-30 @5755  	struct phy_device *phydev;
+980f0799a15c75 Hangbin Liu     2023-04-18  5756  	struct list_head *iter;
+980f0799a15c75 Hangbin Liu     2023-04-18  5757  	struct slave *slave;
+9b80ccda233fa6 Hangbin Liu     2022-05-19  5758  	int ret = 0;
+94dd016ae538b1 Hangbin Liu     2021-11-30  5759  
+9b80ccda233fa6 Hangbin Liu     2022-05-19  5760  	rcu_read_lock();
+94dd016ae538b1 Hangbin Liu     2021-11-30  5761  	real_dev = bond_option_active_slave_get_rcu(bond);
+9b80ccda233fa6 Hangbin Liu     2022-05-19  5762  	dev_hold(real_dev);
+9b80ccda233fa6 Hangbin Liu     2022-05-19  5763  	rcu_read_unlock();
+9b80ccda233fa6 Hangbin Liu     2022-05-19  5764  
+94dd016ae538b1 Hangbin Liu     2021-11-30  5765  	if (real_dev) {
+59b068fe2f41f9 Richard Cochran 2023-10-09  5766  		ret = ethtool_get_ts_info_by_layer(real_dev, info);
+980f0799a15c75 Hangbin Liu     2023-04-18  5767  	} else {
+980f0799a15c75 Hangbin Liu     2023-04-18  5768  		/* Check if all slaves support software tx timestamping */
+980f0799a15c75 Hangbin Liu     2023-04-18  5769  		rcu_read_lock();
+980f0799a15c75 Hangbin Liu     2023-04-18  5770  		bond_for_each_slave_rcu(bond, slave, iter) {
+59b068fe2f41f9 Richard Cochran 2023-10-09  5771  			ret = ethtool_get_ts_info_by_layer(slave->dev, &ts_info);
+980f0799a15c75 Hangbin Liu     2023-04-18  5772  			if (!ret && (ts_info.so_timestamping & SOF_TIMESTAMPING_TX_SOFTWARE)) {
+980f0799a15c75 Hangbin Liu     2023-04-18  5773  				sw_tx_support = true;
+980f0799a15c75 Hangbin Liu     2023-04-18  5774  				continue;
+980f0799a15c75 Hangbin Liu     2023-04-18  5775  			}
+980f0799a15c75 Hangbin Liu     2023-04-18  5776  
+980f0799a15c75 Hangbin Liu     2023-04-18  5777  			sw_tx_support = false;
+980f0799a15c75 Hangbin Liu     2023-04-18  5778  			break;
+980f0799a15c75 Hangbin Liu     2023-04-18  5779  		}
+980f0799a15c75 Hangbin Liu     2023-04-18  5780  		rcu_read_unlock();
+94dd016ae538b1 Hangbin Liu     2021-11-30  5781  	}
+94dd016ae538b1 Hangbin Liu     2021-11-30  5782  
+980f0799a15c75 Hangbin Liu     2023-04-18  5783  	if (sw_tx_support)
+980f0799a15c75 Hangbin Liu     2023-04-18  5784  		info->so_timestamping |= SOF_TIMESTAMPING_TX_SOFTWARE;
+980f0799a15c75 Hangbin Liu     2023-04-18  5785  
+9b80ccda233fa6 Hangbin Liu     2022-05-19  5786  	dev_put(real_dev);
+9b80ccda233fa6 Hangbin Liu     2022-05-19  5787  	return ret;
+94dd016ae538b1 Hangbin Liu     2021-11-30  5788  }
+94dd016ae538b1 Hangbin Liu     2021-11-30  5789  
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
