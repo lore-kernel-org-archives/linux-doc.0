@@ -2,252 +2,709 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D35F8E95A96
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 12:50:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CFE0E95A91
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 14:11:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346514AbjJIMuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 08:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57448 "EHLO
+        id S1376702AbjJIOLy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 10:11:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346620AbjJIMuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 08:50:23 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 59A16AC;
-        Mon,  9 Oct 2023 05:50:21 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B82751FB;
-        Mon,  9 Oct 2023 05:51:01 -0700 (PDT)
-Received: from [10.57.3.51] (unknown [10.57.3.51])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9BE863F762;
-        Mon,  9 Oct 2023 05:50:19 -0700 (PDT)
-Message-ID: <b72d321f-0cea-1049-3bbb-224d38a94749@arm.com>
-Date:   Mon, 9 Oct 2023 13:50:18 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.1
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Subject: Re: [PATCH v1 1/2] arm64: perf: Add support for event counting
- threshold
-To:     James Clark <james.clark@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Zaid Al-Bassam <zalbassam@google.com>,
+        with ESMTP id S1346491AbjJIOLx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 10:11:53 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 500EAD6;
+        Mon,  9 Oct 2023 07:11:49 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0912C433C7;
+        Mon,  9 Oct 2023 14:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696860709;
+        bh=OtVKoB3DWEoPJHBTislWSi6+eK7Q264isCSLwj4tTSo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lUv5SaQwl4Tl1jlVSXs1/c9zcr7ZaPNxZ6dPvUVH2KceyZHmUhdnAi3XhvV5nJPKY
+         eHeMwrOO46WfJNtulTQOLp3nDe+cwWwWlxyxNjMQahx0l/on8Y79hSc5lIn2jTXvjJ
+         OlHT6MdllugTMV8uvcbnRp6f0P93uoUDHU8wIYmzknTWRaCkNcjljs3716E0EuF5Dj
+         gx2Oxg1/5c5BYcixHb4X9pfM5S2SSAc4oSq9W3K23ttueIlPo1N6YAC28/riqrRcRx
+         2hMwEdebXxWvKOeNJx8YKA1v86HbtJWyakIfl33LBBXRYld7dZInbTJ8CIRva2l1B2
+         +usbO7Oa4BmaQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Doug Brown <doug@schmorgal.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230919095137.360963-1-james.clark@arm.com>
- <20230919095137.360963-2-james.clark@arm.com>
-In-Reply-To: <20230919095137.360963-2-james.clark@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH] appletalk: remove ipddp driver
+Date:   Mon,  9 Oct 2023 16:10:28 +0200
+Message-Id: <20231009141139.1766345-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James
+From: Arnd Bergmann <arnd@arndb.de>
 
-On 19/09/2023 10:51, James Clark wrote:
-> FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
-> events whose count meets a specified threshold condition. For example if
-> PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
-> equal, count), and the threshold is set to 2, then the PMU counter will
-> now only increment by 1 when an event would have previously incremented
-> the PMU counter by 2 or more on a single processor cycle.
-> 
-> Two new Perf event config fields, 'threshold' and 'threshold_control'
-> have been added for controlling the feature:
-> 
->    $ perf stat -e stall_slot/threshold=2,threshold_control=5/
-> 
-> A new capability for reading out the maximum supported threshold value
-> has also been added:
-> 
->    $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
-> 
->    0x000000ff
-> 
-> If a threshold higher than threshold_max is provided, then no error is
-> generated but the threshold is clamped to the max value. If
-> FEAT_PMUv3_TH isn't implemented, then threshold_max reads zero, and
-> neither the 'threshold' nor 'threshold_control' parameters will be used.
-> 
-> The threshold is per PMU counter, and there are potentially different
-> threshold_max values per PMU type on heterogeneous systems.
-> 
-> Bits higher than 32 now need to be written into PMEVTYPER, so
-> armv8pmu_write_evtype() has to be updated to take a u64 value rather
-> than u32.
+After the cops driver is removed, ipddp is now the only
+CONFIG_DEV_APPLETALK but as far as I can tell, this also has no users
+and can be removed, making appletalk support purely based on ethertalk,
+using ethernet hardware.
 
-Is this supported in the Aarch32 state ? If so, do we need to change
-the arch specific register read/write "helpers" ?
+Link: https://lore.kernel.org/netdev/e490dd0c-a65d-4acf-89c6-c06cb48ec880@app.fastmail.com/
+Link: https://lore.kernel.org/netdev/9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com/
+Cc: Doug Brown <doug@schmorgal.com>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ Documentation/networking/ipddp.rst |  78 -------
+ MAINTAINERS                        |   1 -
+ drivers/net/Makefile               |   1 -
+ drivers/net/appletalk/Kconfig      |  72 ------
+ drivers/net/appletalk/Makefile     |   6 -
+ drivers/net/appletalk/ipddp.c      | 345 -----------------------------
+ drivers/net/appletalk/ipddp.h      |  28 ---
+ net/Kconfig                        |   2 +-
+ net/appletalk/Kconfig              |  30 +++
+ 9 files changed, 31 insertions(+), 532 deletions(-)
+ delete mode 100644 Documentation/networking/ipddp.rst
+ delete mode 100644 drivers/net/appletalk/Kconfig
+ delete mode 100644 drivers/net/appletalk/Makefile
+ delete mode 100644 drivers/net/appletalk/ipddp.c
+ delete mode 100644 drivers/net/appletalk/ipddp.h
+ create mode 100644 net/appletalk/Kconfig
 
-> 
-> Signed-off-by: James Clark <james.clark@arm.com>
-> ---
->   drivers/perf/arm_pmuv3.c       | 59 +++++++++++++++++++++++++++++++++-
->   include/linux/perf/arm_pmuv3.h |  7 +++-
->   2 files changed, 64 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-> index e5a2ac4155f6..ad6574b2bdab 100644
-> --- a/drivers/perf/arm_pmuv3.c
-> +++ b/drivers/perf/arm_pmuv3.c
-> @@ -294,9 +294,16 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
->   	.is_visible = armv8pmu_event_attr_is_visible,
->   };
->   
-> +#define TH_LO	2
-> +#define TH_HI	13
-> +#define TH_CNTL_LO	14
-> +#define TH_CNTL_HI	16
-> +
->   PMU_FORMAT_ATTR(event, "config:0-15");
->   PMU_FORMAT_ATTR(long, "config1:0");
->   PMU_FORMAT_ATTR(rdpmc, "config1:1");
-> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(TH_LO) "-" __stringify(TH_HI));
-> +PMU_FORMAT_ATTR(threshold_control, "config1:" __stringify(TH_CNTL_LO) "-" __stringify(TH_CNTL_HI));
-
-The perf core doesn't yet support adding aliases for
-fields other than "events". May be we could add
-some support for that in the future and use it
-to provide meaningful aliases for the threshold
-control.
-
-Not sure if we can extrapolate threshold_control[0]
-to be another config field => "counting_mode"
-We would need to check with the architecture folks
-to confirm that the meaning wouldn't change though.
-
->   
->   static int sysctl_perf_user_access __read_mostly;
->   
-> @@ -310,10 +317,22 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
->   	return event->attr.config1 & 0x2;
->   }
->   
-> +static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
-> +{
-> +	return FIELD_GET(GENMASK(TH_HI, TH_LO), attr->config1);
-> +}
-> +
-> +static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
-> +{
-> +	return FIELD_GET(GENMASK(TH_CNTL_HI, TH_CNTL_LO), attr->config1);
-> +}
-> +
->   static struct attribute *armv8_pmuv3_format_attrs[] = {
->   	&format_attr_event.attr,
->   	&format_attr_long.attr,
->   	&format_attr_rdpmc.attr,
-> +	&format_attr_threshold.attr,
-> +	&format_attr_threshold_control.attr,
->   	NULL,
->   };
->   
-> @@ -365,10 +384,31 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
->   
->   static DEVICE_ATTR_RO(bus_width);
->   
-> +static u32 threshold_max(struct arm_pmu *cpu_pmu)
-> +{
-> +	/*
-> +	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
-> +	 * (2 ^ PMMIR.THWIDTH) - 1
-> +	 */
-> +	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
-> +}
-> +
-> +static ssize_t threshold_max_show(struct device *dev,
-> +				  struct device_attribute *attr, char *page)
-> +{
-> +	struct pmu *pmu = dev_get_drvdata(dev);
-> +	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
-> +
-> +	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
-> +}
-> +
-> +static DEVICE_ATTR_RO(threshold_max);
-> +
->   static struct attribute *armv8_pmuv3_caps_attrs[] = {
->   	&dev_attr_slots.attr,
->   	&dev_attr_bus_slots.attr,
->   	&dev_attr_bus_width.attr,
-> +	&dev_attr_threshold_max.attr,
->   	NULL,
->   };
->   
-> @@ -552,7 +592,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
->   		armv8pmu_write_hw_counter(event, value);
->   }
->   
-> -static inline void armv8pmu_write_evtype(int idx, u32 val)
-> +static inline void armv8pmu_write_evtype(int idx, u64 val)
->   {
->   	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
->   
-> @@ -912,6 +952,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->   				     struct perf_event_attr *attr)
->   {
->   	unsigned long config_base = 0;
-> +	struct perf_event *perf_event = container_of(attr, struct perf_event,
-> +						     attr);
-> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
-> +	u32 th, th_max;
->   
->   	if (attr->exclude_idle)
->   		return -EPERM;
-> @@ -943,6 +987,19 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->   	if (attr->exclude_user)
->   		config_base |= ARMV8_PMU_EXCLUDE_EL0;
->   
-> +	/*
-> +	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
-> +	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
-> +	 * 0 and no values will be written.
-> +	 */
-> +	th_max = threshold_max(cpu_pmu);
-> +	if (th_max) {
-> +		th = min(armv8pmu_event_threshold(attr), th_max);
-> +		config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
-> +		config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
-> +					  armv8pmu_event_threshold_control(attr));
-> +	}
-> +
->   	/*
->   	 * Install the filter into config_base as this is used to
->   	 * construct the event type.
-> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
-> index e3899bd77f5c..0e2a3c927150 100644
-> --- a/include/linux/perf/arm_pmuv3.h
-> +++ b/include/linux/perf/arm_pmuv3.h
-> @@ -228,7 +228,11 @@
->   /*
->    * PMXEVTYPER: Event selection reg
->    */
-> -#define ARMV8_PMU_EVTYPE_MASK	0xc800ffff	/* Mask for writable bits */
-> +#define ARMV8_PMU_EVTYPE_TH	GENMASK(43, 32)
-> +#define ARMV8_PMU_EVTYPE_TC	GENMASK(63, 61)
-> +/* Mask for writable bits */
-> +#define ARMV8_PMU_EVTYPE_MASK	(0xc800ffff | ARMV8_PMU_EVTYPE_TH | \
-> +				ARMV8_PMU_EVTYPE_TC)
-
-May need to be UL suffixed for safety ?
-
-
-Suzuki
-
->   #define ARMV8_PMU_EVTYPE_EVENT	0xffff		/* Mask for EVENT bits */
->   
->   /*
-> @@ -254,6 +258,7 @@
->   #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
->   #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
->   #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
-> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
->   
->   /*
->    * This code is really good
+diff --git a/Documentation/networking/ipddp.rst b/Documentation/networking/ipddp.rst
+deleted file mode 100644
+index be7091b779274..0000000000000
+--- a/Documentation/networking/ipddp.rst
++++ /dev/null
+@@ -1,78 +0,0 @@
+-.. SPDX-License-Identifier: GPL-2.0
+-
+-=========================================================
+-AppleTalk-IP Decapsulation and AppleTalk-IP Encapsulation
+-=========================================================
+-
+-Documentation ipddp.c
+-
+-This file is written by Jay Schulist <jschlst@samba.org>
+-
+-Introduction
+-------------
+-
+-AppleTalk-IP (IPDDP) is the method computers connected to AppleTalk
+-networks can use to communicate via IP. AppleTalk-IP is simply IP datagrams
+-inside AppleTalk packets.
+-
+-Through this driver you can either allow your Linux box to communicate
+-IP over an AppleTalk network or you can provide IP gatewaying functions
+-for your AppleTalk users.
+-
+-You can currently encapsulate or decapsulate AppleTalk-IP on LocalTalk,
+-EtherTalk and PPPTalk. The only limit on the protocol is that of what
+-kernel AppleTalk layer and drivers are available.
+-
+-Each mode requires its own user space software.
+-
+-Compiling AppleTalk-IP Decapsulation/Encapsulation
+-==================================================
+-
+-AppleTalk-IP decapsulation needs to be compiled into your kernel. You
+-will need to turn on AppleTalk-IP driver support. Then you will need to
+-select ONE of the two options; IP to AppleTalk-IP encapsulation support or
+-AppleTalk-IP to IP decapsulation support. If you compile the driver
+-statically you will only be able to use the driver for the function you have
+-enabled in the kernel. If you compile the driver as a module you can
+-select what mode you want it to run in via a module loading param.
+-ipddp_mode=1 for AppleTalk-IP encapsulation and ipddp_mode=2 for
+-AppleTalk-IP to IP decapsulation.
+-
+-Basic instructions for user space tools
+-=======================================
+-
+-I will briefly describe the operation of the tools, but you will
+-need to consult the supporting documentation for each set of tools.
+-
+-Decapsulation - You will need to download a software package called
+-MacGate. In this distribution there will be a tool called MacRoute
+-which enables you to add routes to the kernel for your Macs by hand.
+-Also the tool MacRegGateWay is included to register the
+-proper IP Gateway and IP addresses for your machine. Included in this
+-distribution is a patch to netatalk-1.4b2+asun2.0a17.2 (available from
+-ftp.u.washington.edu/pub/user-supported/asun/) this patch is optional
+-but it allows automatic adding and deleting of routes for Macs. (Handy
+-for locations with large Mac installations)
+-
+-Encapsulation - You will need to download a software daemon called ipddpd.
+-This software expects there to be an AppleTalk-IP gateway on the network.
+-You will also need to add the proper routes to route your Linux box's IP
+-traffic out the ipddp interface.
+-
+-Common Uses of ipddp.c
+-----------------------
+-Of course AppleTalk-IP decapsulation and encapsulation, but specifically
+-decapsulation is being used most for connecting LocalTalk networks to
+-IP networks. Although it has been used on EtherTalk networks to allow
+-Macs that are only able to tunnel IP over EtherTalk.
+-
+-Encapsulation has been used to allow a Linux box stuck on a LocalTalk
+-network to use IP. It should work equally well if you are stuck on an
+-EtherTalk only network.
+-
+-Further Assistance
+--------------------
+-You can contact me (Jay Schulist <jschlst@samba.org>) with any
+-questions regarding decapsulation or encapsulation. Bradford W. Johnson
+-<johns393@maroon.tc.umn.edu> originally wrote the ipddp.c driver for IP
+-encapsulation in AppleTalk.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 92539465eef12..688183517f403 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1459,7 +1459,6 @@ F:	drivers/hwmon/applesmc.c
+ APPLETALK NETWORK LAYER
+ L:	netdev@vger.kernel.org
+ S:	Odd fixes
+-F:	drivers/net/appletalk/
+ F:	include/linux/atalk.h
+ F:	include/uapi/linux/atalk.h
+ F:	net/appletalk/
+diff --git a/drivers/net/Makefile b/drivers/net/Makefile
+index e26f98f897c55..8a83db32509dc 100644
+--- a/drivers/net/Makefile
++++ b/drivers/net/Makefile
+@@ -45,7 +45,6 @@ obj-$(CONFIG_MHI_NET) += mhi_net.o
+ # Networking Drivers
+ #
+ obj-$(CONFIG_ARCNET) += arcnet/
+-obj-$(CONFIG_DEV_APPLETALK) += appletalk/
+ obj-$(CONFIG_CAIF) += caif/
+ obj-$(CONFIG_CAN) += can/
+ obj-$(CONFIG_NET_DSA) += dsa/
+diff --git a/drivers/net/appletalk/Kconfig b/drivers/net/appletalk/Kconfig
+deleted file mode 100644
+index b94f731e45767..0000000000000
+--- a/drivers/net/appletalk/Kconfig
++++ /dev/null
+@@ -1,72 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Appletalk driver configuration
+-#
+-config ATALK
+-	tristate "Appletalk protocol support"
+-	select LLC
+-	help
+-	  AppleTalk is the protocol that Apple computers can use to communicate
+-	  on a network.  If your Linux box is connected to such a network and you
+-	  wish to connect to it, say Y.  You will need to use the netatalk package
+-	  so that your Linux box can act as a print and file server for Macs as
+-	  well as access AppleTalk printers.  Check out
+-	  <http://www.zettabyte.net/netatalk/> on the WWW for details.
+-	  EtherTalk is the name used for AppleTalk over Ethernet and the
+-	  cheaper and slower LocalTalk is AppleTalk over a proprietary Apple
+-	  network using serial links.  EtherTalk and LocalTalk are fully
+-	  supported by Linux.
+-
+-	  General information about how to connect Linux, Windows machines and
+-	  Macs is on the WWW at <http://www.eats.com/linux_mac_win.html>.  The
+-	  NET3-4-HOWTO, available from
+-	  <http://www.tldp.org/docs.html#howto>, contains valuable
+-	  information as well.
+-
+-	  To compile this driver as a module, choose M here: the module will be
+-	  called appletalk. You almost certainly want to compile it as a
+-	  module so you can restart your AppleTalk stack without rebooting
+-	  your machine. I hear that the GNU boycott of Apple is over, so
+-	  even politically correct people are allowed to say Y here.
+-
+-config DEV_APPLETALK
+-	tristate "Appletalk interfaces support"
+-	depends on ATALK
+-	help
+-	  AppleTalk is the protocol that Apple computers can use to communicate
+-	  on a network.  If your Linux box is connected to such a network, and wish
+-	  to do IP over it, or you have a LocalTalk card and wish to use it to
+-	  connect to the AppleTalk network, say Y.
+-
+-config IPDDP
+-	tristate "Appletalk-IP driver support"
+-	depends on DEV_APPLETALK && ATALK
+-	help
+-	  This allows IP networking for users who only have AppleTalk
+-	  networking available. This feature is experimental. With this
+-	  driver, you can encapsulate IP inside AppleTalk (e.g. if your Linux
+-	  box is stuck on an AppleTalk only network) or decapsulate (e.g. if
+-	  you want your Linux box to act as an Internet gateway for a zoo of
+-	  AppleTalk connected Macs). Please see the file
+-	  <file:Documentation/networking/ipddp.rst> for more information.
+-
+-	  If you say Y here, the AppleTalk-IP support will be compiled into
+-	  the kernel. In this case, you can either use encapsulation or
+-	  decapsulation, but not both. With the following two questions, you
+-	  decide which one you want.
+-
+-	  To compile the AppleTalk-IP support as a module, choose M here: the
+-	  module will be called ipddp.
+-	  In this case, you will be able to use both encapsulation and
+-	  decapsulation simultaneously, by loading two copies of the module
+-	  and specifying different values for the module option ipddp_mode.
+-
+-config IPDDP_ENCAP
+-	bool "IP to Appletalk-IP Encapsulation support"
+-	depends on IPDDP
+-	help
+-	  If you say Y here, the AppleTalk-IP code will be able to encapsulate
+-	  IP packets inside AppleTalk frames; this is useful if your Linux box
+-	  is stuck on an AppleTalk network (which hopefully contains a
+-	  decapsulator somewhere). Please see
+-	  <file:Documentation/networking/ipddp.rst> for more information.
+diff --git a/drivers/net/appletalk/Makefile b/drivers/net/appletalk/Makefile
+deleted file mode 100644
+index d8c7b23ec7ffc..0000000000000
+--- a/drivers/net/appletalk/Makefile
++++ /dev/null
+@@ -1,6 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Makefile for drivers/net/appletalk
+-#
+-
+-obj-$(CONFIG_IPDDP) += ipddp.o
+diff --git a/drivers/net/appletalk/ipddp.c b/drivers/net/appletalk/ipddp.c
+deleted file mode 100644
+index d558535390f98..0000000000000
+--- a/drivers/net/appletalk/ipddp.c
++++ /dev/null
+@@ -1,345 +0,0 @@
+-/*
+- *	ipddp.c: IP to Appletalk-IP Encapsulation driver for Linux
+- *		 Appletalk-IP to IP Decapsulation driver for Linux
+- *
+- *	Authors:
+- *      - DDP-IP Encap by: Bradford W. Johnson <johns393@maroon.tc.umn.edu>
+- *	- DDP-IP Decap by: Jay Schulist <jschlst@samba.org>
+- *
+- *	Derived from:
+- *	- Almost all code already existed in net/appletalk/ddp.c I just
+- *	  moved/reorginized it into a driver file. Original IP-over-DDP code
+- *	  was done by Bradford W. Johnson <johns393@maroon.tc.umn.edu>
+- *      - skeleton.c: A network driver outline for linux.
+- *        Written 1993-94 by Donald Becker.
+- *	- dummy.c: A dummy net driver. By Nick Holloway.
+- *	- MacGate: A user space Daemon for Appletalk-IP Decap for
+- *	  Linux by Jay Schulist <jschlst@samba.org>
+- *
+- *      Copyright 1993 United States Government as represented by the
+- *      Director, National Security Agency.
+- *
+- *      This software may be used and distributed according to the terms
+- *      of the GNU General Public License, incorporated herein by reference.
+- */
+-
+-#include <linux/compat.h>
+-#include <linux/module.h>
+-#include <linux/kernel.h>
+-#include <linux/init.h>
+-#include <linux/netdevice.h>
+-#include <linux/etherdevice.h>
+-#include <linux/ip.h>
+-#include <linux/atalk.h>
+-#include <linux/if_arp.h>
+-#include <linux/slab.h>
+-#include <net/route.h>
+-#include <linux/uaccess.h>
+-
+-#include "ipddp.h"		/* Our stuff */
+-
+-static const char version[] = KERN_INFO "ipddp.c:v0.01 8/28/97 Bradford W. Johnson <johns393@maroon.tc.umn.edu>\n";
+-
+-static struct ipddp_route *ipddp_route_list;
+-static DEFINE_SPINLOCK(ipddp_route_lock);
+-
+-#ifdef CONFIG_IPDDP_ENCAP
+-static int ipddp_mode = IPDDP_ENCAP;
+-#else
+-static int ipddp_mode = IPDDP_DECAP;
+-#endif
+-
+-/* Index to functions, as function prototypes. */
+-static netdev_tx_t ipddp_xmit(struct sk_buff *skb,
+-				    struct net_device *dev);
+-static int ipddp_create(struct ipddp_route *new_rt);
+-static int ipddp_delete(struct ipddp_route *rt);
+-static struct ipddp_route* __ipddp_find_route(struct ipddp_route *rt);
+-static int ipddp_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
+-				void __user *data, int cmd);
+-
+-static const struct net_device_ops ipddp_netdev_ops = {
+-	.ndo_start_xmit		= ipddp_xmit,
+-	.ndo_siocdevprivate	= ipddp_siocdevprivate,
+-	.ndo_set_mac_address 	= eth_mac_addr,
+-	.ndo_validate_addr	= eth_validate_addr,
+-};
+-
+-static struct net_device * __init ipddp_init(void)
+-{
+-	static unsigned version_printed;
+-	struct net_device *dev;
+-	int err;
+-
+-	dev = alloc_etherdev(0);
+-	if (!dev)
+-		return ERR_PTR(-ENOMEM);
+-
+-	netif_keep_dst(dev);
+-	strcpy(dev->name, "ipddp%d");
+-
+-	if (version_printed++ == 0)
+-                printk(version);
+-
+-	/* Initialize the device structure. */
+-	dev->netdev_ops = &ipddp_netdev_ops;
+-
+-        dev->type = ARPHRD_IPDDP;       	/* IP over DDP tunnel */
+-        dev->mtu = 585;
+-        dev->flags |= IFF_NOARP;
+-
+-        /*
+-         *      The worst case header we will need is currently a
+-         *      ethernet header (14 bytes) and a ddp header (sizeof ddpehdr+1)
+-         *      We send over SNAP so that takes another 8 bytes.
+-         */
+-        dev->hard_header_len = 14+8+sizeof(struct ddpehdr)+1;
+-
+-	err = register_netdev(dev);
+-	if (err) {
+-		free_netdev(dev);
+-		return ERR_PTR(err);
+-	}
+-
+-	/* Let the user now what mode we are in */
+-	if(ipddp_mode == IPDDP_ENCAP)
+-		printk("%s: Appletalk-IP Encap. mode by Bradford W. Johnson <johns393@maroon.tc.umn.edu>\n", 
+-			dev->name);
+-	if(ipddp_mode == IPDDP_DECAP)
+-		printk("%s: Appletalk-IP Decap. mode by Jay Schulist <jschlst@samba.org>\n", 
+-			dev->name);
+-
+-        return dev;
+-}
+-
+-
+-/*
+- * Transmit LLAP/ELAP frame using aarp_send_ddp.
+- */
+-static netdev_tx_t ipddp_xmit(struct sk_buff *skb, struct net_device *dev)
+-{
+-        struct rtable *rtable = skb_rtable(skb);
+-        __be32 paddr = 0;
+-        struct ddpehdr *ddp;
+-        struct ipddp_route *rt;
+-        struct atalk_addr *our_addr;
+-
+-	if (rtable->rt_gw_family == AF_INET)
+-		paddr = rtable->rt_gw4;
+-
+-	spin_lock(&ipddp_route_lock);
+-
+-	/*
+-         * Find appropriate route to use, based only on IP number.
+-         */
+-        for(rt = ipddp_route_list; rt != NULL; rt = rt->next)
+-        {
+-                if(rt->ip == paddr)
+-                        break;
+-        }
+-        if(rt == NULL) {
+-		spin_unlock(&ipddp_route_lock);
+-                return NETDEV_TX_OK;
+-	}
+-
+-        our_addr = atalk_find_dev_addr(rt->dev);
+-
+-	if(ipddp_mode == IPDDP_DECAP)
+-		/* 
+-		 * Pull off the excess room that should not be there.
+-		 * This is due to a hard-header problem. This is the
+-		 * quick fix for now though, till it breaks.
+-		 */
+-		skb_pull(skb, 35-(sizeof(struct ddpehdr)+1));
+-
+-	/* Create the Extended DDP header */
+-	ddp = (struct ddpehdr *)skb->data;
+-        ddp->deh_len_hops = htons(skb->len + (1<<10));
+-        ddp->deh_sum = 0;
+-
+-	/*
+-         * For Localtalk we need aarp_send_ddp to strip the
+-         * long DDP header and place a shot DDP header on it.
+-         */
+-        if(rt->dev->type == ARPHRD_LOCALTLK)
+-        {
+-                ddp->deh_dnet  = 0;   /* FIXME more hops?? */
+-                ddp->deh_snet  = 0;
+-        }
+-        else
+-        {
+-                ddp->deh_dnet  = rt->at.s_net;   /* FIXME more hops?? */
+-                ddp->deh_snet  = our_addr->s_net;
+-        }
+-        ddp->deh_dnode = rt->at.s_node;
+-        ddp->deh_snode = our_addr->s_node;
+-        ddp->deh_dport = 72;
+-        ddp->deh_sport = 72;
+-
+-        *((__u8 *)(ddp+1)) = 22;        	/* ddp type = IP */
+-
+-        skb->protocol = htons(ETH_P_ATALK);     /* Protocol has changed */
+-
+-	dev->stats.tx_packets++;
+-	dev->stats.tx_bytes += skb->len;
+-
+-	aarp_send_ddp(rt->dev, skb, &rt->at, NULL);
+-
+-	spin_unlock(&ipddp_route_lock);
+-
+-        return NETDEV_TX_OK;
+-}
+-
+-/*
+- * Create a routing entry. We first verify that the
+- * record does not already exist. If it does we return -EEXIST
+- */
+-static int ipddp_create(struct ipddp_route *new_rt)
+-{
+-        struct ipddp_route *rt = kzalloc(sizeof(*rt), GFP_KERNEL);
+-
+-        if (rt == NULL)
+-                return -ENOMEM;
+-
+-        rt->ip = new_rt->ip;
+-        rt->at = new_rt->at;
+-        rt->next = NULL;
+-        if ((rt->dev = atrtr_get_dev(&rt->at)) == NULL) {
+-		kfree(rt);
+-                return -ENETUNREACH;
+-        }
+-
+-	spin_lock_bh(&ipddp_route_lock);
+-	if (__ipddp_find_route(rt)) {
+-		spin_unlock_bh(&ipddp_route_lock);
+-		kfree(rt);
+-		return -EEXIST;
+-	}
+-
+-        rt->next = ipddp_route_list;
+-        ipddp_route_list = rt;
+-
+-	spin_unlock_bh(&ipddp_route_lock);
+-
+-        return 0;
+-}
+-
+-/*
+- * Delete a route, we only delete a FULL match.
+- * If route does not exist we return -ENOENT.
+- */
+-static int ipddp_delete(struct ipddp_route *rt)
+-{
+-        struct ipddp_route **r = &ipddp_route_list;
+-        struct ipddp_route *tmp;
+-
+-	spin_lock_bh(&ipddp_route_lock);
+-        while((tmp = *r) != NULL)
+-        {
+-                if(tmp->ip == rt->ip &&
+-		   tmp->at.s_net == rt->at.s_net &&
+-		   tmp->at.s_node == rt->at.s_node)
+-                {
+-                        *r = tmp->next;
+-			spin_unlock_bh(&ipddp_route_lock);
+-                        kfree(tmp);
+-                        return 0;
+-                }
+-                r = &tmp->next;
+-        }
+-
+-	spin_unlock_bh(&ipddp_route_lock);
+-        return -ENOENT;
+-}
+-
+-/*
+- * Find a routing entry, we only return a FULL match
+- */
+-static struct ipddp_route* __ipddp_find_route(struct ipddp_route *rt)
+-{
+-        struct ipddp_route *f;
+-
+-        for(f = ipddp_route_list; f != NULL; f = f->next)
+-        {
+-                if(f->ip == rt->ip &&
+-		   f->at.s_net == rt->at.s_net &&
+-		   f->at.s_node == rt->at.s_node)
+-                        return f;
+-        }
+-
+-        return NULL;
+-}
+-
+-static int ipddp_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
+-				void __user *data, int cmd)
+-{
+-        struct ipddp_route rcp, rcp2, *rp;
+-
+-	if (in_compat_syscall())
+-		return -EOPNOTSUPP;
+-
+-        if(!capable(CAP_NET_ADMIN))
+-                return -EPERM;
+-
+-	if (copy_from_user(&rcp, data, sizeof(rcp)))
+-		return -EFAULT;
+-
+-        switch(cmd)
+-        {
+-		case SIOCADDIPDDPRT:
+-                        return ipddp_create(&rcp);
+-
+-                case SIOCFINDIPDDPRT:
+-			spin_lock_bh(&ipddp_route_lock);
+-			rp = __ipddp_find_route(&rcp);
+-			if (rp) {
+-				memset(&rcp2, 0, sizeof(rcp2));
+-				rcp2.ip    = rp->ip;
+-				rcp2.at    = rp->at;
+-				rcp2.flags = rp->flags;
+-			}
+-			spin_unlock_bh(&ipddp_route_lock);
+-
+-			if (rp) {
+-				if (copy_to_user(data, &rcp2,
+-						 sizeof(struct ipddp_route)))
+-					return -EFAULT;
+-				return 0;
+-			} else
+-				return -ENOENT;
+-
+-                case SIOCDELIPDDPRT:
+-                        return ipddp_delete(&rcp);
+-
+-                default:
+-                        return -EINVAL;
+-        }
+-}
+-
+-static struct net_device *dev_ipddp;
+-
+-MODULE_LICENSE("GPL");
+-module_param(ipddp_mode, int, 0);
+-
+-static int __init ipddp_init_module(void)
+-{
+-	dev_ipddp = ipddp_init();
+-	return PTR_ERR_OR_ZERO(dev_ipddp);
+-}
+-
+-static void __exit ipddp_cleanup_module(void)
+-{
+-        struct ipddp_route *p;
+-
+-	unregister_netdev(dev_ipddp);
+-        free_netdev(dev_ipddp);
+-
+-        while (ipddp_route_list) {
+-                p = ipddp_route_list->next;
+-                kfree(ipddp_route_list);
+-                ipddp_route_list = p;
+-        }
+-}
+-
+-module_init(ipddp_init_module);
+-module_exit(ipddp_cleanup_module);
+diff --git a/drivers/net/appletalk/ipddp.h b/drivers/net/appletalk/ipddp.h
+deleted file mode 100644
+index 9a8e45a469259..0000000000000
+--- a/drivers/net/appletalk/ipddp.h
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- *	ipddp.h: Header for IP-over-DDP driver for Linux.
+- */
+-
+-#ifndef __LINUX_IPDDP_H
+-#define __LINUX_IPDDP_H
+-
+-#ifdef __KERNEL__
+-
+-#define SIOCADDIPDDPRT   (SIOCDEVPRIVATE)
+-#define SIOCDELIPDDPRT   (SIOCDEVPRIVATE+1)
+-#define SIOCFINDIPDDPRT  (SIOCDEVPRIVATE+2)
+-
+-struct ipddp_route
+-{
+-        struct net_device *dev;             /* Carrier device */
+-        __be32 ip;                       /* IP address */
+-        struct atalk_addr at;              /* Gateway appletalk address */
+-        int flags;
+-        struct ipddp_route *next;
+-};
+-
+-#define IPDDP_ENCAP	1
+-#define IPDDP_DECAP	2
+-
+-#endif	/* __KERNEL__ */
+-#endif	/* __LINUX_IPDDP_H */
+diff --git a/net/Kconfig b/net/Kconfig
+index d532ec33f1fed..e248236c29a73 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -246,7 +246,7 @@ source "net/bridge/Kconfig"
+ source "net/dsa/Kconfig"
+ source "net/8021q/Kconfig"
+ source "net/llc/Kconfig"
+-source "drivers/net/appletalk/Kconfig"
++source "net/appletalk/Kconfig"
+ source "net/x25/Kconfig"
+ source "net/lapb/Kconfig"
+ source "net/phonet/Kconfig"
+diff --git a/net/appletalk/Kconfig b/net/appletalk/Kconfig
+new file mode 100644
+index 0000000000000..041141abf925b
+--- /dev/null
++++ b/net/appletalk/Kconfig
+@@ -0,0 +1,30 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Appletalk configuration
++#
++config ATALK
++	tristate "Appletalk protocol support"
++	select LLC
++	help
++	  AppleTalk is the protocol that Apple computers can use to communicate
++	  on a network.  If your Linux box is connected to such a network and you
++	  wish to connect to it, say Y.  You will need to use the netatalk package
++	  so that your Linux box can act as a print and file server for Macs as
++	  well as access AppleTalk printers.  Check out
++	  <http://www.zettabyte.net/netatalk/> on the WWW for details.
++	  EtherTalk is the name used for AppleTalk over Ethernet and the
++	  cheaper and slower LocalTalk is AppleTalk over a proprietary Apple
++	  network using serial links.  EtherTalk and LocalTalk are fully
++	  supported by Linux.
++
++	  General information about how to connect Linux, Windows machines and
++	  Macs is on the WWW at <http://www.eats.com/linux_mac_win.html>.  The
++	  NET3-4-HOWTO, available from
++	  <http://www.tldp.org/docs.html#howto>, contains valuable
++	  information as well.
++
++	  To compile this driver as a module, choose M here: the module will be
++	  called appletalk. You almost certainly want to compile it as a
++	  module so you can restart your AppleTalk stack without rebooting
++	  your machine. I hear that the GNU boycott of Apple is over, so
++	  even politically correct people are allowed to say Y here.
+-- 
+2.39.2
 
