@@ -2,279 +2,201 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A584E95A95
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 06:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F764E95A8D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 06:35:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345156AbjJIGBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 02:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43924 "EHLO
+        id S1345261AbjJIGfo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 02:35:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345049AbjJIGBk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 02:01:40 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE93A6;
-        Sun,  8 Oct 2023 23:01:38 -0700 (PDT)
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3995srG6021451;
-        Mon, 9 Oct 2023 06:01:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=FnjbxvkCsZ2PyZECVYz0dsvrWcYrVupRnS4lOb03rqw=;
- b=ht0vYh4JrL7hGW1PhjYOHkSoIOp79kz8T2gu3CHJS+SoZj8ZjMow8p0+s/jL/pV4itGi
- 98I1nBp1rCFtKXCHAY0VN14qhARleUFm6Qlckow4QMT4gcL2yVEUIqfTbpKPdex27//R
- uMdlM7QKpHz8PyJZShFNIzK7U1KE4jwp/iVq9nYpcsPLv/AX4Noph+fYPtTK7/2hLMbg
- z4lygn9TikMdYX82UEL2w7kY7VCuLMDvJKcblxeWcSkMyRmWKEovOCdRkISC+zxEldy2
- FPmx5ZBTj8lP1PohbEkMACWzMQgyzuVba8nPXBOsiw2sCnjWcvCBYshnmfS1cqqmj/NW hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tmbmx8ach-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 09 Oct 2023 06:01:15 +0000
-Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3995jD71026092;
-        Mon, 9 Oct 2023 06:01:14 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tmbmx8abx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 09 Oct 2023 06:01:14 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-        by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3995PdW4028182;
-        Mon, 9 Oct 2023 06:01:14 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-        by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tkj1xq5t4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 09 Oct 2023 06:01:13 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-        by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 39961BMV20578844
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 9 Oct 2023 06:01:11 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C67F220043;
-        Mon,  9 Oct 2023 06:01:11 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 358FC20040;
-        Mon,  9 Oct 2023 06:01:09 +0000 (GMT)
-Received: from li-c1fdab4c-355a-11b2-a85c-ef242fe9efb4.in.ibm.com (unknown [9.109.201.126])
-        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon,  9 Oct 2023 06:01:09 +0000 (GMT)
-From:   Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
-To:     mingo@redhat.com, peterz@infradead.org, vincent.guittot@linaro.org,
-        vschneid@redhat.com
-Cc:     sshegde@linux.vnet.ibm.com, dietmar.eggemann@arm.com,
-        linux-kernel@vger.kernel.org, qperret@google.com,
-        srikar@linux.vnet.ibm.com, mingo@kernel.org,
-        pierre.gondois@arm.com, yu.c.chen@intel.com,
-        tim.c.chen@linux.intel.com, pauld@redhat.com, lukasz.luba@arm.com,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v6 1/2] sched/topology: Remove EM_MAX_COMPLEXITY limit
-Date:   Mon,  9 Oct 2023 11:30:36 +0530
-Message-Id: <20231009060037.170765-2-sshegde@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20231009060037.170765-1-sshegde@linux.vnet.ibm.com>
-References: <20231009060037.170765-1-sshegde@linux.vnet.ibm.com>
-MIME-Version: 1.0
+        with ESMTP id S1345249AbjJIGfm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 02:35:42 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F9BA4;
+        Sun,  8 Oct 2023 23:35:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696833341; x=1728369341;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=vw2ZSf5p08EK/ymXMPPxJugZ1y25064kUBK2hD5m1FU=;
+  b=CL/GdU6UhUodFE5BQbEJCw+jv1RozB+LhiMH4kDDljt4a0RKXoRx4LoJ
+   gFQ/q2aFndGxlYe8YABj3DVn/98Ie42RdkVHacX5utxq35pWARK/bRxQB
+   VFrIX1Tro9GEijEpSOlr6Nb60qGBss+SVat73q5gUS52OePuc7NzR2Atl
+   AIGV9CDP/caAo1HvIudOdVBqP3XGfRHjh5k9aw1EF/z6Skn846aHng1nB
+   37xggqs9E2Bfw4cENEn3+S1DLIRwvykGaqSvBywIb8JO32G015T8rrJ/f
+   h3T2uJAzjvbfujT7BgAMjoIztSpog9RDurmKjCKuQFeG8P9DEl9fIcLoy
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="448273940"
+X-IronPort-AV: E=Sophos;i="6.03,209,1694761200"; 
+   d="scan'208";a="448273940"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2023 23:35:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="896654865"
+X-IronPort-AV: E=Sophos;i="6.03,209,1694761200"; 
+   d="scan'208";a="896654865"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Oct 2023 23:34:00 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Sun, 8 Oct 2023 23:35:39 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Sun, 8 Oct 2023 23:35:39 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Sun, 8 Oct 2023 23:35:39 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cknrB+1vkwoxp00U93kxeAsCwcQmnr1j8ZbWaaicZGlAYfZw2KM4812kUaJK12g9iV1F3YKRXlGx+KCfPkDW/cL1TOmpJEQVt5U3v3K0DBTcl3HSUqPluBqEe0c9lb8GAPgE8wm2OEWh4ekBj+qP55qW9xye7Bf5DzgHp+Ok6D6vpBQaY1lWK+iwBZenfM6H7SC9x9yaDQrEeV/Rt1BAHTzjtZRus1benT6LiUVCYKFH5B1wKVpOo7oZSz8AL7sqDNZtLAqHKJ6jvEY0ou9mmSgyEzhS5ONbuA22hsvNWXte/M0FiVu+u00k6dkkSxyG+Am8x/D4SDYH+FSKtUTtoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1XS4bPUCKVttLYpTTepxmRgxboKfHr78Y2JEvLuomLE=;
+ b=PgN6quFGrJXrBF88UVZVw/30hX0CcRu1oczfWaT7l06NxAhVpvbhAbYIWd1fuOGq1bDzbMG6qdaGwpIwwggueTNEZjccaN4SWDFnK0pVdNsMu/ah4RRbDVz3Pboi8HWZJcyuftya9SW8XGebt7ElE5s+HCO9WFZWyMDwsjPFJJ9W6IUS+zwzlIdSSUs3keggjeqoh9/hoFNg6dgUyVF/Qm43qK/QRHqpNj0qbXXbSGgyYrCIU3Sx/U1MCpYGBCz+y816T3wuOrF3wyAfzugjJDVoxzS8uk5naMQQlsKtP5dNZknT6A8Qi2lj8CGRuYvf8VecM92I0uLQKrx23rSpZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
+ by DS7PR11MB6293.namprd11.prod.outlook.com (2603:10b6:8:97::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.41; Mon, 9 Oct
+ 2023 06:35:32 +0000
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::fd1b:a3b7:11a6:4bc3]) by MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::fd1b:a3b7:11a6:4bc3%6]) with mapi id 15.20.6863.032; Mon, 9 Oct 2023
+ 06:35:31 +0000
+Date:   Mon, 9 Oct 2023 08:35:22 +0200
+From:   Maciej =?utf-8?Q?Wiecz=C3=B3r-Retman?= 
+        <maciej.wieczor-retman@intel.com>
+To:     <babu.moger@amd.com>
+CC:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Peter Newman <peternewman@google.com>,
+        Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 4/4] Documentation/x86: Document resctrl's new
+ sparse_masks
+Message-ID: <6swdqsa6anvhtdwfvj2xw55kfyih42w2buef4fc7wti54pvw2r@to4h2i76zqc6>
+References: <cover.1696493034.git.maciej.wieczor-retman@intel.com>
+ <7bbdf55ac6f909a6701915d99d79c8f9977bd0b4.1696493034.git.maciej.wieczor-retman@intel.com>
+ <fd2309d5-ea56-abed-5c3e-a8a038b07d9e@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: t15fIw-6BEvB3ISCnWzjeOW51jSsRnov
-X-Proofpoint-ORIG-GUID: n1L7L4PZvGxR44JHsCZUp8FvuyzLwJ1B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-09_04,2023-10-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0
- mlxlogscore=999 impostorscore=0 malwarescore=0 lowpriorityscore=0
- spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310090052
+In-Reply-To: <fd2309d5-ea56-abed-5c3e-a8a038b07d9e@amd.com>
+X-ClientProxiedBy: FR0P281CA0201.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ad::10) To MN0PR11MB6231.namprd11.prod.outlook.com
+ (2603:10b6:208:3c4::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|DS7PR11MB6293:EE_
+X-MS-Office365-Filtering-Correlation-Id: 071ed85b-24c5-4990-6679-08dbc891eee4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IdfrRF140U3HRpHUt5J8GeYVhuwEeIaa2iG3q1gWerTqs4+FIqC6n/DgP6W/N6FjT2MZwzu6cIyliu4vW7sVqkT1aZ5kxRHPwosC7z6NCpId0y8KThwx50L1WHg6EBcxCoI6dwDGytTccHlfKMDuY4mxkcB2wzRX0XD4T3SikM9jw+ZKVtgS+mOr92QD0mvJuzYsPU3BoABXvtMYZjK8S341M3ADY2vgtepeNqC6qIcKLAbmM1rhGwogFMa9qvxw8W3i1WbX8tCqBp2m/SRsQs3a4pAP7xY8A8WqIYGTxb0BMbnuwrUwFzioC6PrFt4qksvtol3/NBFYufqnCNOHUFdDiL66ZE6AXKfEgsrl/7WYmmLOyH9vaa1XvTMsjfW+BPnXDx8pWEcaym1dUI5nrWxC6Lc0CH6HJwkkABrEGiqLBr+DQ48rTAk1nrzVcpwG1xG3uAKY5djGddQRQr3dB1QmMTJagVI7OrA+E5dqW8M5xw2R4IKRIXP88wjDRY5g5YVq1P+bfv9pCyVc1aSj1IkakMk7ThQ8iOf2ym9NVO6O2eyjh037AqdDXZZOmKqQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(136003)(376002)(39860400002)(366004)(396003)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(6512007)(9686003)(53546011)(6506007)(6486002)(478600001)(2906002)(26005)(83380400001)(7416002)(66574015)(5660300002)(33716001)(54906003)(66556008)(66946007)(8936002)(4326008)(8676002)(41300700001)(66476007)(316002)(6916009)(38100700002)(82960400001)(86362001)(6666004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?xT4CCzx+D8UfBT+42we6U8V3USXILEnFM79OMqFOjNN1O8YFC+GQVZQ59G?=
+ =?iso-8859-1?Q?mLS5ZBfyhfLtFqHsM0rCv9Hsn+tDSe55peJoqpW5skYOkJ8aBxEKNoAEDe?=
+ =?iso-8859-1?Q?VW5DcRQLmSSQFOd+O3+PECzvvkmePoEfWy22Nu95BgtYcvf9+CZcGRvUwk?=
+ =?iso-8859-1?Q?Ppzc3MDlrthzugNiIGCgBwLqtYlAshW3PXX3Gnkp1pTBRtv50Fm2do7UZg?=
+ =?iso-8859-1?Q?j5wooNZ87SBlWPoz/ZDaKIs1apnw8QWCrnnbEnzmfRdl4wO33T92cHh7kZ?=
+ =?iso-8859-1?Q?qjflTydJ45ZYVne9pCbDBBYTvt4pcpQg+JghkoXrPo8sItEpwlC98HuF6z?=
+ =?iso-8859-1?Q?jXzbIGkPA52I6EKKfbtdcKHVNLx61wsLrYbtKOLtDUaWrTjalTh84Opk9d?=
+ =?iso-8859-1?Q?9zJbpz8ls/Bf/+n6xYBdv1q7EFgG+OrU21kFD7x0JTWS6XGPTkPiD/aZz0?=
+ =?iso-8859-1?Q?+U8C01rHhvDRdHq9wvXnydn9Fp2x+cj9KLPx9L/hpO1n1CfqL4cyC2EycG?=
+ =?iso-8859-1?Q?Y5hv0vmurEdv7TI2xg+qwQZuGCrBcgGQ5sZZoMlSxsfew0+ykwU8ZmbOKp?=
+ =?iso-8859-1?Q?prcO4ZT2DjUuoX4HOZEQr2+kr49DPnveEaa7q6lbVktyDu8JNDWuSOhr9n?=
+ =?iso-8859-1?Q?AA6VI9IwEnGl6Glu/DA5qWE5NQ7t2yy0EJWMBvYGyyyiZLlYyzASmnUu2M?=
+ =?iso-8859-1?Q?V4dv6XMXoizFSOA/Lj9l+MYJfC6vRpfSKsh3ici9LJZZF+dqUhmFqdsSdM?=
+ =?iso-8859-1?Q?UeJSj8NEJ5nuvGiq2cHlyKrajQUprRW8lapQTNun92UlHjU2kC8PjsqXSs?=
+ =?iso-8859-1?Q?L5JWKwZZ+v4+RdKoSp+rJmnP5TXH+jMBGxlLnefYMGS4ySUC69mEq4YAHp?=
+ =?iso-8859-1?Q?dY5QtnDYFIg1TE8yZvZPRghxRcgV1n3P7Z1sHLiPt52gTwidp+1Yx2zxyq?=
+ =?iso-8859-1?Q?KBcmFR405+BTe7sXmypxUYrBtIzgnlhKu1F8h/2gxjREAHzf5Jt+TBKERF?=
+ =?iso-8859-1?Q?52npUHTW1+UAhpcegbh7zE4G4mzVrrfyCbLH8S66ftaJBi9drnCSmT8uKI?=
+ =?iso-8859-1?Q?N1iSscUqB4SNvzpSLSwwReng6KcaGkqiA6vEKfW/6nxmnCH0BbwmdbC51+?=
+ =?iso-8859-1?Q?M6vNaWTt4teAJCMf/4HRFvP5uwzXIFtqnd58TpGcTmj770LSEarTd2Wni3?=
+ =?iso-8859-1?Q?XO+TqQxRHwAtAex3hZiOt8udLuGqHDh1vMjwcgyWMIBgm3oY10oxnPlCah?=
+ =?iso-8859-1?Q?IadfxFosbLoHSU6STjOh+mPl53ZEwLg/wIc4tdfRWzN3ytQZrZz0Uil8ps?=
+ =?iso-8859-1?Q?D3u4k/qA/4X8S/JHFUM/ghqsKRyt00/e4BwzNGcxNpDXiboUEEQlehp49b?=
+ =?iso-8859-1?Q?ZAGZtWlRHRGzEnnTmI+TvQs35g6eb4HTL3Xq5WRzfGj4AZZcjxPOYG+k4B?=
+ =?iso-8859-1?Q?EWEuBWGiPSUxawDXerv2/QuIHsNlCyRfmqevqOF2hlqTZsl5k7e8WuhXiR?=
+ =?iso-8859-1?Q?6Otc24Mgw0vuDqaUM7jSEqjO6f2qdwKNq/SfL5pk5lTl0nfKDreRaf9Q5W?=
+ =?iso-8859-1?Q?U0ZbOwKa2MJHFpBAgVMTOMX3I6o1Di9Sq4ti/s58cJrW9DHPZZOaFDZDdR?=
+ =?iso-8859-1?Q?wHq0MVHiI8+i0hMMeTQT95dzx6FVhtYwRD7XlvVrEVtih7gXUePd0Yg1H5?=
+ =?iso-8859-1?Q?N+OMZ6ssAI9pydNCR98=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 071ed85b-24c5-4990-6679-08dbc891eee4
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2023 06:35:30.8821
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4ral7QUJ5l2h4gvLPjX4U+5imqf9b7xz1ExkzTuSw2m9mrNWFvfi/e+H3R86BHpFHMqb/tz1JsT0uXWZN+V0v7NlHxndzWQp+v6tryOoCQ8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6293
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Pierre Gondois <Pierre.Gondois@arm.com>
+Hi, thanks for reviewing the series!
 
-The Energy Aware Scheduler (EAS) estimates the energy consumption
-of placing a task on different CPUs. The goal is to minimize this
-energy consumption. Estimating the energy of different task placements
-is increasingly complex with the size of the platform. To avoid having
-a slow wake-up path, EAS is only enabled if this complexity is low
-enough.
+On 2023-10-06 at 15:42:15 -0500, Moger, Babu wrote:
+>Hi Maciej,
+>
+>My last comment didn't make it to lkml.  Could be my mail server problem.
+>Commenting again.
+>
+>On 10/5/2023 3:15 AM, Maciej Wieczor-Retman wrote:
+>> From: Fenghua Yu <fenghua.yu@intel.com>
+>> 
+>> The documentation mentions that non-contiguous bit masks are not
+>> supported in Intel Cache Allocation Technology (CAT).
+>> 
+>> Update the documentation on how to determine if sparse bit masks are
+>> allowed in L2 and L3 CAT.
+>> 
+>> Mention the file with feature support information is located in
+>> the /sys/fs/resctrl/info/{resource}/ directories and enumerate what
+>> are the possible outputs on file read operation.
+>
+>This last paragraph is not clear.  All the information is already in the
+>documentation.
 
-The current complexity limit was set in:
-commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
-platforms").
-base on the first implementation of EAS, which was re-computing
-the power of the whole platform for each task placement scenario, cf:
-commit 390031e4c309 ("sched/fair: Introduce an energy estimation helper
-function").
-but the complexity of EAS was reduced in:
-commit eb92692b2544d ("sched/fair: Speed-up energy-aware wake-ups")
-and find_energy_efficient_cpu() (feec) algorithm was updated in:
-commit 3e8c6c9aac42 ("sched/fair: Remove task_util from effective
-utilization in feec()")
+Right, I guess that paragraph does mirror patch contents a bit too much.
+I'll remove it and repost it.
 
-find_energy_efficient_cpu() (feec) is now doing:
-feec()
-\_ for_each_pd(pd) [0]
-  // get max_spare_cap_cpu and compute_prev_delta
-  \_ for_each_cpu(pd) [1]
+>You can drop this paragraph. First two paragraphs are fine.
+>
+>> 
+>> Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+>> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>> Tested-by: Peter Newman <peternewman@google.com>
+>> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+>> Reviewed-by: Peter Newman <peternewman@google.com>
+>> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+>
+>Otherwise patch looks fine.
+>
+>Reviewed-by: Babu Moger <babu.moger@amd.com>
+>
+>Thanks
+>
+>Babu
+>
 
-  \_ eenv_pd_busy_time(pd) [2]
-	\_ for_each_cpu(pd)
-
-  // compute_energy(pd) without the task
-  \_ eenv_pd_max_util(pd, -1) [3.0]
-    \_ for_each_cpu(pd)
-  \_ em_cpu_energy(pd, -1)
-    \_ for_each_ps(pd)
-
-  // compute_energy(pd) with the task on prev_cpu
-  \_ eenv_pd_max_util(pd, prev_cpu) [3.1]
-    \_ for_each_cpu(pd)
-  \_ em_cpu_energy(pd, prev_cpu)
-    \_ for_each_ps(pd)
-
-  // compute_energy(pd) with the task on max_spare_cap_cpu
-  \_ eenv_pd_max_util(pd, max_spare_cap_cpu) [3.2]
-    \_ for_each_cpu(pd)
-  \_ em_cpu_energy(pd, max_spare_cap_cpu)
-    \_ for_each_ps(pd)
-
-[3.1] happens only once since prev_cpu is unique. With the same
-definitions for nr_pd, nr_cpus and nr_ps, the complexity is of:
-nr_pd * (2 * [nr_cpus in pd] + 2 * ([nr_cpus in pd] + [nr_ps in pd]))
-+ ([nr_cpus in pd] + [nr_ps in pd])
-
- [0]  * (     [1] + [2]      +       [3.0] + [3.2]                  )
-+ [3.1]
-
-= nr_pd * (4 * [nr_cpus in pd] + 2 * [nr_ps in pd])
-+ [nr_cpus in prev pd] + nr_ps
-
-The complexity limit was set to 2048 in:
-commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
-platforms")
-to make "EAS usable up to 16 CPUs with per-CPU DVFS and less than 8
-performance states each". For the same platform, the complexity would
-actually be of:
-16 * (4 + 2 * 7) + 1 + 7 = 296
-
-Since the EAS complexity was greatly reduced, bigger platforms can
-handle EAS. For instance, a platform with 112 CPUs with 7 performance
-states each would not reach it:
-112 * (4 + 2 * 7) + 1 + 7 = 2024
-
-To reflect this improvement, remove the EAS complexity check.
-Note that a limit on the number of CPUs still holds against
-EM_MAX_NUM_CPUS to avoid overflows during the energy estimation.
-
-Signed-off-by: Pierre Gondois <Pierre.Gondois@arm.com>
-Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
-Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
----
- Documentation/scheduler/sched-energy.rst | 29 ++----------------
- kernel/sched/topology.c                  | 39 ++----------------------
- 2 files changed, 6 insertions(+), 62 deletions(-)
-
-diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-index fc853c8cc346..70e2921ef725 100644
---- a/Documentation/scheduler/sched-energy.rst
-+++ b/Documentation/scheduler/sched-energy.rst
-@@ -359,32 +359,9 @@ in milli-Watts or in an 'abstract scale'.
- 6.3 - Energy Model complexity
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
--The task wake-up path is very latency-sensitive. When the EM of a platform is
--too complex (too many CPUs, too many performance domains, too many performance
--states, ...), the cost of using it in the wake-up path can become prohibitive.
--The energy-aware wake-up algorithm has a complexity of:
--
--	C = Nd * (Nc + Ns)
--
--with: Nd the number of performance domains; Nc the number of CPUs; and Ns the
--total number of OPPs (ex: for two perf. domains with 4 OPPs each, Ns = 8).
--
--A complexity check is performed at the root domain level, when scheduling
--domains are built. EAS will not start on a root domain if its C happens to be
--higher than the completely arbitrary EM_MAX_COMPLEXITY threshold (2048 at the
--time of writing).
--
--If you really want to use EAS but the complexity of your platform's Energy
--Model is too high to be used with a single root domain, you're left with only
--two possible options:
--
--    1. split your system into separate, smaller, root domains using exclusive
--       cpusets and enable EAS locally on each of them. This option has the
--       benefit to work out of the box but the drawback of preventing load
--       balance between root domains, which can result in an unbalanced system
--       overall;
--    2. submit patches to reduce the complexity of the EAS wake-up algorithm,
--       hence enabling it to cope with larger EMs in reasonable time.
-+EAS does not impose any complexity limit on the number of PDs/OPPs/CPUs but
-+restricts the number of CPUs to EM_MAX_NUM_CPUS to prevent overflows during
-+the energy estimation.
-
-
- 6.4 - Schedutil governor
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index a7b50bba7829..e0b9920e7e3e 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -348,32 +348,13 @@ static void sched_energy_set(bool has_eas)
-  *    1. an Energy Model (EM) is available;
-  *    2. the SD_ASYM_CPUCAPACITY flag is set in the sched_domain hierarchy.
-  *    3. no SMT is detected.
-- *    4. the EM complexity is low enough to keep scheduling overheads low;
-- *    5. schedutil is driving the frequency of all CPUs of the rd;
-- *    6. frequency invariance support is present;
-- *
-- * The complexity of the Energy Model is defined as:
-- *
-- *              C = nr_pd * (nr_cpus + nr_ps)
-- *
-- * with parameters defined as:
-- *  - nr_pd:    the number of performance domains
-- *  - nr_cpus:  the number of CPUs
-- *  - nr_ps:    the sum of the number of performance states of all performance
-- *              domains (for example, on a system with 2 performance domains,
-- *              with 10 performance states each, nr_ps = 2 * 10 = 20).
-- *
-- * It is generally not a good idea to use such a model in the wake-up path on
-- * very complex platforms because of the associated scheduling overheads. The
-- * arbitrary constraint below prevents that. It makes EAS usable up to 16 CPUs
-- * with per-CPU DVFS and less than 8 performance states each, for example.
-+ *    4. schedutil is driving the frequency of all CPUs of the rd;
-+ *    5. frequency invariance support is present;
-  */
--#define EM_MAX_COMPLEXITY 2048
--
- extern struct cpufreq_governor schedutil_gov;
- static bool build_perf_domains(const struct cpumask *cpu_map)
- {
--	int i, nr_pd = 0, nr_ps = 0, nr_cpus = cpumask_weight(cpu_map);
-+	int i;
- 	struct perf_domain *pd = NULL, *tmp;
- 	int cpu = cpumask_first(cpu_map);
- 	struct root_domain *rd = cpu_rq(cpu)->rd;
-@@ -431,20 +412,6 @@ static bool build_perf_domains(const struct cpumask *cpu_map)
- 			goto free;
- 		tmp->next = pd;
- 		pd = tmp;
--
--		/*
--		 * Count performance domains and performance states for the
--		 * complexity check.
--		 */
--		nr_pd++;
--		nr_ps += em_pd_nr_perf_states(pd->em_pd);
--	}
--
--	/* Bail out if the Energy Model complexity is too high. */
--	if (nr_pd * (nr_ps + nr_cpus) > EM_MAX_COMPLEXITY) {
--		WARN(1, "rd %*pbl: Failed to start EAS, EM complexity is too high\n",
--						cpumask_pr_args(cpu_map));
--		goto free;
- 	}
-
- 	perf_domain_debug(cpu_map, pd);
---
-2.31.1
-
+-- 
+Kind regards
+Maciej Wieczór-Retman
