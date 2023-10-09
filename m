@@ -2,101 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 246DCE95A91
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 11:08:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62234E95A96
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 12:00:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346146AbjJILIo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 07:08:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57018 "EHLO
+        id S1346349AbjJIMAt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 08:00:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346157AbjJILIo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 07:08:44 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A968BEA;
-        Mon,  9 Oct 2023 04:08:41 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-32329d935d4so3971880f8f.2;
-        Mon, 09 Oct 2023 04:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696849720; x=1697454520; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/9risSfMSWEV6oRJZRPDScSLa9A8a5vl1EYTHeHk7jE=;
-        b=lSnF+fqjtmj0BXsXfgTpSgv+ur7DkGd3lluTmOFkVtx1lQ7ZTDk374+zFoWR95Lkp0
-         apgstSmJpShko9dXFXdPoSvzIL+8UTMLVQ48WRpue/gUaWXfff+Aivut2WWPnizttaLT
-         MOMlMfIup+4u6BvxdVVufgUxOtNZ1X8kvcxiqP5ndVWgtgviLYvcN0zCSsG7QhMP5rH9
-         Nrw/w+qSG0vjKaJhAzo8BvE4F1N0shGjtWlgxyrTCbh5/kiNj59e5DFvfM2+udxs3Y+F
-         oMfjPUYWYCBL0cCN3SOUUSkgfN1Uuc/RG/DSRx5V6Og1IN9Agpa24i3dQth7iqzNaDKh
-         xKbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696849720; x=1697454520;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/9risSfMSWEV6oRJZRPDScSLa9A8a5vl1EYTHeHk7jE=;
-        b=fuBTRd/TVZDvMhG03z/G78uF0wsfQ+vbtoSXsNs44PVc/M6JH9KB6jGxUMTLxZ8w4J
-         mpAgXu1OnTOJgo96O/ZOAiZ5tu6hTuloy0ALlxgQPCDEALRlykUwFOlOcy3jvPGatp/C
-         htKj9HVFaFWOKltpBI6G6ztFRyOXpyDYgpTYSx+q6w5o6PjDuqmBX9rc3zs8WBWXbcCF
-         G4dvF1uYXzQSSPxyiFfGC1aOw6C16OIQuO8S9cRuBZUv1W4kS9gcaJiOpr43qiHU+6M/
-         912AnlcbUY76GAvz4MP9IBLUE1muiR+w20GdP4bbNw63cemNSR0U1ZcUdtlNo4bqZj6t
-         wbmQ==
-X-Gm-Message-State: AOJu0YzXjUjvxtE4dMES/nG07YlYx79HRbEwfdGmqzWK82VY3RDxwN71
-        D3XVXdcCTIuENvIByqhIEqY=
-X-Google-Smtp-Source: AGHT+IGdW32gEgM9+C72he3zdPRbYXoNtsE33XkdTOkcjiBEGsczM0d1rp7Sq2SVBgr1zLbyqqJDng==
-X-Received: by 2002:adf:fc4c:0:b0:319:785a:fce0 with SMTP id e12-20020adffc4c000000b00319785afce0mr13739262wrs.26.1696849719936;
-        Mon, 09 Oct 2023 04:08:39 -0700 (PDT)
-Received: from gmail.com (1F2EF237.nat.pool.telekom.hu. [31.46.242.55])
-        by smtp.gmail.com with ESMTPSA id y4-20020a05600c364400b0040472ad9a3dsm10908725wmq.14.2023.10.09.04.08.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Oct 2023 04:08:37 -0700 (PDT)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Mon, 9 Oct 2023 13:08:34 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
-Cc:     mingo@redhat.com, peterz@infradead.org, vincent.guittot@linaro.org,
-        vschneid@redhat.com, dietmar.eggemann@arm.com,
-        linux-kernel@vger.kernel.org, qperret@google.com,
-        srikar@linux.vnet.ibm.com, pierre.gondois@arm.com,
-        yu.c.chen@intel.com, tim.c.chen@linux.intel.com, pauld@redhat.com,
-        lukasz.luba@arm.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] sched/topology: Remove EM_MAX_COMPLEXITY limit
-Message-ID: <ZSPfMjuOC5dTkx5i@gmail.com>
-References: <20231009060037.170765-1-sshegde@linux.vnet.ibm.com>
- <20231009060037.170765-2-sshegde@linux.vnet.ibm.com>
+        with ESMTP id S232860AbjJIMAs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 08:00:48 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9173C94;
+        Mon,  9 Oct 2023 05:00:46 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 399Bk93c029864;
+        Mon, 9 Oct 2023 12:00:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=o9r1b72AGzQX2cPr3WsZ4YtvkbsTzQxrKOO5gARLsSg=;
+ b=EqS9Eb8QuzhS2rsmdbzg/FEhk6CjLoBgeb2ZxodZgr80/jtVRB/v1t/oYe9xYXbHgg++
+ m9vY5hE9lS44rxu4+RjHXogYHDr+P4tdv0vifgUMsiSzLEDYgF2W0xsuP5GLxqPD3ND0
+ zatW1t7s2F3ZpspyyLlNa0Te6QBEYoDTKFmCxEJ+Z6uZf0Fe73IhI4ch+MA971Od89WM
+ EbKXPSF2GdZ1eoMrMfGPYAKxTOJ4OnZEOB4fvOrZBY1vu187+2duPrD9iFORbXcibe3x
+ NXP4hYGibfPgAfMj2huKwl1O09eBmYVzJa4ZXBRvLbIRswsY1c2axJda5LcxQA5hjmVR Jg== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tkh592b8c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 09 Oct 2023 12:00:04 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 399C02Xr000308
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 9 Oct 2023 12:00:02 GMT
+Received: from [10.214.225.95] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 9 Oct
+ 2023 04:59:49 -0700
+Message-ID: <a869ec2e-966b-f8ea-7f68-a77c214a45af@quicinc.com>
+Date:   Mon, 9 Oct 2023 17:29:40 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231009060037.170765-2-sshegde@linux.vnet.ibm.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [REBASE PATCH v5 10/17] pstore: Add pstore_region_defined()
+ helper and export it
+To:     Kees Cook <keescook@chromium.org>
+CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
+        <mathieu.poirier@linaro.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <linus.walleij@linaro.org>,
+        <andy.shevchenko@gmail.com>, <vigneshr@ti.com>, <nm@ti.com>,
+        <matthias.bgg@gmail.com>, <kgene@kernel.org>,
+        <alim.akhtar@samsung.com>, <bmasney@redhat.com>,
+        <quic_tsoni@quicinc.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <kernel@quicinc.com>
+References: <1694429639-21484-1-git-send-email-quic_mojha@quicinc.com>
+ <1694429639-21484-11-git-send-email-quic_mojha@quicinc.com>
+ <202309131620.34EB0F6972@keescook>
+Content-Language: en-US
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <202309131620.34EB0F6972@keescook>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: DDbFoX8caW9i9Gk7bqvbx_eyrZSMb8tu
+X-Proofpoint-GUID: DDbFoX8caW9i9Gk7bqvbx_eyrZSMb8tu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-09_11,2023-10-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ clxscore=1015 suspectscore=0 priorityscore=1501 mlxlogscore=999
+ bulkscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310090098
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Thanks for the review.
 
-* Shrikanth Hegde <sshegde@linux.vnet.ibm.com> wrote:
-
-> From: Pierre Gondois <Pierre.Gondois@arm.com>
+On 9/14/2023 4:54 AM, Kees Cook wrote:
+> On Mon, Sep 11, 2023 at 04:23:52PM +0530, Mukesh Ojha wrote:
+>> There are users like Qualcomm minidump which is interested in
+>> knowing the pstore frontend addresses and sizes from the backend
+>> (ram) to be able to register it with firmware to finally collect
+>> them during crash for debugging.
+>>
+>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>> ---
+>>   fs/pstore/platform.c   | 15 +++++++++++++++
+>>   fs/pstore/ram.c        | 42 ++++++++++++++++++++++++++++++++++++++++++
+>>   include/linux/pstore.h |  6 ++++++
+>>   3 files changed, 63 insertions(+)
+>>
+>> diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
+>> index e5bca9a004cc..fdac951059c1 100644
+>> --- a/fs/pstore/platform.c
+>> +++ b/fs/pstore/platform.c
+>> @@ -139,6 +139,21 @@ enum pstore_type_id pstore_name_to_type(const char *name)
+>>   }
+>>   EXPORT_SYMBOL_GPL(pstore_name_to_type);
+>>   
+>> +int pstore_region_defined(struct pstore_record *record,
+>> +			  void **virt, phys_addr_t *phys,
+>> +			  size_t *size, unsigned int *max_dump_cnt)
+>> +{
+>> +	if (!psinfo)
+>> +		return -EINVAL;
+>> +
+>> +	record->psi = psinfo;
 > 
-> The Energy Aware Scheduler (EAS) estimates the energy consumption
-> of placing a task on different CPUs. The goal is to minimize this
-> energy consumption. Estimating the energy of different task placements
-> is increasingly complex with the size of the platform. To avoid having
-> a slow wake-up path, EAS is only enabled if this complexity is low
-> enough.
+> Uh, this makes no sense to me. If this is a real pstore_record, you
+> cannot just assign psi here.
 
-...
+Ok.
 
-> To reflect this improvement, remove the EAS complexity check.
-> Note that a limit on the number of CPUs still holds against
-> EM_MAX_NUM_CPUS to avoid overflows during the energy estimation.
 > 
-> Signed-off-by: Pierre Gondois <Pierre.Gondois@arm.com>
-> Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
-> Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
-> ---
->  Documentation/scheduler/sched-energy.rst | 29 ++----------------
->  kernel/sched/topology.c                  | 39 ++----------------------
->  2 files changed, 6 insertions(+), 62 deletions(-)
+>> +
+>> +	return psinfo->region_info ?
+>> +	       psinfo->region_info(record, virt, phys, size, max_dump_cnt) :
+>> +	       -EINVAL;
+> 
+> Common code style for this kind of thing is usually like this:
+> 
+> 	if (!psinfo->region_info)
+> 		return -EINVAL;
+> 
+> 	return psinfo->region_info(...)
 
-I've applied this patch to tip:sched/core, for a v6.7 merge, thanks!
+Thanks.
 
-	Ingo
+-Mukesh
+> 
+>> +}
+>> +EXPORT_SYMBOL_GPL(pstore_region_defined);
+>> +
+>>   static void pstore_timer_kick(void)
+>>   {
+>>   	if (pstore_update_ms < 0)
+>> diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
+>> index ab551caa1d2a..62202f3ddf63 100644
+>> --- a/fs/pstore/ram.c
+>> +++ b/fs/pstore/ram.c
+>> @@ -437,6 +437,47 @@ static int ramoops_pstore_erase(struct pstore_record *record)
+>>   	return 0;
+>>   }
+>>   
+>> +static int ramoops_region_info(struct pstore_record *record,
+>> +			       void **virt, phys_addr_t *phys,
+>> +			       size_t *size, unsigned int *max_dump_cnt)
+> 
+> But there's a larger problem here -- "virt", "phys" and likely
+> "max_dump_cnt" are aspects _specific to the ram backend_. This can't be
+> a generic pstore interface.
+> 
+> I'm not opposed to it being exposed only from ramoops, though.
+> 
+> But I think you'll want a pstore generic way to iterate over the
+> records..
