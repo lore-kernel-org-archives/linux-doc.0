@@ -2,149 +2,255 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A128E81E18
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 22:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F74FE9371D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 23:07:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378947AbjJIW4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 18:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53404 "EHLO
+        id S1377989AbjJIXHe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 19:07:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378939AbjJIW4q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 18:56:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7FB9D;
-        Mon,  9 Oct 2023 15:56:45 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E97CC433C7;
-        Mon,  9 Oct 2023 22:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696892205;
-        bh=BTlWTB+1l64Oxw8ls3cp8V8J5xa145Pg1B80U2Egz30=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ERGCccyEKO6+Cb8YH5RvW73EZUhN4kLKZlWfBVX6Jfwxs5PzFjwiptbF6JcljpzEi
-         kQixuG48FZkMWH9f+lN2P5661/EImy/kgFsfvzQNAcVT11c3oubzumZNbBLeGLDXG7
-         +vjEcqIEz1yNWUPajeApDSJPRVeowBXfA7gyepJ0MzURun1SlwAImgcAdtJqLsZaT4
-         eROKMdRgk2r3aGLJvoOWWSzSRrK5A7l+700vrA8KnedutQW1GI0y18bz+oBqvEGhxh
-         b+V8+01f/iDIIGM3CuZNeXxXNu42tVnCoExYjZk0FP07fKG4GYeUikx7clWhcg5HcS
-         nrjiL0DBqCu7g==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        andrew@lunn.ch, jesse.brandeburg@intel.com, sd@queasysnail.net,
-        horms@verge.net.au, przemyslaw.kitszel@intel.com,
-        f.fainelli@gmail.com, jiri@resnulli.us, ecree.xilinx@gmail.com
-Subject: [PATCH net-next] docs: try to encourage (netdev?) reviewers
-Date:   Mon,  9 Oct 2023 15:56:36 -0700
-Message-ID: <20231009225637.3785359-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S1378152AbjJIXHd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 19:07:33 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BEBA4
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 16:07:31 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40675f06f1fso35817735e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 16:07:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google; t=1696892850; x=1697497650; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g0DmV+47BzxxddQZc0yCtAVDMIVlVhPRtnj2cwnJcnk=;
+        b=kTfCgO5eE0YGZ/zyniFlSlv0NYsc32WxtRFFfO6Q9UVWnAZS/gNgGRmpUlAGKLRTjl
+         yzfcgxjdOF2AYYkKHvBXiLyoqPWFvswgyBhfgrySLPXXLfQz7kyem00IBsBXOGLPrzRF
+         pBJqj3QNvBN1N/wzv5e1DgqvlPlUz40xH4OoEkLMDSlyXm/Kzz5dCMgP8CcOa2067iEj
+         4feSMQ0U/iaH7IUN/o5t37jof9LfvHyIjjqnjCrrD3FNLQ/Mk7J+3gfkasZpM4/fxSUA
+         TRYbThD6IjmAsnfkHZPXL56/0bnf1a0ka9Wy3b8OSrc8tJJTRohfWiX6RGoZ8M/qsS6K
+         OI0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696892850; x=1697497650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g0DmV+47BzxxddQZc0yCtAVDMIVlVhPRtnj2cwnJcnk=;
+        b=XYYTzkK0AADGzT9in/KZfyfrPrrjschwsmX+kSkC9vmCfLAkZHiyQ0XPEVHH763LmO
+         tf0N3m2+DxJQ6iryEb1q2KBpd/I/apR1H8qSCVS4/gk1UaMz3JbdZj7c3yVraoySuyb3
+         EQXivC1K0j46+MDG3eeULWq9TiZeDIF7sKyqXLMZZKMwK2Tgt/JfUJp/IG/P9qoabIwD
+         S5kAZx9W3W+Ms/df9hk1q2H1rYERxMvBBLngOrmL/ZyPnuro9f4+YruXbSU7ss3GQ9BY
+         /juxxQDQr77FA30cLofhlVeWHVwucaKH3kV1t5ZM6HZ5mW3pbT3NSvR7k0jtu9w5dgWp
+         lZNg==
+X-Gm-Message-State: AOJu0YzU5htFbmu6DBPAkg2R3uMHtGgwqodUor1pivfP6nAF/DgCZqIw
+        4ZO/QJiE8ll9cRNpQJmTmcVHSQ==
+X-Google-Smtp-Source: AGHT+IELHQqU0hyAF68nELnOO1ertPHo+zDylE0dxYqx2DnIvMPQazy0boZGMoaxNQETZCbyFGFZyw==
+X-Received: by 2002:a5d:5442:0:b0:324:84bc:d5ab with SMTP id w2-20020a5d5442000000b0032484bcd5abmr10981437wrv.1.1696892849680;
+        Mon, 09 Oct 2023 16:07:29 -0700 (PDT)
+Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id t24-20020a7bc3d8000000b004042dbb8925sm14592104wmj.38.2023.10.09.16.07.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Oct 2023 16:07:29 -0700 (PDT)
+From:   Dmitry Safonov <dima@arista.com>
+To:     David Ahern <dsahern@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     linux-kernel@vger.kernel.org, Dmitry Safonov <dima@arista.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Bob Gilligan <gilligan@arista.com>,
+        Dan Carpenter <error27@gmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Donald Cassidy <dcassidy@redhat.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Francesco Ruggeri <fruggeri05@gmail.com>,
+        "Gaillardetz, Dominik" <dgaillar@ciena.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ivan Delalande <colona@arista.com>,
+        Leonard Crestez <cdleonard@gmail.com>,
+        "Nassiri, Mohammad" <mnassiri@ciena.com>,
+        Salam Noureddine <noureddine@arista.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        "Tetreault, Francois" <ftetreau@ciena.com>, netdev@vger.kernel.org,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v14 net-next 00/23] net/tcp: Add TCP-AO support
+Date:   Tue, 10 Oct 2023 00:06:51 +0100
+Message-ID: <20231009230722.76268-1-dima@arista.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a section to netdev maintainer doc encouraging reviewers
-to chime in on the mailing list.
+Hi,
 
-The questions about "when is it okay to share feedback"
-keep coming up (most recently at netconf) and the answer
-is "pretty much always".
+This is version 14 of TCP-AO support. More-or-less quick update from v13
+addressing Jonathan review comment on unreadable list-tables in TCP-AO
+Documentation/ page.
 
-Extend the section of 7.AdvancedTopics.rst which deals
-with reviews a little bit to add stuff we had been recommending
-locally.
+There's one Sparse warning introduced by tcp_sigpool_start():
+__cond_acquires() seems to currently being broken. I've described
+the reasoning for it on v9 cover letter. Also, checkpatch.pl warnings
+were addressed, but yet I've left the ones that are more personal
+preferences (i.e. 80 columns limit). Please, ping me if you have
+a strong feeling about one of them.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-RFC -> v1:
- - spelling (compliment)
- - move to common docs:
-   - ask for more opinions
-   - use of tags
-   - compliments
- - ask less experienced reviewers to avoid style comments
-   (using Florian's wording)
+The following changes since commit 19537e125cc7cf2da43a606f5bcebbe0c9aea4cc:
 
-CC: andrew@lunn.ch
-CC: jesse.brandeburg@intel.com
-CC: sd@queasysnail.net
-CC: horms@verge.net.au
-CC: przemyslaw.kitszel@intel.com
-CC: f.fainelli@gmail.com
-CC: jiri@resnulli.us
-CC: ecree.xilinx@gmail.com
----
- Documentation/process/7.AdvancedTopics.rst  | 18 ++++++++++++++++++
- Documentation/process/maintainer-netdev.rst | 15 +++++++++++++++
- 2 files changed, 33 insertions(+)
+  net: bcmgenet: Remove custom ndo_poll_controller() (2023-10-08 17:42:43 +0100)
 
-diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
-index bf7cbfb4caa5..415749feed17 100644
---- a/Documentation/process/7.AdvancedTopics.rst
-+++ b/Documentation/process/7.AdvancedTopics.rst
-@@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
- format the request as other developers expect, and will also check to be
- sure that you have remembered to push those changes to the public server.
- 
-+.. _development_advancedtopics_reviews:
- 
- Reviewing patches
- -----------------
-@@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
- get released in this path?" will always work better than stating "the
- locking here is wrong."
- 
-+Another technique useful in case of a disagreement is to ask for others
-+to chime in. If a discussion reaches a stalemate after a few exchanges,
-+calling for opinions of other reviewers or maintainers. Often those in
-+agreement with a reviewer remain silent unless called upon.
-+Opinion of multiple people carries exponentially more weight.
-+
- Different developers will review code from different points of view.  Some
- are mostly concerned with coding style and whether code lines have trailing
- white space.  Others will focus primarily on whether the change implemented
-@@ -176,3 +183,14 @@ security issues, duplication of code found elsewhere, adequate
- documentation, adverse effects on performance, user-space ABI changes, etc.
- All types of review, if they lead to better code going into the kernel, are
- welcome and worthwhile.
-+
-+There is no strict requirement to use specific tags like ``Reviewed-by``.
-+In fact reviews in plain English are more informative and encouraged
-+even when a tag is provided (e.g. "I looked at aspects A, B and C of this
-+submission and it looks good to me.")
-+Some form of a review message / reply is obviously necessary otherwise
-+maintainers will not know that the reviewer has looked at the patch at all!
-+
-+Last but not least patch review may become a negative process, focused
-+on pointing out problems. Please throw in a compliment once in a while,
-+particularly for newbies!
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 09dcf6377c27..a0cb00e7f579 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -441,6 +441,21 @@ in a way which would break what would normally be considered uAPI.
- new ``netdevsim`` features must be accompanied by selftests under
- ``tools/testing/selftests/``.
- 
-+Reviewer guidance
-+-----------------
-+
-+Reviewing other people's patches on the list is highly encouraged,
-+regardless of the level of expertise. For general guidance and
-+helpful tips please see :ref:`development_advancedtopics_reviews`.
-+
-+It's safe to assume that netdev maintainers know the community and the level
-+of expertise of the reviewers. The reviewers should not be concerned about
-+their comments impeding or derailing the patch flow.
-+
-+Less experienced reviewers are highly encouraged to do more in-depth
-+review of submissions and not focus exclusively on trivial / subject
-+matters like code formatting, tags etc.
-+
- Testimonials / feedback
- -----------------------
- 
+are available in the Git repository at:
+
+  git@github.com:0x7f454c46/linux.git tcp-ao-v14
+
+for you to fetch changes up to e7b89a5efe68fc78ef8bc3be2bce60a9d35ac4be:
+
+  Documentation/tcp: Add TCP-AO documentation (2023-10-09 23:31:25 +0100)
+
+----------------------------------------------------------------
+
+And another branch with selftests, that will be sent later separately:
+  git@github.com:0x7f454c46/linux.git tcp-ao-v14-with-selftests
+
+Thanks for your time and reviews,
+         Dmitry
+
+--- Changelog ---
+
+Changes from v13:
+- Converted Documentation/ page from human unreadable list-table::
+  to grid-table(s) (Jonathan)
+
+Version 13: https://lore.kernel.org/all/20231004223629.166300-1-dima@arista.com/T/#u
+
+Changes from v12:
+- Separate TCP-AO sign from __tcp_transmit_skb() into a separate
+  function for code locality and readability (Paolo)
+- Add TCP-AO self-connect selftest, which by its nature is a selftest
+  for TCP simultaneous open, use different keyids and check tcp repair
+- Fix simultaneous open: take correct ISNs for verification,
+  pre-calculate sending traffic key on SYN-ACK, calculate receiving
+  traffic key before going into TCP_ESTABLISHED
+- Use kfree_sensitive() for hardening purposes
+- Use READ_ONCE() on sk->sk_family when not under socket lock to prevent
+  any possible race with IPV6_ADDRFORM
+
+Version 12: https://lore.kernel.org/all/20230918190027.613430-1-dima@arista.com/T/#u
+
+Changes from v11:
+- Define (struct tcp_key) for tcp-fast path and detect by type what key
+  was used. This also benefits from TCP-MD5/TCP-AO static branches (Eric)
+- Remove sk_gso_disable() from TCP-AO fast-path in __tcp_transmit_skb()
+  (Eric)
+- Don't leak skb on failed kmalloc() in __tcp_transmit_skb() (Eric)
+- skb_dst_drop() is not necessary as kfree_skb() calls it (Eric)
+- Don't dereference tcp_ao_key in net_warn_ratelimited(), outside of
+  rcu_read_lock() (Eric)
+
+Version 11: https://lore.kernel.org/all/20230911210346.301750-1-dima@arista.com/T/#u
+
+Changes from v10:
+- Make seq (u32) in tcp_ao_prepare_reset() and declare the argument
+  in "net/tcp: Add TCP-AO SNE support", where it gets used (Simon)
+- Fix rebase artifact in tcp_v6_reqsk_send_ack(), which adds
+  compile-error on a patch in the middle of series (Simon)
+- Another rebase artifact in tcp_v6_reqsk_send_ack() that makes
+  keyid, requested by peer on ipv6 reqsk ACKs not respected (Simon)
+
+Version 10: https://lore.kernel.org/all/20230815191455.1872316-1-dima@arista.com/T/#u
+
+The pre-v10 changelog is on version 10 cover-letter.
+
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Bob Gilligan <gilligan@arista.com>
+Cc: Dan Carpenter <error27@gmail.com>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: David Laight <David.Laight@aculab.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Dmitry Safonov <0x7f454c46@gmail.com>
+Cc: Donald Cassidy <dcassidy@redhat.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Francesco Ruggeri <fruggeri05@gmail.com>
+Cc: Gaillardetz, Dominik <dgaillar@ciena.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+Cc: Ivan Delalande <colona@arista.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Leonard Crestez <cdleonard@gmail.com>
+Cc: Nassiri, Mohammad <mnassiri@ciena.com>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Salam Noureddine <noureddine@arista.com>
+Cc: Simon Horman <simon.horman@corigine.com>
+Cc: Tetreault, Francois <ftetreau@ciena.com>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Dmitry Safonov (23):
+  net/tcp: Prepare tcp_md5sig_pool for TCP-AO
+  net/tcp: Add TCP-AO config and structures
+  net/tcp: Introduce TCP_AO setsockopt()s
+  net/tcp: Prevent TCP-MD5 with TCP-AO being set
+  net/tcp: Calculate TCP-AO traffic keys
+  net/tcp: Add TCP-AO sign to outgoing packets
+  net/tcp: Add tcp_parse_auth_options()
+  net/tcp: Add AO sign to RST packets
+  net/tcp: Add TCP-AO sign to twsk
+  net/tcp: Wire TCP-AO to request sockets
+  net/tcp: Sign SYN-ACK segments with TCP-AO
+  net/tcp: Verify inbound TCP-AO signed segments
+  net/tcp: Add TCP-AO segments counters
+  net/tcp: Add TCP-AO SNE support
+  net/tcp: Add tcp_hash_fail() ratelimited logs
+  net/tcp: Ignore specific ICMPs for TCP-AO connections
+  net/tcp: Add option for TCP-AO to (not) hash header
+  net/tcp: Add TCP-AO getsockopt()s
+  net/tcp: Allow asynchronous delete for TCP-AO keys (MKTs)
+  net/tcp: Add static_key for TCP-AO
+  net/tcp: Wire up l3index to TCP-AO
+  net/tcp: Add TCP_AO_REPAIR
+  Documentation/tcp: Add TCP-AO documentation
+
+ Documentation/networking/index.rst  |    1 +
+ Documentation/networking/tcp_ao.rst |  444 +++++
+ include/linux/sockptr.h             |   23 +
+ include/linux/tcp.h                 |   30 +-
+ include/net/dropreason-core.h       |   30 +
+ include/net/tcp.h                   |  288 +++-
+ include/net/tcp_ao.h                |  361 ++++
+ include/uapi/linux/snmp.h           |    5 +
+ include/uapi/linux/tcp.h            |  105 ++
+ net/ipv4/Kconfig                    |   17 +
+ net/ipv4/Makefile                   |    2 +
+ net/ipv4/proc.c                     |    5 +
+ net/ipv4/syncookies.c               |    4 +
+ net/ipv4/tcp.c                      |  246 +--
+ net/ipv4/tcp_ao.c                   | 2389 +++++++++++++++++++++++++++
+ net/ipv4/tcp_input.c                |   98 +-
+ net/ipv4/tcp_ipv4.c                 |  363 +++-
+ net/ipv4/tcp_minisocks.c            |   50 +-
+ net/ipv4/tcp_output.c               |  236 ++-
+ net/ipv4/tcp_sigpool.c              |  358 ++++
+ net/ipv6/Makefile                   |    1 +
+ net/ipv6/syncookies.c               |    5 +
+ net/ipv6/tcp_ao.c                   |  168 ++
+ net/ipv6/tcp_ipv6.c                 |  374 +++--
+ 24 files changed, 5168 insertions(+), 435 deletions(-)
+ create mode 100644 Documentation/networking/tcp_ao.rst
+ create mode 100644 include/net/tcp_ao.h
+ create mode 100644 net/ipv4/tcp_ao.c
+ create mode 100644 net/ipv4/tcp_sigpool.c
+ create mode 100644 net/ipv6/tcp_ao.c
+
+
+base-commit: 19537e125cc7cf2da43a606f5bcebbe0c9aea4cc
 -- 
-2.41.0
+2.42.0
 
