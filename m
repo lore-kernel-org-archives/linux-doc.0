@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E875E92FFC
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 21:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 701B9CD6139
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 21:23:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378311AbjJIVU6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 17:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60200 "EHLO
+        id S1378799AbjJIVXJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 17:23:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378696AbjJIVU0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 17:20:26 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02B67DA
-        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 14:20:07 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-7741c2e76a3so318430385a.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 14:20:07 -0700 (PDT)
+        with ESMTP id S1378790AbjJIVWq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 17:22:46 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14F71736
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 14:21:46 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-77428510fe7so415095185a.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 14:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1696886407; x=1697491207; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1696886506; x=1697491306; darn=vger.kernel.org;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tBHSVeHtzW+EpfgqvTfm4ZLl/83YRlQM4zEjC8fWG1Y=;
-        b=PRIrRWl5XHHFBBY2VDbvtQSEUHsN+cK8MnL3aRrDLEAUoh+l9UQ7LTTRoRP2E33PWV
-         Z2/n3QcJsVdwl0e41W5N0ImE+Omij6N5AySme3Sih9jt19ypzCmlH4bOoi9cEwlOHhxI
-         sQH/+ywh3ySckbKVtAMVtSM2uBSaGiZbxKxxw=
+        bh=yxYzXTKTxeuhY4UTVUp22NpnRT+0+2i+NjfxZf/mwbw=;
+        b=Qje3RmGWTpSj4W4tfWGiwMJ4NLK8LjFeyFEmzjzWqAcFsQzJGux41hS8Ze/Oo59z3Y
+         IbM+skvKLhU65VZlQ2DqjkMQzu3sNHryOqhdTiiP1Q0Xx/ol2LEs1GjIJc/1caezM/hi
+         ebpi53MzWmX7bX9xxPBk7ckSqOoqhLfqV+nkk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696886407; x=1697491207;
+        d=1e100.net; s=20230601; t=1696886506; x=1697491306;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=tBHSVeHtzW+EpfgqvTfm4ZLl/83YRlQM4zEjC8fWG1Y=;
-        b=pXzepXNXF5FwlU3jiQWXQYquNNTKVm41WmTncdZSWVjg9tGD0DwkBQXUvViBXG2OxQ
-         layk7wJzkMWTH1JDb7jMc5lcUm3UWdGOBkCHjqVOZsdy0UVfuwLocv2WROrmemG//OoL
-         tgSayd5yCYUKq7kdRvC3kJyZN2spQzp97yFZSWDNCCP03vM2yVqoCyY14NrjN2osCS98
-         bmUBT+UAUtRDQYlrmexltHkWWgbFl3+/EhgRs67Vw+9duQsY9N0P7CbRSlahrJjXUYwa
-         e6EC6t82Xvu/tC9uzwIC/oAPeTNlXwFlUMLef+/wkM6dlVMU0qG+n84uzQgM4XJga9d7
-         F7/g==
-X-Gm-Message-State: AOJu0YxsgS7EKGSWv7pKzjTq0OjXWV42uYavETq/ZtR++Ul1RoQscJVO
-        o2zCuUWac6o6Wgh4qSms7ykujfkyu+B1ZKMXR4U=
-X-Google-Smtp-Source: AGHT+IEpZIVr26mGXrNbZk4kytVsNH7suKHo6KxOsRNSN2spvDIEhcoJmq3Xll/u5Mn3XzYBjydYsw==
-X-Received: by 2002:a05:620a:bc7:b0:775:8ed7:887 with SMTP id s7-20020a05620a0bc700b007758ed70887mr18606216qki.26.1696886407008;
-        Mon, 09 Oct 2023 14:20:07 -0700 (PDT)
+        bh=yxYzXTKTxeuhY4UTVUp22NpnRT+0+2i+NjfxZf/mwbw=;
+        b=rlIXHhaJL+8smEfTswRQrGXIFbMbDWZYQ9ot+4A9EEZqIvq71SglMYv4kvlhZHG/hR
+         xtkPB28X7KZXe4UwhqEmvOyDNvDRtbq8E5mI2HPNcLA74vU75jVNjN8axn1QWaTnd4TX
+         PkWwODEGyf57evJUCoMeDH9xqq5Vo43qLgHKzpZmaVpUL7hIU7KwwQOy+FSezP42Z4EZ
+         /f4C69APJb4n5jv/9MdsrjRyD6tHN75WI1aBoU27EQQ/7IOtnoeq9jxWbMHO7prARCzI
+         Xey+BpGEfhFzUOZze1TKLUlJRze55GJa0ie/ICXy7seiQ2J61PxqzsEHoi7GcTUpE06T
+         d0zA==
+X-Gm-Message-State: AOJu0YzuVVkShmwU+G0kLQj4ny5Q0MF57ulHqyYJFZdH2Pf6dvMptD+K
+        QUUgQTEZMiijQdAMWk/QuSImVg==
+X-Google-Smtp-Source: AGHT+IGNSP5pTvCgrW05h5xwK3zTSxcnE0fzWgHBovcel8YeQ13XRNe+muFcbP/dM8lR5/laOYn8IA==
+X-Received: by 2002:a05:620a:1aa1:b0:76d:a784:9685 with SMTP id bl33-20020a05620a1aa100b0076da7849685mr21009701qkb.28.1696886505824;
+        Mon, 09 Oct 2023 14:21:45 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id y6-20020a37e306000000b0077413b342e9sm3789749qki.128.2023.10.09.14.20.03
+        by smtp.gmail.com with ESMTPSA id y6-20020a37e306000000b0077413b342e9sm3789749qki.128.2023.10.09.14.21.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 14:20:06 -0700 (PDT)
-Message-ID: <2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
-Date:   Mon, 9 Oct 2023 14:20:02 -0700
+        Mon, 09 Oct 2023 14:21:45 -0700 (PDT)
+Message-ID: <dca2c4a8-7805-4cdb-a311-d308057cdd75@broadcom.com>
+Date:   Mon, 9 Oct 2023 14:21:42 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
- current time stamping layer
+Subject: Re: [PATCH net-next v5 09/16] netlink: specs: Introduce new netlink
+ command to get current timestamp
 To:     =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -80,7 +80,7 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Jacob Keller <jacob.e.keller@intel.com>,
         Maxime Chevallier <maxime.chevallier@bootlin.com>
 References: <20231009155138.86458-1-kory.maincent@bootlin.com>
- <20231009155138.86458-9-kory.maincent@bootlin.com>
+ <20231009155138.86458-10-kory.maincent@bootlin.com>
 From:   Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -114,14 +114,14 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20231009155138.86458-9-kory.maincent@bootlin.com>
+In-Reply-To: <20231009155138.86458-10-kory.maincent@bootlin.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="0000000000008817bc06074f275a"
+        boundary="0000000000006bc29d06074f2da3"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---0000000000008817bc06074f275a
+--0000000000006bc29d06074f2da3
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
@@ -129,47 +129,22 @@ Content-Transfer-Encoding: 8bit
 On 10/9/23 08:51, Köry Maincent wrote:
 > From: Kory Maincent <kory.maincent@bootlin.com>
 > 
-> Time stamping on network packets may happen either in the MAC or in
-> the PHY, but not both.  In preparation for making the choice
-> selectable, expose both the current and available layers via ethtool.
+> Add a new commands allowing to get the current time stamping on a
+> netdevice's link.
 > 
-> In accordance with the kernel implementation as it stands, the current
-> layer will always read as "phy" when a PHY time stamping device is
-> present. Future patches will allow changing the current layer
-> administratively.
+> Example usage :
+> ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do ts-get \
+> 	     --json '{"header":{"dev-name":"eth0"}}'
+> {'header': {'dev-index': 3, 'dev-name': 'eth0'}, 'ts-layer': 1}
 > 
 > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> 
-> ---
 
-[snip]
-
-> +/*
-> + * Hardware layer of the TIMESTAMPING provider
-> + * New description layer should have the NETDEV_TIMESTAMPING or
-> + * PHYLIB_TIMESTAMPING bit set to know which API to use for timestamping.
-
-If we are talking about hardware layers, then we shall use either 
-PHY_TIMESTAMPING or MAC_TIMESTAMPING. PHYLIB is the sub-subsystem to 
-deal with Ethernet PHYs, and netdev is the object through which we 
-represent network devices, so they are not even quite describing similar 
-things. If you go with the {PHY,MAC}_TIMESTAMPING suggestion, then I 
-could see how we could somewhat easily add PCS_TIMESTAMPING for instance.
-
-> + */
-> +enum {
-> +	NO_TIMESTAMPING = 0,
-> +	NETDEV_TIMESTAMPING = (1 << 0),
-> +	PHYLIB_TIMESTAMPING = (1 << 1),
-> +	SOFTWARE_TIMESTAMPING = (1 << 2) | (1 << 0),
-
-Why do we have to set NETDEV_TIMESTAMPING here, or is this a round-about 
-way of enumerating 0, 1, 2 and 3?
+This is small enough you could probably fold this patch into patch 8.
 -- 
 Florian
 
 
---0000000000008817bc06074f275a
+--0000000000006bc29d06074f2da3
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -240,14 +215,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIAD82i7WeaeWSV6q
-aMyAWU3L6KzQ9PHt/7nAnVxhlsH6MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTIzMTAwOTIxMjAwN1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGKyFPrPMwZFsF4m
+6escyy7TP8IJvpcDF4R8xISt1lPjMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTIzMTAwOTIxMjE0NlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAuK/rE6MoZs+czhpCXhGfIZPEDZJPl0Jwy
-SzlPd4HbGxuqsL4Wga6+DLMj7EcVlvI0goIkZGlpdpD89z4tdDWBQcM3JJlRPnrfYRmBVjIXZGuH
-Coeoa51KT6JgtmrvWnRJMN32RTiwMvUi8Y3UHwtL2nLurrgdxP1bn4eH94DXnNXa3MvBeQ5wkdkW
-gQ60lJSKOlA7kVKr8YxLGhJG6DK+SDNCnUlqqVs1jgmlxC2Vuak1v1Kyd+Mb3zR9ljogIX69NFVj
-z/1uH9cMM5iGBdoW4xzGxxCRhlWdPNlf/qoRxiFiIWmb+ffz4Is6VWA9FXwT0gCIlyuoZqrVH9Jc
-xVap
---0000000000008817bc06074f275a--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQDg2AsxjwictnjcOTNd9Hx5sYYwb1/w912T
+/hR+bVWoqMuJinyxpJiYvfu7kHkUNgykTEOTX5K4WeB1u8sSGyouJgeO/OnnQOaNcnlYzV6yp9oT
+3aAMYk+ieXdvEHsHbUB3bvWzlq/+yHreRPUwDvheXUQ4FHlZr7is3yBCEnVVUvDvVDh0gIjm9d5r
+q0/pzFcq+dvzRBB7+FV8H7v0rZb2mMlJ8TCLJV+CLmou37pMP57T+YaI9ACYpQ6kKAFZ15QMZrkY
+1LhsET46j4sHeB0V6X+n7jSyTJrCQPX2DDY+Qo0XAe/uKr4W3d+XSwi/gsCC74DChMcQeWP+6i0J
+XYVJ
+--0000000000006bc29d06074f2da3--
