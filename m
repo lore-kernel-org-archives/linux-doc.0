@@ -2,84 +2,252 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8DBFE95A8E
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 12:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D35F8E95A96
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 12:50:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346570AbjJIMk7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 08:40:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
+        id S1346514AbjJIMuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 08:50:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346437AbjJIMk6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 08:40:58 -0400
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE10991;
-        Mon,  9 Oct 2023 05:40:56 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D192A40E0187;
-        Mon,  9 Oct 2023 12:40:52 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id svqpzAPLcT1r; Mon,  9 Oct 2023 12:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1696855251; bh=e/DFUX3F3oyfThG7u4pDB9FaS5L33LSdcFtsyTpbLsE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gqcSUYkHGfasUgj96cuQ3UQccLU0tMbGeBCKfPWsjvqPDpwShi+ljpDDPhPmqYngH
-         3bIUBiNqacgEQFRsc7j3EpmiU4e+e6B8LwEEUVCFcVTBBqdN72SXNVcaQUeppB6lUi
-         LiTE/0Ny70T/W4mm0+03h7v5CH1ZJWK3CHvKMWSttS8AwHLsUxYK5SzTvaUa9wJeHR
-         +bOLxXcHcZb91NWzLeS/GPR/Lu8xUtN8dlK412U+Mll2aJWJ/WWhJfx7xCKpjVhT77
-         osXeNtkhyrzwd8IyKd2eGs3WzUslEOmNH1QtWNt5t913Ejbe/8iwrRjMHK2q+zpjL0
-         +/vs0oZBC6esYE4t4uTxxr9wDk4D83yPRpsgt+ZkwXMXDE+CYud2QVarhH00o6Pfki
-         BOh6vyrScSmLzB8RJLFaaCCXSh2CsHLpj3XRSJXlsbLoxbks5pUiF/QH7k2ngIVWTu
-         /xPu17qDraWeIuQ36zEQKnyiE5lrOPt0MjccOOoTrru5CtzOkTo0sVrkcaBuy27UnB
-         fDAskrrdzNaUMHtEDIFfH5GC6QLE2QO4CSlOvj8NxuIQZz5h92r8G0fbocMNri8zu0
-         b0FRUYCgVtC3+40VF/8TtEdh6RmP0/fXM76Tp9Nou46X4aHhOchz3TO/QAMnT/IbcV
-         KHl17f4nK/Aw1tJr2OrBUiKQ=
-Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-        (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E4BF440E0177;
-        Mon,  9 Oct 2023 12:40:38 +0000 (UTC)
-Date:   Mon, 9 Oct 2023 14:40:33 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Reinette Chatre <reinette.chatre@intel.com>
-Cc:     Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
-        fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, corbet@lwn.net, x86@kernel.org,
-        hpa@zytor.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com
-Subject: Re: [PATCH v4 0/4] x86/resctrl: Non-contiguous bitmasks in Intel CAT
-Message-ID: <20231009124033.GBZSP0wcAT494wHWqG@fat_crate.local>
-References: <cover.1696493034.git.maciej.wieczor-retman@intel.com>
- <533ccc1b-7566-444e-8549-184fd272f666@intel.com>
+        with ESMTP id S1346620AbjJIMuX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 08:50:23 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 59A16AC;
+        Mon,  9 Oct 2023 05:50:21 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B82751FB;
+        Mon,  9 Oct 2023 05:51:01 -0700 (PDT)
+Received: from [10.57.3.51] (unknown [10.57.3.51])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9BE863F762;
+        Mon,  9 Oct 2023 05:50:19 -0700 (PDT)
+Message-ID: <b72d321f-0cea-1049-3bbb-224d38a94749@arm.com>
+Date:   Mon, 9 Oct 2023 13:50:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <533ccc1b-7566-444e-8549-184fd272f666@intel.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.1
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: Re: [PATCH v1 1/2] arm64: perf: Add support for event counting
+ threshold
+To:     James Clark <james.clark@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Zaid Al-Bassam <zalbassam@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230919095137.360963-1-james.clark@arm.com>
+ <20230919095137.360963-2-james.clark@arm.com>
+In-Reply-To: <20230919095137.360963-2-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 06, 2023 at 10:53:52AM -0700, Reinette Chatre wrote:
-> This work conflicts with Babu's series [1] that is also ready for inclusion.
-> We could wait for outcome of next level review to determine who will need
+Hi James
 
-Who is "next level review"?
+On 19/09/2023 10:51, James Clark wrote:
+> FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
+> events whose count meets a specified threshold condition. For example if
+> PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
+> equal, count), and the threshold is set to 2, then the PMU counter will
+> now only increment by 1 when an event would have previously incremented
+> the PMU counter by 2 or more on a single processor cycle.
+> 
+> Two new Perf event config fields, 'threshold' and 'threshold_control'
+> have been added for controlling the feature:
+> 
+>    $ perf stat -e stall_slot/threshold=2,threshold_control=5/
+> 
+> A new capability for reading out the maximum supported threshold value
+> has also been added:
+> 
+>    $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
+> 
+>    0x000000ff
+> 
+> If a threshold higher than threshold_max is provided, then no error is
+> generated but the threshold is clamped to the max value. If
+> FEAT_PMUv3_TH isn't implemented, then threshold_max reads zero, and
+> neither the 'threshold' nor 'threshold_control' parameters will be used.
+> 
+> The threshold is per PMU counter, and there are potentially different
+> threshold_max values per PMU type on heterogeneous systems.
+> 
+> Bits higher than 32 now need to be written into PMEVTYPER, so
+> armv8pmu_write_evtype() has to be updated to take a u64 value rather
+> than u32.
 
-> to rebase. It may help to provide a snippet of the conflict resolution
-> in anticipation of Babu's series being merged first (I will propose exactly
-> the same to Babu for the scenario of this work merged first).
+Is this supported in the Aarch32 state ? If so, do we need to change
+the arch specific register read/write "helpers" ?
 
-Just lemme know which ones I should merge first and the others can be
-rebased on top.
+> 
+> Signed-off-by: James Clark <james.clark@arm.com>
+> ---
+>   drivers/perf/arm_pmuv3.c       | 59 +++++++++++++++++++++++++++++++++-
+>   include/linux/perf/arm_pmuv3.h |  7 +++-
+>   2 files changed, 64 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+> index e5a2ac4155f6..ad6574b2bdab 100644
+> --- a/drivers/perf/arm_pmuv3.c
+> +++ b/drivers/perf/arm_pmuv3.c
+> @@ -294,9 +294,16 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
+>   	.is_visible = armv8pmu_event_attr_is_visible,
+>   };
+>   
+> +#define TH_LO	2
+> +#define TH_HI	13
+> +#define TH_CNTL_LO	14
+> +#define TH_CNTL_HI	16
+> +
+>   PMU_FORMAT_ATTR(event, "config:0-15");
+>   PMU_FORMAT_ATTR(long, "config1:0");
+>   PMU_FORMAT_ATTR(rdpmc, "config1:1");
+> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(TH_LO) "-" __stringify(TH_HI));
+> +PMU_FORMAT_ATTR(threshold_control, "config1:" __stringify(TH_CNTL_LO) "-" __stringify(TH_CNTL_HI));
 
-Thx.
+The perf core doesn't yet support adding aliases for
+fields other than "events". May be we could add
+some support for that in the future and use it
+to provide meaningful aliases for the threshold
+control.
 
--- 
-Regards/Gruss,
-    Boris.
+Not sure if we can extrapolate threshold_control[0]
+to be another config field => "counting_mode"
+We would need to check with the architecture folks
+to confirm that the meaning wouldn't change though.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+>   
+>   static int sysctl_perf_user_access __read_mostly;
+>   
+> @@ -310,10 +317,22 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
+>   	return event->attr.config1 & 0x2;
+>   }
+>   
+> +static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
+> +{
+> +	return FIELD_GET(GENMASK(TH_HI, TH_LO), attr->config1);
+> +}
+> +
+> +static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
+> +{
+> +	return FIELD_GET(GENMASK(TH_CNTL_HI, TH_CNTL_LO), attr->config1);
+> +}
+> +
+>   static struct attribute *armv8_pmuv3_format_attrs[] = {
+>   	&format_attr_event.attr,
+>   	&format_attr_long.attr,
+>   	&format_attr_rdpmc.attr,
+> +	&format_attr_threshold.attr,
+> +	&format_attr_threshold_control.attr,
+>   	NULL,
+>   };
+>   
+> @@ -365,10 +384,31 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
+>   
+>   static DEVICE_ATTR_RO(bus_width);
+>   
+> +static u32 threshold_max(struct arm_pmu *cpu_pmu)
+> +{
+> +	/*
+> +	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
+> +	 * (2 ^ PMMIR.THWIDTH) - 1
+> +	 */
+> +	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
+> +}
+> +
+> +static ssize_t threshold_max_show(struct device *dev,
+> +				  struct device_attribute *attr, char *page)
+> +{
+> +	struct pmu *pmu = dev_get_drvdata(dev);
+> +	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
+> +
+> +	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
+> +}
+> +
+> +static DEVICE_ATTR_RO(threshold_max);
+> +
+>   static struct attribute *armv8_pmuv3_caps_attrs[] = {
+>   	&dev_attr_slots.attr,
+>   	&dev_attr_bus_slots.attr,
+>   	&dev_attr_bus_width.attr,
+> +	&dev_attr_threshold_max.attr,
+>   	NULL,
+>   };
+>   
+> @@ -552,7 +592,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
+>   		armv8pmu_write_hw_counter(event, value);
+>   }
+>   
+> -static inline void armv8pmu_write_evtype(int idx, u32 val)
+> +static inline void armv8pmu_write_evtype(int idx, u64 val)
+>   {
+>   	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
+>   
+> @@ -912,6 +952,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
+>   				     struct perf_event_attr *attr)
+>   {
+>   	unsigned long config_base = 0;
+> +	struct perf_event *perf_event = container_of(attr, struct perf_event,
+> +						     attr);
+> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
+> +	u32 th, th_max;
+>   
+>   	if (attr->exclude_idle)
+>   		return -EPERM;
+> @@ -943,6 +987,19 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
+>   	if (attr->exclude_user)
+>   		config_base |= ARMV8_PMU_EXCLUDE_EL0;
+>   
+> +	/*
+> +	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
+> +	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
+> +	 * 0 and no values will be written.
+> +	 */
+> +	th_max = threshold_max(cpu_pmu);
+> +	if (th_max) {
+> +		th = min(armv8pmu_event_threshold(attr), th_max);
+> +		config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
+> +		config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
+> +					  armv8pmu_event_threshold_control(attr));
+> +	}
+> +
+>   	/*
+>   	 * Install the filter into config_base as this is used to
+>   	 * construct the event type.
+> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
+> index e3899bd77f5c..0e2a3c927150 100644
+> --- a/include/linux/perf/arm_pmuv3.h
+> +++ b/include/linux/perf/arm_pmuv3.h
+> @@ -228,7 +228,11 @@
+>   /*
+>    * PMXEVTYPER: Event selection reg
+>    */
+> -#define ARMV8_PMU_EVTYPE_MASK	0xc800ffff	/* Mask for writable bits */
+> +#define ARMV8_PMU_EVTYPE_TH	GENMASK(43, 32)
+> +#define ARMV8_PMU_EVTYPE_TC	GENMASK(63, 61)
+> +/* Mask for writable bits */
+> +#define ARMV8_PMU_EVTYPE_MASK	(0xc800ffff | ARMV8_PMU_EVTYPE_TH | \
+> +				ARMV8_PMU_EVTYPE_TC)
+
+May need to be UL suffixed for safety ?
+
+
+Suzuki
+
+>   #define ARMV8_PMU_EVTYPE_EVENT	0xffff		/* Mask for EVENT bits */
+>   
+>   /*
+> @@ -254,6 +258,7 @@
+>   #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
+>   #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
+>   #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
+> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
+>   
+>   /*
+>    * This code is really good
+
