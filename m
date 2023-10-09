@@ -2,178 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 493FBE95A8E
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 12:21:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8DBFE95A8E
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 12:40:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346512AbjJIMVv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 08:21:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45634 "EHLO
+        id S1346570AbjJIMk7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 08:40:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346444AbjJIMVU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 08:21:20 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA011FE8;
-        Mon,  9 Oct 2023 05:14:20 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3630C433CD;
-        Mon,  9 Oct 2023 12:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696853660;
-        bh=OYaAyRMLSn6kTs6FMYnMtTS8W24+WIO4Ly8HwzP8d7o=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=aRNZd3pInrVeMdKBw7H6QrC9eqFo/kLOrdLcZwp6V+ul7HAC9gLTUyM1GwvLQB1xc
-         63PWfOonUjUAaZfItFjlrBSYj0C1UcPcMcnTdWr5qP0HwSHUCIy9tFx5enWS0I8iGd
-         wjWnfqGYjjOFM/9uuXGnODB0Zd9KJOmfqfQ/gBUBt2IPK/IELuF8BE8/T0iAWJl0RN
-         mvrxsrT3AkWz/G0c38Ss4zwSuGHoGW3LdHsPvzWcdBrnOND7PG6AsRZFb6C77RTVUz
-         GIOt7HzNDVv+43GI4Uj9im0YHhm9U7UGFLKfwCWJ1Im7sMe7ZhKQk6x5XnqFgvUaas
-         Y9JWtr+JTJzBw==
-From:   Mark Brown <broonie@kernel.org>
-Date:   Mon, 09 Oct 2023 13:09:06 +0100
-Subject: [PATCH v6 32/38] kselftest/arm64: Always run signals tests with
- GCS enabled
+        with ESMTP id S1346437AbjJIMk6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 08:40:58 -0400
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE10991;
+        Mon,  9 Oct 2023 05:40:56 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D192A40E0187;
+        Mon,  9 Oct 2023 12:40:52 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+        header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id svqpzAPLcT1r; Mon,  9 Oct 2023 12:40:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+        t=1696855251; bh=e/DFUX3F3oyfThG7u4pDB9FaS5L33LSdcFtsyTpbLsE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gqcSUYkHGfasUgj96cuQ3UQccLU0tMbGeBCKfPWsjvqPDpwShi+ljpDDPhPmqYngH
+         3bIUBiNqacgEQFRsc7j3EpmiU4e+e6B8LwEEUVCFcVTBBqdN72SXNVcaQUeppB6lUi
+         LiTE/0Ny70T/W4mm0+03h7v5CH1ZJWK3CHvKMWSttS8AwHLsUxYK5SzTvaUa9wJeHR
+         +bOLxXcHcZb91NWzLeS/GPR/Lu8xUtN8dlK412U+Mll2aJWJ/WWhJfx7xCKpjVhT77
+         osXeNtkhyrzwd8IyKd2eGs3WzUslEOmNH1QtWNt5t913Ejbe/8iwrRjMHK2q+zpjL0
+         +/vs0oZBC6esYE4t4uTxxr9wDk4D83yPRpsgt+ZkwXMXDE+CYud2QVarhH00o6Pfki
+         BOh6vyrScSmLzB8RJLFaaCCXSh2CsHLpj3XRSJXlsbLoxbks5pUiF/QH7k2ngIVWTu
+         /xPu17qDraWeIuQ36zEQKnyiE5lrOPt0MjccOOoTrru5CtzOkTo0sVrkcaBuy27UnB
+         fDAskrrdzNaUMHtEDIFfH5GC6QLE2QO4CSlOvj8NxuIQZz5h92r8G0fbocMNri8zu0
+         b0FRUYCgVtC3+40VF/8TtEdh6RmP0/fXM76Tp9Nou46X4aHhOchz3TO/QAMnT/IbcV
+         KHl17f4nK/Aw1tJr2OrBUiKQ=
+Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        (No client certificate requested)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E4BF440E0177;
+        Mon,  9 Oct 2023 12:40:38 +0000 (UTC)
+Date:   Mon, 9 Oct 2023 14:40:33 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Reinette Chatre <reinette.chatre@intel.com>
+Cc:     Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+        fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, corbet@lwn.net, x86@kernel.org,
+        hpa@zytor.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com
+Subject: Re: [PATCH v4 0/4] x86/resctrl: Non-contiguous bitmasks in Intel CAT
+Message-ID: <20231009124033.GBZSP0wcAT494wHWqG@fat_crate.local>
+References: <cover.1696493034.git.maciej.wieczor-retman@intel.com>
+ <533ccc1b-7566-444e-8549-184fd272f666@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231009-arm64-gcs-v6-32-78e55deaa4dd@kernel.org>
-References: <20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org>
-In-Reply-To: <20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Cc:     "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Florian Weimer <fweimer@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3590; i=broonie@kernel.org;
- h=from:subject:message-id; bh=OYaAyRMLSn6kTs6FMYnMtTS8W24+WIO4Ly8HwzP8d7o=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlI+2q4BjYkOhejyoKKvxOrxbGdTheXJOcb2eROkLO
- TpWR1lWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZSPtqgAKCRAk1otyXVSH0JmAB/
- sF/bW4NV1xIXh7KwGzExoXmOWHnZry7NDDHROu0qS/35UQvrwfrBi6tTQNyeIn3v23ghEC2izYQe5/
- xF4AI4iosNEQXMNfGRX3CemNMDMILSqO4k6FKtNbqu+VFvTfUZwG8xYNORtZ45iW3tBPk3TCpX09M4
- XfPi8G9lx+Y0oWjPDQNtH0cOJA2ummMCDEBK2GKpN6raQ0++tWx80btDNgehnvMePinSWSnYZcbrpO
- 4YNGY4kE3Tbh20tWr65zqBWE7rqLO6TTsxbHF4VghVQs3K5htXUqYipLcCJk3YKHM8IM9rPSG4lWz8
- x7N6aOifCEoSoXFiW/0gq1RcqyV0xO
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <533ccc1b-7566-444e-8549-184fd272f666@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since it is not possible to return from the function that enabled GCS
-without disabling GCS it is very inconvenient to use the signal handling
-tests to cover GCS when GCS is not enabled by the toolchain and runtime,
-something that no current distribution does. Since none of the testcases
-do anything with stacks that would cause problems with GCS we can sidestep
-this issue by unconditionally enabling GCS on startup and exiting with a
-call to exit() rather than a return from main().
+On Fri, Oct 06, 2023 at 10:53:52AM -0700, Reinette Chatre wrote:
+> This work conflicts with Babu's series [1] that is also ready for inclusion.
+> We could wait for outcome of next level review to determine who will need
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- .../testing/selftests/arm64/signal/test_signals.c  | 17 ++++++++++++-
- .../selftests/arm64/signal/test_signals_utils.h    | 29 ++++++++++++++++++++++
- 2 files changed, 45 insertions(+), 1 deletion(-)
+Who is "next level review"?
 
-diff --git a/tools/testing/selftests/arm64/signal/test_signals.c b/tools/testing/selftests/arm64/signal/test_signals.c
-index 00051b40d71e..30e95f50db19 100644
---- a/tools/testing/selftests/arm64/signal/test_signals.c
-+++ b/tools/testing/selftests/arm64/signal/test_signals.c
-@@ -7,6 +7,10 @@
-  * Each test provides its own tde struct tdescr descriptor to link with
-  * this wrapper. Framework provides common helpers.
-  */
-+
-+#include <sys/auxv.h>
-+#include <sys/prctl.h>
-+
- #include <kselftest.h>
- 
- #include "test_signals.h"
-@@ -16,6 +20,16 @@ struct tdescr *current = &tde;
- 
- int main(int argc, char *argv[])
- {
-+	/*
-+	 * Ensure GCS is at least enabled throughout the tests if
-+	 * supported, otherwise the inability to return from the
-+	 * function that enabled GCS makes it very inconvenient to set
-+	 * up test cases.  The prctl() may fail if GCS was locked by
-+	 * libc setup code.
-+	 */
-+	if (getauxval(AT_HWCAP2) & HWCAP2_GCS)
-+		gcs_set_state(PR_SHADOW_STACK_ENABLE);
-+
- 	ksft_print_msg("%s :: %s\n", current->name, current->descr);
- 	if (test_setup(current) && test_init(current)) {
- 		test_run(current);
-@@ -23,5 +37,6 @@ int main(int argc, char *argv[])
- 	}
- 	test_result(current);
- 
--	return current->result;
-+	/* Do not return in case GCS was enabled */
-+	exit(current->result);
- }
-diff --git a/tools/testing/selftests/arm64/signal/test_signals_utils.h b/tools/testing/selftests/arm64/signal/test_signals_utils.h
-index 762c8fe9c54a..1e80808ee105 100644
---- a/tools/testing/selftests/arm64/signal/test_signals_utils.h
-+++ b/tools/testing/selftests/arm64/signal/test_signals_utils.h
-@@ -18,6 +18,35 @@ void test_cleanup(struct tdescr *td);
- int test_run(struct tdescr *td);
- void test_result(struct tdescr *td);
- 
-+#ifndef __NR_prctl
-+#define __NR_prctl 167
-+#endif
-+
-+/*
-+ * The prctl takes 1 argument but we need to ensure that the other
-+ * values passed in registers to the syscall are zero since the kernel
-+ * validates them.
-+ */
-+#define gcs_set_state(state)					\
-+	({								\
-+		register long _num  __asm__ ("x8") = __NR_prctl;	\
-+		register long _arg1 __asm__ ("x0") =  PR_SET_SHADOW_STACK_STATUS; \
-+		register long _arg2 __asm__ ("x1") = (long)(state);	\
-+		register long _arg3 __asm__ ("x2") = 0;			\
-+		register long _arg4 __asm__ ("x3") = 0;			\
-+		register long _arg5 __asm__ ("x4") = 0;			\
-+	                                                                      \
-+		__asm__  volatile (					\
-+			"svc #0\n"					\
-+			: "=r"(_arg1)					\
-+			: "r"(_arg1), "r"(_arg2),			\
-+			  "r"(_arg3), "r"(_arg4),			\
-+			  "r"(_arg5), "r"(_num)				\
-+			: "memory", "cc"				\
-+			);						\
-+		_arg1;							\
-+	})
-+
- static inline bool feats_ok(struct tdescr *td)
- {
- 	if (td->feats_incompatible & td->feats_supported)
+> to rebase. It may help to provide a snippet of the conflict resolution
+> in anticipation of Babu's series being merged first (I will propose exactly
+> the same to Babu for the scenario of this work merged first).
+
+Just lemme know which ones I should merge first and the others can be
+rebased on top.
+
+Thx.
 
 -- 
-2.30.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
