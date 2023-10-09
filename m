@@ -2,115 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC10E95A9E
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 15:53:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E7DE95A9E
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 16:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377778AbjJIPxV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 11:53:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41614 "EHLO
+        id S233666AbjJIQBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 12:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377908AbjJIPxA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 11:53:00 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387DD12A;
-        Mon,  9 Oct 2023 08:52:44 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DB4AA1C0006;
-        Mon,  9 Oct 2023 15:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696866763;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4AMtsZa6zVIHzUbCNgP42uJl6NOiPb2XmqHr6qtSOk8=;
-        b=OUAu5uUl10rdXK/kSRABGinxUBYAX0tqKnedXwm6mighiWm1QSlQlqoTxYxvz4VoRNw+X6
-        +GC7juiFx+TR0VYScrXq/97Q2dv2Dzl9MF/B81611FPWxuQop/2wQoGEy7cLG4YzjYs78C
-        gvGGfgZ0baXDziXYNRk3AxftqLciQ1kGrZ1zNnCv4avWMHoe76zMvmBxM/LjLNuPabjnM4
-        3sFM1LUimU7s0KTrX4FS9I52co5M/5DapRRJ6xDLXYp8YCbkxrCl7myWEwnO+X8Z6enWT+
-        WCooxd5IdXTV/d903kMGVk1Go2Hiqo/puV7fndPWmtKHteGy2i8inv7xPysBCA==
-From:   =?UTF-8?q?K=C3=B6ry=20Maincent?= <kory.maincent@bootlin.com>
-To:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Michael Walle <michael@walle.cc>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Kory Maincent <kory.maincent@bootlin.com>
-Subject: [PATCH net-next v5 16/16] netlink: specs: Introduce time stamping set command
-Date:   Mon,  9 Oct 2023 17:51:38 +0200
-Message-Id: <20231009155138.86458-17-kory.maincent@bootlin.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231009155138.86458-1-kory.maincent@bootlin.com>
-References: <20231009155138.86458-1-kory.maincent@bootlin.com>
+        with ESMTP id S232941AbjJIQBP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 12:01:15 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35D1C99
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 09:01:13 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so19126a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 09:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696867271; x=1697472071; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zy5f8ORtjUWrgt6sYe3zAtjW8P0Slkj5alaIenUuvkA=;
+        b=aKrtAd/apyvDwBTXOL2x+4v9FYk4wHTVm4maaxcAbTlxsn94pIijPz8X+b6ePHkKHU
+         KAaZK3Fcrjv1yTSxumGjzV2Sbzf0vujyKm15Ydm3/YWwrfbesw4MwinrmBodxn5gywn7
+         p6gpu3Vz/3MzwFppNPt1T0ZDmOKTG6W4SQN/CigA4JA3w/42nlj07+VP7gKWGoh73V3N
+         p62D+HvdSlhYsd/I4zrxHRbfw26ruG2T7VRysjliyDQVSSyRx/euuha62wj+d6B55sez
+         o5uXOJQfYOmlQ5FvFg1pwbrAcm4+DuuGFM0IB40Svk0JypLZKcsimph1gkUJgH5d/i+a
+         3YOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696867271; x=1697472071;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zy5f8ORtjUWrgt6sYe3zAtjW8P0Slkj5alaIenUuvkA=;
+        b=VjwprMy971P1uDWDqmUhpJOb8JANQAISMnOjGysVNwnj4V2Yi0iFfL/CSeUBnB6XKO
+         X4wCC6W3qWN6u5fLUn0fY9kwgjllNcgB9Di0tDoqbS/hBg+kcmcKPDXxbDoPVx0ERRc+
+         chwxS2TWuOZpAEY/4mLD2iV1QlTGJqHUvfwxFI94eb/KlFRZsQhg7+rL+L2Obqua4zpt
+         WwTm9bjGIFjOIrCWpazvFQgiT/Nj3qUe9/csbOqkT++kg9A19rGHFPBSNjIBRODvPPQ6
+         86vlSl14M3ruzv2cxREBSqJgQfw8gkp0lV4N+czN3nZBRWtMZwB3CWUVTws9fDmmigmf
+         dIww==
+X-Gm-Message-State: AOJu0YzEIEcbwSVWJZzvD1yReI/bQBXbhhG2lAE8WyR6A4tKMcwaSKy4
+        4JrNeLKdGcUfmYo4WRnB4elePfM7jXUO9KHWqSX8+A==
+X-Google-Smtp-Source: AGHT+IHMBy+3dUtNsP01KGzd8vcaNjxx/WJQdaZekS0DI0TUctsOfctSoMaVeTw3eiPY4I0DEmZh1AWM2/zlPyQ93IQ=
+X-Received: by 2002:a50:9fa4:0:b0:538:5f9e:f0fc with SMTP id
+ c33-20020a509fa4000000b005385f9ef0fcmr404150edf.0.1696867271482; Mon, 09 Oct
+ 2023 09:01:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: kory.maincent@bootlin.com
+References: <20220927131518.30000-1-ojeda@kernel.org> <20220927131518.30000-26-ojeda@kernel.org>
+ <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net> <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
+ <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
+ <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com> <CANiq72khuwOrAGN=CrFUX85UmPdJiZ2yM7_9_su_Zp951BHMMA@mail.gmail.com>
+In-Reply-To: <CANiq72khuwOrAGN=CrFUX85UmPdJiZ2yM7_9_su_Zp951BHMMA@mail.gmail.com>
+From:   Matthew Maurer <mmaurer@google.com>
+Date:   Mon, 9 Oct 2023 09:00:58 -0700
+Message-ID: <CAGSQo00gJsE+mQObeK4NNGDYLpZDDAZsREr15JcjD8Fo0E4pkw@mail.gmail.com>
+Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Sami Tolvanen <samitolvanen@google.com>,
+        Peter Zijlstra <peterz@infradead.org>, rcvalle@google.com,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        David Gow <davidgow@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kory Maincent <kory.maincent@bootlin.com>
+I have a patchset enabling support for both KCFI and IBT in the
+kernel, but it uses changes not yet landed in stable rustc, which is
+why I haven't sent it to the list yet:
+https://github.com/Rust-for-Linux/linux/pull/1034
 
-Add a new commands allowing to set the time stamping.
+We've backported the changes to rustc that need to be present onto the
+Android copy of the compiler, but it will take 6-12 weeks for them to
+hit stable rustc, which is what general Linux is using.
 
-Example usage :
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema \
-	     --do ts-list-get \
-	     --json '{"header":{"dev-name":"eth0"}}'
-{'header': {'dev-index': 3, 'dev-name': 'eth0'},
- 'ts-list-layer': b'\x02\x00\x00\x00\x01\x00\x00\x00\x05\x00\x00\x00'}
+If the IBT part would be helpful by itself immediately, I can split
+that out - it's only the KCFI portion that won't currently work.
 
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do ts-set \
-	     --json '{"header":{"dev-name":"eth0"}, "ts-layer":5}'
-none
-
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do ts-get \
-	     --json '{"header":{"dev-name":"eth0"}}'
-{'header': {'dev-index': 3, 'dev-name': 'eth0'}, 'ts-layer': 5}
-
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
- Documentation/netlink/specs/ethtool.yaml | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 81ed8e5f2f55..cfee4bf32128 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -1740,3 +1740,12 @@ operations:
-           attributes:
-             - header
-             - ts-list-layer
-+    -
-+      name: ts-set
-+      doc: Set the timestamp device
-+
-+      attribute-set: ts
-+
-+      do:
-+        request:
-+          attributes: *ts
--- 
-2.25.1
-
+On Fri, Oct 14, 2022 at 1:40=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Fri, Oct 14, 2022 at 8:35 PM Sami Tolvanen <samitolvanen@google.com> w=
+rote:
+> >
+> > Thanks, Miguel. I also talked to Ramon about KCFI earlier this week
+> > and he expressed interest in helping with rustc support for it. In the
+>
+> Ah, that is great to hear -- thanks a lot to you both! (Cc'ing Ramon)
+>
+> > meanwhile, I think we can just add a depends on !CFI_CLANG to avoid
+> > issues here.
+>
+> ACK, thanks -- if you want to send the patch, please feel free to do so.
+>
+> Cheers,
+> Miguel
