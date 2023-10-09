@@ -2,347 +2,419 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC886E81E18
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 22:34:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4ADCE9371D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 22:49:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378880AbjJIWeS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 18:34:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56296 "EHLO
+        id S1378835AbjJIWtm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 18:49:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378804AbjJIWeR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 18:34:17 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C109F
-        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 15:34:15 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-690bc3f82a7so3727126b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 15:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696890854; x=1697495654; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Tgewq7HxOrzYIVfmLJe6dOwb6la+jYDUEt1sxOICqG4=;
-        b=Ra4vIQ2u3vTn0n4UW5jLqzidME6WHXPR7H4NupvxS5hcnsdVIXi9s4xZyOUyjG4ipO
-         HCfU+y+5QkJXrBmk3XVOh/aVq2Mvrwye5WnOb5fLnawJRULRj7jl9umQ3359I8Jg7ZWA
-         9dC3ldI7ILyYu7ajR+A0+nXN/7WK5mtoVYBfEgJjl6hkVE9Yq3JrdxCwV/Y+lXTqkkju
-         OT3qMNZ4iG8PTL3gF9nPr/ryeTNyWQdqH2lpL+sezP1XZ0WuxgZAjwF6+jzmZSkkdEbw
-         5sfX0u08thrQ0qWoEANjIbs4u3S9IxFlJdf9Ibfwd+wiQsmeKAhCel6sqOYFdbbjkolU
-         IeYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696890854; x=1697495654;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tgewq7HxOrzYIVfmLJe6dOwb6la+jYDUEt1sxOICqG4=;
-        b=EsFQpiOhJGFPRLWitqWnyO2tKerQI6oRZc14zqzRKmNFlNmYUmrQMudNbVbQ0oxAaM
-         QaIuzMJ3vSgwOsbj9e0hrdwOa8asWzQIXUWATKLpmAeRvcI0oiVf5f+W/LQte/gYrJKP
-         ixlk/fcMQ5qY2FjeDOJOJskKuJqyG/qALg4k0ValNuDuwQWsvksrJoIdYbV+c+7xDyql
-         N8TnfDqw9OVwn9VQDIcFGsT0qvOugBFbNng/pbZ7pX27idCuDapB0kV78fcHRuGIolN1
-         5Fr1RRGVFuCksMt0n22c2+OQ7bwGaw96mEygSNTms2Op+3UqupOljT9B97NU3F2UoFpf
-         mmBg==
-X-Gm-Message-State: AOJu0YyGVyWChDWj933K+KRfEUXuUcSJ3CFS6T646Cev+ac6O1aDjhpZ
-        vz9Nozzv8/k4GsfEXEz7XRSfjw==
-X-Google-Smtp-Source: AGHT+IEzhSpeC0h4dn/4nRi9udN0UhKiGvWKnRWwjbwK/+dBhuiWW1SDhwSXGwuHN7l+lBuDXHcFnw==
-X-Received: by 2002:a05:6a21:7897:b0:16b:8344:6167 with SMTP id bf23-20020a056a21789700b0016b83446167mr9807663pzc.45.1696890854319;
-        Mon, 09 Oct 2023 15:34:14 -0700 (PDT)
-Received: from ?IPV6:2601:645:8100:1350:8cf3:86d7:bffd:cf74? ([2601:645:8100:1350:8cf3:86d7:bffd:cf74])
-        by smtp.gmail.com with ESMTPSA id r5-20020aa78b85000000b00690bd3c0723sm7084890pfd.99.2023.10.09.15.34.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 15:34:13 -0700 (PDT)
-Message-ID: <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
-Date:   Mon, 9 Oct 2023 15:34:12 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: uvc gadget: Making upper bound of number of usb requests
- allocated configurable through configfs
+        with ESMTP id S1378824AbjJIWtl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 18:49:41 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEAFB9C;
+        Mon,  9 Oct 2023 15:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696891779; x=1728427779;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=uUfwCPYHdzrTZoeJhWD2IerxGRIvGaDAJMV2yDfTa0g=;
+  b=FMCRLjm9kNQ2pp9mP3ROcpLI+eOOcAk7oGds5PyCAGOx6ubAMvJl5nI7
+   Gc6LwVxifY/vSmpYoKIHHtg/EKpvBNgztQsAOB0x9BDnnsS5onGPefQX+
+   ZVx/6tVbHrtzquIzsJRMtzvdC0D6uUlEQPgA3X970+PuQNU14ngrWSnb1
+   ALpX5MmJkW4VM4Sruyy6ZYv+paPdG4E1Ey9ga/SibUwHiNvdEIBJM40Ig
+   J5ZLVsbS07Soslrv6oyzci8pvgLAs5gI1DnALE2LfnwGXnYeMA0qL3waF
+   MKOx17+CuJslQ4ou7DJp+YDkdIXoZvZ6yAA+qBoY75werIKcBJDliT/3D
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="374603583"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="374603583"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 15:49:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="818993266"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="818993266"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Oct 2023 15:49:38 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 9 Oct 2023 15:49:37 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 9 Oct 2023 15:49:37 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 9 Oct 2023 15:49:37 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TvCyG9XqmBZgWe3XSWVDjLQ+Bvda/AhHl5IQLEKBzMsk2xEvx5NgEnmEwmcGUQXIRhSorOQVWfVx0410kcEtpfkSwDnxJiXPkCoduDiu01IPA1RsovJlGNB/PkoxYRiUqHT6Nj4EuM9Nl9XvYszfIrxOL+VuqAJp5Z1fFAtg1SCIU85PYLEHHZzrTZXy/kpbTAeHIPn/R7/s7ABOJqojJiOb+PYOlr1i6Cm2Zi71iVsBXXBnjQMbxodK+2F1lN7rgt8seRsvAl09wK1grRhM5RPlcpBYae6BA9+Wzx0WMGLsPVftLDT3d/K6k3DPzhjmFIxFtb5lNoHE3yJYE2RiXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bl3aRZE9z9UMX4P96Oy9L2Xi9dAYOc6CiaEncYN98tc=;
+ b=EwUh/eM6C3dmJG2BlfAvwYbS4hTlEVyLcfmJs/WdSFulf6ia3PncrCD3PDwV4WgeVT+ZSFPJ/lljPpPw+ta2Px3gyUiY5hnqasAg0/2GVUPMRKtfH1ATV2ftciU5rBlNg8hZUfbG1JUmpQ/hwruaAEZzR6bVGTKpRoTfR1vDq2hOEnQ++uueE4CXTCnULNVRJInljxlSxIOHQi31WnZWKtZdqE47W88eKzMf2gPnx/tlhbteJ2XgAjW8qFQ11Hk5m9wvAd0OQ3ymflQo7SphVbmTDc3Y3Q5GEJGvjZB3wNu1745Z3spwS90B6fpVE/ahMbM4lC1+zf3H3Siv9T7xMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
+ CY8PR11MB7897.namprd11.prod.outlook.com (2603:10b6:930:7d::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6863.37; Mon, 9 Oct 2023 22:49:35 +0000
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::4c69:ab61:fea5:5a7f]) by DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::4c69:ab61:fea5:5a7f%3]) with mapi id 15.20.6863.032; Mon, 9 Oct 2023
+ 22:49:34 +0000
+From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To:     Jiri Pirko <jiri@resnulli.us>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
+Subject: RE: [PATCH net-next v3 3/5] dpll: netlink/core: add support for
+ pin-dpll signal phase offset/adjust
+Thread-Topic: [PATCH net-next v3 3/5] dpll: netlink/core: add support for
+ pin-dpll signal phase offset/adjust
+Thread-Index: AQHZ+Epp4G5oik609kSdIhZl6Ji+LbA8s1KAgAVhXnA=
+Date:   Mon, 9 Oct 2023 22:49:34 +0000
+Message-ID: <DM6PR11MB46574AF7CDE51D16736A47DB9BCEA@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20231006114101.1608796-1-arkadiusz.kubalewski@intel.com>
+ <20231006114101.1608796-4-arkadiusz.kubalewski@intel.com>
+ <ZR//rQ7WGmHeRBOP@nanopsycho>
+In-Reply-To: <ZR//rQ7WGmHeRBOP@nanopsycho>
+Accept-Language: pl-PL, en-US
 Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>, corbet@lwn.net,
-        laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com,
-        kieran.bingham@ideasonboard.com
-Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        etalvala@google.com, arakesh@google.com
-References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
- <2023100834-statistic-richly-49ef@gregkh>
-From:   Jayant Chowdhary <jchowdhary@google.com>
-In-Reply-To: <2023100834-statistic-richly-49ef@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|CY8PR11MB7897:EE_
+x-ms-office365-filtering-correlation-id: afa5efc4-73b3-428d-a05a-08dbc91a01f7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YE8Sbyqh6AJ9dpq/f8DjGauaPEuXyTXnn1NL7JLa5sJYtBLIXk3TkmIiAR0o4a/0UP0ZK275e9mzDnl0uJNTeMbo4HWLPwY0YhelhvX4ZaCq04Ee1w+Mr95CFBqEwo0QT9viG1VI/pj6/LYbpnuoGOa/+uTBCy+aUfnNhUxkszWqTEcAWyYhhM6cbCdhVaY3zfxHbtxhPXsrzt8B5bMoz9jFgXNLIP2rzO5c9VUtjh+I8fdicrO4IvozCTpmIR2lKl3mNCf6kfKWsrIz4srB5gDBBXrP8fMRH6BIbuAqQy3m8tHs1XCRsBSzqtMCqIxVVNooWQWeS3i4uWnv5fB4KlBIp23h7TwuSGurJEz/f9XfjbmZ1DNEYYj8l1MqCBJlYo9vReyT2ju8G0qf7u4X6ZxXsGH3w+nH1x8E8dNNPQdYyWWvPjvTqxOOEqDQLWSm22Jn2DDYfUozyFktFHqFBFI8OCkHC6gf0DOM/AHG1/sFGUgDX9UvXbAXKUBDtdJ8W9jKiUUHo18VyyN5+N68bpRmgHTTANj7ZKAGNBLM0hf0wvgFub5PLaMMK3z2itQLKSqdYosJKb2AyaRcfaEwH/G6NGc34kLRK/S4wW3mw48qeZZs0rgS4IGnjj0zFSxz
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(346002)(376002)(39860400002)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(55016003)(83380400001)(76116006)(26005)(54906003)(66556008)(66476007)(6916009)(66946007)(64756008)(316002)(66446008)(4326008)(5660300002)(8676002)(7696005)(41300700001)(6506007)(71200400001)(52536014)(2906002)(9686003)(478600001)(8936002)(33656002)(122000001)(82960400001)(86362001)(38070700005)(38100700002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?d+hTjVBflLhgM8oKZ+KaDrEm0W031QnW7bDWhF337pNLQNrUsVTv8UWIg1qJ?=
+ =?us-ascii?Q?L1wzsyM3uWlT6Ho6admtQtg7wbCbkf5JZL4BNuUDEqRxX7uW2VRSoIDcVGIF?=
+ =?us-ascii?Q?9Gfqe1rJvQzFo7bvg8Ds0FeR0UzXDCYkeF6Par9aQ5RoOCunauIrZCE+CE1q?=
+ =?us-ascii?Q?dSTBpm6a09ReEgnYgKgad5ZOIfzD5BMTU2xeNCyOSmMNOwm3F8riMJmdv/FV?=
+ =?us-ascii?Q?rGD33mJrjiIhfiXfhBzfIjGk+xHCsOsBkS5tDMust2DQN2G1cu7La0EFk2lz?=
+ =?us-ascii?Q?2Yt7HsiccT3Ts605h+cDLWr9JWzj6jxvzruV74ArvkXdl3hlwrAWr8+jIJn1?=
+ =?us-ascii?Q?T84112tx9Jy4aQjR0ZVXT/SOyCwcpp86mwY3w+TNFMwCP5qLEnm/bvsPDuAa?=
+ =?us-ascii?Q?lM290LD3YXrrRq/NoZCrO0D1l84O5+ca7yx1pnmgQ9oVtnHn7fk5ErekJM0V?=
+ =?us-ascii?Q?XGbf+nfo8tF+eqM8tcSgw3VPm+4DxnCbBF3E5yLo9yNHBISbyUrvC9z4KQhs?=
+ =?us-ascii?Q?JpGr04me4du/1lY3sw1+pwAlW1gNotIcK6Pugp7QvY2Y8Z+4QBvA35cBI1Dm?=
+ =?us-ascii?Q?q6LNdW2C6YC0+Q8ohfuCZNOIE7f2F3q1YQQh1jmtd8T1ASZPDAeBWM6ms4jH?=
+ =?us-ascii?Q?lSlyBu3uJel9fM+jA0Yz+/HXQmQFluXxy7n18+6auJzhHjnYyWG5huLg+s25?=
+ =?us-ascii?Q?pXvv56ETZJHejeMnvK+yL5T9jbYVAyUS48MbFLeR5cYfviAG2lkCBX85A+Is?=
+ =?us-ascii?Q?BPa9IU8/YkQSUMnIg7L8FMnxTXWljd30DUjczjs6BKcRBR86vNGza48+f+fB?=
+ =?us-ascii?Q?oL9BUzaGyWeXDptaXerbIbE02B43BmLjNaLbfsvT9Mcix2G6NQrV68epvmvS?=
+ =?us-ascii?Q?1rmNxmiNtJq1USW1eXkQO8ZbzJsL0Oo8mu5VMRAArQsfs81zaFlFbyBa0DYx?=
+ =?us-ascii?Q?jeo8duHRseI62/cQtbrc4pCQbbAOF8tHNAQ3hFgn7YnSYhtOoSnMqlOloRw9?=
+ =?us-ascii?Q?H9T+j8o3fbA6Wkn2NoLV+uIssA6e8NhB0TnE5dXF1q+5lGWAeSqOrb2b/p8f?=
+ =?us-ascii?Q?eUbtjgqlCM+EutRd6EfyvfhcOT1KzehkGNJwvxXdAe1AOm855hxjC/PvkAH7?=
+ =?us-ascii?Q?xGIg3rvOlKLwPjo2yyPEWsos53dbuuOvydQDfXTjrL42jADQWu9Ve0upiXgj?=
+ =?us-ascii?Q?jPKSYyDP+7nI2cYTBx6KVDbNsO69ypKpkkcLxDtQg+UONYZuZK85gW6TtVau?=
+ =?us-ascii?Q?N2epAahQJJaksARYIuKe3Iw6MENTDiEP13bnaBrzgXfhjSPCU5E8uTyABw+U?=
+ =?us-ascii?Q?pUCJ6wAFNP+aYWdvsKoUI2rjVY6Hnl4TC4ReN9ZMZqYXGCSQLlPUsaluW2Qb?=
+ =?us-ascii?Q?MqRlNdNW4Pxo/orKDnMVe7vDbH7gZWkfspNs04RrE0uDB2bt1N5tGEEpLpei?=
+ =?us-ascii?Q?g9GyMsbQJ9xm0p8vquyd9gWELO/ab1J9hQzYVe6xW0gQZsEFbsWtiLi1fD0k?=
+ =?us-ascii?Q?5Z1djtd74DDcTHIkPRRB/i3HpBx+J+GpPeR8JlTMYW8exqhxDdKS8pJneqFG?=
+ =?us-ascii?Q?ySzwiWei1kiLEedXepzQGDTz+7VwEQ9/8+OIo10wEQobg3CICm4fBTvtXyuB?=
+ =?us-ascii?Q?WA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: afa5efc4-73b3-428d-a05a-08dbc91a01f7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2023 22:49:34.2206
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xb7tUiA4Dm82TzMZeXZG2BDeKSeDTf8vuvJGAqs/bXOsvgVoH637VMshT04P402PT4DDVDONMINX00eVoobf7omrs476n1JOTsj3JsNJ46A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7897
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Fri, Oct 06, 2023 at 03:03:56PM -0700, Jayant Chowdhary wrote:
->> Hi Everyone,
+>From: Jiri Pirko <jiri@resnulli.us>
+>Sent: Friday, October 6, 2023 2:38 PM
+>
+>Fri, Oct 06, 2023 at 01:40:59PM CEST, arkadiusz.kubalewski@intel.com wrote=
+:
+>>Add callback ops for pin-dpll phase measurment.
+>>Add callback for pin signal phase adjustment.
+>>Add min and max phase adjustment values to pin proprties.
+>>Invoke callbacks in dpll_netlink.c when filling the pin details to
+>>provide user with phase related attribute values.
 >>
->> We had been seeing the UVC gadget driver receive isoc errors while
->> sending packets to the usb endpoint - resulting in glitches being shown
->> on linux hosts. My colleague Avichal Rakesh and others had a very
->> enlightening discussion at
->> https://lore.kernel.org/linux-usb/8741b7cb-54ec-410b-caf5-697f81e8ad64@google.com/T/
+>>Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>>---
+>> drivers/dpll/dpll_netlink.c | 130 +++++++++++++++++++++++++++++++++++-
+>> include/linux/dpll.h        |  18 +++++
+>> 2 files changed, 147 insertions(+), 1 deletion(-)
 >>
+>>diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
+>>index e20daba6896a..97319a9e4667 100644
+>>--- a/drivers/dpll/dpll_netlink.c
+>>+++ b/drivers/dpll/dpll_netlink.c
+>>@@ -212,6 +212,53 @@ dpll_msg_add_pin_direction(struct sk_buff *msg,
+>>struct dpll_pin *pin,
+>> 	return 0;
+>> }
 >>
->> The conclusion that we came to was : usb requests with actual uvc frame
->> data were missing their scheduled uframes in the usb controller. As a
->> mitigation, we started sending 0 length usb requests when there was no
->> uvc frame buffer available to get data from. Even with this mitigation,
->> we are seeing glitches - albeit at a lower frequency.
+>>+static int
+>>+dpll_msg_add_pin_phase_adjust(struct sk_buff *msg, struct dpll_pin *pin,
+>>+			      struct dpll_pin_ref *ref,
+>>+			      struct netlink_ext_ack *extack)
+>>+{
+>>+	const struct dpll_pin_ops *ops =3D dpll_pin_ops(ref);
+>>+	struct dpll_device *dpll =3D ref->dpll;
+>>+	s32 phase_adjust;
+>>+	int ret;
+>>+
+>>+	if (!ops->phase_adjust_get)
+>>+		return 0;
+>>+	ret =3D ops->phase_adjust_get(pin, dpll_pin_on_dpll_priv(dpll, pin),
+>>+				    dpll, dpll_priv(dpll),
+>>+				    &phase_adjust, extack);
+>>+	if (ret)
+>>+		return ret;
+>>+	if (nla_put_s32(msg, DPLL_A_PIN_PHASE_ADJUST, phase_adjust))
+>>+		return -EMSGSIZE;
+>>+
+>>+	return 0;
+>>+}
+>>+
+>>+static int
+>>+dpll_msg_add_phase_offset(struct sk_buff *msg, struct dpll_pin *pin,
+>>+			  struct dpll_pin_ref *ref,
+>>+			  struct netlink_ext_ack *extack)
+>>+{
+>>+	const struct dpll_pin_ops *ops =3D dpll_pin_ops(ref);
+>>+	struct dpll_device *dpll =3D ref->dpll;
+>>+	s64 phase_offset;
+>>+	int ret;
+>>+
+>>+	if (!ops->phase_offset_get)
+>>+		return 0;
+>>+	ret =3D ops->phase_offset_get(pin, dpll_pin_on_dpll_priv(dpll, pin),
+>>+				    dpll, dpll_priv(dpll), &phase_offset,
+>>+				    extack);
+>>+	if (ret)
+>>+		return ret;
+>>+	if (nla_put_64bit(msg, DPLL_A_PIN_PHASE_OFFSET, sizeof(phase_offset),
+>>+			  &phase_offset, DPLL_A_PIN_PAD))
+>>+		return -EMSGSIZE;
+>>+
+>>+	return 0;
+>>+}
+>>+
+>> static int
+>> dpll_msg_add_pin_freq(struct sk_buff *msg, struct dpll_pin *pin,
+>> 		      struct dpll_pin_ref *ref, struct netlink_ext_ack *extack)
+>>@@ -330,6 +377,9 @@ dpll_msg_add_pin_dplls(struct sk_buff *msg, struct
+>>dpll_pin *pin,
+>> 		if (ret)
+>> 			goto nest_cancel;
+>> 		ret =3D dpll_msg_add_pin_direction(msg, pin, ref, extack);
+>>+		if (ret)
+>>+			goto nest_cancel;
+>>+		ret =3D dpll_msg_add_phase_offset(msg, pin, ref, extack);
+>> 		if (ret)
+>> 			goto nest_cancel;
+>> 		nla_nest_end(msg, attr);
+>>@@ -377,6 +427,15 @@ dpll_cmd_pin_get_one(struct sk_buff *msg, struct
+>>dpll_pin *pin,
+>> 	if (nla_put_u32(msg, DPLL_A_PIN_CAPABILITIES, prop->capabilities))
+>> 		return -EMSGSIZE;
+>> 	ret =3D dpll_msg_add_pin_freq(msg, pin, ref, extack);
+>>+	if (ret)
+>>+		return ret;
+>>+	if (nla_put_s32(msg, DPLL_A_PIN_PHASE_ADJUST_MIN,
+>>+			prop->phase_range.min))
+>>+		return -EMSGSIZE;
+>>+	if (nla_put_s32(msg, DPLL_A_PIN_PHASE_ADJUST_MAX,
+>>+			prop->phase_range.max))
+>>+		return -EMSGSIZE;
+>>+	ret =3D dpll_msg_add_pin_phase_adjust(msg, pin, ref, extack);
+>> 	if (ret)
+>> 		return ret;
+>> 	if (xa_empty(&pin->parent_refs))
+>>@@ -416,7 +475,7 @@ dpll_device_get_one(struct dpll_device *dpll, struct
+>>sk_buff *msg,
+>> 	if (nla_put_u32(msg, DPLL_A_TYPE, dpll->type))
+>> 		return -EMSGSIZE;
 >>
->> After some investigation, it is seen that we’re getting isoc errors when
->> the worker thread serving video_pump() work items, doesn’t get scheduled
->> for longer periods of time - than usual - in most cases > 6ms.
->> This is close enough to the 8ms limit that we have when the number of usb
->> requests in the queue is 64 (since we have a 125us uframe period). In order
->> to tolerate the scheduling delays better, it helps to increase the number of
->> usb requests in the queue . In that case, we have more 0 length requests
->> given to the udc driver - and as a result we can wait longer for uvc
->> frames with valid data to get processed by video_pump(). I’m attaching a
->> patch which lets one configure the upper bound on the number of usb
->> requests allocated through configfs. Please let me know your thoughts.
->> I can formalize  the patch if it looks okay.
-> Why do you want to limit the upper bound?  Why not just not submit so
-> many requests from userspace as you control that, right?
+>>-	return ret;
+>>+	return 0;
+>> }
+>>
+>> static int
+>>@@ -705,6 +764,70 @@ dpll_pin_direction_set(struct dpll_pin *pin, struct
+>>dpll_device *dpll,
+>> 	return 0;
+>> }
+>>
+>>+static int
+>>+dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr
+>>*phase_adj_attr,
+>>+		       struct netlink_ext_ack *extack)
+>>+{
+>>+	struct dpll_pin_ref *ref, *failed;
+>>+	const struct dpll_pin_ops *ops;
+>>+	s32 phase_adj, old_phase_adj;
+>>+	struct dpll_device *dpll;
+>>+	unsigned long i;
+>>+	int ret;
+>>+
+>>+	phase_adj =3D nla_get_s32(phase_adj_attr);
+>>+	if (phase_adj > pin->prop->phase_range.max ||
+>>+	    phase_adj < pin->prop->phase_range.min) {
+>>+		NL_SET_ERR_MSG(extack, "phase adjust value not supported");
+>>+		return -EINVAL;
+>>+	}
+>>+	xa_for_each(&pin->dpll_refs, i, ref) {
+>>+		ops =3D dpll_pin_ops(ref);
+>>+		if (!ops->phase_adjust_set || !ops->phase_adjust_get)
+>
+>Extack msg.
+>
 
-
-Userspace negotiates a video frame rate (typically 30/60fps) with the host that does
-not necessarily correspond to the ISOC cadence. After the
-patch at https://lkml.org/lkml/diff/2023/5/8/1115/1 was submitted, we are
-maintaining back pressure on the usb controller even if we do not have uvc frame
-data, by sending the controller 0 length requests (as long as usb_requests are
-available). Also, even if the userspace application were to somehow produce
-data to match the ISOC rate, it would  need to have information about USB
-timing details - which I am not sure is available to userspace or is the right
-thing to do here ?
-
-Here, we are trying to handle the scenario in which the video_pump() worker
-thread does not get scheduled in time - by increasing the number of usb requests
-allocated in the queue. This would send more usb requests to the usb controller,
-when video_pump() does get scheduled - even if they're 0 length. This buys
-the video_pump() worker thread scheduling time -since more usb requests
-are with the controller, subsequent requests sent will not be 'stale' and
-dropped by the usb controller.
+Fixed.
 
 >
->> Thank you
+>>+			return -EOPNOTSUPP;
+>>+	}
+>>+	ref =3D dpll_xa_ref_dpll_first(&pin->dpll_refs);
+>>+	ops =3D dpll_pin_ops(ref);
+>>+	dpll =3D ref->dpll;
+>>+	ret =3D ops->phase_adjust_get(pin, dpll_pin_on_dpll_priv(dpll, pin),
+>>+				    dpll, dpll_priv(dpll), &old_phase_adj,
+>>+				    extack);
+>>+	if (ret) {
+>>+		NL_SET_ERR_MSG(extack, "unable to get old phase adjust value");
+>>+		return ret;
+>>+	}
+>>+	if (phase_adj =3D=3D old_phase_adj)
+>>+		return 0;
+>>+	xa_for_each(&pin->dpll_refs, i, ref) {
+>>+		ops =3D dpll_pin_ops(ref);
+>>+		dpll =3D ref->dpll;
+>>+		ret =3D ops->phase_adjust_set(pin,
+>>+					    dpll_pin_on_dpll_priv(dpll, pin),
+>>+					    dpll, dpll_priv(dpll), phase_adj,
+>>+					    extack);
+>>+		if (ret) {
+>>+			failed =3D ref;
+>
+>Extack msg.
+>
+
+Fixed.
+
+Thank you!
+Arkadiusz
+
+>>+			goto rollback;
+>>+		}
+>>+	}
+>>+	__dpll_pin_change_ntf(pin);
+>>+
+>>+	return 0;
+>>+
+>>+rollback:
+>>+	xa_for_each(&pin->dpll_refs, i, ref) {
+>>+		if (ref =3D=3D failed)
+>>+			break;
+>>+		ops =3D dpll_pin_ops(ref);
+>>+		dpll =3D ref->dpll;
+>>+		if (ops->phase_adjust_set(pin, dpll_pin_on_dpll_priv(dpll,
+>>pin),
+>>+					  dpll, dpll_priv(dpll), old_phase_adj,
+>>+					  extack))
+>>+			NL_SET_ERR_MSG(extack, "set phase adjust rollback
+>>failed");
+>>+	}
+>>+	return ret;
+>>+}
+>>+
+>> static int
+>> dpll_pin_parent_device_set(struct dpll_pin *pin, struct nlattr
+>>*parent_nest,
+>> 			   struct netlink_ext_ack *extack)
+>>@@ -793,6 +916,11 @@ dpll_pin_set_from_nlattr(struct dpll_pin *pin, struc=
+t
+>>genl_info *info)
+>> 			if (ret)
+>> 				return ret;
+>> 			break;
+>>+		case DPLL_A_PIN_PHASE_ADJUST:
+>>+			ret =3D dpll_pin_phase_adj_set(pin, a, info->extack);
+>>+			if (ret)
+>>+				return ret;
+>>+			break;
+>> 		case DPLL_A_PIN_PARENT_DEVICE:
+>> 			ret =3D dpll_pin_parent_device_set(pin, a, info->extack);
+>> 			if (ret)
+>>diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+>>index bbc480cd2932..578fc5fa3750 100644
+>>--- a/include/linux/dpll.h
+>>+++ b/include/linux/dpll.h
+>>@@ -68,6 +68,18 @@ struct dpll_pin_ops {
+>> 	int (*prio_set)(const struct dpll_pin *pin, void *pin_priv,
+>> 			const struct dpll_device *dpll, void *dpll_priv,
+>> 			const u32 prio, struct netlink_ext_ack *extack);
+>>+	int (*phase_offset_get)(const struct dpll_pin *pin, void *pin_priv,
+>>+				const struct dpll_device *dpll, void *dpll_priv,
+>>+				s64 *phase_offset,
+>>+				struct netlink_ext_ack *extack);
+>>+	int (*phase_adjust_get)(const struct dpll_pin *pin, void *pin_priv,
+>>+				const struct dpll_device *dpll, void *dpll_priv,
+>>+				s32 *phase_adjust,
+>>+				struct netlink_ext_ack *extack);
+>>+	int (*phase_adjust_set)(const struct dpll_pin *pin, void *pin_priv,
+>>+				const struct dpll_device *dpll, void *dpll_priv,
+>>+				const s32 phase_adjust,
+>>+				struct netlink_ext_ack *extack);
+>> };
 >>
->> Jayant
+>> struct dpll_pin_frequency {
+>>@@ -91,6 +103,11 @@ struct dpll_pin_frequency {
+>> #define DPLL_PIN_FREQUENCY_DCF77 \
+>> 	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_77_5_KHZ)
 >>
->> ---
->>  .../ABI/testing/configfs-usb-gadget-uvc       |  2 ++
->>  Documentation/usb/gadget-testing.rst          | 21 ++++++++++++-------
->>  drivers/usb/gadget/function/f_uvc.c           |  4 +++-
->>  drivers/usb/gadget/function/u_uvc.h           |  1 +
->>  drivers/usb/gadget/function/uvc.h             |  3 +++
->>  drivers/usb/gadget/function/uvc_configfs.c    |  2 ++
->>  drivers/usb/gadget/function/uvc_queue.c       |  5 ++++-
->>  7 files changed, 28 insertions(+), 10 deletions(-)
+>>+struct dpll_pin_phase_adjust_range {
+>>+	s32 min;
+>>+	s32 max;
+>>+};
+>>+
+>> struct dpll_pin_properties {
+>> 	const char *board_label;
+>> 	const char *panel_label;
+>>@@ -99,6 +116,7 @@ struct dpll_pin_properties {
+>> 	unsigned long capabilities;
+>> 	u32 freq_supported_num;
+>> 	struct dpll_pin_frequency *freq_supported;
+>>+	struct dpll_pin_phase_adjust_range phase_range;
+>> };
 >>
->> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc
->> b/Documentation/ABI/testing/configfs-usb-gadget-uvc
->> index 4feb692c4c1d..9bc58440e1b7 100644
->> --- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
->> +++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
->> @@ -7,6 +7,8 @@ Description:    UVC function directory
->>          streaming_maxburst    0..15 (ss only)
->>          streaming_maxpacket    1..1023 (fs), 1..3072 (hs/ss)
->>          streaming_interval    1..16
->> +         streaming_max_usb_requests 64..256
->> +
->>          function_name        string [32]
->>          ===================    =============================
+>> #if IS_ENABLED(CONFIG_DPLL)
+>>--
+>>2.38.1
 >>
->> diff --git a/Documentation/usb/gadget-testing.rst
->> b/Documentation/usb/gadget-testing.rst
->> index 29072c166d23..24a62ba8e870 100644
->> --- a/Documentation/usb/gadget-testing.rst
->> +++ b/Documentation/usb/gadget-testing.rst
->> @@ -790,14 +790,19 @@ Function-specific configfs interface
->>  The function name to use when creating the function directory is "uvc".
->>  The uvc function provides these attributes in its function directory:
->>
->> -    =================== ================================================
->> -    streaming_interval  interval for polling endpoint for data transfers
->> -    streaming_maxburst  bMaxBurst for super speed companion descriptor
->> -    streaming_maxpacket maximum packet size this endpoint is capable of
->> -                sending or receiving when this configuration is
->> -                selected
->> -    function_name       name of the interface
->> -    =================== ================================================
->> +    =================== ===========================================
->> +    streaming_interval         interval for polling endpoint for data
->> +                    transfers
->> +    streaming_maxburst          bMaxBurst for super speed companion
->> +                    descriptor
->> +    streaming_maxpacket         maximum packet size this endpoint is
->> +                    capable of sending or receiving when
->> +                    this configuration is selected
->> +        streaming_max_usb_requests  upper bound for the number of usb
->> requests
->> +                        the gadget driver will allocate for
->> +                    sending to the endpoint.
->> +    function_name            name of the interface
-> Note, your patch is whitespace damaged and line-wrapped, making it
-> really really hard to read and impossible to apply.
-
-
-My apologies and thank you for your patience. I have attached the patch again
-for discussion.
-(Also fixed a mailing list typo I had made in the previous e-mail)
-
-Thanks,
-Jayant
-
----
- .../ABI/testing/configfs-usb-gadget-uvc       |  2 ++
- Documentation/usb/gadget-testing.rst          | 21 ++++++++++++-------
- drivers/usb/gadget/function/f_uvc.c           |  4 +++-
- drivers/usb/gadget/function/u_uvc.h           |  1 +
- drivers/usb/gadget/function/uvc.h             |  3 +++
- drivers/usb/gadget/function/uvc_configfs.c    |  2 ++
- drivers/usb/gadget/function/uvc_queue.c       |  5 ++++-
- 7 files changed, 28 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-index 4feb692c4c1d..9bc58440e1b7 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-@@ -7,6 +7,8 @@ Description:	UVC function directory
- 		streaming_maxburst	0..15 (ss only)
- 		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
- 		streaming_interval	1..16
-+		 streaming_max_usb_requests 64..256
-+
- 		function_name		string [32]
- 		===================	=============================
- 
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index 29072c166d23..24a62ba8e870 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -790,14 +790,19 @@ Function-specific configfs interface
- The function name to use when creating the function directory is "uvc".
- The uvc function provides these attributes in its function directory:
- 
--	=================== ================================================
--	streaming_interval  interval for polling endpoint for data transfers
--	streaming_maxburst  bMaxBurst for super speed companion descriptor
--	streaming_maxpacket maximum packet size this endpoint is capable of
--			    sending or receiving when this configuration is
--			    selected
--	function_name       name of the interface
--	=================== ================================================
-+	===================         ===========================================
-+	streaming_interval 	    interval for polling endpoint for data
-+				    transfers
-+	streaming_maxburst  	    bMaxBurst for super speed companion
-+				    descriptor
-+	streaming_maxpacket         maximum packet size this endpoint is
-+				    capable of sending or receiving when
-+				    this configuration is selected
-+	streaming_max_usb_requests  upper bound for the number of usb requests
-+				    the gadget driver will allocate for
-+				    sending to the endpoint.
-+	function_name		    name of the interface
-+	===================         ============================================
- 
- There are also "control" and "streaming" subdirectories, each of which contain
- a number of their subdirectories. There are some sane defaults provided, but
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index faa398109431..32a296ea37d7 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -659,7 +659,8 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
- 	opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
- 	opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
--
-+	opts->streaming_max_usb_requests = clamp(opts->streaming_max_usb_requests, 64U, 256U);
-+	uvc->streaming_max_usb_requests = opts->streaming_max_usb_requests;
- 	/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
- 	if (opts->streaming_maxburst &&
- 	    (opts->streaming_maxpacket % 1024) != 0) {
-@@ -934,6 +935,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
- 
- 	opts->streaming_interval = 1;
- 	opts->streaming_maxpacket = 1024;
-+	opts->streaming_max_usb_requests = 64;
- 	snprintf(opts->function_name, sizeof(opts->function_name), "UVC Camera");
- 
- 	ret = uvcg_attach_configfs(opts);
-diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-index 1ce58f61253c..075fee178418 100644
---- a/drivers/usb/gadget/function/u_uvc.h
-+++ b/drivers/usb/gadget/function/u_uvc.h
-@@ -24,6 +24,7 @@ struct f_uvc_opts {
- 	unsigned int					streaming_interval;
- 	unsigned int					streaming_maxpacket;
- 	unsigned int					streaming_maxburst;
-+	unsigned int					streaming_max_usb_requests;
- 
- 	unsigned int					control_interface;
- 	unsigned int					streaming_interface;
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 6751de8b63ad..943c074157fa 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -157,6 +157,9 @@ struct uvc_device {
- 	/* Events */
- 	unsigned int event_length;
- 	unsigned int event_setup_out : 1;
-+
-+	/* Max number of usb requests allocated to send to the ep*/
-+	unsigned int streaming_max_usb_requests;
- };
- 
- static inline struct uvc_device *to_uvc(struct usb_function *f)
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 9bf0e985acfa..0ad9eae4845e 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -3403,6 +3403,7 @@ UVC_ATTR(f_uvc_opts_, cname, cname)
- UVCG_OPTS_ATTR(streaming_interval, streaming_interval, 16);
- UVCG_OPTS_ATTR(streaming_maxpacket, streaming_maxpacket, 3072);
- UVCG_OPTS_ATTR(streaming_maxburst, streaming_maxburst, 15);
-+UVCG_OPTS_ATTR(streaming_max_usb_requests, streaming_max_usb_requests, 256);
- 
- #undef UVCG_OPTS_ATTR
- 
-@@ -3453,6 +3454,7 @@ static struct configfs_attribute *uvc_attrs[] = {
- 	&f_uvc_opts_attr_streaming_maxpacket,
- 	&f_uvc_opts_attr_streaming_maxburst,
- 	&f_uvc_opts_string_attr_function_name,
-+	&f_uvc_opts_attr_streaming_max_usb_requests,
- 	NULL,
- };
- 
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index 0aa3d7e1f3cc..b81c2d8e5ef2 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -45,6 +45,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
- 	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
- 	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
- 	unsigned int req_size;
-+	unsigned int max_usb_requests;
- 	unsigned int nreq;
- 
- 	if (*nbuffers > UVC_MAX_VIDEO_BUFFERS)
-@@ -54,6 +55,8 @@ static int uvc_queue_setup(struct vb2_queue *vq,
- 
- 	sizes[0] = video->imagesize;
- 
-+	max_usb_requests = video->uvc->streaming_max_usb_requests;
-+
- 	req_size = video->ep->maxpacket
- 		 * max_t(unsigned int, video->ep->maxburst, 1)
- 		 * (video->ep->mult);
-@@ -62,7 +65,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
- 	 * into fewer requests for smaller framesizes.
- 	 */
- 	nreq = DIV_ROUND_UP(DIV_ROUND_UP(sizes[0], 2), req_size);
--	nreq = clamp(nreq, 4U, 64U);
-+	nreq = clamp(nreq, 4U, max_usb_requests);
- 	video->uvc_num_requests = nreq;
- 
- 	return 0;
--- 
-
