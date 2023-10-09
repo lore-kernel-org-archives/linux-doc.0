@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7930CD6139
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 21:24:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E55D0CD613B
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 21:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377082AbjJIVYS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 17:24:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
+        id S1378688AbjJIV2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 17:28:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378937AbjJIVX4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 17:23:56 -0400
+        with ESMTP id S1377082AbjJIV2q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 17:28:46 -0400
 Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0761110
-        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 14:23:50 -0700 (PDT)
-Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-77574c2cffdso416588785a.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 14:23:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 228049E
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 14:28:44 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-77428510fe7so415500785a.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 14:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1696886630; x=1697491430; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1696886923; x=1697491723; darn=vger.kernel.org;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MJ1mpOTotMiSMFv7uoeufb9/K05jjTGa5/SNq9KvA7w=;
-        b=iJ1LfgMHnlCDChG58tfuGMqfcphH5DIIeSI03PGMaxx+XFnr94nafn1+IfpDN6CUnD
-         8xFhJmiqlH/6etpDsV1rEQXvz+aXc37cQuLEQwWBjLh9WG6FmA6dwsnWBbYRYVZi5kuy
-         rCg5GThAjeU5AvYgWKziLW9x53oz9wzkLnpt8=
+        bh=EBSz6Du+bgEiuIVMPOF9NRJSQc35btuBuEcErLus/es=;
+        b=DzE8g41r4j1QXmhnn1ePphUqwdWYZT80xM3CB7CnYqc5O6xpwMX7JebE37QTsfGiG9
+         GpLbqBV45gWKZQJyVWjhv9kxHxgPofkeebf731k16eDupKdZfawCHxjtz+a3Ni1rqCwa
+         ywaqXW/cN0bqWpgi29WdFQvNahJYwXADJyB4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696886630; x=1697491430;
+        d=1e100.net; s=20230601; t=1696886923; x=1697491723;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=MJ1mpOTotMiSMFv7uoeufb9/K05jjTGa5/SNq9KvA7w=;
-        b=cFFduLM87DGmx399KVnI3g5yw/eRrpdO68R6FFJOKPndbYJdqy1zsGEnfC4MxcJU0N
-         6yWNd12dyO1qXs2QncnhIWqcgKHD7JpLlRCTctuAwOEcPed/i+0TWUOrDqeK8n+ns3Dx
-         9ia+EiJABZMaSFs8X5UTJl1llxqSN8S0/SXeJ7vajTWr4dyW4gX1mfdgACXehNQJxmMN
-         JGW7CDUkjqHmzCEHYKm/mTbFl7sD3Ol/MXP4wOHvbh9sJCQre3KboSWtNUQR7xvfGxHI
-         dbw4ay+dlMgrapliZnsXCWqgRpH88+mN4NvB0N/00jriFP7fQ1kpLNv4TJj2P9Zu1T2O
-         s9EA==
-X-Gm-Message-State: AOJu0YxddW6g39d5KNo5K7+ZIXiR13OgYG5ETgjRfJ5trho+guMI/co3
-        bdtDClFbnoaTB/C7ojWG3MyB4Q==
-X-Google-Smtp-Source: AGHT+IFy279zB+znL9lElh8YQHAfE0uD1Si3o48CRL+UukFUsVUodgADFMRtk3OvIo58Ysayuisc2A==
-X-Received: by 2002:a05:620a:44c9:b0:773:c43e:5e73 with SMTP id y9-20020a05620a44c900b00773c43e5e73mr18373396qkp.25.1696886629856;
-        Mon, 09 Oct 2023 14:23:49 -0700 (PDT)
+        bh=EBSz6Du+bgEiuIVMPOF9NRJSQc35btuBuEcErLus/es=;
+        b=Q5hxWH3aPswBoosCe0fhubdnKi9I7cDn+OLeINGy9JJluQ57nCbgnWPqxgMeSO+/D5
+         LeUqnNwix/wbIXyWOcXOvgInDvPgzx90pbp0ntyO3iaWPpRAZeq2d6j9l9CYz8ETNV9g
+         vUIAIpNpuIM3jRIpaGQioQ0Hb7Tii/xlBRTLgksScTwd4ulI3t/1zhMLGBWbHMmRYZLG
+         CQNb8WoUpJiwup7038v5XcoE2+h3NIzKsHoG4XYLQ8tO7GSuSNdCYgyYdctN85nez3rb
+         NrHheGr6x5yNqj/hPiaYk2FcGP9tzZ1NwzicSTjgLjEiSqIZY9V2V8W0Mn9aAKF/m2z8
+         sOkQ==
+X-Gm-Message-State: AOJu0Yyj6p6QeyxNLfdIgds0EL6iz9vbllFLrah4fy9JtA4VHE8OrvbX
+        DCYHkx/dvva9R2lfyYgUcRaF/A==
+X-Google-Smtp-Source: AGHT+IFgp3bUAlUoo5MfQBEIlkw4t2l7WjSsKcgXrBp0lZALYD6Rqry4DBu4aiY69rQKNXHRePOt2g==
+X-Received: by 2002:a05:620a:288a:b0:774:21d8:b0bb with SMTP id j10-20020a05620a288a00b0077421d8b0bbmr17564830qkp.24.1696886922904;
+        Mon, 09 Oct 2023 14:28:42 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id y6-20020a37e306000000b0077413b342e9sm3789749qki.128.2023.10.09.14.23.46
+        by smtp.gmail.com with ESMTPSA id s17-20020a05620a031100b00767177a5bebsm3783508qkm.56.2023.10.09.14.28.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 14:23:49 -0700 (PDT)
-Message-ID: <09b7752f-1081-45c7-b19d-06d2196167de@broadcom.com>
-Date:   Mon, 9 Oct 2023 14:23:46 -0700
+        Mon, 09 Oct 2023 14:28:42 -0700 (PDT)
+Message-ID: <ac520b3b-bf70-4643-a259-83e91dd330a6@broadcom.com>
+Date:   Mon, 9 Oct 2023 14:28:38 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 12/16] net: Replace hwtstamp_source by
- timestamping layer
+Subject: Re: [PATCH net-next v5 15/16] net ethtool: net: Let the active time
+ stamping layer be selectable
 To:     =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -80,7 +80,7 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Jacob Keller <jacob.e.keller@intel.com>,
         Maxime Chevallier <maxime.chevallier@bootlin.com>
 References: <20231009155138.86458-1-kory.maincent@bootlin.com>
- <20231009155138.86458-13-kory.maincent@bootlin.com>
+ <20231009155138.86458-16-kory.maincent@bootlin.com>
 From:   Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -114,14 +114,14 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20231009155138.86458-13-kory.maincent@bootlin.com>
+In-Reply-To: <20231009155138.86458-16-kory.maincent@bootlin.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000d0309806074f3465"
+        boundary="00000000000048868606074f4652"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000d0309806074f3465
+--00000000000048868606074f4652
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
@@ -129,29 +129,107 @@ Content-Transfer-Encoding: 8bit
 On 10/9/23 08:51, Köry Maincent wrote:
 > From: Kory Maincent <kory.maincent@bootlin.com>
 > 
-> Replace hwtstamp_source which is only used by the kernel_hwtstamp_config
-> structure by the more widely use timestamp_layer structure. This is done
-> to prepare the support of selectable timestamping source.
+> Now that the current timestamp is saved in a variable lets add the
+> ETHTOOL_MSG_TS_SET ethtool netlink socket to make it selectable.
 > 
 > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 > ---
-[snip]
->    * Prefer using this structure for in-kernel processing of hardware
->    * timestamping configuration, over the inextensible struct hwtstamp_config
-> @@ -33,7 +28,7 @@ struct kernel_hwtstamp_config {
->   	int rx_filter;
->   	struct ifreq *ifr;
->   	bool copied_to_user;
-> -	enum hwtstamp_source source;
 
-It would be kind of nice to keep using the enum internally such that we 
-can catch unhandled values, which the compiler is usually quite good at 
-figuring.
+[snip]
+
+> +static int ethnl_set_ts_validate(struct ethnl_req_info *req_info,
+> +				 struct genl_info *info)
+> +{
+> +	struct nlattr **tb = info->attrs;
+> +	const struct net_device_ops *ops = req_info->dev->netdev_ops;
+> +
+> +	if (!tb[ETHTOOL_A_TS_LAYER])
+> +		return 0;
+> +
+> +	if (!ops->ndo_hwtstamp_set)
+> +		return -EOPNOTSUPP;
+
+I would check for this first, in all likelihood this is what most 
+drivers currently do not support, no need to event de-reference the 
+array of attributes.
+
+> +
+> +	return 1;
+> +}
+> +
+> +static int ethnl_set_ts(struct ethnl_req_info *req_info, struct genl_info *info)
+> +{
+> +	struct net_device *dev = req_info->dev;
+> +	const struct ethtool_ops *ops = dev->ethtool_ops;
+> +	struct kernel_hwtstamp_config config = {0};
+> +	struct nlattr **tb = info->attrs;
+> +	bool mod = false;
+> +	u32 ts_layer;
+> +	int ret;
+> +
+> +	ts_layer = dev->ts_layer;
+> +	ethnl_update_u32(&ts_layer, tb[ETHTOOL_A_TS_LAYER], &mod);
+> +
+> +	if (!mod)
+> +		return 0;
+> +
+> +	if (ts_layer & NETDEV_TIMESTAMPING && !ops->get_ts_info) {
+> +		NL_SET_ERR_MSG_ATTR(info->extack, tb[ETHTOOL_A_TS_LAYER],
+> +				    "this device cannot support timestamping");
+
+Maybe expand the extended ack with "this devices does not support 
+MAC-based timestamping"
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (ts_layer & PHYLIB_TIMESTAMPING && !phy_has_tsinfo(dev->phydev)) {
+> +		NL_SET_ERR_MSG_ATTR(info->extack, tb[ETHTOOL_A_TS_LAYER],
+> +				    "this device cannot support timestamping");
+
+Likewise, detail which kind of timestamping is not supported.
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Disable time stamping in the current layer. */
+> +	if (netif_device_present(dev) &&
+> +	    dev->ts_layer & (PHYLIB_TIMESTAMPING | NETDEV_TIMESTAMPING)) {
+> +		ret = dev_set_hwtstamp_phylib(dev, &config, info->extack);
+
+Can we still land in this function even if no changes to the 
+timestamping configuration has been made? If so, would suggest first 
+getting the current configuration and compare it with the user-supplied 
+configuration if there are no changes, return.
+
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	dev->ts_layer = ts_layer;
+> +
+> +	return 1;
+> +}
+> +
+>   const struct ethnl_request_ops ethnl_ts_request_ops = {
+>   	.request_cmd		= ETHTOOL_MSG_TS_GET,
+>   	.reply_cmd		= ETHTOOL_MSG_TS_GET_REPLY,
+> @@ -69,6 +132,9 @@ const struct ethnl_request_ops ethnl_ts_request_ops = {
+>   	.prepare_data		= ts_prepare_data,
+>   	.reply_size		= ts_reply_size,
+>   	.fill_reply		= ts_fill_reply,
+> +
+> +	.set_validate		= ethnl_set_ts_validate,
+> +	.set			= ethnl_set_ts,
+>   };
+>   
+>   /* TS_LIST_GET */
+
 -- 
 Florian
 
 
---000000000000d0309806074f3465
+--00000000000048868606074f4652
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -222,14 +300,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEINM5tGSv+o0JQT1K
-3Hy9LxC2qhX2mR4s07asMuedm/ccMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTIzMTAwOTIxMjM1MFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIIf/6XE3BfUopc+V
+y0OkflRisSZyFRRuXwaIRIRD+zhqMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTIzMTAwOTIxMjg0M1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCVXbT9fNH/K00FDEsExeFHKbJXtGR3KpYA
-rP4UuszneBFykGnU3bM3hWjxp0/8GXjdd6sIELrR8lbBLOtOB8Dg7HjdQ10mCtErOxgzwTlEYKRN
-o5D1yXTldBBIBkgw+sNhjP5d8aIoEymlMvH9ZPSLjSxwSqlt/ACBy2F79m8aVjSWObdKZL8EhpTT
-YGa6T9P/n8VoNZvWGjstYQco5tEVtAvzcNtUszKs0dzK2PYXchKjJ78XFrpva3W4LdtmJcUwBez9
-reiySG5Emeyb0ikuHl4VeRVFadMdW/cxroEJ2mzQmSqi+JUxoDtsSLjiPcxXRptfVy2nAwZkAQUE
-J2Of
---000000000000d0309806074f3465--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQDtm3DH1tl6+cYNVr16s32yu0ThVtG87SBj
+KXCJnPJlBiWd1LfYkbAOFUJm5HbsN7qPh9Jq2wYQtuZEuaZ+BQnLFAxWoc7kcGsJeLOtStlUvz6l
+QJYHG/ABWPEvGO87k/NDGBrp2jNZboJ1x1sZCIqR9iys41ZLp6wKKX/mheuXt6ySNEAd/V8GQmrC
+pfaQQ7PBB/TEqck4AYzgN4MxXgaS+otXWg6XK/eShvsrrZF/F+LnPyoeHC1xnmntrNlmbqbpxzE5
+Tw9ak6qHpxp1lrO+7S8ugO/9psmUgVOmH8T5zwDB2mvabagMKCCtcimDfo/hyBwvgovYbSyKuYU8
+YxAX
+--00000000000048868606074f4652--
