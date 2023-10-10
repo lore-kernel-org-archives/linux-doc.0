@@ -2,48 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64057CD691F
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 10:04:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BFDAE95A8F
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 10:12:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbjJJKED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 06:04:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43354 "EHLO
+        id S230304AbjJJKMr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 06:12:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbjJJKD4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 06:03:56 -0400
-X-Greylist: delayed 1338 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 Oct 2023 03:03:55 PDT
-Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15E5E99
-        for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 03:03:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
-        s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-        Subject:To:From; bh=KiG9gq+pmTjiCNH5AMoTyUrDkGdFm9tyOSauoUX5EWE=; b=CSHN0Dsxd
-        GyqSFPEirbfl9CZEngtVS2y9cciXtLcxSnvkEglg4KOvV/GRTscJ9zQwdJYWQNC0P8FupOvDC/uyA
-        IxkMNMigg77/PQ1RcfAwx0JRypFaxMbqWDAaKaGzGPUgxOQXCYHcdXL7WDeLWXxGIa4FIUtcDuk4+
-        GIsYumYE=;
-Received: from xenbits.xenproject.org ([104.239.192.120])
-        by mail.xenproject.org with esmtp (Exim 4.92)
-        (envelope-from <paul@xen.org>)
-        id 1qq9El-0004Bm-KY; Tue, 10 Oct 2023 09:41:11 +0000
-Received: from ec2-63-33-11-17.eu-west-1.compute.amazonaws.com ([63.33.11.17] helo=REM-PW02S00X.ant.amazon.com)
-        by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <paul@xen.org>)
-        id 1qq9El-0004Ha-7T; Tue, 10 Oct 2023 09:41:11 +0000
-From:   Paul Durrant <paul@xen.org>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] KVM x86/xen: add an override for PVCLOCK_TSC_STABLE_BIT
-Date:   Tue, 10 Oct 2023 09:40:47 +0000
-Message-Id: <20231010094047.3850928-1-paul@xen.org>
+        with ESMTP id S230092AbjJJKMq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 06:12:46 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 168E797
+        for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 03:12:44 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-4064867903cso55581325e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 03:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google; t=1696932762; x=1697537562; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=teYJaujWBCZMTxCLTD+iOO+xzJ4IWgTIsHFi/8ohCow=;
+        b=RYELOLeFmbycvKbS5j7pdiq+gIU9r6GKjpP7iyvoWjvStQ1zfGZenwc/gDCH0QFZp9
+         ToIDV1m6wE04IHsyKpRgnX3nSxj3+4mNuuMshD7dTV6nkhyyrGQyVb9RH+lVBhtRDTAA
+         K8zkEKJ3tZl7xt61/8oNiqkLwn9/WBF59R1Pj9qy0Jm/cE8+0HNfqi+e0rJIX4xN7EEt
+         TlUpO/Cvm7v+FlYK/6v52Zhl1rueHulPuILI+Qsl6VG5uCydU6+kFk4taaxskvA9m7dG
+         8aBiLhJgxZBAp3qAkwo9Bm952urWHVzu83/qWVcKQaXEiiEZ+DhdsFVTU3QI4nlABQ86
+         drAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696932762; x=1697537562;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=teYJaujWBCZMTxCLTD+iOO+xzJ4IWgTIsHFi/8ohCow=;
+        b=UuFe86GNLFdyclviYmXS1oJr6CMrYkPJI9GKJSj8VXdQMWJti0cui9ZVzi4j4A1VWm
+         rZjWhd97rBB5h2NQDODwnhiA1fxOPeM1G7o5nhE6eW1FUw3OGk0sCl71r735f4UluA+z
+         vLZAcp/VG+UWhck40Y6o+a9N61DIzqXD7qoFQwsEI4NMQ3m+M4O0BvJg1lKt1IY+ges7
+         e19/+Qv8I8/zisC9mDmaWdpFjDG1nwn8d1vZWiT5e/3SH9k5CE8mzUWzK4a3mIl09KD1
+         cSPozQvZiEYBX2j4grFkiyoRLE8vViop5mXGVhZTtn8LCeFf59ClBMyGmGRiCkUmW3hX
+         MT1g==
+X-Gm-Message-State: AOJu0Yz0ylC2jVgKfyzlDRxR1UhGCB6LChbenTBbpjf+P3HR9c08bwnz
+        2lHIkU5Zgf1/7Jr5Xta7/tgn6A==
+X-Google-Smtp-Source: AGHT+IEmxKv6FlPH3O6WPf3LYHGGN3ufjTjlBrrE6YWVYP2w65QpCOqWBYzL851J/FKoQGpYzulCSA==
+X-Received: by 2002:a1c:6a18:0:b0:405:4a78:a892 with SMTP id f24-20020a1c6a18000000b004054a78a892mr14910939wmc.9.1696932762426;
+        Tue, 10 Oct 2023 03:12:42 -0700 (PDT)
+Received: from heron.intern.cm-ag (p200300dc6f49a600529a4cfffe3dd983.dip0.t-ipconnect.de. [2003:dc:6f49:a600:529a:4cff:fe3d:d983])
+        by smtp.gmail.com with ESMTPSA id 1-20020a05600c230100b0040644e699a0sm15977562wmo.45.2023.10.10.03.12.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Oct 2023 03:12:42 -0700 (PDT)
+From:   Max Kellermann <max.kellermann@ionos.com>
+To:     linux@roeck-us.net, joe@perches.com,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Max Kellermann <max.kellermann@ionos.com>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/process/coding-style.rst: space around const/volatile
+Date:   Tue, 10 Oct 2023 12:12:40 +0200
+Message-Id: <20231010101240.992984-1-max.kellermann@ionos.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,187 +64,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Paul Durrant <pdurrant@amazon.com>
+There are currently no rules on the placement of "const" and
+"volatile", but a recent code submission revealed that there is
+clearly a preference for spaces around them.
 
-Unless explicitly told to do so (by passing 'clocksource=tsc' and
-'tsc=stable:socket', and then jumping through some hoops concerning
-potential CPU hotplug) Xen will never use TSC as its clocksource.
-Hence, by default, a Xen guest will not see PVCLOCK_TSC_STABLE_BIT set
-in either the primary or secondary pvclock memory areas. This has
-led to bugs in some guest kernels which only become evident if
-PVCLOCK_TSC_STABLE_BIT *is* set in the pvclocks. Hence, to support
-such guests, give the VMM a new attribute to tell KVM to forcibly
-clear the bit in the Xen pvclocks.
+checkpatch.pl has no check at all for this; though it does sometimes
+complain, but only because it erroneously thinks that the "*" (on
+local variables) is an unary dereference operator, not a pointer type.
 
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Current coding style for const pointers-to-pointers:
+
+ "*const*": 2 occurrences
+ "* const*": 3
+ "*const *": 182
+ "* const *": 681
+
+Just const pointers:
+
+ "*const": 2833 occurrences
+ "* const": 16615
+
+Link: https://lore.kernel.org/r/264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net/
+Link: https://lore.kernel.org/r/f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com/
+Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
 ---
- Documentation/virt/kvm/api.rst  |  9 +++++++++
- arch/x86/include/asm/kvm_host.h |  1 +
- arch/x86/kvm/x86.c              | 25 ++++++++++++++++++++-----
- arch/x86/kvm/xen.c              | 13 +++++++++++++
- include/uapi/linux/kvm.h        |  5 +++++
- 5 files changed, 48 insertions(+), 5 deletions(-)
+ Documentation/process/coding-style.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 21a7578142a1..d06f971a2ce0 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5544,6 +5544,7 @@ attribute cannot be read.
- 			__u64 expires_ns;
- 		} timer;
- 		__u8 vector;
-+		__u32 flags;
- 	} u;
-   };
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 6db37a46d305..b40830517938 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -271,6 +271,18 @@ adjacent to the type name.  Examples:
+ 	unsigned long long memparse(char *ptr, char **retptr);
+ 	char *match_strdup(substring_t *s);
  
-@@ -5610,6 +5611,14 @@ KVM_XEN_VCPU_ATTR_TYPE_UPCALL_VECTOR
-   vector configured with HVM_PARAM_CALLBACK_IRQ. It is disabled by
-   setting the vector to zero.
- 
-+KVM_XEN_VCPU_ATTR_TYPE_PVCLOCK
-+  This attribute is available when the KVM_CAP_XEN_HVM ioctl indicates
-+  support for KVM_XEN_HVM_CONFIG_PVCLOCK feature. It modifies the
-+  pvclock information available to the guest. Currently the only defined
-+  flag is KVM_XEN_PVCLOCK_TSC_UNSTABLE. If this flag is set then the
-+  PVCLOCK_TSC_STABLE_BIT flag will not be set in any of the Xen pvclock
-+  sources. This aligns with Xen's behaviour when it is not using TSC
-+  as its clock source, which is the default behaviour.
- 
- 4.129 KVM_XEN_VCPU_GET_ATTR
- ---------------------------
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 17715cb8731d..2edc48e94d56 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -685,6 +685,7 @@ struct kvm_vcpu_xen {
- 	u64 hypercall_rip;
- 	u32 current_runstate;
- 	u8 upcall_vector;
-+	bool tsc_is_unstable;
- 	struct gfn_to_pfn_cache vcpu_info_cache;
- 	struct gfn_to_pfn_cache vcpu_time_info_cache;
- 	struct gfn_to_pfn_cache runstate_cache;
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 9f18b06bbda6..1c6556e14d40 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3096,7 +3096,8 @@ u64 get_kvmclock_ns(struct kvm *kvm)
- 
- static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
- 				    struct gfn_to_pfn_cache *gpc,
--				    unsigned int offset)
-+				    unsigned int offset,
-+				    bool force_tsc_unstable)
- {
- 	struct kvm_vcpu_arch *vcpu = &v->arch;
- 	struct pvclock_vcpu_time_info *guest_hv_clock;
-@@ -3133,6 +3134,10 @@ static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
- 	}
- 
- 	memcpy(guest_hv_clock, &vcpu->hv_clock, sizeof(*guest_hv_clock));
++Use space around the keywords ``const`` and ``volatile`` (except when
++adjacent to parentheses).  Example:
 +
-+	if (force_tsc_unstable)
-+		guest_hv_clock->flags &= ~PVCLOCK_TSC_STABLE_BIT;
++.. code-block:: c
 +
- 	smp_wmb();
- 
- 	guest_hv_clock->version = ++vcpu->hv_clock.version;
-@@ -3231,12 +3236,21 @@ static int kvm_guest_time_update(struct kvm_vcpu *v)
- 	vcpu->hv_clock.flags = pvclock_flags;
- 
- 	if (vcpu->pv_time.active)
--		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0);
-+		kvm_setup_guest_pvclock(v, &vcpu->pv_time, 0, false);
++	const void *a;
++	void * const b;
++	void ** const c;
++	void * const * const d;
++	void * volatile e;
++	int strcmp(const char *a, const char *b);
 +
-+	/*
-+	 * For Xen guests we may need to override PVCLOCK_TSC_STABLE_BIT as unless
-+	 * explicitly told to use TSC as its clocksource Xen will not set this bit.
-+	 * This default behaviour led to bugs in some guest kernels which cause
-+	 * problems if they observe PVCLOCK_TSC_STABLE_BIT in the pvclock flags.
-+	 */
- 	if (vcpu->xen.vcpu_info_cache.active)
- 		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_info_cache,
--					offsetof(struct compat_vcpu_info, time));
-+					offsetof(struct compat_vcpu_info, time),
-+					vcpu->xen.tsc_is_unstable);
- 	if (vcpu->xen.vcpu_time_info_cache.active)
--		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0);
-+		kvm_setup_guest_pvclock(v, &vcpu->xen.vcpu_time_info_cache, 0,
-+					vcpu->xen.tsc_is_unstable);
- 	kvm_hv_setup_tsc_page(v->kvm, &vcpu->hv_clock);
- 	return 0;
- }
-@@ -4531,7 +4545,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		    KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL |
- 		    KVM_XEN_HVM_CONFIG_SHARED_INFO |
- 		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
--		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND;
-+		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
-+		    KVM_XEN_HVM_CONFIG_PVCLOCK;
- 		if (sched_info_on())
- 			r |= KVM_XEN_HVM_CONFIG_RUNSTATE |
- 			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
-diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-index 40edf4d1974c..08e64df2e27d 100644
---- a/arch/x86/kvm/xen.c
-+++ b/arch/x86/kvm/xen.c
-@@ -938,6 +938,12 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
- 		}
- 		break;
+ Use one space around (on each side of) most binary and ternary operators,
+ such as any of these::
  
-+	case KVM_XEN_VCPU_ATTR_TYPE_PVCLOCK:
-+		vcpu->arch.xen.tsc_is_unstable = data->u.flags & KVM_XEN_PVCLOCK_TSC_UNSTABLE;
-+		kvm_make_request(KVM_REQ_CLOCK_UPDATE, vcpu);
-+		r = 0;
-+		break;
-+
- 	default:
- 		break;
- 	}
-@@ -1030,6 +1036,13 @@ int kvm_xen_vcpu_get_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
- 		r = 0;
- 		break;
- 
-+	case KVM_XEN_VCPU_ATTR_TYPE_PVCLOCK:
-+		data->u.flags = 0;
-+		if (vcpu->arch.xen.tsc_is_unstable)
-+			data->u.flags |= KVM_XEN_PVCLOCK_TSC_UNSTABLE;
-+		r = 0;
-+		break;
-+
- 	default:
- 		break;
- 	}
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 13065dd96132..a101fe60f2e1 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1282,6 +1282,7 @@ struct kvm_x86_mce {
- #define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL	(1 << 4)
- #define KVM_XEN_HVM_CONFIG_EVTCHN_SEND		(1 << 5)
- #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
-+#define KVM_XEN_HVM_CONFIG_PVCLOCK		(1 << 7)
- 
- struct kvm_xen_hvm_config {
- 	__u32 flags;
-@@ -1870,6 +1871,8 @@ struct kvm_xen_vcpu_attr {
- 			__u64 expires_ns;
- 		} timer;
- 		__u8 vector;
-+		__u32 flags;
-+#define KVM_XEN_PVCLOCK_TSC_UNSTABLE (1 << 0)
- 	} u;
- };
- 
-@@ -1884,6 +1887,8 @@ struct kvm_xen_vcpu_attr {
- #define KVM_XEN_VCPU_ATTR_TYPE_VCPU_ID		0x6
- #define KVM_XEN_VCPU_ATTR_TYPE_TIMER		0x7
- #define KVM_XEN_VCPU_ATTR_TYPE_UPCALL_VECTOR	0x8
-+/* Available with KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_PVCLOCK */
-+#define KVM_XEN_VCPU_ATTR_TYPE_PVCLOCK		0x9
- 
- /* Secure Encrypted Virtualization command */
- enum sev_cmd_id {
 -- 
 2.39.2
 
