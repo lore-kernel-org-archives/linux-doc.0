@@ -1,38 +1,38 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B523D964
-	for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 23:34:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184E245F67
+	for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 23:34:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lOwIOFVd"
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2043.outbound.protection.outlook.com [40.107.223.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32ADB8;
-	Tue, 10 Oct 2023 16:33:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="d676wSvb"
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2086.outbound.protection.outlook.com [40.107.237.86])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8611BE0;
+	Tue, 10 Oct 2023 16:34:01 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k5AxDnu0weRenwVyq3Ud+PHD7l3ldar/OvYcY82bbDrRb9qs2r8CS7Yy4MZ4PHbXTw1ZMICUs+ZW9/NpeRrLgw1R/c1iih6cGEWtro+LhHn5mXaQjSugmsRBvTb6F9GXwn5Y74jn8l02cfa/pstysl1ZLEORansN57e7aZJyfsGpKS5urlfmYKtKIYBMOWisHaMHF2t7kemS2p+d2usQmvgmAr9GTnpvsJvGVy9fkXMZVJIYOwXQTQGFTTnzZ0wOjvMEqGEoTeJen7cU5LPn8a16bw5+EiD71/rZ+3zgnf7+m6bVthGr/Ndmzfrm+8U1WTomNp8bvgsr+En9+TxsWg==
+ b=A09/HRyQnSlBWJCexeRgVIFOXTfGQ/KTHrYWNv++ceq+zOAnEuGwDUEMk2WLlru71GJpa1CTVg3LWhk45sUpHFeCgkP7y59a49GSIHS5ab3ASp268le+2lgHs/3DhE6UMm1NNohu1PHagSd3UFdpVJytG3hYvgdSkjBYwbW75yZ3kE9AlG9PVdEuyWQcJvMCaZx7tEoYUHhDKMthlx1ATjh6oEiFKXAewrqNs806OmoeeEcygFfERaoWRDmTAYhhvGJrGmgyHFmNpJ7lyTwB0NRl8VK+zc9tKSXXzwjEXj1T8CmP4ojgA8rWO406+RFiOF1g2d3lYm5MhTyrcCWUHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H+WfvfgXRMRbjdYp1Vi5GEwXugoe5e8TZLnv0VoakJk=;
- b=K10bAKJcdIU6yLZbQA4GC8gYEhobbS8PRiWV//JMitkaCBmNbzK22NDhhYlUiOVJK3kBKd52qConVGAHsjDGTzm50rV7MiyzQUangZzHJoXiu7DaZNrUiepyXEbGksW6QmU35d6f+/zTw9CtbYer93Mv9HKb8e2QkxXTsDq+a205LLo3I2BnFhmkbZgx6ExuRgch7Cj8H1Yvsklp8G4/RfluoF4JSrTYcq6owrYw3OayNsy+9zy2j68rnMrQ+nwTEXMIryaARj5UvAFi2AkfkCUJNJE/u3pRjAfAY7l1tlgSv2ij1AsFa3KSh2J7H27wN9tAj1DmVTh8ypxHJNiqGw==
+ bh=6dc+oJiQA2vAp3G2TZl+W32BuVWJbjfvwNJiGkrhQPQ=;
+ b=fWqbSBQAkMdzxLMxWZOUseJCjtd8bLgNeTBsjMIbkm8P1BO8wV4IlNREgpbdy3cvNbfNOuV83JWguzdGKiU6cRI0Ci7Fk3aLsraQ5OUu9l9xGEoeewQkXzkUuUfiZwwDdPyrWI96RTxNd5IETSO+bkgVFKcgdB60mpgXie0iHl6MkhaK8RoJUSbJUdnm3qR1noIA+soZNz3PW154UlQ7qDbQpjTE0V478HjH2Im0083QqMrCjEX0xIQYOguQPHY4KJnfTc2fyTUUnHSTmzrj5JLQ7zeAu6f+1FPqQdru3ATIKTr9bZrHfHOVkgGub7C4kqezRC3sJf9lF90GeycWGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H+WfvfgXRMRbjdYp1Vi5GEwXugoe5e8TZLnv0VoakJk=;
- b=lOwIOFVdPKTKgFN5G7QoqZsp4pHG9fSUTf5G/tMBcccHBNWSC/LM2pxTwbarCsmpO3iM1rRN5h5rsL17NSeTIHUIremKm5lRjoolpQOLOCLHMIwP1ky88H7PQAfVAycmhP89bAWTDL84xfhHeS51Pt2Eb/oJu6FfsaqgacpLd20=
-Received: from MN2PR17CA0015.namprd17.prod.outlook.com (2603:10b6:208:15e::28)
- by CH2PR12MB4152.namprd12.prod.outlook.com (2603:10b6:610:a7::8) with
+ bh=6dc+oJiQA2vAp3G2TZl+W32BuVWJbjfvwNJiGkrhQPQ=;
+ b=d676wSvbq+pazsBsnGz4Javt/eWUMpqC3C9Bu5cNT6W5NV4MKf/FaPSVb6dkqDEQuR4+GnlSx8FmgcocO91FUaH07yXZ6gWzUloO9xiAJ3b2vEKkOFOz5dqh05FKgblpcgAiz49nSWItf70fQzdyOfKIMeU1kjVhlgb0Ev+NToQ=
+Received: from BL1PR13CA0449.namprd13.prod.outlook.com (2603:10b6:208:2c3::34)
+ by CY8PR12MB7291.namprd12.prod.outlook.com (2603:10b6:930:54::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
- 2023 23:33:54 +0000
-Received: from BL6PEPF0001AB4D.namprd04.prod.outlook.com
- (2603:10b6:208:15e:cafe::ad) by MN2PR17CA0015.outlook.office365.com
- (2603:10b6:208:15e::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.27 via Frontend
- Transport; Tue, 10 Oct 2023 23:33:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Tue, 10 Oct
+ 2023 23:33:58 +0000
+Received: from BL6PEPF0001AB50.namprd04.prod.outlook.com
+ (2603:10b6:208:2c3:cafe::21) by BL1PR13CA0449.outlook.office365.com
+ (2603:10b6:208:2c3::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.23 via Frontend
+ Transport; Tue, 10 Oct 2023 23:33:58 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -40,13 +40,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB4D.mail.protection.outlook.com (10.167.242.71) with Microsoft
+ BL6PEPF0001AB50.mail.protection.outlook.com (10.167.242.74) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6838.22 via Frontend Transport; Tue, 10 Oct 2023 23:33:54 +0000
+ 15.20.6838.22 via Frontend Transport; Tue, 10 Oct 2023 23:33:58 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 10 Oct
- 2023 18:33:53 -0500
+ 2023 18:33:56 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
 	<mingo@redhat.com>, <bp@alien8.de>
@@ -62,9 +62,9 @@ CC: <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
 	<linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>, <eranian@google.com>,
 	<christophe.leroy@csgroup.eu>, <jarkko@kernel.org>,
 	<adrian.hunter@intel.com>, <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v12 07/10] x86/resctrl: Introduce "-o debug" mount option
-Date: Tue, 10 Oct 2023 18:33:32 -0500
-Message-ID: <20231010233335.998475-8-babu.moger@amd.com>
+Subject: [PATCH v12 09/10] x86/resctrl: Add support for the files for MON groups only
+Date: Tue, 10 Oct 2023 18:33:34 -0500
+Message-ID: <20231010233335.998475-10-babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231010233335.998475-1-babu.moger@amd.com>
 References: <20231010233335.998475-1-babu.moger@amd.com>
@@ -81,36 +81,44 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4D:EE_|CH2PR12MB4152:EE_
-X-MS-Office365-Filtering-Correlation-Id: 310d600b-cbdc-4f34-8ca6-08dbc9e95e3c
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB50:EE_|CY8PR12MB7291:EE_
+X-MS-Office365-Filtering-Correlation-Id: e26d3233-126e-4de7-42a9-08dbc9e96038
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	nc4QAnEZYrWB8VcVqkXG04wtYezeD1yZ6B+jpE2LzyCCNJIR9X6EDG6GGHb1mo8l7dxQZnrFEtiOojQcYKk9HirB0HjVQSXQIMXOKw65PwrL8zflYD9se/TEHTJDv0L7fJtsqec7NsF0APNjMU6bEqpf47Lh+2JGvR8Zb2COqvM/OgCyNBPSazXn3a9CN2beOGJTiomoKZpw0mbRYCks8WjWsOdLub5A1WtGJgncBLNbqxgkBjgB+lAooKQnIXF13wheZr2buEJRlyiYEJ1rQ7gu+chi6vTHvIt/9Bm++w62h3zEHAfqrlx791Px/+xFlwvseqY/BjWGJUmzfzyG8Ewl0fWB4enH47yES9NTBULKKDB0u9O1lcBXJNZKkDAVuNekCzyDqVpMAXRJBp+6onQlvLiYfn3VvPzOPL/uN5oHwSP2O//7bEoHD9cRlH+Lzd3l+LqpIbieDTGfSI3rVumNeDYHEgcs7MqAmA46WTwFV1Q83Tm+sR75qXSj9mRk37GfQ7WzYq4ZCgpk0y82WGxXExBnwSSHqmKDvNs4CZp4HblVOfzIUlW5MegMaOKoyQ8Ub/hRJRfUFKSy+2Y2luof0KkA/AeA6wET1FFHgZsePEgMclIRH8xwtB1Nsv3gO6lKPaAez6zjAdVhqWXWgtlvKkTtZrzNdzamuJKb1wqe29+Csa7Fl6T0/pI0BgzvTfIV6MnCCqm/oxwWMFawUXutTD0shGkD0hQg4pi6mFQz8LO48xXjrHQDPNTSII/cdoqOSUIzlIO8/imFysGRuw==
+	nJ3Lfg2BUiYtiOL5R24wsXiCEamJBlLCMue7S1a0NXcy9/Oar0KZb22bCPC0aA+dnuIOdbe7TGFFOB48Avu2rw3udMza4lKgDpRVGzGsJdGQIGFrYyXQzrLPVu+p8+uYv9560IRSiP3jefQhFCZ/byL3WTFpWZqpNkYOaLat4gdZNSGgk6H362uSLHlmrgqf3CHTkx5J8k9wMlXzk+EVOwv1l5ABrrPHBIHzXBFWn6Uj6J/YDPSpw8p8OBW83VA6Azv4E+5KT0eUGEkiBCkYP35ETq1gVCir239xu5mm6NuIkf3khc7zJ+LcEMAKFN+nS2Q2yTfbQ0q8ON/vO/NryhMAuIi9lZvzTM8vt52soBfOZhsKT3krhgn2Ae73e1nLfHdfblUhd0HyBwdbh2N9LKKfkjmYd8D3rC/S/2Vc+Njy61nEzSXVbuSh2GR9XK859/B/SFTu8pHGMHb+IuOvdFUxYYVm8zyAnXGX9GmwkMoGqkxl4lmL3K/R9Aur5vrMmT3UOT5LRpG74p5TEq6zVUb7Njkd34cG0UsgiZSM/wa3HcAx2fsNwBoauIW89vA3j1dKHvOpzKTDIZ7NeDW2cCAFBnxgvwgDxEfNGkisYGwRvvJIYLYGVOn/NJY03ZTYtLLFo4c37R5IcgL9aauoM7U//i0CWtLFot5tAzqUfVBYbesYs0zmlq4tkoOt+7dB1cyhG6t2dye7wqjy4JRfikKoIUM7854Vp+8LVX7o2+08IU9pRihbondoLRx7rD2gOqRsaE2cNZ6NzjTf7xS12w==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(396003)(39860400002)(376002)(230922051799003)(186009)(451199024)(1800799009)(82310400011)(64100799003)(36840700001)(40470700004)(46966006)(2616005)(1076003)(2906002)(7696005)(40460700003)(16526019)(81166007)(356005)(82740400003)(86362001)(47076005)(36860700001)(426003)(36756003)(26005)(66574015)(40480700001)(336012)(83380400001)(8676002)(5660300002)(8936002)(44832011)(4326008)(478600001)(41300700001)(316002)(7416002)(54906003)(110136005)(6666004)(70206006)(70586007)(7406005)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(346002)(39860400002)(136003)(230922051799003)(82310400011)(64100799003)(186009)(451199024)(1800799009)(40470700004)(46966006)(36840700001)(426003)(1076003)(36860700001)(16526019)(66574015)(82740400003)(478600001)(70586007)(36756003)(81166007)(7696005)(54906003)(336012)(2616005)(83380400001)(6666004)(356005)(26005)(47076005)(70206006)(41300700001)(8936002)(40460700003)(7416002)(110136005)(44832011)(8676002)(4326008)(316002)(40480700001)(5660300002)(2906002)(86362001)(7406005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 23:33:54.8021
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 23:33:58.1294
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 310d600b-cbdc-4f34-8ca6-08dbc9e95e3c
+X-MS-Exchange-CrossTenant-Network-Message-Id: e26d3233-126e-4de7-42a9-08dbc9e96038
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4D.namprd04.prod.outlook.com
+	BL6PEPF0001AB50.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4152
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7291
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+	RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Add "-o debug" option to mount resctrl filesystem in debug mode.
-When in debug mode resctrl displays files that have the new
-RFTYPE_DEBUG flag to help resctrl debugging.
+Files unique to monitoring groups have the RFTYPE_MON flag. When a new
+monitoring group is created the resctrl files with flags RFTYPE_BASE
+(files common to all resource groups) and RFTYPE_MON (files unique to
+monitoring groups) are created to support interacting with the new
+monitoring group.
+
+A resource group can support both monitoring and control, also termed
+a CTRL_MON resource group. CTRL_MON groups should get both monitoring
+and control resctrl files but that is not the case. Only the
+RFTYPE_BASE and RFTYPE_CTRL files are created for CTRL_MON groups.
+Ensure that files with the RFTYPE_MON flag are created for CTRL_MON groups.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 Tested-by: Peter Newman <peternewman@google.com>
@@ -118,137 +126,65 @@ Reviewed-by: Peter Newman <peternewman@google.com>
 Tested-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
 Reviewed-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
 Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+--
+v12: Removed the comments about the later patch. The text is
+     moved to patch 10. (Boris)
 ---
-v12: No changes
----
- Documentation/arch/x86/resctrl.rst     |  5 ++++-
- arch/x86/kernel/cpu/resctrl/internal.h |  2 ++
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 18 ++++++++++++++++++
- 3 files changed, 24 insertions(+), 1 deletion(-)
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index 520a7753d829..1774f7b8450f 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -35,7 +35,7 @@ about the feature from resctrl's info directory.
- 
- To use the feature mount the file system::
- 
-- # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps]] /sys/fs/resctrl
-+ # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps][,debug]] /sys/fs/resctrl
- 
- mount options are:
- 
-@@ -46,6 +46,9 @@ mount options are:
- "mba_MBps":
- 	Enable the MBA Software Controller(mba_sc) to specify MBA
- 	bandwidth in MBps
-+"debug":
-+	Make debug files accessible. Available debug files are annotated with
-+	"Available only with debug option".
- 
- L2 and L3 CDP are controlled separately.
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 2051179a3b91..f0d135e004e2 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -59,6 +59,7 @@ struct rdt_fs_context {
- 	bool				enable_cdpl2;
- 	bool				enable_cdpl3;
- 	bool				enable_mba_mbps;
-+	bool				enable_debug;
- };
- 
- static inline struct rdt_fs_context *rdt_fc2context(struct fs_context *fc)
-@@ -248,6 +249,7 @@ struct rdtgroup {
- #define RFTYPE_TOP			BIT(6)
- #define RFTYPE_RES_CACHE		BIT(8)
- #define RFTYPE_RES_MB			BIT(9)
-+#define RFTYPE_DEBUG			BIT(10)
- #define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
- #define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
- #define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
 diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index a34657f0bd0c..150105c21fee 100644
+index 953b082cec8a..55d1b90f460e 100644
 --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -59,6 +59,8 @@ static void rdtgroup_destroy_root(void);
- 
- struct dentry *debugfs_resctrl;
- 
-+static bool resctrl_debug;
-+
- void rdt_last_cmd_clear(void)
+@@ -2533,6 +2533,7 @@ static void schemata_list_destroy(void)
+ static int rdt_get_tree(struct fs_context *fc)
  {
- 	lockdep_assert_held(&rdtgroup_mutex);
-@@ -1874,6 +1876,9 @@ static int rdtgroup_add_files(struct kernfs_node *kn, unsigned long fflags)
+ 	struct rdt_fs_context *ctx = rdt_fc2context(fc);
++	unsigned long flags = RFTYPE_CTRL_BASE;
+ 	struct rdt_domain *dom;
+ 	struct rdt_resource *r;
+ 	int ret;
+@@ -2563,7 +2564,10 @@ static int rdt_get_tree(struct fs_context *fc)
  
- 	lockdep_assert_held(&rdtgroup_mutex);
+ 	closid_init();
  
-+	if (resctrl_debug)
-+		fflags |= RFTYPE_DEBUG;
+-	ret = rdtgroup_add_files(rdtgroup_default.kn, RFTYPE_CTRL_BASE);
++	if (rdt_mon_capable)
++		flags |= RFTYPE_MON;
 +
- 	for (rft = rfts; rft < rfts + len; rft++) {
- 		if (rft->fflags && ((fflags & rft->fflags) == rft->fflags)) {
- 			ret = rdtgroup_add_file(kn, rft);
-@@ -2377,6 +2382,8 @@ static void rdt_disable_ctx(void)
- 	resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L3, false);
- 	resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L2, false);
- 	set_mba_sc(false);
-+
-+	resctrl_debug = false;
- }
++	ret = rdtgroup_add_files(rdtgroup_default.kn, flags);
+ 	if (ret)
+ 		goto out_schemata_free;
  
- static int rdt_enable_ctx(struct rdt_fs_context *ctx)
-@@ -2401,6 +2408,9 @@ static int rdt_enable_ctx(struct rdt_fs_context *ctx)
- 			goto out_cdpl3;
+@@ -3253,8 +3257,8 @@ static int mkdir_rdt_prepare(struct kernfs_node *parent_kn,
+ 			     enum rdt_group_type rtype, struct rdtgroup **r)
+ {
+ 	struct rdtgroup *prdtgrp, *rdtgrp;
++	unsigned long files = 0;
+ 	struct kernfs_node *kn;
+-	uint files = 0;
+ 	int ret;
+ 
+ 	prdtgrp = rdtgroup_kn_lock_live(parent_kn);
+@@ -3306,10 +3310,13 @@ static int mkdir_rdt_prepare(struct kernfs_node *parent_kn,
+ 		goto out_destroy;
  	}
  
-+	if (ctx->enable_debug)
-+		resctrl_debug = true;
-+
- 	return 0;
+-	if (rtype == RDTCTRL_GROUP)
++	if (rtype == RDTCTRL_GROUP) {
+ 		files = RFTYPE_BASE | RFTYPE_CTRL;
+-	else
++		if (rdt_mon_capable)
++			files |= RFTYPE_MON;
++	} else {
+ 		files = RFTYPE_BASE | RFTYPE_MON;
++	}
  
- out_cdpl3:
-@@ -2605,6 +2615,7 @@ enum rdt_param {
- 	Opt_cdp,
- 	Opt_cdpl2,
- 	Opt_mba_mbps,
-+	Opt_debug,
- 	nr__rdt_params
- };
- 
-@@ -2612,6 +2623,7 @@ static const struct fs_parameter_spec rdt_fs_parameters[] = {
- 	fsparam_flag("cdp",		Opt_cdp),
- 	fsparam_flag("cdpl2",		Opt_cdpl2),
- 	fsparam_flag("mba_MBps",	Opt_mba_mbps),
-+	fsparam_flag("debug",		Opt_debug),
- 	{}
- };
- 
-@@ -2637,6 +2649,9 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 			return -EINVAL;
- 		ctx->enable_mba_mbps = true;
- 		return 0;
-+	case Opt_debug:
-+		ctx->enable_debug = true;
-+		return 0;
- 	}
- 
- 	return -EINVAL;
-@@ -3705,6 +3720,9 @@ static int rdtgroup_show_options(struct seq_file *seq, struct kernfs_root *kf)
- 	if (is_mba_sc(&rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl))
- 		seq_puts(seq, ",mba_MBps");
- 
-+	if (resctrl_debug)
-+		seq_puts(seq, ",debug");
-+
- 	return 0;
- }
- 
+ 	ret = rdtgroup_add_files(kn, files);
+ 	if (ret) {
 -- 
 2.34.1
 
