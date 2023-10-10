@@ -2,67 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46089CD80D5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 13:41:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D22DECD80D3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 13:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232892AbjJJNk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 09:40:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50792 "EHLO
+        id S232335AbjJJNlC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 09:41:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232763AbjJJNkS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 09:40:18 -0400
+        with ESMTP id S232607AbjJJNkT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 09:40:19 -0400
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAFE1FA;
-        Tue, 10 Oct 2023 06:39:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74688FD;
+        Tue, 10 Oct 2023 06:39:22 -0700 (PDT)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
-        by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39ACU2Wf020208;
-        Tue, 10 Oct 2023 14:38:21 +0100
+        by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39ACU2Wd020208;
+        Tue, 10 Oct 2023 14:38:18 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
         :content-transfer-encoding:content-type:mime-version; s=
-        dk201812; bh=JS71lp5gnxByQCRFV/xi9INlvSVPhwoN8c3pTEWNEtw=; b=yGW
-        ZlMNaAIPi6BOeuozZvfgRQIAzBdczzl09poPzo5UW9LlQE9+wy5s9ck9pNRgDOJq
-        FoxHl1OSfMiUNP+kmi2hIWFsoQmeHnOSjnPDV05pgKXYjbks1fT5PIYQCx1HhC3C
-        vm45BR68cU90o1iTCPHZ1F9hU2ITMCn7d7CR3FzgYI4R2m3sCTI7Prnf+YB2vQ46
-        TXdtSOiytYO/dfbLt0Iw/ADFonh3WiD3WNfSScZkyWuThw9eptVVKePfOtlletjk
-        O+RVkUIlUB09XUXS5NIKDkWmtnB9mk42og+TRMwfVjO92biY7bb292EdHTdzg+vg
-        Z8+a7O0WOoywOC1hAPw==
+        dk201812; bh=zzJxubEswHlFLdjXU+CxFiOGz8a8v7WlZjj4cmwcCkg=; b=Amh
+        94YNKBKURA+YPIq9ivsXDMy56ccS8ib3m+3/qbUiA1qxIc9bCDeYm042U8zAwSmd
+        Ly5VxDD8mpeFhQ6gDlD1SYlPlw+Yj88dkctEKt/gEK4gLrYzEEScDnTXVCBpswFx
+        Ucyc20ez2towt05w4ri48cwgjpj1yJsrMxloDE91uv4Zyltzs21Ai/2MaxmSOFSM
+        qRUKlShonuQv3i5HutdR8wjxvIJZwp2cfydBvwVyKbEmRgxIHjABqgkLb5UPT1ev
+        Xs01cU7iPuwye6u60APpsI34GOjGvvhzFLsQZ90Ltal4VnY4VDSm5yh9VnEZIlBa
+        +PRH2V44lFkVPZNTV/Q==
 Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
-        by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3tjydrt72j-4
+        by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3tjydrt72j-2
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 10 Oct 2023 14:38:20 +0100 (BST)
+        Tue, 10 Oct 2023 14:38:17 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
  HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Tue, 10 Oct 2023 14:38:18 +0100
+ 15.1.2507.31; Tue, 10 Oct 2023 14:38:15 +0100
 Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
  by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31 via Frontend Transport; Tue, 10 Oct 2023 14:38:18 +0100
+ 15.1.2507.31 via Frontend Transport; Tue, 10 Oct 2023 14:38:15 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kl6iHwW2ssDJn1XBQ3S4PsVAra6BQ7gfXshi1BKp7eWwZSvzcrRCILb6RdmiXGhrEIoqsBVxJow8PF26RYyFObCOPl+2ClXYHM6DDbupjfGzWwy4i+ZJ/l/Suxz5PFM/oUQbL6oVbDBdpUCfDjT7VUjz5vN6FLD0X6RqzEjgQIxjd3tcB0kNkOFSpq9ylXJcKB+LX308s5p1hfujOasdR44krSl8BsRwyjKj+VdyQpig+q9WXruuLGHKz9Mp3YZXAo/sTV6R8ctojjS28xtbywh6jnMdVWvO0BuaC4g9LA3UViAjcKWOETSShTVcnHvprBNFAJpdS/iYPqxdm8inhw==
+ b=bWR8MphWK5N4miFSeUkpndXjzCZlnArYmb/z/tcAhcZQ4nwiYuot6eR1w3OzDpO2EHBcPCKIwZ8F1jBAoJDpL78zoZahEWJgt0HCJW1uw/pmVsTJxY9eGIxgHpIRVf4oVndriFbV4yiL4dqsFX8YeBfo9yEFuN9CCoVEC7DQ6ZSJkxUle3nq7fo73mZ8MyX8ANfNsv44uBNWwYdsjRGXbFI/1DhkOQi0vIrUzMjrkrxaxx0xfjVZVu+0XxJkqojXKAk8Jo2ANXPXKci29rST1j5kDLgeGJnG9kX3U3M/GHBDyBPg3VG3t0qhI24XqhHfVlQG+cOTg47r/oBreLC5Fg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JS71lp5gnxByQCRFV/xi9INlvSVPhwoN8c3pTEWNEtw=;
- b=N7UH4EWxHy6GJ8cYJJm4lpdkpjtbM/rCs7UFClzYpB1alJ8SYOjZcIigZMOiMraoTmQG2N9GSLR8EBuZdP02p/ZEm5YaffYyjCOIge8R1Rbil6fcq1erdG1xIlYcrevYcLXJK3+SLkJ6gjuMHi60qy+w/tLrSf0AUSHTG8sMF5nF2YIn2EL8lPUk3uE13pBONupnXEi0kiONg3vLUgAAbpr1J3qPZ1y3KTE2WhlxCuHn3aeSw6TxQXkwBnv62p3M1Y8CQOo090Qs62lkRfoKH1bfUs0ExIyGPlWsWA6AD5dBLwXdr4U79N2z2/OWN5TJyXYHHaeAAaKEL5doBWT38w==
+ bh=zzJxubEswHlFLdjXU+CxFiOGz8a8v7WlZjj4cmwcCkg=;
+ b=ar/2oksJzpxJR6C7FeglXTZilEAGuCn5AgOmtyluKd94QsD0Ye0N37J+RzZ4s+ai/GVrVT8uywgK38sRfHt+eg+ayXAHBFw/uAfMbqCqfYUxyIYvE2L2tk0nL3Ie66Ev7MjhU1uxmQ0JwguK6QuFvrXhsY+zaoJ9pXcuDY7O3Twv7e6h5+AkEzuTfnL6DD352CXyajVWIXzJ3keJyc2Yq3zNfJDn9VBOSE2v1ikFmnoGql2h+lRsXFRN4sgy6IrH+obfN2IluZFLh+WZZ7PjQNj5KyFIjuTx2A52K9yl4jZGRPMVeiOd1Foe2ZfIUYMhEt5m1EpXDpLJaknEBPVMwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JS71lp5gnxByQCRFV/xi9INlvSVPhwoN8c3pTEWNEtw=;
- b=YIwAlmYfQOE5XIbZfbTGqeQPuEVy4Ai1ZjxwT9sf9CvQI9aGtS0KunttwT9HCgH2GnBQiv+P9oUHUcd0jk3kjUejlbTOd1TShvqE1ykMYo7dj7z7VHe83Y05bq+CHegbl2C+poJrqJQV2pT34luVk7LLnaPR7sZInYjQihqPXZE=
+ bh=zzJxubEswHlFLdjXU+CxFiOGz8a8v7WlZjj4cmwcCkg=;
+ b=FqEpG08clHFY8+wa9vImaFXNycz9zIcrW6M0YXYYTmbpJjnCjtbHihcqukkbhSVDqmr86qrYwkPb0M46TCtdKz2fYCmdqcWlE0RIGn/2W0A7clP39W443DuQdRdgBfNWhcyzFcVeDIZXn7EmVOjRqaaW2SpdB2JIwR/SHwyPFmo=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by LO0P265MB6147.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:248::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
- 2023 13:38:15 +0000
+ 2023 13:38:12 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1f14:8c15:179d:7afc]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1f14:8c15:179d:7afc%4]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
- 13:38:15 +0000
+ 13:38:12 +0000
 From:   Sarah Walker <sarah.walker@imgtec.com>
 To:     <dri-devel@lists.freedesktop.org>
 CC:     <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
@@ -75,10 +75,10 @@ CC:     <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
         <linux-kernel@vger.kernel.org>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH v7 15/20] drm/imagination: Implement free list and HWRT create and destroy ioctls
-Date:   Tue, 10 Oct 2023 14:37:33 +0100
-Message-Id: <20231010133738.35274-16-sarah.walker@imgtec.com>
+        <linux-doc@vger.kernel.org>, Matt Coster <matt.coster@imgtec.com>
+Subject: [PATCH v7 10/20] drm/imagination: Add GPU ID parsing and firmware loading
+Date:   Tue, 10 Oct 2023 14:37:28 +0100
+Message-Id: <20231010133738.35274-11-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231010133738.35274-1-sarah.walker@imgtec.com>
 References: <20231010133738.35274-1-sarah.walker@imgtec.com>
@@ -90,1919 +90,2214 @@ X-ClientProxiedBy: LO4P123CA0183.GBRP123.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LO0P265MB6147:EE_
-X-MS-Office365-Filtering-Correlation-Id: bffd87db-f7a9-4800-d062-08dbc99627c0
+X-MS-Office365-Filtering-Correlation-Id: b34a5fb8-ad17-4de2-96cd-08dbc996260c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GvsC+dSO0UK2gRiSTNzJBHH5Gmtm986HSo0SzF+Z2Y3HJ5nR9wpm7FXd1dIDMppniKPvlVq01ct5ayzRrz1juMINPu3/hua0gLImNwH0ZZHMCNwk5bVqEC2042pD/T2bh2CgCDdPfxkwUj2toPHuRqrr9O40+1GSvwnfNH+WeRqsYCFezawi7E6szOyNpxfia/KLBYATqoJQOUL3DQW0XWljYiRxM6qAkaMGeKOX2va0DdAdgaKxaUNBK1BAPQHW2B5VrYLFl+c4OTVXHFiRgN9jp/1gWVYN2EJ9SJlNOZ/t2osuNoLu3LmosJDsZtPStjtr7VUe8mRYtZy8bPM4jOVQjhfkLdvhvIoK1oKupodh0IRUm4HzmOLCc1hq/qLUFtTLyLoD3bpFWVSARNvsSW66xU4qiXMsS21gZSeWkcWxiZL5iEeyxYLv9MmoAfUwa3c8ur74j9zLKAouRuws/RPNdAsZ8IkZ5Yatlee4x7scy7LcDvDrY8URpLXuDEtjm9a9RPJuhGlsleQpfKscTEKpvP8xolvPeYL2+pS7yZ5H8FOLLQZEl9enUS6ATAPnj2MERUY5BMalzQYd98kbbOVRN4O8qdlWMw15wCDx/ubUwAYqJCgXgkUI/n4qcEnn
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(366004)(346002)(396003)(39850400004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(6512007)(478600001)(52116002)(6486002)(6666004)(6506007)(1076003)(83380400001)(26005)(2616005)(2906002)(30864003)(66556008)(316002)(66476007)(5660300002)(8936002)(44832011)(41300700001)(8676002)(4326008)(66946007)(6916009)(38100700002)(38350700002)(36756003)(86362001)(7416002)(559001)(579004);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: wCVI6tAXDB4nxRLFjC/FUYJKQShK2iME3U721nsX91BaNQ7yzT0TaYscMBWLGNiKGtmk7CBYcR+fnJmpI8u0lxb9BO9AHxPho60R3nTjtSlEefjncITfdtSfAMsR770uVHz5eEmQ255dvtCa3gZ6FJV2OwT1XsL6w8Bug1tjUgBmML+l9GKi4D3Q7i74UxqQis+EAFN9GemUirUQvsgdjkv0BUqLoPid/iBvztdL3kn0ctpaXUm4sIy3WJVXI3Hs7PhUHfBBMxvEHtDOPVr+9XQuw4GqV4+wSamvwqugWl6SkyZxWc3mhVuEmqNk25E9z/E7qo/EcaeeAf4h2HiqIHg9xXEvcpCRq+pYj9pfZ0Ax/Qjdft30enPjWO7YXxDH7Jmom8JFeGJuomEofSNaK55LT93T4V7THOpjisyEtZymymMX5DordDMVfxwBfJb3lAu+ZewOHkPtqMHzvCokzuyJVVFTUHI5aBxSBzMlpIJNqoLrWdM/uiMkX0YASiFQbJYpBpPxWMQNF3o29IRh4EmV7eXk6RnVVeGwt6ohHAdvY/9aITH3Ugtr/Eg+bYrOAOZRoX0UoNSLr+F6PLKlrh46scKpN5MXr1oKwoUqkURX+FKz5T6hemuGVdrl/cWF
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(366004)(346002)(396003)(39850400004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(6512007)(478600001)(52116002)(6486002)(6666004)(6506007)(1076003)(83380400001)(26005)(2616005)(2906002)(30864003)(66556008)(316002)(66476007)(5660300002)(8936002)(44832011)(41300700001)(8676002)(4326008)(66946007)(6916009)(38100700002)(38350700002)(36756003)(86362001)(7416002)(107886003)(559001)(579004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yl7XgVkcmSr8kzPM59bCUwlow2HBEgIPbjNwZLgWKUHQwtZMqxY8rAXlPbFV?=
- =?us-ascii?Q?izJBFLna+1wI27xYH7rOY71pdbRpNtgte8uJTZXsHXPBmcCkeDXpkOByCx99?=
- =?us-ascii?Q?SlZcqRhgYcxEHhdHGBmzjy/v9RuezYARjsY8XMmHVtTsaEEgP+EzHqhUy0d8?=
- =?us-ascii?Q?/z9HNGMOiGK6M6JHTrKr2SBFQzF6nyY0Wb3IYjB6BlZY3jdBYkboE2jfpUIw?=
- =?us-ascii?Q?OZzyC1Bcu32XVCDlNyewfmm6pNy/en+zgqNLkUcxHlQvBvsiCg8VoHpQKf6i?=
- =?us-ascii?Q?qLv6qVLAWcn0xDt7PWnshpnxkm9FoNEpoxN5Rrv8dcgGr2mu9j2pWgRk/pYw?=
- =?us-ascii?Q?F/lqM/gOYy4hTLuOyGESwi8jgyc/ePi4NhU/iwe9CwpSi5BhBpATZIoS5f4W?=
- =?us-ascii?Q?DaY5SFRNiUycwndsmJ3b/aVl72CRyaRSLa+w8k4iWlIuVuUKT6cwg0shaViu?=
- =?us-ascii?Q?qmm/Jf4DdyEk8bqF/SILtj37mVMZY+hu2zF7UETpvYjQcDRW2VccYn0exsa7?=
- =?us-ascii?Q?ZXnzi+lLMEHEekk2dkV84sHuiwQ2W+VFA1RUJp6aS+aZY/1QQFmIOcPYlnMe?=
- =?us-ascii?Q?yZGi2AdHo/P7j5YIhZ2Xy42Ca7h1rsnYuGqrtwn/CD9+lsUnIO6mUz+qrTIU?=
- =?us-ascii?Q?y6QR4DQH4IcHtZqC7H0WbVZmZMLHyfgi3z2EYNJYKEcif1l9Sg5B0oH4XJO/?=
- =?us-ascii?Q?zsdAJf8Wvulercai0pg5/Sm6CGc7fwjchD+uonKp4H+9wGocDDFiA3OUeZMI?=
- =?us-ascii?Q?62dKZK5yx2NRn+CNQcFoM/wuiS/QNiycclacXQkuJ5MTBHTN3uylKZ+wswUQ?=
- =?us-ascii?Q?eb46tz/b9BoSwNSAehdx1IFVBsJK8/XthpoYqVRxIM/YqrRrZiIaNtGPdtsK?=
- =?us-ascii?Q?TyIKrO1RFPZv5e0jaX3oSfWL+OoyUVadFZvbAMDPwtIynSH0CxAZdYNIIkaQ?=
- =?us-ascii?Q?isNdoQNL4T98sX0vifNeIMf/T43nSp/1E3YcoNj6dXRu2UbRhJeNg83Qhszc?=
- =?us-ascii?Q?f8u5675E3Lu7m0w246oCdjEv1bE/PLsKQRSE+TUuZBdTIr/ciwiEGcJb2mde?=
- =?us-ascii?Q?rxUcB7Hk8YQb/NiS86okdV6XPAvcETs+WLbCD9L59nc2eT5k2VBVdMZoOvaV?=
- =?us-ascii?Q?P96qGflr6758yQJHJuUY2ULfrh0iopvluN/owtMo3d2tVF00F6LiweLbIrlR?=
- =?us-ascii?Q?0/znCMVvTH3XG/84z/RojtKH3YcDlO3tkxx6kaSsheriDW17r7ng70Aazu3F?=
- =?us-ascii?Q?SoFrBTOuqtfdnkYKoeW2BxDWwISr0MnAraAJmH2AGOg8M41GvZ3r2S5Aq7JT?=
- =?us-ascii?Q?A7XQq9NkNtCjGwlLwnwIk1qFD3DOW/wvLO+twzSMnRgykW7Rc9aX7GntvCFG?=
- =?us-ascii?Q?giRvdfR1GWrG/4r062Q85DkrBbZdbnxTp4gdSi9vHKXEQjPSWONAqBrtzg4T?=
- =?us-ascii?Q?26mYqjG2XRrYtR176K9xxIDDLAuWi+C0SzF7n9MReCqtx49DEqwXPzGJbgx0?=
- =?us-ascii?Q?2PEa1l9AiiPed5SJu+PbS2fkFDZHq0YwRlUbxlC73PIVRi6X/x4BTJ2Xfcbw?=
- =?us-ascii?Q?t0MgQXni9Mln1dPzGk2cZlMngAtbU4GBCw4GVhq8?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bffd87db-f7a9-4800-d062-08dbc99627c0
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DlD8x+4kGx6bJJOD5Fs3ii6UnRakRNS9RpVGytHNlb6XBgARCRq3Jb1WWrdl?=
+ =?us-ascii?Q?03EvmF0RpPcFyWtZKyacbCL+IIO5lIVRUqfwxbdQ/sZxkmzSrorZn5luHiHX?=
+ =?us-ascii?Q?6S2jqa4p/2hmeqPC9FoFSunBJb3Fv/7f30DWhzcZHn2dSMFTzVWyj9mGXLgz?=
+ =?us-ascii?Q?4k4BxKgv2KnOD8ftIdNS3amTKhw5cSbTxy6lMpHL6VvYFTZN/KgMs+1fssi6?=
+ =?us-ascii?Q?HSv8TA/lzWp8NZBVq/g7k6ArkHCdlzcLbGUzpYVEvALPzENQlIoz2MkKgFy1?=
+ =?us-ascii?Q?InaHnx16mreBa8HqdvwhuDbJs1HUDY+JP5UAb8cXgaMR8MbmIs+7MlLKq4xS?=
+ =?us-ascii?Q?jcDbTZ1MEnzI8lfStCkwfxB6qAzPGPXlMWXDlu9AkbqfxvKVIvME669GRMsQ?=
+ =?us-ascii?Q?dryOdhKD69/0caaZb4GeLGR45x3HmNhT1aaN9a/tlqiNlhmvHxXPA794v9er?=
+ =?us-ascii?Q?yuivGMWHup+Pk04aI78u++knf6oPwgxe6NnRo64aMGXWx0beHM+ALR1UbPWk?=
+ =?us-ascii?Q?n9DcTdzlzROyw34CwTItvzxh4egyT78XeGWhiIaUfl5C+4+hELQ+0dJzLVeE?=
+ =?us-ascii?Q?GzAe35Nlpoc5Ezyblf2QFHDqsl0+YsR9s9dq/Bamxp2tdWB3kTfZ451QSykS?=
+ =?us-ascii?Q?NbC/RiwDqST9u+GcdhmWoaPFliOdIVgbE5KFNJNExPkoQrQAfMFgdHQHsff4?=
+ =?us-ascii?Q?c0kcG+rbyiwx9xtOxxsQBTFBNkbYC316TJz8DbSzngtif5kJ9llctgSyE7Pm?=
+ =?us-ascii?Q?mx7P6TFWew0uP2pSCyJGkVocBvkyEL5XH3lhT5YRySWxH6tRT8el6NmCe1qu?=
+ =?us-ascii?Q?2pmn7NExkdfNdmlgw/k/ZRpztgR6CaAXvQyItMWSoZQEsUM4EMI08Nkmu7Jr?=
+ =?us-ascii?Q?3Rl1y0GJtEUU3aJrh7fFWAQWFd6f7o8D1VW/YITr6GO5NQt5IyYJZk+EU1G0?=
+ =?us-ascii?Q?/jXUIGiakJQ/gAZFocm6+rFxFkk9w/Ww35+edbyXrwLZX7krXHqBvBybJTY7?=
+ =?us-ascii?Q?z5VDTxCZPEGu5+T92HJGVKiX4YS1vyGQV4ZmEKytZ4M8JUMSh1m3cfDNT+Nt?=
+ =?us-ascii?Q?G+QdiAhbAGlTDQ2EXFBQJOayAFdmwUSOEORtmaPqVExajRWAzPe2qtHspPAb?=
+ =?us-ascii?Q?yABCS/zSkwIRYaFa2RVlv+E7OARHiUFnCsu11EWICZyBB9IpwR8rv2+CXty2?=
+ =?us-ascii?Q?tvSM+uP/zI0H74S41RkEG/TQslMjkZa4pg6SWabG0wd/tHE+moDtThtxo0ns?=
+ =?us-ascii?Q?0rc63Gjy20gI8el16rnU5/m+kPzWZcuwgvTt5WGe46CYBKkT1dOPZsodlQHH?=
+ =?us-ascii?Q?H8GzG1h1C+GbfJxRc8n01AtP+B489Ye/BugrDwXpM8pFPa0FW3w6tWaAwbIa?=
+ =?us-ascii?Q?dDBqywSk9bc6b/LCPsPYd51swJng+2i8YAtEfYwxAGTrClUHToehd5+T0bOJ?=
+ =?us-ascii?Q?ApZL3QVIY33l3TU9+PGmQCg9GY/fLqPaOwMm0kTkQLP4K1e1zrwpTC5s84Nh?=
+ =?us-ascii?Q?UhfFuvSVIF4D4tw5dfZCU6Z1TPnFSHpnOXHBdlrZmA1z/3+yyzyoYaDkyny1?=
+ =?us-ascii?Q?LX9mgyoGTQVkKc+6xorBoK/aYEWuX7wnWoueff3k?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b34a5fb8-ad17-4de2-96cd-08dbc996260c
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:15.4211
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:12.5887
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5sjfN/oztstxEaw46oiQuxbr58dFJJv3CgQQ8xavikn5hGL8DNEgWbLccBp94pZTgWDPUM69nwLX5GJ8Eq24Qw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: jjeM8TyciWrsfPBbmNfbX2b/FNsgR+VL1V7feHnaQHofREPf9B0SCxUuYzS8XOukGcUi20aSw9wqppbGjHh2Jw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6147
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: CbxL4cYXEKCU30Q_-F0F8SsdzNTScb8w
-X-Proofpoint-ORIG-GUID: CbxL4cYXEKCU30Q_-F0F8SsdzNTScb8w
+X-Proofpoint-GUID: -4hi_Afruxu6dRZG0BGr4DZmdWsc1mLw
+X-Proofpoint-ORIG-GUID: -4hi_Afruxu6dRZG0BGr4DZmdWsc1mLw
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement ioctls to create and destroy free lists and HWRT datasets. Free
-lists are used for GPU-side memory allocation during geometry processing.
-HWRT datasets are the FW-side structures representing render targets.
+Read the GPU ID register at probe time and select the correct
+features/quirks/enhancements. Use the GPU ID to form the firmware
+file name and load the firmware.
 
-Changes since v6:
-- Fix out-of-bounds shift in get_cr_multisamplectl_val()
+The features/quirks/enhancements arrays are currently hardcoded in
+the driver for the supported GPUs. We are looking at moving this
+information to the firmware image.
+
+Changes since v5:
+- Add BRN 71242 to device info
 
 Changes since v4:
-- Remove use of drm_gem_shmem_get_pages()
+- Retrieve device information from firmware header
+- Pull forward firmware header parsing from FW infrastructure patch
+- Use devm_add_action_or_reset to release firmware
 
 Changes since v3:
-- Support free list grow requests from FW
 - Use drm_dev_{enter,exit}
 
-Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+Co-developed-by: Matt Coster <matt.coster@imgtec.com>
+Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 Co-developed-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 ---
- drivers/gpu/drm/imagination/Makefile        |   2 +
- drivers/gpu/drm/imagination/pvr_ccb.c       |  10 +
- drivers/gpu/drm/imagination/pvr_device.h    |  24 +
- drivers/gpu/drm/imagination/pvr_drv.c       | 112 +++-
- drivers/gpu/drm/imagination/pvr_free_list.c | 625 ++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_free_list.h | 195 ++++++
- drivers/gpu/drm/imagination/pvr_hwrt.c      | 549 +++++++++++++++++
- drivers/gpu/drm/imagination/pvr_hwrt.h      | 165 ++++++
- 8 files changed, 1678 insertions(+), 4 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.h
+ drivers/gpu/drm/imagination/Makefile          |   2 +
+ drivers/gpu/drm/imagination/pvr_device.c      | 323 ++++++++++-
+ drivers/gpu/drm/imagination/pvr_device.h      | 220 ++++++++
+ drivers/gpu/drm/imagination/pvr_device_info.c | 254 +++++++++
+ drivers/gpu/drm/imagination/pvr_device_info.h | 186 +++++++
+ drivers/gpu/drm/imagination/pvr_drv.c         | 521 +++++++++++++++++-
+ drivers/gpu/drm/imagination/pvr_drv.h         | 107 ++++
+ drivers/gpu/drm/imagination/pvr_fw.c          | 145 +++++
+ drivers/gpu/drm/imagination/pvr_fw.h          |  34 ++
+ drivers/gpu/drm/imagination/pvr_fw_info.h     | 135 +++++
+ 10 files changed, 1925 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_device_info.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_device_info.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_fw.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_fw.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_fw_info.h
 
 diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 0a6532d30c00..fca2ee2efbac 100644
+index b4aa190c9d4a..9e144ff2742b 100644
 --- a/drivers/gpu/drm/imagination/Makefile
 +++ b/drivers/gpu/drm/imagination/Makefile
-@@ -8,12 +8,14 @@ powervr-y := \
- 	pvr_device.o \
- 	pvr_device_info.o \
- 	pvr_drv.o \
-+	pvr_free_list.o \
- 	pvr_fw.o \
- 	pvr_fw_meta.o \
- 	pvr_fw_mips.o \
- 	pvr_fw_startstop.o \
- 	pvr_fw_trace.o \
- 	pvr_gem.o \
-+	pvr_hwrt.o \
- 	pvr_mmu.o \
- 	pvr_power.o \
- 	pvr_vm.o \
-diff --git a/drivers/gpu/drm/imagination/pvr_ccb.c b/drivers/gpu/drm/imagination/pvr_ccb.c
-index 64b58b8989ca..f0ea71f72776 100644
---- a/drivers/gpu/drm/imagination/pvr_ccb.c
-+++ b/drivers/gpu/drm/imagination/pvr_ccb.c
-@@ -4,6 +4,7 @@
- #include "pvr_ccb.h"
- #include "pvr_device.h"
- #include "pvr_drv.h"
-+#include "pvr_free_list.h"
- #include "pvr_fw.h"
- #include "pvr_gem.h"
- #include "pvr_power.h"
-@@ -139,6 +140,15 @@ process_fwccb_command(struct pvr_device *pvr_dev, struct rogue_fwif_fwccb_cmd *c
- 		pvr_power_reset(pvr_dev, false);
- 		break;
+@@ -5,6 +5,8 @@ subdir-ccflags-y := -I$(srctree)/$(src)
  
-+	case ROGUE_FWIF_FWCCB_CMD_FREELISTS_RECONSTRUCTION:
-+		pvr_free_list_process_reconstruct_req(pvr_dev,
-+						      &cmd->cmd_data.cmd_freelists_reconstruction);
-+		break;
+ powervr-y := \
+ 	pvr_device.o \
++	pvr_device_info.o \
+ 	pvr_drv.o \
++	pvr_fw.o
+ 
+ obj-$(CONFIG_DRM_POWERVR) += powervr.o
+diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+index cef3511c0c42..b1fae182c4f6 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.c
++++ b/drivers/gpu/drm/imagination/pvr_device.c
+@@ -2,19 +2,31 @@
+ /* Copyright (c) 2023 Imagination Technologies Ltd. */
+ 
+ #include "pvr_device.h"
++#include "pvr_device_info.h"
 +
-+	case ROGUE_FWIF_FWCCB_CMD_FREELIST_GROW:
-+		pvr_free_list_process_grow_req(pvr_dev, &cmd->cmd_data.cmd_free_list_gs);
-+		break;
++#include "pvr_fw.h"
++#include "pvr_rogue_cr_defs.h"
+ 
+ #include <drm/drm_print.h>
+ 
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/compiler_attributes.h>
+ #include <linux/compiler_types.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
++#include <linux/firmware.h>
+ #include <linux/gfp.h>
++#include <linux/interrupt.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ #include <linux/stddef.h>
+ #include <linux/types.h>
++#include <linux/workqueue.h>
 +
- 	default:
- 		drm_info(from_pvr_device(pvr_dev), "Received unknown FWCCB command %x\n",
- 			 cmd->cmd_type);
++/* Major number for the supported version of the firmware. */
++#define PVR_FW_VERSION_MAJOR 1
+ 
+ /**
+  * pvr_device_reg_init() - Initialize kernel access to a PowerVR device's
+@@ -100,6 +112,209 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
+ 	return 0;
+ }
+ 
++/**
++ * pvr_build_firmware_filename() - Construct a PowerVR firmware filename
++ * @pvr_dev: Target PowerVR device.
++ * @base: First part of the filename.
++ * @major: Major version number.
++ *
++ * A PowerVR firmware filename consists of three parts separated by underscores
++ * (``'_'``) along with a '.fw' file suffix. The first part is the exact value
++ * of @base, the second part is the hardware version string derived from @pvr_fw
++ * and the final part is the firmware version number constructed from @major with
++ * a 'v' prefix, e.g. powervr/rogue_4.40.2.51_v1.fw.
++ *
++ * The returned string will have been slab allocated and must be freed with
++ * kfree().
++ *
++ * Return:
++ *  * The constructed filename on success, or
++ *  * Any error returned by kasprintf().
++ */
++static char *
++pvr_build_firmware_filename(struct pvr_device *pvr_dev, const char *base,
++			    u8 major)
++{
++	struct pvr_gpu_id *gpu_id = &pvr_dev->gpu_id;
++
++	return kasprintf(GFP_KERNEL, "%s_%d.%d.%d.%d_v%d.fw", base, gpu_id->b,
++			 gpu_id->v, gpu_id->n, gpu_id->c, major);
++}
++
++static void
++pvr_release_firmware(void *data)
++{
++	struct pvr_device *pvr_dev = data;
++
++	release_firmware(pvr_dev->fw_dev.firmware);
++}
++
++/**
++ * pvr_request_firmware() - Load firmware for a PowerVR device
++ * @pvr_dev: Target PowerVR device.
++ *
++ * See pvr_build_firmware_filename() for details on firmware file naming.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * Any error returned by pvr_build_firmware_filename(), or
++ *  * Any error returned by request_firmware().
++ */
++static int
++pvr_request_firmware(struct pvr_device *pvr_dev)
++{
++	struct drm_device *drm_dev = &pvr_dev->base;
++	char *filename;
++	const struct firmware *fw;
++	int err;
++
++	filename = pvr_build_firmware_filename(pvr_dev, "powervr/rogue",
++					       PVR_FW_VERSION_MAJOR);
++	if (IS_ERR(filename))
++		return PTR_ERR(filename);
++
++	/*
++	 * This function takes a copy of &filename, meaning we can free our
++	 * instance before returning.
++	 */
++	err = request_firmware(&fw, filename, pvr_dev->base.dev);
++	if (err) {
++		drm_err(drm_dev, "failed to load firmware %s (err=%d)\n",
++			filename, err);
++		goto err_free_filename;
++	}
++
++	drm_info(drm_dev, "loaded firmware %s\n", filename);
++	kfree(filename);
++
++	pvr_dev->fw_dev.firmware = fw;
++
++	return devm_add_action_or_reset(drm_dev->dev, pvr_release_firmware, pvr_dev);
++
++err_free_filename:
++	kfree(filename);
++
++	return err;
++}
++
++/**
++ * pvr_load_gpu_id() - Load a PowerVR device's GPU ID (BVNC) from control registers.
++ *
++ * Sets struct pvr_dev.gpu_id.
++ *
++ * @pvr_dev: Target PowerVR device.
++ */
++static void
++pvr_load_gpu_id(struct pvr_device *pvr_dev)
++{
++	struct pvr_gpu_id *gpu_id = &pvr_dev->gpu_id;
++	u64 bvnc;
++
++	/*
++	 * Try reading the BVNC using the newer (cleaner) method first. If the
++	 * B value is zero, fall back to the older method.
++	 */
++	bvnc = pvr_cr_read64(pvr_dev, ROGUE_CR_CORE_ID__PBVNC);
++
++	gpu_id->b = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__BRANCH_ID);
++	if (gpu_id->b != 0) {
++		gpu_id->v = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__VERSION_ID);
++		gpu_id->n = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__NUMBER_OF_SCALABLE_UNITS);
++		gpu_id->c = PVR_CR_FIELD_GET(bvnc, CORE_ID__PBVNC__CONFIG_ID);
++	} else {
++		u32 core_rev = pvr_cr_read32(pvr_dev, ROGUE_CR_CORE_REVISION);
++		u32 core_id = pvr_cr_read32(pvr_dev, ROGUE_CR_CORE_ID);
++		u16 core_id_config = PVR_CR_FIELD_GET(core_id, CORE_ID_CONFIG);
++
++		gpu_id->b = PVR_CR_FIELD_GET(core_rev, CORE_REVISION_MAJOR);
++		gpu_id->v = PVR_CR_FIELD_GET(core_rev, CORE_REVISION_MINOR);
++		gpu_id->n = FIELD_GET(0xFF00, core_id_config);
++		gpu_id->c = FIELD_GET(0x00FF, core_id_config);
++	}
++}
++
++/**
++ * pvr_set_dma_info() - Set PowerVR device DMA information
++ * @pvr_dev: Target PowerVR device.
++ *
++ * Sets the DMA mask and max segment size for the PowerVR device.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * Any error returned by PVR_FEATURE_VALUE(), or
++ *  * Any error returned by dma_set_mask().
++ */
++
++static int
++pvr_set_dma_info(struct pvr_device *pvr_dev)
++{
++	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
++	u16 phys_bus_width;
++	int err;
++
++	err = PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width);
++	if (err) {
++		drm_err(drm_dev, "Failed to get device physical bus width\n");
++		return err;
++	}
++
++	err = dma_set_mask(drm_dev->dev, DMA_BIT_MASK(phys_bus_width));
++	if (err) {
++		drm_err(drm_dev, "Failed to set DMA mask (err=%d)\n", err);
++		return err;
++	}
++
++	dma_set_max_seg_size(drm_dev->dev, UINT_MAX);
++
++	return 0;
++}
++
++/**
++ * pvr_device_gpu_init() - GPU-specific initialization for a PowerVR device
++ * @pvr_dev: Target PowerVR device.
++ *
++ * The following steps are taken to ensure the device is ready:
++ *
++ *  1. Read the hardware version information from control registers,
++ *  2. Initialise the hardware feature information,
++ *  3. Setup the device DMA information,
++ *  4. Setup the device-scoped memory context, and
++ *  5. Load firmware into the device.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%ENODEV if the GPU is not supported,
++ *  * Any error returned by pvr_set_dma_info(),
++ *  * Any error returned by pvr_memory_context_init(), or
++ *  * Any error returned by pvr_request_firmware().
++ */
++static int
++pvr_device_gpu_init(struct pvr_device *pvr_dev)
++{
++	int err;
++
++	pvr_load_gpu_id(pvr_dev);
++
++	err = pvr_request_firmware(pvr_dev);
++	if (err)
++		return err;
++
++	err = pvr_fw_validate_init_device_info(pvr_dev);
++	if (err)
++		return err;
++
++	if (PVR_HAS_FEATURE(pvr_dev, meta))
++		pvr_dev->fw_dev.processor_type = PVR_FW_PROCESSOR_TYPE_META;
++	else if (PVR_HAS_FEATURE(pvr_dev, mips))
++		pvr_dev->fw_dev.processor_type = PVR_FW_PROCESSOR_TYPE_MIPS;
++	else if (PVR_HAS_FEATURE(pvr_dev, riscv_fw_processor))
++		pvr_dev->fw_dev.processor_type = PVR_FW_PROCESSOR_TYPE_RISCV;
++	else
++		return -EINVAL;
++
++	return pvr_set_dma_info(pvr_dev);
++}
++
+ /**
+  * pvr_device_init() - Initialize a PowerVR device
+  * @pvr_dev: Target PowerVR device.
+@@ -130,7 +345,12 @@ pvr_device_init(struct pvr_device *pvr_dev)
+ 		return err;
+ 
+ 	/* Map the control registers into memory. */
+-	return pvr_device_reg_init(pvr_dev);
++	err = pvr_device_reg_init(pvr_dev);
++	if (err)
++		return err;
++
++	/* Perform GPU-specific initialization steps. */
++	return pvr_device_gpu_init(pvr_dev);
+ }
+ 
+ /**
+@@ -145,3 +365,104 @@ pvr_device_fini(struct pvr_device *pvr_dev)
+ 	 * the initialization stages in pvr_device_init().
+ 	 */
+ }
++
++bool
++pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk)
++{
++	switch (quirk) {
++	case 47217:
++		return PVR_HAS_QUIRK(pvr_dev, 47217);
++	case 48545:
++		return PVR_HAS_QUIRK(pvr_dev, 48545);
++	case 49927:
++		return PVR_HAS_QUIRK(pvr_dev, 49927);
++	case 51764:
++		return PVR_HAS_QUIRK(pvr_dev, 51764);
++	case 62269:
++		return PVR_HAS_QUIRK(pvr_dev, 62269);
++	default:
++		return false;
++	};
++}
++
++bool
++pvr_device_has_uapi_enhancement(struct pvr_device *pvr_dev, u32 enhancement)
++{
++	switch (enhancement) {
++	case 35421:
++		return PVR_HAS_ENHANCEMENT(pvr_dev, 35421);
++	case 42064:
++		return PVR_HAS_ENHANCEMENT(pvr_dev, 42064);
++	default:
++		return false;
++	};
++}
++
++/**
++ * pvr_device_has_feature() - Look up device feature based on feature definition
++ * @pvr_dev: Device pointer.
++ * @feature: Feature to look up. Should be one of %PVR_FEATURE_*.
++ *
++ * Returns:
++ *  * %true if feature is present on device, or
++ *  * %false if feature is not present on device.
++ */
++bool
++pvr_device_has_feature(struct pvr_device *pvr_dev, u32 feature)
++{
++	switch (feature) {
++	case PVR_FEATURE_CLUSTER_GROUPING:
++		return PVR_HAS_FEATURE(pvr_dev, cluster_grouping);
++
++	case PVR_FEATURE_COMPUTE_MORTON_CAPABLE:
++		return PVR_HAS_FEATURE(pvr_dev, compute_morton_capable);
++
++	case PVR_FEATURE_FB_CDC_V4:
++		return PVR_HAS_FEATURE(pvr_dev, fb_cdc_v4);
++
++	case PVR_FEATURE_GPU_MULTICORE_SUPPORT:
++		return PVR_HAS_FEATURE(pvr_dev, gpu_multicore_support);
++
++	case PVR_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE:
++		return PVR_HAS_FEATURE(pvr_dev, isp_zls_d24_s8_packing_ogl_mode);
++
++	case PVR_FEATURE_S7_TOP_INFRASTRUCTURE:
++		return PVR_HAS_FEATURE(pvr_dev, s7_top_infrastructure);
++
++	case PVR_FEATURE_TESSELLATION:
++		return PVR_HAS_FEATURE(pvr_dev, tessellation);
++
++	case PVR_FEATURE_TPU_DM_GLOBAL_REGISTERS:
++		return PVR_HAS_FEATURE(pvr_dev, tpu_dm_global_registers);
++
++	case PVR_FEATURE_VDM_DRAWINDIRECT:
++		return PVR_HAS_FEATURE(pvr_dev, vdm_drawindirect);
++
++	case PVR_FEATURE_VDM_OBJECT_LEVEL_LLS:
++		return PVR_HAS_FEATURE(pvr_dev, vdm_object_level_lls);
++
++	case PVR_FEATURE_ZLS_SUBTILE:
++		return PVR_HAS_FEATURE(pvr_dev, zls_subtile);
++
++	/* Derived features. */
++	case PVR_FEATURE_CDM_USER_MODE_QUEUE: {
++		u8 cdm_control_stream_format = 0;
++
++		PVR_FEATURE_VALUE(pvr_dev, cdm_control_stream_format, &cdm_control_stream_format);
++		return (cdm_control_stream_format >= 2 && cdm_control_stream_format <= 4);
++	}
++
++	case PVR_FEATURE_REQUIRES_FB_CDC_ZLS_SETUP:
++		if (PVR_HAS_FEATURE(pvr_dev, fbcdc_algorithm)) {
++			u8 fbcdc_algorithm = 0;
++
++			PVR_FEATURE_VALUE(pvr_dev, fbcdc_algorithm, &fbcdc_algorithm);
++			return (fbcdc_algorithm < 3 || PVR_HAS_FEATURE(pvr_dev, fb_cdc_v4));
++		}
++		return false;
++
++	default:
++		WARN(true, "Looking up undefined feature %u\n", feature);
++		return false;
++	}
++}
 diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index cbcfc5d4b845..84166266ace8 100644
+index d61b3615b49f..833fd686c8eb 100644
 --- a/drivers/gpu/drm/imagination/pvr_device.h
 +++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -146,6 +146,14 @@ struct pvr_device {
- 	/** @fw_dev: Firmware related data. */
- 	struct pvr_fw_device fw_dev;
+@@ -4,6 +4,9 @@
+ #ifndef PVR_DEVICE_H
+ #define PVR_DEVICE_H
  
-+	/**
-+	 * @free_list_ids: Array of free lists belonging to this device. Array members
-+	 *                 are of type "struct pvr_free_list *".
-+	 *
-+	 * This array is used to allocate IDs used by the firmware.
-+	 */
-+	struct xarray free_list_ids;
++#include "pvr_device_info.h"
++#include "pvr_fw.h"
 +
- 	struct {
- 		/** @work: Work item for watchdog callback. */
- 		struct delayed_work work;
-@@ -241,6 +249,22 @@ struct pvr_file {
+ #include <drm/drm_device.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_mm.h>
+@@ -28,6 +31,26 @@ struct clk;
+ /* Forward declaration from <linux/firmware.h>. */
+ struct firmware;
+ 
++/**
++ * struct pvr_gpu_id - Hardware GPU ID information for a PowerVR device
++ * @b: Branch ID.
++ * @v: Version ID.
++ * @n: Number of scalable units.
++ * @c: Config ID.
++ */
++struct pvr_gpu_id {
++	u16 b, v, n, c;
++};
++
++/**
++ * struct pvr_fw_version - Firmware version information
++ * @major: Major version number.
++ * @minor: Minor version number.
++ */
++struct pvr_fw_version {
++	u16 major, minor;
++};
++
+ /**
+  * struct pvr_device - powervr-specific wrapper for &struct drm_device
+  */
+@@ -40,6 +63,35 @@ struct pvr_device {
  	 */
- 	struct pvr_device *pvr_dev;
+ 	struct drm_device base;
  
-+	/**
-+	 * @free_list_handles: Array of free lists belonging to this file. Array
-+	 * members are of type "struct pvr_free_list *".
-+	 *
-+	 * This array is used to allocate handles returned to userspace.
-+	 */
-+	struct xarray free_list_handles;
++	/** @gpu_id: GPU ID detected at runtime. */
++	struct pvr_gpu_id gpu_id;
 +
 +	/**
-+	 * @hwrt_handles: Array of HWRT datasets belonging to this file. Array
-+	 * members are of type "struct pvr_hwrt_dataset *".
++	 * @features: Hardware feature information.
 +	 *
-+	 * This array is used to allocate handles returned to userspace.
++	 * Do not access this member directly, instead use PVR_HAS_FEATURE()
++	 * or PVR_FEATURE_VALUE() macros.
 +	 */
-+	struct xarray hwrt_handles;
++	struct pvr_device_features features;
++
++	/**
++	 * @quirks: Hardware quirk information.
++	 *
++	 * Do not access this member directly, instead use PVR_HAS_QUIRK().
++	 */
++	struct pvr_device_quirks quirks;
++
++	/**
++	 * @enhancements: Hardware enhancement information.
++	 *
++	 * Do not access this member directly, instead use
++	 * PVR_HAS_ENHANCEMENT().
++	 */
++	struct pvr_device_enhancements enhancements;
++
++	/** @fw_version: Firmware version detected at runtime. */
++	struct pvr_fw_version fw_version;
 +
  	/**
- 	 * @vm_ctx_handles: Array of VM contexts belonging to this file. Array
- 	 * members are of type "struct pvr_vm_context *".
+ 	 * @regs: Device control registers.
+ 	 *
+@@ -70,6 +122,9 @@ struct pvr_device {
+ 	 * Interface (MEMIF). If present, this needs to be enabled/disabled together with @core_clk.
+ 	 */
+ 	struct clk *mem_clk;
++
++	/** @fw_dev: Firmware related data. */
++	struct pvr_fw_device fw_dev;
+ };
+ 
+ /**
+@@ -92,6 +147,76 @@ struct pvr_file {
+ 	struct pvr_device *pvr_dev;
+ };
+ 
++/**
++ * PVR_HAS_FEATURE() - Tests whether a PowerVR device has a given feature
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @feature: [IN] Hardware feature name.
++ *
++ * Feature names are derived from those found in &struct pvr_device_features by
++ * dropping the 'has_' prefix, which is applied by this macro.
++ *
++ * Return:
++ *  * true if the named feature is present in the hardware
++ *  * false if the named feature is not present in the hardware
++ */
++#define PVR_HAS_FEATURE(pvr_dev, feature) ((pvr_dev)->features.has_##feature)
++
++/**
++ * PVR_FEATURE_VALUE() - Gets a PowerVR device feature value
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @feature: [IN] Feature name.
++ * @value_out: [OUT] Feature value.
++ *
++ * This macro will get a feature value for those features that have values.
++ * If the feature is not present, nothing will be stored to @value_out.
++ *
++ * Feature names are derived from those found in &struct pvr_device_features by
++ * dropping the 'has_' prefix.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if the named feature is not present in the hardware
++ */
++#define PVR_FEATURE_VALUE(pvr_dev, feature, value_out)             \
++	({                                                         \
++		struct pvr_device *_pvr_dev = pvr_dev;             \
++		int _ret = -EINVAL;                                \
++		if (_pvr_dev->features.has_##feature) {            \
++			*(value_out) = _pvr_dev->features.feature; \
++			_ret = 0;                                  \
++		}                                                  \
++		_ret;                                              \
++	})
++
++/**
++ * PVR_HAS_QUIRK() - Tests whether a physical device has a given quirk
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @quirk: [IN] Hardware quirk name.
++ *
++ * Quirk numbers are derived from those found in #pvr_device_quirks by
++ * dropping the 'has_brn' prefix, which is applied by this macro.
++ *
++ * Returns
++ *  * true if the quirk is present in the hardware, or
++ *  * false if the quirk is not present in the hardware.
++ */
++#define PVR_HAS_QUIRK(pvr_dev, quirk) ((pvr_dev)->quirks.has_brn##quirk)
++
++/**
++ * PVR_HAS_ENHANCEMENT() - Tests whether a physical device has a given
++ *                         enhancement
++ * @pvr_dev: [IN] Target PowerVR device.
++ * @enhancement: [IN] Hardware enhancement name.
++ *
++ * Enhancement numbers are derived from those found in #pvr_device_enhancements
++ * by dropping the 'has_ern' prefix, which is applied by this macro.
++ *
++ * Returns
++ *  * true if the enhancement is present in the hardware, or
++ *  * false if the enhancement is not present in the hardware.
++ */
++#define PVR_HAS_ENHANCEMENT(pvr_dev, enhancement) ((pvr_dev)->enhancements.has_ern##enhancement)
++
+ #define from_pvr_device(pvr_dev) (&(pvr_dev)->base)
+ 
+ #define to_pvr_device(drm_dev) container_of_const(drm_dev, struct pvr_device, base)
+@@ -100,9 +225,77 @@ struct pvr_file {
+ 
+ #define to_pvr_file(file) ((file)->driver_priv)
+ 
++/**
++ * PVR_PACKED_BVNC() - Packs B, V, N and C values into a 64-bit unsigned integer
++ * @b: Branch ID.
++ * @v: Version ID.
++ * @n: Number of scalable units.
++ * @c: Config ID.
++ *
++ * The packed layout is as follows:
++ *
++ *    +--------+--------+--------+-------+
++ *    | 63..48 | 47..32 | 31..16 | 15..0 |
++ *    +========+========+========+=======+
++ *    | B      | V      | N      | C     |
++ *    +--------+--------+--------+-------+
++ *
++ * pvr_gpu_id_to_packed_bvnc() should be used instead of this macro when a
++ * &struct pvr_gpu_id is available in order to ensure proper type checking.
++ *
++ * Return: Packed BVNC.
++ */
++/* clang-format off */
++#define PVR_PACKED_BVNC(b, v, n, c) \
++	((((u64)(b) & GENMASK_ULL(15, 0)) << 48) | \
++	 (((u64)(v) & GENMASK_ULL(15, 0)) << 32) | \
++	 (((u64)(n) & GENMASK_ULL(15, 0)) << 16) | \
++	 (((u64)(c) & GENMASK_ULL(15, 0)) <<  0))
++/* clang-format on */
++
++/**
++ * pvr_gpu_id_to_packed_bvnc() - Packs B, V, N and C values into a 64-bit
++ * unsigned integer
++ * @gpu_id: GPU ID.
++ *
++ * The packed layout is as follows:
++ *
++ *    +--------+--------+--------+-------+
++ *    | 63..48 | 47..32 | 31..16 | 15..0 |
++ *    +========+========+========+=======+
++ *    | B      | V      | N      | C     |
++ *    +--------+--------+--------+-------+
++ *
++ * This should be used in preference to PVR_PACKED_BVNC() when a &struct
++ * pvr_gpu_id is available in order to ensure proper type checking.
++ *
++ * Return: Packed BVNC.
++ */
++static __always_inline u64
++pvr_gpu_id_to_packed_bvnc(struct pvr_gpu_id *gpu_id)
++{
++	return PVR_PACKED_BVNC(gpu_id->b, gpu_id->v, gpu_id->n, gpu_id->c);
++}
++
++static __always_inline void
++packed_bvnc_to_pvr_gpu_id(u64 bvnc, struct pvr_gpu_id *gpu_id)
++{
++	gpu_id->b = (bvnc & GENMASK_ULL(63, 48)) >> 48;
++	gpu_id->v = (bvnc & GENMASK_ULL(47, 32)) >> 32;
++	gpu_id->n = (bvnc & GENMASK_ULL(31, 16)) >> 16;
++	gpu_id->c = bvnc & GENMASK_ULL(15, 0);
++}
++
+ int pvr_device_init(struct pvr_device *pvr_dev);
+ void pvr_device_fini(struct pvr_device *pvr_dev);
+ 
++bool
++pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk);
++bool
++pvr_device_has_uapi_enhancement(struct pvr_device *pvr_dev, u32 enhancement);
++bool
++pvr_device_has_feature(struct pvr_device *pvr_dev, u32 feature);
++
+ /**
+  * PVR_CR_FIELD_GET() - Extract a single field from a PowerVR control register
+  * @val: Value of the target register.
+@@ -208,6 +401,29 @@ pvr_cr_poll_reg64(struct pvr_device *pvr_dev, u32 reg_addr, u64 reg_value,
+ 		(value & reg_mask) == reg_value, 0, timeout_usec);
+ }
+ 
++/**
++ * pvr_round_up_to_cacheline_size() - Round up a provided size to be cacheline
++ *                                    aligned
++ * @pvr_dev: Target PowerVR device.
++ * @size: Initial size, in bytes.
++ *
++ * Returns:
++ *  * Size aligned to cacheline size.
++ */
++static __always_inline size_t
++pvr_round_up_to_cacheline_size(struct pvr_device *pvr_dev, size_t size)
++{
++	u16 slc_cacheline_size_bits = 0;
++	u16 slc_cacheline_size_bytes;
++
++	WARN_ON(!PVR_HAS_FEATURE(pvr_dev, slc_cache_line_size_bits));
++	PVR_FEATURE_VALUE(pvr_dev, slc_cache_line_size_bits,
++			  &slc_cacheline_size_bits);
++	slc_cacheline_size_bytes = slc_cacheline_size_bits / 8;
++
++	return round_up(size, slc_cacheline_size_bytes);
++}
++
+ /**
+  * DOC: IOCTL validation helpers
+  *
+@@ -302,4 +518,8 @@ pvr_ioctl_union_padding_check(void *instance, size_t union_offset,
+ 					      __union_size, __member_size);  \
+ 	})
+ 
++#define PVR_FW_PROCESSOR_TYPE_META  0
++#define PVR_FW_PROCESSOR_TYPE_MIPS  1
++#define PVR_FW_PROCESSOR_TYPE_RISCV 2
++
+ #endif /* PVR_DEVICE_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_device_info.c b/drivers/gpu/drm/imagination/pvr_device_info.c
+new file mode 100644
+index 000000000000..66ab64de7128
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_device_info.c
+@@ -0,0 +1,254 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_device.h"
++#include "pvr_device_info.h"
++#include "pvr_rogue_fwif_dev_info.h"
++
++#include <drm/drm_print.h>
++
++#include <linux/bits.h>
++#include <linux/minmax.h>
++#include <linux/stddef.h>
++#include <linux/types.h>
++
++#define QUIRK_MAPPING(quirk) \
++	[PVR_FW_HAS_BRN_##quirk] = offsetof(struct pvr_device, quirks.has_brn##quirk)
++
++static const uintptr_t quirks_mapping[] = {
++	QUIRK_MAPPING(44079),
++	QUIRK_MAPPING(47217),
++	QUIRK_MAPPING(48492),
++	QUIRK_MAPPING(48545),
++	QUIRK_MAPPING(49927),
++	QUIRK_MAPPING(50767),
++	QUIRK_MAPPING(51764),
++	QUIRK_MAPPING(62269),
++	QUIRK_MAPPING(63142),
++	QUIRK_MAPPING(63553),
++	QUIRK_MAPPING(66011),
++	QUIRK_MAPPING(71242),
++};
++
++#undef QUIRK_MAPPING
++
++#define ENHANCEMENT_MAPPING(enhancement)                             \
++	[PVR_FW_HAS_ERN_##enhancement] = offsetof(struct pvr_device, \
++						  enhancements.has_ern##enhancement)
++
++static const uintptr_t enhancements_mapping[] = {
++	ENHANCEMENT_MAPPING(35421),
++	ENHANCEMENT_MAPPING(38020),
++	ENHANCEMENT_MAPPING(38748),
++	ENHANCEMENT_MAPPING(42064),
++	ENHANCEMENT_MAPPING(42290),
++	ENHANCEMENT_MAPPING(42606),
++	ENHANCEMENT_MAPPING(47025),
++	ENHANCEMENT_MAPPING(57596),
++};
++
++#undef ENHANCEMENT_MAPPING
++
++static void pvr_device_info_set_common(struct pvr_device *pvr_dev, const u64 *bitmask,
++				       u32 bitmask_size, const uintptr_t *mapping, u32 mapping_max)
++{
++	const u32 mapping_max_size = (mapping_max + 63) >> 6;
++	const u32 nr_bits = min(bitmask_size * 64, mapping_max);
++
++	/* Warn if any unsupported values in the bitmask. */
++	if (bitmask_size > mapping_max_size) {
++		if (mapping == quirks_mapping)
++			drm_warn(from_pvr_device(pvr_dev), "Unsupported quirks in firmware image");
++		else
++			drm_warn(from_pvr_device(pvr_dev),
++				 "Unsupported enhancements in firmware image");
++	} else if (bitmask_size == mapping_max_size && (mapping_max & 63)) {
++		u64 invalid_mask = ~0ull << (mapping_max & 63);
++
++		if (bitmask[bitmask_size - 1] & invalid_mask) {
++			if (mapping == quirks_mapping)
++				drm_warn(from_pvr_device(pvr_dev),
++					 "Unsupported quirks in firmware image");
++			else
++				drm_warn(from_pvr_device(pvr_dev),
++					 "Unsupported enhancements in firmware image");
++		}
++	}
++
++	for (u32 i = 0; i < nr_bits; i++) {
++		if (bitmask[i >> 6] & BIT_ULL(i & 63))
++			*(bool *)((u8 *)pvr_dev + mapping[i]) = true;
++	}
++}
++
++/**
++ * pvr_device_info_set_quirks() - Set device quirks from device information in firmware
++ * @pvr_dev: Device pointer.
++ * @quirks: Pointer to quirks mask in device information.
++ * @quirks_size: Size of quirks mask, in u64s.
++ */
++void pvr_device_info_set_quirks(struct pvr_device *pvr_dev, const u64 *quirks, u32 quirks_size)
++{
++	BUILD_BUG_ON(ARRAY_SIZE(quirks_mapping) != PVR_FW_HAS_BRN_MAX);
++
++	pvr_device_info_set_common(pvr_dev, quirks, quirks_size, quirks_mapping,
++				   ARRAY_SIZE(quirks_mapping));
++}
++
++/**
++ * pvr_device_info_set_enhancements() - Set device enhancements from device information in firmware
++ * @pvr_dev: Device pointer.
++ * @quirks: Pointer to enhancements mask in device information.
++ * @quirks_size: Size of enhancements mask, in u64s.
++ */
++void pvr_device_info_set_enhancements(struct pvr_device *pvr_dev, const u64 *enhancements,
++				      u32 enhancements_size)
++{
++	BUILD_BUG_ON(ARRAY_SIZE(enhancements_mapping) != PVR_FW_HAS_ERN_MAX);
++
++	pvr_device_info_set_common(pvr_dev, enhancements, enhancements_size,
++				   enhancements_mapping, ARRAY_SIZE(enhancements_mapping));
++}
++
++#define FEATURE_MAPPING(fw_feature, feature)                                        \
++	[PVR_FW_HAS_FEATURE_##fw_feature] = {                                       \
++		.flag_offset = offsetof(struct pvr_device, features.has_##feature), \
++		.value_offset = 0                                                   \
++	}
++
++#define FEATURE_MAPPING_VALUE(fw_feature, feature)                                  \
++	[PVR_FW_HAS_FEATURE_##fw_feature] = {                                       \
++		.flag_offset = offsetof(struct pvr_device, features.has_##feature), \
++		.value_offset = offsetof(struct pvr_device, features.feature)       \
++	}
++
++static const struct {
++	uintptr_t flag_offset;
++	uintptr_t value_offset;
++} features_mapping[] = {
++	FEATURE_MAPPING(AXI_ACELITE, axi_acelite),
++	FEATURE_MAPPING_VALUE(CDM_CONTROL_STREAM_FORMAT, cdm_control_stream_format),
++	FEATURE_MAPPING(CLUSTER_GROUPING, cluster_grouping),
++	FEATURE_MAPPING_VALUE(COMMON_STORE_SIZE_IN_DWORDS, common_store_size_in_dwords),
++	FEATURE_MAPPING(COMPUTE, compute),
++	FEATURE_MAPPING(COMPUTE_MORTON_CAPABLE, compute_morton_capable),
++	FEATURE_MAPPING(COMPUTE_OVERLAP, compute_overlap),
++	FEATURE_MAPPING(COREID_PER_OS, coreid_per_os),
++	FEATURE_MAPPING(DYNAMIC_DUST_POWER, dynamic_dust_power),
++	FEATURE_MAPPING_VALUE(ECC_RAMS, ecc_rams),
++	FEATURE_MAPPING_VALUE(FBCDC, fbcdc),
++	FEATURE_MAPPING_VALUE(FBCDC_ALGORITHM, fbcdc_algorithm),
++	FEATURE_MAPPING_VALUE(FBCDC_ARCHITECTURE, fbcdc_architecture),
++	FEATURE_MAPPING_VALUE(FBC_MAX_DEFAULT_DESCRIPTORS, fbc_max_default_descriptors),
++	FEATURE_MAPPING_VALUE(FBC_MAX_LARGE_DESCRIPTORS, fbc_max_large_descriptors),
++	FEATURE_MAPPING(FB_CDC_V4, fb_cdc_v4),
++	FEATURE_MAPPING(GPU_MULTICORE_SUPPORT, gpu_multicore_support),
++	FEATURE_MAPPING(GPU_VIRTUALISATION, gpu_virtualisation),
++	FEATURE_MAPPING(GS_RTA_SUPPORT, gs_rta_support),
++	FEATURE_MAPPING(IRQ_PER_OS, irq_per_os),
++	FEATURE_MAPPING_VALUE(ISP_MAX_TILES_IN_FLIGHT, isp_max_tiles_in_flight),
++	FEATURE_MAPPING_VALUE(ISP_SAMPLES_PER_PIXEL, isp_samples_per_pixel),
++	FEATURE_MAPPING(ISP_ZLS_D24_S8_PACKING_OGL_MODE, isp_zls_d24_s8_packing_ogl_mode),
++	FEATURE_MAPPING_VALUE(LAYOUT_MARS, layout_mars),
++	FEATURE_MAPPING_VALUE(MAX_PARTITIONS, max_partitions),
++	FEATURE_MAPPING_VALUE(META, meta),
++	FEATURE_MAPPING_VALUE(META_COREMEM_SIZE, meta_coremem_size),
++	FEATURE_MAPPING(MIPS, mips),
++	FEATURE_MAPPING_VALUE(NUM_CLUSTERS, num_clusters),
++	FEATURE_MAPPING_VALUE(NUM_ISP_IPP_PIPES, num_isp_ipp_pipes),
++	FEATURE_MAPPING_VALUE(NUM_OSIDS, num_osids),
++	FEATURE_MAPPING_VALUE(NUM_RASTER_PIPES, num_raster_pipes),
++	FEATURE_MAPPING(PBE2_IN_XE, pbe2_in_xe),
++	FEATURE_MAPPING(PBVNC_COREID_REG, pbvnc_coreid_reg),
++	FEATURE_MAPPING(PERFBUS, perfbus),
++	FEATURE_MAPPING(PERF_COUNTER_BATCH, perf_counter_batch),
++	FEATURE_MAPPING_VALUE(PHYS_BUS_WIDTH, phys_bus_width),
++	FEATURE_MAPPING(RISCV_FW_PROCESSOR, riscv_fw_processor),
++	FEATURE_MAPPING(ROGUEXE, roguexe),
++	FEATURE_MAPPING(S7_TOP_INFRASTRUCTURE, s7_top_infrastructure),
++	FEATURE_MAPPING(SIMPLE_INTERNAL_PARAMETER_FORMAT, simple_internal_parameter_format),
++	FEATURE_MAPPING(SIMPLE_INTERNAL_PARAMETER_FORMAT_V2, simple_internal_parameter_format_v2),
++	FEATURE_MAPPING_VALUE(SIMPLE_PARAMETER_FORMAT_VERSION, simple_parameter_format_version),
++	FEATURE_MAPPING_VALUE(SLC_BANKS, slc_banks),
++	FEATURE_MAPPING_VALUE(SLC_CACHE_LINE_SIZE_BITS, slc_cache_line_size_bits),
++	FEATURE_MAPPING(SLC_SIZE_CONFIGURABLE, slc_size_configurable),
++	FEATURE_MAPPING_VALUE(SLC_SIZE_IN_KILOBYTES, slc_size_in_kilobytes),
++	FEATURE_MAPPING(SOC_TIMER, soc_timer),
++	FEATURE_MAPPING(SYS_BUS_SECURE_RESET, sys_bus_secure_reset),
++	FEATURE_MAPPING(TESSELLATION, tessellation),
++	FEATURE_MAPPING(TILE_REGION_PROTECTION, tile_region_protection),
++	FEATURE_MAPPING_VALUE(TILE_SIZE_X, tile_size_x),
++	FEATURE_MAPPING_VALUE(TILE_SIZE_Y, tile_size_y),
++	FEATURE_MAPPING(TLA, tla),
++	FEATURE_MAPPING(TPU_CEM_DATAMASTER_GLOBAL_REGISTERS, tpu_cem_datamaster_global_registers),
++	FEATURE_MAPPING(TPU_DM_GLOBAL_REGISTERS, tpu_dm_global_registers),
++	FEATURE_MAPPING(TPU_FILTERING_MODE_CONTROL, tpu_filtering_mode_control),
++	FEATURE_MAPPING_VALUE(USC_MIN_OUTPUT_REGISTERS_PER_PIX, usc_min_output_registers_per_pix),
++	FEATURE_MAPPING(VDM_DRAWINDIRECT, vdm_drawindirect),
++	FEATURE_MAPPING(VDM_OBJECT_LEVEL_LLS, vdm_object_level_lls),
++	FEATURE_MAPPING_VALUE(VIRTUAL_ADDRESS_SPACE_BITS, virtual_address_space_bits),
++	FEATURE_MAPPING(WATCHDOG_TIMER, watchdog_timer),
++	FEATURE_MAPPING(WORKGROUP_PROTECTION, workgroup_protection),
++	FEATURE_MAPPING_VALUE(XE_ARCHITECTURE, xe_architecture),
++	FEATURE_MAPPING(XE_MEMORY_HIERARCHY, xe_memory_hierarchy),
++	FEATURE_MAPPING(XE_TPU2, xe_tpu2),
++	FEATURE_MAPPING_VALUE(XPU_MAX_REGBANKS_ADDR_WIDTH, xpu_max_regbanks_addr_width),
++	FEATURE_MAPPING_VALUE(XPU_MAX_SLAVES, xpu_max_slaves),
++	FEATURE_MAPPING_VALUE(XPU_REGISTER_BROADCAST, xpu_register_broadcast),
++	FEATURE_MAPPING(XT_TOP_INFRASTRUCTURE, xt_top_infrastructure),
++	FEATURE_MAPPING(ZLS_SUBTILE, zls_subtile),
++};
++
++#undef FEATURE_MAPPING_VALUE
++#undef FEATURE_MAPPING
++
++/**
++ * pvr_device_info_set_features() - Set device features from device information in firmware
++ * @pvr_dev: Device pointer.
++ * @features: Pointer to features mask in device information.
++ * @features_size: Size of features mask, in u64s.
++ * @feature_param_size: Size of feature parameters, in u64s.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * -%EINVAL on malformed stream.
++ */
++int pvr_device_info_set_features(struct pvr_device *pvr_dev, const u64 *features, u32 features_size,
++				 u32 feature_param_size)
++{
++	const u32 mapping_max = ARRAY_SIZE(features_mapping);
++	const u32 mapping_max_size = (mapping_max + 63) >> 6;
++	const u32 nr_bits = min(features_size * 64, mapping_max);
++	const u64 *feature_params = features + features_size;
++	u32 param_idx = 0;
++
++	BUILD_BUG_ON(ARRAY_SIZE(features_mapping) != PVR_FW_HAS_FEATURE_MAX);
++
++	/* Verify no unsupported values in the bitmask. */
++	if (features_size > mapping_max_size) {
++		drm_warn(from_pvr_device(pvr_dev), "Unsupported features in firmware image");
++	} else if (features_size == mapping_max_size && (mapping_max & 63)) {
++		u64 invalid_mask = ~0ull << (mapping_max & 63);
++
++		if (features[features_size - 1] & invalid_mask)
++			drm_warn(from_pvr_device(pvr_dev),
++				 "Unsupported features in firmware image");
++	}
++
++	for (u32 i = 0; i < nr_bits; i++) {
++		if (features[i >> 6] & BIT_ULL(i & 63)) {
++			*(bool *)((u8 *)pvr_dev + features_mapping[i].flag_offset) = true;
++
++			if (features_mapping[i].value_offset) {
++				if (param_idx >= feature_param_size)
++					return -EINVAL;
++
++				*(u64 *)((u8 *)pvr_dev + features_mapping[i].value_offset) =
++					feature_params[param_idx];
++				param_idx++;
++			}
++		}
++	}
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_device_info.h b/drivers/gpu/drm/imagination/pvr_device_info.h
+new file mode 100644
+index 000000000000..f06ca2793885
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_device_info.h
+@@ -0,0 +1,186 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_DEVICE_INFO_H
++#define PVR_DEVICE_INFO_H
++
++#include <linux/types.h>
++
++struct pvr_device;
++
++/*
++ * struct pvr_device_features - Hardware feature information
++ */
++struct pvr_device_features {
++	bool has_axi_acelite;
++	bool has_cdm_control_stream_format;
++	bool has_cluster_grouping;
++	bool has_common_store_size_in_dwords;
++	bool has_compute;
++	bool has_compute_morton_capable;
++	bool has_compute_overlap;
++	bool has_coreid_per_os;
++	bool has_dynamic_dust_power;
++	bool has_ecc_rams;
++	bool has_fb_cdc_v4;
++	bool has_fbc_max_default_descriptors;
++	bool has_fbc_max_large_descriptors;
++	bool has_fbcdc;
++	bool has_fbcdc_algorithm;
++	bool has_fbcdc_architecture;
++	bool has_gpu_multicore_support;
++	bool has_gpu_virtualisation;
++	bool has_gs_rta_support;
++	bool has_irq_per_os;
++	bool has_isp_max_tiles_in_flight;
++	bool has_isp_samples_per_pixel;
++	bool has_isp_zls_d24_s8_packing_ogl_mode;
++	bool has_layout_mars;
++	bool has_max_partitions;
++	bool has_meta;
++	bool has_meta_coremem_size;
++	bool has_mips;
++	bool has_num_clusters;
++	bool has_num_isp_ipp_pipes;
++	bool has_num_osids;
++	bool has_num_raster_pipes;
++	bool has_pbe2_in_xe;
++	bool has_pbvnc_coreid_reg;
++	bool has_perfbus;
++	bool has_perf_counter_batch;
++	bool has_phys_bus_width;
++	bool has_riscv_fw_processor;
++	bool has_roguexe;
++	bool has_s7_top_infrastructure;
++	bool has_simple_internal_parameter_format;
++	bool has_simple_internal_parameter_format_v2;
++	bool has_simple_parameter_format_version;
++	bool has_slc_banks;
++	bool has_slc_cache_line_size_bits;
++	bool has_slc_size_configurable;
++	bool has_slc_size_in_kilobytes;
++	bool has_soc_timer;
++	bool has_sys_bus_secure_reset;
++	bool has_tessellation;
++	bool has_tile_region_protection;
++	bool has_tile_size_x;
++	bool has_tile_size_y;
++	bool has_tla;
++	bool has_tpu_cem_datamaster_global_registers;
++	bool has_tpu_dm_global_registers;
++	bool has_tpu_filtering_mode_control;
++	bool has_usc_min_output_registers_per_pix;
++	bool has_vdm_drawindirect;
++	bool has_vdm_object_level_lls;
++	bool has_virtual_address_space_bits;
++	bool has_watchdog_timer;
++	bool has_workgroup_protection;
++	bool has_xe_architecture;
++	bool has_xe_memory_hierarchy;
++	bool has_xe_tpu2;
++	bool has_xpu_max_regbanks_addr_width;
++	bool has_xpu_max_slaves;
++	bool has_xpu_register_broadcast;
++	bool has_xt_top_infrastructure;
++	bool has_zls_subtile;
++
++	u64 cdm_control_stream_format;
++	u64 common_store_size_in_dwords;
++	u64 ecc_rams;
++	u64 fbc_max_default_descriptors;
++	u64 fbc_max_large_descriptors;
++	u64 fbcdc;
++	u64 fbcdc_algorithm;
++	u64 fbcdc_architecture;
++	u64 isp_max_tiles_in_flight;
++	u64 isp_samples_per_pixel;
++	u64 layout_mars;
++	u64 max_partitions;
++	u64 meta;
++	u64 meta_coremem_size;
++	u64 num_clusters;
++	u64 num_isp_ipp_pipes;
++	u64 num_osids;
++	u64 num_raster_pipes;
++	u64 phys_bus_width;
++	u64 simple_parameter_format_version;
++	u64 slc_banks;
++	u64 slc_cache_line_size_bits;
++	u64 slc_size_in_kilobytes;
++	u64 tile_size_x;
++	u64 tile_size_y;
++	u64 usc_min_output_registers_per_pix;
++	u64 virtual_address_space_bits;
++	u64 xe_architecture;
++	u64 xpu_max_regbanks_addr_width;
++	u64 xpu_max_slaves;
++	u64 xpu_register_broadcast;
++};
++
++/*
++ * struct pvr_device_quirks - Hardware quirk information
++ */
++struct pvr_device_quirks {
++	bool has_brn44079;
++	bool has_brn47217;
++	bool has_brn48492;
++	bool has_brn48545;
++	bool has_brn49927;
++	bool has_brn50767;
++	bool has_brn51764;
++	bool has_brn62269;
++	bool has_brn63142;
++	bool has_brn63553;
++	bool has_brn66011;
++	bool has_brn71242;
++};
++
++/*
++ * struct pvr_device_enhancements - Hardware enhancement information
++ */
++struct pvr_device_enhancements {
++	bool has_ern35421;
++	bool has_ern38020;
++	bool has_ern38748;
++	bool has_ern42064;
++	bool has_ern42290;
++	bool has_ern42606;
++	bool has_ern47025;
++	bool has_ern57596;
++};
++
++void pvr_device_info_set_quirks(struct pvr_device *pvr_dev, const u64 *bitmask,
++				u32 bitmask_len);
++void pvr_device_info_set_enhancements(struct pvr_device *pvr_dev, const u64 *bitmask,
++				      u32 bitmask_len);
++int pvr_device_info_set_features(struct pvr_device *pvr_dev, const u64 *features, u32 features_size,
++				 u32 feature_param_size);
++
++/*
++ * Meta cores
++ *
++ * These are the values for the 'meta' feature when the feature is present
++ * (as per &struct pvr_device_features)/
++ */
++#define PVR_META_MTP218 (1)
++#define PVR_META_MTP219 (2)
++#define PVR_META_LTP218 (3)
++#define PVR_META_LTP217 (4)
++
++enum {
++	PVR_FEATURE_CDM_USER_MODE_QUEUE,
++	PVR_FEATURE_CLUSTER_GROUPING,
++	PVR_FEATURE_COMPUTE_MORTON_CAPABLE,
++	PVR_FEATURE_FB_CDC_V4,
++	PVR_FEATURE_GPU_MULTICORE_SUPPORT,
++	PVR_FEATURE_ISP_ZLS_D24_S8_PACKING_OGL_MODE,
++	PVR_FEATURE_REQUIRES_FB_CDC_ZLS_SETUP,
++	PVR_FEATURE_S7_TOP_INFRASTRUCTURE,
++	PVR_FEATURE_TESSELLATION,
++	PVR_FEATURE_TPU_DM_GLOBAL_REGISTERS,
++	PVR_FEATURE_VDM_DRAWINDIRECT,
++	PVR_FEATURE_VDM_OBJECT_LEVEL_LLS,
++	PVR_FEATURE_ZLS_SUBTILE,
++};
++
++#endif /* PVR_DEVICE_INFO_H */
 diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index fb37d8e41d84..9a3f34fdced1 100644
+index e007d6946bdc..ecdef9720eea 100644
 --- a/drivers/gpu/drm/imagination/pvr_drv.c
 +++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -3,7 +3,9 @@
+@@ -3,6 +3,9 @@
  
  #include "pvr_device.h"
  #include "pvr_drv.h"
-+#include "pvr_free_list.h"
- #include "pvr_gem.h"
-+#include "pvr_hwrt.h"
- #include "pvr_power.h"
- #include "pvr_rogue_defs.h"
- #include "pvr_rogue_fwif_client.h"
-@@ -723,7 +725,41 @@ static int
- pvr_ioctl_create_free_list(struct drm_device *drm_dev, void *raw_args,
- 			   struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_create_free_list_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_free_list *free_list;
-+	int idx;
-+	int err;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	free_list = pvr_free_list_create(pvr_file, args);
-+	if (IS_ERR(free_list)) {
-+		err = PTR_ERR(free_list);
-+		goto err_drm_dev_exit;
-+	}
-+
-+	/* Allocate object handle for userspace. */
-+	err = xa_alloc(&pvr_file->free_list_handles,
-+		       &args->handle,
-+		       free_list,
-+		       xa_limit_32b,
-+		       GFP_KERNEL);
-+	if (err < 0)
-+		goto err_cleanup;
-+
-+	drm_dev_exit(idx);
-+
-+	return 0;
-+
-+err_cleanup:
-+	pvr_free_list_put(free_list);
-+
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
-+
-+	return err;
++#include "pvr_rogue_defs.h"
++#include "pvr_rogue_fwif_client.h"
++#include "pvr_rogue_fwif_shared.h"
+ 
+ #include <uapi/drm/pvr_drm.h>
+ 
+@@ -87,6 +90,382 @@ pvr_ioctl_get_bo_mmap_offset(struct drm_device *drm_dev, void *raw_args,
+ 	return -ENOTTY;
  }
  
- /**
-@@ -743,7 +779,19 @@ static int
- pvr_ioctl_destroy_free_list(struct drm_device *drm_dev, void *raw_args,
- 			    struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_destroy_free_list_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_free_list *free_list;
-+
-+	if (args->_padding_4)
-+		return -EINVAL;
-+
-+	free_list = xa_erase(&pvr_file->free_list_handles, args->handle);
-+	if (!free_list)
-+		return -EINVAL;
-+
-+	pvr_free_list_put(free_list);
-+	return 0;
- }
- 
- /**
-@@ -763,7 +811,41 @@ static int
- pvr_ioctl_create_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
- 			      struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_create_hwrt_dataset_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_hwrt_dataset *hwrt;
-+	int idx;
-+	int err;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	hwrt = pvr_hwrt_dataset_create(pvr_file, args);
-+	if (IS_ERR(hwrt)) {
-+		err = PTR_ERR(hwrt);
-+		goto err_drm_dev_exit;
-+	}
-+
-+	/* Allocate object handle for userspace. */
-+	err = xa_alloc(&pvr_file->hwrt_handles,
-+		       &args->handle,
-+		       hwrt,
-+		       xa_limit_32b,
-+		       GFP_KERNEL);
-+	if (err < 0)
-+		goto err_cleanup;
-+
-+	drm_dev_exit(idx);
-+
-+	return 0;
-+
-+err_cleanup:
-+	pvr_hwrt_dataset_put(hwrt);
-+
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
-+
-+	return err;
- }
- 
- /**
-@@ -783,7 +865,19 @@ static int
- pvr_ioctl_destroy_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
- 			       struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_destroy_hwrt_dataset_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_hwrt_dataset *hwrt;
-+
-+	if (args->_padding_4)
-+		return -EINVAL;
-+
-+	hwrt = xa_erase(&pvr_file->hwrt_handles, args->handle);
-+	if (!hwrt)
-+		return -EINVAL;
-+
-+	pvr_hwrt_dataset_put(hwrt);
-+	return 0;
- }
- 
- /**
-@@ -1207,6 +1301,8 @@ pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
- 	 */
- 	pvr_file->pvr_dev = pvr_dev;
- 
-+	xa_init_flags(&pvr_file->free_list_handles, XA_FLAGS_ALLOC1);
-+	xa_init_flags(&pvr_file->hwrt_handles, XA_FLAGS_ALLOC1);
- 	xa_init_flags(&pvr_file->vm_ctx_handles, XA_FLAGS_ALLOC1);
- 
- 	/*
-@@ -1235,6 +1331,8 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
- 	struct pvr_file *pvr_file = to_pvr_file(file);
- 
- 	/* Drop references on any remaining objects. */
-+	pvr_destroy_free_lists_for_file(pvr_file);
-+	pvr_destroy_hwrt_datasets_for_file(pvr_file);
- 	pvr_destroy_vm_contexts_for_file(pvr_file);
- 
- 	kfree(pvr_file);
-@@ -1293,6 +1391,8 @@ pvr_probe(struct platform_device *plat_dev)
- 	if (err)
- 		goto err_device_fini;
- 
-+	xa_init_flags(&pvr_dev->free_list_ids, XA_FLAGS_ALLOC1);
-+
- 	return 0;
- 
- err_device_fini:
-@@ -1310,6 +1410,10 @@ pvr_remove(struct platform_device *plat_dev)
- 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
- 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
- 
-+	WARN_ON(!xa_empty(&pvr_dev->free_list_ids));
-+
-+	xa_destroy(&pvr_dev->free_list_ids);
-+
- 	pm_runtime_suspend(drm_dev->dev);
- 	drm_dev_unplug(drm_dev);
- 	pvr_device_fini(pvr_dev);
-diff --git a/drivers/gpu/drm/imagination/pvr_free_list.c b/drivers/gpu/drm/imagination/pvr_free_list.c
-new file mode 100644
-index 000000000000..683882fdfbc6
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_free_list.c
-@@ -0,0 +1,625 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_free_list.h"
-+#include "pvr_gem.h"
-+#include "pvr_hwrt.h"
-+#include "pvr_rogue_fwif.h"
-+#include "pvr_vm.h"
-+
-+#include <drm/drm_gem.h>
-+#include <linux/slab.h>
-+#include <linux/xarray.h>
-+#include <uapi/drm/pvr_drm.h>
-+
-+#define FREE_LIST_ENTRY_SIZE sizeof(u32)
-+
-+#define FREE_LIST_ALIGNMENT \
-+	((ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE / FREE_LIST_ENTRY_SIZE) - 1)
-+
-+#define FREE_LIST_MIN_PAGES 50
-+#define FREE_LIST_MIN_PAGES_BRN66011 40
-+#define FREE_LIST_MIN_PAGES_ROGUEXE 25
-+
-+/**
-+ * pvr_get_free_list_min_pages() - Get minimum free list size for this device
-+ * @pvr_dev: Device pointer.
-+ *
-+ * Returns:
-+ *  * Minimum free list size, in PM physical pages.
-+ */
-+u32
-+pvr_get_free_list_min_pages(struct pvr_device *pvr_dev)
++static __always_inline u64
++pvr_fw_version_packed(u32 major, u32 minor)
 +{
-+	u32 value;
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, roguexe)) {
-+		if (PVR_HAS_QUIRK(pvr_dev, 66011))
-+			value = FREE_LIST_MIN_PAGES_BRN66011;
-+		else
-+			value = FREE_LIST_MIN_PAGES_ROGUEXE;
-+	} else {
-+		value = FREE_LIST_MIN_PAGES;
-+	}
-+
-+	return value;
++	return ((u64)major << 32) | minor;
 +}
 +
-+static int
-+free_list_create_kernel_structure(struct pvr_file *pvr_file,
-+				  struct drm_pvr_ioctl_create_free_list_args *args,
-+				  struct pvr_free_list *free_list)
-+{
-+	struct pvr_gem_object *free_list_obj;
-+	struct pvr_vm_context *vm_ctx;
-+	u64 free_list_size;
-+	int err;
-+
-+	if (args->grow_threshold > 100 ||
-+	    args->initial_num_pages > args->max_num_pages ||
-+	    args->grow_num_pages > args->max_num_pages ||
-+	    args->max_num_pages == 0 ||
-+	    (args->initial_num_pages < args->max_num_pages && !args->grow_num_pages) ||
-+	    (args->initial_num_pages == args->max_num_pages && args->grow_num_pages))
-+		return -EINVAL;
-+
-+	if ((args->initial_num_pages & FREE_LIST_ALIGNMENT) ||
-+	    (args->max_num_pages & FREE_LIST_ALIGNMENT) ||
-+	    (args->grow_num_pages & FREE_LIST_ALIGNMENT))
-+		return -EINVAL;
-+
-+	vm_ctx = pvr_vm_context_lookup(pvr_file, args->vm_context_handle);
-+	if (!vm_ctx)
-+		return -EINVAL;
-+
-+	free_list_obj = pvr_vm_find_gem_object(vm_ctx, args->free_list_gpu_addr,
-+					       NULL, &free_list_size);
-+	if (!free_list_obj) {
-+		err = -EINVAL;
-+		goto err_put_vm_context;
-+	}
-+
-+	if ((free_list_obj->flags & DRM_PVR_BO_CPU_ALLOW_USERSPACE_ACCESS) ||
-+	    !(free_list_obj->flags & DRM_PVR_BO_DEVICE_PM_FW_PROTECT) ||
-+	    free_list_size < (args->max_num_pages * FREE_LIST_ENTRY_SIZE)) {
-+		err = -EINVAL;
-+		goto err_put_free_list_obj;
-+	}
-+
-+	free_list->pvr_dev = pvr_file->pvr_dev;
-+	free_list->current_pages = 0;
-+	free_list->max_pages = args->max_num_pages;
-+	free_list->grow_pages = args->grow_num_pages;
-+	free_list->grow_threshold = args->grow_threshold;
-+	free_list->obj = free_list_obj;
-+	free_list->free_list_gpu_addr = args->free_list_gpu_addr;
-+	free_list->initial_num_pages = args->initial_num_pages;
-+
-+	pvr_vm_context_put(vm_ctx);
-+
-+	return 0;
-+
-+err_put_free_list_obj:
-+	pvr_gem_object_put(free_list_obj);
-+
-+err_put_vm_context:
-+	pvr_vm_context_put(vm_ctx);
-+
-+	return err;
-+}
-+
-+static void
-+free_list_destroy_kernel_structure(struct pvr_free_list *free_list)
-+{
-+	WARN_ON(!list_empty(&free_list->hwrt_list));
-+
-+	pvr_gem_object_put(free_list->obj);
-+}
-+
-+/**
-+ * calculate_free_list_ready_pages_locked() - Function to work out the number of free
-+ *                                            list pages to reserve for growing within
-+ *                                            the FW without having to wait for the
-+ *                                            host to progress a grow request
-+ * @free_list: Pointer to free list.
-+ * @pages: Total pages currently in free list.
-+ *
-+ * If the threshold or grow size means less than the alignment size (4 pages on
-+ * Rogue), then the feature is not used.
-+ *
-+ * Caller must hold &free_list->lock.
-+ *
-+ * Return: number of pages to reserve.
-+ */
 +static u32
-+calculate_free_list_ready_pages_locked(struct pvr_free_list *free_list, u32 pages)
++rogue_get_common_store_partition_space_size(struct pvr_device *pvr_dev)
 +{
-+	u32 ready_pages;
++	u32 max_partitions = 0;
++	u32 tile_size_x = 0;
++	u32 tile_size_y = 0;
 +
-+	lockdep_assert_held(&free_list->lock);
++	PVR_FEATURE_VALUE(pvr_dev, tile_size_x, &tile_size_x);
++	PVR_FEATURE_VALUE(pvr_dev, tile_size_y, &tile_size_y);
++	PVR_FEATURE_VALUE(pvr_dev, max_partitions, &max_partitions);
 +
-+	ready_pages = ((pages * free_list->grow_threshold) / 100);
++	if (tile_size_x == 16 && tile_size_y == 16) {
++		u32 usc_min_output_registers_per_pix = 0;
 +
-+	/* The number of pages must be less than the grow size. */
-+	ready_pages = min(ready_pages, free_list->grow_pages);
++		PVR_FEATURE_VALUE(pvr_dev, usc_min_output_registers_per_pix,
++				  &usc_min_output_registers_per_pix);
++
++		return tile_size_x * tile_size_y * max_partitions *
++		       usc_min_output_registers_per_pix;
++	}
++
++	return max_partitions * 1024;
++}
++
++static u32
++rogue_get_common_store_alloc_region_size(struct pvr_device *pvr_dev)
++{
++	u32 common_store_size_in_dwords = 512 * 4 * 4;
++	u32 alloc_region_size;
++
++	PVR_FEATURE_VALUE(pvr_dev, common_store_size_in_dwords, &common_store_size_in_dwords);
++
++	alloc_region_size = common_store_size_in_dwords - (256U * 4U) -
++			    rogue_get_common_store_partition_space_size(pvr_dev);
++
++	if (PVR_HAS_QUIRK(pvr_dev, 44079)) {
++		u32 common_store_split_point = (768U * 4U * 4U);
++
++		return min(common_store_split_point - (256U * 4U), alloc_region_size);
++	}
++
++	return alloc_region_size;
++}
++
++static inline u32
++rogue_get_num_phantoms(struct pvr_device *pvr_dev)
++{
++	u32 num_clusters = 1;
++
++	PVR_FEATURE_VALUE(pvr_dev, num_clusters, &num_clusters);
++
++	return ROGUE_REQ_NUM_PHANTOMS(num_clusters);
++}
++
++static inline u32
++rogue_get_max_coeffs(struct pvr_device *pvr_dev)
++{
++	u32 max_coeff_additional_portion = ROGUE_MAX_VERTEX_SHARED_REGISTERS;
++	u32 pending_allocation_shared_regs = 2U * 1024U;
++	u32 pending_allocation_coeff_regs = 0U;
++	u32 num_phantoms = rogue_get_num_phantoms(pvr_dev);
++	u32 tiles_in_flight = 0;
++	u32 max_coeff_pixel_portion;
++
++	PVR_FEATURE_VALUE(pvr_dev, isp_max_tiles_in_flight, &tiles_in_flight);
++	max_coeff_pixel_portion = DIV_ROUND_UP(tiles_in_flight, num_phantoms);
++	max_coeff_pixel_portion *= ROGUE_MAX_PIXEL_SHARED_REGISTERS;
 +
 +	/*
-+	 * The number of pages must be a multiple of the free list align size.
++	 * Compute tasks on cores with BRN48492 and without compute overlap may lock
++	 * up without two additional lines of coeffs.
 +	 */
-+	ready_pages &= ~FREE_LIST_ALIGNMENT;
++	if (PVR_HAS_QUIRK(pvr_dev, 48492) && !PVR_HAS_FEATURE(pvr_dev, compute_overlap))
++		pending_allocation_coeff_regs = 2U * 1024U;
 +
-+	return ready_pages;
++	if (PVR_HAS_ENHANCEMENT(pvr_dev, 38748))
++		pending_allocation_shared_regs = 0;
++
++	if (PVR_HAS_ENHANCEMENT(pvr_dev, 38020))
++		max_coeff_additional_portion += ROGUE_MAX_COMPUTE_SHARED_REGISTERS;
++
++	return rogue_get_common_store_alloc_region_size(pvr_dev) + pending_allocation_coeff_regs -
++		(max_coeff_pixel_portion + max_coeff_additional_portion +
++		 pending_allocation_shared_regs);
 +}
 +
-+static u32
-+calculate_free_list_ready_pages(struct pvr_free_list *free_list, u32 pages)
++static inline u32
++rogue_get_cdm_max_local_mem_size_regs(struct pvr_device *pvr_dev)
 +{
-+	u32 ret;
++	u32 available_coeffs_in_dwords = rogue_get_max_coeffs(pvr_dev);
 +
-+	mutex_lock(&free_list->lock);
++	if (PVR_HAS_QUIRK(pvr_dev, 48492) && PVR_HAS_FEATURE(pvr_dev, roguexe) &&
++	    !PVR_HAS_FEATURE(pvr_dev, compute_overlap)) {
++		/* Driver must not use the 2 reserved lines. */
++		available_coeffs_in_dwords -= ROGUE_CSRM_LINE_SIZE_IN_DWORDS * 2;
++	}
 +
-+	ret = calculate_free_list_ready_pages_locked(free_list, pages);
++	/*
++	 * The maximum amount of local memory available to a kernel is the minimum
++	 * of the total number of coefficient registers available and the max common
++	 * store allocation size which can be made by the CDM.
++	 *
++	 * If any coeff lines are reserved for tessellation or pixel then we need to
++	 * subtract those too.
++	 */
++	return min(available_coeffs_in_dwords, (u32)ROGUE_MAX_PER_KERNEL_LOCAL_MEM_SIZE_REGS);
++}
 +
-+	mutex_unlock(&free_list->lock);
++/**
++ * pvr_dev_query_gpu_info_get()
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_gpu_info.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ *
++ * Returns:
++ *  * 0 on success, or if size is requested using a NULL pointer, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_gpu_info_get(struct pvr_device *pvr_dev,
++			   struct drm_pvr_ioctl_dev_query_args *args)
++{
++	struct drm_pvr_dev_query_gpu_info gpu_info = {0};
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_gpu_info);
++		return 0;
++	}
++
++	gpu_info.gpu_id =
++		pvr_gpu_id_to_packed_bvnc(&pvr_dev->gpu_id);
++	gpu_info.num_phantoms = rogue_get_num_phantoms(pvr_dev);
++
++	err = PVR_UOBJ_SET(args->pointer, args->size, gpu_info);
++	if (err < 0)
++		return err;
++
++	if (args->size > sizeof(gpu_info))
++		args->size = sizeof(gpu_info);
++	return 0;
++}
++
++/**
++ * pvr_dev_query_runtime_info_get()
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_runtime_info.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ *
++ * Returns:
++ *  * 0 on success, or if size is requested using a NULL pointer, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_runtime_info_get(struct pvr_device *pvr_dev,
++			       struct drm_pvr_ioctl_dev_query_args *args)
++{
++	struct drm_pvr_dev_query_runtime_info runtime_info = {0};
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_runtime_info);
++		return 0;
++	}
++
++	runtime_info.free_list_min_pages = 0; /* FIXME */
++	runtime_info.free_list_max_pages =
++		ROGUE_PM_MAX_FREELIST_SIZE / ROGUE_PM_PAGE_SIZE;
++	runtime_info.common_store_alloc_region_size =
++		rogue_get_common_store_alloc_region_size(pvr_dev);
++	runtime_info.common_store_partition_space_size =
++		rogue_get_common_store_partition_space_size(pvr_dev);
++	runtime_info.max_coeffs = rogue_get_max_coeffs(pvr_dev);
++	runtime_info.cdm_max_local_mem_size_regs =
++		rogue_get_cdm_max_local_mem_size_regs(pvr_dev);
++
++	err = PVR_UOBJ_SET(args->pointer, args->size, runtime_info);
++	if (err < 0)
++		return err;
++
++	if (args->size > sizeof(runtime_info))
++		args->size = sizeof(runtime_info);
++	return 0;
++}
++
++/**
++ * pvr_dev_query_quirks_get() - Unpack array of quirks at the address given
++ * in a struct drm_pvr_dev_query_quirks, or gets the amount of space required
++ * for it.
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_query_quirks.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ * If the userspace pointer in the query object is NULL, or the count is
++ * short, no data is copied.
++ * The count field will be updated to that copied, or if either pointer is
++ * NULL, that which would have been copied.
++ * The size field in the query object will be updated to the size copied.
++ *
++ * Returns:
++ *  * 0 on success, or if size/count is requested using a NULL pointer, or
++ *  * -%EINVAL if args contained non-zero reserved fields, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_quirks_get(struct pvr_device *pvr_dev,
++			 struct drm_pvr_ioctl_dev_query_args *args)
++{
++	/*
++	 * @FIXME - hardcoding of numbers here is intended as an
++	 * intermediate step so the UAPI can be fixed, but requires a
++	 * a refactor in the future to store them in a more appropriate
++	 * location
++	 */
++	static const u32 umd_quirks_musthave[] = {
++		47217,
++		49927,
++		62269,
++	};
++	static const u32 umd_quirks[] = {
++		48545,
++		51764,
++	};
++	struct drm_pvr_dev_query_quirks query;
++	u32 out[ARRAY_SIZE(umd_quirks_musthave) + ARRAY_SIZE(umd_quirks)];
++	size_t out_musthave_count = 0;
++	size_t out_count = 0;
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_quirks);
++		return 0;
++	}
++
++	err = PVR_UOBJ_GET(query, args->size, args->pointer);
++
++	if (err < 0)
++		return err;
++	if (query._padding_c)
++		return -EINVAL;
++
++	for (int i = 0; i < ARRAY_SIZE(umd_quirks_musthave); i++) {
++		if (pvr_device_has_uapi_quirk(pvr_dev, umd_quirks_musthave[i])) {
++			out[out_count++] = umd_quirks_musthave[i];
++			out_musthave_count++;
++		}
++	}
++
++	for (int i = 0; i < ARRAY_SIZE(umd_quirks); i++) {
++		if (pvr_device_has_uapi_quirk(pvr_dev, umd_quirks[i]))
++			out[out_count++] = umd_quirks[i];
++	}
++
++	if (!query.quirks)
++		goto copy_out;
++	if (query.count < out_count)
++		return -E2BIG;
++
++	if (copy_to_user(u64_to_user_ptr(query.quirks), out,
++			 out_count * sizeof(u32))) {
++		return -EFAULT;
++	}
++
++	query.musthave_count = out_musthave_count;
++
++copy_out:
++	query.count = out_count;
++	err = PVR_UOBJ_SET(args->pointer, args->size, query);
++	if (err < 0)
++		return err;
++
++	args->size = sizeof(query);
++	return 0;
++}
++
++/**
++ * pvr_dev_query_enhancements_get() - Unpack array of enhancements at the
++ * address given in a struct drm_pvr_dev_query_enhancements, or gets the amount
++ * of space required for it.
++ * @pvr_dev: Device pointer.
++ * @args: [IN] Device query arguments containing a pointer to a userspace
++ *        struct drm_pvr_dev_query_enhancements.
++ *
++ * If the query object pointer is NULL, the size field is updated with the
++ * expected size of the query object.
++ * If the userspace pointer in the query object is NULL, or the count is
++ * short, no data is copied.
++ * The count field will be updated to that copied, or if either pointer is
++ * NULL, that which would have been copied.
++ * The size field in the query object will be updated to the size copied.
++ *
++ * Returns:
++ *  * 0 on success, or if size/count is requested using a NULL pointer, or
++ *  * -%EINVAL if args contained non-zero reserved fields, or
++ *  * -%E2BIG if the indicated length of the allocation is less than is
++ *    required to contain the copied data, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_dev_query_enhancements_get(struct pvr_device *pvr_dev,
++			       struct drm_pvr_ioctl_dev_query_args *args)
++{
++	/*
++	 * @FIXME - hardcoding of numbers here is intended as an
++	 * intermediate step so the UAPI can be fixed, but requires a
++	 * a refactor in the future to store them in a more appropriate
++	 * location
++	 */
++	const u32 umd_enhancements[] = {
++		35421,
++		42064,
++	};
++	struct drm_pvr_dev_query_enhancements query;
++	u32 out[ARRAY_SIZE(umd_enhancements)];
++	size_t out_idx = 0;
++	int err;
++
++	if (!args->pointer) {
++		args->size = sizeof(struct drm_pvr_dev_query_enhancements);
++		return 0;
++	}
++
++	err = PVR_UOBJ_GET(query, args->size, args->pointer);
++
++	if (err < 0)
++		return err;
++	if (query._padding_a)
++		return -EINVAL;
++	if (query._padding_c)
++		return -EINVAL;
++
++	for (int i = 0; i < ARRAY_SIZE(umd_enhancements); i++) {
++		if (pvr_device_has_uapi_enhancement(pvr_dev, umd_enhancements[i]))
++			out[out_idx++] = umd_enhancements[i];
++	}
++
++	if (!query.enhancements)
++		goto copy_out;
++	if (query.count < out_idx)
++		return -E2BIG;
++
++	if (copy_to_user(u64_to_user_ptr(query.enhancements), out,
++			 out_idx * sizeof(u32))) {
++		return -EFAULT;
++	}
++
++copy_out:
++	query.count = out_idx;
++	err = PVR_UOBJ_SET(args->pointer, args->size, query);
++	if (err < 0)
++		return err;
++
++	args->size = sizeof(query);
++	return 0;
++}
++
+ /**
+  * pvr_ioctl_dev_query() - IOCTL to copy information about a device
+  * @drm_dev: [IN] DRM device.
+@@ -111,7 +490,41 @@ static int
+ pvr_ioctl_dev_query(struct drm_device *drm_dev, void *raw_args,
+ 		    struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
++	struct drm_pvr_ioctl_dev_query_args *args = raw_args;
++	int idx;
++	int ret = -EINVAL;
++
++	if (!drm_dev_enter(drm_dev, &idx))
++		return -EIO;
++
++	switch ((enum drm_pvr_dev_query)args->type) {
++	case DRM_PVR_DEV_QUERY_GPU_INFO_GET:
++		ret = pvr_dev_query_gpu_info_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_RUNTIME_INFO_GET:
++		ret = pvr_dev_query_runtime_info_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_QUIRKS_GET:
++		ret = pvr_dev_query_quirks_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_ENHANCEMENTS_GET:
++		ret = pvr_dev_query_enhancements_get(pvr_dev, args);
++		break;
++
++	case DRM_PVR_DEV_QUERY_HEAP_INFO_GET:
++		return -EINVAL;
++
++	case DRM_PVR_DEV_QUERY_STATIC_DATA_AREAS_GET:
++		return -EINVAL;
++	}
++
++	drm_dev_exit(idx);
 +
 +	return ret;
+ }
+ 
+ /**
+@@ -349,6 +762,112 @@ pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
+ 	return -ENOTTY;
+ }
+ 
++int
++pvr_get_uobj(u64 usr_ptr, u32 usr_stride, u32 min_stride, u32 obj_size, void *out)
++{
++	if (usr_stride < min_stride)
++		return -EINVAL;
++
++	return copy_struct_from_user(out, obj_size, u64_to_user_ptr(usr_ptr), usr_stride);
 +}
 +
-+static void
-+free_list_fw_init(void *cpu_ptr, void *priv)
++int
++pvr_set_uobj(u64 usr_ptr, u32 usr_stride, u32 min_stride, u32 obj_size, const void *in)
 +{
-+	struct rogue_fwif_freelist *fw_data = cpu_ptr;
-+	struct pvr_free_list *free_list = priv;
-+	u32 ready_pages;
++	if (usr_stride < min_stride)
++		return -EINVAL;
 +
-+	/* Fill out FW structure */
-+	ready_pages = calculate_free_list_ready_pages(free_list,
-+						      free_list->initial_num_pages);
++	if (copy_to_user(u64_to_user_ptr(usr_ptr), in, min_t(u32, usr_stride, obj_size)))
++		return -EFAULT;
 +
-+	fw_data->max_pages = free_list->max_pages;
-+	fw_data->current_pages = free_list->initial_num_pages - ready_pages;
-+	fw_data->grow_pages = free_list->grow_pages;
-+	fw_data->ready_pages = ready_pages;
-+	fw_data->freelist_id = free_list->fw_id;
-+	fw_data->grow_pending = false;
-+	fw_data->current_stack_top = fw_data->current_pages - 1;
-+	fw_data->freelist_dev_addr = free_list->free_list_gpu_addr;
-+	fw_data->current_dev_addr = (fw_data->freelist_dev_addr +
-+				     ((fw_data->max_pages - fw_data->current_pages) *
-+				      FREE_LIST_ENTRY_SIZE)) &
-+				    ~((u64)ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE - 1);
-+}
-+
-+static int
-+free_list_create_fw_structure(struct pvr_file *pvr_file,
-+			      struct drm_pvr_ioctl_create_free_list_args *args,
-+			      struct pvr_free_list *free_list)
-+{
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+
-+	/*
-+	 * Create and map the FW structure so we can initialise it. This is not
-+	 * accessed on the CPU side post-initialisation so the mapping lifetime
-+	 * is only for this function.
-+	 */
-+	free_list->fw_data = pvr_fw_object_create_and_map(pvr_dev, sizeof(*free_list->fw_data),
-+							  PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							  free_list_fw_init, free_list,
-+							  &free_list->fw_obj);
-+	if (IS_ERR(free_list->fw_data))
-+		return PTR_ERR(free_list->fw_data);
++	if (usr_stride > obj_size &&
++	    clear_user(u64_to_user_ptr(usr_ptr + obj_size), usr_stride - obj_size)) {
++		return -EFAULT;
++	}
 +
 +	return 0;
 +}
 +
-+static void
-+free_list_destroy_fw_structure(struct pvr_free_list *free_list)
++int
++pvr_get_uobj_array(const struct drm_pvr_obj_array *in, u32 min_stride, u32 obj_size, void **out)
 +{
-+	pvr_fw_object_unmap_and_destroy(free_list->fw_obj);
-+}
++	int ret = 0;
++	void *out_alloc;
 +
-+static int
-+pvr_free_list_insert_pages_locked(struct pvr_free_list *free_list,
-+				  struct sg_table *sgt, u32 offset, u32 num_pages)
-+{
-+	struct sg_dma_page_iter dma_iter;
-+	u32 *page_list;
++	if (in->stride < min_stride)
++		return -EINVAL;
 +
-+	lockdep_assert_held(&free_list->lock);
++	if (!in->count)
++		return 0;
 +
-+	page_list = pvr_gem_object_vmap(free_list->obj);
-+	if (IS_ERR(page_list))
-+		return PTR_ERR(page_list);
++	out_alloc = kvmalloc_array(in->count, obj_size, GFP_KERNEL);
++	if (!out_alloc)
++		return -ENOMEM;
 +
-+	offset /= FREE_LIST_ENTRY_SIZE;
-+	/* clang-format off */
-+	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
-+		dma_addr_t dma_addr = sg_page_iter_dma_address(&dma_iter);
-+		u64 dma_pfn = dma_addr >>
-+			       ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT;
-+		u32 dma_addr_offset;
++	if (obj_size == in->stride) {
++		if (copy_from_user(out_alloc, u64_to_user_ptr(in->array),
++				   (unsigned long)obj_size * in->count))
++			ret = -EFAULT;
++	} else {
++		void __user *in_ptr = u64_to_user_ptr(in->array);
++		void *out_ptr = out_alloc;
 +
-+		BUILD_BUG_ON(ROGUE_BIF_PM_PHYSICAL_PAGE_SIZE > PAGE_SIZE);
-+
-+		for (dma_addr_offset = 0; dma_addr_offset < PAGE_SIZE;
-+		     dma_addr_offset += ROGUE_BIF_PM_PHYSICAL_PAGE_SIZE) {
-+			WARN_ON_ONCE(dma_pfn >> 32);
-+
-+			page_list[offset++] = (u32)dma_pfn;
-+			dma_pfn++;
-+
-+			num_pages--;
-+			if (!num_pages)
++		for (u32 i = 0; i < in->count; i++) {
++			ret = copy_struct_from_user(out_ptr, obj_size, in_ptr, in->stride);
++			if (ret)
 +				break;
++
++			out_ptr += obj_size;
++			in_ptr += in->stride;
++		}
++	}
++
++	if (ret) {
++		kvfree(out_alloc);
++		return ret;
++	}
++
++	*out = out_alloc;
++	return 0;
++}
++
++int
++pvr_set_uobj_array(const struct drm_pvr_obj_array *out, u32 min_stride, u32 obj_size,
++		   const void *in)
++{
++	if (out->stride < min_stride)
++		return -EINVAL;
++
++	if (!out->count)
++		return 0;
++
++	if (obj_size == out->stride) {
++		if (copy_to_user(u64_to_user_ptr(out->array), in,
++				 (unsigned long)obj_size * out->count))
++			return -EFAULT;
++	} else {
++		u32 cpy_elem_size = min_t(u32, out->stride, obj_size);
++		void __user *out_ptr = u64_to_user_ptr(out->array);
++		const void *in_ptr = in;
++
++		for (u32 i = 0; i < out->count; i++) {
++			if (copy_to_user(out_ptr, in_ptr, cpy_elem_size))
++				return -EFAULT;
++
++			out_ptr += obj_size;
++			in_ptr += out->stride;
 +		}
 +
-+		if (!num_pages)
-+			break;
-+	};
-+	/* clang-format on */
-+
-+	/* Make sure our free_list update is flushed. */
-+	wmb();
-+
-+	pvr_gem_object_vunmap(free_list->obj);
++		if (out->stride > obj_size &&
++		    clear_user(u64_to_user_ptr(out->array + obj_size),
++			       out->stride - obj_size)) {
++			return -EFAULT;
++		}
++	}
 +
 +	return 0;
 +}
 +
-+static int
-+pvr_free_list_insert_node_locked(struct pvr_free_list_node *free_list_node)
-+{
-+	struct pvr_free_list *free_list = free_list_node->free_list;
-+	struct sg_table *sgt;
-+	u32 start_page;
-+	u32 offset;
-+	int err;
+ #define DRM_PVR_IOCTL(_name, _func, _flags) \
+ 	DRM_IOCTL_DEF_DRV(PVR_##_name, pvr_ioctl_##_func, _flags)
+ 
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.h b/drivers/gpu/drm/imagination/pvr_drv.h
+index ecd8f6011ae9..04cd550d8b48 100644
+--- a/drivers/gpu/drm/imagination/pvr_drv.h
++++ b/drivers/gpu/drm/imagination/pvr_drv.h
+@@ -19,4 +19,111 @@
+ #define PVR_DRIVER_MINOR 0
+ #define PVR_DRIVER_PATCHLEVEL 0
+ 
++int pvr_get_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 obj_size, void *out);
++int pvr_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 obj_size, const void *in);
++int pvr_get_uobj_array(const struct drm_pvr_obj_array *in, u32 min_stride, u32 obj_size,
++		       void **out);
++int pvr_set_uobj_array(const struct drm_pvr_obj_array *out, u32 min_stride, u32 obj_size,
++		       const void *in);
 +
-+	lockdep_assert_held(&free_list->lock);
++#define PVR_UOBJ_MIN_SIZE_INTERNAL(_typename, _last_mandatory_field) \
++	(offsetof(_typename, _last_mandatory_field) + \
++	 sizeof(((_typename *)NULL)->_last_mandatory_field))
 +
-+	start_page = free_list->max_pages - free_list->current_pages -
-+		     free_list_node->num_pages;
-+	offset = (start_page * FREE_LIST_ENTRY_SIZE) &
-+		  ~((u64)ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE - 1);
-+
-+	sgt = drm_gem_shmem_get_pages_sgt(&free_list_node->mem_obj->base);
-+	if (WARN_ON(IS_ERR(sgt)))
-+		return PTR_ERR(sgt);
-+
-+	err = pvr_free_list_insert_pages_locked(free_list, sgt,
-+						offset, free_list_node->num_pages);
-+	if (!err)
-+		free_list->current_pages += free_list_node->num_pages;
-+
-+	return err;
-+}
-+
-+static int
-+pvr_free_list_grow(struct pvr_free_list *free_list, u32 num_pages)
-+{
-+	struct pvr_device *pvr_dev = free_list->pvr_dev;
-+	struct pvr_free_list_node *free_list_node;
-+	int err;
-+
-+	mutex_lock(&free_list->lock);
-+
-+	if (num_pages & FREE_LIST_ALIGNMENT) {
-+		err = -EINVAL;
-+		goto err_unlock;
-+	}
-+
-+	free_list_node = kzalloc(sizeof(*free_list_node), GFP_KERNEL);
-+	if (!free_list_node) {
-+		err = -ENOMEM;
-+		goto err_unlock;
-+	}
-+
-+	free_list_node->num_pages = num_pages;
-+	free_list_node->free_list = free_list;
-+
-+	free_list_node->mem_obj = pvr_gem_object_create(pvr_dev,
-+							num_pages <<
-+							ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT,
-+							PVR_BO_FW_FLAGS_DEVICE_CACHED);
-+	if (IS_ERR(free_list_node->mem_obj)) {
-+		err = PTR_ERR(free_list_node->mem_obj);
-+		goto err_free;
-+	}
-+
-+	err = pvr_free_list_insert_node_locked(free_list_node);
-+	if (err)
-+		goto err_destroy_gem_object;
-+
-+	list_add_tail(&free_list_node->node, &free_list->mem_block_list);
-+
-+	/*
-+	 * Reserve a number ready pages to allow the FW to process OOM quickly
-+	 * and asynchronously request a grow.
-+	 */
-+	free_list->ready_pages =
-+		calculate_free_list_ready_pages_locked(free_list,
-+						       free_list->current_pages);
-+	free_list->current_pages -= free_list->ready_pages;
-+
-+	mutex_unlock(&free_list->lock);
-+
-+	return 0;
-+
-+err_destroy_gem_object:
-+	pvr_gem_object_put(free_list_node->mem_obj);
-+
-+err_free:
-+	kfree(free_list_node);
-+
-+err_unlock:
-+	mutex_unlock(&free_list->lock);
-+
-+	return err;
-+}
-+
-+void pvr_free_list_process_grow_req(struct pvr_device *pvr_dev,
-+				    struct rogue_fwif_fwccb_cmd_freelist_gs_data *req)
-+{
-+	struct pvr_free_list *free_list = pvr_free_list_lookup_id(pvr_dev, req->freelist_id);
-+	struct rogue_fwif_kccb_cmd resp_cmd = {
-+		.cmd_type = ROGUE_FWIF_KCCB_CMD_FREELIST_GROW_UPDATE,
-+	};
-+	struct rogue_fwif_freelist_gs_data *resp = &resp_cmd.cmd_data.free_list_gs_data;
-+	u32 grow_pages = 0;
-+
-+	/* If we don't have a freelist registered for this ID, we can't do much. */
-+	if (WARN_ON(!free_list))
-+		return;
-+
-+	/* Since the FW made the request, it has already consumed the ready pages,
-+	 * update the host struct.
-+	 */
-+	free_list->current_pages += free_list->ready_pages;
-+	free_list->ready_pages = 0;
-+
-+	/* If the grow succeeds, update the grow_pages argument. */
-+	if (!pvr_free_list_grow(free_list, free_list->grow_pages))
-+		grow_pages = free_list->grow_pages;
-+
-+	/* Now prepare the response and send it back to the FW. */
-+	pvr_fw_object_get_fw_addr(free_list->fw_obj, &resp->freelist_fw_addr);
-+	resp->delta_pages = grow_pages;
-+	resp->new_pages = free_list->current_pages + free_list->ready_pages;
-+	resp->ready_pages = free_list->ready_pages;
-+	pvr_free_list_put(free_list);
-+
-+	WARN_ON(pvr_kccb_send_cmd(pvr_dev, &resp_cmd, NULL));
-+}
-+
-+static void
-+pvr_free_list_free_node(struct pvr_free_list_node *free_list_node)
-+{
-+	pvr_gem_object_put(free_list_node->mem_obj);
-+
-+	kfree(free_list_node);
-+}
++/* NOLINTBEGIN(bugprone-macro-parentheses) */
++#define PVR_UOBJ_DECL(_typename, _last_mandatory_field) \
++	, _typename : PVR_UOBJ_MIN_SIZE_INTERNAL(_typename, _last_mandatory_field)
++/* NOLINTEND(bugprone-macro-parentheses) */
 +
 +/**
-+ * pvr_free_list_create() - Create a new free list and return an object pointer
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @args: Creation arguments from userspace.
++ * DOC: PVR user objects.
 + *
-+ * Return:
-+ *  * Pointer to new free_list, or
-+ *  * ERR_PTR(-%ENOMEM) on out of memory.
++ * Macros used to aid copying structured and array data to and from
++ * userspace. Objects can differ in size, provided the minimum size
++ * allowed is specified (using the last mandatory field in the struct).
++ * All types used with PVR_UOBJ_GET/SET macros must be listed here under
++ * PVR_UOBJ_MIN_SIZE, with the last mandatory struct field specified.
 + */
-+struct pvr_free_list *
-+pvr_free_list_create(struct pvr_file *pvr_file,
-+		     struct drm_pvr_ioctl_create_free_list_args *args)
-+{
-+	struct pvr_free_list *free_list;
-+	int err;
-+
-+	/* Create and fill out the kernel structure */
-+	free_list = kzalloc(sizeof(*free_list), GFP_KERNEL);
-+
-+	if (!free_list)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kref_init(&free_list->ref_count);
-+	INIT_LIST_HEAD(&free_list->mem_block_list);
-+	INIT_LIST_HEAD(&free_list->hwrt_list);
-+	mutex_init(&free_list->lock);
-+
-+	err = free_list_create_kernel_structure(pvr_file, args, free_list);
-+	if (err < 0)
-+		goto err_free;
-+
-+	/* Allocate global object ID for firmware. */
-+	err = xa_alloc(&pvr_file->pvr_dev->free_list_ids,
-+		       &free_list->fw_id,
-+		       free_list,
-+		       xa_limit_32b,
-+		       GFP_KERNEL);
-+	if (err)
-+		goto err_destroy_kernel_structure;
-+
-+	err = free_list_create_fw_structure(pvr_file, args, free_list);
-+	if (err < 0)
-+		goto err_free_fw_id;
-+
-+	err = pvr_free_list_grow(free_list, args->initial_num_pages);
-+	if (err < 0)
-+		goto err_fw_struct_cleanup;
-+
-+	return free_list;
-+
-+err_fw_struct_cleanup:
-+	WARN_ON(pvr_fw_structure_cleanup(free_list->pvr_dev,
-+					 ROGUE_FWIF_CLEANUP_FREELIST,
-+					 free_list->fw_obj, 0));
-+
-+err_free_fw_id:
-+	xa_erase(&free_list->pvr_dev->free_list_ids, free_list->fw_id);
-+
-+err_destroy_kernel_structure:
-+	free_list_destroy_kernel_structure(free_list);
-+
-+err_free:
-+	mutex_destroy(&free_list->lock);
-+	kfree(free_list);
-+
-+	return ERR_PTR(err);
-+}
-+
-+static void
-+pvr_free_list_release(struct kref *ref_count)
-+{
-+	struct pvr_free_list *free_list =
-+		container_of(ref_count, struct pvr_free_list, ref_count);
-+	struct list_head *pos, *n;
-+	int err;
-+
-+	xa_erase(&free_list->pvr_dev->free_list_ids, free_list->fw_id);
-+
-+	err = pvr_fw_structure_cleanup(free_list->pvr_dev,
-+				       ROGUE_FWIF_CLEANUP_FREELIST,
-+				       free_list->fw_obj, 0);
-+	if (err == -EBUSY) {
-+		/* Flush the FWCCB to process any HWR or freelist reconstruction
-+		 * request that might keep the freelist busy, and try again.
-+		 */
-+		pvr_fwccb_process(free_list->pvr_dev);
-+		err = pvr_fw_structure_cleanup(free_list->pvr_dev,
-+					       ROGUE_FWIF_CLEANUP_FREELIST,
-+					       free_list->fw_obj, 0);
-+	}
-+
-+	WARN_ON(err);
-+
-+	/* clang-format off */
-+	list_for_each_safe(pos, n, &free_list->mem_block_list) {
-+		struct pvr_free_list_node *free_list_node =
-+			container_of(pos, struct pvr_free_list_node, node);
-+
-+		list_del(pos);
-+		pvr_free_list_free_node(free_list_node);
-+	}
-+	/* clang-format on */
-+
-+	free_list_destroy_kernel_structure(free_list);
-+	free_list_destroy_fw_structure(free_list);
-+	mutex_destroy(&free_list->lock);
-+	kfree(free_list);
-+}
 +
 +/**
-+ * pvr_destroy_free_lists_for_file: Destroy any free lists associated with the
-+ * given file.
-+ * @pvr_file: Pointer to pvr_file structure.
++ * PVR_UOBJ_MIN_SIZE() - Fetch the minimum copy size of a compatible type object.
++ * @_obj_name: The name of the object. Cannot be a typename - this is deduced.
 + *
-+ * Removes all free lists associated with @pvr_file from the device free_list
-+ * list and drops initial references. Free lists will then be destroyed once
-+ * all outstanding references are dropped.
++ * This cannot fail. Using the macro with an incompatible type will result in a
++ * compiler error.
++ *
++ * To add compatibility for a type, list it within the macro in an orderly
++ * fashion. The second argument is the name of the last mandatory field of the
++ * struct type, which is used to calculate the size. See also PVR_UOBJ_DECL().
++ *
++ * Return: The minimum copy size.
 + */
-+void pvr_destroy_free_lists_for_file(struct pvr_file *pvr_file)
-+{
-+	struct pvr_free_list *free_list;
-+	unsigned long handle;
-+
-+	xa_for_each(&pvr_file->free_list_handles, handle, free_list) {
-+		(void)free_list;
-+		pvr_free_list_put(xa_erase(&pvr_file->free_list_handles, handle));
-+	}
-+}
++#define PVR_UOBJ_MIN_SIZE(_obj_name) _Generic(_obj_name \
++	PVR_UOBJ_DECL(struct drm_pvr_job, hwrt) \
++	PVR_UOBJ_DECL(struct drm_pvr_sync_op, value) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_gpu_info, num_phantoms) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_runtime_info, cdm_max_local_mem_size_regs) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_quirks, _padding_c) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_enhancements, _padding_c) \
++	PVR_UOBJ_DECL(struct drm_pvr_heap, page_size_log2) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_heap_info, heaps) \
++	PVR_UOBJ_DECL(struct drm_pvr_static_data_area, offset) \
++	PVR_UOBJ_DECL(struct drm_pvr_dev_query_static_data_areas, static_data_areas) \
++	)
 +
 +/**
-+ * pvr_free_list_put() - Release reference on free list
-+ * @free_list: Pointer to list to release reference on
++ * PVR_UOBJ_GET() - Copies from _src_usr_ptr to &_dest_obj.
++ * @_dest_obj: The destination container object in kernel space.
++ * @_usr_size: The size of the source container in user space.
++ * @_src_usr_ptr: __u64 raw pointer to the source container in user space.
++ *
++ * Return: Error code. See pvr_get_uobj().
 + */
-+void
-+pvr_free_list_put(struct pvr_free_list *free_list)
-+{
-+	if (free_list)
-+		kref_put(&free_list->ref_count, pvr_free_list_release);
-+}
++#define PVR_UOBJ_GET(_dest_obj, _usr_size, _src_usr_ptr) \
++	pvr_get_uobj(_src_usr_ptr, _usr_size, \
++		     PVR_UOBJ_MIN_SIZE(_dest_obj), \
++		     sizeof(_dest_obj), &(_dest_obj))
 +
-+void pvr_free_list_add_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data)
-+{
-+	mutex_lock(&free_list->lock);
++/**
++ * PVR_UOBJ_SET() - Copies from &_src_obj to _dest_usr_ptr.
++ * @_dest_usr_ptr: __u64 raw pointer to the destination container in user space.
++ * @_usr_size: The size of the destination container in user space.
++ * @_src_obj: The source container object in kernel space.
++ *
++ * Return: Error code. See pvr_set_uobj().
++ */
++#define PVR_UOBJ_SET(_dest_usr_ptr, _usr_size, _src_obj) \
++	pvr_set_uobj(_dest_usr_ptr, _usr_size, \
++		     PVR_UOBJ_MIN_SIZE(_src_obj), \
++		     sizeof(_src_obj), &(_src_obj))
 +
-+	list_add_tail(&hwrt_data->freelist_node, &free_list->hwrt_list);
++/**
++ * PVR_UOBJ_GET_ARRAY() - Copies from @_src_drm_pvr_obj_array.array to
++ * alloced memory and returns a pointer in _dest_array.
++ * @_dest_array: The destination C array object in kernel space.
++ * @_src_drm_pvr_obj_array: The &struct drm_pvr_obj_array containing a __u64 raw
++ * pointer to the source C array in user space and the size of each array
++ * element in user space (the 'stride').
++ *
++ * Return: Error code. See pvr_get_uobj_array().
++ */
++#define PVR_UOBJ_GET_ARRAY(_dest_array, _src_drm_pvr_obj_array) \
++	pvr_get_uobj_array(_src_drm_pvr_obj_array, \
++			   PVR_UOBJ_MIN_SIZE((_dest_array)[0]), \
++			   sizeof((_dest_array)[0]), (void **)&(_dest_array))
 +
-+	mutex_unlock(&free_list->lock);
-+}
++/**
++ * PVR_UOBJ_SET_ARRAY() - Copies from _src_array to @_dest_drm_pvr_obj_array.array.
++ * @_dest_drm_pvr_obj_array: The &struct drm_pvr_obj_array containing a __u64 raw
++ * pointer to the destination C array in user space and the size of each array
++ * element in user space (the 'stride').
++ * @_src_array: The source C array object in kernel space.
++ *
++ * Return: Error code. See pvr_set_uobj_array().
++ */
++#define PVR_UOBJ_SET_ARRAY(_dest_drm_pvr_obj_array, _src_array) \
++	pvr_set_uobj_array(_dest_drm_pvr_obj_array, \
++			   PVR_UOBJ_MIN_SIZE((_src_array)[0]), \
++			   sizeof((_src_array)[0]), _src_array)
 +
-+void pvr_free_list_remove_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data)
-+{
-+	mutex_lock(&free_list->lock);
-+
-+	list_del(&hwrt_data->freelist_node);
-+
-+	mutex_unlock(&free_list->lock);
-+}
-+
-+static void
-+pvr_free_list_reconstruct(struct pvr_device *pvr_dev, u32 freelist_id)
-+{
-+	struct pvr_free_list *free_list = pvr_free_list_lookup_id(pvr_dev, freelist_id);
-+	struct pvr_free_list_node *free_list_node;
-+	struct rogue_fwif_freelist *fw_data;
-+	struct pvr_hwrt_data *hwrt_data;
-+
-+	if (!free_list)
-+		return;
-+
-+	mutex_lock(&free_list->lock);
-+
-+	/* Rebuild the free list based on the memory block list. */
-+	free_list->current_pages = 0;
-+
-+	list_for_each_entry(free_list_node, &free_list->mem_block_list, node)
-+		WARN_ON(pvr_free_list_insert_node_locked(free_list_node));
-+
-+	/*
-+	 * Remove the ready pages, which are reserved to allow the FW to process OOM quickly and
-+	 * asynchronously request a grow.
-+	 */
-+	free_list->current_pages -= free_list->ready_pages;
-+
-+	fw_data = free_list->fw_data;
-+	fw_data->current_stack_top = fw_data->current_pages - 1;
-+	fw_data->allocated_page_count = 0;
-+	fw_data->allocated_mmu_page_count = 0;
-+
-+	/* Reset the state of any associated HWRTs. */
-+	list_for_each_entry(hwrt_data, &free_list->hwrt_list, freelist_node) {
-+		struct rogue_fwif_hwrtdata *hwrt_fw_data = pvr_fw_object_vmap(hwrt_data->fw_obj);
-+
-+		if (!WARN_ON(IS_ERR(hwrt_fw_data))) {
-+			hwrt_fw_data->state = ROGUE_FWIF_RTDATA_STATE_HWR;
-+			hwrt_fw_data->hwrt_data_flags &= ~HWRTDATA_HAS_LAST_GEOM;
-+		}
-+
-+		pvr_fw_object_vunmap(hwrt_data->fw_obj);
-+	}
-+
-+	mutex_unlock(&free_list->lock);
-+
-+	pvr_free_list_put(free_list);
-+}
-+
-+void
-+pvr_free_list_process_reconstruct_req(struct pvr_device *pvr_dev,
-+				struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data *req)
-+{
-+	struct rogue_fwif_kccb_cmd resp_cmd = {
-+		.cmd_type = ROGUE_FWIF_KCCB_CMD_FREELISTS_RECONSTRUCTION_UPDATE,
-+	};
-+	struct rogue_fwif_freelists_reconstruction_data *resp =
-+		&resp_cmd.cmd_data.free_lists_reconstruction_data;
-+
-+	for (u32 i = 0; i < req->freelist_count; i++)
-+		pvr_free_list_reconstruct(pvr_dev, req->freelist_ids[i]);
-+
-+	resp->freelist_count = req->freelist_count;
-+	memcpy(resp->freelist_ids, req->freelist_ids,
-+	       req->freelist_count * sizeof(resp->freelist_ids[0]));
-+
-+	WARN_ON(pvr_kccb_send_cmd(pvr_dev, &resp_cmd, NULL));
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_free_list.h b/drivers/gpu/drm/imagination/pvr_free_list.h
+ #endif /* PVR_DRV_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
 new file mode 100644
-index 000000000000..9f3ed6d7c4c5
+index 000000000000..c48de4a3af46
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_free_list.h
-@@ -0,0 +1,195 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_FREE_LIST_H
-+#define PVR_FREE_LIST_H
-+
-+#include <linux/compiler_attributes.h>
-+#include <linux/kref.h>
-+#include <linux/list.h>
-+#include <linux/mutex.h>
-+#include <linux/types.h>
-+#include <linux/xarray.h>
-+#include <uapi/drm/pvr_drm.h>
-+
-+#include "pvr_device.h"
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_fw_object;
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_gem_object;
-+
-+/* Forward declaration from pvr_hwrt.h. */
-+struct pvr_hwrt_data;
-+
-+/**
-+ * struct pvr_free_list_node - structure representing an allocation in the free
-+ *                             list
-+ */
-+struct pvr_free_list_node {
-+	/** @node: List node for &pvr_free_list.mem_block_list. */
-+	struct list_head node;
-+
-+	/** @free_list: Pointer to owning free list. */
-+	struct pvr_free_list *free_list;
-+
-+	/** @num_pages: Number of pages in this node. */
-+	u32 num_pages;
-+
-+	/** @mem_obj: GEM object representing the pages in this node. */
-+	struct pvr_gem_object *mem_obj;
-+};
-+
-+/**
-+ * struct pvr_free_list - structure representing a free list
-+ */
-+struct pvr_free_list {
-+	/** @ref_count: Reference count of object. */
-+	struct kref ref_count;
-+
-+	/** @pvr_dev: Pointer to device that owns this object. */
-+	struct pvr_device *pvr_dev;
-+
-+	/** @obj: GEM object representing the free list. */
-+	struct pvr_gem_object *obj;
-+
-+	/** @fw_obj: FW object representing the FW-side structure. */
-+	struct pvr_fw_object *fw_obj;
-+
-+	/** @fw_data: Pointer to CPU mapping of the FW-side structure. */
-+	struct rogue_fwif_freelist *fw_data;
-+
-+	/**
-+	 * @lock: Mutex protecting modification of the free list. Must be held when accessing any
-+	 *        of the members below.
-+	 */
-+	struct mutex lock;
-+
-+	/** @fw_id: Firmware ID for this object. */
-+	u32 fw_id;
-+
-+	/** @current_pages: Current number of pages in free list. */
-+	u32 current_pages;
-+
-+	/** @max_pages: Maximum number of pages in free list. */
-+	u32 max_pages;
-+
-+	/** @grow_pages: Pages to grow free list by per request. */
-+	u32 grow_pages;
-+
-+	/**
-+	 * @grow_threshold: Percentage of FL memory used that should trigger a
-+	 *                  new grow request.
-+	 */
-+	u32 grow_threshold;
-+
-+	/**
-+	 * @ready_pages: Number of pages reserved for FW to use while a grow
-+	 *               request is being processed.
-+	 */
-+	u32 ready_pages;
-+
-+	/** @mem_block_list: List of memory blocks in this free list. */
-+	struct list_head mem_block_list;
-+
-+	/** @hwrt_list: List of HWRTs using this free list. */
-+	struct list_head hwrt_list;
-+
-+	/** @initial_num_pages: Initial number of pages in free list. */
-+	u32 initial_num_pages;
-+
-+	/** @free_list_gpu_addr: Address of free list in GPU address space. */
-+	u64 free_list_gpu_addr;
-+};
-+
-+struct pvr_free_list *
-+pvr_free_list_create(struct pvr_file *pvr_file,
-+		     struct drm_pvr_ioctl_create_free_list_args *args);
-+
-+void
-+pvr_destroy_free_lists_for_file(struct pvr_file *pvr_file);
-+
-+u32
-+pvr_get_free_list_min_pages(struct pvr_device *pvr_dev);
-+
-+static __always_inline struct pvr_free_list *
-+pvr_free_list_get(struct pvr_free_list *free_list)
-+{
-+	if (free_list)
-+		kref_get(&free_list->ref_count);
-+
-+	return free_list;
-+}
-+
-+/**
-+ * pvr_free_list_lookup() - Lookup free list pointer from handle and file
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @handle: Object handle.
-+ *
-+ * Takes reference on free list object. Call pvr_free_list_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, is not a free list, or
-+ *    does not belong to @pvr_file)
-+ */
-+static __always_inline struct pvr_free_list *
-+pvr_free_list_lookup(struct pvr_file *pvr_file, u32 handle)
-+{
-+	struct pvr_free_list *free_list;
-+
-+	xa_lock(&pvr_file->free_list_handles);
-+	free_list = pvr_free_list_get(xa_load(&pvr_file->free_list_handles, handle));
-+	xa_unlock(&pvr_file->free_list_handles);
-+
-+	return free_list;
-+}
-+
-+/**
-+ * pvr_free_list_lookup_id() - Lookup free list pointer from FW ID
-+ * @pvr_dev: Device pointer.
-+ * @id: FW object ID.
-+ *
-+ * Takes reference on free list object. Call pvr_free_list_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, or is not a free list)
-+ */
-+static __always_inline struct pvr_free_list *
-+pvr_free_list_lookup_id(struct pvr_device *pvr_dev, u32 id)
-+{
-+	struct pvr_free_list *free_list;
-+
-+	xa_lock(&pvr_dev->free_list_ids);
-+
-+	/* Contexts are removed from the ctx_ids set in the context release path,
-+	 * meaning the ref_count reached zero before they get removed. We need
-+	 * to make sure we're not trying to acquire a context that's being
-+	 * destroyed.
-+	 */
-+	free_list = xa_load(&pvr_dev->free_list_ids, id);
-+	if (free_list && !kref_get_unless_zero(&free_list->ref_count))
-+		free_list = NULL;
-+	xa_unlock(&pvr_dev->free_list_ids);
-+
-+	return free_list;
-+}
-+
-+void
-+pvr_free_list_put(struct pvr_free_list *free_list);
-+
-+void
-+pvr_free_list_add_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data);
-+void
-+pvr_free_list_remove_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data);
-+
-+void pvr_free_list_process_grow_req(struct pvr_device *pvr_dev,
-+				    struct rogue_fwif_fwccb_cmd_freelist_gs_data *req);
-+
-+void
-+pvr_free_list_process_reconstruct_req(struct pvr_device *pvr_dev,
-+				struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data *req);
-+
-+#endif /* PVR_FREE_LIST_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_hwrt.c b/drivers/gpu/drm/imagination/pvr_hwrt.c
-new file mode 100644
-index 000000000000..cd611cdd1179
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_hwrt.c
-@@ -0,0 +1,549 @@
++++ b/drivers/gpu/drm/imagination/pvr_fw.c
+@@ -0,0 +1,145 @@
 +// SPDX-License-Identifier: GPL-2.0 OR MIT
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#include "pvr_free_list.h"
-+#include "pvr_hwrt.h"
-+#include "pvr_gem.h"
-+#include "pvr_rogue_cr_defs_client.h"
-+#include "pvr_rogue_fwif.h"
-+
-+#include <drm/drm_gem.h>
-+#include <linux/bitops.h>
-+#include <linux/math.h>
-+#include <linux/slab.h>
-+#include <linux/xarray.h>
-+#include <uapi/drm/pvr_drm.h>
-+
-+static_assert(ROGUE_FWIF_NUM_RTDATAS == 2);
-+static_assert(ROGUE_FWIF_NUM_GEOMDATAS == 1);
-+static_assert(ROGUE_FWIF_NUM_RTDATA_FREELISTS == 2);
-+
-+/*
-+ * struct pvr_rt_mtile_info - Render target macrotile information
-+ */
-+struct pvr_rt_mtile_info {
-+	u32 mtile_x[3];
-+	u32 mtile_y[3];
-+	u32 tile_max_x;
-+	u32 tile_max_y;
-+	u32 tile_size_x;
-+	u32 tile_size_y;
-+	u32 num_tiles_x;
-+	u32 num_tiles_y;
-+};
-+
-+/* Size of Shadow Render Target Cache entry */
-+#define SRTC_ENTRY_SIZE sizeof(u32)
-+/* Size of Renders Accumulation Array entry */
-+#define RAA_ENTRY_SIZE sizeof(u32)
-+
-+static int
-+hwrt_init_kernel_structure(struct pvr_file *pvr_file,
-+			   struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
-+			   struct pvr_hwrt_dataset *hwrt)
-+{
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+	int err;
-+	int i;
-+
-+	hwrt->pvr_dev = pvr_dev;
-+	hwrt->max_rts = args->layers;
-+
-+	/* Get pointers to the free lists */
-+	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
-+		hwrt->free_lists[i] = pvr_free_list_lookup(pvr_file,  args->free_list_handles[i]);
-+		if (!hwrt->free_lists[i]) {
-+			err = -EINVAL;
-+			goto err_put_free_lists;
-+		}
-+	}
-+
-+	if (hwrt->free_lists[ROGUE_FW_LOCAL_FREELIST]->current_pages <
-+	    pvr_get_free_list_min_pages(pvr_dev)) {
-+		err = -EINVAL;
-+		goto err_put_free_lists;
-+	}
-+
-+	return 0;
-+
-+err_put_free_lists:
-+	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
-+		pvr_free_list_put(hwrt->free_lists[i]);
-+		hwrt->free_lists[i] = NULL;
-+	}
-+
-+	return err;
-+}
-+
-+static void
-+hwrt_fini_kernel_structure(struct pvr_hwrt_dataset *hwrt)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
-+		pvr_free_list_put(hwrt->free_lists[i]);
-+		hwrt->free_lists[i] = NULL;
-+	}
-+}
-+
-+static void
-+hwrt_fini_common_fw_structure(struct pvr_hwrt_dataset *hwrt)
-+{
-+	pvr_fw_object_destroy(hwrt->common_fw_obj);
-+}
-+
-+static int
-+get_cr_isp_mtile_size_val(struct pvr_device *pvr_dev, u32 samples,
-+			  struct pvr_rt_mtile_info *info, u32 *value_out)
-+{
-+	u32 x = info->mtile_x[0];
-+	u32 y = info->mtile_y[0];
-+	u32 samples_per_pixel;
-+	int err;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, isp_samples_per_pixel, &samples_per_pixel);
-+	if (err)
-+		return err;
-+
-+	if (samples_per_pixel == 1) {
-+		if (samples >= 4)
-+			x <<= 1;
-+		if (samples >= 2)
-+			y <<= 1;
-+	} else if (samples_per_pixel == 2) {
-+		if (samples >= 8)
-+			x <<= 1;
-+		if (samples >= 4)
-+			y <<= 1;
-+	} else if (samples_per_pixel == 4) {
-+		if (samples >= 8)
-+			y <<= 1;
-+	} else {
-+		WARN(true, "Unsupported ISP samples per pixel value");
-+		return -EINVAL;
-+	}
-+
-+	*value_out = ((x << ROGUE_CR_ISP_MTILE_SIZE_X_SHIFT) & ~ROGUE_CR_ISP_MTILE_SIZE_X_CLRMSK) |
-+		     ((y << ROGUE_CR_ISP_MTILE_SIZE_Y_SHIFT) & ~ROGUE_CR_ISP_MTILE_SIZE_Y_CLRMSK);
-+
-+	return 0;
-+}
-+
-+static int
-+get_cr_multisamplectl_val(u32 samples, bool y_flip, u64 *value_out)
-+{
-+	static const struct {
-+		u8 x[8];
-+		u8 y[8];
-+	} sample_positions[4] = {
-+		/* 1 sample */
-+		{
-+			.x = { 8 },
-+			.y = { 8 },
-+		},
-+		/* 2 samples */
-+		{
-+			.x = { 12, 4 },
-+			.y = { 12, 4 },
-+		},
-+		/* 4 samples */
-+		{
-+			.x = { 6, 14, 2, 10 },
-+			.y = { 2, 6, 10, 14 },
-+		},
-+		/* 8 samples */
-+		{
-+			.x = { 9, 7, 13, 5, 3, 1, 11, 15 },
-+			.y = { 5, 11, 9, 3, 13, 7, 15, 1 },
-+		},
-+	};
-+	const int idx = fls(samples) - 1;
-+	u64 value = 0;
-+
-+	if (idx < 0 || idx > 3)
-+		return -EINVAL;
-+
-+	for (u32 i = 0; i < 8; i++) {
-+		value |= ((u64)sample_positions[idx].x[i]) << (i * 8);
-+		if (y_flip)
-+			value |= (((u64)(16 - sample_positions[idx].y[i]) & 0xf)) << (i * 8 + 4);
-+		else
-+			value |= ((u64)sample_positions[idx].y[i]) << (i * 8 + 4);
-+	}
-+
-+	*value_out = value;
-+
-+	return 0;
-+}
-+
-+static int
-+get_cr_te_aa_val(struct pvr_device *pvr_dev, u32 samples, u32 *value_out)
-+{
-+	u32 samples_per_pixel;
-+	u32 value = 0;
-+	int err = 0;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, isp_samples_per_pixel, &samples_per_pixel);
-+	if (err)
-+		return err;
-+
-+	switch (samples_per_pixel) {
-+	case 1:
-+		if (samples >= 2)
-+			value |= ROGUE_CR_TE_AA_Y_EN;
-+		if (samples >= 4)
-+			value |= ROGUE_CR_TE_AA_X_EN;
-+		break;
-+	case 2:
-+		if (samples >= 2)
-+			value |= ROGUE_CR_TE_AA_X2_EN;
-+		if (samples >= 4)
-+			value |= ROGUE_CR_TE_AA_Y_EN;
-+		if (samples >= 8)
-+			value |= ROGUE_CR_TE_AA_X_EN;
-+		break;
-+	case 4:
-+		if (samples >= 2)
-+			value |= ROGUE_CR_TE_AA_X2_EN;
-+		if (samples >= 4)
-+			value |= ROGUE_CR_TE_AA_Y2_EN;
-+		if (samples >= 8)
-+			value |= ROGUE_CR_TE_AA_Y_EN;
-+		break;
-+	default:
-+		WARN(true, "Unsupported ISP samples per pixel value");
-+		return -EINVAL;
-+	}
-+
-+	*value_out = value;
-+
-+	return 0;
-+}
-+
-+static void
-+hwrtdata_common_init(void *cpu_ptr, void *priv)
-+{
-+	struct pvr_hwrt_dataset *hwrt = priv;
-+
-+	memcpy(cpu_ptr, &hwrt->common, sizeof(hwrt->common));
-+}
-+
-+static int
-+hwrt_init_common_fw_structure(struct pvr_file *pvr_file,
-+			      struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
-+			      struct pvr_hwrt_dataset *hwrt)
-+{
-+	struct drm_pvr_create_hwrt_geom_data_args *geom_data_args = &args->geom_data_args;
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+	struct pvr_rt_mtile_info info;
-+	int err;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, tile_size_x, &info.tile_size_x);
-+	if (WARN_ON(err))
-+		return err;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, tile_size_y, &info.tile_size_y);
-+	if (WARN_ON(err))
-+		return err;
-+
-+	info.num_tiles_x = DIV_ROUND_UP(args->width, info.tile_size_x);
-+	info.num_tiles_y = DIV_ROUND_UP(args->height, info.tile_size_y);
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, simple_parameter_format_version)) {
-+		u32 parameter_format;
-+
-+		err = PVR_FEATURE_VALUE(pvr_dev, simple_parameter_format_version,
-+					&parameter_format);
-+		if (WARN_ON(err))
-+			return err;
-+
-+		WARN_ON(parameter_format != 2);
-+
-+		/*
-+		 * Set up 16 macrotiles with a multiple of 2x2 tiles per macrotile, which is
-+		 * aligned to a tile group.
-+		 */
-+		info.mtile_x[0] = DIV_ROUND_UP(info.num_tiles_x, 8) * 2;
-+		info.mtile_y[0] = DIV_ROUND_UP(info.num_tiles_y, 8) * 2;
-+		info.mtile_x[1] = 0;
-+		info.mtile_y[1] = 0;
-+		info.mtile_x[2] = 0;
-+		info.mtile_y[2] = 0;
-+		info.tile_max_x = round_up(info.num_tiles_x, 2) - 1;
-+		info.tile_max_y = round_up(info.num_tiles_y, 2) - 1;
-+	} else {
-+		/* Set up 16 macrotiles with a multiple of 4x4 tiles per macrotile. */
-+		info.mtile_x[0] = round_up(DIV_ROUND_UP(info.num_tiles_x, 4), 4);
-+		info.mtile_y[0] = round_up(DIV_ROUND_UP(info.num_tiles_y, 4), 4);
-+		info.mtile_x[1] = info.mtile_x[0] * 2;
-+		info.mtile_y[1] = info.mtile_y[0] * 2;
-+		info.mtile_x[2] = info.mtile_x[0] * 3;
-+		info.mtile_y[2] = info.mtile_y[0] * 3;
-+		info.tile_max_x = info.num_tiles_x - 1;
-+		info.tile_max_y = info.num_tiles_y - 1;
-+	}
-+
-+	hwrt->common.geom_caches_need_zeroing = false;
-+
-+	hwrt->common.isp_merge_lower_x = args->isp_merge_lower_x;
-+	hwrt->common.isp_merge_lower_y = args->isp_merge_lower_y;
-+	hwrt->common.isp_merge_upper_x = args->isp_merge_upper_x;
-+	hwrt->common.isp_merge_upper_y = args->isp_merge_upper_y;
-+	hwrt->common.isp_merge_scale_x = args->isp_merge_scale_x;
-+	hwrt->common.isp_merge_scale_y = args->isp_merge_scale_y;
-+
-+	err = get_cr_multisamplectl_val(args->samples, false,
-+					&hwrt->common.multi_sample_ctl);
-+	if (err)
-+		return err;
-+
-+	err = get_cr_multisamplectl_val(args->samples, true,
-+					&hwrt->common.flipped_multi_sample_ctl);
-+	if (err)
-+		return err;
-+
-+	hwrt->common.mtile_stride = info.mtile_x[0] * info.mtile_y[0];
-+
-+	err = get_cr_te_aa_val(pvr_dev, args->samples, &hwrt->common.teaa);
-+	if (err)
-+		return err;
-+
-+	hwrt->common.screen_pixel_max =
-+		(((args->width - 1) << ROGUE_CR_PPP_SCREEN_PIXXMAX_SHIFT) &
-+		 ~ROGUE_CR_PPP_SCREEN_PIXXMAX_CLRMSK) |
-+		(((args->height - 1) << ROGUE_CR_PPP_SCREEN_PIXYMAX_SHIFT) &
-+		 ~ROGUE_CR_PPP_SCREEN_PIXYMAX_CLRMSK);
-+
-+	hwrt->common.te_screen =
-+		((info.tile_max_x << ROGUE_CR_TE_SCREEN_XMAX_SHIFT) &
-+		 ~ROGUE_CR_TE_SCREEN_XMAX_CLRMSK) |
-+		((info.tile_max_y << ROGUE_CR_TE_SCREEN_YMAX_SHIFT) &
-+		 ~ROGUE_CR_TE_SCREEN_YMAX_CLRMSK);
-+	hwrt->common.te_mtile1 =
-+		((info.mtile_x[0] << ROGUE_CR_TE_MTILE1_X1_SHIFT) & ~ROGUE_CR_TE_MTILE1_X1_CLRMSK) |
-+		((info.mtile_x[1] << ROGUE_CR_TE_MTILE1_X2_SHIFT) & ~ROGUE_CR_TE_MTILE1_X2_CLRMSK) |
-+		((info.mtile_x[2] << ROGUE_CR_TE_MTILE1_X3_SHIFT) & ~ROGUE_CR_TE_MTILE1_X3_CLRMSK);
-+	hwrt->common.te_mtile2 =
-+		((info.mtile_y[0] << ROGUE_CR_TE_MTILE2_Y1_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y1_CLRMSK) |
-+		((info.mtile_y[1] << ROGUE_CR_TE_MTILE2_Y2_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y2_CLRMSK) |
-+		((info.mtile_y[2] << ROGUE_CR_TE_MTILE2_Y3_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y3_CLRMSK);
-+
-+	err = get_cr_isp_mtile_size_val(pvr_dev, args->samples, &info,
-+					&hwrt->common.isp_mtile_size);
-+	if (err)
-+		return err;
-+
-+	hwrt->common.tpc_stride = geom_data_args->tpc_stride;
-+	hwrt->common.tpc_size = geom_data_args->tpc_size;
-+
-+	hwrt->common.rgn_header_size = args->region_header_size;
-+
-+	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_hwrtdata_common),
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED, hwrtdata_common_init, hwrt,
-+				   &hwrt->common_fw_obj);
-+
-+	return err;
-+}
-+
-+static void
-+hwrt_fw_data_init(void *cpu_ptr, void *priv)
-+{
-+	struct pvr_hwrt_data *hwrt_data = priv;
-+
-+	memcpy(cpu_ptr, &hwrt_data->data, sizeof(hwrt_data->data));
-+}
-+
-+static int
-+hwrt_data_init_fw_structure(struct pvr_file *pvr_file,
-+			    struct pvr_hwrt_dataset *hwrt,
-+			    struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
-+			    struct drm_pvr_create_hwrt_rt_data_args *rt_data_args,
-+			    struct pvr_hwrt_data *hwrt_data)
-+{
-+	struct drm_pvr_create_hwrt_geom_data_args *geom_data_args = &args->geom_data_args;
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+	struct rogue_fwif_rta_ctl *rta_ctl;
-+	int free_list_i;
-+	int err;
-+
-+	pvr_fw_object_get_fw_addr(hwrt->common_fw_obj,
-+				  &hwrt_data->data.hwrt_data_common_fw_addr);
-+
-+	for (free_list_i = 0; free_list_i < ARRAY_SIZE(hwrt->free_lists); free_list_i++) {
-+		pvr_fw_object_get_fw_addr(hwrt->free_lists[free_list_i]->fw_obj,
-+					  &hwrt_data->data.freelists_fw_addr[free_list_i]);
-+	}
-+
-+	hwrt_data->data.tail_ptrs_dev_addr = geom_data_args->tpc_dev_addr;
-+	hwrt_data->data.vheap_table_dev_addr = geom_data_args->vheap_table_dev_addr;
-+	hwrt_data->data.rtc_dev_addr = geom_data_args->rtc_dev_addr;
-+
-+	hwrt_data->data.pm_mlist_dev_addr = rt_data_args->pm_mlist_dev_addr;
-+	hwrt_data->data.macrotile_array_dev_addr = rt_data_args->macrotile_array_dev_addr;
-+	hwrt_data->data.rgn_header_dev_addr = rt_data_args->region_header_dev_addr;
-+
-+	rta_ctl = &hwrt_data->data.rta_ctl;
-+
-+	rta_ctl->render_target_index = 0;
-+	rta_ctl->active_render_targets = 0;
-+	rta_ctl->valid_render_targets_fw_addr = 0;
-+	rta_ctl->rta_num_partial_renders_fw_addr = 0;
-+	rta_ctl->max_rts = args->layers;
-+
-+	if (args->layers > 1) {
-+		err = pvr_fw_object_create(pvr_dev, args->layers * SRTC_ENTRY_SIZE,
-+					   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+					   NULL, NULL, &hwrt_data->srtc_obj);
-+		if (err)
-+			return err;
-+		pvr_fw_object_get_fw_addr(hwrt_data->srtc_obj,
-+					  &rta_ctl->valid_render_targets_fw_addr);
-+
-+		err = pvr_fw_object_create(pvr_dev, args->layers * RAA_ENTRY_SIZE,
-+					   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+					   NULL, NULL, &hwrt_data->raa_obj);
-+		if (err)
-+			goto err_put_shadow_rt_cache;
-+		pvr_fw_object_get_fw_addr(hwrt_data->raa_obj,
-+					  &rta_ctl->rta_num_partial_renders_fw_addr);
-+	}
-+
-+	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_hwrtdata),
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   hwrt_fw_data_init, hwrt_data, &hwrt_data->fw_obj);
-+	if (err)
-+		goto err_put_raa_obj;
-+
-+	pvr_free_list_add_hwrt(hwrt->free_lists[0], hwrt_data);
-+
-+	return 0;
-+
-+err_put_raa_obj:
-+	if (args->layers > 1)
-+		pvr_fw_object_destroy(hwrt_data->raa_obj);
-+
-+err_put_shadow_rt_cache:
-+	if (args->layers > 1)
-+		pvr_fw_object_destroy(hwrt_data->srtc_obj);
-+
-+	return err;
-+}
-+
-+static void
-+hwrt_data_fini_fw_structure(struct pvr_hwrt_dataset *hwrt, int hwrt_nr)
-+{
-+	struct pvr_hwrt_data *hwrt_data = &hwrt->data[hwrt_nr];
-+
-+	pvr_free_list_remove_hwrt(hwrt->free_lists[0], hwrt_data);
-+
-+	if (hwrt->max_rts > 1) {
-+		pvr_fw_object_destroy(hwrt_data->raa_obj);
-+		pvr_fw_object_destroy(hwrt_data->srtc_obj);
-+	}
-+
-+	pvr_fw_object_destroy(hwrt_data->fw_obj);
-+}
++#include "pvr_device.h"
++#include "pvr_device_info.h"
++#include "pvr_fw.h"
++
++#include <drm/drm_drv.h>
++#include <linux/firmware.h>
++#include <linux/sizes.h>
++
++#define FW_MAX_SUPPORTED_MAJOR_VERSION 1
 +
 +/**
-+ * pvr_hwrt_dataset_create() - Create a new HWRT dataset
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @args: Creation arguments from userspace.
++ * pvr_fw_validate() - Parse firmware header and check compatibility
++ * @pvr_dev: Device pointer.
 + *
-+ * Return:
-+ *  * Pointer to new HWRT, or
-+ *  * ERR_PTR(-%ENOMEM) on out of memory.
++ * Returns:
++ *  * 0 on success, or
++ *  * -EINVAL if firmware is incompatible.
 + */
-+struct pvr_hwrt_dataset *
-+pvr_hwrt_dataset_create(struct pvr_file *pvr_file,
-+			struct drm_pvr_ioctl_create_hwrt_dataset_args *args)
++static int
++pvr_fw_validate(struct pvr_device *pvr_dev)
 +{
-+	struct pvr_hwrt_dataset *hwrt;
++	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
++	const struct firmware *firmware = pvr_dev->fw_dev.firmware;
++	const struct pvr_fw_layout_entry *layout_entries;
++	const struct pvr_fw_info_header *header;
++	const u8 *fw = firmware->data;
++	u32 fw_offset = firmware->size - SZ_4K;
++	u32 layout_table_size;
++	u32 entry;
++
++	if (firmware->size < SZ_4K || (firmware->size % FW_BLOCK_SIZE))
++		return -EINVAL;
++
++	header = (const struct pvr_fw_info_header *)&fw[fw_offset];
++
++	if (header->info_version != PVR_FW_INFO_VERSION) {
++		drm_err(drm_dev, "Unsupported fw info version %u\n",
++			header->info_version);
++		return -EINVAL;
++	}
++
++	if (header->header_len != sizeof(struct pvr_fw_info_header) ||
++	    header->layout_entry_size != sizeof(struct pvr_fw_layout_entry) ||
++	    header->layout_entry_num > PVR_FW_INFO_MAX_NUM_ENTRIES) {
++		drm_err(drm_dev, "FW info format mismatch\n");
++		return -EINVAL;
++	}
++
++	if (!(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ||
++	    header->fw_version_major > FW_MAX_SUPPORTED_MAJOR_VERSION ||
++	    header->fw_version_major == 0) {
++		drm_err(drm_dev, "Unsupported FW version %u.%u (build: %u%s)\n",
++			header->fw_version_major, header->fw_version_minor,
++			header->fw_version_build,
++			(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ? " OS" : "");
++		return -EINVAL;
++	}
++
++	if (pvr_gpu_id_to_packed_bvnc(&pvr_dev->gpu_id) != header->bvnc) {
++		struct pvr_gpu_id fw_gpu_id;
++
++		packed_bvnc_to_pvr_gpu_id(header->bvnc, &fw_gpu_id);
++		drm_err(drm_dev, "FW built for incorrect GPU ID %i.%i.%i.%i (expected %i.%i.%i.%i)\n",
++			fw_gpu_id.b, fw_gpu_id.v, fw_gpu_id.n, fw_gpu_id.c,
++			pvr_dev->gpu_id.b, pvr_dev->gpu_id.v, pvr_dev->gpu_id.n, pvr_dev->gpu_id.c);
++		return -EINVAL;
++	}
++
++	fw_offset += header->header_len;
++	layout_table_size =
++		header->layout_entry_size * header->layout_entry_num;
++	if ((fw_offset + layout_table_size) > firmware->size)
++		return -EINVAL;
++
++	layout_entries = (const struct pvr_fw_layout_entry *)&fw[fw_offset];
++	for (entry = 0; entry < header->layout_entry_num; entry++) {
++		u32 start_addr = layout_entries[entry].base_addr;
++		u32 end_addr = start_addr + layout_entries[entry].alloc_size;
++
++		if (start_addr >= end_addr)
++			return -EINVAL;
++	}
++
++	fw_offset = (firmware->size - SZ_4K) - header->device_info_size;
++
++	drm_info(drm_dev, "FW version v%u.%u (build %u OS)\n", header->fw_version_major,
++		 header->fw_version_minor, header->fw_version_build);
++
++	pvr_dev->fw_version.major = header->fw_version_major;
++	pvr_dev->fw_version.minor = header->fw_version_minor;
++
++	pvr_dev->fw_dev.header = header;
++	pvr_dev->fw_dev.layout_entries = layout_entries;
++
++	return 0;
++}
++
++static int
++pvr_fw_get_device_info(struct pvr_device *pvr_dev)
++{
++	const struct firmware *firmware = pvr_dev->fw_dev.firmware;
++	struct pvr_fw_device_info_header *header;
++	const u8 *fw = firmware->data;
++	const u64 *dev_info;
++	u32 fw_offset;
++
++	fw_offset = (firmware->size - SZ_4K) - pvr_dev->fw_dev.header->device_info_size;
++
++	header = (struct pvr_fw_device_info_header *)&fw[fw_offset];
++	dev_info = (u64 *)(header + 1);
++
++	pvr_device_info_set_quirks(pvr_dev, dev_info, header->brn_mask_size);
++	dev_info += header->brn_mask_size;
++
++	pvr_device_info_set_enhancements(pvr_dev, dev_info, header->ern_mask_size);
++	dev_info += header->ern_mask_size;
++
++	return pvr_device_info_set_features(pvr_dev, dev_info, header->feature_mask_size,
++					    header->feature_param_size);
++}
++
++/**
++ * pvr_fw_validate_init_device_info() - Validate firmware and initialise device information
++ * @pvr_dev: Target PowerVR device.
++ *
++ * This function must be called before querying device information.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * -%EINVAL if firmware validation fails.
++ */
++int
++pvr_fw_validate_init_device_info(struct pvr_device *pvr_dev)
++{
 +	int err;
 +
-+	/* Create and fill out the kernel structure */
-+	hwrt = kzalloc(sizeof(*hwrt), GFP_KERNEL);
++	err = pvr_fw_validate(pvr_dev);
++	if (err)
++		return err;
 +
-+	if (!hwrt)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kref_init(&hwrt->ref_count);
-+
-+	err = hwrt_init_kernel_structure(pvr_file, args, hwrt);
-+	if (err < 0)
-+		goto err_free;
-+
-+	err = hwrt_init_common_fw_structure(pvr_file, args, hwrt);
-+	if (err < 0)
-+		goto err_free;
-+
-+	for (int i = 0; i < ARRAY_SIZE(hwrt->data); i++) {
-+		err = hwrt_data_init_fw_structure(pvr_file, hwrt, args,
-+						  &args->rt_data_args[i],
-+						  &hwrt->data[i]);
-+		if (err < 0) {
-+			i--;
-+			/* Destroy already created structures. */
-+			for (; i >= 0; i--)
-+				hwrt_data_fini_fw_structure(hwrt, i);
-+			goto err_free;
-+		}
-+
-+		hwrt->data[i].hwrt_dataset = hwrt;
-+	}
-+
-+	return hwrt;
-+
-+err_free:
-+	pvr_hwrt_dataset_put(hwrt);
-+
-+	return ERR_PTR(err);
++	return pvr_fw_get_device_info(pvr_dev);
 +}
-+
-+static void
-+pvr_hwrt_dataset_release(struct kref *ref_count)
-+{
-+	struct pvr_hwrt_dataset *hwrt =
-+		container_of(ref_count, struct pvr_hwrt_dataset, ref_count);
-+
-+	for (int i = ARRAY_SIZE(hwrt->data) - 1; i >= 0; i--) {
-+		WARN_ON(pvr_fw_structure_cleanup(hwrt->pvr_dev, ROGUE_FWIF_CLEANUP_HWRTDATA,
-+						 hwrt->data[i].fw_obj, 0));
-+		hwrt_data_fini_fw_structure(hwrt, i);
-+	}
-+
-+	hwrt_fini_common_fw_structure(hwrt);
-+	hwrt_fini_kernel_structure(hwrt);
-+
-+	kfree(hwrt);
-+}
-+
-+/**
-+ * pvr_destroy_hwrt_datasets_for_file: Destroy any HWRT datasets associated
-+ * with the given file.
-+ * @pvr_file: Pointer to pvr_file structure.
-+ *
-+ * Removes all HWRT datasets associated with @pvr_file from the device
-+ * hwrt_dataset list and drops initial references. HWRT datasets will then be
-+ * destroyed once all outstanding references are dropped.
-+ */
-+void pvr_destroy_hwrt_datasets_for_file(struct pvr_file *pvr_file)
-+{
-+	struct pvr_hwrt_dataset *hwrt;
-+	unsigned long handle;
-+
-+	xa_for_each(&pvr_file->hwrt_handles, handle, hwrt) {
-+		(void)hwrt;
-+		pvr_hwrt_dataset_put(xa_erase(&pvr_file->hwrt_handles, handle));
-+	}
-+}
-+
-+/**
-+ * pvr_hwrt_dataset_put() - Release reference on HWRT dataset
-+ * @hwrt: Pointer to HWRT dataset to release reference on
-+ */
-+void
-+pvr_hwrt_dataset_put(struct pvr_hwrt_dataset *hwrt)
-+{
-+	if (hwrt)
-+		kref_put(&hwrt->ref_count, pvr_hwrt_dataset_release);
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_hwrt.h b/drivers/gpu/drm/imagination/pvr_hwrt.h
+diff --git a/drivers/gpu/drm/imagination/pvr_fw.h b/drivers/gpu/drm/imagination/pvr_fw.h
 new file mode 100644
-index 000000000000..dd7797a85f27
+index 000000000000..dca7fe5b3dd0
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_hwrt.h
-@@ -0,0 +1,165 @@
++++ b/drivers/gpu/drm/imagination/pvr_fw.h
+@@ -0,0 +1,34 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_HWRT_H
-+#define PVR_HWRT_H
++#ifndef PVR_FW_H
++#define PVR_FW_H
 +
-+#include <linux/compiler_attributes.h>
-+#include <linux/kref.h>
-+#include <linux/list.h>
++#include "pvr_fw_info.h"
++
 +#include <linux/types.h>
-+#include <linux/xarray.h>
-+#include <uapi/drm/pvr_drm.h>
 +
-+#include "pvr_device.h"
-+#include "pvr_rogue_fwif_shared.h"
++/* Forward declarations from "pvr_device.h". */
++struct pvr_device;
++struct pvr_file;
 +
-+/* Forward declaration from pvr_free_list.h. */
-+struct pvr_free_list;
++struct pvr_fw_device {
++	/** @firmware: Handle to the firmware loaded into the device. */
++	const struct firmware *firmware;
 +
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_fw_object;
++	/** @header: Pointer to firmware header. */
++	const struct pvr_fw_info_header *header;
 +
-+/**
-+ * struct pvr_hwrt_data - structure representing HWRT data
++	/** @layout_entries: Pointer to firmware layout. */
++	const struct pvr_fw_layout_entry *layout_entries;
++
++	/**
++	 * @processor_type: FW processor type for this device. Must be one of
++	 *                  %PVR_FW_PROCESSOR_TYPE_*.
++	 */
++	u16 processor_type;
++};
++
++int pvr_fw_validate_init_device_info(struct pvr_device *pvr_dev);
++
++#endif /* PVR_FW_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_fw_info.h b/drivers/gpu/drm/imagination/pvr_fw_info.h
+new file mode 100644
+index 000000000000..40bf66f1c4b6
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_fw_info.h
+@@ -0,0 +1,135 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_FW_INFO_H
++#define PVR_FW_INFO_H
++
++#include <linux/bits.h>
++#include <linux/sizes.h>
++#include <linux/types.h>
++
++/*
++ * Firmware binary block unit in bytes.
++ * Raw data stored in FW binary will be aligned to this size.
 + */
-+struct pvr_hwrt_data {
-+	/** @fw_obj: FW object representing the FW-side structure. */
-+	struct pvr_fw_object *fw_obj;
++#define FW_BLOCK_SIZE SZ_4K
 +
-+	/** @data: Local copy of FW-side structure. */
-+	struct rogue_fwif_hwrtdata data;
++/* Maximum number of entries in firmware layout table. */
++#define PVR_FW_INFO_MAX_NUM_ENTRIES 8
 +
-+	/** @freelist_node: List node connecting this HWRT to the local freelist. */
-+	struct list_head freelist_node;
++enum pvr_fw_section_id {
++	META_CODE = 0,
++	META_PRIVATE_DATA,
++	META_COREMEM_CODE,
++	META_COREMEM_DATA,
++	MIPS_CODE,
++	MIPS_EXCEPTIONS_CODE,
++	MIPS_BOOT_CODE,
++	MIPS_PRIVATE_DATA,
++	MIPS_BOOT_DATA,
++	MIPS_STACK,
++	RISCV_UNCACHED_CODE,
++	RISCV_CACHED_CODE,
++	RISCV_PRIVATE_DATA,
++	RISCV_COREMEM_CODE,
++	RISCV_COREMEM_DATA,
++};
 +
-+	/**
-+	 * @srtc_obj: FW object representing shadow render target cache.
-+	 *
-+	 * Only valid if @max_rts > 1.
-+	 */
-+	struct pvr_fw_object *srtc_obj;
++enum pvr_fw_section_type {
++	NONE = 0,
++	FW_CODE,
++	FW_DATA,
++	FW_COREMEM_CODE,
++	FW_COREMEM_DATA,
++};
 +
-+	/**
-+	 * @raa_obj: FW object representing renders accumulation array.
-+	 *
-+	 * Only valid if @max_rts > 1.
-+	 */
-+	struct pvr_fw_object *raa_obj;
++/*
++ * FW binary format with FW info attached:
++ *
++ *          Contents        Offset
++ *     +-----------------+
++ *     |                 |    0
++ *     |                 |
++ *     | Original binary |
++ *     |      file       |
++ *     |   (.ldr/.elf)   |
++ *     |                 |
++ *     |                 |
++ *     +-----------------+
++ *     |   Device info   |  FILE_SIZE - 4K - device_info_size
++ *     +-----------------+
++ *     | FW info header  |  FILE_SIZE - 4K
++ *     +-----------------+
++ *     |                 |
++ *     | FW layout table |
++ *     |                 |
++ *     +-----------------+
++ *                          FILE_SIZE
++ */
 +
-+	/** @hwrt_dataset: Back pointer to owning HWRT dataset. */
-+	struct pvr_hwrt_dataset *hwrt_dataset;
++#define PVR_FW_INFO_VERSION 3
++
++#define PVR_FW_FLAGS_OPEN_SOURCE BIT(0)
++
++/** struct pvr_fw_info_header - Firmware header */
++struct pvr_fw_info_header {
++	/** @info_version: FW info header version. */
++	u32 info_version;
++	/** @header_len: Header length. */
++	u32 header_len;
++	/** @layout_entry_num: Number of entries in the layout table. */
++	u32 layout_entry_num;
++	/** @layout_entry_size: Size of an entry in the layout table. */
++	u32 layout_entry_size;
++	/** @bvnc: GPU ID supported by firmware. */
++	aligned_u64 bvnc;
++	/** @fw_page_size: Page size of processor on which firmware executes. */
++	u32 fw_page_size;
++	/** @flags: Compatibility flags. */
++	u32 flags;
++	/** @fw_version_major: Firmware major version number. */
++	u16 fw_version_major;
++	/** @fw_version_minor: Firmware minor version number. */
++	u16 fw_version_minor;
++	/** @fw_version_build: Firmware build number. */
++	u32 fw_version_build;
++	/** @device_info_size: Size of device info structure. */
++	u32 device_info_size;
++	/** @padding: Padding. */
++	u32 padding;
 +};
 +
 +/**
-+ * struct pvr_hwrt_dataset - structure representing a HWRT data set.
++ * struct pvr_fw_layout_entry - Entry in firmware layout table, describing a
++ *                              section of the firmware image
 + */
-+struct pvr_hwrt_dataset {
-+	/** @ref_count: Reference count of object. */
-+	struct kref ref_count;
-+
-+	/** @pvr_dev: Pointer to device that owns this object. */
-+	struct pvr_device *pvr_dev;
-+
-+	/** @common_fw_obj: FW object representing common FW-side structure. */
-+	struct pvr_fw_object *common_fw_obj;
-+
-+	struct rogue_fwif_hwrtdata_common common;
-+
-+	/** @data: HWRT data structures belonging to this set. */
-+	struct pvr_hwrt_data data[ROGUE_FWIF_NUM_RTDATAS];
-+
-+	/** @free_lists: Free lists used by HWRT data set. */
-+	struct pvr_free_list *free_lists[ROGUE_FWIF_NUM_RTDATA_FREELISTS];
-+
-+	/** @max_rts: Maximum render targets for this HWRT data set. */
-+	u16 max_rts;
++struct pvr_fw_layout_entry {
++	/** @id: Section ID. */
++	enum pvr_fw_section_id id;
++	/** @type: Section type. */
++	enum pvr_fw_section_type type;
++	/** @base_addr: Base address of section in FW address space. */
++	u32 base_addr;
++	/** @max_size: Maximum size of section, in bytes. */
++	u32 max_size;
++	/** @alloc_size: Allocation size of section, in bytes. */
++	u32 alloc_size;
++	/** @alloc_offset: Allocation offset of section. */
++	u32 alloc_offset;
 +};
 +
-+struct pvr_hwrt_dataset *
-+pvr_hwrt_dataset_create(struct pvr_file *pvr_file,
-+			struct drm_pvr_ioctl_create_hwrt_dataset_args *args);
-+
-+void
-+pvr_destroy_hwrt_datasets_for_file(struct pvr_file *pvr_file);
-+
 +/**
-+ * pvr_hwrt_dataset_lookup() - Lookup HWRT dataset pointer from handle
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @handle: Object handle.
-+ *
-+ * Takes reference on dataset object. Call pvr_hwrt_dataset_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, or is not a HWRT
-+ *    dataset)
++ * struct pvr_fw_device_info_header - Device information header.
 + */
-+static __always_inline struct pvr_hwrt_dataset *
-+pvr_hwrt_dataset_lookup(struct pvr_file *pvr_file, u32 handle)
-+{
-+	struct pvr_hwrt_dataset *hwrt;
++struct pvr_fw_device_info_header {
++	/* BRN Mask size (in u64s). */
++	u64 brn_mask_size;
++	/* ERN Mask size (in u64s). */
++	u64 ern_mask_size;
++	/* Feature Mask size (in u64s). */
++	u64 feature_mask_size;
++	/* Feature Parameter size (in u64s). */
++	u64 feature_param_size;
++};
 +
-+	xa_lock(&pvr_file->hwrt_handles);
-+	hwrt = xa_load(&pvr_file->hwrt_handles, handle);
-+
-+	if (hwrt)
-+		kref_get(&hwrt->ref_count);
-+
-+	xa_unlock(&pvr_file->hwrt_handles);
-+
-+	return hwrt;
-+}
-+
-+void
-+pvr_hwrt_dataset_put(struct pvr_hwrt_dataset *hwrt);
-+
-+/**
-+ * pvr_hwrt_data_lookup() - Lookup HWRT data pointer from handle and index
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @handle: Object handle.
-+ * @index: Index of RT data within dataset.
-+ *
-+ * Takes reference on dataset object. Call pvr_hwrt_data_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, or is not a HWRT
-+ *    dataset, or index is out of range)
-+ */
-+static __always_inline struct pvr_hwrt_data *
-+pvr_hwrt_data_lookup(struct pvr_file *pvr_file, u32 handle, u32 index)
-+{
-+	struct pvr_hwrt_dataset *hwrt_dataset = pvr_hwrt_dataset_lookup(pvr_file, handle);
-+
-+	if (hwrt_dataset) {
-+		if (index < ARRAY_SIZE(hwrt_dataset->data))
-+			return &hwrt_dataset->data[index];
-+
-+		pvr_hwrt_dataset_put(hwrt_dataset);
-+	}
-+
-+	return NULL;
-+}
-+
-+/**
-+ * pvr_hwrt_data_put() - Release reference on HWRT data
-+ * @hwrt: Pointer to HWRT data to release reference on
-+ */
-+static __always_inline void
-+pvr_hwrt_data_put(struct pvr_hwrt_data *hwrt)
-+{
-+	if (hwrt)
-+		pvr_hwrt_dataset_put(hwrt->hwrt_dataset);
-+}
-+
-+static __always_inline struct pvr_hwrt_data *
-+pvr_hwrt_data_get(struct pvr_hwrt_data *hwrt)
-+{
-+	if (hwrt)
-+		kref_get(&hwrt->hwrt_dataset->ref_count);
-+
-+	return hwrt;
-+}
-+
-+#endif /* PVR_HWRT_H */
++#endif /* PVR_FW_INFO_H */
 -- 
 2.42.0
 
