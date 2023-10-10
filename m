@@ -2,101 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71218CD8CAC
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:07:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C179CD8CB5
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:10:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343742AbjJJTHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 15:07:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42124 "EHLO
+        id S1343742AbjJJTKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 15:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343741AbjJJTHZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:07:25 -0400
+        with ESMTP id S1343741AbjJJTKB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:10:01 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71435B4;
-        Tue, 10 Oct 2023 12:07:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43672A7;
+        Tue, 10 Oct 2023 12:09:59 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0AB022B2;
-        Tue, 10 Oct 2023 19:07:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0AB022B2
+        by ms.lwn.net (Postfix) with ESMTPSA id DE7252B2;
+        Tue, 10 Oct 2023 19:09:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DE7252B2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696964838; bh=QcrWmIbuO0bfjdymUW0+w4/E5+y0kH/MzSz4CPcAOWI=;
+        t=1696964999; bh=Z7weYXtz4ulfLKsxotgyt4mEYaMtmzAERr12ZieBYR4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=dgbxMIAvJFG8AnvBsNgfjni4ZarPDi6QsxS3Z5cPLZGGfwPCGj6s8jWqBzyGoH4UY
-         uvxHuAzl0Cm79jWF2ynkwvyjr7BeAFogam20+5A+cB9gWvTlK9TViW/jlAtXR9FJKt
-         n0coW73+LPpPRJR6DRJwfGBbzUm4xqimkTt3yLBfwk9bJ822f9EddgDcV0E0OV5dmO
-         7AyKwSfkCh8XKAegz7bQr9t7MwiDzGxcm3MIA3tqU2j5cIq8v1BclgUOIZHa3APKTV
-         jXzUXvTLzQAu4m4tHjwSkG6jQlLeGI5ZbtyGiuyKPQvSZ7tCPmqhHB6vC9pQwFzC7z
-         EHLvvjzKIKnyg==
+        b=R5U9zo0QlRK2g+wYOyMr9ejbVZkVXjvdZsOD/60baNTay9dMXsoqe37tb2hpIr/XS
+         GFFU3xRiXwjpXPe/Oxf2yVBPGL7bxE3URdxHSx3l4UcwHI+pn+WntIZa0YKGFFA4fe
+         kAwYSunKBjfM/NGsCwQPr80ueqHmt4LLpw8xMcmFvZy0DNz2u1yYaCYYkHIPXpZJ+x
+         ii3fG8fLf1OtOUSrghG1Lo1PXoUG5h8OuofsPvluvDNR83zM7zSFFKcfCJ5BScwlrr
+         eZgVsxCxPtcKUzpNe9axTRxD3OGjuECO0ICPjQd8Ka0toU5PGuzq0au7Q0A0QctLhL
+         BzD9NxxywVJ/Q==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Hu Haowen <src.res.211@gmail.com>
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [PATCH v3] docs/zh_TW: update contents for zh_TW
-In-Reply-To: <20231010050727.49212-1-src.res.211@gmail.com>
-References: <20231010050727.49212-1-src.res.211@gmail.com>
-Date:   Tue, 10 Oct 2023 13:07:17 -0600
-Message-ID: <87a5sq70uy.fsf@meer.lwn.net>
+To:     Vratislav Bendel <vbendel@redhat.com>,
+        Mike Rapoport <rppt@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jozef Bacik <jobacik@redhat.com>
+Subject: Re: [PATCH] docs: mm: fix vm overcommit documentation for
+ OVERCOMMIT_GUESS
+In-Reply-To: <CAHrQN1yOTTMz=RR0rJxr9aFVmTPgYyrabPzNH00Z-fToorrPjQ@mail.gmail.com>
+References: <20220829124638.63748-1-vbendel@redhat.com>
+ <YwzC01N62rtDvzQV@kernel.org>
+ <CAHrQN1yOTTMz=RR0rJxr9aFVmTPgYyrabPzNH00Z-fToorrPjQ@mail.gmail.com>
+Date:   Tue, 10 Oct 2023 13:09:58 -0600
+Message-ID: <875y3e70qh.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[adding Konstantin]
+Vratislav Bendel <vbendel@redhat.com> writes:
 
-Hu Haowen <src.res.211@gmail.com> writes:
-
-> The content of zh_TW was too outdated comparing to the original files.
-> Consequently carry out improvements in order to both keep track of sources
-> and fix several grammatical mistakes in traditional Chinese.
+> On Mon, Aug 29, 2022 at 3:45=E2=80=AFPM Mike Rapoport <rppt@kernel.org> w=
+rote:
 >
-> This is a thorough rewrite of the previous patch:
->     https://lore.kernel.org/linux-doc/20230807120006.6361-1-src.res.211@gmail.com/
-> in order to get rid of text damage and merging errors, created based on
-> linux-next (date: Oct. 9, 2023).
+>  On Mon, Aug 29, 2022 at 02:46:38PM +0200, vbendel@redhat.com wrote:
+>  > From: Vratislav Bendel <vbendel@redhat.com>
+>  >=20
+>  > Commit 8c7829b04c52 "mm: fix false-positive OVERCOMMIT_GUESS failures"
+>  > changed the behavior of the default OVERCOMMIT_GUESS setting.
+>  > Reflect the change also in the Documentation, namely files:
+>  >     Documentation/admin-guide/sysctl/vm.rst
+>  >     Documentation/mm/overcommit-accounting.rst
+>  >=20
+>  > Reported-by: Jozef Bacik <jobacik@redhat.com>
+>  > Signed-off-by: Vratislav Bendel <vbendel@redhat.com>
 >
-> Signed-off-by: Hu Haowen <src.res.211@gmail.com>
+>  Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+>
+> Hello,
+>
+> Poking this one as it's been Acked here without merging for over a
+> year.  My humble opinion is that Docs should be up to date, reflecting
+> the real behavior.
 
-So this patch still isn't showing up in lore, with the result that b4
-will not work with it.  The thing is, it *does* make it through vger,
-and has landed in the LWN archive:
-
-  https://lwn.net/ml/linux-kernel/20231010050727.49212-1-src.res.211%40gmail.com/
-
-Might lore be dropping it because it consists of one big attachment?
-Putting your patches inline would be the right thing to do in any case.
-
-Rather than force another round, I've tried to the patch directly (but
-see below), but it would be good to figure out why lore doesn't like it.
-Konstantin, any ideas?
-
-[Hmm...even weirder...v2, sent on Sep 25, wasn't in lore when I looked
-on October 3 - but it *is* there now:
-
-  https://lore.kernel.org/lkml/20230925052311.20992-1-src.res.211@gmail.com/
-
-I'll admit to being entirely confused.]
-
-The patch itself adds a whole bunch of new warnings, appended below, so
-I've unapplied it again.  We have been through a few too many rounds on
-this, please do not resend until you have verified that it applies and
-builds correctly.
-
-Thanks,
+My humble opinion is that I must have screwed up somewhere; not sure how
+this fell through the cracks.  I've applied it now, thanks and sorry for
+the delay.
 
 jon
-
-New warnings:
-
-Documentation/translations/zh_TW/arch/index.rst:8: WARNING: toctree contains reference to nonexisting document 'translations/zh_TW/riscv/index'
-Documentation/translations/zh_TW/arch/loongarch/introduction.rst:325: WARNING: duplicate label loongarch-references-zh_cn, other instance in Documentation/translations/zh_CN/arch/loongarch/introduction.rst
-Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst:25: WARNING: duplicate label zh_contact, other instance in Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
-Documentation/translations/zh_TW/process/submitting-patches.rst:54: WARNING: duplicate label zh_describe_changes, other instance in Documentation/translations/zh_CN/process/submitting-patches.rst
-Documentation/translations/zh_TW/process/submitting-patches.rst:137: WARNING: duplicate label zh_split_changes, other instance in Documentation/translations/zh_CN/process/submitting-patches.rst
-Documentation/translations/zh_TW/process/submitting-patches.rst:270: WARNING: duplicate label zh_resend_reminders, other instance in Documentation/translations/zh_CN/process/submitting-patches.rst
-Documentation/translations/zh_TW/process/submitting-patches.rst:451: WARNING: duplicate label zh_the_canonical_patch_format, other instance in Documentation/translations/zh_CN/process/submitting-patches.rst
-Documentation/translations/zh_TW/process/submitting-patches.rst:556: WARNING: duplicate label zh_backtraces, other instance in Documentation/translations/zh_CN/process/submitting-patches.rst
-Documentation/translations/zh_TW/process/submitting-patches.rst:575: WARNING: duplicate label zh_explicit_in_reply_to, other instance in Documentation/translations/zh_CN/process/submitting-patches.rst
