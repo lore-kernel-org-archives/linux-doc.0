@@ -2,193 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47604CD690A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 08:42:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEC5CD6914
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 09:38:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbjJJImL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 04:42:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57684 "EHLO
+        id S230258AbjJJJif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 05:38:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229887AbjJJImH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 04:42:07 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 006AC9F;
-        Tue, 10 Oct 2023 01:42:04 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-5068692b0d9so4557141e87.1;
-        Tue, 10 Oct 2023 01:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696927323; x=1697532123; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ae0hLvXNfmj5oKuaaZeV8hEDEMUV8fln2sNtm/lezaY=;
-        b=CcQ4kWuN5CVjt2Tq+9/wqmAZI/F/LD2b1b614J/10A00QocXx1OW7XIBh5b2173QWD
-         14eCOXfuGRscZCAlI1dpbyCsLXQG775s0tHdCWsTOmxa4rkEW7224lQ75rwoPEqI2HaC
-         8oeVwF2F17vFf+Lt9XhEs8ErJeqmPbsFikqEj4qx0wp0SR49MjN2w8I3nPzBlI1xz5kc
-         ZZv6wbsDyUOQ9L7QGWBkyt4w0G4PnPmb2NLDttH4bMwIVwyci59HbuliUFqaAbjWz+OG
-         BoQQBCtfHJh7xQFec3lv1D8xgfqbDckfxk2ZSC4DsBTlri4Qd4SntAXV/Dlksdf88KfV
-         91wA==
+        with ESMTP id S230316AbjJJJi1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 05:38:27 -0400
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB5E7B8;
+        Tue, 10 Oct 2023 02:38:25 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9b95622c620so992068666b.0;
+        Tue, 10 Oct 2023 02:38:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696927323; x=1697532123;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ae0hLvXNfmj5oKuaaZeV8hEDEMUV8fln2sNtm/lezaY=;
-        b=jcZX+Pk+gcJPYEceeIXZFjgozc9CPeLQ6vdOo4t5zTcl/ZF5t+9CuQkzMqZg5x7t47
-         ujyPJV7kYtGo/Pm2gulSv/Tmj2A9aN2Mhw+8+EXZgyz1XxR2+RF/E3tsb8Y2pE6pKlUy
-         Bc6li/7TUaeb0D94t0Ul5AYD8jKyguOXfuYwQzsUW80DcJv1Xq7KTVdo3cr36zGCNCr9
-         jJYnSInqbXqUMVNsfJr/WxiJYvtZNBpAkQ+NDrWHoLNMxAV9oaRG1s7S0Evqwte2pyXB
-         nPqOs3widBtLmD31pLpWiCjRwi+sD0IfJaLUVyOHMrqC8XpHrSRD3eRJ9NKX60vOAxs1
-         pKxg==
-X-Gm-Message-State: AOJu0Yxi0vguKDE3C1HMYWCAxpnlqIw3b0dbKpGKKb2Zu4Ikwn4UvQHg
-        QBgza1xrX07MwdklSaTmaMeGapQ9WGXwwA==
-X-Google-Smtp-Source: AGHT+IGP9iJh77kM89/iiAZsxIhGPSthdopuP0xLcB9rrdz2C3htcFrLq9rMqVW8tuFHPLGoDZM4Ng==
-X-Received: by 2002:a19:8c5a:0:b0:504:7f2e:9391 with SMTP id i26-20020a198c5a000000b005047f2e9391mr13817096lfj.34.1696927322756;
-        Tue, 10 Oct 2023 01:42:02 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:25e3:a83f:9563:f690])
-        by smtp.gmail.com with ESMTPSA id k22-20020a7bc416000000b00404719b05b5sm13465447wmi.27.2023.10.10.01.42.00
+        d=1e100.net; s=20230601; t=1696930704; x=1697535504;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g1QRKkBNjznWASHX/P+4TGpYOnsgJ03ZF7D0qhU3Ymk=;
+        b=plJUJYze8Ih4iB48eMtqqe4my0y81wE5SEl4pF1dkXVJavmbK0ltMypXu0wW9//2Ix
+         2/RjxF0QTb7hjaRIcCeILvEBAfV/dAgr9tKEIZgSWuNbaHsn18JbP8lZaJ1K0kw6Tfs6
+         9rAFSTbbk2S1T7Lr2PF/6t61yTyBRADKPJDNp6SUsf4eduOgE5ZecBbv2kLjIkmJqBzH
+         5y/CtmU9NnLAQ/jhZHXt/zxt9K9qmRNpsMvwV1OCVnxsY29Fw5V8iSMIRtC4rwJOzHzW
+         Mr2SVSYEVli6KtRtVJQj3nV4BrqINod4Bz82bLmRz0Kqyt9SiwQMO5AEF2ESdMAYl0hC
+         1rSw==
+X-Gm-Message-State: AOJu0Yz1MqY//ZZr8WpfZABb1VrEDaMUwzmOWXQPv5v/xM3PJpnuFtQW
+        LY80TVumlIBik8zyRuejhrI=
+X-Google-Smtp-Source: AGHT+IFxRq/KbS+SGcIHLC7lal1Yfk5k7Q0MeGQRouF0Zb3IAP2QclWw80a3UunY6/3pJJTMrUhwQw==
+X-Received: by 2002:a17:906:768e:b0:9b2:f38d:c44b with SMTP id o14-20020a170906768e00b009b2f38dc44bmr15198573ejm.24.1696930704086;
+        Tue, 10 Oct 2023 02:38:24 -0700 (PDT)
+Received: from localhost (fwdproxy-cln-003.fbsv.net. [2a03:2880:31ff:3::face:b00c])
+        by smtp.gmail.com with ESMTPSA id a11-20020a17090640cb00b00977eec7b7e8sm8193626ejk.68.2023.10.10.02.38.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 01:42:01 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, andrew@lunn.ch,
-        jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
-        przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
-        jiri@resnulli.us, ecree.xilinx@gmail.com
-Subject: Re: [PATCH net-next] docs: try to encourage (netdev?) reviewers
-In-Reply-To: <20231009225637.3785359-1-kuba@kernel.org> (Jakub Kicinski's
-        message of "Mon, 9 Oct 2023 15:56:36 -0700")
-Date:   Tue, 10 Oct 2023 09:41:33 +0100
-Message-ID: <m27cnuoon6.fsf@gmail.com>
-References: <20231009225637.3785359-1-kuba@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        Tue, 10 Oct 2023 02:38:21 -0700 (PDT)
+From:   Breno Leitao <leitao@debian.org>
+To:     jlbec@evilplan.org, kuba@kernel.org, davem@davemloft.net,
+        pabeni@redhat.com, Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     hch@lst.de, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        horms@kernel.org,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH net-next v3 4/4] Documentation: netconsole: add support for cmdline targets
+Date:   Tue, 10 Oct 2023 02:37:51 -0700
+Message-Id: <20231010093751.3878229-5-leitao@debian.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231010093751.3878229-1-leitao@debian.org>
+References: <20231010093751.3878229-1-leitao@debian.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+With the previous patches, there is no more limitation at modifying the
+targets created at boot time (or module load time).
 
-> Add a section to netdev maintainer doc encouraging reviewers
-> to chime in on the mailing list.
->
-> The questions about "when is it okay to share feedback"
-> keep coming up (most recently at netconf) and the answer
-> is "pretty much always".
->
-> Extend the section of 7.AdvancedTopics.rst which deals
-> with reviews a little bit to add stuff we had been recommending
-> locally.
+Document the way on how to create the configfs directories to be able to
+modify these netconsole targets.
 
-I for one really appreciate this additional guidance and where better to
-start than by reviewing the guidance for new reviewers :-)
+The design discussion about this topic could be found at:
+https://lore.kernel.org/all/ZRWRal5bW93px4km@gmail.com/
 
-Looks good other than some minor grammar nits below.
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ Documentation/networking/netconsole.rst | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> --
-> RFC -> v1:
->  - spelling (compliment)
->  - move to common docs:
->    - ask for more opinions
->    - use of tags
->    - compliments
->  - ask less experienced reviewers to avoid style comments
->    (using Florian's wording)
->
-> CC: andrew@lunn.ch
-> CC: jesse.brandeburg@intel.com
-> CC: sd@queasysnail.net
-> CC: horms@verge.net.au
-> CC: przemyslaw.kitszel@intel.com
-> CC: f.fainelli@gmail.com
-> CC: jiri@resnulli.us
-> CC: ecree.xilinx@gmail.com
-> ---
->  Documentation/process/7.AdvancedTopics.rst  | 18 ++++++++++++++++++
->  Documentation/process/maintainer-netdev.rst | 15 +++++++++++++++
->  2 files changed, 33 insertions(+)
->
-> diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
-> index bf7cbfb4caa5..415749feed17 100644
-> --- a/Documentation/process/7.AdvancedTopics.rst
-> +++ b/Documentation/process/7.AdvancedTopics.rst
-> @@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
->  format the request as other developers expect, and will also check to be
->  sure that you have remembered to push those changes to the public server.
->  
-> +.. _development_advancedtopics_reviews:
->  
->  Reviewing patches
->  -----------------
-> @@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
->  get released in this path?" will always work better than stating "the
->  locking here is wrong."
->  
-> +Another technique useful in case of a disagreement is to ask for others
+diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+index 7a9de0568e84..390730a74332 100644
+--- a/Documentation/networking/netconsole.rst
++++ b/Documentation/networking/netconsole.rst
+@@ -99,9 +99,6 @@ Dynamic reconfiguration:
+ Dynamic reconfigurability is a useful addition to netconsole that enables
+ remote logging targets to be dynamically added, removed, or have their
+ parameters reconfigured at runtime from a configfs-based userspace interface.
+-[ Note that the parameters of netconsole targets that were specified/created
+-from the boot/module option are not exposed via this interface, and hence
+-cannot be modified dynamically. ]
+ 
+ To include this feature, select CONFIG_NETCONSOLE_DYNAMIC when building the
+ netconsole module (or kernel, if netconsole is built-in).
+@@ -155,6 +152,25 @@ You can also update the local interface dynamically. This is especially
+ useful if you want to use interfaces that have newly come up (and may not
+ have existed when netconsole was loaded / initialized).
+ 
++Netconsole targets defined at boot time (or module load time) with the
++`netconsole=` param are assigned the name `cmdline<index>`.  For example, the
++first target in the parameter is named `cmdline0`.  You can control and modify
++these targets by creating configfs directories with the matching name.
++
++Let's suppose you have two netconsole targets defined at boot time::
++
++ netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc;4444@10.0.0.1/eth1,9353@10.0.0.3/12:34:56:78:9a:bc
++
++You can modify these targets in runtime by creating the following targets::
++
++ mkdir cmdline0
++ cat cmdline0/remote_ip
++ 10.0.0.2
++
++ mkdir cmdline1
++ cat cmdline1/remote_ip
++ 10.0.0.3
++
+ Extended console:
+ =================
+ 
+-- 
+2.34.1
 
-Another technique that is useful ...
-
-> +to chime in. If a discussion reaches a stalemate after a few exchanges,
-> +calling for opinions of other reviewers or maintainers. Often those in
-
-then call for
-
-> +agreement with a reviewer remain silent unless called upon.
-> +Opinion of multiple people carries exponentially more weight.
-
-The opinion
-
-> +
->  Different developers will review code from different points of view.  Some
->  are mostly concerned with coding style and whether code lines have trailing
->  white space.  Others will focus primarily on whether the change implemented
-> @@ -176,3 +183,14 @@ security issues, duplication of code found elsewhere, adequate
->  documentation, adverse effects on performance, user-space ABI changes, etc.
->  All types of review, if they lead to better code going into the kernel, are
->  welcome and worthwhile.
-> +
-> +There is no strict requirement to use specific tags like ``Reviewed-by``.
-> +In fact reviews in plain English are more informative and encouraged
-> +even when a tag is provided (e.g. "I looked at aspects A, B and C of this
-> +submission and it looks good to me.")
-> +Some form of a review message / reply is obviously necessary otherwise
-
-Minor nit but I think "or" would be preferable to "/" in prose like this.
-
-> +maintainers will not know that the reviewer has looked at the patch at all!
-> +
-> +Last but not least patch review may become a negative process, focused
-> +on pointing out problems. Please throw in a compliment once in a while,
-> +particularly for newbies!
-> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index 09dcf6377c27..a0cb00e7f579 100644
-> --- a/Documentation/process/maintainer-netdev.rst
-> +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -441,6 +441,21 @@ in a way which would break what would normally be considered uAPI.
->  new ``netdevsim`` features must be accompanied by selftests under
->  ``tools/testing/selftests/``.
->  
-> +Reviewer guidance
-> +-----------------
-> +
-> +Reviewing other people's patches on the list is highly encouraged,
-> +regardless of the level of expertise. For general guidance and
-> +helpful tips please see :ref:`development_advancedtopics_reviews`.
-> +
-> +It's safe to assume that netdev maintainers know the community and the level
-> +of expertise of the reviewers. The reviewers should not be concerned about
-> +their comments impeding or derailing the patch flow.
-> +
-> +Less experienced reviewers are highly encouraged to do more in-depth
-> +review of submissions and not focus exclusively on trivial / subject
-
-Do you mean subjective matters?
-
-> +matters like code formatting, tags etc.
-> +
->  Testimonials / feedback
->  -----------------------
