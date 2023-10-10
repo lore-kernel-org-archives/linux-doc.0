@@ -2,33 +2,33 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBB4CD68FE
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 08:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34795CD68FE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 08:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442937AbjJJIYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 04:24:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45494 "EHLO
+        id S1442848AbjJJIcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 04:32:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442903AbjJJIYC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 04:24:02 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7CDA138;
-        Tue, 10 Oct 2023 01:23:51 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 91DB71C000C;
-        Tue, 10 Oct 2023 08:23:44 +0000 (UTC)
+        with ESMTP id S1442859AbjJJIcF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 04:32:05 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF938A4;
+        Tue, 10 Oct 2023 01:31:57 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3529EE000B;
+        Tue, 10 Oct 2023 08:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696926229;
+        t=1696926716;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=v4W4ki9yJ0aQRYnIclXGVVivV68iXHwUsohQy3qfUB0=;
-        b=iUAEH+LmEqB+Z9kS3chvGiSknIjEn/Xfvpez8DlzWvIQqS1FON1cbMUuCvp9Ps9VnDAyhW
-        tR6Qy8Xj6Xsq5+zr+FcnZv24K47h7JNY7V8iySAM+Vj9+MxdZ3IzesZ6ETW/QmT3HRYYT8
-        C6/J1s+NREceDczqmOgWEO3idZL//SY5twfGigY9/1X1oZNYx80E7haMeBBhrnHNH5UgG9
-        mr0KG35Rck24oqYLpdAkuiC1pKAiCj6rwLQMC91F30Rx1864BhyG9JuS8rznUbbqbML1JW
-        Q+CauAfaEkoMY6E5PLuXMRPa3aHJFpc+8vPZunVea9y5Zch4JHtAWW9N1eV/tA==
-Date:   Tue, 10 Oct 2023 10:23:43 +0200
+        bh=dmxIDRlRKTNn5lgoNqp7quWga8LZsXnCoghtnU8fKPg=;
+        b=jUivcLpBjmtx/6HvttOXSXtzxe7OAlZC52pvAwhhXFagP++NaZu7bvkuOFZwknmyipA52K
+        7IgKerlZZkISbH7PAJtToyjScRjCZEtHs5lD6kPBSXK5eEEeJvjKFTE1JggP+uLnDvEYB6
+        ++snL8erlpiMR+1Di/GG/gKf8+k6C1+B0yv8HB0wnic7oskAv8BU4tdhlD1LyX4ppni94E
+        LKAzn+fwEUphZ9W6hPk2A+VNpKH2AVs80WU125ngEX7zyTH95MesbwtdKlrvi6IyOUPXrh
+        kThRLv+288++4ehRKfv7HSc35iuJ9ozMsec+tWoN6DVj6TVJAIFVXYnm7i5xGQ==
+Date:   Tue, 10 Oct 2023 10:31:50 +0200
 From:   =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
 To:     Florian Fainelli <florian.fainelli@broadcom.com>
 Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -57,13 +57,13 @@ Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michael Walle <michael@walle.cc>,
         Jacob Keller <jacob.e.keller@intel.com>,
         Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
- current time stamping layer
-Message-ID: <20231010102343.3529e4a7@kmaincent-XPS-13-7390>
-In-Reply-To: <2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
+Subject: Re: [PATCH net-next v5 15/16] net ethtool: net: Let the active time
+ stamping layer be selectable
+Message-ID: <20231010103150.4f4bc187@kmaincent-XPS-13-7390>
+In-Reply-To: <ac520b3b-bf70-4643-a259-83e91dd330a6@broadcom.com>
 References: <20231009155138.86458-1-kory.maincent@bootlin.com>
-        <20231009155138.86458-9-kory.maincent@bootlin.com>
-        <2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
+        <20231009155138.86458-16-kory.maincent@bootlin.com>
+        <ac520b3b-bf70-4643-a259-83e91dd330a6@broadcom.com>
 Organization: bootlin
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -74,74 +74,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 9 Oct 2023 14:20:02 -0700
+On Mon, 9 Oct 2023 14:28:38 -0700
 Florian Fainelli <florian.fainelli@broadcom.com> wrote:
 
-Hello Florian,
-Thanks for your review!
-
-> > +/*
-> > + * Hardware layer of the TIMESTAMPING provider
-> > + * New description layer should have the NETDEV_TIMESTAMPING or
-> > + * PHYLIB_TIMESTAMPING bit set to know which API to use for timestamping.  
+> > +static int ethnl_set_ts_validate(struct ethnl_req_info *req_info,
+> > +				 struct genl_info *info)
+> > +{
+> > +	struct nlattr **tb = info->attrs;
+> > +	const struct net_device_ops *ops = req_info->dev->netdev_ops;
+> > +
+> > +	if (!tb[ETHTOOL_A_TS_LAYER])
+> > +		return 0;
+> > +
+> > +	if (!ops->ndo_hwtstamp_set)
+> > +		return -EOPNOTSUPP;  
 > 
-> If we are talking about hardware layers, then we shall use either 
-> PHY_TIMESTAMPING or MAC_TIMESTAMPING. PHYLIB is the sub-subsystem to 
-> deal with Ethernet PHYs, and netdev is the object through which we 
-> represent network devices, so they are not even quite describing similar 
-> things. If you go with the {PHY,MAC}_TIMESTAMPING suggestion, then I 
-> could see how we could somewhat easily add PCS_TIMESTAMPING for instance.
+> I would check for this first, in all likelihood this is what most 
+> drivers currently do not support, no need to event de-reference the 
+> array of attributes.
 
-I am indeed talking about hardware layers but I updated the name to use NETDEV
-and PHYLIB timestamping for a reason. It is indeed only PHY or MAC timestamping
-for now but it may be expanded in the future to theoretically to 7 layers of
-timestamps possible. Also there may be several possible timestamp within a MAC
-device precision vs volume.
-See the thread of my last version that talk about it:
-https://lore.kernel.org/netdev/20230511203646.ihljeknxni77uu5j@skbuf/
+Indeed seems more logical.
 
-All these possibles timestamps go through exclusively the netdev API or the
-phylib API. Even the software timestamping is done in the netdev driver,
-therefore it goes through the netdev API and then should have the
-NETDEV_TIMESTAMPING bit set.
+> > +static int ethnl_set_ts(struct ethnl_req_info *req_info, struct genl_info
+> > *info) +{
+> > +	struct net_device *dev = req_info->dev;
+> > +	const struct ethtool_ops *ops = dev->ethtool_ops;
+> > +	struct kernel_hwtstamp_config config = {0};
+> > +	struct nlattr **tb = info->attrs;
+> > +	bool mod = false;
+> > +	u32 ts_layer;
+> > +	int ret;
+> > +
+> > +	ts_layer = dev->ts_layer;
 
-> > + */
-> > +enum {
-> > +	NO_TIMESTAMPING = 0,
-> > +	NETDEV_TIMESTAMPING = (1 << 0),
-> > +	PHYLIB_TIMESTAMPING = (1 << 1),
-> > +	SOFTWARE_TIMESTAMPING = (1 << 2) | (1 << 0),  
+> > +
+> > +	if (ts_layer & NETDEV_TIMESTAMPING && !ops->get_ts_info) {
+> > +		NL_SET_ERR_MSG_ATTR(info->extack, tb[ETHTOOL_A_TS_LAYER],
+> > +				    "this device cannot support
+> > timestamping");  
 > 
-> Why do we have to set NETDEV_TIMESTAMPING here, or is this a round-about 
-> way of enumerating 0, 1, 2 and 3?
+> Maybe expand the extended ack with "this devices does not support 
+> MAC-based timestamping"
 
-I answered you above the software timestamping should have the
-NETDEV_TIMESTAMPING bit set as it is done from the net device driver.
+Ok.
 
-What I was thinking is that all the new timestamping should have
-NETDEV_TIMESTAMPING or PHYLIB_TIMESTAMPING set to know which API to pass
-through.
-Like we could add these in the future:
-MAC_DMA_TIMESTAMPING = (2 << 2) | (1 >> 0),
-MAC_PRECISION_TIMESTAMPING = (3 << 2) | (1 >> 0),
-...
-PHY_SFP_TIMESTAMPING = (2 << 2) | (1 << 1),
-...
+> > +	/* Disable time stamping in the current layer. */
+> > +	if (netif_device_present(dev) &&
+> > +	    dev->ts_layer & (PHYLIB_TIMESTAMPING | NETDEV_TIMESTAMPING)) {
+> > +		ret = dev_set_hwtstamp_phylib(dev, &config, info->extack);
+> >  
+> 
+> Can we still land in this function even if no changes to the 
+> timestamping configuration has been made? 
 
+We land in this function every time we change the timestamp from a valid
+one.  
 
-Or maybe do you prefer to use defines like this:
-# define NETDEV_TIMESTAMPING (1 << 0)
-# define PHYLIB_TIMESTAMPING (1 << 1)
+> If so, would suggest first 
+> getting the current configuration and compare it with the user-supplied 
+> configuration if there are no changes, return.
 
-enum {
-	NO_TIMESTAMPING = 0,
-	MAC_TIMESTAMPING = NETDEV_TIMESTAMPING,
-	PHY_TIMESTAMPING = PHYLIB_TIMESTAMPING,
-	SOFTWARE_TIMESTAMPING = (1 << 2) | NETDEV_TIMESTAMPING,
-	...
-	MAC_DMA_TIMESTAMPING = (2 << 2) | NETDEV_TIMESTAMPING,
-	MAC_PRECISION_TIMESTAMPING = (3 << 2) | NETDEV_TIMESTAMPING,
-
-or other idea?
-
-Regards,
+It is already done at the beginning of the function:
+> > +	ethnl_update_u32(&ts_layer, tb[ETHTOOL_A_TS_LAYER], &mod);
+> > +
+> > +	if (!mod)
+> > +		return 0;
