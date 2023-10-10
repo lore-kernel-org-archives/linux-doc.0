@@ -2,93 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37F11CD8CB7
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 751BCCD8CB4
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 20:07:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234337AbjJJT7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 15:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
+        id S234411AbjJJUHb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 16:07:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233571AbjJJT7M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:59:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49F793;
-        Tue, 10 Oct 2023 12:59:10 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 87B1444A;
-        Tue, 10 Oct 2023 19:59:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 87B1444A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696967950; bh=JA8hjFFFGYf/T57XN4WlJmox2mL5lMtyjwDlvY9UAZc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=IBPIE+3pHmYQYIGc/SAGBL/1/FqkBmg98WQpN89EYW0pC2igNp1+tRaBcWIKnL3I1
-         qQnEL/mv1C/doKNzoa56NXXzjULcLirMS/4pdoGoFahaYnAqE/V+0KXQSvIiJhvZcM
-         AEt8JlLrjXuZWyMl3SlGRJ0gmNseZ48hTWfMMcL8PpWPJpYWanpDOKOnSCAmnJIMlt
-         9Qq7e0vTVtR/vvB5OP/rfUgioUUuTkp7eTtojp7fv2f9IfVQbc9oYIkvRY+DX8qhjn
-         DUAq/rvDsTkjHsM+/gnN3P3hKeJOpinlbSB58say6PK0sbcsn0ruD8CWIouR0e0ypR
-         DZqv4meHQu0vA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@infradead.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v2] docs: submitting-patches: encourage direct
- notifications to commenters
-In-Reply-To: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
-References: <20231003-docs-cc-reviewer-v2-1-f93fb946e21e@weissschuh.net>
-Date:   Tue, 10 Oct 2023 13:59:09 -0600
-Message-ID: <8734yi5jw2.fsf@meer.lwn.net>
+        with ESMTP id S234473AbjJJUHR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 16:07:17 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7733F18A;
+        Tue, 10 Oct 2023 13:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696968314; x=1728504314;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=H9zuVNck3hbzlM+dU23Xf2FfdQjpTlHZ5OUi9JbqeCM=;
+  b=iSslj0oBI70rBCe99hRypONITrZMaH+G2Fw36Yc1gvsm/3Ye/fafrTsD
+   YS0cEpV9r5I7sc8QBUtNkMBkI2l3zYwC/udYDrr3Aiqt0137xH2YtfGeF
+   uIY5QJgbzZxyvMwODHIzTdzd9NgW43WCPvZYO3ZKuY36i/9p+H2BFa7/M
+   DC/1DAkuRbqhDx6aEQJbBn5RiRA8CWAPwal6rklfUc7LSt4EKa9gJXi01
+   6cg6l8TtwcyI5/WKFdUQF3LcjtiJ3RqIBGg7DRTMkyRygmT+wcxGNLP1g
+   EUIHAw/x//xk1iz92+0xwnxXxS0FT2pgWki5/fUx8QzW4+bRTA5GFW1hD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374839989"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
+   d="scan'208";a="374839989"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 13:04:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="1000819864"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
+   d="scan'208";a="1000819864"
+Received: from rhaeussl-mobl.ger.corp.intel.com (HELO azaki-desk1.intel.com) ([10.252.42.107])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 13:04:49 -0700
+From:   Ahmed Zaki <ahmed.zaki@intel.com>
+To:     netdev@vger.kernel.org
+Cc:     intel-wired-lan@lists.osuosl.org, corbet@lwn.net,
+        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, vladimir.oltean@nxp.com, andrew@lunn.ch,
+        horms@kernel.org, mkubecek@suse.cz,
+        willemdebruijn.kernel@gmail.com, linux-doc@vger.kernel.org,
+        Ahmed Zaki <ahmed.zaki@intel.com>
+Subject: [PATCH net-next v3 0/6] Support symmetric RSS (Toeplitz) hash
+Date:   Tue, 10 Oct 2023 14:04:31 -0600
+Message-Id: <20231010200437.9794-1-ahmed.zaki@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thomas Wei=C3=9Fschuh <linux@weissschuh.net> writes:
+Patch 1 adds the support at the Kernel level, allowing the user to set a
+symmetric RSS hash for any flow type via:
 
-> Commenters may not receive new versions of patches via the lists.
-> Without a directed notification to them they might miss those new
-> versions.
->
-> This is frustrating for the patch developers as they don't receive their
-> earned Reviewed-by.
-> It is also frustrating for the commenters, as they might think their
-> review got ignored or they have to dig up new versions from the archive
-> manually.
->
-> So encourage patch submitters to make sure that all commenters get
-> notified also when no Reviewed-by was issued yet.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
-> Changes in v2:
-> - s/reviewer/commenter/ to avoid ambiguity (Christoph)
-> - Link to v1: https://lore.kernel.org/r/20230927-docs-cc-reviewer-v1-1-2a=
-f46ceb2d3c@weissschuh.net
-> ---
->  Documentation/process/submitting-patches.rst | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation=
-/process/submitting-patches.rst
-> index efac910e2659..3245b7b38b98 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -327,6 +327,8 @@ politely and address the problems they have pointed o=
-ut.  When sending a next
->  version, add a ``patch changelog`` to the cover letter or to individual =
-patches
->  explaining difference against previous submission (see
->  :ref:`the_canonical_patch_format`).
-> +Notify people that commented on your patch about new versions by adding =
-them to
-> +the patches CC list.
+    # ethtool -N|-U eth0 rx-flow-hash <flow_type> s|d|f|n symmetric-xor
 
-Applied, thanks.
+Support for the new "symmetric-xor" flag will be later sent to the
+"ethtool" user-space tool.
 
-jon
+Patch 2 fixes a long standing bug with the register values. The bug has
+been benign for now since only (asymmetric) Toeplitz hash (Zero) has been
+used.
+
+Patches 3 and 4 lay some groundwork refactoring. While the first is
+mainly cosmetic, the second is needed since there is no more room in the
+previous 64-bit RSS profile ID for the symmetric attribute introduced in 
+the next patch.
+
+Finally, patches 5 and 6 add the symmetric Toeplitz support for the ice 
+(E800 PFs) and the iAVF drivers.
+
+---
+v3: rename "symmetric" to "symmetric-xor" and drop "Fixes" tag in patch 2.
+v2: fixed a "Reviewed by" to "Reviewed-by", also need to cc maintainers.
+
+Ahmed Zaki (4):
+  net: ethtool: allow symmetric-xor RSS hash for any flow type
+  ice: fix ICE_AQ_VSI_Q_OPT_RSS_* register values
+  ice: refactor the FD and RSS flow ID generation
+  iavf: enable symmetric RSS Toeplitz hash
+
+Jeff Guo (1):
+  ice: enable symmetric RSS Toeplitz hash for any flow type
+
+Qi Zhang (1):
+  ice: refactor RSS configuration
+
+ Documentation/networking/scaling.rst          |   6 +
+ .../net/ethernet/intel/iavf/iavf_adv_rss.c    |   8 +-
+ .../net/ethernet/intel/iavf/iavf_adv_rss.h    |   3 +-
+ .../net/ethernet/intel/iavf/iavf_ethtool.c    |  22 +-
+ drivers/net/ethernet/intel/ice/ice.h          |   2 +
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |   8 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |   1 +
+ drivers/net/ethernet/intel/ice/ice_ethtool.c  |  14 +-
+ .../net/ethernet/intel/ice/ice_ethtool_fdir.c |  35 +-
+ .../net/ethernet/intel/ice/ice_flex_pipe.c    |  43 +-
+ .../net/ethernet/intel/ice/ice_flex_pipe.h    |   4 +-
+ .../net/ethernet/intel/ice/ice_flex_type.h    |   7 +
+ drivers/net/ethernet/intel/ice/ice_flow.c     | 439 +++++++++++++-----
+ drivers/net/ethernet/intel/ice/ice_flow.h     |  46 +-
+ .../net/ethernet/intel/ice/ice_hw_autogen.h   |   4 +
+ drivers/net/ethernet/intel/ice/ice_lib.c      | 117 ++---
+ drivers/net/ethernet/intel/ice/ice_main.c     |  49 +-
+ drivers/net/ethernet/intel/ice/ice_type.h     |   1 +
+ drivers/net/ethernet/intel/ice/ice_virtchnl.c |  55 ++-
+ .../ethernet/intel/ice/ice_virtchnl_fdir.c    |  35 +-
+ include/linux/avf/virtchnl.h                  |  16 +-
+ include/uapi/linux/ethtool.h                  |  17 +-
+ net/ethtool/ioctl.c                           |  11 +
+ 23 files changed, 637 insertions(+), 306 deletions(-)
+
+-- 
+2.34.1
+
