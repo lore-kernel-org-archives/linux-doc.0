@@ -2,70 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59914E95A8F
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 10:13:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60622CD80A3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 10:41:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbjJJKNK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 06:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59142 "EHLO
+        id S230453AbjJJKle (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 06:41:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229892AbjJJKNI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 06:13:08 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0934A99;
-        Tue, 10 Oct 2023 03:13:04 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3B782240010;
-        Tue, 10 Oct 2023 10:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696932783;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=tUJNRfjUuKDFIex/FlVkBB3IJFXVfYCMFME1OSx+B1Q=;
-        b=ooMZcpQQ9d+EZTwSj4Ex/lkRdL5BVBOV/mrBbIZ3BpTjcbG6JWrDXoTX18T/WTyoRkLVWK
-        Ui1KsmIrLO0e58CyJfmXa1EPjj6hT1+xZ0foZI7Qe+g6ndpyxdT78rigRFF8y/kn5ReIgX
-        Uk8h14kB6mb6I/S3AHgnZPmYDXQqPILahEhNbmgO8EWdATehaN677V+prOn2LWFo5I8pFP
-        2ZejcQt6wNfXe8xsDVAcfpZZqhAYWtHGOs48NzT/LnnLG5XjV/eLuArgVrXHfu+RjOeZxR
-        YKcgTv73SEJb5GYitNWi7/22TLOzchudYSSFdsiP05XNA62nEyQXHf4aZD8Mlg==
-Date:   Tue, 10 Oct 2023 12:13:01 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     linux-i3c@lists.infradead.org,
-        Matt Johnston <matt@codeconstruct.com.au>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
+        with ESMTP id S230110AbjJJKlc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 06:41:32 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E4D219E;
+        Tue, 10 Oct 2023 03:41:30 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51FED1FB;
+        Tue, 10 Oct 2023 03:42:11 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1DFA53F762;
+        Tue, 10 Oct 2023 03:41:28 -0700 (PDT)
+From:   James Clark <james.clark@arm.com>
+To:     linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, suzuki.poulose@arm.com
+Cc:     James Clark <james.clark@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Conor Culhane <conor.culhane@silvaco.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] i3c: Fix typo "Provisional ID" to "Provisioned ID"
-Message-ID: <169693275141.1756460.10774272832837669579.b4-ty@bootlin.com>
-References: <20231003075339.197099-1-matt@codeconstruct.com.au>
+        Russell King <linux@armlinux.org.uk>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Zaid Al-Bassam <zalbassam@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Reiji Watanabe <reijiw@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: [PATCH v2 0/3] arm64: perf: Add support for event counting threshold
+Date:   Tue, 10 Oct 2023 11:40:26 +0100
+Message-Id: <20231010104048.1923484-1-james.clark@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231003075339.197099-1-matt@codeconstruct.com.au>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Changes since v1:
 
-On Tue, 03 Oct 2023 15:53:39 +0800, Matt Johnston wrote:
-> The MIPI I3C spec refers to a Provisioned ID, since it is (sometimes)
-> provisioned at device manufacturing.
-> 
-> 
+  * Fix build on aarch32 by disabling FEAT_PMUv3_TH and splitting event
+    type mask between the platforms
+  * Change armv8pmu_write_evtype() to take unsigned long instead of u64
+    so it isn't unnecessarily wide on aarch32
+  * Add UL suffix to aarch64 event type mask definition
 
-Applied, thanks!
+----
 
-[1/1] i3c: Fix typo "Provisional ID" to "Provisioned ID"
-      commit: 57ec42b9a1b7e4db4a1c2aa4fcc4eefe6d31bcb8
+FEAT_PMUv3_TH (Armv8.8) is a new feature that allows conditional
+counting of PMU events depending on how much the event increments on
+a single cycle. Two new config fields for perf_event_open have been
+added, and a PMU cap file for reading the max_threshold. See the second
+commit message and the docs in the last commit for more details.
 
-Best regards,
+The change has been validated on the Arm FVP model:
 
+  # Zero values, works as expected (as before).
+  $ perf stat -e dtlb_walk/threshold=0,threshold_control=0/ -- true
+
+    5962      dtlb_walk/threshold=0,threshold_control=0/
+
+  # Threshold >= 255 causes count to be 0 because dtlb_walk doesn't
+  # increase by more than 1 per cycle.
+  $ perf stat -e dtlb_walk/threshold=255,threshold_control=5/ -- true
+
+    0      dtlb_walk/threshold=255,threshold_control=5/
+  
+  # Keeping comparison as >= but lowering the threshold to 1 makes the
+  # count return.
+  $ perf stat -e dtlb_walk/threshold=1,threshold_control=5/ -- true
+
+    6329      dtlb_walk/threshold=1,threshold_control=5/
+
+
+James Clark (3):
+  arm: perf: Include threshold control fields valid in PMEVTYPER mask
+  arm64: perf: Add support for event counting threshold
+  Documentation: arm64: Document the PMU event counting threshold
+    feature
+
+ Documentation/arch/arm64/perf.rst  | 58 ++++++++++++++++++++++++++
+ arch/arm/include/asm/arm_pmuv3.h   |  3 ++
+ arch/arm64/include/asm/arm_pmuv3.h |  4 ++
+ arch/arm64/kvm/pmu-emul.c          |  1 +
+ arch/arm64/kvm/sys_regs.c          |  1 +
+ drivers/perf/arm_pmuv3.c           | 67 +++++++++++++++++++++++++++++-
+ include/linux/perf/arm_pmuv3.h     |  4 +-
+ 7 files changed, 136 insertions(+), 2 deletions(-)
+
+
+base-commit: 94f6f0550c625fab1f373bb86a6669b45e9748b3
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
