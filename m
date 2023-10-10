@@ -2,76 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C8CCD8CB5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:35:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A02CCD8CB6
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231596AbjJJTf3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 15:35:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56472 "EHLO
+        id S1343689AbjJJTsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 15:48:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234244AbjJJTf2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:35:28 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E85D9E;
-        Tue, 10 Oct 2023 12:35:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291F7C433C7;
-        Tue, 10 Oct 2023 19:35:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696966526;
-        bh=8EHPRgirzBiJes33JSRoN7IC6prLFO+uAYksJIDNzpc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KaR5+jwpzQypOv9MUN1bldww4jz9YtWLf8ZLYV6Okb/7/ibkkdDUKYoB/HwHwkgxr
-         UHwqpGax6G+OLEskxUpcrFodUgvOVD16GOxQ1V4P3ZHq+w9vksHfcKNFWn4T6JDVfA
-         kLDtomQ1q1YoCeiytZcWZW5wdBH04C6RaY2yyzpo=
-Date:   Tue, 10 Oct 2023 15:35:25 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs/zh_TW: update contents for zh_TW
-Message-ID: <20231010-helping-pajamas-dee038@meerkat>
-References: <20231010050727.49212-1-src.res.211@gmail.com>
- <87a5sq70uy.fsf@meer.lwn.net>
+        with ESMTP id S1343611AbjJJTsA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:48:00 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA298E;
+        Tue, 10 Oct 2023 12:47:59 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 854832B2;
+        Tue, 10 Oct 2023 19:47:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 854832B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1696967278; bh=cSAnQCe5ozuzSh9BgixGZxQQjWIwqW45PYOSq7td7vo=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=CbxkbiA2JrjJ87nEvlpd4zsoRbQ4ntUP79tUocWMU9pnJORSrhJCLX37LCi/7ltAo
+         WITACmB4Vlc/964LfUkHgKAF9Y25q5avKFSEcIZ4iZePafCyT4fZ64bvCM64UqBSPS
+         GeGG1lnoJc8IZPoO3YsEYb0B8F5xlys1t70DBIlhp11QUSPjO6vf4Qen522cRhr4ft
+         QzOe7XMIiED2pE+VUcRO3Nu9d2JikRoa6DEM+8obm4ubqwWHuXyB9tVmQAVWDMsypm
+         8o5FZmBcAuol5goJcN6q8iJTK5zIMfq7Mi4Yneo6cunyfjVCZBdeKJ0gLZUzDNlPge
+         ItpJaDMhQrsHA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Evan Green <evan@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Andy Chiu <andy.chiu@sifive.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Charlie Jenkins <charlie@rivosinc.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v1] docs: move riscv under arch
+In-Reply-To: <20230930185354.3034118-1-costa.shul@redhat.com>
+References: <87h6nbka8x.fsf@meer.lwn.net>
+ <20230930185354.3034118-1-costa.shul@redhat.com>
+Date:   Tue, 10 Oct 2023 13:47:57 -0600
+Message-ID: <87jzru5keq.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87a5sq70uy.fsf@meer.lwn.net>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 01:07:17PM -0600, Jonathan Corbet wrote:
-> > This is a thorough rewrite of the previous patch:
-> >     https://lore.kernel.org/linux-doc/20230807120006.6361-1-src.res.211@gmail.com/
-> > in order to get rid of text damage and merging errors, created based on
-> > linux-next (date: Oct. 9, 2023).
-> >
-> > Signed-off-by: Hu Haowen <src.res.211@gmail.com>
-> 
-> So this patch still isn't showing up in lore, with the result that b4
-> will not work with it.  The thing is, it *does* make it through vger,
-> and has landed in the LWN archive:
-> 
->   https://lwn.net/ml/linux-kernel/20231010050727.49212-1-src.res.211%40gmail.com/
-> 
-> Might lore be dropping it because it consists of one big attachment?
+Costa Shulyupin <costa.shul@redhat.com> writes:
 
-There's a moderation queue on lore for lists that aren't going through
-subspace, and this patch was stuck there. The queue does get reviewed once
-every 2-3 days, which explains why the others showed up, but with delay.
+> and fix all in-tree references.
+>
+> Architecture-specific documentation is being moved into Documentation/arch/
+> as a way of cleaning up the top-level documentation directory and making
+> the docs hierarchy more closely match the source hierarchy.
+>
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+>
 
-> Putting your patches inline would be the right thing to do in any case.
+Applied, thanks.
 
-I'm not sure if your client is showing it differently, but to me the patch
-appears to be just like any other -- it's inline and properly formed.
+This is the last of the arch moves!  Thanks again for helping push this
+through to a conclusion.
 
-> Rather than force another round, I've tried to the patch directly (but
-> see below), but it would be good to figure out why lore doesn't like it.
-> Konstantin, any ideas?
-
-If you like, we can migrate linux-doc to the new infrastructure and then you
-will probably see it on lore faster than it's delivered into your inbox. :)
-
-Either way, b4 should properly find and "am" it now.
-
--K
+jon
