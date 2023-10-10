@@ -2,130 +2,285 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7676CD8CA6
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 15:52:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2C7CD8CA7
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 16:09:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229833AbjJJPwj convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 11:52:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58254 "EHLO
+        id S233673AbjJJQJE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 12:09:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233489AbjJJPwi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 11:52:38 -0400
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A62D293;
-        Tue, 10 Oct 2023 08:52:35 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d9a518d66a1so1217589276.0;
-        Tue, 10 Oct 2023 08:52:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696953154; x=1697557954;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y5v3FkTbsb5hlPcYZ5mv1Oy8Tmvc6KnvkZoVnkmSSDg=;
-        b=k3pJ23ONIHrCNoDUe28TRszODo7jcEY1U5HarBRcVHFW4hkHEFtyN0CH8q8NvnssUa
-         dLWBuyYfgZYgVA9V+VpGdU8KVDOgDeBHg96CUt+m60G/Oxx9za6xI+dldsDPs03/ZTqv
-         qHlGT1SEbNi8/1K8BHIXYLF6IYMoPAzGkp4NZvq2/XeutSjMtzannYt/41fnQ2TkcWmh
-         RDad+nwvB3dGS9YVxRr0AFDbfzPUf4mUtZIGBZKQ2sHTYpLObwG4JqKX0msSsj1STQmZ
-         TP/+Y+/HzgpXIiNRYUwJDD++OWqF+6dq06AKDx1C8UieuJ9PrDBBqi2Y164a6wm+zI1O
-         y9oA==
-X-Gm-Message-State: AOJu0Yxg6gp0dBmFECk37V5KmqfOdntOHMxByWtjR70QehCNe1Zq4jDx
-        qMQLBRvo38Q1G1JxjH3i43HCTrfdah1kcQ==
-X-Google-Smtp-Source: AGHT+IFt0vKNtPkILiaAeP/D0jfhIzsY2LwiAXkwDw5v00zw7f43GtXDGyssFhelJmu6ro0DhEzdIg==
-X-Received: by 2002:a25:cb90:0:b0:d81:65a9:ac6c with SMTP id b138-20020a25cb90000000b00d8165a9ac6cmr18084788ybg.24.1696953154595;
-        Tue, 10 Oct 2023 08:52:34 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id 64-20020a250a43000000b00d814d8dfd69sm3844650ybk.27.2023.10.10.08.52.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Oct 2023 08:52:34 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5a505762c9dso71494297b3.2;
-        Tue, 10 Oct 2023 08:52:34 -0700 (PDT)
-X-Received: by 2002:a0d:d546:0:b0:58f:a19f:2b79 with SMTP id
- x67-20020a0dd546000000b0058fa19f2b79mr20030944ywd.9.1696953154216; Tue, 10
- Oct 2023 08:52:34 -0700 (PDT)
+        with ESMTP id S233732AbjJJQI4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 12:08:56 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53813E9;
+        Tue, 10 Oct 2023 09:08:53 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCA74C15;
+        Tue, 10 Oct 2023 09:09:33 -0700 (PDT)
+Received: from [10.57.3.103] (unknown [10.57.3.103])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B788C3F7A6;
+        Tue, 10 Oct 2023 09:08:50 -0700 (PDT)
+Message-ID: <c0e2fafd-08af-c0db-bfec-74a4d2457050@arm.com>
+Date:   Tue, 10 Oct 2023 17:08:49 +0100
 MIME-Version: 1.0
-References: <20231009225637.3785359-1-kuba@kernel.org> <2403fd80-e32c-4e5b-a215-55c7bb88df8d@kernel.org>
-In-Reply-To: <2403fd80-e32c-4e5b-a215-55c7bb88df8d@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Oct 2023 17:52:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXXO3jHWkry6NNuvF_nQkvfb87b_Ca8E_so=1LWghrV9w@mail.gmail.com>
-Message-ID: <CAMuHMdXXO3jHWkry6NNuvF_nQkvfb87b_Ca8E_so=1LWghrV9w@mail.gmail.com>
-Subject: Re: [PATCH net-next] docs: try to encourage (netdev?) reviewers
-To:     Matthieu Baerts <matttbe@kernel.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-        netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, andrew@lunn.ch,
-        jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
-        przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
-        jiri@resnulli.us, ecree.xilinx@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 2/3] arm64: perf: Add support for event counting
+ threshold
+Content-Language: en-US
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Reiji Watanabe <reijiw@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Zaid Al-Bassam <zalbassam@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvmarm@lists.linux.dev
+References: <20231010104048.1923484-1-james.clark@arm.com>
+ <20231010104048.1923484-3-james.clark@arm.com>
+ <c978b02b-2c82-06a6-f63a-67729524bf6c@arm.com>
+From:   James Clark <james.clark@arm.com>
+In-Reply-To: <c978b02b-2c82-06a6-f63a-67729524bf6c@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matt,
 
-On Tue, Oct 10, 2023 at 5:19 PM Matthieu Baerts <matttbe@kernel.org> wrote:
-> On 10/10/2023 00:56, Jakub Kicinski wrote:
-> > Add a section to netdev maintainer doc encouraging reviewers
-> > to chime in on the mailing list.
-> >
-> > The questions about "when is it okay to share feedback"
-> > keep coming up (most recently at netconf) and the answer
-> > is "pretty much always".
-> >
-> > Extend the section of 7.AdvancedTopics.rst which deals
-> > with reviews a little bit to add stuff we had been recommending
-> > locally.
->
-> Good idea to encourage everybody to review, even the less experimented
-> ones. That might push me to send more reviews, even when I don't know
-> well the area that is being modified, thanks! :)
->
-> (...)
->
-> > diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
-> > index bf7cbfb4caa5..415749feed17 100644
-> > --- a/Documentation/process/7.AdvancedTopics.rst
-> > +++ b/Documentation/process/7.AdvancedTopics.rst
-> > @@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
-> >  format the request as other developers expect, and will also check to be
-> >  sure that you have remembered to push those changes to the public server.
-> >
-> > +.. _development_advancedtopics_reviews:
-> >
-> >  Reviewing patches
-> >  -----------------
-> > @@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
-> >  get released in this path?" will always work better than stating "the
-> >  locking here is wrong."
->
-> The paragraph just above ("it is OK to question the code") is very nice!
-> When I'm cced on some patches modifying some code I'm not familiar with
-> and there are some parts that look "strange" to me, I sometimes feel
-> like I only have two possibilities: either I spend quite some time
-> understanding that part or I give up if I don't have such time. I often
-> feel like I cannot say "I don't know well this part, but this looks
-> strange to me: are you sure it is OK to do that in such conditions?",
-> especially when the audience is large and/or the author of the patch is
-> an experienced developer.
 
-Yes you can (even experienced developers can make mistakes ;-)!
+On 10/10/2023 16:00, Suzuki K Poulose wrote:
+> On 10/10/2023 11:40, James Clark wrote:
+>> FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
+>> events whose count meets a specified threshold condition. For example if
+>> PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
+>> equal, count), and the threshold is set to 2, then the PMU counter will
+>> now only increment by 1 when an event would have previously incremented
+>> the PMU counter by 2 or more on a single processor cycle.
+>>
+>> Two new Perf event config fields, 'threshold' and 'threshold_control'
+>> have been added for controlling the feature:
+>>
+>>    $ perf stat -e stall_slot/threshold=2,threshold_control=5/
+>>
+>> A new capability for reading out the maximum supported threshold value
+>> has also been added:
+>>
+>>    $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
+>>
+>>    0x000000ff
+>>
+>> If a threshold higher than threshold_max is provided, then no error is
+>> generated but the threshold is clamped to the max value. If
+>> FEAT_PMUv3_TH isn't implemented or a 32 bit kernel is running, then
+>> threshold_max reads zero, and neither the 'threshold' nor
+>> 'threshold_control' parameters will be used.
+>>
+>> The threshold is per PMU counter, and there are potentially different
+>> threshold_max values per PMU type on heterogeneous systems.
+>>
+>> Bits higher than 32 now need to be written into PMEVTYPER, so
+>> armv8pmu_write_evtype() has to be updated to take an unsigned long value
+>> rather than u32 which gives the correct behavior on both aarch32 and 64.
+>>
+>> Signed-off-by: James Clark <james.clark@arm.com>
+>> ---
+>>   drivers/perf/arm_pmuv3.c       | 67 +++++++++++++++++++++++++++++++++-
+>>   include/linux/perf/arm_pmuv3.h |  1 +
+>>   2 files changed, 67 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+>> index 8fcaa26f0f8a..6d669b16a2bc 100644
+>> --- a/drivers/perf/arm_pmuv3.c
+>> +++ b/drivers/perf/arm_pmuv3.c
+>> @@ -15,6 +15,7 @@
+>>   #include <clocksource/arm_arch_timer.h>
+>>     #include <linux/acpi.h>
+>> +#include <linux/bitfield.h>
+>>   #include <linux/clocksource.h>
+>>   #include <linux/of.h>
+>>   #include <linux/perf/arm_pmu.h>
+>> @@ -294,9 +295,16 @@ static const struct attribute_group
+>> armv8_pmuv3_events_attr_group = {
+>>       .is_visible = armv8pmu_event_attr_is_visible,
+>>   };
+>>   +#define TH_LO    2
+>> +#define TH_HI    13
+>> +#define TH_CNTL_LO    14
+>> +#define TH_CNTL_HI    16
+>> +
+>>   PMU_FORMAT_ATTR(event, "config:0-15");
+>>   PMU_FORMAT_ATTR(long, "config1:0");
+>>   PMU_FORMAT_ATTR(rdpmc, "config1:1");
+>> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(TH_LO) "-"
+>> __stringify(TH_HI));
+>> +PMU_FORMAT_ATTR(threshold_control, "config1:" __stringify(TH_CNTL_LO)
+>> "-" __stringify(TH_CNTL_HI));
+> 
+> 
+>>     static int sysctl_perf_user_access __read_mostly;
+>>   @@ -310,10 +318,22 @@ static inline bool
+>> armv8pmu_event_want_user_access(struct perf_event *event)
+>>       return event->attr.config1 & 0x2;
+>>   }
+>>   +static inline u32 armv8pmu_event_threshold(struct perf_event_attr
+>> *attr)
+>> +{
+>> +    return FIELD_GET(GENMASK(TH_HI, TH_LO), attr->config1);
+>> +}
+>> +
+>> +static inline u8 armv8pmu_event_threshold_control(struct
+>> perf_event_attr *attr)
+>> +{
+>> +    return FIELD_GET(GENMASK(TH_CNTL_HI, TH_CNTL_LO), attr->config1);
+>> +}
+>> +
+>>   static struct attribute *armv8_pmuv3_format_attrs[] = {
+>>       &format_attr_event.attr,
+>>       &format_attr_long.attr,
+>>       &format_attr_rdpmc.attr,
+> 
+>> +    &format_attr_threshold.attr,
+>> +    &format_attr_threshold_control.attr,
+> 
+> Given this is not supported for !CONFIG_ARM64, does it make sense to
+> remove them for that case, given we already take care of this in
+> the code using IS_ENABLED(CONFIG_ARM64) ? The nice part is that
+> the arm32 doesn't see something that is never usable. I understand
+> the maxthreshold=0 already gives out the hint.
 
-If it is not obvious that something is safe, it is better to point it
-out, so the submitter (or someone else) can give it a (second) thought.
-In case it is safe, and you didn't miss the ball completely, it probably
-warrants a comment in the code, or an improved patch description.
+I thought about it, but wouldn't it just move the IS_ENABLED somewhere
+else? I think it's messier on the kernel side to conditionally show or
+hide these files.
 
-Gr{oetje,eeting}s,
+From the userspace side, they already have to handle both cases of the
+missing file (old kernels) and a zero value. So I can't really see a
+difference that makes it worthwhile to change.
 
-                        Geert
+Unless there is some kind of precedent to hiding sysfs files for
+unavailable features? I mean maybe in that case you would also say to
+hide the files if max width was 0 even on aarch64? If we don't want to
+show things that aren't usable?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+One other note that may not be obvious: the IS_ENABLED(CONFIG_ARM64) is
+only needed to make the build succeed by not shifting things above 32
+bits. Because the compiler couldn't see that threshold_max() always
+returns 0 on aarch32. If it could then only one IS_ENABLED(CONFIG_ARM)
+would be needed in threshold_max(). Although that's not really related
+to showing or hiding the files.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> Rest looks fine to me.
+> 
+>>       NULL,
+>>   };
+>>   @@ -365,10 +385,38 @@ static ssize_t bus_width_show(struct device
+>> *dev, struct device_attribute *attr,
+>>     static DEVICE_ATTR_RO(bus_width);
+>>   +static u32 threshold_max(struct arm_pmu *cpu_pmu)
+>> +{
+>> +    /*
+>> +     * PMMIR.WIDTH is readable and non-zero on aarch32, but it would be
+>> +     * impossible to write the threshold in the upper 32 bits of
+>> PMEVTYPER.
+>> +     */
+>> +    if (IS_ENABLED(CONFIG_ARM))
+>> +        return 0;
+>> +
+>> +    /*
+>> +     * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
+>> +     * (2 ^ PMMIR.THWIDTH) - 1.
+>> +     */
+>> +    return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
+>> +}
+>> +
+>> +static ssize_t threshold_max_show(struct device *dev,
+>> +                  struct device_attribute *attr, char *page)
+>> +{
+>> +    struct pmu *pmu = dev_get_drvdata(dev);
+>> +    struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
+>> +
+>> +    return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
+>> +}
+>> +
+>> +static DEVICE_ATTR_RO(threshold_max);
+>> +
+>>   static struct attribute *armv8_pmuv3_caps_attrs[] = {
+>>       &dev_attr_slots.attr,
+>>       &dev_attr_bus_slots.attr,
+>>       &dev_attr_bus_width.attr,
+>> +    &dev_attr_threshold_max.attr,
+> 
+> Similarly here and could avoid the IS_ENABLED(CONFIG_ARM) above.
+
+I don't think it can be avoided entirely, just moved somewhere else.
+
+> 
+> Suzuki
+> 
+> 
+>>       NULL,
+>>   };
+>>   @@ -552,7 +600,7 @@ static void armv8pmu_write_counter(struct
+>> perf_event *event, u64 value)
+>>           armv8pmu_write_hw_counter(event, value);
+>>   }
+>>   -static inline void armv8pmu_write_evtype(int idx, u32 val)
+>> +static inline void armv8pmu_write_evtype(int idx, unsigned long val)
+>>   {
+>>       u32 counter = ARMV8_IDX_TO_COUNTER(idx);
+>>   @@ -914,6 +962,10 @@ static int armv8pmu_set_event_filter(struct
+>> hw_perf_event *event,
+>>                        struct perf_event_attr *attr)
+>>   {
+>>       unsigned long config_base = 0;
+>> +    struct perf_event *perf_event = container_of(attr, struct
+>> perf_event,
+>> +                             attr);
+>> +    struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
+>> +    u32 th, th_max;
+>>         if (attr->exclude_idle)
+>>           return -EPERM;
+>> @@ -945,6 +997,19 @@ static int armv8pmu_set_event_filter(struct
+>> hw_perf_event *event,
+>>       if (attr->exclude_user)
+>>           config_base |= ARMV8_PMU_EXCLUDE_EL0;
+>>   +    /*
+>> +     * Insert event counting threshold (FEAT_PMUv3_TH) values. If
+>> +     * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max)
+>> will be
+>> +     * 0 and no values will be written.
+>> +     */
+>> +    th_max = threshold_max(cpu_pmu);
+>> +    if (IS_ENABLED(CONFIG_ARM64) && th_max) {
+>> +        th = min(armv8pmu_event_threshold(attr), th_max);
+>> +        config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
+>> +        config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
+>> +                      armv8pmu_event_threshold_control(attr));
+>> +    }
+>> +
+>>       /*
+>>        * Install the filter into config_base as this is used to
+>>        * construct the event type.
+>> diff --git a/include/linux/perf/arm_pmuv3.h
+>> b/include/linux/perf/arm_pmuv3.h
+>> index ec3a01502e7c..753f8dbd9d10 100644
+>> --- a/include/linux/perf/arm_pmuv3.h
+>> +++ b/include/linux/perf/arm_pmuv3.h
+>> @@ -255,6 +255,7 @@
+>>   #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
+>>   #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
+>>   #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
+>> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
+>>     /*
+>>    * This code is really good
+> 
