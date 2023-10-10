@@ -1,398 +1,181 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2045E354E1;
-	Tue, 10 Oct 2023 22:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BEF354E8;
+	Tue, 10 Oct 2023 22:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VELRPuo4"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3581189;
-	Tue, 10 Oct 2023 15:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696976885; x=1728512885;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ls5dTIwY9SExragtwCKiEHREQnZIGV0jhQsOapCE07k=;
-  b=VELRPuo49Qp0I/bttBY9/HcRAcri5g/WYoEUT8aVMO6X/JpWzu3DCuEH
-   AR/dPmkZhWcgwf6L5/vTyd1Ce3V/dN2Pb1zWsLKuF4ALigcJXlSBGgUP4
-   9yOEt7VVgQMEY2IaP1yLt6hkW0gGW/1wWr7JaifhFSCBHInPYkk5RMRRy
-   EEmFtCFK6prKh/20Wpl1N5Nxi14Prq9acZjquio6en/i4qyatVbQ9wiZp
-   1rzxHwc2YJsZdlRIKt/OTN3wNB7Nx2zeXUWlwDzv1pHZfiTdNgAXg6/RU
-   CtXXFJeTiSz69HWbjDxWjcuXPx2rSFXFqiGfH60W+7AZ7UmXDGHslJw/K
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="388388031"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="388388031"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 15:27:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="788752394"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="788752394"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 10 Oct 2023 15:27:30 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqLCK-0001IU-1q;
-	Tue, 10 Oct 2023 22:27:28 +0000
-Date: Wed, 11 Oct 2023 06:26:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Krishna Kurapati <quic_kriskura@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
-	onathan Corbet <corbet@lwn.net>,
-	Linyu Yuan <quic_linyyuan@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_ppratap@quicinc.com, quic_wcheng@quicinc.com,
-	quic_jackp@quicinc.com,
-	Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
- wMaxSegmentSize via configfs
-Message-ID: <202310110658.n9yg3tJy-lkp@intel.com>
-References: <20231009142005.21338-2-quic_kriskura@quicinc.com>
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="cGmhP0xv"
+Received: from BN3PR00CU001.outbound.protection.outlook.com (mail-eastus2azon11020003.outbound.protection.outlook.com [52.101.56.3])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4F99D;
+	Tue, 10 Oct 2023 15:59:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HyBQkGg1osgjoHfy1fQDgvqLLK/zYfk7k3U9i+iKiHfzhTrKe+ljSy4ssg6f83IlsK6F3qDDI+PnxArbsHiu2hX+6ZPivS5yx8yyaVLbBK7AJA4p5SRZe0lJfj6IAXuYGhPmFfiIER0ZMJV9aSK4BYjQK0Bok+XQz/rZGy7d17tH9yEZaYvmHZiM0BcN2vnJaA3zPvVZead6ZqKHT9fiqwgb79jWv6WPRfXRqPzBB1DqHelGSjBsGxTXewXnPEkcf/g5yMS66B2cN8P8/jfmAZPix3oSLhHpZSSkHobvbhgxKs7y/hzt1LSeTsIqxfxT/9uFi1A165SVKRKs41UUNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qG1wrcYV+FugtlnJ5t2WuJdzziGL5mNzg5UCIsV+JII=;
+ b=SqHaI25bhGf8nCsdkG08kZcn+GmaK6ngZxN9DKVGcZq3nZ5cbdmWEPJV4fwbO/PXhq688CLvb44yxTIWR0vu5skiqHRQU8Dt0smeoBCnVQyFnVFE9AX5G2cFRepo8D/5IgwOAm5ovbUBXgmbI9mnPKv1tntKQW45Z7k1YJSiDUOAgtKAjl4Bg18FgbFyxfMj+DJ9EzbAkd6lQSsd4Hrg5QsKCQYZXkn+n/saQaiYxwTzibeKV4bSDWsAhMXY8J6Nj9/1yTh6u57iC5swA6aOFwgfBgKZyzF8KJ7vQvTUIIqIAl1c7AJQaE4dR1HPrRH4uivGFlmqqBADaII+wfZG3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qG1wrcYV+FugtlnJ5t2WuJdzziGL5mNzg5UCIsV+JII=;
+ b=cGmhP0xvXArEuUG1F5xYnDDHy8RUWVWFzKi5D1WIoWQMke2i+A9zFaNKY569nr+qhoK3ZqafmWZx7etx00XrFJbzH30+aIVVt3VucacA8/4QXH/vG58HLEc7OG13gsP2fcJhUNf3GXm+CZVOOaUu42MIgZZBseIKoY5xcOmA9as=
+Received: from PH7PR21MB3116.namprd21.prod.outlook.com (2603:10b6:510:1d0::10)
+ by SA0PR21MB1995.namprd21.prod.outlook.com (2603:10b6:806:e5::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.5; Tue, 10 Oct
+ 2023 22:59:50 +0000
+Received: from PH7PR21MB3116.namprd21.prod.outlook.com
+ ([fe80::36cd:bd05:8d58:e8f0]) by PH7PR21MB3116.namprd21.prod.outlook.com
+ ([fe80::36cd:bd05:8d58:e8f0%4]) with mapi id 15.20.6907.003; Tue, 10 Oct 2023
+ 22:59:50 +0000
+From: Haiyang Zhang <haiyangz@microsoft.com>
+To: Yuchung Cheng <ycheng@google.com>, Stephen Hemminger
+	<stephen@networkplumber.org>
+CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, KY Srinivasan
+	<kys@microsoft.com>, "davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
+	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "dsahern@kernel.org" <dsahern@kernel.org>,
+	"ncardwell@google.com" <ncardwell@google.com>, "kuniyu@amazon.com"
+	<kuniyu@amazon.com>, "morleyd@google.com" <morleyd@google.com>,
+	"mfreemon@cloudflare.com" <mfreemon@cloudflare.com>, "mubashirq@google.com"
+	<mubashirq@google.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "weiwan@google.com" <weiwan@google.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH net-next,v2] tcp: Set pingpong threshold via sysctl
+Thread-Topic: [PATCH net-next,v2] tcp: Set pingpong threshold via sysctl
+Thread-Index: AQHZ+69YvRb6AGIE90C77PuAO4ZvjLBDlskAgAADo4CAAAYaoA==
+Date: Tue, 10 Oct 2023 22:59:49 +0000
+Message-ID:
+ <PH7PR21MB3116FC142CAECCD5D981C530CACDA@PH7PR21MB3116.namprd21.prod.outlook.com>
+References: <1696965810-8315-1-git-send-email-haiyangz@microsoft.com>
+ <20231010151404.3f7faa87@hermes.local>
+ <CAK6E8=c576Gt=G9Wdk0gQi=2EiL_=6g1SA=mJ3HhzPCsLRk9tw@mail.gmail.com>
+In-Reply-To:
+ <CAK6E8=c576Gt=G9Wdk0gQi=2EiL_=6g1SA=mJ3HhzPCsLRk9tw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8862c3e6-e547-4c47-892c-bd0af48f5846;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-10-10T22:48:54Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR21MB3116:EE_|SA0PR21MB1995:EE_
+x-ms-office365-filtering-correlation-id: b558209b-75fc-4030-396b-08dbc9e49b61
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ oUMJhrSxGOrwBVk1tAGU5vYWv+Kd6c0L10GS0j6T9YLQITZ5sT4U68dsVtXWGEI0lNE5I4/HSVqgyjfKnE+ry+55kReplKbdXzZ7fKJeFiVAmTrGwMcSEh89vJucglv8CwLJ76AbrnvjbjNWdBU2/m1EZw2JioIbsKPrg67EloNZfNkuk9F+kqQObIuGxF82DSHmTvFpBqq6Qjqx5PTDPdNqH5Yp/yc+ZPXwibymV9ClM6o+kbkT7MxYquVREzuUKZ8sgLbzhPEaqUvfMILOX5oUG9Pt845/GVsGuAPl1E8EPEJuDAktl8kiwAlMTgZDsEowoyh7L+VyVbrAsYVG5ZbP3m2q5MCJifR7P6ZHVDfSXbYUMdfnB4P3/FsCLscRGTWCYZqKA8QcgCNwPaCBj39lVpZvsyUXvn6uE4mRZM9UUEPNJjA+5Ysnoct0sbxEWrIP7q2BylPOLfy3gIpr4FXLf9juEDZ+qvBHNODUzDMP/xVIFLtiM77P0iVMtSfjcfmQB9qAFKTnFdfqyqnvAfV9dswFr7+mT2MgCBtgHzOQlDwEHaz7+cT1Xp6FYVhQYCLVsCdKx70AaeSO09s80koenjMwKWHYQcIu0zY1KI8weV4mYVH7V3Y4OIoKPTAd+mDW3C/TEiICpugWrkb6zw8mRcG/qPyb8eHHeHGLllU=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR21MB3116.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(376002)(366004)(136003)(39860400002)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(53546011)(9686003)(33656002)(55016003)(86362001)(38100700002)(38070700005)(82960400001)(82950400001)(10290500003)(122000001)(2906002)(83380400001)(7416002)(26005)(6506007)(7696005)(478600001)(71200400001)(4326008)(8676002)(52536014)(41300700001)(8936002)(8990500004)(66946007)(66556008)(76116006)(54906003)(66476007)(316002)(66446008)(64756008)(5660300002)(110136005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?K09Eb1ZwOTNTdDNveng5eVNkMjdaTU1Hb295QnN6b2gwREdudVNnZkM4TjBv?=
+ =?utf-8?B?Vlp3VncvOXRJaUtYdkFrQjRXRExxdHlNVG52Y2QrQWVrK0dOUTFpdkdWY1Bj?=
+ =?utf-8?B?UlFlTXV3dTRtbXRUdHFpdE9URzFITEE2ZUZQbVY3aWtVNVRRVDlrRGRydXZl?=
+ =?utf-8?B?a0pweUN4TWt1aXg5ajVPN0U4NzV3eCtsckZaWTFmcVVkK1dmZ2c3QUtsTkxR?=
+ =?utf-8?B?dEpwRVZ5NDlHd3ZYR1RtNUpXR3JKZlJ3K1E4aGZhY3Z1T0xKTWFlR3JidjRT?=
+ =?utf-8?B?dmQ4NkR2YXd5cU02N2w1Qmh2YXV1WHlteVYrL3VnakNtaDM0SUsyTDNaMTZE?=
+ =?utf-8?B?cmQ5cEVuQUlHb1VRdUd3d2xhdVlscGxzS1JpRFZ3Qjg5VlZNenRPN0FkQjll?=
+ =?utf-8?B?bXpUanREMDdwYUpHVG9QU3RHSFRRWDN5L1A0b0Q0U0xoMSt5blR4V2wvTWFQ?=
+ =?utf-8?B?ME9PUURIbTJpQ1RmbW5jV2pIMFN3VzN4S29lOUg1Q2I0TUtsVmRKNW1samE1?=
+ =?utf-8?B?Y25ZWENXV2FjNjBTMS9RYTlER1hWVGxMdmxsaDh6NFhRZ21zdXRObVc3T2Rm?=
+ =?utf-8?B?dlorOXJTWUZZUWtWSjFVbmc4SEVZdTRpQkRDYXZaQ3ZjTlZML3FvVWtHL2lp?=
+ =?utf-8?B?dVdNNWxvL2VZTlhIeGNleFdVUE9mbGl4amx1K1Vyb3JSTEhaMXNPWjM3MDlH?=
+ =?utf-8?B?OGpxQjVjRGFNblQ0bEVIVVNCVW1TV0lCVTlZc0RxVkRZQnhpZUZvd3BBOWZZ?=
+ =?utf-8?B?bU4xQTZYUXJvSjBRMW5jOW1Od1l0bjNkQmFZOGxQd002NFFlZk5zVmFmSE8v?=
+ =?utf-8?B?bnFWMEdFWkI3eE9qNk5PQXFRZk1WT3hiWXEzNk5XTE9GVGZNRjQ3c0pTbmtE?=
+ =?utf-8?B?UVdETGx4TmRPWGVHamZzSk1NOXNLTjZnbzRDdWhXaWRoSnpPeTZSRms2TGZN?=
+ =?utf-8?B?NTM3UnJ5cVRPaWcrVXJFSmw3YnVlZWp6MUs4THZPUnlSV3J1VHN4VC9xTTlh?=
+ =?utf-8?B?UXhZZWZ0aHMvcnVJTUI4WEd3MmJXc281YXdXSmlZMGhwQ2ZBQzBDek1vcU96?=
+ =?utf-8?B?WUxlNzBnNU1aOWFTUkwyeFRTQWNYSVBoV2kweW9OdVc1L2Vnb2Fnc2huSDU4?=
+ =?utf-8?B?YjdqbG54Q0o4cTBpTkJRNE1sVzBaamxzWGgrQ0loWXlWZDFBS3U5MVBoZzZV?=
+ =?utf-8?B?dGg2VVkvalVoQ3AzTjRYeEgzaE54V1JnQnFkTDFsdlpuZXp2MWQzRlh4MFFz?=
+ =?utf-8?B?OWFiMEdEdjNZUlQ5Z0Nob1E5N2FYaUppTjlvWjNDcEExUWFaVlFCbXlIdklh?=
+ =?utf-8?B?b0EvYUZ4eUFubjg3Z2dYRkk0enNkcmtndE5aS1A3bGI4RWxBLysvZmZVckd6?=
+ =?utf-8?B?Vkl3dDhReTRJSXFRQlRmb3hxN0xZcEdGc01waGoyRHdtZkFYQW03VWlIQmgx?=
+ =?utf-8?B?aDhKVnJiZm5HM3VYYUtrWURWZGpWenNaV3h2N2RKWjJwYXc4L2JjcURjbFpT?=
+ =?utf-8?B?VmQrSi94N2t5c3g4U0VEcExLNXh3dVV2aXZpemlMeHpwYTN4Rk9SNFUxTWhR?=
+ =?utf-8?B?NGZhZ0hwZFVCZmdiYTBOV09nN29kdjJjRXQ1L3EzMU14UHFxYmw2YWxpV3Zl?=
+ =?utf-8?B?YnNZd2NubXI2Yis5SXJTcWZSSTdLWS9BRGF6Szk2T2tlWHZrRGc0ZG52UmND?=
+ =?utf-8?B?cExCQVhQZ1pFWWFGbkFMVldzN3hqTEkxQk5HRXFIRkFJNHMrWVhYa3ZQVEk0?=
+ =?utf-8?B?UUlHYXRBYy8rNUhqMHJocEpBMGpmd3lCMFJ2ZC9SSys1UzJhYXpKYWV2eTNh?=
+ =?utf-8?B?dXhnSjA5NnFGdld0QytDZUlrV05WSmkwem0zZGRnR2xLRFMrTUx6bE4zSkpj?=
+ =?utf-8?B?VWI5UExLU0NVQlppUTNQaXc4bXpVOSt4WjZuR2cyb3BXQzNFc0ppaWJ3S3Vq?=
+ =?utf-8?B?eSs5Y0Y4L2Q1MVAzMEI1Z01qYWtrZVJtNE52SEdHN1NZdXllT0hDeFJ6enRh?=
+ =?utf-8?B?cXBxMXFVb3dhTGw2WTBVVGFkcEhrUURoZlp5TkxtZUl4ZmFKV3hmeUcvbzkw?=
+ =?utf-8?B?L2JRZmZqMWwxRjJqbmpyNHRJeHB1TDNrd2Y4YXhrK0U3NkQ0dGNHWEYxZFpr?=
+ =?utf-8?Q?4OjcyPoupEblMvTNWjIHyFJ/Z?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231009142005.21338-2-quic_kriskura@quicinc.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.6
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR21MB3116.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b558209b-75fc-4030-396b-08dbc9e49b61
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2023 22:59:49.9023
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /UOXt1Gf012/BWw4l5j33sg0ySU2sLn1+SV4zHNmYGAjjbNKeKhUKuiVwZgWuejmSLvHEeeTagMPAJ2FmnnuCA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR21MB1995
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+	autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Hi Krishna,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.6-rc5 next-20231010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Kurapati/usb-gadget-ncm-Add-support-to-update-wMaxSegmentSize-via-configfs/20231009-222315
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231009142005.21338-2-quic_kriskura%40quicinc.com
-patch subject: [PATCH 2/2] usb: gadget: ncm: Add support to update wMaxSegmentSize via configfs
-config: i386-randconfig-062-20231010 (https://download.01.org/0day-ci/archive/20231011/202310110658.n9yg3tJy-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310110658.n9yg3tJy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310110658.n9yg3tJy-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/function/f_ncm.c:1475:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 static [addressable] [assigned] [toplevel] [usertype] wMaxSegmentSize @@     got unsigned int [usertype] max_segment_size @@
-   drivers/usb/gadget/function/f_ncm.c:1475:34: sparse:     expected restricted __le16 static [addressable] [assigned] [toplevel] [usertype] wMaxSegmentSize
-   drivers/usb/gadget/function/f_ncm.c:1475:34: sparse:     got unsigned int [usertype] max_segment_size
->> drivers/usb/gadget/function/f_ncm.c:1669:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] max_segment_size @@     got restricted __le16 [usertype] @@
-   drivers/usb/gadget/function/f_ncm.c:1669:32: sparse:     expected unsigned int [usertype] max_segment_size
-   drivers/usb/gadget/function/f_ncm.c:1669:32: sparse:     got restricted __le16 [usertype]
-
-vim +1475 drivers/usb/gadget/function/f_ncm.c
-
-  1397	
-  1398	static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
-  1399	{
-  1400		struct usb_composite_dev *cdev = c->cdev;
-  1401		struct f_ncm		*ncm = func_to_ncm(f);
-  1402		struct usb_string	*us;
-  1403		int			status;
-  1404		struct usb_ep		*ep;
-  1405		struct f_ncm_opts	*ncm_opts;
-  1406	
-  1407		if (!can_support_ecm(cdev->gadget))
-  1408			return -EINVAL;
-  1409	
-  1410		ncm_opts = container_of(f->fi, struct f_ncm_opts, func_inst);
-  1411	
-  1412		if (cdev->use_os_string) {
-  1413			ncm_opts->net->mtu = (ncm_opts->max_segment_size - ETH_HLEN);
-  1414			f->os_desc_table = kzalloc(sizeof(*f->os_desc_table),
-  1415						   GFP_KERNEL);
-  1416			if (!f->os_desc_table)
-  1417				return -ENOMEM;
-  1418			f->os_desc_n = 1;
-  1419			f->os_desc_table[0].os_desc = &ncm_opts->ncm_os_desc;
-  1420		}
-  1421	
-  1422		/*
-  1423		 * in drivers/usb/gadget/configfs.c:configfs_composite_bind()
-  1424		 * configurations are bound in sequence with list_for_each_entry,
-  1425		 * in each configuration its functions are bound in sequence
-  1426		 * with list_for_each_entry, so we assume no race condition
-  1427		 * with regard to ncm_opts->bound access
-  1428		 */
-  1429		if (!ncm_opts->bound) {
-  1430			mutex_lock(&ncm_opts->lock);
-  1431			gether_set_gadget(ncm_opts->net, cdev->gadget);
-  1432			status = gether_register_netdev(ncm_opts->net);
-  1433			mutex_unlock(&ncm_opts->lock);
-  1434			if (status)
-  1435				goto fail;
-  1436			ncm_opts->bound = true;
-  1437		}
-  1438		us = usb_gstrings_attach(cdev, ncm_strings,
-  1439					 ARRAY_SIZE(ncm_string_defs));
-  1440		if (IS_ERR(us)) {
-  1441			status = PTR_ERR(us);
-  1442			goto fail;
-  1443		}
-  1444		ncm_control_intf.iInterface = us[STRING_CTRL_IDX].id;
-  1445		ncm_data_nop_intf.iInterface = us[STRING_DATA_IDX].id;
-  1446		ncm_data_intf.iInterface = us[STRING_DATA_IDX].id;
-  1447		ecm_desc.iMACAddress = us[STRING_MAC_IDX].id;
-  1448		ncm_iad_desc.iFunction = us[STRING_IAD_IDX].id;
-  1449	
-  1450		/* allocate instance-specific interface IDs */
-  1451		status = usb_interface_id(c, f);
-  1452		if (status < 0)
-  1453			goto fail;
-  1454		ncm->ctrl_id = status;
-  1455		ncm_iad_desc.bFirstInterface = status;
-  1456	
-  1457		ncm_control_intf.bInterfaceNumber = status;
-  1458		ncm_union_desc.bMasterInterface0 = status;
-  1459	
-  1460		if (cdev->use_os_string)
-  1461			f->os_desc_table[0].if_id =
-  1462				ncm_iad_desc.bFirstInterface;
-  1463	
-  1464		status = usb_interface_id(c, f);
-  1465		if (status < 0)
-  1466			goto fail;
-  1467		ncm->data_id = status;
-  1468	
-  1469		ncm_data_nop_intf.bInterfaceNumber = status;
-  1470		ncm_data_intf.bInterfaceNumber = status;
-  1471		ncm_union_desc.bSlaveInterface0 = status;
-  1472	
-  1473		status = -ENODEV;
-  1474	
-> 1475		ecm_desc.wMaxSegmentSize = ncm_opts->max_segment_size;
-  1476	
-  1477		/* allocate instance-specific endpoints */
-  1478		ep = usb_ep_autoconfig(cdev->gadget, &fs_ncm_in_desc);
-  1479		if (!ep)
-  1480			goto fail;
-  1481		ncm->port.in_ep = ep;
-  1482	
-  1483		ep = usb_ep_autoconfig(cdev->gadget, &fs_ncm_out_desc);
-  1484		if (!ep)
-  1485			goto fail;
-  1486		ncm->port.out_ep = ep;
-  1487	
-  1488		ep = usb_ep_autoconfig(cdev->gadget, &fs_ncm_notify_desc);
-  1489		if (!ep)
-  1490			goto fail;
-  1491		ncm->notify = ep;
-  1492	
-  1493		status = -ENOMEM;
-  1494	
-  1495		/* allocate notification request and buffer */
-  1496		ncm->notify_req = usb_ep_alloc_request(ep, GFP_KERNEL);
-  1497		if (!ncm->notify_req)
-  1498			goto fail;
-  1499		ncm->notify_req->buf = kmalloc(NCM_STATUS_BYTECOUNT, GFP_KERNEL);
-  1500		if (!ncm->notify_req->buf)
-  1501			goto fail;
-  1502		ncm->notify_req->context = ncm;
-  1503		ncm->notify_req->complete = ncm_notify_complete;
-  1504	
-  1505		/*
-  1506		 * support all relevant hardware speeds... we expect that when
-  1507		 * hardware is dual speed, all bulk-capable endpoints work at
-  1508		 * both speeds
-  1509		 */
-  1510		hs_ncm_in_desc.bEndpointAddress = fs_ncm_in_desc.bEndpointAddress;
-  1511		hs_ncm_out_desc.bEndpointAddress = fs_ncm_out_desc.bEndpointAddress;
-  1512		hs_ncm_notify_desc.bEndpointAddress =
-  1513			fs_ncm_notify_desc.bEndpointAddress;
-  1514	
-  1515		ss_ncm_in_desc.bEndpointAddress = fs_ncm_in_desc.bEndpointAddress;
-  1516		ss_ncm_out_desc.bEndpointAddress = fs_ncm_out_desc.bEndpointAddress;
-  1517		ss_ncm_notify_desc.bEndpointAddress =
-  1518			fs_ncm_notify_desc.bEndpointAddress;
-  1519	
-  1520		status = usb_assign_descriptors(f, ncm_fs_function, ncm_hs_function,
-  1521				ncm_ss_function, ncm_ss_function);
-  1522		if (status)
-  1523			goto fail;
-  1524	
-  1525		/*
-  1526		 * NOTE:  all that is done without knowing or caring about
-  1527		 * the network link ... which is unavailable to this code
-  1528		 * until we're activated via set_alt().
-  1529		 */
-  1530	
-  1531		ncm->port.open = ncm_open;
-  1532		ncm->port.close = ncm_close;
-  1533	
-  1534		hrtimer_init(&ncm->task_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
-  1535		ncm->task_timer.function = ncm_tx_timeout;
-  1536	
-  1537		DBG(cdev, "CDC Network: IN/%s OUT/%s NOTIFY/%s\n",
-  1538				ncm->port.in_ep->name, ncm->port.out_ep->name,
-  1539				ncm->notify->name);
-  1540		return 0;
-  1541	
-  1542	fail:
-  1543		kfree(f->os_desc_table);
-  1544		f->os_desc_n = 0;
-  1545	
-  1546		if (ncm->notify_req) {
-  1547			kfree(ncm->notify_req->buf);
-  1548			usb_ep_free_request(ncm->notify, ncm->notify_req);
-  1549		}
-  1550	
-  1551		ERROR(cdev, "%s: can't bind, err %d\n", f->name, status);
-  1552	
-  1553		return status;
-  1554	}
-  1555	
-  1556	static inline struct f_ncm_opts *to_f_ncm_opts(struct config_item *item)
-  1557	{
-  1558		return container_of(to_config_group(item), struct f_ncm_opts,
-  1559				    func_inst.group);
-  1560	}
-  1561	
-  1562	/* f_ncm_item_ops */
-  1563	USB_ETHERNET_CONFIGFS_ITEM(ncm);
-  1564	
-  1565	/* f_ncm_opts_dev_addr */
-  1566	USB_ETHERNET_CONFIGFS_ITEM_ATTR_DEV_ADDR(ncm);
-  1567	
-  1568	/* f_ncm_opts_host_addr */
-  1569	USB_ETHERNET_CONFIGFS_ITEM_ATTR_HOST_ADDR(ncm);
-  1570	
-  1571	/* f_ncm_opts_qmult */
-  1572	USB_ETHERNET_CONFIGFS_ITEM_ATTR_QMULT(ncm);
-  1573	
-  1574	/* f_ncm_opts_ifname */
-  1575	USB_ETHERNET_CONFIGFS_ITEM_ATTR_IFNAME(ncm);
-  1576	
-  1577	static ssize_t ncm_opts_max_segment_size_show(struct config_item *item,
-  1578						      char *page)
-  1579	{
-  1580		struct f_ncm_opts *opts = to_f_ncm_opts(item);
-  1581		u32 segment_size;
-  1582	
-  1583		mutex_lock(&opts->lock);
-  1584		segment_size = opts->max_segment_size;
-  1585		mutex_unlock(&opts->lock);
-  1586	
-  1587		return sprintf(page, "%u\n", segment_size);
-  1588	}
-  1589	
-  1590	static ssize_t ncm_opts_max_segment_size_store(struct config_item *item,
-  1591						       const char *page, size_t len)
-  1592	{
-  1593		struct f_ncm_opts *opts = to_f_ncm_opts(item);
-  1594		int ret;
-  1595		u32 segment_size;
-  1596	
-  1597		mutex_lock(&opts->lock);
-  1598		if (opts->refcnt) {
-  1599			ret = -EBUSY;
-  1600			goto out;
-  1601		}
-  1602	
-  1603		ret = kstrtou32(page, 0, &segment_size);
-  1604		if (ret)
-  1605			goto out;
-  1606	
-  1607		if (segment_size > MAX_DATAGRAM_SIZE) {
-  1608			ret = -EINVAL;
-  1609			goto out;
-  1610		}
-  1611	
-  1612		opts->max_segment_size = segment_size;
-  1613		ret = len;
-  1614	out:
-  1615		mutex_unlock(&opts->lock);
-  1616		return ret;
-  1617	}
-  1618	
-  1619	CONFIGFS_ATTR(ncm_opts_, max_segment_size);
-  1620	
-  1621	static struct configfs_attribute *ncm_attrs[] = {
-  1622		&ncm_opts_attr_dev_addr,
-  1623		&ncm_opts_attr_host_addr,
-  1624		&ncm_opts_attr_qmult,
-  1625		&ncm_opts_attr_ifname,
-  1626		&ncm_opts_attr_max_segment_size,
-  1627		NULL,
-  1628	};
-  1629	
-  1630	static const struct config_item_type ncm_func_type = {
-  1631		.ct_item_ops	= &ncm_item_ops,
-  1632		.ct_attrs	= ncm_attrs,
-  1633		.ct_owner	= THIS_MODULE,
-  1634	};
-  1635	
-  1636	static void ncm_free_inst(struct usb_function_instance *f)
-  1637	{
-  1638		struct f_ncm_opts *opts;
-  1639	
-  1640		opts = container_of(f, struct f_ncm_opts, func_inst);
-  1641		if (opts->bound)
-  1642			gether_cleanup(netdev_priv(opts->net));
-  1643		else
-  1644			free_netdev(opts->net);
-  1645		kfree(opts->ncm_interf_group);
-  1646		kfree(opts);
-  1647	}
-  1648	
-  1649	static struct usb_function_instance *ncm_alloc_inst(void)
-  1650	{
-  1651		struct f_ncm_opts *opts;
-  1652		struct usb_os_desc *descs[1];
-  1653		char *names[1];
-  1654		struct config_group *ncm_interf_group;
-  1655	
-  1656		opts = kzalloc(sizeof(*opts), GFP_KERNEL);
-  1657		if (!opts)
-  1658			return ERR_PTR(-ENOMEM);
-  1659		opts->ncm_os_desc.ext_compat_id = opts->ncm_ext_compat_id;
-  1660	
-  1661		mutex_init(&opts->lock);
-  1662		opts->func_inst.free_func_inst = ncm_free_inst;
-  1663		opts->net = gether_setup_default();
-  1664		if (IS_ERR(opts->net)) {
-  1665			struct net_device *net = opts->net;
-  1666			kfree(opts);
-  1667			return ERR_CAST(net);
-  1668		}
-> 1669		opts->max_segment_size = cpu_to_le16(ETH_FRAME_LEN);
-  1670		INIT_LIST_HEAD(&opts->ncm_os_desc.ext_prop);
-  1671	
-  1672		descs[0] = &opts->ncm_os_desc;
-  1673		names[0] = "ncm";
-  1674	
-  1675		config_group_init_type_name(&opts->func_inst.group, "", &ncm_func_type);
-  1676		ncm_interf_group =
-  1677			usb_os_desc_prepare_interf_dir(&opts->func_inst.group, 1, descs,
-  1678						       names, THIS_MODULE);
-  1679		if (IS_ERR(ncm_interf_group)) {
-  1680			ncm_free_inst(&opts->func_inst);
-  1681			return ERR_CAST(ncm_interf_group);
-  1682		}
-  1683		opts->ncm_interf_group = ncm_interf_group;
-  1684	
-  1685		return &opts->func_inst;
-  1686	}
-  1687	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWXVjaHVuZyBDaGVuZyA8
+eWNoZW5nQGdvb2dsZS5jb20+DQo+IFNlbnQ6IFR1ZXNkYXksIE9jdG9iZXIgMTAsIDIwMjMgNjoy
+NyBQTQ0KPiBUbzogU3RlcGhlbiBIZW1taW5nZXIgPHN0ZXBoZW5AbmV0d29ya3BsdW1iZXIub3Jn
+Pg0KPiBDYzogSGFpeWFuZyBaaGFuZyA8aGFpeWFuZ3pAbWljcm9zb2Z0LmNvbT47IGxpbnV4LWh5
+cGVydkB2Z2VyLmtlcm5lbC5vcmc7DQo+IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmc7IEtZIFNyaW5p
+dmFzYW4gPGt5c0BtaWNyb3NvZnQuY29tPjsNCj4gZGF2ZW1AZGF2ZW1sb2Z0Lm5ldDsgZWR1bWF6
+ZXRAZ29vZ2xlLmNvbTsga3ViYUBrZXJuZWwub3JnOw0KPiBwYWJlbmlAcmVkaGF0LmNvbTsgY29y
+YmV0QGx3bi5uZXQ7IGRzYWhlcm5Aa2VybmVsLm9yZzsNCj4gbmNhcmR3ZWxsQGdvb2dsZS5jb207
+IGt1bml5dUBhbWF6b24uY29tOyBtb3JsZXlkQGdvb2dsZS5jb207DQo+IG1mcmVlbW9uQGNsb3Vk
+ZmxhcmUuY29tOyBtdWJhc2hpcnFAZ29vZ2xlLmNvbTsgbGludXgtDQo+IGRvY0B2Z2VyLmtlcm5l
+bC5vcmc7IHdlaXdhbkBnb29nbGUuY29tOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+
+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggbmV0LW5leHQsdjJdIHRjcDogU2V0IHBpbmdwb25nIHRocmVz
+aG9sZCB2aWEgc3lzY3RsDQo+IA0KPiBPbiBUdWUsIE9jdCAxMCwgMjAyMyBhdCAzOjE04oCvUE0g
+U3RlcGhlbiBIZW1taW5nZXINCj4gPHN0ZXBoZW5AbmV0d29ya3BsdW1iZXIub3JnPiB3cm90ZToN
+Cj4gPg0KPiA+IE9uIFR1ZSwgMTAgT2N0IDIwMjMgMTI6MjM6MzAgLTA3MDANCj4gPiBIYWl5YW5n
+IFpoYW5nIDxoYWl5YW5nekBtaWNyb3NvZnQuY29tPiB3cm90ZToNCj4gPg0KPiA+ID4gVENQIHBp
+bmdwb25nIHRocmVzaG9sZCBpcyAxIGJ5IGRlZmF1bHQuIEJ1dCBzb21lIGFwcGxpY2F0aW9ucywg
+bGlrZSBTUUwgREINCj4gPiA+IG1heSBwcmVmZXIgYSBoaWdoZXIgcGluZ3BvbmcgdGhyZXNob2xk
+IHRvIGFjdGl2YXRlIGRlbGF5ZWQgYWNrcyBpbiBxdWljaw0KPiA+ID4gYWNrIG1vZGUgZm9yIGJl
+dHRlciBwZXJmb3JtYW5jZS4NCj4gPiA+DQo+ID4gPiBUaGUgcGluZ3BvbmcgdGhyZXNob2xkIGFu
+ZCByZWxhdGVkIGNvZGUgd2VyZSBjaGFuZ2VkIHRvIDMgaW4gdGhlIHllYXINCj4gPiA+IDIwMTkg
+aW46DQo+ID4gPiAgIGNvbW1pdCA0YTQxZjQ1M2JlZGYgKCJ0Y3A6IGNoYW5nZSBwaW5ncG9uZyB0
+aHJlc2hvbGQgdG8gMyIpDQo+ID4gPiBBbmQgcmV2ZXJ0ZWQgdG8gMSBpbiB0aGUgeWVhciAyMDIy
+IGluOg0KPiA+ID4gICBjb21taXQgNGQ4ZjI0ZWVlZGM1ICgiUmV2ZXJ0ICJ0Y3A6IGNoYW5nZSBw
+aW5ncG9uZyB0aHJlc2hvbGQgdG8gMyIiKQ0KPiA+ID4NCj4gPiA+IFRoZXJlIGlzIG5vIHNpbmds
+ZSB2YWx1ZSB0aGF0IGZpdHMgYWxsIGFwcGxpY2F0aW9ucy4NCj4gPiA+IEFkZCBuZXQuaXB2NC50
+Y3BfcGluZ3BvbmdfdGhyZXNoIHN5c2N0bCB0dW5hYmxlLCBzbyBpdCBjYW4gYmUgdHVuZWQgZm9y
+DQo+ID4gPiBvcHRpbWFsIHBlcmZvcm1hbmNlIGJhc2VkIG9uIHRoZSBhcHBsaWNhdGlvbiBuZWVk
+cy4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBIYWl5YW5nIFpoYW5nIDxoYWl5YW5nekBt
+aWNyb3NvZnQuY29tPg0KPiA+DQo+ID4gSWYgdGhpcyBhbiBhcHBsaWNhdGlvbiBzcGVjaWZpYyBv
+cHRpbWl6YXRpb24sIGl0IHNob3VsZCBiZSBpbiBhIHNvY2tldCBvcHRpb24NCj4gPiByYXRoZXIg
+dGhhbiBzeXN0ZW0gd2lkZSB2aWEgc3lzY3RsLg0KPiBJbml0aWFsbHkgSSBoYWQgYSBzaW1pbGFy
+IGNvbW1lbnQgYnV0IGxhdGVyIGRlY2lkZWQgYSBzeXNjdGwgY291bGQNCj4gc3RpbGwgYmUgdXNl
+ZnVsIGlmDQo+IDEpIHRoZSBlbnRpcmUgaG9zdCAoZS5nLiB2aXJ0dWFsIG1hY2hpbmUpIGlzIGRl
+ZGljYXRlZCB0byB0aGF0IGFwcGxpY2F0aW9uDQo+IDIpIHRoYXQgYXBwbGljYXRpb24gaXMgZGlm
+ZmljdWx0IHRvIGNoYW5nZQ0KDQpZZXMsIHRoZSBjdXN0b21lciBhY3R1YWxseSB3YW50cyBhIGds
+b2JhbCBzZXR0aW5nLiBCdXQgYXMgc3VnZ2VzdGVkIGJ5IE5lYWwsDQpJIGNoYW5nZWQgaXQgdG8g
+YmUgcGVyLW5hbWVzcGFjZSB0byBtYXRjaCBvdGhlciBUQ1AgdHVuYWJsZXMuDQoNClRoYW5rcywN
+Ci0gSGFpeWFuZw0KDQo=
