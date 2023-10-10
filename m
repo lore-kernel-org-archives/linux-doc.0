@@ -2,124 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B970BCD80C1
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 12:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B99CCD80C1
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 12:58:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbjJJMx0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 08:53:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
+        id S231913AbjJJM6j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 08:58:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231658AbjJJMxZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 08:53:25 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D26AEAF;
-        Tue, 10 Oct 2023 05:53:23 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2FBDF1FB;
-        Tue, 10 Oct 2023 05:54:04 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 523E23F762;
-        Tue, 10 Oct 2023 05:53:20 -0700 (PDT)
-Message-ID: <099dc48f-454a-40cc-aef1-f186643d2a02@arm.com>
-Date:   Tue, 10 Oct 2023 13:53:18 +0100
+        with ESMTP id S231672AbjJJM6i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 08:58:38 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1844B9E
+        for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 05:58:37 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-4065dea9a33so54164535e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 05:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google; t=1696942715; x=1697547515; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3SI4JY3DNx4EgaWZfWrgnEZk2q3gFyXvOUj+dz0SgUs=;
+        b=PQJICYGIq9Pd7O9fr3EXpYt4HFwpC+C9TYO8qiQPfK394B0yYdGc5jLl5iX0Y3HaUb
+         RnIvd1bQ5BWMv45y8VIMUZUTKVIqLMSGwENfXOc56s5ozu5ch5H1rDcQntmqO+Ss0ubL
+         +W7sBbItWaQaSF/GqyDhrEz6l0OGqr8j14Dskr9iYlRHD3wwwsvQH9g2qMILCCs/VGsJ
+         TEPl7WQjXqBT1VVkuFQ9SPCRBzl8oasRvD28pxtvD2XpeHAWJi3TfXePaAkNkz9z+4rL
+         g+u3HyODnttp4Y8gtU3buXY922qAVRf9obBjx/Rh8UhCa5j2GgERJdMwTMWvM/pSxgLk
+         GYBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696942715; x=1697547515;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3SI4JY3DNx4EgaWZfWrgnEZk2q3gFyXvOUj+dz0SgUs=;
+        b=CU1ZlJ1fi8Ghm94umSHE8/I/M6qsfc7nnRDg51hWW0BXJUZGzOZntKK0O5OanrM8eg
+         FhV9arhzB00M1nZ12WcfK2Nf8oWMNTy6HCQxX454QqdrK2yqtdPDhwonMN1Kjfzz85PI
+         KB9NpiQNuhqWIFZnks4B5AsedXmhrm/LJFIq5cztsPITrEhHiqfDQ9SzelezjS3CTzLz
+         WBZHlJTNo8SmmrykgV/gv/SIW43YQWqNCq5H6nSJUD2k9qhh3EtwbbIWqLikQpnK1nQ+
+         4DUjkiNvOdvOAUjmbQcphZGIUHcuGdr4Reg5yVBSMq8tWeMD63iv9/VcOfjRZmfSCVCe
+         3r+Q==
+X-Gm-Message-State: AOJu0Yy1DJYO6r6ZBg5JHrrjo78T8kQIftsq46mdOm12wkdkG9QCpH8X
+        q/bPfEs25lcNDf6iADIFzatVjw==
+X-Google-Smtp-Source: AGHT+IElBZy9MDfT+YhL3YBHroyxQz9Foj5QmxSxQkw0BYnxu50n7qEZA4PHtsNmMsdx8aYvIW5O7Q==
+X-Received: by 2002:a05:6000:49:b0:32d:5cc0:2f0c with SMTP id k9-20020a056000004900b0032d5cc02f0cmr1091800wrx.40.1696942715517;
+        Tue, 10 Oct 2023 05:58:35 -0700 (PDT)
+Received: from heron.intern.cm-ag (p200300dc6f49a600529a4cfffe3dd983.dip0.t-ipconnect.de. [2003:dc:6f49:a600:529a:4cff:fe3d:d983])
+        by smtp.gmail.com with ESMTPSA id z8-20020a05600c220800b003fee8793911sm14034296wml.44.2023.10.10.05.58.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Oct 2023 05:58:34 -0700 (PDT)
+From:   Max Kellermann <max.kellermann@ionos.com>
+To:     linux@roeck-us.net, joe@perches.com, gregkh@linuxfoundation.org,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Max Kellermann <max.kellermann@ionos.com>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Documentation/process/coding-style.rst: space around const
+Date:   Tue, 10 Oct 2023 14:58:31 +0200
+Message-Id: <20231010125832.1002941-1-max.kellermann@ionos.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] arm: perf: Include threshold control fields valid
- in PMEVTYPER mask
-Content-Language: en-US
-To:     James Clark <james.clark@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Reiji Watanabe <reijiw@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Zaid Al-Bassam <zalbassam@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvmarm@lists.linux.dev
-References: <20231010104048.1923484-1-james.clark@arm.com>
- <20231010104048.1923484-2-james.clark@arm.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20231010104048.1923484-2-james.clark@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/10/2023 11:40, James Clark wrote:
-> FEAT_PMUv3_TH (Armv8.8) adds two new fields to PMEVTYPER, so include
-> them in the mask. These aren't writable on 32 bit kernels as they are in
-> the high part of the register, so split the mask definition to the asm
-> files for each platform.
-> 
-> Now where the value is used in some parts of KVM, include the asm file.
-> 
-> Despite not being used on aarch32, TH and TC macros are added to the
-> shared header file, because they are used in arm_pmuv3.c which is
-> compiled for both platforms.
-> 
-> Signed-off-by: James Clark <james.clark@arm.com>
-> ---
->   arch/arm/include/asm/arm_pmuv3.h   | 3 +++
->   arch/arm64/include/asm/arm_pmuv3.h | 4 ++++
->   arch/arm64/kvm/pmu-emul.c          | 1 +
->   arch/arm64/kvm/sys_regs.c          | 1 +
->   include/linux/perf/arm_pmuv3.h     | 3 ++-
->   5 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/include/asm/arm_pmuv3.h b/arch/arm/include/asm/arm_pmuv3.h
-> index 72529f5e2bed..491310133d09 100644
-> --- a/arch/arm/include/asm/arm_pmuv3.h
-> +++ b/arch/arm/include/asm/arm_pmuv3.h
-> @@ -9,6 +9,9 @@
->   #include <asm/cp15.h>
->   #include <asm/cputype.h>
->   
-> +/* Mask for writable bits */
-> +#define ARMV8_PMU_EVTYPE_MASK	0xc800ffff
-> +
->   #define PMCCNTR			__ACCESS_CP15_64(0, c9)
->   
->   #define PMCR			__ACCESS_CP15(c9,  0, c12, 0)
-> diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
-> index 18dc2fb3d7b7..4faf4f7385a5 100644
-> --- a/arch/arm64/include/asm/arm_pmuv3.h
-> +++ b/arch/arm64/include/asm/arm_pmuv3.h
-> @@ -11,6 +11,10 @@
->   #include <asm/cpufeature.h>
->   #include <asm/sysreg.h>
->   
-> +/* Mask for writable bits */
-> +#define ARMV8_PMU_EVTYPE_MASK	(0xc800ffffUL | ARMV8_PMU_EVTYPE_TH | \
-> +				ARMV8_PMU_EVTYPE_TC)
-> +
->   #define RETURN_READ_PMEVCNTRN(n) \
->   	return read_sysreg(pmevcntr##n##_el0)
->   static inline unsigned long read_pmevcntrn(int n)
-> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
-> index 6b066e04dc5d..0666212c0c15 100644
-> --- a/arch/arm64/kvm/pmu-emul.c
-> +++ b/arch/arm64/kvm/pmu-emul.c
-> @@ -11,6 +11,7 @@
->   #include <linux/perf_event.h>
->   #include <linux/perf/arm_pmu.h>
->   #include <linux/uaccess.h>
-> +#include <asm/arm_pmuv3.h>
->   #include <asm/kvm_emulate.h>
->   #include <kvm/arm_pmu.h>
->   #include <kvm/arm_vgic.h>
+There are currently no rules on the placement of "const", but a recent
+code submission revealed that there is clearly a preference for spaces
+around it.
 
-You may want to mention in the commit description that there is no
-impact on the KVM emulating the Guest PMU with this change, as it
-ignores the fields in the upper half for setting up the attributes
-for the backing event.
+checkpatch.pl has no check at all for this; though it does sometimes
+complain, but only because it erroneously thinks that the "*" (on
+local variables) is an unary dereference operator, not a pointer type.
 
-Suzuki
+Current coding style for const pointers-to-pointers:
+
+ "*const*": 2 occurrences
+ "* const*": 3
+ "*const *": 182
+ "* const *": 681
+
+Just const pointers:
+
+ "*const": 2833 occurrences
+ "* const": 16615
+
+Link: https://lore.kernel.org/r/264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net/
+Link: https://lore.kernel.org/r/f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com/
+Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
+---
+V1 -> V2: removed "volatile" on gregkh's request.
+V2 -> V3: moved patch changelog below the "---" line
+---
+ Documentation/process/coding-style.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 6db37a46d305..71d62d81e506 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -271,6 +271,17 @@ adjacent to the type name.  Examples:
+ 	unsigned long long memparse(char *ptr, char **retptr);
+ 	char *match_strdup(substring_t *s);
+ 
++Use space around the ``const`` keyword (except when adjacent to
++parentheses).  Example:
++
++.. code-block:: c
++
++	const void *a;
++	void * const b;
++	void ** const c;
++	void * const * const d;
++	int strcmp(const char *a, const char *b);
++
+ Use one space around (on each side of) most binary and ternary operators,
+ such as any of these::
+ 
+-- 
+2.39.2
+
