@@ -2,67 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B8DCD80D3
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 13:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A98BCD80D5
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 13:40:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232542AbjJJNkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 09:40:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37156 "EHLO
+        id S232825AbjJJNk3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 09:40:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232543AbjJJNj3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 09:39:29 -0400
+        with ESMTP id S232565AbjJJNjb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 09:39:31 -0400
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com [185.132.180.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 455771B9;
-        Tue, 10 Oct 2023 06:39:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F96D46;
+        Tue, 10 Oct 2023 06:39:16 -0700 (PDT)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
-        by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39ACU2We020208;
-        Tue, 10 Oct 2023 14:38:20 +0100
+        by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39A6U2sC016249;
+        Tue, 10 Oct 2023 14:38:09 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
         :content-transfer-encoding:content-type:mime-version; s=
-        dk201812; bh=czD/hn0IBjloOYNpYudpXrWFnvwVUd7dFoHqunVuoyU=; b=Lrv
-        S1CauxtbC9dQlqnwPqlsYUVRirbdG6iM91ukM7pgKxzlPM31zImbHBLqmf4sMNZo
-        cHWNuBv1LAH+0ggYobDIz8Ryr0hHe80/dd8HTj8/v7ehFyAoOSceR5A2rpsYUwkn
-        moCiKC0RVOEh+0qFYef3cIi3bHUsgvCFYOx+aTywpFGvCf9uh5WmBmsi9XVanlVS
-        kd7aJEPGnmynNPsTMyIhl0Bl2wTQG5qwEiQ0EFs5mNNOodsO9M0stXvzu0kUiEGV
-        eDeozU2ZaawLkWCzgyno2x/105rb9F9rpIR13kdR8awZjmH1jA+IVb3ps5kbiFD5
-        3tlwEWCQcgJw+tUfGqw==
+        dk201812; bh=Fz5QMoXlbfoIoN9GHQeMfeqK97VCo+7CNN545Zt13BQ=; b=Z8s
+        kfBwGUZbM8SE0vxn1M9ZzY5Z1RnffGEJrqMZJh+FcCc1SIuzrEEjQQpVknn9rdBz
+        6qreH48oT2pFVlujZqZoXhrXWIlOkzJSkLVGq3pC7cdTSYgzFNKE3qH1/tfC30v2
+        OjLa8lL7JIqvVo0azTfdbu+D0oMCZd2A9P538fXQuxQUvMY/rfzhv3nrA4VfMCQo
+        nPTLBw19rqRITj3R21wix5e6yuYk0Gv9kBci6VsVMpodS9vZ7zGT2pVL2QZC214j
+        KUAA8oiR0cV3bVqtkOH51g4MACUmqrNtjb87rrl9Db+geyLU7zkbI3qz4nDc0o3O
+        6h5q/K9aKvoTlrgZMCQ==
 Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
-        by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3tjydrt72j-3
+        by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3tjydrt72f-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 10 Oct 2023 14:38:19 +0100 (BST)
+        Tue, 10 Oct 2023 14:38:09 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
  HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Tue, 10 Oct 2023 14:38:17 +0100
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
+ 15.1.2507.31; Tue, 10 Oct 2023 14:38:08 +0100
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.104)
  by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31 via Frontend Transport; Tue, 10 Oct 2023 14:38:17 +0100
+ 15.1.2507.31 via Frontend Transport; Tue, 10 Oct 2023 14:38:07 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TbxRK7TF3FLrXcu18pRkma8+ZDyzg1h5VfzzF0JbwXNYmB8RWofd1I9IOz0JLd30NgLn0ShscGVIDzRLzqFMekL5FSarp8bExxSlV8Kgzal5zpY8PmXFicK/7p+Lcgik59u8A4U0q+0T69l12lcxR9PdWgkE/tSw1zD+iD7nDNxWG+lb9NTCAMuzhvaX/fxg7J5AUCHKMLKKvbBtIm08oOHlGPSA7P5BWmtHVJkv6yC/Fkq0zxNV0imPdTsF6LqTUlC/xSjd4ubgCoMTMdQPEAQCekBZX1R3tlswbw86CJWzmzbm+6OqPUa29hfQRe1a7uO3KnbdBAAPmQyiEj40RA==
+ b=BHtU2PtcKb8UajIUwkI0Akqi0Jh3gnUyH1DGAl10eAhSsd9Zl7JTPLYICJjisrgOimBKi5KOSI/zAbfED6oUTaBUrjx9WgkFsUCJb3trIuzWyipZmh6KZ82yI7HJJ/ExCeSihn8wkzNciEiEthj7trmYU93UlJ8tnPzfM+e+0qJq7zJg27DogSYB6EvwSBS7fI+vj/G0D9Kz2mdd76u5acLZwod/ZAZxWs16RYPCAO5D8cF28GEAdHn2PuDvE64UukDEQ4GqvPmy7NBCwqm9JnCpgMOMr8l26trZBy5cNJcCwujGjMovg6qFD7ot3p/seczN0/fISgUewY5AOFyrkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=czD/hn0IBjloOYNpYudpXrWFnvwVUd7dFoHqunVuoyU=;
- b=CvgmrcC7F00Gha5nHK+WExPjRsfid8WAdDIKjLjdA67DHvI/WavY0fdPt+2p5KhUaf03MudFdcG6JCdI2WqD9VQyvuHUbTsPltB+4wBOuwo3WFwJ4sGLNQv+dLngG5U57qpTARRuZgZ0A0QnjszfIjAn6Hh6hEE7CGU88aOBR+wCfJOMbmTttxUaGFv+PMbIwJvgcojVB2Jhn5ABsHxXfDV948HOgEYxQTisn7fdtF21PVIhTLyhIVPougo/+4ObGIQBF8iq+q0xYe7sRUaki2W70TCROSNlST8KVkTMlvOTJOJZyG1Is3GXhm5n3h43vhqUhtGi77EzR864x7D7xQ==
+ bh=Fz5QMoXlbfoIoN9GHQeMfeqK97VCo+7CNN545Zt13BQ=;
+ b=J/ppfujKQIvEzkwi2RGlGvlJv/FmwAPY41UGJIJHRM7GeG/JIKMwSpZzy5IFtSklx951BOOKEoFev4oUsDO6ZFH2QiY5hfp5fFdXsEoM7ZThCsDpnZ+/AA6B6qxYdtXYgbXIIgp4V4PlQuNemHrw9Fhkf2oFuBVZ9eBKjawADvmmphJc7jJvNRYqZMaM56SjHKXHdM5llBcfr79H3HzgJAEIOzQUFpWAClp88chKYscMpPB+HS5nJ8DfC4wQQO3wH/ANH7iGFewxsdfp2hSN8XZSrKKVznzVjDP94MHKQFH9UyLpL6D9sBcjHcWhDbSEVc+MaG3YOYJP1+5odHclZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=czD/hn0IBjloOYNpYudpXrWFnvwVUd7dFoHqunVuoyU=;
- b=Sz3HrgisyamqgBzOtDIJuSdTEs/eJTOhO9JHVUW+7/G7luNpIYfkihi7QBlxX4U+2foTiypzwEc3BQ0RXTSWUhlasnINOtdeYz/Yk5yoOgcMhKuGdpcixYiEFM0FF/iriqDPt8SCqmNjTM6hSLwlbWbS4Sousizx03bdIX3LHI8=
+ bh=Fz5QMoXlbfoIoN9GHQeMfeqK97VCo+7CNN545Zt13BQ=;
+ b=dfr8iKJ9GHzgkbdR8MUCMwirBzsI15nKqpkkVQ86ul29EPlRrWVuXngk+HTaCl/gI6mTTkVs23TWb23eBKjXRcXHKGRioMnsX+pYh4wAjQcju/2lSHHsU1IsVM30hjaJczG/RDtw4jvoHSexu8LfCLcnU1lnY4RKxnHAj79xWEU=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
- by LO0P265MB6147.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:248::9) with
+ by LNXP265MB2442.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:132::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
- 2023 13:38:14 +0000
+ 2023 13:38:07 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1f14:8c15:179d:7afc]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1f14:8c15:179d:7afc%4]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
- 13:38:14 +0000
+ 13:38:07 +0000
 From:   Sarah Walker <sarah.walker@imgtec.com>
 To:     <dri-devel@lists.freedesktop.org>
 CC:     <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
@@ -75,10 +75,12 @@ CC:     <frank.binns@imgtec.com>, <donald.robson@imgtec.com>,
         <linux-kernel@vger.kernel.org>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH v7 14/20] drm/imagination: Implement MIPS firmware processor and MMU support
-Date:   Tue, 10 Oct 2023 14:37:32 +0100
-Message-Id: <20231010133738.35274-15-sarah.walker@imgtec.com>
+        <linux-doc@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v7 03/20] dt-bindings: gpu: Add Imagination Technologies PowerVR/IMG GPU
+Date:   Tue, 10 Oct 2023 14:37:21 +0100
+Message-Id: <20231010133738.35274-4-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231010133738.35274-1-sarah.walker@imgtec.com>
 References: <20231010133738.35274-1-sarah.walker@imgtec.com>
@@ -89,741 +91,201 @@ X-ClientProxiedBy: LO4P123CA0183.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:400:170::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LO0P265MB6147:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7eeb703d-e8b0-495b-2682-08dbc9962772
+X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LNXP265MB2442:EE_
+X-MS-Office365-Filtering-Correlation-Id: bde7e5ee-ef3c-42ab-5c78-08dbc99622be
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YiNv9ZMEoPWjaIOHO92Nm8qTfsJ/EJlKDrpZV7VGN7ED/EfPP7OHX2+8rtRi6AfSBp4I90Na735VonJ0zfGKtF3i9Gbw0MJ9PtH4NfuN8tOwATrSu2Ddo71fWl8DfD7DhdOeLeXR5I2Y8C2EhQCxxBn1MemkByWmR8uWHh/MGL5kNSA0/cNFRcGOXebo8Iy1fzKx377BAeevarFYYMRg4sLm22xzcbqjKK1psNHwILQrmjeM/K2oDe0JVontswKxKEv0tZ0OctTESaISPqMGeJ1MhLoPp6NdiwyRutj9eSXdC43Wk0NXLFDVF4sNVu8kSJOQ1fLnNrtq4yn43kzHWXiO01jwkxwK4OPZSi2txKPK9hOXe/noUh05tES59aajqnCBS2OXaNJTL2jcUlO5KUgfwftRHdUJk8qZKgQExG4jBfdPzGzr9lX46nEYMSpMrL7LHnN8rJqBgaohW1ervUl+9qLhdXWpOYY7FdQWLRWwdHMI4PuRNoo/Tb8wdhzjA+11WcvUz+tWzNJaH6tVnZt6SjbSUeX0AxszdJa7GuRw6tD0+Q6JZcsm996Or5rTWXLASiD3GclDqS0qLP/P8rAt2T6C9b0N4zab76njyhsstz4XkKzpq+mQs+M5VumN
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(366004)(346002)(396003)(39850400004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(6512007)(478600001)(52116002)(6486002)(6666004)(6506007)(1076003)(83380400001)(26005)(2616005)(2906002)(30864003)(66556008)(316002)(66476007)(5660300002)(8936002)(44832011)(41300700001)(8676002)(4326008)(66946007)(6916009)(38100700002)(38350700002)(36756003)(86362001)(7416002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: xQpoVu6roBOQe2evxj6KRdRv/YoPUVi5rp13CBHQo5oDP3ab/zFfLbmHwWlBLo61XGO7Zh35gSZRSNxTNebfu6yQfSz6g/u2p3Yib34SVdjozC0dctLQsTX72QGZuSyZjYen0wqXQplIl7JUWkASH9qbYmCvLKlqG9z4oDvHKBFQwMOKvBJrf5Dv2sdZ46Y+aXzrmVUeZ7TmiaABHEvB6uIUZGGCNFrlfnT9mqgaf1wcZf0YMYeQ6eyW9FPZGABmQjo8OnSEBeds54cXx880cxp2YyKXbvnp2nsbpfGt5nrf7R/rbGDRqFWYJuOS2AKjoTCKfJhadl7Nyv/y+V33I+lPM4wpSG0kZ6ArAdKK7zSNTH6BE6LIQCfDaFBC8cwMrha7OAoAQi6GxbDjw0NMbtKW/lUoyMDoqwJd0nidsZgr40g81r3TmZFg8yKKM1hk5E8vF+5rGk1JZDTWskKzhLmEuuvVs8ccakvMjPc93HcrBAGc3qwUIcmNIf1tND4uFW3lWnR6QbNsDnfZ/0xdzUpQahU1Pz7vPekw89k9iHNUrWsJ8dIWzuj0L0cmuxlmJPlDoR7nEtNx3iNCmXJKFxIVuxYU5C2P/yh6p5XmtHk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(346002)(396003)(39850400004)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(6512007)(52116002)(1076003)(6506007)(2616005)(478600001)(966005)(6486002)(6666004)(44832011)(26005)(83380400001)(7416002)(2906002)(5660300002)(66556008)(54906003)(66946007)(66476007)(8676002)(8936002)(6916009)(4326008)(41300700001)(316002)(36756003)(38350700002)(38100700002)(86362001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bl9WikaKIB7p/x+xgL4BNLaBhp8y+26YIWKNsiXmjbfpPSlAj9M4YuOpBYz9?=
- =?us-ascii?Q?UB0Fs4U5TMtvcpsQI9MV9XdqIOsu+HHou1BGQpwhxUZ8NSN36F8/D0uHhl9z?=
- =?us-ascii?Q?LbrsTWXvHKpNa7fnLXOJ2wTj0DinhCox9t0ucs6+qDlEUQX0SrybFJPBIWu0?=
- =?us-ascii?Q?W+eHanv9t7FSf8lqS/udzrD0Ux9pOmVl04Mg+hTp4kGQBokiW61yVTsVOktd?=
- =?us-ascii?Q?m8bDtkPjMfM5dY3nAXN/tVrFiOFIVIO4Y//ufFDcUHo7oDvvvmI3XlmmiNLl?=
- =?us-ascii?Q?+/K8nxHtBtrT8IMHwbGrZelmVBnIfIPoe2bjcIjRS0urrQUpEq3IgJCGv7zg?=
- =?us-ascii?Q?cWJRqLsbrRm3HylLXBv5yj/aXgUumKcQjPEhYdBRejgRaX8SOG2/1CAQB7BO?=
- =?us-ascii?Q?z/RkDKpOEKQILLa9ZT17vAUmlrGcchsosnXIbrCiLjEUFpC1BaxP6WemoZv7?=
- =?us-ascii?Q?xvL4NREFgNJDlvYRRfh6FwcIE8d1XHQnarnWyQq2b84sRamd01irHnXQ9vpR?=
- =?us-ascii?Q?aso4gysEkFUL9B1Wkh4FsJgfY8w0xRGJFHG4x7hUaHPz+8nKGAq5RoCCk7JA?=
- =?us-ascii?Q?rv0i3b4C9A+qUM8Ln4qkHmTmXu47WfFgP++3VxCLBG6hVIUNvtrZmjBl1+SG?=
- =?us-ascii?Q?+kM7vNFQcBkjXoJkmOZow5fid0iycmON85Wpn1/f9ueyTmnG/HjTdiGtzxg2?=
- =?us-ascii?Q?Li5zw/vppZ+DDXTf7xA0flAVQVlRzbSud780vvOyiK/FxSzUEH+jaBo6eI/V?=
- =?us-ascii?Q?T1OEd8Cy9V4vY9s34TqeZEVmJOlxytvYdsAhIIJlwhWkhuJ4wLHQ7GZJEpXh?=
- =?us-ascii?Q?5O3hfFEwAUg/sodlT9JhWUqaHajhh2E5XiiwWIk+2YTVks5qU5fNjGkxgDFy?=
- =?us-ascii?Q?2/6+DKwls2Z+2ZuMCDS6GCGDOc50js4mjL/vQ5ITdKT2JcrlhtCSx0Mn4RG+?=
- =?us-ascii?Q?3K/n7OJ7RvmABHR5jnHkodbS6W4fE6kDpxssKJ+29DzH6UTNTJizeGxEXTeg?=
- =?us-ascii?Q?Qdtj5oeIQ1flrCGolBEztICwsuxp1cN0OG8i/XUyJCr59rUj2i/FawvTk2Jl?=
- =?us-ascii?Q?Iufb/SGdg4KfJkBwBO+T4+NQDohBmnT5vtNlkKp6NtSoNQsg5G8mjnLDmnN8?=
- =?us-ascii?Q?RLdsFSuxfI4QWwrM3TqWO5M5KchxM4JQ6ygu4WCtHHTnwjD8HyoEIdpoy9Vg?=
- =?us-ascii?Q?u4ZulJRGb82lLXLHiKaLtvkdqOcVU9OtDvzOXGRU+7LIyX5tkPHWWoFz3VE4?=
- =?us-ascii?Q?vrJm4aTfnw65Hpc6p2sosRaWlI70hXZDk5iagBmqG2OTpeGPuZV/RDtlRerf?=
- =?us-ascii?Q?i9GaM5oBPWBAaU4dDz+Afdg6Qjpf9jLJ+3V6cQFDPaj8xTDs9ee0d2s9h4aD?=
- =?us-ascii?Q?TqLGZw57E3EOUriCZWlnxJ0zf9x9pa6EAnfDBrSvSL5pcjyvu1R/fUOEuzhZ?=
- =?us-ascii?Q?UukDTMbT8Ymk+Rs2X7Fwd52dhg9WaDeQpAgc5ix5pXudSywtrmGF/ytkIAFT?=
- =?us-ascii?Q?mhr3g6LVPOLl5VC5TQvEpwgPEfRI+rcfsKMh5M2RBWKnPLAZX0iA2UqAcWuX?=
- =?us-ascii?Q?T146T7wbq4s/fkXnjPUf6k33BwQC5rLpAq/iL0qr?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7eeb703d-e8b0-495b-2682-08dbc9962772
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r3Ey+2/Vgpjsp3MbpF02TXnc9umUTYBS3JTh5ElLosogwuj/XXokQVYyVt1u?=
+ =?us-ascii?Q?/E5M1YnkhUZJBrJEuYgg3wcEzg1gOvd+h+VGPZ7cxWWiJu64JgPuY1URCBzO?=
+ =?us-ascii?Q?1O0YHpHmgjCpKoaNezhRBlPNmOdqBD8U9u34/EJAQ9vD4MJf6dDGkQGCaIF4?=
+ =?us-ascii?Q?FbvpjOL/I1n3oxuf0duzHe6mx/4JfjdYkN38fCGEbtsdpz/DTN/7P7CWIaFu?=
+ =?us-ascii?Q?L9PqdpJM3SP6Bg5mpX2i/CxJuH0DV5OGGdLxFh6I8I+T7SaUsgK2ZhRCzwXv?=
+ =?us-ascii?Q?3hOnhfvZYfLR++TTpk8KolEl+L5aPY+gwdmAa0sXN81MEFoU3a7SUN3s8njk?=
+ =?us-ascii?Q?pSOOS7n7PU5CS4d9LMqTFqb+t/TI5FT8ASXNeCiv8a2TILOSxRcfqMzfT8sb?=
+ =?us-ascii?Q?2P9KErCrzrRxpwCKp+oHJQJONZ7/zSc1y6IQ2AIY2YUcgfArF2pdExqxS6ID?=
+ =?us-ascii?Q?FU4d2URkTXOzKtxuI9g6EdZiJoVN5EwI+Mk4SeRcktVqmB7QYGKIrVN7Lfnj?=
+ =?us-ascii?Q?h7IOg26SDEMQyxEsOsiWx6HTfvUpVJ2TL0sWFh08w+LSGI2aTg9cAxewB9kN?=
+ =?us-ascii?Q?nQRj2n6THdIyAeFaSqN3M9aiRtEj1RoACFIfLbS0TBtEEvFN6sCkRJWV65cS?=
+ =?us-ascii?Q?/tnOF99LA5fmTaf4MO9v3affQsvr8d/4jFSea/s30b8EDAY70l2PjPk38laQ?=
+ =?us-ascii?Q?s3fEEbyCk0cGcKSj0zrGsdxGx/87sKJ0L7Uiqu5JUEsggbEt2dm93SMVPtj2?=
+ =?us-ascii?Q?RvKqaQL3TLk/yiIk5jAWo/8yXDCvMu6BECQPi3yt9eeLwjRYAPnrGuag5r78?=
+ =?us-ascii?Q?YsMT66B5OdHpntGBe9PRBodY89/WOP/rN5RmLwvV1jtnRAmkOHtIH4DtYfsP?=
+ =?us-ascii?Q?LD4CsUHV+Bj4nzp3vag9P7H0KQA4+bMLN1sRWiaJduTiAuWduYMCMLIPCGcy?=
+ =?us-ascii?Q?tju+wyMsCu6SPbU+h8ObQJ8+xa3jmxKsYa1UoI1IRA1RFYKhaKutjLoB42/y?=
+ =?us-ascii?Q?cE6Tdd9XxAQqi+j1xkmWRN5MYc4CIhXc+JjolotgGAJ8FIY+67Hrb6GKXyR6?=
+ =?us-ascii?Q?uf8hwOpb2kIcGcktjHVYlNBXnhHQRzGydTEUELdsSiNRwubWfsxyiFz38gor?=
+ =?us-ascii?Q?nwdkxn4h4GaTnr4fLeqshrMbhDwF4iovqehUDHYQS09fJR+WsgEMfKoEDnEL?=
+ =?us-ascii?Q?1PKwWHVrZhTzQpK/tvyFLxiMRlMfnLMVWOLdcxzGVippk8Mb7MA/5IR8cGNi?=
+ =?us-ascii?Q?Z4qnLn9E65FUoqPDHyekGSXFi9bHHS39Xe5+6rn3Ir4uuSLhtixSbS9aGxPm?=
+ =?us-ascii?Q?lFAR+0afp5xpe9B4woUl5w0253bgGRGfocSPQEcnNz/tSPaKC/M2wb5IR7Zl?=
+ =?us-ascii?Q?C5L3UMG/B/cGj5v+NQTQY5Lmg9VqcHd2e0uzMKaH0MuKoCdIEopH6KJ67Je3?=
+ =?us-ascii?Q?/aKSRq94+5hMv2z2KpbwLpTOsLodgeVX1P5uvQQhbKTKGGKIEU8k0O4kWd2d?=
+ =?us-ascii?Q?KDTwiK1OnCxQqgPq0BDw8wQOkdMGO7ae5FC9Ax3VrwFfr5aqzvZ9CSizfb83?=
+ =?us-ascii?Q?lsBV8hmg3mmHdnWqFew27KjefHg2f0+qW59KEJ5H?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bde7e5ee-ef3c-42ab-5c78-08dbc99622be
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:14.8578
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:38:06.9372
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jOIojf2mEIE45QxR1UTo0vODR5Cdn7VhrtSzv96GVNu8jvF9SkLHtjch9ej8aTHNv7xqFh5jODlXIrTmhi6prA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6147
+X-MS-Exchange-CrossTenant-UserPrincipalName: OFtl5XLDvCEwtbU+cu56DMxTsla3HIZSVnikA2Lvdf21iDARfGmewNOBLu7bEaaVqyBGs6GHI0oyxbZWs6wVQA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB2442
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: HmWApf6x6uYuMmDFo095FSYMYW558ngL
-X-Proofpoint-ORIG-GUID: HmWApf6x6uYuMmDFo095FSYMYW558ngL
+X-Proofpoint-GUID: DM4VFoAV_r56_mAckm134o4ZC1W85U8a
+X-Proofpoint-ORIG-GUID: DM4VFoAV_r56_mAckm134o4ZC1W85U8a
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for the MIPS firmware processor, used in the Series AXE GPU.
-The MIPS firmware processor uses a separate MMU to the rest of the GPU, so
-this patch adds support for that as well.
+Add the device tree binding documentation for the IMG AXE GPU used in
+TI AM62 SoCs.
 
+Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+---
 Changes since v6:
-- Fix integer overflow in VM map error path
+- Remove unused gpu label from example
+- Updated maintainer
 
 Changes since v5:
-- Use alloc_page() when allocating MIPS pagetable
+- Update compatible string & description to match marketing name
+- Remove unnecessary clock-names definition in ti,am62-gpu constraints
+- Document that GPU revision is discoverable
+
+Changes since v4:
+- Add clocks constraint for ti,am62-gpu
+- Remove excess address and size cells in example
+- Remove interrupt name and add maxItems
+- Make property order consistent between dts and bindings doc
+- Update example to match dts
 
 Changes since v3:
-- Get regs resource (removed from GPU resources commit)
+- Remove oneOf in compatible property
+- Remove power-supply (not used on AM62)
 
-Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
----
- drivers/gpu/drm/imagination/Makefile      |   4 +-
- drivers/gpu/drm/imagination/pvr_device.c  |   5 +-
- drivers/gpu/drm/imagination/pvr_device.h  |   3 +
- drivers/gpu/drm/imagination/pvr_fw.c      |   2 +
- drivers/gpu/drm/imagination/pvr_fw_mips.c | 252 ++++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_fw_mips.h |  48 +++++
- drivers/gpu/drm/imagination/pvr_vm_mips.c | 236 ++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_vm_mips.h |  22 ++
- 8 files changed, 570 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.h
+Changes since v2:
+- Add commit message description
+- Remove mt8173-gpu support (not currently supported)
+- Drop quotes from $id and $schema
+- Remove reg: minItems
+- Drop _clk suffixes from clock-names
+- Remove operating-points-v2 property and cooling-cells (not currently
+  used)
+- Add additionalProperties: false
+- Remove stray blank line at the end of file
 
-diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 5b02440841be..0a6532d30c00 100644
---- a/drivers/gpu/drm/imagination/Makefile
-+++ b/drivers/gpu/drm/imagination/Makefile
-@@ -10,11 +10,13 @@ powervr-y := \
- 	pvr_drv.o \
- 	pvr_fw.o \
- 	pvr_fw_meta.o \
-+	pvr_fw_mips.o \
- 	pvr_fw_startstop.o \
- 	pvr_fw_trace.o \
- 	pvr_gem.o \
- 	pvr_mmu.o \
- 	pvr_power.o \
--	pvr_vm.o
-+	pvr_vm.o \
-+	pvr_vm_mips.o
- 
- obj-$(CONFIG_DRM_POWERVR) += powervr.o
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index 6055cf6054f7..aac5e62d6cbe 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -50,16 +50,19 @@ pvr_device_reg_init(struct pvr_device *pvr_dev)
- {
- 	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
- 	struct platform_device *plat_dev = to_platform_device(drm_dev->dev);
-+	struct resource *regs_resource;
- 	void __iomem *regs;
- 
-+	pvr_dev->regs_resource = NULL;
- 	pvr_dev->regs = NULL;
- 
--	regs = devm_platform_ioremap_resource(plat_dev, 0);
-+	regs = devm_platform_get_and_ioremap_resource(plat_dev, 0, &regs_resource);
- 	if (IS_ERR(regs))
- 		return dev_err_probe(drm_dev->dev, PTR_ERR(regs),
- 				     "failed to ioremap gpu registers\n");
- 
- 	pvr_dev->regs = regs;
-+	pvr_dev->regs_resource = regs_resource;
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index b5de9574a116..cbcfc5d4b845 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -93,6 +93,9 @@ struct pvr_device {
- 	/** @fw_version: Firmware version detected at runtime. */
- 	struct pvr_fw_version fw_version;
- 
-+	/** @regs_resource: Resource representing device control registers. */
-+	struct resource *regs_resource;
-+
- 	/**
- 	 * @regs: Device control registers.
- 	 *
-diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
-index 4ea663be4596..d3edcb74f29d 100644
---- a/drivers/gpu/drm/imagination/pvr_fw.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw.c
-@@ -933,6 +933,8 @@ pvr_fw_init(struct pvr_device *pvr_dev)
- 
- 	if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_META)
- 		fw_dev->defs = &pvr_fw_defs_meta;
-+	else if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_MIPS)
-+		fw_dev->defs = &pvr_fw_defs_mips;
- 	else
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.c b/drivers/gpu/drm/imagination/pvr_fw_mips.c
+ .../devicetree/bindings/gpu/img,powervr.yaml  | 73 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++
+ 2 files changed, 79 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
+
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
 new file mode 100644
-index 000000000000..bf13b05d1248
+index 000000000000..e81db87a1f46
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.c
-@@ -0,0 +1,252 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_device.h"
-+#include "pvr_fw.h"
-+#include "pvr_fw_mips.h"
-+#include "pvr_gem.h"
-+#include "pvr_rogue_mips.h"
-+#include "pvr_vm_mips.h"
-+
-+#include <linux/elf.h>
-+#include <linux/err.h>
-+#include <linux/types.h>
-+
-+#define ROGUE_FW_HEAP_MIPS_BASE 0xC0000000
-+#define ROGUE_FW_HEAP_MIPS_SHIFT 24 /* 16 MB */
-+#define ROGUE_FW_HEAP_MIPS_RESERVED_SIZE SZ_1M
-+
-+/**
-+ * process_elf_command_stream() - Process ELF firmware image and populate
-+ *                                firmware sections
-+ * @pvr_dev: Device pointer.
-+ * @fw: Pointer to firmware image.
-+ * @fw_code_ptr: Pointer to FW code section.
-+ * @fw_data_ptr: Pointer to FW data section.
-+ * @fw_core_code_ptr: Pointer to FW coremem code section.
-+ * @fw_core_data_ptr: Pointer to FW coremem data section.
-+ *
-+ * Returns :
-+ *  * 0 on success, or
-+ *  * -EINVAL on any error in ELF command stream.
-+ */
-+static int
-+process_elf_command_stream(struct pvr_device *pvr_dev, const u8 *fw, u8 *fw_code_ptr,
-+			   u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr)
-+{
-+	struct elf32_hdr *header = (struct elf32_hdr *)fw;
-+	struct elf32_phdr *program_header = (struct elf32_phdr *)(fw + header->e_phoff);
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	u32 entry;
-+	int err;
-+
-+	for (entry = 0; entry < header->e_phnum; entry++, program_header++) {
-+		void *write_addr;
-+
-+		/* Only consider loadable entries in the ELF segment table */
-+		if (program_header->p_type != PT_LOAD)
-+			continue;
-+
-+		err = pvr_fw_find_mmu_segment(pvr_dev, program_header->p_vaddr,
-+					      program_header->p_memsz, fw_code_ptr, fw_data_ptr,
-+					      fw_core_code_ptr, fw_core_data_ptr, &write_addr);
-+		if (err) {
-+			drm_err(drm_dev,
-+				"Addr 0x%x (size: %d) not found in any firmware segment",
-+				program_header->p_vaddr, program_header->p_memsz);
-+			return err;
-+		}
-+
-+		/* Write to FW allocation only if available */
-+		if (write_addr) {
-+			memcpy(write_addr, fw + program_header->p_offset,
-+			       program_header->p_filesz);
-+
-+			memset((u8 *)write_addr + program_header->p_filesz, 0,
-+			       program_header->p_memsz - program_header->p_filesz);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_mips_init(struct pvr_device *pvr_dev)
-+{
-+	pvr_fw_heap_info_init(pvr_dev, ROGUE_FW_HEAP_MIPS_SHIFT, ROGUE_FW_HEAP_MIPS_RESERVED_SIZE);
-+
-+	return pvr_vm_mips_init(pvr_dev);
-+}
-+
-+static void
-+pvr_mips_fini(struct pvr_device *pvr_dev)
-+{
-+	pvr_vm_mips_fini(pvr_dev);
-+}
-+
-+static int
-+pvr_mips_fw_process(struct pvr_device *pvr_dev, const u8 *fw,
-+		    u8 *fw_code_ptr, u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr,
-+		    u32 core_code_alloc_size)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	const struct pvr_fw_layout_entry *boot_code_entry;
-+	const struct pvr_fw_layout_entry *boot_data_entry;
-+	const struct pvr_fw_layout_entry *exception_code_entry;
-+	const struct pvr_fw_layout_entry *stack_entry;
-+	struct rogue_mipsfw_boot_data *boot_data;
-+	dma_addr_t dma_addr;
-+	u32 page_nr;
-+	int err;
-+
-+	err = process_elf_command_stream(pvr_dev, fw, fw_code_ptr, fw_data_ptr, fw_core_code_ptr,
-+					 fw_core_data_ptr);
-+	if (err)
-+		return err;
-+
-+	boot_code_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_BOOT_CODE);
-+	boot_data_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_BOOT_DATA);
-+	exception_code_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_EXCEPTIONS_CODE);
-+	if (!boot_code_entry || !boot_data_entry || !exception_code_entry)
-+		return -EINVAL;
-+
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.code_obj->gem, boot_code_entry->alloc_offset,
-+				     &mips_data->boot_code_dma_addr));
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.data_obj->gem, boot_data_entry->alloc_offset,
-+				     &mips_data->boot_data_dma_addr));
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.code_obj->gem,
-+				     exception_code_entry->alloc_offset,
-+				     &mips_data->exception_code_dma_addr));
-+
-+	stack_entry = pvr_fw_find_layout_entry(pvr_dev, MIPS_STACK);
-+	if (!stack_entry)
-+		return -EINVAL;
-+
-+	boot_data = (struct rogue_mipsfw_boot_data *)(fw_data_ptr + boot_data_entry->alloc_offset +
-+						      ROGUE_MIPSFW_BOOTLDR_CONF_OFFSET);
-+
-+	WARN_ON(pvr_fw_object_get_dma_addr(fw_dev->mem.data_obj, stack_entry->alloc_offset,
-+					   &dma_addr));
-+	boot_data->stack_phys_addr = dma_addr;
-+
-+	boot_data->reg_base = pvr_dev->regs_resource->start;
-+
-+	for (page_nr = 0; page_nr < ARRAY_SIZE(boot_data->pt_phys_addr); page_nr++) {
-+		/* Firmware expects 4k pages, but host page size might be different. */
-+		u32 src_page_nr = (page_nr * ROGUE_MIPSFW_PAGE_SIZE_4K) >> PAGE_SHIFT;
-+		u32 page_offset = (page_nr * ROGUE_MIPSFW_PAGE_SIZE_4K) & ~PAGE_MASK;
-+
-+		boot_data->pt_phys_addr[page_nr] = mips_data->pt_dma_addr[src_page_nr] +
-+						   page_offset;
-+	}
-+
-+	boot_data->pt_log2_page_size = ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	boot_data->pt_num_pages = ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES;
-+	boot_data->reserved1 = 0;
-+	boot_data->reserved2 = 0;
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_mips_wrapper_init(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_mips_data *mips_data = pvr_dev->fw_dev.processor_data.mips_data;
-+	const u64 remap_settings = ROGUE_MIPSFW_BOOT_REMAP_LOG2_SEGMENT_SIZE;
-+	u32 phys_bus_width;
-+
-+	int err = PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width);
-+
-+	if (WARN_ON(err))
-+		return err;
-+
-+	/* Currently MIPS FW only supported with physical bus width > 32 bits. */
-+	if (WARN_ON(phys_bus_width <= 32))
-+		return -EINVAL;
-+
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MIPS_WRAPPER_CONFIG,
-+		       (ROGUE_MIPSFW_REGISTERS_VIRTUAL_BASE >>
-+			ROGUE_MIPSFW_WRAPPER_CONFIG_REGBANK_ADDR_ALIGN) |
-+		       ROGUE_CR_MIPS_WRAPPER_CONFIG_BOOT_ISA_MODE_MICROMIPS);
-+
-+	/* Configure remap for boot code, boot data and exceptions code areas. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1,
-+		       ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2,
-+		       (mips_data->boot_code_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	if (PVR_HAS_QUIRK(pvr_dev, 63553)) {
-+		/*
-+		 * WA always required on 36 bit cores, to avoid continuous unmapped memory accesses
-+		 * to address 0x0.
-+		 */
-+		WARN_ON(phys_bus_width != 36);
-+
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1,
-+			       ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_MODE_ENABLE_EN);
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2,
-+			       (mips_data->boot_code_dma_addr &
-+				~ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_ADDR_OUT_CLRMSK) |
-+			       remap_settings);
-+	}
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1,
-+		       ROGUE_MIPSFW_DATA_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2,
-+		       (mips_data->boot_data_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1,
-+		       ROGUE_MIPSFW_CODE_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2,
-+		       (mips_data->exception_code_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	/* Garten IDLE bit controlled by MIPS. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG,
-+		       ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_META);
-+
-+	/* Turn on the EJTAG probe. */
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MIPS_DEBUG_CONFIG, 0);
-+
-+	return 0;
-+}
-+
-+static u32
-+pvr_mips_get_fw_addr_with_offset(struct pvr_fw_object *fw_obj, u32 offset)
-+{
-+	struct pvr_device *pvr_dev = to_pvr_device(gem_from_pvr_gem(fw_obj->gem)->dev);
-+
-+	/* MIPS cacheability is determined by page table. */
-+	return ((fw_obj->fw_addr_offset + offset) & pvr_dev->fw_dev.fw_heap_info.offset_mask) |
-+	       ROGUE_FW_HEAP_MIPS_BASE;
-+}
-+
-+static bool
-+pvr_mips_has_fixed_data_addr(void)
-+{
-+	return true;
-+}
-+
-+const struct pvr_fw_defs pvr_fw_defs_mips = {
-+	.init = pvr_mips_init,
-+	.fini = pvr_mips_fini,
-+	.fw_process = pvr_mips_fw_process,
-+	.vm_map = pvr_vm_mips_map,
-+	.vm_unmap = pvr_vm_mips_unmap,
-+	.get_fw_addr_with_offset = pvr_mips_get_fw_addr_with_offset,
-+	.wrapper_init = pvr_mips_wrapper_init,
-+	.has_fixed_data_addr = pvr_mips_has_fixed_data_addr,
-+	.irq = {
-+		.enable_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE,
-+		.status_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS,
-+		.clear_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR,
-+		.event_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN,
-+		.clear_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_EN,
-+	},
-+};
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.h b/drivers/gpu/drm/imagination/pvr_fw_mips.h
-new file mode 100644
-index 000000000000..676b2d279796
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.h
-@@ -0,0 +1,48 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_FW_MIPS_H
-+#define PVR_FW_MIPS_H
-+
-+#include "pvr_rogue_mips.h"
-+
-+#include <asm/page.h>
-+#include <linux/types.h>
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_gem_object;
-+
-+#define PVR_MIPS_PT_PAGE_COUNT ((ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * ROGUE_MIPSFW_PAGE_SIZE_4K) \
-+				>> PAGE_SHIFT)
-+/**
-+ * struct pvr_fw_mips_data - MIPS-specific data
-+ */
-+struct pvr_fw_mips_data {
-+	/**
-+	 * @pt_pages: Pages containing MIPS pagetable.
-+	 */
-+	struct page *pt_pages[PVR_MIPS_PT_PAGE_COUNT];
-+
-+	/** @pt: Pointer to CPU mapping of MIPS pagetable. */
-+	u32 *pt;
-+
-+	/** @pt_dma_addr: DMA mappings of MIPS pagetable. */
-+	dma_addr_t pt_dma_addr[PVR_MIPS_PT_PAGE_COUNT];
-+
-+	/** @boot_code_dma_addr: DMA address of MIPS boot code. */
-+	dma_addr_t boot_code_dma_addr;
-+
-+	/** @boot_data_dma_addr: DMA address of MIPS boot data. */
-+	dma_addr_t boot_data_dma_addr;
-+
-+	/** @exception_code_dma_addr: DMA address of MIPS exception code. */
-+	dma_addr_t exception_code_dma_addr;
-+
-+	/** @cache_policy: Cache policy for this processor. */
-+	u32 cache_policy;
-+
-+	/** @pfn_mask: PFN mask for MIPS pagetable. */
-+	u32 pfn_mask;
-+};
-+
-+#endif /* PVR_FW_MIPS_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_vm_mips.c b/drivers/gpu/drm/imagination/pvr_vm_mips.c
-new file mode 100644
-index 000000000000..8f7730e0e4fa
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_vm_mips.c
-@@ -0,0 +1,236 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#include "pvr_device.h"
-+#include "pvr_fw_mips.h"
-+#include "pvr_gem.h"
-+#include "pvr_mmu.h"
-+#include "pvr_rogue_mips.h"
-+#include "pvr_vm.h"
-+#include "pvr_vm_mips.h"
-+
-+#include <drm/drm_managed.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+/**
-+ * pvr_vm_mips_init() - Initialise MIPS FW pagetable
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EINVAL,
-+ *  * Any error returned by pvr_gem_object_create(), or
-+ *  * And error returned by pvr_gem_object_vmap().
-+ */
-+int
-+pvr_vm_mips_init(struct pvr_device *pvr_dev)
-+{
-+	u32 pt_size = 1 << ROGUE_MIPSFW_LOG2_PAGETABLE_SIZE_4K(pvr_dev);
-+	struct device *dev = from_pvr_device(pvr_dev)->dev;
-+	struct pvr_fw_mips_data *mips_data;
-+	u32 phys_bus_width;
-+	int page_nr;
-+	int err;
-+
-+	/* Page table size must be at most ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * 4k pages. */
-+	if (pt_size > ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * SZ_4K)
-+		return -EINVAL;
-+
-+	if (PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width))
-+		return -EINVAL;
-+
-+	mips_data = drmm_kzalloc(from_pvr_device(pvr_dev), sizeof(*mips_data), GFP_KERNEL);
-+	if (!mips_data)
-+		return -ENOMEM;
-+
-+	for (page_nr = 0; page_nr < ARRAY_SIZE(mips_data->pt_pages); page_nr++) {
-+		mips_data->pt_pages[page_nr] = alloc_page(GFP_KERNEL | __GFP_ZERO);
-+		if (!mips_data->pt_pages[page_nr]) {
-+			err = -ENOMEM;
-+			goto err_free_pages;
-+		}
-+
-+		mips_data->pt_dma_addr[page_nr] = dma_map_page(dev, mips_data->pt_pages[page_nr], 0,
-+							       PAGE_SIZE, DMA_TO_DEVICE);
-+		if (dma_mapping_error(dev, mips_data->pt_dma_addr[page_nr])) {
-+			err = -ENOMEM;
-+			goto err_free_pages;
-+		}
-+	}
-+
-+	mips_data->pt = vmap(mips_data->pt_pages, pt_size >> PAGE_SHIFT, VM_MAP,
-+			     pgprot_writecombine(PAGE_KERNEL));
-+	if (!mips_data->pt) {
-+		err = -ENOMEM;
-+		goto err_free_pages;
-+	}
-+
-+	mips_data->pfn_mask = (phys_bus_width > 32) ? ROGUE_MIPSFW_ENTRYLO_PFN_MASK_ABOVE_32BIT :
-+						      ROGUE_MIPSFW_ENTRYLO_PFN_MASK;
-+
-+	mips_data->cache_policy = (phys_bus_width > 32) ? ROGUE_MIPSFW_CACHED_POLICY_ABOVE_32BIT :
-+							  ROGUE_MIPSFW_CACHED_POLICY;
-+
-+	pvr_dev->fw_dev.processor_data.mips_data = mips_data;
-+
-+	return 0;
-+
-+err_free_pages:
-+	for (; page_nr >= 0; page_nr--) {
-+		if (mips_data->pt_dma_addr[page_nr])
-+			dma_unmap_page(from_pvr_device(pvr_dev)->dev,
-+				       mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
-+
-+		if (mips_data->pt_pages[page_nr])
-+			__free_page(mips_data->pt_pages[page_nr]);
-+	}
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_vm_mips_fini() - Release MIPS FW pagetable
-+ * @pvr_dev: Target PowerVR device.
-+ */
-+void
-+pvr_vm_mips_fini(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	int page_nr;
-+
-+	vunmap(mips_data->pt);
-+	for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
-+		dma_unmap_page(from_pvr_device(pvr_dev)->dev,
-+			       mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
-+
-+		__free_page(mips_data->pt_pages[page_nr]);
-+	}
-+
-+	fw_dev->processor_data.mips_data = NULL;
-+}
-+
-+static u32
-+get_mips_pte_flags(bool read, bool write, u32 cache_policy)
-+{
-+	u32 flags = 0;
-+
-+	if (read && write) /* Read/write. */
-+		flags |= ROGUE_MIPSFW_ENTRYLO_DIRTY_EN;
-+	else if (write)    /* Write only. */
-+		flags |= ROGUE_MIPSFW_ENTRYLO_READ_INHIBIT_EN;
-+	else
-+		WARN_ON(!read);
-+
-+	flags |= cache_policy << ROGUE_MIPSFW_ENTRYLO_CACHE_POLICY_SHIFT;
-+
-+	flags |= ROGUE_MIPSFW_ENTRYLO_VALID_EN | ROGUE_MIPSFW_ENTRYLO_GLOBAL_EN;
-+
-+	return flags;
-+}
-+
-+/**
-+ * pvr_vm_mips_map() - Map a FW object into MIPS address space
-+ * @pvr_dev: Target PowerVR device.
-+ * @fw_obj: FW object to map.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EINVAL if object does not reside within FW address space, or
-+ *  * Any error returned by pvr_fw_object_get_dma_addr().
-+ */
-+int
-+pvr_vm_mips_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+	u64 start = fw_obj->fw_mm_node.start;
-+	u64 size = fw_obj->fw_mm_node.size;
-+	u64 end;
-+	u32 cache_policy;
-+	u32 pte_flags;
-+	u32 start_pfn;
-+	u32 end_pfn;
-+	s32 pfn;
-+	int err;
-+
-+	if (check_add_overflow(start, size - 1, &end))
-+		return -EINVAL;
-+
-+	if (start < ROGUE_FW_HEAP_BASE ||
-+	    start >= ROGUE_FW_HEAP_BASE + fw_dev->fw_heap_info.raw_size ||
-+	    end < ROGUE_FW_HEAP_BASE ||
-+	    end >= ROGUE_FW_HEAP_BASE + fw_dev->fw_heap_info.raw_size ||
-+	    (start & ROGUE_MIPSFW_PAGE_MASK_4K) ||
-+	    ((end + 1) & ROGUE_MIPSFW_PAGE_MASK_4K))
-+		return -EINVAL;
-+
-+	start_pfn = (start & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	end_pfn = (end & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+
-+	if (pvr_obj->flags & PVR_BO_FW_FLAGS_DEVICE_UNCACHED)
-+		cache_policy = ROGUE_MIPSFW_UNCACHED_CACHE_POLICY;
-+	else
-+		cache_policy = mips_data->cache_policy;
-+
-+	pte_flags = get_mips_pte_flags(true, true, cache_policy);
-+
-+	for (pfn = start_pfn; pfn <= end_pfn; pfn++) {
-+		dma_addr_t dma_addr;
-+		u32 pte;
-+
-+		err = pvr_fw_object_get_dma_addr(fw_obj,
-+						 (pfn - start_pfn) <<
-+						 ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K,
-+						 &dma_addr);
-+		if (err)
-+			goto err_unmap_pages;
-+
-+		pte = ((dma_addr >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K)
-+		       << ROGUE_MIPSFW_ENTRYLO_PFN_SHIFT) & mips_data->pfn_mask;
-+		pte |= pte_flags;
-+
-+		WRITE_ONCE(mips_data->pt[pfn], pte);
-+	}
-+
-+	pvr_mmu_flush(pvr_dev);
-+
-+	return 0;
-+
-+err_unmap_pages:
-+	for (; pfn >= start_pfn; pfn--)
-+		WRITE_ONCE(mips_data->pt[pfn], 0);
-+
-+	pvr_mmu_flush(pvr_dev);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_vm_mips_unmap() - Unmap a FW object into MIPS address space
-+ * @pvr_dev: Target PowerVR device.
-+ * @fw_obj: FW object to unmap.
-+ */
-+void
-+pvr_vm_mips_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	u64 start = fw_obj->fw_mm_node.start;
-+	u64 size = fw_obj->fw_mm_node.size;
-+	u64 end = start + size;
-+
-+	u32 start_pfn = (start & fw_dev->fw_heap_info.offset_mask) >>
-+			ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	u32 end_pfn = (end & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	u32 pfn;
-+
-+	for (pfn = start_pfn; pfn < end_pfn; pfn++)
-+		WRITE_ONCE(mips_data->pt[pfn], 0);
-+
-+	pvr_mmu_flush(pvr_dev);
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_vm_mips.h b/drivers/gpu/drm/imagination/pvr_vm_mips.h
-new file mode 100644
-index 000000000000..71d238d5327a
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_vm_mips.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_VM_MIPS_H
-+#define PVR_VM_MIPS_H
-+
-+/* Forward declaration from pvr_device.h. */
-+struct pvr_device;
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_fw_object;
-+
-+int
-+pvr_vm_mips_init(struct pvr_device *pvr_dev);
-+void
-+pvr_vm_mips_fini(struct pvr_device *pvr_dev);
-+int
-+pvr_vm_mips_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
-+void
-+pvr_vm_mips_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
-+
-+#endif /* PVR_VM_MIPS_H */
++++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2023 Imagination Technologies Ltd.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/img,powervr.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Imagination Technologies PowerVR and IMG GPU
++
++maintainers:
++  - Donald Robson <donald.robson@imgtec.com>
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - ti,am62-gpu
++      - const: img,img-axe # IMG AXE GPU model/revision is fully discoverable
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: core
++      - const: mem
++      - const: sys
++    minItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++
++additionalProperties: false
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,am62-gpu
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/soc/ti,sci_pm_domain.h>
++
++    gpu@fd00000 {
++        compatible = "ti,am62-gpu", "img,img-axe";
++        reg = <0x0fd00000 0x20000>;
++        clocks = <&k3_clks 187 0>;
++        clock-names = "core";
++        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
++        power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e05506ea8917..eea8e618746a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10228,6 +10228,12 @@ IMGTEC IR DECODER DRIVER
+ S:	Orphan
+ F:	drivers/media/rc/img-ir/
+ 
++IMGTEC POWERVR DRM DRIVER
++M:	Frank Binns <frank.binns@imgtec.com>
++M:	Donald Robson <donald.robson@imgtec.com>
++S:	Supported
++F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
++
+ IMON SOUNDGRAPH USB IR RECEIVER
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
 -- 
 2.42.0
 
