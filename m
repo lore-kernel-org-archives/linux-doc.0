@@ -2,67 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CC9CD8CB4
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A580CCD8CB4
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:58:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234064AbjJJTwd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 15:52:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44578 "EHLO
+        id S232096AbjJJT6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 15:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231520AbjJJTwd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:52:33 -0400
+        with ESMTP id S229572AbjJJT6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:58:01 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5B7294;
-        Tue, 10 Oct 2023 12:52:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55CB8E;
+        Tue, 10 Oct 2023 12:58:00 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 887B12B2;
-        Tue, 10 Oct 2023 19:52:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 887B12B2
+        by ms.lwn.net (Postfix) with ESMTPSA id 64D5E44A;
+        Tue, 10 Oct 2023 19:58:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 64D5E44A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1696967550; bh=yqu35qN0zSjvX+i8vvGiatj5XADpd8uqu+QtekmJkQM=;
+        t=1696967880; bh=OSvDt4gafYGLJ1p5fuFY+tZRsl8aP0WqWAt7qYZ4Vlc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Qc10QfFtEyXtJSZZTDo2pPVGDQLYWpOviSU0EeFN+cdeMRSvayKfYItQGnRvP7N2f
-         90wcQDJ1juh9dvcqlVUOQ51UCTuRIDwMxpmuId8AlIVSnCPdwakVbKC/cUy83/Vn9f
-         5I+31EZwPgxbMCJjk7nSN6K9QJrbFCgG58ALUOv8VeS3OA853h/YrfD5SPklVoCJfK
-         6qyClD4CUZISUuUge4AbauzfQJiyS9kgs4gbpQ6a345BYsEEmL/HW3BvJprKXFjYEU
-         LabDAeiYJo3gCLJ81bYtOtiWm/BYqPeh3UlbJYZqkyFNisoPxNEMqw4NonomnWkJ4a
-         bXyurvwvF8gPg==
+        b=NUiIGFhnrvwXMBtFhyW9HV8zAN+yt0lKEPeICNTQQQU6uemtcoC5UptIiC8ph2zRV
+         91JbLKIxM96kegxqNLiuXMD2VmrF2tO22kSR9KUKvKuSy6ENZpE25xYDTeBZ4f0hVM
+         RQjgCZQOnpKCHCBU1ufDe7TwkR5MMFQoaa0gHuBq+FyV8FE+AUBZ/wzGOsEbQRrq/V
+         77GEE7YzVahiaVHoMyXs+6CSq/2TffXjiSMqO4y8txIge30Mip1TyEFsD1YtmSqhOE
+         aFiZhGvNdx+EslSyl8pETCQgLyvK2tEju373Rj3GBjmLDJwtPitjFWktRngD3/cZoQ
+         jfw4Nzus2JpQg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs/zh_TW: update contents for zh_TW
-In-Reply-To: <20231010-helping-pajamas-dee038@meerkat>
-References: <20231010050727.49212-1-src.res.211@gmail.com>
- <87a5sq70uy.fsf@meer.lwn.net> <20231010-helping-pajamas-dee038@meerkat>
-Date:   Tue, 10 Oct 2023 13:52:29 -0600
-Message-ID: <87fs2i5k76.fsf@meer.lwn.net>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, backports@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH v2] docs: add backporting and conflict resolution document
+In-Reply-To: <87bkdfg2ds.fsf@meer.lwn.net>
+References: <20230824092325.1464227-1-vegard.nossum@oracle.com>
+ <87bkdfg2ds.fsf@meer.lwn.net>
+Date:   Tue, 10 Oct 2023 13:57:59 -0600
+Message-ID: <877cnu5jy0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
+Jonathan Corbet <corbet@lwn.net> writes:
 
->> Putting your patches inline would be the right thing to do in any case.
+> Vegard Nossum <vegard.nossum@oracle.com> writes:
 >
-> I'm not sure if your client is showing it differently, but to me the patch
-> appears to be just like any other -- it's inline and properly formed.
-
-OK, weird...looking at the raw message it's definitely inline; no idea
-why notmuch is showing it as an attachment.
-
->> Rather than force another round, I've tried to the patch directly (but
->> see below), but it would be good to figure out why lore doesn't like it.
->> Konstantin, any ideas?
+>> This is a new document based on my 2022 blog post:
+>>
+>>   https://blogs.oracle.com/linux/post/backporting-patches-using-git
+>>
+>> Although this is aimed at stable contributors and distro maintainers,
+>> it does also contain useful tips and tricks for anybody who needs to
+>> resolve merge conflicts.
+>>
+>> By adding this to the kernel as documentation we can more easily point
+>> to it e.g. from stable emails about failed backports, as well as allow
+>> the community to modify it over time if necessary.
+>>
+>> I've added this under process/ since it also has
+>> process/applying-patches.rst. Another interesting document is
+>> maintainer/rebasing-and-merging.rst which maybe should eventually refer
+>> to this one, but I'm leaving that as a future cleanup.
+>>
+>> Thanks to Harshit Mogalapalli for helping with the original blog post
+>> as well as this updated document and Bagas Sanjaya for providing
+>> thoughtful feedback.
+>>
+>> v2: fixed heading style, link style, placeholder style, other comments
 >
-> If you like, we can migrate linux-doc to the new infrastructure and then you
-> will probably see it on lore faster than it's delivered into your inbox. :)
+> So this seems generally good and useful.  I have a few small comments,
+> none of which necessarily block merging it in its current form:
+>
+> - I would like to see an ack/reviewed-by tag by others with experience
+>   with this task if possible.  The lack of complaints is a good start,
+>   but not always indicative of a lack of disagreement...:)
+>
+> - Might this be better placed in Documentation/maintainer?
+>
+> - Colordiff looks cool, but I'd at least drop in a mention of the Emacs
+>   ediff mode, which offers (I believe) a lot of the same functionality.
 
-Sure, I'd be happy to see it move anytime.
+So I never got an answer on any of this ...  I've gone ahead and applied
+the patch on the theory that it clearly hasn't upset anybody; I do still
+think we should consider moving it to the maintainer manual, though.
 
 Thanks,
 
