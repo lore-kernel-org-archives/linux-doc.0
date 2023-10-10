@@ -2,98 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8A0CD80AD
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 11:37:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B64C2CD80B0
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 11:39:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231231AbjJJLhA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 07:37:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42838 "EHLO
+        id S231395AbjJJLjl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 07:39:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjJJLg7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 07:36:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC32FA4;
-        Tue, 10 Oct 2023 04:36:57 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7F79C433C8;
-        Tue, 10 Oct 2023 11:36:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696937817;
-        bh=kphcprxqB/I3b9pJ6JxA57GWF1FA2S/khI6Dosf5Juo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VrtQM7gPxLsbazqeFCEYj5U/iKZxPu0aoABRwuxOTuYHPP3FMwEEgn/RBRPw8zMO+
-         +K6X6VnQueWZtZpld6PeEsIdcBaJ9C1ThIEYgLc7Bkf2uodj+R3TgAQnZXfQdofQro
-         ZV++fy2u90Plf1Wps+1fJjUnzd06h9GsL1fRPMzo=
-Date:   Tue, 10 Oct 2023 13:36:54 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Max Kellermann <max.kellermann@ionos.com>
-Cc:     linux@roeck-us.net, joe@perches.com,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/process/coding-style.rst: space around
- const/volatile
-Message-ID: <2023101025-bungee-carve-2b4b@gregkh>
-References: <20231010101240.992984-1-max.kellermann@ionos.com>
+        with ESMTP id S229921AbjJJLjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 07:39:40 -0400
+Received: from out0-209.mail.aliyun.com (out0-209.mail.aliyun.com [140.205.0.209])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FE2299;
+        Tue, 10 Oct 2023 04:39:38 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R261e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018047198;MF=tiwei.btw@antgroup.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---.UxYjvU3_1696937965;
+Received: from ubuntu..(mailfrom:tiwei.btw@antgroup.com fp:SMTPD_---.UxYjvU3_1696937965)
+          by smtp.aliyun-inc.com;
+          Tue, 10 Oct 2023 19:39:34 +0800
+From:   "Tiwei Bie" <tiwei.btw@antgroup.com>
+To:     linux-erofs@lists.ozlabs.org, xiang@kernel.org
+Cc:     <ayushranjan@google.com>, "Tiwei Bie" <tiwei.btw@antgroup.com>,
+        "Chao Yu" <chao@kernel.org>, "Yue Hu" <huyue2@coolpad.com>,
+        "Jeffle Xu" <jefflexu@linux.alibaba.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] erofs: fix inode metadata space layout description in documentation
+Date:   Tue, 10 Oct 2023 19:39:15 +0800
+Message-Id: <20231010113915.436591-1-tiwei.btw@antgroup.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231010101240.992984-1-max.kellermann@ionos.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 12:12:40PM +0200, Max Kellermann wrote:
-> There are currently no rules on the placement of "const" and
-> "volatile", but a recent code submission revealed that there is
-> clearly a preference for spaces around them.
-> 
-> checkpatch.pl has no check at all for this; though it does sometimes
-> complain, but only because it erroneously thinks that the "*" (on
-> local variables) is an unary dereference operator, not a pointer type.
-> 
-> Current coding style for const pointers-to-pointers:
-> 
->  "*const*": 2 occurrences
->  "* const*": 3
->  "*const *": 182
->  "* const *": 681
-> 
-> Just const pointers:
-> 
->  "*const": 2833 occurrences
->  "* const": 16615
-> 
-> Link: https://lore.kernel.org/r/264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net/
-> Link: https://lore.kernel.org/r/f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com/
-> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
-> ---
->  Documentation/process/coding-style.rst | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 6db37a46d305..b40830517938 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -271,6 +271,18 @@ adjacent to the type name.  Examples:
->  	unsigned long long memparse(char *ptr, char **retptr);
->  	char *match_strdup(substring_t *s);
->  
-> +Use space around the keywords ``const`` and ``volatile`` (except when
-> +adjacent to parentheses).  Example:
-> +
-> +.. code-block:: c
-> +
-> +	const void *a;
-> +	void * const b;
-> +	void ** const c;
-> +	void * const * const d;
-> +	void * volatile e;
-> +	int strcmp(const char *a, const char *b);
+Xattrs, extents, data inline are _placed after_, not _followed by_ the
+corresponding inode. This patch fixes it.
 
-Don't encourage the use of volatile please, it shouldn't be needed in
-kernel code (hint, almost all uses of it in the tree is wrong except for
-asm statements and some .h files that know they need it for some
-hardware operations.)
+Fixes: fdb0536469cb ("staging: erofs: add document")
+Signed-off-by: Tiwei Bie <tiwei.btw@antgroup.com>
+---
+ Documentation/filesystems/erofs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index f200d7874495..57c6ae23b3fc 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -199,7 +199,7 @@ may not. All metadatas can be now observed in two different spaces (views):
+                                         |                  |
+                                         |__________________| 64 bytes
+ 
+-    Xattrs, extents, data inline are followed by the corresponding inode with
++    Xattrs, extents, data inline are placed after the corresponding inode with
+     proper alignment, and they could be optional for different data mappings.
+     _currently_ total 5 data layouts are supported:
+ 
+-- 
+2.34.1
 
-greg k-h
