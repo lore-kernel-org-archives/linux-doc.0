@@ -2,345 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8FBCD8CA1
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 15:01:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEBBCD8CA2
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 15:19:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233237AbjJJPBD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 11:01:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51058 "EHLO
+        id S232982AbjJJPTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 11:19:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233293AbjJJPBB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 11:01:01 -0400
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2056.outbound.protection.outlook.com [40.107.247.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C658CB4;
-        Tue, 10 Oct 2023 08:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kva2NKMkG3+SHPd1GwnlMzxq2idQjKmA52DhGdUiaNg=;
- b=YiIGlfYuNAFh+Gg9hRRDSimF3rUX9jYv0W/ysH3DA67xemQXrU6zBw4/V8MsCv02eeRtSI/lkU1mGNYhRC8DwTzcWgIQemVz0ACX5rbXr8LLw+BDVL4Cfz0eBzmMldnvHmPUf1wsrOesvAtEr8+r0axiTbDvUUNwW9hU7ihep34=
-Received: from AS9PR06CA0078.eurprd06.prod.outlook.com (2603:10a6:20b:464::28)
- by DBBPR08MB6283.eurprd08.prod.outlook.com (2603:10a6:10:1f7::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.41; Tue, 10 Oct
- 2023 15:00:55 +0000
-Received: from AM7EUR03FT037.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:464:cafe::a2) by AS9PR06CA0078.outlook.office365.com
- (2603:10a6:20b:464::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36 via Frontend
- Transport; Tue, 10 Oct 2023 15:00:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT037.mail.protection.outlook.com (100.127.140.225) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6886.23 via Frontend Transport; Tue, 10 Oct 2023 15:00:53 +0000
-Received: ("Tessian outbound ab4fc72d2cd4:v211"); Tue, 10 Oct 2023 15:00:52 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 365f917152ea58d9
-X-CR-MTA-TID: 64aa7808
-Received: from 9a9358688d33.2
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 41F37A45-F550-4012-83DF-C68705986F73.1;
-        Tue, 10 Oct 2023 15:00:41 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 9a9358688d33.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 10 Oct 2023 15:00:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g6n3X0foma5Nr5NBjarFgf5Wx0caw7gPiHQ0Fkrl36cVDNSDii0fVR0GMUBND8wgNlHugoTO4wqWEQSQkI9kqiNxDHdWc/aJNncD71JExKd9afWdByVhgkO1EZPgDZMFe6fa5VIQcHqEoQwlvgeEitH+QQSH22/eEamdXzRVZny1hppJXgdOnc5vOF+o6UjZj8NEdXdCkmuNAJZr7VHHoP8tMAvqsHBLm0mXUcAr2WqNJfpGWicQtHpePxxzIK6w4HHaX/vZfKj/SllxMjw1DCyd0fw3QfadbnRc1UaUAvisRj+8wG6mkP0E3j5ljGACqKzOA0xd+DbO0bZgjnn2QA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kva2NKMkG3+SHPd1GwnlMzxq2idQjKmA52DhGdUiaNg=;
- b=eCp+jOrJAphgqKqtLE1qmnOTHij6G7GCMqkac2SVjU7LRpLBwoxzJe/8Z8pc9A4MbDfWhqU3ZqLHZoz7onkrrJ8v+Z+EvXgFekFxNewSWeWVeRG3s71PSG0+XBnlzqb6SOICkR+AvUXgNaigVxOKxtWHGgus/yMwFAwj7J37U9QKN1hcTXT9W6RO5dySjs7gLvQzhdVBc8x8Nfmt54u/KJoydTbRStA8Q7yZsG2LLBp2a59Nusu7YuAhGrnxFt76KFFNgVF4EOgiSXrBqgM9Esm7YuHPPf763d3xaObFbB98cFQLVNUVR7NzA+VkHSqInhvt5yyuPaPqLoRQNFUslA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kva2NKMkG3+SHPd1GwnlMzxq2idQjKmA52DhGdUiaNg=;
- b=YiIGlfYuNAFh+Gg9hRRDSimF3rUX9jYv0W/ysH3DA67xemQXrU6zBw4/V8MsCv02eeRtSI/lkU1mGNYhRC8DwTzcWgIQemVz0ACX5rbXr8LLw+BDVL4Cfz0eBzmMldnvHmPUf1wsrOesvAtEr8+r0axiTbDvUUNwW9hU7ihep34=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from GVXPR08MB7727.eurprd08.prod.outlook.com (2603:10a6:150:6b::6)
- by DU0PR08MB9823.eurprd08.prod.outlook.com (2603:10a6:10:444::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Tue, 10 Oct
- 2023 15:00:39 +0000
-Received: from GVXPR08MB7727.eurprd08.prod.outlook.com
- ([fe80::7556:1a83:73f0:cf7]) by GVXPR08MB7727.eurprd08.prod.outlook.com
- ([fe80::7556:1a83:73f0:cf7%7]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
- 15:00:37 +0000
-Message-ID: <c978b02b-2c82-06a6-f63a-67729524bf6c@arm.com>
-Date:   Tue, 10 Oct 2023 16:00:32 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.1
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Subject: Re: [PATCH v2 2/3] arm64: perf: Add support for event counting
- threshold
-To:     James Clark <james.clark@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Reiji Watanabe <reijiw@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Zaid Al-Bassam <zalbassam@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvmarm@lists.linux.dev
-References: <20231010104048.1923484-1-james.clark@arm.com>
- <20231010104048.1923484-3-james.clark@arm.com>
-In-Reply-To: <20231010104048.1923484-3-james.clark@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0340.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18c::21) To GVXPR08MB7727.eurprd08.prod.outlook.com
- (2603:10a6:150:6b::6)
+        with ESMTP id S231911AbjJJPTq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 11:19:46 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12EE1A7;
+        Tue, 10 Oct 2023 08:19:45 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4550EC433C8;
+        Tue, 10 Oct 2023 15:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696951184;
+        bh=7jQQMifr+Go217T5d/AsqG55iRv8grrj68bn1uTAOUw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Fse0NxUJruhuRP/9HVS7j4oNWQ9VWIzRTXdWCpjwYWuK0zsxIdBTn1RIyydlKOt1T
+         zHK8rbLnOp1Tcsb/N+k4VDoNFDLd5BSzOuE7nPSzVfgL41IyEM6lWMGS6Z7L4phQGU
+         HTi7D8P/RgfuzFLI5I4+07AB4OvBjo9GdZaKMDS8AXc6HrAxUZu6fFEZseo5ETF7ji
+         UKJ/DeZkJqYrgxv1RlZOBFW5t4SG2mIIXBOCtf2+NPLoK/J7HHiegsR60x2cOz48ii
+         XNbPUswt8Li0wRdXzCcEKj36DRYgcopJ3h3psWg1Ii+6rSX6PWIDqsv3RCjrO46YsB
+         3RHLsZWeZDc4Q==
+Message-ID: <2403fd80-e32c-4e5b-a215-55c7bb88df8d@kernel.org>
+Date:   Tue, 10 Oct 2023 17:19:38 +0200
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: GVXPR08MB7727:EE_|DU0PR08MB9823:EE_|AM7EUR03FT037:EE_|DBBPR08MB6283:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab226b3f-66ec-47be-9b88-08dbc9a1b2ff
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: VCD34SmuDnbTXzxPhZMx5bbSRHS9iaZHQRms5KYx5xYwzw0rB5sRQAPacC0sUBEmkekSdeqQHBE0liqIuOqUT33GxveKV4UTr2C7BavIw4J4JdZxzY8Zn/GDx/bWkrOV+K/l/lRVJrS3Qjo8CleHH6yK4z1UqQ95j0r/h9MXwtd5fZYr12ZDFVmQvC6dCWnUKfWEZ9+2f+9FAFyxSVZ2PzXcYs6tGWwQweaYGcFvl3UuxUx9L0t2s+NOFHBRR8Rdrfnm5gAdEzUYh+m3yMeX1X8mVBp0aTbAr+UqdCfGCVXEer/Ule8BfqnfInCjA9LqbTLqEWIIEDFesnAqLjGSVbgM6oV/iBl8zcdHQe96JjtcUTXZrf1YFI3fD9J3s0f6xjjHFRK2rwA4uCtekf5YmsRV15mn/eA3ees78Y9f17dX+ww/fs1WnSEuHsI9ljdOA6dp+i++Q8VT31e7aNO0El9wtqYdIYSHbQuf/EqXxmUljW/2QHa4TM1b3VwpaeX+OPehAQRdoe7BQ9rNUtDMphYgPzjTQR/Gc33bXBdOc7EdRr5mJSiDYFGB9ALAEqruJPrvVbWwQhO0KMML9MIES4ApAHRC0B2hjGTW3X2xpEfjCGugqd1nK3aNEJ6mez6+ydJv/2+6xzyz6m8Lb5YY4g==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR08MB7727.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(136003)(396003)(366004)(346002)(230922051799003)(186009)(451199024)(1800799009)(64100799003)(6512007)(2616005)(53546011)(6506007)(41300700001)(6486002)(478600001)(83380400001)(2906002)(7416002)(5660300002)(66556008)(54906003)(66476007)(66946007)(8936002)(8676002)(4326008)(316002)(26005)(31696002)(36756003)(38100700002)(86362001)(31686004)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9823
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT037.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: b585c1a0-03b9-4c89-1057-08dbc9a1a945
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Q7jVR6D7+0mfnTYX3BaLpL+ADqTle4IXtlcw2VYr2UPfQU7l1u7glcxjnZMLwB43YCR5X9IYEl5CqFe3bI+/ddps1Qs85LwgopI88Wtc/MuXSg3KNJXwPBgK5m8/oHC9JIxpC2yV3yKB91LRc3kD+1xeuCQfDhUngFF3CfHZ/goZ9hCdBA57wMO+LMD9QtFDC4RZoDXJ3gmbXDM3Dql5hrvAPABjtvczCMhVokrEQb1cptLQyWHOxRgOhu/jF1c4/ti7N0pnc9HesFSULOAGtxtB39GmsrF96Dv0carNIeVa/wQHPY2TRwEbdaUgUTAtksVekKCSBdltBuOw2C+kbKIwjAWu1Fx2b/RGkDpvzNyXWy6PvTXsjDy2tcArrSxrSlXzJchWVpMgzQA9kzoAm8SrNfs5eQZYVkU5eKm2cewjFBdQrB61QGdmVX7LE0L7ap+dPRQEB4tfQ/sAtySqWDdIK//41KuAxtvlPG3iHXUJuBkxf1rtFtpBeWF+kLvObZACDW2hXEO6EL2M8o4MmJWRK2bJ7ylye4FSoA31OwM9tDZNDVX8dhhgQB+CGcVU2VLQqRwZJWo9RXMJQrRe5cm2cThDSSEPV2n+HRD5hI/thsFbNyoQO5REFcOvCjnWxUhnDD5TNIJEMeEcuKN5O5jZeNmEyPBN1TJ7dezdz1s3rfQ8DYWjTbS6nO8m3RxQPL3YraaODqy3+ckGEE3zK+j5+kD5F2MTidpDkHjox1fIqV9YLCmrlARB8Jz9scTodW91xM6e6FIznFElXKNt1Q==
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(136003)(346002)(39860400002)(230922051799003)(451199024)(186009)(64100799003)(82310400011)(1800799009)(40470700004)(46966006)(36840700001)(41300700001)(2616005)(107886003)(40480700001)(86362001)(316002)(54906003)(40460700003)(70586007)(36756003)(5660300002)(70206006)(83380400001)(82740400003)(31696002)(26005)(47076005)(356005)(81166007)(2906002)(36860700001)(336012)(450100002)(8676002)(8936002)(4326008)(31686004)(478600001)(6486002)(6506007)(53546011)(6666004)(6512007)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 15:00:53.1820
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab226b3f-66ec-47be-9b88-08dbc9a1b2ff
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT037.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6283
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] docs: try to encourage (netdev?) reviewers
+Content-Language: en-GB, fr-BE
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, andrew@lunn.ch,
+        jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
+        przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
+        jiri@resnulli.us, ecree.xilinx@gmail.com
+References: <20231009225637.3785359-1-kuba@kernel.org>
+From:   Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ Fe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: Tessares
+In-Reply-To: <20231009225637.3785359-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/10/2023 11:40, James Clark wrote:
-> FEAT_PMUv3_TH (Armv8.8) permits a PMU counter to increment only on
-> events whose count meets a specified threshold condition. For example if
-> PMEVTYPERn.TC (Threshold Control) is set to 0b101 (Greater than or
-> equal, count), and the threshold is set to 2, then the PMU counter will
-> now only increment by 1 when an event would have previously incremented
-> the PMU counter by 2 or more on a single processor cycle.
+Hi Jakub,
+
+On 10/10/2023 00:56, Jakub Kicinski wrote:
+> Add a section to netdev maintainer doc encouraging reviewers
+> to chime in on the mailing list.
 > 
-> Two new Perf event config fields, 'threshold' and 'threshold_control'
-> have been added for controlling the feature:
+> The questions about "when is it okay to share feedback"
+> keep coming up (most recently at netconf) and the answer
+> is "pretty much always".
 > 
->    $ perf stat -e stall_slot/threshold=2,threshold_control=5/
-> 
-> A new capability for reading out the maximum supported threshold value
-> has also been added:
-> 
->    $ cat /sys/bus/event_source/devices/armv8_pmuv3/caps/threshold_max
-> 
->    0x000000ff
-> 
-> If a threshold higher than threshold_max is provided, then no error is
-> generated but the threshold is clamped to the max value. If
-> FEAT_PMUv3_TH isn't implemented or a 32 bit kernel is running, then
-> threshold_max reads zero, and neither the 'threshold' nor
-> 'threshold_control' parameters will be used.
-> 
-> The threshold is per PMU counter, and there are potentially different
-> threshold_max values per PMU type on heterogeneous systems.
-> 
-> Bits higher than 32 now need to be written into PMEVTYPER, so
-> armv8pmu_write_evtype() has to be updated to take an unsigned long value
-> rather than u32 which gives the correct behavior on both aarch32 and 64.
-> 
-> Signed-off-by: James Clark <james.clark@arm.com>
-> ---
->   drivers/perf/arm_pmuv3.c       | 67 +++++++++++++++++++++++++++++++++-
->   include/linux/perf/arm_pmuv3.h |  1 +
->   2 files changed, 67 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-> index 8fcaa26f0f8a..6d669b16a2bc 100644
-> --- a/drivers/perf/arm_pmuv3.c
-> +++ b/drivers/perf/arm_pmuv3.c
-> @@ -15,6 +15,7 @@
->   #include <clocksource/arm_arch_timer.h>
->   
->   #include <linux/acpi.h>
-> +#include <linux/bitfield.h>
->   #include <linux/clocksource.h>
->   #include <linux/of.h>
->   #include <linux/perf/arm_pmu.h>
-> @@ -294,9 +295,16 @@ static const struct attribute_group armv8_pmuv3_events_attr_group = {
->   	.is_visible = armv8pmu_event_attr_is_visible,
->   };
->   
-> +#define TH_LO	2
-> +#define TH_HI	13
-> +#define TH_CNTL_LO	14
-> +#define TH_CNTL_HI	16
+> Extend the section of 7.AdvancedTopics.rst which deals
+> with reviews a little bit to add stuff we had been recommending
+> locally.
+
+Good idea to encourage everybody to review, even the less experimented
+ones. That might push me to send more reviews, even when I don't know
+well the area that is being modified, thanks! :)
+
+(...)
+
+> diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
+> index bf7cbfb4caa5..415749feed17 100644
+> --- a/Documentation/process/7.AdvancedTopics.rst
+> +++ b/Documentation/process/7.AdvancedTopics.rst
+> @@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
+>  format the request as other developers expect, and will also check to be
+>  sure that you have remembered to push those changes to the public server.
+>  
+> +.. _development_advancedtopics_reviews:
+>  
+>  Reviewing patches
+>  -----------------
+> @@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
+>  get released in this path?" will always work better than stating "the
+>  locking here is wrong."
+
+The paragraph just above ("it is OK to question the code") is very nice!
+When I'm cced on some patches modifying some code I'm not familiar with
+and there are some parts that look "strange" to me, I sometimes feel
+like I only have two possibilities: either I spend quite some time
+understanding that part or I give up if I don't have such time. I often
+feel like I cannot say "I don't know well this part, but this looks
+strange to me: are you sure it is OK to do that in such conditions?",
+especially when the audience is large and/or the author of the patch is
+an experienced developer.
+
+> +Another technique useful in case of a disagreement is to ask for others
+> +to chime in. If a discussion reaches a stalemate after a few exchanges,
+> +calling for opinions of other reviewers or maintainers. Often those in
+> +agreement with a reviewer remain silent unless called upon.
+> +Opinion of multiple people carries exponentially more weight.
 > +
->   PMU_FORMAT_ATTR(event, "config:0-15");
->   PMU_FORMAT_ATTR(long, "config1:0");
->   PMU_FORMAT_ATTR(rdpmc, "config1:1");
-> +PMU_FORMAT_ATTR(threshold, "config1:" __stringify(TH_LO) "-" __stringify(TH_HI));
-> +PMU_FORMAT_ATTR(threshold_control, "config1:" __stringify(TH_CNTL_LO) "-" __stringify(TH_CNTL_HI));
-
-
->   
->   static int sysctl_perf_user_access __read_mostly;
->   
-> @@ -310,10 +318,22 @@ static inline bool armv8pmu_event_want_user_access(struct perf_event *event)
->   	return event->attr.config1 & 0x2;
->   }
->   
-> +static inline u32 armv8pmu_event_threshold(struct perf_event_attr *attr)
-> +{
-> +	return FIELD_GET(GENMASK(TH_HI, TH_LO), attr->config1);
-> +}
+>  Different developers will review code from different points of view.  Some
+>  are mostly concerned with coding style and whether code lines have trailing
+>  white space.  Others will focus primarily on whether the change implemented
+> @@ -176,3 +183,14 @@ security issues, duplication of code found elsewhere, adequate
+>  documentation, adverse effects on performance, user-space ABI changes, etc.
+>  All types of review, if they lead to better code going into the kernel, are
+>  welcome and worthwhile.
 > +
-> +static inline u8 armv8pmu_event_threshold_control(struct perf_event_attr *attr)
-> +{
-> +	return FIELD_GET(GENMASK(TH_CNTL_HI, TH_CNTL_LO), attr->config1);
-> +}
+> +There is no strict requirement to use specific tags like ``Reviewed-by``.
+> +In fact reviews in plain English are more informative and encouraged
+> +even when a tag is provided (e.g. "I looked at aspects A, B and C of this
+> +submission and it looks good to me.")
+
+That's a very good point, good idea to insist on that!
+
+Small nit: if I'm not mistaken, in reStructuredText, if there is no
+blank line in between the lines, the text will be merged in the rendered
+output and the previous line is not ending with a dot :)
+
+Also, personally, I would have removed the parentheses, but I'm not sure
+what are the rules about that in English:
+
+  In fact <...> when a tag is provided, e.g. "I looked at <...>".
+
+> +Some form of a review message / reply is obviously necessary otherwise
+> +maintainers will not know that the reviewer has looked at the patch at all!
 > +
->   static struct attribute *armv8_pmuv3_format_attrs[] = {
->   	&format_attr_event.attr,
->   	&format_attr_long.attr,
->   	&format_attr_rdpmc.attr,
+> +Last but not least patch review may become a negative process, focused
+> +on pointing out problems. Please throw in a compliment once in a while,
+> +particularly for newbies!
 
-> +	&format_attr_threshold.attr,
-> +	&format_attr_threshold_control.attr,
-
-Given this is not supported for !CONFIG_ARM64, does it make sense to 
-remove them for that case, given we already take care of this in
-the code using IS_ENABLED(CONFIG_ARM64) ? The nice part is that
-the arm32 doesn't see something that is never usable. I understand
-the maxthreshold=0 already gives out the hint.
-
-Rest looks fine to me.
-
->   	NULL,
->   };
->   
-> @@ -365,10 +385,38 @@ static ssize_t bus_width_show(struct device *dev, struct device_attribute *attr,
->   
->   static DEVICE_ATTR_RO(bus_width);
->   
-> +static u32 threshold_max(struct arm_pmu *cpu_pmu)
-> +{
-> +	/*
-> +	 * PMMIR.WIDTH is readable and non-zero on aarch32, but it would be
-> +	 * impossible to write the threshold in the upper 32 bits of PMEVTYPER.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_ARM))
-> +		return 0;
-> +
-> +	/*
-> +	 * The largest value that can be written to PMEVTYPER<n>_EL0.TH is
-> +	 * (2 ^ PMMIR.THWIDTH) - 1.
-> +	 */
-> +	return (1 << FIELD_GET(ARMV8_PMU_THWIDTH, cpu_pmu->reg_pmmir)) - 1;
-> +}
-> +
-> +static ssize_t threshold_max_show(struct device *dev,
-> +				  struct device_attribute *attr, char *page)
-> +{
-> +	struct pmu *pmu = dev_get_drvdata(dev);
-> +	struct arm_pmu *cpu_pmu = container_of(pmu, struct arm_pmu, pmu);
-> +
-> +	return sysfs_emit(page, "0x%08x\n", threshold_max(cpu_pmu));
-> +}
-> +
-> +static DEVICE_ATTR_RO(threshold_max);
-> +
->   static struct attribute *armv8_pmuv3_caps_attrs[] = {
->   	&dev_attr_slots.attr,
->   	&dev_attr_bus_slots.attr,
->   	&dev_attr_bus_width.attr,
-> +	&dev_attr_threshold_max.attr,
-
-Similarly here and could avoid the IS_ENABLED(CONFIG_ARM) above.
-
-Suzuki
-
-
->   	NULL,
->   };
->   
-> @@ -552,7 +600,7 @@ static void armv8pmu_write_counter(struct perf_event *event, u64 value)
->   		armv8pmu_write_hw_counter(event, value);
->   }
->   
-> -static inline void armv8pmu_write_evtype(int idx, u32 val)
-> +static inline void armv8pmu_write_evtype(int idx, unsigned long val)
->   {
->   	u32 counter = ARMV8_IDX_TO_COUNTER(idx);
->   
-> @@ -914,6 +962,10 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->   				     struct perf_event_attr *attr)
->   {
->   	unsigned long config_base = 0;
-> +	struct perf_event *perf_event = container_of(attr, struct perf_event,
-> +						     attr);
-> +	struct arm_pmu *cpu_pmu = to_arm_pmu(perf_event->pmu);
-> +	u32 th, th_max;
->   
->   	if (attr->exclude_idle)
->   		return -EPERM;
-> @@ -945,6 +997,19 @@ static int armv8pmu_set_event_filter(struct hw_perf_event *event,
->   	if (attr->exclude_user)
->   		config_base |= ARMV8_PMU_EXCLUDE_EL0;
->   
-> +	/*
-> +	 * Insert event counting threshold (FEAT_PMUv3_TH) values. If
-> +	 * FEAT_PMUv3_TH isn't implemented, then THWIDTH (threshold_max) will be
-> +	 * 0 and no values will be written.
-> +	 */
-> +	th_max = threshold_max(cpu_pmu);
-> +	if (IS_ENABLED(CONFIG_ARM64) && th_max) {
-> +		th = min(armv8pmu_event_threshold(attr), th_max);
-> +		config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TH, th);
-> +		config_base |= FIELD_PREP(ARMV8_PMU_EVTYPE_TC,
-> +					  armv8pmu_event_threshold_control(attr));
-> +	}
-> +
->   	/*
->   	 * Install the filter into config_base as this is used to
->   	 * construct the event type.
-> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
-> index ec3a01502e7c..753f8dbd9d10 100644
-> --- a/include/linux/perf/arm_pmuv3.h
-> +++ b/include/linux/perf/arm_pmuv3.h
-> @@ -255,6 +255,7 @@
->   #define ARMV8_PMU_BUS_SLOTS_MASK 0xff
->   #define ARMV8_PMU_BUS_WIDTH_SHIFT 16
->   #define ARMV8_PMU_BUS_WIDTH_MASK 0xf
-> +#define ARMV8_PMU_THWIDTH GENMASK(23, 20)
->   
->   /*
->    * This code is really good
-
+Cheers,
+Matt
+-- 
+Tessares | Belgium | Hybrid Access Solutions
+www.tessares.net
