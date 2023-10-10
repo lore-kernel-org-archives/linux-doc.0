@@ -2,100 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2EFCD8CB4
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A506CD8CB5
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 19:30:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343906AbjJJT0H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 15:26:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54774 "EHLO
+        id S231596AbjJJTat (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 15:30:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234473AbjJJTZz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:25:55 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A617D6C;
-        Tue, 10 Oct 2023 12:24:30 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 960DDC433C9;
-        Tue, 10 Oct 2023 19:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696965870;
-        bh=OaUT113OyEWZGUuz0QanPBBQlM+TNKNCSR8UWh97s4g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DzH52Z7aff0PLm//rj5X1M7cPqIlNkK7SLMktoACnl6QnQWNaa0dU6ixCQEV0y5oM
-         +r6Yl/2FrXGlupfrbBNdkztXv//SemcHc57So/T85eOqDdtEvu2nesyD/PF4T2kKBJ
-         6zIDgoLhWG3ilgaPqEsqUCmIvJq5SkCsQef7P0d0=
-Date:   Tue, 10 Oct 2023 21:24:27 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Max Kellermann <max.kellermann@ionos.com>
-Cc:     linux@roeck-us.net, joe@perches.com,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        with ESMTP id S234258AbjJJTar (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 15:30:47 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5809FC4;
+        Tue, 10 Oct 2023 12:30:46 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D6C172B2;
+        Tue, 10 Oct 2023 19:30:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D6C172B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1696966246; bh=pPJmFKhmB8FxDsFb+VAkIgqyGFD5ayeWmYIm6GKAjQU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=QzQRrNDyoBetfX3v+IdXae79ajoDQMF/2Cf5jalFDzmBd0ZSnEQZD6VE+a9inGdH3
+         peH/DOuxjrmMUSaIMrytTK/vfQeboelG0J5CQgV2a6/L6iaonCIzxcDwEGy+9Qp9Ur
+         eImuwEYB40nigdnHTQ52vv7bKrIYYXLi8QpnOTqwd5VFIi4OcEdND8tAzUaQcF9F4Y
+         RYzMBFTK0ZoEf30WEOxTk4IlSPEAZtSXGlij8HuEoA2IrifcbS3ELs75MlHLu0rkfB
+         O8yy+FXhUAS3oqVKdiKkVRGqovnj5y8klmZSkTyVnulbqeVNCu6DMnYWvDbcfY5SD5
+         IBNU30CVG0cDA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <muchun.song@linux.dev>, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation/process/coding-style.rst: space around
- const
-Message-ID: <2023101018-eggnog-unsavory-1ba6@gregkh>
-References: <20231010125832.1002941-1-max.kellermann@ionos.com>
+Cc:     Costa Shulyupin <costa.shul@redhat.com>
+Subject: Re: [PATCH] docs: update link to powerpc/vmemmap_dedup.rst
+In-Reply-To: <20230927164319.2686237-1-costa.shul@redhat.com>
+References: <20230927164319.2686237-1-costa.shul@redhat.com>
+Date:   Tue, 10 Oct 2023 13:30:45 -0600
+Message-ID: <87sf6i5l7e.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231010125832.1002941-1-max.kellermann@ionos.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 02:58:31PM +0200, Max Kellermann wrote:
-> There are currently no rules on the placement of "const", but a recent
-> code submission revealed that there is clearly a preference for spaces
-> around it.
-> 
-> checkpatch.pl has no check at all for this; though it does sometimes
-> complain, but only because it erroneously thinks that the "*" (on
-> local variables) is an unary dereference operator, not a pointer type.
-> 
-> Current coding style for const pointers-to-pointers:
-> 
->  "*const*": 2 occurrences
->  "* const*": 3
->  "*const *": 182
->  "* const *": 681
-> 
-> Just const pointers:
-> 
->  "*const": 2833 occurrences
->  "* const": 16615
-> 
-> Link: https://lore.kernel.org/r/264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net/
-> Link: https://lore.kernel.org/r/f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com/
-> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
-> ---
-> V1 -> V2: removed "volatile" on gregkh's request.
-> V2 -> V3: moved patch changelog below the "---" line
-> ---
->  Documentation/process/coding-style.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 6db37a46d305..71d62d81e506 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -271,6 +271,17 @@ adjacent to the type name.  Examples:
->  	unsigned long long memparse(char *ptr, char **retptr);
->  	char *match_strdup(substring_t *s);
->  
-> +Use space around the ``const`` keyword (except when adjacent to
-> +parentheses).  Example:
-> +
-> +.. code-block:: c
-> +
-> +	const void *a;
-> +	void * const b;
-> +	void ** const c;
-> +	void * const * const d;
-> +	int strcmp(const char *a, const char *b);
-> +
->  Use one space around (on each side of) most binary and ternary operators,
->  such as any of these::
->  
-> -- 
-> 2.39.2
-> 
+Costa Shulyupin <costa.shul@redhat.com> writes:
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> after move of powerpc/ to arch/
+>
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> ---
+>  Documentation/mm/vmemmap_dedup.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
+> index 59891f72420e..593ede6d314b 100644
+> --- a/Documentation/mm/vmemmap_dedup.rst
+> +++ b/Documentation/mm/vmemmap_dedup.rst
+> @@ -211,7 +211,7 @@ the device (altmap).
+>  
+>  The following page sizes are supported in DAX: PAGE_SIZE (4K on x86_64),
+>  PMD_SIZE (2M on x86_64) and PUD_SIZE (1G on x86_64).
+> -For powerpc equivalent details see Documentation/powerpc/vmemmap_dedup.rst
+> +For powerpc equivalent details see Documentation/arch/powerpc/vmemmap_dedup.rst
+>  
+
+Applied on top of the powerpc move, thanks.
+
+jon
