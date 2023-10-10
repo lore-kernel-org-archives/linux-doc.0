@@ -2,574 +2,219 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A65DEE81E18
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Oct 2023 23:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5432BCD68E1
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 00:17:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379246AbjJIXM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Oct 2023 19:12:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44608 "EHLO
+        id S1379189AbjJJARX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Oct 2023 20:17:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379249AbjJIXMI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 19:12:08 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13C91729
-        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 16:08:13 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40572aeb73cso46573215e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 16:08:13 -0700 (PDT)
+        with ESMTP id S1379162AbjJJARW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Oct 2023 20:17:22 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E50E9
+        for <linux-doc@vger.kernel.org>; Mon,  9 Oct 2023 17:17:19 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-534694a9f26so23179a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Oct 2023 17:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1696892885; x=1697497685; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1696897038; x=1697501838; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=agDKJkjQfXsRSwqvPLvdVWa78mb7sQlkIhpfAvRSgks=;
-        b=KIBZnWmppcb5eeJOPFWTB5N/pAkBKyf97xw7kWVlRbcH21D/p1advc1P979WVP1wF8
-         Mt7mNcOba0fAGgZhbY5YhC9z/FF3CXtP5G7+GXkBD/t91hCQ8GT3sk9plAEBSAs/q2+f
-         4c2njRyaEE/Bf6tSFA2rYidtD1vrNYSgTp5y8XkLs2ClAu0o7k2rMft10ggtcjEK0O4V
-         7Uu2x2ezqM2ERnAAUFMmwB9yo3eci4RqWDbsXAADbGrXW2PFDatEFS/5McPuVLWrRXh+
-         z9tSnxfw2Y/jPPeb8U8eBEbyvqOlrCHR8Zid9BqRivHCcS7suM23VhvUNiVc4C8rvEGu
-         tthQ==
+        bh=Wbpsfjo6GOkC9l/3oGnFweGKSDLBO4JuGq7Dmzj4388=;
+        b=QMDTg+NPIcTXOSgcmEaqAfIe5N1wq23pqCZzcQHGWR4ObkzlqwITJquwmXv5OaTzxJ
+         /ILXblMQ3P2sBESe17GPGr9XNCaXVa1QDwFOm1R0ytdkaw78JxvZzb5Sf1T3Ypq3myUD
+         Ny/2lhL2jgCPWMNjc35agHnF9dKbkpCgpA1WjGlVFjYX3iTSyrLGg9NrFpYMnc85XJbj
+         xnIcE+w24QRA+MMK0bGXJefwdpaYbdqF3kr51Y/hbDxJbJlWxbA+dYgk0g2za/gQbahk
+         kixcKSldAUmHftATShP2mcyiz0BE+Zk7jy2t2m6Q7Ky+iEnArv1/mvoB/Ku+CCpK4Pra
+         JorA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696892885; x=1697497685;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1696897038; x=1697501838;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=agDKJkjQfXsRSwqvPLvdVWa78mb7sQlkIhpfAvRSgks=;
-        b=IVHijk+LFAyJrgPdbvAyen2KwJXWdShzjJbG+g7f1qJvbau7v6GHpoYss7DjmPQJ22
-         MjgSBbqZyHSR/EZLQFo4naZT0IieZmPaC6IeQxzByxiAKluQ5l7D8GDYf+4hu6sUR20P
-         +hgiUMKWRiJwZyLv6SA8cygLYjjWitqFCZIlQMXMZ+U+XxxH8H2SZvbMhXsKgtgxq5el
-         SbHmsPTmEGVDr9P8OWVir90NMQ+Q/wEcpXF1MSEDdfl8e2RrYhOMFdUmZNJok0r/2ex5
-         w1E8UIwSWxyyhMkbifVFnE8Uc6SqghnF/wgnLHb+5qtScbkgWXkKvTjmbWNaVG3XrLur
-         2gVg==
-X-Gm-Message-State: AOJu0YyMjc2YDGZRZkrERZyJtaCkd+pMkhX96pteuf07o6QQWwz/oQFV
-        7ctWPcuYjPujt/AfoNrgA26/xw==
-X-Google-Smtp-Source: AGHT+IHSmh/OKWbZKN/odW5j8R1EwMJ1JXhC21RE+cCi0xu7NGYt3u+2/+Oy9BbfiD+tYcaeQj+CgA==
-X-Received: by 2002:a05:600c:2219:b0:405:1c19:b747 with SMTP id z25-20020a05600c221900b004051c19b747mr14376224wml.15.1696892884732;
-        Mon, 09 Oct 2023 16:08:04 -0700 (PDT)
-Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id t24-20020a7bc3d8000000b004042dbb8925sm14592104wmj.38.2023.10.09.16.08.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Oct 2023 16:08:04 -0700 (PDT)
-From:   Dmitry Safonov <dima@arista.com>
-To:     David Ahern <dsahern@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Cc:     linux-kernel@vger.kernel.org, Dmitry Safonov <dima@arista.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Bob Gilligan <gilligan@arista.com>,
-        Dan Carpenter <error27@gmail.com>,
-        David Laight <David.Laight@aculab.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Donald Cassidy <dcassidy@redhat.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Francesco Ruggeri <fruggeri05@gmail.com>,
-        "Gaillardetz, Dominik" <dgaillar@ciena.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Ivan Delalande <colona@arista.com>,
-        Leonard Crestez <cdleonard@gmail.com>,
-        "Nassiri, Mohammad" <mnassiri@ciena.com>,
-        Salam Noureddine <noureddine@arista.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        "Tetreault, Francois" <ftetreau@ciena.com>, netdev@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v14 net-next 23/23] Documentation/tcp: Add TCP-AO documentation
-Date:   Tue, 10 Oct 2023 00:07:14 +0100
-Message-ID: <20231009230722.76268-24-dima@arista.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231009230722.76268-1-dima@arista.com>
-References: <20231009230722.76268-1-dima@arista.com>
+        bh=Wbpsfjo6GOkC9l/3oGnFweGKSDLBO4JuGq7Dmzj4388=;
+        b=rE2nrqHhcAkpvvXaAI6zgOcKJstnOuhDYFhzkNayf7xJCMYTfK9IJ24UYh4il7EiNt
+         lxHycxcsUdTnyrjeeKONdp++wUq9eR37WzUryjq6jhp7ORNLddeh2tiLNotmyj45ZLIH
+         1b9MqUtysUKyKUjOs3NFRLaZg25Eu7JerYuV6bU0B7vR9UN4uMyTpb8n3wbCXWL9mxoM
+         lMOi/+7DWInID+iM3rIMCMXPgkm4SeDN+Ma0G/5QJFPAhAT8jfCu8ctEhthkFn6opQ3M
+         Yrx9rGSoNCWeDBC7kCsjt+SoXyHSI/KXQGLn34BMeF1UGJW+tBK6d5p3JqU8MCEFZd0p
+         gPMw==
+X-Gm-Message-State: AOJu0YzDvSNbpFwOqB7Zpcvmxf7bUEWX1TEab6yv9CQsIX76vhT1F5DP
+        2SbISkHClXRcm3RgsZtTEqFv4odRrC1mrJPvw3lYnw==
+X-Google-Smtp-Source: AGHT+IEb7gxdmkBjFZXzY/fBb75uod5hRDT+1MLvij7dzpeqOEq6or3qdT1aKk63tNgo/vsO+Jauj8tCXru3q7NGz1M=
+X-Received: by 2002:a50:ba81:0:b0:538:5554:708a with SMTP id
+ x1-20020a50ba81000000b005385554708amr463667ede.2.1696897038268; Mon, 09 Oct
+ 2023 17:17:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231009142005.21338-1-quic_kriskura@quicinc.com> <20231009142005.21338-2-quic_kriskura@quicinc.com>
+In-Reply-To: <20231009142005.21338-2-quic_kriskura@quicinc.com>
+From:   =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
+Date:   Mon, 9 Oct 2023 17:17:02 -0700
+Message-ID: <CANP3RGfEk2DqZ3biyN78ycQYbDxCEG+H1me2vnEYuwXkNdXnTA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] usb: gadget: ncm: Add support to update
+ wMaxSegmentSize via configfs
+To:     Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        onathan Corbet <corbet@lwn.net>,
+        Linyu Yuan <quic_linyyuan@quicinc.com>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_ppratap@quicinc.com,
+        quic_wcheng@quicinc.com, quic_jackp@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It has Frequently Asked Questions (FAQ) on RFC 5925 - I found it very
-useful answering those before writing the actual code. It provides answers
-to common questions that arise on a quick read of the RFC, as well as how
-they were answered. There's also comparison to TCP-MD5 option,
-evaluation of per-socket vs in-kernel-DB approaches and description of
-uAPI provided.
+On Mon, Oct 9, 2023 at 7:20=E2=80=AFAM Krishna Kurapati
+<quic_kriskura@quicinc.com> wrote:
+>
+> Currently the NCM driver restricts wMaxSegmentSize that indicates
+> the datagram size coming from network layer to 1514. However the
+> spec doesn't have any limitation. For P2P connections over NCM,
+> increasing MTU helps increasing throughput.
+>
+> Add support to configure this value before configfs symlink is
+> created. Also since the NTB Out/In buffer sizes are fixed at 16384
+> bytes, limit the segment size to an upper cap of 15014. Set the
+> default MTU size for the ncm interface during function bind before
+> network interface is registered allowing MTU to be set in parity
+> with wMaxSegmentSize.
+>
+> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> ---
+>  drivers/usb/gadget/function/f_ncm.c | 51 +++++++++++++++++++++++++++++
+>  drivers/usb/gadget/function/u_ncm.h |  2 ++
+>  2 files changed, 53 insertions(+)
+>
+> diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/fun=
+ction/f_ncm.c
+> index feccf4c8cc4f..eab297b22200 100644
+> --- a/drivers/usb/gadget/function/f_ncm.c
+> +++ b/drivers/usb/gadget/function/f_ncm.c
+> @@ -103,6 +103,8 @@ static inline struct f_ncm *func_to_ncm(struct usb_fu=
+nction *f)
+>  /* Delay for the transmit to wait before sending an unfilled NTB frame. =
+*/
+>  #define TX_TIMEOUT_NSECS       300000
+>
+> +#define MAX_DATAGRAM_SIZE      15014
+> +
+>  #define FORMATS_SUPPORTED      (USB_CDC_NCM_NTB16_SUPPORTED |  \
+>                                  USB_CDC_NCM_NTB32_SUPPORTED)
+>
+> @@ -1408,6 +1410,7 @@ static int ncm_bind(struct usb_configuration *c, st=
+ruct usb_function *f)
+>         ncm_opts =3D container_of(f->fi, struct f_ncm_opts, func_inst);
+>
+>         if (cdev->use_os_string) {
+> +               ncm_opts->net->mtu =3D (ncm_opts->max_segment_size - ETH_=
+HLEN);
+>                 f->os_desc_table =3D kzalloc(sizeof(*f->os_desc_table),
+>                                            GFP_KERNEL);
+>                 if (!f->os_desc_table)
+> @@ -1469,6 +1472,8 @@ static int ncm_bind(struct usb_configuration *c, st=
+ruct usb_function *f)
+>
+>         status =3D -ENODEV;
+>
+> +       ecm_desc.wMaxSegmentSize =3D ncm_opts->max_segment_size;
 
-Hopefully, it will be as useful for reviewing the code as it was for writing.
+I think you need byte swap here.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Dmitry Safonov <dima@arista.com>
-Acked-by: David Ahern <dsahern@kernel.org>
----
- Documentation/networking/index.rst  |   1 +
- Documentation/networking/tcp_ao.rst | 444 ++++++++++++++++++++++++++++
- 2 files changed, 445 insertions(+)
- create mode 100644 Documentation/networking/tcp_ao.rst
+> +
+>         /* allocate instance-specific endpoints */
+>         ep =3D usb_ep_autoconfig(cdev->gadget, &fs_ncm_in_desc);
+>         if (!ep)
+> @@ -1569,11 +1574,56 @@ USB_ETHERNET_CONFIGFS_ITEM_ATTR_QMULT(ncm);
+>  /* f_ncm_opts_ifname */
+>  USB_ETHERNET_CONFIGFS_ITEM_ATTR_IFNAME(ncm);
+>
+> +static ssize_t ncm_opts_max_segment_size_show(struct config_item *item,
+> +                                             char *page)
+> +{
+> +       struct f_ncm_opts *opts =3D to_f_ncm_opts(item);
+> +       u32 segment_size;
+> +
+> +       mutex_lock(&opts->lock);
+> +       segment_size =3D opts->max_segment_size;
+> +       mutex_unlock(&opts->lock);
+> +
+> +       return sprintf(page, "%u\n", segment_size);
+> +}
+> +
+> +static ssize_t ncm_opts_max_segment_size_store(struct config_item *item,
+> +                                              const char *page, size_t l=
+en)
+> +{
+> +       struct f_ncm_opts *opts =3D to_f_ncm_opts(item);
+> +       int ret;
+> +       u32 segment_size;
+> +
+> +       mutex_lock(&opts->lock);
+> +       if (opts->refcnt) {
+> +               ret =3D -EBUSY;
+> +               goto out;
+> +       }
+> +
+> +       ret =3D kstrtou32(page, 0, &segment_size);
+> +       if (ret)
+> +               goto out;
+> +
+> +       if (segment_size > MAX_DATAGRAM_SIZE) {
+> +               ret =3D -EINVAL;
+> +               goto out;
+> +       }
+> +
+> +       opts->max_segment_size =3D segment_size;
+> +       ret =3D len;
+> +out:
+> +       mutex_unlock(&opts->lock);
+> +       return ret;
+> +}
+> +
+> +CONFIGFS_ATTR(ncm_opts_, max_segment_size);
+> +
+>  static struct configfs_attribute *ncm_attrs[] =3D {
+>         &ncm_opts_attr_dev_addr,
+>         &ncm_opts_attr_host_addr,
+>         &ncm_opts_attr_qmult,
+>         &ncm_opts_attr_ifname,
+> +       &ncm_opts_attr_max_segment_size,
+>         NULL,
+>  };
+>
+> @@ -1616,6 +1666,7 @@ static struct usb_function_instance *ncm_alloc_inst=
+(void)
+>                 kfree(opts);
+>                 return ERR_CAST(net);
+>         }
+> +       opts->max_segment_size =3D cpu_to_le16(ETH_FRAME_LEN);
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 5b75c3f7a137..69c1e53ef88b 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -107,6 +107,7 @@ Contents:
-    sysfs-tagging
-    tc-actions-env-rules
-    tc-queue-filters
-+   tcp_ao
-    tcp-thin
-    team
-    timestamping
-diff --git a/Documentation/networking/tcp_ao.rst b/Documentation/networking/tcp_ao.rst
-new file mode 100644
-index 000000000000..cfa5bf1cc542
---- /dev/null
-+++ b/Documentation/networking/tcp_ao.rst
-@@ -0,0 +1,444 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================================
-+TCP Authentication Option Linux implementation (RFC5925)
-+========================================================
-+
-+TCP Authentication Option (TCP-AO) provides a TCP extension aimed at verifying
-+segments between trusted peers. It adds a new TCP header option with
-+a Message Authentication Code (MAC). MACs are produced from the content
-+of a TCP segment using a hashing function with a password known to both peers.
-+The intent of TCP-AO is to deprecate TCP-MD5 providing better security,
-+key rotation and support for variety of hashing algorithms.
-+
-+1. Introduction
-+===============
-+
-+.. table:: Short and Limited Comparison of TCP-AO and TCP-MD5
-+
-+ +----------------------+------------------------+-----------------------+
-+ |                      |       TCP-MD5          |         TCP-AO        |
-+ +======================+========================+=======================+
-+ |Supported hashing     |MD5                     |Must support HMAC-SHA1 |
-+ |algorithms            |(cryptographically weak)|(chosen-prefix attacks)|
-+ |                      |                        |and CMAC-AES-128 (only |
-+ |                      |                        |side-channel attacks). |
-+ |                      |                        |May support any hashing|
-+ |                      |                        |algorithm.             |
-+ +----------------------+------------------------+-----------------------+
-+ |Length of MACs (bytes)|16                      |Typically 12-16.       |
-+ |                      |                        |Other variants that fit|
-+ |                      |                        |TCP header permitted.  |
-+ +----------------------+------------------------+-----------------------+
-+ |Number of keys per    |1                       |Many                   |
-+ |TCP connection        |                        |                       |
-+ +----------------------+------------------------+-----------------------+
-+ |Possibility to change |Non-practical (both     |Supported by protocol  |
-+ |an active key         |peers have to change    |                       |
-+ |                      |them during MSL)        |                       |
-+ +----------------------+------------------------+-----------------------+
-+ |Protection against    |No                      |Yes: ignoring them     |
-+ |ICMP 'hard errors'    |                        |by default on          |
-+ |                      |                        |established connections|
-+ +----------------------+------------------------+-----------------------+
-+ |Protection against    |No                      |Yes: pseudo-header     |
-+ |traffic-crossing      |                        |includes TCP ports.    |
-+ |attack                |                        |                       |
-+ +----------------------+------------------------+-----------------------+
-+ |Protection against    |No                      |Sequence Number        |
-+ |replayed TCP segments |                        |Extension (SNE) and    |
-+ |                      |                        |Initial Sequence       |
-+ |                      |                        |Numbers (ISNs)         |
-+ +----------------------+------------------------+-----------------------+
-+ |Supports              |Yes                     |No. ISNs+SNE are needed|
-+ |Connectionless Resets |                        |to correctly sign RST. |
-+ +----------------------+------------------------+-----------------------+
-+ |Standards             |RFC 2385                |RFC 5925, RFC 5926     |
-+ +----------------------+------------------------+-----------------------+
-+
-+
-+1.1 Frequently Asked Questions (FAQ) with references to RFC 5925
-+----------------------------------------------------------------
-+
-+Q: Can either SendID or RecvID be non-unique for the same 4-tuple
-+(srcaddr, srcport, dstaddr, dstport)?
-+
-+A: No [3.1]::
-+
-+   >> The IDs of MKTs MUST NOT overlap where their TCP connection
-+   identifiers overlap.
-+
-+Q: Can Master Key Tuple (MKT) for an active connection be removed?
-+
-+A: No, unless it's copied to Transport Control Block (TCB) [3.1]::
-+
-+   It is presumed that an MKT affecting a particular connection cannot
-+   be destroyed during an active connection -- or, equivalently, that
-+   its parameters are copied to an area local to the connection (i.e.,
-+   instantiated) and so changes would affect only new connections.
-+
-+Q: If an old MKT needs to be deleted, how should it be done in order
-+to not remove it for an active connection? (As it can be still in use
-+at any moment later)
-+
-+A: Not specified by RFC 5925, seems to be a problem for key management
-+to ensure that no one uses such MKT before trying to remove it.
-+
-+Q: Can an old MKT exist forever and be used by another peer?
-+
-+A: It can, it's a key management task to decide when to remove an old key [6.1]::
-+
-+   Deciding when to start using a key is a performance issue. Deciding
-+   when to remove an MKT is a security issue. Invalid MKTs are expected
-+   to be removed. TCP-AO provides no mechanism to coordinate their removal,
-+   as we consider this a key management operation.
-+
-+also [6.1]::
-+
-+   The only way to avoid reuse of previously used MKTs is to remove the MKT
-+   when it is no longer considered permitted.
-+
-+Linux TCP-AO will try its best to prevent you from removing a key that's
-+being used, considering it a key management failure. But sine keeping
-+an outdated key may become a security issue and as a peer may
-+unintentionally prevent the removal of an old key by always setting
-+it as RNextKeyID - a forced key removal mechanism is provided, where
-+userspace has to supply KeyID to use instead of the one that's being removed
-+and the kernel will atomically delete the old key, even if the peer is
-+still requesting it. There are no guarantees for force-delete as the peer
-+may yet not have the new key - the TCP connection may just break.
-+Alternatively, one may choose to shut down the socket.
-+
-+Q: What happens when a packet is received on a new connection with no known
-+MKT's RecvID?
-+
-+A: RFC 5925 specifies that by default it is accepted with a warning logged, but
-+the behaviour can be configured by the user [7.5.1.a]::
-+
-+   If the segment is a SYN, then this is the first segment of a new
-+   connection. Find the matching MKT for this segment, using the segment's
-+   socket pair and its TCP-AO KeyID, matched against the MKT's TCP connection
-+   identifier and the MKT's RecvID.
-+
-+      i. If there is no matching MKT, remove TCP-AO from the segment.
-+         Proceed with further TCP handling of the segment.
-+         NOTE: this presumes that connections that do not match any MKT
-+         should be silently accepted, as noted in Section 7.3.
-+
-+[7.3]::
-+
-+   >> A TCP-AO implementation MUST allow for configuration of the behavior
-+   of segments with TCP-AO but that do not match an MKT. The initial default
-+   of this configuration SHOULD be to silently accept such connections.
-+   If this is not the desired case, an MKT can be included to match such
-+   connections, or the connection can indicate that TCP-AO is required.
-+   Alternately, the configuration can be changed to discard segments with
-+   the AO option not matching an MKT.
-+
-+[10.2.b]::
-+
-+   Connections not matching any MKT do not require TCP-AO. Further, incoming
-+   segments with TCP-AO are not discarded solely because they include
-+   the option, provided they do not match any MKT.
-+
-+Note that Linux TCP-AO implementation differs in this aspect. Currently, TCP-AO
-+segments with unknown key signatures are discarded with warnings logged.
-+
-+Q: Does the RFC imply centralized kernel key management in any way?
-+(i.e. that a key on all connections MUST be rotated at the same time?)
-+
-+A: Not specified. MKTs can be managed in userspace, the only relevant part to
-+key changes is [7.3]::
-+
-+   >> All TCP segments MUST be checked against the set of MKTs for matching
-+   TCP connection identifiers.
-+
-+Q: What happens when RNextKeyID requested by a peer is unknown? Should
-+the connection be reset?
-+
-+A: It should not, no action needs to be performed [7.5.2.e]::
-+
-+   ii. If they differ, determine whether the RNextKeyID MKT is ready.
-+
-+       1. If the MKT corresponding to the segment’s socket pair and RNextKeyID
-+       is not available, no action is required (RNextKeyID of a received
-+       segment needs to match the MKT’s SendID).
-+
-+Q: How current_key is set and when does it change? It is a user-triggered
-+change, or is it by a request from the remote peer? Is it set by the user
-+explicitly, or by a matching rule?
-+
-+A: current_key is set by RNextKeyID [6.1]::
-+
-+   Rnext_key is changed only by manual user intervention or MKT management
-+   protocol operation. It is not manipulated by TCP-AO. Current_key is updated
-+   by TCP-AO when processing received TCP segments as discussed in the segment
-+   processing description in Section 7.5. Note that the algorithm allows
-+   the current_key to change to a new MKT, then change back to a previously
-+   used MKT (known as "backing up"). This can occur during an MKT change when
-+   segments are received out of order, and is considered a feature of TCP-AO,
-+   because reordering does not result in drops.
-+
-+[7.5.2.e.ii]::
-+
-+   2. If the matching MKT corresponding to the segment’s socket pair and
-+   RNextKeyID is available:
-+
-+      a. Set current_key to the RNextKeyID MKT.
-+
-+Q: If both peers have multiple MKTs matching the connection's socket pair
-+(with different KeyIDs), how should the sender/receiver pick KeyID to use?
-+
-+A: Some mechanism should pick the "desired" MKT [3.3]::
-+
-+   Multiple MKTs may match a single outgoing segment, e.g., when MKTs
-+   are being changed. Those MKTs cannot have conflicting IDs (as noted
-+   elsewhere), and some mechanism must determine which MKT to use for each
-+   given outgoing segment.
-+
-+   >> An outgoing TCP segment MUST match at most one desired MKT, indicated
-+   by the segment’s socket pair. The segment MAY match multiple MKTs, provided
-+   that exactly one MKT is indicated as desired. Other information in
-+   the segment MAY be used to determine the desired MKT when multiple MKTs
-+   match; such information MUST NOT include values in any TCP option fields.
-+
-+Q: Can TCP-MD5 connection migrate to TCP-AO (and vice-versa):
-+
-+A: No [1]::
-+
-+   TCP MD5-protected connections cannot be migrated to TCP-AO because TCP MD5
-+   does not support any changes to a connection’s security algorithm
-+   once established.
-+
-+Q: If all MKTs are removed on a connection, can it become a non-TCP-AO signed
-+connection?
-+
-+A: [7.5.2] doesn't have the same choice as SYN packet handling in [7.5.1.i]
-+that would allow accepting segments without a sign (which would be insecure).
-+While switching to non-TCP-AO connection is not prohibited directly, it seems
-+what the RFC means. Also, there's a requirement for TCP-AO connections to
-+always have one current_key [3.3]::
-+
-+   TCP-AO requires that every protected TCP segment match exactly one MKT.
-+
-+[3.3]::
-+
-+   >> An incoming TCP segment including TCP-AO MUST match exactly one MKT,
-+   indicated solely by the segment’s socket pair and its TCP-AO KeyID.
-+
-+[4.4]::
-+
-+   One or more MKTs. These are the MKTs that match this connection’s
-+   socket pair.
-+
-+Q: Can a non-TCP-AO connection become a TCP-AO-enabled one?
-+
-+A: No: for already established non-TCP-AO connection it would be impossible
-+to switch using TCP-AO as the traffic key generation requires the initial
-+sequence numbers. Paraphrasing, starting using TCP-AO would require
-+re-establishing the TCP connection.
-+
-+2. In-kernel MKTs database vs database in userspace
-+===================================================
-+
-+Linux TCP-AO support is implemented using ``setsockopt()s``, in a similar way
-+to TCP-MD5. It means that a userspace application that wants to use TCP-AO
-+should perform ``setsockopt()`` on a TCP socket when it wants to add,
-+remove or rotate MKTs. This approach moves the key management responsibility
-+to userspace as well as decisions on corner cases, i.e. what to do if
-+the peer doesn't respect RNextKeyID; moving more code to userspace, especially
-+responsible for the policy decisions. Besides, it's flexible and scales well
-+(with less locking needed than in the case of an in-kernel database). One also
-+should keep in mind that mainly intended users are BGP processes, not any
-+random applications, which means that compared to IPsec tunnels,
-+no transparency is really needed and modern BGP daemons already have
-+``setsockopt()s`` for TCP-MD5 support.
-+
-+.. table:: Considered pros and cons of the approaches
-+
-+ +----------------------+------------------------+-----------------------+
-+ |                      |    ``setsockopt()``    |      in-kernel DB     |
-+ +======================+========================+=======================+
-+ | Extendability        | ``setsockopt()``       | Netlink messages are  |
-+ |                      | commands should be     | simple and extendable |
-+ |                      | extendable syscalls    |                       |
-+ +----------------------+------------------------+-----------------------+
-+ | Required userspace   | BGP or any application | could be transparent  |
-+ | changes              | that wants TCP-AO needs| as tunnels, providing |
-+ |                      | to perform             | something like        |
-+ |                      | ``setsockopt()s``      | ``ip tcpao add key``  |
-+ |                      | and do key management  | (delete/show/rotate)  |
-+ +----------------------+------------------------+-----------------------+
-+ |MKTs removal or adding| harder for userspace   | harder for kernel     |
-+ +----------------------+------------------------+-----------------------+
-+ | Dump-ability         | ``getsockopt()``       | Netlink .dump()       |
-+ |                      |                        | callback              |
-+ +----------------------+------------------------+-----------------------+
-+ | Limits on kernel     |                      equal                     |
-+ | resources/memory     |                                                |
-+ +----------------------+------------------------+-----------------------+
-+ | Scalability          | contention on          | contention on         |
-+ |                      | ``TCP_LISTEN`` sockets | the whole database    |
-+ +----------------------+------------------------+-----------------------+
-+ | Monitoring & warnings| ``TCP_DIAG``           | same Netlink socket   |
-+ +----------------------+------------------------+-----------------------+
-+ | Matching of MKTs     | half-problem: only     | hard                  |
-+ |                      | listen sockets         |                       |
-+ +----------------------+------------------------+-----------------------+
-+
-+
-+3. uAPI
-+=======
-+
-+Linux provides a set of ``setsockopt()s`` and ``getsockopt()s`` that let
-+userspace manage TCP-AO on a per-socket basis. In order to add/delete MKTs
-+``TCP_AO_ADD_KEY`` and ``TCP_AO_DEL_KEY`` TCP socket options must be used
-+It is not allowed to add a key on an established non-TCP-AO connection
-+as well as to remove the last key from TCP-AO connection.
-+
-+``setsockopt(TCP_AO_DEL_KEY)`` command may specify ``tcp_ao_del::current_key``
-++ ``tcp_ao_del::set_current`` and/or ``tcp_ao_del::rnext``
-++ ``tcp_ao_del::set_rnext`` which makes such delete "forced": it
-+provides userspace a way to delete a key that's being used and atomically set
-+another one instead. This is not intended for normal use and should be used
-+only when the peer ignores RNextKeyID and keeps requesting/using an old key.
-+It provides a way to force-delete a key that's not trusted but may break
-+the TCP-AO connection.
-+
-+The usual/normal key-rotation can be performed with ``setsockopt(TCP_AO_INFO)``.
-+It also provides a uAPI to change per-socket TCP-AO settings, such as
-+ignoring ICMPs, as well as clear per-socket TCP-AO packet counters.
-+The corresponding ``getsockopt(TCP_AO_INFO)`` can be used to get those
-+per-socket TCP-AO settings.
-+
-+Another useful command is ``getsockopt(TCP_AO_GET_KEYS)``. One can use it
-+to list all MKTs on a TCP socket or use a filter to get keys for a specific
-+peer and/or sndid/rcvid, VRF L3 interface or get current_key/rnext_key.
-+
-+To repair TCP-AO connections ``setsockopt(TCP_AO_REPAIR)`` is available,
-+provided that the user previously has checkpointed/dumped the socket with
-+``getsockopt(TCP_AO_REPAIR)``.
-+
-+A tip here for scaled TCP_LISTEN sockets, that may have some thousands TCP-AO
-+keys, is: use filters in ``getsockopt(TCP_AO_GET_KEYS)`` and asynchronous
-+delete with ``setsockopt(TCP_AO_DEL_KEY)``.
-+
-+Linux TCP-AO also provides a bunch of segment counters that can be helpful
-+with troubleshooting/debugging issues. Every MKT has good/bad counters
-+that reflect how many packets passed/failed verification.
-+Each TCP-AO socket has the following counters:
-+- for good segments (properly signed)
-+- for bad segments (failed TCP-AO verification)
-+- for segments with unknown keys
-+- for segments where an AO signature was expected, but wasn't found
-+- for the number of ignored ICMPs
-+
-+TCP-AO per-socket counters are also duplicated with per-netns counters,
-+exposed with SNMP. Those are ``TCPAOGood``, ``TCPAOBad``, ``TCPAOKeyNotFound``,
-+``TCPAORequired`` and ``TCPAODroppedIcmps``.
-+
-+RFC 5925 very permissively specifies how TCP port matching can be done for
-+MKTs::
-+
-+   TCP connection identifier. A TCP socket pair, i.e., a local IP
-+   address, a remote IP address, a TCP local port, and a TCP remote port.
-+   Values can be partially specified using ranges (e.g., 2-30), masks
-+   (e.g., 0xF0), wildcards (e.g., "*"), or any other suitable indication.
-+
-+Currently Linux TCP-AO implementation doesn't provide any TCP port matching.
-+Probably, port ranges are the most flexible for uAPI, but so far
-+not implemented.
-+
-+4. ``setsockopt()`` vs ``accept()`` race
-+========================================
-+
-+In contrast with TCP-MD5 established connection which has just one key,
-+TCP-AO connections may have many keys, which means that accepted connections
-+on a listen socket may have any amount of keys as well. As copying all those
-+keys on a first properly signed SYN would make the request socket bigger, that
-+would be undesirable. Currently, the implementation doesn't copy keys
-+to request sockets, but rather look them up on the "parent" listener socket.
-+
-+The result is that when userspace removes TCP-AO keys, that may break
-+not-yet-established connections on request sockets as well as not removing
-+keys from sockets that were already established, but not yet ``accept()``'ed,
-+hanging in the accept queue.
-+
-+The reverse is valid as well: if userspace adds a new key for a peer on
-+a listener socket, the established sockets in accept queue won't
-+have the new keys.
-+
-+At this moment, the resolution for the two races:
-+``setsockopt(TCP_AO_ADD_KEY)`` vs ``accept()``
-+and ``setsockopt(TCP_AO_DEL_KEY)`` vs ``accept()`` is delegated to userspace.
-+This means that it's expected that userspace would check the MKTs on the socket
-+that was returned by ``accept()`` to verify that any key rotation that
-+happened on listen socket is reflected on the newly established connection.
-+
-+This is a similar "do-nothing" approach to TCP-MD5 from the kernel side and
-+may be changed later by introducing new flags to ``tcp_ao_add``
-+and ``tcp_ao_del``.
-+
-+Note that this race is rare for it needs TCP-AO key rotation to happen
-+during the 3-way handshake for the new TCP connection.
-+
-+5. Interaction with TCP-MD5
-+===========================
-+
-+A TCP connection can not migrate between TCP-AO and TCP-MD5 options. The
-+established sockets that have either AO or MD5 keys are restricted for
-+adding keys of the other option.
-+
-+For listening sockets the picture is different: BGP server may want to receive
-+both TCP-AO and (deprecated) TCP-MD5 clients. As a result, both types of keys
-+may be added to TCP_CLOSED or TCP_LISTEN sockets. It's not allowed to add
-+different types of keys for the same peer.
-+
-+6. SNE Linux implementation
-+===========================
-+
-+RFC 5925 [6.2] describes the algorithm of how to extend TCP sequence numbers
-+with SNE.  In short: TCP has to track the previous sequence numbers and set
-+sne_flag when the current SEQ number rolls over. The flag is cleared when
-+both current and previous SEQ numbers cross 0x7fff, which is 32Kb.
-+
-+In times when sne_flag is set, the algorithm compares SEQ for each packet with
-+0x7fff and if it's higher than 32Kb, it assumes that the packet should be
-+verified with SNE before the increment. As a result, there's
-+this [0; 32Kb] window, when packets with (SNE - 1) can be accepted.
-+
-+Linux implementation simplifies this a bit: as the network stack already tracks
-+the first SEQ byte that ACK is wanted for (snd_una) and the next SEQ byte that
-+is wanted (rcv_nxt) - that's enough information for a rough estimation
-+on where in the 4GB SEQ number space both sender and receiver are.
-+When they roll over to zero, the corresponding SNE gets incremented.
-+
-+tcp_ao_compute_sne() is called for each TCP-AO segment. It compares SEQ numbers
-+from the segment with snd_una or rcv_nxt and fits the result into a 2GB window around them,
-+detecting SEQ numbers rolling over. That simplifies the code a lot and only
-+requires SNE numbers to be stored on every TCP-AO socket.
-+
-+The 2GB window at first glance seems much more permissive compared to
-+RFC 5926. But that is only used to pick the correct SNE before/after
-+a rollover. It allows more TCP segment replays, but yet all regular
-+TCP checks in tcp_sequence() are applied on the verified segment.
-+So, it trades a bit more permissive acceptance of replayed/retransmitted
-+segments for the simplicity of the algorithm and what seems better behaviour
-+for large TCP windows.
-+
-+7. Links
-+========
-+
-+RFC 5925 The TCP Authentication Option
-+   https://www.rfc-editor.org/rfc/pdfrfc/rfc5925.txt.pdf
-+
-+RFC 5926 Cryptographic Algorithms for the TCP Authentication Option (TCP-AO)
-+   https://www.rfc-editor.org/rfc/pdfrfc/rfc5926.txt.pdf
-+
-+Draft "SHA-2 Algorithm for the TCP Authentication Option (TCP-AO)"
-+   https://datatracker.ietf.org/doc/html/draft-nayak-tcp-sha2-03
-+
-+RFC 2385 Protection of BGP Sessions via the TCP MD5 Signature Option
-+   https://www.rfc-editor.org/rfc/pdfrfc/rfc2385.txt.pdf
-+
-+:Author: Dmitry Safonov <dima@arista.com>
--- 
-2.42.0
+and not here.  ie. max_segment_size should be native endian
 
+>         INIT_LIST_HEAD(&opts->ncm_os_desc.ext_prop);
+>
+>         descs[0] =3D &opts->ncm_os_desc;
+> diff --git a/drivers/usb/gadget/function/u_ncm.h b/drivers/usb/gadget/fun=
+ction/u_ncm.h
+> index 5408854d8407..d3403cf13f17 100644
+> --- a/drivers/usb/gadget/function/u_ncm.h
+> +++ b/drivers/usb/gadget/function/u_ncm.h
+> @@ -31,6 +31,8 @@ struct f_ncm_opts {
+>          */
+>         struct mutex                    lock;
+>         int                             refcnt;
+> +
+> +       u32                             max_segment_size;
+>  };
+>
+>  #endif /* U_NCM_H */
+> --
+> 2.42.0
+>
+
+That said, I don't really follow what this is doing...
+
+Maciej =C5=BBenczykowski, Kernel Networking Developer @ Google
