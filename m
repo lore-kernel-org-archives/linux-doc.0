@@ -2,114 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEC5CD6914
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 09:38:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A043ECD691F
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 09:59:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230258AbjJJJif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 05:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40294 "EHLO
+        id S230427AbjJJJ7x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 05:59:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230316AbjJJJi1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 05:38:27 -0400
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB5E7B8;
-        Tue, 10 Oct 2023 02:38:25 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9b95622c620so992068666b.0;
-        Tue, 10 Oct 2023 02:38:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696930704; x=1697535504;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g1QRKkBNjznWASHX/P+4TGpYOnsgJ03ZF7D0qhU3Ymk=;
-        b=plJUJYze8Ih4iB48eMtqqe4my0y81wE5SEl4pF1dkXVJavmbK0ltMypXu0wW9//2Ix
-         2/RjxF0QTb7hjaRIcCeILvEBAfV/dAgr9tKEIZgSWuNbaHsn18JbP8lZaJ1K0kw6Tfs6
-         9rAFSTbbk2S1T7Lr2PF/6t61yTyBRADKPJDNp6SUsf4eduOgE5ZecBbv2kLjIkmJqBzH
-         5y/CtmU9NnLAQ/jhZHXt/zxt9K9qmRNpsMvwV1OCVnxsY29Fw5V8iSMIRtC4rwJOzHzW
-         Mr2SVSYEVli6KtRtVJQj3nV4BrqINod4Bz82bLmRz0Kqyt9SiwQMO5AEF2ESdMAYl0hC
-         1rSw==
-X-Gm-Message-State: AOJu0Yz1MqY//ZZr8WpfZABb1VrEDaMUwzmOWXQPv5v/xM3PJpnuFtQW
-        LY80TVumlIBik8zyRuejhrI=
-X-Google-Smtp-Source: AGHT+IFxRq/KbS+SGcIHLC7lal1Yfk5k7Q0MeGQRouF0Zb3IAP2QclWw80a3UunY6/3pJJTMrUhwQw==
-X-Received: by 2002:a17:906:768e:b0:9b2:f38d:c44b with SMTP id o14-20020a170906768e00b009b2f38dc44bmr15198573ejm.24.1696930704086;
-        Tue, 10 Oct 2023 02:38:24 -0700 (PDT)
-Received: from localhost (fwdproxy-cln-003.fbsv.net. [2a03:2880:31ff:3::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a11-20020a17090640cb00b00977eec7b7e8sm8193626ejk.68.2023.10.10.02.38.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 02:38:21 -0700 (PDT)
-From:   Breno Leitao <leitao@debian.org>
-To:     jlbec@evilplan.org, kuba@kernel.org, davem@davemloft.net,
-        pabeni@redhat.com, Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     hch@lst.de, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        horms@kernel.org,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH net-next v3 4/4] Documentation: netconsole: add support for cmdline targets
-Date:   Tue, 10 Oct 2023 02:37:51 -0700
-Message-Id: <20231010093751.3878229-5-leitao@debian.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231010093751.3878229-1-leitao@debian.org>
-References: <20231010093751.3878229-1-leitao@debian.org>
+        with ESMTP id S230446AbjJJJ7v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 05:59:51 -0400
+Received: from out-197.mta1.migadu.com (out-197.mta1.migadu.com [IPv6:2001:41d0:203:375::c5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01741C4
+        for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 02:59:47 -0700 (PDT)
+Message-ID: <8b727f96-1dfd-4a93-9d10-e9bd3f8eebc9@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1696931983;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OLTR3Fa5NU1FJ0mPUCV17BXWlC/RQ59d9nTce1fx2KM=;
+        b=JMLc+Q+7l0vIDURftnwdjjdsJLixj3ifTOXqqF00ihEFQkN0d6E00eGp0nphAWelDmVVhN
+        ZCkVlzM6xSa+le8V49PWChfPucXF2y+2ml/qxrTT93Zz0K8Dcb4aUf9F/l3Bu91JynHHnJ
+        u2+5xXzRnNABRz9ez3owztBf3lljSeA=
+Date:   Tue, 10 Oct 2023 10:59:37 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 0/5] dpll: add phase-offset and phase-adjust
+Content-Language: en-US
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        netdev@vger.kernel.org
+Cc:     jiri@resnulli.us, corbet@lwn.net, davem@davemloft.net,
+        kuba@kernel.org, pabeni@redhat.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, linux-doc@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org
+References: <20231009222616.12163-1-arkadiusz.kubalewski@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20231009222616.12163-1-arkadiusz.kubalewski@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With the previous patches, there is no more limitation at modifying the
-targets created at boot time (or module load time).
+On 09/10/2023 23:26, Arkadiusz Kubalewski wrote:
+> Improve monitoring and control over dpll devices.
+> Allow user to receive measurement of phase difference between signals
+> on pin and dpll (phase-offset).
+> Allow user to receive and control adjustable value of pin's signal
+> phase (phase-adjust).
+> 
+> v3->v4:
+> - do not increase do version of uAPI header as it is not needed (v3 did
+>    not have this change)
+> - fix spelling around commit messages, argument descriptions and docs
+> - add missing extack errors on failure set callbacks for pin phase
+>    adjust and frequency
+> - remove ice check if value is already set, now redundant as checked in
+>    the dpll subsystem
+> 
+> v2->v3:
+> - do not increase do version of uAPI header as it is not needed
+> 
+> v1->v2:
+> - improve handling for error case of requesting the phase adjust set
+> - align handling for error case of frequency set request with the
+> approach introduced for phase adjust
+> 
+> 
+> Arkadiusz Kubalewski (5):
+>    dpll: docs: add support for pin signal phase offset/adjust
+>    dpll: spec: add support for pin-dpll signal phase offset/adjust
+>    dpll: netlink/core: add support for pin-dpll signal phase
+>      offset/adjust
+>    ice: dpll: implement phase related callbacks
+>    dpll: netlink/core: change pin frequency set behavior
+> 
+>   Documentation/driver-api/dpll.rst         |  53 +++++-
+>   Documentation/netlink/specs/dpll.yaml     |  31 +++
+>   drivers/dpll/dpll_netlink.c               | 188 +++++++++++++++++-
+>   drivers/dpll/dpll_nl.c                    |   8 +-
+>   drivers/dpll/dpll_nl.h                    |   2 +-
+>   drivers/net/ethernet/intel/ice/ice_dpll.c | 220 +++++++++++++++++++++-
+>   drivers/net/ethernet/intel/ice/ice_dpll.h |  10 +-
+>   include/linux/dpll.h                      |  18 ++
+>   include/uapi/linux/dpll.h                 |   6 +
+>   9 files changed, 518 insertions(+), 18 deletions(-)
+> 
 
-Document the way on how to create the configfs directories to be able to
-modify these netconsole targets.
-
-The design discussion about this topic could be found at:
-https://lore.kernel.org/all/ZRWRal5bW93px4km@gmail.com/
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/networking/netconsole.rst | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 7a9de0568e84..390730a74332 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -99,9 +99,6 @@ Dynamic reconfiguration:
- Dynamic reconfigurability is a useful addition to netconsole that enables
- remote logging targets to be dynamically added, removed, or have their
- parameters reconfigured at runtime from a configfs-based userspace interface.
--[ Note that the parameters of netconsole targets that were specified/created
--from the boot/module option are not exposed via this interface, and hence
--cannot be modified dynamically. ]
- 
- To include this feature, select CONFIG_NETCONSOLE_DYNAMIC when building the
- netconsole module (or kernel, if netconsole is built-in).
-@@ -155,6 +152,25 @@ You can also update the local interface dynamically. This is especially
- useful if you want to use interfaces that have newly come up (and may not
- have existed when netconsole was loaded / initialized).
- 
-+Netconsole targets defined at boot time (or module load time) with the
-+`netconsole=` param are assigned the name `cmdline<index>`.  For example, the
-+first target in the parameter is named `cmdline0`.  You can control and modify
-+these targets by creating configfs directories with the matching name.
-+
-+Let's suppose you have two netconsole targets defined at boot time::
-+
-+ netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc;4444@10.0.0.1/eth1,9353@10.0.0.3/12:34:56:78:9a:bc
-+
-+You can modify these targets in runtime by creating the following targets::
-+
-+ mkdir cmdline0
-+ cat cmdline0/remote_ip
-+ 10.0.0.2
-+
-+ mkdir cmdline1
-+ cat cmdline1/remote_ip
-+ 10.0.0.3
-+
- Extended console:
- =================
- 
--- 
-2.34.1
+Acked-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 
