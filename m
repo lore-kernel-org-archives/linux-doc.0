@@ -1,37 +1,38 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB103C697
-	for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 23:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDDE3CCF9
+	for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 23:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lbjPAasy"
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2051.outbound.protection.outlook.com [40.107.220.51])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B87799D;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iKh/s7Rh"
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2053.outbound.protection.outlook.com [40.107.100.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C8A9E;
 	Tue, 10 Oct 2023 16:33:52 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=evi3JWRlxCZdbnEolIhCsWgElZAPIQZ3y+rWgn4TXvrgNnlb1aiNjy5wEpMUCMMyD9MKT8A/MtVBCjkckFkFb0cTD6/uKj5UufRsbUVkXw5cycFcrOoHBFG9q9PVAa6Y8gCLCNPXwQySQ5TT2ko7APWU224tFHj+5rBCWSk6i9pVKolkfPJ3T8D3pMmCsHZ5ObjUdB4kndRcLCfctaX1F6sFfxeKY2FMKSHCZzNqxVHy5vfPKAlL+iMRyUOcstzsIwr80t1mSnmWXEBqwagewzg51xW8Er+jzhyEaVZfuif68CfKmctEwnuMSMd+B1sHgmbijnOOQsBGCNjLXMuaGw==
+ b=Is4jBXStRBUdy5Ils8clxwHi0SVoWbqNn4+hsaANrRs1nXGbmbHMKiuQFzJkPFUQyqUqtDXmqAVnhba8ZlP2oBzriDpTmDg0rDmhqC6x+8IQB/kEB2UTF+Yy2hDlsJ4aMKHbnozGdK8c+Bnht9HHcHwEOOVi7xpFUQPmrwTYFbDb1iLPRwM0jbXX5h/msmh9pO4V9SbAquZCGwmoReeqoW6JphGSOlClh7MszxO3yEwEHyuW+Qu0sYG3q+CliovqhsC6BsN2292kBc5yOQdu1a1RxMs5nBcj7DBtz2+9cm53UqjpFy0H0ZUiO6QObnIVw2adBH4lFGlZLzbmDktUyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T3lo19Z3taUJl5Gy59RynpNh18VIJAYAW9337PE04pQ=;
- b=QAMU6n8q7cnDrqm1mi+y/kk0fyQIB4tugLx3E8l/4SScitCy0j+mKbwy81SiP3Hhu8BQEJ+WgOQL0XLdHioNl7baqIXMrwub3wUrsMDtBpya98N2ROCv4Q2Gr7KnvGfPu3iZYXOQNfRkwYW1lT0GPyneM2p2kLxIx1Jp6/AaWlzzXwO/mSga+d5JERe+gTkZRy2KUpCPiMdXeAvRCPFil9Gbpj0p/cq4Yg7VKBlnbdW2aW30/ZVCvGzUEBFFYTq8CgLHiFv5TWOp+oilO8h0uy83eecw4SGoTLsJ8eEVmZzcmeJFJXcL3vqKLligEpx6Tqbez0JL74MMjgRdpQS8wg==
+ bh=VjCrpoDVtV6H0wD3sT5CdSWgeYIuhdHxg4IlNeY2I5s=;
+ b=nmAuaVn6LdKz7wUV5n0QlyEQ8XxMk682Cavuo0K129OdvFopaM2ZZFst3ohu8/5VF+ZfEiSCKNR4AoOGr5QxXlKq1IjYW83rbVoJS8WoKRu0HC2/7O9ndRXGJyGRaG4y04DfcywA4wuJSgxE/R+5OKuEDXM7PWrSdo7pOsH9wKYKqHjbI5lLSUeHIf/CxrxkofvCD+D2nftjPnsbi1pFfkqV/vEtrkK9i1wesmR4ulpWpTMEbFhXoOd9IKjLmYQgrg7jna1+IjI8ANsnhYSLjXtfUlNztNyxiGYARgMMDhqPAju526hmXucFQM24TP0r6Qxzah6e1sqDzp+YH4yoxg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3lo19Z3taUJl5Gy59RynpNh18VIJAYAW9337PE04pQ=;
- b=lbjPAasyuZA2rQm8eG8S0f7bFuFReHJuptsKD3l+2I98GBqoMwGGDiXjF37mzRe+hcNPlcusPxKKuaeBGDbhXt5u6PoiPlVQ/zzCwKDt/WPpWP5csmeumK0gIWO0TeKy1ruWnLBTyMTH5sH91g4gFvp7vL6xkpy3asRVWXDi8ws=
-Received: from MN2PR01CA0031.prod.exchangelabs.com (2603:10b6:208:10c::44) by
- DM4PR12MB5748.namprd12.prod.outlook.com (2603:10b6:8:5f::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6863.37; Tue, 10 Oct 2023 23:33:47 +0000
-Received: from BL6PEPF0001AB4C.namprd04.prod.outlook.com
- (2603:10b6:208:10c:cafe::cd) by MN2PR01CA0031.outlook.office365.com
- (2603:10b6:208:10c::44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38 via Frontend
- Transport; Tue, 10 Oct 2023 23:33:47 +0000
+ bh=VjCrpoDVtV6H0wD3sT5CdSWgeYIuhdHxg4IlNeY2I5s=;
+ b=iKh/s7RhVN1xkTIRil2KVGxrS7FTt0QSlVbc1CDrrmM647JPzSeVUpLx9Y+UTEghHltwnm02LSSxswxL4ee8jf9qgazWNkzw6mtm5kOBs1lraAIv/J4N+rEwZBKEdTlnsJxlkvYzcvZI95y9W42aMLsureF53y663zE2sMzEiAs=
+Received: from BL1PR13CA0437.namprd13.prod.outlook.com (2603:10b6:208:2c3::22)
+ by CY5PR12MB6081.namprd12.prod.outlook.com (2603:10b6:930:2b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
+ 2023 23:33:50 +0000
+Received: from BL6PEPF0001AB50.namprd04.prod.outlook.com
+ (2603:10b6:208:2c3:cafe::7) by BL1PR13CA0437.outlook.office365.com
+ (2603:10b6:208:2c3::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.23 via Frontend
+ Transport; Tue, 10 Oct 2023 23:33:50 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -39,13 +40,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB4C.mail.protection.outlook.com (10.167.242.70) with Microsoft
+ BL6PEPF0001AB50.mail.protection.outlook.com (10.167.242.74) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6838.22 via Frontend Transport; Tue, 10 Oct 2023 23:33:46 +0000
+ 15.20.6838.22 via Frontend Transport; Tue, 10 Oct 2023 23:33:50 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 10 Oct
- 2023 18:33:44 -0500
+ 2023 18:33:48 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
 	<mingo@redhat.com>, <bp@alien8.de>
@@ -61,9 +62,9 @@ CC: <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
 	<linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>, <eranian@google.com>,
 	<christophe.leroy@csgroup.eu>, <jarkko@kernel.org>,
 	<adrian.hunter@intel.com>, <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v12 02/10] x86/resctrl: Simplify rftype flag definitions
-Date: Tue, 10 Oct 2023 18:33:27 -0500
-Message-ID: <20231010233335.998475-3-babu.moger@amd.com>
+Subject: [PATCH v12 04/10] x86/resctrl: Add comments on RFTYPE flags hierarchy
+Date: Tue, 10 Oct 2023 18:33:29 -0500
+Message-ID: <20231010233335.998475-5-babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231010233335.998475-1-babu.moger@amd.com>
 References: <20231010233335.998475-1-babu.moger@amd.com>
@@ -80,26 +81,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4C:EE_|DM4PR12MB5748:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64623571-b48b-4acb-8833-08dbc9e9596d
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB50:EE_|CY5PR12MB6081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02edfb17-1eeb-4314-0642-08dbc9e95b6a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	vRojnqrX2J15LaqQeH8O/al8a+wQutDAl24N6aP4Hdp/gvOVFjwCSXMDVC3f+Z7IIQi8ovr3E8fcjG3UBJg0GvgYcp9/JaKw5k+CjXeSeHcmbYWAhO7n2WqGdxtgJBgt/XOBNLykKAVEOTraS6bmiZ+7eVZRBEQO7SlnK62LGrb3OX7Af3jLX1UIpM1s6s6kyPm3P/6DGEnY1Fb7dGztQJlJcQMGcEUuzAZDAML61ijih8osiPOsX65tX6PNca74mHSWa1GNWvXr0oOtBmZDVNN7Rh0aSWuu+cVYrMToTQHwJlBiNnN+CdNKubXurDpIV3XtCZ06BgdmOfnLblRxmPJgNZUVQF9DRVogbCAkWY641kvN1NOaesEjRSv0M/yNCbujbsVQul5lPi43rNJg7MzAgrm6pqqMwNwQryh41z4XOthXrdd/K5jNbm7gxQ2Wdt9Dpe86iPlf1fPJehLsWeHhzOv5583U0dYNkMB84FWfrOHHPjbRpyfxnr9dD9orYhHXC7S5e+shaof42SzRk2/LFftcfUnzxZRrw9kt76DUCxgbYnKWNKNVtjyoyEiylsLHkgb1M0hXRrDyThKoe8sY5Q2MQx/ybaabY0kYYK/LqQ3gRFC31iRFvqYewkGQoUPiqXdqgbS5+dMj2MM4zfTR1nPprxj40Rmm+BYdOztrrY6vhnhjy2yOZhjyJMG50ExHWBq9K+4ul0es0KFyt+RbeROb0x5gNDoSDkRkngWRpV59hGNlzC53CltwpHHCuclbIS7MzKYm6luYnhCqKQ==
+	jTuYAQdCN3Lrn/W2B9xpHvFvsrMitLK7Y2QPnCUH1UlvzB+BmhqSD7xiNwse+nGLRt20BVSWp3AZZ8WzU9qIMvdZCJe9KiMrAT7/7wsIItcE+6p3907FyuyM1ytKuPdiFRQvBweJ/at5+nmpi6gvaeOqzovDFIlgh+2iFQhdlAlb1H/DwisA3ML9nds4R5Bg1tceII3U+VtmW5rOIDIIRn9KZpNEUHoEBwftX5DkreYuLwu2Y5UTWiQsh/+dz88p5Pxi1RVhAPRcUmZw2iEJ7thDxhqWiVjE0UX0GBFPmOX8qpiS2p6Q5t4ZH/HMZI+SUCIEm3z7ITuBtYHPqLEnz3+Me8JarNtG0V+m8Y73DwBGFqy0FR3LKLuHcJ8djo/c7v7rs33IiM3D0F3pzM2bevwilBgBdEKLBsLWa0DS5MeXbivkSvKbXHaRIpbIV/JLxlWHrEYn/WGUIBtmuBZkdwyEU9dCYKOE14Kn5MiLXRc5ry9QWAP/aotrkaB+ebtidlZCAaqVyAaAhPfH4sGrOmPypvdCuGU7Eq/xmFin+qUq1Mssdrp2/t4PtepmY3dfWXTKnwqaS1eST+fmpPJXz17TwlRfkc1+pE666ucslxO5u1lwmBqRTFKI8aKxvjta8hudihq8teYM3w4VPv+kKrhsF5Uy5qiI9QRhG32J4QH0M56rZWBoq1S6BEVecVZlyLOTwMq3QwMkFvIKoFQ1lvYkgVs2XwoKG6BxhRWHU/rtqJ9DbxGNuMrlZfIJ9T72g9IFEP0GB0RrSvLWsStSsQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(39860400002)(396003)(136003)(376002)(230922051799003)(186009)(82310400011)(64100799003)(451199024)(1800799009)(46966006)(40470700004)(36840700001)(40460700003)(16526019)(2616005)(1076003)(26005)(426003)(81166007)(336012)(7696005)(316002)(47076005)(8676002)(6666004)(8936002)(2906002)(7416002)(478600001)(4326008)(36860700001)(7406005)(44832011)(54906003)(70586007)(70206006)(110136005)(41300700001)(86362001)(356005)(82740400003)(36756003)(40480700001)(5660300002)(83380400001)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(346002)(39860400002)(376002)(230922051799003)(186009)(451199024)(1800799009)(82310400011)(64100799003)(46966006)(36840700001)(40470700004)(86362001)(36756003)(40480700001)(478600001)(7696005)(7416002)(2906002)(2616005)(44832011)(70206006)(70586007)(7406005)(41300700001)(1076003)(110136005)(5660300002)(6666004)(316002)(54906003)(426003)(336012)(47076005)(26005)(16526019)(36860700001)(82740400003)(4326008)(8676002)(40460700003)(356005)(8936002)(81166007)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 23:33:46.7345
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 23:33:50.0670
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64623571-b48b-4acb-8833-08dbc9e9596d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02edfb17-1eeb-4314-0642-08dbc9e95b6a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4C.namprd04.prod.outlook.com
+	BL6PEPF0001AB50.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5748
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6081
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
 	RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
@@ -107,11 +108,10 @@ X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-The rftype flags are bitmaps used for adding files under resctrl
-filesystem. Some of these bitmaps have one extra level of indirection
-which is not necessary.
+resctrl uses RFTYPE flags for creating resctrl directory structure.
 
-Make them all direct definition to be consistent and easier to read.
+Definitions and directory structures are not documented. Add
+comments to improve the readability and help future additions.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 Tested-by: Peter Newman <peternewman@google.com>
@@ -122,49 +122,83 @@ Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
-v12: No changes
+v12: Moved the comments from arch/x86/kernel/cpu/resctrl/internal.h
+     to Documentation/arch/x86/resctrl.rst. (Boris)
 ---
- arch/x86/kernel/cpu/resctrl/internal.h | 9 +++------
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 6 +++++-
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ Documentation/arch/x86/resctrl.rst | 60 ++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 85ceaf9a31ac..62767774810d 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -243,12 +243,9 @@ struct rdtgroup {
-  */
- #define RFTYPE_INFO			BIT(0)
- #define RFTYPE_BASE			BIT(1)
--#define RF_CTRLSHIFT			4
--#define RF_MONSHIFT			5
--#define RF_TOPSHIFT			6
--#define RFTYPE_CTRL			BIT(RF_CTRLSHIFT)
--#define RFTYPE_MON			BIT(RF_MONSHIFT)
--#define RFTYPE_TOP			BIT(RF_TOPSHIFT)
-+#define RFTYPE_CTRL			BIT(4)
-+#define RFTYPE_MON			BIT(5)
-+#define RFTYPE_TOP			BIT(6)
- #define RFTYPE_RES_CACHE		BIT(8)
- #define RFTYPE_RES_MB			BIT(9)
- #define RF_CTRL_INFO			(RFTYPE_INFO | RFTYPE_CTRL)
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index f0d163950969..7ddfa4b470e6 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -3242,7 +3242,11 @@ static int mkdir_rdt_prepare(struct kernfs_node *parent_kn,
- 		goto out_destroy;
- 	}
+diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+index 8154e9975d1e..520a7753d829 100644
+--- a/Documentation/arch/x86/resctrl.rst
++++ b/Documentation/arch/x86/resctrl.rst
+@@ -362,6 +362,66 @@ When monitoring is enabled all MON groups will also contain:
+ 	the sum for all tasks in the CTRL_MON group and all tasks in
+ 	MON groups. Please see example section for more details on usage.
  
--	files = RFTYPE_BASE | BIT(RF_CTRLSHIFT + rtype);
-+	if (rtype == RDTCTRL_GROUP)
-+		files = RFTYPE_BASE | RFTYPE_CTRL;
-+	else
-+		files = RFTYPE_BASE | RFTYPE_MON;
++RESCTRL filesystem implementation notes
++=======================================
++RESCTRL filesystem has two main components
++	a. info
++	b. base
 +
- 	ret = rdtgroup_add_files(kn, files);
- 	if (ret) {
- 		rdt_last_cmd_puts("kernfs fill error\n");
++/sys/fs/resctrl/
++	|
++	--> info (Top level directory named "info". Contains files that
++	|	  provide details on control and monitoring resources)
++	|
++	--> base (Root directory associated with default resource group
++		  as well as directories created by user for MON and CTRL
++		  groups. Contains files to interact with MON and CTRL
++		  groups)
++
++	Note: resctrl uses flags for files, not for directories.
++	      Directories are created based on the resource type. Added
++	      directories below for better understanding. The RFTYPE flags
++	      are defined in arch/x86/kernel/cpu/resctrl/internal.h.
++
++	info directory structure
++	---------------------------------------------------------------
++	--> RFTYPE_INFO
++	    Directory: info
++	--> RFTYPE_TOP (Files in top level of info directory)
++	    File: last_cmd_status
++
++	--> RFTYPE_MON (Files for all monitoring resources)
++	    Directory: L3_MON
++	        Files: mon_features, num_rmids
++
++		--> RFTYPE_RES_CACHE (Files for cache monitoring resources)
++		    Directory: L3_MON
++		        Files: max_threshold_occupancy,
++		               mbm_total_bytes_config,
++		               mbm_local_bytes_config
++
++	--> RFTYPE_CTRL (Files for all control resources)
++	    Directories: L2, L3, MB, SMBA, L2CODE, L2DATA, L3CODE, L3DATA
++	           File: num_closids
++
++		--> RFTYPE_RES_CACHE (Files for cache control resources)
++		    Directories: L2, L3, L2CODE, L2DATA, L3CODE, L3DATA
++		          Files: bit_usage, cbm_mask, min_cbm_bits,
++		                 shareable_bits
++
++		--> RFTYPE_RES_MB (Files for memory control resources)
++		    Directories: MB, SMBA
++		          Files: bandwidth_gran, delay_linear,
++		                 min_bandwidth, thread_throttle_mode
++
++	base directory structure
++	---------------------------------------------------------------
++	--> RFTYPE_BASE (Files common for both MON and CTRL groups)
++	    Files: cpus, cpus_list, tasks
++
++		--> RFTYPE_CTRL (Files for CTRL group)
++		    Files: mode, schemata, size
++
+ Resource allocation rules
+ -------------------------
+ 
 -- 
 2.34.1
 
