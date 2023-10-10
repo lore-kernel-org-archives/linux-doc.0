@@ -2,197 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43AC3CD68FD
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 08:05:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBB4CD68FE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Oct 2023 08:24:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233250AbjJJIFV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Oct 2023 04:05:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
+        id S1442937AbjJJIYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Oct 2023 04:24:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234634AbjJJIFU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 04:05:20 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79C9D94
-        for <linux-doc@vger.kernel.org>; Tue, 10 Oct 2023 01:05:18 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qq7jr-0002ki-PY; Tue, 10 Oct 2023 10:05:11 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qq7jo-000bnS-TB; Tue, 10 Oct 2023 10:05:08 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qq7jo-00CwKl-I1; Tue, 10 Oct 2023 10:05:08 +0200
-Date:   Tue, 10 Oct 2023 10:05:08 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        James Clark <james.clark@arm.com>, kernel@pengutronix.de,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
-Message-ID: <20231010080508.7ssnroaefyaeeedd@pengutronix.de>
-References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
- <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
- <ZLeX4UbFaY592HIa@orome>
- <20230725211004.peqxxb4y3j62gmnp@pengutronix.de>
+        with ESMTP id S1442903AbjJJIYC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Oct 2023 04:24:02 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7CDA138;
+        Tue, 10 Oct 2023 01:23:51 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 91DB71C000C;
+        Tue, 10 Oct 2023 08:23:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1696926229;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=v4W4ki9yJ0aQRYnIclXGVVivV68iXHwUsohQy3qfUB0=;
+        b=iUAEH+LmEqB+Z9kS3chvGiSknIjEn/Xfvpez8DlzWvIQqS1FON1cbMUuCvp9Ps9VnDAyhW
+        tR6Qy8Xj6Xsq5+zr+FcnZv24K47h7JNY7V8iySAM+Vj9+MxdZ3IzesZ6ETW/QmT3HRYYT8
+        C6/J1s+NREceDczqmOgWEO3idZL//SY5twfGigY9/1X1oZNYx80E7haMeBBhrnHNH5UgG9
+        mr0KG35Rck24oqYLpdAkuiC1pKAiCj6rwLQMC91F30Rx1864BhyG9JuS8rznUbbqbML1JW
+        Q+CauAfaEkoMY6E5PLuXMRPa3aHJFpc+8vPZunVea9y5Zch4JHtAWW9N1eV/tA==
+Date:   Tue, 10 Oct 2023 10:23:43 +0200
+From:   =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To:     Florian Fainelli <florian.fainelli@broadcom.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Michael Walle <michael@walle.cc>,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v5 08/16] net: ethtool: Add a command to expose
+ current time stamping layer
+Message-ID: <20231010102343.3529e4a7@kmaincent-XPS-13-7390>
+In-Reply-To: <2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
+References: <20231009155138.86458-1-kory.maincent@bootlin.com>
+        <20231009155138.86458-9-kory.maincent@bootlin.com>
+        <2fbde275-e60b-473d-8488-8f0aa637c294@broadcom.com>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2v7573bgeyansjlt"
-Content-Disposition: inline
-In-Reply-To: <20230725211004.peqxxb4y3j62gmnp@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: kory.maincent@bootlin.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 9 Oct 2023 14:20:02 -0700
+Florian Fainelli <florian.fainelli@broadcom.com> wrote:
 
---2v7573bgeyansjlt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Florian,
+Thanks for your review!
 
-Hello Saravana,
+> > +/*
+> > + * Hardware layer of the TIMESTAMPING provider
+> > + * New description layer should have the NETDEV_TIMESTAMPING or
+> > + * PHYLIB_TIMESTAMPING bit set to know which API to use for timestamping.  
+> 
+> If we are talking about hardware layers, then we shall use either 
+> PHY_TIMESTAMPING or MAC_TIMESTAMPING. PHYLIB is the sub-subsystem to 
+> deal with Ethernet PHYs, and netdev is the object through which we 
+> represent network devices, so they are not even quite describing similar 
+> things. If you go with the {PHY,MAC}_TIMESTAMPING suggestion, then I 
+> could see how we could somewhat easily add PCS_TIMESTAMPING for instance.
 
-you were pointed out to me as the expert for device links. I found a
-problem with these.
+I am indeed talking about hardware layers but I updated the name to use NETDEV
+and PHYLIB timestamping for a reason. It is indeed only PHY or MAC timestamping
+for now but it may be expanded in the future to theoretically to 7 layers of
+timestamps possible. Also there may be several possible timestamp within a MAC
+device precision vs volume.
+See the thread of my last version that talk about it:
+https://lore.kernel.org/netdev/20230511203646.ihljeknxni77uu5j@skbuf/
 
-On Tue, Jul 25, 2023 at 11:10:04PM +0200, Uwe Kleine-K=F6nig wrote:
-> Today I managed to trigger the problem I intend to address with this
-> series. My machine to test this on is an stm32mp157. To be able to
-> trigger the problem reliably I applied the following patches on top of
-> v6.5-rc1:
->=20
->  - pwm: stm32: Don't modify HW state in .remove() callback
->    This is a cleanup that I already sent out.
->    https://lore.kernel.org/r/20230713155142.2454010-2-u.kleine-koenig@pen=
-gutronix.de
->    The purpose for reproducing the problem is to not trigger further
->    calls to the apply callback.
->=20
->  - The following patch:
->=20
-> diff --git a/drivers/pwm/pwm-stm32.c b/drivers/pwm/pwm-stm32.c
-> index 687967d3265f..c7fc02b0fa3c 100644
-> --- a/drivers/pwm/pwm-stm32.c
-> +++ b/drivers/pwm/pwm-stm32.c
-> @@ -451,6 +451,10 @@ static int stm32_pwm_apply(struct pwm_chip *chip, st=
-ruct pwm_device *pwm,
->  	struct stm32_pwm *priv =3D to_stm32_pwm_dev(chip);
->  	int ret;
-> =20
-> +	dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
-> +	msleep(5000);
-> +	dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
-> +
->  	enabled =3D pwm->state.enabled;
-> =20
->  	if (enabled && !state->enabled) {
-> @@ -650,7 +654,11 @@ static void stm32_pwm_remove(struct platform_device =
-*pdev)
->  {
->  	struct stm32_pwm *priv =3D platform_get_drvdata(pdev);
-> =20
-> +	dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
->  	pwmchip_remove(&priv->chip);
-> +	dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
-> +
-> +	priv->regmap =3D NULL;
->  }
-> =20
->  static int __maybe_unused stm32_pwm_suspend(struct device *dev)
->=20
-> The first hunk is only there to widen the race window. The second is to
-> give some diagnostics and make stm32_pwm_apply() crash if it continues
-> to run after the msleep. (Without it it didn't crash reproducibly, don't
-> understand why. *shrug*)
->=20
-> The device tree contains a pwm-fan device making use of one of the PWMs.
->=20
-> Now I do the following:
->=20
-> 	echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & sleep 1; echo 4000=
-7000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
->=20
-> Unbinding the fan device has two effects:
->=20
->  - The device link between fan and pwm looses its property to unbind fan
->    when pwm gets unbound.
->    (Its .status changes from DL_STATE_ACTIVE to DL_STATE_AVAILABLE)
->  - It calls pwm_fan_cleanup() which triggers a call to
->    pwm_apply_state().
->=20
-> So when the pwm device gets unbound the first thread is sleeping in
-> stm32_pwm_apply(). The driver calls pwmchip_remove() and sets
-> priv->regmap to NULL. Then a few seconds later the first thread wakes up
-> in stm32_pwm_apply() with the chip freed and priv->regmap =3D NULL. Bang!
->=20
-> This looks as follows:
->=20
-> root@crown:~# echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & sleep=
- 1; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
-> [  187.182113] stm32-pwm 40007000.timer:pwm: stm32_pwm_apply:454
-> [  188.164769] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:657
-> [  188.184555] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:659
-> root@crown:~# [  192.236423] platform 40007000.timer:pwm: stm32_pwm_apply=
-:456
-> [  192.240727] 8<--- cut here ---
-> [  192.243759] Unable to handle kernel NULL pointer dereference at virtua=
-l address 0000001c when read
-> ...
->=20
-> Even without the crash you can see that stm32_pwm_apply() is still
-> running after pwmchip_remove() completed.
->=20
-> I'm unsure if the device link could be improved here to ensure that the
-> fan is completely unbound even if it started unbinding already before
-> the pwm device gets unbound. (And if it could, would this fit the device
-> links purpose and so be a sensible improvement?)
+All these possibles timestamps go through exclusively the netdev API or the
+phylib API. Even the software timestamping is done in the netdev driver,
+therefore it goes through the netdev API and then should have the
+NETDEV_TIMESTAMPING bit set.
 
-While I think that there is something to be done in the pwm core that
-this doesn't explode (i.e. do proper lifetime tracking such that a
-pwm_chip doesn't disappear while still being used---and I'm working on
-that) I expected that the device links between pwm consumer and provider
-would prevent the above described oops, too. But somehow the fan already
-going away (but still using the PWM) when the PWM is unbound, results in
-the PWM disappearing before the fan is completely gone.
+> > + */
+> > +enum {
+> > +	NO_TIMESTAMPING = 0,
+> > +	NETDEV_TIMESTAMPING = (1 << 0),
+> > +	PHYLIB_TIMESTAMPING = (1 << 1),
+> > +	SOFTWARE_TIMESTAMPING = (1 << 2) | (1 << 0),  
+> 
+> Why do we have to set NETDEV_TIMESTAMPING here, or is this a round-about 
+> way of enumerating 0, 1, 2 and 3?
 
-Is this expected, or a problem that can (and should?) be fixed?
+I answered you above the software timestamping should have the
+NETDEV_TIMESTAMPING bit set as it is done from the net device driver.
 
-If you need more context or a tester, don't hesitate to ask.
+What I was thinking is that all the new timestamping should have
+NETDEV_TIMESTAMPING or PHYLIB_TIMESTAMPING set to know which API to pass
+through.
+Like we could add these in the future:
+MAC_DMA_TIMESTAMPING = (2 << 2) | (1 >> 0),
+MAC_PRECISION_TIMESTAMPING = (3 << 2) | (1 >> 0),
+...
+PHY_SFP_TIMESTAMPING = (2 << 2) | (1 << 1),
+...
 
-Best regards
-Uwe
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Or maybe do you prefer to use defines like this:
+# define NETDEV_TIMESTAMPING (1 << 0)
+# define PHYLIB_TIMESTAMPING (1 << 1)
 
---2v7573bgeyansjlt
-Content-Type: application/pgp-signature; name="signature.asc"
+enum {
+	NO_TIMESTAMPING = 0,
+	MAC_TIMESTAMPING = NETDEV_TIMESTAMPING,
+	PHY_TIMESTAMPING = PHYLIB_TIMESTAMPING,
+	SOFTWARE_TIMESTAMPING = (1 << 2) | NETDEV_TIMESTAMPING,
+	...
+	MAC_DMA_TIMESTAMPING = (2 << 2) | NETDEV_TIMESTAMPING,
+	MAC_PRECISION_TIMESTAMPING = (3 << 2) | NETDEV_TIMESTAMPING,
 
------BEGIN PGP SIGNATURE-----
+or other idea?
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUlBbMACgkQj4D7WH0S
-/k6NEQgArmewhE1zHKqUoOYsBk/kRX7lq2dvOfjV/K2syo52ANXYP6jPVnYXE0C8
-eAdZ9O9CxIeY6pMoSPVVtck7ykTHn3n3Umrm4Ifeopi4b/KbbVpmtVTH0hswNYtC
-0PDtVsCmWiCd97a+2p5HDwP880vYoxOc2Lc5zVG8QyAq0zHdEa2M4tCKCHLWaiF2
-otovwT5mhE3CJc3IUDldYXt7laNldLxlkPoRmYU3TXXbLfw5E3PJO4QV9GkECOV3
-j2LkhB8dT5Wx0Nyq6QYdNSVxwwrq0JZJ9ALCWJ2WHNSk7/V5V5y6wxZYRtvjeDzA
-Jn9xPT09+0bctPCqfCwQzNn2c7dDRQ==
-=gOEm
------END PGP SIGNATURE-----
-
---2v7573bgeyansjlt--
+Regards,
