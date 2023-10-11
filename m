@@ -1,123 +1,105 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290B0199D4;
-	Wed, 11 Oct 2023 08:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42631A713
+	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 09:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMg+1Lo0"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA469D;
-	Wed, 11 Oct 2023 01:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697014448; x=1728550448;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=714S6mut/9WqubXB7r7ivANIejuGEiLpzLr+etG14No=;
-  b=OMg+1Lo0QWi/rokKLtCKlWKOLsSbKzXptdiAkb3a+8pon0O3oKHdgaXP
-   eCFdWfes/Wvmn6RSgdiKnGR+zMD6IQQX9q5OcMkP2FfueIEfdGhw5nVyL
-   fWJZxhP7WjLvZhXqF2Ia0OrOuRducnbDGbcA//u1bb/IejlNkNzxunFt7
-   JBdqoGfv94Y3VSytxm3PeTW2bc5aGQ5aCuVD02us3zsm6pWjZYEBwWHGp
-   cgyL40rJ6s2BIlb/fh07MnTu7Mogp3OAGjHVeBlnxHvO2gvKZFJMvC3RQ
-   NlgWMtwX0luMLYvI+djoX/RCk+695Hd7WYaEeMxbx98CjqQW7nsGz/GNR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387455863"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="387455863"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 01:54:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="819610252"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="819610252"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2023 01:54:05 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqUyh-000223-2n;
-	Wed, 11 Oct 2023 08:54:03 +0000
-Date: Wed, 11 Oct 2023 16:53:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
-	netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 1/2] net: dsa: Use conduit and user terms
-Message-ID: <202310111600.FwR1laqR-lkp@intel.com>
-References: <20231010213942.3633407-2-florian.fainelli@broadcom.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wh8oxInp"
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B016798
+	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 02:17:31 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-66cf09873e8so6415206d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 02:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1697015851; x=1697620651; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y0ui4FIOXF4erofK3EEiBiXcu0Hxm1HMmxaKkqRWWBw=;
+        b=wh8oxInpFZtf6XXQiMQnRBsMtFbLoHpOZgY41h+uCfOcYjlAk+rwyA7EgR8X09IHXI
+         al05NAmn5RT5CR7aCyx7mYSubWFrjnSyICRSOwGK9qeoBgVTXmFDo5gcModECI6w6yoh
+         62RVPOunDUPP9MWog3JCEBLziWNMJcZZcZhDLvOko1r4bJ1aCjCscfk5s17cIe1ln3P9
+         o/DgJA/V5gwbImmxr7A9Elum47fq6294BG+Bb5mMarLWuqkLLoj9SkiKqXJRi5KP0kHS
+         x0979Y562zkSd1NUkseqfxSDZadZSZ+CVoaTNZBLwXPjOGCjsLzoWOXe5Ch2NOLmeA7/
+         2SAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697015851; x=1697620651;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y0ui4FIOXF4erofK3EEiBiXcu0Hxm1HMmxaKkqRWWBw=;
+        b=MMyTJ2QntaBW7x4bM8m7cUgORAwd7QWgb2mnCrx9E/iFydF0tfUCVlOa2MR0K4oXMh
+         9rY82fJnmrF0RSuUammL4WXkCW46S6AqWpL95yscsyQ72JYVKNuOJs8Rv2Kt/N0i84WZ
+         31mx4Hr15UxQ9uut39CdM7LxYc+JCoZmxoGq4oFCrFQY/v4pQJuU5JzvrsrtUxV/8Mji
+         /AxHW1xXcyt0GtllimRU1rgKwcBAvfNFsUuR8vj5xjJMDiAidHgvRF6T0bmk8PiroULF
+         eUqW8xWIhDVLCBmSSNafO7c1XlQ7++FcskCRGVetFa9q2t4sNF75bLQ5qDQf7mQN4fmM
+         7mBQ==
+X-Gm-Message-State: AOJu0Yzh4vxJbeHwBSxj4zDSz9n4DwVwp9+nRhM/G4mQZ96AQH0iSdBb
+	VUyZVQB1kad9G9Ba4LoK2XAxGpxg2TGyNulxmxOmkQ==
+X-Google-Smtp-Source: AGHT+IG+rPyyOblyJSoglo8ncjt3dp7Z3DIXVrqQ4vGB7pn+rmpGmyxgol88V0zb3M685htN9UAVO3vWeH+qrZJ4lK4=
+X-Received: by 2002:a0c:cc02:0:b0:65b:2738:9bb4 with SMTP id
+ r2-20020a0ccc02000000b0065b27389bb4mr26931856qvk.23.1697015850728; Wed, 11
+ Oct 2023 02:17:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231010213942.3633407-2-florian.fainelli@broadcom.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+References: <20230915105933.495735-1-matteorizzo@google.com>
+ <20230915105933.495735-12-matteorizzo@google.com> <386c175e-bd10-2d5d-6051-4065f6f9b84a@intel.com>
+In-Reply-To: <386c175e-bd10-2d5d-6051-4065f6f9b84a@intel.com>
+From: Matteo Rizzo <matteorizzo@google.com>
+Date: Wed, 11 Oct 2023 11:17:18 +0200
+Message-ID: <CAHKB1wLetbLZjhg1UVhA1QwZHo226BRL=Khm962JEfh0F+CVbQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 11/14] mm/slub: allocate slabs from virtual memory
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: cl@linux.com, penberg@kernel.org, rientjes@google.com, 
+	iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz, 
+	roman.gushchin@linux.dev, 42.hyeyoo@gmail.com, keescook@chromium.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-hardening@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	corbet@lwn.net, luto@kernel.org, peterz@infradead.org, jannh@google.com, 
+	evn@google.com, poprdi@google.com, jordyzomer@google.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.6
+	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Hi Florian,
+On Fri, 15 Sept 2023 at 23:57, Dave Hansen <dave.hansen@intel.com> wrote:
+>
+> I assume that the TLB flushes in the queue are going to be pretty sparse
+> on average.
+>
+> At least on x86, flush_tlb_kernel_range() falls back pretty quickly from
+> individual address invalidation to just doing a full flush.  It might
+> not even be worth tracking the address ranges, and just do a full flush
+> every time.
+>
+> I'd be really curious to see how often actual ranged flushes are
+> triggered from this code.  I expect it would be very near zero.
 
-kernel test robot noticed the following build warnings:
+I did some quick testing with kernel compilation. On x86
+flush_tlb_kernel_range does a full flush when end - start is more than 33
+pages and a ranged flush otherwise. I counted how many of each we are
+triggering from the TLB flush worker with some code like this:
 
-[auto build test WARNING on net-next/main]
+if (addr_start < addr_end) {
+if ((addr_end - addr_start) <= (33 << PAGE_SHIFT))
+partial_flush_count++;
+else
+full_flush_count++;
+}
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/net-dsa-Use-conduit-and-user-terms/20231011-054044
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231010213942.3633407-2-florian.fainelli%40broadcom.com
-patch subject: [PATCH net-next 1/2] net: dsa: Use conduit and user terms
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310111600.FwR1laqR-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111600.FwR1laqR-lkp@intel.com/reproduce)
+Result after one run of kernbench:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310111600.FwR1laqR-lkp@intel.com/
+# cat /proc/slab_tlbinfo
+partial 88890 full 45223
 
-All warnings (new ones prefixed by >>):
+So it seems that most flushes are ranged (at least for this workload).
 
-   drivers/net/ethernet/mediatek/mtk_ppe_offload.c: In function 'mtk_flow_get_dsa_port':
-   drivers/net/ethernet/mediatek/mtk_ppe_offload.c:178:16: error: implicit declaration of function 'dsa_port_to_master'; did you mean 'dsa_port_is_user'? [-Werror=implicit-function-declaration]
-     178 |         *dev = dsa_port_to_master(dp);
-         |                ^~~~~~~~~~~~~~~~~~
-         |                dsa_port_is_user
->> drivers/net/ethernet/mediatek/mtk_ppe_offload.c:178:14: warning: assignment to 'struct net_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     178 |         *dev = dsa_port_to_master(dp);
-         |              ^
-   cc1: some warnings being treated as errors
-
-
-vim +178 drivers/net/ethernet/mediatek/mtk_ppe_offload.c
-
-502e84e2382d92 Felix Fietkau   2021-03-24  164  
-502e84e2382d92 Felix Fietkau   2021-03-24  165  static int
-502e84e2382d92 Felix Fietkau   2021-03-24  166  mtk_flow_get_dsa_port(struct net_device **dev)
-502e84e2382d92 Felix Fietkau   2021-03-24  167  {
-502e84e2382d92 Felix Fietkau   2021-03-24  168  #if IS_ENABLED(CONFIG_NET_DSA)
-502e84e2382d92 Felix Fietkau   2021-03-24  169  	struct dsa_port *dp;
-502e84e2382d92 Felix Fietkau   2021-03-24  170  
-502e84e2382d92 Felix Fietkau   2021-03-24  171  	dp = dsa_port_from_netdev(*dev);
-502e84e2382d92 Felix Fietkau   2021-03-24  172  	if (IS_ERR(dp))
-502e84e2382d92 Felix Fietkau   2021-03-24  173  		return -ENODEV;
-502e84e2382d92 Felix Fietkau   2021-03-24  174  
-502e84e2382d92 Felix Fietkau   2021-03-24  175  	if (dp->cpu_dp->tag_ops->proto != DSA_TAG_PROTO_MTK)
-502e84e2382d92 Felix Fietkau   2021-03-24  176  		return -ENODEV;
-502e84e2382d92 Felix Fietkau   2021-03-24  177  
-8f6a19c0316deb Vladimir Oltean 2022-09-11 @178  	*dev = dsa_port_to_master(dp);
-502e84e2382d92 Felix Fietkau   2021-03-24  179  
-502e84e2382d92 Felix Fietkau   2021-03-24  180  	return dp->index;
-502e84e2382d92 Felix Fietkau   2021-03-24  181  #else
-502e84e2382d92 Felix Fietkau   2021-03-24  182  	return -ENODEV;
-502e84e2382d92 Felix Fietkau   2021-03-24  183  #endif
-502e84e2382d92 Felix Fietkau   2021-03-24  184  }
-502e84e2382d92 Felix Fietkau   2021-03-24  185  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Matteo
