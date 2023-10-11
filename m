@@ -1,126 +1,123 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E95156FD;
-	Wed, 11 Oct 2023 08:47:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290B0199D4;
+	Wed, 11 Oct 2023 08:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8pWZ2Ag"
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3433C94;
-	Wed, 11 Oct 2023 01:47:39 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-693375d2028so5897665b3a.2;
-        Wed, 11 Oct 2023 01:47:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697014058; x=1697618858; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5PHd4L11YnGUPoVNdOQWl2i7d9heDpgbDvz1RYjLYGo=;
-        b=E8pWZ2AgZQklRG238cKQVbMARt6w17HVIcabdkMGTcdXdg7N/aD+wpIvfiBJjxG4gM
-         Mj0f3YHZZBcP6Btm+dWcNBeWN4DN3/HdNryEsnmS/upGXVTK9VDO3JWfZOf4X4sTYfIk
-         cNKCnvmthbvcV8SMFfT6polyc9b8a9UaHzA+q7JNIjaIYY/axPsrGs8vAXaZ1GJ/Vckt
-         aHNK7+YpHD/bHTpVnOebg7s4GiEH0gkGfz2lF4kU9AWgyrHRzvbNfUMWC4lU3LzF+dYw
-         JGGjY+543iHL2kneytDSRGmM9B1Fw6ucD3ouSdblO4g/FxPPeFUJK2Y8guzjs5XltUSn
-         +Ljw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697014058; x=1697618858;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5PHd4L11YnGUPoVNdOQWl2i7d9heDpgbDvz1RYjLYGo=;
-        b=cVL/+tQiOzm620BPjkuv+Dgv754OgJoJIZS07xbwHnv2ZX+xVw8/Tsdp6kK0lIEytN
-         h4BWHaCDAdhr2r14PPIz4BbAzKhdxDIKxk9CLTX1p3KHh0PkSjbGK3D9z2fKT7bs7L2i
-         V2sc+Ih0L5wfrBM9yzRmGIaIxjVYov/BUyKajVuXGclZb1f4I2GvZQaoC5gWjtuEw08h
-         ocNWMpOTzAabVkU/EdayNW9tzU52mdoZhAJiwgmlXBH3AW2+M8DMCE5k8dlFSmXP/4Xk
-         ikBE47qFI0j12O7pqzMByho+kFgDuRPW8oOhvlknMJgHHU59BFct06LZL7JWKZfRvwAd
-         HOIg==
-X-Gm-Message-State: AOJu0YyC3ws2jy4EQYaNeCJbjDZ3ISUFG28bQZ9VJ2U58TzmtQcncUiR
-	CwL27qSsG2aC4tFA7E750yU=
-X-Google-Smtp-Source: AGHT+IHKp/lP2UEjdreQ/MNJ3ZVCxCcslScZQgnSOtE2Q68tcxarXWrfg8amvM0SQrX/eavqTPhfmw==
-X-Received: by 2002:a05:6a00:234a:b0:68f:b5a1:12bf with SMTP id j10-20020a056a00234a00b0068fb5a112bfmr24118194pfj.29.1697014058577;
-        Wed, 11 Oct 2023 01:47:38 -0700 (PDT)
-Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id fb15-20020a056a002d8f00b006932657075bsm7797963pfb.82.2023.10.11.01.47.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 01:47:37 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-	id 3F2968222031; Wed, 11 Oct 2023 15:47:34 +0700 (WIB)
-Date: Wed, 11 Oct 2023 15:47:33 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-	corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, andrew@lunn.ch,
-	jesse.brandeburg@intel.com, sd@queasysnail.net, horms@verge.net.au,
-	przemyslaw.kitszel@intel.com, f.fainelli@gmail.com,
-	jiri@resnulli.us, ecree.xilinx@gmail.com
-Subject: Re: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
-Message-ID: <ZSZhJW92xsLVdtFw@debian.me>
-References: <20231011024224.161282-1-kuba@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMg+1Lo0"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA469D;
+	Wed, 11 Oct 2023 01:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697014448; x=1728550448;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=714S6mut/9WqubXB7r7ivANIejuGEiLpzLr+etG14No=;
+  b=OMg+1Lo0QWi/rokKLtCKlWKOLsSbKzXptdiAkb3a+8pon0O3oKHdgaXP
+   eCFdWfes/Wvmn6RSgdiKnGR+zMD6IQQX9q5OcMkP2FfueIEfdGhw5nVyL
+   fWJZxhP7WjLvZhXqF2Ia0OrOuRducnbDGbcA//u1bb/IejlNkNzxunFt7
+   JBdqoGfv94Y3VSytxm3PeTW2bc5aGQ5aCuVD02us3zsm6pWjZYEBwWHGp
+   cgyL40rJ6s2BIlb/fh07MnTu7Mogp3OAGjHVeBlnxHvO2gvKZFJMvC3RQ
+   NlgWMtwX0luMLYvI+djoX/RCk+695Hd7WYaEeMxbx98CjqQW7nsGz/GNR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387455863"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="387455863"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 01:54:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="819610252"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="819610252"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2023 01:54:05 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqUyh-000223-2n;
+	Wed, 11 Oct 2023 08:54:03 +0000
+Date: Wed, 11 Oct 2023 16:53:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+	netdev@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 1/2] net: dsa: Use conduit and user terms
+Message-ID: <202310111600.FwR1laqR-lkp@intel.com>
+References: <20231010213942.3633407-2-florian.fainelli@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="N/jma408R2QpVyun"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231011024224.161282-1-kuba@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6
+In-Reply-To: <20231010213942.3633407-2-florian.fainelli@broadcom.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
+Hi Florian,
 
---N/jma408R2QpVyun
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Tue, Oct 10, 2023 at 07:42:24PM -0700, Jakub Kicinski wrote:
-> +Another technique that is useful in case of a disagreement is to ask for=
- others
-> +to chime in. If a discussion reaches a stalemate after a few exchanges,
-> +then call for opinions of other reviewers or maintainers. Often those in
-> +agreement with a reviewer remain silent unless called upon.
-> +The opinion of multiple people carries exponentially more weight.
+[auto build test WARNING on net-next/main]
 
-or no conclusing replies?
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/net-dsa-Use-conduit-and-user-terms/20231011-054044
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231010213942.3633407-2-florian.fainelli%40broadcom.com
+patch subject: [PATCH net-next 1/2] net: dsa: Use conduit and user terms
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310111600.FwR1laqR-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111600.FwR1laqR-lkp@intel.com/reproduce)
 
-> +
-> +There is no strict requirement to use specific tags like ``Reviewed-by``.
-> +In fact reviews in plain English are more informative and encouraged
-> +even when a tag is provided, e.g. "I looked at aspects A, B and C of this
-> +submission and it looks good to me."
-> +Some form of a review message or reply is obviously necessary otherwise
-> +maintainers will not know that the reviewer has looked at the patch at a=
-ll!
-> +
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310111600.FwR1laqR-lkp@intel.com/
 
-So a bare Reviewed-by: tag is enough to be a reviewer, right?
+All warnings (new ones prefixed by >>):
 
-> +Last but not least patch review may become a negative process, focused
-> +on pointing out problems. Please throw in a compliment once in a while,
-> +particularly for newbies!
+   drivers/net/ethernet/mediatek/mtk_ppe_offload.c: In function 'mtk_flow_get_dsa_port':
+   drivers/net/ethernet/mediatek/mtk_ppe_offload.c:178:16: error: implicit declaration of function 'dsa_port_to_master'; did you mean 'dsa_port_is_user'? [-Werror=implicit-function-declaration]
+     178 |         *dev = dsa_port_to_master(dp);
+         |                ^~~~~~~~~~~~~~~~~~
+         |                dsa_port_is_user
+>> drivers/net/ethernet/mediatek/mtk_ppe_offload.c:178:14: warning: assignment to 'struct net_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     178 |         *dev = dsa_port_to_master(dp);
+         |              ^
+   cc1: some warnings being treated as errors
 
-=2E.. to encourage them contributing more.
 
-Thanks.
+vim +178 drivers/net/ethernet/mediatek/mtk_ppe_offload.c
 
---=20
-An old man doll... just what I always wanted! - Clara
+502e84e2382d92 Felix Fietkau   2021-03-24  164  
+502e84e2382d92 Felix Fietkau   2021-03-24  165  static int
+502e84e2382d92 Felix Fietkau   2021-03-24  166  mtk_flow_get_dsa_port(struct net_device **dev)
+502e84e2382d92 Felix Fietkau   2021-03-24  167  {
+502e84e2382d92 Felix Fietkau   2021-03-24  168  #if IS_ENABLED(CONFIG_NET_DSA)
+502e84e2382d92 Felix Fietkau   2021-03-24  169  	struct dsa_port *dp;
+502e84e2382d92 Felix Fietkau   2021-03-24  170  
+502e84e2382d92 Felix Fietkau   2021-03-24  171  	dp = dsa_port_from_netdev(*dev);
+502e84e2382d92 Felix Fietkau   2021-03-24  172  	if (IS_ERR(dp))
+502e84e2382d92 Felix Fietkau   2021-03-24  173  		return -ENODEV;
+502e84e2382d92 Felix Fietkau   2021-03-24  174  
+502e84e2382d92 Felix Fietkau   2021-03-24  175  	if (dp->cpu_dp->tag_ops->proto != DSA_TAG_PROTO_MTK)
+502e84e2382d92 Felix Fietkau   2021-03-24  176  		return -ENODEV;
+502e84e2382d92 Felix Fietkau   2021-03-24  177  
+8f6a19c0316deb Vladimir Oltean 2022-09-11 @178  	*dev = dsa_port_to_master(dp);
+502e84e2382d92 Felix Fietkau   2021-03-24  179  
+502e84e2382d92 Felix Fietkau   2021-03-24  180  	return dp->index;
+502e84e2382d92 Felix Fietkau   2021-03-24  181  #else
+502e84e2382d92 Felix Fietkau   2021-03-24  182  	return -ENODEV;
+502e84e2382d92 Felix Fietkau   2021-03-24  183  #endif
+502e84e2382d92 Felix Fietkau   2021-03-24  184  }
+502e84e2382d92 Felix Fietkau   2021-03-24  185  
 
---N/jma408R2QpVyun
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZSZhIQAKCRD2uYlJVVFO
-oymvAP9DmFsyNnwltxdWdQ8mYcBNUcosrEZXiATNE4F9MoPGEwD9HHMb9gqbleNj
-6Pn6Ea3JGk95CyppmVUuy+N53qybgQA=
-=hKvm
------END PGP SIGNATURE-----
-
---N/jma408R2QpVyun--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
