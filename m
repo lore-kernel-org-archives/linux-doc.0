@@ -1,155 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED596354F7;
-	Wed, 11 Oct 2023 02:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+CVE8aS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72BBC433C7;
-	Wed, 11 Oct 2023 02:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696992160;
-	bh=+feC0UohEV8eNn1xQpSSzuW3QkwRQn5mv5VGWzQsIHo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Y+CVE8aS9FNsIvhoM9yXShjHiN4PU1bw8S7QLAVt1KYkgqRFWKI61wToSADGNyutv
-	 NuKEtNlTQrNPQMeh6g2cCkubu5LH/qsnZEh5X+NjHp1q2BfUdapn6zG1psV4PDxujT
-	 1ZD3lARC1tC+tqrBBW8YgUw665X8/1Z/rPPwyGjjUcJJU4A1INw6nNSmikVr1rKPh8
-	 Wa3JRP8NeBjaKMkOVyNZMBZpVAWZpJFciygqM/tM6iw9SOGOcVClu/9yzDgLL3Ym6n
-	 ZSI0vdNi2Z1Jl3n2CeLT3rGKgEBO5ZZVQdyuMDtcN8E13NsDRFGis6I8kFxG7JqAo7
-	 RN+xzG/embosA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	corbet@lwn.net,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	andrew@lunn.ch,
-	jesse.brandeburg@intel.com,
-	sd@queasysnail.net,
-	horms@verge.net.au,
-	przemyslaw.kitszel@intel.com,
-	f.fainelli@gmail.com,
-	jiri@resnulli.us,
-	ecree.xilinx@gmail.com
-Subject: [PATCH net-next v2] docs: try to encourage (netdev?) reviewers
-Date: Tue, 10 Oct 2023 19:42:24 -0700
-Message-ID: <20231011024224.161282-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9982C2DF
+	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 03:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAB592;
+	Tue, 10 Oct 2023 20:34:28 -0700 (PDT)
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4S4yvn6RM6zLpxZ;
+	Wed, 11 Oct 2023 11:30:29 +0800 (CST)
+Received: from [10.174.176.117] (10.174.176.117) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Wed, 11 Oct 2023 11:34:25 +0800
+Subject: Re: [PATCH] doc: blk-ioprio: Standardize a few names
+To: <yizhou.tang@shopee.com>, <jack@suse.cz>, <bvanassche@acm.org>,
+	<kch@nvidia.com>
+CC: <axboe@kernel.dk>, <tj@kernel.org>, <corbet@lwn.net>,
+	<linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <yingfu.zhou@shopee.com>,
+	<chunguang.xu@shopee.com>
+References: <20231009100349.52884-1-yizhou.tang@shopee.com>
+From: Hou Tao <houtao1@huawei.com>
+Message-ID: <42882d2b-e076-74df-e0bc-2b6c79986d3a@huawei.com>
+Date: Wed, 11 Oct 2023 11:34:25 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231009100349.52884-1-yizhou.tang@shopee.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.176.117]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500025.china.huawei.com (7.185.36.35)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+	RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-Add a section to netdev maintainer doc encouraging reviewers
-to chime in on the mailing list.
 
-The questions about "when is it okay to share feedback"
-keep coming up (most recently at netconf) and the answer
-is "pretty much always".
 
-Extend the section of 7.AdvancedTopics.rst which deals
-with reviews a little bit to add stuff we had been recommending
-locally.
+On 10/9/2023 6:03 PM, yizhou.tang@shopee.com wrote:
+> From: Tang Yizhou <yizhou.tang@shopee.com>
+>
+> Our system administrator have noted that the names 'rt-to-be' and
+> 'all-to-idle' in the I/O priority policies table appeared without
+> explanations, leading to confusion. Let's standardize these names in
+> line with the naming in the 'attribute' section.
+>
+> Additionally,
+> 1. Correct the interface name to 'io.prio.class'.
+> 2. Add a table entry of 'promote-to-rt' for consistency.
+> 3. Fix a typo of 'priority'.
+>
+> Suggested-by: Yingfu Zhou <yingfu.zhou@shopee.com>
+> Signed-off-by: Tang Yizhou <yizhou.tang@shopee.com>
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-v2:
- - grammar fixes from Donald
- - remove parenthesis around a quote
-v1: https://lore.kernel.org/all/20231009225637.3785359-1-kuba@kernel.org/
- - spelling (compliment)
- - move to common docs:
-   - ask for more opinions
-   - use of tags
-   - compliments
- - ask less experienced reviewers to avoid style comments
-   (using Florian's wording)
-
-CC: andrew@lunn.ch
-CC: jesse.brandeburg@intel.com
-CC: sd@queasysnail.net
-CC: horms@verge.net.au
-CC: przemyslaw.kitszel@intel.com
-CC: f.fainelli@gmail.com
-CC: jiri@resnulli.us
-CC: ecree.xilinx@gmail.com
----
- Documentation/process/7.AdvancedTopics.rst  | 18 ++++++++++++++++++
- Documentation/process/maintainer-netdev.rst | 15 +++++++++++++++
- 2 files changed, 33 insertions(+)
-
-diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
-index bf7cbfb4caa5..43291704338e 100644
---- a/Documentation/process/7.AdvancedTopics.rst
-+++ b/Documentation/process/7.AdvancedTopics.rst
-@@ -146,6 +146,7 @@ pull.  The git request-pull command can be helpful in this regard; it will
- format the request as other developers expect, and will also check to be
- sure that you have remembered to push those changes to the public server.
- 
-+.. _development_advancedtopics_reviews:
- 
- Reviewing patches
- -----------------
-@@ -167,6 +168,12 @@ comments as questions rather than criticisms.  Asking "how does the lock
- get released in this path?" will always work better than stating "the
- locking here is wrong."
- 
-+Another technique that is useful in case of a disagreement is to ask for others
-+to chime in. If a discussion reaches a stalemate after a few exchanges,
-+then call for opinions of other reviewers or maintainers. Often those in
-+agreement with a reviewer remain silent unless called upon.
-+The opinion of multiple people carries exponentially more weight.
-+
- Different developers will review code from different points of view.  Some
- are mostly concerned with coding style and whether code lines have trailing
- white space.  Others will focus primarily on whether the change implemented
-@@ -176,3 +183,14 @@ security issues, duplication of code found elsewhere, adequate
- documentation, adverse effects on performance, user-space ABI changes, etc.
- All types of review, if they lead to better code going into the kernel, are
- welcome and worthwhile.
-+
-+There is no strict requirement to use specific tags like ``Reviewed-by``.
-+In fact reviews in plain English are more informative and encouraged
-+even when a tag is provided, e.g. "I looked at aspects A, B and C of this
-+submission and it looks good to me."
-+Some form of a review message or reply is obviously necessary otherwise
-+maintainers will not know that the reviewer has looked at the patch at all!
-+
-+Last but not least patch review may become a negative process, focused
-+on pointing out problems. Please throw in a compliment once in a while,
-+particularly for newbies!
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 09dcf6377c27..7feacc20835e 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -441,6 +441,21 @@ in a way which would break what would normally be considered uAPI.
- new ``netdevsim`` features must be accompanied by selftests under
- ``tools/testing/selftests/``.
- 
-+Reviewer guidance
-+-----------------
-+
-+Reviewing other people's patches on the list is highly encouraged,
-+regardless of the level of expertise. For general guidance and
-+helpful tips please see :ref:`development_advancedtopics_reviews`.
-+
-+It's safe to assume that netdev maintainers know the community and the level
-+of expertise of the reviewers. The reviewers should not be concerned about
-+their comments impeding or derailing the patch flow.
-+
-+Less experienced reviewers are highly encouraged to do more in-depth
-+review of submissions and not focus exclusively on trivial or subjective
-+matters like code formatting, tags etc.
-+
- Testimonials / feedback
- -----------------------
- 
--- 
-2.41.0
+Reviewed-by: Hou Tao <houtao1@huawei.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 4ef890191196..10461c73c9a3 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2023,7 +2023,7 @@ IO Priority
+>  ~~~~~~~~~~~
+>  
+>  A single attribute controls the behavior of the I/O priority cgroup policy,
+> -namely the blkio.prio.class attribute. The following values are accepted for
+> +namely the io.prio.class attribute. The following values are accepted for
+>  that attribute:
+>  
+>    no-change
+> @@ -2052,9 +2052,11 @@ The following numerical values are associated with the I/O priority policies:
+>  +----------------+---+
+>  | no-change      | 0 |
+>  +----------------+---+
+> -| rt-to-be       | 2 |
+> +| promote-to-rt  | 1 |
+>  +----------------+---+
+> -| all-to-idle    | 3 |
+> +| restrict-to-be | 2 |
+> ++----------------+---+
+> +| idle           | 3 |
+>  +----------------+---+
+>  
+>  The numerical value that corresponds to each I/O priority class is as follows:
+> @@ -2074,7 +2076,7 @@ The algorithm to set the I/O priority class for a request is as follows:
+>  - If I/O priority class policy is promote-to-rt, change the request I/O
+>    priority class to IOPRIO_CLASS_RT and change the request I/O priority
+>    level to 4.
+> -- If I/O priorityt class is not promote-to-rt, translate the I/O priority
+> +- If I/O priority class policy is not promote-to-rt, translate the I/O priority
+>    class policy into a number, then change the request I/O priority class
+>    into the maximum of the I/O priority class policy number and the numerical
+>    I/O priority class.
 
