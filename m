@@ -1,105 +1,116 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42631A713
-	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 09:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9B31CFBE;
+	Wed, 11 Oct 2023 10:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wh8oxInp"
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B016798
-	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 02:17:31 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-66cf09873e8so6415206d6.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 02:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697015851; x=1697620651; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y0ui4FIOXF4erofK3EEiBiXcu0Hxm1HMmxaKkqRWWBw=;
-        b=wh8oxInpFZtf6XXQiMQnRBsMtFbLoHpOZgY41h+uCfOcYjlAk+rwyA7EgR8X09IHXI
-         al05NAmn5RT5CR7aCyx7mYSubWFrjnSyICRSOwGK9qeoBgVTXmFDo5gcModECI6w6yoh
-         62RVPOunDUPP9MWog3JCEBLziWNMJcZZcZhDLvOko1r4bJ1aCjCscfk5s17cIe1ln3P9
-         o/DgJA/V5gwbImmxr7A9Elum47fq6294BG+Bb5mMarLWuqkLLoj9SkiKqXJRi5KP0kHS
-         x0979Y562zkSd1NUkseqfxSDZadZSZ+CVoaTNZBLwXPjOGCjsLzoWOXe5Ch2NOLmeA7/
-         2SAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697015851; x=1697620651;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y0ui4FIOXF4erofK3EEiBiXcu0Hxm1HMmxaKkqRWWBw=;
-        b=MMyTJ2QntaBW7x4bM8m7cUgORAwd7QWgb2mnCrx9E/iFydF0tfUCVlOa2MR0K4oXMh
-         9rY82fJnmrF0RSuUammL4WXkCW46S6AqWpL95yscsyQ72JYVKNuOJs8Rv2Kt/N0i84WZ
-         31mx4Hr15UxQ9uut39CdM7LxYc+JCoZmxoGq4oFCrFQY/v4pQJuU5JzvrsrtUxV/8Mji
-         /AxHW1xXcyt0GtllimRU1rgKwcBAvfNFsUuR8vj5xjJMDiAidHgvRF6T0bmk8PiroULF
-         eUqW8xWIhDVLCBmSSNafO7c1XlQ7++FcskCRGVetFa9q2t4sNF75bLQ5qDQf7mQN4fmM
-         7mBQ==
-X-Gm-Message-State: AOJu0Yzh4vxJbeHwBSxj4zDSz9n4DwVwp9+nRhM/G4mQZ96AQH0iSdBb
-	VUyZVQB1kad9G9Ba4LoK2XAxGpxg2TGyNulxmxOmkQ==
-X-Google-Smtp-Source: AGHT+IG+rPyyOblyJSoglo8ncjt3dp7Z3DIXVrqQ4vGB7pn+rmpGmyxgol88V0zb3M685htN9UAVO3vWeH+qrZJ4lK4=
-X-Received: by 2002:a0c:cc02:0:b0:65b:2738:9bb4 with SMTP id
- r2-20020a0ccc02000000b0065b27389bb4mr26931856qvk.23.1697015850728; Wed, 11
- Oct 2023 02:17:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dwzMe0NX"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB359D;
+	Wed, 11 Oct 2023 03:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697019322; x=1728555322;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pNva1qBYGCKL7fsDb7y9EZtGrJ70CECWmkZU6WgokUw=;
+  b=dwzMe0NXr+YI1C+RxmlT8EOFX3G6xgQPX1VkEZ+Ucb7wDeJAmA3WxAlq
+   aFmA8OuXJOJjCWhDYqjwGFKbcAVKyVErWdrKFte8BLE3Ug/e5qx1ym3mP
+   h0B5ALSl8ZvcILF3Fp+QI3wBsoyYJx9MZAt7a/xlud8T5m5oYlBE38jvd
+   8UpgYlZUJPVv0tY1h4C9bppeR7N/NBfGBkro2Y65hykoI1bMxXbjQNln8
+   N5poIOP4+Zghs6K8La47+AK6KUaC5ZiMVaZmIpfHrASOT5nIUIK7kUnHu
+   Z4Xjkt5eLyXxXS7t/nGFx17XtVhNg3RxyxovBXTCEfjUZFHO5oB7VsqqG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="415672135"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="415672135"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 03:15:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="897575858"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="897575858"
+Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2023 03:13:32 -0700
+From: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+To: netdev@vger.kernel.org
+Cc: vadim.fedorenko@linux.dev,
+	jiri@resnulli.us,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	jesse.brandeburg@intel.com,
+	anthony.l.nguyen@intel.com,
+	linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Subject: [PATCH net-next v5 0/5] dpll: add phase-offset and phase-adjust
+Date: Wed, 11 Oct 2023 12:12:31 +0200
+Message-Id: <20231011101236.23160-1-arkadiusz.kubalewski@intel.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230915105933.495735-1-matteorizzo@google.com>
- <20230915105933.495735-12-matteorizzo@google.com> <386c175e-bd10-2d5d-6051-4065f6f9b84a@intel.com>
-In-Reply-To: <386c175e-bd10-2d5d-6051-4065f6f9b84a@intel.com>
-From: Matteo Rizzo <matteorizzo@google.com>
-Date: Wed, 11 Oct 2023 11:17:18 +0200
-Message-ID: <CAHKB1wLetbLZjhg1UVhA1QwZHo226BRL=Khm962JEfh0F+CVbQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 11/14] mm/slub: allocate slabs from virtual memory
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: cl@linux.com, penberg@kernel.org, rientjes@google.com, 
-	iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, vbabka@suse.cz, 
-	roman.gushchin@linux.dev, 42.hyeyoo@gmail.com, keescook@chromium.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	corbet@lwn.net, luto@kernel.org, peterz@infradead.org, jannh@google.com, 
-	evn@google.com, poprdi@google.com, jordyzomer@google.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-	autolearn_force=no version=3.4.6
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, 15 Sept 2023 at 23:57, Dave Hansen <dave.hansen@intel.com> wrote:
->
-> I assume that the TLB flushes in the queue are going to be pretty sparse
-> on average.
->
-> At least on x86, flush_tlb_kernel_range() falls back pretty quickly from
-> individual address invalidation to just doing a full flush.  It might
-> not even be worth tracking the address ranges, and just do a full flush
-> every time.
->
-> I'd be really curious to see how often actual ranged flushes are
-> triggered from this code.  I expect it would be very near zero.
+Improve monitoring and control over dpll devices.
+Allow user to receive measurement of phase difference between signals
+on pin and dpll (phase-offset).
+Allow user to receive and control adjustable value of pin's signal
+phase (phase-adjust).
 
-I did some quick testing with kernel compilation. On x86
-flush_tlb_kernel_range does a full flush when end - start is more than 33
-pages and a ranged flush otherwise. I counted how many of each we are
-triggering from the TLB flush worker with some code like this:
+v4->v5:
+- rebase series on top of net-next/main, fix conflict - remove redundant
+  attribute type definition in subset definition
 
-if (addr_start < addr_end) {
-if ((addr_end - addr_start) <= (33 << PAGE_SHIFT))
-partial_flush_count++;
-else
-full_flush_count++;
-}
+v3->v4:
+- do not increase do version of uAPI header as it is not needed (v3 did
+  not have this change)
+- fix spelling around commit messages, argument descriptions and docs
+- add missing extack errors on failure set callbacks for pin phase
+  adjust and frequency
+- remove ice check if value is already set, now redundant as checked in
+  the dpll subsystem
 
-Result after one run of kernbench:
+v2->v3:
+- do not increase do version of uAPI header as it is not needed
 
-# cat /proc/slab_tlbinfo
-partial 88890 full 45223
+v1->v2:
+- improve handling for error case of requesting the phase adjust set
+- align handling for error case of frequency set request with the
+approach introduced for phase adjust
 
-So it seems that most flushes are ranged (at least for this workload).
 
--- Matteo
+Arkadiusz Kubalewski (5):
+  dpll: docs: add support for pin signal phase offset/adjust
+  dpll: spec: add support for pin-dpll signal phase offset/adjust
+  dpll: netlink/core: add support for pin-dpll signal phase
+    offset/adjust
+  ice: dpll: implement phase related callbacks
+  dpll: netlink/core: change pin frequency set behavior
+
+ Documentation/driver-api/dpll.rst         |  53 +++++-
+ Documentation/netlink/specs/dpll.yaml     |  30 +++
+ drivers/dpll/dpll_netlink.c               | 188 +++++++++++++++++-
+ drivers/dpll/dpll_nl.c                    |   8 +-
+ drivers/dpll/dpll_nl.h                    |   2 +-
+ drivers/net/ethernet/intel/ice/ice_dpll.c | 220 +++++++++++++++++++++-
+ drivers/net/ethernet/intel/ice/ice_dpll.h |  10 +-
+ include/linux/dpll.h                      |  18 ++
+ include/uapi/linux/dpll.h                 |   6 +
+ 9 files changed, 517 insertions(+), 18 deletions(-)
+
+-- 
+2.38.1
+
