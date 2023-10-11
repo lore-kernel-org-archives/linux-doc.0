@@ -1,646 +1,246 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C993E200C3;
-	Wed, 11 Oct 2023 14:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F06200D8;
+	Wed, 11 Oct 2023 14:02:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWOOoRA3"
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BCCCC;
-	Wed, 11 Oct 2023 07:00:49 -0700 (PDT)
-Received: by mail-ua1-x92a.google.com with SMTP id a1e0cc1a2514c-7b0e19acda7so2309385241.0;
-        Wed, 11 Oct 2023 07:00:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697032848; x=1697637648; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jH+6qqEgcwxKza9DimoGyjycvj1e7w580IlbqcddsQA=;
-        b=RWOOoRA3Dd6Z3HJJnsO9b1o5+P7R7zj6Z4DZo4k8mt6TwW1ISRNmHG4yIigGWbJpVm
-         aKi+ocYHLfEep1UtFjllY8qrbLSj2T+euGVHsoknHRSMisVa8fONlRHtisGhKImK8bh5
-         Jian/fdWRgqVO3//WsWEV/MtdDGPwrz3tMbvLPmFj0NDW9nkPRwxCAqCXVN2WY8Q73pi
-         /65d8lHp9J/rrD7vz5jwL2EqUNwRZSPLmOx1NFVOsYgYRk9FZ2H0ZsyqgWLODswloctT
-         NZ5W5hMlOsoJz7je2Fj/PS/YCRI9j6J06xaNEgjea5P1V9XrbrqnNkLtOcev9yq/m5lk
-         AR1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697032848; x=1697637648;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jH+6qqEgcwxKza9DimoGyjycvj1e7w580IlbqcddsQA=;
-        b=hJU3N6zUz2YD1q2GUOer8u2www+heKwzRW3IjuGrAZKSEwWNEuNs8IgwK8lxE3cNZM
-         ThbR2OdD5Niq0vz3yo69nQFE3hfQssx66R15ikHB4FB2lYl/neOxQfSuwUSVXasoArrj
-         OPVhf/m/K6sowOfoXT4RrkoMpYBw+Z23a4ZAd+sDErISG7EcX72R9nf20vhJ/PNmsr9C
-         1IVvJQWcT3Fnkkn/TQ49IrTqTfrYQv7Zyfq2f0BIduDQsqW42CLTXU+35lksPwx39f8L
-         xXmpBba220x+b14f2/u/07kkkPRY6ppkUHOdx3UUx2xPC0noa4nPW9ub+dz0mssud7Rh
-         EKug==
-X-Gm-Message-State: AOJu0YyIcBvEZGUrjFqgAhgpMeEh4aNTttvlMsltzlHg4BBRfd1BgeP8
-	s13re8kykO9rQrmjGPFMOik=
-X-Google-Smtp-Source: AGHT+IGKGXODPKTYjLPOFbHpRj41XVgwE9uyALWiIHjTX5S/NrN7c2WJLIwtpa1SS00e5e2AKRfuFQ==
-X-Received: by 2002:a67:fd49:0:b0:452:4fcb:cd2a with SMTP id g9-20020a67fd49000000b004524fcbcd2amr18305893vsr.10.1697032848018;
-        Wed, 11 Oct 2023 07:00:48 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q24-20020ab054d8000000b0079a1018d185sm864523uaa.31.2023.10.11.07.00.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 07:00:46 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 11 Oct 2023 07:00:44 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] drivers: hwmon: ltc2991: add driver support
-Message-ID: <1f3bc281-9bb3-4a56-8791-773e2e762513@roeck-us.net>
-References: <20231003080059.8041-1-antoniu.miclaus@analog.com>
- <20231003080059.8041-2-antoniu.miclaus@analog.com>
- <1e6ee7f6733d621a9be7fd94d48e41ca76c05a3c.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLhar/mH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6597EC433C8;
+	Wed, 11 Oct 2023 14:02:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697032971;
+	bh=8y++Dow0qT4H4v31iD3eDd6yuRGhJL1WFuL2+EdHCQw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nLhar/mHt1fULKI5WRRcM8uDjCXe+qNEBA0GkquKiSy5+2CP4KuA5j9cG01oO9zrL
+	 h5+q0O94MLa44OMcxLO+B0q0YkLkMeUrpO6U3c2H+4nTCLSL5nYT6gy7Rff4ZU5rt2
+	 8nQgecvjSMJR7MncavIMjp3WSIxvCxhrn8DUmkeAfuNTtD31OIyOGRiJc+MrDt32qQ
+	 O3vnj2591HgL2Zq0GQc3nZDuEX4DXao0Qig6SX7f3sDHWDnbHq0fkQZ6nKKD+LXOGT
+	 4rgRzCRTHk38gdQkxd3+zHSiZrgLzK7UlB6PrX3sN6f1VxCaJSDgod9cyfxRJuv0/O
+	 6K4wutNYJAsDA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-wireless@vger.kernel.org,
+	Johannes Berg <johannes@sipsolutions.net>,
+	linux-wpan@vger.kernel.org,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Rodolfo Zitellini <rwz@xhero.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v2 01/10] appletalk: make localtalk and ppp support conditional
+Date: Wed, 11 Oct 2023 16:02:16 +0200
+Message-Id: <20231011140225.253106-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1e6ee7f6733d621a9be7fd94d48e41ca76c05a3c.camel@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
 
-On Tue, Oct 10, 2023 at 10:44:44AM +0200, Nuno Sá wrote:
-> Hi Antoniu,
-> 
-> A few more comments from me. But essentially, I think you should revisit V1 and
-> Guenter's comments. I'm fairly sure you are still missing his main points...
->  
-Yes. And there is no change log either.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Guenter
+The last localtalk driver is gone now, and ppp support was never fully
+merged, but the code to support them for phase1 networking still calls
+the deprecated .ndo_do_ioctl() helper.
 
-> On Tue, 2023-10-03 at 11:00 +0300, Antoniu Miclaus wrote:
-> > Add support for LTC2991 Octal I2C Voltage, Current, and Temperature
-> > Monitor.
-> > 
-> > The LTC2991 is used to monitor system temperatures, voltages and
-> > currents. Through the I2C serial interface, the eight monitors can
-> > individually measure supply voltages and can be paired for
-> > differential measurements of current sense resistors or temperature
-> > sensing transistors. Additional measurements include internal
-> > temperature and internal VCC.
-> > 
-> > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > ---
-> >  Documentation/hwmon/index.rst   |   1 +
-> >  Documentation/hwmon/ltc2991.rst |  43 +++
-> >  MAINTAINERS                     |   8 +
-> >  drivers/hwmon/Kconfig           |  11 +
-> >  drivers/hwmon/Makefile          |   1 +
-> >  drivers/hwmon/ltc2991.c         | 479 ++++++++++++++++++++++++++++++++
-> >  6 files changed, 543 insertions(+)
-> >  create mode 100644 Documentation/hwmon/ltc2991.rst
-> >  create mode 100644 drivers/hwmon/ltc2991.c
-> > 
-> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> > index 88dadea85cfc..0ec96abe3f7d 100644
-> > --- a/Documentation/hwmon/index.rst
-> > +++ b/Documentation/hwmon/index.rst
-> > @@ -121,6 +121,7 @@ Hardware Monitoring Kernel Drivers
-> >     ltc2947
-> >     ltc2978
-> >     ltc2990
-> > +   ltc2991
-> >     ltc3815
-> >     ltc4151
-> >     ltc4215
-> > diff --git a/Documentation/hwmon/ltc2991.rst b/Documentation/hwmon/ltc2991.rst
-> > new file mode 100644
-> > index 000000000000..9ab29dd85012
-> > --- /dev/null
-> > +++ b/Documentation/hwmon/ltc2991.rst
-> > @@ -0,0 +1,43 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Kernel driver ltc2991
-> > +=====================
-> > +
-> > +Supported chips:
-> > +
-> > +  * Analog Devices LTC2991
-> > +
-> > +    Prefix: 'ltc2991'
-> > +
-> > +    Addresses scanned: I2C 0x48 - 0x4f
-> > +
-> > +    Datasheet:
-> > https://www.analog.com/media/en/technical-documentation/data-sheets/2991ff.pdf
-> > +
-> > +Authors:
-> > +
-> > +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > +
-> > +
-> > +Description
-> > +-----------
-> > +
-> > +This driver supports hardware monitoring for Analog Devices LTC2991 Octal I2C
-> > +Voltage, Current and Temperature Monitor.
-> > +
-> > +The LTC2991 is used to monitor system temperatures, voltages and currents.
-> > +Through the I2C serial interface, the eight monitors can individually measure
-> > +supply voltages and can be paired for differential measurements of current
-> > sense
-> > +resistors or temperature sensing transistors. Additional measurements include
-> > +internal temperatureand internal VCC.
-> > +
-> > +
-> > +sysfs-Interface
-> > +-------------
-> > +
-> > +The following attributes are supported. Limits are read-only.
-> > +
-> > +=============== =================
-> > +inX_input:      voltage input
-> > +currX_input:    current input
-> > +tempX_input:    temperature input
-> > +=============== =================
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b19995690904..98dd8a8e1f84 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12451,6 +12451,14 @@ F:     drivers/hwmon/ltc2947-i2c.c
-> >  F:     drivers/hwmon/ltc2947-spi.c
-> >  F:     drivers/hwmon/ltc2947.h
-> >  
-> > +LTC2991 HARDWARE MONITOR DRIVER
-> > +M:     Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > +L:     linux-hwmon@vger.kernel.org
-> > +S:     Supported
-> > +W:     https://ez.analog.com/linux-software-drivers
-> > +F:     Documentation/devicetree/bindings/hwmon/adi,ltc2991.yaml
-> > +F:     drivers/hwmon/ltc2991.c
-> > +
-> >  LTC2983 IIO TEMPERATURE DRIVER
-> >  M:     Nuno Sá <nuno.sa@analog.com>
-> >  L:     linux-iio@vger.kernel.org
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index ec38c8892158..818a67328fcd 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -932,6 +932,17 @@ config SENSORS_LTC2990
-> >           This driver can also be built as a module. If so, the module will
-> >           be called ltc2990.
-> >  
-> > +config SENSORS_LTC2991
-> > +       tristate "Analog Devices LTC2991"
-> > +       depends on I2C
-> > +       help
-> > +         If you say yes here you get support for Analog Devices LTC2991
-> > +         Octal I2C Voltage, Current, and Temperature Monitor. The LTC2991
-> > +         supports a combination of voltage, current and temperature
-> > monitoring.
-> > +
-> > +         This driver can also be built as a module. If so, the module will
-> > +         be called ltc2991.
-> > +
-> >  config SENSORS_LTC2992
-> >         tristate "Linear Technology LTC2992"
-> >         depends on I2C
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index 4ac9452b5430..f324d057535a 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -127,6 +127,7 @@ obj-$(CONFIG_SENSORS_LTC2947)       += ltc2947-core.o
-> >  obj-$(CONFIG_SENSORS_LTC2947_I2C) += ltc2947-i2c.o
-> >  obj-$(CONFIG_SENSORS_LTC2947_SPI) += ltc2947-spi.o
-> >  obj-$(CONFIG_SENSORS_LTC2990)  += ltc2990.o
-> > +obj-$(CONFIG_SENSORS_LTC2991)  += ltc2991.o
-> >  obj-$(CONFIG_SENSORS_LTC2992)  += ltc2992.o
-> >  obj-$(CONFIG_SENSORS_LTC4151)  += ltc4151.o
-> >  obj-$(CONFIG_SENSORS_LTC4215)  += ltc4215.o
-> > diff --git a/drivers/hwmon/ltc2991.c b/drivers/hwmon/ltc2991.c
-> > new file mode 100644
-> > index 000000000000..b5333c25cb31
-> > --- /dev/null
-> > +++ b/drivers/hwmon/ltc2991.c
-> > @@ -0,0 +1,479 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) 2023 Analog Devices, Inc.
-> > + * Author: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > + */
-> > +
-> > +#include <linux/bitops.h>
-> > +#include <linux/err.h>
-> > +#include <linux/hwmon.h>
-> > +#include <linux/hwmon-sysfs.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/property.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +
-> > +#include <asm/unaligned.h>
-> > +
-> > +#define LTC2991_STATUS_LOW             0x00
-> > +#define LTC2991_CH_EN_TRIGGER          0x01
-> > +#define LTC2991_V1_V4_CTRL             0x06
-> > +#define LTC2991_V5_V8_CTRL             0x07
-> > +#define LTC2991_PWM_TH_LSB_T_INT       0x08
-> > +#define LTC2991_PWM_TH_MSB             0x09
-> > +#define LTC2991_CHANNEL_V_MSB(x)       (0x0A + ((x) * 2))
-> > +#define LTC2991_CHANNEL_T_MSB(x)       (0x0A + ((x) * 4))
-> > +#define LTC2991_CHANNEL_C_MSB(x)       (0x0C + ((x) * 4))
-> > +#define LTC2991_T_INT_MSB              0x1A
-> > +#define LTC2991_VCC_MSB                        0x1C
-> > +
-> > +#define LTC2991_V7_V8_EN               BIT(7)
-> > +#define LTC2991_V5_V6_EN               BIT(6)
-> > +#define LTC2991_V3_V4_EN               BIT(5)
-> > +#define LTC2991_V1_V2_EN               BIT(4)
-> > +#define LTC2991_T_INT_VCC_EN           BIT(3)
-> > +
-> > +#define LTC2991_V3_V4_FILT_EN          BIT(7)
-> > +#define LTC2991_V3_V4_TEMP_EN          BIT(5)
-> > +#define LTC2991_V3_V4_DIFF_EN          BIT(4)
-> > +#define LTC2991_V1_V2_FILT_EN          BIT(3)
-> > +#define LTC2991_V1_V2_TEMP_EN          BIT(1)
-> > +#define LTC2991_V1_V2_DIFF_EN          BIT(0)
-> > +
-> > +#define LTC2991_V7_V8_FILT_EN          BIT(7)
-> > +#define LTC2991_V7_V8_TEMP_EN          BIT(5)
-> > +#define LTC2991_V7_V8_DIFF_EN          BIT(4)
-> > +#define LTC2991_V5_V6_FILT_EN          BIT(7)
-> > +#define LTC2991_V5_V6_TEMP_EN          BIT(5)
-> > +#define LTC2991_V5_V6_DIFF_EN          BIT(4)
-> > +
-> > +#define LTC2991_REPEAT_ACQ_EN          BIT(4)
-> > +#define LTC2991_T_INT_FILT_EN          BIT(3)
-> > +
-> > +#define LTC2991_MAX_CHANNEL            4
-> > +#define LTC2991_T_INT_CH_NR            4
-> > +#define LTC2991_VCC_CH_NR              0
-> > +
-> > +static const char *const label_voltages[] = {
-> > +       "vcc",
-> > +       "voltage1",
-> > +       "voltage2",
-> > +       "voltage3",
-> > +       "voltage4",
-> > +       "voltage5",
-> > +       "voltage6",
-> > +       "voltage7",
-> > +       "voltage8"
-> > +};
-> > +
-> > +static const char *const label_temp[] = {
-> > +       "t1",
-> > +       "t2",
-> > +       "t3",
-> > +       "t4",
-> > +       "t_int"
-> > +};
-> > +
-> > +static const char *const label_curr[] = {
-> > +       "v1-v2",
-> > +       "v3-v4",
-> > +       "v5-v6",
-> > +       "v7-v8"
-> > +};
-> > +
-> > +struct ltc2991_state {
-> > +       struct i2c_client       *client;
-> > +       struct regmap           *regmap;
-> > +       u32                     r_sense_uohm[LTC2991_MAX_CHANNEL];
-> > +       bool                    temp_en[LTC2991_MAX_CHANNEL];
-> > +};
-> > +
-> > +static int ltc2991_read_reg(struct ltc2991_state *st, u8 addr, u8 reg_len,
-> > +                           int *val)
-> > +{
-> > +       u8 regvals[2];
-> > +       int ret;
-> > +
-> > +       if (reg_len > 2 || !reg_len)
-> > +               return -EINVAL;
-> > +
-> 
-> IMO, this is too much checking... It's an internal API, just make sure to
-> properly call it ;).
-> 
-> > +       ret = regmap_bulk_read(st->regmap, addr, regvals, reg_len);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       if (reg_len == 2)
-> > +               *val = get_unaligned_be16(&regvals[0]);
-> > +       else
-> > +               *val = regvals[0];
-> 
-> not what I had in mind. Having unaligned access is overkill when you can go with
-> typical __be16 + __be16_to_cpu(). If I'm not missing anything, you just have to
-> shift out the LSB in case of 1byte registers. Alternatively, before the bulk()
-> call you can:
-> 
-> if (reg_len < 2)
->     return regmap_read();
-> 
-> and then just assume 2 byte reads...
-> 
-> > +       return 0;
-> > +}
-> > +
-> > +static int ltc2991_get_voltage(struct ltc2991_state *st, u32 reg, long *val)
-> > +{
-> > +       int reg_val, ret, offset = 0;
-> > +
-> > +       ret = ltc2991_read_reg(st, reg, 2, &reg_val);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       if (reg == LTC2991_VCC_MSB)
-> > +               /* Vcc 2.5V offset */
-> > +               offset = 2500;
-> > +
-> > +       /* Vx, 305.18uV/LSB */
-> > +       *val = DIV_ROUND_CLOSEST(sign_extend32(reg_val, 14) * 30518,
-> > +                                1000 * 100) + offset;
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int ltc2991_read_in(struct device *dev, u32 attr, int channel, long
-> > *val)
-> > +{
-> > +       struct ltc2991_state *st = dev_get_drvdata(dev);
-> > +       u32 reg;
-> > +
-> > +       switch (attr) {
-> > +       case hwmon_in_input:
-> > +               if (channel == LTC2991_VCC_CH_NR)
-> > +                       reg = LTC2991_VCC_MSB;
-> > +               else
-> > +                       reg = LTC2991_CHANNEL_V_MSB(channel - 1);
-> > +               break;
-> > +       default:
-> > +               return -EOPNOTSUPP;
-> > +       }
-> > +
-> > +       return ltc2991_get_voltage(st, reg, val);
-> > +}
-> > +
-> > +static int ltc2991_get_curr(struct ltc2991_state *st, u32 reg, int channel,
-> > +                           long *val)
-> > +{
-> > +       int reg_val, ret;
-> > +
-> > +       ret = ltc2991_read_reg(st, reg, 2, &reg_val);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       /* Vx-Vy, 19.075uV/LSB */
-> > +       *val = DIV_ROUND_CLOSEST(sign_extend32(reg_val, 14) * 19075, 1000)
-> > +                                / (st->r_sense_uohm[channel] / 1000);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int ltc2991_read_curr(struct device *dev, u32 attr, int channel,
-> > +                            long *val)
-> > +{
-> > +       struct ltc2991_state *st = dev_get_drvdata(dev);
-> > +       u32 reg;
-> > +
-> > +       switch (attr) {
-> > +       case hwmon_curr_input:
-> > +               reg = LTC2991_CHANNEL_C_MSB(channel);
-> > +               return ltc2991_get_curr(st, reg, channel, val);
-> > +       default:
-> > +               return -EOPNOTSUPP;
-> > +       }
-> > +}
-> > +
-> > +static int ltc2991_get_temp(struct ltc2991_state *st, u32 reg, int channel,
-> > +                           long *val)
-> > +{
-> > +       int reg_val, ret;
-> > +
-> > +       ret = ltc2991_read_reg(st, reg, 2, &reg_val);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       /* Temp LSB = 0.0625 Degrees */
-> > +       *val = DIV_ROUND_CLOSEST(sign_extend32(reg_val, 12) * 1000, 16);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int ltc2991_read_temp(struct device *dev, u32 attr, int channel,
-> > +                            long *val)
-> > +{
-> > +       struct ltc2991_state *st = dev_get_drvdata(dev);
-> > +       u32 reg;
-> > +
-> > +       switch (attr) {
-> > +       case hwmon_temp_input:
-> > +               if (channel == LTC2991_T_INT_CH_NR)
-> > +                       reg = LTC2991_T_INT_MSB;
-> > +               else
-> > +                       reg = LTC2991_CHANNEL_T_MSB(channel);
-> > +
-> > +               return ltc2991_get_temp(st, reg, channel, val);
-> > +       default:
-> > +               return -EOPNOTSUPP;
-> > +       }
-> > +}
-> > +
-> > +static int ltc2991_read(struct device *dev, enum hwmon_sensor_types type,
-> > +                       u32 attr, int channel, long *val)
-> > +{
-> > +       switch (type) {
-> > +       case hwmon_in:
-> > +               return ltc2991_read_in(dev, attr, channel, val);
-> > +       case hwmon_curr:
-> > +               return ltc2991_read_curr(dev, attr, channel, val);
-> > +       case hwmon_temp:
-> > +               return ltc2991_read_temp(dev, attr, channel, val);
-> > +       default:
-> > +               return -EOPNOTSUPP;
-> > +       }
-> > +}
-> > +
-> > +static umode_t ltc2991_is_visible(const void *data,
-> > +                                 enum hwmon_sensor_types type, u32 attr,
-> > +                                 int channel)
-> > +{
-> > +       const struct ltc2991_state *st = data;
-> > +
-> > +       switch (type) {
-> > +       case hwmon_in:
-> > +               switch (attr) {
-> > +               case hwmon_in_input:
-> > +               case hwmon_in_label:
-> > +                       return 0444;
-> > +               }
-> > +               break;
-> > +       case hwmon_curr:
-> > +               switch (attr) {
-> > +               case hwmon_curr_input:
-> > +               case hwmon_curr_label:
-> > +                       if (st->r_sense_uohm[channel])
-> > +                               return 0444;
-> > +                       break;
-> > +               }
-> 
-> This is what I was speaking about... You should go read again v1 an try to
-> understand the points made or continue the discussion.
-> 
-> I didn't looked at the datasheet but what I understood from Guenter is that each
-> channel can only be a specific type of sensor and you should be explicit about
-> that (not using rsense as the deciding factor). Thus, your bindings should
-> likely be refactored so you have a property that explicitly "defines" a channel
-> (not forgetting to handle things like differential channels and overlaps etc...)
-> and then you need to reflect the ABI according to what sensors OF/ACPI have
-> defined.
-> 
-> This looks a bit like the ltc2983 [1] I upstreamed where most of the fun was in 
-> defining the channels (and maybe that one was actually an hwmon driver but what
-> did I know back then :))
-> 
-> Also important is that in absence of OF/ACPI, you should read whatever
-> configuration is the device holding so, once again, you export the correct ABI.
-> But in this case, I'm not really sure what would be a sane (if there's one) for
-> rsense in case of a current sensor.
-> 
-> Hopefully I got it right...
-> 
-> > +               break;
-> > +       case hwmon_temp:
-> > +               switch (attr) {
-> > +               case hwmon_temp_input:
-> > +               case hwmon_temp_label:
-> > +                       if (st->temp_en[channel] ||
-> > +                           channel == LTC2991_T_INT_CH_NR)
-> > +                               return 0444;
-> > +                       break;
-> > +               }
-> > +               break;
-> > +       default:
-> > +               break;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int ltc2991_read_string(struct device *dev, enum hwmon_sensor_types
-> > type,
-> > +                              u32 attr, int channel, const char **str)
-> > +{
-> > +       switch (type) {
-> > +       case hwmon_temp:
-> > +               *str = label_temp[channel];
-> > +               break;
-> > +       case hwmon_curr:
-> > +               *str = label_curr[channel];
-> > +               break;
-> > +       case hwmon_in:
-> > +               *str = label_voltages[channel];
-> > +               break;
-> > +       default:
-> > +               return -EOPNOTSUPP;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static const struct hwmon_ops ltc2991_hwmon_ops = {
-> > +       .is_visible = ltc2991_is_visible,
-> > +       .read = ltc2991_read,
-> > +       .read_string = ltc2991_read_string,
-> > +};
-> > +
-> > +static const struct hwmon_channel_info *ltc2991_info[] = {
-> > +       HWMON_CHANNEL_INFO(temp,
-> > +                          HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                          HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                          HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                          HWMON_T_INPUT | HWMON_T_LABEL,
-> > +                          HWMON_T_INPUT | HWMON_T_LABEL
-> > +                          ),
-> > +       HWMON_CHANNEL_INFO(curr,
-> > +                          HWMON_C_INPUT | HWMON_C_LABEL,
-> > +                          HWMON_C_INPUT | HWMON_C_LABEL,
-> > +                          HWMON_C_INPUT | HWMON_C_LABEL,
-> > +                          HWMON_C_INPUT | HWMON_C_LABEL
-> > +                          ),
-> > +       HWMON_CHANNEL_INFO(in,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL,
-> > +                          HWMON_I_INPUT | HWMON_I_LABEL
-> > +                          ),
-> > +       NULL
-> > +};
-> > +
-> > +static const struct hwmon_chip_info ltc2991_chip_info = {
-> > +       .ops = &ltc2991_hwmon_ops,
-> > +       .info = ltc2991_info,
-> > +};
-> > +
-> > +static const struct regmap_config ltc2991_regmap_config = {
-> > +       .reg_bits = 8,
-> > +       .val_bits = 8,
-> > +       .max_register = 0x1D,
-> > +};
-> > +
-> > +static int ltc2991_init(struct ltc2991_state *st)
-> > +{
-> > +       struct fwnode_handle *child;
-> > +       int ret;
-> > +       u32 val, addr;
-> > +       u8 v5_v8_reg_data = 0, v1_v4_reg_data = 0;
-> > +
-> > +       ret = devm_regulator_get_enable(&st->client->dev, "vcc");
-> > +       if (ret)
-> > +               return dev_err_probe(&st->client->dev, ret,
-> > +                                    "failed to enable regulator\n");
-> > +
-> > +       device_for_each_child_node(&st->client->dev, child) {
-> > +               ret = fwnode_property_read_u32(child, "reg", &addr);
-> > +               if (ret < 0) {
-> > +                       fwnode_handle_put(child);
-> > +                       return ret;
-> > +               }
-> > +
-> > +               if (addr > 3) {
-> > +                       fwnode_handle_put(child);
-> > +                       return -EINVAL;
-> > +               }
-> > +
-> > +               ret = fwnode_property_read_u32(child, "shunt-resistor-micro-
-> > ohms", &val);
-> > +               if (!ret) {
-> > +                       st->r_sense_uohm[addr] = val;
-> 
-> This still allows 0 as a valid value which would lead to a divide by 0
-> exception...
-> 
-> [1]: https://elixir.bootlin.com/linux/v6.6-rc5/source/drivers/iio/temperature/ltc2983.c#L1371
-> 
-> - Nuno Sá
-> 
+In order to better isolate the localtalk and ppp portions of appletalk,
+guard all of the corresponding code with CONFIG_DEV_APPLETALK checks,
+including a preprocessor conditional that guards the internal ioctl calls.
+
+This is currently all dead code and will now be left out of the
+module since this Kconfig symbol is always undefined, but there are
+plans to add a new driver for localtalk again in the future. When
+that happens, the logic can be cleaned up to work properly without
+the need for the ioctl.
+
+Link: https://lore.kernel.org/lkml/790BA488-B6F6-41ED-96EF-2089EF1C043B@xhero.org/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v2: only add compile-time consitionals rather than removing localtalk
+support entirely
+---
+ include/linux/atalk.h  |  1 -
+ net/appletalk/Makefile |  3 ++-
+ net/appletalk/aarp.c   | 24 +++++++++++++++---------
+ net/appletalk/ddp.c    | 24 +++++++++++++-----------
+ 4 files changed, 30 insertions(+), 22 deletions(-)
+
+diff --git a/include/linux/atalk.h b/include/linux/atalk.h
+index a55bfc6567d01..2896f2ac9568e 100644
+--- a/include/linux/atalk.h
++++ b/include/linux/atalk.h
+@@ -121,7 +121,6 @@ static inline struct atalk_iface *atalk_find_dev(struct net_device *dev)
+ #endif
+ 
+ extern struct atalk_addr *atalk_find_dev_addr(struct net_device *dev);
+-extern struct net_device *atrtr_get_dev(struct atalk_addr *sa);
+ extern int		 aarp_send_ddp(struct net_device *dev,
+ 				       struct sk_buff *skb,
+ 				       struct atalk_addr *sa, void *hwaddr);
+diff --git a/net/appletalk/Makefile b/net/appletalk/Makefile
+index 33164d972d379..410d52f9113e2 100644
+--- a/net/appletalk/Makefile
++++ b/net/appletalk/Makefile
+@@ -5,6 +5,7 @@
+ 
+ obj-$(CONFIG_ATALK) += appletalk.o
+ 
+-appletalk-y			:= aarp.o ddp.o dev.o
++appletalk-y			:= aarp.o ddp.o
+ appletalk-$(CONFIG_PROC_FS)	+= atalk_proc.o
+ appletalk-$(CONFIG_SYSCTL)	+= sysctl_net_atalk.o
++appletalk-$(CONFIG_DEV_APPLETALK) += dev.o
+diff --git a/net/appletalk/aarp.c b/net/appletalk/aarp.c
+index 9fa0b246902be..b15f67293ac4c 100644
+--- a/net/appletalk/aarp.c
++++ b/net/appletalk/aarp.c
+@@ -438,14 +438,17 @@ static struct atalk_addr *__aarp_proxy_find(struct net_device *dev,
+  */
+ static void aarp_send_probe_phase1(struct atalk_iface *iface)
+ {
++#if IS_ENABLED(CONFIG_DEV_APPLETALK)
+ 	struct ifreq atreq;
+ 	struct sockaddr_at *sa = (struct sockaddr_at *)&atreq.ifr_addr;
+ 	const struct net_device_ops *ops = iface->dev->netdev_ops;
+ 
+ 	sa->sat_addr.s_node = iface->address.s_node;
+ 	sa->sat_addr.s_net = ntohs(iface->address.s_net);
+-
+-	/* We pass the Net:Node to the drivers/cards by a Device ioctl. */
++	/*
++	 * We used to pass the address via device ioctl, this has to
++	 *  be rewritten if we bring back localtalk.
++	 */
+ 	if (!(ops->ndo_do_ioctl(iface->dev, &atreq, SIOCSIFADDR))) {
+ 		ops->ndo_do_ioctl(iface->dev, &atreq, SIOCGIFADDR);
+ 		if (iface->address.s_net != htons(sa->sat_addr.s_net) ||
+@@ -455,13 +458,15 @@ static void aarp_send_probe_phase1(struct atalk_iface *iface)
+ 		iface->address.s_net  = htons(sa->sat_addr.s_net);
+ 		iface->address.s_node = sa->sat_addr.s_node;
+ 	}
++#endif
+ }
+ 
+ 
+ void aarp_probe_network(struct atalk_iface *atif)
+ {
+-	if (atif->dev->type == ARPHRD_LOCALTLK ||
+-	    atif->dev->type == ARPHRD_PPP)
++	if (IS_ENABLED(CONFIG_DEV_APPLETALK) &&
++	    (atif->dev->type == ARPHRD_LOCALTLK ||
++	     atif->dev->type == ARPHRD_PPP))
+ 		aarp_send_probe_phase1(atif);
+ 	else {
+ 		unsigned int count;
+@@ -488,8 +493,9 @@ int aarp_proxy_probe_network(struct atalk_iface *atif, struct atalk_addr *sa)
+ 	 * we don't currently support LocalTalk or PPP for proxy AARP;
+ 	 * if someone wants to try and add it, have fun
+ 	 */
+-	if (atif->dev->type == ARPHRD_LOCALTLK ||
+-	    atif->dev->type == ARPHRD_PPP)
++	if (IS_ENABLED(CONFIG_DEV_APPLETALK) &&
++	    (atif->dev->type == ARPHRD_LOCALTLK ||
++	     atif->dev->type == ARPHRD_PPP))
+ 		goto out;
+ 
+ 	/*
+@@ -550,7 +556,8 @@ int aarp_send_ddp(struct net_device *dev, struct sk_buff *skb,
+ 	skb_reset_network_header(skb);
+ 
+ 	/* Check for LocalTalk first */
+-	if (dev->type == ARPHRD_LOCALTLK) {
++	if (IS_ENABLED(CONFIG_DEV_APPLETALK) &&
++	    dev->type == ARPHRD_LOCALTLK) {
+ 		struct atalk_addr *at = atalk_find_dev_addr(dev);
+ 		struct ddpehdr *ddp = (struct ddpehdr *)skb->data;
+ 		int ft = 2;
+@@ -588,7 +595,7 @@ int aarp_send_ddp(struct net_device *dev, struct sk_buff *skb,
+ 	}
+ 
+ 	/* On a PPP link we neither compress nor aarp.  */
+-	if (dev->type == ARPHRD_PPP) {
++	if (IS_ENABLED(CONFIG_DEV_APPLETALK) && dev->type == ARPHRD_PPP) {
+ 		skb->protocol = htons(ETH_P_PPPTALK);
+ 		skb->dev = dev;
+ 		goto sendit;
+@@ -674,7 +681,6 @@ int aarp_send_ddp(struct net_device *dev, struct sk_buff *skb,
+ drop:
+ 	return NET_XMIT_DROP;
+ }
+-EXPORT_SYMBOL(aarp_send_ddp);
+ 
+ /*
+  *	An entry in the aarp unresolved queue has become resolved. Send
+diff --git a/net/appletalk/ddp.c b/net/appletalk/ddp.c
+index 8978fb6212ffb..d4dc6a9fd3b6b 100644
+--- a/net/appletalk/ddp.c
++++ b/net/appletalk/ddp.c
+@@ -473,7 +473,7 @@ static struct atalk_route *atrtr_find(struct atalk_addr *target)
+  * Given an AppleTalk network, find the device to use. This can be
+  * a simple lookup.
+  */
+-struct net_device *atrtr_get_dev(struct atalk_addr *sa)
++static struct net_device *atrtr_get_dev(struct atalk_addr *sa)
+ {
+ 	struct atalk_route *atr = atrtr_find(sa);
+ 	return atr ? atr->dev : NULL;
+@@ -1947,10 +1947,6 @@ static struct packet_type ppptalk_packet_type __read_mostly = {
+ 
+ static unsigned char ddp_snap_id[] = { 0x08, 0x00, 0x07, 0x80, 0x9B };
+ 
+-/* Export symbols for use by drivers when AppleTalk is a module */
+-EXPORT_SYMBOL(atrtr_get_dev);
+-EXPORT_SYMBOL(atalk_find_dev_addr);
+-
+ /* Called by proto.c on kernel start up */
+ static int __init atalk_init(void)
+ {
+@@ -1971,8 +1967,10 @@ static int __init atalk_init(void)
+ 		goto out_sock;
+ 	}
+ 
+-	dev_add_pack(&ltalk_packet_type);
+-	dev_add_pack(&ppptalk_packet_type);
++	if (IS_ENABLED(CONFIG_DEV_APPLETALK)) {
++		dev_add_pack(&ltalk_packet_type);
++		dev_add_pack(&ppptalk_packet_type);
++	}
+ 
+ 	rc = register_netdevice_notifier(&ddp_notifier);
+ 	if (rc)
+@@ -1998,8 +1996,10 @@ static int __init atalk_init(void)
+ out_dev:
+ 	unregister_netdevice_notifier(&ddp_notifier);
+ out_snap:
+-	dev_remove_pack(&ppptalk_packet_type);
+-	dev_remove_pack(&ltalk_packet_type);
++	if (IS_ENABLED(CONFIG_DEV_APPLETALK)) {
++		dev_remove_pack(&ppptalk_packet_type);
++		dev_remove_pack(&ltalk_packet_type);
++	}
+ 	unregister_snap_client(ddp_dl);
+ out_sock:
+ 	sock_unregister(PF_APPLETALK);
+@@ -2026,8 +2026,10 @@ static void __exit atalk_exit(void)
+ 	atalk_proc_exit();
+ 	aarp_cleanup_module();	/* General aarp clean-up. */
+ 	unregister_netdevice_notifier(&ddp_notifier);
+-	dev_remove_pack(&ltalk_packet_type);
+-	dev_remove_pack(&ppptalk_packet_type);
++	if (IS_ENABLED(CONFIG_DEV_APPLETALK)) {
++		dev_remove_pack(&ltalk_packet_type);
++		dev_remove_pack(&ppptalk_packet_type);
++	}
+ 	unregister_snap_client(ddp_dl);
+ 	sock_unregister(PF_APPLETALK);
+ 	proto_unregister(&ddp_proto);
+-- 
+2.39.2
+
