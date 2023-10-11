@@ -1,117 +1,177 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D59224E8;
-	Wed, 11 Oct 2023 15:58:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89427200C4
+	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 16:57:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="UVrZGTUI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DuqgHXuR"
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90DFD8F;
-	Wed, 11 Oct 2023 08:58:05 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 4DD8C3200945;
-	Wed, 11 Oct 2023 11:58:01 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 11 Oct 2023 11:58:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1697039880; x=1697126280; bh=7H
-	Jkg/z8yMK6BHAYpmQDPyFjBK9Xn+ituvuEwAuZ1sU=; b=UVrZGTUIN/c+wOrjog
-	V4H1MycpdvOstYDdYmz6kQvmlXMauPc9wG4HupXP9G/ReLiXafAkUjS+sZEbRN0f
-	jZYR39UNK2581JykJ0XJeyTsMpe/huU9w18VgyyKp6JwnNi7Tx9B8QhovC0NlI81
-	hYf/r/qoMxEMTUwWznAh7j7NCxugCnHq860yJk4U81Uqq0qSgQAFlWeMiCdTsRe4
-	WeS1otq5untWkPF34AdO27vX/Y62ovQR1+O6n/lg7bjQYE+pazHxI3k6c6Os0RcD
-	MHn1EWGlZMobVxq/d1A7+fB+wdL8DkYfmj6MwSDv1b+SMvxPWxV9DwV4Y3P1NuRV
-	P6sw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1697039880; x=1697126280; bh=7HJkg/z8yMK6B
-	HAYpmQDPyFjBK9Xn+ituvuEwAuZ1sU=; b=DuqgHXuRkjGzv+sTVQXosPn4qx3IG
-	pp0FiLiqn0YzKA4Exz530ss62tkJ0JcrBK7OWeQz14oG3MEAAtZGcqzI0V+21941
-	xFof5XUuSDb+0m4kwAzSKruypnuL188xCt70zp7dvyoLhT45IbrhJz/q3ySNn4cK
-	/An+FzaHKbvg1iE9uK02O9ejiEjUBdoYHEdcXb00bzzjHaIx3foxvoQhSv3a8EIH
-	TsguJLzeGl9vRBq1hT+9ugqXZvc6SGrPf8K7TqHwZQ4RO+oaoaS3TIS46KHel7rW
-	oyoBMWFuQvAqQd7G1hLQ/j4P1h4zZwATDfcwwJGKZZ0/rDyGwt4dBPDAQ==
-X-ME-Sender: <xms:CMYmZV0XE_EsNbv0M22Xjk7OczozGwze6bo3NRK15HHwsRKTwUu2Iw>
-    <xme:CMYmZcGc0ENyppHryqZhpcyV0hOOcxjuTXA42bBoLODDCTcQEtXH2PAr1RIuPrqTi
-    IB0IEPFtpOKWSCOL60>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheekgdelvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
-    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:CMYmZV589CMQPoU21g8abAl3zQiB30Rq5SFLxdDrBC0XlvrFP_5y5A>
-    <xmx:CMYmZS3UYGaaj_dDsRqeO5bwzM73qo2MfAiY8fjWT39O9vFI2ikiCA>
-    <xmx:CMYmZYGJmnHAdwzedxXPSUko0KfLjLOGgtM7CAl8R2UN-HOCj08sgg>
-    <xmx:CMYmZfcEwbKy8YlJQgLXNdgzXoi3YSodyaYkJuapJr-ijNW9VXkIoQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id E845BB60089; Wed, 11 Oct 2023 11:57:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nANs9grh"
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2063.outbound.protection.outlook.com [40.107.100.63])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40BA78F;
+	Wed, 11 Oct 2023 09:57:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hopeBAyBb3PVS8A0DpqflJ7xlNLUm9UylZCgfOM//Mazf+d7BZF6R6OzURSkkAwXU95UP6ghKdM7AMCMvR1kw83NaFyoBkKCCmSKcMS8HwepylrOZ/z3ycGz+DdBn16l+eBoUPy92w+H+y0Mx/1F9xI+gus4XhKzgZHu9EjS7JXZdLjcwsqFzjw/YlK4wFBMrVe5uf6apSlyPoeJiZmkxC/lBW7qkWOB6i5SXR9mYuRl7zvbIJJoDHCINj5EcLfHuVLAGnMpFIUZnVz2VCTd7FL007XX2+d1c3LAhhA9i7T9zRl/3q/k0VMfLQf8ijs5hD2ASeziKh5eiqGTXRaUPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6nuGilboOe5KfHSrajVvM3VRfw/kRTrzvHcJHWvSCYI=;
+ b=ik82Z4SMApFSnadvzLQZoV8c52TYQGnL61TXABGioBKG5hPxXv+LWKZ/nvG4VrKPQUxQlzRY97O4pctqoH04jez0ND6kVaxIPaX5Q6PmvsfgtJdLMf7mDk2TxSHUikfSaBiwsiccfpmUaEbUD8qLg7x+WPcME0yatQkaJvlzyDFx8RNFZBjSmiW1N7C/XcpncoKtVxeD7+Nq5ua05MwgHubCP5+dAPMN0XDwgIwxDEUVdHHYEUXXpW25moMJc7pczsNS3YqgBwuFEbo6zrm/0JVq5kP9cAXSH2jMHc9d8t2dH4NLMsrRIQOUz/cMU5+HaMWhyUU4Hw7NHJlqX0wlfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6nuGilboOe5KfHSrajVvM3VRfw/kRTrzvHcJHWvSCYI=;
+ b=nANs9grhUFwd/cqc20LvEsqTCJMbm56XOHNtG0pHIBzkKclrYqifMHe06S6wenHC4iaN6X0FZv4n8z2+24rVEtHT/ecfrRcanRR11yUu3mmfyex/zbtOvO1ngChnRlqSQoq/CI3xVCdYmxRD4VVG/L6i/5HctnbT8gz3vFBfg+g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH0PR12MB7078.namprd12.prod.outlook.com (2603:10b6:510:21d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.43; Wed, 11 Oct
+ 2023 16:57:07 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b5d1:8b74:fe73:bd39%6]) with mapi id 15.20.6863.040; Wed, 11 Oct 2023
+ 16:57:06 +0000
+Message-ID: <fa03a5ca-fb16-47bb-a2c8-5cc4d96e54a9@amd.com>
+Date: Wed, 11 Oct 2023 11:57:02 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v12 04/10] x86/resctrl: Add comments on RFTYPE flags
+ hierarchy
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
+Cc: fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+ quic_neeraju@quicinc.com, rdunlap@infradead.org,
+ damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+ peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+ chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+ jmattson@google.com, daniel.sneddon@linux.intel.com, sandipan.das@amd.com,
+ tony.luck@intel.com, james.morse@arm.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bagasdotme@gmail.com, eranian@google.com,
+ christophe.leroy@csgroup.eu, jarkko@kernel.org, adrian.hunter@intel.com,
+ quic_jiles@quicinc.com, peternewman@google.com
+References: <20231010233335.998475-1-babu.moger@amd.com>
+ <20231010233335.998475-5-babu.moger@amd.com>
+ <71539687-13cf-405d-bf7c-27480e49e872@intel.com>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <71539687-13cf-405d-bf7c-27480e49e872@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DM5PR07CA0050.namprd07.prod.outlook.com
+ (2603:10b6:4:ad::15) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <82527b7f-4509-4a59-a9cf-2df47e6e1a7c@app.fastmail.com>
-In-Reply-To: <ZSa5bIcISlvW3zo5@nanopsycho>
-References: <20231011140225.253106-1-arnd@kernel.org>
- <ZSa5bIcISlvW3zo5@nanopsycho>
-Date: Wed, 11 Oct 2023 17:57:38 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jiri Pirko" <jiri@resnulli.us>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Jakub Kicinski" <kuba@kernel.org>, Netdev <netdev@vger.kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- linux-wireless@vger.kernel.org, "Johannes Berg" <johannes@sipsolutions.net>,
- linux-wpan@vger.kernel.org,
- "Michael Hennerich" <michael.hennerich@analog.com>,
- "Paolo Abeni" <pabeni@redhat.com>, "Eric Dumazet" <edumazet@google.com>,
- "David S . Miller" <davem@davemloft.net>,
- "Rodolfo Zitellini" <rwz@xhero.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] appletalk: make localtalk and ppp support conditional
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH0PR12MB7078:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b72016a-8aff-48a9-e12a-08dbca7b19c5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	fGZ/ldv/XOvjGIXTVyOuGSbSjzgYCtLbTVG9nlq/2QdnGYok1TzFxnIw633yh/pMCCCDWVw3sCycDNmPCnEAt13y33cSKxP3eAnW4Kvmcj1VoiqFQfCmff0Zx2zclSChdAR5le+ROilw3hRn0vqm8sD9Y7Z9nYZS0dEg0ZHgfl4h3ulHi+BOKwxnAvZNAEQyediAqU7+zTT83FCCJS1opKxzCYt7Tb61zzIjE857AD5xduY1rOtm/4gAutRlj7jdvjq0ksFZBffgwa7PwZ0puY0XZ+avxue9+vGpRlZBZ4C6Fzu/qi9Y3ieSS7RM4YvhiQyXpSKb2Z3iNDqZ/RxwkbUwI05qCgn470DVjMUf4QSxMEopUMmIMWPwjKLA2knRKuq6R0xAZyhUIs+fo8+lXXbTmcLnNJE6Zv1ablLppWaeHItjh67i15H1JNbTLpw07B80LKTTxFAquXlMS+iiGoPoD53AMemRPP4aLKYs2YRPFj1oqJ9iAxTapJBIcVisRpXLRrVCMfrNhswWWeIWWWmI7bHcw6Vm7ggF7nf6OoSr8P6aiXTCGqpLAUfL+rmw/dAjqw8HRx8oKqyYsZBBfvfQT9++Fup+UIi4HOf8JLX8l4Vj4HDhPbGpkMy/nxTYrHGFMkhAbk83B9CuL/Tc7w==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(366004)(346002)(39860400002)(136003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(2616005)(66574015)(478600001)(86362001)(31696002)(6486002)(316002)(66556008)(66476007)(26005)(66946007)(36756003)(83380400001)(41300700001)(31686004)(4326008)(8936002)(8676002)(5660300002)(6666004)(6512007)(7406005)(7416002)(3450700001)(6506007)(38100700002)(53546011)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bUV6SGgrZXJ6V3lZaGFwZUlKT0VHK1RGY1RYc3dUZ1RjaTdwa3N0d3hYcm1r?=
+ =?utf-8?B?TittajdyT3R1ejZCTStwUFh2Z3doaVMrWVJvQkkvQWk4bVZsN09mQVZQRHMw?=
+ =?utf-8?B?MkdnRWdmOUpXM1pyMzVaTnlCOUZUK2lQMDlZbFFDbXU4dndHQWhCWnFIcldH?=
+ =?utf-8?B?NlFIc1prTVRGWUNkYW8vd0g4dWVQRnV0RmxPT2MyQXE0ODQ4S0Z0MXgzakRS?=
+ =?utf-8?B?bDVYQTZwajdKZDRlNHpuZ281Q2ZoNnVLejlxRWJ0eGUwRUdQdWRUL1JESnoz?=
+ =?utf-8?B?VnRWMUkyQitQQ0Q2aE1WdWpHL0N5a1RjbFJ5bThuRmJlVzJVMFdnUVBGODFi?=
+ =?utf-8?B?SjZ1R05PZ0I1NUxOUTZsTWZPTWVVc2ZvMjkwbFJSNlVheUtwRnVNNFVvSFM2?=
+ =?utf-8?B?a1pNUU5Ia3lrNGhoVHBISzFrdEFzVERMZVNxWkNXSjJYTkUrRmduL1VzbmZl?=
+ =?utf-8?B?cTQ3VWZWdG1WVWZlR2pPUXloTUY0Y0d5cVZ1ejRGT3dydDM1ZHpud09nWEtx?=
+ =?utf-8?B?b2tEcXptd1JGMU05dDNnazlLSGd0ckRZbDFCTEE4WEFnS2lxcFhhZDgvUDJr?=
+ =?utf-8?B?VmhKdStYZXNZdU5qZkJFdkM1akdReGlHclJHeGh4cjZma3JTZVJUbnJLUjBQ?=
+ =?utf-8?B?V25OSmFiakVVQUtvTURLSXJTOTRhaUptdlNHNDA5cVpXMU9PT0tnR3hyNlNs?=
+ =?utf-8?B?Rlh2SXNWaXFsSnByQmwyem5la0MzWmo2R2VLdG1QcU9TK3NPR3NsY3pyK1NG?=
+ =?utf-8?B?WStvbTVlT1Z4MXFhOTgyelhLYkdEbGc1SzEwcE80Vm5EN0xraFFna3YzUURk?=
+ =?utf-8?B?QVVIMFZaUTVveStWbmd3cnpQU0lhd0Mzd3dpNnBxS2Q1cGhKOS92UXFkQ2s4?=
+ =?utf-8?B?a2sxU1VxL1hDSElpNmw4Q1FYMFVIaFZ4WVNJUG1DanVRZktTMGQwQlU5VmxM?=
+ =?utf-8?B?RUN5c3I5Zys3cDY3NVQ5N3JiMlF0aUllcnlXSmxjZFJabUM0Ujl1T3NHZ1Zs?=
+ =?utf-8?B?eUZSeEtZS2dNU1RXNWR6Ty8rM3VkdmczYkwxR2pTd0trb0dPUUhabHU0TW90?=
+ =?utf-8?B?NXhaUlJsKzVRaEY4VlB4L1lVdEZqQndUaVpsc3lwdTRUeHRjZ2IwN09nc0JE?=
+ =?utf-8?B?V0lIcVhsNEREVHR3a3RXeDkzb2Q2WXVMSDM1Z0lTY040ZmFiTTR1c25laGVG?=
+ =?utf-8?B?ajNnTzZiRE5VT0lqRkZpZXpseHhFSmI5WVRZcDBWU0g5UHRNMExvQ25VSStp?=
+ =?utf-8?B?dVdqODdFUzZSQm84Q0NpMFV5UExBbFZSSUt6bmNkN3FnYWExNmh3dS90M0o4?=
+ =?utf-8?B?YmNLOVpSTnlnQlV2ZnptbEg2TWFWa1dEMjhEV1VZTVU0UVBLbW9NQXRmKzNJ?=
+ =?utf-8?B?cXkyUlBXWGJkSmQ1bGdWV0o2WjRoS3J2SDVHdU11ZG40ak5UOXJoV1RFSC9i?=
+ =?utf-8?B?Qm0vQlE4TjBQdmhlL1lUL0U2Q283Y1VoN0IzR2pSTUllcHVVQ1lJTWJDOWdK?=
+ =?utf-8?B?a3lqdHhkZHhNTHJDL2RqVEpqZDRESllCVDg3U3ZnUHpvMzhqMEtBbW15OU9h?=
+ =?utf-8?B?ZkF5eHpRMlVKWExQZUVXVU11OUlzSm4zVm12aUFHT1Z3Y0ZXbXVRc3JreFVl?=
+ =?utf-8?B?UUErR1FtakkzSlNGZkx1QmJmZUhIVHlCRSs1OUtRMEd0djhPbFRuMno5V04y?=
+ =?utf-8?B?VW5XWFFxd3RiSmRpUjBMSlo1OW1kQXk5WjNCaVVFNStrNFpadUpmcSthNWdM?=
+ =?utf-8?B?aWs5WTk4di9sVGFjNklRcm5uWklDQUtKN0dScnhDVHp0MEttZmc3Zi9DWFIx?=
+ =?utf-8?B?b041T2F3a2UxdW1kWDUwcmxrQUJpaVduTW9yZm1EQW1kbFB3UEF6MFNhbnoy?=
+ =?utf-8?B?Z3d1elpmM3cyZm52QUhOZHdra1JKWGkzU1ZxVkhuVCtVdm5JS3hNSE1IQStW?=
+ =?utf-8?B?Mk1BK1Zwb2pUOXluWkU1emZERitzV2cvSSs4RXpEV1l3aVk5VGo4KzI1cFcv?=
+ =?utf-8?B?Z0VxRzhPQ3FIY0FMWGJINnNUTUFhd09Vdlp1eEppalNQV0ZWbHc1WU51dHcx?=
+ =?utf-8?B?T2tGRkVvRWFMcmdvQTVrb3FWUnYwOXJCVGlJMlFEV1FiZ0hJdk03WGliZndv?=
+ =?utf-8?Q?udJw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b72016a-8aff-48a9-e12a-08dbca7b19c5
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 16:57:06.6779
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5dYSdTq6TtCSp17bs9B2yNywVs117lDRQe+sqi54yJCqr2mD9X7iDNHvhhlsbPPl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7078
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Wed, Oct 11, 2023, at 17:04, Jiri Pirko wrote:
-> Could you provide a cover letter for the set please?
+Hi Reinette,
 
-Subject: [PATCH v2 00/10] remove final .ndo_do_ioctl references
+On 10/10/23 19:56, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 10/10/2023 4:33 PM, Babu Moger wrote:
+>> resctrl uses RFTYPE flags for creating resctrl directory structure.
+>>
+>> Definitions and directory structures are not documented. Add
+>> comments to improve the readability and help future additions.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Tested-by: Peter Newman <peternewman@google.com>
+>> Reviewed-by: Peter Newman <peternewman@google.com>
+>> Tested-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
+>> Reviewed-by: Tan Shaopeng <tan.shaopeng@jp.fujitsu.com>
+>> Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
+>> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+>> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+>> ---
+>> v12: Moved the comments from arch/x86/kernel/cpu/resctrl/internal.h
+>>      to Documentation/arch/x86/resctrl.rst. (Boris)
+>> ---
+> 
+> It seems like you just copied the text to the documentation without
+> taking into account the destination's use of reST syntax.
+> 
+> I tried a "make htmldocs" to see how this looks but encountered:
+> docutils.utils.SystemMessage: [snip]/linux/Documentation/arch/x86/resctrl.rst:398: (SEVERE/4) Unexpected section title.
 
-The .ndo_do_ioctl() netdev operation used to be how one communicates
-with a network driver from userspace, but since my previous cleanup [1],
-it is purely internal to the kernel.
+My bad. Just tested the format by opening using the browser. Forgot about
+make htmldocs. Will fix it now.
+> 
+> Please remove my Reviewed-by.
 
-Removing the cops appletalk/localtalk driver made me revisit the
-missing pieces from that older series, removing all the unused
-implementations in wireless drivers as well as the two kernel-internal
-callers in the ieee802154 and appletalk stacks.
-
-One ethernet driver was already merged in the meantime that should
-have used .ndo_eth_ioctl instead of .ndo_do_ioctl, so fix that as well.
-With the complete removal, any future drivers making this mistake
-cause build failures that are easier to spot.
-
-[1] https://lore.kernel.org/netdev/20201106221743.3271965-1-arnd@kernel.org/
-
-----
-Hope that helps, I had commented on the cops removal about sending
-this but of course not everyone here saw that. Let me know if I should
-resend the patches together with the cover letter.
-
-    Arnd
+Sure. Will remove Reviewed-by on this patch. Please let me know about
+other patches when you get a chance.
+-- 
+Thanks
+Babu Moger
