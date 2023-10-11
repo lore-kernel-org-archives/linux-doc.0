@@ -1,287 +1,213 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C651C6AF
-	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 21:41:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CA218E29
+	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 21:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Tvwv7/4u"
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC92B8
-	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 14:41:26 -0700 (PDT)
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id C19703FA78
-	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 21:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1697060479;
-	bh=8c9V3didGgZr1dEvLAHGSBgXLRfbYqmGbrTtJne4KKc=;
-	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
-	 Content-Type:Date:Message-ID;
-	b=Tvwv7/4uLadaLyYbeGER6fI5yudsGCo41O+e8OVrr8rhfDW7QOHGi4fnOpky3WpjZ
-	 LqCmLKiF+Sf7mkLp05QJwFO1+mpgPWFE8LnWvCl1qit7ddfQeK7dOLRTfU5EnGq+HE
-	 boFX/k5AQemheSnknqGr+FIQQkob/w64mITvWAQ3ap9J0h2QsXE1rNIsPfrYanHqoi
-	 jlWSJclVXe1OGVUYPqmCv/HgRXMMZXIF2smS5dThWZej2J/YeQGvyAR4Ke2uTLUJcE
-	 x80LAzt9OYdj0NOI24/UY9l5smDC8Ci4ccfsMEsE6rsnCt4/XIbKr4PZFMDblzrUA4
-	 QJH0kbK9W0YBA==
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-6c6370774e8so444950a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 14:41:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697060477; x=1697665277;
-        h=message-id:date:content-transfer-encoding:mime-version:comments
-         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8c9V3didGgZr1dEvLAHGSBgXLRfbYqmGbrTtJne4KKc=;
-        b=C7c+K0wgKAEsDMvGakReLKLdZIjtSb7P1JPZGwClD6sMCdiw2Q5c+UYfqKT9Vx7NaX
-         lH3KQAbqcgHNPThiHP+RyyIBWcajoOcOOS8AtdaAB4ClaD1t0BIX6euyI/4SVxJbvc3c
-         8Qspp/vX0WPz7XuNIFQYolBnHPodpqGTpyqKylu0uuqkI2nmCa9H2fBe4XNbzVnjhPWs
-         K5P0GuzoY8AS+SrqUikcm35t3u4KrcAI9dge1BO+k/bfXK1geipwOkC6Xpo0v4odUZcu
-         v/HqdGkWmEgdVW4UdUI1bBRD9yYgVziFIvAewX+IB7qzHnYeTVZIDoeSFf3yAMjCGBwJ
-         nSfQ==
-X-Gm-Message-State: AOJu0YzEqrmCkDGYAub1/3mCi2UG0bsHMGVe0gspGoQeNX+z9IpZY6bd
-	aFBrBjhfppIdLTwvGBd76nOsxJCtZ/dOR0zBe+M4PShwZL+4jg4rFjAzEQFilazKbVGG99pCLH9
-	R+R/35Yx8Ou7uFdNNfp1RLkDHek8BjcEBHfOmpw==
-X-Received: by 2002:a9d:7752:0:b0:6c4:ac5b:1f83 with SMTP id t18-20020a9d7752000000b006c4ac5b1f83mr23842680otl.2.1697060476989;
-        Wed, 11 Oct 2023 14:41:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHeUgaCLM4r4E7EIRY77A2tpgZEwaMVadBVsTAjMEJ1hYHnnbk5izDCCrfUOg1RkbR/jJmlQw==
-X-Received: by 2002:a9d:7752:0:b0:6c4:ac5b:1f83 with SMTP id t18-20020a9d7752000000b006c4ac5b1f83mr23842670otl.2.1697060476720;
-        Wed, 11 Oct 2023 14:41:16 -0700 (PDT)
-Received: from famine.localdomain ([50.125.80.253])
-        by smtp.gmail.com with ESMTPSA id x2-20020a62fb02000000b006889348ba6esm10502819pfm.127.2023.10.11.14.41.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Oct 2023 14:41:16 -0700 (PDT)
-Received: by famine.localdomain (Postfix, from userid 1000)
-	id DDD3F5FECD; Wed, 11 Oct 2023 14:41:15 -0700 (PDT)
-Received: from famine (localhost [127.0.0.1])
-	by famine.localdomain (Postfix) with ESMTP id D77999FA77;
-	Wed, 11 Oct 2023 14:41:15 -0700 (PDT)
-From: Jay Vosburgh <jay.vosburgh@canonical.com>
-To: =?UTF-8?q?K=C3=B6ry=20Maincent?= <kory.maincent@bootlin.com>
-cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-    linux-doc@vger.kernel.org,
-    Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-    "David S . Miller" <davem@davemloft.net>,
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-    Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-    Andy Gospodarek <andy@greyhouse.net>,
-    Nicolas Ferre <nicolas.ferre@microchip.com>,
-    Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-    Horatiu Vultur <horatiu.vultur@microchip.com>,
-    UNGLinuxDriver@microchip.com,
-    Florian Fainelli <florian.fainelli@broadcom.com>,
-    Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-    Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-    Russell King <linux@armlinux.org.uk>,
-    Richard Cochran <richardcochran@gmail.com>,
-    Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-    Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-    Vladimir Oltean <vladimir.oltean@nxp.com>,
-    Michael Walle <michael@walle.cc>,
-    Jacob Keller <jacob.e.keller@intel.com>,
-    Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v5 03/16] net: ethtool: Refactor identical get_ts_info implementations.
-In-reply-to: <20231009155138.86458-4-kory.maincent@bootlin.com>
-References: <20231009155138.86458-1-kory.maincent@bootlin.com> <20231009155138.86458-4-kory.maincent@bootlin.com>
-Comments: In-reply-to =?UTF-8?q?K=C3=B6ry=20Maincent?= <kory.maincent@bootlin.com>
-   message dated "Mon, 09 Oct 2023 17:51:25 +0200."
-X-Mailer: MH-E 8.6+git; nmh 1.6; Emacs 29.0.50
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXJxlGaU"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB07D9E;
+	Wed, 11 Oct 2023 14:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697060668; x=1728596668;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=zEM63VLra8iqwPmei6NC+GfoViAP6rRlq7Vjgd7nUbM=;
+  b=mXJxlGaU9TpUAdTV6a8h3+WYK/B/j8DlpwEg9uQvGqa/tfAL7lcoPTY0
+   6m2BtQ6CAlaRmp8zZUzzhWBDVc3/jciB/4aPS3mkIimtjvMkR5FmjPrPz
+   oUpMYRg9ZoEx9jK0OfZopzXcNtwjyDZo4XhMEs/ZITdLyB6myL4eFVTSm
+   gpAXUPXByBPjmIz2mhHCrk8VQGGCty5e4Xy/rph/JBV9IJHzNwXqrdYeS
+   uKy57Mg0akWCNG9IQ4B83sSorMU0LwDwWkHq8dRD6eYPfGRuEy2pH0izM
+   D5V+b6JOv5vOD29GqulEtsIKDxHXeKMOGyPvGLtuizshZ9zXvk2HUr44S
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="384625654"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="384625654"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 14:44:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="819879167"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="819879167"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Oct 2023 14:44:28 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 11 Oct 2023 14:44:27 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 11 Oct 2023 14:44:26 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 11 Oct 2023 14:44:26 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 11 Oct 2023 14:44:22 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oeBqtaMZD4ymymyzDOVWkQFEVLtPi5BQiwkLGBcK3BCzZcOwRI+0q88eUYmnC6R+WACCz9nSmNtcxXWS/MICSZ0QhBtViPi1CHhMev3hLhdxqeWNBmvU3nPcl+HloJW3QRcotRxC7yvkvNPBQQv0WGNxCBYsrzFOo6dTcImHHuacmJdks9GWBMqrpjMYGcU68Xgd7ya5v3j4IOzvZKTL1K/sN7A5iToP1uLcX3W86UVPJPeWVRWBikpgPlqDTYwpC+ngA4ZuK1b7xRT01Dk2w5TITzqA4tvwfN0B66bnUy4Pd7L6n5Bk/uAQJtXQ/YQm3w3aAw2A/bkROYAZi38dSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t5rJwKztCjWe4DiWhwZXO1SpP8pn2Tko74a7ds1lppA=;
+ b=gK7VuhRiqdUHkD8q7hSpv1j2CTArRs7SB9ZOk17ZvdIvTmFcW6Fs6fmITeHOdPWiEmtPsFu7HaGAXSkdszLxkkPHjXNZlhSRb7mFtyEz/cNppD/T2NUlHibDIROLptwQZ42y1LcDHzuzkIpVvi9iy6wXCkqNenk9AKncIR16/P8EWfsoxIVToeu15yImubeUFXDymYaLJRJ3dm1yVjBNS62iUfEDUJK4lFtMorKBHxh5jCb3Qe77yWkvlzA3TAQ1is96a8b6bW4eIgQwU3Wt2/F/dFVZnnACXa0zmJ+xUms10UR+1cxXOMct4w2kJz0LQezOCSXYAykJxarxdwkT0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by SJ1PR11MB6131.namprd11.prod.outlook.com (2603:10b6:a03:45e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Wed, 11 Oct
+ 2023 21:44:20 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::acb0:6bd3:58a:c992]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::acb0:6bd3:58a:c992%5]) with mapi id 15.20.6838.040; Wed, 11 Oct 2023
+ 21:44:20 +0000
+Date: Wed, 11 Oct 2023 14:44:17 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>, <linux@roeck-us.net>,
+	<joe@perches.com>, <gregkh@linuxfoundation.org>, Jonathan Corbet
+	<corbet@lwn.net>
+CC: Max Kellermann <max.kellermann@ionos.com>, <workflows@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3] Documentation/process/coding-style.rst: space around
+ const
+Message-ID: <65271731e25f4_7258329472@dwillia2-xfh.jf.intel.com.notmuch>
+References: <20231010125832.1002941-1-max.kellermann@ionos.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231010125832.1002941-1-max.kellermann@ionos.com>
+X-ClientProxiedBy: MW4PR04CA0361.namprd04.prod.outlook.com
+ (2603:10b6:303:81::6) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Oct 2023 14:41:15 -0700
-Message-ID: <6355.1697060475@famine>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|SJ1PR11MB6131:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49c46004-50ae-4f2d-273b-08dbcaa339b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fnVBycszZW5NqMGpdfvsC+pcm39f4mWlEco+B/Am1BuKjhDaO7KVBR1+V038z53fW0VWI8qzx0KY2llMhThTUHfgEUKqDVm0L3mXkIfujHgHHkTZkpX8nnkCeP0mTq4Hc6zYZlh+IjzRk9M7mPbs4xNFF1zypYFBP4w+ZhWTPvVOUGYZm3pFAfyrUWvGKGPOSnDtPMgQTrHC/WOhtZCQ/YqHcZCUgSpkGjYHjmOV5pSaRxFwooHuMOfWIaPNIbvA+MbJM6TzjW3zlWo5+SYUSWe6v05vhaqRK37WuPW0oz71Lb6Seb1S4xkXBAxB7bUC8AEt6JJwEAPB191lwdZ52QBv61BBoIEClI8/e0JC8cBOfHE1YNR4tu9sJUyR8QvciHU7Qmqp0LGzISVzMVyhb0ePyr2yF/QV2cLw6Sq44LANptYpsUE7lV55rlpXJy4oDV7sr71BzWXMIyYFMwJmZwDOSg+gITLNyHWPQA8Ekt4YjQMZDhif2Yew+jv5641ZgHwDHARGR5Qqce67AyKWEiWtenar4/XfdpOkYL/Hq7tjjTAVtXyaZOS3f50Y0b3bUVfuePA2vudQuJtC+5Qv0A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(39860400002)(376002)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(26005)(478600001)(6486002)(966005)(86362001)(83380400001)(6506007)(6666004)(41300700001)(4326008)(8676002)(8936002)(5660300002)(66946007)(316002)(66476007)(66556008)(110136005)(2906002)(6512007)(9686003)(38100700002)(82960400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IOt98GPb8d0YrvivXi9uUnWkKvy4tKpDEltlj72rLaEPd/sdTTTLPUUGdJwQ?=
+ =?us-ascii?Q?3bHVdehjc1tY2aJk4Do03JcBHWu3LgkyAKOV6GuljBUjppHREaMLtAXzfurh?=
+ =?us-ascii?Q?/lnB1oC3iq2iKemQDS89cf8FmRp8zpDpr/dvBKYRu6kGZcC/N9jCdt5kZ6o8?=
+ =?us-ascii?Q?Swe4JqFYSDvXB52ol3NK8Fl0tXH5obGtEiAGcaFu3IigoZn10aNZs7M7pD0F?=
+ =?us-ascii?Q?HgXoMn4ULBOQROVTRUfQLVibSPR4mIfQ2IjcU9Ccdz/ssPID95VsS+iInSYM?=
+ =?us-ascii?Q?fbCem3UXXI13TvY4dXgUQsTzGT2tNXvxTbsn/tkefhRBsYDrxkRxsZodWjK8?=
+ =?us-ascii?Q?KMtk6Iprz+skjKjHdXM7MII2GXGr+05LCg2ZUPbwu4PYN7bH2XARoO3kWWRl?=
+ =?us-ascii?Q?kn3AQq+U7jQIR3146/fNDZF254+16yuymUNxY92pqy4UX8fAWPGET6SBYTKr?=
+ =?us-ascii?Q?idgkw0mU3Fa1FAVdol9NsgM5WENrQpmrN9L5sAK/8NFtvFaVGcZzhsuLuG+U?=
+ =?us-ascii?Q?vS1ZCc1D1Adp6WMBZ0nX1lLaa9BjYiQEemzyo0DHTv9VPGiOV2ZXxx+09DBH?=
+ =?us-ascii?Q?Z1307B11Q75sMHWXXwJui3Qfa20EUl8r5iI8GsSsiso+1VFT4KAL4POMRjo2?=
+ =?us-ascii?Q?vQpyqQwfn+R+ba0WU263PsvwzojraYtntFyQlSILL/7RxCbK+uHPA3jjXi3h?=
+ =?us-ascii?Q?w6sQWV0eZinlD/DeMRYApW8pg/hexAQMGJI7xYaliDTJ5ebhMZR+Qlipv6kr?=
+ =?us-ascii?Q?auk6OsGqCcaKuQPWBs0IGZcR61qFAa15sR726t1s2Pc1btb3O4q77zLntBrr?=
+ =?us-ascii?Q?qYWj+65a0qOTi8rjj4twMn59LJe3rWisrvPW5S/tQfqbFCnlwNi3A/+934d6?=
+ =?us-ascii?Q?E2RDsNuudjpqMiI7Y1cE87yY7oxYo/r3us+9iFnCltmNO7xudLt7fxt+CNGX?=
+ =?us-ascii?Q?fDOzFlga+4hwXOfXHc5R29reJI1ri4+FJOREqx1VElIYMGU0H0Jus2g6u/VZ?=
+ =?us-ascii?Q?zsBHAy8uxbcZzhwa0w6cVRCOBuqUinQ/sDtqvAECJOMGvpX9zUrQP6iWzrev?=
+ =?us-ascii?Q?lC2M/s+MmKDVa8IucXJnYt/LvGkRTVLjXiEHHlTmyr01XikgbJIE6j1y1feU?=
+ =?us-ascii?Q?C3+ynDL9fNE6vDvysl+I9NejcTBlWMybLEVSRAYrvqFMb8Q+En0olGVnHYdb?=
+ =?us-ascii?Q?Z8tVgGFR6DaQiyTCnvZchikHPfVDLKuMot8PMxNCM/6cUB9ZWyRf4MjbWB5Z?=
+ =?us-ascii?Q?TatqWqOYObOVXc2ZqIr/ZcK2FwvS5FphGLPJTCgNRGxar3FaD/hobunudz40?=
+ =?us-ascii?Q?LbHhHKbxDffsLKZfxBXj6x+Tec/c/B+kcGx4rZCLAWpMdWbCEsH9O5pd3G4Z?=
+ =?us-ascii?Q?njUOg7XNJQXwodDioTd1Hg6m0hY7x+meAMtXhWYOg/DW15Y2YrK70Eoltze5?=
+ =?us-ascii?Q?67L+FXhv3DLW6sURmDKfo13gpTlAa3P7vAOkLIYWegI2zaDmSmYRSoLV252H?=
+ =?us-ascii?Q?9jztBiKayya9gkkJM7qOcqQ9igrU4naXfS6Id9bwjHuoytrbWUq4QiQIxFAa?=
+ =?us-ascii?Q?NDyJ8np99LJhr8kjqL8gRHkyqjzcyWt4axD7UCgl+fzd+rBKm0wLUd6TB/K7?=
+ =?us-ascii?Q?Sg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49c46004-50ae-4f2d-273b-08dbcaa339b5
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 21:44:20.1711
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vK6S0W4L74i9F0EmCgDw5kQUy/XLJqdif6VhRErl4bc0TCpg0yY4jRDiWNl4KGzaSMXGQq85Pf+y//Tf2zUXKYEsoA67dA6dXF03xVFlmUE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6131
+X-OriginatorOrg: intel.com
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.6
+	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-K=C3=B6ry Maincent <kory.maincent@bootlin.com> wrote:
+Max Kellermann wrote:
+> There are currently no rules on the placement of "const", but a recent
+> code submission revealed that there is clearly a preference for spaces
+> around it.
+> 
+> checkpatch.pl has no check at all for this; though it does sometimes
+> complain, but only because it erroneously thinks that the "*" (on
+> local variables) is an unary dereference operator, not a pointer type.
+> 
+> Current coding style for const pointers-to-pointers:
+> 
+>  "*const*": 2 occurrences
+>  "* const*": 3
+>  "*const *": 182
+>  "* const *": 681
+> 
+> Just const pointers:
+> 
+>  "*const": 2833 occurrences
+>  "* const": 16615
+> 
+> Link: https://lore.kernel.org/r/264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net/
+> Link: https://lore.kernel.org/r/f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com/
+> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
+> ---
+> V1 -> V2: removed "volatile" on gregkh's request.
+> V2 -> V3: moved patch changelog below the "---" line
+> ---
+>  Documentation/process/coding-style.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 6db37a46d305..71d62d81e506 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -271,6 +271,17 @@ adjacent to the type name.  Examples:
+>  	unsigned long long memparse(char *ptr, char **retptr);
+>  	char *match_strdup(substring_t *s);
+>  
+> +Use space around the ``const`` keyword (except when adjacent to
+> +parentheses).  Example:
+> +
+> +.. code-block:: c
+> +
+> +	const void *a;
+> +	void * const b;
+> +	void ** const c;
+> +	void * const * const d;
+> +	int strcmp(const char *a, const char *b);
+> +
+>  Use one space around (on each side of) most binary and ternary operators,
+>  such as any of these::
 
->From: Richard Cochran <richardcochran@gmail.com>
->
->The vlan, macvlan and the bonding drivers call their "real" device driver
->in order to report the time stamping capabilities.  Provide a core
->ethtool helper function to avoid copy/paste in the stack.
->
->Signed-off-by: Richard Cochran <richardcochran@gmail.com>
->Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+I notice that clang-format reflows that example to:
 
-	For the bonding portion:
+     const void *a;
+     void *const b;
+     void **const c;
+     void *const *const d;
+     int strcmp(const char *a, const char *b);
 
-Reviewed-by: Jay Vosburgh <jay.vosburgh@canonical.com>
-
-
->---
->
->Change in v5:
->- Fixe typo
->---
-> drivers/net/bonding/bond_main.c | 27 ++-------------------------
-> drivers/net/macvlan.c           | 14 +-------------
-> include/linux/ethtool.h         |  8 ++++++++
-> net/8021q/vlan_dev.c            | 15 +--------------
-> net/ethtool/common.c            |  6 ++++++
-> 5 files changed, 18 insertions(+), 52 deletions(-)
->
->diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_ma=
-in.c
->index ed7212e61c54..18af563d20b2 100644
->--- a/drivers/net/bonding/bond_main.c
->+++ b/drivers/net/bonding/bond_main.c
->@@ -5763,29 +5763,12 @@ static int bond_ethtool_get_ts_info(struct net_dev=
-ice *bond_dev,
-> 	rcu_read_unlock();
->=20
-> 	if (real_dev) {
->-		ops =3D real_dev->ethtool_ops;
->-		phydev =3D real_dev->phydev;
->-
->-		if (phy_has_tsinfo(phydev)) {
->-			ret =3D phy_ts_info(phydev, info);
->-			goto out;
->-		} else if (ops->get_ts_info) {
->-			ret =3D ops->get_ts_info(real_dev, info);
->-			goto out;
->-		}
->+		ret =3D ethtool_get_ts_info_by_layer(real_dev, info);
-> 	} else {
-> 		/* Check if all slaves support software tx timestamping */
-> 		rcu_read_lock();
-> 		bond_for_each_slave_rcu(bond, slave, iter) {
->-			ret =3D -1;
->-			ops =3D slave->dev->ethtool_ops;
->-			phydev =3D slave->dev->phydev;
->-
->-			if (phy_has_tsinfo(phydev))
->-				ret =3D phy_ts_info(phydev, &ts_info);
->-			else if (ops->get_ts_info)
->-				ret =3D ops->get_ts_info(slave->dev, &ts_info);
->-
->+			ret =3D ethtool_get_ts_info_by_layer(slave->dev, &ts_info);
-> 			if (!ret && (ts_info.so_timestamping & SOF_TIMESTAMPING_TX_SOFTWARE)) {
-> 				sw_tx_support =3D true;
-> 				continue;
->@@ -5797,15 +5780,9 @@ static int bond_ethtool_get_ts_info(struct net_devi=
-ce *bond_dev,
-> 		rcu_read_unlock();
-> 	}
->=20
->-	ret =3D 0;
->-	info->so_timestamping =3D SOF_TIMESTAMPING_RX_SOFTWARE |
->-				SOF_TIMESTAMPING_SOFTWARE;
-> 	if (sw_tx_support)
-> 		info->so_timestamping |=3D SOF_TIMESTAMPING_TX_SOFTWARE;
->=20
->-	info->phc_index =3D -1;
->-
->-out:
-> 	dev_put(real_dev);
-> 	return ret;
-> }
->diff --git a/drivers/net/macvlan.c b/drivers/net/macvlan.c
->index 02bd201bc7e5..759406fbaea8 100644
->--- a/drivers/net/macvlan.c
->+++ b/drivers/net/macvlan.c
->@@ -1086,20 +1086,8 @@ static int macvlan_ethtool_get_ts_info(struct net_d=
-evice *dev,
-> 				       struct ethtool_ts_info *info)
-> {
-> 	struct net_device *real_dev =3D macvlan_dev_real_dev(dev);
->-	const struct ethtool_ops *ops =3D real_dev->ethtool_ops;
->-	struct phy_device *phydev =3D real_dev->phydev;
->=20
->-	if (phy_has_tsinfo(phydev)) {
->-		return phy_ts_info(phydev, info);
->-	} else if (ops->get_ts_info) {
->-		return ops->get_ts_info(real_dev, info);
->-	} else {
->-		info->so_timestamping =3D SOF_TIMESTAMPING_RX_SOFTWARE |
->-			SOF_TIMESTAMPING_SOFTWARE;
->-		info->phc_index =3D -1;
->-	}
->-
->-	return 0;
->+	return ethtool_get_ts_info_by_layer(real_dev, info);
-> }
->=20
-> static netdev_features_t macvlan_fix_features(struct net_device *dev,
->diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
->index 62b61527bcc4..1159daac776e 100644
->--- a/include/linux/ethtool.h
->+++ b/include/linux/ethtool.h
->@@ -1043,6 +1043,14 @@ static inline int ethtool_mm_frag_size_min_to_add(u=
-32 val_min, u32 *val_add,
-> 	return -EINVAL;
-> }
->=20
->+/**
->+ * ethtool_get_ts_info_by_layer - Obtains time stamping capabilities from=
- the MAC or PHY layer.
->+ * @dev: pointer to net_device structure
->+ * @info: buffer to hold the result
->+ * Returns zero on success, non-zero otherwise.
->+ */
->+int ethtool_get_ts_info_by_layer(struct net_device *dev, struct ethtool_t=
-s_info *info);
->+
-> /**
->  * ethtool_sprintf - Write formatted string to ethtool string data
->  * @data: Pointer to start of string to update
->diff --git a/net/8021q/vlan_dev.c b/net/8021q/vlan_dev.c
->index 2a7f1b15714a..407b2335f091 100644
->--- a/net/8021q/vlan_dev.c
->+++ b/net/8021q/vlan_dev.c
->@@ -702,20 +702,7 @@ static int vlan_ethtool_get_ts_info(struct net_device=
- *dev,
-> 				    struct ethtool_ts_info *info)
-> {
-> 	const struct vlan_dev_priv *vlan =3D vlan_dev_priv(dev);
->-	const struct ethtool_ops *ops =3D vlan->real_dev->ethtool_ops;
->-	struct phy_device *phydev =3D vlan->real_dev->phydev;
->-
->-	if (phy_has_tsinfo(phydev)) {
->-		return phy_ts_info(phydev, info);
->-	} else if (ops->get_ts_info) {
->-		return ops->get_ts_info(vlan->real_dev, info);
->-	} else {
->-		info->so_timestamping =3D SOF_TIMESTAMPING_RX_SOFTWARE |
->-			SOF_TIMESTAMPING_SOFTWARE;
->-		info->phc_index =3D -1;
->-	}
->-
->-	return 0;
->+	return ethtool_get_ts_info_by_layer(vlan->real_dev, info);
-> }
->=20
-> static void vlan_dev_get_stats64(struct net_device *dev,
->diff --git a/net/ethtool/common.c b/net/ethtool/common.c
->index f5598c5f50de..e2315e24d695 100644
->--- a/net/ethtool/common.c
->+++ b/net/ethtool/common.c
->@@ -661,6 +661,12 @@ int ethtool_get_phc_vclocks(struct net_device *dev, i=
-nt **vclock_index)
-> }
-> EXPORT_SYMBOL(ethtool_get_phc_vclocks);
->=20
->+int ethtool_get_ts_info_by_layer(struct net_device *dev, struct ethtool_t=
-s_info *info)
->+{
->+	return __ethtool_get_ts_info(dev, info);
->+}
->+EXPORT_SYMBOL(ethtool_get_ts_info_by_layer);
->+
-> const struct ethtool_phy_ops *ethtool_phy_ops;
->=20
-> void ethtool_set_ethtool_phy_ops(const struct ethtool_phy_ops *ops)
->--=20
->2.25.1
->
->
+...but someone more clang-format savvy than me would need to propose the
+changes to the kernel's .clang-format template to match the style
+suggestion.
