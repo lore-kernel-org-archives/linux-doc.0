@@ -1,53 +1,32 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442073D96E
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 20:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808C53D972;
+	Thu, 12 Oct 2023 20:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SvySBYkn"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 814C4BE
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 13:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697142728; x=1728678728;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+r98bVVhHlBANw0plXuZxHdZZFnh/4ZDpk9JtOI5BW0=;
-  b=SvySBYknN6na+QPzfIfAnN+662svD0alYqY8uNkvtCtmWfci1adeEY7f
-   +xQnJRnPu6KaawioWBXTwrq3KqGHiYfD50+9IUGKo/aTB6F7AD0z4dLAB
-   Is0RFACZxoTcN9k4j4FXjrXUyZBenoToaAuHdmWgdSHsDkOmGukzSjezN
-   cvXQBwdV3mw6XXuXzaaApGh9Y6SYPEs7rRUpHpbhxgQISEa/3A7khgjOi
-   L0OFX3yaNLNcrn58YhflnBbj7JaGNsBnBzIWzk4DsX+AejJFQ46zw7ByX
-   ENHSGRDZgN/3Tr+oROciKcOck0PBxa+ZQtrqxh1IzZ41XZAiWwJV79FKw
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="370103787"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="370103787"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 13:32:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="878231717"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="878231717"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 12 Oct 2023 13:32:05 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qr2Lj-0003rD-1d;
-	Thu, 12 Oct 2023 20:32:03 +0000
-Date: Fri, 13 Oct 2023 04:31:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <j-luthra@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
-	Pratyush Yadav <p.yadav@ti.com>,
-	Vaishnav Achath <vaishnav.a@ti.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-doc@vger.kernel.org
-Subject: [hverkuil-media-tree:pr 135/144] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/media/ti,j721e-csi2rx.yaml
-Message-ID: <202310130411.c66pTXjG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I9O2rBWF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83CDEC433C7;
+	Thu, 12 Oct 2023 20:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697142886;
+	bh=1NmsynG7soJV4+TPuN+O1s9KhLN02NtYFh7WcmBFz8A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I9O2rBWF8gDar/1iXLQ4oZZKDeER69jhL3u6eC5bovsQijynepBATCh0hAMHpTqWw
+	 /vXM3y1SG0pkQD8OS+OKBAZ9rn0hsmJzk5VRmpHzXkF0Lu/LHurNnd62SH3TgwUrfa
+	 MKAJeZiLT2kX2yjJB0VYjxbaW822eObD5KQ6gyQY7qbeycSYF/QvVL+i3wJBG2+Fn1
+	 i1lGoa/2VsAuTKMzanhcWLUwwviGNuHAIjzoOsczqCc9s1mTHT9D6WP4q6N1v4VmX2
+	 emS3ZnCa2dbdUphUNYx3TptZIkTbls5KnuJEZM5JJYdfSHoIGXXTiKA/O8JDlHlCcB
+	 bSZmUDB1llELA==
+Received: (nullmailer pid 1698490 invoked by uid 1000);
+	Thu, 12 Oct 2023 20:34:44 -0000
+Date: Thu, 12 Oct 2023 15:34:44 -0500
+From: Rob Herring <robh@kernel.org>
+To: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "open list:ARM/Mediatek SoC support" <linux-kernel@vger.kernel.org>, "moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH net-next 1/2] net: dsa: Use conduit and user terms
+Message-ID: <20231012203444.GA1636217-robh@kernel.org>
+References: <20231010213942.3633407-1-florian.fainelli@broadcom.com>
+ <20231010213942.3633407-2-florian.fainelli@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,27 +35,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+In-Reply-To: <20231010213942.3633407-2-florian.fainelli@broadcom.com>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git pr
-head:   ab87cbf35518d16b5ae456336000ad3bf6ce8d06
-commit: c0f6b7e76f997fbca6047eb1607ec1a32cf31a66 [135/144] media: ti: Add CSI2RX support for J721E
-reproduce: (https://download.01.org/0day-ci/archive/20231013/202310130411.c66pTXjG-lkp@intel.com/reproduce)
+On Tue, Oct 10, 2023 at 02:39:41PM -0700, Florian Fainelli wrote:
+> Use more inclusive terms throughout the DSA subsystem by moving away
+> from "master" which is replaced by "conduit" and "slave" which is
+> replaced by "user". No functional changes.
+> 
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> ---
+>  .../bindings/net/dsa/mediatek,mt7530.yaml     |    2 +-
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310130411.c66pTXjG-lkp@intel.com/
+Acked-by: Rob Herring <robh@kernel.org>
 
-All warnings (new ones prefixed by >>):
-
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/ti,j721e-csi2rx.yaml
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  Documentation/networking/dsa/b53.rst          |   14 +-
+>  Documentation/networking/dsa/bcm_sf2.rst      |    2 +-
+>  .../networking/dsa/configuration.rst          |  104 +-
+>  Documentation/networking/dsa/dsa.rst          |  150 +-
+>  Documentation/networking/dsa/lan9303.rst      |    2 +-
+>  Documentation/networking/dsa/sja1105.rst      |    8 +-
+>  .../dts/marvell/armada-3720-espressobin.dtsi  |    2 +-
+>  drivers/net/dsa/b53/b53_common.c              |    4 +-
+>  drivers/net/dsa/b53/b53_mdio.c                |    2 +-
+>  drivers/net/dsa/bcm_sf2.c                     |   36 +-
+>  drivers/net/dsa/bcm_sf2.h                     |    2 +-
+>  drivers/net/dsa/bcm_sf2_cfp.c                 |    4 +-
+>  drivers/net/dsa/lan9303-core.c                |    4 +-
+>  drivers/net/dsa/lantiq_gswip.c                |   34 +-
+>  drivers/net/dsa/microchip/ksz9477.c           |    6 +-
+>  drivers/net/dsa/microchip/ksz_common.c        |   20 +-
+>  drivers/net/dsa/microchip/ksz_ptp.c           |    2 +-
+>  drivers/net/dsa/mt7530.c                      |   16 +-
+>  drivers/net/dsa/mv88e6xxx/chip.c              |    2 +-
+>  drivers/net/dsa/ocelot/felix.c                |   62 +-
+>  drivers/net/dsa/ocelot/felix.h                |    4 +-
+>  drivers/net/dsa/qca/qca8k-8xxx.c              |   48 +-
+>  drivers/net/dsa/qca/qca8k-common.c            |    2 +-
+>  drivers/net/dsa/qca/qca8k-leds.c              |    6 +-
+>  drivers/net/dsa/qca/qca8k.h                   |    2 +-
+>  drivers/net/dsa/realtek/realtek-smi.c         |   28 +-
+>  drivers/net/dsa/realtek/realtek.h             |    2 +-
+>  drivers/net/dsa/sja1105/sja1105_main.c        |    4 +-
+>  drivers/net/dsa/xrs700x/xrs700x.c             |   12 +-
+>  drivers/net/ethernet/broadcom/bcmsysport.c    |    2 +-
+>  drivers/net/ethernet/mediatek/mtk_eth_soc.c   |    2 +-
+>  include/linux/dsa/sja1105.h                   |    2 +-
+>  include/net/dsa.h                             |   54 +-
+>  include/net/dsa_stubs.h                       |   10 +-
+>  net/core/dev_ioctl.c                          |    2 +-
+>  net/dsa/Makefile                              |    4 +-
+>  net/dsa/{master.c => conduit.c}               |   96 +-
+>  net/dsa/conduit.h                             |   22 +
+>  net/dsa/dsa.c                                 |  218 +--
+>  net/dsa/dsa.h                                 |   10 +-
+>  net/dsa/master.h                              |   22 -
+>  net/dsa/netlink.c                             |   14 +-
+>  net/dsa/port.c                                |  114 +-
+>  net/dsa/port.h                                |    2 +-
+>  net/dsa/slave.h                               |   69 -
+>  net/dsa/switch.c                              |   18 +-
+>  net/dsa/switch.h                              |    4 +-
+>  net/dsa/tag.c                                 |   10 +-
+>  net/dsa/tag.h                                 |   26 +-
+>  net/dsa/tag_8021q.c                           |   22 +-
+>  net/dsa/tag_8021q.h                           |    2 +-
+>  net/dsa/tag_ar9331.c                          |    4 +-
+>  net/dsa/tag_brcm.c                            |   14 +-
+>  net/dsa/tag_dsa.c                             |    6 +-
+>  net/dsa/tag_gswip.c                           |    4 +-
+>  net/dsa/tag_hellcreek.c                       |    4 +-
+>  net/dsa/tag_ksz.c                             |   12 +-
+>  net/dsa/tag_lan9303.c                         |    4 +-
+>  net/dsa/tag_mtk.c                             |    4 +-
+>  net/dsa/tag_none.c                            |    4 +-
+>  net/dsa/tag_ocelot.c                          |   22 +-
+>  net/dsa/tag_ocelot_8021q.c                    |   12 +-
+>  net/dsa/tag_qca.c                             |    6 +-
+>  net/dsa/tag_rtl4_a.c                          |    6 +-
+>  net/dsa/tag_rtl8_4.c                          |    6 +-
+>  net/dsa/tag_rzn1_a5psw.c                      |    4 +-
+>  net/dsa/tag_sja1105.c                         |   30 +-
+>  net/dsa/tag_trailer.c                         |    4 +-
+>  net/dsa/tag_xrs700x.c                         |    4 +-
+>  net/dsa/{slave.c => user.c}                   | 1240 ++++++++---------
+>  net/dsa/user.h                                |   69 +
+>  72 files changed, 1385 insertions(+), 1385 deletions(-)
+>  rename net/dsa/{master.c => conduit.c} (79%)
+>  create mode 100644 net/dsa/conduit.h
+>  delete mode 100644 net/dsa/master.h
+>  delete mode 100644 net/dsa/slave.h
+>  rename net/dsa/{slave.c => user.c} (67%)
+>  create mode 100644 net/dsa/user.h
