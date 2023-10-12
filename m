@@ -1,73 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D4C34CF2;
-	Thu, 12 Oct 2023 19:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442073D96E
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 20:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJGzlPrj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D2EBC433CB;
-	Thu, 12 Oct 2023 19:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697138584;
-	bh=PRMNaWi4eLwEr1ddca0C6ItteLnRKdFxcFRimSLMbuo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bJGzlPrjaiUIBuFyajQ5Ml/qrVcEGh+SjVnuKYWNiD50UIeYWhykkEIUdu7FThB0U
-	 c4m724zZPNDNhN7SMT5Er7OqE7Q+KiPopSS/RZYPf+PaAwiBl0DzTq/JoY932IHK46
-	 HFSs2q3SdwTv8OupysoFHIsHs/Cp2/SqkQielW+BX05cFNdUVj3+s9E2Bn+181AY31
-	 MSV5J0+jmQ5LMDdc850GF9fkma0pIr9lJ9CMwmXWO7XXQguzHCfFcQRleQZNc5kCLR
-	 Ibf04a1T8riDcyY6xMyNg87yq2iYqDql/b2zCzblzfyN50l8gc1fetjrFtVwpzMkZH
-	 9LUJGAQEyISjQ==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] Docs/admin-guide/mm/damon/usage: update for tried regions update time interval
-Date: Thu, 12 Oct 2023 19:22:55 +0000
-Message-Id: <20231012192256.33556-4-sj@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231012192256.33556-1-sj@kernel.org>
-References: <20231012192256.33556-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SvySBYkn"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 814C4BE
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 13:32:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697142728; x=1728678728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+r98bVVhHlBANw0plXuZxHdZZFnh/4ZDpk9JtOI5BW0=;
+  b=SvySBYknN6na+QPzfIfAnN+662svD0alYqY8uNkvtCtmWfci1adeEY7f
+   +xQnJRnPu6KaawioWBXTwrq3KqGHiYfD50+9IUGKo/aTB6F7AD0z4dLAB
+   Is0RFACZxoTcN9k4j4FXjrXUyZBenoToaAuHdmWgdSHsDkOmGukzSjezN
+   cvXQBwdV3mw6XXuXzaaApGh9Y6SYPEs7rRUpHpbhxgQISEa/3A7khgjOi
+   L0OFX3yaNLNcrn58YhflnBbj7JaGNsBnBzIWzk4DsX+AejJFQ46zw7ByX
+   ENHSGRDZgN/3Tr+oROciKcOck0PBxa+ZQtrqxh1IzZ41XZAiWwJV79FKw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="370103787"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="370103787"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 13:32:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="878231717"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="878231717"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 12 Oct 2023 13:32:05 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qr2Lj-0003rD-1d;
+	Thu, 12 Oct 2023 20:32:03 +0000
+Date: Fri, 13 Oct 2023 04:31:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jai Luthra <j-luthra@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
+	Pratyush Yadav <p.yadav@ti.com>,
+	Vaishnav Achath <vaishnav.a@ti.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-doc@vger.kernel.org
+Subject: [hverkuil-media-tree:pr 135/144] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/media/ti,j721e-csi2rx.yaml
+Message-ID: <202310130411.c66pTXjG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-The documentation says DAMOS tried regions update feature of DAMON sysfs
-interface is doing the update for one aggregation interval after the
-request is made.  Since the introduction of the per-scheme apply
-interval, that behavior makes no much sense.  Hence the implementation
-has changed to update the regions for each scheme for only its apply
-interval.  Further update the document to reflect the real behavior.
+tree:   git://linuxtv.org/hverkuil/media_tree.git pr
+head:   ab87cbf35518d16b5ae456336000ad3bf6ce8d06
+commit: c0f6b7e76f997fbca6047eb1607ec1a32cf31a66 [135/144] media: ti: Add CSI2RX support for J721E
+reproduce: (https://download.01.org/0day-ci/archive/20231013/202310130411.c66pTXjG-lkp@intel.com/reproduce)
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310130411.c66pTXjG-lkp@intel.com/
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 8507a6e45d86..da94feb97ed1 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -432,9 +432,9 @@ that reading it returns the total size of the scheme tried regions, and creates
- directories named integer starting from ``0`` under this directory.  Each
- directory contains files exposing detailed information about each of the memory
- region that the corresponding scheme's ``action`` has tried to be applied under
--this directory, during next :ref:`aggregation interval
--<sysfs_monitoring_attrs>`.  The information includes address range,
--``nr_accesses``, and ``age`` of the region.
-+this directory, during next :ref:`apply interval <damon_design_damos>` of the
-+corresponding scheme.  The information includes address range, ``nr_accesses``,
-+and ``age`` of the region.
- 
- Writing ``update_schemes_tried_bytes`` to the relevant ``kdamonds/<N>/state``
- file will only update the ``total_bytes`` file, and will not create the
+All warnings (new ones prefixed by >>):
+
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/ti,j721e-csi2rx.yaml
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
