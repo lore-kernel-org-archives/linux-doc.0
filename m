@@ -1,63 +1,53 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489CB1E500
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 10:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marliere.net header.i=@marliere.net header.b="p6mRBJRv"
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D20B90;
-	Thu, 12 Oct 2023 03:56:15 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1c9e072472bso3711545ad.2;
-        Thu, 12 Oct 2023 03:56:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DCD24210;
+	Thu, 12 Oct 2023 11:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1BCBDD;
+	Thu, 12 Oct 2023 04:14:28 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9b96c3b4be4so128871566b.1;
+        Thu, 12 Oct 2023 04:14:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697108175; x=1697712975;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
-        b=Ei07dD2m+RTvKQhFedviaU1CsU5TBQ/erBoTMJOHBNfnnycKPjdIy1+kaJ+4DWAfMJ
-         kBe5yBQuv7K4vIqZhY2mryVqSd+ASML7t2cXci4Qjrv0NY/YOwgMGowdIXzdEGSv8+fd
-         Pdn+qdl3Mxuz1s5wFIertknrqDOt970bnc/GBWa2GNSQs+LMZpG/MRumMXXg3Ne1jMA/
-         pNTw+eeeR3oqUZWNedlC94yT416cqbpqwIrCQhN6wxLhBH4lVjDQdcM1ZE+cH7gB/MnN
-         D50pm+hKYJk6EK1TinKUyzHGWj8QuaW/q0dDO+qzSYYbF4JN7HLBf/JtEVahNjyOTrCs
-         cMRA==
-X-Gm-Message-State: AOJu0YxQDamhMNb0DqygyM8iM0bsALWBmPRHUTJnuSFF/Smh+hmU4jGt
-	50OAzBhbYBGMx+iw2M9BUz8=
-X-Google-Smtp-Source: AGHT+IHrukWTPzhOjCyRsKwTW9N1rf4iR43yr7LemfnQgYdFKwX3fykZ3xDPkLmVgn5cqdkN8M/iSQ==
-X-Received: by 2002:a17:902:fa8f:b0:1c9:d948:33d5 with SMTP id lc15-20020a170902fa8f00b001c9d94833d5mr2349432plb.64.1697108174615;
-        Thu, 12 Oct 2023 03:56:14 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id a7-20020a170902ecc700b001c3267ae31bsm1642297plh.301.2023.10.12.03.56.13
+        d=1e100.net; s=20230601; t=1697109267; x=1697714067;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g1QRKkBNjznWASHX/P+4TGpYOnsgJ03ZF7D0qhU3Ymk=;
+        b=pP8HlnKKEK/M/MIq+84yYjMlm7nOvq2rhye0tdAqnvsQKsfeu+dbvcVr6XqNFtKUOY
+         HXLNBxxLByqLHbUP8QyZoP78htZ1Y8gKJNpfV6tYlmCpv7OXFmXPbEtbdsLVH+G91nHU
+         rkibZhqFlh1JsxA59mPGzYx/GDEj/wxwu5Qw5AyWclVDL0i9g4as3gYcsgs3dj4+8SMb
+         K2brRJlOfZSv6lKEYOXB4ygtKeRU0FeV+HVnylnF/hGI4JzKTO9gA6F+Tyv2HUOqogvA
+         kokIoWg5Mblqt4pr46LQXVsGg5iWMmOVmwJaTsblM/Zt0bwJGyeXTJ1NpljpsWc9X47B
+         lo/g==
+X-Gm-Message-State: AOJu0YzlUExwGkeUlsdAdJ42ma0R8/ttI2G9fLVsgA9XpBARK6xVga4u
+	FoBtstRCBqS+sDDAlcwuHFMeHpU6L5Q=
+X-Google-Smtp-Source: AGHT+IE6EJzJraUNfN+/pBxQYEj//JSGY9N0njx3Bqynro9CdqWEMRRS5z9eXQ+Y8KogH5ckF0OvRQ==
+X-Received: by 2002:a17:907:2cef:b0:9ae:6355:5ef4 with SMTP id hz15-20020a1709072cef00b009ae63555ef4mr20608927ejc.3.1697109267064;
+        Thu, 12 Oct 2023 04:14:27 -0700 (PDT)
+Received: from localhost (fwdproxy-cln-011.fbsv.net. [2a03:2880:31ff:b::face:b00c])
+        by smtp.gmail.com with ESMTPSA id kf24-20020a17090776d800b009b95787eb6dsm10877644ejc.48.2023.10.12.04.14.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 03:56:13 -0700 (PDT)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2023; t=1697108172;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
-	b=p6mRBJRv15x2a8mugD54EELIKpHhGxE1HudINzkmlCUswZguuXtnlCIm/uEwKwVFGZVLJK
-	nYWY3ofQoWfYLeWEKmB7VlsdpqXtvMSIsU6UcKac9GL54ENIO1eIdN7DJjkuzehSfniMDg
-	qORCa7JwERprwg49vaR4XZH3DGZYcOA0iaWdlZhua/wejFBTrv0X29zVCWKoPHxCiZUyj+
-	6m2N1mhjzLGzrd+M41gY1i3BLQ8YfOEO7gI4LQKNrAbrF/BAbWNzNcAJZ6yUKmJvj2rjU8
-	m0xLBNvh1cZcYPP/CDUQ5IFVxGBe/Ql7NmfsVGUjkM9DsgHzdToaow1h361Ndg==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-To: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
+        Thu, 12 Oct 2023 04:14:26 -0700 (PDT)
+From: Breno Leitao <leitao@debian.org>
+To: jlbec@evilplan.org,
+	kuba@kernel.org,
+	davem@davemloft.net,
+	pabeni@redhat.com,
+	Eric Dumazet <edumazet@google.com>,
 	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+Cc: hch@lst.de,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	"Ricardo B. Marliere" <ricardo@marliere.net>
-Subject: [PATCH] docs: kbuild: add INSTALL_DTBS_PATH
-Date: Thu, 12 Oct 2023 07:54:21 -0300
-Message-ID: <20231012105420.16779-2-ricardo@marliere.net>
+	horms@kernel.org,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH net-next v4 4/4] Documentation: netconsole: add support for cmdline targets
+Date: Thu, 12 Oct 2023 04:14:01 -0700
+Message-Id: <20231012111401.333798-5-leitao@debian.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231012111401.333798-1-leitao@debian.org>
+References: <20231012111401.333798-1-leitao@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,57 +55,67 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-The documentation for kbuild and makefiles is missing an explanation of
-a variable important for some architectures.
+With the previous patches, there is no more limitation at modifying the
+targets created at boot time (or module load time).
 
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+Document the way on how to create the configfs directories to be able to
+modify these netconsole targets.
+
+The design discussion about this topic could be found at:
+https://lore.kernel.org/all/ZRWRal5bW93px4km@gmail.com/
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- Documentation/kbuild/kbuild.rst    | 6 ++++++
- Documentation/kbuild/makefiles.rst | 7 +++++++
- 2 files changed, 13 insertions(+)
+ Documentation/networking/netconsole.rst | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index bd906407e307..9c8d1d046ea5 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -243,6 +243,12 @@ The output directory is often set using "O=..." on the commandline.
+diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+index 7a9de0568e84..390730a74332 100644
+--- a/Documentation/networking/netconsole.rst
++++ b/Documentation/networking/netconsole.rst
+@@ -99,9 +99,6 @@ Dynamic reconfiguration:
+ Dynamic reconfigurability is a useful addition to netconsole that enables
+ remote logging targets to be dynamically added, removed, or have their
+ parameters reconfigured at runtime from a configfs-based userspace interface.
+-[ Note that the parameters of netconsole targets that were specified/created
+-from the boot/module option are not exposed via this interface, and hence
+-cannot be modified dynamically. ]
  
- The value can be overridden in which case the default value is ignored.
+ To include this feature, select CONFIG_NETCONSOLE_DYNAMIC when building the
+ netconsole module (or kernel, if netconsole is built-in).
+@@ -155,6 +152,25 @@ You can also update the local interface dynamically. This is especially
+ useful if you want to use interfaces that have newly come up (and may not
+ have existed when netconsole was loaded / initialized).
  
-+INSTALL_DTBS_PATH
-+-----------------
-+INSTALL_DTBS_PATH specifies where to install device tree blobs for
-+relocations required by build roots.  This is not defined in the
-+makefile but the argument can be passed to make if needed.
++Netconsole targets defined at boot time (or module load time) with the
++`netconsole=` param are assigned the name `cmdline<index>`.  For example, the
++first target in the parameter is named `cmdline0`.  You can control and modify
++these targets by creating configfs directories with the matching name.
 +
- KBUILD_ABS_SRCTREE
- --------------------------------------------------
- Kbuild uses a relative path to point to the tree when possible. For instance,
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index e67eb261c9b0..d88d4f0f4f89 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -1623,6 +1623,13 @@ INSTALL_MOD_STRIP
-   INSTALL_MOD_STRIP value will be used as the option(s) to the strip
-   command.
- 
-+INSTALL_DTBS_PATH
-+  This variable specifies a prefix for relocations required by build
-+  roots. It defines a place for installing the device tree blobs. Like
-+  INSTALL_MOD_PATH, it isn't defined in the Makefile, but can be passed
-+  by the user if desired. Otherwise it defaults to the kernel install
-+  path.
++Let's suppose you have two netconsole targets defined at boot time::
 +
- Makefile language
++ netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc;4444@10.0.0.1/eth1,9353@10.0.0.3/12:34:56:78:9a:bc
++
++You can modify these targets in runtime by creating the following targets::
++
++ mkdir cmdline0
++ cat cmdline0/remote_ip
++ 10.0.0.2
++
++ mkdir cmdline1
++ cat cmdline1/remote_ip
++ 10.0.0.3
++
+ Extended console:
  =================
  
 -- 
-2.42.0
+2.34.1
 
