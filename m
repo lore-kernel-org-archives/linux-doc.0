@@ -1,88 +1,138 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49217E4
-	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 02:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D907F4
+	for <linux-doc@vger.kernel.org>; Thu, 12 Oct 2023 02:42:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="SGZe1AfU"
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C54B7
-	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:27:01 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-53da72739c3so824624a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:27:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="llTHM6dY"
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16291A9
+	for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:42:35 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68fb85afef4so423646b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Oct 2023 19:42:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1697077620; x=1697682420; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8uAVbdAI/t4kp4F0w7o3XfjGK/x3xwElaYSG4Wap1s0=;
-        b=SGZe1AfUk0omF01bhlOoqzan1SZglYgEK5f0qkT2MBckNIayIYVb1mqNJfgJx1ZeKN
-         0z9nM6GW998cDVX2c3uGqd82ToPSR22Q054CC1Fk0fkTF5KQqBbypONRlT+pWGQCV4kd
-         ZdchkeLjM0DqoD4uxDHpkW3O3+XJy0pS8Lv6dxbSRZfEt3nI5EibJYpYXGukIxt8xRAe
-         SdVOjI44RBSfSeT/Gb8gfhkcg3AsmIi+rd6XgN0L0vvA55ulCJT9PFs5XZdaLMELNK6F
-         uDgIABmIQ63JtXkeXvVNfWOyqqJw+NzwrEcvl1E6gLpDBkNK8ycUfGjRmEiPCXcPRwh+
-         sSBA==
+        d=shopee.com; s=shopee.com; t=1697078554; x=1697683354; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Q0G7SAJYo4UkLsXiQBpIDaDgLDqF1LJ1c6VmD0yOVM=;
+        b=llTHM6dYgFRz0uD+zmp5iv/aMgdmNzjEIW3KmrBNFkwvXoKKWBXB9cZG7GlHGCSpfS
+         GlTSTJIICVEoRiG9P3+Id3a49fmOZJNbYRCOiGS5v5Ebtd1+WliuBuvpMA4kKCl0kKxn
+         XprLpsj5wwBWSSt4YAV9//u43QyBHO+5eRXc6vZrgmjHQa4EBbq32bDGS5xrUeCNNhhR
+         AsDGGblPn26y1+GYPmkn3C1fiZrJ6Wdk+dzuwCSw7Z9UvJQUhqUUTXMAIqWZxzuw5Q3d
+         bHh7cKjqyT8KU3dn+JcVaEogtjHmlgpn6Iuu6atz84InyfP4wXdu1ME1mTebVZHOm3/M
+         P2LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697077620; x=1697682420;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8uAVbdAI/t4kp4F0w7o3XfjGK/x3xwElaYSG4Wap1s0=;
-        b=AuIZV5S+++1gBTcRTboEvzjN2Mf718AYv+cgeWYxS/C2pNJClHdPP4L1jRJqV5Y+Rc
-         Fg7SxZ9XWxWSi6tGUlKxBZTTebUNXkFjZF/WvTN3SDGYK38S67A6mPuE2umTYKEDdZir
-         iYfsK+wWVr4ARVANLwNAnYfnIdQ59ndMMseCTYqxik2JWU7lmTliKQEJrVo+C2hL7Xfq
-         WuCf03vPRjnHO0rAjfuYOc/p0F4eB/D4G5Q4mcHbI4j6hBgccUeLPqU/PwHD3ssYqvoU
-         jPScdIgY/NzVNtXznqNgbV4I1CeLDrpRZYZkB07bKbbNY97fVkQ8Y51PCj8ZMEAyvgQv
-         W0ug==
-X-Gm-Message-State: AOJu0YwFPbHHbnVZjA5h27OU7CSjCyKypF4MGE1/+PJE3UuUp6gmhPJd
-	ZbCPIIeQlAMFQOUzGqPijsSgE/zShNH2k3z2nlDuyw==
-X-Google-Smtp-Source: AGHT+IEBboUS4cwn4e3Ys9mXQ4ZCkgfLdr7atTruR6S+lBb7qdwzHO/3JSrHZfVGLZdiOBdEoTiN3ePEBse1tsA5adw=
-X-Received: by 2002:a05:6402:5194:b0:53e:395:59d with SMTP id
- q20-20020a056402519400b0053e0395059dmr726299edd.8.1697077620310; Wed, 11 Oct
- 2023 19:27:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697078554; x=1697683354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7Q0G7SAJYo4UkLsXiQBpIDaDgLDqF1LJ1c6VmD0yOVM=;
+        b=HtnyaWOOCCj+CT8OQN9GPd4Y7ZbBOdV4onPpWtwHjoAP/Wzaql3mE5+zTN5h59ZPHH
+         hkseQ6xYY6o6eVNAWY6sAu+vBf4baUIev2n7jPERdcP6TXafqU2PfAwalweRGYe9miaa
+         gwacfId96bDJaQexMGs4dDR/tvIvcBnr8Wh+V2ndXOpm80vMhb8g54AL5h+Yy8xFucmd
+         Ym4ez9OHtX2oACVNlA93V4Q9PQ46Al43Rar5o/hPrKtk9y/gJmElz4Y/9sN1hHabbfz0
+         tAvzYnyTCw9ZUsYVcb6gLEp+iKikJkmeGds2X/qKAJsWoVOaNAohi9pQshghuf4Ks9nC
+         0dhQ==
+X-Gm-Message-State: AOJu0YwPxCQPdGpNW1R3L424pqq0Qb0yvJe0ZTJ7qFgfxfZeTiQur9dh
+	53qHY+Q1k7qwE/vJT7VaHlb30w==
+X-Google-Smtp-Source: AGHT+IFFy3uxF7uFKfjkdWUeHCfhK/bx2P4yWiMaOXUfCJPbmqiLdy7t31a1cbnl7KgaPpe8K2vH6Q==
+X-Received: by 2002:a05:6300:8089:b0:174:373b:4381 with SMTP id ap9-20020a056300808900b00174373b4381mr2417195pzc.49.1697078554508;
+        Wed, 11 Oct 2023 19:42:34 -0700 (PDT)
+Received: from ubuntu-yizhou.default.svc.cluster.local ([101.127.248.173])
+        by smtp.gmail.com with ESMTPSA id a8-20020a1709027d8800b001b89a6164desm618060plm.118.2023.10.11.19.42.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 19:42:34 -0700 (PDT)
+From: Tang Yizhou <yizhou.tang@shopee.com>
+X-Google-Original-From: Tang Yizhou
+To: houtao1@huawei.com,
+	jack@suse.cz,
+	bvanassche@acm.org,
+	kch@nvidia.com
+Cc: axboe@kernel.dk,
+	tj@kernel.org,
+	corbet@lwn.net,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	yingfu.zhou@shopee.com,
+	yizhou.tang@shopee.com,
+	chunguang.xu@shopee.com
+Subject: [PATCH v2] doc: blk-ioprio: Bring the doc in line with the implementation
+Date: Thu, 12 Oct 2023 10:42:28 +0800
+Message-Id: <20231012024228.2161283-1-yizhou.tang@shopee.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231009100349.52884-1-yizhou.tang@shopee.com> <cf850508-498b-4748-955c-382906eff676@acm.org>
-In-Reply-To: <cf850508-498b-4748-955c-382906eff676@acm.org>
-From: Tang Yizhou <yizhou.tang@shopee.com>
-Date: Thu, 12 Oct 2023 10:26:49 +0800
-Message-ID: <CACuPKxm+YtdierSLCTiqn3qEcgexM6O7AwVQrgSGq5mz8bJDog@mail.gmail.com>
-Subject: Re: [PATCH] doc: blk-ioprio: Standardize a few names
-To: Bart Van Assche <bvanassche@acm.org>, houtao1@huawei.com, jack@suse.cz, kch@nvidia.com
-Cc: axboe@kernel.dk, tj@kernel.org, corbet@lwn.net, 
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, yingfu.zhou@shopee.com, chunguang.xu@shopee.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Thanks for your suggestion, I will fix it in the next version.
+From: Tang Yizhou <yizhou.tang@shopee.com>
 
-Thanks,
-Tang
+Our system administrator have noted that the names 'rt-to-be' and
+'all-to-idle' in the I/O priority policies table appeared without
+explanations, leading to confusion. Let's bring these names in line
+with the naming in the 'attribute' section.
 
+Additionally,
+1. Correct the interface name to 'io.prio.class'.
+2. Add a table entry of 'promote-to-rt' for consistency.
+3. Fix a typo of 'priority'.
 
-On Wed, Oct 11, 2023 at 8:05=E2=80=AFAM Bart Van Assche <bvanassche@acm.org=
-> wrote:
->
-> On 10/9/23 03:03, yizhou.tang@shopee.com wrote:
-> > From: Tang Yizhou <yizhou.tang@shopee.com>
->
-> The title of this patch is misleading. The title suggests that the
-> user interface is changed, which is not the case. What this patch does
-> is to bring the documentation in sync with the implementation.
->
-> Otherwise this patch looks fine to me.
->
-> Thanks,
->
-> Bart.
+Suggested-by: Yingfu Zhou <yingfu.zhou@shopee.com>
+Reviewed-by: Hou Tao <houtao1@huawei.com>
+Signed-off-by: Tang Yizhou <yizhou.tang@shopee.com>
+---
+v2:
+Accept Bart's suggestion and rename the title of the patch.
+Pick up Tao's Reviewed-by tag.
+
+ Documentation/admin-guide/cgroup-v2.rst | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 4ef890191196..10461c73c9a3 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2023,7 +2023,7 @@ IO Priority
+ ~~~~~~~~~~~
+ 
+ A single attribute controls the behavior of the I/O priority cgroup policy,
+-namely the blkio.prio.class attribute. The following values are accepted for
++namely the io.prio.class attribute. The following values are accepted for
+ that attribute:
+ 
+   no-change
+@@ -2052,9 +2052,11 @@ The following numerical values are associated with the I/O priority policies:
+ +----------------+---+
+ | no-change      | 0 |
+ +----------------+---+
+-| rt-to-be       | 2 |
++| promote-to-rt  | 1 |
+ +----------------+---+
+-| all-to-idle    | 3 |
++| restrict-to-be | 2 |
+++----------------+---+
++| idle           | 3 |
+ +----------------+---+
+ 
+ The numerical value that corresponds to each I/O priority class is as follows:
+@@ -2074,7 +2076,7 @@ The algorithm to set the I/O priority class for a request is as follows:
+ - If I/O priority class policy is promote-to-rt, change the request I/O
+   priority class to IOPRIO_CLASS_RT and change the request I/O priority
+   level to 4.
+-- If I/O priorityt class is not promote-to-rt, translate the I/O priority
++- If I/O priority class policy is not promote-to-rt, translate the I/O priority
+   class policy into a number, then change the request I/O priority class
+   into the maximum of the I/O priority class policy number and the numerical
+   I/O priority class.
+-- 
+2.25.1
+
